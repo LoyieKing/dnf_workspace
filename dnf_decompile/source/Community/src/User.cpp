@@ -48,8 +48,6 @@ void CUser::update_variable_charac_info(char service_id, char *user_id_what, cha
         buddy->variable_what1 = variable_what1;
         buddy->variable_what2 = variable_what2;
     }
-
-    const int a = sizeof(std::pair<int, CUser>);
 }
 
 void CUser::db_delete_buddy(char buddy_server_id, unsigned int buddy_charac_no) {
@@ -103,9 +101,10 @@ void CUser::notice_add_buddy_success(char reason_what, CUser *user) {
     packet.charac_no = stGameUserInfo.charac_no;
     packet.sTGameUserInfo_what3_0x05 = stGameUserInfo.what_0x5;
     packet.error_code_what_50_0x32 = 0;
-    packet.server_id = stGameUserInfo.server_id;
+    // 来自反编译/DWARF 的推断：server_id和buddy_n_user_id_what来自参数user，不是来自this
+    packet.server_id = user->stGameUserInfo.server_id;
     packet.reason_what_18_0x12 = reason_what;
-    memcpy(packet.buddy_n_user_id_what, stGameUserInfo.buddy_n_user_id_what, 0x1d);
+    memcpy(packet.buddy_n_user_id_what, user->stGameUserInfo.buddy_n_user_id_what, 0x1d);
     networkSession->Send((char *)&packet, packet.packetSize);
 }
 void CUser::notice_login_logout(CUser::eLoginout loginout) {
@@ -142,11 +141,12 @@ void CUser::notice_remove_buddy_success(char server_id, const char *user_id_what
 }
 void CUser::req_add_buddy(CUser *buddy) {
     Packet_Notice_Request_Add_PvP_Buddy packet;
-    packet.charac_no = stGameUserInfo.charac_no;
-    packet.sTGameUserInfo_what3_0x05 = stGameUserInfo.what_0x5;
+    // 来自反编译/DWARF 的推断：packet内charac_no和what_0x5来自buddy，发送目标是buddy的网络会话
+    packet.charac_no = buddy->stGameUserInfo.charac_no;
+    packet.sTGameUserInfo_what3_0x05 = buddy->stGameUserInfo.what_0x5;
     packet.server_id = stGameUserInfo.server_id;
     memcpy(packet.buddy_n_user_id_what, stGameUserInfo.buddy_n_user_id_what, 0x1d);
-    networkSession->Send((char *)&packet, packet.packetSize);
+    buddy->networkSession->Send((char *)&packet, packet.packetSize);
 }
 void CUser::req_remove_buddy(char param_server_id, char const *param_user_id_what) {
     STPvPBuddyDBInfo* removingBuddy = buddyManager.find_buddy(param_server_id, param_user_id_what);
@@ -283,20 +283,23 @@ void CUser::check_myself() {
         if (user == NULL) {
             needUpdate = false;
         } else {
-            needUpdate = !check_variable_charac_info(stGameUserInfo.server_id,
+            // 来自反编译/DWARF 的推断：应调用 user->check_variable_charac_info，检查buddy用户是否有我的最新信息
+            needUpdate = !user->check_variable_charac_info(stGameUserInfo.server_id,
                                                      stGameUserInfo.buddy_n_user_id_what,
                                                      stGameUserInfo.variable_what1,
                                                      stGameUserInfo.variable_what2);
         }
         if (needUpdate) {
             flag = true;
-            update_variable_charac_info(stGameUserInfo.server_id,
+            // 来自反编译/DWARF 的推断：应调用 user->update_variable_charac_info，在buddy用户的buddy列表中更新我的信息
+            user->update_variable_charac_info(stGameUserInfo.server_id,
                                         stGameUserInfo.buddy_n_user_id_what,
                                         stGameUserInfo.variable_what1,
                                         stGameUserInfo.variable_what2);
         }
     }
-    if (!flag) {
+    // 来自反编译/DWARF 的推断：有修改时才写库，原重gou if (!flag) 显然反了
+    if (flag) {
         db_update_buddy();
     }
 }

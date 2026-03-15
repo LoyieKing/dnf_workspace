@@ -10,7 +10,6 @@
 DateTime::DateTime() {
     tm *pt;
     tm time;
-    memset(&time, 0, sizeof(time));
     time_t time_size[4];
     time_size[0] = ::time(NULL);
     pt = localtime_r(time_size, &time);

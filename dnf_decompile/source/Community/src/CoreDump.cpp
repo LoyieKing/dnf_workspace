@@ -15,7 +15,8 @@
 typedef void func_void_int(int);
 
 void omll_dump_core_file() {
-    // TODO: what's this? arounded by DEBUG marco?
+    // 来自反编译/DWARF 的推断：原始实现为 abort()
+    abort();
 }
 
 void signal_handler(int signal) {
@@ -50,7 +51,6 @@ void signal_handler(int signal) {
 
 bool regist_signal(int signal, func_void_int *handler) {
     struct sigaction sa;
-    memset(&sa, 0, sizeof(sa));
     sa.sa_handler = handler;
     sigemptyset(&sa.sa_mask);
     if (signal == SIGALRM) {
@@ -59,13 +59,12 @@ bool regist_signal(int signal, func_void_int *handler) {
         sa.sa_flags = SA_RESTART /*0x10000000*/;
     }
     struct sigaction uap;
-    memset(&uap, 0, sizeof(uap));
-    int errno = sigaction(signal, &sa, &uap);
-    if (-1 >= errno) {
-        // 原文是"%d번 signal 등록 실패"，EUC_KR编码
+    int ret = sigaction(signal, &sa, &uap);
+    if (-1 >= ret) {
+        // 原文是"%d닸 signal 등록 실패"，EUC_KR编码
         printf("Failed to register signal %d", signal);
     }
-    return -1 < errno;
+    return -1 < ret;
 }
 
 bool regist_signals() {

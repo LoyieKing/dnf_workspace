@@ -95,6 +95,7 @@ int CEpoll<Session>::WaitForEvent(int timeout) {
             (session)->Disconnect();
         }
     }
+    return 1;
 }
 
 template<class Session>
