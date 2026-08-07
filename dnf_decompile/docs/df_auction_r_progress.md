@@ -15,9 +15,9 @@
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
 | 已实现 TU | 31（本批新增 ExpireTimeDictionary 全部符号） |
-| IDENTICAL | 2,431 |
+| IDENTICAL | 2,387 |
 | NEAR | 20 |
-| DIFF（语义等价，-O0 惯用法） | 369 |
+| DIFF（语义等价，-O0 惯用法） | 367 |
 | MISSING（未实现） | 1,962 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
@@ -119,7 +119,7 @@
 
 本批（HandlerFor_GP_ 全量补完）后：**IDENTICAL 2302 / NEAR 20 / DIFF 365 / MISSING 2049**
 
-本批（ExpireTimeDictionary 全量补完）后：**IDENTICAL 2431 / NEAR 20 / DIFF 369 / MISSING 1962**
+本批（ExpireTimeDictionary 全量补完）后：**IDENTICAL 2387 / NEAR 20 / DIFF 367 / MISSING 1962**
 
 ### 已实现 TU（本阶段新增，均可编译链接）
 
