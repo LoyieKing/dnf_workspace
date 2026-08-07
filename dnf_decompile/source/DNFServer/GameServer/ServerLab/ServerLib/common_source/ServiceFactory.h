@@ -1,5 +1,40 @@
-// Auto-generated header stub
-#ifndef SERVICEFACTORY_H_
-#define SERVICEFACTORY_H_
+#ifndef NSL_SERVICEFACTORY_H_
+#define NSL_SERVICEFACTORY_H_
 
-#endif // SERVICEFACTORY_H_
+#include "Threads.h"
+#include "Dispatchers.h"
+#include "DataPools.h"
+#include "Reactor.h"
+#include "IHandlers.h"
+#include "DBConnections.h"
+#include "EncyptTools.h"
+#include "IActiveConManager.h"
+
+namespace nsl {
+
+typedef long long __int64;
+
+class ServiceFactory
+{
+public:
+    ServiceFactory(char* Service_identify, char* ConfigFileName);
+
+    char pad0_[8];
+    Dispatchers super_Dispatchers;
+    Threads super_Threads;
+    DataPools super_DataPools;
+    Reactor super_Reactor;
+    EncyptTools super_EncyptTools;
+    IActiveConManager super_IActiveConManager;
+    IHandlers super_IHandlers;
+    DBConnections super_DBConnections;
+    __int64 tick_;
+    char ServiceFactoryName[21];
+    char ServiceConfigName[81];
+};
+
+extern ServiceFactory* pApp;
+
+} // namespace nsl
+
+#endif // NSL_SERVICEFACTORY_H_

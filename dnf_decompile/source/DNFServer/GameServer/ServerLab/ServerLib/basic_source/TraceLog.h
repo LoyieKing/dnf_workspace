@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 #include "ThreadLock.h"
+#include "GlobalInstance.h"
 
 namespace nsl {
 
@@ -50,6 +51,11 @@ private:
     ThreadLock lockLog;
     LogSendThread* logSendThread_;
 };
+
+inline TraceLog* G_TraceLog()
+{
+    return GlobalInstance<TraceLog>::inst_ptr();
+}
 
 } // namespace nsl
 

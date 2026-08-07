@@ -1,0 +1,44 @@
+#ifndef NSL_REACTOR_H_
+#define NSL_REACTOR_H_
+
+#include <map>
+#include <sys/epoll.h>
+
+namespace nsl {
+
+class TCPUser;
+
+template <class T>
+class EpollReactor
+{
+public:
+    EpollReactor();
+    ~EpollReactor();
+    int init(int size);
+    void startup();
+    void shutdown();
+    void handleEvents(unsigned int timeout, bool bOnce);
+    int registHandle(TCPUser* pUser, unsigned int events);
+    int unregistHandle(TCPUser* pUser);
+    unsigned int getNativeEventFilter(unsigned int events);
+
+    std::map<unsigned int, TCPUser*> mClientUsers;
+    std::map<int, TCPUser*> mServerUsers;
+    TCPUser* m_ServerSession;
+    int epoll_fd_;
+    int max_client_;
+    epoll_event* events_;
+};
+
+class Reactor
+{
+public:
+    Reactor();
+    static EpollReactor<TCPUser>* getReactor(Reactor* pReactor);
+
+    EpollReactor<TCPUser> reactor_;
+};
+
+} // namespace nsl
+
+#endif // NSL_REACTOR_H_
