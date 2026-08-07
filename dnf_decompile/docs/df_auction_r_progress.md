@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 21（本批新增 UnicodeConvert 全部符号） |
-| IDENTICAL | 1,853 |
+| 已实现 TU | 22（本批新增 ServerXml 全部符号） |
+| IDENTICAL | 1,965 |
 | NEAR | 20 |
-| DIFF（语义等价，-O0 惯用法） | 273 |
-| MISSING（未实现） | 2,590 |
+| DIFF（语义等价，-O0 惯用法） | 275 |
+| MISSING（未实现） | 2,476 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -102,6 +102,8 @@
 
 本批（UnicodeConvert 全量补完）后：**IDENTICAL 1853 / NEAR 20 / DIFF 273 / MISSING 2590**
 
+本批（ServerXml 全量补完，含 TinyXML 运行时）后：**IDENTICAL 1965 / NEAR 20 / DIFF 275 / MISSING 2476**
+
 ### 已实现 TU（本阶段新增，均可编译链接）
 
 | 组件 | 状态 |
@@ -131,6 +133,7 @@
 | TimeManager + TimerThread（含 RBTree 模板重建） | ✅ 已实现（两 TU 0 缺失：TimeManager 21 精确 + 46 近似，TimerThread 29 精确 + 89 近似） |
 | Strings 核心库（CharString/WideString 全部） | ✅ 已完成（TU 0 缺失：267 精确 + 88 语义等价 DIFF；find/rfind 返回 int32 索引、静态 concat/format/tokenize/join、vector<CharString/WideString> 模板全套实例化） |
 | UnicodeConvert | ✅ 已完成（TU 0 缺失：46/46 全部精确；TLS 10 槽轮转 buffer、toTString/toMbcs/toUnicode 各 8 变体、convertToUtf8/convertFromUtf8 全逻辑） |
+| ServerXml + TinyXML | ✅ 已完成（TU 0 缺失：171 精确 + 3 语义等价 DIFF；CServerXml 208B 布局、TinyXML 按 vtable/字段偏移重建，str 解析全流程可用） |
 
 ### 关键形态结论（追加）
 
@@ -213,25 +216,35 @@
     复现原版 `mbstowcs(NULL,..,0)>>2` 的 bug 形态；convertToUtf8 用 `c<=0x7f/0x7ff`
     与 `(c>>6)|0xc0`（int32 c，sar），convertFromUtf8 用 `(char)c>=0` 分支在前、
     `c<=0xdf/0xef` 无符号比较、3 字节项 `(unsigned short)(c<<12)`（shl+movzwl）。
+31. **ServerXml/TinyXML**：CServerXml 208B（m_cCharSet[5]/TiXmlDocument@8/
+    m_eCharSet@80/xmlFileName_@84/5 个 std::map@88..184）；_eStringType 值为
+    SERVER=0/START=1/END=2（StrPunish 第三分支用 `test` 判 0，GetEventString
+    cmp 1/2）；_eCharSetType KOR..TWN=0..4；StrPunish/GetEventString 为 switch 形态
+    （cmp+je 跳转，最后一个 case 内联）；TinyXML 重构 TiXmlNode 28B 字段
+    （row/col/document/parent/type/firstChild/lastChild/value/prev/next@0x28）+
+    TiXmlDocument 72B（errorId@0x2c/error@0x30/errorDesc@0x34/tabSize=4@0x38/
+    errorRow/errorCol/encoded@0x44），vtable 19 槽（Print@2/Parse@3/const ToXxx@4..9/
+    ToElement@0x2c 槽 11/Clone@16/Accept@17/StreamIn@18）；LoadFile 走
+    `fopen("rb")`+Parse 递归下降；仅 3 个 DIFF（分支方向/nop/静态初始化 nm 取末副本
+    伪差异），语义全部等价。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
 ```
 720  Search                477  Auction               180  ServerLibrary2.0
 176  AuctionDictionary     150  AveragePriceDictionary 149  CharacterDictionary
-144  ServiceFactory        106  ServerXml              98  HandlerFor_DB_
- 87  ExpireTimeDictionary   85  RDARScriptItemInfo    81  RDARScriptAvatarColorInfo
- 32  HandlerFor_GP_JPN     32  HandlerFor_GA_         19  DBConnection
- 10  ServiceError(余量)     9  Socket(余量)            6  TeaInitialize(余量)
-  4  DNFFunctionLibWrapper(余量)
+144  ServiceFactory         98  HandlerFor_DB_         87  ExpireTimeDictionary
+ 85  RDARScriptItemInfo    81  RDARScriptAvatarColorInfo  32  HandlerFor_GP_JPN
+ 32  HandlerFor_GA_        19  DBConnection           10  ServiceError(余量)
+  9  Socket(余量)           6  TeaInitialize(余量)     4  DNFFunctionLibWrapper(余量)
   ...
 ```
 
 ## 下一步
 
 1. 补齐框架遗留：DBConnection（19，需 mysql 头/桩）。
-2. ServerCommon + Core + DNFShared：Strings 已全量完成；下一步 ServerXml（106）、
-   UnicodeConvert 已全量完成；再下一步 RDARScript*（约 166）。
+2. ServerCommon + Core + DNFShared：Strings/UnicodeConvert/ServerXml(+TinyXML) 已全量
+   完成；下一步 RDARScript*（约 166）。
 3. 字典类：AuctionDictionary / AveragePriceDictionary / CharacterDictionary /
    ExpireTimeDictionary / ReliabilityDictionary。
 4. 大块：Search（731）/ Auction（533）/ HandlerFor_GA_/DB_/GP_JPN / ServiceFactory /
