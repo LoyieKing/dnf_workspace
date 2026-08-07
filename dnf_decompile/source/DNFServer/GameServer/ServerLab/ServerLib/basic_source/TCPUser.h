@@ -54,8 +54,8 @@ public:
     void onPopForTerminated();
     void setLastAccessTime();
     __int64 getLastAccessTime();
-    bool isAboutToDisconnect();
-    bool isDisconnected();
+    bool isAboutToDisconnect() const;
+    bool isDisconnected() const;
     void postDisconnected(int reason);
     void setSession(ISession* pSession);
     inline void setWorkThread(WorkThread* pWorkThread)
