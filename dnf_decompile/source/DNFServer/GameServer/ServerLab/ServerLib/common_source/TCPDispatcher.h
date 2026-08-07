@@ -1,24 +1,29 @@
 #ifndef NSL_TCPDISPATCHER_H_
 #define NSL_TCPDISPATCHER_H_
 
-#include <map>
-
 namespace nsl {
 
 class TCPUser;
 class Message;
 class INetWorkHandler;
+class NullSessionHandler;
 
 class TCPDispatcher
 {
 public:
     TCPDispatcher();
-    void setHandler(int idx, INetWorkHandler* pHandler);
-    void SetMaxCategory(int maxCategory);
-    void dispatch(TCPUser* pUser, Message* pMsg);
+    void SetMaxCategory(int Category)
+    {
+        MaxCategory = Category;
+    }
+    void SetNullSessionHandler(NullSessionHandler* handler)
+    {
+        NullHandler = handler;
+    }
+    bool dispatch(TCPUser* u, Message* msg);
 
-    std::map<int, INetWorkHandler*> mHandlers;
-    int mMaxCategory;
+    int MaxCategory;
+    NullSessionHandler* NullHandler;
 };
 
 } // namespace nsl

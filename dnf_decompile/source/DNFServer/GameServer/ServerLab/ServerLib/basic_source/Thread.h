@@ -6,6 +6,8 @@
 
 namespace nsl {
 
+extern __thread unsigned int tlsThreadId;
+
 template <class TThreadLock_>
 class TThreadStateControl
 {

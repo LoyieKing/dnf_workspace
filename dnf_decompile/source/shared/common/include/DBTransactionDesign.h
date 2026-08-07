@@ -40,6 +40,8 @@ struct DBTR_HEADER
 
 #pragma pack(pop)
 
+typedef DBTR_HEADER* LPDBTR_HEADER;
+
 } // namespace nsl
 
 #endif // NSL_DBTRANSACTIONDESIGN_H_

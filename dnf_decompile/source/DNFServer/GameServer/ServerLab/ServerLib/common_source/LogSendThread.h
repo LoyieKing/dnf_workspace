@@ -9,12 +9,7 @@ namespace nsl {
 
 class TCPUser;
 class Message;
-
-class ConInterface
-{
-public:
-    ConInterface();
-};
+class ConInterface;
 
 class LogSendThread : public Thread
 {

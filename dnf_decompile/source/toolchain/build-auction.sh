@@ -48,7 +48,11 @@ OBJS=""
 for f in $SOURCES; do
     case "$f" in
         *.cpp) base=$(basename "$f" .cpp); srcdir=$(dirname "$f") ;;
-        *) base="$f"; srcdir="$BASIC" ;;
+        *) base="$f"
+           srcdir="$BASIC"
+           if [ ! -f "$srcdir/$base.cpp" ] && [ -f "$COMMON/$base.cpp" ]; then
+               srcdir="$COMMON"
+           fi ;;
     esac
     if [ -f "$srcdir/$base.cpp" ]; then
         if [ ! -f "$OUT_DIR/$base.o" ] || [ "$srcdir/$base.cpp" -nt "$OUT_DIR/$base.o" ] || [ "$srcdir/$base.h" -nt "$OUT_DIR/$base.o" ]; then

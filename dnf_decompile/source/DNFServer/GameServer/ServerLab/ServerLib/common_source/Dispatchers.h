@@ -11,11 +11,29 @@ class DBDispatcher;
 class Dispatchers
 {
 public:
-    Dispatchers();
-    UDPDispatcher* getUDPDispatcher();
-    TCPDispatcher* getTCPDispatcher();
-    InterDispatcher* GetInterDispatcher();
-    DBDispatcher* getDBDispatcher();
+    Dispatchers()
+    {
+        dispatcherUDP = NULL;
+        dispatcherTCP = NULL;
+        mpInterDispatcher = NULL;
+        dispatcherDB = NULL;
+    }
+    UDPDispatcher* getUDPDispatcher()
+    {
+        return dispatcherUDP;
+    }
+    TCPDispatcher* getTCPDispatcher()
+    {
+        return dispatcherTCP;
+    }
+    InterDispatcher* GetInterDispatcher()
+    {
+        return mpInterDispatcher;
+    }
+    DBDispatcher* getDBDispatcher()
+    {
+        return dispatcherDB;
+    }
 
     UDPDispatcher* dispatcherUDP;
     TCPDispatcher* dispatcherTCP;

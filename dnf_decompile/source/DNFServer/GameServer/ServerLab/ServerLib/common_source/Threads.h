@@ -15,15 +15,36 @@ class Threads
 {
 public:
     Threads();
-    TCPThread* getTCPThread();
-    TCPSendThread* getTCPSendThread(int idx);
-    WorkThread* getWorkThread(int idx);
-    TimerThread* getTimerThread();
-    WorkThread* getLittleWorkThread();
-    int getWorkThreadNum();
-    NSLDBThread* getDBThread(int idx);
-    void setMostLittleQueue(int workQueueSize, int sendQueueSize);
-    int getScopedLittleWorkIdx();
+    inline TCPThread* getTCPThread()
+    {
+        return threadTCP_;
+    }
+    inline TCPSendThread* getTCPSendThread()
+    {
+        return threadTCPSend_[mMostLittleSendQueue];
+    }
+    inline WorkThread* getWorkThread(int idx)
+    {
+        return threadWork_[idx];
+    }
+    inline TimerThread* getTimerThread()
+    {
+        return threadTimer_;
+    }
+    inline WorkThread* getLittleWorkThread()
+    {
+        return threadWork_[mMostLittleOrderQueue];
+    }
+    inline int getWorkThreadNum()
+    {
+        return mWorkThreadNum;
+    }
+    inline NSLDBThread* getDBThread(int idx)
+    {
+        return threadDB_[idx];
+    }
+    void setMostLittleQueue();
+    int getScopedLittleWorkIdx(int idx, int end);
 
     TCPThread* threadTCP_;
     UDPThread* threadUDP_;

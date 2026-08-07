@@ -1,6 +1,8 @@
 #ifndef NSL_SERVICEFACTORY_H_
 #define NSL_SERVICEFACTORY_H_
 
+#include <string.h>
+
 #include "Threads.h"
 #include "Dispatchers.h"
 #include "DataPools.h"
@@ -9,6 +11,7 @@
 #include "DBConnections.h"
 #include "EncyptTools.h"
 #include "IActiveConManager.h"
+#include "PortInfo.h"
 
 namespace nsl {
 
@@ -18,9 +21,13 @@ class ServiceFactory
 {
 public:
     ServiceFactory(char* Service_identify, char* ConfigFileName);
+    ~ServiceFactory();
+    int startup();
+    int shutdown();
+    void setTick();
     __int64 getTick() const;
 
-    char pad0_[8];
+    PortInfo super_PortInfo;
     Dispatchers super_Dispatchers;
     Threads super_Threads;
     DataPools super_DataPools;

@@ -8,8 +8,14 @@ class ActiveConManager;
 class IActiveConManager
 {
 public:
-    IActiveConManager();
-    ActiveConManager* getActiveConManager();
+    IActiveConManager()
+    {
+        activeConManager_ = NULL;
+    }
+    ActiveConManager* getActiveConManager()
+    {
+        return activeConManager_;
+    }
 
     ActiveConManager* activeConManager_;
 };

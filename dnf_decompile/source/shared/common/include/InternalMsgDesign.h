@@ -1,11 +1,14 @@
 #ifndef NSL_INTERNALMSGDESIGN_H_
 #define NSL_INTERNALMSGDESIGN_H_
 
+#include <string.h>
+
 #include "PacketDesign.h"
 
 namespace nsl {
 
 class TCPUser;
+class ConInterface;
 
 #pragma pack(push, 1)
 struct INTERNALMSG_HEADER
@@ -68,6 +71,33 @@ struct INTERNALMSG_HEADER
 };
 
 #pragma pack(pop)
+
+struct INTERNALMSG_SERVICE_UNAVAILABLE : public INTERNALMSG_HEADER
+{
+    int reason;
+
+    INTERNALMSG_SERVICE_UNAVAILABLE()
+    {
+        memset(this, 0, sizeof(INTERNALMSG_SERVICE_UNAVAILABLE));
+        setInternalMsgID(0);
+        setSize(sizeof(INTERNALMSG_SERVICE_UNAVAILABLE));
+        bWillDelete = false;
+    }
+};
+
+struct INTERNALMSG_DESTROY_CHARACTER : public INTERNALMSG_HEADER
+{
+    bool bActiveClosing;
+    ConInterface* pConInfo;
+    int areaIndex;
+
+    INTERNALMSG_DESTROY_CHARACTER()
+    {
+        memset(this, 0, sizeof(INTERNALMSG_DESTROY_CHARACTER));
+        setInternalMsgID(0);
+        setSize(sizeof(INTERNALMSG_DESTROY_CHARACTER));
+    }
+};
 
 } // namespace nsl
 

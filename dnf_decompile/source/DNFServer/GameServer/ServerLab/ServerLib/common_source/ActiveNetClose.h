@@ -1,7 +1,9 @@
 #ifndef NSL_ACTIVENETCLOSE_H_
 #define NSL_ACTIVENETCLOSE_H_
 
-#include <deque>
+#include <map>
+
+#include "ThreadLock.h"
 
 namespace nsl {
 
@@ -10,9 +12,17 @@ class TCPUser;
 class ActiveNetClose
 {
 public:
+    ActiveNetClose();
     void pushActiveClose(TCPUser* pUser);
+    bool onActvieClose(unsigned int& outId, TCPUser*& outUserPtr);
+    bool isInData()
+    {
+        return bInData;
+    }
 
-    std::deque<TCPUser*> mActiveCloseList;
+    bool bInData;
+    ThreadLock mLock;
+    std::map<unsigned int, TCPUser*> activeCloseMap;
 };
 
 ActiveNetClose* G_ActiveNetClose();

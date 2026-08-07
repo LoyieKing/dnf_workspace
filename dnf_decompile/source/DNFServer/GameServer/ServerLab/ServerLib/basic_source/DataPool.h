@@ -30,11 +30,11 @@ public:
     void destroyTCPUser(TCPUser* pTCPUser);
     unsigned int GetTcpUserCount();
 
-    ThreadLock LogSendMsgLock;
-    TLogSendMessagePool* LogSendMessagePool;
-    TBufferLogSend* BufferLogSend;
     TTCPSocketPool* TCPSocketPool;
     TTCPUserPool* TCPUserPool;
+    TLogSendMessagePool* LogSendMessagePool;
+    TBufferLogSend* BufferLogSend;
+    ThreadLock LogSendMsgLock;
     unsigned int mTcpUserCount;
 };
 

@@ -1,5 +1,17 @@
-// Auto-generated header stub
-#ifndef DBDISPATCHER_H_
-#define DBDISPATCHER_H_
+#ifndef NSL_DBDISPATCHER_H_
+#define NSL_DBDISPATCHER_H_
 
-#endif // DBDISPATCHER_H_
+namespace nsl {
+
+class Message;
+
+class DBDispatcher
+{
+public:
+    DBDispatcher();
+    void dispatch(Message* pMsg);
+};
+
+} // namespace nsl
+
+#endif // NSL_DBDISPATCHER_H_
