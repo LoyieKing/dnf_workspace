@@ -9,7 +9,12 @@ namespace nsl {
 
 class TCPUser;
 class Message;
-class LogCon;
+
+class ConInterface
+{
+public:
+    ConInterface();
+};
 
 class LogSendThread : public Thread
 {
@@ -25,7 +30,7 @@ public:
     int GetLogServerPort();
 
 private:
-    LogCon* mLogCon;
+    ConInterface* mLogCon;
     ThreadLock mThreadLock;
     TCPUser* mLogUser;
     char mLogServerIp[17];
