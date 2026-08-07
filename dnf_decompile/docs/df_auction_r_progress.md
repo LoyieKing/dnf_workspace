@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 23（本批新增 RDARScriptItemInfo 全部符号） |
-| IDENTICAL | 2,049 |
+| 已实现 TU | 24（本批新增 RDARScriptAvatarColorInfo 全部符号） |
+| IDENTICAL | 2,121 |
 | NEAR | 20 |
-| DIFF（语义等价，-O0 惯用法） | 276 |
-| MISSING（未实现） | 2,391 |
+| DIFF（语义等价，-O0 惯用法） | 279 |
+| MISSING（未实现） | 2,316 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -106,6 +106,8 @@
 
 本批（RDARScriptItemInfo 全量补完）后：**IDENTICAL 2049 / NEAR 20 / DIFF 276 / MISSING 2391**
 
+本批（RDARScriptAvatarColorInfo 全量补完）后：**IDENTICAL 2121 / NEAR 20 / DIFF 279 / MISSING 2316**
+
 ### 已实现 TU（本阶段新增，均可编译链接）
 
 | 组件 | 状态 |
@@ -137,6 +139,7 @@
 | UnicodeConvert | ✅ 已完成（TU 0 缺失：46/46 全部精确；TLS 10 槽轮转 buffer、toTString/toMbcs/toUnicode 各 8 变体、convertToUtf8/convertFromUtf8 全逻辑） |
 | ServerXml + TinyXML | ✅ 已完成（TU 0 缺失：171 精确 + 3 语义等价 DIFF；CServerXml 208B 布局、TinyXML 按 vtable/字段偏移重建，str 解析全流程可用） |
 | RDARScriptItemInfo | ✅ 已完成（TU 0 缺失：91 精确 + 2 语义等价 DIFF；CNRDItemInfoList 28B/map<int,STItemInfo*>、NextToken 双字节韩文处理、Save/Load 全流程） |
+| RDARScriptAvatarColorInfo | ✅ 已完成（TU 0 缺失：139 精确 + 4 语义等价 DIFF；AvatarVariation::AvatarColorInfo 双 map、colorRGB 3B、Parse_Table/import/查询全流程） |
 
 ### 关键形态结论（追加）
 
@@ -241,6 +244,15 @@
     25000→17000/21000，`>22999&&<=23000` 双 cmpw 形态）；Load 逐行解析并
     `GetItemInfo==0 && nItemIndex_>0` 才入 map，剩余 DIFF 为原版 -O0 内联
     memset(rep stos) 与工具链差异（语义等价）。
+33. **RDARScriptAvatarColorInfo**：AvatarVariation::AvatarColorInfo = avatarColorMap
+    (map<int,colorRGB>)+avatarColorNameMap(map<int,string>) 48B；colorRGB 3B
+    （red/green/blue，默认 0xff）；Parse_Table 用 DNFFLib::ExplodeString(" \t\r\n\"")
+    拆 5 列并 bracketTrim 反引号成括号；importAvatarColorVariation 读
+    AvatarColorVariation.etc 逐行解析（`0xfe < iParseCount` 上限）；getAvatarColorInfoInst
+    函数局部 static + __cxa_guard + 每次重载；getAvatarColorValue 越界时把 index 钳到 0
+    而非早退，命中分支 `return itr->second`（3B 结构 16 位+8 位拷贝）；getAvatarColorName
+    0..0x1ff 越界返回 0，map 指针冗余判空。剩余 DIFF 为条件布尔物化（sete/jne）与
+    寄存器分配差异（语义等价）。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
@@ -248,9 +260,9 @@
 720  Search                477  Auction               180  ServerLibrary2.0
 176  AuctionDictionary     150  AveragePriceDictionary 149  CharacterDictionary
 144  ServiceFactory         98  HandlerFor_DB_         87  ExpireTimeDictionary
- 81  RDARScriptAvatarColorInfo  32  HandlerFor_GP_JPN  32  HandlerFor_GA_
- 19  DBConnection           10  ServiceError(余量)     9  Socket(余量)
-  6  TeaInitialize(余量)     4  DNFFunctionLibWrapper(余量)
+ 32  HandlerFor_GP_JPN     32  HandlerFor_GA_         19  DBConnection
+ 10  ServiceError(余量)     9  Socket(余量)            6  TeaInitialize(余量)
+  4  DNFFunctionLibWrapper(余量)
   ...
 ```
 
@@ -258,7 +270,8 @@
 
 1. 补齐框架遗留：DBConnection（19，需 mysql 头/桩）。
 2. ServerCommon + Core + DNFShared：Strings/UnicodeConvert/ServerXml(+TinyXML)/
-   RDARScriptItemInfo 已全量完成；下一步 RDARScriptAvatarColorInfo（81）。
+   RDARScriptItemInfo/RDARScriptAvatarColorInfo 已全量完成；下一步 DBConnection（19，
+   需 mysql 头/桩）或 HandlerFor_DB_（98）。
 3. 字典类：AuctionDictionary / AveragePriceDictionary / CharacterDictionary /
    ExpireTimeDictionary / ReliabilityDictionary。
 4. 大块：Search（731）/ Auction（533）/ HandlerFor_GA_/DB_/GP_JPN / ServiceFactory /
