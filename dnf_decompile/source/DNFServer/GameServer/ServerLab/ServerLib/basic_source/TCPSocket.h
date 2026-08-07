@@ -11,29 +11,29 @@ class TCPSocket
 {
 public:
     TCPSocket();
-    virtual ~TCPSocket();
+    ~TCPSocket();
 
-    int open();
-    int shutdown();
-    int close();
-    int bind(unsigned short port);
-    int listen(int backlog);
+    bool open();
+    void shutdown(int opt);
+    void close();
+    bool bind(unsigned short port, bool bNonBlock);
+    bool listen(int backlog);
     int send(char* buf, int len);
     int recv(char* buf, int len);
-    int connect(const char* ip, unsigned short port);
-    int connect_nonb(const char* ip, unsigned short port);
-    int accept();
+    bool connect(const char* ip, unsigned short port);
+    bool connect_nonb(const char* ip, unsigned short port, timeval tval);
+    bool accept(TCPSocket& accepted);
     int pollReadEvent();
     int pollWriteEvent();
     int pollErrorEvent();
     int setOptNonBlock();
-    int setOptResizeSendBuf(int size);
-    int setOptResizeRecvBuf(int size);
-    int setOptReuseAdrs();
-    int setOptLinger(int onoff, int linger);
-    int setOptNagle(int nagle);
-    void SetRecvBufSize(int size);
-    void SetSendBufSize(int size);
+    bool setOptReuseAdrs(bool b);
+    bool setOptLinger(bool b);
+    bool setOptNagle(bool b);
+    bool setOptResizeSendBuf(int size);
+    bool setOptResizeRecvBuf(int size);
+    int SetRecvBufSize(int size);
+    int SetSendBufSize(int size);
     SOCKET getHandle();
     unsigned char* getPeerAdrs();
     unsigned short getPeerPort();
@@ -47,6 +47,28 @@ public:
     static int msSendBufSize;
     static const int MAX_SEND_RETRY;
     int mSendRetryCount;
+};
+
+class UDPSocket
+{
+public:
+    UDPSocket();
+    ~UDPSocket();
+    int open();
+    int bind(const char* strIp, unsigned short port);
+    int bind(unsigned short port, bool bNonBlock);
+    int setOptNonBlock();
+    int send(char* buf, const int size, unsigned short nPort, const char* szDestIp);
+    int recv(char* buf, const int size);
+    int getHandle();
+    int close();
+    int setOptResizeSendBuf(int size);
+    int setOptResizeRecvBuf(int size);
+
+    SOCKET sock_;
+    sockaddr_in adrs_;
+    unsigned char c_adrs_[4];
+    unsigned short port_;
 };
 
 } // namespace nsl
