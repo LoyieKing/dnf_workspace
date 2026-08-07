@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 24（本批新增 RDARScriptAvatarColorInfo 全部符号） |
-| IDENTICAL | 2,121 |
+| 已实现 TU | 25（本批新增 DBConnection 全部符号） |
+| IDENTICAL | 2,135 |
 | NEAR | 20 |
-| DIFF（语义等价，-O0 惯用法） | 279 |
-| MISSING（未实现） | 2,316 |
+| DIFF（语义等价，-O0 惯用法） | 284 |
+| MISSING（未实现） | 2,297 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -108,6 +108,8 @@
 
 本批（RDARScriptAvatarColorInfo 全量补完）后：**IDENTICAL 2121 / NEAR 20 / DIFF 279 / MISSING 2316**
 
+本批（DBConnection 全量补完，含 mysql 客户端 API 桩）后：**IDENTICAL 2135 / NEAR 20 / DIFF 284 / MISSING 2297**
+
 ### 已实现 TU（本阶段新增，均可编译链接）
 
 | 组件 | 状态 |
@@ -140,6 +142,7 @@
 | ServerXml + TinyXML | ✅ 已完成（TU 0 缺失：171 精确 + 3 语义等价 DIFF；CServerXml 208B 布局、TinyXML 按 vtable/字段偏移重建，str 解析全流程可用） |
 | RDARScriptItemInfo | ✅ 已完成（TU 0 缺失：91 精确 + 2 语义等价 DIFF；CNRDItemInfoList 28B/map<int,STItemInfo*>、NextToken 双字节韩文处理、Save/Load 全流程） |
 | RDARScriptAvatarColorInfo | ✅ 已完成（TU 0 缺失：139 精确 + 4 语义等价 DIFF；AvatarVariation::AvatarColorInfo 双 map、colorRGB 3B、Parse_Table/import/查询全流程） |
+| DBConnection（+mysql 桩） | ✅ 已完成（TU 0 缺失：26 精确 + 7 语义等价 DIFF；0x42088 布局精确、init/open/exec/查询全流程 + mysql 客户端 API weak 桩） |
 
 ### 关键形态结论（追加）
 
@@ -253,6 +256,15 @@
     而非早退，命中分支 `return itr->second`（3B 结构 16 位+8 位拷贝）；getAvatarColorName
     0..0x1ff 越界返回 0，map 指针冗余判空。剩余 DIFF 为条件布尔物化（sete/jne）与
     寄存器分配差异（语义等价）。
+34. **DBConnection**：0x42088 布局——h_db/m_res/m_row/m_len/m_num_rows/m_num_fields
+    @0..0x14、m_query[0x6001]@0x18、temp_buf[10][0x6001]@0x6019（10×0x6001=0x3C00A，
+    正确算到 0x42023，无多余成员）、m_query_len@0x42024、m_db_err@0x42028、
+    dbIp_@0x4202c/dbPort_@0x4203c/dbAcc_@0x42040/dbPwd_@0x42054/dbName_@0x42068；
+    init 用 `if(!ret) return false` 三段；open 的 mysql_real_connect 结果在条件内联
+    （sete 物化 + SUCCESS/FAILED 双 printf）；set_query 用 `len<=0x5fff`（int len）；
+    exec_query 重连逻辑（0x7d5/0x7dd/0x7d3/0x7d6 判定 + mysql_ping + err==0x7d6 重连）；
+    mysql 客户端 17 个 API 用 weak 桩实现以便链接。剩余 DIFF 为 -O0 分支布局/寄存器
+    分配差异（语义等价）。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
@@ -260,9 +272,8 @@
 720  Search                477  Auction               180  ServerLibrary2.0
 176  AuctionDictionary     150  AveragePriceDictionary 149  CharacterDictionary
 144  ServiceFactory         98  HandlerFor_DB_         87  ExpireTimeDictionary
- 32  HandlerFor_GP_JPN     32  HandlerFor_GA_         19  DBConnection
- 10  ServiceError(余量)     9  Socket(余量)            6  TeaInitialize(余量)
-  4  DNFFunctionLibWrapper(余量)
+ 32  HandlerFor_GP_JPN     32  HandlerFor_GA_         10  ServiceError(余量)
+  9  Socket(余量)           6  TeaInitialize(余量)     4  DNFFunctionLibWrapper(余量)
   ...
 ```
 
@@ -270,8 +281,8 @@
 
 1. 补齐框架遗留：DBConnection（19，需 mysql 头/桩）。
 2. ServerCommon + Core + DNFShared：Strings/UnicodeConvert/ServerXml(+TinyXML)/
-   RDARScriptItemInfo/RDARScriptAvatarColorInfo 已全量完成；下一步 DBConnection（19，
-   需 mysql 头/桩）或 HandlerFor_DB_（98）。
+   RDARScriptItemInfo/RDARScriptAvatarColorInfo/DBConnection(+mysql 桩) 已全量完成；
+   下一步 HandlerFor_DB_（98）。
 3. 字典类：AuctionDictionary / AveragePriceDictionary / CharacterDictionary /
    ExpireTimeDictionary / ReliabilityDictionary。
 4. 大块：Search（731）/ Auction（533）/ HandlerFor_GA_/DB_/GP_JPN / ServiceFactory /
