@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 20（本批新增 Strings 全部符号） |
-| IDENTICAL | 1,809 |
+| 已实现 TU | 21（本批新增 UnicodeConvert 全部符号） |
+| IDENTICAL | 1,853 |
 | NEAR | 20 |
 | DIFF（语义等价，-O0 惯用法） | 273 |
-| MISSING（未实现） | 2,634 |
+| MISSING（未实现） | 2,590 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -100,6 +100,8 @@
 
 本批（Strings 全量补完）后：**IDENTICAL 1809 / NEAR 20 / DIFF 273 / MISSING 2634**
 
+本批（UnicodeConvert 全量补完）后：**IDENTICAL 1853 / NEAR 20 / DIFF 273 / MISSING 2590**
+
 ### 已实现 TU（本阶段新增，均可编译链接）
 
 | 组件 | 状态 |
@@ -128,6 +130,7 @@
 | WorkThread（含 GetMessageBuffer/TMsgCell 实例化） | ✅ 已实现（TU 0 缺失：55 精确 + 169 近似，3 个语义等价 DIFF） |
 | TimeManager + TimerThread（含 RBTree 模板重建） | ✅ 已实现（两 TU 0 缺失：TimeManager 21 精确 + 46 近似，TimerThread 29 精确 + 89 近似） |
 | Strings 核心库（CharString/WideString 全部） | ✅ 已完成（TU 0 缺失：267 精确 + 88 语义等价 DIFF；find/rfind 返回 int32 索引、静态 concat/format/tokenize/join、vector<CharString/WideString> 模板全套实例化） |
+| UnicodeConvert | ✅ 已完成（TU 0 缺失：46/46 全部精确；TLS 10 槽轮转 buffer、toTString/toMbcs/toUnicode 各 8 变体、convertToUtf8/convertFromUtf8 全逻辑） |
 
 ### 关键形态结论（追加）
 
@@ -201,6 +204,15 @@
     （emplace/move_iterator/_M_insert_aux 全套 C++0x 模板符号），join 的
     `token_runOnce` 标志按原 for 条件 `(flag=!flag)` + `while(flag)` 形态复现；
     tokenize 默认分隔符 Char=`(" \t\n\r",".,")`、Wide=`(L" \t\n\r",L".")`。
+30. **UnicodeConvert**：TLS 三组 10 槽轮转 buffer（声明序 mbcs[10][0x1000]/
+    mbcs 索引/unicode[10][0x1000] wchar/unicode 索引/tchar[10][0x1000]/tchar 索引，
+    偏移 -0x3c010/-0x32010/-0x3200c/-0xa00c/-0xa008/-0x8 与二进制逐一吻合）；
+    toTString/toMbcs/toUnicode 的宽窄串变体用 wcstombs/mbstowcs 填 buffer 后
+    `(idx+1)%10`（0x66666667 magic 除法），c_str() 内联不落局部；指针返回版本
+    （string→char*、wstring→wchar* 等）直接透传；convertToWideString(PKc,j) 忠实
+    复现原版 `mbstowcs(NULL,..,0)>>2` 的 bug 形态；convertToUtf8 用 `c<=0x7f/0x7ff`
+    与 `(c>>6)|0xc0`（int32 c，sar），convertFromUtf8 用 `(char)c>=0` 分支在前、
+    `c<=0xdf/0xef` 无符号比较、3 字节项 `(unsigned short)(c<<12)`（shl+movzwl）。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
@@ -209,9 +221,9 @@
 176  AuctionDictionary     150  AveragePriceDictionary 149  CharacterDictionary
 144  ServiceFactory        106  ServerXml              98  HandlerFor_DB_
  87  ExpireTimeDictionary   85  RDARScriptItemInfo    81  RDARScriptAvatarColorInfo
- 44  UnicodeConvert         32  HandlerFor_GP_JPN     32  HandlerFor_GA_
- 19  DBConnection           10  ServiceError(余量)     9  Socket(余量)
-  6  TeaInitialize(余量)     4  DNFFunctionLibWrapper(余量)
+ 32  HandlerFor_GP_JPN     32  HandlerFor_GA_         19  DBConnection
+ 10  ServiceError(余量)     9  Socket(余量)            6  TeaInitialize(余量)
+  4  DNFFunctionLibWrapper(余量)
   ...
 ```
 
@@ -219,7 +231,7 @@
 
 1. 补齐框架遗留：DBConnection（19，需 mysql 头/桩）。
 2. ServerCommon + Core + DNFShared：Strings 已全量完成；下一步 ServerXml（106）、
-   UnicodeConvert（44）、RDARScript*（约 166）。
+   UnicodeConvert 已全量完成；再下一步 RDARScript*（约 166）。
 3. 字典类：AuctionDictionary / AveragePriceDictionary / CharacterDictionary /
    ExpireTimeDictionary / ReliabilityDictionary。
 4. 大块：Search（731）/ Auction（533）/ HandlerFor_GA_/DB_/GP_JPN / ServiceFactory /
