@@ -140,6 +140,16 @@ struct tagAUCTION_DB_REGIST_ITEM : public nsl::DBTR_HEADER
     int unit_price;                  // @133
     ROI_Category _reg_roi_category_key;  // @137
     char owner_nexon_id[32];         // @149
+
+    tagAUCTION_DB_REGIST_ITEM()
+    {
+        memset(this, 0, sizeof(tagAUCTION_DB_REGIST_ITEM));
+        dbId = 1;
+        dbtrId = 1;
+        mOwnerWorkId = nsl::tlsThreadId;
+        mbWillDelete = false;
+        setSize(sizeof(tagAUCTION_DB_REGIST_ITEM));
+    }
 };
 
 struct ROI_AverageKey
@@ -203,11 +213,31 @@ struct tagAUCTION_DB_UPPER_BIDDING : public nsl::DBTR_HEADER
     int buyer_id;            // @29
     char buyer_name[13];     // @33
     int price;               // @46
+
+    tagAUCTION_DB_UPPER_BIDDING()
+    {
+        memset(this, 0, sizeof(tagAUCTION_DB_UPPER_BIDDING));
+        dbId = 1;
+        dbtrId = 2;
+        mOwnerWorkId = nsl::tlsThreadId;
+        mbWillDelete = false;
+        setSize(sizeof(tagAUCTION_DB_UPPER_BIDDING));
+    }
 };
 
 struct tagAUCTION_DB_DELETE_ITEM : public nsl::DBTR_HEADER
 {
     __int64 auction_id;      // @21
+
+    tagAUCTION_DB_DELETE_ITEM()
+    {
+        memset(this, 0, sizeof(tagAUCTION_DB_DELETE_ITEM));
+        dbId = 1;
+        dbtrId = 6;
+        mOwnerWorkId = nsl::tlsThreadId;
+        mbWillDelete = false;
+        setSize(sizeof(tagAUCTION_DB_DELETE_ITEM));
+    }
 };
 
 struct tagAUCTION_DB_UPDATE_ITEM : public nsl::DBTR_HEADER
@@ -215,6 +245,16 @@ struct tagAUCTION_DB_UPDATE_ITEM : public nsl::DBTR_HEADER
     __int64 auction_id;      // @21
     int instant_price;       // @29
     int add_info;            // @33
+
+    tagAUCTION_DB_UPDATE_ITEM()
+    {
+        memset(this, 0, sizeof(tagAUCTION_DB_UPDATE_ITEM));
+        dbId = 1;
+        dbtrId = 0x11;
+        mOwnerWorkId = nsl::tlsThreadId;
+        mbWillDelete = false;
+        setSize(sizeof(tagAUCTION_DB_UPDATE_ITEM));
+    }
 };
 
 struct tagAUCTION_DB_BUYER_HISTORY : public nsl::DBTR_HEADER
@@ -225,6 +265,16 @@ struct tagAUCTION_DB_BUYER_HISTORY : public nsl::DBTR_HEADER
     int pre_price;               // @37
     int price;                   // @41
     unsigned int pre_buyer_postal_id;  // @45
+
+    tagAUCTION_DB_BUYER_HISTORY()
+    {
+        memset(this, 0, sizeof(tagAUCTION_DB_BUYER_HISTORY));
+        dbId = 1;
+        dbtrId = 8;
+        mOwnerWorkId = nsl::tlsThreadId;
+        mbWillDelete = false;
+        setSize(sizeof(tagAUCTION_DB_BUYER_HISTORY));
+    }
 };
 
 struct tagAUCTION_DB_EXPIRE_HISTORY : public nsl::DBTR_HEADER
@@ -242,6 +292,16 @@ struct tagAUCTION_DB_EXPIRE_HISTORY : public nsl::DBTR_HEADER
     ROI_Category _reg_roi_category_key;  // @111
     int commission;                   // @123
     unsigned char owner_type;         // @127
+
+    tagAUCTION_DB_EXPIRE_HISTORY()
+    {
+        memset(this, 0, sizeof(tagAUCTION_DB_EXPIRE_HISTORY));
+        dbId = 1;
+        dbtrId = 7;
+        mOwnerWorkId = nsl::tlsThreadId;
+        mbWillDelete = false;
+        setSize(sizeof(tagAUCTION_DB_EXPIRE_HISTORY));
+    }
 };
 
 struct tagAUCTION_DB_INSERT_AVERAGE_PRICE : public nsl::DBTR_HEADER
@@ -251,6 +311,16 @@ struct tagAUCTION_DB_INSERT_AVERAGE_PRICE : public nsl::DBTR_HEADER
     int average_price;                   // @26
     ROI_AverageKey _roi_average_key;     // @30
     unsigned char seperate_upgrade;      // @54
+
+    tagAUCTION_DB_INSERT_AVERAGE_PRICE()
+    {
+        memset(this, 0, sizeof(tagAUCTION_DB_INSERT_AVERAGE_PRICE));
+        dbId = 1;
+        dbtrId = 3;
+        mOwnerWorkId = nsl::tlsThreadId;
+        mbWillDelete = false;
+        setSize(sizeof(tagAUCTION_DB_INSERT_AVERAGE_PRICE));
+    }
 };
 
 struct tagAUCTION_DB_UPDATE_AVERAGE_PRICE : public nsl::DBTR_HEADER
@@ -261,6 +331,16 @@ struct tagAUCTION_DB_UPDATE_AVERAGE_PRICE : public nsl::DBTR_HEADER
     ROI_AverageKey _roi_average_key;     // @30
     unsigned int purchase_cnt;           // @54
     unsigned char seperate_upgrade;      // @58
+
+    tagAUCTION_DB_UPDATE_AVERAGE_PRICE()
+    {
+        memset(this, 0, sizeof(tagAUCTION_DB_UPDATE_AVERAGE_PRICE));
+        dbId = 1;
+        dbtrId = 5;
+        mOwnerWorkId = nsl::tlsThreadId;
+        mbWillDelete = false;
+        setSize(sizeof(tagAUCTION_DB_UPDATE_AVERAGE_PRICE));
+    }
 };
 
 struct tagGAME_DB_SEND_PACKAGE : public nsl::DBTR_HEADER
@@ -273,6 +353,16 @@ struct tagGAME_DB_SEND_PACKAGE : public nsl::DBTR_HEADER
     unsigned short letter_text_length;   // @94
     char letter_text[256];               // @96
     unsigned long temp_item_id;          // @352
+
+    tagGAME_DB_SEND_PACKAGE()
+    {
+        memset(this, 0, sizeof(tagGAME_DB_SEND_PACKAGE));
+        dbId = 0;
+        dbtrId = 0x15;
+        mOwnerWorkId = nsl::tlsThreadId;
+        mbWillDelete = false;
+        setSize(sizeof(tagGAME_DB_SEND_PACKAGE));
+    }
 };
 
 struct tagGAME_DB_SEND_PACKAGE_BY_EXPIRE : public nsl::DBTR_HEADER
@@ -281,6 +371,16 @@ struct tagGAME_DB_SEND_PACKAGE_BY_EXPIRE : public nsl::DBTR_HEADER
     bool b_exist_buyer;                          // @22
     tagGAME_DB_SEND_PACKAGE send_to_owner;       // @23
     tagGAME_DB_SEND_PACKAGE send_to_buyer;       // @379
+
+    tagGAME_DB_SEND_PACKAGE_BY_EXPIRE()
+    {
+        memset(this, 0, sizeof(tagGAME_DB_SEND_PACKAGE_BY_EXPIRE));
+        dbId = 0;
+        dbtrId = 0x16;
+        mOwnerWorkId = nsl::tlsThreadId;
+        mbWillDelete = false;
+        setSize(sizeof(tagGAME_DB_SEND_PACKAGE_BY_EXPIRE));
+    }
 };
 
 #pragma pack(pop)
