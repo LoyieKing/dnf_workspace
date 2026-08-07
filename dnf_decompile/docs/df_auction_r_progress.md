@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 29（本批新增 HandlerFor_GA_ 全部符号） |
-| IDENTICAL | 2,286 |
+| 已实现 TU | 30（本批新增 HandlerFor_GP_ 全部符号） |
+| IDENTICAL | 2,302 |
 | NEAR | 20 |
-| DIFF（语义等价，-O0 惯用法） | 351 |
-| MISSING（未实现） | 2,079 |
+| DIFF（语义等价，-O0 惯用法） | 365 |
+| MISSING（未实现） | 2,049 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -117,6 +117,8 @@
 
 本批（HandlerFor_GA_ 全量补完）后：**IDENTICAL 2286 / NEAR 20 / DIFF 351 / MISSING 2079**
 
+本批（HandlerFor_GP_ 全量补完）后：**IDENTICAL 2302 / NEAR 20 / DIFF 365 / MISSING 2049**
+
 ### 已实现 TU（本阶段新增，均可编译链接）
 
 | 组件 | 状态 |
@@ -156,6 +158,7 @@
 | ServiceError | ✅ 已完成（TU 0 缺失：83 精确 + 3 语义等价 DIFF；COMMON/AUCTION_ERROR_LIST 移出 nsl 使 make_pair 模板符号对齐，SetAuctionServiceErrorStr 先调 InitServiceErrorStr 并含 2/3 号条目） |
 | Socket | ✅ 已完成（TU 0 缺失：35 精确 + 25 语义等价 DIFF；poll*Event 用 p->fds_bits[i] 清零循环 + FD_SET((unsigned)sock_)，TCPSocket::getHandle/Set*BufSize 对齐，6 个 poll 函数逐字节一致） |
 | HandlerFor_GA_ | ✅ 已完成（TU 0 缺失：96 精确 + 25 语义等价 DIFF；INetWorkHandler 派生、mArrayFunc[1024]@12 + mpSzBuffer@8204 共 12300B，15 个 on* 处理器 + registFuncMap/searchNetworkFunc 头内联，IsGoldServer 头内联，gmList[5] 从 .data 提取） |
+| HandlerFor_GP_（HandlerFor_GP_JPN.cpp） | ✅ 已完成（TU 0 缺失：68 精确 + 24 语义等价 DIFF；PG 应答包 + IsPointServer，Bidding 写 owner_nexon_id/charge_point，ASK_OWNER_IS_VIP 用 OwnerInfo+IsOwnerVIP，avatar 只补 emblem 不补 expansion，无 gmList 追踪） |
 
 ### 关键形态结论（追加）
 
@@ -330,6 +333,12 @@
     AuctionItemInfo 137B/MyRegistedItemInfo 117B/MyBiddingItemInfo 125B/
     TSearchByItemId_(23B)/TSearchByCategory_(25B)/AuctionDictionaryData(132B) 均按 DWARF 偏移；
     PCK_AUCTION_SEARCH_BY_ITEMKEY_GA 为唯一服务端构造的 GA 请求包（cat=0,id=6,size=0x81）。
+46. **HandlerFor_GP_**（源文件 HandlerFor_GP_JPN.cpp）：与 GA 同布局（12300B，registFuncMap
+    填 15 个处理器 0..14），IsPointServer 头内联；PG 应答包与 AG 布局差异——ASK_AVERAGE_PG
+    只回 average_price（30B）、ASK_NUM_PG 无 unit_price/ROI（47B）、BIDDING_RESULT_PG 增
+    owner_nexon_id[32]@40 + charge_point@72（76B）、LOG_MESSAGE_PG 无 result_because（54B）；
+    onAUCTION_ASK_OWNER_IS_VIP_GP 用 OwnerInfo(8B) + IsOwnerVIP + GetAveragePrice；
+    avatar 成功分支只调 AddAvatarEmblemInfo（无 expansion）；无 gmList 追踪循环。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 

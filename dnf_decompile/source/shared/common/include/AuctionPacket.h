@@ -395,4 +395,206 @@ struct PCK_AUCTION_BUY_ITEM_APIECE_AG : public nsl::PACKET_HEADER
     }
 };
 
+// ---- PG response packets (category 0x13) ----
+
+#define AUCTION_PACKET_CTOR_BODY(cat, pid, sz) \
+    memset(this, 0, sz); \
+    setCategory(cat); \
+    setPacketID(pid); \
+    setSize(sz)
+
+struct PCK_AUCTION_REGIST_ACK_PG : public nsl::PACKET_HEADER
+{
+    PCK_AUCTION_REGIST_ACK_PG()
+    {
+        AUCTION_PACKET_CTOR_BODY(0x13, 0x0, 0x12);
+    }
+};
+
+struct PCK_AUCTION_CHECK_AUCTION_READY_PG : public nsl::PACKET_HEADER
+{
+    bool db_work_done;                   // @18
+
+    PCK_AUCTION_CHECK_AUCTION_READY_PG()
+    {
+        AUCTION_PACKET_CTOR_BODY(0x13, 0xd, 0x13);
+    }
+};
+
+struct PCK_AUCTION_ASK_AVERAGE_PRICE_PG : public nsl::PACKET_HEADER
+{
+    int char_idx;                        // @18
+    int character_id;                    // @22
+    int average_price;                   // @26
+
+    PCK_AUCTION_ASK_AVERAGE_PRICE_PG()
+    {
+        AUCTION_PACKET_CTOR_BODY(0x13, 0x2, 0x1e);
+    }
+};
+
+struct PCK_AUCTION_ASK_REGISTED_ITEM_NUM_PG : public nsl::PACKET_HEADER
+{
+    int char_idx;                        // @18
+    int character_id;                    // @22
+    short now_registed_num;              // @26
+    unsigned char inven_type;            // @28
+    unsigned short slot_no;              // @29
+    unsigned long item_id;               // @31
+    int add_info;                        // @35
+    int price;                           // @39
+    int instant_price;                   // @43
+
+    PCK_AUCTION_ASK_REGISTED_ITEM_NUM_PG()
+    {
+        AUCTION_PACKET_CTOR_BODY(0x13, 0x3, 0x2f);
+    }
+};
+
+struct PCK_AUCTION_REGIST_RESULT_PG : public nsl::PACKET_HEADER
+{
+    int char_idx;                        // @18
+    int owner_id;                        // @22
+    unsigned char regist_result;         // @26
+    unsigned char result_because;        // @27
+
+    PCK_AUCTION_REGIST_RESULT_PG()
+    {
+        AUCTION_PACKET_CTOR_BODY(0x13, 0x4, 0x1c);
+    }
+};
+
+struct PCK_AUCTION_BIDDING_RESULT_PG : public nsl::PACKET_HEADER
+{
+    int char_idx;                        // @18
+    int buyer_id;                        // @22
+    int price;                           // @26
+    unsigned char bidding_result;        // @30
+    unsigned char result_because;        // @31
+    __int64 auction_id;                  // @32
+    char owner_nexon_id[32];             // @40
+    int charge_point;                    // @72
+
+    PCK_AUCTION_BIDDING_RESULT_PG()
+    {
+        AUCTION_PACKET_CTOR_BODY(0x13, 0x5, 0x4c);
+    }
+};
+
+struct PCK_AUCTION_REGIST_CANCEL_RESULT_PG : public nsl::PACKET_HEADER
+{
+    int char_idx;                        // @18
+    int owner_id;                        // @22
+    unsigned char cancel_result;         // @26
+    unsigned char result_because;        // @27
+
+    PCK_AUCTION_REGIST_CANCEL_RESULT_PG()
+    {
+        AUCTION_PACKET_CTOR_BODY(0x13, 0x6, 0x1c);
+    }
+};
+
+struct PCK_AUCTION_ITEM_LIST_PG : public nsl::PACKET_HEADER
+{
+    int char_idx;                        // @18
+    int character_id;                    // @22
+    unsigned char pay_type;              // @26
+    unsigned int total_item_num;         // @27
+    unsigned short item_num;             // @31
+    AuctionItemInfo item_info[60];       // @33
+
+    PCK_AUCTION_ITEM_LIST_PG()
+    {
+        AUCTION_PACKET_CTOR_BODY(0x13, 0x7, 0x203d);
+    }
+};
+
+struct PCK_AUCTION_MY_REGISTED_ITEM_INFO_PG : public nsl::PACKET_HEADER
+{
+    int char_idx;                        // @18
+    int owner_id;                        // @22
+    unsigned char pay_type;              // @26
+    unsigned char item_num;              // @27
+    MyRegistedItemInfo my_registed_item_info[30];  // @28
+
+    PCK_AUCTION_MY_REGISTED_ITEM_INFO_PG()
+    {
+        AUCTION_PACKET_CTOR_BODY(0x13, 0x8, 0xdd2);
+    }
+};
+
+struct PCK_AUCTION_MY_BIDDING_INFO_PG : public nsl::PACKET_HEADER
+{
+    int char_idx;                        // @18
+    int buyer_id;                        // @22
+    unsigned char pay_type;              // @26
+    unsigned short item_num;             // @27
+    MyBiddingItemInfo my_bidding_item_info[60];  // @29
+
+    PCK_AUCTION_MY_BIDDING_INFO_PG()
+    {
+        AUCTION_PACKET_CTOR_BODY(0x13, 0x9, 0x1d69);
+    }
+};
+
+struct PCK_AUCTION_LOG_MESSAGE_PG : public nsl::PACKET_HEADER
+{
+    int char_idx;                        // @18
+    unsigned char auction_log_type;      // @22
+    __int64 auction_id;                  // @23
+    int character_id;                    // @31
+    int price;                           // @35
+    unsigned long item_id;               // @39
+    unsigned char uniItemAttr;           // @43
+    int add_info;                        // @44
+    unsigned short endurance;            // @48
+    unsigned long extendInfo;            // @50
+
+    PCK_AUCTION_LOG_MESSAGE_PG()
+    {
+        AUCTION_PACKET_CTOR_BODY(0x13, 0xb, 0x36);
+    }
+};
+
+struct PCK_AUCTION_ASK_OWNER_IS_VIP_PG : public nsl::PACKET_HEADER
+{
+    int char_idx;                        // @18
+    __int64 auction_id;                  // @22
+    bool is_vip;                         // @30
+    int average_price;                   // @31
+    int buyer_id;                        // @35
+    char buyer_name[13];                 // @39
+    int price;                           // @52
+    int item_id;                         // @56
+
+    PCK_AUCTION_ASK_OWNER_IS_VIP_PG()
+    {
+        AUCTION_PACKET_CTOR_BODY(0x13, 0xe, 0x3c);
+    }
+};
+
+struct PCK_AUCTION_ASK_OWNER_IS_VIP_GP : public nsl::PACKET_HEADER
+{
+    int char_idx;                        // @18
+    __int64 auction_id;                  // @22
+    int buyer_id;                        // @30
+    char buyer_name[13];                 // @34
+    int price;                           // @47
+    int item_id;                         // @51
+};
+
+struct OwnerInfo
+{
+    bool is_vip;                         // @0
+    int average_price;                   // @4
+
+    OwnerInfo()
+    {
+        is_vip = false;
+        average_price = 0;
+    }
+};
+
+#undef AUCTION_PACKET_CTOR_BODY
+
 #endif // NSL_AUCTIONPACKET_H_

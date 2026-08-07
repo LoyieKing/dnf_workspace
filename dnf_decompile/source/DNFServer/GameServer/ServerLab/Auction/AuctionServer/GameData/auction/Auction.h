@@ -79,6 +79,7 @@ public:
     int BuyItemApiece(unsigned long long auction_id, int buyer_id, int price, int count);
     int Bidding(int buyer_id, const char* buyer_name, unsigned long long auction_id,
                 int price, char* out, int& ret);
+    int IsOwnerVIP(unsigned long long auction_id, OwnerInfo& ownerInfo);
     int GetNowRegistedItemNum(int owner_id)
     {
         return ((AuctionDictionary*)((char*)this + 0x54))->GetNowRegistedItemNum(owner_id);
