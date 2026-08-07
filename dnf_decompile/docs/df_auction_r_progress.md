@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 17 |
-| IDENTICAL | 552 |
+| 已实现 TU | 18 |
+| IDENTICAL | 558 |
 | NEAR | 9 |
-| DIFF（语义等价，-O0 惯用法） | 117 |
-| MISSING（未实现） | 4,058 |
+| DIFF（语义等价，-O0 惯用法） | 116 |
+| MISSING（未实现） | 4,053 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
