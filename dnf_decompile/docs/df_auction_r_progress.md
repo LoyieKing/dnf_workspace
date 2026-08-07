@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 30（本批新增 HandlerFor_GP_ 全部符号） |
-| IDENTICAL | 2,302 |
+| 已实现 TU | 31（本批新增 ExpireTimeDictionary 全部符号） |
+| IDENTICAL | 2,431 |
 | NEAR | 20 |
-| DIFF（语义等价，-O0 惯用法） | 365 |
-| MISSING（未实现） | 2,049 |
+| DIFF（语义等价，-O0 惯用法） | 369 |
+| MISSING（未实现） | 1,962 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -119,6 +119,8 @@
 
 本批（HandlerFor_GP_ 全量补完）后：**IDENTICAL 2302 / NEAR 20 / DIFF 365 / MISSING 2049**
 
+本批（ExpireTimeDictionary 全量补完）后：**IDENTICAL 2431 / NEAR 20 / DIFF 369 / MISSING 1962**
+
 ### 已实现 TU（本阶段新增，均可编译链接）
 
 | 组件 | 状态 |
@@ -159,6 +161,7 @@
 | Socket | ✅ 已完成（TU 0 缺失：35 精确 + 25 语义等价 DIFF；poll*Event 用 p->fds_bits[i] 清零循环 + FD_SET((unsigned)sock_)，TCPSocket::getHandle/Set*BufSize 对齐，6 个 poll 函数逐字节一致） |
 | HandlerFor_GA_ | ✅ 已完成（TU 0 缺失：96 精确 + 25 语义等价 DIFF；INetWorkHandler 派生、mArrayFunc[1024]@12 + mpSzBuffer@8204 共 12300B，15 个 on* 处理器 + registFuncMap/searchNetworkFunc 头内联，IsGoldServer 头内联，gmList[5] 从 .data 提取） |
 | HandlerFor_GP_（HandlerFor_GP_JPN.cpp） | ✅ 已完成（TU 0 缺失：68 精确 + 24 语义等价 DIFF；PG 应答包 + IsPointServer，Bidding 写 owner_nexon_id/charge_point，ASK_OWNER_IS_VIP 用 OwnerInfo+IsOwnerVIP，avatar 只补 emblem 不补 expansion，无 gmList 追踪） |
+| ExpireTimeDictionary | ✅ 已完成（TU 0 缺失：129 精确 + 4 语义等价 DIFF；object_pool_by_boost_pool(0x20) + std::queue<Data*>，Push/Peek/Pop 主方法逐字节一致，空队列返回 0x2c） |
 
 ### 关键形态结论（追加）
 
@@ -339,13 +342,17 @@
     owner_nexon_id[32]@40 + charge_point@72（76B）、LOG_MESSAGE_PG 无 result_because（54B）；
     onAUCTION_ASK_OWNER_IS_VIP_GP 用 OwnerInfo(8B) + IsOwnerVIP + GetAveragePrice；
     avatar 成功分支只调 AddAvatarEmblemInfo（无 expansion）；无 gmList 追踪循环。
+47. **ExpireTimeDictionary**：vptr@0 + object_pool_by_boost_pool<Data,int,int,int>@4（32B）+ std::queue<Data*>@36，
+    总 76B；ExpireTimeDictionaryData 12B（expire_time@0/auction_id@4，嵌套类型）；ctor 用
+    `mExpireTimeDicQueue(std::deque<Data*>())` 复现局部 deque→queue 拷贝形态；Push 从池 malloc
+    （NULL 返 9），Peek/Pop 空队列返 0x2c；Pop 后池 free。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
 ```
 720  Search                477  Auction               180  ServerLibrary2.0
 176  AuctionDictionary     150  AveragePriceDictionary 149  CharacterDictionary
-144  ServiceFactory         87  ExpireTimeDictionary   32  HandlerFor_GP_JPN
+144  ServiceFactory
   ...
 ```
 
