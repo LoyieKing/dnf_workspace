@@ -32,6 +32,7 @@ COMMON_FLAGS="-m32 -O0 -D_GNU_SOURCE -std=gnu++0x -pthread -fno-enforce-eh-specs
   -isystem $C6ROOT/usr/include/c++/4.4.7/x86_64-redhat-linux \
   -isystem $C6ROOT/usr/include/c++/4.4.7/backward \
   -isystem $C6ROOT/usr/include \
+  -isystem ${BOOST_INC:-/tmp/boost_inc/include} \
   -I$BASIC -I$COMMON -I$AUCTIONCOMMON -I$SERVERCOMMON -I$DNFSSHARED -I$CORE \
   -I$AUCTION/GameData -I$AUCTION/GameData/auction -I$AUCTION/GameData/auction/dictionary \
   -I$AUCTION/auction_source -I$ROOT/shared -I$ROOT/shared/common/include -I$ROOT/shared/packet/include"

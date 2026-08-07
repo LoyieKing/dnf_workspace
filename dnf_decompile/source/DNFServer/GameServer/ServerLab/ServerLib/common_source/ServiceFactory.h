@@ -18,6 +18,7 @@ class ServiceFactory
 {
 public:
     ServiceFactory(char* Service_identify, char* ConfigFileName);
+    __int64 getTick() const;
 
     char pad0_[8];
     Dispatchers super_Dispatchers;

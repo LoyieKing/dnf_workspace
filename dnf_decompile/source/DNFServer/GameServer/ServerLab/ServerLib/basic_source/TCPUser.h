@@ -14,17 +14,30 @@ class ISession;
 class WorkThread;
 class RecvBuffer;
 
+extern int ddebug;
+
 class TCPUser
 {
 public:
+    enum ENUM_DATA_TYPE
+    {
+        SEND_DATA_NORMAL = 0,
+        SEND_DATA_ENCRYPT = 1,
+        SEND_DATA_COMPRESS = 2,
+        SEND_DATA_ENCRYPT_COMPRESS = 3,
+        RECV_DATA_NORMAL = 4,
+        RECV_DATA_ENCRYPT = 5,
+        RECV_DATA_COMPRESS = 6,
+        RECV_DATA_ENCRYPT_COMPRESS = 7
+    };
+
     TCPUser();
     ~TCPUser();
-    void onRead();
-    void onWriteByCMsg(void* pMsg);
-    void onError(int err);
-    void onClose();
-    void onPassiveClose();
-    void onActiveClose();
+    int onRead();
+    int onWriteByCMsg(CMsgCell* cell);
+    void onError();
+    bool onPassiveClose(char* file, int line);
+    bool onActiveClose(unsigned int key);
 
     void setSendDataType(ENUM_DATA_TYPE type);
     void setRecvDataType(ENUM_DATA_TYPE type);
@@ -45,31 +58,55 @@ public:
     bool isDisconnected();
     void postDisconnected(int reason);
     void setSession(ISession* pSession);
-    void setWorkThread(WorkThread* pWorkThread);
+    inline void setWorkThread(WorkThread* pWorkThread)
+    {
+        pmWorkThread = pWorkThread;
+    }
     WorkThread* getWorkThread();
     ISession* getSession();
-    unsigned int getUserId();
-    bool isBindedSession();
+    inline unsigned int getUserId()
+    {
+        return mUserId;
+    }
+    inline bool isBindedSession()
+    {
+        return mbBindedSession;
+    }
     void setBindedSession(bool bBinded);
     bool isPassiveCloseSyncByWorker();
     void setPassiveSyncByWorker(bool bSync);
     bool isActiveCloseSyncByWorker();
     void setActiveSyncByWorker(bool bSync);
     Message* PopSendMessage();
-    void PushSendMessage(Message* pMsg);
-    void PushWouldBlockMessage(Message* pMsg);
+    inline void PushSendMessage(Message* pMsg)
+    {
+        mSendMessageQueue.push_back(pMsg);
+    }
+    inline void PushWouldBlockMessage(Message* pMsg)
+    {
+        wouldBlockQueue.push_back(pMsg);
+    }
     void ClearRecvMsgs();
     void IncPendingWorkNum();
     void DecPendingWorkNum();
     void IncPendingSendNum();
     void DecPendingSendNum();
-    unsigned int GetPendingWorkNum();
-    unsigned int GetPendingSendNum();
+    inline unsigned int GetPendingWorkNum()
+    {
+        return mPendingWork;
+    }
+    inline unsigned int GetPendingSendNum()
+    {
+        return mPendingSend;
+    }
     void SetSending(bool bSending);
-    bool IsSending();
+    bool IsSending() const;
     void SetWorking(bool bWorking);
-    bool IsWorking();
-    int GetMaxPacketSize();
+    bool IsWorking() const;
+    inline int GetMaxPacketSize()
+    {
+        return mMaxPacketSize;
+    }
 
     ENUM_DATA_TYPE mSendDataType;
     ENUM_DATA_TYPE mRecvDataType;
