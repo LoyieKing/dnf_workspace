@@ -95,7 +95,7 @@
 
 ## 第三阶段：框架层 + 公共库（2026-08-07 追加）
 
-全量比对水位：**IDENTICAL 1548 / NEAR 16 / DIFF 185 / MISSING 2987**
+全量比对水位：**IDENTICAL 1625 / NEAR 18 / DIFF 225 / MISSING 2868**
 （基线：IDENTICAL 641 / NEAR 9 / DIFF 127 / MISSING 3959）
 
 ### 已实现 TU（本阶段新增，均可编译链接）
@@ -125,6 +125,7 @@
 | InterHandler（含拍卖数据结构头） | ✅ 已实现（TU 0 缺失：23 精确 + 35 近似；onINTER_* 两函数逐字节一致） |
 | WorkThread（含 GetMessageBuffer/TMsgCell 实例化） | ✅ 已实现（TU 0 缺失：55 精确 + 169 近似，3 个语义等价 DIFF） |
 | TimeManager + TimerThread（含 RBTree 模板重建） | ✅ 已实现（两 TU 0 缺失：TimeManager 21 精确 + 46 近似，TimerThread 29 精确 + 89 近似） |
+| Strings 核心库（CharString/WideString 基础） | ✅ 进行中（355 符号中 116 已落地：13 精确 + 64 近似 + 39 语义等价 DIFF；核心机制/StringData/构造/赋值/自由函数/操作符已实现） |
 
 ### 关键形态结论（追加）
 
@@ -181,6 +182,12 @@
 27. **TimeManager::onTime** 触发条件实为 64 位无符号比较
     `(unsigned long long)check_period <= (unsigned long long)accumulated_tick`
     （Ghidra 反编译的 `(accumulated>>32)!=0 || ...` 形态是同一语义）。
+28. **Strings 库核心**：StringData(8B refCount_/size_) 引用计数（incRef=`lock addl`、
+    decRef=`lock xadd`+asserts，empty 数据 refCount_=1/size_=1）；CharString 4B 仅存
+    `buffer_`（= data+8 的字符区，getData = buffer_-8）；concat/compare/compareNoCase/
+    pattern 是**静态成员**（`_ZN` 编码）；isUnique/isShared/getSize/getLength 为 const；
+    自由函数 left/mid/right/trim/lower/upper/reverse/insert/remove/replace 与全部
+    比较/拼接操作符已按 -O0 形态重建。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
@@ -190,9 +197,9 @@
 152  CharacterDictionary   116  ServerXml             110  HandlerFor_DB_
  92  ExpireTimeDictionary   88  HandlerFor_GA_         88  RDARScriptItemInfo
  83  RDARScriptAvatarColorInfo  62  version(余量)       59  HandlerFor_GP_JPN
- 46  UnicodeConvert         32  InterHandler(余量)     19  DBConnection
- 35  Character(余量)        33  GameDataPool(余量)     28  HandlerFor_TE_(余量)
- 28  DNFFunctionLib(余量)    ...
+ 46  UnicodeConvert         35  Character(余量)         33  GameDataPool(余量)
+ 28  HandlerFor_TE_(余量)   28  DNFFunctionLib(余量)    19  DBConnection
+  ...
 ```
 
 ## 下一步
