@@ -10,8 +10,14 @@ class DBConnection;
 class DBConnections
 {
 public:
-    DBConnection* getDBConnection(int idx);
-    void setDBConnection(int idx, DBConnection* pConn);
+    DBConnection* getDBConnection(int idx)
+    {
+        return mDbConnections[idx];
+    }
+    void setDBConnection(int idx, DBConnection* pConn)
+    {
+        mDbConnections[idx] = pConn;
+    }
 
     std::map<int, DBConnection*> mDbConnections;
 };

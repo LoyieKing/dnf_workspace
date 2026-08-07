@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 25（本批新增 DBConnection 全部符号） |
-| IDENTICAL | 2,135 |
-| NEAR | 20 |
-| DIFF（语义等价，-O0 惯用法） | 284 |
-| MISSING（未实现） | 2,297 |
+| 已实现 TU | 28（本批新增 HandlerFor_DB_/TeaInitialize/DNFFunctionLibWrapper 全部符号） |
+| IDENTICAL | 2,217 |
+| NEAR | 21 |
+| DIFF（语义等价，-O0 惯用法） | 323 |
+| MISSING（未实现） | 2,175 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -110,6 +110,9 @@
 
 本批（DBConnection 全量补完，含 mysql 客户端 API 桩）后：**IDENTICAL 2135 / NEAR 20 / DIFF 284 / MISSING 2297**
 
+本批（HandlerFor_DB_ + TeaInitialize + DNFFunctionLibWrapper 全量补完，DBConnection 访问器
+改回头内联引用形参）后：**IDENTICAL 2217 / NEAR 21 / DIFF 323 / MISSING 2175**
+
 ### 已实现 TU（本阶段新增，均可编译链接）
 
 | 组件 | 状态 |
@@ -143,6 +146,9 @@
 | RDARScriptItemInfo | ✅ 已完成（TU 0 缺失：91 精确 + 2 语义等价 DIFF；CNRDItemInfoList 28B/map<int,STItemInfo*>、NextToken 双字节韩文处理、Save/Load 全流程） |
 | RDARScriptAvatarColorInfo | ✅ 已完成（TU 0 缺失：139 精确 + 4 语义等价 DIFF；AvatarVariation::AvatarColorInfo 双 map、colorRGB 3B、Parse_Table/import/查询全流程） |
 | DBConnection（+mysql 桩） | ✅ 已完成（TU 0 缺失：26 精确 + 7 语义等价 DIFF；0x42088 布局精确、init/open/exec/查询全流程 + mysql 客户端 API weak 桩） |
+| HandlerFor_DB_ | ✅ 已完成（TU 0 缺失：118 精确 + 34 语义等价 DIFF；0x63fc 布局、14 个 DB 处理器 + insertPackage 系列全逻辑、GetAuctionMainFetchResult 27 列读取） |
+| TeaInitialize | ✅ 已完成（TU 0 缺失：11 精确 + 1 语义等价 DIFF；kor/jpn/usa/taiwan 同 key、china 独立 key，mTEA.Initialize(key,0x21,sm_chain0,0,0)） |
+| DNFFunctionLibWrapper | ✅ 已完成（TU 0 缺失：2 精确 + 2 语义等价 DIFF；Char2Hex 小写 saucHex 表、Hex2Char 双字符解析、Binary2Hex/Hex2Binary） |
 
 ### 关键形态结论（追加）
 
@@ -265,26 +271,54 @@
     exec_query 重连逻辑（0x7d5/0x7dd/0x7d3/0x7d6 判定 + mysql_ping + err==0x7d6 重连）；
     mysql 客户端 17 个 API 用 weak 桩实现以便链接。剩余 DIFF 为 -O0 分支布局/寄存器
     分配差异（语义等价）。
+35. **HandlerFor_DB_**：nsl::IDBHandler 派生，vptr@0 + mArrayFunc[126]@12（PMF 8B×126）+
+    mSzBuffer[24576]@1020 + mTEA@0x63fc，总 25668B；init 清 0x7e 个 PMF 后
+    registFuncMap 填 13 个（0..9/0x11/0x12/0x15/0x16），TeaInitialize 选 taiwan 变体，
+    GameDB(0)/AuctionDB(1) 密码走 DecryptPassword（Hex2Binary + CTEA::Decrypt + strncpy 0x14），
+    失败 exit(1)/(2)；SearchDBHandlerFunc 直接 `return mArrayFunc[typeId]`（PMF 隐藏返回槽）；
+    GetAuctionMainFetchResult 按 `int col=i+1; i+=2` 首列跳 occ_time、随后 `col=i; i++`
+    逐列读 27 列（uniItemAttr 两次位拼接 `&0xe0|(upgrade&0x1f)`、`&0x1f|(seal_cnt<<5)`、
+    buyer_id/price 前置 1 字节清零怪癖原样复现）；DBTransactionDesign 补齐
+    tagAUCTION_DB_REGIST_ITEM(181B)/UPPER_BIDDING(50B)/EXPIRE_HISTORY(128B)/
+    BUYER_HISTORY(49B)/INSERT+UPDATE_AVERAGE_PRICE(55/59B)/SEND_PACKAGE(356B)/
+    SEND_PACKAGE_BY_EXPIRE(735B)/ROI_AverageKey(24B)/ROI_Average_Constraint(24B)；
+    onGAME_DB_SEND_PACKAGE_BY_EXPIRE 的 SendMessageToMonitor 里 owner 消息的
+    RandomOption 传 buyer 的随机选项（0x01/0x05 分支原样复现原版怪癖）。
+36. **DBConnection 访问器**：is_valid_col/get_n_rows/get_str/get_binary/get_int…get_int64
+    共 14 个全部为**头内联弱符号**（原二进制 W），除 get_str/get_binary 外参数均为
+    **引用形参**（EiRi/EiRj/EiRl/EiRm/EiRs/EiRt/EiRb/EiRh/EiRx/EiRy），必须在头里定义
+    inline 并在调用 TU 内发射；`get_int64` 为 `unsigned long long&`（Ry 而非 Rx）。
+37. **DBConnections**：getDBConnection/setDBConnection 为头内联（`mDbConnections[idx]`
+    直接 map::operator[]，W 符号），无 .cpp。
+38. **__int64 全局口径**：原二进制 DWARF 中 `__int64` typedef 底层为
+    **unsigned long long**（encoding=unsigned，mangle `y`）；所有共享头（AuctionItem/
+    Message/TimeManager/TimerThread/ServiceFactory/DBTransactionDesign）统一为
+    `typedef unsigned long long __int64`。
+39. **CMsgCell::GetSize/GetBuf 为 const 方法**（原二进制仅 `_ZNK` 弱符号），
+    GetDBTr/GetPacket 非 const；DataPool::destroyTCPUser 调 `pSession->onClose(false)`。
+40. **TeaInitialize**：kor/jpn/usa/taiwan 同 key（"qortmddk…guswn" 34 字节传 0x21）、
+    china 用 "Service Management Framework bySCM"；chain 传 `nsl::CTEA::sm_chain0`
+    （原二进制为 8 个 0x00，TEA.cpp 已由 "TEA" 修正）；`mTEA.Initialize(key,0x21,chain,0,0)`。
+41. **DNFFLibWrapper**：Char2Hex 用静态 `"0123456789abcdef"`（小写）表；Hex2Char
+    只认 0-9/a-f（大写非法）两字符拼装返回 bool；Binary2Hex 逐字节 strcat 形态。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
 ```
 720  Search                477  Auction               180  ServerLibrary2.0
 176  AuctionDictionary     150  AveragePriceDictionary 149  CharacterDictionary
-144  ServiceFactory         98  HandlerFor_DB_         87  ExpireTimeDictionary
- 32  HandlerFor_GP_JPN     32  HandlerFor_GA_         10  ServiceError(余量)
-  9  Socket(余量)           6  TeaInitialize(余量)     4  DNFFunctionLibWrapper(余量)
+144  ServiceFactory         87  ExpireTimeDictionary   32  HandlerFor_GP_JPN
+ 32  HandlerFor_GA_         10  ServiceError(余量)      9  Socket(余量)
   ...
 ```
 
 ## 下一步
 
-1. 补齐框架遗留：DBConnection（19，需 mysql 头/桩）。
-2. ServerCommon + Core + DNFShared：Strings/UnicodeConvert/ServerXml(+TinyXML)/
-   RDARScriptItemInfo/RDARScriptAvatarColorInfo/DBConnection(+mysql 桩) 已全量完成；
-   下一步 HandlerFor_DB_（98）。
-3. 字典类：AuctionDictionary / AveragePriceDictionary / CharacterDictionary /
+1. ServerCommon + Core + DNFShared：Strings/UnicodeConvert/ServerXml(+TinyXML)/
+   RDARScriptItemInfo/RDARScriptAvatarColorInfo/DBConnection(+mysql 桩)/
+   HandlerFor_DB_/TeaInitialize/DNFFunctionLibWrapper 已全量完成。
+2. 字典类：AuctionDictionary / AveragePriceDictionary / CharacterDictionary /
    ExpireTimeDictionary / ReliabilityDictionary。
-4. 大块：Search（731）/ Auction（533）/ HandlerFor_GA_/DB_/GP_JPN / ServiceFactory /
+3. 大块：Search（720）/ Auction（477）/ HandlerFor_GA_/GP_JPN / ServiceFactory /
    ServerLibrary2.0。
-5. 全量复验 DIFF/MISSING，移除临时桩，产出 docs/df_auction_r_restoration_report.md，commit & push。
+4. 全量复验 DIFF/MISSING，移除临时桩，产出 docs/df_auction_r_restoration_report.md，commit & push。

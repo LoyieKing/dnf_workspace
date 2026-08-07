@@ -8,7 +8,7 @@ namespace nsl {
 class ITimeEntity;
 class InternalMsg;
 
-typedef long long __int64;
+typedef unsigned long long __int64;
 
 class TimeManager
 {

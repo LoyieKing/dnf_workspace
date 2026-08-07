@@ -55,6 +55,12 @@ class IDBHandler : public IHandler
 public:
     typedef unsigned int (IDBHandler::*DBHandlerFunc)(CMsgCell*);
 
+    virtual ~IDBHandler()
+    {
+    }
+    virtual void init()
+    {
+    }
     virtual DBHandlerFunc searchDBHandlerFunc(int nProtoID) = 0;
 };
 

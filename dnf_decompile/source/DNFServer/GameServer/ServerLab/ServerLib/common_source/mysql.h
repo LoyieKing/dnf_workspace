@@ -7,6 +7,8 @@ typedef char** MYSQL_ROW;
 typedef unsigned long ulong;
 typedef unsigned long long ulonglong;
 typedef unsigned int uint;
+typedef unsigned short ushort;
+typedef unsigned char uchar;
 
 #ifdef __cplusplus
 extern "C" {

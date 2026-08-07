@@ -57,12 +57,12 @@ inline int CMsgCell::GetPos()
     return m_wPos;
 }
 
-inline int CMsgCell::GetSize()
+inline int CMsgCell::GetSize() const
 {
     return m_wSize;
 }
 
-inline char* CMsgCell::GetBuf()
+inline char* CMsgCell::GetBuf() const
 {
     return m_bBuf;
 }

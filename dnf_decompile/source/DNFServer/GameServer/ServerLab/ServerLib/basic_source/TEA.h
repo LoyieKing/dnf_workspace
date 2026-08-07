@@ -17,6 +17,8 @@ public:
     virtual int Decrypt(const char* szIn, char* szOut, size_t iLength);
     virtual void ResetChain();
 
+    static const char sm_chain0[8];
+
 private:
     void EncryptBlock(const unsigned char* pucIn, unsigned char* pucOut);
     void DecryptBlock(const unsigned char* pucIn, unsigned char* pucOut);
@@ -25,8 +27,6 @@ private:
     unsigned int m_auiKey[4];
     char m_apchain0[8];
     char m_apchain[8];
-
-    static const char sm_chain0[8];
 };
 
 } // namespace nsl

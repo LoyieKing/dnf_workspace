@@ -8,7 +8,7 @@ namespace nsl {
 
 class TCPUser;
 
-typedef long long __int64;
+typedef unsigned long long __int64;
 
 enum ENUM_DATA_TYPE
 {

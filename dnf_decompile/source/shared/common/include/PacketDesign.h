@@ -116,4 +116,26 @@ struct PCK_AUCTION_SERVICE_UNAVAILABLE_PG : public nsl::PACKET_HEADER
     }
 };
 
+struct PCK_AUCTION_SERVICE_AVAILABLE_AG : public nsl::PACKET_HEADER
+{
+    PCK_AUCTION_SERVICE_AVAILABLE_AG()
+    {
+        memset(this, 0, 0x12);
+        setCategory(1);
+        setPacketID(0xc);
+        setSize(0x12);
+    }
+};
+
+struct PCK_AUCTION_SERVICE_AVAILABLE_PG : public nsl::PACKET_HEADER
+{
+    PCK_AUCTION_SERVICE_AVAILABLE_PG()
+    {
+        memset(this, 0, 0x12);
+        setCategory(0x13);
+        setPacketID(0xc);
+        setSize(0x12);
+    }
+};
+
 #endif // NSL_PACKETDESIGN_H_

@@ -15,7 +15,7 @@
 
 namespace nsl {
 
-typedef long long __int64;
+typedef unsigned long long __int64;
 
 class ServiceFactory
 {

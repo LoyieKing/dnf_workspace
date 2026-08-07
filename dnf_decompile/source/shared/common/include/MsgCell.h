@@ -34,8 +34,8 @@ public:
     void SetPos(int pos);
     void ShiftPos(int pos);
     int GetPos();
-    int GetSize();
-    char* GetBuf();
+    int GetSize() const;
+    char* GetBuf() const;
     char* GetCurPos();
     void SetBuffer(LPSTR buffer);
     void SetSize(int wSize);
