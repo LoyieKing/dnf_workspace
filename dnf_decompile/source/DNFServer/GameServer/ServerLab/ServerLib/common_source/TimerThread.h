@@ -6,6 +6,7 @@
 
 #include "../basic_source/Thread.h"
 #include "TimeManager.h"
+#include "Message.h"
 
 namespace nsl {
 
@@ -14,7 +15,7 @@ class InternalMsg;
 
 typedef long long __int64;
 
-class ITimeEntity
+class ITimeEntity : public IMessageStruct
 {
 public:
     ITimeEntity()
@@ -41,7 +42,7 @@ public:
         return pmMsg;
     }
 
-    bool bTerminated;
+    bool bTerminated;       // tail padding of IMessageStruct @7
     int proc_id;
     unsigned int check_period;
     unsigned int proc_count;

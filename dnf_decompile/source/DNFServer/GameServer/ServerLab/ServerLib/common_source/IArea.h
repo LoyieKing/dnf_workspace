@@ -14,10 +14,12 @@ class IArea
 {
 public:
     IArea(int mapIndex);
-    virtual ~IArea();
+    virtual ~IArea() = 0;
+    virtual void setBackServerKey(int key) = 0;
+    virtual int getBackServerKey() = 0;
+    virtual void unregist(unsigned int id);
     int getMemberNum();
     bool regist(unsigned int id, ISession* obj);
-    void unregist(unsigned int id);
     void notifyAllAreaMember();
     bool isIterEnd(MAP_OBJECTS_ITER iter);
     MAP_OBJECTS_ITER getBeginIter();

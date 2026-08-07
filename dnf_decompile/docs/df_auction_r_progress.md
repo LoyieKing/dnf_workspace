@@ -95,7 +95,7 @@
 
 ## 第三阶段：框架层 + 公共库（2026-08-07 追加）
 
-全量比对水位：**IDENTICAL 1425 / NEAR 15 / DIFF 206 / MISSING 3090**
+全量比对水位：**IDENTICAL 1467 / NEAR 15 / DIFF 202 / MISSING 3052**
 （基线：IDENTICAL 641 / NEAR 9 / DIFF 127 / MISSING 3959）
 
 ### 已实现 TU（本阶段新增，均可编译链接）
@@ -122,6 +122,7 @@
 | InternalMsg / TE_Entity 模板 | ✅ 已实现（2116B 布局 / 52B 布局） |
 | HandlerFor_TE_ | ✅ 已实现（5 个定时事件注册与回调，initTimeEvent） |
 | LinuxService（ServiceInfo/IPlatform） | ✅ 已实现（44 个缺口清零：19 精确 + 44 近似，仅 TraceLog 既有 DIFF） |
+| InterHandler（含拍卖数据结构头） | ✅ 已实现（TU 0 缺失：23 精确 + 35 近似；onINTER_* 两函数逐字节一致） |
 
 ### 关键形态结论（追加）
 
@@ -154,6 +155,18 @@
     使 <cstring> 不再提供该重载）；`Neof_sendSuspendSignal` 里 sprintf 连续写两次（原样复现）；
     `main()` 的 catch 块带 `return;`（跳过 Out 打印）；`Neof_registerSignalHandlers` 前两个
     直接 `if(!f()) return false`，其余经 `ret` 变量（-O0 寄存器/栈槽差异）。
+21. **InterHandler**：vtable=[D1,D0,init,searchInterFunc]；init() 清 0x400 个 PMF 后
+    registFuncMap()[2]=onINTER_DESTORY_CHARACTER、[0]=onINTER_SERVICE_UNAVAILABLE；
+    searchInterFunc 返回 `(interFuncType)mArrayFunc[id]`（GCC 4.4 需显式 PMF 转换）。
+22. **拍卖数据结构头**（AuctionItem.h）：DnfItemInfo 53B pack(1)、ROI_Category 12B
+    （field_0=8B union/shorts[3]+__int64、field_1=4B union/chars[3]+int key）、
+    RandomOption 14B、UpgradeSeparateInfo 1B 位域（upgrade:5/tradeRestriction:1/others:2）、
+    ReservedCapacity 9B；`PAY_TYPE`=GOLD0/POINT1，Auction::mPayType@0x52c0。
+23. **ITimeEntity 布局修正**：`ITimeEntity : public IMessageStruct`（vptr@0/bActMsg@4/
+    mbInter@5/mMsgType@6/bTerminated@7 复用基类尾填充/proc_id@8…pmMsg@36，40B）；
+    TE_Entity::regist 额外置 bActMsg/bWillDelete/entNo=this/accumulated_tick=0，
+    ctor 置 m_fpt=0/m_pt2Object=0/mMsgType=2，operator() 直接 `return (m_pt2Object->*m_fpt)(pmMsg)`。
+24. **ISession**：C1/D1/setTCPUser/getTCPUser 全部头内联（pTCPUser@4），与二进制 W 弱符号一致。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 

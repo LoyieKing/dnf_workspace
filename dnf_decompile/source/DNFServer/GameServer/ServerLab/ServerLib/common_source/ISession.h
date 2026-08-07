@@ -8,12 +8,22 @@ class TCPUser;
 class ISession
 {
 public:
-    ISession();
-    virtual ~ISession();
+    ISession()
+    {
+    }
+    virtual ~ISession()
+    {
+    }
     virtual void onClose(bool bActiveClosing) = 0;
     virtual void onDoClose() = 0;
-    void setTCPUser(TCPUser* pUser);
-    TCPUser* getTCPUser();
+    inline void setTCPUser(TCPUser* pUser)
+    {
+        pTCPUser = pUser;
+    }
+    inline TCPUser* getTCPUser()
+    {
+        return pTCPUser;
+    }
 
     TCPUser* pTCPUser;
 };

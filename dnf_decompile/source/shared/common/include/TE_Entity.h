@@ -10,23 +10,20 @@ template <class T>
 class TE_Entity : public ITimeEntity
 {
 public:
-    typedef unsigned int (T::*TimeFunc)(InternalMsg*);
+    typedef unsigned long (T::*TimeFunc)(InternalMsg*);
 
     TE_Entity()
     {
         m_fpt = NULL;
         m_pt2Object = NULL;
+        mMsgType = 2;
     }
     virtual ~TE_Entity()
     {
     }
     virtual int operator()()
     {
-        if (m_fpt != NULL)
-        {
-            (m_pt2Object->*m_fpt)(pmMsg);
-        }
-        return 0;
+        return (m_pt2Object->*m_fpt)(pmMsg);
     }
     void regist(int proc_id, unsigned int check_period, unsigned int proc_count,
                 void* pTimeHandler, TimeFunc fpt)
@@ -34,8 +31,12 @@ public:
         this->proc_id = proc_id;
         this->check_period = check_period;
         this->proc_count = proc_count;
-        this->m_fpt = fpt;
+        bActMsg = true;
         this->m_pt2Object = (T*)pTimeHandler;
+        this->m_fpt = fpt;
+        bWillDelete = true;
+        entNo = (unsigned int)this;
+        accumulated_tick = 0;
     }
 
     TimeFunc m_fpt;

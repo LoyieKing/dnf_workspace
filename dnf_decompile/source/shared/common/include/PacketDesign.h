@@ -92,7 +92,9 @@ struct PACKET_HEADER
 
 #pragma pack(pop)
 
-struct PCK_AUCTION_SERVICE_UNAVAILABLE_AG : public PACKET_HEADER
+} // namespace nsl
+
+struct PCK_AUCTION_SERVICE_UNAVAILABLE_AG : public nsl::PACKET_HEADER
 {
     PCK_AUCTION_SERVICE_UNAVAILABLE_AG()
     {
@@ -103,6 +105,15 @@ struct PCK_AUCTION_SERVICE_UNAVAILABLE_AG : public PACKET_HEADER
     }
 };
 
-} // namespace nsl
+struct PCK_AUCTION_SERVICE_UNAVAILABLE_PG : public nsl::PACKET_HEADER
+{
+    PCK_AUCTION_SERVICE_UNAVAILABLE_PG()
+    {
+        memset(this, 0, sizeof(PCK_AUCTION_SERVICE_UNAVAILABLE_PG));
+        setCategory(0x13);
+        setPacketID(1);
+        setSize(sizeof(PCK_AUCTION_SERVICE_UNAVAILABLE_PG));
+    }
+};
 
 #endif // NSL_PACKETDESIGN_H_

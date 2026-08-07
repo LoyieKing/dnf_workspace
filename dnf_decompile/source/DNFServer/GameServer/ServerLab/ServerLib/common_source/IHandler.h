@@ -31,7 +31,7 @@ protected:
 class INetWorkHandler : public IHandler
 {
 public:
-    typedef int (INetWorkHandler::*networkFuncType)(CMsgCell*, TCPUser*);
+    typedef unsigned int (INetWorkHandler::*networkFuncType)(CMsgCell*, TCPUser*);
 
     virtual networkFuncType searchNetworkFunc(int nProtoID) = 0;
 };
@@ -39,15 +39,21 @@ public:
 class IInterHandler : public IHandler
 {
 public:
-    typedef int (IInterHandler::*interFuncType)(CMsgCell*);
+    typedef unsigned int (IInterHandler::*interFuncType)(CMsgCell*);
 
+    IInterHandler()
+    {
+    }
+    virtual ~IInterHandler()
+    {
+    }
     virtual interFuncType searchInterFunc(int nProtoID) = 0;
 };
 
 class IDBHandler : public IHandler
 {
 public:
-    typedef int (IDBHandler::*DBHandlerFunc)(CMsgCell*);
+    typedef unsigned int (IDBHandler::*DBHandlerFunc)(CMsgCell*);
 
     virtual DBHandlerFunc searchDBHandlerFunc(int nProtoID) = 0;
 };
