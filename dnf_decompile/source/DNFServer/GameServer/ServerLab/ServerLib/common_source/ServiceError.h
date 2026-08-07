@@ -4,8 +4,6 @@
 #include <map>
 #include <string>
 
-namespace nsl {
-
 enum COMMON_ERROR_LIST
 {
     ERROR_NOT_USE = -1,
@@ -73,6 +71,8 @@ enum AUCTION_ERROR_LIST
     ERROR_AUCTION_REGIST_GP_FAIL_LOW_PRICE_ = 53,
     ERROR_AUCTION_END_ = 54
 };
+
+namespace nsl {
 
 extern std::map<int, std::string> ___errstr_map___;
 extern char ___errstr_tmp___[2048];

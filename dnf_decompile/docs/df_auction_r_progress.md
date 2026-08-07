@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 28（本批新增 HandlerFor_DB_/TeaInitialize/DNFFunctionLibWrapper 全部符号） |
-| IDENTICAL | 2,217 |
-| NEAR | 21 |
-| DIFF（语义等价，-O0 惯用法） | 323 |
-| MISSING（未实现） | 2,175 |
+| 已实现 TU | 28（本批补齐 ServiceError/Socket 全部余量符号） |
+| IDENTICAL | 2,238 |
+| NEAR | 20 |
+| DIFF（语义等价，-O0 惯用法） | 322 |
+| MISSING（未实现） | 2,156 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -113,6 +113,8 @@
 本批（HandlerFor_DB_ + TeaInitialize + DNFFunctionLibWrapper 全量补完，DBConnection 访问器
 改回头内联引用形参）后：**IDENTICAL 2217 / NEAR 21 / DIFF 323 / MISSING 2175**
 
+本批（ServiceError 长错误表 + Socket 余量符号补齐）后：**IDENTICAL 2238 / NEAR 20 / DIFF 322 / MISSING 2156**
+
 ### 已实现 TU（本阶段新增，均可编译链接）
 
 | 组件 | 状态 |
@@ -149,6 +151,8 @@
 | HandlerFor_DB_ | ✅ 已完成（TU 0 缺失：118 精确 + 34 语义等价 DIFF；0x63fc 布局、14 个 DB 处理器 + insertPackage 系列全逻辑、GetAuctionMainFetchResult 27 列读取） |
 | TeaInitialize | ✅ 已完成（TU 0 缺失：11 精确 + 1 语义等价 DIFF；kor/jpn/usa/taiwan 同 key、china 独立 key，mTEA.Initialize(key,0x21,sm_chain0,0,0)） |
 | DNFFunctionLibWrapper | ✅ 已完成（TU 0 缺失：2 精确 + 2 语义等价 DIFF；Char2Hex 小写 saucHex 表、Hex2Char 双字符解析、Binary2Hex/Hex2Binary） |
+| ServiceError | ✅ 已完成（TU 0 缺失：83 精确 + 3 语义等价 DIFF；COMMON/AUCTION_ERROR_LIST 移出 nsl 使 make_pair 模板符号对齐，SetAuctionServiceErrorStr 先调 InitServiceErrorStr 并含 2/3 号条目） |
+| Socket | ✅ 已完成（TU 0 缺失：35 精确 + 25 语义等价 DIFF；poll*Event 用 p->fds_bits[i] 清零循环 + FD_SET((unsigned)sock_)，TCPSocket::getHandle/Set*BufSize 对齐，6 个 poll 函数逐字节一致） |
 
 ### 关键形态结论（追加）
 
@@ -301,6 +305,15 @@
     （原二进制为 8 个 0x00，TEA.cpp 已由 "TEA" 修正）；`mTEA.Initialize(key,0x21,chain,0,0)`。
 41. **DNFFLibWrapper**：Char2Hex 用静态 `"0123456789abcdef"`（小写）表；Hex2Char
     只认 0-9/a-f（大写非法）两字符拼装返回 bool；Binary2Hex 逐字节 strcat 形态。
+42. **ServiceError**：COMMON_ERROR_LIST/AUCTION_ERROR_LIST 为**全局枚举**（非 nsl），
+    make_pair 模板实例化符号 `_ZSt9make_pairI17COMMON_ERROR_LISTRA2048_cE...` 才能对齐；
+    SetAuctionServiceErrorStr 以 `nsl::InitServiceErrorStr()` 开头，顺序 4,5,3,2,6..52,54
+    （2/3 复用 COMMON 名）；共 52 条 insert（含 2/3 重复键覆盖）。
+43. **Socket**：pollReadEvent/pollWriteEvent/pollErrorEvent 为 const 成员（T 符号），
+    实现 `fd_set` 清零用 `p->fds_bits[i]` 循环（`i<=0x1f` 无符号 setbe）+ `FD_SET((unsigned int)sock_,...)`
+    （shr/and 无符号位运算，6 个函数逐字节一致）；select 首参恒为 2（原版怪癖）；
+    TCPSocket::getHandle 为 const、UDPSocket::getHandle 非 const；SetRecvBufSize/
+    SetSendBufSize 为 void（写静态 msRecvBufSize/msSendBufSize）。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
@@ -308,7 +321,7 @@
 720  Search                477  Auction               180  ServerLibrary2.0
 176  AuctionDictionary     150  AveragePriceDictionary 149  CharacterDictionary
 144  ServiceFactory         87  ExpireTimeDictionary   32  HandlerFor_GP_JPN
- 32  HandlerFor_GA_         10  ServiceError(余量)      9  Socket(余量)
+ 32  HandlerFor_GA_
   ...
 ```
 

@@ -23,18 +23,18 @@ public:
     bool connect(const char* ip, unsigned short port);
     bool connect_nonb(const char* ip, unsigned short port, timeval tval);
     bool accept(TCPSocket& accepted);
-    int pollReadEvent();
-    int pollWriteEvent();
-    int pollErrorEvent();
+    int pollReadEvent() const;
+    int pollWriteEvent() const;
+    int pollErrorEvent() const;
     int setOptNonBlock();
     bool setOptReuseAdrs(bool b);
     bool setOptLinger(bool b);
     bool setOptNagle(bool b);
     bool setOptResizeSendBuf(int size);
     bool setOptResizeRecvBuf(int size);
-    int SetRecvBufSize(int size);
-    int SetSendBufSize(int size);
-    SOCKET getHandle();
+    void SetRecvBufSize(int size);
+    void SetSendBufSize(int size);
+    SOCKET getHandle() const;
     unsigned char* getPeerAdrs();
     unsigned short getPeerPort();
 
