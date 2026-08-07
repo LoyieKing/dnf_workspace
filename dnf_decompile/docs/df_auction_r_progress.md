@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 32（本批新增 CharacterDictionary 全部符号） |
-| IDENTICAL | 2,535 |
+| 已实现 TU | 33（本批新增 AveragePriceDictionary 全部符号） |
+| IDENTICAL | 2,676 |
 | NEAR | 20 |
-| DIFF（语义等价，-O0 惯用法） | 369 |
-| MISSING（未实现） | 1,812 |
+| DIFF（语义等价，-O0 惯用法） | 380 |
+| MISSING（未实现） | 1,660 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -123,6 +123,8 @@
 
 本批（CharacterDictionary 全量补完）后：**IDENTICAL 2535 / NEAR 20 / DIFF 369 / MISSING 1812**
 
+本批（AveragePriceDictionary 全量补完）后：**IDENTICAL 2676 / NEAR 20 / DIFF 380 / MISSING 1660**
+
 ### 已实现 TU（本阶段新增，均可编译链接）
 
 | 组件 | 状态 |
@@ -165,6 +167,7 @@
 | HandlerFor_GP_（HandlerFor_GP_JPN.cpp） | ✅ 已完成（TU 0 缺失：68 精确 + 24 语义等价 DIFF；PG 应答包 + IsPointServer，Bidding 写 owner_nexon_id/charge_point，ASK_OWNER_IS_VIP 用 OwnerInfo+IsOwnerVIP，avatar 只补 emblem 不补 expansion，无 gmList 追踪） |
 | ExpireTimeDictionary | ✅ 已完成（TU 0 缺失：129 精确 + 4 语义等价 DIFF；object_pool_by_boost_pool(0x20) + std::queue<Data*>，Push/Peek/Pop 主方法逐字节一致，空队列返回 0x2c） |
 | CharacterDictionary | ✅ 已完成（TU 0 缺失：155 精确 + 3 语义等价 DIFF；map<const int,Data*>@4 + 嵌套 Data(vector<unsigned long long> 12B)，Add/Sub/GetList/NowItemNum 全逻辑，AddAuctionId 逐字节一致） |
+| AveragePriceDictionary | ✅ 已完成（TU 0 缺失：190 精确 + 16 语义等价 DIFF；12348B 布局（双 0x20×8 map 表）、AddItemAveragePrice 平均价加权/限价/概率提交全逻辑、UpdateAveragePirce 双表遍历、ROI_Average_Constraint::isVaildRange 出线实现） |
 
 ### 关键形态结论（追加）
 
@@ -355,7 +358,7 @@
 ```
 720  Search                477  Auction               180  ServerLibrary2.0
 176  AuctionDictionary     150  AveragePriceDictionary 149  CharacterDictionary
-144  ServiceFactory         150  AveragePriceDictionary
+144  ServiceFactory
   ...
 ```
 

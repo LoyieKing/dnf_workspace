@@ -194,17 +194,7 @@ struct ROI_Average_Constraint
         inf_base_mul_max_b = 0xfa;
     }
 
-    bool isVaildRange() const
-    {
-        if ((inf_max_price < inf_min_price) || (inf_prob < 0) || (inf_limit_count < 0))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
+    bool isVaildRange() const;
 };
 
 struct tagAUCTION_DB_UPPER_BIDDING : public nsl::DBTR_HEADER
