@@ -16,6 +16,7 @@
 | `df_community_r_semantic_equivalence_proof.md` | **语义等价证明**：全部 490 个项目函数与原始二进制语义完全等价（用户确认的验收标准）；30 个助记符 DIFF 的分支拓扑/反编译对照证据，以及审计中修复的 4 处真实差异 | 证明 |
 | `df_channel_r_progress.md` | **df_channel_r（channel 服务）还原进度**：25 TU 全部编译链接通过；ChannelService 578/590、TCPThread 312/320、CheckThread 102/111 逐字节一致；全部真实 MISSING 清零；关键对齐开关（namespace 结构、-fno-enforce-eh-specs、pack(1)、类布局、-static-libgcc 等）与最终水位表 | 报告 |
 | `df_stun_r_restoration_report.md` | **df_stun_r（STUN 服务器）还原报告**：26 个唯一项目函数全部语义等价，助记符级 25/26（96.2%）；4.1.2 工具链构建、可运行验证、唯一 DIFF（write_log 单指令寄存器产物）说明 | 报告 |
+| `df_bridge_r_progress.md` | **df_bridge_r（bridge 服务）还原进度**：31 TU 全部编译链接通过；与 channel 交叉比对（TU 级 + 类布局）；746 个项目函数助记符级精确 92.6%（686 IDENTICAL + 5 NEAR / 55 DIFF / 0 MISSING），剩余 DIFF 清单与收敛路径 | 报告 |
 | `df_community_r_validation.md` | 逐文件符号/字符串命中率验证（`compare_df_community_functions.py` 产物副本） | 验证报告 |
 | `df_community_r_function_validation.md` | 逐函数助记符重叠验证摘要（产物副本） | 验证报告 |
 
