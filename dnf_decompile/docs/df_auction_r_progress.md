@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 31（本批新增 ExpireTimeDictionary 全部符号） |
-| IDENTICAL | 2,387 |
+| 已实现 TU | 32（本批新增 CharacterDictionary 全部符号） |
+| IDENTICAL | 2,535 |
 | NEAR | 20 |
-| DIFF（语义等价，-O0 惯用法） | 367 |
-| MISSING（未实现） | 1,962 |
+| DIFF（语义等价，-O0 惯用法） | 369 |
+| MISSING（未实现） | 1,812 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -121,6 +121,8 @@
 
 本批（ExpireTimeDictionary 全量补完）后：**IDENTICAL 2387 / NEAR 20 / DIFF 367 / MISSING 1962**
 
+本批（CharacterDictionary 全量补完）后：**IDENTICAL 2535 / NEAR 20 / DIFF 369 / MISSING 1812**
+
 ### 已实现 TU（本阶段新增，均可编译链接）
 
 | 组件 | 状态 |
@@ -162,6 +164,7 @@
 | HandlerFor_GA_ | ✅ 已完成（TU 0 缺失：96 精确 + 25 语义等价 DIFF；INetWorkHandler 派生、mArrayFunc[1024]@12 + mpSzBuffer@8204 共 12300B，15 个 on* 处理器 + registFuncMap/searchNetworkFunc 头内联，IsGoldServer 头内联，gmList[5] 从 .data 提取） |
 | HandlerFor_GP_（HandlerFor_GP_JPN.cpp） | ✅ 已完成（TU 0 缺失：68 精确 + 24 语义等价 DIFF；PG 应答包 + IsPointServer，Bidding 写 owner_nexon_id/charge_point，ASK_OWNER_IS_VIP 用 OwnerInfo+IsOwnerVIP，avatar 只补 emblem 不补 expansion，无 gmList 追踪） |
 | ExpireTimeDictionary | ✅ 已完成（TU 0 缺失：129 精确 + 4 语义等价 DIFF；object_pool_by_boost_pool(0x20) + std::queue<Data*>，Push/Peek/Pop 主方法逐字节一致，空队列返回 0x2c） |
+| CharacterDictionary | ✅ 已完成（TU 0 缺失：155 精确 + 3 语义等价 DIFF；map<const int,Data*>@4 + 嵌套 Data(vector<unsigned long long> 12B)，Add/Sub/GetList/NowItemNum 全逻辑，AddAuctionId 逐字节一致） |
 
 ### 关键形态结论（追加）
 
@@ -352,7 +355,7 @@
 ```
 720  Search                477  Auction               180  ServerLibrary2.0
 176  AuctionDictionary     150  AveragePriceDictionary 149  CharacterDictionary
-144  ServiceFactory
+144  ServiceFactory         150  AveragePriceDictionary
   ...
 ```
 
