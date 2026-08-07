@@ -95,7 +95,7 @@
 
 ## 第三阶段：框架层 + 公共库（2026-08-07 追加）
 
-全量比对水位：**IDENTICAL 1467 / NEAR 15 / DIFF 202 / MISSING 3052**
+全量比对水位：**IDENTICAL 1516 / NEAR 15 / DIFF 201 / MISSING 3004**
 （基线：IDENTICAL 641 / NEAR 9 / DIFF 127 / MISSING 3959）
 
 ### 已实现 TU（本阶段新增，均可编译链接）
@@ -123,6 +123,7 @@
 | HandlerFor_TE_ | ✅ 已实现（5 个定时事件注册与回调，initTimeEvent） |
 | LinuxService（ServiceInfo/IPlatform） | ✅ 已实现（44 个缺口清零：19 精确 + 44 近似，仅 TraceLog 既有 DIFF） |
 | InterHandler（含拍卖数据结构头） | ✅ 已实现（TU 0 缺失：23 精确 + 35 近似；onINTER_* 两函数逐字节一致） |
+| WorkThread（含 GetMessageBuffer/TMsgCell 实例化） | ✅ 已实现（TU 0 缺失：55 精确 + 169 近似，3 个语义等价 DIFF） |
 
 ### 关键形态结论（追加）
 
@@ -167,6 +168,9 @@
     TE_Entity::regist 额外置 bActMsg/bWillDelete/entNo=this/accumulated_tick=0，
     ctor 置 m_fpt=0/m_pt2Object=0/mMsgType=2，operator() 直接 `return (m_pt2Object->*m_fpt)(pmMsg)`。
 24. **ISession**：C1/D1/setTCPUser/getTCPUser 全部头内联（pTCPUser@4），与二进制 W 弱符号一致。
+25. **GetMessageBuffer**：头内联 `CMsgCell* GetMessageBuffer(int)`——`size>0x80000||size<0` 时
+    `throw (const char*)__FUNCTION__`（typeinfo=_ZTIPKc），否则按 0x10..0x80000 十六档
+    `new TMsgCell<N>()`（16..524288），兜底 `new TMsgCell<409600>()`（原样复现死分支）。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
@@ -176,16 +180,16 @@
 152  CharacterDictionary   116  ServerXml             110  HandlerFor_DB_
  92  ExpireTimeDictionary   88  HandlerFor_GA_         88  RDARScriptItemInfo
  83  RDARScriptAvatarColorInfo  62  version(余量)       59  HandlerFor_GP_JPN
- 48  WorkThread(余量)       46  UnicodeConvert         32  InterHandler
- 35  Character(余量)        33  GameDataPool(余量)     19  DBConnection
- 28  HandlerFor_TE_(余量)   28  DNFFunctionLib(余量)   12  TimeManager
-  5  TimerThread(余量)      ...
+ 46  UnicodeConvert         32  InterHandler(余量)     19  DBConnection
+ 35  Character(余量)        33  GameDataPool(余量)     12  TimeManager(余量)
+ 28  HandlerFor_TE_(余量)   28  DNFFunctionLib(余量)    5  TimerThread(余量)
+  ...
 ```
 
 ## 下一步
 
-1. 补齐框架遗留：InterHandler（32）、DBConnection（19，需 mysql 头/桩）、
-   TimeManager/TimerThread 的 RBTree 方法、WorkThread 的 TMsgCell 实例化。
+1. 补齐框架遗留：TimeManager/TimerThread 的 RBTree 方法（RBNode 辅助 + RBIterator 遍历 ctor）、
+   DBConnection（19，需 mysql 头/桩）。
 2. ServerCommon + Core + DNFShared：ServerXml（114）、Strings（353）、UnicodeConvert（46）、
    RDARScript*（约 170）。
 3. 字典类：AuctionDictionary / AveragePriceDictionary / CharacterDictionary /
