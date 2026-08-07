@@ -1,6 +1,6 @@
 # df_auction_r 还原进度
 
-更新：2026-08-07
+更新：2026-08-08
 
 ## 目标与口径
 
@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 18 |
-| IDENTICAL | 558 |
-| NEAR | 9 |
-| DIFF（语义等价，-O0 惯用法） | 116 |
-| MISSING（未实现） | 4,053 |
+| 已实现 TU | 19（本批新增 LinuxService） |
+| IDENTICAL | 1,425 |
+| NEAR | 15 |
+| DIFF（语义等价，-O0 惯用法） | 206 |
+| MISSING（未实现） | 3,090 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -95,7 +95,7 @@
 
 ## 第三阶段：框架层 + 公共库（2026-08-07 追加）
 
-全量比对水位：**IDENTICAL 1383 / NEAR 16 / DIFF 207 / MISSING 3130**
+全量比对水位：**IDENTICAL 1425 / NEAR 15 / DIFF 206 / MISSING 3090**
 （基线：IDENTICAL 641 / NEAR 9 / DIFF 127 / MISSING 3959）
 
 ### 已实现 TU（本阶段新增，均可编译链接）
@@ -121,6 +121,7 @@
 | Zone（GSArea）+ Character + GameDataPool | ✅ 已实现（对象池、状态机、关服消息推送） |
 | InternalMsg / TE_Entity 模板 | ✅ 已实现（2116B 布局 / 52B 布局） |
 | HandlerFor_TE_ | ✅ 已实现（5 个定时事件注册与回调，initTimeEvent） |
+| LinuxService（ServiceInfo/IPlatform） | ✅ 已实现（44 个缺口清零：19 精确 + 44 近似，仅 TraceLog 既有 DIFF） |
 
 ### 关键形态结论（追加）
 
@@ -142,6 +143,17 @@
     `SetBuffer(buf)`、`mOwnerWorkId = tlsThreadId`。
 18. **错误码表**：ServiceError.cpp 用短版 AUCTION_ERROR_LIST（51/52/54），
     auction 业务 TU 用长版（含 ERROR_INVALID_REFINE 等，53 个枚举值）。
+19. **LinuxService**：`class LinuxService : public ServiceInfo, public IPlatform`；
+    IPlatform vtable=[checkConfigFile,checkPIDFile,prepareStart,install,remove,start,main,
+    sendBroadCastMessage,controlStop,controlPause,controlContinue,D1,D0]（13 项）；LinuxService
+    追加虚拟 [13..21]=SendInfoMessage(实现)+readConfig/prepareRun/run/finishRun/stop/onStop/
+    onPause/onContinue(纯虚，App 在 ServerLibrary2.0 实现)；布局 vptr@0/ServiceInfo@4(1804B)/
+    isTerminated_@0x70d/m_dwServiceState@0x710/m_bStop@0x714/m_command@0x715/mbStopRecevied@0x733。
+20. **LinuxService 细节**：processCommandLine 用 C `strstr`，main 用 `std::strstr(char*,const char*)`
+    （需补 `_ZSt6strstrPcPKc` 弱符号，c6root glibc 定义了 __CORRECT_ISO_CPP_STRING_H_PROTO
+    使 <cstring> 不再提供该重载）；`Neof_sendSuspendSignal` 里 sprintf 连续写两次（原样复现）；
+    `main()` 的 catch 块带 `return;`（跳过 Out 打印）；`Neof_registerSignalHandlers` 前两个
+    直接 `if(!f()) return false`，其余经 `ret` 变量（-O0 寄存器/栈槽差异）。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
@@ -151,15 +163,15 @@
 152  CharacterDictionary   116  ServerXml             110  HandlerFor_DB_
  92  ExpireTimeDictionary   88  HandlerFor_GA_         88  RDARScriptItemInfo
  83  RDARScriptAvatarColorInfo  62  version(余量)       59  HandlerFor_GP_JPN
- 48  WorkThread(余量)       46  UnicodeConvert         44  LinuxService
- 35  Character(余量)        33  GameDataPool(余量)     32  InterHandler
- 28  HandlerFor_TE_(余量)   28  DNFFunctionLib(余量)   19  DBConnection
- 12  TimeManager(余量)       5  TimerThread(余量)      ...
+ 48  WorkThread(余量)       46  UnicodeConvert         32  InterHandler
+ 35  Character(余量)        33  GameDataPool(余量)     19  DBConnection
+ 28  HandlerFor_TE_(余量)   28  DNFFunctionLib(余量)   12  TimeManager
+  5  TimerThread(余量)      ...
 ```
 
 ## 下一步
 
-1. 补齐框架遗留：LinuxService（44）、InterHandler（32）、DBConnection（19，需 mysql 头/桩）、
+1. 补齐框架遗留：InterHandler（32）、DBConnection（19，需 mysql 头/桩）、
    TimeManager/TimerThread 的 RBTree 方法、WorkThread 的 TMsgCell 实例化。
 2. ServerCommon + Core + DNFShared：ServerXml（114）、Strings（353）、UnicodeConvert（46）、
    RDARScript*（约 170）。
