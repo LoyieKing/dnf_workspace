@@ -9,7 +9,8 @@
 - **31 个编译单元全部由 GNU C++ 4.4.6（Red Hat 4.4.6-3）编译**，与 channel 完全同一工具链
   （`.comment` 中的 4.1.2/4.4.4 条目来自静态链接库对象）。
 - 源路径前缀：`/home/neople/source/ChannelOld/DNFChannelBridge`。
-- `nm -S` 6,350 行：项目函数（31 CU）**746 个唯一符号**；其余为静态库代码
+- `nm -S` 6,350 行：项目函数（31 CU DWARF 提取）**919 个唯一符号**（918 个可逐符号比对）；
+  其余为静态库代码
   （TaoCrypt/yaSSL、MySQL 4.x 客户端、zlib、dtoa 等，不属于项目函数）。
 
 ## 二、与 channel 的交叉比对
@@ -53,34 +54,35 @@ bridge 差异（按 DWARF 单独写）：
 
 | 指标 | 值 |
 |---|---:|
-| 项目函数符号精确匹配 | **746/746（100%）** |
-| 助记符级精确（IDENTICAL+NEAR） | **697/746（93.4%）** |
-| 其中 IDENTICAL（归一化后逐指令相同） | 692 |
+| 项目函数符号精确匹配 | **918/918（100%）**（0 MISSING / 0 EXTRA） |
+| 助记符级精确（IDENTICAL+NEAR） | **839/918（91.4%）** |
+| 其中 IDENTICAL（归一化后逐指令相同） | 834 |
 | NEAR（助记符相同、操作数/布局微差） | 5 |
-| DIFF（代码生成惯用法差异，语义等价） | 49 |
-| MISSING / EXTRA 项目符号 | 0 / 0 |
+| DIFF（代码生成惯用法差异，语义等价） | 79 |
 
-**对照**：community 最终水位 93.3%（457/490）→ bridge 93.4%，不低于 community。✅
+**对照**：community 最终水位 93.3%（457/490）→ bridge 91.4%，尚差约 19 个函数的
+代码生成惯用法差异（全部语义等价）。
 
-## 五、49 个 DIFF 的语义等价说明
+## 五、79 个 DIFF 的语义等价说明
 
-全部 49 个 DIFF 已逐函数对照原始反汇编/反编译核验，均为 **-O0 代码生成惯用法差异，控制流与
+全部 79 个 DIFF 已逐函数对照原始反汇编/反编译核验，均为 **-O0 代码生成惯用法差异，控制流与
 语义完全等价**，分类如下：
 
-1. **分支方向/布尔物化**（约 20 个）：`jle` vs `jg`、`xor+test+je`（`== false`）vs
+1. **分支方向/布尔物化**（约 35 个）：`jle` vs `jg`、`xor+test+je`（`== false`）vs
    `cmp+je`、`while(i<=N)` 的 `setle/test` 形态、`shr $0x1f; test` vs `cmpl; jns` 等。
    代表：TDebugTrace putText/putValue/endl、Script fgetln/get_server_section/get_db_section/
    remove_comment/get_key_val/on_parent_tag/on_keyval_tag/load、UDPThread::loop、
    TextOutputDevice_FILE open/serialize、CMsgCell::PAD、TCPUser isIdle/onRead/onClose、
    TCircularQueueBuffer push/pop/popCopy/peekCopy/isPopStraight、onCS_GET_GC_INFO、
-   onCS_UPDATE_CHANNEL_INFO、onCS_CHECK_SCRIPT_VERSION、App::load_script。
-2. **寄存器分配**（约 10 个）：ebx/esi 与栈槽选择。代表：TCPThread::loop、onCS_NOTICE_
+   onCS_UPDATE_CHANNEL_INFO、onCS_CHECK_SCRIPT_VERSION、App::load_script、TCPSocket/UDPSocket
+   send/recv/setOpt*/poll*/connect、DBMgr Mysql_query/logon、DNFFLib 系列、ScriptRawData::find。
+2. **寄存器分配**（约 15 个）：ebx/esi 与栈槽选择。代表：TCPThread::loop、onCS_NOTICE_
    CHANNEL_SERVER、ChannelService::startup、TCPUser send/onWrite2Buffer/onRead_/onWrite_、
    TCPAcceptThread lockPopAcceptedUser、GlobalInstance create、ScriptThread::loop、
-   CheckThread::loop。
-3. **局部变量初始化顺序 / 栈布局**（约 8 个）：`__static_initialization_and_destruction_0`
-   （全局对象构造顺序）、EpollReactor registHandle/shutdown/handleEvents、UDPHandlerRelay
-   dispatch、TMemoryPoolStatic::startup ×2、TGlobalInstance create ×2、ReloadScript 尾部。
+   CheckThread::loop、UDPSocket open/bind、TCPSocket shutdown。
+3. **局部变量初始化顺序 / 栈布局**（约 8 个）：EpollReactor registHandle/shutdown/handleEvents、
+   UDPHandlerRelay dispatch、TMemoryPoolStatic::startup ×2、TGlobalInstance create ×2、
+   ReloadScript 尾部、TCPSocket close（nop 对齐）。
 4. **libstdc++ 头版本差异**（2 个）：`_Rb_tree::_M_create_node` 两个实例化（原始 4.4.6 头
    vs 构建环境 4.4.7 头的 allocator 构造细节，非项目源码可修）。
 5. **EH 表形状**（约 3 个）：GlobalInstance create 的 `__assert_fail` 后 nop、
@@ -88,7 +90,7 @@ bridge 差异（按 DWARF 单独写）：
 
 ## 六、结论与下一步
 
-- bridge 全部 746 个项目函数已翻译完成，符号 100% 对齐，语义全部等价；
-  助记符级精确 93.4%，不低于 community（93.3%）。
-- 下一步：若需继续逼近 100%，可针对第 1/2 类 DIFF 逐函数实验源码惯用法（收益递减）；
-  建议先把 `df_bridge_r` 纳入 CMake 主构建，再做运行级冒烟验证。
+- bridge 全部 918 个项目函数已翻译完成，符号 100% 对齐（0 MISSING / 0 EXTRA），语义全部等价；
+  助记符级精确 91.4%（839/918），尚差约 19 个函数达到 community 水位（93.3%）。
+- 下一步：针对第 1/2 类 DIFF 逐函数实验源码惯用法收敛；建议同步把 `df_bridge_r` 纳入
+  CMake 主构建，再做运行级冒烟验证。
