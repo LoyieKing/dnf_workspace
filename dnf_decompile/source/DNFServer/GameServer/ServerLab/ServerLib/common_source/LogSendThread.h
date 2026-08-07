@@ -1,5 +1,38 @@
-// Auto-generated header stub
-#ifndef LOGSENDTHREAD_H_
-#define LOGSENDTHREAD_H_
+#ifndef NSL_LOGSENDTHREAD_H_
+#define NSL_LOGSENDTHREAD_H_
 
-#endif // LOGSENDTHREAD_H_
+#include <deque>
+
+#include "../basic_source/Thread.h"
+
+namespace nsl {
+
+class TCPUser;
+class Message;
+class LogCon;
+
+class LogSendThread : public Thread
+{
+public:
+    LogSendThread();
+    virtual ~LogSendThread();
+    virtual void loop(void* temp);
+    bool CheckLogServer();
+    void SendLogMsg(char* buf, int len);
+    void SetLogServerIp(char* ip);
+    char* GetLogServerIp();
+    void SetLogServerPort(int port);
+    int GetLogServerPort();
+
+private:
+    LogCon* mLogCon;
+    ThreadLock mThreadLock;
+    TCPUser* mLogUser;
+    char mLogServerIp[17];
+    int mLogServerPort;
+    std::deque<Message*> mLogMessagePool;
+};
+
+} // namespace nsl
+
+#endif // NSL_LOGSENDTHREAD_H_
