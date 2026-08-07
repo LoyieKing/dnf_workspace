@@ -10,10 +10,10 @@ class ISession
 public:
     ISession();
     virtual ~ISession();
-    virtual void onClose() = 0;
+    virtual void onClose(bool bActiveClosing) = 0;
     virtual void onDoClose() = 0;
-    virtual void setTCPUser(TCPUser* pUser);
-    virtual TCPUser* getTCPUser();
+    void setTCPUser(TCPUser* pUser);
+    TCPUser* getTCPUser();
 
     TCPUser* pTCPUser;
 };

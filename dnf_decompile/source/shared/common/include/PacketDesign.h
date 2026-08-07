@@ -1,6 +1,8 @@
 #ifndef NSL_PACKETDESIGN_H_
 #define NSL_PACKETDESIGN_H_
 
+#include <string.h>
+
 namespace nsl {
 
 #pragma pack(push, 1)
@@ -89,6 +91,17 @@ struct PACKET_HEADER
 };
 
 #pragma pack(pop)
+
+struct PCK_AUCTION_SERVICE_UNAVAILABLE_AG : public PACKET_HEADER
+{
+    PCK_AUCTION_SERVICE_UNAVAILABLE_AG()
+    {
+        memset(this, 0, sizeof(PCK_AUCTION_SERVICE_UNAVAILABLE_AG));
+        setCategory(1);
+        setPacketID(1);
+        setSize(sizeof(PCK_AUCTION_SERVICE_UNAVAILABLE_AG));
+    }
+};
 
 } // namespace nsl
 

@@ -1,6 +1,8 @@
 #ifndef NSL_IHANDLER_H_
 #define NSL_IHANDLER_H_
 
+#include <stddef.h>
+
 namespace nsl {
 
 class TCPSendThread;
@@ -17,14 +19,9 @@ public:
         sendTCP_ = NULL;
         pTimeHandler = NULL;
     }
-    virtual ~IHandler()
-    {
-    }
-    virtual void init(TCPSendThread* pSendThread) = 0;
-    void setSendThread(TCPSendThread* pSendThread)
-    {
-        sendTCP_ = pSendThread;
-    }
+    virtual ~IHandler();
+    virtual void init();
+    void setSendThread(TCPSendThread* pSendThread);
 
 protected:
     TCPSendThread* sendTCP_;
@@ -58,7 +55,9 @@ public:
 class ITimeHandler : public IHandler
 {
 public:
-    virtual void init(TCPSendThread* pSendThread) = 0;
+    virtual ~ITimeHandler()
+    {
+    }
 };
 
 } // namespace nsl

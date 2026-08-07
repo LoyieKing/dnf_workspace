@@ -54,21 +54,24 @@ class UDPSocket
 public:
     UDPSocket();
     ~UDPSocket();
-    int open();
-    int bind(const char* strIp, unsigned short port);
-    int bind(unsigned short port, bool bNonBlock);
-    int setOptNonBlock();
+    bool open();
+    bool bind(const char* strIp, unsigned short port);
+    bool bind(unsigned short port, bool bNonBlock);
+    bool setOptNonBlock();
     int send(char* buf, const int size, unsigned short nPort, const char* szDestIp);
     int recv(char* buf, const int size);
-    int getHandle();
-    int close();
-    int setOptResizeSendBuf(int size);
-    int setOptResizeRecvBuf(int size);
+    SOCKET getHandle();
+    void close();
+    bool setOptResizeSendBuf(int size);
+    bool setOptResizeRecvBuf(int size);
+    int pollReadEvent() const;
+    int pollWriteEvent() const;
+    int pollErrorEvent() const;
 
     SOCKET sock_;
     sockaddr_in adrs_;
-    unsigned char c_adrs_[4];
     unsigned short port_;
+    sockaddr_in from_;
 };
 
 } // namespace nsl

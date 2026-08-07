@@ -24,6 +24,10 @@ AUCTIONCOMMON="$ROOT/DNFServer/GameServer/ServerLab/AppCommon/AuctionCommon"
 SERVERCOMMON="$ROOT/DNFServer/ServerCommon"
 DNFSSHARED="$ROOT/DNFShared/GameScript"
 CORE="$ROOT/Library/Include/Core"
+AUCTIONGD="$AUCTION/GameData"
+AUCTIONAUCTION="$AUCTION/GameData/auction"
+AUCTIONDICT="$AUCTION/GameData/auction/dictionary"
+AUCTIONSRC="$AUCTION/auction_source"
 
 COMMON_FLAGS="-m32 -O0 -D_GNU_SOURCE -std=gnu++0x -pthread -fno-enforce-eh-specs -nostdinc \
   -isystem $C6ROOT/usr/lib/gcc/x86_64-redhat-linux/4.4.4/include \
@@ -50,9 +54,11 @@ for f in $SOURCES; do
         *.cpp) base=$(basename "$f" .cpp); srcdir=$(dirname "$f") ;;
         *) base="$f"
            srcdir="$BASIC"
-           if [ ! -f "$srcdir/$base.cpp" ] && [ -f "$COMMON/$base.cpp" ]; then
-               srcdir="$COMMON"
-           fi ;;
+           for d in "$COMMON" "$SERVERCOMMON" "$DNFSSHARED" "$CORE" "$AUCTIONGD" "$AUCTIONAUCTION" "$AUCTIONDICT" "$AUCTIONSRC"; do
+               if [ ! -f "$srcdir/$base.cpp" ] && [ -f "$d/$base.cpp" ]; then
+                   srcdir="$d"
+               fi
+           done ;;
     esac
     if [ -f "$srcdir/$base.cpp" ]; then
         if [ ! -f "$OUT_DIR/$base.o" ] || [ "$srcdir/$base.cpp" -nt "$OUT_DIR/$base.o" ] || [ "$srcdir/$base.h" -nt "$OUT_DIR/$base.o" ]; then

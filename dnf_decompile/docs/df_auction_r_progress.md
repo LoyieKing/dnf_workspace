@@ -93,10 +93,78 @@
 - 比对：`/tmp/compare_auction.py`（改自 bridge 同款）。
 - Ghidra：`dnf_project` 已导入 `df_auction_r`，`ghidra_decompile_targets.java` 按地址反编译。
 
+## 第三阶段：框架层 + 公共库（2026-08-07 追加）
+
+全量比对水位：**IDENTICAL 1383 / NEAR 16 / DIFF 207 / MISSING 3130**
+（基线：IDENTICAL 641 / NEAR 9 / DIFF 127 / MISSING 3959）
+
+### 已实现 TU（本阶段新增，均可编译链接）
+
+| 组件 | 状态 |
+|---|---|
+| TCPThread / TCPSendThread / NSLDBThread | ✅ 已实现（含 loop 心跳/发送/事务循环语义） |
+| TCPDispatcher / InterDispatcher / DBDispatcher | ✅ 已实现（vptr[3] 成员函数指针派发，PMF 位 0 调整） |
+| ActiveConManager + ConInterface（TActiveConnect） | ✅ 已实现（RequestConnect/PopRequestConnect 全逻辑） |
+| ActiveNetClose | ✅ 已实现（pushActiveClose/onActvieClose） |
+| CommonDataPool | ✅ 已实现（4 个 boost 池 + 双锁 + 计数） |
+| IArea / ISession / IHandlers / IHandler | ✅ 已实现（IArea 注册/遍历；IHandler 虚接口按二进制修正：`init()` 无参） |
+| Reactor（EpollReactor 全模板） | ✅ 已实现（handleEvents/add/del/GetConnectedUsersIter 等） |
+| ServiceError | ✅ 已实现（55 条错误码表，从二进制 .rodata 逐条提取） |
+| DataPool 成员顺序 | ✅ 修正（TCPSocketPool@0..LogSendMsgLock@16,mTcpUserCount@40） |
+| tlsThreadId | ✅ 统一为 nsl 共享 `__thread`（WorkThread.cpp 定义） |
+| DNFFileLog / DNFFunctionLib（ServerCommon） | ✅ 已实现（0 缺失） |
+| ServerCommon Thread（CMutex/CGuard） | ✅ 已实现 |
+| SecureStdio（Core） | ✅ 已实现（8 个 ss_* 函数） |
+| UDPSocket + TCPSocket Set*BufSize | ✅ 已实现 |
+| version（CVersionMgr/CSourceVersionMgr） | ✅ 已实现 |
+| StatisticsCollector | ✅ 已实现（StData 计数、按秒/按天日志、备份轮转） |
+| Zone（GSArea）+ Character + GameDataPool | ✅ 已实现（对象池、状态机、关服消息推送） |
+| InternalMsg / TE_Entity 模板 | ✅ 已实现（2116B 布局 / 52B 布局） |
+| HandlerFor_TE_ | ✅ 已实现（5 个定时事件注册与回调，initTimeEvent） |
+
+### 关键形态结论（追加）
+
+11. **Dispatcher 派发**：`vptr[3]` 返回成员函数指针（PMF），低位为 1 时经 vtable
+    调整后再调用——用 `typedef int (INetWorkHandler::*networkFuncType)(CMsgCell*, TCPUser*)`
+    等 PMF + `(pHandler->*handle)(...)` 天然复现。
+12. **IHandler**：vtable=[D1,D0,init,search*Func]；`init()` 无参（调
+    `Threads::getTCPSendThread()` + `setSendThread`）；`setSendThread` 出线实现（T）。
+13. **ISession**：`onClose(bool)` 虚、`onDoClose()` 虚；setTCPUser/getTCPUser 非虚。
+14. **Character 状态机**：IState vtable=[enter,exit]（无虚析构）；setState 映射怪异
+    （STATE_MOVE→Stand、STATE_CAST→Cast、STATE_ATTACK→Attack、STATE_STAND→Move），按原样复现。
+15. **HandlerFor_TE_**：556B，ITimeHandler + mOldTM(tm)@12 + mTimeEntity[125]@56；
+    initTimeEvent 注册 5 个定时事件（0x19/2000、0x1c/10000、1/5000、0x1d/10000、0x28/60000）。
+16. **StatisticsCollector**：StData=0xe4（tryCnt/failCnt/becauseCnt[55]）；mStDataPerDay@4、
+    mStDataPerSec@0x2b0、mpLogFile@0x55c、mpDayFileName@0x564…mLastLoggingDay@0x1970；
+    注意 HandlerFor_GA_ 里 IncTryCnt/IncFailCnt 用的是另一个 0xec 步长头（两版头并存）。
+17. **InternalMsg**：CMsgCell 基类 + pNextJob@32/pConInfo@36/buf[128]@40/
+    bActiveJob@168/workIndex@172/.../mOwnerWorkId@192，总 2116B；ctor 里
+    `SetBuffer(buf)`、`mOwnerWorkId = tlsThreadId`。
+18. **错误码表**：ServiceError.cpp 用短版 AUCTION_ERROR_LIST（51/52/54），
+    auction 业务 TU 用长版（含 ERROR_INVALID_REFINE 等，53 个枚举值）。
+
+## 剩余缺口分布（按 TU，MISSING 数）
+
+```
+731  Search                353  Strings               265  AuctionDictionary
+259  ServiceFactory        252  ServerLibrary2.0      162  AveragePriceDictionary
+152  CharacterDictionary   116  ServerXml             110  HandlerFor_DB_
+ 92  ExpireTimeDictionary   88  HandlerFor_GA_         88  RDARScriptItemInfo
+ 83  RDARScriptAvatarColorInfo  62  version(余量)       59  HandlerFor_GP_JPN
+ 48  WorkThread(余量)       46  UnicodeConvert         44  LinuxService
+ 35  Character(余量)        33  GameDataPool(余量)     32  InterHandler
+ 28  HandlerFor_TE_(余量)   28  DNFFunctionLib(余量)   19  DBConnection
+ 12  TimeManager(余量)       5  TimerThread(余量)      ...
+```
+
 ## 下一步
 
-1. 实现 LogSendThread/DataPool/TCPUser/Message（TraceLog 依赖链），移除临时桩。
-2. 按依赖顺序推进 ServerLib basic_source 其余 TU（RecvBuffer/Socket/DefGlobal/LinuxService 等）。
-3. 然后 common_source（TCPThread/WorkThread/TCPSendThread/TimerThread/ServiceFactory 等）。
-4. ServerCommon（ServerXml）+ DNFShared（RDARScript*）+ Core（Strings/UnicodeConvert）。
-5. auction 专属 26 TU（Search 750 / Auction 630 / AuctionDictionary 317 等）。
+1. 补齐框架遗留：LinuxService（44）、InterHandler（32）、DBConnection（19，需 mysql 头/桩）、
+   TimeManager/TimerThread 的 RBTree 方法、WorkThread 的 TMsgCell 实例化。
+2. ServerCommon + Core + DNFShared：ServerXml（114）、Strings（353）、UnicodeConvert（46）、
+   RDARScript*（约 170）。
+3. 字典类：AuctionDictionary / AveragePriceDictionary / CharacterDictionary /
+   ExpireTimeDictionary / ReliabilityDictionary。
+4. 大块：Search（731）/ Auction（533）/ HandlerFor_GA_/DB_/GP_JPN / ServiceFactory /
+   ServerLibrary2.0。
+5. 全量复验 DIFF/MISSING，移除临时桩，产出 docs/df_auction_r_restoration_report.md，commit & push。
