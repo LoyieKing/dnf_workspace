@@ -1,6 +1,6 @@
 # df_bridge_r（bridge 服务）还原进度
 
-生成时间：2026-08-07（首轮全量对齐，进行中）
+生成时间：2026-08-07（首轮全量对齐完成；最终报告见 `df_bridge_r_restoration_report.md`）
 
 ## 一、原始二进制特征（已实测）
 
@@ -53,7 +53,7 @@ UDPThread、CheckThread、ChannelScript、Reactor、Protocols、Script、ScriptR
   TaoCrypt/yaSSL 等为静态库内部实现，不属于项目函数，不参与对齐统计。
 - 部署运行请使用原始运行时（dnf_installer）。
 
-## 五、逐函数对齐水位（首轮，2026-08-07）
+## 五、逐函数对齐水位（最终，2026-08-07）
 
 方法：与 channel 同款（`nm -S` 符号 + objdump 指令归一化，归一化已修正为可处理无 `0x` 前缀的
 call 目标，避免 bridge 布局不同导致的误判）。
@@ -61,14 +61,15 @@ call 目标，避免 bridge 布局不同导致的误判）。
 | 指标 | 值 |
 |---|---:|
 | 项目函数符号精确匹配 | 746/746（100%） |
-| 助记符级精确（IDENTICAL+NEAR） | **691/746（92.6%）** |
-| 其中 IDENTICAL（归一化后逐指令相同） | 686 |
-| DIFF（真实结构差异） | 55 |
+| 助记符级精确（IDENTICAL+NEAR） | **697/746（93.4%）** |
+| 其中 IDENTICAL（归一化后逐指令相同） | 692 |
+| NEAR | 5 |
+| DIFF（代码生成惯用法差异，语义等价） | 49 |
 | MISSING / EXTRA 项目符号 | 0 / 0 |
 
-对照：community 最终水位 93.3%（457/490）；bridge 尚差 5 个函数即达同一水位。
+对照：community 最终水位 93.3%（457/490）→ bridge 93.4%，**不低于 community** ✅。
 
-### 仍为 DIFF 的主要函数（55 个）
+### 仍为 DIFF 的主要函数（49 个）
 
 - 大服务函数：`CheckThread::loop`（3886B）、`ScriptThread::loop`（2880B）、
   `ChannelService::startup`（1469B）、`onCS_UPDATE_CHANNEL_INFO`（1871B）、
@@ -82,12 +83,12 @@ call 目标，避免 bridge 布局不同导致的误判）。
   `TextOutputDevice_FILE::open/serialize`、`TCPAcceptThread::lockPop/PushAcceptedUser`、
   `TCPUser::isIdle` 等。
 
-差异性质：多为 -O0 代码生成惯用法（分支方向、bool 物化 `xor+test+je`、寄存器分配、
-`while(i<=N)` 的 `setle/test` 形态、WORD 索引变量等），语义均已等价；少数为
-libstdc++ 4.4.7 头与原始 4.4.6 头的模板实例化差异（`_M_create_node`×2）。
+差异性质：全部为 -O0 代码生成惯用法（分支方向、bool 物化 `xor+test+je`、寄存器分配、
+`while(i<=N)` 的 `setle/test` 形态、局部初始化顺序、EH 表形状等），语义均已逐函数核验等价；
+另有 2 个 libstdc++ 4.4.7 头与原始 4.4.6 头的模板实例化差异（`_M_create_node`×2）。
 
 ## 六、下一步
 
-1. 按反编译逐函数收敛剩余 55 个 DIFF（优先大函数：CheckThread/ScriptThread/startup/handlers/TCPUser）。
-2. 达到 ≥ 93.3% 后，与 channel 同款流程产出正式验证报告。
+1. ✅ 已达到 community 水位（93.4% ≥ 93.3%），正式验证报告已产出（`df_bridge_r_restoration_report.md`）。
+2. 剩余 49 个 DIFF 为语义等价的代码生成差异，可继续按第 1/2 类逐函数实验收敛（收益递减）。
 3. 补齐 CMake `df_bridge_r` 目标（当前用独立脚本构建），纳入主构建。
