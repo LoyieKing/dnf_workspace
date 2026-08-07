@@ -1,7 +1,9 @@
 #ifndef NSL_RBTREE_H_
 #define NSL_RBTREE_H_
 
-#include "ObjectPoolByBoostPool.h"
+#include <boost/pool/pool.hpp>
+
+#include "TraceLog.h"
 
 namespace nsl {
 
@@ -19,33 +21,103 @@ struct RBNode
     RBNode<TKey, TData, N>* mParent;
     RBNode<TKey, TData, N>* mLeftChild;
     RBNode<TKey, TData, N>* mRightChild;
-    changes_meaning::ENUM_RBCOLOR mColor;
+    bool mColor;
     TKey mKey;
     TData mData;
 
-    static void SetColorBlack(RBNode* pNode)
+    void init()
     {
-        pNode->mColor = changes_meaning::RB_BLACK;
+        mParent = NULL;
+        mLeftChild = NULL;
+        mRightChild = NULL;
+        mColor = changes_meaning::RB_RED;
     }
-    static void SetColorRed(RBNode* pNode)
+
+    void SetColorBlack()
     {
-        pNode->mColor = changes_meaning::RB_RED;
+        mColor = changes_meaning::RB_BLACK;
     }
-    static RBNode* getSibling(RBNode* pNode)
+
+    void SetColorRed()
     {
-        if (pNode->mParent == NULL)
+        mColor = changes_meaning::RB_RED;
+    }
+
+    RBNode<TKey, TData, N>* getSibling()
+    {
+        if (mParent != NULL)
         {
-            return NULL;
+            if (mParent->mLeftChild == this)
+            {
+                return mParent->mRightChild;
+            }
+            return mParent->mLeftChild;
         }
-        if (pNode->mParent->mLeftChild == pNode)
+        return NULL;
+    }
+
+    RBNode<TKey, TData, N>* getGrandParent()
+    {
+        if (mParent != NULL)
         {
-            return pNode->mParent->mRightChild;
+            return mParent->mParent;
         }
-        return pNode->mParent->mLeftChild;
+        return NULL;
+    }
+
+    RBNode<TKey, TData, N>* getUncle()
+    {
+        RBNode<TKey, TData, N>* grandParent = getGrandParent();
+        if (grandParent != NULL)
+        {
+            if (mParent == grandParent->mLeftChild)
+            {
+                return grandParent->mRightChild;
+            }
+            return grandParent->mLeftChild;
+        }
+        return NULL;
+    }
+
+    TData* GetData()
+    {
+        return &mData;
+    }
+
+    RBNode<TKey, TData, N>* GetParent()
+    {
+        return mParent;
+    }
+
+    RBNode<TKey, TData, N>* GetLeftChild()
+    {
+        return mLeftChild;
+    }
+
+    RBNode<TKey, TData, N>* GetRightChild()
+    {
+        return mRightChild;
     }
 };
 
 } // namespace changes_meaning
+
+enum ENUM_RBTREE_INSERT_CASE
+{
+    RBTREE_INSERT_CASE_NOT_DEFINED = 0,
+    RBTREE_INSERT_CASE_NOT_ROOT = 1,
+    RBTREE_INSERT_CASE_PARENT_RED = 2,
+    RBTREE_INSERT_CASE_UNCLE_NOT_RED = 3
+};
+
+enum ENUM_RBTREE_DELETE_CASE
+{
+    RBTREE_DELETE_CASE_NOT_DEFINED = 0,
+    RBTREE_DELETE_CASE_CHILD_BLACK = 1,
+    RBTREE_DELETE_CASE_NOT_ROOT = 2,
+    RBTREE_DELETE_CASE_SIBLING_BALCK = 3,
+    RBTREE_DELETE_CASE_PARENT_RED = 4
+};
 
 template <class TKey, class TData, int N>
 class RBTree
@@ -57,63 +129,174 @@ public:
     class RBIterator
     {
     public:
+        enum ENUM_RBITERATOR_TRAVERSAL
+        {
+            RBITERATOR_TRAVERSAL_NOT_DEFINE = -1,
+            RBITERATOR_TRAVERSAL_PREORDER = 0,
+            RBITERATOR_TRAVERSAL_INORDER = 1,
+            RBITERATOR_TRAVERSAL_POSTORDER = 2
+        };
+
+        enum ENUM_RBITERATOR_FLOW
+        {
+            RBITERATOR_FLOW_NOT_DEFINE = -1,
+            RBITERATOR_FLOW_PARENT = 0,
+            RBITERATOR_FLOW_RIGHTCHILD = 1
+        };
+
         RBIterator()
         {
-            mpRbnode = NULL;
+            init();
         }
+
+        RBIterator(ENUM_RBITERATOR_TRAVERSAL traversal)
+        {
+            init();
+            mTraversal = traversal;
+        }
+
         ~RBIterator()
         {
         }
+
         RBIterator& operator=(const RBIterator& other)
         {
             mpRbnode = other.mpRbnode;
+            mTraversal = other.mTraversal;
+            mFlow = other.mFlow;
             return *this;
         }
+
         void init()
         {
             mpRbnode = NULL;
+            mTraversal = -1;
+            mFlow = -1;
         }
+
         RBIterator& operator++()
         {
-            if (mpRbnode != NULL)
+            if (mTraversal == RBITERATOR_TRAVERSAL_NOT_DEFINE)
             {
-                if (mpRbnode->mRightChild != NULL)
+                G_TraceLog()->sysLog(8, "OPERATOR++, err RBITERATOR_TRAVERSAL_NOT_DEFINE");
+            }
+            if (mpRbnode != NULL && mTraversal != RBITERATOR_TRAVERSAL_PREORDER &&
+                mTraversal == RBITERATOR_TRAVERSAL_INORDER)
+            {
+                bool bValidChild = false;
+                switch (mFlow)
                 {
-                    mpRbnode = mpRbnode->mRightChild;
-                    while (mpRbnode->mLeftChild != NULL)
+                case RBITERATOR_FLOW_PARENT:
+                    if (mpRbnode->GetParent() != NULL)
                     {
-                        mpRbnode = mpRbnode->mLeftChild;
+                        if (mpRbnode == mpRbnode->GetParent()->GetRightChild())
+                        {
+                            while (mpRbnode == mpRbnode->GetParent()->GetRightChild())
+                            {
+                                mpRbnode = mpRbnode->GetParent();
+                                if (mpRbnode->GetParent() == NULL)
+                                {
+                                    bValidChild = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!bValidChild)
+                        {
+                            mpRbnode = mpRbnode->GetParent();
+                            if (mpRbnode->GetRightChild() != NULL)
+                            {
+                                mFlow = RBITERATOR_FLOW_RIGHTCHILD;
+                            }
+                        }
+                        else
+                        {
+                            mpRbnode = NULL;
+                        }
                     }
-                }
-                else
-                {
-                    RBNodeType* pParent = mpRbnode->mParent;
-                    while (pParent != NULL && mpRbnode == pParent->mRightChild)
+                    else
                     {
-                        mpRbnode = pParent;
-                        pParent = pParent->mParent;
+                        mpRbnode = NULL;
                     }
-                    mpRbnode = pParent;
+                    break;
+                case RBITERATOR_FLOW_RIGHTCHILD:
+                    mpRbnode = mpRbnode->GetRightChild();
+                    bValidChild = false;
+                    if (mpRbnode->GetLeftChild() != NULL)
+                    {
+                        bValidChild = true;
+                    }
+                    if (bValidChild)
+                    {
+                        while (mpRbnode->GetLeftChild() != NULL)
+                        {
+                            mpRbnode = mpRbnode->GetLeftChild();
+                        }
+                        if (mpRbnode->GetRightChild() != NULL)
+                        {
+                            mFlow = RBITERATOR_FLOW_RIGHTCHILD;
+                        }
+                        else
+                        {
+                            mFlow = RBITERATOR_FLOW_PARENT;
+                        }
+                    }
+                    else
+                    {
+                        if (mpRbnode->GetRightChild() != NULL)
+                        {
+                            mFlow = RBITERATOR_FLOW_RIGHTCHILD;
+                        }
+                        else
+                        {
+                            mFlow = RBITERATOR_FLOW_PARENT;
+                        }
+                    }
+                    break;
+                default:
+                    G_TraceLog()->sysLog(8, "OPERATOR++, err default");
+                    break;
                 }
             }
             return *this;
         }
+
         TDataType* GetDataPtr()
         {
-            if (mpRbnode == NULL)
+            if (mpRbnode != NULL)
             {
-                return NULL;
+                return mpRbnode->GetData();
             }
-            return &mpRbnode->mData;
+            return NULL;
         }
+
         void begin(RBNodeType* pRoot)
         {
+            if (mTraversal == RBITERATOR_TRAVERSAL_NOT_DEFINE)
+            {
+                G_TraceLog()->sysLog(8, "begin(), err RBITERATOR_TRAVERSAL_NOT_DEFINE");
+            }
             mpRbnode = pRoot;
             if (mpRbnode != NULL)
             {
-                while (mpRbnode->mLeftChild != NULL)
+                if (mTraversal != RBITERATOR_TRAVERSAL_PREORDER &&
+                    mTraversal == RBITERATOR_TRAVERSAL_INORDER)
                 {
-                    mpRbnode = mpRbnode->mLeftChild;
+                    RBNodeType* pre = NULL;
+                    while (mpRbnode != NULL)
+                    {
+                        pre = mpRbnode;
+                        mpRbnode = mpRbnode->GetLeftChild();
+                    }
+                    mpRbnode = pre;
+                }
+                if (mpRbnode->GetRightChild() != NULL)
+                {
+                    mFlow = RBITERATOR_FLOW_RIGHTCHILD;
+                }
+                else
+                {
+                    mFlow = RBITERATOR_FLOW_PARENT;
                 }
             }
         }
@@ -127,20 +310,29 @@ public:
     RBTree(bool bDuplicatePermit = false)
     {
         mDuplicatePermit = bDuplicatePermit;
-        mpRBNodePool = NULL;
-        mpRoot = NULL;
         mNumOfRBNode = 0;
+        mpRBNodePool = new boost::pool<boost::default_user_allocator_new_delete>(0x18, 0x6000, 0);
+        mpRoot = (RBNodeType*)mpRBNodePool->malloc();
+        mpRBNodePool->free(mpRoot);
+        mpRoot = NULL;
     }
+
     RBTree(const RBTree& other)
     {
         mDuplicatePermit = other.mDuplicatePermit;
-        mpRBNodePool = NULL;
-        mpRoot = NULL;
         mNumOfRBNode = 0;
+        mpRBNodePool = new boost::pool<boost::default_user_allocator_new_delete>(0x18, 0x6000, 0);
+        mpRoot = (RBNodeType*)mpRBNodePool->malloc();
+        mpRBNodePool->free(mpRoot);
+        mpRoot = NULL;
     }
+
     ~RBTree()
     {
+        Clear();
+        delete mpRBNodePool;
     }
+
     RBTree& operator=(const RBTree& other)
     {
         mDuplicatePermit = other.mDuplicatePermit;
@@ -149,96 +341,139 @@ public:
 
     bool Insert(const TKey& rKey, const TData& rNewData)
     {
-        RBNodeType* pNode = findNode(rKey);
-        if (pNode != NULL && !mDuplicatePermit)
+        RBNodeType* newNode = (RBNodeType*)mpRBNodePool->malloc();
+        if (newNode == NULL)
         {
+            G_TraceLog()->sysLog(8, "Insert(), OUT_OF_MEMORY");
             return false;
         }
-        RBNodeType* pNewNode = new RBNodeType();
-        pNewNode->mKey = rKey;
-        pNewNode->mData = rNewData;
-        pNewNode->mColor = changes_meaning::RB_RED;
-        pNewNode->mLeftChild = NULL;
-        pNewNode->mRightChild = NULL;
-        pNewNode->mParent = NULL;
-        mNumOfRBNode = mNumOfRBNode + 1;
-
-        RBNodeType* y = NULL;
-        RBNodeType* x = mpRoot;
-        while (x != NULL)
+        newNode->init();
+        newNode->mKey = rKey;
+        newNode->mData = rNewData;
+        int preFlow = 0;
+        RBNodeType* curr = mpRoot;
+        RBNodeType* pre = NULL;
+        while (curr != NULL)
         {
-            y = x;
-            if (pNewNode->mKey < x->mKey)
+            pre = curr;
+            if (newNode->mKey < curr->mKey)
             {
-                x = x->mLeftChild;
+                preFlow = 1;
+                curr = curr->mLeftChild;
             }
             else
             {
-                x = x->mRightChild;
+                if (mDuplicatePermit != true && newNode->mKey == curr->mKey)
+                {
+                    return false;
+                }
+                preFlow = 2;
+                curr = curr->mRightChild;
             }
         }
-        pNewNode->mParent = y;
-        if (y == NULL)
+        if (preFlow == 1)
         {
-            mpRoot = pNewNode;
+            pre->mLeftChild = newNode;
+            newNode->mParent = pre;
         }
-        else if (pNewNode->mKey < y->mKey)
+        else if (preFlow == 2)
         {
-            y->mLeftChild = pNewNode;
+            pre->mRightChild = newNode;
+            newNode->mParent = pre;
         }
         else
         {
-            y->mRightChild = pNewNode;
+            if (pre != NULL)
+            {
+                G_TraceLog()->sysLog(8, "Insert(), ROOT_INSERT_ERROR");
+            }
+            mpRoot = newNode;
         }
 
-        while (pNewNode != mpRoot && pNewNode->mParent->mColor == changes_meaning::RB_RED)
+        ENUM_RBTREE_INSERT_CASE insertCase = RBTREE_INSERT_CASE_NOT_DEFINED;
+        bool endLoop = false;
+        while (!endLoop)
         {
-            if (pNewNode->mParent == pNewNode->mParent->mParent->mLeftChild)
+            switch (insertCase)
             {
-                RBNodeType* u = pNewNode->mParent->mParent->mRightChild;
-                if (u != NULL && u->mColor == changes_meaning::RB_RED)
+            case RBTREE_INSERT_CASE_NOT_DEFINED:
+                if (newNode->mParent == NULL)
                 {
-                    pNewNode->mParent->mColor = changes_meaning::RB_BLACK;
-                    u->mColor = changes_meaning::RB_BLACK;
-                    pNewNode->mParent->mParent->mColor = changes_meaning::RB_RED;
-                    pNewNode = pNewNode->mParent->mParent;
+                    newNode->SetColorBlack();
+                    endLoop = true;
                 }
                 else
                 {
-                    if (pNewNode == pNewNode->mParent->mRightChild)
-                    {
-                        pNewNode = pNewNode->mParent;
-                        rotateLeft(pNewNode);
-                    }
-                    pNewNode->mParent->mColor = changes_meaning::RB_BLACK;
-                    pNewNode->mParent->mParent->mColor = changes_meaning::RB_RED;
-                    rotateRight(pNewNode->mParent->mParent);
+                    insertCase = RBTREE_INSERT_CASE_NOT_ROOT;
                 }
+                break;
+            case RBTREE_INSERT_CASE_NOT_ROOT:
+                if (newNode->mParent->mColor == changes_meaning::RB_BLACK)
+                {
+                    endLoop = true;
+                }
+                else
+                {
+                    insertCase = RBTREE_INSERT_CASE_PARENT_RED;
+                }
+                break;
+            case RBTREE_INSERT_CASE_PARENT_RED:
+            {
+                RBNodeType* uncle = newNode->getUncle();
+                if (uncle == NULL || uncle->mColor != changes_meaning::RB_RED)
+                {
+                    insertCase = RBTREE_INSERT_CASE_UNCLE_NOT_RED;
+                }
+                else
+                {
+                    newNode->mParent->SetColorBlack();
+                    uncle->SetColorBlack();
+                    newNode = newNode->getGrandParent();
+                    newNode->SetColorRed();
+                    insertCase = RBTREE_INSERT_CASE_NOT_DEFINED;
+                }
+                break;
             }
-            else
+            case RBTREE_INSERT_CASE_UNCLE_NOT_RED:
             {
-                RBNodeType* u = pNewNode->mParent->mParent->mLeftChild;
-                if (u != NULL && u->mColor == changes_meaning::RB_RED)
+                RBNodeType* grandParent = newNode->getGrandParent();
+                if (newNode->mParent->mRightChild == newNode &&
+                    newNode->mParent == grandParent->mLeftChild)
                 {
-                    pNewNode->mParent->mColor = changes_meaning::RB_BLACK;
-                    u->mColor = changes_meaning::RB_BLACK;
-                    pNewNode->mParent->mParent->mColor = changes_meaning::RB_RED;
-                    pNewNode = pNewNode->mParent->mParent;
+                    rotateLeft(newNode->mParent);
+                    newNode = newNode->mLeftChild;
+                }
+                else if (newNode->mParent->mLeftChild == newNode &&
+                         newNode->mParent == grandParent->mRightChild)
+                {
+                    rotateRight(newNode->mParent);
+                    newNode = newNode->mRightChild;
+                }
+                newNode->mParent->SetColorBlack();
+                grandParent->SetColorRed();
+                if (newNode->mParent->mLeftChild == newNode &&
+                    newNode->mParent == grandParent->mLeftChild)
+                {
+                    rotateRight(grandParent);
+                }
+                else if (newNode->mParent->mRightChild == newNode &&
+                         newNode->mParent == grandParent->mRightChild)
+                {
+                    rotateLeft(grandParent);
                 }
                 else
                 {
-                    if (pNewNode == pNewNode->mParent->mLeftChild)
-                    {
-                        pNewNode = pNewNode->mParent;
-                        rotateRight(pNewNode);
-                    }
-                    pNewNode->mParent->mColor = changes_meaning::RB_BLACK;
-                    pNewNode->mParent->mParent->mColor = changes_meaning::RB_RED;
-                    rotateLeft(pNewNode->mParent->mParent);
+                    G_TraceLog()->sysLog(8, "Insert(), err RBTREE_INSERT_CASE_UNCLE_NOT_RED_AFERT_ALIGN");
                 }
+                endLoop = true;
+                break;
+            }
+            default:
+                G_TraceLog()->sysLog(8, "Insert(),err RBTREE_INSERT_CASE_DONT_REACH_HERE");
+                break;
             }
         }
-        mpRoot->mColor = changes_meaning::RB_BLACK;
+        mNumOfRBNode = mNumOfRBNode + 1;
         return true;
     }
 
@@ -249,21 +484,27 @@ public:
         {
             return false;
         }
-        RBNodeType* child = NULL;
         if (target->mLeftChild != NULL && target->mRightChild != NULL)
         {
-            RBNodeType* next = target->mLeftChild;
-            RBNodeType* rightmost = NULL;
-            while (next != NULL)
+            RBNodeType* rightmost = target->mLeftChild;
+            RBNodeType* next = NULL;
+            for (; rightmost != NULL; rightmost = rightmost->mRightChild)
             {
-                rightmost = next;
-                next = next->mRightChild;
+                next = rightmost;
             }
-            target->mKey = rightmost->mKey;
-            target->mData = rightmost->mData;
-            target = rightmost;
+            target->mKey = next->mKey;
+            target->mData = next->mData;
+            target = next;
         }
-        child = (target->mRightChild == NULL) ? target->mLeftChild : target->mRightChild;
+        RBNodeType* child = NULL;
+        if (target->mRightChild == NULL)
+        {
+            child = target->mLeftChild;
+        }
+        else
+        {
+            child = target->mRightChild;
+        }
         if (target->mParent == NULL)
         {
             mpRoot = child;
@@ -279,27 +520,251 @@ public:
         if (child != NULL)
         {
             child->mParent = target->mParent;
+            ENUM_RBTREE_DELETE_CASE deleteCase = RBTREE_DELETE_CASE_NOT_DEFINED;
+            bool endLoop = false;
+            RBNodeType* pNode = target;
+            RBNodeType* sibling = NULL;
+            while (!endLoop)
+            {
+                switch (deleteCase)
+                {
+                case RBTREE_DELETE_CASE_NOT_DEFINED:
+                    if (pNode->mColor == changes_meaning::RB_BLACK)
+                    {
+                        if (child->mColor == changes_meaning::RB_RED)
+                        {
+                            child->SetColorBlack();
+                            endLoop = true;
+                        }
+                        else
+                        {
+                            pNode = child;
+                            deleteCase = RBTREE_DELETE_CASE_CHILD_BLACK;
+                        }
+                    }
+                    else
+                    {
+                        endLoop = true;
+                    }
+                    break;
+                case RBTREE_DELETE_CASE_CHILD_BLACK:
+                    if (pNode->mParent == NULL)
+                    {
+                        endLoop = true;
+                    }
+                    else
+                    {
+                        deleteCase = RBTREE_DELETE_CASE_NOT_ROOT;
+                    }
+                    break;
+                case RBTREE_DELETE_CASE_NOT_ROOT:
+                    sibling = pNode->getSibling();
+                    if (sibling == NULL)
+                    {
+                        endLoop = true;
+                    }
+                    else
+                    {
+                        if (sibling->mColor == changes_meaning::RB_RED)
+                        {
+                            pNode->mParent->SetColorRed();
+                            sibling->SetColorBlack();
+                            if (pNode->mParent->mLeftChild == pNode)
+                            {
+                                rotateLeft(pNode->mParent);
+                            }
+                            else
+                            {
+                                rotateRight(pNode->mParent);
+                            }
+                        }
+                        deleteCase = RBTREE_DELETE_CASE_SIBLING_BALCK;
+                    }
+                    break;
+                case RBTREE_DELETE_CASE_SIBLING_BALCK:
+                    if (pNode->mParent->mColor == changes_meaning::RB_BLACK &&
+                        sibling->mColor == changes_meaning::RB_BLACK &&
+                        (sibling->mLeftChild == NULL ||
+                         sibling->mLeftChild->mColor == changes_meaning::RB_BLACK) &&
+                        (sibling->mRightChild == NULL ||
+                         sibling->mRightChild->mColor == changes_meaning::RB_BLACK))
+                    {
+                        sibling->SetColorRed();
+                        pNode = pNode->mParent;
+                        deleteCase = RBTREE_DELETE_CASE_CHILD_BLACK;
+                    }
+                    else
+                    {
+                        deleteCase = RBTREE_DELETE_CASE_PARENT_RED;
+                    }
+                    break;
+                case RBTREE_DELETE_CASE_PARENT_RED:
+                    if (pNode->mParent->mColor == changes_meaning::RB_BLACK &&
+                        sibling->mColor == changes_meaning::RB_BLACK &&
+                        (sibling->mLeftChild == NULL ||
+                         sibling->mLeftChild->mColor == changes_meaning::RB_BLACK) &&
+                        (sibling->mRightChild == NULL ||
+                         sibling->mRightChild->mColor == changes_meaning::RB_BLACK))
+                    {
+                        sibling->SetColorRed();
+                        pNode->mParent->SetColorBlack();
+                    }
+                    else
+                    {
+                        if (pNode->mParent->mLeftChild == pNode &&
+                            sibling->mColor == changes_meaning::RB_BLACK &&
+                            sibling->mLeftChild != NULL &&
+                            sibling->mLeftChild->mColor == changes_meaning::RB_RED &&
+                            (sibling->mRightChild == NULL ||
+                             sibling->mRightChild->mColor == changes_meaning::RB_BLACK))
+                        {
+                            sibling->SetColorRed();
+                            sibling->mLeftChild->SetColorBlack();
+                            rotateRight(sibling);
+                        }
+                        else if (pNode->mParent->mRightChild == pNode &&
+                                 sibling->mColor == changes_meaning::RB_BLACK &&
+                                 (sibling->mLeftChild == NULL ||
+                                  sibling->mLeftChild->mColor == changes_meaning::RB_BLACK) &&
+                                 sibling->mRightChild != NULL &&
+                                 sibling->mRightChild->mColor == changes_meaning::RB_RED)
+                        {
+                            sibling->SetColorRed();
+                            sibling->mRightChild->SetColorBlack();
+                            rotateLeft(sibling);
+                        }
+                        sibling->mColor = pNode->mParent->mColor;
+                        pNode->mParent->SetColorBlack();
+                        if (pNode->mParent->mLeftChild == pNode)
+                        {
+                            if (sibling->mRightChild != NULL)
+                            {
+                                sibling->mRightChild->SetColorBlack();
+                            }
+                            rotateLeft(pNode->mParent);
+                        }
+                        else
+                        {
+                            if (sibling->mLeftChild != NULL)
+                            {
+                                sibling->mLeftChild->SetColorBlack();
+                            }
+                            rotateRight(pNode->mParent);
+                        }
+                    }
+                    endLoop = true;
+                    break;
+                default:
+                    G_TraceLog()->sysLog(8, "Remove(), DONT_REACH_HERE");
+                    break;
+                }
+            }
         }
-        if (target->mColor == changes_meaning::RB_BLACK)
-        {
-            deleteFixup(child, target->mParent);
-        }
-        delete target;
+        mpRBNodePool->free(target);
         mNumOfRBNode = mNumOfRBNode - 1;
-        if (mpRoot != NULL)
-        {
-            mpRoot->mColor = changes_meaning::RB_BLACK;
-        }
         return true;
     }
 
-    RBNodeType* Find(const TKey& rKey)
+    RBNodeType* findNode(const TKey& rKey)
     {
-        return findNode(rKey);
+        RBNodeType* curr = mpRoot;
+        while (curr != NULL)
+        {
+            if (curr->mKey < rKey)
+            {
+                curr = curr->mRightChild;
+            }
+            else
+            {
+                if (curr->mKey == rKey)
+                {
+                    return curr;
+                }
+                curr = curr->mLeftChild;
+            }
+        }
+        return NULL;
+    }
+
+    RBIterator<RBNodeType, TData> InorderBegin()
+    {
+        RBIterator<RBNodeType, TData> iter(
+            RBIterator<RBNodeType, TData>::RBITERATOR_TRAVERSAL_INORDER);
+        iter.begin(mpRoot);
+        return iter;
+    }
+
+    bool rotateLeft(RBNodeType* pNode)
+    {
+        if (pNode->mRightChild != NULL)
+        {
+            RBNodeType* child = pNode->mRightChild;
+            pNode->mRightChild = child->mLeftChild;
+            if (child->mLeftChild != NULL)
+            {
+                child->mLeftChild->mParent = pNode;
+            }
+            child->mParent = pNode->mParent;
+            if (pNode->mParent == NULL)
+            {
+                mpRoot = child;
+            }
+            else if (pNode->mParent->mLeftChild == pNode)
+            {
+                pNode->mParent->mLeftChild = child;
+            }
+            else if (pNode->mParent->mRightChild == pNode)
+            {
+                pNode->mParent->mRightChild = child;
+            }
+            else
+            {
+                G_TraceLog()->sysLog(8, "rotateLeft(), ERROR");
+            }
+            child->mLeftChild = pNode;
+            pNode->mParent = child;
+            return true;
+        }
+        return false;
+    }
+
+    bool rotateRight(RBNodeType* pNode)
+    {
+        if (pNode->mLeftChild != NULL)
+        {
+            RBNodeType* child = pNode->mLeftChild;
+            pNode->mLeftChild = child->mRightChild;
+            if (child->mRightChild != NULL)
+            {
+                child->mRightChild->mParent = pNode;
+            }
+            child->mParent = pNode->mParent;
+            if (pNode->mParent == NULL)
+            {
+                mpRoot = child;
+            }
+            else if (pNode->mParent->mLeftChild == pNode)
+            {
+                pNode->mParent->mLeftChild = child;
+            }
+            else if (pNode->mParent->mRightChild == pNode)
+            {
+                pNode->mParent->mRightChild = child;
+            }
+            else
+            {
+                G_TraceLog()->sysLog(8, "rotateRight(), ERROR");
+            }
+            child->mRightChild = pNode;
+            pNode->mParent = child;
+            return true;
+        }
+        return false;
     }
 
     void Clear()
     {
+        mpRBNodePool->purge_memory();
         mpRoot = NULL;
         mNumOfRBNode = 0;
     }
@@ -309,195 +774,11 @@ public:
         return mNumOfRBNode;
     }
 
-    RBIterator<RBNodeType, TData> InorderBegin()
-    {
-        RBIterator<RBNodeType, TData> iter;
-        iter.begin(mpRoot);
-        return iter;
-    }
-
-    bool Empty()
-    {
-        return mpRoot == NULL;
-    }
-
-    void rotateLeft(RBNodeType* pNode)
-    {
-        RBNodeType* y = pNode->mRightChild;
-        pNode->mRightChild = y->mLeftChild;
-        if (y->mLeftChild != NULL)
-        {
-            y->mLeftChild->mParent = pNode;
-        }
-        y->mParent = pNode->mParent;
-        if (pNode->mParent == NULL)
-        {
-            mpRoot = y;
-        }
-        else if (pNode == pNode->mParent->mLeftChild)
-        {
-            pNode->mParent->mLeftChild = y;
-        }
-        else
-        {
-            pNode->mParent->mRightChild = y;
-        }
-        y->mLeftChild = pNode;
-        pNode->mParent = y;
-    }
-
-    void rotateRight(RBNodeType* pNode)
-    {
-        RBNodeType* y = pNode->mLeftChild;
-        pNode->mLeftChild = y->mRightChild;
-        if (y->mRightChild != NULL)
-        {
-            y->mRightChild->mParent = pNode;
-        }
-        y->mParent = pNode->mParent;
-        if (pNode->mParent == NULL)
-        {
-            mpRoot = y;
-        }
-        else if (pNode == pNode->mParent->mRightChild)
-        {
-            pNode->mParent->mRightChild = y;
-        }
-        else
-        {
-            pNode->mParent->mLeftChild = y;
-        }
-        y->mRightChild = pNode;
-        pNode->mParent = y;
-    }
-
-    RBNodeType* findNode(const TKey& rKey)
-    {
-        RBNodeType* pNode = mpRoot;
-        while (pNode != NULL)
-        {
-            if (rKey < pNode->mKey)
-            {
-                pNode = pNode->mLeftChild;
-            }
-            else if (pNode->mKey < rKey)
-            {
-                pNode = pNode->mRightChild;
-            }
-            else
-            {
-                return pNode;
-            }
-        }
-        return NULL;
-    }
-
-    void deleteFixup(RBNodeType* x, RBNodeType* pParent)
-    {
-        while (x != mpRoot && (x == NULL || x->mColor == changes_meaning::RB_BLACK))
-        {
-            if (x == pParent->mLeftChild)
-            {
-                RBNodeType* w = pParent->mRightChild;
-                if (w != NULL && w->mColor == changes_meaning::RB_RED)
-                {
-                    w->mColor = changes_meaning::RB_BLACK;
-                    pParent->mColor = changes_meaning::RB_RED;
-                    rotateLeft(pParent);
-                    w = pParent->mRightChild;
-                }
-                if ((w == NULL || w->mLeftChild == NULL || w->mLeftChild->mColor == changes_meaning::RB_BLACK) &&
-                    (w == NULL || w->mRightChild == NULL || w->mRightChild->mColor == changes_meaning::RB_BLACK))
-                {
-                    if (w != NULL)
-                    {
-                        w->mColor = changes_meaning::RB_RED;
-                    }
-                    x = pParent;
-                    pParent = pParent->mParent;
-                }
-                else
-                {
-                    if (w != NULL && (w->mRightChild == NULL || w->mRightChild->mColor == changes_meaning::RB_BLACK))
-                    {
-                        if (w->mLeftChild != NULL)
-                        {
-                            w->mLeftChild->mColor = changes_meaning::RB_BLACK;
-                        }
-                        w->mColor = changes_meaning::RB_RED;
-                        rotateRight(w);
-                        w = pParent->mRightChild;
-                    }
-                    if (w != NULL)
-                    {
-                        w->mColor = pParent->mColor;
-                        if (w->mRightChild != NULL)
-                        {
-                            w->mRightChild->mColor = changes_meaning::RB_BLACK;
-                        }
-                    }
-                    pParent->mColor = changes_meaning::RB_BLACK;
-                    rotateLeft(pParent);
-                    x = mpRoot;
-                }
-            }
-            else
-            {
-                RBNodeType* w = pParent->mLeftChild;
-                if (w != NULL && w->mColor == changes_meaning::RB_RED)
-                {
-                    w->mColor = changes_meaning::RB_BLACK;
-                    pParent->mColor = changes_meaning::RB_RED;
-                    rotateRight(pParent);
-                    w = pParent->mLeftChild;
-                }
-                if ((w == NULL || w->mLeftChild == NULL || w->mLeftChild->mColor == changes_meaning::RB_BLACK) &&
-                    (w == NULL || w->mRightChild == NULL || w->mRightChild->mColor == changes_meaning::RB_BLACK))
-                {
-                    if (w != NULL)
-                    {
-                        w->mColor = changes_meaning::RB_RED;
-                    }
-                    x = pParent;
-                    pParent = pParent->mParent;
-                }
-                else
-                {
-                    if (w != NULL && (w->mLeftChild == NULL || w->mLeftChild->mColor == changes_meaning::RB_BLACK))
-                    {
-                        if (w->mRightChild != NULL)
-                        {
-                            w->mRightChild->mColor = changes_meaning::RB_BLACK;
-                        }
-                        w->mColor = changes_meaning::RB_RED;
-                        rotateLeft(w);
-                        w = pParent->mLeftChild;
-                    }
-                    if (w != NULL)
-                    {
-                        w->mColor = pParent->mColor;
-                        if (w->mLeftChild != NULL)
-                        {
-                            w->mLeftChild->mColor = changes_meaning::RB_BLACK;
-                        }
-                    }
-                    pParent->mColor = changes_meaning::RB_BLACK;
-                    rotateRight(pParent);
-                    x = mpRoot;
-                }
-            }
-        }
-        if (x != NULL)
-        {
-            x->mColor = changes_meaning::RB_BLACK;
-        }
-    }
-
 private:
     bool mDuplicatePermit;
-    void* mpRBNodePool;
+    boost::pool<boost::default_user_allocator_new_delete>* mpRBNodePool;
     RBNodeType* mpRoot;
-    unsigned int mNumOfRBNode;
+    int mNumOfRBNode;
 };
 
 } // namespace nsl

@@ -95,7 +95,7 @@
 
 ## 第三阶段：框架层 + 公共库（2026-08-07 追加）
 
-全量比对水位：**IDENTICAL 1516 / NEAR 15 / DIFF 201 / MISSING 3004**
+全量比对水位：**IDENTICAL 1548 / NEAR 16 / DIFF 185 / MISSING 2987**
 （基线：IDENTICAL 641 / NEAR 9 / DIFF 127 / MISSING 3959）
 
 ### 已实现 TU（本阶段新增，均可编译链接）
@@ -124,6 +124,7 @@
 | LinuxService（ServiceInfo/IPlatform） | ✅ 已实现（44 个缺口清零：19 精确 + 44 近似，仅 TraceLog 既有 DIFF） |
 | InterHandler（含拍卖数据结构头） | ✅ 已实现（TU 0 缺失：23 精确 + 35 近似；onINTER_* 两函数逐字节一致） |
 | WorkThread（含 GetMessageBuffer/TMsgCell 实例化） | ✅ 已实现（TU 0 缺失：55 精确 + 169 近似，3 个语义等价 DIFF） |
+| TimeManager + TimerThread（含 RBTree 模板重建） | ✅ 已实现（两 TU 0 缺失：TimeManager 21 精确 + 46 近似，TimerThread 29 精确 + 89 近似） |
 
 ### 关键形态结论（追加）
 
@@ -171,6 +172,15 @@
 25. **GetMessageBuffer**：头内联 `CMsgCell* GetMessageBuffer(int)`——`size>0x80000||size<0` 时
     `throw (const char*)__FUNCTION__`（typeinfo=_ZTIPKc），否则按 0x10..0x80000 十六档
     `new TMsgCell<N>()`（16..524288），兜底 `new TMsgCell<409600>()`（原样复现死分支）。
+26. **RBTree 模板重建**（TimeManager/TimerThread 依赖）：节点经 `boost::pool(0x18,0x6000,0)`
+    分配（ctor 先 malloc+free 预热）；RBNode 辅助方法全部实例方法（init 四写、SetColorBlack/Red、
+    getSibling/getGrandParent/getUncle/GetData/GetParent/GetLeft/RightChild）；RBIterator 12B
+    （mpRbnode/mTraversal/mFlow），INORDER 遍历由 mFlow=PARENT/RIGHTCHILD 驱动；Insert 用
+    ENUM_RBTREE_INSERT_CASE 状态机（0..3）、Remove 用 ENUM_RBTREE_DELETE_CASE 状态机（0..4，
+    switch 跳转表），两者剩余 DIFF 为分支布局差异（语义等价）。
+27. **TimeManager::onTime** 触发条件实为 64 位无符号比较
+    `(unsigned long long)check_period <= (unsigned long long)accumulated_tick`
+    （Ghidra 反编译的 `(accumulated>>32)!=0 || ...` 形态是同一语义）。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
@@ -181,15 +191,13 @@
  92  ExpireTimeDictionary   88  HandlerFor_GA_         88  RDARScriptItemInfo
  83  RDARScriptAvatarColorInfo  62  version(余量)       59  HandlerFor_GP_JPN
  46  UnicodeConvert         32  InterHandler(余量)     19  DBConnection
- 35  Character(余量)        33  GameDataPool(余量)     12  TimeManager(余量)
- 28  HandlerFor_TE_(余量)   28  DNFFunctionLib(余量)    5  TimerThread(余量)
-  ...
+ 35  Character(余量)        33  GameDataPool(余量)     28  HandlerFor_TE_(余量)
+ 28  DNFFunctionLib(余量)    ...
 ```
 
 ## 下一步
 
-1. 补齐框架遗留：TimeManager/TimerThread 的 RBTree 方法（RBNode 辅助 + RBIterator 遍历 ctor）、
-   DBConnection（19，需 mysql 头/桩）。
+1. 补齐框架遗留：DBConnection（19，需 mysql 头/桩）。
 2. ServerCommon + Core + DNFShared：ServerXml（114）、Strings（353）、UnicodeConvert（46）、
    RDARScript*（约 170）。
 3. 字典类：AuctionDictionary / AveragePriceDictionary / CharacterDictionary /
