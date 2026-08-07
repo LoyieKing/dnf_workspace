@@ -14,14 +14,14 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 11 |
+| 已实现 TU | 16 |
 | IDENTICAL | 257 |
-| NEAR | 4 |
-| DIFF（语义等价，-O0 惯用法） | 31 |
-| MISSING（未实现） | 4,444 |
+| NEAR | 7 |
+| DIFF（语义等价，-O0 惯用法） | 109 |
+| MISSING（未实现） | 4,119 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
-> 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 31 个 DIFF 逐一核验为 -O0
+> 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
 > 代码生成惯用法差异（分支方向、bool 物化、寄存器分配、栈槽、nop 对齐、调用参数求值顺序），
 > 语义全部等价。
 
@@ -42,6 +42,34 @@
 | TEA | 12 | ✅ 语义等价（v/w/y/z/sum/delta/n 命名 + register 复现寄存器分配；Encrypt/Decrypt 用 pin/presult 局部指针；Signature 缓冲区 23B） |
 | Script | 11 | ✅ 语义等价（remove_comment 已 0 差异；其余为分支惯用法） |
 | TraceLog | 17 | ✅ 语义等价（Ghidra 辅助实现；依赖 LogSendThread 暂用临时桩） |
+
+## 第二阶段：消息类 + 网络核心（2026-08-07 追加）
+
+消息类全部为头文件内联 weak 符号，已精确复现：
+
+| 组件 | 状态 |
+|---|---|
+| Message/IMessageStruct | ✅ ctor/initialize/setStringToMessage 等精确；dataTypeMask 用 `1 << bit`（x86 shl 硬件掩码） |
+| CMsgCell/MsgCell.inl | ✅ ctor/Clear/PAD/AttachStream/operator<< 精确 |
+| TMsgCell\<N\> | ✅ ctor（m_nBufLen=N; memset; m_bBuf=buf 直写） |
+| PACKET_HEADER/INTERNALMSG/DBTR | ✅ pack(1) 布局 18/32/21B + 方法精确 |
+| PCK_CS_POSTING_LOG | ✅ ctor（memset 0x12 + cat=1/id=0/size=0x12） |
+| RecvBuffer | ✅ ctor/IsEmpty/IsFull/AvailableSize/GetFront/AdjustRear/GetRear 精确；Parse/ClearUsedMsgs 语义等价（while 循环形态 + goto 收尾） |
+| TCPUser | ✅ 多数精确（dtor/initialize/postDisconnected/onError/shutdown 等）；ctor/onRead/onWriteByCMsg/onPassiveClose/onActiveClose 语义等价；枚举嵌套、const getter |
+| WorkThread | ✅ ctor/SetArea/createOrderPool/destroyOrderPool/GetThreadId 精确；PushTransaction/PopTransaction/loop 语义等价 |
+| DataPool | ✅ destroyTCPSocket/GetTcpUserCount 精确；其余语义等价（含 destroyTCPUser 全逻辑） |
+| ServiceFactory | 布局已对齐（9 个匿名子系统基类 @8/24/92/116/180/184/188/308 + tick_/名称） |
+| 子系统头 | Threads/Dispatchers/DataPools/Reactor/IHandlers/DBConnections/EncyptTools/IActiveConManager/ISession/IArea 已建 |
+
+## 关键源码形态结论（追加）
+
+8. **TCPUser 无虚函数**（布局 @0 直接是 mSendDataType）；getUserId/GetMaxPacketSize/
+   isBindedSession/GetPending*Num 是头内联（W），Inc/Dec*Num 与 IsSending/IsWorking 在 .cpp（T）。
+9. **WorkThread::loop**：`while (mRearIdx > mParseIdx)` 形态、`__thread` TLS 存线程号、
+   ITimeEntity 虚调用 isTerminated()/operator()、CommonDataPool::destroyTimeEntity 虚调用、
+   消息 acUser-1 计数 + `*(char*)&mpSendBuffer = 0` 字节清零的怪癖。
+10. **boost pool**：使用 2011-07 版 boost pool 头（/tmp/boost_inc），类布局与 DWARF 精确一致
+    （simple_segregated_storage=4B, pool=28B, object_pool=28B）。
 
 ## 关键源码形态结论（后续必须保持）
 
