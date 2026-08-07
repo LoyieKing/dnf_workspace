@@ -18,13 +18,13 @@ public:
     void startup();
     void shutdown();
     void handleEvents(unsigned int timeout, bool bOnce);
-    int registHandle(TCPUser* pUser, unsigned int events);
-    int unregistHandle(TCPUser* pUser);
+    int registHandle(T* pUser, unsigned int events);
+    int unregistHandle(T* pUser);
     unsigned int getNativeEventFilter(unsigned int events);
 
-    std::map<unsigned int, TCPUser*> mClientUsers;
-    std::map<int, TCPUser*> mServerUsers;
-    TCPUser* m_ServerSession;
+    std::map<unsigned int, T*> mClientUsers;
+    std::map<int, T*> mServerUsers;
+    T* m_ServerSession;
     int epoll_fd_;
     int max_client_;
     epoll_event* events_;
@@ -34,7 +34,7 @@ class Reactor
 {
 public:
     Reactor();
-    static EpollReactor<TCPUser>* getReactor(Reactor* pReactor);
+    EpollReactor<TCPUser>* getReactor();
 
     EpollReactor<TCPUser> reactor_;
 };
