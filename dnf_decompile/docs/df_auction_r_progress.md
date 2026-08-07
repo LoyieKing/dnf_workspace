@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 28（本批补齐 ServiceError/Socket 全部余量符号） |
-| IDENTICAL | 2,238 |
+| 已实现 TU | 29（本批新增 HandlerFor_GA_ 全部符号） |
+| IDENTICAL | 2,286 |
 | NEAR | 20 |
-| DIFF（语义等价，-O0 惯用法） | 322 |
-| MISSING（未实现） | 2,156 |
+| DIFF（语义等价，-O0 惯用法） | 351 |
+| MISSING（未实现） | 2,079 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -115,6 +115,8 @@
 
 本批（ServiceError 长错误表 + Socket 余量符号补齐）后：**IDENTICAL 2238 / NEAR 20 / DIFF 322 / MISSING 2156**
 
+本批（HandlerFor_GA_ 全量补完）后：**IDENTICAL 2286 / NEAR 20 / DIFF 351 / MISSING 2079**
+
 ### 已实现 TU（本阶段新增，均可编译链接）
 
 | 组件 | 状态 |
@@ -153,6 +155,7 @@
 | DNFFunctionLibWrapper | ✅ 已完成（TU 0 缺失：2 精确 + 2 语义等价 DIFF；Char2Hex 小写 saucHex 表、Hex2Char 双字符解析、Binary2Hex/Hex2Binary） |
 | ServiceError | ✅ 已完成（TU 0 缺失：83 精确 + 3 语义等价 DIFF；COMMON/AUCTION_ERROR_LIST 移出 nsl 使 make_pair 模板符号对齐，SetAuctionServiceErrorStr 先调 InitServiceErrorStr 并含 2/3 号条目） |
 | Socket | ✅ 已完成（TU 0 缺失：35 精确 + 25 语义等价 DIFF；poll*Event 用 p->fds_bits[i] 清零循环 + FD_SET((unsigned)sock_)，TCPSocket::getHandle/Set*BufSize 对齐，6 个 poll 函数逐字节一致） |
+| HandlerFor_GA_ | ✅ 已完成（TU 0 缺失：96 精确 + 25 语义等价 DIFF；INetWorkHandler 派生、mArrayFunc[1024]@12 + mpSzBuffer@8204 共 12300B，15 个 on* 处理器 + registFuncMap/searchNetworkFunc 头内联，IsGoldServer 头内联，gmList[5] 从 .data 提取） |
 
 ### 关键形态结论（追加）
 
@@ -314,6 +317,19 @@
     （shr/and 无符号位运算，6 个函数逐字节一致）；select 首参恒为 2（原版怪癖）；
     TCPSocket::getHandle 为 const、UDPSocket::getHandle 非 const；SetRecvBufSize/
     SetSendBufSize 为 void（写静态 msRecvBufSize/msSendBufSize）。
+44. **HandlerFor_GA_**：nsl::INetWorkHandler 派生，vptr@0 + mArrayFunc[1024]@12（PMF 8B×1024）
+    + mpSzBuffer[4096]@8204，总 12300B；ctor/dtor/init/registFuncMap/searchNetworkFunc 全为
+    头内联 W（发射于 ServiceFactory TU），init = IHandler::init + registFuncMap + G_Auction()；
+    registFuncMap 清 0x400 个 PMF 后按 0..14 填 15 个处理器（0x8073fe4..0x80764c6 顺序）；
+    IsGoldServer 头内联（GetPayType()==PAY_TYPE_GOLD）；gmList[5] 静态 GM 表
+    {0x4c2dc8,0x5cf723,0xa9c742,0xa2ad85,0x9ae1ae} 从 .data 提取；onAUCTION_ASK_AVERAGE_PRICE_GA
+    需 std::sort(short[3]) 模板实例化（Ghidra 反编译失败，按反汇编语义重建）。
+45. **Auction 数据包体系**（AuctionPacket.h）：AG/PG 应答包 + GA 请求包，packetID 按
+    REGIST_ACK=0/ASK_AVERAGE=2/ASK_NUM=3/REGIST_RESULT=4/BIDDING=5/CANCEL=6/ITEM_LIST=7/
+    MY_REGISTED=8/MY_BIDDING=9/LOG=0xb/CHECK_READY=0xd/BUY_APIECE=0xe，size 与 memset 一致；
+    AuctionItemInfo 137B/MyRegistedItemInfo 117B/MyBiddingItemInfo 125B/
+    TSearchByItemId_(23B)/TSearchByCategory_(25B)/AuctionDictionaryData(132B) 均按 DWARF 偏移；
+    PCK_AUCTION_SEARCH_BY_ITEMKEY_GA 为唯一服务端构造的 GA 请求包（cat=0,id=6,size=0x81）。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
@@ -321,7 +337,6 @@
 720  Search                477  Auction               180  ServerLibrary2.0
 176  AuctionDictionary     150  AveragePriceDictionary 149  CharacterDictionary
 144  ServiceFactory         87  ExpireTimeDictionary   32  HandlerFor_GP_JPN
- 32  HandlerFor_GA_
   ...
 ```
 
