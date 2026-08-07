@@ -4,12 +4,18 @@
 
 #include "PacketDispatcher.h"
 
+#include <iostream>
+#include "DNFFunctionLib.h"
+#include "CommonConstants.h"
+
+CPacketDispatcher::CPacketDispatcher() {}
+
 DispatcherFunction CPacketDispatcher::get_dispatcher(ushort id) {
-    std::map<int, DispatcherFunction>::iterator found = packetTable.find(id);
-    if (found == packetTable.end()) {
-        return NULL;
+    std::map<unsigned short, DispatcherFunction>::iterator found = packetTable.find(id);
+    if (found != packetTable.end()) {
+        return found->second;
     }
-    return found->second;
+    return NULL;
 }
 void CPacketDispatcher::register_packet(ushort id, DispatcherFunction dispatcher) {
     // 来自反编译/DWARF 的推断：原始代码使用 insert(make_pair(...))，而非 operator[]

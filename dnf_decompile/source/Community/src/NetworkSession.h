@@ -33,7 +33,7 @@ public:
     static CNetworkSession* CreateListenSocket(int port, char const* ip);
 
     void* operator new(size_t size);
-    void operator delete(void* p);
+    void operator delete(void* p, unsigned int size);
 };
 
 

@@ -3,7 +3,9 @@
 //
 #pragma once
 
+#include <fcntl.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
 
 #include "ReverseEngineerLib.h"
 
@@ -21,7 +23,7 @@ class CAbstractSocket {
     char sendBuffer[MaxSendBuf];  // offset 0x1018
 
     int triggerSessionEventType;  // offset 0x2018
-    sockaddr socket_address;      // offset 0x201c
+    sockaddr_in socket_address;   // offset 0x201c（原始为命名字段布局：sin_family/sin_port/sin_addr）
 
 public:
     int AcceptSocket();
@@ -29,16 +31,17 @@ public:
     void AddTriggerSessionEventType(int sessionEventType);
 
     CAbstractSocket();
+    ~CAbstractSocket();
 
     bool ConnectPeer();
 
     bool CreateConnectionSocket(const char *ip, int port);
 
-    static int CreateListenSocket(int &outputSocket, int port, const char *ip);
+    static bool CreateListenSocket(int &outputSocket, int port, const char *ip);  // 原始：bool 返回
 
     void disconnect();
 
-    char *GetRecvBuff(int getSize, int *remainRecvLen);
+    char *GetRecvBuff(int getSize, int &remainRecvLen);
 
     int GetSocket();
 
@@ -60,8 +63,6 @@ public:
 
     void SetTriggerSessionEventType(int sessionEventType);
 };
-
-template class CAbstractSocket<4096, 4096>;
 
 TEST_CLASS_SIZE(sockaddr, 0x10)
 typedef char _CAbstractSocket_size_check[sizeof(CAbstractSocket<4096, 4096>) == 0x202c ? 1 : -1];

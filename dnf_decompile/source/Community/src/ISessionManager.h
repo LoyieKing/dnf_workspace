@@ -15,10 +15,8 @@ class CNetworkSession;
 
 class ISessionManager {
 public:
-    virtual CPacketDispatcher* GetPackageDispatcher() = 0;
+    virtual CPacketDispatcher* GetPacketDispatcher() = 0;
     virtual bool RegisterSession(CNetworkSession* networkSession, ENUM_SESSION_TYPE sessionType) = 0;
     virtual bool UnregisterSession(CNetworkSession* networkSession, ENUM_SESSION_TYPE sessionType) = 0;
     virtual bool SendPacketToConnectingSession(char const* what1, int what2, char const* what3, int what4) = 0;
-    virtual ~ISessionManager() {}
 };
-

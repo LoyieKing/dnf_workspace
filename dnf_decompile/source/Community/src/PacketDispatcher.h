@@ -10,8 +10,10 @@
 #include "global.h"
 
 class CPacketDispatcher {
-    std::map<int, DispatcherFunction> packetTable;
+    std::map<unsigned short, DispatcherFunction> packetTable;  // 原始：ushort 键
 public:
+    CPacketDispatcher();  // 原始：显示定义于 PacketDispatcher.cpp（TU 首函数）
+
     DispatcherFunction get_dispatcher(ushort id);
     void register_packet(ushort id, DispatcherFunction dispatcher);
 };

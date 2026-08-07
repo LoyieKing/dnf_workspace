@@ -6,11 +6,14 @@
 
 class CProcessManager {
 public:
+    CProcessManager();
+    ~CProcessManager();
+
     void _makeDir(char *dirName);
 
     bool check_pidfile(const char *processName);
 
-    static int Daemon();
+    int Daemon();
 
     void SendShutdownSignal(const char *processName);
 

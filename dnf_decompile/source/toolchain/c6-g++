@@ -1,0 +1,8 @@
+#!/bin/sh
+# CentOS 6.10 (vault) gcc-4.4.7 包装脚本，用于对齐原始二进制（GCC 4.1.2/4.4.x 时代）。
+# 工具链从 vault.centos.org/6.10/os/x86_64/Packages 的 RPM 解包到 /tmp/c6root；
+# 解包 RPM 列表见 docs/df_community_r_reverification.md 或本目录 README（如有）。
+# /tmp/c6root 重启后失效，重建时需重新解包。
+export GCC_EXEC_PREFIX=/tmp/c6root/usr/libexec/gcc/
+export LD_LIBRARY_PATH=/tmp/c6root/usr/lib64
+exec /tmp/c6root/usr/bin/g++ "$@"

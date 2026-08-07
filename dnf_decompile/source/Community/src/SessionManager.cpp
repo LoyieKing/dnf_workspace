@@ -4,25 +4,25 @@
 
 #include "SessionManager.h"
 
+#include <iostream>
+#include "DNFFunctionLib.h"
+#include "CommonConstants.h"
+#include "GuildConstants.h"
+
 #include "ISessionManager.h"
 #include "NetworkSession.h"
 
 
 CSessionManager::CSessionManager() {
-    map = std::map<int, int>();
-    packetDispatcher = CPacketDispatcher();
     CNetworkSession::pSessionManager = this;
     networkSession = NULL;
     // 来自反编译/DWARF 的推断：原始条件为 size <= i 时 break，即遍历 0..size-1
     // 原重建代码的 "size > i break" 逻辑完全反转，导致一次都不执行注册
-    int i = 0;
-    while (true) {
-        if (i >= get_packet_table_size()) break;
+    for (int i = 0; i < get_packet_table_size(); i++) {
         packetDispatcher.register_packet(get_packet_table()[i].packet_id, get_packet_table()[i].packet_handler);
-        i++;
     }
 }
-CPacketDispatcher* CSessionManager::GetPackageDispatcher() {
+CPacketDispatcher* CSessionManager::GetPacketDispatcher() {
     return &packetDispatcher;
 }
 
@@ -45,22 +45,21 @@ bool CSessionManager::SendHeartbeat(const char* data, int length) {
 }
 
 bool CSessionManager::SendPacketToConnectingSession(char const* what1, int what2, char const* what3, int what4) {
-    if (networkSession == NULL) {
-        if (what3 != NULL && what4 != 0) {
-            TryConnect(what3, what4);
-        }
-        return false;
-    } else {
-        bool sent = networkSession->Send(what1, what2);
-        if (sent) {
-            return true;
-        } else {
+    // 原始：networkSession != NULL 外层；Send == false 提前处理（xor eax,1; test/je）
+    if (networkSession != NULL) {
+        if (networkSession->Send(what1, what2) == false) {
             if (what3 != NULL && what4 != 0) {
                 TryDisconnect(networkSession);
                 TryConnect(what3, what4);
             }
             return false;
         }
+        return true;
+    } else {
+        if (what3 != NULL && what4 != 0) {
+            TryConnect(what3, what4);
+        }
+        return false;
     }
 }
 CSessionManager::~CSessionManager() {

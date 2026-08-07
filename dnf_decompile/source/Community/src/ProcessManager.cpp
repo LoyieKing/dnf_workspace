@@ -4,6 +4,11 @@
 
 #include "ProcessManager.h"
 
+#include <iostream>
+#include "DNFFunctionLib.h"
+#include "CommonConstants.h"
+#include "GuildConstants.h"
+
 #include <dirent.h>
 #include <signal.h>
 #include <sys/file.h>
@@ -13,6 +18,9 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+
+CProcessManager::CProcessManager() {}
+CProcessManager::~CProcessManager() {}
 
 void CProcessManager::_makeDir(char *dirName) {
     DIR *dir = opendir(dirName);
@@ -26,7 +34,11 @@ bool CProcessManager::check_pidfile(const char *processName) {
     memset(buffer, 0, 30);
     sprintf(buffer, "./pid/%s.pid", processName);
     puts(buffer);
-    return access(buffer, F_OK);
+    // 原始：call access 后 test eax,eax; sete al; test al,al; je（调用结果直接入条件）
+    if (access(buffer, F_OK) == 0) {
+        return 1;
+    }
+    return 0;
 }
 
 int CProcessManager::Daemon() {
@@ -50,21 +62,21 @@ void CProcessManager::SendShutdownSignal(const char *processName) {
     sprintf(buffer, "pid/%s.pid", processName);
     FILE *file = fopen(buffer, "r");
     if (file == NULL) {
-        // 原文是"%s process id file open 실패\n"，EUC_KR编码
-        printf("%s process id file open failed\n", buffer);
+        // EUC-KR："실패"
+        printf("%s process id file open \275\307\306\320\n", buffer);
     } else {
         int pid;
         fscanf(file, "%d", &pid);
         if (pid < 1) {
             fclose(file);
-            // 原文是"%d번의 잘못된 process id\n"，EUC_KR编码
-            printf("Incorrect process id %d\n", pid);
+            // EUC-KR："번의 잘못된"
+            printf("%d\271\370\300\307 \300\337\270\370\265\310 process id\n", pid);
         } else {
             int result = kill(pid, SIGUSR2);
             if (result < 0) {
                 fclose(file);
-                // 原文是"%d번 process로 종료 signal 송신 실패"，EUC_KR编码
-                printf("Failed to send termination signal to process %d", pid);
+                // EUC-KR："번 process로 종료 signal 송신 실패"
+                printf("%d\271\370 process\267\316 \301\276\267\341 signal \274\333\275\305 \275\307\306\320", pid);
             } else {
                 printf("SEND SHUTDOWN SIGNAL TO %d\n", pid);
                 fclose(file);
@@ -76,7 +88,8 @@ void CProcessManager::SendShutdownSignal(const char *processName) {
 int CProcessManager::WritePID(const char *processName) {
     char pidBuffer[512];
     char pidPath[30];
-    _makeDir(const_cast<char*>(processName));
+    // 原始：_makeDir("./pid") 常量（0x80b58e3）
+    _makeDir(const_cast<char*>("./pid"));
     memset(pidPath, 0, 30);
     sprintf(pidPath, "./pid/%s.pid", processName);
     int file = open(pidPath, O_CREAT | O_RDWR /* 0102 */, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH /* 0644 */);
@@ -84,10 +97,11 @@ int CProcessManager::WritePID(const char *processName) {
         return 0;
     } else {
         memset(pidBuffer, 0, 512);
-        long pid = getpid();
-        sprintf(pidBuffer, "%ld\n", pid);
-        size_t len = strlen(pidBuffer);
-        if (write(file, pidBuffer, len) < 0) {
+        // 原始：getpid() 直接作为变参
+        sprintf(pidBuffer, "%ld\n", getpid());
+        // 原始：strlen 内联为 write 参数；write 结果先存局部变量（cmp+jns）
+        int w = write(file, pidBuffer, strlen(pidBuffer));
+        if (w < 0) {
             close(file);
             return 0;
         } else {

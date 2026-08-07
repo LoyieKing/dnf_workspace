@@ -1,0 +1,6 @@
+#!/bin/sh
+# CentOS 5.11 (清华镜像 vault) gcc-4.1.2-55.el5 包装脚本 —— 与原始 df_community_r 编译器完全同版本。
+# RPM 解包至 /tmp/c5root；用法与 c6-g++ 相同（设置 GCC_EXEC_PREFIX）。
+export GCC_EXEC_PREFIX=/tmp/c5root/usr/libexec/gcc/
+export PATH=/tmp/c5root/usr/libexec/gcc/x86_64-redhat-linux/4.1.2:$PATH
+exec /tmp/c5root/usr/bin/g++ "$@"

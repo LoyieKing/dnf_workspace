@@ -21,14 +21,14 @@ class CArchiveLog {
 private:
     int CloseFile();
 
-    int OpenFile(const char *file);
+    bool OpenFile(const char *file);
 
 public:
     CArchiveLog();
 
-    int CreateLogFile(DateTime &date);
+    bool CreateLogFile(DateTime &date);  // 原始：bool 返回（WriteLog 调用处 xor 惯用法）
 
-    int CreateLogFile(const char *prefix);
+    bool CreateLogFile(const char *prefix);
 
     int WriteLog(const char *log);
 

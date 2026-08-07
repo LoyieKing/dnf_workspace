@@ -18,13 +18,13 @@ class CEpoll {
     int eventCount;            // offset 0xc
 
 public:
+    // 原始反编译：构造仅清零 epollEvents/epfd（eventCount 保持未初始化）
+    CEpoll() : epollEvents(NULL), epfd(0) {}
     int CreateEvents(int size);
     bool RegisterSession(Session *session, int triggerSessionEventType);
     bool UnregisterSession(Session *session);
     int WaitForEvent(int timeout);
     virtual ~CEpoll();
 };
-
-template class CEpoll<CNetworkSession>;
 
 }  // namespace socket_event

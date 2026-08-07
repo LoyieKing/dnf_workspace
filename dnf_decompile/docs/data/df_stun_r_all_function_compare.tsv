@@ -1,0 +1,27 @@
+symbol	demangled	orig_addr	orig_size	orig_insns	new_insns	class
+_GLOBAL__I__Z12stunProcess1Pv	global constructors keyed to stunProcess1(void*)	0x401556	21	7	7	NEAR
+_GLOBAL__I__Z8openPorttj	global constructors keyed to openPort(unsigned short, unsigned int)	0x40186c	21	7	7	NEAR
+_GLOBAL__I_socketRealIp_	global constructors keyed to socketRealIp_	0x401f36	21	7	7	NEAR
+_Z10check_argviPPc	check_argv(int, char**)	0x40290c	305	83	83	NEAR
+_Z10getMessageiPcPiPjPt	getMessage(int, char*, int*, unsigned int*, unsigned short*)	0x401ac0	466	122	122	NEAR
+_Z10msgProcessiPciR7Address	msgProcess(int, char*, int, Address&)	0x401584	239	67	67	NEAR
+_Z11daemon_initv	daemon_init()	0x40287c	89	23	23	NEAR
+_Z11initNetworkv	initNetwork()	0x401828	6	4	4	IDENTICAL
+_Z11sendMessageiPcijt	sendMessage(int, char*, int, unsigned int, unsigned short)	0x40189a	549	142	142	NEAR
+_Z12stunProcess1Pv	stunProcess1(void*)	0x4017a4	129	31	31	NEAR
+_Z12stunProcess2Pv	stunProcess2(void*)	0x401722	129	31	31	NEAR
+_Z12stunProcess3Pv	stunProcess3(void*)	0x401674	173	39	39	NEAR
+_Z13regist_signaliPFviE	regist_signal(int, void (*)(int))	0x402324	177	37	37	NEAR
+_Z14check_pid_filev	check_pid_file()	0x4028d6	53	16	16	NEAR
+_Z14rdar_terminatei	rdar_terminate(int)	0x402554	94	25	25	NEAR
+_Z14regist_signalsv	regist_signals()	0x4023d6	382	95	95	NEAR
+_Z14signal_handleri	signal_handler(int)	0x4025b2	320	76	76	NEAR
+_Z16send_term_signalv	send_term_signal()	0x4026f2	167	44	44	NEAR
+_Z41__static_initialization_and_destruction_0ii	__static_initialization_and_destruction_0(int, int)	0x401ef8	61	17	17	NEAR
+_Z8getErrnov	getErrno()	0x401ee8	13	6	6	NEAR
+_Z8make_dirPKc	make_dir(char const*)	0x4022f4	48	14	14	NEAR
+_Z8openPorttj	openPort(unsigned short, unsigned int)	0x401c92	598	144	144	NEAR
+_Z8save_pidv	save_pid()	0x40279a	225	48	48	NEAR
+_Z9write_logPKci	write_log(char const*, int)	0x40215c	408	99	100	DIFF
+__tcf_0	__tcf_0	0x401f4c	24	8	8	NEAR
+main	main	0x401f64	504	111	111	NEAR

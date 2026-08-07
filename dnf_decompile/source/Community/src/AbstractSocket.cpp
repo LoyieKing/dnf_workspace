@@ -19,17 +19,15 @@ template<int TSizeIn, int TSizeOut>
 int CAbstractSocket<TSizeIn, TSizeOut>::AcceptSocket() {
     socklen_t len;
     sockaddr_in addr;
-    memset(&addr, 0, sizeof(addr));
     len = 16;
     int sock = accept(socket, (sockaddr *)&addr, &len);
     if (sock < 0) {
-        char *error_message = strerror(errno);
-        ArchiveLog("Accept Socket[%d] Error(%s)", sock, error_message);
-        sock = -1;
+        // 原始：strerror(errno) 直接内联为变参
+        ArchiveLog("Accept Socket[%d] Error(%s)", sock, strerror(errno));
+        return -1;
     } else {
-        uint16_t port = ntohs(addr.sin_port);
-        char *ip = inet_ntoa(addr.sin_addr);
-        ArchiveLog("accepted other server ip(%s), port(%d), sock(%d)", ip, (uint)port, sock);
+        // 原始：inet_ntoa/ntohs 直接内联为变参（ntohs 先于 inet_ntoa 求值）
+        ArchiveLog("accepted other server ip(%s), port(%d), sock(%d)", inet_ntoa(addr.sin_addr), ntohs(addr.sin_port), sock);
     }
     return sock;
 }
@@ -44,6 +42,9 @@ CAbstractSocket<MaxRecvBuf, MaxSendBuf>::CAbstractSocket() {
     sendBufferOffset = NULL;
     Reset();
 }
+
+template<int MaxRecvBuf, int MaxSendBuf>
+CAbstractSocket<MaxRecvBuf, MaxSendBuf>::~CAbstractSocket() {}
 
 template<int MaxRecvBuf, int MaxSendBuf>
 void CAbstractSocket<MaxRecvBuf, MaxSendBuf>::Reset() {
@@ -64,7 +65,9 @@ void CAbstractSocket<MaxRecvBuf, MaxSendBuf>::AddTriggerSessionEventType(int ses
 
 template<int MaxRecvBuf, int MaxSendBuf>
 bool CAbstractSocket<MaxRecvBuf, MaxSendBuf>::ConnectPeer() {
-    int sock = connect(this->socket, &this->socket_address, 0x10);
+    // 原始：先初始化 0（mov [ebp-0xc],0）再赋值
+    int sock = 0;
+    sock = connect(this->socket, (struct sockaddr *)&this->socket_address, 0x10);
     if (sock < 0 && errno != EINPROGRESS /*115*/ && errno != EAGAIN /*11*/ && errno != EINTR /*4*/ && errno != 0) {
         return false;
     }
@@ -73,30 +76,31 @@ bool CAbstractSocket<MaxRecvBuf, MaxSendBuf>::ConnectPeer() {
 
 template<int MaxRecvBuf, int MaxSendBuf>
 bool CAbstractSocket<MaxRecvBuf, MaxSendBuf>::CreateConnectionSocket(const char *ip, int port) {
-    int sock = ::socket(PF_INET, SOCK_STREAM, 0);
-    this->socket = sock;
+    this->socket = ::socket(PF_INET, SOCK_STREAM, 0);
     if (this->socket < 0) {
         return false;
-    } else {
-        bool nonblock = SetNonblock(this->socket);
-        if (nonblock) {
-            memset(&this->socket_address, 0, sizeof(this->socket_address));
-            this->socket_address.sa_family = 2;
-            in_addr_t addr = inet_addr(ip);
-            *(in_addr_t *)(this->socket_address.sa_data + 2) = addr;
-            *(uint16_t *)(this->socket_address).sa_data = htons(port);
-            return ConnectPeer();
-        } else {
-            return false;
-        }
     }
+    // 原始：SetNonblock == false 提前返回（xor eax,1; test/je 形态）
+    if (SetNonblock(this->socket) == false) {
+        return false;
+    }
+    memset(&this->socket_address, 0, sizeof(this->socket_address));
+    this->socket_address.sin_family = AF_INET /*2*/;
+    this->socket_address.sin_addr.s_addr = inet_addr(ip);
+    this->socket_address.sin_port = htons((uint16_t)port);
+    return ConnectPeer();
 }
 
 template<int MaxRecvBuf, int MaxSendBuf>
 bool CAbstractSocket<MaxRecvBuf, MaxSendBuf>::SetNonblock(int sock) {
-    int opts = fcntl(sock, F_GETFL);
+    int opts = fcntl(sock, F_GETFL, 0);
     int r = fcntl(sock, F_SETFL, opts | O_NONBLOCK /*0x800 , 04000*/);
-    return -1 < r;
+    // 原始：显式 if/else 返回
+    if (r < 0) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 template<int MaxRecvBuf, int MaxSendBuf>
@@ -117,40 +121,44 @@ int CAbstractSocket<MaxRecvBuf, MaxSendBuf>::GetTriggerSessionEventType() {
 }
 
 template<int MaxRecvBuf, int MaxSendBuf>
-int CAbstractSocket<MaxRecvBuf, MaxSendBuf>::CreateListenSocket(int &outputSocket, int port, const char *ip) {
-    int sock = ::socket(PF_INET, SOCK_STREAM, 0);
-    outputSocket = sock;
+bool CAbstractSocket<MaxRecvBuf, MaxSendBuf>::CreateListenSocket(int &outputSocket, int port, const char *ip) {
+    // 原始：socketBufSize/e 在函数顶部初始化（mov [ebp-0x10],0xea60; mov [ebp-0xc],0）
+    int socketBufSize = 60000;
+    int e = 0;
+    // 原始：socket() 结果直接写入 outputSocket，无中间变量
+    outputSocket = ::socket(PF_INET, SOCK_STREAM, 0);
     if (outputSocket < 0) {
         return 0;
-    }
-    struct sockaddr sockaddr;
-    memset(&sockaddr, 0, sizeof(sockaddr));
-    memset(&sockaddr, 0, sizeof sockaddr);
-    sockaddr.sa_family = 2;
-    if (ip == NULL) {
-        *(in_addr_t *)(sockaddr.sa_data + 2) = htonl(0);
     } else {
-        *(in_addr_t *)(sockaddr.sa_data + 2) = inet_addr(ip);
-    }
-    *(uint16_t *)(sockaddr).sa_data = htons((uint16_t)port);
-    int socketBufSize = 60000;
-    int e = setsockopt(outputSocket, SOL_SOCKET /*1*/, SO_REUSEADDR /*2*/, &socketBufSize, 4);
-    if (e < 0) {
-        return 0;
-    }
-    int err = bind(outputSocket, &sockaddr, 0x10);
-    if (err < 0) {
-        return 0;
-    }
-    err = listen(outputSocket, 5);
-    if (err < 0) {
-        return 0;
-    }
-    bool success = SetNonblock(outputSocket);
-    if (success) {
-        return 1;
-    } else {
-        return 0;
+        // 原始：sockaddr_in 命名字段（直接成员偏移，无地址计算/ebx 缓存）
+        struct sockaddr_in sockaddr;
+        memset(&sockaddr, 0, sizeof(sockaddr));
+        sockaddr.sin_family = AF_INET /*2*/;
+        if (ip != NULL) {
+            sockaddr.sin_addr.s_addr = inet_addr(ip);
+        } else {
+            sockaddr.sin_addr.s_addr = htonl(0);
+        }
+        sockaddr.sin_port = htons((uint16_t)port);
+        e = setsockopt(outputSocket, SOL_SOCKET /*1*/, SO_REUSEADDR /*2*/, &socketBufSize, 4);
+        if (e < 0) {
+            return 0;
+        } else {
+            // 原始：bind/listen 调用结果直接入条件（shr eax,0x1f + test/je）
+            if (bind(outputSocket, (struct sockaddr *)&sockaddr, 0x10) < 0) {
+                return 0;
+            } else {
+                if (listen(outputSocket, 5) < 0) {
+                    return 0;
+                } else {
+                    // 原始：SetNonblock 结果 == false 提前返回（xor eax,1; test/je）
+                    if (SetNonblock(outputSocket) == false) {
+                        return 0;
+                    }
+                    return 1;
+                }
+            }
+        }
     }
 }
 
@@ -168,21 +176,23 @@ bool CAbstractSocket<MaxRecvBuf, MaxSendBuf>::SetRecvBufferOffset(int parsingLen
         this->recvBufferOffset = this->recvBuffer + this->m_remain_recvlen;
         memmove(this->recvBuffer, this->recvBuffer + parsingLen, this->m_remain_recvlen);
     } else {
-        if (this->m_remain_recvlen != parsingLen) {
+        // 原始：相等分支在前（jne 才进错误分支）
+        if (this->m_remain_recvlen == parsingLen) {
+            this->m_remain_recvlen = 0;
+            this->recvBufferOffset = this->recvBuffer;
+        } else {
             ArchiveLog("[PARSING LENGTH EXCEPTION] m_remain_recvlen(%d) > parsingLen(%d) ", this->m_remain_recvlen, parsingLen);
             return 0;
         }
-        this->m_remain_recvlen = 0;
-        this->recvBufferOffset = this->recvBuffer;
     }
     return 1;
 }
 
 template<int MaxRecvBuf, int MaxSendBuf>
-char *CAbstractSocket<MaxRecvBuf, MaxSendBuf>::GetRecvBuff(int getSize, int *remainRecvLen) {
+char *CAbstractSocket<MaxRecvBuf, MaxSendBuf>::GetRecvBuff(int getSize, int &remainRecvLen) {
     this->m_remain_recvlen += getSize;
     this->recvBufferOffset += getSize;
-    *remainRecvLen = this->m_remain_recvlen;
+    remainRecvLen = this->m_remain_recvlen;
     return this->recvBuffer;
 }
 
@@ -217,8 +227,8 @@ template<int MaxRecvBuf, int MaxSendBuf>
 int CAbstractSocket<MaxRecvBuf, MaxSendBuf>::SetSocket(int sock, bool setNonBlock) {
     this->socket = sock;
     if (setNonBlock) {
-        bool success = SetNonblock(sock);
-        if (!success) {
+        // 原始：直接检查 SetNonblock 结果（xor eax,1 惯用法）
+        if (!SetNonblock(sock)) {
             return 0;
         }
     }
@@ -238,10 +248,12 @@ int CAbstractSocket<MaxRecvBuf, MaxSendBuf>::send_packet(const char *data, int l
         ArchiveLog("!!!Send Packet[(%d,%d) Size(%d) Error\n", (int)*data, (int)data[1], last);
         return -1;
     } else {
+        int result = 0;  // 原始：声明未使用的局部变量（mov [ebp-0xc],0）
         errno = 0;
         this->remainSendLen = this->remainSendLen + last;
         if (this->remainSendLen < MaxSendBuf + 1) {
-            if ((this->sendBufferOffset < this->sendBuffer) || ((char *)&this->triggerSessionEventType <= this->sendBufferOffset)) {
+            // 原始：偏移超出 [sendBuffer, sendBuffer+MaxSendBuf) 即错误（jb/jb 无符号比较）
+            if ((this->sendBufferOffset < this->sendBuffer) || (this->sendBufferOffset >= this->sendBuffer + MaxSendBuf)) {
                 this->remainSendLen = this->remainSendLen - last;
                 ArchiveLog("!!!Send Packet Buffer error P_TYPE[%d] Size:Remain[%d] Last[%d]", (int)data[1], this->remainSendLen, last);
                 return -1;
@@ -263,7 +275,9 @@ int CAbstractSocket<MaxRecvBuf, MaxSendBuf>::send_packet() {
     if (this->remainSendLen < 1) {
         return 0;
     }
-    int nSend = write(this->socket, this->sendBuffer, this->remainSendLen);
+    // 原始：nSend 先初始化 0（mov [ebp-0xc],0）再赋值
+    int nSend = 0;
+    nSend = write(this->socket, this->sendBuffer, this->remainSendLen);
     if (nSend < 1) {
         if (errno == EAGAIN || errno == EINTR || errno == EAGAIN /*two 0xb, not typo. copied from original code*/ || errno == 0) {
             return 0;
@@ -294,3 +308,6 @@ int CAbstractSocket<MaxRecvBuf, MaxSendBuf>::send_packet() {
 
     return nSend;
 }
+
+// 显式实例化定义（gcc 4.4 下头文件中的声明会抑制隐式实例化，定义须在此处）
+template class CAbstractSocket<4096, 4096>;

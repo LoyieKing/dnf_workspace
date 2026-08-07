@@ -2,7 +2,13 @@
 // Created by loyieking on 24-3-24.
 //
 
+
 #include "User.h"
+
+#include <iostream>
+#include "DNFFunctionLib.h"
+#include "CommonConstants.h"
+#include "GuildConstants.h"
 
 #include <cstring>
 
@@ -20,6 +26,29 @@
 #include "Packet_Update_PvP_Buddy.h"
 #include "UserManager.h"
 
+void CUser::check_myself() {
+    bool flag = false;
+    for (std::vector<STPvPBuddyDBInfo>::iterator _it_buddy = buddyManager.buddies.begin(); _it_buddy != buddyManager.buddies.end(); ++_it_buddy) {
+        CUser* user = g_user_manager.find_user((*_it_buddy).user_m_id);
+        // 原始：user != NULL && !check_variable_charac_info(...) 复合条件直接物化（mov eax,1/0 + test al,al）
+        if (user != NULL && !user->check_variable_charac_info(stGameUserInfo.server_id,
+                                                         stGameUserInfo.buddy_n_user_id_what,
+                                                         stGameUserInfo.variable_what1,
+                                                         stGameUserInfo.variable_what2)) {
+            flag = true;
+            // 来自反编译/DWARF 的推断：应调用 user->update_variable_charac_info，在buddy用户的buddy列表中更新我的信息
+            user->update_variable_charac_info(stGameUserInfo.server_id,
+                                        stGameUserInfo.buddy_n_user_id_what,
+                                        stGameUserInfo.variable_what1,
+                                        stGameUserInfo.variable_what2);
+        }
+    }
+    // 来自反编译/DWARF 的推断：有修改时才写库，原重gou if (!flag) 显然反了
+    if (flag) {
+        db_update_buddy();
+    }
+}
+
 CUser::CUser(CNetworkSession *networkSession, STGameUserInfo &stGameUserInfo, int buddyCount, STPvPBuddyDBInfo *buddyList) {
     this->networkSession = networkSession;
     this->stGameUserInfo = stGameUserInfo;
@@ -27,10 +56,10 @@ CUser::CUser(CNetworkSession *networkSession, STGameUserInfo &stGameUserInfo, in
         buddyManager.add_buddy(buddyList[i]);
     }
 }
-CUser::CUser(const CUser &other) {
-    this->networkSession = other.networkSession;
-    this->stGameUserInfo = other.stGameUserInfo;
-    this->buddyManager = CBuddyManager(other.buddyManager);
+CUser::CUser(const CUser &other)
+    : networkSession(other.networkSession),
+      stGameUserInfo(other.stGameUserInfo),
+      buddyManager(other.buddyManager) {  // 原始：成员初始化列表直接复制，无临时对象
 }
 bool CUser::check_variable_charac_info(char service_id, char const *user_id_what, char variable_what1, char variable_what2) {
     STPvPBuddyDBInfo* buddy = buddyManager.find_buddy(service_id, user_id_what);
@@ -42,20 +71,13 @@ bool CUser::check_variable_charac_info(char service_id, char const *user_id_what
     }
     return false;
 }
-void CUser::update_variable_charac_info(char service_id, char *user_id_what, char variable_what1, char variable_what2) {
-    STPvPBuddyDBInfo* buddy = buddyManager.find_buddy(service_id, user_id_what);
-    if (buddy != NULL) {
-        buddy->variable_what1 = variable_what1;
-        buddy->variable_what2 = variable_what2;
-    }
-}
-
 void CUser::db_delete_buddy(char buddy_server_id, unsigned int buddy_charac_no) {
     Packet_Delete_PvP_Buddy packet;
     packet.user_server_id = stGameUserInfo.server_id;
     packet.user_charac_no = stGameUserInfo.charac_no;
-    packet.buddy_charac_no = buddy_charac_no;
+    // 原始：buddy_server_id 先于 buddy_charac_no 赋值（[ebp-0xd] 在 [ebp-0xc] 之前）
     packet.buddy_server_id = buddy_server_id;
+    packet.buddy_charac_no = buddy_charac_no;
     networkSession->Send((char *)&packet, packet.packetSize);
 }
 void CUser::db_insert_buddy(STPvPBuddyDBInfo *a, STPvPBuddyDBInfo *b) {
@@ -100,10 +122,11 @@ void CUser::notice_add_buddy_success(char reason_what, CUser *user) {
     Packet_Notice_Add_PvP_Buddy_Result packet;
     packet.charac_no = stGameUserInfo.charac_no;
     packet.sTGameUserInfo_what3_0x05 = stGameUserInfo.what_0x5;
-    packet.error_code_what_50_0x32 = 0;
     // 来自反编译/DWARF 的推断：server_id和buddy_n_user_id_what来自参数user，不是来自this
-    packet.server_id = user->stGameUserInfo.server_id;
+    // 原始顺序：reason_what_18_0x12 在 error_code_what_50_0x32 之前赋值
     packet.reason_what_18_0x12 = reason_what;
+    packet.error_code_what_50_0x32 = 0;
+    packet.server_id = user->stGameUserInfo.server_id;
     memcpy(packet.buddy_n_user_id_what, user->stGameUserInfo.buddy_n_user_id_what, 0x1d);
     networkSession->Send((char *)&packet, packet.packetSize);
 }
@@ -114,8 +137,7 @@ void CUser::notice_login_logout(CUser::eLoginout loginout) {
     packet.server_id = stGameUserInfo.server_id;
     memcpy(packet.buddy_n_user_id_what, stGameUserInfo.buddy_n_user_id_what, 0x1d);
     for (std::vector<STPvPBuddyDBInfo>::iterator _it_buddie = buddyManager.buddies.begin(); _it_buddie != buddyManager.buddies.end(); ++_it_buddie) {
-        STPvPBuddyDBInfo& buddie = *_it_buddie;
-        CUser* user = g_user_manager.find_user(buddie.server_id, buddie.buddy_n_user_id_what);
+        CUser* user = g_user_manager.find_user((*_it_buddie).server_id, (*_it_buddie).buddy_n_user_id_what);
         if (user != NULL) {
             packet.what_0xa = user->stGameUserInfo.charac_no;
             packet.what_0xe = user->stGameUserInfo.what_0x5;
@@ -159,17 +181,17 @@ void CUser::req_remove_buddy(char param_server_id, char const *param_user_id_wha
     __attribute__((unused)) int user_m_id = removingBuddy->user_m_id;
     char server_id = removingBuddy->server_id;
     int charac_no = removingBuddy->charac_no;
-    if (buddyManager.del_buddy(param_server_id, param_user_id_what)) {
+    if (!buddyManager.del_buddy(param_server_id, param_user_id_what)) {
+        // 3 not means buddy not found???
+        notice_remove_buddy_fail(3);
+    } else {
         CUser* user = g_user_manager.find_user(param_server_id, param_user_id_what);
         if (user != NULL) {
             user->get_buddy_manager()->del_buddy(user->stGameUserInfo.server_id, stGameUserInfo.buddy_n_user_id_what);
         }
         db_delete_buddy(server_id, charac_no);
         notice_remove_buddy_success(param_server_id, param_user_id_what);
-        ArchiveLog("CUser::req_remove_buddy REQ(server_id:%d, charac_no:%d), RES(server_id:%d, charac_ no:%d)", stGameUserInfo.server_id, stGameUserInfo.charac_no, server_id, charac_no);
-    } else {
-        // 3 not means buddy not found???
-        notice_remove_buddy_fail(3);
+        ArchiveLog("CUser::req_remove_buddy REQ(server_id:%d, charac_no:%d), RES(server_id:%d, charac_no:%d)", stGameUserInfo.server_id, stGameUserInfo.charac_no, server_id, charac_no);
     }
 }
 void CUser::res_add_buddy(CUser *buddy) {
@@ -186,7 +208,7 @@ void CUser::res_add_buddy(CUser *buddy) {
     notice_add_buddy_success(1, buddy);
     buddy->notice_add_buddy_success(0, this);
 
-    ArchiveLog("CUser::res_add_buddy REQ(server_id:%d, charac_no:%d, channel_no:%d), RES(server_id:%d,  charac_no:%d, channel_no:%d)", stGameUserInfo.server_id, stGameUserInfo.charac_no,
+    ArchiveLog("CUser::res_add_buddy REQ(server_id:%d, charac_no:%d, channel_no:%d), RES(server_id:%d, charac_no:%d, channel_no:%d)", stGameUserInfo.server_id, stGameUserInfo.charac_no,
                stGameUserInfo.channel_no, buddy->stGameUserInfo.server_id, buddy->stGameUserInfo.charac_no, buddy->stGameUserInfo.channel_no);
 }
 void CUser::send_buddy_list() {
@@ -195,8 +217,14 @@ void CUser::send_buddy_list() {
     packet.sTGameUserInfo_what3_0x05 = stGameUserInfo.what_0x5;
     packet.buddyCount = buddyManager.get_size();
     int i = 0;
-    for (std::vector<STPvPBuddyDBInfo>::iterator iBuddy = buddyManager.buddies.begin(); iBuddy != buddyManager.buddies.end() && i < 32; iBuddy++, i++) {
-        CUser* user = g_user_manager.find_user(iBuddy->server_id, iBuddy->buddy_n_user_id_what);
+    // 原始：while (iBuddy != end) { if (i > 31) break; ... }（直接分支，无 && 物化）
+    std::vector<STPvPBuddyDBInfo>::iterator iBuddy = buddyManager.buddies.begin();
+    std::vector<STPvPBuddyDBInfo>::iterator iEnd = buddyManager.buddies.end();
+    while (iBuddy != iEnd) {
+        if (i > 31) {
+            break;
+        }
+        CUser* user = g_user_manager.find_user((*iBuddy).server_id, (*iBuddy).buddy_n_user_id_what);
         if (user == NULL) {
             packet.buddies[i].isOnline = false;
             packet.buddies[i].channel_no = -1;
@@ -212,6 +240,8 @@ void CUser::send_buddy_list() {
         packet.buddies[i].variable_what2 = buddy.variable_what2;
         packet.buddies[i].buddy_n_user_what3 = buddy.buddy_n_user_what3;
         memcpy(packet.buddies[i].buddy_n_user_id_what, buddy.buddy_n_user_id_what, 0x1d);
+        ++iBuddy;
+        i++;
     }
     networkSession->Send((char *)&packet, packet.packetSize);
 }
@@ -220,8 +250,9 @@ void CUser::send_other_channel_chat(Packet_Monitor_Other_Channel_Chat *chat, CUs
     packet.what_0x0a = chat->what_0x0a;
     packet.sTGameUserInfo_what3_0x05 = stGameUserInfo.what_0x5;
     packet.charac_no = stGameUserInfo.charac_no;
-    packet.server_id = stGameUserInfo.server_id;
-    memcpy(packet.buddy_n_user_id_what, stGameUserInfo.buddy_n_user_id_what, 0x1d);
+    // 原始：server_id 与 buddy id 来自发送者 user 参数（param_2），而非 this
+    packet.server_id = user->stGameUserInfo.server_id;
+    memcpy(packet.buddy_n_user_id_what, user->stGameUserInfo.buddy_n_user_id_what, 0x1d);
     packet.chatLength = chat->chatLength;
     memcpy(packet.chatContent, chat->chatContent, chat->chatLength);
     networkSession->Send((char *)&packet, packet.packetSize);
@@ -231,11 +262,12 @@ void CUser::send_other_channel_chat_hyper_link(Packet_Monitor_Other_Channel_Chat
     packet.what_0x0a = chat->what_0x0a;
     packet.what_0x0f = stGameUserInfo.what_0x5;
     packet.what_0x13 = stGameUserInfo.charac_no;
-    packet.what_0x0e = stGameUserInfo.server_id;
-    memcpy(packet.what_0x17, stGameUserInfo.buddy_n_user_id_what, 0x1d);
-    packet.what_0x16f = chat->what_0x3a;
+    // 原始：server_id 与 buddy id 来自发送者 user 参数（param_2）
+    packet.what_0x0e = user->stGameUserInfo.server_id;
+    memcpy(packet.what_0x17, user->stGameUserInfo.buddy_n_user_id_what, 0x1d);
+    packet.what_0x16f = chat->what_0x173;
     memcpy(packet.what_0x170, chat->what_0x174, chat->what_0x173);
-    packet.what_0x16f = chat->what_0x3a;
+    packet.what_0x36 = chat->what_0x3a;
     for (int i = 0; i < chat->what_0x3a; i++) {
         memcpy(packet.what_0x37 + i * 0x68, chat->what_0x3b + i * 0x68, 0x68);
     }
@@ -247,7 +279,8 @@ void CUser::send_other_channel_chat_result(Packet_Monitor_Other_Channel_Chat *ch
     packet.sTGameUserInfo_what3_0x05 = stGameUserInfo.what_0x5;
     packet.charac_no = stGameUserInfo.charac_no;
     packet.errorCode = error;
-    memcpy(packet.buddy_n_user_id_what, stGameUserInfo.buddy_n_user_id_what, 0x1d);
+    // 原始：不设置 server_id（保持构造时的 0），buddy id 来自聊天包（param_1+0x1c）
+    memcpy(packet.buddy_n_user_id_what, chat->buddy_n_user_id_what, 0x1d);
     packet.chatLength = chat->chatLength;
     memcpy(packet.chatContent, chat->chatContent, chat->chatLength);
     networkSession->Send((char *)&packet, packet.packetSize);
@@ -258,7 +291,8 @@ void CUser::send_other_channel_chat_result_hyper_link(Packet_Monitor_Other_Chann
     packet.what_0x0f = stGameUserInfo.what_0x5;
     packet.what_0x13 = stGameUserInfo.charac_no;
     packet.what_0x35 = error;
-    memcpy(packet.what_0x17, stGameUserInfo.buddy_n_user_id_what, 0x1d);
+    // 原始：buddy id 来自聊天包（param_1+0x1c）
+    memcpy(packet.what_0x17, chat->buddy_n_user_id_what, 0x1d);
     packet.what_0x16f = chat->what_0x173;
     memcpy(packet.what_0x170, chat->what_0x174, chat->what_0x173);
     packet.what_0x36 = chat->what_0x3a;
@@ -269,37 +303,10 @@ void CUser::send_other_channel_chat_result_hyper_link(Packet_Monitor_Other_Chann
 }
 void CUser::update_variable_charac_info(char server_id, const char *user_id_what, char variable_what1, char variable_what2) {
     STPvPBuddyDBInfo* buddy = buddyManager.find_buddy(server_id, user_id_what);
-    if (buddy != NULL) {
-        buddy->variable_what1 = variable_what1;
-        buddy->variable_what2 = variable_what2;
+    // 原始：NULL 提前返回（尾部 jmp; nop 形态）
+    if (buddy == NULL) {
+        return;
     }
-}
-void CUser::check_myself() {
-    bool flag = false;
-    for (std::vector<STPvPBuddyDBInfo>::iterator _it_buddy = buddyManager.buddies.begin(); _it_buddy != buddyManager.buddies.end(); ++_it_buddy) {
-        STPvPBuddyDBInfo& buddy = *_it_buddy;
-        bool needUpdate = false;
-        CUser* user = g_user_manager.find_user(buddy.user_m_id);
-        if (user == NULL) {
-            needUpdate = false;
-        } else {
-            // 来自反编译/DWARF 的推断：应调用 user->check_variable_charac_info，检查buddy用户是否有我的最新信息
-            needUpdate = !user->check_variable_charac_info(stGameUserInfo.server_id,
-                                                     stGameUserInfo.buddy_n_user_id_what,
-                                                     stGameUserInfo.variable_what1,
-                                                     stGameUserInfo.variable_what2);
-        }
-        if (needUpdate) {
-            flag = true;
-            // 来自反编译/DWARF 的推断：应调用 user->update_variable_charac_info，在buddy用户的buddy列表中更新我的信息
-            user->update_variable_charac_info(stGameUserInfo.server_id,
-                                        stGameUserInfo.buddy_n_user_id_what,
-                                        stGameUserInfo.variable_what1,
-                                        stGameUserInfo.variable_what2);
-        }
-    }
-    // 来自反编译/DWARF 的推断：有修改时才写库，原重gou if (!flag) 显然反了
-    if (flag) {
-        db_update_buddy();
-    }
+    buddy->variable_what1 = variable_what1;
+    buddy->variable_what2 = variable_what2;
 }

@@ -13,15 +13,17 @@ private:
     std::vector<std::string> tags;
 
 public:
+    CConfigFileReader();  // 原始：显示定义于 ConfigFileReader.cpp（TU 首函数，生成 C1/C2）
+
     void add_tag(const char *tag);
 
-    int CheckCommand(char *cmd);
+    bool CheckCommand(char *cmd);
 
     const char *get_value(const char *key);
 
-    int GetLine(FILE *file, char *output);
+    bool GetLine(FILE *file, char *output);
 
-    int Parse(char *data);
+    bool Parse(char *data);
 
     int ReadConfigFile(char const *configFilePath);
 

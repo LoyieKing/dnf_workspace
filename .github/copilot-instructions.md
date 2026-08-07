@@ -15,6 +15,8 @@
   - 当前构建基线为 C++98、32 位、O0 优化。
   - 已包含 `df_community_r` 的重建实现与构建目标。
 
+工程整体背景、组件架构与重建状态总览见 `dnf_decompile/README.md`。
+
 本地 Ghidra 安装路径：`/mnt/d/Works/ghidra`。
 当前环境可使用 Headless CLI 分析流程。
 

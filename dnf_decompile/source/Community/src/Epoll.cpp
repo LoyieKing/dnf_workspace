@@ -39,16 +39,23 @@ bool CEpoll<Session>::RegisterSession(Session *session, int triggerSessionEventT
     epoll_event event;
     event.events = EPOLLIN | EPOLLOUT | EPOLLERR | EPOLLHUP;
     event.data.ptr = session;
-    int socket = (session)->GetSocket();
-    return epoll_ctl(this->epfd, EPOLL_CTL_ADD /*1*/, socket, &event) > -1;
+    // 原始：call epoll_ctl 后 shr eax,0x1f + test al,al + je（调用结果直接入条件 < 0）
+    // GetSocket() 结果直接作为实参（mov [esp+8],eax，不溢栈）
+    if (epoll_ctl(this->epfd, EPOLL_CTL_ADD /*1*/, (session)->GetSocket(), &event) < 0) {
+        return 0;
+    }
+    return 1;
 }
 
 template<class Session>
 bool CEpoll<Session>::UnregisterSession(Session *session) {
     epoll_event event;
     memset(&event, 0, sizeof(event));
-    int socket = (session)->GetSocket();
-    return epoll_ctl(this->epfd, EPOLL_CTL_DEL /*2*/, socket, &event) > -1;
+    // 原始：call epoll_ctl 后 shr eax,0x1f + test al,al + je（调用结果直接入条件 < 0）
+    if (epoll_ctl(this->epfd, EPOLL_CTL_DEL /*2*/, (session)->GetSocket(), &event) < 0) {
+        return 0;
+    }
+    return 1;
 }
 
 template<class Session>
@@ -57,32 +64,38 @@ int CEpoll<Session>::WaitForEvent(int timeout) {
     if (count < 0 && errno != EINTR /*4*/ && errno != 0) {
         return 0;
     }
+    // 原始：succeed 在循环外初始化（mov BYTE [ebp-0x1d],1），循环体内再显式赋值
+    bool succeed = true;
     for (int i = 0; i < count; i++) {
         Session *session = (Session *)this->epollEvents[i].data.ptr;
-        bool succeed = true;
+        // 原始：newSession 先初始化 0（mov DWORD [ebp-0x14],0）再 succeed=true
+        Session *newSession = NULL;
+        succeed = true;
         if (this->epollEvents[i].events & EPOLLIN) {
-            if (((session)->GetTriggerSessionEventType() & 8) == 0) {
-                if ((session)->GetTriggerSessionEventType() & 1) {
-                    succeed = session->OnRecv();
-                }
-            } else {
-                Session *newSession = session->OnAccept();
+            // 原始：(type & 8) != 0 分支在前（OnAccept），== 0 为 else（OnRecv）
+            if (((session)->GetTriggerSessionEventType() & 8) != 0) {
+                newSession = session->OnAccept();
                 if (newSession != NULL) {
                     RegisterSession(newSession, 7);
+                }
+            } else {
+                if ((session)->GetTriggerSessionEventType() & 1) {
+                    succeed = session->OnRecv();
                 }
             }
         }
         if (this->epollEvents[i].events & EPOLLOUT) {
-            if (((session)->GetTriggerSessionEventType() & 0x10) == 0) {
+            // 原始：(type & 0x10) != 0 分支在前（OnConnect），== 0 为 else（OnSend）
+            if (((session)->GetTriggerSessionEventType() & 0x10) != 0) {
+                succeed = (session)->OnConnect();
+                if (succeed) {
+                    (session)->SetTriggerSessionEventType(7);
+                }
+            } else {
                 if ((session)->GetTriggerSessionEventType() & 2) {
                     int size = (session)->OnSend();
                     if (size < 0) {
                         succeed = false;
-                    }
-                } else {
-                    succeed = (session)->OnConnect();
-                    if (succeed) {
-                        (session)->SetTriggerSessionEventType(7);
                     }
                 }
             }
@@ -105,5 +118,7 @@ CEpoll<Session>::~CEpoll() {
     }
     this->epollEvents = NULL;
 }
+
+template class CEpoll<CNetworkSession>;
 
 }  // namespace socket_event
