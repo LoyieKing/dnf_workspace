@@ -246,6 +246,9 @@ public:
     CUser* FindUser(unsigned int dbid);
     CUser* FindUser_CharNo(unsigned int charNo);
     CUser* FindUser_CharName(const char* name);
+    CUser* FindUser(unsigned int dbid) const;
+    CUser* FindUser_CharNo(unsigned int charNo) const;
+    CUser* FindUser_CharName(const char* name) const;
     void DeleteUsersOnGameServerDown(CGameServer* server);
     void DeleteUsersOnTcpGameServerDown(CTcpGameServer* server);
     void DeleteBlackUserOnCharacDelete(unsigned int charNo);

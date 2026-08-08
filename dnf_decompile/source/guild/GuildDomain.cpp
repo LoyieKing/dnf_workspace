@@ -639,6 +639,24 @@ CUser* CUserManager::FindUser_CharName(const char* name)
     return it == m_charNameUsers.end() ? 0 : it->second;
 }
 
+CUser* CUserManager::FindUser(unsigned int dbid) const
+{
+    std::map<unsigned int, CUser*>::const_iterator it = m_users.find(dbid);
+    return it == m_users.end() ? 0 : it->second;
+}
+
+CUser* CUserManager::FindUser_CharNo(unsigned int charNo) const
+{
+    std::map<unsigned int, CUser*>::const_iterator it = m_charNoUsers.find(charNo);
+    return it == m_charNoUsers.end() ? 0 : it->second;
+}
+
+CUser* CUserManager::FindUser_CharName(const char* name) const
+{
+    std::map<std::string, CUser*>::const_iterator it = m_charNameUsers.find(std::string(name));
+    return it == m_charNameUsers.end() ? 0 : it->second;
+}
+
 void CUser::ResetBlackList()
 {
     m_blackList.clear();

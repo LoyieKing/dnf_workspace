@@ -37,7 +37,7 @@ compile() {
     fi
 }
 
-for f in DNFFileLog.cpp CFileLogWriterBase.cpp DNFFunctionLib.cpp Thread.cpp; do
+for f in DNFFileLog.cpp CFileLogWriterBase.cpp DNFFunctionLib.cpp Thread.cpp tinyxml.cpp; do
     if [ "$f" = "CFileLogWriterBase.cpp" ]; then
         if [ ! -f "$OUT_DIR/CFileLogWriterBase.o" ] || \
            [ "$COMMON/$f" -nt "$OUT_DIR/CFileLogWriterBase.o" ]; then
