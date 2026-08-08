@@ -2797,6 +2797,46 @@ void CMember::NoticeChatMsgToMemberMembers(char* msg, int len, CUser* user)
 void CMember::LoadMember(STMemberDBInfo& info, short level, unsigned int a, unsigned int b)
 {
 }
+unsigned int* CMember::GetUpperMember_Proxy()
+{
+    return (unsigned int*)((char*)this + 6);
+}
+void CMember::SetMemberDeleteTime(time_t t)
+{
+}
+int CMember::DeleteMemberByName(char* name, unsigned int& outKey)
+{
+    unsigned int* proxy = GetUpperMember_Proxy();
+    if (proxy != 0 && strcmp((char*)proxy + 5, name) == 0)
+    {
+        outKey = *proxy;
+        memset((char*)this + 6, 0, 0x27);
+        SetMemberDeleteTime(time(0));
+        return 1;
+    }
+    char* p = (char*)this + 0x2e;
+    int idx = 0;
+    unsigned int count = (unsigned int)m_count2d;
+    if (count == 0)
+    {
+        return 0;
+    }
+    while (count != 0)
+    {
+        count--;
+        if (strcmp(p + 5, name) == 0)
+        {
+            outKey = *(unsigned int*)p;
+            memcpy(p, p + 0x27, (unsigned int)(~(unsigned char)idx) * 0x27 + 0x186);
+            m_count2d--;
+            SetMemberDeleteTime(time(0));
+            return 2;
+        }
+        p += 0x27;
+        idx++;
+    }
+    return 3;
+}
 
 CMemberConfig::CMemberConfig() {}
 CMemberConfig::~CMemberConfig() {}

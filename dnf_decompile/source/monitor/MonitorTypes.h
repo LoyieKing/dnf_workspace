@@ -717,6 +717,9 @@ public:
                                                const hyperlink_item_info* items, CUser* user);
     void NoticeChatMsgToMemberMembers(char* msg, int len, CUser* user);
     void LoadMember(STMemberDBInfo& info, short level, unsigned int a, unsigned int b);
+    int DeleteMemberByName(char* name, unsigned int& outKey);
+    unsigned int* GetUpperMember_Proxy();
+    void SetMemberDeleteTime(time_t t);
     char IsEmpty();
     char CheckDailyScheduleTimeOver(int day, long long time);
     char CheckDayHourScheduleTimeOver(int day, int hour, long long time);
