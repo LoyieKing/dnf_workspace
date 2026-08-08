@@ -9,6 +9,7 @@
 #include <string>
 
 #include "PacketHeader.h"
+#include "tinyxml.h"
 
 class CApplication;
 struct stServerInfo;
@@ -233,9 +234,9 @@ class CThreadInterface
 {
 public:
     CThreadInterface();
-    virtual ~CThreadInterface();
     virtual void stop();
     virtual void join();
+    virtual ~CThreadInterface();
     virtual void dispatch(void* param) = 0;
     bool begin();
     static void* dispatch_proxy(void* temp);
@@ -382,12 +383,17 @@ public:
 };
 
 CPacketDecoder* CPacketDecoderInstance();
-void* CSignalTranslatorInstance();
+class CSignalTranslator;
+CSignalTranslator* CSignalTranslatorInstance();
 
 class CSignalTranslator
 {
 public:
-    static void clear(void* self);
+    CSignalTranslator();
+    ~CSignalTranslator();
+    void init(CApplication* app);
+    void clear();
+    char m_data[0x20];
 };
 
 // ---- 任务 / 事件 ----
@@ -483,6 +489,27 @@ public:
     LimitNpcBuyItemRequestInfo();
 };
 
+// ---- np_server_xml：CServerXml 0xb8 ----
+namespace np_server_xml
+{
+class CServerXml
+{
+public:
+    CServerXml();
+    ~CServerXml();
+    static void StrLoading();
+    char m_field0[8];                       // +0
+    TiXmlDocument m_doc;                    // +8
+    std::string m_str54;                    // +0x54
+    std::map<int, std::string> m_map58;     // +0x58
+    std::map<int, std::string> m_map70;     // +0x70
+    std::map<int, std::string> m_map88;     // +0x88
+    std::map<int, int> m_mapa0;             // +0xa0
+};
+}
+
+extern np_server_xml::CServerXml g_ServerString_;
+
 // ---- CSwapQueue / IQueue 模板桩（后续从 guild 复用完整实现）----
 template<class T, int N>
 CSwapQueue<T, N>::CSwapQueue() {}
@@ -519,6 +546,7 @@ class CAppInit
 public:
     CAppInit();
     virtual ~CAppInit();
+    virtual void Init(CApplication* app, int argc, char** argv);
 };
 
 class CAppStartInit : public CAppInit
@@ -526,6 +554,7 @@ class CAppStartInit : public CAppInit
 public:
     CAppStartInit();
     virtual ~CAppStartInit();
+    virtual void Init(CApplication* app, int argc, char** argv);
 };
 
 class CAppStopInit : public CAppInit
@@ -533,6 +562,7 @@ class CAppStopInit : public CAppInit
 public:
     CAppStopInit();
     virtual ~CAppStopInit();
+    virtual void Init(CApplication* app, int argc, char** argv);
 };
 
 class CDNFException

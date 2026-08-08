@@ -441,8 +441,11 @@ void CPacketDecoder::Attach(CApplication* app) {}
 void CPacketDecoder::Process() {}
 
 CPacketDecoder* CPacketDecoderInstance() { return 0; }
-void* CSignalTranslatorInstance() { return 0; }
-void CSignalTranslator::clear(void* self) {}
+CSignalTranslator* CSignalTranslatorInstance() { return 0; }
+CSignalTranslator::CSignalTranslator() {}
+CSignalTranslator::~CSignalTranslator() {}
+void CSignalTranslator::init(CApplication* app) {}
+void CSignalTranslator::clear() {}
 
 CTaskScheduler::CTask::~CTask() {}
 CTaskScheduler::CTaskScheduler() {}
@@ -485,14 +488,26 @@ Packet_Item_Limit_Edition_Load_Data_Req::Packet_Item_Limit_Edition_Load_Data_Req
 Packet_Load_Periodic_Message::Packet_Load_Periodic_Message() : PacketHeader(0x1f48, 10) {}
 LimitNpcBuyItemRequestInfo::LimitNpcBuyItemRequestInfo() : PacketHeader(0x27d8, 10) {}
 
+namespace np_server_xml
+{
+CServerXml::CServerXml() {}
+CServerXml::~CServerXml() {}
+void CServerXml::StrLoading() {}
+}
+
+np_server_xml::CServerXml g_ServerString_;
+
 CAppInit::CAppInit() {}
 CAppInit::~CAppInit() {}
+void CAppInit::Init(CApplication* app, int argc, char** argv) {}
 
 CAppStartInit::CAppStartInit() {}
 CAppStartInit::~CAppStartInit() {}
+void CAppStartInit::Init(CApplication* app, int argc, char** argv) {}
 
 CAppStopInit::CAppStopInit() {}
 CAppStopInit::~CAppStopInit() {}
+void CAppStopInit::Init(CApplication* app, int argc, char** argv) {}
 
 CDNFException::CDNFException(const std::string& msg) : m_msg(msg) {}
 CDNFException::~CDNFException() throw() {}

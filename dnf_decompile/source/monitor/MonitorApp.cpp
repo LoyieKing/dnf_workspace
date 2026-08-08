@@ -68,12 +68,28 @@ CApplication::~CApplication()
 
 void CApplication::Init(int argc, char** argv)
 {
-    ShowLogo();
-    CheckArgv(argc, argv);
-    AttachAppInitor(argv);
-    m_field31c = 0;
-    m_field320 = 0;
-    puts("Application Init() Success!");
+    try
+    {
+        ShowLogo();
+        np_server_xml::CServerXml::StrLoading();
+        CheckArgv(argc, argv);
+        CSignalTranslatorInstance()->init(this);
+        AttachAppInitor(argv);
+        ((CAppInit*)m_appInit)->Init(this, argc, argv);
+        m_field31c = 0;
+        m_field320 = 0;
+        puts("Application Init() Success!");
+    }
+    catch (CDNFException& e)
+    {
+        printf("CApplication::Init() Exception Break : %s\n", e.what());
+        throw;
+    }
+    catch (...)
+    {
+        puts("CApplication::Init() Exception Break");
+        throw;
+    }
 }
 
 void CApplication::Load(int argc, char** argv)
@@ -271,6 +287,7 @@ void CApplication::Free()
     puts("Application Free Start!");
     if (m_udpThread != 0)
     {
+        m_udpThread->stop();
         delete m_udpThread;
         m_udpThread = 0;
     }
@@ -293,6 +310,7 @@ void CApplication::Free()
         m_udpHandler = 0;
     }
     puts("UDP Handler Free Success!");
+    CSignalTranslatorInstance()->clear();
     puts("Signal Translater Free Success!");
     if (m_appConfig != 0)
     {
