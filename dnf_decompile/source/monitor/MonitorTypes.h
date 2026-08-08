@@ -226,7 +226,7 @@ class CExchangeServer
 public:
     CExchangeServer();
     ~CExchangeServer();
-    void SetExchageServer(unsigned int ip, short port, int code, bool* result);
+    void SetExchageServer(unsigned int ip, short port, int code, bool& result);
     char m_active;         // +0
     char m_pad1[3];        // +1
     long long m_time;      // +4

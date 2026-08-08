@@ -790,12 +790,12 @@ void CBlackUser::ChangeCharName(char* name) {}
 
 CExchangeServer::CExchangeServer() {}
 CExchangeServer::~CExchangeServer() {}
-void CExchangeServer::SetExchageServer(unsigned int ip, short port, int code, bool* result)
+void CExchangeServer::SetExchageServer(unsigned int ip, short port, int code, bool& result)
 {
     time_t now = time(0);
     in_addr oldIp;
     oldIp.s_addr = *(unsigned int*)((char*)this + 8);
-    *result = false;
+    result = false;
     if (m_active == 0)
     {
         CMyFileLog log("SetExchageServer", 0xe2c);
@@ -811,7 +811,7 @@ void CExchangeServer::SetExchageServer(unsigned int ip, short port, int code, bo
     {
         if (now - m_time < 0x1f)
         {
-            *result = true;
+            result = true;
         }
         m_time = now;
     }
