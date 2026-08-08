@@ -657,3 +657,22 @@ if/else-if 链 → 逐条 `jne` 跳过。实例：`Script::get_key_val`。
   （`mov %eax,-0x34; ... mov -0x34,%edx; mov %edx,0x4(%esp)`，每循环 +1）；
 - ORIG 是 `mov %eax,%ebx`（寄存器局部），`register` 关键字复现（§27 同类）。
 - 加 register 后 GET_REGISTED_ITEM 704→702。
+
+## 58. 指针/局部 `== 0` 的 sete 物化不可普遍复现（2026-08-09 auction）
+- 指针 `if (p == 0)`、`if (p == NULL)`、`if (!p)` 五种子写法在本工具链都直
+  `cmpl $0; jne`；ORIG 的 `sete %al; test; je` 只出现在「赋值在条件内」形态
+  （`if ((p = fopen(...)) == 0)`）。
+- 但该形态在 importAvatarColorVariation 里让循环多出 2 条 jmp+nop（净变差），
+  已回退——这类「对齐一处、恶化另一处」的权衡要整函数评估后再决定。
+
+## 59. 比较 RTL 方向（setle vs setge）不可控（2026-08-09 auction）
+- `limit <= mQueueSize`（limit 为 register 局部）：本工具链发 `cmp %ebx,%eax;
+  setge`（compare(rhs,lhs)），ORIG 发 `cmp %eax,%ebx; setle`（compare(lhs,rhs)）。
+- 已试 5+ 种等价写法（>= 反写、局部中转、三层调用链），均不出 ORIG 方向；
+  语义一致，属编译器 RTL 生成差异，记录为不可复现。
+
+## 60. build-point.sh 不检查头文件依赖（2026-08-09）
+- build-point.sh 只按 `.cpp` mtime 判断重编（`$base.h` 不参与），头文件改动
+  不会触发受影响 TU 重建（§10.2 同类）。修复流程：`touch` 受影响 `.cpp` 后重跑。
+- 注意源目录搜索顺序（basic_source 优先于 common_source），要 touch 实际被
+  编译的那份源文件。

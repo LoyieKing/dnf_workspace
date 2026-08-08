@@ -21,7 +21,7 @@
 | stun | 28 | 6 | 19 | 1 | 同严格* | 同严格* |
 | channel | 745 | 562 | 96 | 85 | 643 | 15 |
 | bridge | 919 | 715 | 132 | 71 | 817 | 30 |
-| auction（最新，见第九批） | 4736 | 4100 | 450 | 186 | 4458 | 92 |
+| auction（最新，见第十二批） | 4736 | 4101 | 451 | 184 | 4459 | 93 |
 | point | 同 auction 同源 | 同 auction | 同 auction | 同 auction | 同 auction | 同 auction |
 
 \* stun 的 NEAR 主要是 64 位工具链的参数装载/寄存器调度差异，扩展口径未改变其归属。
@@ -288,6 +288,43 @@ point 已用同源重建（PayType: Point 保留）。坑点文档新增 §40–
 
 GA/GP 其余 26 个 handler 结构相似（IsGoldServer 早退 + pPool/pSendPool 内联 +
 PCK 构造 + SendMessage），逐个压差中；多数剩 1–6 条寄存器/临时槽伪影。
+
+### 第十一批（2026-08-09 续，onAUCTION_DB_GET_REGISTED_ITEM 大函数）
+
+| 修复模式 | 结果 |
+|---|---|
+| `if (ret)` → `if ((ret = call()) != 0)`（AddAvatarEmblem/Expansion 两处，setne 物化，§54） | setne 对齐 |
+| `item_category_temp` 改 `int`（unsigned 会 arg-first/ebx，int 是 this-first/edx，§55） | 最后一个助记符差异消除 |
+| 两个发送循环 `pPool` 内联进 getSendMessage（§56） | -4 指令 |
+| `register TCPUser* pTCPUser`（§57） | 704→702，ebx 常驻 |
+| pArea 声明上移实验后回退（块级槽位为伪影，§58 待补） | — |
+
+结果：**702/702 助记符完全一致（DIFF → NEAR）**，剩余槽位偏移（pck/iter/pArea
+±4）、帧大小（0x15c vs 0x16c）与数据地址。坑点文档新增 §54–§57。
+
+### 第十二批（2026-08-09 续，StatisticsCollector / GA / AvatarVariation）
+
+| 函数 | 修复模式 | 结果 |
+|---|---|---|
+| `StData::isValidErrorNo` | 条件改正向区间 `if (err>=0 && err<=0x37) return true; return false;`（js/jg 直跳尾部 false 块） | **严格 IDENTICAL（11/11 零差异）** |
+| `IncTryCnt`/`IncFailCnt` | 无法对齐：ORIG 该 TU 用 becauseCnt[57]（236B），DWARF 与多数 TU 为 [55]（228B）——ORIG 双版本头内部矛盾，按用户规则保留 DWARF 布局 | 记录为不可同时满足 |
+| `onAUCTION_BUY_ITEM_APIECE_GA` | `register int limit`（ebx）；条件反置 `limit <= mQueueSize`（setcc 物化、0x31 块 fall-through）；pPck/ptr_data 声明序；两次发送 pPool 内联 | 237/241（剩 setge-vs-setle RTL 方向、getCommonDataPool 结果溢出 ×2 伪影） |
+| `importAvatarColorVariation` | fopen 检查「赋值在条件内」实验后回退（sete 对齐但循环多 2 条 jmp+nop，净变差） | 66/67（fopen sete 与循环边为不可复现伪影） |
+
+累计：auction strict **4101 IDENTICAL / 451 NEAR / 184 DIFF**（本轮起点 186）。
+point 已随头文件改动强制重建（build-point.sh 不检查头依赖，需 touch 源文件触发）。
+
+### 第十三批（2026-08-09 续，nsl::EpollReactor 系列）
+
+| 函数 | 修复模式 | 结果 |
+|---|---|---|
+| `EpollReactor::handleEvents` | 外层 if/else 块互换 + 条件反置（accept 块 fall-through）；`if (!accept()) {destroy} else {success}`（xor 物化）；事件掩码正向 `!=0`（0xf5/0x103 块 fall-through）；`createTCPSocket` 结果内联进 setSocket；`register unsigned int count`（ebx）；`s = (TCPUser*)events_[i].data.ptr` 字段直访（位移折叠） | 261 vs **257**（剩尾部 ORIG 2 组 `jmp;nop` 块布局伪影） |
+| `EpollReactor::getNativeEventFilter` | `t` 从 0 起、条件满足 `\|=`（movl $0 + orl 形态） | **严格 IDENTICAL（17/17）** |
+| `EpollReactor::registHandle/addConnectedUser/registListenHandle` | 槽位平移（ev@-0x14 vs -0x18）+ 参数暂存序伪影 | 59/59、43/43、38/38（同数） |
+| `EpollReactor::shutdown` | 尾部 jmp+nop 伪影 | 25/23 |
+
+注意：Reactor.h 是模板头，改后需 touch 实际实例化 TU（TCPThread/TActiveConnect）
+强制重编；弱符号 getNativeEventFilter 由链接器挑选实例，两个 TU 都要更新。
 
 ### stun 数据地址归一化修复（2026-08-08）
 stun 是 64 位 ET_EXEC，代码/数据地址在 0x40xxxx 区间（6 位十六进制），原扩展归一化

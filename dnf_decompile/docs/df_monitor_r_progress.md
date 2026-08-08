@@ -58,6 +58,30 @@
 - 事件子系统（OnEventStart/End、OnRegisterEventItem/Idx 等）：
   依赖 CEventActionManager/CBaseEventAction 类层次。
 
+## 第四批（大 handler + 依赖链补齐，空桩 49 -> 24，约 4.4KB）
+
+- 五大 handler 全部完成（调用集逐函数核验一致）：
+  OnLogout(612B)/OnCharLogin(563B)/OnReplyUserInfo(432B)/OnLogin(395B)/
+  OnNoticeProhibitConnectUser(456B)。
+- 依赖链：CLoginLogoutStatistics（7×map 布局）、CBuddyRegisterManager
+  （multimap）、CMemoryCashManager IsRightObject/InsertCashMemorySetCharacterObject/
+  SetUserObject/DeleteCashObjecct、CCashObject 全布局、CTcpGameServer/
+  CTcpManagerServer makePacketHeader/SendToServer/SendTcpPacket、exchange_server
+  CCacheCharacterMgr、CUser 登出/好友/黑名单方法族、CTowerRank reset/registRank、
+  CPeriodicMessageMgr::SetMessageData、CServerHandler 心跳方法族等。
+- 其余完成：OnHeartBeat、OnNoCache、onCollectItems+SendColletItemsReward、
+  OnRegisterEventUserIdx/OnResultRegisterEventIdx、OnTakeScreenShot、
+  OnFindCharacName_useUID、OnChannelType、OnEventItemUpdate、
+  OnResultLoadPeriodicMessage、OnCheckOverlappedAccusation、
+  OnMonitorManagerConnectOK、OnUpdateMiniCraneSeed、onReplyLoadTowerFullRank、
+  好友家族 5 个。
+
+剩余 24 个 handler：item-limit 家族（4）、social-event 家族（4）、
+OnNoticeCharLiveOnTenMin/OnChangeCharName/onRequestCharacInfoByCharacName、
+OnInnerPacketLogin/Logout、OnWebEmergencyPatchMessage、OnGameServerRegist、
+OnEventStart/End、OnRegisterEventItem、OnExchangeServerInfo、
+OnPvPChannelInfo/Count、3 个空函数。
+
 工作流已优化：全量比对 0.5s（签名缓存），单函数 diff 0.2s
 （diff_func.py）；批量疑似差异分类器 /tmp/mon_classify.py 秒级排序全部 DIFF。
 
