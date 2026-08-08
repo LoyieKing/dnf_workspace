@@ -3061,6 +3061,71 @@ int* CVillageAttackedManager::GetHuntingPoint(unsigned int charNo)
     }
     return 0;
 }
+void CVillageAttackedManager::SendVillageAttackedRewardJpn(CUser* user, int count)
+{
+}
+void CVillageAttackedManager::SendMinTime()
+{
+}
+void CVillageAttackedManager::UpdateHuntingPoint(CUser** users, bool success, int* a,
+                                                 unsigned int* charNos)
+{
+    if (m_state24 == 1)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (users[i] != 0)
+            {
+                int total = 0;
+                int* hp = GetHuntingPoint(charNos[i]);
+                if (hp == 0)
+                {
+                    stHuntingPoint p;
+                    p.m_huntingPoint = 0;
+                    p.m_field4 = 0;
+                    if (success)
+                    {
+                        p.m_huntingPoint++;
+                    }
+                    else
+                    {
+                        p.m_field4++;
+                    }
+                    m_huntingPoints.insert(
+                        std::pair<const unsigned int, stHuntingPoint>(charNos[i], p));
+                }
+                else
+                {
+                    if (success)
+                    {
+                        hp[0]++;
+                    }
+                    else
+                    {
+                        hp[1]++;
+                    }
+                    total = hp[0] + hp[1];
+                }
+                if (success)
+                {
+                    int* cur = GetHuntingPoint(charNos[i]);
+                    SendVillageAttackedRewardJpn(users[i], *cur);
+                    CMyFileLog log("UpdateHuntingPoint", 0x3ae);
+                    log("./log/village", "Send Success Count [charac:%u][count:%d]",
+                        charNos[i], *cur);
+                }
+            }
+        }
+        if (success)
+        {
+            m_field1c = m_field1c + 1;
+        }
+        if (m_field1c == m_field20)
+        {
+            SendMinTime();
+        }
+    }
+}
 void CVillageAttackedManager::SendCharacRank()
 {
     unsigned char serverGroup = 0;
@@ -3072,7 +3137,7 @@ void CVillageAttackedManager::SendCharacRank()
         {
             stUserHuntingPoint p;
             p.m_huntingPoint = it->second.m_huntingPoint;
-            p.m_characNo = it->second.m_characNo;
+            p.m_characNo = it->second.m_field4;
             pq.push(p);
         }
         char sql[0x1001];

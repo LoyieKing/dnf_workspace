@@ -1270,7 +1270,7 @@ struct stUserHuntingPoint
 struct stHuntingPoint
 {
     unsigned int m_huntingPoint;  // +0
-    unsigned int m_characNo;      // +4
+    unsigned int m_field4;        // +4
 };
 
 class CVillageAttackedManager
@@ -1290,6 +1290,9 @@ public:
     void SendVillageAttackedScore(CUser* user);
     void SendVillageAttackedReward(CUser* user, int rewardType);
     int* GetHuntingPoint(unsigned int charNo);
+    void UpdateHuntingPoint(CUser** users, bool success, int* a, unsigned int* charNos);
+    void SendVillageAttackedRewardJpn(CUser* user, int count);
+    void SendMinTime();
     int GetRemainTime();
     unsigned int GetDungeonRemainTime();
     void SetRewardCloseTime(int rewardType);
