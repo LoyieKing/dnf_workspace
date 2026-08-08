@@ -557,10 +557,7 @@ void StatisticManager::ResetDisjointAvatarInfoTotal()
 {
     m_disjoint.clear();
 }
-STUB_STAT(SendDBSecretShopStatistic, (CServerHandler*))
 STUB_STAT(SendDBP2PStatistic, (CServerHandler*))
-STUB_STAT(SendDBDeathTowerPlayDataJobStatistic, (CServerHandler*))
-STUB_STAT(SendDBDeathTowerPlayDataPartyStatistic, (CServerHandler*))
 STUB_STAT(SendDBAssertManagerStatistic, (CServerHandler*))
 STUB_STAT(SendDBLoadingTimeReport, (CServerHandler*))
 STUB_STAT(SendDBPowerwarLagReport, (CServerHandler*))
@@ -1730,5 +1727,97 @@ void StatisticManager::SendDBUserTingTimeCheckStatistic(CServerHandler* handler)
             CMyFileLog log("SendDBUserTingTimeCheckStatistic", 0x35d);
             log("./log/statistic", "UserTing DB Sent %d", idx);
         }
+    }
+}
+
+void StatisticManager::SendDBDeathTowerPlayDataJobStatistic(CServerHandler* handler)
+{
+    Packet_DBMW_DeathTower_Statistic_Playdata_Job pkt;
+    int idx = 0;
+    if (!m_deathTowerJob.empty())
+    {
+        for (std::map<STDeathTowerPlayDataJobStatisticKey, PlayDataJobStatistic>::iterator it =
+                 m_deathTowerJob.begin(); it != m_deathTowerJob.end(); ++it)
+        {
+            char* slot = (char*)&pkt + 0xe + idx * 0xc;
+            slot[0] = it->first.m_field0;
+            *(unsigned short*)(slot + 2) = it->first.m_field2;
+            *(unsigned int*)(slot + 4) = it->first.m_field4;
+            slot[8] = it->first.m_field8;
+            *(int*)(slot + 0xc) = it->second.m_data[0];
+            *(int*)(slot + 0x10) = it->second.m_data[1];
+            idx++;
+            if (99 < idx)
+            {
+                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                handler->SendToDB((PacketHeader*)&pkt);
+                CMyFileLog log("SendDBDeathTowerPlayDataJobStatistic", 0x236);
+                log("./log/statistic", "DeathTowerPlayDataJob DB Sent %d", idx);
+                idx = 0;
+            }
+        }
+        if (idx != 0)
+        {
+            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            handler->SendToDB((PacketHeader*)&pkt);
+            CMyFileLog log("SendDBDeathTowerPlayDataJobStatistic", 0x240);
+            log("./log/statistic", "DeathTowerPlayDataJob DB Sent %d", idx);
+        }
+    }
+}
+
+void StatisticManager::SendDBDeathTowerPlayDataPartyStatistic(CServerHandler* handler)
+{
+    Packet_DBMW_DeathTower_Statistic_Playdata_Party pkt;
+    int idx = 0;
+    if (!m_deathTowerParty.empty())
+    {
+        for (std::map<STDeathTowerPlayDataPartyStatisticKey, PlayDataPartyStatistic>::iterator it =
+                 m_deathTowerParty.begin(); it != m_deathTowerParty.end(); ++it)
+        {
+            char* slot = (char*)&pkt + 0xe + idx * 0xa;
+            slot[0] = it->first.m_field0;
+            slot[1] = it->first.m_field1;
+            *(int*)(slot + 2) = it->second.m_data[0];
+            *(int*)(slot + 6) = it->second.m_data[1];
+            idx++;
+            if (99 < idx)
+            {
+                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                handler->SendToDB((PacketHeader*)&pkt);
+                CMyFileLog log("SendDBDeathTowerPlayDataPartyStatistic", 0x26d);
+                log("./log/statistic", "DeathTowerPlayDataParty DB Sent %d", idx);
+                idx = 0;
+            }
+        }
+        if (idx != 0)
+        {
+            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            handler->SendToDB((PacketHeader*)&pkt);
+            CMyFileLog log("SendDBDeathTowerPlayDataPartyStatistic", 0x277);
+            log("./log/statistic", "DeathTowerPlayDataParty DB Sent %d", idx);
+        }
+    }
+}
+
+void StatisticManager::SendDBSecretShopStatistic(CServerHandler* handler)
+{
+    Packet_Secret_Shop_Statistic pkt;
+    if (!m_secretShop[0].empty() || !m_secretShop[1].empty() || !m_secretShop[2].empty())
+    {
+        for (int s = 0; s < 3; s++)
+        {
+            for (std::map<int, SECRET_SHOP_STATISTIC_DATA>::iterator it = m_secretShop[s].begin();
+                 it != m_secretShop[s].end(); ++it)
+            {
+                *(int*)((char*)&pkt + 0xe + it->first * 0x14 + 0) = it->first;
+                for (int k = 0; k < 4; k++)
+                {
+                    *(int*)((char*)&pkt + 0xe + it->first * 0x14 + 4 + k * 4) =
+                        it->second.m_data[k + 1];
+                }
+            }
+        }
+        handler->SendToDB((PacketHeader*)&pkt);
     }
 }

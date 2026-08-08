@@ -106,6 +106,28 @@ Packet_DBMW_User_Ting_TimeCheck_Write_Query::Packet_DBMW_User_Ting_TimeCheck_Wri
     new ((void*)this) PacketHeader(0xc46, 0x17fe);
 }
 
+Packet_DBMW_DeathTower_Statistic_Playdata_Job::Packet_DBMW_DeathTower_Statistic_Playdata_Job()
+{
+    new ((void*)this) PacketHeader(0xc3e, 0x17ee);
+}
+
+Packet_DBMW_DeathTower_Statistic_Playdata_Party::Packet_DBMW_DeathTower_Statistic_Playdata_Party()
+{
+    new ((void*)this) PacketHeader(0xc40, 0x17f6);
+}
+
+Packet_Secret_Shop_Statistic::Packet_Secret_Shop_Statistic()
+{
+    new ((void*)this) PacketHeader(0x1b69, 0xfb2);
+    *(unsigned int*)((char*)this + 10) = 0;
+    SECRET_SHOP_STATISTIC_DATA* p = (SECRET_SHOP_STATISTIC_DATA*)((char*)this + 0x12);
+    for (int i = 199; i != -1; i--)
+    {
+        new ((void*)p) SECRET_SHOP_STATISTIC_DATA;
+        p = (SECRET_SHOP_STATISTIC_DATA*)((char*)p + 0x14);
+    }
+}
+
 CInnerMsgHandler::CInnerMsgHandler()
 {
 }

@@ -126,6 +126,27 @@ public:
     char m_data[0x17fe];
 };
 
+class Packet_DBMW_DeathTower_Statistic_Playdata_Job
+{
+public:
+    Packet_DBMW_DeathTower_Statistic_Playdata_Job();
+    char m_data[0x17ee];
+};
+
+class Packet_DBMW_DeathTower_Statistic_Playdata_Party
+{
+public:
+    Packet_DBMW_DeathTower_Statistic_Playdata_Party();
+    char m_data[0x17f6];
+};
+
+class Packet_Secret_Shop_Statistic
+{
+public:
+    Packet_Secret_Shop_Statistic();
+    char m_data[0xfb2];
+};
+
 // ---- CInnerMsgHandler：空类 ----
 class CInnerMsgHandler
 {
