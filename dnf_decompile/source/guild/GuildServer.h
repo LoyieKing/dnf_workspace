@@ -106,12 +106,22 @@ public:
     ~CTcpDBServer();
     void Init(CTcpNetSystem* net, CGuildManager* gm);
     void SetIP(const std::string& ip);
+    void SetIP(std::string ip);
+    void SetPort(unsigned short port);
     void SendHeartbeat();
     void SendToServer(char* buf);
     bool IsValidServer();
     char* GetIP();
     unsigned short GetPort();
     int* GetSockRef();
+    int GetSock();
+    void Clear();
+    void SendLogin();
+    void SendLogout();
+    void Connected();
+    void DisConnected();
+    char* makePacketHeader(unsigned short id, unsigned short size);
+    std::string m_ip;             // +0
     unsigned short m_port;        // +4
     int m_sock;                   // +8
     CTcpNetSystem* m_net;         // +0xc

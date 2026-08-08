@@ -218,6 +218,7 @@ CMonitorServer::~CMonitorServer()
 
 CTcpDBServer::CTcpDBServer()
 {
+    m_ip = std::string();
     m_port = 0;
     m_sock = -1;
     m_net = 0;
@@ -236,6 +237,17 @@ void CTcpDBServer::Init(CTcpNetSystem* net, CGuildManager* gm)
 
 void CTcpDBServer::SetIP(const std::string& ip)
 {
+    m_ip = ip;
+}
+
+void CTcpDBServer::SetIP(std::string ip)
+{
+    m_ip = ip;
+}
+
+void CTcpDBServer::SetPort(unsigned short port)
+{
+    m_port = port;
 }
 
 void CTcpDBServer::SendHeartbeat()
@@ -264,6 +276,78 @@ unsigned short CTcpDBServer::GetPort()
 int* CTcpDBServer::GetSockRef()
 {
     return &m_sock;
+}
+
+int CTcpDBServer::GetSock()
+{
+    return m_sock;
+}
+
+void CTcpDBServer::Clear()
+{
+    m_net = 0;
+    m_guildMgr = 0;
+    m_sock = -1;
+    m_port = 0;
+    m_ip.clear();
+}
+
+char* CTcpDBServer::makePacketHeader(unsigned short id, unsigned short size)
+{
+    if (m_net == 0)
+    {
+        return 0;
+    }
+    char* buf = (char*)m_net->Acquire_TcpSendBuffer(0x1000);
+    if (buf == 0)
+    {
+        return 0;
+    }
+    *(unsigned short*)(buf + 0) = id;
+    *(unsigned short*)(buf + 2) = size;
+    *(int*)(buf + 6) = m_sock;
+    return buf;
+}
+
+void CTcpDBServer::SendLogin()
+{
+    char* buf = makePacketHeader(0x1068, 0xb);
+    if (buf != 0)
+    {
+        buf[10] = 9;
+        SendToServer(buf);
+    }
+}
+
+void CTcpDBServer::SendLogout()
+{
+    char* buf = makePacketHeader(0x1069, 0xb);
+    if (buf != 0)
+    {
+        buf[10] = 9;
+        SendToServer(buf);
+    }
+}
+
+void CTcpDBServer::Connected()
+{
+    SendLogin();
+    if (m_guildMgr != 0)
+    {
+        m_guildMgr->CargoUnlock();
+    }
+    CMyFileLog log("Connected", 0x121);
+    log("./log/GuildCargo", "TCP DBMW(%s,%d) CONNECTED! GUILD CARGO ACTIVE!",
+        m_ip.c_str(), (unsigned int)m_port);
+}
+
+void CTcpDBServer::DisConnected()
+{
+    m_sock = -1;
+    if (m_guildMgr != 0)
+    {
+        m_guildMgr->CargoLock();
+    }
 }
 
 CServerHandler::CServerHandler()
