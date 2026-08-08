@@ -140,7 +140,7 @@ public:
     ~IQueue();
     static IQueue<T>* Get();
     void InitQueue(T* recv, T* parse);
-    void SwitchQueue();
+    bool SwitchQueue();
     T* GetParseQueue();
     char m_data[0x30];
 };

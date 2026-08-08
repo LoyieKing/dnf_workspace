@@ -4753,23 +4753,54 @@ CPacketTracer* CPacketTracerInstance()
 
 void CPacketTracer::AddLog(int p1, int p2)
 {
+    time_t now = time(0);
+    tm* pt = localtime(&now);
+    char buf[32];
+    memset(buf, 0, sizeof(buf));
+    sprintf(buf, "(%02d:%02d:%02d/%d/%d)",
+            pt->tm_hour, pt->tm_min, pt->tm_sec, p2, p1);
+    *(std::string*)((char*)this + 4) += buf;
+    *(int*)this += 1;
 }
 
 void CPacketTracer::ResetLog()
 {
+    ((std::string*)((char*)this + 4))->clear();
 }
 
 void CPacketTracer::WriteLog()
 {
+    if (*(unsigned int*)this == (*(unsigned int*)this / 0x1e) * 0x1e)
+    {
+        CMyFileLog log("WriteLog", 0x2a);
+        log("./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n",
+            ((std::string*)((char*)this + 4))->c_str());
+        ResetLog();
+    }
 }
 
 void CPacketTracer::AbsoluteWriteLog()
 {
+    CMyFileLog log("AbsoluteWriteLog", 0x32);
+    log("./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n",
+        ((std::string*)((char*)this + 4))->c_str());
+    ResetLog();
 }
 
 template<int Lo, int Hi>
 CPacketCounter<Lo, Hi>::CPacketCounter(char* name, char* title)
 {
+    Reset();
+    *(time_t*)(m_data + 4) = time(0);
+    if (name == 0)
+    {
+        sprintf(m_data + 0x1d540, "./log/%s", title);
+    }
+    else
+    {
+        sprintf(m_data + 0x1d540, "./log/%s/%s", name, title);
+    }
+    *(unsigned char*)(m_data + 0x1d640) = 1;
 }
 
 template<int Lo, int Hi>

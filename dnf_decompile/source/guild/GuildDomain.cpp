@@ -496,6 +496,14 @@ unsigned int CUser::GetGuildInviteCallerId()
 
 void CUser::GuildInviteProcess()
 {
+    if ((char)*(char*)((char*)this + 0x7e) < 2)
+    {
+        *(char*)((char*)this + 0x7e) = (char)(*(char*)((char*)this + 0x7e) - 1);
+        if (*(char*)((char*)this + 0x7e) == 0 || (char)*(char*)((char*)this + 0x7e) > 1)
+        {
+            SetGuildInviteFact(0, 0, 0xff);
+        }
+    }
 }
 
 void CUser::SetGuildMemberMemo(const char* memo)
@@ -631,6 +639,16 @@ void CUser::SendToGameserver(char* buf, int len)
 
 void CUser::SendTcpGameserver(PacketHeader* pkt)
 {
+    if (m_tcpGameServer != 0)
+    {
+        char* out = m_tcpGameServer->makePacketHeader(
+            *(unsigned short*)pkt, *(unsigned short*)((char*)pkt + 2));
+        if (out != 0)
+        {
+            memcpy(out + 10, (char*)pkt + 10, *(unsigned short*)((char*)pkt + 2) - 10);
+            m_tcpGameServer->SendToGameServer(out);
+        }
+    }
 }
 
 void CUser::QueryGuildMember(CServerHandler* handler)
@@ -1031,6 +1049,22 @@ CGuildWar::~CGuildWar()
 
 void CGuildWar::DBSaveProcess(CApplication* app)
 {
+    if (IsGuildWarEventOn() == 1)
+    {
+        *(char*)((char*)this + 0xe) = (char)(*(char*)((char*)this + 0xe) + 1);
+        if (*(char*)((char*)this + 0xe) != 0)
+        {
+            Packet_Notice_DB_Save_Guild_War_Point pkt;
+            unsigned int a[10];
+            unsigned int b[12];
+            if (GetGuildWarInfoDBSave(a, b) != 0)
+            {
+                *(unsigned char*)((char*)&pkt + 0xa) = app->Get_ServerGroup();
+                app->Get_ServerHandler()->SendToDB(&pkt);
+            }
+            *(char*)((char*)this + 0xe) = 0;
+        }
+    }
 }
 
 int CGuildWar::IsGuildWarEnterableGuild(unsigned int guildId)
@@ -1616,6 +1650,19 @@ void CGuild::ResetGuildPointRank()
 
 void CGuild::IncPowerJoinCount()
 {
+    if ((m_field1c & 4) == 0)
+    {
+        return;
+    }
+    m_field4d96 = 1;
+    *(char*)((char*)this + 0xbf) = (char)(*(char*)((char*)this + 0xbf) + 1);
+    if (0x80 < (unsigned char)*(char*)((char*)this + 0xbf))
+    {
+        *(char*)((char*)this + 0xbf) = (char)0x80;
+    }
+    CMyFileLog log("IncPowerJoinCount", 0xacf);
+    log("./log/Guild", "IncPowerJoinCount Guild(%d), JoinCount(%d)",
+        GetGuildKey(), (unsigned int)(unsigned char)*(char*)((char*)this + 0xbf));
 }
 
 int CGuild::GuildLevelUp(CServerHandler* handler, CUser* user)
@@ -1677,10 +1724,29 @@ void CGuild::SetGuildMessage(char* msg)
 
 void CGuild::SaveGuild(unsigned char flag, CServerHandler* handler, unsigned int param)
 {
+    if ((m_field1c & 4) == 0)
+    {
+        return;
+    }
+    Packet_Monitor_SAVE_Guild pkt;
+    *(unsigned int*)((char*)&pkt + 0xb) = m_guildKey;
+    *(unsigned int*)((char*)&pkt + 0x12) = param;
+    *(unsigned char*)((char*)&pkt + 0xa) = flag;
+    memcpy((char*)&pkt + 0xf, (char*)this + 0x20, 0xbd);
+    handler->SendToDB(&pkt);
 }
 
 void CGuild::DBGuildSave(unsigned char flag, CServerHandler* handler, unsigned int param)
 {
+    if (m_field4d96 != 0 && (m_field1c & 4) != 0)
+    {
+        CMyFileLog log("DBGuildSave", 0x1ba);
+        log("./log/Guild", "GUILD EXP   Guild Key : %d, Guild Exp : %d",
+            m_guildKey, GetGuildExp());
+        SaveGuild(flag, handler, param);
+        m_field4d94 = 0;
+        m_field4d96 = 0;
+    }
 }
 
 void CGuild::DBSaveGuildMembers(unsigned char flag, CServerHandler* handler, unsigned char param)
@@ -1715,6 +1781,13 @@ void CGuild::DBGuildSaveProcess(CServerHandler* handler)
 
 void CGuild::QueryGuild(CServerHandler* handler, unsigned int charNo)
 {
+    if ((m_field1c & 4) == 0)
+    {
+        handler->QueryGuild(m_guildKey, charNo);
+        CMyFileLog log("QueryGuild", 0xf5);
+        log("./log/Guild", "[QUERY]  Guild Key : %d\n", m_guildKey);
+        m_field1c |= 2;
+    }
 }
 
 void CGuild::SendGuildInfoToMemberOnly(CUser* user)
@@ -1734,6 +1807,9 @@ void CGuild::SendGuildInfoToMemberOnly(CUser* user)
 
 void CGuild::QueryTodayGuildMember(CServerHandler* handler)
 {
+    Packet_Query_Today_Guild_Member pkt;
+    *(unsigned int*)((char*)&pkt + 0xa) = m_guildKey;
+    handler->SendToDB(&pkt);
 }
 
 void CGuild::SetTodayGuildMember(STTodayGuildMember& member)
@@ -1743,6 +1819,12 @@ void CGuild::SetTodayGuildMember(STTodayGuildMember& member)
 
 void CGuild::NotifyTodayGuildMember(CUser* user)
 {
+    Packet_Notify_Today_Guild_Member pkt;
+    *(unsigned int*)((char*)&pkt + 0xa) = m_guildKey;
+    *(unsigned int*)((char*)&pkt + 0xe) = user->GetUniqCharNo();
+    *(unsigned int*)((char*)&pkt + 0x12) = user->GetIdByChannel();
+    memcpy((char*)&pkt + 0x16, (char*)this + 0x66ec, 0x27);
+    user->SendToGameserver((char*)&pkt, 0x3d);
 }
 
 void CGuild::LoadGuildAgit(CServerHandler* handler, unsigned int charNo)
@@ -1857,6 +1939,15 @@ int CGuild::ReplyGuildMembersToWeb(STGuildMemberWebConnInfo* info)
 void CGuild::DBSaveGuildMemberUnChangableInfo(CServerHandler* handler, unsigned int a,
                                               unsigned int b, char* name)
 {
+    if (!IsSetGuildDBFlag(4))
+    {
+        return;
+    }
+    Packet_UnChangable_GuildInfo_Save pkt;
+    *(unsigned int*)((char*)&pkt + 0xa) = a;
+    *(unsigned int*)((char*)&pkt + 0xe) = b;
+    memcpy((char*)&pkt + 0x12, name, 0x1d);
+    handler->SendToDB(&pkt);
 }
 
 void CGuild::DismissGuildMemberAndNotice(int group)
@@ -2029,6 +2120,9 @@ void CGuild::DBGuildMemberSave(CUser* user, unsigned char flag, CServerHandler* 
 
 void CGuild::InsertGuildMemberChanglableInfo(unsigned int charNo)
 {
+    STGuildMemberChangableInfo info;
+    memset(info.m_data, 0, sizeof(info.m_data));
+    m_changable[charNo] = info;
 }
 
 void CGuild::SendToGuild(PacketHeader* pkt)
@@ -2045,6 +2139,22 @@ void CGuild::SendToGuild(PacketHeader* pkt)
 
 void CGuild::SendToGuildForMail()
 {
+    if ((m_field1c & 4) == 0)
+    {
+        return;
+    }
+    Packet_Monitor_Notify_New_Mail pkt;
+    for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+         it != m_members.end(); ++it)
+    {
+        CUser* m = it->second;
+        if (m != 0)
+        {
+            *(unsigned int*)((char*)&pkt + 0xa) = m->GetUniqCharNo();
+            *(unsigned int*)((char*)&pkt + 0xe) = m->GetIdByChannel();
+            m->SendToGameserver((char*)&pkt, 0x12);
+        }
+    }
 }
 
 void CGuild::NotifyMessageToGuildMember()
@@ -2360,15 +2470,42 @@ void CGuild::SetGuildAgitLevelUp()
 void CGuild::CreateGuildAgit(CServerHandler* handler, unsigned int a, unsigned int b,
                              unsigned int c, unsigned int d)
 {
+    if ((m_field1c & 4) != 0)
+    {
+        SubGuildFund(d);
+        SubPowerWarPoint(c);
+        SendGuildInfoToMembers(false);
+        Packet_DB_Create_Guild_Agit pkt;
+        *(unsigned int*)((char*)&pkt + 0xa) = a;
+        *(unsigned int*)((char*)&pkt + 0xe) = b;
+        handler->SendToDB(&pkt);
+    }
 }
 
 void CGuild::DeleteGuildAgit(CServerHandler* handler, unsigned int a, unsigned int b)
 {
+    if ((m_field1c & 4) != 0)
+    {
+        Packet_DB_Delete_Guild_Agit pkt;
+        *(unsigned int*)((char*)&pkt + 0xa) = a;
+        *(unsigned int*)((char*)&pkt + 0xe) = b;
+        handler->SendToDB(&pkt);
+    }
 }
 
 void CGuild::UpgradeGuildAgit(CServerHandler* handler, unsigned int a, unsigned int b,
                               unsigned int c, unsigned int d)
 {
+    if ((m_field1c & 4) != 0)
+    {
+        SubGuildFund(d);
+        SubPowerWarPoint(c);
+        SendGuildInfoToMembers(false);
+        Packet_DB_Upgrade_Guild_Agit pkt;
+        *(unsigned int*)((char*)&pkt + 0xa) = a;
+        *(unsigned int*)((char*)&pkt + 0xe) = b;
+        handler->SendToDB(&pkt);
+    }
 }
 
 void CGuild::AddGuildMember(ST_Notice_Guild_Enter& info, CUser* user)
@@ -3155,10 +3292,36 @@ void CGuildManager::DBGuildProcess(CServerHandler* handler, bool flag)
 
 void CGuildManager::DBGuildAndGuildMemberSave(CServerHandler* handler)
 {
+    if (m_guilds.empty() || handler == 0)
+    {
+        return;
+    }
+    unsigned char group = m_app->Get_ServerGroup();
+    for (std::map<unsigned int, CGuild*>::iterator it = m_guilds.begin();
+         it != m_guilds.end(); ++it)
+    {
+        if (it->second != 0)
+        {
+            it->second->DBGuildSave(group, handler, 0);
+            it->second->DBSaveGuildMembers(group, handler, 2);
+        }
+    }
 }
 
 void CGuildManager::DBLoadAllLoginGuild(CServerHandler* handler)
 {
+    if (m_guilds.empty() || handler == 0)
+    {
+        return;
+    }
+    for (std::map<unsigned int, CGuild*>::iterator it = m_guilds.begin();
+         it != m_guilds.end(); ++it)
+    {
+        if (it->second != 0)
+        {
+            it->second->QueryGuild(handler, 0);
+        }
+    }
 }
 
 void CGuildManager::SendGuildInfoToMembers(unsigned int guildKey, bool flag)
@@ -3450,6 +3613,19 @@ int CGuildCargo::GetSpecificItemSlot(int itemId)
 
 void CGuildCargo::PrintCargo(ENUM_GUILD_CARGO_BEHAVIOR behavior)
 {
+    CMyFileLog log0("PrintCargo", 0x18d);
+    log0("./log/GuildCargo", "CARGO - g:%d,capa:%d,behavior:%d",
+         *(int*)((char*)this + 0x18e0), *(int*)((char*)this + 0x18d8),
+         (int)behavior);
+    for (int i = 0; i < *(int*)((char*)this + 0x18d8); i++)
+    {
+        if (*(int*)((char*)this + i * 0x35 + 1) != 0)
+        {
+            const char* itemDesc = PrintDnfItemInfo(*(DnfItemInfo*)((char*)this + i * 0x35));
+            CMyFileLog log("PrintCargo", 0x195);
+            log("./log/GuildCargo", "SLOT - %d,%s", i, itemDesc);
+        }
+    }
 }
 
 const char* CGuildCargo::PrintDnfItemInfo(DnfItemInfo& info)
@@ -3635,24 +3811,78 @@ int CGuildCargo::CheckInsertItem(int itemId, int count, int slot, unsigned char 
 
 void CGuildCargo::SendGuildCargo(CUser* user)
 {
+    if (user == 0)
+    {
+        return;
+    }
+    Packet_Notice_Guild_Cargo pkt;
+    *(unsigned int*)((char*)&pkt + 0xa) = user->GetIdByChannel();
+    *(unsigned int*)((char*)&pkt + 0xe) = user->GetUniqCharNo();
+    memcpy((char*)&pkt + 0x12, this, 0x18dc);
+    user->SendTcpGameserver(&pkt);
 }
 
 void CGuildCargo::GetHistory(STGuildCargoLog* out)
 {
+    std::deque<STGuildCargoLog>* hist =
+        (std::deque<STGuildCargoLog>*)((char*)this + 0x18e8);
+    int i = 0;
+    for (std::deque<STGuildCargoLog>::iterator it = hist->begin();
+         it != hist->end() && i < 0x33; ++it, ++i)
+    {
+        memcpy((char*)out + i * 0x30, &(*it), 0x30);
+    }
 }
 
 void CGuildCargo::InsertHistory(ENUM_GUILD_CARGO_BEHAVIOR behavior, int slot, const char* name, int count,
                                 int param, const RandomOption* option)
 {
+    STGuildCargoLog log;
+    *(char*)((char*)&log + 4) = (char)behavior;
+    strncpy((char*)&log + 5, name, 0x14);
+    *(int*)((char*)&log + 0x19) = count;
+    *(int*)((char*)&log + 0x1d) = slot;
+    *(int*)((char*)&log + 0x21) = *(int*)((char*)option + 0);
+    *(int*)((char*)&log + 0x25) = *(int*)((char*)option + 4);
+    *(int*)((char*)&log + 0x29) = *(int*)((char*)option + 8);
+    *(short*)((char*)&log + 0x2d) = *(short*)((char*)option + 0xc);
+    log.time = (int)time(0);
+    std::deque<STGuildCargoLog>* hist =
+        (std::deque<STGuildCargoLog>*)((char*)this + 0x18e8);
+    hist->push_back(log);
+    CMyFileLog fileLog("InsertHistory", 0x202);
+    fileLog("./log/GuildCargo",
+            "InsertLog - GUILD:%d, CHARAC:%d, ITEM:%d, BEHAVIOR:%d, ETC:%d",
+            *(int*)((char*)this + 0x18e0), slot, count, (int)behavior, param);
+    if (0x32 < hist->size())
+    {
+        hist->pop_front();
+    }
 }
 
 void CGuildCargo::SendHistoryToDBMW(CServerHandler* handler, ENUM_GUILD_CARGO_BEHAVIOR behavior, int slot,
                                     const char* name, int count, int param, DnfItemInfo& info)
 {
+    Packet_DB_Insert_Guild_Cargo_History pkt;
+    *(unsigned char*)((char*)&pkt + 0xa) = handler->GetServerGroupNo();
+    *(int*)((char*)&pkt + 0xb) = *(int*)((char*)this + 0x18e0);
+    *(int*)((char*)&pkt + 0xf) = slot;
+    strncpy((char*)&pkt + 0x13, name, 0x14);
+    *(unsigned char*)((char*)&pkt + 0x27) = (unsigned char)behavior;
+    *(int*)((char*)&pkt + 0x28) = count;
+    *(int*)((char*)&pkt + 0x2c) = param;
+    memcpy((char*)&pkt + 0x30, &info, 0x35);
+    handler->SendToDB(&pkt);
 }
 
 void CGuildCargo::SendGuildCargoToDBMW(CServerHandler* handler, int slot)
 {
+    CTcpDBServer* db = handler->GetTcpDBServer();
+    char* pkt = db->makePacketHeader(0x710, 0x18ea);
+    *(unsigned int*)(pkt + 0xa) = *(unsigned int*)((char*)this + 0x18e0);
+    *(int*)(pkt + 0xe) = slot;
+    memcpy(pkt + 0x12, this, 0x18d8);
+    db->SendToServer(pkt);
 }
 
 void CGuildCargo::SetGuildCargoHistory(unsigned int idx, STGuildCargoLog* log)
@@ -3689,6 +3919,17 @@ void CGuildBoard::reset()
 
 void CGuildBoard::printGuildBoard()
 {
+    std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >* map =
+        (std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >*)(m_data + 0xc);
+    for (std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >::iterator it =
+             map->begin();
+         it != map->end(); ++it)
+    {
+        CMyFileLog log("printGuildBoard", 0x188);
+        log("./log/GuildBoard", "\n*%d* %d %s\n",
+            it->first, *(unsigned int*)((char*)&it->second + 0x7c),
+            (char*)&it->second + 4);
+    }
 }
 
 void CGuildBoard::setGuildBoardData(unsigned int a, unsigned int b, CGuild* guild, int c,
@@ -3947,11 +4188,20 @@ void CPowerWarGuildInfo::Initialize()
 
 void CPowerWarGuildInfo::Clean()
 {
+    std::vector<STPowerWarGuildInfo*>* guilds =
+        (std::vector<STPowerWarGuildInfo*>*)((char*)this + 0x1c);
+    for (std::vector<STPowerWarGuildInfo*>::iterator it = guilds->begin();
+         it != guilds->end(); ++it)
+    {
+        delete *it;
+    }
+    guilds->clear();
+    ((std::map<unsigned int, STPowerWarGuildInfo*>*)m_data)->clear();
 }
 
 STPowerWarGuildInfo* CPowerWarGuildInfo::CreatePowerwarGuild()
 {
-    return (STPowerWarGuildInfo*)malloc(0x14);
+    return new STPowerWarGuildInfo;
 }
 
 void CPowerWarGuildInfo::DeletePowerWarGuild(STPowerWarGuildInfo* info)
@@ -4197,6 +4447,15 @@ void CPowerWarCharacInfo::Initialize()
 
 void CPowerWarCharacInfo::Clean()
 {
+    std::vector<STPowerWarCharacInfo*>* chars =
+        (std::vector<STPowerWarCharacInfo*>*)((char*)this + 0x1c);
+    for (std::vector<STPowerWarCharacInfo*>::iterator it = chars->begin();
+         it != chars->end(); ++it)
+    {
+        delete *it;
+    }
+    chars->clear();
+    ((std::map<unsigned int, STPowerWarCharacInfo*>*)m_data)->clear();
 }
 
 int CPowerWarCharacInfo::IsExistCharac(unsigned int charNo)
@@ -4267,7 +4526,7 @@ std::vector<STPowerWarCharacInfo*>* CPowerWarCharacInfo::GetCharacInfoVector()
 
 STPowerWarCharacInfo* CPowerWarCharacInfo::CreatePowerwarCharac()
 {
-    return (STPowerWarCharacInfo*)malloc(0x10);
+    return new STPowerWarCharacInfo;
 }
 
 unsigned int CPowerWarCharacInfo::GetUserPowerWarPoint(unsigned int charNo)
@@ -4346,16 +4605,61 @@ void CPowerWarCharacInfo::UpdatePowerwarCharacInfo(unsigned int charNo, unsigned
 
 int CPowerWarCharacInfo::GetBonus(Packet_DB_Save_Power_War_Bonus_Point& pkt)
 {
+    std::list<STUserPoint>* points =
+        (std::list<STUserPoint>*)((char*)this + 0x28);
+    int i = 0;
+    std::list<STUserPoint>::iterator it = points->begin();
+    while (it != points->end() && i <= 0xf9)
+    {
+        *(unsigned int*)((char*)&pkt + 0xe + i * 8) = *(unsigned int*)((char*)&(*it) + 0);
+        *(unsigned int*)((char*)&pkt + 0x12 + i * 8) = *(unsigned int*)((char*)&(*it) + 4);
+        i++;
+        it = points->erase(it);
+    }
+    *(unsigned int*)((char*)&pkt + 0xa) = (unsigned int)i;
     return 0;
 }
 
 int CPowerWarCharacInfo::GetBonus(int idx)
 {
-    return 0;
+    if (idx < 0x1f)
+    {
+        return 1;
+    }
+    if (idx < 0x3d)
+    {
+        return 2;
+    }
+    if (idx < 0x65)
+    {
+        return 3;
+    }
+    if (idx < 0x97)
+    {
+        return 4;
+    }
+    if (idx < 0xc9)
+    {
+        return 5;
+    }
+    return 6;
 }
 
 void CPowerWarCharacInfo::CalcBonus()
 {
+    std::vector<STPowerWarCharacInfo*>* chars =
+        (std::vector<STPowerWarCharacInfo*>*)((char*)this + 0x1c);
+    std::list<STUserPoint>* points =
+        (std::list<STUserPoint>*)((char*)this + 0x28);
+    for (std::vector<STPowerWarCharacInfo*>::iterator it = chars->begin();
+         it != chars->end(); ++it)
+    {
+        STUserPoint pt;
+        *(unsigned int*)((char*)&pt + 0) = *(unsigned int*)(*it)->m_data;
+        *(unsigned int*)((char*)&pt + 4) =
+            (unsigned int)GetBonus(*(int*)((*it)->m_data + 4));
+        points->push_back(pt);
+    }
 }
 
 CPowerWar::CPowerWar()
@@ -4431,8 +4735,17 @@ void CPowerWar::ProcessByMinuteEndEvent()
 {
 }
 
-void CPowerWar::ProcessByMinuteStartEvent()
+int CPowerWar::ProcessByMinuteStartEvent()
 {
+    if (*(char*)((char*)this + 4) == 0)
+    {
+        time_t now = time(0);
+        tm* pt = localtime(&now);
+        int r = ((CScheduler*)((char*)this + 0x14))->IsOnTimeSpecialWeekDayHour(
+            pt->tm_wday, pt->tm_hour, pt->tm_min);
+        return r;
+    }
+    return 0;
 }
 
 int CPowerWar::GetPowerWarRankingUpdateTime()
@@ -4809,6 +5122,13 @@ void CPowerManager::SaveDBPowerWarRank()
 
 void CPowerManager::StartPowerWarEvent()
 {
+    ((CPowerWar*)((char*)this + 0x14c))->setEvent();
+    for (int i = 0; i < 3; i++)
+    {
+        ((CPower*)((char*)this + i * 0x6c + 8))->InitPower();
+    }
+    CMyFileLog log("StartPowerWarEvent", 0xb9);
+    log("./log/Power", "CPowerManager::StartPowerWarEvent");
 }
 
 void CPowerManager::UpdatePowerWarInfo(bool flag, ENUM_POWER_SIDE_TYPE side, int score, unsigned int* p)
@@ -4973,6 +5293,20 @@ void CPowerManager::RewardGuildPowerWarPoint()
 
 void CPowerManager::SaveDBPowerWarBonusPoint()
 {
+    char winnerSide = *(char*)((char*)this + 0x184);
+    if (winnerSide == 0 || winnerSide > 2)
+    {
+        return;
+    }
+    Packet_DB_Save_Power_War_Bonus_Point pkt;
+    CPowerWarCharacInfo* info =
+        ((CPower*)((char*)this + winnerSide * 0x6c + 8))->GetPowerWarCharacInfo();
+    info->GetBonus(pkt);
+    if (*(int*)((char*)&pkt + 0xa) != 0)
+    {
+        CApplication* app = *(CApplication**)((char*)this + 4);
+        app->Get_ServerHandler()->SendToDB(&pkt);
+    }
 }
 
 void CPowerManager::SaveDBPowerWarPointReward()

@@ -833,7 +833,7 @@ public:
                               unsigned char& d);
     void LoadPowerWarTableFile(char* path);
     void ProcessByMinuteEndEvent();
-    void ProcessByMinuteStartEvent();
+    int ProcessByMinuteStartEvent();
     int GetPowerWarRankingUpdateTime();
     char m_data[0x130];
 };

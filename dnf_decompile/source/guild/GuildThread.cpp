@@ -514,8 +514,17 @@ void IQueue<T>::InitQueue(T* recv, T* parse)
 }
 
 template<class T>
-void IQueue<T>::SwitchQueue()
+bool IQueue<T>::SwitchQueue()
 {
+    T* recv = *(T**)(m_data + 0);
+    if (recv->empty())
+    {
+        return false;
+    }
+    T* parse = *(T**)(m_data + 4);
+    *(T**)(m_data + 0) = parse;
+    *(T**)(m_data + 4) = recv;
+    return true;
 }
 
 template<class T>

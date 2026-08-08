@@ -462,10 +462,29 @@ void* CApplication::Get_UdpPacketParseQ()
 
 void CApplication::SwitchQueueTCP()
 {
+    CGuard<CMutex> guard(m_tcpNetSystem.Get_TcpRecvQLock());
+    typedef std::queue<CTcpRecvBuffer*> TcpRecvQueue;
+    IQueue<TcpRecvQueue>* q = IQueue<TcpRecvQueue>::Get();
+    if (q->SwitchQueue())
+    {
+        CPacketDecoder* dec = CPacketDecoderInstance();
+        dec->SetTCPQueue(q->GetParseQueue());
+    }
 }
 
 void CApplication::SwitchQueueUDP()
 {
+    CGuard<CMutex> guard(&m_udpQLock);
+    typedef std::queue<CUdpRecvBuffer*> UdpRecvQueue;
+    CSwapQueue<UdpRecvQueue, 2>* sq = (CSwapQueue<UdpRecvQueue, 2>*)((char*)this + 0xa0);
+    UdpRecvQueue* recvQueue = sq->GetRecvQ();
+    if (!recvQueue->empty())
+    {
+        sq->SwapQ();
+        m_udpThread->SetUDPQueue(sq->GetRecvQ());
+        CPacketDecoder* dec = CPacketDecoderInstance();
+        dec->SetUdpQueue(sq->GetParseQ());
+    }
 }
 
 CTcpNetSystem* CApplication::Get_TcpNetSystem()

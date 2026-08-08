@@ -689,6 +689,15 @@ void CServerHandler::SendAllTcpGameServer(PacketHeader* pkt)
 
 void CServerHandler::SendAllUdpGameServer(char* buf, int len)
 {
+    for (std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.begin();
+         it != m_gameServers.end(); ++it)
+    {
+        CGameServer* gs = it->second;
+        if (gs->IsValidServer())
+        {
+            gs->SendToServer(buf, len);
+        }
+    }
 }
 
 void CServerHandler::SendTcpGameServerFirst(PacketHeader* pkt)
