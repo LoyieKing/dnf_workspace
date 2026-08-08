@@ -673,6 +673,18 @@ void CServerHandler::SendToGameServer(unsigned char group, PacketHeader* pkt)
 
 void CServerHandler::SendAllTcpGameServer(PacketHeader* pkt)
 {
+    for (std::map<unsigned int, CTcpGameServer*>::iterator it = m_tcpGameServers.begin();
+         it != m_tcpGameServers.end(); ++it)
+    {
+        CTcpGameServer* tgs = it->second;
+        if (tgs->IsValidServer())
+        {
+            char* buf = tgs->makePacketHeader(*(unsigned short*)pkt,
+                                              *(unsigned short*)((char*)pkt + 2));
+            memcpy(buf + 10, (char*)pkt + 10, *(unsigned short*)((char*)pkt + 2) - 10);
+            tgs->SendToGameServer(buf);
+        }
+    }
 }
 
 void CServerHandler::SendAllUdpGameServer(char* buf, int len)
@@ -681,6 +693,17 @@ void CServerHandler::SendAllUdpGameServer(char* buf, int len)
 
 void CServerHandler::SendTcpGameServerFirst(PacketHeader* pkt)
 {
+    if (!m_tcpGameServers.empty())
+    {
+        CTcpGameServer* tgs = m_tcpGameServers.begin()->second;
+        if (tgs->IsValidServer())
+        {
+            char* buf = tgs->makePacketHeader(*(unsigned short*)pkt,
+                                              *(unsigned short*)((char*)pkt + 2));
+            memcpy(buf + 10, (char*)pkt + 10, *(unsigned short*)((char*)pkt + 2) - 10);
+            tgs->SendToGameServer(buf);
+        }
+    }
 }
 
 void CServerHandler::RegistDBServer(CDBServer* server)
@@ -735,6 +758,19 @@ bool CServerHandler::RegistGameServer(stServerInfo* info)
 
 void CServerHandler::UnregistGameServer(unsigned int group)
 {
+    std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.find(group);
+    if (it == m_gameServers.end())
+    {
+        return;
+    }
+    CGameServer* gs = it->second;
+    if (gs != 0)
+    {
+        delete gs;
+    }
+    m_gameServers.erase(it);
+    CMyFileLog log("UnregistGameServer", 0x387);
+    log("./log/GameServer", "Game server unregist. Channel: %d", group);
 }
 
 CTcpGameServer* CServerHandler::CreateTcpGameServer(unsigned int group)
@@ -753,6 +789,19 @@ CTcpGameServer* CServerHandler::CreateTcpGameServer(unsigned int group)
 
 void CServerHandler::DeleteTcpGameServer(unsigned int group)
 {
+    std::map<unsigned int, CTcpGameServer*>::iterator it = m_tcpGameServers.find(group);
+    if (it == m_tcpGameServers.end())
+    {
+        return;
+    }
+    CTcpGameServer* tgs = it->second;
+    if (tgs != 0)
+    {
+        delete tgs;
+    }
+    m_tcpGameServers.erase(it);
+    CMyFileLog log("DeleteTcpGameServer", 0x33e);
+    log("./log/Tcp", "TcpGameServer unregist. Channel: %d", group);
 }
 
 void CServerHandler::SetGameServerIpPort(unsigned char group, unsigned int port,
