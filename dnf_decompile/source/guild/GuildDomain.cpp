@@ -1995,7 +1995,7 @@ int CGuild::ReplyGuildMembersToWeb(STGuildMemberWebConnInfo* info)
                 if (it->second->GetGameServer() != 0)
                 {
                     *(unsigned char*)((char*)&info + count * 5 * 4 + 4) =
-                        it->second->GetGameServer()->m_field9;
+                        it->second->GetGameServer()->GetChannelNo();
                 }
                 count++;
             }
@@ -4827,7 +4827,6 @@ int CPowerWar::GetPowerWarRankingUpdateTime()
 
 CPower::CPower()
 {
-    m_field4 = 0;
     new (&m_guildInfo) CPowerWarGuildInfo;
     new (&m_characInfo) CPowerWarCharacInfo;
 }
@@ -5225,9 +5224,18 @@ void CPowerManager::SendPowerWarEndInfo(int time)
 
 void CPowerManager::SendPowerWarEndTime(int time)
 {
-    CMyFileLog log("SendPowerWarEndTime", 0x3d5);
-    log("./log/PowerResult", "POWER WAR END TIME : %d", time);
-    SendPowerWarEndInfo(time);
+    CApplication* app = *(CApplication**)((char*)this + 4);
+    CServerHandler* handler = app->Get_ServerHandler();
+    if (handler == 0)
+    {
+        throw CDNFException(
+            "CGuildManager::OnChangePowerWarScore() pclServerHandler == NULL\n");
+    }
+    Packet_Notice_Power_War_End_Time pkt;
+    *(unsigned char*)((char*)&pkt + 0xa) = (unsigned char)time;
+    *(unsigned int*)((char*)&pkt + 0xb) = (unsigned int)GetPowerScore((ENUM_POWER_SIDE_TYPE)1);
+    *(unsigned int*)((char*)&pkt + 0xf) = (unsigned int)GetPowerScore((ENUM_POWER_SIDE_TYPE)2);
+    handler->SendAllUdpGameServer((char*)&pkt, 0x13);
 }
 
 void CPowerManager::SendPowerWarEndInfo()

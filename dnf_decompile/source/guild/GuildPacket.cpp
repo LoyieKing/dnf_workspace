@@ -506,33 +506,148 @@ void CPacketTranslater::OnSetGuildMemberGrade(PacketHeader* pkt)
 {
     THROW_IF_NO_APP("CPacketTranslater::OnSetGuildMemberGrade : 0 == m_pclApp")
     char* pb = (char*)pkt;
-    CUser* caller = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe));
+    CUser* caller = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xa));
     if (caller == 0)
     {
+        CMyFileLog log("OnSetGuildMemberGrade", 0x5f3);
+        log("./log/GuildModify", "CPacketTranslater::OnSetGuildMemberGrade : no pclRequester(%d)",
+            *(unsigned int*)(pb + 0xa));
         return;
     }
+    Packet_Monitor_Set_Sub_Guild_Master_Reply reply;
+    *(unsigned int*)((char*)&reply + 0xa) = caller->GetIdByChannel();
+    *(unsigned int*)((char*)&reply + 0xe) = caller->GetUniqCharNo();
+    int errCode = 0;
+    memcpy((char*)&reply + 0x17, pb + 0x12, 0x1d);
     unsigned char grade = (unsigned char)pb[0x30];
-    char* targetName = pb + 0x12;
-    CUser* target = m_pclApp->Get_UserManager()->FindUser_CharName(targetName);
-    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(caller->GetGuildKey());
-    if (guild == 0)
+    unsigned int guildKey = *(unsigned int*)(pb + 0xe);
+    CGuild* guild = 0;
+    if (guildKey == 0 ||
+        (guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey)) == 0)
     {
+        errCode = 100;
+        caller->SendToGameserver((char*)&reply, 0x3a);
         return;
+    }
+    bool authorized = guild->IsGuildMaster(*(unsigned int*)(pb + 0xa)) == 1 ||
+                      caller->IsSubGuildMaster();
+    if (!authorized)
+    {
+        errCode = 0x56;
     }
     if (grade == 1)
     {
-        if (target != 0)
-        {
-            guild->SetSubGuildMaster(target->GetUniqCharNo(), true);
-        }
+        errCode = 0x58;
     }
-    else if (grade == 2)
+    if (grade == 2)
     {
-        if (target != 0)
+        if (guild->GetCurSubGuildMasterCnt() < 5)
         {
-            guild->SetSubGuildMaster(target->GetUniqCharNo(), false);
+            if (guild->IsGuildMaster(*(unsigned int*)(pb + 0xa)) != 1)
+            {
+                errCode = 0x66;
+            }
+        }
+        else
+        {
+            errCode = 0x59;
         }
     }
+    CUser* target = m_pclApp->Get_UserManager()->FindUser_CharName(pb + 0x12);
+    if (target == 0)
+    {
+        if (errCode == 0)
+        {
+            Packet_Monitor_DB_Change_Unconnected_GuildMember_Grade dbPkt;
+            unsigned char group = 0;
+            if (caller->GetGameServer() != 0)
+            {
+                group = caller->GetGameServer()->GetGroupNo();
+            }
+            *(unsigned char*)((char*)&dbPkt + 0xa) = group;
+            *(unsigned int*)((char*)&dbPkt + 0xb) = guildKey;
+            *(unsigned char*)((char*)&dbPkt + 0xf) = grade;
+            *(unsigned int*)((char*)&dbPkt + 0x10) = *(unsigned int*)(pb + 0xa);
+            *(unsigned char*)((char*)&dbPkt + 0x14) =
+                *(unsigned char*)((char*)caller->GetGuildMemDBInfo() + 0x15);
+            memcpy((char*)&dbPkt + 0x15, pb + 0x12, 0x1d);
+            m_pclApp->Get_ServerHandler()->SendToDB(&dbPkt);
+            return;
+        }
+    }
+    else if (errCode == 0)
+    {
+        if (guild->IsGuildMaster(target->GetUniqCharNo()) != 1)
+        {
+            if (target == caller)
+            {
+                errCode = 0x55;
+            }
+            else
+            {
+                if (*(unsigned char*)((char*)target->GetGuildMemDBInfo() + 0x15) == grade)
+                {
+                    errCode = 0x65;
+                }
+                else
+                {
+                    if (grade == 2)
+                    {
+                        if (*(char*)((char*)caller->GetGuildMemDBInfo() + 0x15) == 1)
+                        {
+                            guild->SetSubGuildMaster(target->GetUniqCharNo(), true);
+                            *(unsigned char*)((char*)target->GetGuildMemDBInfo() + 0x15) = 2;
+                            guild->ChangeUnconnectedGuildMemberGrade(target->GetUniqCharNo(), 2);
+                            guild->SendGuildInfoToMembers(false);
+                        }
+                        else
+                        {
+                            errCode = 0x66;
+                        }
+                    }
+                    else
+                    {
+                        if (guild->IsSubGuildMaster(target->GetUniqCharNo()))
+                        {
+                            if (*(char*)((char*)caller->GetGuildMemDBInfo() + 0x15) == 1)
+                            {
+                                guild->SetSubGuildMaster(target->GetUniqCharNo(), false);
+                                guild->SendGuildInfoToMembers(false);
+                            }
+                            else
+                            {
+                                errCode = 0x66;
+                            }
+                        }
+                    }
+                    if (errCode == 0)
+                    {
+                        target->ChangeGuildMemberGrade(grade);
+                        Packet_Monitor_Notify_GuildMemberGrade notify;
+                        *(unsigned char*)((char*)&notify + 0x12) = grade;
+                        *(unsigned int*)((char*)&notify + 0xa) = target->GetUniqCharNo();
+                        *(unsigned int*)((char*)&notify + 0xe) = target->GetIdByChannel();
+                        target->SendToGameserver((char*)&notify, 0x13);
+                        if (target->GetGameServer() == 0)
+                        {
+                            errCode = 3;
+                        }
+                        else
+                        {
+                            guild->DBGuildMemberSave(target, target->GetGameServer()->GetGroupNo(),
+                                                     m_pclApp->Get_ServerHandler(), 3);
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            errCode = 0x57;
+        }
+    }
+    *(int*)((char*)&reply + 0x12) = errCode;
+    caller->SendToGameserver((char*)&reply, 0x3a);
 }
 
 void CPacketTranslater::OnCallGuildMembers(PacketHeader* pkt)
@@ -1125,30 +1240,31 @@ void CPacketTranslater::OnCheckGuildMemberConnectionFromWeb(PacketHeader* pkt)
 {
     THROW_IF_NO_APP("CPacketTranslater::OnCheckGuildMemberConnectionFromWeb : 0 == m_pclApp");
     unsigned int guildKey = *(unsigned int*)((char*)pkt + 0xa);
-    if (guildKey != 0)
+    if (guildKey == 0)
     {
-        Packet_Answer_Guild_Member_Connection_From_Web resp;
-        *(unsigned int*)((char*)&resp + 0xa) = guildKey;
-        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
-        unsigned short size;
-        if (guild == 0 || guild->IsSetGuildDBFlag(4) != 1)
-        {
-            size = 0x10;
-        }
-        else
-        {
-            short count =
-                (short)guild->ReplyGuildMembersToWeb(
-                    (STGuildMemberWebConnInfo*)((char*)&resp + 0x10));
-            size = (unsigned short)(count * 5 + 0x10);
-        }
-        *(unsigned short*)((char*)&resp + 2) = size;
-        unsigned short port = *(unsigned short*)((char*)pkt + 4);
-        unsigned int ip = *(unsigned int*)((char*)pkt + 6);
-        if (m_pclApp->Get_UdpHandler()->SendToClient((char*)&resp, (int)size, port, 0, ip) != 1)
-        {
-            throw CDNFException(strerror(errno));
-        }
+        throw CDNFException(
+            "CPacketTranslater::OnCheckGuildMemberConnectionFromWeb : packet->m_uGuildKey == 0");
+    }
+    Packet_Answer_Guild_Member_Connection_From_Web resp;
+    *(unsigned int*)((char*)&resp + 0xa) = guildKey;
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    short count;
+    if (guild == 0 || guild->IsSetGuildDBFlag(4) != 1)
+    {
+        count = 0;
+    }
+    else
+    {
+        count = (short)guild->ReplyGuildMembersToWeb(
+            (STGuildMemberWebConnInfo*)((char*)&resp + 0x10));
+    }
+    unsigned short size = (unsigned short)(count * 5 + 0x10);
+    *(unsigned short*)((char*)&resp + 2) = size;
+    unsigned short port = *(unsigned short*)((char*)pkt + 4);
+    unsigned int ip = *(unsigned int*)((char*)pkt + 6);
+    if (m_pclApp->Get_UdpHandler()->SendToClient((char*)&resp, (int)size, port, 0, ip) != 1)
+    {
+        throw CDNFException(strerror(errno));
     }
 }
 

@@ -169,7 +169,7 @@ int CAppConfig::Parse_Table(char* line, int idx)
                 *(short*)((char*)this + 8) = (short)atoi(tokens[1]);
                 break;
             case 4:
-                m_name = tokens[1];
+                m_name = std::string(tokens[1]);
                 break;
             case 5:
                 *(short*)((char*)this + 0x10) = (short)atoi(tokens[1]);

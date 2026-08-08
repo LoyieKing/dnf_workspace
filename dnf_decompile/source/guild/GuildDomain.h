@@ -855,9 +855,9 @@ public:
     void RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int b, int c, int d, int e);
     CPowerWarGuildInfo* GetPowerWarGuildInfo();
     CPowerWarCharacInfo* GetPowerWarCharacInfo();
+    int m_field4;                      // +4
     CPowerWarGuildInfo m_guildInfo;    // +8
     CPowerWarCharacInfo m_characInfo;  // +0x3c
-    int m_field4;                      // +4
 };
 
 // ---- CPowerManager ----
@@ -1057,7 +1057,7 @@ public:
     unsigned int GetEventRGBA(int idx) const;
     std::string GetEventString(int idx, _eStringType type, bool* ok) const;
     char m_data[5];   // +0
-    char m_doc[0x54]; // +8 TiXmlDocument
+    char m_doc[0x48]; // +8 TiXmlDocument（0x48）
     int m_field50;    // +0x50
     std::string m_path;  // +0x54
     std::map<int, std::string> m_str1;  // +0x58
