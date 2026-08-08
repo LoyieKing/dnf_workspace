@@ -44,8 +44,8 @@ PortInfo::~PortInfo()
 Handlers::Handlers()
 {
     m_tcpHandlerRelay = 0;
-    m_udpHandlerRelay = 0;
-    m_udpHandlerS2S = 0;
+    m_udpHandler = 0;
+    m_tcpHandler = 0;
 }
 
 // ---- Threads ----
@@ -164,6 +164,14 @@ TCPUser* UserPools::createTCPUser()
 
 void UserPools::destroyTCPUser(TCPUser* user)
 {
+    TCPSocket* sock = user->getSocket();
+    if (sock != 0)
+    {
+        sock->close();
+        destroyTCPSocket(sock);
+    }
+    user->setSocket(0);
+    user->setACCID(0);
     m_tcpUserPool.free(user);
 }
 
@@ -261,6 +269,336 @@ void TCPUser::postDisconnected(int flag)
 }
 
 void TCPUser::notifyCannotLoginByMaxUserCount()
+{
+}
+
+// ---- TCPHandler / UDPHandler ----
+
+TCPHandler::TCPHandler()
+{
+}
+
+TCPHandler::~TCPHandler()
+{
+}
+
+TCPHandlerRelay::TCPHandlerRelay()
+{
+}
+
+TCPHandlerRelay::~TCPHandlerRelay()
+{
+}
+
+void TCPHandlerRelay::dispatch(TCPUser* user, char* buf, int size, int flag)
+{
+}
+
+UDPHandler::UDPHandler()
+{
+}
+
+UDPHandler::~UDPHandler()
+{
+}
+
+UDPHandlerRelay::UDPHandlerRelay()
+{
+}
+
+UDPHandlerRelay::~UDPHandlerRelay()
+{
+}
+
+void UDPHandlerRelay::dispatch(char* buf, int size, int flag)
+{
+}
+
+UDPHandlerS2S::UDPHandlerS2S()
+{
+}
+
+UDPHandlerS2S::~UDPHandlerS2S()
+{
+}
+
+void UDPHandlerS2S::dispatch(char* buf, int size, int flag)
+{
+}
+
+// ---- TCPThread / UDPThread / TCPAcceptThread ----
+
+TCPThread::TCPThread()
+{
+    m_port = 0;
+    m_handler = 0;
+}
+
+TCPThread::~TCPThread()
+{
+}
+
+void TCPThread::loop(void* pParam)
+{
+}
+
+UDPThread::UDPThread()
+{
+    m_port = 0;
+    m_handler = 0;
+    m_udpSocket = 0;
+    m_tick = get_ms_tick();
+}
+
+UDPThread::~UDPThread()
+{
+}
+
+void UDPThread::loop(void* pParam)
+{
+}
+
+void UDPThread::logError()
+{
+}
+
+TCPAcceptThread::TCPAcceptThread()
+{
+    m_port = 0;
+}
+
+TCPAcceptThread::~TCPAcceptThread()
+{
+}
+
+void TCPAcceptThread::loop(void* pParam)
+{
+}
+
+void TCPAcceptThread::lockPushAcceptedUser(TCPUser* user)
+{
+    TScopedLock<TThreadLock<ThreadLock_linux> > scoped(m_lock);
+    m_acceptedUsers.push(user);
+}
+
+TCPUser* TCPAcceptThread::lockPopAcceptedUser()
+{
+    TScopedLock<TThreadLock<ThreadLock_linux> > scoped(m_lock);
+    if (m_acceptedUsers.empty())
+    {
+        return 0;
+    }
+    TCPUser* user = m_acceptedUsers.front();
+    m_acceptedUsers.pop();
+    return user;
+}
+
+void TCPAcceptThread::notifyCannotCreateUser(TCPSocket& sock)
+{
+}
+
+void TCPAcceptThread::notifyCannotLoginByMaxUserCount(TCPSocket& sock)
+{
+}
+
+// ---- RelayService ----
+
+RelayService::RelayService()
+{
+    m_tick = 0;
+    m_tickLog = 0;
+    m_tickLogOld = 0;
+}
+
+RelayService::~RelayService()
+{
+}
+
+void RelayService::startup()
+{
+    createFileLogInfo();
+    createFileLogWarn();
+    createFileLogError();
+    createFileLogCri();
+    createLogInfo();
+    createLogCri();
+    createLogWarn();
+    createLogError();
+    m_userPools.m_tcpSocketPool.startup(G_ScriptData()->mRelayNum + 0x69);
+    m_userPools.m_tcpUserPool.startup(G_ScriptData()->mRelayNum + 0x69);
+    m_users.setMaxUserCount(G_ScriptData()->mRelayNum);
+    m_threads.m_tcpThread = new TCPThread;
+    m_threads.m_tcpThread->setManager(this);
+    m_threads.m_tcpThread->setPort(m_portInfo.getTCPPort());
+    if (G_ScriptData()->mFlag)
+    {
+        m_threads.m_udpThread = new UDPThread;
+        m_threads.m_udpThread->setManager(this);
+        m_threads.m_udpThread->setPort(m_portInfo.getUDPS2SPort());
+    }
+    m_handlers.m_tcpHandlerRelay = new TCPHandlerRelay;
+    m_handlers.m_tcpHandlerRelay->setManager(this);
+    if (G_ScriptData()->mFlag)
+    {
+        m_handlers.m_udpHandler = new UDPHandlerS2S;
+        m_handlers.m_udpHandler->setManager(this);
+    }
+    m_threads.m_tcpThread->setHandler(m_handlers.m_tcpHandlerRelay);
+    if (G_ScriptData()->mFlag)
+    {
+        m_threads.m_udpThread->setHandler(m_handlers.m_udpHandler);
+    }
+    m_threads.m_tcpThread->begin();
+    if (G_ScriptData()->mFlag)
+    {
+        m_threads.m_udpThread->begin();
+    }
+}
+
+void RelayService::shutdown()
+{
+    if (G_ScriptData()->mFlag && m_threads.m_udpThread != 0)
+    {
+        m_threads.m_udpThread->waitForTerminated(100);
+    }
+    if (m_threads.m_tcpThread != 0)
+    {
+        m_threads.m_tcpThread->waitForTerminated(100);
+    }
+    if (m_handlers.m_tcpHandlerRelay != 0)
+    {
+        delete m_handlers.m_tcpHandlerRelay;
+    }
+    m_handlers.m_tcpHandlerRelay = 0;
+    if (G_ScriptData()->mFlag)
+    {
+        if (m_handlers.m_udpHandler != 0)
+        {
+            delete m_handlers.m_udpHandler;
+        }
+        m_handlers.m_udpHandler = 0;
+        if (m_threads.m_udpThread != 0)
+        {
+            delete m_threads.m_udpThread;
+        }
+        m_threads.m_udpThread = 0;
+    }
+    if (m_threads.m_tcpThread != 0)
+    {
+        delete m_threads.m_tcpThread;
+    }
+    m_threads.m_tcpThread = 0;
+    m_userPools.m_tcpUserPool.shutdown();
+    m_userPools.m_tcpSocketPool.shutdown();
+    destroyFileLogInfo();
+    destroyFileLogWarn();
+    destroyFileLogError();
+    destroyFileLogCri();
+    destroyLogInfo();
+    destroyLogCri();
+    destroyLogWarn();
+    destroyLogError();
+}
+
+void RelayService::setAuthenticated(unsigned int acc_id)
+{
+}
+
+long long RelayService::getTick()
+{
+    return m_tickLog;
+}
+
+long long RelayService::getTickLog()
+{
+    if (m_tickLogOld == 0)
+    {
+        m_tickLogOld = getTick();
+    }
+    return m_tickLogOld;
+}
+
+void RelayService::setTick()
+{
+    m_tickLog = get_ms_tick();
+}
+
+void RelayService::setTickLog()
+{
+    m_tickLogOld = m_tickLog;
+}
+
+void RelayService::makeLog()
+{
+}
+
+void RelayService::postDisconnectEvent2TCPUser(unsigned int acc_id)
+{
+}
+
+// ---- 日志创建/销毁（TGlobalInstance 相关，后续补齐实现）----
+
+void createFileLogInfo()
+{
+}
+
+void createFileLogWarn()
+{
+}
+
+void createFileLogError()
+{
+}
+
+void createFileLogCri()
+{
+}
+
+void createLogInfo()
+{
+}
+
+void createLogCri()
+{
+}
+
+void createLogWarn()
+{
+}
+
+void createLogError()
+{
+}
+
+void destroyFileLogInfo()
+{
+}
+
+void destroyFileLogWarn()
+{
+}
+
+void destroyFileLogError()
+{
+}
+
+void destroyFileLogCri()
+{
+}
+
+void destroyLogInfo()
+{
+}
+
+void destroyLogCri()
+{
+}
+
+void destroyLogWarn()
+{
+}
+
+void destroyLogError()
 {
 }
 

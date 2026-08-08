@@ -22,7 +22,9 @@ class UDPUser;
 class TCPThread;
 class UDPThread;
 class TCPAcceptThread;
+class TCPHandler;
 class TCPHandlerRelay;
+class UDPHandler;
 class UDPHandlerRelay;
 class UDPHandlerS2S;
 
@@ -139,11 +141,11 @@ public:
     Handlers();
     TCPHandlerRelay* getTCPHandlerRelay()
     {
-        return m_tcpHandlerRelay;
+        return (TCPHandlerRelay*)m_tcpHandlerRelay;
     }
-    TCPHandlerRelay* m_tcpHandlerRelay;
-    UDPHandlerRelay* m_udpHandlerRelay;
-    UDPHandlerS2S* m_udpHandlerS2S;
+    TCPHandler* m_tcpHandler;       // +0
+    UDPHandler* m_udpHandler;       // +4（实际放 UDPHandlerS2S）
+    TCPHandler* m_tcpHandlerRelay;  // +8（实际放 TCPHandlerRelay）
 };
 
 // ---- Threads：TCPThread*@0 / UDPThread*@4 / UDPThread*@8 / vector<UDPThread*>@0xc ----
@@ -255,6 +257,125 @@ public:
     TDoubleCircularQueueBuffer<51200u> m_sendQueue;  // +0x1902c
 };
 
+// ---- TCPHandler / TCPHandlerRelay（vptr@0 + TManager@4，8B）----
+class TCPHandler : public TManager<RelayService>
+{
+public:
+    TCPHandler();
+    virtual ~TCPHandler();
+    virtual void dispatch(TCPUser* user, char* buf, int size, int flag) = 0;
+};
+
+class TCPHandlerRelay : public TCPHandler
+{
+public:
+    TCPHandlerRelay();
+    ~TCPHandlerRelay();
+    virtual void dispatch(TCPUser* user, char* buf, int size, int flag);
+};
+
+// ---- UDPHandler / UDPHandlerRelay / UDPHandlerS2S（vptr@0 + TManager@4，8B）----
+class UDPHandler : public TManager<RelayService>
+{
+public:
+    UDPHandler();
+    virtual ~UDPHandler();
+    virtual void dispatch(char* buf, int size, int flag) = 0;
+};
+
+class UDPHandlerRelay : public UDPHandler
+{
+public:
+    UDPHandlerRelay();
+    ~UDPHandlerRelay();
+    virtual void dispatch(char* buf, int size, int flag);
+};
+
+class UDPHandlerS2S : public UDPHandler
+{
+public:
+    UDPHandlerS2S();
+    ~UDPHandlerS2S();
+    virtual void dispatch(char* buf, int size, int flag);
+};
+
+// ---- TCPThread（Thread@0 + TManager@0x14 + port@0x18 + handler@0x1c，0x20）----
+class TCPThread : public Thread, public TManager<RelayService>
+{
+public:
+    TCPThread();
+    ~TCPThread();
+    virtual void loop(void* pParam);
+    void setPort(int port)
+    {
+        m_port = port;
+    }
+    void setHandler(TCPHandler* handler)
+    {
+        m_handler = handler;
+    }
+
+private:
+    int m_port;               // +0x18
+    TCPHandler* m_handler;    // +0x1c
+};
+
+// ---- UDPThread（Thread@0 + TManager@0x14 + port@0x18 + handler@0x1c +
+//      udpSocket@0x20 + tick@0x24，0x2c）----
+class UDPThread : public Thread, public TManager<RelayService>
+{
+public:
+    UDPThread();
+    ~UDPThread();
+    virtual void loop(void* pParam);
+    void setPort(int port)
+    {
+        m_port = port;
+    }
+    void setHandler(UDPHandler* handler)
+    {
+        m_handler = handler;
+    }
+    UDPSocket* getUDPSocket()
+    {
+        return m_udpSocket;
+    }
+    void setUDPSocket(UDPSocket* sock)
+    {
+        m_udpSocket = sock;
+    }
+    void logError();
+
+private:
+    int m_port;               // +0x18
+    UDPHandler* m_handler;    // +0x1c
+    UDPSocket* m_udpSocket;   // +0x20
+    long long m_tick;         // +0x24
+};
+
+// ---- TCPAcceptThread（Thread@0 + TManager@0x14 + queue@0x18 + lock@0x40 +
+//      port@0x58，0x5c）----
+class TCPAcceptThread : public Thread, public TManager<RelayService>
+{
+public:
+    TCPAcceptThread();
+    ~TCPAcceptThread();
+    virtual void loop(void* pParam);
+    void lockPushAcceptedUser(TCPUser* user);
+    TCPUser* lockPopAcceptedUser();
+    void notifyCannotCreateUser(TCPSocket& sock);
+    void notifyCannotLoginByMaxUserCount(TCPSocket& sock);
+    int getPort() const
+    {
+        return m_port;
+    }
+
+private:
+    std::queue<TCPUser*> m_acceptedUsers;      // +0x18
+    TThreadLock<ThreadLock_linux> m_lock;      // +0x40
+    int m_port;                                // +0x58
+};
+
 // ---- RelayService（独立类，0x1d8）----
 class RelayService
 {
@@ -263,7 +384,7 @@ public:
     ~RelayService();
     void startup();
     void shutdown();
-    void setAuthenticated(int flag);
+    void setAuthenticated(unsigned int acc_id);
     long long getTick();
     long long getTickLog();
     void setTick();
@@ -281,6 +402,23 @@ public:
     long long m_tickLog;      // +0x1c8
     long long m_tickLogOld;   // +0x1d0
 };
+
+void createFileLogInfo();
+void createFileLogWarn();
+void createFileLogError();
+void createFileLogCri();
+void createLogInfo();
+void createLogCri();
+void createLogWarn();
+void createLogError();
+void destroyFileLogInfo();
+void destroyFileLogWarn();
+void destroyFileLogError();
+void destroyFileLogCri();
+void destroyLogInfo();
+void destroyLogCri();
+void destroyLogWarn();
+void destroyLogError();
 
 } // namespace RelayServiceApp
 
