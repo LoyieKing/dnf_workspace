@@ -555,10 +555,19 @@ class CPowerWar
 {
 public:
     CPowerWar();
-    ~CPowerWar();
+    virtual ~CPowerWar();
     int IsPowerWarOn();
     unsigned short getPowerWarEndKillPoint();
     void setPowerWarEndKillPoint(unsigned short point);
+    void resetEvent();
+    void setEvent();
+    void setProlongTime();
+    void GetPowerWarConfigTbl(unsigned char& a, unsigned char& b, unsigned char& c,
+                              unsigned char& d);
+    void LoadPowerWarTableFile(char* path);
+    void ProcessByMinuteEndEvent();
+    void ProcessByMinuteStartEvent();
+    int GetPowerWarRankingUpdateTime();
     char m_data[0x130];
 };
 
@@ -567,9 +576,17 @@ class CPower
 {
 public:
     CPower();
-    ~CPower();
+    virtual ~CPower();
     void SetScore(int score);
     int GetScore();
+    int IncScore(int score);
+    void InitPower();
+    void CleanPower();
+    void CalcPowerWarRank();
+    void UpdatePowerWarInfo(int a, unsigned int b, unsigned int c);
+    void RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int b, int c, int d);
+    CPowerWarGuildInfo* GetPowerWarGuildInfo();
+    CPowerWarCharacInfo* GetPowerWarCharacInfo();
     CPowerWarGuildInfo m_guildInfo;    // +8
     CPowerWarCharacInfo m_characInfo;  // +0x3c
     int m_field4;                      // +4

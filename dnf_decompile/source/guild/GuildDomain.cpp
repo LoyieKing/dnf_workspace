@@ -2579,6 +2579,46 @@ void CPowerWar::setPowerWarEndKillPoint(unsigned short point)
     *(unsigned short*)((char*)this + 0xc) = point;
 }
 
+void CPowerWar::resetEvent()
+{
+    *(int*)((char*)this + 4) = 0;
+    *(int*)((char*)this + 8) = -1;
+    *(unsigned short*)((char*)this + 0xc) = 0xffff;
+}
+
+void CPowerWar::setEvent()
+{
+    *(int*)((char*)this + 4) = 1;
+}
+
+void CPowerWar::setProlongTime()
+{
+    *(int*)((char*)this + 4) = 1;
+    *(int*)((char*)this + 8) += 10;
+}
+
+void CPowerWar::GetPowerWarConfigTbl(unsigned char& a, unsigned char& b, unsigned char& c,
+                                     unsigned char& d)
+{
+}
+
+void CPowerWar::LoadPowerWarTableFile(char* path)
+{
+}
+
+void CPowerWar::ProcessByMinuteEndEvent()
+{
+}
+
+void CPowerWar::ProcessByMinuteStartEvent()
+{
+}
+
+int CPowerWar::GetPowerWarRankingUpdateTime()
+{
+    return 0;
+}
+
 CPower::CPower()
 {
     m_field4 = 0;
@@ -2592,11 +2632,58 @@ CPower::~CPower()
 
 void CPower::SetScore(int score)
 {
+    m_field4 = score;
 }
 
 int CPower::GetScore()
 {
-    return 0;
+    return m_field4;
+}
+
+int CPower::IncScore(int score)
+{
+    m_field4 += score;
+    if (m_field4 == 0x7fffffff)
+    {
+        m_field4 = 0x7fffffff;
+    }
+    return m_field4;
+}
+
+void CPower::InitPower()
+{
+    m_field4 = 0;
+    m_characInfo.Initialize();
+    m_guildInfo.Initialize();
+}
+
+void CPower::CleanPower()
+{
+    m_field4 = 0;
+    m_characInfo.Clean();
+    m_guildInfo.Clean();
+}
+
+void CPower::CalcPowerWarRank()
+{
+}
+
+void CPower::UpdatePowerWarInfo(int a, unsigned int b, unsigned int c)
+{
+}
+
+void CPower::RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int b, int c, int d)
+{
+}
+
+CPowerWarGuildInfo* CPower::GetPowerWarGuildInfo()
+{
+    return &m_guildInfo;
+}
+
+CPowerWarCharacInfo* CPower::GetPowerWarCharacInfo()
+{
+    return &m_characInfo;
 }
 
 CPowerManager::CPowerManager()
