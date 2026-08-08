@@ -31,7 +31,7 @@ class TiXmlNode;
 struct STGuildMemerDBInfo
 {
     STGuildMemerDBInfo();
-    char m_data[0x20];
+    char m_data[0x1a];
 };
 
 // ---- STGuildSkill：5 字节 ----

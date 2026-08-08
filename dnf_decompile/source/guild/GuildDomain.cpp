@@ -888,8 +888,18 @@ void CUser::GetBlackList(unsigned char& count, STBlackUserDBType* list)
     if (!m_blackList.empty())
     {
         for (std::map<unsigned int, CBlackUser*>::iterator it = m_blackList.begin();
-             it != m_blackList.end() && count < 0xff; ++it, count++)
+             it != m_blackList.end(); ++it)
         {
+            CBlackUser* bu = it->second;
+            memcpy((char*)list + (unsigned int)count * 0x28 + 4, bu->GetName(), 0x1d);
+            *(unsigned int*)((char*)list + (unsigned int)count * 0x28 + 0x24) =
+                bu->GetOccurTime();
+            *(unsigned int*)((char*)list + (unsigned int)count * 0x28) = it->first;
+            count = (unsigned char)(count + 1);
+            if (9 < count)
+            {
+                return;
+            }
         }
     }
 }
@@ -1803,9 +1813,15 @@ void CGuild::LoadGuild(STGuildDBInfoOnly& info, char* name)
 
 void CGuild::SetGuildMessage(char* msg)
 {
-    if (msg != 0)
+    memset((char*)this + 0x4d0a, 0, 0x65);
+    size_t n = strlen(msg);
+    if ((int)n < 0x65)
     {
-        strncpy((char*)this + 0x98, msg, 0x40);
+        memcpy((char*)this + 0x4d0a, msg, n);
+    }
+    else
+    {
+        memcpy((char*)this + 0x4d0a, msg, 100);
     }
 }
 
