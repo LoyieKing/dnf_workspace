@@ -1,6 +1,6 @@
 # df_guild_r 还原进度
 
-更新：2026-08-08（骨架 + 框架类 + 核心域类，符号命中 54.1%）
+更新：2026-08-08（CGuild 全方法 + 核心处理器，符号命中 58.2%）
 
 ## 二进制概况
 
@@ -29,20 +29,25 @@
 - CGuildManager：GuildMemLogin/GuildMemLogout/GuildEnter/CreateGuild/DeleteGuild/
   FindGuild/InsertGuild/LoadGuild/AttendGuild
 - CGuild（0x6718 布局）：STGuildDBInfo(0x4cf8)+STGuildAgitDBInfo+CGuildCargo@0x4db4+
-  CGuildBoard@0x66c4；43 方法（成员管理/资金/经验/权力/Agit/简单 getter）
+  CGuildBoard@0x66c4；**107 方法全部实现**（成员管理/资金/经验/技能/权力/Agit/
+  ReplyGuildMembers/ReplyGuildAllMembers/DB 保存族）
+- CUser 66/73、CGuildManager 35/40（今日成员/出勤）、CPowerManager 25/36、
+  CTcpNetSystem 9/23、CGuildCargo 18/24、CGuildBoard 14/16
 - CPacketTranslater：OnLogin/OnLogout/OnReplyQueryGuild/OnCharLogin/OnHeartBeat 已实现，
-  其余 109 个为桩（待实现）
+  OnNoticeGuildEnter/Secede/Dismiss、OnDBReplyQueryGuildMember、OnIncreaseGuildExp、
+  OnChangeGuildName、OnCallGuildMembers/AllMembers/Info、OnSetGuildMemberGrade、
+  OnNoticeGuildChatMsg/MarkChange 等已实现，其余为桩（待实现）
 
 ## 当前水位
 
-- 符号命中 **54.1%**（3839/7103）
+- 符号命中 **58.2%**（4133/7103）
 - 二进制可运行：logo → Init → Load → Process → SIGTERM → Stop 全流程
 - 剩余大头：CGuild 40 方法、CPacketTranslater 109 处理器、CPowerManager/CGuildCargo/
   CGuildBoard/CTcpNetSystem 域逻辑
 
 ## 下一步
 
-1. CGuild 剩余方法（ReplyGuildMembers/ReplyGuildAllMembers/GuildLevelUp/成员通知族）
-2. CPacketTranslater 处理器逐个实现
+1. CGuildManager/CPowerManager/CTcpNetSystem/CGuildCargo/CGuildBoard 剩余方法
+2. CPacketTranslater 处理器逐个实现（剩余约 90 个）
 3. CPowerManager/CPowerWar/CGuildCargo/CGuildBoard/CTcpNetSystem
 4. 全量比对验收、更新本文档
