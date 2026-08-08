@@ -55,4 +55,14 @@ public:
     unsigned short m_ushort30;          // +0x30
 };
 
+// ---- CServerConfig：monitor 服务器配置表 ----
+class CServerConfig : public CTableBase
+{
+public:
+    CServerConfig();
+    virtual ~CServerConfig();
+    virtual void Load_Table(const std::string& path);
+    virtual int Parse_Table(char* line, int idx);
+};
+
 #endif  // MONITOR_TABLE_H_

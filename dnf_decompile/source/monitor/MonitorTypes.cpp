@@ -24,6 +24,88 @@ int getErrno()
     return *__errno_location();
 }
 
+template<class T>
+void* MemPool<T>::headOfFreeList_;
+
+template<class T>
+MemPool<T>::MemPool() {}
+template<class T>
+MemPool<T>::~MemPool() {}
+
+template<class T>
+void* MemPool<T>::alloc()
+{
+    void* result;
+    if (m_size == (int)sizeof(T))
+    {
+        void* head = headOfFreeList_;
+        if (head == 0)
+        {
+            void* block = ::operator new((unsigned int)m_size * (unsigned int)m_count);
+            for (unsigned int i = 0; i < (unsigned int)m_count - 1; i++)
+            {
+                *(void**)((char*)block + i * m_size + m_size - 4) =
+                    (void*)((i + 1) * m_size + (unsigned int)block);
+            }
+            *(void**)((char*)block + ((unsigned int)m_count - 1) * m_size + m_size - 4) = 0;
+            headOfFreeList_ = (void*)((char*)block + m_size);
+            head = block;
+            m_blocks.push_back(block);
+            CMyFileLog log("alloc", 0x7d);
+            log("./log/Mempool", "class size(%d) cnt(%d)", m_size,
+                m_count * (int)m_blocks.size());
+        }
+        else
+        {
+            headOfFreeList_ = *(void**)((char*)head + m_size - 4);
+        }
+        result = head;
+    }
+    else
+    {
+        result = ::operator new(sizeof(T));
+    }
+    return result;
+}
+
+template<class T>
+void MemPool<T>::free(void* ptr, unsigned int size)
+{
+    if (ptr != 0)
+    {
+        if ((unsigned int)m_size == size)
+        {
+            *(void**)((char*)ptr + m_size - 4) = headOfFreeList_;
+            headOfFreeList_ = ptr;
+        }
+        else
+        {
+            ::operator delete(ptr);
+        }
+    }
+}
+
+template<class T>
+void MemPool<T>::free(void* ptr)
+{
+    if (ptr != 0)
+    {
+        ::operator delete(ptr);
+    }
+}
+
+template class MemPool<CUdpRecvBuffer>;
+template class MemPool<CTcpRecvBuffer>;
+template class MemPool<CTcpSendBuffer>;
+template class MemPool<CPacketBuffer>;
+template class MemPool<CUser>;
+template class MemPool<CMember>;
+template class MemPool<CCashObject>;
+template class MemPool<CBuddy>;
+template class MemPool<CBlackUser>;
+template class MemPool<CPeer>;
+template class MemPool<CDNFProhibitUser>;
+
 void* CUdpRecvBuffer::operator new(unsigned int size)
 {
     return ::operator new(size);
@@ -38,6 +120,24 @@ void* CTcpRecvBuffer::operator new(unsigned int size)
     return ::operator new(size);
 }
 void CTcpRecvBuffer::operator delete(void* ptr)
+{
+    ::operator delete(ptr);
+}
+
+void* CTcpSendBuffer::operator new(unsigned int size)
+{
+    return ::operator new(size);
+}
+void CTcpSendBuffer::operator delete(void* ptr)
+{
+    ::operator delete(ptr);
+}
+
+void* CPacketBuffer::operator new(unsigned int size)
+{
+    return ::operator new(size);
+}
+void CPacketBuffer::operator delete(void* ptr)
 {
     ::operator delete(ptr);
 }
@@ -3552,6 +3652,38 @@ void CServerXml::StrPunish(int idx, const char* str, _eStringType type)
             m_map58.insert(std::pair<const int, std::string>(idx, s));
         }
     }
+}
+std::string CServerXml::GetServerString(int idx, bool* ok) const
+{
+    std::string s("");
+    std::map<int, std::string>::const_iterator it = m_map58.find(idx);
+    if (it == m_map58.end())
+    {
+        if (ok != 0)
+        {
+            *ok = 0;
+        }
+        return s;
+    }
+    if (ok != 0)
+    {
+        *ok = 1;
+    }
+    return it->second;
+}
+unsigned int CServerXml::GetEventRGBA(int idx) const
+{
+    return 0;
+}
+std::string CServerXml::GetEventString(int idx, _eStringType type, bool* ok) const
+{
+    return "";
+}
+void CServerXml::RGBALoad(int idx, TiXmlNode* node)
+{
+}
+void CServerXml::ProcessLoad(TiXmlNode* node)
+{
 }
 }
 

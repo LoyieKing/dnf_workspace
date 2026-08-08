@@ -77,6 +77,22 @@ public:
     char m_data[0x1804];
 };
 
+class CTcpSendBuffer
+{
+public:
+    static void* operator new(unsigned int size);
+    static void operator delete(void* ptr);
+    char m_data[0x1804];
+};
+
+class CPacketBuffer
+{
+public:
+    static void* operator new(unsigned int size);
+    static void operator delete(void* ptr);
+    char m_data[0x1804];
+};
+
 // ---- CAppLoadChecker（最小）----
 class CAppLoadChecker
 {
@@ -1325,6 +1341,22 @@ public:
 unsigned int get_rand_int(int n);
 int getErrno();
 
+// ---- MemPool<T>：对象池 ----
+template<class T>
+class MemPool
+{
+public:
+    MemPool();
+    ~MemPool();
+    void* alloc();
+    void free(void* ptr, unsigned int size);
+    void free(void* ptr);
+    static void* headOfFreeList_;
+    int m_size;                     // +0
+    int m_count;                    // +4
+    std::vector<void*> m_blocks;    // +8
+};
+
 // ---- np_server_xml：CServerXml 0xb8 ----
 namespace np_server_xml
 {
@@ -1342,6 +1374,11 @@ public:
     ~CServerXml();
     static void StrLoading();
     void StrPunish(int idx, const char* str, _eStringType type);
+    std::string GetServerString(int idx, bool* ok) const;
+    unsigned int GetEventRGBA(int idx) const;
+    std::string GetEventString(int idx, _eStringType type, bool* ok) const;
+    void RGBALoad(int idx, TiXmlNode* node);
+    void ProcessLoad(TiXmlNode* node);
     char m_field0[8];                       // +0
     TiXmlDocument m_doc;                    // +8
     std::string m_str54;                    // +0x54
