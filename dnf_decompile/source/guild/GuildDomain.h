@@ -190,6 +190,7 @@ struct STDBSavePowerWarPoint
 };
 struct Packet_DB_Save_Power_War_Point;
 struct Packet_DB_Save_Power_War_Bonus_Point;
+struct Packet_DB_Save_Power_War_Point_Reward;
 struct STPowerWarScheduleTime
 {
     STPowerWarScheduleTime() {}
@@ -587,7 +588,8 @@ public:
     void QueryGuildAllMembersProxy(CServerHandler* handler, unsigned int charNo);
     void LoadGuildAllMembersProxy(STGuildMemberProxy* proxy, unsigned char flag,
                                   unsigned char param);
-    int PopGuildMemberChanglableInfo(unsigned int charNo, STGuildMemberChangableInfo* info);
+    int PopGuildMemberChanglableInfo(unsigned int charNo,
+                                     STGuildMemberChangableInfo& info) const;
     int ReplyGuildMembersToWeb(STGuildMemberWebConnInfo* info);
     void DBSaveGuildMemberUnChangableInfo(CServerHandler* handler, unsigned int a,
                                           unsigned int b, char* name);
@@ -767,7 +769,7 @@ public:
     void RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int b, int c, int d, int e);
     STDBSavePowerWarPoint* CreateDBSavePowerWarPoint();
     void DeleteDBSavePowerWarPoint(STDBSavePowerWarPoint* p);
-    void MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Point& pkt);
+    void MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Point_Reward* pkt);
     int GetPowerWarPointDBSaveCount();
     void GetAllGuildRankingInfo(int& count, STGuildRank* rank);
     char m_data[0x34];

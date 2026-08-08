@@ -463,7 +463,7 @@ void CServerHandler::Attach(CApplication* app)
     m_app = app;
 }
 
-void CServerHandler::Process(CApplication* app)
+void CServerHandler::Process()
 {
     bool doHb = false;
     if (m_managerServer != 0)

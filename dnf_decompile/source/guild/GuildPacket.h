@@ -177,7 +177,7 @@ public:
     static void OnNoticeGuildChatMsgHyperLink(PacketHeader* pkt);
     static void RequestBlackListToDBMW(unsigned int charNo);
     static void SendPacketGuildMail(unsigned char group, unsigned int guildKey,
-                                    unsigned int charNo, char* title, char* content,
+                                    unsigned int charNo, const char* title, const char* content,
                                     unsigned int param);
     static void GuildJoin(CGuild* guild, STGuildJoinInfo* info, unsigned int dbid);
     static void GuildJoin(CGuild* guild, CUser* user, unsigned int dbid);

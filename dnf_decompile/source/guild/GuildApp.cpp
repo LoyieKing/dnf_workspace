@@ -210,7 +210,7 @@ void CApplication::Process()
     {
         if (m_serverHandler != 0)
         {
-            m_serverHandler->Process(this);
+            m_serverHandler->Process();
         }
         SwitchQueueTCP();
         SwitchQueueUDP();

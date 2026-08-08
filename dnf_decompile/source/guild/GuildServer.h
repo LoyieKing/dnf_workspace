@@ -145,7 +145,7 @@ public:
     ~CServerHandler();
     void Load(std::multimap<unsigned int, stServerInfo*>* map);
     void Attach(CApplication* app);
-    void Process(CApplication* app);
+    void Process();
     CGameServer* GetGameServer(unsigned int group);
     CTcpGameServer* GetTcpGameServer(unsigned int group);
     int IsConnectedGameServer(unsigned char group);

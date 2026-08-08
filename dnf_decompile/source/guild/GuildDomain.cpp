@@ -1608,22 +1608,20 @@ void CGuild::LoadGuildAllMembersProxy(STGuildMemberProxy* proxy, unsigned char f
     }
 }
 
-int CGuild::PopGuildMemberChanglableInfo(unsigned int charNo, STGuildMemberChangableInfo* info)
+int CGuild::PopGuildMemberChanglableInfo(unsigned int charNo,
+                                         STGuildMemberChangableInfo& info) const
 {
     if (m_changable.empty())
     {
         return 0;
     }
-    std::map<unsigned int, STGuildMemberChangableInfo>::iterator it = m_changable.find(charNo);
+    std::map<unsigned int, STGuildMemberChangableInfo>::const_iterator it =
+        m_changable.find(charNo);
     if (it == m_changable.end())
     {
         return 0;
     }
-    if (info != 0)
-    {
-        *info = it->second;
-    }
-    m_changable.erase(it);
+    info = it->second;
     return 1;
 }
 
@@ -3061,11 +3059,16 @@ void CGuildBoard::sendMessageToDBMW_GuildMasterChanging(CServerHandler* handler,
 
 CPowerWarGuildInfo::CPowerWarGuildInfo()
 {
-    memset(m_data, 0, sizeof(m_data));
+    new (m_data + 0) std::map<unsigned int, STPowerWarGuildInfo*>();
+    new (m_data + 0x1c) std::vector<STPowerWarGuildInfo*>();
+    new (m_data + 0x28) std::vector<STDBSavePowerWarPoint*>();
 }
 
 CPowerWarGuildInfo::~CPowerWarGuildInfo()
 {
+    ((std::vector<STDBSavePowerWarPoint*>*)(m_data + 0x28))->~vector();
+    ((std::vector<STPowerWarGuildInfo*>*)(m_data + 0x1c))->~vector();
+    ((std::map<unsigned int, STPowerWarGuildInfo*>*)(m_data + 0))->~map();
 }
 
 void CPowerWarGuildInfo::Initialize()
@@ -3138,8 +3141,32 @@ void CPowerWarGuildInfo::DeleteDBSavePowerWarPoint(STDBSavePowerWarPoint* p)
     }
 }
 
-void CPowerWarGuildInfo::MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Point& pkt)
+void CPowerWarGuildInfo::MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Point_Reward* pkt)
 {
+    std::vector<STDBSavePowerWarPoint*>* vec =
+        (std::vector<STDBSavePowerWarPoint*>*)(m_data + 0x28);
+    size_t n = vec->size();
+    int count = 0;
+    if (n != 0)
+    {
+        count = n < 0xfb ? (int)n : 0xfa;
+        char* out = (char*)pkt + 0xf;
+        int i = 0;
+        for (std::vector<STDBSavePowerWarPoint*>::iterator it = vec->begin();
+             it != vec->end() && i < count; )
+        {
+            STDBSavePowerWarPoint* p = *it;
+            *(unsigned int*)(out + i * 8) = *(unsigned int*)p;
+            *(unsigned int*)(out + i * 8 + 4) = *(unsigned int*)((char*)p + 4);
+            CMyFileLog log("MakePacketDBPowerWarPoint", 0x16b);
+            log("./log/Power", "INTERVAL SAVE - GUILD:%d, POINT:%d",
+                *(unsigned int*)p, *(unsigned int*)((char*)p + 4));
+            DeleteDBSavePowerWarPoint(p);
+            it = vec->erase(it);
+            i++;
+        }
+        *(unsigned int*)((char*)pkt + 0xb) = (unsigned int)count;
+    }
 }
 
 int CPowerWarGuildInfo::GetPowerWarPointDBSaveCount()

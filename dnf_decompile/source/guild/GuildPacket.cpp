@@ -92,6 +92,23 @@ void CPacketTranslater::GuildJoin(CGuild* guild, STGuildJoinInfo* joinInfo, unsi
     }
 }
 
+void CPacketTranslater::SendPacketGuildMail(unsigned char group, unsigned int guildKey,
+                                            unsigned int charNo, const char* title,
+                                            const char* content,
+                                            unsigned int param)
+{
+    Packet_DBMW_Send_Guild_Mail pkt;
+    *(unsigned int*)((char*)&pkt + 0xa) = guildKey;
+    *(unsigned int*)((char*)&pkt + 0xe) = charNo;
+    *(unsigned char*)((char*)&pkt + 0x12) = group;
+    size_t len = strlen(content);
+    memcpy((char*)&pkt + 0x13, content, len < 0x100 ? len : 0xff);
+    len = strlen(title);
+    memcpy((char*)&pkt + 0x113, title, len < 0x11 ? len : 0x10);
+    *(unsigned int*)((char*)&pkt + 0x124) = param;
+    m_pclApp->Get_ServerHandler()->SendToDB(&pkt);
+}
+
 void CPacketTranslater::attach(CApplication* app)
 {
     m_pclApp = app;
