@@ -66,8 +66,9 @@ public:
     void SetChannelNo(unsigned char channel);
     bool IsValidServer();
     char* makePacketHeader(unsigned short id, unsigned short size);
-    stServerInfo* m_info;   // +4
-    char m_field8;          // +8
+    unsigned int m_group;         // +0
+    CTcpNetSystem* m_net;         // +4
+    char m_channel;               // +8
 };
 
 // ---- CDBServer ----

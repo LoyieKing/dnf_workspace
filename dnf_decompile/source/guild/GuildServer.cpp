@@ -159,47 +159,57 @@ void CGameServer::SetSocket(unsigned int sock)
 
 CTcpGameServer::CTcpGameServer()
 {
-    m_info = 0;
-    m_field8 = 0;
+    m_group = 0;
+    m_net = 0;
+    m_channel = 0;
 }
 
 CTcpGameServer::~CTcpGameServer()
 {
+    m_group = 0;
+    m_net = 0;
 }
 
 void CTcpGameServer::Init(unsigned int group, CTcpNetSystem* net)
 {
-    *(unsigned int*)m_info = group;
-    *(CTcpNetSystem**)((char*)m_info + 4) = net;
+    m_group = group;
+    m_net = net;
 }
 
 void CTcpGameServer::SendToGameServer(char* buf)
 {
-    CTcpNetSystem* net = *(CTcpNetSystem**)((char*)m_info + 4);
-    if (net != 0)
+    if (m_net != 0)
     {
-        net->PushTcpSendPacketQ(buf);
+        m_net->PushTcpSendPacketQ(buf);
     }
 }
 
 unsigned char CTcpGameServer::GetChannelNo()
 {
-    return m_field8;
+    return (unsigned char)m_channel;
 }
 
 void CTcpGameServer::SetChannelNo(unsigned char channel)
 {
-    m_field8 = (char)channel;
+    m_channel = (char)channel;
 }
 
 bool CTcpGameServer::IsValidServer()
 {
-    return m_info != 0 && *(unsigned int*)m_info != 0;
+    return m_group != 0;
 }
 
 char* CTcpGameServer::makePacketHeader(unsigned short id, unsigned short size)
 {
-    return 0;
+    if (m_net == 0)
+    {
+        return 0;
+    }
+    char* pkt = (char*)m_net->Acquire_TcpSendBuffer();
+    *(unsigned short*)pkt = id;
+    *(unsigned short*)(pkt + 2) = size;
+    *(unsigned int*)(pkt + 0xc) = *(unsigned int*)this;
+    return pkt;
 }
 
 CDBServer::CDBServer()
