@@ -8,6 +8,7 @@
 #include "StaticsStatistic.h"
 #include "StaticsUdp.h"
 #include "DNFFileLog.h"
+#include "StaticsProxy.h"
 
 Packet_Goldcard_Event_Statistic_STD::Packet_Goldcard_Event_Statistic_STD()
 {
@@ -163,12 +164,99 @@ Packet_DBMW_TechnicalReport_Common_Query::Packet_DBMW_TechnicalReport_Common_Que
     new ((void*)this) PacketHeader(0x17c5, 0x40a);
 }
 
+Packet_Frame_Lag_Statistic_Load_Spec::Packet_Frame_Lag_Statistic_Load_Spec()
+    : PacketHeader(0xc27, 0xb)
+{
+}
+
+Packet_Frame_Lag_Statistic_Reload_Spec::Packet_Frame_Lag_Statistic_Reload_Spec()
+    : PacketHeader(0xc29, 0xf)
+{
+}
+
+Packet_Frame_Lag_Statistic_Write_Lag_Index::Packet_Frame_Lag_Statistic_Write_Lag_Index()
+    : PacketHeader(0xc2b, 0x17b)
+{
+}
+
+Packet_Frame_Lag_Statistic_Write_Query::Packet_Frame_Lag_Statistic_Write_Query()
+    : PacketHeader(0xc2d, 0x40a)
+{
+}
+
+Packet_Frame_Lag_Used_Memory_Write_Query::Packet_Frame_Lag_Used_Memory_Write_Query()
+    : PacketHeader(0xc30, 0x40a)
+{
+}
+
+Packet_Udp_Characteristic::Packet_Udp_Characteristic()
+{
+    new ((void*)this) PacketHeader(0xfaa, 0x33);
+    *(char*)((char*)this + 10) = 0;
+    *(int*)((char*)this + 0xb) = 0;
+    *(int*)((char*)this + 0xf) = 0;
+    *(int*)((char*)this + 0x13) = 0;
+    *(int*)((char*)this + 0x17) = 0;
+    *(int*)((char*)this + 0x1b) = 0;
+    *(int*)((char*)this + 0x1f) = 0;
+    *(int*)((char*)this + 0x23) = 0;
+    *(int*)((char*)this + 0x27) = 0;
+    *(int*)((char*)this + 0x2b) = 0;
+    *(int*)((char*)this + 0x2f) = 0;
+}
+
+Packet_DBMW_Save_Client_Spec_Statistic::Packet_DBMW_Save_Client_Spec_Statistic()
+{
+    new ((void*)this) PacketHeader(0x9cf, 0x17e7);
+    *(char*)((char*)this + 10) = 0;
+    *(int*)((char*)this + 0xb) = 0;
+    STSpecCount* p = (STSpecCount*)((char*)this + 0xf);
+    for (int i = 0x1b3; i != -1; i--)
+    {
+        new ((void*)p) STSpecCount;
+        p = (STSpecCount*)((char*)p + 0xe);
+    }
+}
+
+Packet_DBMW_Save_Error_Line_Statistic::Packet_DBMW_Save_Error_Line_Statistic()
+{
+    new ((void*)this) PacketHeader(0x9d1, 0x17f6);
+    STErrorCount* p = (STErrorCount*)((char*)this + 0xe);
+    for (int i = 0x263; i != -1; i--)
+    {
+        new ((void*)p) STErrorCount;
+        p = (STErrorCount*)((char*)p + 10);
+    }
+}
+
+Packet_DBMW_Cube_Statistic::Packet_DBMW_Cube_Statistic()
+{
+    new ((void*)this) PacketHeader(0xc34, 0x17ec);
+    *(int*)((char*)this + 10) = 0;
+    memset((char*)this + 0xe, 0, 0x17de);
+}
+
 CInnerMsgHandler::CInnerMsgHandler()
 {
 }
 
 CInnerMsgHandler::~CInnerMsgHandler()
 {
+}
+
+void CInnerMsgHandler::SendStopNetworkThread()
+{
+}
+
+Packet_GameServer2Statisctics2DBServer::Packet_GameServer2Statisctics2DBServer()
+{
+    new ((void*)this) PacketHeader(0x27fd, 0x35);
+    *(unsigned short*)((char*)this + 10) = 0;
+    *(char*)((char*)this + 0xc) = 0xff;
+    *(int*)((char*)this + 0xd) = 0;
+    *(int*)((char*)this + 0x11) = 0;
+    memset((char*)this + 0x15, 0, 0x10);
+    memset((char*)this + 0x25, 0, 0x10);
 }
 
 template<int Lo, int Hi>
@@ -462,56 +550,423 @@ void CPacketTranslater::attach(CApplication* app)
     m_pclApp = app;
 }
 
-#define STUB_HANDLER(name) \
-    void CPacketTranslater::name(PacketHeader* pkt) {}
+// ---- CPacketTranslater 处理函数（按反编译 0805a418-0805ff04 实现）----
+void CPacketTranslater::OnHeartBeat(PacketHeader* pkt)
+{
+}
 
-STUB_HANDLER(OnEventEnd)
-STUB_HANDLER(OnMoneyLog)
-STUB_HANDLER(OnHeartBeat)
-STUB_HANDLER(OnStatistic)
-STUB_HANDLER(OnEventStart)
-STUB_HANDLER(OnP2PStatistic)
-STUB_HANDLER(OnCubeStatistic)
-STUB_HANDLER(OnFileStatistic)
-STUB_HANDLER(OnStatisticGmCmd)
-STUB_HANDLER(OnValueStatistic)
-STUB_HANDLER(OnServerMatchData)
-STUB_HANDLER(OnLagStatisticsAdd)
-STUB_HANDLER(OnPvpPingStatistic)
-STUB_HANDLER(OnUserTingTimeCheck)
-STUB_HANDLER(OnCompatibilityIndex)
-STUB_HANDLER(OnPartyPingStatistic)
-STUB_HANDLER(OnRandomboxStatistic)
-STUB_HANDLER(OnUserCountStatistic)
-STUB_HANDLER(OnClientSpecStatistic)
-STUB_HANDLER(OnReasonCrashDownData)
-STUB_HANDLER(OnSecretShopStatistic)
-STUB_HANDLER(OnCirculationStatistic)
-STUB_HANDLER(OnFairPvpPingStatistic)
-STUB_HANDLER(OnPartyResultStatistic)
-STUB_HANDLER(OnAbnormalExitStatistic)
-STUB_HANDLER(OnBloodDungeonStatistic)
-STUB_HANDLER(OnDungeonStatisticParty)
-STUB_HANDLER(OnFrameLagStatisticsAdd)
-STUB_HANDLER(OnAssertManagerStatistic)
-STUB_HANDLER(OnGoldCardEventStatistic)
-STUB_HANDLER(OnHellPartyStatisticItem)
-STUB_HANDLER(OnMonitorManagerConnectOK)
-STUB_HANDLER(OnPacketOverflowStatistic)
-STUB_HANDLER(OnTowerOfDespairStatistic)
-STUB_HANDLER(OnDeathTowerStatisticValue)
-STUB_HANDLER(OnDungeonStatisticPartyJob)
-STUB_HANDLER(OnUpdateCreateEmblemStatic)
-STUB_HANDLER(OnUpdateDisjointAvatarStatic)
-STUB_HANDLER(OnDungeonStatisticPartyCharac)
-STUB_HANDLER(OnLoadingTimeReportStatistics)
-STUB_HANDLER(OnFatigueBatteryMoneyStatistics)
-STUB_HANDLER(OnDeathTowerStatisticPlayDataJob)
-STUB_HANDLER(OnDeathTowerStatisticPlayDataParty)
-STUB_HANDLER(OnFrameLagStatisticsResultLoadSpec)
-STUB_HANDLER(OnHolePunchingSuccessRateStatistic)
-STUB_HANDLER(OnFrameLagStatisticsResultReloadSpec)
-STUB_HANDLER(OnFrameLagStatisticsSpecDeleteNotify)
-STUB_HANDLER(OnFrameLagStatisticsCollectIntervalCheck)
+void CPacketTranslater::OnEventStart(PacketHeader* pkt)
+{
+}
 
-#undef STUB_HANDLER
+void CPacketTranslater::OnEventEnd(PacketHeader* pkt)
+{
+}
+
+void CPacketTranslater::OnMonitorManagerConnectOK(PacketHeader* pkt)
+{
+}
+
+void CPacketTranslater::OnCompatibilityIndex(PacketHeader* pkt)
+{
+}
+
+#define THROW_IF_NO_APP(msg) \
+    if (m_pclApp == 0) \
+    { \
+        throw CDNFException(msg); \
+    }
+
+void CPacketTranslater::OnClientSpecStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnClientSpecStatistic : 0 == m_pclApp")
+    CHWSpecResearcher* hw = m_pclApp->Get_HWspecResearch();
+    char* pb = (char*)pkt;
+    for (int i = 0; i < (int)(unsigned char)pb[0xb]; i++)
+    {
+        hw->WriteSpecStatics((unsigned char)pb[10], *(HWSpec*)(pb + i * 0xc + 0x12));
+    }
+    if (pb[10] == 1)
+    {
+        hw->WriteErrorLineStatics(*(unsigned short*)(pb + 0x10), *(int*)(pb + 0xc));
+    }
+}
+
+static char chk_ting[8];
+
+void CPacketTranslater::OnFrameLagStatisticsAdd(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnFrameLagStatisticsAdd() : 0 == m_pclApp")
+    FrameLagCollector* flc = m_pclApp->Get_FrameLagCollector();
+    char* pb = (char*)pkt;
+    if (access("./SHOW_PACKET", 0) == 0)
+    {
+        CMyFileLog log1("OnFrameLagStatisticsAdd", 0x124);
+        log1("./log/FrameLag.log", "packet->m_wSize\t\t: %hu", *(unsigned short*)(pb + 2));
+        CMyFileLog log2("OnFrameLagStatisticsAdd", 0x125);
+        log2("./log/FrameLag.log", "crashCount\t\t\t\t: %hhd", (int)(char)pb[0x1f]);
+        CMyFileLog log3("OnFrameLagStatisticsAdd", 0x126);
+        log3("./log/FrameLag.log", "cpuInfo.cpuClock       : %d", *(int*)(pb + 0x28));
+        CMyFileLog log4("OnFrameLagStatisticsAdd", 0x127);
+        log4("./log/FrameLag.log", "cpuInfo.numOfProcessor : %hhd", (int)(char)pb[0x38]);
+        CMyFileLog log5("OnFrameLagStatisticsAdd", 0x128);
+        log5("./log/FrameLag.log", "cpuInfo.cpuVendor      : %hhd", (int)(char)pb[0x3c]);
+        CMyFileLog log6("OnFrameLagStatisticsAdd", 0x129);
+        log6("./log/FrameLag.log", "videoCardVendorId      : %hu", (unsigned int)*(unsigned short*)(pb + 0x48));
+        CMyFileLog log7("OnFrameLagStatisticsAdd", 0x12a);
+        log7("./log/FrameLag.log", "videoCardDeviceId      : %hu", (unsigned int)*(unsigned short*)(pb + 0x50));
+        CMyFileLog log8("OnFrameLagStatisticsAdd", 299);
+        log8("./log/FrameLag.log", "availableTextureMemory : %hd", (int)*(short*)(pb + 0x58));
+        CMyFileLog log9("OnFrameLagStatisticsAdd", 300);
+        log9("./log/FrameLag.log", "ramMemory              : %hd", (int)*(short*)(pb + 0x60));
+        CMyFileLog log10("OnFrameLagStatisticsAdd", 0x12d);
+        log10("./log/FrameLag.log", "osVersion              : %hhd", (int)(char)pb[0x68]);
+        CMyFileLog log11("OnFrameLagStatisticsAdd", 0x12e);
+        log11("./log/FrameLag.log", "directxVersion         : %x", *(unsigned int*)(pb + 0x6c));
+        CMyFileLog log12("OnFrameLagStatisticsAdd", 0x130);
+        log12("./log/FrameLag.log", "crash\t\t\t\t\t: %hhd", (int)(char)pb[0x7c]);
+        if (-1 < (char)pb[0x7c] && (char)pb[0x7c] < 8)
+        {
+            chk_ting[(char)pb[0x7c]]++;
+        }
+        unsigned int t5 = *(unsigned int*)(pb + 0x14c);
+        unsigned int t4 = *(unsigned int*)(pb + 0x148);
+        unsigned int t3 = *(unsigned int*)(pb + 0x144);
+        unsigned int t2 = *(unsigned int*)(pb + 0x140);
+        unsigned int t1 = *(unsigned int*)(pb + 0x13c);
+        unsigned int t0 = *(unsigned int*)(pb + 0x138);
+        for (int i = 0; i < 6; i++)
+        {
+            CMyFileLog log13("OnFrameLagStatisticsAdd", 0x138);
+            log13("./log/FrameLag.log", "window_fps fps[%d]             : %hd", i,
+                  (int)*(short*)(pb + i * 0x38 + 0x24));
+            CMyFileLog log14("OnFrameLagStatisticsAdd", 0x139);
+            log14("./log/FrameLag.log", "full_fps fps[%d]               : %hd", i,
+                  (int)*(short*)(pb + i * 0x38 + 0x26));
+            CMyFileLog log15("OnFrameLagStatisticsAdd", 0x13a);
+            log15("./log/FrameLag.log", "full_window_fps fps[%d]        : %hd", i,
+                  (int)*(short*)(pb + i * 0x38 + 0x28));
+            CMyFileLog log16("OnFrameLagStatisticsAdd", 0x13b);
+            log16("./log/FrameLag.log", "full_window_nosync_fps fps[%d] : %hd", i,
+                  (int)*(short*)(pb + i * 0x38 + 0x2a));
+            for (int j = 0; j < 6; j++)
+            {
+                CMyFileLog log17("OnFrameLagStatisticsAdd", 0x13e);
+                log17("./log/FrameLag.log",
+                      "m_frameLagArray[%d].framelag[%d].frame : %d", i, j,
+                      *(int*)(pb + (i * 7 + j + 4) * 8 + 0xc));
+                CMyFileLog log18("OnFrameLagStatisticsAdd", 0x13f);
+                log18("./log/FrameLag.log",
+                      "m_frameLagArray[%d].framelag[%d].time : %.3f", i, j,
+                      (double)*(float*)(pb + (i * 7 + j + 4) * 8 + 0x10));
+            }
+        }
+        CMyFileLog log19("OnFrameLagStatisticsAdd", 0x142);
+        log19("./log/FrameLag.log", "TOTAL TING : %u, %u, %u, %u, %u, %u",
+              t0, t1, t2, t3, t4, t5);
+        unsigned int valid = flc->is_valid_statistic_packet((Packet_Frame_Lag_Statistic_Add*)pkt);
+        CMyFileLog log20("OnFrameLagStatisticsAdd", 0x144);
+        log20("./log/FrameLag.log", "packet validation : %d", valid & 0xff);
+        CMyFileLog log21("OnFrameLagStatisticsAdd", 0x146);
+        log21("./log/FrameLag.log", "\n");
+    }
+    else
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            chk_ting[i] = 0;
+        }
+    }
+    flc->PushOneFrameLagData((Packet_Frame_Lag_Statistic_Add*)pkt);
+}
+
+void CPacketTranslater::OnMoneyLog(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnMoneyLog() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddMoneyLog(
+        (MoneyLogPacket*)pkt, m_pclApp->Get_ServerHandler());
+}
+
+void CPacketTranslater::OnStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnStatistic() : 0 == m_pclApp")
+    statistc_proxy::addStatisticProxy((StatisticsPacket*)pkt);
+}
+
+void CPacketTranslater::OnP2PStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnP2PStatistic() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddP2PStatistic((Packet_P2P_Statistics*)pkt);
+}
+
+void CPacketTranslater::OnCubeStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnCubeStatistic() : 0 == m_pclApp")
+    CCubeStatistic* cube = (CCubeStatistic*)m_pclApp->Get_StatisticManager()->getCubeStatisticObject();
+    cube->addStatisticData((Packet_Cube_Statistic*)pkt);
+}
+
+void CPacketTranslater::OnStatisticGmCmd(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnStatisticGmCmd() : 0 == m_pclApp")
+    statistc_proxy::sendDBStatisticProxy();
+    statistc_proxy::resetStatisticProxy();
+}
+
+void CPacketTranslater::OnValueStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnValueStatistic() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddValueStatistics((Packet_Value_Statistic*)pkt);
+}
+
+void CPacketTranslater::OnServerMatchData(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnServerMatchData() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddServerMatchData((Packet_Server_Match_data*)pkt);
+}
+
+void CPacketTranslater::OnLagStatisticsAdd(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnLagStatisticsAdd : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddLagStatistics((Packet_Stat_Lag_Statistics*)pkt);
+}
+
+void CPacketTranslater::OnPvpPingStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnPvpPingStatistic() : 0 == m_pclApp")
+    m_pclApp->Get_UdpCharacteristic()->PushPvpPingData((Packet_Pvp_Ping_Statistic*)pkt);
+}
+
+void CPacketTranslater::OnPartyPingStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnPartyPingStatistic() : 0 == m_pclApp")
+    m_pclApp->Get_UdpCharacteristic()->PushPartyPingData((Packet_Party_Ping_Statistic*)pkt);
+}
+
+void CPacketTranslater::OnFairPvpPingStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnFairPvpPingStatistic() : 0 == m_pclApp")
+    m_pclApp->Get_UdpCharacteristic()->PushFairPvpPingData((Packet_Fair_Pvp_Ping_Statistic*)pkt);
+}
+
+void CPacketTranslater::OnPartyResultStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnPartyResultStatistic() : 0 == m_pclApp")
+    m_pclApp->Get_UdpCharacteristic()->PushPartyResultData((Packet_Party_Result_Statistic*)pkt);
+}
+
+void CPacketTranslater::OnAbnormalExitStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnAbnormalExitStatistic() : 0 == m_pclApp")
+    m_pclApp->Get_UdpCharacteristic()->PushAbnormalExitData((Packet_Abnormal_Exit_Statistic*)pkt);
+}
+
+void CPacketTranslater::OnUserTingTimeCheck(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnUserTingTimeCheck() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->WriteUserTingTImeCheckStatistic(
+        (Packet_User_Ting_TimeCheck_Statistic_Add*)pkt);
+}
+
+void CPacketTranslater::OnUserCountStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnUserCountStatistic() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddUserCountStatistics(
+        m_pclApp->Get_ServerHandler(), (Packet_User_Count_Statistic*)pkt);
+}
+
+void CPacketTranslater::OnRandomboxStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnRandomboxStatistic : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddRandomboxStatistic((Packet_Randombox_statistic*)pkt);
+}
+
+void CPacketTranslater::OnReasonCrashDownData(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnReasonCrashDownData : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddReasonCrashDownData(
+        (Packet_Reason_Crash_Down_Info*)pkt, m_pclApp->Get_ServerHandler());
+}
+
+void CPacketTranslater::OnUpdateDisjointAvatarStatic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnUpdateDisjointAvatarStatic : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddDisjointAvatarInfo(
+        (Packet_Avater_Disjoint_Statistic*)pkt);
+}
+
+void CPacketTranslater::OnUpdateCreateEmblemStatic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnUpdateCreateEmblemStatic : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddCreateEmblemInfo(
+        (Packet_Emblem_Create_Statistic*)pkt);
+}
+
+void CPacketTranslater::OnSecretShopStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnSecretShopStatistic() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddSecretShopStatistic((Packet_Secret_Shop_Statistic*)pkt);
+}
+
+void CPacketTranslater::OnCirculationStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnCirculationStatistic() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddCirculationStatistics((Packet_Circulation_Statistic*)pkt);
+}
+
+void CPacketTranslater::OnBloodDungeonStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnBloodDungeonStatistic() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddBloodDungeonStatistics(
+        (Packet_Blood_dungeon_statistic*)pkt);
+}
+
+void CPacketTranslater::OnDungeonStatisticParty(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnDungeonStatisticParty() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->WriteDungeonPartyStatistic(
+        (Packet_Dungeon_Statistic_Party*)pkt);
+}
+
+void CPacketTranslater::OnDungeonStatisticPartyJob(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnDungeonStatisticPartyJob() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->WriteDungeonPartyJobStatistic(
+        (Packet_Dungeon_Statistic_Party_Job*)pkt);
+}
+
+void CPacketTranslater::OnDungeonStatisticPartyCharac(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnDungeonStatisticPartyCharac() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->WriteDungeonPartyCharacStatistic(
+        (Packet_Dungeon_Statistic_Party_Charac*)pkt);
+}
+
+void CPacketTranslater::OnDeathTowerStatisticValue(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnDeathTowerStatisticValue() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->WriteDeathTowerValueStatistic(
+        (Packet_DeathTower_Statistic_Value*)pkt);
+}
+
+void CPacketTranslater::OnDeathTowerStatisticPlayDataJob(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnDeathTowerStatisticPlayDataJob() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->WriteDeathTowerPlayDataJobStatistic(
+        (Packet_DeathTower_Statistic_Playdata_Job*)pkt);
+}
+
+void CPacketTranslater::OnDeathTowerStatisticPlayDataParty(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnDeathTowerStatisticPlayDataJob() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->WriteDeathTowerPlayDataPartyStatistic(
+        (Packet_DeathTower_Statistic_Playdata_Party*)pkt);
+}
+
+void CPacketTranslater::OnPacketOverflowStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnPacketOverflowStatistic() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->WritePacketOverflowStatistic(
+        (Packet_Overflow_Statistic_Add*)pkt);
+}
+
+void CPacketTranslater::OnAssertManagerStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnAssertManagerStatistic() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->WriteAssertManagerStatistic(
+        (Packet_Assert_Manager_Info*)pkt);
+}
+
+void CPacketTranslater::OnHellPartyStatisticItem(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnHellPartyStatisticItem() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->WriteHellPartyStatisticItem(
+        (Packet_HellParty_Statistic_Item*)pkt);
+}
+
+void CPacketTranslater::OnLoadingTimeReportStatistics(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnLoadingTimeReportStatistics() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddLoadingTimeReportStatistics(
+        (Packet_Loading_Time_Report_Statistics*)pkt);
+}
+
+void CPacketTranslater::OnFatigueBatteryMoneyStatistics(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnLoadingTimeReportStatistics() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddFatigueBatteryStatistics(
+        (Packet_Fatigue_Battery_Money_Statistic*)pkt);
+}
+
+void CPacketTranslater::OnGoldCardEventStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnGoldCardEventStatistic() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddGoldcardEventStatistic(
+        (Packet_Goldcard_Event_Statistic_GTS*)pkt);
+}
+
+void CPacketTranslater::OnTowerOfDespairStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnTowerOfDespairStatistic() : 0 == m_pclApp")
+    m_pclApp->Get_StatisticManager()->AddTowerOfDespairStatistic(
+        (Packet_TowerOfDespair_Statistic_GTS*)pkt);
+}
+
+void CPacketTranslater::OnFrameLagStatisticsResultLoadSpec(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnFrameLagStatisticsResultLoadSpec() : 0 == m_pclApp")
+    m_pclApp->Get_FrameLagCollector()->PushMonitoringSpecData(
+        (Packet_Frame_Lag_Statistic_Result_Load_Spec*)pkt);
+}
+
+void CPacketTranslater::OnFrameLagStatisticsResultReloadSpec(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnFrameLagStatisticsResultReloadSpec() : 0 == m_pclApp")
+    m_pclApp->Get_FrameLagCollector()->PushMonitoringSpecData(
+        (Packet_Frame_Lag_Statistic_Result_Reload_Spec*)pkt);
+}
+
+void CPacketTranslater::OnFrameLagStatisticsSpecDeleteNotify(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnFrameLagStatisticsSpecDeleteNotify() : 0 == m_pclApp")
+    m_pclApp->Get_FrameLagCollector()->PopMonitoringSpecData(
+        (Packet_Frame_Lag_Spec_Delete_Notify*)pkt);
+}
+
+void CPacketTranslater::OnFrameLagStatisticsCollectIntervalCheck(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP(
+        "CPacketTranslater::OnFrameLagStatisticsCollectIntervalCheck() : 0 == m_pclApp")
+    m_pclApp->Get_FrameLagCollector()->CollectIntervalCheck(
+        (Packet_Frame_Lag_Collect_Interval_Check*)pkt);
+}
+
+void CPacketTranslater::OnFileStatistic(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    std::string path = "./log/";
+    if (pb[10] == 0)
+    {
+        path.append("filestatics");
+    }
+    else
+    {
+        path.append(pb + 10);
+    }
+    CMyRawFileLog raw;
+    raw(path.c_str(), pb + 0x10a);
+}
+
+void CPacketTranslater::OnHolePunchingSuccessRateStatistic(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("OnHolePunchingSuccessRateStatistic() : 0 == m_pclApp")
+    char* pb = (char*)pkt;
+    Packet_GameServer2Statisctics2DBServer out;
+    *(unsigned short*)((char*)&out + 10) = *(unsigned short*)(pb + 10);
+    *(char*)((char*)&out + 0xc) = pb[0xc];
+    *(int*)((char*)&out + 0xd) = *(int*)(pb + 0xd);
+    *(int*)((char*)&out + 0x11) = *(int*)(pb + 0x11);
+    strncpy((char*)&out + 0x15, pb + 0x15, 0x10);
+    strncpy((char*)&out + 0x25, pb + 0x25, 0x10);
+    m_pclApp->Get_ServerHandler()->SendToDB((PacketHeader*)&out);
+}

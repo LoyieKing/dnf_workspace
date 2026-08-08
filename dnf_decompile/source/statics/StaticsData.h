@@ -16,6 +16,7 @@ struct HWSpec
 struct ErrorValue
 {
     ErrorValue();
+    ErrorValue(unsigned short value, unsigned int param);
     unsigned short m_field0;  // +0（0xffff）
     unsigned int m_field4;    // +4（0xffffffff）
 };
@@ -62,7 +63,7 @@ struct STCubeStatisticKey
     STCubeStatisticKey();
     STCubeStatisticKey(const STCubeStatisticKey& other);
     ~STCubeStatisticKey();
-    bool operator<(const STCubeStatisticKey& other) const;
+    bool operator<(STCubeStatisticKey other) const;
     unsigned int m_field0;  // +0
     unsigned int m_field4;  // +4
     unsigned int m_field8;  // +8

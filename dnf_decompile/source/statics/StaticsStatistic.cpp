@@ -158,38 +158,148 @@ unsigned int get_rand_int(int range)
 
 CHWSpecResearcher::CHWSpecResearcher()
 {
+    for (int i = 0; i < 3; i++)
+    {
+        m_spec[i].clear();
+    }
+    m_field48 = 0;
+    m_field4c = 0;
+    m_errorSpec.clear();
+    m_field68 = 0;
 }
 
 CHWSpecResearcher::~CHWSpecResearcher()
 {
+    ResetSpec();
+    ResetErrorSpec();
 }
 
 void CHWSpecResearcher::DBSaveProcess(CServerHandler* handler)
 {
+    m_field48++;
+    if (0x1d < (unsigned char)m_field48)
+    {
+        m_field48 = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            SendDBMWHWSpec(handler, (unsigned char)i);
+        }
+        ResetSpec();
+    }
+    m_field68++;
+    if (0x2c < (unsigned char)m_field68)
+    {
+        m_field68 = 0xf;
+        SendDBMWErrorLine(handler);
+        m_field4c = 0;
+        ResetErrorSpec();
+    }
 }
 
 void CHWSpecResearcher::ResetErrorSpec()
 {
+    m_errorSpec.clear();
 }
 
 void CHWSpecResearcher::SendDBMWHWSpec(CServerHandler* handler, unsigned char param)
 {
+    Packet_DBMW_Save_Client_Spec_Statistic pkt;
+    unsigned int count = 0;
+    *(char*)((char*)&pkt + 10) = (char)param;
+    if (!m_spec[param].empty())
+    {
+        for (std::map<STSpecStatic, unsigned int>::iterator it = m_spec[param].begin();
+             it != m_spec[param].end(); ++it)
+        {
+            memcpy((char*)&pkt + 0xf + count * 0xe, &it->first, 0xc);
+            *(short*)((char*)&pkt + 0xf + count * 0xe + 0xc) = (short)it->second;
+            count++;
+            if (0x1b3 < count)
+            {
+                *(int*)((char*)&pkt + 0xb) = 0x1b4;
+                handler->SendToDB((PacketHeader*)&pkt);
+                count = 0;
+            }
+        }
+        if (count != 0)
+        {
+            *(int*)((char*)&pkt + 0xb) = count;
+            *(short*)((char*)&pkt + 8) = (short)(count * 0xe + 0xf);
+            handler->SendToDB((PacketHeader*)&pkt);
+        }
+    }
 }
 
-void CHWSpecResearcher::WriteSpecStatics(unsigned char param, const void* spec)
+void CHWSpecResearcher::WriteSpecStatics(unsigned char param, const HWSpec& spec)
 {
+    if (2 < param)
+    {
+        CMyFileLog log("WriteSpecStatics", 0x27);
+        log("./log/HWSpec.log", "CHWSpecResearcher::WriteSpecStatics Over db_type(%d)",
+            (unsigned int)param);
+        return;
+    }
+    STSpecStatic key(spec);
+    std::map<STSpecStatic, unsigned int>::iterator it = m_spec[param].find(key);
+    if (m_spec[param].empty() || it == m_spec[param].end())
+    {
+        m_spec[param].insert(std::make_pair(key, 1));
+    }
+    else
+    {
+        it->second += 1;
+    }
 }
 
 void CHWSpecResearcher::SendDBMWErrorLine(CServerHandler* handler)
 {
+    Packet_DBMW_Save_Error_Line_Statistic pkt;
+    unsigned int count = 0;
+    if (!m_errorSpec.empty())
+    {
+        for (std::map<STErrorStatic, unsigned int>::iterator it = m_errorSpec.begin();
+             it != m_errorSpec.end(); ++it)
+        {
+            *(unsigned short*)((char*)&pkt + 0xe + count * 10) = it->first.m_field0;
+            *(int*)((char*)&pkt + 0xe + count * 10 + 4) = it->first.m_field4;
+            *(int*)((char*)&pkt + 0xe + count * 10 + 8) = (int)it->second;
+            count++;
+            if (0x263 < count)
+            {
+                *(int*)((char*)&pkt + 0xa) = 0x264;
+                handler->SendToDB((PacketHeader*)&pkt);
+                count = 0;
+            }
+        }
+        if (count != 0)
+        {
+            *(int*)((char*)&pkt + 0xa) = count;
+            *(short*)((char*)&pkt + 8) = (short)(((count << 2) + count) * 2 + 0xe);
+            handler->SendToDB((PacketHeader*)&pkt);
+        }
+    }
 }
 
 void CHWSpecResearcher::WriteErrorLineStatics(unsigned short param, int value)
 {
+    STErrorStatic key(ErrorValue(param, (unsigned int)value));
+    std::map<STErrorStatic, unsigned int>::iterator it = m_errorSpec.find(key);
+    if (m_errorSpec.empty() || it == m_errorSpec.end())
+    {
+        m_errorSpec.insert(std::make_pair(key, 1));
+    }
+    else
+    {
+        it->second += 1;
+    }
 }
 
 void CHWSpecResearcher::ResetSpec()
 {
+    for (int i = 0; i < 3; i++)
+    {
+        m_spec[i].clear();
+    }
 }
 
 FrameLagCollector::FrameLagCollector()
@@ -234,6 +344,24 @@ FrameLagCollector::~FrameLagCollector()
 
 void FrameLagCollector::ReLoadSpec(CServerHandler* handler)
 {
+    if (m_field4 == 2)
+    {
+        m_field14++;
+        if (m_field14 == 5)
+        {
+            m_field14 = 0;
+            m_field19++;
+            if (m_field19 == 0x7f)
+            {
+                m_field19 = 1;
+            }
+            m_map34.clear();
+            Packet_Frame_Lag_Statistic_Reload_Spec pkt;
+            *(char*)((char*)&pkt + 10) = m_field19;
+            *(int*)((char*)&pkt + 0xc) = m_field50;
+            handler->SendToDB((PacketHeader*)&pkt);
+        }
+    }
 }
 
 void FrameLagCollector::RenewToday()
@@ -250,6 +378,31 @@ void FrameLagCollector::RenewToday()
 
 void FrameLagCollector::SaveUsedMemory(CServerHandler* handler)
 {
+    m_field1e4++;
+    if (m_collectInterval <= m_field1e4)
+    {
+        m_field1e4 = 0;
+        Packet_Frame_Lag_Used_Memory_Write_Query pkt;
+        for (int i = 0; i < 6; i++)
+        {
+            for (int j = 0; j < 6; j++)
+            {
+                int count = *(int*)((char*)&m_memory[i] + j * 4);
+                int sum = *(int*)((char*)&m_memory[i] + (j + 4) * 4 + 8);
+                if (count != 0)
+                {
+                    unsigned int avg = (unsigned int)sum / (unsigned int)count;
+                    char sql[1024];
+                    snprintf(sql, 0x400,
+                             "inSert into used_memory (occ_time, minute_type, module, memory) values (now(),%d,%d,%d)",
+                             i, j, avg);
+                    strcpy((char*)&pkt + 10, sql);
+                    handler->SendToDB((PacketHeader*)&pkt);
+                }
+            }
+            m_memory[i].init();
+        }
+    }
 }
 
 int FrameLagCollector::SaveDailyBadSpec(CServerHandler* handler)
@@ -257,8 +410,97 @@ int FrameLagCollector::SaveDailyBadSpec(CServerHandler* handler)
     return 0;
 }
 
-void FrameLagCollector::SaveFrameLagData(CServerHandler* handler)
+int FrameLagCollector::SaveFrameLagData(CServerHandler* handler)
 {
+    if (m_field4 != 2)
+    {
+        return 2;
+    }
+    m_field10++;
+    if (!(m_collectInterval <= m_field10))
+    {
+        return 0;
+    }
+    m_field10 = 0;
+    if (m_field6c == 0)
+    {
+        return 0;
+    }
+    Packet_Frame_Lag_Statistic_Write_Lag_Index pkt;
+    char* pb = (char*)&pkt;
+    pb[10] = (char)handler->GetServerGroupNo();
+    time_t now = time(0);
+    *(time_t*)(pb + 0xb) = now;
+    for (std::map<int, FrameLagDataStruct>::iterator it = m_data.begin();
+         it != m_data.end(); ++it)
+    {
+        FrameLagDataStruct* v = &it->second;
+        *(int*)(pb + 0xb) = it->first;
+        *(int*)(pb + 0xf) = *(int*)((char*)v + 4);
+        for (int i = 0; i < 8; i++)
+        {
+            *(short*)(pb + 0x13 + i * 2) = *(short*)((char*)v + 0x10 + (i + 8) * 2);
+        }
+        if (*(int*)((char*)v + 0x30) == 0)
+        {
+            *(short*)(pb + 0x23) = -1;
+            *(short*)(pb + 0x25) = -1;
+        }
+        else
+        {
+            *(short*)(pb + 0x23) = (short)((double)(*(int*)((char*)v + 0x34)) /
+                                           (double)(*(unsigned int*)((char*)v + 0x30)) + 0.5);
+            *(short*)(pb + 0x25) = (short)((double)(*(int*)((char*)v + 0x38)) /
+                                           (double)(*(unsigned int*)((char*)v + 0x30)) + 0.5);
+        }
+        for (int i = 0; i < 6; i++)
+        {
+            *(short*)(pb + 0x27 + i * 0x1c + 0) = 0;
+            *(short*)(pb + 0x27 + i * 0x1c + 2) = 0;
+            *(short*)(pb + 0x27 + i * 0x1c + 4) = 0;
+            *(short*)(pb + 0x27 + i * 0x1c + 6) = 0;
+            if (0 < *(int*)((char*)v + (i + 9) * 0x10 + 0xc))
+            {
+                *(short*)(pb + 0x27 + i * 0x1c + 0) =
+                    (short)(*(int*)((char*)v + 0xc + (i + 0xc) * 4) /
+                            *(int*)((char*)v + (i + 9) * 0x10 + 0xc));
+            }
+            if (0 < *(int*)((char*)v + i * 0x10 + 0xa0))
+            {
+                *(short*)(pb + 0x27 + i * 0x1c + 2) =
+                    (short)(*(int*)((char*)v + 4 + (i + 0x14) * 4) /
+                            *(int*)((char*)v + i * 0x10 + 0xa0));
+            }
+            if (0 < *(int*)((char*)v + i * 0x10 + 0xa4))
+            {
+                *(short*)(pb + 0x27 + i * 0x1c + 4) =
+                    (short)(*(int*)((char*)v + 0xc + (i + 0x18) * 4) /
+                            *(int*)((char*)v + i * 0x10 + 0xa4));
+            }
+            if (0 < *(int*)((char*)v + i * 0x10 + 0xa8))
+            {
+                *(short*)(pb + 0x27 + i * 0x1c + 6) =
+                    (short)(*(int*)((char*)v + 4 + (i + 0x20) * 4) /
+                            *(int*)((char*)v + i * 0x10 + 0xa8));
+            }
+            for (int j = 0; j < 6; j++)
+            {
+                *(int*)(pb + 0x2f + (i * 7 + j + 4) * 8) =
+                    *(int*)((char*)v + 0x14 + (i * 7 + j + 0x1e) * 8);
+                *(int*)(pb + 0x33 + (i * 7 + j + 4) * 8) =
+                    *(int*)((char*)v + 0x18 + (i * 7 + j + 0x1e) * 8);
+            }
+        }
+        handler->SendToDB((PacketHeader*)&pkt);
+        v->init();
+        DNFFLib::Sleep_Ext(0, 1);
+    }
+    m_field6c = 0;
+    time_t t2 = time(0);
+    if (t2 < m_field8c || m_field90 < t2)
+    {
+        m_collectInterval = 0x1e;
+    }
 }
 
 int FrameLagCollector::GetCollectInterval()
@@ -267,12 +509,33 @@ int FrameLagCollector::GetCollectInterval()
 }
 
 
-void FrameLagCollector::SaveCollectedDirectxVersion(CServerHandler* handler)
+int FrameLagCollector::SaveCollectedDirectxVersion(CServerHandler* handler)
 {
+    if (m_field4 == 2)
+    {
+        if (m_field9c != m_today)
+        {
+            m_field9c = m_today;
+            Packet_Frame_Lag_Statistic_Write_Query pkt;
+            time_t now = time(0);
+            char sql[1024];
+            snprintf(sql, 0x400,
+                     "inSert into directx_version(occ_time,server_group,ver_etc,ver_8_x,ver_9_0,ver_9_0_a,ver_9_0_b,ver_9_0_c,ver_10_x,ver_11_x) values(from_unixtime(%d),%hhd,%u,%u,%u,%u,%u,%u,%u,%u)",
+                     (int)now, (signed char)handler->GetServerGroupNo(),
+                     (unsigned int)m_directx.m_data[0], (unsigned int)m_directx.m_data[1],
+                     (unsigned int)m_directx.m_data[2], (unsigned int)m_directx.m_data[3],
+                     (unsigned int)m_directx.m_data[4], (unsigned int)m_directx.m_data[5],
+                     (unsigned int)m_directx.m_data[6], (unsigned int)m_directx.m_data[7]);
+            strcpy((char*)&pkt + 10, sql);
+            handler->SendToDB((PacketHeader*)&pkt);
+            m_directx.init();
+        }
+    }
 }
 
 bool FrameLagCollector::Init()
 {
+    char ret = m_field0;
     if (m_field0 == 0)
     {
         m_field0 = 1;
@@ -280,11 +543,42 @@ bool FrameLagCollector::Init()
         tm* pt = localtime(&now);
         m_today = pt->tm_mday;
     }
-    return m_field0 != 0;
+    return ret != 0;
 }
 
 void FrameLagCollector::LoadSpec(CServerHandler* handler)
 {
+    if (m_field4 == 2)
+    {
+        return;
+    }
+    char needLoad = 0;
+    if (m_field4 == 0)
+    {
+        needLoad = 1;
+    }
+    else if (m_field4 == 1)
+    {
+        m_field8++;
+        if (m_field8 == 0x3c)
+        {
+            m_field8 = 0;
+            needLoad = 1;
+        }
+    }
+    if (needLoad != 0)
+    {
+        m_field4 = 1;
+        m_field18++;
+        if (m_field18 == 0x7f)
+        {
+            m_field18 = 1;
+        }
+        Packet_Frame_Lag_Statistic_Load_Spec pkt;
+        *(char*)((char*)&pkt + 10) = m_field18;
+        m_map1c.clear();
+        handler->SendToDB((PacketHeader*)&pkt);
+    }
 }
 
 void FrameLagCollector::UsedMemoryStruct::init()
@@ -355,43 +649,117 @@ FrameLagCollector::FrameLagDataStruct::FrameLagDataStruct()
 
 void FrameLagCollector::FrameLagDataStruct::init()
 {
-    memset(this, 0, 0x38);
+    *(int*)((char*)this + 0) = 0;
+    for (int i = 0; i < 8; i++)
+    {
+        *(short*)((char*)this + 0xc + (i + 8) * 2) = 0;
+    }
+    *(int*)((char*)this + 0x2c) = 0;
+    *(int*)((char*)this + 0x30) = 0;
+    *(int*)((char*)this + 0x34) = 0;
+    for (int i = 0; i < 6; i++)
+    {
+        *(int*)((char*)this + i * 4 + 4) = 0;
+        *(int*)((char*)this + (i + 0xc) * 4 + 8) = 0;
+        *(int*)((char*)this + (i + 0x14) * 4) = 0;
+        *(int*)((char*)this + (i + 0x18) * 4 + 8) = 0;
+        *(int*)((char*)this + (i + 0x20) * 4) = 0;
+        *(int*)((char*)this + (i + 9) * 0x10 + 8) = 0;
+        *(int*)((char*)this + i * 0x10 + 0x9c) = 0;
+        *(int*)((char*)this + i * 0x10 + 0xa0) = 0;
+        *(int*)((char*)this + i * 0x10 + 0xa4) = 0;
+        for (int j = 0; j < 6; j++)
+        {
+            *(int*)((char*)this + (i * 7 + j + 0x1e) * 8 + 0x10) = 0;
+            *(int*)((char*)this + (i * 7 + j + 0x1e) * 8 + 0x14) = 0;
+        }
+    }
 }
 
 UdpCharacteristic::UdpCharacteristic()
 {
+    *(int*)((char*)this + 4) = 0;
+    *(int*)((char*)this + 8) = 0;
+    *(int*)((char*)this + 0xc) = 0;
+    *(int*)((char*)this + 0x10) = 0;
+    *(int*)((char*)this + 0x14) = 0;
+    *(int*)((char*)this + 0x18) = 0;
+    *(int*)((char*)this + 0x1c) = 0;
+    *(int*)((char*)this + 0x20) = 0;
+    *(int*)((char*)this + 0x24) = 0;
+    *(int*)((char*)this + 0x28) = 0;
 }
 
 UdpCharacteristic::~UdpCharacteristic()
 {
 }
 
-void UdpCharacteristic::PushPvpPingData(void* pkt)
+void UdpCharacteristic::PushPartyResultData(Packet_Party_Result_Statistic* pkt)
 {
+    *(unsigned int*)((char*)this + 4) += (unsigned int)*(unsigned short*)((char*)pkt + 10);
+    *(unsigned int*)((char*)this + 8) += (unsigned int)*(unsigned short*)((char*)pkt + 0xc);
 }
 
-void UdpCharacteristic::PushPartyPingData(void* pkt)
+void UdpCharacteristic::PushPartyPingData(Packet_Party_Ping_Statistic* pkt)
 {
+    *(unsigned int*)((char*)this + 0xc) += (unsigned int)*(unsigned short*)((char*)pkt + 10);
+    *(unsigned int*)((char*)this + 0x10) += (unsigned int)*(unsigned short*)((char*)pkt + 0xc);
 }
 
-void UdpCharacteristic::PushFairPvpPingData(void* pkt)
+void UdpCharacteristic::PushPvpPingData(Packet_Pvp_Ping_Statistic* pkt)
 {
+    *(unsigned int*)((char*)this + 0x14) += (unsigned int)*(unsigned short*)((char*)pkt + 10);
+    *(unsigned int*)((char*)this + 0x18) += (unsigned int)*(unsigned short*)((char*)pkt + 0xc);
 }
 
-void UdpCharacteristic::PushPartyResultData(void* pkt)
+void UdpCharacteristic::PushFairPvpPingData(Packet_Fair_Pvp_Ping_Statistic* pkt)
 {
+    *(unsigned int*)((char*)this + 0x1c) += (unsigned int)*(unsigned short*)((char*)pkt + 10);
+    *(unsigned int*)((char*)this + 0x20) += (unsigned int)*(unsigned short*)((char*)pkt + 0xc);
 }
 
-void UdpCharacteristic::PushAbnormalExitData(void* pkt)
+void UdpCharacteristic::PushAbnormalExitData(Packet_Abnormal_Exit_Statistic* pkt)
 {
+    *(unsigned int*)((char*)this + 0x24) += (unsigned int)*(unsigned short*)((char*)pkt + 10);
+    *(unsigned int*)((char*)this + 0x28) += (unsigned int)*(unsigned short*)((char*)pkt + 0xc);
 }
 
 void UdpCharacteristic::InitUdpCharacteristicData()
 {
+    *(int*)((char*)this + 4) = 0;
+    *(int*)((char*)this + 8) = 0;
+    *(int*)((char*)this + 0xc) = 0;
+    *(int*)((char*)this + 0x10) = 0;
+    *(int*)((char*)this + 0x14) = 0;
+    *(int*)((char*)this + 0x18) = 0;
+    *(int*)((char*)this + 0x1c) = 0;
+    *(int*)((char*)this + 0x20) = 0;
+    *(int*)((char*)this + 0x24) = 0;
+    *(int*)((char*)this + 0x28) = 0;
 }
 
 void UdpCharacteristic::SaveUdpCharacteristicData(CServerHandler* handler, int interval)
 {
+    *(int*)this += 1;
+    if (interval <= *(int*)this)
+    {
+        *(int*)this = 0;
+        Packet_Udp_Characteristic pkt;
+        new ((void*)&pkt) PacketHeader(0xfaa, 0x33);
+        *(char*)((char*)&pkt + 10) = (char)handler->GetServerGroupNo();
+        *(int*)((char*)&pkt + 0xb) = *(int*)((char*)this + 4);
+        *(int*)((char*)&pkt + 0xf) = *(int*)((char*)this + 8);
+        *(int*)((char*)&pkt + 0x13) = *(int*)((char*)this + 0xc);
+        *(int*)((char*)&pkt + 0x17) = *(int*)((char*)this + 0x10);
+        *(int*)((char*)&pkt + 0x1b) = *(int*)((char*)this + 0x14);
+        *(int*)((char*)&pkt + 0x1f) = *(int*)((char*)this + 0x18);
+        *(int*)((char*)&pkt + 0x23) = *(int*)((char*)this + 0x1c);
+        *(int*)((char*)&pkt + 0x27) = *(int*)((char*)this + 0x20);
+        *(int*)((char*)&pkt + 0x2b) = *(int*)((char*)this + 0x24);
+        *(int*)((char*)&pkt + 0x2f) = *(int*)((char*)this + 0x28);
+        handler->SendToDB((PacketHeader*)&pkt);
+        InitUdpCharacteristicData();
+    }
 }
 
 StatisticManager::StatisticManager()
@@ -452,7 +820,7 @@ void StatisticManager::ResetAssertManagerMap()
 
 void StatisticManager::ResetTingUserTimeCheckMap()
 {
-    m_userTing.clear();
+    m_field110.clear();
 }
 
 void StatisticManager::ResetUserTIngTimeCheckMap()
@@ -545,64 +913,151 @@ CCubeStatistic::CCubeStatistic()
 
 CCubeStatistic::~CCubeStatistic()
 {
+    m_data.clear();
 }
 
 void CCubeStatistic::addStatisticData(Packet_Cube_Statistic* pkt)
 {
+    STCubeStatisticKey key;
+    key.m_field0 = (unsigned int)*(short*)((char*)pkt + 10);
+    key.m_field4 = *(unsigned int*)((char*)pkt + 0xe);
+    key.m_field8 = (unsigned int)*(short*)((char*)pkt + 0xc);
+    key.m_fieldc = *(char*)((char*)pkt + 0x58);
+    int value = *(int*)((char*)pkt + 0x48);
+    std::map<STCubeStatisticKey, int>::iterator it = m_data.find(key);
+    if (it == m_data.end())
+    {
+        m_data.insert(std::make_pair(key, value));
+    }
+    else
+    {
+        it->second += value;
+    }
 }
 
 void CCubeStatistic::sendStatisticData(CServerHandler* handler)
 {
+    Packet_DBMW_Cube_Statistic pkt;
+    unsigned int count = 0;
+    if (!m_data.empty())
+    {
+        for (std::map<STCubeStatisticKey, int>::iterator it = m_data.begin();
+             it != m_data.end(); ++it)
+        {
+            char* slot = (char*)&pkt + 0xe + count * 0xd;
+            *(short*)(slot + 0) = (short)it->first.m_field0;
+            *(short*)(slot + 2) = (short)it->first.m_field8;
+            *(int*)(slot + 4) = (int)it->first.m_field4;
+            slot[8] = it->first.m_fieldc;
+            *(int*)(slot + 9) = it->second;
+            count++;
+            if (0x1d5 < count)
+            {
+                *(unsigned int*)((char*)&pkt + 10) = 0x1d6;
+                handler->SendToDB((PacketHeader*)&pkt);
+                count = 0;
+                CMyFileLog log("sendStatisticData", 0x40);
+                log("./log/statistic", "cube statistic DB Sent %d", 0x1d6);
+            }
+        }
+        if (0 < (int)count)
+        {
+            *(unsigned int*)((char*)&pkt + 10) = count;
+            *(short*)((char*)&pkt + 8) = (short)(count * 0xd + 0xe);
+            handler->SendToDB((PacketHeader*)&pkt);
+            CMyFileLog log("sendStatisticData", 0x49);
+            log("./log/statistic", "cube statistic DB Sent %d", count);
+        }
+    }
 }
 
 void CCubeStatistic::printStatisticData()
 {
+    for (std::map<STCubeStatisticKey, int>::iterator it = m_data.begin();
+         it != m_data.end(); ++it)
+    {
+        printf("\nchannel %d, index %d, level %d, type %d, count %d\n",
+               it->first.m_field0, it->first.m_field4, it->first.m_field8,
+               (unsigned int)it->first.m_fieldc, it->second);
+    }
 }
 
 void CCubeStatistic::resetStatisticData()
 {
+    m_data.clear();
 }
 
 namespace WongWork
 {
 bool CGMAccounts::stGMInfo_t::operator==(const stGMInfo_t& other) const
 {
-    return false;
+    return m_field0 == other.m_field0;
 }
 
 void CGMAccounts::LoadGmList(unsigned int group, int index)
 {
+    stGMInfo_t info;
+    info.m_field0 = group;
+    info.m_field1 = (unsigned char)index;
+    m_list.push_back(info);
 }
 
 void CGMAccounts::clearGmList()
 {
+    m_list.clear();
 }
 
 void CGMAccounts::AppendGM_Sys(unsigned int id, char flag)
 {
+    stGMInfo_t info;
+    info.m_field0 = id;
+    info.m_field1 = (unsigned char)flag;
+    m_list.push_back(info);
+    char* mid = NumberToString(id, 0);
+    CMyFileLog log("AppendGM_Sys", 0xcd);
+    log("./log/Init", "GM List Add mid:%s", mid);
 }
 
 void CGMAccounts::loadGMAccounts(const char* path)
 {
+    return;
 }
 
 int CGMAccounts::isGM(unsigned int id)
 {
-    return 0;
+    stGMInfo_t key;
+    key.m_field0 = id;
+    key.m_field1 = 3;
+    std::list<stGMInfo_t>::iterator it =
+        std::find(m_list.begin(), m_list.end(), key);
+    return it != m_list.end();
 }
 
 void CGMAccounts::appendGM(unsigned int id, unsigned int value)
 {
+    return;
 }
 
 void CGMAccounts::removeGM(unsigned int id, unsigned int value)
 {
+    return;
 }
 
 CGMAccounts::stGMInfo_t CGMAccounts::getGMInfo(unsigned int id) const
 {
-    stGMInfo_t r = {0, 0};
-    return r;
+    stGMInfo_t key;
+    key.m_field0 = id;
+    key.m_field1 = 3;
+    stGMInfo_t result;
+    result.m_field0 = 0;
+    result.m_field1 = 3;
+    std::list<stGMInfo_t>::const_iterator it =
+        std::find(m_list.begin(), m_list.end(), key);
+    if (it != m_list.end())
+    {
+        result = *it;
+    }
+    return result;
 }
 }
 
@@ -1949,6 +2404,7 @@ void StatisticManager::SendDBPowerwarLoadingTimeReport(CServerHandler* handler)
             CMyFileLog log("SendDBPowerwarLoadingTimeReport", 0x3d9);
             log("./log/statistic", "PowerwarLoading DB Sent %d", idx);
         }
+        m_pwLoading.clear();
     }
 }
 
@@ -1984,6 +2440,7 @@ void StatisticManager::SendDBPowerwarLagReport(CServerHandler* handler)
             CMyFileLog log("SendDBPowerwarLagReport", 0x345);
             log("./log/statistic", "PowerwarLag DB Sent %d", idx);
         }
+        m_pwLag.clear();
     }
 }
 
@@ -2165,6 +2622,7 @@ void StatisticManager::SendDBLagStatistics(CServerHandler* handler, char* timeSt
             log("./log/LagStatistics", "%s", sql);
             handler->SendToDB((PacketHeader*)&pkt);
         }
+        m_dungeonLag.clear();
     }
 }
 
@@ -2272,7 +2730,7 @@ int FrameLagCollector::PopMonitoringSpecData(Packet_Frame_Lag_Spec_Delete_Notify
         for (std::map<int, MonitoringSpecCase>::iterator it = m_monitor.begin();
              it != m_monitor.end(); ++it)
         {
-            if (it->second.m_data[0] == *(int*)((char*)pkt + 10))
+            if (*(int*)((char*)&it->second + 0x8) == *(int*)((char*)pkt + 10))
             {
                 m_monitor.erase(it);
                 again = 1;
@@ -2283,7 +2741,205 @@ int FrameLagCollector::PopMonitoringSpecData(Packet_Frame_Lag_Spec_Delete_Notify
     }
     if (erased != 0)
     {
-        m_data.clear();
+        m_data.erase(*(int*)((char*)pkt + 10));
+    }
+    return 0;
+}
+
+int FrameLagCollector::PushOneFrameLagData(Packet_Frame_Lag_Statistic_Add* pkt)
+{
+    if (m_field4 != 2)
+    {
+        return 2;
+    }
+    if (is_valid_statistic_packet(pkt) != 1)
+    {
+        return 4;
+    }
+    m_field6c++;
+    m_directx.add_cnt(*(unsigned int*)((char*)pkt + 0x6c));
+    for (int i = 0; i < 6; i++)
+    {
+        m_memory[i].SetUsedMemory((char)*(char*)((char*)pkt + i * 0x38 + 0x174),
+                                  *(short*)((char*)pkt + i * 0x38 + 0x170));
+    }
+    for (std::map<int, MonitoringSpecCase>::iterator it = m_monitor.begin();
+         it != m_monitor.end(); ++it)
+    {
+        char match = 1;
+        char* s = (char*)&it->second;
+        if (!(*(char*)(s + 0x8) == -1 || *(char*)(s + 0x8) == *(char*)((char*)pkt + 0x3c)))
+            match = 0;
+        if (match && !(*(char*)(s + 0x9) == -1 || *(char*)(s + 0x9) == *(char*)((char*)pkt + 0x38)))
+            match = 0;
+        if (match && !(*(int*)(s + 0xc) == -1 || *(int*)((char*)pkt + 0x28) < *(int*)(s + 0xc)))
+            match = 0;
+        if (match && !(*(int*)(s + 0x10) == -1 || *(int*)(s + 0x10) <= *(int*)((char*)pkt + 0x28)))
+            match = 0;
+        if (match && !(*(short*)(s + 0x14) == -1 || *(short*)(s + 0x14) == *(short*)((char*)pkt + 0x60)))
+            match = 0;
+        if (match && !(*(int*)(s + 0x18) == -1 || *(unsigned int*)(s + 0x18) == (unsigned int)*(unsigned short*)((char*)pkt + 0x48)))
+            match = 0;
+        if (match && !(*(int*)(s + 0x1c) == -1 || *(unsigned int*)(s + 0x1c) == (unsigned int)*(unsigned short*)((char*)pkt + 0x50)))
+            match = 0;
+        if (match && !(*(short*)(s + 0x20) == -1 || *(short*)(s + 0x20) == *(short*)((char*)pkt + 0x58)))
+            match = 0;
+        if (match && !(*(char*)(s + 0x22) == -1 || *(char*)(s + 0x22) == *(char*)((char*)pkt + 0x68)))
+            match = 0;
+        if (match)
+        {
+            std::map<int, FrameLagDataStruct>::iterator fd = m_data.find(it->first);
+            if (fd != m_data.end())
+            {
+                FrameLagDataStruct* v = &fd->second;
+                *(int*)((char*)v + 4) = *(int*)((char*)v + 4) + 1;
+                if (-1 < (char)*(char*)((char*)pkt + 0x7c) &&
+                    (char)*(char*)((char*)pkt + 0x7c) < 8)
+                {
+                    *(short*)((char*)v + 0x10 + ((char)*(char*)((char*)pkt + 0x7c) + 8) * 2) += 1;
+                }
+                if (-1 < *(short*)((char*)pkt + 0x80))
+                {
+                    *(int*)((char*)v + 0x34) += (int)*(short*)((char*)pkt + 0x80);
+                    *(int*)((char*)v + 0x38) += (int)*(short*)((char*)pkt + 0x88);
+                    *(int*)((char*)v + 0x30) += 1;
+                }
+                accFrameLagStruct(*v, (FrameLagStruct*)((char*)pkt + 0x90));
+            }
+        }
+    }
+    return 0;
+}
+
+int FrameLagCollector::PushMonitoringSpecData(Packet_Frame_Lag_Statistic_Result_Load_Spec* pkt)
+{
+    if (m_field4 != 1)
+    {
+        return 3;
+    }
+    char* pb = (char*)pkt;
+    if (m_field18 != *(char*)(pb + 0x18))
+    {
+        return 0;
+    }
+    int specId = *(int*)(pb + 0x14);
+    if (m_map1c.find(specId) != m_map1c.end())
+    {
+        return 0;
+    }
+    m_map1c[specId] = 1;
+    for (int i = 0; i < 6; i++)
+    {
+        int sid = *(int*)(pb + 0x18 + i * 0x38);
+        if (sid == -1)
+        {
+            break;
+        }
+        int ts = *(int*)(pb + 0x2c + i * 0x10);
+        if (m_field4c < ts)
+        {
+            m_field4c = ts;
+        }
+        MonitoringSpecCase mc;
+        char* s = (char*)&mc;
+        *(int*)(s + 0x8) = sid;
+        *(char*)(s + 0xc) = *(char*)(pb + 0x20 + i * 0x38);
+        *(char*)(s + 0xd) = *(char*)(pb + 0x21 + i * 0x38);
+        *(char*)(s + 0xe) = *(char*)(pb + 0x22 + i * 0x38);
+        *(char*)(s + 0xf) = *(char*)(pb + 0x23 + i * 0x38);
+        *(char*)(s + 0x10) = *(char*)(pb + 0x24 + i * 0x38);
+        *(char*)(s + 0x11) = *(char*)(pb + 0x25 + i * 0x38);
+        *(int*)(s + 0x14) = *(int*)(pb + 0x28 + i * 0x38);
+        *(int*)(s + 0x18) = ts;
+        *(int*)(s + 0x1c) = *(int*)(pb + 0x30 + i * 0x38);
+        *(int*)(s + 0x20) = *(int*)(pb + 0x34 + i * 0x38);
+        *(char*)(s + 0x24) = *(char*)(pb + 0x38 + i * 0x38);
+        m_monitor[sid] = mc;
+        FrameLagDataStruct fd;
+        m_data[sid] = fd;
+    }
+    if ((int)m_map1c.size() == *(int*)(pb + 0x1c))
+    {
+        m_field4 = 2;
+        puts("============FirstSpecLoad Complete!!!==========");
+    }
+    return 0;
+}
+
+int FrameLagCollector::PushMonitoringSpecData(Packet_Frame_Lag_Statistic_Result_Reload_Spec* pkt)
+{
+    if (m_field4 != 2)
+    {
+        return 2;
+    }
+    char* pb = (char*)pkt;
+    if (m_field19 != *(char*)(pb + 0x18))
+    {
+        return 0;
+    }
+    int specId = *(int*)(pb + 0x14);
+    if (m_map34.find(specId) != m_map34.end())
+    {
+        return 0;
+    }
+    m_map34[specId] = 1;
+    for (int i = 0; i < 6; i++)
+    {
+        int sid = *(int*)(pb + 0x18 + i * 0x38);
+        if (sid == -1)
+        {
+            break;
+        }
+        int ts = *(int*)(pb + 0x2c + i * 0x10);
+        if (m_field50 < ts)
+        {
+            m_field50 = ts;
+        }
+        std::map<int, MonitoringSpecCase>::iterator it = m_monitor.find(sid);
+        if (it != m_monitor.end())
+        {
+            char* s = (char*)&it->second;
+            *(int*)(s + 0x8) = sid;
+            *(char*)(s + 0xc) = *(char*)(pb + 0x20 + i * 0x38);
+            *(char*)(s + 0xd) = *(char*)(pb + 0x21 + i * 0x38);
+            *(char*)(s + 0xe) = *(char*)(pb + 0x22 + i * 0x38);
+            *(char*)(s + 0xf) = *(char*)(pb + 0x23 + i * 0x38);
+            *(char*)(s + 0x10) = *(char*)(pb + 0x24 + i * 0x38);
+            *(char*)(s + 0x11) = *(char*)(pb + 0x25 + i * 0x38);
+            *(int*)(s + 0x14) = *(int*)(pb + 0x28 + i * 0x38);
+            *(int*)(s + 0x18) = ts;
+            *(int*)(s + 0x1c) = *(int*)(pb + 0x30 + i * 0x38);
+            *(int*)(s + 0x20) = *(int*)(pb + 0x34 + i * 0x38);
+            *(char*)(s + 0x24) = *(char*)(pb + 0x38 + i * 0x38);
+        }
+        else
+        {
+            MonitoringSpecCase mc;
+            char* s = (char*)&mc;
+            *(int*)(s + 0x8) = sid;
+            *(char*)(s + 0xc) = *(char*)(pb + 0x20 + i * 0x38);
+            *(char*)(s + 0xd) = *(char*)(pb + 0x21 + i * 0x38);
+            *(char*)(s + 0xe) = *(char*)(pb + 0x22 + i * 0x38);
+            *(char*)(s + 0xf) = *(char*)(pb + 0x23 + i * 0x38);
+            *(char*)(s + 0x10) = *(char*)(pb + 0x24 + i * 0x38);
+            *(char*)(s + 0x11) = *(char*)(pb + 0x25 + i * 0x38);
+            *(int*)(s + 0x14) = *(int*)(pb + 0x28 + i * 0x38);
+            *(int*)(s + 0x18) = ts;
+            *(int*)(s + 0x1c) = *(int*)(pb + 0x30 + i * 0x38);
+            *(int*)(s + 0x20) = *(int*)(pb + 0x34 + i * 0x38);
+            *(char*)(s + 0x24) = *(char*)(pb + 0x38 + i * 0x38);
+            m_monitor[sid] = mc;
+        }
+        FrameLagDataStruct fd;
+        m_data[sid] = fd;
+    }
+    if ((int)m_map34.size() == *(int*)(pb + 0x1c))
+    {
+        if (m_field4c < m_field50)
+        {
+            m_field4c = m_field50;
+        }
+        puts("============ReloadSpec Complete!!!==========");
     }
     return 0;
 }

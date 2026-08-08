@@ -16,6 +16,12 @@ ErrorValue::ErrorValue()
     m_field4 = 0xffffffff;
 }
 
+ErrorValue::ErrorValue(unsigned short value, unsigned int param)
+{
+    m_field0 = value;
+    m_field4 = param;
+}
+
 STSpecCount::STSpecCount()
     : m_field0(0)
 {
@@ -79,7 +85,7 @@ STCubeStatisticKey::~STCubeStatisticKey()
 {
 }
 
-bool STCubeStatisticKey::operator<(const STCubeStatisticKey& other) const
+bool STCubeStatisticKey::operator<(STCubeStatisticKey other) const
 {
     if (m_field0 < other.m_field0) return true;
     if (m_field0 == other.m_field0)
@@ -126,7 +132,7 @@ bool STPartyStatisticKey::operator<(const STPartyStatisticKey& other) const
         if (m_field4 < other.m_field4) return true;
         if (m_field4 == other.m_field4)
         {
-            if ((char)m_field8 < (char)other.m_field8) return true;
+            if ((unsigned char)m_field8 < (unsigned char)other.m_field8) return true;
             if (m_field8 == other.m_field8)
             {
                 if ((unsigned char)m_field9 < (unsigned char)other.m_field9) return true;
@@ -140,7 +146,7 @@ bool STPartyStatisticKey::operator<(const STPartyStatisticKey& other) const
                         {
                             if ((unsigned char)m_fieldc < (unsigned char)other.m_fieldc) return true;
                             if (m_fieldc == other.m_fieldc &&
-                                (char)m_fieldd < (char)other.m_fieldd) return true;
+                                (unsigned char)m_fieldd < (unsigned char)other.m_fieldd) return true;
                         }
                     }
                 }
@@ -190,7 +196,44 @@ STPartyJobStatisticKey::~STPartyJobStatisticKey()
 
 bool STPartyJobStatisticKey::operator<(const STPartyJobStatisticKey& other) const
 {
-    return memcmp(this, &other, sizeof(*this)) < 0;
+    if (m_field0 < other.m_field0) return true;
+    if (m_field0 == other.m_field0)
+    {
+        if (m_field4 < other.m_field4) return true;
+        if (m_field4 == other.m_field4)
+        {
+            if ((unsigned char)m_field8 < (unsigned char)other.m_field8) return true;
+            if (m_field8 == other.m_field8)
+            {
+                if ((unsigned char)m_field9 < (unsigned char)other.m_field9) return true;
+                if (m_field9 == other.m_field9)
+                {
+                    if ((unsigned char)m_fielda < (unsigned char)other.m_fielda) return true;
+                    if (m_fielda == other.m_fielda)
+                    {
+                        if ((unsigned char)m_fieldb < (unsigned char)other.m_fieldb) return true;
+                        if (m_fieldb == other.m_fieldb)
+                        {
+                            if ((unsigned char)m_fieldc < (unsigned char)other.m_fieldc) return true;
+                            if (m_fieldc == other.m_fieldc)
+                            {
+                                if ((unsigned char)m_fieldd < (unsigned char)other.m_fieldd)
+                                    return true;
+                                if (m_fieldd == other.m_fieldd)
+                                {
+                                    if (m_field10 < other.m_field10) return true;
+                                    if (m_field10 == other.m_field10 &&
+                                        (unsigned char)m_field14 <
+                                            (unsigned char)other.m_field14) return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 PartyJobStatistic::PartyJobStatistic()
@@ -227,7 +270,36 @@ STPartyCharacKey::~STPartyCharacKey()
 
 bool STPartyCharacKey::operator<(const STPartyCharacKey& other) const
 {
-    return memcmp(this, &other, sizeof(*this)) < 0;
+    if (m_field0 < other.m_field0) return true;
+    if (m_field0 == other.m_field0)
+    {
+        if (m_field4 < other.m_field4) return true;
+        if (m_field4 == other.m_field4)
+        {
+            if ((unsigned char)m_field8 < (unsigned char)other.m_field8) return true;
+            if (m_field8 == other.m_field8)
+            {
+                if ((unsigned char)m_field9 < (unsigned char)other.m_field9) return true;
+                if (m_field9 == other.m_field9)
+                {
+                    if ((unsigned char)m_fielda < (unsigned char)other.m_fielda) return true;
+                    if (m_fielda == other.m_fielda)
+                    {
+                        if (m_fieldc < other.m_fieldc) return true;
+                        if (m_fieldc == other.m_fieldc)
+                        {
+                            if ((unsigned char)m_field10 < (unsigned char)other.m_field10)
+                                return true;
+                            if (m_field10 == other.m_field10 &&
+                                (unsigned char)m_field11 < (unsigned char)other.m_field11)
+                                return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 PartyCharacStatistic::PartyCharacStatistic()
@@ -317,7 +389,18 @@ STDeathTowerPlayDataJobStatisticKey::~STDeathTowerPlayDataJobStatisticKey()
 bool STDeathTowerPlayDataJobStatisticKey::operator<(
     const STDeathTowerPlayDataJobStatisticKey& other) const
 {
-    return memcmp(this, &other, sizeof(*this)) < 0;
+    if ((unsigned char)m_field0 < (unsigned char)other.m_field0) return true;
+    if (m_field0 == other.m_field0)
+    {
+        if (m_field2 < other.m_field2) return true;
+        if (m_field2 == other.m_field2)
+        {
+            if (m_field4 < other.m_field4) return true;
+            if (m_field4 == other.m_field4 &&
+                (unsigned char)m_field8 < (unsigned char)other.m_field8) return true;
+        }
+    }
+    return false;
 }
 
 PlayDataJobStatistic::PlayDataJobStatistic()
@@ -480,15 +563,15 @@ bool STHellPartyStatisticItemKey::operator<(const STHellPartyStatisticItemKey& o
         if (m_field4 < other.m_field4) return true;
         if (m_field4 == other.m_field4)
         {
-            if ((char)m_field8 < (char)other.m_field8) return true;
+            if ((unsigned char)m_field8 < (unsigned char)other.m_field8) return true;
             if (m_field8 == other.m_field8)
             {
-                if ((char)m_field9 < (char)other.m_field9) return true;
+                if ((unsigned char)m_field9 < (unsigned char)other.m_field9) return true;
                 if (m_field9 == other.m_field9)
                 {
-                    if ((char)m_fielda < (char)other.m_fielda) return true;
+                    if ((unsigned char)m_fielda < (unsigned char)other.m_fielda) return true;
                     if (m_fielda == other.m_fielda &&
-                        (char)m_fielda < (char)other.m_fielda) return true;
+                        (unsigned char)m_fielda < (unsigned char)other.m_fielda) return true;
                 }
             }
         }

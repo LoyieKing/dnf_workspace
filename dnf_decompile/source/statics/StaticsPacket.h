@@ -196,6 +196,72 @@ public:
     char m_data[0x40a];
 };
 
+// ---- FrameLag 专用包（0xc26-0xc30 族）----
+class Packet_Frame_Lag_Statistic_Load_Spec : public PacketHeader
+{
+public:
+    Packet_Frame_Lag_Statistic_Load_Spec();
+};
+
+class Packet_Frame_Lag_Statistic_Reload_Spec : public PacketHeader
+{
+public:
+    Packet_Frame_Lag_Statistic_Reload_Spec();
+};
+
+class Packet_Frame_Lag_Statistic_Write_Lag_Index : public PacketHeader
+{
+public:
+    Packet_Frame_Lag_Statistic_Write_Lag_Index();
+};
+
+class Packet_Frame_Lag_Statistic_Write_Query : public PacketHeader
+{
+public:
+    Packet_Frame_Lag_Statistic_Write_Query();
+};
+
+class Packet_Frame_Lag_Used_Memory_Write_Query : public PacketHeader
+{
+public:
+    Packet_Frame_Lag_Used_Memory_Write_Query();
+};
+
+class Packet_Udp_Characteristic
+{
+public:
+    Packet_Udp_Characteristic();
+    char m_data[0x33];
+};
+
+class Packet_DBMW_Save_Client_Spec_Statistic
+{
+public:
+    Packet_DBMW_Save_Client_Spec_Statistic();
+    char m_data[0x17e7];
+};
+
+class Packet_DBMW_Save_Error_Line_Statistic
+{
+public:
+    Packet_DBMW_Save_Error_Line_Statistic();
+    char m_data[0x17f6];
+};
+
+class Packet_DBMW_Cube_Statistic
+{
+public:
+    Packet_DBMW_Cube_Statistic();
+    char m_data[0x17ec];
+};
+
+class Packet_GameServer2Statisctics2DBServer
+{
+public:
+    Packet_GameServer2Statisctics2DBServer();
+    char m_data[0x35];
+};
+
 #include "Packet_P2P_Statistics.h"
 
 // ---- CInnerMsgHandler：空类 ----
@@ -204,6 +270,7 @@ class CInnerMsgHandler
 public:
     CInnerMsgHandler();
     ~CInnerMsgHandler();
+    void SendStopNetworkThread();
 };
 
 // ---- CPacketCounter<Lo,Hi>：包计数（MsgDecode 静态实例）----

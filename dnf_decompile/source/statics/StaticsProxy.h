@@ -10,6 +10,8 @@ namespace global_function
 void SendPacketToDbmw(char* data);
 }
 
+class StatisticsPacket;
+
 // statistc_proxy（统计代理，statics 独有）
 namespace statistc_proxy
 {
@@ -62,7 +64,7 @@ public:
 };
 
 void initialize();
-void addStatisticProxy(void* packet);
+void addStatisticProxy(StatisticsPacket* packet);
 void resetStatisticProxy();
 void sendDBStatisticProxy();
 }

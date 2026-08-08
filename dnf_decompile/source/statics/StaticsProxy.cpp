@@ -233,16 +233,9 @@ void StatisticProxy::add(const char* table, unsigned int value, const char* key,
                          const char* cond)
 {
     std::map<std::string, Table>::iterator it = m_tables.find(table);
-    if (it == m_tables.end())
+    if (it != m_tables.end())
     {
-        Table t;
-        t.setKey(cond);
-        t.add(key, value, key);
-        m_tables.insert(std::make_pair(table, t));
-    }
-    else
-    {
-        it->second.add(key, value, key);
+        it->second.add(key, value, cond);
     }
 }
 
@@ -270,7 +263,7 @@ void initialize()
     t.reset();
 }
 
-void addStatisticProxy(void* packet)
+void addStatisticProxy(StatisticsPacket* packet)
 {
     unsigned int value = *(unsigned int*)((char*)packet + 0x85);
     getStatisticProxy()->add((char*)packet + 0x2b, value, (char*)packet + 0x4c,

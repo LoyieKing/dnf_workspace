@@ -401,6 +401,45 @@ void CApplication::Send_Suspend_Signal(const std::string& name)
 
 void CApplication::App_Stop()
 {
+    StatisticManager* sm = Get_StatisticManager();
+    sm->SendDBHellPartyStatisticItem(m_serverHandler);
+    sm->ResetHellPartyStatisticItemMap();
+    sm->SendDBPartyStatistic(m_serverHandler);
+    sm->ResetPartyMap();
+    sm->SendDBPartyJobStatistic(m_serverHandler);
+    sm->ResetPartyJobMap();
+    sm->SendDBPartyCharacStatistic(m_serverHandler);
+    sm->ResetPartyCharacMap();
+    sm->SendDBDeathTowerValueStatistic(m_serverHandler);
+    sm->ResetDeathTowerValueMap();
+    sm->SendDBDeathTowerPlayDataJobStatistic(m_serverHandler);
+    sm->ResetDeathTowerPlayDataJobMap();
+    sm->SendDBDeathTowerPlayDataPartyStatistic(m_serverHandler);
+    sm->ResetDeathTowerPlayDataPartyMap();
+    sm->SendDBFatigueBattery(m_serverHandler);
+    sm->ResetFatigueBattery();
+    sm->SendDBBloodDungeonStatistic(m_serverHandler);
+    sm->ResetBloodDungeon();
+    CCubeStatistic* cube = (CCubeStatistic*)sm->getCubeStatisticObject();
+    cube->sendStatisticData(m_serverHandler);
+    cube = (CCubeStatistic*)sm->getCubeStatisticObject();
+    cube->resetStatisticData();
+    sm->SendDBValueStatistic(m_serverHandler);
+    sm->ResetValueStatistic();
+    sm->SendDBCirculationStatistic(m_serverHandler);
+    sm->ResetCirculationStatistic();
+    statistc_proxy::sendDBStatisticProxy();
+    statistc_proxy::resetStatisticProxy();
+    sm->SendDBSecretShopStatistic(m_serverHandler);
+    sm->ResetSecretShopStatistic();
+    sm->SendDBGoldcardEventStatistic(m_serverHandler);
+    sm->ResetGoldcardEventStatistic();
+    sm->SendDBTowerOfDespairStatistic(m_serverHandler);
+    sm->ResetTowerOfDespair();
+    sm->SendDBDisjointAvatarInfoTotal(m_serverHandler);
+    sm->ResetDisjointAvatarInfoTotal();
+    sm->SendDBP2PStatistic(m_serverHandler);
+    sm->ResetP2PStatistic();
     m_loaded = 0;
 }
 

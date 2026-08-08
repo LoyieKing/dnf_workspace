@@ -3,6 +3,8 @@
 
 #include <set>
 #include <map>
+#include <list>
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -42,6 +44,12 @@ class Packet_Frame_Lag_Collect_Interval_Check;
 class Packet_Frame_Lag_Spec_Delete_Notify;
 class Packet_Frame_Lag_Statistic_Result_Load_Spec;
 class Packet_Frame_Lag_Statistic_Result_Reload_Spec;
+class Packet_Pvp_Ping_Statistic;
+class Packet_Party_Ping_Statistic;
+class Packet_Fair_Pvp_Ping_Statistic;
+class Packet_Party_Result_Statistic;
+class Packet_Abnormal_Exit_Statistic;
+class Packet_Udp_Characteristic;
 class FrameLagStruct;
 
 class CServerHandler;
@@ -57,7 +65,7 @@ public:
     void sendStatisticData(CServerHandler* handler);
     void printStatisticData();
     void resetStatisticData();
-    char m_data[0x18];
+    std::map<STCubeStatisticKey, int> m_data;
 };
 
 // ---- WongWork::CGMAccounts ----
@@ -80,7 +88,7 @@ public:
     void appendGM(unsigned int id, unsigned int value);
     void removeGM(unsigned int id, unsigned int value);
     stGMInfo_t getGMInfo(unsigned int id) const;
-    char m_data[0x400];
+    std::list<stGMInfo_t> m_list;
 };
 }
 
@@ -115,11 +123,15 @@ public:
     void DBSaveProcess(CServerHandler* handler);
     void ResetErrorSpec();
     void SendDBMWHWSpec(CServerHandler* handler, unsigned char param);
-    void WriteSpecStatics(unsigned char param, const void* spec);
+    void WriteSpecStatics(unsigned char param, const HWSpec& spec);
     void SendDBMWErrorLine(CServerHandler* handler);
     void WriteErrorLineStatics(unsigned short param, int value);
     void ResetSpec();
-    char m_data[0x6c];
+    std::map<STSpecStatic, unsigned int> m_spec[3];      // +0x0/0x18/0x30
+    char m_field48;                                      // +0x48
+    int m_field4c;                                       // +0x4c
+    std::map<STErrorStatic, unsigned int> m_errorSpec;   // +0x50
+    char m_field68;                                      // +0x68
 };
 
 // ---- FrameLagCollector：0x1E8 ----
@@ -146,12 +158,12 @@ public:
     public:
         FrameLagDataStruct();
         void init();
-        int m_data[14];    // +0（0x38）
+        char m_data[0x24c];  // +0（实际大小 0x24c，map 节点 0x25c）
     };
     class MonitoringSpecCase
     {
     public:
-        int m_data[4];
+        char m_data[0x28];  // +0（实际大小 0x28，map 节点 0x34）
     };
 
     FrameLagCollector();
@@ -160,15 +172,15 @@ public:
     void RenewToday();
     void SaveUsedMemory(CServerHandler* handler);
     int SaveDailyBadSpec(CServerHandler* handler);
-    void SaveFrameLagData(CServerHandler* handler);
+    int SaveFrameLagData(CServerHandler* handler);
     int GetCollectInterval();
-    void PushOneFrameLagData(Packet_Frame_Lag_Statistic_Add* pkt);
+    int PushOneFrameLagData(Packet_Frame_Lag_Statistic_Add* pkt);
     int CollectIntervalCheck(Packet_Frame_Lag_Collect_Interval_Check* pkt);
     int PopMonitoringSpecData(Packet_Frame_Lag_Spec_Delete_Notify* pkt);
     int PushMonitoringSpecData(Packet_Frame_Lag_Statistic_Result_Load_Spec* pkt);
     int PushMonitoringSpecData(Packet_Frame_Lag_Statistic_Result_Reload_Spec* pkt);
     int is_valid_statistic_packet(Packet_Frame_Lag_Statistic_Add* pkt);
-    void SaveCollectedDirectxVersion(CServerHandler* handler);
+    int SaveCollectedDirectxVersion(CServerHandler* handler);
     bool Init();
     void LoadSpec(CServerHandler* handler);
     void accFrameLagStruct(FrameLagDataStruct& data, FrameLagStruct* pkt);
@@ -206,11 +218,11 @@ class UdpCharacteristic
 public:
     UdpCharacteristic();
     ~UdpCharacteristic();
-    void PushPvpPingData(void* pkt);
-    void PushPartyPingData(void* pkt);
-    void PushFairPvpPingData(void* pkt);
-    void PushPartyResultData(void* pkt);
-    void PushAbnormalExitData(void* pkt);
+    void PushPvpPingData(Packet_Pvp_Ping_Statistic* pkt);
+    void PushPartyPingData(Packet_Party_Ping_Statistic* pkt);
+    void PushFairPvpPingData(Packet_Fair_Pvp_Ping_Statistic* pkt);
+    void PushPartyResultData(Packet_Party_Result_Statistic* pkt);
+    void PushAbnormalExitData(Packet_Abnormal_Exit_Statistic* pkt);
     void InitUdpCharacteristicData();
     void SaveUdpCharacteristicData(CServerHandler* handler, int interval);
     char m_data[0x2c];
