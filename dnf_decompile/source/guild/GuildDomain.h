@@ -68,6 +68,11 @@ struct STGuildMemberChangableInfo
 };
 
 int CheckDayScheduleTimeOver(int hour, long t);
+bool CheckDailyScheduleTimeOver(int hour, long t);
+int CheckDayHourScheduleTimeOver(int day, int hour, long t);
+void GetScheduleTimeAsWDay(int day, int hour);
+bool GuildWarPairDataCompare(const std::pair<unsigned int, void*>& a,
+                             const std::pair<unsigned int, void*>& b);
 
 // ---- CBlackUser ----
 class CBlackUser
@@ -808,10 +813,20 @@ public:
     char m_data[0x1000];
 };
 
+class EpollHandler;
 class CTcpHandler
 {
 public:
+    CTcpHandler();
+    ~CTcpHandler();
+    int SetPeer(void* ptr, int fd, bool flag);
+    int ResetEpoll(int fd);
     void WaitForEvent();
+    bool IsSetErrEvent(int idx);
+    bool IsSetOutEvent(int idx);
+    unsigned int IsSetInEvent(int idx);
+    void* GetEventPtr(int idx);
+    EpollHandler* m_epoll;  // +0
 };
 
 namespace np_server_xml

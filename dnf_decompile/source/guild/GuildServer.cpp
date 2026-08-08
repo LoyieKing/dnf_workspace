@@ -174,6 +174,41 @@ CTcpGameServer::~CTcpGameServer()
 {
 }
 
+void CTcpGameServer::Init(unsigned int group, CTcpNetSystem* net)
+{
+    *(unsigned int*)m_info = group;
+    *(CTcpNetSystem**)((char*)m_info + 4) = net;
+}
+
+void CTcpGameServer::SendToGameServer(char* buf)
+{
+    CTcpNetSystem* net = *(CTcpNetSystem**)((char*)m_info + 4);
+    if (net != 0)
+    {
+        net->PushTcpSendPacketQ(buf);
+    }
+}
+
+unsigned char CTcpGameServer::GetChannelNo()
+{
+    return m_field8;
+}
+
+void CTcpGameServer::SetChannelNo(unsigned char channel)
+{
+    m_field8 = (char)channel;
+}
+
+bool CTcpGameServer::IsValidServer()
+{
+    return m_info != 0 && *(unsigned int*)m_info != 0;
+}
+
+char* CTcpGameServer::makePacketHeader(unsigned short id, unsigned short size)
+{
+    return 0;
+}
+
 CDBServer::CDBServer()
     : CServerInterface()
 {

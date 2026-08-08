@@ -67,6 +67,12 @@ class CTcpGameServer
 public:
     CTcpGameServer();
     ~CTcpGameServer();
+    void Init(unsigned int group, CTcpNetSystem* net);
+    void SendToGameServer(char* buf);
+    unsigned char GetChannelNo();
+    void SetChannelNo(unsigned char channel);
+    bool IsValidServer();
+    char* makePacketHeader(unsigned short id, unsigned short size);
     stServerInfo* m_info;   // +4
     char m_field8;          // +8
 };

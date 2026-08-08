@@ -216,3 +216,69 @@ template<class T, int N>
 void CSwapQueue<T, N>::Pop()
 {
 }
+
+template<class T, int N>
+void CSwapQueue<T, N>::Init()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+template<class T, int N>
+T* CSwapQueue<T, N>::GetRecvQ()
+{
+    return (T*)(m_data + 0);
+}
+
+template<class T, int N>
+T* CSwapQueue<T, N>::GetParseQ()
+{
+    return (T*)(m_data + 0x2c);
+}
+
+template<class T, int N>
+void CSwapQueue<T, N>::SwapQ()
+{
+}
+
+template<class T>
+IQueue<T>::IQueue()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+template<class T>
+IQueue<T>::~IQueue()
+{
+}
+
+template<class T>
+IQueue<T>* IQueue<T>::Get()
+{
+    static IQueue<T> instance;
+    return &instance;
+}
+
+template<class T>
+void IQueue<T>::InitQueue(T* recv, T* parse)
+{
+    *(T**)(m_data + 0) = recv;
+    *(T**)(m_data + 4) = parse;
+}
+
+template<class T>
+void IQueue<T>::SwitchQueue()
+{
+}
+
+template<class T>
+T* IQueue<T>::GetParseQueue()
+{
+    return *(T**)(m_data + 4);
+}
+
+// 显式实例化
+typedef std::queue<CTcpRecvBuffer*> TcpRecvQueue;
+typedef std::queue<CUdpRecvBuffer*> UdpRecvQueue;
+template class CSwapQueue<TcpRecvQueue, 2>;
+template class CSwapQueue<UdpRecvQueue, 2>;
+template class IQueue<TcpRecvQueue>;

@@ -6,6 +6,7 @@
 
 class CUdpRecvBuffer;
 class CTcpNetSystem;
+class CTcpRecvBuffer;
 
 class CApplication;
 class CPacketDecoder;
@@ -88,7 +89,32 @@ public:
     ~CSwapQueue();
     void Push(T* item);
     void Pop();
+    void Init();
+    T* GetRecvQ();
+    T* GetParseQ();
+    void SwapQ();
     char m_data[0x58];
+};
+
+class IQueueBase
+{
+public:
+    IQueueBase();
+    ~IQueueBase();
+    char m_data[0x30];
+};
+
+template<class T>
+class IQueue
+{
+public:
+    IQueue();
+    ~IQueue();
+    static IQueue<T>* Get();
+    void InitQueue(T* recv, T* parse);
+    void SwitchQueue();
+    T* GetParseQueue();
+    char m_data[0x30];
 };
 
 #endif  // GUILD_THREAD_H_

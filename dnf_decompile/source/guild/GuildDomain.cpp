@@ -34,6 +34,84 @@ int CheckDayScheduleTimeOver(int hour, long t)
     return t < target;
 }
 
+bool CheckDailyScheduleTimeOver(int hour, long t)
+{
+    time_t now = time(0);
+    tm* pt = localtime(&now);
+    tm local;
+    local.tm_sec = pt->tm_sec;
+    local.tm_min = pt->tm_min;
+    local.tm_hour = pt->tm_hour;
+    local.tm_mday = pt->tm_mday;
+    local.tm_mon = pt->tm_mon;
+    local.tm_year = pt->tm_year;
+    local.tm_wday = pt->tm_wday;
+    local.tm_yday = pt->tm_yday;
+    local.tm_isdst = pt->tm_isdst;
+    local.tm_gmtoff = pt->tm_gmtoff;
+    local.tm_zone = pt->tm_zone;
+    local.tm_hour = hour;
+    local.tm_min = 0;
+    local.tm_sec = 0;
+    time_t target = mktime(&local);
+    return t < target;
+}
+
+int CheckDayHourScheduleTimeOver(int day, int hour, long t)
+{
+    time_t now = time(0);
+    tm* pt = localtime(&now);
+    tm local;
+    local.tm_sec = pt->tm_sec;
+    local.tm_min = pt->tm_min;
+    local.tm_hour = pt->tm_hour;
+    local.tm_mday = pt->tm_mday;
+    local.tm_mon = pt->tm_mon;
+    local.tm_year = pt->tm_year;
+    local.tm_wday = pt->tm_wday;
+    local.tm_yday = pt->tm_yday;
+    local.tm_isdst = pt->tm_isdst;
+    local.tm_gmtoff = pt->tm_gmtoff;
+    local.tm_zone = pt->tm_zone;
+    local.tm_hour = hour;
+    local.tm_min = 0;
+    local.tm_sec = 0;
+    time_t target = mktime(&local);
+    return t < target;
+}
+
+void GetScheduleTimeAsWDay(int day, int hour)
+{
+    time_t now = time(0);
+    tm* pt = localtime(&now);
+    tm local;
+    local.tm_sec = pt->tm_sec;
+    local.tm_min = pt->tm_min;
+    local.tm_hour = pt->tm_hour;
+    local.tm_mday = pt->tm_mday;
+    local.tm_mon = pt->tm_mon;
+    local.tm_year = pt->tm_year;
+    local.tm_wday = pt->tm_wday;
+    local.tm_yday = pt->tm_yday;
+    local.tm_isdst = pt->tm_isdst;
+    local.tm_gmtoff = pt->tm_gmtoff;
+    local.tm_zone = pt->tm_zone;
+    int diff = day - local.tm_wday;
+    if (diff < 0 || (diff == 0 && hour <= local.tm_hour))
+    {
+        diff += 7;
+    }
+    time_t t2 = mktime(&local);
+    time_t target = (time_t)(diff * 86400 + t2);
+    localtime(&target);
+}
+
+bool GuildWarPairDataCompare(const std::pair<unsigned int, void*>& a,
+                             const std::pair<unsigned int, void*>& b)
+{
+    return *(unsigned int*)((char*)b.second + 4) < *(unsigned int*)((char*)a.second + 4);
+}
+
 CBlackUser::CBlackUser()
 {
     memset(m_data, 0, sizeof(m_data));
@@ -3541,6 +3619,62 @@ CTcpSendBuffer::CTcpSendBuffer()
 
 void CTcpHandler::WaitForEvent()
 {
+    if (m_epoll != 0)
+    {
+        m_epoll->WaitForEvent();
+    }
+}
+
+CTcpHandler::CTcpHandler()
+{
+    m_epoll = new EpollHandler;
+}
+
+CTcpHandler::~CTcpHandler()
+{
+    if (m_epoll != 0)
+    {
+        delete m_epoll;
+        m_epoll = 0;
+    }
+}
+
+int CTcpHandler::SetPeer(void* ptr, int fd, bool flag)
+{
+    if (m_epoll == 0)
+    {
+        return -1;
+    }
+    return m_epoll->SetEpoll(ptr, fd, flag);
+}
+
+int CTcpHandler::ResetEpoll(int fd)
+{
+    if (m_epoll == 0)
+    {
+        return -1;
+    }
+    return m_epoll->ResetEpoll(fd);
+}
+
+bool CTcpHandler::IsSetErrEvent(int idx)
+{
+    return m_epoll != 0 && m_epoll->IsSetErrEvent(idx);
+}
+
+bool CTcpHandler::IsSetOutEvent(int idx)
+{
+    return m_epoll != 0 && m_epoll->IsSetOutEvent(idx);
+}
+
+unsigned int CTcpHandler::IsSetInEvent(int idx)
+{
+    return m_epoll != 0 ? m_epoll->IsSetInEvent(idx) : 0;
+}
+
+void* CTcpHandler::GetEventPtr(int idx)
+{
+    return m_epoll != 0 ? m_epoll->GetEventPtr(idx) : 0;
 }
 
 namespace np_server_xml

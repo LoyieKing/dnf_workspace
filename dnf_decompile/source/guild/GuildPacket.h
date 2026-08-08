@@ -22,6 +22,7 @@ public:
     void BeforeProcess();
     void AfterProcess();
     void WriteLog();
+    void Reset();
     char m_data[0x20];
 };
 

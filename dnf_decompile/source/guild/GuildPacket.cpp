@@ -839,6 +839,14 @@ void CPacketCounter<Lo, Hi>::WriteLog()
 {
 }
 
+template<int Lo, int Hi>
+void CPacketCounter<Lo, Hi>::Reset()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+template class CPacketCounter<1000, 10240>;
+
 CInnerMsgHandler::CInnerMsgHandler()
 {
 }
