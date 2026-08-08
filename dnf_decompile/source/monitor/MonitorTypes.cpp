@@ -2178,6 +2178,67 @@ void CUserManager::DeleteUsersOnGameServerDown(CGameServer* gameServer)
 }
 void CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer)
 {
+    if (!m_charNoUsers.empty())
+    {
+        for (std::map<unsigned int, CUser*>::iterator it = m_charNoUsers.begin();
+             it != m_charNoUsers.end(); )
+        {
+            if (it->second != 0 && it->second->GetTcpGameServer() == (void*)tcpGameServer)
+            {
+                std::map<unsigned int, CUser*>::iterator cur = it++;
+                m_charNoUsers.erase(cur);
+            }
+            else
+            {
+                ++it;
+            }
+        }
+    }
+    if (!m_charNameUsers.empty())
+    {
+        for (std::map<std::string, CUser*>::iterator it = m_charNameUsers.begin();
+             it != m_charNameUsers.end(); )
+        {
+            if (it->second != 0 && it->second->GetTcpGameServer() == (void*)tcpGameServer)
+            {
+                std::map<std::string, CUser*>::iterator cur = it++;
+                m_charNameUsers.erase(cur);
+            }
+            else
+            {
+                ++it;
+            }
+        }
+    }
+    if (!m_users.empty())
+    {
+        for (std::map<unsigned int, CUser*>::iterator it = m_users.begin();
+             it != m_users.end(); )
+        {
+            CUser* user = it->second;
+            if (user != 0 && user->GetTcpGameServer() == (void*)tcpGameServer)
+            {
+                unsigned int key = user->GetUniqCharNo();
+                if (key != 0)
+                {
+                    m_app->Call_DeleteMember(key, user);
+                }
+                user->GetDBID();
+                m_app->Call_ResetBlackList(user->GetUniqCharNo());
+                m_app->Call_ResetBuddyList(user->GetUniqCharNo());
+                if (user != 0)
+                {
+                    delete user;
+                }
+                std::map<unsigned int, CUser*>::iterator cur = it++;
+                m_users.erase(cur);
+            }
+            else
+            {
+                ++it;
+            }
+        }
+    }
 }
 void CUserManager::SendConnectedBuddysList(CUser* user)
 {
@@ -3013,6 +3074,7 @@ unsigned int CUser::GetUniqCharNo() { return 0; }
 void CUser::AttachMember(CMember* member) {}
 void CUser::operator delete(void* p) { ::operator delete(p); }
 void* CUser::GetGameServer() { return 0; }
+void* CUser::GetTcpGameServer() { return 0; }
 unsigned int CUser::GetDBID() { return 0; }
 short CUser::GetLevel() { return 0; }
 unsigned int CUser::GetIdByChannel() { return 0; }

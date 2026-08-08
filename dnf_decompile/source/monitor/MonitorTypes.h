@@ -747,6 +747,7 @@ public:
     static void operator delete(void* p);
     unsigned int GetUniqCharNo();
     void* GetGameServer();
+    void* GetTcpGameServer();
     unsigned int GetDBID();
     short GetLevel();
     unsigned int GetIdByChannel();
