@@ -35,7 +35,7 @@
 | ~~1~~ | ~~`stun`~~ | 131 KB | 27 | 3.2k | 完整（4 CU） | ✅ 已完成 | 26 个唯一函数全部语义等价；详见 `df_stun_r_restoration_report.md` |
 | ~~2~~ | ~~`channel`~~ | 1.3 MB | 1,451 | 11.2k | 完整（32 CU） | ✅ 已完成 | 25 TU 编译链接通过，主体逐字节一致；详见 `df_channel_r_progress.md` |
 | ~~3~~ | ~~`bridge`~~ | 3.4 MB | 3,812 | 30.2k | 完整（31 CU） | ✅ 已完成 | 918 个项目函数全部翻译、语义等价；助记符级精确 92.3%；详见 `df_bridge_r_restoration_report.md` |
-| 2 | `auction`/`point`（一组） | 12.2 MB | 8,205 ×2 | 84.7k | 完整（66 CU） | DWARF 桩 | **下一目标**：体量大但元数据最全；还原一个得两个 |
+| ~~2~~ | ~~`auction`/`point`（一组）~~ | 12.2 MB | 8,205 ×2 | 84.7k | 完整（66 CU） | ✅ 已完成 | 4736 项目函数全部还原、MISSING=0；详见 `df_auction_r_progress.md` / `df_point_r_progress.md`；point 经 `-DPOINT_SERVER` 切换 3 处常量 |
 | 3 | `relay` | 418 KB | 1,921 | 3.1k | 无 | 占位 | 无 DWARF 中最小的入门目标 |
 | 4 | `coserver` | 1.1 MB | 2,987 | 6.1k | 无 | 占位 | 功能单一（阻止重复连线） |
 | 5 | `statics` | 1.7 MB | 6,059 | 9.7k | 无 | 占位 | 统计服务 |
