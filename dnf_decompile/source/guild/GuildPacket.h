@@ -50,9 +50,9 @@ public:
     CPacketDecoder();
     ~CPacketDecoder();
     void Attach(CApplication* app);
-    int Process();
-    int TcpProcess();
-    int UdpProcess();
+    void Process();
+    void TcpProcess();
+    void UdpProcess();
     int MsgDecode(PacketHeader* pkt);
     void SetTCPQueue(std::queue<CTcpRecvBuffer*>* q);
     void SetUdpQueue(std::queue<CUdpRecvBuffer*>* q);

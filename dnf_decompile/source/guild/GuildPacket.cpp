@@ -4810,46 +4810,96 @@ void CPacketDecoder::Attach(CApplication* app)
     }
 }
 
-int CPacketDecoder::Process()
+void CPacketDecoder::Process()
 {
     UdpProcess();
     TcpProcess();
-    return 0;
 }
 
-int CPacketDecoder::TcpProcess()
+void CPacketDecoder::TcpProcess()
 {
-    return 0;
-}
-
-int CPacketDecoder::UdpProcess()
-{
-    if (*(void**)m_data != 0 && *(void**)(m_data + 4) != 0)
-    {
-        std::queue<CUdpRecvBuffer*>* q = *(std::queue<CUdpRecvBuffer*>**)m_data;
-        while (!q->empty())
-        {
-            CUdpRecvBuffer* buf = q->front();
-            q->pop();
-            if (buf == 0)
-            {
-                continue;
-            }
-            if (MsgDecode((PacketHeader*)buf) != 1)
-            {
-                printf("[false == this->MsgDecode]packetHeader : %x\tpacket id : %d\n", buf,
-                       (unsigned int)*(unsigned short*)buf);
-                throw CDNFException(
-                    "CPacketDecoder::MsgDecode() Undefined Packet Arrived Exception Break!");
-            }
-            CUdpRecvBuffer::operator delete(buf, 0x1804);
-        }
-    }
-    else
+    if (*(void**)(m_data + 0xc) == 0 || *(void**)(m_data + 0x10) == 0)
     {
         throw CDNFException("CPacketDecoder is Not Ready!\n");
     }
-    return 0;
+    std::queue<CTcpRecvBuffer*>* q = *(std::queue<CTcpRecvBuffer*>**)(m_data + 0xc);
+    CTcpRecvBuffer* buf;
+    while (true)
+    {
+        do
+        {
+            if (q->empty())
+            {
+                return;
+            }
+            buf = q->front();
+            q->pop();
+        } while (buf == 0);
+        int qsize = (int)q->size();
+        CAppLoadChecker* checker = CAppLoadCheckerInstance();
+        if (checker->checkTcpRecvLoad(qsize) != 0)
+        {
+            CServerHandler* handler = *(CServerHandler**)(m_data + 0x18);
+            checker = CAppLoadCheckerInstance();
+            checker->RequestDB(handler, 1, qsize);
+        }
+        if (MsgDecode((PacketHeader*)buf) != 1)
+        {
+            CMutex* mtx = *(CMutex**)(m_data + 0x14);
+            CGuard<CMutex> g(mtx);
+            CTcpRecvBuffer::operator delete(buf);
+            printf("[false == this->MsgDecode]packetHeader : %x\tpacket id : %d\n", buf,
+                   (unsigned int)*(unsigned short*)buf);
+            throw CDNFException(
+                "CPacketDecoder::MsgDecode() Undefined Packet Arrived Exception Break!");
+        }
+        CMutex* mtx = *(CMutex**)(m_data + 0x14);
+        CGuard<CMutex> g(mtx);
+        CTcpRecvBuffer::operator delete(buf);
+    }
+}
+
+void CPacketDecoder::UdpProcess()
+{
+    if (*(void**)m_data == 0 || *(void**)(m_data + 4) == 0)
+    {
+        throw CDNFException("CPacketDecoder is Not Ready!\n");
+    }
+    std::queue<CUdpRecvBuffer*>* q = *(std::queue<CUdpRecvBuffer*>**)m_data;
+    CUdpRecvBuffer* buf;
+    while (true)
+    {
+        do
+        {
+            if (q->empty())
+            {
+                return;
+            }
+            buf = q->front();
+            q->pop();
+        } while (buf == 0);
+        int qsize = (int)q->size();
+        CAppLoadChecker* checker = CAppLoadCheckerInstance();
+        if (checker->checkUdpRecvLoad(qsize) != 0)
+        {
+            CServerHandler* handler = *(CServerHandler**)(m_data + 0x18);
+            checker = CAppLoadCheckerInstance();
+            checker->RequestDB(handler, 2, qsize);
+        }
+        if (MsgDecode((PacketHeader*)buf) != 1)
+        {
+            CMutex* mtx = *(CMutex**)(m_data + 8);
+            CGuard<CMutex> g(mtx);
+            CUdpRecvBuffer::operator delete(buf);
+            printf("[false == this->MsgDecode]packetHeader : %x\tpacket id : %d\n", buf,
+                   (unsigned int)*(unsigned short*)buf);
+            throw CDNFException(
+                "CPacketDecoder::MsgDecode() Undefined Packet Arrived Exception Break!");
+        }
+        CMutex* mtx = *(CMutex**)(m_data + 8);
+        CGuard<CMutex> g(mtx);
+        CUdpRecvBuffer::operator delete(buf);
+    }
 }
 
 int CPacketDecoder::MsgDecode(PacketHeader* pkt)
