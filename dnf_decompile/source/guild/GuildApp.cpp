@@ -170,15 +170,23 @@ void CApplication::Load(int argc, char** argv)
 void CApplication::Free()
 {
     puts("Application Free Start!");
-    if (m_serverHandler != 0)
+    CServerHandler* handler = Get_ServerHandler();
+    m_guildManager.DBGuildAndGuildMemberSave(handler);
+    puts("Guild And Guild Member DB Save Success!");
+    if (m_udpThread != 0)
     {
-        m_guildManager.DBGuildAndGuildMemberSave(m_serverHandler);
-        puts("Guild And Guild Member DB Save Success!");
+        m_udpThread->stop();
+        if (m_udpThread != 0)
+        {
+            delete m_udpThread;
+        }
+        m_udpThread = 0;
     }
-    if (m_udpHandler != 0)
+    puts("Udp Thread Free Success!");
+    if (m_innerMsgHandler != 0)
     {
-        delete m_udpHandler;
-        m_udpHandler = 0;
+        delete m_innerMsgHandler;
+        m_innerMsgHandler = 0;
     }
     puts("UDP Handler Free Success!");
     if (m_serverHandler != 0)
@@ -187,6 +195,12 @@ void CApplication::Free()
         m_serverHandler = 0;
     }
     puts("Game Server Handler Free Success!");
+    if (m_udpHandler != 0)
+    {
+        ::operator delete(m_udpHandler);
+        m_udpHandler = 0;
+    }
+    puts("UDP Handler Free Success!");
     CSignalTranslator* st = CSignalTranslatorInstance();
     st->clear();
     puts("Signal Translater Free Success!");

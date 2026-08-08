@@ -87,7 +87,8 @@ bool CAppStartInit::Save_pid(const std::string& name)
     }
     char buf[1024];
     memset(buf, 0, sizeof(buf));
-    int len = snprintf(buf, sizeof(buf), "%d\n", (int)getpid());
+    sprintf(buf, "%ld\n", (long)getpid());
+    int len = (int)strlen(buf);
     ssize_t w = ::write(fd, buf, (size_t)len);
     ::close(fd);
     return w > 0;
