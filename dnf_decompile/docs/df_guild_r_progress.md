@@ -173,3 +173,25 @@
   TranslateSignal case1、CheckArgv、SetBlackUser、sendGuildBoardData 行号。
 - 工具链：verify_diffs.py 整二进制一次解析（全量 78s→1.7s），按成对 real 差异排序。
 - 当前严格口径：**DIFF 1125 / IDENTICAL 358 / NEAR 217**，stub=0，冒烟通过。
+
+## 2026-08-09 第二轮（语义核验 2~6 批 + 32 桩归零）
+
+- **32 个非处理器桩全部真实现**：CGuildCargo 历史族、CGuildManager DB 族、
+  CGuild SaveGuild/DBGuildSave/QueryGuild/邮件/今日成员/驻地族、
+  CApplication SwitchQueueTCP/UDP、CPacketTracer、PowerWar 奖励/清理族、
+  CUser SendTcpGameserver/GuildInviteProcess、CPacketCounter 等。
+- **语义核验修复真 bug（累计 20+）**：
+  - 布局：CUser 补 +0x88（0x8c）、CPower 成员顺序（m_field4 前置）、
+    CServerXml m_doc 0x48、TiXmlDocument 尺寸实测 0x48
+  - 逻辑：CUserManager ProcessByMinute/DeleteBlackUserOnCharacDelete/
+    RefreshGuildAttendanceInfo（遍历对象与调用全错）、OnSetGuildMemberGrade
+    完整重写、OnChangeGuildName 完整重写（响应包/邮件/仅会长权限）、
+    SendPowerWarEndTime 真实现、ReplyGuildMembersToWeb GetChannelNo、
+    OnDBReplyQueryGuildMember charNo 偏移 +0xf
+  - 参数/常量：CAppConfig::Parse_Table 字段映射与 case4 临时串、
+    Check_FileName .cfg/.pid、InsertItem/DeleteItem/CScheduler 全族
+- 工具链：verify_diffs.py 整二进制一次解析（78s→1.7s），diff_func 正确判定格式
+  （`! opnd/! only`，此前误用 grep 模式导致误判）。
+- 当前：DIFF 1124 / IDENTICAL 368 / NEAR 208，stub=0，冒烟通过。
+- 剩余 DIFF 主要成分：-O0 寄存器分配/栈槽、EH 清理块、
+  const_iterator vs iterator 模板实例、std::map<const K> 符号差异。
