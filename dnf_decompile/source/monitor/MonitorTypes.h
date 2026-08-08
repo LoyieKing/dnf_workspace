@@ -580,6 +580,8 @@ public:
 class CTcpHandler
 {
 public:
+    CTcpHandler();
+    ~CTcpHandler();
     int SetPeer(void* peer, int fd, bool flag);
     void* GetEventPtr(int idx);
     char IsSetInEvent(int idx);
@@ -667,7 +669,7 @@ public:
     CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > >, 2>*
         Get_TcpSwapQPacket();
     CTcpHandler* m_handler;  // +0
-    void* m_field4;     // +4
+    CTcpNetworkThread* m_networkThread;  // +4
     CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > >, 2>
         m_recvSwapQ;    // +8
     CMutex m_mutex60;   // +0x60
@@ -677,7 +679,7 @@ public:
     std::queue<CTcpSendBuffer*> m_sendQ;  // +0xc0
     CMutex m_mutexe8;   // +0xe8
     CMutex m_mutex100;  // +0x100
-    void* m_acceptThread;  // +0x118
+    CTcpAcceptThread* m_acceptThread;    // +0x118
     std::queue<CPeer*> m_peerQ;           // +0x11c
     std::map<unsigned int, CPeer*> m_peers;  // +0x144
     unsigned short m_port;                // +0x15c

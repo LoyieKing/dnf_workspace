@@ -1726,6 +1726,8 @@ void CTcpAcceptThread::dispatch(void* param)
 
 void* CTcpHandler::GetEventPtr(int idx) { return 0; }
 int CTcpHandler::SetPeer(void* peer, int fd, bool flag) { return 0; }
+CTcpHandler::CTcpHandler() {}
+CTcpHandler::~CTcpHandler() {}
 char CTcpHandler::IsSetInEvent(int idx) { return 1; }
 char CTcpHandler::IsSetOutEvent(int idx) { return 0; }
 char CTcpHandler::IsSetErrEvent(int idx) { return 0; }
@@ -1921,7 +1923,7 @@ int TCPSocket::getHandle() const { return 0; }
 CTcpNetSystem::CTcpNetSystem()
 {
     m_handler = 0;
-    m_field4 = 0;
+    m_networkThread = 0;
     m_acceptThread = 0;
 }
 CTcpNetSystem::~CTcpNetSystem()
@@ -1942,23 +1944,39 @@ CTcpNetSystem::~CTcpNetSystem()
         }
         m_handler = 0;
     }
-    if (m_field4 != 0)
+    if (m_networkThread != 0)
     {
-        void* h = m_field4;
+        void* h = (void*)m_networkThread;
         if (h != 0)
         {
             void (**vt)(void*) = *(void(***)(void*))h;
             vt[0](h);
         }
-        if (m_field4 != 0)
+        if (m_networkThread != 0)
         {
-            void (**vt)(void*) = *(void(***)(void*))m_field4;
-            vt[3](m_field4);
+            void (**vt)(void*) = *(void(***)(void*))(void*)m_networkThread;
+            vt[3]((void*)m_networkThread);
         }
-        m_field4 = 0;
+        m_networkThread = 0;
     }
 }
-void CTcpNetSystem::Init(unsigned short port) {}
+void CTcpNetSystem::Init(unsigned short port)
+{
+    m_port = port;
+    m_handler = new CTcpHandler;
+    m_acceptThread = new CTcpAcceptThread;
+    m_acceptThread->attach(this);
+    if (!m_acceptThread->begin())
+    {
+        throw;
+    }
+    m_networkThread = new CTcpNetworkThread;
+    m_networkThread->attach(this);
+    if (!m_networkThread->begin())
+    {
+        throw;
+    }
+}
 bool CTcpNetSystem::OpenTcpService(int& sockRef, const char* ip, unsigned short port) { return false; }
 void CTcpNetSystem::CleanPeers()
 {
