@@ -25,6 +25,7 @@ class CMemberConfig;
 class CMemberExpTbl;
 class CMemberManager;
 class CUser;
+struct hyperlink_item_info;
 class CTcpManagerServer;
 class CTcpDBServer;
 class CGameServer;
@@ -622,7 +623,7 @@ public:
     void NoticeMemberLogin_Out(CUser* user, char flag);
     void CheckMemberRegisterFlag();
     void NoticeChatMsgToMemberMembersHyperLink(char* msg, int len, unsigned char count,
-                                               hyperlink_item_info* items, CUser* user);
+                                               const hyperlink_item_info* items, CUser* user);
     char IsEmpty();
     char CheckDailyScheduleTimeOver(int day, long long time);
     char CheckDayHourScheduleTimeOver(int day, int hour, long long time);

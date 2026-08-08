@@ -2072,7 +2072,7 @@ char CMember::IsEmpty()
     return 0;
 }
 void CMember::NoticeChatMsgToMemberMembersHyperLink(char* msg, int len, unsigned char count,
-                                                    hyperlink_item_info* items, CUser* user)
+                                                    const hyperlink_item_info* items, CUser* user)
 {
     if (len < 0x100 && (m_flag & 4) != 0 && !IsEmpty())
     {
