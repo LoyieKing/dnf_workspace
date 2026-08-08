@@ -220,6 +220,21 @@ public:
     char m_data[0x20];
 };
 
+// ---- CExchangeServer：0x14 ----
+class CExchangeServer
+{
+public:
+    CExchangeServer();
+    ~CExchangeServer();
+    void SetExchageServer(unsigned int ip, short port, int code, bool& result);
+    char m_active;         // +0
+    char m_pad1[3];        // +1
+    long long m_time;      // +4
+    unsigned int m_ip;     // +8
+    short m_port;          // +0xc
+    int m_code;            // +0x10
+};
+
 // ---- CTcpManagerServer / CTcpDBServer（网络服务封装，各 0x14）----
 class CTcpManagerServer
 {

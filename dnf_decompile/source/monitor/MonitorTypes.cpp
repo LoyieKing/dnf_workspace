@@ -788,6 +788,46 @@ void CCashObject::ClearMapBlackUsers() {}
 unsigned int* CBuddy::getBuddyDBInfo() { return 0; }
 void CBlackUser::ChangeCharName(char* name) {}
 
+CExchangeServer::CExchangeServer() {}
+CExchangeServer::~CExchangeServer() {}
+void CExchangeServer::SetExchageServer(unsigned int ip, short port, int code, bool& result)
+{
+    time_t now = time(0);
+    in_addr oldIp;
+    oldIp.s_addr = *(unsigned int*)((char*)this + 8);
+    *result = false;
+    if (m_active == 0)
+    {
+        CMyFileLog log("SetExchageServer", 0xe2c);
+        log("./log/ExchangeServer", "insert new(%s,%d,%d,%d)", inet_ntoa(*(in_addr*)&ip), port,
+            code, now);
+        m_ip = ip;
+        m_port = port;
+        m_code = code;
+        m_time = now;
+        m_active = 1;
+    }
+    else if (m_ip == ip && m_port == port && m_code == code)
+    {
+        if (now - m_time < 0x1f)
+        {
+            *result = true;
+        }
+        m_time = now;
+    }
+    else if (0x1e < now - m_time)
+    {
+        CMyFileLog log("SetExchageServer", 0xe21);
+        log("./log/ExchangeServer",
+            "timeout : new(%s,%d,%d,%d) old(%s,%d,%d,%d)", inet_ntoa(*(in_addr*)&ip), port,
+            code, now, inet_ntoa(oldIp), m_port, m_code, (int)m_time);
+        m_ip = ip;
+        m_port = port;
+        m_code = code;
+        m_time = now;
+    }
+}
+
 CServerHandler::CServerHandler() {}
 CServerHandler::~CServerHandler() {}
 
