@@ -51,16 +51,14 @@ CApplication::CApplication()
     m_taskScheduler = 0;
     m_field2cc = 0;
     m_memoryCash = 0;
-    m_field31c = 0;
-    m_field320 = 0;
     m_towerRank = 0;
     m_itemLimitMgr = 0;
     m_ipCounter = 0;
     m_field330 = 0;
-    m_field334 = 0;
     m_periodicMsg = 0;
     m_limitNpc = 0;
     m_field388 = 0;
+    SetMiniCraneRandomSeed();
 }
 
 CApplication::~CApplication()

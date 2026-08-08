@@ -257,6 +257,15 @@ public:
     char m_pad[0xb];           // +0x25
 };
 
+// ---- CBuddyRegisterManager：0x18 ----
+class CBuddyRegisterManager
+{
+public:
+    CBuddyRegisterManager();
+    ~CBuddyRegisterManager();
+    char m_data[0x18];
+};
+
 // ---- CUdpNetworkThread：0x1c ----
 class CUdpNetworkThread : public CThreadInterface
 {

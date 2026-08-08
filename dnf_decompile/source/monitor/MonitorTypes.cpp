@@ -260,6 +260,9 @@ void CFrameCountHandler::InitFrameCountInfo(CApplication* app, unsigned int fram
 CFrameCountHandler* CFrameCountHandler::GetFrameCountInfo() { return this; }
 void CFrameCountHandler::SaveProcess() {}
 
+CBuddyRegisterManager::CBuddyRegisterManager() {}
+CBuddyRegisterManager::~CBuddyRegisterManager() {}
+
 void CUdpNetworkThread::attach(CApplication* app)
 {
     if (app != 0)
