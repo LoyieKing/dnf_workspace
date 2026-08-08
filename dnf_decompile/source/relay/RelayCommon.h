@@ -77,26 +77,9 @@ struct ScriptData
     unsigned short mReservedD;  // +0x32 = 101
     bool mFlag;                 // +0x34 = true
 
-    void clear()
-    {
-        mRelayNum = 100;
-        mPortTcp = 5555;
-        mPortUdp = 5555;
-        strncpy(mServerIpA, "192.168.0.8", 0x11);
-        mReservedA = 0;
-        mReservedB = 7950;
-        strncpy(mServerIpB, "192.168.0.15", 0x11);
-        mReservedC = 30300;
-        mReservedD = 101;
-        mFlag = true;
-    }
-    ScriptData()
-    {
-        clear();
-    }
-    ~ScriptData()
-    {
-    }
+    void clear();
+    ScriptData();
+    ~ScriptData();
 };
 
 ScriptData* G_ScriptData();
