@@ -1869,6 +1869,8 @@ CPeer::~CPeer() {}
 void CPeer::operator delete(void* p) { ::operator delete(p); }
 
 char TCPSocket::open() { return 0; }
+char TCPSocket::connect(const char* ip, unsigned short port) { return 0; }
+void TCPSocket::setOptNonBlock() {}
 char TCPSocket::bind(unsigned short port, bool flag) { return 0; }
 char TCPSocket::listen(int backlog) { return 0; }
 char TCPSocket::pollReadEvent() { return 0; }
@@ -1977,7 +1979,36 @@ void CTcpNetSystem::Init(unsigned short port)
         throw;
     }
 }
-bool CTcpNetSystem::OpenTcpService(int& sockRef, const char* ip, unsigned short port) { return false; }
+bool CTcpNetSystem::OpenTcpService(int& sockRef, const char* ip, unsigned short port)
+{
+    CPeer* peer = CreatePeer();
+    TCPSocket* sock = peer->GetTcpSocket();
+    if (sock->open())
+    {
+        if (sock->connect(ip, port))
+        {
+            sock->setOptNonBlock();
+            CMutex* b = Get_TcpRecvBLock();
+            CMutex* q = Get_TcpRecvQLock();
+            void* recvQ = Get_TcpSwapQPacket()->GetRecvQ();
+            peer->InitPeer(recvQ, q, b);
+            peer->ConnSig();
+            SetEpollConnectedPeer(peer);
+            sockRef = sock->getHandle();
+            return 1;
+        }
+        puts("tcpSock.connect Fail!");
+        CMyFileLog log("OpenTcpService", 0x123);
+        log("./log/TcpServer", "tcpSock.connect(%s, %d) Fail!", ip, (unsigned int)port);
+        DeletePeer(peer);
+        return 0;
+    }
+    puts("tcpSock.open() Fail!");
+    CMyFileLog log("OpenTcpService", 0x118);
+    log("./log/TcpServer", "tcpSock.open() Fail!");
+    DeletePeer(peer);
+    return 0;
+}
 void CTcpNetSystem::CleanPeers()
 {
     for (std::map<unsigned int, CPeer*>::iterator it = m_peers.begin(); it != m_peers.end(); ++it)

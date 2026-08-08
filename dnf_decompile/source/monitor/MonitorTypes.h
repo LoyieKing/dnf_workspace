@@ -530,6 +530,8 @@ class TCPSocket
 {
 public:
     char open();
+    char connect(const char* ip, unsigned short port);
+    void setOptNonBlock();
     char bind(unsigned short port, bool flag);
     char listen(int backlog);
     char pollReadEvent();
