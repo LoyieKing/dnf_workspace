@@ -786,6 +786,48 @@ std::map<unsigned int, CBlackUser*>* CCashObject::GetBlackUsersObject() { return
 void CCashObject::ClearMapBlackUsers() {}
 
 unsigned int* CBuddy::getBuddyDBInfo() { return 0; }
+
+CBuddyHandle::CBuddyHandle() {}
+CBuddyHandle::~CBuddyHandle() {}
+int CBuddyHandle::addDB(CServerHandler* handler, char* name)
+{
+    bool invalid = true;
+    if (m_prUser != 0 && m_prUser->GetUniqCharNo() != 0)
+    {
+        invalid = false;
+    }
+    if (invalid)
+    {
+        CMyFileLog log("addDB", 0x5a);
+        log("./log/buddy", "Buddy::addDB m_prUser is NULL");
+        return 1;
+    }
+    if (name == 0)
+    {
+        return 1;
+    }
+    if (m_buddies.size() < 0x20)
+    {
+        if (m_buddies.find(name) == m_buddies.end())
+        {
+            if (strcmp(name, m_prUser->GetCharName()) == 0)
+            {
+                return 1;
+            }
+            if (strlen(name) < 0x1e)
+            {
+                Packet_DBMW_Add_Buddy pkt;
+                pkt.m_uniqCharNo = m_prUser->GetUniqCharNo();
+                memcpy(pkt.m_charName, name, 0x1d);
+                handler->SendToDB(&pkt);
+                return 0;
+            }
+            return -1;
+        }
+        return 0x12;
+    }
+    return 4;
+}
 void CBlackUser::ChangeCharName(char* name) {}
 
 CExchangeServer::CExchangeServer() {}
@@ -3316,6 +3358,11 @@ Packet_DBMW_Query_Msg::Packet_DBMW_Query_Msg() : PacketHeader(0x177d, 0x1013)
     m_fieldA = 0;
     m_fieldB = 0;
     memset(m_data, 0, 0x1001);
+}
+
+Packet_DBMW_Add_Buddy::Packet_DBMW_Add_Buddy() : PacketHeader(0x673, 0x2c)
+{
+    memset(m_charName, 0, 0x1e);
 }
 
 Packet_Monitor_Notice_Member_Member_Login_out::
