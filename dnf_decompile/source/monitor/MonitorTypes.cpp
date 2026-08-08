@@ -2099,6 +2099,56 @@ void CMemberManager::MemberMemLogout(unsigned int key, CUser* user, bool cash)
     }
     throw CDNFException("CMemberManager::MemberMemLogout\t0 == pclUser || 0 == m_pclApp\n");
 }
+void CMemberManager::SendToDBMemberUpdateCharInfo(CServerHandler* handler, unsigned int key,
+                                                  unsigned char flag)
+{
+    if (handler != 0)
+    {
+        Packet_Monitor_SAVE_Member_Update_Char_Info pkt;
+        pkt.m_uniqCharNo = key;
+        pkt.m_flag = flag;
+        handler->SendToDB(&pkt);
+    }
+}
+int CMemberManager::LoadMember(unsigned int key, STMemberDBInfo& info, unsigned int a,
+                               unsigned int b, CServerHandler* handler)
+{
+    CMember* member = FindMember(key);
+    if (member == 0)
+    {
+        CMyFileLog log("LoadMember", 0x26d);
+        log("./log/Except",
+            "[MEMBER]\tCMemberManager::LoadMember()\tpclMember is Null, member key(%d)\n", key);
+        return 0;
+    }
+    CUser* user = FindMemberUser(key);
+    if (user == 0)
+    {
+        CMyFileLog log("LoadMember", 0x273);
+        log("./log/Except",
+            "[MEMBER]\tCMemberManager::LoadMember()\tpclUser is Null, member key(%d)\n", key);
+        return 0;
+    }
+    short level = user->GetLevel();
+    member->LoadMember(info, level, a, b);
+    if (!member->IsEmpty())
+    {
+        member->NoticeMemberLogin_Out(user, 1);
+        return 1;
+    }
+    Packet_Monitor_Notice_Delete_Member_Id pkt;
+    pkt.m_idByChannel = user->GetIdByChannel();
+    pkt.m_uniqCharNo = user->GetUniqCharNo();
+    user->SendToGameserver((char*)&pkt, 0x12);
+    SendToDBMemberUpdateCharInfo(handler, key, 0);
+    unsigned int charNo = user->GetUniqCharNo();
+    CMyFileLog log("LoadMember", 0x285);
+    log("./log/Except",
+        "CMemberManager::LoadMember, true == pclMember->IsEmpty()\tChar id(%d), Member Key(%d)",
+        charNo, key);
+    DeleteMember(user->GetUniqCharNo(), true);
+    return 0;
+}
 CMember* CMemberManager::FindMember(unsigned int key)
 {
     if (!m_members.empty())
@@ -2364,6 +2414,7 @@ void CUser::AttachMember(CMember* member) {}
 void CUser::operator delete(void* p) { ::operator delete(p); }
 void* CUser::GetGameServer() { return 0; }
 unsigned int CUser::GetDBID() { return 0; }
+short CUser::GetLevel() { return 0; }
 unsigned int CUser::GetIdByChannel() { return 0; }
 char* CUser::GetCharName() { return 0; }
 char CUser::IsBlackUser(unsigned int key) { return 0; }
@@ -2571,6 +2622,9 @@ void CMember::NoticeChatMsgToMemberMembers(char* msg, int len, CUser* user)
             }
         }
     }
+}
+void CMember::LoadMember(STMemberDBInfo& info, short level, unsigned int a, unsigned int b)
+{
 }
 
 CMemberConfig::CMemberConfig() {}
@@ -3416,6 +3470,17 @@ Packet_Monitor_Member_Chat_ToUser::Packet_Monitor_Member_Chat_ToUser()
     m_msgLen = 0;
     memset(m_charName, 0, 0x1e);
     memset(m_msg, 0, 0x100);
+}
+
+Packet_Monitor_Notice_Delete_Member_Id::Packet_Monitor_Notice_Delete_Member_Id()
+    : PacketHeader(0x4bd, 0x12)
+{
+}
+
+Packet_Monitor_SAVE_Member_Update_Char_Info::
+    Packet_Monitor_SAVE_Member_Update_Char_Info()
+    : PacketHeader(0x4b5, 0xf)
+{
 }
 
 unsigned int GetNowTime()

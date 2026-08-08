@@ -654,6 +654,7 @@ public:
     unsigned int GetUniqCharNo();
     void* GetGameServer();
     unsigned int GetDBID();
+    short GetLevel();
     unsigned int GetIdByChannel();
     char* GetCharName();
     char IsBlackUser(unsigned int key);
@@ -666,6 +667,12 @@ public:
     void RegisterToCashBlackList(std::map<unsigned int, class CBlackUser*>* map);
     void SetBlackListDBFlag(unsigned int flag);
     char m_data[0x400];
+};
+
+struct STMemberDBInfo
+{
+    unsigned int m_memberKey;  // +0
+    char m_data[0x1ac];        // +4
 };
 
 class CMember
@@ -681,6 +688,7 @@ public:
     void NoticeChatMsgToMemberMembersHyperLink(char* msg, int len, unsigned char count,
                                                const hyperlink_item_info* items, CUser* user);
     void NoticeChatMsgToMemberMembers(char* msg, int len, CUser* user);
+    void LoadMember(STMemberDBInfo& info, short level, unsigned int a, unsigned int b);
     char IsEmpty();
     char CheckDailyScheduleTimeOver(int day, long long time);
     char CheckDayHourScheduleTimeOver(int day, int hour, long long time);
@@ -716,6 +724,10 @@ public:
     char LoadMemberFromCash(CUser* user, CMember* member);
     void MemberMemLogout(unsigned int key, CUser* user, bool cash);
     int DeleteMember(unsigned int key, bool cash);
+    int LoadMember(unsigned int key, STMemberDBInfo& info, unsigned int a, unsigned int b,
+                   CServerHandler* handler);
+    void SendToDBMemberUpdateCharInfo(CServerHandler* handler, unsigned int key,
+                                      unsigned char flag);
     CApplication* m_app;                     // +0
     int m_field4;                            // +4
     std::map<unsigned int, CMember*> m_members;  // +8
@@ -1270,6 +1282,22 @@ public:
     char m_charName[0x1e];        // +18
     unsigned char m_msgLen;       // +48
     char m_msg[0x100];            // +49
+};
+
+class Packet_Monitor_Notice_Delete_Member_Id : public PacketHeader
+{
+public:
+    Packet_Monitor_Notice_Delete_Member_Id();
+    unsigned int m_idByChannel;  // +10
+    unsigned int m_uniqCharNo;   // +14
+};
+
+class Packet_Monitor_SAVE_Member_Update_Char_Info : public PacketHeader
+{
+public:
+    Packet_Monitor_SAVE_Member_Update_Char_Info();
+    unsigned int m_uniqCharNo;   // +10
+    unsigned char m_flag;        // +14
 };
 
 class Packet_Load_Periodic_Message : public PacketHeader
