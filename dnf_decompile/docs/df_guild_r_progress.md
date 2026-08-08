@@ -1,6 +1,6 @@
 # df_guild_r 还原进度
 
-更新：2026-08-08（CGuild 全方法 + 核心处理器，符号命中 58.2%）
+更新：2026-08-08（Load 全流程 + 网络系统真实构造，缺失 396，严格口径 IDENTICAL 18.4%）
 
 ## 二进制概况
 
@@ -15,13 +15,29 @@
 - CAppBase/CApplication：完整 guild 布局（CUserManager@0x10 / CFrameCountHandler@0x6c /
   CSwapQueue@0xa0 / CTcpNetSystem@0x130 / CGuildManager@0x290 / CPowerManager@0x370 /
   CMemoryCashManager*@0x510）
+- **CApplication::Load 全流程按反编译实现**：InitFrameCountInfo / CInnerMsgHandler /
+  CUdpNetworkThread（创建+attach+begin）/ CTcpNetSystem::Init（CTcpHandler+
+  CTcpAcceptThread+CTcpNetworkThread）/ DBMW TCP 连接（OpenTcpService）/ 启动
+  查询包 / SetPowerDBFlag(2) / IQueue 双队列接线；冒烟：TCP 30403 监听、UDP
+  线程运行、DBMW 连接失败按预期处理、SIGTERM 干净退出
+- AttachAppInitor + CAppStartInit/CAppStopInit（Init/Init_Daemon/Save_pid）
 - CServerHandler：双 map（CGameServer/CTcpGameServer）+ CDBServer/CManagerServer/
   CMonitorServer + CTcpDBServer@0x44；Load/Attach/Process/SendToDB 族
-- CAppConfig（multimap<stServerInfo>）/CServerConfig（255×ST_ServerInfo）/CTableBase/CDNFException
-- CFrameCountHandler/CNetworkThread/CUdpNetworkThread（dispatch UDP 接收循环）/CTcpNetworkThread
+- CAppConfig（0x2c：udpPort@6/tcpPort@8/group@0xa/name@0xc/dbmwPort@0x10/
+  multimap@0x14）/CServerConfig（255×ST_ServerInfo）/CTableBase/CDNFException
+- CFrameCountHandler/CUdpNetworkThread（dispatch UDP 接收循环）/CTcpAcceptThread
+  （open/bind/listen/poll→accept→InsertAcceptedPeer）/CTcpNetworkThread（dispatch 待补）
 - CSignal 族/CSignalTranslator、CUdpHandler/CUdpRecvBuffer、CPacketTracer/CInnerMsgHandler
 - CPacketDecoder：handler 表 117 项（0xfbc-0x9c7c）+ MsgDecode/TcpProcess/UdpProcess
 - CApplication::Load/Free/Process 主流程（可运行完整生命周期）
+
+### 关键布局修正（反编译/MemPool chunk 验证）
+- TCPSocket 0x1c（原 0x1824 错误）、CPeer 0x97840、CTcpRecvBuffer/CTcpSendBuffer 0x1804
+- CTcpNetSystem：queue@0xc0/0x11c + map@0x144 真实构造；InsertAcceptedPeer/GetPeer/
+  CleanPeers 容器化；OpenTcpService/SetEpollConnectedPeer/SetEpollAcceptedPeers 实现
+- CServerXml placement-new TiXmlDocument@+8；全局 g_ServerString_
+- TCPSocket::bind 修正（SO_REUSEADDR + 成功返回 1）
+- CUserManager::Find 族仅 const 重载、CGameServer 虚方法继承基类（-18 extra）
 
 ### 域层
 - CUser（0x8c 布局）+ 27 方法（Set/Get/黑名单/公会成员）
@@ -40,14 +56,19 @@
 
 ## 当前水位
 
-- 符号命中 **58.2%**（4133/7103）
-- 二进制可运行：logo → Init → Load → Process → SIGTERM → Stop 全流程
-- 剩余大头：CGuild 40 方法、CPacketTranslater 109 处理器、CPowerManager/CGuildCargo/
-  CGuildBoard/CTcpNetSystem 域逻辑
+- 应用层缺失 **396**（原 7174 符号；extra 79→约 61）
+- 严格口径（compare_common v3）：1304 双端函数 IDENTICAL 240（18.4%）+ NEAR 110
+- 二进制可运行完整生命周期：logo → Init（StrLoading/配置）→ Load（UDP/TCP 线程、
+  DBMW 连接、启动查询）→ Process → SIGTERM → Stop
+- 核验工具链：compare_guild.py（严格口径全量）、diff_func.py（difflib 对齐）、
+  verify_diffs.py（自动分类：字符串地址/符号地址/代码形态 vs real）
+- 已核验良性：GuildEnter/GuildMemLogin/init_signal（差异均为布局/代码形态）
 
 ## 下一步
 
-1. CGuildManager/CPowerManager/CTcpNetSystem/CGuildCargo/CGuildBoard 剩余方法
-2. CPacketTranslater 处理器逐个实现（剩余约 90 个）
-3. CPowerManager/CPowerWar/CGuildCargo/CGuildBoard/CTcpNetSystem
-4. 全量比对验收、更新本文档
+1. CUdpNetworkThread::dispatch 完整实现（orig 524 vs 274，477 real）
+2. CTcpNetworkThread::dispatch（当前空桩，TCP 收包侧未启动）
+3. CGuild::ReplyGuildMembers/ReplyGuildAllMembers（664/394 real）
+4. CPacketTranslater 处理器族 + TiXml Parse（StreamIn/ReadText/TiXmlPrinter）
+5. CCashObject/CMemoryCashManager + MemPool<CUser/CGuild/CPeer> 实例化
+6. verify_diffs 队列 900+ 按 real 数降序逐函数核验/修复
