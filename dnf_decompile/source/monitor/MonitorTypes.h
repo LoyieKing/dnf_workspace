@@ -49,6 +49,10 @@ public:
     int InitServerSocket(int port);
     int InitClientSocket();
     char RecvFromClient(char* buf, int* size, unsigned int* addr, unsigned short* port) const;
+    int SendToClient(char* buf, int len, unsigned short port, const char* ip,
+                     unsigned int addr) const;
+    int SendToServer(char* buf, int len, unsigned short port, const char* ip) const;
+    char RecvFromServer(char* buf, int* size, unsigned int* addr, unsigned short* port) const;
     int m_sock;         // +0
     int m_clientSock;   // +4
 };
