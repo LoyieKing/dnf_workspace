@@ -365,7 +365,7 @@ void CPacketTranslater::OnDBReplyQueryGuildMember(PacketHeader* pkt)
     char* pb = (char*)pkt;
     if (pb[10] == 1)
     {
-        CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe));
+        CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xf));
         if (user == 0)
         {
             throw CDNFException(
