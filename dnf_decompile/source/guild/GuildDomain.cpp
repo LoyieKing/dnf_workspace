@@ -774,20 +774,89 @@ CUser* CGuild::FindGuildMember(unsigned int charNo)
 
 void CGuild::AddGuildFund(unsigned int fund)
 {
+    if ((m_field1c & 4) == 0)
+    {
+        CMyFileLog log("AddGuildFund", 0xb06);
+        log("./log/GuildFund",
+            "CPacketTranslater::AddGuildFund() Error!! : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u), STATE (%d), CONNECTING_GUILD_MEMBER_CNT (%d)\n",
+            GetGuildKey(), *(unsigned int*)((char*)this + 0xc0), fund,
+            (unsigned int)m_field1c, (int)m_members.size());
+    }
+    else
+    {
+        m_field4d96 = 1;
+        unsigned int* fundPtr = (unsigned int*)((char*)this + 0xc0);
+        *fundPtr += fund;
+        if ((unsigned char)*(char*)((char*)this + 0x3b) < 0x10 || *fundPtr < 0x989681)
+        {
+            if (20000000 < *fundPtr)
+            {
+                *fundPtr = 20000000;
+            }
+        }
+        else
+        {
+            *fundPtr = 10000000;
+        }
+        CMyFileLog log("AddGuildFund", 0xb0a);
+        log("./log/GuildFund",
+            "CPacketTranslater::AddGuildFund() : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u)\n",
+            GetGuildKey(), *fundPtr, fund);
+    }
 }
 
 void CGuild::SubGuildFund(unsigned int fund)
 {
+    if ((m_field1c & 4) == 0)
+    {
+        CMyFileLog log("SubGuildFund", 0xb24);
+        log("./log/GuildFund",
+            "CPacketTranslater::SubGuildFund() Error!! : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u), STATE (%d), CONNECTING_GUILD_MEMBER_CNT (%d)\n",
+            GetGuildKey(), *(unsigned int*)((char*)this + 0xc0), fund,
+            (unsigned int)m_field1c, (int)m_members.size());
+    }
+    else
+    {
+        m_field4d96 = 1;
+        unsigned int* fundPtr = (unsigned int*)((char*)this + 0xc0);
+        if (fund < *fundPtr)
+        {
+            *fundPtr -= fund;
+        }
+        else
+        {
+            *fundPtr = 0;
+        }
+        CMyFileLog log("SubGuildFund", 0xb28);
+        log("./log/GuildFund",
+            "CPacketTranslater::SubGuildFund() : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u)\n",
+            GetGuildKey(), *fundPtr, fund);
+    }
 }
 
 bool CGuild::IsAddableGuildFund(unsigned int fund)
 {
+    if ((m_field1c & 4) == 0)
+    {
+        return 0x5f != 0;
+    }
+    if ((unsigned char)*(char*)((char*)this + 0x3b) < 0x10)
+    {
+        if (20000000 < *(int*)((char*)this + 0xc0) + (int)fund)
+        {
+            return 0x5f != 0;
+        }
+    }
+    else if (10000000 < *(int*)((char*)this + 0xc0) + (int)fund)
+    {
+        return 0x5f != 0;
+    }
     return false;
 }
 
 bool CGuild::IsCompleteGuildFund()
 {
-    return false;
+    return (m_field1c & 4) != 0;
 }
 
 void CGuild::AddGuildExp(unsigned int exp)
