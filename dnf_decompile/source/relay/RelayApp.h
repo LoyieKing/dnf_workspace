@@ -28,6 +28,15 @@ class UDPHandler;
 class UDPHandlerRelay;
 class UDPHandlerS2S;
 
+// PacketHeader：type@0(short) / size@2(ushort) / ...（头部 0xc 字节）
+struct PacketHeader
+{
+    short m_type;
+    unsigned short m_size;
+    unsigned int m_accId;
+    unsigned int m_reserved;
+};
+
 // ---- TManager<T>：pManager_@0 ----
 template <class T>
 class TManager
@@ -173,12 +182,19 @@ public:
     UDPUser* getUDPUser(unsigned int acc_id);
     void setUDPUser(unsigned int acc_id, UDPUser* user);
     void delUser(unsigned int acc_id);
+    void increaseUserCount();
+    void decreaseUserCount();
+    void clearCurrentMaxUserCount();
+    void setDispatchTime(int t);
+    void clearDispatchTime();
 
-    int m_count1;
-    int m_count2;
-    int m_maxUserCount;
+    int m_currentUserCount;                             // +0
+    int m_currentMaxUserCount;                          // +4
+    int m_maxUserCount;                                 // +8
     TThreadLock<ThreadLock_linux> m_lock1;              // +0xc
-    int m_pad1[3];                                      // +0x24
+    int m_maxDispatchTime;                              // +0x24
+    int m_totalDispatchTime;                            // +0x28
+    int m_dispatchCount;                                // +0x2c
     std::map<TCPUser*, int> m_userMap;                  // +0x30
     TThreadLock<ThreadLock_linux> m_lock2;              // +0x48
     __gnu_cxx::hash_map<unsigned int, TCPUser*> m_tcpUsers;  // +0x60
@@ -215,6 +231,7 @@ public:
     {
         return this;
     }
+    void unregistHandle(TCPUser* user);
 
 private:
     char m_impl[0x40];  // TReactor<EpollReactor<...>> 占位（0x184..0x1c4）
@@ -237,20 +254,25 @@ public:
     bool isIdle() const;
     bool isToWrite() const;
     void setLastAccessTime();
+    void onRead();
     void onRead_();
     void onWrite();
     void onError();
     void onClose();
+    void onAccept();
+    void shutdown();
+    void startupAfterSetSocket();
     void onPacketParse();
     int postSendPacket(char* buf);
+    int send(PacketHeader* buf);
     void postDisconnected(int flag);
     void notifyCannotLoginByMaxUserCount();
 
     TCPUserStates m_states;                          // +4
     unsigned int m_accId;                            // +8
     int m_kind;                                      // +0xc = 4
-    bool m_aboutToDisconnect;                        // +0x10
-    bool m_disconnected;                             // +0x11
+    bool m_isDisconnected;                           // +0x10（onClose 置位）
+    bool m_isAboutToDisconnect;                      // +0x11（postDisconnected 置位）
     long long m_lastAccessTime;                      // +0x14
     TCPSocket* m_sock;                               // +0x1c
     TDoubleCircularQueueBuffer<51200u> m_recvQueue;  // +0x20
@@ -391,6 +413,8 @@ public:
     void setTickLog();
     void makeLog();
     void postDisconnectEvent2TCPUser(unsigned int acc_id);
+    void disconnectEvent2TCPUser(TCPUser* user);
+    void relayToTCP(PacketHeader* pkt);
 
     PortInfo m_portInfo;      // +0
     Handlers m_handlers;      // +0x18

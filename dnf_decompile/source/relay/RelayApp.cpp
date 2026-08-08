@@ -75,12 +75,12 @@ Reactor::~Reactor()
 
 Users::Users()
 {
-    m_count1 = 0;
-    m_count2 = 0;
+    m_currentUserCount = 0;
+    m_currentMaxUserCount = 0;
     m_maxUserCount = 0;
-    m_pad1[0] = 0;
-    m_pad1[1] = 0;
-    m_pad1[2] = 0;
+    m_maxDispatchTime = 0;
+    m_totalDispatchTime = 0;
+    m_dispatchCount = 0;
 }
 
 Users::~Users()
@@ -137,6 +137,48 @@ void Users::delUser(unsigned int acc_id)
     m_tcpUsers.erase(acc_id);
 }
 
+void Users::increaseUserCount()
+{
+    TScopedLock<TThreadLock<ThreadLock_linux> > scoped(m_lock1);
+    m_currentUserCount++;
+    if (m_currentMaxUserCount < m_currentUserCount)
+    {
+        m_currentMaxUserCount = m_currentUserCount;
+    }
+}
+
+void Users::decreaseUserCount()
+{
+    TScopedLock<TThreadLock<ThreadLock_linux> > scoped(m_lock1);
+    m_currentUserCount--;
+    if (m_currentMaxUserCount < m_currentUserCount)
+    {
+        m_currentMaxUserCount = m_currentUserCount;
+    }
+}
+
+void Users::clearCurrentMaxUserCount()
+{
+    m_currentMaxUserCount = 0;
+}
+
+void Users::setDispatchTime(int t)
+{
+    if (m_maxDispatchTime < t)
+    {
+        m_maxDispatchTime = t;
+    }
+    m_totalDispatchTime += t;
+    m_dispatchCount++;
+}
+
+void Users::clearDispatchTime()
+{
+    m_dispatchCount = 0;
+    m_totalDispatchTime = m_dispatchCount;
+    m_maxDispatchTime = m_totalDispatchTime;
+}
+
 // ---- UserPools ----
 
 UserPools::UserPools()
@@ -191,8 +233,8 @@ TCPUser::TCPUser()
 {
     m_accId = 0;
     m_kind = 4;
-    m_aboutToDisconnect = false;
-    m_disconnected = false;
+    m_isDisconnected = false;
+    m_isAboutToDisconnect = false;
     m_lastAccessTime = 0;
     m_sock = 0;
 }
@@ -228,12 +270,12 @@ void TCPUser::setSocket(TCPSocket* sock)
 
 bool TCPUser::isAboutToDisconnect() const
 {
-    return m_aboutToDisconnect;
+    return m_isAboutToDisconnect;
 }
 
 bool TCPUser::isDisconnected() const
 {
-    return m_disconnected;
+    return m_isDisconnected;
 }
 
 bool TCPUser::isIdle() const
@@ -265,11 +307,320 @@ void TCPUser::setLastAccessTime()
 
 void TCPUser::postDisconnected(int flag)
 {
-    m_disconnected = true;
+    m_isAboutToDisconnect = true;
+    m_kind = flag;
 }
 
 void TCPUser::notifyCannotLoginByMaxUserCount()
 {
+}
+
+void TCPUser::onRead()
+{
+    if (m_sock == 0 || m_sock->getHandle() < 0)
+    {
+        postDisconnected(1);
+        return;
+    }
+    if (!isAboutToDisconnect() && !isDisconnected())
+    {
+        onRead_();
+    }
+}
+
+void TCPUser::onRead_()
+{
+    int avail = m_recvQueue.getAvailableSpace();
+    char* p = m_recvQueue.peekPush();
+    int r = m_sock->recv(p, avail);
+    if (r < 1)
+    {
+        if (r < 0)
+        {
+            postDisconnected(1);
+            return;
+        }
+    }
+    else
+    {
+        if (m_recvQueue.pushIndex(r) < 0)
+        {
+            postDisconnected(1);
+            return;
+        }
+    }
+    onPacketParse();
+}
+
+void TCPUser::onWrite()
+{
+    if (m_sock != 0 && m_sock->getHandle() > -1)
+    {
+        if (!isAboutToDisconnect() && !isDisconnected())
+        {
+            while (!m_sendQueue.isEmpty())
+            {
+                if (!m_sendQueue.isPushGreaterThanPop())
+                {
+                    int len = m_sendQueue.getPopLengthToEnd();
+                    if (0 < len)
+                    {
+                        char* p = m_sendQueue.peekPop();
+                        int r = m_sock->send(p, len);
+                        if (r < 1)
+                        {
+                            if (-1 < r)
+                            {
+                                return;
+                            }
+                            postDisconnected(0);
+                            return;
+                        }
+                        m_sendQueue.pop(r);
+                    }
+                }
+                else
+                {
+                    int len = m_sendQueue.getPushedLength();
+                    if (0 < len)
+                    {
+                        char* p = m_sendQueue.peekPop();
+                        int r = m_sock->send(p, len);
+                        if (r < 1)
+                        {
+                            if (-1 < r)
+                            {
+                                return;
+                            }
+                            postDisconnected(0);
+                            return;
+                        }
+                        m_sendQueue.pop(r);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void TCPUser::onError()
+{
+    onClose();
+}
+
+void TCPUser::onClose()
+{
+    if (!m_isDisconnected)
+    {
+        getManager()->disconnectEvent2TCPUser(this);
+        if (m_sock != 0)
+        {
+            m_sock->close();
+        }
+        m_isDisconnected = true;
+    }
+}
+
+void TCPUser::onAccept()
+{
+    m_recvQueue.clear();
+    m_sendQueue.clear();
+}
+
+void TCPUser::shutdown()
+{
+    m_accId = 0;
+    m_isDisconnected = false;
+    m_isAboutToDisconnect = false;
+    m_sock = 0;
+}
+
+void TCPUser::startupAfterSetSocket()
+{
+    m_accId = 0;
+    m_isDisconnected = false;
+    m_isAboutToDisconnect = false;
+}
+
+int TCPUser::postSendPacket(char* buf)
+{
+    return 0;
+}
+
+int TCPUser::send(PacketHeader* buf)
+{
+    if (m_sock == 0)
+    {
+        return -1;
+    }
+    if (m_sock->getHandle() < 0)
+    {
+        return -1;
+    }
+    if (isAboutToDisconnect() || isDisconnected())
+    {
+        return -2;
+    }
+    if (*(unsigned short*)((char*)buf + 2) == 0)
+    {
+        return -3;
+    }
+    if (m_sendQueue.getPushedLength() < 1)
+    {
+        int r = m_sock->send((char*)buf, *(unsigned short*)((char*)buf + 2));
+        if (*(unsigned short*)((char*)buf + 2) != (unsigned int)r)
+        {
+            if (0xc7ff < (int)(m_sendQueue.getPushedLength() +
+                               (*(unsigned short*)((char*)buf + 2) - r)))
+            {
+                return -4;
+            }
+            if (m_sendQueue.push((char*)buf + r, *(unsigned short*)((char*)buf + 2) - r) < 0)
+            {
+                return -5;
+            }
+        }
+        return 0;
+    }
+    if ((int)(m_sendQueue.getPushedLength() + *(unsigned short*)((char*)buf + 2)) < 0xc800)
+    {
+        if (m_sendQueue.push((char*)buf, *(unsigned short*)((char*)buf + 2)) < 0)
+        {
+            return -5;
+        }
+        return 0;
+    }
+    return -4;
+}
+
+void TCPUser::onPacketParse()
+{
+    do
+    {
+        if (!m_recvQueue.isPopStraight(0xc))
+        {
+            if (m_recvQueue.getPushedLength() < 0xc)
+            {
+                return;
+            }
+            char header[0xc];
+            if (!m_recvQueue.peekCopy(0xc, header))
+            {
+                postDisconnected(1);
+                return;
+            }
+            unsigned short size = *(unsigned short*)(header + 2);
+            if ((*(short*)header != 0) && (*(short*)header != 1))
+            {
+                postDisconnected(1);
+                return;
+            }
+            if (size == 0)
+            {
+                postDisconnected(1);
+                return;
+            }
+            if (m_recvQueue.getPushedLength() < size)
+            {
+                return;
+            }
+            char* buf = (char*)calloc(size, 1);
+            if (buf == 0)
+            {
+                return;
+            }
+            if (!m_recvQueue.popCopy(size, buf))
+            {
+                free(buf);
+                postDisconnected(1);
+                return;
+            }
+            long long t1 = get_ms_tick();
+            getManager()->m_handlers.getTCPHandlerRelay()->dispatch(this, buf, 0, size);
+            if (*(short*)header == 0)
+            {
+                if (getACCID() == 0)
+                {
+                    free(buf);
+                    postDisconnected(1);
+                    return;
+                }
+            }
+            long long t2 = get_ms_tick();
+            getManager()->m_users.setDispatchTime((int)(t2 - t1));
+            free(buf);
+        }
+        else
+        {
+            char* p = m_recvQueue.peekPop();
+            unsigned short size = *(unsigned short*)(p + 2);
+            if ((*(short*)p != 0) && (*(short*)p != 1))
+            {
+                postDisconnected(1);
+                return;
+            }
+            if (size == 0)
+            {
+                postDisconnected(1);
+                return;
+            }
+            if (!m_recvQueue.isPopStraight(size))
+            {
+                if (m_recvQueue.getPushedLength() < size)
+                {
+                    return;
+                }
+                char* buf = (char*)calloc(size, 1);
+                if (buf == 0)
+                {
+                    return;
+                }
+                if (!m_recvQueue.popCopy(size, buf))
+                {
+                    free(buf);
+                    return;
+                }
+                long long t1 = get_ms_tick();
+                getManager()->m_handlers.getTCPHandlerRelay()->dispatch(this, buf, 0, size);
+                if (*(short*)p == 0)
+                {
+                    if (getACCID() == 0)
+                    {
+                        free(buf);
+                        postDisconnected(1);
+                        return;
+                    }
+                }
+                long long t2 = get_ms_tick();
+                getManager()->m_users.setDispatchTime((int)(t2 - t1));
+                free(buf);
+            }
+            else
+            {
+                long long t1 = get_ms_tick();
+                getManager()->m_handlers.getTCPHandlerRelay()->dispatch(this, p, 0, size);
+                if (*(short*)p == 0)
+                {
+                    if (getACCID() == 0)
+                    {
+                        postDisconnected(1);
+                        return;
+                    }
+                }
+                m_recvQueue.pop(size);
+                long long t2 = get_ms_tick();
+                getManager()->m_users.setDispatchTime((int)(t2 - t1));
+            }
+        }
+        if (isAboutToDisconnect())
+        {
+            return;
+        }
+        if (m_recvQueue.isEmpty())
+        {
+            return;
+        }
+    } while (true);
 }
 
 // ---- TCPHandler / UDPHandler ----
@@ -292,6 +643,40 @@ TCPHandlerRelay::~TCPHandlerRelay()
 
 void TCPHandlerRelay::dispatch(TCPUser* user, char* buf, int size, int flag)
 {
+    if (*(short*)buf == 0)
+    {
+        if (user->getACCID() == 0)
+        {
+            unsigned int new_acc = *(unsigned int*)(buf + 4);
+            if (new_acc == 0)
+            {
+                user->onClose();
+            }
+            else
+            {
+                TCPUser* old = getManager()->m_users.getTCPUser(new_acc);
+                if (old != 0)
+                {
+                    old->onClose();
+                }
+                user->setACCID(new_acc);
+                getManager()->m_users.setTCPUser(new_acc, user);
+                getManager()->setAuthenticated(new_acc);
+            }
+        }
+    }
+    else if (*(short*)buf == 1)
+    {
+        if (user->getACCID() == 0)
+        {
+            user->onClose();
+        }
+        else
+        {
+            user->setLastAccessTime();
+            getManager()->relayToTCP((PacketHeader*)buf);
+        }
+    }
 }
 
 UDPHandler::UDPHandler()
@@ -502,6 +887,10 @@ void RelayService::shutdown()
 
 void RelayService::setAuthenticated(unsigned int acc_id)
 {
+    if (G_ScriptData()->mFlag && m_threads.m_udpThread->getUDPSocket() != 0)
+    {
+        m_threads.m_udpThread->getUDPSocket()->pushMonitorAuthPacket(acc_id);
+    }
 }
 
 long long RelayService::getTick()
@@ -533,6 +922,37 @@ void RelayService::makeLog()
 }
 
 void RelayService::postDisconnectEvent2TCPUser(unsigned int acc_id)
+{
+}
+
+void RelayService::disconnectEvent2TCPUser(TCPUser* user)
+{
+    unsigned int acc_id = user->getACCID();
+    if (acc_id != 0)
+    {
+        TScopedLock<TThreadLock<ThreadLock_linux> > scoped(m_users.m_lock3);
+        m_users.m_tcpUsers.erase(acc_id);
+    }
+    if (G_ScriptData()->mFlag)
+    {
+        m_threads.m_udpThread->getUDPSocket()->delDisconnectUser(acc_id);
+    }
+    m_reactor.unregistHandle(user);
+    m_userPools.destroyTCPUser(user);
+    m_users.decreaseUserCount();
+}
+
+void RelayService::relayToTCP(PacketHeader* pkt)
+{
+    pkt->m_type = 3;
+    TCPUser* user = m_users.getTCPUser(pkt->m_accId);
+    if (user != 0)
+    {
+        user->send(pkt);
+    }
+}
+
+void Reactor::unregistHandle(TCPUser* user)
 {
 }
 

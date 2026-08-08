@@ -45,7 +45,11 @@ public:
     {
         if (p == 0)
         {
-            throw Exception("Memory pool free null point.");
+            throw Exception("cannot free NULL");
+        }
+        if (array_ == 0)
+        {
+            throw Exception("repository NULL");
         }
         queue_.push(p);
     }
