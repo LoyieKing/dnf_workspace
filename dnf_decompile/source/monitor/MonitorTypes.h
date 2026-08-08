@@ -432,6 +432,7 @@ public:
     char IsHeartBeatTimeOver();
     unsigned char GetChannelNo();
     void OnDisconnect();
+    void SetConnFlag(bool flag);
     int SendToServer(char* buf, int len);
     stServerInfo* m_info;  // +4
     char m_field8[8];      // +8
@@ -475,6 +476,8 @@ public:
     void UnregistDBServer();
     void RegistManagerServer(CManagerServer* mgr);
     void UnregistManagerServer();
+    void SetManagerConnectFlag(bool flag);
+    void SetDBConnectFlag(bool flag);
     void SendAllTcpGameServer(PacketHeader* pkt);
     void SendAllToGameServer(char* buf, int len);
     void SendToGameServer(unsigned char channel, PacketHeader* pkt);
@@ -503,6 +506,11 @@ struct stTowerRankElement_t
     unsigned short m_score; // +2
 };
 
+struct stDeathTowerRecordMemberInfo_t
+{
+    char m_name[0x17];
+};
+
 class CTowerRank
 {
 public:
@@ -511,6 +519,9 @@ public:
     void processReloadRanking(CServerHandler* handler, bool flag, unsigned int tick);
     void registCharacRank(unsigned int floor, const char* name, unsigned int job,
                           unsigned int score);
+    void reset();
+    void registRank(unsigned int floor, unsigned int job, unsigned int score,
+                    const stDeathTowerRecordMemberInfo_t* records);
     std::multimap<std::string, stTowerRankElement_t> m_ranks[4];  // 0x60
     unsigned int getRankData(unsigned int floor, const char* name, unsigned int maxCount,
                              stTowerRankElement_t* out);

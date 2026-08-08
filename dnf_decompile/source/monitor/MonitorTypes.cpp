@@ -1653,6 +1653,20 @@ void CServerHandler::SendToGameServer(unsigned char channel, PacketHeader* pkt)
                                               *(unsigned short*)((char*)pkt + 2));
     }
 }
+void CServerHandler::SetManagerConnectFlag(bool flag)
+{
+    if (m_managerServer != 0)
+    {
+        ((CServerInterface*)m_managerServer)->SetConnFlag(flag);
+    }
+}
+void CServerHandler::SetDBConnectFlag(bool flag)
+{
+    if (m_dbServer != 0)
+    {
+        ((CServerInterface*)m_dbServer)->SetConnFlag(flag);
+    }
+}
 void CServerHandler::SendDBMWRequestARSInfo(unsigned char flag)
 {
     Packet_Web_Request_ARS_Info pkt;
@@ -1672,6 +1686,10 @@ char CServerInterface::IsConnected() { return 1; }
 char CServerInterface::IsHeartBeatTimeOver() { return 0; }
 unsigned char CServerInterface::GetChannelNo() { return 0; }
 void CServerInterface::OnDisconnect() {}
+void CServerInterface::SetConnFlag(bool flag)
+{
+    *(char*)((char*)this + 8) = (char)flag;
+}
 int CServerInterface::SendToServer(char* buf, int len)
 {
     if (*(int*)((char*)this + 0xc) == 0)
@@ -1834,6 +1852,21 @@ void CFrameCountHandler::SaveProcess()
         CMyFileLog log("SaveProcess", 0xa8);
         log("./log/frame", "FPS(%02d) / DFC(%02d)\n", m_field18, m_field4);
         m_field28 = 0;
+    }
+}
+void CTowerRank::reset()
+{
+    for (int i = 0; i < 4; i++)
+    {
+        m_ranks[i].clear();
+    }
+}
+void CTowerRank::registRank(unsigned int floor, unsigned int job, unsigned int score,
+                            const stDeathTowerRecordMemberInfo_t* records)
+{
+    for (unsigned int i = 0; i < floor; i++)
+    {
+        registCharacRank(floor, records[i].m_name, job, score);
     }
 }
 
@@ -6458,7 +6491,32 @@ void CPacketTranslater::OnNoticeProhibitConnectUser(PacketHeader* pkt)
         log("%s", "CPacketTranslater::OnNoticeProhibitConnectUser() Exception Break");
     }
 }
-void CPacketTranslater::OnMonitorManagerConnectOK(PacketHeader* pkt) {}
+void CPacketTranslater::OnMonitorManagerConnectOK(PacketHeader* pkt)
+{
+    try
+    {
+        if (m_pclApp == 0)
+        {
+            throw CDNFException("CPacketTranslater::OnMonitorManagerConnectOK : 0 == m_pclApp");
+        }
+        CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+        handler->SetManagerConnectFlag(true);
+        CMyFileLog log("OnMonitorManagerConnectOK", 0xc19);
+        log("./log/Manager", "Manager Server Connect Success");
+        puts("** Manager Server Connect Success **");
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnMonitorManagerConnectOK", 0xc1e);
+        log("%s", "CPacketTranslater::OnMonitorManagerConnectOK() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnMonitorManagerConnectOK", 0xc23);
+        log("%s", "CPacketTranslater::OnMonitorManagerConnectOK() Exception Break");
+    }
+}
 void CPacketTranslater::OnMonitorMegaPhoneMsg(PacketHeader* pkt)
 {
     *(char*)((char*)pkt + 0xa) = (char)m_pclApp->Get_ServerGroup();
@@ -6841,7 +6899,39 @@ void CPacketTranslater::OnUserRepelByCharName(PacketHeader* pkt)
     }
     throw CDNFException("CPacketTranslater::OnUserRepel : 0 == m_pclApp");
 }
-void CPacketTranslater::onReplyLoadTowerFullRank(PacketHeader* pkt) {}
+void CPacketTranslater::onReplyLoadTowerFullRank(PacketHeader* pkt)
+{
+    try
+    {
+        CTowerRank* tower = (CTowerRank*)m_pclApp->getTowerRank();
+        if (*(char*)((char*)pkt + 0xa) != 0)
+        {
+            tower->reset();
+        }
+        CMyFileLog log("onReplyLoadTowerFullRank", 0x1172);
+        log("./log/DeathTower", "%d/%d\n", *(unsigned int*)((char*)pkt + 0xb),
+            *(unsigned int*)((char*)pkt + 0xf));
+        for (unsigned int i = 0; i < *(unsigned int*)((char*)pkt + 0xb); i++)
+        {
+            tower->registRank(
+                (unsigned int)(unsigned char)*(char*)((char*)pkt + i * 0x65 + 0x1b),
+                (unsigned int)*(unsigned short*)((char*)pkt + i * 0x65 + 0x17),
+                (unsigned int)*(unsigned short*)((char*)pkt + i * 0x65 + 0x19),
+                (const stDeathTowerRecordMemberInfo_t*)((char*)pkt + i * 0x65 + 0x1c));
+        }
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("onReplyLoadTowerFullRank", 0x117e);
+        log("%s", "CPacketTranslater::onReplyLoadTowerFullRank() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("onReplyLoadTowerFullRank", 0x1183);
+        log("%s", "CPacketTranslater::onReplyLoadTowerFullRank() Exception Break");
+    }
+}
 void CPacketTranslater::onRequestCharacTowerUpdateRank(PacketHeader* pkt)
 {
     CUser* user =
@@ -7733,7 +7823,36 @@ void CPacketTranslater::OnPcRoomPlayTimeReward(PacketHeader* pkt)
     handler->SendToDB(pkt);
 }
 void CPacketTranslater::OnWebEmergencyPatchMessage(PacketHeader* pkt) {}
-void CPacketTranslater::OnUpdateMiniCraneSeed(PacketHeader* pkt) {}
+void CPacketTranslater::OnUpdateMiniCraneSeed(PacketHeader* pkt)
+{
+    try
+    {
+        m_pclApp->SetMiniCraneRandomSeed();
+        *(unsigned int*)((char*)pkt + 0xa) = (unsigned int)m_pclApp->getMiniCraneSeed();
+        if (pkt == 0)
+        {
+            throw CDNFException("CPacketTranslater::OnUpdateMiniCraneSeed, packet is null");
+        }
+        if (m_pclApp != 0 && *(int*)((char*)m_pclApp + 0xa0) != 0)
+        {
+            CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+            handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+            return;
+        }
+        throw CDNFException("CPacketTranslater::OnUpdateMiniCraneSeed, m_pclApp == 0");
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnUpdateMiniCraneSeed", 0x1b82);
+        log("%s", "CPacketTranslater::OnUpdateMiniCraneSeed() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnUpdateMiniCraneSeed", 0x1b87);
+        log("%s", "CPacketTranslater::OnUpdateMiniCraneSeed() Exception Break");
+    }
+}
 void CPacketTranslater::onStartGameEventFromServer(PacketHeader* pkt)
 {
     if (m_pclApp == 0)

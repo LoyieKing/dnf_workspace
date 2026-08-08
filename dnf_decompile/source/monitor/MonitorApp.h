@@ -77,6 +77,7 @@ public:
     void* GetGMAccounts();
     void* getIPCounter();
     void* getTowerRank();
+    int getMiniCraneSeed() const;
     void* getCollectItems();
     void* FindGameServer(int id);
     void* FindTcpGameServer(unsigned int id);

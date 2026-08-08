@@ -504,6 +504,11 @@ void* CApplication::getTowerRank()
     return m_towerRank;
 }
 
+int CApplication::getMiniCraneSeed() const
+{
+    return m_miniCraneSeed;
+}
+
 void* CApplication::getCollectItems()
 {
     return m_field388;
