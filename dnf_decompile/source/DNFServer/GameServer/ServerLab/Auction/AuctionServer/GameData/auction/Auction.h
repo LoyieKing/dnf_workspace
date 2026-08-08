@@ -39,7 +39,7 @@ public:
     {
         mAuctionDic.UpdateAveragePrice();
     }
-    void ProcessMostRecentExpireItem();
+    int ProcessMostRecentExpireItem();
     PAY_TYPE GetPayType()
     {
         return mPayType;

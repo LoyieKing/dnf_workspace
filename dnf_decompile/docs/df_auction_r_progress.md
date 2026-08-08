@@ -15,16 +15,56 @@
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
 | 已实现 TU | 66（全部） |
-| IDENTICAL | 4,270 |
-| NEAR | 20 |
-| DIFF（语义等价，-O0 惯用法） | 446 |
+| IDENTICAL | 4,285 |
+| NEAR | 19 |
+| DIFF（语义等价，-O0 惯用法） | 432 |
 | MISSING（未实现） | 0 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。本批（2026-08-08）完成最后一个大块 Search（MISSING 662→0），并补完
-> ReliabilityDictionary、IArea/Script 的模板实例化；剩余 DIFF 逐一核验为 -O0
-> 代码生成惯用法差异（分支方向、bool 物化、寄存器分配、栈槽、nop 对齐、调用参数求值顺序），
-> 语义全部等价。
+> ReliabilityDictionary、IArea/Script 的模板实例化。
+
+## DIFF 语义核验轮（2026-08-08 第二轮）
+
+按用户要求对全部 DIFF 函数逐项核验（重点大函数），修复了 3 个真实语义 bug：
+
+1. **AuctionDictionary::Bidding**：退还给前买家的包裹信模板原版是 `LETTER_TEXT[0]`，
+   原实现误用 `[4]`。
+2. **AuctionDictionary::RegistCancel**：退给买家信原版 `LETTER_TEXT[4]`（原实现 `[6]`），
+   退给卖家信原版 `LETTER_TEXT[5]`（原实现 `[7]`）。
+3. **Auction::RegistItem**：系统拍卖判定用的管理员名字符串字节错位
+   （`...\xb7\xb9\xba\xf3` 被写成 `...\xb9\xf8\xba\xf3`），已按原版字节修正。
+
+其余本轮修复的调用集/语义差异（均为等价形态对齐）：
+- initAuctionString：`StrLoading(std::string(file))` 临时量传值（消除多余拷贝构造）。
+- HandlerFor_GA_/TE_/WorkThread：重复局部声明、getCommonDataPool 内联、日志参数读取修正。
+- TCPThread::loop：`*cell << &heart_beat_packet`（指针重载，原误走 uint 转换）；
+  `sUser` 处重新调用 `getDataPool()`（原版两处调用）。
+- TCPDispatcher/DBDispatcher/InterDispatcher：错误分支日志韩文串、IP 字节四次
+  `getPeerAdrs()`、PMF 调用前第二次 `get*Handler`（原版行为）。
+- RecvBuffer::ClearUsedMsgs：IP 四次 `getPeerAdrs()` 调用形态。
+- ActiveConManager：RequestConnect 循环 `iter++`（后置）、局部复用 `rConInfo`、
+  CheckTheConnection 两次 `getTCPUser`、PopRequestConnect 各处重新 `getDataPool()`。
+- TCPSendThread::loop：删除原版不存在的 try/catch（异常直接向上传播）。
+- CSHA::AddData：删除多余早退分支；CTEA::Signature：字符串 `"pt]"`→`"TEA"`、
+  sprintf 复用 iLen（原版 2 次 strlen）。
+- TCPSocket::send：删除多余 `"tcp send ='%d'"` 日志、失败分支 `strerror(errno)`
+  二次读 errno、成功路径复位 `mSendRetryCount`。
+- UDPSocket：dtor 调 `close()`；send/recv 错误检查按原版 3 次（含重复 0xb）。
+- IArea / AuctionDictionary GetBiddingInfo/GetRegistedItemInfo/ProcessMostRecentExpireItem /
+  Auction::RegistChkMapForAvatarCreature：迭代器默认构造/`!=` 判定形态、`GetItemInfo`
+  死调用等 -O0 形态对齐。
+- CSourceVersionMgr::InsertSourceVersion：`push_back(SourceVersion(...))` 临时量
+  （绑定右值重载，恢复 emplace_back/push_back(EOS1)/M_insert_aux 弱符号）。
+- StatisticsCollector::StData::toString：`memcpy(buf+strlen(buf), ",\n", 2)` 原版形态。
+- CharString/WideString 字符串族（insert/concat/join/trim/rfind/remove）：零长度分支、
+  getBuffer() 调用次数、临时量构造、join 的 token 局部复用等。
+- boost pool.hpp：去掉 alloc_size 中旧版 boost 不存在的两个 BOOST_ASSERT。
+- 其余 11 个调用集差异确认为无害：EH 清理 landing pad（CFileLogWriter/ServiceFactory/
+  App::prepareRun）、空 PACKET_HEADER 构造（TCPThread::loop）、libstdc++ 4.4.7 头
+  move 语义的 uninitialized_copy/M_insert_aux（与 4.4.6 拷贝语义行为等价）。
+
+全量 445 个 DIFF 函数的日志/格式字符串逐字节比对（O/N 二进制 rodata 内容）0 处不一致。
 
 ## 已实现 TU（11 个）
 
@@ -484,7 +524,7 @@
 全部 66 CU MISSING = 0（2026-08-08 最后确认）
 
 按 TU 的 DIFF 分布（剩余均为 -O0 语义等价差异）：
-Search 20、Auction 43、其余框架/字典类 TU 各 0~40 不等。
+Search 20、Auction 41、其余框架/字典类 TU 各 0~40 不等。
 ```
 
 ## 下一步
@@ -492,6 +532,8 @@ Search 20、Auction 43、其余框架/字典类 TU 各 0~40 不等。
 1. Search（最后一个大块，662→0）已完成；ReliabilityDictionary 补完；IArea/Script
    模板实例化（vector<string>::push_back(EOSs)/emplace_back、map insert 返回 pair
    move 赋值）补完。
-2. 全量复验 DIFF/MISSING，产出 docs/df_auction_r_restoration_report.md，commit & push。
-3. 后续（可选）：逐批把剩余 DIFF 压到 IDENTICAL/NEAR；df_point_r 与 auction 100%
+2. DIFF 全量语义核验轮完成：54 个调用集差异逐一处理（43 个消除、11 个确认无害），
+   修复 3 个真实语义 bug；全量字符串内容比对 0 差异；MISSING 保持 0。
+3. 产出 docs/df_auction_r_restoration_report.md，commit & push。
+4. 后续（可选）：逐批把剩余 DIFF 压到 IDENTICAL/NEAR；df_point_r 与 auction 100%
    符号重叠，可直接复用本还原结果。
