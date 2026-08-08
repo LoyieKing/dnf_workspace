@@ -1096,6 +1096,25 @@ INSERT:
     stTowerRankElement_t elem((unsigned char)job, (unsigned short)score);
     mm.insert(std::pair<const std::string, stTowerRankElement_t>(name, elem));
 }
+unsigned int CTowerRank::getRankData(unsigned int floor, const char* name, unsigned int maxCount,
+                                     stTowerRankElement_t* out)
+{
+    unsigned int count = 0;
+    std::multimap<std::string, stTowerRankElement_t>& mm = m_ranks[floor - 1];
+    std::multimap<std::string, stTowerRankElement_t>::const_iterator lo = mm.lower_bound(name);
+    std::multimap<std::string, stTowerRankElement_t>::const_iterator up = mm.upper_bound(name);
+    while (lo != up)
+    {
+        out[count] = lo->second;
+        count++;
+        if (count == maxCount)
+        {
+            break;
+        }
+        ++lo;
+    }
+    return count;
+}
 
 CThreadInterface::CThreadInterface() {}
 CThreadInterface::~CThreadInterface() {}

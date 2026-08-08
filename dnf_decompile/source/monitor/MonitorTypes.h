@@ -367,6 +367,8 @@ public:
     void processReloadRanking(CServerHandler* handler, bool flag, unsigned int tick);
     void registCharacRank(unsigned int floor, const char* name, unsigned int job,
                           unsigned int score);
+    unsigned int getRankData(unsigned int floor, const char* name, unsigned int maxCount,
+                             stTowerRankElement_t* out);
     struct stTowerRankElement_t
     {
         stTowerRankElement_t();
