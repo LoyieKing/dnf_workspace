@@ -732,6 +732,38 @@ int CMemoryCashManager::QueryCashMemoryBuddyInfo(CUser* user)
 }
 char CMemoryCashManager::QueryCashMemoryBlackList(CUser* user)
 {
+    unsigned int dbid = user->GetDBID();
+    std::map<unsigned int, CCashObject*>::iterator it = m_cashObjects.find(dbid);
+    if (it != m_cashObjects.end())
+    {
+        CCashObject* obj = it->second;
+        if (obj != 0)
+        {
+            std::map<unsigned int, CBlackUser*>* blackMap = obj->GetBlackUsersObject();
+            for (std::map<unsigned int, CBlackUser*>::iterator bi = blackMap->begin();
+                 bi != blackMap->end(); ++bi)
+            {
+                unsigned int key = bi->first;
+                CBlackUser* bu = bi->second;
+                if (bu != 0)
+                {
+                    std::string name;
+                    if (QueryUpdatedCharacName(key, name))
+                    {
+                        char buf[30];
+                        memset(buf, 0, 30);
+                        strncpy(buf, name.c_str(), 0x1d);
+                        bu->ChangeCharName(buf);
+                    }
+                }
+            }
+            user->RegisterToCashBlackList(obj->GetBlackUsersObject());
+            obj->ClearMapBlackUsers();
+            user->SetBlackListDBFlag(4);
+            incBlackListCashHitCnt();
+            return 1;
+        }
+    }
     return 0;
 }
 char CMemoryCashManager::QueryUpdatedCharacName(unsigned int charNo, std::string& name)
@@ -740,6 +772,7 @@ char CMemoryCashManager::QueryUpdatedCharacName(unsigned int charNo, std::string
 }
 void CMemoryCashManager::incMemberCashHitCnt() {}
 void CMemoryCashManager::incBuddyCashHitCnt() {}
+void CMemoryCashManager::incBlackListCashHitCnt() {}
 
 unsigned int CCashObject::GetCharacNo() { return 0; }
 CMember* CCashObject::GetMemberObject() { return 0; }
@@ -748,8 +781,11 @@ void CCashObject::ClearMemberObject() {}
 void CCashObject::DeleteMemberObject() {}
 int CCashObject::GetBuddysObject(CBuddy** buddies) { return 0; }
 void CCashObject::DeleteBuddys() {}
+std::map<unsigned int, CBlackUser*>* CCashObject::GetBlackUsersObject() { return 0; }
+void CCashObject::ClearMapBlackUsers() {}
 
 unsigned int* CBuddy::getBuddyDBInfo() { return 0; }
+void CBlackUser::ChangeCharName(char* name) {}
 
 CServerHandler::CServerHandler() {}
 CServerHandler::~CServerHandler() {}
@@ -1788,6 +1824,8 @@ void* CUser::GetGameServer() { return 0; }
 unsigned int CUser::GetDBID() { return 0; }
 void CUser::AddBuddyFromCash(CBuddy* buddy) {}
 void CUser::SetBuddyDBFlag(unsigned int flag) {}
+void CUser::RegisterToCashBlackList(std::map<unsigned int, CBlackUser*>* map) {}
+void CUser::SetBlackListDBFlag(unsigned int flag) {}
 
 void* CMember::operator new(unsigned int size) { return ::operator new(size); }
 CMember::CMember(unsigned int key, CMemberManager* mgr) {}

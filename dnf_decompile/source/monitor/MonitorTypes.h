@@ -183,6 +183,7 @@ public:
     char QueryUpdatedCharacName(unsigned int charNo, std::string& name);
     void incMemberCashHitCnt();
     void incBuddyCashHitCnt();
+    void incBlackListCashHitCnt();
     std::map<unsigned int, std::string> m_names;        // +0
     std::map<unsigned int, class CCashObject*> m_cashObjects;  // +0x18
     CApplication* m_app;                                // +0x30
@@ -199,6 +200,8 @@ public:
     void DeleteMemberObject();
     int GetBuddysObject(class CBuddy** buddies);
     void DeleteBuddys();
+    std::map<unsigned int, class CBlackUser*>* GetBlackUsersObject();
+    void ClearMapBlackUsers();
     char m_data[0x20];
 };
 
@@ -207,6 +210,13 @@ class CBuddy
 public:
     unsigned int* getBuddyDBInfo();
     char m_data[0x40];
+};
+
+class CBlackUser
+{
+public:
+    void ChangeCharName(char* name);
+    char m_data[0x20];
 };
 
 // ---- CTcpManagerServer / CTcpDBServer（网络服务封装，各 0x14）----
@@ -590,6 +600,8 @@ public:
     void AttachMember(class CMember* member);
     void AddBuddyFromCash(class CBuddy* buddy);
     void SetBuddyDBFlag(unsigned int flag);
+    void RegisterToCashBlackList(std::map<unsigned int, class CBlackUser*>* map);
+    void SetBlackListDBFlag(unsigned int flag);
     char m_data[0x400];
 };
 
