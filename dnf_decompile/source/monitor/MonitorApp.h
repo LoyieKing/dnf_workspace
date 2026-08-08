@@ -7,7 +7,10 @@
 #include <set>
 #include <string>
 
+#include "MonitorTable.h"
 #include "MonitorTypes.h"
+
+typedef std::queue<CUdpRecvBuffer*, std::deque<CUdpRecvBuffer*, std::allocator<CUdpRecvBuffer*> > > UdpRecvQueue;
 
 // ---- CAppBase ----
 class CAppBase
@@ -49,24 +52,24 @@ public:
     bool m_loaded;                      // +4
     int m_reserved8;                    // +8
     void* m_appInit;                    // +0xc
-    char m_userManager[0x7c];           // +0x10
-    void* m_field8c;                    // +0x8c
+    CUserManager m_userManager;         // +0x10
+    CAppConfig* m_appConfig;            // +0x8c
     void* m_field90;                    // +0x90
-    void* m_field94;                    // +0x94
-    void* m_field98;                    // +0x98
+    CMemberConfig* m_memberConfig;      // +0x94
+    CMemberExpTbl* m_memberExpTbl;      // +0x98
     void* m_serverHandler;              // +0x9c
-    CServerHandler* m_fielda0;          // +0xa0
-    char m_frameCount[0x30];            // +0xa4
+    CServerHandler* m_serverHandler2;   // +0xa0
+    CFrameCountHandler m_frameCount;    // +0xa4
     CInnerMsgHandler* m_innerMsgHandler;  // +0xd4
-    char m_swapQueue[0x58];             // +0xd8
+    CSwapQueue<UdpRecvQueue, 2> m_udpSwapQueue;  // +0xd8
     CUdpHandler* m_udpHandler;          // +0x130
     CUdpNetworkThread* m_udpThread;     // +0x134
-    char m_udpQLock[4];                 // +0x138
-    char m_udpBLock[4];                 // +0x150
-    char m_tcpNetSystem[0x160];         // +0x168
+    char m_udpQLock[0x18];              // +0x138（CMutex 0x18）
+    char m_udpBLock[0x18];              // +0x150（CMutex 0x18）
+    CTcpNetSystem m_tcpNetSystem;       // +0x168
     CTaskScheduler* m_taskScheduler;    // +0x2c8
     void* m_field2cc;                   // +0x2cc
-    char m_memberManager[0x30];         // +0x2d0
+    CMemberManager m_memberManager;     // +0x2d0
     char m_buddyMgr[0x18];              // +0x300
     CMemoryCashManager* m_memoryCash;   // +0x318
     void* m_field31c;                   // +0x31c

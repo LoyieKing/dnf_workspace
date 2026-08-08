@@ -6,7 +6,7 @@ target addresses (unified caliber, compare_common.py), and marks the differing
 lines so a reviewer can focus on real differences (constants, registers, field
 offsets, call targets, structure) instead of layout shifts.
 
-Usage: diff_func.py <symbol> [--decompile]
+Usage: diff_func.py <symbol> [--bin monitor|guild|auction|point|stun|channel|bridge|statics|relay|coserver] [--decompile]
 """
 import re
 import subprocess
@@ -18,8 +18,29 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import norm_line
 
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
-ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/guild/df_guild_r'
-NEW = ROOT / 'dnf_decompile/source/build-guild/df_guild_r'
+BINS = {
+    'monitor': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/monitor/df_monitor_r',
+                ROOT / 'dnf_decompile/source/build-monitor/df_monitor_r'),
+    'guild': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/guild/df_guild_r',
+              ROOT / 'dnf_decompile/source/build-guild/df_guild_r'),
+    'auction': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/auction/df_auction_r',
+                ROOT / 'dnf_decompile/source/build-auction/df_auction_r'),
+    'point': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/point/df_point_r',
+              ROOT / 'dnf_decompile/source/build-point/df_point_r'),
+    'stun': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/stun/df_stun_r',
+             ROOT / 'dnf_decompile/source/build-stun/df_stun_r'),
+    'channel': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/channel/df_channel_r',
+                ROOT / 'dnf_decompile/source/build-channel/df_channel_r'),
+    'bridge': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/bridge/df_bridge_r',
+               ROOT / 'dnf_decompile/source/build-bridge/df_bridge_r'),
+    'statics': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/statics/df_statics_r',
+                ROOT / 'dnf_decompile/source/build-statics/df_statics_r'),
+    'relay': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/relay/df_relay_r',
+              ROOT / 'dnf_decompile/source/build-relay/df_relay_r'),
+    'coserver': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/coserver/df_coserver_r',
+                 ROOT / 'dnf_decompile/source/build-coserver/df_coserver_r'),
+}
+DEFAULT_BIN = 'monitor'
 
 
 def run(cmd):
@@ -49,9 +70,26 @@ def mnemonic(t):
 
 
 def main():
-    symbol = sys.argv[1]
-    orig = disasm_insns(ORIG, symbol)
-    new = disasm_insns(NEW, symbol)
+    args = sys.argv[1:]
+    bin_name = DEFAULT_BIN
+    symbol = None
+    i = 0
+    while i < len(args):
+        if args[i] == '--bin' and i + 1 < len(args):
+            bin_name = args[i + 1]
+            i += 2
+        else:
+            symbol = args[i]
+            i += 1
+    if not symbol:
+        print(__doc__)
+        return
+    if bin_name not in BINS:
+        print('unknown bin: {} (use {})'.format(bin_name, ', '.join(sorted(BINS))))
+        return
+    orig_path, new_path = BINS[bin_name]
+    orig = disasm_insns(str(orig_path), symbol)
+    new = disasm_insns(str(new_path), symbol)
     print('############ {} ############'.format(symbol))
     print('orig={} insns, new={} insns'.format(len(orig), len(new)))
     if not orig and not new:
