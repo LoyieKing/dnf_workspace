@@ -626,7 +626,6 @@ STUB_HANDLER(OnLoadGuildCargoHistory)
 STUB_HANDLER(OnGuildCargo)
 STUB_HANDLER(OnGuildCargoHistory)
 STUB_HANDLER(OnGuildCargoCheckPushItem)
-STUB_HANDLER(OnGuildCargoPushItem)
 STUB_HANDLER(OnGuildCargoPopItem)
 STUB_HANDLER(OnGuildCargoMoveItem)
 STUB_HANDLER(OnGuildCargoUpgrade)
@@ -865,6 +864,101 @@ void CPacketTranslater::OnReplyGuildInvite(PacketHeader* pkt)
             caller->SendToGameserver((char*)&callerPkt, 0x34);
         }
     }
+}
+
+void CPacketTranslater::OnGuildCargoPushItem(PacketHeader* pkt)
+{
+    unsigned int group = *(unsigned int*)((char*)pkt + 0xa);
+    unsigned int guildKey = *(unsigned int*)((char*)pkt + 0xe);
+    int slot = *(int*)((char*)pkt + 0x12);
+    int count = *(int*)((char*)pkt + 0x16);
+    unsigned char itemType = *(unsigned char*)((char*)pkt + 0x1a);
+    DnfItemInfo* item = (DnfItemInfo*)((char*)pkt + 0x1b);
+    unsigned char fst = *(unsigned char*)((char*)pkt + 0x50);
+    unsigned short fsn = *(unsigned short*)((char*)pkt + 0x51);
+    char* itemDesc = (char*)CGuildCargo::PrintDnfItemInfo(*item);
+    CMyFileLog log0("OnGuildCargoPushItem", 0x19b3);
+    log0("./log/GuildCargo", "PUSH ITEM(g:%d,cn:%d,sn:%d,sl:%d,fsn:%d,fst:%d,it:%d,%s)",
+         group, guildKey, *(unsigned int*)((char*)pkt + 0x12),
+         *(unsigned int*)((char*)pkt + 0x16), (unsigned int)fsn, (unsigned int)fst,
+         (unsigned int)itemType, itemDesc);
+    Packet_Channel_Guild_Cargo_Push_Item resp;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGuildCargoPushItem", 0x19c3);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoPushItem : 0 == m_pclApp");
+        return;
+    }
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(group);
+    if (user == 0)
+    {
+        CMyFileLog log("OnGuildCargoPushItem", 0x19cd);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoPushItem : 0 == pclUser");
+        return;
+    }
+    *(unsigned int*)((char*)&resp + 0xa) = user->GetIdByChannel();
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnGuildCargoPushItem", 0x19d7);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoPushItem : 0 == pclGuild");
+        *(unsigned char*)((char*)&resp + 0x12) = 100;
+        user->SendTcpGameserver((PacketHeader*)&resp);
+        return;
+    }
+    if (m_pclApp->Get_GuildManager()->IsCargoLock())
+    {
+        CMyFileLog log("OnGuildCargoPushItem", 0x19e2);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoPushItem GUILD CARGO LOCKED!(%d,%d)",
+            group, guildKey);
+        *(unsigned char*)((char*)&resp + 0x12) = 0xcc;
+        user->SendTcpGameserver((PacketHeader*)&resp);
+        return;
+    }
+    if (guild->IsExistGuildAgit() != 1)
+    {
+        CMyFileLog log("OnGuildCargoPushItem", 0x19ed);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoPushItem : (%d,%d) No GuildAgit",
+            group, guildKey);
+        *(unsigned char*)((char*)&resp + 0x12) = 0xb5;
+        user->SendTcpGameserver((PacketHeader*)&resp);
+        return;
+    }
+    CGuildCargo* cargo = guild->GetGuildCargo();
+    if (cargo->IsLoadComplete() != 1)
+    {
+        CMyFileLog log("OnGuildCargoPushItem", 0x19f7);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoPushItem : Guild(%d,%d) Not Loaded",
+            group, guildKey);
+        *(unsigned char*)((char*)&resp + 0x12) = 0xc3;
+        user->SendTcpGameserver((PacketHeader*)&resp);
+        return;
+    }
+    unsigned char grade = *(unsigned char*)((char*)user->GetGuildMemDBInfo() + 0x15);
+    if (grade != 3 && grade != 1 && grade != 2)
+    {
+        CMyFileLog log("OnGuildCargoPushItem", 0x1a05);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoPushItem : Access Deny(%d,%d,%d)",
+            guildKey, group, (unsigned int)grade);
+        *(unsigned char*)((char*)&resp + 0x12) = 0x24;
+        user->SendTcpGameserver((PacketHeader*)&resp);
+        return;
+    }
+    int result = cargo->InsertItem(*item, slot, count, itemType, (int)guildKey);
+    *(unsigned char*)((char*)&resp + 0x12) = (unsigned char)result;
+    *(int*)((char*)&resp + 0x16) = slot;
+    if (result == 0xc1)
+    {
+        cargo->InsertHistory((ENUM_GUILD_CARGO_BEHAVIOR)1, (int)guildKey, user->GetCharName(),
+                             *(int*)((char*)pkt + 0x1c), *(int*)((char*)pkt + 0x21),
+                             (RandomOption*)((char*)pkt + 0x38));
+        CServerHandler* handler = m_pclApp->Get_ServerHandler();
+        cargo->SendHistoryToDBMW(handler, (ENUM_GUILD_CARGO_BEHAVIOR)1, (int)guildKey,
+                                 user->GetCharName(), slot, 0, *item);
+        cargo->SendGuildCargoToDBMW(handler, (int)guildKey);
+        cargo->PrintCargo((ENUM_GUILD_CARGO_BEHAVIOR)1);
+    }
+    user->SendTcpGameserver((PacketHeader*)&resp);
 }
 
 #undef STUB_HANDLER

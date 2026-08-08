@@ -2945,8 +2945,24 @@ void CGuildCargo::PrintCargo(ENUM_GUILD_CARGO_BEHAVIOR behavior)
 {
 }
 
-void CGuildCargo::PrintDnfItemInfo(DnfItemInfo& info)
+const char* CGuildCargo::PrintDnfItemInfo(DnfItemInfo& info)
 {
+    static char szBuffer[0x400];
+    memset(szBuffer, 0, sizeof(szBuffer));
+    unsigned char up = ((UpgradeSeparateInfo*)((char*)&info + 0x2b))->GetUpgradeSeparate();
+    sprintf(szBuffer,
+            "id:%d,s:%d,sc:%d,up:%d,add:%d,en:%d,ex:%d,at:%d,av:%d,sp:%d",
+            *(unsigned int*)((char*)&info + 1),
+            (unsigned int)(unsigned char)*(char*)&info,
+            (unsigned int)((unsigned char)((char*)&info)[5] >> 5),
+            (unsigned int)((unsigned char)((char*)&info)[5] & 0x1f),
+            *(unsigned int*)((char*)&info + 6),
+            (unsigned int)*(unsigned short*)((char*)&info + 10),
+            *(unsigned int*)((char*)&info + 0xc),
+            (unsigned int)(unsigned char)((char*)&info)[0x10],
+            (unsigned int)*(unsigned short*)((char*)&info + 0x11),
+            (unsigned int)up & 0xff);
+    return szBuffer;
 }
 
 void CGuildCargo::AddItem(DnfItemInfo& info, int slot, int count)

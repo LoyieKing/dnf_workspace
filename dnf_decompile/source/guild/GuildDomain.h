@@ -641,7 +641,7 @@ public:
     void* GetGuildCargoDBInfo();
     int GetSpecificItemSlot(int itemId);
     void PrintCargo(ENUM_GUILD_CARGO_BEHAVIOR behavior);
-    void PrintDnfItemInfo(DnfItemInfo& info);
+    static const char* PrintDnfItemInfo(DnfItemInfo& info);
     void AddItem(DnfItemInfo& info, int slot, int count);
     int InsertItem(DnfItemInfo& info, int& slot, int count, unsigned char a, int b);
     int DeleteItem(DnfItemInfo& info, int slot, int count, unsigned char a, int b, int c);
