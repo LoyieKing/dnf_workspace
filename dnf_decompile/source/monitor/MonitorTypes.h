@@ -26,6 +26,7 @@ class CMemberExpTbl;
 class CMemberManager;
 class CUser;
 struct hyperlink_item_info;
+struct STBuddyDBInfo;
 class CTcpManagerServer;
 class CTcpDBServer;
 class CGameServer;
