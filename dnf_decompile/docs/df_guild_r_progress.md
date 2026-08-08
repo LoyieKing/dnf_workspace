@@ -1,6 +1,6 @@
 # df_guild_r 还原进度
 
-更新：2026-08-08（Load 全流程 + 网络系统真实构造，缺失 396，严格口径 IDENTICAL 18.4%）
+更新：2026-08-08（Packet/ST 构造器批量生成 + MemPool 通用化，缺失 195）
 
 ## 二进制概况
 
@@ -56,19 +56,23 @@
 
 ## 当前水位
 
-- 应用层缺失 **396**（原 7174 符号；extra 79→约 61）
-- 严格口径（compare_common v3）：1304 双端函数 IDENTICAL 240（18.4%）+ NEAR 110
+- 应用层缺失 **195**（TiXml 112 / 自由符号 37 / 域类余量 46）
+- 严格口径（compare_common v3）：双端函数 IDENTICAL 282 + NEAR 138
 - 二进制可运行完整生命周期：logo → Init（StrLoading/配置）→ Load（UDP/TCP 线程、
   DBMW 连接、启动查询）→ Process → SIGTERM → Stop
 - 核验工具链：compare_guild.py（严格口径全量）、diff_func.py（difflib 对齐）、
   verify_diffs.py（自动分类：字符串地址/符号地址/代码形态 vs real）
 - 已核验良性：GuildEnter/GuildMemLogin/init_signal（差异均为布局/代码形态）
+- 批量生成（gen_packet_ctors.py）：111 个 Packet 构造器 + 21 个 ST 构造器 +
+  reset 族（GuildPackets.h/GuildPacketCtor.cpp/GuildStCtor.cpp，离线定义符号必现）
+- MemPool<T> 通用化（sizeof(T)/classSize-4 空闲链）+ 9 类型 operator new/delete
+  （CBlackUser 100000/CUser 28000/CGuild 10000/CCashObject 5000/CPeer 1000 等）
+- CCashObject 0x24 + CMemoryCashManager 全方法（map@+0/app@+0x18，黑名单联动）
+- DnfItemInfo 尺寸修正 0x35；STGuildCargoLog 并入 DNFFunctionLib.h
 
 ## 下一步
 
-1. CUdpNetworkThread::dispatch 完整实现（orig 524 vs 274，477 real）
-2. CTcpNetworkThread::dispatch（当前空桩，TCP 收包侧未启动）
-3. CGuild::ReplyGuildMembers/ReplyGuildAllMembers（664/394 real）
-4. CPacketTranslater 处理器族 + TiXml Parse（StreamIn/ReadText/TiXmlPrinter）
-5. CCashObject/CMemoryCashManager + MemPool<CUser/CGuild/CPeer> 实例化
-6. verify_diffs 队列 900+ 按 real 数降序逐函数核验/修复
+1. TiXml 剩余 112 个（StreamIn/Parse/ReadText/Printer/Handle/Visitor/拷贝构造）
+2. CPowerWarConfig 6 个 + CPacketTranslater 4 个自由函数
+3. CGuild/CServerHandler/CGuildWar/CPowerWar 余量 + 自由符号 37
+4. verify_diffs 队列按 real 数降序逐函数核验/修复
