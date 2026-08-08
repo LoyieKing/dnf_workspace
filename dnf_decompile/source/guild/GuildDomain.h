@@ -90,6 +90,11 @@ struct STTodayGuildMember
     char m_data[0x30];
 };
 
+struct STGuildMemberWebConnInfo
+{
+    char m_data[0x5dc];
+};
+
 // ---- CScheduler：0x8 ----
 class CScheduler
 {
@@ -318,9 +323,11 @@ public:
     void SendGuildInfoToManagers();
     void SendGuildNameChangeToMembers();
     void SendGuildAgitInfoToMembers();
-    void NoticeChatMsgToGuildMembers(unsigned int charNo, char* msg, int len, char* name);
-    void NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, int len, char* msg,
-                                              unsigned char type, const void* link);
+    void NoticeChatMsgToGuildMembers(unsigned int charNo, char* msg, int len,
+                                     const char* name);
+    void NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, char* msg, int len,
+                                              unsigned char type, const void* link,
+                                              const char* name);
     void UpdateChangableInfoProcess();
     void NoticeEnterToGuildMember(char* info);
     void NoticeSecedeToGuildMember(char* info);
@@ -361,6 +368,16 @@ public:
     void NotifyDeleteGuildAgitToGuildMember(unsigned int charNo);
     void DBSaveGuildMembers(unsigned char flag, CServerHandler* handler, unsigned char param);
     void DBGuildSaveProcess(CServerHandler* handler);
+    void DBSavePowerSecedeTime(unsigned char flag, CServerHandler* handler);
+    void CallGuildAllMembersProxy(CUser* user, CServerHandler* handler);
+    void QueryGuildAllMembersProxy(CServerHandler* handler, unsigned int charNo);
+    void LoadGuildAllMembersProxy(STGuildMemberProxy& proxy, char flag, char param);
+    int ReplyGuildMembersToWeb(STGuildMemberWebConnInfo& info);
+    void DBSaveGuildMemberUnChangableInfo(CServerHandler* handler, unsigned int a,
+                                          unsigned int b, char* name);
+    void DismissGuildMemberAndNotice(int group);
+    void ReplyGuildAllMembers(CUser* user);
+    int BuyGuildSkill(int skillId, int slot, short param, unsigned int charNo);
     unsigned char GetPowerSide();
     void SetPowerSide(unsigned char side);
     unsigned int GetPowerWarPoint();

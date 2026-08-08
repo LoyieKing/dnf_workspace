@@ -1257,6 +1257,85 @@ void CGuild::UpdateChangableInfoProcess()
     }
 }
 
+void CGuild::DBSavePowerSecedeTime(unsigned char flag, CServerHandler* handler)
+{
+    if ((m_field1c & 4) != 0)
+    {
+        // 发送 Packet_DBMW_Save_Power_Secede_Time（简化：构造并发送）
+        char buf[0x1b];
+        memset(buf, 0, sizeof(buf));
+        *(unsigned short*)(buf + 0) = 0x1f5a;
+        *(unsigned int*)(buf + 0xa) = m_guildKey;
+        buf[0xe] = (char)flag;
+        handler->SendToDB((PacketHeader*)buf);
+    }
+}
+
+void CGuild::CallGuildAllMembersProxy(CUser* user, CServerHandler* handler)
+{
+    if (user == 0 || (m_field1c & 4) == 0 || m_members.empty())
+    {
+        return;
+    }
+    ReplyGuildMembers(user);
+}
+
+void CGuild::QueryGuildAllMembersProxy(CServerHandler* handler, unsigned int charNo)
+{
+    char buf[0x1e];
+    memset(buf, 0, sizeof(buf));
+    *(unsigned short*)(buf + 0) = 0x1f5c;
+    *(unsigned int*)(buf + 0xa) = m_guildKey;
+    *(unsigned int*)(buf + 0xe) = charNo;
+    handler->SendToDB((PacketHeader*)buf);
+    m_field1c |= 8;
+}
+
+void CGuild::LoadGuildAllMembersProxy(STGuildMemberProxy& proxy, char flag, char param)
+{
+}
+
+int CGuild::ReplyGuildMembersToWeb(STGuildMemberWebConnInfo& info)
+{
+    int count = 0;
+    if ((m_field1c & 4) != 0 && !m_members.empty())
+    {
+        for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+             it != m_members.end() && count < 300; ++it)
+        {
+            if (it->second != 0)
+            {
+                *(unsigned int*)((char*)&info + count * 5 * 4) = it->second->GetUniqCharNo();
+                if (it->second->GetGameServer() != 0)
+                {
+                    *(unsigned char*)((char*)&info + count * 5 * 4 + 4) =
+                        it->second->GetGameServer()->m_field9;
+                }
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+void CGuild::DBSaveGuildMemberUnChangableInfo(CServerHandler* handler, unsigned int a,
+                                              unsigned int b, char* name)
+{
+}
+
+void CGuild::DismissGuildMemberAndNotice(int group)
+{
+    for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+         it != m_members.end(); ++it)
+    {
+        if (it->second != 0)
+        {
+            it->second->DetachGuild();
+        }
+    }
+    m_members.clear();
+}
+
 void CGuild::NotifyMemoToGuildMember(CUser* user, const char* memo)
 {
     if (user == 0 || memo == 0 || (m_field1c & 4) == 0 || m_members.empty())
@@ -1411,12 +1490,14 @@ void CGuild::SendGuildAgitInfoToMembers()
 {
 }
 
-void CGuild::NoticeChatMsgToGuildMembers(unsigned int charNo, char* msg, int len, char* name)
+void CGuild::NoticeChatMsgToGuildMembers(unsigned int charNo, char* msg, int len,
+                                         const char* name)
 {
 }
 
-void CGuild::NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, int len, char* msg,
-                                                  unsigned char type, const void* link)
+void CGuild::NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, char* msg, int len,
+                                                  unsigned char type, const void* link,
+                                                  const char* name)
 {
 }
 
@@ -1766,6 +1847,50 @@ void CGuild::ReplyGuildMembers(CUser* user)
     *(int*)(buf + 0x2e) = user->GetIdByChannel();
     *(unsigned int*)(buf + 0x32) = user->GetUniqCharNo();
     user->SendToGameserver(buf, count * 0x3f + 0x34);
+}
+
+void CGuild::ReplyGuildAllMembers(CUser* user)
+{
+    if (user == 0 || (m_field1c & 4) == 0 || m_members.empty())
+    {
+        return;
+    }
+    char buf[0x17dc];
+    memset(buf, 0, sizeof(buf));
+    *(unsigned short*)(buf + 0) = 0x1f40;
+    *(unsigned int*)(buf + 0xa) = m_guildKey;
+    int count = 0;
+    for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+         it != m_members.end() && count < 96; ++it)
+    {
+        if (it->second == 0)
+        {
+            continue;
+        }
+        char* rec = buf + 0x34 + count * 0x3f;
+        rec[0] = it->second->GetJob();
+        rec[1] = it->second->GetGrowthType();
+        *(unsigned short*)(rec + 2) = it->second->GetLevel();
+        memcpy(rec + 4, it->second->GetCharName(), 0x1d);
+        rec[0x21] = it->second->GetSex();
+        if (it->second->GetGameServer() != 0)
+        {
+            rec[0x20] = it->second->GetGameServer()->m_field9;
+        }
+        count++;
+    }
+    *(unsigned char*)(buf + 0x2c) = (unsigned char)count;
+    *(unsigned short*)(buf + 0x2) = (unsigned short)(count * 0x3f + 0x34);
+    user->SendToGameserver(buf, count * 0x3f + 0x34);
+}
+
+int CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int charNo)
+{
+    if ((m_field1c & 4) == 0)
+    {
+        return 0;
+    }
+    return 1;
 }
 
 void CGuildManager::LoadGuildAgit(unsigned int guildKey, CServerHandler* handler)

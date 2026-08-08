@@ -455,7 +455,7 @@ void CPacketTranslater::OnNoticeGuildChatMsg(PacketHeader* pkt)
     {
         guild->NoticeChatMsgToGuildMembers(*(unsigned int*)(pb + 10), pb + 0x13,
                                            (int)(unsigned char)pb[0x12],
-                                           user->GetCharName());
+                                           (const char*)user->GetCharName());
     }
 }
 
