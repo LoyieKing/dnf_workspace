@@ -1080,6 +1080,17 @@ class StartEffectTask : public CTaskScheduler::CTask
 public:
     StartEffectTask(unsigned int time, int flag);
     ~StartEffectTask();
+    void _DoExecute();
+    char m_data[0x10];
+    unsigned char m_flag;   // +0x10
+    char m_pad[3];          // +0x11
+};
+
+class EndEffectTask : public CTaskScheduler::CTask
+{
+public:
+    EndEffectTask(unsigned int time, int flag);
+    ~EndEffectTask();
     char m_data[0x10];
 };
 
@@ -1088,11 +1099,18 @@ class EventManager
 public:
     EventManager();
     ~EventManager();
+    static EventManager* Get();
     void StartEvent(unsigned char startHour, unsigned char interval, unsigned char duration);
+    unsigned int GetDurationTime();
+    void SetStartEffectTask(StartEffectTask* task);
+    void SetEndEffectTask(EndEffectTask* task);
+    void sendApplyEffect(unsigned int time);
     unsigned char m_startHour;   // +0
     char m_pad1[3];              // +1
     unsigned int m_interval;     // +4
     unsigned int m_duration;     // +8
+    StartEffectTask* m_startTask;  // +0xc
+    EndEffectTask* m_endTask;      // +0x10
 };
 }
 
@@ -1324,6 +1342,15 @@ public:
     Packet_Monitor_SAVE_Member_Update_Char_Info();
     unsigned int m_uniqCharNo;   // +10
     unsigned char m_flag;        // +14
+};
+
+class Packet_Arad_ApplyEffect : public PacketHeader
+{
+public:
+    Packet_Arad_ApplyEffect(int group, int code, unsigned int time);
+    int m_group;   // +10
+    int m_code;    // +14
+    unsigned int m_time;  // +18
 };
 
 class Packet_Load_Periodic_Message : public PacketHeader

@@ -3486,8 +3486,54 @@ namespace momiji_event
 {
 StartEffectTask::StartEffectTask(unsigned int time, int flag) {}
 StartEffectTask::~StartEffectTask() {}
+void StartEffectTask::_DoExecute()
+{
+    if (m_flag != 0)
+    {
+        time_t now = time(0);
+        EventManager* em = EventManager::Get();
+        unsigned int end = (unsigned int)now + em->GetDurationTime();
+        EndEffectTask* task = new EndEffectTask(end, 0);
+        ((CApplication*)CApplicationInstance())->GetTaskScheduler()->AddTask(task);
+        tm* t = localtime((time_t*)&end);
+        CMyFileLog log("_DoExecute", 0xb0);
+        log("./log/AradOnly", "[Momiji] start event. next endEffect %02dh:%02dm:%02ds",
+            t->tm_hour, t->tm_min, t->tm_sec);
+        em->sendApplyEffect(end);
+    }
+    EventManager* em = EventManager::Get();
+    em->SetStartEffectTask(0);
+}
+EndEffectTask::EndEffectTask(unsigned int time, int flag) {}
+EndEffectTask::~EndEffectTask() {}
 EventManager::EventManager() {}
 EventManager::~EventManager() {}
+EventManager* EventManager::Get()
+{
+    static EventManager obj;
+    return &obj;
+}
+unsigned int EventManager::GetDurationTime()
+{
+    return m_duration;
+}
+void EventManager::SetStartEffectTask(StartEffectTask* task)
+{
+    m_startTask = task;
+}
+void EventManager::SetEndEffectTask(EndEffectTask* task)
+{
+    m_endTask = task;
+}
+void EventManager::sendApplyEffect(unsigned int time)
+{
+    CApplication* app = (CApplication*)CApplicationInstance();
+    unsigned int group = (unsigned int)app->Get_ServerGroup();
+    Packet_Arad_ApplyEffect pkt(group & 0xff, 2, time);
+    app->Get_ServerHandler()->SendAllTcpGameServer(&pkt);
+    CMyFileLog log("sendApplyEffect", 0x97);
+    log("./log/AradOnly", "[Momiji] apply effect. (code:%u)", 2);
+}
 void EventManager::StartEvent(unsigned char startHour, unsigned char interval,
                               unsigned char duration)
 {
@@ -3619,6 +3665,14 @@ Packet_Monitor_SAVE_Member_Update_Char_Info::
     Packet_Monitor_SAVE_Member_Update_Char_Info()
     : PacketHeader(0x4b5, 0xf)
 {
+}
+
+Packet_Arad_ApplyEffect::Packet_Arad_ApplyEffect(int group, int code, unsigned int time)
+    : PacketHeader(0x27f9, 0x16)
+{
+    m_group = group;
+    m_code = code;
+    m_time = time;
 }
 
 unsigned int GetNowTime()
