@@ -1034,6 +1034,20 @@ int CGuildWar::Rank()
 
 void CGuildWar::RankProcess()
 {
+    if (IsGuildWarEventOn() == 1 && *(unsigned char*)((char*)this + 0x10) != 0)
+    {
+        *(unsigned char*)((char*)this + 0xd) += 1;
+        if (1 < *(unsigned char*)((char*)this + 0xd))
+        {
+            if (Rank() != 1)
+            {
+                throw CDNFException(
+                    "CGuildWar::RankProcess : false == Rank() : May be m_vtGuildWarInfo is empty!");
+            }
+            *(unsigned char*)((char*)this + 0xd) = 0;
+            *(unsigned char*)((char*)this + 0x10) = 0;
+        }
+    }
 }
 
 int CGuildWar::SameRankWork()
@@ -1087,6 +1101,26 @@ int CGuildWar::SameRankWork()
 
 void CGuildWar::printGuildWarRank()
 {
+    std::vector<std::pair<unsigned int, STGuildWarInfo*> >* vec =
+        (std::vector<std::pair<unsigned int, STGuildWarInfo*> >*)m_data;
+    if (!vec->empty())
+    {
+        int rank = 0;
+        for (std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator it = vec->begin();
+             it != vec->end(); ++it)
+        {
+            STGuildWarInfo* info = it->second;
+            if (info != 0)
+            {
+                rank++;
+                CMyFileLog log("printGuildWarRank", 0x192);
+                log("./log/GuildWar",
+                    "GuildKey : %d(%s),  GuildWarPoint : %d, GuildWarRank : %d",
+                    *(unsigned int*)info->m_data, info->m_data + 8,
+                    *(unsigned int*)(info->m_data + 4), rank);
+            }
+        }
+    }
 }
 
 void CGuildWar::GetGuildWarInfo(unsigned int* a, unsigned int* b, unsigned short* c)
@@ -3143,10 +3177,62 @@ int CGuildManager::GetAttendancePhase(unsigned int guildKey)
 
 void CGuildManager::GetAttendanceInfo(unsigned int guildKey, STAttendanceInfo& info)
 {
+    static const int guild_att_phase_tbl[9] = { 5, 10, 20, 35, 60, 100, 150, 220, 300 };
+    static const int guild_att_exp_tbl[153] = {
+        1,3,4,8,10,18,29,46,70,77,112,158,218,236,307,386,0,
+        1,4,4,9,11,18,29,46,70,78,113,159,219,236,307,387,0,
+        2,6,8,17,21,36,59,91,140,155,224,316,437,472,614,773,0,
+        2,10,12,25,31,53,88,138,209,232,337,475,655,708,920,1159,0,
+        5,16,21,42,52,90,146,229,348,387,561,792,1093,1179,1534,1933,0,
+        7,26,32,67,83,143,234,367,557,620,899,1266,1748,1888,2454,3092,0,
+        9,33,41,84,104,179,292,458,697,774,1122,1583,2184,2360,3067,3865,0,
+        13,46,56,117,145,251,409,642,975,1084,1572,2217,3059,3303,4295,5411,0,
+        14,52,65,135,166,286,468,734,1115,1239,1797,2533,3496,3775,4907,6184,0,
+    };
+    CGuild* guild = FindGuild(guildKey);
+    if (guild != 0)
+    {
+        *(unsigned int*)((char*)&info + 4) =
+            (unsigned int)guild->GetTotalCnt_Of_GuildDBInfo() & 0xffff;
+        std::map<unsigned int, std::vector<unsigned int> >::iterator it =
+            m_attendance.find(guildKey);
+        if (it != m_attendance.end())
+        {
+            *(unsigned int*)&info = (unsigned int)it->second.size();
+            int phase = GetAttendancePhase(guildKey);
+            *(int*)((char*)&info + 0x18) = phase;
+            if (phase >= 0 && phase < 9)
+            {
+                *(unsigned int*)((char*)&info + 0x10) = guild_att_phase_tbl[phase];
+                unsigned int level = guild->GetGuildLevel();
+                *(unsigned int*)((char*)&info + 0x14) =
+                    guild_att_exp_tbl[phase * 0x11 + (level & 0xff)];
+            }
+            int next = phase + 1;
+            if (next >= 0 && next < 9)
+            {
+                *(unsigned int*)((char*)&info + 8) = guild_att_phase_tbl[next];
+                unsigned int level = guild->GetGuildLevel();
+                *(unsigned int*)((char*)&info + 0xc) =
+                    guild_att_exp_tbl[next * 0x11 + (level & 0xff)];
+            }
+        }
+    }
 }
 
 int CGuildManager::GetAttendanceExp(unsigned int guildKey, int phase)
 {
+    static const int guild_att_exp_tbl[153] = {
+        1,3,4,8,10,18,29,46,70,77,112,158,218,236,307,386,0,
+        1,4,4,9,11,18,29,46,70,78,113,159,219,236,307,387,0,
+        2,6,8,17,21,36,59,91,140,155,224,316,437,472,614,773,0,
+        2,10,12,25,31,53,88,138,209,232,337,475,655,708,920,1159,0,
+        5,16,21,42,52,90,146,229,348,387,561,792,1093,1179,1534,1933,0,
+        7,26,32,67,83,143,234,367,557,620,899,1266,1748,1888,2454,3092,0,
+        9,33,41,84,104,179,292,458,697,774,1122,1583,2184,2360,3067,3865,0,
+        13,46,56,117,145,251,409,642,975,1084,1572,2217,3059,3303,4295,5411,0,
+        14,52,65,135,166,286,468,734,1115,1239,1797,2533,3496,3775,4907,6184,0,
+    };
     CGuild* guild = FindGuild(guildKey);
     if (guild == 0)
     {
@@ -3158,7 +3244,7 @@ int CGuildManager::GetAttendanceExp(unsigned int guildKey, int phase)
     {
         return 0;
     }
-    return 100;
+    return guild_att_exp_tbl[phase * 0x11 + (guild->GetGuildLevel() & 0xff)];
 }
 
 unsigned int CGuildManager::GetGuildExpWithLevel(unsigned char level)
