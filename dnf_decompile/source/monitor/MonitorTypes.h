@@ -585,6 +585,7 @@ public:
     void DeleteUsersOnGameServerDown(CGameServer* gameServer);
     void DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer);
     void SendConnectedBuddysList(CUser* user);
+    void GetSchoolCount(unsigned int school, unsigned int* out, unsigned char& idx);
     std::map<unsigned int, std::map<unsigned char, unsigned int> > m_mapSchools;  // +0
     std::map<unsigned int, CUser*> m_users;       // +0x18
     std::map<unsigned int, CUser*> m_charNoUsers; // +0x30

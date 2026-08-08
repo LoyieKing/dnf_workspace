@@ -1669,6 +1669,34 @@ void CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer)
 void CUserManager::SendConnectedBuddysList(CUser* user)
 {
 }
+void CUserManager::GetSchoolCount(unsigned int school, unsigned int* out, unsigned char& idx)
+{
+    CMyFileLog log("GetSchoolCount", 0x418);
+    log("./log/School", "GetSchoolCount(%u)", school);
+    std::map<unsigned int, std::map<unsigned char, unsigned int> >::iterator it =
+        m_mapSchools.find(school);
+    if (it != m_mapSchools.end())
+    {
+        int pos = 0;
+        int n = 0;
+        std::map<unsigned char, unsigned int>* inner = &it->second;
+        for (std::map<unsigned char, unsigned int>::iterator c = inner->begin();
+             c != inner->end() && n < (int)idx; ++c)
+        {
+            out[pos] = (unsigned int)c->first;
+            pos++;
+            out[pos] = c->second;
+            pos++;
+            CMyFileLog log2("GetSchoolCount", 0x423);
+            log2("./log/School", "GetSchoolCount(%u) channelNo(%u) Count(%u)", school,
+                 out[pos - 1], out[pos]);
+            n++;
+        }
+        idx = (unsigned char)n;
+        CMyFileLog log3("GetSchoolCount", 0x426);
+        log3("./log/School", "GetSchoolCount(%u) size(%d)", school, (unsigned int)idx);
+    }
+}
 void CUserManager::AddSchoolNo(unsigned int schoolNo, unsigned char channel)
 {
     std::map<unsigned int, std::map<unsigned char, unsigned int> >::iterator it =
