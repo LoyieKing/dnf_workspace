@@ -10,11 +10,14 @@
 
 #include "PacketHeader.h"
 #include "tinyxml.h"
+#include "Thread.h"
 
 class CApplication;
 struct stServerInfo;
 class CTcpRecvBuffer;
 class CUdpRecvBuffer;
+class CTcpSendBuffer;
+class CPeer;
 class CServerHandler;
 class CTcpNetSystem;
 class CMemberConfig;
@@ -351,9 +354,25 @@ public:
     ~CTcpNetSystem();
     void Init(unsigned short port);
     bool OpenTcpService(int& sockRef, const char* ip, unsigned short port);
+    void CleanPeers();
     CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > >, 2>*
         Get_TcpSwapQPacket();
-    char m_data[0x160];
+    void* m_handler;    // +0
+    void* m_field4;     // +4
+    CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > >, 2>
+        m_recvSwapQ;    // +8
+    CMutex m_mutex60;   // +0x60
+    CMutex m_mutex78;   // +0x78
+    CMutex m_mutex90;   // +0x90
+    CMutex m_mutexa8;   // +0xa8
+    std::queue<CTcpSendBuffer*> m_sendQ;  // +0xc0
+    CMutex m_mutexe8;   // +0xe8
+    CMutex m_mutex100;  // +0x100
+    void* m_acceptThread;  // +0x118
+    std::queue<CPeer*> m_peerQ;           // +0x11c
+    std::map<unsigned int, CPeer*> m_peers;  // +0x144
+    unsigned short m_port;                // +0x15c
+    char m_pad15e[2];                     // +0x15e
 };
 
 // ---- CUserManager：0x7c ----

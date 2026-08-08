@@ -620,10 +620,49 @@ void CUdpNetworkThread::dispatch(void* param)
     throw CDNFException("NetworkThread is Not Ready!\n");
 }
 
-CTcpNetSystem::CTcpNetSystem() {}
-CTcpNetSystem::~CTcpNetSystem() {}
+CTcpNetSystem::CTcpNetSystem()
+{
+    m_handler = 0;
+    m_field4 = 0;
+    m_acceptThread = 0;
+}
+CTcpNetSystem::~CTcpNetSystem()
+{
+    CleanPeers();
+    if (m_handler != 0)
+    {
+        void* h = m_handler;
+        if (h != 0)
+        {
+            void (**vt)(void*) = *(void(***)(void*))h;
+            vt[0](h);
+        }
+        if (m_handler != 0)
+        {
+            void (**vt)(void*) = *(void(***)(void*))m_handler;
+            vt[3](m_handler);
+        }
+        m_handler = 0;
+    }
+    if (m_field4 != 0)
+    {
+        void* h = m_field4;
+        if (h != 0)
+        {
+            void (**vt)(void*) = *(void(***)(void*))h;
+            vt[0](h);
+        }
+        if (m_field4 != 0)
+        {
+            void (**vt)(void*) = *(void(***)(void*))m_field4;
+            vt[3](m_field4);
+        }
+        m_field4 = 0;
+    }
+}
 void CTcpNetSystem::Init(unsigned short port) {}
 bool CTcpNetSystem::OpenTcpService(int& sockRef, const char* ip, unsigned short port) { return false; }
+void CTcpNetSystem::CleanPeers() {}
 CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > >, 2>*
     CTcpNetSystem::Get_TcpSwapQPacket()
 {
