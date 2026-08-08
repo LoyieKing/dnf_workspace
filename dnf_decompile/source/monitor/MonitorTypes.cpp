@@ -2324,6 +2324,41 @@ void CMember::NoticeChatMsgToMemberMembersHyperLink(char* msg, int len, unsigned
         }
     }
 }
+void CMember::NoticeChatMsgToMemberMembers(char* msg, int len, CUser* user)
+{
+    if (len < 0x100 && (m_flag & 4) != 0 && !IsEmpty())
+    {
+        Packet_Monitor_Member_Chat_ToUser pkt;
+        memcpy(pkt.m_charName, user->GetCharName(), 0x1d);
+        pkt.m_msgLen = (unsigned char)len;
+        memcpy(pkt.m_msg, msg, len);
+        unsigned short totalSize = (unsigned short)len + 0x31;
+        CUser* member = m_memberManager->FindMemberUser(m_memberKey);
+        if (member != 0)
+        {
+            pkt.m_idByChannel = member->GetIdByChannel();
+            pkt.m_uniqCharNo = member->GetUniqCharNo();
+            member->SendToGameserver((char*)&pkt, totalSize);
+        }
+        pkt.m_idByChannel = user->GetIdByChannel();
+        pkt.m_uniqCharNo = user->GetUniqCharNo();
+        user->SendToGameserver((char*)&pkt, totalSize);
+        unsigned int count = (unsigned int)m_count2d;
+        if (count != 0)
+        {
+            for (unsigned int i = 0; i < count; i++)
+            {
+                CUser* m = m_memberManager->FindMemberUser(m_memberKey);
+                if (m != 0)
+                {
+                    pkt.m_idByChannel = m->GetIdByChannel();
+                    pkt.m_uniqCharNo = m->GetUniqCharNo();
+                    m->SendToGameserver((char*)&pkt, totalSize);
+                }
+            }
+        }
+    }
+}
 
 CMemberConfig::CMemberConfig() {}
 CMemberConfig::~CMemberConfig() {}
@@ -3153,6 +3188,16 @@ Packet_Monitor_Member_Chat_ToUser_Hyper_Link::
     memset(m_charName, 0, 0x1e);
     memset(m_msg, 0, 0x100);
     memset(m_items, 0, 0x138);
+}
+
+Packet_Monitor_Member_Chat_ToUser::Packet_Monitor_Member_Chat_ToUser()
+    : PacketHeader(0x4bf, 0x131)
+{
+    m_idByChannel = 0xffffffff;
+    m_uniqCharNo = 0;
+    m_msgLen = 0;
+    memset(m_charName, 0, 0x1e);
+    memset(m_msg, 0, 0x100);
 }
 
 unsigned int GetNowTime()

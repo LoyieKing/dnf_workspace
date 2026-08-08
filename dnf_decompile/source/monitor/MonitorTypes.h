@@ -646,6 +646,7 @@ public:
     void CheckMemberRegisterFlag();
     void NoticeChatMsgToMemberMembersHyperLink(char* msg, int len, unsigned char count,
                                                const hyperlink_item_info* items, CUser* user);
+    void NoticeChatMsgToMemberMembers(char* msg, int len, CUser* user);
     char IsEmpty();
     char CheckDailyScheduleTimeOver(int day, long long time);
     char CheckDayHourScheduleTimeOver(int day, int hour, long long time);
@@ -1216,6 +1217,17 @@ public:
     char m_items[0x138];          // +49
     unsigned char m_msgLen;       // +361
     char m_msg[0x100];            // +362
+};
+
+class Packet_Monitor_Member_Chat_ToUser : public PacketHeader
+{
+public:
+    Packet_Monitor_Member_Chat_ToUser();
+    unsigned int m_idByChannel;   // +10
+    unsigned int m_uniqCharNo;    // +14
+    char m_charName[0x1e];        // +18
+    unsigned char m_msgLen;       // +48
+    char m_msg[0x100];            // +49
 };
 
 class Packet_Load_Periodic_Message : public PacketHeader
