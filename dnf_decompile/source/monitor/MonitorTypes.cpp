@@ -2987,7 +2987,7 @@ void EventManager::StartEvent(unsigned char startHour, unsigned char interval,
                 first = (unsigned int)interval * 0x3c + first;
             }
             StartEffectTask* task = new StartEffectTask((unsigned int)first, 0);
-            CApplicationInstance()->GetTaskScheduler()->AddTask(task);
+            ((CApplication*)CApplicationInstance())->GetTaskScheduler()->AddTask(task);
             tm* t2 = localtime((time_t*)&first);
             CMyFileLog log("StartEvent", 0x6e);
             log("./log/AradOnly", "[Momiji] start event. first time %02dh:%02dm:%02ds",
