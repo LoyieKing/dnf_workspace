@@ -14,6 +14,10 @@
 #include "GuildServer.h"
 #include "GuildPacket.h"
 #include "tinyxml.h"
+#include "Packet_Monitor_Call_Guild_Members_ToChannel.h"
+#include "Packet_Monitor_Call_Guild_Members_ToChannel_Next.h"
+#include "Packet_Monitor_Call_Guild_All_Members_ToChannel.h"
+#include "Packet_Monitor_Call_Guild_All_Members_ToChannel_Next.h"
 #include "DNFFileLog.h"
 #include "DNFFunctionLib.h"
 
@@ -2079,80 +2083,228 @@ void CGuild::ReplyGuildMembers(CUser* user)
     {
         return;
     }
-    // 内联构造 Packet_Monitor_Call_Guild_Members_ToChannel（0x34 头 + 96*0x3f 成员记录）
-    char buf[0x17dc];
-    memset(buf, 0, sizeof(buf));
-    *(unsigned short*)(buf + 0) = 0x1f3e;  // 包 ID
-    *(unsigned int*)(buf + 0xa) = m_guildKey;
-    memcpy(buf + 0xe, (char*)this + 0x20, 0x16);  // 公会名
-    *(unsigned int*)(buf + 0x24) = *(unsigned int*)((char*)this + 0x44);
-    *(unsigned short*)(buf + 0x28) = *(unsigned short*)((char*)this + 0x42);
+    Packet_Monitor_Call_Guild_Members_ToChannel pkt;
+    char* buf = (char*)&pkt;
+    *(unsigned int*)(buf + 0x12) = m_guildKey;
+    memcpy(buf + 0x16, (char*)this + 0x20, 0x16);
+    *(unsigned int*)(buf + 0x2e) = *(unsigned int*)((char*)this + 0x44);
+    *(unsigned short*)(buf + 0x32) = *(unsigned short*)((char*)this + 0x42);
     int count = 0;
-    for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
-         it != m_members.end() && count < 96; ++it)
+    std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+    while (it != m_members.end())
     {
-        if (it->second == 0)
-        {
-            continue;
-        }
+        CUser* m = it->second;
         char* rec = buf + 0x34 + count * 0x3f;
-        rec[0] = it->second->GetJob();
-        rec[1] = it->second->GetGrowthType();
-        *(unsigned short*)(rec + 2) = it->second->GetLevel();
-        memcpy(rec + 4, it->second->GetCharName(), 0x1d);
-        rec[0x21] = it->second->GetSex();
-        if (it->second->GetGameServer() != 0)
+        rec[0] = m->GetJob();
+        rec[1] = m->GetGrowthType();
+        *(unsigned short*)(rec + 2) = m->GetLevel();
+        memcpy(rec + 4, m->GetCharName(), 0x1d);
+        rec[0x38] = m->GetSex();
+        if (m->GetGameServer() != 0)
         {
-            rec[0x20] = it->second->GetGameServer()->m_field9;
+            rec[0x37] = m->GetGameServer()->GetChannelNo();
         }
-        memcpy(rec + 0x22, (char*)it->second->GetGuildMemDBInfo(), 0x14);
-        rec[0x36 + 3] = *(char*)((char*)it->second->GetGuildMemDBInfo() + 0x15);
-        if (it->second->IsBlackUser(user->GetUniqCharNo()) != 0)
+        memcpy(rec + 0x22, (char*)m->GetGuildMemDBInfo(), 0x14);
+        rec[0x3a] = *(char*)((char*)m->GetGuildMemDBInfo() + 0x15);
+        if (m->IsBlackUser(user->GetUniqCharNo()) != 0)
         {
-            rec[0x36 + 2] = 1;
+            rec[0x39] = 1;
         }
         count++;
+        ++it;
+        if (0x5f < count)
+        {
+            break;
+        }
     }
-    *(unsigned char*)(buf + 0x2c) = (unsigned char)count;
-    *(unsigned short*)(buf + 0x2) = (unsigned short)(count * 0x3f + 0x34);
-    *(int*)(buf + 0x2e) = user->GetIdByChannel();
-    *(unsigned int*)(buf + 0x32) = user->GetUniqCharNo();
+    *(unsigned char*)(buf + 0x2d) = (unsigned char)count;
+    *(unsigned short*)(buf + 2) = (unsigned short)(count * 0x3f + 0x34);
+    *(unsigned int*)(buf + 0xa) = user->GetIdByChannel();
+    *(unsigned int*)(buf + 0xe) = user->GetUniqCharNo();
     user->SendToGameserver(buf, count * 0x3f + 0x34);
+    if (it != m_members.end())
+    {
+        Packet_Monitor_Call_Guild_Members_ToChannel_Next pkt2;
+        char* buf2 = (char*)&pkt2;
+        *(unsigned int*)(buf2 + 0x12) = m_guildKey;
+        int cnt2 = 0;
+        while (it != m_members.end())
+        {
+            CUser* m = it->second;
+            char* rec = buf2 + 0x17 + cnt2 * 0x3f;
+            rec[0] = m->GetJob();
+            rec[1] = m->GetGrowthType();
+            *(unsigned short*)(rec + 2) = m->GetLevel();
+            memcpy(rec + 4, m->GetCharName(), 0x1d);
+            rec[0x38] = m->GetSex();
+            if (m->GetGameServer() != 0)
+            {
+                rec[0x37] = m->GetGameServer()->GetChannelNo();
+            }
+            memcpy(rec + 0x22, (char*)m->GetGuildMemDBInfo(), 0x14);
+            rec[0x3a] = *(char*)((char*)m->GetGuildMemDBInfo() + 0x15);
+            if (m->IsBlackUser(user->GetUniqCharNo()) != 0)
+            {
+                rec[0x39] = 1;
+            }
+            cnt2++;
+            ++it;
+            if (0x5f < cnt2)
+            {
+                *(unsigned char*)(buf2 + 0x16) = (unsigned char)cnt2;
+                *(unsigned short*)(buf2 + 2) = 0x17b7;
+                *(unsigned int*)(buf2 + 0xa) = user->GetIdByChannel();
+                *(unsigned int*)(buf2 + 0xe) = user->GetUniqCharNo();
+                user->SendToGameserver(buf2, 0x17b7);
+                cnt2 = 0;
+            }
+        }
+        if (cnt2 != 0)
+        {
+            *(unsigned char*)(buf2 + 0x16) = (unsigned char)cnt2;
+            *(unsigned short*)(buf2 + 2) = (unsigned short)(cnt2 * 0x3f + 0x17);
+            *(unsigned int*)(buf2 + 0xa) = user->GetIdByChannel();
+            *(unsigned int*)(buf2 + 0xe) = user->GetUniqCharNo();
+            user->SendToGameserver(buf2, cnt2 * 0x3f + 0x17);
+        }
+    }
 }
 
 void CGuild::ReplyGuildAllMembers(CUser* user)
 {
-    if (user == 0 || (m_field1c & 4) == 0 || m_members.empty())
+    if (user == 0 || (m_field1c & 4) == 0 || (m_field1c & 0x10) == 0)
     {
         return;
     }
-    char buf[0x17dc];
-    memset(buf, 0, sizeof(buf));
-    *(unsigned short*)(buf + 0) = 0x1f40;
-    *(unsigned int*)(buf + 0xa) = m_guildKey;
+    Packet_Monitor_Call_Guild_All_Members_ToChannel pkt;
+    char* buf = (char*)&pkt;
+    *(unsigned int*)(buf + 0x12) = m_guildKey;
+    memcpy(buf + 0x16, (char*)this + 0x20, 0x16);
+    *(unsigned int*)(buf + 0x2d) = *(unsigned int*)((char*)this + 0x44);
+    unsigned short total = *(unsigned short*)((char*)this + 0x1e);
     int count = 0;
-    for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
-         it != m_members.end() && count < 96; ++it)
+    if (*(short*)((char*)this + 0x42) != *(short*)((char*)this + 0x1e))
     {
-        if (it->second == 0)
-        {
-            continue;
-        }
+        CMyFileLog log("ReplyGuildAllMembers", 0x63b);
+        log("./log/GuildModify", "Error Guild Member Cnt Not Valid , (%d)/(%d)",
+            (unsigned int)*(unsigned short*)((char*)this + 0x42),
+            (unsigned int)*(unsigned short*)((char*)this + 0x1e));
+        *(unsigned short*)((char*)this + 0x42) = *(unsigned short*)((char*)this + 0x1e);
+    }
+    int idx = 0;
+    for (idx = 0; idx < (int)total; idx++)
+    {
+        char* src = (char*)this + idx * 0x41 + 0xdd;
         char* rec = buf + 0x34 + count * 0x3f;
-        rec[0] = it->second->GetJob();
-        rec[1] = it->second->GetGrowthType();
-        *(unsigned short*)(rec + 2) = it->second->GetLevel();
-        memcpy(rec + 4, it->second->GetCharName(), 0x1d);
-        rec[0x21] = it->second->GetSex();
-        if (it->second->GetGameServer() != 0)
+        rec[0] = src[0x22];
+        rec[1] = src[0x23];
+        *(unsigned short*)(rec + 2) = *(unsigned short*)(src + 0x24);
+        memcpy(rec + 4, src + 4, 0x1d);
+        rec[0x38] = src[0x26];
+        rec[0x3a] = src[0x27];
+        *(unsigned int*)(rec + 0x3b) = *(unsigned int*)(src + 0x28);
+        CUser* m = FindGuildMember(*(unsigned int*)src);
+        if (m == 0)
         {
-            rec[0x20] = it->second->GetGameServer()->m_field9;
+            memcpy(rec + 0x22, src + 0x2c, 0x14);
+        }
+        else
+        {
+            rec[1] = m->GetGrowthType();
+            *(unsigned short*)(rec + 2) = m->GetLevel();
+            if (m->GetGameServer() == 0)
+            {
+                CMyFileLog log("ReplyGuildAllMembers", 0x658);
+                log("./log/Except",
+                    "CGuild::ReplyGuildMembers() Guild Key : %d\tGuild Name : %s\tDB Id : %d\tChar Id : %d\n",
+                    GetGuildKey(), GetGuildName(), m->GetDBID(), *(unsigned int*)src);
+            }
+            else
+            {
+                rec[0x37] = m->GetGameServer()->GetChannelNo();
+                memcpy(rec + 0x22, (char*)m->GetGuildMemDBInfo(), 0x14);
+                rec[0x3a] = *(char*)((char*)m->GetGuildMemDBInfo() + 0x15);
+            }
+            if (m->IsBlackUser(user->GetUniqCharNo()) != 0)
+            {
+                rec[0x39] = 1;
+            }
         }
         count++;
+        if (0x5f < count)
+        {
+            break;
+        }
     }
-    *(unsigned char*)(buf + 0x2c) = (unsigned char)count;
-    *(unsigned short*)(buf + 0x2) = (unsigned short)(count * 0x3f + 0x34);
-    user->SendToGameserver(buf, count * 0x3f + 0x34);
+    *(unsigned char*)(buf + 0x33) = (unsigned char)count;
+    *(unsigned short*)(buf + 2) = (unsigned short)(count * 0x3f + 0x34);
+    *(unsigned int*)(buf + 0xa) = user->GetIdByChannel();
+    *(unsigned int*)(buf + 0xe) = user->GetUniqCharNo();
+    user->SendTcpGameserver((PacketHeader*)buf);
+    if (count < (int)total)
+    {
+        Packet_Monitor_Call_Guild_All_Members_ToChannel_Next pkt2;
+        char* buf2 = (char*)&pkt2;
+        *(unsigned int*)(buf2 + 0x12) = m_guildKey;
+        int cnt2 = 0;
+        for (int i = idx; i < (int)total; i++)
+        {
+            char* src = (char*)this + i * 0x41 + 0xdd;
+            char* rec = buf2 + 0x17 + cnt2 * 0x3f;
+            rec[0] = src[0x22];
+            rec[1] = src[0x23];
+            *(unsigned short*)(rec + 2) = *(unsigned short*)(src + 0x24);
+            memcpy(rec + 4, src + 4, 0x1d);
+            rec[0x38] = src[0x26];
+            rec[0x3a] = src[0x27];
+            *(unsigned int*)(rec + 0x3b) = *(unsigned int*)(src + 0x28);
+            CUser* m = FindGuildMember(*(unsigned int*)src);
+            if (m == 0)
+            {
+                memcpy(rec + 0x22, src + 0x2c, 0x14);
+            }
+            else
+            {
+                rec[1] = m->GetGrowthType();
+                *(unsigned short*)(rec + 2) = m->GetLevel();
+                if (m->GetGameServer() == 0)
+                {
+                    CMyFileLog log("ReplyGuildAllMembers", 0x658);
+                    log("./log/Except",
+                        "CGuild::ReplyGuildMembers() Guild Key : %d\tGuild Name : %s\tDB Id : %d\tChar Id : %d\n",
+                        GetGuildKey(), GetGuildName(), m->GetDBID(), *(unsigned int*)src);
+                }
+                else
+                {
+                    rec[0x37] = m->GetGameServer()->GetChannelNo();
+                    memcpy(rec + 0x22, (char*)m->GetGuildMemDBInfo(), 0x14);
+                    rec[0x3a] = *(char*)((char*)m->GetGuildMemDBInfo() + 0x15);
+                }
+                if (m->IsBlackUser(user->GetUniqCharNo()) != 0)
+                {
+                    rec[0x39] = 1;
+                }
+            }
+            cnt2++;
+            if (0x5f < cnt2)
+            {
+                *(unsigned char*)(buf2 + 0x16) = (unsigned char)cnt2;
+                *(unsigned short*)(buf2 + 2) = 0x17b7;
+                *(unsigned int*)(buf2 + 0xa) = user->GetIdByChannel();
+                *(unsigned int*)(buf2 + 0xe) = user->GetUniqCharNo();
+                user->SendTcpGameserver((PacketHeader*)buf2);
+                cnt2 = 0;
+            }
+        }
+        if (cnt2 != 0)
+        {
+            *(unsigned char*)(buf2 + 0x16) = (unsigned char)cnt2;
+            *(unsigned short*)(buf2 + 2) = (unsigned short)(cnt2 * 0x3f + 0x17);
+            *(unsigned int*)(buf2 + 0xa) = user->GetIdByChannel();
+            *(unsigned int*)(buf2 + 0xe) = user->GetUniqCharNo();
+            user->SendTcpGameserver((PacketHeader*)buf2);
+        }
+    }
 }
 
 int CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int charNo)
