@@ -64,6 +64,8 @@ struct STGuildMemberChangableInfo
     char m_data[0x20];
 };
 
+int CheckDayScheduleTimeOver(int hour, long t);
+
 class CGuildCargo;
 class CGuildBoard;
 
@@ -288,13 +290,39 @@ public:
     void DBGuildMemberSave(CUser* user, unsigned char flag, CServerHandler* handler,
                            unsigned char param);
     void InsertGuildMemberChanglableInfo(unsigned int charNo);
+    void SendToGuild(PacketHeader* pkt);
+    void SendToGuildForMail();
+    void NotifyMessageToGuildMember();
+    void SendGuildInfoToManagers();
+    void SendGuildNameChangeToMembers();
+    void SendGuildAgitInfoToMembers();
+    void NoticeChatMsgToGuildMembers(unsigned int charNo, int len, char* msg,
+                                     const char* name);
+    void NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, int len, char* msg,
+                                              unsigned char type, const void* link);
+    bool IsEmpty();
+    STGuildDBInfo* GetGuildDBInfo();
+    bool IsExistGuildAgit();
+    void SetGuildAgitFlag(bool flag);
+    unsigned char GetCurSubGuildMasterCnt();
+    unsigned short GetTotalCnt_Of_GuildDBInfo();
+    void DecTotalCnt_Of_GuildDBInfo();
+    int CheckPowerSecedeTime();
+    void ChangeGuildMemberCharName(unsigned int charNo, char* name);
+    void AddGuildPoint(unsigned short point);
+    void SetGuildAgitInfo(STGuildAgitDBInfo& info);
+    void SetGuildAgitLevelUp();
+    void CreateGuildAgit(CServerHandler* handler, unsigned int a, unsigned int b,
+                         unsigned int c, unsigned int d);
+    void DeleteGuildAgit(CServerHandler* handler, unsigned int a, unsigned int b);
+    void UpgradeGuildAgit(CServerHandler* handler, unsigned int a, unsigned int b,
+                          unsigned int c, unsigned int d);
     unsigned char GetPowerSide();
     void SetPowerSide(unsigned char side);
     unsigned int GetPowerWarPoint();
     void AddPowerWarPoint(unsigned int point);
     void SubPowerWarPoint(unsigned int point);
     void SetPowerSecedeTime(unsigned int time);
-    bool CheckPowerSecedeTime();
     CGuildCargo* GetGuildCargo();
     CGuildBoard* GetGuildBoard();
     std::map<unsigned int, CUser*> m_members;  // +0

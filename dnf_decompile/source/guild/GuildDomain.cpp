@@ -1,5 +1,6 @@
 // df_guild_r — 域类骨架（CGuild/CUser/CGuildManager/CPowerManager/CTcpNetSystem 等）
 #include <string.h>
+#include <time.h>
 
 #include "GuildDomain.h"
 #include "GuildApp.h"
@@ -17,6 +18,13 @@ CScheduler::CScheduler()
     m_week = 0xffff;
     m_flag1 = 0xff;
     m_flag2 = 0xff;
+}
+
+int CheckDayScheduleTimeOver(int hour, long t)
+{
+    time_t now = time(0);
+    time_t target = (time_t)((long)now - (long)hour * 86400);
+    return t < target;
 }
 
 STGuildSkill::STGuildSkill()
@@ -990,6 +998,147 @@ void CGuild::DBGuildMemberSave(CUser* user, unsigned char flag, CServerHandler* 
 }
 
 void CGuild::InsertGuildMemberChanglableInfo(unsigned int charNo)
+{
+}
+
+void CGuild::SendToGuild(PacketHeader* pkt)
+{
+    for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+         it != m_members.end(); ++it)
+    {
+        if (it->second != 0)
+        {
+            it->second->SendToGameserver((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+        }
+    }
+}
+
+void CGuild::SendToGuildForMail()
+{
+}
+
+void CGuild::NotifyMessageToGuildMember()
+{
+}
+
+void CGuild::SendGuildInfoToManagers()
+{
+}
+
+void CGuild::SendGuildNameChangeToMembers()
+{
+}
+
+void CGuild::SendGuildAgitInfoToMembers()
+{
+}
+
+void CGuild::NoticeChatMsgToGuildMembers(unsigned int charNo, int len, char* msg,
+                                         const char* name)
+{
+}
+
+void CGuild::NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, int len, char* msg,
+                                                  unsigned char type, const void* link)
+{
+}
+
+bool CGuild::IsEmpty()
+{
+    return m_members.empty();
+}
+
+STGuildDBInfo* CGuild::GetGuildDBInfo()
+{
+    return &m_dbInfo;
+}
+
+bool CGuild::IsExistGuildAgit()
+{
+    return *(unsigned char*)((char*)this + 0xbe) != 0;
+}
+
+void CGuild::SetGuildAgitFlag(bool flag)
+{
+    *(unsigned char*)((char*)this + 0xbe) = flag ? 1 : 0;
+}
+
+unsigned char CGuild::GetCurSubGuildMasterCnt()
+{
+    return *(unsigned char*)((char*)this + 0x4d);
+}
+
+unsigned short CGuild::GetTotalCnt_Of_GuildDBInfo()
+{
+    return *(unsigned short*)((char*)this + 0x42);
+}
+
+void CGuild::DecTotalCnt_Of_GuildDBInfo()
+{
+    *(unsigned short*)((char*)this + 0x42) -= 1;
+}
+
+int CGuild::CheckPowerSecedeTime()
+{
+    if (!IsSetGuildDBFlag(4))
+    {
+        return 0;
+    }
+    return CheckDayScheduleTimeOver(0x1e, *(long long*)((char*)this + 0xb6));
+}
+
+void CGuild::ChangeGuildMemberCharName(unsigned int charNo, char* name)
+{
+    if (IsSetGuildDBFlag(4))
+    {
+        for (int i = 0; i < 300; i++)
+        {
+            if (*(unsigned int*)((char*)this + i * 0x41 + 0xdd) == charNo)
+            {
+                memset((char*)this + i * 0x41 + 0xe1, 0, 0x1e);
+                memcpy((char*)this + i * 0x41 + 0xe1, name, 0x1d);
+            }
+        }
+        if (*(unsigned int*)((char*)this + 0x66ec) == charNo)
+        {
+            memset((char*)this + 0x66f0, 0, 0x1e);
+            memcpy((char*)this + 0x66f0, name, 0x1d);
+        }
+    }
+}
+
+void CGuild::AddGuildPoint(unsigned short point)
+{
+}
+
+void CGuild::AddPowerWarPoint(unsigned int point)
+{
+}
+
+void CGuild::SubPowerWarPoint(unsigned int point)
+{
+}
+
+void CGuild::SetGuildAgitInfo(STGuildAgitDBInfo& info)
+{
+    memcpy((void*)&m_agitInfo, info.m_data, sizeof(m_agitInfo));
+}
+
+void CGuild::SetGuildAgitLevelUp()
+{
+}
+
+void CGuild::CreateGuildAgit(CServerHandler* handler, unsigned int a, unsigned int b,
+                             unsigned int c, unsigned int d)
+{
+}
+
+void CGuild::DeleteGuildAgit(CServerHandler* handler, unsigned int a, unsigned int b)
+{
+}
+
+void CGuild::UpgradeGuildAgit(CServerHandler* handler, unsigned int a, unsigned int b,
+                              unsigned int c, unsigned int d)
 {
 }
 
