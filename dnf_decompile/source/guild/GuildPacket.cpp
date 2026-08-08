@@ -458,24 +458,59 @@ void CPacketTranslater::OnChangeGuildName(PacketHeader* pkt)
         log("./log/Except", "CPacketTranslater::OnChangeGuildName : 0 == m_pclApp");
         return;
     }
+    Packet_Reply_Change_Guild_Name reply;
+    *(unsigned int*)((char*)&reply + 0xa) = *(unsigned int*)(pb + 0xe);
+    memcpy((char*)&reply + 0x16, pb + 0x12, 0x16);
     CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe));
     if (user == 0)
     {
         CMyFileLog log("OnChangeGuildName", 0x14e7);
-        log("./log/Except", "CPacketTranslater::OnChangeGuildName : user not found");
+        log("./log/GuildModify", "CPacketTranslater::OnChangeGuildName : 0 == pclRequestUser");
         return;
     }
-    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 10));
-    if (guild == 0)
+    *(unsigned int*)((char*)&reply + 0xe) = user->GetIdByChannel();
+    unsigned int guildKey = *(unsigned int*)(pb + 10);
+    CGuild* guild = 0;
+    if (guildKey == 0 ||
+        (guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey)) == 0)
     {
+        CMyFileLog log("OnChangeGuildName", 0x14ef);
+        log("./log/GuildModify", "CPacketTranslater::OnChangeGuildName : 0 == pclGuild");
+        *(unsigned char*)((char*)&reply + 0x12) = 100;
+        user->SendTcpGameserver(&reply);
         return;
     }
-    if (guild->IsGuildMaster(user->GetUniqCharNo()) ||
-        guild->IsSubGuildMaster(user->GetUniqCharNo()))
+    if (guild->IsGuildMaster(*(unsigned int*)(pb + 0xe)) == 1)
     {
         guild->ChangeGuildName(pb + 0x12, 1);
-        guild->DBGuildSave(m_pclApp->Get_ServerGroup(), m_pclApp->Get_ServerHandler(), 0);
+        unsigned char group = 0;
+        if (user->GetGameServer() != 0)
+        {
+            group = user->GetGameServer()->GetGroupNo();
+        }
+        guild->DBGuildSave(group, m_pclApp->Get_ServerHandler(), 0);
         guild->SendGuildNameChangeToMembers();
+        *(unsigned int*)((char*)&reply + 0xa) = guildKey;
+        *(unsigned char*)((char*)&reply + 0x12) = 0;
+        user->SendTcpGameserver(&reply);
+        static const char letterText[0x121] =
+            "\xe8\xae\x8a\xe6\x9b\xb4\xe5\x85\xac\xe6\x9c\x83\xe5\x90\x8d\xe7\xa8\xb1\x00\x00\x00\x00\x00\x00"
+            "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+            "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+            "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+            "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+            "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+            "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+            "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+            "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+            "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+            "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xe5\x85\xac\xe6\x9c\x83\xe5\x90\x8d"
+            "\xe7\xa8\xb1\xe5\xb7\xb2\xe8\xae\x8a\xe6\x9b\xb4\xe7\x82\xba\x20\x25\x73\xe3\x80\x82\x00\x00\x00";
+        char mailContent[0x100];
+        memset(mailContent, 0, sizeof(mailContent));
+        sprintf(mailContent, letterText + 0xff, pb + 0x12);
+        SendPacketGuildMail(group, user->GetUniqCharNo(), guildKey, letterText,
+                            mailContent, 0xffffffff);
     }
     else
     {
@@ -483,6 +518,8 @@ void CPacketTranslater::OnChangeGuildName(PacketHeader* pkt)
         log("./log/GuildModify",
             "CPacketTranslater::OnChangeGuildName : %d is not guild master or sub master(g:%d)",
             *(unsigned int*)(pb + 0xe), *(unsigned int*)(pb + 10));
+        *(unsigned char*)((char*)&reply + 0x12) = 0x56;
+        user->SendTcpGameserver(&reply);
     }
 }
 
