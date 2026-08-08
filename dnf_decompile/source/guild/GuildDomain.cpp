@@ -1195,6 +1195,10 @@ void CGuild::QueryTodayGuildMember(CServerHandler* handler)
 
 void CGuild::SetTodayGuildMember(STTodayGuildMember* member)
 {
+    if (member != 0)
+    {
+        memcpy((char*)this + 0x66ec, member->m_data, 0x27);
+    }
 }
 
 void CGuild::NotifyTodayGuildMember(CUser* user)
@@ -1202,6 +1206,110 @@ void CGuild::NotifyTodayGuildMember(CUser* user)
 }
 
 void CGuild::LoadGuildAgit(CServerHandler* handler, unsigned int charNo)
+{
+}
+
+void CGuild::UpdateChangableInfoProcess()
+{
+    if (IsSetGuildDBFlag(4) && IsSetGuildDBFlag(0x10))
+    {
+        m_field4db0++;
+        if (9 < (unsigned char)m_field4db0)
+        {
+            m_field4db0 = 0;
+        }
+    }
+}
+
+void CGuild::NotifyMemoToGuildMember(CUser* user, const char* memo)
+{
+    if (user == 0 || memo == 0 || (m_field1c & 4) == 0 || m_members.empty())
+    {
+        return;
+    }
+    char buf[0x45];
+    memset(buf, 0, sizeof(buf));
+    *(unsigned short*)(buf + 0) = 0x1f46;  // 包 ID（占位）
+    char* name = user->GetCharName();
+    size_t n = strlen(name);
+    memcpy(buf + 0xa, name, n < 0x1e ? n : 0x1d);
+    n = strlen(memo);
+    memcpy(buf + 0x28, memo, n < 0x15 ? n : 0x14);
+    *(int*)(buf + 0x3c) = user->GetIdByChannel();
+    *(unsigned int*)(buf + 0x40) = user->GetUniqCharNo();
+    user->SendToGameserver(buf, 0x45);
+}
+
+void CGuild::NotifyAllTodayGuildMember()
+{
+    if ((m_field1c & 4) == 0 || m_members.empty())
+    {
+        return;
+    }
+    char buf[0x5b];
+    memset(buf, 0, sizeof(buf));
+    *(unsigned short*)(buf + 0) = 0x1f48;
+    memcpy(buf + 0xa, (char*)this + 0x66ec, 0x27);
+    for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+         it != m_members.end(); ++it)
+    {
+        if (it->second != 0)
+        {
+            it->second->SendToGameserver(buf, 0x5b);
+        }
+    }
+}
+
+void CGuild::NotifyAllAchieveAttendance(unsigned int charNo, unsigned int phase)
+{
+    if ((m_field1c & 4) == 0 || m_members.empty())
+    {
+        return;
+    }
+    for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+         it != m_members.end(); ++it)
+    {
+        if (it->second != 0)
+        {
+        }
+    }
+}
+
+void CGuild::NoticeMarkChangeToGuildMember(unsigned int charNo)
+{
+    if ((m_field1c & 4) == 0 || m_members.empty())
+    {
+        return;
+    }
+    for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+         it != m_members.end(); ++it)
+    {
+        if (it->second != 0)
+        {
+        }
+    }
+}
+
+void CGuild::NoticeGuildMasterDelegateToMembers(char* name)
+{
+    if ((m_field1c & 4) == 0 || m_members.empty())
+    {
+        return;
+    }
+    for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+         it != m_members.end(); ++it)
+    {
+        if (it->second != 0)
+        {
+        }
+    }
+}
+
+void CGuild::NotifyCreateGuildAgitToGuildMember(unsigned int charNo)
+{
+}
+
+void CGuild::NotifyDeleteGuildAgitToGuildMember(unsigned int charNo)
 {
 }
 

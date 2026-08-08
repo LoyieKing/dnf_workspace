@@ -322,6 +322,7 @@ public:
                                      const char* name);
     void NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, int len, char* msg,
                                               unsigned char type, const void* link);
+    void UpdateChangableInfoProcess();
     void NoticeEnterToGuildMember(char* info);
     void NoticeSecedeToGuildMember(char* info);
     void DismissGuildMemberAndNotice(unsigned char group);
@@ -352,6 +353,13 @@ public:
     void WriteGuildMemberMemo(CUser* user, const char* memo);
     void ReplyGuildMembers(CUser* user);
     int GuildLevelUp(CServerHandler* handler, CUser* user);
+    void NotifyMemoToGuildMember(CUser* user, const char* memo);
+    void NotifyAllTodayGuildMember();
+    void NotifyAllAchieveAttendance(unsigned int charNo, unsigned int phase);
+    void NoticeMarkChangeToGuildMember(unsigned int charNo);
+    void NoticeGuildMasterDelegateToMembers(char* name);
+    void NotifyCreateGuildAgitToGuildMember(unsigned int charNo);
+    void NotifyDeleteGuildAgitToGuildMember(unsigned int charNo);
     unsigned char GetPowerSide();
     void SetPowerSide(unsigned char side);
     unsigned int GetPowerWarPoint();
