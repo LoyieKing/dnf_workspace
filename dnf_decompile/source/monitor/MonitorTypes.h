@@ -1235,6 +1235,7 @@ public:
 namespace village_attacked
 {
 int GetNextSchedule(tm t, int wday, int hour, int min);
+int compareTime(int const& a, int const& b);
 void SetRealConfig();
 void SetGMConfig(unsigned int a, unsigned int b, unsigned int c);
 
@@ -1271,8 +1272,9 @@ public:
     void InsertTimer(int startTime, int endTime);
     void OnEndVillageAttacked();
     void OnRewardVillageAttacked();
-    void SetRewardCloseTime(int rewardType);
     void SendVillageAttackedEnd();
+    unsigned int GetDungeonRemainTime();
+    void SetRewardCloseTime(int rewardType);
     void SendMaxHuntingPoint();
     void Reset();
     CApplication* m_app;                       // +0
@@ -1412,6 +1414,15 @@ class Packet_VillageAttackedRewardServer : public PacketHeader
 public:
     Packet_VillageAttackedRewardServer();
     unsigned int m_fieldA;    // +10
+};
+
+class Packet_VillageAttackedEnd : public PacketHeader
+{
+public:
+    Packet_VillageAttackedEnd();
+    unsigned int m_dungeonRemain;  // +10
+    unsigned int m_fieldE;         // +14
+    unsigned int m_field12;        // +18
 };
 
 class Packet_DBMW_Add_Buddy : public PacketHeader

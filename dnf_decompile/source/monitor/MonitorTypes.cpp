@@ -2650,6 +2650,11 @@ int COUNTDOWN_FIRST_TIME;
 int COUNTDOWN_SECOND_TIME;
 int COUNTDOWN_THIRD_TIME;
 
+int compareTime(int const& a, int const& b)
+{
+    return b < a;
+}
+
 int GetNextSchedule(tm t, int wday, int hour, int min)
 {
     int days = wday - t.tm_wday;
@@ -2806,9 +2811,6 @@ void CVillageAttackedManager::OnSchedule()
 void CVillageAttackedManager::SetRewardCloseTime(int rewardType)
 {
 }
-void CVillageAttackedManager::SendVillageAttackedEnd()
-{
-}
 void CVillageAttackedManager::SendMaxHuntingPoint()
 {
 }
@@ -2848,6 +2850,18 @@ void CVillageAttackedManager::OnRewardVillageAttacked()
     Packet_VillageAttackedRewardServer pkt;
     m_app->Get_ServerHandler()->SendAllToGameServer((char*)&pkt, 0xe);
     m_field30 = 0;
+}
+unsigned int CVillageAttackedManager::GetDungeonRemainTime()
+{
+    return 0;
+}
+void CVillageAttackedManager::SendVillageAttackedEnd()
+{
+    Packet_VillageAttackedEnd pkt;
+    pkt.m_dungeonRemain = GetDungeonRemainTime();
+    pkt.m_fieldE = (unsigned int)m_field1c;
+    pkt.m_field12 = (unsigned int)m_field20;
+    m_app->Get_ServerHandler()->SendAllToGameServer((char*)&pkt, 0x16);
 }
 void CVillageAttackedManager::SendCharacRank()
 {
@@ -4106,6 +4120,13 @@ Packet_VillageAttackedRewardServer::Packet_VillageAttackedRewardServer()
     : PacketHeader(0x177a, 0xe)
 {
     m_fieldA = 0;
+}
+
+Packet_VillageAttackedEnd::Packet_VillageAttackedEnd() : PacketHeader(0x1774, 0x16)
+{
+    m_dungeonRemain = 0;
+    m_fieldE = 0;
+    m_field12 = 0;
 }
 
 Packet_DBMW_Add_Buddy::Packet_DBMW_Add_Buddy() : PacketHeader(0x673, 0x2c)
