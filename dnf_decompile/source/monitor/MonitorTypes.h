@@ -173,20 +173,20 @@ public:
     std::map<unsigned int, NpcBuyLimitItem> m_items;  // +0
 };
 
+enum ENUM_LOGIN_LOGOUT
+{
+    LOGIN_LOGOUT_0 = 0
+};
+
 class CLoginLogoutStatistics
 {
 public:
     CLoginLogoutStatistics(CApplication& app);
     virtual ~CLoginLogoutStatistics();
     void ProcessByMinute();
-    void LoginLogout(int type, unsigned char channel);
+    void LoginLogout(ENUM_LOGIN_LOGOUT type, unsigned char channel);
     std::map<unsigned char, struct stLoginLogout> m_map;  // +0
     char m_data[0x98];
-};
-
-enum ENUM_LOGIN_LOGOUT
-{
-    LOGIN_LOGOUT_0 = 0
 };
 
 struct stLoginLogout

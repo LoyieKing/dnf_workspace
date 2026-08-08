@@ -700,7 +700,7 @@ void LimitNpcBuyItemManager::undoNpcLimitBuyItem(LimitNpcBuyItemUpdate* info)
 CLoginLogoutStatistics::CLoginLogoutStatistics(CApplication& app) {}
 CLoginLogoutStatistics::~CLoginLogoutStatistics() {}
 void CLoginLogoutStatistics::ProcessByMinute() {}
-void CLoginLogoutStatistics::LoginLogout(int type, unsigned char channel)
+void CLoginLogoutStatistics::LoginLogout(ENUM_LOGIN_LOGOUT type, unsigned char channel)
 {
     std::map<unsigned char, stLoginLogout>::iterator it = m_map.find(channel);
     if (it == m_map.end())
