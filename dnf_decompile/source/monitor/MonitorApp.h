@@ -47,6 +47,11 @@ public:
     void UpdateMiniCraneSeed();
     void SendMiniCraneRandomSeed();
     void SetMiniCraneRandomSeed();
+    void SwitchQueueTCP();
+    void SwitchQueueUDP();
+    CItemLimitEditionMgr* getItemLimitEditionMgr();
+    CTcpNetSystem* Get_TcpNetSystem();
+    void OnGameServerDown(CGameServer* server);
     unsigned char Get_ServerGroup();
 
     bool m_loaded;                      // +4

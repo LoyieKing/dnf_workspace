@@ -18,6 +18,11 @@ class CServerHandler;
 class CTcpNetSystem;
 class CMemberConfig;
 class CMemberExpTbl;
+class CTcpManagerServer;
+class CTcpDBServer;
+class CGameServer;
+class CDBServer;
+class CManagerServer;
 
 // ---- 基础管理器（monitor 专属，实现逐步补齐）----
 class CInnerMsgHandler
@@ -42,6 +47,7 @@ class CPeriodicMessageMgr
 public:
     CPeriodicMessageMgr();
     virtual ~CPeriodicMessageMgr();
+    void OnProcess(CServerHandler* handler);
     char m_data[0x204];
 };
 
@@ -58,6 +64,7 @@ class CLoginLogoutStatistics
 public:
     CLoginLogoutStatistics(CApplication& app);
     virtual ~CLoginLogoutStatistics();
+    void ProcessByMinute();
     char m_data[0xb8];
 };
 
@@ -67,6 +74,7 @@ public:
     CIPCounter();
     virtual ~CIPCounter();
     void Init(CServerHandler* handler);
+    void Proc(unsigned int tick);
     char m_data[0x14];
 };
 
@@ -75,6 +83,7 @@ class CItemLimitEditionMgr
 public:
     CItemLimitEditionMgr();
     virtual ~CItemLimitEditionMgr();
+    void processScheduledJob(CApplication* app, bool flag);
     char m_data[0x18];
 };
 
@@ -84,7 +93,91 @@ public:
     CMemoryCashManager();
     virtual ~CMemoryCashManager();
     void Init(CApplication* app);
+    void ProcessLifeTimeOut();
+    void ProcessCashDataPrint();
     char m_data[0x4c];
+};
+
+// ---- CTcpManagerServer / CTcpDBServer（网络服务封装，各 0x14）----
+class CTcpManagerServer
+{
+public:
+    CTcpManagerServer();
+    ~CTcpManagerServer();
+    void Init(CTcpNetSystem* net);
+    void SetIP(std::string ip);
+    void SetPort(unsigned short port);
+    int* GetSockRef();
+    int GetSock();
+    char IsValidServer();
+    const char* GetIP();
+    unsigned short GetPort();
+    void SendHeartbeat(unsigned char group);
+    std::string m_ip;      // +0
+    unsigned short m_port; // +4
+    int m_sock;            // +8
+    void* m_net;           // +0xc
+    int m_field10;         // +0x10
+};
+
+class CTcpDBServer
+{
+public:
+    CTcpDBServer();
+    ~CTcpDBServer();
+    void Init(CTcpNetSystem* net);
+    void SetIP(std::string ip);
+    void SetPort(unsigned short port);
+    int* GetSockRef();
+    int GetSock();
+    char IsValidServer();
+    const char* GetIP();
+    unsigned short GetPort();
+    void SendHeartbeat();
+    std::string m_ip;      // +0
+    unsigned short m_port; // +4
+    int m_sock;            // +8
+    void* m_net;           // +0xc
+    int m_field10;         // +0x10
+};
+
+// ---- CServerInterface：0x10（CDBServer/CManagerServer/CGameServer 基类）----
+class CServerInterface
+{
+public:
+    CServerInterface(stServerInfo* info);
+    virtual ~CServerInterface();
+    virtual bool Initialize();
+    virtual bool Destroy();
+    char IsValidServer();
+    char IsConnected();
+    char IsHeartBeatTimeOver();
+    unsigned char GetChannelNo();
+    void OnDisconnect();
+    stServerInfo* m_info;  // +4
+    char m_field8[8];      // +8
+};
+
+class CDBServer : public CServerInterface
+{
+public:
+    CDBServer(stServerInfo* info);
+    ~CDBServer();
+};
+
+class CGameServer : public CServerInterface
+{
+public:
+    CGameServer(stServerInfo* info);
+    ~CGameServer();
+};
+
+class CManagerServer : public CServerInterface
+{
+public:
+    CManagerServer(stServerInfo* info);
+    ~CManagerServer();
+    void SendHeartBeat(int group);
 };
 
 class CServerHandler
@@ -93,11 +186,27 @@ public:
     CServerHandler();
     virtual ~CServerHandler();
     void Attach(CApplication* app);
+    void Process();
+    unsigned char GetServerGroupNo();
     void Load(std::multimap<unsigned int, stServerInfo*>* map);
-    void* GetTcpManagerServer();
-    void* GetTcpDBServer();
+    bool RegistGameServer(stServerInfo* info);
+    void RegistDBServer(CDBServer* db);
+    void UnregistDBServer();
+    void RegistManagerServer(CManagerServer* mgr);
+    void UnregistManagerServer();
+    CTcpManagerServer* GetTcpManagerServer();
+    CTcpDBServer* GetTcpDBServer();
     void SendToDB(PacketHeader* pkt);
-    char m_data[0x64];
+    std::map<unsigned int, CGameServer*> m_gameServers;  // +0
+    CDBServer* m_dbServer;                          // +0x18
+    CManagerServer* m_managerServer;                // +0x1c
+    CApplication* m_app;                            // +0x20
+    int m_field24;                                  // +0x24
+    std::map<unsigned int, void*> m_tcpGameServers; // +0x28
+    CTcpDBServer m_tcpDbServer;                     // +0x40
+    int m_field50;                                  // +0x50
+    CTcpManagerServer m_tcpManagerServer;           // +0x54
+    int m_field64;                                  // +0x64
 };
 
 class CTowerRank
@@ -131,7 +240,11 @@ public:
     CFrameCountHandler();
     ~CFrameCountHandler();
     void InitFrameCountInfo(CApplication* app, unsigned int frameCount, unsigned short tick);
-    char m_data[0x30];
+    CFrameCountHandler* GetFrameCountInfo();
+    void SaveProcess();
+    char m_data[0x24];
+    unsigned char m_field24;   // +0x24
+    char m_pad[0xb];           // +0x25
 };
 
 // ---- CUdpNetworkThread：0x1c ----
@@ -191,31 +304,6 @@ public:
     char m_data[0x160];
 };
 
-// ---- CTcpManagerServer / CTcpDBServer（网络服务封装）----
-class CTcpManagerServer
-{
-public:
-    CTcpManagerServer();
-    ~CTcpManagerServer();
-    void Init(CTcpNetSystem* net);
-    void SetIP(std::string ip);
-    void SetPort(unsigned short port);
-    int* GetSockRef();
-    int GetSock();
-};
-
-class CTcpDBServer
-{
-public:
-    CTcpDBServer();
-    ~CTcpDBServer();
-    void Init(CTcpNetSystem* net);
-    void SetIP(std::string ip);
-    void SetPort(unsigned short port);
-    int* GetSockRef();
-    int GetSock();
-};
-
 // ---- CUserManager：0x7c ----
 class CUserManager
 {
@@ -223,6 +311,8 @@ public:
     CUserManager();
     ~CUserManager();
     void Init(CApplication* app);
+    void MemberEnterProcess();
+    void ProcessByMinute();
     char m_data[0x7c];
 };
 
@@ -234,6 +324,7 @@ public:
     ~CMemberManager();
     void Init(CApplication* app, CUserManager* userMgr, CMemberConfig* memberConfig,
               CMemberExpTbl* memberExpTbl);
+    void MemberRegisterFlagProcess();
     char m_data[0x30];
 };
 
@@ -267,6 +358,7 @@ class CPacketDecoder
 {
 public:
     void Attach(CApplication* app);
+    void Process();
 };
 
 CPacketDecoder* CPacketDecoderInstance();
@@ -290,6 +382,7 @@ public:
     CTaskScheduler();
     virtual ~CTaskScheduler();
     void AddTask(CTask* task);
+    void ProcessTask(unsigned int tick);
     char m_data[0xc];
 };
 

@@ -370,18 +370,80 @@ void CApplication::Process()
 {
     while (m_loaded)
     {
-        if (m_serverHandler2 != 0)
+        try
         {
-            ProcessTimeSync();
+            CFrameCountHandler* frameInfo = m_frameCount.GetFrameCountInfo();
+            if (frameInfo->m_field24 != 0 && 1 < frameInfo->m_field24)
+            {
+                m_serverHandler2->Process();
+                if (2 < frameInfo->m_field24)
+                {
+                    m_memberManager.MemberRegisterFlagProcess();
+                    m_userManager.MemberEnterProcess();
+                    m_frameCount.SaveProcess();
+                    m_userManager.ProcessByMinute();
+                    m_memoryCash->ProcessLifeTimeOut();
+                    m_memoryCash->ProcessCashDataPrint();
+                    m_towerRank->processReloadRanking(m_serverHandler2, false, 10000);
+                    m_towerRank->processReloadRanking(m_serverHandler2, false, 5);
+                    m_periodicMsg->OnProcess(m_serverHandler2);
+                    ((CLoginLogoutStatistics*)m_field330)->ProcessByMinute();
+                    ProcessTimeSync();
+                    UpdateCollectItems();
+                    if (frameInfo->m_field24 == 4)
+                    {
+                        UpdateMiniCraneSeed();
+                    }
+                }
+            }
+            getItemLimitEditionMgr()->processScheduledJob(this, false);
+            SwitchQueueTCP();
+            SwitchQueueUDP();
+            CPacketDecoderInstance()->Process();
+            m_ipCounter->Proc((unsigned int)time(0));
+            m_taskScheduler->ProcessTask((unsigned int)time(0));
+            DNFFLib::Sleep_Ext(0, 1);
         }
-        UpdateCollectItems();
-        if (m_serverHandler2 != 0)
+        catch (CDNFException& e)
         {
-            UpdateMiniCraneSeed();
+            printf("CApplication::Process() Exception Break : %s\n", e.what());
+            CMyFileLog log("Process", 0x413);
+            log("./log/process", "CApplication::Process() Exception Break : %s", e.what());
+            throw;
         }
-        DNFFLib::Sleep_Ext(0, 1);
+        catch (...)
+        {
+            puts("CApplication::Process() Exception Break");
+            CMyFileLog log("Process", 0x418);
+            log("./log/process", "CApplication::Process() Exception Break\n");
+            throw;
+        }
     }
     puts("CApplication::Process() Exit");
+    CMyFileLog log("Process", 0x41c);
+    log("./log/process", "CApplication::Process() Exit\n");
+}
+
+void CApplication::SwitchQueueTCP()
+{
+}
+
+void CApplication::SwitchQueueUDP()
+{
+}
+
+CItemLimitEditionMgr* CApplication::getItemLimitEditionMgr()
+{
+    return m_itemLimitMgr;
+}
+
+CTcpNetSystem* CApplication::Get_TcpNetSystem()
+{
+    return &m_tcpNetSystem;
+}
+
+void CApplication::OnGameServerDown(CGameServer* server)
+{
 }
 
 void CApplication::CheckArgv(int argc, char** argv)
