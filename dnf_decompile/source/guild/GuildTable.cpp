@@ -92,6 +92,14 @@ CServerConfig::~CServerConfig()
 
 void CServerConfig::Load_Table(const std::string& path)
 {
+    int rc = Load_Txt_Table_Data(path.c_str(), 0xff);
+    if (0 < rc && rc < 0xff)
+    {
+        return;
+    }
+    CMyFileLog log("Load_Table", 0x39);
+    log("./log/TableError", "Server Config Table - ReturnCode = %d\n", rc);
+    throw CDNFException("CServerConfig::Load_Setup_Table() Exception Break!");
 }
 
 int CServerConfig::Parse_Table(char* line, int idx)

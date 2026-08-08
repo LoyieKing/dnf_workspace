@@ -4284,6 +4284,14 @@ void CPowerWar::GetPowerWarConfigTbl(unsigned char& a, unsigned char& b, unsigne
 
 void CPowerWar::LoadPowerWarTableFile(char* path)
 {
+    CMyFileLog log("LoadPowerWarTableFile", 0x9e);
+    log("./log/Power", "LoadPowerWarTableFile filename(%s)\n", path);
+    CPowerWarConfig* config = *(CPowerWarConfig**)((char*)this + 0x10);
+    config->Load_Table(std::string(path));
+    ((CScheduler*)((char*)this + 0x14))->Clear();
+    ST_PowerWarEventStartTimeConfig* info = config->GetInfo();
+    std::vector<STPowerWarScheduleTime> schedule = *(std::vector<STPowerWarScheduleTime>*)((char*)info + 8);
+    ((CScheduler*)((char*)this + 0x14))->SetSpecialWeekDayHour(schedule);
 }
 
 void CPowerWar::ProcessByMinuteEndEvent()
@@ -4296,7 +4304,11 @@ void CPowerWar::ProcessByMinuteStartEvent()
 
 int CPowerWar::GetPowerWarRankingUpdateTime()
 {
-    return 0;
+    if (*(int*)((char*)this + 0x10) == 0)
+    {
+        return 0;
+    }
+    return *(int*)((char*)((*(CPowerWarConfig**)((char*)this + 0x10))->GetInfo()) + 4);
 }
 
 CPower::CPower()
