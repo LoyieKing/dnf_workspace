@@ -557,27 +557,18 @@ void StatisticManager::ResetDisjointAvatarInfoTotal()
 {
     m_disjoint.clear();
 }
-STUB_STAT(SendDBValueStatistic, (CServerHandler*))
-STUB_STAT(SendDBCirculationStatistic, (CServerHandler*))
 STUB_STAT(SendDBSecretShopStatistic, (CServerHandler*))
-STUB_STAT(SendDBDisjointAvatarInfoTotal, (CServerHandler*))
 STUB_STAT(SendDBP2PStatistic, (CServerHandler*))
-STUB_STAT(SendDBFatigueBattery, (CServerHandler*))
-STUB_STAT(SendDBBloodDungeonStatistic, (CServerHandler*))
 STUB_STAT(SendDBHellPartyStatisticItem, (CServerHandler*))
-STUB_STAT(SendDBPacketOverflowStatistic, (CServerHandler*))
 STUB_STAT(SendDBDeathTowerValueStatistic, (CServerHandler*))
 STUB_STAT(SendDBDeathTowerPlayDataJobStatistic, (CServerHandler*))
 STUB_STAT(SendDBDeathTowerPlayDataPartyStatistic, (CServerHandler*))
 STUB_STAT(SendDBAssertManagerStatistic, (CServerHandler*))
-STUB_STAT(SendDBCreateEmblemInfo, (CServerHandler*))
 STUB_STAT(SendDBLoadingTimeReport, (CServerHandler*))
-STUB_STAT(SendDBRandomboxStatistic, (CServerHandler*))
 STUB_STAT(SendDBUserTingTimeCheckStatistic, (CServerHandler*))
 STUB_STAT(SendDBPowerwarLagReport, (CServerHandler*))
 STUB_STAT(SendDBTingUserTimeCheck, (CServerHandler*))
 STUB_STAT(SendDBPowerwarLoadingTimeReport, (CServerHandler*))
-STUB_STAT(SendDBServerMatchData, (CServerHandler*))
 STUB_STAT(SendDBLagStatistics, (CServerHandler*, char*))
 STUB_STAT(AddMoneyLog, (MoneyLogPacket*, CServerHandler*))
 STUB_STAT(AddLagStatistics, (Packet_Stat_Lag_Statistics*))
@@ -1484,5 +1475,157 @@ void StatisticManager::SendDBPartyCharacStatistic(CServerHandler* handler)
             CMyFileLog log("SendDBPartyCharacStatistic", 0x1bb);
             log("./log/statistic", "PartyCharac DB Sent %d", idx);
         }
+    }
+}
+
+void StatisticManager::SendDBRandomboxStatistic(CServerHandler* handler)
+{
+    Packet_Randombox_statistic_DB pkt;
+    for (int i = 0; i < 5; i++)
+    {
+        *(unsigned int*)((char*)&pkt + 0xa + i * 4) =
+            *(unsigned int*)((char*)this + (i + 0xd0) * 4 + 8);
+        *(unsigned int*)((char*)&pkt + 0x1e + i * 4) =
+            *(unsigned int*)((char*)this + (i + 0xd4) * 4 + 0xc);
+    }
+    handler->SendToDB((PacketHeader*)&pkt);
+}
+
+void StatisticManager::SendDBDisjointAvatarInfoTotal(CServerHandler* handler)
+{
+    Packet_Avater_Disjoint_Statistic_DB pkt;
+    memcpy((char*)&pkt + 0xa, (char*)this + 0x1e8, 0x144);
+    handler->SendToDB((PacketHeader*)&pkt);
+    CMyFileLog log("SendDBDisjointAvatarInfoTotal", 0x5fa);
+    log("./log/statistic", "Packet_Avater_Disjoint_Statistic_DB");
+}
+
+void StatisticManager::SendDBCreateEmblemInfo(CServerHandler* handler)
+{
+    Packet_Emblem_Create_Statistic_DB pkt;
+    memcpy((char*)&pkt + 0xa, (char*)this + 0x32c, 0x1c);
+    handler->SendToDB((PacketHeader*)&pkt);
+}
+
+void StatisticManager::SendDBServerMatchData(CServerHandler* handler)
+{
+    if (*(int*)((char*)this + 0x438) != 0)
+    {
+        Packet_Server_Match_data_DBMW pkt;
+        *(char*)((char*)&pkt + 0xa) = *(char*)((char*)this + 0x438);
+        *(unsigned int*)((char*)&pkt + 0xb) = *(unsigned int*)((char*)this + 0x43c);
+        *(unsigned int*)((char*)&pkt + 0xf) = *(unsigned int*)((char*)this + 0x440);
+        handler->SendToDB((PacketHeader*)&pkt);
+    }
+}
+
+void StatisticManager::SendDBPacketOverflowStatistic(CServerHandler* handler)
+{
+    Packet_DBMW_Packet_Overflow_Statistic pkt;
+    int count = 0;
+    if (!m_packetOverflow.empty())
+    {
+        for (std::map<STPacketOverflowKey, int>::iterator it = m_packetOverflow.begin();
+             it != m_packetOverflow.end(); ++it)
+        {
+            *(char*)((char*)&pkt + 0xa) = it->first.m_field0;
+            *(unsigned short*)((char*)&pkt + 0xb) = it->first.m_field2;
+            *(unsigned int*)((char*)&pkt + 0xd) = it->second;
+            handler->SendToDB((PacketHeader*)&pkt);
+            count++;
+        }
+        CMyFileLog log("SendDBPacketOverflowStatistic", 0x297);
+        log("./log/Statistic", "Packet Overflow DB Sent %d", count);
+    }
+}
+
+void StatisticManager::SendDBValueStatistic(CServerHandler* handler)
+{
+    if (!m_value.empty())
+    {
+        Packet_DBMW_Query_String pkt;
+        *(unsigned int*)((char*)&pkt + 0xa) = 0x4ef5;
+        time_t now = time(0);
+        for (std::map<int, ValueStatisticData>::iterator it = m_value.begin();
+             it != m_value.end(); ++it)
+        {
+            int key = it->first;
+            ValueStatisticData* v = &it->second;
+            memset((char*)&pkt + 0xe, 0, 0x1001);
+            snprintf((char*)&pkt + 0xe, 0x400,
+                "inSert into log_value_stat(channel_no,occ_time ,level,uv,drop_gold,drop_item,result_card_gold,result_card_item,gold_card_item,store_item_buy,jar_item,disjoint_create,upgrade_faild_forced_disjoint,quest_reward,deathtower_card_gold,deathtower_card_item,consume_store_item_buy,consume_upgrade_attempt,consume_upgrade_faild,consume_stamina_recovery,consume_quest_consume,consume_auction_commision,consume_item_disjoint,consume_item_repair,consume_item_use,consume_item_drop,consume_gold_drop,consume_gold_card_price,consume_qp_init) values(%d,from_unixtime(%d),%d,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u)",
+                1, now, key, v->m_data[0], v->m_data[1], v->m_data[2], v->m_data[3], v->m_data[4],
+                v->m_data[5], v->m_data[6], v->m_data[7], v->m_data[8], v->m_data[9],
+                v->m_data[10], v->m_data[11], v->m_data[12], v->m_data[13], v->m_data[14],
+                v->m_data[15], v->m_data[16], v->m_data[17], v->m_data[18], v->m_data[19],
+                v->m_data[20], v->m_data[21], v->m_data[22], v->m_data[23], v->m_data[24],
+                v->m_data[25], v->m_data[26], v->m_data[27], v->m_data[28]);
+            handler->SendToDB((PacketHeader*)&pkt);
+        }
+    }
+}
+
+void StatisticManager::SendDBCirculationStatistic(CServerHandler* handler)
+{
+    if (!m_circ.empty())
+    {
+        Packet_DBMW_Query_String pkt;
+        *(unsigned int*)((char*)&pkt + 0xa) = 0x4ef6;
+        time_t now = time(0);
+        for (std::map<int, CirculationStatisticData>::iterator it = m_circ.begin();
+             it != m_circ.end(); ++it)
+        {
+            int key = it->first;
+            CirculationStatisticData* v = &it->second;
+            memset((char*)&pkt + 0xe, 0, 0x1001);
+            snprintf((char*)&pkt + 0xe, 0x1000,
+                "inSert into log_gold_stat(channel_no,occ_time ,level,dungeon_drop,result_card,sell_store,quest_reward,death_tower_reward,illusion_tower_reward,war_area_drop,member_tax,blood_dungeon_reward,blood_dungeon_lotto,power_dungeon_drop,power_dungeon_result_card,buy_store,stamina_recovery,repair_item,private_store_commission,gold_card,gold_drop,upgrade,quest_use,mail_commission,punish_user,restrict_trade,guild_level_up,guild_skill,guild_mail,item_compound,blood_dungeon_enter,buy_cerashop,war_area_enter,assault_gold,upgrade_guild_agit,upgrade_guild_cargo,break_away_reward,link_charac_bonus,ultimate_dungeon_reward,guild_fund,guild_fund_dungeon,quest_shop_init_cost,unseal, lottery, amplify,roi_regen) values(%d,from_unixtime(%d),%d,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u)",
+                1, now, key,
+                v->m_data[0], v->m_data[1], v->m_data[2], v->m_data[3], v->m_data[4],
+                v->m_data[5], v->m_data[6], v->m_data[7], v->m_data[8], v->m_data[9],
+                v->m_data[10], v->m_data[11], v->m_data[12], v->m_data[13], v->m_data[14],
+                v->m_data[15], v->m_data[16], v->m_data[17], v->m_data[18], v->m_data[19],
+                v->m_data[20], v->m_data[21], v->m_data[22], v->m_data[23], v->m_data[24],
+                v->m_data[25], v->m_data[26], v->m_data[27], v->m_data[28], v->m_data[29],
+                v->m_data[30], v->m_data[31], v->m_data[32], v->m_data[33], v->m_data[34],
+                v->m_data[35], v->m_data[36], v->m_data[37], v->m_data[38], v->m_data[39],
+                v->m_data[40], v->m_data[41], v->m_data[42], v->m_data[43], v->m_data[44],
+                v->m_data[45], v->m_data[46], v->m_data[47]);
+            handler->SendToDB((PacketHeader*)&pkt);
+        }
+    }
+}
+
+void StatisticManager::SendDBBloodDungeonStatistic(CServerHandler* handler)
+{
+    if (!m_blood.empty())
+    {
+        Packet_DBMW_Query_String pkt;
+        *(unsigned int*)((char*)&pkt + 0xa) = 0x4ed3;
+        for (std::map<unsigned int, STBloodDungeonStatistic>::iterator it = m_blood.begin();
+             it != m_blood.end(); ++it)
+        {
+            memset((char*)&pkt + 0xe, 0, 0x1001);
+            snprintf((char*)&pkt + 0xe, 0x400,
+                "inSert into log_blood_dungeon(occ_date,level,try_count,clear_count) values (now(),%d,%d,%d)",
+                it->first, it->second.m_field0, it->second.m_field4);
+            handler->SendToDB((PacketHeader*)&pkt);
+        }
+    }
+}
+
+void StatisticManager::SendDBFatigueBattery(CServerHandler* handler)
+{
+    if (!m_fatigue.empty())
+    {
+        Packet_DBMW_Fatigue_Battery_Money_Statistic pkt;
+        for (std::map<unsigned char, STFatigueBattery>::iterator it = m_fatigue.begin();
+             it != m_fatigue.end(); ++it)
+        {
+            unsigned int idx = (unsigned int)it->first;
+            *(unsigned int*)((char*)&pkt + 0xa + idx * 8) = it->second.m_field0;
+            *(unsigned int*)((char*)&pkt + 0xa + idx * 8 + 4) = it->second.m_field4;
+        }
+        handler->SendToDB((PacketHeader*)&pkt);
     }
 }

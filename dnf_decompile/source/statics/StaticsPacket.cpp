@@ -54,6 +54,48 @@ Packet_DBMW_Dungeon_Statistic_Party_Charac::Packet_DBMW_Dungeon_Statistic_Party_
     new ((void*)this) PacketHeader(0xc3a, 0x1759);
 }
 
+Packet_DBMW_Packet_Overflow_Statistic::Packet_DBMW_Packet_Overflow_Statistic()
+{
+    new ((void*)this) PacketHeader(0xc44, 0x11);
+}
+
+Packet_Avater_Disjoint_Statistic_DB::Packet_Avater_Disjoint_Statistic_DB()
+{
+    new ((void*)this) PacketHeader(0x17a3, 0x14e);
+    new ((void*)((char*)this + 0xa)) stDisjointAvatarInfoTotal;
+}
+
+Packet_Emblem_Create_Statistic_DB::Packet_Emblem_Create_Statistic_DB()
+{
+    new ((void*)this) PacketHeader(0x17a5, 0x26);
+}
+
+Packet_Randombox_statistic_DB::Packet_Randombox_statistic_DB()
+{
+    new ((void*)this) PacketHeader(0x17b7, 0x32);
+}
+
+Packet_Server_Match_data_DBMW::Packet_Server_Match_data_DBMW()
+{
+    new ((void*)this) PacketHeader(0x1b68, 0x13);
+}
+
+Packet_DBMW_DeathTower_Statistic_Value::Packet_DBMW_DeathTower_Statistic_Value()
+{
+    new ((void*)this) PacketHeader(0xc3c, 0x17e7);
+}
+
+Packet_DBMW_Query_String::Packet_DBMW_Query_String()
+{
+    new ((void*)this) PacketHeader(0x1037, 0x100f);
+}
+
+Packet_DBMW_Fatigue_Battery_Money_Statistic::Packet_DBMW_Fatigue_Battery_Money_Statistic()
+{
+    new ((void*)this) PacketHeader(0xc4a, 0x332);
+    memset((char*)this + 10, 0, 0x328);
+}
+
 CInnerMsgHandler::CInnerMsgHandler()
 {
 }

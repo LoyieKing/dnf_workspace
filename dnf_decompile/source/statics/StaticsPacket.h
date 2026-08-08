@@ -56,6 +56,62 @@ public:
     char m_data[0x1759];
 };
 
+class Packet_DBMW_Packet_Overflow_Statistic
+{
+public:
+    Packet_DBMW_Packet_Overflow_Statistic();
+    char m_data[0x11];
+};
+
+class Packet_Avater_Disjoint_Statistic_DB
+{
+public:
+    Packet_Avater_Disjoint_Statistic_DB();
+    char m_data[0x14e];
+};
+
+class Packet_Emblem_Create_Statistic_DB
+{
+public:
+    Packet_Emblem_Create_Statistic_DB();
+    char m_data[0x26];
+};
+
+class Packet_Randombox_statistic_DB
+{
+public:
+    Packet_Randombox_statistic_DB();
+    char m_data[0x32];
+};
+
+class Packet_Server_Match_data_DBMW
+{
+public:
+    Packet_Server_Match_data_DBMW();
+    char m_data[0x13];
+};
+
+class Packet_DBMW_DeathTower_Statistic_Value
+{
+public:
+    Packet_DBMW_DeathTower_Statistic_Value();
+    char m_data[0x17e7];
+};
+
+class Packet_DBMW_Query_String
+{
+public:
+    Packet_DBMW_Query_String();
+    char m_data[0x100f];
+};
+
+class Packet_DBMW_Fatigue_Battery_Money_Statistic
+{
+public:
+    Packet_DBMW_Fatigue_Battery_Money_Statistic();
+    char m_data[0x332];
+};
+
 // ---- CInnerMsgHandler：空类 ----
 class CInnerMsgHandler
 {
