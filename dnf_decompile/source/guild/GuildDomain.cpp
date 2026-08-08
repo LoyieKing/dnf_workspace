@@ -19,6 +19,35 @@ CScheduler::CScheduler()
     m_flag2 = 0xff;
 }
 
+STGuildSkill::STGuildSkill()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+STGuildMemberProxy::STGuildMemberProxy()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+STGuildDBInfoOnly::STGuildDBInfoOnly()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+STGuildDBInfo::STGuildDBInfo()
+{
+    memset((void*)&m_info, 0, sizeof(m_info));
+    for (int i = 0; i < 300; i++)
+    {
+        memset((void*)&m_members[i], 0, sizeof(m_members[i]));
+    }
+}
+
+STGuildAgitDBInfo::STGuildAgitDBInfo()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
 CScheduler::~CScheduler()
 {
 }
@@ -553,7 +582,19 @@ int CGuildWar::IsGuildWarEnterableGuild(unsigned int guildId)
 
 CGuild::CGuild(unsigned int guildKey)
 {
-    memset(m_data, 0, sizeof(m_data));
+    m_guildKey = guildKey;
+    m_field1c = 0;
+    m_field1e = 0;
+    memset((void*)&m_dbInfo, 0, sizeof(m_dbInfo));
+    memset((void*)&m_agitInfo, 0, sizeof(m_agitInfo));
+    memset(m_field4d0a, 0, sizeof(m_field4d0a));
+    m_field4d70 = 300;
+    m_field4d72 = 300;
+    m_field4d74 = 300;
+    m_field4d92 = 0;
+    m_field4d94 = 0;
+    m_field4d96 = 0;
+    m_field4db0 = 0;
 }
 
 CGuild::~CGuild()
@@ -577,17 +618,12 @@ void CGuild::operator delete(void* p, unsigned int size)
 
 unsigned int CGuild::GetGuildKey()
 {
-    return *(unsigned int*)((char*)this + 4);
+    return m_guildKey;
 }
 
-bool CGuild::IsSubGuildMaster(unsigned int dbid)
+unsigned short CGuild::GetGuildLevel()
 {
-    return false;
-}
-
-bool CGuild::IsGuildMaster(unsigned int dbid)
-{
-    return false;
+    return *(unsigned short*)((char*)this + 0x3b);
 }
 
 char* CGuild::GetGuildName()
@@ -595,9 +631,235 @@ char* CGuild::GetGuildName()
     return (char*)((char*)this + 0x20);
 }
 
+unsigned short CGuild::GetGuildRank()
+{
+    return *(unsigned short*)((char*)this + 0x48);
+}
+
+unsigned int CGuild::GetGuildExp()
+{
+    return *(unsigned int*)((char*)this + 0x49);
+}
+
+unsigned char CGuild::GetPowerSide()
+{
+    return *(unsigned char*)((char*)this + 0xb5);
+}
+
+void CGuild::SetPowerSide(unsigned char side)
+{
+    if (IsSetGuildDBFlag(4))
+    {
+        m_field4d96 = 1;
+        *(unsigned char*)((char*)this + 0xb5) = side;
+    }
+}
+
+void CGuild::SetPowerSecedeTime(unsigned int time)
+{
+    *(unsigned int*)((char*)this + 0xb6) = time;
+}
+
+unsigned int CGuild::GetPowerWarPoint()
+{
+    return *(unsigned int*)((char*)this + 0xba);
+}
+
+CGuildCargo* CGuild::GetGuildCargo()
+{
+    return (CGuildCargo*)((char*)this + 0x4db4);
+}
+
+CGuildBoard* CGuild::GetGuildBoard()
+{
+    return (CGuildBoard*)((char*)this + 0x66c4);
+}
+
+unsigned int CGuild::GetMasterId()
+{
+    return (m_field1c & 2) == 0 ? 0 : *(unsigned int*)((char*)this + 0x37);
+}
+
+unsigned int CGuild::GetGuildFund()
+{
+    return (m_field1c & 4) == 0 ? 0 : *(unsigned int*)((char*)this + 0xc0);
+}
+
 unsigned short CGuild::GetGuildDBFlag()
 {
-    return *(unsigned short*)((char*)this + 0x14);
+    return m_field1c;
+}
+
+void CGuild::SetGuildDBFlag(unsigned short flag)
+{
+    m_field1c |= flag;
+}
+
+bool CGuild::IsSetGuildDBFlag(unsigned short flag)
+{
+    return (m_field1c & flag) != 0;
+}
+
+void CGuild::EnableDBSaveFlag()
+{
+    m_field1c |= 1;
+}
+
+bool CGuild::GetDBSaveFlag()
+{
+    return (m_field1c & 1) != 0;
+}
+
+bool CGuild::IsSubGuildMaster(unsigned int dbid)
+{
+    return *(unsigned short*)((char*)this + 0x43) == 1;
+}
+
+bool CGuild::IsGuildMaster(unsigned int dbid)
+{
+    return GetMasterId() == dbid;
+}
+
+int CGuild::InsertGuildMember(unsigned int charNo, CUser* user)
+{
+    if (user == 0)
+    {
+        return 0;
+    }
+    user->AttachGuild(this);
+    std::pair<std::map<unsigned int, CUser*>::iterator, bool> r =
+        m_members.insert(std::make_pair(charNo, user));
+    if (!r.second)
+    {
+        CMyFileLog log("InsertGuildMember", 0x7b);
+        log("./log/GuildMember",
+            "[INSERT_ERR]\tAlready Exist : Guild Key : %d\tChar Key : %d,\tChar Name : %s\tLogin Mem Cnt : %d\n",
+            GetGuildKey(), charNo, user->GetCharName(), (int)m_members.size());
+        return 0;
+    }
+    return 1;
+}
+
+int CGuild::DeleteGuildMember(unsigned int charNo, CUser* user)
+{
+    if (user == 0)
+    {
+        return 0;
+    }
+    if (m_members.erase(charNo) == 0)
+    {
+        CMyFileLog log("DeleteGuildMember", 0x96);
+        log("./log/GuildMember",
+            "CGuild::DeleteGuildMember\tException Break Possible! Or Check Using Function FindUser() or FindUser_CharNo()\tGuild Key : %d\tChar Key : %d,\tChar Name : %s\tLogin Mem Cnt : %d\n",
+            GetGuildKey(), charNo, user->GetCharName(), (int)m_members.size());
+        return 0;
+    }
+    user->DetachGuild();
+    return 1;
+}
+
+CUser* CGuild::FindGuildMember(unsigned int charNo)
+{
+    if (m_members.empty())
+    {
+        return 0;
+    }
+    std::map<unsigned int, CUser*>::iterator it = m_members.find(charNo);
+    return it == m_members.end() ? 0 : it->second;
+}
+
+void CGuild::AddGuildFund(unsigned int fund)
+{
+}
+
+void CGuild::SubGuildFund(unsigned int fund)
+{
+}
+
+bool CGuild::IsAddableGuildFund(unsigned int fund)
+{
+    return false;
+}
+
+bool CGuild::IsCompleteGuildFund()
+{
+    return false;
+}
+
+void CGuild::AddGuildExp(unsigned int exp)
+{
+    *(unsigned int*)((char*)this + 0x49) += exp;
+}
+
+void CGuild::AddGuildMemberPoint(unsigned int charNo, unsigned int point)
+{
+}
+
+void CGuild::AddGuildExpUntilLimit(unsigned int exp, unsigned int limit)
+{
+}
+
+void CGuild::GuildSkillPointUp(unsigned short point)
+{
+}
+
+void CGuild::CheckGuildSkill()
+{
+}
+
+void CGuild::ResetGuildPointRank()
+{
+}
+
+void CGuild::IncPowerJoinCount()
+{
+}
+
+void CGuild::LoadGuild(STGuildDBInfoOnly& info, char* name)
+{
+    if ((m_field1c & 4) == 0 && (m_field1c & 2) != 0)
+    {
+        int local18 = *(int*)((char*)this + 0x44);
+        char local11 = 0;
+        int local10 = 0;
+        while (local10 < (int)(unsigned char)info.m_data[0x44] &&
+               199 < *(int*)(info.m_data + local10 * 5 + 0x45) &&
+               *(int*)(info.m_data + local10 * 5 + 0x45) < 0xd1)
+        {
+            local11++;
+            local10++;
+        }
+        if ((int)local11 != (int)(unsigned char)info.m_data[0x44])
+        {
+            CMyFileLog log("LoadGuild", 0x11b);
+            log("./log/GuildSkill", "Guild Skill Learn Error(%d)(%d)",
+                (unsigned char)info.m_data[0x44], (int)local11);
+            info.m_data[0x44] = local11;
+        }
+        memcpy((char*)this + 0x20, info.m_data, 0xbd);
+        SetGuildMessage(name);
+        if (local18 != 0 && *(int*)(info.m_data + 0x24) < local18)
+        {
+            *(int*)((char*)this + 0x44) = local18;
+        }
+        m_field1c |= 4;
+    }
+}
+
+void CGuild::SetGuildMessage(char* msg)
+{
+    if (msg != 0)
+    {
+        strncpy((char*)this + 0x98, msg, 0x40);
+    }
+}
+
+void CGuild::SaveGuild(unsigned char flag, CServerHandler* handler, unsigned int param)
+{
+}
+
+void CGuild::DBGuildSave(unsigned char flag, CServerHandler* handler, unsigned int param)
+{
 }
 
 CGuildManager::CGuildManager()
@@ -830,6 +1092,24 @@ void CGuildManager::CargoLock()
 }
 
 void CGuildManager::CargoUnlock()
+{
+}
+
+CGuildCargo::CGuildCargo()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+CGuildCargo::~CGuildCargo()
+{
+}
+
+CGuildBoard::CGuildBoard()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+CGuildBoard::~CGuildBoard()
 {
 }
 

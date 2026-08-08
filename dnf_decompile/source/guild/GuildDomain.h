@@ -23,6 +23,50 @@ struct STGuildMemerDBInfo
     char m_data[0x20];
 };
 
+// ---- STGuildSkill：5 字节 ----
+struct STGuildSkill
+{
+    STGuildSkill();
+    char m_data[5];
+};
+
+// ---- STGuildMemberProxy：0x41 ----
+struct STGuildMemberProxy
+{
+    STGuildMemberProxy();
+    char m_data[0x41];
+};
+
+// ---- STGuildDBInfoOnly：0xbd ----
+struct STGuildDBInfoOnly
+{
+    STGuildDBInfoOnly();
+    char m_data[0xbd];
+};
+
+// ---- STGuildDBInfo：0xbd + 300*0x41 ----
+struct STGuildDBInfo
+{
+    STGuildDBInfo();
+    STGuildDBInfoOnly m_info;         // +0
+    STGuildMemberProxy m_members[300];  // +0xbd
+};
+
+// ---- STGuildAgitDBInfo ----
+struct STGuildAgitDBInfo
+{
+    STGuildAgitDBInfo();
+    char m_data[0x89];
+};
+
+struct STGuildMemberChangableInfo
+{
+    char m_data[0x20];
+};
+
+class CGuildCargo;
+class CGuildBoard;
+
 // ---- CScheduler：0x8 ----
 class CScheduler
 {
@@ -91,6 +135,7 @@ public:
     void SetGuildMemberMemo(const char* memo);
     void AddGuildMemberPoint(unsigned int point);
     void ResetGuildPoint();
+    void SetGuildMessage(char* msg);
     void SetUserChangableInfo(unsigned char type, char value);
     void SendTcpGameserver(PacketHeader* pkt);
     void SendToGameserver(char* buf, int len);
@@ -199,7 +244,77 @@ public:
     bool IsGuildMaster(unsigned int dbid);
     char* GetGuildName();
     unsigned short GetGuildDBFlag();
-    char m_data[0x600];
+    void SetGuildDBFlag(unsigned short flag);
+    bool IsSetGuildDBFlag(unsigned short flag);
+    void EnableDBSaveFlag();
+    bool GetDBSaveFlag();
+    unsigned int GetGuildExp();
+    void AddGuildExp(unsigned int exp);
+    unsigned short GetGuildLevel();
+    unsigned short GetGuildRank();
+    unsigned int GetMasterId();
+    unsigned int GetGuildFund();
+    void AddGuildFund(unsigned int fund);
+    void SubGuildFund(unsigned int fund);
+    bool IsAddableGuildFund(unsigned int fund);
+    bool IsCompleteGuildFund();
+    int InsertGuildMember(unsigned int charNo, CUser* user);
+    int DeleteGuildMember(unsigned int charNo, CUser* user);
+    CUser* FindGuildMember(unsigned int charNo);
+    void AddGuildMemberPoint(unsigned int charNo, unsigned int point);
+    void AddGuildExpUntilLimit(unsigned int exp, unsigned int limit);
+    void GuildSkillPointUp(unsigned short point);
+    void CheckGuildSkill();
+    void ResetGuildPointRank();
+    void IncPowerJoinCount();
+    void LoadGuild(STGuildDBInfoOnly& info, char* name);
+    void SaveGuild(unsigned char flag, CServerHandler* handler, unsigned int param);
+    void DBGuildSave(unsigned char flag, CServerHandler* handler, unsigned int param);
+    void SetGuildMessage(char* msg);
+    unsigned char GetPowerSide();
+    void SetPowerSide(unsigned char side);
+    unsigned int GetPowerWarPoint();
+    void AddPowerWarPoint(unsigned int point);
+    void SubPowerWarPoint(unsigned int point);
+    void SetPowerSecedeTime(unsigned int time);
+    bool CheckPowerSecedeTime();
+    CGuildCargo* GetGuildCargo();
+    CGuildBoard* GetGuildBoard();
+    std::map<unsigned int, CUser*> m_members;  // +0
+    unsigned int m_guildKey;                    // +0x18
+    unsigned short m_field1c;                   // +0x1c
+    unsigned short m_field1e;                   // +0x1e
+    STGuildDBInfo m_dbInfo;                     // +0x20
+    STGuildAgitDBInfo m_agitInfo;               // +0x4d09
+    char m_field4d0a[100];                      // +0x4d0a
+    unsigned short m_field4d70;                 // +0x4d70
+    unsigned short m_field4d72;                 // +0x4d72
+    unsigned short m_field4d74;                 // +0x4d74
+    unsigned short m_field4d92;                 // +0x4d92
+    unsigned short m_field4d94;                 // +0x4d94
+    unsigned char m_field4d96;                  // +0x4d96
+    std::map<unsigned int, STGuildMemberChangableInfo> m_changable;  // +0x4d98
+    unsigned char m_field4db0;                  // +0x4db0
+    CGuildCargo* m_cargo;                       // +0x4db4（对象在 0x4db4）
+    CGuildBoard* m_board;                       // +0x66c4（对象在 0x66c4）
+};
+
+// ---- CGuildCargo：0x1928 ----
+class CGuildCargo
+{
+public:
+    CGuildCargo();
+    ~CGuildCargo();
+    char m_data[0x1928];
+};
+
+// ---- CGuildBoard ----
+class CGuildBoard
+{
+public:
+    CGuildBoard();
+    ~CGuildBoard();
+    char m_data[0x1900];
 };
 
 // ---- CGuildManager：0xe0 ----
