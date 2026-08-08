@@ -3014,6 +3014,24 @@ void CVillageAttackedManager::OnUpdateVillageAttacked()
 }
 void CVillageAttackedManager::SendVillageAttackedScore(CUser* user)
 {
+    Packet_VillageAttackedScore pkt;
+    pkt.m_idByChannel = user->GetIdByChannel();
+    pkt.m_uniqCharNo = user->GetUniqCharNo();
+    pkt.m_remainTime = (unsigned int)GetRemainTime();
+    pkt.m_field16 = (unsigned int)m_field1c;
+    pkt.m_field1a = (unsigned int)m_field20;
+    user->GetUniqCharNo();
+    int* hp = GetHuntingPoint(user->GetUniqCharNo());
+    int cur = 0;
+    int max = 0;
+    if (hp != 0)
+    {
+        cur = *hp;
+        max = *hp + hp[1];
+    }
+    pkt.m_cur = cur;
+    pkt.m_max = max;
+    user->SendToGameserver((char*)&pkt, 0x26);
 }
 void CVillageAttackedManager::SendVillageAttackedReward(CUser* user, int rewardType)
 {
@@ -3028,6 +3046,15 @@ void CVillageAttackedManager::OnCharacLogin(CUser* user)
     {
         SendVillageAttackedReward(user, m_field30);
     }
+}
+int* CVillageAttackedManager::GetHuntingPoint(unsigned int charNo)
+{
+    std::map<unsigned int, stHuntingPoint>::iterator it = m_huntingPoints.find(charNo);
+    if (it != m_huntingPoints.end())
+    {
+        return (int*)&it->second;
+    }
+    return 0;
 }
 void CVillageAttackedManager::SendCharacRank()
 {
@@ -4307,6 +4334,17 @@ Packet_VillageAttackedUpdate::Packet_VillageAttackedUpdate() : PacketHeader(0x17
     m_remainTime = 0;
     m_fieldE = 0;
     m_field12 = 0;
+}
+
+Packet_VillageAttackedScore::Packet_VillageAttackedScore() : PacketHeader(0x1778, 0x26)
+{
+    m_idByChannel = 0;
+    m_uniqCharNo = 0;
+    m_remainTime = 0;
+    m_field16 = 0;
+    m_field1a = 0;
+    m_cur = 0;
+    m_max = 0;
 }
 
 Packet_DBMW_Add_Buddy::Packet_DBMW_Add_Buddy() : PacketHeader(0x673, 0x2c)

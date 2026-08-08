@@ -1289,6 +1289,7 @@ public:
     void OnCharacLogin(CUser* user);
     void SendVillageAttackedScore(CUser* user);
     void SendVillageAttackedReward(CUser* user, int rewardType);
+    int* GetHuntingPoint(unsigned int charNo);
     int GetRemainTime();
     unsigned int GetDungeonRemainTime();
     void SetRewardCloseTime(int rewardType);
@@ -1449,6 +1450,19 @@ public:
     unsigned int m_remainTime;  // +10
     unsigned int m_fieldE;      // +14
     unsigned int m_field12;     // +18
+};
+
+class Packet_VillageAttackedScore : public PacketHeader
+{
+public:
+    Packet_VillageAttackedScore();
+    unsigned int m_idByChannel;  // +10
+    unsigned int m_uniqCharNo;   // +14
+    unsigned int m_remainTime;   // +18
+    unsigned int m_field16;      // +22
+    unsigned int m_field1a;      // +26
+    int m_cur;                   // +30
+    int m_max;                   // +34
 };
 
 class Packet_DBMW_Add_Buddy : public PacketHeader
