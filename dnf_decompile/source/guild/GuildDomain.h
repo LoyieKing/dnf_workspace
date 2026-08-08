@@ -19,12 +19,17 @@ class PacketHeader;
 class CServerHandler;
 class CBlackUser;
 class CGuild;
-struct STBlackUserDBType;
+struct STBlackUserDBType
+{
+    STBlackUserDBType();
+    char m_data[0x28];
+};
 class TiXmlNode;
 
 // ---- STGuildMemerDBInfo ----
 struct STGuildMemerDBInfo
 {
+    STGuildMemerDBInfo();
     char m_data[0x20];
 };
 
@@ -96,10 +101,49 @@ enum ENUM_GUILD_CARGO_BEHAVIOR {};
 enum ENUM_POWER_SIDE_TYPE {};
 enum ENUM_DB_LOAD_STATE {};
 class DnfItemInfo;
-struct RandomOption;
-struct STGuildCargoDBInfo;
+struct RandomOptionField
+{
+    void reset();
+    char m_data[3];
+};
+struct RandomOptionSeed
+{
+    void reset();
+    char m_data[1];
+};
+struct RandomOption
+{
+    void reset();
+    char m_data[0xe];
+};
+struct UpgradeSeparateInfo
+{
+    UpgradeSeparateInfo();
+    void reset();
+    char m_data[1];
+};
+struct ReservedCapacity
+{
+    ReservedCapacity();
+    void reset();
+    char m_data[0xc];
+};
+struct STGuildMemberCharacData
+{
+    STGuildMemberCharacData();
+    char m_data[0x21];
+};
+struct STGuildCargoDBInfo
+{
+    STGuildCargoDBInfo();
+    char m_data[0x18dc];
+};
 struct STGuildCargoLog;
-struct STGuildBoardDBInfo;
+struct STGuildBoardDBInfo
+{
+    STGuildBoardDBInfo();
+    char m_data[0xa5];
+};
 struct STPowerWarGuildInfo
 {
     char m_data[0x14];
@@ -110,24 +154,20 @@ struct STPowerWarCharacInfo
 };
 struct STGuildRank
 {
+    STGuildRank();
     char m_data[0x10];
 };
 struct STUserRank
 {
+    STUserRank();
     char m_data[0x10];
 };
 struct STDBSavePowerWarPoint
 {
     char m_data[0x10];
 };
-struct Packet_DB_Save_Power_War_Point
-{
-    char m_data[0x20];
-};
-struct Packet_DB_Save_Power_War_Bonus_Point
-{
-    char m_data[0x20];
-};
+struct Packet_DB_Save_Power_War_Point;
+struct Packet_DB_Save_Power_War_Bonus_Point;
 struct STPowerWarScheduleTime
 {
     char m_data[0x10];
@@ -163,7 +203,8 @@ class DnfItemInfo
 {
 public:
     DnfItemInfo();
-    char m_data[0x100];
+    void reset();
+    char m_data[0x35];
 };
 struct STTodayGuildMember
 {
@@ -173,6 +214,30 @@ struct STTodayGuildMember
 struct STGuildMemberWebConnInfo
 {
     char m_data[0x5dc];
+};
+
+struct STGuildCallInfo
+{
+    STGuildCallInfo();
+    char m_data[0x1d];
+};
+
+struct STUserPoint
+{
+    STUserPoint();
+    char m_data[8];
+};
+
+struct STPowerWarPointInfo
+{
+    STPowerWarPointInfo();
+    char m_data[8];
+};
+
+struct ST_GuildCreateFromWeb
+{
+    ST_GuildCreateFromWeb();
+    char m_data[0x1f];
 };
 
 // ---- CScheduler：0x8 ----
@@ -354,11 +419,23 @@ public:
     char m_data[0x100];
 };
 
-struct ST_Notice_Guild_Enter;
-struct ST_Notice_Guild_Secede;
+struct ST_Notice_Guild_Enter
+{
+    ST_Notice_Guild_Enter();
+    char m_data[0x41];
+};
+struct ST_Notice_Guild_Secede
+{
+    ST_Notice_Guild_Secede();
+    char m_data[0x43];
+};
 struct STGuildDBInfoOnly;
 struct STTodayGuildMember;
-struct STAttendanceInfo;
+struct STAttendanceInfo
+{
+    STAttendanceInfo();
+    char m_data[0x1c];
+};
 
 // ---- CGuild ----
 class CGuild
