@@ -619,13 +619,22 @@ public:
     void QueryMember(CServerHandler* handler);
     unsigned int* GetMemberDBInfoW();
     void NoticeMemberLogin_Out(CUser* user, char flag);
+    void CheckMemberRegisterFlag();
+    char CheckDailyScheduleTimeOver(int day, long long time);
+    char CheckDayHourScheduleTimeOver(int day, int hour, long long time);
+    void SetMemberRegisterFlag(bool flag);
+    char IsAbleToRegisterMember();
+    unsigned int GetMemberKey();
     unsigned short m_flag;          // +4
     unsigned int m_memberKey;       // +6
     char m_data[0x27];              // +0xa
     unsigned char m_count2d;        // +0x2d
     char m_data2[0x187];            // +0x2e
     CMemberManager* m_memberManager;// +0x1b4
-    char m_data3[0x10];             // +0x1b8
+    char m_state1b8;                // +0x1b8
+    char m_pad1b9[3];               // +0x1b9
+    long long m_registerTime;       // +0x1bc
+    long long m_dayHourTime;        // +0x1c0
 };
 
 // ---- CMemberManager：0x30 ----
@@ -1098,12 +1107,20 @@ int getErrno();
 // ---- np_server_xml：CServerXml 0xb8 ----
 namespace np_server_xml
 {
+enum _eStringType
+{
+    STRING_TYPE_0 = 0,
+    STRING_TYPE_1 = 1,
+    STRING_TYPE_2 = 2
+};
+
 class CServerXml
 {
 public:
     CServerXml();
     ~CServerXml();
     static void StrLoading();
+    void StrPunish(int idx, const char* str, _eStringType type);
     char m_field0[8];                       // +0
     TiXmlDocument m_doc;                    // +8
     std::string m_str54;                    // +0x54

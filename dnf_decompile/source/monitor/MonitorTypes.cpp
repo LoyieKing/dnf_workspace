@@ -1910,6 +1910,49 @@ void CMember::NoticeMemberLogin_Out(CUser* user, char flag)
         }
     }
 }
+char CMember::CheckDailyScheduleTimeOver(int day, long long time)
+{
+    return 0;
+}
+char CMember::CheckDayHourScheduleTimeOver(int day, int hour, long long time)
+{
+    return 0;
+}
+void CMember::SetMemberRegisterFlag(bool flag)
+{
+}
+char CMember::IsAbleToRegisterMember()
+{
+    return 0;
+}
+unsigned int CMember::GetMemberKey()
+{
+    return m_memberKey;
+}
+void CMember::CheckMemberRegisterFlag()
+{
+    bool flag = CheckDailyScheduleTimeOver(6, m_registerTime);
+    SetMemberRegisterFlag(flag);
+    if (IsAbleToRegisterMember())
+    {
+        flag = CheckDayHourScheduleTimeOver(3, 6, m_dayHourTime);
+        SetMemberRegisterFlag(flag);
+    }
+    if (!IsAbleToRegisterMember())
+    {
+        tm* t1 = localtime((time_t*)&m_registerTime);
+        int sec1 = t1->tm_sec, min1 = t1->tm_min, hour1 = t1->tm_hour;
+        int mday1 = t1->tm_mday, mon1 = t1->tm_mon, year1 = t1->tm_year;
+        tm* t2 = localtime((time_t*)&m_dayHourTime);
+        int sec2 = t2->tm_sec, min2 = t2->tm_min, hour2 = t2->tm_hour;
+        int mday2 = t2->tm_mday, mon2 = t2->tm_mon, year2 = t2->tm_year;
+        CMyFileLog log("CheckMemberRegisterFlag", 0x336);
+        log("./log/MemberModify",
+            "MKey(%d)\tRF(0)\tRT(%04d.%02d.%02d %02d:%02d:%02d)\tDT(%04d.%02d.%02d %02d:%02d:%02d)",
+            GetMemberKey(), year1 + 0x76c, mon1 + 1, mday1, hour1, min1, sec1, year2 + 0x76c,
+            mon2 + 1, mday2, hour2, min2, sec2);
+    }
+}
 
 CMemberConfig::CMemberConfig() {}
 CMemberConfig::~CMemberConfig() {}
@@ -2693,6 +2736,25 @@ namespace np_server_xml
 CServerXml::CServerXml() {}
 CServerXml::~CServerXml() {}
 void CServerXml::StrLoading() {}
+void CServerXml::StrPunish(int idx, const char* str, _eStringType type)
+{
+    if (str != 0)
+    {
+        std::string s(str);
+        if (type == STRING_TYPE_1)
+        {
+            m_map70.insert(std::pair<const int, std::string>(idx, s));
+        }
+        else if (type == STRING_TYPE_2)
+        {
+            m_map88.insert(std::pair<const int, std::string>(idx, s));
+        }
+        else if (type == STRING_TYPE_0)
+        {
+            m_map58.insert(std::pair<const int, std::string>(idx, s));
+        }
+    }
+}
 }
 
 np_server_xml::CServerXml g_ServerString_;
