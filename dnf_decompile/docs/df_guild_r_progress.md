@@ -275,3 +275,16 @@
   CGuildC1E（STGuildDBInfo/STGuildAgitDBInfo 构造）、CheckDaily/CheckDayHour
   ScheduleTimeOver、_Unwind 族（链接器版本差异）、libstdc++ 内部函数
 - 冒烟通过；DIFF 1117 / IDENTICAL 376 / NEAR 207
+
+## 2026-08-09 第十一轮（网络/配置构造语义）
+
+- CTcpNetSystem::Acquire_TcpSendBuffer：malloc→CTcpSendBuffer::operator new(mempool)+CGuard
+- CTcpNetSystem::DeletePeer：补 map 移除（TCP handle 键）+ 锁内 delete
+- CPowerWar ctor：CEvent 基类 + CScheduler@0x14 + CPowerWarConfig 分配
+  （此前 memset 未分配配置指针 → malloc 堆损坏）+ resetEvent
+- CPowerManager ctor：3×CPower placement-new + CPowerWar + 字段初始化
+- 核验等价：SetEpollConnectedPeer、CGuildManager AttendGuild/CreateGuild/
+  DeleteGuild/GuildSecede/GetMaxGuildExp/GetGuildLevelWithExp/SetGuildExpTable、
+  CPowerManager SetPowerWarEndKillPoint/SendPowerWarEndInfoToSpecificUser/
+  SaveDBPowerWarBonusPoint
+- 冒烟通过；DIFF 1116 / IDENTICAL 377 / NEAR 207
