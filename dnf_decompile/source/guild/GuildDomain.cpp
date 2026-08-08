@@ -1540,15 +1540,22 @@ int CGuild::DeleteGuildMember(unsigned int charNo, CUser* user)
     {
         return 0;
     }
+    if (m_members.empty())
+    {
+        return 0;
+    }
     if (m_members.erase(charNo) == 0)
     {
-        CMyFileLog log("DeleteGuildMember", 0x96);
-        log("./log/GuildMember",
+        CMyFileLog log("DeleteGuildMember", 0xaf);
+        log("./log/Except",
             "CGuild::DeleteGuildMember\tException Break Possible! Or Check Using Function FindUser() or FindUser_CharNo()\tGuild Key : %d\tChar Key : %d,\tChar Name : %s\tLogin Mem Cnt : %d\n",
             GetGuildKey(), charNo, user->GetCharName(), (int)m_members.size());
         return 0;
     }
-    user->DetachGuild();
+    if (user->IsSetGuildMemFlag(2) != 1)
+    {
+        user->SetGuildMemFlag(8);
+    }
     return 1;
 }
 
