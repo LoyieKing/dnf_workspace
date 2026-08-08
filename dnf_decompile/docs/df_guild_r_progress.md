@@ -298,3 +298,13 @@
   GetAttendancePhase/RefreshAttendanceInfo/LoadGuild、CTcpGameServer、
   CServerInterface::Initialize、CTcpAcceptThread、CThreadInterface
 - 冒烟通过；DIFF 1116 / IDENTICAL 377 / NEAR 207
+
+## 2026-08-09 第十三轮（常量/偏移全量扫描）
+
+- 全量「小常量/字段偏移/调用目标」差异扫描 475 个函数，逐一对照已核验记录：
+  全部为已知等价形态（vtable 地址、map 模板签名、间接调用形态、栈槽差异、
+  日志字符串地址、构造顺序）
+- 补充核验：EpollHandler::ResetEpoll、CTcpNetSystem::SendPacket、
+  CServerXml::StrPunish、CPacketTracer::WriteLog、CUserManager::DeleteUser/
+  InsertUser_CharName —— 调用目标一致，语义等价
+- 冒烟通过；DIFF 1116 / IDENTICAL 377 / NEAR 207
