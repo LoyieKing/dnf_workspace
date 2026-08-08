@@ -74,6 +74,7 @@ public:
     void Call_ResetBuddyList(unsigned int charNo);
     void Call_ResetUserMemberInfo(unsigned int key);
     unsigned char Get_ServerGroup();
+    void* GetGMAccounts();
 
     bool m_loaded;                      // +4
     int m_reserved8;                    // +8
@@ -106,7 +107,7 @@ public:
     void* m_field330;                   // +0x330
     void* m_field334;                   // +0x334
     std::set<std::pair<std::string, int> > m_set338;  // +0x338
-    std::map<std::string, int> m_map350;              // +0x350
+    std::map<const std::string, int> m_map350;        // +0x350
     std::map<unsigned int, std::list<unsigned int> > m_map368;  // +0x368
     CPeriodicMessageMgr* m_periodicMsg; // +0x380
     LimitNpcBuyItemManager* m_limitNpc; // +0x384

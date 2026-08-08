@@ -242,7 +242,7 @@ class CMemoryCashManager
 {
 public:
     CMemoryCashManager();
-    virtual ~CMemoryCashManager();
+    ~CMemoryCashManager();
     void Init(CApplication* app);
     void ProcessLifeTimeOut();
     void ProcessCashDataPrint();
@@ -701,11 +701,13 @@ public:
     void MemberEnterProcess();
     void ProcessByMinute();
     void AddSchoolNo(unsigned int schoolNo, unsigned char channel);
+    void DelSchoolNo(unsigned int schoolNo, unsigned char channel);
     CUser* FindUser_CharNo(unsigned int charNo) const;
     void DeleteUsersOnGameServerDown(CGameServer* gameServer);
     void DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer);
     void SendConnectedBuddysList(CUser* user);
     void GetSchoolCount(unsigned int school, unsigned int* out, unsigned char& idx);
+    CUser* FindUser_CharName(const std::string& name) const;
     int DeleteProhibitUser(unsigned int dbid, char channel);
     CUser* CreateUser(unsigned int dbid, unsigned int charNo, char* charName, int channel,
                       CGameServer* server);
@@ -717,11 +719,11 @@ public:
     char InsertProhibitUser(unsigned int dbid, class CDNFProhibitUser* pu);
     int DeleteUser(unsigned int dbid);
     int DeleteUser(CUser* user);
-    std::map<unsigned int, std::map<unsigned char, unsigned int> > m_mapSchools;  // +0
-    std::map<unsigned int, CUser*> m_users;       // +0x18
-    std::map<unsigned int, CUser*> m_charNoUsers; // +0x30
-    std::map<std::string, CUser*> m_charNameUsers; // +0x48
-    std::map<unsigned int, class CDNFProhibitUser*> m_prohibitUsers;  // +0x60
+    std::map<const unsigned int, std::map<unsigned char, unsigned int> > m_mapSchools;  // +0
+    std::map<const unsigned int, CUser*> m_users;       // +0x18
+    std::map<const unsigned int, CUser*> m_charNoUsers; // +0x30
+    std::map<const std::string, CUser*> m_charNameUsers; // +0x48
+    std::map<const unsigned int, class CDNFProhibitUser*> m_prohibitUsers;  // +0x60
     CApplication* m_app;            // +0x78
 };
 
@@ -767,6 +769,14 @@ public:
     void SetGameServer(void* server);
     void SetUserPosState(unsigned char state);
     void GetBlackList(unsigned char& count, struct STBlackUserDBType* out);
+    unsigned int GetMemberEnterCallerId();
+    char CheckPrevCallMemberEnter();
+    void ResetRequestMemberEnter();
+    char RecordCallMemberEnter(unsigned int callerId, unsigned short count);
+    unsigned int GetMemberDBFlag();
+    void SetMemberRegisterFlag(bool flag);
+    char IsAbleToRegisterMember();
+    unsigned int GetMemberKey();
     char m_data[0x50];                                  // +0
     std::map<unsigned int, class CBlackUser*> m_blackList;  // +0x50
     char m_data2[0x54];                                 // +0x68
@@ -815,6 +825,17 @@ public:
     void SetMemberRegisterFlag(bool flag);
     char IsAbleToRegisterMember();
     unsigned int GetMemberKey();
+    unsigned int GetUpperMemberExpLevel();
+    int GetConnLowerMemberCnt();
+    unsigned short GetMemberDBFlag();
+    void SetMemberDBFlag(unsigned short flag);
+    void SetMemberRegisterTime(unsigned int t);
+    int InsertUpperMember(unsigned int charNo, unsigned char level, char* name, bool flag);
+    int InsertLowerMember(unsigned int charNo, unsigned char level, char* name, bool flag);
+    char IsAlreadyMemberMember(unsigned int charNo) const;
+    void DeleteUpperMember(unsigned int charNo, bool flag);
+    void DeleteLowerMember(unsigned int charNo, bool flag);
+    unsigned int m_key;              // +0
     unsigned short m_flag;          // +4
     unsigned int m_memberKey;       // +6
     char m_data[0x27];              // +0xa
@@ -823,8 +844,8 @@ public:
     CMemberManager* m_memberManager;// +0x1b4
     char m_state1b8;                // +0x1b8
     char m_pad1b9[3];               // +0x1b9
-    long long m_registerTime;       // +0x1bc
-    long long m_dayHourTime;        // +0x1c0
+    unsigned int m_registerTime;    // +0x1bc
+    unsigned int m_dayHourTime;     // +0x1c0
 };
 
 // ---- CMemberManager：0x30 ----
@@ -839,7 +860,7 @@ public:
     CMember* FindMember(unsigned int key);
     CUser* FindMemberUser(unsigned int key);
     CMember* CreateMemberQuery(unsigned int key, CUser* user, CServerHandler* handler);
-    void InsertMember(unsigned int key, CMember* member);
+    int InsertMember(unsigned int key, CMember* member);
     int MemerMemLogin(unsigned int key, CUser* user);
     char LoadMemberFromCash(CUser* user, CMember* member);
     void MemberMemLogout(unsigned int key, CUser* user, bool cash);
@@ -850,6 +871,15 @@ public:
                    CServerHandler* handler);
     void SendToDBMemberUpdateCharInfo(CServerHandler* handler, unsigned int key,
                                       unsigned char flag);
+    void SaveMemberOnConnect(CServerHandler* handler, CUser* u1, CUser* u2, unsigned char flag);
+    void SaveMemberOnUnConnect(CServerHandler* handler, unsigned int a, unsigned int b,
+                               unsigned int c, unsigned char flag);
+    int RegisterMember(CMember* member, short level, CUser* user, bool flag);
+    CMember* CreateMemberInJoin(CUser* user);
+    int CheckMemberEnter(CUser* u1, CMember* m1, CUser* u2, CMember* m2);
+    char CheckEmptyMember(CMember* member, CUser* user);
+    char IsAlreadyMemberMember(unsigned int key, unsigned int charNo);
+    void GetMemberExpLevel(unsigned int level);
     CApplication* m_app;                     // +0
     int m_field4;                            // +4
     std::map<unsigned int, CMember*> m_members;  // +8
@@ -872,6 +902,9 @@ public:
     CMemberExpTbl();
     virtual ~CMemberExpTbl();
     virtual void Load_Table(const std::string& path);
+    int GetMemberExpLevel(unsigned int exp);
+    void GetMemberExpLevel(unsigned int exp, unsigned int& lo, unsigned int& hi,
+                           unsigned char& lv);
     char m_data[0x30];
 };
 
@@ -1018,7 +1051,19 @@ public:
     static void onSocialEventRewardItemResponse(PacketHeader* pkt);
     static void onSocialEventRewardItemUpdate(PacketHeader* pkt);
     static void onStartGameEventFromServer(PacketHeader* pkt);
-    static void onWebReqReloadAutoPunishRule(PacketHeader* pkt);};
+    static void onWebReqReloadAutoPunishRule(PacketHeader* pkt);
+    static void SendRequestMemberEnterResult(CUser* user, unsigned char result,
+                                             const char* name);
+    static void SendNoticeMemberEnterPacketOk(CUser* user, CUser* other, unsigned char a,
+                                             unsigned char b, unsigned char c, unsigned char d,
+                                             unsigned char e);
+    static void SendNoticeMemberEnterPacketReply(CUser* user, CUser* other, unsigned char a,
+                                                 unsigned char b, unsigned char c, unsigned char d,
+                                                 unsigned char e);
+    static void SendRequestMemberDeleteResult(CUser* user, unsigned char result,
+                                              const char* name);
+    static CApplication* m_pclApp;
+};
 
 class CPacketDecoder
 {
@@ -1294,6 +1339,7 @@ public:
     void SendVillageAttackedRewardJpn(CUser* user, int count);
     void SendMinTime();
     unsigned int GetElapseTime();
+    void ClearDungeonCloseTime();
     int GetRemainTime();
     unsigned int GetDungeonRemainTime();
     void SetRewardCloseTime(int rewardType);
@@ -1308,7 +1354,7 @@ public:
     int m_field28;                             // +0x28
     int m_field2c;                             // +0x2c
     int m_field30;                             // +0x30
-    char m_data2[4];                           // +0x34
+    int m_field34;                             // +0x34
 };
 
 class CVillageAttackedCountdownFirst : public CTaskScheduler::CTask
@@ -1555,6 +1601,76 @@ public:
     unsigned char m_flag;        // +14
 };
 
+class Packet_Monitor_SAVE_Member : public PacketHeader
+{
+public:
+    Packet_Monitor_SAVE_Member();
+    unsigned char m_fieldA;      // +10
+    unsigned int m_upperCharNo;  // +11
+    unsigned int m_lowerCharNo;  // +15
+    unsigned char m_type;        // +19
+};
+
+class Packet_Monitor_Request_Member_Enter_To_Requester : public PacketHeader
+{
+public:
+    Packet_Monitor_Request_Member_Enter_To_Requester();
+    unsigned int m_idByChannel;  // +10
+    unsigned int m_uniqCharNo;   // +14
+    unsigned char m_result;      // +18
+    char m_name[0x1e];           // +19
+};
+
+class Packet_Monitor_Request_Member_Enter_To_Responser : public PacketHeader
+{
+public:
+    Packet_Monitor_Request_Member_Enter_To_Responser();
+    unsigned int m_idByChannel;  // +10
+    unsigned int m_uniqCharNo;   // +14
+    unsigned short m_level;      // +18
+    char m_name[0x1e];           // +20
+};
+
+class Packet_Monitor_Member_Enter_Reply_ToResponser : public PacketHeader
+{
+public:
+    Packet_Monitor_Member_Enter_Reply_ToResponser();
+    unsigned char m_fieldA;      // +10
+    unsigned char m_fieldB;      // +11
+    unsigned char m_fieldC;      // +12
+    unsigned int m_idByChannel;  // +13
+    unsigned int m_uniqCharNo;   // +17
+    unsigned char m_fieldD;      // +21
+    char m_name[0x1e];           // +22
+    unsigned char m_fieldE;      // +52
+    unsigned int m_extraCharNo;  // +53
+};
+
+class Packet_Monitor_Notice_Member_Enter_Ok : public PacketHeader
+{
+public:
+    Packet_Monitor_Notice_Member_Enter_Ok();
+    unsigned char m_fieldA;      // +10
+    unsigned char m_fieldB;      // +11
+    unsigned char m_fieldC;      // +12
+    unsigned int m_idByChannel;  // +13
+    unsigned int m_uniqCharNo;   // +17
+    unsigned char m_fieldD;      // +21
+    char m_name[0x1e];           // +22
+    unsigned char m_fieldE;      // +52
+    unsigned int m_extraCharNo;  // +53
+};
+
+class Packet_Monitor_Member_Secede_To_Seceder : public PacketHeader
+{
+public:
+    Packet_Monitor_Member_Secede_To_Seceder();
+    unsigned int m_idByChannel;  // +10
+    unsigned int m_uniqCharNo;   // +14
+    unsigned char m_type;        // +18
+    char m_name[0x1e];           // +19
+};
+
 class Packet_Arad_ApplyEffect : public PacketHeader
 {
 public:
@@ -1702,8 +1818,14 @@ class CGMAccounts
 {
 public:
     CGMAccounts();
-    virtual ~CGMAccounts();
-    char m_data[4];
+    ~CGMAccounts();
+    bool isGM(unsigned int dbid);
+    struct stGMInfo_t
+    {
+        unsigned int m_dbid;
+        unsigned int m_field4;
+    };
+    std::list<stGMInfo_t> m_list;  // +0
 };
 }
 

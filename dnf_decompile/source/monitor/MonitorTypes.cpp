@@ -5,6 +5,7 @@
 #include "MonitorTable.h"
 #include "Thread.h"
 #include "DNFFunctionLib.h"
+#include "Packet_Monitor_Member_Secede.h"
 
 #include <fcntl.h>
 #include <cerrno>
@@ -2110,18 +2111,38 @@ void CUserManager::MemberEnterProcess() {}
 void CUserManager::ProcessByMinute() {}
 CUser* CUserManager::FindUser_CharNo(unsigned int charNo) const
 {
+    if (!m_charNoUsers.empty())
+    {
+        std::map<const unsigned int, CUser*>::const_iterator it = m_charNoUsers.find(charNo);
+        if (it != m_charNoUsers.end())
+        {
+            return it->second;
+        }
+    }
+    return 0;
+}
+CUser* CUserManager::FindUser_CharName(const std::string& name) const
+{
+    if (!m_charNameUsers.empty())
+    {
+        std::map<const std::string, CUser*>::const_iterator it = m_charNameUsers.find(name);
+        if (it != m_charNameUsers.end())
+        {
+            return it->second;
+        }
+    }
     return 0;
 }
 void CUserManager::DeleteUsersOnGameServerDown(CGameServer* gameServer)
 {
     if (!m_charNoUsers.empty())
     {
-        for (std::map<unsigned int, CUser*>::iterator it = m_charNoUsers.begin();
+        for (std::map<const unsigned int, CUser*>::iterator it = m_charNoUsers.begin();
              it != m_charNoUsers.end(); )
         {
             if (it->second != 0 && it->second->GetGameServer() == gameServer)
             {
-                std::map<unsigned int, CUser*>::iterator cur = it++;
+                std::map<const unsigned int, CUser*>::iterator cur = it++;
                 m_charNoUsers.erase(cur);
             }
             else
@@ -2132,12 +2153,12 @@ void CUserManager::DeleteUsersOnGameServerDown(CGameServer* gameServer)
     }
     if (!m_charNameUsers.empty())
     {
-        for (std::map<std::string, CUser*>::iterator it = m_charNameUsers.begin();
+        for (std::map<const std::string, CUser*>::iterator it = m_charNameUsers.begin();
              it != m_charNameUsers.end(); )
         {
             if (it->second != 0 && it->second->GetGameServer() == gameServer)
             {
-                std::map<std::string, CUser*>::iterator cur = it++;
+                std::map<const std::string, CUser*>::iterator cur = it++;
                 m_charNameUsers.erase(cur);
             }
             else
@@ -2148,7 +2169,7 @@ void CUserManager::DeleteUsersOnGameServerDown(CGameServer* gameServer)
     }
     if (!m_users.empty())
     {
-        for (std::map<unsigned int, CUser*>::iterator it = m_users.begin();
+        for (std::map<const unsigned int, CUser*>::iterator it = m_users.begin();
              it != m_users.end(); )
         {
             CUser* user = it->second;
@@ -2166,7 +2187,7 @@ void CUserManager::DeleteUsersOnGameServerDown(CGameServer* gameServer)
                 {
                     delete user;
                 }
-                std::map<unsigned int, CUser*>::iterator cur = it++;
+                std::map<const unsigned int, CUser*>::iterator cur = it++;
                 m_users.erase(cur);
             }
             else
@@ -2180,12 +2201,12 @@ void CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer)
 {
     if (!m_charNoUsers.empty())
     {
-        for (std::map<unsigned int, CUser*>::iterator it = m_charNoUsers.begin();
+        for (std::map<const unsigned int, CUser*>::iterator it = m_charNoUsers.begin();
              it != m_charNoUsers.end(); )
         {
             if (it->second != 0 && it->second->GetTcpGameServer() == (void*)tcpGameServer)
             {
-                std::map<unsigned int, CUser*>::iterator cur = it++;
+                std::map<const unsigned int, CUser*>::iterator cur = it++;
                 m_charNoUsers.erase(cur);
             }
             else
@@ -2196,12 +2217,12 @@ void CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer)
     }
     if (!m_charNameUsers.empty())
     {
-        for (std::map<std::string, CUser*>::iterator it = m_charNameUsers.begin();
+        for (std::map<const std::string, CUser*>::iterator it = m_charNameUsers.begin();
              it != m_charNameUsers.end(); )
         {
             if (it->second != 0 && it->second->GetTcpGameServer() == (void*)tcpGameServer)
             {
-                std::map<std::string, CUser*>::iterator cur = it++;
+                std::map<const std::string, CUser*>::iterator cur = it++;
                 m_charNameUsers.erase(cur);
             }
             else
@@ -2212,7 +2233,7 @@ void CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer)
     }
     if (!m_users.empty())
     {
-        for (std::map<unsigned int, CUser*>::iterator it = m_users.begin();
+        for (std::map<const unsigned int, CUser*>::iterator it = m_users.begin();
              it != m_users.end(); )
         {
             CUser* user = it->second;
@@ -2230,7 +2251,7 @@ void CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer)
                 {
                     delete user;
                 }
-                std::map<unsigned int, CUser*>::iterator cur = it++;
+                std::map<const unsigned int, CUser*>::iterator cur = it++;
                 m_users.erase(cur);
             }
             else
@@ -2245,10 +2266,10 @@ void CUserManager::SendConnectedBuddysList(CUser* user)
 }
 void CUserManager::GetSchoolCount(unsigned int school, unsigned int* out, unsigned char& idx)
 {
+    std::map<const unsigned int, std::map<unsigned char, unsigned int> >::iterator it =
+        m_mapSchools.find(school);
     CMyFileLog log("GetSchoolCount", 0x418);
     log("./log/School", "GetSchoolCount(%u)", school);
-    std::map<unsigned int, std::map<unsigned char, unsigned int> >::iterator it =
-        m_mapSchools.find(school);
     if (it != m_mapSchools.end())
     {
         int pos = 0;
@@ -2263,7 +2284,7 @@ void CUserManager::GetSchoolCount(unsigned int school, unsigned int* out, unsign
             pos++;
             CMyFileLog log2("GetSchoolCount", 0x423);
             log2("./log/School", "GetSchoolCount(%u) channelNo(%u) Count(%u)", school,
-                 out[pos - 1], out[pos]);
+                 out[pos - 2], out[pos - 1]);
             n++;
         }
         idx = (unsigned char)n;
@@ -2275,7 +2296,7 @@ CDNFProhibitUser* CUserManager::FindProhibitUser(unsigned int dbid) const
 {
     if (!m_prohibitUsers.empty())
     {
-        std::map<unsigned int, CDNFProhibitUser*>::const_iterator it =
+        std::map<const unsigned int, CDNFProhibitUser*>::const_iterator it =
             m_prohibitUsers.find(dbid);
         if (it != m_prohibitUsers.end())
         {
@@ -2326,7 +2347,7 @@ CUser* CUserManager::FindUser(unsigned int dbid) const
 {
     if (!m_users.empty())
     {
-        std::map<unsigned int, CUser*>::const_iterator it = m_users.find(dbid);
+        std::map<const unsigned int, CUser*>::const_iterator it = m_users.find(dbid);
         if (it != m_users.end())
         {
             return it->second;
@@ -2488,7 +2509,7 @@ void CDNFProhibitUser::SetUserConnectableTime(unsigned int dbid, short time, cha
 }
 void CUserManager::AddSchoolNo(unsigned int schoolNo, unsigned char channel)
 {
-    std::map<unsigned int, std::map<unsigned char, unsigned int> >::iterator it =
+    std::map<const unsigned int, std::map<unsigned char, unsigned int> >::iterator it =
         m_mapSchools.find(schoolNo);
     if (it != m_mapSchools.end())
     {
@@ -2516,11 +2537,41 @@ void CUserManager::AddSchoolNo(unsigned int schoolNo, unsigned char channel)
         std::map<unsigned char, unsigned int> newInner;
         newInner.insert(std::pair<unsigned char, unsigned int>(channel, 1));
         m_mapSchools.insert(
-            std::pair<unsigned int, std::map<unsigned char, unsigned int> >(schoolNo, newInner));
+            std::pair<const unsigned int, std::map<unsigned char, unsigned int> >(schoolNo,
+                                                                                 newInner));
         CMyFileLog log("AddSchoolNo", 0x3ed);
         log("./log/School",
             "1) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",
             schoolNo, channel, newInner.size(), m_mapSchools.size());
+    }
+}
+
+void CUserManager::DelSchoolNo(unsigned int schoolNo, unsigned char channel)
+{
+    std::map<const unsigned int, std::map<unsigned char, unsigned int> >::iterator it =
+        m_mapSchools.find(schoolNo);
+    if (it != m_mapSchools.end())
+    {
+        std::map<unsigned char, unsigned int>* inner = &it->second;
+        std::map<unsigned char, unsigned int>::iterator c = inner->find(channel);
+        if (c != inner->end())
+        {
+            c->second--;
+            if (c->second == 0)
+            {
+                inner->erase(c);
+                if (inner->size() == 0)
+                {
+                    m_mapSchools.erase(it);
+                }
+            }
+            unsigned int outerSize = m_mapSchools.size();
+            unsigned int innerSize = inner->size();
+            CMyFileLog log("DelSchoolNo", 0x40f);
+            log("./log/School",
+                "DelSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",
+                schoolNo, channel, innerSize, outerSize);
+        }
     }
 }
 
@@ -2715,16 +2766,168 @@ CMember* CMemberManager::CreateMemberQuery(unsigned int key, CUser* user, CServe
     user->AttachMember(member);
     return member;
 }
-void CMemberManager::InsertMember(unsigned int key, CMember* member)
+int CMemberManager::InsertMember(unsigned int key, CMember* member)
 {
     if (member == 0)
     {
         CMyFileLog log("InsertMember", 0x87);
-        log("./log/Member", "InsertMember() : m_pclMember == NULL\n");
+        log("./log/Member", "[INSERT_ERR] Member Key : %d\tpclMember == 0", key);
+        return 0;
     }
     else
     {
-        m_members.insert(std::pair<const unsigned int, CMember*>(key, member));
+        std::pair<std::map<unsigned int, CMember*>::iterator, bool> r =
+            m_members.insert(std::pair<const unsigned int, CMember*>(key, member));
+        if (!r.second)
+        {
+            CMyFileLog log("InsertMember", 0x83);
+            log("./log/Member", "[INSERT_ERR] Member Key : %d\tAlready Member Exist", key);
+        }
+        return 1;
+    }
+}
+void CMemberManager::SaveMemberOnConnect(CServerHandler* handler, CUser* u1, CUser* u2,
+                                        unsigned char flag)
+{
+    if (handler != 0 && u1 != 0 && u2 != 0)
+    {
+        Packet_Monitor_SAVE_Member pkt;
+        pkt.m_fieldA = flag;
+        short l1 = u1->GetLevel();
+        short l2 = u2->GetLevel();
+        if (l2 < l1)
+        {
+            pkt.m_upperCharNo = u1->GetUniqCharNo();
+            pkt.m_lowerCharNo = u2->GetUniqCharNo();
+            pkt.m_type = 1;
+        }
+        else if (l2 > l1)
+        {
+            pkt.m_upperCharNo = u2->GetUniqCharNo();
+            pkt.m_lowerCharNo = u1->GetUniqCharNo();
+            pkt.m_type = 2;
+        }
+        else
+        {
+            return;
+        }
+        handler->SendToDB(&pkt);
+    }
+}
+void CMemberManager::SaveMemberOnUnConnect(CServerHandler* handler, unsigned int a,
+                                          unsigned int b, unsigned int c, unsigned char flag)
+{
+    if (handler != 0)
+    {
+        Packet_Monitor_SAVE_Member pkt;
+        pkt.m_fieldA = flag;
+        if (c == 1)
+        {
+            pkt.m_upperCharNo = b;
+            pkt.m_lowerCharNo = a;
+            pkt.m_type = 1;
+        }
+        else
+        {
+            pkt.m_type = 2;
+            if (c != 2)
+            {
+                CMyFileLog log("SaveMemberOnUnConnect", 0x137);
+                log("./log/Member",
+                    "CMemberManager::SaveMemberOnUnConnect , isSecederUpperOrLower == 0");
+                return;
+            }
+            pkt.m_upperCharNo = a;
+            pkt.m_lowerCharNo = b;
+        }
+        handler->SendToDB(&pkt);
+    }
+}
+int CMemberManager::RegisterMember(CMember* member, short level, CUser* user, bool flag)
+{
+    if (member == 0 || user == 0)
+    {
+        return 0;
+    }
+    if (level < user->GetLevel())
+    {
+        if (member->InsertUpperMember(user->GetUniqCharNo(),
+                                      (unsigned char)user->GetLevel(), user->GetCharName(),
+                                      flag) != 1)
+        {
+            return 0;
+        }
+    }
+    else if (level <= user->GetLevel())
+    {
+        return 0;
+    }
+    else
+    {
+        if (member->InsertLowerMember(user->GetUniqCharNo(),
+                                      (unsigned char)user->GetLevel(), user->GetCharName(),
+                                      flag) != 1)
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+CMember* CMemberManager::CreateMemberInJoin(CUser* user)
+{
+    unsigned int charNo = user->GetUniqCharNo();
+    CMember* member = new CMember(charNo, this);
+    InsertMember(charNo, member);
+    user->AttachMember(member);
+    member->SetMemberDBFlag(2);
+    member->SetMemberDBFlag(4);
+    return member;
+}
+int CMemberManager::CheckMemberEnter(CUser* u1, CMember* m1, CUser* u2, CMember* m2)
+{
+    if (u1 == 0 || u2 == 0)
+    {
+        return 0x31;
+    }
+    if (u1->GetLevel() < u2->GetLevel())
+    {
+        return IsPossableMemberEnter(u2, m2, u1, m1, 2);
+    }
+    if (u2->GetLevel() < u1->GetLevel())
+    {
+        return IsPossableMemberEnter(u1, m1, u2, m2, 1);
+    }
+    return 0x2c;
+}
+char CMemberManager::CheckEmptyMember(CMember* member, CUser* user)
+{
+    bool empty = user != 0 && member != 0 && member->IsEmpty() != 0;
+    if (empty)
+    {
+        Packet_Monitor_Notice_Delete_Member_Id pkt;
+        pkt.m_idByChannel = user->GetIdByChannel();
+        pkt.m_uniqCharNo = user->GetUniqCharNo();
+        user->SendToGameserver((char*)&pkt, 0x12);
+        unsigned int charNo = user->GetUniqCharNo();
+        DeleteMember(charNo, true);
+    }
+    return empty ? 1 : 0;
+}
+char CMemberManager::IsAlreadyMemberMember(unsigned int key, unsigned int charNo)
+{
+    CMember* member = FindMember(key);
+    if (member == 0)
+    {
+        return 0;
+    }
+    return member->IsAlreadyMemberMember(charNo);
+}
+void CMemberManager::GetMemberExpLevel(unsigned int level)
+{
+    CMemberExpTbl* tbl = *(CMemberExpTbl**)((char*)this + 0x24);
+    if (tbl != 0)
+    {
+        tbl->GetMemberExpLevel(level);
     }
 }
 int CMemberManager::MemerMemLogin(unsigned int key, CUser* user)
@@ -3088,6 +3291,10 @@ unsigned int CVillageAttackedManager::GetElapseTime()
 {
     return 0;
 }
+void CVillageAttackedManager::ClearDungeonCloseTime()
+{
+    m_field34 = 0;
+}
 void CVillageAttackedManager::UpdateHuntingPoint(CUser** users, bool success, int* a,
                                                  unsigned int* charNos)
 {
@@ -3230,17 +3437,28 @@ CVillageAttackedReward::~CVillageAttackedReward() {}
 CUser::CUser() {}
 CUser::~CUser() {}
 void* CUser::operator new(unsigned int size) { return ::operator new(size); }
-unsigned int CUser::GetUniqCharNo() { return 0; }
+unsigned int CUser::GetUniqCharNo() { return *(unsigned int*)((char*)this + 4); }
 void CUser::AttachMember(CMember* member) {}
 void CUser::operator delete(void* p) { ::operator delete(p); }
-void* CUser::GetGameServer() { return 0; }
+void* CUser::GetGameServer() { return *(void**)((char*)this + 8); }
 void* CUser::GetTcpGameServer() { return 0; }
-unsigned int CUser::GetDBID() { return 0; }
-short CUser::GetLevel() { return 0; }
-unsigned int CUser::GetIdByChannel() { return 0; }
-char* CUser::GetCharName() { return 0; }
+unsigned int CUser::GetDBID() { return *(unsigned int*)((char*)this + 0); }
+short CUser::GetLevel() { return *(short*)((char*)this + 0x44); }
+unsigned int CUser::GetIdByChannel() { return *(unsigned int*)((char*)this + 0x20); }
+char* CUser::GetCharName() { return (char*)this + 0x24; }
 char CUser::IsBlackUser(unsigned int key) { return 0; }
-unsigned char CUser::GetUpperMemberExpLevel() { return 0; }
+unsigned char CUser::GetUpperMemberExpLevel()
+{
+    if (*(int*)((char*)this + 0x14) != 0)
+    {
+        CMember* member = (CMember*)*(int*)((char*)this + 0x14);
+        if (member->GetMemberKey() != 0 && (GetMemberDBFlag() & 4) != 0)
+        {
+            return (unsigned char)member->GetUpperMemberExpLevel();
+        }
+    }
+    return 0;
+}
 void CUser::SendTcpGameserver(PacketHeader* pkt) {}
 void CUser::SendToGameserver(char* buf, int len) {}
 void CUser::AddBuddyFromCash(CBuddy* buddy) {}
@@ -3272,10 +3490,90 @@ void CUser::GetBlackList(unsigned char& count, STBlackUserDBType* out)
         }
     }
 }
+unsigned int CUser::GetMemberEnterCallerId()
+{
+    return *(unsigned int*)((char*)this + 0x1c);
+}
+char CUser::CheckPrevCallMemberEnter()
+{
+    if (*(char*)((char*)this + 0x1a) < 1)
+    {
+        return 0;
+    }
+    if (*(int*)((char*)this + 0x1c) == 0)
+    {
+        return 0;
+    }
+    return 1;
+}
+void CUser::ResetRequestMemberEnter()
+{
+    *(unsigned int*)((char*)this + 0x1c) = 0;
+    *(char*)((char*)this + 0x1a) = 0;
+}
+char CUser::RecordCallMemberEnter(unsigned int callerId, unsigned short count)
+{
+    char old = *(char*)((char*)this + 0x1a);
+    if (old == 0)
+    {
+        *(unsigned int*)((char*)this + 0x1c) = callerId;
+        *(char*)((char*)this + 0x1a) = (char)count;
+    }
+    return old == 0;
+}
+unsigned int CUser::GetMemberDBFlag()
+{
+    if (*(int*)((char*)this + 0x14) == 0)
+    {
+        return 0;
+    }
+    return ((CMember*)*(int*)((char*)this + 0x14))->GetMemberDBFlag();
+}
+void CUser::SetMemberRegisterFlag(bool flag)
+{
+    if (*(int*)((char*)this + 0x14) != 0)
+    {
+        ((CMember*)*(int*)((char*)this + 0x14))->SetMemberRegisterFlag(flag);
+    }
+}
+char CUser::IsAbleToRegisterMember()
+{
+    if (*(int*)((char*)this + 0x14) == 0)
+    {
+        return 1;
+    }
+    return ((CMember*)*(int*)((char*)this + 0x14))->IsAbleToRegisterMember();
+}
+unsigned int CUser::GetMemberKey()
+{
+    if (*(int*)((char*)this + 0x14) == 0)
+    {
+        return 0;
+    }
+    return ((CMember*)*(int*)((char*)this + 0x14))->GetMemberKey();
+}
 
 void* CMember::operator new(unsigned int size) { return ::operator new(size); }
-CMember::CMember(unsigned int key, CMemberManager* mgr) {}
-CMember::~CMember() {}
+CMember::CMember(unsigned int key, CMemberManager* mgr)
+{
+    m_key = key;
+    m_flag = 0;
+    memset((char*)this + 6, 0, 0x1ae);
+    m_memberManager = mgr;
+    m_state1b8 = 1;
+    m_registerTime = 0;
+    m_dayHourTime = 0;
+}
+CMember::~CMember()
+{
+    m_key = 0;
+    m_flag = 0;
+    m_memberManager = 0;
+    memset((char*)this + 6, 0, 0x1ae);
+    m_registerTime = 0;
+    m_dayHourTime = 0;
+    m_state1b8 = 0;
+}
 void CMember::QueryMember(CServerHandler* handler) {}
 unsigned int* CMember::GetMemberDBInfoW() { return 0; }
 void CMember::NoticeMemberLogin_Out(CUser* user, char flag)
@@ -3357,14 +3655,15 @@ char CMember::CheckDayHourScheduleTimeOver(int day, int hour, long long time)
 }
 void CMember::SetMemberRegisterFlag(bool flag)
 {
+    m_state1b8 = flag ? 1 : 0;
 }
 char CMember::IsAbleToRegisterMember()
 {
-    return 0;
+    return m_state1b8;
 }
 unsigned int CMember::GetMemberKey()
 {
-    return m_memberKey;
+    return m_key;
 }
 void CMember::CheckMemberRegisterFlag()
 {
@@ -3473,16 +3772,142 @@ void CMember::NoticeChatMsgToMemberMembers(char* msg, int len, CUser* user)
 void CMember::LoadMember(STMemberDBInfo& info, short level, unsigned int a, unsigned int b)
 {
 }
-int CMember::IsThereUpper() const { return 0; }
-int CMember::GetUpperMember_CharId() const { return 0; }
-int CMember::FindLowerMember(unsigned int charNo) const { return 0; }
+int CMember::IsThereUpper() const { return *(int*)((char*)this + 6) != 0; }
+int CMember::GetUpperMember_CharId() const
+{
+    if ((m_flag & 4) == 0)
+    {
+        return 0;
+    }
+    if (IsThereUpper() == 0)
+    {
+        return 0xffffffff;
+    }
+    return *(int*)((char*)this + 6);
+}
+int CMember::FindLowerMember(unsigned int charNo) const
+{
+    unsigned int count = (unsigned int)m_count2d;
+    if (count != 0)
+    {
+        const char* p = (const char*)this + 0x2e;
+        while (count != 0)
+        {
+            count--;
+            if (*(unsigned int*)p == charNo)
+            {
+                return 1;
+            }
+            p += 0x27;
+        }
+    }
+    return 0;
+}
 unsigned int CMember::GetLowerMemberCount() const { return 0; }
 unsigned int* CMember::GetUpperMember_Proxy()
 {
     return (unsigned int*)((char*)this + 6);
 }
-void CMember::SetMemberDeleteTime(time_t t)
+void CMember::SetMemberDeleteTime(time_t t) { m_dayHourTime = (unsigned int)t; }
+void CMember::SetMemberRegisterTime(unsigned int t) { m_registerTime = t; }
+void CMember::SetMemberDBFlag(unsigned short flag) { m_flag = (unsigned short)(m_flag | flag); }
+unsigned short CMember::GetMemberDBFlag() { return m_flag; }
+unsigned int CMember::GetUpperMemberExpLevel()
 {
+    if (m_memberManager != 0)
+    {
+        m_memberManager->GetMemberExpLevel(*(unsigned int*)((char*)this + 0x29));
+    }
+    return 0;
+}
+int CMember::GetConnLowerMemberCnt()
+{
+    int cnt = 0;
+    if (m_count2d != 0)
+    {
+        for (int i = 0; i < (int)(unsigned int)m_count2d; i++)
+        {
+            if (m_memberManager->FindMemberUser(
+                    *(unsigned int*)((char*)this + 0x2e + i * 0x27)) != 0)
+            {
+                cnt++;
+            }
+        }
+    }
+    return cnt;
+}
+int CMember::InsertUpperMember(unsigned int charNo, unsigned char level, char* name, bool flag)
+{
+    if (IsThereUpper() == 0)
+    {
+        *(unsigned char*)((char*)this + 0xa) = level;
+        *(unsigned int*)((char*)this + 6) = charNo;
+        memcpy((char*)this + 0xb, name, 0x1d);
+        if (flag)
+        {
+            SetMemberRegisterTime((unsigned int)time(0));
+        }
+        return 1;
+    }
+    return 0;
+}
+int CMember::InsertLowerMember(unsigned int charNo, unsigned char level, char* name, bool flag)
+{
+    unsigned int n = (unsigned int)m_count2d;
+    if (n + 1 < 0xb)
+    {
+        *(unsigned char*)((char*)this + n * 0x27 + 0x32) = level;
+        *(unsigned int*)((char*)this + n * 0x27 + 0x2e) = charNo;
+        memcpy((char*)this + n * 0x27 + 0x33, name, 0x1d);
+        if (flag)
+        {
+            SetMemberRegisterTime((unsigned int)time(0));
+        }
+        m_count2d++;
+        return 1;
+    }
+    return 0;
+}
+char CMember::IsAlreadyMemberMember(unsigned int charNo) const
+{
+    if (GetUpperMember_CharId() == (int)charNo)
+    {
+        return 1;
+    }
+    return FindLowerMember(charNo) != 0;
+}
+void CMember::DeleteUpperMember(unsigned int charNo, bool flag)
+{
+    memset((char*)this + 6, 0, 0x27);
+    if (flag)
+    {
+        SetMemberDeleteTime(time(0));
+    }
+}
+void CMember::DeleteLowerMember(unsigned int charNo, bool flag)
+{
+    unsigned int count = (unsigned int)m_count2d;
+    if (count != 0)
+    {
+        char* p = (char*)this + 0x2e;
+        unsigned char idx = 0;
+        while (count != 0)
+        {
+            count--;
+            if (*(unsigned int*)p == charNo)
+            {
+                memcpy(p, p + 0x27, (unsigned int)(~(unsigned char)idx) * 0x27 + 0x186);
+                m_count2d--;
+                if (flag)
+                {
+                    SetMemberDeleteTime(time(0));
+                }
+                break;
+            }
+            p += 0x27;
+            idx++;
+        }
+    }
 }
 int CMember::DeleteMemberByName(char* name, unsigned int& outKey)
 {
@@ -3525,8 +3950,136 @@ void CMemberConfig::Load_Table(const std::string& path) {}
 CMemberExpTbl::CMemberExpTbl() {}
 CMemberExpTbl::~CMemberExpTbl() {}
 void CMemberExpTbl::Load_Table(const std::string& path) {}
+int CMemberExpTbl::GetMemberExpLevel(unsigned int exp)
+{
+    int local_c = (int)(unsigned char)*(char*)((char*)this + 4) - 1;
+    int local_8 = 1;
+    if (exp < *(unsigned int*)((char*)this + local_c * 4 + 8))
+    {
+        if (exp == 0)
+        {
+            local_8 = 1;
+        }
+        else
+        {
+            char* p = (char*)this + 8;
+            while (true)
+            {
+                bool b = local_c != 0;
+                local_c = local_c - 1;
+                if (!b || !(exp <= *(unsigned int*)p || *(unsigned int*)(p + 4) < exp))
+                {
+                    break;
+                }
+                local_8 = local_8 + 1;
+                p = p + 4;
+            }
+        }
+    }
+    else
+    {
+        local_8 = (int)(unsigned char)*(char*)((char*)this + 4) - 1;
+    }
+    return local_8;
+}
+void CMemberExpTbl::GetMemberExpLevel(unsigned int exp, unsigned int& lo, unsigned int& hi,
+                                      unsigned char& lv)
+{
+    char* p = (char*)this + 8;
+    unsigned char count = *(unsigned char*)((char*)this + 4);
+    unsigned char l = 1;
+    if (exp == 0)
+    {
+        lo = *(unsigned int*)p;
+        hi = *(unsigned int*)((char*)this + 0xc);
+        lv = 1;
+    }
+    else
+    {
+        while (count != 0)
+        {
+            count--;
+            if (*(unsigned int*)p < exp && exp <= *(unsigned int*)(p + 4))
+            {
+                lo = *(unsigned int*)p;
+                hi = *(unsigned int*)(p + 4);
+                lv = l;
+                return;
+            }
+            l++;
+            p += 4;
+        }
+    }
+}
 
-void CPacketTranslater::attach(CApplication* app) {}
+CApplication* CPacketTranslater::m_pclApp = 0;
+void CPacketTranslater::attach(CApplication* app) { m_pclApp = app; }
+void CPacketTranslater::SendRequestMemberEnterResult(CUser* user, unsigned char result,
+                                                     const char* name)
+{
+    Packet_Monitor_Request_Member_Enter_To_Requester pkt;
+    pkt.m_idByChannel = user->GetIdByChannel();
+    pkt.m_uniqCharNo = user->GetUniqCharNo();
+    pkt.m_result = result;
+    memcpy(pkt.m_name, name, 0x1d);
+    user->SendTcpGameserver(&pkt);
+}
+void CPacketTranslater::SendNoticeMemberEnterPacketOk(CUser* user, CUser* other, unsigned char a,
+                                                      unsigned char b, unsigned char c,
+                                                      unsigned char d, unsigned char e)
+{
+    Packet_Monitor_Notice_Member_Enter_Ok pkt;
+    pkt.m_fieldA = a;
+    pkt.m_fieldB = b;
+    pkt.m_fieldC = c;
+    pkt.m_idByChannel = user->GetIdByChannel();
+    pkt.m_uniqCharNo = user->GetUniqCharNo();
+    pkt.m_fieldD = d;
+    memcpy(pkt.m_name, other->GetCharName(), 0x1d);
+    pkt.m_fieldE = e;
+    if (b == 1)
+    {
+        pkt.m_extraCharNo = other->GetUniqCharNo();
+    }
+    user->SendTcpGameserver(&pkt);
+}
+void CPacketTranslater::SendNoticeMemberEnterPacketReply(CUser* user, CUser* other,
+                                                         unsigned char a, unsigned char b,
+                                                         unsigned char c, unsigned char d,
+                                                         unsigned char e)
+{
+    Packet_Monitor_Member_Enter_Reply_ToResponser pkt;
+    if (a == 2)
+    {
+        pkt.m_fieldB = 3;
+    }
+    else
+    {
+        pkt.m_fieldB = b;
+    }
+    pkt.m_fieldA = a;
+    pkt.m_fieldC = c;
+    pkt.m_idByChannel = user->GetIdByChannel();
+    pkt.m_uniqCharNo = user->GetUniqCharNo();
+    pkt.m_fieldD = d;
+    memcpy(pkt.m_name, other->GetCharName(), 0x1d);
+    pkt.m_fieldE = e;
+    if (b == 1)
+    {
+        pkt.m_extraCharNo = other->GetUniqCharNo();
+    }
+    user->SendTcpGameserver(&pkt);
+}
+void CPacketTranslater::SendRequestMemberDeleteResult(CUser* user, unsigned char result,
+                                                      const char* name)
+{
+    Packet_Monitor_Member_Secede pkt;
+    *(unsigned int*)((char*)&pkt + 0xa) = user->GetIdByChannel();
+    *(unsigned int*)((char*)&pkt + 0xe) = user->GetUniqCharNo();
+    *(unsigned char*)((char*)&pkt + 0x12) = result;
+    memcpy((char*)&pkt + 0x13, name, 0x1d);
+    user->SendTcpGameserver(&pkt);
+}
 void CPacketTranslater::OnLogin(PacketHeader* pkt) {}
 void CPacketTranslater::OnLogout(PacketHeader* pkt) {}
 void CPacketTranslater::OnReplyUserInfo(PacketHeader* pkt) {}
@@ -3536,9 +4089,396 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt) {}
 void CPacketTranslater::OnCeraUpdate(PacketHeader* pkt) {}
 void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt) {}
 void CPacketTranslater::OnReplyQueryMember(PacketHeader* pkt) {}
-void CPacketTranslater::OnRequestMemberEnter(PacketHeader* pkt) {}
-void CPacketTranslater::OnMemberEnterReply(PacketHeader* pkt) {}
-void CPacketTranslater::OnMemberSecede(PacketHeader* pkt) {}
+void CPacketTranslater::OnRequestMemberEnter(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        return;
+    }
+    CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+    CMemberManager* memberMgr = (CMemberManager*)((char*)m_pclApp + 0x2d0);
+    CUser* requester = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xe));
+    if (requester == 0)
+    {
+        return;
+    }
+    CUser* target = userMgr->FindUser_CharName((char*)pkt + 0x12);
+    if (target == 0)
+    {
+        SendRequestMemberEnterResult(requester, '1', (char*)pkt + 0x12);
+        return;
+    }
+    if (memberMgr->IsAlreadyMemberMember(*(unsigned int*)((char*)pkt + 0xe),
+                                         target->GetUniqCharNo()) != 0)
+    {
+        SendRequestMemberEnterResult(requester, '2', (char*)pkt + 0x12);
+        CMyFileLog log("OnRequestMemberEnter", 0x599);
+        log("./log/MemberModify", "Err Already Member : requester(%d) responser(%d)",
+            requester->GetUniqCharNo(), target->GetUniqCharNo());
+        return;
+    }
+    if (requester->IsAbleToRegisterMember() != 1 || target->IsAbleToRegisterMember() != 1)
+    {
+        SendRequestMemberEnterResult(requester, '7', (char*)pkt + 0x12);
+        CMyFileLog log("OnRequestMemberEnter", 0x5a2);
+        log("./log/MemberModify",
+            "Err Member Register Restrict : requester(%d:%d) responser(%d:%d)",
+            requester->GetUniqCharNo(), requester->IsAbleToRegisterMember(),
+            target->GetUniqCharNo(), target->IsAbleToRegisterMember());
+        return;
+    }
+    if (requester->IsBlackUser(target->GetUniqCharNo()) != 0)
+    {
+        SendRequestMemberEnterResult(requester, '6', (char*)pkt + 0x12);
+        CMyFileLog log("OnRequestMemberEnter", 0x5a9);
+        log("./log/MemberModify", "Err Member Register Black : requester(%d) responser(%d)",
+            requester->GetUniqCharNo(), target->GetUniqCharNo());
+        return;
+    }
+    WongWork::CGMAccounts* gm = (WongWork::CGMAccounts*)m_pclApp->GetGMAccounts();
+    if (gm != 0 && gm->isGM(target->GetDBID()) != 0)
+    {
+        SendRequestMemberEnterResult(requester, 'Z', (char*)pkt + 0x12);
+        CMyFileLog log("OnRequestMemberEnter", 0x5b4);
+        log("./log/MemberModify", "Err Member Register GM : requester(%d) responser(%d)",
+            requester->GetUniqCharNo(), target->GetUniqCharNo());
+        return;
+    }
+    CMember* requesterMember = memberMgr->FindMember(requester->GetUniqCharNo());
+    CMember* targetMember = memberMgr->FindMember(target->GetUniqCharNo());
+    if (target->GetMemberEnterCallerId() != 0)
+    {
+        SendRequestMemberEnterResult(requester, ')', (char*)pkt + 0x12);
+        return;
+    }
+    bool pending = false;
+    if (requester->GetMemberEnterCallerId() != 0 &&
+        requester->GetMemberEnterCallerId() == target->GetUniqCharNo())
+    {
+        pending = true;
+    }
+    if (pending)
+    {
+        SendRequestMemberEnterResult(requester, ')', (char*)pkt + 0x12);
+    }
+    else
+    {
+        int err = memberMgr->CheckMemberEnter(requester, requesterMember, target, targetMember);
+        if (err == 0)
+        {
+            if (target->RecordCallMemberEnter(*(unsigned int*)((char*)pkt + 0xe), 1) == 1)
+            {
+                SendRequestMemberEnterResult(requester, 0, (char*)pkt + 0x12);
+                Packet_Monitor_Request_Member_Enter_To_Responser rpkt;
+                rpkt.m_idByChannel = target->GetIdByChannel();
+                rpkt.m_uniqCharNo = target->GetUniqCharNo();
+                rpkt.m_level = (unsigned short)requester->GetLevel();
+                memcpy(rpkt.m_name, requester->GetCharName(), 0x1d);
+                target->SendTcpGameserver(&rpkt);
+            }
+            else
+            {
+                SendRequestMemberEnterResult(requester, ')', (char*)pkt + 0x12);
+            }
+        }
+        else
+        {
+            SendRequestMemberEnterResult(requester, (unsigned char)err, (char*)pkt + 0x12);
+            CMyFileLog log("OnRequestMemberEnter", 0x5d0);
+            log("./log/MemberModify",
+                "Err(%d) Member Register : requester(%d) responser(%d)", err,
+                requester->GetUniqCharNo(), target->GetUniqCharNo());
+        }
+    }
+}
+void CPacketTranslater::OnMemberEnterReply(PacketHeader* pkt)
+{
+    if (m_pclApp != 0)
+    {
+        CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+        CMemberManager* memberMgr = (CMemberManager*)((char*)m_pclApp + 0x2d0);
+        CUser* requester = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xe));
+        if (requester != 0)
+        {
+            requester->GetMemberEnterCallerId();
+            CUser* responser = userMgr->FindUser_CharNo(requester->GetMemberEnterCallerId());
+            if (responser != 0)
+            {
+                if (responser->IsAbleToRegisterMember() != 1 ||
+                    requester->IsAbleToRegisterMember() != 1)
+                {
+                    SendRequestMemberEnterResult(responser, '7', responser->GetCharName());
+                    CMyFileLog log("OnMemberEnterReply", 0x621);
+                    log("./log/MemberModify",
+                        "Err Member Register Restrict : requester(%d:%d) responser(%d:%d)",
+                        responser->GetUniqCharNo(), responser->IsAbleToRegisterMember(),
+                        requester->GetUniqCharNo(), requester->IsAbleToRegisterMember());
+                }
+                else if (requester->CheckPrevCallMemberEnter() == 1)
+                {
+                    unsigned char code = *(unsigned char*)((char*)pkt + 0x12);
+                    if (code == 2)
+                    {
+                        SendNoticeMemberEnterPacketOk(responser, requester, 2, 0, 0, 0, 0);
+                        SendNoticeMemberEnterPacketReply(requester, responser, 2, 0, 0, 0, 0);
+                        CMyFileLog log("OnMemberEnterReply", 0x63a);
+                        log("./log/MemberModify",
+                            "Char id(%d) Reject And Reset char id(%d)",
+                            requester->GetUniqCharNo(), responser->GetUniqCharNo());
+                        requester->ResetRequestMemberEnter();
+                    }
+                    else if (code == 3)
+                    {
+                        SendNoticeMemberEnterPacketOk(responser, requester, 3, 0, 0, 0, 0);
+                        SendNoticeMemberEnterPacketReply(requester, responser, 3, 0, 0, 0, 0);
+                        CMyFileLog log("OnMemberEnterReply", 0x647);
+                        log("./log/MemberModify",
+                            "Char id(%d) Reject And Reset char id(%d)",
+                            requester->GetUniqCharNo(), responser->GetUniqCharNo());
+                        requester->ResetRequestMemberEnter();
+                    }
+                    else if (code == 4)
+                    {
+                        SendNoticeMemberEnterPacketOk(responser, requester, 4, 0, 0, 0, 0);
+                        SendNoticeMemberEnterPacketReply(requester, responser, 4, 0, 0, 0, 0);
+                        CMyFileLog log("OnMemberEnterReply", 0x654);
+                        log("./log/MemberModify",
+                            "Char id(%d) Reject And Reset char id(%d)",
+                            requester->GetUniqCharNo(), responser->GetUniqCharNo());
+                        requester->ResetRequestMemberEnter();
+                    }
+                    else
+                    {
+                        CMember* responserMember =
+                            memberMgr->FindMember(responser->GetUniqCharNo());
+                        CMember* requesterMember =
+                            memberMgr->FindMember(requester->GetUniqCharNo());
+                        if (requester->GetMemberEnterCallerId() == 0)
+                        {
+                            SendRequestMemberEnterResult(requester, '0',
+                                                         responser->GetCharName());
+                            CMyFileLog log("OnMemberEnterReply", 0x662);
+                            log("./log/MemberModify",
+                                "Err : %d not received request from %d",
+                                requester->GetUniqCharNo(), responser->GetUniqCharNo());
+                        }
+                        else
+                        {
+                            int err = memberMgr->CheckMemberEnter(
+                                responser, responserMember, requester, requesterMember);
+                            if (err == 0)
+                            {
+                                CServerHandler* handler =
+                                    (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+                                if (handler != 0)
+                                {
+                                    if (responserMember == 0)
+                                    {
+                                        responserMember =
+                                            memberMgr->CreateMemberInJoin(responser);
+                                    }
+                                    if (requesterMember == 0)
+                                    {
+                                        requesterMember =
+                                            memberMgr->CreateMemberInJoin(requester);
+                                    }
+                                    short rl = responser->GetLevel();
+                                    if (memberMgr->RegisterMember(responserMember, rl, requester,
+                                                                  true) == 1)
+                                    {
+                                        short ql = requester->GetLevel();
+                                        if (memberMgr->RegisterMember(requesterMember, ql,
+                                                                      responser, true) == 1)
+                                        {
+                                            memberMgr->SendToDBMemberUpdateCharInfo(
+                                                handler, responser->GetUniqCharNo(), 1);
+                                            memberMgr->SendToDBMemberUpdateCharInfo(
+                                                handler, requester->GetUniqCharNo(), 1);
+                                            memberMgr->SaveMemberOnConnect(
+                                                handler, responser, requester, 1);
+                                            requester->ResetRequestMemberEnter();
+                                            responser->SetMemberRegisterFlag(false);
+                                            requester->SetMemberRegisterFlag(false);
+                                            CMyFileLog log("OnMemberEnterReply", 0x69b);
+                                            log("./log/MemberModify",
+                                                "pclResponserUser Char id(%d)(%d) success and reset, pclRequestUser char id(%d)(%d)!",
+                                                requester->GetUniqCharNo(),
+                                                requester->IsAbleToRegisterMember(),
+                                                responser->GetUniqCharNo(),
+                                                responser->IsAbleToRegisterMember());
+                                            short l1 = requester->GetLevel();
+                                            short l2 = responser->GetLevel();
+                                            if (l2 < l1)
+                                            {
+                                                unsigned char el =
+                                                    requester->GetUpperMemberExpLevel();
+                                                unsigned char lv =
+                                                    (unsigned char)requester->GetLevel();
+                                                SendNoticeMemberEnterPacketOk(
+                                                    responser, requester, 1, 1, 1, lv, el);
+                                                unsigned char lv2 =
+                                                    (unsigned char)responser->GetLevel();
+                                                SendNoticeMemberEnterPacketReply(
+                                                    requester, responser, 1, 2, 0, lv2, 0);
+                                            }
+                                            else
+                                            {
+                                                short l3 = requester->GetLevel();
+                                                short l4 = responser->GetLevel();
+                                                if (l3 < l4)
+                                                {
+                                                    unsigned char lv3 =
+                                                        (unsigned char)requester->GetLevel();
+                                                    SendNoticeMemberEnterPacketOk(
+                                                        responser, requester, 1, 2, 0, lv3, 0);
+                                                    unsigned char el2 =
+                                                        responser->GetUpperMemberExpLevel();
+                                                    unsigned char lv4 =
+                                                        (unsigned char)responser->GetLevel();
+                                                    SendNoticeMemberEnterPacketReply(
+                                                        requester, responser, 1, 1, 1, lv4, el2);
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            short l5 = requester->GetLevel();
+                                            short l6 = responser->GetLevel();
+                                            CMyFileLog log("OnMemberEnterReply", 0x688);
+                                            log("./log/MemberModify",
+                                                "CPacketTranslater::OnMemberEnterReply  :  RegisterMember return false , Responser Char id(%d), Responser Member id(%d), Caller Level(%d), Responser Level(%d)!",
+                                                requester->GetUniqCharNo(),
+                                                requesterMember->GetMemberKey(), (int)l6,
+                                                (int)l5);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        short l7 = requester->GetLevel();
+                                        short l8 = responser->GetLevel();
+                                        CMyFileLog log("OnMemberEnterReply", 0x681);
+                                        log("./log/MemberModify",
+                                            "CPacketTranslater::OnMemberEnterReply  :  RegisterMember return false , Caller Char id(%d), Caller Member id(%d), Caller Level(%d), Responser Level(%d)!",
+                                            responser->GetUniqCharNo(),
+                                            responser->GetMemberKey(), (int)l8, (int)l7);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                SendRequestMemberEnterResult(requester, (unsigned char)err,
+                                                             responser->GetCharName());
+                                CMyFileLog log("OnMemberEnterReply", 0x66a);
+                                log("./log/MemberModify", "Err(%d) : %d Fail And Reset %d", err,
+                                    requester->GetUniqCharNo(), responser->GetUniqCharNo());
+                                requester->ResetRequestMemberEnter();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    SendRequestMemberEnterResult(requester, '/', responser->GetCharName());
+                    CMyFileLog log("OnMemberEnterReply", 0x62e);
+                    log("./log/MemberModify", "Char id(%d) Reset char id(%d)",
+                        requester->GetUniqCharNo(), responser->GetUniqCharNo());
+                    requester->ResetRequestMemberEnter();
+                }
+            }
+        }
+    }
+}
+void CPacketTranslater::OnMemberSecede(PacketHeader* pkt)
+{
+    if (m_pclApp != 0)
+    {
+        CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+        CMemberManager* memberMgr = (CMemberManager*)((char*)m_pclApp + 0x2d0);
+        unsigned int secederCharNo = *(unsigned int*)((char*)pkt + 0xe);
+        CUser* seceder = userMgr->FindUser_CharNo(secederCharNo);
+        if (seceder != 0)
+        {
+            CMember* member = memberMgr->FindMember(secederCharNo);
+            if (member == 0)
+            {
+                SendRequestMemberDeleteResult(seceder, '1', (char*)pkt + 0x13);
+            }
+            else
+            {
+                CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+                if (handler != 0)
+                {
+                    CUser* target = userMgr->FindUser_CharName((char*)pkt + 0x13);
+                    unsigned char result = 0;
+                    unsigned int targetKey = 0;
+                    if (target == 0)
+                    {
+                        result = (unsigned char)member->DeleteMemberByName((char*)pkt + 0x13,
+                                                                          targetKey);
+                        if (result == 3)
+                        {
+                            return;
+                        }
+                        if (memberMgr->CheckEmptyMember(member, seceder) != 0)
+                        {
+                            memberMgr->SendToDBMemberUpdateCharInfo(handler, secederCharNo, 0);
+                        }
+                        memberMgr->SaveMemberOnUnConnect(handler, secederCharNo, targetKey,
+                                                         (unsigned int)result, 2);
+                    }
+                    else
+                    {
+                        targetKey = target->GetUniqCharNo();
+                        CMember* targetMember = memberMgr->FindMember(targetKey);
+                        if (targetKey == secederCharNo)
+                        {
+                            return;
+                        }
+                        result = 2;
+                        if (member->GetUpperMember_CharId() == (int)targetKey)
+                        {
+                            member->DeleteUpperMember(targetKey, true);
+                            if (targetMember != 0)
+                            {
+                                targetMember->DeleteLowerMember(secederCharNo, false);
+                            }
+                            result = 1;
+                        }
+                        else
+                        {
+                            member->DeleteLowerMember(targetKey, true);
+                            if (targetMember != 0)
+                            {
+                                targetMember->DeleteUpperMember(secederCharNo, false);
+                            }
+                        }
+                        memberMgr->SaveMemberOnConnect(handler, seceder, target, 2);
+                        if (memberMgr->CheckEmptyMember(member, seceder) != 0)
+                        {
+                            memberMgr->SendToDBMemberUpdateCharInfo(handler, secederCharNo, 0);
+                        }
+                        if (memberMgr->CheckEmptyMember(targetMember, target) != 0)
+                        {
+                            memberMgr->SendToDBMemberUpdateCharInfo(handler, targetKey, 0);
+                        }
+                        Packet_Monitor_Member_Secede_To_Seceder spkt;
+                        spkt.m_idByChannel = target->GetIdByChannel();
+                        spkt.m_uniqCharNo = targetKey;
+                        spkt.m_type = 2;
+                        if (result == 1)
+                        {
+                            spkt.m_type = 1;
+                        }
+                        memcpy(spkt.m_name, seceder->GetCharName(), 0x1d);
+                        target->SendTcpGameserver(&spkt);
+                    }
+                    SendRequestMemberDeleteResult(seceder, result, (char*)pkt + 0x13);
+                    seceder->SetMemberRegisterFlag(false);
+                }
+            }
+        }
+    }
+}
 void CPacketTranslater::OnCallMemberList(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoticeMemberChatMsg(PacketHeader* pkt) {}
 void CPacketTranslater::OnPayTaxToUpper(PacketHeader* pkt) {}
@@ -4500,6 +5440,48 @@ Packet_Monitor_SAVE_Member_Update_Char_Info::
 {
 }
 
+Packet_Monitor_SAVE_Member::Packet_Monitor_SAVE_Member() : PacketHeader(0x4b4, 0x14)
+{
+    m_fieldA = 0;
+    m_upperCharNo = 0;
+    m_lowerCharNo = 0;
+    m_type = 0;
+}
+
+Packet_Monitor_Request_Member_Enter_To_Requester::
+    Packet_Monitor_Request_Member_Enter_To_Requester()
+    : PacketHeader(0x4b7, 0x31)
+{
+    memset(m_name, 0, 0x1e);
+}
+
+Packet_Monitor_Request_Member_Enter_To_Responser::
+    Packet_Monitor_Request_Member_Enter_To_Responser()
+    : PacketHeader(0x4b8, 0x32)
+{
+}
+
+Packet_Monitor_Member_Enter_Reply_ToResponser::
+    Packet_Monitor_Member_Enter_Reply_ToResponser()
+    : PacketHeader(0x4b9, 0x39)
+{
+    m_extraCharNo = 0;
+    memset(m_name, 0, 0x1e);
+}
+
+Packet_Monitor_Notice_Member_Enter_Ok::Packet_Monitor_Notice_Member_Enter_Ok()
+    : PacketHeader(0x4ba, 0x39)
+{
+    m_extraCharNo = 0;
+    memset(m_name, 0, 0x1e);
+}
+
+Packet_Monitor_Member_Secede_To_Seceder::Packet_Monitor_Member_Secede_To_Seceder()
+    : PacketHeader(0x4bc, 0x31)
+{
+    memset(m_name, 0, 0x1e);
+}
+
 Packet_Arad_ApplyEffect::Packet_Arad_ApplyEffect(int group, int code, unsigned int time)
     : PacketHeader(0x27f9, 0x16)
 {
@@ -4742,4 +5724,15 @@ namespace WongWork
 {
 CGMAccounts::CGMAccounts() {}
 CGMAccounts::~CGMAccounts() {}
+bool CGMAccounts::isGM(unsigned int dbid)
+{
+    for (std::list<stGMInfo_t>::iterator it = m_list.begin(); it != m_list.end(); ++it)
+    {
+        if (it->m_dbid == dbid)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 }

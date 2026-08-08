@@ -59,7 +59,21 @@ compile() {
     local src="$1"
     local base
     base=$(basename "$src" .cpp)
-    if [ ! -f "$OUT_DIR/$base.o" ] || [ "$src" -nt "$OUT_DIR/$base.o" ]; then
+    local need=0
+    if [ ! -f "$OUT_DIR/$base.o" ]; then
+        need=1
+    elif [ "$src" -nt "$OUT_DIR/$base.o" ]; then
+        need=1
+    else
+        for h in "$MONITOR"/*.h "$COMMON"/*.h; do
+            [ -f "$h" ] || continue
+            if [ "$h" -nt "$OUT_DIR/$base.o" ]; then
+                need=1
+                break
+            fi
+        done
+    fi
+    if [ "$need" -eq 1 ]; then
         echo "CC  $base.cpp"
         run_job "$CXX" $FLAGS -c "$src" -o "$OUT_DIR/$base.o"
     else

@@ -489,6 +489,11 @@ CTaskScheduler* CApplication::GetTaskScheduler()
     return m_taskScheduler;
 }
 
+void* CApplication::GetGMAccounts()
+{
+    return m_field2cc;
+}
+
 char CApplication::Send_Term_Signal(const std::string& file)
 {
     std::string path = "./pid/" + file;
