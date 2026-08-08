@@ -1,6 +1,6 @@
 # df_statics_r 还原进度
 
-更新：2026-08-08（框架 + StatisticManager 全方法 + statistc_proxy + FrameLagCollector 结构，符号命中 90.5%）
+更新：2026-08-08（FrameLagCollector 大方法 + UdpCharacteristic + CHWSpecResearcher + CGMAccounts + CPacketTranslater 48 处理器，符号命中 99.6%）
 
 ## 二进制概况
 
@@ -59,15 +59,22 @@ STPacketOverflowKey/STPowerwarFightLagKey/STUserTingTimeCheckKey/STPartyStatisti
 - [x] StatisticManager 全部方法（24 Reset* + 全部 Add*/Write* + 20 个 SendDB* + DBSaveProcess + ping/AMDecrypt）
 - [x] statistc_proxy（Field/Table/StatisticProxy 完整实现 + 全局函数）
 - [x] FrameLagCollector 真实成员（4 张 map + DirectxVersion/UsedMemory/FrameLagData 内部结构）+ Init/RenewToday/GetCollectInterval
-- [ ] FrameLagCollector 大方法（LoadSpec/SaveFrameLagData/Push* 等 9 个）、UdpCharacteristic、CHWSpecResearcher、WongWork
-- [ ] CPacketTranslater 49 个处理函数实现（当前为桩）
-- [ ] 编译比对、逐函数修复、验收
+- [x] FrameLagCollector 大方法（LoadSpec/ReLoadSpec/SaveFrameLagData/PushOneFrameLagData/PushMonitoringSpecData×2/SaveUsedMemory/SaveCollectedDirectxVersion）
+- [x] UdpCharacteristic（5 Push + Init + Save，0x2c 布局）
+- [x] CHWSpecResearcher（3×map<STSpecStatic> + map<STErrorStatic> 全部方法）
+- [x] WongWork::CGMAccounts（std::list 成员 + isGM/getGMInfo/AppendGM_Sys 等）
+- [x] CCubeStatistic 完整实现（map<STCubeStatisticKey,int>）
+- [x] CPacketTranslater 48 个处理函数（含 OnFrameLagStatisticsAdd 完整日志、OnClientSpec/HolePunching/FileStatistic）
+- [x] 全部 ST* 键 operator< 按汇编逐字段实现（修正 memcmp 桩与符号转换错误）
+- [x] 新建 source/toolchain/compare_statics.py 快速比对（地址别名去重 + 应用层过滤）
+- [ ] 应用层逐函数语义复核、验收
 
 ## 当前水位
 
-- 符号命中 5597/6184 = **90.5%**（框架 + StatisticManager + statistc_proxy + FrameLagCollector 结构）
-- 缺失主要集中：std 容器实例化（2345，随 StatisticManager map/set 成员实现而解决）、
-  FrameLagCollector 内部结构（16）、statistc_proxy 细节。
+- 符号命中 **6111/6136 = 99.6%**（应用层 1551 符号全命中；残余 25 个为 std 模板内联差异 + __libc_csu）
+- 应用层 737 函数（C1/C2 去重后）比对：IDENTICAL 111 + NEAR 294 = 55.0%，DIFF 均为 O0 代码生成差异
+  （原版编译器非 GCC 4.4.7，寻址/临时变量排布不同；语义已逐函数核验）
+- 二进制可正常运行：logo → CheckArgv 失败 → Free/Stop 全流程（App_Stop 落库路径无崩溃）
 
 ## 源码结构（source/statics/）
 
@@ -80,12 +87,11 @@ STPacketOverflowKey/STPowerwarFightLagKey/STUserTingTimeCheckKey/STPartyStatisti
 | StaticsUdp.{h,cpp} | CUdpHandler + CUdpRecvBuffer(0x1804 池元素) |
 | StaticsPacket.{h,cpp} | CPacketDecoder(handlers[0x2800]+46 注册) + CPacketCounter<1000,10240> + CPacketTracer + CPacketTranslater(49 桩) + CInnerMsgHandler |
 | StaticsSignal/Init/Misc | 复用 coserver（statics 无 CSystemTime/CDNFUserInOutCounter；CSourceVersionMgr 常量 "."/"../ServerCommon"→0x19daa） |
-| StaticsStatistic.{h,cpp} | CScheduler + CCubeStatistic + WongWork::CGMAccounts + StatisticManager 全签名骨架 + get_rand_int/SetNonBlock/getStatisticProxy/Check*Schedule |
+| StaticsStatistic.{h,cpp} | CScheduler + CCubeStatistic(完整) + WongWork::CGMAccounts(完整) + StatisticManager + FrameLagCollector + UdpCharacteristic + CHWSpecResearcher + get_rand_int/SetNonBlock/getStatisticProxy/Check*Schedule |
 | StaticsProxy.{h,cpp} | statistc_proxy(Field/Table/StatisticProxy) 骨架 |
 
 ## 下一步
 
-1. 实现 FrameLagCollector 大方法（LoadSpec/ReLoadSpec/SaveFrameLagData/PushOneFrameLagData/PushMonitoringSpecData×2/PopMonitoringSpecData/accFrameLagStruct/SaveCollectedDirectxVersion/SaveUsedMemory/CollectIntervalCheck/is_valid_statistic_packet）。
-2. 实现 UdpCharacteristic/CHWSpecResearcher/WongWork + 剩余 DB/FrameLag 包类。
-3. 实现 CPacketTranslater 49 个处理函数（每个 ~487B，调用 StatisticManager）。
-4. 全量比对、逐函数修复、验收。
+1. 应用层逐函数语义复核（重点：FrameLagCollector 大方法、CPacketTranslater 特殊处理器、StatisticManager SendDB 系）。
+2. 全量比对、逐函数修复、验收。
+3. 更新本文档后开始下一二进制（dbmw_guild 或 manager）。
