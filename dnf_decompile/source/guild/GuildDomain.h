@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "Thread.h"
+#include "GuildTable.h"
 
 class CApplication;
 class CUser;
@@ -179,7 +180,22 @@ struct Packet_DB_Save_Power_War_Point;
 struct Packet_DB_Save_Power_War_Bonus_Point;
 struct STPowerWarScheduleTime
 {
+    STPowerWarScheduleTime() {}
+    ~STPowerWarScheduleTime() {}
     char m_data[0x10];
+};
+
+// ---- ST_PowerWarEventStartTimeConfig：0x14 ----
+struct ST_PowerWarEventStartTimeConfig
+{
+    ST_PowerWarEventStartTimeConfig();
+    ~ST_PowerWarEventStartTimeConfig();
+    unsigned char m_day;    // +0
+    unsigned char m_hour;   // +1
+    unsigned char m_min;    // +2
+    char m_pad;             // +3
+    int m_field4;           // +4
+    std::vector<STPowerWarScheduleTime> m_schedule;  // +8
 };
 
 namespace WongWork
@@ -767,8 +783,21 @@ public:
     char m_data[0x20];
 };
 
+// ---- CPowerWarConfig ----
+class CTableBase;
+class CPowerWarConfig : public CTableBase
+{
+public:
+    CPowerWarConfig();
+    virtual ~CPowerWarConfig();
+    virtual void Load_Table(const std::string& path);
+    virtual int Parse_Table(char* line, int idx);
+    void Clear_Table();
+    ST_PowerWarEventStartTimeConfig* GetInfo() const;
+    ST_PowerWarEventStartTimeConfig m_info;  // +4
+};
+
 // ---- CPowerWar ----
-class CPowerWarConfig;
 class CPowerWar
 {
 public:

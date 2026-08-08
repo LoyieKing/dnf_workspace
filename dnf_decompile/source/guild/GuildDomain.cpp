@@ -4280,6 +4280,95 @@ CProtocol::~CProtocol()
 {
 }
 
+// ---- ST_PowerWarEventStartTimeConfig ----
+ST_PowerWarEventStartTimeConfig::ST_PowerWarEventStartTimeConfig()
+{
+    m_day = 0xff;
+    m_hour = 0xff;
+    m_min = 0xff;
+    m_field4 = 0;
+}
+
+ST_PowerWarEventStartTimeConfig::~ST_PowerWarEventStartTimeConfig()
+{
+}
+
+// ---- CPowerWarConfig ----
+CPowerWarConfig::CPowerWarConfig()
+{
+}
+
+CPowerWarConfig::~CPowerWarConfig()
+{
+}
+
+ST_PowerWarEventStartTimeConfig* CPowerWarConfig::GetInfo() const
+{
+    return (ST_PowerWarEventStartTimeConfig*)((char*)this + 4);
+}
+
+void CPowerWarConfig::Clear_Table()
+{
+    m_info.m_day = 0xff;
+    m_info.m_hour = 0xff;
+    m_info.m_min = 0xff;
+    m_info.m_schedule.clear();
+}
+
+int CPowerWarConfig::Parse_Table(char* line, int idx)
+{
+    if (*line == '#')
+    {
+        return 0;
+    }
+    char* tokens[4];
+    int n = DNFFLib::ExplodeString(line, " \t\r\n\"", tokens, 4);
+    if (n == 4 || n == 2)
+    {
+        switch (idx)
+        {
+        case 0:
+            m_info.m_day = (unsigned char)atoi(tokens[1]);
+            break;
+        case 1:
+            m_info.m_hour = (unsigned char)atoi(tokens[1]);
+            break;
+        case 2:
+            m_info.m_min = (unsigned char)atoi(tokens[1]);
+            break;
+        case 3:
+            m_info.m_field4 = atoi(tokens[1]);
+            break;
+        case 4:
+            if (atoi(tokens[1]) != 0)
+            {
+                STPowerWarScheduleTime st;
+                memset(st.m_data, 0, sizeof(st.m_data));
+                st.m_data[1] = (char)atoi(tokens[2]);
+                st.m_data[2] = (char)atoi(tokens[3]);
+                m_info.m_schedule.push_back(st);
+            }
+            break;
+        default:
+            return 0;
+        }
+        return 1;
+    }
+    return 0;
+}
+
+void CPowerWarConfig::Load_Table(const std::string& path)
+{
+    int rc = Load_Txt_Table_Data(path.c_str(), 100);
+    if (0 < rc && rc < 0x65)
+    {
+        return;
+    }
+    CMyFileLog log("Load_Table", 0xcc);
+    log("./log/TableError", "Power War Config Table - ReturnCode = %d\n", rc);
+    throw CDNFException("CPowerWarConfig::Load_Setup_Table() Exception break!");
+}
+
 EpollHandler::EpollHandler()
 {
     m_events = 0;
