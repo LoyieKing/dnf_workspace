@@ -594,9 +594,7 @@ STUB_HANDLER(OnRequestGuildMasterDelegate)
 STUB_HANDLER(OnDBReplyGuildMasterDelegate)
 STUB_HANDLER(OnRequestGuildCreate)
 STUB_HANDLER(OnDBReplyGuildCreate)
-STUB_HANDLER(OnSetGuildMemberGradeFromWeb)
 STUB_HANDLER(OnGuildMasterDelegateFromWeb)
-STUB_HANDLER(OnCheckGuildMemberConnectionFromWeb)
 STUB_HANDLER(OnInnerPacketLogin)
 STUB_HANDLER(OnInnerPacketLogout)
 STUB_HANDLER(OnPowerWarStartInfo)
@@ -626,7 +624,6 @@ STUB_HANDLER(OnLoadGuildCargoHistory)
 STUB_HANDLER(OnGuildCargo)
 STUB_HANDLER(OnGuildCargoHistory)
 STUB_HANDLER(OnGuildCargoCheckPushItem)
-STUB_HANDLER(OnGuildCargoPopItem)
 STUB_HANDLER(OnGuildCargoMoveItem)
 STUB_HANDLER(OnGuildCargoUpgrade)
 STUB_HANDLER(OnGuildRequestGuildBoardOpen)
@@ -959,6 +956,237 @@ void CPacketTranslater::OnGuildCargoPushItem(PacketHeader* pkt)
         cargo->PrintCargo((ENUM_GUILD_CARGO_BEHAVIOR)1);
     }
     user->SendTcpGameserver((PacketHeader*)&resp);
+}
+
+void CPacketTranslater::OnGuildCargoPopItem(PacketHeader* pkt)
+{
+    unsigned int group = *(unsigned int*)((char*)pkt + 0xa);
+    unsigned int guildKey = *(unsigned int*)((char*)pkt + 0xe);
+    int slot = *(int*)((char*)pkt + 0x12);
+    int id = *(int*)((char*)pkt + 0x16);
+    int count = *(int*)((char*)pkt + 0x1a);
+    unsigned char itemType = *(unsigned char*)((char*)pkt + 0x1e);
+    unsigned int uit = *(unsigned int*)((char*)pkt + 0x1f);
+    CMyFileLog log0("OnGuildCargoPopItem", 0x1a65);
+    log0("./log/GuildCargo", "POP ITEM(g:%d,cn:%d,sn:%d,id:%d,cnt:%d,it:%d,uit:%d)",
+         group, guildKey, slot, id, count, (unsigned int)itemType, uit);
+    Packet_Channel_Guild_Cargo_Pop_Item resp;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGuildCargoPopItem", 0x1a74);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoPopItem : 0 == m_pclApp");
+        return;
+    }
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(group);
+    if (user == 0)
+    {
+        CMyFileLog log("OnGuildCargoPopItem", 0x1a7e);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoPopItem : 0 == pclUser");
+        return;
+    }
+    *(unsigned int*)((char*)&resp + 0xa) = user->GetIdByChannel();
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnGuildCargoPopItem", 0x1a88);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoPopItem : 0 == pclGuild");
+        *(unsigned char*)((char*)&resp + 0x12) = 100;
+        user->SendTcpGameserver((PacketHeader*)&resp);
+        return;
+    }
+    if (m_pclApp->Get_GuildManager()->IsCargoLock())
+    {
+        CMyFileLog log("OnGuildCargoPopItem", 0x1a92);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoPopItem GUILD CARGO LOCKED!(%d,%d)",
+            group, guildKey);
+        *(unsigned char*)((char*)&resp + 0x12) = 0xcc;
+        user->SendTcpGameserver((PacketHeader*)&resp);
+        return;
+    }
+    if (guild->IsExistGuildAgit() != 1)
+    {
+        CMyFileLog log("OnGuildCargoPopItem", 0x1a9d);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoPopItem : (%d,%d) No GuildAgit",
+            group, guildKey);
+        *(unsigned char*)((char*)&resp + 0x12) = 0xb5;
+        user->SendTcpGameserver((PacketHeader*)&resp);
+        return;
+    }
+    CGuildCargo* cargo = guild->GetGuildCargo();
+    if (cargo->IsLoadComplete() != 1)
+    {
+        CMyFileLog log("OnGuildCargoPopItem", 0x1aa7);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoPopItem : Guild(%d,%d) Not Loaded",
+            group, guildKey);
+        *(unsigned char*)((char*)&resp + 0x12) = 0xc3;
+        user->SendTcpGameserver((PacketHeader*)&resp);
+        return;
+    }
+    unsigned char grade = *(unsigned char*)((char*)user->GetGuildMemDBInfo() + 0x15);
+    if (grade != 3 && grade != 1 && grade != 2)
+    {
+        CMyFileLog log("OnGuildCargoPopItem", 0x1ab5);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoPopItem : Access Deny(%d,%d,%d)",
+            guildKey, group, (unsigned int)grade);
+        *(unsigned char*)((char*)&resp + 0x12) = 0x24;
+        user->SendTcpGameserver((PacketHeader*)&resp);
+        return;
+    }
+    DnfItemInfo poppedItem;
+    int result = cargo->DeleteItem(poppedItem, slot, count, itemType, id, (int)guildKey);
+    *(unsigned char*)((char*)&resp + 0x12) = (unsigned char)result;
+    if (result == 0xc1)
+    {
+        memcpy((char*)&resp + 0x16, &poppedItem, 0x35);
+        cargo->InsertHistory((ENUM_GUILD_CARGO_BEHAVIOR)2, (int)guildKey, user->GetCharName(),
+                             count, id, (RandomOption*)((char*)&poppedItem + 0x1d));
+        CServerHandler* handler = m_pclApp->Get_ServerHandler();
+        cargo->SendHistoryToDBMW(handler, (ENUM_GUILD_CARGO_BEHAVIOR)2, (int)guildKey,
+                                 user->GetCharName(), slot, 0, poppedItem);
+        cargo->SendGuildCargoToDBMW(handler, (int)guildKey);
+        cargo->PrintCargo((ENUM_GUILD_CARGO_BEHAVIOR)2);
+    }
+    user->SendTcpGameserver((PacketHeader*)&resp);
+}
+
+void CPacketTranslater::OnSetGuildMemberGradeFromWeb(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnSetGuildMemberGradeFromWeb : 0 == m_pclApp");
+    unsigned int guildKey = *(unsigned int*)((char*)pkt + 0xe);
+    unsigned int masterCharNo = *(unsigned int*)((char*)pkt + 0xa);
+    unsigned char newGrade = *(unsigned char*)((char*)pkt + 0x12);
+    unsigned int targetCharNo = *(unsigned int*)((char*)pkt + 0x13);
+    if (guildKey == 0)
+    {
+        CMyFileLog log("OnSetGuildMemberGradeFromWeb", 0x515);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnSetGuildMemberGradeFromWeb : 0 == packet->m_uGuildKey(%d)",
+            (unsigned int)(guildKey == 0));
+        return;
+    }
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnSetGuildMemberGradeFromWeb", 0x51a);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnSetGuildMemberGradeFromWeb : no guild(%d)", masterCharNo);
+        return;
+    }
+    if (!guild->IsGuildMaster(masterCharNo) && !guild->IsSubGuildMaster(masterCharNo))
+    {
+        CMyFileLog log("OnSetGuildMemberGradeFromWeb", 0x520);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnSetGuildMemberGradeFromWeb : no guild master(%d)", masterCharNo);
+        return;
+    }
+    if (newGrade == 1)
+    {
+        CMyFileLog log("OnSetGuildMemberGradeFromWeb", 0x526);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnSetGuildMemberGradeFromWeb : can't change guild master(%d)",
+            (int)(char)newGrade);
+        return;
+    }
+    if (newGrade == 2)
+    {
+        if (4 < guild->GetCurSubGuildMasterCnt())
+        {
+            CMyFileLog log("OnSetGuildMemberGradeFromWeb", 0x52e);
+            log("./log/GuildModify",
+                "CPacketTranslater::OnSetGuildMemberGradeFromWeb : over sub guild master count");
+            return;
+        }
+        if (!guild->IsGuildMaster(masterCharNo))
+        {
+            CMyFileLog log("OnSetGuildMemberGradeFromWeb", 0x535);
+            log("./log/GuildModify",
+                "CPacketTranslater::OnSetGuildMemberGradeFromWeb : can't change sub guild master except master");
+            return;
+        }
+    }
+    if (guild->IsGuildMaster(targetCharNo))
+    {
+        CMyFileLog log("OnSetGuildMemberGradeFromWeb", 0x53d);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnSetGuildMemberGradeFromWeb : can't change guild master(%d)",
+            (int)(char)newGrade);
+        return;
+    }
+    if (targetCharNo == masterCharNo)
+    {
+        CMyFileLog log("OnSetGuildMemberGradeFromWeb", 0x542);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnSetGuildMemberGradeFromWeb : can't change myself(%d)", targetCharNo);
+        return;
+    }
+    if (newGrade == 2)
+    {
+        if (!guild->IsGuildMaster(masterCharNo))
+        {
+            CMyFileLog log("OnSetGuildMemberGradeFromWeb", 0x54c);
+            log("./log/GuildModify",
+                "CPacketTranslater::OnSetGuildMemberGradeFromWeb : can't change sub guild master except guild master(%d)",
+                masterCharNo);
+            return;
+        }
+        guild->SetSubGuildMaster(targetCharNo, true);
+        guild->SendGuildInfoToMembers(false);
+    }
+    else if (guild->IsSubGuildMaster(targetCharNo))
+    {
+        if (!guild->IsGuildMaster(masterCharNo))
+        {
+            CMyFileLog log("OnSetGuildMemberGradeFromWeb", 0x55c);
+            log("./log/GuildModify",
+                "CPacketTranslater::OnSetGuildMemberGradeFromWeb : can't change sub guild master except guild master(%d)",
+                masterCharNo);
+            return;
+        }
+        guild->SetSubGuildMaster(targetCharNo, false);
+        guild->SendGuildInfoToMembers(false);
+    }
+    guild->ChangeUnconnectedGuildMemberGrade(targetCharNo, (int)(char)newGrade);
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(targetCharNo);
+    if (user != 0)
+    {
+        user->ChangeGuildMemberGrade(newGrade);
+        Packet_Monitor_Notify_GuildMemberGrade notify;
+        *(unsigned int*)((char*)&notify + 0xa) = user->GetIdByChannel();
+        *(unsigned int*)((char*)&notify + 0xe) = user->GetUniqCharNo();
+        *(unsigned char*)((char*)&notify + 0x12) = newGrade;
+        user->SendToGameserver((char*)&notify, *(unsigned short*)((char*)&notify + 2));
+    }
+}
+
+void CPacketTranslater::OnCheckGuildMemberConnectionFromWeb(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnCheckGuildMemberConnectionFromWeb : 0 == m_pclApp");
+    unsigned int guildKey = *(unsigned int*)((char*)pkt + 0xa);
+    if (guildKey != 0)
+    {
+        Packet_Answer_Guild_Member_Connection_From_Web resp;
+        *(unsigned int*)((char*)&resp + 0xa) = guildKey;
+        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+        unsigned short size;
+        if (guild == 0 || guild->IsSetGuildDBFlag(4) != 1)
+        {
+            size = 0x10;
+        }
+        else
+        {
+            short count =
+                (short)guild->ReplyGuildMembersToWeb(
+                    (STGuildMemberWebConnInfo*)((char*)&resp + 0x10));
+            size = (unsigned short)(count * 5 + 0x10);
+        }
+        *(unsigned short*)((char*)&resp + 2) = size;
+        unsigned short port = *(unsigned short*)((char*)pkt + 4);
+        unsigned int ip = *(unsigned int*)((char*)pkt + 6);
+        if (m_pclApp->Get_UdpHandler()->SendToClient((char*)&resp, (int)size, port, 0, ip) != 1)
+        {
+            throw CDNFException(strerror(errno));
+        }
+    }
 }
 
 #undef STUB_HANDLER
