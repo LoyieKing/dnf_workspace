@@ -148,6 +148,7 @@ public:
     void Process(CApplication* app);
     CGameServer* GetGameServer(unsigned int group);
     CTcpGameServer* GetTcpGameServer(unsigned int group);
+    int IsConnectedGameServer(unsigned char group);
     CDBServer* GetDBServer();
     CManagerServer* GetManagerServer();
     CMonitorServer* GetMonitorServer();
@@ -176,7 +177,7 @@ public:
     void UnregistGameServer(unsigned int group);
     void CreateTcpGameServer(unsigned int group);
     void DeleteTcpGameServer(unsigned int group);
-    void SetGameServerIpPort(unsigned char group, unsigned short port, unsigned short tcpPort);
+    void SetGameServerIpPort(unsigned char group, unsigned int port, unsigned short tcpPort);
     void QueryGuild(unsigned int group, unsigned int guildId);
     void QueryGuildMember(unsigned char group, unsigned int characNo);
     void SendDBMWConnectionCheck();

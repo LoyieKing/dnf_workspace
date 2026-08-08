@@ -69,11 +69,23 @@ bool CServerInterface::IsConnected()
 
 int CServerInterface::IsHeartBeatTimeOver()
 {
+    m_field9 = (char)(m_field9 - 1);
+    if (m_field9 == 0)
+    {
+        m_fielda = (char)(m_fielda + 1);
+        if (0x14 < (unsigned char)m_fielda)
+        {
+            return 1;
+        }
+        m_field9 = 0x14;
+    }
     return 0;
 }
 
 void CServerInterface::ResetHeartBeat()
 {
+    m_field9 = 0x14;
+    m_fielda = 0;
 }
 
 void CServerInterface::OnDisconnect()
@@ -315,6 +327,12 @@ void CTcpDBServer::SetPort(unsigned short port)
 
 void CTcpDBServer::SendHeartbeat()
 {
+    char* pkt = makePacketHeader(0x106a, 0xb);
+    if (pkt != 0)
+    {
+        pkt[10] = '\t';
+        SendToServer(pkt);
+    }
 }
 
 void CTcpDBServer::SendToServer(char* buf)
@@ -328,7 +346,7 @@ bool CTcpDBServer::IsValidServer()
 
 char* CTcpDBServer::GetIP()
 {
-    return 0;
+    return (char*)m_ip.c_str();
 }
 
 unsigned short CTcpDBServer::GetPort()
@@ -447,6 +465,74 @@ void CServerHandler::Attach(CApplication* app)
 
 void CServerHandler::Process(CApplication* app)
 {
+    bool doHb = false;
+    if (m_managerServer != 0)
+    {
+        int old = m_heartbeat;
+        m_heartbeat = old + 1;
+        doHb = old >= 4;
+    }
+    if (doHb)
+    {
+        m_managerServer->SendHeartBeat(GetServerGroupNo() & 0xff);
+        m_heartbeat = 0;
+    }
+    for (std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.begin();
+         it != m_gameServers.end(); ++it)
+    {
+        CGameServer* gs = it->second;
+        if (gs->IsValidServer() && gs->IsConnected() && gs->IsHeartBeatTimeOver())
+        {
+            if (gs->GetChannelNo() < 0xbe)
+            {
+                m_app->OnGameServerDown(gs);
+            }
+            gs->OnDisconnect();
+        }
+    }
+    if (m_dbServer != 0 && m_dbServer->IsValidServer())
+    {
+        if (m_dbServer->IsConnected() && m_dbServer->IsHeartBeatTimeOver())
+        {
+            m_dbServer->OnDisconnect();
+            CMyFileLog log("Process", 0xea);
+            log("./log/DBServerErr", "CServerHandler::Process() DB Server Down!\n");
+        }
+    }
+    if (m_tcpDbServer.IsValidServer() != 1)
+    {
+        const char* ip = m_tcpDbServer.GetIP();
+        if (*ip != '\0' && m_tcpDbServer.GetPort() != 0)
+        {
+            int sockRef = 0;
+            m_app->Get_TcpNetSystem()->OpenTcpService(
+                *m_tcpDbServer.GetSockRef(), ip, m_tcpDbServer.GetPort());
+            CMyFileLog log("Process", 0x135);
+            log("./log/TcpServer", "try connect to DBMW(%s, %d)", ip,
+                (unsigned int)m_tcpDbServer.GetPort());
+        }
+    }
+    int old = m_field58;
+    m_field58 = old + 1;
+    if (old > 3)
+    {
+        m_tcpDbServer.SendHeartbeat();
+        m_field58 = 0;
+    }
+}
+
+int CServerHandler::IsConnectedGameServer(unsigned char group)
+{
+    std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.find(group);
+    if (it == m_gameServers.end())
+    {
+        CMyFileLog log("IsConnectedGameServer", 0x1a1);
+        log("./log/GameServer",
+            "CServerHandler::IsConnectedGameServer\tGame Server Index Over Index : %d!\n",
+            (unsigned int)group);
+        return 0;
+    }
+    return it->second->IsConnected();
 }
 
 CGameServer* CServerHandler::GetGameServer(unsigned int group)
@@ -600,7 +686,7 @@ void CServerHandler::DeleteTcpGameServer(unsigned int group)
 {
 }
 
-void CServerHandler::SetGameServerIpPort(unsigned char group, unsigned short port,
+void CServerHandler::SetGameServerIpPort(unsigned char group, unsigned int port,
                                          unsigned short tcpPort)
 {
 }
