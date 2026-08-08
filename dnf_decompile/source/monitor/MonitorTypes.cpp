@@ -1000,6 +1000,8 @@ int CBuddyHandle::add(std::string name, STBuddyDBInfo& info)
     return 0;
 }
 void CBlackUser::ChangeCharName(char* name) {}
+char* CBlackUser::GetName() { return 0; }
+unsigned int CBlackUser::GetOccurTime() { return 0; }
 
 CExchangeServer::CExchangeServer() {}
 CExchangeServer::~CExchangeServer() {}
@@ -2596,6 +2598,26 @@ void CUser::AddBuddyFromCash(CBuddy* buddy) {}
 void CUser::SetBuddyDBFlag(unsigned int flag) {}
 void CUser::RegisterToCashBlackList(std::map<unsigned int, CBlackUser*>* map) {}
 void CUser::SetBlackListDBFlag(unsigned int flag) {}
+void CUser::GetBlackList(unsigned char& count, STBlackUserDBType* out)
+{
+    *count = 0;
+    if (!m_blackList.empty())
+    {
+        for (std::map<unsigned int, CBlackUser*>::iterator it = m_blackList.begin();
+             it != m_blackList.end(); ++it)
+        {
+            memcpy((char*)out + (unsigned int)*count * 0x28 + 4, it->second->GetName(), 0x1d);
+            *(unsigned int*)((char*)out + (unsigned int)*count * 0x28 + 0x24) =
+                it->second->GetOccurTime();
+            *(unsigned int*)((char*)out + (unsigned int)*count * 0x28) = it->first;
+            (*count)++;
+            if (9 < *count)
+            {
+                return;
+            }
+        }
+    }
+}
 
 void* CMember::operator new(unsigned int size) { return ::operator new(size); }
 CMember::CMember(unsigned int key, CMemberManager* mgr) {}

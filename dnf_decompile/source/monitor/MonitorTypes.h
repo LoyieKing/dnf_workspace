@@ -252,6 +252,8 @@ class CBlackUser
 {
 public:
     void ChangeCharName(char* name);
+    char* GetName();
+    unsigned int GetOccurTime();
     char m_data[0x20];
 };
 
@@ -689,7 +691,15 @@ public:
     void SetBuddyDBFlag(unsigned int flag);
     void RegisterToCashBlackList(std::map<unsigned int, class CBlackUser*>* map);
     void SetBlackListDBFlag(unsigned int flag);
-    char m_data[0x400];
+    void GetBlackList(unsigned char& count, struct STBlackUserDBType* out);
+    char m_data[0x50];                                  // +0
+    std::map<unsigned int, class CBlackUser*> m_blackList;  // +0x50
+    char m_data2[0x398];                                // +0x68
+};
+
+struct STBlackUserDBType
+{
+    char m_data[0x28];
 };
 
 struct STMemberDBInfo
