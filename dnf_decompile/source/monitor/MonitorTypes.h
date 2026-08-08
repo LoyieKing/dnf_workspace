@@ -1754,6 +1754,36 @@ public:
     unsigned int m_idByChannel;  // +10
 };
 
+class Packet_Monitor_Other_Channel_Chat_ToUser : public PacketHeader
+{
+public:
+    Packet_Monitor_Other_Channel_Chat_ToUser();
+    unsigned int m_senderCharId;  // +10
+    unsigned char m_fieldE;       // +14
+    unsigned int m_idByChannel;   // +15
+    unsigned int m_uniqCharNo;    // +19
+    char m_name[0x1e];            // +23
+    unsigned char m_type;         // +53
+    unsigned char m_msgLen;       // +54
+    char m_msg[0x100];            // +55
+};
+
+class Packet_Monitor_Other_Channel_Chat_ToUser_Hyper_Link : public PacketHeader
+{
+public:
+    Packet_Monitor_Other_Channel_Chat_ToUser_Hyper_Link();
+    unsigned int m_senderCharId;  // +10
+    unsigned char m_fieldE;       // +14
+    unsigned int m_idByChannel;   // +15
+    unsigned int m_uniqCharNo;    // +19
+    char m_name[0x1e];            // +23
+    unsigned char m_type;         // +53
+    unsigned char m_itemCount;    // +54
+    char m_items[3][0x68];        // +55
+    unsigned char m_msgLen;       // +367
+    char m_msg[0x100];            // +368
+};
+
 class Packet_Change_User_Handicap : public PacketHeader
 {
 public:

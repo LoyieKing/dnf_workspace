@@ -77,6 +77,10 @@ public:
     void* GetGMAccounts();
     void* getIPCounter();
     void* getTowerRank();
+    char isGM_regFromChannel(unsigned int channel);
+    char isAbleUserChatWithGM(unsigned int channel, unsigned int charNo);
+    void AddChattableUserWithGM(unsigned int channel, unsigned int charNo);
+    void DisableChatUserWithGM(unsigned int channel, unsigned int charNo);
 
     bool m_loaded;                      // +4
     int m_reserved8;                    // +8

@@ -504,6 +504,63 @@ void* CApplication::getTowerRank()
     return m_towerRank;
 }
 
+char CApplication::isGM_regFromChannel(unsigned int channel)
+{
+    std::map<unsigned int, std::list<unsigned int> >::iterator it = m_map368.find(channel);
+    return it != m_map368.end();
+}
+
+char CApplication::isAbleUserChatWithGM(unsigned int channel, unsigned int charNo)
+{
+    std::map<unsigned int, std::list<unsigned int> >::iterator it = m_map368.find(channel);
+    if (it != m_map368.end())
+    {
+        for (std::list<unsigned int>::iterator li = it->second.begin(); li != it->second.end();
+             ++li)
+        {
+            if (*li == charNo)
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+void CApplication::AddChattableUserWithGM(unsigned int channel, unsigned int charNo)
+{
+    std::map<unsigned int, std::list<unsigned int> >::iterator it = m_map368.find(channel);
+    if (it != m_map368.end())
+    {
+        for (std::list<unsigned int>::iterator li = it->second.begin(); li != it->second.end();
+             ++li)
+        {
+            if (*li == charNo)
+            {
+                return;
+            }
+        }
+        it->second.push_back(charNo);
+    }
+}
+
+void CApplication::DisableChatUserWithGM(unsigned int channel, unsigned int charNo)
+{
+    std::map<unsigned int, std::list<unsigned int> >::iterator it = m_map368.find(channel);
+    if (it != m_map368.end())
+    {
+        for (std::list<unsigned int>::iterator li = it->second.begin(); li != it->second.end();
+             ++li)
+        {
+            if (*li == charNo)
+            {
+                it->second.erase(li);
+                return;
+            }
+        }
+    }
+}
+
 char CApplication::Send_Term_Signal(const std::string& file)
 {
     std::string path = "./pid/" + file;

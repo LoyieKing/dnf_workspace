@@ -4170,7 +4170,109 @@ void CPacketTranslater::OnLogout(PacketHeader* pkt) {}
 void CPacketTranslater::OnReplyUserInfo(PacketHeader* pkt) {}
 void CPacketTranslater::OnHeartBeat(PacketHeader* pkt) {}
 void CPacketTranslater::OnCharLogin(PacketHeader* pkt) {}
-void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt) {}
+void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnNoticeBuddyChatMsg : 0 == m_pclApp");
+    }
+    CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+    if (*(char*)((char*)pkt + 0x1b) != 0 &&
+        (unsigned char)*(char*)((char*)pkt + 0x1b) < 0x1e)
+    {
+        CUser* target = userMgr->FindUser_CharName((char*)pkt + 0x1c);
+        *(unsigned int*)((char*)pkt + 0x17) =
+            target != 0 ? target->GetUniqCharNo() : 0xffffffff;
+    }
+    if (*(unsigned int*)((char*)pkt + 0x13) == 0 ||
+        *(unsigned int*)((char*)pkt + 0x17) == 0 ||
+        *(char*)((char*)pkt + 0x3a) == 0)
+    {
+        CMyFileLog log("OnNoticeOtherChannelChatMsg", 0xb46);
+        log("./log/Except",
+            "CPacketTranslater::OnNoticeOtherChannelChatMsg, sender(%d), receiver(%d), "
+            "msglen(%d)",
+            *(unsigned int*)((char*)pkt + 0x13), *(unsigned int*)((char*)pkt + 0x17),
+            (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x3a));
+        throw CDNFException(
+            "CPacketTranslater::OnNoticeOtherChannelChatMsg : packet->m_uSenderCharID &&  "
+            "packet->m_uRecverCharID && packet->m_msgLen");
+    }
+    Packet_Monitor_Other_Channel_Chat_ToUser reply;
+    reply.m_senderCharId = *(unsigned int*)((char*)pkt + 0xa);
+    CUser* sender = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0x13));
+    if (sender == 0)
+    {
+        return;
+    }
+    CUser* receiver = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0x17));
+    if (receiver == 0)
+    {
+        reply.m_idByChannel = sender->GetIdByChannel();
+        reply.m_uniqCharNo = sender->GetUniqCharNo();
+        memcpy(reply.m_name, (char*)pkt + 0x1c, 0x1d);
+        reply.m_type = 1;
+        *(unsigned short*)((char*)&reply + 2) = 0x37;
+        sender->SendToGameserver((char*)&reply, 0x37);
+        return;
+    }
+    bool blocked = false;
+    if (receiver->IsBlackUser(sender->GetUniqCharNo()) != 0 &&
+        m_pclApp->isGM_regFromChannel(sender->GetUniqCharNo()) != 1)
+    {
+        blocked = true;
+    }
+    if (!blocked && sender->IsBlackUser(receiver->GetUniqCharNo()) != 0 &&
+        m_pclApp->isGM_regFromChannel(receiver->GetUniqCharNo()) != 1)
+    {
+        blocked = true;
+    }
+    if (blocked)
+    {
+        reply.m_idByChannel = sender->GetIdByChannel();
+        reply.m_uniqCharNo = sender->GetUniqCharNo();
+        reply.m_type = 2;
+        memcpy(reply.m_name, (char*)pkt + 0x1c, 0x1d);
+        *(unsigned short*)((char*)&reply + 2) = 0x37;
+        sender->SendToGameserver((char*)&reply, 0x37);
+        return;
+    }
+    if (m_pclApp->isGM_regFromChannel(sender->GetUniqCharNo()) != 0)
+    {
+        m_pclApp->AddChattableUserWithGM(sender->GetUniqCharNo(), receiver->GetUniqCharNo());
+    }
+    bool gmBlocked = false;
+    if (m_pclApp->isGM_regFromChannel(receiver->GetUniqCharNo()) != 0)
+    {
+        if (m_pclApp->isAbleUserChatWithGM(receiver->GetUniqCharNo(),
+                                           sender->GetUniqCharNo()) != 1)
+        {
+            gmBlocked = true;
+        }
+    }
+    if (gmBlocked)
+    {
+        reply.m_idByChannel = sender->GetIdByChannel();
+        reply.m_uniqCharNo = sender->GetUniqCharNo();
+        reply.m_type = 3;
+        memcpy(reply.m_name, (char*)pkt + 0x1c, 0x1d);
+        *(unsigned short*)((char*)&reply + 2) = 0x37;
+        sender->SendToGameserver((char*)&reply, 0x37);
+    }
+    else
+    {
+        memcpy(reply.m_name, sender->GetCharName(), 0x1d);
+        reply.m_idByChannel = receiver->GetIdByChannel();
+        reply.m_uniqCharNo = receiver->GetUniqCharNo();
+        reply.m_msgLen = *(unsigned char*)((char*)pkt + 0x3a);
+        memcpy(reply.m_msg, (char*)pkt + 0x3b,
+               (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x3a));
+        *(unsigned short*)((char*)&reply + 2) =
+            (unsigned short)((unsigned char)*(char*)((char*)pkt + 0x3a) + 0x37);
+        receiver->SendToGameserver((char*)&reply,
+                                   *(unsigned short*)((char*)&reply + 2));
+    }
+}
 void CPacketTranslater::OnCeraUpdate(PacketHeader* pkt) {}
 void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt) {}
 void CPacketTranslater::OnReplyQueryMember(PacketHeader* pkt)
@@ -5522,7 +5624,129 @@ void CPacketTranslater::OnNoticeMemberChatMsgHyperLink(PacketHeader* pkt)
         "CPacketTranslater::OnNoticeMemberChatMsgHyperLink : packet->m_uMemberID && "
         "packet->m_msgLen");
 }
-void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt) {}
+void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException(
+            "CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink : 0 == m_pclApp");
+    }
+    CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+    if (*(char*)((char*)pkt + 0x1b) != 0 &&
+        (unsigned char)*(char*)((char*)pkt + 0x1b) < 0x1e)
+    {
+        CUser* target = userMgr->FindUser_CharName((char*)pkt + 0x1c);
+        *(unsigned int*)((char*)pkt + 0x17) =
+            target != 0 ? target->GetUniqCharNo() : 0xffffffff;
+    }
+    if (*(unsigned int*)((char*)pkt + 0x13) == 0 ||
+        *(unsigned int*)((char*)pkt + 0x17) == 0 ||
+        *(char*)((char*)pkt + 0x173) == 0)
+    {
+        CMyFileLog log("OnNoticeOtherChannelChatMsgHyperLink", 0x1d71);
+        log("./log/Except",
+            "CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink, sender(%d), "
+            "receiver(%d), msglen(%d)",
+            *(unsigned int*)((char*)pkt + 0x13), *(unsigned int*)((char*)pkt + 0x17),
+            (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x173));
+        throw CDNFException(
+            "CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink : packet->m_uSenderCharID "
+            "&&  packet->m_uRecverCharID && packet->m_msgLen");
+    }
+    Packet_Monitor_Other_Channel_Chat_ToUser_Hyper_Link reply;
+    reply.m_senderCharId = *(unsigned int*)((char*)pkt + 0xa);
+    CUser* sender = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0x13));
+    if (sender == 0)
+    {
+        return;
+    }
+    CUser* receiver = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0x17));
+    if (receiver == 0)
+    {
+        reply.m_idByChannel = sender->GetIdByChannel();
+        reply.m_uniqCharNo = sender->GetUniqCharNo();
+        memcpy(reply.m_name, (char*)pkt + 0x1c, 0x1d);
+        reply.m_type = 1;
+        reply.m_itemCount = *(unsigned char*)((char*)pkt + 0x3a);
+        for (int i = 0; i < (int)(unsigned int)(unsigned char)*(char*)((char*)pkt + 0x3a); i++)
+        {
+            memcpy((char*)reply.m_items + i * 0x68, (char*)pkt + i * 0x68 + 0x3b, 0x68);
+        }
+        *(unsigned short*)((char*)&reply + 2) = 0x170;
+        sender->SendToGameserver((char*)&reply, 0x170);
+        return;
+    }
+    bool blocked = false;
+    if (receiver->IsBlackUser(sender->GetUniqCharNo()) != 0 &&
+        m_pclApp->isGM_regFromChannel(sender->GetUniqCharNo()) != 1)
+    {
+        blocked = true;
+    }
+    if (!blocked && sender->IsBlackUser(receiver->GetUniqCharNo()) != 0 &&
+        m_pclApp->isGM_regFromChannel(receiver->GetUniqCharNo()) != 1)
+    {
+        blocked = true;
+    }
+    if (blocked)
+    {
+        reply.m_idByChannel = sender->GetIdByChannel();
+        reply.m_uniqCharNo = sender->GetUniqCharNo();
+        reply.m_type = 2;
+        reply.m_itemCount = *(unsigned char*)((char*)pkt + 0x3a);
+        for (int i = 0; i < (int)(unsigned int)(unsigned char)*(char*)((char*)pkt + 0x3a); i++)
+        {
+            memcpy((char*)reply.m_items + i * 0x68, (char*)pkt + i * 0x68 + 0x3b, 0x68);
+        }
+        memcpy(reply.m_name, (char*)pkt + 0x1c, 0x1d);
+        *(unsigned short*)((char*)&reply + 2) = 0x170;
+        sender->SendToGameserver((char*)&reply, 0x170);
+        return;
+    }
+    if (m_pclApp->isGM_regFromChannel(sender->GetUniqCharNo()) != 0)
+    {
+        m_pclApp->AddChattableUserWithGM(sender->GetUniqCharNo(), receiver->GetUniqCharNo());
+    }
+    bool gmBlocked = false;
+    if (m_pclApp->isGM_regFromChannel(receiver->GetUniqCharNo()) != 0)
+    {
+        if (m_pclApp->isAbleUserChatWithGM(receiver->GetUniqCharNo(),
+                                           sender->GetUniqCharNo()) != 1)
+        {
+            gmBlocked = true;
+        }
+    }
+    if (gmBlocked)
+    {
+        reply.m_idByChannel = sender->GetIdByChannel();
+        reply.m_uniqCharNo = sender->GetUniqCharNo();
+        reply.m_type = 3;
+        reply.m_itemCount = *(unsigned char*)((char*)pkt + 0x3a);
+        for (int i = 0; i < (int)(unsigned int)(unsigned char)*(char*)((char*)pkt + 0x3a); i++)
+        {
+            memcpy((char*)reply.m_items + i * 0x68, (char*)pkt + i * 0x68 + 0x3b, 0x68);
+        }
+        memcpy(reply.m_name, (char*)pkt + 0x1c, 0x1d);
+        *(unsigned short*)((char*)&reply + 2) = 0x170;
+        sender->SendToGameserver((char*)&reply, 0x170);
+    }
+    else
+    {
+        memcpy(reply.m_name, sender->GetCharName(), 0x1d);
+        reply.m_idByChannel = receiver->GetIdByChannel();
+        reply.m_uniqCharNo = receiver->GetUniqCharNo();
+        reply.m_itemCount = *(unsigned char*)((char*)pkt + 0x3a);
+        for (int i = 0; i < (int)(unsigned int)(unsigned char)*(char*)((char*)pkt + 0x3a); i++)
+        {
+            memcpy((char*)reply.m_items + i * 0x68, (char*)pkt + i * 0x68 + 0x3b, 0x68);
+        }
+        reply.m_msgLen = *(unsigned char*)((char*)pkt + 0x173);
+        memcpy(reply.m_msg, (char*)pkt + 0x174,
+               (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x173));
+        *(unsigned short*)((char*)&reply + 2) =
+            (unsigned short)((unsigned char)*(char*)((char*)pkt + 0x173) + 0x170);
+        receiver->SendToGameserver((char*)&reply, *(unsigned short*)((char*)&reply + 2));
+    }
+}
 void CPacketTranslater::OnMonitorMegaPhoneMsgHyperLink(PacketHeader* pkt)
 {
     *(char*)((char*)pkt + 0xa) = (char)m_pclApp->Get_ServerGroup();
@@ -6575,6 +6799,33 @@ Packet_SecuService_Connect_Web::Packet_SecuService_Connect_Web()
 }
 
 Packet_Monitor_User_Repel::Packet_Monitor_User_Repel() : PacketHeader(0x4c1, 0x12) {}
+
+Packet_Monitor_Other_Channel_Chat_ToUser::Packet_Monitor_Other_Channel_Chat_ToUser()
+    : PacketHeader(0x3f3, 0x137)
+{
+    m_fieldE = 0;
+    m_idByChannel = 0xffffffff;
+    m_uniqCharNo = 0;
+    m_type = 0;
+    m_msgLen = 0;
+    memset(m_name, 0, 0x1e);
+    memset(m_msg, 0, 0x100);
+}
+
+Packet_Monitor_Other_Channel_Chat_ToUser_Hyper_Link::
+    Packet_Monitor_Other_Channel_Chat_ToUser_Hyper_Link()
+    : PacketHeader(0x2719, 0x270)
+{
+    m_fieldE = 0;
+    m_idByChannel = 0xffffffff;
+    m_uniqCharNo = 0;
+    m_type = 0;
+    m_itemCount = 0;
+    m_msgLen = 0;
+    memset(m_name, 0, 0x1e);
+    memset(m_items, 0, 0x138);
+    memset(m_msg, 0, 0x100);
+}
 
 Packet_Change_User_Handicap::Packet_Change_User_Handicap() : PacketHeader(0x3f7, 0x16) {}
 
