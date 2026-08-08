@@ -982,6 +982,43 @@ CUserManager::~CUserManager() {}
 void CUserManager::Init(CApplication* app) {}
 void CUserManager::MemberEnterProcess() {}
 void CUserManager::ProcessByMinute() {}
+void CUserManager::AddSchoolNo(unsigned int schoolNo, unsigned char channel)
+{
+    std::map<unsigned int, std::map<unsigned char, unsigned int> >::iterator it =
+        m_mapSchools.find(schoolNo);
+    if (it != m_mapSchools.end())
+    {
+        std::map<unsigned char, unsigned int>* inner = &it->second;
+        std::map<unsigned char, unsigned int>::iterator c = inner->find(channel);
+        if (c != inner->end())
+        {
+            c->second++;
+            CMyFileLog log("AddSchoolNo", 0x3f9);
+            log("./log/School",
+                "3) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",
+                schoolNo, channel, inner->size(), m_mapSchools.size());
+        }
+        else
+        {
+            inner->insert(std::pair<unsigned char, unsigned int>(channel, 1));
+            CMyFileLog log("AddSchoolNo", 0x3f3);
+            log("./log/School",
+                "2) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",
+                schoolNo, channel, inner->size(), m_mapSchools.size());
+        }
+    }
+    else
+    {
+        std::map<unsigned char, unsigned int> newInner;
+        newInner.insert(std::pair<unsigned char, unsigned int>(channel, 1));
+        m_mapSchools.insert(
+            std::pair<unsigned int, std::map<unsigned char, unsigned int> >(schoolNo, newInner));
+        CMyFileLog log("AddSchoolNo", 0x3ed);
+        log("./log/School",
+            "1) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",
+            schoolNo, channel, newInner.size(), m_mapSchools.size());
+    }
+}
 
 CMemberManager::CMemberManager() {}
 CMemberManager::~CMemberManager() {}

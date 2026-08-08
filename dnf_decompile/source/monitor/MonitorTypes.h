@@ -508,7 +508,10 @@ public:
     void Init(CApplication* app);
     void MemberEnterProcess();
     void ProcessByMinute();
-    char m_data[0x7c];
+    void AddSchoolNo(unsigned int schoolNo, unsigned char channel);
+    std::map<unsigned int, std::map<unsigned char, unsigned int> > m_mapSchools;  // +0
+    char m_data[0x60];              // +0x18
+    CApplication* m_app;            // +0x78
 };
 
 // ---- CMemberManager：0x30 ----
