@@ -886,6 +886,12 @@ std::map<unsigned int, CBlackUser*>* CCashObject::GetBlackUsersObject() { return
 void CCashObject::ClearMapBlackUsers() {}
 
 unsigned int* CBuddy::getBuddyDBInfo() { return 0; }
+void* CBuddy::operator new(unsigned int size) { return ::operator new(size); }
+CBuddy::CBuddy(STBuddyDBInfo& info)
+{
+    memcpy(this, &info, 0x27);
+}
+CBuddy::~CBuddy() {}
 
 CBuddyHandle::CBuddyHandle() {}
 CBuddyHandle::~CBuddyHandle() {}
@@ -977,8 +983,20 @@ void CBuddyHandle::setBuddyCharName(int charNo, const std::string& newName)
         }
     }
 }
-int CBuddyHandle::add(std::string name, CBuddy* buddy)
+int CBuddyHandle::add(std::string name, STBuddyDBInfo& info)
 {
+    if (m_buddies.size() < 0x20)
+    {
+        CBuddy* buddy = new CBuddy(info);
+        std::pair<std::map<std::string, CBuddy*>::iterator, bool> r =
+            m_buddies.insert(std::pair<const std::string, CBuddy*>(name, buddy));
+        if (!r.second)
+        {
+            delete buddy;
+            return 0;
+        }
+        return 1;
+    }
     return 0;
 }
 void CBlackUser::ChangeCharName(char* name) {}
