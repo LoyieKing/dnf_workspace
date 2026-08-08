@@ -7,11 +7,20 @@
 #include "DNFFunctionLib.h"
 
 #include <fcntl.h>
+#include <cerrno>
+#include <arpa/inet.h>
+#include <netinet/in.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/socket.h>
 #include <sys/stat.h>
 #include <sys/times.h>
 #include <unistd.h>
+
+int getErrno()
+{
+    return *__errno_location();
+}
 
 void* CUdpRecvBuffer::operator new(unsigned int size)
 {
@@ -29,11 +38,103 @@ CInnerMsgHandler::~CInnerMsgHandler() {}
 
 CUdpHandler::CUdpHandler() {}
 CUdpHandler::~CUdpHandler() {}
-int CUdpHandler::InitServerSocket(int port) { return 0; }
+int CUdpHandler::InitServerSocket(int port)
+{
+    int fd = socket(AF_INET, SOCK_DGRAM, 0x11);
+    m_sock = fd;
+    if (m_sock == -1)
+    {
+        printf("Could not create a UDP socket : %d\n", getErrno());
+        return -1;
+    }
+    sockaddr_in addr;
+    memset(&addr, 0, 0x10);
+    addr.sin_family = AF_INET;
+    addr.sin_addr.s_addr = htonl(0);
+    addr.sin_port = htons((unsigned short)port);
+    int r = bind(m_sock, (sockaddr*)&addr, 0x10);
+    if (r != 0)
+    {
+        int err = getErrno();
+        if (err == 0x62)
+        {
+            printf("Port %d for receiving UDP is in use\n", port);
+        }
+        else if (err == 99)
+        {
+            puts("Cannot assign requested address");
+        }
+        else if (err != 0)
+        {
+            printf("Could not bind UDP receive port. Error= %d , strerror = %s\n", err,
+                   strerror(err));
+        }
+        return -1;
+    }
+    return 0;
+}
+int CUdpHandler::InitClientSocket()
+{
+    int fd = socket(AF_INET, SOCK_DGRAM, 0x11);
+    m_clientSock = fd;
+    if (m_clientSock == -1)
+    {
+        printf("Could not create a UDP socket : %d\n", getErrno());
+        return -1;
+    }
+    return 0;
+}
 char CUdpHandler::RecvFromClient(char* buf, int* size, unsigned int* addr,
                                  unsigned short* port) const
 {
-    return 0;
+    if (m_sock == -1)
+    {
+        return 0;
+    }
+    socklen_t len = 0x10;
+    sockaddr_in from;
+    ssize_t n = recvfrom(m_sock, buf, *size, 0, (sockaddr*)&from, &len);
+    *size = n;
+    if (*size == -1)
+    {
+        int err = getErrno();
+        if (err == 0x58)
+        {
+            puts("Error fd not a socket");
+            CMyFileLog log("RecvFromClient", 0xaf);
+            log("./log/UdpErr", "Error fd not a socket\n");
+        }
+        else if (err == 0x68)
+        {
+            puts("Error connection reset - host not reachable");
+            CMyFileLog log("RecvFromClient", 0xb6);
+            log("./log/UdpErr", "Error connection reset - host not reachable\n");
+        }
+        else
+        {
+            printf("Hm! Time out Or Socket Error = %d\n", err);
+        }
+        return 0;
+    }
+    if (*size < 1)
+    {
+        printf("Socket closed? Recv size = %d\n", *size);
+        CMyFileLog log("RecvFromClient", 0xc6);
+        log("./log/UdpErr", "Socket closed? Recv size = %d\n", *size);
+        return 0;
+    }
+    *port = ntohs(from.sin_port);
+    *addr = ntohl(from.sin_addr.s_addr);
+    char* ip = inet_ntoa(from.sin_addr);
+    if (*(short*)buf == 0x4c8 || *(short*)buf == 0x4c9 || *(short*)buf == 0x44f ||
+        *(short*)buf == 0x450)
+    {
+        CMyFileLog log("RecvFromClient", 0xd1);
+        log("./log/Udp", "PacketId(%d) Recv success! IP = %s, Port %d, Recv size = %d",
+            *(unsigned short*)buf, ip, *port, *size);
+    }
+    buf[*size] = '\0';
+    return 1;
 }
 
 CUdpNetworkThread::CUdpNetworkThread() {}

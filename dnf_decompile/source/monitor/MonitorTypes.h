@@ -39,10 +39,12 @@ class CUdpHandler
 {
 public:
     CUdpHandler();
-    virtual ~CUdpHandler();
+    ~CUdpHandler();
     int InitServerSocket(int port);
+    int InitClientSocket();
     char RecvFromClient(char* buf, int* size, unsigned int* addr, unsigned short* port) const;
-    char m_data[4];
+    int m_sock;         // +0
+    int m_clientSock;   // +4
 };
 
 // ---- CUdpRecvBuffer：0x1804 ----
@@ -547,6 +549,7 @@ public:
 };
 
 unsigned int get_rand_int(int n);
+int getErrno();
 
 // ---- np_server_xml：CServerXml 0xb8 ----
 namespace np_server_xml
