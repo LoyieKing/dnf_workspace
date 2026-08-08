@@ -278,6 +278,8 @@ public:
     void QueryTodayGuildMember(CServerHandler* handler);
     void SetTodayGuildMember(STTodayGuildMember* member);
     void NotifyTodayGuildMember(CUser* user);
+    void LoadGuildAgit(CServerHandler* handler, unsigned int charNo);
+    void NoticeGuildMemberLogin_Out(CUser* user, char flag);
     unsigned char GetPowerSide();
     void SetPowerSide(unsigned char side);
     unsigned int GetPowerWarPoint();
@@ -347,11 +349,12 @@ public:
     int InsertGuild(unsigned int guildKey, CGuild* guild);
     CGuild* FindGuild(unsigned int guildKey);
     bool IsEmptyGuild(unsigned int guildKey);
-    void LoadGuild(unsigned int guildKey, STGuildDBInfoOnly& info, char* name);
+    int LoadGuild(unsigned int guildKey, STGuildDBInfoOnly& info, char* name);
     void DBGuildProcess(CServerHandler* handler, bool flag);
     void DBGuildAndGuildMemberSave(CServerHandler* handler);
     void DBLoadAllLoginGuild(CServerHandler* handler);
     void SendGuildInfoToMembers(unsigned int guildKey, bool flag);
+    void LoadGuildAgit(unsigned int guildKey, CServerHandler* handler);
     int GetTodayMember(unsigned int guildKey);
     void InsertTodayMember(unsigned int guildKey, STTodayGuildMember& member);
     void RefreshTodayMember(bool flag);

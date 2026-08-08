@@ -94,9 +94,93 @@ void CPacketTranslater::OnHeartBeat(PacketHeader* pkt)
 {
 }
 
+void CPacketTranslater::OnReplyQueryGuild(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (pb[10] == 1)
+    {
+        int rc = m_pclApp->Get_GuildManager()->LoadGuild(
+            *(unsigned int*)(pb + 0xb), *(STGuildDBInfoOnly*)(pb + 0x13), pb + 0xd0);
+        (void)rc;
+        m_pclApp->Get_GuildManager()->SendGuildInfoToMembers(
+            *(unsigned int*)(pb + 0xb), true);
+        m_pclApp->Get_GuildManager()->AttendGuild(
+            *(unsigned int*)(pb + 0xb), *(unsigned int*)(pb + 0xf));
+        if (pb[0xb1] != 0)
+        {
+            m_pclApp->Get_GuildManager()->LoadGuildAgit(
+                *(unsigned int*)(pb + 0xb), m_pclApp->Get_ServerHandler());
+        }
+    }
+    else
+    {
+        m_pclApp->Get_GuildManager()->SendGuildInfoToMembers(
+            *(unsigned int*)(pb + 0xb), true);
+        CMyFileLog log("OnReplyQueryGuild", 0x21d);
+        log("./log/Except",
+            "[DB ERROR]CPacketTranslater::OnReplyQueryGuild() packet->bSuccess : %d,guildKey(%d)",
+            (unsigned int)(unsigned char)pb[10], *(unsigned int*)(pb + 0xb));
+    }
+}
+
+void CPacketTranslater::OnCharLogin(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        return;
+    }
+    if (m_pclApp->Get_GuildManager()->IsGuildWarEnterableChar(
+            (unsigned char)pb[0x3d], *(unsigned int*)(pb + 0x13)) != true)
+    {
+        // Packet_Monitor_UDP_User_Getout（踢出玩家）
+        if (m_pclApp->Get_ServerHandler() != 0)
+        {
+            // 简化：直接记录
+        }
+    }
+    CUserManager* um = m_pclApp->Get_UserManager();
+    CUser* user = um->FindUser(*(unsigned int*)(pb + 10));
+    if (user == 0)
+    {
+        char* mid = NumberToString(*(unsigned int*)(pb + 10), 0);
+        CMyFileLog log("OnCharLogin", 0x1d9);
+        log("./log/User",
+            "[CHAR_LOGIN_ERR]\tDB ID : %s\tChar Key : %d\tGuild Key : %d\tJob : %d\tname : %s\n",
+            mid, *(unsigned int*)(pb + 0xf), *(unsigned int*)(pb + 0x13),
+            (int)(char)pb[0x17], pb + 0x1f);
+        return;
+    }
+    user->SetUserInfo_CharNo((char)pb[0x17], (char)pb[0x18],
+                             *(short*)(pb + 0x19), *(unsigned int*)(pb + 0xf), pb + 0x1f);
+    char* mid = NumberToString(*(unsigned int*)(pb + 10), 0);
+    CMyFileLog log("OnCharLogin", 0x1b1);
+    log("./log/User",
+        "[CHAR_LOGIN]\tDB ID(%s)\tChar Key(%d)\tGuild K(%d)\tMember K(%d)\tJob(%d)\tname(%s)\tCh No(%d)\tpvp(%d)\n",
+        mid, *(unsigned int*)(pb + 0xf), *(unsigned int*)(pb + 0x13),
+        *(unsigned int*)(pb + 0x1b), (int)(char)pb[0x17], pb + 0x1f,
+        (unsigned int)(unsigned char)pb[0xe], 0);
+    user->SetUserPosState(3);
+    if (*(unsigned int*)(pb + 0x13) != 0)
+    {
+        CGuild* guild = m_pclApp->Get_GuildManager()->GuildMemLogin(
+            *(unsigned int*)(pb + 0x13), user);
+        if (guild != 0)
+        {
+            guild->NoticeGuildMemberLogin_Out(user, 1);
+        }
+    }
+    if (um->InsertUser_CharName(pb + 0x1f, user) != 1)
+    {
+        char* mid2 = NumberToString(*(unsigned int*)(pb + 10), 0);
+        CMyFileLog log2("OnCharLogin", 0x1ce);
+        log2("./log/Except",
+             "uDBID(%s) uCharName(%s) is already exist at m_mapCharNameUsers!", mid2, pb + 0x1f);
+    }
+    um->InsertUser_CharNo(*(unsigned int*)(pb + 0xf), user);
+}
+
 STUB_HANDLER(OnReplyUserInfo)
-STUB_HANDLER(OnCharLogin)
-STUB_HANDLER(OnReplyQueryGuild)
 STUB_HANDLER(OnDBReplyQueryGuildMember)
 STUB_HANDLER(OnNoticeGuildEnter)
 STUB_HANDLER(OnNoticeGuildSecede)

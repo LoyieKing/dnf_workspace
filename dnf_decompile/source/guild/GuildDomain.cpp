@@ -955,6 +955,23 @@ void CGuild::NotifyTodayGuildMember(CUser* user)
 {
 }
 
+void CGuild::LoadGuildAgit(CServerHandler* handler, unsigned int charNo)
+{
+}
+
+void CGuild::NoticeGuildMemberLogin_Out(CUser* user, char flag)
+{
+}
+
+void CGuildManager::LoadGuildAgit(unsigned int guildKey, CServerHandler* handler)
+{
+    CGuild* guild = FindGuild(guildKey);
+    if (guild != 0)
+    {
+        guild->LoadGuildAgit(handler, guildKey);
+    }
+}
+
 CGuildManager::CGuildManager()
 {
     m_app = 0;
@@ -1124,8 +1141,12 @@ bool CGuildManager::IsEmptyGuild(unsigned int guildKey)
     return FindGuild(guildKey) == 0;
 }
 
-void CGuildManager::LoadGuild(unsigned int guildKey, STGuildDBInfoOnly& info, char* name)
+int CGuildManager::LoadGuild(unsigned int guildKey, STGuildDBInfoOnly& info, char* name)
 {
+    CGuild* guild = new CGuild(guildKey);
+    guild->LoadGuild(info, name);
+    InsertGuild(guildKey, guild);
+    return 1;
 }
 
 void CGuildManager::DBGuildProcess(CServerHandler* handler, bool flag)
