@@ -991,6 +991,30 @@ public:
 };
 }
 
+// ---- momiji_event：红叶事件 ----
+namespace momiji_event
+{
+class StartEffectTask : public CTaskScheduler::CTask
+{
+public:
+    StartEffectTask(unsigned int time, int flag);
+    ~StartEffectTask();
+    char m_data[0x10];
+};
+
+class EventManager
+{
+public:
+    EventManager();
+    ~EventManager();
+    void StartEvent(unsigned char startHour, unsigned char interval, unsigned char duration);
+    unsigned char m_startHour;   // +0
+    char m_pad1[3];              // +1
+    unsigned int m_interval;     // +4
+    unsigned int m_duration;     // +8
+};
+}
+
 // ---- village_attacked：村庄攻防 ----
 namespace village_attacked
 {

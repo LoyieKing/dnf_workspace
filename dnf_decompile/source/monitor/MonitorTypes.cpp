@@ -2960,6 +2960,54 @@ CInitAccusationListMgr::~CInitAccusationListMgr() {}
 void CInitAccusationListMgr::setSchedule(bool const& flag) {}
 }
 
+namespace momiji_event
+{
+StartEffectTask::StartEffectTask(unsigned int time, int flag) {}
+StartEffectTask::~StartEffectTask() {}
+EventManager::EventManager() {}
+EventManager::~EventManager() {}
+void EventManager::StartEvent(unsigned char startHour, unsigned char interval,
+                              unsigned char duration)
+{
+    if (duration < interval)
+    {
+        if (startHour < 0x18)
+        {
+            m_interval = (unsigned int)interval * 0x3c;
+            m_duration = (unsigned int)duration * 0x3c;
+            m_startHour = startHour;
+            time_t now = time(0);
+            tm* t = localtime(&now);
+            t->tm_hour = startHour;
+            t->tm_min = 0;
+            t->tm_sec = 0;
+            time_t first = mktime(t);
+            while ((int)first <= (int)now)
+            {
+                first = (unsigned int)interval * 0x3c + first;
+            }
+            StartEffectTask* task = new StartEffectTask((unsigned int)first, 0);
+            CApplicationInstance()->GetTaskScheduler()->AddTask(task);
+            tm* t2 = localtime((time_t*)&first);
+            CMyFileLog log("StartEvent", 0x6e);
+            log("./log/AradOnly", "[Momiji] start event. first time %02dh:%02dm:%02ds",
+                t2->tm_hour, t2->tm_min, t2->tm_sec);
+        }
+        else
+        {
+            CMyFileLog log("StartEvent", 0x51);
+            log("./log/AradOnly", "[Momiji] (startTime(%d) >= 24)", (unsigned int)startHour);
+        }
+    }
+    else
+    {
+        CMyFileLog log("StartEvent", 0x4b);
+        log("./log/AradOnly", "[Momiji] (durationTime(%d) >= intervalTime(%d))",
+            (unsigned int)duration, (unsigned int)interval);
+    }
+}
+}
+
 Packet_Item_Limit_Edition_Load_Data_Req::Packet_Item_Limit_Edition_Load_Data_Req()
     : PacketHeader(0x1007, 0x83)
 {
