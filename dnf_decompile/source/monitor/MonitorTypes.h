@@ -177,7 +177,26 @@ public:
     void Init(CApplication* app);
     void ProcessLifeTimeOut();
     void ProcessCashDataPrint();
-    char m_data[0x4c];
+    char QueryCashMemoryMember(CUser* user);
+    int QueryCashMemoryBuddyInfo(CUser* user);
+    char QueryCashMemoryBlackList(CUser* user);
+    char QueryUpdatedCharacName(unsigned int charNo, std::string& name);
+    void incMemberCashHitCnt();
+    std::map<unsigned int, std::string> m_names;        // +0
+    std::map<unsigned int, class CCashObject*> m_cashObjects;  // +0x18
+    CApplication* m_app;                                // +0x30
+    char m_data[0x1c];                                  // +0x34
+};
+
+class CCashObject
+{
+public:
+    unsigned int GetCharacNo();
+    class CMember* GetMemberObject();
+    void SetMemberObject(class CMember* member);
+    void ClearMemberObject();
+    void DeleteMemberObject();
+    char m_data[0x20];
 };
 
 // ---- CTcpManagerServer / CTcpDBServer（网络服务封装，各 0x14）----
@@ -567,6 +586,7 @@ public:
     CMember(unsigned int key, CMemberManager* mgr);
     ~CMember();
     void QueryMember(CServerHandler* handler);
+    unsigned int* GetMemberDBInfoW();
     char m_data[0x1c8];
 };
 
@@ -583,6 +603,7 @@ public:
     CMember* CreateMemberQuery(unsigned int key, CUser* user, CServerHandler* handler);
     void InsertMember(unsigned int key, CMember* member);
     int MemerMemLogin(unsigned int key, CUser* user);
+    char LoadMemberFromCash(CUser* user, CMember* member);
     CApplication* m_app;                     // +0
     int m_field4;                            // +4
     std::map<unsigned int, CMember*> m_members;  // +8

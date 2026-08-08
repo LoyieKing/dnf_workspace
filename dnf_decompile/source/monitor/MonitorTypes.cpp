@@ -633,6 +633,78 @@ CMemoryCashManager::CMemoryCashManager() {}
 CMemoryCashManager::~CMemoryCashManager() {}
 void CMemoryCashManager::ProcessLifeTimeOut() {}
 void CMemoryCashManager::ProcessCashDataPrint() {}
+char CMemoryCashManager::QueryCashMemoryMember(CUser* user)
+{
+    char ok = 0;
+    if (!m_cashObjects.empty())
+    {
+        unsigned int dbid = user->GetDBID();
+        std::map<unsigned int, CCashObject*>::iterator it = m_cashObjects.find(dbid);
+        if (it != m_cashObjects.end())
+        {
+            CCashObject* obj = it->second;
+            if (obj->GetCharacNo() == user->GetUniqCharNo())
+            {
+                CMemberManager* mgr = m_app->Get_MemberManager();
+                CMember* member = obj->GetMemberObject();
+                if (member != 0)
+                {
+                    unsigned int* dbInfo = member->GetMemberDBInfoW();
+                    std::string name;
+                    if (QueryUpdatedCharacName(*dbInfo, name))
+                    {
+                        memset((char*)dbInfo + 5 * 4, 0, 0x1e);
+                        strncpy((char*)dbInfo + 5 * 4, name.c_str(), 0x1d);
+                    }
+                    for (int i = 0; i < (int)*(unsigned char*)((char*)dbInfo + 0x27); i++)
+                    {
+                        unsigned int* sub =
+                            (unsigned int*)((char*)dbInfo + i * 0x27 + 0x28);
+                        if (*sub != 0)
+                        {
+                            if (QueryUpdatedCharacName(*sub, name))
+                            {
+                                memset((char*)sub + 5 * 4, 0, 0x1e);
+                                strncpy((char*)sub + 5 * 4, name.c_str(), 0x1d);
+                            }
+                        }
+                    }
+                    ok = mgr->LoadMemberFromCash(user, member);
+                    if (ok != 0)
+                    {
+                        incMemberCashHitCnt();
+                    }
+                    obj->ClearMemberObject();
+                }
+                else
+                {
+                    obj->DeleteMemberObject();
+                    ok = 0;
+                }
+            }
+        }
+    }
+    return ok;
+}
+int CMemoryCashManager::QueryCashMemoryBuddyInfo(CUser* user)
+{
+    return 0;
+}
+char CMemoryCashManager::QueryCashMemoryBlackList(CUser* user)
+{
+    return 0;
+}
+char CMemoryCashManager::QueryUpdatedCharacName(unsigned int charNo, std::string& name)
+{
+    return 0;
+}
+void CMemoryCashManager::incMemberCashHitCnt() {}
+
+unsigned int CCashObject::GetCharacNo() { return 0; }
+CMember* CCashObject::GetMemberObject() { return 0; }
+void CCashObject::SetMemberObject(CMember* member) {}
+void CCashObject::ClearMemberObject() {}
+void CCashObject::DeleteMemberObject() {}
 
 CServerHandler::CServerHandler() {}
 CServerHandler::~CServerHandler() {}
@@ -1516,6 +1588,7 @@ CMemberManager::~CMemberManager() {}
 void CMemberManager::Init(CApplication* app, CUserManager* userMgr, CMemberConfig* memberConfig,
                           CMemberExpTbl* memberExpTbl) {}
 void CMemberManager::MemberRegisterFlagProcess() {}
+char CMemberManager::LoadMemberFromCash(CUser* user, CMember* member) { return 0; }
 CMember* CMemberManager::FindMember(unsigned int key)
 {
     if (!m_members.empty())
@@ -1669,6 +1742,7 @@ void* CMember::operator new(unsigned int size) { return ::operator new(size); }
 CMember::CMember(unsigned int key, CMemberManager* mgr) {}
 CMember::~CMember() {}
 void CMember::QueryMember(CServerHandler* handler) {}
+unsigned int* CMember::GetMemberDBInfoW() { return 0; }
 
 CMemberConfig::CMemberConfig() {}
 CMemberConfig::~CMemberConfig() {}

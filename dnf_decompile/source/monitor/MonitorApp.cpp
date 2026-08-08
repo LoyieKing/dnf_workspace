@@ -474,6 +474,11 @@ CUserManager* CApplication::Get_UserManager()
     return &m_userManager;
 }
 
+CMemberManager* CApplication::Get_MemberManager()
+{
+    return &m_memberManager;
+}
+
 char CApplication::Send_Term_Signal(const std::string& file)
 {
     std::string path = "./pid/" + file;

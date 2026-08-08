@@ -55,6 +55,7 @@ public:
     void OnGameServerDown(CGameServer* server);
     CServerHandler* Get_ServerHandler();
     CUserManager* Get_UserManager();
+    CMemberManager* Get_MemberManager();
     void* Get_UdpPacketRecvQ();
     CUdpHandler* Get_UdpHandler();
     void* Get_UdpQLock();
