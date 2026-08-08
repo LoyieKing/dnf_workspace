@@ -2247,6 +2247,19 @@ void CGuildManager::CheckAchieveAttendance(unsigned int guildKey)
 void CGuildManager::RewardAttendance(unsigned int guildKey, unsigned int charNo,
                                      unsigned int flag)
 {
+    if ((int)flag != -1 && (int)flag < 9)
+    {
+        int exp = GetAttendanceExp(guildKey, flag);
+        if (exp != 0)
+        {
+            CGuild* guild = FindGuild(guildKey);
+            if (guild != 0)
+            {
+                guild->AddGuildExp((unsigned int)exp);
+                guild->NotifyAllAchieveAttendance(charNo, (unsigned int)exp);
+            }
+        }
+    }
 }
 
 int CGuildManager::GetAttendancePhase(unsigned int guildKey)
@@ -2266,7 +2279,18 @@ void CGuildManager::GetAttendanceInfo(unsigned int guildKey, STAttendanceInfo& i
 
 int CGuildManager::GetAttendanceExp(unsigned int guildKey, unsigned int phase)
 {
-    return phase * 100;
+    CGuild* guild = FindGuild(guildKey);
+    if (guild == 0)
+    {
+        return 0;
+    }
+    std::map<unsigned int, std::vector<unsigned int> >::iterator it =
+        m_attendance.find(guildKey);
+    if (it == m_attendance.end())
+    {
+        return 0;
+    }
+    return 100;
 }
 
 unsigned int CGuildManager::GetGuildExpWithLevel(unsigned char level)
