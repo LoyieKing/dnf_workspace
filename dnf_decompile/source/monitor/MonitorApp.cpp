@@ -640,6 +640,18 @@ void CApplication::ClearAccusationList()
     m_map350.clear();
 }
 
+void CApplication::Call_DeleteMember(unsigned int key, CUser* user)
+{
+}
+
+void CApplication::Call_ResetBlackList(unsigned int charNo)
+{
+}
+
+void CApplication::Call_ResetBuddyList(unsigned int charNo)
+{
+}
+
 void* CApplication::Get_UdpPacketRecvQ()
 {
     return 0;

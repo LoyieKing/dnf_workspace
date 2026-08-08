@@ -65,6 +65,9 @@ public:
     void TranslateSignal();
     int AddAccusationCharac(const std::string& a, const std::string& b, int c, char type);
     void ClearAccusationList();
+    void Call_DeleteMember(unsigned int key, CUser* user);
+    void Call_ResetBlackList(unsigned int charNo);
+    void Call_ResetBuddyList(unsigned int charNo);
     unsigned char Get_ServerGroup();
 
     bool m_loaded;                      // +4

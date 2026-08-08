@@ -30,6 +30,7 @@ class CTcpDBServer;
 class CGameServer;
 class CDBServer;
 class CManagerServer;
+class CTcpGameServer;
 class Packet_Item_Limit_Edition_Update;
 
 // ---- 基础管理器（monitor 专属，实现逐步补齐）----
@@ -536,8 +537,12 @@ public:
     void ProcessByMinute();
     void AddSchoolNo(unsigned int schoolNo, unsigned char channel);
     CUser* FindUser_CharNo(unsigned int charNo) const;
+    void DeleteUsersOnGameServerDown(CGameServer* gameServer);
+    void DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer);
     std::map<unsigned int, std::map<unsigned char, unsigned int> > m_mapSchools;  // +0
-    char m_data[0x60];              // +0x18
+    std::map<unsigned int, CUser*> m_users;       // +0x18
+    std::map<unsigned int, CUser*> m_charNoUsers; // +0x30
+    std::map<std::string, CUser*> m_charNameUsers; // +0x48
     CApplication* m_app;            // +0x78
 };
 
@@ -547,7 +552,10 @@ class CUser
 public:
     CUser();
     ~CUser();
+    static void operator delete(void* p);
     unsigned int GetUniqCharNo();
+    void* GetGameServer();
+    unsigned int GetDBID();
     void AttachMember(class CMember* member);
     char m_data[0x400];
 };
