@@ -3371,7 +3371,20 @@ CGuild* CGuildManager::FindGuild(unsigned int guildKey)
 
 bool CGuildManager::IsEmptyGuild(unsigned int guildKey)
 {
-    return FindGuild(guildKey) == 0;
+    if (m_guilds.empty())
+    {
+        return 0;
+    }
+    std::map<unsigned int, CGuild*>::iterator it = m_guilds.find(guildKey);
+    if (it != m_guilds.end())
+    {
+        CGuild* guild = it->second;
+        if (guild != 0)
+        {
+            return guild->IsEmpty();
+        }
+    }
+    return 0;
 }
 
 int CGuildManager::LoadGuild(unsigned int guildKey, STGuildDBInfoOnly& info, char* name)
@@ -3600,12 +3613,20 @@ void CGuildManager::SetGuildExpTable(unsigned int* table)
 
 bool CGuildManager::IsGuildWarEventOn(unsigned char group)
 {
-    return false;
+    return m_guildWar.IsGuildWarEventOn();
 }
 
 bool CGuildManager::IsGuildWarEnterableChar(unsigned char group, unsigned int charNo)
 {
-    return false;
+    if (group == 6)
+    {
+        if (IsGuildWarEventOn(group) == 1)
+        {
+            return m_guildWar.IsGuildWarEnterableGuild(charNo) == 1;
+        }
+        return 0;
+    }
+    return 1;
 }
 
 CGuildWar* CGuildManager::GetGuildWar()

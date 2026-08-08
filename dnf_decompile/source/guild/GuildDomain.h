@@ -302,6 +302,7 @@ public:
     unsigned short m_week;  // +4
     char m_flag1;     // +6
     char m_flag2;     // +7
+    char m_table[28]; // +8（周时刻表：7×4）
 };
 
 // ---- CUser：0x8c ----
@@ -743,6 +744,7 @@ public:
     std::map<unsigned int, CGuild*> m_guilds;  // +4
     CScheduler m_scheduler;       // +0x1c
     unsigned char m_field40;      // +0x40
+    char m_pad41[3];              // +0x41（对齐）
     CGuildWar m_guildWar;         // +0x44
     std::map<unsigned int, STTodayGuildMember> m_todayMembers;  // +0x58
     char m_time1[0x2c];           // +0x70
