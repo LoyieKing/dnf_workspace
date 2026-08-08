@@ -95,6 +95,19 @@ public:
     char m_data[0x1804];
 };
 
+class CTcpGameServer
+{
+public:
+    CTcpGameServer();
+    ~CTcpGameServer();
+    char* makePacketHeader(unsigned short id, unsigned short size);
+    void SendToGameServer(char* buf);
+    void SendToGameServer(PacketHeader* pkt);
+    int m_sock;           // +0
+    CTcpNetSystem* m_net;  // +4
+    char m_data[0x14];     // +8
+};
+
 // ---- CAppLoadChecker（最小）----
 class CAppLoadChecker
 {
@@ -706,6 +719,8 @@ public:
     void DeletePeer(CPeer* peer);
     void InsertAcceptedPeer(CPeer* peer);
     unsigned short Get_TcpServerPort();
+    void* Acquire_TcpSendBuffer();
+    void PushTcpSendPacketQ(char* buf);
     CMutex* Get_TcpRecvBLock();
     CMutex* Get_TcpRecvQLock();
     CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > >, 2>*

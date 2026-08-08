@@ -2331,6 +2331,36 @@ CTcpNetSystem::~CTcpNetSystem()
         m_networkThread = 0;
     }
 }
+CTcpGameServer::CTcpGameServer() {}
+CTcpGameServer::~CTcpGameServer() {}
+char* CTcpGameServer::makePacketHeader(unsigned short id, unsigned short size)
+{
+    if (m_net == 0)
+    {
+        return 0;
+    }
+    char* buf = (char*)m_net->Acquire_TcpSendBuffer();
+    *(unsigned short*)buf = id;
+    *(unsigned short*)(buf + 2) = size;
+    *(unsigned int*)(buf + 6) = (unsigned int)m_sock;
+    return buf;
+}
+void CTcpGameServer::SendToGameServer(char* buf)
+{
+    if (m_net != 0)
+    {
+        m_net->PushTcpSendPacketQ(buf);
+    }
+}
+void CTcpGameServer::SendToGameServer(PacketHeader* pkt)
+{
+    char* buf = makePacketHeader(*(unsigned short*)pkt, *(unsigned short*)((char*)pkt + 2));
+    if (buf != 0)
+    {
+        memcpy(buf + 10, (char*)pkt + 10, *(unsigned short*)((char*)pkt + 2) - 10);
+        SendToGameServer(buf);
+    }
+}
 void CTcpNetSystem::Init(unsigned short port)
 {
     m_port = port;
@@ -2415,6 +2445,26 @@ void CTcpNetSystem::SetEpollConnectedPeer(CPeer* peer)
     }
 }
 unsigned short CTcpNetSystem::Get_TcpServerPort() { return m_port; }
+void* CTcpNetSystem::Acquire_TcpSendBuffer()
+{
+    CGuard<CMutex> guard(&m_mutex100);
+    return new CTcpSendBuffer;
+}
+void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
+{
+    CGuard<CMutex> guard(&m_mutexe8);
+    CTcpSendBuffer* p = (CTcpSendBuffer*)buf;
+    m_sendQ.push(p);
+    int size = (int)m_sendQ.size();
+    if (10 < size)
+    {
+        CMyFileLog log("PushTcpSendPacketQ", 0x91);
+        log("./log/TcpSend", "SEND PUSH(cnt:%d,id:%d,size:%d,ip:%d)", size,
+            (unsigned int)*(unsigned short*)buf,
+            (unsigned int)*(unsigned short*)((char*)buf + 2),
+            *(unsigned int*)((char*)buf + 6));
+    }
+}
 CMutex* CTcpNetSystem::Get_TcpRecvBLock() { return 0; }
 CMutex* CTcpNetSystem::Get_TcpRecvQLock() { return 0; }
 CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > >, 2>*
@@ -4680,7 +4730,164 @@ void CPacketTranslater::SendRequestMemberDeleteResult(CUser* user, unsigned char
     memcpy((char*)&pkt + 0x13, name, 0x1d);
     user->SendTcpGameserver(&pkt);
 }
-void CPacketTranslater::OnLogin(PacketHeader* pkt) {}
+void CPacketTranslater::OnLogin(PacketHeader* pkt)
+{
+    if (m_pclApp != 0)
+    {
+        try
+        {
+            unsigned int channel =
+                (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x12);
+            CTcpGameServer* tcpGs =
+                (CTcpGameServer*)m_pclApp->FindTcpGameServer(channel);
+            if (tcpGs != 0)
+            {
+                CServerInterface* gs =
+                    (CServerInterface*)m_pclApp->FindGameServer((int)channel);
+                if (gs == 0)
+                {
+                    char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xe), 0);
+                    CMyFileLog log("OnLogin", 0x129);
+                    log("./log/Channel", "Not Found M_ID(%s) Channel No(%d)", dbid,
+                        (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x12));
+                }
+                else
+                {
+                    CLoginLogoutStatistics* stats =
+                        (CLoginLogoutStatistics*)m_pclApp->GetLoginLogoutStatistics();
+                    if (stats != 0)
+                    {
+                        stats->CountNumOfLoginout((ENUM_LOGIN_LOGOUT)0);
+                    }
+                    char* pktBuf = tcpGs->makePacketHeader(1000, 0x33);
+                    char* outBuf = 0;
+                    if (pktBuf != 0)
+                    {
+                        outBuf = pktBuf;
+                        memcpy(pktBuf + 10, (char*)pkt + 0xa, 0x29);
+                    }
+                    CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+                    CUser* user = userMgr->FindUser(*(unsigned int*)((char*)pkt + 0xe));
+                    if (user == 0)
+                    {
+                        if (userMgr->FindProhibitUser(
+                                *(unsigned int*)((char*)pkt + 0xe)) == 0)
+                        {
+                            user = userMgr->CreateUser(
+                                *(unsigned int*)((char*)pkt + 0xe), 0, "",
+                                *(int*)((char*)pkt + 0xa), (CGameServer*)gs);
+                            user->SetSex(*(unsigned char*)((char*)pkt + 0x23));
+                            CMyFileLog log("OnLogin", 0x198);
+                            log("./log/User", "OnLogin - SetSex : %d",
+                                (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x23));
+                            user->SetSsn((char*)pkt + 0x2c);
+                            user->SetTcpGameServer(tcpGs);
+                            outBuf[0x23] = 1;
+                            char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xe), 0);
+                            CMyFileLog log2("OnLogin", 0x1a5);
+                            log2("./log/User",
+                                 "Current user count : %d\tConnected User DB ID : %s\n",
+                                 userMgr->Size(), dbid);
+                            CLoginLogoutStatistics* stats2 =
+                                (CLoginLogoutStatistics*)m_pclApp->GetLoginLogoutStatistics();
+                            if (stats2 != 0)
+                            {
+                                stats2->CountNumOfOccupations((ENUM_LOGIN_LOGOUT)0,
+                                                              (int)userMgr->Size());
+                            }
+                            CMemoryCashManager* cash =
+                                (CMemoryCashManager*)m_pclApp->Get_MemoryCashManager();
+                            if (cash->QueryCashMemoryBlackList(user) == 1)
+                            {
+                                user->SendBlackList();
+                            }
+                            else
+                            {
+                                RequestBlackListToDBMW(
+                                    *(unsigned int*)((char*)pkt + 0xe));
+                            }
+                        }
+                        else
+                        {
+                            if (pktBuf != 0)
+                            {
+                                outBuf[0x23] = 3;
+                            }
+                            unsigned int ch = gs->GetChannelNo();
+                            char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xe), 0);
+                            CMyFileLog log("OnLogin", 400);
+                            log("./log/User",
+                                "PROHIBIT USER CONNECTED : m_ID(%s)\tChannel(%d)\n", dbid,
+                                ch & 0xff);
+                        }
+                    }
+                    else
+                    {
+                        CTcpGameServer* oldGs =
+                            (CTcpGameServer*)user->GetTcpGameServer();
+                        if (oldGs != 0)
+                        {
+                            char* oldBuf = oldGs->makePacketHeader(0x3ee, 0xe);
+                            if (oldBuf != 0)
+                            {
+                                *(unsigned int*)(oldBuf + 10) =
+                                    *(unsigned int*)((char*)pkt + 0xe);
+                                oldGs->SendToGameServer(oldBuf);
+                            }
+                        }
+                        unsigned int ch = gs->GetChannelNo();
+                        char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xe), 1);
+                        char* oldDbid = NumberToString(user->GetDBID(), 0);
+                        CMyFileLog log("OnLogin", 0x17a);
+                        log("./log/User",
+                            "DOUBLE CONNECTED : Already User DB ID(%s)\tCurrent Connect User "
+                            "DB ID(%s)\tChannel(%d)\n",
+                            oldDbid, dbid, ch & 0xff);
+                        if (pktBuf != 0)
+                        {
+                            outBuf[0x23] = 2;
+                        }
+                    }
+                    if (pktBuf != 0)
+                    {
+                        outBuf[0x28] = 0;
+                        outBuf[0x29] = 0;
+                        outBuf[0x2a] = 0;
+                        outBuf[0x2b] = 0;
+                        outBuf[0x24] = 0;
+                        outBuf[0x25] = 0;
+                        outBuf[0x26] = 0;
+                        outBuf[0x27] = 0;
+                    }
+                    exchange_server::CACHE_CHARACTER_TYPE cacheType;
+                    if (exchange_server::GetInstanceCacheCharacterMgr()->GetCacheCharacter(
+                            *(unsigned int*)((char*)pkt + 0xe), &cacheType) != 0 &&
+                        pktBuf != 0)
+                    {
+                        *(unsigned int*)(outBuf + 0x28) =
+                            (unsigned int)cacheType.m_field4;
+                        *(unsigned int*)(outBuf + 0x24) =
+                            (unsigned int)cacheType.m_field0;
+                    }
+                    if (tcpGs != 0 && outBuf != 0)
+                    {
+                        tcpGs->SendToGameServer(outBuf);
+                    }
+                }
+            }
+        }
+        catch (CDNFException& e)
+        {
+            CMyFileLog log("OnLogin", 0x1ff);
+            log("%s", "CPacketTranslater::OnLogin() Exception Break : %s\n", e.what());
+        }
+        catch (...)
+        {
+            CMyFileLog log("OnLogin", 0x204);
+            log("%s", "CPacketTranslater::OnLogin() Exception Break");
+        }
+    }
+}
 void CPacketTranslater::OnLogout(PacketHeader* pkt)
 {
     if (m_pclApp == 0)
