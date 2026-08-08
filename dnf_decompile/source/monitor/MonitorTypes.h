@@ -662,6 +662,8 @@ public:
     void InsertMember(unsigned int key, CMember* member);
     int MemerMemLogin(unsigned int key, CUser* user);
     char LoadMemberFromCash(CUser* user, CMember* member);
+    void MemberMemLogout(unsigned int key, CUser* user, bool cash);
+    int DeleteMember(unsigned int key, bool cash);
     CApplication* m_app;                     // +0
     int m_field4;                            // +4
     std::map<unsigned int, CMember*> m_members;  // +8

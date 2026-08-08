@@ -1741,6 +1741,65 @@ void CMemberManager::Init(CApplication* app, CUserManager* userMgr, CMemberConfi
                           CMemberExpTbl* memberExpTbl) {}
 void CMemberManager::MemberRegisterFlagProcess() {}
 char CMemberManager::LoadMemberFromCash(CUser* user, CMember* member) { return 0; }
+int CMemberManager::DeleteMember(unsigned int key, bool cash)
+{
+    if (m_members.empty())
+    {
+        return 0;
+    }
+    std::map<unsigned int, CMember*>::iterator it = m_members.find(key);
+    if (it != m_members.end())
+    {
+        if (cash && it->second != 0)
+        {
+            delete it->second;
+        }
+        if (m_app != 0)
+        {
+            m_app->Call_ResetUserMemberInfo(key);
+        }
+        m_members.erase(it);
+        return 1;
+    }
+    return 0;
+}
+void CMemberManager::MemberMemLogout(unsigned int key, CUser* user, bool cash)
+{
+    if (user != 0 && m_app != 0)
+    {
+        if (key == 0)
+        {
+            CMyFileLog log("MemberMemLogout", 0x23b);
+            log("./log/MemberMember",
+                "CMemberManager::MemberMemLogout()\tMemberKey == 0\tchar id(%d), Maybe after logout, this user connect at character screen, and logout again! check User.log!",
+                user->GetUniqCharNo());
+        }
+        else
+        {
+            CMember* member = FindMember(key);
+            if (member == 0)
+            {
+                CMyFileLog log("MemberMemLogout", 0x241);
+                log("./log/Except",
+                    "CMemberManager::MemberMemLogout()\t0 == pclMember\tMemberKey(%d)", key);
+            }
+            else
+            {
+                member->NoticeMemberLogin_Out(user, 0);
+                char ok = (char)DeleteMember(key, cash);
+                if (ok != 1)
+                {
+                    CMyFileLog log("MemberMemLogout", 0x24b);
+                    log("./log/MemberMember",
+                        "<Delete Member Error> CMemberManager::MemberMemLogout\tdeleteOrCash(%d), Member Key(%d)",
+                        (unsigned int)cash, key);
+                }
+            }
+        }
+        return;
+    }
+    throw CDNFException("CMemberManager::MemberMemLogout\t0 == pclUser || 0 == m_pclApp\n");
+}
 CMember* CMemberManager::FindMember(unsigned int key)
 {
     if (!m_members.empty())

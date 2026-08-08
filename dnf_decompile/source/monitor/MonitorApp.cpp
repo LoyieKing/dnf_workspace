@@ -667,6 +667,10 @@ void CApplication::Call_ResetBuddyList(unsigned int charNo)
 {
 }
 
+void CApplication::Call_ResetUserMemberInfo(unsigned int key)
+{
+}
+
 void* CApplication::Get_UdpPacketRecvQ()
 {
     return 0;

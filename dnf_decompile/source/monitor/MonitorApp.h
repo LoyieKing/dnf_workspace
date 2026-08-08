@@ -71,6 +71,7 @@ public:
     void Call_DeleteMember(unsigned int key, CUser* user);
     void Call_ResetBlackList(unsigned int charNo);
     void Call_ResetBuddyList(unsigned int charNo);
+    void Call_ResetUserMemberInfo(unsigned int key);
     unsigned char Get_ServerGroup();
 
     bool m_loaded;                      // +4
