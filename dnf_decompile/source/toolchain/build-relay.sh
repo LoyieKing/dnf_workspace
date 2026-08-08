@@ -9,10 +9,10 @@ set -e
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 OUT_DIR="$ROOT/build-relay"
 RELAY="$ROOT/relay"
-C5ROOT=/tmp/c5root
+C5ROOT=/tmp/c5r52tool
 CXX=/tmp/c5root/usr/bin/g++
 
-COMMON_FLAGS="-m32 -O0 -D_GNU_SOURCE -fno-enforce-eh-specs -nostdinc \
+COMMON_FLAGS="-m32 -O0 -D_GNU_SOURCE -fno-enforce-eh-specs -fno-builtin-memset -fno-builtin-strlen -nostdinc \
   -isystem $C5ROOT/usr/lib/gcc/x86_64-redhat-linux/4.1.2/include \
   -isystem $C5ROOT/usr/lib/gcc/x86_64-redhat-linux/4.1.2/include-fixed \
   -isystem $C5ROOT/usr/include/c++/4.1.2 \

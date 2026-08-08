@@ -2,6 +2,9 @@
 #define RELAY_COMMON_H_
 
 #include <pthread.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 // ---- 基础类型（布局来自 df_relay_r 反汇编/Ghidra，无 DWARF）----
 
@@ -97,5 +100,24 @@ struct ScriptData
 };
 
 ScriptData* G_ScriptData();
+
+// 自由函数（RelayUtil.cpp / RelayService.cpp / RelaySignal.cpp）
+long long get_ms_tick();
+char* NumberToString(unsigned int value, int index);
+char* NumberToString(unsigned long long value, int index);
+void make_dir(char* path);
+void WriteLog(const char* msg);
+void MonitorAuthLog(unsigned int acc_id);
+bool delete_pid();
+int save_pid();
+
+bool Neof_registerSignalHandlers();
+void Neof_setCoreLimit();
+bool Neof_sendTerminateSignal();
+void Neof_sendSuspendSignal();
+void Neof_dumpCoreFile();
+void Neof_SignalHandler(int sig);
+bool Neof_registerSignalHandler(int sig, void (*handler)(int));
+void Neof_SignalLog(const char* msg);
 
 #endif // RELAY_COMMON_H_
