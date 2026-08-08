@@ -558,7 +558,6 @@ void StatisticManager::ResetDisjointAvatarInfoTotal()
 {
     m_disjoint.clear();
 }
-STUB_STAT(AddLagStatistics, (Packet_Stat_Lag_Statistics*))
 
 #undef STUB_STAT
 
@@ -2187,6 +2186,64 @@ void StatisticManager::SendDBLagStatistics(CServerHandler* handler, char* timeSt
             CMyFileLog log("SendDBLagStatistics", 0x6bb);
             log("./log/LagStatistics", "%s", sql);
             handler->SendToDB((PacketHeader*)&pkt);
+        }
+    }
+}
+
+void StatisticManager::AddLagStatistics(Packet_Stat_Lag_Statistics* pkt)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        if (*(int*)((char*)pkt + i * 10 + 0xb) != 0)
+        {
+            float avg_f = *(float*)((char*)pkt + i * 10 + 0xb);
+            float dev_f = *(float*)((char*)pkt + i * 10 + 0xf);
+            m_modules[i].m_data[0] += (int)(long long)(avg_f + 0.5);
+            m_modules[i].m_data[1] += (int)(long long)(dev_f + 0.5);
+            m_modules[i].m_data[2] +=
+                (unsigned int)*(unsigned short*)((char*)pkt + i * 10 + 0x13);
+            m_modules[i].m_data[3] += 1;
+        }
+    }
+    unsigned char dcount = *(char*)((char*)pkt + 0x5b);
+    if (dcount != 0 && dcount < 0xb)
+    {
+        for (int j = 0; j < (int)dcount; j++)
+        {
+            float a = *(float*)((char*)pkt + j * 0x18 + 0x5f);
+            float b = *(float*)((char*)pkt + j * 0x18 + 99);
+            float c = *(float*)((char*)pkt + j * 0x18 + 0x6a);
+            float d = *(float*)((char*)pkt + j * 0x18 + 0x6e);
+            unsigned short key = *(unsigned short*)((char*)pkt + j * 0x18 + 0x5c);
+            std::map<unsigned short, STDungeonLagStatistics>::iterator it =
+                m_dungeonLag.find(key);
+            bool isNew = (m_dungeonLag.empty() || it == m_dungeonLag.end());
+            if (isNew)
+            {
+                STDungeonLagStatistics v;
+                v.m_data[0] = (int)(long long)(a + 0.5);
+                v.m_data[1] = (int)(long long)(b + 0.5);
+                v.m_data[2] = (unsigned int)*(unsigned short*)((char*)pkt + j * 0x18 + 0x67);
+                v.m_data[3] = 1;
+                v.m_data[4] = (int)(long long)(c + 0.5);
+                v.m_data[5] = (int)(long long)(d + 0.5);
+                v.m_data[6] = (unsigned int)*(unsigned short*)((char*)pkt + j * 0x18 + 0x72);
+                v.m_data[7] = 1;
+                m_dungeonLag.insert(std::make_pair(key, v));
+            }
+            else
+            {
+                it->second.m_data[0] += (int)(long long)(a + 0.5);
+                it->second.m_data[1] += (int)(long long)(b + 0.5);
+                it->second.m_data[2] +=
+                    (unsigned int)*(unsigned short*)((char*)pkt + j * 0x18 + 0x67);
+                it->second.m_data[3] += 1;
+                it->second.m_data[4] += (int)(long long)(c + 0.5);
+                it->second.m_data[5] += (int)(long long)(d + 0.5);
+                it->second.m_data[6] +=
+                    (unsigned int)*(unsigned short*)((char*)pkt + j * 0x18 + 0x72);
+                it->second.m_data[7] += 1;
+            }
         }
     }
 }
