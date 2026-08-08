@@ -1232,12 +1232,9 @@ void CGuild::QueryTodayGuildMember(CServerHandler* handler)
 {
 }
 
-void CGuild::SetTodayGuildMember(STTodayGuildMember* member)
+void CGuild::SetTodayGuildMember(STTodayGuildMember& member)
 {
-    if (member != 0)
-    {
-        memcpy((char*)this + 0x66ec, member->m_data, 0x27);
-    }
+    memcpy((char*)this + 0x66ec, member.m_data, 0x27);
 }
 
 void CGuild::NotifyTodayGuildMember(CUser* user)
@@ -1414,14 +1411,8 @@ void CGuild::SendGuildAgitInfoToMembers()
 {
 }
 
-void CGuild::NoticeChatMsgToGuildMembers(unsigned int charNo, int len, char* msg,
-                                         const char* name)
+void CGuild::NoticeChatMsgToGuildMembers(unsigned int charNo, char* msg, int len, char* name)
 {
-}
-
-void CGuild::NoticeChatMsgToGuildMembers(unsigned int charNo, char* msg, const char* name)
-{
-    NoticeChatMsgToGuildMembers(charNo, 0, msg, name);
 }
 
 void CGuild::NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, int len, char* msg,
@@ -1849,7 +1840,7 @@ CGuild* CGuildManager::GuildMemLogin(unsigned int guildKey, CUser* user)
     }
     else
     {
-        guild->SetTodayGuildMember(today);
+        guild->SetTodayGuildMember(*today);
         guild->NotifyTodayGuildMember(user);
     }
     if (guild->InsertGuildMember(user->GetUniqCharNo(), user) == 1)

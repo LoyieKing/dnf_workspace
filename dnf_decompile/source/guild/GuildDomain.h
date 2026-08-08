@@ -300,7 +300,7 @@ public:
     void QueryGuild(CServerHandler* handler, unsigned int charNo);
     void SendGuildInfoToMemberOnly(CUser* user);
     void QueryTodayGuildMember(CServerHandler* handler);
-    void SetTodayGuildMember(STTodayGuildMember* member);
+    void SetTodayGuildMember(STTodayGuildMember& member);
     void NotifyTodayGuildMember(CUser* user);
     void LoadGuildAgit(CServerHandler* handler, unsigned int charNo);
     void NoticeGuildMemberLogin_Out(CUser* user, char flag);
@@ -318,9 +318,7 @@ public:
     void SendGuildInfoToManagers();
     void SendGuildNameChangeToMembers();
     void SendGuildAgitInfoToMembers();
-    void NoticeChatMsgToGuildMembers(unsigned int charNo, int len, char* msg,
-                                     const char* name);
-    void NoticeChatMsgToGuildMembers(unsigned int charNo, char* msg, const char* name);
+    void NoticeChatMsgToGuildMembers(unsigned int charNo, char* msg, int len, char* name);
     void NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, int len, char* msg,
                                               unsigned char type, const void* link);
     void UpdateChangableInfoProcess();
