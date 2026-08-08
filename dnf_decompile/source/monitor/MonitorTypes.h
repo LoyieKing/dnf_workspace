@@ -220,6 +220,7 @@ public:
     CBuddyHandle();
     ~CBuddyHandle();
     int addDB(CServerHandler* handler, char* name);
+    int delDB(CServerHandler* handler, char* name);
     std::map<std::string, CBuddy*> m_buddies;  // +0
     CUser* m_prUser;                           // +0x18
     unsigned short m_field1c;                  // +0x1c
@@ -1239,6 +1240,15 @@ public:
     Packet_DBMW_Add_Buddy();
     unsigned int m_uniqCharNo;  // +10
     char m_charName[0x1e];      // +14
+};
+
+class Packet_DBMW_Del_Buddy : public PacketHeader
+{
+public:
+    Packet_DBMW_Del_Buddy();
+    unsigned int m_uniqCharNo;  // +10
+    unsigned int m_buddyCharNo; // +14
+    char m_charName[0x1e];      // +18
 };
 
 class Packet_Monitor_Notice_Member_Member_Login_out : public PacketHeader
