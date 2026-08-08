@@ -1196,6 +1196,7 @@ namespace village_attacked
 {
 int GetNextSchedule(tm t, int wday, int hour, int min);
 void SetRealConfig();
+void SetGMConfig(unsigned int a, unsigned int b, unsigned int c);
 
 class CVillageAttackedCountdownFirst;
 class CVillageAttackedCountdownSecond;
@@ -1282,6 +1283,12 @@ public:
 
 extern int village_attacked_scheduler[18];
 extern int MAX_SCHEDULER_COUNT;
+extern int HUNTING_POINT_WEIGTH_CONST;
+extern int REWARD_BUFF_TIME;
+extern int REWARD_PENALTY_TIME;
+extern int COUNTDOWN_FIRST_TIME;
+extern int COUNTDOWN_SECOND_TIME;
+extern int COUNTDOWN_THIRD_TIME;
 
 unsigned int GetNowTime();
 

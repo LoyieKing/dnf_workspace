@@ -2456,6 +2456,12 @@ namespace village_attacked
 {
 int village_attacked_scheduler[18];
 int MAX_SCHEDULER_COUNT;
+int HUNTING_POINT_WEIGTH_CONST;
+int REWARD_BUFF_TIME;
+int REWARD_PENALTY_TIME;
+int COUNTDOWN_FIRST_TIME;
+int COUNTDOWN_SECOND_TIME;
+int COUNTDOWN_THIRD_TIME;
 
 int GetNextSchedule(tm t, int wday, int hour, int min)
 {
@@ -2503,6 +2509,60 @@ void SetRealConfig()
     village_attacked_scheduler[16] = -1;
     village_attacked_scheduler[17] = -1;
     MAX_SCHEDULER_COUNT = 2;
+    HUNTING_POINT_WEIGTH_CONST = 4;
+    REWARD_BUFF_TIME = 3600;
+    REWARD_PENALTY_TIME = 600;
+    COUNTDOWN_FIRST_TIME = 600;
+    COUNTDOWN_SECOND_TIME = 300;
+    COUNTDOWN_THIRD_TIME = 60;
+}
+
+void SetGMConfig(unsigned int a, unsigned int b, unsigned int c)
+{
+    if (a == 0)
+    {
+        a = 600;
+    }
+    else
+    {
+        a = a * 0x3c;
+    }
+    if (b == 0)
+    {
+        b = 600;
+    }
+    else
+    {
+        b = b * 0x3c;
+    }
+    if (c == 0)
+    {
+        c = 600;
+    }
+    else
+    {
+        c = c * 0x3c;
+    }
+    time_t now = time(0);
+    time_t start = now + 0x3c;
+    time_t end = start + a;
+    tm t1;
+    tm t2;
+    localtime_r(&start, &t1);
+    localtime_r(&end, &t2);
+    village_attacked_scheduler[12] = t1.tm_wday;
+    village_attacked_scheduler[13] = t1.tm_hour;
+    village_attacked_scheduler[14] = t1.tm_min;
+    village_attacked_scheduler[15] = t2.tm_wday;
+    village_attacked_scheduler[16] = t2.tm_hour;
+    village_attacked_scheduler[17] = t2.tm_min;
+    MAX_SCHEDULER_COUNT = 1;
+    HUNTING_POINT_WEIGTH_CONST = 1;
+    REWARD_BUFF_TIME = b;
+    REWARD_PENALTY_TIME = c;
+    COUNTDOWN_FIRST_TIME = 30;
+    COUNTDOWN_SECOND_TIME = 20;
+    COUNTDOWN_THIRD_TIME = 10;
 }
 
 CVillageAttackedManager::CVillageAttackedManager(CApplication* app) {}
