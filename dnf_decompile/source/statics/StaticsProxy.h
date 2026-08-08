@@ -2,11 +2,12 @@
 #define STATICS_PROXY_H_
 
 #include <string>
+#include <map>
 
 // global_function（statics 引用 global_function::SendPacketToDbmw）
 namespace global_function
 {
-void SendPacketToDbmw(char* data, int len);
+void SendPacketToDbmw(char* data);
 }
 
 // statistc_proxy（统计代理，statics 独有）
@@ -16,32 +17,35 @@ class Field
 {
 public:
     Field();
+    Field(const Field& other);
     ~Field();
     char* getFieldName();
     char* getFieldValue();
     char* getUpdateValue();
-    void updateDatabase(const char* table, const std::string& key, const std::string& cond);
-    void MakeInsertQuery(char* out, const char* table, const std::string& key,
+    int updateDatabase(const char* table, const std::string& key, const std::string& cond);
+    bool MakeInsertQuery(char* out, const char* table, const std::string& key,
                          const std::string& cond);
-    void MakeUpdateQuery(char* out, const char* table, const std::string& key,
+    bool MakeUpdateQuery(char* out, const char* table, const std::string& key,
                          const std::string& cond);
     void getUpdateCondition(const std::string& key, const std::string& cond);
     void add(const char* name, unsigned int value);
     void reset();
-    char m_data[0x80];
+    std::map<std::string, unsigned long long> m_fields;  // +0
 };
 
 class Table
 {
 public:
     Table();
+    Table(const Table& other);
     ~Table();
     void resetValue();
     void updateDatabase(const char* table);
     void add(const char* name, unsigned int value, const char* key);
     void reset();
     void setKey(const char* key);
-    char m_data[0x100];
+    std::map<std::string, Field> m_fields;  // +0
+    std::string m_key;                      // +0x18
 };
 
 class StatisticProxy
@@ -53,8 +57,8 @@ public:
     void registTable(const char* name, Table& table);
     void updateDatabase();
     void add(const char* table, unsigned int value, const char* key, const char* cond);
-    char m_data[0x100];
-    static void (*sendPacketFunctionPointer)(char*, int);
+    std::map<std::string, Table> m_tables;  // +0
+    static void (*sendPacketFunctionPointer)(char*);
 };
 
 void initialize();
