@@ -306,6 +306,15 @@ void CUser::ChangeGuildMemberGrade(unsigned char grade)
     SendGuildMemberDBInfo(*(STGuildMemerDBInfo*)((char*)this + 0x4a));
 }
 
+void CUser::SaveGuildMember(unsigned char type, unsigned int value, CServerHandler* handler,
+                            unsigned char flag)
+{
+    if (IsSetGuildMemFlag(0x10) && IsSetGuildMemFlag(4))
+    {
+        ResetGuildMemFlag(0x10);
+    }
+}
+
 void CUser::SendGuildMemberDBInfo(const STGuildMemerDBInfo& info)
 {
     if (GetUniqCharNo() == 0)
