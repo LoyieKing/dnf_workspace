@@ -1025,6 +1025,87 @@ CMemberManager::~CMemberManager() {}
 void CMemberManager::Init(CApplication* app, CUserManager* userMgr, CMemberConfig* memberConfig,
                           CMemberExpTbl* memberExpTbl) {}
 void CMemberManager::MemberRegisterFlagProcess() {}
+CMember* CMemberManager::FindMember(unsigned int key)
+{
+    if (!m_members.empty())
+    {
+        std::map<unsigned int, CMember*>::iterator it = m_members.find(key);
+        if (it != m_members.end())
+        {
+            return it->second;
+        }
+    }
+    return 0;
+}
+CMember* CMemberManager::CreateMemberQuery(unsigned int key, CUser* user, CServerHandler* handler)
+{
+    if (user == 0 || handler == 0)
+    {
+        return 0;
+    }
+    CMember* member = new CMember(key, this);
+    member->QueryMember(handler);
+    InsertMember(key, member);
+    user->AttachMember(member);
+    return member;
+}
+void CMemberManager::InsertMember(unsigned int key, CMember* member)
+{
+    if (member == 0)
+    {
+        CMyFileLog log("InsertMember", 0x87);
+        log("./log/Member", "InsertMember() : m_pclMember == NULL\n");
+    }
+    else
+    {
+        m_members.insert(std::pair<const unsigned int, CMember*>(key, member));
+    }
+}
+int CMemberManager::MemerMemLogin(unsigned int key, CUser* user)
+{
+    if (user == 0 || m_app == 0)
+    {
+        throw CDNFException("CGuildManager::GuildMemLogin() : m_pclApp , pclUser == NULL\n");
+    }
+    if (key == 0)
+    {
+        throw CDNFException("CMemberManager::MemerMemLogin() : uMemberKey == 0");
+    }
+    if (user->GetUniqCharNo() != key)
+    {
+        CMyFileLog log("MemerMemLogin", 0x20c);
+        log("../log/Member",
+            "CMemberManager::MemerMemLogin() : pclUser->GetUniqCharNo() != uMemberKey\tmember key(%d), char id(%d)",
+            key, user->GetUniqCharNo());
+    }
+    CServerHandler* handler = m_app->Get_ServerHandler();
+    if (handler == 0)
+    {
+        throw CDNFException("CMemberManager::MemerMemLogin() pclServerHandler == NULL\n");
+    }
+    int result = 0;
+    if (FindMember(key) == 0)
+    {
+        result = (int)CreateMemberQuery(key, user, handler);
+    }
+    else
+    {
+        CMyFileLog log("MemerMemLogin", 0x21a);
+        log("../log/Member", "CMemberManager::MemerMemLogin() ( is already member error ) : %d",
+            key);
+    }
+    return result;
+}
+
+CUser::CUser() {}
+CUser::~CUser() {}
+unsigned int CUser::GetUniqCharNo() { return 0; }
+void CUser::AttachMember(CMember* member) {}
+
+void* CMember::operator new(unsigned int size) { return ::operator new(size); }
+CMember::CMember(unsigned int key, CMemberManager* mgr) {}
+CMember::~CMember() {}
+void CMember::QueryMember(CServerHandler* handler) {}
 
 CMemberConfig::CMemberConfig() {}
 CMemberConfig::~CMemberConfig() {}

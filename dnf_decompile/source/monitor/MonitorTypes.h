@@ -23,6 +23,7 @@ class CServerHandler;
 class CTcpNetSystem;
 class CMemberConfig;
 class CMemberExpTbl;
+class CMemberManager;
 class CTcpManagerServer;
 class CTcpDBServer;
 class CGameServer;
@@ -514,6 +515,27 @@ public:
     CApplication* m_app;            // +0x78
 };
 
+// ---- CUser / CMember（最小声明）----
+class CUser
+{
+public:
+    CUser();
+    ~CUser();
+    unsigned int GetUniqCharNo();
+    void AttachMember(class CMember* member);
+    char m_data[0x400];
+};
+
+class CMember
+{
+public:
+    static void* operator new(unsigned int size);
+    CMember(unsigned int key, CMemberManager* mgr);
+    ~CMember();
+    void QueryMember(CServerHandler* handler);
+    char m_data[0x1c8];
+};
+
 // ---- CMemberManager：0x30 ----
 class CMemberManager
 {
@@ -523,7 +545,14 @@ public:
     void Init(CApplication* app, CUserManager* userMgr, CMemberConfig* memberConfig,
               CMemberExpTbl* memberExpTbl);
     void MemberRegisterFlagProcess();
-    char m_data[0x30];
+    CMember* FindMember(unsigned int key);
+    CMember* CreateMemberQuery(unsigned int key, CUser* user, CServerHandler* handler);
+    void InsertMember(unsigned int key, CMember* member);
+    int MemerMemLogin(unsigned int key, CUser* user);
+    CApplication* m_app;                     // +0
+    int m_field4;                            // +4
+    std::map<unsigned int, CMember*> m_members;  // +8
+    char m_data[0x10];                       // +0x20
 };
 
 // ---- CMemberConfig / CMemberExpTbl（表类）----
