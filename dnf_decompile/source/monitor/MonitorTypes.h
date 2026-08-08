@@ -356,7 +356,7 @@ public:
     CMemberConfig();
     virtual ~CMemberConfig();
     virtual void Load_Table(const std::string& path);
-    char m_data[0x80];
+    char m_data[0x78];
 };
 
 class CMemberExpTbl
@@ -365,7 +365,16 @@ public:
     CMemberExpTbl();
     virtual ~CMemberExpTbl();
     virtual void Load_Table(const std::string& path);
-    char m_data[0x80];
+    char m_data[0x30];
+};
+
+// ---- CKillUSRConfig：0x10 ----
+class CKillUSRConfig
+{
+public:
+    CKillUSRConfig();
+    virtual ~CKillUSRConfig();
+    char m_data[0xc];
 };
 
 // ---- CPacketTranslater / CPacketDecoder / CSignalTranslator ----
@@ -555,6 +564,8 @@ public:
     CAppStartInit();
     virtual ~CAppStartInit();
     virtual void Init(CApplication* app, int argc, char** argv);
+    int Init_Daemon(int argc, char** argv);
+    char Save_pid(const std::string& file);
 };
 
 class CAppStopInit : public CAppInit

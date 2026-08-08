@@ -6,6 +6,12 @@
 #include "Thread.h"
 #include "DNFFunctionLib.h"
 
+#include <fcntl.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 void* CUdpRecvBuffer::operator new(unsigned int size)
 {
     return ::operator new(size);
@@ -503,11 +509,91 @@ void CAppInit::Init(CApplication* app, int argc, char** argv) {}
 
 CAppStartInit::CAppStartInit() {}
 CAppStartInit::~CAppStartInit() {}
-void CAppStartInit::Init(CApplication* app, int argc, char** argv) {}
+void CAppStartInit::Init(CApplication* app, int argc, char** argv)
+{
+    srand((unsigned int)time(0));
+    app->m_appConfig = new CAppConfig;
+    {
+        std::string cfgName(argv[1]);
+        app->m_appConfig->Check_FileName(cfgName);
+    }
+    app->m_memberConfig = new CMemberConfig;
+    app->m_memberExpTbl = new CMemberExpTbl;
+    app->m_serverHandler = new CKillUSRConfig;
+    if (Init_Daemon(argc, argv) == -1)
+    {
+        throw CDNFException("CAppStartInit::Init() Demon Init Exception Break!");
+    }
+}
+
+int CAppStartInit::Init_Daemon(int argc, char** argv)
+{
+    const char* mode = argv[2];
+    if (strcmp(mode, "start") == 0)
+    {
+        pid_t pid = fork();
+        if (pid < 0)
+        {
+            return -1;
+        }
+        if (pid != 0)
+        {
+            exit(0);
+        }
+        setsid();
+        chdir("./");
+        umask(0);
+    }
+    {
+        std::string pidFile(argv[1]);
+        char ok = Save_pid(pidFile);
+        return ok == 1 ? 0 : -1;
+    }
+}
+
+char CAppStartInit::Save_pid(const std::string& file)
+{
+    std::string path = "./pid/" + file;
+    int fd = ::open(path.c_str(), 0x42, 0x1a4);
+    if (fd < 0)
+    {
+        return 0;
+    }
+    char buf[0x400];
+    memset(buf, 0, 0x400);
+    pid_t pid = getpid();
+    sprintf(buf, "%ld\n", (long)pid);
+    ssize_t n = strlen(buf);
+    ssize_t wr = write(fd, buf, n);
+    if (wr < 0)
+    {
+        close(fd);
+        return 0;
+    }
+    return 1;
+}
 
 CAppStopInit::CAppStopInit() {}
 CAppStopInit::~CAppStopInit() {}
-void CAppStopInit::Init(CApplication* app, int argc, char** argv) {}
+void CAppStopInit::Init(CApplication* app, int argc, char** argv)
+{
+    puts("RECV STOP, \xb0\xfc\xb8\xae\xc0\xda\xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1 \xb5\xc7\xbe\xfa\xbd\xc0\xb4\xd9.");
+    app->Clear();
+    {
+        std::string pidFile(argv[1]);
+        char ok = app->Send_Term_Signal(pidFile);
+        if (ok != 1)
+        {
+            throw CDNFException(
+                "CAppStopInit::Init() \xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1\xbd\xc0\xb4\xd9!");
+        }
+    }
+    throw CDNFException(
+        "CAppStopInit::Init() \xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1\xbd\xc0\xb4\xd9!");
+}
+
+CKillUSRConfig::CKillUSRConfig() {}
+CKillUSRConfig::~CKillUSRConfig() {}
 
 CDNFException::CDNFException(const std::string& msg) : m_msg(msg) {}
 CDNFException::~CDNFException() throw() {}

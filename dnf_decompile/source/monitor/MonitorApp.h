@@ -57,6 +57,8 @@ public:
     CUdpHandler* Get_UdpHandler();
     void* Get_UdpQLock();
     void* Get_UdpBLock();
+    char Send_Term_Signal(const std::string& file);
+    void Send_Suspend_Signal(const std::string& file);
     unsigned char Get_ServerGroup();
 
     bool m_loaded;                      // +4
@@ -67,7 +69,7 @@ public:
     void* m_field90;                    // +0x90
     CMemberConfig* m_memberConfig;      // +0x94
     CMemberExpTbl* m_memberExpTbl;      // +0x98
-    void* m_serverHandler;              // +0x9c
+    CKillUSRConfig* m_serverHandler;    // +0x9c
     CServerHandler* m_serverHandler2;   // +0xa0
     CFrameCountHandler m_frameCount;    // +0xa4
     CInnerMsgHandler* m_innerMsgHandler;  // +0xd4

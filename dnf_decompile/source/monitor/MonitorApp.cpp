@@ -4,6 +4,8 @@
 #include <cstring>
 #include <ctime>
 #include <stdio.h>
+#include <signal.h>
+#include <unistd.h>
 
 #include "DNFFileLog.h"
 #include "DNFFunctionLib.h"
@@ -460,6 +462,78 @@ CTcpNetSystem* CApplication::Get_TcpNetSystem()
 
 void CApplication::OnGameServerDown(CGameServer* server)
 {
+}
+
+char CApplication::Send_Term_Signal(const std::string& file)
+{
+    std::string path = "./pid/" + file;
+    FILE* f = fopen(path.c_str(), "r");
+    if (f == 0)
+    {
+        printf("%s process id file open \xbd\xc7\xc6\xd0\n", path.c_str());
+    }
+    else
+    {
+        int pid = 0;
+        fscanf(f, "%d", &pid);
+        if (pid < 1)
+        {
+            fclose(f);
+            printf("%d\xb9\xf8\xc0\xc7 \xc0\xdf\xb8\xf8\xb5\xc8 process id\n", pid);
+        }
+        else
+        {
+            int r = kill(pid, 0xf);
+            if (r < 0)
+            {
+                fclose(f);
+                printf("%d\xb9\xf8 process\xb7\xce \xc1\xbe\xb7\xe1 signal \xbc\xdb\xbd\xc5 \xbd\xc7\xc6\xd0", pid);
+            }
+            else
+            {
+                fclose(f);
+                if (remove(path.c_str()) == -1)
+                {
+                    puts("FAIL TO DELETE PID FILE ERROR");
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+void CApplication::Send_Suspend_Signal(const std::string& file)
+{
+    std::string path = "./pid/" + file;
+    FILE* f = fopen(path.c_str(), "r");
+    if (f == 0)
+    {
+        printf("%s process id file open \xbd\xc7\xc6\xd0\n", path.c_str());
+    }
+    else
+    {
+        int pid = 0;
+        fscanf(f, "%d", &pid);
+        if (pid < 1)
+        {
+            fclose(f);
+            printf("%d\xb9\xf8\xc0\xc7 \xc0\xdf\xb8\xf8\xb5\xc8 process id\n", pid);
+        }
+        else
+        {
+            int r = kill(pid, 10);
+            if (r < 0)
+            {
+                fclose(f);
+                printf("%d\xb9\xf8 process\xb7\xce \xc1\xbe\xb7\xe1 signal \xbc\xdb\xbd\xc5 \xbd\xc7\xc6\xd0", pid);
+            }
+            else
+            {
+                printf("SEND SUSPEND SIGNAL TO %d\n", pid);
+                fclose(f);
+            }
+        }
+    }
 }
 
 void* CApplication::Get_UdpPacketRecvQ()
