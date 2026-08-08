@@ -7,6 +7,7 @@
 #include <time.h>
 
 #include "GuildMisc.h"
+#include "GuildDomain.h"
 #include "GuildUdp.h"
 #include "DNFFileLog.h"
 #include "DNFFunctionLib.h"
@@ -16,21 +17,21 @@ template<class T>
 void* MemPool<T>::headOfFreeList_ = 0;
 
 MemPool<CUdpRecvBuffer> m_RecvBufferMemPool_(10000);
-MemPool<CBlackUser> m_BlackUserMemPool_(0);
-MemPool<CCashObject> m_CashObjectMemPool_(0);
-MemPool<CPacketBuffer> m_PacketBufferMemPool_(0);
-MemPool<CTcpRecvBuffer> m_TcpRecvBufferMemPool_(0);
-MemPool<CTcpSendBuffer> m_TcpSendBufferMemPool_(0);
-MemPool<STPowerWarGuildInfo> m_PowerWarGuildInfoMemPool_(0);
-MemPool<STPowerWarCharacInfo> m_PowerWarCharacInfoMemPool_(0);
-MemPool<CPeer> m_PeerMemPool_(0);
-MemPool<CUser> m_UserMemPool_(0);
-MemPool<CGuild> m_GuildMemPool_(0);
+MemPool<CBlackUser> m_BlackUserMemPool_(100000);
+MemPool<CCashObject> m_CashObjectMemPool_(5000);
+MemPool<CPacketBuffer> m_PacketBufferMemPool_(1000);
+MemPool<CTcpRecvBuffer> m_TcpRecvBufferMemPool_(1000);
+MemPool<CTcpSendBuffer> m_TcpSendBufferMemPool_(1000);
+MemPool<STPowerWarGuildInfo> m_PowerWarGuildInfoMemPool_(1000);
+MemPool<STPowerWarCharacInfo> m_PowerWarCharacInfoMemPool_(1000);
+MemPool<CPeer> m_PeerMemPool_(1000);
+MemPool<CUser> m_UserMemPool_(28000);
+MemPool<CGuild> m_GuildMemPool_(10000);
 
 template<class T>
 MemPool<T>::MemPool(unsigned int count)
 {
-    m_classSize = 0x1804;
+    m_classSize = (int)sizeof(T);
     m_count = count;
 }
 
@@ -51,32 +52,33 @@ template<class T>
 void* MemPool<T>::alloc()
 {
     void* result;
-    if (m_classSize == 0x1804)
+    if (m_classSize == (int)sizeof(T))
     {
         if (headOfFreeList_ == 0)
         {
             void* block = ::operator new(m_classSize * m_count);
             for (unsigned int i = 0; i < m_count - 1U; i++)
             {
-                *(void**)((int)block + i * 0x1804 + 0x1800) =
-                    (void*)((i + 1) * 0x1804 + (int)block);
+                *(void**)((char*)block + i * m_classSize + (m_classSize - 4)) =
+                    (void*)((i + 1) * m_classSize + (int)block);
             }
-            *(void**)((int)block + (m_count - 1) * 0x1804 + 0x1800) = 0;
-            headOfFreeList_ = (void*)((int)block + 0x1804);
+            *(void**)((char*)block + (m_count - 1) * m_classSize + (m_classSize - 4)) = 0;
+            headOfFreeList_ = (void*)((char*)block + m_classSize);
             result = block;
             m_chunks.push_back(std::move(block));
             CMyFileLog log("alloc", 0x7d);
-            log("./log/Mempool", "class size(%d) cnt(%d)", m_classSize, m_count * (int)m_chunks.size());
+            log("./log/Mempool", "class size(%d) cnt(%d)", m_classSize,
+                m_count * (int)m_chunks.size());
         }
         else
         {
             result = headOfFreeList_;
-            headOfFreeList_ = *(void**)((int)headOfFreeList_ + 0x200);
+            headOfFreeList_ = *(void**)((char*)headOfFreeList_ + (m_classSize - 4));
         }
     }
     else
     {
-        result = ::operator new(0x1804);
+        result = ::operator new(m_classSize);
     }
     return result;
 }
@@ -86,7 +88,7 @@ void MemPool<T>::free(void* p)
 {
     if (p != 0)
     {
-        *(void**)((int)p + 0x1800) = headOfFreeList_;
+        *(void**)((char*)p + (m_classSize - 4)) = headOfFreeList_;
         headOfFreeList_ = p;
     }
 }
@@ -98,7 +100,7 @@ void MemPool<T>::free(void* p, unsigned int size)
     {
         if (m_classSize == (int)size)
         {
-            *(void**)((int)p + 0x1800) = headOfFreeList_;
+            *(void**)((char*)p + (m_classSize - 4)) = headOfFreeList_;
             headOfFreeList_ = p;
         }
         else
@@ -107,6 +109,85 @@ void MemPool<T>::free(void* p, unsigned int size)
         }
     }
 }
+
+// ---- 各类型 operator new/delete（MemPool 池）----
+void* CBlackUser::operator new(unsigned int size) { return m_BlackUserMemPool_.alloc(); }
+void CBlackUser::operator delete(void* p) { m_BlackUserMemPool_.free(p); }
+void CBlackUser::operator delete(void* p, unsigned int size) { m_BlackUserMemPool_.free(p, size); }
+
+void* CCashObject::operator new(unsigned int size) { return m_CashObjectMemPool_.alloc(); }
+void CCashObject::operator delete(void* p) { m_CashObjectMemPool_.free(p); }
+void CCashObject::operator delete(void* p, unsigned int size) { m_CashObjectMemPool_.free(p, size); }
+
+void* CPacketBuffer::operator new(unsigned int size) { return m_PacketBufferMemPool_.alloc(); }
+void CPacketBuffer::operator delete(void* p) { m_PacketBufferMemPool_.free(p); }
+void CPacketBuffer::operator delete(void* p, unsigned int size) { m_PacketBufferMemPool_.free(p, size); }
+
+void* CTcpRecvBuffer::operator new(unsigned int size) { return m_TcpRecvBufferMemPool_.alloc(); }
+void CTcpRecvBuffer::operator delete(void* p) { m_TcpRecvBufferMemPool_.free(p); }
+void CTcpRecvBuffer::operator delete(void* p, unsigned int size) { m_TcpRecvBufferMemPool_.free(p, size); }
+
+void* CTcpSendBuffer::operator new(unsigned int size) { return m_TcpSendBufferMemPool_.alloc(); }
+void CTcpSendBuffer::operator delete(void* p) { m_TcpSendBufferMemPool_.free(p); }
+void CTcpSendBuffer::operator delete(void* p, unsigned int size) { m_TcpSendBufferMemPool_.free(p, size); }
+
+void* STPowerWarGuildInfo::operator new(unsigned int size) { return m_PowerWarGuildInfoMemPool_.alloc(); }
+void STPowerWarGuildInfo::operator delete(void* p) { m_PowerWarGuildInfoMemPool_.free(p); }
+void STPowerWarGuildInfo::operator delete(void* p, unsigned int size) { m_PowerWarGuildInfoMemPool_.free(p, size); }
+
+void* STPowerWarCharacInfo::operator new(unsigned int size) { return m_PowerWarCharacInfoMemPool_.alloc(); }
+void STPowerWarCharacInfo::operator delete(void* p) { m_PowerWarCharacInfoMemPool_.free(p); }
+void STPowerWarCharacInfo::operator delete(void* p, unsigned int size) { m_PowerWarCharacInfoMemPool_.free(p, size); }
+
+// ---- CCashObject ----
+CCashObject::CCashObject()
+{
+    m_lifeTime = 5;
+    m_charNo = 0;
+}
+
+CCashObject::~CCashObject()
+{
+}
+
+bool CCashObject::IsLifeTimeOut()
+{
+    m_lifeTime -= 1;
+    return m_lifeTime == 0;
+}
+
+void CCashObject::SetBlackUsersObject(std::map<unsigned int, CBlackUser*>& blackUsers)
+{
+    m_blackUsers = blackUsers;
+}
+
+void CCashObject::ClearBlackUsers()
+{
+    m_blackUsers.clear();
+}
+
+std::map<unsigned int, CBlackUser*>* CCashObject::GetBlackUsersObject()
+{
+    return &m_blackUsers;
+}
+
+void CCashObject::SetCharacNo(unsigned int charNo)
+{
+    m_charNo = (int)charNo;
+}
+
+// ---- 显式实例化（触发 alloc/free 符号）----
+template class MemPool<CUdpRecvBuffer>;
+template class MemPool<CBlackUser>;
+template class MemPool<CCashObject>;
+template class MemPool<CPacketBuffer>;
+template class MemPool<CTcpRecvBuffer>;
+template class MemPool<CTcpSendBuffer>;
+template class MemPool<STPowerWarGuildInfo>;
+template class MemPool<STPowerWarCharacInfo>;
+template class MemPool<CPeer>;
+template class MemPool<CUser>;
+template class MemPool<CGuild>;
 
 void* CUdpRecvBuffer::operator new(unsigned int size)
 {

@@ -29,7 +29,14 @@ extern MemPool<CUdpRecvBuffer> m_RecvBufferMemPool_;
 // 其他池实例（原版有这些 MemPool<T> 实例化）
 class CBlackUser;
 class CCashObject;
-class CPacketBuffer;
+class CPacketBuffer
+{
+public:
+    static void* operator new(unsigned int size);
+    static void operator delete(void* p);
+    static void operator delete(void* p, unsigned int size);
+    char m_data[0x1804];
+};
 class CTcpRecvBuffer;
 class CTcpSendBuffer;
 class STPowerWarGuildInfo;

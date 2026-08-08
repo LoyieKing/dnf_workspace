@@ -13,6 +13,7 @@
 #include "GuildApp.h"
 #include "GuildServer.h"
 #include "GuildPacket.h"
+#include "GuildMisc.h"
 #include "tinyxml.h"
 #include "Packet_Monitor_Call_Guild_Members_ToChannel.h"
 #include "Packet_Monitor_Call_Guild_Members_ToChannel_Next.h"
@@ -286,17 +287,17 @@ CUser::~CUser()
 
 void* CUser::operator new(unsigned int size)
 {
-    return malloc(size);
+    return m_UserMemPool_.alloc();
 }
 
 void CUser::operator delete(void* p)
 {
-    free(p);
+    m_UserMemPool_.free(p);
 }
 
 void CUser::operator delete(void* p, unsigned int size)
 {
-    free(p);
+    m_UserMemPool_.free(p, size);
 }
 
 unsigned int CUser::GetDBID()
@@ -1065,17 +1066,17 @@ CGuild::~CGuild()
 
 void* CGuild::operator new(unsigned int size)
 {
-    return malloc(size);
+    return m_GuildMemPool_.alloc();
 }
 
 void CGuild::operator delete(void* p)
 {
-    free(p);
+    m_GuildMemPool_.free(p);
 }
 
 void CGuild::operator delete(void* p, unsigned int size)
 {
-    free(p);
+    m_GuildMemPool_.free(p, size);
 }
 
 unsigned int CGuild::GetGuildKey()
@@ -3869,17 +3870,17 @@ CPeer::~CPeer()
 
 void* CPeer::operator new(unsigned int size)
 {
-    return malloc(size);
+    return m_PeerMemPool_.alloc();
 }
 
 void CPeer::operator delete(void* p)
 {
-    free(p);
+    m_PeerMemPool_.free(p);
 }
 
 void CPeer::operator delete(void* p, unsigned int size)
 {
-    free(p);
+    m_PeerMemPool_.free(p, size);
 }
 
 TCPSocket* CPeer::GetTcpSocket()
