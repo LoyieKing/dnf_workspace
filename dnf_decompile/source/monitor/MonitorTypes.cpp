@@ -3471,6 +3471,43 @@ CEventActionManager::~CEventActionManager() {}
 COnTimeEventManager::COnTimeEventManager() {}
 COnTimeEventManager::~COnTimeEventManager() {}
 void COnTimeEventManager::AttachApp(CApplication* app) {}
+char COnTimeEventManager::IsCurState(int state) { return 0; }
+void COnTimeEventManager::ChangeState(int state) {}
+void COnTimeEventManager::UpdateEventIdx() {}
+unsigned int COnTimeEventManager::GetEvent_Idx() { return 0; }
+void COnTimeEventManager::Clear() {}
+void COnTimeEventManager::OnRewardStart()
+{
+    time_t now = time(0);
+    CMyFileLog log("OnRewardStart", 0x82);
+    log("./log/OnTimeEvent", "On Time Event : On Reward Start Trigger On(%d)", now);
+    if (IsCurState(2))
+    {
+        puts("On Time Event : Event Off Trigger");
+        Clear();
+    }
+    else if (!IsCurState(0))
+    {
+        ChangeState(0);
+        UpdateEventIdx();
+        int t = (int)time(0);
+        m_field20 = t;
+        COnTimeEventRewardEndTrigger* task =
+            new COnTimeEventRewardEndTrigger((unsigned int)(m_field28 * 0x3c + t), 0, this);
+        m_app->GetTaskScheduler()->AddTask(task);
+        unsigned int idx = GetEvent_Idx();
+        CMyFileLog log2("OnRewardStart", 0xa7);
+        log2("./log/OnTimeEvent",
+             "On Time Event : On Reward Start Trigger Process Success curidx(%d)", idx);
+    }
+}
+void COnTimeEventManager::OnRewardEnd()
+{
+}
+
+COnTimeEventRewardEndTrigger::COnTimeEventRewardEndTrigger(unsigned int time, int flag,
+                                                           COnTimeEventManager* mgr) {}
+COnTimeEventRewardEndTrigger::~COnTimeEventRewardEndTrigger() {}
 
 CollectItms::CollectItms() {}
 CollectItms::~CollectItms() {}

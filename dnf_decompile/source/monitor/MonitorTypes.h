@@ -1043,13 +1043,35 @@ public:
     char m_data[0x294];
 };
 
+class COnTimeEventRewardEndTrigger : public CTaskScheduler::CTask
+{
+public:
+    COnTimeEventRewardEndTrigger(unsigned int time, int flag, COnTimeEventManager* mgr);
+    ~COnTimeEventRewardEndTrigger();
+    char m_data[0x10];
+};
+
 class COnTimeEventManager
 {
 public:
     COnTimeEventManager();
-    virtual ~COnTimeEventManager();
+    ~COnTimeEventManager();
     void AttachApp(CApplication* app);
-    char m_data[0x40];
+    void OnRewardStart();
+    void OnRewardEnd();
+    char IsCurState(int state);
+    void ChangeState(int state);
+    void UpdateEventIdx();
+    unsigned int GetEvent_Idx();
+    void Clear();
+    CApplication* m_app;       // +0
+    char m_rewardList[0x1c];   // +4
+    int m_field20;             // +0x20
+    int m_field28;             // +0x28
+    int m_field30;             // +0x30
+    unsigned char m_field34;   // +0x34
+    char m_pad[0xb];           // +0x35
+    int m_field40;             // +0x40
 };
 
 class CollectItms
