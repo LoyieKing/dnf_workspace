@@ -259,6 +259,56 @@ void CPacketTranslater::OnNoticeGuildDismiss(PacketHeader* pkt)
     }
 }
 
+void CPacketTranslater::OnIncreaseGuildExp(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnIncreaseGuildExp : 0 == m_pclApp")
+    char* pb = (char*)pkt;
+    if (*(unsigned int*)(pb + 0xe) == 0)
+    {
+        throw CDNFException(
+            "CPacketTranslater::OnIncreaseGuildExp : packet->m_uCharID && packet->m_uGuildKey && packet->m_msgLen");
+    }
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xe));
+    if (guild != 0)
+    {
+        unsigned int oldExp = guild->GetGuildExp();
+        unsigned int addExp = *(unsigned int*)(pb + 0x12);
+        CMyFileLog log("OnIncreaseGuildExp", 0x453);
+        log("./log/Guild",
+            "GUILD EXP : char no(%d) guild key(%d), add exp(%d), guild exp(%d), book(%d)",
+            *(unsigned int*)(pb + 10), *(unsigned int*)(pb + 0xe), addExp, oldExp,
+            (int)(char)pb[0x17]);
+        unsigned int max1 = m_pclApp->Get_GuildManager()->GetMaxGuildExp1();
+        unsigned int max2 = m_pclApp->Get_GuildManager()->GetMaxGuildExp2();
+        unsigned int level = guild->GetGuildLevel();
+        int expLevel = m_pclApp->Get_GuildManager()->GetGuildLevelWithExp(oldExp);
+        if (level == (unsigned int)expLevel)
+        {
+            if (pb[0x17] == 0)
+            {
+                unsigned int next = m_pclApp->Get_GuildManager()->GetGuildExpWithLevel(level + 1);
+                unsigned int limit = next < max1 ? next : max1;
+                guild->AddGuildExpUntilLimit(addExp, limit);
+            }
+            else if (pb[0x17] == 1 || pb[0x17] == 2)
+            {
+                guild->AddGuildExpUntilLimit(addExp, max2);
+            }
+            if (pb[0x16] != 0)
+            {
+                guild->SendGuildInfoToMembers(false);
+            }
+        }
+        else
+        {
+            CMyFileLog log2("OnIncreaseGuildExp", 0x462);
+            log2("./log/Guild",
+                 "OnIncreaseGuildExp : guild key(%d), curr guild exp(%d),lev(%d), next guild exp(%d), exp lev(%d)",
+                 *(unsigned int*)(pb + 0xe), oldExp, level, oldExp + addExp, expLevel);
+        }
+    }
+}
+
 STUB_HANDLER(OnReplyUserInfo)
 STUB_HANDLER(OnNoticeGuildMarkChange)
 STUB_HANDLER(OnNoticeGuildChatMsg)
@@ -286,7 +336,6 @@ STUB_HANDLER(OnRequestBlackList)
 STUB_HANDLER(OnDBMWResisterToBlackList)
 STUB_HANDLER(OnDBMWDeleteToBlackList)
 STUB_HANDLER(OnDBMWResponseBlackListOnLogin)
-STUB_HANDLER(OnIncreaseGuildExp)
 STUB_HANDLER(OnBuyGuildSkill)
 STUB_HANDLER(OnDBMWChangeUnconnectedGuildMemberGrade)
 STUB_HANDLER(OnNotifyMessageToGuild)
