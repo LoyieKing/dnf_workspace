@@ -422,6 +422,7 @@ public:
     void RegistManagerServer(CManagerServer* mgr);
     void UnregistManagerServer();
     void SendAllTcpGameServer(PacketHeader* pkt);
+    void SendAllToGameServer(char* buf, int len);
     CTcpManagerServer* GetTcpManagerServer();
     CTcpDBServer* GetTcpDBServer();
     void SendToDB(PacketHeader* pkt);
@@ -1269,6 +1270,7 @@ public:
     void OnSchedule();
     void InsertTimer(int startTime, int endTime);
     void OnEndVillageAttacked();
+    void OnRewardVillageAttacked();
     void SetRewardCloseTime(int rewardType);
     void SendVillageAttackedEnd();
     void SendMaxHuntingPoint();
@@ -1403,6 +1405,13 @@ public:
     unsigned int m_fieldA;    // +10
     unsigned int m_fieldB;    // +14
     char m_data[0x1001];      // +18
+};
+
+class Packet_VillageAttackedRewardServer : public PacketHeader
+{
+public:
+    Packet_VillageAttackedRewardServer();
+    unsigned int m_fieldA;    // +10
 };
 
 class Packet_DBMW_Add_Buddy : public PacketHeader

@@ -1316,6 +1316,7 @@ void CServerHandler::UnregistManagerServer()
     }
 }
 void CServerHandler::SendAllTcpGameServer(PacketHeader* pkt) {}
+void CServerHandler::SendAllToGameServer(char* buf, int len) {}
 CTcpManagerServer* CServerHandler::GetTcpManagerServer() { return &m_tcpManagerServer; }
 CTcpDBServer* CServerHandler::GetTcpDBServer() { return &m_tcpDbServer; }
 void CServerHandler::SendToDB(PacketHeader* pkt) {}
@@ -2842,6 +2843,12 @@ void CVillageAttackedManager::OnEndVillageAttacked()
         OnSchedule();
     }
 }
+void CVillageAttackedManager::OnRewardVillageAttacked()
+{
+    Packet_VillageAttackedRewardServer pkt;
+    m_app->Get_ServerHandler()->SendAllToGameServer((char*)&pkt, 0xe);
+    m_field30 = 0;
+}
 void CVillageAttackedManager::SendCharacRank()
 {
     unsigned char serverGroup = 0;
@@ -4093,6 +4100,12 @@ Packet_DBMW_Query_Msg::Packet_DBMW_Query_Msg() : PacketHeader(0x177d, 0x1013)
     m_fieldA = 0;
     m_fieldB = 0;
     memset(m_data, 0, 0x1001);
+}
+
+Packet_VillageAttackedRewardServer::Packet_VillageAttackedRewardServer()
+    : PacketHeader(0x177a, 0xe)
+{
+    m_fieldA = 0;
 }
 
 Packet_DBMW_Add_Buddy::Packet_DBMW_Add_Buddy() : PacketHeader(0x673, 0x2c)
