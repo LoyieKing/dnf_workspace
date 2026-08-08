@@ -2716,7 +2716,45 @@ CGuild* CGuildManager::GuildEnter(unsigned int guildKey, ST_Notice_Guild_Enter& 
 
 CGuild* CGuildManager::GuildSecede(unsigned int guildKey, ST_Notice_Guild_Secede& info)
 {
-    return 0;
+    if (m_app == 0)
+    {
+        throw CDNFException("CGuildManager::GuildSecede()\t0 == m_pclApp\n");
+    }
+    if (guildKey == 0)
+    {
+        throw CDNFException("CGuildManager::GuildSecede()\t0 == dwGuildKey\n");
+    }
+    CUser* user = m_app->Get_UserManager()->FindUser_CharNo(*(unsigned int*)((char*)&info + 8));
+    CGuild* guild = FindGuild(guildKey);
+    if (guild == 0)
+    {
+        if (user != 0)
+        {
+            char* accId = NumberToString(*(unsigned int*)((char*)&info + 4), 0);
+            CMyFileLog log("GuildSecede", 0x2a1);
+            log("./log/Except",
+                "GUILD : CGuildManager::GuildSecede() pclGuild == NULL But pclUser != NULL( Guild Key : %d, Acc Id : %s, Char Id : %d )\n",
+                guildKey, accId, *(unsigned int*)((char*)&info + 8));
+        }
+    }
+    else
+    {
+        if (user != 0)
+        {
+            if (guild->DeleteGuildMember(user->GetUniqCharNo(), user) != 1)
+            {
+                return 0;
+            }
+            user->SendSetGuildKeyToUser(0, *(unsigned int*)((char*)&info + 8));
+            user->ResetGuild();
+        }
+        guild->SecedeProxyMember(info);
+        if (guild->IsSubGuildMaster(*(unsigned int*)((char*)&info + 8)) != 0)
+        {
+            guild->SetSubGuildMaster(*(unsigned int*)((char*)&info + 8), false);
+        }
+    }
+    return guild;
 }
 
 CGuild* CGuildManager::CreateGuild(unsigned int guildKey, CServerHandler* handler,
