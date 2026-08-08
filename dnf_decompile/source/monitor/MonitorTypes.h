@@ -179,7 +179,21 @@ public:
     CLoginLogoutStatistics(CApplication& app);
     virtual ~CLoginLogoutStatistics();
     void ProcessByMinute();
-    char m_data[0xb8];
+    void LoginLogout(int type, unsigned char channel);
+    std::map<unsigned char, struct stLoginLogout> m_map;  // +0
+    char m_data[0x98];
+};
+
+enum ENUM_LOGIN_LOGOUT
+{
+    LOGIN_LOGOUT_0 = 0
+};
+
+struct stLoginLogout
+{
+    int m_field0;   // +0
+    int m_count;    // +4
+    int m_field8;   // +8
 };
 
 class CIPCounter

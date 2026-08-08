@@ -700,6 +700,26 @@ void LimitNpcBuyItemManager::undoNpcLimitBuyItem(LimitNpcBuyItemUpdate* info)
 CLoginLogoutStatistics::CLoginLogoutStatistics(CApplication& app) {}
 CLoginLogoutStatistics::~CLoginLogoutStatistics() {}
 void CLoginLogoutStatistics::ProcessByMinute() {}
+void CLoginLogoutStatistics::LoginLogout(int type, unsigned char channel)
+{
+    std::map<unsigned char, stLoginLogout>::iterator it = m_map.find(channel);
+    if (it == m_map.end())
+    {
+        for (int i = 0; i < 7; i++)
+        {
+            stLoginLogout st;
+            st.m_field0 = 0;
+            st.m_count = 0;
+            st.m_field8 = 0;
+            m_map.insert(std::pair<const unsigned char, stLoginLogout>(channel, st));
+        }
+        LoginLogout(type, channel);
+    }
+    else
+    {
+        it->second.m_count = it->second.m_count + 1;
+    }
+}
 
 CIPCounter::CIPCounter() {}
 CIPCounter::~CIPCounter() {}
