@@ -5,8 +5,34 @@
 #include "StaticsPacket.h"
 #include "StaticsApp.h"
 #include "StaticsServer.h"
+#include "StaticsStatistic.h"
 #include "StaticsUdp.h"
 #include "DNFFileLog.h"
+
+Packet_Goldcard_Event_Statistic_STD::Packet_Goldcard_Event_Statistic_STD()
+{
+    new ((void*)this) PacketHeader(0x1f47, 0x385);
+    GoldCardEventStatistic* p = (GoldCardEventStatistic*)((char*)this + 10);
+    for (int i = 0x62; i != -1; i--)
+    {
+        new ((void*)p) GoldCardEventStatistic;
+        p = (GoldCardEventStatistic*)((char*)p + 9);
+    }
+    memset((char*)this + 10, 0, 0x37b);
+}
+
+Packet_TowerOfDespair_Statistic_STD::Packet_TowerOfDespair_Statistic_STD()
+{
+    new ((void*)this) PacketHeader(0x271d, 0x33a);
+    *(unsigned int*)((char*)this + 10) = 0;
+    *(unsigned int*)((char*)this + 0xe) = 0;
+    TowerOfDespairStatistic_Value* p = (TowerOfDespairStatistic_Value*)((char*)this + 0x12);
+    for (int i = 100; i != -1; i--)
+    {
+        new ((void*)p) TowerOfDespairStatistic_Value;
+        p = (TowerOfDespairStatistic_Value*)((char*)p + 8);
+    }
+}
 
 CInnerMsgHandler::CInnerMsgHandler()
 {

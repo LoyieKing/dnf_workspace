@@ -8,6 +8,7 @@
 #include "StaticsStatistic.h"
 #include "DNFFileLog.h"
 #include "PacketHeader.h"
+#include "StaticsPacket.h"
 #include "StaticsProxy.h"
 #include "StaticsServer.h"
 
@@ -422,9 +423,6 @@ StatisticManager::~StatisticManager()
 {
 }
 
-void StatisticManager::DBSaveProcess(CServerHandler* handler)
-{
-}
 
 #define STUB_STAT(name, args) void StatisticManager::name args {}
 
@@ -565,8 +563,6 @@ STUB_STAT(SendDBPartyCharacStatistic, (CServerHandler*))
 STUB_STAT(SendDBValueStatistic, (CServerHandler*))
 STUB_STAT(SendDBCirculationStatistic, (CServerHandler*))
 STUB_STAT(SendDBSecretShopStatistic, (CServerHandler*))
-STUB_STAT(SendDBGoldcardEventStatistic, (CServerHandler*))
-STUB_STAT(SendDBTowerOfDespairStatistic, (CServerHandler*))
 STUB_STAT(SendDBDisjointAvatarInfoTotal, (CServerHandler*))
 STUB_STAT(SendDBP2PStatistic, (CServerHandler*))
 STUB_STAT(SendDBFatigueBattery, (CServerHandler*))
@@ -587,21 +583,14 @@ STUB_STAT(SendDBPowerwarLoadingTimeReport, (CServerHandler*))
 STUB_STAT(SendDBServerMatchData, (CServerHandler*))
 STUB_STAT(SendDBLagStatistics, (CServerHandler*, char*))
 STUB_STAT(AddMoneyLog, (MoneyLogPacket*, CServerHandler*))
-STUB_STAT(AddP2PStatistic, (Packet_P2P_Statistics*))
 STUB_STAT(AddLagStatistics, (Packet_Stat_Lag_Statistics*))
 STUB_STAT(AddValueStatistics, (Packet_Value_Statistic*))
 STUB_STAT(AddReasonCrashDownData, (Packet_Reason_Crash_Down_Info*, CServerHandler*))
 STUB_STAT(AddSecretShopStatistic, (Packet_Secret_Shop_Statistic*))
 STUB_STAT(AddCirculationStatistics, (Packet_Circulation_Statistic*))
 STUB_STAT(AddBloodDungeonStatistics, (Packet_Blood_dungeon_statistic*))
-STUB_STAT(AddGoldcardEventStatistic, (Packet_Goldcard_Event_Statistic_GTS*))
-STUB_STAT(AddTowerOfDespairStatistic, (Packet_TowerOfDespair_Statistic_GTS*))
-STUB_STAT(WriteDungeonPartyStatistic, (Packet_Dungeon_Statistic_Party*))
-STUB_STAT(AddFatigueBatteryStatistics, (Packet_Fatigue_Battery_Money_Statistic*))
 STUB_STAT(WriteAssertManagerStatistic, (Packet_Assert_Manager_Info*))
 STUB_STAT(WriteHellPartyStatisticItem, (Packet_HellParty_Statistic_Item*))
-STUB_STAT(WritePacketOverflowStatistic, (Packet_Overflow_Statistic_Add*))
-STUB_STAT(WriteDeathTowerValueStatistic, (Packet_DeathTower_Statistic_Value*))
 STUB_STAT(WriteDungeonPartyJobStatistic, (Packet_Dungeon_Statistic_Party_Job*))
 STUB_STAT(AddLoadingTimeReportStatistics, (Packet_Loading_Time_Report_Statistics*))
 STUB_STAT(WriteUserTingTImeCheckStatistic, (Packet_User_Ting_TimeCheck_Statistic_Add*))
@@ -821,4 +810,300 @@ void StatisticManager::AMDecrypt(void* data, unsigned int len)
         ((unsigned char*)data)[i] = ((unsigned char*)data)[i] << 2 |
                                     ((unsigned char*)data)[i] >> 6;
     }
+}
+
+void StatisticManager::DBSaveProcess(CServerHandler* handler)
+{
+    time_t now = time(0);
+    tm* pt = localtime(&now);
+    int min = pt->tm_min;
+    int hour = pt->tm_hour;
+    int mday = pt->tm_mday;
+    int mon = pt->tm_mon;
+    int year = pt->tm_year;
+    printf("---Time : %d, %d ----\n", hour, min);
+    char ts[20];
+    snprintf(ts, 0x13, "%d-%d-%d %d:%d:0", year + 0x76c, mon + 1, mday, hour, min);
+    SendDBP2PStatistic(handler);
+    ResetP2PStatistic();
+    if (hour == 5 && min == 0)
+    {
+        SendDBHellPartyStatisticItem(handler);
+        ResetHellPartyStatisticItemMap();
+    }
+    if (hour == 5 && min == 0)
+    {
+        SendDBFatigueBattery(handler);
+        ResetFatigueBattery();
+    }
+    if (hour == 5 && min == 0)
+    {
+        SendDBDisjointAvatarInfoTotal(handler);
+        ResetDisjointAvatarInfoTotal();
+    }
+    if (hour == 5 && min == 0)
+    {
+        SendDBCreateEmblemInfo(handler);
+        ResetCreateEmblemInfo();
+    }
+    if (hour == 5 && min == 0)
+    {
+        SendDBRandomboxStatistic(handler);
+        ResetRandomboxStatistic();
+    }
+    SendDBTingUserTimeCheck(handler);
+    ResetTingUserTimeCheckMap();
+    SendDBPowerwarLoadingTimeReport(handler);
+    SendDBPowerwarLagReport(handler);
+    if (min % 10 == 0)
+    {
+        SendDBServerMatchData(handler);
+        ResetServerMatchData();
+    }
+    if (min == 0 || min == 0x1e)
+    {
+        snprintf(ts, 0x13, "%d-%d-%d %d:%d:0", year + 0x76c, mon + 1, mday, hour, min);
+        SendDBPacketOverflowStatistic(handler);
+        ResetPacketOverflowMap();
+        SendDBAssertManagerStatistic(handler);
+        ResetAssertManagerMap();
+        SendDBUserTingTimeCheckStatistic(handler);
+        ResetUserTIngTimeCheckMap();
+        SendDBLagStatistics(handler, ts);
+        statistc_proxy::sendDBStatisticProxy();
+        statistc_proxy::resetStatisticProxy();
+    }
+    if (hour % 3 == 0 && min == 0)
+    {
+        SendDBLoadingTimeReport(handler);
+    }
+    if (hour == 5)
+    {
+        if (min == 10)
+        {
+            SendDBPartyStatistic(handler);
+            ResetPartyMap();
+        }
+        if (min == 0xf)
+        {
+            SendDBPartyJobStatistic(handler);
+            ResetPartyJobMap();
+        }
+        if (min == 0x14)
+        {
+            SendDBPartyCharacStatistic(handler);
+            ResetPartyCharacMap();
+        }
+        if (min == 0x19)
+        {
+            SendDBDeathTowerValueStatistic(handler);
+            ResetDeathTowerValueMap();
+        }
+        if (min == 0x1e)
+        {
+            SendDBDeathTowerPlayDataJobStatistic(handler);
+            ResetDeathTowerPlayDataJobMap();
+        }
+        if (min == 0x23)
+        {
+            SendDBDeathTowerPlayDataPartyStatistic(handler);
+            ResetDeathTowerPlayDataPartyMap();
+        }
+        if (min == 0x28)
+        {
+            SendDBBloodDungeonStatistic(handler);
+            ResetBloodDungeon();
+        }
+        if (min == 0x2d)
+        {
+            SendDBValueStatistic(handler);
+            ResetValueStatistic();
+        }
+        if (min == 0x32)
+        {
+            SendDBCirculationStatistic(handler);
+            ResetCirculationStatistic();
+        }
+    }
+    if (hour == 6 && min == 0)
+    {
+        SendDBSecretShopStatistic(handler);
+        ResetSecretShopStatistic();
+    }
+    if (hour == 6 && min == 0)
+    {
+        SendDBTowerOfDespairStatistic(handler);
+        ResetTowerOfDespair();
+    }
+    if (hour == 5 && min == 0)
+    {
+        SendDBGoldcardEventStatistic(handler);
+        ResetGoldcardEventStatistic();
+    }
+    if (hour == 6)
+    {
+        CCubeStatistic* cube = (CCubeStatistic*)getCubeStatisticObject();
+        cube->sendStatisticData(handler);
+        cube = (CCubeStatistic*)getCubeStatisticObject();
+        cube->resetStatisticData();
+    }
+}
+
+void StatisticManager::WritePacketOverflowStatistic(Packet_Overflow_Statistic_Add* pkt)
+{
+    STPacketOverflowKey key;
+    key.m_field0 = *(char*)((char*)pkt + 10);
+    key.m_field2 = *(unsigned short*)((char*)pkt + 0xb);
+    std::map<STPacketOverflowKey, int>::iterator it = m_packetOverflow.find(key);
+    bool isNew = (m_packetOverflow.empty() || it == m_packetOverflow.end());
+    if (isNew)
+    {
+        m_packetOverflow.insert(std::make_pair(key, 1));
+    }
+    else
+    {
+        it->second += 1;
+    }
+}
+
+void StatisticManager::WriteDungeonPartyStatistic(Packet_Dungeon_Statistic_Party* pkt)
+{
+    STPartyStatisticKey key;
+    key.m_field0 = 0;
+    key.m_field4 = *(unsigned int*)((char*)pkt + 0xc);
+    key.m_field8 = *(char*)((char*)pkt + 0x10);
+    key.m_field9 = *(char*)((char*)pkt + 0x11);
+    key.m_fielda = *(char*)((char*)pkt + 0x12);
+    key.m_fieldb = *(char*)((char*)pkt + 0x13);
+    key.m_fieldc = *(char*)((char*)pkt + 0x14);
+    key.m_fieldd = *(char*)((char*)pkt + 0x15);
+    PartyStatistic value;
+    value.m_data[0] = *(int*)((char*)pkt + 0x16);
+    value.m_data[1] = *(int*)((char*)pkt + 0x1a);
+    value.m_data[2] = *(int*)((char*)pkt + 0x1e);
+    value.m_data[3] = *(int*)((char*)pkt + 0x22);
+    value.m_data[4] = *(int*)((char*)pkt + 0x26);
+    value.m_data[5] = *(int*)((char*)pkt + 0x2a);
+    value.m_data[6] = *(int*)((char*)pkt + 0x2e);
+    value.m_data[7] = *(int*)((char*)pkt + 0x32);
+    value.m_data[8] = *(int*)((char*)pkt + 0x36);
+    value.m_data[9] = *(int*)((char*)pkt + 0x3a);
+    value.m_data[10] = 0;
+    value.m_data[11] = (int)*(short*)((char*)pkt + 0x3e);
+    std::map<STPartyStatisticKey, PartyStatistic>::iterator it = m_party.find(key);
+    bool isNew = (m_party.empty() || it == m_party.end());
+    if (isNew)
+    {
+        m_party.insert(std::make_pair(key, value));
+    }
+    else
+    {
+        it->second += value;
+    }
+}
+
+void StatisticManager::AddP2PStatistic(Packet_P2P_Statistics* pkt)
+{
+    *(int*)((char*)&m_p2p + 0) += *(int*)((char*)pkt + 10);
+    *(int*)((char*)&m_p2p + 4) += *(int*)((char*)pkt + 0xe);
+    *(char*)((char*)&m_p2p + 8) = *(char*)((char*)pkt + 0x12);
+    minPing(*(short*)((char*)&m_p2p + 0xa), *(short*)((char*)pkt + 0x13));
+    maxPing(*(short*)((char*)&m_p2p + 0xc), *(short*)((char*)pkt + 0x15));
+    sumPing(*(int*)((char*)&m_p2p + 0x10), *(short*)((char*)pkt + 0x17),
+            *(int*)((char*)&m_p2p + 0x14));
+    *(int*)((char*)&m_p2p + 0x18) += *(int*)((char*)pkt + 0x19);
+    *(int*)((char*)&m_p2p + 0x1c) += *(int*)((char*)pkt + 0x1d);
+    *(int*)((char*)&m_p2p + 0x20) += *(int*)((char*)pkt + 0x21);
+    *(int*)((char*)&m_p2p + 0x24) += *(int*)((char*)pkt + 0x25);
+    minPing(*(short*)((char*)&m_p2p + 0x28), *(short*)((char*)pkt + 0x29));
+    maxPing(*(short*)((char*)&m_p2p + 0x2a), *(short*)((char*)pkt + 0x2b));
+    sumPing(*(int*)((char*)&m_p2p + 0x30), *(short*)((char*)pkt + 0x2d),
+            *(int*)((char*)&m_p2p + 0x34));
+    *(int*)((char*)&m_p2p + 0x38) += *(int*)((char*)pkt + 0x2f);
+    *(int*)((char*)&m_p2p + 0x3c) += *(int*)((char*)pkt + 0x33);
+    *(int*)((char*)&m_p2p + 0x40) += *(int*)((char*)pkt + 0x37);
+    *(int*)((char*)&m_p2p + 0x44) += *(int*)((char*)pkt + 0x3b);
+}
+
+void StatisticManager::WriteDeathTowerValueStatistic(Packet_DeathTower_Statistic_Value* pkt)
+{
+    STDeathTowerValueStatisticKey key;
+    key.m_field0 = *(char*)((char*)pkt + 10);
+    key.m_field2 = *(unsigned short*)((char*)pkt + 0xb);
+    key.m_field4 = *(unsigned int*)((char*)pkt + 0xd);
+    ValueStatistic value;
+    value.m_data[0] = *(int*)((char*)pkt + 0x11);
+    std::map<STDeathTowerValueStatisticKey, ValueStatistic>::iterator it =
+        m_deathTowerValue.find(key);
+    bool isNew = (m_deathTowerValue.empty() || it == m_deathTowerValue.end());
+    if (isNew)
+    {
+        m_deathTowerValue.insert(std::make_pair(key, value));
+    }
+    else
+    {
+        it->second += value;
+    }
+}
+
+void StatisticManager::AddFatigueBatteryStatistics(Packet_Fatigue_Battery_Money_Statistic* pkt)
+{
+    STFatigueBattery value;
+    value.m_field0 = *(int*)((char*)pkt + 0xb);
+    value.m_field4 = (unsigned int)*(unsigned short*)((char*)pkt + 0xf);
+    std::map<unsigned char, STFatigueBattery>::iterator it = m_fatigue.find(*(char*)((char*)pkt + 10));
+    if (it == m_fatigue.end())
+    {
+        m_fatigue.insert(std::make_pair(*(char*)((char*)pkt + 10), value));
+    }
+    else
+    {
+        it->second.m_field0 += *(int*)((char*)pkt + 0xb);
+        it->second.m_field4 += (unsigned int)*(unsigned short*)((char*)pkt + 0xf);
+    }
+}
+
+void StatisticManager::AddGoldcardEventStatistic(Packet_Goldcard_Event_Statistic_GTS* pkt)
+{
+    unsigned int idx = (unsigned int)(unsigned char)*(char*)((char*)pkt + 10);
+    if (idx < 100)
+    {
+        *(int*)((char*)this + idx * 9 + 0x48d) += *(int*)((char*)pkt + 0xb);
+        *(int*)((char*)this + idx * 9 + 0x491) += *(int*)((char*)pkt + 0xf);
+    }
+}
+
+void StatisticManager::AddTowerOfDespairStatistic(Packet_TowerOfDespair_Statistic_GTS* pkt)
+{
+    if (pkt != 0 && 0 < *(int*)((char*)pkt + 0xe) && *(int*)((char*)pkt + 0xe) < 0x65)
+    {
+        if (*(char*)((char*)pkt + 0x12) == 0)
+        {
+            *(int*)((char*)this + (*(int*)((char*)pkt + 0xe) + 0x100) * 8 + 7) += 1;
+        }
+        else
+        {
+            *(int*)((char*)this + (*(int*)((char*)pkt + 0xe) + 0x100) * 8 + 0xb) += 1;
+            m_serverList.insert(*(int*)((char*)pkt + 0xe));
+        }
+    }
+}
+
+void StatisticManager::SendDBGoldcardEventStatistic(CServerHandler* handler)
+{
+    Packet_Goldcard_Event_Statistic_STD pkt;
+    memcpy((char*)&pkt + 10, (char*)this + 0x48c, 0x37b);
+    handler->SendToDB((PacketHeader*)&pkt);
+}
+
+void StatisticManager::SendDBTowerOfDespairStatistic(CServerHandler* handler)
+{
+    Packet_TowerOfDespair_Statistic_STD pkt;
+    unsigned int group = handler->GetServerGroupNo();
+    group = group & 0xff;
+    memcpy((char*)&pkt + 0x12, (char*)this + 0x807, 0x328);
+    unsigned int size = m_serverList.size();
+    handler->SendToDB((PacketHeader*)&pkt);
+    CMyFileLog log("SendDBTowerOfDespairStatistic", 0x837);
+    log("./log/statistic", "TOD Send to DB");
 }

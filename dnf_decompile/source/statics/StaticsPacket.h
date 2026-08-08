@@ -10,6 +10,24 @@
 class CApplication;
 class CUdpRecvBuffer;
 
+// ---- statics 专用 DB 统计包 ----
+struct GoldCardEventStatistic;
+struct TowerOfDespairStatistic_Value;
+
+class Packet_Goldcard_Event_Statistic_STD
+{
+public:
+    Packet_Goldcard_Event_Statistic_STD();
+    char m_data[0x385];
+};
+
+class Packet_TowerOfDespair_Statistic_STD
+{
+public:
+    Packet_TowerOfDespair_Statistic_STD();
+    char m_data[0x33a];
+};
+
 // ---- CInnerMsgHandler：空类 ----
 class CInnerMsgHandler
 {
