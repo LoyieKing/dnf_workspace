@@ -1923,6 +1923,33 @@ void CGuildManager::Process()
 {
 }
 
+void CGuildManager::ProcessByMinute()
+{
+    m_guildWar.DBSaveProcess(m_app);
+    if (!m_guilds.empty())
+    {
+        for (std::map<unsigned int, CGuild*>::iterator it = m_guilds.begin();
+             it != m_guilds.end(); ++it)
+        {
+            if (it->second != 0)
+            {
+                it->second->UpdateChangableInfoProcess();
+            }
+        }
+        RefreshTodayMember(false);
+        RefreshAttendanceInfo(false);
+    }
+}
+
+void CGuildManager::ProcessBySecond()
+{
+}
+
+bool CGuildManager::IsCargoLock()
+{
+    return m_field40 != 0;
+}
+
 void CGuildManager::DBSaveProcess(CApplication* app, bool force)
 {
 }
@@ -2695,8 +2722,10 @@ CPowerManager::~CPowerManager()
 {
 }
 
-void CPowerManager::InitPowerManager(const char* path, CApplication* app)
+void CPowerManager::InitPowerManager(char* path, CApplication* app)
 {
+    *(CApplication**)((char*)this + 4) = app;
+    LoadPowerWarCfg(path);
 }
 
 void CPowerManager::Process()
@@ -2712,16 +2741,22 @@ int CPowerManager::IsPowerWarOn()
     return ((CPowerWar*)((char*)this + 0x14c))->IsPowerWarOn();
 }
 
-void CPowerManager::SetPowerInfo(char side, int score)
+void CPowerManager::SetPowerInfo(char side, int score1, int score2)
 {
-    ((CPower*)((char*)this + 8 + side * 0x6c))->SetScore(score);
+    *(char*)((char*)this + 0x184) = side;
+    if (IsPowerWarOn() != 1)
+    {
+        ((CPower*)((char*)this + 0x74))->SetScore(score1);
+        ((CPower*)((char*)this + 0xe0))->SetScore(score2);
+    }
+    SetPowerDBFlag(4);
 }
 
 void CPowerManager::CleanPowerWar()
 {
 }
 
-int CPowerManager::GetPowerScore(int side)
+int CPowerManager::GetPowerScore(ENUM_POWER_SIDE_TYPE side)
 {
     return ((CPower*)((char*)this + 8 + side * 0x6c))->GetScore();
 }
@@ -2731,7 +2766,7 @@ char CPowerManager::GetWinnerSide()
     return *(char*)((char*)this + 0x184);
 }
 
-void CPowerManager::IncPowerScore(int side, int score)
+void CPowerManager::IncPowerScore(ENUM_POWER_SIDE_TYPE side, int score)
 {
     CPower* p = (CPower*)((char*)this + 8 + side * 0x6c);
     p->SetScore(p->GetScore() + score);
@@ -2787,7 +2822,7 @@ void CPowerManager::StartPowerWarEvent()
 {
 }
 
-void CPowerManager::UpdatePowerWarInfo(bool flag, int side, int score, unsigned int* p)
+void CPowerManager::UpdatePowerWarInfo(bool flag, ENUM_POWER_SIDE_TYPE side, int score, unsigned int* p)
 {
 }
 
@@ -2799,12 +2834,29 @@ void CPowerManager::SendPowerWarEndInfo(int time)
 {
 }
 
-unsigned int CPowerManager::GetUserPowerWarPoint(int side, unsigned int charNo)
+void CPowerManager::SendPowerWarEndTime(int time)
+{
+    CMyFileLog log("SendPowerWarEndTime", 0x3d5);
+    log("./log/PowerResult", "POWER WAR END TIME : %d", time);
+    SendPowerWarEndInfo(time);
+}
+
+void CPowerManager::SendPowerWarEndInfo()
+{
+    CMyFileLog log("SendPowerWarEndInfo", 0x419);
+    log("./log/PowerResult", "SEND POWER WAR END INFO START");
+    SendPowerWarEndInfoInSpecificPower(1);
+    SendPowerWarEndInfoInSpecificPower(2);
+    CMyFileLog log2("SendPowerWarEndInfo", 0x41f);
+    log2("./log/PowerResult", "SEND POWER WAR END INFO END");
+}
+
+unsigned int CPowerManager::GetUserPowerWarPoint(ENUM_POWER_SIDE_TYPE side, unsigned int charNo)
 {
     return 0;
 }
 
-unsigned int CPowerManager::GetUserRankingInPower(int side, unsigned int charNo)
+unsigned int CPowerManager::GetUserRankingInPower(ENUM_POWER_SIDE_TYPE side, unsigned int charNo)
 {
     return 0;
 }
@@ -2813,7 +2865,7 @@ void CPowerManager::SetPowerWarRewardInfo(int a, int b, int c, int d)
 {
 }
 
-unsigned int CPowerManager::GetGuildRankingInPower(int side, unsigned int guildKey)
+unsigned int CPowerManager::GetGuildRankingInPower(ENUM_POWER_SIDE_TYPE side, unsigned int guildKey)
 {
     return 0;
 }
@@ -2844,10 +2896,10 @@ void CPowerManager::SaveDBPowerWarPointReward()
 {
 }
 
-void CPowerManager::SendPowerWarEndInfoToSpecificUser(CUser* user, unsigned char a,
-                                                     unsigned int b, unsigned int c,
-                                                     unsigned int d, unsigned int e,
-                                                     unsigned int f, unsigned int g)
+void CPowerManager::SendPowerWarEndInfoToSpecificUser(CUser* user, unsigned int b,
+                                                     unsigned char c, unsigned int d,
+                                                     unsigned int e, unsigned int f,
+                                                     unsigned int g, unsigned int h)
 {
 }
 

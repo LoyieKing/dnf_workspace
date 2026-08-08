@@ -91,7 +91,7 @@ void CApplication::Load(int argc, char** argv)
     {
         m_appConfig->Load_Table(argv[1]);
     }
-    m_powerManager.InitPowerManager("./script/power_war_event.tbl", this);
+    m_powerManager.InitPowerManager((char*)"./script/power_war_event.tbl", this);
     m_udpHandler = new CUdpHandler;
     if (m_appConfig != 0)
     {

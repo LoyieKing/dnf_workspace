@@ -80,6 +80,7 @@ class CGuildCargo;
 class CGuildBoard;
 
 enum ENUM_GUILD_CARGO_BEHAVIOR {};
+enum ENUM_POWER_SIDE_TYPE {};
 class DnfItemInfo;
 struct RandomOption;
 struct STGuildCargoDBInfo;
@@ -477,6 +478,7 @@ public:
     void Init(CApplication* app);
     void Process();
     void ProcessByMinute();
+    void ProcessBySecond();
     void DBSaveProcess(CApplication* app, bool force);
     void AttendGuild(unsigned int guildKey, unsigned int charNo);
     CGuild* GuildMemLogin(unsigned int guildKey, CUser* user);
@@ -597,16 +599,16 @@ class CPowerManager
 {
 public:
     CPowerManager();
-    ~CPowerManager();
-    void InitPowerManager(const char* path, CApplication* app);
+    virtual ~CPowerManager();
+    void InitPowerManager(char* path, CApplication* app);
     void Process();
     void ProcessByMinute();
     int IsPowerWarOn();
-    void SetPowerInfo(char side, int score);
+    void SetPowerInfo(char side, int score1, int score2);
     void CleanPowerWar();
-    int GetPowerScore(int side);
+    int GetPowerScore(ENUM_POWER_SIDE_TYPE side);
     char GetWinnerSide();
-    void IncPowerScore(int side, int score);
+    void IncPowerScore(ENUM_POWER_SIDE_TYPE side, int score);
     void SetWinnerSide(char side);
     void PrintDebugInfo();
     void SetPowerDBFlag(unsigned short flag);
@@ -619,22 +621,25 @@ public:
     void SendPowerWarScore();
     void SaveDBPowerWarRank();
     void StartPowerWarEvent();
-    void UpdatePowerWarInfo(bool flag, int side, int score, unsigned int* p);
+    void UpdatePowerWarInfo(bool flag, ENUM_POWER_SIDE_TYPE side, int score,
+                            unsigned int* p);
     void SaveDBPowerWarPoint();
+    void SendPowerWarEndInfo();
     void SendPowerWarEndInfo(int time);
-    unsigned int GetUserPowerWarPoint(int side, unsigned int charNo);
-    unsigned int GetUserRankingInPower(int side, unsigned int charNo);
+    void SendPowerWarEndTime(int time);
+    unsigned int GetUserPowerWarPoint(ENUM_POWER_SIDE_TYPE side, unsigned int charNo);
+    unsigned int GetUserRankingInPower(ENUM_POWER_SIDE_TYPE side, unsigned int charNo);
     void SetPowerWarRewardInfo(int a, int b, int c, int d);
-    unsigned int GetGuildRankingInPower(int side, unsigned int guildKey);
+    unsigned int GetGuildRankingInPower(ENUM_POWER_SIDE_TYPE side, unsigned int guildKey);
     unsigned short GetPowerWarEndKillPoint();
     void SendPowerWarProcessInfo(unsigned int charNo);
     void SetPowerWarEndKillPoint(unsigned short point);
     void RewardGuildPowerWarPoint();
     void SaveDBPowerWarBonusPoint();
     void SaveDBPowerWarPointReward();
-    void SendPowerWarEndInfoToSpecificUser(CUser* user, unsigned char a, unsigned int b,
-                                           unsigned int c, unsigned int d, unsigned int e,
-                                           unsigned int f, unsigned int g);
+    void SendPowerWarEndInfoToSpecificUser(CUser* user, unsigned int b, unsigned char c,
+                                           unsigned int d, unsigned int e, unsigned int f,
+                                           unsigned int g, unsigned int h);
     void SendPowerWarEndInfoInSpecificPower(char side);
     char m_data[0x1a0];
 };
