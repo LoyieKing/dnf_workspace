@@ -294,6 +294,8 @@ public:
     int delDB(CServerHandler* handler, char* name);
     void setBuddyCharName(int charNo, const std::string& newName);
     int add(std::string name, STBuddyDBInfo& info);
+    void reset(CUser* user, bool flag);
+    void clear(bool flag);
     std::map<std::string, CBuddy*> m_buddies;  // +0
     CUser* m_prUser;                           // +0x18
     unsigned short m_field1c;                  // +0x1c

@@ -1084,6 +1084,30 @@ int CBuddyHandle::add(std::string name, STBuddyDBInfo& info)
     }
     return 0;
 }
+void CBuddyHandle::reset(CUser* user, bool flag)
+{
+    m_prUser = user;
+    m_field1c = 0;
+    clear(flag);
+}
+void CBuddyHandle::clear(bool flag)
+{
+    if (!m_buddies.empty())
+    {
+        if (flag)
+        {
+            for (std::map<std::string, CBuddy*>::iterator it = m_buddies.begin();
+                 it != m_buddies.end(); ++it)
+            {
+                if (it->second != 0)
+                {
+                    delete it->second;
+                }
+            }
+        }
+        m_buddies.clear();
+    }
+}
 void CBlackUser::ChangeCharName(char* name) {}
 char* CBlackUser::GetName() { return 0; }
 unsigned int CBlackUser::GetOccurTime() { return 0; }
