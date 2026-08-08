@@ -433,6 +433,7 @@ public:
     unsigned char GetChannelNo();
     void OnDisconnect();
     void SetConnFlag(bool flag);
+    void ResetHeartBeat();
     int SendToServer(char* buf, int len);
     stServerInfo* m_info;  // +4
     char m_field8[8];      // +8
@@ -478,6 +479,12 @@ public:
     void UnregistManagerServer();
     void SetManagerConnectFlag(bool flag);
     void SetDBConnectFlag(bool flag);
+    void ResetDBHeartBeat();
+    char IsConnectedDBServer();
+    void SendDBMWConnectionCheck();
+    void ResetHeartBeat(unsigned char channel);
+    char IsConnectedGameServer(unsigned char channel);
+    void SetConnectFlag(unsigned char channel, bool flag);
     void SendAllTcpGameServer(PacketHeader* pkt);
     void SendAllToGameServer(char* buf, int len);
     void SendToGameServer(unsigned char channel, PacketHeader* pkt);
@@ -1905,6 +1912,20 @@ public:
     unsigned int m_idByChannel;  // +14
     unsigned short m_hour;       // +18
     unsigned short m_min;        // +20
+};
+
+class Packet_Tcp_Server_Connect : public PacketHeader
+{
+public:
+    Packet_Tcp_Server_Connect();
+    unsigned char m_channel;  // +10
+};
+
+class Packet_DBMW_Connection_Check : public PacketHeader
+{
+public:
+    Packet_DBMW_Connection_Check();
+    unsigned char m_channel;  // +10
 };
 
 class Packet_Monitor_Notice_Black_List : public PacketHeader

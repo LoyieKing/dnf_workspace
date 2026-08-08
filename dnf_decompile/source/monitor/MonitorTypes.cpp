@@ -1667,6 +1667,56 @@ void CServerHandler::SetDBConnectFlag(bool flag)
         ((CServerInterface*)m_dbServer)->SetConnFlag(flag);
     }
 }
+void CServerHandler::ResetDBHeartBeat()
+{
+    if (m_dbServer != 0)
+    {
+        ((CServerInterface*)m_dbServer)->ResetHeartBeat();
+    }
+}
+char CServerHandler::IsConnectedDBServer()
+{
+    if (m_dbServer == 0)
+    {
+        return 0;
+    }
+    return ((CServerInterface*)m_dbServer)->IsConnected();
+}
+void CServerHandler::SendDBMWConnectionCheck()
+{
+    Packet_DBMW_Connection_Check pkt;
+    pkt.m_channel = 0xc9;
+    SendToDB(&pkt);
+}
+void CServerHandler::ResetHeartBeat(unsigned char channel)
+{
+    std::map<unsigned int, CGameServer*>::iterator it =
+        m_gameServers.find((unsigned int)channel);
+    if (it != m_gameServers.end() && it->second != 0 &&
+        ((CServerInterface*)it->second)->IsValidServer() != 0)
+    {
+        ((CServerInterface*)it->second)->ResetHeartBeat();
+    }
+}
+char CServerHandler::IsConnectedGameServer(unsigned char channel)
+{
+    std::map<unsigned int, CGameServer*>::iterator it =
+        m_gameServers.find((unsigned int)channel);
+    if (it == m_gameServers.end())
+    {
+        return 0;
+    }
+    return ((CServerInterface*)it->second)->IsConnected();
+}
+void CServerHandler::SetConnectFlag(unsigned char channel, bool flag)
+{
+    std::map<unsigned int, CGameServer*>::iterator it =
+        m_gameServers.find((unsigned int)channel);
+    if (it != m_gameServers.end())
+    {
+        ((CServerInterface*)it->second)->SetConnFlag(flag);
+    }
+}
 void CServerHandler::SendDBMWRequestARSInfo(unsigned char flag)
 {
     Packet_Web_Request_ARS_Info pkt;
@@ -1689,6 +1739,11 @@ void CServerInterface::OnDisconnect() {}
 void CServerInterface::SetConnFlag(bool flag)
 {
     *(char*)((char*)this + 8) = (char)flag;
+}
+void CServerInterface::ResetHeartBeat()
+{
+    *(char*)((char*)this + 9) = 0x14;
+    *(char*)((char*)this + 10) = 0;
 }
 int CServerInterface::SendToServer(char* buf, int len)
 {
@@ -5267,7 +5322,69 @@ void CPacketTranslater::OnReplyUserInfo(PacketHeader* pkt)
         log("%s", "CPacketTranslater::OnReplyUserInfo() Exception Break");
     }
 }
-void CPacketTranslater::OnHeartBeat(PacketHeader* pkt) {}
+void CPacketTranslater::OnHeartBeat(PacketHeader* pkt)
+{
+    if (m_pclApp != 0 &&
+        (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0) != 0)
+    {
+        try
+        {
+            CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+            unsigned char channel = *(unsigned char*)((char*)pkt + 0xa);
+            if (channel == 0xc8)
+            {
+                handler->ResetDBHeartBeat();
+                if (handler->IsConnectedDBServer() != 1)
+                {
+                    handler->SetDBConnectFlag(true);
+                    handler->SendDBMWConnectionCheck();
+                    CMyFileLog log("OnHeartBeat", 0x318);
+                    log("./log/DBHeartBeat", "DB Server Connection Complete!");
+                }
+            }
+            else if (channel == 0 || 0xbe < channel)
+            {
+                CMyFileLog log("OnHeartBeat", 0x341);
+                log("./log/Except", "[ERROR - HEART BEAT] Channel Index(%d) Over.",
+                    (unsigned int)channel);
+            }
+            else
+            {
+                handler->ResetHeartBeat(channel);
+                if (handler->IsConnectedGameServer(channel) != 1)
+                {
+                    handler->SetConnectFlag(channel, true);
+                    Packet_Tcp_Server_Connect pkt2;
+                    pkt2.m_channel = 0xc9;
+                    CServerInterface* gs = handler->GetGameServer((unsigned int)channel);
+                    if (gs == 0)
+                    {
+                        CMyFileLog log("OnHeartBeat", 0x337);
+                        log("./log/Except",
+                            "CPacketTranslater::OnHeartBeat() => Channel Index : %d\n",
+                            (unsigned int)channel);
+                    }
+                    else
+                    {
+                        gs->SendToServer((char*)&pkt2, 0xb);
+                    }
+                }
+            }
+        }
+        catch (CDNFException& e)
+        {
+            printf("CPacketTranslater::OnHeartBeat() Exception Break : %s\n", e.what());
+            CMyFileLog log("OnHeartBeat", 0x348);
+            log("%s", "CPacketTranslater::OnHeartBeat() Exception Break : %s\n", e.what());
+        }
+        catch (...)
+        {
+            puts("CPacketTranslater::OnHeartBeat() Exception Break");
+            CMyFileLog log("OnHeartBeat", 0x34e);
+            log("%s", "CPacketTranslater::OnHeartBeat() Exception Break");
+        }
+    }
+}
 void CPacketTranslater::OnCharLogin(PacketHeader* pkt)
 {
     if (m_pclApp != 0)
@@ -8905,6 +9022,13 @@ Packet_Send_Time_Sync_For_Login::Packet_Send_Time_Sync_For_Login()
 {
     m_hour = 0;
     m_min = 0;
+}
+
+Packet_Tcp_Server_Connect::Packet_Tcp_Server_Connect() : PacketHeader(0x3f8, 0xb) {}
+
+Packet_DBMW_Connection_Check::Packet_DBMW_Connection_Check()
+    : PacketHeader(0x413, 0xb)
+{
 }
 
 Packet_Monitor_Notice_Black_List::Packet_Monitor_Notice_Black_List()
