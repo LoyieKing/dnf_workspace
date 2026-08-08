@@ -3012,6 +3012,23 @@ void CVillageAttackedManager::OnUpdateVillageAttacked()
     pkt.m_field12 = (unsigned int)m_field20;
     m_app->Get_ServerHandler()->SendAllToGameServer((char*)&pkt, 0x16);
 }
+void CVillageAttackedManager::SendVillageAttackedScore(CUser* user)
+{
+}
+void CVillageAttackedManager::SendVillageAttackedReward(CUser* user, int rewardType)
+{
+}
+void CVillageAttackedManager::OnCharacLogin(CUser* user)
+{
+    if (m_state24 != 0)
+    {
+        SendVillageAttackedScore(user);
+    }
+    if (m_field30 != 0 && m_field30 != 1)
+    {
+        SendVillageAttackedReward(user, m_field30);
+    }
+}
 void CVillageAttackedManager::SendCharacRank()
 {
     unsigned char serverGroup = 0;

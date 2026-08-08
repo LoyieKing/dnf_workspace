@@ -1286,6 +1286,9 @@ public:
     void OnRewardVillageAttacked();
     void SendVillageAttackedEnd();
     void OnUpdateVillageAttacked();
+    void OnCharacLogin(CUser* user);
+    void SendVillageAttackedScore(CUser* user);
+    void SendVillageAttackedReward(CUser* user, int rewardType);
     int GetRemainTime();
     unsigned int GetDungeonRemainTime();
     void SetRewardCloseTime(int rewardType);
