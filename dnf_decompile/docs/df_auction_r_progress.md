@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 37（本批新增 ServerLibrary2.0 + AuctionString 全部符号） |
-| IDENTICAL | 3,179 |
+| 已实现 TU | 38（本批新增 Auction 全部符号） |
+| IDENTICAL | 3,623 |
 | NEAR | 19 |
-| DIFF（语义等价，-O0 惯用法） | 426 |
-| MISSING（未实现） | 1,112 |
+| DIFF（语义等价，-O0 惯用法） | 432 |
+| MISSING（未实现） | 662 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -131,6 +131,8 @@
 
 本批（ServerLibrary2.0 + AuctionString 全量补完）后：**IDENTICAL 3179 / NEAR 19 / DIFF 426 / MISSING 1112**
 
+本批（Auction 全量补完）后：**IDENTICAL 3623 / NEAR 19 / DIFF 432 / MISSING 662**
+
 ### 已实现 TU（本阶段新增，均可编译链接）
 
 | 组件 | 状态 |
@@ -178,6 +180,7 @@
 | ServiceFactory | ✅ 已完成（TU 0 缺失：400 精确 + 8 语义等价 DIFF；startup 1920B/shutdown/ctor/dtor 全流程、9 个子系统成员初始化、handler init 遍历、DB 连接关闭、configpath[256] 定义、EncyptTools/Threads/IHandlers getter 出线实现） |
 | ServerLibrary2.0 | ✅ 已完成（TU 0 缺失：317 精确 + 18 语义等价 DIFF；App 类继承 LinuxService、main/prepareRun/run/load_script/readConfig/finishRun/stop/onStop/onPause/onContinue 全流程、8 个 handler 全局、GameDataPool[5]/双 DBConnection 初始化、remove_if 字符串修剪、双分支 Exception catch） |
 | AuctionString | ✅ 已完成（TU 0 缺失：initAuctionString 1785B 十二段 getAuctionString+strncpy 填 LETTER_TEXT[0..8]/SENDER_NAME/SENDER_NPC_NAME/SENDER_NAME_GOLD、LETTER_TEXT[9][255] 全局、comp_by_time 头内联） |
+| Auction | ✅ 已完成（TU 0 缺失：586 精确 + 43 语义等价 DIFF；0x5394B 布局（UDPSocket@4/mAuctionDic@0x54/mSearch@0x51d8/mItemInfo@0x5274/avatarColorInfo@0x5290/7 个 dup-map+pool@0x52c4..0x5394）、ctor 初始化+iteminfo/avatar 加载、RegistItem 全流程（POINT 低价率检查/creature/avatar 去重/auctionId 分配/DB 插入）、42 个方法全部实现） |
 
 ### 关键形态结论（追加）
 
@@ -437,11 +440,27 @@
     `if (!result) return false;`；LETTER_TEXT 为 `char[9][255]`（BSS 0x8f7）。
 63. **build-auction.sh 修正**：`nm "$OBJS"` 去掉引号（zsh/bash 分词差异导致 stub_main
     重复）；移除 stub_main.o 后真实 main 生效。
+64. **Auction TU 全量重建**：0x5394B 布局——UDPSocket@4/mMaxAuctionId@0x2c/
+    佣金三 double@0x34..0x4c/两 expire time@0x4c/0x50/AuctionDictionary@0x54/
+    mpSzBuffer@0x41d8/Search@0x51d8/CNRDItemInfoList@0x5274/AvatarColorInfo@0x5290/
+    mPayType@0x52c0/mIdMap@0x52c4/mCidSet@0x52dc/emblem+expansion 池与 map
+    @0x52f4..0x5364/双 dupChkMap@0x5364..0x5394；ctor 建 UDP socket、加载
+    iteminfo.dat/avatar variation、SetPayType(GOLD)；RegistItem 有 POINT 低价率
+    0.5 检查（GetAveragePrice）、CheckItemType（avatar/creature 区间）、
+    RegistChkMapForAvatarCreature 去重、auctionId 分配、DBTR_REGIST_ITEM 入库；
+    getNextAuctionId/checkMaxAuctionId 维护 mMaxAuctionId；SendMessageToMonitor 用
+    Packet_Monitor_Notify_Auction_Mail(0xc1c, 0x26) 38B 包；avatar 四函数
+    `bool bVar1 = iter != end; if (!bVar1) log; else ...; return !bVar1;` 形态。
+65. **PacketHeader 布局**：10B（m_wMessageID/m_wSize/m_wSrcPort/m_wDstPort/
+    m_nToken 各 2B），`PacketHeader(ushort,ushort)` ctor 置 messageID/size 并清零
+    其余；Packet_Monitor_Notify_Auction_Mail 38B = PacketHeader(0xc1c,0x26)+
+    m_nCharacNo@0xa/iIdByChannel@0xe/m_nNotifyNo@0x12/m_nItemId@0x13/m_nPayType@0x17/
+    RandomOption@0x18。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
 ```
-656  Search                448  Auction
+656  Search
   ...
 ```
 
@@ -452,5 +471,6 @@
    HandlerFor_DB_/TeaInitialize/DNFFunctionLibWrapper 已全量完成。
 2. 字典类：AveragePriceDictionary / CharacterDictionary / ExpireTimeDictionary /
    ReliabilityDictionary 已完成；AuctionDictionary 已完成（本批）。
-3. 大块：Search（656）/ Auction（448）/ ServerLibrary2.0 + ServiceFactory 已完成。
+3. 大块：Search（656）为最后一个未完成 TU；Auction/ServerLibrary2.0/
+   ServiceFactory 已完成。
 4. 全量复验 DIFF/MISSING，移除临时桩，产出 docs/df_auction_r_restoration_report.md，commit & push。

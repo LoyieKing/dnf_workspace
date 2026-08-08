@@ -8,14 +8,27 @@
 #include "AuctionPacket.h"
 #include "Search.h"
 #include "AuctionDictionary.h"
-
-class AuctionDictionary;
+#include "RDARScriptAvatarColorInfo.h"
+#include "TCPSocket.h"
+#include <map>
+#include <set>
+#include <vector>
 
 enum PAY_TYPE
 {
     PAY_TYPE_GOLD = 0,
     PAY_TYPE_POINT = 1,
 };
+
+enum EnumAuctionItemType
+{
+    AUCTION_ITEM_TYPE_UNKNOWN = -1,
+    AUCTION_ITEM_TYPE_PLAIN = 1,
+    AUCTION_ITEM_TYPE_CREATURE = 2,
+    AUCTION_ITEM_TYPE_AVATAR = 3,
+};
+
+void PrintDnfItemInfo(DnfItemInfo& itemInfo, char* out);
 
 class Auction
 {
@@ -37,11 +50,11 @@ public:
     }
     int GetExpireTime()
     {
-        return mExpireTime;
+        return mAUCTION_EXPIRE_TIME;
     }
     int GetSystemAuctionExpireTime()
     {
-        return mSystemAuctionExpireTime;
+        return mSYSTEM_AUCTION_EXPIRE_TIME;
     }
     double GetCommission()
     {
@@ -52,8 +65,6 @@ public:
         return mAUCTION_VIP_COMMISSION;
     }
 
-    // Declarations for methods referenced by HandlerFor_DB_ (stub bodies in Auction.cpp
-    // until the Auction TU is reconstructed).
     CNRDItemInfoList::STItemInfo* GetItemInfo(unsigned long item_id) const;
     bool IsAvatarCategory(int category);
     int AddAvatarEmblemInfo(int ui_id, const stAvatarEmblemInfo_t* pInfo);
@@ -73,7 +84,7 @@ public:
     int TransErrToReason(int err);
     int GetAvatarEmblemInfo(int ui_id, stAvatarEmblemInfo_t* pInfo);
     int GetAvatarExpansionInfo(int ui_id, stAvatarExpansionInfo_t* pInfo);
-    AuctionDictionaryData* GetAuctionDicData(unsigned long item_id) const;
+    AuctionDictionary::AuctionDictionaryData* GetAuctionDicData(unsigned long item_id) const;
     int GetAveragePrice(unsigned long item_id, unsigned char upgrade,
                         const ROI_AverageKey& roiKey, unsigned char refine, int* out);
     int SearchByItemId(PSearchByItemId pSearch, unsigned long* pItemIdArray,
@@ -82,7 +93,7 @@ public:
     int SearchByCategory(PSearchByCategory pSearch, unsigned int* pTotalNumberOfFound,
                          unsigned short* pNumberOfFound,
                          AuctionItemInfo* pOutAuctionItemInfoArray);
-    int RegistCancel(unsigned int owner_id, unsigned long long auction_id);
+    int RegistCancel(int owner_id, unsigned long long auction_id);
     int OpenPrivateStore(unsigned int m_id, int character_num, int* character_ids);
     int GetMyRegistedItemInfo(int owner_id, int* pNum, MyRegistedItemInfo* pOut);
     int GetMyBiddingInfo(int buyer_id, int* pNum, MyBiddingItemInfo* pOut);
@@ -92,7 +103,7 @@ public:
                 int price, char* out, int& ret);
     int IsOwnerVIP(unsigned long long auction_id, OwnerInfo& ownerInfo);
     char* GetAvatarColorName(int ui_id);
-    int CheckItemType(unsigned long item_id);
+    EnumAuctionItemType CheckItemType(unsigned long item_id);
     void UnregistChkMapForAvatarCreature(bool bCreature, int add_info);
     int SubAvatarEmblemInfo(int ui_id);
     int SubAvatarExpansionInfo(int ui_id);
@@ -118,20 +129,40 @@ public:
         return false;
     }
     int GetNowRegistedItemNum(int owner_id);
+    char* GetAuctionServerName();
+    bool RegistChkMapForAvatarCreature(bool isAvatar, int ui_id);
+    bool isEmblemAvatar(int category);
+    bool isValidEmblemAvatar(int category, avatarEmblemType_t emblemSocketType_);
 
     // Layout from df_auction_r DWARF (Auction, 21396B):
-    char m_pad0[0x28];          // @4 (mSocketForMonitor 40B)
+    nsl::UDPSocket mSocketForMonitor;  // @4
     __int64 mMaxAuctionId;      // @0x2c
     double mAUCTION_COMMISSION; // @0x34
     double mAUCTION_VIP_COMMISSION;    // @0x3c
     double mAUCTION_PRIVATE_STORE_COMISSION;  // @0x44
-    int mExpireTime;            // @0x4c
-    int mSystemAuctionExpireTime;  // @0x50
+    int mAUCTION_EXPIRE_TIME;   // @0x4c
+    int mSYSTEM_AUCTION_EXPIRE_TIME;  // @0x50
     AuctionDictionary mAuctionDic;  // @0x54
     char mpSzBuffer[0x1000];    // @0x41d8
     Search mSearch;             // @0x51d8
-    char m_pad3[0x4c];          // @0x5274 .. 0x52c0 (mItemInfo/avatarColorInfo)
+    CNRDItemInfoList mItemInfo; // @0x5274
+    AvatarVariation::AvatarColorInfo avatarColorInfo;  // @0x5290
     PAY_TYPE mPayType;          // @0x52c0
+    std::map<unsigned int, std::vector<int> > mIdMap;   // @0x52c4
+    std::set<int> mCidSet;      // @0x52dc
+    nsl::object_pool_by_boost_pool<stAvatarEmblemInfo_t, int, int, int>
+        mEmblemInfoStructPool;  // @0x52f4
+    std::map<int, stAvatarEmblemInfo_t*> mEmblemInfoMap;  // @0x5314
+    nsl::object_pool_by_boost_pool<stAvatarExpansionInfo_t, int, int, int>
+        mExpansionInfoStructPool;  // @0x532c
+    std::map<int, stAvatarExpansionInfo_t*> mExpansionInfoMap;  // @0x534c
+    std::map<int, char> mAvatarDupChkMap;  // @0x5364
+    std::map<int, char> mCreatureDupChkMap;  // @0x537c
+
+    static char msAuctionServerName[20];
+
+    unsigned long long getNextAuctionId();
+    void checkMaxAuctionId(unsigned long long auctionId);
 };
 
 inline Auction* G_Auction()
