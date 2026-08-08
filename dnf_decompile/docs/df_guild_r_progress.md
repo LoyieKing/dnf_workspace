@@ -317,3 +317,11 @@
   makePacketHeader（空桩→Acquire_TcpSendBuffer 分配）
 - 受影响下游（CUser::SendTcpGameserver、CServerHandler::CreateTcpGameServer 等）随之对齐
 - 冒烟通过；DIFF 1116→1113 / IDENTICAL 377→381
+
+## 2026-08-09 第十五轮（收尾：仅剩 6 个未验函数）
+
+- CTcpDBServer::makePacketHeader：Acquire_TcpSendBuffer(0x1000)→无参版本 +
+  sock 字段写入 +0xc（原版语义）
+- 其余 5 个（CTcpDBServer Connected/C1E、STDBSavePowerWarPointC1E、_ZdaPv/_Znaj）
+  确认等价（PIC 基址/栈帧差异）
+- 冒烟通过；DIFF 1113 / IDENTICAL 381 / NEAR 206
