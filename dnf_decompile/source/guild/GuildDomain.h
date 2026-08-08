@@ -83,7 +83,7 @@ struct STGuildWarInfo
 {
     unsigned int m_guildKey;  // +0
     unsigned int m_point;     // +4
-    char m_data[0x8];
+    char m_data[0x1c];        // +8 .. +0x23（总 0x24，Swap<STGuildWarInfo> 反编译验证）
 };
 struct ST_Guild_War_Rank_Info;
 bool GuildWarPairDataCompare(const std::pair<unsigned int, STGuildWarInfo*>& a,
@@ -445,11 +445,11 @@ public:
     void InitGuildWarInfo();
     void Clear_VtGuildWarInfo();
     void AddGuildWarPoint(unsigned int guildId, int point);
-    void Rank();
+    int Rank();
     void RankProcess();
-    void SameRankWork();
+    int SameRankWork();
     void printGuildWarRank();
-    int GetGuildWarInfo(unsigned int* a, unsigned int* b, unsigned short* c);
+    void GetGuildWarInfo(unsigned int* a, unsigned int* b, unsigned short* c);
     int GetGuildWarInfo(ST_Guild_War_Rank_Info* info);
     int Find_GuildWarInfo(unsigned int guildId);
     void Insert_GuildWarInfo(STGuildWarInfo* info);
@@ -873,7 +873,7 @@ public:
     void CleanPowerWar();
     int GetPowerScore(ENUM_POWER_SIDE_TYPE side);
     char GetWinnerSide();
-    void IncPowerScore(ENUM_POWER_SIDE_TYPE side, int score);
+    int IncPowerScore(ENUM_POWER_SIDE_TYPE side, int score);
     void SetWinnerSide(char side);
     void PrintDebugInfo();
     void SetPowerDBFlag(unsigned short flag);

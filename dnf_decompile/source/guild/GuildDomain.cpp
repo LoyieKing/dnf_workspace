@@ -1003,27 +1003,111 @@ void CGuildWar::Clear_VtGuildWarInfo()
 
 void CGuildWar::AddGuildWarPoint(unsigned int guildId, int point)
 {
+    if (guildId != 0)
+    {
+        STGuildWarInfo* info = (STGuildWarInfo*)Find_GuildWarInfo(guildId);
+        if (info != 0)
+        {
+            *(int*)((char*)info + 4) = *(int*)((char*)info + 4) + point;
+            *(char*)((char*)this + 0x10) = 1;
+            printGuildWarRank();
+        }
+    }
 }
 
-void CGuildWar::Rank()
+int CGuildWar::Rank()
 {
+    std::vector<std::pair<unsigned int, STGuildWarInfo*> >* vec =
+        (std::vector<std::pair<unsigned int, STGuildWarInfo*> >*)m_data;
+    if (vec->empty())
+    {
+        return 0;
+    }
+    if (vec->size() < 2)
+    {
+        return 0;
+    }
+    std::sort(vec->begin(), vec->end(), GuildWarPairDataCompare);
+    printGuildWarRank();
+    return 1;
 }
 
 void CGuildWar::RankProcess()
 {
 }
 
-void CGuildWar::SameRankWork()
+int CGuildWar::SameRankWork()
 {
+    std::vector<std::pair<unsigned int, STGuildWarInfo*> >* vec =
+        (std::vector<std::pair<unsigned int, STGuildWarInfo*> >*)m_data;
+    if (vec->empty())
+    {
+        return 0;
+    }
+    STGuildWarInfo* first = vec->front().second;
+    if (first == 0)
+    {
+        return 0;
+    }
+    int field4 = *(int*)((char*)first + 4);
+    int count = 0;
+    std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator it = vec->begin();
+    for (; it != vec->end(); ++it)
+    {
+        if (it->second != 0)
+        {
+            if (field4 != *(int*)((char*)it->second + 4))
+            {
+                break;
+            }
+            count++;
+        }
+    }
+    if (1 < count)
+    {
+        std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator maxIt = vec->begin();
+        unsigned int maxVal = *(unsigned int*)((char*)maxIt->second + 0x20);
+        std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator it2 = vec->begin();
+        for (int i = 1; i < count; i++)
+        {
+            ++it2;
+            if (maxVal < *(unsigned int*)((char*)it2->second + 0x20))
+            {
+                maxVal = *(unsigned int*)((char*)it2->second + 0x20);
+                maxIt = it2;
+            }
+        }
+        if (*(unsigned int*)((char*)vec->front().second + 0x20) != maxVal)
+        {
+            DNFFLib::Swap<STGuildWarInfo>(vec->front().second, maxIt->second);
+        }
+    }
+    return 1;
 }
 
 void CGuildWar::printGuildWarRank()
 {
 }
 
-int CGuildWar::GetGuildWarInfo(unsigned int* a, unsigned int* b, unsigned short* c)
+void CGuildWar::GetGuildWarInfo(unsigned int* a, unsigned int* b, unsigned short* c)
 {
-    return 0;
+    if (a != 0 && b != 0 && c != 0)
+    {
+        std::vector<std::pair<unsigned int, STGuildWarInfo*> >* vec =
+            (std::vector<std::pair<unsigned int, STGuildWarInfo*> >*)m_data;
+        int idx = 0;
+        for (std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator it = vec->begin();
+             it != vec->end(); ++it)
+        {
+            if (it->second != 0)
+            {
+                a[idx] = *(unsigned int*)it->second;
+                b[idx] = *(unsigned int*)((char*)it->second + 4);
+                idx++;
+                c[idx - 1] = (unsigned short)idx;
+            }
+        }
+    }
 }
 
 int CGuildWar::GetGuildWarInfo(ST_Guild_War_Rank_Info* info)
@@ -1053,6 +1137,20 @@ int CGuildWar::GetGuildWarInfo(ST_Guild_War_Rank_Info* info)
 
 int CGuildWar::Find_GuildWarInfo(unsigned int guildId)
 {
+    std::vector<std::pair<unsigned int, STGuildWarInfo*> >* vec =
+        (std::vector<std::pair<unsigned int, STGuildWarInfo*> >*)m_data;
+    if (vec->empty())
+    {
+        return 0;
+    }
+    for (std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator it = vec->begin();
+         it != vec->end(); ++it)
+    {
+        if (it->second != 0 && *(unsigned int*)it->second == guildId)
+        {
+            return (int)it->second;
+        }
+    }
     return 0;
 }
 
@@ -3502,10 +3600,14 @@ char CPowerManager::GetWinnerSide()
     return *(char*)((char*)this + 0x184);
 }
 
-void CPowerManager::IncPowerScore(ENUM_POWER_SIDE_TYPE side, int score)
+int CPowerManager::IncPowerScore(ENUM_POWER_SIDE_TYPE side, int score)
 {
     CPower* p = (CPower*)((char*)this + 8 + side * 0x6c);
-    p->SetScore(p->GetScore() + score);
+    if (((CPowerWar*)((char*)this + 0x14c))->IsPowerWarOn() == 0)
+    {
+        return p->GetScore();
+    }
+    return p->IncScore(score);
 }
 
 void CPowerManager::SetWinnerSide(char side)
