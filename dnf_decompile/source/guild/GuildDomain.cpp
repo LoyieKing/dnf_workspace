@@ -3411,6 +3411,27 @@ void CGuildBoard::setGuildBoardDBLoadState(ENUM_DB_LOAD_STATE state)
 
 void CGuildBoard::sendMessageToDBMW_GuildFund(CServerHandler* handler, int fund, CUser* user)
 {
+    char buf[255];
+    char buf2[255];
+    std::string msg;
+    Packet_DB_Load_Request_Guild_Board_Write pkt;
+    *(unsigned int*)((char*)&pkt + 0xb) = user->GetGuildKey();
+    *(unsigned int*)((char*)&pkt + 0x13) = user->GetUniqCharNo();
+    std::string str1 = g_ServerString_.GetServerString(0x3f0, 0);
+    std::string str2 = g_ServerString_.GetServerString(0x3e8, 0);
+    sprintf(buf, "%s %s ", user->GetCharName(), str2.c_str());
+    msg += buf;
+    sprintf(buf2, "%d ", fund);
+    msg += buf2;
+    msg += str1;
+    if (msg.length() < 0x78)
+    {
+        memcpy((char*)&pkt + 0x17, msg.c_str(), msg.length());
+        handler->SendToDB(&pkt);
+        CMyFileLog log("sendMessageToDBMW_GuildFund", 0x15d);
+        log("./log/GuildBoard", "SET SUCCESS - GUILD:%u, CHARAC:%u, gold :%d",
+            *(unsigned int*)((char*)&pkt + 0xb), *(unsigned int*)((char*)&pkt + 0x13), fund);
+    }
 }
 
 void CGuildBoard::sendMessageToDBMW_GuildLevelUP(CServerHandler* handler, int level,

@@ -634,9 +634,6 @@ STUB_HANDLER(OnGuildExpLimit)
 STUB_HANDLER(OnWriteGuildMemberMemo)
 STUB_HANDLER(OnLoadGuildCargo)
 STUB_HANDLER(OnLoadGuildCargoHistory)
-STUB_HANDLER(OnWebGuildBoardWrite)
-STUB_HANDLER(OnWebGuildBoardDelete)
-STUB_HANDLER(OnDBLoadReplyWebGuildBoardWrite)
 STUB_HANDLER(OnGuildApplyOriginalPowerSide)
 STUB_HANDLER(OnGameServerRegist)
 STUB_HANDLER(OnRefreshGuildInfo)
@@ -3640,6 +3637,95 @@ void CPacketTranslater::OnDBLoadReplyGuildBoardDelete(PacketHeader* pkt)
     *(unsigned int*)((char*)&reply + 0xc) = user->GetIdByChannel();
     *(unsigned int*)((char*)&reply + 0x10) = user->GetUniqCharNo();
     user->SendTcpGameserver(&reply);
+}
+
+void CPacketTranslater::OnWebGuildBoardWrite(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+    unsigned int charNo = *(unsigned int*)(pb + 0xe);
+    unsigned int no = *(unsigned int*)(pb + 0x12);
+    {
+        CMyFileLog log("OnWebGuildBoardWrite", 0x1dbe);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnWebGuildBoardWrite Receive Data: GuildKey : %u, CharacID : %u, NO : %u",
+            guildKey, charNo, no);
+    }
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnWebGuildBoardWrite", 0x1dc2);
+        log("./log/GuildBoard", "CPacketTranslater::OnWebGuildBoardWrite : 0 == m_pclApp");
+        return;
+    }
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnWebGuildBoardWrite", 0x1dc9);
+        log("./log/GuildBoard", "CPacketTranslater::OnWebGuildBoardWrite : 0 == pclGuild");
+        return;
+    }
+    Packet_DB_Load_Request_Web_Guild_Board_Write dbPkt;
+    *(unsigned int*)((char*)&dbPkt + 0xa) = guildKey;
+    *(unsigned int*)((char*)&dbPkt + 0xe) = charNo;
+    *(unsigned int*)((char*)&dbPkt + 0x12) = no;
+    m_pclApp->Get_ServerHandler()->SendToDB(&dbPkt);
+}
+
+void CPacketTranslater::OnDBLoadReplyWebGuildBoardWrite(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnDBLoadReplyWebGuildBoardWrite", 0x1ded);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnDBLoadReplyWebGuildBoardWrite : 0 == m_pclApp");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xc);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnDBLoadReplyWebGuildBoardWrite", 0x1df4);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnDBLoadReplyWebGuildBoardWrite : 0 == pclGuild");
+        return;
+    }
+    if (*(short*)(pb + 0xa) == 0)
+    {
+        guild->GetGuildBoard()->setGuildBoardData(guildKey, *(unsigned int*)(pb + 0x10),
+                                                  guild, 1,
+                                                  (STGuildBoardDBInfo*)(pb + 0x14));
+        guild->GetGuildBoard()->setWebGuildBoardAction(true);
+    }
+}
+
+void CPacketTranslater::OnWebGuildBoardDelete(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+    unsigned int charNo = *(unsigned int*)(pb + 0xe);
+    unsigned int no = *(unsigned int*)(pb + 0x12);
+    {
+        CMyFileLog log("OnWebGuildBoardDelete", 0x1e15);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnWebGuildBoardDelete Receive Data: GuildKey : %u, CharacID : %u, NO : %u",
+            guildKey, charNo, no);
+    }
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnWebGuildBoardDelete", 0x1e19);
+        log("./log/GuildBoard", "CPacketTranslater::OnWebGuildBoardDelete : 0 == m_pclApp");
+        return;
+    }
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnWebGuildBoardDelete", 0x1e20);
+        log("./log/GuildBoard", "CPacketTranslater::OnWebGuildBoardDelete : 0 == pclGuild");
+        return;
+    }
+    guild->GetGuildBoard()->deleteGuildBoardData(no, guildKey, charNo);
+    guild->GetGuildBoard()->setWebGuildBoardAction(true);
 }
 
 #undef STUB_HANDLER
