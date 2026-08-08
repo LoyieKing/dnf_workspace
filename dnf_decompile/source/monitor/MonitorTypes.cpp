@@ -1783,6 +1783,61 @@ void CUserManager::GetSchoolCount(unsigned int school, unsigned int* out, unsign
         log3("./log/School", "GetSchoolCount(%u) size(%d)", school, (unsigned int)idx);
     }
 }
+CDNFProhibitUser* CUserManager::FindProhibitUser(unsigned int dbid) const
+{
+    if (!m_prohibitUsers.empty())
+    {
+        std::map<unsigned int, CDNFProhibitUser*>::const_iterator it =
+            m_prohibitUsers.find(dbid);
+        if (it != m_prohibitUsers.end())
+        {
+            return it->second;
+        }
+    }
+    return 0;
+}
+int CUserManager::DeleteProhibitUser(unsigned int dbid, char channel)
+{
+    if (m_prohibitUsers.empty())
+    {
+        return 0;
+    }
+    CDNFProhibitUser* pu = FindProhibitUser(dbid);
+    if (pu != 0)
+    {
+        char puCh = pu->GetChannelNo();
+        if (puCh != -1 && puCh != channel)
+        {
+            CMyFileLog log("DeleteProhibitUser", 0x2c7);
+            log("./log/User",
+                "[PROHIBIT DELETE USER Err] Disconnected User DB ID : %s, first ch(%d)/complete ch(%d)",
+                NumberToString(dbid, 0), (int)puCh, (int)channel);
+            return 0;
+        }
+        char fromWeb = pu->fromWeb();
+        if (fromWeb != 0 && channel != -1)
+        {
+            CMyFileLog log("DeleteProhibitUser", 0x2ce);
+            log("./log/User",
+                "[PROHIBIT DELETE USER Err From Web] Disconnected User DB ID : %s, first ch(%d)/complete ch(%d)",
+                NumberToString(dbid, 0), (int)puCh, (int)channel);
+            return 0;
+        }
+        if (m_prohibitUsers.erase(dbid) == 1)
+        {
+            if (pu != 0)
+            {
+                delete pu;
+            }
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void CDNFProhibitUser::operator delete(void* p) { ::operator delete(p); }
+char CDNFProhibitUser::GetChannelNo() { return 0; }
+char CDNFProhibitUser::fromWeb() { return 0; }
 void CUserManager::AddSchoolNo(unsigned int schoolNo, unsigned char channel)
 {
     std::map<unsigned int, std::map<unsigned char, unsigned int> >::iterator it =

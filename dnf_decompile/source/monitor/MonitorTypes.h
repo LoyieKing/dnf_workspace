@@ -603,11 +603,23 @@ public:
     void DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer);
     void SendConnectedBuddysList(CUser* user);
     void GetSchoolCount(unsigned int school, unsigned int* out, unsigned char& idx);
+    int DeleteProhibitUser(unsigned int dbid, char channel);
+    class CDNFProhibitUser* FindProhibitUser(unsigned int dbid) const;
     std::map<unsigned int, std::map<unsigned char, unsigned int> > m_mapSchools;  // +0
     std::map<unsigned int, CUser*> m_users;       // +0x18
     std::map<unsigned int, CUser*> m_charNoUsers; // +0x30
     std::map<std::string, CUser*> m_charNameUsers; // +0x48
+    std::map<unsigned int, class CDNFProhibitUser*> m_prohibitUsers;  // +0x60
     CApplication* m_app;            // +0x78
+};
+
+class CDNFProhibitUser
+{
+public:
+    static void operator delete(void* p);
+    char GetChannelNo();
+    char fromWeb();
+    char m_data[0x20];
 };
 
 // ---- CUser / CMember（最小声明）----
