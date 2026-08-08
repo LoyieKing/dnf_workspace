@@ -8,6 +8,13 @@
 #include "GuildUdp.h"
 #include "DNFFileLog.h"
 #include "DNFFunctionLib.h"
+#include "GuildTable.h"
+
+#define THROW_IF_NO_APP(msg) \
+    if (m_pclApp == 0) \
+    { \
+        throw CDNFException(msg); \
+    }
 
 CApplication* CPacketTranslater::m_pclApp = 0;
 
@@ -180,12 +187,80 @@ void CPacketTranslater::OnCharLogin(PacketHeader* pkt)
     um->InsertUser_CharNo(*(unsigned int*)(pb + 0xf), user);
 }
 
+void CPacketTranslater::OnNoticeGuildEnter(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildEnter : 0 == m_pclApp")
+    char* pb = (char*)pkt;
+    char* mid = NumberToString(*(unsigned int*)(pb + 0xe), 0);
+    CMyFileLog log("OnNoticeGuildEnter", 0x283);
+    log("./log/Web",
+        "Packet_Monitor_Notice_Guild_Enter: guildkey : %d, m_id : %s , charid : %d, guildname : %s, charname : %s\n",
+        *(unsigned int*)(pb + 10), mid, *(unsigned int*)(pb + 0x12), pb + 0x16, pb + 0x2d);
+    CGuild* guild = m_pclApp->Get_GuildManager()->GuildEnter(
+        *(unsigned int*)(pb + 10), *(ST_Notice_Guild_Enter*)(pb + 10));
+    if (guild != 0)
+    {
+        pb[0x4f] = 1;
+        *(unsigned int*)(pb + 0x4b) = *(unsigned int*)(pb + 0x12);
+        guild->NoticeEnterToGuildMember(pb + 10);
+    }
+}
+
+void CPacketTranslater::OnNoticeGuildSecede(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildSecede : 0 == m_pclApp")
+    char* pb = (char*)pkt;
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe));
+    if (user == 0)
+    {
+        return;
+    }
+    m_pclApp->Get_GuildManager()->GuildSecede(
+        *(unsigned int*)(pb + 10), *(ST_Notice_Guild_Secede*)(pb + 10));
+}
+
+void CPacketTranslater::OnDBReplyQueryGuildMember(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnDBReplyQueryGuildMember()\tpclApp is NULL")
+    char* pb = (char*)pkt;
+    if (pb[10] == 1)
+    {
+        CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe));
+        if (user == 0)
+        {
+            throw CDNFException(
+                "CPacketTranslater::OnDBReplyQueryGuildMember()\tpclUser is NULL\n");
+        }
+        user->LoadGuildMember(*(unsigned int*)(pb + 0xb),
+                              *(STGuildMemerDBInfo*)(pb + 0x13));
+        user->SendGuildMemberDBInfo(*(STGuildMemerDBInfo*)(pb + 0x13));
+    }
+    else
+    {
+        CMyFileLog log("OnDBReplyQueryGuildMember", 0x24b);
+        log("./log/Except",
+            "[DB ERROR]CPacketTranslater::OnDBReplyQueryGuildMember() packet->bSuccess : %d\n",
+            (unsigned int)(unsigned char)pb[10]);
+    }
+}
+
+void CPacketTranslater::OnNoticeGuildDismiss(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildDismiss : 0 == m_pclApp")
+    char* pb = (char*)pkt;
+    CMyFileLog log("OnNoticeGuildDismiss", 0x3a9);
+    log("./log/Web", "Packet_Monitor_Notice_Guild_Dismiss: guildkey : %d\n",
+        *(unsigned int*)(pb + 10));
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 10));
+    if (guild != 0)
+    {
+        guild->DismissGuildMemberAndNotice(m_pclApp->Get_ServerGroup());
+        m_pclApp->Get_GuildManager()->GuildDismiss(guild);
+    }
+}
+
 STUB_HANDLER(OnReplyUserInfo)
-STUB_HANDLER(OnDBReplyQueryGuildMember)
-STUB_HANDLER(OnNoticeGuildEnter)
-STUB_HANDLER(OnNoticeGuildSecede)
 STUB_HANDLER(OnNoticeGuildMarkChange)
-STUB_HANDLER(OnNoticeGuildDismiss)
 STUB_HANDLER(OnNoticeGuildChatMsg)
 STUB_HANDLER(OnSetGuildMemberGrade)
 STUB_HANDLER(OnCallGuildMembers)

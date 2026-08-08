@@ -324,6 +324,16 @@ void CUser::MakeGameServerSendUserInfoPacket(unsigned int guildKey)
 {
 }
 
+void CUser::LoadGuildMember(unsigned int guildKey, STGuildMemerDBInfo& info)
+{
+    m_guildDBInfo = info;
+    m_guildMemFlag = (unsigned short)guildKey;
+}
+
+void CUser::SendGuildMemberDBInfo(const STGuildMemerDBInfo& info)
+{
+}
+
 CUserManager::CUserManager()
 {
     m_app = 0;
@@ -1040,6 +1050,18 @@ void CGuild::NoticeChatMsgToGuildMembers(unsigned int charNo, int len, char* msg
 
 void CGuild::NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, int len, char* msg,
                                                   unsigned char type, const void* link)
+{
+}
+
+void CGuild::NoticeEnterToGuildMember(char* info)
+{
+}
+
+void CGuild::NoticeSecedeToGuildMember(char* info)
+{
+}
+
+void CGuild::DismissGuildMemberAndNotice(unsigned char group)
 {
 }
 

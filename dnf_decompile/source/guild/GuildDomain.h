@@ -300,6 +300,9 @@ public:
                                      const char* name);
     void NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, int len, char* msg,
                                               unsigned char type, const void* link);
+    void NoticeEnterToGuildMember(char* info);
+    void NoticeSecedeToGuildMember(char* info);
+    void DismissGuildMemberAndNotice(unsigned char group);
     bool IsEmpty();
     STGuildDBInfo* GetGuildDBInfo();
     bool IsExistGuildAgit();
