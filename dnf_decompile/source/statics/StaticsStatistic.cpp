@@ -584,19 +584,11 @@ STUB_STAT(SendDBServerMatchData, (CServerHandler*))
 STUB_STAT(SendDBLagStatistics, (CServerHandler*, char*))
 STUB_STAT(AddMoneyLog, (MoneyLogPacket*, CServerHandler*))
 STUB_STAT(AddLagStatistics, (Packet_Stat_Lag_Statistics*))
-STUB_STAT(AddValueStatistics, (Packet_Value_Statistic*))
 STUB_STAT(AddReasonCrashDownData, (Packet_Reason_Crash_Down_Info*, CServerHandler*))
-STUB_STAT(AddSecretShopStatistic, (Packet_Secret_Shop_Statistic*))
-STUB_STAT(AddCirculationStatistics, (Packet_Circulation_Statistic*))
 STUB_STAT(AddBloodDungeonStatistics, (Packet_Blood_dungeon_statistic*))
 STUB_STAT(WriteAssertManagerStatistic, (Packet_Assert_Manager_Info*))
 STUB_STAT(WriteHellPartyStatisticItem, (Packet_HellParty_Statistic_Item*))
-STUB_STAT(WriteDungeonPartyJobStatistic, (Packet_Dungeon_Statistic_Party_Job*))
 STUB_STAT(AddLoadingTimeReportStatistics, (Packet_Loading_Time_Report_Statistics*))
-STUB_STAT(WriteUserTingTImeCheckStatistic, (Packet_User_Ting_TimeCheck_Statistic_Add*))
-STUB_STAT(WriteDungeonPartyCharacStatistic, (Packet_Dungeon_Statistic_Party_Charac*))
-STUB_STAT(WriteDeathTowerPlayDataJobStatistic, (Packet_DeathTower_Statistic_Playdata_Job*))
-STUB_STAT(WriteDeathTowerPlayDataPartyStatistic, (Packet_DeathTower_Statistic_Playdata_Party*))
 
 #undef STUB_STAT
 
@@ -1106,4 +1098,218 @@ void StatisticManager::SendDBTowerOfDespairStatistic(CServerHandler* handler)
     handler->SendToDB((PacketHeader*)&pkt);
     CMyFileLog log("SendDBTowerOfDespairStatistic", 0x837);
     log("./log/statistic", "TOD Send to DB");
+}
+
+void StatisticManager::WriteDungeonPartyJobStatistic(Packet_Dungeon_Statistic_Party_Job* pkt)
+{
+    STPartyJobStatisticKey key;
+    key.m_field0 = 0;
+    key.m_field4 = *(unsigned int*)((char*)pkt + 0xc);
+    key.m_field8 = *(char*)((char*)pkt + 0x10);
+    key.m_field9 = *(char*)((char*)pkt + 0x11);
+    key.m_fielda = *(char*)((char*)pkt + 0x12);
+    key.m_fieldb = *(char*)((char*)pkt + 0x13);
+    key.m_fieldc = *(char*)((char*)pkt + 0x14);
+    key.m_fieldd = *(char*)((char*)pkt + 0x15);
+    key.m_field10 = *(unsigned int*)((char*)pkt + 0x16);
+    key.m_field14 = *(char*)((char*)pkt + 0x1a);
+    PartyJobStatistic value;
+    value.m_data[1] = *(int*)((char*)pkt + 0x1b);
+    std::map<STPartyJobStatisticKey, PartyJobStatistic>::iterator it = m_partyJob.find(key);
+    bool isNew = (m_partyJob.empty() || it == m_partyJob.end());
+    if (isNew)
+    {
+        m_partyJob.insert(std::make_pair(key, value));
+    }
+    else
+    {
+        it->second += value;
+    }
+}
+
+void StatisticManager::WriteDungeonPartyCharacStatistic(Packet_Dungeon_Statistic_Party_Charac* pkt)
+{
+    STPartyCharacKey key;
+    key.m_field0 = 0;
+    key.m_field4 = *(unsigned int*)((char*)pkt + 0xc);
+    key.m_field8 = *(char*)((char*)pkt + 0x10);
+    key.m_field9 = *(char*)((char*)pkt + 0x11);
+    key.m_fielda = *(char*)((char*)pkt + 0x12);
+    key.m_fieldc = *(unsigned int*)((char*)pkt + 0x13);
+    key.m_field10 = *(char*)((char*)pkt + 0x17);
+    key.m_field11 = *(char*)((char*)pkt + 0x18);
+    PartyCharacStatistic value;
+    value.m_data[0] = *(int*)((char*)pkt + 0x19);
+    value.m_data[1] = *(int*)((char*)pkt + 0x1d);
+    value.m_data[2] = *(int*)((char*)pkt + 0x21);
+    value.m_data[3] = *(int*)((char*)pkt + 0x25);
+    value.m_data[4] = *(int*)((char*)pkt + 0x29);
+    value.m_data[5] = *(int*)((char*)pkt + 0x2d);
+    value.m_data[6] = *(int*)((char*)pkt + 0x31);
+    value.m_data[7] = *(int*)((char*)pkt + 0x35);
+    value.m_data[8] = *(int*)((char*)pkt + 0x39);
+    value.m_data[9] = *(int*)((char*)pkt + 0x3d);
+    value.m_data[10] = (int)*(short*)((char*)pkt + 0x41);
+    value.m_data[12] = *(int*)((char*)pkt + 0x43);
+    std::map<STPartyCharacKey, PartyCharacStatistic>::iterator it = m_partyCharac.find(key);
+    bool isNew = (m_partyCharac.empty() || it == m_partyCharac.end());
+    if (isNew)
+    {
+        m_partyCharac.insert(std::make_pair(key, value));
+    }
+    else
+    {
+        it->second += value;
+    }
+}
+
+void StatisticManager::AddValueStatistics(Packet_Value_Statistic* pkt)
+{
+    std::map<int, ValueStatisticData>::iterator it = m_value.find(*(int*)((char*)pkt + 10));
+    if (it == m_value.end())
+    {
+        ValueStatisticData v;
+        for (int i = 0; i < 0x1e; i++)
+        {
+            v.m_data[i] = *(int*)((char*)pkt + i * 4 + 0xe);
+        }
+        m_value.insert(std::make_pair(*(int*)((char*)pkt + 10), v));
+    }
+    else
+    {
+        for (int i = 0; i < 0x1e; i++)
+        {
+            it->second.m_data[i] += *(int*)((char*)pkt + i * 4 + 0xe);
+        }
+    }
+}
+
+void StatisticManager::AddCirculationStatistics(Packet_Circulation_Statistic* pkt)
+{
+    std::map<int, CirculationStatisticData>::iterator it = m_circ.find(*(int*)((char*)pkt + 10));
+    if (it == m_circ.end())
+    {
+        CirculationStatisticData v;
+        for (int i = 0; i < 0x30; i++)
+        {
+            v.m_data[i] = *(int*)((char*)pkt + i * 4 + 0xe);
+        }
+        m_circ.insert(std::make_pair(*(int*)((char*)pkt + 10), v));
+    }
+    else
+    {
+        for (int i = 0; i < 0x30; i++)
+        {
+            it->second.m_data[i] += *(int*)((char*)pkt + i * 4 + 0xe);
+        }
+    }
+}
+
+void StatisticManager::AddSecretShopStatistic(Packet_Secret_Shop_Statistic* pkt)
+{
+    if (*(int*)((char*)pkt + 10) != 0 && *(int*)((char*)pkt + 0xe) < 3)
+    {
+        int shopIdx = *(int*)((char*)pkt + 0xe);
+        for (int i = 0; i < *(int*)((char*)pkt + 10); i++)
+        {
+            std::map<int, SECRET_SHOP_STATISTIC_DATA>::iterator it =
+                m_secretShop[shopIdx].find(*(int*)((char*)pkt + i * 0x14 + 0x12));
+            if (it == m_secretShop[shopIdx].end())
+            {
+                m_secretShop[shopIdx].insert(std::make_pair(
+                    *(int*)((char*)pkt + i * 0x14 + 0x12),
+                    *(SECRET_SHOP_STATISTIC_DATA*)((char*)pkt + i * 0x14 + 0x12)));
+            }
+            else
+            {
+                it->second.m_data[3] += *(int*)((char*)pkt + i * 0x14 + 0x1e);
+                it->second.m_data[1] += *(int*)((char*)pkt + i * 0x14 + 0x16);
+                it->second.m_data[2] += *(int*)((char*)pkt + i * 0x14 + 0x1a);
+                it->second.m_data[4] += *(int*)((char*)pkt + i * 0x14 + 0x22);
+            }
+        }
+    }
+}
+
+void StatisticManager::WriteDeathTowerPlayDataJobStatistic(
+    Packet_DeathTower_Statistic_Playdata_Job* pkt)
+{
+    STDeathTowerPlayDataJobStatisticKey key;
+    key.m_field0 = *(char*)((char*)pkt + 10);
+    key.m_field2 = *(unsigned short*)((char*)pkt + 0xb);
+    key.m_field4 = *(unsigned int*)((char*)pkt + 0xd);
+    key.m_field8 = *(char*)((char*)pkt + 0x11);
+    PlayDataJobStatistic value;
+    value.m_data[0] = *(int*)((char*)pkt + 0x12);
+    std::map<STDeathTowerPlayDataJobStatisticKey, PlayDataJobStatistic>::iterator it =
+        m_deathTowerJob.find(key);
+    bool isNew = (m_deathTowerJob.empty() || it == m_deathTowerJob.end());
+    if (isNew)
+    {
+        m_deathTowerJob.insert(std::make_pair(key, value));
+    }
+    else
+    {
+        it->second += value;
+    }
+}
+
+void StatisticManager::WriteDeathTowerPlayDataPartyStatistic(
+    Packet_DeathTower_Statistic_Playdata_Party* pkt)
+{
+    STDeathTowerPlayDataPartyStatisticKey key;
+    key.m_field0 = *(char*)((char*)pkt + 10);
+    key.m_field1 = *(char*)((char*)pkt + 0xb);
+    PlayDataPartyStatistic value;
+    value.m_data[0] = *(int*)((char*)pkt + 0xc);
+    std::map<STDeathTowerPlayDataPartyStatisticKey, PlayDataPartyStatistic>::iterator it =
+        m_deathTowerParty.find(key);
+    bool isNew = (m_deathTowerParty.empty() || it == m_deathTowerParty.end());
+    if (isNew)
+    {
+        m_deathTowerParty.insert(std::make_pair(key, value));
+    }
+    else
+    {
+        it->second += value;
+    }
+}
+
+void StatisticManager::WriteUserTingTImeCheckStatistic(
+    Packet_User_Ting_TimeCheck_Statistic_Add* pkt)
+{
+    STUserTingTimeCheckKey key;
+    key.m_field0 = *(int*)((char*)pkt + 10) / 0x3c;
+    if (0x59f < (int)key.m_field0)
+    {
+        CMyFileLog log("WriteUserTingTImeCheckStatistic", 0x2fd);
+        log("./log/Statistic", "[User Ting Wrong] %d Sec", *(unsigned int*)((char*)pkt + 10));
+        return;
+    }
+    std::map<STUserTingTimeCheckKey, int>::iterator it = m_userTing.find(key);
+    bool isNew = (m_userTing.empty() || it == m_userTing.end());
+    if (isNew)
+    {
+        m_userTing.insert(std::make_pair(key, 1));
+    }
+    else
+    {
+        it->second += 1;
+    }
+    if ((int)key.m_field0 < 0xb && 0 < (int)key.m_field0)
+    {
+        if (m_field110.size() <= 1000)
+        {
+            std::map<unsigned int, int>::iterator it2 = m_field110.find(key.m_field0);
+            bool isNew2 = (m_field110.empty() || it2 == m_field110.end());
+            if (isNew2)
+            {
+                m_field110.insert(std::make_pair(key.m_field0, 1));
+            }
+            else
+            {
+                it2->second += 1;
+            }
+        }
+    }
 }
