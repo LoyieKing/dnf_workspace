@@ -266,25 +266,6 @@ int FrameLagCollector::GetCollectInterval()
     return m_collectInterval;
 }
 
-void FrameLagCollector::PushOneFrameLagData(void* pkt)
-{
-}
-
-void FrameLagCollector::CollectIntervalCheck(void* pkt)
-{
-}
-
-void FrameLagCollector::PopMonitoringSpecData(void* pkt)
-{
-}
-
-void FrameLagCollector::PushMonitoringSpecData(void* pkt)
-{
-}
-
-void FrameLagCollector::is_valid_statistic_packet(void* pkt)
-{
-}
 
 void FrameLagCollector::SaveCollectedDirectxVersion(CServerHandler* handler)
 {
@@ -375,10 +356,6 @@ FrameLagCollector::FrameLagDataStruct::FrameLagDataStruct()
 void FrameLagCollector::FrameLagDataStruct::init()
 {
     memset(this, 0, 0x38);
-}
-
-void FrameLagCollector::accFrameLagStruct(FrameLagDataStruct& data, void* pkt)
-{
 }
 
 UdpCharacteristic::UdpCharacteristic()
@@ -2246,5 +2223,116 @@ void StatisticManager::AddLagStatistics(Packet_Stat_Lag_Statistics* pkt)
                 it->second.m_data[7] += 1;
             }
         }
+    }
+}
+
+int FrameLagCollector::CollectIntervalCheck(Packet_Frame_Lag_Collect_Interval_Check* pkt)
+{
+    if (*(short*)((char*)pkt + 10) == 0)
+    {
+        m_collectInterval = 0x1e;
+    }
+    else
+    {
+        m_collectInterval = (int)*(short*)((char*)pkt + 10);
+    }
+    printf("FrameLagCollector::CollectIntervalCheck(), Interval check : %d", m_collectInterval);
+    return 0;
+}
+
+int FrameLagCollector::is_valid_statistic_packet(Packet_Frame_Lag_Statistic_Add* pkt)
+{
+    if ((char)*(char*)((char*)pkt + 0x1f) < 0 || 8 < (char)*(char*)((char*)pkt + 0x1f))
+    {
+        return 0;
+    }
+    for (int i = 0; i < 6; i++)
+    {
+        if (*(short*)((char*)pkt + i * 0x38 + 0x24) < 0) return 0;
+        if (*(short*)((char*)pkt + i * 0x38 + 0x26) < 0) return 0;
+        if (*(short*)((char*)pkt + i * 0x38 + 0x28) < 0) return 0;
+        if (*(short*)((char*)pkt + i * 0x38 + 0x2a) < 0) return 0;
+        for (int j = 0; j < 6; j++)
+        {
+            if (99999 < *(int*)((char*)pkt + (i * 7 + j + 4) * 8 + 0xc)) return 0;
+            if (*(float*)((char*)pkt + (i * 7 + j + 4) * 8 + 0x10) == 0.0 &&
+                0 < *(int*)((char*)pkt + (i * 7 + j + 4) * 8 + 0xc)) return 0;
+        }
+    }
+    return 1;
+}
+
+int FrameLagCollector::PopMonitoringSpecData(Packet_Frame_Lag_Spec_Delete_Notify* pkt)
+{
+    char erased = 0;
+    char again = 1;
+    while (again != 0)
+    {
+        again = 0;
+        for (std::map<int, MonitoringSpecCase>::iterator it = m_monitor.begin();
+             it != m_monitor.end(); ++it)
+        {
+            if (it->second.m_data[0] == *(int*)((char*)pkt + 10))
+            {
+                m_monitor.erase(it);
+                again = 1;
+                erased = 1;
+                break;
+            }
+        }
+    }
+    if (erased != 0)
+    {
+        m_data.clear();
+    }
+    return 0;
+}
+
+void FrameLagCollector::accFrameLagStruct(FrameLagDataStruct& data, FrameLagStruct* pkt)
+{
+    for (int i = 0; i < 6; i++)
+    {
+        if (0 < *(short*)((char*)pkt + i * 0x38 + 0))
+        {
+            *(int*)((char*)&data + (i + 0xc) * 4 + 8) +=
+                (int)*(short*)((char*)pkt + i * 0x38 + 0);
+            *(int*)((char*)&data + (i + 9) * 0x10 + 8) += 1;
+        }
+        if (0 < *(short*)((char*)pkt + i * 0x38 + 2))
+        {
+            *(int*)((char*)&data + (i + 0x14) * 4) +=
+                (int)*(short*)((char*)pkt + i * 0x38 + 2);
+            *(int*)((char*)&data + i * 0x10 + 0x9c) += 1;
+        }
+        if (0 < *(short*)((char*)pkt + i * 0x38 + 4))
+        {
+            *(int*)((char*)&data + (i + 0x18) * 4 + 8) +=
+                (int)*(short*)((char*)pkt + i * 0x38 + 4);
+            *(int*)((char*)&data + i * 0x10 + 0xa0) += 1;
+        }
+        if (0 < *(short*)((char*)pkt + i * 0x38 + 6))
+        {
+            *(int*)((char*)&data + (i + 0x20) * 4) +=
+                (int)*(short*)((char*)pkt + i * 0x38 + 6);
+            *(int*)((char*)&data + i * 0x10 + 0xa4) += 1;
+        }
+        for (int j = 0; j < 6; j++)
+        {
+            *(int*)((char*)&data + (i * 7 + j + 0x1e) * 8 + 0x10) =
+                *(int*)((char*)&data + i * 4 + 4) *
+                *(int*)((char*)&data + (i * 7 + j + 0x1e) * 8 + 0x10);
+            *(float*)((char*)&data + (i * 7 + j + 0x1e) * 8 + 0x14) =
+                (float)*(unsigned int*)((char*)&data + i * 4 + 4) *
+                *(float*)((char*)&data + (i * 7 + j + 0x1e) * 8 + 0x14);
+            *(int*)((char*)&data + (i * 7 + j + 0x1e) * 8 + 0x10) +=
+                *(int*)((char*)pkt + j * 8 + i * 0x38 + 8);
+            *(float*)((char*)&data + (i * 7 + j + 0x1e) * 8 + 0x14) +=
+                *(float*)((char*)pkt + j * 8 + i * 0x38 + 0xc);
+            *(unsigned int*)((char*)&data + (i * 7 + j + 0x1e) * 8 + 0x10) /=
+                (*(int*)((char*)&data + i * 4 + 4) + 1U);
+            *(float*)((char*)&data + (i * 7 + j + 0x1e) * 8 + 0x14) /=
+                (float)(*(int*)((char*)&data + i * 4 + 4) + 1);
+        }
+        *(int*)((char*)&data + i * 4 + 4) += 1;
     }
 }

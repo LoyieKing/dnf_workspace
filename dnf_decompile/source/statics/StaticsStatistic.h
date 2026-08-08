@@ -37,6 +37,12 @@ class Packet_DeathTower_Statistic_Playdata_Job;
 class Packet_DeathTower_Statistic_Playdata_Party;
 class Packet_User_Ting_TimeCheck_Statistic_Add;
 class Packet_Cube_Statistic;
+class Packet_Frame_Lag_Statistic_Add;
+class Packet_Frame_Lag_Collect_Interval_Check;
+class Packet_Frame_Lag_Spec_Delete_Notify;
+class Packet_Frame_Lag_Statistic_Result_Load_Spec;
+class Packet_Frame_Lag_Statistic_Result_Reload_Spec;
+class FrameLagStruct;
 
 class CServerHandler;
 class CApplication;
@@ -156,15 +162,16 @@ public:
     int SaveDailyBadSpec(CServerHandler* handler);
     void SaveFrameLagData(CServerHandler* handler);
     int GetCollectInterval();
-    void PushOneFrameLagData(void* pkt);
-    void CollectIntervalCheck(void* pkt);
-    void PopMonitoringSpecData(void* pkt);
-    void PushMonitoringSpecData(void* pkt);
-    void is_valid_statistic_packet(void* pkt);
+    void PushOneFrameLagData(Packet_Frame_Lag_Statistic_Add* pkt);
+    int CollectIntervalCheck(Packet_Frame_Lag_Collect_Interval_Check* pkt);
+    int PopMonitoringSpecData(Packet_Frame_Lag_Spec_Delete_Notify* pkt);
+    int PushMonitoringSpecData(Packet_Frame_Lag_Statistic_Result_Load_Spec* pkt);
+    int PushMonitoringSpecData(Packet_Frame_Lag_Statistic_Result_Reload_Spec* pkt);
+    int is_valid_statistic_packet(Packet_Frame_Lag_Statistic_Add* pkt);
     void SaveCollectedDirectxVersion(CServerHandler* handler);
     bool Init();
     void LoadSpec(CServerHandler* handler);
-    void accFrameLagStruct(FrameLagDataStruct& data, void* pkt);
+    void accFrameLagStruct(FrameLagDataStruct& data, FrameLagStruct* pkt);
 
     int m_field0;                       // +0
     int m_field4;                       // +4
