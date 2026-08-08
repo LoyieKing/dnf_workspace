@@ -138,12 +138,29 @@ public:
     char m_data[0x204];
 };
 
+struct NpcBuyLimitItem
+{
+    int m_field0;    // +0
+    int m_field4;    // +4
+    unsigned int m_maxCount;   // +8
+    unsigned int m_sellCount;  // +0xc
+};
+
+struct LimitNpcBuyItemInfo
+{
+    char m_data[0x12];
+    unsigned int m_charNo;   // +0x12
+    unsigned int m_itemId;   // +0x16
+    unsigned int m_count;    // +0x1a
+};
+
 class LimitNpcBuyItemManager
 {
 public:
     LimitNpcBuyItemManager();
-    virtual ~LimitNpcBuyItemManager();
-    char m_data[0x14];
+    ~LimitNpcBuyItemManager();
+    int sellNpcLimitBuyItem(void* info);
+    std::map<unsigned int, NpcBuyLimitItem> m_items;  // +0
 };
 
 class CLoginLogoutStatistics

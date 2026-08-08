@@ -659,6 +659,31 @@ void CPeriodicMessageMgr::OnProcess(CServerHandler* handler) {}
 
 LimitNpcBuyItemManager::LimitNpcBuyItemManager() {}
 LimitNpcBuyItemManager::~LimitNpcBuyItemManager() {}
+int LimitNpcBuyItemManager::sellNpcLimitBuyItem(void* info)
+{
+    LimitNpcBuyItemInfo* p = (LimitNpcBuyItemInfo*)info;
+    std::map<unsigned int, NpcBuyLimitItem>::iterator it = m_items.find(p->m_itemId);
+    if (it == m_items.end())
+    {
+        return 0x11;
+    }
+    NpcBuyLimitItem* item = &it->second;
+    if (item->m_field0 == 0)
+    {
+        return 0x11;
+    }
+    if (item->m_sellCount < item->m_maxCount)
+    {
+        item->m_sellCount += p->m_count;
+        unsigned int total = item->m_sellCount;
+        CMyFileLog log("sellNpcLimitBuyItem", 0x23);
+        log("./log/NpcBuyLimitItem",
+            "Sell-> characNo: %u, itemId: %u, buyCount: %u, maxCount: %u, totalSellCount: %u)",
+            p->m_charNo, p->m_itemId, p->m_count, item->m_maxCount, total);
+        return 0;
+    }
+    return 0x5f;
+}
 
 CLoginLogoutStatistics::CLoginLogoutStatistics(CApplication& app) {}
 CLoginLogoutStatistics::~CLoginLogoutStatistics() {}
