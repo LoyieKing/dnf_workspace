@@ -4105,7 +4105,36 @@ void CPacketTranslater::OnCharLogin(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt) {}
 void CPacketTranslater::OnCeraUpdate(PacketHeader* pkt) {}
 void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt) {}
-void CPacketTranslater::OnReplyQueryMember(PacketHeader* pkt) {}
+void CPacketTranslater::OnReplyQueryMember(PacketHeader* pkt)
+{
+    if (*(char*)((char*)pkt + 0xa) == 1)
+    {
+        CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+        if (handler != 0)
+        {
+            char ok = ((CMemberManager*)((char*)m_pclApp + 0x2d0))
+                          ->LoadMember(*(unsigned int*)((char*)pkt + 0xb),
+                                       *(STMemberDBInfo*)((char*)pkt + 0x17),
+                                       *(unsigned int*)((char*)pkt + 0xf),
+                                       *(unsigned int*)((char*)pkt + 0x13), handler);
+            if (ok != 1)
+            {
+                CMyFileLog log("OnReplyQueryMember", 0x4e5);
+                log("./log/MemberMember",
+                    "CHECK MEMBER ID: CPacketTranslater::OnReplyQueryMember()\t"
+                    "m_clMemberManager.LoadMember()\tmember id(%d)",
+                    *(unsigned int*)((char*)pkt + 0xb));
+            }
+        }
+    }
+    else
+    {
+        CMyFileLog log("OnReplyQueryMember", 0x4eb);
+        log("./log/Except",
+            "[DB ERROR]CPacketTranslater::OnReplyQueryMember() packet->bSuccess : %d\n",
+            (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xa));
+    }
+}
 void CPacketTranslater::OnRequestMemberEnter(PacketHeader* pkt)
 {
     if (m_pclApp == 0)
@@ -4588,11 +4617,81 @@ void CPacketTranslater::OnCallMemberList(PacketHeader* pkt)
         }
     }
 }
-void CPacketTranslater::OnNoticeMemberChatMsg(PacketHeader* pkt) {}
+void CPacketTranslater::OnNoticeMemberChatMsg(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnNoticeMemberChatMsg : 0 == m_pclApp");
+    }
+    if (*(unsigned int*)((char*)pkt + 0xa) != 0 && *(char*)((char*)pkt + 0xe) != 0)
+    {
+        CUser* user =
+            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
+                *(unsigned int*)((char*)pkt + 0xa));
+        if (user != 0)
+        {
+            CMember* member =
+                ((CMemberManager*)((char*)m_pclApp + 0x2d0))->FindMember(
+                    *(unsigned int*)((char*)pkt + 0xa));
+            if (member != 0)
+            {
+                member->NoticeChatMsgToMemberMembers(
+                    (char*)pkt + 0xf, (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe),
+                    user);
+            }
+        }
+        return;
+    }
+    throw CDNFException(
+        "CPacketTranslater::OnNoticeMemberChatMsg : packet->m_uMemberID && packet->m_msgLen");
+}
 void CPacketTranslater::OnPayTaxToUpper(PacketHeader* pkt) {}
 void CPacketTranslater::OnUpdateChangableCharInfo(PacketHeader* pkt) {}
-void CPacketTranslater::OnLogoutComplete(PacketHeader* pkt) {}
-void CPacketTranslater::OnUserRepel(PacketHeader* pkt) {}
+void CPacketTranslater::OnLogoutComplete(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnLogoutComplete : 0 == m_pclApp");
+    }
+    CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+    char ok = userMgr->DeleteProhibitUser(*(unsigned int*)((char*)pkt + 0xa),
+                                          (char)*(char*)((char*)pkt + 0xe));
+    if (ok == 1)
+    {
+        char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+        CMyFileLog log("OnLogoutComplete", 0x8a5);
+        log("./log/User", "[LOGOUT COMPLETE] m_id : %s\tchannel No : %d\n", dbid,
+            (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe));
+    }
+    else
+    {
+        char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+        CMyFileLog log("OnLogoutComplete", 0x8a1);
+        log("./log/User",
+            "[DELETE_ERR_] CPacketTranslater::OnLogoutComplete m_id : %s\tChannel No : %d\n",
+            dbid, (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe));
+    }
+}
+void CPacketTranslater::OnUserRepel(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnUserRepel : 0 == m_pclApp");
+    }
+    char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+    CMyFileLog log("OnUserRepel", 0x954);
+    log("./log/Web", "CPacketTranslater::OnUserRepel m_id(%s) , charNo(%d)\n", dbid,
+        *(unsigned int*)((char*)pkt + 0xe));
+    CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+    CUser* user = userMgr->FindUser(*(unsigned int*)((char*)pkt + 0xa));
+    if (user != 0 &&
+        (*(unsigned int*)((char*)pkt + 0xe) == 0 ||
+         (user = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xe))) != 0))
+    {
+        *(unsigned int*)((char*)pkt + 0xa) = user->GetIdByChannel();
+        user->SendToGameserver((char*)pkt, 0x12);
+    }
+}
 void CPacketTranslater::OnCharacterDelete(PacketHeader* pkt) {}
 void CPacketTranslater::OnEventStart(PacketHeader* pkt) {}
 void CPacketTranslater::OnEventEnd(PacketHeader* pkt) {}
@@ -4616,9 +4715,30 @@ void CPacketTranslater::OnNotifyNewMail(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnWebQueryUserState(PacketHeader* pkt) {}
-void CPacketTranslater::OnNoticeMessage(PacketHeader* pkt) {}
+void CPacketTranslater::OnNoticeMessage(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnNoticeMessage : 0 == m_pclApp");
+    }
+    CMyFileLog log("OnNoticeMessage", 0xf8e);
+    log("./log/GM_msg", "CPacketTranslater::OnNoticeMessage()%s\n", (char*)pkt + 0xb);
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllToGameServer((char*)pkt, 0x10b);
+}
 void CPacketTranslater::OnRelayServerUserCheck(PacketHeader* pkt) {}
-void CPacketTranslater::OnForbidChat(PacketHeader* pkt) {}
+void CPacketTranslater::OnForbidChat(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnForbidChat : 0 == m_pclApp");
+    }
+    CMyFileLog log("OnForbidChat", 0xfdd);
+    log("./log/GM_msg", "CPacketTranslater::OnForbidChat() %s for %d secs\n", (char*)pkt + 0x12,
+        *(unsigned int*)((char*)pkt + 0xa));
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllToGameServer((char*)pkt, 0x30);
+}
 void CPacketTranslater::OnNoticeProhibitConnectUser(PacketHeader* pkt) {}
 void CPacketTranslater::OnMonitorManagerConnectOK(PacketHeader* pkt) {}
 void CPacketTranslater::OnMonitorMegaPhoneMsg(PacketHeader* pkt) {}
@@ -4652,7 +4772,15 @@ void CPacketTranslater::onRequestReloadTowerRanker(PacketHeader* pkt) {}
 void CPacketTranslater::onWebReqReloadAutoPunishRule(PacketHeader* pkt) {}
 void CPacketTranslater::OnInnerPacketLogin(PacketHeader* pkt) {}
 void CPacketTranslater::OnInnerPacketLogout(PacketHeader* pkt) {}
-void CPacketTranslater::OnNoticeSlang(PacketHeader* pkt) {}
+void CPacketTranslater::OnNoticeSlang(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnNoticeSlang : 0 == m_pclApp");
+    }
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllToGameServer((char*)pkt, 0x3d);
+}
 void CPacketTranslater::onLoadCleanPadPoint(PacketHeader* pkt) {}
 void CPacketTranslater::onLoadBlackIPMonitor(PacketHeader* pkt) {}
 void CPacketTranslater::onLoadBlackIPMonitorPartLoad(PacketHeader* pkt) {}
@@ -4899,7 +5027,37 @@ void CPacketTranslater::OnMonitorSecuServiceConnWeb(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnResetTODAPCInfo(PacketHeader* pkt) {}
-void CPacketTranslater::OnNoticeMemberChatMsgHyperLink(PacketHeader* pkt) {}
+void CPacketTranslater::OnNoticeMemberChatMsgHyperLink(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnNoticeMemberChatMsgHyperLink : 0 == m_pclApp");
+    }
+    if (*(unsigned int*)((char*)pkt + 0xa) != 0 && *(char*)((char*)pkt + 0x147) != 0)
+    {
+        CUser* user =
+            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
+                *(unsigned int*)((char*)pkt + 0xa));
+        if (user != 0)
+        {
+            CMember* member =
+                ((CMemberManager*)((char*)m_pclApp + 0x2d0))->FindMember(
+                    *(unsigned int*)((char*)pkt + 0xa));
+            if (member != 0)
+            {
+                member->NoticeChatMsgToMemberMembersHyperLink(
+                    (char*)pkt + 0x148,
+                    (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x147),
+                    *(unsigned char*)((char*)pkt + 0xe),
+                    (hyperlink_item_info*)((char*)pkt + 0xf), user);
+            }
+        }
+        return;
+    }
+    throw CDNFException(
+        "CPacketTranslater::OnNoticeMemberChatMsgHyperLink : packet->m_uMemberID && "
+        "packet->m_msgLen");
+}
 void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt) {}
 void CPacketTranslater::OnMonitorMegaPhoneMsgHyperLink(PacketHeader* pkt) {}
 void CPacketTranslater::onSocialEventRewardItemRequest(PacketHeader* pkt) {}
