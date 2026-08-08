@@ -2735,6 +2735,82 @@ void CPowerWarGuildInfo::Clean()
 {
 }
 
+STPowerWarGuildInfo* CPowerWarGuildInfo::CreatePowerwarGuild()
+{
+    return (STPowerWarGuildInfo*)malloc(0x14);
+}
+
+void CPowerWarGuildInfo::DeletePowerWarGuild(STPowerWarGuildInfo* info)
+{
+    if (info != 0)
+    {
+        free(info);
+    }
+}
+
+STPowerWarGuildInfo* CPowerWarGuildInfo::FindPowerwarGuild(unsigned int guildKey)
+{
+    return 0;
+}
+
+int CPowerWarGuildInfo::InsertPowerwarGuild(unsigned int guildKey, STPowerWarGuildInfo* info)
+{
+}
+
+STPowerWarGuildInfo* CPowerWarGuildInfo::GetSpecificGuildInfo(unsigned int guildKey)
+{
+    return FindPowerwarGuild(guildKey);
+}
+
+unsigned int CPowerWarGuildInfo::GetGuildRanking(unsigned int guildKey)
+{
+    return 0;
+}
+
+void CPowerWarGuildInfo::CalcAllGuildRanking()
+{
+}
+
+void CPowerWarGuildInfo::PrintDebugInfo()
+{
+}
+
+void CPowerWarGuildInfo::UpdateGuildPowerwarInfo(unsigned int guildKey, unsigned short point)
+{
+}
+
+void CPowerWarGuildInfo::RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int b, int c,
+                                                 int d, int e)
+{
+}
+
+STDBSavePowerWarPoint* CPowerWarGuildInfo::CreateDBSavePowerWarPoint()
+{
+    return 0;
+}
+
+void CPowerWarGuildInfo::DeleteDBSavePowerWarPoint(STDBSavePowerWarPoint* p)
+{
+    if (p != 0)
+    {
+        free(p);
+    }
+}
+
+void CPowerWarGuildInfo::MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Point* pkt)
+{
+}
+
+int CPowerWarGuildInfo::GetPowerWarPointDBSaveCount()
+{
+    return 0;
+}
+
+void CPowerWarGuildInfo::GetAllGuildRankingInfo(int& count, STGuildRank* rank)
+{
+    count = 0;
+}
+
 CPowerWarCharacInfo::CPowerWarCharacInfo()
 {
     memset(m_data, 0, sizeof(m_data));
@@ -2749,6 +2825,75 @@ void CPowerWarCharacInfo::Initialize()
 }
 
 void CPowerWarCharacInfo::Clean()
+{
+}
+
+int CPowerWarCharacInfo::IsExistCharac(unsigned int charNo)
+{
+    return 0;
+}
+
+unsigned int CPowerWarCharacInfo::GetUserRanking(unsigned int charNo)
+{
+    return 0;
+}
+
+void CPowerWarCharacInfo::PrintDebugInfo()
+{
+}
+
+void CPowerWarCharacInfo::CalcAllUserRanking()
+{
+}
+
+STPowerWarCharacInfo* CPowerWarCharacInfo::FindPowerwarCharac(unsigned int charNo)
+{
+    return 0;
+}
+
+std::vector<STPowerWarCharacInfo*>* CPowerWarCharacInfo::GetCharacInfoVector()
+{
+    return 0;
+}
+
+STPowerWarCharacInfo* CPowerWarCharacInfo::CreatePowerwarCharac()
+{
+    return (STPowerWarCharacInfo*)malloc(0x10);
+}
+
+unsigned int CPowerWarCharacInfo::GetUserPowerWarPoint(unsigned int charNo)
+{
+    return 0;
+}
+
+int CPowerWarCharacInfo::InsertPowerwarCharac(unsigned int charNo, STPowerWarCharacInfo* info)
+{
+}
+
+void CPowerWarCharacInfo::GetAllUserRankingInfo(unsigned int& count, STUserRank* rank)
+{
+    count = 0;
+}
+
+void CPowerWarCharacInfo::GetStatueRankingUsers(std::vector<STPowerWarCharacInfo*>& vec)
+{
+}
+
+void CPowerWarCharacInfo::UpdatePowerwarCharacInfo(unsigned int charNo, unsigned short point)
+{
+}
+
+int CPowerWarCharacInfo::GetBonus(Packet_DB_Save_Power_War_Bonus_Point& pkt)
+{
+    return 0;
+}
+
+int CPowerWarCharacInfo::GetBonus(int idx)
+{
+    return 0;
+}
+
+void CPowerWarCharacInfo::CalcBonus()
 {
 }
 

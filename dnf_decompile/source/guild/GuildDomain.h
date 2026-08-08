@@ -89,6 +89,34 @@ struct RandomOption;
 struct STGuildCargoDBInfo;
 struct STGuildCargoLog;
 struct STGuildBoardDBInfo;
+struct STPowerWarGuildInfo
+{
+    char m_data[0x14];
+};
+struct STPowerWarCharacInfo
+{
+    char m_data[0x10];
+};
+struct STGuildRank
+{
+    char m_data[0x10];
+};
+struct STUserRank
+{
+    char m_data[0x10];
+};
+struct STDBSavePowerWarPoint
+{
+    char m_data[0x10];
+};
+struct Packet_DB_Save_Power_War_Point
+{
+    char m_data[0x20];
+};
+struct Packet_DB_Save_Power_War_Bonus_Point
+{
+    char m_data[0x20];
+};
 struct hyperlink_item_info
 {
     char m_data[0x40];
@@ -567,9 +595,24 @@ class CPowerWarGuildInfo
 {
 public:
     CPowerWarGuildInfo();
-    ~CPowerWarGuildInfo();
+    virtual ~CPowerWarGuildInfo();
     void Initialize();
     void Clean();
+    STPowerWarGuildInfo* CreatePowerwarGuild();
+    void DeletePowerWarGuild(STPowerWarGuildInfo* info);
+    STPowerWarGuildInfo* FindPowerwarGuild(unsigned int guildKey);
+    int InsertPowerwarGuild(unsigned int guildKey, STPowerWarGuildInfo* info);
+    STPowerWarGuildInfo* GetSpecificGuildInfo(unsigned int guildKey);
+    unsigned int GetGuildRanking(unsigned int guildKey);
+    void CalcAllGuildRanking();
+    void PrintDebugInfo();
+    void UpdateGuildPowerwarInfo(unsigned int guildKey, unsigned short point);
+    void RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int b, int c, int d, int e);
+    STDBSavePowerWarPoint* CreateDBSavePowerWarPoint();
+    void DeleteDBSavePowerWarPoint(STDBSavePowerWarPoint* p);
+    void MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Point* pkt);
+    int GetPowerWarPointDBSaveCount();
+    void GetAllGuildRankingInfo(int& count, STGuildRank* rank);
     char m_data[0x34];
 };
 
@@ -577,9 +620,24 @@ class CPowerWarCharacInfo
 {
 public:
     CPowerWarCharacInfo();
-    ~CPowerWarCharacInfo();
+    virtual ~CPowerWarCharacInfo();
     void Initialize();
     void Clean();
+    int IsExistCharac(unsigned int charNo);
+    unsigned int GetUserRanking(unsigned int charNo);
+    void PrintDebugInfo();
+    void CalcAllUserRanking();
+    STPowerWarCharacInfo* FindPowerwarCharac(unsigned int charNo);
+    std::vector<STPowerWarCharacInfo*>* GetCharacInfoVector();
+    STPowerWarCharacInfo* CreatePowerwarCharac();
+    unsigned int GetUserPowerWarPoint(unsigned int charNo);
+    int InsertPowerwarCharac(unsigned int charNo, STPowerWarCharacInfo* info);
+    void GetAllUserRankingInfo(unsigned int& count, STUserRank* rank);
+    void GetStatueRankingUsers(std::vector<STPowerWarCharacInfo*>& vec);
+    void UpdatePowerwarCharacInfo(unsigned int charNo, unsigned short point);
+    int GetBonus(Packet_DB_Save_Power_War_Bonus_Point& pkt);
+    int GetBonus(int idx);
+    void CalcBonus();
     char m_data[0x20];
 };
 
