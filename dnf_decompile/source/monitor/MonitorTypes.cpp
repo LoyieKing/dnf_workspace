@@ -1138,6 +1138,18 @@ bool CMemoryCashManager::SetUserObject(CUser* user)
     }
     return it != m_cashObjects.end();
 }
+void CMemoryCashManager::DeleteCashObjecct(unsigned int dbid)
+{
+    std::map<unsigned int, CCashObject*>::iterator it = m_cashObjects.find(dbid);
+    if (it != m_cashObjects.end())
+    {
+        if (it->second != 0)
+        {
+            delete it->second;
+        }
+        m_cashObjects.erase(it);
+    }
+}
 
 CCashObject::CCashObject()
 {
@@ -3960,7 +3972,20 @@ unsigned char CUser::GetUpperMemberExpLevel()
     }
     return 0;
 }
-void CUser::SendTcpGameserver(PacketHeader* pkt) {}
+void CUser::SendTcpGameserver(PacketHeader* pkt)
+{
+    if (*(int*)((char*)this + 0xc) != 0)
+    {
+        CTcpGameServer* tcp = (CTcpGameServer*)*(int*)((char*)this + 0xc);
+        char* buf = tcp->makePacketHeader(*(unsigned short*)pkt,
+                                          *(unsigned short*)((char*)pkt + 2));
+        if (buf != 0)
+        {
+            memcpy(buf + 10, (char*)pkt + 10, *(unsigned short*)((char*)pkt + 2) - 10);
+            tcp->SendToGameServer(buf);
+        }
+    }
+}
 void CUser::SendToGameserver(char* buf, int len) {}
 void CUser::AddBuddyFromCash(CBuddy* buddy) {}
 void CUser::SetBuddyDBFlag(unsigned int flag) {}
@@ -5175,7 +5200,158 @@ void CPacketTranslater::OnReplyUserInfo(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnHeartBeat(PacketHeader* pkt) {}
-void CPacketTranslater::OnCharLogin(PacketHeader* pkt) {}
+void CPacketTranslater::OnCharLogin(PacketHeader* pkt)
+{
+    if (m_pclApp != 0)
+    {
+        try
+        {
+            CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+            CUser* user = userMgr->FindUser(*(unsigned int*)((char*)pkt + 0xa));
+            if (user == 0)
+            {
+                char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+                CMyFileLog log("OnCharLogin", 0x457);
+                log("./log/User",
+                    "[CHAR_LOGIN_ERR]\tDB ID : %s\tChar Key : %d\tGuild Key : %d\tJob : "
+                    "%d\tname : %s\n",
+                    dbid, *(unsigned int*)((char*)pkt + 0xf),
+                    *(unsigned int*)((char*)pkt + 0x13),
+                    (int)(char)*(char*)((char*)pkt + 0x17), (char*)pkt + 0x1f);
+            }
+            else
+            {
+                user->SetUserInfo_CharNo(
+                    *(char*)((char*)pkt + 0x17), *(char*)((char*)pkt + 0x18),
+                    *(short*)((char*)pkt + 0x19), *(unsigned int*)((char*)pkt + 0xf),
+                    (char*)pkt + 0x1f);
+                char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+                CMyFileLog log("OnCharLogin", 0x3cf);
+                log("./log/User",
+                    "[CHAR_LOGIN]\tDB ID(%s)\tChar Key(%d)\tGuild K(%d)\tMember K(%d)\tJob(%d)"
+                    "\tname(%s)\tCh No(%d)\treturn_user(%d)\n",
+                    dbid, *(unsigned int*)((char*)pkt + 0xf),
+                    *(unsigned int*)((char*)pkt + 0x13),
+                    *(unsigned int*)((char*)pkt + 0x1b),
+                    (int)(char)*(char*)((char*)pkt + 0x17), (char*)pkt + 0x1f,
+                    (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe),
+                    (int)(char)*(char*)((char*)pkt + 0x3e));
+                user->SetUserPosState(3);
+                CMemoryCashManager* cash =
+                    (CMemoryCashManager*)m_pclApp->Get_MemoryCashManager();
+                if (cash->QueryCashMemoryBuddyInfo(user) != 1)
+                {
+                    user->QueryBuddyInfo(
+                        (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0));
+                }
+                std::vector<unsigned int> vec;
+                ((CBuddyRegisterManager*)((char*)m_pclApp + 0x300))
+                    ->findBuddyRegister(user->GetUniqCharNo(), vec);
+                for (std::vector<unsigned int>::iterator it = vec.begin(); it != vec.end();
+                     ++it)
+                {
+                    CUser* other = userMgr->FindUser_CharNo(*it);
+                    if (other != 0)
+                    {
+                        other->SendNoticeBuddyInOut(
+                            ((CServerInterface*)user->GetGameServer())->GetChannelNo(),
+                            user->GetUniqCharNo(), user->GetCharName(),
+                            (unsigned char)(user->IsBlackUser(*it) != 0), 1,
+                            *(char*)((char*)pkt + 0x3e));
+                    }
+                }
+                if (*(int*)((char*)pkt + 0x1b) != 0)
+                {
+                    CMemoryCashManager* cash2 =
+                        (CMemoryCashManager*)m_pclApp->Get_MemoryCashManager();
+                    if (cash2->QueryCashMemoryMember(user) != 1)
+                    {
+                        ((CMemberManager*)((char*)m_pclApp + 0x2d0))
+                            ->MemerMemLogin(*(unsigned int*)((char*)pkt + 0x1b), user);
+                    }
+                }
+                if (userMgr->InsertUser_CharName((char*)pkt + 0x1f, user) != 1)
+                {
+                    char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+                    CMyFileLog log("OnCharLogin", 0x3fd);
+                    log("./log/Except",
+                        "uDBID(%s) uCharName(%s) is already exist at m_mapCharNameUsers!", dbid,
+                        (char*)pkt + 0x1f);
+                }
+                if (userMgr->InsertUser_CharNo(*(unsigned int*)((char*)pkt + 0xf), user) != 1)
+                {
+                    CMyFileLog log("OnCharLogin", 0x401);
+                    log("./log/Except",
+                        "uDBID(%d) uCharName(%s) is already exist at m_mapCharNoUsers!",
+                        *(unsigned int*)((char*)pkt + 0xf), (char*)pkt + 0x1f);
+                }
+                user->GetDBID();
+                ((CMemoryCashManager*)m_pclApp->Get_MemoryCashManager())
+                    ->DeleteCashObjecct(user->GetDBID());
+                CTowerRank* tower = (CTowerRank*)m_pclApp->getTowerRank();
+                stTowerRankElement_t elements[5];
+                for (int i = 0; i < 5; i++)
+                {
+                    elements[i].m_job = 0;
+                    elements[i].m_pad = 0;
+                    elements[i].m_score = 0;
+                }
+                Packet_Request_Charac_Tower_Ranking rankPkt;
+                *(unsigned int*)((char*)&rankPkt + 0xa) = user->GetIdByChannel();
+                *(unsigned int*)((char*)&rankPkt + 0xe) =
+                    *(unsigned int*)((char*)pkt + 0xf);
+                char hasData = 0;
+                for (int t = 0; t < 4; t++)
+                {
+                    unsigned int cnt =
+                        tower->getRankData((unsigned int)(t + 1), user->GetCharName(), 5,
+                                           elements);
+                    for (unsigned int i = 0; i < cnt; i++)
+                    {
+                        *(unsigned int*)((char*)&rankPkt + 2 +
+                                         ((unsigned int)(unsigned char)elements[i].m_job * 4 +
+                                          (unsigned int)t + 4) *
+                                             2) =
+                            (unsigned int)elements[i].m_score;
+                        hasData = 1;
+                    }
+                }
+                if (hasData != 0)
+                {
+                    user->SendToGameserver(
+                        (char*)&rankPkt, *(unsigned short*)((char*)&rankPkt + 2));
+                }
+                time_t now = time(0);
+                tm* pt = localtime(&now);
+                Packet_Send_Time_Sync_For_Login syncPkt;
+                syncPkt.m_dbid = user->GetDBID();
+                syncPkt.m_idByChannel = user->GetIdByChannel();
+                syncPkt.m_hour = (unsigned short)pt->tm_hour;
+                syncPkt.m_min = (unsigned short)pt->tm_min;
+                user->SendTcpGameserver(&syncPkt);
+                CLoginLogoutStatistics* stats =
+                    (CLoginLogoutStatistics*)m_pclApp->GetLoginLogoutStatistics();
+                if (stats != 0)
+                {
+                    stats->CountNumOfOccupations((ENUM_LOGIN_LOGOUT)4,
+                                                 (int)userMgr->GetSizeOfCharnoUsers());
+                }
+            }
+        }
+        catch (CDNFException& e)
+        {
+            printf("CPacketTranslater::OnCharLogin() Exception Break : %s\n", e.what());
+            CMyFileLog log("OnCharLogin", 0x4d3);
+            log("%s", "CPacketTranslater::OnCharLogin() Exception Break : %s\n", e.what());
+        }
+        catch (...)
+        {
+            puts("CPacketTranslater::OnCharLogin() Exception Break");
+            CMyFileLog log("OnCharLogin", 0x4d9);
+            log("%s", "CPacketTranslater::OnCharLogin() Exception Break");
+        }
+    }
+}
 void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt)
 {
     if (m_pclApp == 0)
@@ -8349,6 +8525,19 @@ Packet_DB_Member_Delete_As_Charac_Delete::Packet_DB_Member_Delete_As_Charac_Dele
 Packet_DBMW_Query_Buddy_Info::Packet_DBMW_Query_Buddy_Info()
     : PacketHeader(0x676, 0xe)
 {
+}
+
+Packet_Request_Charac_Tower_Ranking::Packet_Request_Charac_Tower_Ranking()
+    : PacketHeader(0x4cb, 0x62)
+{
+    memset(m_data, 0, 0x50);
+}
+
+Packet_Send_Time_Sync_For_Login::Packet_Send_Time_Sync_For_Login()
+    : PacketHeader(0x1f4c, 0x16)
+{
+    m_hour = 0;
+    m_min = 0;
 }
 
 Packet_Monitor_Notice_Black_List::Packet_Monitor_Notice_Black_List()

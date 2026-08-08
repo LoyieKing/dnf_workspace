@@ -276,6 +276,7 @@ public:
     int QueryCashMemoryBuddyInfo(CUser* user);
     char QueryCashMemoryBlackList(CUser* user);
     char QueryUpdatedCharacName(unsigned int charNo, std::string& name);
+    void DeleteCashObjecct(unsigned int dbid);
     char IsRightObject(CUser* user, CMember* member, bool& flag1, bool& flag2, bool& flag3);
     int InsertCashMemorySetCharacterObject(CUser* user, CMember* member, bool& flag1,
                                            bool& flag2);
@@ -1869,6 +1870,25 @@ class Packet_DBMW_Query_Buddy_Info : public PacketHeader
 public:
     Packet_DBMW_Query_Buddy_Info();
     unsigned int m_uniqCharNo;  // +10
+};
+
+class Packet_Request_Charac_Tower_Ranking : public PacketHeader
+{
+public:
+    Packet_Request_Charac_Tower_Ranking();
+    unsigned int m_idByChannel;  // +10
+    unsigned int m_uniqCharNo;   // +14
+    char m_data[0x50];           // +18
+};
+
+class Packet_Send_Time_Sync_For_Login : public PacketHeader
+{
+public:
+    Packet_Send_Time_Sync_For_Login();
+    unsigned int m_dbid;         // +10
+    unsigned int m_idByChannel;  // +14
+    unsigned short m_hour;       // +18
+    unsigned short m_min;        // +20
 };
 
 class Packet_Monitor_Notice_Black_List : public PacketHeader
