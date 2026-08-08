@@ -83,17 +83,21 @@ public:
     unsigned char Get_ServerGroup();
     unsigned char Get_FrameCountValue();
     unsigned short Get_ServerUdpPort();
-    std::string& Get_DBMWTcpIP();
+    const char* Get_DBMWTcpIP();
     unsigned short Get_DBMWTcpPort();
     unsigned short Get_ServerTcpPort();
     std::multimap<unsigned int, stServerInfo*>* GetServerInfoMap();
     void clearServerInfoMap();
 
     unsigned char m_frameCount;   // +4
-    unsigned char m_group;        // +6
-    unsigned short m_udpPort;     // +8
+    unsigned char m_field5;       // +5
+    unsigned short m_udpPort;     // +6
+    unsigned short m_tcpPort;     // +8
+    unsigned char m_group;        // +0xa
+    char m_pad;                   // +0xb
     std::string m_name;           // +0xc
     unsigned short m_dbmwTcpPort; // +0x10
+    char m_pad2[2];               // +0x12
     std::multimap<unsigned int, stServerInfo*> m_serverInfo;  // +0x14
 };
 

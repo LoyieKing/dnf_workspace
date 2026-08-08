@@ -3370,10 +3370,18 @@ int CMemoryCashManager::QueryCashMemoryBlackList(CUser* user)
 CTcpNetSystem::CTcpNetSystem()
 {
     memset(m_data, 0, sizeof(m_data));
+    // 构造内部 std 容器（反编译布局：queue@0xc0 / queue@0x11c / map@0x144）
+    new (m_data + 0xc0) std::queue<CTcpSendBuffer*, std::deque<CTcpSendBuffer*> >();
+    new (m_data + 0x11c) std::queue<CPeer*, std::deque<CPeer*> >();
+    new (m_data + 0x144) std::map<unsigned int, CPeer*>();
 }
 
 CTcpNetSystem::~CTcpNetSystem()
 {
+    CleanPeers();
+    ((std::map<unsigned int, CPeer*>*)(m_data + 0x144))->~map();
+    ((std::queue<CPeer*, std::deque<CPeer*> >*)(m_data + 0x11c))->~queue();
+    ((std::queue<CTcpSendBuffer*, std::deque<CTcpSendBuffer*> >*)(m_data + 0xc0))->~queue();
 }
 
 TCPSocket::TCPSocket()
@@ -3399,11 +3407,23 @@ bool TCPSocket::open()
 
 int TCPSocket::bind(unsigned short port, bool flag)
 {
+    setOptReuseAdrs(true);
     sockaddr local;
     memset(&local, 0, 0x10);
     local.sa_family = 2;
     *(unsigned short*)local.sa_data = htons(port);
-    return ::bind(m_sock, &local, 0x10);
+    int r = ::bind(m_sock, &local, 0x10);
+    if (r < 0)
+    {
+        close();
+        return 0;
+    }
+    if (flag)
+    {
+        setOptNonBlock();
+    }
+    printf("succeeded in binding TCP socket port #%d\n", (unsigned int)port);
+    return 1;
 }
 
 bool TCPSocket::listen(int backlog)
@@ -3840,7 +3860,7 @@ namespace np_server_xml
 CServerXml::CServerXml()
 {
     memset(m_data, 0, sizeof(m_data));
-    memset(m_doc, 0, sizeof(m_doc));
+    new (m_doc) TiXmlDocument;
     m_field50 = 0;
     m_path = std::string();
     InitString();
@@ -3849,6 +3869,7 @@ CServerXml::CServerXml()
 CServerXml::~CServerXml()
 {
     InitString();
+    ((TiXmlDocument*)m_doc)->~TiXmlDocument();
 }
 
 void CServerXml::InitString()
@@ -3927,6 +3948,8 @@ std::string CServerXml::GetEventString(int idx, _eStringType type, bool* ok) con
     return std::string();
 }
 }
+
+np_server_xml::CServerXml g_ServerString_;
 
 CProtocol::CProtocol()
 {
@@ -4092,6 +4115,22 @@ unsigned short CTcpNetSystem::Get_TcpServerPort()
 void CTcpNetSystem::Init(unsigned short port)
 {
     *(unsigned short*)(m_data + 0x15c) = port;
+    CTcpHandler* h = new CTcpHandler;
+    *(CTcpHandler**)(m_data + 0) = h;
+    CTcpAcceptThread* at = new CTcpAcceptThread;
+    *(CTcpAcceptThread**)(m_data + 0x118) = at;
+    at->attach(this);
+    if (!((CThreadInterface*)at)->begin())
+    {
+        throw CDNFException("CTcpNetSystem::Init() AcceptThread begin Fail!");
+    }
+    CTcpNetworkThread* nt = new CTcpNetworkThread;
+    *(CTcpNetworkThread**)(m_data + 4) = nt;
+    nt->attach(this);
+    if (!((CThreadInterface*)nt)->begin())
+    {
+        throw CDNFException("CTcpNetSystem::Init() NetworkThread begin Fail!");
+    }
 }
 
 void CTcpNetSystem::WaitForEvent()
@@ -4119,25 +4158,29 @@ void CTcpNetSystem::DeletePeer(CPeer* peer)
 
 void CTcpNetSystem::InsertAcceptedPeer(CPeer* peer)
 {
-    if (peer != 0)
-    {
-        *(void**)(m_data + 0x11c) = peer;
-    }
+    CGuard<CMutex> g((CMutex*)(m_data + 0x60));
+    ((std::queue<CPeer*, std::deque<CPeer*> >*)(m_data + 0x11c))->push(peer);
 }
 
 CPeer* CTcpNetSystem::GetPeer(unsigned int id)
 {
-    return (CPeer*)*(void**)(m_data + 0x11c);
+    std::map<unsigned int, CPeer*>* peers =
+        (std::map<unsigned int, CPeer*>*)(m_data + 0x144);
+    std::map<unsigned int, CPeer*>::iterator it = peers->find(id);
+    return it == peers->end() ? 0 : it->second;
 }
 
 void CTcpNetSystem::CleanPeers()
 {
-    CPeer* peer = (CPeer*)*(void**)(m_data + 0x11c);
-    if (peer != 0)
+    std::map<unsigned int, CPeer*>* peers =
+        (std::map<unsigned int, CPeer*>*)(m_data + 0x144);
+    for (std::map<unsigned int, CPeer*>::iterator it = peers->begin();
+         it != peers->end(); ++it)
     {
-        delete peer;
-        *(void**)(m_data + 0x11c) = 0;
+        CGuard<CMutex> g((CMutex*)(m_data + 0x78));
+        delete it->second;
     }
+    peers->clear();
 }
 
 void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
@@ -4147,22 +4190,40 @@ void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
         return;
     }
     CGuard<CMutex> g((CMutex*)(m_data + 0xe8));
-    *(void**)(m_data + 0xc0) = buf;
+    ((std::queue<CTcpSendBuffer*, std::deque<CTcpSendBuffer*> >*)(m_data + 0xc0))
+        ->push((CTcpSendBuffer*)buf);
 }
 
 void CTcpNetSystem::CleanTcpSendPacketQ()
 {
     CGuard<CMutex> g((CMutex*)(m_data + 0xe8));
-    *(void**)(m_data + 0xc0) = 0;
+    std::queue<CTcpSendBuffer*, std::deque<CTcpSendBuffer*> >* q =
+        (std::queue<CTcpSendBuffer*, std::deque<CTcpSendBuffer*> >*)(m_data + 0xc0);
+    while (!q->empty())
+    {
+        CTcpSendBuffer* buf = q->front();
+        q->pop();
+        if (buf != 0)
+        {
+            free(buf);
+        }
+    }
 }
 
 void* CTcpNetSystem::Acquire_TcpSendBuffer()
 {
-    return malloc(0x1000);
+    return malloc(0x1804);
 }
 
 void CTcpNetSystem::PopDeleteTcpSendPacketQ(CTcpSendBuffer* buf)
 {
+    CGuard<CMutex> g((CMutex*)(m_data + 0xe8));
+    std::queue<CTcpSendBuffer*, std::deque<CTcpSendBuffer*> >* q =
+        (std::queue<CTcpSendBuffer*, std::deque<CTcpSendBuffer*> >*)(m_data + 0xc0);
+    if (!q->empty())
+    {
+        q->pop();
+    }
     if (buf != 0)
     {
         free(buf);
@@ -4173,16 +4234,81 @@ void CTcpNetSystem::SendPacket()
 {
 }
 
-void CTcpNetSystem::OpenTcpService(int& sock, const char* ip, unsigned short port)
+bool CTcpNetSystem::OpenTcpService(int& sock, const char* ip, unsigned short port)
 {
+    CPeer* peer = CreatePeer();
+    TCPSocket* tcp = peer->GetTcpSocket();
+    if (tcp->open())
+    {
+        if (tcp->connect(ip, port))
+        {
+            tcp->setOptNonBlock();
+            peer->InitPeer((std::queue<CTcpRecvBuffer*>*)Get_TcpSwapQPacket(),
+                           Get_TcpRecvQLock(), Get_TcpRecvBLock());
+            peer->ConnSig();
+            SetEpollConnectedPeer(peer);
+            sock = tcp->getHandle();
+            return true;
+        }
+        puts("tcpSock.connect Fail!");
+        CMyFileLog log("OpenTcpService", 0x123);
+        log("./log/TcpServer", "tcpSock.connect(%s, %d) Fail!", ip, (unsigned int)port);
+        DeletePeer(peer);
+        return false;
+    }
+    else
+    {
+        puts("tcpSock.open() Fail!");
+        CMyFileLog log("OpenTcpService", 0x118);
+        log("./log/TcpServer", "tcpSock.open() Fail!");
+        DeletePeer(peer);
+        return false;
+    }
 }
 
 void CTcpNetSystem::SetEpollAcceptedPeers()
 {
+    CGuard<CMutex> g((CMutex*)(m_data + 0x60));
+    std::queue<CPeer*, std::deque<CPeer*> >* q =
+        (std::queue<CPeer*, std::deque<CPeer*> >*)(m_data + 0x11c);
+    std::map<unsigned int, CPeer*>* peers =
+        (std::map<unsigned int, CPeer*>*)(m_data + 0x144);
+    while (!q->empty())
+    {
+        CPeer* peer = q->front();
+        q->pop();
+        int r = 0;
+        TCPSocket* tcp = peer->GetTcpSocket();
+        int fd = tcp->getHandle();
+        CTcpHandler* h = (CTcpHandler*)*(void**)m_data;
+        if (h != 0)
+        {
+            r = h->SetPeer(peer, fd, false);
+        }
+        if (r != 0)
+        {
+            printf("G_EpollHandler()->SetPeer(peer->get_socket(%d)) %d(%s)", fd, r, strerror(r));
+        }
+        (*peers)[(unsigned int)fd] = peer;
+    }
 }
 
 void CTcpNetSystem::SetEpollConnectedPeer(CPeer* peer)
 {
+    CGuard<CMutex> g((CMutex*)(m_data + 0x78));
+    TCPSocket* tcp = peer->GetTcpSocket();
+    int fd = tcp->getHandle();
+    int r = 0;
+    CTcpHandler* h = (CTcpHandler*)*(void**)m_data;
+    if (h != 0)
+    {
+        r = h->SetPeer(peer, fd, false);
+    }
+    if (r != 0)
+    {
+        printf("G_EpollHandler()->SetPeer(peer->get_socket(%d)) %d(%s)", fd, r, strerror(r));
+    }
+    (*(std::map<unsigned int, CPeer*>*)(m_data + 0x144))[(unsigned int)fd] = peer;
 }
 
 namespace WongWork

@@ -107,8 +107,10 @@ ST_ServerInfo* CServerConfig::GetServerInfo()
 CAppConfig::CAppConfig()
 {
     m_frameCount = 0;
+    m_field5 = 0;
     m_group = 0;
     m_udpPort = 0;
+    m_tcpPort = 0;
     m_name = std::string();
     m_dbmwTcpPort = 0;
 }
@@ -140,7 +142,7 @@ int CAppConfig::Parse_Table(char* line, int idx)
     }
     if (idx < 6)
     {
-        char* tokens[2];
+        char* tokens[3];
         int n = DNFFLib::ExplodeString(line, " \t\r\n\"", tokens, 2);
         if (n == 2)
         {
@@ -172,7 +174,7 @@ int CAppConfig::Parse_Table(char* line, int idx)
     }
     else
     {
-        char* tokens[6];
+        char* tokens[7];
         int n = DNFFLib::ExplodeString(line, " \t\r\n\"", tokens, 6);
         if (n == 6)
         {
@@ -211,7 +213,7 @@ void CAppConfig::Check_FileName(const std::string& filename)
 
 unsigned char CAppConfig::Get_ServerGroup()
 {
-    return *(unsigned char*)((char*)this + 6);
+    return *(unsigned char*)((char*)this + 10);
 }
 
 unsigned char CAppConfig::Get_FrameCountValue()
@@ -221,12 +223,12 @@ unsigned char CAppConfig::Get_FrameCountValue()
 
 unsigned short CAppConfig::Get_ServerUdpPort()
 {
-    return *(unsigned short*)((char*)this + 8);
+    return *(unsigned short*)((char*)this + 6);
 }
 
-std::string& CAppConfig::Get_DBMWTcpIP()
+const char* CAppConfig::Get_DBMWTcpIP()
 {
-    return m_name;
+    return m_name.c_str();
 }
 
 unsigned short CAppConfig::Get_DBMWTcpPort()

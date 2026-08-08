@@ -303,11 +303,6 @@ void CTcpDBServer::Init(CTcpNetSystem* net, CGuildManager* gm)
     m_guildMgr = gm;
 }
 
-void CTcpDBServer::SetIP(const std::string& ip)
-{
-    m_ip = ip;
-}
-
 void CTcpDBServer::SetIP(std::string ip)
 {
     m_ip = ip;

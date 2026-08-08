@@ -789,7 +789,7 @@ public:
 class CTcpRecvBuffer
 {
 public:
-    char m_data[0x2000];
+    char m_data[0x1804];
 };
 
 class TCPSocket
@@ -820,7 +820,7 @@ public:
     int setOptResizeSendBuf(int size);
     int setOptResizeRecvBuf(int size);
     int m_sock;      // +0
-    char m_data[0x1820];
+    char m_data[0x18];   // +4：sockaddr(0x10) + peerAdrs(+0x14) + peerPort(+0x18)
 };
 
 class CPeer : public TCPSocket
@@ -841,14 +841,14 @@ public:
     void send_packet();
     void DisConnSig();
     void ConnSig();
-    char m_data[0x97840];
+    char m_data[0x97824];   // +0x1c 起，sizeof(CPeer)=0x97840（MemPool chunk）
 };
 
 class CTcpSendBuffer
 {
 public:
     CTcpSendBuffer();
-    char m_data[0x1000];
+    char m_data[0x1804];
 };
 
 class EpollHandler;
@@ -897,6 +897,8 @@ public:
     std::map<int, int> m_rgba;          // +0xa0
 };
 }
+
+extern np_server_xml::CServerXml g_ServerString_;
 
 class CProtocol
 {
@@ -959,7 +961,7 @@ public:
     void* Acquire_TcpSendBuffer();
     void PopDeleteTcpSendPacketQ(CTcpSendBuffer* buf);
     void SendPacket();
-    void OpenTcpService(int& sock, const char* ip, unsigned short port);
+    bool OpenTcpService(int& sock, const char* ip, unsigned short port);
     void SetEpollAcceptedPeers();
     void SetEpollConnectedPeer(CPeer* peer);
     char m_data[0x160];

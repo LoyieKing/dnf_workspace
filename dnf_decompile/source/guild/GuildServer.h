@@ -112,7 +112,6 @@ public:
     CTcpDBServer();
     ~CTcpDBServer();
     void Init(CTcpNetSystem* net, CGuildManager* gm);
-    void SetIP(const std::string& ip);
     void SetIP(std::string ip);
     void SetPort(unsigned short port);
     void SendHeartbeat();

@@ -11,6 +11,7 @@
 #include "GuildSignal.h"
 #include "GuildInit.h"
 #include "GuildUdp.h"
+#include "Packet_DB_Query_On_Guild_Booting.h"
 #include "DNFFileLog.h"
 #include "DNFFunctionLib.h"
 
@@ -42,19 +43,14 @@ CApplication::CApplication()
     m_loaded = false;
     m_reserved8 = 0;
     m_appInit = 0;
-    memset((void*)&m_userManager, 0, sizeof(m_userManager));
     m_appConfig = 0;
     m_serverConfig = 0;
-    m_reserved64 = 0;
+    m_killConfig = 0;
     m_serverHandler = 0;
-    memset((void*)&m_frameCount, 0, sizeof(m_frameCount));
-    m_reserved9c = 0;
+    m_innerMsgHandler = 0;
     memset(m_swapQueue, 0, sizeof(m_swapQueue));
     m_udpHandler = 0;
-    m_reservedfc = 0;
-    memset((void*)&m_tcpNetSystem, 0, sizeof(m_tcpNetSystem));
-    memset((void*)&m_guildManager, 0, sizeof(m_guildManager));
-    memset((void*)&m_powerManager, 0, sizeof(m_powerManager));
+    m_udpThread = 0;
     m_memoryCash = 0;
 }
 
@@ -66,6 +62,7 @@ CApplication::~CApplication()
 void CApplication::Init(int argc, char** argv)
 {
     ShowLogo();
+    g_ServerString_.StrLoading();
     CheckArgv(argc, argv);
     CSignalTranslator* st = CSignalTranslatorInstance();
     st->init(this);
@@ -79,10 +76,6 @@ void CApplication::Init(int argc, char** argv)
 
 void CApplication::Load(int argc, char** argv)
 {
-    if (m_appInit != 0)
-    {
-        m_appInit->Load(this, argc, argv);
-    }
     m_memoryCash = new CMemoryCashManager;
     m_memoryCash->Init(this);
     m_guildManager.Init(this);
@@ -92,6 +85,11 @@ void CApplication::Load(int argc, char** argv)
         m_appConfig->Load_Table(argv[1]);
     }
     m_powerManager.InitPowerManager((char*)"./script/power_war_event.tbl", this);
+    if (m_appConfig != 0)
+    {
+        m_frameCount.InitFrameCountInfo(this, (unsigned int)this,
+                                        m_appConfig->Get_FrameCountValue());
+    }
     m_udpHandler = new CUdpHandler;
     if (m_appConfig != 0)
     {
@@ -108,7 +106,62 @@ void CApplication::Load(int argc, char** argv)
         m_serverHandler->Load(m_appConfig->GetServerInfoMap());
     }
     CPacketTranslater::attach(this);
+    m_innerMsgHandler = new CInnerMsgHandler;
     CPacketDecoderInstance()->Attach(this);
+    m_udpThread = new CUdpNetworkThread;
+    m_udpThread->attach(this);
+    if (!((CThreadInterface*)m_udpThread)->begin())
+    {
+        throw CDNFException("CApplication::Load() UdpThread begin Fail!");
+    }
+    if (m_appConfig != 0)
+    {
+        m_tcpNetSystem.Init(m_appConfig->Get_ServerTcpPort());
+    }
+    if (m_appConfig != 0)
+    {
+        const char* dbIp = m_appConfig->Get_DBMWTcpIP();
+        unsigned short dbPort = m_appConfig->Get_DBMWTcpPort();
+        CTcpDBServer* db = m_serverHandler->GetTcpDBServer();
+        if (*dbIp == '\0' || dbPort == 0)
+        {
+            puts("Application TCP cfg empty!");
+            CMyFileLog log("Load", 0x180);
+            log("./log/TcpServer", "Application TCP cfg empty!");
+        }
+        else
+        {
+            db->Init(&m_tcpNetSystem, &m_guildManager);
+            db->SetIP(std::string(dbIp));
+            db->SetPort(dbPort);
+            int sock = 0;
+            if (m_tcpNetSystem.OpenTcpService(sock, dbIp, dbPort))
+            {
+                printf("Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!\n",
+                       db->GetSock(), dbIp, (unsigned int)dbPort);
+                CMyFileLog log("Load", 0x179);
+                log("./log/TcpServer",
+                    "Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!",
+                    db->GetSock(), dbIp, (unsigned int)dbPort);
+            }
+            else
+            {
+                printf("Application OpenTcpService(%s, %d) Fail!\n", dbIp,
+                       (unsigned int)dbPort);
+                CMyFileLog log("Load", 0x175);
+                log("./log/TcpServer", "Application OpenTcpService(%s, %d, %d) Fail!",
+                    dbIp, (unsigned int)dbPort, db->GetSock());
+            }
+        }
+    }
+    Packet_DB_Query_On_Guild_Booting pkt;
+    *(unsigned char*)((char*)&pkt + 0xa) = Get_ServerGroup();
+    m_serverHandler->SendToDB(&pkt);
+    m_powerManager.SetPowerDBFlag(2);
+    typedef std::queue<CTcpRecvBuffer*> TcpRecvQueue;
+    IQueue<TcpRecvQueue>::Get()->InitQueue(
+        (TcpRecvQueue*)m_tcpNetSystem.Get_TcpSwapQPacket(),
+        (TcpRecvQueue*)((char*)m_tcpNetSystem.Get_TcpSwapQPacket() + 0x2c));
     m_loaded = true;
     puts("Application Load() Success!");
 }
@@ -200,6 +253,21 @@ void CApplication::TranslateSignal()
 
 void CApplication::AttachAppInitor(char** argv)
 {
+    if (argv[2] == 0)
+    {
+        throw CDNFException("CApplication::AttachAppInitor() invalid argv[2]!");
+    }
+    if (strcmp(argv[2], "start") == 0 || strcmp(argv[2], "nofork") == 0)
+    {
+        m_appInit = new CAppStartInit;
+        return;
+    }
+    if (strcmp(argv[2], "stop") == 0)
+    {
+        m_appInit = new CAppStopInit;
+        return;
+    }
+    throw CDNFException("CApplication::AttachAppInitor() invalid mode!");
 }
 
 unsigned char CApplication::Get_ServerGroup()

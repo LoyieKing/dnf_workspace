@@ -229,6 +229,81 @@ void CTcpNetworkThread::dispatch(void* param)
 {
 }
 
+CTcpAcceptThread::CTcpAcceptThread()
+{
+    m_thread = 0;
+    m_running = false;
+    m_net = 0;
+    m_recvQLock = 0;
+    m_recvBLock = 0;
+    new (m_sock) TCPSocket;
+    m_port = 0;
+}
+
+CTcpAcceptThread::~CTcpAcceptThread()
+{
+    m_recvBLock = 0;
+    m_recvQLock = 0;
+    m_net = 0;
+    ((TCPSocket*)m_sock)->~TCPSocket();
+}
+
+void CTcpAcceptThread::attach(CTcpNetSystem* net)
+{
+    if (net != 0)
+    {
+        m_net = net;
+        m_recvQLock = net->Get_TcpRecvQLock();
+        m_recvBLock = net->Get_TcpRecvBLock();
+        m_port = net->Get_TcpServerPort();
+    }
+}
+
+void CTcpAcceptThread::dispatch(void* param)
+{
+    TCPSocket* sock = (TCPSocket*)m_sock;
+    if (sock->open())
+    {
+        if (sock->bind(m_port, true))
+        {
+            if (sock->listen(5))
+            {
+                m_running = true;
+                DNFFLib::Sleep_Ext(5, 0);
+                while (m_running)
+                {
+                    if (sock->pollReadEvent())
+                    {
+                        CPeer* peer = m_net->CreatePeer();
+                        TCPSocket* ps = peer->GetTcpSocket();
+                        if (sock->accept(*ps) != 1)
+                        {
+                            printf("Accept GameServer Fail(Port : %d)\n", ps->getHandle());
+                        }
+                        printf("Accept GameServer(Port : %d)\n", ps->getHandle());
+                        peer->InitPeer((std::queue<CTcpRecvBuffer*>*)m_net->Get_TcpSwapQPacket(),
+                                       (CMutex*)m_recvQLock, (CMutex*)m_recvBLock);
+                        peer->ConnSig();
+                        m_net->InsertAcceptedPeer(peer);
+                    }
+                }
+            }
+            else
+            {
+                printf("Tcp Accept Socket Listen Err");
+            }
+        }
+        else
+        {
+            printf("Tcp Accept Socket Bind Err");
+        }
+    }
+    else
+    {
+        printf("Tcp Accept Socket Open Err");
+    }
+}
+
 CSwapQueueBase::CSwapQueueBase()
 {
     memset(m_data, 0, sizeof(m_data));

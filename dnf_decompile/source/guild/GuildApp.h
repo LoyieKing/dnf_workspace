@@ -12,6 +12,7 @@
 
 class CAppConfig;
 class CServerConfig;
+class CKillUSRConfig;
 class CServerHandler;
 class CAppInit;
 class CInnerMsgHandler;
@@ -91,13 +92,13 @@ public:
     CUserManager m_userManager;         // +0x10
     CAppConfig* m_appConfig;            // +0x5c
     CServerConfig* m_serverConfig;      // +0x60
-    int m_reserved64;                   // +0x64
+    CKillUSRConfig* m_killConfig;       // +0x64
     CServerHandler* m_serverHandler;    // +0x68
     CFrameCountHandler m_frameCount;    // +0x6c
-    int m_reserved9c;                   // +0x9c
+    CInnerMsgHandler* m_innerMsgHandler;  // +0x9c
     char m_swapQueue[0x58];             // +0xa0
     CUdpHandler* m_udpHandler;          // +0xf8
-    int m_reservedfc;                   // +0xfc
+    CUdpNetworkThread* m_udpThread;     // +0xfc
     CMutex m_udpQLock;                  // +0x100
     CMutex m_udpBLock;                  // +0x118
     CTcpNetSystem m_tcpNetSystem;       // +0x130
