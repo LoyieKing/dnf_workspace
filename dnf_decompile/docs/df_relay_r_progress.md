@@ -122,3 +122,13 @@ App（readConfig/prepareRun/run/load_script）与 main。
   std/__gnu_cxx 容器内部实例化差异（deque/set/hash_map/vector 的 move/copy 机制，
   原版代码的 STL 操作序列与还原版不完全相同所致，语义等价）。
 目标：MISSING=0，机器码接近原版 4.1.2 水平（已知编译器构建差异已记录）。
+
+### 剩余可优化点（下一轮）
+
+1. TMemoryPoolStatic ctor 用 `queue(deque&&)` 临时对象构造（原版为
+   `_ZNSt5queue...C1EOS4_`），可拉回一批 deque move/swap 实例化符号；
+2. Users hash_map 的 find/end/operator[] 调用形态（原版用迭代器比较，可补
+   hashtable 内部实例化）；
+3. EpollReactor 的 set 操作（insert/erase/begin 迭代）与 m_users 的
+   _Rb_tree 内部符号；
+4. main 的栈对齐 prologue 差异（原版无 `lea 0x4(%esp),%ecx` 序列）为编译器构建差异。
