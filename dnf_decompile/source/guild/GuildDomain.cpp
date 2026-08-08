@@ -3356,10 +3356,27 @@ void CGuildBoard::sendGuildBoardData(unsigned int a, unsigned int b, unsigned in
 
 void CGuildBoard::clearGuildBoardData()
 {
+    ((std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >*)(m_data + 0xc))
+        ->clear();
 }
 
 void CGuildBoard::deleteGuildBoardData(unsigned int a, unsigned int b, unsigned int c)
 {
+    std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >* map =
+        (std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >*)(m_data + 0xc);
+    std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >::iterator it =
+        map->find(a);
+    if (it == map->end())
+    {
+        CMyFileLog log("deleteGuildBoardData", 0xe3);
+        log("./log/GuildBoard", "DELETE FAIL - GUILD:%u, CHARAC:%u, NO:%u", b, c, a);
+    }
+    else
+    {
+        map->erase(it);
+        CMyFileLog log("deleteGuildBoardData", 0xdc);
+        log("./log/GuildBoard", "DELETE SUCCESS - GUILD:%u, CHARAC:%u, NO:%u", b, c, a);
+    }
 }
 
 bool CGuildBoard::isGuildBoardDBAccess()

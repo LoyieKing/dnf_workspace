@@ -634,11 +634,6 @@ STUB_HANDLER(OnGuildExpLimit)
 STUB_HANDLER(OnWriteGuildMemberMemo)
 STUB_HANDLER(OnLoadGuildCargo)
 STUB_HANDLER(OnLoadGuildCargoHistory)
-STUB_HANDLER(OnDBLoadReplyGuildBoardOpen)
-STUB_HANDLER(OnGuildRequestGuildBoardWrite)
-STUB_HANDLER(OnDBLoadReplyGuildBoardWrite)
-STUB_HANDLER(OnGuildRequestGuildBoardDelete)
-STUB_HANDLER(OnDBLoadReplyGuildBoardDelete)
 STUB_HANDLER(OnWebGuildBoardWrite)
 STUB_HANDLER(OnWebGuildBoardDelete)
 STUB_HANDLER(OnDBLoadReplyWebGuildBoardWrite)
@@ -3438,6 +3433,213 @@ void CPacketTranslater::OnGuildRequestGuildBoardOpen(PacketHeader* pkt)
         board->sendGuildBoardData(*(unsigned int*)(pb + 0xb), *(unsigned int*)(pb + 0xf),
                                   0x232a, user);
     }
+}
+
+void CPacketTranslater::OnDBLoadReplyGuildBoardOpen(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnDBLoadReplyGuildBoardOpen", 0x1c9d);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnDBLoadReplyGuildBoardOpen : 0 == m_pclApp");
+        return;
+    }
+    unsigned int charNo = *(unsigned int*)(pb + 0x11);
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnDBLoadReplyGuildBoardOpen", 0x1ca7);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnDBLoadReplyGuildBoardOpen : 0 == pclUser");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xd);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnDBLoadReplyGuildBoardOpen", 0x1cae);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnDBLoadReplyGuildBoardOpen : 0 == pclGuild");
+        return;
+    }
+    CGuildBoard* board = guild->GetGuildBoard();
+    board->setGuildBoardData(guildKey, charNo, guild, (int)(char)pb[0x15],
+                             (STGuildBoardDBInfo*)(pb + 0x16));
+    if (pb[0xc] != 0)
+    {
+        board->sendGuildBoardData(guildKey, charNo, 0x232a, user);
+        board->setGuildBoardDBLoadState((ENUM_DB_LOAD_STATE)2);
+        board->setGuildBoardDBAccess();
+    }
+}
+
+void CPacketTranslater::OnGuildRequestGuildBoardWrite(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGuildRequestGuildBoardWrite", 0x1cd3);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnGuildRequestGuildBoardWrite : 0 == m_pclApp");
+        return;
+    }
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xa));
+    if (user == 0)
+    {
+        CMyFileLog log("OnGuildRequestGuildBoardWrite", 0x1cdd);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnGuildRequestGuildBoardWrite : 0 == pclUser");
+        return;
+    }
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xe));
+    if (guild == 0)
+    {
+        CMyFileLog log("OnGuildRequestGuildBoardWrite", 0x1ce4);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnGuildRequestGuildBoardWrite : 0 == pclGuild");
+        return;
+    }
+    Packet_DB_Load_Request_Guild_Board_Write dbPkt;
+    *(unsigned int*)((char*)&dbPkt + 0xb) = *(unsigned int*)(pb + 0xa);
+    *(unsigned int*)((char*)&dbPkt + 0xf) = *(unsigned int*)(pb + 0xe);
+    *(unsigned int*)((char*)&dbPkt + 0x13) = *(unsigned int*)(pb + 0x12);
+    memcpy((char*)&dbPkt + 0x17, pb + 0x18, 0x78);
+    *(unsigned char*)((char*)&dbPkt + 0x9b) = *(unsigned char*)(pb + 0x16);
+    *(unsigned char*)((char*)&dbPkt + 0x9c) = *(unsigned char*)(pb + 0x17);
+    memcpy((char*)&dbPkt + 0x9e, user->GetCharName(), 0x1e);
+    m_pclApp->Get_ServerHandler()->SendToDB(&dbPkt);
+}
+
+void CPacketTranslater::OnDBLoadReplyGuildBoardWrite(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnDBLoadReplyGuildBoardWrite", 0x1d0c);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnDBLoadReplyGuildBoardWrite : 0 == m_pclApp");
+        return;
+    }
+    unsigned int charNo = *(unsigned int*)(pb + 0x10);
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnDBLoadReplyGuildBoardWrite", 0x1d16);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnDBLoadReplyGuildBoardWrite : 0 == pclUser");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xc);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnDBLoadReplyGuildBoardWrite", 0x1d1d);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnDBLoadReplyGuildBoardWrite : 0 == pclGuild");
+        return;
+    }
+    if (*(short*)(pb + 0xa) == 0)
+    {
+        CGuildBoard* board = guild->GetGuildBoard();
+        board->setGuildBoardData(guildKey, charNo, guild, 1,
+                                 (STGuildBoardDBInfo*)(pb + 0x14));
+        if (*(int*)(pb + 0x94) != 0)
+        {
+            board->sendGuildBoardData(guildKey, charNo, 0x232e, user);
+        }
+    }
+    else
+    {
+        Packet_Guild_Reply_Guild_Board reply;
+        *(unsigned short*)((char*)&reply + 0xa) = *(unsigned short*)(pb + 0xa);
+        *(unsigned short*)((char*)&reply + 0xc) = 0x232e;
+        *(unsigned int*)((char*)&reply + 0xf) = user->GetIdByChannel();
+        *(unsigned int*)((char*)&reply + 0x13) = user->GetUniqCharNo();
+        user->SendTcpGameserver(&reply);
+        CMyFileLog log("OnDBLoadReplyGuildBoardWrite", 0x1d37);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnDBLoadReplyGuildBoardWrite : Write Fail!!");
+    }
+}
+
+void CPacketTranslater::OnGuildRequestGuildBoardDelete(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGuildRequestGuildBoardDelete", 0x1d52);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnGuildRequestGuildBoardDelete : 0 == m_pclApp");
+        return;
+    }
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xa));
+    if (user == 0)
+    {
+        CMyFileLog log("OnGuildRequestGuildBoardDelete", 0x1d5c);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnGuildRequestGuildBoardDelete : 0 == pclUser");
+        return;
+    }
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xe));
+    if (guild == 0)
+    {
+        CMyFileLog log("OnGuildRequestGuildBoardDelete", 0x1d63);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnGuildRequestGuildBoardDelete : 0 == pclGuild");
+        return;
+    }
+    Packet_DB_Load_Request_Guild_Board_Delete dbPkt;
+    *(unsigned int*)((char*)&dbPkt + 0xb) = *(unsigned int*)(pb + 0xa);
+    *(unsigned int*)((char*)&dbPkt + 0xf) = *(unsigned int*)(pb + 0xe);
+    *(unsigned int*)((char*)&dbPkt + 0x13) = *(unsigned int*)(pb + 0x12);
+    m_pclApp->Get_ServerHandler()->SendToDB(&dbPkt);
+}
+
+void CPacketTranslater::OnDBLoadReplyGuildBoardDelete(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnDBLoadReplyGuildBoardDelete", 0x1d7c);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnDBLoadReplyGuildBoardDelete : 0 == m_pclApp");
+        return;
+    }
+    unsigned int charNo = *(unsigned int*)(pb + 0x10);
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnDBLoadReplyGuildBoardDelete", 0x1d86);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnDBLoadReplyGuildBoardDelete : 0 == pclUser");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xc);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnDBLoadReplyGuildBoardDelete", 0x1d8d);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnDBLoadReplyGuildBoardDelete : 0 == pclGuild");
+        return;
+    }
+    if (*(short*)(pb + 0xa) == 0)
+    {
+        guild->GetGuildBoard()->deleteGuildBoardData(*(unsigned int*)(pb + 0x14), guildKey,
+                                                     charNo);
+    }
+    else
+    {
+        CMyFileLog log("OnDBLoadReplyGuildBoardDelete", 0x1d9e);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnDBLoadReplyGuildBoardDelete : Delete Fail!!");
+    }
+    Packet_Guild_Reply_Guild_Board_Delete reply;
+    *(unsigned short*)((char*)&reply + 0xa) = *(unsigned short*)(pb + 0xa);
+    *(unsigned int*)((char*)&reply + 0xc) = user->GetIdByChannel();
+    *(unsigned int*)((char*)&reply + 0x10) = user->GetUniqCharNo();
+    user->SendTcpGameserver(&reply);
 }
 
 #undef STUB_HANDLER
