@@ -3648,6 +3648,25 @@ void CGuildBoard::sendMessageToDBMW_GuildFund(CServerHandler* handler, int fund,
 void CGuildBoard::sendMessageToDBMW_GuildLevelUP(CServerHandler* handler, int level,
                                                  CUser* user)
 {
+    char buf[255];
+    std::string msg;
+    Packet_DB_Load_Request_Guild_Board_Write pkt;
+    *(unsigned int*)((char*)&pkt + 0xb) = user->GetGuildKey();
+    *(unsigned int*)((char*)&pkt + 0x13) = user->GetUniqCharNo();
+    msg = g_ServerString_.GetServerString(0x3ee, 0);
+    std::string str = g_ServerString_.GetServerString(0x3ef, 0);
+    sprintf(buf, "%d", level + 1);
+    msg += buf;
+    msg += str;
+    if (msg.length() < 0x78)
+    {
+        memcpy((char*)&pkt + 0x17, msg.c_str(), msg.length());
+        handler->SendToDB(&pkt);
+        CMyFileLog log("sendMessageToDBMW_GuildLevelUP", 0x107);
+        log("./log/GuildBoard", "SET SUCCESS - GUILD:%u, CHARAC:%u, LEVEL:%u",
+            *(unsigned int*)((char*)&pkt + 0xb), *(unsigned int*)((char*)&pkt + 0x13),
+            level + 1);
+    }
 }
 
 void CGuildBoard::sendMessageToDBMW_GuildAttendance(CServerHandler* handler, int a, int b,
@@ -3658,6 +3677,20 @@ void CGuildBoard::sendMessageToDBMW_GuildAttendance(CServerHandler* handler, int
 void CGuildBoard::sendMessageToDBMW_GuildMasterChanging(CServerHandler* handler, CUser* user,
                                                         const char* name)
 {
+    Packet_DB_Load_Request_Guild_Board_Write pkt;
+    *(unsigned int*)((char*)&pkt + 0xb) = user->GetGuildKey();
+    *(unsigned int*)((char*)&pkt + 0x13) = user->GetUniqCharNo();
+    std::string msg = name;
+    std::string str = g_ServerString_.GetServerString(0x3f1, 0);
+    msg += str;
+    if (msg.length() < 0x78)
+    {
+        memcpy((char*)&pkt + 0x17, msg.c_str(), msg.length());
+        handler->SendToDB(&pkt);
+        CMyFileLog log("sendMessageToDBMW_GuildMasterChanging", 0x17b);
+        log("./log/GuildBoard", "SET SUCCESS - GUILD:%u, CHARAC:%u",
+            *(unsigned int*)((char*)&pkt + 0xb), *(unsigned int*)((char*)&pkt + 0x13));
+    }
 }
 
 CPowerWarGuildInfo::CPowerWarGuildInfo()
