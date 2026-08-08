@@ -88,13 +88,20 @@ vtable 19 槽（0-10 实现 + 11-18 纯虚）与原版 08070da0 完全同构。
 
 ## 下一步
 
-1. 按依赖序还原：Script/Token/UDPSocket → Thread/Reactor → RelayService 核心
-   （startup/shutdown/makeLog/TCPUser/TCPThread/TCPAcceptThread/UDPThread/
-   TCPHandlerRelay/Users/UserPools）→ App/main。
-2. 逐函数对照原版反汇编，把指令数/常量压到与 4.1.2 原版一致。
-3. 全部完成后全量比对并产出还原报告。
+1. 补齐 RelayServiceApp 核心函数体：RelayService(startup/shutdown/makeLog/setTick/
+   relayToTCP/disconnectEvent)、TCPUser(onRead_/onWrite/onPacketParse/onClose/send/
+   postSendPacket)、TCPThread/UDPThread/TCPAcceptThread loop、TCPHandlerRelay/
+   UDPHandlerRelay/UDPHandlerS2S dispatch、Users 计数、UserPools 全局 MaxUserPoolSize。
+2. 实现 TReactor/EpollReactor（0x40，relay 三参模板）+ TextOutputDevice_FILE/
+   TDebugTrace/TGlobalInstance 日志系统 + createFileLog*/createLog*。
+3. App（readConfig/prepareRun/run/finishRun/stop/onStop/onPause/onContinue/load_script）
+   + main（version 分支 "Relay Server v2.5.6.9"）。
+4. 逐函数对照原版反汇编，把指令数/常量压到与 4.1.2 原版一致；全量比对并产出报告。
 
 ## 水位
 
-框架层（LinuxService/ServiceInfo/Neof_*/pid）已还原完成；目标：MISSING=0，
-机器码接近原版 4.1.2 水平（已知编译器构建差异已记录）。
+已完成：框架层（LinuxService/ServiceInfo/Neof_*/pid）、基础类（Exception/Token/Thread/
+LinuxSystem/Script/ScriptRawData）、Socket（TCPSocket 0x1c/UDPSocket 0x80）、
+模板（TDoubleCircularQueueBuffer 0x1900c/TMemoryPoolStatic 0x30）、RelayServiceApp
+全部类布局（RelayService 0x1d8/TCPUser 0x32038/Users 0xb8/UserPools 0x90/App 0x734）。
+目标：MISSING=0，机器码接近原版 4.1.2 水平（已知编译器构建差异已记录）。

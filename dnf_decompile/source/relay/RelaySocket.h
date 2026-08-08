@@ -3,6 +3,7 @@
 
 #include <queue>
 #include <set>
+#include <netinet/in.h>
 
 #include "RelayThread.h"
 
@@ -43,7 +44,7 @@ private:
     sockaddr_in adrs_;          // +4 (16B)
     unsigned int peer_ip_;      // +0x14
     unsigned short peer_port_;  // +0x18
-    char pad_[6];               // +0x1a..0x1f
+    char pad_[2];               // +0x1a..0x1b（总 0x1c）
 };
 
 // UDPSocket：sock_@0 / adrs_@4[16] / port_@0x14 / from_@0x18[16] /

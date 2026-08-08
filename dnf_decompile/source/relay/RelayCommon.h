@@ -6,30 +6,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// ---- 基础类型（布局来自 df_relay_r 反汇编/Ghidra，无 DWARF）----
-
-class ThreadLock_linux
-{
-public:
-    ThreadLock_linux()
-    {
-        pthread_mutex_init(&m_lock, 0);
-    }
-    ~ThreadLock_linux()
-    {
-        pthread_mutex_destroy(&m_lock);
-    }
-    void lock()
-    {
-        pthread_mutex_lock(&m_lock);
-    }
-    void unlock()
-    {
-        pthread_mutex_unlock(&m_lock);
-    }
-    pthread_mutex_t m_lock;
-};
-
 class Mutex
 {
 public:
