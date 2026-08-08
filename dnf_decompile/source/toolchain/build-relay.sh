@@ -33,10 +33,12 @@ C6FLAGS="-m32 -O0 -std=gnu++0x -DRELAY_USERPOOL_C6 -fno-enforce-eh-specs -nostdi
   -isystem /tmp/c6root/usr/include -I$RELAY"
 C6CXX="env LD_LIBRARY_PATH=/tmp/c6root/usr/lib64:/tmp/c6root/usr/lib /tmp/c6root/usr/bin/g++ -B /tmp/cc1plus446bin/"
 
-if [ ! -f "$OUT_DIR/RelayUserPool.o" ] || [ "$RELAY/RelayUserPool.cpp" -nt "$OUT_DIR/RelayUserPool.o" ]; then
-    echo "CC6 RelayUserPool.cpp (4.4.6-3)"
-    $C6CXX $C6FLAGS -c "$RELAY/RelayUserPool.cpp" -o "$OUT_DIR/RelayUserPool.o"
-fi
+for f in RelayUserPool RelayApp; do
+    if [ ! -f "$OUT_DIR/$f.o" ] || [ "$RELAY/$f.cpp" -nt "$OUT_DIR/$f.o" ]; then
+        echo "CC6 $f.cpp (4.4.6-3 + c++0x)"
+        $C6CXX $C6FLAGS -c "$RELAY/$f.cpp" -o "$OUT_DIR/$f.o"
+    fi
+done
 
 SOURCES="$*"
 if [ -z "$SOURCES" ]; then
@@ -57,7 +59,7 @@ for f in $SOURCES; do
     fi
 done
 
-ALL_OBJS="$OUT_DIR/RelayUserPool.o $(ls "$OUT_DIR"/*.o 2>/dev/null | grep -vE 'stub_main|RelayUserPool' || true)"
+ALL_OBJS="$OUT_DIR/RelayUserPool.o $OUT_DIR/RelayApp.o $(ls "$OUT_DIR"/*.o 2>/dev/null | grep -vE 'stub_main|RelayUserPool|RelayApp' || true)"
 if [ -n "$ALL_OBJS" ]; then
     echo "LD  df_relay_r"
     if ! nm $ALL_OBJS 2>/dev/null | grep -q ' T main$'; then
@@ -69,6 +71,8 @@ if [ -n "$ALL_OBJS" ]; then
         "/tmp/c5r52i386/usr/lib/gcc/i386-redhat-linux/4.1.1/libstdc++.a" \
         "$C5ROOT/usr/lib/gcc/x86_64-redhat-linux/4.1.1/32/libgcc.a" \
         "$C5ROOT/usr/lib/gcc/x86_64-redhat-linux/4.1.1/32/libgcc_eh.a" \
+        "/tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.4/32/libstdc++.a" \
+        "/tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.4/32/libgcc_eh.a" \
         -lpthread -ldl -lm
     echo "OK -> $OUT_DIR/df_relay_r"
 fi
