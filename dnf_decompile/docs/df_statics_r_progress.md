@@ -1,6 +1,6 @@
 # df_statics_r 还原进度
 
-更新：2026-08-08（框架 + 统计数据结构 + 60+ 方法完成，符号命中 79.0%，SendDB* 批量落库方法进行中）
+更新：2026-08-08（框架 + 统计数据结构 + StatisticManager 全部 ~100 方法完成，符号命中 83.8%）
 
 ## 二进制概况
 
@@ -56,13 +56,14 @@ STPacketOverflowKey/STPowerwarFightLagKey/STUserTingTimeCheckKey/STPartyStatisti
 - [x] Ghidra 导入 + 反编译（5164 函数 → /tmp/statics_decomp.c）
 - [x] 框架类适配（CApplication/CServerHandler/CAppConfig/CPacketDecoder/CNetworkThread/CScheduler/CPacketCounter）
 - [x] ST* 统计键/值数据结构 + StatisticManager 真实成员（set+17 张 map+数组，0xb90）
-- [ ] statics 独有类实现（StatisticManager 其余 ~20 SendDB*、statistc_proxy、FrameLagCollector、UdpCharacteristic、CHWSpecResearcher、WongWork）
+- [x] StatisticManager 全部方法（24 Reset* + 全部 Add*/Write* + 20 个 SendDB* + DBSaveProcess + ping/AMDecrypt）
+- [ ] statistc_proxy、FrameLagCollector、UdpCharacteristic、CHWSpecResearcher、WongWork
 - [ ] CPacketTranslater 49 个处理函数实现（当前为桩）
 - [ ] 编译比对、逐函数修复、验收
 
 ## 当前水位
 
-- 符号命中 4888/6184 = **79.0%**（框架 + 数据结构 + 60+ 方法，std 容器实例化持续解锁）
+- 符号命中 5181/6184 = **83.8%**（框架 + 数据结构 + StatisticManager 全方法）
 - 缺失主要集中：std 容器实例化（2345，随 StatisticManager map/set 成员实现而解决）、
   FrameLagCollector 内部结构（16）、statistc_proxy 细节。
 
@@ -82,7 +83,7 @@ STPacketOverflowKey/STPowerwarFightLagKey/STUserTingTimeCheckKey/STPartyStatisti
 
 ## 下一步
 
-1. 按反编译实现剩余 SendDB*（~20 个，含各 DB 统计包类）。
-2. 实现 statistc_proxy/FrameLagCollector/UdpCharacteristic/CHWSpecResearcher。
+1. 实现 statistc_proxy（Field/Table/StatisticProxy 内部方法）。
+2. 实现 FrameLagCollector（16 个内部结构/方法）/UdpCharacteristic/CHWSpecResearcher/WongWork。
 3. 实现 CPacketTranslater 49 个处理函数（每个 ~487B，调用 StatisticManager）。
 4. 全量比对、逐函数修复、验收。
