@@ -217,3 +217,12 @@
 - DismissGuildMemberAndNotice：完整实现（通知包+ExpBook 包+ResetGuild），
   删除多余 uchar 重载
 - 冒烟通过；DIFF 1124 / IDENTICAL 368 / NEAR 208
+
+## 2026-08-09 第五轮（解码器/公会战/构造语义核验）
+
+- CGuildManager 布局：CScheduler 0x24、m_field40 后补 3 字节对齐（m_guildWar@0x44）
+- IsGuildWarEventOn/IsGuildWarEnterableChar 真实现（原为桩）、IsEmptyGuild 按原版
+- CPacketDecoder：Process Udp→Tcp 顺序 + void 返回；Tcp/UdpProcess 完整实现
+  （队列循环+CAppLoadChecker+双锁+失败清理抛异常）；Attach TCP parse queue
+  用 GetParseQ()（+0x2c 硬编码曾致冒烟崩溃，已修复）
+- 冒烟通过；DIFF 1121 / IDENTICAL 370 / NEAR 209
