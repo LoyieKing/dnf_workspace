@@ -24,6 +24,7 @@ class CTcpDBServer;
 class CGameServer;
 class CDBServer;
 class CManagerServer;
+class Packet_Item_Limit_Edition_Update;
 
 // ---- 基础管理器（monitor 专属，实现逐步补齐）----
 class CInnerMsgHandler
@@ -95,7 +96,20 @@ public:
     CItemLimitEditionMgr();
     virtual ~CItemLimitEditionMgr();
     void processScheduledJob(CApplication* app, bool flag);
-    char m_data[0x18];
+    void makeItemLimitEditionUpdatePacket(Packet_Item_Limit_Edition_Update& pkt) const;
+    std::map<unsigned int, class CItemLimitEdition*> m_items;  // +0
+    time_t m_lastTime;                     // +0x18
+};
+
+class CItemLimitEdition
+{
+public:
+    ~CItemLimitEdition();
+    unsigned int getSellEndTime() const;
+    unsigned int getIPGNO() const;
+    unsigned int getSellNum() const;
+    char isSellComplete() const;
+    char m_data[0x1c];
 };
 
 class CMemoryCashManager
@@ -205,6 +219,7 @@ public:
     void UnregistDBServer();
     void RegistManagerServer(CManagerServer* mgr);
     void UnregistManagerServer();
+    void SendAllTcpGameServer(PacketHeader* pkt);
     CTcpManagerServer* GetTcpManagerServer();
     CTcpDBServer* GetTcpDBServer();
     void SendToDB(PacketHeader* pkt);
@@ -500,6 +515,23 @@ public:
     unsigned char m_fieldA;   // +10
     unsigned int m_fieldB;    // +11
     unsigned int m_fieldC;    // +15
+};
+
+class Packet_Item_Limit_Edition_Sell_end : public PacketHeader
+{
+public:
+    Packet_Item_Limit_Edition_Sell_end();
+    unsigned int m_fieldA;    // +10
+    unsigned int m_fieldB;    // +14
+};
+
+class Packet_Item_Limit_Edition_Update : public PacketHeader
+{
+public:
+    Packet_Item_Limit_Edition_Update();
+    unsigned int m_fieldA;    // +10
+    unsigned int m_fieldB;    // +14
+    char m_data[0x100];       // +18
 };
 
 class Packet_Load_Periodic_Message : public PacketHeader

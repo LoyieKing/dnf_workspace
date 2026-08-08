@@ -57,7 +57,64 @@ void CIPCounter::Proc(unsigned int tick) {}
 
 CItemLimitEditionMgr::CItemLimitEditionMgr() {}
 CItemLimitEditionMgr::~CItemLimitEditionMgr() {}
-void CItemLimitEditionMgr::processScheduledJob(CApplication* app, bool flag) {}
+void CItemLimitEditionMgr::makeItemLimitEditionUpdatePacket(
+    Packet_Item_Limit_Edition_Update& pkt) const
+{
+}
+void CItemLimitEditionMgr::processScheduledJob(CApplication* app, bool flag)
+{
+    time_t now;
+    if (!m_items.empty() && (now = time(0), now - m_lastTime > 4 || flag))
+    {
+        m_lastTime = now;
+        Packet_Item_Limit_Edition_Sell_end pkt;
+        unsigned int expired[30];
+        unsigned int count = 0;
+        for (std::map<unsigned int, CItemLimitEdition*>::const_iterator it = m_items.begin();
+             it != m_items.end(); ++it)
+        {
+            if (it->second->getSellEndTime() < (unsigned int)now)
+            {
+                expired[count] = it->second->getIPGNO();
+                count++;
+            }
+        }
+        if (count != 0)
+        {
+            CServerHandler* h = app->Get_ServerHandler();
+            h->SendAllTcpGameServer(&pkt);
+            for (unsigned int i = 0; i < count; i++)
+            {
+                std::map<unsigned int, CItemLimitEdition*>::iterator f = m_items.find(expired[i]);
+                if (f != m_items.end())
+                {
+                    CItemLimitEdition* item = f->second;
+                    if (item != 0)
+                    {
+                        delete item;
+                    }
+                    m_items.erase(f);
+                }
+            }
+        }
+        if (!m_items.empty())
+        {
+            Packet_Item_Limit_Edition_Update pkt2;
+            pkt2.m_fieldA = (unsigned int)app->Get_ServerGroup();
+            makeItemLimitEditionUpdatePacket(pkt2);
+            CServerHandler* h = app->Get_ServerHandler();
+            h->SendToDB(&pkt2);
+            h = app->Get_ServerHandler();
+            h->SendAllTcpGameServer(&pkt2);
+        }
+    }
+}
+
+CItemLimitEdition::~CItemLimitEdition() {}
+unsigned int CItemLimitEdition::getSellEndTime() const { return 0; }
+unsigned int CItemLimitEdition::getIPGNO() const { return 0; }
+unsigned int CItemLimitEdition::getSellNum() const { return 0; }
+char CItemLimitEdition::isSellComplete() const { return 0; }
 
 CMemoryCashManager::CMemoryCashManager() {}
 CMemoryCashManager::~CMemoryCashManager() {}
@@ -227,6 +284,7 @@ void CServerHandler::UnregistManagerServer()
         m_managerServer = 0;
     }
 }
+void CServerHandler::SendAllTcpGameServer(PacketHeader* pkt) {}
 CTcpManagerServer* CServerHandler::GetTcpManagerServer() { return &m_tcpManagerServer; }
 CTcpDBServer* CServerHandler::GetTcpDBServer() { return &m_tcpDbServer; }
 void CServerHandler::SendToDB(PacketHeader* pkt) {}
@@ -680,6 +738,20 @@ Packet_Item_Limit_Edition_Load_Data_Req::Packet_Item_Limit_Edition_Load_Data_Req
 {
     m_fieldA = 0;
     m_fieldC = 0;
+}
+
+Packet_Item_Limit_Edition_Sell_end::Packet_Item_Limit_Edition_Sell_end()
+    : PacketHeader(0x1005, 0x82)
+{
+    m_fieldB = 0;
+    m_fieldA = 0;
+}
+
+Packet_Item_Limit_Edition_Update::Packet_Item_Limit_Edition_Update()
+    : PacketHeader(0x1006, 0x10e)
+{
+    m_fieldA = 0;
+    m_fieldB = 0;
 }
 
 Packet_Load_Periodic_Message::Packet_Load_Periodic_Message() : PacketHeader(0x1f48, 10) {}
