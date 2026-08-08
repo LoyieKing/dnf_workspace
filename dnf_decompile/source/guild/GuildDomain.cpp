@@ -701,16 +701,12 @@ void CUserManager::Process()
 
 void CUserManager::ProcessByMinute()
 {
-    if (m_app != 0)
+    for (std::map<unsigned int, CUser*>::iterator it = m_charNoUsers.begin();
+         it != m_charNoUsers.end(); ++it)
     {
-        CGuildManager* gm = m_app->Get_GuildManager();
-        for (std::map<unsigned int, CUser*>::iterator it = m_users.begin();
-             it != m_users.end(); ++it)
+        if (it->second != 0)
         {
-            if (it->second->GetGuildKey() != 0)
-            {
-                gm->AttendGuild(it->second->GetGuildKey(), it->second->GetUniqCharNo());
-            }
+            it->second->GuildInviteProcess();
         }
     }
 }
@@ -1081,25 +1077,31 @@ void CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer* server)
 
 void CUserManager::DeleteBlackUserOnCharacDelete(unsigned int charNo)
 {
-    std::map<unsigned int, CUser*>::iterator it = m_charNoUsers.find(charNo);
-    if (it != m_charNoUsers.end())
+    if (m_charNoUsers.empty())
     {
-        it->second->ResetBlackList();
+        return;
+    }
+    for (std::map<unsigned int, CUser*>::iterator it = m_charNoUsers.begin();
+         it != m_charNoUsers.end(); ++it)
+    {
+        it->second->DeleteToBlackList(charNo);
     }
 }
 
 void CUserManager::RefreshGuildAttendanceInfo()
 {
-    if (m_app != 0)
+    if (m_charNoUsers.empty())
     {
-        CGuildManager* gm = m_app->Get_GuildManager();
-        for (std::map<unsigned int, CUser*>::iterator it = m_users.begin();
-             it != m_users.end(); ++it)
+        return;
+    }
+    for (std::map<unsigned int, CUser*>::iterator it = m_charNoUsers.begin();
+         it != m_charNoUsers.end(); ++it)
+    {
+        CUser* user = it->second;
+        if (user->GetGuildKey() != 0)
         {
-            if (it->second->GetGuildKey() != 0)
-            {
-                gm->AttendGuild(it->second->GetGuildKey(), it->second->GetUniqCharNo());
-            }
+            m_app->Get_GuildManager()->AttendGuild(user->GetGuildKey(),
+                                                   user->GetUniqCharNo());
         }
     }
 }
