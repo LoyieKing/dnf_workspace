@@ -192,6 +192,52 @@ int CScheduler::GetSpecificDayScheduleHour(int day)
     return 0;
 }
 
+void CScheduler::Clear()
+{
+    m_day = 0xff;
+    m_min = 0xff;
+    m_hour = 0xff;
+    m_sec = 0xff;
+    m_week = 0xffff;
+    m_flag1 = 0xff;
+    m_flag2 = 0xff;
+    for (int i = 0; i < 7; i++)
+    {
+        *(char*)((char*)this + i * 4 + 8) = 0;
+        *(char*)((char*)this + i * 4 + 9) = 0xff;
+        *(char*)((char*)this + i * 4 + 10) = 0xff;
+        *(char*)((char*)this + i * 4 + 0xb) = 0xff;
+    }
+}
+
+void CScheduler::SetSpecialWeekDayHour(std::vector<STPowerWarScheduleTime>& schedule)
+{
+}
+
+void CScheduler::SetSpecialWeekDayHour(int day, int hour)
+{
+    *(char*)((char*)this + day * 4 + 8) = 1;
+    *(char*)((char*)this + day * 4 + 9) = (char)hour;
+}
+
+int CScheduler::IsOnTimeSpecialWeekDayHour(int day, int hour, int min)
+{
+    if (*(char*)((char*)this + day * 4 + 8) != 0 &&
+        *(char*)((char*)this + day * 4 + 9) == (char)hour)
+    {
+        return 1;
+    }
+    return 0;
+}
+
+void CScheduler::GetNextScheduleTime(unsigned char& hour, unsigned char& min)
+{
+    time_t now = time(0);
+    tm* pt = localtime(&now);
+    hour = (unsigned char)pt->tm_hour;
+    min = (unsigned char)pt->tm_min;
+}
+
 CUser::CUser()
 {
     m_dbid = 0;

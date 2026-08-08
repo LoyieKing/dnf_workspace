@@ -123,6 +123,10 @@ struct Packet_DB_Save_Power_War_Bonus_Point
 {
     char m_data[0x20];
 };
+struct STPowerWarScheduleTime
+{
+    char m_data[0x10];
+};
 struct hyperlink_item_info
 {
     char m_data[0x40];
@@ -155,6 +159,11 @@ public:
     int IsOnTimeSpecialHour(int hour, int min);
     int IsOnTimeSpecialDayHour(int day, int hour, int min);
     int GetSpecificDayScheduleHour(int day);
+    void Clear();
+    void SetSpecialWeekDayHour(std::vector<STPowerWarScheduleTime>& schedule);
+    void SetSpecialWeekDayHour(int day, int hour);
+    int IsOnTimeSpecialWeekDayHour(int day, int hour, int min);
+    void GetNextScheduleTime(unsigned char& hour, unsigned char& min);
     char m_day;       // +0
     char m_min;       // +1
     char m_hour;      // +2
