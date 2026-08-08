@@ -610,7 +610,7 @@ public:
     void RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int b, int c, int d, int e);
     STDBSavePowerWarPoint* CreateDBSavePowerWarPoint();
     void DeleteDBSavePowerWarPoint(STDBSavePowerWarPoint* p);
-    void MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Point* pkt);
+    void MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Point& pkt);
     int GetPowerWarPointDBSaveCount();
     void GetAllGuildRankingInfo(int& count, STGuildRank* rank);
     char m_data[0x34];
