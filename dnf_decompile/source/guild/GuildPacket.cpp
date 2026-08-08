@@ -933,8 +933,27 @@ void CPacketCounter<Lo, Hi>::BeforeProcess()
 }
 
 template<int Lo, int Hi>
-void CPacketCounter<Lo, Hi>::AfterProcess()
+void CPacketCounter<Lo, Hi>::AfterProcess(int id)
 {
+    if (id < 0x2800 && 999 < id &&
+        (m_data[0x1d640] == 1 ||
+         *(unsigned int*)(m_data + 8 + (id - 1000) * 4) < 0xb) &&
+        *(int*)m_data != -1)
+    {
+        int prev;
+        if (m_data[0x1d640] == 0)
+        {
+            prev = *(int*)(m_data + 0x9068);
+            *(int*)(m_data + 8 + (id - 1000) * 4) += 1;
+            m_data[0x11ce0 + id] = 0;
+        }
+        else
+        {
+            prev = *(int*)(m_data + 0x9068);
+        }
+        int diff = *(int*)m_data - prev;
+        *(int*)(m_data + (id + 0x4d50) * 4) += diff;
+    }
 }
 
 template<int Lo, int Hi>

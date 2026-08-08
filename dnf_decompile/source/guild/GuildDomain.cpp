@@ -14,6 +14,7 @@
 #include "GuildServer.h"
 #include "GuildPacket.h"
 #include "GuildMisc.h"
+#include "GuildPackets.h"
 #include "tinyxml.h"
 #include "Packet_Monitor_Call_Guild_Members_ToChannel.h"
 #include "Packet_Monitor_Call_Guild_Members_ToChannel_Next.h"
@@ -1832,8 +1833,34 @@ void CGuild::NoticeChatMsgToGuildMembers(unsigned int charNo, char* msg, int len
 
 void CGuild::NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, char* msg, int len,
                                                   unsigned char type,
-                                                  hyperlink_item_info* link, const char* name)
+                                                  const hyperlink_item_info* link,
+                                                  const char* name)
 {
+    if (len >= 0x100 || (m_field1c & 4) == 0 || m_members.empty())
+    {
+        return;
+    }
+    Packet_Monitor_Guild_Chat_ToUser_Hyper_Link pkt;
+    for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+         it != m_members.end(); ++it)
+    {
+        CUser* user = it->second;
+        if (user != 0)
+        {
+            *(unsigned int*)((char*)&pkt + 0xa) = user->GetIdByChannel();
+            *(unsigned int*)((char*)&pkt + 0xe) = user->GetUniqCharNo();
+            memcpy((char*)&pkt + 0x12, name, 0x1d);
+            *(unsigned char*)((char*)&pkt + 0x2f) = type;
+            for (int i = 0; i < (int)type; i++)
+            {
+                memcpy((char*)&pkt + 0x30 + i * 0x68, (char*)link + i * 0x68, 0x68);
+            }
+            *(char*)((char*)&pkt + 0x158) = (char)len;
+            memcpy((char*)&pkt + 0x159, msg, (size_t)len);
+            *(unsigned short*)((char*)&pkt + 2) = (unsigned short)(len + 0x16a);
+            user->SendToGameserver((char*)&pkt, (unsigned int)(len + 0x16a));
+        }
+    }
 }
 
 void CGuild::NoticeEnterToGuildMember(char* info)

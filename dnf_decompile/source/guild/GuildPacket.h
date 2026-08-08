@@ -23,10 +23,10 @@ public:
     ~CPacketCounter();
     void IncrementPacketCount(int id);
     void BeforeProcess();
-    void AfterProcess();
+    void AfterProcess(int id);
     void WriteLog();
     void Reset();
-    char m_data[0x20];
+    char m_data[0x1d644];
 };
 
 // ---- CPacketTracer ----

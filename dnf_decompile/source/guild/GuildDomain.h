@@ -541,7 +541,8 @@ public:
     void NoticeChatMsgToGuildMembers(unsigned int charNo, char* msg, int len,
                                      const char* name);
     void NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, char* msg, int len,
-                                              unsigned char type, hyperlink_item_info* link,
+                                              unsigned char type,
+                                              const hyperlink_item_info* link,
                                               const char* name);
     void UpdateChangableInfoProcess();
     void NoticeEnterToGuildMember(char* info);
