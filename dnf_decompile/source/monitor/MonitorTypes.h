@@ -707,6 +707,11 @@ public:
     void SendConnectedBuddysList(CUser* user);
     void GetSchoolCount(unsigned int school, unsigned int* out, unsigned char& idx);
     int DeleteProhibitUser(unsigned int dbid, char channel);
+    CUser* CreateUser(unsigned int dbid, unsigned int charNo, char* charName, int channel,
+                      CGameServer* server);
+    char InsertUser(unsigned int dbid, CUser* user);
+    char InsertUser_CharNo(unsigned int charNo, CUser* user);
+    char InsertUser_CharName(char* name, CUser* user);
     class CDNFProhibitUser* FindProhibitUser(unsigned int dbid) const;
     CUser* FindUser(unsigned int dbid) const;
     char InsertProhibitUser(unsigned int dbid, class CDNFProhibitUser* pu);
@@ -738,6 +743,7 @@ class CUser
 public:
     CUser();
     ~CUser();
+    static void* operator new(unsigned int size);
     static void operator delete(void* p);
     unsigned int GetUniqCharNo();
     void* GetGameServer();
@@ -754,10 +760,15 @@ public:
     void SetBuddyDBFlag(unsigned int flag);
     void RegisterToCashBlackList(std::map<unsigned int, class CBlackUser*>* map);
     void SetBlackListDBFlag(unsigned int flag);
+    void SetDBID(unsigned int dbid);
+    void SetUniqCharNo(unsigned int charNo);
+    void SetIdByChannel(int channel);
+    void SetGameServer(void* server);
+    void SetUserPosState(unsigned char state);
     void GetBlackList(unsigned char& count, struct STBlackUserDBType* out);
     char m_data[0x50];                                  // +0
     std::map<unsigned int, class CBlackUser*> m_blackList;  // +0x50
-    char m_data2[0x398];                                // +0x68
+    char m_data2[0x54];                                 // +0x68
 };
 
 struct STBlackUserDBType

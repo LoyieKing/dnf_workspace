@@ -2273,6 +2273,69 @@ CUser* CUserManager::FindUser(unsigned int dbid) const
     }
     return 0;
 }
+char CUserManager::InsertUser(unsigned int dbid, CUser* user)
+{
+    if (user == 0)
+    {
+        return 0;
+    }
+    m_users.insert(std::pair<const unsigned int, CUser*>(dbid, user));
+    return 1;
+}
+char CUserManager::InsertUser_CharNo(unsigned int charNo, CUser* user)
+{
+    if (user == 0)
+    {
+        return 0;
+    }
+    m_charNoUsers.insert(std::pair<const unsigned int, CUser*>(charNo, user));
+    return 1;
+}
+char CUserManager::InsertUser_CharName(char* name, CUser* user)
+{
+    if (user == 0)
+    {
+        return 0;
+    }
+    m_charNameUsers.insert(std::pair<const std::string, CUser*>(name, user));
+    return 1;
+}
+CUser* CUserManager::CreateUser(unsigned int dbid, unsigned int charNo, char* charName,
+                                int channel, CGameServer* server)
+{
+    CUser* user = new CUser;
+    user->SetDBID(dbid);
+    user->SetUniqCharNo(charNo);
+    user->SetIdByChannel(channel);
+    user->SetGameServer(server);
+    if (InsertUser(dbid, user) != 1)
+    {
+        CMyFileLog log("CreateUser", 0x1a9);
+        log("./log/LoginErr",
+            "uDBID(%s) uCharNo(%d) is already exist at m_mapUsers!", NumberToString(dbid, 0),
+            charNo);
+    }
+    user->SetUserPosState(2);
+    if (charNo != 0)
+    {
+        if (InsertUser_CharNo(charNo, user) != 1)
+        {
+            CMyFileLog log("CreateUser", 0x1b3);
+            log("./log/LoginErr",
+                "uDBID(%s) uCharNo(%d) is already exist at m_mapCharNoUsers!",
+                NumberToString(dbid, 0), charNo);
+        }
+        if (InsertUser_CharName(charName, user) != 1)
+        {
+            CMyFileLog log("CreateUser", 0x1b7);
+            log("./log/LoginErr",
+                "uDBID(%s) uCharName(%s) is already exist at m_mapCharNameUsers!",
+                NumberToString(dbid, 0), charName);
+        }
+        user->SetUserPosState(3);
+    }
+    return user;
+}
 char CUserManager::InsertProhibitUser(unsigned int dbid, CDNFProhibitUser* pu)
 {
     if (pu == 0)
@@ -2945,6 +3008,7 @@ CVillageAttackedReward::~CVillageAttackedReward() {}
 
 CUser::CUser() {}
 CUser::~CUser() {}
+void* CUser::operator new(unsigned int size) { return ::operator new(size); }
 unsigned int CUser::GetUniqCharNo() { return 0; }
 void CUser::AttachMember(CMember* member) {}
 void CUser::operator delete(void* p) { ::operator delete(p); }
@@ -2961,6 +3025,11 @@ void CUser::AddBuddyFromCash(CBuddy* buddy) {}
 void CUser::SetBuddyDBFlag(unsigned int flag) {}
 void CUser::RegisterToCashBlackList(std::map<unsigned int, CBlackUser*>* map) {}
 void CUser::SetBlackListDBFlag(unsigned int flag) {}
+void CUser::SetDBID(unsigned int dbid) {}
+void CUser::SetUniqCharNo(unsigned int charNo) {}
+void CUser::SetIdByChannel(int channel) {}
+void CUser::SetGameServer(void* server) {}
+void CUser::SetUserPosState(unsigned char state) {}
 void CUser::GetBlackList(unsigned char& count, STBlackUserDBType* out)
 {
     count = 0;
