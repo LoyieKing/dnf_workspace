@@ -151,5 +151,19 @@ libstdc++.a/libgcc_eh.a。
 
 ## 水位（最新）
 
-2010 个原版符号：应用级 MISSING=0；IDENTICAL 515 + NEAR 412（占全部符号 46%）；
-DIFF 726（绝大多数为已记录的编译器/寄存器分配差异）；real missing 300。
+2010 个原版符号：应用级 MISSING=0；**IDENTICAL 309 + NEAR 699（占全部符号 50.1%）**；
+DIFF 590（编译器/寄存器分配差异）；**real missing 15**（其中 4 个是 TU 静态初始化符号名、
+8 个是 std 容器复制实例化细节、3 个是宿主 glibc 链接差异 `__libc_csu_*/pthread_equal`）。
+
+## 最新进展（全量 TU 迁移至 4.4.6-3）
+
+确认 relay 除 RelayUtil/RelayService/RelaySignal 三个 TU 为 4.1.2-52 外，其余应用 TU
+（Socket/Script/Thread/Token/Exception/Log/Reactor/App/UserPool）全部由
+**GCC 4.4.6-3 + -std=gnu++0x** 编译。全量迁移后：
+
+- real missing 300 → 15（-95%）；
+- 链接顺序调整为 4.4.4 libstdc++/libgcc_eh 在前（_Rb_tree rebalance、__gxx_personality
+  等运行时符号与 4.4 版对齐）；
+- UDPHandlerS2S::dispatch（postDisconnectEvent2TCPUser/setAuthenticated 双分支）、
+  ScriptRawData::get、TCPSocket::connect(const char*)、UDPSocket monitor_set
+  erase(iterator)、Reactor 空闲清扫的 unlock-先于-onClose + break 语义均已补齐。
