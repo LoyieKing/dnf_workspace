@@ -19,13 +19,20 @@ public:
     CServerInterface();
     CServerInterface(stServerInfo* info);
     virtual ~CServerInterface();
-    virtual bool IsValidServer() = 0;
-    virtual bool IsConnected() = 0;
-    virtual int IsHeartBeatTimeOver() = 0;
-    virtual void ResetHeartBeat() = 0;
-    virtual void OnDisconnect() = 0;
-    virtual void SendToServer(char* buf, int len) = 0;
-    virtual void SetConnFlag(bool flag) = 0;
+    virtual bool IsValidServer();
+    virtual bool IsConnected();
+    virtual int IsHeartBeatTimeOver();
+    virtual void ResetHeartBeat();
+    virtual void OnDisconnect();
+    virtual void SendToServer(char* buf, int len);
+    virtual void SetConnFlag(bool flag);
+    virtual bool Initialize();
+    virtual void Destroy();
+    void SetServerInfo(stServerInfo* info);
+    stServerInfo* GetServerInfo();
+    void* GetUdpHandler();
+    unsigned char GetChannelNo();
+    unsigned char GetGroupNo();
     stServerInfo* m_info;    // +4
     char m_field8;           // +8
     char m_field9;           // +9
@@ -47,7 +54,7 @@ public:
     virtual void OnDisconnect();
     virtual void SendToServer(char* buf, int len);
     virtual void SetConnFlag(bool flag);
-    void Initialize();
+    bool Initialize();
     void Destroy();
     int GetSocket();
     void SetSocket(int sock);

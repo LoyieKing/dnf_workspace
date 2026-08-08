@@ -31,6 +31,72 @@ CServerInterface::~CServerInterface()
 {
 }
 
+void CServerInterface::SetServerInfo(stServerInfo* info)
+{
+    m_info = info;
+}
+
+stServerInfo* CServerInterface::GetServerInfo()
+{
+    return m_info;
+}
+
+void* CServerInterface::GetUdpHandler()
+{
+    return (void*)m_sock;
+}
+
+unsigned char CServerInterface::GetChannelNo()
+{
+    return m_info ? *(unsigned char*)((char*)m_info + 1) : 0;
+}
+
+unsigned char CServerInterface::GetGroupNo()
+{
+    return m_info ? *(unsigned char*)m_info : 0;
+}
+
+bool CServerInterface::IsValidServer()
+{
+    return m_info != 0 && m_info->m_group != 0xff;
+}
+
+bool CServerInterface::IsConnected()
+{
+    return m_field8 != 0;
+}
+
+int CServerInterface::IsHeartBeatTimeOver()
+{
+    return 0;
+}
+
+void CServerInterface::ResetHeartBeat()
+{
+}
+
+void CServerInterface::OnDisconnect()
+{
+}
+
+void CServerInterface::SendToServer(char* buf, int len)
+{
+}
+
+void CServerInterface::SetConnFlag(bool flag)
+{
+    m_field8 = (char)flag;
+}
+
+bool CServerInterface::Initialize()
+{
+    return true;
+}
+
+void CServerInterface::Destroy()
+{
+}
+
 CGameServer::CGameServer()
     : CServerInterface()
 {
@@ -79,8 +145,9 @@ void CGameServer::SetConnFlag(bool flag)
     m_field8 = (char)flag;
 }
 
-void CGameServer::Initialize()
+bool CGameServer::Initialize()
 {
+    return true;
 }
 
 void CGameServer::Destroy()
