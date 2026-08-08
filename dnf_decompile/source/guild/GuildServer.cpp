@@ -389,14 +389,10 @@ char* CTcpDBServer::makePacketHeader(unsigned short id, unsigned short size)
     {
         return 0;
     }
-    char* buf = (char*)m_net->Acquire_TcpSendBuffer(0x1000);
-    if (buf == 0)
-    {
-        return 0;
-    }
-    *(unsigned short*)(buf + 0) = id;
+    char* buf = (char*)m_net->Acquire_TcpSendBuffer();
+    *(unsigned short*)buf = id;
     *(unsigned short*)(buf + 2) = size;
-    *(int*)(buf + 6) = m_sock;
+    *(unsigned int*)(buf + 0xc) = *(unsigned int*)((char*)this + 8);
     return buf;
 }
 
