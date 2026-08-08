@@ -2484,6 +2484,31 @@ char CTcpManagerServer::IsValidServer() { return 1; }
 const char* CTcpManagerServer::GetIP() { return m_ip.c_str(); }
 unsigned short CTcpManagerServer::GetPort() { return m_port; }
 void CTcpManagerServer::SendHeartbeat(unsigned char group) {}
+char* CTcpManagerServer::makePacketHeader(unsigned short id, unsigned short size)
+{
+    if (m_net == 0)
+    {
+        return 0;
+    }
+    char* buf = (char*)((CTcpNetSystem*)m_net)->Acquire_TcpSendBuffer();
+    *(unsigned short*)buf = id;
+    *(unsigned short*)(buf + 2) = size;
+    *(unsigned int*)(buf + 6) = (unsigned int)m_sock;
+    return buf;
+}
+void CTcpManagerServer::SendToServer(char* buf)
+{
+    ((CTcpNetSystem*)m_net)->PushTcpSendPacketQ(buf);
+}
+void CTcpManagerServer::SendTcpPacket(PacketHeader* pkt)
+{
+    char* buf = makePacketHeader(*(unsigned short*)pkt, *(unsigned short*)((char*)pkt + 2));
+    if (buf != 0)
+    {
+        memcpy(buf + 10, (char*)pkt + 10, *(unsigned short*)((char*)pkt + 2) - 10);
+        SendToServer(buf);
+    }
+}
 
 CTcpDBServer::CTcpDBServer() {}
 CTcpDBServer::~CTcpDBServer() {}
@@ -2891,14 +2916,28 @@ int CUserManager::DeleteUser(CUser* user)
     return 0;
 }
 
-CDNFProhibitUser::CDNFProhibitUser() {}
+CDNFProhibitUser::CDNFProhibitUser()
+{
+    *(unsigned int*)this = 0;
+    *(unsigned short*)((char*)this + 4) = 0;
+    *(char*)((char*)this + 6) = 0xff;
+    *(char*)((char*)this + 7) = 0;
+}
 CDNFProhibitUser::~CDNFProhibitUser() {}
+void* CDNFProhibitUser::operator new(unsigned int size) { return ::operator new(size); }
 void CDNFProhibitUser::operator delete(void* p) { ::operator delete(p); }
-char CDNFProhibitUser::GetChannelNo() { return 0; }
+char CDNFProhibitUser::GetChannelNo() { return *(char*)((char*)this + 6); }
 char CDNFProhibitUser::fromWeb() { return 0; }
 void CDNFProhibitUser::SetUserConnectableTime(unsigned int dbid, short time, char channel,
                                               bool flag)
 {
+    if (*(char*)((char*)this + 7) != 1)
+    {
+        *(short*)((char*)this + 4) = time;
+        *(unsigned int*)this = dbid;
+        *(char*)((char*)this + 6) = channel;
+        *(char*)((char*)this + 7) = (char)flag;
+    }
 }
 void CUserManager::AddSchoolNo(unsigned int schoolNo, unsigned char channel)
 {
@@ -6033,7 +6072,118 @@ void CPacketTranslater::OnForbidChat(PacketHeader* pkt)
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, 0x30);
 }
-void CPacketTranslater::OnNoticeProhibitConnectUser(PacketHeader* pkt) {}
+void CPacketTranslater::OnNoticeProhibitConnectUser(PacketHeader* pkt)
+{
+    try
+    {
+        if (m_pclApp == 0)
+        {
+            throw CDNFException(
+                "CPacketTranslater::OnNoticeProhibitConnectUser : 0 == m_pclApp");
+        }
+        CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+        CServerHandler* handler = m_pclApp->Get_ServerHandler();
+        unsigned int dbid = *(unsigned int*)((char*)pkt + 0xa);
+        exchange_server::CACHE_CHARACTER_TYPE cacheType;
+        if (exchange_server::GetInstanceCacheCharacterMgr()->GetCacheCharacter(dbid,
+                                                                               &cacheType) != 0)
+        {
+            char* s = NumberToString(dbid, 0);
+            CMyFileLog log("OnNoticeProhibitConnectUser", 0x8cc);
+            log("./log/ExchangeServer", "OnNoticeProhibitConnectUser() (%s,%d,%d)\n", s,
+                cacheType.m_field0, cacheType.m_field4);
+        }
+        bool notPresent =
+            userMgr->FindUser(dbid) == 0 && userMgr->FindProhibitUser(dbid) == 0;
+        *(char*)((char*)pkt + 0x11) = notPresent ? 0 : 1;
+        if (*(char*)((char*)pkt + 0xe) == 0)
+        {
+            CDNFProhibitUser* p = userMgr->FindProhibitUser(dbid);
+            if (p == 0)
+            {
+                p = new CDNFProhibitUser;
+                p->SetUserConnectableTime(dbid, *(short*)((char*)pkt + 0xf), -1, true);
+                if (userMgr->InsertProhibitUser(dbid, p) != 1)
+                {
+                    char* s = NumberToString(dbid, 0);
+                    CMyFileLog log("OnNoticeProhibitConnectUser", 0x922);
+                    log("./log/ProhibitUser",
+                        "[INSERT_ERR] CPacketTranslater::OnNoticeProhibitConnectUser m_id : "
+                        "%s, flag( %d ), time( %d ) \n",
+                        s, (int)(char)*(char*)((char*)pkt + 0xe),
+                        (int)*(short*)((char*)pkt + 0xf));
+                    delete p;
+                }
+                char* s = NumberToString(dbid, 0);
+                CMyFileLog log("OnNoticeProhibitConnectUser", 0x926);
+                log("./log/ProhibitUser",
+                    "[INSERT_PROHIBIT_USER] CPacketTranslater::OnNoticeProhibitConnectUser "
+                    "m_id : %s, flag( %d ), time( %d ) \n",
+                    s, (int)(char)*(char*)((char*)pkt + 0xe),
+                    (int)*(short*)((char*)pkt + 0xf));
+            }
+            else
+            {
+                if (p->GetChannelNo() == -1)
+                {
+                    *(char*)((char*)pkt + 0xe) = 2;
+                    *(unsigned short*)pkt = 0x4c9;
+                    *(char*)((char*)pkt + 0x12) = (char)m_pclApp->Get_ServerGroup();
+                    handler->GetTcpManagerServer()->SendTcpPacket(pkt);
+                    char* s = NumberToString(dbid, 0);
+                    CMyFileLog log("OnNoticeProhibitConnectUser", 0x90a);
+                    log("./log/ProhibitUser",
+                        "[ALREADY_INSERT] CPacketTranslater::OnNoticeProhibitConnectUser m_id "
+                        ": %s, flag( %d ), time( %d ) \n",
+                        s, (int)(char)*(char*)((char*)pkt + 0xe),
+                        (int)*(short*)((char*)pkt + 0xf));
+                    return;
+                }
+                char* s = NumberToString(dbid, 0);
+                CMyFileLog log("OnNoticeProhibitConnectUser", 0x90e);
+                log("./log/ProhibitUser",
+                    "[ALREADY_PROHIBIT_USER] CPacketTranslater::OnNoticeProhibitConnectUser "
+                    "m_id : %s, flag( %d ), time( %d ) \n",
+                    s, (int)(char)*(char*)((char*)pkt + 0xe),
+                    (int)*(short*)((char*)pkt + 0xf));
+            }
+            *(unsigned short*)pkt = 0x4c9;
+            *(char*)((char*)pkt + 0x12) = (char)m_pclApp->Get_ServerGroup();
+            handler->GetTcpManagerServer()->SendTcpPacket(pkt);
+        }
+        else
+        {
+            if (userMgr->DeleteProhibitUser(dbid, -1) != 1)
+            {
+                char* s = NumberToString(dbid, 0);
+                CMyFileLog log("OnNoticeProhibitConnectUser", 0x8ef);
+                log("./log/ProhibitUser",
+                    "[DELETE_ERR] CPacketTranslater::OnNoticeProhibitConnectUser m_id : %s, "
+                    "flag( %d ), time( %d ) \n",
+                    s, (int)(char)*(char*)((char*)pkt + 0xe),
+                    (int)*(short*)((char*)pkt + 0xf));
+            }
+            char* s = NumberToString(dbid, 0);
+            CMyFileLog log("OnNoticeProhibitConnectUser", 0x8f2);
+            log("./log/ProhibitUser",
+                "[DELETE_PROHIBIT_USER] CPacketTranslater::OnNoticeProhibitConnectUser m_id : "
+                "%s, flag( %d ), time( %d ) \n",
+                s, (int)(char)*(char*)((char*)pkt + 0xe),
+                (int)*(short*)((char*)pkt + 0xf));
+        }
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnNoticeProhibitConnectUser", 0x939);
+        log("%s", "CPacketTranslater::OnNoticeProhibitConnectUser() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnNoticeProhibitConnectUser", 0x93e);
+        log("%s", "CPacketTranslater::OnNoticeProhibitConnectUser() Exception Break");
+    }
+}
 void CPacketTranslater::OnMonitorManagerConnectOK(PacketHeader* pkt) {}
 void CPacketTranslater::OnMonitorMegaPhoneMsg(PacketHeader* pkt)
 {

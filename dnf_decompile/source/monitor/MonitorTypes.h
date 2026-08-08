@@ -383,6 +383,9 @@ public:
     const char* GetIP();
     unsigned short GetPort();
     void SendHeartbeat(unsigned char group);
+    char* makePacketHeader(unsigned short id, unsigned short size);
+    void SendToServer(char* buf);
+    void SendTcpPacket(PacketHeader* pkt);
     std::string m_ip;      // +0
     unsigned short m_port; // +4
     int m_sock;            // +8
@@ -789,6 +792,7 @@ class CDNFProhibitUser
 public:
     CDNFProhibitUser();
     ~CDNFProhibitUser();
+    static void* operator new(unsigned int size);
     static void operator delete(void* p);
     char GetChannelNo();
     char fromWeb();
