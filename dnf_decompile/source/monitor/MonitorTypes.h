@@ -154,12 +154,22 @@ struct LimitNpcBuyItemInfo
     unsigned int m_count;    // +0x1a
 };
 
+struct LimitNpcBuyItemUpdate
+{
+    char m_data[0xa];
+    unsigned int m_itemId;      // +0xa
+    unsigned int m_charNo;      // +0xe
+    unsigned int m_cancelCount; // +0x12
+    unsigned int m_errorNo;     // +0x16
+};
+
 class LimitNpcBuyItemManager
 {
 public:
     LimitNpcBuyItemManager();
     ~LimitNpcBuyItemManager();
     int sellNpcLimitBuyItem(LimitNpcBuyItemInfo* info);
+    void undoNpcLimitBuyItem(LimitNpcBuyItemUpdate* info);
     std::map<unsigned int, NpcBuyLimitItem> m_items;  // +0
 };
 

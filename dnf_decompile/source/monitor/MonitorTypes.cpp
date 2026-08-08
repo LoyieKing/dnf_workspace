@@ -683,6 +683,19 @@ int LimitNpcBuyItemManager::sellNpcLimitBuyItem(LimitNpcBuyItemInfo* info)
     }
     return 0x5f;
 }
+void LimitNpcBuyItemManager::undoNpcLimitBuyItem(LimitNpcBuyItemUpdate* info)
+{
+    std::map<unsigned int, NpcBuyLimitItem>::iterator it = m_items.find(info->m_itemId);
+    if (it != m_items.end() && info->m_cancelCount <= it->second.m_sellCount)
+    {
+        it->second.m_sellCount -= info->m_cancelCount;
+        CMyFileLog log("undoNpcLimitBuyItem", 0x34);
+        log("./log/NpcBuyLimitItem",
+            "Undo-> characNo: %u, errorNo: %u, itemId: %u, cancelCount: %u, maxCount: %u, totalSellCount: %u)",
+            info->m_charNo, info->m_errorNo, info->m_itemId, info->m_cancelCount,
+            it->second.m_maxCount, it->second.m_sellCount);
+    }
+}
 
 CLoginLogoutStatistics::CLoginLogoutStatistics(CApplication& app) {}
 CLoginLogoutStatistics::~CLoginLogoutStatistics() {}
