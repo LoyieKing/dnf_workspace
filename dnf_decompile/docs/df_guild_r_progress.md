@@ -205,3 +205,15 @@
   （完整权限与分支）、CUserManager 三函数、SendPowerWarEndTime、OnDBReplyQueryGuildMember
   偏移、ReplyGuildMembersToWeb GetChannelNo 等
 - 冒烟通过，DIFF 1124 / IDENTICAL 368 / NEAR 208
+
+## 2026-08-09 第四轮（框架构造/析构语义核验）
+
+- CApplication ctor/dtor：m_swapQueue 类型化 CSwapQueue 自动构造（避免 double-construct
+  崩溃）、成员按原版构造/逆序析构
+- CUserManager dtor：遍历 delete 用户（原为空）
+- CApplication::Free：补 UDP 线程 stop/delete、InnerMsgHandler 析构、UDP Handler
+  operator delete、DB 保存日志无条件
+- CAppStartInit::Save_pid：snprintf→sprintf+strlen
+- DismissGuildMemberAndNotice：完整实现（通知包+ExpBook 包+ResetGuild），
+  删除多余 uchar 重载
+- 冒烟通过；DIFF 1124 / IDENTICAL 368 / NEAR 208
