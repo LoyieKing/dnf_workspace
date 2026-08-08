@@ -614,13 +614,8 @@ STUB_HANDLER(OnInnerPacketLogin)
 STUB_HANDLER(OnInnerPacketLogout)
 STUB_HANDLER(OnGuildApplyOriginalPowerSide)
 STUB_HANDLER(OnGameServerRegist)
-STUB_HANDLER(OnRefreshGuildInfo)
-STUB_HANDLER(OnReplyTodayGuildMember)
-STUB_HANDLER(OnApproveJoinGuild)
-STUB_HANDLER(OnDBResponseApproveJoinGuild)
 STUB_HANDLER(OnGuildAttendanceInfo)
 STUB_HANDLER(OnGuildDebug)
-STUB_HANDLER(OnRenew_GM_List)
 
 void CPacketTranslater::OnCallGuildInvite(PacketHeader* pkt)
 {
@@ -4146,6 +4141,149 @@ void CPacketTranslater::OnNoticeGuildChatMsgHyperLink(PacketHeader* pkt)
     {
         throw CDNFException(
             "CPacketTranslater::OnNoticeGuildChatMsgHyperLink : packet->m_uCharID && packet->m_uGuildKey && packet->m_msgLen");
+    }
+}
+
+void CPacketTranslater::OnRefreshGuildInfo(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnRefreshGuildInfo", 0x1f4b);
+        log("./log/Guild", "CPacketTranslater::OnAddGuildFund : 0 == m_pclApp");
+        return;
+    }
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xa));
+    if (user == 0)
+    {
+        CMyFileLog log("OnRefreshGuildInfo", 0x1f51);
+        log("./log/Guild", "CPacketTranslater::OnAddGuildFund : 0 == pUser");
+        return;
+    }
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xe));
+    if (guild == 0)
+    {
+        CMyFileLog log("OnRefreshGuildInfo", 0x1f57);
+        log("./log/Guild", "CPacketTranslater::OnAddGuildFund : 0 == pGuild");
+        return;
+    }
+    guild->SendGuildInfoToMemberOnly(user);
+}
+
+void CPacketTranslater::OnReplyTodayGuildMember(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnReplyTodayGuildMember", 0x1f75);
+        log("./log/Guild", "CPacketTranslater::OnReplyTodayGuildMember : 0 == m_pclApp");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnReplyTodayGuildMember", 0x1f7b);
+        log("./log/Guild", "CPacketTranslater::OnReplyTodayGuildMember : 0 == pGuild");
+        return;
+    }
+    m_pclApp->Get_GuildManager()->InsertTodayMember(guildKey,
+                                                   *(STTodayGuildMember*)(pb + 0xe));
+    guild->SetTodayGuildMember(*(STTodayGuildMember*)(pb + 0xe));
+    guild->NotifyAllTodayGuildMember();
+}
+
+void CPacketTranslater::OnApproveJoinGuild(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnApproveJoinGuild", 0x1fa0);
+        log("./log/Guild", "CPacketTranslater::OnApproveJoinGuild : 0 == m_pclApp");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild != 0)
+    {
+        unsigned int charNo = *(unsigned int*)(pb + 0xe);
+        if (guild->IsGuildMaster(charNo) == 1 || guild->IsSubGuildMaster(charNo) == 1)
+        {
+            Packet_DB_Request_Approve_Join_Guild dbPkt;
+            *(unsigned int*)((char*)&dbPkt + 0xa) = guildKey;
+            *(unsigned int*)((char*)&dbPkt + 0xe) = charNo;
+            *(unsigned int*)((char*)&dbPkt + 0x12) = *(unsigned int*)(pb + 0x12);
+            *(unsigned char*)((char*)&dbPkt + 0x16) = m_pclApp->Get_ServerGroup();
+            m_pclApp->Get_ServerHandler()->SendToDB(&dbPkt);
+        }
+        else
+        {
+            CMyFileLog log("OnApproveJoinGuild", 0x1fad);
+            log("./log/Guild", "CPacketTranslater::OnApproveJoinGuild authority error");
+        }
+    }
+}
+
+void CPacketTranslater::OnDBResponseApproveJoinGuild(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnDBResponseApproveJoinGuild", 0x1fd1);
+        log("./log/Guild", "CPacketTranslater::OnApproveJoinGuild : 0 == m_pclApp");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnDBResponseApproveJoinGuild", 0x1fd7);
+        log("./log/Guild", "CPacketTranslater::OnApproveJoinGuild : 0 == pGuild");
+        return;
+    }
+    unsigned int requesterNo = *(unsigned int*)(pb + 0x16);
+    CUser* requester = m_pclApp->Get_UserManager()->FindUser_CharNo(requesterNo);
+    if (requester == 0)
+    {
+        CMyFileLog log("OnDBResponseApproveJoinGuild", 0x1fdd);
+        log("./log/Guild", "CPacketTranslater::OnAddGuildFund : 0 == pUser");
+        return;
+    }
+    unsigned int joinerNo = *(unsigned int*)(pb + 0x12);
+    CUser* joiner = m_pclApp->Get_UserManager()->FindUser_CharNo(joinerNo);
+    Packet_Approve_Join_Guild_Result reply;
+    *(unsigned int*)((char*)&reply + 0xa) = guildKey;
+    *(unsigned int*)((char*)&reply + 0xe) = requester->GetUniqCharNo();
+    *(unsigned int*)((char*)&reply + 0x12) = requester->GetIdByChannel();
+    *(unsigned int*)((char*)&reply + 0x16) = *(unsigned int*)(pb + 0x16);
+    if (guildKey == 0)
+    {
+        if (joiner == 0)
+        {
+            GuildJoin(guild, (STGuildJoinInfo*)(pb + 0x1a), joinerNo);
+        }
+        else
+        {
+            GuildJoin(guild, joiner, joinerNo);
+        }
+    }
+    requester->SendToGameserver((char*)&reply, 0x1a);
+}
+
+void CPacketTranslater::OnRenew_GM_List(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    WongWork::CGMAccounts* gm = (WongWork::CGMAccounts*)m_pclApp->GetGMAccounts();
+    if (gm != 0 && pkt != 0)
+    {
+        if ((unsigned char)pb[10] == 0)
+        {
+            gm->clearGmList();
+        }
+        for (int i = 0; i < (char)pb[0xb]; i++)
+        {
+            gm->AppendGM_Sys(*(unsigned int*)(pb + i * 4 + 0xc), (char)pb[i + 0x5c]);
+        }
     }
 }
 
