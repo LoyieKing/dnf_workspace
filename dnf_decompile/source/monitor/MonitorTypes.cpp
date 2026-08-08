@@ -1752,9 +1752,108 @@ int CMemberManager::MemerMemLogin(unsigned int key, CUser* user)
 
 namespace village_attacked
 {
+int village_attacked_scheduler[18];
+int MAX_SCHEDULER_COUNT;
+
+int GetNextSchedule(tm t, int wday, int hour, int min)
+{
+    int days = wday - t.tm_wday;
+    if (days < 0)
+    {
+        days += 7;
+    }
+    else if (days == 0)
+    {
+        if (hour < t.tm_hour)
+        {
+            days = 7;
+        }
+        else if (t.tm_hour == hour && min <= t.tm_min)
+        {
+            days = 7;
+        }
+    }
+    t.tm_hour = hour;
+    t.tm_min = min;
+    t.tm_sec = 0;
+    time_t r = mktime(&t);
+    return (int)(r + days * 86400);
+}
+
+void SetRealConfig()
+{
+    village_attacked_scheduler[0] = 2;
+    village_attacked_scheduler[1] = 0x15;
+    village_attacked_scheduler[2] = 0x1e;
+    village_attacked_scheduler[3] = 2;
+    village_attacked_scheduler[4] = 0x16;
+    village_attacked_scheduler[5] = 0x1e;
+    village_attacked_scheduler[6] = 6;
+    village_attacked_scheduler[7] = 0x15;
+    village_attacked_scheduler[8] = 0x1e;
+    village_attacked_scheduler[9] = 6;
+    village_attacked_scheduler[10] = 0x16;
+    village_attacked_scheduler[11] = 0x1e;
+    village_attacked_scheduler[12] = -1;
+    village_attacked_scheduler[13] = -1;
+    village_attacked_scheduler[14] = -1;
+    village_attacked_scheduler[15] = -1;
+    village_attacked_scheduler[16] = -1;
+    village_attacked_scheduler[17] = -1;
+    MAX_SCHEDULER_COUNT = 2;
+}
+
 CVillageAttackedManager::CVillageAttackedManager(CApplication* app) {}
 CVillageAttackedManager::~CVillageAttackedManager() {}
 void CVillageAttackedManager::SendFirstRankerRewardJpn(CUser* user, int rank) {}
+void CVillageAttackedManager::InsertTimer(int startTime, int endTime)
+{
+    m_field2c = startTime;
+    m_field28 = endTime;
+    CVillageAttackedCountdownFirst* t1 =
+        new CVillageAttackedCountdownFirst(startTime - 600, 0, this);
+    m_app->GetTaskScheduler()->AddTask(t1);
+    CVillageAttackedCountdownSecond* t2 =
+        new CVillageAttackedCountdownSecond(startTime - 300, 0, this);
+    m_app->GetTaskScheduler()->AddTask(t2);
+    CVillageAttackedCountdownThird* t3 =
+        new CVillageAttackedCountdownThird(startTime - 60, 0, this);
+    m_app->GetTaskScheduler()->AddTask(t3);
+    CVillageAttackedStart* t4 = new CVillageAttackedStart(startTime, 0, this);
+    m_app->GetTaskScheduler()->AddTask(t4);
+    CVillageAttackedEnd* t5 = new CVillageAttackedEnd(endTime, 0, this);
+    m_app->GetTaskScheduler()->AddTask(t5);
+}
+void CVillageAttackedManager::OnSchedule()
+{
+    time_t now = GetNowTime();
+    tm* t = localtime(&now);
+    int bestIdx = 0;
+    int bestTime = GetNextSchedule(*t, village_attacked_scheduler[0],
+                                   village_attacked_scheduler[1],
+                                   village_attacked_scheduler[2]);
+    for (int i = 1; i < MAX_SCHEDULER_COUNT; i++)
+    {
+        int s = GetNextSchedule(*t, village_attacked_scheduler[i * 6],
+                                village_attacked_scheduler[i * 6 + 1],
+                                village_attacked_scheduler[i * 6 + 2]);
+        if (s < bestTime)
+        {
+            bestIdx = i;
+            bestTime = s;
+        }
+    }
+    int end = GetNextSchedule(*t, village_attacked_scheduler[bestIdx * 6 + 3],
+                              village_attacked_scheduler[bestIdx * 6 + 4],
+                              village_attacked_scheduler[bestIdx * 6 + 5]);
+    InsertTimer(bestTime, end);
+    tm* t2 = localtime((time_t*)&end);
+    t2->tm_sec = 0;
+    t2->tm_min = 0;
+    t2->tm_hour = 6;
+    t2->tm_mday = t2->tm_mday + 1;
+    mktime(t2);
+}
 void CVillageAttackedManager::SendCharacRank()
 {
     unsigned char serverGroup = 0;
@@ -1817,6 +1916,20 @@ void CVillageAttackedManager::SendCharacRank()
         m_app->Get_ServerHandler()->SendToDB(&pkt);
     }
 }
+
+CVillageAttackedCountdownFirst::CVillageAttackedCountdownFirst(int time, int flag,
+                                                               CVillageAttackedManager* mgr) {}
+CVillageAttackedCountdownFirst::~CVillageAttackedCountdownFirst() {}
+CVillageAttackedCountdownSecond::CVillageAttackedCountdownSecond(int time, int flag,
+                                                                CVillageAttackedManager* mgr) {}
+CVillageAttackedCountdownSecond::~CVillageAttackedCountdownSecond() {}
+CVillageAttackedCountdownThird::CVillageAttackedCountdownThird(int time, int flag,
+                                                              CVillageAttackedManager* mgr) {}
+CVillageAttackedCountdownThird::~CVillageAttackedCountdownThird() {}
+CVillageAttackedStart::CVillageAttackedStart(int time, int flag, CVillageAttackedManager* mgr) {}
+CVillageAttackedStart::~CVillageAttackedStart() {}
+CVillageAttackedEnd::CVillageAttackedEnd(int time, int flag, CVillageAttackedManager* mgr) {}
+CVillageAttackedEnd::~CVillageAttackedEnd() {}
 }
 
 CUser::CUser() {}

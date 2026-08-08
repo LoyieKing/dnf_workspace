@@ -57,6 +57,7 @@ public:
     CUserManager* Get_UserManager();
     CMemberManager* Get_MemberManager();
     CBuddyRegisterManager* Get_BuddyRegisterManager();
+    CTaskScheduler* GetTaskScheduler();
     void* Get_UdpPacketRecvQ();
     CUdpHandler* Get_UdpHandler();
     void* Get_UdpQLock();

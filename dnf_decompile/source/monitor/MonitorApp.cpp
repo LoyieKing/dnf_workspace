@@ -484,6 +484,11 @@ CBuddyRegisterManager* CApplication::Get_BuddyRegisterManager()
     return &m_buddyMgr;
 }
 
+CTaskScheduler* CApplication::GetTaskScheduler()
+{
+    return m_taskScheduler;
+}
+
 char CApplication::Send_Term_Signal(const std::string& file)
 {
     std::string path = "./pid/" + file;

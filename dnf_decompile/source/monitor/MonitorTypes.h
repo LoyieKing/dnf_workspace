@@ -982,6 +982,15 @@ public:
 // ---- village_attacked：村庄攻防 ----
 namespace village_attacked
 {
+int GetNextSchedule(tm t, int wday, int hour, int min);
+void SetRealConfig();
+
+class CVillageAttackedCountdownFirst;
+class CVillageAttackedCountdownSecond;
+class CVillageAttackedCountdownThird;
+class CVillageAttackedStart;
+class CVillageAttackedEnd;
+
 struct stUserHuntingPoint
 {
     unsigned int m_huntingPoint;  // +0
@@ -1005,13 +1014,62 @@ public:
     ~CVillageAttackedManager();
     void SendCharacRank();
     void SendFirstRankerRewardJpn(CUser* user, int rank);
+    void OnSchedule();
+    void InsertTimer(int startTime, int endTime);
     CApplication* m_app;                       // +0
     std::map<unsigned int, stHuntingPoint> m_huntingPoints;  // +4
     int m_field1c;                             // +0x1c
     int m_field20;                             // +0x20
-    char m_data2[0xc];                         // +0x24
+    unsigned char m_state24;                   // +0x24
+    char m_pad25[3];                           // +0x25
+    int m_field28;                             // +0x28
+    int m_field2c;                             // +0x2c
+    char m_data2[4];                           // +0x30
+};
+
+class CVillageAttackedCountdownFirst : public CTaskScheduler::CTask
+{
+public:
+    CVillageAttackedCountdownFirst(int time, int flag, CVillageAttackedManager* mgr);
+    ~CVillageAttackedCountdownFirst();
+    char m_data[0x10];
+};
+
+class CVillageAttackedCountdownSecond : public CTaskScheduler::CTask
+{
+public:
+    CVillageAttackedCountdownSecond(int time, int flag, CVillageAttackedManager* mgr);
+    ~CVillageAttackedCountdownSecond();
+    char m_data[0x10];
+};
+
+class CVillageAttackedCountdownThird : public CTaskScheduler::CTask
+{
+public:
+    CVillageAttackedCountdownThird(int time, int flag, CVillageAttackedManager* mgr);
+    ~CVillageAttackedCountdownThird();
+    char m_data[0x10];
+};
+
+class CVillageAttackedStart : public CTaskScheduler::CTask
+{
+public:
+    CVillageAttackedStart(int time, int flag, CVillageAttackedManager* mgr);
+    ~CVillageAttackedStart();
+    char m_data[0x10];
+};
+
+class CVillageAttackedEnd : public CTaskScheduler::CTask
+{
+public:
+    CVillageAttackedEnd(int time, int flag, CVillageAttackedManager* mgr);
+    ~CVillageAttackedEnd();
+    char m_data[0x10];
 };
 }
+
+extern int village_attacked_scheduler[18];
+extern int MAX_SCHEDULER_COUNT;
 
 unsigned int GetNowTime();
 
