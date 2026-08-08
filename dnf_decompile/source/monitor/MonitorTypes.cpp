@@ -1686,6 +1686,10 @@ CMember* CMemberManager::FindMember(unsigned int key)
     }
     return 0;
 }
+CUser* CMemberManager::FindMemberUser(unsigned int key)
+{
+    return 0;
+}
 CMember* CMemberManager::CreateMemberQuery(unsigned int key, CUser* user, CServerHandler* handler)
 {
     if (user == 0 || handler == 0)
@@ -1822,6 +1826,11 @@ void CUser::AttachMember(CMember* member) {}
 void CUser::operator delete(void* p) { ::operator delete(p); }
 void* CUser::GetGameServer() { return 0; }
 unsigned int CUser::GetDBID() { return 0; }
+unsigned int CUser::GetIdByChannel() { return 0; }
+char* CUser::GetCharName() { return 0; }
+char CUser::IsBlackUser(unsigned int key) { return 0; }
+unsigned char CUser::GetUpperMemberExpLevel() { return 0; }
+void CUser::SendTcpGameserver(PacketHeader* pkt) {}
 void CUser::AddBuddyFromCash(CBuddy* buddy) {}
 void CUser::SetBuddyDBFlag(unsigned int flag) {}
 void CUser::RegisterToCashBlackList(std::map<unsigned int, CBlackUser*>* map) {}
@@ -1832,6 +1841,75 @@ CMember::CMember(unsigned int key, CMemberManager* mgr) {}
 CMember::~CMember() {}
 void CMember::QueryMember(CServerHandler* handler) {}
 unsigned int* CMember::GetMemberDBInfoW() { return 0; }
+void CMember::NoticeMemberLogin_Out(CUser* user, char flag)
+{
+    bool invalid = (user == 0 || user->GetGameServer() == 0);
+    if (!invalid && (m_flag & 4) != 0)
+    {
+        Packet_Monitor_Notice_Member_Member_Login_out pkt;
+        CUser* member = m_memberManager->FindMemberUser(m_memberKey);
+        if (member != 0)
+        {
+            member->GetUniqCharNo();
+            if (user->IsBlackUser(0) != 1)
+            {
+                pkt.m_flag = flag;
+                pkt.m_idByChannel = member->GetIdByChannel();
+                pkt.m_uniqCharNo = member->GetUniqCharNo();
+                pkt.m_channelNo =
+                    ((CServerInterface*)user->GetGameServer())->GetChannelNo();
+                pkt.m_type = 2;
+                memcpy(pkt.m_charName, user->GetCharName(), 0x1d);
+                pkt.m_expLevel = 0;
+                member->SendTcpGameserver(&pkt);
+            }
+            if (flag == 1)
+            {
+                member->GetUniqCharNo();
+                if (user->IsBlackUser(0) != 1)
+                {
+                    pkt.m_flag = flag;
+                    pkt.m_idByChannel = user->GetIdByChannel();
+                    pkt.m_uniqCharNo = user->GetUniqCharNo();
+                    pkt.m_channelNo =
+                        (member->GetGameServer() != 0)
+                            ? ((CServerInterface*)member->GetGameServer())->GetChannelNo()
+                            : 0xff;
+                    pkt.m_type = 1;
+                    memcpy(pkt.m_charName, member->GetCharName(), 0x1d);
+                    pkt.m_expLevel = user->GetUpperMemberExpLevel();
+                    pkt.m_uniqCharNo2 = member->GetUniqCharNo();
+                    user->SendTcpGameserver(&pkt);
+                }
+            }
+        }
+        unsigned int count = (unsigned int)m_count2d;
+        if (count != 0)
+        {
+            for (unsigned int i = 0; i < count; i++)
+            {
+                CUser* m = m_memberManager->FindMemberUser(m_memberKey);
+                if (m != 0)
+                {
+                    m->GetUniqCharNo();
+                    if (user->IsBlackUser(0) != 1)
+                    {
+                        pkt.m_flag = flag;
+                        pkt.m_idByChannel = m->GetIdByChannel();
+                        pkt.m_uniqCharNo = m->GetUniqCharNo();
+                        pkt.m_channelNo =
+                            ((CServerInterface*)user->GetGameServer())->GetChannelNo();
+                        pkt.m_type = 1;
+                        memcpy(pkt.m_charName, user->GetCharName(), 0x1d);
+                        pkt.m_expLevel = m->GetUpperMemberExpLevel();
+                        pkt.m_uniqCharNo2 = user->GetUniqCharNo();
+                        m->SendTcpGameserver(&pkt);
+                    }
+                }
+            }
+        }
+    }
+}
 
 CMemberConfig::CMemberConfig() {}
 CMemberConfig::~CMemberConfig() {}
@@ -2589,6 +2667,17 @@ Packet_DBMW_Query_Msg::Packet_DBMW_Query_Msg() : PacketHeader(0x177d, 0x1013)
     m_fieldA = 0;
     m_fieldB = 0;
     memset(m_data, 0, 0x1001);
+}
+
+Packet_Monitor_Notice_Member_Member_Login_out::
+    Packet_Monitor_Notice_Member_Member_Login_out()
+    : PacketHeader(0x4b6, 0x38)
+{
+    m_flag = 0;
+    m_idByChannel = 0xffffffff;
+    m_uniqCharNo = 0;
+    m_channelNo = 0xff;
+    m_type = 2;
 }
 
 unsigned int GetNowTime()

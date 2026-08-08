@@ -597,6 +597,11 @@ public:
     unsigned int GetUniqCharNo();
     void* GetGameServer();
     unsigned int GetDBID();
+    unsigned int GetIdByChannel();
+    char* GetCharName();
+    char IsBlackUser(unsigned int key);
+    unsigned char GetUpperMemberExpLevel();
+    void SendTcpGameserver(PacketHeader* pkt);
     void AttachMember(class CMember* member);
     void AddBuddyFromCash(class CBuddy* buddy);
     void SetBuddyDBFlag(unsigned int flag);
@@ -613,7 +618,14 @@ public:
     ~CMember();
     void QueryMember(CServerHandler* handler);
     unsigned int* GetMemberDBInfoW();
-    char m_data[0x1c8];
+    void NoticeMemberLogin_Out(CUser* user, char flag);
+    unsigned short m_flag;          // +4
+    unsigned int m_memberKey;       // +6
+    char m_data[0x27];              // +0xa
+    unsigned char m_count2d;        // +0x2d
+    char m_data2[0x187];            // +0x2e
+    CMemberManager* m_memberManager;// +0x1b4
+    char m_data3[0x10];             // +0x1b8
 };
 
 // ---- CMemberManager：0x30 ----
@@ -626,6 +638,7 @@ public:
               CMemberExpTbl* memberExpTbl);
     void MemberRegisterFlagProcess();
     CMember* FindMember(unsigned int key);
+    CUser* FindMemberUser(unsigned int key);
     CMember* CreateMemberQuery(unsigned int key, CUser* user, CServerHandler* handler);
     void InsertMember(unsigned int key, CMember* member);
     int MemerMemLogin(unsigned int key, CUser* user);
@@ -1051,6 +1064,20 @@ public:
     unsigned int m_fieldA;    // +10
     unsigned int m_fieldB;    // +14
     char m_data[0x1001];      // +18
+};
+
+class Packet_Monitor_Notice_Member_Member_Login_out : public PacketHeader
+{
+public:
+    Packet_Monitor_Notice_Member_Member_Login_out();
+    unsigned char m_flag;           // +10
+    unsigned int m_idByChannel;     // +11
+    unsigned int m_uniqCharNo;      // +15
+    unsigned char m_channelNo;      // +19
+    unsigned char m_type;           // +20
+    char m_charName[0x1d];          // +21
+    unsigned char m_expLevel;       // +50
+    unsigned int m_uniqCharNo2;     // +54
 };
 
 class Packet_Load_Periodic_Message : public PacketHeader
