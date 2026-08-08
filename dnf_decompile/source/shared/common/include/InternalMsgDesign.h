@@ -74,6 +74,7 @@ struct INTERNALMSG_HEADER
 
 } // namespace nsl
 
+#pragma pack(push, 1)
 struct INTERNALMSG_SERVICE_UNAVAILABLE : public nsl::INTERNALMSG_HEADER
 {
     int reason;
@@ -102,5 +103,7 @@ struct INTERNALMSG_DESTROY_CHARACTER : public nsl::INTERNALMSG_HEADER
         setSize(sizeof(INTERNALMSG_DESTROY_CHARACTER));
     }
 };
+
+#pragma pack(pop)
 
 #endif // NSL_INTERNALMSGDESIGN_H_

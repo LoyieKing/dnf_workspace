@@ -76,6 +76,7 @@ public:
     void* pNextJob;
     ConInterface* pConInfo;
     char buf[128];
+    char data[1920];
     bool bActiveJob;
     int workIndex;
     int mDestCharacKey;
@@ -83,7 +84,6 @@ public:
     unsigned int mCharacKey;
     bool bWillDelete;
     int mOwnerWorkId;
-    char data[1920];
 };
 
 } // namespace nsl

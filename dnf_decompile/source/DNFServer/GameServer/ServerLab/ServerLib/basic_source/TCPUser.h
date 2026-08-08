@@ -84,7 +84,7 @@ public:
     }
     inline void PushWouldBlockMessage(Message* pMsg)
     {
-        wouldBlockQueue.push_back(pMsg);
+        mSendMessageQueue.push_front(pMsg);
     }
     void ClearRecvMsgs();
     void IncPendingWorkNum();

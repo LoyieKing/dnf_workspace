@@ -10,6 +10,7 @@ typedef unsigned int memberIdentificationNumber_t;
 
 typedef unsigned char BYTE;
 
+#pragma pack(push, 1)
 struct TSearchByItemId_
 {
     unsigned int startIndex;             // @0
@@ -81,6 +82,8 @@ struct MyBiddingItemInfo
     stAvatarExpansionInfo_t expansion;   // @121
 };
 
+#pragma pack(pop)
+
 struct ExpireTimeDictionaryData;
 
 struct AuctionDictionaryData
@@ -101,6 +104,7 @@ struct AuctionDictionaryData
 
 // ---- GA request packets (read via GetPacket casts; ctor only where emitted) ----
 
+#pragma pack(push, 1)
 struct PCK_AUCTION_SEARCH_BY_ITEMKEY_GA : public nsl::PACKET_HEADER
 {
     int char_idx;                        // @18
@@ -583,6 +587,8 @@ struct PCK_AUCTION_ASK_OWNER_IS_VIP_GP : public nsl::PACKET_HEADER
     int item_id;                         // @51
 };
 
+#pragma pack(pop)
+
 struct OwnerInfo
 {
     bool is_vip;                         // @0
@@ -591,7 +597,7 @@ struct OwnerInfo
     OwnerInfo()
     {
         is_vip = false;
-        average_price = 0;
+        average_price = 0xffffffff;
     }
 };
 
