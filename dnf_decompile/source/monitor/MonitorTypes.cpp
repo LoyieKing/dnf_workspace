@@ -32,6 +32,33 @@ void CUdpRecvBuffer::operator delete(void* ptr)
     ::operator delete(ptr);
 }
 
+void* CTcpRecvBuffer::operator new(unsigned int size)
+{
+    return ::operator new(size);
+}
+void CTcpRecvBuffer::operator delete(void* ptr)
+{
+    ::operator delete(ptr);
+}
+
+char CAppLoadChecker::CheckTcpRecvQ(int size) { return 0; }
+void CAppLoadChecker::RequestDB(void* serverHandler, int flag, int size) {}
+CAppLoadChecker* CAppLoadCheckerInstance() { return 0; }
+
+template<int A, int B>
+CPacketCounter<A, B>::CPacketCounter(char* dir, char* name) {}
+template<int A, int B>
+CPacketCounter<A, B>::~CPacketCounter() {}
+template<int A, int B>
+void CPacketCounter<A, B>::Reset() {}
+template<int A, int B>
+void CPacketCounter<A, B>::IncrementPacketCount(int id) {}
+template<int A, int B>
+void CPacketCounter<A, B>::BeforeProcess() {}
+template<int A, int B>
+void CPacketCounter<A, B>::AfterProcess(int id) {}
+template class CPacketCounter<1000, 10240>;
+
 void CMemoryCashManager::Init(CApplication* app) {}
 
 CInnerMsgHandler::CInnerMsgHandler() {}
@@ -1016,133 +1043,211 @@ CPacketDecoder::CPacketDecoder()
     *(int*)((char*)this + 0x18) = 0;
     for (i = 1000; i < 0x2800; i++)
     {
-        *(int*)((char*)this + (i + 4) * 4 + 0xc) = 0;
+        m_handlers[i] = 0;
     }
-    m_handlers[1007] = (void*)CPacketTranslater::OnLogin;
-    m_handlers[1008] = (void*)CPacketTranslater::OnLogout;
-    m_handlers[1009] = (void*)CPacketTranslater::OnReplyUserInfo;
-    m_handlers[1011] = (void*)CPacketTranslater::OnHeartBeat;
-    m_handlers[1014] = (void*)CPacketTranslater::OnCharLogin;
-    m_handlers[1018] = (void*)CPacketTranslater::OnNoticeOtherChannelChatMsg;
-    m_handlers[1107] = (void*)CPacketTranslater::OnCeraUpdate;
-    m_handlers[1108] = (void*)CPacketTranslater::OnEventItemUpdate;
-    m_handlers[1210] = (void*)CPacketTranslater::OnReplyQueryMember;
-    m_handlers[1214] = (void*)CPacketTranslater::OnRequestMemberEnter;
-    m_handlers[1216] = (void*)CPacketTranslater::OnMemberEnterReply;
-    m_handlers[1218] = (void*)CPacketTranslater::OnMemberSecede;
-    m_handlers[1221] = (void*)CPacketTranslater::OnCallMemberList;
-    m_handlers[1222] = (void*)CPacketTranslater::OnNoticeMemberChatMsg;
-    m_handlers[1223] = (void*)CPacketTranslater::OnPayTaxToUpper;
-    m_handlers[1020] = (void*)CPacketTranslater::OnUpdateChangableCharInfo;
-    m_handlers[1019] = (void*)CPacketTranslater::OnLogoutComplete;
-    m_handlers[1224] = (void*)CPacketTranslater::OnUserRepel;
-    m_handlers[1225] = (void*)CPacketTranslater::OnCharacterDelete;
-    m_handlers[1110] = (void*)CPacketTranslater::OnEventStart;
-    m_handlers[1111] = (void*)CPacketTranslater::OnEventEnd;
-    m_handlers[1307] = (void*)CPacketTranslater::OnNotifyNewMail;
-    m_handlers[2007] = (void*)CPacketTranslater::OnWebQueryUserState;
-    m_handlers[2531] = (void*)CPacketTranslater::OnNoticeMessage;
-    m_handlers[2507] = (void*)CPacketTranslater::OnRelayServerUserCheck;
-    m_handlers[2532] = (void*)CPacketTranslater::OnForbidChat;
-    m_handlers[1231] = (void*)CPacketTranslater::OnNoticeProhibitConnectUser;
-    m_handlers[1407] = (void*)CPacketTranslater::OnMonitorManagerConnectOK;
-    m_handlers[1357] = (void*)CPacketTranslater::OnMonitorMegaPhoneMsg;
-    m_handlers[1507] = (void*)CPacketTranslater::OnRegisterToBlackList;
-    m_handlers[1508] = (void*)CPacketTranslater::OnDeleteToBlackList;
-    m_handlers[1511] = (void*)CPacketTranslater::OnRequestBlackList;
-    m_handlers[1509] = (void*)CPacketTranslater::OnDBMWResisterToBlackList;
-    m_handlers[1510] = (void*)CPacketTranslater::OnDBMWDeleteToBlackList;
-    m_handlers[1512] = (void*)CPacketTranslater::OnDBMWResponseBlackListOnLogin;
-    m_handlers[2533] = (void*)CPacketTranslater::OnExchangeServerInfo;
-    m_handlers[1607] = (void*)CPacketTranslater::OnNoticeCharLiveOnTenMin;
-    m_handlers[2535] = (void*)CPacketTranslater::OnWebNoticeSingle;
-    m_handlers[1657] = (void*)CPacketTranslater::OnAddBuddy;
-    m_handlers[1658] = (void*)CPacketTranslater::OnAddBuddyDBReply;
-    m_handlers[1659] = (void*)CPacketTranslater::OnDelBuddy;
-    m_handlers[1660] = (void*)CPacketTranslater::OnDelBuddyDBReply;
-    m_handlers[1661] = (void*)CPacketTranslater::OnQueryBuddyInfoDBReply;
-    m_handlers[1021] = (void*)CPacketTranslater::OnWebChangeUserHandicap;
-    m_handlers[1907] = (void*)CPacketTranslater::OnGMRequestMid;
-    m_handlers[1239] = (void*)CPacketTranslater::OnUserRepelByCharName;
-    m_handlers[1236] = (void*)CPacketTranslater::onReplyLoadTowerFullRank;
-    m_handlers[1237] = (void*)CPacketTranslater::onRequestCharacTowerUpdateRank;
-    m_handlers[1238] = (void*)CPacketTranslater::onRequestReloadTowerRanker;
-    m_handlers[2907] = (void*)CPacketTranslater::onWebReqReloadAutoPunishRule;
-    m_handlers[4007] = (void*)CPacketTranslater::OnInnerPacketLogin;
-    m_handlers[4008] = (void*)CPacketTranslater::OnInnerPacketLogout;
-    m_handlers[2707] = (void*)CPacketTranslater::OnNoticeSlang;
-    m_handlers[2908] = (void*)CPacketTranslater::onLoadCleanPadPoint;
-    m_handlers[2909] = (void*)CPacketTranslater::onLoadBlackIPMonitor;
-    m_handlers[2910] = (void*)CPacketTranslater::onLoadBlackIPMonitorPartLoad;
-    m_handlers[2911] = (void*)CPacketTranslater::onLoadBlackIPMonitorDeleteIP;
-    m_handlers[1112] = (void*)CPacketTranslater::OnChangeCharName;
-    m_handlers[3107] = (void*)CPacketTranslater::OnNotifyAuctionMail;
-    m_handlers[4009] = (void*)CPacketTranslater::OnPvPChannelInfo;
-    m_handlers[4010] = (void*)CPacketTranslater::OnPvPChannelUserCount;
-    m_handlers[4011] = (void*)CPacketTranslater::OnChannelType;
-    m_handlers[4021] = (void*)CPacketTranslater::OnServerMessageInfo;
-    m_handlers[1777] = (void*)CPacketTranslater::OnRequestReloadPowerWarRanker;
-    m_handlers[2917] = (void*)CPacketTranslater::onLoadPunishUserReq;
-    m_handlers[2918] = (void*)CPacketTranslater::onIPCounterControl;
-    m_handlers[4110] = (void*)CPacketTranslater::onItemLimitEditionLoadDataReq;
-    m_handlers[4111] = (void*)CPacketTranslater::onItemLimitEditionLoadDataRpy;
-    m_handlers[4108] = (void*)CPacketTranslater::onItemLimitEditionSellEnd;
-    m_handlers[4112] = (void*)CPacketTranslater::onItemLimitEditionBuyableRequest;
-    m_handlers[4117] = (void*)CPacketTranslater::OnMonitorFindFactoryHubUser;
-    m_handlers[2919] = (void*)CPacketTranslater::OnSetCleanPadPoint;
-    m_handlers[4160] = (void*)CPacketTranslater::OnResponseIPCounterList;
-    m_handlers[4161] = (void*)CPacketTranslater::OnResponseFullIPCounterList;
-    m_handlers[2522] = (void*)CPacketTranslater::OnTakeScreenShot;
-    m_handlers[6009] = (void*)CPacketTranslater::OnVillageMonsterFightResult;
-    m_handlers[6016] = (void*)CPacketTranslater::OnVillageAttackedGMCommand;
-    m_handlers[6018] = (void*)CPacketTranslater::OnVillageAttackedRank;
-    m_handlers[6021] = (void*)CPacketTranslater::OnMonitorFullLevelBroadCast;
-    m_handlers[2920] = (void*)CPacketTranslater::OnSetARSInfo;
-    m_handlers[2921] = (void*)CPacketTranslater::OnWebRequestARSInfo;
-    m_handlers[7021] = (void*)CPacketTranslater::OnCheckOverlappedAccusation;
-    m_handlers[8008] = (void*)CPacketTranslater::OnGameServerRegist;
-    m_handlers[7028] = (void*)CPacketTranslater::OnNoCache;
-    m_handlers[8010] = (void*)CPacketTranslater::OnDisableUserOneToOneChat_GM;
-    m_handlers[8011] = (void*)CPacketTranslater::OnRegisterGM_mid;
-    m_handlers[8012] = (void*)CPacketTranslater::OnFindCharacName_useUID;
-    m_handlers[8020] = (void*)CPacketTranslater::OnRenew_GM_List;
-    m_handlers[8015] = (void*)CPacketTranslater::OnLoadPeriodicMessage;
-    m_handlers[8016] = (void*)CPacketTranslater::OnResultLoadPeriodicMessage;
-    m_handlers[9032] = (void*)CPacketTranslater::OnRegisterEventIdx;
-    m_handlers[9034] = (void*)CPacketTranslater::OnRegisterEventUserIdx;
-    m_handlers[9037] = (void*)CPacketTranslater::OnRegisterEventItem;
-    m_handlers[9039] = (void*)CPacketTranslater::OnResultRegisterEventIdx;
-    m_handlers[9041] = (void*)CPacketTranslater::OnGameMonitorGMVillageAttacked;
-    m_handlers[2923] = (void*)CPacketTranslater::OnMonitorPunishCancel;
-    m_handlers[10008] = (void*)CPacketTranslater::OnBroadcastMsg;
-    m_handlers[2924] = (void*)CPacketTranslater::OnMonitorSecuServiceConnWeb;
-    m_handlers[10009] = (void*)CPacketTranslater::OnResetTODAPCInfo;
-    m_handlers[10017] = (void*)CPacketTranslater::OnNoticeMemberChatMsgHyperLink;
-    m_handlers[10016] = (void*)CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink;
-    m_handlers[10018] = (void*)CPacketTranslater::OnMonitorMegaPhoneMsgHyperLink;
-    m_handlers[10207] = (void*)CPacketTranslater::onSocialEventRewardItemRequest;
-    m_handlers[10211] = (void*)CPacketTranslater::onSocialEventRewardItemResponse;
-    m_handlers[10208] = (void*)CPacketTranslater::onSocialEventRewardItemInfo;
-    m_handlers[10209] = (void*)CPacketTranslater::onSocialEventRewardItemInfoAll;
-    m_handlers[10212] = (void*)CPacketTranslater::onSocialEventRewardItemUpdate;
-    m_handlers[10213] = (void*)CPacketTranslater::onRequestCharacInfoByCharacName;
-    m_handlers[10217] = (void*)CPacketTranslater::OnWebNoticeInGameAD;
-    m_handlers[10221] = (void*)CPacketTranslater::onCollectItems;
-    m_handlers[10222] = (void*)CPacketTranslater::onCollectItemsResult;
-    m_handlers[10226] = (void*)CPacketTranslater::onCollectItemsGm;
-    m_handlers[10227] = (void*)CPacketTranslater::OnPcRoomPlayTimeReward;
-    m_handlers[10232] = (void*)CPacketTranslater::OnWebEmergencyPatchMessage;
-    m_handlers[10239] = (void*)CPacketTranslater::OnUpdateMiniCraneSeed;
-    m_handlers[10242] = (void*)CPacketTranslater::onStartGameEventFromServer;
-    m_handlers[10243] = (void*)CPacketTranslater::onEndGameEventFromServer;
-    m_handlers[10245] = (void*)CPacketTranslater::onReloadCountryCode;
-    m_handlers[10246] = (void*)CPacketTranslater::onReloadSecurityRestrictPolicy;
+    m_handlers[1000] = (void*)CPacketTranslater::OnLogin;
+    m_handlers[1001] = (void*)CPacketTranslater::OnLogout;
+    m_handlers[1002] = (void*)CPacketTranslater::OnReplyUserInfo;
+    m_handlers[1004] = (void*)CPacketTranslater::OnHeartBeat;
+    m_handlers[1007] = (void*)CPacketTranslater::OnCharLogin;
+    m_handlers[1011] = (void*)CPacketTranslater::OnNoticeOtherChannelChatMsg;
+    m_handlers[1100] = (void*)CPacketTranslater::OnCeraUpdate;
+    m_handlers[1101] = (void*)CPacketTranslater::OnEventItemUpdate;
+    m_handlers[1203] = (void*)CPacketTranslater::OnReplyQueryMember;
+    m_handlers[1207] = (void*)CPacketTranslater::OnRequestMemberEnter;
+    m_handlers[1209] = (void*)CPacketTranslater::OnMemberEnterReply;
+    m_handlers[1211] = (void*)CPacketTranslater::OnMemberSecede;
+    m_handlers[1214] = (void*)CPacketTranslater::OnCallMemberList;
+    m_handlers[1215] = (void*)CPacketTranslater::OnNoticeMemberChatMsg;
+    m_handlers[1216] = (void*)CPacketTranslater::OnPayTaxToUpper;
+    m_handlers[1013] = (void*)CPacketTranslater::OnUpdateChangableCharInfo;
+    m_handlers[1012] = (void*)CPacketTranslater::OnLogoutComplete;
+    m_handlers[1217] = (void*)CPacketTranslater::OnUserRepel;
+    m_handlers[1218] = (void*)CPacketTranslater::OnCharacterDelete;
+    m_handlers[1103] = (void*)CPacketTranslater::OnEventStart;
+    m_handlers[1104] = (void*)CPacketTranslater::OnEventEnd;
+    m_handlers[1300] = (void*)CPacketTranslater::OnNotifyNewMail;
+    m_handlers[2000] = (void*)CPacketTranslater::OnWebQueryUserState;
+    m_handlers[2524] = (void*)CPacketTranslater::OnNoticeMessage;
+    m_handlers[2500] = (void*)CPacketTranslater::OnRelayServerUserCheck;
+    m_handlers[2525] = (void*)CPacketTranslater::OnForbidChat;
+    m_handlers[1224] = (void*)CPacketTranslater::OnNoticeProhibitConnectUser;
+    m_handlers[1400] = (void*)CPacketTranslater::OnMonitorManagerConnectOK;
+    m_handlers[1350] = (void*)CPacketTranslater::OnMonitorMegaPhoneMsg;
+    m_handlers[1500] = (void*)CPacketTranslater::OnRegisterToBlackList;
+    m_handlers[1501] = (void*)CPacketTranslater::OnDeleteToBlackList;
+    m_handlers[1504] = (void*)CPacketTranslater::OnRequestBlackList;
+    m_handlers[1502] = (void*)CPacketTranslater::OnDBMWResisterToBlackList;
+    m_handlers[1503] = (void*)CPacketTranslater::OnDBMWDeleteToBlackList;
+    m_handlers[1505] = (void*)CPacketTranslater::OnDBMWResponseBlackListOnLogin;
+    m_handlers[2526] = (void*)CPacketTranslater::OnExchangeServerInfo;
+    m_handlers[1600] = (void*)CPacketTranslater::OnNoticeCharLiveOnTenMin;
+    m_handlers[2528] = (void*)CPacketTranslater::OnWebNoticeSingle;
+    m_handlers[1650] = (void*)CPacketTranslater::OnAddBuddy;
+    m_handlers[1651] = (void*)CPacketTranslater::OnAddBuddyDBReply;
+    m_handlers[1652] = (void*)CPacketTranslater::OnDelBuddy;
+    m_handlers[1653] = (void*)CPacketTranslater::OnDelBuddyDBReply;
+    m_handlers[1654] = (void*)CPacketTranslater::OnQueryBuddyInfoDBReply;
+    m_handlers[1014] = (void*)CPacketTranslater::OnWebChangeUserHandicap;
+    m_handlers[1900] = (void*)CPacketTranslater::OnGMRequestMid;
+    m_handlers[1232] = (void*)CPacketTranslater::OnUserRepelByCharName;
+    m_handlers[1229] = (void*)CPacketTranslater::onReplyLoadTowerFullRank;
+    m_handlers[1230] = (void*)CPacketTranslater::onRequestCharacTowerUpdateRank;
+    m_handlers[1231] = (void*)CPacketTranslater::onRequestReloadTowerRanker;
+    m_handlers[2900] = (void*)CPacketTranslater::onWebReqReloadAutoPunishRule;
+    m_handlers[4000] = (void*)CPacketTranslater::OnInnerPacketLogin;
+    m_handlers[4001] = (void*)CPacketTranslater::OnInnerPacketLogout;
+    m_handlers[2700] = (void*)CPacketTranslater::OnNoticeSlang;
+    m_handlers[2901] = (void*)CPacketTranslater::onLoadCleanPadPoint;
+    m_handlers[2902] = (void*)CPacketTranslater::onLoadBlackIPMonitor;
+    m_handlers[2903] = (void*)CPacketTranslater::onLoadBlackIPMonitorPartLoad;
+    m_handlers[2904] = (void*)CPacketTranslater::onLoadBlackIPMonitorDeleteIP;
+    m_handlers[1105] = (void*)CPacketTranslater::OnChangeCharName;
+    m_handlers[3100] = (void*)CPacketTranslater::OnNotifyAuctionMail;
+    m_handlers[4002] = (void*)CPacketTranslater::OnPvPChannelInfo;
+    m_handlers[4003] = (void*)CPacketTranslater::OnPvPChannelUserCount;
+    m_handlers[4004] = (void*)CPacketTranslater::OnChannelType;
+    m_handlers[4014] = (void*)CPacketTranslater::OnServerMessageInfo;
+    m_handlers[1770] = (void*)CPacketTranslater::OnRequestReloadPowerWarRanker;
+    m_handlers[2910] = (void*)CPacketTranslater::onLoadPunishUserReq;
+    m_handlers[2911] = (void*)CPacketTranslater::onIPCounterControl;
+    m_handlers[4103] = (void*)CPacketTranslater::onItemLimitEditionLoadDataReq;
+    m_handlers[4104] = (void*)CPacketTranslater::onItemLimitEditionLoadDataRpy;
+    m_handlers[4101] = (void*)CPacketTranslater::onItemLimitEditionSellEnd;
+    m_handlers[4105] = (void*)CPacketTranslater::onItemLimitEditionBuyableRequest;
+    m_handlers[4110] = (void*)CPacketTranslater::OnMonitorFindFactoryHubUser;
+    m_handlers[2912] = (void*)CPacketTranslater::OnSetCleanPadPoint;
+    m_handlers[4153] = (void*)CPacketTranslater::OnResponseIPCounterList;
+    m_handlers[4154] = (void*)CPacketTranslater::OnResponseFullIPCounterList;
+    m_handlers[2515] = (void*)CPacketTranslater::OnTakeScreenShot;
+    m_handlers[6002] = (void*)CPacketTranslater::OnVillageMonsterFightResult;
+    m_handlers[6009] = (void*)CPacketTranslater::OnVillageAttackedGMCommand;
+    m_handlers[6011] = (void*)CPacketTranslater::OnVillageAttackedRank;
+    m_handlers[6014] = (void*)CPacketTranslater::OnMonitorFullLevelBroadCast;
+    m_handlers[2913] = (void*)CPacketTranslater::OnSetARSInfo;
+    m_handlers[2914] = (void*)CPacketTranslater::OnWebRequestARSInfo;
+    m_handlers[7014] = (void*)CPacketTranslater::OnCheckOverlappedAccusation;
+    m_handlers[8001] = (void*)CPacketTranslater::OnGameServerRegist;
+    m_handlers[7021] = (void*)CPacketTranslater::OnNoCache;
+    m_handlers[8003] = (void*)CPacketTranslater::OnDisableUserOneToOneChat_GM;
+    m_handlers[8004] = (void*)CPacketTranslater::OnRegisterGM_mid;
+    m_handlers[8005] = (void*)CPacketTranslater::OnFindCharacName_useUID;
+    m_handlers[8013] = (void*)CPacketTranslater::OnRenew_GM_List;
+    m_handlers[8008] = (void*)CPacketTranslater::OnLoadPeriodicMessage;
+    m_handlers[8009] = (void*)CPacketTranslater::OnResultLoadPeriodicMessage;
+    m_handlers[9025] = (void*)CPacketTranslater::OnRegisterEventIdx;
+    m_handlers[9027] = (void*)CPacketTranslater::OnRegisterEventUserIdx;
+    m_handlers[9030] = (void*)CPacketTranslater::OnRegisterEventItem;
+    m_handlers[9032] = (void*)CPacketTranslater::OnResultRegisterEventIdx;
+    m_handlers[9034] = (void*)CPacketTranslater::OnGameMonitorGMVillageAttacked;
+    m_handlers[2916] = (void*)CPacketTranslater::OnMonitorPunishCancel;
+    m_handlers[10001] = (void*)CPacketTranslater::OnBroadcastMsg;
+    m_handlers[2917] = (void*)CPacketTranslater::OnMonitorSecuServiceConnWeb;
+    m_handlers[10002] = (void*)CPacketTranslater::OnResetTODAPCInfo;
+    m_handlers[10010] = (void*)CPacketTranslater::OnNoticeMemberChatMsgHyperLink;
+    m_handlers[10009] = (void*)CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink;
+    m_handlers[10011] = (void*)CPacketTranslater::OnMonitorMegaPhoneMsgHyperLink;
+    m_handlers[10200] = (void*)CPacketTranslater::onSocialEventRewardItemRequest;
+    m_handlers[10204] = (void*)CPacketTranslater::onSocialEventRewardItemResponse;
+    m_handlers[10201] = (void*)CPacketTranslater::onSocialEventRewardItemInfo;
+    m_handlers[10202] = (void*)CPacketTranslater::onSocialEventRewardItemInfoAll;
+    m_handlers[10205] = (void*)CPacketTranslater::onSocialEventRewardItemUpdate;
+    m_handlers[10206] = (void*)CPacketTranslater::onRequestCharacInfoByCharacName;
+    m_handlers[10210] = (void*)CPacketTranslater::OnWebNoticeInGameAD;
+    m_handlers[10214] = (void*)CPacketTranslater::onCollectItems;
+    m_handlers[10215] = (void*)CPacketTranslater::onCollectItemsResult;
+    m_handlers[10219] = (void*)CPacketTranslater::onCollectItemsGm;
+    m_handlers[10220] = (void*)CPacketTranslater::OnPcRoomPlayTimeReward;
+    m_handlers[10225] = (void*)CPacketTranslater::OnWebEmergencyPatchMessage;
+    m_handlers[10232] = (void*)CPacketTranslater::OnUpdateMiniCraneSeed;
+    m_handlers[10235] = (void*)CPacketTranslater::onStartGameEventFromServer;
+    m_handlers[10236] = (void*)CPacketTranslater::onEndGameEventFromServer;
+    m_handlers[10238] = (void*)CPacketTranslater::onReloadCountryCode;
+    m_handlers[10239] = (void*)CPacketTranslater::onReloadSecurityRestrictPolicy;
 }
 
 CPacketDecoder::~CPacketDecoder() {}
 
 void CPacketDecoder::Attach(CApplication* app) {}
 void CPacketDecoder::Process() {}
+void CPacketDecoder::TcpProcess()
+{
+    if (*(void**)((char*)this + 0xc) != 0 && *(void**)((char*)this + 0x10) != 0)
+    {
+        CTcpRecvBuffer* buf = 0;
+        while (true)
+        {
+            do
+            {
+                if (((std::queue<CTcpRecvBuffer*>*) * (void**)((char*)this + 0xc))->empty())
+                {
+                    return;
+                }
+                buf = ((std::queue<CTcpRecvBuffer*>*) * (void**)((char*)this + 0xc))->front();
+                ((std::queue<CTcpRecvBuffer*>*) * (void**)((char*)this + 0xc))->pop();
+            } while (buf == 0);
+            CTcpRecvBuffer* pkt = buf;
+            int qsize = ((std::queue<CTcpRecvBuffer*>*) * (void**)((char*)this + 0xc))->size();
+            CAppLoadChecker* checker = CAppLoadCheckerInstance();
+            if (checker->CheckTcpRecvQ(qsize))
+            {
+                checker->RequestDB(*(void**)((char*)this + 0x18), 1, qsize);
+            }
+            if (MsgDecode((PacketHeader*)buf) != 1)
+            {
+                break;
+            }
+            {
+                CGuard<CMutex> guard((CMutex*) * (void**)((char*)this + 0x14));
+                delete buf;
+            }
+        }
+        {
+            CGuard<CMutex> guard((CMutex*) * (void**)((char*)this + 0x14));
+            delete buf;
+        }
+        printf("[false == this->MsgDecode]packetHeader : %x\tpacket id : %d\n", buf,
+               *(unsigned short*)buf);
+        throw CDNFException(
+            "CPacketDecoder::MsgDecode() Undefined Packet Arrived Exception Break!");
+    }
+    throw CDNFException("CPacketDecoder is Not Ready!\n");
+}
+void CPacketDecoder::UdpProcess()
+{
+}
+char CPacketDecoder::MsgDecode(PacketHeader* pkt)
+{
+    if (pkt == 0)
+    {
+        return 0;
+    }
+    unsigned short id = *(unsigned short*)pkt;
+    if (id < 0x2800 && 999 < id)
+    {
+        static CPacketCounter<1000, 10240> packet_counter(0, "PacketDispatcher");
+        packet_counter.IncrementPacketCount(id);
+        void* handler = m_handlers[id];
+        if (handler == 0)
+        {
+            CMyFileLog log("MsgDecode", 0x1db);
+            log("./log/Decoder",
+                "CPacketDecoder::MsgDecode() Game Message with identifier %d has arrived.<0 == m_decodProcFunc>\n",
+                id);
+            return 0;
+        }
+        packet_counter.BeforeProcess();
+        ((void(*)(PacketHeader*))handler)(pkt);
+        packet_counter.AfterProcess(id);
+        return 1;
+    }
+    printf("Undefined Packet Err : Game Message with identifier %d has arrived.\n", id);
+    CMyFileLog log("MsgDecode", 0x1fa);
+    log("./log/Decoder",
+        "Undefined Packet Err: CPacketDecoder::MsgDecode() Game Message with identifier %d has arrived.\n",
+        id);
+    return 0;
+}
 
 CPacketDecoder* CPacketDecoderInstance() { return 0; }
 CSignalTranslator* CSignalTranslatorInstance() { return 0; }

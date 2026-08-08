@@ -59,6 +59,39 @@ public:
     char m_data[0x1804];
 };
 
+// ---- CTcpRecvBuffer：0x1804 ----
+class CTcpRecvBuffer
+{
+public:
+    static void* operator new(unsigned int size);
+    static void operator delete(void* ptr);
+    char m_data[0x1804];
+};
+
+// ---- CAppLoadChecker（最小）----
+class CAppLoadChecker
+{
+public:
+    char CheckTcpRecvQ(int size);
+    void RequestDB(void* serverHandler, int flag, int size);
+};
+
+CAppLoadChecker* CAppLoadCheckerInstance();
+
+// ---- CPacketCounter<1000,10240>：统计计数器 ----
+template<int A, int B>
+class CPacketCounter
+{
+public:
+    CPacketCounter(char* dir, char* name);
+    ~CPacketCounter();
+    void Reset();
+    void IncrementPacketCount(int id);
+    void BeforeProcess();
+    void AfterProcess(int id);
+    char m_data[0x1d648];
+};
+
 class CPeriodicMessageMgr
 {
 public:
@@ -640,7 +673,11 @@ public:
     ~CPacketDecoder();
     void Attach(CApplication* app);
     void Process();
-    void* m_handlers[0xa020 / 4];
+    void TcpProcess();
+    void UdpProcess();
+    char MsgDecode(PacketHeader* pkt);
+    char m_header[0x1c];                    // +0（recvQ@0xc/parseQ@0x10/bLock@0x14/handler@0x18）
+    void* m_handlers[(0xa020 - 0x1c) / 4];  // +0x1c
 };
 
 CPacketDecoder* CPacketDecoderInstance();
