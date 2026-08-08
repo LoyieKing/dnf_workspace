@@ -27,6 +27,71 @@ void CPacketTranslater::RequestBlackListToDBMW(unsigned int charNo)
     m_pclApp->Get_ServerHandler()->SendToDB(&pkt);
 }
 
+void CPacketTranslater::GuildJoin(CGuild* guild, CUser* user, unsigned int dbid)
+{
+    if (guild != 0 && user != 0)
+    {
+        user->SetGuildMemFlag(4);
+        user->SendSetGuildKeyToUser(guild->GetGuildKey(), user->GetUniqCharNo());
+        if (guild->InsertGuildMember(user->GetUniqCharNo(), user) != 1)
+        {
+            CMyFileLog log("GuildJoin", 0xa41);
+            log("./log/GuildMember", "[INSERT_ERR]\tChar Key : %d\t Insert False\n",
+                user->GetUniqCharNo());
+        }
+        if (guild->IsSetGuildDBFlag(4) != 0)
+        {
+            if (guild->LoadGuildOneMemberProxy(user) != 1)
+            {
+                guild->IncTotalCnt_Of_GuildDBInfo();
+            }
+            CMyFileLog log("GuildJoin", 0xa4a);
+            log("./log/GuildModify", "GUILD JOIN guild(%s) char(%s)",
+                guild->GetGuildName(), user->GetCharName());
+            ST_Notice_Guild_Enter info;
+            memset(&info, 0, sizeof(info));
+            *(unsigned int*)((char*)&info + 0) = guild->GetGuildKey();
+            *(unsigned int*)((char*)&info + 4) = user->GetDBID();
+            *(unsigned int*)((char*)&info + 8) = user->GetUniqCharNo();
+            memcpy((char*)&info + 0x23, user->GetCharName(), 0x1d);
+            memcpy((char*)&info + 0xc, guild->GetGuildName(), 0x16);
+            guild->NoticeEnterToGuildMember((char*)&info);
+        }
+        user->MakeGameServerSendUserInfoPacket(guild->GetGuildKey());
+        guild->SendGuildInfoToMembers(false);
+    }
+}
+
+void CPacketTranslater::GuildJoin(CGuild* guild, STGuildJoinInfo* joinInfo, unsigned int dbid)
+{
+    if (guild != 0)
+    {
+        if (guild->IsSetGuildDBFlag(4) != 0 || guild->IsSetGuildDBFlag(0x10) != 0)
+        {
+            STGuildMemberProxy proxy;
+            memset(&proxy, 0, sizeof(proxy));
+            *(unsigned int*)((char*)&proxy + 0x10) = *(unsigned int*)((char*)joinInfo + 0x10);
+            memcpy((char*)&proxy + 0x14, (char*)joinInfo + 0x14, 0x1d);
+            if (guild->LoadGuildOneMemberProxy(proxy) != 1)
+            {
+                guild->IncTotalCnt_Of_GuildDBInfo();
+            }
+            CMyFileLog log("GuildJoin", 0xa71);
+            log("./log/GuildModify", "GUILD JOIN guild(%s) char(%s)",
+                guild->GetGuildName(), (char*)joinInfo + 0x14);
+        }
+        ST_Notice_Guild_Enter info;
+        memset(&info, 0, sizeof(info));
+        *(unsigned int*)((char*)&info + 0) = guild->GetGuildKey();
+        *(unsigned int*)((char*)&info + 4) = *(unsigned int*)((char*)joinInfo + 8);
+        *(unsigned int*)((char*)&info + 8) = dbid;
+        memcpy((char*)&info + 0x23, (char*)joinInfo + 0x14, 0x1d);
+        memcpy((char*)&info + 0xc, guild->GetGuildName(), 0x16);
+        guild->NoticeEnterToGuildMember((char*)&info);
+        guild->SendGuildInfoToMembers(false);
+    }
+}
+
 void CPacketTranslater::attach(CApplication* app)
 {
     m_pclApp = app;
