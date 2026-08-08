@@ -268,3 +268,10 @@
   CAppStopInit::Init、STGuildSkillC1E（memset vs 逐字段）、RandomOption/
   DnfItemInfo::reset、CGuildBoard::sendGuildBoardData
 - 冒烟通过；DIFF 1117 / IDENTICAL 376 / NEAR 207
+
+## 2026-08-09 第十轮（收尾核验）
+
+- 核验等价：TiXmlAttribute::Print、signal_handler（虚调用寄存器差异）、
+  CGuildC1E（STGuildDBInfo/STGuildAgitDBInfo 构造）、CheckDaily/CheckDayHour
+  ScheduleTimeOver、_Unwind 族（链接器版本差异）、libstdc++ 内部函数
+- 冒烟通过；DIFF 1117 / IDENTICAL 376 / NEAR 207
