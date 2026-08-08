@@ -581,7 +581,6 @@ STUB_HANDLER(OnRequestBlackList)
 STUB_HANDLER(OnDBMWResisterToBlackList)
 STUB_HANDLER(OnDBMWDeleteToBlackList)
 STUB_HANDLER(OnDBMWResponseBlackListOnLogin)
-STUB_HANDLER(OnBuyGuildSkill)
 STUB_HANDLER(OnDBMWChangeUnconnectedGuildMemberGrade)
 STUB_HANDLER(OnNotifyMessageToGuild)
 STUB_HANDLER(OnMonitorManagerConnectOK)
@@ -590,7 +589,6 @@ STUB_HANDLER(OnDBMWReplySendGuildLetter)
 STUB_HANDLER(OnDBMWGuildJoin)
 STUB_HANDLER(OnRequestGuildCreate)
 STUB_HANDLER(OnDBReplyGuildCreate)
-STUB_HANDLER(OnGuildMasterDelegateFromWeb)
 STUB_HANDLER(OnInnerPacketLogin)
 STUB_HANDLER(OnInnerPacketLogout)
 STUB_HANDLER(OnPowerWarStartInfo)
@@ -1518,6 +1516,128 @@ void CPacketTranslater::OnDBReplyGuildSecede(PacketHeader* pkt)
     {
         *(unsigned int*)((char*)&resp + 0x1a) = (unsigned int)secedeType;
         requester->SendToGameserver((char*)&resp, 0x52);
+    }
+}
+
+void CPacketTranslater::OnGuildMasterDelegateFromWeb(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnGuildMasterDelegateFromWeb : 0 == m_pclApp");
+    unsigned int guildKey = *(unsigned int*)((char*)pkt + 0xa);
+    unsigned int requesterCharNo = *(unsigned int*)((char*)pkt + 0xe);
+    unsigned int delegateeCharNo = *(unsigned int*)((char*)pkt + 0x12);
+    if (guildKey == 0)
+    {
+        throw CDNFException(
+            "CPacketTranslater::OnGuildMasterDelegateFromWeb : packet->m_uGuildKey == 0");
+    }
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnGuildMasterDelegateFromWeb", 0xcf0);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnGuildMasterDelegateFromWeb : 0 == pclGuild, Guild Key = %d",
+            guildKey);
+        return;
+    }
+    if (guild->IsSetGuildDBFlag(4) == 1)
+    {
+        if (guild->IsGuildMaster(requesterCharNo))
+        {
+            CUser* requester = m_pclApp->Get_UserManager()->FindUser_CharNo(requesterCharNo);
+            if (requester == 0)
+            {
+                CMyFileLog log("OnGuildMasterDelegateFromWeb", 0xd04);
+                log("./log/GuildModify",
+                    "CPacketTranslater::OnGuildMasterDelegateFromWeb : 0 == pclRequester, Char Key = %d",
+                    requesterCharNo);
+            }
+            if (guild->IsSubGuildMaster(delegateeCharNo) == 0)
+            {
+                CMyFileLog log("OnGuildMasterDelegateFromWeb", 0xd10);
+                log("./log/GuildModify",
+                    "CPacketTranslater::OnGuildMasterDelegateFromWeb : Delegatee(%d) is not sub guild master, Guild Key = %d",
+                    delegateeCharNo, guildKey);
+            }
+            else
+            {
+                guild->SetSubGuildMaster(delegateeCharNo, false);
+                if (guild->ChangeGuildMaster(m_pclApp->Get_ServerHandler(), requester,
+                                             delegateeCharNo) != 1)
+                {
+                    CMyFileLog log("OnGuildMasterDelegateFromWeb", 0xd1b);
+                    log("./log/GuildModify",
+                        "CPacketTranslater::OnGuildMasterDelegateFromWeb : ERR : Guild'state is not GUILD_DB_LOAD_STATE, Guild Key = %d",
+                        guildKey);
+                }
+                guild->ChangeUnconnectedGuildMemberGrade(requesterCharNo, 3);
+                if (requester != 0)
+                {
+                    requester->ChangeGuildMemberGrade(3);
+                }
+                guild->SendGuildInfoToMembers(false);
+                guild->NoticeGuildMasterDelegateToMembers((char*)pkt + 0x16);
+                CUser* delegatee = m_pclApp->Get_UserManager()->FindUser_CharNo(delegateeCharNo);
+                if (delegatee != 0)
+                {
+                    Packet_Notice_Has_Been_Guild_Master notice;
+                    *(unsigned int*)((char*)&notice + 0xa) = delegateeCharNo;
+                    *(unsigned int*)((char*)&notice + 0xe) = delegatee->GetIdByChannel();
+                    delegatee->SendToGameserver((char*)&notice, 0x12);
+                }
+            }
+        }
+        else
+        {
+            CMyFileLog log("OnGuildMasterDelegateFromWeb", 0xcfd);
+            log("./log/GuildModify",
+                "CPacketTranslater::OnGuildMasterDelegateFromWeb : Requester is Not Guild Master(%d)(%d)",
+                guildKey, requesterCharNo);
+        }
+    }
+    else
+    {
+        CMyFileLog log("OnGuildMasterDelegateFromWeb", 0xcf6);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnGuildMasterDelegateFromWeb : Guild'state is not GUILD_DB_LOAD_STATE, Guild Key = %d",
+            guildKey);
+    }
+}
+
+void CPacketTranslater::OnBuyGuildSkill(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnBuyGuildSkill : 0 == m_pclApp");
+    unsigned int charNo = *(unsigned int*)((char*)pkt + 0xa);
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnBuyGuildSkill : 0 == pclUser");
+    }
+    unsigned int guildKey = *(unsigned int*)((char*)pkt + 0xe);
+    if (guildKey == 0)
+    {
+        throw CDNFException(
+            "CPacketTranslater::OnBuyGuildSkill : packet->m_uCharID && packet->m_uGuildKey && packet->m_msgLen");
+    }
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild != 0)
+    {
+        bool isMaster = guild->IsGuildMaster(charNo) || guild->IsSubGuildMaster(charNo);
+        if (isMaster &&
+            guild->BuyGuildSkill(*(int*)((char*)pkt + 0x12), *(int*)((char*)pkt + 0x16),
+                                 *(short*)((char*)pkt + 0x1a),
+                                 *(unsigned int*)((char*)pkt + 0x1c)))
+        {
+            char saveFlag = (char)guild->GetDBSaveFlag();
+            guild->SendGuildInfoToMembers(false);
+            unsigned char group =
+                user->GetGameServer() != 0 ? user->GetGameServer()->GetGroupNo() : 0;
+            guild->DBGuildSave(group, m_pclApp->Get_ServerHandler(), 1);
+            if (saveFlag != 0)
+            {
+                guild->EnableDBSaveFlag();
+                guild->DBGuildSave(group, m_pclApp->Get_ServerHandler(), 0);
+            }
+        }
     }
 }
 
