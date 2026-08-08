@@ -610,7 +610,6 @@ void CPacketTranslater::OnNoticeGuildMarkChange(PacketHeader* pkt)
     }
 }
 
-STUB_HANDLER(OnMonitorManagerConnectOK)
 STUB_HANDLER(OnInnerPacketLogin)
 STUB_HANDLER(OnInnerPacketLogout)
 STUB_HANDLER(OnGuildApplyOriginalPowerSide)
@@ -622,7 +621,6 @@ STUB_HANDLER(OnDBResponseApproveJoinGuild)
 STUB_HANDLER(OnGuildAttendanceInfo)
 STUB_HANDLER(OnGuildDebug)
 STUB_HANDLER(OnRenew_GM_List)
-STUB_HANDLER(OnNoticeGuildChatMsgHyperLink)
 
 void CPacketTranslater::OnCallGuildInvite(PacketHeader* pkt)
 {
@@ -4112,6 +4110,42 @@ void CPacketTranslater::OnUpdateChangableCharInfo(PacketHeader* pkt)
     if (user != 0)
     {
         user->SetUserChangableInfo(*(short*)(pb + 0xf), (char)pb[0x11]);
+    }
+}
+
+void CPacketTranslater::OnMonitorManagerConnectOK(PacketHeader* pkt)
+{
+    (void)pkt;
+    THROW_IF_NO_APP("CPacketTranslater::OnMonitorManagerConnectOK : 0 == m_pclApp");
+    m_pclApp->Get_ServerHandler()->SetManagerConnectFlag(true);
+    CMyFileLog log("OnMonitorManagerConnectOK", 0xe2d);
+    log("./log/Manager", "Manager Server Connect Success");
+    puts("** Manager Server Connect Success **");
+}
+
+void CPacketTranslater::OnNoticeGuildChatMsgHyperLink(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildChatMsgHyperLink : 0 == m_pclApp");
+    char* pb = (char*)pkt;
+    if (*(int*)(pb + 0xe) != 0 && *(int*)(pb + 0xa) != 0 && (unsigned char)pb[0x14b] != 0)
+    {
+        CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xa));
+        if (user != 0)
+        {
+            CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xe));
+            if (guild != 0)
+            {
+                const char* name = user->GetCharName();
+                guild->NoticeChatMsgToGuildMembersHyperLink(
+                    *(unsigned int*)(pb + 0xa), pb + 0x14c, (unsigned char)pb[0x14b],
+                    (unsigned char)pb[0x12], (hyperlink_item_info*)(pb + 0x13), name);
+            }
+        }
+    }
+    else
+    {
+        throw CDNFException(
+            "CPacketTranslater::OnNoticeGuildChatMsgHyperLink : packet->m_uCharID && packet->m_uGuildKey && packet->m_msgLen");
     }
 }
 
