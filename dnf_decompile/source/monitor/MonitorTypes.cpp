@@ -1640,6 +1640,7 @@ void CTcpAcceptThread::dispatch(void* param)
 }
 
 void* CTcpHandler::GetEventPtr(int idx) { return 0; }
+int CTcpHandler::SetPeer(void* peer, int fd, bool flag) { return 0; }
 char CTcpHandler::IsSetInEvent(int idx) { return 1; }
 char CTcpHandler::IsSetOutEvent(int idx) { return 0; }
 char CTcpHandler::IsSetErrEvent(int idx) { return 0; }
@@ -1877,6 +1878,22 @@ int CTcpNetSystem::WaitForEvent() { return 0; }
 void CTcpNetSystem::DeletePeer(CPeer* peer) {}
 CPeer* CTcpNetSystem::CreatePeer() { return 0; }
 void CTcpNetSystem::InsertAcceptedPeer(CPeer* peer) {}
+void CTcpNetSystem::SetEpollConnectedPeer(CPeer* peer)
+{
+    {
+        CGuard<CMutex> guard(&m_mutex78);
+        int rc = 0;
+        int fd = peer->GetTcpSocket()->getHandle();
+        rc = m_handler->SetPeer(peer, fd, false);
+        if (rc != 0)
+        {
+            printf("G_EpollHandler()->SetPeer(peer->get_socket(%d)) %d(%s)",
+                   peer->GetTcpSocket()->getHandle(), rc, strerror(rc));
+        }
+        int key = peer->GetTcpSocket()->getHandle();
+        m_peers.insert(std::pair<const unsigned int, CPeer*>(key, peer));
+    }
+}
 unsigned short CTcpNetSystem::Get_TcpServerPort() { return m_port; }
 CMutex* CTcpNetSystem::Get_TcpRecvBLock() { return 0; }
 CMutex* CTcpNetSystem::Get_TcpRecvQLock() { return 0; }

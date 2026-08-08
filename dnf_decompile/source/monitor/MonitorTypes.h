@@ -529,6 +529,7 @@ public:
 class CTcpHandler
 {
 public:
+    int SetPeer(void* peer, int fd, bool flag);
     void* GetEventPtr(int idx);
     char IsSetInEvent(int idx);
     char IsSetOutEvent(int idx);
@@ -599,6 +600,7 @@ public:
     void Init(unsigned short port);
     bool OpenTcpService(int& sockRef, const char* ip, unsigned short port);
     void CleanPeers();
+    void SetEpollConnectedPeer(CPeer* peer);
     void SetEpollAcceptedPeers();
     void SendPacket();
     int WaitForEvent();
@@ -610,7 +612,7 @@ public:
     CMutex* Get_TcpRecvQLock();
     CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > >, 2>*
         Get_TcpSwapQPacket();
-    void* m_handler;    // +0
+    CTcpHandler* m_handler;  // +0
     void* m_field4;     // +4
     CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > >, 2>
         m_recvSwapQ;    // +8
