@@ -1623,6 +1623,17 @@ void CGuild::QueryGuild(CServerHandler* handler, unsigned int charNo)
 
 void CGuild::SendGuildInfoToMemberOnly(CUser* user)
 {
+    if ((*(unsigned short*)((char*)this + 0x1c) & 4) != 0)
+    {
+        Packet_Monitor_Notice_Guild_Info pkt;
+        *(unsigned int*)((char*)&pkt + 0xa) = user->GetIdByChannel();
+        *(unsigned int*)((char*)&pkt + 0xe) = user->GetUniqCharNo();
+        *(unsigned int*)((char*)&pkt + 0x12) = m_guildKey;
+        memcpy((char*)&pkt + 0x16, (char*)this + 0x20, 0xbd);
+        size_t len = strlen((char*)this + 0x4d0a);
+        memcpy((char*)&pkt + 0xd4, (char*)this + 0x4d0a, len < 0x65 ? len : 100);
+        user->SendToGameserver((char*)&pkt, 0x139);
+    }
 }
 
 void CGuild::QueryTodayGuildMember(CServerHandler* handler)
@@ -1914,6 +1925,29 @@ void CGuild::NotifyMessageToGuildMember()
 
 void CGuild::SendGuildInfoToManagers()
 {
+    if ((*(unsigned short*)((char*)this + 0x1c) & 4) != 0)
+    {
+        Packet_Monitor_Notice_Guild_Info pkt;
+        *(unsigned int*)((char*)&pkt + 0x12) = m_guildKey;
+        *(unsigned char*)((char*)&pkt + 0xd3) = 1;
+        memcpy((char*)&pkt + 0x16, (char*)this + 0x20, 0xbd);
+        strncpy((char*)&pkt + 0xd4, (char*)this + 0x4d0a, 100);
+        for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+             it != m_members.end(); ++it)
+        {
+            CUser* u = it->second;
+            if (u != 0)
+            {
+                if (IsGuildMaster(u->GetUniqCharNo()) == 1 ||
+                    IsSubGuildMaster(u->GetUniqCharNo()) == 1)
+                {
+                    *(unsigned int*)((char*)&pkt + 0xa) = u->GetIdByChannel();
+                    *(unsigned int*)((char*)&pkt + 0xe) = u->GetUniqCharNo();
+                    u->SendToGameserver((char*)&pkt, 0x139);
+                }
+            }
+        }
+    }
 }
 
 void CGuild::SendGuildNameChangeToMembers()
