@@ -3,6 +3,34 @@
 #include <string.h>
 
 #include "RelayLog.h"
+#include "RelayApp.h"
+
+namespace RelayServiceApp
+{
+
+TGlobalInstance<TextOutputDevice_FILE> g_FileLogInfo;
+TGlobalInstance<TextOutputDevice_FILE> g_FileLogWarn;
+TGlobalInstance<TextOutputDevice_FILE> g_FileLogError;
+TGlobalInstance<TextOutputDevice_FILE> g_FileLogCri;
+TGlobalInstance<TDebugTrace<char> > g_LogInfo;
+TGlobalInstance<TDebugTrace<char> > g_LogCri;
+TGlobalInstance<TDebugTrace<char> > g_LogWarn;
+TGlobalInstance<TDebugTrace<char> > g_LogError;
+
+PacketHeaderS2S::PacketHeaderS2S(unsigned short a, unsigned short b)
+{
+    m_a = a;
+    m_b = b;
+}
+
+Packet_Relay_User_Check::Packet_Relay_User_Check()
+    : PacketHeaderS2S(0x9c4, 0xf)
+{
+    m_f = 0;
+    m_g = 0;
+}
+
+} // namespace RelayServiceApp
 
 TextOutputDevice_FILE::TextOutputDevice_FILE()
 {

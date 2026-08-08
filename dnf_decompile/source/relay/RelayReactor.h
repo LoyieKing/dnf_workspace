@@ -12,7 +12,7 @@
 // EpollReactor：TManager@0 / set<TSession*>@4 / epoll_fd_@0x1c / max_client_@0x20 /
 //              events_@0x24 / lock@0x28，总 0x40
 template <class TSession, class TSendSocket, class TRecvSocket>
-class EpollReactor : public RelayServiceApp::TManager<RelayServiceApp::RelayService>
+class EpollReactor : public TManager<RelayServiceApp::RelayService>
 {
 public:
     EpollReactor()

@@ -103,5 +103,22 @@ vtable 19 槽（0-10 实现 + 11-18 纯虚）与原版 08070da0 完全同构。
 已完成：框架层（LinuxService/ServiceInfo/Neof_*/pid）、基础类（Exception/Token/Thread/
 LinuxSystem/Script/ScriptRawData）、Socket（TCPSocket 0x1c/UDPSocket 0x80）、
 模板（TDoubleCircularQueueBuffer 0x1900c/TMemoryPoolStatic 0x30）、RelayServiceApp
-全部类布局（RelayService 0x1d8/TCPUser 0x32038/Users 0xb8/UserPools 0x90/App 0x734）。
+全部类布局（RelayService 0x1d8/TCPUser 0x32038/Users 0xb8/UserPools 0x90/App 0x734），
+以及全部应用级函数体：TCPUser（onRead_/onWrite/onPacketParse/send/onClose）、
+TCPThread/UDPThread/TCPAcceptThread loop、EpollReactor/TReactor（0x40，全局作用域）、
+TCPHandlerRelay/UDPHandlerRelay/UDPHandlerS2S dispatch、RelayService
+（startup/shutdown/makeLog/disconnect/relay/setAuthenticated）、日志系统
+（TGlobalInstance/TDebugTrace/TextOutputDevice_FILE/createFileLog*/createLog*）、
+App（readConfig/prepareRun/run/load_script）与 main。
+
+链接改用 **-52 静态 libstdc++.a/libgcc.a**（i386 libstdc++-devel RPM），原版 std 运行时
+符号大量对齐（比对符号数 984 → 2010）。
+
+### 最终水位（2010 个原版符号，C1/C2 别名归一后）
+
+- **应用级 MISSING = 0**（RelayServiceApp/App/Socket/Script 等全部存在）；
+- IDENTICAL 142 + NEAR 282；DIFF 791（绝大多数为已记录的编译器构建差异：
+  寄存器分配、30B memset 扩展、bool 返回归一化、EH 代码形态）；MISSING 518 全部为
+  std/__gnu_cxx 容器内部实例化差异（deque/set/hash_map/vector 的 move/copy 机制，
+  原版代码的 STL 操作序列与还原版不完全相同所致，语义等价）。
 目标：MISSING=0，机器码接近原版 4.1.2 水平（已知编译器构建差异已记录）。

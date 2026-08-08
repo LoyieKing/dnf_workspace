@@ -11,28 +11,6 @@
 namespace RelayServiceApp
 {
 
-PacketHeaderS2S::PacketHeaderS2S(unsigned short a, unsigned short b)
-{
-    m_a = a;
-    m_b = b;
-}
-
-Packet_Relay_User_Check::Packet_Relay_User_Check()
-    : PacketHeaderS2S(0x9c4, 0xf)
-{
-    m_f = 0;
-    m_g = 0;
-}
-
-TGlobalInstance<TextOutputDevice_FILE> g_FileLogInfo;
-TGlobalInstance<TextOutputDevice_FILE> g_FileLogWarn;
-TGlobalInstance<TextOutputDevice_FILE> g_FileLogError;
-TGlobalInstance<TextOutputDevice_FILE> g_FileLogCri;
-TGlobalInstance<TDebugTrace<char> > g_LogInfo;
-TGlobalInstance<TDebugTrace<char> > g_LogCri;
-TGlobalInstance<TDebugTrace<char> > g_LogWarn;
-TGlobalInstance<TDebugTrace<char> > g_LogError;
-
 // ---- User ----
 
 User::User()
@@ -107,11 +85,6 @@ Users::~Users()
 void Users::setMaxUserCount(int n)
 {
     m_maxUserCount = n;
-}
-
-int Users::getMaxUserCount()
-{
-    return m_maxUserCount;
 }
 
 TCPUser* Users::getTCPUser(unsigned int acc_id)
@@ -258,11 +231,6 @@ TCPUser::TCPUser()
 
 TCPUser::~TCPUser()
 {
-}
-
-unsigned int TCPUser::getACCID()
-{
-    return m_accId;
 }
 
 void TCPUser::setACCID(unsigned int acc_id)
@@ -742,7 +710,7 @@ TCPThread::~TCPThread()
 
 void TCPThread::loop(void* pParam)
 {
-    unsigned short port = (unsigned short)m_port;
+    unsigned short port = (unsigned short)getPort();
     printf("In %s : port='%d'\n", "TCPThread::loop", (unsigned int)port);
     TReactor<EpollReactor<TCPUser, TCPSocket, TCPSocket>, TCPUser, TCPSocket, TCPSocket> *reactor =
         (TReactor<EpollReactor<TCPUser, TCPSocket, TCPSocket>, TCPUser, TCPSocket, TCPSocket> *)
@@ -797,11 +765,11 @@ void UDPThread::loop(void* pParam)
     UDPSocket udp;
     if (udp.open() == 1)
     {
-        if (udp.bind((unsigned short)m_port, true) == 1)
+        if (udp.bind((unsigned short)getPort(), true) == 1)
         {
             if (udp.setOptNonBlock() == 1)
             {
-                printf("succeeded in binding UDP socket port #%d\n", m_port);
+                printf("succeeded in binding UDP socket port #%d\n", getPort());
                 epoll_event ev;
                 ev.events = 1;
                 ev.data.ptr = (void*)udp.getHandle();
@@ -846,7 +814,7 @@ void UDPThread::loop(void* pParam)
         }
         else
         {
-            printf("failed to bind UDP socket port #%d\n", m_port);
+            printf("failed to bind UDP socket port #%d\n", getPort());
         }
     }
     else
@@ -870,7 +838,7 @@ TCPAcceptThread::~TCPAcceptThread()
 
 void TCPAcceptThread::loop(void* pParam)
 {
-    unsigned short port = (unsigned short)m_port;
+    unsigned short port = (unsigned short)getPort();
     printf("In %s \n", "TCPAcceptThread::loop");
     TCPSocket listenSocket;
     if (!listenSocket.open())
@@ -1062,9 +1030,9 @@ void RelayService::setAuthenticated(unsigned int acc_id)
     }
 }
 
-long long RelayService::getTick()
+void RelayService::setTick()
 {
-    return m_tick;
+    m_tick = get_ms_tick();
 }
 
 long long RelayService::getTickLog()
@@ -1074,11 +1042,6 @@ long long RelayService::getTickLog()
         m_tickLog = getTick();
     }
     return m_tickLog;
-}
-
-void RelayService::setTick()
-{
-    m_tick = get_ms_tick();
 }
 
 void RelayService::setTickLog()

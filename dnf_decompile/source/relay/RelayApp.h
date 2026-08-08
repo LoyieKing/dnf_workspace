@@ -14,6 +14,32 @@
 #include "RelaySocket.h"
 #include "RelayThread.h"
 
+// ---- TManager<T>：pManager_@0 ----
+template <class T>
+class TManager
+{
+public:
+    TManager()
+    {
+        pManager_ = 0;
+    }
+    void setManager(T* p)
+    {
+        pManager_ = p;
+    }
+    T* getManager()
+    {
+        return pManager_;
+    }
+    const T* getManager() const
+    {
+        return pManager_;
+    }
+
+private:
+    T* pManager_;
+};
+
 namespace RelayServiceApp
 {
 
@@ -53,32 +79,6 @@ struct PacketHeaderS2S
 struct Packet_Relay_User_Check : public PacketHeaderS2S
 {
     Packet_Relay_User_Check();
-};
-
-// ---- TManager<T>：pManager_@0 ----
-template <class T>
-class TManager
-{
-public:
-    TManager()
-    {
-        pManager_ = 0;
-    }
-    void setManager(T* p)
-    {
-        pManager_ = p;
-    }
-    T* getManager()
-    {
-        return pManager_;
-    }
-    const T* getManager() const
-    {
-        return pManager_;
-    }
-
-private:
-    T* pManager_;
 };
 
 // ---- UserState（基类，空）----
@@ -194,7 +194,10 @@ public:
     Users();
     ~Users();
     void setMaxUserCount(int n);
-    int getMaxUserCount();
+    int getMaxUserCount() const
+    {
+        return m_maxUserCount;
+    }
     TCPUser* getTCPUser(unsigned int acc_id);
     void setTCPUser(unsigned int acc_id, TCPUser* user);
     UDPUser* getUDPUser(unsigned int acc_id);
@@ -270,7 +273,10 @@ class TCPUser : public TManager<RelayService>
 public:
     TCPUser();
     ~TCPUser();
-    unsigned int getACCID();
+    unsigned int getACCID() const
+    {
+        return m_accId;
+    }
     void setACCID(unsigned int acc_id);
     int getHandle();
     TCPSocket* getSocket();
@@ -375,6 +381,10 @@ public:
     {
         m_handler = handler;
     }
+    int getPort() const
+    {
+        return m_port;
+    }
 
 private:
     int m_port;               // +0x18
@@ -396,6 +406,10 @@ public:
     void setHandler(UDPHandler* handler)
     {
         m_handler = handler;
+    }
+    int getPort() const
+    {
+        return m_port;
     }
     UDPSocket* getUDPSocket()
     {
@@ -446,7 +460,10 @@ public:
     void startup();
     void shutdown();
     void setAuthenticated(unsigned int acc_id);
-    long long getTick();
+    long long getTick() const
+    {
+        return m_tick;
+    }
     long long getTickLog();
     void setTick();
     void setTickLog();
