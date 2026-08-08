@@ -1419,6 +1419,11 @@ void CGuild::NoticeChatMsgToGuildMembers(unsigned int charNo, int len, char* msg
 {
 }
 
+void CGuild::NoticeChatMsgToGuildMembers(unsigned int charNo, char* msg, const char* name)
+{
+    NoticeChatMsgToGuildMembers(charNo, 0, msg, name);
+}
+
 void CGuild::NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, int len, char* msg,
                                                   unsigned char type, const void* link)
 {

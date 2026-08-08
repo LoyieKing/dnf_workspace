@@ -320,6 +320,7 @@ public:
     void SendGuildAgitInfoToMembers();
     void NoticeChatMsgToGuildMembers(unsigned int charNo, int len, char* msg,
                                      const char* name);
+    void NoticeChatMsgToGuildMembers(unsigned int charNo, char* msg, const char* name);
     void NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, int len, char* msg,
                                               unsigned char type, const void* link);
     void UpdateChangableInfoProcess();

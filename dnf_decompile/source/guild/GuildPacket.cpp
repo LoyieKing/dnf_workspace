@@ -440,9 +440,36 @@ void CPacketTranslater::OnCallGuildInfo(PacketHeader* pkt)
     }
 }
 
+void CPacketTranslater::OnNoticeGuildChatMsg(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildChatMsg : 0 == m_pclApp")
+    char* pb = (char*)pkt;
+    if (*(unsigned int*)(pb + 0xe) == 0 || *(unsigned int*)(pb + 10) == 0 || pb[0x12] == 0)
+    {
+        throw CDNFException(
+            "CPacketTranslater::OnNoticeGuildChatMsg : packet->m_uCharID && packet->m_uGuildKey && packet->m_msgLen");
+    }
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 10));
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xe));
+    if (user != 0 && guild != 0)
+    {
+        guild->NoticeChatMsgToGuildMembers(*(unsigned int*)(pb + 10), pb + 0x13,
+                                           user->GetCharName());
+    }
+}
+
+void CPacketTranslater::OnNoticeGuildMarkChange(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildMarkChange : 0 == m_pclApp")
+    char* pb = (char*)pkt;
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 10));
+    if (guild != 0)
+    {
+        guild->NoticeMarkChangeToGuildMember(*(unsigned int*)(pb + 0xe));
+    }
+}
+
 STUB_HANDLER(OnReplyUserInfo)
-STUB_HANDLER(OnNoticeGuildMarkChange)
-STUB_HANDLER(OnNoticeGuildChatMsg)
 STUB_HANDLER(OnDBReplyGuildAllMembers)
 STUB_HANDLER(OnDBReplyUnconnGuildMember)
 STUB_HANDLER(OnNoticeGuildCreate)
