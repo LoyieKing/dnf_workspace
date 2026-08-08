@@ -683,6 +683,25 @@ class TCPSocket
 public:
     TCPSocket();
     ~TCPSocket();
+    bool open();
+    int bind(unsigned short port, bool flag);
+    bool listen(int backlog);
+    int send(char* buf, int len);
+    int recv(char* buf, int len);
+    int getHandle() const;
+    int shutdown(int how);
+    void close();
+    bool setOptNonBlock();
+    bool setOptReuseAdrs(bool flag);
+    bool setOptLinger(bool flag);
+    bool connect(const char* ip, unsigned short port);
+    int accept(TCPSocket& peer);
+    char* getPeerIP();
+    char* getPeerAdrs();
+    unsigned short getPeerPort();
+    int setOptResizeSendBuf(int size);
+    int setOptResizeRecvBuf(int size);
+    int m_sock;      // +0
     char m_data[0x1820];
 };
 
