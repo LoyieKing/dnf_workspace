@@ -158,3 +158,18 @@
    CPowerManager::SaveDBPowerWarRank(1674B)/CGuildBoard::sendGuildBoardData(1369B)/
    CGuildCargo::MoveItem(964B) 等
 5. STL allocator 模板实例化符号（_ZNSaI*）随容器使用方式对齐
+
+## 2026-08-09 更新
+
+- **32 个非处理器桩全部真实现（stub 归零）**：CGuildCargo 历史族
+  （InsertHistory/GetHistory/SendHistoryToDBMW/SendGuildCargo/SendGuildCargoToDBMW/
+  PrintCargo）、CGuildManager DB 保存/加载族、CGuild SaveGuild/DBGuildSave/QueryGuild/
+  邮件通知/今日成员/入会计数/驻地建删升/不可变信息保存/可变信息插入、
+  CApplication SwitchQueueTCP/UDP（IQueue::SwitchQueue 补 bool 返回）、
+  CPacketTracer 日志族、PowerWar 奖励/清理解散/事件启停族、
+  CUser SendTcpGameserver/GuildInviteProcess、CPacketCounter ctor 等。
+- 语义核验已修复真 bug：GetGMAccounts、InsertItem/DeleteItem、CScheduler 六函数、
+  Check_FileName 后缀、Parse_Table 字段映射、ReplyGuildAllMembers 第二循环、
+  TranslateSignal case1、CheckArgv、SetBlackUser、sendGuildBoardData 行号。
+- 工具链：verify_diffs.py 整二进制一次解析（全量 78s→1.7s），按成对 real 差异排序。
+- 当前严格口径：**DIFF 1125 / IDENTICAL 358 / NEAR 217**，stub=0，冒烟通过。
