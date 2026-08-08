@@ -103,6 +103,7 @@ public:
     char* makePacketHeader(unsigned short id, unsigned short size);
     void SendToGameServer(char* buf);
     void SendToGameServer(PacketHeader* pkt);
+    void SetChannelType(int type);
     int m_sock;           // +0
     CTcpNetSystem* m_net;  // +4
     char m_data[0x14];     // +8
@@ -147,9 +148,12 @@ class CPeriodicMessageMgr
 {
 public:
     CPeriodicMessageMgr();
-    virtual ~CPeriodicMessageMgr();
+    ~CPeriodicMessageMgr();
     void OnProcess(CServerHandler* handler);
-    char m_data[0x204];
+    void SetMessageData(char* msg, int startHour, int endHour);
+    char m_msg[0x200];       // +0
+    int m_startHour;         // +0x200
+    int m_endHour;           // +0x204
 };
 
 struct NpcBuyLimitItem
@@ -473,6 +477,7 @@ public:
     void UnregistManagerServer();
     void SendAllTcpGameServer(PacketHeader* pkt);
     void SendAllToGameServer(char* buf, int len);
+    void SendToGameServer(unsigned char channel, PacketHeader* pkt);
     void SendDBMWRequestARSInfo(unsigned char flag);
     CTcpManagerServer* GetTcpManagerServer();
     CTcpDBServer* GetTcpDBServer();

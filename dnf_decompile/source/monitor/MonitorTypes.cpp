@@ -658,6 +658,28 @@ CUdpNetworkThread::~CUdpNetworkThread() {}
 CPeriodicMessageMgr::CPeriodicMessageMgr() {}
 CPeriodicMessageMgr::~CPeriodicMessageMgr() {}
 void CPeriodicMessageMgr::OnProcess(CServerHandler* handler) {}
+void CPeriodicMessageMgr::SetMessageData(char* msg, int startHour, int endHour)
+{
+    if (startHour < 0 || endHour < 0 || 0x17 < startHour || 0x17 < endHour)
+    {
+        CMyFileLog log("SetMessageData", 0x18);
+        log("./log/PeriodicMessage", "SetData() Error : Invalid input time");
+    }
+    else if (*msg == 0)
+    {
+        memset(this, 0, 0x200);
+        CMyFileLog log("SetMessageData", 0x24);
+        log("./log/PeriodicMessage", "SetData() Error : No string");
+    }
+    else
+    {
+        strncpy(m_msg, msg, 0x1ff);
+        m_startHour = startHour;
+        m_endHour = endHour;
+        CMyFileLog log("SetMessageData", 0x32);
+        log("./log/PeriodicMessage", "TEST Periodic Message : Arrive Load Result");
+    }
+}
 
 LimitNpcBuyItemManager::LimitNpcBuyItemManager() {}
 LimitNpcBuyItemManager::~LimitNpcBuyItemManager() {}
@@ -1622,6 +1644,15 @@ void CServerHandler::UnregistManagerServer()
 }
 void CServerHandler::SendAllTcpGameServer(PacketHeader* pkt) {}
 void CServerHandler::SendAllToGameServer(char* buf, int len) {}
+void CServerHandler::SendToGameServer(unsigned char channel, PacketHeader* pkt)
+{
+    CGameServer* gs = GetGameServer((unsigned int)channel);
+    if (gs != 0)
+    {
+        ((CServerInterface*)gs)->SendToServer((char*)pkt,
+                                              *(unsigned short*)((char*)pkt + 2));
+    }
+}
 void CServerHandler::SendDBMWRequestARSInfo(unsigned char flag)
 {
     Packet_Web_Request_ARS_Info pkt;
@@ -2372,6 +2403,10 @@ void CTcpGameServer::SendToGameServer(PacketHeader* pkt)
         memcpy(buf + 10, (char*)pkt + 10, *(unsigned short*)((char*)pkt + 2) - 10);
         SendToGameServer(buf);
     }
+}
+void CTcpGameServer::SetChannelType(int type)
+{
+    *(int*)((char*)this + 8) = type;
 }
 void CTcpNetSystem::Init(unsigned short port)
 {
@@ -5478,7 +5513,70 @@ void CPacketTranslater::OnCeraUpdate(PacketHeader* pkt)
         }
     }
 }
-void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt) {}
+void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt)
+{
+    try
+    {
+        CUser* user =
+            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
+                *(unsigned int*)((char*)pkt + 0xa));
+        CServerInterface* gs = 0;
+        if (user == 0)
+        {
+            for (int i = 0; i < 0xff; i++)
+            {
+                gs = (CServerInterface*)m_pclApp->FindGameServer(i);
+                if (gs != 0 && gs->IsConnected() != 0)
+                {
+                    break;
+                }
+            }
+            if (gs == 0)
+            {
+                char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+                CMyFileLog log("OnEventItemUpdate", 0x4b0);
+                log("./log/User",
+                    "Fail: Event User DB ID : %s [EventType: %d][CharacNo: %d][ItemID: "
+                    "%d][Stack: %d]\n",
+                    dbid, *(unsigned int*)((char*)pkt + 0x12),
+                    *(unsigned int*)((char*)pkt + 0xe),
+                    *(unsigned int*)((char*)pkt + 0x16),
+                    *(unsigned int*)((char*)pkt + 0x1a));
+                return;
+            }
+        }
+        else
+        {
+            gs = (CServerInterface*)user->GetGameServer();
+        }
+        unsigned char channel = gs->GetChannelNo();
+        char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+        CMyFileLog log("OnEventItemUpdate", 0x4b7);
+        log("./log/User",
+            "Event User DB ID : %s [EventType: %d][CharacNo: %d][ItemID: %d][Stack: "
+            "%d][TableID: %d][Channel No: %d]\n",
+            dbid, *(unsigned int*)((char*)pkt + 0x12),
+            *(unsigned int*)((char*)pkt + 0xe), *(unsigned int*)((char*)pkt + 0x16),
+            *(unsigned int*)((char*)pkt + 0x1a), *(unsigned int*)((char*)pkt + 0x1e),
+            (unsigned int)channel);
+        if (gs != 0)
+        {
+            gs->SendToServer((char*)pkt, 0x22);
+        }
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnEventItemUpdate() Exception Break : %s\n", e.what());
+        CMyFileLog log("OnEventItemUpdate", 0x4dd);
+        log("%s", "CPacketTranslater::OnEventItemUpdate() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnEventItemUpdate() Exception Break");
+        CMyFileLog log("OnEventItemUpdate", 0x4e3);
+        log("%s", "CPacketTranslater::OnEventItemUpdate() Exception Break");
+    }
+}
 void CPacketTranslater::OnReplyQueryMember(PacketHeader* pkt)
 {
     if (*(char*)((char*)pkt + 0xa) == 1)
@@ -6826,7 +6924,36 @@ void CPacketTranslater::OnNotifyAuctionMail(PacketHeader* pkt)
 }
 void CPacketTranslater::OnPvPChannelInfo(PacketHeader* pkt) {}
 void CPacketTranslater::OnPvPChannelUserCount(PacketHeader* pkt) {}
-void CPacketTranslater::OnChannelType(PacketHeader* pkt) {}
+void CPacketTranslater::OnChannelType(PacketHeader* pkt)
+{
+    if (m_pclApp != 0)
+    {
+        try
+        {
+            unsigned int channel = *(unsigned int*)((char*)pkt + 0xe);
+            if (m_pclApp->FindGameServer((int)channel) == 0)
+            {
+                throw CDNFException("CPacketTranslater::OnChannelType : pclGameServer == 0");
+            }
+            CTcpGameServer* tcpGs =
+                (CTcpGameServer*)m_pclApp->FindTcpGameServer(channel);
+            if (tcpGs != 0)
+            {
+                tcpGs->SetChannelType(*(int*)((char*)pkt + 0xe));
+            }
+        }
+        catch (CDNFException& e)
+        {
+            CMyFileLog log("OnChannelType", 0x1b21);
+            log("%s", "CPacketTranslater::OnChannelType() Exception Break : %s\n", e.what());
+        }
+        catch (...)
+        {
+            CMyFileLog log("OnChannelType", 0x1b26);
+            log("%s", "CPacketTranslater::OnChannelType() Exception Break");
+        }
+    }
+}
 void CPacketTranslater::OnServerMessageInfo(PacketHeader* pkt)
 {
     CMyFileLog log("OnServerMessageInfo", 0x1402);
@@ -6988,7 +7115,48 @@ void CPacketTranslater::OnResponseFullIPCounterList(PacketHeader* pkt)
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
 }
-void CPacketTranslater::OnTakeScreenShot(PacketHeader* pkt) {}
+void CPacketTranslater::OnTakeScreenShot(PacketHeader* pkt)
+{
+    try
+    {
+        if (m_pclApp == 0)
+        {
+            throw CDNFException("CPacketTranslater::OnTakeScreenShot : 0 == m_pclApp");
+        }
+        char buf[15];
+        *(unsigned int*)buf = *(unsigned int*)pkt;
+        *(unsigned int*)(buf + 4) = *(unsigned int*)((char*)pkt + 4);
+        *(unsigned int*)(buf + 8) = *(unsigned int*)((char*)pkt + 8);
+        *(unsigned short*)(buf + 0xc) = *(unsigned short*)((char*)pkt + 0xc);
+        *(char*)(buf + 0xe) = *(char*)((char*)pkt + 0xe);
+        CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+        if (*(char*)((char*)pkt + 0xa) == 0)
+        {
+            handler->SendAllToGameServer(buf, *(unsigned short*)((char*)pkt + 2));
+        }
+        else
+        {
+            handler->SendToGameServer(*(unsigned char*)((char*)pkt + 0xa),
+                                      (PacketHeader*)buf);
+        }
+        CMyFileLog log("OnTakeScreenShot", 0x1710);
+        log("./log/ScreenShot", "Recv TakeScreenShot Command! channel(%d) time(%d)",
+            (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xa),
+            *(unsigned int*)((char*)pkt + 0xb));
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnTakeScreenShot() Exception Break : %s\n", e.what());
+        CMyFileLog log("OnTakeScreenShot", 0x1717);
+        log("%s", "CPacketTranslater::OnTakeScreenShot() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnTakeScreenShot() Exception Break");
+        CMyFileLog log("OnTakeScreenShot", 0x171d);
+        log("%s", "CPacketTranslater::OnTakeScreenShot() Exception Break");
+    }
+}
 void CPacketTranslater::OnVillageMonsterFightResult(PacketHeader* pkt)
 {
     unsigned int users[4] = {0, 0, 0, 0};
@@ -7055,7 +7223,26 @@ void CPacketTranslater::OnWebRequestARSInfo(PacketHeader* pkt)
         handler->SendDBMWRequestARSInfo(*(unsigned char*)((char*)pkt + 0xa));
     }
 }
-void CPacketTranslater::OnCheckOverlappedAccusation(PacketHeader* pkt) {}
+void CPacketTranslater::OnCheckOverlappedAccusation(PacketHeader* pkt)
+{
+    CTcpGameServer* tcpGs =
+        (CTcpGameServer*)m_pclApp->FindTcpGameServer(
+            *(unsigned int*)((char*)pkt + 0xa));
+    if (tcpGs != 0)
+    {
+        int type = *(int*)((char*)pkt + 0x12);
+        std::string name2((char*)pkt + 0x40);
+        std::string name1((char*)pkt + 0x22);
+        *(char*)((char*)pkt + 0x15e) = (char)m_pclApp->AddAccusationCharac(
+            name1, name2, type, *(char*)((char*)pkt + 0x15e));
+        char* buf = tcpGs->makePacketHeader(0x1b66, 0x15f);
+        if (buf != 0)
+        {
+            memcpy(buf, pkt, 0x15f);
+            tcpGs->SendToGameServer(buf);
+        }
+    }
+}
 void CPacketTranslater::OnGameServerRegist(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoCache(PacketHeader* pkt) {}
 void CPacketTranslater::OnDisableUserOneToOneChat_GM(PacketHeader* pkt)
@@ -7074,7 +7261,44 @@ void CPacketTranslater::OnDisableUserOneToOneChat_GM(PacketHeader* pkt)
         }
     }
 }
-void CPacketTranslater::OnFindCharacName_useUID(PacketHeader* pkt) {}
+void CPacketTranslater::OnFindCharacName_useUID(PacketHeader* pkt)
+{
+    CTcpGameServer* tcpGs =
+        (CTcpGameServer*)m_pclApp->FindTcpGameServer(
+            *(unsigned int*)((char*)pkt + 0xe));
+    if (tcpGs != 0)
+    {
+        char* buf = tcpGs->makePacketHeader(0x1f45, 0x34);
+        *(unsigned int*)(buf + 10) = *(unsigned int*)((char*)pkt + 10);
+        *(unsigned int*)(buf + 0xe) = *(unsigned int*)((char*)pkt + 0xe);
+        buf[0x12] = 0;
+        buf[0x13] = 0;
+        buf[0x14] = 0;
+        buf[0x15] = 0;
+        CUser* user =
+            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
+                *(unsigned int*)((char*)pkt + 0xa));
+        if (user != 0)
+        {
+            char* name = user->GetCharName();
+            unsigned int len = (unsigned int)strlen(name);
+            *(unsigned int*)(buf + 0x12) = len;
+            if (0x1d < *(unsigned int*)(buf + 0x12))
+            {
+                buf[0x12] = 0;
+                buf[0x13] = 0;
+                buf[0x14] = 0;
+                buf[0x15] = 0;
+            }
+            if (*(int*)(buf + 0x12) != 0)
+            {
+                strncpy(buf + 0x16, user->GetCharName(),
+                        *(unsigned int*)(buf + 0x12));
+            }
+        }
+        tcpGs->SendToGameServer(buf);
+    }
+}
 void CPacketTranslater::OnRenew_GM_List(PacketHeader* pkt)
 {
     WongWork::CGMAccounts* gm = (WongWork::CGMAccounts*)m_pclApp->GetGMAccounts();
@@ -7100,7 +7324,31 @@ void CPacketTranslater::OnLoadPeriodicMessage(PacketHeader* pkt)
     CMyFileLog log("OnLoadPeriodicMessage", 0x19e0);
     log("./log/PeriodicMessage", "Web Request is Arrived and Send Request DBMW");
 }
-void CPacketTranslater::OnResultLoadPeriodicMessage(PacketHeader* pkt) {}
+void CPacketTranslater::OnResultLoadPeriodicMessage(PacketHeader* pkt)
+{
+    try
+    {
+        unsigned int endHour = *(unsigned int*)((char*)pkt + 0x20e);
+        unsigned int startHour = *(unsigned int*)((char*)pkt + 0x20a);
+        CMyFileLog log("OnResultLoadPeriodicMessage", 0x19f7);
+        log("./log/PeriodicMessage",
+            "DB Load Message : Message(%s), start_hour(%d), end_hour(%d)", (char*)pkt + 0xa,
+            startHour, endHour);
+        ((CPeriodicMessageMgr*)m_pclApp->GetPeriodicMessageManager())
+            ->SetMessageData((char*)pkt + 0xa, (int)startHour, (int)endHour);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnResultLoadPeriodicMessage", 0x1a02);
+        log("%s", "CPacketTranslater::OnResultLoadPeriodicMessage() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnResultLoadPeriodicMessage", 0x1a07);
+        log("%s", "CPacketTranslater::OnResultLoadPeriodicMessage() Exception Break");
+    }
+}
 void CPacketTranslater::OnRegisterEventIdx(PacketHeader* pkt)
 {
     unsigned int idx = *(unsigned int*)((char*)pkt + 0xa);

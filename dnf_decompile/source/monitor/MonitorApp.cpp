@@ -529,6 +529,11 @@ void* CApplication::GetLoginLogoutStatistics()
     return m_field330;
 }
 
+void* CApplication::GetPeriodicMessageManager()
+{
+    return m_periodicMsg;
+}
+
 void CApplication::Remove_GM_id(unsigned int id)
 {
     std::map<unsigned int, std::list<unsigned int> >::iterator it = m_map368.find(id);
