@@ -308,3 +308,12 @@
   CServerXml::StrPunish、CPacketTracer::WriteLog、CUserManager::DeleteUser/
   InsertUser_CharName —— 调用目标一致，语义等价
 - 冒烟通过；DIFF 1116 / IDENTICAL 377 / NEAR 207
+
+## 2026-08-09 第十四轮（CTcpGameServer 布局重构）
+
+- **重大 bug**：CTcpGameServer 原版为内嵌字段（group@0/net@4/channel@8，无 vptr），
+  我们误用 stServerInfo* 指针导致 8 个方法语义全错
+- 重写 ctor/dtor/Init/SendToGameServer/GetChannelNo/SetChannelNo/IsValidServer/
+  makePacketHeader（空桩→Acquire_TcpSendBuffer 分配）
+- 受影响下游（CUser::SendTcpGameserver、CServerHandler::CreateTcpGameServer 等）随之对齐
+- 冒烟通过；DIFF 1116→1113 / IDENTICAL 377→381
