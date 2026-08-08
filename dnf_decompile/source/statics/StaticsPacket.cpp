@@ -39,6 +39,21 @@ Packet_DBMW_Reason_Crash_Down_Query::Packet_DBMW_Reason_Crash_Down_Query()
     new ((void*)this) PacketHeader(0xc49, 0x10a);
 }
 
+Packet_DBMW_Dungeon_Statistic_Party::Packet_DBMW_Dungeon_Statistic_Party()
+{
+    new ((void*)this) PacketHeader(0xc36, 0x177e);
+}
+
+Packet_DBMW_Dungeon_Statistic_Party_Job::Packet_DBMW_Dungeon_Statistic_Party_Job()
+{
+    new ((void*)this) PacketHeader(0xc38, 0x17c9);
+}
+
+Packet_DBMW_Dungeon_Statistic_Party_Charac::Packet_DBMW_Dungeon_Statistic_Party_Charac()
+{
+    new ((void*)this) PacketHeader(0xc3a, 0x1759);
+}
+
 CInnerMsgHandler::CInnerMsgHandler()
 {
 }

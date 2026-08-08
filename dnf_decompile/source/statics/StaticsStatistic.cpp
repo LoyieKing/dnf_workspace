@@ -557,9 +557,6 @@ void StatisticManager::ResetDisjointAvatarInfoTotal()
 {
     m_disjoint.clear();
 }
-STUB_STAT(SendDBPartyStatistic, (CServerHandler*))
-STUB_STAT(SendDBPartyJobStatistic, (CServerHandler*))
-STUB_STAT(SendDBPartyCharacStatistic, (CServerHandler*))
 STUB_STAT(SendDBValueStatistic, (CServerHandler*))
 STUB_STAT(SendDBCirculationStatistic, (CServerHandler*))
 STUB_STAT(SendDBSecretShopStatistic, (CServerHandler*))
@@ -1363,4 +1360,129 @@ void StatisticManager::AddReasonCrashDownData(Packet_Reason_Crash_Down_Info* pkt
     handler->SendToDB((PacketHeader*)&query);
     CMyFileLog log("AddReasonCrashDownData", 0x5b8);
     log("./log/ReasonCrashDown", "%s", sql);
+}
+
+void StatisticManager::SendDBPartyStatistic(CServerHandler* handler)
+{
+    Packet_DBMW_Dungeon_Statistic_Party pkt;
+    int idx = 0;
+    if (!m_party.empty())
+    {
+        for (std::map<STPartyStatisticKey, PartyStatistic>::iterator it = m_party.begin();
+             it != m_party.end(); ++it)
+        {
+            char* slot = (char*)&pkt + 0xe + idx * 0x3c;
+            *(unsigned short*)(slot + 0) = it->first.m_field0;
+            *(unsigned int*)(slot + 4) = it->first.m_field4;
+            slot[8] = it->first.m_field8;
+            slot[9] = it->first.m_field9;
+            slot[10] = it->first.m_fielda;
+            slot[11] = it->first.m_fieldb;
+            slot[12] = it->first.m_fieldc;
+            slot[13] = it->first.m_fieldd;
+            for (int k = 0; k < 11; k++)
+            {
+                *(int*)(slot + 0xe + k * 4) = it->second.m_data[k];
+            }
+            idx++;
+            if (99 < idx)
+            {
+                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                handler->SendToDB((PacketHeader*)&pkt);
+                CMyFileLog log("SendDBPartyStatistic", 0x183);
+                log("./log/statistic", "Party DB Sent %d", idx);
+                idx = 0;
+            }
+        }
+        if (idx != 0)
+        {
+            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            handler->SendToDB((PacketHeader*)&pkt);
+            CMyFileLog log("SendDBPartyStatistic", 0x18d);
+            log("./log/statistic", "Party DB Sent %d", idx);
+        }
+    }
+}
+
+void StatisticManager::SendDBPartyJobStatistic(CServerHandler* handler)
+{
+    Packet_DBMW_Dungeon_Statistic_Party_Job pkt;
+    int idx = 0;
+    if (!m_partyJob.empty())
+    {
+        for (std::map<STPartyJobStatisticKey, PartyJobStatistic>::iterator it = m_partyJob.begin();
+             it != m_partyJob.end(); ++it)
+        {
+            char* slot = (char*)&pkt + 0xe + idx * 0x19;
+            *(unsigned short*)(slot + 0) = it->first.m_field0;
+            *(unsigned int*)(slot + 4) = it->first.m_field4;
+            slot[8] = it->first.m_field8;
+            slot[9] = it->first.m_field9;
+            slot[10] = it->first.m_fielda;
+            slot[11] = it->first.m_fieldb;
+            slot[12] = it->first.m_fieldc;
+            slot[13] = it->first.m_fieldd;
+            *(unsigned int*)(slot + 0x10) = it->first.m_field10;
+            slot[0x14] = it->first.m_field14;
+            *(int*)(slot + 0x15) = it->second.m_data[1];
+            idx++;
+            if (99 < idx)
+            {
+                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                handler->SendToDB((PacketHeader*)&pkt);
+                CMyFileLog log("SendDBPartyJobStatistic", 0x19a);
+                log("./log/statistic", "PartyJob DB Sent %d", idx);
+                idx = 0;
+            }
+        }
+        if (idx != 0)
+        {
+            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            handler->SendToDB((PacketHeader*)&pkt);
+            CMyFileLog log("SendDBPartyJobStatistic", 0x1a4);
+            log("./log/statistic", "PartyJob DB Sent %d", idx);
+        }
+    }
+}
+
+void StatisticManager::SendDBPartyCharacStatistic(CServerHandler* handler)
+{
+    Packet_DBMW_Dungeon_Statistic_Party_Charac pkt;
+    int idx = 0;
+    if (!m_partyCharac.empty())
+    {
+        for (std::map<STPartyCharacKey, PartyCharacStatistic>::iterator it = m_partyCharac.begin();
+             it != m_partyCharac.end(); ++it)
+        {
+            char* slot = (char*)&pkt + 0xe + idx * 0x38;
+            *(unsigned short*)(slot + 0) = it->first.m_field0;
+            *(unsigned int*)(slot + 4) = it->first.m_field4;
+            slot[8] = it->first.m_field8;
+            slot[9] = it->first.m_field9;
+            slot[10] = it->first.m_fielda;
+            *(unsigned int*)(slot + 0xc) = it->first.m_fieldc;
+            slot[0x10] = it->first.m_field10;
+            slot[0x11] = it->first.m_field11;
+            for (int k = 0; k < 12; k++)
+            {
+                *(int*)(slot + 0x12 + k * 4) = it->second.m_data[k];
+            }
+            idx++;
+            if (99 < idx)
+            {
+                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                handler->SendToDB((PacketHeader*)&pkt);
+                CMyFileLog log("SendDBPartyCharacStatistic", 0x1b1);
+                log("./log/statistic", "PartyCharac DB Sent %d", idx);
+                idx = 0;
+            }
+        }
+        if (idx != 0)
+        {
+            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            handler->SendToDB((PacketHeader*)&pkt);
+            CMyFileLog log("SendDBPartyCharacStatistic", 0x1bb);
+            log("./log/statistic", "PartyCharac DB Sent %d", idx);
+        }
+    }
 }

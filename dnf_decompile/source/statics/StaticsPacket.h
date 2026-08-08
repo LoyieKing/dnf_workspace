@@ -35,6 +35,27 @@ public:
     char m_data[0x10a];
 };
 
+class Packet_DBMW_Dungeon_Statistic_Party
+{
+public:
+    Packet_DBMW_Dungeon_Statistic_Party();
+    char m_data[0x177e];
+};
+
+class Packet_DBMW_Dungeon_Statistic_Party_Job
+{
+public:
+    Packet_DBMW_Dungeon_Statistic_Party_Job();
+    char m_data[0x17c9];
+};
+
+class Packet_DBMW_Dungeon_Statistic_Party_Charac
+{
+public:
+    Packet_DBMW_Dungeon_Statistic_Party_Charac();
+    char m_data[0x1759];
+};
+
 // ---- CInnerMsgHandler：空类 ----
 class CInnerMsgHandler
 {
