@@ -12,6 +12,7 @@
 #include "GuildApp.h"
 #include "GuildServer.h"
 #include "GuildPacket.h"
+#include "tinyxml.h"
 #include "DNFFileLog.h"
 #include "DNFFunctionLib.h"
 
@@ -3540,6 +3541,99 @@ CTcpSendBuffer::CTcpSendBuffer()
 
 void CTcpHandler::WaitForEvent()
 {
+}
+
+namespace np_server_xml
+{
+CServerXml::CServerXml()
+{
+    memset(m_data, 0, sizeof(m_data));
+    memset(m_doc, 0, sizeof(m_doc));
+    m_field50 = 0;
+    m_path = std::string();
+    InitString();
+}
+
+CServerXml::~CServerXml()
+{
+    InitString();
+}
+
+void CServerXml::InitString()
+{
+    m_field50 = 0;
+    memset(m_data, 0, 5);
+    m_str1.clear();
+    m_str2.clear();
+    m_str3.clear();
+    m_rgba.clear();
+}
+
+void CServerXml::StrLoading()
+{
+    StrLoading(std::string("server_str.xml"));
+}
+
+void CServerXml::StrLoading(std::string path)
+{
+    InitString();
+    m_path = path;
+    TiXmlDocument* doc = (TiXmlDocument*)m_doc;
+    doc->Clear();
+    if (doc->LoadFile(m_path.c_str(), TIXML_ENCODING_UNKNOWN))
+    {
+        TiXmlNode* xml = doc->FirstChild("xml");
+        if (xml == 0)
+        {
+            puts("[CServerXml] <xml> Tag Error");
+        }
+        else
+        {
+            CharsetInit(xml);
+            EventLoad(xml);
+            ProcessLoad(xml);
+        }
+    }
+    else
+    {
+        printf("[CServerXml] Load Fail File : %s\n", "server_str.xml");
+    }
+}
+
+void CServerXml::CharsetInit(TiXmlNode* node)
+{
+}
+
+void CServerXml::EventLoad(TiXmlNode* node)
+{
+}
+
+void CServerXml::RGBALoad(int idx, TiXmlNode* node)
+{
+}
+
+void CServerXml::ProcessLoad(TiXmlNode* node)
+{
+}
+
+void CServerXml::StrPunish(int idx, const char* str, _eStringType type)
+{
+}
+
+const char* CServerXml::GetServerString(int idx, bool* ok) const
+{
+    return "";
+}
+
+unsigned int CServerXml::GetEventRGBA(int idx) const
+{
+    return 0;
+}
+
+std::string CServerXml::GetEventString(int idx, _eStringType type, bool* ok) const
+{
+    return std::string();
+}
 }
 
 CProtocol::CProtocol()
