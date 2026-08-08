@@ -3063,6 +3063,12 @@ int* CVillageAttackedManager::GetHuntingPoint(unsigned int charNo)
 }
 void CVillageAttackedManager::SendVillageAttackedRewardJpn(CUser* user, int count)
 {
+    Packet_VillageAttackedReward pkt;
+    pkt.m_idByChannel = user->GetIdByChannel();
+    pkt.m_uniqCharNo = user->GetUniqCharNo();
+    pkt.m_rewardType = 5;
+    pkt.m_count = count;
+    user->SendToGameserver((char*)&pkt, 0x1a);
 }
 void CVillageAttackedManager::SendMinTime()
 {
@@ -4422,6 +4428,7 @@ Packet_VillageAttackedReward::Packet_VillageAttackedReward() : PacketHeader(0x17
     m_idByChannel = 0;
     m_uniqCharNo = 0;
     m_rewardType = 0;
+    m_count = 0;
 }
 
 Packet_DBMW_Add_Buddy::Packet_DBMW_Add_Buddy() : PacketHeader(0x673, 0x2c)

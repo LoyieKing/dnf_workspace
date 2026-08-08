@@ -1475,6 +1475,7 @@ public:
     unsigned int m_idByChannel;  // +10
     unsigned int m_uniqCharNo;   // +14
     int m_rewardType;            // +18
+    int m_count;                 // +22
 };
 
 class Packet_DBMW_Add_Buddy : public PacketHeader
