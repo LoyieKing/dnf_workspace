@@ -9,15 +9,19 @@
 
 | 文件 | 内容 | 类型 |
 |---|---|---|
-| `decompile_order.md` | 全部 13 个服务端二进制的反编译还原顺序（从易到难）与策略 | 报告 |
+| `decompile_order.md` | 全部 16 个唯一服务端二进制（18 个文件）的反编译还原顺序（从易到难）与策略 | 报告 |
+| `df_game_secsvr_dbmw_basic_info.md` | **game / secsvr（gunnersvr/zergsvr/secagent）/ dbmw 基本信息**：ELF/DWARF/符号/字符串实测指标、源文件分布与反编译计划（2026-08-08） | 报告 |
 | `df_community_r_reverification.md` | 深度复核报告：构建参数/ABI 差异（PIE、静态链接、编译器版本）、符号/函数覆盖、数据段差异、包构造函数缺陷、修复清单 | 报告 |
 | `df_community_r_missing_functions.md` | 缺失函数补齐记录（2026-08-06 完成，项目级缺失 0） | 报告 |
 | `df_community_r_function_divergences.md` | 全量逐函数比对报告（2026-08-07，463 个原始函数；修正 15 处不一致） | 报告 |
 | `df_community_r_semantic_equivalence_proof.md` | **语义等价证明**：全部 490 个项目函数与原始二进制语义完全等价（用户确认的验收标准）；30 个助记符 DIFF 的分支拓扑/反编译对照证据，以及审计中修复的 4 处真实差异 | 证明 |
+| `compare_caliber.md` | **IDENTICAL 判定口径统一（2026-08-08）**：统一为「保留立即数常量与字段偏移、仅归一化直接跳转/调用目标地址」的严格口径；含新旧规则对比、脚本接入清单与复现命令 | 规范 |
+| `compare_perf.md` | **比对 / 构建性能优化（2026-08-08）**：整文件反汇编 + 地址切片、批量 demangle、audit 去重复 objdump、9 个构建脚本并行编译（逐 PID 校验失败）；不新增激进缓存，结果与优化前逐项一致 | 规范 |
 | `df_channel_r_progress.md` | **df_channel_r（channel 服务）还原进度**：25 TU 全部编译链接通过；ChannelService 578/590、TCPThread 312/320、CheckThread 102/111 逐字节一致；全部真实 MISSING 清零；关键对齐开关（namespace 结构、-fno-enforce-eh-specs、pack(1)、类布局、-static-libgcc 等）与最终水位表 | 报告 |
 | `df_stun_r_restoration_report.md` | **df_stun_r（STUN 服务器）还原报告**：26 个唯一项目函数全部语义等价，助记符级 25/26（96.2%）；4.1.2 工具链构建、可运行验证、唯一 DIFF（write_log 单指令寄存器产物）说明 | 报告 |
 | `df_bridge_r_restoration_report.md` | **df_bridge_r（bridge 服务）还原报告**：31 TU 全部编译链接通过；与 channel 交叉比对（TU 级 + 类布局）；全量 918 个项目函数符号 100% 对齐（0 MISSING/EXTRA），助记符级精确 **91.4%**（834 IDENTICAL + 5 NEAR / 79 DIFF，均为语义等价的 -O0 代码生成惯用法）；尚差约 19 个 DIFF 达到 community 水位（93.3%） | 报告 |
 | `df_bridge_r_progress.md` | df_bridge_r 还原过程记录（原始特征、交叉比对明细、构建、水位演进与 DIFF 收敛清单） | 报告 |
+| `dwarf_services_validation_report.md` | **有 DWARF 服务精细校验**（拓扑并行、共享类交叉污染、NEAR/DIFF 语义审计、channel Socket 修复） | 报告 |
 | `df_community_r_validation.md` | 逐文件符号/字符串命中率验证（`compare_df_community_functions.py` 产物副本） | 验证报告 |
 | `df_community_r_function_validation.md` | 逐函数助记符重叠验证摘要（产物副本） | 验证报告 |
 
@@ -38,6 +42,8 @@
 | `report_review_round11_20260807.md` | 第十一轮复核（单 agent 全量逐函数）：混合编译器实验（4.1.2/4.4.6/4.4.7 按 TU 分配均不优于 4.4.4-13，最终排除）、60 处源码对齐（shr+test+je 直接条件、xor+test+je `== false`、赋值在条件内、sockaddr_in 命名字段、单累加器 LCG、可移植移位、CFileLogWriter 拆分 -fno-exceptions、CFLog writeLog 非虚、main 显式 return 等）；**项目函数 DIFF 81→33、助记符级精确 457/490（93.3%）** |
 
 ## 数据（docs/data/）
+
+> 注：`data/` 下 TSV 为 2026-08-08 口径统一**之前**的历史产物；新口径的复现命令与判定规则见 `compare_caliber.md`。
 
 | 文件 | 内容 | 生成脚本 |
 |---|---|---|
