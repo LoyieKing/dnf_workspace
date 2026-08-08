@@ -4385,7 +4385,7 @@ STPowerWarGuildInfo::STPowerWarGuildInfo()
     memset(m_data, 0, sizeof(m_data));
 }
 
-bool STPowerWarGuildInfo::Compare(STPowerWarGuildInfo* a, STPowerWarGuildInfo* b)
+bool STPowerWarGuildInfo::Compare(const STPowerWarGuildInfo* a, const STPowerWarGuildInfo* b)
 {
     return *(unsigned int*)(b->m_data + 4) < *(unsigned int*)(a->m_data + 4);
 }
@@ -4395,7 +4395,7 @@ STPowerWarCharacInfo::STPowerWarCharacInfo()
     memset(m_data, 0, sizeof(m_data));
 }
 
-bool STPowerWarCharacInfo::Compare(STPowerWarCharacInfo* a, STPowerWarCharacInfo* b)
+bool STPowerWarCharacInfo::Compare(const STPowerWarCharacInfo* a, const STPowerWarCharacInfo* b)
 {
     return *(unsigned int*)(b->m_data + 4) < *(unsigned int*)(a->m_data + 4);
 }

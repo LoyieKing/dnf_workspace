@@ -173,6 +173,29 @@ def main():
         hdr.append('};')
         hdr.append('')
     hdr.append('#endif  // GUILD_PACKETS_H_')
+    # 手工补充（反汇编推导，无反编译 ctor 注释块）
+    extra_hdr = '''
+class Packet_Answer_Guild_Member_Connection_From_Web : public PacketHeader {
+public:
+    Packet_Answer_Guild_Member_Connection_From_Web();
+};
+
+class Packet_Monitor_DB_Change_Unconnected_GuildMember_Grade : public PacketHeader {
+public:
+    Packet_Monitor_DB_Change_Unconnected_GuildMember_Grade();
+};
+
+class Packet_Monitor_Notice_Guild_Mark_Change_ToUser : public PacketHeader {
+public:
+    Packet_Monitor_Notice_Guild_Mark_Change_ToUser();
+};
+
+class Packet_Send_All_User_Info_Minimum_For_Guild_System : public PacketHeader {
+public:
+    Packet_Send_All_User_Info_Minimum_For_Guild_System();
+};
+'''
+    hdr.insert(-1, extra_hdr)
     open('source/guild/GuildPackets.h', 'w').write('\n'.join(hdr) + '\n')
     # 输出 cpp
     cpp = []
@@ -220,7 +243,41 @@ def main():
         '#include <string.h>\n\n'
         '#include "GuildDomain.h"\n'
         '#include "DNFFunctionLib.h"\n'
-        '#include "GuildPackets.h"\n\n' + '\n'.join(cpp) + '\n')
+        '#include "GuildPackets.h"\n\n' + '\n'.join(cpp) + '''
+
+Packet_Answer_Guild_Member_Connection_From_Web::
+    Packet_Answer_Guild_Member_Connection_From_Web()
+    : PacketHeader(0x443, 0x5ec)
+{
+    *(unsigned int*)((char*)this + 0xa) = 0;
+    *(unsigned short*)((char*)this + 0xe) = 0;
+    memset((char*)this + 0x10, 0, 0x5dc);
+}
+
+Packet_Monitor_DB_Change_Unconnected_GuildMember_Grade::
+    Packet_Monitor_DB_Change_Unconnected_GuildMember_Grade()
+    : PacketHeader(0x42b, 0x33)
+{
+    *(unsigned char*)((char*)this + 0xa) = 0;
+    *(unsigned int*)((char*)this + 0xb) = 0;
+    *(unsigned char*)((char*)this + 0x32) = 0xff;
+    memset((char*)this + 0x14, 0, 0x1e);
+}
+
+Packet_Monitor_Notice_Guild_Mark_Change_ToUser::
+    Packet_Monitor_Notice_Guild_Mark_Change_ToUser()
+    : PacketHeader(0x3ff, 0x16)
+{
+    *(unsigned int*)((char*)this + 0xa) = 0xffffffff;
+    *(unsigned int*)((char*)this + 0xe) = 0;
+}
+
+Packet_Send_All_User_Info_Minimum_For_Guild_System::
+    Packet_Send_All_User_Info_Minimum_For_Guild_System()
+    : PacketHeader(0x447, 0x16)
+{
+}
+''')
     print('generated %d packet ctors' % len(packets))
     if fails:
         print('UNPARSED STATEMENTS (%d):' % len(fails))

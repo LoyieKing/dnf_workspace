@@ -881,3 +881,36 @@ Packet_Web_Notify_Message_To_Guild::Packet_Web_Notify_Message_To_Guild()
     memset((char*)this + 0xf, 0, 0x65);
 }
 
+
+Packet_Answer_Guild_Member_Connection_From_Web::
+    Packet_Answer_Guild_Member_Connection_From_Web()
+    : PacketHeader(0x443, 0x5ec)
+{
+    *(unsigned int*)((char*)this + 0xa) = 0;
+    *(unsigned short*)((char*)this + 0xe) = 0;
+    memset((char*)this + 0x10, 0, 0x5dc);
+}
+
+Packet_Monitor_DB_Change_Unconnected_GuildMember_Grade::
+    Packet_Monitor_DB_Change_Unconnected_GuildMember_Grade()
+    : PacketHeader(0x42b, 0x33)
+{
+    *(unsigned char*)((char*)this + 0xa) = 0;
+    *(unsigned int*)((char*)this + 0xb) = 0;
+    *(unsigned char*)((char*)this + 0x32) = 0xff;
+    memset((char*)this + 0x14, 0, 0x1e);
+}
+
+Packet_Monitor_Notice_Guild_Mark_Change_ToUser::
+    Packet_Monitor_Notice_Guild_Mark_Change_ToUser()
+    : PacketHeader(0x3ff, 0x16)
+{
+    *(unsigned int*)((char*)this + 0xa) = 0xffffffff;
+    *(unsigned int*)((char*)this + 0xe) = 0;
+}
+
+Packet_Send_All_User_Info_Minimum_For_Guild_System::
+    Packet_Send_All_User_Info_Minimum_For_Guild_System()
+    : PacketHeader(0x447, 0x16)
+{
+}

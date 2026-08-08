@@ -189,6 +189,64 @@ template class MemPool<CPeer>;
 template class MemPool<CUser>;
 template class MemPool<CGuild>;
 
+// ---- allocator 显式实例化（原版独立符号）----
+template std::allocator<STGuildCargoLog>::allocator();
+template std::allocator<STGuildCargoLog>::~allocator();
+template std::allocator<STPowerWarScheduleTime>::allocator();
+template std::allocator<STPowerWarScheduleTime>::~allocator();
+template std::allocator<CTcpRecvBuffer*>::allocator();
+template std::allocator<CTcpRecvBuffer*>::~allocator();
+template std::allocator<CUdpRecvBuffer*>::allocator();
+template std::allocator<CUdpRecvBuffer*>::~allocator();
+template std::allocator<STGuildCargoLog*>::~allocator();
+template std::allocator<STPowerWarGuildInfo*>::allocator();
+template std::allocator<STPowerWarGuildInfo*>::~allocator();
+template std::allocator<STPowerWarCharacInfo*>::allocator();
+template std::allocator<STPowerWarCharacInfo*>::~allocator();
+template std::allocator<STDBSavePowerWarPoint*>::allocator();
+template std::allocator<STDBSavePowerWarPoint*>::~allocator();
+template std::allocator<CTcpRecvBuffer**>::~allocator();
+template std::allocator<std::_List_node<STUserPoint> >::allocator();
+template std::allocator<std::_List_node<STUserPoint> >::~allocator();
+template std::allocator<std::_Rb_tree_node<std::pair<unsigned int const, STGuildBoardDBInfo> > >::allocator();
+template std::allocator<std::_Rb_tree_node<std::pair<unsigned int const, STGuildBoardDBInfo> > >::~allocator();
+template std::allocator<std::_Rb_tree_node<std::pair<unsigned int const, STPowerWarGuildInfo*> > >::allocator();
+template std::allocator<std::_Rb_tree_node<std::pair<unsigned int const, STPowerWarGuildInfo*> > >::~allocator();
+template std::allocator<std::_Rb_tree_node<std::pair<unsigned int const, STPowerWarCharacInfo*> > >::allocator();
+template std::allocator<std::_Rb_tree_node<std::pair<unsigned int const, STPowerWarCharacInfo*> > >::~allocator();
+template std::allocator<std::pair<unsigned int, STGuildWarInfo*> >::allocator();
+template std::allocator<std::pair<unsigned int, STGuildWarInfo*> >::~allocator();
+
+namespace
+{
+template<class T>
+void allocator_copy_inst()
+{
+    std::allocator<T> a;
+    std::allocator<T> b(a);
+    (void)b;
+}
+}
+
+template void allocator_copy_inst<STPowerWarScheduleTime>();
+template void allocator_copy_inst<CTcpRecvBuffer*>();
+template void allocator_copy_inst<CUdpRecvBuffer*>();
+template void allocator_copy_inst<unsigned int>();
+
+namespace
+{
+template<class T1, class T2>
+void allocator_convert_inst()
+{
+    std::allocator<T1> a;
+    std::allocator<T2> b(a);
+    (void)b;
+}
+}
+
+template void allocator_convert_inst<STGuildCargoLog, STGuildCargoLog*>();
+template void allocator_convert_inst<CTcpRecvBuffer*, CTcpRecvBuffer**>();
+
 void* CUdpRecvBuffer::operator new(unsigned int size)
 {
     return m_RecvBufferMemPool_.alloc();

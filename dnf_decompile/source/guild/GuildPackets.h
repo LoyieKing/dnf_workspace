@@ -569,4 +569,25 @@ public:
     Packet_Web_Notify_Message_To_Guild();
 };
 
+
+class Packet_Answer_Guild_Member_Connection_From_Web : public PacketHeader {
+public:
+    Packet_Answer_Guild_Member_Connection_From_Web();
+};
+
+class Packet_Monitor_DB_Change_Unconnected_GuildMember_Grade : public PacketHeader {
+public:
+    Packet_Monitor_DB_Change_Unconnected_GuildMember_Grade();
+};
+
+class Packet_Monitor_Notice_Guild_Mark_Change_ToUser : public PacketHeader {
+public:
+    Packet_Monitor_Notice_Guild_Mark_Change_ToUser();
+};
+
+class Packet_Send_All_User_Info_Minimum_For_Guild_System : public PacketHeader {
+public:
+    Packet_Send_All_User_Info_Minimum_For_Guild_System();
+};
+
 #endif  // GUILD_PACKETS_H_

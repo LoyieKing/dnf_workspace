@@ -157,7 +157,7 @@ struct STGuildBoardDBInfo
 struct STPowerWarGuildInfo
 {
     STPowerWarGuildInfo();
-    static bool Compare(STPowerWarGuildInfo* a, STPowerWarGuildInfo* b);
+    static bool Compare(const STPowerWarGuildInfo* a, const STPowerWarGuildInfo* b);
     static void* operator new(unsigned int size);
     static void operator delete(void* p);
     static void operator delete(void* p, unsigned int size);
@@ -166,7 +166,7 @@ struct STPowerWarGuildInfo
 struct STPowerWarCharacInfo
 {
     STPowerWarCharacInfo();
-    static bool Compare(STPowerWarCharacInfo* a, STPowerWarCharacInfo* b);
+    static bool Compare(const STPowerWarCharacInfo* a, const STPowerWarCharacInfo* b);
     static void* operator new(unsigned int size);
     static void operator delete(void* p);
     static void operator delete(void* p, unsigned int size);
