@@ -132,3 +132,24 @@ App（readConfig/prepareRun/run/load_script）与 main。
 3. EpollReactor 的 set 操作（insert/erase/begin 迭代）与 m_users 的
    _Rb_tree 内部符号；
 4. main 的栈对齐 prologue 差异（原版无 `lea 0x4(%esp),%ecx` 序列）为编译器构建差异。
+
+## 重大发现（工具链混合）
+
+原版 relay 是**混合工具链**：.comment 含 3 个 GCC 4.1.2-52 TU + 1 个 **GCC 4.4.6-3 TU**。
+4.4.6 TU 以 **-std=gnu++0x** 编译（rvalue 重载被启用）：
+
+- **UserPool.cpp**（对象池/UserPools/queue(deque&&)）：4.4.6-3 + c++0x（`/tmp/cc1plus446bin`
+  精确 4.4.6-3 cc1plus + c6root 4.4.7 头文件，`-std=gnu++0x`）；
+- **RelayApp.cpp**（RelayServiceApp 全部核心：Users/TCPUser/线程/Handler/RelayService/日志/
+  App/main）：同为 4.4.6-3 + c++0x；
+- 其余 TU（RelayUtil/LinuxService/Script/Socket/Exception/Token/Thread）：4.1.2-52。
+
+切换后比对大幅提升：**IDENTICAL 308 → 515**（+207），NEAR 110 → 412；
+real missing 稳定在 300（全部为 std/__gnu_cxx 容器内部实例化细节 + 未引用的
+libstdc++ 运行时符号如 bad_*::what/error_category）。链接同时挂 4.1.2 与 4.4.4 静态
+libstdc++.a/libgcc_eh.a。
+
+## 水位（最新）
+
+2010 个原版符号：应用级 MISSING=0；IDENTICAL 515 + NEAR 412（占全部符号 46%）；
+DIFF 726（绝大多数为已记录的编译器/寄存器分配差异）；real missing 300。
