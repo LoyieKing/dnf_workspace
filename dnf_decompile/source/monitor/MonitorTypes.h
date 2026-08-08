@@ -1043,6 +1043,8 @@ public:
     char m_data[0x294];
 };
 
+class COnTimeEventManager;
+
 class COnTimeEventRewardEndTrigger : public CTaskScheduler::CTask
 {
 public:
