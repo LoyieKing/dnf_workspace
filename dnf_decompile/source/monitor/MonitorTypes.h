@@ -605,6 +605,10 @@ public:
     void GetSchoolCount(unsigned int school, unsigned int* out, unsigned char& idx);
     int DeleteProhibitUser(unsigned int dbid, char channel);
     class CDNFProhibitUser* FindProhibitUser(unsigned int dbid) const;
+    CUser* FindUser(unsigned int dbid) const;
+    char InsertProhibitUser(unsigned int dbid, class CDNFProhibitUser* pu);
+    int DeleteUser(unsigned int dbid);
+    int DeleteUser(CUser* user);
     std::map<unsigned int, std::map<unsigned char, unsigned int> > m_mapSchools;  // +0
     std::map<unsigned int, CUser*> m_users;       // +0x18
     std::map<unsigned int, CUser*> m_charNoUsers; // +0x30
@@ -616,9 +620,12 @@ public:
 class CDNFProhibitUser
 {
 public:
+    CDNFProhibitUser();
+    ~CDNFProhibitUser();
     static void operator delete(void* p);
     char GetChannelNo();
     char fromWeb();
+    void SetUserConnectableTime(unsigned int dbid, short time, char channel, bool flag);
     char m_data[0x20];
 };
 

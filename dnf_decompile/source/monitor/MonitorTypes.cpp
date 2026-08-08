@@ -1834,10 +1834,107 @@ int CUserManager::DeleteProhibitUser(unsigned int dbid, char channel)
     }
     return 0;
 }
+CUser* CUserManager::FindUser(unsigned int dbid) const
+{
+    if (!m_users.empty())
+    {
+        std::map<unsigned int, CUser*>::const_iterator it = m_users.find(dbid);
+        if (it != m_users.end())
+        {
+            return it->second;
+        }
+    }
+    return 0;
+}
+char CUserManager::InsertProhibitUser(unsigned int dbid, CDNFProhibitUser* pu)
+{
+    if (pu == 0)
+    {
+        return 0;
+    }
+    m_prohibitUsers.insert(std::pair<const unsigned int, CDNFProhibitUser*>(dbid, pu));
+    return 1;
+}
+int CUserManager::DeleteUser(unsigned int dbid)
+{
+    if (m_users.empty())
+    {
+        return 0;
+    }
+    CUser* user = FindUser(dbid);
+    if (user != 0)
+    {
+        if (user->GetGameServer() == 0)
+        {
+            return 0;
+        }
+        CDNFProhibitUser* pu = new CDNFProhibitUser;
+        char ch = ((CServerInterface*)user->GetGameServer())->GetChannelNo();
+        pu->SetUserConnectableTime(dbid, 10, ch, false);
+        if (InsertProhibitUser(dbid, pu) != 1)
+        {
+            CMyFileLog log("DeleteUser", 0x8b);
+            log("./log/ProhibitUser",
+                "[INSERT_ERR_] CUserManager::DeleteUser() m_id : %s, time( %d ), Channel( %d )\n",
+                NumberToString(dbid, 0), 10, (unsigned int)ch & 0xff);
+            delete pu;
+        }
+        if (m_users.erase(dbid) == 1)
+        {
+            if (user != 0)
+            {
+                delete user;
+            }
+            return 1;
+        }
+    }
+    return 0;
+}
+int CUserManager::DeleteUser(CUser* user)
+{
+    if (m_users.empty())
+    {
+        return 0;
+    }
+    if (user != 0)
+    {
+        if (user->GetGameServer() == 0)
+        {
+            return 0;
+        }
+        unsigned int dbid = user->GetDBID();
+        CDNFProhibitUser* pu = new CDNFProhibitUser;
+        char ch = ((CServerInterface*)user->GetGameServer())->GetChannelNo();
+        pu->SetUserConnectableTime(dbid, 10, ch, false);
+        if (InsertProhibitUser(dbid, pu) != 1)
+        {
+            CMyFileLog log("DeleteUser", 0xc4);
+            log("./log/ProhibitUser",
+                "[INSERT_ERR_] CUserManager::DeleteUser() m_id : %s, time( %d ), Channel( %d )\n",
+                NumberToString(dbid, 0), 10, (unsigned int)ch & 0xff);
+            delete pu;
+        }
+        if (m_users.erase(dbid) == 1)
+        {
+            if (user != 0)
+            {
+                delete user;
+            }
+            return 1;
+        }
+    }
+    return 0;
+}
 
+CDNFProhibitUser::CDNFProhibitUser() {}
+CDNFProhibitUser::~CDNFProhibitUser() {}
 void CDNFProhibitUser::operator delete(void* p) { ::operator delete(p); }
 char CDNFProhibitUser::GetChannelNo() { return 0; }
 char CDNFProhibitUser::fromWeb() { return 0; }
+void CDNFProhibitUser::SetUserConnectableTime(unsigned int dbid, short time, char channel,
+                                              bool flag)
+{
+}
 void CUserManager::AddSchoolNo(unsigned int schoolNo, unsigned char channel)
 {
     std::map<unsigned int, std::map<unsigned char, unsigned int> >::iterator it =
