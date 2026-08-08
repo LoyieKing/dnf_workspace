@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""df_statics_r 快速全量比对（签名缓存 + 快筛 + 按类过滤）。
+"""df_guild_r 快速全量比对（compare_common 统一严格口径 + 签名缓存 + 快筛）。
 
 用法:
-  python3 compare_statics.py                 # 全量应用层比对
-  python3 compare_statics.py FrameLag        # 只比符号名含 FrameLag 的函数
-  python3 compare_statics.py --app           # 只比应用层（排除 std/libstdc++/libgcc）
-  python3 compare_statics.py --all           # 含 std 模板的全部符号
+  python3 compare_guild.py                 # 全量应用层比对
+  python3 compare_guild.py CPowerWar       # 只比符号名含 CPowerWar 的函数
+  python3 compare_guild.py --all           # 含 std 模板的全部符号
+  python3 compare_guild.py --nosigcache    # 忽略签名缓存强制重算
 """
 import re
 import sys
@@ -18,11 +18,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import CALIBER_VERSION, norm_identical
 
 sys.path.insert(0, '/tmp')
-import staticslib
+import guildlib
 
-ORIG = staticslib.ORIG
-NEW = staticslib.NEW
-SIG_CACHE = '/tmp/staticslib_sig_cache.pkl'
+ORIG = guildlib.ORIG
+NEW = guildlib.NEW
+SIG_CACHE = '/tmp/guildlib_sig_cache.pkl'
 
 
 def norm_sym(k):
@@ -38,18 +38,14 @@ def is_std(sym):
     if sym.startswith('__') and not sym.startswith('_ZN'):
         return True
     if re.match(r'^[a-z]', sym):
-        return True  # libiberty/libgcc 内部符号（execute_*, uw_*, search_object 等）
-    if re.match(r'^_Z[NK]*(St|So|Si|Sb|Ss|St9|St13|St14|St15|St16|St17|St18|St19|St20|St21|St23|St24|St25|St26|St27|St28)', sym):
         return True
-    if re.match(r'^_ZNSt', sym) or re.match(r'^_ZNKSt', sym):
-        return True
-    if '_ZN10__cxxabiv' in sym or '_ZNK10__cxxabiv' in sym:
+    if re.match(r'^_Z[NK]*(St|So|Si|Sb|Ss)', sym):
         return True
     if sym.startswith('_ZNSt') or sym.startswith('_ZNKSt') or sym.startswith('_ZSt'):
         return True
-    if sym.startswith('_ZNK') and ('St' in sym[:14]):
-        return True
     if '_ZN10__cxxabiv' in sym or '_ZNK10__cxxabiv' in sym:
+        return True
+    if sym.startswith('_ZNK') and ('St' in sym[:14]):
         return True
     if sym.startswith('_Z'):
         m = re.match(r'_Z(T|N|NK|K|KT)?(\d+)([A-Za-z_~]+)', sym)
@@ -65,21 +61,18 @@ def is_app(sym):
 
 
 def dedup_aliases(syms):
-    """C1/C2、D1/D2 等地址别名：只保留一个符号名。"""
     by_addr = {}
     for name, (addr, size, typ) in syms.items():
         if addr not in by_addr:
             by_addr[addr] = name
         else:
             old = by_addr[addr]
-            # 优先保留 C1/D1（非 C2/D2）
             if old.endswith('C2Ev') or old.endswith('D2Ev'):
                 by_addr[addr] = name
     return set(by_addr.values())
 
 
 def load_sigs(path, keys, use_cache=True):
-    """预计算规范化签名：{symbol: (size, mnemonic_tuple, normalized_tuple)}。"""
     cache_key = (path, tuple(sorted(keys)), CALIBER_VERSION)
     if use_cache:
         try:
@@ -91,7 +84,7 @@ def load_sigs(path, keys, use_cache=True):
             pass
     sigs = {}
     for name in keys:
-        ins = staticslib.disasm(path, name)
+        ins = guildlib.disasm(path, name)
         if not ins:
             continue
         sigs[name] = (len(ins), tuple(mnemonics(ins)), tuple(norm_identical(ins)))
@@ -108,18 +101,17 @@ def main():
     args = sys.argv[1:]
     pat = None
     all_syms = False
+    use_cache = True
     for a in args:
         if a == '--all':
             all_syms = True
-        elif a == '--app':
-            all_syms = False
         elif a == '--nosigcache':
-            pass
+            use_cache = False
         else:
             pat = a
 
-    orig = staticslib.load_symbols(ORIG)
-    new = staticslib.load_symbols(NEW)
+    orig = guildlib.load_symbols(ORIG)
+    new = guildlib.load_symbols(NEW)
     orig_names = dedup_aliases(orig)
     new_names = dedup_aliases(new)
     newset = new_names | set(norm_sym(k) for k in new_names)
@@ -133,8 +125,8 @@ def main():
 
     print('comparing %d functions...' % len(names))
     t0 = time.time()
-    so = load_sigs(ORIG, names)
-    sn = load_sigs(NEW, names)
+    so = load_sigs(ORIG, names, use_cache)
+    sn = load_sigs(NEW, names, use_cache)
     stats = Counter()
     diffs = []
     missing = [k for k in names if k not in sn]
@@ -157,8 +149,9 @@ def main():
     total = sum(v for k, v in stats.items() if k != 'EMPTY/MISSING')
     print('time %.1fs' % (time.time() - t0))
     print('stats:', dict(stats))
-    print('IDENTICAL+NEAR: %.1f%% (of %d with both sides)' %
-          (100 * (stats['IDENTICAL'] + stats['NEAR']) / max(total, 1), total))
+    print('IDENTICAL: %.1f%%  IDENTICAL+NEAR: %.1f%% (of %d with both sides)' %
+          (100 * stats['IDENTICAL'] / max(total, 1),
+           100 * (stats['IDENTICAL'] + stats['NEAR']) / max(total, 1), total))
     if missing:
         print('present in orig but not in new:', len(missing))
     diffs.sort(key=lambda d: -max(d[2], d[3]))

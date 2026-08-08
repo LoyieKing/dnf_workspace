@@ -6,7 +6,7 @@ Rules:
   - MINOR:   only opnd-level diffs involving same mnemonic, OR only
              differences in pure address/register spilling patterns
   - MISALIGNED-CANDIDATE: any 'only' structural difference, or opnd diff
-             where the operand text differs beyond a <tgt> normalization
+             where the operand text differs beyond a <T> normalization
              (constants, call targets, displacements)
 
 Usage: classify_diffs.py
@@ -51,9 +51,9 @@ def classify(diff_lines):
             # strip the markers and addresses
             o = re.sub(r'^! \S+\s+[0-9a-fA-F]+\s+\| orig: ', '', p)
             n = re.sub(r'^! \S+\s+[0-9a-fA-F]+\s+\| new : ', '', p)
-            # normalize <tgt> and hex to compare semantics
-            no = re.sub(r'<tgt>[^ ]*', '<T>', o)
-            nn = re.sub(r'<tgt>[^ ]*', '<T>', n)
+            # normalize <T> markers and hex to compare semantics
+            no = re.sub(r'<T(?:gt)?>[^ ]*', '<T>', o)
+            nn = re.sub(r'<T(?:gt)?>[^ ]*', '<T>', n)
             if no != nn:
                 semantic.append((o, n))
         if not semantic:

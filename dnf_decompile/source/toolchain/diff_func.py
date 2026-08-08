@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Normalized instruction-level diff of one symbol: original vs our build.
 
-Normalization: strips address prefixes, normalizes branch/call targets,
-and marks the differing lines so a reviewer can focus on real differences
-(constants, registers, call targets, structure) instead of layout shifts.
+Normalization: strips address prefixes, normalizes only direct branch/call
+target addresses (unified caliber, compare_common.py), and marks the differing
+lines so a reviewer can focus on real differences (constants, registers, field
+offsets, call targets, structure) instead of layout shifts.
 
 Usage: diff_func.py <symbol> [--decompile]
 """
@@ -11,6 +12,9 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from compare_common import norm_line
 
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/community/df_community_r'
@@ -34,7 +38,7 @@ def disasm_insns(bin_path, symbol):
         txt = m.group(2).strip()
         if not txt:
             continue
-        txt = re.sub(r'\b0x[0-9a-f]+(<[^>]*>)?$', r'<tgt>\1', txt)
+        txt = norm_line(txt)
         insns.append((m.group(1), txt))
     return insns
 

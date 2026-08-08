@@ -3,55 +3,41 @@ import re, os, subprocess, sys
 from collections import defaultdict
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from compare_common import demangle_batch, disasm_slice, load_disasm, norm_identical
+
 ORIG = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople/channel/df_channel_r')
 NEW = Path(sys.argv[1] if len(sys.argv) > 1 else '/tmp/df_channel_r_new')
 
 def run(cmd):
     return subprocess.check_output(cmd, shell=True, text=True, stderr=subprocess.DEVNULL)
 
-def demangle(name):
-    try:
-        return subprocess.run(['c++filt','-n'], input=name, text=True, capture_output=True, check=True).stdout.strip()
-    except Exception:
-        return name
-
 def text_symbols(bin_path):
     out = run("nm -S --defined-only '{}'".format(bin_path))
-    result = {}
+    rows = []
     for line in out.splitlines():
         p = line.split(None, 3)
         if len(p) < 4: continue
         addr, size, typ, name = p[0], p[1], p[2], p[3]
         if typ not in {'T','t','W','w'}: continue
         if name.startswith('.L'): continue
-        result[name] = (typ, int(size,16), demangle(name), int(addr,16))
-    return result
+        rows.append((name, typ, int(size, 16), int(addr, 16)))
+    dem = demangle_batch([r[0] for r in rows])
+    return {r[0]: (r[1], r[2], dem.get(r[0], r[0]), r[3]) for r in rows}
 
 _sym = {}
+_dis = {}
 def syms(b):
     if b not in _sym: _sym[b] = text_symbols(b)
     return _sym[b]
 
-BRANCH_RE = re.compile(r'^(.*?\b(?:j[a-z]*|call)\b.*?)\b0x[0-9a-f]+(<[^>]*>)?$')
-
 def disasm(bin_path, symbol):
     info = syms(bin_path).get(symbol)
     if not info: return []
-    start = info[3]; stop = start + info[1]
-    out = run("objdump -d --no-show-raw-insn --start-address=0x{:x} --stop-address=0x{:x} '{}'".format(start, stop, bin_path))
-    lines = []
-    for line in out.splitlines():
-        m = re.match(r'^\s*[0-9a-f]+:\s*(.*)$', line)
-        if m: lines.append(m.group(1).strip())
-    return lines
-
-def norm(l):
-    out = []
-    for x in l:
-        x = re.sub(r'0x[0-9a-f]+<[^>]*>', '<T>', x)
-        x = re.sub(r'0x[0-9a-f]+', '0xX', x)
-        out.append(x)
-    return out
+    loaded = _dis.get(bin_path)
+    if loaded is None:
+        loaded = _dis[bin_path] = load_disasm(bin_path)
+    return disasm_slice(loaded, info[3], info[3] + info[1])
 
 def mnemonics(l):
     return [x.split()[0] for x in l if x.split()]
@@ -73,7 +59,7 @@ for name, (typ, size, dname, addr) in sorted(orig.items()):
         stats['MISSING'] += 1
         diffs.append((name, dname, 'EMPTY'))
         continue
-    na, nb = norm(a), norm(b)
+    na, nb = norm_identical(a), norm_identical(b)
     if na == nb:
         cls = 'IDENTICAL'
     elif mnemonics(a) == mnemonics(b):

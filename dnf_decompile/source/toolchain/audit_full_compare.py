@@ -11,6 +11,14 @@ import subprocess
 from collections import Counter, defaultdict
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from compare_common import (
+    demangle_batch,
+    disasm_slice,
+    load_disasm,
+    norm_line,
+)
+
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/community/df_community_r'
 NEW = ROOT / 'dnf_decompile/source/build-c6/df_community_r'
@@ -23,15 +31,10 @@ def run(cmd):
     return subprocess.check_output(cmd, shell=True, text=True, stderr=subprocess.DEVNULL)
 
 
-def demangle(name):
-    p = subprocess.run(['c++filt', '-n'], input=name, text=True, capture_output=True, check=True)
-    return p.stdout.strip()
-
-
 def nm_map(bin_path):
     """symbol -> (addr, size, demangled); code symbols only."""
     out = run("nm -S --defined-only '{}'".format(bin_path))
-    result = {}
+    rows = []
     for line in out.splitlines():
         parts = line.split(None, 3)
         if len(parts) < 4:
@@ -39,8 +42,9 @@ def nm_map(bin_path):
         addr, size, sym_type, name = parts[0], parts[1], parts[2], parts[3]
         if sym_type not in {'T', 't', 'W', 'w'}:
             continue
-        result[name] = (int(addr, 16), int(size, 16), demangle(name))
-    return result
+        rows.append((name, int(addr, 16), int(size, 16)))
+    dem = demangle_batch([r[0] for r in rows])
+    return {r[0]: (r[1], r[2], dem.get(r[0], r[0])) for r in rows}
 
 
 def obj_funcs(obj_path):
@@ -52,29 +56,24 @@ def obj_funcs(obj_path):
 
 
 def disasm_range(bin_path, start, size):
-    """Return (mnemonics, call_target_names) for [start, start+size)."""
-    cmd = ("objdump -d --no-show-raw-insn --start-address=0x{:x} --stop-address=0x{:x} '{}'"
-           .format(start, start + size, bin_path))
+    """Return (normalized_texts, mnemonics, call_target_addrs)."""
     try:
-        out = run(cmd)
+        loaded = _DIS_CACHE.get(bin_path)
+        if loaded is None:
+            loaded = _DIS_CACHE[bin_path] = load_disasm(bin_path)
     except Exception:
-        return [], []
-    mnems, calls = [], []
-    for line in out.splitlines():
-        m = re.match(r'^\s*([0-9a-fA-F]+):\s', line)
-        if not m:
-            continue
-        cols = line.split('\t')
-        if len(cols) < 2:
-            continue
-        ins = cols[1].strip()
-        if not ins:
-            continue
+        return [], [], []
+    texts, mnems, calls = [], [], []
+    for ins in disasm_slice(loaded, start, start + size):
+        texts.append(norm_line(ins))
         mnems.append(ins.split()[0])
         cm = re.search(r'\bcall\b\s+([0-9a-fA-F]{8})', ins)
         if cm:
             calls.append(int(cm.group(1), 16))
-    return mnems, calls
+    return texts, mnems, calls
+
+
+_DIS_CACHE = {}
 
 
 def addr_to_symbol(map_, addr):
@@ -122,10 +121,11 @@ def main():
             else:
                 o_addr = o_size = o_dem = None
 
-            n_mnems, n_calls = disasm_range(NEW, n_addr, n_size)
+            n_texts, n_mnems, n_calls = disasm_range(NEW, n_addr, n_size)
             if in_orig:
-                o_mnems, o_calls = disasm_range(ORIG, o_addr, o_size)
-                exact = bool(n_mnems) and n_mnems == o_mnems
+                o_texts, o_mnems, o_calls = disasm_range(ORIG, o_addr, o_size)
+                # 统一严格口径：除直接跳转/调用目标地址外，指令文本逐条一致
+                exact = bool(n_texts) and n_texts == o_texts
                 if n_mnems and o_mnems:
                     c1, c2 = Counter(n_mnems), Counter(o_mnems)
                     common = sum((c1 & c2).values())
@@ -142,20 +142,13 @@ def main():
                     for c in o_calls
                 })
                 call_mismatch = (n_call_syms != o_call_syms) if (n_calls or o_calls) else False
-                # direct absolute immediate comparison (constants)
-                n_imm = sorted(re.findall(r'\$0x[0-9a-fA-F]+|\$[0-9]+', ' '.join(
-                    line.split('\t', 1)[1] for line in subprocess.check_output(
-                        "objdump -d --no-show-raw-insn --start-address=0x{:x} --stop-address=0x{:x} '{}'"
-                        .format(n_addr, n_addr + n_size, NEW), shell=True, text=True).splitlines()
-                    if re.match(r'^\s*[0-9a-fA-F]+:\s', line))))
-                o_imm = sorted(re.findall(r'\$0x[0-9a-fA-F]+|\$[0-9]+', ' '.join(
-                    line.split('\t', 1)[1] for line in subprocess.check_output(
-                        "objdump -d --no-show-raw-insn --start-address=0x{:x} --stop-address=0x{:x} '{}'"
-                        .format(o_addr, o_addr + o_size, ORIG), shell=True, text=True).splitlines()
-                    if re.match(r'^\s*[0-9a-fA-F]+:\s', line))))
+                # direct absolute immediate comparison (constants),
+                # 复用已取出的指令文本，不再二次 objdump
+                n_imm = sorted(re.findall(r'\$0x[0-9a-fA-F]+|\$[0-9]+', ' '.join(n_texts)))
+                o_imm = sorted(re.findall(r'\$0x[0-9a-fA-F]+|\$[0-9]+', ' '.join(o_texts)))
                 imm_mismatch = (n_imm != o_imm) if (n_imm or o_imm) else False
             else:
-                o_mnems, o_calls = [], []
+                o_texts, o_mnems, o_calls = [], [], []
                 exact = False
                 overlap = 0.0
                 call_mismatch = False
@@ -172,7 +165,7 @@ def main():
                 'new_size': n_size,
                 'orig_insns': len(o_mnems),
                 'new_insns': len(n_mnems),
-                'mnemonic_exact': 'yes' if exact else 'no',
+                'identical': 'yes' if exact else 'no',
                 'mnemonic_overlap': overlap,
                 'call_mismatch': 'yes' if call_mismatch else 'no',
                 'imm_mismatch': 'yes' if imm_mismatch else 'no',
@@ -180,14 +173,14 @@ def main():
 
     with OUT_TSV.open('w', encoding='utf-8') as f:
         cols = ['file', 'symbol', 'demangled', 'in_original', 'orig_addr', 'orig_size',
-                'new_addr', 'new_size', 'orig_insns', 'new_insns', 'mnemonic_exact',
+                'new_addr', 'new_size', 'orig_insns', 'new_insns', 'identical',
                 'mnemonic_overlap', 'call_mismatch', 'imm_mismatch']
         f.write('\t'.join(cols) + '\n')
         for r in rows:
             f.write('\t'.join(str(r[c]) for c in cols) + '\n')
 
     in_orig = [r for r in rows if r['in_original']]
-    exact = [r for r in in_orig if r['mnemonic_exact'] == 'yes']
+    exact = [r for r in in_orig if r['identical'] == 'yes']
     call_bad = [r for r in in_orig if r['call_mismatch'] == 'yes']
     imm_bad = [r for r in in_orig if r['imm_mismatch'] == 'yes']
     print('rows={} in_orig={} exact={} call_mismatch={} imm_mismatch={}'
