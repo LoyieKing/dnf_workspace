@@ -12,10 +12,51 @@
 | DIFF（助记符/结构异） | 787 |
 | EMPTY/MISSING | 625 |
 
-更新（同日第二批）：IDENTICAL 254 / NEAR 163 / DIFF 788 / MISSING **622**。
-新增 OnCallMemberList（341B 会员列表）、OnNotifyNewMail/OnNotifyAuctionMail
-（含 catch(...) 日志 0xb66/0x137e）、OnRegisterGM_mid、
-OnMonitorFullLevelBroadCast。
+更新（同日第二批）：IDENTICAL 269 / NEAR 175 / DIFF 809 / MISSING **574**。
+
+## 第三批（handler 大规模填充，空桩 113 -> 49）
+
+- 会员/聊天：OnNoticeMemberChatMsg(+HyperLink)、OnNoticeOtherChannelChatMsg
+  (+HyperLink，含 GM 聊天控制)、OnUserRepel(+ByCharName)、OnLogoutComplete、
+  OnReplyQueryMember、OnForbidChat、OnNoticeMessage/OnNoticeSlang、
+  OnPayTaxToUpper、OnMemberSecede/OnMemberEnterReply/OnRequestMemberEnter
+  （前批已列）、OnCallMemberList、OnUpdateChangableCharInfo、OnCeraUpdate、
+  OnEventItemUpdate 依赖的 CEventActionManager 待补。
+- 黑名单：OnRegister/DeleteToBlackList、OnRequestBlackList、
+  OnDBMWResister/DeleteToBlackList、OnDBMWResponseBlackListOnLogin、
+  RequestBlackListToDBMW；CUser 黑名单方法族 + 5 个 0x5dc-0x5e2 包类。
+- 广播/事件/IP：OnBroadcastMsg、OnWebNoticeSingle、OnMonitorMegaPhoneMsg(×2)、
+  OnSetARSInfo、OnWebRequestARSInfo、OnResponse(Full)IPCounterList、
+  onIPCounterControl、onStart/EndGameEventFromServer、onReloadCountryCode/
+  SecurityRestrictPolicy、onLoadCleanPadPoint/BlackIPMonitor(PartLoad/DeleteIP)/
+  PunishUserReq、OnVillageMonsterFightResult、OnGameMonitorGMVillageAttacked、
+  OnRequestReloadPowerWarRanker、OnServerMessageInfo、OnLoadPeriodicMessage、
+  OnWebNoticeInGameAD、onCollectItemsGm/Result、onSocialEventRewardItemRequest、
+  OnPcRoomPlayTimeReward、OnSetCleanPadPoint、OnMonitorPunishCancel、
+  OnMonitorSecuServiceConnWeb、OnMonitorFindFactoryHubUser、OnGMRequestMid、
+  onRequestReloadTowerRanker/CharacTowerUpdateRank、OnRegisterEventIdx、
+  OnWebChangeUserHandicap、OnCharacterDelete、OnRelayServerUserCheck、
+  OnDisableUserOneToOneChat_GM、OnRenew_GM_List、OnNotifyNewMail/
+  OnNotifyAuctionMail、OnRegisterGM_mid、OnMonitorFullLevelBroadCast。
+- 基础设施：CIPCounter setOption/setLoadTerm/setMinIPCount（去虚化）、
+  CGMAccounts clearGmList/AppendGM_Sys、CServerInterface::SendToServer、
+  CApplication getTowerRank/getIPCounter/getCollectItems/FindGameServer +
+  isGM_regFromChannel/isAbleUserChatWithGM/AddChattableUserWithGM/
+  DisableChatUserWithGM、CUserManager::DeleteBlackUserOnCharacDelete、
+  CServerHandler::GetGameServer/SendDBMWRequestARSInfo、
+  CMemberExpTbl::GetMemberExpLevel、COnTimeEventManager::SetEventIdx。
+
+## 剩余主要块（49 个 handler，约 9.8KB）
+
+- OnLogout(612B)/OnCharLogin(563B)/OnReplyUserInfo(432B)/OnLogin(395B)：
+  依赖 CLoginLogoutStatistics、CTcpGameServer、CUser::QueryBuddyInfo、
+  CMemoryCashManager::InsertCashMemorySetCharacterObject 等子系统。
+- OnNoticeProhibitConnectUser(456B)：依赖 exchange_server CCacheCharacterMgr。
+- onItemLimitEdition*（340/271/252/194B）：依赖 CItemLimitEditionMgr 字典方法。
+- onSocialEventRewardItem*(294/256/203/187B)：依赖 LimitNpcBuyItemManager。
+- 好友家族（OnAddBuddy 等 5 个）：依赖 CUser::AddBuddyDB/DelBuddyDB 等。
+- 事件子系统（OnEventStart/End、OnRegisterEventItem/Idx 等）：
+  依赖 CEventActionManager/CBaseEventAction 类层次。
 
 工作流已优化：全量比对 0.5s（签名缓存），单函数 diff 0.2s
 （diff_func.py）；批量疑似差异分类器 /tmp/mon_classify.py 秒级排序全部 DIFF。
