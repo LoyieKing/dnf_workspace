@@ -288,3 +288,13 @@
   CPowerManager SetPowerWarEndKillPoint/SendPowerWarEndInfoToSpecificUser/
   SaveDBPowerWarBonusPoint
 - 冒烟通过；DIFF 1116 / IDENTICAL 377 / NEAR 207
+
+## 2026-08-09 第十二轮（剩余处理器核验）
+
+- 核验等价：OnEventEnd/OnHeartBeat/OnEventStart/OnAddGuildFund/OnLoadGuildCargo/
+  OnCharacterDelete/OnRequestBlackList/OnDBCreateGuildAgit/OnNoticeGuildCreate、
+  CServerHandler GetTcpGameServer/SendToGameServer/SendTcpGameServerFirst/C1E、
+  CGuildManager GetTodayMember/GetAttendanceExp/GetAttendanceInfo/InsertTodayMember/
+  GetAttendancePhase/RefreshAttendanceInfo/LoadGuild、CTcpGameServer、
+  CServerInterface::Initialize、CTcpAcceptThread、CThreadInterface
+- 冒烟通过；DIFF 1116 / IDENTICAL 377 / NEAR 207
