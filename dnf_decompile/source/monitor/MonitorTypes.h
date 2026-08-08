@@ -295,9 +295,19 @@ class CTowerRank
 {
 public:
     CTowerRank();
-    virtual ~CTowerRank();
+    ~CTowerRank();
     void processReloadRanking(CServerHandler* handler, bool flag, unsigned int tick);
-    char m_data[0x5c];
+    void registCharacRank(unsigned int floor, const char* name, unsigned int job,
+                          unsigned int score);
+    struct stTowerRankElement_t
+    {
+        stTowerRankElement_t();
+        stTowerRankElement_t(unsigned char job, unsigned short score);
+        unsigned char m_job;    // +0
+        char m_pad;
+        unsigned short m_score; // +2
+    };
+    std::multimap<std::string, stTowerRankElement_t> m_ranks[4];  // 0x60
 };
 
 // ---- CThreadInterface：0xc ----

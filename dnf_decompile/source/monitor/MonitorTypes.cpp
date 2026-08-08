@@ -823,6 +823,43 @@ CGameServer::~CGameServer() {}
 CTowerRank::CTowerRank() {}
 CTowerRank::~CTowerRank() {}
 void CTowerRank::processReloadRanking(CServerHandler* handler, bool flag, unsigned int tick) {}
+CTowerRank::stTowerRankElement_t::stTowerRankElement_t()
+{
+    m_job = 0;
+    m_score = 0;
+}
+CTowerRank::stTowerRankElement_t::stTowerRankElement_t(unsigned char job, unsigned short score)
+{
+    m_job = job;
+    m_score = score;
+}
+void CTowerRank::registCharacRank(unsigned int floor, const char* name, unsigned int job,
+                                  unsigned int score)
+{
+    std::multimap<std::string, stTowerRankElement_t>& mm = m_ranks[floor - 1];
+    std::multimap<std::string, stTowerRankElement_t>::iterator lo = mm.lower_bound(name);
+    std::multimap<std::string, stTowerRankElement_t>::iterator up = mm.upper_bound(name);
+    do
+    {
+        if (lo == up)
+        {
+            goto INSERT;
+        }
+        if (lo->second.m_job == (unsigned char)job)
+        {
+            if (score <= (unsigned int)lo->second.m_score)
+            {
+                return;
+            }
+            mm.erase(lo);
+            goto INSERT;
+        }
+        ++lo;
+    } while (true);
+INSERT:
+    stTowerRankElement_t elem((unsigned char)job, (unsigned short)score);
+    mm.insert(std::pair<const std::string, stTowerRankElement_t>(name, elem));
+}
 
 CThreadInterface::CThreadInterface() {}
 CThreadInterface::~CThreadInterface() {}
