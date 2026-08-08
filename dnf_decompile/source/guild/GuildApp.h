@@ -24,6 +24,7 @@ class CUdpRecvBuffer;
 class CGameServer;
 class CTcpGameServer;
 class CMemoryCashManager;
+namespace WongWork { class CGMAccounts; }
 
 void ShowLogo();
 
@@ -80,7 +81,7 @@ public:
     CUserManager* Get_UserManager();
     CMemoryCashManager* Get_MemoryCashManager();
     CGameServer* FindGameServer(int group);
-    void* GetGMAccounts();
+    WongWork::CGMAccounts* GetGMAccounts();
     CTcpGameServer* FindTcpGameServer(unsigned int group);
     void OnGameServerDown(CGameServer* server);
     void OnTcpGameServerDown(CTcpGameServer* server);
@@ -104,6 +105,7 @@ public:
     CTcpNetSystem m_tcpNetSystem;       // +0x130
     CGuildManager m_guildManager;       // +0x290
     CPowerManager m_powerManager;       // +0x370
+    WongWork::CGMAccounts* m_gmAccounts; // +0x50c
     CMemoryCashManager* m_memoryCash;   // +0x510
 };
 

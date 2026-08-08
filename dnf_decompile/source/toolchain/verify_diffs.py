@@ -22,7 +22,7 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from compare_common import norm_identical, norm_line
+from compare_common import norm_identical, norm_line, load_disasm, disasm_slice
 
 sys.path.insert(0, '/tmp')
 import guildlib
@@ -46,6 +46,42 @@ def disasm(bin_path, symbol):
         if txt:
             insns.append((m.group(1), norm_line(txt)))
     return insns
+
+
+# ---------------- 整二进制一次解析（避免逐函数 objdump） ----------------
+_loaded = {}
+
+
+def _load_bin(bin_path):
+    """缓存 (指令文本 dict, 排序地址表, {符号: (addr,size,type)}, 相邻符号地址表)。"""
+    if bin_path not in _loaded:
+        sys.path.insert(0, '/tmp')
+        import guildlib
+        insn, addrs = load_disasm(bin_path)
+        syms = guildlib.load_symbols(bin_path)
+        _loaded[bin_path] = (insn, addrs, syms)
+    return _loaded[bin_path]
+
+
+def _func_slice(bin_path, symbol):
+    """按「符号起始地址 → 下一符号起始地址」区间切片取指令文本列表。"""
+    insn, addrs, syms = _load_bin(bin_path)
+    info = syms.get(symbol)
+    if not info:
+        return None
+    start, size, _ = info
+    stop = start + size
+    for name, (a, _sz, _t) in syms.items():
+        if a > start and a < stop:
+            stop = a
+    return [norm_line(x) for x in disasm_slice((insn, addrs), start, stop)]
+
+
+def disasm(bin_path, symbol):
+    txt = _func_slice(bin_path, symbol)
+    if txt is None:
+        return []
+    return [(hex(a), x) for a, x in zip(range(len(txt)), txt)]
 
 
 # ---------------- rodata 字符串解析 ----------------
@@ -99,14 +135,13 @@ def rodata_str(bin_path, addr):
 def sym_at(bin_path, addr):
     """addr 所属符号名（nm 地址区间）。"""
     if bin_path not in _symmaps:
+        _, _, syms = _load_bin(bin_path)
         addrs = []
         names = {}
-        out = run("nm -n '{}'".format(bin_path))
-        for line in out.splitlines():
-            p = line.split(None, 2)
-            if len(p) >= 3 and p[1] in ('T', 't', 'W', 'w'):
-                addrs.append(int(p[0], 16))
-                names[int(p[0], 16)] = p[2]
+        for name, (a, _sz, typ) in syms.items():
+            if typ in ('T', 't', 'W', 'w'):
+                addrs.append(a)
+                names[a] = name
         _symmaps[bin_path] = (sorted(addrs), names)
     addrs, names = _symmaps[bin_path]
     lo, hi = 0, len(addrs)
@@ -123,6 +158,22 @@ def sym_at(bin_path, addr):
 _ADDR_RE = re.compile(r'\$0x([0-9a-f]+)')
 _SYMOFF_RE = re.compile(r'<([^>]*)\+0x([0-9a-f]+)>$')
 _RO_DISP_RE = re.compile(r'0x([0-9a-f]+)\(%[a-z]{2,3}\)')
+_REG_RE = re.compile(r'%[a-z]{2,3}')
+_STACK_DISP_RE = re.compile(r'(-?0x[0-9a-f]+)\(%ebp\)')
+
+
+def _semantic_opnd(line):
+    """判定一条指令的操作数里是否含「语义级」量（常量/字段偏移/全局地址）。
+    栈槽（%ebp 偏移）与寄存器名视为布局噪声。"""
+    # 先去掉 %ebp 栈槽位移
+    x = _STACK_DISP_RE.sub('S', line)
+    x = _REG_RE.sub('%R', x)
+    return x
+
+
+def classify_pair_semantic(o, n):
+    """成对差异是否语义级：去掉栈槽/寄存器噪声后仍不同 -> True。"""
+    return _semantic_opnd(o) != _semantic_opnd(n)
 
 
 def classify_pair(o, n, bin_o, bin_n):
@@ -173,7 +224,10 @@ def classify_pair(o, n, bin_o, bin_n):
         ('xor' in mo and '$0x1' in mo and 'sete' in mn) or
         ('xor' in mo and '$0x1' in mo and 'cmp' in mn and '$0x1' in mn) or
         (mo.startswith('test') and mn.startswith('cmp')) or
-        (mn.startswith('test') and mo.startswith('cmp'))
+        (mn.startswith('test') and mo.startswith('cmp')) or
+        # 仅寄存器名不同：-O0 寄存器分配噪声（常量/偏移/目标不变则视为等价）
+        (mo.split()[0] == mn.split()[0] and
+         _REG_RE.sub('%R', mo) == _REG_RE.sub('%R', mn))
     )
     if codegen:
         return 'codegen'
@@ -246,7 +300,24 @@ def classify_function(name):
                 ni += 1
             else:
                 break
-    return {'identical': False, 'counts': dict(counts), 'real': real[:10]}
+    # 额外统计「同助记符成对差异」数量：这类差异可直接逐条对照，
+    # 比单侧增减行更能暴露真实语义偏差。
+    pair_real = 0
+    for tag, i1, i2, j1, j2 in sm.get_opcodes():
+        if tag == 'equal':
+            continue
+        o = o_all[i1:i2]
+        n = n_all[j1:j2]
+        oi = ni = 0
+        while oi < len(o) and ni < len(n) and \
+                o[oi][1].split()[0] == n[ni][1].split()[0]:
+            cls = classify_pair(o[oi][1], n[ni][1], guildlib.ORIG, guildlib.NEW)
+            if cls == 'real':
+                pair_real += 1
+            oi += 1
+            ni += 1
+    return {'identical': False, 'counts': dict(counts), 'real': real[:10],
+            'pair_real': pair_real}
 
 
 def main():
@@ -281,12 +352,12 @@ def main():
         counts = r['counts']
         if counts.get('real', 0):
             summary['DIFF_REAL'] += 1
-            real_list.append((name, counts))
+            real_list.append((name, counts, r['pair_real']))
     print('total with both sides:',
           summary['IDENTICAL'] + summary['DIFF_BENIGN'])
     print('summary:', dict(summary))
     print('--- functions with real diffs (review queue) ---')
-    for name, counts in sorted(real_list, key=lambda x: -x[1].get('real', 0)):
+    for name, counts, pair_real in sorted(real_list, key=lambda x: -x[2]):
         print('%-65s %s' % (name[:65], dict(counts)))
 
 

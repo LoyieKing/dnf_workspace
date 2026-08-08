@@ -251,6 +251,11 @@ void CApplication::Process()
 
 void CApplication::CheckArgv(int argc, char** argv)
 {
+    if (argc < 3)
+    {
+        throw CDNFException(
+            "CApplication::CheckArgv() \xbd\xc7\xc7\xe0 \xbe\xc6\xb1\xd4\xb8\xd5\xc6\xae \xbf\xc0\xb7\xf9\n");
+    }
 }
 
 int CApplication::Send_Term_Signal(const std::string& name)
@@ -317,7 +322,7 @@ void CApplication::TranslateSignal()
             switch (cfg->m_field0)
             {
             case 1:
-                m_guildManager.DBGuildProcess(Get_ServerHandler(), true);
+                m_guildManager.DBGuildProcess(Get_ServerHandler(), (bool)Get_ServerHandler());
                 break;
             case 3:
             {
@@ -488,9 +493,9 @@ CMemoryCashManager* CApplication::Get_MemoryCashManager()
     return m_memoryCash;
 }
 
-void* CApplication::GetGMAccounts()
+WongWork::CGMAccounts* CApplication::GetGMAccounts()
 {
-    return 0;
+    return m_gmAccounts;
 }
 
 CGameServer* CApplication::FindGameServer(int group)

@@ -130,7 +130,7 @@ CBlackUser::~CBlackUser()
 
 void CBlackUser::SetBlackUser(char* name, unsigned int time)
 {
-    strncpy(m_data, name, 0x1e);
+    memcpy(m_data, name, 0x1d);
     *(unsigned int*)(m_data + 0x20) = time;
 }
 
@@ -179,29 +179,39 @@ CScheduler::~CScheduler()
 
 void CScheduler::SetSpecialHour(int hour)
 {
+    *(char*)((char*)this + 2) = (char)hour;
+    *(char*)((char*)this + 1) = 0;
 }
 
 void CScheduler::SetSpecialDayHour(int day, int hour)
 {
+    *(char*)((char*)this + 2) = (char)hour;
+    *(char*)((char*)this + 3) = (char)day;
+    *(char*)((char*)this + 1) = 0;
 }
 
 void CScheduler::SetSpecificDayScheduleHour(int day, int hour)
 {
+    *(char*)((char*)this + day * 4 + 9) = (char)hour;
 }
 
 int CScheduler::IsOnTimeSpecialHour(int hour, int min)
 {
-    return 0;
+    return (char)*(char*)((char*)this + 2) == hour &&
+           (char)*(char*)((char*)this + 1) == min;
 }
 
 int CScheduler::IsOnTimeSpecialDayHour(int day, int hour, int min)
 {
-    return 0;
+    return (char)*(char*)((char*)this + 3) == day &&
+           (char)*(char*)((char*)this + 2) == hour &&
+           (char)*(char*)((char*)this + 1) == min;
 }
 
 int CScheduler::GetSpecificDayScheduleHour(int day)
 {
-    return 0;
+    return ((int)(char)*(char*)((char*)this + day * 4 + 10) -
+            (int)(char)*(char*)((char*)this + day * 4 + 9)) * 0x3c;
 }
 
 void CScheduler::Clear()
@@ -244,7 +254,8 @@ void CScheduler::SetSpecialWeekDayHour(int day, int hour)
 int CScheduler::IsOnTimeSpecialWeekDayHour(int day, int hour, int min)
 {
     if (*(char*)((char*)this + day * 4 + 8) != 0 &&
-        *(char*)((char*)this + day * 4 + 9) == (char)hour)
+        *(char*)((char*)this + day * 4 + 9) == (char)hour &&
+        *(char*)((char*)this + day * 4 + 0xb) == (char)min)
     {
         return 1;
     }
@@ -255,8 +266,59 @@ void CScheduler::GetNextScheduleTime(unsigned char& hour, unsigned char& min)
 {
     time_t now = time(0);
     tm* pt = localtime(&now);
-    hour = (unsigned char)pt->tm_hour;
-    min = (unsigned char)pt->tm_min;
+    tm t;
+    t.tm_sec = pt->tm_sec;
+    t.tm_min = pt->tm_min;
+    t.tm_hour = pt->tm_hour;
+    t.tm_mday = pt->tm_mday;
+    t.tm_mon = pt->tm_mon;
+    t.tm_year = pt->tm_year;
+    t.tm_wday = pt->tm_wday;
+    t.tm_yday = pt->tm_yday;
+    t.tm_isdst = pt->tm_isdst;
+    t.tm_gmtoff = pt->tm_gmtoff;
+    t.tm_zone = pt->tm_zone;
+    int curDay = pt->tm_wday;
+    if (*(char*)((char*)this + curDay * 4 + 8) == 0 ||
+        (char)*(char*)((char*)this + curDay * 4 + 9) < pt->tm_hour)
+    {
+        int target = -1;
+        int d = curDay;
+        do
+        {
+            d++;
+            if (d > 6)
+            {
+                break;
+            }
+        } while (*(char*)((char*)this + d * 4 + 8) == 0);
+        if (d <= 6)
+        {
+            target = d;
+        }
+        else
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                if (*(char*)((char*)this + i * 4 + 8) != 0)
+                {
+                    target = i;
+                    break;
+                }
+            }
+        }
+        int daysAhead = (7 - curDay) + target;
+        time_t next = daysAhead * 0x15180 + mktime(&t);
+        hour = (unsigned char)*(char*)((char*)this + target * 4 + 9);
+        min = (unsigned char)*(char*)((char*)this + target * 4 + 10);
+        localtime(&next);
+    }
+    else
+    {
+        hour = (unsigned char)*(char*)((char*)this + curDay * 4 + 9);
+        min = (unsigned char)*(char*)((char*)this + curDay * 4 + 10);
+        localtime(&now);
+    }
 }
 
 CUser::CUser()
@@ -2658,7 +2720,9 @@ void CGuild::ReplyGuildAllMembers(CUser* user)
             CUser* m = FindGuildMember(*(unsigned int*)src);
             if (m == 0)
             {
-                memcpy(rec + 0x22, src + 0x2c, 0x14);
+                rec[0] = (char)0xff;
+                memset(rec + 0x22, 0, 0x14);
+                rec[0x38] = 0;
             }
             else
             {
@@ -2666,7 +2730,7 @@ void CGuild::ReplyGuildAllMembers(CUser* user)
                 *(unsigned short*)(rec + 2) = m->GetLevel();
                 if (m->GetGameServer() == 0)
                 {
-                    CMyFileLog log("ReplyGuildAllMembers", 0x658);
+                    CMyFileLog log("ReplyGuildAllMembers", 0x695);
                     log("./log/Except",
                         "CGuild::ReplyGuildMembers() Guild Key : %d\tGuild Name : %s\tDB Id : %d\tChar Id : %d\n",
                         GetGuildKey(), GetGuildName(), m->GetDBID(), *(unsigned int*)src);
@@ -3430,12 +3494,81 @@ int CGuildCargo::AddItem(DnfItemInfo& info, int slot, int count)
 
 int CGuildCargo::InsertItem(DnfItemInfo& info, int& slot, int count, unsigned char a, int b)
 {
-    return 1;
+    if (IsValidSlot(slot) != 1)
+    {
+        return 0xc4;
+    }
+    if (a == 1)
+    {
+        int existingSlot = GetSpecificItemSlot(*(int*)((char*)&info + 1));
+        if (existingSlot != -1)
+        {
+            int oldCount = *(int*)((char*)this + existingSlot * 0x35 + 6);
+            int addCount = *(int*)((char*)&info + 6);
+            if (oldCount + addCount <= count)
+            {
+                *(int*)((char*)this + existingSlot * 0x35 + 6) += addCount;
+                CMyFileLog log("InsertItem", 0x89);
+                log("./log/GuildCargo",
+                    "InsertItem STACKABLE ADD SUCCESS - GUILD:%d, CHARAC:%d, ITEM:%d, OLD:%d, ADD:%d, CURR:%d",
+                    *(int*)((char*)this + 0x18e0), b, *(int*)((char*)&info + 1),
+                    oldCount, addCount, *(int*)((char*)this + existingSlot * 0x35 + 6));
+                slot = existingSlot;
+                return 0xc1;
+            }
+            CMyFileLog log("InsertItem", 0x96);
+            log("./log/GuildCargo",
+                "InsertItem STACKABLE ADD OVER STACK LIMIT - GUILD:%d, CHARAC:%d, ITEM:%d, OLD:%d, ADD:%d, LMT:%d, CURR:%d",
+                *(int*)((char*)this + 0x18e0), b, *(int*)((char*)&info + 1),
+                oldCount, addCount, count, *(int*)((char*)this + existingSlot * 0x35 + 6));
+            slot = existingSlot;
+            return 200;
+        }
+    }
+    return AddItem(info, slot, b);
 }
 
 int CGuildCargo::DeleteItem(DnfItemInfo& info, int slot, int count, unsigned char a, int b, int c)
 {
-    return 1;
+    if (IsValidSlot(slot) != 1)
+    {
+        return 0xc4;
+    }
+    if (*(int*)((char*)this + slot * 0x35 + 1) == 0 ||
+        *(int*)((char*)this + slot * 0x35 + 1) != b)
+    {
+        return 0xca;
+    }
+    memcpy(&info, (char*)this + slot * 0x35, 0x35);
+    if (a == 1)
+    {
+        *(int*)((char*)&info + 6) = count;
+        int oldCount = *(int*)((char*)this + slot * 0x35 + 6);
+        int subCount = *(int*)((char*)&info + 6);
+        if (oldCount < subCount)
+        {
+            return 199;
+        }
+        *(int*)((char*)this + slot * 0x35 + 6) -= subCount;
+        if (*(int*)((char*)this + slot * 0x35 + 6) == 0)
+        {
+            ((DnfItemInfo*)((char*)this + slot * 0x35))->reset();
+        }
+        CMyFileLog log("DeleteItem", 0xee);
+        log("./log/GuildCargo",
+            "DeleteItem STACKABLE DELETE SUCCESS(Stackable) - GUILD:%d, CHARAC:%d, ITEM:%d, OLD:%d, SUB:%d, CURR:%d",
+            *(int*)((char*)this + 0x18e0), c, *(int*)((char*)&info + 1),
+            oldCount, subCount, *(int*)((char*)this + slot * 0x35 + 6));
+    }
+    else
+    {
+        ((DnfItemInfo*)((char*)this + slot * 0x35))->reset();
+        CMyFileLog log("DeleteItem", 0xfa);
+        log("./log/GuildCargo",
+            "DeleteItem STACKABLE DELETE SUCCESS(Equip) - GUILD:%d, CHARAC:%d, ITEM:%d",
+            *(int*)((char*)this + 0x18e0), c, *(int*)((char*)&info + 1));
+    }
+    return 0xc1;
 }
 
 int CGuildCargo::MoveItem(DnfItemInfo& from, DnfItemInfo& to, int fromSlot, int fromItemId,
@@ -3660,7 +3793,7 @@ void CGuildBoard::sendGuildBoardData(unsigned int a, unsigned int b, unsigned in
             ++it;
         }
         user->SendTcpGameserver(&reply);
-        CMyFileLog log("sendGuildBoardData", 0xac);
+        CMyFileLog log("sendGuildBoardData", 0xcb);
         log("./log/GuildBoard", "SEND SUCCESS - CODE TYPE:%u, GUILD:%u, CHARAC:%u, COUNT:%u",
             c, a, b, total, remainder);
     }

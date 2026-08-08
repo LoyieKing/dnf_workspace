@@ -34,6 +34,17 @@ import subprocess
 # 统一口径版本号：归一化规则变更时必须 +1，用于失效签名缓存
 CALIBER_VERSION = 3
 
+# 扩展口径（CALIBER_VERSION=4）：在严格口径基础上，把「大绝对地址」
+# （>=0x40000000，即 rodata/数据/全局引用等跨二进制布局产物）也归一化为 <A>。
+# 保留：立即数小常量、字段/栈偏移、寄存器、寻址形态。
+# 用于「全部 identical」可达性度量：数据地址差异不是函数局部语义差异。
+EXT_CALIBER_VERSION = 4
+_LARGE_ADDR_RE = re.compile(r'0x[0-9a-f]{7,8}')
+# 64 位 ET_EXEC（stun 等）的代码/数据地址在 0x40xxxx 区间（0x400000-0x40ffffff）
+# 注意：不能放宽到 0x4xxxxxxx，否则 32 位的 0x4c4d58（"XML" 魔数）等常量会被误归一化
+_LARGE_ADDR_RE64 = re.compile(r'0x40[0-9a-f]{4,6}')
+_ASSERT_LINE_RE = re.compile(r'^movl\s+\$0x[0-9a-f]+,0x8\(%esp\)$')
+
 # 直接跳转/调用：j*/call/callq/loop*；callq 为 64 位 AT&T 后缀
 _BRANCH_RE = re.compile(r"^(j[a-z]*|callq?|loop[a-z]*)\b")
 _TARGET_RE = re.compile(
@@ -53,6 +64,29 @@ def norm_line(line):
 def norm_identical(insns):
     """对指令文本列表做统一归一化。"""
     return [norm_line(x) for x in insns]
+
+
+def norm_identical_ext(insns):
+    """扩展口径：严格口径 + 大绝对地址（数据引用）归一化为 <A>。"""
+    return [_LARGE_ADDR_RE64.sub('<A>', _LARGE_ADDR_RE.sub('<A>', norm_line(x))) for x in insns]
+
+
+def norm_identical_full(insns):
+    """元信息豁免口径（CALIBER_VERSION=5）：
+    扩展口径 + __assert_fail 的行号实参（movl $line,0x8(%esp)）归一化为 $L。
+    依据：用户规则「行号只当元信息，不追求一致」。"""
+    out = []
+    for i, x in enumerate(insns):
+        y = norm_identical_ext([x])[0]
+        if _ASSERT_LINE_RE.match(y):
+            for j in range(i + 1, min(i + 5, len(insns))):
+                if '__assert_fail' in insns[j]:
+                    y = re.sub(r'\$0x[0-9a-f]+,0x8\(%esp\)', '$L,0x8(%esp)', y)
+                    break
+                if re.match(r'call\s', insns[j]):
+                    break
+        out.append(y)
+    return out
 
 
 def demangle_batch(names):

@@ -187,12 +187,12 @@ int CAppConfig::Parse_Table(char* line, int idx)
         if (n == 6)
         {
             stServerInfo* si = (stServerInfo*)operator new(0x16);
-            si->m_group = (unsigned char)atoi(tokens[1]);
-            si->m_field1 = (unsigned char)atoi(tokens[2]);
-            si->m_field2 = (unsigned char)atoi(tokens[0]);
-            strncpy(si->m_name, tokens[3], 0x10);
+            si->m_field2 = (unsigned char)atoi(tokens[1]);
+            si->m_group = (unsigned char)atoi(tokens[2]);
+            si->m_field1 = (unsigned char)atoi(tokens[3]);
+            strncpy(si->m_name, tokens[4], 0x10);
             si->m_port = (unsigned short)atoi(tokens[5]);
-            m_serverInfo.insert(std::make_pair(si->m_field2, si));
+            m_serverInfo.insert(std::make_pair(si->m_group, si));
             return 1;
         }
     }
@@ -201,8 +201,8 @@ int CAppConfig::Parse_Table(char* line, int idx)
 
 void CAppConfig::Check_FileName(const std::string& filename)
 {
-    std::string cfg = "./cfg/" + filename;
-    std::string pid = "./pid/" + filename;
+    std::string cfg = "./cfg/" + filename + ".cfg";
+    std::string pid = "./pid/" + filename + ".pid";
     if (access(cfg.c_str(), 0) != 0)
     {
         CMyFileLog log("Check_FileName", 0x6a);
