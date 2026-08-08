@@ -4714,7 +4714,29 @@ void CPacketTranslater::OnNotifyNewMail(PacketHeader* pkt)
         log("%s", "%s", "OnNotifyNewMail");
     }
 }
-void CPacketTranslater::OnWebQueryUserState(PacketHeader* pkt) {}
+void CPacketTranslater::OnWebQueryUserState(PacketHeader* pkt)
+{
+    CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+    int found = 0;
+    if (userMgr->FindUser(*(unsigned int*)((char*)pkt + 0xa)) == 0)
+    {
+        *(char*)((char*)pkt + 0x12) = 0;
+    }
+    else
+    {
+        *(char*)((char*)pkt + 0x12) = 1;
+    }
+    const char* state = *(char*)((char*)pkt + 0x12) == 1 ? "true" : "false";
+    char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+    CMyFileLog log("OnWebQueryUserState", 0xb78);
+    log("./log/User", "WebQueryUserState Result[m_id: %s] : [%s] : %d\n", dbid, state);
+    unsigned int addr = *(unsigned int*)((char*)pkt + 6);
+    unsigned short port = *(unsigned short*)((char*)pkt + 4);
+    if (m_pclApp->Get_UdpHandler()->SendToClient((char*)pkt, 0x13, port, (char*)0, addr) != 1)
+    {
+        throw CDNFException(strerror(errno));
+    }
+}
 void CPacketTranslater::OnNoticeMessage(PacketHeader* pkt)
 {
     if (m_pclApp == 0)
@@ -4741,7 +4763,12 @@ void CPacketTranslater::OnForbidChat(PacketHeader* pkt)
 }
 void CPacketTranslater::OnNoticeProhibitConnectUser(PacketHeader* pkt) {}
 void CPacketTranslater::OnMonitorManagerConnectOK(PacketHeader* pkt) {}
-void CPacketTranslater::OnMonitorMegaPhoneMsg(PacketHeader* pkt) {}
+void CPacketTranslater::OnMonitorMegaPhoneMsg(PacketHeader* pkt)
+{
+    *(char*)((char*)pkt + 0xa) = (char)m_pclApp->Get_ServerGroup();
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+}
 void CPacketTranslater::OnRegisterGM_mid(PacketHeader* pkt)
 {
     if (m_pclApp != 0)
@@ -4757,7 +4784,22 @@ void CPacketTranslater::OnDBMWDeleteToBlackList(PacketHeader* pkt) {}
 void CPacketTranslater::OnDBMWResponseBlackListOnLogin(PacketHeader* pkt) {}
 void CPacketTranslater::OnExchangeServerInfo(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoticeCharLiveOnTenMin(PacketHeader* pkt) {}
-void CPacketTranslater::OnWebNoticeSingle(PacketHeader* pkt) {}
+void CPacketTranslater::OnWebNoticeSingle(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnWebNoticeSingle", 0xf67);
+        log("./log/WebNotice", "CPacketTranslater::OnWebNoticeSingle : 0 == m_pclApp");
+    }
+    else
+    {
+        CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+        handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+        CMyFileLog log("OnWebNoticeSingle", 0xf6f);
+        log("./log/WebNotice", "OnWebNoticeSingle : (%s,%d)\n", (char*)pkt + 0xb,
+            (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xa));
+    }
+}
 void CPacketTranslater::OnAddBuddy(PacketHeader* pkt) {}
 void CPacketTranslater::OnAddBuddyDBReply(PacketHeader* pkt) {}
 void CPacketTranslater::OnDelBuddy(PacketHeader* pkt) {}
@@ -4769,7 +4811,11 @@ void CPacketTranslater::OnUserRepelByCharName(PacketHeader* pkt) {}
 void CPacketTranslater::onReplyLoadTowerFullRank(PacketHeader* pkt) {}
 void CPacketTranslater::onRequestCharacTowerUpdateRank(PacketHeader* pkt) {}
 void CPacketTranslater::onRequestReloadTowerRanker(PacketHeader* pkt) {}
-void CPacketTranslater::onWebReqReloadAutoPunishRule(PacketHeader* pkt) {}
+void CPacketTranslater::onWebReqReloadAutoPunishRule(PacketHeader* pkt)
+{
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllToGameServer((char*)pkt, 0xb);
+}
 void CPacketTranslater::OnInnerPacketLogin(PacketHeader* pkt) {}
 void CPacketTranslater::OnInnerPacketLogout(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoticeSlang(PacketHeader* pkt)
@@ -4781,10 +4827,28 @@ void CPacketTranslater::OnNoticeSlang(PacketHeader* pkt)
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, 0x3d);
 }
-void CPacketTranslater::onLoadCleanPadPoint(PacketHeader* pkt) {}
+void CPacketTranslater::onLoadCleanPadPoint(PacketHeader* pkt)
+{
+    CMyFileLog log("onLoadCleanPadPoint", 0x12e0);
+    log("./log/Cleanpad", "CleanPad Point");
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllToGameServer((char*)pkt, 10);
+}
 void CPacketTranslater::onLoadBlackIPMonitor(PacketHeader* pkt) {}
-void CPacketTranslater::onLoadBlackIPMonitorPartLoad(PacketHeader* pkt) {}
-void CPacketTranslater::onLoadBlackIPMonitorDeleteIP(PacketHeader* pkt) {}
+void CPacketTranslater::onLoadBlackIPMonitorPartLoad(PacketHeader* pkt)
+{
+    CMyFileLog log("onLoadBlackIPMonitorPartLoad", 0x1307);
+    log("./log/BlackIP", "BlackIP Monitor Part Load");
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllToGameServer((char*)pkt, 10);
+}
+void CPacketTranslater::onLoadBlackIPMonitorDeleteIP(PacketHeader* pkt)
+{
+    CMyFileLog log("onLoadBlackIPMonitorDeleteIP", 0x131a);
+    log("./log/BlackIP", "BlackIP Monitor Delete IP");
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllToGameServer((char*)pkt, 0x19e);
+}
 void CPacketTranslater::OnChangeCharName(PacketHeader* pkt) {}
 void CPacketTranslater::OnNotifyAuctionMail(PacketHeader* pkt)
 {
@@ -4808,9 +4872,27 @@ void CPacketTranslater::OnNotifyAuctionMail(PacketHeader* pkt)
 void CPacketTranslater::OnPvPChannelInfo(PacketHeader* pkt) {}
 void CPacketTranslater::OnPvPChannelUserCount(PacketHeader* pkt) {}
 void CPacketTranslater::OnChannelType(PacketHeader* pkt) {}
-void CPacketTranslater::OnServerMessageInfo(PacketHeader* pkt) {}
-void CPacketTranslater::OnRequestReloadPowerWarRanker(PacketHeader* pkt) {}
-void CPacketTranslater::onLoadPunishUserReq(PacketHeader* pkt) {}
+void CPacketTranslater::OnServerMessageInfo(PacketHeader* pkt)
+{
+    CMyFileLog log("OnServerMessageInfo", 0x1402);
+    log("./log/ServerEvent", "Packet_Monitor_Server_Message_Info");
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllToGameServer((char*)pkt, 0x5f);
+}
+void CPacketTranslater::OnRequestReloadPowerWarRanker(PacketHeader* pkt)
+{
+    CMyFileLog log("OnRequestReloadPowerWarRanker", 0x1418);
+    log("./log/ServerEvent", "Packet_Request_Reload_Power_War_Ranker");
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllToGameServer((char*)pkt, 10);
+}
+void CPacketTranslater::onLoadPunishUserReq(PacketHeader* pkt)
+{
+    CMyFileLog log("onLoadPunishUserReq", 0x142d);
+    log("./log/Secu", "Punish User Request");
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllToGameServer((char*)pkt, 0x4bd);
+}
 void CPacketTranslater::onIPCounterControl(PacketHeader* pkt) {}
 void CPacketTranslater::onItemLimitEditionLoadDataReq(PacketHeader* pkt) {}
 void CPacketTranslater::onItemLimitEditionLoadDataRpy(PacketHeader* pkt) {}
@@ -4866,11 +4948,65 @@ void CPacketTranslater::OnSetCleanPadPoint(PacketHeader* pkt)
         log("%s", "CPacketTranslater::OnSetCleanPadPoint() Exception Break");
     }
 }
-void CPacketTranslater::OnResponseIPCounterList(PacketHeader* pkt) {}
-void CPacketTranslater::OnResponseFullIPCounterList(PacketHeader* pkt) {}
+void CPacketTranslater::OnResponseIPCounterList(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnResponseIPCounterList : 0 == m_pclApp");
+    }
+    CMyFileLog log("OnResponseIPCounterList", 0x16c8);
+    log("./log/Secu", "[IP Counter] DataStats : %d, DataSize : %d ",
+        (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xa),
+        (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xb));
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+}
+void CPacketTranslater::OnResponseFullIPCounterList(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnResponseFullIPCounterList : 0 == m_pclApp");
+    }
+    CMyFileLog log("OnResponseFullIPCounterList", 0x16e8);
+    log("./log/Secu", "[D_IP Counter] DataStats : %d, DataSize : %d ",
+        (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xa),
+        (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xb));
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+}
 void CPacketTranslater::OnTakeScreenShot(PacketHeader* pkt) {}
-void CPacketTranslater::OnVillageMonsterFightResult(PacketHeader* pkt) {}
-void CPacketTranslater::OnVillageAttackedGMCommand(PacketHeader* pkt) {}
+void CPacketTranslater::OnVillageMonsterFightResult(PacketHeader* pkt)
+{
+    unsigned int users[4] = {0, 0, 0, 0};
+    CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+    for (int i = 0; i < 4; i++)
+    {
+        unsigned int key = *(unsigned int*)((char*)pkt + (i + 4) * 4 + 10);
+        if (key != 0)
+        {
+            users[i] = (unsigned int)userMgr->FindUser_CharNo(key);
+        }
+    }
+}
+void CPacketTranslater::OnVillageAttackedGMCommand(PacketHeader* pkt)
+{
+    try
+    {
+        ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
+            *(unsigned int*)((char*)pkt + 0xe));
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnVillageAttackedGMCommand", 0x1764);
+        log("%s", "CPacketTranslater::OnVillageAttackedGMCommand() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnVillageAttackedGMCommand", 0x1769);
+        log("%s", "CPacketTranslater::OnVillageAttackedGMCommand() Exception Break\n");
+    }
+}
 void CPacketTranslater::OnVillageAttackedRank(PacketHeader* pkt) {}
 void CPacketTranslater::OnMonitorFullLevelBroadCast(PacketHeader* pkt)
 {
@@ -4888,13 +5024,36 @@ void CPacketTranslater::OnNoCache(PacketHeader* pkt) {}
 void CPacketTranslater::OnDisableUserOneToOneChat_GM(PacketHeader* pkt) {}
 void CPacketTranslater::OnFindCharacName_useUID(PacketHeader* pkt) {}
 void CPacketTranslater::OnRenew_GM_List(PacketHeader* pkt) {}
-void CPacketTranslater::OnLoadPeriodicMessage(PacketHeader* pkt) {}
+void CPacketTranslater::OnLoadPeriodicMessage(PacketHeader* pkt)
+{
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendToDB(pkt);
+    CMyFileLog log("OnLoadPeriodicMessage", 0x19e0);
+    log("./log/PeriodicMessage", "Web Request is Arrived and Send Request DBMW");
+}
 void CPacketTranslater::OnResultLoadPeriodicMessage(PacketHeader* pkt) {}
 void CPacketTranslater::OnRegisterEventIdx(PacketHeader* pkt) {}
 void CPacketTranslater::OnRegisterEventUserIdx(PacketHeader* pkt) {}
 void CPacketTranslater::OnRegisterEventItem(PacketHeader* pkt) {}
 void CPacketTranslater::OnResultRegisterEventIdx(PacketHeader* pkt) {}
-void CPacketTranslater::OnGameMonitorGMVillageAttacked(PacketHeader* pkt) {}
+void CPacketTranslater::OnGameMonitorGMVillageAttacked(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException(
+            "CPacketTranslater::OnGameMonitorGMVillageAttacked : 0 == m_pclApp");
+    }
+    if (*(char*)((char*)pkt + 0xa) == 0)
+    {
+        village_attacked::SetRealConfig();
+    }
+    else
+    {
+        village_attacked::SetGMConfig(*(unsigned int*)((char*)pkt + 0xb),
+                                      *(unsigned int*)((char*)pkt + 0xf),
+                                      *(unsigned int*)((char*)pkt + 0x13));
+    }
+}
 void CPacketTranslater::OnMonitorPunishCancel(PacketHeader* pkt)
 {
     try
@@ -5059,8 +5218,21 @@ void CPacketTranslater::OnNoticeMemberChatMsgHyperLink(PacketHeader* pkt)
         "packet->m_msgLen");
 }
 void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt) {}
-void CPacketTranslater::OnMonitorMegaPhoneMsgHyperLink(PacketHeader* pkt) {}
-void CPacketTranslater::onSocialEventRewardItemRequest(PacketHeader* pkt) {}
+void CPacketTranslater::OnMonitorMegaPhoneMsgHyperLink(PacketHeader* pkt)
+{
+    *(char*)((char*)pkt + 0xa) = (char)m_pclApp->Get_ServerGroup();
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+}
+void CPacketTranslater::onSocialEventRewardItemRequest(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::onSocialEventRewardItemRequest");
+    }
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendToDB(pkt);
+}
 void CPacketTranslater::onSocialEventRewardItemResponse(PacketHeader* pkt) {}
 void CPacketTranslater::onSocialEventRewardItemInfo(PacketHeader* pkt) {}
 void CPacketTranslater::onSocialEventRewardItemInfoAll(PacketHeader* pkt) {}
@@ -5069,14 +5241,88 @@ void CPacketTranslater::onRequestCharacInfoByCharacName(PacketHeader* pkt) {}
 void CPacketTranslater::OnWebNoticeInGameAD(PacketHeader* pkt) {}
 void CPacketTranslater::onCollectItems(PacketHeader* pkt) {}
 void CPacketTranslater::onCollectItemsResult(PacketHeader* pkt) {}
-void CPacketTranslater::onCollectItemsGm(PacketHeader* pkt) {}
-void CPacketTranslater::OnPcRoomPlayTimeReward(PacketHeader* pkt) {}
+void CPacketTranslater::onCollectItemsGm(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::onCollectItemsGm");
+    }
+    *(char*)((char*)pkt + 0xa) = (char)m_pclApp->Get_ServerGroup();
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendToDB(pkt);
+}
+void CPacketTranslater::OnPcRoomPlayTimeReward(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnPcRoomPlayTimeReward");
+    }
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendToDB(pkt);
+}
 void CPacketTranslater::OnWebEmergencyPatchMessage(PacketHeader* pkt) {}
 void CPacketTranslater::OnUpdateMiniCraneSeed(PacketHeader* pkt) {}
-void CPacketTranslater::onStartGameEventFromServer(PacketHeader* pkt) {}
-void CPacketTranslater::onEndGameEventFromServer(PacketHeader* pkt) {}
-void CPacketTranslater::onReloadCountryCode(PacketHeader* pkt) {}
-void CPacketTranslater::onReloadSecurityRestrictPolicy(PacketHeader* pkt) {}
+void CPacketTranslater::onStartGameEventFromServer(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("onStartGameEventFromServer", 0x22e2);
+        log("./log/AradOnly", "[Server Event] m_pclApp is null.");
+        throw 0x22e3;
+    }
+    if (pkt == 0)
+    {
+        CMyFileLog log("onStartGameEventFromServer", 0x22e9);
+        log("./log/AradOnly", "[Server Event] Packet_StartGameEventFromServer is null.");
+        throw 0x22ea;
+    }
+    Packet_Monitor_Event_Start epkt;
+    epkt.m_fieldA = *(unsigned int*)((char*)pkt + 0xa);
+    epkt.m_fieldB = *(unsigned short*)((char*)pkt + 0x16);
+    epkt.m_fieldC = *(unsigned short*)((char*)pkt + 0x18);
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllTcpGameServer(&epkt);
+    CMyFileLog log("onStartGameEventFromServer", 0x22f2);
+    log("./log/AradOnly", "[Server Event] start event. (event:%d, param:%d,%d)",
+        *(unsigned int*)((char*)pkt + 0xa), *(unsigned short*)((char*)pkt + 0x16),
+        *(unsigned short*)((char*)pkt + 0x18));
+}
+void CPacketTranslater::onEndGameEventFromServer(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("onEndGameEventFromServer", 0x2304);
+        log("./log/AradOnly", "[Server Event] m_pclApp is null.");
+        throw 0x2305;
+    }
+    if (pkt == 0)
+    {
+        CMyFileLog log("onEndGameEventFromServer", 0x230b);
+        log("./log/AradOnly", "[Server Event] Packet_StopGameEventFromServer is null.");
+        throw 0x230c;
+    }
+    Packet_Monitor_Event_End epkt;
+    epkt.m_fieldA = *(unsigned int*)((char*)pkt + 0xa);
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllTcpGameServer(&epkt);
+    CMyFileLog log("onEndGameEventFromServer", 0x2312);
+    log("./log/AradOnly", "[Server Event] end event. (event:%d)",
+        *(unsigned int*)((char*)pkt + 0xa));
+}
+void CPacketTranslater::onReloadCountryCode(PacketHeader* pkt)
+{
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllTcpGameServer(pkt);
+    CMyFileLog log("onReloadCountryCode", 0x2344);
+    log("./log/Web", "CPacketTranslater::onReloadCountryCode()\n");
+}
+void CPacketTranslater::onReloadSecurityRestrictPolicy(PacketHeader* pkt)
+{
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllTcpGameServer(pkt);
+    CMyFileLog log("onReloadSecurityRestrictPolicy", 0x2359);
+    log("./log/Web", "CPacketTranslater::onReloadSecurityRestrictPolicy()\n");
+}
 CPacketDecoder::CPacketDecoder()
 {
     int i;
