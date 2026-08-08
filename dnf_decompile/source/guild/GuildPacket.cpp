@@ -588,10 +588,6 @@ STUB_HANDLER(OnMonitorManagerConnectOK)
 STUB_HANDLER(OnMonitorSendGuildLetter)
 STUB_HANDLER(OnDBMWReplySendGuildLetter)
 STUB_HANDLER(OnDBMWGuildJoin)
-STUB_HANDLER(OnRequestGuildSecede)
-STUB_HANDLER(OnDBReplyGuildSecede)
-STUB_HANDLER(OnRequestGuildMasterDelegate)
-STUB_HANDLER(OnDBReplyGuildMasterDelegate)
 STUB_HANDLER(OnRequestGuildCreate)
 STUB_HANDLER(OnDBReplyGuildCreate)
 STUB_HANDLER(OnGuildMasterDelegateFromWeb)
@@ -1186,6 +1182,342 @@ void CPacketTranslater::OnCheckGuildMemberConnectionFromWeb(PacketHeader* pkt)
         {
             throw CDNFException(strerror(errno));
         }
+    }
+}
+
+void CPacketTranslater::OnRequestGuildMasterDelegate(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnRequestGuildMasterDelegate : 0 == m_pclApp");
+    Packet_Guild_Reply_Guild_Master_Delegate resp;
+    unsigned int guildKey = *(unsigned int*)((char*)pkt + 0xa);
+    unsigned int requesterCharNo = *(unsigned int*)((char*)pkt + 0xe);
+    if (guildKey != 0)
+    {
+        CUser* requester = m_pclApp->Get_UserManager()->FindUser_CharNo(requesterCharNo);
+        if (requester == 0)
+        {
+            CMyFileLog log("OnRequestGuildMasterDelegate", 0xc23);
+            log("./log/Except",
+                "CPacketTranslater::OnRequestGuildMasterDelegate : 0 == pclRequester, Char Key = %d",
+                requesterCharNo);
+            return;
+        }
+        *(unsigned int*)((char*)&resp + 0xa) = requesterCharNo;
+        *(unsigned int*)((char*)&resp + 0xe) = requester->GetIdByChannel();
+        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+        if (guild == 0)
+        {
+            CMyFileLog log("OnRequestGuildMasterDelegate", 0xc2c);
+            log("./log/GuildModify",
+                "CPacketTranslater::OnRequestGuildMasterDelegate : 0 == pclGuild, Guild Key = %d",
+                guildKey);
+            *(unsigned int*)((char*)&resp + 0x12) = 0x22;
+            requester->SendToGameserver((char*)&resp, 0x16);
+            return;
+        }
+        if (guild->IsSetGuildDBFlag(4) == 1)
+        {
+            if (guild->IsGuildMaster(requesterCharNo))
+            {
+                CUser* delegatee = m_pclApp->Get_UserManager()->FindUser_CharName(
+                    std::string((char*)pkt + 0x12));
+                if (delegatee != 0 && !guild->IsSubGuildMaster(delegatee->GetUniqCharNo()))
+                {
+                    CMyFileLog log("OnRequestGuildMasterDelegate", 0xc49);
+                    log("./log/GuildModify",
+                        "CPacketTranslater::OnRequestGuildMasterDelegate : Delegatee is Not Sub Guild Master(%d)(%d)",
+                        guildKey, delegatee->GetUniqCharNo());
+                    *(unsigned int*)((char*)&resp + 0x12) = 0x56;
+                    requester->SendToGameserver((char*)&resp, 0x16);
+                    return;
+                }
+                if (requester->GetGameServer() != 0)
+                {
+                    Packet_DB_Request_Guild_Master_Delegate dbPkt;
+                    *(unsigned int*)((char*)&dbPkt + 0xa) = guildKey;
+                    *(unsigned int*)((char*)&dbPkt + 0xe) = requesterCharNo;
+                    *(unsigned char*)((char*)&dbPkt + 0x12) =
+                        requester->GetGameServer()->GetGroupNo();
+                    memcpy((char*)&dbPkt + 0x13, (char*)pkt + 0x12, 0x1d);
+                    m_pclApp->Get_ServerHandler()->SendToDB(&dbPkt);
+                }
+            }
+            else
+            {
+                CMyFileLog log("OnRequestGuildMasterDelegate", 0xc3d);
+                log("./log/GuildModify",
+                    "CPacketTranslater::OnRequestGuildMasterDelegate : Requester is Not Guild Master(%d)(%d)",
+                    guildKey, requesterCharNo);
+                *(unsigned int*)((char*)&resp + 0x12) = 0x24;
+                requester->SendToGameserver((char*)&resp, 0x16);
+            }
+        }
+        else
+        {
+            CMyFileLog log("OnRequestGuildMasterDelegate", 0xc34);
+            log("./log/GuildModify",
+                "CPacketTranslater::OnRequestGuildMasterDelegate : !( m_eGuildDBFlag & GUILD_DB_LOAD_STATE ), Guild Key = %d",
+                guildKey);
+            *(unsigned int*)((char*)&resp + 0x12) = 0x22;
+            requester->SendToGameserver((char*)&resp, 0x16);
+        }
+    }
+    else
+    {
+        throw CDNFException(
+            "CPacketTranslater::OnDBReplyGuildMasterDelegate : packet->m_uGuildKey == 0");
+    }
+}
+
+void CPacketTranslater::OnDBReplyGuildMasterDelegate(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnRequestGuildMasterDelegate : 0 == m_pclApp");
+    Packet_Guild_Reply_Guild_Master_Delegate resp;
+    unsigned int guildKey = *(unsigned int*)((char*)pkt + 0xa);
+    unsigned int requesterCharNo = *(unsigned int*)((char*)pkt + 0xe);
+    unsigned int delegateeCharNo = *(unsigned int*)((char*)pkt + 0x12);
+    int result = *(int*)((char*)pkt + 0x34);
+    if (guildKey == 0)
+    {
+        throw CDNFException(
+            "CPacketTranslater::OnDBReplyGuildMasterDelegate : packet->m_uGuildKey == 0");
+    }
+    CUser* requester = m_pclApp->Get_UserManager()->FindUser_CharNo(requesterCharNo);
+    if (requester == 0)
+    {
+        CMyFileLog log("OnDBReplyGuildMasterDelegate", 0xc82);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnRequestGuildMasterDelegate : 0 == pclRequester, Char Key = %d",
+            requesterCharNo);
+        return;
+    }
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnDBReplyGuildMasterDelegate", 0xc89);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnDBReplyGuildMasterDelegate : 0 == pclGuild, Guild Key = %d",
+            guildKey);
+        return;
+    }
+    if (guild->IsSetGuildDBFlag(4) == 1)
+    {
+        if (result == 0)
+        {
+            if (guild->IsSubGuildMaster(delegateeCharNo) == 0)
+            {
+                CMyFileLog log("OnDBReplyGuildMasterDelegate", 0xc9b);
+                log("./log/GuildModify",
+                    "CPacketTranslater::OnDBReplyGuildMasterDelegate : Delegatee(%d) is not sub guild master, Guild Key = %d",
+                    delegateeCharNo, guildKey);
+            }
+            else
+            {
+                guild->SetSubGuildMaster(delegateeCharNo, false);
+            }
+            if (guild->ChangeGuildMaster(m_pclApp->Get_ServerHandler(), requester,
+                                         delegateeCharNo) != 1)
+            {
+                CMyFileLog log("OnDBReplyGuildMasterDelegate", 0xca5);
+                log("./log/GuildModify",
+                    "CPacketTranslater::OnDBReplyGuildMasterDelegate : ERR Guild'state is not GUILD_DB_LOAD_STATE, Guild Key = %d",
+                    guildKey);
+            }
+            guild->ChangeUnconnectedGuildMemberGrade(requesterCharNo, 3);
+            requester->ChangeGuildMemberGrade(3);
+            guild->SendGuildInfoToMembers(false);
+            guild->NoticeGuildMasterDelegateToMembers((char*)pkt + 0x16);
+        }
+        if (requester != 0)
+        {
+            *(unsigned int*)((char*)&resp + 0xa) = requesterCharNo;
+            *(unsigned int*)((char*)&resp + 0xe) = requester->GetIdByChannel();
+            *(int*)((char*)&resp + 0x12) = result;
+            requester->SendToGameserver((char*)&resp, 0x16);
+        }
+        CUser* delegatee = m_pclApp->Get_UserManager()->FindUser_CharNo(delegateeCharNo);
+        if (delegatee != 0)
+        {
+            Packet_Notice_Has_Been_Guild_Master notice;
+            *(unsigned int*)((char*)&notice + 0xa) = delegateeCharNo;
+            *(unsigned int*)((char*)&notice + 0xe) = delegatee->GetIdByChannel();
+            delegatee->SendToGameserver((char*)&notice, 0x12);
+        }
+    }
+    else
+    {
+        CMyFileLog log("OnDBReplyGuildMasterDelegate", 0xc8e);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnDBReplyGuildMasterDelegate : Guild'state is not GUILD_DB_LOAD_STATE, Guild Key = %d",
+            guildKey);
+    }
+}
+
+void CPacketTranslater::OnRequestGuildSecede(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnRequestGuildSecede : 0 == m_pclApp");
+    Packet_Guild_Reply_Guild_Secede resp;
+    unsigned int guildKey = *(unsigned int*)((char*)pkt + 0xa);
+    unsigned int requesterCharNo = *(unsigned int*)((char*)pkt + 0xe);
+    if (guildKey == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnCallGuildInvite : packet->m_uGuildKey == 0");
+    }
+    CUser* requester = m_pclApp->Get_UserManager()->FindUser_CharNo(requesterCharNo);
+    if (requester == 0)
+    {
+        CMyFileLog log("OnRequestGuildSecede", 0xb3d);
+        log("./log/Except",
+            "CPacketTranslater::OnRequestGuildSecede : 0 == pclRequester, Char Key = %d",
+            requesterCharNo);
+        return;
+    }
+    *(unsigned int*)((char*)&resp + 0xa) = requesterCharNo;
+    *(unsigned int*)((char*)&resp + 0xe) = requester->GetIdByChannel();
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild != 0)
+    {
+        if (guild->IsSetGuildDBFlag(4) != 1)
+        {
+            CMyFileLog log("OnRequestGuildSecede", 0xb4e);
+            log("./log/GuildModify",
+                "CPacketTranslater::OnRequestGuildSecede : !( m_eGuildDBFlag & GUILD_DB_LOAD_STATE ), Guild Key = %d",
+                guildKey);
+            *(unsigned int*)((char*)&resp + 0x12) = 0x22;
+            requester->SendToGameserver((char*)&resp, 0x52);
+            return;
+        }
+        Packet_DB_Request_Guild_Secede dbPkt;
+        *(unsigned int*)((char*)&dbPkt + 0xa) = guildKey;
+        *(unsigned int*)((char*)&dbPkt + 0xe) = requesterCharNo;
+        size_t nameLen = *(size_t*)((char*)pkt + 0x12);
+        memcpy((char*)&dbPkt + 0x16, (char*)pkt + 0x16, nameLen);
+        if (*(int*)((char*)pkt + 0x12) == 0)
+        {
+            *(unsigned char*)((char*)&dbPkt + 0x12) = 1;
+            const char* name = requester->GetCharName();
+            memcpy((char*)&dbPkt + 0x16, name, strlen(name));
+        }
+        else
+        {
+            if (!guild->IsGuildMaster(requesterCharNo) &&
+                !guild->IsSubGuildMaster(requesterCharNo))
+            {
+                CMyFileLog log("OnRequestGuildSecede", 0xb60);
+                log("./log/GuildModify",
+                    "CPacketTranslater::OnRequestGuildSecede : IsGuildMaster or IsSubGuildMaster, g(%d), c(%d)",
+                    guildKey, requesterCharNo);
+                *(unsigned int*)((char*)&resp + 0x12) = 0x24;
+                requester->SendToGameserver((char*)&resp, 0x52);
+                return;
+            }
+            *(unsigned char*)((char*)&dbPkt + 0x12) = 2;
+        }
+        m_pclApp->Get_ServerHandler()->SendToDB(&dbPkt);
+        return;
+    }
+    CMyFileLog log("OnRequestGuildSecede", 0xb46);
+    log("./log/GuildModify",
+        "CPacketTranslater::OnRequestGuildSecede : 0 == pclGuild, Guild Key = %d", guildKey);
+    *(unsigned int*)((char*)&resp + 0x12) = 0x22;
+    requester->SendToGameserver((char*)&resp, 0x52);
+}
+
+void CPacketTranslater::OnDBReplyGuildSecede(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnRequestGuildSecede : 0 == m_pclApp");
+    Packet_Guild_Reply_Guild_Secede resp;
+    unsigned int guildKey = *(unsigned int*)((char*)pkt + 0xa);
+    unsigned int requesterCharNo = *(unsigned int*)((char*)pkt + 0xe);
+    unsigned int targetCharNo = *(unsigned int*)((char*)pkt + 0x12);
+    int secedeType = *(int*)((char*)pkt + 0x16);
+    unsigned char secedeFlag = *(unsigned char*)((char*)pkt + 0x1a);
+    unsigned int dbid = *(unsigned int*)((char*)pkt + 0x3d);
+    CUser* requester = m_pclApp->Get_UserManager()->FindUser_CharNo(requesterCharNo);
+    if (requester == 0)
+    {
+        CMyFileLog log("OnDBReplyGuildSecede", 0xb9e);
+        log("./log/Except",
+            "CPacketTranslater::OnRequestGuildSecede : 0 == pclCaller, Char Key = %d",
+            requesterCharNo);
+        return;
+    }
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnDBReplyGuildSecede", 0xba3);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnRequestGuildSecede : 0 == pclGuild, Char Key = %d (Maybe Requester was logout)",
+            requesterCharNo);
+        return;
+    }
+    *(unsigned int*)((char*)&resp + 0xa) = guildKey;
+    *(unsigned short*)((char*)&resp + 0xe) = guild->GetTotalCnt_Of_GuildDBInfo();
+    *(unsigned int*)((char*)&resp + 0x10) = requesterCharNo;
+    *(unsigned int*)((char*)&resp + 0x14) = requester->GetIdByChannel();
+    *(unsigned char*)((char*)&resp + 0x18) = secedeFlag;
+    if (secedeType == 0 || secedeType == 1)
+    {
+        if (requesterCharNo != targetCharNo)
+        {
+            CUser* target = m_pclApp->Get_UserManager()->FindUser_CharNo(targetCharNo);
+            if (target == 0)
+            {
+                Packet_No_Cache noCache;
+                *(unsigned int*)((char*)&noCache + 0xa) = dbid;
+                *(unsigned int*)((char*)&noCache + 0xe) =
+                    (unsigned int)m_pclApp->Get_ServerGroup() & 0xff;
+                *(unsigned int*)((char*)&noCache + 0x12) = 1;
+                m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(&noCache);
+                *(unsigned int*)((char*)&noCache + 0x12) = 2;
+                m_pclApp->Get_ServerHandler()->SendTcpGameServerFirst(&noCache);
+                Packet_DBMW_Query_Msg query;
+                *(unsigned int*)((char*)&query + 0xa) = 2;
+                *(unsigned int*)((char*)&query + 0xe) = 0x4f00;
+                char sql[4097];
+                sprintf(sql, "upDate charac_info set guild_secede = 1 where charac_no = %u",
+                        targetCharNo);
+                m_pclApp->Get_ServerHandler()->SendToDB(&query);
+            }
+            else
+            {
+                Packet_Guild_Exp_Book_Delete expDel;
+                *(unsigned int*)((char*)&expDel + 0xa) = target->GetIdByChannel();
+                *(unsigned int*)((char*)&expDel + 0xe) = target->GetUniqCharNo();
+                *(unsigned int*)((char*)&expDel + 0x12) =
+                    (unsigned int)m_pclApp->Get_ServerGroup() & 0xff;
+                *(unsigned int*)((char*)&expDel + 0x16) = target->GetDBID();
+                target->SendTcpGameserver((PacketHeader*)&expDel);
+            }
+        }
+        ST_Notice_Guild_Secede notice;
+        memset(&notice, 0, sizeof(notice));
+        *(unsigned int*)((char*)&notice + 0) = guildKey;
+        *(unsigned int*)((char*)&notice + 4) = targetCharNo;
+        *(unsigned short*)((char*)&notice + 8) = (unsigned short)(signed char)secedeFlag;
+        memcpy((char*)&notice + 0xe, (char*)pkt + 0x1f, 0x1d);
+        memcpy((char*)&notice + 0x2b, guild->GetGuildName(), 0x16);
+        guild->NoticeSecedeToGuildMember((char*)&notice);
+        m_pclApp->Get_GuildManager()->GuildSecede(guildKey, notice);
+        guild->SendGuildInfoToMembers(false);
+        if (guild != 0 && secedeType == 1)
+        {
+            if (guild->GetTotalCnt_Of_GuildDBInfo() != 0)
+            {
+                CMyFileLog log("OnDBReplyGuildSecede", 0xbf3);
+                log("./log/GuildModify",
+                    "CPacketTranslater::OnDBReplyGuildSecede : Guild(%d) Deleted, rest member count(%d)",
+                    guild->GetGuildKey(), guild->GetTotalCnt_Of_GuildDBInfo() & 0xffff);
+            }
+            m_pclApp->Get_GuildManager()->GuildDismiss(guild);
+        }
+        *(unsigned int*)((char*)&resp + 0x1a) = 0;
+        requester->SendToGameserver((char*)&resp, 0x52);
+    }
+    else
+    {
+        *(unsigned int*)((char*)&resp + 0x1a) = (unsigned int)secedeType;
+        requester->SendToGameserver((char*)&resp, 0x52);
     }
 }
 
