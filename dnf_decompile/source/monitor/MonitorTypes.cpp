@@ -1960,7 +1960,6 @@ CTcpNetSystem::~CTcpNetSystem()
 }
 void CTcpNetSystem::Init(unsigned short port) {}
 bool CTcpNetSystem::OpenTcpService(int& sockRef, const char* ip, unsigned short port) { return false; }
-void CTcpNetSystem::CleanPeers() {}
 void CTcpNetSystem::CleanPeers()
 {
     for (std::map<unsigned int, CPeer*>::iterator it = m_peers.begin(); it != m_peers.end(); ++it)
