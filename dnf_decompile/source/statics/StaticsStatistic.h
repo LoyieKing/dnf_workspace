@@ -2,8 +2,11 @@
 #define STATICS_STATISTIC_H_
 
 #include <set>
+#include <map>
 #include <string>
 #include <vector>
+
+#include "StaticsData.h"
 
 class MoneyLogPacket;
 class Packet_P2P_Statistics;
@@ -38,7 +41,7 @@ class Packet_Cube_Statistic;
 class CServerHandler;
 class CApplication;
 
-// ---- CCubeStatistic ----
+// ---- CCubeStatistic：0x18 ----
 class CCubeStatistic
 {
 public:
@@ -48,6 +51,7 @@ public:
     void sendStatisticData(CServerHandler* handler);
     void printStatisticData();
     void resetStatisticData();
+    char m_data[0x18];
 };
 
 // ---- WongWork::CGMAccounts ----
@@ -151,7 +155,7 @@ public:
     char m_data[0x2c];
 };
 
-// ---- StatisticManager ----
+// ---- StatisticManager（布局见 ctor 反编译）----
 class StatisticManager
 {
 public:
@@ -243,7 +247,41 @@ public:
     void minPing(short& a, short& b);
     void sumPing(int& a, short& b, int& c);
     void AMDecrypt(void* data, unsigned int len);
-    char m_data[0xb90];
+    std::set<unsigned int> m_serverList;   // +0
+    CCubeStatistic m_cube;                 // +0x18
+    char m_flag;                           // +0x30
+    unsigned int m_field34;                // +0x34
+    std::map<STPartyStatisticKey, PartyStatistic> m_party;          // +0x38
+    std::map<STPartyJobStatisticKey, PartyJobStatistic> m_partyJob; // +0x50
+    std::map<STPartyCharacKey, PartyCharacStatistic> m_partyCharac; // +0x68
+    std::map<STDeathTowerValueStatisticKey, ValueStatistic> m_deathTowerValue; // +0x80
+    std::map<STDeathTowerPlayDataJobStatisticKey, PlayDataJobStatistic>
+        m_deathTowerJob;                   // +0x98
+    std::map<STDeathTowerPlayDataPartyStatisticKey, PlayDataPartyStatistic>
+        m_deathTowerParty;                 // +0xb0
+    std::map<STPacketOverflowKey, int> m_packetOverflow;   // +0xc8
+    std::map<STAssertManagerKey, int> m_assertManager;     // +0xe0
+    std::map<STUserTingTimeCheckKey, int> m_userTing;      // +0xf8
+    std::map<unsigned int, int> m_field110;                // +0x110
+    std::map<STHellPartyStatisticItemKey, HellPartyItenmData> m_hellParty; // +0x128
+    LoadingTimeReport m_loading;           // +0x140
+    std::map<STPowerwarFightLoadingKey, STPowerwarFightLoadingData> m_pwLoading; // +0x188
+    std::map<STPowerwarFightLagKey, STPowerwarFightLagData> m_pwLag;  // +0x1a0
+    std::map<unsigned char, STFatigueBattery> m_fatigue;   // +0x1b8
+    std::map<unsigned int, STBloodDungeonStatistic> m_blood;  // +0x1d0
+    stDisjointAvatarInfoTotal m_disjoint;  // +0x1e8
+    stCreateEmblemStatistic m_createEmblem; // +0x32c
+    char m_randombox[0x28];                // +0x348
+    STModuleLagStatistics m_modules[8];    // +0x370
+    std::map<unsigned short, STDungeonLagStatistics> m_dungeonLag;  // +0x3f0
+    std::map<int, ValueStatisticData> m_value;       // +0x408
+    std::map<int, CirculationStatisticData> m_circ;  // +0x420
+    char m_serverMatch[0xc];               // +0x438
+    std::map<int, SECRET_SHOP_STATISTIC_DATA> m_secretShop[3];  // +0x444
+    GoldCardEventStatistic m_goldcard[0x63];         // +0x48c
+    TowerOfDespairStatistic_Value m_tower[101];      // +0x807
+    stP2PStatistics m_p2p;                           // +0xb30
+    std::map<STReasonCrashDownKey, unsigned int> m_reasonCrash;  // +0xb78
 };
 
 #endif // STATICS_STATISTIC_H_

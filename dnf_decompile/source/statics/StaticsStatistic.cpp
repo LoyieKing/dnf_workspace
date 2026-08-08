@@ -1,10 +1,12 @@
 // df_statics_r — 统计类（骨架，待按反编译逐方法补全）
 #include <fcntl.h>
+#include <string.h>
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
 
 #include "StaticsStatistic.h"
+#include "DNFFileLog.h"
 #include "StaticsProxy.h"
 
 namespace global_function
@@ -429,30 +431,137 @@ void* StatisticManager::getCubeStatisticObject()
 
 #define STUB_STAT(name, args) void StatisticManager::name args {}
 
-STUB_STAT(ResetPartyMap, ())
-STUB_STAT(ResetPartyJobMap, ())
-STUB_STAT(ResetPartyCharacMap, ())
-STUB_STAT(ResetBloodDungeon, ())
-STUB_STAT(ResetP2PStatistic, ())
-STUB_STAT(ResetFatigueBattery, ())
-STUB_STAT(ResetValueStatistic, ())
-STUB_STAT(ResetServerMatchData, ())
-STUB_STAT(ResetTowerOfDespair, ())
-STUB_STAT(ResetAssertManagerMap, ())
-STUB_STAT(ResetCreateEmblemInfo, ())
-STUB_STAT(ResetPacketOverflowMap, ())
-STUB_STAT(ResetDeathTowerValueMap, ())
-STUB_STAT(ResetRandomboxStatistic, ())
-STUB_STAT(ResetSecretShopStatistic, ())
-STUB_STAT(ResetCirculationStatistic, ())
-STUB_STAT(ResetTingUserTimeCheckMap, ())
-STUB_STAT(ResetUserTIngTimeCheckMap, ())
-STUB_STAT(ResetGoldcardEventStatistic, ())
-STUB_STAT(ResetReasonCrashDownInfoMap, ())
-STUB_STAT(ResetDisjointAvatarInfoTotal, ())
-STUB_STAT(ResetDeathTowerPlayDataJobMap, ())
-STUB_STAT(ResetDeathTowerPlayDataPartyMap, ())
-STUB_STAT(ResetHellPartyStatisticItemMap, ())
+void StatisticManager::ResetPartyMap()
+{
+    m_party.clear();
+}
+
+void StatisticManager::ResetPartyJobMap()
+{
+    m_partyJob.clear();
+}
+
+void StatisticManager::ResetPartyCharacMap()
+{
+    m_partyCharac.clear();
+}
+
+void StatisticManager::ResetDeathTowerValueMap()
+{
+    m_deathTowerValue.clear();
+}
+
+void StatisticManager::ResetDeathTowerPlayDataJobMap()
+{
+    m_deathTowerJob.clear();
+}
+
+void StatisticManager::ResetDeathTowerPlayDataPartyMap()
+{
+    m_deathTowerParty.clear();
+}
+
+void StatisticManager::ResetPacketOverflowMap()
+{
+    m_packetOverflow.clear();
+}
+
+void StatisticManager::ResetHellPartyStatisticItemMap()
+{
+    m_hellParty.clear();
+}
+
+void StatisticManager::ResetAssertManagerMap()
+{
+    m_assertManager.clear();
+}
+
+void StatisticManager::ResetTingUserTimeCheckMap()
+{
+    m_userTing.clear();
+}
+
+void StatisticManager::ResetUserTIngTimeCheckMap()
+{
+    m_userTing.clear();
+}
+
+void StatisticManager::ResetFatigueBattery()
+{
+    m_fatigue.clear();
+}
+
+void StatisticManager::ResetBloodDungeon()
+{
+    m_blood.clear();
+}
+
+void StatisticManager::ResetReasonCrashDownInfoMap()
+{
+    m_reasonCrash.clear();
+}
+
+void StatisticManager::ResetRandomboxStatistic()
+{
+    for (int i = 0; i < 5; i++)
+    {
+        *(unsigned int*)((char*)this + (i + 0xd0) * 4 + 8) = 0;
+        *(unsigned int*)((char*)this + (i + 0xd4) * 4 + 0xc) = 0;
+    }
+}
+
+void StatisticManager::ResetValueStatistic()
+{
+    m_value.clear();
+}
+
+void StatisticManager::ResetCirculationStatistic()
+{
+    m_circ.clear();
+}
+
+void StatisticManager::ResetServerMatchData()
+{
+    *(unsigned int*)((char*)this + 0x438) = 0;
+    *(unsigned int*)((char*)this + 0x43c) = 0;
+    *(unsigned int*)((char*)this + 0x440) = 0;
+}
+
+void StatisticManager::ResetSecretShopStatistic()
+{
+    for (int i = 0; i < 3; i++)
+    {
+        m_secretShop[i].clear();
+    }
+}
+
+void StatisticManager::ResetGoldcardEventStatistic()
+{
+    memset(m_goldcard, 0, 0x37b);
+}
+
+void StatisticManager::ResetTowerOfDespair()
+{
+    CMyFileLog log("ResetTowerOfDespair", 0x83c);
+    log("./log/statistic", "TOD reset");
+    memset(m_tower, 0, 0x328);
+    m_serverList.clear();
+}
+
+void StatisticManager::ResetP2PStatistic()
+{
+    m_p2p.Init();
+}
+
+void StatisticManager::ResetCreateEmblemInfo()
+{
+    m_createEmblem.clear();
+}
+
+void StatisticManager::ResetDisjointAvatarInfoTotal()
+{
+    m_disjoint.clear();
+}
 STUB_STAT(SendDBPartyStatistic, (CServerHandler*))
 STUB_STAT(SendDBPartyJobStatistic, (CServerHandler*))
 STUB_STAT(SendDBPartyCharacStatistic, (CServerHandler*))
