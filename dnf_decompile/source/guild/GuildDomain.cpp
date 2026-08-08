@@ -2017,8 +2017,9 @@ int CGuild::CheckPowerSecedeTime()
     return CheckDayScheduleTimeOver(0x1e, *(long long*)((char*)this + 0xb6));
 }
 
-void CGuild::ChangeGuildMemberCharName(unsigned int charNo, char* name)
+int CGuild::ChangeGuildMemberCharName(unsigned int charNo, char* name)
 {
+    int result = 0;
     if (IsSetGuildDBFlag(4))
     {
         for (int i = 0; i < 300; i++)
@@ -2027,14 +2028,24 @@ void CGuild::ChangeGuildMemberCharName(unsigned int charNo, char* name)
             {
                 memset((char*)this + i * 0x41 + 0xe1, 0, 0x1e);
                 memcpy((char*)this + i * 0x41 + 0xe1, name, 0x1d);
+                result = 1;
             }
         }
         if (*(unsigned int*)((char*)this + 0x66ec) == charNo)
         {
             memset((char*)this + 0x66f0, 0, 0x1e);
             memcpy((char*)this + 0x66f0, name, 0x1d);
+            result = 1;
+            NotifyAllTodayGuildMember();
+        }
+        if (*(unsigned int*)((char*)this + 0x37) == charNo)
+        {
+            memset((char*)this + 0xc4, 0, 0x15);
+            memcpy((char*)this + 0xc4, name, 0x14);
+            result = 1;
         }
     }
+    return result;
 }
 
 void CGuild::AddGuildPoint(unsigned short point)
@@ -2816,10 +2827,10 @@ void CGuildManager::SendGuildInfoToMembers(unsigned int guildKey, bool flag)
 {
 }
 
-int CGuildManager::GetTodayMember(unsigned int guildKey)
+STTodayGuildMember* CGuildManager::GetTodayMember(unsigned int guildKey)
 {
     std::map<unsigned int, STTodayGuildMember>::iterator it = m_todayMembers.find(guildKey);
-    return it == m_todayMembers.end() ? 0 : 1;
+    return it == m_todayMembers.end() ? 0 : &it->second;
 }
 
 void CGuildManager::InsertTodayMember(unsigned int guildKey, STTodayGuildMember& member)

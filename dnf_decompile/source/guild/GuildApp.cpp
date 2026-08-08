@@ -11,7 +11,7 @@
 #include "GuildSignal.h"
 #include "GuildInit.h"
 #include "GuildUdp.h"
-#include "Packet_DB_Query_On_Guild_Booting.h"
+#include "GuildPackets.h"
 #include "DNFFileLog.h"
 #include "DNFFunctionLib.h"
 
@@ -276,6 +276,99 @@ void CApplication::SendTestPacket_2()
 
 void CApplication::TranslateSignal()
 {
+    m_killConfig->Clear_Table();
+    m_killConfig->Load_Table("./script/kill_user_config.tbl");
+    std::vector<ST_KillUSRConfig*>* vec = m_killConfig->GetInfo();
+    if (!vec->empty())
+    {
+        for (std::vector<ST_KillUSRConfig*>::iterator it = vec->begin(); it != vec->end(); ++it)
+        {
+            ST_KillUSRConfig* cfg = *it;
+            switch (cfg->m_field0)
+            {
+            case 1:
+                m_guildManager.DBGuildProcess(Get_ServerHandler(), true);
+                break;
+            case 3:
+            {
+                Packet_Monitor_Send_Guild_Mail mail;
+                *(unsigned int*)((char*)&mail + 0xa) = (unsigned int)cfg->m_field1;
+                *(unsigned int*)((char*)&mail + 0xe) = (unsigned int)cfg->m_field2;
+                memcpy((char*)&mail + 0x12,
+                       "\xc5\xc2\xbd\xba\xc6\xae \xb1\xe6\xb5\xe5\xb8\xde\xc0\xcf\xc0\xd4\xb4\xcf\xb4\xd9.",
+                       0x17);
+                CPacketTranslater::OnMonitorSendGuildLetter(&mail);
+                break;
+            }
+            case 4:
+                m_serverHandler->Load(m_appConfig->GetServerInfoMap());
+                break;
+            case 7:
+            {
+                Packet_Monitor_Notice_Guild_Enter enter;
+                *(unsigned int*)((char*)&enter + 0xa) = (unsigned int)cfg->m_field1;
+                *(unsigned int*)((char*)&enter + 0xe) = (unsigned int)cfg->m_field2;
+                *(unsigned int*)((char*)&enter + 0x12) = (unsigned int)cfg->m_field3;
+                memcpy((char*)&enter + 0x16,
+                       "\xb4\xab\xbb\xe7\xb6\xf7\x00\xb0\xde\xdf\xb8\xde\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+                       0x16);
+                CPacketTranslater::OnNoticeGuildEnter(&enter);
+                break;
+            }
+            case 8:
+            {
+                Packet_Monitor_Set_GuildMember_Grade_FromWeb grade;
+                *(unsigned int*)((char*)&grade + 0x12) = 2;
+                *(unsigned int*)((char*)&grade + 0xa) = (unsigned int)cfg->m_field1;
+                *(unsigned int*)((char*)&grade + 0xe) = (unsigned int)cfg->m_field2;
+                *(unsigned char*)((char*)&grade + 0x16) = (unsigned char)cfg->m_field3;
+                CPacketTranslater::OnSetGuildMemberGradeFromWeb(&grade);
+                break;
+            }
+            case 9:
+            {
+                Packet_Guild_Master_Delegate_FromWeb delegate;
+                *(unsigned int*)((char*)&delegate + 0xa) = (unsigned int)cfg->m_field1;
+                *(unsigned int*)((char*)&delegate + 0xe) = (unsigned int)cfg->m_field2;
+                *(unsigned int*)((char*)&delegate + 0x12) = (unsigned int)cfg->m_field3;
+                memcpy((char*)&delegate + 0x16, "\xb0\xde\xdf\xb8", 4);
+                CPacketTranslater::OnGuildMasterDelegateFromWeb(&delegate);
+                break;
+            }
+            case 0xb:
+                m_powerManager.LoadPowerWarCfg("./script/power_war_event.tbl");
+                break;
+            case 0xc:
+                m_powerManager.StartPowerWarEvent();
+                {
+                    Packet_Monitor_Event_Start start;
+                    *(unsigned int*)((char*)&start + 0xa) = 0x1e;
+                    m_serverHandler->SendAllTcpGameServer(&start);
+                }
+                break;
+            case 0xd:
+                m_powerManager.SendPowerWarScore();
+                m_powerManager.EndPowerWarEvent();
+                {
+                    Packet_Monitor_Event_End end;
+                    *(unsigned int*)((char*)&end + 0xa) = 0x1e;
+                    m_serverHandler->SendAllTcpGameServer(&end);
+                }
+                break;
+            case 0xe:
+                m_tcpNetSystem.CleanTcpSendPacketQ();
+                break;
+            case 0xf:
+                m_guildManager.CargoLock();
+                break;
+            case 0x10:
+                m_guildManager.CargoUnlock();
+                break;
+            default:
+                break;
+            }
+        }
+    }
 }
 
 void CApplication::AttachAppInitor(char** argv)

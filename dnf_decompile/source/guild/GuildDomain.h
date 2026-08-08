@@ -556,7 +556,7 @@ public:
     unsigned short GetTotalCnt_Of_GuildDBInfo();
     void DecTotalCnt_Of_GuildDBInfo();
     int CheckPowerSecedeTime();
-    void ChangeGuildMemberCharName(unsigned int charNo, char* name);
+    int ChangeGuildMemberCharName(unsigned int charNo, char* name);
     void AddGuildPoint(unsigned short point);
     void SetGuildAgitInfo(STGuildAgitDBInfo& info);
     void SetGuildAgitLevelUp();
@@ -719,7 +719,7 @@ public:
     void DBLoadAllLoginGuild(CServerHandler* handler);
     void SendGuildInfoToMembers(unsigned int guildKey, bool flag);
     void LoadGuildAgit(unsigned int guildKey, CServerHandler* handler);
-    int GetTodayMember(unsigned int guildKey);
+    STTodayGuildMember* GetTodayMember(unsigned int guildKey);
     void InsertTodayMember(unsigned int guildKey, STTodayGuildMember& member);
     void RefreshTodayMember(bool flag);
     void RefreshAttendanceInfo(bool flag);

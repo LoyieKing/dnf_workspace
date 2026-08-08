@@ -456,6 +456,55 @@ CServerHandler::~CServerHandler()
 
 void CServerHandler::Load(std::multimap<unsigned int, stServerInfo*>* map)
 {
+    if (map == 0)
+    {
+        return;
+    }
+    for (std::multimap<unsigned int, stServerInfo*>::iterator it = map->begin();
+         it != map->end(); ++it)
+    {
+        stServerInfo* info = it->second;
+        if (info->m_field2 == 1)
+        {
+            if (info->m_field1 == 0xff)
+            {
+                throw CDNFException("CServerHandler::Load() Server Table Exception Break!");
+            }
+            RegistGameServer(info);
+        }
+        else if (info->m_field2 == 2)
+        {
+            if (info->m_field1 == 0xff || info->m_field1 != 0xc8)
+            {
+                throw CDNFException(
+                    "CServerHandler::Load() DB Server Table Exception Break!");
+            }
+            if (m_dbServer != 0)
+            {
+                UnregistDBServer();
+                CMyFileLog log("Load", 0x59);
+                log("./log/Config", "DB Config Reload.\n");
+            }
+            CDBServer* db = new CDBServer(info);
+            RegistDBServer(db);
+        }
+        else if (info->m_field2 == 4)
+        {
+            if (info->m_field1 == 0xff || info->m_field1 != 0xca)
+            {
+                throw CDNFException(
+                    "CServerHandler::Load() Manager Server Table Exception Break!");
+            }
+            if (m_managerServer != 0)
+            {
+                UnregistManagerServer();
+                CMyFileLog log("Load", 0x6b);
+                log("./log/Config", "Manager Config Reload.\n");
+            }
+            CManagerServer* ms = new CManagerServer(info);
+            RegistManagerServer(ms);
+        }
+    }
 }
 
 void CServerHandler::Attach(CApplication* app)
