@@ -610,13 +610,6 @@ void CPacketTranslater::OnNoticeGuildMarkChange(PacketHeader* pkt)
     }
 }
 
-STUB_HANDLER(OnUpdateChangableCharInfo)
-STUB_HANDLER(OnEventStart)
-STUB_HANDLER(OnLoadGuildWarEnterableGuilds)
-STUB_HANDLER(OnNoticeGuildMailArrive)
-STUB_HANDLER(OnNoticeGuildWarStart)
-STUB_HANDLER(OnNoticeGuildWarPointChange)
-STUB_HANDLER(OnRequestGuildWarInfo)
 STUB_HANDLER(OnMonitorManagerConnectOK)
 STUB_HANDLER(OnInnerPacketLogin)
 STUB_HANDLER(OnInnerPacketLogout)
@@ -4034,6 +4027,91 @@ void CPacketTranslater::OnNotifyMessageToGuild(PacketHeader* pkt)
         }
         guild->SetGuildMessage(pb + 0xf);
         guild->NotifyMessageToGuildMember();
+    }
+}
+
+void CPacketTranslater::OnEventStart(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnEventStart : 0 == m_pclApp");
+    char* pb = (char*)pkt;
+    CMyFileLog log("OnEventStart", 0xe4c);
+    log("./log/Web",
+        "CPacketTranslater::OnEventStart() eventCode(%d), eventParam1(%d), eventParam2(%d)\n",
+        *(unsigned int*)(pb + 0xa), (unsigned int)*(unsigned short*)(pb + 0xe),
+        (unsigned int)*(unsigned short*)(pb + 0x10));
+    m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(pkt);
+}
+
+void CPacketTranslater::OnLoadGuildWarEnterableGuilds(PacketHeader* pkt)
+{
+    (void)pkt;
+}
+
+void CPacketTranslater::OnNoticeGuildMailArrive(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildMailArrive : 0 == m_pclApp");
+    char* pb = (char*)pkt;
+    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+    for (int i = 0; i < (int)(unsigned int)(unsigned char)pb[10]; i++)
+    {
+        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+        if (guild != 0)
+        {
+            guild->SendToGuildForMail();
+        }
+    }
+}
+
+void CPacketTranslater::OnNoticeGuildWarStart(PacketHeader* pkt)
+{
+    (void)pkt;
+}
+
+void CPacketTranslater::OnNoticeGuildWarPointChange(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnNoticeGuildWarStart : 0 == m_pclApp");
+    }
+    CGuildWar* war = m_pclApp->Get_GuildManager()->GetGuildWar();
+    if (war->IsGuildWarEventOn() == 1)
+    {
+        char* pb = (char*)pkt;
+        if (war->IsGuildWarEnterableGuild(*(unsigned int*)(pb + 0xa)) == 1)
+        {
+            war->AddGuildWarPoint(*(unsigned int*)(pb + 0xa), (int)(char)pb[0xe]);
+        }
+    }
+}
+
+void CPacketTranslater::OnRequestGuildWarInfo(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnRequestGuildWarInfo : 0 == m_pclApp");
+    CGuildWar* war = m_pclApp->Get_GuildManager()->GetGuildWar();
+    char* pb = (char*)pkt;
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe));
+    if (user == 0)
+    {
+        CMyFileLog log("OnRequestGuildWarInfo", 0x78d);
+        log("./log/Except",
+            "[USER] CPacketTranslater::OnRequestGuildWarInfo : pclUser == 0!\tchar id(%d)",
+            *(unsigned int*)(pb + 0xe));
+    }
+    else
+    {
+        war->GetGuildWarInfo((ST_Guild_War_Rank_Info*)(pb + 0x12));
+        user->SendToGameserver((char*)pb, 0x15c);
+    }
+}
+
+void CPacketTranslater::OnUpdateChangableCharInfo(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnUpdateChangableCharInfo : 0 == m_pclApp");
+    char* pb = (char*)pkt;
+    CUser* user = m_pclApp->Get_UserManager()->FindUser(*(unsigned int*)(pb + 0xa));
+    if (user != 0)
+    {
+        user->SetUserChangableInfo(*(short*)(pb + 0xf), (char)pb[0x11]);
     }
 }
 
