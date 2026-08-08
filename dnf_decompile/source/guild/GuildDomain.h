@@ -186,7 +186,7 @@ struct STUserRank
 struct STDBSavePowerWarPoint
 {
     STDBSavePowerWarPoint();
-    char m_data[0x10];
+    char m_data[8];   // {guildKey@0, point@4}
 };
 struct Packet_DB_Save_Power_War_Point;
 struct Packet_DB_Save_Power_War_Bonus_Point;

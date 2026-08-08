@@ -3768,11 +3768,67 @@ void CPowerWarGuildInfo::UpdateGuildPowerwarInfo(unsigned int guildKey, unsigned
 void CPowerWarGuildInfo::RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int b, int c,
                                                  int d, int e)
 {
+    int basic = b;
+    int firstBonus = c;
+    int decrease = d;
+    int maxGrade = e;
+    int rankIdx = 0;
+    std::vector<STPowerWarGuildInfo*>* vec =
+        (std::vector<STPowerWarGuildInfo*>*)(m_data + 0x18);
+    unsigned int count = (unsigned int)vec->size();
+    CMyFileLog log("RewardGuildPowerWarPoint", 0xec);
+    log("./log/PowerResult",
+        "Basic:%d, First:%d, Decrease:%d, MaxGrade:%d, DomainCount:%d", basic, firstBonus,
+        decrease, maxGrade, count);
+    for (std::vector<STPowerWarGuildInfo*>::iterator it = vec->begin(); it != vec->end(); ++it)
+    {
+        STPowerWarGuildInfo* info = *it;
+        unsigned int point = 0;
+        if (a)
+        {
+            point = (unsigned int)basic;
+        }
+        point += *(unsigned int*)(info->m_data + 4);
+        if (*(unsigned int*)(info->m_data + 4) != 0 && rankIdx < maxGrade)
+        {
+            unsigned int v = (unsigned int)(firstBonus - decrease * rankIdx);
+            *(unsigned int*)(info->m_data + 8) = (unsigned int)(~(int)(v >> 31) & v);
+            point += *(unsigned int*)(info->m_data + 8);
+            *(unsigned int*)(info->m_data + 0xc) = point;
+        }
+        unsigned int guildKey = *(unsigned int*)info->m_data;
+        CGuild* guild = gm.FindGuild(guildKey);
+        if (guild == 0)
+        {
+            STDBSavePowerWarPoint* p = CreateDBSavePowerWarPoint();
+            if (p != 0)
+            {
+                *(unsigned int*)p = guildKey;
+                *(unsigned int*)((char*)p + 4) = *(unsigned int*)(info->m_data + 0xc);
+                ((std::vector<STDBSavePowerWarPoint*>*)(m_data + 0x24))->push_back(p);
+                CMyFileLog log("RewardGuildPowerWarPoint", 0x120);
+                log("./log/PowerResult",
+                    "Additional Save(GRADE:%d, Guild ID:%d, PowerWarPoint:%d)", rankIdx,
+                    guildKey, *(unsigned int*)((char*)p + 4));
+            }
+        }
+        else
+        {
+            guild->AddPowerWarPoint(point);
+            guild->SendGuildInfoToMembers(false);
+        }
+        rankIdx++;
+    }
 }
 
 STDBSavePowerWarPoint* CPowerWarGuildInfo::CreateDBSavePowerWarPoint()
 {
-    return 0;
+    STDBSavePowerWarPoint* p = new (std::nothrow) STDBSavePowerWarPoint();
+    if (p != 0)
+    {
+        memset(p, 0, 4);
+    }
+    return p;
 }
 
 void CPowerWarGuildInfo::DeleteDBSavePowerWarPoint(STDBSavePowerWarPoint* p)
@@ -4126,6 +4182,7 @@ void CPower::UpdatePowerWarInfo(int a, unsigned int b, unsigned int c)
 
 void CPower::RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int b, int c, int d, int e)
 {
+    m_guildInfo.RewardGuildPowerWarPoint(gm, a, b, c, d, e);
 }
 
 CPowerWarGuildInfo* CPower::GetPowerWarGuildInfo()
@@ -4526,6 +4583,33 @@ void CPowerManager::SetPowerWarEndKillPoint(unsigned short point)
 
 void CPowerManager::RewardGuildPowerWarPoint()
 {
+    CMyFileLog logTop("RewardGuildPowerWarPoint", 0x198);
+    logTop("./log/PowerResult", "CPowerManager::RewardGuildPowerWarPoint");
+    char winnerSide = *(char*)((char*)this + 0x184);
+    if (winnerSide == 0 || winnerSide > 2)
+    {
+        CMyFileLog log("RewardGuildPowerWarPoint", 0x19c);
+        log("./log/PowerResult", "invalid winner side income(%d)", (int)winnerSide);
+        return;
+    }
+    CApplication* app = *(CApplication**)((char*)this + 4);
+    CGuildManager* gm = app->Get_GuildManager();
+    int reward1 = *(int*)((char*)this + 0x18c);
+    int reward2 = *(int*)((char*)this + 0x190);
+    int reward3 = *(int*)((char*)this + 0x194);
+    int reward4 = *(int*)((char*)this + 0x198);
+    ((CPower*)((char*)this + (unsigned char)winnerSide * 0x6c + 8))
+        ->RewardGuildPowerWarPoint(*gm, true, reward1, reward2, reward3, reward4);
+    if (winnerSide == 1)
+    {
+        ((CPower*)((char*)this + 0xe0))
+            ->RewardGuildPowerWarPoint(*gm, false, reward1, reward2, reward3, reward4);
+    }
+    else
+    {
+        ((CPower*)((char*)this + 0x74))
+            ->RewardGuildPowerWarPoint(*gm, false, reward1, reward2, reward3, reward4);
+    }
 }
 
 void CPowerManager::SaveDBPowerWarBonusPoint()
