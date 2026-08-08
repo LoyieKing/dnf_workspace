@@ -257,3 +257,14 @@
   （inet_ntoa 日志差异）、CUserManager Find 族、CServerXml GetServerString/
   GetEventRGBA、CGuild::PopGuildMemberChanglableInfo、CGuildC1E
 - 冒烟通过；DIFF 1116 / IDENTICAL 377 / NEAR 207
+
+## 2026-08-09 第九轮（CGuildCargo 构造/Reset 语义）
+
+- CGuildCargo ctor：STGuildCargoDBInfo + deque@0x18e8 构造 + Reset
+  （此前 memset 未构造 deque，InsertHistory push 会崩溃）
+- dtor：Reset + deque 析构
+- Reset：补 deque clear + slots memset(0x18d8)（原版语义）
+- 核验等价：TiXmlText::Print/TiXmlElement::SetAttribute（vtable 地址差异）、
+  CAppStopInit::Init、STGuildSkillC1E（memset vs 逐字段）、RandomOption/
+  DnfItemInfo::reset、CGuildBoard::sendGuildBoardData
+- 冒烟通过；DIFF 1117 / IDENTICAL 376 / NEAR 207
