@@ -87,6 +87,10 @@ struct RandomOption;
 struct STGuildCargoDBInfo;
 struct STGuildCargoLog;
 struct STGuildBoardDBInfo;
+struct hyperlink_item_info
+{
+    char m_data[0x40];
+};
 class DnfItemInfo
 {
 public:
@@ -171,14 +175,14 @@ public:
     unsigned int GetGuildInviteCallerId();
     void GuildInviteProcess();
     void SetGuildMemberMemo(const char* memo);
+    void SetUserChangableInfo(short type, char value);
     void AddGuildMemberPoint(unsigned int point);
     void ResetGuildPoint();
     void SetGuildMessage(char* msg);
-    void SetUserChangableInfo(unsigned char type, char value);
     void SendTcpGameserver(PacketHeader* pkt);
     void SendToGameserver(char* buf, int len);
     void QueryGuildMember(CServerHandler* handler);
-    void SendGuildMemberDBInfo(const STGuildMemerDBInfo& info);
+    void SendGuildMemberDBInfo(STGuildMemerDBInfo& info);
     void LoadGuildMember(unsigned int guildKey, STGuildMemerDBInfo& info);
     STGuildMemerDBInfo* GetGuildMemDBInfo();
     void SaveGuildMember(unsigned char type, unsigned int value, CServerHandler* handler,
@@ -191,8 +195,8 @@ public:
     int DeleteToBlackList(unsigned int charNo);
     void ResetBlackList();
     int IsBlackUser(unsigned int charNo);
-    void GetBlackList(unsigned char* count, STBlackUserDBType* list);
-    void GetBlackList(unsigned char* count, unsigned int* list);
+    void GetBlackList(unsigned char& count, STBlackUserDBType* list);
+    void GetBlackList(unsigned char& count, unsigned int* list);
     unsigned short GetBlackListSize();
     unsigned short GetBlackListDBFlag();
     void SetBlackListDBFlag(unsigned short flag);
@@ -318,6 +322,7 @@ public:
     void LoadGuildAgit(CServerHandler* handler, unsigned int charNo);
     void NoticeGuildMemberLogin_Out(CUser* user, char flag);
     void QueryUnconnGuildMemberProxy(CServerHandler* handler, unsigned int charNo);
+    int LoadGuildOneMemberProxy(STGuildMemberProxy& proxy);
     int LoadGuildOneMemberProxy(CUser* user);
     void IncTotalCnt_Of_GuildDBInfo();
     void SendGuildInfoToMembers(bool flag);
@@ -334,7 +339,7 @@ public:
     void NoticeChatMsgToGuildMembers(unsigned int charNo, char* msg, int len,
                                      const char* name);
     void NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, char* msg, int len,
-                                              unsigned char type, const void* link,
+                                              unsigned char type, hyperlink_item_info* link,
                                               const char* name);
     void UpdateChangableInfoProcess();
     void NoticeEnterToGuildMember(char* info);
@@ -380,7 +385,7 @@ public:
     void CallGuildAllMembersProxy(CUser* user, CServerHandler* handler);
     void QueryGuildAllMembersProxy(CServerHandler* handler, unsigned int charNo);
     void LoadGuildAllMembersProxy(STGuildMemberProxy& proxy, char flag, char param);
-    int ReplyGuildMembersToWeb(STGuildMemberWebConnInfo& info);
+    int ReplyGuildMembersToWeb(STGuildMemberWebConnInfo* info);
     void DBSaveGuildMemberUnChangableInfo(CServerHandler* handler, unsigned int a,
                                           unsigned int b, char* name);
     void DismissGuildMemberAndNotice(int group);
@@ -594,7 +599,7 @@ public:
     void CleanPower();
     void CalcPowerWarRank();
     void UpdatePowerWarInfo(int a, unsigned int b, unsigned int c);
-    void RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int b, int c, int d);
+    void RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int b, int c, int d, int e);
     CPowerWarGuildInfo* GetPowerWarGuildInfo();
     CPowerWarCharacInfo* GetPowerWarCharacInfo();
     CPowerWarGuildInfo m_guildInfo;    // +8

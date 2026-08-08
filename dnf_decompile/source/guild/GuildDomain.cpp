@@ -298,6 +298,12 @@ void CUser::SetGuildMemberMemo(const char* memo)
     }
 }
 
+void CUser::SetUserChangableInfo(short type, char value)
+{
+    *(short*)((char*)this + 0x38) = type;
+    *(char*)((char*)this + 0x37) = value;
+}
+
 void CUser::ChangeGuildMemberGrade(unsigned char grade)
 {
     if (grade == 1 || grade == 2 || *(unsigned char*)((char*)this + 0x5f) == 1 ||
@@ -320,7 +326,7 @@ void CUser::SaveGuildMember(unsigned char type, unsigned int value, CServerHandl
     }
 }
 
-void CUser::SendGuildMemberDBInfo(const STGuildMemerDBInfo& info)
+void CUser::SendGuildMemberDBInfo(STGuildMemerDBInfo& info)
 {
     if (GetUniqCharNo() == 0)
     {
@@ -636,6 +642,40 @@ CUser* CUserManager::FindUser_CharName(const char* name)
 void CUser::ResetBlackList()
 {
     m_blackList.clear();
+}
+
+void CUser::GetBlackList(unsigned char& count, STBlackUserDBType* list)
+{
+    count = 0;
+    if (!m_blackList.empty())
+    {
+        for (std::map<unsigned int, CBlackUser*>::iterator it = m_blackList.begin();
+             it != m_blackList.end() && count < 0xff; ++it, count++)
+        {
+        }
+    }
+}
+
+void CUser::GetBlackList(unsigned char& count, unsigned int* list)
+{
+    count = 0;
+    if (!m_blackList.empty())
+    {
+        for (std::map<unsigned int, CBlackUser*>::iterator it = m_blackList.begin();
+             it != m_blackList.end() && count < 0xff; ++it, count++)
+        {
+            list[count] = it->first;
+        }
+    }
+}
+
+void CUser::RegisterToCashBlackList(std::map<unsigned int, CBlackUser*>& map)
+{
+    for (std::map<unsigned int, CBlackUser*>::iterator it = map.begin();
+         it != map.end(); ++it)
+    {
+        m_blackList[it->first] = it->second;
+    }
 }
 
 int CUser::RegisterToBlackList(unsigned int charNo, char* name)
@@ -1300,7 +1340,7 @@ void CGuild::LoadGuildAllMembersProxy(STGuildMemberProxy& proxy, char flag, char
 {
 }
 
-int CGuild::ReplyGuildMembersToWeb(STGuildMemberWebConnInfo& info)
+int CGuild::ReplyGuildMembersToWeb(STGuildMemberWebConnInfo* info)
 {
     int count = 0;
     if ((m_field1c & 4) != 0 && !m_members.empty())
@@ -1446,6 +1486,11 @@ int CGuild::LoadGuildOneMemberProxy(CUser* user)
     return 0;
 }
 
+int CGuild::LoadGuildOneMemberProxy(STGuildMemberProxy& proxy)
+{
+    return 0;
+}
+
 void CGuild::IncTotalCnt_Of_GuildDBInfo()
 {
 }
@@ -1501,8 +1546,8 @@ void CGuild::NoticeChatMsgToGuildMembers(unsigned int charNo, char* msg, int len
 }
 
 void CGuild::NoticeChatMsgToGuildMembersHyperLink(unsigned int charNo, char* msg, int len,
-                                                  unsigned char type, const void* link,
-                                                  const char* name)
+                                                  unsigned char type,
+                                                  hyperlink_item_info* link, const char* name)
 {
 }
 
@@ -2730,7 +2775,7 @@ void CPower::UpdatePowerWarInfo(int a, unsigned int b, unsigned int c)
 {
 }
 
-void CPower::RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int b, int c, int d)
+void CPower::RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int b, int c, int d, int e)
 {
 }
 
