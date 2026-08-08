@@ -788,6 +788,10 @@ public:
     void NoticeChatMsgToMemberMembersHyperLink(char* msg, int len, unsigned char count,
                                                const hyperlink_item_info* items, CUser* user);
     void NoticeChatMsgToMemberMembers(char* msg, int len, CUser* user);
+    int IsThereUpper() const;
+    int GetUpperMember_CharId() const;
+    int FindLowerMember(unsigned int charNo) const;
+    unsigned int GetLowerMemberCount() const;
     void LoadMember(STMemberDBInfo& info, short level, unsigned int a, unsigned int b);
     int DeleteMemberByName(char* name, unsigned int& outKey);
     unsigned int* GetUpperMember_Proxy();
@@ -827,6 +831,8 @@ public:
     char LoadMemberFromCash(CUser* user, CMember* member);
     void MemberMemLogout(unsigned int key, CUser* user, bool cash);
     int DeleteMember(unsigned int key, bool cash);
+    int IsPossableMemberEnter(CUser* u1, CMember* m1, CUser* u2, CMember* m2, int mode);
+    unsigned int GetLowerMemberEnterLimit(int level);
     int LoadMember(unsigned int key, STMemberDBInfo& info, unsigned int a, unsigned int b,
                    CServerHandler* handler);
     void SendToDBMemberUpdateCharInfo(CServerHandler* handler, unsigned int key,

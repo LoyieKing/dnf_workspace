@@ -2475,6 +2475,54 @@ void CMemberManager::SendToDBMemberUpdateCharInfo(CServerHandler* handler, unsig
         handler->SendToDB(&pkt);
     }
 }
+unsigned int CMemberManager::GetLowerMemberEnterLimit(int level)
+{
+    return 0;
+}
+int CMemberManager::IsPossableMemberEnter(CUser* u1, CMember* m1, CUser* u2, CMember* m2,
+                                          int mode)
+{
+    if (u2 == 0 || u1 == 0)
+    {
+        return 0x31;
+    }
+    if (u1->GetLevel() < 0x12)
+    {
+        return 0x2e;
+    }
+    if (m2 != 0)
+    {
+        if (m2->IsThereUpper())
+        {
+            return (mode == 2) ? 0x35 : 0x2b;
+        }
+        int upper = m2->GetUpperMember_CharId();
+        if (upper == 0)
+        {
+            return 0x2d;
+        }
+        if (upper != -1 && 0 < upper)
+        {
+            return (mode == 2) ? 0x35 : 0x2b;
+        }
+    }
+    if (m1 != 0)
+    {
+        unsigned int charNo = u2->GetUniqCharNo();
+        if (m1->FindLowerMember(charNo))
+        {
+            return (mode == 2) ? 0x33 : 0x32;
+        }
+        unsigned int lowerCount = m1->GetLowerMemberCount();
+        short level = u1->GetLevel();
+        unsigned int limit = GetLowerMemberEnterLimit((int)level);
+        if (limit <= lowerCount)
+        {
+            return (mode == 2) ? 0x2a : 0x34;
+        }
+    }
+    return 0;
+}
 int CMemberManager::LoadMember(unsigned int key, STMemberDBInfo& info, unsigned int a,
                                unsigned int b, CServerHandler* handler)
 {
@@ -3071,6 +3119,10 @@ void CMember::NoticeChatMsgToMemberMembers(char* msg, int len, CUser* user)
 void CMember::LoadMember(STMemberDBInfo& info, short level, unsigned int a, unsigned int b)
 {
 }
+int CMember::IsThereUpper() const { return 0; }
+int CMember::GetUpperMember_CharId() const { return 0; }
+int CMember::FindLowerMember(unsigned int charNo) const { return 0; }
+unsigned int CMember::GetLowerMemberCount() const { return 0; }
 unsigned int* CMember::GetUpperMember_Proxy()
 {
     return (unsigned int*)((char*)this + 6);
