@@ -688,6 +688,16 @@ CUserManager::CUserManager()
 
 CUserManager::~CUserManager()
 {
+    for (std::map<unsigned int, CUser*>::iterator it = m_users.begin();
+         it != m_users.end(); ++it)
+    {
+        if (it->second != 0)
+        {
+            delete it->second;
+        }
+    }
+    m_users.clear();
+    m_charNoUsers.clear();
 }
 
 void CUserManager::Init(CApplication* app)
