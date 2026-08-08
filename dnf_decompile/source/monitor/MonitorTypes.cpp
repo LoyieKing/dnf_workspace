@@ -3810,6 +3810,35 @@ void CServerXml::RGBALoad(int idx, TiXmlNode* node)
 }
 void CServerXml::ProcessLoad(TiXmlNode* node)
 {
+    TiXmlNode* str = node->FirstChild("str");
+    if (str == 0)
+    {
+        puts("[CServerXml] <str> Tag Skip!!");
+    }
+    else
+    {
+        TiXmlNode* s = str->FirstChild("string");
+        if (s == 0)
+        {
+            puts("[CServerXml] <string> Tag Error");
+            exit(-1);
+        }
+        for (; s != 0; s = s->NextSibling())
+        {
+            int id = 0;
+            TiXmlElement* e = s->ToElement();
+            e->Attribute("id", &id);
+            TiXmlNode* text = s->FirstChild("text");
+            if (text == 0)
+            {
+                printf("%s Tag Error\n", (char*)this);
+                return;
+            }
+            TiXmlElement* te = text->ToElement();
+            const char* t = te->Attribute("text");
+            StrPunish(id, t, STRING_TYPE_0);
+        }
+    }
 }
 }
 
