@@ -693,8 +693,74 @@ void CTcpNetworkThread::dispatch(void* param)
 
 CTcpAcceptThread::CTcpAcceptThread() {}
 CTcpAcceptThread::~CTcpAcceptThread() {}
-void CTcpAcceptThread::attach(CTcpNetSystem* net) {}
-void CTcpAcceptThread::dispatch(void* param) {}
+void CTcpAcceptThread::attach(CTcpNetSystem* net)
+{
+    if (net != 0)
+    {
+        m_net = net;
+        m_recvQLock = net->Get_TcpRecvQLock();
+        m_recvBLock = net->Get_TcpRecvBLock();
+        m_port = net->Get_TcpServerPort();
+    }
+}
+void CTcpAcceptThread::dispatch(void* param)
+{
+    try
+    {
+        if (m_sock.open())
+        {
+            if (m_sock.bind(m_port, true))
+            {
+                if (m_sock.listen(5))
+                {
+                    m_running = true;
+                    DNFFLib::Sleep_Ext(5, 0);
+                    while (m_running)
+                    {
+                        if (m_sock.pollReadEvent())
+                        {
+                            CPeer* peer = m_net->CreatePeer();
+                            TCPSocket* sock = peer->GetTcpSocket();
+                            if (m_sock.accept(sock) != 1)
+                            {
+                                printf("Accept GameServer Fail(Port : %d)\n", sock->getHandle());
+                            }
+                            printf("Accept GameServer(Port : %d)\n", sock->getHandle());
+                            CMutex* recvB = m_net->Get_TcpRecvBLock();
+                            CMutex* recvQ = m_net->Get_TcpRecvQLock();
+                            void* q = m_net->Get_TcpSwapQPacket()->GetRecvQ();
+                            peer->InitPeer(q, recvQ, recvB);
+                            peer->ConnSig();
+                            m_net->InsertAcceptedPeer(peer);
+                        }
+                    }
+                }
+                else
+                {
+                    printf("Tcp Accept Socket Listen Err");
+                }
+            }
+            else
+            {
+                printf("Tcp Accept Socket Bind Err");
+            }
+        }
+        else
+        {
+            printf("Tcp Accept Socket Open Err");
+        }
+    }
+    catch (CDNFException& e)
+    {
+        printf("CTcpAcceptThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n", e.what());
+        throw CDNFException("CTcpAcceptThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd!");
+    }
+    catch (...)
+    {
+        puts("CTcpAcceptThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
+        throw CDNFException("CTcpAcceptThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd!");
+    }
+}
 
 void* CTcpHandler::GetEventPtr(int idx) { return 0; }
 char CTcpHandler::IsSetInEvent(int idx) { return 1; }
@@ -705,6 +771,16 @@ char CPeer::RecvPacket() { return 1; }
 void CPeer::DisConnSig() {}
 unsigned int CPeer::get_remain_sendlen() { return 0; }
 void CPeer::send_packet() {}
+TCPSocket* CPeer::GetTcpSocket() { return 0; }
+void CPeer::InitPeer(void* recvQ, void* recvQLock, void* recvBLock) {}
+void CPeer::ConnSig() {}
+
+char TCPSocket::open() { return 0; }
+char TCPSocket::bind(unsigned short port, bool flag) { return 0; }
+char TCPSocket::listen(int backlog) { return 0; }
+char TCPSocket::pollReadEvent() { return 0; }
+char TCPSocket::accept(TCPSocket* sock) { return 0; }
+int TCPSocket::getHandle() const { return 0; }
 
 CTcpNetSystem::CTcpNetSystem()
 {
@@ -753,6 +829,11 @@ void CTcpNetSystem::SetEpollAcceptedPeers() {}
 void CTcpNetSystem::SendPacket() {}
 int CTcpNetSystem::WaitForEvent() { return 0; }
 void CTcpNetSystem::DeletePeer(CPeer* peer) {}
+CPeer* CTcpNetSystem::CreatePeer() { return 0; }
+void CTcpNetSystem::InsertAcceptedPeer(CPeer* peer) {}
+unsigned short CTcpNetSystem::Get_TcpServerPort() { return m_port; }
+CMutex* CTcpNetSystem::Get_TcpRecvBLock() { return 0; }
+CMutex* CTcpNetSystem::Get_TcpRecvQLock() { return 0; }
 CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > >, 2>*
     CTcpNetSystem::Get_TcpSwapQPacket()
 {

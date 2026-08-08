@@ -316,6 +316,19 @@ public:
     void* m_bLock;         // +0x18
 };
 
+// ---- TCPSocket（最小声明）----
+class TCPSocket
+{
+public:
+    char open();
+    char bind(unsigned short port, bool flag);
+    char listen(int backlog);
+    char pollReadEvent();
+    char accept(TCPSocket* sock);
+    int getHandle() const;
+    char m_data[0x1c];
+};
+
 // ---- CTcpNetworkThread：0x30 ----
 class CTcpNetworkThread : public CThreadInterface
 {
@@ -347,7 +360,7 @@ public:
     CTcpNetSystem* m_net;       // +0xc
     void* m_recvQLock;          // +0x10
     void* m_recvBLock;          // +0x14
-    char m_sock[0x1c];          // +0x18
+    TCPSocket m_sock;           // +0x18
     unsigned short m_port;      // +0x34
     char m_pad[2];              // +0x36
 };
@@ -365,11 +378,15 @@ public:
 class CPeer
 {
 public:
+    TCPSocket* GetTcpSocket();
     char RecvPacket();
     void DisConnSig();
     unsigned int get_remain_sendlen();
     void send_packet();
+    void InitPeer(void* recvQ, void* recvQLock, void* recvBLock);
+    void ConnSig();
 };
+
 
 // ---- CSwapQueue<T,N>：0x58 ----
 template<class T, int N>
@@ -413,7 +430,12 @@ public:
     void SetEpollAcceptedPeers();
     void SendPacket();
     int WaitForEvent();
+    CPeer* CreatePeer();
     void DeletePeer(CPeer* peer);
+    void InsertAcceptedPeer(CPeer* peer);
+    unsigned short Get_TcpServerPort();
+    CMutex* Get_TcpRecvBLock();
+    CMutex* Get_TcpRecvQLock();
     CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > >, 2>*
         Get_TcpSwapQPacket();
     void* m_handler;    // +0
