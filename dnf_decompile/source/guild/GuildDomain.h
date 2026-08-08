@@ -398,6 +398,7 @@ public:
     char m_field7e;                   // +0x7e
     unsigned int m_field80;           // +0x80
     unsigned int m_field84;           // +0x84
+    void* m_field88;                  // +0x88（MemPool 空闲链指针，尺寸 0x8c）
 };
 
 // ---- CUserManager：0x4c ----

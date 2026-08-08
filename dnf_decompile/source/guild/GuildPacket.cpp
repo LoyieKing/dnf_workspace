@@ -1914,7 +1914,7 @@ void CPacketTranslater::OnChangePowerWarPoint(PacketHeader* pkt)
         ((Packet_Guild_Change_Power_War_Point*)pb)->GetUserList(users);
         for (unsigned int i = 0; i < users.size(); i++)
         {
-            pm->SendPowerWarProcessInfo(users[i]);
+            pm->SendPowerWarProcessInfo(users.at(i));
         }
     }
 }
@@ -3563,7 +3563,7 @@ void CPacketTranslater::OnDBLoadReplyGuildBoardDelete(PacketHeader* pkt)
     char* pb = (char*)pkt;
     if (m_pclApp == 0)
     {
-        CMyFileLog log("OnDBLoadReplyGuildBoardDelete", 0x1d7c);
+        CMyFileLog log("OnDBLoadReplyGuildBoardDelete", 0x1d84);
         log("./log/GuildBoard",
             "CPacketTranslater::OnDBLoadReplyGuildBoardDelete : 0 == m_pclApp");
         return;
@@ -3572,7 +3572,7 @@ void CPacketTranslater::OnDBLoadReplyGuildBoardDelete(PacketHeader* pkt)
     CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
     if (user == 0)
     {
-        CMyFileLog log("OnDBLoadReplyGuildBoardDelete", 0x1d86);
+        CMyFileLog log("OnDBLoadReplyGuildBoardDelete", 0x1d8e);
         log("./log/GuildBoard",
             "CPacketTranslater::OnDBLoadReplyGuildBoardDelete : 0 == pclUser");
         return;
@@ -3581,7 +3581,7 @@ void CPacketTranslater::OnDBLoadReplyGuildBoardDelete(PacketHeader* pkt)
     CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
     if (guild == 0)
     {
-        CMyFileLog log("OnDBLoadReplyGuildBoardDelete", 0x1d8d);
+        CMyFileLog log("OnDBLoadReplyGuildBoardDelete", 0x1d95);
         log("./log/GuildBoard",
             "CPacketTranslater::OnDBLoadReplyGuildBoardDelete : 0 == pclGuild");
         return;

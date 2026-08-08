@@ -979,35 +979,103 @@ void CUser::SetBlackListDBFlag(unsigned short flag)
 
 void CUserManager::DeleteUsersOnGameServerDown(CGameServer* server)
 {
-    std::vector<unsigned int> toDelete;
-    for (std::map<unsigned int, CUser*>::iterator it = m_users.begin();
-         it != m_users.end(); ++it)
+    if (m_users.empty())
     {
-        if (it->second->GetGameServer() == server)
+        return;
+    }
+    for (std::map<unsigned int, CUser*>::iterator it = m_charNoUsers.begin();
+         it != m_charNoUsers.end();)
+    {
+        if (it->second != 0 && it->second->GetGameServer() == server)
         {
-            toDelete.push_back(it->first);
+            m_charNoUsers.erase(it++);
+        }
+        else
+        {
+            ++it;
         }
     }
-    for (std::vector<unsigned int>::iterator it = toDelete.begin(); it != toDelete.end(); ++it)
+    for (std::map<std::string, CUser*>::iterator it = m_charNameUsers.begin();
+         it != m_charNameUsers.end();)
     {
-        DeleteUser(*it);
+        if (it->second != 0 && it->second->GetGameServer() == server)
+        {
+            m_charNameUsers.erase(it++);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+    for (std::map<unsigned int, CUser*>::iterator it = m_users.begin();
+         it != m_users.end();)
+    {
+        CUser* user = it->second;
+        if (user != 0 && user->GetGameServer() == server)
+        {
+            unsigned int guildKey = user->GetGuildKey();
+            if (guildKey != 0)
+            {
+                m_app->Call_DeleteGuildMember(guildKey, user);
+            }
+            delete user;
+            m_users.erase(it++);
+        }
+        else
+        {
+            ++it;
+        }
     }
 }
 
 void CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer* server)
 {
-    std::vector<unsigned int> toDelete;
-    for (std::map<unsigned int, CUser*>::iterator it = m_users.begin();
-         it != m_users.end(); ++it)
+    if (m_users.empty())
     {
-        if (it->second->GetTcpGameServer() == server)
+        return;
+    }
+    for (std::map<unsigned int, CUser*>::iterator it = m_charNoUsers.begin();
+         it != m_charNoUsers.end();)
+    {
+        if (it->second != 0 && it->second->GetTcpGameServer() == server)
         {
-            toDelete.push_back(it->first);
+            m_charNoUsers.erase(it++);
+        }
+        else
+        {
+            ++it;
         }
     }
-    for (std::vector<unsigned int>::iterator it = toDelete.begin(); it != toDelete.end(); ++it)
+    for (std::map<std::string, CUser*>::iterator it = m_charNameUsers.begin();
+         it != m_charNameUsers.end();)
     {
-        DeleteUser(*it);
+        if (it->second != 0 && it->second->GetTcpGameServer() == server)
+        {
+            m_charNameUsers.erase(it++);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+    for (std::map<unsigned int, CUser*>::iterator it = m_users.begin();
+         it != m_users.end();)
+    {
+        CUser* user = it->second;
+        if (user != 0 && user->GetTcpGameServer() == server)
+        {
+            unsigned int guildKey = user->GetGuildKey();
+            if (guildKey != 0)
+            {
+                m_app->Call_DeleteGuildMember(guildKey, user);
+            }
+            delete user;
+            m_users.erase(it++);
+        }
+        else
+        {
+            ++it;
+        }
     }
 }
 
@@ -6038,6 +6106,11 @@ CServerXml::CServerXml()
 CServerXml::~CServerXml()
 {
     InitString();
+    m_rgba.~map();
+    m_str3.~map();
+    m_str2.~map();
+    m_str1.~map();
+    m_path.~basic_string();
     ((TiXmlDocument*)m_doc)->~TiXmlDocument();
 }
 

@@ -537,6 +537,7 @@ void CApplication::OnTcpGameServerDown(CTcpGameServer* server)
 
 void CApplication::Call_DeleteGuildMember(unsigned int group, CUser* user)
 {
+    m_guildManager.GuildMemLogout(group, user);
 }
 
 void ShowLogo()
