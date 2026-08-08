@@ -1394,6 +1394,16 @@ char CServerInterface::IsConnected() { return 1; }
 char CServerInterface::IsHeartBeatTimeOver() { return 0; }
 unsigned char CServerInterface::GetChannelNo() { return 0; }
 void CServerInterface::OnDisconnect() {}
+int CServerInterface::SendToServer(char* buf, int len)
+{
+    if (*(int*)((char*)this + 0xc) == 0)
+    {
+        return 0;
+    }
+    return ((CUdpHandler*)*(int*)((char*)this + 0xc))
+        ->SendToServer(buf, len, *(unsigned short*)(*(int*)((char*)this + 4) + 0x14),
+                       (char*)(*(int*)((char*)this + 4) + 3));
+}
 
 CDBServer::CDBServer(stServerInfo* info) : CServerInterface(info) {}
 CDBServer::~CDBServer() {}
@@ -3546,6 +3556,11 @@ void CUser::SetUniqCharNo(unsigned int charNo) {}
 void CUser::SetIdByChannel(int channel) {}
 void CUser::SetGameServer(void* server) {}
 void CUser::SetUserPosState(unsigned char state) {}
+void CUser::SetUserChangableInfo(short level, char flag)
+{
+    *(short*)((char*)this + 0x44) = level;
+    *(char*)((char*)this + 0x43) = flag;
+}
 void CUser::GetBlackList(unsigned char& count, STBlackUserDBType* out)
 {
     count = 0;
@@ -4348,7 +4363,29 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt)
                                    *(unsigned short*)((char*)&reply + 2));
     }
 }
-void CPacketTranslater::OnCeraUpdate(PacketHeader* pkt) {}
+void CPacketTranslater::OnCeraUpdate(PacketHeader* pkt)
+{
+    CUser* user =
+        ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
+            *(unsigned int*)((char*)pkt + 0xa));
+    if (user != 0)
+    {
+        char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+        CMyFileLog log("OnCeraUpdate", 0x47f);
+        log("./log/User", "Cera Payed User , DB ID : %s\n", dbid);
+        void* gs = user->GetGameServer();
+        if (gs == 0)
+        {
+            CMyFileLog log2("OnCeraUpdate", 0x48a);
+            log2("./log/Except", "CPacketTranslater::OnCeraUpdate : pUser->GetGameServer() == 0",
+                 dbid);
+        }
+        else
+        {
+            ((CServerInterface*)gs)->SendToServer((char*)pkt, 0xe);
+        }
+    }
+}
 void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt) {}
 void CPacketTranslater::OnReplyQueryMember(PacketHeader* pkt)
 {
@@ -4957,7 +4994,20 @@ void CPacketTranslater::OnPayTaxToUpper(PacketHeader* pkt)
         }
     }
 }
-void CPacketTranslater::OnUpdateChangableCharInfo(PacketHeader* pkt) {}
+void CPacketTranslater::OnUpdateChangableCharInfo(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnUpdateChangableCharInfo : 0 == m_pclApp");
+    }
+    CUser* user =
+        ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
+            *(unsigned int*)((char*)pkt + 0xa));
+    if (user != 0)
+    {
+        user->SetUserChangableInfo(*(short*)((char*)pkt + 0xf), *(char*)((char*)pkt + 0x11));
+    }
+}
 void CPacketTranslater::OnLogoutComplete(PacketHeader* pkt)
 {
     if (m_pclApp == 0)
@@ -5735,7 +5785,17 @@ void CPacketTranslater::OnMonitorFullLevelBroadCast(PacketHeader* pkt)
         handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
     }
 }
-void CPacketTranslater::OnSetARSInfo(PacketHeader* pkt) {}
+void CPacketTranslater::OnSetARSInfo(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnSetARSInfo : 0 == m_pclApp");
+    }
+    CMyFileLog log("OnSetARSInfo", 0x183d);
+    log("./log/Secu", "[ARS_INFO] DBMW -> Monitor -> GameSvr");
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllToGameServer((char*)pkt, 0x4bf);
+}
 void CPacketTranslater::OnWebRequestARSInfo(PacketHeader* pkt)
 {
     if (m_pclApp == 0)
@@ -5755,7 +5815,24 @@ void CPacketTranslater::OnGameServerRegist(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoCache(PacketHeader* pkt) {}
 void CPacketTranslater::OnDisableUserOneToOneChat_GM(PacketHeader* pkt) {}
 void CPacketTranslater::OnFindCharacName_useUID(PacketHeader* pkt) {}
-void CPacketTranslater::OnRenew_GM_List(PacketHeader* pkt) {}
+void CPacketTranslater::OnRenew_GM_List(PacketHeader* pkt)
+{
+    WongWork::CGMAccounts* gm = (WongWork::CGMAccounts*)m_pclApp->GetGMAccounts();
+    if (gm != 0 && pkt != 0)
+    {
+        if (*(char*)((char*)pkt + 0xa) == 0)
+        {
+            gm->clearGmList();
+        }
+        for (int i = 0; i < (int)(char)*(char*)((char*)pkt + 0xb); i++)
+        {
+            gm->AppendGM_Sys(*(unsigned int*)((char*)pkt + i * 4 + 0xc),
+                             *(char*)((char*)pkt + i + 0x5c));
+        }
+        CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+        handler->SendToDB(pkt);
+    }
+}
 void CPacketTranslater::OnLoadPeriodicMessage(PacketHeader* pkt)
 {
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
@@ -6102,9 +6179,32 @@ void CPacketTranslater::onSocialEventRewardItemInfo(PacketHeader* pkt) {}
 void CPacketTranslater::onSocialEventRewardItemInfoAll(PacketHeader* pkt) {}
 void CPacketTranslater::onSocialEventRewardItemUpdate(PacketHeader* pkt) {}
 void CPacketTranslater::onRequestCharacInfoByCharacName(PacketHeader* pkt) {}
-void CPacketTranslater::OnWebNoticeInGameAD(PacketHeader* pkt) {}
+void CPacketTranslater::OnWebNoticeInGameAD(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("m_pclApp == 0");
+    }
+    Packet_Web_Notice_InGame_Advertisement reply;
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendAllTcpGameServer(&reply);
+    CMyFileLog log("OnWebNoticeInGameAD", 0x1f84);
+    log("./log/Web", "OnWebNoticeInGameAD() packet_id(%d)\n",
+        (unsigned int)*(unsigned short*)pkt);
+}
 void CPacketTranslater::onCollectItems(PacketHeader* pkt) {}
-void CPacketTranslater::onCollectItemsResult(PacketHeader* pkt) {}
+void CPacketTranslater::onCollectItemsResult(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::onCollectItemsResult");
+    }
+    char* c = (char*)m_pclApp->getCollectItems();
+    *(unsigned int*)(c + 4) = *(unsigned int*)((char*)pkt + 0xe);
+    *(unsigned int*)c = *(unsigned int*)((char*)pkt + 0xa);
+    *(unsigned int*)(c + 8) = *(unsigned int*)((char*)pkt + 0x12);
+    *(char*)(c + 0xc) = 0;
+}
 void CPacketTranslater::onCollectItemsGm(PacketHeader* pkt)
 {
     if (m_pclApp == 0)
@@ -7137,6 +7237,11 @@ Packet_Request_Result_BlackList::Packet_Request_Result_BlackList()
     memset(m_blackList, 0, 400);
 }
 
+Packet_Web_Notice_InGame_Advertisement::Packet_Web_Notice_InGame_Advertisement()
+    : PacketHeader(0x27e2, 10)
+{
+}
+
 Packet_Monitor_Notice_Black_List::Packet_Monitor_Notice_Black_List()
     : PacketHeader(0x5e2, 0x3b)
 {
@@ -7456,5 +7561,23 @@ bool CGMAccounts::isGM(unsigned int dbid)
         }
     }
     return false;
+}
+void CGMAccounts::clearGmList()
+{
+    m_list.clear();
+}
+void CGMAccounts::AppendGM_Sys(unsigned int dbid, char level)
+{
+    for (std::list<stGMInfo_t>::iterator it = m_list.begin(); it != m_list.end(); ++it)
+    {
+        if (it->m_dbid == dbid)
+        {
+            return;
+        }
+    }
+    stGMInfo_t info;
+    info.m_dbid = dbid;
+    info.m_field4 = (unsigned int)level;
+    m_list.push_back(info);
 }
 }

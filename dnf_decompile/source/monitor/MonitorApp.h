@@ -77,6 +77,7 @@ public:
     void* GetGMAccounts();
     void* getIPCounter();
     void* getTowerRank();
+    void* getCollectItems();
     char isGM_regFromChannel(unsigned int channel);
     char isAbleUserChatWithGM(unsigned int channel, unsigned int charNo);
     void AddChattableUserWithGM(unsigned int channel, unsigned int charNo);

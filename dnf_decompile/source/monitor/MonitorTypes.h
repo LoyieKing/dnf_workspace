@@ -385,6 +385,7 @@ public:
     char IsHeartBeatTimeOver();
     unsigned char GetChannelNo();
     void OnDisconnect();
+    int SendToServer(char* buf, int len);
     stServerInfo* m_info;  // +4
     char m_field8[8];      // +8
 };
@@ -774,6 +775,7 @@ public:
     void SetIdByChannel(int channel);
     void SetGameServer(void* server);
     void SetUserPosState(unsigned char state);
+    void SetUserChangableInfo(short level, char flag);
     void GetBlackList(unsigned char& count, struct STBlackUserDBType* out);
     void GetBlackList(unsigned char& count, unsigned int* out);
     unsigned int GetBlackListSize();
@@ -1757,6 +1759,12 @@ public:
     char m_blackList[10][0x28];  // +15
 };
 
+class Packet_Web_Notice_InGame_Advertisement : public PacketHeader
+{
+public:
+    Packet_Web_Notice_InGame_Advertisement();
+};
+
 class Packet_Monitor_Notice_Black_List : public PacketHeader
 {
 public:
@@ -2013,6 +2021,8 @@ public:
     CGMAccounts();
     ~CGMAccounts();
     bool isGM(unsigned int dbid);
+    void clearGmList();
+    void AppendGM_Sys(unsigned int dbid, char level);
     struct stGMInfo_t
     {
         unsigned int m_dbid;
