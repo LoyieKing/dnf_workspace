@@ -1059,12 +1059,12 @@ CGameServer::~CGameServer() {}
 CTowerRank::CTowerRank() {}
 CTowerRank::~CTowerRank() {}
 void CTowerRank::processReloadRanking(CServerHandler* handler, bool flag, unsigned int tick) {}
-CTowerRank::stTowerRankElement_t::stTowerRankElement_t()
+stTowerRankElement_t::stTowerRankElement_t()
 {
     m_job = 0;
     m_score = 0;
 }
-CTowerRank::stTowerRankElement_t::stTowerRankElement_t(unsigned char job, unsigned short score)
+stTowerRankElement_t::stTowerRankElement_t(unsigned char job, unsigned short score)
 {
     m_job = job;
     m_score = score;
