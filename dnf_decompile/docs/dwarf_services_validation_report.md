@@ -21,7 +21,7 @@
 | stun | 28 | 6 | 19 | 1 | 同严格* | 同严格* |
 | channel | 745 | 562 | 96 | 85 | 643 | 15 |
 | bridge | 919 | 715 | 132 | 71 | 817 | 30 |
-| auction | 4736 | 4081 | 436 | 219 | 4427 | 90 |
+| auction（最新，见第九批） | 4736 | 4100 | 450 | 186 | 4458 | 92 |
 | point | 同 auction 同源 | 同 auction | 同 auction | 同 auction | 同 auction | 同 auction |
 
 \* stun 的 NEAR 主要是 64 位工具链的参数装载/寄存器调度差异，扩展口径未改变其归属。
@@ -127,6 +127,235 @@ channel 本轮 full IDENTICAL 645→**653**，DIFF 84→76：
 仍在处理：`TCPSocket::pollRead/Write/ErrorEvent`（旧版 FD_ZERO 循环寻址形态差异）、
 `GlobalInstance<T>::create`（EH landing pad 布局）、`TDebugTrace` 系列（寄存器分配）、
 `TCircularQueueBuffer` 系列（循环结构）。
+
+### channel 批量修复（第二批，2026-08-08）
+
+channel full IDENTICAL 653→**656**，DIFF 76→73（累计 645→656，DIFF 84→73）：
+
+| 函数 | 修复模式 | 结果 |
+|---|---|---|
+| `TCPSocket::pollRead/Write/ErrorEvent` ×3 | 手写旧版 FD_ZERO 循环（`unsigned int __i; fd_set* __arr` 声明序）+ `FD_SET((unsigned)sock_)` + `if(result==0) return false; return true;` + result 最先声明（栈槽反分配） | 严格 IDENTICAL（58/58） |
+
+### 关键经验（-O0 形态对齐）
+- FD_ZERO 的 asm/memset 内联 vs 手写循环：手写 + 声明序（`__i` 先于 `__arr`）复现索引寻址。
+- FD_SET 除法符号：`(unsigned)sock_` 复现 shr（无符号），否则 sar+cmovs（有符号）。
+- 返回极性：`if (result == 0) return false; return true;`（ORIG 的 jne→true 布局）。
+- 栈槽布局：局部变量按「反声明序」分配，用声明顺序控制槽位。
+
+仍在处理：`TDebugTrace` 系列（寄存器分配）、`TCircularQueueBuffer` 系列（极性/符号）、
+`GlobalInstance<T>::create`（EH landing pad）、`CRijndael`/`CSHA`（大函数）。
+
+### channel 批量修复（第三批，2026-08-08）
+
+channel full IDENTICAL 656→**660**，DIFF 73→69（累计 645→660，DIFF 84→69）：
+
+| 函数 | 修复模式 | 结果 |
+|---|---|---|
+| `UDPSocket::pollRead/Write/ErrorEvent` ×3 | 同 TCPSocket poll 家族（手写 FD_ZERO + 无符号 FD_SET + 返回极性 + 声明序） | 严格 IDENTICAL（58/58） |
+| `ScriptRawData::find(parent,child)` | null 路径直接 `return NULL`（不经局部），find 结果存回局部再返回 | 严格 IDENTICAL（22/22） |
+| `TGlobalInstance::create`（printf） | ORIG 串无结尾 `\n` → GCC 保持 printf（去掉 \n）；剩余为 EH nop 布局差异（语义等价） | printf 修复保留，仍 NEAR/DIFF |
+
+剩余主要家族：`TDebugTrace`（寄存器分配）、`TCircularQueueBuffer`（极性/符号）、
+`GlobalInstance/TGlobalInstance::create`（EH landing pad）、`EpollReactor::handleEvents`、
+`ChannelServiceApp::TCPUser::onClose`、`CRijndael`/`CSHA`（大函数）。
+
+### bridge 批量修复（2026-08-08，镜像 channel 模式）
+
+bridge 与 channel 同框架（ChannelOld/DNFChannelBridge），把 channel 已验证的
+-O0 形态模式镜像过去，full IDENTICAL 821→**833**，DIFF 71→59：
+
+| 函数 | 模式 | 结果 |
+|---|---|---|
+| `TCPSocket/UDPSocket::pollRead/Write/ErrorEvent` ×6 | FD_ZERO 手写循环 + 无符号 FD_SET + 返回极性 + 声明序 | 严格 IDENTICAL（58/58） |
+| `TCPSocket::close` / `EpollReactor<TCPUser>::shutdown` | 早退 + jmp+nop 出口 | 严格 IDENTICAL |
+| `ScriptRawData::find(parent,child)` | null 路径直接 return NULL + 存回局部 | 严格 IDENTICAL |
+| `UDPSocket::setOptNonBlock` | `if(fcntl<0) return 0; return 1;` | 严格 IDENTICAL |
+| `GlobalInstance<ScriptData/Script>::create` ×2 | 外层 if/else + return | ext/full IDENTICAL（48/48） |
+
+`Script::remove_comment` 在 bridge 已是 full IDENTICAL（仅数据地址）。
+
+### 第四批（2026-08-09，严格口径复核 + 逐函数压差）
+
+本次会话水位（`source/toolchain/strict_compare.py` 严格口径，
+仅归一化直接跳转/调用目标；ext/full = 额外归一化大绝对地址/assert 行号）：
+
+| 服务 | strict IDENT | strict NEAR | DIFF | full IDENT | full NEAR | MISSING |
+|---|---:|---:|---:|---:|---:|---:|
+| channel | 594 | 119 | **30**（此前 40） | 699 | 14 | 0 |
+| bridge | 735 | 147 | **36**（此前 42） | 856 | 26 | 0 |
+| auction | 4096 | 446 | 194 | ~4465 | ~90 | 0 |
+
+本轮主要修复（全部有 ORIG 反汇编证据，详见 `docs/identical_pitfalls.md` §27–36）：
+
+| 树 | 函数 | 修复模式 | 结果 |
+|---|---|---|---|
+| 两树 | `TDebugTrace::endl/putText/putValue` ×5 | memset 成员数组退化；`int sVar2`；tmp[12] 在前；`m_FormatBuf + mPos`；endl 显式 return | 只剩字符串地址（ext/full IDENT） |
+| 两树 | `EpollReactor<TCPUser>::handleEvents` | channel 加 `register`（n_event/i/s）；events 检查改正条件 if/else-if；isToWrite 去 `!`；channel 空闲检查移入循环（**修正原语义 bug**：原源码在循环外无条件 onClose） | channel ext/full IDENT；bridge 只剩 ++ 物化伪影 |
+| channel | `CSHA::Transform/AddData/FinalDigest` | 循环递增顺序；函数作用域 i；n 变量声明后置；W 展开单表达式；pDst 局部 + uiT 复用；`register bool bCarry` | Transform 只剩 K 表地址（2305 指令全对齐）；AddData/FinalDigest 只剩寄存器/地址残差 |
+| channel | `Script::on_keyval_tag` | 去掉外层 if，裸 `assert(strlen(parent_tag))` | 只剩 assert 行号 |
+| bridge | `Hex2Char` / `DNFFLib::get_rand_int` | 正条件 + 参数自增；**修正 LCG 累加顺序语义 bug**（原源码 `(a<<10)^(b<<10)^c` 应为 `((a<<10)^b)<<10^c`） | Hex2Char 严格 IDENTICAL；get_rand_int 语义正确、剩寄存器伪影 |
+| 两树 | `TCPUser::onClose` | `if (b) {} else { body }` 空 then 形态（避免 `xor $0x1` 物化） | 只剩 esi/edi 互换 + jmp/nop 伪影 |
+| 两树 | `TCPSocket::shutdown` | 补齐丢弃比较语句（ORIG 行为：只比较不调用 ::shutdown） | 差 1 指令（cmp 被工具链消除） |
+| channel | `ChannelService::onCS_GET_SCRIPT` | `getScriptFileSize() > (int)nLen`（操作数顺序） | setg/setl 极性对齐 |
+
+工具链不可复现项（§36）：shutdown 的丢弃 cmp、stdout create 的 `_ZnwjPv` 内联、
+onClose 尾部 jmp/nop、get_server_section 的 return-false 块布局、setcc 寄存器选择。
+均为语义等价，继续压差性价比低。
+
+### 第五批（2026-08-09 续，语义 bug 修复 + 更多对齐）
+
+| 树 | 函数 | 修复模式 | 结果 |
+|---|---|---|---|
+| channel | `IMethod::Xor` | `*buff++ ^= *chain++;` 单表达式（保留 buff 于 eax） | 只剩数据地址 |
+| channel | `CRijndael::Signature` | acSigData[48]→[12]（ORIG memset 0xc） | memset 尺寸对齐，内联/槽位为伪影 |
+| channel | `CheckThread::loop` 序言 | nRet/acUser/bFlag 声明序 + 等待循环 bFlag 结构 | 序言对齐，帧布局留待 |
+| bridge | `TCPUser::isIdle` | **修正语义 bug**：`(gap<1 && (unsigned)gap<0x124f81)` 对 gap∈[1,0x124f80] 返回错误；ORIG 为 `gap>0→true; (unsigned)gap<=0x124f80→false` | 语义修正（合并 false 块为伪影） |
+| bridge | `ChannelScript::ReloadScript` | **修正 printf 丢参 bug**：`printf("ScriptSize...")` 缺 `lSize` | 全对齐（仅地址） |
+
+第五批后水位：channel 28 DIFF（full IDENT 701）、bridge 35 DIFF（full IDENT 857）。
+新增坑点记录：`docs/identical_pitfalls.md` §37（64 位比较 Ghidra 条件还原）。
+
+### 第五批续（2026-08-09 同会话收尾）
+
+| 树 | 函数 | 修复模式 | 结果 |
+|---|---|---|---|
+| bridge | `DNFFLib::Hex2Binary` | while 循环 + `if (!Hex2Char(...)) return false`（内联条件去 ret 局部） | **严格 IDENTICAL** |
+| bridge | `DNFFLib::ExplodeString` | pToken 声明在前 + `pEnd = cStr+strlen` 预计算 + `iTokenCnt >= iMax` 操作数序 + `pTmp = pToken+strlen` | 只剩返回载入合并伪影 |
+| bridge | `App::load_script` | 尾部 `if (ret == false) return false; return true;` 物化形态 | 只剩格式串地址 |
+| bridge | `ChannelService::startup` | 线程指针直接存成员（去命名局部，帧 0x5c→0x3c） | 全对齐（仅地址） |
+| bridge | `ChannelService::onCS_GET_GC_INFO` | count 声明前置 + 冗余 `count=0`（ORIG 686 行）+ 第一循环空增量 `iter++; count++;` | 只剩 map 数据地址 |
+| bridge | `Script::on_keyval_tag` | 裸 `assert(strlen(parent_tag))`（同 channel） | 只剩 assert 行号 |
+| bridge | `DBMgr::Mysql_query` | `return NULL` 直返（去 res=NULL 冗余存） | 只剩 sete 伪影 |
+| bridge | `TCPUser::isIdle` | **语义 bug 修复**（见 §37） | 语义正确，块合并伪影 |
+
+最终水位（本会话）：channel **28** DIFF / full IDENT 701；bridge **29** DIFF / full IDENT 863；
+auction 194 DIFF（未动，让路 tinyxml）。各服务 strict IDENTICAL：channel 594、bridge 736、
+auction 4096，MISSING 全 0。
+
+### 第六批（2026-08-09 续，auction Strings 修复）
+
+| 函数 | 修复模式 | 结果 |
+|---|---|---|
+| `WideString::isuspace` | 去掉 Ghidra `bool bVar1` 局部，直接 return | **严格 IDENTICAL** |
+| `WideString::isupunct` | 去 bVar1 + 条件反置 `if (!(排除链)) return true;`（ORIG TRUE 块在前） | **严格 IDENTICAL** |
+| channel `TCPSocket::accept` | memcpy 源改直接成员 `&adrs_.sin_addr` | 全对齐（仅日志串地址） |
+
+auction 194→**192** DIFF（isuspace/isupunct 严格一致）。剩余 auction String 函数多为
+lea/shl、lea/add 寄存器偏好与 jmp+nop 块布局伪影（§38/39 已记录）。
+坑点文档新增 §38（bVar1 局部）、§39（`*4` lea vs shl）。
+
+### 第七批（2026-08-09 续，auction ROI_Category/RandomOption）
+
+| 函数 | 修复模式 | 结果 |
+|---|---|---|
+| `ROI_Category::isEmpty` | 改用自然 64 位比较 `field_0._high_category_key == 0`（gcc 自动 or 合并双字） | **严格 IDENTICAL** |
+| `RandomOption::change_option` | `if (A||B) return false; else return true` → `return (A==false) && (B)` 直接表达式（消除二次物化） | 17→11（剩 `and/movzbl` 寄存器序伪影） |
+| `GetRandomOptionName` | uVar11 改 register + 三元初始化 | 104→89（剩帧/寄存器偏好） |
+
+auction 192→**191** DIFF。坑点补充：64 位 `==0` 用自然 long long 比较（gcc 出
+`or` 合并），不要拆成两个 int 判断；`return (A)&&(B)` 直接表达式避免 if/else 二次物化。
+
+### 第八批（2026-08-09 续，HandlerFor_DB_ 系列 + DNFFileLog）
+
+| 函数 | 修复模式 | 结果 |
+|---|---|---|
+| `insertPackage` | `if (ret == 0){...} return ret` 嵌套改扁平：外层 `if (ret != 0) return ret;`、内层 `if (ret == 0){fetch/get_uint}`、错误路径 `return 2` 直出 eax（不走 ret 局部） | **164/164，仅剩数据地址 → ext/full IDENTICAL** |
+| `insertPackageData` | 长度判断改 `len > 0xff`（then 块在前）；分类链改 `x>=0x36b1 && x<=0x36b4` 正向区间（jle/jg 直跳尾部）；`int check_category` 无强转（cmpl 内存直比）；`owner_id != receiver` 去 (int) 强转；`separate_upgrade`/`guid_str` 内联进 set_query（暂存区承接）；postal 段错误路径 `return ret`/`return 2` 直出 | **419/419，仅剩数据地址 → ext/full IDENTICAL** |
+| `GetAuctionMainFetchResult` | 嵌套 if 金字塔改扁平早退；`i` 后置自增直传列号（无 col 局部）；声明序 `bool bRet; int i=0;`（bRet@-0xd、i@-0xc）；uniItemAttr 两行改 `(upgrade & 0x1f) | (uniItemAttr & 0xe0)`（操作数序）与 `((seal_cnt & 0x7) << 5)` | 457 vs **460**（剩 2 处 `movb $0,disp` vs `add+movb`、uniItemAttr 双重 and 寄存器序伪影） |
+| `onAUCTION_DB_REGIST_ITEM` | 声明序 `db,pContext,expire_time,ret`（反声明序槽位，见 pitfalls §40）；行号表定位 757/758 两行 `name[13]=0`（去 `expire_time=0`）；separate_upgrade/guid_str 内联；`(unsigned char)>>5` 表达式 | 321 vs **322**（剩 `shr %al` vs `sar %eax`、and 暂存 edx 伪影） |
+| `onAUCTION_DB_EXPIRE_HISTORY` | separate_upgrade/guid_str 内联进 set_query | 255 vs **256**（剩 shr/sar + ecx 伪影） |
+| `onAUCTION_DB_GET_AVERAGE_PRICE` | `updated` 64 位局部声明上移 | 236 vs 234（ORIG 64 位值常驻 ebx:esi，NEW 栈溢出——寄存器分配伪影，见 §45） |
+| `CMyFileLog`/`CMyRawFileLog`/`CToolFileLog::operator()` | memset 尺寸：`register size_t n`（CMyFileLog/CToolFileLog 45/45、82/82，仅 edx/ebx 差）；CMyRawFileLog 用字面量（26 vs 27，装载形态差）；`CToolFileLog` 参数按 DWARF 改名 `seq`→`no` | 全部语义一致，剩寄存器/装载伪影 |
+
+累计：auction strict DIFF **189→187**（insertPackage/insertPackageData 出列转 NEAR）；
+point 已用同源重建（PayType: Point 保留）。坑点文档新增 §40–§50。
+
+### 第九批（2026-08-09 续，switch 顺序 / sete 物化 / bool 条件极性）
+
+| 函数 | 修复模式 | 结果 |
+|---|---|---|
+| `onGAME_DB_SEND_PACKAGE_BY_EXPIRE` | 行号表推出 ORIG switch case 顺序 **2,1,3,0**（非源码 1,0,2,3）→ 重排 case 体；case 0 的 `b_exist_buyer == 0` 改正条件 `if (b_exist_buyer)`（分支互换，避免 bool `==0` 的 xor 物化） | **352/352，仅剩数据地址 → ext/full IDENTICAL** |
+| `onAUCTION_DB_GET_ROI_AVERAGE_PRICE` | 循环 10 处 get_* 检查改 `if ((ret = get_X()) == 0)`（赋值在条件内 → cmpl+sete+test+jne 物化，先赋值再判是直 je）；`int bRet` 实验后回退 `bool bRet`（fetch 走 xor 形态） | 409 vs **421**（sete 全对齐；剩 lea vs add+mov、基址+`(%eax)` 寻址伪影，见 §51） |
+
+累计：auction strict DIFF **187→186**；point 同源重建后两函数同样对齐
+（SEND_PACKAGE_BY_EXPIRE 352/352、GET_ROI 同状态）。坑点文档新增 §51–§53。
+
+### 第十批（2026-08-09 续，GA/GP handler 起步）
+
+| 函数 | 修复模式 | 结果 |
+|---|---|---|
+| `HandlerFor_GA_::onAUCTION_REGIST_GA` | pPool 命名局部内联进 createCharacter（ORIG 的 getCommonDataPool 结果直喂 this，无栈槽） | 117→**115** vs 111（剩调用结果临时溢出 +2 与槽位差） |
+
+GA/GP 其余 26 个 handler 结构相似（IsGoldServer 早退 + pPool/pSendPool 内联 +
+PCK 构造 + SendMessage），逐个压差中；多数剩 1–6 条寄存器/临时槽伪影。
+
+### stun 数据地址归一化修复（2026-08-08）
+stun 是 64 位 ET_EXEC，代码/数据地址在 0x40xxxx 区间（6 位十六进制），原扩展归一化
+（7-8 位）无法覆盖 → 增加 `0x40[0-9a-f]{4,6}` 规则（刻意不收宽到 0x4xxxxxxx，
+避免误伤 32 位 `0x4c4d58` 等魔数常量）。
+修复后 stun：strict-IDENT 3 / **ext-IDENT 7** / NEAR 12 / DIFF 1。
+其余 12 NEAR + 1 DIFF 为 4.1.2 -O0 栈槽/寄存器差异（逐函数高成本）。
+
+### 当前各服务（full 口径）
+| 服务 | full IDENTICAL | NEAR | DIFF |
+|---|---:|---:|---:|
+| stun | ~10（含 ext-IDENT 7） | ~12 | 1 |
+| channel | **683** | 13 | **47** |
+| bridge | **838** | 26 | **54** |
+| auction | ~4465 | 77 | 194 |
+| point | 同 auction | | |
+
+### 2026-08-09 继续压差（strict 口径新基线）
+| 服务 | strict IDENTICAL | strict NEAR | strict DIFF | 说明 |
+|---|---:|---:|---:|---|
+| channel | 594 | 109 | **40** | full 690/13/40 |
+| bridge | 734 | 139 | **45** | full 847/26/45 |
+| auction | 4096 | 446 | **194** | full 4465/77/194（tinyxml 稳定后重建） |
+
+本轮 channel/bridge 新增严格 IDENTICAL 函数：
+- **TCircularQueueBuffer\<655360\>** ×5（push/pop/popCopy/peekCopy/isPopStraight）：
+  成功路径 fall-through + 错误 return 放尾部（channel）；bridge 侧 push 用 unsigned jae、
+  isPopStraight 用 switch-case 0 + 日志尾部。
+- **Socket 家族**：setOptLinger/ReuseAdrs/ResizeSendBuf/ResizeRecvBuf、UDPSocket
+  close/send/recv 严格 IDENTICAL；listen/bind/send/recv/connect ext IDENTICAL。
+- **CMsgCell::PAD**（迁移到 ChannelService.cpp 后严格 IDENTICAL —— TU 归属影响帧布局，见
+  identical_pitfalls.md §13）。
+- **isIdle / isIdleCheckTime**（64 位比较形态，见 §15）。
+- **Script::get_key_val / UDPThread::logError / TCPAcceptThread::lockPopAcceptedUser**。
+- **bridge**：TCircularQueueBuffer ×5（pop/popCopy/peekCopy/push 严格、isPopStraight ext）。
+
+### 2026-08-09 会话续（模式驱动修复）
+- **channel 新增**：`Script::on_parent_tag`（`if (s == NULL) return false;` 直返）、
+  `Script::parse_channel_script`（`if (!ret)` xor 形态 + 直返）、`Script::load`
+  （`for(;;)+if(!ret)break` 循环）、`App::load_script`（成员直访 + 删多余 printf 实参）。
+- **bridge 新增**：`Script::get_key_val`（switch+内联 strlen）、`Script::load`、
+  `Script::on_parent_tag`、`TCPSocket::recv/send/connect`、`UDPSocket::send/recv/bind`
+  （errno 分支 switch/直返/len 传参）。
+- 归档新增：`Script::get_server_section`/`get_db_section`（块放置不可复现）、
+  `IMethod::Xor`（循环寄存器分配）、`TCPSocket::shutdown`（残留 cmp）、
+  `TMemoryPoolStatic::startup`（EH landing 布局）、CSHA 家族（大型寄存器差异）。
+
+### 2026-08-09 auction 批次
+- **新增 full IDENTICAL**：`StringData::decRef`（`__sync_sub_and_fetch(&x,1)` 复现
+  neg+xadd 展开，见 pitfalls §21）、`nsl::UDPSocket::recv`（`int fromLen` +
+  `(socklen_t*)&fromLen`）。
+- 分析并归档：`TCPSocket::send`（setg 寄存器物化不可复现）、`NumberToString`/`Char2Hex`
+  （lea/add 与查表寄存器）、`CharString/WideString::assign`（jmp+nop 对齐产物）、
+  `HandlerFor_TE_::onTIME_AUCTION_TRY_SHUTDOWN`（局部槽位序，见 §22）。
+
+### 2026-08-09 channel TCPUser 批次
+- **新增 ext IDENTICAL**：`TCPUser::onWrite_`（368/368）、`TCPUser::send`（124/124）：
+  守卫反置（`< 0` 而非 `> -1` 包裹）、`> 0x9ffff` 常量、success-first 重构
+  `nSize<1`/`nSent<1` 双分支（见 pitfalls §24）。
+- **`TCPUser::onWrite2Buffer`（171/171）ext IDENTICAL**：内联 getHandle、容量守卫、
+  成功路径 `return nRet;`（ORIG 返回 push 结果而非 0）。
+- `TCPUser::onClose` 日志链内联后寄存器形态命中（§25），剩 esi/edi 互换与
+  `== false` xor 物化残差。
+- `onRead_`（449/451，27 区）与 `onClose` 待续。
+
+归档（语义等价、工具链不可复现/纯寄存器形态）：
+- TCPSocket::shutdown（残留 cmp，7/6 指令）；TDebugTrace putText/putValue（lea/add 寄存器）；
+  Script::on_keyval_tag（add/lea 寻址 + assert 行号）。
 
 ### auction 状态恢复（tinyxml 稳定后）
 - tinyxml 外部写入在 22:37:52 后稳定且可编译；auction/point 已全量重建成功。

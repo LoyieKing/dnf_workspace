@@ -22,6 +22,8 @@
 | `df_bridge_r_restoration_report.md` | **df_bridge_r（bridge 服务）还原报告**：31 TU 全部编译链接通过；与 channel 交叉比对（TU 级 + 类布局）；全量 918 个项目函数符号 100% 对齐（0 MISSING/EXTRA），助记符级精确 **91.4%**（834 IDENTICAL + 5 NEAR / 79 DIFF，均为语义等价的 -O0 代码生成惯用法）；尚差约 19 个 DIFF 达到 community 水位（93.3%） | 报告 |
 | `df_bridge_r_progress.md` | df_bridge_r 还原过程记录（原始特征、交叉比对明细、构建、水位演进与 DIFF 收敛清单） | 报告 |
 | `dwarf_services_validation_report.md` | **有 DWARF 服务精细校验**（拓扑并行、共享类交叉污染、NEAR/DIFF 语义审计、channel Socket 修复） | 报告 |
+| `tinyxml_boost_version_verify.md` | **TinyXML/Boost 真实版本鉴定与替换校验（2026-08-09）**：TinyXML 2.6.2 / Boost 1.48.0（常量、符号、DWARF 行号三重证据）；原始 tinyxml 为 -O3+gnu++98+4.4.6 头独立对象；替换后 auction/point tinyxml 149/150、boost 120/121、community boost 46/46 归一化 identical | 报告 |
+| `identical_pitfalls.md` | **identical 校验坑点速查**（类型/有符号性、pack 布局、布尔物化、循环/栈槽/寄存器、EH、归一化口径、构建流程） | 指南 |
 | `df_community_r_validation.md` | 逐文件符号/字符串命中率验证（`compare_df_community_functions.py` 产物副本） | 验证报告 |
 | `df_community_r_function_validation.md` | 逐函数助记符重叠验证摘要（产物副本） | 验证报告 |
 
