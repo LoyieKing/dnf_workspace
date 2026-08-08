@@ -4802,8 +4802,17 @@ void CPacketDecoder::Attach(CApplication* app)
         *(void**)(m_data + 4) = app->Get_UdpQLock();
         *(void**)(m_data + 8) = app->Get_UdpBLock();
         CTcpNetSystem* net = app->Get_TcpNetSystem();
-        void* swapq = net != 0 ? net->Get_TcpSwapQPacket() : 0;
-        *(void**)(m_data + 0xc) = swapq != 0 ? (void*)((char*)swapq + 0x2c) : 0;
+        if (net != 0)
+        {
+            typedef std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*> > TcpRecvQueue;
+            CSwapQueue<TcpRecvQueue, 2>* swapq =
+                (CSwapQueue<TcpRecvQueue, 2>*)net->Get_TcpSwapQPacket();
+            *(void**)(m_data + 0xc) = swapq->GetParseQ();
+        }
+        else
+        {
+            *(void**)(m_data + 0xc) = 0;
+        }
         *(void**)(m_data + 0x10) = net != 0 ? net->Get_TcpRecvQLock() : 0;
         *(void**)(m_data + 0x14) = net != 0 ? net->Get_TcpRecvBLock() : 0;
         *(void**)(m_data + 0x18) = app->Get_ServerHandler();
