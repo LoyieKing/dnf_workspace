@@ -33,7 +33,7 @@ C6FLAGS="-m32 -O0 -std=gnu++0x -DRELAY_USERPOOL_C6 -fno-enforce-eh-specs -nostdi
   -isystem /tmp/c6root/usr/include -I$RELAY"
 C6CXX="env LD_LIBRARY_PATH=/tmp/c6root/usr/lib64:/tmp/c6root/usr/lib /tmp/c6root/usr/bin/g++ -B /tmp/cc1plus446bin/"
 
-for f in RelayUserPool RelayApp; do
+for f in RelayUserPool RelayApp RelaySocket RelayScriptRawData RelayScript RelayThread RelayToken RelayException RelayLog RelayReactor; do
     if [ ! -f "$OUT_DIR/$f.o" ] || [ "$RELAY/$f.cpp" -nt "$OUT_DIR/$f.o" ]; then
         echo "CC6 $f.cpp (4.4.6-3 + c++0x)"
         $C6CXX $C6FLAGS -c "$RELAY/$f.cpp" -o "$OUT_DIR/$f.o"

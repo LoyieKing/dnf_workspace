@@ -17,6 +17,7 @@ class ScriptRawData
 public:
     ScriptRawData(char* key, char* val, int val_size);
     ~ScriptRawData();
+    char* get();
     char* get_data(char* key);
     char* get_data(char* parent_key, char* child_key);
     int get_val_size();

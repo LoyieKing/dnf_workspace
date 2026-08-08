@@ -29,7 +29,7 @@ public:
     bool setOptLinger(bool bLinger);
     bool setOptNagle(bool bNagle);
     bool setOptRecvBufferSize(int size);
-    bool connect(char* ip, unsigned short port);
+    bool connect(char const* ip, unsigned short port);
     bool pollReadEvent() const;
     bool pollWriteEvent() const;
     bool pollErrorEvent() const;

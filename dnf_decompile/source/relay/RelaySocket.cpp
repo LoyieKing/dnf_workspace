@@ -177,7 +177,7 @@ bool TCPSocket::setOptRecvBufferSize(int size)
     return -1 < r;
 }
 
-bool TCPSocket::connect(char* ip, unsigned short port)
+bool TCPSocket::connect(char const* ip, unsigned short port)
 {
     sockaddr local;
     memset(&local, 0, 0x10);

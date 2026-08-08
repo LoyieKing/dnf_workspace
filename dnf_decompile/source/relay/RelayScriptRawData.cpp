@@ -26,6 +26,11 @@ ScriptRawData::~ScriptRawData()
     }
 }
 
+char* ScriptRawData::get()
+{
+    return m_val;
+}
+
 ScriptRawData* ScriptRawData::find(char* key)
 {
     if (strcmp(m_key, key) == 0)

@@ -183,17 +183,27 @@ bool EpollReactor<TSession, TSendSocket, TRecvSocket>::handleEvents(
             }
         }
         m_lock.lock();
-        typename std::set<TSession*>::const_iterator it = m_users.begin();
-        while (it != m_users.end())
+        bool bAll = true;
+        if (m_users.size() != 0)
         {
-            TSession* user = *it;
-            if (user->isAboutToDisconnect() || user->isIdle())
+            typename std::set<TSession*>::const_iterator it = m_users.begin();
+            while (it != m_users.end())
             {
-                user->onClose();
+                TSession* user = *it;
+                if (user != 0 && (user->isAboutToDisconnect() || user->isIdle()))
+                {
+                    bAll = false;
+                    m_lock.unlock();
+                    user->onClose();
+                    break;
+                }
+                it++;
             }
-            it++;
         }
-        m_lock.unlock();
+        if (bAll)
+        {
+            m_lock.unlock();
+        }
     }
     return true;
 }
