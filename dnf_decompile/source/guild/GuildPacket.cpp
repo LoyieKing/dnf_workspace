@@ -309,15 +309,99 @@ void CPacketTranslater::OnIncreaseGuildExp(PacketHeader* pkt)
     }
 }
 
+void CPacketTranslater::OnChangeGuildName(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnChangeGuildName", 0x14dc);
+        log("./log/Except", "CPacketTranslater::OnChangeGuildName : 0 == m_pclApp");
+        return;
+    }
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe));
+    if (user == 0)
+    {
+        CMyFileLog log("OnChangeGuildName", 0x14e7);
+        log("./log/Except", "CPacketTranslater::OnChangeGuildName : user not found");
+        return;
+    }
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 10));
+    if (guild == 0)
+    {
+        return;
+    }
+    if (guild->IsGuildMaster(user->GetUniqCharNo()) ||
+        guild->IsSubGuildMaster(user->GetUniqCharNo()))
+    {
+        guild->ChangeGuildName(pb + 0x12, 1);
+        guild->DBGuildSave(m_pclApp->Get_ServerGroup(), m_pclApp->Get_ServerHandler(), 0);
+        guild->SendGuildNameChangeToMembers();
+    }
+    else
+    {
+        CMyFileLog log("OnChangeGuildName", 0x14f7);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnChangeGuildName : %d is not guild master or sub master(g:%d)",
+            *(unsigned int*)(pb + 0xe), *(unsigned int*)(pb + 10));
+    }
+}
+
+void CPacketTranslater::OnCallGuildLevelUp(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnCallGuildLevelUp : 0 == m_pclApp")
+    char* pb = (char*)pkt;
+    if (*(unsigned int*)(pb + 0x12) == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnCallGuildLevelUp : packet->m_uGuildKey == 0");
+    }
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe));
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0x12));
+    if (user != 0 && guild != 0)
+    {
+        guild->GuildLevelUp(m_pclApp->Get_ServerHandler(), user);
+    }
+}
+
+void CPacketTranslater::OnSetGuildMemberGrade(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnSetGuildMemberGrade : 0 == m_pclApp")
+    char* pb = (char*)pkt;
+    CUser* caller = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe));
+    if (caller == 0)
+    {
+        return;
+    }
+    unsigned char grade = (unsigned char)pb[0x30];
+    char* targetName = pb + 0x12;
+    CUser* target = m_pclApp->Get_UserManager()->FindUser_CharName(targetName);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(caller->GetGuildKey());
+    if (guild == 0)
+    {
+        return;
+    }
+    if (grade == 1)
+    {
+        if (target != 0)
+        {
+            guild->SetSubGuildMaster(target->GetUniqCharNo(), true);
+        }
+    }
+    else if (grade == 2)
+    {
+        if (target != 0)
+        {
+            guild->SetSubGuildMaster(target->GetUniqCharNo(), false);
+        }
+    }
+}
+
 STUB_HANDLER(OnReplyUserInfo)
 STUB_HANDLER(OnNoticeGuildMarkChange)
 STUB_HANDLER(OnNoticeGuildChatMsg)
-STUB_HANDLER(OnSetGuildMemberGrade)
 STUB_HANDLER(OnCallGuildMembers)
 STUB_HANDLER(OnCallGuildAllMembers)
 STUB_HANDLER(OnDBReplyGuildAllMembers)
 STUB_HANDLER(OnDBReplyUnconnGuildMember)
-STUB_HANDLER(OnCallGuildLevelUp)
 STUB_HANDLER(OnCallGuildInfo)
 STUB_HANDLER(OnNoticeGuildCreate)
 STUB_HANDLER(OnCharacterDelete)
@@ -356,7 +440,6 @@ STUB_HANDLER(OnGuildMasterDelegateFromWeb)
 STUB_HANDLER(OnCheckGuildMemberConnectionFromWeb)
 STUB_HANDLER(OnInnerPacketLogin)
 STUB_HANDLER(OnInnerPacketLogout)
-STUB_HANDLER(OnChangeGuildName)
 STUB_HANDLER(OnPowerWarStartInfo)
 STUB_HANDLER(OnChangePowerWarPoint)
 STUB_HANDLER(OnPacketJoinPower)
