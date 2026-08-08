@@ -5341,13 +5341,13 @@ void CPacketTranslater::OnCharLogin(PacketHeader* pkt)
         catch (CDNFException& e)
         {
             printf("CPacketTranslater::OnCharLogin() Exception Break : %s\n", e.what());
-            CMyFileLog log("OnCharLogin", 0x4d3);
+            CMyFileLog log("OnCharLogin", 0x463);
             log("%s", "CPacketTranslater::OnCharLogin() Exception Break : %s\n", e.what());
         }
         catch (...)
         {
             puts("CPacketTranslater::OnCharLogin() Exception Break");
-            CMyFileLog log("OnCharLogin", 0x4d9);
+            CMyFileLog log("OnCharLogin", 0x469);
             log("%s", "CPacketTranslater::OnCharLogin() Exception Break");
         }
     }
