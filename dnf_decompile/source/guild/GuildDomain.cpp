@@ -6787,6 +6787,16 @@ CPeer* CTcpNetSystem::CreatePeer()
 
 void CTcpNetSystem::DeletePeer(CPeer* peer)
 {
+    TCPSocket* tcp = peer->GetTcpSocket();
+    int handle = tcp->getHandle();
+    std::map<unsigned int, CPeer*>* peers =
+        (std::map<unsigned int, CPeer*>*)(m_data + 0x144);
+    std::map<unsigned int, CPeer*>::iterator it = peers->find((unsigned int)handle);
+    if (it != peers->end())
+    {
+        peers->erase(it);
+    }
+    CGuard<CMutex> g((CMutex*)(m_data + 0x78));
     if (peer != 0)
     {
         delete peer;
@@ -6849,7 +6859,8 @@ void CTcpNetSystem::CleanTcpSendPacketQ()
 
 void* CTcpNetSystem::Acquire_TcpSendBuffer()
 {
-    return malloc(0x1804);
+    CGuard<CMutex> g((CMutex*)(m_data + 0x100));
+    return CTcpSendBuffer::operator new(0x1804);
 }
 
 void CTcpNetSystem::PopDeleteTcpSendPacketQ(CTcpSendBuffer* buf)
