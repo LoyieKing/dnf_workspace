@@ -394,7 +394,7 @@ void CPacketTranslater::OnNoticeGuildDismiss(PacketHeader* pkt)
     CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 10));
     if (guild != 0)
     {
-        guild->DismissGuildMemberAndNotice(m_pclApp->Get_ServerGroup());
+        guild->DismissGuildMemberAndNotice((int)m_pclApp->Get_ServerGroup());
         m_pclApp->Get_GuildManager()->GuildDismiss(guild);
     }
 }

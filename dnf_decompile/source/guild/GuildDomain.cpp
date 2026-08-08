@@ -2029,15 +2029,28 @@ void CGuild::DBSaveGuildMemberUnChangableInfo(CServerHandler* handler, unsigned 
 
 void CGuild::DismissGuildMemberAndNotice(int group)
 {
+    if ((m_field1c & 4) == 0 || m_members.empty())
+    {
+        return;
+    }
+    Packet_Monitor_Notice_Guild_Dismiss_ToUser notice;
     for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
          it != m_members.end(); ++it)
     {
         if (it->second != 0)
         {
-            it->second->DetachGuild();
+            *(unsigned int*)((char*)&notice + 0xa) = it->second->GetIdByChannel();
+            *(unsigned int*)((char*)&notice + 0xe) = it->second->GetUniqCharNo();
+            it->second->SendToGameserver((char*)&notice, 0x12);
+            Packet_Guild_Exp_Book_Delete expDel;
+            *(unsigned int*)((char*)&expDel + 0xa) = it->second->GetIdByChannel();
+            *(unsigned int*)((char*)&expDel + 0xe) = it->second->GetUniqCharNo();
+            *(int*)((char*)&expDel + 0x12) = group;
+            *(unsigned int*)((char*)&expDel + 0x16) = it->second->GetDBID();
+            it->second->SendTcpGameserver(&expDel);
+            it->second->ResetGuild();
         }
     }
-    m_members.clear();
 }
 
 void CGuild::NotifyMemoToGuildMember(CUser* user, const char* memo)
@@ -2417,10 +2430,6 @@ void CGuild::NoticeSecedeToGuildMember(char* info)
             }
         }
     }
-}
-
-void CGuild::DismissGuildMemberAndNotice(unsigned char group)
-{
 }
 
 bool CGuild::IsEmpty()

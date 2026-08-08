@@ -548,7 +548,6 @@ public:
     void UpdateChangableInfoProcess();
     void NoticeEnterToGuildMember(char* info);
     void NoticeSecedeToGuildMember(char* info);
-    void DismissGuildMemberAndNotice(unsigned char group);
     bool IsEmpty();
     STGuildDBInfo* GetGuildDBInfo();
     bool IsExistGuildAgit();
