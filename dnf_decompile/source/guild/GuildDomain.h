@@ -81,11 +81,18 @@ class CGuildBoard;
 
 enum ENUM_GUILD_CARGO_BEHAVIOR {};
 enum ENUM_POWER_SIDE_TYPE {};
+enum ENUM_DB_LOAD_STATE {};
 class DnfItemInfo;
 struct RandomOption;
 struct STGuildCargoDBInfo;
 struct STGuildCargoLog;
 struct STGuildBoardDBInfo;
+class DnfItemInfo
+{
+public:
+    DnfItemInfo();
+    char m_data[0x100];
+};
 struct STTodayGuildMember
 {
     char m_data[0x30];
@@ -422,19 +429,20 @@ public:
     int IsEmpty();
     void* GetGuildCargoDBInfo();
     int GetSpecificItemSlot(int itemId);
-    void PrintCargo(int behavior);
+    void PrintCargo(ENUM_GUILD_CARGO_BEHAVIOR behavior);
     void PrintDnfItemInfo(DnfItemInfo& info);
     void AddItem(DnfItemInfo& info, int slot, int count);
-    void InsertItem(DnfItemInfo& info, int& slot, int count, int a, int b, int c);
-    void DeleteItem(DnfItemInfo& info, int slot, int count, int a, int b, int c);
+    int InsertItem(DnfItemInfo& info, int& slot, int count, unsigned char a, int b);
+    int DeleteItem(DnfItemInfo& info, int slot, int count, unsigned char a, int b, int c);
     void MoveItem(DnfItemInfo& info, DnfItemInfo& info2, int a, int b, int c, int d, int e);
-    int CheckInsertItem(int slot, int count, int a, int b, int c);
+    int CheckInsertItem(int slot, int count, int a, unsigned char b, int c);
     void SendGuildCargo(CUser* user);
     void GetHistory(STGuildCargoLog* out);
-    void InsertHistory(int behavior, int slot, const char* name, int count,
-                       const char* name2, const RandomOption* option);
-    void SendHistoryToDBMW(CServerHandler* handler, int behavior, int slot,
-                           const char* name, int count);
+    void InsertHistory(ENUM_GUILD_CARGO_BEHAVIOR behavior, int slot, const char* name,
+                       int count, int param, const RandomOption* option);
+    void SendHistoryToDBMW(CServerHandler* handler, ENUM_GUILD_CARGO_BEHAVIOR behavior,
+                           int slot, const char* name, int count, int param,
+                           DnfItemInfo& info);
     void SendGuildCargoToDBMW(CServerHandler* handler, int slot);
     void SetGuildCargoHistory(unsigned int idx, STGuildCargoLog* log);
     void SetGuildCargoDBInfo(STGuildCargoDBInfo& info);
@@ -459,11 +467,11 @@ public:
     void setGuildBoardDBAccess();
     void setWebGuildBoardAction(bool flag);
     int getGuildBoardDBLoadState();
-    void setGuildBoardDBLoadState(int state);
+    void setGuildBoardDBLoadState(ENUM_DB_LOAD_STATE state);
     void sendMessageToDBMW_GuildFund(CServerHandler* handler, int fund, CUser* user);
     void sendMessageToDBMW_GuildLevelUP(CServerHandler* handler, int level, CUser* user);
     void sendMessageToDBMW_GuildAttendance(CServerHandler* handler, int a, int b,
-                                           unsigned short c, unsigned short d);
+                                           unsigned int c, unsigned int d);
     void sendMessageToDBMW_GuildMasterChanging(CServerHandler* handler, CUser* user,
                                                const char* name);
     char m_data[0x1900];

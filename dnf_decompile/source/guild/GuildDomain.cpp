@@ -32,6 +32,11 @@ CBlackUser::CBlackUser()
     memset(m_data, 0, sizeof(m_data));
 }
 
+DnfItemInfo::DnfItemInfo()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
 CBlackUser::~CBlackUser()
 {
 }
@@ -2431,7 +2436,7 @@ int CGuildCargo::GetSpecificItemSlot(int itemId)
     return -1;
 }
 
-void CGuildCargo::PrintCargo(int behavior)
+void CGuildCargo::PrintCargo(ENUM_GUILD_CARGO_BEHAVIOR behavior)
 {
 }
 
@@ -2443,12 +2448,14 @@ void CGuildCargo::AddItem(DnfItemInfo& info, int slot, int count)
 {
 }
 
-void CGuildCargo::InsertItem(DnfItemInfo& info, int& slot, int count, int a, int b, int c)
+int CGuildCargo::InsertItem(DnfItemInfo& info, int& slot, int count, unsigned char a, int b)
 {
+    return 1;
 }
 
-void CGuildCargo::DeleteItem(DnfItemInfo& info, int slot, int count, int a, int b, int c)
+int CGuildCargo::DeleteItem(DnfItemInfo& info, int slot, int count, unsigned char a, int b, int c)
 {
+    return 1;
 }
 
 void CGuildCargo::MoveItem(DnfItemInfo& info, DnfItemInfo& info2, int a, int b, int c,
@@ -2456,7 +2463,7 @@ void CGuildCargo::MoveItem(DnfItemInfo& info, DnfItemInfo& info2, int a, int b, 
 {
 }
 
-int CGuildCargo::CheckInsertItem(int slot, int count, int a, int b, int c)
+int CGuildCargo::CheckInsertItem(int slot, int count, int a, unsigned char b, int c)
 {
     return 0;
 }
@@ -2469,13 +2476,13 @@ void CGuildCargo::GetHistory(STGuildCargoLog* out)
 {
 }
 
-void CGuildCargo::InsertHistory(int behavior, int slot, const char* name, int count,
-                                const char* name2, const RandomOption* option)
+void CGuildCargo::InsertHistory(ENUM_GUILD_CARGO_BEHAVIOR behavior, int slot, const char* name, int count,
+                                int param, const RandomOption* option)
 {
 }
 
-void CGuildCargo::SendHistoryToDBMW(CServerHandler* handler, int behavior, int slot,
-                                    const char* name, int count)
+void CGuildCargo::SendHistoryToDBMW(CServerHandler* handler, ENUM_GUILD_CARGO_BEHAVIOR behavior, int slot,
+                                    const char* name, int count, int param, DnfItemInfo& info)
 {
 }
 
@@ -2549,7 +2556,7 @@ int CGuildBoard::getGuildBoardDBLoadState()
     return 0;
 }
 
-void CGuildBoard::setGuildBoardDBLoadState(int state)
+void CGuildBoard::setGuildBoardDBLoadState(ENUM_DB_LOAD_STATE state)
 {
 }
 
@@ -2563,7 +2570,7 @@ void CGuildBoard::sendMessageToDBMW_GuildLevelUP(CServerHandler* handler, int le
 }
 
 void CGuildBoard::sendMessageToDBMW_GuildAttendance(CServerHandler* handler, int a, int b,
-                                                    unsigned short c, unsigned short d)
+                                                    unsigned int c, unsigned int d)
 {
 }
 
