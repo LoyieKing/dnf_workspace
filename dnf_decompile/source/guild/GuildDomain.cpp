@@ -308,6 +308,10 @@ void CUser::SendTcpGameserver(PacketHeader* pkt)
 {
 }
 
+void CUser::QueryGuildMember(CServerHandler* handler)
+{
+}
+
 CUserManager::CUserManager()
 {
     m_app = 0;
@@ -862,6 +866,26 @@ void CGuild::DBGuildSave(unsigned char flag, CServerHandler* handler, unsigned i
 {
 }
 
+void CGuild::QueryGuild(CServerHandler* handler, unsigned int charNo)
+{
+}
+
+void CGuild::SendGuildInfoToMemberOnly(CUser* user)
+{
+}
+
+void CGuild::QueryTodayGuildMember(CServerHandler* handler)
+{
+}
+
+void CGuild::SetTodayGuildMember(STTodayGuildMember* member)
+{
+}
+
+void CGuild::NotifyTodayGuildMember(CUser* user)
+{
+}
+
 CGuildManager::CGuildManager()
 {
     m_app = 0;
@@ -891,8 +915,48 @@ void CGuildManager::AttendGuild(unsigned int guildKey, unsigned int charNo)
 {
 }
 
-void CGuildManager::GuildMemLogin(unsigned int guildKey, CUser* user)
+CGuild* CGuildManager::GuildMemLogin(unsigned int guildKey, CUser* user)
 {
+    if (user == 0 || m_app == 0)
+    {
+        throw CDNFException("CGuildManager::GuildMemLogin() : m_pclApp , pclUser == NULL\n");
+    }
+    if (guildKey == 0)
+    {
+        throw CDNFException("CGuildManager::GuildMemLogin() : dwGuildKey == 0\n");
+    }
+    CServerHandler* handler = m_app->Get_ServerHandler();
+    if (handler == 0)
+    {
+        throw CDNFException("CGuildManager::GuildMemLogin() pclServerHandler == NULL\n");
+    }
+    CGuild* guild = FindGuild(guildKey);
+    if (guild == 0)
+    {
+        guild = CreateGuild(guildKey, handler, user->GetUniqCharNo());
+    }
+    else
+    {
+        guild->QueryGuild(handler, user->GetUniqCharNo());
+        guild->SendGuildInfoToMemberOnly(user);
+        guild->CheckGuildSkill();
+        AttendGuild(guildKey, user->GetUniqCharNo());
+    }
+    STTodayGuildMember* today = (STTodayGuildMember*)GetTodayMember(guildKey);
+    if (today == 0)
+    {
+        guild->QueryTodayGuildMember(handler);
+    }
+    else
+    {
+        guild->SetTodayGuildMember(today);
+        guild->NotifyTodayGuildMember(user);
+    }
+    if (guild->InsertGuildMember(user->GetUniqCharNo(), user) == 1)
+    {
+        user->QueryGuildMember(handler);
+    }
+    return guild;
 }
 
 void CGuildManager::GuildMemLogout(unsigned int guildKey, CUser* user)
@@ -907,9 +971,12 @@ void CGuildManager::GuildSecede(unsigned int guildKey, ST_Notice_Guild_Secede& i
 {
 }
 
-void CGuildManager::CreateGuild(unsigned int guildKey, CServerHandler* handler,
-                                unsigned int masterId)
+CGuild* CGuildManager::CreateGuild(unsigned int guildKey, CServerHandler* handler,
+                                   unsigned int masterId)
 {
+    CGuild* guild = new CGuild(guildKey);
+    InsertGuild(guildKey, guild);
+    return guild;
 }
 
 void CGuildManager::DeleteGuild(unsigned int guildKey)
@@ -1204,6 +1271,11 @@ CMemoryCashManager::~CMemoryCashManager()
 
 void CMemoryCashManager::Init(CApplication* app)
 {
+}
+
+int CMemoryCashManager::QueryCashMemoryBlackList(CUser* user)
+{
+    return 1;
 }
 
 CTcpNetSystem::CTcpNetSystem()

@@ -112,6 +112,8 @@ public:
     void ChangeCharName(char* name);
     void ResetCharInfo();
     void SetUserInfo_CharNo(char sex, char job, short flag, unsigned int charNo, char* name);
+    void SetUserInfo(unsigned int dbid, unsigned int charNo, char* name, int channel,
+                     CGameServer* server);
     unsigned char GetJob();
     unsigned char GetGrowthType();
     unsigned char GetSex();
@@ -271,6 +273,11 @@ public:
     void SaveGuild(unsigned char flag, CServerHandler* handler, unsigned int param);
     void DBGuildSave(unsigned char flag, CServerHandler* handler, unsigned int param);
     void SetGuildMessage(char* msg);
+    void QueryGuild(CServerHandler* handler, unsigned int charNo);
+    void SendGuildInfoToMemberOnly(CUser* user);
+    void QueryTodayGuildMember(CServerHandler* handler);
+    void SetTodayGuildMember(STTodayGuildMember* member);
+    void NotifyTodayGuildMember(CUser* user);
     unsigned char GetPowerSide();
     void SetPowerSide(unsigned char side);
     unsigned int GetPowerWarPoint();
@@ -328,11 +335,12 @@ public:
     void ProcessByMinute();
     void DBSaveProcess(CApplication* app, bool force);
     void AttendGuild(unsigned int guildKey, unsigned int charNo);
-    void GuildMemLogin(unsigned int guildKey, CUser* user);
+    CGuild* GuildMemLogin(unsigned int guildKey, CUser* user);
     void GuildMemLogout(unsigned int guildKey, CUser* user);
     void GuildEnter(unsigned int guildKey, ST_Notice_Guild_Enter& info);
     void GuildSecede(unsigned int guildKey, ST_Notice_Guild_Secede& info);
-    void CreateGuild(unsigned int guildKey, CServerHandler* handler, unsigned int masterId);
+    CGuild* CreateGuild(unsigned int guildKey, CServerHandler* handler,
+                        unsigned int masterId);
     void DeleteGuild(unsigned int guildKey);
     void DeleteGuild(CGuild* guild);
     void GuildDismiss(CGuild* guild);
@@ -435,6 +443,7 @@ public:
     CMemoryCashManager();
     ~CMemoryCashManager();
     void Init(CApplication* app);
+    int QueryCashMemoryBlackList(CUser* user);
     char m_data[0x1c];
 };
 
