@@ -119,6 +119,25 @@
   （times() 帧计数 + 状态机）；OnHeartBeat 真实现（0xc8 DB 心跳/通道心跳/
   Tcp_Server_Connect 重连）；CApplication::Process 对齐原版（帧计数门控
   ProcessByMinute/Second + try/catch 顶层兜底 + 退出日志）
+- 2026-08-08 第四批（PowerWar 仓库/排名子系统 + 处理器批量）：
+  - OnGuildCargoMoveItem/OnGuildCargoUpgrade/OnGuildCargoCheckPushItem +
+    CGuildCargo::MoveItem（槽位交换 + 0xc1/0xc4/0xca 结果码）/CheckInsertItem
+    （堆叠校验 200/0xc1/0xc4/0xc9）
+  - OnPacketJoinPower/OnPacketSecedePower（加入/退出权力阵营，
+    0x56/0x7f/0x82/100 结果码）、OnDBMWGuildJoin、OnRequestGuildCreate
+    （DBMW 建会包 0x5c 布局：group/dbid/uniqCharNo/name/job/growth/level/sex/ssn/
+    会名/会徽）、OnEventEnd、OnNoticeGuildWarEnd
+  - **SaveDBPowerWarRank 全流程**：用户排名 500×8 分批（0xfb 分页）→ 公会排名
+    100×8 → 雕像排名 3 名（排序 + 广播）；STUserRank/STGuildRank 修正为 8 字节
+  - **PowerWar 排名容器真实现**：CPowerWarCharacInfo（map@+4/vector@+0x1c/list@+0x28，
+    类尺寸 0x30）、CPowerWarGuildInfo（map@+4/vector@+0x1c/+0x28，类尺寸 0x34）、
+    CPower 布局修正（+0x6c 步长）；Find/Insert/Update/CalcAll/GetAllRankingInfo/
+    GetStatueRankingUsers/GetUserRanking/GetUserPowerWarPoint 全实现
+- **TinyXML 切换为 2.6.2 原始源码**：tinyxml.cpp/h + tinyxmlerror.cpp + tinyxmlparser.cpp
+  按原编译形态（-O3 gnu++98 + 4.4.6 libstdc++ 头 + TIXML_USE_STL）独立编译；
+  Declaration/Element/Attribute/Text/Comment/Unknown Parse 指令量 534vs528/508vs506/
+  310vs308/179vs177/165vs162/196vs195，Stamp/StreamIn 多处 NEAR（139vs139/123vs123/
+  219vs219），达到 community 水位
 
 ## 下一步
 

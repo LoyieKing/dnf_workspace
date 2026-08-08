@@ -3077,14 +3077,66 @@ int CGuildCargo::DeleteItem(DnfItemInfo& info, int slot, int count, unsigned cha
     return 1;
 }
 
-void CGuildCargo::MoveItem(DnfItemInfo& info, DnfItemInfo& info2, int a, int b, int c,
-                           int d, int e)
+int CGuildCargo::MoveItem(DnfItemInfo& from, DnfItemInfo& to, int fromSlot, int fromItemId,
+                          int toSlot, int toItemId, int charNo)
 {
+    if (!(IsValidSlot(fromSlot) == 1 && IsValidSlot(toSlot) == 1 && fromSlot != toSlot))
+    {
+        return 0xc4;
+    }
+    int guildKey = *(int*)((char*)this + 0x18e0);
+    int fromId = *(int*)((char*)this + fromSlot * 0x35 + 1);
+    int toId = *(int*)((char*)this + toSlot * 0x35 + 1);
+    {
+        CMyFileLog log("MoveItem", 0x115);
+        log("./log/GuildCargo",
+            "Before MoveItem - GUILD:%d, CHARAC:%d, SLOT1:(%d,%d), SLOT2:(%d,%d)",
+            guildKey, charNo, fromSlot, fromId, toSlot, toId);
+    }
+    memcpy(&from, (char*)this + fromSlot * 0x35, 0x35);
+    memcpy(&to, (char*)this + toSlot * 0x35, 0x35);
+    if (*(int*)((char*)&from + 1) == fromItemId && *(int*)((char*)&to + 1) == toItemId)
+    {
+        DnfItemInfo tmp = from;
+        memcpy((char*)this + fromSlot * 0x35, (char*)this + toSlot * 0x35, 0x35);
+        memcpy((char*)this + toSlot * 0x35, &tmp, 0x35);
+        int newFromId = *(int*)((char*)this + fromSlot * 0x35 + 1);
+        int newToId = *(int*)((char*)this + toSlot * 0x35 + 1);
+        {
+            CMyFileLog log("MoveItem", 0x131);
+            log("./log/GuildCargo",
+                "After MoveItem - GUILD:%d, CHARAC:%d, SLOT1:(%d,%d), SLOT2:(%d,%d)",
+                guildKey, charNo, fromSlot, newFromId, toSlot, newToId);
+        }
+        return 0xc1;
+    }
+    return 0xca;
 }
 
-int CGuildCargo::CheckInsertItem(int slot, int count, int a, unsigned char b, int c)
+int CGuildCargo::CheckInsertItem(int itemId, int count, int slot, unsigned char stackable,
+                                 int maxStack)
 {
-    return 0;
+    if (IsValidSlot(slot) != 1)
+    {
+        return 0xc4;
+    }
+    if (stackable == 1)
+    {
+        int existingSlot = GetSpecificItemSlot(itemId);
+        if (existingSlot != -1)
+        {
+            if (maxStack < *(int*)((char*)this + existingSlot * 0x35 + 6) + count)
+            {
+                return 200;
+            }
+            return 0xc1;
+        }
+    }
+    if (*(int*)((char*)this + slot * 0x35 + 1) == 0)
+    {
+        return 0xc1;
+    }
+    return 0xc9;
 }
 
 void CGuildCargo::SendGuildCargo(CUser* user)
@@ -3200,15 +3252,15 @@ void CGuildBoard::sendMessageToDBMW_GuildMasterChanging(CServerHandler* handler,
 
 CPowerWarGuildInfo::CPowerWarGuildInfo()
 {
-    new (m_data + 0) std::map<unsigned int, STPowerWarGuildInfo*>();
-    new (m_data + 0x1c) std::vector<STPowerWarGuildInfo*>();
-    new (m_data + 0x28) std::vector<STDBSavePowerWarPoint*>();
+    new (m_data + 0) std::map<unsigned int, STPowerWarGuildInfo*>();        // class +4
+    new (m_data + 0x18) std::vector<STPowerWarGuildInfo*>();                // class +0x1c
+    new (m_data + 0x24) std::vector<STDBSavePowerWarPoint*>();             // class +0x28
 }
 
 CPowerWarGuildInfo::~CPowerWarGuildInfo()
 {
-    ((std::vector<STDBSavePowerWarPoint*>*)(m_data + 0x28))->~vector();
-    ((std::vector<STPowerWarGuildInfo*>*)(m_data + 0x1c))->~vector();
+    ((std::vector<STDBSavePowerWarPoint*>*)(m_data + 0x24))->~vector();
+    ((std::vector<STPowerWarGuildInfo*>*)(m_data + 0x18))->~vector();
     ((std::map<unsigned int, STPowerWarGuildInfo*>*)(m_data + 0))->~map();
 }
 
@@ -3235,11 +3287,23 @@ void CPowerWarGuildInfo::DeletePowerWarGuild(STPowerWarGuildInfo* info)
 
 STPowerWarGuildInfo* CPowerWarGuildInfo::FindPowerwarGuild(unsigned int guildKey)
 {
-    return 0;
+    std::map<unsigned int, STPowerWarGuildInfo*>* map =
+        (std::map<unsigned int, STPowerWarGuildInfo*>*)(m_data + 0);
+    std::map<unsigned int, STPowerWarGuildInfo*>::iterator it = map->find(guildKey);
+    if (it == map->end())
+    {
+        return 0;
+    }
+    return it->second;
 }
 
 int CPowerWarGuildInfo::InsertPowerwarGuild(unsigned int guildKey, STPowerWarGuildInfo* info)
 {
+    std::map<unsigned int, STPowerWarGuildInfo*>* map =
+        (std::map<unsigned int, STPowerWarGuildInfo*>*)(m_data + 0);
+    map->insert(std::make_pair(guildKey, info));
+    ((std::vector<STPowerWarGuildInfo*>*)(m_data + 0x18))->push_back(info);
+    return 0;
 }
 
 STPowerWarGuildInfo* CPowerWarGuildInfo::GetSpecificGuildInfo(unsigned int guildKey)
@@ -3249,11 +3313,25 @@ STPowerWarGuildInfo* CPowerWarGuildInfo::GetSpecificGuildInfo(unsigned int guild
 
 unsigned int CPowerWarGuildInfo::GetGuildRanking(unsigned int guildKey)
 {
+    std::vector<STPowerWarGuildInfo*>* vec =
+        (std::vector<STPowerWarGuildInfo*>*)(m_data + 0x18);
+    unsigned int rank = 1;
+    for (std::vector<STPowerWarGuildInfo*>::iterator it = vec->begin(); it != vec->end(); ++it)
+    {
+        if (*(unsigned int*)(*it)->m_data == guildKey)
+        {
+            return rank;
+        }
+        rank++;
+    }
     return 0;
 }
 
 void CPowerWarGuildInfo::CalcAllGuildRanking()
 {
+    std::vector<STPowerWarGuildInfo*>* vec =
+        (std::vector<STPowerWarGuildInfo*>*)(m_data + 0x18);
+    std::sort(vec->begin(), vec->end(), STPowerWarGuildInfo::Compare);
 }
 
 void CPowerWarGuildInfo::PrintDebugInfo()
@@ -3262,6 +3340,19 @@ void CPowerWarGuildInfo::PrintDebugInfo()
 
 void CPowerWarGuildInfo::UpdateGuildPowerwarInfo(unsigned int guildKey, unsigned short point)
 {
+    STPowerWarGuildInfo* info = FindPowerwarGuild(guildKey);
+    if (info == 0)
+    {
+        info = CreatePowerwarGuild();
+        *(unsigned int*)info->m_data = guildKey;
+        *(unsigned int*)(info->m_data + 4) = point;
+        InsertPowerwarGuild(guildKey, info);
+    }
+    else
+    {
+        *(unsigned int*)(info->m_data + 4) =
+            *(unsigned int*)(info->m_data + 4) + point;
+    }
 }
 
 void CPowerWarGuildInfo::RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int b, int c,
@@ -3285,7 +3376,7 @@ void CPowerWarGuildInfo::DeleteDBSavePowerWarPoint(STDBSavePowerWarPoint* p)
 void CPowerWarGuildInfo::MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Point_Reward* pkt)
 {
     std::vector<STDBSavePowerWarPoint*>* vec =
-        (std::vector<STDBSavePowerWarPoint*>*)(m_data + 0x28);
+        (std::vector<STDBSavePowerWarPoint*>*)(m_data + 0x24);
     size_t n = vec->size();
     int count = 0;
     if (n != 0)
@@ -3317,16 +3408,33 @@ int CPowerWarGuildInfo::GetPowerWarPointDBSaveCount()
 
 void CPowerWarGuildInfo::GetAllGuildRankingInfo(int& count, STGuildRank* rank)
 {
-    count = 0;
+    unsigned int n = 0;
+    std::vector<STPowerWarGuildInfo*>* vec =
+        (std::vector<STPowerWarGuildInfo*>*)(m_data + 0x18);
+    for (std::vector<STPowerWarGuildInfo*>::iterator it = vec->begin();
+         it != vec->end() && n < 100; ++it)
+    {
+        STPowerWarGuildInfo* info = *it;
+        if (info != 0)
+        {
+            *(unsigned int*)(rank + n * 8) = *(unsigned int*)info->m_data;
+            *(unsigned int*)(rank + n * 8 + 4) = *(unsigned int*)(info->m_data + 0xc);
+            n++;
+        }
+    }
+    count = (int)n;
 }
 
 CPowerWarCharacInfo::CPowerWarCharacInfo()
 {
-    memset(m_data, 0, sizeof(m_data));
+    new (m_data + 0) std::map<unsigned int, STPowerWarCharacInfo*>();       // class +4
+    new (m_data + 0x18) std::vector<STPowerWarCharacInfo*>();               // class +0x1c
 }
 
 CPowerWarCharacInfo::~CPowerWarCharacInfo()
 {
+    ((std::vector<STPowerWarCharacInfo*>*)(m_data + 0x18))->~vector();
+    ((std::map<unsigned int, STPowerWarCharacInfo*>*)(m_data + 0))->~map();
 }
 
 void CPowerWarCharacInfo::Initialize()
@@ -3339,11 +3447,21 @@ void CPowerWarCharacInfo::Clean()
 
 int CPowerWarCharacInfo::IsExistCharac(unsigned int charNo)
 {
-    return 0;
+    return FindPowerwarCharac(charNo) != 0;
 }
 
 unsigned int CPowerWarCharacInfo::GetUserRanking(unsigned int charNo)
 {
+    std::vector<STPowerWarCharacInfo*>* vec = GetCharacInfoVector();
+    unsigned int rank = 1;
+    for (std::vector<STPowerWarCharacInfo*>::iterator it = vec->begin(); it != vec->end(); ++it)
+    {
+        if (*(unsigned int*)(*it)->m_data == charNo)
+        {
+            return rank;
+        }
+        rank++;
+    }
     return 0;
 }
 
@@ -3353,16 +3471,25 @@ void CPowerWarCharacInfo::PrintDebugInfo()
 
 void CPowerWarCharacInfo::CalcAllUserRanking()
 {
+    std::sort(GetCharacInfoVector()->begin(), GetCharacInfoVector()->end(),
+              STPowerWarCharacInfo::Compare);
 }
 
 STPowerWarCharacInfo* CPowerWarCharacInfo::FindPowerwarCharac(unsigned int charNo)
 {
-    return 0;
+    std::map<unsigned int, STPowerWarCharacInfo*>* map =
+        (std::map<unsigned int, STPowerWarCharacInfo*>*)(m_data + 0);
+    std::map<unsigned int, STPowerWarCharacInfo*>::iterator it = map->find(charNo);
+    if (it == map->end())
+    {
+        return 0;
+    }
+    return it->second;
 }
 
 std::vector<STPowerWarCharacInfo*>* CPowerWarCharacInfo::GetCharacInfoVector()
 {
-    return 0;
+    return (std::vector<STPowerWarCharacInfo*>*)(m_data + 0x18);
 }
 
 STPowerWarCharacInfo* CPowerWarCharacInfo::CreatePowerwarCharac()
@@ -3372,24 +3499,76 @@ STPowerWarCharacInfo* CPowerWarCharacInfo::CreatePowerwarCharac()
 
 unsigned int CPowerWarCharacInfo::GetUserPowerWarPoint(unsigned int charNo)
 {
-    return 0;
+    STPowerWarCharacInfo* info = FindPowerwarCharac(charNo);
+    if (info == 0)
+    {
+        return 0;
+    }
+    return *(unsigned int*)(info->m_data + 4);
 }
 
 int CPowerWarCharacInfo::InsertPowerwarCharac(unsigned int charNo, STPowerWarCharacInfo* info)
 {
+    std::map<unsigned int, STPowerWarCharacInfo*>* map =
+        (std::map<unsigned int, STPowerWarCharacInfo*>*)(m_data + 0);
+    map->insert(std::make_pair(charNo, info));
+    GetCharacInfoVector()->push_back(info);
+    return 0;
 }
 
 void CPowerWarCharacInfo::GetAllUserRankingInfo(unsigned int& count, STUserRank* rank)
 {
-    count = 0;
+    unsigned int n = 0;
+    std::vector<STPowerWarCharacInfo*>* vec = GetCharacInfoVector();
+    for (std::vector<STPowerWarCharacInfo*>::iterator it = vec->begin();
+         it != vec->end() && n < 500; ++it)
+    {
+        STPowerWarCharacInfo* info = *it;
+        if (info != 0)
+        {
+            unsigned int charNo = *(unsigned int*)info->m_data;
+            unsigned int point = *(unsigned int*)(info->m_data + 4);
+            *(unsigned int*)(rank + n * 8) = charNo;
+            *(unsigned int*)(rank + n * 8 + 4) = point;
+            n++;
+            CMyFileLog log("GetAllUserRankingInfo", 0xcc);
+            log("./log/Power", "Rank:%7d, Charac No:%d, PowerWarPoint:%d", n, charNo, point);
+        }
+    }
+    count = n;
 }
 
 void CPowerWarCharacInfo::GetStatueRankingUsers(std::vector<STPowerWarCharacInfo*>& vec)
 {
+    std::vector<STPowerWarCharacInfo*>* self = GetCharacInfoVector();
+    for (unsigned int i = 0; i < 3; i++)
+    {
+        if ((int)i < (int)self->size())
+        {
+            STPowerWarCharacInfo* info = self->at(i);
+            vec.push_back(info);
+            CMyFileLog log("GetStatueRankingUsers", 0xe4);
+            log("./log/Power", "Rank:%d, Charac No:%d Point:%d", i,
+                *(unsigned int*)info->m_data, *(unsigned int*)(info->m_data + 4));
+        }
+    }
 }
 
 void CPowerWarCharacInfo::UpdatePowerwarCharacInfo(unsigned int charNo, unsigned short point)
 {
+    STPowerWarCharacInfo* info = FindPowerwarCharac(charNo);
+    if (info == 0)
+    {
+        info = CreatePowerwarCharac();
+        *(unsigned int*)info->m_data = charNo;
+        *(unsigned int*)(info->m_data + 4) = point;
+        InsertPowerwarCharac(charNo, info);
+    }
+    else
+    {
+        *(unsigned int*)(info->m_data + 4) =
+            *(unsigned int*)(info->m_data + 4) + point;
+    }
 }
 
 int CPowerWarCharacInfo::GetBonus(Packet_DB_Save_Power_War_Bonus_Point& pkt)
@@ -3483,12 +3662,14 @@ int CPowerWar::GetPowerWarRankingUpdateTime()
 CPower::CPower()
 {
     m_field4 = 0;
-    memset((void*)&m_guildInfo, 0, sizeof(m_guildInfo));
-    memset((void*)&m_characInfo, 0, sizeof(m_characInfo));
+    new (&m_guildInfo) CPowerWarGuildInfo;
+    new (&m_characInfo) CPowerWarCharacInfo;
 }
 
 CPower::~CPower()
 {
+    m_characInfo.~CPowerWarCharacInfo();
+    m_guildInfo.~CPowerWarGuildInfo();
 }
 
 void CPower::SetScore(int score)
@@ -3654,6 +3835,107 @@ void CPowerManager::SendPowerWarScore()
 
 void CPowerManager::SaveDBPowerWarRank()
 {
+    char winnerSide = *(char*)((char*)this + 0x184);
+    if (winnerSide != 0 && winnerSide < 3)
+    {
+        CMyFileLog logStart("SaveDBPowerWarRank", 0x1b6);
+        logStart("./log/PowerResult", "POWER WAR RESULT DB SAVE START");
+        CApplication* app = *(CApplication**)((char*)this + 4);
+        Packet_DB_Save_Power_War_User_Rank userPkt;
+        unsigned char group = app->Get_ServerHandler()->GetServerGroupNo();
+        *(unsigned char*)((char*)&userPkt + 0xb) = group;
+        STUserRank userRanks[500];
+        for (int side = 1; side < 3; side++)
+        {
+            memset(userRanks, 0, 4000);
+            *(unsigned char*)((char*)&userPkt + 0xc) = (unsigned char)side;
+            CPowerWarCharacInfo* characInfo =
+                ((CPower*)((char*)this + side * 0x6c + 8))->GetPowerWarCharacInfo();
+            unsigned int count = 0;
+            characInfo->GetAllUserRankingInfo(count, userRanks);
+            {
+                CMyFileLog log("SaveDBPowerWarRank", 0x1d1);
+                log("./log/PowerResult", "SaveDBPowerWarRank() PowerSide %d, User Rank Count is %d",
+                    side, count);
+            }
+            if (count == 0)
+            {
+                CMyFileLog log("SaveDBPowerWarRank", 0x1d6);
+                log("./log/PowerResult",
+                    "SaveDBPowerWarRank() PowerSide %d, User Rank Count is 0", side, count);
+            }
+            else if (count < 0xfb)
+            {
+                *(unsigned char*)((char*)&userPkt + 0xa) = 1;
+                *(unsigned int*)((char*)&userPkt + 0x11) = count;
+                memcpy((char*)&userPkt + 0x15, userRanks, count << 3);
+                app->Get_ServerHandler()->SendToDB(&userPkt);
+            }
+            else
+            {
+                *(unsigned char*)((char*)&userPkt + 0xa) = (unsigned char)(side == 1);
+                *(unsigned int*)((char*)&userPkt + 0x11) = 0xfa;
+                memcpy((char*)&userPkt + 0x15, userRanks, 2000);
+                app->Get_ServerHandler()->SendToDB(&userPkt);
+                *(unsigned char*)((char*)&userPkt + 0xc) = 0xfb;
+                *(unsigned char*)((char*)&userPkt + 0xa) = 0;
+                *(unsigned int*)((char*)&userPkt + 0x11) = count - 0xfa;
+                memcpy((char*)&userPkt + 0x15, (char*)userRanks + 2000, (count - 0xfa) * 8);
+                app->Get_ServerHandler()->SendToDB(&userPkt);
+            }
+        }
+        Packet_DB_Save_Power_War_Guild_Rank guildPkt;
+        *(unsigned char*)((char*)&guildPkt + 0xa) = app->Get_ServerHandler()->GetServerGroupNo();
+        for (int side = 1; side < 3; side++)
+        {
+            *(unsigned char*)((char*)&guildPkt + 0xb) = (unsigned char)side;
+            *(unsigned int*)((char*)&guildPkt + 0xc) = 0;
+            memset((char*)&guildPkt + 0x10, 0, 800);
+            CPowerWarGuildInfo* guildInfo =
+                ((CPower*)((char*)this + side * 0x6c + 8))->GetPowerWarGuildInfo();
+            int count = 0;
+            guildInfo->GetAllGuildRankingInfo(count, (STGuildRank*)((char*)&guildPkt + 0x10));
+            app->Get_ServerHandler()->SendToDB(&guildPkt);
+            {
+                CMyFileLog log("SaveDBPowerWarRank", 0x248);
+                log("./log/PowerResult",
+                    "SaveDBPowerWarRank() SEND Packet_DB_Save_Power_War_Guild_Rank Power:%d", side);
+            }
+        }
+        Packet_DB_Save_Power_War_Statue_Ranker statuePkt;
+        Packet_Notice_Power_War_Rank noticePkt;
+        (void)noticePkt;
+        *(unsigned char*)((char*)&statuePkt + 0xa) =
+            app->Get_ServerHandler()->GetServerGroupNo();
+        std::vector<STPowerWarCharacInfo*> users;
+        CPowerWarCharacInfo* s1 =
+            ((CPower*)((char*)this + 0x74))->GetPowerWarCharacInfo();
+        CPowerWarCharacInfo* s2 =
+            ((CPower*)((char*)this + 0xe0))->GetPowerWarCharacInfo();
+        s1->GetStatueRankingUsers(users);
+        s2->GetStatueRankingUsers(users);
+        std::sort(users.begin(), users.end(), STPowerWarCharacInfo::Compare);
+        for (int i = 0; i < 3; i++)
+        {
+            if (i < (int)users.size())
+            {
+                unsigned int charNo = *(unsigned int*)users[i]->m_data;
+                *(unsigned int*)((char*)&statuePkt + 0xb + i * 4) = charNo;
+                CMyFileLog log("SaveDBPowerWarRank", 0x273);
+                log("./log/PowerResult", "Last Rank:%d, Charac No:%d", i, charNo);
+            }
+        }
+        {
+            CMyFileLog log("SaveDBPowerWarRank", 0x277);
+            log("./log/PowerResult",
+                "SaveDBPowerWarRank() SEND Packet_DB_Save_Power_War_Statue_Ranker");
+        }
+        app->Get_ServerHandler()->SendToDB(&statuePkt);
+        {
+            CMyFileLog log("SaveDBPowerWarRank", 0x27b);
+            log("./log/PowerResult", "POWER WAR RESULT DB SAVE END");
+        }
+    }
 }
 
 void CPowerManager::StartPowerWarEvent()

@@ -628,13 +628,9 @@ STUB_HANDLER(OnDBMWResponseBlackListOnLogin)
 STUB_HANDLER(OnDBMWChangeUnconnectedGuildMemberGrade)
 STUB_HANDLER(OnNotifyMessageToGuild)
 STUB_HANDLER(OnMonitorManagerConnectOK)
-STUB_HANDLER(OnDBMWGuildJoin)
-STUB_HANDLER(OnRequestGuildCreate)
 STUB_HANDLER(OnInnerPacketLogin)
 STUB_HANDLER(OnInnerPacketLogout)
 STUB_HANDLER(OnPowerWarStartInfo)
-STUB_HANDLER(OnPacketJoinPower)
-STUB_HANDLER(OnPacketSecedePower)
 STUB_HANDLER(OnSetPowerWarCfg)
 STUB_HANDLER(OnLoadFromDBOnGuildBooting)
 STUB_HANDLER(OnGMPowerWarStart)
@@ -657,9 +653,6 @@ STUB_HANDLER(OnLoadGuildCargo)
 STUB_HANDLER(OnLoadGuildCargoHistory)
 STUB_HANDLER(OnGuildCargo)
 STUB_HANDLER(OnGuildCargoHistory)
-STUB_HANDLER(OnGuildCargoCheckPushItem)
-STUB_HANDLER(OnGuildCargoMoveItem)
-STUB_HANDLER(OnGuildCargoUpgrade)
 STUB_HANDLER(OnGuildRequestGuildBoardOpen)
 STUB_HANDLER(OnDBLoadReplyGuildBoardOpen)
 STUB_HANDLER(OnGuildRequestGuildBoardWrite)
@@ -2029,6 +2022,494 @@ void CPacketTranslater::OnNoticeGuildWarEnd(PacketHeader* pkt)
         *(unsigned int*)((char*)&monPkt + 0xa) = 9;
         OnEventEnd(&monPkt);
     }
+}
+
+void CPacketTranslater::OnGuildCargoMoveItem(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    Packet_Channel_Guild_Cargo_Move_Item reply;
+    unsigned int charNo = *(unsigned int*)(pb + 0xe);
+    unsigned int fromSlot = *(unsigned int*)(pb + 0x12);
+    unsigned int toSlot = *(unsigned int*)(pb + 0x16);
+    {
+        CMyFileLog log("OnGuildCargoMoveItem", 0x1b15);
+        log("./log/GuildCargo", "MOVE ITEM(g:%d,cn:%d,fsn:%d,dsn:%d",
+            *(unsigned int*)(pb + 0xa), charNo, fromSlot, toSlot);
+    }
+    *(unsigned int*)((char*)&reply + 0xe) = charNo;
+    *(unsigned int*)((char*)&reply + 0x13) = fromSlot;
+    *(unsigned int*)((char*)&reply + 0x17) = toSlot;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGuildCargoMoveItem", 0x1b21);
+        log("./log/GuildCargo",
+            "CPacketTranslater::OnGuildCargoMoveItem : 0 == m_pclApp");
+        return;
+    }
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnGuildCargoMoveItem", 0x1b2b);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoMoveItem : 0 == pclUser");
+        return;
+    }
+    *(unsigned int*)((char*)&reply + 0xa) = user->GetIdByChannel();
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xa));
+    if (guild == 0)
+    {
+        CMyFileLog log("OnGuildCargoMoveItem", 0x1b35);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoMoveItem : 0 == pclGuild");
+        *(unsigned char*)((char*)&reply + 0x12) = 100;
+        user->SendTcpGameserver(&reply);
+        return;
+    }
+    if (m_pclApp->Get_GuildManager()->IsCargoLock() != 0)
+    {
+        CMyFileLog log("OnGuildCargoMoveItem", 0x1b40);
+        log("./log/GuildCargo",
+            "CPacketTranslater::OnGuildCargoMoveItem GUILD CARGO LOCKED!(%d,%d)",
+            *(unsigned int*)(pb + 0xe), *(unsigned int*)(pb + 0xa));
+        *(unsigned char*)((char*)&reply + 0x12) = 0xcc;
+        user->SendTcpGameserver(&reply);
+        return;
+    }
+    if (guild->IsExistGuildAgit() != 1)
+    {
+        CMyFileLog log("OnGuildCargoMoveItem", 0x1b4b);
+        log("./log/GuildCargo",
+            "CPacketTranslater::OnGuildCargoMoveItem : (%d,%d) No GuildAgit",
+            *(unsigned int*)(pb + 0xe), *(unsigned int*)(pb + 0xa));
+        *(unsigned char*)((char*)&reply + 0x12) = 0xb5;
+        user->SendTcpGameserver(&reply);
+        return;
+    }
+    CGuildCargo* cargo = guild->GetGuildCargo();
+    if (cargo->IsLoadComplete() != 1)
+    {
+        CMyFileLog log("OnGuildCargoMoveItem", 0x1b55);
+        log("./log/GuildCargo",
+            "CPacketTranslater::OnGuildCargoMoveItem : Guild(%d,%d) Not Loaded",
+            *(unsigned int*)(pb + 0xe), *(unsigned int*)(pb + 0xa));
+        *(unsigned char*)((char*)&reply + 0x12) = 0xc3;
+        user->SendTcpGameserver(&reply);
+        return;
+    }
+    unsigned char grade = *(unsigned char*)((char*)user->GetGuildMemDBInfo() + 0x15);
+    if (grade == 3 || grade == 1 || grade == 2)
+    {
+        DnfItemInfo fromItem;
+        DnfItemInfo toItem;
+        int result = cargo->MoveItem(fromItem, toItem, *(int*)(pb + 0x12),
+                                     *(int*)(pb + 0x1a), *(int*)(pb + 0x16),
+                                     *(int*)(pb + 0x1e), *(int*)(pb + 0xe));
+        *(unsigned char*)((char*)&reply + 0x12) = (unsigned char)result;
+        if (result == 0xc1)
+        {
+            cargo->SendGuildCargoToDBMW(m_pclApp->Get_ServerHandler(), *(int*)(pb + 0xe));
+            cargo->PrintCargo((ENUM_GUILD_CARGO_BEHAVIOR)3);
+        }
+        user->SendTcpGameserver(&reply);
+    }
+    else
+    {
+        CMyFileLog log("OnGuildCargoMoveItem", 0x1b63);
+        log("./log/GuildCargo",
+            "CPacketTranslater::OnGuildCargoMoveItem : Access Deny(%d,%d,%d)",
+            *(unsigned int*)(pb + 0xe), *(unsigned int*)(pb + 0xa), (unsigned int)grade);
+        *(unsigned char*)((char*)&reply + 0x12) = 0x24;
+        user->SendTcpGameserver(&reply);
+    }
+}
+
+void CPacketTranslater::OnGuildCargoUpgrade(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGuildCargoUpgrade", 0x1bd1);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoUpgrade : 0 == m_pclApp");
+        return;
+    }
+    unsigned int charNo = *(unsigned int*)(pb + 0xe);
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnGuildCargoUpgrade", 0x1bdb);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoUpgrade : 0 == pclUser");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnGuildCargoUpgrade", 0x1be2);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoUpgrade : 0 == pclGuild");
+        return;
+    }
+    if (guild->IsGuildMaster(charNo) == 1)
+    {
+        if (guild->IsExistGuildAgit() == 1)
+        {
+            int curCapacity = guild->GetGuildCargo()->GetCapacity();
+            if (*(int*)(pb + 0x12) == curCapacity)
+            {
+                unsigned int reqFund = *(unsigned int*)(pb + 0x1a);
+                unsigned int guildFund = guild->GetGuildFund();
+                if (guildFund < reqFund)
+                {
+                    CMyFileLog log("OnGuildCargoUpgrade", 0x1c00);
+                    log("./log/GuildCargo",
+                        "CPacketTranslater::OnGuildCargoUpgrade guild fund shortage(c:%d,n:%d, gcapa:%d) Error! Guild(%d), User(%d), ReqFund(%d), CurrFund(%d)",
+                        *(unsigned int*)(pb + 0x12), *(unsigned int*)(pb + 0x16), curCapacity,
+                        guildKey, charNo, reqFund, guildFund);
+                }
+                else
+                {
+                    guild->SubGuildFund(reqFund);
+                    guild->SendGuildInfoToMembers(true);
+                    guild->GetGuildCargo()->SetCapacity(*(unsigned int*)(pb + 0x16));
+                    CTcpDBServer* tcpDb = m_pclApp->Get_ServerHandler()->GetTcpDBServer();
+                    char* buf = tcpDb->makePacketHeader(0x714, 0x16);
+                    *(unsigned int*)(buf + 0xa) = guildKey;
+                    *(unsigned int*)(buf + 0xe) = charNo;
+                    *(unsigned int*)(buf + 0x12) = *(unsigned int*)(pb + 0x16);
+                    tcpDb->SendToServer(buf);
+                    Packet_Channel_Guild_Cargo_Upgrade reply;
+                    *(unsigned int*)((char*)&reply + 0xa) = user->GetIdByChannel();
+                    *(unsigned int*)((char*)&reply + 0xe) = charNo;
+                    *(unsigned char*)((char*)&reply + 0x12) = 0xc1;
+                    user->SendToGameserver((char*)&reply, 0x13);
+                    guild->GetGuildCargo()->SendGuildCargo(user);
+                }
+            }
+            else
+            {
+                CMyFileLog log("OnGuildCargoUpgrade", 0x1bf7);
+                log("./log/GuildCargo",
+                    "CPacketTranslater::OnGuildCargoUpgrade Capacity(c:%d,n:%d, gcapa:%d) Error! Guild(%d), User(%d)",
+                    *(unsigned int*)(pb + 0x12), *(unsigned int*)(pb + 0x16), curCapacity,
+                    guildKey, charNo);
+            }
+        }
+        else
+        {
+            CMyFileLog log("OnGuildCargoUpgrade", 0x1bf0);
+            log("./log/GuildCargo",
+                "CPacketTranslater::OnGuildCargoUpgrade : %d guild agit error", guildKey);
+        }
+    }
+    else
+    {
+        CMyFileLog log("OnGuildCargoUpgrade", 0x1be9);
+        log("./log/GuildCargo",
+            "CPacketTranslater::OnGuildCargoUpgrade : %d is not guild master(g:%d)", charNo,
+            guildKey);
+    }
+}
+
+void CPacketTranslater::OnGuildCargoCheckPushItem(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGuildCargoCheckPushItem", 0x1935);
+        log("./log/GuildCargo",
+            "CPacketTranslater::OnGuildCargoCheckPushItem : 0 == m_pclApp");
+        return;
+    }
+    Packet_Channel_Check_Guild_Cargo_Push_Item reply;
+    unsigned int charNo = *(unsigned int*)(pb + 0xe);
+    *(unsigned int*)((char*)&reply + 0xe) = charNo;
+    *(unsigned int*)((char*)&reply + 0x13) = *(unsigned int*)(pb + 0x12);
+    *(unsigned int*)((char*)&reply + 0x17) = *(unsigned int*)(pb + 0x16);
+    *(unsigned int*)((char*)&reply + 0x1b) = *(unsigned int*)(pb + 0x1a);
+    *(unsigned char*)((char*)&reply + 0x23) = *(unsigned char*)(pb + 0x22);
+    *(unsigned int*)((char*)&reply + 0x1f) = *(unsigned int*)(pb + 0x1e);
+    *(unsigned short*)((char*)&reply + 0x25) = *(unsigned short*)(pb + 0x24);
+    *(unsigned char*)((char*)&reply + 0x24) = *(unsigned char*)(pb + 0x23);
+    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnGuildCargoCheckPushItem", 0x194a);
+        log("./log/GuildCargo",
+            "CPacketTranslater::OnGuildCargoCheckPushItem : 0 == pclUser");
+        return;
+    }
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnGuildCargoCheckPushItem", 0x1952);
+        log("./log/GuildCargo",
+            "CPacketTranslater::OnGuildCargoCheckPushItem : 0 == pclGuild");
+        return;
+    }
+    *(unsigned int*)((char*)&reply + 0xa) = user->GetIdByChannel();
+    if (m_pclApp->Get_GuildManager()->IsCargoLock() != 0)
+    {
+        CMyFileLog log("OnGuildCargoCheckPushItem", 0x195c);
+        log("./log/GuildCargo",
+            "CPacketTranslater::OnGuildCargoCheckPushItem GUILD CARGO LOCKED!(%d,%d)", charNo,
+            guildKey);
+        *(unsigned char*)((char*)&reply + 0x12) = 0xcc;
+        user->SendTcpGameserver(&reply);
+        return;
+    }
+    if (guild->IsExistGuildAgit() != 1)
+    {
+        CMyFileLog log("OnGuildCargoCheckPushItem", 0x1967);
+        log("./log/GuildCargo",
+            "CPacketTranslater::OnGuildCargoPushItem : (%d,%d) No GuildAgit", charNo, guildKey);
+        *(unsigned char*)((char*)&reply + 0x12) = 0xb5;
+        user->SendTcpGameserver(&reply);
+        return;
+    }
+    CGuildCargo* cargo = guild->GetGuildCargo();
+    if (cargo->IsLoadComplete() != 1)
+    {
+        CMyFileLog log("OnGuildCargoCheckPushItem", 0x1971);
+        log("./log/GuildCargo",
+            "CPacketTranslater::OnGuildCargoPushItem : Guild(%d,%d) Not Loaded", charNo,
+            guildKey);
+        *(unsigned char*)((char*)&reply + 0x12) = 0xc3;
+        user->SendTcpGameserver(&reply);
+        return;
+    }
+    unsigned char grade = *(unsigned char*)((char*)user->GetGuildMemDBInfo() + 0x15);
+    if (grade == 3 || grade == 1 || grade == 2)
+    {
+        int result = cargo->CheckInsertItem(*(int*)(pb + 0x16), *(int*)(pb + 0x1a),
+                                            *(int*)(pb + 0x12), *(unsigned char*)(pb + 0x22),
+                                            *(int*)(pb + 0x1e));
+        *(unsigned char*)((char*)&reply + 0x12) = (unsigned char)result;
+        user->SendTcpGameserver(&reply);
+    }
+    else
+    {
+        CMyFileLog log("OnGuildCargoCheckPushItem", 0x197f);
+        log("./log/GuildCargo",
+            "CPacketTranslater::OnGuildCargoCheckPushItem : Access Deny(%d,%d,%d)", charNo,
+            guildKey, (unsigned int)grade);
+        *(unsigned char*)((char*)&reply + 0x12) = 0x24;
+        user->SendTcpGameserver(&reply);
+    }
+}
+
+void CPacketTranslater::OnPacketJoinPower(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    Packet_Answer_Join_Power reply;
+    *(unsigned int*)((char*)&reply + 0xa) = 0;
+    *(unsigned int*)((char*)&reply + 0x12) = *(unsigned int*)(pb + 0xa);
+    *(unsigned char*)((char*)&reply + 0x16) = *(unsigned char*)(pb + 0x12);
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnPacketJoinPower", 0x1237);
+        log("./log/Power", "CPacketTranslater::OnPacketJoinPower : 0 == m_pclApp");
+        return;
+    }
+    unsigned int charNo = *(unsigned int*)(pb + 0xa);
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnPacketJoinPower", 0x123d);
+        log("./log/Power", "CPacketTranslater::OnPacketJoinPower : 0 == pclRequestUser");
+        return;
+    }
+    *(unsigned int*)((char*)&reply + 0xe) = user->GetIdByChannel();
+    unsigned int guildKey = *(unsigned int*)(pb + 0xe);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guildKey == 0 || guild == 0)
+    {
+        CMyFileLog log("OnPacketJoinPower", 0x1244);
+        log("./log/Power", "CPacketTranslater::OnPacketJoinPower : 0 == pclGuild");
+        *(unsigned int*)((char*)&reply + 0xa) = 100;
+        user->SendToGameserver((char*)&reply, 0x17);
+        return;
+    }
+    if (guild->IsSubGuildMaster(charNo) == 1 || guild->IsGuildMaster(charNo) == 1)
+    {
+        unsigned char side = (unsigned char)pb[0x12] == 1 ? 3 : 4;
+        guild->SetPowerSide(side);
+        guild->IncPowerJoinCount();
+        CServerInterface* gs = user->GetGameServer();
+        guild->DBGuildSave(gs->GetGroupNo(), m_pclApp->Get_ServerHandler(), 0);
+        *(unsigned char*)((char*)&reply + 0x16) = side;
+        user->SendToGameserver((char*)&reply, 0x17);
+        guild->SendGuildInfoToMembers(false);
+    }
+    else
+    {
+        CMyFileLog log("OnPacketJoinPower", 0x124f);
+        log("./log/Power",
+            "CPacketTranslater::OnPacketJoinPower : %d is not guild master or sub master(g:%d)",
+            charNo, guildKey);
+        *(unsigned int*)((char*)&reply + 0xa) = 0x56;
+        user->SendToGameserver((char*)&reply, 0x17);
+    }
+}
+
+void CPacketTranslater::OnPacketSecedePower(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnPacketSecedePower", 0x12a9);
+        log("./log/Power", "CPacketTranslater::OnPacketSecedePower : 0 == m_pclApp");
+        return;
+    }
+    Packet_Answer_Secede_Power reply;
+    *(unsigned int*)((char*)&reply + 0xa) = 0;
+    unsigned int charNo = *(unsigned int*)(pb + 0xa);
+    *(unsigned int*)((char*)&reply + 0x12) = charNo;
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnPacketSecedePower", 0x12b5);
+        log("./log/Power", "CPacketTranslater::OnPacketSecedePower : 0 == pclRequestUser");
+        return;
+    }
+    *(unsigned int*)((char*)&reply + 0xe) = user->GetIdByChannel();
+    unsigned int guildKey = *(unsigned int*)(pb + 0xe);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guildKey == 0 || guild == 0)
+    {
+        CMyFileLog log("OnPacketSecedePower", 0x12bc);
+        log("./log/Power", "CPacketTranslater::OnPacketSecedePower : 0 == pclGuild");
+        *(unsigned int*)((char*)&reply + 0xa) = 100;
+        user->SendToGameserver((char*)&reply, 0x17);
+        return;
+    }
+    if (guild->GetPowerSide() != 0)
+    {
+        if (guild->IsSubGuildMaster(charNo) == 1 || guild->IsGuildMaster(charNo) == 1)
+        {
+            if (m_pclApp->GetPowerManager()->IsPowerWarOn() == 0)
+            {
+                guild->SetPowerSide(0);
+                guild->SetPowerSecedeTime((unsigned int)time(0));
+                CServerInterface* gs = user->GetGameServer();
+                guild->DBSavePowerSecedeTime(gs->GetGroupNo(),
+                                             m_pclApp->Get_ServerHandler());
+                guild->SendGuildInfoToMembers(false);
+                user->SendToGameserver((char*)&reply, 0x17);
+            }
+            else
+            {
+                CMyFileLog log("OnPacketSecedePower", 0x12db);
+                log("./log/Power",
+                    "CPacketTranslater::OnPacketSecedePower : %d power war on(g:%d)", charNo,
+                    guildKey);
+                *(unsigned int*)((char*)&reply + 0xa) = 0x7f;
+                user->SendToGameserver((char*)&reply, 0x17);
+            }
+        }
+        else
+        {
+            CMyFileLog log("OnPacketSecedePower", 0x12d1);
+            log("./log/Power",
+                "CPacketTranslater::OnPacketSecedePower : %d is not guild master or sub master(g:%d)",
+                charNo, guildKey);
+            *(unsigned int*)((char*)&reply + 0xa) = 0x56;
+            user->SendToGameserver((char*)&reply, 0x17);
+        }
+        return;
+    }
+    CMyFileLog log("OnPacketSecedePower", 0x12c8);
+    log("./log/Power",
+        "CPacketTranslater::OnPacketSecedePower : %d did not join power side(g:%d)", charNo,
+        guildKey);
+    *(unsigned int*)((char*)&reply + 0xa) = 0x82;
+    user->SendToGameserver((char*)&reply, 0x17);
+}
+
+void CPacketTranslater::OnDBMWGuildJoin(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnReplyGuildInvite : 0 == m_pclApp");
+    char* pb = (char*)pkt;
+    CUser* joinUser = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0x12));
+    if (joinUser == 0)
+    {
+        CMyFileLog log("OnDBMWGuildJoin", 0x9d8);
+        log("./log/GuildModify", "CPacketTranslater::OnDBMWGuildJoin() 0 == pclJoinUser");
+    }
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xa));
+    if (guild == 0)
+    {
+        CMyFileLog log("OnDBMWGuildJoin", 0x9dc);
+        log("./log/GuildModify", "CPacketTranslater::OnDBMWGuildJoin() 0 == pclGuild");
+    }
+    if (*(int*)(pb + 0x16) == 0)
+    {
+        GuildJoin(guild, joinUser, *(unsigned int*)(pb + 0xe));
+    }
+    else
+    {
+        CUser* caller = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe));
+        if (caller != 0)
+        {
+            Packet_Guild_Reply_Guild_Invite_To_Caller callerPkt;
+            *(unsigned int*)((char*)&callerPkt + 0xa) = *(unsigned int*)(pb + 0xe);
+            *(unsigned int*)((char*)&callerPkt + 0xe) = caller->GetIdByChannel();
+            *(unsigned int*)((char*)&callerPkt + 0x12) = *(unsigned int*)(pb + 0x16);
+            caller->SendToGameserver((char*)&callerPkt, 0x34);
+        }
+        if (joinUser != 0)
+        {
+            Packet_Guild_Reply_Guild_Invite_To_Invited invitedPkt;
+            *(unsigned int*)((char*)&invitedPkt + 0xa) = *(unsigned int*)(pb + 0x12);
+            *(unsigned int*)((char*)&invitedPkt + 0xe) = joinUser->GetIdByChannel();
+            *(unsigned int*)((char*)&invitedPkt + 0x12) = *(unsigned int*)(pb + 0x16);
+            joinUser->SendToGameserver((char*)&invitedPkt, 0x16);
+        }
+    }
+}
+
+void CPacketTranslater::OnRequestGuildCreate(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnRequestGuildCreate", 0x10d8);
+        log("./log/GuildModify", "CPacketTranslater::OnRequestGuildCreate : 0 == m_pclApp");
+        return;
+    }
+    unsigned int charNo = *(unsigned int*)(pb + 0xa);
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnRequestGuildCreate", 0x10df);
+        log("./log/GuildModify", "CPacketTranslater::OnRequestGuildCreate : 0 == pclUser");
+        return;
+    }
+    Packet_Reply_Guild_Create reply;
+    *(unsigned int*)((char*)&reply + 0xa) = charNo;
+    *(unsigned int*)((char*)&reply + 0xe) = user->GetIdByChannel();
+    if (user->GetGuildKey() != 0)
+    {
+        *(unsigned int*)((char*)&reply + 0x12) = 0x20;
+        user->SendToGameserver((char*)&reply, 0x2d);
+        return;
+    }
+    if (user->GetGameServer() == 0)
+    {
+        *(unsigned int*)((char*)&reply + 0x12) = 1;
+        user->SendToGameserver((char*)&reply, 0x2d);
+        return;
+    }
+    Packet_DBMW_Request_Guild_Create dbPkt;
+    *(unsigned char*)((char*)&dbPkt + 0xa) = user->GetGameServer()->GetGroupNo();
+    *(unsigned int*)((char*)&dbPkt + 0xb) = user->GetDBID();
+    *(unsigned int*)((char*)&dbPkt + 0xf) = user->GetUniqCharNo();
+    memcpy((char*)&dbPkt + 0x13, user->GetCharName(), 0x1d);
+    *(unsigned char*)((char*)&dbPkt + 0x31) = user->GetJob();
+    *(unsigned char*)((char*)&dbPkt + 0x32) = user->GetGrowthType();
+    *(unsigned char*)((char*)&dbPkt + 0x33) = user->GetLevel();
+    *(unsigned char*)((char*)&dbPkt + 0x34) = user->GetSex();
+    memcpy((char*)&dbPkt + 0x35, user->GetSsn(), 2);
+    memcpy((char*)&dbPkt + 0x38, pb + 0xe, 0x16);
+    memcpy((char*)&dbPkt + 0x4f, pb + 0x25, 0xc);
+    m_pclApp->Get_ServerHandler()->GetDBServer()->SendToServer((char*)&dbPkt, 0x5c);
 }
 
 #undef STUB_HANDLER

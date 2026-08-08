@@ -176,12 +176,12 @@ struct STPowerWarCharacInfo
 struct STGuildRank
 {
     STGuildRank();
-    char m_data[0x10];
+    char m_data[8];   // {guildKey@0, point@4}
 };
 struct STUserRank
 {
     STUserRank();
-    char m_data[0x10];
+    char m_data[8];   // {charNo@0, point@4}
 };
 struct STDBSavePowerWarPoint
 {
@@ -645,8 +645,8 @@ public:
     void AddItem(DnfItemInfo& info, int slot, int count);
     int InsertItem(DnfItemInfo& info, int& slot, int count, unsigned char a, int b);
     int DeleteItem(DnfItemInfo& info, int slot, int count, unsigned char a, int b, int c);
-    void MoveItem(DnfItemInfo& info, DnfItemInfo& info2, int a, int b, int c, int d, int e);
-    int CheckInsertItem(int slot, int count, int a, unsigned char b, int c);
+    int MoveItem(DnfItemInfo& info, DnfItemInfo& info2, int a, int b, int c, int d, int e);
+    int CheckInsertItem(int itemId, int count, int slot, unsigned char stackable, int maxStack);
     void SendGuildCargo(CUser* user);
     void GetHistory(STGuildCargoLog* out);
     void InsertHistory(ENUM_GUILD_CARGO_BEHAVIOR behavior, int slot, const char* name,
@@ -773,7 +773,7 @@ public:
     void MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Point_Reward* pkt);
     int GetPowerWarPointDBSaveCount();
     void GetAllGuildRankingInfo(int& count, STGuildRank* rank);
-    char m_data[0x34];
+    char m_data[0x30];   // vptr@0 + map@+4(0x14) + vector@+0x1c(0xc) + vector@+0x28(0xc) = 0x34
 };
 
 class CPowerWarCharacInfo
@@ -798,7 +798,7 @@ public:
     int GetBonus(Packet_DB_Save_Power_War_Bonus_Point& pkt);
     int GetBonus(int idx);
     void CalcBonus();
-    char m_data[0x20];
+    char m_data[0x2c];   // vptr@0 + map@+4(0x14) + vector@+0x1c(0xc) + list@+0x28(8) = 0x30
 };
 
 // ---- CPowerWarConfig ----
