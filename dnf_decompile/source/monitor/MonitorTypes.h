@@ -200,9 +200,12 @@ class CIPCounter
 {
 public:
     CIPCounter();
-    virtual ~CIPCounter();
+    ~CIPCounter();
     void Init(CServerHandler* handler);
     void Proc(unsigned int tick);
+    void setOption(unsigned char type, unsigned char opt);
+    void setLoadTerm(unsigned char term);
+    void setMinIPCount(unsigned char count);
     char m_data[0x14];
 };
 
@@ -423,6 +426,7 @@ public:
     void UnregistManagerServer();
     void SendAllTcpGameServer(PacketHeader* pkt);
     void SendAllToGameServer(char* buf, int len);
+    void SendDBMWRequestARSInfo(unsigned char flag);
     CTcpManagerServer* GetTcpManagerServer();
     CTcpDBServer* GetTcpDBServer();
     void SendToDB(PacketHeader* pkt);
@@ -1216,6 +1220,7 @@ public:
     void OnRewardEnd();
     char IsCurState(int state);
     void ChangeState(int state);
+    void SetEventIdx(unsigned int idx);
     void UpdateEventIdx();
     unsigned int GetEvent_Idx();
     void Clear();
@@ -1716,6 +1721,29 @@ public:
     unsigned char m_fieldE;      // +14
     unsigned char m_fieldF;      // +15
     char m_data[5];              // +16
+};
+
+class Packet_Monitor_User_Repel : public PacketHeader
+{
+public:
+    Packet_Monitor_User_Repel();
+    unsigned int m_idByChannel;  // +10
+};
+
+class Packet_Change_User_Handicap : public PacketHeader
+{
+public:
+    Packet_Change_User_Handicap();
+    unsigned int m_fieldA;  // +10
+    unsigned int m_fieldE;  // +14
+    unsigned int m_field12; // +18
+};
+
+class Packet_Web_Request_ARS_Info : public PacketHeader
+{
+public:
+    Packet_Web_Request_ARS_Info();
+    unsigned char m_flag;  // +10
 };
 
 class Packet_Arad_ApplyEffect : public PacketHeader

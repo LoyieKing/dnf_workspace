@@ -6,6 +6,7 @@
 #include "Thread.h"
 #include "DNFFunctionLib.h"
 #include "Packet_Monitor_Member_Secede.h"
+#include "Packet_GM_Request_Mid.h"
 
 #include <fcntl.h>
 #include <cerrno>
@@ -726,6 +727,54 @@ CIPCounter::CIPCounter() {}
 CIPCounter::~CIPCounter() {}
 void CIPCounter::Init(CServerHandler* handler) {}
 void CIPCounter::Proc(unsigned int tick) {}
+void CIPCounter::setLoadTerm(unsigned char term)
+{
+    unsigned int v = (unsigned int)term * 0x3c;
+    if (0x2a30 < v)
+    {
+        v = 0x2a30;
+    }
+    *(unsigned int*)((char*)this + 0xc) = v;
+    v = *(unsigned int*)((char*)this + 0xc);
+    if (v < 0x708)
+    {
+        v = 0x708;
+    }
+    *(unsigned int*)((char*)this + 0xc) = v;
+}
+void CIPCounter::setMinIPCount(unsigned char count)
+{
+    if (200 < count)
+    {
+        count = 200;
+    }
+    *(unsigned char*)this = count;
+}
+void CIPCounter::setOption(unsigned char type, unsigned char opt)
+{
+    if (type == 0)
+    {
+        setLoadTerm(opt);
+    }
+    else if (type == 1)
+    {
+        setMinIPCount(opt);
+    }
+    else if (type == 2)
+    {
+        *(unsigned char*)((char*)this + 0x10) = 1;
+        *(unsigned int*)((char*)this + 8) = 0;
+        *(unsigned int*)((char*)this + 4) = 0;
+    }
+    else if (type == 3)
+    {
+        *(unsigned char*)((char*)this + 0x10) = 0;
+    }
+    else if (type == 4)
+    {
+        *(unsigned char*)((char*)this + 0x11) = 0;
+    }
+}
 
 CItemLimitEditionMgr::CItemLimitEditionMgr() {}
 CItemLimitEditionMgr::~CItemLimitEditionMgr() {}
@@ -1318,6 +1367,12 @@ void CServerHandler::UnregistManagerServer()
 }
 void CServerHandler::SendAllTcpGameServer(PacketHeader* pkt) {}
 void CServerHandler::SendAllToGameServer(char* buf, int len) {}
+void CServerHandler::SendDBMWRequestARSInfo(unsigned char flag)
+{
+    Packet_Web_Request_ARS_Info pkt;
+    pkt.m_flag = flag;
+    SendToDB(&pkt);
+}
 CTcpManagerServer* CServerHandler::GetTcpManagerServer() { return &m_tcpManagerServer; }
 CTcpDBServer* CServerHandler::GetTcpDBServer() { return &m_tcpDbServer; }
 void CServerHandler::SendToDB(PacketHeader* pkt) {}
@@ -4805,12 +4860,101 @@ void CPacketTranslater::OnAddBuddyDBReply(PacketHeader* pkt) {}
 void CPacketTranslater::OnDelBuddy(PacketHeader* pkt) {}
 void CPacketTranslater::OnDelBuddyDBReply(PacketHeader* pkt) {}
 void CPacketTranslater::OnQueryBuddyInfoDBReply(PacketHeader* pkt) {}
-void CPacketTranslater::OnWebChangeUserHandicap(PacketHeader* pkt) {}
-void CPacketTranslater::OnGMRequestMid(PacketHeader* pkt) {}
-void CPacketTranslater::OnUserRepelByCharName(PacketHeader* pkt) {}
+void CPacketTranslater::OnWebChangeUserHandicap(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnWebChangeUserHandicap", 0x1127);
+        log("./log/hack", "CPacketTranslater::OnWebChangeUserHandicap : 0 == m_pclApp");
+    }
+    else
+    {
+        CUser* user =
+            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
+                *(unsigned int*)((char*)pkt + 0xa));
+        if (user != 0)
+        {
+            Packet_Change_User_Handicap reply;
+            reply.m_fieldA = *(unsigned int*)((char*)pkt + 0xa);
+            reply.m_fieldE = *(unsigned int*)((char*)pkt + 0xe);
+            reply.m_field12 = *(unsigned int*)((char*)pkt + 0x12);
+            user->SendToGameserver((char*)&reply, *(unsigned short*)((char*)&reply + 2));
+        }
+    }
+}
+void CPacketTranslater::OnGMRequestMid(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGMRequestMid", 0x113c);
+        log("./log/Except", "CPacketTranslater::OnGMRequestMid : 0 == m_pclApp");
+    }
+    else
+    {
+        CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+        CUser* user = userMgr->FindUser(*(unsigned int*)((char*)pkt + 0xa));
+        if (user != 0)
+        {
+            Packet_GM_Request_Mid reply;
+            *(unsigned int*)((char*)&reply + 0xa) = *(unsigned int*)((char*)pkt + 0xa);
+            memcpy((char*)&reply + 0x16, (char*)pkt + 0x16, 0x1d);
+            CUser* target = userMgr->FindUser_CharName((char*)pkt + 0x16);
+            if (target == 0)
+            {
+                *(unsigned int*)((char*)&reply + 0xe) = 0xffffffff;
+            }
+            else
+            {
+                *(unsigned int*)((char*)&reply + 0x12) = target->GetUniqCharNo();
+                *(unsigned int*)((char*)&reply + 0xe) = target->GetDBID();
+            }
+            user->SendToGameserver((char*)&reply, *(unsigned short*)((char*)&reply + 2));
+        }
+    }
+}
+void CPacketTranslater::OnUserRepelByCharName(PacketHeader* pkt)
+{
+    if (m_pclApp != 0)
+    {
+        CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+        CUser* user = userMgr->FindUser(*(unsigned int*)((char*)pkt + 0xa));
+        if (user != 0)
+        {
+            Packet_Monitor_User_Repel reply;
+            CUser* target = userMgr->FindUser_CharName((char*)pkt + 0x12);
+            if (target != 0)
+            {
+                reply.m_idByChannel = target->GetIdByChannel();
+                target->SendToGameserver((char*)&reply, 0x12);
+            }
+        }
+        return;
+    }
+    throw CDNFException("CPacketTranslater::OnUserRepel : 0 == m_pclApp");
+}
 void CPacketTranslater::onReplyLoadTowerFullRank(PacketHeader* pkt) {}
-void CPacketTranslater::onRequestCharacTowerUpdateRank(PacketHeader* pkt) {}
-void CPacketTranslater::onRequestReloadTowerRanker(PacketHeader* pkt) {}
+void CPacketTranslater::onRequestCharacTowerUpdateRank(PacketHeader* pkt)
+{
+    CUser* user =
+        ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
+            *(unsigned int*)((char*)pkt + 0xe));
+    if (user != 0)
+    {
+        unsigned int a = *(unsigned int*)((char*)pkt + 0x16);
+        unsigned int b = *(unsigned int*)((char*)pkt + 0xe);
+        char* name = user->GetCharName();
+        unsigned int c = *(unsigned int*)((char*)pkt + 0x12);
+        CTowerRank* tower = (CTowerRank*)m_pclApp->getTowerRank();
+        tower->registCharacRank(c, name, b, a);
+    }
+}
+void CPacketTranslater::onRequestReloadTowerRanker(PacketHeader* pkt)
+{
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    CTowerRank* tower = (CTowerRank*)m_pclApp->getTowerRank();
+    tower->processReloadRanking(handler, true, 5);
+    handler->SendAllToGameServer((char*)pkt, 10);
+}
 void CPacketTranslater::onWebReqReloadAutoPunishRule(PacketHeader* pkt)
 {
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
@@ -4893,7 +5037,19 @@ void CPacketTranslater::onLoadPunishUserReq(PacketHeader* pkt)
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, 0x4bd);
 }
-void CPacketTranslater::onIPCounterControl(PacketHeader* pkt) {}
+void CPacketTranslater::onIPCounterControl(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::onIPCounterControl : 0 == m_pclApp");
+    }
+    CMyFileLog log("onIPCounterControl", 0x1448);
+    log("./log/Secu", "IPCounterControl - type : %d, value : %d ",
+        (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xa),
+        (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xb));
+    CIPCounter* counter = (CIPCounter*)m_pclApp->getIPCounter();
+    counter->setOption(*(unsigned char*)((char*)pkt + 0xa), *(unsigned char*)((char*)pkt + 0xb));
+}
 void CPacketTranslater::onItemLimitEditionLoadDataReq(PacketHeader* pkt) {}
 void CPacketTranslater::onItemLimitEditionLoadDataRpy(PacketHeader* pkt) {}
 void CPacketTranslater::onItemLimitEditionSellEnd(PacketHeader* pkt) {}
@@ -5017,7 +5173,20 @@ void CPacketTranslater::OnMonitorFullLevelBroadCast(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnSetARSInfo(PacketHeader* pkt) {}
-void CPacketTranslater::OnWebRequestARSInfo(PacketHeader* pkt) {}
+void CPacketTranslater::OnWebRequestARSInfo(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnWebRequestARSInfo : 0 == m_pclApp");
+    }
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    if (handler != 0)
+    {
+        CMyFileLog log("OnWebRequestARSInfo", 0x181d);
+        log("./log/Secu", "[ARS_INFO] Web -> Monitor -> DBMW");
+        handler->SendDBMWRequestARSInfo(*(unsigned char*)((char*)pkt + 0xa));
+    }
+}
 void CPacketTranslater::OnCheckOverlappedAccusation(PacketHeader* pkt) {}
 void CPacketTranslater::OnGameServerRegist(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoCache(PacketHeader* pkt) {}
@@ -5032,7 +5201,17 @@ void CPacketTranslater::OnLoadPeriodicMessage(PacketHeader* pkt)
     log("./log/PeriodicMessage", "Web Request is Arrived and Send Request DBMW");
 }
 void CPacketTranslater::OnResultLoadPeriodicMessage(PacketHeader* pkt) {}
-void CPacketTranslater::OnRegisterEventIdx(PacketHeader* pkt) {}
+void CPacketTranslater::OnRegisterEventIdx(PacketHeader* pkt)
+{
+    unsigned int idx = *(unsigned int*)((char*)pkt + 0xa);
+    CMyFileLog log("OnRegisterEventIdx", 0x1a15);
+    log("./log/OnTimeEvent", "OnRegisterEventIdx:result =%d, Eventidx =%d",
+        (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe), idx);
+    if (*(char*)((char*)pkt + 0xe) != 0)
+    {
+        ((COnTimeEventManager*)*(void**)((char*)m_pclApp + 800))->SetEventIdx(idx);
+    }
+}
 void CPacketTranslater::OnRegisterEventUserIdx(PacketHeader* pkt) {}
 void CPacketTranslater::OnRegisterEventItem(PacketHeader* pkt) {}
 void CPacketTranslater::OnResultRegisterEventIdx(PacketHeader* pkt) {}
@@ -5907,6 +6086,11 @@ COnTimeEventManager::~COnTimeEventManager() {}
 void COnTimeEventManager::AttachApp(CApplication* app) {}
 char COnTimeEventManager::IsCurState(int state) { return 0; }
 void COnTimeEventManager::ChangeState(int state) {}
+void COnTimeEventManager::SetEventIdx(unsigned int idx)
+{
+    m_field30 = (int)idx;
+    m_field34 = 1;
+}
 void COnTimeEventManager::UpdateEventIdx() {}
 unsigned int COnTimeEventManager::GetEvent_Idx() { return 0; }
 void COnTimeEventManager::Clear() {}
@@ -6246,6 +6430,12 @@ Packet_SecuService_Connect_Web::Packet_SecuService_Connect_Web()
     m_fieldF = 0;
     memset(m_data, 0, 5);
 }
+
+Packet_Monitor_User_Repel::Packet_Monitor_User_Repel() : PacketHeader(0x4c1, 0x12) {}
+
+Packet_Change_User_Handicap::Packet_Change_User_Handicap() : PacketHeader(0x3f7, 0x16) {}
+
+Packet_Web_Request_ARS_Info::Packet_Web_Request_ARS_Info() : PacketHeader(0xb62, 0xb) {}
 
 Packet_Arad_ApplyEffect::Packet_Arad_ApplyEffect(int group, int code, unsigned int time)
     : PacketHeader(0x27f9, 0x16)

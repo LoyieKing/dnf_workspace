@@ -494,6 +494,16 @@ void* CApplication::GetGMAccounts()
     return m_field2cc;
 }
 
+void* CApplication::getIPCounter()
+{
+    return m_ipCounter;
+}
+
+void* CApplication::getTowerRank()
+{
+    return m_towerRank;
+}
+
 char CApplication::Send_Term_Signal(const std::string& file)
 {
     std::string path = "./pid/" + file;

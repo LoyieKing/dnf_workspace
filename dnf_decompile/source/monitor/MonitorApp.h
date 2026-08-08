@@ -75,6 +75,8 @@ public:
     void Call_ResetUserMemberInfo(unsigned int key);
     unsigned char Get_ServerGroup();
     void* GetGMAccounts();
+    void* getIPCounter();
+    void* getTowerRank();
 
     bool m_loaded;                      // +4
     int m_reserved8;                    // +8
