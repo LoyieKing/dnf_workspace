@@ -68,6 +68,7 @@ public:
     void TranslateSignal();
     int AddAccusationCharac(const std::string& a, const std::string& b, int c, char type);
     void ClearAccusationList();
+    void Add_GM_id(unsigned int id);
     void Call_DeleteMember(unsigned int key, CUser* user);
     void Call_ResetBlackList(unsigned int charNo);
     void Call_ResetBuddyList(unsigned int charNo);

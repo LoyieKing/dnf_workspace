@@ -655,6 +655,16 @@ void CApplication::ClearAccusationList()
     m_map350.clear();
 }
 
+void CApplication::Add_GM_id(unsigned int id)
+{
+    std::map<unsigned int, std::list<unsigned int> >::iterator it = m_map368.find(id);
+    if (it == m_map368.end())
+    {
+        std::list<unsigned int> l;
+        m_map368.insert(std::pair<const unsigned int, std::list<unsigned int> >(id, l));
+    }
+}
+
 void CApplication::Call_DeleteMember(unsigned int key, CUser* user)
 {
 }
