@@ -85,6 +85,10 @@ struct RandomOption;
 struct STGuildCargoDBInfo;
 struct STGuildCargoLog;
 struct STGuildBoardDBInfo;
+struct STTodayGuildMember
+{
+    char m_data[0x30];
+};
 
 // ---- CScheduler：0x8 ----
 class CScheduler
@@ -492,8 +496,10 @@ public:
     CScheduler m_scheduler;       // +0x1c
     unsigned char m_field40;      // +0x40
     CGuildWar m_guildWar;         // +0x44
-    int m_field70[0x2c / 4];      // +0x70
-    char m_rest[0x8c];            // +0x9c-0xe0
+    std::map<unsigned int, STTodayGuildMember> m_todayMembers;  // +0x58
+    char m_time1[0x2c];           // +0x70
+    std::map<unsigned int, std::vector<unsigned int> > m_attendance;  // +0x9c
+    char m_time2[0x2c];           // +0xb4
 };
 
 // ---- CPowerWarGuildInfo / CPowerWarCharacInfo ----

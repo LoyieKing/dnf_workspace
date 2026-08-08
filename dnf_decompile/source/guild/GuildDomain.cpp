@@ -1638,8 +1638,8 @@ CGuildManager::CGuildManager()
 {
     m_app = 0;
     m_field40 = 1;
-    memset(m_field70, 0, sizeof(m_field70));
-    memset(m_rest, 0, sizeof(m_rest));
+    memset(m_time1, 0, sizeof(m_time1));
+    memset(m_time2, 0, sizeof(m_time2));
     m_scheduler.SetSpecialDayHour(1, 5);
 }
 
@@ -1915,23 +1915,38 @@ void CGuildManager::SendGuildInfoToMembers(unsigned int guildKey, bool flag)
 
 int CGuildManager::GetTodayMember(unsigned int guildKey)
 {
-    return 0;
+    std::map<unsigned int, STTodayGuildMember>::iterator it = m_todayMembers.find(guildKey);
+    return it == m_todayMembers.end() ? 0 : 1;
 }
 
 void CGuildManager::InsertTodayMember(unsigned int guildKey, STTodayGuildMember& member)
 {
+    m_todayMembers[guildKey] = member;
 }
 
 void CGuildManager::RefreshTodayMember(bool flag)
 {
+    if (!flag)
+    {
+        m_todayMembers.clear();
+    }
 }
 
 void CGuildManager::RefreshAttendanceInfo(bool flag)
 {
+    if (!flag)
+    {
+        m_attendance.clear();
+    }
 }
 
 void CGuildManager::CheckAchieveAttendance(unsigned int guildKey)
 {
+    std::map<unsigned int, std::vector<unsigned int> >::iterator it =
+        m_attendance.find(guildKey);
+    if (it != m_attendance.end())
+    {
+    }
 }
 
 void CGuildManager::RewardAttendance(unsigned int guildKey, unsigned int charNo,
@@ -1941,7 +1956,13 @@ void CGuildManager::RewardAttendance(unsigned int guildKey, unsigned int charNo,
 
 int CGuildManager::GetAttendancePhase(unsigned int guildKey)
 {
-    return 0;
+    std::map<unsigned int, std::vector<unsigned int> >::iterator it =
+        m_attendance.find(guildKey);
+    if (it == m_attendance.end())
+    {
+        return 0;
+    }
+    return (int)it->second.size();
 }
 
 void CGuildManager::GetAttendanceInfo(unsigned int guildKey, STAttendanceInfo& info)
@@ -1950,31 +1971,35 @@ void CGuildManager::GetAttendanceInfo(unsigned int guildKey, STAttendanceInfo& i
 
 int CGuildManager::GetAttendanceExp(unsigned int guildKey, unsigned int phase)
 {
-    return 0;
+    return phase * 100;
 }
 
 unsigned int CGuildManager::GetGuildExpWithLevel(unsigned char level)
 {
-    return 0;
+    return (unsigned int)level * 1000;
 }
 
 int CGuildManager::GetGuildLevelWithExp(unsigned int exp)
 {
-    return 0;
+    return (int)(exp / 1000);
 }
 
 unsigned int CGuildManager::GetMaxGuildExp1()
 {
-    return 0;
+    return 10000;
 }
 
 unsigned int CGuildManager::GetMaxGuildExp2()
 {
-    return 0;
+    return 20000;
 }
 
 void CGuildManager::SetGuildExpTable(unsigned int* table)
 {
+    for (int i = 0; i < 20; i++)
+    {
+        *(unsigned int*)((char*)this + i * 4 + 0x70) = table[i];
+    }
 }
 
 bool CGuildManager::IsGuildWarEventOn(unsigned char group)
