@@ -237,6 +237,8 @@ public:
     ~CBuddyHandle();
     int addDB(CServerHandler* handler, char* name);
     int delDB(CServerHandler* handler, char* name);
+    void setBuddyCharName(int charNo, const std::string& newName);
+    int add(std::string name, CBuddy* buddy);
     std::map<std::string, CBuddy*> m_buddies;  // +0
     CUser* m_prUser;                           // +0x18
     unsigned short m_field1c;                  // +0x1c

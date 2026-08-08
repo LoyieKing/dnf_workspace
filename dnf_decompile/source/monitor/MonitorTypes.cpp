@@ -962,6 +962,25 @@ int CBuddyHandle::delDB(CServerHandler* handler, char* name)
     }
     return -1;
 }
+void CBuddyHandle::setBuddyCharName(int charNo, const std::string& newName)
+{
+    for (std::map<std::string, CBuddy*>::iterator it = m_buddies.begin();
+         it != m_buddies.end(); ++it)
+    {
+        if (it->second != 0 &&
+            charNo == *(int*)((char*)it->second->getBuddyDBInfo() + 0x22))
+        {
+            CBuddy* buddy = it->second;
+            m_buddies.erase(it);
+            m_buddies.insert(std::pair<const std::string, CBuddy*>(newName, buddy));
+            break;
+        }
+    }
+}
+int CBuddyHandle::add(std::string name, CBuddy* buddy)
+{
+    return 0;
+}
 void CBlackUser::ChangeCharName(char* name) {}
 
 CExchangeServer::CExchangeServer() {}
