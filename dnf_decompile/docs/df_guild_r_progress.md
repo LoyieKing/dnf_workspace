@@ -113,6 +113,13 @@
   CGuildWar 容器构造+Insert/GetGuildWarInfo、CGuild 成员代理/变更信息/超链接广播、
   CPacketTranslater GuildJoin×2/邮件/黑名单、CPowerWarGuildInfo 容器+MakePacket、
   CPacketCounter 扩容 AfterProcess(int)、27 个 allocator 显式实例化
+- 2026-08-08 第五批（**CPacketTranslater 全部 117 个处理器真实现，0 桩**）：
+  仓库 Move/Upgrade/CheckPush/查询/历史、权力战配置/启停/增减分/排名、
+  公告板读写删/Web 公告板、黑名单族、公会战、建会/退会/改名/备忘录/资金/
+  今日成员/审批入会/GM 列表/出勤调试/内部登入登出/GameServer 注册 等；
+  底层同步补齐 CGuildManager::GuildSecede、CGuild::ChangeGuildMemberCharName、
+  CServerHandler::Load/CreateTcpGameServer/RegistGameServer、CGuildBoard 全族、
+  PowerWar 排名容器、CGuildCargo Move/Check 等
 - 2026-08-08 第三批：OnMonitorSendGuildLetter/OnDBMWReplySendGuildLetter 真实现
   （邮件流程 + 0x24/0x22/1 错误码应答），**修复 SendPacketGuildMail 字段错位
   （charNo→+0xa、guildId→+0xf，原实现写反且偏移错）**；GetFrameCountInfo 真实现

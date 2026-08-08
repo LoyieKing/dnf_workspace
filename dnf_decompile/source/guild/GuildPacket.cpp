@@ -610,13 +610,6 @@ void CPacketTranslater::OnNoticeGuildMarkChange(PacketHeader* pkt)
     }
 }
 
-STUB_HANDLER(OnInnerPacketLogin)
-STUB_HANDLER(OnInnerPacketLogout)
-STUB_HANDLER(OnGuildApplyOriginalPowerSide)
-STUB_HANDLER(OnGameServerRegist)
-STUB_HANDLER(OnGuildAttendanceInfo)
-STUB_HANDLER(OnGuildDebug)
-
 void CPacketTranslater::OnCallGuildInvite(PacketHeader* pkt)
 {
     THROW_IF_NO_APP("CPacketTranslater::OnMonitorSendGuildLetter : 0 == m_pclApp");
@@ -4285,6 +4278,234 @@ void CPacketTranslater::OnRenew_GM_List(PacketHeader* pkt)
             gm->AppendGM_Sys(*(unsigned int*)(pb + i * 4 + 0xc), (char)pb[i + 0x5c]);
         }
     }
+}
+
+void CPacketTranslater::OnGuildAttendanceInfo(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGuildAttendanceInfo", 0x200e);
+        log("./log/Guild", "CPacketTranslater::OnGuildAttendanceInfo : 0 == m_pclApp");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnGuildAttendanceInfo", 0x2014);
+        log("./log/Guild", "CPacketTranslater::OnGuildAttendanceInfo : 0 == pGuild");
+        return;
+    }
+    unsigned int charNo = *(unsigned int*)(pb + 0xe);
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnGuildAttendanceInfo", 0x201a);
+        log("./log/Guild", "CPacketTranslater::OnGuildAttendanceInfo : 0 == pUser");
+        return;
+    }
+    Packet_Guild_Attendance_Info_Reply reply;
+    *(unsigned int*)((char*)&reply + 0xa) = user->GetUniqCharNo();
+    *(unsigned int*)((char*)&reply + 0xe) = user->GetIdByChannel();
+    *(unsigned char*)((char*)&reply + 0x12) = *(unsigned char*)(pb + 0x12);
+    STAttendanceInfo info;
+    m_pclApp->Get_GuildManager()->GetAttendanceInfo(guildKey, info);
+    memcpy((char*)&reply + 0x16, &info, sizeof(STAttendanceInfo));
+    user->SendToGameserver((char*)&reply, 0x2f);
+}
+
+void CPacketTranslater::OnGuildDebug(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGuildDebug", 0x2040);
+        log("./log/Guild", "CPacketTranslater::OnGuildDebug : 0 == m_pclApp");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnGuildDebug", 0x2046);
+        log("./log/Guild", "CPacketTranslater::OnGuildDebug : 0 == pGuild");
+        return;
+    }
+    unsigned int charNo = *(unsigned int*)(pb + 0xe);
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnGuildDebug", 0x204c);
+        log("./log/Guild", "CPacketTranslater::OnGuildDebug : 0 == pUser");
+    }
+    else if (*(int*)(pb + 0x12) == 0)
+    {
+        m_pclApp->Get_GuildManager()->RefreshAttendanceInfo(true);
+    }
+    else if (*(int*)(pb + 0x12) == 1)
+    {
+        m_pclApp->Get_GuildManager()->RefreshTodayMember(true);
+    }
+}
+
+void CPacketTranslater::OnInnerPacketLogin(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnInnerPacketLogin", 0x1455);
+        log("./log/Except", "CPacketTranslater::OnInnerPacketLogin : 0 == m_pclApp");
+        return;
+    }
+    CServerHandler* handler = m_pclApp->Get_ServerHandler();
+    if (handler->GetTcpDBServer()->GetSock() == *(int*)(pb + 6))
+    {
+        handler->GetTcpDBServer()->Connected();
+    }
+    else
+    {
+        CTcpGameServer* tgs = handler->CreateTcpGameServer(*(unsigned int*)(pb + 6));
+        if (tgs != 0)
+        {
+            char* buf = tgs->makePacketHeader(8000, 0xc);
+            if (buf != 0)
+            {
+                buf[10] = 1;
+                buf[11] = m_pclApp->Get_ServerGroup();
+                tgs->SendToGameServer(buf);
+            }
+            char* buf2 = tgs->makePacketHeader(0x3ea, 0xb);
+            if (buf2 != 0)
+            {
+                buf2[10] = 0xcb;
+                tgs->SendToGameServer(buf2);
+            }
+        }
+    }
+}
+
+void CPacketTranslater::OnInnerPacketLogout(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnInnerPacketLogout", 0x149e);
+        log("./log/Except", "CPacketTranslater::OnInnerPacketLogout : 0 == m_pclApp");
+        return;
+    }
+    CServerHandler* handler = m_pclApp->Get_ServerHandler();
+    if (handler->GetTcpDBServer()->GetSock() == *(int*)(pb + 6))
+    {
+        handler->GetTcpDBServer()->DisConnected();
+    }
+    else
+    {
+        unsigned int group = *(unsigned int*)(pb + 6);
+        CTcpGameServer* tgs = m_pclApp->FindTcpGameServer(group);
+        m_pclApp->OnTcpGameServerDown(tgs);
+        unsigned char ch = tgs->GetChannelNo();
+        if (ch != 0)
+        {
+            m_pclApp->Get_ServerHandler()->UnregistGameServer((unsigned int)ch);
+        }
+        m_pclApp->Get_ServerHandler()->DeleteTcpGameServer(group);
+    }
+}
+
+void CPacketTranslater::OnGameServerRegist(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    stServerInfo info;
+    memset(&info, 0, sizeof(info));
+    info.m_group = (unsigned char)pb[0xb];
+    info.m_field1 = (unsigned char)pb[0xc];
+    info.m_field2 = (unsigned char)pb[10];
+    *(unsigned short*)((char*)&info + 0x14) = *(unsigned short*)(pb + 0x1d);
+    strncpy(info.m_name, pb + 0xd, 0x10);
+    CServerHandler* handler = m_pclApp->Get_ServerHandler();
+    CTcpGameServer* tgs = handler->GetTcpGameServer(*(unsigned int*)(pb + 6));
+    if (tgs != 0)
+    {
+        CMyFileLog log("OnGameServerRegist", 0x1ec6);
+        log("./log/GameServer", "Get Packet - OnGameServerRegist from Channel:%d",
+            (unsigned int)(unsigned char)info.m_field1);
+        if (tgs->GetChannelNo() == 0)
+        {
+            char* reply = tgs->makePacketHeader(0x1f42, 0xc);
+            if (reply != 0)
+            {
+                if (handler->RegistGameServer(&info) == 1)
+                {
+                    tgs->SetChannelNo((unsigned char)pb[0xc]);
+                    CGameServer* gs = handler->GetGameServer(*(unsigned int*)(pb + 6));
+                    gs->SetSocket(*(unsigned int*)(pb + 6));
+                    reply[0xb] = 0;
+                    CMyFileLog log("OnGameServerRegist", 0x1eeb);
+                    log("./log/GameServer", "Game server regist success. Channel: %d",
+                        (unsigned int)(unsigned char)info.m_field1);
+                }
+                else
+                {
+                    reply[0xb] = 1;
+                    CMyFileLog log("OnGameServerRegist", 0x1ede);
+                    log("./log/GameServer",
+                        "Game server regist failed. Channel: %d is already exist.",
+                        (unsigned int)(unsigned char)info.m_field1);
+                }
+                reply[10] = 1;
+                tgs->SendToGameServer(reply);
+            }
+        }
+    }
+}
+
+void CPacketTranslater::OnGuildApplyOriginalPowerSide(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGuildApplyOriginalPowerSide", 0x1e44);
+        log("./log/Power",
+            "CPacketTranslater::OnGuildApplyOriginalPowerSide : 0 == m_pclApp");
+        return;
+    }
+    unsigned int charNo = *(unsigned int*)(pb + 0xa);
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnGuildApplyOriginalPowerSide", 0x1e4e);
+        log("./log/Power", "CPacketTranslater::OnGuildApplyOriginalPowerSide : 0 == pclUser");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xe);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnGuildApplyOriginalPowerSide", 0x1e55);
+        log("./log/Power", "CPacketTranslater::OnGuildApplyOriginalPowerSide : 0 == pclGuild");
+        return;
+    }
+    unsigned char side = (unsigned char)pb[0x12];
+    if (!((side == 3 || side == 4) && side == guild->GetPowerSide()))
+    {
+        CMyFileLog log("OnGuildApplyOriginalPowerSide", 0x1e5d);
+        log("./log/Power",
+            "CPacketTranslater::OnGuildApplyOriginalPowerSide Guild(%d), GuildOrigPowerSide(%d), PacketPowerSide(%d)",
+            guildKey, (unsigned int)guild->GetPowerSide() & 0xff, (unsigned int)side);
+        return;
+    }
+    unsigned char newSide = side == 3 ? 1 : 2;
+    guild->SetPowerSide(newSide);
+    CServerInterface* gs = user->GetGameServer();
+    guild->DBGuildSave(gs->GetGroupNo(), m_pclApp->Get_ServerHandler(), 0);
+    guild->SendGuildInfoToMembers(false);
+    Packet_Guild_Apply_Origial_Power_Side_Reply reply;
+    *(unsigned int*)((char*)&reply + 0xa) = user->GetIdByChannel();
+    *(unsigned int*)((char*)&reply + 0xe) = charNo;
+    *(unsigned int*)((char*)&reply + 0x12) = guildKey;
+    *(unsigned char*)((char*)&reply + 0x16) = newSide;
+    user->SendToGameserver((char*)&reply, 0x17);
 }
 
 #undef STUB_HANDLER

@@ -173,9 +173,9 @@ public:
     void UnregistManagerServer();
     void RegistMonitorServer(CMonitorServer* server);
     void UnregistMonitorServer();
-    void RegistGameServer(stServerInfo* info);
+    bool RegistGameServer(stServerInfo* info);
     void UnregistGameServer(unsigned int group);
-    void CreateTcpGameServer(unsigned int group);
+    CTcpGameServer* CreateTcpGameServer(unsigned int group);
     void DeleteTcpGameServer(unsigned int group);
     void SetGameServerIpPort(unsigned char group, unsigned int port, unsigned short tcpPort);
     void QueryGuild(unsigned int group, unsigned int guildId);

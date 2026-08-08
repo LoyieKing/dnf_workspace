@@ -719,16 +719,36 @@ void CServerHandler::UnregistMonitorServer()
 {
 }
 
-void CServerHandler::RegistGameServer(stServerInfo* info)
+bool CServerHandler::RegistGameServer(stServerInfo* info)
 {
+    unsigned int group = (unsigned int)(unsigned char)info->m_field1;
+    std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.find(group);
+    if (it != m_gameServers.end())
+    {
+        return false;
+    }
+    CGameServer* gs = new CGameServer(info);
+    gs->Initialize();
+    m_gameServers.insert(std::make_pair((unsigned int)(unsigned char)info->m_field1, gs));
+    return true;
 }
 
 void CServerHandler::UnregistGameServer(unsigned int group)
 {
 }
 
-void CServerHandler::CreateTcpGameServer(unsigned int group)
+CTcpGameServer* CServerHandler::CreateTcpGameServer(unsigned int group)
 {
+    CTcpGameServer* server = new CTcpGameServer();
+    server->Init(group, m_app->Get_TcpNetSystem());
+    std::pair<std::map<unsigned int, CTcpGameServer*>::iterator, bool> result =
+        m_tcpGameServers.insert(std::make_pair(group, server));
+    if (!result.second)
+    {
+        delete server;
+        server = 0;
+    }
+    return server;
 }
 
 void CServerHandler::DeleteTcpGameServer(unsigned int group)
