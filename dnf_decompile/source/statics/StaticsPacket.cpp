@@ -153,6 +153,16 @@ Packet_DBMW_Powerwar_Lag_Report::Packet_DBMW_Powerwar_Lag_Report()
     new ((void*)this) PacketHeader(0xfb3, 0x170e);
 }
 
+PacketInsertUpdate::PacketInsertUpdate()
+{
+    new ((void*)this) PacketHeader(0x2721, 0x1018);
+}
+
+Packet_DBMW_TechnicalReport_Common_Query::Packet_DBMW_TechnicalReport_Common_Query()
+{
+    new ((void*)this) PacketHeader(0x17c5, 0x40a);
+}
+
 CInnerMsgHandler::CInnerMsgHandler()
 {
 }

@@ -182,6 +182,20 @@ public:
     char m_data[0x170e];
 };
 
+class PacketInsertUpdate
+{
+public:
+    PacketInsertUpdate();
+    char m_data[0x1018];
+};
+
+class Packet_DBMW_TechnicalReport_Common_Query
+{
+public:
+    Packet_DBMW_TechnicalReport_Common_Query();
+    char m_data[0x40a];
+};
+
 #include "Packet_P2P_Statistics.h"
 
 // ---- CInnerMsgHandler：空类 ----

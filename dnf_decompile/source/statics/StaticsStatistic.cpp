@@ -11,6 +11,7 @@
 #include "StaticsPacket.h"
 #include "StaticsProxy.h"
 #include "StaticsServer.h"
+#include "DNFFunctionLib.h"
 
 namespace global_function
 {
@@ -557,8 +558,6 @@ void StatisticManager::ResetDisjointAvatarInfoTotal()
 {
     m_disjoint.clear();
 }
-STUB_STAT(SendDBLagStatistics, (CServerHandler*, char*))
-STUB_STAT(AddMoneyLog, (MoneyLogPacket*, CServerHandler*))
 STUB_STAT(AddLagStatistics, (Packet_Stat_Lag_Statistics*))
 
 #undef STUB_STAT
@@ -2118,6 +2117,76 @@ void StatisticManager::AddLoadingTimeReportStatistics(Packet_Loading_Time_Report
                     }
                 }
             }
+        }
+    }
+}
+
+void StatisticManager::AddMoneyLog(MoneyLogPacket* pkt, CServerHandler* handler)
+{
+    PacketInsertUpdate p;
+    *(unsigned int*)((char*)&p + 0xa) = 4;
+    *(unsigned int*)((char*)&p + 0xe) = 0x4f2d;
+    unsigned int a = *(unsigned int*)((char*)pkt + 0x12);
+    unsigned int b = *(unsigned int*)((char*)pkt + 0xe);
+    char* uid = NumberToString(*(unsigned int*)((char*)pkt + 0x16), 0);
+    snprintf((char*)&p + 0x12, 0x800,
+        "inSert into log_charac_money(charac_no,occ_date,m_id,money_plus,money_minus) values(%u,cast(from_unixtime(%d) as date),%s,%u,%u)",
+        *(unsigned int*)((char*)pkt + 10), *(unsigned int*)((char*)pkt + 0x1a), uid, b, a);
+    *(unsigned int*)((char*)&p + 0x812) = 0x4f2e;
+    snprintf((char*)&p + 0x816, 0x800,
+        "update log_charac_money set money_plus=money_plus+%u,money_minus=money_minus+%u where charac_no=%u and occ_date=cast(from_unixtime(%d) as date)",
+        *(unsigned int*)((char*)pkt + 0xe), *(unsigned int*)((char*)pkt + 0x12),
+        *(unsigned int*)((char*)pkt + 10), *(unsigned int*)((char*)pkt + 0x1a));
+    handler->SendToDB((PacketHeader*)&p);
+}
+
+void StatisticManager::SendDBLagStatistics(CServerHandler* handler, char* timeStr)
+{
+    Packet_DBMW_TechnicalReport_Common_Query pkt;
+    char sql[1024];
+    for (int i = 0; i < 8; i++)
+    {
+        if (0 < m_modules[i].m_data[3])
+        {
+            memset(sql, 0, 0x400);
+            int d1 = m_modules[i].m_data[2];
+            int d2 = m_modules[i].m_data[3];
+            unsigned int a = m_modules[i].m_data[1];
+            unsigned int b = m_modules[i].m_data[3];
+            unsigned int c = m_modules[i].m_data[0];
+            unsigned int d = m_modules[i].m_data[3];
+            unsigned int group = handler->GetServerGroupNo();
+            snprintf(sql, 0x400,
+                "inSert into lag_stat_module (occ_time, server_id, module, average, deviation, count) values ('%s', %d, %d, %d, %d, %d)",
+                timeStr, group & 0xff, i, c / d, a / b, d1 / d2);
+            CMyFileLog log("SendDBLagStatistics", 0x6a1);
+            log("./log/LagStatistics", "%s", sql);
+            handler->SendToDB((PacketHeader*)&pkt);
+            m_modules[i].Reset();
+        }
+    }
+    if (!m_dungeonLag.empty())
+    {
+        for (std::map<unsigned short, STDungeonLagStatistics>::iterator it = m_dungeonLag.begin();
+             it != m_dungeonLag.end(); ++it)
+        {
+            memset(sql, 0, 0x400);
+            int d1 = it->second.m_data[6];
+            int d2 = it->second.m_data[7];
+            unsigned int a = it->second.m_data[5];
+            unsigned int b = it->second.m_data[7];
+            unsigned int c = it->second.m_data[4];
+            unsigned int d = it->second.m_data[7];
+            unsigned int e = it->second.m_data[2];
+            int f = it->second.m_data[3];
+            unsigned int g = it->second.m_data[1];
+            unsigned int group = handler->GetServerGroupNo();
+            snprintf(sql, 0x400,
+                "inSert into lag_stat_dungeon (occ_time, server_id, dungeon_id, average, deviation, count, e1, e2, e3) values ('%s', %d, %d, %d, %d, %d, %d, %d, %d)",
+                timeStr, group & 0xff, it->first, c / d, a / b, d1 / d2, e, f, g);
+            CMyFileLog log("SendDBLagStatistics", 0x6bb);
+            log("./log/LagStatistics", "%s", sql);
+            handler->SendToDB((PacketHeader*)&pkt);
         }
     }
 }
