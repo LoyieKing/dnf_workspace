@@ -4174,6 +4174,8 @@ void CPower::CleanPower()
 
 void CPower::CalcPowerWarRank()
 {
+    m_guildInfo.CalcAllGuildRanking();
+    m_characInfo.CalcAllUserRanking();
 }
 
 void CPower::UpdatePowerWarInfo(int a, unsigned int b, unsigned int c)
@@ -4236,6 +4238,12 @@ void CPowerManager::SetPowerInfo(char side, int score1, int score2)
 
 void CPowerManager::CleanPowerWar()
 {
+    for (int i = 0; i < 3; i++)
+    {
+        ((CPower*)((char*)this + i * 0x6c + 8))->CleanPower();
+    }
+    CMyFileLog log("CleanPowerWar", 0x170);
+    log("./log/Power", "CleanPower");
 }
 
 int CPowerManager::GetPowerScore(ENUM_POWER_SIDE_TYPE side)
@@ -4265,6 +4273,12 @@ void CPowerManager::SetWinnerSide(char side)
 
 void CPowerManager::PrintDebugInfo()
 {
+    CMyFileLog logA("PrintDebugInfo", 0x3c9);
+    logA("./log/PowerResult", "----- POWER A");
+    ((CPower*)((char*)this + 0x74))->GetPowerWarGuildInfo()->PrintDebugInfo();
+    CMyFileLog logB("PrintDebugInfo", 0x3cf);
+    logB("./log/PowerResult", "----- POWER B");
+    ((CPower*)((char*)this + 0xe0))->GetPowerWarGuildInfo()->PrintDebugInfo();
 }
 
 void CPowerManager::SetPowerDBFlag(unsigned short flag)
@@ -4278,6 +4292,26 @@ void CPowerManager::LoadPowerWarCfg(char* path)
 
 void CPowerManager::CalcPowerWarRank(bool flag)
 {
+    const char* s = flag ? "All" : "Winner";
+    CMyFileLog log("CalcPowerWarRank", 0x17c);
+    log("./log/Power", "CPowerManager::CalcPowerWarRank(%s)", s);
+    if (flag)
+    {
+        ((CPower*)((char*)this + 0x74))->CalcPowerWarRank();
+        ((CPower*)((char*)this + 0xe0))->CalcPowerWarRank();
+    }
+    else if (*(char*)((char*)this + 0x184) == 0 ||
+             *(char*)((char*)this + 0x184) > 2)
+    {
+        CMyFileLog log("CalcPowerWarRank", 0x187);
+        log("./log/Power", "invalid winner side income(%d)",
+            (int)*(char*)((char*)this + 0x184));
+    }
+    else
+    {
+        ((CPower*)((char*)this + (unsigned char)*(char*)((char*)this + 0x184) * 0x6c + 8))
+            ->CalcPowerWarRank();
+    }
 }
 
 void CPowerManager::EndPowerWarEvent()
@@ -4301,6 +4335,12 @@ void CPowerManager::EndPowerWarEvent()
 
 void CPowerManager::RewardBonusPoint()
 {
+    char winnerSide = *(char*)((char*)this + 0x184);
+    if (winnerSide != 0 && winnerSide < 3)
+    {
+        ((CPower*)((char*)this + (unsigned char)winnerSide * 0x6c + 8))
+            ->GetPowerWarCharacInfo()->CalcBonus();
+    }
 }
 
 void CPowerManager::SendPowerWarInfo()
