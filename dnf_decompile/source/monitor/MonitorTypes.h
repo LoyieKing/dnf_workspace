@@ -7,6 +7,7 @@
 #include <queue>
 #include <set>
 #include <string>
+#include <vector>
 
 #include "PacketHeader.h"
 #include "tinyxml.h"
@@ -73,6 +74,7 @@ class CAppLoadChecker
 {
 public:
     char CheckTcpRecvQ(int size);
+    char CheckUdpRecvQ(int size);
     void RequestDB(void* serverHandler, int flag, int size);
 };
 
@@ -538,7 +540,18 @@ class CKillUSRConfig
 public:
     CKillUSRConfig();
     virtual ~CKillUSRConfig();
-    char m_data[0xc];
+    virtual void Load_Table(const std::string& path);
+    void Clear_Table();
+    std::vector<struct ST_KillUSRConfig*>* GetInfo();
+    std::vector<struct ST_KillUSRConfig*> m_vec;  // +4
+};
+
+struct ST_KillUSRConfig
+{
+    int m_type;   // +0
+    int m_val;    // +4
+    int m_b;      // +8
+    int m_c;      // +0xc
 };
 
 // ---- CPacketTranslater / CPacketDecoder / CSignalTranslator ----
@@ -848,6 +861,30 @@ public:
     unsigned int m_fieldA;    // +10
     unsigned int m_fieldB;    // +14
     char m_data[0x100];       // +18
+};
+
+class Packet_Monitor_Event_Start : public PacketHeader
+{
+public:
+    Packet_Monitor_Event_Start();
+    unsigned int m_fieldA;    // +10
+    unsigned short m_fieldB;  // +14
+    unsigned short m_fieldC;  // +16
+};
+
+class Packet_Monitor_Event_End : public PacketHeader
+{
+public:
+    Packet_Monitor_Event_End();
+    unsigned int m_fieldA;    // +10
+};
+
+class Packet_Monitor_Take_Screen_Shot : public PacketHeader
+{
+public:
+    Packet_Monitor_Take_Screen_Shot();
+    unsigned char m_fieldA;   // +10
+    unsigned int m_fieldB;    // +11
 };
 
 class Packet_Load_Periodic_Message : public PacketHeader

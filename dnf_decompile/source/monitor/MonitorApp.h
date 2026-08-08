@@ -61,6 +61,7 @@ public:
     char Send_Term_Signal(const std::string& file);
     void Send_Suspend_Signal(const std::string& file);
     void App_Stop();
+    void TranslateSignal();
     unsigned char Get_ServerGroup();
 
     bool m_loaded;                      // +4

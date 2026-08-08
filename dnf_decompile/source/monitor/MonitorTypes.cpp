@@ -42,6 +42,7 @@ void CTcpRecvBuffer::operator delete(void* ptr)
 }
 
 char CAppLoadChecker::CheckTcpRecvQ(int size) { return 0; }
+char CAppLoadChecker::CheckUdpRecvQ(int size) { return 0; }
 void CAppLoadChecker::RequestDB(void* serverHandler, int flag, int size) {}
 CAppLoadChecker* CAppLoadCheckerInstance() { return 0; }
 
@@ -1215,6 +1216,46 @@ void CPacketDecoder::TcpProcess()
 }
 void CPacketDecoder::UdpProcess()
 {
+    if (*(void**)this != 0 && *(void**)((char*)this + 4) != 0)
+    {
+        CUdpRecvBuffer* buf = 0;
+        while (true)
+        {
+            do
+            {
+                if (((std::queue<CUdpRecvBuffer*>*) * (void**)this)->empty())
+                {
+                    return;
+                }
+                buf = ((std::queue<CUdpRecvBuffer*>*) * (void**)this)->front();
+                ((std::queue<CUdpRecvBuffer*>*) * (void**)this)->pop();
+            } while (buf == 0);
+            CUdpRecvBuffer* pkt = buf;
+            int qsize = ((std::queue<CUdpRecvBuffer*>*) * (void**)this)->size();
+            CAppLoadChecker* checker = CAppLoadCheckerInstance();
+            if (checker->CheckUdpRecvQ(qsize))
+            {
+                checker->RequestDB(*(void**)((char*)this + 0x18), 2, qsize);
+            }
+            if (MsgDecode((PacketHeader*)pkt) != 1)
+            {
+                break;
+            }
+            {
+                CGuard<CMutex> guard((CMutex*) * (void**)((char*)this + 8));
+                delete buf;
+            }
+        }
+        {
+            CGuard<CMutex> guard((CMutex*) * (void**)((char*)this + 8));
+            delete buf;
+        }
+        printf("[false == this->MsgDecode]packetHeader : %x\tpacket id : %d\n", buf,
+               *(unsigned short*)buf);
+        throw CDNFException(
+            "CPacketDecoder::MsgDecode() Undefined Packet Arrived Exception Break!");
+    }
+    throw CDNFException("CPacketDecoder is Not Ready!\n");
 }
 char CPacketDecoder::MsgDecode(PacketHeader* pkt)
 {
@@ -1605,6 +1646,15 @@ Packet_Item_Limit_Edition_Update::Packet_Item_Limit_Edition_Update()
     m_fieldB = 0;
 }
 
+Packet_Monitor_Event_Start::Packet_Monitor_Event_Start() : PacketHeader(0x44f, 0x12) {}
+Packet_Monitor_Event_End::Packet_Monitor_Event_End() : PacketHeader(0x450, 0xe) {}
+Packet_Monitor_Take_Screen_Shot::Packet_Monitor_Take_Screen_Shot()
+    : PacketHeader(0x9d3, 0xf)
+{
+    m_fieldA = 0;
+    m_fieldB = 0;
+}
+
 Packet_Load_Periodic_Message::Packet_Load_Periodic_Message() : PacketHeader(0x1f48, 10) {}
 LimitNpcBuyItemRequestInfo::LimitNpcBuyItemRequestInfo() : PacketHeader(0x27d8, 10) {}
 
@@ -1708,6 +1758,27 @@ void CAppStopInit::Init(CApplication* app, int argc, char** argv)
 
 CKillUSRConfig::CKillUSRConfig() {}
 CKillUSRConfig::~CKillUSRConfig() {}
+void CKillUSRConfig::Load_Table(const std::string& path) {}
+void CKillUSRConfig::Clear_Table()
+{
+    if (!m_vec.empty())
+    {
+        for (std::vector<ST_KillUSRConfig*>::iterator it = m_vec.begin();
+             it != m_vec.end(); ++it)
+        {
+            if (*it != 0)
+            {
+                ::operator delete(*it);
+                *it = 0;
+            }
+        }
+        m_vec.clear();
+    }
+}
+std::vector<ST_KillUSRConfig*>* CKillUSRConfig::GetInfo()
+{
+    return &m_vec;
+}
 
 CDNFException::CDNFException(const std::string& msg) : m_msg(msg) {}
 CDNFException::~CDNFException() throw() {}

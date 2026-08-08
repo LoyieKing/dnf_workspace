@@ -546,6 +546,48 @@ void CApplication::App_Stop()
     m_loaded = false;
 }
 
+void CApplication::TranslateSignal()
+{
+    m_serverHandler->Clear_Table();
+    m_serverHandler->Load_Table("./script/kill_user_config.tbl");
+    std::vector<ST_KillUSRConfig*>* vec = m_serverHandler->GetInfo();
+    if (!vec->empty())
+    {
+        for (std::vector<ST_KillUSRConfig*>::iterator it = vec->begin(); it != vec->end(); ++it)
+        {
+            ST_KillUSRConfig* cfg = *it;
+            if (cfg->m_type == 3)
+            {
+                Packet_Monitor_Event_End pkt;
+                pkt.m_fieldA = cfg->m_val;
+                CPacketTranslater::OnEventEnd(&pkt);
+            }
+            else if (cfg->m_type == 2)
+            {
+                Packet_Monitor_Event_Start pkt;
+                pkt.m_fieldA = cfg->m_val;
+                pkt.m_fieldB = (unsigned short)cfg->m_b;
+                pkt.m_fieldC = (unsigned short)cfg->m_c;
+                CPacketTranslater::OnEventStart(&pkt);
+            }
+            else if (cfg->m_type == 4)
+            {
+                m_appConfig->GetServerInfoMap();
+                m_serverHandler2->Load(m_appConfig->GetServerInfoMap());
+                m_memberConfig->Load_Table("./script/member_cnt_config.tbl");
+                m_memberExpTbl->Load_Table("./script/member_exp.tbl");
+            }
+            else if (cfg->m_type == 7)
+            {
+                Packet_Monitor_Take_Screen_Shot pkt;
+                pkt.m_fieldA = 0xff;
+                pkt.m_fieldB = (unsigned int)time(0);
+                CPacketTranslater::OnTakeScreenShot(&pkt);
+            }
+        }
+    }
+}
+
 void* CApplication::Get_UdpPacketRecvQ()
 {
     return 0;
