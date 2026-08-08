@@ -79,6 +79,7 @@ public:
     void* getTowerRank();
     void* getCollectItems();
     void* FindGameServer(int id);
+    void* FindTcpGameServer(unsigned int id);
     void* Get_MemoryCashManager();
     void* GetLoginLogoutStatistics();
     void Remove_GM_id(unsigned int id);

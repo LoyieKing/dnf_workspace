@@ -449,6 +449,7 @@ public:
     void Load(std::multimap<unsigned int, stServerInfo*>* map);
     bool RegistGameServer(stServerInfo* info);
     CGameServer* GetGameServer(unsigned int id);
+    void* GetTcpGameServer(unsigned int id);
     void RegistDBServer(CDBServer* db);
     void UnregistDBServer();
     void RegistManagerServer(CManagerServer* mgr);
@@ -809,6 +810,11 @@ public:
     void SetUniqCharNo(unsigned int charNo);
     void SetIdByChannel(int channel);
     void SetGameServer(void* server);
+    void SetTcpGameServer(class CTcpGameServer* server);
+    void SetUserInfo_CharNo(char a, char b, short level, unsigned int charNo, char* name);
+    void SetSex(unsigned char sex);
+    void SetSsn(char* ssn);
+    void QueryBuddyInfo(class CServerHandler* handler);
     void SetUserPosState(unsigned char state);
     void SetUserChangableInfo(short level, char flag);
     void ResetCharInfo(bool flag);
@@ -1837,6 +1843,13 @@ class Packet_DB_Member_Delete_As_Charac_Delete : public PacketHeader
 public:
     Packet_DB_Member_Delete_As_Charac_Delete();
     unsigned int m_charNo;  // +10
+};
+
+class Packet_DBMW_Query_Buddy_Info : public PacketHeader
+{
+public:
+    Packet_DBMW_Query_Buddy_Info();
+    unsigned int m_uniqCharNo;  // +10
 };
 
 class Packet_Monitor_Notice_Black_List : public PacketHeader

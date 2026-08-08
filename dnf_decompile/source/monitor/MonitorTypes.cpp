@@ -1581,6 +1581,15 @@ CGameServer* CServerHandler::GetGameServer(unsigned int id)
     }
     return 0;
 }
+void* CServerHandler::GetTcpGameServer(unsigned int id)
+{
+    std::map<unsigned int, void*>::iterator it = m_tcpGameServers.find(id);
+    if (it != m_tcpGameServers.end())
+    {
+        return it->second;
+    }
+    return 0;
+}
 void CServerHandler::RegistDBServer(CDBServer* db) { m_dbServer = db; }
 void CServerHandler::UnregistDBServer()
 {
@@ -3878,6 +3887,33 @@ void CUser::SetUserChangableInfo(short level, char flag)
     *(short*)((char*)this + 0x44) = level;
     *(char*)((char*)this + 0x43) = flag;
 }
+void CUser::SetUserInfo_CharNo(char a, char b, short level, unsigned int charNo, char* name)
+{
+    *(char*)((char*)this + 0x42) = a;
+    *(char*)((char*)this + 0x43) = b;
+    *(short*)((char*)this + 0x44) = level;
+    *(unsigned int*)((char*)this + 4) = charNo;
+    memcpy((char*)this + 0x24, name, 0x1d);
+    ((CBuddyHandle*)((char*)this + 0x6c))->reset(this, true);
+}
+void CUser::SetSex(unsigned char sex)
+{
+    *(char*)((char*)this + 0x46) = (char)sex;
+}
+void CUser::SetSsn(char* ssn)
+{
+    memcpy((char*)this + 0x47, ssn, 6);
+}
+void CUser::SetTcpGameServer(CTcpGameServer* server)
+{
+    *(CTcpGameServer**)((char*)this + 0xc) = server;
+}
+void CUser::QueryBuddyInfo(CServerHandler* handler)
+{
+    Packet_DBMW_Query_Buddy_Info pkt;
+    *(unsigned int*)((char*)&pkt + 0xa) = GetUniqCharNo();
+    handler->SendToDB(&pkt);
+}
 void CUser::ResetMemberInfo()
 {
     *(unsigned int*)((char*)this + 0x14) = 0;
@@ -4802,7 +4838,96 @@ void CPacketTranslater::OnLogout(PacketHeader* pkt)
         log("%s", "CPacketTranslater::OnLogout() Exception Break");
     }
 }
-void CPacketTranslater::OnReplyUserInfo(PacketHeader* pkt) {}
+void CPacketTranslater::OnReplyUserInfo(PacketHeader* pkt)
+{
+    try
+    {
+        CMyFileLog log("OnReplyUserInfo", 0x361);
+        log("./log/Reboot", "[GAME SERVER] Channel No : %d\n",
+            (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xb));
+        if (m_pclApp == 0)
+        {
+            throw CDNFException("CPacketTranslater::OnReplyUserInfo : m_pclApp == 0");
+        }
+        CGameServer* gs =
+            (CGameServer*)m_pclApp->FindGameServer(
+                (int)(unsigned char)*(char*)((char*)pkt + 0xb));
+        if (gs == 0)
+        {
+            throw CDNFException("CPacketTranslater::OnReplyUserInfo : pclGameServer == 0");
+        }
+        CTcpGameServer* tcpGs =
+            (CTcpGameServer*)m_pclApp->FindTcpGameServer(
+                (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xb));
+        if (tcpGs != 0)
+        {
+            CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+            for (int i = 0;
+                 i < (int)(unsigned int)(unsigned char)*(char*)((char*)pkt + 0xa); i++)
+            {
+                char* entry = (char*)pkt + i * 0x4e + 0xc;
+                if (*(int*)entry != 0)
+                {
+                    CUser* user = userMgr->FindUser(*(unsigned int*)entry);
+                    if (user == 0)
+                    {
+                        user = userMgr->CreateUser(
+                            *(unsigned int*)entry, *(unsigned int*)(entry + 4),
+                            entry + 0x14, *(int*)(entry + 8), gs);
+                        user->SetUserInfo_CharNo(
+                            *(char*)(entry + 0x10), *(char*)(entry + 0x11),
+                            *(short*)(entry + 0x12), *(unsigned int*)(entry + 4),
+                            entry + 0x14);
+                        user->SetSex(*(unsigned char*)(entry + 0x46));
+                        user->SetSsn(entry + 0x47);
+                        user->SetTcpGameServer(tcpGs);
+                        CMemoryCashManager* cash =
+                            (CMemoryCashManager*)m_pclApp->Get_MemoryCashManager();
+                        if (cash->QueryCashMemoryBlackList(user) != 1)
+                        {
+                            RequestBlackListToDBMW(*(unsigned int*)entry);
+                        }
+                        if (*(int*)(entry + 0x32) != 0)
+                        {
+                            CMemoryCashManager* cash2 =
+                                (CMemoryCashManager*)m_pclApp->Get_MemoryCashManager();
+                            if (cash2->QueryCashMemoryMember(user) != 1)
+                            {
+                                ((CMemberManager*)((char*)m_pclApp + 0x2d0))
+                                    ->MemerMemLogin(*(unsigned int*)(entry + 0x32), user);
+                            }
+                        }
+                        CMemoryCashManager* cash3 =
+                            (CMemoryCashManager*)m_pclApp->Get_MemoryCashManager();
+                        if (cash3->QueryCashMemoryBuddyInfo(user) != 1)
+                        {
+                            user->QueryBuddyInfo(
+                                (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0));
+                        }
+                    }
+                    else
+                    {
+                        char* dbid = NumberToString(*(unsigned int*)entry, 0);
+                        CMyFileLog log2("OnReplyUserInfo", 0x37a);
+                        log2("./log/Except", "CPacketTranslater::OnReplyUserInfo() : %s\n", dbid);
+                    }
+                }
+            }
+        }
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnReplyUserInfo() Exception Break : %s\n", e.what());
+        CMyFileLog log("OnReplyUserInfo", 0x3ac);
+        log("%s", "CPacketTranslater::OnReplyUserInfo() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnReplyUserInfo() Exception Break");
+        CMyFileLog log("OnReplyUserInfo", 0x3b2);
+        log("%s", "CPacketTranslater::OnReplyUserInfo() Exception Break");
+    }
+}
 void CPacketTranslater::OnHeartBeat(PacketHeader* pkt) {}
 void CPacketTranslater::OnCharLogin(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt)
@@ -7861,6 +7986,11 @@ Packet_DBMW_Request_BlackList::Packet_DBMW_Request_BlackList()
 
 Packet_DB_Member_Delete_As_Charac_Delete::Packet_DB_Member_Delete_As_Charac_Delete()
     : PacketHeader(0x4c3, 0xe)
+{
+}
+
+Packet_DBMW_Query_Buddy_Info::Packet_DBMW_Query_Buddy_Info()
+    : PacketHeader(0x676, 0xe)
 {
 }
 

@@ -514,6 +514,11 @@ void* CApplication::FindGameServer(int id)
     return m_serverHandler2->GetGameServer((unsigned int)id);
 }
 
+void* CApplication::FindTcpGameServer(unsigned int id)
+{
+    return m_serverHandler2->GetTcpGameServer(id);
+}
+
 void* CApplication::Get_MemoryCashManager()
 {
     return m_memoryCash;
