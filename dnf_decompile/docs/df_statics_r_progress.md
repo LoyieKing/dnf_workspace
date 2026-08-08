@@ -1,6 +1,6 @@
 # df_statics_r 还原进度
 
-更新：2026-08-08（框架 + 统计数据结构 + StatisticManager 全部 ~100 方法完成，符号命中 83.8%）
+更新：2026-08-08（框架 + StatisticManager 全方法 + statistc_proxy + FrameLagCollector 结构，符号命中 90.5%）
 
 ## 二进制概况
 
@@ -57,13 +57,15 @@ STPacketOverflowKey/STPowerwarFightLagKey/STUserTingTimeCheckKey/STPartyStatisti
 - [x] 框架类适配（CApplication/CServerHandler/CAppConfig/CPacketDecoder/CNetworkThread/CScheduler/CPacketCounter）
 - [x] ST* 统计键/值数据结构 + StatisticManager 真实成员（set+17 张 map+数组，0xb90）
 - [x] StatisticManager 全部方法（24 Reset* + 全部 Add*/Write* + 20 个 SendDB* + DBSaveProcess + ping/AMDecrypt）
-- [ ] statistc_proxy、FrameLagCollector、UdpCharacteristic、CHWSpecResearcher、WongWork
+- [x] statistc_proxy（Field/Table/StatisticProxy 完整实现 + 全局函数）
+- [x] FrameLagCollector 真实成员（4 张 map + DirectxVersion/UsedMemory/FrameLagData 内部结构）+ Init/RenewToday/GetCollectInterval
+- [ ] FrameLagCollector 大方法（LoadSpec/SaveFrameLagData/Push* 等 9 个）、UdpCharacteristic、CHWSpecResearcher、WongWork
 - [ ] CPacketTranslater 49 个处理函数实现（当前为桩）
 - [ ] 编译比对、逐函数修复、验收
 
 ## 当前水位
 
-- 符号命中 5181/6184 = **83.8%**（框架 + 数据结构 + StatisticManager 全方法）
+- 符号命中 5597/6184 = **90.5%**（框架 + StatisticManager + statistc_proxy + FrameLagCollector 结构）
 - 缺失主要集中：std 容器实例化（2345，随 StatisticManager map/set 成员实现而解决）、
   FrameLagCollector 内部结构（16）、statistc_proxy 细节。
 
@@ -83,7 +85,7 @@ STPacketOverflowKey/STPowerwarFightLagKey/STUserTingTimeCheckKey/STPartyStatisti
 
 ## 下一步
 
-1. 实现 statistc_proxy（Field/Table/StatisticProxy 内部方法）。
-2. 实现 FrameLagCollector（16 个内部结构/方法）/UdpCharacteristic/CHWSpecResearcher/WongWork。
+1. 实现 FrameLagCollector 大方法（LoadSpec/ReLoadSpec/SaveFrameLagData/PushOneFrameLagData/PushMonitoringSpecData×2/PopMonitoringSpecData/accFrameLagStruct/SaveCollectedDirectxVersion/SaveUsedMemory/CollectIntervalCheck/is_valid_statistic_packet）。
+2. 实现 UdpCharacteristic/CHWSpecResearcher/WongWork + 剩余 DB/FrameLag 包类。
 3. 实现 CPacketTranslater 49 个处理函数（每个 ~487B，调用 StatisticManager）。
 4. 全量比对、逐函数修复、验收。
