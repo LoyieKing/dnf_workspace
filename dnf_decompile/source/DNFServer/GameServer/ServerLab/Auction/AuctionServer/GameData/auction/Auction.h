@@ -6,7 +6,10 @@
 #include "DBTransactionDesign.h"
 #include "RDARScriptItemInfo.h"
 #include "AuctionPacket.h"
+#include "Search.h"
 #include "AuctionDictionary.h"
+
+class AuctionDictionary;
 
 enum PAY_TYPE
 {
@@ -19,7 +22,10 @@ class Auction
 public:
     Auction();
     virtual ~Auction();
-    void UpdateAveragePrice();
+    void UpdateAveragePrice()
+    {
+        mAuctionDic.UpdateAveragePrice();
+    }
     void ProcessMostRecentExpireItem();
     PAY_TYPE GetPayType()
     {
@@ -37,6 +43,14 @@ public:
     {
         return mSystemAuctionExpireTime;
     }
+    double GetCommission()
+    {
+        return mAUCTION_COMMISSION;
+    }
+    double GetVIPCommission()
+    {
+        return mAUCTION_VIP_COMMISSION;
+    }
 
     // Declarations for methods referenced by HandlerFor_DB_ (stub bodies in Auction.cpp
     // until the Auction TU is reconstructed).
@@ -52,17 +66,14 @@ public:
                    const ROI_Category& roiKey, char* ownerNexonId, DnfItemInfo itemInfo,
                    unsigned long long& auctionId, long expireTime, int buyerId,
                    const char* buyerName, bool bFlag);
-    void AddItemAveragePrice(unsigned long item_id, unsigned char upgrade,
-                             int average_price, unsigned int purchase_cnt,
-                             const ROI_AverageKey& roiKey, unsigned char refine, bool bFlag);
+    int AddItemAveragePrice(unsigned long item_id, unsigned char upgrade,
+                            int average_price, unsigned int purchase_cnt,
+                            const ROI_AverageKey& roiKey, unsigned char refine, bool bFlag);
     void Set_ROI_Constraint(const ROI_Average_Constraint& constraint);
     int TransErrToReason(int err);
     int GetAvatarEmblemInfo(int ui_id, stAvatarEmblemInfo_t* pInfo);
     int GetAvatarExpansionInfo(int ui_id, stAvatarExpansionInfo_t* pInfo);
-    AuctionDictionaryData* GetAuctionDicData(unsigned long item_id) const
-    {
-        return ((const AuctionDictionary*)((const char*)this + 0x54))->GetAuctionDicData(item_id);
-    }
+    AuctionDictionaryData* GetAuctionDicData(unsigned long item_id) const;
     int GetAveragePrice(unsigned long item_id, unsigned char upgrade,
                         const ROI_AverageKey& roiKey, unsigned char refine, int* out);
     int SearchByItemId(PSearchByItemId pSearch, unsigned long* pItemIdArray,
@@ -80,18 +91,47 @@ public:
     int Bidding(int buyer_id, const char* buyer_name, unsigned long long auction_id,
                 int price, char* out, int& ret);
     int IsOwnerVIP(unsigned long long auction_id, OwnerInfo& ownerInfo);
-    int GetNowRegistedItemNum(int owner_id)
+    char* GetAvatarColorName(int ui_id);
+    int CheckItemType(unsigned long item_id);
+    void UnregistChkMapForAvatarCreature(bool bCreature, int add_info);
+    int SubAvatarEmblemInfo(int ui_id);
+    int SubAvatarExpansionInfo(int ui_id);
+    bool IsPrivateStoreOpen(int owner_id);
+    bool IsStackableCategory(unsigned short category) const
     {
-        return ((AuctionDictionary*)((char*)this + 0x54))->GetNowRegistedItemNum(owner_id);
+        if ((category > 0x32c7) && (category <= 0x32ce))
+        {
+            return true;
+        }
+        if ((category > 0x752f) && (category <= 0x7598))
+        {
+            return true;
+        }
+        if ((category > 0x7917) && (category <= 0x7a49))
+        {
+            return true;
+        }
+        if ((category > 0x80e7) && (category <= 0x80ec))
+        {
+            return true;
+        }
+        return false;
     }
+    int GetNowRegistedItemNum(int owner_id);
 
-    // Layout placeholder until the Auction TU is reconstructed:
-    // vptr@0, then members up to mPayType@0x52c0 (mAuctionDic/Search/... TBD).
-    char m_pad0[0x48];          // @4
+    // Layout from df_auction_r DWARF (Auction, 21396B):
+    char m_pad0[0x28];          // @4 (mSocketForMonitor 40B)
+    __int64 mMaxAuctionId;      // @0x2c
+    double mAUCTION_COMMISSION; // @0x34
+    double mAUCTION_VIP_COMMISSION;    // @0x3c
+    double mAUCTION_PRIVATE_STORE_COMISSION;  // @0x44
     int mExpireTime;            // @0x4c
     int mSystemAuctionExpireTime;  // @0x50
-    char m_pad1[0x526c];        // @0x54 .. 0x52c0
-    PAY_TYPE mPayType;
+    AuctionDictionary mAuctionDic;  // @0x54
+    char mpSzBuffer[0x1000];    // @0x41d8
+    Search mSearch;             // @0x51d8
+    char m_pad3[0x4c];          // @0x5274 .. 0x52c0 (mItemInfo/avatarColorInfo)
+    PAY_TYPE mPayType;          // @0x52c0
 };
 
 inline Auction* G_Auction()

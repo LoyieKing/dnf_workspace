@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 33（本批新增 AveragePriceDictionary 全部符号） |
-| IDENTICAL | 2,676 |
+| 已实现 TU | 34（本批新增 AuctionDictionary 全部符号） |
+| IDENTICAL | 2,851 |
 | NEAR | 20 |
-| DIFF（语义等价，-O0 惯用法） | 380 |
-| MISSING（未实现） | 1,660 |
+| DIFF（语义等价，-O0 惯用法） | 417 |
+| MISSING（未实现） | 1,448 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -125,6 +125,8 @@
 
 本批（AveragePriceDictionary 全量补完）后：**IDENTICAL 2676 / NEAR 20 / DIFF 380 / MISSING 1660**
 
+本批（AuctionDictionary 全量补完，AuctionItem 打包修正）后：**IDENTICAL 2851 / NEAR 20 / DIFF 417 / MISSING 1448**
+
 ### 已实现 TU（本阶段新增，均可编译链接）
 
 | 组件 | 状态 |
@@ -168,6 +170,7 @@
 | ExpireTimeDictionary | ✅ 已完成（TU 0 缺失：129 精确 + 4 语义等价 DIFF；object_pool_by_boost_pool(0x20) + std::queue<Data*>，Push/Peek/Pop 主方法逐字节一致，空队列返回 0x2c） |
 | CharacterDictionary | ✅ 已完成（TU 0 缺失：155 精确 + 3 语义等价 DIFF；map<const int,Data*>@4 + 嵌套 Data(vector<unsigned long long> 12B)，Add/Sub/GetList/NowItemNum 全逻辑，AddAuctionId 逐字节一致） |
 | AveragePriceDictionary | ✅ 已完成（TU 0 缺失：190 精确 + 16 语义等价 DIFF；12348B 布局（双 0x20×8 map 表）、AddItemAveragePrice 平均价加权/限价/概率提交全逻辑、UpdateAveragePirce 双表遍历、ROI_Average_Constraint::isVaildRange 出线实现） |
+| AuctionDictionary | ✅ 已完成（TU 0 缺失：282 精确 + 34 语义等价 DIFF；16772B 布局、RegistItem/Bidding/Purchase/makeSuccessfulBid 全流程、注册/竞价/一口价/过期/平均价 7 大字典联动、UpdateAveragePrice 头内联弱符号） |
 
 ### 关键形态结论（追加）
 
@@ -352,12 +355,36 @@
     总 76B；ExpireTimeDictionaryData 12B（expire_time@0/auction_id@4，嵌套类型）；ctor 用
     `mExpireTimeDicQueue(std::deque<Data*>())` 复现局部 deque→queue 拷贝形态；Push 从池 malloc
     （NULL 返 9），Peek/Pop 空队列返 0x2c；Pop 后池 free。
+48. **AuctionItem.h 打包修正**：`ReservedCapacity` 必须在 `#pragma pack(1)` 内（9B 而非 12B），
+    否则 DnfItemInfo 变成 56B 而原二进制为 53B——修正后 RegistItem 的逐字节 struct copy
+    末尾 `movzbl 0x34(%edx),%edx`（byte 尾拷）与 separate_info@0x2b 完全对齐；此改动影响
+    所有包含 Auction.h/AuctionItem.h 的 TU，需连带重建。
+49. **RegistItem 签名与流程**：原始 mangling
+    `...EyiPKciijiR11DnfItemInfoliS1_RK12ROI_CategorycPc` 解码为
+    `(unsigned long long, int, const char*, int, int, unsigned int, int, DnfItemInfo&,
+     long, int, const char*, const ROI_Category&, char, char*)`（buyerName 是 `const char*`，
+    ROI_Category 是**引用**）；价格归一用三元 `price = isInvalidPrice(price) ? price : -1`
+    （原版 `test/je/mov/jmp/mov` 形态）；错误路径全部 `return 0x26/0x1f/4/9/10` 直返；
+    字符名表写入用 `->char_name[0xd]`（越界一字节，原版 `movb $0x0,0xd(%eax)` 直偏移形态）。
+50. **Bidding 语义修正**：auctionId 未找到必须 `return 0x24`（原版 `mov $0x24,%eax; jmp`
+    直返，不是 error_code=0 落尾）；owner==buyerId 直返 0x2d；prev_buyer 校验用
+    `if (prev_buyer_id != 0xffffffff) { error_code = SubAuctionId(...); if (error_code != 0)
+    return error_code; }` 嵌套形态（原版 `cmpl/je/call/cmpl/je` 双跳，不物化 bool）；
+    成功尾部 `return 0`（`mov $0x0,%eax`）。
+51. **UpdateAveragePrice 头内联弱符号**：`AuctionDictionary::UpdateAveragePrice`（调
+    mAvrgPriceDic@0xd8）与 `Auction::UpdateAveragePrice`（调 mAuctionDic@0x54）都是
+    **头内联 W**，在 HandlerFor_TE_ TU 发射（24B/22B 相邻）；Auction 成员
+    mAuctionDic（AuctionDictionary 16772B）@0x54，与 mpSzBuffer@0x41d8/mSearch@0x51d8 联动。
+52. **getExpiringTime**：`expirationTime -= now_time;` 原地减法（原版 `sub %eax,0xc(%ebp)`
+    写回参数槽），`< 0xe11` 返 1，否则 `(diff/0xe10)+1`（0x91a2b3c5 magic 有符号除法）。
+53. **version TU C++0x 形态**：`source_version_list_.push_back(std::move(local_14))`
+    （原版 `push_backEOS1_` 右值重载，触发 emplace_back/_M_insert_aux 模板实例化；
+    lvalue 拷贝形态会缺 3 个符号）。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
 ```
 720  Search                477  Auction               180  ServerLibrary2.0
-176  AuctionDictionary     150  AveragePriceDictionary 149  CharacterDictionary
 144  ServiceFactory
   ...
 ```
@@ -367,8 +394,8 @@
 1. ServerCommon + Core + DNFShared：Strings/UnicodeConvert/ServerXml(+TinyXML)/
    RDARScriptItemInfo/RDARScriptAvatarColorInfo/DBConnection(+mysql 桩)/
    HandlerFor_DB_/TeaInitialize/DNFFunctionLibWrapper 已全量完成。
-2. 字典类：AuctionDictionary / AveragePriceDictionary / CharacterDictionary /
-   ExpireTimeDictionary / ReliabilityDictionary。
+2. 字典类：AveragePriceDictionary / CharacterDictionary / ExpireTimeDictionary /
+   ReliabilityDictionary 已完成；AuctionDictionary 已完成（本批）。
 3. 大块：Search（720）/ Auction（477）/ HandlerFor_GA_/GP_JPN / ServiceFactory /
    ServerLibrary2.0。
 4. 全量复验 DIFF/MISSING，移除临时桩，产出 docs/df_auction_r_restoration_report.md，commit & push。
