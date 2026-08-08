@@ -367,8 +367,6 @@ public:
     void processReloadRanking(CServerHandler* handler, bool flag, unsigned int tick);
     void registCharacRank(unsigned int floor, const char* name, unsigned int job,
                           unsigned int score);
-    unsigned int getRankData(unsigned int floor, const char* name, unsigned int maxCount,
-                             stTowerRankElement_t* out);
     struct stTowerRankElement_t
     {
         stTowerRankElement_t();
@@ -378,6 +376,8 @@ public:
         unsigned short m_score; // +2
     };
     std::multimap<std::string, stTowerRankElement_t> m_ranks[4];  // 0x60
+    unsigned int getRankData(unsigned int floor, const char* name, unsigned int maxCount,
+                             stTowerRankElement_t* out);
 };
 
 // ---- CThreadInterface：0xc ----
