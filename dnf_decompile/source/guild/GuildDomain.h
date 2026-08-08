@@ -585,7 +585,9 @@ public:
     void DBSavePowerSecedeTime(unsigned char flag, CServerHandler* handler);
     void CallGuildAllMembersProxy(CUser* user, CServerHandler* handler);
     void QueryGuildAllMembersProxy(CServerHandler* handler, unsigned int charNo);
-    void LoadGuildAllMembersProxy(STGuildMemberProxy& proxy, char flag, char param);
+    void LoadGuildAllMembersProxy(STGuildMemberProxy* proxy, unsigned char flag,
+                                  unsigned char param);
+    int PopGuildMemberChanglableInfo(unsigned int charNo, STGuildMemberChangableInfo* info);
     int ReplyGuildMembersToWeb(STGuildMemberWebConnInfo* info);
     void DBSaveGuildMemberUnChangableInfo(CServerHandler* handler, unsigned int a,
                                           unsigned int b, char* name);

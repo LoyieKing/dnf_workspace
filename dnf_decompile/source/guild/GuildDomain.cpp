@@ -1589,8 +1589,42 @@ void CGuild::QueryGuildAllMembersProxy(CServerHandler* handler, unsigned int cha
     m_field1c |= 8;
 }
 
-void CGuild::LoadGuildAllMembersProxy(STGuildMemberProxy& proxy, char flag, char param)
+void CGuild::LoadGuildAllMembersProxy(STGuildMemberProxy* proxy, unsigned char flag,
+                                      unsigned char param)
 {
+    if ((m_field1c & 4) != 0 && (m_field1c & 8) != 0)
+    {
+        if (flag == 0)
+        {
+            memcpy((char*)this + 0xdd, proxy, (size_t)param * 0x41);
+            m_field1e = param;
+        }
+        else
+        {
+            memcpy((char*)this + (unsigned int)m_field1e * 0x41 + 0xdd, proxy,
+                   (size_t)param * 0x41);
+            m_field1e = (unsigned short)(m_field1e + param);
+        }
+    }
+}
+
+int CGuild::PopGuildMemberChanglableInfo(unsigned int charNo, STGuildMemberChangableInfo* info)
+{
+    if (m_changable.empty())
+    {
+        return 0;
+    }
+    std::map<unsigned int, STGuildMemberChangableInfo>::iterator it = m_changable.find(charNo);
+    if (it == m_changable.end())
+    {
+        return 0;
+    }
+    if (info != 0)
+    {
+        *info = it->second;
+    }
+    m_changable.erase(it);
+    return 1;
 }
 
 int CGuild::ReplyGuildMembersToWeb(STGuildMemberWebConnInfo* info)

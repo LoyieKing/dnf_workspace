@@ -10,6 +10,9 @@
 class CApplication;
 class CUdpRecvBuffer;
 class CTcpRecvBuffer;
+class CGuild;
+class CUser;
+struct STGuildJoinInfo;
 
 // ---- CPacketCounter<Lo,Hi> ----
 template<int Lo, int Hi>
@@ -172,6 +175,12 @@ public:
     static void OnGuildDebug(PacketHeader* pkt);
     static void OnRenew_GM_List(PacketHeader* pkt);
     static void OnNoticeGuildChatMsgHyperLink(PacketHeader* pkt);
+    static void RequestBlackListToDBMW(unsigned int charNo);
+    static void SendPacketGuildMail(unsigned char group, unsigned int guildKey,
+                                    unsigned int charNo, char* title, char* content,
+                                    unsigned int param);
+    static void GuildJoin(CGuild* guild, STGuildJoinInfo* info, unsigned int dbid);
+    static void GuildJoin(CGuild* guild, CUser* user, unsigned int dbid);
 
     static CApplication* m_pclApp;
 };

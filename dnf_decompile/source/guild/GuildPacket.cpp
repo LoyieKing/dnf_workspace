@@ -6,6 +6,7 @@
 #include "GuildApp.h"
 #include "GuildServer.h"
 #include "GuildUdp.h"
+#include "GuildPackets.h"
 #include "DNFFileLog.h"
 #include "DNFFunctionLib.h"
 #include "GuildTable.h"
@@ -17,6 +18,14 @@
     }
 
 CApplication* CPacketTranslater::m_pclApp = 0;
+
+void CPacketTranslater::RequestBlackListToDBMW(unsigned int charNo)
+{
+    Packet_DBMW_Request_BlackList pkt;
+    *(unsigned int*)((char*)&pkt + 0xa) = charNo;
+    *(unsigned char*)((char*)&pkt + 0xb) = 0xcb;
+    m_pclApp->Get_ServerHandler()->SendToDB(&pkt);
+}
 
 void CPacketTranslater::attach(CApplication* app)
 {
