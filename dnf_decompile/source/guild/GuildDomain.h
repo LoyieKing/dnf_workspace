@@ -85,6 +85,7 @@ struct STGuildWarInfo
     unsigned int m_point;     // +4
     char m_data[0x8];
 };
+struct ST_Guild_War_Rank_Info;
 bool GuildWarPairDataCompare(const std::pair<unsigned int, STGuildWarInfo*>& a,
                              const std::pair<unsigned int, STGuildWarInfo*>& b);
 
@@ -448,9 +449,9 @@ public:
     void SameRankWork();
     void printGuildWarRank();
     int GetGuildWarInfo(unsigned int* a, unsigned int* b, unsigned short* c);
-    int GetGuildWarInfo(void* info);
+    int GetGuildWarInfo(ST_Guild_War_Rank_Info* info);
     int Find_GuildWarInfo(unsigned int guildId);
-    int Insert_GuildWarInfo(void* info);
+    void Insert_GuildWarInfo(STGuildWarInfo* info);
     int GetGuildWarInfoDBSave(unsigned int* a, unsigned int* b);
     char m_data[0x100];
 };
@@ -683,6 +684,7 @@ public:
 };
 
 // ---- CGuildManager：0xe0 ----
+struct ST_Guild_War_Rank_Info;
 class CGuildManager
 {
 public:

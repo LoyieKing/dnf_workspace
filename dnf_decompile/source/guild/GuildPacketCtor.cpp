@@ -914,3 +914,16 @@ Packet_Send_All_User_Info_Minimum_For_Guild_System::
     : PacketHeader(0x447, 0x16)
 {
 }
+
+#include "Packet_Guild_Change_Power_War_Point.h"
+
+void Packet_Guild_Change_Power_War_Point::GetUserList(std::vector<unsigned int>& list)
+{
+    for (int i = 0; i < 8; ++i)
+    {
+        if (*(int*)((char*)this + i * 4 + 0xb) != 0)
+        {
+            list.push_back(*(unsigned int*)((char*)this + i * 4 + 0xb));
+        }
+    }
+}

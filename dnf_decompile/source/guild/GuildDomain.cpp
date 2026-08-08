@@ -957,11 +957,13 @@ void CUserManager::RefreshGuildAttendanceInfo()
 
 CGuildWar::CGuildWar()
 {
-    memset(m_data, 0, sizeof(m_data));
+    new (m_data) std::vector<std::pair<unsigned int, STGuildWarInfo*> >();
+    memset(m_data + 0xc, 0, 5);
 }
 
 CGuildWar::~CGuildWar()
 {
+    ((std::vector<std::pair<unsigned int, STGuildWarInfo*> >*)m_data)->~vector();
 }
 
 void CGuildWar::DBSaveProcess(CApplication* app)
@@ -1023,8 +1025,28 @@ int CGuildWar::GetGuildWarInfo(unsigned int* a, unsigned int* b, unsigned short*
     return 0;
 }
 
-int CGuildWar::GetGuildWarInfo(void* info)
+int CGuildWar::GetGuildWarInfo(ST_Guild_War_Rank_Info* info)
 {
+    if (info == 0)
+    {
+        return 0;
+    }
+    std::vector<std::pair<unsigned int, STGuildWarInfo*> >* vec =
+        (std::vector<std::pair<unsigned int, STGuildWarInfo*> >*)m_data;
+    int count = 0;
+    for (std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator it = vec->begin();
+         it != vec->end(); ++it)
+    {
+        if (it->second != 0)
+        {
+            char* out = (char*)info + count * 0x21;
+            *(unsigned int*)(out + 0) = *(unsigned int*)((char*)it->second + 0);
+            *(unsigned int*)(out + 4) = *(unsigned int*)((char*)it->second + 4);
+            memcpy(out + 10, (char*)it->second + 8, 0x16);
+            count++;
+            *(short*)(out + 8) = (short)count;
+        }
+    }
     return 0;
 }
 
@@ -1033,9 +1055,19 @@ int CGuildWar::Find_GuildWarInfo(unsigned int guildId)
     return 0;
 }
 
-int CGuildWar::Insert_GuildWarInfo(void* info)
+void CGuildWar::Insert_GuildWarInfo(STGuildWarInfo* info)
 {
-    return 0;
+    if (info == 0)
+    {
+        CMyFileLog log("Insert_GuildWarInfo", 0x95);
+        log("./log/GuildWar", "[INSERT_ERR]info == 0\n");
+        return;
+    }
+    CMyFileLog log("Insert_GuildWarInfo", 0x90);
+    log("./log/GuildWar", "[INSERT]\tGuild Key : %d\tGuild Point : %d\n",
+        *(unsigned int*)info, *(unsigned int*)((char*)info + 4));
+    ((std::vector<std::pair<unsigned int, STGuildWarInfo*> >*)m_data)
+        ->push_back(std::make_pair(*(unsigned int*)info, info));
 }
 
 int CGuildWar::GetGuildWarInfoDBSave(unsigned int* a, unsigned int* b)
