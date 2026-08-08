@@ -280,6 +280,14 @@ public:
     void NotifyTodayGuildMember(CUser* user);
     void LoadGuildAgit(CServerHandler* handler, unsigned int charNo);
     void NoticeGuildMemberLogin_Out(CUser* user, char flag);
+    void QueryUnconnGuildMemberProxy(CServerHandler* handler, unsigned int charNo);
+    int LoadGuildOneMemberProxy(CUser* user);
+    void IncTotalCnt_Of_GuildDBInfo();
+    void SendGuildInfoToMembers(bool flag);
+    void MakeGameServerSendUserInfoPacket(CUser* user, unsigned int guildKey);
+    void DBGuildMemberSave(CUser* user, unsigned char flag, CServerHandler* handler,
+                           unsigned char param);
+    void InsertGuildMemberChanglableInfo(unsigned int charNo);
     unsigned char GetPowerSide();
     void SetPowerSide(unsigned char side);
     unsigned int GetPowerWarPoint();
@@ -339,8 +347,8 @@ public:
     void AttendGuild(unsigned int guildKey, unsigned int charNo);
     CGuild* GuildMemLogin(unsigned int guildKey, CUser* user);
     void GuildMemLogout(unsigned int guildKey, CUser* user);
-    void GuildEnter(unsigned int guildKey, ST_Notice_Guild_Enter& info);
-    void GuildSecede(unsigned int guildKey, ST_Notice_Guild_Secede& info);
+    CGuild* GuildEnter(unsigned int guildKey, ST_Notice_Guild_Enter& info);
+    CGuild* GuildSecede(unsigned int guildKey, ST_Notice_Guild_Secede& info);
     CGuild* CreateGuild(unsigned int guildKey, CServerHandler* handler,
                         unsigned int masterId);
     void DeleteGuild(unsigned int guildKey);

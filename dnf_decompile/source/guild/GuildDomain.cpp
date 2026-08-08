@@ -312,6 +312,10 @@ void CUser::QueryGuildMember(CServerHandler* handler)
 {
 }
 
+void CUser::MakeGameServerSendUserInfoPacket(unsigned int guildKey)
+{
+}
+
 CUserManager::CUserManager()
 {
     m_app = 0;
@@ -963,6 +967,32 @@ void CGuild::NoticeGuildMemberLogin_Out(CUser* user, char flag)
 {
 }
 
+void CGuild::QueryUnconnGuildMemberProxy(CServerHandler* handler, unsigned int charNo)
+{
+}
+
+int CGuild::LoadGuildOneMemberProxy(CUser* user)
+{
+    return 0;
+}
+
+void CGuild::IncTotalCnt_Of_GuildDBInfo()
+{
+}
+
+void CGuild::SendGuildInfoToMembers(bool flag)
+{
+}
+
+void CGuild::DBGuildMemberSave(CUser* user, unsigned char flag, CServerHandler* handler,
+                               unsigned char param)
+{
+}
+
+void CGuild::InsertGuildMemberChanglableInfo(unsigned int charNo)
+{
+}
+
 void CGuildManager::LoadGuildAgit(unsigned int guildKey, CServerHandler* handler)
 {
     CGuild* guild = FindGuild(guildKey);
@@ -1047,14 +1077,100 @@ CGuild* CGuildManager::GuildMemLogin(unsigned int guildKey, CUser* user)
 
 void CGuildManager::GuildMemLogout(unsigned int guildKey, CUser* user)
 {
+    if (user == 0 || m_app == 0)
+    {
+        throw CDNFException(
+            "CGuildManager::GuildMemLogout()\t0 == pclUser || 0 == m_pclApp\n");
+    }
+    if (guildKey == 0)
+    {
+        throw CDNFException("CGuildManager::GuildMemLogout()\t0 == dwGuildKey\n");
+    }
+    CGuild* guild = FindGuild(guildKey);
+    if (guild != 0)
+    {
+        if (user->GetGameServer() != 0)
+        {
+            guild->DBGuildMemberSave(user, user->GetGameServer()->m_field9,
+                                     m_app->Get_ServerHandler(), 1);
+        }
+        if (guild->DeleteGuildMember(user->GetUniqCharNo(), user) == 1)
+        {
+            guild->InsertGuildMemberChanglableInfo(user->GetUniqCharNo());
+            if (!IsEmptyGuild(guildKey))
+            {
+                guild->NoticeGuildMemberLogin_Out(user, 0);
+            }
+            else
+            {
+                if (user->GetGameServer() != 0)
+                {
+                    guild->DBGuildSave(user->GetGameServer()->m_field9,
+                                       m_app->Get_ServerHandler(), 0);
+                }
+                DeleteGuild(guildKey);
+            }
+        }
+    }
 }
 
-void CGuildManager::GuildEnter(unsigned int guildKey, ST_Notice_Guild_Enter& info)
+CGuild* CGuildManager::GuildEnter(unsigned int guildKey, ST_Notice_Guild_Enter& info)
 {
+    if (m_app == 0)
+    {
+        throw CDNFException("CGuildManager::GuildEnter()\t0 == m_pclApp\n");
+    }
+    if (guildKey == 0)
+    {
+        throw CDNFException("CGuildManager::GuildEnter()\t0 == dwGuildKey\n");
+    }
+    CServerHandler* handler = m_app->Get_ServerHandler();
+    if (handler == 0)
+    {
+        throw CDNFException("CGuildManager::GuildEnter() pclServerHandler == NULL\n");
+    }
+    CUser* user = m_app->Get_UserManager()->FindUser_CharNo(*(unsigned int*)((char*)&info + 8));
+    if (user != 0)
+    {
+        user->SendSetGuildKeyToUser(guildKey, *(unsigned int*)((char*)&info + 8));
+    }
+    CGuild* guild = FindGuild(guildKey);
+    if (guild != 0)
+    {
+        if (user == 0)
+        {
+            if (guild->IsSetGuildDBFlag(4) && guild->IsSetGuildDBFlag(0x10))
+            {
+                guild->QueryUnconnGuildMemberProxy(handler, *(unsigned int*)((char*)&info + 8));
+            }
+            return guild;
+        }
+        user->QueryGuildMember(handler);
+        guild->InsertGuildMember(user->GetUniqCharNo(), user);
+        if (guild->LoadGuildOneMemberProxy(user) != 1)
+        {
+            guild->IncTotalCnt_Of_GuildDBInfo();
+        }
+        guild->SendGuildInfoToMembers(false);
+        user->MakeGameServerSendUserInfoPacket(guildKey);
+        return guild;
+    }
+    if (user == 0)
+    {
+        return 0;
+    }
+    guild = new CGuild(guildKey);
+    guild->QueryGuild(handler, user->GetUniqCharNo());
+    InsertGuild(guildKey, guild);
+    user->QueryGuildMember(handler);
+    guild->InsertGuildMember(user->GetUniqCharNo(), user);
+    user->MakeGameServerSendUserInfoPacket(guildKey);
+    return guild;
 }
 
-void CGuildManager::GuildSecede(unsigned int guildKey, ST_Notice_Guild_Secede& info)
+CGuild* CGuildManager::GuildSecede(unsigned int guildKey, ST_Notice_Guild_Secede& info)
 {
+    return 0;
 }
 
 CGuild* CGuildManager::CreateGuild(unsigned int guildKey, CServerHandler* handler,
