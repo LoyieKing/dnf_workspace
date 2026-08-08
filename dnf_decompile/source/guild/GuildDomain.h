@@ -723,7 +723,7 @@ public:
     void InsertTodayMember(unsigned int guildKey, STTodayGuildMember& member);
     void RefreshTodayMember(bool flag);
     void RefreshAttendanceInfo(bool flag);
-    void CheckAchieveAttendance(unsigned int guildKey);
+    int CheckAchieveAttendance(unsigned int guildKey);
     void RewardAttendance(unsigned int guildKey, unsigned int charNo, int flag);
     int GetAttendancePhase(unsigned int guildKey);
     void GetAttendanceInfo(unsigned int guildKey, STAttendanceInfo& info);

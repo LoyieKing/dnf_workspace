@@ -2575,6 +2575,32 @@ void CGuildManager::DBSaveProcess(CApplication* app, bool force)
 
 void CGuildManager::AttendGuild(unsigned int guildKey, unsigned int charNo)
 {
+    bool attended = false;
+    std::map<unsigned int, std::vector<unsigned int> >::iterator it =
+        m_attendance.find(guildKey);
+    if (it != m_attendance.end())
+    {
+        if (std::find(it->second.begin(), it->second.end(), charNo) == it->second.end())
+        {
+            it->second.push_back(charNo);
+            attended = true;
+        }
+    }
+    else
+    {
+        std::vector<unsigned int> vec;
+        vec.push_back(charNo);
+        m_attendance.insert(std::make_pair(guildKey, vec));
+        attended = true;
+    }
+    if (attended)
+    {
+        int phase = CheckAchieveAttendance(guildKey);
+        if (phase != 0xffffffff)
+        {
+            RewardAttendance(guildKey, charNo, phase);
+        }
+    }
 }
 
 CGuild* CGuildManager::GuildMemLogin(unsigned int guildKey, CUser* user)
@@ -2814,6 +2840,15 @@ void CGuildManager::DeleteGuild(CGuild* guild)
 
 void CGuildManager::GuildDismiss(CGuild* guild)
 {
+    if (m_app == 0)
+    {
+        throw CDNFException("CGuildManager::GuildDismiss()\t0 == m_pclApp\n");
+    }
+    if (guild == 0)
+    {
+        throw CDNFException("CGuildManager::GuildDismiss()\t0 == pclGuild\n");
+    }
+    DeleteGuild(guild);
 }
 
 int CGuildManager::InsertGuild(unsigned int guildKey, CGuild* guild)
@@ -2892,13 +2927,22 @@ void CGuildManager::RefreshAttendanceInfo(bool flag)
     }
 }
 
-void CGuildManager::CheckAchieveAttendance(unsigned int guildKey)
+int CGuildManager::CheckAchieveAttendance(unsigned int guildKey)
 {
     std::map<unsigned int, std::vector<unsigned int> >::iterator it =
         m_attendance.find(guildKey);
     if (it != m_attendance.end())
     {
+        static const int guild_att_phase[9] = { 5, 10, 20, 35, 60, 100, 150, 220, 300 };
+        for (int phase = 8; phase >= 0; phase--)
+        {
+            if ((int)it->second.size() == guild_att_phase[phase])
+            {
+                return phase;
+            }
+        }
     }
+    return -1;
 }
 
 void CGuildManager::RewardAttendance(unsigned int guildKey, unsigned int charNo, int flag)
