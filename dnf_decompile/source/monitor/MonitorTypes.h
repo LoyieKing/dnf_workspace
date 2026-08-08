@@ -1293,6 +1293,7 @@ public:
     void UpdateHuntingPoint(CUser** users, bool success, int* a, unsigned int* charNos);
     void SendVillageAttackedRewardJpn(CUser* user, int count);
     void SendMinTime();
+    unsigned int GetElapseTime();
     int GetRemainTime();
     unsigned int GetDungeonRemainTime();
     void SetRewardCloseTime(int rewardType);

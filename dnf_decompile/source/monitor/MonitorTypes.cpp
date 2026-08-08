@@ -3072,6 +3072,21 @@ void CVillageAttackedManager::SendVillageAttackedRewardJpn(CUser* user, int coun
 }
 void CVillageAttackedManager::SendMinTime()
 {
+    Packet_DBMW_Query_Msg pkt;
+    pkt.m_fieldB = 6;
+    pkt.m_fieldA = 0x4ee3;
+    unsigned int elapse = GetElapseTime();
+    unsigned int now = GetNowTime();
+    unsigned int group = (unsigned int)m_app->Get_ServerGroup();
+    char sql[0x1001];
+    sprintf(sql,
+            "inSert into village_attacked_server_time_rank(server_info, occ_date, clear_time) values(%d,cast(from_unixtime(%d) as date),%u)",
+            group & 0xff, now, elapse);
+    m_app->Get_ServerHandler()->SendToDB(&pkt);
+}
+unsigned int CVillageAttackedManager::GetElapseTime()
+{
+    return 0;
 }
 void CVillageAttackedManager::UpdateHuntingPoint(CUser** users, bool success, int* a,
                                                  unsigned int* charNos)
