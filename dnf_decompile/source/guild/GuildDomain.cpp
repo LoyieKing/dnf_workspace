@@ -6927,20 +6927,17 @@ void CTcpNetSystem::SetEpollAcceptedPeers()
     while (!q->empty())
     {
         CPeer* peer = q->front();
-        q->pop();
         int r = 0;
         TCPSocket* tcp = peer->GetTcpSocket();
         int fd = tcp->getHandle();
         CTcpHandler* h = (CTcpHandler*)*(void**)m_data;
-        if (h != 0)
-        {
-            r = h->SetPeer(peer, fd, false);
-        }
+        r = h->SetPeer(peer, fd, false);
         if (r != 0)
         {
             printf("G_EpollHandler()->SetPeer(peer->get_socket(%d)) %d(%s)", fd, r, strerror(r));
         }
         (*peers)[(unsigned int)fd] = peer;
+        q->pop();
     }
 }
 
