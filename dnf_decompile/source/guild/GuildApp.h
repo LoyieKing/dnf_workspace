@@ -97,7 +97,7 @@ public:
     CServerHandler* m_serverHandler;    // +0x68
     CFrameCountHandler m_frameCount;    // +0x6c
     CInnerMsgHandler* m_innerMsgHandler;  // +0x9c
-    char m_swapQueue[0x58];             // +0xa0
+    CSwapQueue<std::queue<CUdpRecvBuffer*, std::deque<CUdpRecvBuffer*> >, 2> m_swapQueue;  // +0xa0
     CUdpHandler* m_udpHandler;          // +0xf8
     CUdpNetworkThread* m_udpThread;     // +0xfc
     CMutex m_udpQLock;                  // +0x100

@@ -48,31 +48,15 @@ CApplication::CApplication()
     m_serverConfig = 0;
     m_killConfig = 0;
     m_serverHandler = 0;
-    new (&m_userManager) CUserManager();
     m_innerMsgHandler = 0;
-    typedef std::queue<CUdpRecvBuffer*, std::deque<CUdpRecvBuffer*> > UdpRecvQueue;
-    new (m_swapQueue) CSwapQueue<UdpRecvQueue, 2>();
     m_udpHandler = 0;
     m_udpThread = 0;
-    new (&m_udpQLock) CMutex();
-    new (&m_udpBLock) CMutex();
-    new (&m_tcpNetSystem) CTcpNetSystem();
-    new (&m_guildManager) CGuildManager();
-    new (&m_powerManager) CPowerManager();
     m_memoryCash = 0;
 }
 
 CApplication::~CApplication()
 {
     puts("Application Stop!");
-    m_powerManager.~CPowerManager();
-    m_guildManager.~CGuildManager();
-    m_tcpNetSystem.~CTcpNetSystem();
-    m_udpBLock.~CMutex();
-    m_udpQLock.~CMutex();
-    typedef std::queue<CUdpRecvBuffer*, std::deque<CUdpRecvBuffer*> > UdpRecvQueue;
-    ((CSwapQueue<UdpRecvQueue, 2>*)m_swapQueue)->~CSwapQueue();
-    m_userManager.~CUserManager();
 }
 
 void CApplication::Init(int argc, char** argv)
@@ -481,12 +465,12 @@ CMutex* CApplication::Get_UdpBLock()
 
 void* CApplication::Get_UdpPacketRecvQ()
 {
-    return (void*)m_swapQueue;
+    return m_swapQueue.GetRecvQ();
 }
 
 void* CApplication::Get_UdpPacketParseQ()
 {
-    return (void*)(m_swapQueue + 0x2c);
+    return m_swapQueue.GetParseQ();
 }
 
 void CApplication::SwitchQueueTCP()
