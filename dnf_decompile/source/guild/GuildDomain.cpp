@@ -4995,11 +4995,6 @@ CPowerManager::CPowerManager()
 
 CPowerManager::~CPowerManager()
 {
-    ((CPowerWar*)((char*)this + 0x14c))->~CPowerWar();
-    for (int i = 2; i >= 0; i--)
-    {
-        ((CPower*)((char*)this + 8 + i * 0x6c))->~CPower();
-    }
 }
 
 void CPowerManager::InitPowerManager(char* path, CApplication* app)
