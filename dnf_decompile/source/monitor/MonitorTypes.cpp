@@ -1372,7 +1372,46 @@ char CTcpHandler::IsSetErrEvent(int idx) { return 0; }
 char CPeer::RecvPacket() { return 1; }
 void CPeer::DisConnSig() {}
 unsigned int CPeer::get_remain_sendlen() { return 0; }
-void CPeer::send_packet() {}
+int CPeer::send_packet()
+{
+    return 0;
+}
+int CPeer::send_packet(char* buf, int len)
+{
+    if (getHandle() < 0)
+    {
+        return -1;
+    }
+    if (len < 1)
+    {
+        printf("!!!Send Packet[(%d,%d) Size(%d) Error\n", *buf, buf[1], len);
+        return -1;
+    }
+    errno = 0;
+    m_sendRemain = m_sendRemain + len;
+    if ((unsigned int)m_sendRemain < 0x96001)
+    {
+        if (m_sendPtr < (char*)this + 0x183c || (char*)this + 0x9783c <= m_sendPtr)
+        {
+            CMyFileLog log("send_packet", 0x13b);
+            log("./log/TcpErr",
+                "!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",
+                (unsigned char)buf[1], m_sendRemain, len);
+            m_sendPtr = (char*)this + 0x183c;
+            m_sendRemain = 0;
+            return -1;
+        }
+        memcpy(m_sendPtr, buf, len);
+        m_sendPtr = m_sendPtr + len;
+        return send_packet();
+    }
+    CMyFileLog log("send_packet", 0x133);
+    log("./log/TcpErr", "!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",
+        (unsigned char)buf[1], m_sendRemain, len);
+    m_sendPtr = (char*)this + 0x183c;
+    m_sendRemain = 0;
+    return -1;
+}
 TCPSocket* CPeer::GetTcpSocket() { return 0; }
 void CPeer::InitPeer(void* recvQ, void* recvQLock, void* recvBLock) {}
 void CPeer::ConnSig() {}

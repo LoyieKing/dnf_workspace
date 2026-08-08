@@ -485,7 +485,8 @@ public:
     char RecvPacket();
     void DisConnSig();
     unsigned int get_remain_sendlen();
-    void send_packet();
+    int send_packet();
+    int send_packet(char* buf, int len);
     void InitPeer(void* recvQ, void* recvQLock, void* recvBLock);
     void ConnSig();
     int parsing(int recvLen);
@@ -496,6 +497,9 @@ public:
     void* m_recvQ;         // +0x1828
     void* m_bLock;         // +0x182c
     void* m_qLock;         // +0x1830
+    int m_sendRemain;      // +0x1834
+    char* m_sendPtr;       // +0x1838
+    char m_sendBuf[0x96000];  // +0x183c
 };
 
 
