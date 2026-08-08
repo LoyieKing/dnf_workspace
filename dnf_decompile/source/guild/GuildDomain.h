@@ -882,7 +882,7 @@ public:
     void EndPowerWarEvent();
     void RewardBonusPoint();
     void SendPowerWarInfo();
-    void ComputeWinnerSide();
+    int ComputeWinnerSide();
     void SendPowerWarScore();
     void SaveDBPowerWarRank();
     void StartPowerWarEvent();

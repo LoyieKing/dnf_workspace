@@ -3813,7 +3813,7 @@ void CPowerWarGuildInfo::MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Poin
 
 int CPowerWarGuildInfo::GetPowerWarPointDBSaveCount()
 {
-    return 0;
+    return (int)((std::vector<STDBSavePowerWarPoint*>*)(m_data + 0x24))->size();
 }
 
 void CPowerWarGuildInfo::GetAllGuildRankingInfo(int& count, STGuildRank* rank)
@@ -4225,6 +4225,21 @@ void CPowerManager::CalcPowerWarRank(bool flag)
 
 void CPowerManager::EndPowerWarEvent()
 {
+    CMyFileLog logTop("EndPowerWarEvent", 0xd5);
+    logTop("./log/Power", "CPowerManager::EndPowerWarEvent TOP");
+    SetWinnerSide(ComputeWinnerSide());
+    RewardBonusPoint();
+    SaveDBPowerWarPoint();
+    CalcPowerWarRank(true);
+    RewardGuildPowerWarPoint();
+    PrintDebugInfo();
+    SaveDBPowerWarRank();
+    SendPowerWarInfo();
+    SendPowerWarEndInfo();
+    CleanPowerWar();
+    ((CPowerWar*)((char*)this + 0x14c))->resetEvent();
+    CMyFileLog logBottom("EndPowerWarEvent", 0xfd);
+    logBottom("./log/Power", "CPowerManager::EndPowerWarEvent BOTTOM");
 }
 
 void CPowerManager::RewardBonusPoint()
@@ -4235,12 +4250,40 @@ void CPowerManager::SendPowerWarInfo()
 {
 }
 
-void CPowerManager::ComputeWinnerSide()
+int CPowerManager::ComputeWinnerSide()
 {
+    int a = GetPowerScore((ENUM_POWER_SIDE_TYPE)1);
+    int b = GetPowerScore((ENUM_POWER_SIDE_TYPE)2);
+    if (b < a)
+    {
+        return 1;
+    }
+    a = GetPowerScore((ENUM_POWER_SIDE_TYPE)1);
+    b = GetPowerScore((ENUM_POWER_SIDE_TYPE)2);
+    if (a < b)
+    {
+        return 2;
+    }
+    return 0;
 }
 
 void CPowerManager::SendPowerWarScore()
 {
+    CApplication* app = *(CApplication**)((char*)this + 4);
+    CServerHandler* handler = app->Get_ServerHandler();
+    if (handler == 0)
+    {
+        throw CDNFException(
+            "CGuildManager::OnChangePowerWarScore() pclServerHandler == NULL\n");
+    }
+    Packet_Reply_Power_War_Score pkt;
+    *(unsigned int*)((char*)&pkt + 0xa) = (unsigned int)GetPowerScore((ENUM_POWER_SIDE_TYPE)1);
+    *(unsigned int*)((char*)&pkt + 0xe) = (unsigned int)GetPowerScore((ENUM_POWER_SIDE_TYPE)2);
+    handler->SendAllTcpGameServer(&pkt);
+    CMyFileLog log("SendPowerWarScore", 0x75);
+    log("./log/Power", "Power Point : A(%d)  B(%d)",
+        (int)GetPowerScore((ENUM_POWER_SIDE_TYPE)1),
+        (int)GetPowerScore((ENUM_POWER_SIDE_TYPE)2));
 }
 
 void CPowerManager::SaveDBPowerWarRank()
@@ -4358,6 +4401,18 @@ void CPowerManager::UpdatePowerWarInfo(bool flag, ENUM_POWER_SIDE_TYPE side, int
 
 void CPowerManager::SaveDBPowerWarPoint()
 {
+    CApplication* app = *(CApplication**)((char*)this + 4);
+    Packet_DB_Save_Power_War_Point pkt;
+    *(char*)((char*)&pkt + 0xb) = GetWinnerSide();
+    *(unsigned int*)((char*)&pkt + 0xc) = (unsigned int)GetPowerScore((ENUM_POWER_SIDE_TYPE)1);
+    *(unsigned int*)((char*)&pkt + 0x10) = (unsigned int)GetPowerScore((ENUM_POWER_SIDE_TYPE)2);
+    *(unsigned char*)((char*)&pkt + 0xa) = app->Get_ServerGroup();
+    app->Get_ServerHandler()->SendToDB(&pkt);
+    CMyFileLog log("SaveDBPowerWarPoint", 0x28e);
+    log("./log/Power", "winner:%d, A:%d, B:%d, svr group:%d",
+        (int)GetWinnerSide(), (int)GetPowerScore((ENUM_POWER_SIDE_TYPE)1),
+        (int)GetPowerScore((ENUM_POWER_SIDE_TYPE)2),
+        (unsigned int)app->Get_ServerGroup());
 }
 
 void CPowerManager::SendPowerWarEndInfo(int time)
@@ -4407,6 +4462,61 @@ unsigned short CPowerManager::GetPowerWarEndKillPoint()
 
 void CPowerManager::SendPowerWarProcessInfo(unsigned int charNo)
 {
+    CApplication* app = *(CApplication**)((char*)this + 4);
+    CUser* user = app->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("SendPowerWarProcessInfo", 0x3e2);
+        log("./log/Power", "CPacketTranslater::SendPowerWarProcessInfo : 0 == pclUser(%d)",
+            charNo);
+        return;
+    }
+    unsigned int guildKey = user->GetGuildKey();
+    CGuild* guild = app->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("SendPowerWarProcessInfo", 0x3ea);
+        log("./log/Power",
+            "CPacketTranslater::SendPowerWarProcessInfo : 0 == pclGuild(%d), pclUser(%d)",
+            guildKey, charNo);
+        return;
+    }
+    Packet_Channel_Power_War_Process_Info pkt;
+    *(unsigned int*)((char*)&pkt + 0xa) = user->GetIdByChannel();
+    *(unsigned int*)((char*)&pkt + 0xe) = charNo;
+    *(unsigned int*)((char*)&pkt + 0x12) = (unsigned int)GetPowerScore((ENUM_POWER_SIDE_TYPE)1);
+    *(unsigned int*)((char*)&pkt + 0x16) = (unsigned int)GetPowerScore((ENUM_POWER_SIDE_TYPE)2);
+    unsigned int side = (unsigned int)guild->GetPowerSide() & 0xff;
+    if (side == 3)
+    {
+        side = 1;
+    }
+    else if (side == 4)
+    {
+        side = 2;
+    }
+    else if (side == 0 || 4 < side)
+    {
+        CMyFileLog log("SendPowerWarProcessInfo", 0x3fd);
+        log("./log/Power", "CPacketTranslater::SendPowerWarProcessInfo : Invalid Power Side(%d)",
+            (unsigned int)guild->GetPowerSide() & 0xff);
+        return;
+    }
+    *(unsigned int*)((char*)&pkt + 0x1a) =
+        GetUserPowerWarPoint((ENUM_POWER_SIDE_TYPE)side, charNo);
+    if (IsPowerWarOn() == 0)
+    {
+        *(unsigned int*)((char*)&pkt + 0x1e) = 0;
+        *(unsigned int*)((char*)&pkt + 0x22) = 0;
+    }
+    else
+    {
+        *(unsigned int*)((char*)&pkt + 0x1e) =
+            GetGuildRankingInPower((ENUM_POWER_SIDE_TYPE)side, guildKey);
+        *(unsigned int*)((char*)&pkt + 0x22) =
+            GetUserRankingInPower((ENUM_POWER_SIDE_TYPE)side, charNo);
+    }
+    user->SendToGameserver((char*)&pkt, 0x26);
 }
 
 void CPowerManager::SetPowerWarEndKillPoint(unsigned short point)
@@ -4424,6 +4534,28 @@ void CPowerManager::SaveDBPowerWarBonusPoint()
 
 void CPowerManager::SaveDBPowerWarPointReward()
 {
+    char winnerSide = *(char*)((char*)this + 0x184);
+    if (winnerSide == 0 || winnerSide > 2)
+    {
+        CMyFileLog log("SaveDBPowerWarPointReward", 0x357);
+        log("./log/Power", "invalid winner side income(%d)", (int)winnerSide);
+        return;
+    }
+    CApplication* app = *(CApplication**)((char*)this + 4);
+    for (int side = 1; side < 3; side++)
+    {
+        CPowerWarGuildInfo* info =
+            ((CPower*)((char*)this + side * 0x6c + 8))->GetPowerWarGuildInfo();
+        int count = info->GetPowerWarPointDBSaveCount();
+        if (count != 0)
+        {
+            Packet_DB_Save_Power_War_Point_Reward pkt;
+            *(unsigned char*)((char*)&pkt + 0xa) =
+                app->Get_ServerHandler()->GetServerGroupNo();
+            info->MakePacketDBPowerWarPoint(&pkt);
+            app->Get_ServerHandler()->SendToDB(&pkt);
+        }
+    }
 }
 
 void CPowerManager::SendPowerWarEndInfoToSpecificUser(CUser* user, unsigned int b,
