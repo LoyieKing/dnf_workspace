@@ -10,9 +10,16 @@ template <class T, class TQueue>
 class TMemoryPoolStatic
 {
 public:
+#ifdef RELAY_USERPOOL_C6
+    TMemoryPoolStatic() : maxCount_(0), queue_(std::deque<T*>())
+    {
+        array_ = 0;
+    }
+#else
     TMemoryPoolStatic() : maxCount_(0), array_(0)
     {
     }
+#endif
     ~TMemoryPoolStatic()
     {
         shutdown();
@@ -51,7 +58,16 @@ public:
         {
             throw Exception("repository NULL");
         }
-        queue_.push(p);
+        long long index = 0;
+        long long diff = ((char*)p - (char*)array_) / 4 / 7;
+        if (diff > 0)
+        {
+            index = diff / (long long)sizeof(T);
+        }
+        if (maxCount_ > index && index >= 0)
+        {
+            queue_.push(p);
+        }
     }
     void shutdown()
     {

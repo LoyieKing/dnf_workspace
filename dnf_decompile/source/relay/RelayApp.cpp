@@ -169,54 +169,6 @@ void Users::clearDispatchTime()
     m_maxDispatchTime = m_totalDispatchTime;
 }
 
-// ---- UserPools ----
-
-UserPools::UserPools()
-{
-}
-
-UserPools::~UserPools()
-{
-}
-
-TCPSocket* UserPools::createTCPSocket()
-{
-    return m_tcpSocketPool.alloc();
-}
-
-void UserPools::destroyTCPSocket(TCPSocket* sock)
-{
-    m_tcpSocketPool.free(sock);
-}
-
-TCPUser* UserPools::createTCPUser()
-{
-    return m_tcpUserPool.alloc();
-}
-
-void UserPools::destroyTCPUser(TCPUser* user)
-{
-    TCPSocket* sock = user->getSocket();
-    if (sock != 0)
-    {
-        sock->close();
-        destroyTCPSocket(sock);
-    }
-    user->setSocket(0);
-    user->setACCID(0);
-    m_tcpUserPool.free(user);
-}
-
-UDPUser* UserPools::createUDPUser()
-{
-    return m_udpUserPool.alloc();
-}
-
-void UserPools::destroyUDPUser(UDPUser* user)
-{
-    m_udpUserPool.free(user);
-}
-
 // ---- TCPUser ----
 
 TCPUser::TCPUser()

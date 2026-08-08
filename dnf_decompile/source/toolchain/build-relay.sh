@@ -23,6 +23,21 @@ COMMON_FLAGS="-m32 -O0 -D_GNU_SOURCE -fno-enforce-eh-specs -fno-builtin-memset -
 
 mkdir -p "$OUT_DIR"
 
+# UserPool TU：原版由 GCC 4.4.6-3 编译（queue(deque&&) rvalue 构造 + 4.4 头文件）
+C6FLAGS="-m32 -O0 -DRELAY_USERPOOL_C6 -fno-enforce-eh-specs -nostdinc \
+  -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include \
+  -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include-fixed \
+  -isystem /tmp/c6root/usr/include/c++/4.4.7 \
+  -isystem /tmp/c6root/usr/include/c++/4.4.7/x86_64-redhat-linux \
+  -isystem /tmp/c6root/usr/include/c++/4.4.7/backward \
+  -isystem /tmp/c6root/usr/include -I$RELAY"
+C6CXX="env LD_LIBRARY_PATH=/tmp/c6root/usr/lib64:/tmp/c6root/usr/lib /tmp/c6root/usr/bin/g++ -B /tmp/cc1plus446bin/"
+
+if [ ! -f "$OUT_DIR/RelayUserPool.o" ] || [ "$RELAY/RelayUserPool.cpp" -nt "$OUT_DIR/RelayUserPool.o" ]; then
+    echo "CC6 RelayUserPool.cpp (4.4.6-3)"
+    $C6CXX $C6FLAGS -c "$RELAY/RelayUserPool.cpp" -o "$OUT_DIR/RelayUserPool.o"
+fi
+
 SOURCES="$*"
 if [ -z "$SOURCES" ]; then
     SOURCES="RelayUtil"
@@ -42,7 +57,7 @@ for f in $SOURCES; do
     fi
 done
 
-ALL_OBJS=$(ls "$OUT_DIR"/*.o 2>/dev/null | grep -v stub_main || true)
+ALL_OBJS="$OUT_DIR/RelayUserPool.o $(ls "$OUT_DIR"/*.o 2>/dev/null | grep -vE 'stub_main|RelayUserPool' || true)"
 if [ -n "$ALL_OBJS" ]; then
     echo "LD  df_relay_r"
     if ! nm $ALL_OBJS 2>/dev/null | grep -q ' T main$'; then
