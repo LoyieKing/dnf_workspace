@@ -395,14 +395,56 @@ void CPacketTranslater::OnSetGuildMemberGrade(PacketHeader* pkt)
     }
 }
 
+void CPacketTranslater::OnCallGuildMembers(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnCallGuildMembers : 0 == m_pclApp")
+    char* pb = (char*)pkt;
+    if (*(unsigned int*)(pb + 0xe) == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnCallGuildMembers : packet->m_uGuildKey == 0");
+    }
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 10));
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xe));
+    if (user != 0 && guild != 0)
+    {
+        guild->ReplyGuildMembers(user);
+    }
+}
+
+void CPacketTranslater::OnCallGuildAllMembers(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnCallGuildAllMembers : 0 == m_pclApp")
+    char* pb = (char*)pkt;
+    if (*(unsigned int*)(pb + 0xe) == 0)
+    {
+        throw CDNFException(
+            "CPacketTranslater::OnCallGuildAllMembers : packet->m_uGuildKey == 0");
+    }
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 10));
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xe));
+    if (user != 0 && guild != 0)
+    {
+        guild->ReplyGuildMembers(user);
+    }
+}
+
+void CPacketTranslater::OnCallGuildInfo(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnCallGuildInfo : 0 == m_pclApp")
+    char* pb = (char*)pkt;
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 10));
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xe));
+    if (user != 0 && guild != 0)
+    {
+        guild->SendGuildInfoToMemberOnly(user);
+    }
+}
+
 STUB_HANDLER(OnReplyUserInfo)
 STUB_HANDLER(OnNoticeGuildMarkChange)
 STUB_HANDLER(OnNoticeGuildChatMsg)
-STUB_HANDLER(OnCallGuildMembers)
-STUB_HANDLER(OnCallGuildAllMembers)
 STUB_HANDLER(OnDBReplyGuildAllMembers)
 STUB_HANDLER(OnDBReplyUnconnGuildMember)
-STUB_HANDLER(OnCallGuildInfo)
 STUB_HANDLER(OnNoticeGuildCreate)
 STUB_HANDLER(OnCharacterDelete)
 STUB_HANDLER(OnUpdateChangableCharInfo)
