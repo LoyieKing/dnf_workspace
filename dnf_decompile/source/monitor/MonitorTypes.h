@@ -427,9 +427,11 @@ public:
     char bind(unsigned short port, bool flag);
     char listen(int backlog);
     char pollReadEvent();
+    int pollReadWriteErrEvent() const;
     char accept(TCPSocket* sock);
     int getHandle() const;
-    char m_data[0x1c];
+    int m_fd;             // +0
+    char m_data[0x18];    // +4
 };
 
 // ---- CTcpNetworkThread：0x30 ----

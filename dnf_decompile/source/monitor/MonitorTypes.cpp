@@ -11,6 +11,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <signal.h>
+#include <sys/select.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
@@ -1505,6 +1506,51 @@ char TCPSocket::open() { return 0; }
 char TCPSocket::bind(unsigned short port, bool flag) { return 0; }
 char TCPSocket::listen(int backlog) { return 0; }
 char TCPSocket::pollReadEvent() { return 0; }
+int TCPSocket::pollReadWriteErrEvent() const
+{
+    fd_set readfds;
+    fd_set writefds;
+    fd_set errfds;
+    FD_ZERO(&readfds);
+    FD_ZERO(&writefds);
+    FD_ZERO(&errfds);
+    FD_SET(m_fd, &readfds);
+    FD_SET(m_fd, &writefds);
+    FD_SET(m_fd, &errfds);
+    timeval tv;
+    tv.tv_sec = 1;
+    tv.tv_usec = 0;
+    int result = 0;
+    int flag = 0;
+    result = select(m_fd + 1, &readfds, &writefds, &errfds, &tv);
+    if (result < 0)
+    {
+        printf("pollReadWriteErrEvent(%s)", strerror(errno));
+    }
+    else if (!FD_ISSET(m_fd, &readfds))
+    {
+        if (!FD_ISSET(m_fd, &writefds))
+        {
+            result = flag;
+            if (FD_ISSET(m_fd, &errfds))
+            {
+                flag = 3;
+                result = flag;
+            }
+        }
+        else
+        {
+            flag = 2;
+            result = flag;
+        }
+    }
+    else
+    {
+        flag = 1;
+        result = flag;
+    }
+    return result;
+}
 char TCPSocket::accept(TCPSocket* sock) { return 0; }
 int TCPSocket::getHandle() const { return 0; }
 
