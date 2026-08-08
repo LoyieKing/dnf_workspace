@@ -14,14 +14,15 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 38（本批新增 Auction 全部符号） |
-| IDENTICAL | 3,623 |
-| NEAR | 19 |
-| DIFF（语义等价，-O0 惯用法） | 432 |
-| MISSING（未实现） | 662 |
+| 已实现 TU | 66（全部） |
+| IDENTICAL | 4,270 |
+| NEAR | 20 |
+| DIFF（语义等价，-O0 惯用法） | 446 |
+| MISSING（未实现） | 0 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
-> 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
+> 其余 TU。本批（2026-08-08）完成最后一个大块 Search（MISSING 662→0），并补完
+> ReliabilityDictionary、IArea/Script 的模板实例化；剩余 DIFF 逐一核验为 -O0
 > 代码生成惯用法差异（分支方向、bool 物化、寄存器分配、栈槽、nop 对齐、调用参数求值顺序），
 > 语义全部等价。
 
@@ -456,21 +457,41 @@
     其余；Packet_Monitor_Notify_Auction_Mail 38B = PacketHeader(0xc1c,0x26)+
     m_nCharacNo@0xa/iIdByChannel@0xe/m_nNotifyNo@0x12/m_nItemId@0x13/m_nPayType@0x17/
     RandomOption@0x18。
+66. **Search 容器层级为「指针套指针」**（关键修正）：DWARF 权威类型链是
+    `multiset<AuctionId> TAuctionIdContainer` → `map<uchar, TAuctionIdContainer*>
+    TRefineContainer` → `map<uchar, TRefineContainer*> TUpgradeContainer` → … 共 14 层，
+    P* typedef 全部是「指向容器」的指针；OperateBy* 建新容器时用
+    `PUpgradeContainer* p = new PUpgradeContainer; *p = new TUpgradeContainer();`
+    （4B 指针堆分配 + 0x18 map 分配，复现原版两次 operator new 与 NULL 检查）。
+67. **Search 静态参数**：Insert/Delete/FindByItem/FindByCategory 各有函数级
+    `static TOperate/TItemIdParameter/TCategoryParameter search_*_parameter;` +
+    `static T* p_parameter = &search_*_parameter;`（.data 指针 + .bss 对象，
+    与 nm 符号 `_ZZN6Search...` 一一对应）；带非平凡 ctor 的用 __cxa_guard。
+68. **Search 类别映射**：mCategoryNextContainer 存 35 组「组头→组尾」+ 头像 6 类 ×
+    9 职业循环（AVATAR_CATEGORY_START_INDEXES/GAP 常量在 .rodata）；IsValidCategory
+    为 26 段范围 OR + 69 个「容器类别」等值排除（等值链用 `!(...)` 赋值形态复现）；
+    SetOperateParameter 的替代头像转换是 `category - (c<25000?0x59d8:0x61a8)` +
+    `+ (c<25000?19000:21000 / 15000:17000)` 的三元形态（共享存储分支）。
+69. **Search 函数级 -O0 惯用法**：int 返回函数直接进条件 → `test;setne;test;je`
+    （如 `if (OperateByX(...) != 0) return 0xe;`）；bool 返回函数直接进条件 →
+    `test;je/jne`；SearchBy* 循环内「子调用失败」是内联 `return ERR;`、「停止条件」
+    是 `break;` 落到循环后 `return 0;`；`pContainer->size() <= startIdx` 产生
+    `setbe` 形态；`!isEmpty()` 用空 then + else 形态产生 `test;jne`。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
 ```
-656  Search
-  ...
+全部 66 CU MISSING = 0（2026-08-08 最后确认）
+
+按 TU 的 DIFF 分布（剩余均为 -O0 语义等价差异）：
+Search 20、Auction 43、其余框架/字典类 TU 各 0~40 不等。
 ```
 
 ## 下一步
 
-1. ServerCommon + Core + DNFShared：Strings/UnicodeConvert/ServerXml(+TinyXML)/
-   RDARScriptItemInfo/RDARScriptAvatarColorInfo/DBConnection(+mysql 桩)/
-   HandlerFor_DB_/TeaInitialize/DNFFunctionLibWrapper 已全量完成。
-2. 字典类：AveragePriceDictionary / CharacterDictionary / ExpireTimeDictionary /
-   ReliabilityDictionary 已完成；AuctionDictionary 已完成（本批）。
-3. 大块：Search（656）为最后一个未完成 TU；Auction/ServerLibrary2.0/
-   ServiceFactory 已完成。
-4. 全量复验 DIFF/MISSING，移除临时桩，产出 docs/df_auction_r_restoration_report.md，commit & push。
+1. Search（最后一个大块，662→0）已完成；ReliabilityDictionary 补完；IArea/Script
+   模板实例化（vector<string>::push_back(EOSs)/emplace_back、map insert 返回 pair
+   move 赋值）补完。
+2. 全量复验 DIFF/MISSING，产出 docs/df_auction_r_restoration_report.md，commit & push。
+3. 后续（可选）：逐批把剩余 DIFF 压到 IDENTICAL/NEAR；df_point_r 与 auction 100%
+   符号重叠，可直接复用本还原结果。
