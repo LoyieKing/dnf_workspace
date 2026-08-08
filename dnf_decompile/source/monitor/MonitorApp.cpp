@@ -593,6 +593,53 @@ void CApplication::TranslateSignal()
     }
 }
 
+int CApplication::AddAccusationCharac(const std::string& a, const std::string& b, int c,
+                                      char type)
+{
+    std::map<std::string, int>::iterator it = m_map350.find(a);
+    if (it != m_map350.end())
+    {
+        if (type == 'p')
+        {
+            if (9 < it->second)
+            {
+                return 99;
+            }
+        }
+        else
+        {
+            if (1 < it->second)
+            {
+                return 99;
+            }
+        }
+    }
+    else
+    {
+        m_map350.insert(std::pair<const std::string, int>(a, 0));
+        it = m_map350.find(a);
+    }
+    if (m_map350.size() == (m_map350.size() / 100) * 100)
+    {
+        CMyFileLog log("AddAccusationCharac", 0x5c0);
+        log("./log/mannerlessUser", "user count : %u\n", m_map350.size());
+    }
+    std::pair<std::string, int> key(b, c);
+    if (m_set338.find(key) != m_set338.end())
+    {
+        return 0x6f;
+    }
+    m_set338.insert(key);
+    it->second++;
+    return 0x6e;
+}
+
+void CApplication::ClearAccusationList()
+{
+    m_set338.clear();
+    m_map350.clear();
+}
+
 void* CApplication::Get_UdpPacketRecvQ()
 {
     return 0;

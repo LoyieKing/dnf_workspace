@@ -63,6 +63,8 @@ public:
     void Send_Suspend_Signal(const std::string& file);
     void App_Stop();
     void TranslateSignal();
+    int AddAccusationCharac(const std::string& a, const std::string& b, int c, char type);
+    void ClearAccusationList();
     unsigned char Get_ServerGroup();
 
     bool m_loaded;                      // +4
