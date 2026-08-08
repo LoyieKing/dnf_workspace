@@ -156,6 +156,7 @@ public:
     void QueryGuildMember(CServerHandler* handler);
     void SendGuildMemberDBInfo(const STGuildMemerDBInfo& info);
     void LoadGuildMember(unsigned int guildKey, STGuildMemerDBInfo& info);
+    STGuildMemerDBInfo* GetGuildMemDBInfo();
     void SaveGuildMember(unsigned char type, unsigned int value, CServerHandler* handler,
                          unsigned char flag);
     void ChangeGuildMemberGrade(unsigned char grade);
@@ -338,6 +339,7 @@ public:
     void ChangeUnconnectedGuildMemberGrade(unsigned int charNo, int grade);
     char* getUnconnectedGuildMemberName(unsigned int charNo);
     void WriteGuildMemberMemo(CUser* user, const char* memo);
+    void ReplyGuildMembers(CUser* user);
     unsigned char GetPowerSide();
     void SetPowerSide(unsigned char side);
     unsigned int GetPowerWarPoint();

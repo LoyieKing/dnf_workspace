@@ -319,6 +319,11 @@ void CUser::SendGuildMemberDBInfo(const STGuildMemerDBInfo& info)
     }
 }
 
+STGuildMemerDBInfo* CUser::GetGuildMemDBInfo()
+{
+    return &m_guildDBInfo;
+}
+
 unsigned int CUser::GetGuildKey()
 {
     return m_guild ? m_guild->GetGuildKey() : 0;
@@ -1479,6 +1484,53 @@ void CGuild::WriteGuildMemberMemo(CUser* user, const char* memo)
             }
         }
     }
+}
+
+void CGuild::ReplyGuildMembers(CUser* user)
+{
+    if (user == 0 || (m_field1c & 4) == 0 || m_members.empty())
+    {
+        return;
+    }
+    // 内联构造 Packet_Monitor_Call_Guild_Members_ToChannel（0x34 头 + 96*0x3f 成员记录）
+    char buf[0x17dc];
+    memset(buf, 0, sizeof(buf));
+    *(unsigned short*)(buf + 0) = 0x1f3e;  // 包 ID
+    *(unsigned int*)(buf + 0xa) = m_guildKey;
+    memcpy(buf + 0xe, (char*)this + 0x20, 0x16);  // 公会名
+    *(unsigned int*)(buf + 0x24) = *(unsigned int*)((char*)this + 0x44);
+    *(unsigned short*)(buf + 0x28) = *(unsigned short*)((char*)this + 0x42);
+    int count = 0;
+    for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+         it != m_members.end() && count < 96; ++it)
+    {
+        if (it->second == 0)
+        {
+            continue;
+        }
+        char* rec = buf + 0x34 + count * 0x3f;
+        rec[0] = it->second->GetJob();
+        rec[1] = it->second->GetGrowthType();
+        *(unsigned short*)(rec + 2) = it->second->GetLevel();
+        memcpy(rec + 4, it->second->GetCharName(), 0x1d);
+        rec[0x21] = it->second->GetSex();
+        if (it->second->GetGameServer() != 0)
+        {
+            rec[0x20] = it->second->GetGameServer()->m_field9;
+        }
+        memcpy(rec + 0x22, (char*)it->second->GetGuildMemDBInfo(), 0x14);
+        rec[0x36 + 3] = *(char*)((char*)it->second->GetGuildMemDBInfo() + 0x15);
+        if (it->second->IsBlackUser(user->GetUniqCharNo()) != 0)
+        {
+            rec[0x36 + 2] = 1;
+        }
+        count++;
+    }
+    *(unsigned char*)(buf + 0x2c) = (unsigned char)count;
+    *(unsigned short*)(buf + 0x2) = (unsigned short)(count * 0x3f + 0x34);
+    *(int*)(buf + 0x2e) = user->GetIdByChannel();
+    *(unsigned int*)(buf + 0x32) = user->GetUniqCharNo();
+    user->SendToGameserver(buf, count * 0x3f + 0x34);
 }
 
 void CGuildManager::LoadGuildAgit(unsigned int guildKey, CServerHandler* handler)
