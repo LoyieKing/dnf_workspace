@@ -125,38 +125,6 @@ CGameServer::~CGameServer()
 {
 }
 
-bool CGameServer::IsValidServer()
-{
-    return m_info != 0 && m_info->m_group != 0xff;
-}
-
-bool CGameServer::IsConnected()
-{
-    return m_field8 != 0;
-}
-
-int CGameServer::IsHeartBeatTimeOver()
-{
-    return 0;
-}
-
-void CGameServer::ResetHeartBeat()
-{
-}
-
-void CGameServer::OnDisconnect()
-{
-}
-
-void CGameServer::SendToServer(char* buf, int len)
-{
-}
-
-void CGameServer::SetConnFlag(bool flag)
-{
-    m_field8 = (char)flag;
-}
-
 bool CGameServer::Initialize()
 {
     return CServerInterface::Initialize();

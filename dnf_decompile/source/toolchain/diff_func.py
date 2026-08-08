@@ -11,14 +11,15 @@ Usage: diff_func.py <symbol> [--decompile]
 import re
 import subprocess
 import sys
+import difflib
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import norm_line
 
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
-ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/community/df_community_r'
-NEW = ROOT / 'dnf_decompile/source/build-verify-community/df_community_r'
+ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/guild/df_guild_r'
+NEW = ROOT / 'dnf_decompile/source/build-guild/df_guild_r'
 
 
 def run(cmd):
@@ -57,34 +58,34 @@ def main():
         print('NO DISASSEMBLY IN EITHER')
         return
 
-    # diff with a simple alignment on mnemonics, keeping positional context
-    i = j = 0
-    while i < len(orig) or j < len(new):
-        if i < len(orig) and j < len(new) and orig[i][1] == new[j][1]:
-            print('  {}  {:6s} | {}'.format('same', orig[i][0], orig[i][1]))
-            i += 1
-            j += 1
-        elif i < len(orig) and j < len(new) and mnemonic(orig[i][1]) == mnemonic(new[j][1]):
-            print('! {}  {:6s} | orig: {}'.format('opnd', orig[i][0], orig[i][1]))
-            print('! {}  {:6s} | new : {}'.format('', new[j][0], new[j][1]))
-            i += 1
-            j += 1
-        elif j < len(new) and (i >= len(orig) or j < len(new)) and (i < len(orig) and mnemonic(new[j][1]) == mnemonic(orig[i][1])):
-            # new has same mnemonic as next orig insn but orig may have extra insns
-            if i < len(orig):
-                print('! {}  {:6s} | orig: {}'.format('only', orig[i][0], orig[i][1]))
-                i += 1
+    # 序列对齐：以严格口径归一化文本为单元，difflib 求最长公共子序列；
+    # 相同行 -> same，同助记符不同操作数 -> opnd，单侧存在 -> only
+    o_lines = [x[1] for x in orig]
+    n_lines = [x[1] for x in new]
+    sm = difflib.SequenceMatcher(a=o_lines, b=n_lines, autojunk=False)
+    for tag, i1, i2, j1, j2 in sm.get_opcodes():
+        if tag == 'equal':
+            for k in range(i1, i2):
+                print('  same  {:6s} | {}'.format(orig[k][0], orig[k][1]))
+            continue
+        # 先尝试按助记符配对（opnd），剩余为 only
+        o = [(x[1], x[0]) for x in orig[i1:i2]]
+        n = [(x[1], x[0]) for x in new[j1:j2]]
+        oi = ni = 0
+        while oi < len(o) or ni < len(n):
+            if oi < len(o) and ni < len(n) and mnemonic(o[oi][0]) == mnemonic(n[ni][0]):
+                print('! opnd  {:6s} | orig: {}'.format(o[oi][1], o[oi][0]))
+                print('!       {:6s} | new : {}'.format(n[ni][1], n[ni][0]))
+                oi += 1
+                ni += 1
+            elif oi < len(o) and (ni >= len(n) or mnemonic(o[oi][0]) != mnemonic(n[ni][0])):
+                print('! only  {:6s} | orig: {}'.format(o[oi][1], o[oi][0]))
+                oi += 1
+            elif ni < len(n):
+                print('! only  {:6s} | new : {}'.format(n[ni][1], n[ni][0]))
+                ni += 1
             else:
-                print('! {}  {:6s} | new : {}'.format('only', new[j][0], new[j][1]))
-                j += 1
-        elif i < len(orig) and (j >= len(new) or mnemonic(orig[i][1]) != mnemonic(new[j][1])):
-            print('! {}  {:6s} | orig: {}'.format('only', orig[i][0], orig[i][1]))
-            i += 1
-        elif j < len(new):
-            print('! {}  {:6s} | new : {}'.format('only', new[j][0], new[j][1]))
-            j += 1
-        else:
-            break
+                break
 
 
 if __name__ == '__main__':

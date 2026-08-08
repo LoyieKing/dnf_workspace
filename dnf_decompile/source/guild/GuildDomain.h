@@ -73,8 +73,9 @@ int CheckDayScheduleTimeOver(int hour, long t);
 bool CheckDailyScheduleTimeOver(int hour, long t);
 int CheckDayHourScheduleTimeOver(int day, int hour, long t);
 void GetScheduleTimeAsWDay(int day, int hour);
-bool GuildWarPairDataCompare(const std::pair<unsigned int, void*>& a,
-                             const std::pair<unsigned int, void*>& b);
+struct STGuildWarInfo;
+bool GuildWarPairDataCompare(const std::pair<unsigned int, STGuildWarInfo*>& a,
+                             const std::pair<unsigned int, STGuildWarInfo*>& b);
 
 // ---- CBlackUser ----
 class CBlackUser
@@ -315,12 +316,8 @@ public:
     int InsertUser(unsigned int dbid, CUser* user);
     int InsertUser_CharNo(unsigned int charNo, CUser* user);
     int InsertUser_CharName(char* name, CUser* user);
-    CUser* FindUser(unsigned int dbid);
-    CUser* FindUser_CharNo(unsigned int charNo);
-    CUser* FindUser_CharName(const char* name);
     CUser* FindUser(unsigned int dbid) const;
     CUser* FindUser_CharNo(unsigned int charNo) const;
-    CUser* FindUser_CharName(const char* name) const;
     CUser* FindUser_CharName(std::string name) const;
     void DeleteUsersOnGameServerDown(CGameServer* server);
     void DeleteUsersOnTcpGameServerDown(CTcpGameServer* server);

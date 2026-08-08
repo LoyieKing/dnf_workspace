@@ -47,13 +47,6 @@ public:
     CGameServer();
     CGameServer(stServerInfo* info);
     virtual ~CGameServer();
-    virtual bool IsValidServer();
-    virtual bool IsConnected();
-    virtual int IsHeartBeatTimeOver();
-    virtual void ResetHeartBeat();
-    virtual void OnDisconnect();
-    virtual void SendToServer(char* buf, int len);
-    virtual void SetConnFlag(bool flag);
     bool Initialize();
     bool Destroy();
     int GetSocket();

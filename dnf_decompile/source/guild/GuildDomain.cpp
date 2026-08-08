@@ -107,8 +107,8 @@ void GetScheduleTimeAsWDay(int day, int hour)
     localtime(&target);
 }
 
-bool GuildWarPairDataCompare(const std::pair<unsigned int, void*>& a,
-                             const std::pair<unsigned int, void*>& b)
+bool GuildWarPairDataCompare(const std::pair<unsigned int, STGuildWarInfo*>& a,
+                             const std::pair<unsigned int, STGuildWarInfo*>& b)
 {
     return *(unsigned int*)((char*)b.second + 4) < *(unsigned int*)((char*)a.second + 4);
 }
@@ -772,24 +772,6 @@ void CUserManager::DeleteUser_CharName(std::string name)
     }
 }
 
-CUser* CUserManager::FindUser(unsigned int dbid)
-{
-    std::map<unsigned int, CUser*>::iterator it = m_users.find(dbid);
-    return it == m_users.end() ? 0 : it->second;
-}
-
-CUser* CUserManager::FindUser_CharNo(unsigned int charNo)
-{
-    std::map<unsigned int, CUser*>::iterator it = m_charNoUsers.find(charNo);
-    return it == m_charNoUsers.end() ? 0 : it->second;
-}
-
-CUser* CUserManager::FindUser_CharName(const char* name)
-{
-    std::map<std::string, CUser*>::iterator it = m_charNameUsers.find(std::string(name));
-    return it == m_charNameUsers.end() ? 0 : it->second;
-}
-
 CUser* CUserManager::FindUser(unsigned int dbid) const
 {
     std::map<unsigned int, CUser*>::const_iterator it = m_users.find(dbid);
@@ -800,12 +782,6 @@ CUser* CUserManager::FindUser_CharNo(unsigned int charNo) const
 {
     std::map<unsigned int, CUser*>::const_iterator it = m_charNoUsers.find(charNo);
     return it == m_charNoUsers.end() ? 0 : it->second;
-}
-
-CUser* CUserManager::FindUser_CharName(const char* name) const
-{
-    std::map<std::string, CUser*>::const_iterator it = m_charNameUsers.find(std::string(name));
-    return it == m_charNameUsers.end() ? 0 : it->second;
 }
 
 CUser* CUserManager::FindUser_CharName(std::string name) const
