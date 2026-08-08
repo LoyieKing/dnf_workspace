@@ -634,7 +634,6 @@ STUB_HANDLER(OnGuildExpLimit)
 STUB_HANDLER(OnWriteGuildMemberMemo)
 STUB_HANDLER(OnLoadGuildCargo)
 STUB_HANDLER(OnLoadGuildCargoHistory)
-STUB_HANDLER(OnGuildRequestGuildBoardOpen)
 STUB_HANDLER(OnDBLoadReplyGuildBoardOpen)
 STUB_HANDLER(OnGuildRequestGuildBoardWrite)
 STUB_HANDLER(OnDBLoadReplyGuildBoardWrite)
@@ -3362,6 +3361,82 @@ void CPacketTranslater::OnAddGuildFund(PacketHeader* pkt)
     else
     {
         guild->AddGuildFund(*(unsigned int*)(pb + 0xb));
+    }
+}
+
+void CPacketTranslater::OnGuildRequestGuildBoardOpen(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGuildRequestGuildBoardOpen", 0x1c4a);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnGuildRequestGuildBoardOpen : 0 == m_pclApp");
+        return;
+    }
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xf));
+    if (user == 0)
+    {
+        CMyFileLog log("OnGuildRequestGuildBoardOpen", 0x1c54);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnGuildRequestGuildBoardOpen : 0 == pclUser");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xb);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnGuildRequestGuildBoardOpen", 0x1c5b);
+        log("./log/GuildBoard",
+            "CPacketTranslater::OnGuildRequestGuildBoardOpen : 0 == pclGuild");
+        return;
+    }
+    CGuildBoard* board = guild->GetGuildBoard();
+    bool sendNow = false;
+    if (board->isWebGuildBoardAction() == 0 && (unsigned char)pb[10] == 0)
+    {
+        if (board->getGuildBoardDBLoadState() == 0)
+        {
+            sendNow = true;
+        }
+    }
+    else
+    {
+        sendNow = true;
+    }
+    if (!sendNow)
+    {
+        board->sendGuildBoardData(*(unsigned int*)(pb + 0xb), *(unsigned int*)(pb + 0xf),
+                                  0x232a, user);
+        return;
+    }
+    if (board->getGuildBoardDBLoadState() == 0)
+    {
+        Packet_DB_Load_Request_Guild_Board_Open dbPkt;
+        *(unsigned int*)((char*)&dbPkt + 0xa) = *(unsigned int*)(pb + 0xb);
+        *(unsigned int*)((char*)&dbPkt + 0xe) = *(unsigned int*)(pb + 0xf);
+        m_pclApp->Get_ServerHandler()->SendToDB(&dbPkt);
+        board->setGuildBoardDBLoadState((ENUM_DB_LOAD_STATE)1);
+        return;
+    }
+    board->setWebGuildBoardAction(false);
+    bool needDB = false;
+    if (board->getGuildBoardDBLoadState() == 2 && board->isGuildBoardDBAccess() != 0)
+    {
+        needDB = true;
+    }
+    if (needDB)
+    {
+        Packet_DB_Load_Request_Guild_Board_Open dbPkt;
+        *(unsigned int*)((char*)&dbPkt + 0xa) = *(unsigned int*)(pb + 0xb);
+        *(unsigned int*)((char*)&dbPkt + 0xe) = *(unsigned int*)(pb + 0xf);
+        m_pclApp->Get_ServerHandler()->SendToDB(&dbPkt);
+        board->setGuildBoardDBLoadState((ENUM_DB_LOAD_STATE)1);
+    }
+    else
+    {
+        board->sendGuildBoardData(*(unsigned int*)(pb + 0xb), *(unsigned int*)(pb + 0xf),
+                                  0x232a, user);
     }
 }
 

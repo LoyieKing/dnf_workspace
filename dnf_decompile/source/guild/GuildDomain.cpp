@@ -3220,15 +3220,26 @@ void CGuildCargo::SetGuildCargoDBInfo(STGuildCargoDBInfo& info)
 
 CGuildBoard::CGuildBoard()
 {
-    memset(m_data, 0, sizeof(m_data));
+    new (m_data + 0xc) std::map<unsigned int, STGuildBoardDBInfo,
+                               std::greater<unsigned int> >();   // class +0xc
+    reset();
 }
 
 CGuildBoard::~CGuildBoard()
 {
+    reset();
+    ((std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >*)(m_data + 0xc))
+        ->~map();
 }
 
 void CGuildBoard::reset()
 {
+    ((std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >*)(m_data + 0xc))
+        ->clear();
+    *(unsigned int*)(m_data + 0) = 0;    // field0
+    *(unsigned char*)(m_data + 4) = 0;   // webAction
+    *(unsigned int*)(m_data + 8) = 0;    // dbLoadState
+    *(unsigned int*)(m_data + 0x24) = 0; // dbAccessTime
 }
 
 void CGuildBoard::printGuildBoard()
@@ -3238,11 +3249,109 @@ void CGuildBoard::printGuildBoard()
 void CGuildBoard::setGuildBoardData(unsigned int a, unsigned int b, CGuild* guild, int c,
                                     STGuildBoardDBInfo* info)
 {
+    std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >* map =
+        (std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >*)(m_data + 0xc);
+    for (int i = 0; i < c; i++)
+    {
+        STGuildBoardDBInfo entry;
+        char* src = (char*)info + i * 0xa5;
+        memcpy(&entry, src, 0x78);
+        *(unsigned int*)((char*)&entry + 0x78) = *(unsigned int*)(src + 0x78);
+        unsigned int key = *(unsigned int*)(src + 0x7c);
+        *(unsigned int*)((char*)&entry + 0x7c) = key;
+        *(unsigned int*)((char*)&entry + 0x80) = *(unsigned int*)(src + 0x80);
+        memcpy((char*)&entry + 0x84, src + 0x84, 0x21);
+        if (guild->IsGuildMaster(*(unsigned int*)(src + 0x80)) != 0)
+        {
+            *(unsigned char*)((char*)&entry + 0x86) = 1;
+        }
+        map->insert(std::make_pair(key, entry));
+    }
+    CMyFileLog log("setGuildBoardData", 0x5f);
+    log("./log/GuildBoard", "SET SUCCESS - GUILD:%u, CHARAC:%u, COUNT:%u", a, b, c);
 }
 
 void CGuildBoard::sendGuildBoardData(unsigned int a, unsigned int b, unsigned int c,
                                      CUser* user)
 {
+    if (user == 0)
+    {
+        return;
+    }
+    std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >* map =
+        (std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >*)(m_data + 0xc);
+    int total = (int)map->size();
+    unsigned short codeType = (unsigned short)c;
+    if (total == 0)
+    {
+        Packet_Guild_Reply_Guild_Board reply;
+        *(unsigned short*)((char*)&reply + 0xc) = codeType;
+        *(unsigned int*)((char*)&reply + 0xf) = user->GetIdByChannel();
+        *(unsigned int*)((char*)&reply + 0x13) = user->GetUniqCharNo();
+        *(unsigned char*)((char*)&reply + 0xe) = 0;
+        *(unsigned char*)((char*)&reply + 0x17) = 0;
+        user->SendTcpGameserver(&reply);
+        CMyFileLog log("sendGuildBoardData", 0x77);
+        log("./log/GuildBoard", "SEND SUCCESS - CODE TYPE:%u, GUILD:%u, CHARAC:%u, COUNT:%u",
+            c, a, b, 0);
+        return;
+    }
+    if (0x32 < total)
+    {
+        total = 0x32;
+    }
+    int fullPages = total / 10;
+    int remainder = total % 10;
+    std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >::iterator it =
+        map->begin();
+    for (int page = 0; page < fullPages; page++)
+    {
+        Packet_Guild_Reply_Guild_Board reply;
+        *(unsigned short*)((char*)&reply + 0xc) = codeType;
+        *(unsigned int*)((char*)&reply + 0xf) = user->GetIdByChannel();
+        *(unsigned int*)((char*)&reply + 0x13) = user->GetUniqCharNo();
+        *(unsigned char*)((char*)&reply + 0xe) = (unsigned char)total;
+        *(unsigned char*)((char*)&reply + 0x17) = 10;
+        for (int i = 0; i < 10; i++)
+        {
+            char* out = (char*)&reply + 0x18 + i * 0xa5;
+            char* stored = (char*)&it->second;
+            memcpy(out, stored + 4, 0x78);
+            *(unsigned int*)(out + 0x78) = *(unsigned int*)(stored + 0x7c);
+            *(unsigned int*)(out + 0x7c) = it->first;
+            *(unsigned int*)(out + 0x80) = *(unsigned int*)(stored + 0x84);
+            memcpy(out + 0x84, stored + 0x88, 0x21);
+            ++it;
+        }
+        user->SendTcpGameserver(&reply);
+        CMyFileLog log("sendGuildBoardData", 0xa5);
+        log("./log/GuildBoard", "SEND SUCCESS - CODE TYPE:%u, GUILD:%u, CHARAC:%u, COUNT:%u",
+            c, a, b, total, 10);
+    }
+    if (remainder != 0)
+    {
+        Packet_Guild_Reply_Guild_Board reply;
+        *(unsigned short*)((char*)&reply + 0xc) = codeType;
+        *(unsigned int*)((char*)&reply + 0xf) = user->GetIdByChannel();
+        *(unsigned int*)((char*)&reply + 0x13) = user->GetUniqCharNo();
+        *(unsigned char*)((char*)&reply + 0xe) = (unsigned char)total;
+        *(unsigned char*)((char*)&reply + 0x17) = (unsigned char)remainder;
+        for (int i = 0; i < remainder; i++)
+        {
+            char* out = (char*)&reply + 0x18 + i * 0xa5;
+            char* stored = (char*)&it->second;
+            memcpy(out, stored + 4, 0x78);
+            *(unsigned int*)(out + 0x78) = *(unsigned int*)(stored + 0x7c);
+            *(unsigned int*)(out + 0x7c) = it->first;
+            *(unsigned int*)(out + 0x80) = *(unsigned int*)(stored + 0x84);
+            memcpy(out + 0x84, stored + 0x88, 0x21);
+            ++it;
+        }
+        user->SendTcpGameserver(&reply);
+        CMyFileLog log("sendGuildBoardData", 0xac);
+        log("./log/GuildBoard", "SEND SUCCESS - CODE TYPE:%u, GUILD:%u, CHARAC:%u, COUNT:%u",
+            c, a, b, total, remainder);
+    }
 }
 
 void CGuildBoard::clearGuildBoardData()
@@ -3255,29 +3364,32 @@ void CGuildBoard::deleteGuildBoardData(unsigned int a, unsigned int b, unsigned 
 
 bool CGuildBoard::isGuildBoardDBAccess()
 {
-    return false;
+    return 5 < (unsigned int)(time(0) - *(unsigned int*)(m_data + 0x24));
 }
 
 bool CGuildBoard::isWebGuildBoardAction()
 {
-    return false;
+    return *(unsigned char*)(m_data + 4) != 0;
 }
 
 void CGuildBoard::setGuildBoardDBAccess()
 {
+    *(unsigned int*)(m_data + 0x24) = (unsigned int)time(0);
 }
 
 void CGuildBoard::setWebGuildBoardAction(bool flag)
 {
+    *(unsigned char*)(m_data + 4) = flag ? 1 : 0;
 }
 
 int CGuildBoard::getGuildBoardDBLoadState()
 {
-    return 0;
+    return *(unsigned int*)(m_data + 8);
 }
 
 void CGuildBoard::setGuildBoardDBLoadState(ENUM_DB_LOAD_STATE state)
 {
+    *(unsigned int*)(m_data + 8) = (unsigned int)state;
 }
 
 void CGuildBoard::sendMessageToDBMW_GuildFund(CServerHandler* handler, int fund, CUser* user)
