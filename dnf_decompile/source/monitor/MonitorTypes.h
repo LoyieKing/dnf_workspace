@@ -24,6 +24,7 @@ class CTcpNetSystem;
 class CMemberConfig;
 class CMemberExpTbl;
 class CMemberManager;
+class CUser;
 class CTcpManagerServer;
 class CTcpDBServer;
 class CGameServer;
@@ -510,6 +511,7 @@ public:
     void MemberEnterProcess();
     void ProcessByMinute();
     void AddSchoolNo(unsigned int schoolNo, unsigned char channel);
+    CUser* FindUser_CharNo(unsigned int charNo) const;
     std::map<unsigned int, std::map<unsigned char, unsigned int> > m_mapSchools;  // +0
     char m_data[0x60];              // +0x18
     CApplication* m_app;            // +0x78
@@ -876,6 +878,42 @@ public:
 };
 }
 
+// ---- village_attacked：村庄攻防 ----
+namespace village_attacked
+{
+struct stUserHuntingPoint
+{
+    unsigned int m_huntingPoint;  // +0
+    unsigned int m_characNo;      // +4
+    bool operator<(const stUserHuntingPoint& other) const
+    {
+        return m_huntingPoint < other.m_huntingPoint;
+    }
+};
+
+struct stHuntingPoint
+{
+    unsigned int m_huntingPoint;  // +0
+    unsigned int m_characNo;      // +4
+};
+
+class CVillageAttackedManager
+{
+public:
+    CVillageAttackedManager(CApplication* app);
+    ~CVillageAttackedManager();
+    void SendCharacRank();
+    void SendFirstRankerRewardJpn(CUser* user, int rank);
+    CApplication* m_app;                       // +0
+    std::map<unsigned int, stHuntingPoint> m_huntingPoints;  // +4
+    int m_field1c;                             // +0x1c
+    int m_field20;                             // +0x20
+    char m_data2[0xc];                         // +0x24
+};
+}
+
+unsigned int GetNowTime();
+
 // ---- monitor 专属 Packet（Load 中局部构造）----
 class Packet_Item_Limit_Edition_Load_Data_Req : public PacketHeader
 {
@@ -925,6 +963,15 @@ public:
     Packet_Monitor_Take_Screen_Shot();
     unsigned char m_fieldA;   // +10
     unsigned int m_fieldB;    // +11
+};
+
+class Packet_DBMW_Query_Msg : public PacketHeader
+{
+public:
+    Packet_DBMW_Query_Msg();
+    unsigned int m_fieldA;    // +10
+    unsigned int m_fieldB;    // +14
+    char m_data[0x1001];      // +18
 };
 
 class Packet_Load_Periodic_Message : public PacketHeader

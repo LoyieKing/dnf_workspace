@@ -469,6 +469,11 @@ CServerHandler* CApplication::Get_ServerHandler()
     return m_serverHandler2;
 }
 
+CUserManager* CApplication::Get_UserManager()
+{
+    return &m_userManager;
+}
+
 char CApplication::Send_Term_Signal(const std::string& file)
 {
     std::string path = "./pid/" + file;

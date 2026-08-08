@@ -54,6 +54,7 @@ public:
     CTcpNetSystem* Get_TcpNetSystem();
     void OnGameServerDown(CGameServer* server);
     CServerHandler* Get_ServerHandler();
+    CUserManager* Get_UserManager();
     void* Get_UdpPacketRecvQ();
     CUdpHandler* Get_UdpHandler();
     void* Get_UdpQLock();

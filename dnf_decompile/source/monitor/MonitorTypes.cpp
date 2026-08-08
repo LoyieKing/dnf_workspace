@@ -982,6 +982,10 @@ CUserManager::~CUserManager() {}
 void CUserManager::Init(CApplication* app) {}
 void CUserManager::MemberEnterProcess() {}
 void CUserManager::ProcessByMinute() {}
+CUser* CUserManager::FindUser_CharNo(unsigned int charNo) const
+{
+    return 0;
+}
 void CUserManager::AddSchoolNo(unsigned int schoolNo, unsigned char channel)
 {
     std::map<unsigned int, std::map<unsigned char, unsigned int> >::iterator it =
@@ -1095,6 +1099,75 @@ int CMemberManager::MemerMemLogin(unsigned int key, CUser* user)
             key);
     }
     return result;
+}
+
+namespace village_attacked
+{
+CVillageAttackedManager::CVillageAttackedManager(CApplication* app) {}
+CVillageAttackedManager::~CVillageAttackedManager() {}
+void CVillageAttackedManager::SendFirstRankerRewardJpn(CUser* user, int rank) {}
+void CVillageAttackedManager::SendCharacRank()
+{
+    unsigned char serverGroup = 0;
+    if (!m_huntingPoints.empty())
+    {
+        std::priority_queue<stUserHuntingPoint> pq;
+        for (std::map<unsigned int, stHuntingPoint>::iterator it = m_huntingPoints.begin();
+             it != m_huntingPoints.end(); ++it)
+        {
+            stUserHuntingPoint p;
+            p.m_huntingPoint = it->second.m_huntingPoint;
+            p.m_characNo = it->second.m_characNo;
+            pq.push(p);
+        }
+        char sql[0x1001];
+        memset(sql, 0, 0x1001);
+        std::string query;
+        serverGroup = m_app->Get_ServerGroup();
+        unsigned int now = GetNowTime();
+        if ((unsigned int)m_field20 <= (unsigned int)m_field1c)
+        {
+            int rank = 0;
+            int count = 0;
+            while (!pq.empty())
+            {
+                stUserHuntingPoint p = pq.top();
+                CUser* user = m_app->Get_UserManager()->FindUser_CharNo(p.m_characNo);
+                if (user == 0)
+                {
+                    pq.pop();
+                    CMyFileLog log("SendCharacRank", 0x238);
+                    log("./log/village", "User is null [charac_no:%u]", p.m_characNo);
+                }
+                else
+                {
+                    rank++;
+                    SendFirstRankerRewardJpn(user, rank);
+                    sprintf(sql, "(%d,cast(from_unixtime(%d) as date),%u,%u,%d)", serverGroup,
+                            now, p.m_characNo, p.m_huntingPoint, rank);
+                    if (query.length() != 0)
+                    {
+                        query += ",";
+                    }
+                    query += sql;
+                    pq.pop();
+                    if (2 < rank)
+                    {
+                        break;
+                    }
+                }
+                count++;
+            }
+        }
+        Packet_DBMW_Query_Msg pkt;
+        pkt.m_fieldB = 6;
+        pkt.m_fieldA = 0x4ee4;
+        sprintf(sql,
+                "inSert into village_attacked_charac_point_rank(server_info, occ_date, charac_no, hunting_point, rank) values%s",
+                query.c_str());
+        m_app->Get_ServerHandler()->SendToDB(&pkt);
+    }
+}
 }
 
 CUser::CUser() {}
@@ -1856,6 +1929,18 @@ Packet_Monitor_Take_Screen_Shot::Packet_Monitor_Take_Screen_Shot()
 {
     m_fieldA = 0;
     m_fieldB = 0;
+}
+
+Packet_DBMW_Query_Msg::Packet_DBMW_Query_Msg() : PacketHeader(0x177d, 0x1013)
+{
+    m_fieldA = 0;
+    m_fieldB = 0;
+    memset(m_data, 0, 0x1001);
+}
+
+unsigned int GetNowTime()
+{
+    return (unsigned int)time(0);
 }
 
 Packet_Load_Periodic_Message::Packet_Load_Periodic_Message() : PacketHeader(0x1f48, 10) {}
