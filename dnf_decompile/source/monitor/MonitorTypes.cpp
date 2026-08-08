@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <sys/times.h>
 #include <unistd.h>
 
 void* CUdpRecvBuffer::operator new(unsigned int size)
@@ -262,9 +263,81 @@ void* CThreadInterface::dispatch_proxy(void* temp) { return 0; }
 CFrameCountHandler::CFrameCountHandler() {}
 CFrameCountHandler::~CFrameCountHandler() {}
 void CFrameCountHandler::InitFrameCountInfo(CApplication* app, unsigned int frameCount,
-                                            unsigned short tick) {}
-CFrameCountHandler* CFrameCountHandler::GetFrameCountInfo() { return this; }
-void CFrameCountHandler::SaveProcess() {}
+                                            unsigned short tick)
+{
+    if (tick != 0)
+    {
+        m_app = app;
+        memset(this, 0, 0x28);
+        m_field4 = tick;
+        m_field8 = 100 / tick;
+        return;
+    }
+    throw CDNFException("CFrameCountHandler::InitFrameCountInfo() Exception Break!");
+}
+CFrameCountHandler* CFrameCountHandler::GetFrameCountInfo()
+{
+    tms tm = {};
+    m_field24 = 0;
+    if (m_field0 == 0)
+    {
+        m_field0 = 1;
+        m_field14 = 0;
+        m_fieldc = times(&tm);
+        if (m_fieldc == -1)
+        {
+            throw CDNFException("CFrameCountHandler::GetFrameCountInfo() times() Exception Break!");
+        }
+    }
+    else
+    {
+        m_field10 = times(&tm);
+        if (m_field10 == -1)
+        {
+            throw CDNFException("CFrameCountHandler::GetFrameCountInfo() times() Exception Break!");
+        }
+        if ((unsigned int)m_field10 < (unsigned int)m_fieldc)
+        {
+            m_fieldc = m_field10;
+        }
+        if (m_field14 < (unsigned int)((int)m_field10 - (int)m_fieldc) / (unsigned int)m_field8)
+        {
+            m_field14++;
+            m_field24 = 1;
+            if (99 < (unsigned int)((int)m_field10 - (int)m_fieldc))
+            {
+                m_field18 = m_field14;
+                m_field24 = 2;
+                m_field14 = 0;
+                m_fieldc = (m_field10 - (m_field10 - m_fieldc)) + 100;
+                m_field20 = 0;
+                m_field25++;
+                if (59 < (unsigned char)m_field25)
+                {
+                    m_field24 = 3;
+                    m_field25 = 0;
+                    m_field26++;
+                    if (59 < (unsigned char)m_field26)
+                    {
+                        m_field24 = 4;
+                        m_field26 = 0;
+                    }
+                }
+            }
+        }
+    }
+    return this;
+}
+void CFrameCountHandler::SaveProcess()
+{
+    m_field28++;
+    if (m_field28 != 0)
+    {
+        CMyFileLog log("SaveProcess", 0xa8);
+        log("./log/frame", "FPS(%02d) / DFC(%02d)\n", m_field18, m_field4);
+        m_field28 = 0;
+    }
+}
 
 CBuddyRegisterManager::CBuddyRegisterManager() {}
 CBuddyRegisterManager::~CBuddyRegisterManager() {}
@@ -459,11 +532,129 @@ CTaskScheduler::~CTaskScheduler() {}
 void CTaskScheduler::AddTask(CTask* task) {}
 void CTaskScheduler::ProcessTask(unsigned int tick) {}
 
+unsigned int get_rand_int(int n)
+{
+    if (n < 0)
+    {
+        return 0;
+    }
+    if (n == 0)
+    {
+        return rand();
+    }
+    int r = rand();
+    if (n < r)
+    {
+        r = rand();
+        return (unsigned int)r % (unsigned int)n;
+    }
+    int a = r * 0x41c64e6d + 0x3039;
+    int b = a * 0x41c64e6d + 0x3039;
+    int c = b * 0x41c64e6d + 0x3039;
+    unsigned int u = ((((int)(((unsigned int)(a >> 31) >> 16) + a) >> 16) & 0x7ff) << 10 ^
+                      (((int)(((unsigned int)(b >> 31) >> 16) + b) >> 16) & 0x3ff)) << 10 ^
+                     ((int)(((unsigned int)(c >> 31) >> 16) + c) >> 16) & 0x3ff;
+    if ((unsigned int)n < u)
+    {
+        u = u % (unsigned int)n;
+    }
+    return u;
+}
+
+int CTask_ChristmasEvent::DecideEventTime()
+{
+    int hours[25] = {
+        0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+        23, 24, 1, 2, 3, 4, 5
+    };
+    unsigned int weight[25] = {
+        0, 1449, 2898, 4348, 7246, 10145, 13043, 17391, 23188, 28985,
+        34782, 42029, 49275, 56521, 63768, 69565, 75362, 81159, 85507,
+        89855, 92753, 95652, 97101, 98550, 100000
+    };
+    unsigned int r = get_rand_int(100000);
+    int i = 1;
+    while (i <= 24)
+    {
+        if (r < (unsigned int)weight[i] && (unsigned int)weight[i - 1] < r)
+        {
+            break;
+        }
+        i++;
+    }
+    return hours[i];
+}
+
+unsigned int CTask_ChristmasEvent::getEventStartTime() { return 0x47698650; }
+long long CTask_ChristmasEvent::getEventEndTime() { return 0x47726c70; }
+
+unsigned int CTask_ChristmasEvent::MakeEventStartTick(int param_1)
+{
+    int eventHour = DecideEventTime();
+    time_t now = time(0);
+    tm* pt = localtime(&now);
+    int sec = pt->tm_sec;
+    int min = pt->tm_min;
+    int hour = pt->tm_hour;
+    int mday = pt->tm_mday;
+    int mon = pt->tm_mon;
+    int year = pt->tm_year;
+    int wday = pt->tm_wday;
+    int yday = pt->tm_yday;
+    int isdst = pt->tm_isdst;
+    long gmtoff = pt->tm_gmtoff;
+    char* zone = (char*)pt->tm_zone;
+
+    if (now < (time_t)getEventStartTime())
+    {
+        tm t;
+        t.tm_mday = mday;
+        t.tm_mon = mon;
+        t.tm_year = year;
+        t.tm_wday = wday;
+        t.tm_yday = yday;
+        t.tm_isdst = isdst;
+        t.tm_gmtoff = gmtoff;
+        t.tm_zone = zone;
+        t.tm_hour = 0;
+        t.tm_min = 0;
+        t.tm_sec = 0;
+        time_t midnight = mktime(&t);
+        param_1 = (int)(((time_t)getEventStartTime() - midnight) / 86400);
+    }
+    if (param_1 == 0 && eventHour < hour + 1)
+    {
+        int n = 0;
+        while (n < 3 && (eventHour = DecideEventTime(), eventHour < hour + 1))
+        {
+            n++;
+        }
+        if (n == 3)
+        {
+            eventHour = (hour + eventHour + 1) % 25;
+        }
+    }
+    tm t2;
+    t2.tm_mon = mon;
+    t2.tm_year = year;
+    t2.tm_wday = wday;
+    t2.tm_yday = yday;
+    t2.tm_isdst = isdst;
+    t2.tm_gmtoff = gmtoff;
+    t2.tm_zone = zone;
+    t2.tm_mday = mday + param_1;
+    t2.tm_hour = eventHour - 1;
+    t2.tm_min = 0;
+    t2.tm_sec = 0;
+    time_t result = mktime(&t2);
+    char* s = ctime(&result);
+    CMyFileLog log("MakeEventStartTick", 0x96);
+    log("./log/GameServer", "Next X_Mas Event Time! (%s)", s);
+    return (unsigned int)result;
+}
+
 CTask_ChristmasEvent::CTask_ChristmasEvent(unsigned int tick, unsigned int flag) {}
 CTask_ChristmasEvent::~CTask_ChristmasEvent() {}
-long long CTask_ChristmasEvent::getEventEndTime() { return 0; }
-unsigned int CTask_ChristmasEvent::MakeEventStartTick(int flag) { return 0; }
-
 TowerOfDespairReloadAPC_Task::TowerOfDespairReloadAPC_Task(unsigned int a, unsigned int b) {}
 TowerOfDespairReloadAPC_Task::~TowerOfDespairReloadAPC_Task() {}
 

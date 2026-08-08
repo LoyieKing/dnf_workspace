@@ -253,9 +253,23 @@ public:
     void InitFrameCountInfo(CApplication* app, unsigned int frameCount, unsigned short tick);
     CFrameCountHandler* GetFrameCountInfo();
     void SaveProcess();
-    char m_data[0x24];
+    unsigned char m_field0;    // +0
+    char m_pad1[3];            // +1
+    int m_field4;              // +4
+    int m_field8;              // +8
+    int m_fieldc;              // +0xc
+    int m_field10;             // +0x10
+    int m_field14;             // +0x14
+    int m_field18;             // +0x18
+    int m_field1c;             // +0x1c
+    int m_field20;             // +0x20
     unsigned char m_field24;   // +0x24
-    char m_pad[0xb];           // +0x25
+    unsigned char m_field25;   // +0x25
+    unsigned char m_field26;   // +0x26
+    char m_pad27;              // +0x27
+    unsigned char m_field28;   // +0x28
+    char m_pad29[3];           // +0x29
+    CApplication* m_app;       // +0x2c
 };
 
 // ---- CBuddyRegisterManager：0x18 ----
@@ -426,6 +440,8 @@ class CTask_ChristmasEvent : public CTaskScheduler::CTask
 public:
     CTask_ChristmasEvent(unsigned int tick, unsigned int flag);
     ~CTask_ChristmasEvent();
+    static int DecideEventTime();
+    static unsigned int getEventStartTime();
     static long long getEventEndTime();
     static unsigned int MakeEventStartTick(int flag);
     char m_data[0xc];
@@ -497,6 +513,8 @@ class LimitNpcBuyItemRequestInfo : public PacketHeader
 public:
     LimitNpcBuyItemRequestInfo();
 };
+
+unsigned int get_rand_int(int n);
 
 // ---- np_server_xml：CServerXml 0xb8 ----
 namespace np_server_xml
