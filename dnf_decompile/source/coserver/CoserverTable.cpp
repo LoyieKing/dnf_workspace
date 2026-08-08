@@ -1,9 +1,11 @@
 // df_coserver_r — CTableBase/CAppConfig/ST_ServerInfo/CDNFException
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
 #include "CoserverTable.h"
+#include "DNFFileLog.h"
 #include "DNFFunctionLib.h"
 
 CTableBase::CTableBase()
@@ -92,7 +94,7 @@ int CAppConfig::Parse_Table(char* line, int idx)
 
 void CAppConfig::Load_Table(const std::string& filename)
 {
-    std::string path = "./cfg/" + filename;
+    std::string path = "./cfg/" + filename + ".cfg";
     int rc = Load_Txt_Table_Data(path.c_str(), 0x14);
     if (0 < rc && rc < 0x15)
     {
@@ -105,8 +107,8 @@ void CAppConfig::Load_Table(const std::string& filename)
 
 void CAppConfig::Check_FileName(const std::string& filename)
 {
-    std::string cfg = "./cfg/" + filename;
-    std::string pid = "./pid/" + filename;
+    std::string cfg = "./cfg/" + filename + ".cfg";
+    std::string pid = "./pid/" + filename + ".pid";
     if (access(cfg.c_str(), 0) != 0)
     {
         CMyFileLog log("Check_FileName", 0x73);
@@ -136,10 +138,18 @@ ST_ServerInfo::~ST_ServerInfo()
 }
 
 CDNFException::CDNFException(const std::string& msg)
-    : m_msg(msg)
+    : std::exception(), m_msg(msg)
 {
 }
 
-CDNFException::~CDNFException()
+CDNFException::~CDNFException() throw()
 {
+}
+
+const char* CDNFException::what() const throw()
+{
+    const char* msg = m_msg.c_str();
+    CMyFileLog log("what", 0x1a);
+    log("./log/Except", "%s", msg);
+    return m_msg.c_str();
 }

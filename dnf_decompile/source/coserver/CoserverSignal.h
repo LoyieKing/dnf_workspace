@@ -3,14 +3,14 @@
 
 class CApplication;
 
-// CSignal：vptr@0 / app@4（8B）
+// CSignal：vptr@0 / app@4（8B）；vtable：handle / dtor / dtor
 class CSignal
 {
 public:
     CSignal();
-    virtual ~CSignal();
     virtual void handle(int sig) = 0;
-    virtual void dump_core_file();
+    virtual ~CSignal();
+    void dump_core_file();
     void attachApp(CApplication* app);
     CApplication* m_app;  // +4
 };
@@ -58,12 +58,13 @@ public:
 class CFloatingPointExceptSig : public CSignal
 {
 public:
-    CFloatingPointExceptSig();
+    CFloatingPointExceptSig() {}
     virtual ~CFloatingPointExceptSig();
     virtual void handle(int sig);
 };
 
-// CSignalTranslator：handler 表 @0..0x68 + 各信号对象
+// CSignalTranslator：handlers[0x20]@0（0x80）；sysfail@0x10 / segv@0x18 /
+// user1@0x28 / user2@0x30 / terminate@0x3c
 class CSignalTranslator
 {
 public:
@@ -74,16 +75,11 @@ public:
     void init_signal();
     int init_handler(CApplication* app);
     int regist_signal(int sig, void (*handler)(int));
-    int getSignal(int sig);
-
-    CSignal* m_handlers[0x1a];  // +0
-    CSignal* m_segv;            // +0x18
-    CSignal* m_user1;           // +0x28
-    CSignal* m_user2;           // +0x30
-    CSignal* m_sysfail;         // +0x10
-    CSignal* m_terminate;       // +0x3c
+    int getSignal(int sig) const;
+    CSignal* m_handlers[0x20];  // +0
 };
 
 CSignalTranslator* CSignalTranslatorInstance();
+void signal_handler(int sig);
 
 #endif // COSERVER_SIGNAL_H_

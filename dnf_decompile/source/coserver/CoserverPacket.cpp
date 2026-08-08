@@ -1,0 +1,375 @@
+// df_coserver_r — CPacketDecoder/CPacketTracer/CPacketTranslater/CInnerMsgHandler
+#include <stdio.h>
+#include <time.h>
+
+#include "CoserverPacket.h"
+#include "CoserverApp.h"
+#include "CoserverServer.h"
+#include "CoserverUser.h"
+#include "CoserverUdp.h"
+#include "DNFFileLog.h"
+#include "DNFFunctionLib.h"
+
+Packet_CutOff_UDP_Call_UserInfo::Packet_CutOff_UDP_Call_UserInfo()
+    : PacketHeader(0x3f9, 10)
+{
+}
+
+Packet_Monitor_UDP_User_Getout::Packet_Monitor_UDP_User_Getout()
+    : PacketHeader(0x3ee, 0xe)
+{
+    m_userID = 0;
+}
+
+Packet_Monitor_Event_Start::Packet_Monitor_Event_Start()
+    : PacketHeader(0x44f, 0x12)
+{
+}
+
+Packet_Monitor_Event_End::Packet_Monitor_Event_End()
+    : PacketHeader(0x450, 0xe)
+{
+}
+
+CInnerMsgHandler::CInnerMsgHandler()
+{
+}
+
+CInnerMsgHandler::~CInnerMsgHandler()
+{
+}
+
+CPacketDecoder* CPacketDecoderInstance()
+{
+    static CPacketDecoder instance;
+    return &instance;
+}
+
+CPacketDecoder::CPacketDecoder()
+{
+    m_poolLock = 0;
+    for (int i = 1000; i < 0x27fd; i++)
+    {
+        m_handlers[i] = 0;
+    }
+    m_handlers[0x3f9] = (void*)&CPacketTranslater::OnReplyUserInfo;
+    m_handlers[0xbb8] = (void*)&CPacketTranslater::OnLogin;
+    m_handlers[0xbb9] = (void*)&CPacketTranslater::OnLogout;
+    m_handlers[0xbba] = (void*)&CPacketTranslater::OnHeartBeat;
+}
+
+CPacketDecoder::~CPacketDecoder()
+{
+}
+
+void CPacketDecoder::Attach(CApplication* app)
+{
+    if (app != 0)
+    {
+        m_poolLock = app->Get_BLock();
+    }
+}
+
+int CPacketDecoder::MsgDecode(PacketHeader* pkt)
+{
+    if (pkt == 0)
+    {
+        return 0;
+    }
+    if (*(unsigned short*)pkt < 0x27fd && 999 < *(unsigned short*)pkt)
+    {
+        if (m_handlers[*(unsigned short*)pkt] == 0)
+        {
+            CMyFileLog log("MsgDecode", 0x44);
+            log("./log/Decoder",
+                "CPacketDecoder::MsgDecode() Game Message with identifier %d has arrived.\n",
+                *(unsigned short*)pkt);
+            return 0;
+        }
+        ((void (*)(PacketHeader*))m_handlers[*(unsigned short*)pkt])(pkt);
+        return 1;
+    }
+    printf("Game Message with identifier %d has arrived.\n", *(unsigned short*)pkt);
+    CMyFileLog log("MsgDecode", 0x5a);
+    log("./log/Decoder",
+        "CPacketDecoder::MsgDecode() Game Message with identifier %d has arrived.\n",
+        *(unsigned short*)pkt);
+    return 0;
+}
+
+void CPacketDecoder::Process(std::queue<CUdpRecvBuffer*>* q, CMutex* lock)
+{
+    if (q != 0 && lock != 0)
+    {
+        PacketHeader* pkt = 0;
+        {
+            CGuard<CMutex> g(lock);
+            if (!q->empty())
+            {
+                pkt = (PacketHeader*)q->front();
+                q->pop();
+            }
+        }
+        if (pkt != 0)
+        {
+            if (MsgDecode(pkt) != 1)
+            {
+                {
+                    CGuard<CMutex> g((CMutex*)m_poolLock);
+                    CUdpRecvBuffer::operator delete(pkt);
+                }
+                throw CDNFException(
+                    "CPacketDecoder::MsgDecode() Undefined Packet Arrived Exception Break!");
+            }
+            {
+                CGuard<CMutex> g((CMutex*)m_poolLock);
+                CUdpRecvBuffer::operator delete(pkt);
+            }
+        }
+        return;
+    }
+    throw CDNFException("CPacketDecoder is Not Ready!\n");
+}
+
+CPacketTracer* CPacketTracerInstance()
+{
+    static CPacketTracer instance;
+    return &instance;
+}
+
+CPacketTracer::CPacketTracer()
+{
+    m_count = 0;
+}
+
+CPacketTracer::~CPacketTracer()
+{
+}
+
+void CPacketTracer::AddLog(int p1, int p2)
+{
+    time_t t = time(0);
+    tm* pt = localtime(&t);
+    char buf[32];
+    char* p = buf;
+    for (unsigned int i = 0; i < 0x20; i += 4)
+    {
+        p[i] = '\0';
+        p[i + 1] = '\0';
+        p[i + 2] = '\0';
+        p[i + 3] = '\0';
+    }
+    sprintf(buf, "(%02d:%02d:%02d/%d/%d)", pt->tm_hour, pt->tm_min, pt->tm_sec, p2, p1);
+    m_log += buf;
+    m_count++;
+}
+
+void CPacketTracer::ResetLog()
+{
+    m_log.clear();
+}
+
+void CPacketTracer::WriteLog()
+{
+    if (m_count == (m_count / 0x1e) * 0x1e)
+    {
+        CMyFileLog log("WriteLog", 0x2a);
+        log("./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
+        ResetLog();
+    }
+}
+
+void CPacketTracer::AbsoluteWriteLog()
+{
+    CMyFileLog log("AbsoluteWriteLog", 0x32);
+    log("./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
+    ResetLog();
+}
+
+CApplication* CPacketTranslater::m_pclApp = 0;
+
+void CPacketTranslater::attach(CApplication* app)
+{
+    m_pclApp = app;
+}
+
+void CPacketTranslater::OnLogin(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        return;
+    }
+    try
+    {
+        unsigned char group = *(unsigned char*)((char*)pkt + 0xf);
+        unsigned char channel = *(unsigned char*)((char*)pkt + 0xe);
+        unsigned int user_id = *(unsigned int*)((char*)pkt + 0x10);
+        CGameServer* new_gs = m_pclApp->FindGameServer(group, channel);
+        if (new_gs != 0)
+        {
+            CUserManager* um = m_pclApp->Get_UserManager();
+            CUser user;
+            if (!um->FindUser(user_id, user))
+            {
+                um->CreateUser(user_id, new_gs);
+            }
+            else
+            {
+                CGameServer* old_gs = user.GetGameServer();
+                if (old_gs != 0 && old_gs->GetGroupNo() != group)
+                {
+                    Packet_Monitor_UDP_User_Getout getout;
+                    getout.m_userID = user_id;
+                    old_gs->SendToGameServer((char*)&getout, 0xe);
+                    new_gs->SendToGameServer((char*)&getout, 0xe);
+                    CMyFileLog log("OnLogin", 0x66);
+                    log("./log/User",
+                        "DOUBLE : ID(%s) Already Gr(%d) Ch(%d)\tCurrent Gr(%d) Ch(%d)",
+                        NumberToString(user_id, 0), old_gs->GetGroupNo() & 0xff,
+                        old_gs->GetChannelNo() & 0xff, group, channel);
+                }
+            }
+            return;
+        }
+        CMyFileLog log("OnLogin", 0x42);
+        log("./log/Channel", "Not Found M_ID(%s) Group No(%d) Channel No(%d)",
+            NumberToString(user_id, 0), group, channel);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnLogin", 0x75);
+        log("./log/Except", "CPacketTranslater::OnLogin() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnLogin() Exception Break");
+        CMyFileLog log("OnLogin", 0x7a);
+        log("./log/Except", "CPacketTranslater::OnLogin() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnLogout(PacketHeader* pkt)
+{
+    CUser user;
+    if (m_pclApp != 0)
+    {
+        try
+        {
+            CUserManager* um = m_pclApp->Get_UserManager();
+            unsigned int user_id = *(unsigned int*)((char*)pkt + 0x10);
+            if (um->FindUser(user_id, user))
+            {
+                if (user.GetGameServer() == 0)
+                {
+                    CMyFileLog log("OnLogout", 0x9d);
+                    log("./log/User",
+                        "[NO USER_GameServer_Diff] Disconnected User DB ID(%s), Group(%d), Channel(%d), GameServer(%d)",
+                        NumberToString(user_id, 0), *(unsigned char*)((char*)pkt + 0xf),
+                        *(unsigned char*)((char*)pkt + 0xe), 0);
+                }
+                else if (!um->DeleteUser((Packet_DoubleCheck_UDP_Logout*)pkt))
+                {
+                    CMyFileLog log("OnLogout", 0x99);
+                    log("./log/User",
+                        "[NO USER_DeleteUser_False] Disconnected User DB ID(%s), Group(%d), Channel(%d)",
+                        NumberToString(user_id, 0), *(unsigned char*)((char*)pkt + 0xf),
+                        *(unsigned char*)((char*)pkt + 0xe));
+                }
+            }
+        }
+        catch (CDNFException& e)
+        {
+            CMyFileLog log("OnLogout", 0xa8);
+            log("./log/Except", "CPacketTranslater::OnLogout() Exception Break : %s\n", e.what());
+        }
+        catch (...)
+        {
+            puts("CPacketTranslater::OnLogout() Exception Break");
+            CMyFileLog log("OnLogout", 0xae);
+            log("./log/Except", "CPacketTranslater::OnLogout() Exception Break\n");
+        }
+    }
+}
+
+void CPacketTranslater::OnHeartBeat(PacketHeader* pkt)
+{
+    if (m_pclApp != 0 && m_pclApp->m_serverHandler != 0)
+    {
+        try
+        {
+            unsigned char channel = *(unsigned char*)((char*)pkt + 0xa);
+            unsigned char group = *(unsigned char*)((char*)pkt + 0xb);
+            if (100 < group || channel == 0 || 0xbe < channel)
+            {
+                throw CDNFException("CPacketTranslater::OnHeartBeat() Channel Index Error\n");
+            }
+            m_pclApp->m_serverHandler->ResetHeartBeat(group, channel);
+            if (!m_pclApp->m_serverHandler->IsConnectedGameServer(group, channel))
+            {
+                m_pclApp->m_serverHandler->SetConnectFlag(group, channel, true);
+                CGameServer* gs = m_pclApp->FindGameServer(group, channel);
+                if (gs != 0)
+                {
+                    Packet_CutOff_UDP_Call_UserInfo pkt2;
+                    gs->SendToGameServer((char*)&pkt2, *(unsigned short*)((char*)&pkt2 + 2));
+                }
+            }
+            printf("Server(%dGroup:%dChennel) Heart Beat Arrived.\n", group, channel);
+        }
+        catch (CDNFException& e)
+        {
+            CMyFileLog log("OnHeartBeat", 0xea);
+            log("./log/Except", "CPacketTranslater::OnHeartBeat() Exception Break : %s\n",
+                e.what());
+        }
+        catch (...)
+        {
+            puts("CPacketTranslater::OnHeartBeat() Exception Break");
+            CMyFileLog log("OnHeartBeat", 0xf0);
+            log("./log/Except", "CPacketTranslater::OnHeartBeat() Exception Break\n");
+        }
+    }
+}
+
+void CPacketTranslater::OnReplyUserInfo(PacketHeader* pkt)
+{
+    unsigned char channel = *(unsigned char*)((char*)pkt + 0xc);
+    unsigned char group = *(unsigned char*)((char*)pkt + 0xd);
+    CMyFileLog log("OnReplyUserInfo", 0x102);
+    log("./log/Reboot", "[GAME SERVER] Group(%d) Channel(%d)", group, channel);
+    try
+    {
+        if (m_pclApp == 0)
+        {
+            throw CDNFException("CPacketTranslater::OnReplyUserInfo : m_pclApp == 0");
+        }
+        CGameServer* gs = m_pclApp->FindGameServer(group, channel);
+        if (gs == 0)
+        {
+            throw CDNFException("CPacketTranslater::OnReplyUserInfo : pclGameServer == 0");
+        }
+        CUserManager* um = m_pclApp->Get_UserManager();
+        CUser user;
+        unsigned short count = *(unsigned short*)((char*)pkt + 0xa);
+        for (int i = 0; i < count; i++)
+        {
+            unsigned int user_id = *(unsigned int*)((char*)pkt + 0xe + i * 4);
+            if (!um->FindUser(user_id, user))
+            {
+                um->CreateUser(user_id, gs);
+            }
+        }
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnReplyUserInfo", 0x11b);
+        log("./log/Except", "CPacketTranslater::OnReplyUserInfo() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnReplyUserInfo() Exception Break\n");
+        CMyFileLog log("OnReplyUserInfo", 0x120);
+        log("./log/Except", "CPacketTranslater::OnReplyUserInfo() Exception Break\n");
+    }
+}
