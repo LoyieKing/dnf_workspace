@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/epoll.h>
+#include <new>
 
 #include "Exception.h"
 #include "Script.h"
@@ -61,8 +62,7 @@ public:
             this->epoll_fd_ = -1;
             if (this->events_ != NULL)
             {
-                delete[] this->events_;
-                this->events_ = NULL;
+                operator delete[](this->events_);
             }
         }
     }

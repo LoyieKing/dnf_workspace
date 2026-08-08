@@ -12,14 +12,8 @@ class TCPDispatcher
 {
 public:
     TCPDispatcher();
-    void SetMaxCategory(int Category)
-    {
-        MaxCategory = Category;
-    }
-    void SetNullSessionHandler(NullSessionHandler* handler)
-    {
-        NullHandler = handler;
-    }
+    void SetMaxCategory(int Category);
+    void SetNullSessionHandler(NullSessionHandler* handler);
     bool dispatch(TCPUser* u, Message* msg);
 
     int MaxCategory;

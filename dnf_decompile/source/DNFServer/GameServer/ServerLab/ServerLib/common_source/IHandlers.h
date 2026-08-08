@@ -37,33 +37,9 @@ public:
     {
         mDBHandlers[idx] = pHandler;
     }
-    inline INetWorkHandler* getNetWorkHandler(int idx)
-    {
-        std::map<int, INetWorkHandler*>::iterator it = mNetWorkHandlers.find(idx);
-        if (it == mNetWorkHandlers.end())
-        {
-            return NULL;
-        }
-        return it->second;
-    }
-    inline IInterHandler* getInterHandler(int idx)
-    {
-        std::map<int, IInterHandler*>::iterator it = mInterHandlers.find(idx);
-        if (it == mInterHandlers.end())
-        {
-            return NULL;
-        }
-        return it->second;
-    }
-    inline IDBHandler* getDBHandler(int idx)
-    {
-        std::map<int, IDBHandler*>::iterator it = mDBHandlers.find(idx);
-        if (it == mDBHandlers.end())
-        {
-            return NULL;
-        }
-        return it->second;
-    }
+    INetWorkHandler* getNetWorkHandler(int idx);
+    IInterHandler* getInterHandler(int idx);
+    IDBHandler* getDBHandler(int idx);
     inline ITimeHandler* getTimeHandler(int idx)
     {
         return mTimeHandlers[idx];

@@ -1,6 +1,8 @@
 #ifndef NSL_PORTINFO_H_
 #define NSL_PORTINFO_H_
 
+#include <stdio.h>
+
 namespace nsl {
 
 class PortInfo
@@ -8,11 +10,9 @@ class PortInfo
 public:
     PortInfo()
     {
+        puts("Start PortInfo~");
         mTCPPort = 0;
         mUDPPort = 0;
-    }
-    ~PortInfo()
-    {
     }
     void setTCPPort(int port)
     {
@@ -22,7 +22,7 @@ public:
     {
         mUDPPort = port;
     }
-    int getTCPPort()
+    int getTCPPort() const
     {
         return mTCPPort;
     }

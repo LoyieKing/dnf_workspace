@@ -32,8 +32,8 @@ public:
     bool setOptNagle(bool b);
     bool setOptResizeSendBuf(int size);
     bool setOptResizeRecvBuf(int size);
-    void SetRecvBufSize(int size);
-    void SetSendBufSize(int size);
+    static void SetRecvBufSize(int size);
+    static void SetSendBufSize(int size);
     SOCKET getHandle() const;
     unsigned char* getPeerAdrs();
     unsigned short getPeerPort();

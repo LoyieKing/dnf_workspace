@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 34（本批新增 AuctionDictionary 全部符号） |
-| IDENTICAL | 2,851 |
-| NEAR | 20 |
-| DIFF（语义等价，-O0 惯用法） | 417 |
-| MISSING（未实现） | 1,448 |
+| 已实现 TU | 35（本批新增 ServiceFactory 全部符号） |
+| IDENTICAL | 3,110 |
+| NEAR | 19 |
+| DIFF（语义等价，-O0 惯用法） | 418 |
+| MISSING（未实现） | 1,189 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -127,6 +127,8 @@
 
 本批（AuctionDictionary 全量补完，AuctionItem 打包修正）后：**IDENTICAL 2851 / NEAR 20 / DIFF 417 / MISSING 1448**
 
+本批（ServiceFactory 全量补完，InternalMsg 命名空间修正）后：**IDENTICAL 3110 / NEAR 19 / DIFF 418 / MISSING 1189**
+
 ### 已实现 TU（本阶段新增，均可编译链接）
 
 | 组件 | 状态 |
@@ -171,6 +173,7 @@
 | CharacterDictionary | ✅ 已完成（TU 0 缺失：155 精确 + 3 语义等价 DIFF；map<const int,Data*>@4 + 嵌套 Data(vector<unsigned long long> 12B)，Add/Sub/GetList/NowItemNum 全逻辑，AddAuctionId 逐字节一致） |
 | AveragePriceDictionary | ✅ 已完成（TU 0 缺失：190 精确 + 16 语义等价 DIFF；12348B 布局（双 0x20×8 map 表）、AddItemAveragePrice 平均价加权/限价/概率提交全逻辑、UpdateAveragePirce 双表遍历、ROI_Average_Constraint::isVaildRange 出线实现） |
 | AuctionDictionary | ✅ 已完成（TU 0 缺失：282 精确 + 34 语义等价 DIFF；16772B 布局、RegistItem/Bidding/Purchase/makeSuccessfulBid 全流程、注册/竞价/一口价/过期/平均价 7 大字典联动、UpdateAveragePrice 头内联弱符号） |
+| ServiceFactory | ✅ 已完成（TU 0 缺失：400 精确 + 8 语义等价 DIFF；startup 1920B/shutdown/ctor/dtor 全流程、9 个子系统成员初始化、handler init 遍历、DB 连接关闭、configpath[256] 定义、EncyptTools/Threads/IHandlers getter 出线实现） |
 
 ### 关键形态结论（追加）
 
@@ -380,12 +383,38 @@
 53. **version TU C++0x 形态**：`source_version_list_.push_back(std::move(local_14))`
     （原版 `push_backEOS1_` 右值重载，触发 emplace_back/_M_insert_aux 模板实例化；
     lvalue 拷贝形态会缺 3 个符号）。
+54. **ServiceFactory TU 全量重建**：原 cpp 从未编译（PortInfo/TCPSocket 签名与
+    ActiveConManager 头不匹配），导致 249 个符号缺失。修正：PortInfo 的
+    setTCPPort/setUDPPort 为成员调用、TCPSocket::SetRecvBufSize/SetSendBufSize 为
+    **静态**成员、ActiveConManager 包含改 TActiveConnect.h 且 ctor 出线（成员序
+    bools@0/1 → 锁@4/0x1c → map@0x34 → queue@0x4c，总 0x74）；startup 完整实现
+    （TraceLog::init 结果存 ret 并 `if (ret >= 0)` 判断、handler 三表 init 遍历、
+    mTimeHandlerNum 次 `threadWork_[i]->loop((void*)0)` 虚调用、Server Frame
+    Start 横幅 + checkLogServer 分支）；shutdown 遍历 mDbConnections 逐连接 close。
+55. **IHandlers getter 出线**：getNetWorkHandler/getInterHandler/getDBHandler 为
+    **T 符号**（0x80aa0ce/0x80aa138/0x80aa1ac），源码形态 `find` 判存在后
+    `return mNetWorkHandlers[category]`（operator[] 二次查找，复现原版
+    find+end+operator!=+operator[] 序列）；iterator 声明用「默认构造 + 赋值」
+    以发射 `_Rb_tree_iterator C2Ev`（4 个缺符号的根因）。
+56. **InternalMsg 命名空间**：`INTERNALMSG_HEADER` 在 nsl，而
+    `INTERNALMSG_SERVICE_UNAVAILABLE`/`INTERNALMSG_DESTROY_CHARACTER` 是
+    **全局结构**（mangle `_ZN31`/`_ZN29` 无 nsl）；两个 ctor 都是
+    `memset(this,0,sizeof)` + `setCategory(0/1)` + `setInternalMsgID(0)` +
+    `setSize(sizeof)` + 置位（SERVICE_UNAVAILABLE 额外 `bActiveJob=false`，
+    DESTROY_CHARACTER 的 `movb $0x0,0x4` 为 bActiveJob@4）。
+57. **TCPDispatcher 两 setter 为 T**：SetMaxCategory/SetNullSessionHandler 是
+    **出线定义**（非头内联，0x80addd8/0x80adde6 T），TCPDispatcher.cpp 定义；
+    `dispatch` 只用 MaxCategory 比较，不从 dispatch 调 setter。
+58. **Character getCharacKey/setCharacKey 出线**：T 符号（0x8068c22/0x8068c14），
+    非头内联；isActiveTCPUser 仍为 W 头内联。
+59. **EpollReactor shutdown**：`if (epoll_fd_ != -1) { close; epoll_fd_=-1;
+    if (events_) operator delete[](events_); }`——用 **operator delete[] 显式调用**
+    （避免 delete[] 自带的二次判空），且删除后**不复位 events_**（原版怪癖）。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
 ```
-720  Search                477  Auction               180  ServerLibrary2.0
-144  ServiceFactory
+656  Search                448  Auction                75  ServerLibrary2.0
   ...
 ```
 
@@ -396,6 +425,6 @@
    HandlerFor_DB_/TeaInitialize/DNFFunctionLibWrapper 已全量完成。
 2. 字典类：AveragePriceDictionary / CharacterDictionary / ExpireTimeDictionary /
    ReliabilityDictionary 已完成；AuctionDictionary 已完成（本批）。
-3. 大块：Search（720）/ Auction（477）/ HandlerFor_GA_/GP_JPN / ServiceFactory /
-   ServerLibrary2.0。
+3. 大块：Search（656）/ Auction（448）/ ServerLibrary2.0（75）/ ServiceFactory
+   已完成（本批）。
 4. 全量复验 DIFF/MISSING，移除临时桩，产出 docs/df_auction_r_restoration_report.md，commit & push。

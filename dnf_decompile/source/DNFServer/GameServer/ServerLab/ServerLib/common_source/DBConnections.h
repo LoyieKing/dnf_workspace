@@ -10,6 +10,12 @@ class DBConnection;
 class DBConnections
 {
 public:
+    DBConnections()
+    {
+    }
+    ~DBConnections()
+    {
+    }
     DBConnection* getDBConnection(int idx)
     {
         return mDbConnections[idx];

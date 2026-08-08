@@ -72,33 +72,35 @@ struct INTERNALMSG_HEADER
 
 #pragma pack(pop)
 
-struct INTERNALMSG_SERVICE_UNAVAILABLE : public INTERNALMSG_HEADER
+} // namespace nsl
+
+struct INTERNALMSG_SERVICE_UNAVAILABLE : public nsl::INTERNALMSG_HEADER
 {
     int reason;
 
     INTERNALMSG_SERVICE_UNAVAILABLE()
     {
         memset(this, 0, sizeof(INTERNALMSG_SERVICE_UNAVAILABLE));
+        setCategory(0);
         setInternalMsgID(0);
         setSize(sizeof(INTERNALMSG_SERVICE_UNAVAILABLE));
-        bWillDelete = false;
+        bActiveJob = false;
     }
 };
 
-struct INTERNALMSG_DESTROY_CHARACTER : public INTERNALMSG_HEADER
+struct INTERNALMSG_DESTROY_CHARACTER : public nsl::INTERNALMSG_HEADER
 {
     bool bActiveClosing;
-    ConInterface* pConInfo;
+    nsl::ConInterface* pConInfo;
     int areaIndex;
 
     INTERNALMSG_DESTROY_CHARACTER()
     {
         memset(this, 0, sizeof(INTERNALMSG_DESTROY_CHARACTER));
+        setCategory(1);
         setInternalMsgID(0);
         setSize(sizeof(INTERNALMSG_DESTROY_CHARACTER));
     }
 };
-
-} // namespace nsl
 
 #endif // NSL_INTERNALMSGDESIGN_H_

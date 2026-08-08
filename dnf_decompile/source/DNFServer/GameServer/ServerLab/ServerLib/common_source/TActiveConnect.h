@@ -75,11 +75,7 @@ typedef std::queue<ConInterface*, std::deque<ConInterface*> > RequestConnectQueu
 class ActiveConManager
 {
 public:
-    ActiveConManager()
-    {
-        bRequestInQueue = false;
-        bConnectedInQueue = false;
-    }
+    ActiveConManager();
     void CheckTheConnection(ConInterface* conInfo);
     TCPUser* RequestConnect(ConInterface* conInfo);
     bool PopRequestConnect(TCPUser*& outConnectedUser);
