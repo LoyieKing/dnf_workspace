@@ -37,6 +37,14 @@ public:
     virtual void Init(int argc, char** argv);
     virtual void Load(int argc, char** argv);
     virtual void Free();
+    void CheckArgv(int argc, char** argv);
+    void AttachAppInitor(char** argv);
+    void ProcessTimeSync();
+    void UpdateCollectItems();
+    void UpdateMiniCraneSeed();
+    void SendMiniCraneRandomSeed();
+    void SetMiniCraneRandomSeed();
+    unsigned char Get_ServerGroup();
 
     bool m_loaded;                      // +4
     int m_reserved8;                    // +8
@@ -74,6 +82,8 @@ public:
     CPeriodicMessageMgr* m_periodicMsg; // +0x380
     LimitNpcBuyItemManager* m_limitNpc; // +0x384
     void* m_field388;                   // +0x388
+    int m_miniCraneSeed;                // +0x38c
+    short m_timeSyncHour;               // +0x390
 };
 
 #endif  // MONITOR_APP_H_

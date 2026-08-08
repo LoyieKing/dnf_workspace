@@ -105,6 +105,30 @@ public:
     virtual ~CAppInit();
 };
 
+class CAppStartInit : public CAppInit
+{
+public:
+    CAppStartInit();
+    virtual ~CAppStartInit();
+};
+
+class CAppStopInit : public CAppInit
+{
+public:
+    CAppStopInit();
+    virtual ~CAppStopInit();
+};
+
+class CDNFException
+{
+public:
+    CDNFException(const std::string& msg);
+    virtual ~CDNFException() throw();
+    const char* what() const throw();
+private:
+    std::string m_msg;
+};
+
 namespace WongWork
 {
 class CGMAccounts
