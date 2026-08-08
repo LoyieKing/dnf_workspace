@@ -7,7 +7,9 @@
 
 #include "StaticsStatistic.h"
 #include "DNFFileLog.h"
+#include "PacketHeader.h"
 #include "StaticsProxy.h"
+#include "StaticsServer.h"
 
 namespace global_function
 {
@@ -424,11 +426,6 @@ void StatisticManager::DBSaveProcess(CServerHandler* handler)
 {
 }
 
-void* StatisticManager::getCubeStatisticObject()
-{
-    return 0;
-}
-
 #define STUB_STAT(name, args) void StatisticManager::name args {}
 
 void StatisticManager::ResetPartyMap()
@@ -592,15 +589,9 @@ STUB_STAT(SendDBLagStatistics, (CServerHandler*, char*))
 STUB_STAT(AddMoneyLog, (MoneyLogPacket*, CServerHandler*))
 STUB_STAT(AddP2PStatistic, (Packet_P2P_Statistics*))
 STUB_STAT(AddLagStatistics, (Packet_Stat_Lag_Statistics*))
-STUB_STAT(AddServerMatchData, (Packet_Server_Match_data*))
 STUB_STAT(AddValueStatistics, (Packet_Value_Statistic*))
-STUB_STAT(AddCreateEmblemInfo, (Packet_Emblem_Create_Statistic*))
-STUB_STAT(AddCompatibilityIndex, (Packet_Stat_Compatibility_Index*, CServerHandler*))
-STUB_STAT(AddDisjointAvatarInfo, (Packet_Avater_Disjoint_Statistic*))
-STUB_STAT(AddRandomboxStatistic, (Packet_Randombox_statistic*))
 STUB_STAT(AddReasonCrashDownData, (Packet_Reason_Crash_Down_Info*, CServerHandler*))
 STUB_STAT(AddSecretShopStatistic, (Packet_Secret_Shop_Statistic*))
-STUB_STAT(AddUserCountStatistics, (CServerHandler*, Packet_User_Count_Statistic*))
 STUB_STAT(AddCirculationStatistics, (Packet_Circulation_Statistic*))
 STUB_STAT(AddBloodDungeonStatistics, (Packet_Blood_dungeon_statistic*))
 STUB_STAT(AddGoldcardEventStatistic, (Packet_Goldcard_Event_Statistic_GTS*))
@@ -617,11 +608,6 @@ STUB_STAT(WriteUserTingTImeCheckStatistic, (Packet_User_Ting_TimeCheck_Statistic
 STUB_STAT(WriteDungeonPartyCharacStatistic, (Packet_Dungeon_Statistic_Party_Charac*))
 STUB_STAT(WriteDeathTowerPlayDataJobStatistic, (Packet_DeathTower_Statistic_Playdata_Job*))
 STUB_STAT(WriteDeathTowerPlayDataPartyStatistic, (Packet_DeathTower_Statistic_Playdata_Party*))
-STUB_STAT(avgPing, (int&, int&, short&))
-STUB_STAT(maxPing, (short&, short&))
-STUB_STAT(minPing, (short&, short&))
-STUB_STAT(sumPing, (int&, short&, int&))
-STUB_STAT(AMDecrypt, (void*, unsigned int))
 
 #undef STUB_STAT
 
@@ -690,4 +676,149 @@ CGMAccounts::stGMInfo_t CGMAccounts::getGMInfo(unsigned int id) const
     stGMInfo_t r = {0, 0};
     return r;
 }
+}
+
+void* StatisticManager::getCubeStatisticObject()
+{
+    return &m_cube;
+}
+
+void StatisticManager::AddServerMatchData(Packet_Server_Match_data* pkt)
+{
+    *(int*)((char*)this + 0x438) = (int)(char)*(char*)((char*)pkt + 10);
+    *(int*)((char*)this + 0x43c) += (int)(char)*(char*)((char*)pkt + 0xb);
+    *(int*)((char*)this + 0x440) += (int)(char)*(char*)((char*)pkt + 0xc);
+}
+
+void StatisticManager::AddCompatibilityIndex(Packet_Stat_Compatibility_Index* pkt,
+                                             CServerHandler* handler)
+{
+    if (pkt != 0 && handler != 0)
+    {
+        handler->SendToDB((PacketHeader*)pkt);
+    }
+}
+
+void StatisticManager::AddUserCountStatistics(CServerHandler* handler,
+                                              Packet_User_Count_Statistic* pkt)
+{
+    handler->SendToDB((PacketHeader*)pkt);
+}
+
+void StatisticManager::AddCreateEmblemInfo(Packet_Emblem_Create_Statistic* pkt)
+{
+    for (int i = 0; i < *(int*)((char*)pkt + 10); i++)
+    {
+        for (int j = 0; j < *(int*)((char*)pkt + (i + 8) * 4 + 2); j++)
+        {
+            m_createEmblem.increaseCount(*(int*)((char*)pkt + i * 4 + 0xe));
+        }
+    }
+}
+
+void StatisticManager::AddDisjointAvatarInfo(Packet_Avater_Disjoint_Statistic* pkt)
+{
+    int count = *(int*)((char*)pkt + 10);
+    if (-1 < count && count < 3)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            m_disjoint.incCount(*(int*)((char*)pkt + i * 0xd + 0xe),
+                                *(int*)((char*)pkt + i * 0xd + 0x12),
+                                (int)(char)*(char*)((char*)pkt + i * 0xd + 0x16),
+                                *(int*)((char*)pkt + i * 0xd + 0x17));
+        }
+    }
+}
+
+void StatisticManager::AddRandomboxStatistic(Packet_Randombox_statistic* pkt)
+{
+    if ((char)*(char*)((char*)pkt + 10) < 5 && -1 < (char)*(char*)((char*)pkt + 10))
+    {
+        if (*(char*)((char*)pkt + 0xb) == 0)
+        {
+            *(int*)((char*)this + ((char)*(char*)((char*)pkt + 10) + 0xd0) * 4 + 8) += 1;
+        }
+        else if (*(char*)((char*)pkt + 0xb) == 1)
+        {
+            *(int*)((char*)this + ((char)*(char*)((char*)pkt + 10) + 0xd4) * 4 + 0xc) += 1;
+        }
+    }
+}
+
+void StatisticManager::minPing(short& a, short& b)
+{
+    int bv = (int)b;
+    printf("minPing(%d, %d)\n", (int)a, bv);
+    if (-1 < b)
+    {
+        if (b < a)
+        {
+            a = b;
+        }
+        printf("minPing Res(%d)\n", (int)a, bv);
+    }
+}
+
+void StatisticManager::maxPing(short& a, short& b)
+{
+    int bv = (int)b;
+    printf("maxPing(%d, %d)\n", (int)a, bv);
+    if (-1 < b)
+    {
+        if (a < b)
+        {
+            a = b;
+        }
+        printf("maxPing Res(%d)\n", (int)a, bv);
+    }
+}
+
+void StatisticManager::avgPing(int& a, int& b, short& c)
+{
+    int bv = (int)c;
+    int b2 = b;
+    printf("avgPing(%d, %d, %d)\n", a, b2, bv);
+    double avg;
+    if (a == 0 || b == 0)
+    {
+        avg = 0.0;
+    }
+    else
+    {
+        avg = (double)a / (double)b;
+    }
+    c = (short)(int)(avg + 0.5);
+    printf("avgPing Res(%d)\n", (int)c, b2, bv);
+}
+
+void StatisticManager::sumPing(int& a, short& b, int& c)
+{
+    printf("sumPing(%d, %d, %d)\n", a, (int)b, c);
+    if (-1 < b)
+    {
+        if (a + (int)b < 0)
+        {
+            a = 0x7fffffff;
+        }
+        else
+        {
+            a = a + (int)b;
+            if (-1 < c + 1)
+            {
+                c = c + 1;
+            }
+        }
+        printf("sumPing Res(%d, %d, %d)\n", a, (int)b, c);
+    }
+}
+
+void StatisticManager::AMDecrypt(void* data, unsigned int len)
+{
+    for (unsigned int i = 0; i < len; i++)
+    {
+        ((unsigned char*)data)[i] ^= 0x9d;
+        ((unsigned char*)data)[i] = ((unsigned char*)data)[i] << 2 |
+                                    ((unsigned char*)data)[i] >> 6;
+    }
 }
