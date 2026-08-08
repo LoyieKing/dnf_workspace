@@ -422,6 +422,7 @@ public:
     unsigned char GetServerGroupNo();
     void Load(std::multimap<unsigned int, stServerInfo*>* map);
     bool RegistGameServer(stServerInfo* info);
+    CGameServer* GetGameServer(unsigned int id);
     void RegistDBServer(CDBServer* db);
     void UnregistDBServer();
     void RegistManagerServer(CManagerServer* mgr);
@@ -715,6 +716,7 @@ public:
     void GetSchoolCount(unsigned int school, unsigned int* out, unsigned char& idx);
     CUser* FindUser_CharName(const std::string& name) const;
     int DeleteProhibitUser(unsigned int dbid, char channel);
+    void DeleteBlackUserOnCharacDelete(unsigned int charNo);
     CUser* CreateUser(unsigned int dbid, unsigned int charNo, char* charName, int channel,
                       CGameServer* server);
     char InsertUser(unsigned int dbid, CUser* user);
@@ -1069,6 +1071,7 @@ public:
     static void onSocialEventRewardItemUpdate(PacketHeader* pkt);
     static void onStartGameEventFromServer(PacketHeader* pkt);
     static void onWebReqReloadAutoPunishRule(PacketHeader* pkt);
+    static void RequestBlackListToDBMW(unsigned int charNo);
     static void SendRequestMemberEnterResult(CUser* user, unsigned char result,
                                              const char* name);
     static void SendNoticeMemberEnterPacketOk(CUser* user, CUser* other, unsigned char a,
@@ -1763,6 +1766,21 @@ class Packet_Web_Notice_InGame_Advertisement : public PacketHeader
 {
 public:
     Packet_Web_Notice_InGame_Advertisement();
+};
+
+class Packet_DBMW_Request_BlackList : public PacketHeader
+{
+public:
+    Packet_DBMW_Request_BlackList();
+    unsigned int m_charNo;  // +10
+    unsigned char m_flag;   // +11
+};
+
+class Packet_DB_Member_Delete_As_Charac_Delete : public PacketHeader
+{
+public:
+    Packet_DB_Member_Delete_As_Charac_Delete();
+    unsigned int m_charNo;  // +10
 };
 
 class Packet_Monitor_Notice_Black_List : public PacketHeader

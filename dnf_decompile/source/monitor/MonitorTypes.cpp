@@ -1355,6 +1355,15 @@ bool CServerHandler::RegistGameServer(stServerInfo* info)
     }
     return found == m_gameServers.end();
 }
+CGameServer* CServerHandler::GetGameServer(unsigned int id)
+{
+    std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.find(id);
+    if (it != m_gameServers.end())
+    {
+        return it->second;
+    }
+    return 0;
+}
 void CServerHandler::RegistDBServer(CDBServer* db) { m_dbServer = db; }
 void CServerHandler::UnregistDBServer()
 {
@@ -2616,6 +2625,20 @@ void CUserManager::AddSchoolNo(unsigned int schoolNo, unsigned char channel)
         log("./log/School",
             "1) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",
             schoolNo, channel, newInner.size(), m_mapSchools.size());
+    }
+}
+void CUserManager::DeleteBlackUserOnCharacDelete(unsigned int charNo)
+{
+    if (!m_users.empty())
+    {
+        for (std::map<const unsigned int, CUser*>::iterator it = m_users.begin();
+             it != m_users.end(); ++it)
+        {
+            if (it->second != 0)
+            {
+                it->second->DeleteToBlackList(charNo);
+            }
+        }
     }
 }
 
@@ -5053,7 +5076,22 @@ void CPacketTranslater::OnUserRepel(PacketHeader* pkt)
         user->SendToGameserver((char*)pkt, 0x12);
     }
 }
-void CPacketTranslater::OnCharacterDelete(PacketHeader* pkt) {}
+void CPacketTranslater::OnCharacterDelete(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnCharacterDelete : 0 == m_pclApp");
+    }
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    if (handler != 0)
+    {
+        ((CUserManager*)((char*)m_pclApp + 0x10))
+            ->DeleteBlackUserOnCharacDelete(*(unsigned int*)((char*)pkt + 0xa));
+        Packet_DB_Member_Delete_As_Charac_Delete dbPkt;
+        dbPkt.m_charNo = *(unsigned int*)((char*)pkt + 0xe);
+        handler->SendToDB(&dbPkt);
+    }
+}
 void CPacketTranslater::OnEventStart(PacketHeader* pkt) {}
 void CPacketTranslater::OnEventEnd(PacketHeader* pkt) {}
 void CPacketTranslater::OnNotifyNewMail(PacketHeader* pkt)
@@ -5109,7 +5147,26 @@ void CPacketTranslater::OnNoticeMessage(PacketHeader* pkt)
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, 0x10b);
 }
-void CPacketTranslater::OnRelayServerUserCheck(PacketHeader* pkt) {}
+void CPacketTranslater::OnRelayServerUserCheck(PacketHeader* pkt)
+{
+    CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+    int found = 0;
+    if (userMgr->FindUser(*(unsigned int*)((char*)pkt + 0xa)) == 0)
+    {
+        *(char*)((char*)pkt + 0xe) = 0;
+    }
+    else
+    {
+        *(char*)((char*)pkt + 0xe) = 1;
+    }
+    CServerInterface* gs =
+        (CServerInterface*)m_pclApp->FindGameServer((int)*(unsigned int*)((char*)pkt + 0xa));
+    if (gs == 0)
+    {
+        throw CDNFException(strerror(errno));
+    }
+    gs->SendToServer((char*)pkt, 0xf);
+}
 void CPacketTranslater::OnForbidChat(PacketHeader* pkt)
 {
     if (m_pclApp == 0)
@@ -5366,6 +5423,14 @@ void CPacketTranslater::OnDBMWDeleteToBlackList(PacketHeader* pkt)
             }
         }
     }
+}
+void CPacketTranslater::RequestBlackListToDBMW(unsigned int charNo)
+{
+    Packet_DBMW_Request_BlackList pkt;
+    pkt.m_charNo = charNo;
+    pkt.m_flag = 0xc9;
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    handler->SendToDB(&pkt);
 }
 void CPacketTranslater::OnDBMWResponseBlackListOnLogin(PacketHeader* pkt)
 {
@@ -5813,7 +5878,22 @@ void CPacketTranslater::OnWebRequestARSInfo(PacketHeader* pkt)
 void CPacketTranslater::OnCheckOverlappedAccusation(PacketHeader* pkt) {}
 void CPacketTranslater::OnGameServerRegist(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoCache(PacketHeader* pkt) {}
-void CPacketTranslater::OnDisableUserOneToOneChat_GM(PacketHeader* pkt) {}
+void CPacketTranslater::OnDisableUserOneToOneChat_GM(PacketHeader* pkt)
+{
+    if (m_pclApp != 0)
+    {
+        unsigned int channel = *(unsigned int*)((char*)pkt + 0xa);
+        if (m_pclApp->isGM_regFromChannel(channel) != 0)
+        {
+            CUser* target =
+                ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharName((char*)pkt + 0x12);
+            if (target != 0)
+            {
+                m_pclApp->DisableChatUserWithGM(channel, target->GetUniqCharNo());
+            }
+        }
+    }
+}
 void CPacketTranslater::OnFindCharacName_useUID(PacketHeader* pkt) {}
 void CPacketTranslater::OnRenew_GM_List(PacketHeader* pkt)
 {
@@ -7239,6 +7319,16 @@ Packet_Request_Result_BlackList::Packet_Request_Result_BlackList()
 
 Packet_Web_Notice_InGame_Advertisement::Packet_Web_Notice_InGame_Advertisement()
     : PacketHeader(0x27e2, 10)
+{
+}
+
+Packet_DBMW_Request_BlackList::Packet_DBMW_Request_BlackList()
+    : PacketHeader(0x5e1, 0xf)
+{
+}
+
+Packet_DB_Member_Delete_As_Charac_Delete::Packet_DB_Member_Delete_As_Charac_Delete()
+    : PacketHeader(0x4c3, 0xe)
 {
 }
 

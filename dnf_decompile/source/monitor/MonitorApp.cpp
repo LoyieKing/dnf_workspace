@@ -509,6 +509,11 @@ void* CApplication::getCollectItems()
     return m_field388;
 }
 
+void* CApplication::FindGameServer(int id)
+{
+    return m_serverHandler2->GetGameServer((unsigned int)id);
+}
+
 char CApplication::isGM_regFromChannel(unsigned int channel)
 {
     std::map<unsigned int, std::list<unsigned int> >::iterator it = m_map368.find(channel);

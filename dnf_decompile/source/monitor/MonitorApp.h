@@ -78,6 +78,7 @@ public:
     void* getIPCounter();
     void* getTowerRank();
     void* getCollectItems();
+    void* FindGameServer(int id);
     char isGM_regFromChannel(unsigned int channel);
     char isAbleUserChatWithGM(unsigned int channel, unsigned int charNo);
     void AddChattableUserWithGM(unsigned int channel, unsigned int charNo);
