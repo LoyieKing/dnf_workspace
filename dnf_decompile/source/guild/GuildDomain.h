@@ -837,8 +837,8 @@ public:
     int RecvPacket();
     int recv_packet();
     int parsing(int len);
-    void send_packet(char* buf, int len);
-    void send_packet();
+    int send_packet(char* buf, int len);
+    int send_packet();
     void DisConnSig();
     void ConnSig();
     char m_data[0x97824];   // +0x1c 起，sizeof(CPeer)=0x97840（MemPool chunk）
@@ -859,7 +859,7 @@ public:
     ~CTcpHandler();
     int SetPeer(void* ptr, int fd, bool flag);
     int ResetEpoll(int fd);
-    void WaitForEvent();
+    int WaitForEvent();
     bool IsSetErrEvent(int idx);
     bool IsSetOutEvent(int idx);
     unsigned int IsSetInEvent(int idx);
@@ -917,7 +917,7 @@ public:
     void Destroy();
     int SetEpoll(void* ptr, int fd, bool flag);
     int ResetEpoll(int fd);
-    void WaitForEvent();
+    int WaitForEvent();
     bool IsSetErrEvent(int idx);
     bool IsSetOutEvent(int idx);
     unsigned int IsSetInEvent(int idx);
@@ -950,7 +950,7 @@ public:
     CMutex* Get_TcpSendBLock();
     unsigned short Get_TcpServerPort();
     void Init(unsigned short port);
-    void WaitForEvent();
+    int WaitForEvent();
     CPeer* CreatePeer();
     void DeletePeer(CPeer* peer);
     void InsertAcceptedPeer(CPeer* peer);

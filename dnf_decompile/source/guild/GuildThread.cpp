@@ -213,6 +213,14 @@ void CUdpNetworkThread::dispatch(void* param)
 CTcpNetworkThread::CTcpNetworkThread()
 {
     m_net = 0;
+    m_recvQ = 0;
+    m_handler = 0;
+    m_recvQLock = 0;
+    m_recvBLock = 0;
+    m_sendQ = 0;
+    m_sendQLock = 0;
+    m_sendBLock = 0;
+    m_runningFlag = 0;
 }
 
 CTcpNetworkThread::~CTcpNetworkThread()
@@ -222,11 +230,68 @@ CTcpNetworkThread::~CTcpNetworkThread()
 
 void CTcpNetworkThread::attach(CTcpNetSystem* net)
 {
-    m_net = net;
+    if (net != 0)
+    {
+        m_net = net;
+        m_recvQ = net->Get_TcpSwapQPacket();
+        m_handler = net->Get_TcpHandler();
+        m_recvQLock = net->Get_TcpRecvQLock();
+        m_recvBLock = net->Get_TcpRecvBLock();
+        m_sendQ = net->Get_TcpSendQPacket();
+        m_sendQLock = net->Get_TcpSendQLock();
+        m_sendBLock = net->Get_TcpSendBLock();
+    }
 }
 
 void CTcpNetworkThread::dispatch(void* param)
 {
+    CPeer* peer = 0;
+    int eventCount = 0;
+    m_runningFlag = 1;
+    DNFFLib::Sleep_Ext(5, 0);
+    while (true)
+    {
+        do
+        {
+            do
+            {
+                if (m_runningFlag == 0)
+                {
+                    CMyFileLog log("dispatch", 0xae);
+                    log("./log/TcpRecv", "RecvThread Terminate");
+                    return;
+                }
+                errno = 0;
+                DNFFLib::Sleep_Ext(0, 5);
+            } while (m_net == 0);
+            m_net->SetEpollAcceptedPeers();
+            m_net->SendPacket();
+            eventCount = m_net->WaitForEvent();
+        } while (eventCount == 0);
+        if (eventCount < 0 && errno != 4 && errno != 0)
+        {
+            break;
+        }
+        for (int i = 0; i < eventCount; i++)
+        {
+            CTcpHandler* handler = (CTcpHandler*)m_handler;
+            CPeer* p = (CPeer*)handler->GetEventPtr(i);
+            bool isIn = p != 0 && handler->IsSetInEvent(i);
+            if (isIn && p->RecvPacket() != 1)
+            {
+                p->DisConnSig();
+                m_net->DeletePeer(p);
+                p = 0;
+            }
+            bool isOut = p != 0 && p->get_remain_sendlen() != 0 &&
+                         handler->IsSetOutEvent(i);
+            if (isOut && p->get_remain_sendlen() < 0x1801)
+            {
+                p->send_packet();
+            }
+            handler->IsSetErrEvent(i);
+        }
+    }
 }
 
 CTcpAcceptThread::CTcpAcceptThread()

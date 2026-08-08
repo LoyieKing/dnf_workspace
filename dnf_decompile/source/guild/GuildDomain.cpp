@@ -3772,12 +3772,99 @@ int CPeer::parsing(int len)
     return 0;
 }
 
-void CPeer::send_packet(char* buf, int len)
+int CPeer::send_packet(char* buf, int len)
 {
+    if (getHandle() < 0)
+    {
+        return -1;
+    }
+    if (len < 1)
+    {
+        printf("!!!Send Packet[(%d,%d) Size(%d) Error\n", (int)buf[0], (int)buf[1], len);
+        return -1;
+    }
+    errno = 0;
+    *(int*)((char*)this + 0x1834) += len;
+    if (*(unsigned int*)((char*)this + 0x1834) < 0x96001)
+    {
+        if (*(CPeer**)((char*)this + 0x1838) < (CPeer*)((char*)this + 0x183c) ||
+            (CPeer*)((char*)this + 0x9783c) <= *(CPeer**)((char*)this + 0x1838))
+        {
+            int remain = *(int*)((char*)this + 0x1834);
+            CMyFileLog log("send_packet", 0x13b);
+            log("./log/TcpErr",
+                "!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",
+                (int)buf[1], remain, len);
+            *(CPeer**)((char*)this + 0x1838) = (CPeer*)((char*)this + 0x183c);
+            *(int*)((char*)this + 0x1834) = 0;
+            return -1;
+        }
+        memcpy(*(void**)((char*)this + 0x1838), buf, (size_t)len);
+        *(int*)((char*)this + 0x1838) += len;
+        return send_packet();
+    }
+    int remain = *(int*)((char*)this + 0x1834);
+    CMyFileLog log("send_packet", 0x133);
+    log("./log/TcpErr", "!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",
+        (int)buf[1], remain, len);
+    *(CPeer**)((char*)this + 0x1838) = (CPeer*)((char*)this + 0x183c);
+    *(int*)((char*)this + 0x1834) = 0;
+    return -1;
 }
 
-void CPeer::send_packet()
+int CPeer::send_packet()
 {
+    ssize_t r = 0;
+    if (*(int*)((char*)this + 0x1834) == 0)
+    {
+        r = 1;
+    }
+    else
+    {
+        size_t n = *(size_t*)((char*)this + 0x1834);
+        int fd = getHandle();
+        r = write(fd, (char*)this + 0x183c, n);
+        if (r < 1)
+        {
+            if (errno == 0xb || errno == 4 || errno == 0)
+            {
+                r = 1;
+            }
+            else
+            {
+                printf("SEND ERROR DISCONNNECT NOW FD[%d] : %d(%s)", fd, errno, strerror(errno));
+                r = 1;
+            }
+        }
+        else if (r > 0)
+        {
+            if (r < *(int*)((char*)this + 0x1834))
+            {
+                *(CPeer**)((char*)this + 0x1838) = (CPeer*)((char*)this + 0x183c + r);
+                *(int*)((char*)this + 0x1834) -= (int)r;
+                if (*(unsigned int*)((char*)this + 0x1834) < 0x96001)
+                {
+                    memmove((char*)this + 0x183c, *(void**)((char*)this + 0x1838),
+                            *(size_t*)((char*)this + 0x1834));
+                    *(CPeer**)((char*)this + 0x1838) = (CPeer*)((char*)this + 0x183c);
+                    *(int*)((char*)this + 0x1834) = 0;
+                    r = 1;
+                }
+            }
+            else if (*(int*)((char*)this + 0x1834) < r)
+            {
+                printf("offset error[Remain_Data: %d Send:%d]",
+                       *(int*)((char*)this + 0x1834), (int)r);
+                r = -1;
+            }
+            else
+            {
+                *(CPeer**)((char*)this + 0x1838) = (CPeer*)((char*)this + 0x183c);
+                *(int*)((char*)this + 0x1834) = 0;
+            }
+        }
+    }
+    return (int)r;
 }
 
 void CPeer::DisConnSig()
@@ -3795,12 +3882,13 @@ CTcpSendBuffer::CTcpSendBuffer()
     memset(m_data, 0, sizeof(m_data));
 }
 
-void CTcpHandler::WaitForEvent()
+int CTcpHandler::WaitForEvent()
 {
     if (m_epoll != 0)
     {
-        m_epoll->WaitForEvent();
+        return m_epoll->WaitForEvent();
     }
+    return -1;
 }
 
 CTcpHandler::CTcpHandler()
@@ -4024,9 +4112,9 @@ int EpollHandler::ResetEpoll(int fd)
     return r < 0 ? errno : 0;
 }
 
-void EpollHandler::WaitForEvent()
+int EpollHandler::WaitForEvent()
 {
-    epoll_wait(m_epollFd, (epoll_event*)m_events, 1000, 100);
+    return epoll_wait(m_epollFd, (epoll_event*)m_events, 1000, 100);
 }
 
 bool EpollHandler::IsSetErrEvent(int idx)
@@ -4133,13 +4221,14 @@ void CTcpNetSystem::Init(unsigned short port)
     }
 }
 
-void CTcpNetSystem::WaitForEvent()
+int CTcpNetSystem::WaitForEvent()
 {
     CTcpHandler* h = (CTcpHandler*)*(void**)m_data;
     if (h != 0)
     {
-        h->WaitForEvent();
+        return h->WaitForEvent();
     }
+    return -1;
 }
 
 CPeer* CTcpNetSystem::CreatePeer()
@@ -4232,6 +4321,63 @@ void CTcpNetSystem::PopDeleteTcpSendPacketQ(CTcpSendBuffer* buf)
 
 void CTcpNetSystem::SendPacket()
 {
+    std::queue<CTcpSendBuffer*, std::deque<CTcpSendBuffer*> >* q =
+        (std::queue<CTcpSendBuffer*, std::deque<CTcpSendBuffer*> >*)(m_data + 0xc0);
+    CTcpSendBuffer* buf = 0;
+    bool empty;
+    {
+        CGuard<CMutex> g((CMutex*)(m_data + 0xe8));
+        empty = q->empty();
+        if (!empty)
+        {
+            buf = q->front();
+        }
+    }
+    if (empty || buf == 0)
+    {
+        return;
+    }
+    std::map<unsigned int, CPeer*>* peers =
+        (std::map<unsigned int, CPeer*>*)(m_data + 0x144);
+    std::map<unsigned int, CPeer*>::iterator it =
+        peers->find(*(unsigned int*)((char*)buf + 6));
+    if (it == peers->end())
+    {
+        CMyFileLog log("SendPacket", 0xba);
+        log("./log/TcpSend", "SEND ERR:no peer(id:%d,size:%d,ip:%d)",
+            (unsigned int)*(unsigned short*)buf, (unsigned int)*(unsigned short*)((char*)buf + 2),
+            *(unsigned int*)((char*)buf + 6));
+        PopDeleteTcpSendPacketQ(buf);
+        return;
+    }
+    CPeer* peer = it->second;
+    bool invalid = true;
+    if (peer != 0 &&
+        *(int*)((char*)buf + 6) == peer->GetTcpSocket()->getHandle())
+    {
+        invalid = false;
+    }
+    if (invalid)
+    {
+        CMyFileLog log("SendPacket", 0xc3);
+        log("./log/TcpSend", "SEND ERR:invalid peer(%x)(id:%d)(size:%d)(ip:%d)", peer,
+            (unsigned int)*(unsigned short*)buf, (unsigned int)*(unsigned short*)((char*)buf + 2),
+            *(unsigned int*)((char*)buf + 6));
+        PopDeleteTcpSendPacketQ(buf);
+        return;
+    }
+    int r = peer->send_packet((char*)buf, (int)*(unsigned short*)((char*)buf + 2));
+    if (r < 1)
+    {
+        CMyFileLog log("SendPacket", 0xd5);
+        log("./log/TcpSend", "SEND(id:%d,size:%d,ip:%d, cnt:%d)",
+            (unsigned int)*(unsigned short*)buf, (unsigned int)*(unsigned short*)((char*)buf + 2),
+            *(unsigned int*)((char*)buf + 6), (unsigned int)q->size());
+    }
+    else
+    {
+        PopDeleteTcpSendPacketQ(buf);
+    }
 }
 
 bool CTcpNetSystem::OpenTcpService(int& sock, const char* ip, unsigned short port)
