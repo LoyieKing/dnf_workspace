@@ -790,7 +790,7 @@ void CBlackUser::ChangeCharName(char* name) {}
 
 CExchangeServer::CExchangeServer() {}
 CExchangeServer::~CExchangeServer() {}
-void CExchangeServer::SetExchageServer(unsigned int ip, short port, int code, bool& result)
+void CExchangeServer::SetExchageServer(unsigned int ip, short port, int code, bool* result)
 {
     time_t now = time(0);
     in_addr oldIp;
