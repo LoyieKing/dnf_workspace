@@ -610,7 +610,6 @@ void CPacketTranslater::OnNoticeGuildMarkChange(PacketHeader* pkt)
     }
 }
 
-STUB_HANDLER(OnNoticeGuildCreate)
 STUB_HANDLER(OnCharacterDelete)
 STUB_HANDLER(OnUpdateChangableCharInfo)
 STUB_HANDLER(OnEventStart)
@@ -631,20 +630,11 @@ STUB_HANDLER(OnGMPowerWarEnd)
 STUB_HANDLER(OnChangeGuildNameFromWeb)
 STUB_HANDLER(OnNotifyNewGroupMail)
 STUB_HANDLER(OnInCreaseDecreasePowerWarPoint)
-STUB_HANDLER(OnCreateGuildAgit)
-STUB_HANDLER(OnDeleteGuildAgit)
-STUB_HANDLER(OnDBCreateGuildAgit)
-STUB_HANDLER(OnDBDeleteGuildAgit)
 STUB_HANDLER(OnPowerWarProcessInfo)
-STUB_HANDLER(OnDBLoadGuildAgit)
-STUB_HANDLER(OnUpgradeGuildAgit)
-STUB_HANDLER(OnDBUpgradeGuildAgit)
 STUB_HANDLER(OnGuildExpLimit)
 STUB_HANDLER(OnWriteGuildMemberMemo)
 STUB_HANDLER(OnLoadGuildCargo)
 STUB_HANDLER(OnLoadGuildCargoHistory)
-STUB_HANDLER(OnGuildCargo)
-STUB_HANDLER(OnGuildCargoHistory)
 STUB_HANDLER(OnGuildRequestGuildBoardOpen)
 STUB_HANDLER(OnDBLoadReplyGuildBoardOpen)
 STUB_HANDLER(OnGuildRequestGuildBoardWrite)
@@ -2849,6 +2839,455 @@ void CPacketTranslater::OnDBMWChangeUnconnectedGuildMemberGrade(PacketHeader* pk
         *(unsigned char*)((char*)&reply + 0x16) = *(unsigned char*)(pb + 0x30);
         memcpy((char*)&reply + 0x17, pb + 0x12, 0x1d);
         user->SendToGameserver((char*)&reply, 0x3a);
+    }
+}
+
+void CPacketTranslater::OnNoticeGuildCreate(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildCreate : 0 == m_pclApp");
+    char* pb = (char*)pkt;
+    CServerHandler* handler = m_pclApp->Get_ServerHandler();
+    if (handler == 0)
+    {
+        throw CDNFException("CGuildManager::GuildMemLogin() pclServerHandler == NULL\n");
+    }
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe));
+    if (user != 0)
+    {
+        unsigned int uniqCharNo = user->GetUniqCharNo();
+        m_pclApp->Get_GuildManager()->CreateGuild(*(unsigned int*)(pb + 0xa), handler,
+                                                  uniqCharNo);
+        user->QueryGuildMember(handler);
+        Packet_Monitor_Notice_Guild_Create_ToUser notice;
+        memcpy((char*)&notice + 0xa, pb + 0xa, 0x1f);
+        *(unsigned int*)((char*)&notice + 0x29) = user->GetIdByChannel();
+        user->SendToGameserver((char*)&notice, 0x2d);
+    }
+}
+
+void CPacketTranslater::OnCreateGuildAgit(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnCreateGuildAgit", 0x1608);
+        log("./log/Except", "CPacketTranslater::OnCreateGuildAgit : 0 == m_pclApp");
+        return;
+    }
+    else
+    {
+        unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+        if (guildKey == 0 || guild == 0)
+        {
+            CMyFileLog log("OnCreateGuildAgit", 0x1610);
+            log("./log/GuildAgit", "CPacketTranslater::OnCreateGuildAgit : 0 == pclGuild");
+        }
+        else if (guild->IsGuildMaster(*(unsigned int*)(pb + 0xe)) == 1)
+        {
+            if (guild->IsExistGuildAgit() == 0)
+            {
+                if (guild->GetGuildFund() < *(unsigned int*)(pb + 0x16))
+                {
+                    CMyFileLog log("OnCreateGuildAgit", 0x1623);
+                    log("./log/GuildAgit",
+                        "CPacketTranslater::OnCreateGuildAgit : %d guild fund shortage",
+                        guildKey);
+                }
+                else
+                {
+                    guild->CreateGuildAgit(m_pclApp->Get_ServerHandler(), guildKey,
+                                           *(unsigned int*)(pb + 0xe),
+                                           *(unsigned int*)(pb + 0x12),
+                                           *(unsigned int*)(pb + 0x16));
+                }
+            }
+            else
+            {
+                CMyFileLog log("OnCreateGuildAgit", 0x161c);
+                log("./log/GuildAgit",
+                    "CPacketTranslater::OnCreateGuildAgit : %d guild already have guild agit",
+                    guildKey);
+            }
+        }
+        else
+        {
+            CMyFileLog log("OnCreateGuildAgit", 0x1616);
+            log("./log/GuildAgit",
+                "CPacketTranslater::OnCreateGuildAgit : %d is not guild master(g:%d)",
+                *(unsigned int*)(pb + 0xe), guildKey);
+        }
+    }
+}
+
+void CPacketTranslater::OnDeleteGuildAgit(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnDeleteGuildAgit", 0x1647);
+        log("./log/Except", "CPacketTranslater::OnDeleteGuildAgit : 0 == m_pclApp");
+        return;
+    }
+    else
+    {
+        unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+        if (guildKey == 0 || guild == 0)
+        {
+            CMyFileLog log("OnDeleteGuildAgit", 0x164f);
+            log("./log/GuildAgit", "CPacketTranslater::OnDeleteGuildAgit : 0 == pclGuild");
+        }
+        else if (guild->IsGuildMaster(*(unsigned int*)(pb + 0xe)) == 1)
+        {
+            if (guild->IsExistGuildAgit() == 1)
+            {
+                if (guild->GetGuildCargo()->IsEmpty() == 1)
+                {
+                    guild->DeleteGuildAgit(m_pclApp->Get_ServerHandler(), guildKey,
+                                           *(unsigned int*)(pb + 0xe));
+                }
+                else
+                {
+                    CMyFileLog log("OnDeleteGuildAgit", 0x1663);
+                    log("./log/GuildAgit",
+                        "CPacketTranslater::OnDeleteGuildAgit : %d guild cargo is not empty",
+                        guildKey);
+                    CUser* user =
+                        m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe));
+                    if (user == 0)
+                    {
+                        CMyFileLog log("OnDeleteGuildAgit", 0x166b);
+                        log("./log/GuildCargo",
+                            "CPacketTranslater::OnDeleteGuildAgit : 0 == pclUser(%d)",
+                            *(unsigned int*)(pb + 0xe));
+                    }
+                    else
+                    {
+                        Packet_Channel_Delete_Guild_Agit reply;
+                        *(unsigned int*)((char*)&reply + 0xa) = user->GetIdByChannel();
+                        *(unsigned int*)((char*)&reply + 0xe) = user->GetUniqCharNo();
+                        *(unsigned int*)((char*)&reply + 0x12) = user->GetUniqCharNo();
+                        *(unsigned char*)((char*)&reply + 0x16) = 0xd4;
+                        user->SendToGameserver((char*)&reply, 0x17);
+                    }
+                }
+            }
+            else
+            {
+                CMyFileLog log("OnDeleteGuildAgit", 0x165b);
+                log("./log/GuildAgit",
+                    "CPacketTranslater::OnDeleteGuildAgit : %d guild do not have guild agit",
+                    guildKey);
+            }
+        }
+        else
+        {
+            CMyFileLog log("OnDeleteGuildAgit", 0x1655);
+            log("./log/GuildAgit",
+                "CPacketTranslater::OnDeleteGuildAgit : %d is not guild master(g:%d)",
+                *(unsigned int*)(pb + 0xe), guildKey);
+        }
+    }
+}
+
+void CPacketTranslater::OnUpgradeGuildAgit(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnUpgradeGuildAgit", 0x1767);
+        log("./log/Except", "CPacketTranslater::OnUpgradeGuildAgit : 0 == m_pclApp");
+        return;
+    }
+    else
+    {
+        unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+        if (guildKey == 0 || guild == 0)
+        {
+            CMyFileLog log("OnUpgradeGuildAgit", 6000);
+            log("./log/GuildAgit", "CPacketTranslater::OnCreateGuildAgit : 0 == pclGuild");
+        }
+        else if (guild->IsGuildMaster(*(unsigned int*)(pb + 0xe)) == 1)
+        {
+            if (guild->IsExistGuildAgit() == 1)
+            {
+                if (guild->GetGuildFund() < *(unsigned int*)(pb + 0x16))
+                {
+                    CMyFileLog log("OnUpgradeGuildAgit", 0x1783);
+                    log("./log/GuildAgit",
+                        "CPacketTranslater::OnCreateGuildAgit : %d guild fund shortage",
+                        guildKey);
+                }
+                else
+                {
+                    guild->UpgradeGuildAgit(m_pclApp->Get_ServerHandler(), guildKey,
+                                            *(unsigned int*)(pb + 0xe),
+                                            *(unsigned int*)(pb + 0x12),
+                                            *(unsigned int*)(pb + 0x16));
+                }
+            }
+            else
+            {
+                CMyFileLog log("OnUpgradeGuildAgit", 0x177c);
+                log("./log/GuildAgit",
+                    "CPacketTranslater::OnDeleteGuildAgit : %d guild already have guild agit",
+                    guildKey);
+            }
+        }
+        else
+        {
+            CMyFileLog log("OnUpgradeGuildAgit", 0x1776);
+            log("./log/GuildAgit",
+                "CPacketTranslater::OnCreateGuildAgit : %d is not guild master(g:%d)",
+                *(unsigned int*)(pb + 0xe), guildKey);
+        }
+    }
+}
+
+void CPacketTranslater::OnDBCreateGuildAgit(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnDBCreateGuildAgit", 0x1696);
+        log("./log/Except", "CPacketTranslater::OnDBCreateGuildAgit : 0 == m_pclApp");
+        return;
+    }
+    if (*(int*)(pb + 0x12) == 0)
+    {
+        unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+        if (guildKey == 0 || guild == 0)
+        {
+            CMyFileLog log("OnDBCreateGuildAgit", 0x16a9);
+            log("./log/GuildAgit", "CPacketTranslater::OnDBCreateGuildAgit : 0 == pclGuild");
+        }
+        else
+        {
+            guild->SetGuildAgitFlag(true);
+            guild->GetGuildCargo()->SetGuildInfo(guild->GetGuildKey());
+            STGuildCargoDBInfo cargoInfo;
+            memset(&cargoInfo, 0, 0x18dc);
+            *(unsigned int*)((char*)&cargoInfo + 0x18d8) = 8;
+            guild->GetGuildCargo()->SetGuildCargoDBInfo(cargoInfo);
+            guild->NotifyCreateGuildAgitToGuildMember(*(unsigned int*)(pb + 0xe));
+            guild->SendGuildAgitInfoToMembers();
+            guild->SendGuildInfoToMembers(false);
+        }
+        return;
+    }
+    CMyFileLog log("OnDBCreateGuildAgit", 0x16a0);
+    log("./log/GuildAgit",
+        "CPacketTranslater::OnDBCreateGuildAgit / Failure! Create Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",
+        *(unsigned int*)(pb + 0xa), *(unsigned int*)(pb + 0xe), *(unsigned int*)(pb + 0x12));
+}
+
+void CPacketTranslater::OnDBDeleteGuildAgit(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnDBDeleteGuildAgit", 0x16dd);
+        log("./log/Except", "CPacketTranslater::OnDBDeleteGuildAgit : 0 == m_pclApp");
+        return;
+    }
+    if (*(int*)(pb + 0x12) == 0)
+    {
+        unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+        if (guildKey == 0 || guild == 0)
+        {
+            CMyFileLog log("OnDBDeleteGuildAgit", 0x16ef);
+            log("./log/GuildAgit", "CPacketTranslater::OnDBCreateGuildAgit : 0 == pclGuild");
+        }
+        else
+        {
+            guild->SetGuildAgitFlag(false);
+            guild->NotifyDeleteGuildAgitToGuildMember(*(unsigned int*)(pb + 0xe));
+            guild->SendGuildInfoToMembers(false);
+        }
+        return;
+    }
+    CMyFileLog log("OnDBDeleteGuildAgit", 0x16e6);
+    log("./log/GuildAgit",
+        "CPacketTranslater::OnDBDeleteGuildAgit / Failure! Delete Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",
+        *(unsigned int*)(pb + 0xa), *(unsigned int*)(pb + 0xe), *(unsigned int*)(pb + 0x12));
+}
+
+void CPacketTranslater::OnDBLoadGuildAgit(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnDBLoadGuildAgit", 0x173a);
+        log("./log/Except", "CPacketTranslater::OnDBLoadGuildAgit : 0 == m_pclApp");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guildKey == 0 || guild == 0)
+    {
+        CMyFileLog log("OnDBLoadGuildAgit", 0x1743);
+        log("./log/GuildAgit", "CPacketTranslater::OnDBCreateGuildAgit : 0 == pclGuild");
+    }
+    else
+    {
+        guild->SetGuildAgitInfo(*(STGuildAgitDBInfo*)(pb + 0xe));
+        guild->SendGuildAgitInfoToMembers();
+    }
+}
+
+void CPacketTranslater::OnDBUpgradeGuildAgit(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnDBUpgradeGuildAgit", 0x17a8);
+        log("./log/Except", "CPacketTranslater::OnDBUpgradeGuildAgit : 0 == m_pclApp");
+        return;
+    }
+    if (*(int*)(pb + 0x12) == 0)
+    {
+        unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+        if (guildKey == 0 || guild == 0)
+        {
+            CMyFileLog log("OnDBUpgradeGuildAgit", 0x17b9);
+            log("./log/GuildAgit",
+                "CPacketTranslater::OnDBCreateGuildAgit : 0 == pclGuild");
+        }
+        else
+        {
+            guild->SetGuildAgitLevelUp();
+            guild->SendGuildAgitInfoToMembers();
+        }
+        return;
+    }
+    CMyFileLog log("OnDBUpgradeGuildAgit", 0x17b2);
+    log("./log/GuildAgit",
+        "CPacketTranslater::OnDBUpgradeGuildAgit / Failure! Upgrade Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",
+        *(unsigned int*)(pb + 0xa), *(unsigned int*)(pb + 0xe), *(unsigned int*)(pb + 0x12));
+}
+
+void CPacketTranslater::OnGuildCargo(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGuildCargo", 0x188c);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargo : 0 == m_pclApp");
+        return;
+    }
+    unsigned int charNo = *(unsigned int*)(pb + 0xa);
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnGuildCargo", 0x1896);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargo : 0 == pclUser");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xe);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnGuildCargo", 0x189e);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargo : 0 == pclGuild");
+        return;
+    }
+    Packet_Guild_Cargo_Response reply;
+    *(unsigned int*)((char*)&reply + 0xa) = user->GetIdByChannel();
+    *(unsigned int*)((char*)&reply + 0xe) = guildKey;
+    CGuildCargo* cargo = guild->GetGuildCargo();
+    if (cargo->IsLoadComplete() == 1)
+    {
+        unsigned char grade = *(unsigned char*)((char*)user->GetGuildMemDBInfo() + 0x15);
+        if (grade == 3 || grade == 1 || grade == 2)
+        {
+            if (m_pclApp->Get_GuildManager()->IsCargoLock() == 0)
+            {
+                *(unsigned char*)((char*)&reply + 0x18ee) = 0xc1;
+                memcpy((char*)&reply + 0x12, cargo->GetGuildCargoDBInfo(), 0x18dc);
+            }
+            else
+            {
+                *(unsigned char*)((char*)&reply + 0x18ee) = 0xcc;
+                CMyFileLog log("OnGuildCargo", 0x18c2);
+                log("./log/GuildCargo", "CPacketTranslater::OnGuildCargo GUILD CARGO LOCKED!");
+            }
+            user->SendTcpGameserver(&reply);
+        }
+        else
+        {
+            CMyFileLog log("OnGuildCargo", 0x18b7);
+            log("./log/GuildCargo",
+                "CPacketTranslater::OnGuildCargo : Access Deny(%d,%d,%d)", charNo, guildKey,
+                (unsigned int)grade);
+            *(unsigned char*)((char*)&reply + 0x18ee) = 0x24;
+            user->SendTcpGameserver(&reply);
+        }
+    }
+    else
+    {
+        CMyFileLog log("OnGuildCargo", 0x18aa);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargo : Guild(%d,%d) Not Loaded",
+            charNo, guildKey);
+        *(unsigned char*)((char*)&reply + 0x18ee) = 0xc3;
+        user->SendTcpGameserver(&reply);
+    }
+}
+
+void CPacketTranslater::OnGuildCargoHistory(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGuildCargoHistory", 0x18ec);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoHistory : 0 == m_pclApp");
+        return;
+    }
+    unsigned int charNo = *(unsigned int*)(pb + 0xa);
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnGuildCargoHistory", 0x18f6);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoHistory : 0 == pclUser");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xe);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guild == 0)
+    {
+        CMyFileLog log("OnGuildCargoHistory", 0x18fe);
+        log("./log/GuildCargo", "CPacketTranslater::OnGuildCargoHistory : 0 == pclGuild");
+        return;
+    }
+    if (m_pclApp->Get_GuildManager()->IsCargoLock() == 0)
+    {
+        unsigned char grade = *(unsigned char*)((char*)user->GetGuildMemDBInfo() + 0x15);
+        if (grade == 3 || grade == 1 || grade == 2)
+        {
+            Packet_Guild_Cargo_History_Response reply;
+            *(unsigned int*)((char*)&reply + 0xa) = user->GetIdByChannel();
+            *(unsigned int*)((char*)&reply + 0xe) = guildKey;
+            guild->GetGuildCargo()->GetHistory((STGuildCargoLog*)((char*)&reply + 0x12));
+            user->SendTcpGameserver(&reply);
+        }
+        else
+        {
+            CMyFileLog log("OnGuildCargoHistory", 0x1910);
+            log("./log/GuildCargo",
+                "CPacketTranslater::OnGuildCargoHistory : Access Deny(%d,%d,%d)", charNo,
+                guildKey, (unsigned int)grade);
+        }
+    }
+    else
+    {
+        CMyFileLog log("OnGuildCargoHistory", 0x1906);
+        log("./log/GuildCargo",
+            "CPacketTranslater::OnGuildCargoHistory GUILD CARGO LOCKED!(%d,%d)", charNo,
+            guildKey);
     }
 }
 
