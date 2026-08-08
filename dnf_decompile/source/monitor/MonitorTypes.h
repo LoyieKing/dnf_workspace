@@ -81,7 +81,17 @@ class CAppLoadChecker
 public:
     char CheckTcpRecvQ(int size);
     char CheckUdpRecvQ(int size);
+    int checkTcpRecvLoad(int size);
+    int checkUdpRecvLoad(int size);
+    int checkTcpSendLoad(int size);
     void RequestDB(void* serverHandler, int flag, int size);
+    int m_tcpRecvLast;   // +0
+    int m_udpRecvLast;   // +4
+    int m_tcpSendLast;   // +8
+    char m_tcpRecvLevel; // +0xc
+    char m_udpRecvLevel; // +0xd
+    char m_tcpSendLevel; // +0xe
+    char m_pad[1];       // +0xf
 };
 
 CAppLoadChecker* CAppLoadCheckerInstance();

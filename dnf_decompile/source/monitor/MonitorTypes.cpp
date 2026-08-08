@@ -45,6 +45,225 @@ char CAppLoadChecker::CheckTcpRecvQ(int size) { return 0; }
 char CAppLoadChecker::CheckUdpRecvQ(int size) { return 0; }
 void CAppLoadChecker::RequestDB(void* serverHandler, int flag, int size) {}
 CAppLoadChecker* CAppLoadCheckerInstance() { return 0; }
+int CAppLoadChecker::checkTcpRecvLoad(int size)
+{
+    char level = m_tcpRecvLevel;
+    if (level < 1 && 0x32 < size - m_tcpRecvLast)
+    {
+        m_tcpRecvLevel = 1;
+        return 1;
+    }
+    if (level < 2 && 100 < size - m_tcpRecvLast)
+    {
+        m_tcpRecvLevel = 2;
+        return 1;
+    }
+    if (level < 3 && 200 < size - m_tcpRecvLast)
+    {
+        m_tcpRecvLevel = 3;
+        return 1;
+    }
+    if (level < 4 && 500 < size - m_tcpRecvLast)
+    {
+        m_tcpRecvLevel = 4;
+        return 1;
+    }
+    if (level < 5 && 1000 < size - m_tcpRecvLast)
+    {
+        m_tcpRecvLevel = 5;
+        return 1;
+    }
+    if (level < 6 && 5000 < size - m_tcpRecvLast)
+    {
+        m_tcpRecvLevel = 6;
+        return 1;
+    }
+    if (level == 6 && 5000 < size - m_tcpRecvLast)
+    {
+        return 1;
+    }
+    if (level < 0 || m_tcpRecvLast - size < 0x33)
+    {
+        if (level < -1 || m_tcpRecvLast - size < 0x65)
+        {
+            if (level < -2 || m_tcpRecvLast - size < 0xc9)
+            {
+                if (level < -3 || m_tcpRecvLast - size < 0x1f5)
+                {
+                    if (level < -4 || m_tcpRecvLast - size < 0x3e9)
+                    {
+                        if (level < -5 || m_tcpRecvLast - size < 0x1389)
+                        {
+                            if (level == 0xfa && 5000 < m_tcpRecvLast - size)
+                            {
+                                return 1;
+                            }
+                            return 0;
+                        }
+                        m_tcpRecvLevel = 0xfa;
+                        return 1;
+                    }
+                    m_tcpRecvLevel = 0xfb;
+                    return 1;
+                }
+                m_tcpRecvLevel = 0xfc;
+                return 1;
+            }
+            m_tcpRecvLevel = 0xfd;
+            return 1;
+        }
+        m_tcpRecvLevel = 0xfe;
+        return 1;
+    }
+    m_tcpRecvLevel = 0xff;
+    return 1;
+}
+int CAppLoadChecker::checkUdpRecvLoad(int size)
+{
+    char level = m_udpRecvLevel;
+    if (level < 1 && 0x32 < size - m_udpRecvLast)
+    {
+        m_udpRecvLevel = 1;
+        return 1;
+    }
+    if (level < 2 && 100 < size - m_udpRecvLast)
+    {
+        m_udpRecvLevel = 2;
+        return 1;
+    }
+    if (level < 3 && 200 < size - m_udpRecvLast)
+    {
+        m_udpRecvLevel = 3;
+        return 1;
+    }
+    if (level < 4 && 500 < size - m_udpRecvLast)
+    {
+        m_udpRecvLevel = 4;
+        return 1;
+    }
+    if (level < 5 && 1000 < size - m_udpRecvLast)
+    {
+        m_udpRecvLevel = 5;
+        return 1;
+    }
+    if (level < 6 && 5000 < size - m_udpRecvLast)
+    {
+        m_udpRecvLevel = 6;
+        return 1;
+    }
+    if (level == 6 && 5000 < size - m_udpRecvLast)
+    {
+        return 1;
+    }
+    if (level < 0 || m_udpRecvLast - size < 0x33)
+    {
+        if (level < -1 || m_udpRecvLast - size < 0x65)
+        {
+            if (level < -2 || m_udpRecvLast - size < 0xc9)
+            {
+                if (level < -3 || m_udpRecvLast - size < 0x1f5)
+                {
+                    if (level < -4 || m_udpRecvLast - size < 0x3e9)
+                    {
+                        if (level < -5 || m_udpRecvLast - size < 0x1389)
+                        {
+                            if (level == 0xfa && 5000 < m_udpRecvLast - size)
+                            {
+                                return 1;
+                            }
+                            return 0;
+                        }
+                        m_udpRecvLevel = 0xfa;
+                        return 1;
+                    }
+                    m_udpRecvLevel = 0xfb;
+                    return 1;
+                }
+                m_udpRecvLevel = 0xfc;
+                return 1;
+            }
+            m_udpRecvLevel = 0xfd;
+            return 1;
+        }
+        m_udpRecvLevel = 0xfe;
+        return 1;
+    }
+    m_udpRecvLevel = 0xff;
+    return 1;
+}
+int CAppLoadChecker::checkTcpSendLoad(int size)
+{
+    char level = m_tcpSendLevel;
+    if (level < 1 && 0x32 < size - m_tcpSendLast)
+    {
+        m_tcpSendLevel = 1;
+        return 1;
+    }
+    if (level < 2 && 100 < size - m_tcpSendLast)
+    {
+        m_tcpSendLevel = 2;
+        return 1;
+    }
+    if (level < 3 && 200 < size - m_tcpSendLast)
+    {
+        m_tcpSendLevel = 3;
+        return 1;
+    }
+    if (level < 4 && 500 < size - m_tcpSendLast)
+    {
+        m_tcpSendLevel = 4;
+        return 1;
+    }
+    if (level < 5 && 1000 < size - m_tcpSendLast)
+    {
+        m_tcpSendLevel = 5;
+        return 1;
+    }
+    if (level < 6 && 5000 < size - m_tcpSendLast)
+    {
+        m_tcpSendLevel = 6;
+        return 1;
+    }
+    if (level == 6 && 5000 < size - m_tcpSendLast)
+    {
+        return 1;
+    }
+    if (level < 0 || m_tcpSendLast - size < 0x33)
+    {
+        if (level < -1 || m_tcpSendLast - size < 0x65)
+        {
+            if (level < -2 || m_tcpSendLast - size < 0xc9)
+            {
+                if (level < -3 || m_tcpSendLast - size < 0x1f5)
+                {
+                    if (level < -4 || m_tcpSendLast - size < 0x3e9)
+                    {
+                        if (level < -5 || m_tcpSendLast - size < 0x1389)
+                        {
+                            if (level == 0xfa && 5000 < m_tcpSendLast - size)
+                            {
+                                return 1;
+                            }
+                            return 0;
+                        }
+                        m_tcpSendLevel = 0xfa;
+                        return 1;
+                    }
+                    m_tcpSendLevel = 0xfb;
+                    return 1;
+                }
+                m_tcpSendLevel = 0xfc;
+                return 1;
+            }
+            m_tcpSendLevel = 0xfd;
+            return 1;
+        }
+        m_tcpSendLevel = 0xfe;
+        return 1;
+    }
+    m_tcpSendLevel = 0xff;
+    return 1;
+}
 
 template<int A, int B>
 CPacketCounter<A, B>::CPacketCounter(char* dir, char* name) {}
