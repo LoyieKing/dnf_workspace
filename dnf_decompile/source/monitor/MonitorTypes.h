@@ -337,6 +337,7 @@ public:
     ~CBuddyHandle();
     int addDB(CServerHandler* handler, char* name);
     int delDB(CServerHandler* handler, char* name);
+    int del(const std::string& name);
     void setBuddyCharName(int charNo, const std::string& newName);
     int add(std::string name, STBuddyDBInfo& info);
     int getBuddysCharNo(unsigned int* out);
@@ -846,7 +847,11 @@ public:
     void SendToGameserver(char* buf, int len);
     void AttachMember(class CMember* member);
     void AddBuddyFromCash(class CBuddy* buddy);
-    void SetBuddyDBFlag(unsigned int flag);
+    void SetBuddyDBFlag(unsigned short flag);
+    int AddBuddyDB(class CServerHandler* handler, char* name);
+    int DelBuddyDB(class CServerHandler* handler, char* name);
+    int AddBuddy(struct STBuddyDBInfo& info);
+    char DelBuddy(char* name);
     void RegisterToCashBlackList(std::map<unsigned int, class CBlackUser*>* map);
     void SetBlackListDBFlag(unsigned int flag);
     void SetDBID(unsigned int dbid);
@@ -1919,6 +1924,27 @@ class Packet_Tcp_Server_Connect : public PacketHeader
 public:
     Packet_Tcp_Server_Connect();
     unsigned char m_channel;  // +10
+};
+
+class Packet_Monitor_Add_Buddy_Reply : public PacketHeader
+{
+public:
+    Packet_Monitor_Add_Buddy_Reply();
+    unsigned int m_charNo;      // +10
+    unsigned int m_idByChannel; // +14
+    char m_name[0x27];          // +18
+    unsigned char m_channel;    // +57
+    unsigned char m_result;     // +58
+};
+
+class Packet_Monitor_Del_Buddy_Reply : public PacketHeader
+{
+public:
+    Packet_Monitor_Del_Buddy_Reply();
+    unsigned int m_charNo;      // +10
+    unsigned int m_idByChannel; // +14
+    char m_name[0x1e];          // +18
+    unsigned char m_result;     // +48
 };
 
 class Packet_DBMW_Connection_Check : public PacketHeader

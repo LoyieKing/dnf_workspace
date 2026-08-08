@@ -1369,6 +1369,20 @@ int CBuddyHandle::getBuddys(CBuddy** out)
     }
     return count;
 }
+int CBuddyHandle::del(const std::string& name)
+{
+    std::map<std::string, CBuddy*>::iterator it = m_buddies.find(name);
+    if (it == m_buddies.end())
+    {
+        return 0;
+    }
+    if (it->second != 0)
+    {
+        delete it->second;
+    }
+    m_buddies.erase(it);
+    return 1;
+}
 int CBuddyHandle::add(std::string name, STBuddyDBInfo& info)
 {
     if (m_buddies.size() < 0x20)
@@ -4111,7 +4125,29 @@ void CUser::SendTcpGameserver(PacketHeader* pkt)
 }
 void CUser::SendToGameserver(char* buf, int len) {}
 void CUser::AddBuddyFromCash(CBuddy* buddy) {}
-void CUser::SetBuddyDBFlag(unsigned int flag) {}
+void CUser::SetBuddyDBFlag(unsigned short flag)
+{
+    *(unsigned short*)((char*)this + 0x88) =
+        (unsigned short)(*(unsigned short*)((char*)this + 0x88) | flag);
+}
+int CUser::AddBuddyDB(CServerHandler* handler, char* name)
+{
+    return ((CBuddyHandle*)((char*)this + 0x6c))->addDB(handler, name);
+}
+int CUser::DelBuddyDB(CServerHandler* handler, char* name)
+{
+    return ((CBuddyHandle*)((char*)this + 0x6c))->delDB(handler, name);
+}
+int CUser::AddBuddy(STBuddyDBInfo& info)
+{
+    std::string name((char*)&info);
+    return ((CBuddyHandle*)((char*)this + 0x6c))->add(name, info);
+}
+char CUser::DelBuddy(char* name)
+{
+    std::string s(name);
+    return (char)((CBuddyHandle*)((char*)this + 0x6c))->del(s);
+}
 void CUser::RegisterToCashBlackList(std::map<unsigned int, CBlackUser*>* map) {}
 void CUser::SetBlackListDBFlag(unsigned int flag) {}
 void CUser::SetDBID(unsigned int dbid) {}
@@ -6939,11 +6975,273 @@ void CPacketTranslater::OnWebNoticeSingle(PacketHeader* pkt)
             (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xa));
     }
 }
-void CPacketTranslater::OnAddBuddy(PacketHeader* pkt) {}
-void CPacketTranslater::OnAddBuddyDBReply(PacketHeader* pkt) {}
-void CPacketTranslater::OnDelBuddy(PacketHeader* pkt) {}
-void CPacketTranslater::OnDelBuddyDBReply(PacketHeader* pkt) {}
-void CPacketTranslater::OnQueryBuddyInfoDBReply(PacketHeader* pkt) {}
+void CPacketTranslater::OnAddBuddy(PacketHeader* pkt)
+{
+    try
+    {
+        if (m_pclApp == 0)
+        {
+            CMyFileLog log("OnAddBuddy", 0xfff);
+            log("./log/buddy", "CPacketTranslater::OnAddBuddy : 0 == m_pclApp");
+        }
+        else
+        {
+            CUser* user =
+                ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
+                    *(unsigned int*)((char*)pkt + 0xa));
+            if (user == 0)
+            {
+                CMyFileLog log("OnAddBuddy", 0x1012);
+                log("./log/buddy", "CPacketTranslater::OnAddBuddy\t pclUser is NULL");
+            }
+            else
+            {
+                CServerHandler* handler = m_pclApp->Get_ServerHandler();
+                int r = user->AddBuddyDB(handler, (char*)pkt + 0x12);
+                if (r != 0)
+                {
+                    Packet_Monitor_Add_Buddy_Reply reply;
+                    reply.m_charNo = *(unsigned int*)((char*)pkt + 0xa);
+                    reply.m_idByChannel = *(unsigned int*)((char*)pkt + 0xe);
+                    reply.m_result = (unsigned char)r;
+                    user->SendToGameserver((char*)&reply,
+                                           *(unsigned short*)((char*)&reply + 2));
+                }
+            }
+        }
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnAddBuddy", 0x1018);
+        log("%s", "CPacketTranslater::OnAddBuddy() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnAddBuddy", 0x101d);
+        log("%s", "CPacketTranslater::OnAddBuddy() Exception Break");
+    }
+}
+void CPacketTranslater::OnAddBuddyDBReply(PacketHeader* pkt)
+{
+    try
+    {
+        if (m_pclApp == 0)
+        {
+            CMyFileLog log("OnAddBuddyDBReply", 0x1032);
+            log("./log/buddy", "CPacketTranslater::OnAddBuddyDBReply : 0 == m_pclApp");
+        }
+        else
+        {
+            CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+            CUser* user = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xa));
+            if (user == 0)
+            {
+                CMyFileLog log("OnAddBuddyDBReply", 0x105f);
+                log("./log/buddy", "CPacketTranslater::OnAddBuddyDBReply\tpclUser is NULL");
+            }
+            else
+            {
+                Packet_Monitor_Add_Buddy_Reply reply;
+                reply.m_charNo = *(unsigned int*)((char*)pkt + 0xa);
+                reply.m_idByChannel = user->GetIdByChannel();
+                if (*(char*)((char*)pkt + 0x35) == 0)
+                {
+                    user->AddBuddy(*(STBuddyDBInfo*)((char*)pkt + 0xe));
+                    memcpy(reply.m_name, (char*)pkt + 0xe, 0x27);
+                    CUser* other =
+                        userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0x30));
+                    if (other == 0)
+                    {
+                        reply.m_channel = 0xff;
+                    }
+                    else if (other->GetGameServer() == 0)
+                    {
+                        reply.m_channel = 0xff;
+                    }
+                    else
+                    {
+                        reply.m_channel =
+                            ((CServerInterface*)other->GetGameServer())->GetChannelNo();
+                    }
+                    reply.m_result = *(unsigned char*)((char*)pkt + 0x35);
+                    user->GetUniqCharNo();
+                    ((CBuddyRegisterManager*)((char*)m_pclApp + 0x300))
+                        ->addBuddyRegister(*(unsigned int*)((char*)pkt + 0x30),
+                                           user->GetUniqCharNo());
+                }
+                else
+                {
+                    reply.m_result = *(unsigned char*)((char*)pkt + 0x35);
+                }
+                user->SendToGameserver((char*)&reply,
+                                       *(unsigned short*)((char*)&reply + 2));
+            }
+        }
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnAddBuddyDBReply", 0x1065);
+        log("%s", "CPacketTranslater::OnAddBuddyDBReply() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnAddBuddyDBReply", 0x106a);
+        log("%s", "CPacketTranslater::OnAddBuddyDBReply() Exception Break");
+    }
+}
+void CPacketTranslater::OnDelBuddy(PacketHeader* pkt)
+{
+    try
+    {
+        if (m_pclApp == 0)
+        {
+            CMyFileLog log("OnDelBuddy", 0x107e);
+            log("./log/buddy", "CPacketTranslater::OnDelBuddy : 0 == m_pclApp");
+        }
+        else
+        {
+            CUser* user =
+                ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
+                    *(unsigned int*)((char*)pkt + 0xa));
+            if (user == 0)
+            {
+                CMyFileLog log("OnDelBuddy", 0x1092);
+                log("./log/buddy", "CPacketTranslater::OnDelBuddy\t pclUser is NULL");
+            }
+            else
+            {
+                CServerHandler* handler = m_pclApp->Get_ServerHandler();
+                int r = user->DelBuddyDB(handler, (char*)pkt + 0x12);
+                if (r != 0)
+                {
+                    Packet_Monitor_Del_Buddy_Reply reply;
+                    reply.m_charNo = *(unsigned int*)((char*)pkt + 0xa);
+                    reply.m_idByChannel = *(unsigned int*)((char*)pkt + 0xe);
+                    memcpy(reply.m_name, (char*)pkt + 0x12, 0x1d);
+                    reply.m_result = (unsigned char)r;
+                    user->SendToGameserver((char*)&reply,
+                                           *(unsigned short*)((char*)&reply + 2));
+                }
+            }
+        }
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnDelBuddy", 0x1098);
+        log("%s", "CPacketTranslater::OnDelBuddy() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnDelBuddy", 0x109d);
+        log("%s", "CPacketTranslater::OnDelBuddy() Exception Break");
+    }
+}
+void CPacketTranslater::OnDelBuddyDBReply(PacketHeader* pkt)
+{
+    try
+    {
+        if (m_pclApp == 0)
+        {
+            CMyFileLog log("OnDelBuddyDBReply", 0x10b1);
+            log("./log/buddy", "CPacketTranslater::OnDelBuddyDBReply : 0 == m_pclApp");
+        }
+        else
+        {
+            CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+            CUser* user = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xa));
+            if (user == 0)
+            {
+                CMyFileLog log("OnDelBuddyDBReply", 0x10cf);
+                log("./log/buddy", "CPacketTranslater::OnDelBuddyDBReply\tpclUser is NULL");
+            }
+            else
+            {
+                Packet_Monitor_Del_Buddy_Reply reply;
+                reply.m_charNo = *(unsigned int*)((char*)pkt + 0xa);
+                reply.m_idByChannel = user->GetIdByChannel();
+                if (*(char*)((char*)pkt + 0x30) == 0)
+                {
+                    user->DelBuddy((char*)pkt + 0x12);
+                    memcpy(reply.m_name, (char*)pkt + 0x12, 0x1d);
+                    reply.m_result = *(unsigned char*)((char*)pkt + 0x30);
+                    unsigned int uniq = user->GetUniqCharNo();
+                    ((CBuddyRegisterManager*)((char*)m_pclApp + 0x300))
+                        ->delBuddyRegister(*(unsigned int*)((char*)pkt + 0xe), uniq);
+                }
+                else
+                {
+                    reply.m_result = 3;
+                }
+                user->SendToGameserver((char*)&reply,
+                                       *(unsigned short*)((char*)&reply + 2));
+            }
+        }
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnDelBuddyDBReply", 0x10d5);
+        log("%s", "CPacketTranslater::OnDelBuddyDBReply() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnDelBuddyDBReply", 0x10da);
+        log("%s", "CPacketTranslater::OnDelBuddyDBReply() Exception Break");
+    }
+}
+void CPacketTranslater::OnQueryBuddyInfoDBReply(PacketHeader* pkt)
+{
+    try
+    {
+        if (m_pclApp == 0)
+        {
+            CMyFileLog log("OnQueryBuddyInfoDBReply", 0x10f0);
+            log("./log/buddy", "CPacketTranslater::OnQueryBuddyInfoDBReply : 0 == m_pclApp");
+        }
+        else
+        {
+            CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+            if (0x20 < (unsigned char)*(char*)((char*)pkt + 0xe))
+            {
+                *(char*)((char*)pkt + 0xe) = 0x20;
+            }
+            CUser* user = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xa));
+            if (user == 0)
+            {
+                CMyFileLog log("OnQueryBuddyInfoDBReply", 0x1112);
+                log("./log/buddy",
+                    "CPacketTranslater::OnQueryBuddyInfoDBReply\t  pclUser is NULL");
+            }
+            else
+            {
+                for (int i = 0;
+                     i < (int)(unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe); i++)
+                {
+                    user->AddBuddy(*(STBuddyDBInfo*)((char*)pkt + i * 0x27 + 0xf));
+                    user->GetUniqCharNo();
+                    ((CBuddyRegisterManager*)((char*)m_pclApp + 0x300))
+                        ->addBuddyRegister(*(unsigned int*)((char*)pkt + i * 0x27 + 0x31),
+                                           user->GetUniqCharNo());
+                }
+                if (*(char*)((char*)pkt + 0xe) != 0)
+                {
+                    userMgr->SendConnectedBuddysList(user);
+                }
+                user->SetBuddyDBFlag(4);
+            }
+        }
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnQueryBuddyInfoDBReply", 0x1118);
+        log("%s", "CPacketTranslater::OnQueryBuddyInfoDBReply() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnQueryBuddyInfoDBReply", 0x111d);
+        log("%s", "CPacketTranslater::OnQueryBuddyInfoDBReply() Exception Break");
+    }
+}
 void CPacketTranslater::OnWebChangeUserHandicap(PacketHeader* pkt)
 {
     if (m_pclApp == 0)
@@ -9025,6 +9323,18 @@ Packet_Send_Time_Sync_For_Login::Packet_Send_Time_Sync_For_Login()
 }
 
 Packet_Tcp_Server_Connect::Packet_Tcp_Server_Connect() : PacketHeader(0x3f8, 0xb) {}
+
+Packet_Monitor_Add_Buddy_Reply::Packet_Monitor_Add_Buddy_Reply()
+    : PacketHeader(0x672, 0x3b)
+{
+    memset(m_name, 0, 0x27);
+}
+
+Packet_Monitor_Del_Buddy_Reply::Packet_Monitor_Del_Buddy_Reply()
+    : PacketHeader(0x674, 0x31)
+{
+    memset(m_name, 0, 0x1e);
+}
 
 Packet_DBMW_Connection_Check::Packet_DBMW_Connection_Check()
     : PacketHeader(0x413, 0xb)
