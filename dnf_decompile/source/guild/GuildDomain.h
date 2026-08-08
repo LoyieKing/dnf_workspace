@@ -331,6 +331,13 @@ public:
     void UpgradeGuildAgit(CServerHandler* handler, unsigned int a, unsigned int b,
                           unsigned int c, unsigned int d);
     void AddGuildMember(ST_Notice_Guild_Enter& info, CUser* user);
+    void SetSubGuildMaster(unsigned int charNo, bool flag);
+    void SecedeProxyMember(ST_Notice_Guild_Secede& info);
+    int ChangeGuildMaster(CServerHandler* handler, CUser* user, unsigned int charNo);
+    bool ChangeGuildName(char* name, int flag);
+    void ChangeUnconnectedGuildMemberGrade(unsigned int charNo, int grade);
+    char* getUnconnectedGuildMemberName(unsigned int charNo);
+    void WriteGuildMemberMemo(CUser* user, const char* memo);
     unsigned char GetPowerSide();
     void SetPowerSide(unsigned char side);
     unsigned int GetPowerWarPoint();

@@ -279,6 +279,46 @@ void CUser::GuildInviteProcess()
 {
 }
 
+void CUser::SetGuildMemberMemo(const char* memo)
+{
+    memset((char*)this + 0x4a, 0, 0x15);
+    size_t n = strlen(memo);
+    if ((int)n < 0x15)
+    {
+        memcpy((char*)this + 0x4a, memo, n);
+    }
+    else
+    {
+        memcpy((char*)this + 0x4a, memo, 0x14);
+    }
+}
+
+void CUser::ChangeGuildMemberGrade(unsigned char grade)
+{
+    if (grade == 1 || grade == 2 || *(unsigned char*)((char*)this + 0x5f) == 1 ||
+        *(unsigned char*)((char*)this + 0x5f) == 2)
+    {
+        CMyFileLog log("ChangeGuildMemberGrade", 0x183);
+        log("./log/GuildModify", "char(%s), old(%d), new(%d)", GetCharName(),
+            (unsigned int)*(unsigned char*)((char*)this + 0x5f), (unsigned int)grade);
+    }
+    *(unsigned char*)((char*)this + 0x5f) = grade;
+    SendGuildMemberDBInfo(*(STGuildMemerDBInfo*)((char*)this + 0x4a));
+}
+
+void CUser::SendGuildMemberDBInfo(const STGuildMemerDBInfo& info)
+{
+    if (GetUniqCharNo() == 0)
+    {
+        CMyFileLog log("SendGuildMemberDBInfo", 0x193);
+        log("./log/GuildModify", "SendGuildMemberDBInfo(), 0 == this->GetUniqCharNo() ERR");
+    }
+    else
+    {
+        // 发送 Packet_Monitor_Notice_Guild_Member_Info（骨架：仅拷贝）
+    }
+}
+
 unsigned int CUser::GetGuildKey()
 {
     return m_guild ? m_guild->GetGuildKey() : 0;
@@ -366,10 +406,6 @@ void CUser::LoadGuildMember(unsigned int guildKey, STGuildMemerDBInfo& info)
 {
     m_guildDBInfo = info;
     m_guildMemFlag = (unsigned short)guildKey;
-}
-
-void CUser::SendGuildMemberDBInfo(const STGuildMemerDBInfo& info)
-{
 }
 
 void CUser::AddGuildMemberPoint(unsigned int point)
@@ -1300,6 +1336,149 @@ void CGuild::AddGuildMember(ST_Notice_Guild_Enter& info, CUser* user)
     }
     *(unsigned short*)((char*)this + 0x1e) = idx;
     *(unsigned short*)((char*)this + 0x42) = idx;
+}
+
+void CGuild::SetSubGuildMaster(unsigned int charNo, bool flag)
+{
+    if (flag)
+    {
+        unsigned char cnt = *(unsigned char*)((char*)this + 0x4d);
+        if (cnt + 1 < 6)
+        {
+            *(unsigned int*)((char*)this + ((unsigned int)cnt + 0x10) * 4 + 0xe) = charNo;
+            *(unsigned char*)((char*)this + 0x4d) = cnt + 1;
+        }
+    }
+    else
+    {
+        unsigned char* cnt = (unsigned char*)((char*)this + 0x4d);
+        for (unsigned int i = 0; i < (unsigned int)*cnt; i++)
+        {
+            if (*(unsigned int*)((char*)this + (i + 0x10) * 4 + 0xe) == charNo)
+            {
+                memcpy((char*)this + i * 4 + 0x4e, (char*)this + (i + 1) * 4 + 0x4e,
+                       ((unsigned int)*cnt + ~i) * 4);
+                *cnt = (unsigned char)((int)*cnt - 1);
+                if (5 < (unsigned char)*cnt)
+                {
+                    *cnt = 0;
+                }
+                break;
+            }
+        }
+    }
+    CMyFileLog log("SetSubGuildMaster", 0x84e);
+    log("./log/GuildModify", "Set Sub Guild Master guild(%d) CharNo(%d) flag(%d)",
+        GetGuildKey(), charNo, (unsigned int)flag);
+}
+
+void CGuild::SecedeProxyMember(ST_Notice_Guild_Secede& info)
+{
+    if ((m_field1c & 4) != 0 && (m_field1c & 0x10) != 0 && !m_members.empty())
+    {
+        unsigned short cnt = *(unsigned short*)((char*)this + 0x1e);
+        if (cnt < 0x12d)
+        {
+            for (int i = 0; i < (int)cnt; i++)
+            {
+                if (*(int*)((char*)this + i * 0x41 + 0xdd) == *(int*)((char*)&info + 8))
+                {
+                    if ((unsigned int)cnt - (unsigned int)i != 1)
+                    {
+                        memmove((char*)this + i * 0x41 + 0xdd,
+                                (char*)this + (i + 1) * 0x41 + 0xdd,
+                                ((unsigned int)cnt - (unsigned int)i - 1) * 0x41);
+                    }
+                    cnt--;
+                    if (300 < cnt)
+                    {
+                        cnt = 0;
+                    }
+                    *(unsigned short*)((char*)this + 0x1e) = cnt;
+                    *(unsigned short*)((char*)this + 0x42) = cnt;
+                    return;
+                }
+            }
+        }
+    }
+}
+
+int CGuild::ChangeGuildMaster(CServerHandler* handler, CUser* user, unsigned int charNo)
+{
+    if ((m_field1c & 4) == 0 || charNo == 0)
+    {
+        return 0;
+    }
+    *(unsigned int*)((char*)this + 0x37) = charNo;
+    ChangeUnconnectedGuildMemberGrade(charNo, 1);
+    CUser* member = FindGuildMember(charNo);
+    if (member == 0)
+    {
+        char* name = getUnconnectedGuildMemberName(charNo);
+        if (name != 0)
+        {
+            strncpy((char*)this + 0xc4, name, 0x14);
+        }
+    }
+    else
+    {
+        member->ChangeGuildMemberGrade(1);
+        strncpy((char*)this + 0xc4, member->GetCharName(), 0x14);
+    }
+    return 1;
+}
+
+bool CGuild::ChangeGuildName(char* name, int flag)
+{
+    bool ok = (m_field1c & 4) != 0;
+    if (ok)
+    {
+        strcpy((char*)this + 0x20, name);
+        m_field4d96 = (unsigned char)flag;
+    }
+    return ok;
+}
+
+void CGuild::ChangeUnconnectedGuildMemberGrade(unsigned int charNo, int grade)
+{
+    if ((m_field1c & 4) != 0 && (m_field1c & 0x10) != 0)
+    {
+        unsigned short cnt = *(unsigned short*)((char*)this + 0x1e);
+        for (int i = 0; i < (int)cnt; i++)
+        {
+            if (*(unsigned int*)((char*)this + i * 0x41 + 0xdd) == charNo)
+            {
+                *(unsigned char*)((char*)this + i * 0x41 + 0x104) = (unsigned char)grade;
+                return;
+            }
+        }
+    }
+}
+
+char* CGuild::getUnconnectedGuildMemberName(unsigned int charNo)
+{
+    return 0;
+}
+
+void CGuild::WriteGuildMemberMemo(CUser* user, const char* memo)
+{
+    if (user == 0 || memo == 0)
+    {
+        return;
+    }
+    user->SetGuildMemberMemo(memo);
+    if (IsSetGuildDBFlag(4) && IsSetGuildDBFlag(0x10))
+    {
+        for (int i = 0; i < 300; i++)
+        {
+            if (*(int*)((char*)this + i * 0x41 + 0xdd) == (int)user->GetUniqCharNo())
+            {
+                memset((char*)this + i * 0x41 + 0x109, 0, 0x15);
+                memcpy((char*)this + i * 0x41 + 0x109, memo, 0x14);
+                return;
+            }
+        }
+    }
 }
 
 void CGuildManager::LoadGuildAgit(unsigned int guildKey, CServerHandler* handler)
