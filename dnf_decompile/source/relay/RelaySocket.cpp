@@ -371,7 +371,7 @@ void UDPSocket::delDisconnectUser(unsigned int acc_id)
     std::set<unsigned int>::iterator it = monitor_set.find(acc_id);
     if (it != monitor_set.end())
     {
-        monitor_set.erase(acc_id);
+        monitor_set.erase(it);
     }
 }
 
@@ -398,7 +398,8 @@ void UDPSocket::popMonitorAuthPacket()
         acc_id = monitor_queue.front();
         monitor_queue.pop();
     } while (monitor_set.find(acc_id) == monitor_set.end());
-    monitor_set.erase(acc_id);
+    std::set<unsigned int>::iterator it = monitor_set.find(acc_id);
+    monitor_set.erase(it);
     // Packet_Relay_User_Check + send（后续随 Packet 头补齐）
 }
 
