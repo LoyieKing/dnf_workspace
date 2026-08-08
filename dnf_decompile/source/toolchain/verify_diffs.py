@@ -282,7 +282,8 @@ def main():
         if counts.get('real', 0):
             summary['DIFF_REAL'] += 1
             real_list.append((name, counts))
-    print('total with both sides:', sum(summary.values()))
+    print('total with both sides:',
+          summary['IDENTICAL'] + summary['DIFF_BENIGN'])
     print('summary:', dict(summary))
     print('--- functions with real diffs (review queue) ---')
     for name, counts in sorted(real_list, key=lambda x: -x[1].get('real', 0)):
