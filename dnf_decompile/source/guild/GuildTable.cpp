@@ -5,6 +5,8 @@
 #include <unistd.h>
 
 #include "GuildTable.h"
+#include "GuildServer.h"
+#include "PacketHeader.h"
 #include "DNFFileLog.h"
 #include "DNFFunctionLib.h"
 
@@ -272,4 +274,153 @@ void CAppLoadChecker::AddLoadTotal(int n)
 int CAppLoadChecker::IsLoadComplete()
 {
     return m_field0 != 0;
+}
+
+void CAppLoadChecker::setUdpRecvQueue(int n)
+{
+    *(int*)((char*)this + 4) = n;
+}
+
+void CAppLoadChecker::setTcpRecvQueue(int n)
+{
+    *(int*)((char*)this + 8) = n;
+}
+
+void CAppLoadChecker::setTcpSendQueue(int n)
+{
+    *(int*)((char*)this + 0xc) = n;
+}
+
+int CAppLoadChecker::checkUdpRecvLoad(int n)
+{
+    if ((char)m_field1 < 1 && 0x32 < n - *(int*)((char*)this + 4))
+    {
+        m_field1 = 1;
+        return 1;
+    }
+    if ((char)m_field1 < 2 && 100 < n - *(int*)((char*)this + 4))
+    {
+        m_field1 = 2;
+        return 1;
+    }
+    if ((char)m_field1 < 3 && 200 < n - *(int*)((char*)this + 4))
+    {
+        m_field1 = 3;
+        return 1;
+    }
+    if ((char)m_field1 < 4 && 500 < n - *(int*)((char*)this + 4))
+    {
+        m_field1 = 4;
+        return 1;
+    }
+    if ((char)m_field1 < 5 && 1000 < n - *(int*)((char*)this + 4))
+    {
+        m_field1 = 5;
+        return 1;
+    }
+    return 0;
+}
+
+int CAppLoadChecker::checkTcpRecvLoad(int n)
+{
+    if ((char)m_field2 < 1 && 0x32 < n - *(int*)((char*)this + 8))
+    {
+        m_field2 = 1;
+        return 1;
+    }
+    if ((char)m_field2 < 2 && 100 < n - *(int*)((char*)this + 8))
+    {
+        m_field2 = 2;
+        return 1;
+    }
+    if ((char)m_field2 < 3 && 200 < n - *(int*)((char*)this + 8))
+    {
+        m_field2 = 3;
+        return 1;
+    }
+    if ((char)m_field2 < 4 && 500 < n - *(int*)((char*)this + 8))
+    {
+        m_field2 = 4;
+        return 1;
+    }
+    if ((char)m_field2 < 5 && 1000 < n - *(int*)((char*)this + 8))
+    {
+        m_field2 = 5;
+        return 1;
+    }
+    return 0;
+}
+
+int CAppLoadChecker::checkTcpSendLoad(int n)
+{
+    if ((char)m_field2 < 1 && 0x32 < n - *(int*)((char*)this + 0xc))
+    {
+        m_field2 = 1;
+        return 1;
+    }
+    if ((char)m_field2 < 2 && 100 < n - *(int*)((char*)this + 0xc))
+    {
+        m_field2 = 2;
+        return 1;
+    }
+    if ((char)m_field2 < 3 && 200 < n - *(int*)((char*)this + 0xc))
+    {
+        m_field2 = 3;
+        return 1;
+    }
+    if ((char)m_field2 < 4 && 500 < n - *(int*)((char*)this + 0xc))
+    {
+        m_field2 = 4;
+        return 1;
+    }
+    if ((char)m_field2 < 5 && 1000 < n - *(int*)((char*)this + 0xc))
+    {
+        m_field2 = 5;
+        return 1;
+    }
+    return 0;
+}
+
+int CAppLoadChecker::CheckUdpRecvQ(int n)
+{
+    int r = checkUdpRecvLoad(n);
+    if (r != 0)
+    {
+        setUdpRecvQueue(n);
+    }
+    return r != 0;
+}
+
+int CAppLoadChecker::CheckTcpRecvQ(int n)
+{
+    int r = checkTcpRecvLoad(n);
+    if (r != 0)
+    {
+        setTcpRecvQueue(n);
+    }
+    return r != 0;
+}
+
+int CAppLoadChecker::CheckTcpSendQ(int n)
+{
+    int r = checkTcpSendLoad(n);
+    if (r != 0)
+    {
+        setTcpSendQueue(n);
+    }
+    return r != 0;
+}
+
+void CAppLoadChecker::RequestDB(CServerHandler* handler, int a, int b)
+{
+    if (handler != 0)
+    {
+        char buf[0x1a];
+        memset(buf, 0, sizeof(buf));
+        *(unsigned short*)(buf + 0) = 0x1f6e;
+        buf[0xa] = (char)0xcb;
+        buf[0xb] = (char)a;
+        *(unsigned short*)(buf + 0xc) = (unsigned short)b;
+        handler->SendToDB((PacketHeader*)buf);
+    }
 }

@@ -1,6 +1,7 @@
 // df_guild_r — 域类骨架（CGuild/CUser/CGuildManager/CPowerManager/CTcpNetSystem 等）
 #include <string.h>
 #include <time.h>
+#include <sys/epoll.h>
 
 #include "GuildDomain.h"
 #include "GuildApp.h"
@@ -3053,6 +3054,114 @@ CTcpSendBuffer::CTcpSendBuffer()
 
 void CTcpHandler::WaitForEvent()
 {
+}
+
+CProtocol::CProtocol()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+CProtocol::~CProtocol()
+{
+}
+
+EpollHandler::EpollHandler()
+{
+    m_events = 0;
+    m_epollFd = 0;
+    m_field4 = 0;
+    m_ptr = 0;
+    Init();
+}
+
+EpollHandler::~EpollHandler()
+{
+    Destroy();
+}
+
+int EpollHandler::Init()
+{
+    m_epollFd = epoll_create(1000);
+    if (m_epollFd < 0)
+    {
+        puts("[Epoll::init] Can't init epoll create");
+        return 0;
+    }
+    m_events = (int)malloc(12000);
+    if (m_events == 0)
+    {
+        printf("[Epoll::init] Can't alloc event memory");
+        return 0;
+    }
+    return 1;
+}
+
+void EpollHandler::Destroy()
+{
+    if (m_events != 0)
+    {
+        free((void*)m_events);
+    }
+    m_events = 0;
+}
+
+int EpollHandler::SetEpoll(void* ptr, int fd, bool flag)
+{
+    m_field4 = flag ? 0x8000001d : 0x1d;
+    m_ptr = ptr;
+    CGuard<CMutex> g(&m_mutex);
+    epoll_event ev;
+    ev.events = (unsigned int)m_field4;
+    ev.data.ptr = ptr;
+    int r = epoll_ctl(m_epollFd, 1, fd, &ev);
+    return r < 0 ? errno : 0;
+}
+
+int EpollHandler::ResetEpoll(int fd)
+{
+    memset((char*)this + 4, 0, 0xc);
+    *(int*)((char*)this + 4) = 1;
+    CGuard<CMutex> g(&m_mutex);
+    epoll_event ev;
+    ev.events = 1;
+    ev.data.ptr = m_ptr;
+    int r = epoll_ctl(m_epollFd, 2, fd, &ev);
+    return r < 0 ? errno : 0;
+}
+
+void EpollHandler::WaitForEvent()
+{
+    epoll_wait(m_epollFd, (epoll_event*)m_events, 1000, 100);
+}
+
+bool EpollHandler::IsSetErrEvent(int idx)
+{
+    return (*(unsigned int*)((char*)m_events + idx * 0xc) & 0x18) != 0;
+}
+
+bool EpollHandler::IsSetOutEvent(int idx)
+{
+    return (*(unsigned int*)((char*)m_events + idx * 0xc) & 4) != 0;
+}
+
+unsigned int EpollHandler::IsSetInEvent(int idx)
+{
+    return *(unsigned int*)((char*)m_events + idx * 0xc) & 1;
+}
+
+void* EpollHandler::GetEventPtr(int idx)
+{
+    return *(void**)((char*)m_events + idx * 0xc + 4);
+}
+
+int EpollHandler::GetEpollFD()
+{
+    return m_epollFd;
+}
+
+void* EpollHandler::GetEpollEvents()
+{
+    return (void*)m_events;
 }
 
 void CTcpNetSystem::PushTcpSendPacketQ(PacketHeader* pkt)

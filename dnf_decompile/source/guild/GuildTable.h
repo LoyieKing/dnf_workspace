@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+class CServerHandler;
+
 // ---- ST_KillUSRConfig：4 int ----
 struct ST_KillUSRConfig
 {
@@ -114,6 +116,16 @@ public:
     void AddLoad(int n);
     void AddLoadTotal(int n);
     int IsLoadComplete();
+    void setUdpRecvQueue(int n);
+    void setTcpRecvQueue(int n);
+    void setTcpSendQueue(int n);
+    int checkUdpRecvLoad(int n);
+    int checkTcpRecvLoad(int n);
+    int checkTcpSendLoad(int n);
+    int CheckUdpRecvQ(int n);
+    int CheckTcpRecvQ(int n);
+    int CheckTcpSendQ(int n);
+    void RequestDB(CServerHandler* handler, int a, int b);
     char m_field0;   // +0
     char m_field1;   // +1
     char m_field2;   // +2

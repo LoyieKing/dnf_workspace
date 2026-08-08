@@ -707,6 +707,38 @@ public:
     void WaitForEvent();
 };
 
+class CProtocol
+{
+public:
+    CProtocol();
+    ~CProtocol();
+    char m_data[0x18];
+};
+
+class EpollHandler : public CProtocol
+{
+public:
+    EpollHandler();
+    virtual ~EpollHandler();
+    int Init();
+    void Destroy();
+    int SetEpoll(void* ptr, int fd, bool flag);
+    int ResetEpoll(int fd);
+    void WaitForEvent();
+    bool IsSetErrEvent(int idx);
+    bool IsSetOutEvent(int idx);
+    unsigned int IsSetInEvent(int idx);
+    void* GetEventPtr(int idx);
+    int GetEpollFD();
+    void* GetEpollEvents();
+    CMutex m_mutex;   // +0x18
+    int m_events;     // +0x10
+    int m_epollFd;    // +0x14
+    int m_field4;     // +4
+    void* m_ptr;      // +8
+    char m_data[0x20];
+};
+
 // ---- CTcpNetSystem：0x160 ----
 class CTcpNetSystem
 {
