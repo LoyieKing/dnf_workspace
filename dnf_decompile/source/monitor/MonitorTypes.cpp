@@ -621,6 +621,91 @@ void CUdpNetworkThread::dispatch(void* param)
     throw CDNFException("NetworkThread is Not Ready!\n");
 }
 
+CTcpNetworkThread::CTcpNetworkThread() {}
+CTcpNetworkThread::~CTcpNetworkThread() {}
+void CTcpNetworkThread::attach(CTcpNetSystem* net) {}
+void CTcpNetworkThread::dispatch(void* param)
+{
+    CPeer* peer = 0;
+    int eventCount = 0;
+    m_runningFlag = 1;
+    try
+    {
+        DNFFLib::Sleep_Ext(5, 0);
+        while (true)
+        {
+            do
+            {
+                do
+                {
+                    if (m_runningFlag == 0)
+                    {
+                        CMyFileLog log("dispatch", 0xae);
+                        log("./log/TcpRecv", "RecvThread Terminate");
+                        return;
+                    }
+                    errno = 0;
+                    DNFFLib::Sleep_Ext(0, 5);
+                } while (m_net == 0);
+                m_net->SetEpollAcceptedPeers();
+                m_net->SendPacket();
+                eventCount = m_net->WaitForEvent();
+            } while (eventCount == 0);
+            if ((eventCount < 0 && errno != 4) && errno != 0)
+            {
+                break;
+            }
+            for (int i = 0; i < eventCount; i++)
+            {
+                peer = (CPeer*)((CTcpHandler*)m_handler)->GetEventPtr(i);
+                if (peer != 0 && ((CTcpHandler*)m_handler)->IsSetInEvent(i))
+                {
+                    if (peer->RecvPacket() != 1)
+                    {
+                        peer->DisConnSig();
+                        m_net->DeletePeer(peer);
+                        peer = 0;
+                    }
+                }
+                if (peer != 0 && peer->get_remain_sendlen() != 0 &&
+                    ((CTcpHandler*)m_handler)->IsSetOutEvent(i))
+                {
+                    if (peer->get_remain_sendlen() < 0x1801)
+                    {
+                        peer->send_packet();
+                    }
+                }
+                ((CTcpHandler*)m_handler)->IsSetErrEvent(i);
+            }
+        }
+    }
+    catch (CDNFException& e)
+    {
+        printf("CTcpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n", e.what());
+        throw CDNFException("CTcpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd!");
+    }
+    catch (...)
+    {
+        puts("CTcpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
+        throw CDNFException("CTcpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd!");
+    }
+}
+
+CTcpAcceptThread::CTcpAcceptThread() {}
+CTcpAcceptThread::~CTcpAcceptThread() {}
+void CTcpAcceptThread::attach(CTcpNetSystem* net) {}
+void CTcpAcceptThread::dispatch(void* param) {}
+
+void* CTcpHandler::GetEventPtr(int idx) { return 0; }
+char CTcpHandler::IsSetInEvent(int idx) { return 1; }
+char CTcpHandler::IsSetOutEvent(int idx) { return 0; }
+char CTcpHandler::IsSetErrEvent(int idx) { return 0; }
+
+char CPeer::RecvPacket() { return 1; }
+void CPeer::DisConnSig() {}
+unsigned int CPeer::get_remain_sendlen() { return 0; }
+void CPeer::send_packet() {}
+
 CTcpNetSystem::CTcpNetSystem()
 {
     m_handler = 0;
@@ -664,6 +749,10 @@ CTcpNetSystem::~CTcpNetSystem()
 void CTcpNetSystem::Init(unsigned short port) {}
 bool CTcpNetSystem::OpenTcpService(int& sockRef, const char* ip, unsigned short port) { return false; }
 void CTcpNetSystem::CleanPeers() {}
+void CTcpNetSystem::SetEpollAcceptedPeers() {}
+void CTcpNetSystem::SendPacket() {}
+int CTcpNetSystem::WaitForEvent() { return 0; }
+void CTcpNetSystem::DeletePeer(CPeer* peer) {}
 CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > >, 2>*
     CTcpNetSystem::Get_TcpSwapQPacket()
 {

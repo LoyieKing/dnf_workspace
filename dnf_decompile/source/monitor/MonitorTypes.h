@@ -316,6 +316,61 @@ public:
     void* m_bLock;         // +0x18
 };
 
+// ---- CTcpNetworkThread：0x30 ----
+class CTcpNetworkThread : public CThreadInterface
+{
+public:
+    CTcpNetworkThread();
+    ~CTcpNetworkThread();
+    void attach(CTcpNetSystem* net);
+    void dispatch(void* param);
+    CTcpNetSystem* m_net;       // +0xc
+    void* m_recvQ;              // +0x10
+    void* m_handler;            // +0x14
+    void* m_recvQLock;          // +0x18
+    void* m_recvBLock;          // +0x1c
+    void* m_sendQ;              // +0x20
+    void* m_sendQLock;          // +0x24
+    void* m_sendBLock;          // +0x28
+    char m_runningFlag;         // +0x2c
+    char m_pad[3];              // +0x2d
+};
+
+// ---- CTcpAcceptThread：0x38 ----
+class CTcpAcceptThread : public CThreadInterface
+{
+public:
+    CTcpAcceptThread();
+    ~CTcpAcceptThread();
+    void attach(CTcpNetSystem* net);
+    void dispatch(void* param);
+    CTcpNetSystem* m_net;       // +0xc
+    void* m_recvQLock;          // +0x10
+    void* m_recvBLock;          // +0x14
+    char m_sock[0x1c];          // +0x18
+    unsigned short m_port;      // +0x34
+    char m_pad[2];              // +0x36
+};
+
+// ---- CTcpHandler / CPeer（最小声明）----
+class CTcpHandler
+{
+public:
+    void* GetEventPtr(int idx);
+    char IsSetInEvent(int idx);
+    char IsSetOutEvent(int idx);
+    char IsSetErrEvent(int idx);
+};
+
+class CPeer
+{
+public:
+    char RecvPacket();
+    void DisConnSig();
+    unsigned int get_remain_sendlen();
+    void send_packet();
+};
+
 // ---- CSwapQueue<T,N>：0x58 ----
 template<class T, int N>
 class CSwapQueue
@@ -355,6 +410,10 @@ public:
     void Init(unsigned short port);
     bool OpenTcpService(int& sockRef, const char* ip, unsigned short port);
     void CleanPeers();
+    void SetEpollAcceptedPeers();
+    void SendPacket();
+    int WaitForEvent();
+    void DeletePeer(CPeer* peer);
     CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > >, 2>*
         Get_TcpSwapQPacket();
     void* m_handler;    // +0
