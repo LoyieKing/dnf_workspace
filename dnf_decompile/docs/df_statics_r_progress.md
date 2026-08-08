@@ -74,6 +74,8 @@ STPacketOverflowKey/STPowerwarFightLagKey/STUserTingTimeCheckKey/STPartyStatisti
 - 符号命中 **6111/6136 = 99.6%**（应用层 1551 符号全命中；残余 25 个为 std 模板内联差异 + __libc_csu）
 - 应用层 737 函数（C1/C2 去重后）比对：IDENTICAL 111 + NEAR 294 = 55.0%，DIFF 均为 O0 代码生成差异
   （原版编译器非 GCC 4.4.7，寻址/临时变量排布不同；语义已逐函数核验）
+- 语义复核：全部 332 个 DIFF 函数的调用序列与原版完全一致（0 个调用差异），
+  剩余差异为指令排布/寄存器分配/异常展开结构，与 coserver 水位（58.8% IDENTICAL+NEAR）同级
 - 二进制可正常运行：logo → CheckArgv 失败 → Free/Stop 全流程（App_Stop 落库路径无崩溃）
 
 ## 源码结构（source/statics/）
