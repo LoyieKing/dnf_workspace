@@ -3681,6 +3681,22 @@ std::string CServerXml::GetEventString(int idx, _eStringType type, bool* ok) con
 }
 void CServerXml::RGBALoad(int idx, TiXmlNode* node)
 {
+    TiXmlNode* colorNode = node->FirstChild("color");
+    if (colorNode == 0)
+    {
+        printf("%s Tag Error\n", (char*)this);
+        exit(-1);
+    }
+    unsigned int rgba = 0;
+    TiXmlElement* e = colorNode->ToElement();
+    rgba = (unsigned int)(unsigned char)atoi(e->Attribute("red"));
+    e = colorNode->ToElement();
+    rgba |= (unsigned int)(unsigned char)atoi(e->Attribute("green")) << 8;
+    e = colorNode->ToElement();
+    rgba |= (unsigned int)(unsigned char)atoi(e->Attribute("blue")) << 16;
+    e = colorNode->ToElement();
+    rgba |= (unsigned int)(unsigned char)atoi(e->Attribute("alpha")) << 24;
+    m_mapa0.insert(std::pair<const int, int>(idx, (int)rgba));
 }
 void CServerXml::ProcessLoad(TiXmlNode* node)
 {
