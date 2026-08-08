@@ -34,6 +34,11 @@ Packet_TowerOfDespair_Statistic_STD::Packet_TowerOfDespair_Statistic_STD()
     }
 }
 
+Packet_DBMW_Reason_Crash_Down_Query::Packet_DBMW_Reason_Crash_Down_Query()
+{
+    new ((void*)this) PacketHeader(0xc49, 0x10a);
+}
+
 CInnerMsgHandler::CInnerMsgHandler()
 {
 }

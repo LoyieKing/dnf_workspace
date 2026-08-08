@@ -584,10 +584,7 @@ STUB_STAT(SendDBServerMatchData, (CServerHandler*))
 STUB_STAT(SendDBLagStatistics, (CServerHandler*, char*))
 STUB_STAT(AddMoneyLog, (MoneyLogPacket*, CServerHandler*))
 STUB_STAT(AddLagStatistics, (Packet_Stat_Lag_Statistics*))
-STUB_STAT(AddReasonCrashDownData, (Packet_Reason_Crash_Down_Info*, CServerHandler*))
-STUB_STAT(AddBloodDungeonStatistics, (Packet_Blood_dungeon_statistic*))
 STUB_STAT(WriteAssertManagerStatistic, (Packet_Assert_Manager_Info*))
-STUB_STAT(WriteHellPartyStatisticItem, (Packet_HellParty_Statistic_Item*))
 STUB_STAT(AddLoadingTimeReportStatistics, (Packet_Loading_Time_Report_Statistics*))
 
 #undef STUB_STAT
@@ -1312,4 +1309,58 @@ void StatisticManager::WriteUserTingTImeCheckStatistic(
             }
         }
     }
+}
+
+void StatisticManager::WriteHellPartyStatisticItem(Packet_HellParty_Statistic_Item* pkt)
+{
+    STHellPartyStatisticItemKey key;
+    key.m_field0 = *(char*)((char*)pkt + 10);
+    key.m_field4 = *(unsigned int*)((char*)pkt + 0xb);
+    key.m_field8 = *(char*)((char*)pkt + 0xf);
+    key.m_field9 = *(char*)((char*)pkt + 0x10);
+    key.m_fielda = *(char*)((char*)pkt + 0x11);
+    HellPartyItenmData value;
+    memcpy(value.m_data, (char*)pkt + 0x12, 0x18);
+    std::map<STHellPartyStatisticItemKey, HellPartyItenmData>::iterator it =
+        m_hellParty.find(key);
+    bool isNew = (m_hellParty.empty() || it == m_hellParty.end());
+    if (isNew)
+    {
+        m_hellParty.insert(std::make_pair(key, value));
+    }
+    else
+    {
+        it->second += value;
+    }
+}
+
+void StatisticManager::AddBloodDungeonStatistics(Packet_Blood_dungeon_statistic* pkt)
+{
+    std::map<unsigned int, STBloodDungeonStatistic>::iterator it =
+        m_blood.find(*(unsigned int*)((char*)pkt + 10));
+    if (it == m_blood.end())
+    {
+        m_blood.insert(std::make_pair(*(unsigned int*)((char*)pkt + 10),
+                                      *(STBloodDungeonStatistic*)((char*)pkt + 0xe)));
+    }
+    else
+    {
+        it->second.m_field0 += (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x12);
+        it->second.m_field4 += (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x13);
+    }
+}
+
+void StatisticManager::AddReasonCrashDownData(Packet_Reason_Crash_Down_Info* pkt,
+                                              CServerHandler* handler)
+{
+    Packet_DBMW_Reason_Crash_Down_Query query;
+    char sql[256];
+    memset(sql, 0, 0x100);
+    snprintf(sql, 0xff,
+             "inSert into log_client_ting_stat (occ_time,channel_no,reason,cnt) values (from_unixtime(%d),%d,%d,%d)",
+             *(unsigned int*)((char*)pkt + 10), *(unsigned int*)((char*)pkt + 0xe),
+             *(unsigned int*)((char*)pkt + 0x12), *(unsigned int*)((char*)pkt + 0x16));
+    handler->SendToDB((PacketHeader*)&query);
+    CMyFileLog log("AddReasonCrashDownData", 0x5b8);
+    log("./log/ReasonCrashDown", "%s", sql);
 }

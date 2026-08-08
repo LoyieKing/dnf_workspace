@@ -28,6 +28,13 @@ public:
     char m_data[0x33a];
 };
 
+class Packet_DBMW_Reason_Crash_Down_Query
+{
+public:
+    Packet_DBMW_Reason_Crash_Down_Query();
+    char m_data[0x10a];
+};
+
 // ---- CInnerMsgHandler：空类 ----
 class CInnerMsgHandler
 {

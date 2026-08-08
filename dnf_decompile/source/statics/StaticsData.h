@@ -425,7 +425,9 @@ struct STReasonCrashDownKey
 
 struct STBloodDungeonStatistic
 {
-    char m_data[0x10];
+    unsigned int m_field0;  // +0
+    unsigned int m_field4;  // +4
+    char m_data[8];         // +8
 };
 
 #endif // STATICS_DATA_H_
