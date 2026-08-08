@@ -237,3 +237,15 @@
   CMemoryCashManager、CPowerWarGuildInfo、CSignalTranslator::regist_signal、
   TiXmlAttributeSet——调用目标全部一致，差异均为代码生成/顺序噪声
 - 冒烟通过；DIFF 1118 / IDENTICAL 373 / NEAR 209
+
+## 2026-08-09 第七轮（CUser/CGuild 布局与成员函数核验）
+
+- STGuildMemerDBInfo 0x20→0x1a（原版构造只到 +0x16），m_blackList 归位 +0x64
+- GetBlackList(STBlackUserDBType*)：循环体补全（name/occurTime/charNo + 10 条上限）
+- SetGuildMessage：+0x4d0a/0x65/memset+memcpy（原版语义，此前 +0x98/0x40/strncpy）
+- DBSavePowerSecedeTime/NotifyAllAchieveAttendance：Packet 构造器完整实现
+- 核验等价：AddPowerWarPoint/SubGuildFund/InsertGuildMember/WriteGuildMemberMemo/
+  AddGuildExpUntilLimit/ChangeGuildMemberGrade/GetBlackList(uint*)/
+  GetStatueRankingUsers/IsExistCharac/printGuildWarRank/LoadPowerWarTableFile/
+  MemPool::alloc（freelist 偏移 m_classSize-4 与原版一致）
+- 冒烟通过；DIFF 1118 / IDENTICAL 373 / NEAR 209
