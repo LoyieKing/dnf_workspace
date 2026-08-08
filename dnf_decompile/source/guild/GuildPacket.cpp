@@ -4812,8 +4812,8 @@ void CPacketDecoder::Attach(CApplication* app)
 
 int CPacketDecoder::Process()
 {
-    TcpProcess();
     UdpProcess();
+    TcpProcess();
     return 0;
 }
 
