@@ -26,6 +26,29 @@ public:
 // CUdpRecvBuffer 池静态成员（容量 10000）
 extern MemPool<CUdpRecvBuffer> m_RecvBufferMemPool_;
 
+// 其他池实例（原版有这些 MemPool<T> 实例化）
+class CBlackUser;
+class CCashObject;
+class CPacketBuffer;
+class CTcpRecvBuffer;
+class CTcpSendBuffer;
+class STPowerWarGuildInfo;
+class STPowerWarCharacInfo;
+class CPeer;
+class CUser;
+class CGuild;
+
+extern MemPool<CBlackUser> m_BlackUserMemPool_;
+extern MemPool<CCashObject> m_CashObjectMemPool_;
+extern MemPool<CPacketBuffer> m_PacketBufferMemPool_;
+extern MemPool<CTcpRecvBuffer> m_TcpRecvBufferMemPool_;
+extern MemPool<CTcpSendBuffer> m_TcpSendBufferMemPool_;
+extern MemPool<STPowerWarGuildInfo> m_PowerWarGuildInfoMemPool_;
+extern MemPool<STPowerWarCharacInfo> m_PowerWarCharacInfoMemPool_;
+extern MemPool<CPeer> m_PeerMemPool_;
+extern MemPool<CUser> m_UserMemPool_;
+extern MemPool<CGuild> m_GuildMemPool_;
+
 // ---- CVersionMgr / CSourceVersionMgr（复用 auction 布局，常量不同）----
 class SourceVersion;
 

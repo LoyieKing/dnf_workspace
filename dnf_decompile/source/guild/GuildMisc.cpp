@@ -16,6 +16,16 @@ template<class T>
 void* MemPool<T>::headOfFreeList_ = 0;
 
 MemPool<CUdpRecvBuffer> m_RecvBufferMemPool_(10000);
+MemPool<CBlackUser> m_BlackUserMemPool_(0);
+MemPool<CCashObject> m_CashObjectMemPool_(0);
+MemPool<CPacketBuffer> m_PacketBufferMemPool_(0);
+MemPool<CTcpRecvBuffer> m_TcpRecvBufferMemPool_(0);
+MemPool<CTcpSendBuffer> m_TcpSendBufferMemPool_(0);
+MemPool<STPowerWarGuildInfo> m_PowerWarGuildInfoMemPool_(0);
+MemPool<STPowerWarCharacInfo> m_PowerWarCharacInfoMemPool_(0);
+MemPool<CPeer> m_PeerMemPool_(0);
+MemPool<CUser> m_UserMemPool_(0);
+MemPool<CGuild> m_GuildMemPool_(0);
 
 template<class T>
 MemPool<T>::MemPool(unsigned int count)
@@ -247,4 +257,3 @@ void CommonTime::SetCurTime()
     m_time[4] = (char)pt->tm_min;
     m_time[5] = (char)pt->tm_wday;
 }
-
