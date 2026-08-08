@@ -494,6 +494,17 @@ Packet_Guild_Notify_Message_To_Guild_Mem::Packet_Guild_Notify_Message_To_Guild_M
     memset((char*)this + 0x12, 0, 0x65);
 }
 
+Packet_Guild_Reply_Guild_Board::Packet_Guild_Reply_Guild_Board()
+    : PacketHeader(0x2328, 0x68a)
+{
+    *(unsigned short*)((char*)this + 0xc) = 0;
+    *(unsigned char*)((char*)this + 0xe) = 0x0;
+    *(unsigned int*)((char*)this + 0xf) = 0;
+    *(unsigned int*)((char*)this + 0x13) = 0;
+    *(unsigned char*)((char*)this + 0x17) = 0x0;
+    memset((char*)this + 0x18, 0, 0x672);
+}
+
 Packet_Guild_Reply_Guild_Board_Delete::Packet_Guild_Reply_Guild_Board_Delete()
     : PacketHeader(0x2332, 0x14)
 {
@@ -525,6 +536,18 @@ Packet_Guild_Reply_Guild_Secede::Packet_Guild_Reply_Guild_Secede()
 {
     memset((char*)this + 0x1d, 0, 0x1e);
     memset((char*)this + 0x3b, 0, 0x17);
+}
+
+Packet_InnerPakcet_Login::Packet_InnerPakcet_Login()
+    : PacketHeader(0xfa0, 0xa)
+{
+    (void)0;
+}
+
+Packet_InnerPakcet_Logout::Packet_InnerPakcet_Logout()
+    : PacketHeader(0xfa1, 0xa)
+{
+    (void)0;
 }
 
 Packet_Monitor_Call_Guild_Info_Reply::Packet_Monitor_Call_Guild_Info_Reply()

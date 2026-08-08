@@ -79,7 +79,12 @@ int CheckDayScheduleTimeOver(int hour, long t);
 bool CheckDailyScheduleTimeOver(int hour, long t);
 int CheckDayHourScheduleTimeOver(int day, int hour, long t);
 void GetScheduleTimeAsWDay(int day, int hour);
-struct STGuildWarInfo;
+struct STGuildWarInfo
+{
+    unsigned int m_guildKey;  // +0
+    unsigned int m_point;     // +4
+    char m_data[0x8];
+};
 bool GuildWarPairDataCompare(const std::pair<unsigned int, STGuildWarInfo*>& a,
                              const std::pair<unsigned int, STGuildWarInfo*>& b);
 
@@ -124,6 +129,7 @@ struct UpgradeSeparateInfo
 {
     UpgradeSeparateInfo();
     void reset();
+    unsigned char GetUpgradeSeparate() const;
     char m_data[1];
 };
 struct ReservedCapacity
@@ -150,6 +156,8 @@ struct STGuildBoardDBInfo
 };
 struct STPowerWarGuildInfo
 {
+    STPowerWarGuildInfo();
+    static bool Compare(STPowerWarGuildInfo* a, STPowerWarGuildInfo* b);
     static void* operator new(unsigned int size);
     static void operator delete(void* p);
     static void operator delete(void* p, unsigned int size);
@@ -157,6 +165,8 @@ struct STPowerWarGuildInfo
 };
 struct STPowerWarCharacInfo
 {
+    STPowerWarCharacInfo();
+    static bool Compare(STPowerWarCharacInfo* a, STPowerWarCharacInfo* b);
     static void* operator new(unsigned int size);
     static void operator delete(void* p);
     static void operator delete(void* p, unsigned int size);
@@ -174,6 +184,7 @@ struct STUserRank
 };
 struct STDBSavePowerWarPoint
 {
+    STDBSavePowerWarPoint();
     char m_data[0x10];
 };
 struct Packet_DB_Save_Power_War_Point;
@@ -804,7 +815,9 @@ public:
     CPowerWar();
     virtual ~CPowerWar();
     int IsPowerWarOn();
+    int IsPowerWarOn() const;
     unsigned short getPowerWarEndKillPoint();
+    unsigned short getPowerWarEndKillPoint() const;
     void setPowerWarEndKillPoint(unsigned short point);
     void resetEvent();
     void setEvent();
@@ -1052,8 +1065,17 @@ class CProtocol
 {
 public:
     CProtocol();
-    ~CProtocol();
+    virtual ~CProtocol();
     char m_data[0x18];
+};
+
+// ---- CEvent ----
+class CEvent
+{
+public:
+    CEvent();
+    virtual ~CEvent();
+    char m_data[8];
 };
 
 class EpollHandler : public CProtocol

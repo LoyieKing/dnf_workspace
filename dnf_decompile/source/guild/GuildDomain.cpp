@@ -3186,7 +3186,17 @@ int CPowerWar::IsPowerWarOn()
     return *(int*)((char*)this + 4);
 }
 
+int CPowerWar::IsPowerWarOn() const
+{
+    return *(int*)((char*)this + 4);
+}
+
 unsigned short CPowerWar::getPowerWarEndKillPoint()
+{
+    return *(unsigned short*)((char*)this + 0xc);
+}
+
+unsigned short CPowerWar::getPowerWarEndKillPoint() const
 {
     return *(unsigned short*)((char*)this + 0xc);
 }
@@ -4368,6 +4378,46 @@ void CPowerWarConfig::Load_Table(const std::string& path)
     log("./log/TableError", "Power War Config Table - ReturnCode = %d\n", rc);
     throw CDNFException("CPowerWarConfig::Load_Setup_Table() Exception break!");
 }
+
+// ---- STPowerWarGuildInfo / STPowerWarCharacInfo / STDBSavePowerWarPoint ----
+STPowerWarGuildInfo::STPowerWarGuildInfo()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+bool STPowerWarGuildInfo::Compare(STPowerWarGuildInfo* a, STPowerWarGuildInfo* b)
+{
+    return *(unsigned int*)(b->m_data + 4) < *(unsigned int*)(a->m_data + 4);
+}
+
+STPowerWarCharacInfo::STPowerWarCharacInfo()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+bool STPowerWarCharacInfo::Compare(STPowerWarCharacInfo* a, STPowerWarCharacInfo* b)
+{
+    return *(unsigned int*)(b->m_data + 4) < *(unsigned int*)(a->m_data + 4);
+}
+
+STDBSavePowerWarPoint::STDBSavePowerWarPoint()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+// ---- CEvent ----
+CEvent::CEvent()
+{
+    *(int*)((char*)this + 4) = 0;
+}
+
+CEvent::~CEvent()
+{
+}
+
+static CEvent g_dummyCEvent;
+
+template void DNFFLib::Swap<STGuildWarInfo>(STGuildWarInfo*, STGuildWarInfo*);
 
 EpollHandler::EpollHandler()
 {

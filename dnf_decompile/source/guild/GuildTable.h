@@ -135,4 +135,6 @@ public:
     char m_field2;   // +2
 };
 
+CAppLoadChecker* CAppLoadCheckerInstance();
+
 #endif  // GUILD_TABLE_H_

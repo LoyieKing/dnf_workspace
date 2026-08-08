@@ -304,6 +304,11 @@ public:
     Packet_Guild_Notify_Message_To_Guild_Mem();
 };
 
+class Packet_Guild_Reply_Guild_Board : public PacketHeader {
+public:
+    Packet_Guild_Reply_Guild_Board();
+};
+
 class Packet_Guild_Reply_Guild_Board_Delete : public PacketHeader {
 public:
     Packet_Guild_Reply_Guild_Board_Delete();
@@ -327,6 +332,16 @@ public:
 class Packet_Guild_Reply_Guild_Secede : public PacketHeader {
 public:
     Packet_Guild_Reply_Guild_Secede();
+};
+
+class Packet_InnerPakcet_Login : public PacketHeader {
+public:
+    Packet_InnerPakcet_Login();
+};
+
+class Packet_InnerPakcet_Logout : public PacketHeader {
+public:
+    Packet_InnerPakcet_Logout();
 };
 
 class Packet_Monitor_Call_Guild_Info_Reply : public PacketHeader {

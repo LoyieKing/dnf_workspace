@@ -34,6 +34,11 @@ void UpgradeSeparateInfo::reset()
     *(unsigned char*)m_data = (unsigned char)(*(unsigned char*)m_data & 0x3f);
 }
 
+unsigned char UpgradeSeparateInfo::GetUpgradeSeparate() const
+{
+    return (unsigned char)(*(unsigned char*)m_data & 0x1f);
+}
+
 void ReservedCapacity::reset()
 {
     *(unsigned int*)(m_data + 0) = 0;
@@ -54,6 +59,10 @@ void DnfItemInfo::reset()
     ((RandomOption*)(m_data + 0x1d))->reset();
     ((UpgradeSeparateInfo*)(m_data + 0x2b))->reset();
     ((ReservedCapacity*)(m_data + 0x2c))->reset();
+}
+
+STGuildCargoLog::~STGuildCargoLog()
+{
 }
 
 DnfItemInfo::DnfItemInfo()

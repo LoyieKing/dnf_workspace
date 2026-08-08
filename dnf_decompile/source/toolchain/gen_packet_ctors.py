@@ -61,10 +61,10 @@ def parse_body(body, expect_pktheader=True):
     text = ' '.join(stmts)
     pkt_id = pkt_size = None
     if expect_pktheader:
-        m = re.search(r'PacketHeader::PacketHeader\(\(PacketHeader \*\)this,0x([0-9a-f]+),0x([0-9a-f]+)\)', text)
+        m = re.search(r'PacketHeader::PacketHeader\(\(PacketHeader \*\)this,(0x[0-9a-f]+|[0-9]+),(0x[0-9a-f]+|[0-9]+)\)', text)
         if not m:
             return None
-        pkt_id, pkt_size = int(m.group(1), 16), int(m.group(2), 16)
+        pkt_id, pkt_size = int(m.group(1), 0), int(m.group(2), 0)
     out = []
     for s in stmts:
         s = re.sub(r'return\s*$', '', s).strip()
@@ -311,6 +311,11 @@ void UpgradeSeparateInfo::reset()
     *(unsigned char*)m_data = (unsigned char)(*(unsigned char*)m_data & 0x3f);
 }
 
+unsigned char UpgradeSeparateInfo::GetUpgradeSeparate() const
+{
+    return (unsigned char)(*(unsigned char*)m_data & 0x1f);
+}
+
 void ReservedCapacity::reset()
 {
     *(unsigned int*)(m_data + 0) = 0;
@@ -331,6 +336,10 @@ void DnfItemInfo::reset()
     ((RandomOption*)(m_data + 0x1d))->reset();
     ((UpgradeSeparateInfo*)(m_data + 0x2b))->reset();
     ((ReservedCapacity*)(m_data + 0x2c))->reset();
+}
+
+STGuildCargoLog::~STGuildCargoLog()
+{
 }
 '''
     open('source/guild/GuildStCtor.cpp', 'w').write(

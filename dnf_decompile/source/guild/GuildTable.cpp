@@ -273,6 +273,12 @@ void CAppLoadChecker::AddLoadTotal(int n)
     m_field2 = (char)n;
 }
 
+CAppLoadChecker* CAppLoadCheckerInstance()
+{
+    static CAppLoadChecker instance;
+    return &instance;
+}
+
 int CAppLoadChecker::IsLoadComplete()
 {
     return m_field0 != 0;
