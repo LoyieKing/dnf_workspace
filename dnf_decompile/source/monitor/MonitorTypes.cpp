@@ -2998,6 +2998,20 @@ void CVillageAttackedManager::SendVillageAttackedEnd()
     pkt.m_field12 = (unsigned int)m_field20;
     m_app->Get_ServerHandler()->SendAllToGameServer((char*)&pkt, 0x16);
 }
+int CVillageAttackedManager::GetRemainTime()
+{
+    int end = m_field28;
+    int now = (int)GetNowTime();
+    return end - now;
+}
+void CVillageAttackedManager::OnUpdateVillageAttacked()
+{
+    Packet_VillageAttackedUpdate pkt;
+    pkt.m_remainTime = (unsigned int)GetRemainTime();
+    pkt.m_fieldE = (unsigned int)m_field1c;
+    pkt.m_field12 = (unsigned int)m_field20;
+    m_app->Get_ServerHandler()->SendAllToGameServer((char*)&pkt, 0x16);
+}
 void CVillageAttackedManager::SendCharacRank()
 {
     unsigned char serverGroup = 0;
@@ -4267,6 +4281,13 @@ Packet_VillageAttackedRewardServer::Packet_VillageAttackedRewardServer()
 Packet_VillageAttackedEnd::Packet_VillageAttackedEnd() : PacketHeader(0x1774, 0x16)
 {
     m_dungeonRemain = 0;
+    m_fieldE = 0;
+    m_field12 = 0;
+}
+
+Packet_VillageAttackedUpdate::Packet_VillageAttackedUpdate() : PacketHeader(0x1777, 0x16)
+{
+    m_remainTime = 0;
     m_fieldE = 0;
     m_field12 = 0;
 }

@@ -1285,6 +1285,8 @@ public:
     void OnEndVillageAttacked();
     void OnRewardVillageAttacked();
     void SendVillageAttackedEnd();
+    void OnUpdateVillageAttacked();
+    int GetRemainTime();
     unsigned int GetDungeonRemainTime();
     void SetRewardCloseTime(int rewardType);
     void SendMaxHuntingPoint();
@@ -1435,6 +1437,15 @@ public:
     unsigned int m_dungeonRemain;  // +10
     unsigned int m_fieldE;         // +14
     unsigned int m_field12;        // +18
+};
+
+class Packet_VillageAttackedUpdate : public PacketHeader
+{
+public:
+    Packet_VillageAttackedUpdate();
+    unsigned int m_remainTime;  // +10
+    unsigned int m_fieldE;      // +14
+    unsigned int m_field12;     // +18
 };
 
 class Packet_DBMW_Add_Buddy : public PacketHeader
