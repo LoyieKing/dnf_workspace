@@ -835,6 +835,7 @@ public:
     char IsAlreadyMemberMember(unsigned int charNo) const;
     void DeleteUpperMember(unsigned int charNo, bool flag);
     void DeleteLowerMember(unsigned int charNo, bool flag);
+    unsigned char* GetMemberDBInfo() const;
     unsigned int m_key;              // +0
     unsigned short m_flag;          // +4
     unsigned int m_memberKey;       // +6
@@ -880,6 +881,8 @@ public:
     char CheckEmptyMember(CMember* member, CUser* user);
     char IsAlreadyMemberMember(unsigned int key, unsigned int charNo);
     void GetMemberExpLevel(unsigned int level);
+    void GetMemberExpNextLevelNeedExpLevel(unsigned int& exp, unsigned int& expNext,
+                                           unsigned char& level);
     CApplication* m_app;                     // +0
     int m_field4;                            // +4
     std::map<unsigned int, CMember*> m_members;  // +8
@@ -1669,6 +1672,23 @@ public:
     unsigned int m_uniqCharNo;   // +14
     unsigned char m_type;        // +18
     char m_name[0x1e];           // +19
+};
+
+class Packet_Monitor_Call_Member_List_ToUser : public PacketHeader
+{
+public:
+    Packet_Monitor_Call_Member_List_ToUser();
+    unsigned int m_idByChannel;     // +10
+    unsigned int m_uniqCharNo;      // +14
+    unsigned char m_upperChannel;   // +18
+    unsigned char m_upperLevel;     // +19
+    char m_upperName[0x1e];         // +20
+    unsigned char m_upperBlack;     // +50
+    unsigned char m_upperExpLevel;  // +51
+    unsigned int m_upperExp;        // +52
+    unsigned int m_upperExpNext;    // +56
+    unsigned char m_lowerCount;     // +60
+    char m_lowers[10][0x2a];        // +61
 };
 
 class Packet_Arad_ApplyEffect : public PacketHeader

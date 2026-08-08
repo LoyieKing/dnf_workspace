@@ -2930,6 +2930,19 @@ void CMemberManager::GetMemberExpLevel(unsigned int level)
         tbl->GetMemberExpLevel(level);
     }
 }
+void CMemberManager::GetMemberExpNextLevelNeedExpLevel(unsigned int& exp,
+                                                       unsigned int& expNext,
+                                                       unsigned char& level)
+{
+    unsigned int lo[3];
+    CMemberExpTbl* tbl = *(CMemberExpTbl**)((char*)this + 0x24);
+    if (tbl != 0)
+    {
+        tbl->GetMemberExpLevel(exp, lo[0], expNext, level);
+    }
+    exp = exp - lo[0];
+    expNext = expNext - lo[0];
+}
 int CMemberManager::MemerMemLogin(unsigned int key, CUser* user)
 {
     if (user == 0 || m_app == 0)
@@ -3909,6 +3922,10 @@ void CMember::DeleteLowerMember(unsigned int charNo, bool flag)
         }
     }
 }
+unsigned char* CMember::GetMemberDBInfo() const
+{
+    return (unsigned char*)((char*)this + 6);
+}
 int CMember::DeleteMemberByName(char* name, unsigned int& outKey)
 {
     unsigned int* proxy = GetUpperMember_Proxy();
@@ -4479,7 +4496,98 @@ void CPacketTranslater::OnMemberSecede(PacketHeader* pkt)
         }
     }
 }
-void CPacketTranslater::OnCallMemberList(PacketHeader* pkt) {}
+void CPacketTranslater::OnCallMemberList(PacketHeader* pkt)
+{
+    if (m_pclApp != 0)
+    {
+        try
+        {
+            CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+            CMemberManager* memberMgr = (CMemberManager*)((char*)m_pclApp + 0x2d0);
+            CUser* user = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xe));
+            if (user != 0)
+            {
+                user->GetUniqCharNo();
+                CMember* member = memberMgr->FindMember(user->GetUniqCharNo());
+                if (member != 0)
+                {
+                    Packet_Monitor_Call_Member_List_ToUser rpkt;
+                    rpkt.m_idByChannel = user->GetIdByChannel();
+                    rpkt.m_uniqCharNo = user->GetUniqCharNo();
+                    unsigned char* db = member->GetMemberDBInfo();
+                    CUser* upperUser = userMgr->FindUser_CharNo(*(unsigned int*)db);
+                    if (upperUser == 0)
+                    {
+                        rpkt.m_upperChannel = 0xff;
+                    }
+                    else if (upperUser->GetGameServer() == 0)
+                    {
+                        rpkt.m_upperChannel = 0xff;
+                    }
+                    else
+                    {
+                        if (upperUser->IsBlackUser(user->GetUniqCharNo()) != 0)
+                        {
+                            rpkt.m_upperBlack = 1;
+                        }
+                        rpkt.m_upperChannel =
+                            ((CServerInterface*)upperUser->GetGameServer())->GetChannelNo();
+                    }
+                    rpkt.m_upperLevel = *(unsigned char*)(db + 4);
+                    memcpy(rpkt.m_upperName, db + 5, 0x1d);
+                    rpkt.m_upperExp = *(unsigned int*)(db + 0x23);
+                    memberMgr->GetMemberExpNextLevelNeedExpLevel(
+                        rpkt.m_upperExp, rpkt.m_upperExpNext, rpkt.m_upperExpLevel);
+                    rpkt.m_lowerCount = *(unsigned char*)(db + 0x27);
+                    for (int i = 0; i < (int)(unsigned int)*(unsigned char*)(db + 0x27); i++)
+                    {
+                        char* entry = rpkt.m_lowers[i];
+                        unsigned int lowerCharNo = *(unsigned int*)(db + i * 0x27 + 0x28);
+                        CUser* lowerUser = userMgr->FindUser_CharNo(lowerCharNo);
+                        if (lowerUser == 0)
+                        {
+                            entry[0] = 0xff;
+                        }
+                        else if (lowerUser->GetGameServer() == 0)
+                        {
+                            entry[0] = 0xff;
+                        }
+                        else
+                        {
+                            if (lowerUser->IsBlackUser(user->GetUniqCharNo()) != 0)
+                            {
+                                entry[0x20] = 1;
+                            }
+                            entry[0] =
+                                ((CServerInterface*)lowerUser->GetGameServer())->GetChannelNo();
+                        }
+                        entry[1] = *(unsigned char*)(db + i * 0x27 + 0x2c);
+                        memcpy(entry + 2, db + i * 0x27 + 0x2d, 0x1d);
+                        *(unsigned int*)(entry + 0x22) =
+                            *(unsigned int*)(db + i * 0x27 + 0x4b);
+                        memberMgr->GetMemberExpNextLevelNeedExpLevel(
+                            *(unsigned int*)(entry + 0x22), *(unsigned int*)(entry + 0x26),
+                            *(unsigned char*)(entry + 0x21));
+                    }
+                    int size = (int)(unsigned int)*(unsigned char*)(db + 0x27) * 0x2a + 0x3d;
+                    user->SendToGameserver((char*)&rpkt, size);
+                }
+            }
+        }
+        catch (CDNFException& e)
+        {
+            printf("CPacketTranslater::OnCallMemberList() Exception Break : %s\n", e.what());
+            CMyFileLog log("OnCallMemberList", 0x7cd);
+            log("./log/Except", "%s", e.what());
+        }
+        catch (...)
+        {
+            puts("CPacketTranslater::OnCallMemberList() Exception Break");
+            CMyFileLog log("OnCallMemberList", 0x7d3);
+            log("./log/Except", "CPacketTranslater::OnCallMemberList() Exception Break\n");
+        }
+    }
+}
 void CPacketTranslater::OnNoticeMemberChatMsg(PacketHeader* pkt) {}
 void CPacketTranslater::OnPayTaxToUpper(PacketHeader* pkt) {}
 void CPacketTranslater::OnUpdateChangableCharInfo(PacketHeader* pkt) {}
@@ -4488,7 +4596,17 @@ void CPacketTranslater::OnUserRepel(PacketHeader* pkt) {}
 void CPacketTranslater::OnCharacterDelete(PacketHeader* pkt) {}
 void CPacketTranslater::OnEventStart(PacketHeader* pkt) {}
 void CPacketTranslater::OnEventEnd(PacketHeader* pkt) {}
-void CPacketTranslater::OnNotifyNewMail(PacketHeader* pkt) {}
+void CPacketTranslater::OnNotifyNewMail(PacketHeader* pkt)
+{
+    CUser* user =
+        ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
+            *(unsigned int*)((char*)pkt + 0xa));
+    if (user != 0)
+    {
+        *(unsigned int*)((char*)pkt + 0xe) = user->GetIdByChannel();
+        user->SendToGameserver((char*)pkt, 0x12);
+    }
+}
 void CPacketTranslater::OnWebQueryUserState(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoticeMessage(PacketHeader* pkt) {}
 void CPacketTranslater::OnRelayServerUserCheck(PacketHeader* pkt) {}
@@ -4496,6 +4614,13 @@ void CPacketTranslater::OnForbidChat(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoticeProhibitConnectUser(PacketHeader* pkt) {}
 void CPacketTranslater::OnMonitorManagerConnectOK(PacketHeader* pkt) {}
 void CPacketTranslater::OnMonitorMegaPhoneMsg(PacketHeader* pkt) {}
+void CPacketTranslater::OnRegisterGM_mid(PacketHeader* pkt)
+{
+    if (m_pclApp != 0)
+    {
+        m_pclApp->Add_GM_id(*(unsigned int*)((char*)pkt + 0xa));
+    }
+}
 void CPacketTranslater::OnRegisterToBlackList(PacketHeader* pkt) {}
 void CPacketTranslater::OnDeleteToBlackList(PacketHeader* pkt) {}
 void CPacketTranslater::OnRequestBlackList(PacketHeader* pkt) {}
@@ -4525,7 +4650,17 @@ void CPacketTranslater::onLoadBlackIPMonitor(PacketHeader* pkt) {}
 void CPacketTranslater::onLoadBlackIPMonitorPartLoad(PacketHeader* pkt) {}
 void CPacketTranslater::onLoadBlackIPMonitorDeleteIP(PacketHeader* pkt) {}
 void CPacketTranslater::OnChangeCharName(PacketHeader* pkt) {}
-void CPacketTranslater::OnNotifyAuctionMail(PacketHeader* pkt) {}
+void CPacketTranslater::OnNotifyAuctionMail(PacketHeader* pkt)
+{
+    CUser* user =
+        ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
+            *(unsigned int*)((char*)pkt + 0xa));
+    if (user != 0)
+    {
+        *(unsigned int*)((char*)pkt + 0xe) = user->GetIdByChannel();
+        user->SendToGameserver((char*)pkt, 0x26);
+    }
+}
 void CPacketTranslater::OnPvPChannelInfo(PacketHeader* pkt) {}
 void CPacketTranslater::OnPvPChannelUserCount(PacketHeader* pkt) {}
 void CPacketTranslater::OnChannelType(PacketHeader* pkt) {}
@@ -4545,14 +4680,20 @@ void CPacketTranslater::OnTakeScreenShot(PacketHeader* pkt) {}
 void CPacketTranslater::OnVillageMonsterFightResult(PacketHeader* pkt) {}
 void CPacketTranslater::OnVillageAttackedGMCommand(PacketHeader* pkt) {}
 void CPacketTranslater::OnVillageAttackedRank(PacketHeader* pkt) {}
-void CPacketTranslater::OnMonitorFullLevelBroadCast(PacketHeader* pkt) {}
+void CPacketTranslater::OnMonitorFullLevelBroadCast(PacketHeader* pkt)
+{
+    if (m_pclApp != 0)
+    {
+        CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+        handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+    }
+}
 void CPacketTranslater::OnSetARSInfo(PacketHeader* pkt) {}
 void CPacketTranslater::OnWebRequestARSInfo(PacketHeader* pkt) {}
 void CPacketTranslater::OnCheckOverlappedAccusation(PacketHeader* pkt) {}
 void CPacketTranslater::OnGameServerRegist(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoCache(PacketHeader* pkt) {}
 void CPacketTranslater::OnDisableUserOneToOneChat_GM(PacketHeader* pkt) {}
-void CPacketTranslater::OnRegisterGM_mid(PacketHeader* pkt) {}
 void CPacketTranslater::OnFindCharacName_useUID(PacketHeader* pkt) {}
 void CPacketTranslater::OnRenew_GM_List(PacketHeader* pkt) {}
 void CPacketTranslater::OnLoadPeriodicMessage(PacketHeader* pkt) {}
@@ -5480,6 +5621,12 @@ Packet_Monitor_Member_Secede_To_Seceder::Packet_Monitor_Member_Secede_To_Seceder
     : PacketHeader(0x4bc, 0x31)
 {
     memset(m_name, 0, 0x1e);
+}
+
+Packet_Monitor_Call_Member_List_ToUser::Packet_Monitor_Call_Member_List_ToUser()
+    : PacketHeader(0x4be, 0x1e1)
+{
+    memset((char*)this + 0x12, 0, 0x1cf);
 }
 
 Packet_Arad_ApplyEffect::Packet_Arad_ApplyEffect(int group, int code, unsigned int time)
