@@ -2045,3 +2045,48 @@ void* CTcpNetSystem::Acquire_TcpSendBuffer(unsigned int size)
 void CTcpNetSystem::Process()
 {
 }
+
+void* CTcpNetSystem::Get_TcpHandler()
+{
+    return *(void**)m_data;
+}
+
+void* CTcpNetSystem::Get_TcpSwapQPacket()
+{
+    return m_data + 8;
+}
+
+CMutex* CTcpNetSystem::Get_TcpRecvQLock()
+{
+    return (CMutex*)(m_data + 0x90);
+}
+
+CMutex* CTcpNetSystem::Get_TcpRecvBLock()
+{
+    return (CMutex*)(m_data + 0xa8);
+}
+
+void* CTcpNetSystem::Get_TcpSendQPacket()
+{
+    return m_data + 0xc0;
+}
+
+CMutex* CTcpNetSystem::Get_TcpSendQLock()
+{
+    return (CMutex*)(m_data + 0xe8);
+}
+
+CMutex* CTcpNetSystem::Get_TcpSendBLock()
+{
+    return (CMutex*)(m_data + 0x100);
+}
+
+unsigned short CTcpNetSystem::Get_TcpServerPort()
+{
+    return *(unsigned short*)(m_data + 0x15c);
+}
+
+void CTcpNetSystem::Init(unsigned short port)
+{
+    *(unsigned short*)(m_data + 0x15c) = port;
+}

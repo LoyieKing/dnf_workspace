@@ -518,6 +518,15 @@ public:
     void PushTcpSendPacketQ(PacketHeader* pkt);
     void* Acquire_TcpSendBuffer(unsigned int size);
     void Process();
+    void* Get_TcpHandler();
+    void* Get_TcpSwapQPacket();
+    CMutex* Get_TcpRecvQLock();
+    CMutex* Get_TcpRecvBLock();
+    void* Get_TcpSendQPacket();
+    CMutex* Get_TcpSendQLock();
+    CMutex* Get_TcpSendBLock();
+    unsigned short Get_TcpServerPort();
+    void Init(unsigned short port);
     char m_data[0x160];
 };
 
