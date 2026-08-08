@@ -79,6 +79,13 @@ public:
 class CGuildCargo;
 class CGuildBoard;
 
+enum ENUM_GUILD_CARGO_BEHAVIOR {};
+class DnfItemInfo;
+struct RandomOption;
+struct STGuildCargoDBInfo;
+struct STGuildCargoLog;
+struct STGuildBoardDBInfo;
+
 // ---- CScheduler：0x8 ----
 class CScheduler
 {
@@ -373,6 +380,32 @@ class CGuildCargo
 public:
     CGuildCargo();
     ~CGuildCargo();
+    void Reset();
+    int GetCapacity();
+    void SetCapacity(unsigned int capacity);
+    int IsValidSlot(int slot);
+    void SetGuildInfo(int guildKey);
+    bool IsLoadComplete();
+    int CalcItemCount();
+    int IsEmpty();
+    void* GetGuildCargoDBInfo();
+    int GetSpecificItemSlot(int itemId);
+    void PrintCargo(int behavior);
+    void PrintDnfItemInfo(DnfItemInfo& info);
+    void AddItem(DnfItemInfo& info, int slot, int count);
+    void InsertItem(DnfItemInfo& info, int& slot, int count, int a, int b, int c);
+    void DeleteItem(DnfItemInfo& info, int slot, int count, int a, int b, int c);
+    void MoveItem(DnfItemInfo& info, DnfItemInfo& info2, int a, int b, int c, int d, int e);
+    int CheckInsertItem(int slot, int count, int a, int b, int c);
+    void SendGuildCargo(CUser* user);
+    void GetHistory(STGuildCargoLog* out);
+    void InsertHistory(int behavior, int slot, const char* name, int count,
+                       const char* name2, const RandomOption* option);
+    void SendHistoryToDBMW(CServerHandler* handler, int behavior, int slot,
+                           const char* name, int count);
+    void SendGuildCargoToDBMW(CServerHandler* handler, int slot);
+    void SetGuildCargoHistory(unsigned int idx, STGuildCargoLog* log);
+    void SetGuildCargoDBInfo(STGuildCargoDBInfo& info);
     char m_data[0x1928];
 };
 
@@ -382,6 +415,25 @@ class CGuildBoard
 public:
     CGuildBoard();
     ~CGuildBoard();
+    void reset();
+    void printGuildBoard();
+    void setGuildBoardData(unsigned int a, unsigned int b, CGuild* guild, int c,
+                           STGuildBoardDBInfo* info);
+    void sendGuildBoardData(unsigned int a, unsigned int b, unsigned int c, CUser* user);
+    void clearGuildBoardData();
+    void deleteGuildBoardData(unsigned int a, unsigned int b, unsigned int c);
+    bool isGuildBoardDBAccess();
+    bool isWebGuildBoardAction();
+    void setGuildBoardDBAccess();
+    void setWebGuildBoardAction(bool flag);
+    int getGuildBoardDBLoadState();
+    void setGuildBoardDBLoadState(int state);
+    void sendMessageToDBMW_GuildFund(CServerHandler* handler, int fund, CUser* user);
+    void sendMessageToDBMW_GuildLevelUP(CServerHandler* handler, int level, CUser* user);
+    void sendMessageToDBMW_GuildAttendance(CServerHandler* handler, int a, int b,
+                                           unsigned short c, unsigned short d);
+    void sendMessageToDBMW_GuildMasterChanging(CServerHandler* handler, CUser* user,
+                                               const char* name);
     char m_data[0x1900];
 };
 
@@ -471,6 +523,9 @@ class CPowerWar
 public:
     CPowerWar();
     ~CPowerWar();
+    int IsPowerWarOn();
+    unsigned short getPowerWarEndKillPoint();
+    void setPowerWarEndKillPoint(unsigned short point);
     char m_data[0x130];
 };
 
@@ -495,6 +550,42 @@ public:
     ~CPowerManager();
     void InitPowerManager(const char* path, CApplication* app);
     void Process();
+    void ProcessByMinute();
+    int IsPowerWarOn();
+    void SetPowerInfo(char side, int score);
+    void CleanPowerWar();
+    int GetPowerScore(int side);
+    char GetWinnerSide();
+    void IncPowerScore(int side, int score);
+    void SetWinnerSide(char side);
+    void PrintDebugInfo();
+    void SetPowerDBFlag(unsigned short flag);
+    void LoadPowerWarCfg(char* path);
+    void CalcPowerWarRank(bool flag);
+    void EndPowerWarEvent();
+    void RewardBonusPoint();
+    void SendPowerWarInfo();
+    void ComputeWinnerSide();
+    void SendPowerWarScore();
+    void SaveDBPowerWarRank();
+    void StartPowerWarEvent();
+    void UpdatePowerWarInfo(bool flag, int side, int score, unsigned int* p);
+    void SaveDBPowerWarPoint();
+    void SendPowerWarEndInfo(int time);
+    unsigned int GetUserPowerWarPoint(int side, unsigned int charNo);
+    unsigned int GetUserRankingInPower(int side, unsigned int charNo);
+    void SetPowerWarRewardInfo(int a, int b, int c, int d);
+    unsigned int GetGuildRankingInPower(int side, unsigned int guildKey);
+    unsigned short GetPowerWarEndKillPoint();
+    void SendPowerWarProcessInfo(unsigned int charNo);
+    void SetPowerWarEndKillPoint(unsigned short point);
+    void RewardGuildPowerWarPoint();
+    void SaveDBPowerWarBonusPoint();
+    void SaveDBPowerWarPointReward();
+    void SendPowerWarEndInfoToSpecificUser(CUser* user, unsigned char a, unsigned int b,
+                                           unsigned int c, unsigned int d, unsigned int e,
+                                           unsigned int f, unsigned int g);
+    void SendPowerWarEndInfoInSpecificPower(char side);
     char m_data[0x1a0];
 };
 

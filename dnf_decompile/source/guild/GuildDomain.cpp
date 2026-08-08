@@ -1917,12 +1917,222 @@ CGuildCargo::~CGuildCargo()
 {
 }
 
+void CGuildCargo::Reset()
+{
+    *(int*)((char*)this + 0x18d8) = 0;
+    *(int*)((char*)this + 0x18dc) = 0;
+    *(int*)((char*)this + 0x18e0) = 0;
+    *(char*)((char*)this + 0x18e4) = 0;
+}
+
+int CGuildCargo::GetCapacity()
+{
+    return *(int*)((char*)this + 0x18d8);
+}
+
+void CGuildCargo::SetCapacity(unsigned int capacity)
+{
+    *(unsigned int*)((char*)this + 0x18d8) = capacity;
+}
+
+int CGuildCargo::IsValidSlot(int slot)
+{
+    return !(slot < 0 || *(int*)((char*)this + 0x18d8) <= slot || 0x77 < slot);
+}
+
+void CGuildCargo::SetGuildInfo(int guildKey)
+{
+    *(int*)((char*)this + 0x18e0) = guildKey;
+}
+
+bool CGuildCargo::IsLoadComplete()
+{
+    return *(char*)((char*)this + 0x18e4) != 0;
+}
+
+int CGuildCargo::CalcItemCount()
+{
+    *(int*)((char*)this + 0x18dc) = 0;
+    int cap = *(int*)((char*)this + 0x18d8);
+    for (int i = 0; i < cap; i++)
+    {
+        if (*(int*)((char*)this + i * 0x35 + 1) != 0)
+        {
+            *(int*)((char*)this + 0x18dc) += 1;
+        }
+    }
+    return *(int*)((char*)this + 0x18dc);
+}
+
+int CGuildCargo::IsEmpty()
+{
+    int cap = *(int*)((char*)this + 0x18d8);
+    for (int i = 0; i < cap; i++)
+    {
+        if (*(int*)((char*)this + i * 0x35 + 1) != 0)
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+void* CGuildCargo::GetGuildCargoDBInfo()
+{
+    return this;
+}
+
+int CGuildCargo::GetSpecificItemSlot(int itemId)
+{
+    int cap = *(int*)((char*)this + 0x18d8);
+    for (int i = 0; i < cap; i++)
+    {
+        if (*(int*)((char*)this + i * 0x35 + 1) == itemId)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void CGuildCargo::PrintCargo(int behavior)
+{
+}
+
+void CGuildCargo::PrintDnfItemInfo(DnfItemInfo& info)
+{
+}
+
+void CGuildCargo::AddItem(DnfItemInfo& info, int slot, int count)
+{
+}
+
+void CGuildCargo::InsertItem(DnfItemInfo& info, int& slot, int count, int a, int b, int c)
+{
+}
+
+void CGuildCargo::DeleteItem(DnfItemInfo& info, int slot, int count, int a, int b, int c)
+{
+}
+
+void CGuildCargo::MoveItem(DnfItemInfo& info, DnfItemInfo& info2, int a, int b, int c,
+                           int d, int e)
+{
+}
+
+int CGuildCargo::CheckInsertItem(int slot, int count, int a, int b, int c)
+{
+    return 0;
+}
+
+void CGuildCargo::SendGuildCargo(CUser* user)
+{
+}
+
+void CGuildCargo::GetHistory(STGuildCargoLog* out)
+{
+}
+
+void CGuildCargo::InsertHistory(int behavior, int slot, const char* name, int count,
+                                const char* name2, const RandomOption* option)
+{
+}
+
+void CGuildCargo::SendHistoryToDBMW(CServerHandler* handler, int behavior, int slot,
+                                    const char* name, int count)
+{
+}
+
+void CGuildCargo::SendGuildCargoToDBMW(CServerHandler* handler, int slot)
+{
+}
+
+void CGuildCargo::SetGuildCargoHistory(unsigned int idx, STGuildCargoLog* log)
+{
+}
+
+void CGuildCargo::SetGuildCargoDBInfo(STGuildCargoDBInfo& info)
+{
+}
+
 CGuildBoard::CGuildBoard()
 {
     memset(m_data, 0, sizeof(m_data));
 }
 
 CGuildBoard::~CGuildBoard()
+{
+}
+
+void CGuildBoard::reset()
+{
+}
+
+void CGuildBoard::printGuildBoard()
+{
+}
+
+void CGuildBoard::setGuildBoardData(unsigned int a, unsigned int b, CGuild* guild, int c,
+                                    STGuildBoardDBInfo* info)
+{
+}
+
+void CGuildBoard::sendGuildBoardData(unsigned int a, unsigned int b, unsigned int c,
+                                     CUser* user)
+{
+}
+
+void CGuildBoard::clearGuildBoardData()
+{
+}
+
+void CGuildBoard::deleteGuildBoardData(unsigned int a, unsigned int b, unsigned int c)
+{
+}
+
+bool CGuildBoard::isGuildBoardDBAccess()
+{
+    return false;
+}
+
+bool CGuildBoard::isWebGuildBoardAction()
+{
+    return false;
+}
+
+void CGuildBoard::setGuildBoardDBAccess()
+{
+}
+
+void CGuildBoard::setWebGuildBoardAction(bool flag)
+{
+}
+
+int CGuildBoard::getGuildBoardDBLoadState()
+{
+    return 0;
+}
+
+void CGuildBoard::setGuildBoardDBLoadState(int state)
+{
+}
+
+void CGuildBoard::sendMessageToDBMW_GuildFund(CServerHandler* handler, int fund, CUser* user)
+{
+}
+
+void CGuildBoard::sendMessageToDBMW_GuildLevelUP(CServerHandler* handler, int level,
+                                                 CUser* user)
+{
+}
+
+void CGuildBoard::sendMessageToDBMW_GuildAttendance(CServerHandler* handler, int a, int b,
+                                                    unsigned short c, unsigned short d)
+{
+}
+
+void CGuildBoard::sendMessageToDBMW_GuildMasterChanging(CServerHandler* handler, CUser* user,
+                                                        const char* name)
 {
 }
 
@@ -1969,6 +2179,21 @@ CPowerWar::~CPowerWar()
 {
 }
 
+int CPowerWar::IsPowerWarOn()
+{
+    return *(int*)((char*)this + 4);
+}
+
+unsigned short CPowerWar::getPowerWarEndKillPoint()
+{
+    return *(unsigned short*)((char*)this + 0xc);
+}
+
+void CPowerWar::setPowerWarEndKillPoint(unsigned short point)
+{
+    *(unsigned short*)((char*)this + 0xc) = point;
+}
+
 CPower::CPower()
 {
     m_field4 = 0;
@@ -2003,6 +2228,158 @@ void CPowerManager::InitPowerManager(const char* path, CApplication* app)
 }
 
 void CPowerManager::Process()
+{
+}
+
+void CPowerManager::ProcessByMinute()
+{
+}
+
+int CPowerManager::IsPowerWarOn()
+{
+    return ((CPowerWar*)((char*)this + 0x14c))->IsPowerWarOn();
+}
+
+void CPowerManager::SetPowerInfo(char side, int score)
+{
+    ((CPower*)((char*)this + 8 + side * 0x6c))->SetScore(score);
+}
+
+void CPowerManager::CleanPowerWar()
+{
+}
+
+int CPowerManager::GetPowerScore(int side)
+{
+    return ((CPower*)((char*)this + 8 + side * 0x6c))->GetScore();
+}
+
+char CPowerManager::GetWinnerSide()
+{
+    return *(char*)((char*)this + 0x184);
+}
+
+void CPowerManager::IncPowerScore(int side, int score)
+{
+    CPower* p = (CPower*)((char*)this + 8 + side * 0x6c);
+    p->SetScore(p->GetScore() + score);
+}
+
+void CPowerManager::SetWinnerSide(char side)
+{
+    *(char*)((char*)this + 0x184) = side;
+}
+
+void CPowerManager::PrintDebugInfo()
+{
+}
+
+void CPowerManager::SetPowerDBFlag(unsigned short flag)
+{
+    *(unsigned short*)((char*)this + 0x18a) |= flag;
+}
+
+void CPowerManager::LoadPowerWarCfg(char* path)
+{
+}
+
+void CPowerManager::CalcPowerWarRank(bool flag)
+{
+}
+
+void CPowerManager::EndPowerWarEvent()
+{
+}
+
+void CPowerManager::RewardBonusPoint()
+{
+}
+
+void CPowerManager::SendPowerWarInfo()
+{
+}
+
+void CPowerManager::ComputeWinnerSide()
+{
+}
+
+void CPowerManager::SendPowerWarScore()
+{
+}
+
+void CPowerManager::SaveDBPowerWarRank()
+{
+}
+
+void CPowerManager::StartPowerWarEvent()
+{
+}
+
+void CPowerManager::UpdatePowerWarInfo(bool flag, int side, int score, unsigned int* p)
+{
+}
+
+void CPowerManager::SaveDBPowerWarPoint()
+{
+}
+
+void CPowerManager::SendPowerWarEndInfo(int time)
+{
+}
+
+unsigned int CPowerManager::GetUserPowerWarPoint(int side, unsigned int charNo)
+{
+    return 0;
+}
+
+unsigned int CPowerManager::GetUserRankingInPower(int side, unsigned int charNo)
+{
+    return 0;
+}
+
+void CPowerManager::SetPowerWarRewardInfo(int a, int b, int c, int d)
+{
+}
+
+unsigned int CPowerManager::GetGuildRankingInPower(int side, unsigned int guildKey)
+{
+    return 0;
+}
+
+unsigned short CPowerManager::GetPowerWarEndKillPoint()
+{
+    return ((CPowerWar*)((char*)this + 0x14c))->getPowerWarEndKillPoint();
+}
+
+void CPowerManager::SendPowerWarProcessInfo(unsigned int charNo)
+{
+}
+
+void CPowerManager::SetPowerWarEndKillPoint(unsigned short point)
+{
+    ((CPowerWar*)((char*)this + 0x14c))->setPowerWarEndKillPoint(point);
+}
+
+void CPowerManager::RewardGuildPowerWarPoint()
+{
+}
+
+void CPowerManager::SaveDBPowerWarBonusPoint()
+{
+}
+
+void CPowerManager::SaveDBPowerWarPointReward()
+{
+}
+
+void CPowerManager::SendPowerWarEndInfoToSpecificUser(CUser* user, unsigned char a,
+                                                     unsigned int b, unsigned int c,
+                                                     unsigned int d, unsigned int e,
+                                                     unsigned int f, unsigned int g)
+{
+}
+
+void CPowerManager::SendPowerWarEndInfoInSpecificPower(char side)
 {
 }
 
