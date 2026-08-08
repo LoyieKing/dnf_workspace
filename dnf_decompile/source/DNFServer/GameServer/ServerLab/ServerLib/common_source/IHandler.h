@@ -14,6 +14,8 @@ class Message;
 class IHandler
 {
 public:
+    typedef unsigned int (IHandler::*DBHandlerFunc)(CMsgCell*);
+
     IHandler()
     {
         sendTCP_ = NULL;
@@ -53,15 +55,13 @@ public:
 class IDBHandler : public IHandler
 {
 public:
-    typedef unsigned int (IDBHandler::*DBHandlerFunc)(CMsgCell*);
-
     virtual ~IDBHandler()
     {
     }
     virtual void init()
     {
     }
-    virtual DBHandlerFunc searchDBHandlerFunc(int nProtoID) = 0;
+    virtual DBHandlerFunc SearchDBHandlerFunc(int nProtoID) = 0;
 };
 
 class ITimeHandler : public IHandler

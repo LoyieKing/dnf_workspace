@@ -12,6 +12,22 @@ public:
     Exception(const char* szErrorMsg);
     Exception(int iErrorCode, const char* szMessage, ...);
     Exception(const char* szFunctionNameA, int nLine, const char* szMessage, ...);
+    int getErrorCode() const
+    {
+        return iErrorCode_;
+    }
+    int getLine() const
+    {
+        return nLine_;
+    }
+    const char* getErrorMsg() const
+    {
+        return szErrorMsg_;
+    }
+    const char* getFunctionName() const
+    {
+        return szFunctionNameA_;
+    }
 
 private:
     int iErrorCode_;

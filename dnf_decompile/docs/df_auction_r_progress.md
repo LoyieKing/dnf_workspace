@@ -14,11 +14,11 @@
 | 指标 | 数值 |
 |---|---:|
 | 项目函数（DWARF 提取） | 4,736 |
-| 已实现 TU | 35（本批新增 ServiceFactory 全部符号） |
-| IDENTICAL | 3,110 |
+| 已实现 TU | 37（本批新增 ServerLibrary2.0 + AuctionString 全部符号） |
+| IDENTICAL | 3,179 |
 | NEAR | 19 |
-| DIFF（语义等价，-O0 惯用法） | 418 |
-| MISSING（未实现） | 1,189 |
+| DIFF（语义等价，-O0 惯用法） | 426 |
+| MISSING（未实现） | 1,112 |
 
 > 说明：IDENTICAL/NEAR/DIFF 只统计「已实现且原二进制存在」的函数；MISSING 为尚未实现的
 > 其余 TU。当前 IDENTICAL+NEAR 已全部落在已实现 TU 内，剩余 DIFF 逐一核验为 -O0
@@ -129,6 +129,8 @@
 
 本批（ServiceFactory 全量补完，InternalMsg 命名空间修正）后：**IDENTICAL 3110 / NEAR 19 / DIFF 418 / MISSING 1189**
 
+本批（ServerLibrary2.0 + AuctionString 全量补完）后：**IDENTICAL 3179 / NEAR 19 / DIFF 426 / MISSING 1112**
+
 ### 已实现 TU（本阶段新增，均可编译链接）
 
 | 组件 | 状态 |
@@ -174,6 +176,8 @@
 | AveragePriceDictionary | ✅ 已完成（TU 0 缺失：190 精确 + 16 语义等价 DIFF；12348B 布局（双 0x20×8 map 表）、AddItemAveragePrice 平均价加权/限价/概率提交全逻辑、UpdateAveragePirce 双表遍历、ROI_Average_Constraint::isVaildRange 出线实现） |
 | AuctionDictionary | ✅ 已完成（TU 0 缺失：282 精确 + 34 语义等价 DIFF；16772B 布局、RegistItem/Bidding/Purchase/makeSuccessfulBid 全流程、注册/竞价/一口价/过期/平均价 7 大字典联动、UpdateAveragePrice 头内联弱符号） |
 | ServiceFactory | ✅ 已完成（TU 0 缺失：400 精确 + 8 语义等价 DIFF；startup 1920B/shutdown/ctor/dtor 全流程、9 个子系统成员初始化、handler init 遍历、DB 连接关闭、configpath[256] 定义、EncyptTools/Threads/IHandlers getter 出线实现） |
+| ServerLibrary2.0 | ✅ 已完成（TU 0 缺失：317 精确 + 18 语义等价 DIFF；App 类继承 LinuxService、main/prepareRun/run/load_script/readConfig/finishRun/stop/onStop/onPause/onContinue 全流程、8 个 handler 全局、GameDataPool[5]/双 DBConnection 初始化、remove_if 字符串修剪、双分支 Exception catch） |
+| AuctionString | ✅ 已完成（TU 0 缺失：initAuctionString 1785B 十二段 getAuctionString+strncpy 填 LETTER_TEXT[0..8]/SENDER_NAME/SENDER_NPC_NAME/SENDER_NAME_GOLD、LETTER_TEXT[9][255] 全局、comp_by_time 头内联） |
 
 ### 关键形态结论（追加）
 
@@ -410,11 +414,34 @@
 59. **EpollReactor shutdown**：`if (epoll_fd_ != -1) { close; epoll_fd_=-1;
     if (events_) operator delete[](events_); }`——用 **operator delete[] 显式调用**
     （避免 delete[] 自带的二次判空），且删除后**不复位 events_**（原版怪癖）。
+60. **ServerLibrary2.0（App）TU 全量重建**：App 继承 nsl::LinuxService（无自有成员，
+    handlerFor_GA_/GP_/TE_/DB_/interHandler/gameDataPool_[5]/pGameDbConnection/
+    pAuctionDbConnection 均为**文件级全局**）；main 用
+    `std::string(argv[3])` + `remove_if(bind2nd(equal_to<char>(),' '))` 修剪后
+    `new App` → processCommandLine → 虚调用 `main(c_str())`；prepareRun 建
+    ServiceFactory/4 个 handler/StatisticsCollector/GameDataPool/双 DBConnection/
+    InterHandler 并注册 0/0x12 网络、0/1 DB、0/1 Inter handler；
+    run 的 `while (!isTerminated_)` 循环 + `static bool onlyOnce`（仅一次
+    INTERNALMSG_SERVICE_UNAVAILABLE(reason=3) 广播）；stop 用显式
+    `~ServiceFactory()` + `operator delete`（避免 delete 二次判空）；main 与
+    prepareRun 的 catch 按 `getFunctionName()!=NULL` 双分支打印
+    "Main Exception : %d %s at %d in %s\n" / "Main Exception : %d %s\n"。
+61. **IHandler::DBHandlerFunc 在 IHandler 基类**：typedef 嵌套于 IHandler（非 IDBHandler/
+    HandlerFor_DB_），IDBHandler 纯虚 `SearchDBHandlerFunc(int)`（大写 S，mangle
+    `_ZN3nsl10IDBHandler19SearchDBHandlerFuncEi`）返回该 typedef；HandlerFor_DB_
+    的 registFuncMap 用 `(nsl::IHandler::DBHandlerFunc)` 显式转换（GCC 4.4 拒绝
+    派生→基 PMF 隐式转换）。
+62. **AuctionString（initAuctionString）**：`file==NULL` 早退；`StrLoading(file)` 后
+    十二段 `getAuctionString(0..8/100/101/102, result)` + `strncpy(dest, c_str(), 0xff)`
+    填 LETTER_TEXT[0..8]/SENDER_NAME/SENDER_NPC_NAME/SENDER_NAME_GOLD，每段
+    `if (!result) return false;`；LETTER_TEXT 为 `char[9][255]`（BSS 0x8f7）。
+63. **build-auction.sh 修正**：`nm "$OBJS"` 去掉引号（zsh/bash 分词差异导致 stub_main
+    重复）；移除 stub_main.o 后真实 main 生效。
 
 ## 剩余缺口分布（按 TU，MISSING 数）
 
 ```
-656  Search                448  Auction                75  ServerLibrary2.0
+656  Search                448  Auction
   ...
 ```
 
@@ -425,6 +452,5 @@
    HandlerFor_DB_/TeaInitialize/DNFFunctionLibWrapper 已全量完成。
 2. 字典类：AveragePriceDictionary / CharacterDictionary / ExpireTimeDictionary /
    ReliabilityDictionary 已完成；AuctionDictionary 已完成（本批）。
-3. 大块：Search（656）/ Auction（448）/ ServerLibrary2.0（75）/ ServiceFactory
-   已完成（本批）。
+3. 大块：Search（656）/ Auction（448）/ ServerLibrary2.0 + ServiceFactory 已完成。
 4. 全量复验 DIFF/MISSING，移除临时桩，产出 docs/df_auction_r_restoration_report.md，commit & push。

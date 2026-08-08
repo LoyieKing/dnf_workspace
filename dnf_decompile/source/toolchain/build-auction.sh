@@ -85,7 +85,7 @@ done
 
 if [ -n "$OBJS" ]; then
     echo "LD  df_auction_r"
-    if ! nm "$OBJS" 2>/dev/null | grep -q ' T main$'; then
+    if ! nm $OBJS 2>/dev/null | grep -q ' T main$'; then
         echo 'int main(){return 0;}' > "$OUT_DIR/stub_main.cpp"
         "$CXX" $COMMON_FLAGS -c "$OUT_DIR/stub_main.cpp" -o "$OUT_DIR/stub_main.o"
         OBJS="$OBJS $OUT_DIR/stub_main.o"
