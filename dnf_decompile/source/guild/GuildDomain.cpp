@@ -1950,13 +1950,10 @@ void CGuild::DBSavePowerSecedeTime(unsigned char flag, CServerHandler* handler)
 {
     if ((m_field1c & 4) != 0)
     {
-        // 发送 Packet_DBMW_Save_Power_Secede_Time（简化：构造并发送）
-        char buf[0x1b];
-        memset(buf, 0, sizeof(buf));
-        *(unsigned short*)(buf + 0) = 0x1f5a;
-        *(unsigned int*)(buf + 0xa) = m_guildKey;
-        buf[0xe] = (char)flag;
-        handler->SendToDB((PacketHeader*)buf);
+        Packet_DBMW_Save_Power_Secede_Time pkt;
+        *(unsigned int*)((char*)&pkt + 0xa) = m_guildKey;
+        *(unsigned char*)((char*)&pkt + 0xe) = flag;
+        handler->SendToDB(&pkt);
     }
 }
 
@@ -2120,15 +2117,17 @@ void CGuild::NotifyAllTodayGuildMember()
 
 void CGuild::NotifyAllAchieveAttendance(unsigned int charNo, unsigned int phase)
 {
-    if ((m_field1c & 4) == 0 || m_members.empty())
-    {
-        return;
-    }
+    Packet_Achieve_Guild_Attendance pkt;
+    *(unsigned int*)((char*)&pkt + 0xa) = charNo;
+    *(unsigned int*)((char*)&pkt + 0xe) = phase;
     for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
          it != m_members.end(); ++it)
     {
         if (it->second != 0)
         {
+            *(unsigned int*)((char*)&pkt + 0x12) = it->second->GetIdByChannel();
+            *(unsigned int*)((char*)&pkt + 0x16) = it->second->GetUniqCharNo();
+            it->second->SendToGameserver((char*)&pkt, 0x1a);
         }
     }
 }
