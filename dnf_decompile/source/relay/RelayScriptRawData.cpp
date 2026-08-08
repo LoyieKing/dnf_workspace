@@ -37,7 +37,8 @@ ScriptRawData* ScriptRawData::find(char* key)
     {
         return this;
     }
-    std::list<ScriptRawData*>::iterator iter = m_child_list.begin();
+    std::list<ScriptRawData*>::iterator iter;
+    iter = m_child_list.begin();
     while (iter != m_child_list.end())
     {
         ScriptRawData* s = (*iter)->find(key);
