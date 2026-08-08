@@ -559,13 +559,10 @@ void StatisticManager::ResetDisjointAvatarInfoTotal()
 }
 STUB_STAT(SendDBSecretShopStatistic, (CServerHandler*))
 STUB_STAT(SendDBP2PStatistic, (CServerHandler*))
-STUB_STAT(SendDBHellPartyStatisticItem, (CServerHandler*))
-STUB_STAT(SendDBDeathTowerValueStatistic, (CServerHandler*))
 STUB_STAT(SendDBDeathTowerPlayDataJobStatistic, (CServerHandler*))
 STUB_STAT(SendDBDeathTowerPlayDataPartyStatistic, (CServerHandler*))
 STUB_STAT(SendDBAssertManagerStatistic, (CServerHandler*))
 STUB_STAT(SendDBLoadingTimeReport, (CServerHandler*))
-STUB_STAT(SendDBUserTingTimeCheckStatistic, (CServerHandler*))
 STUB_STAT(SendDBPowerwarLagReport, (CServerHandler*))
 STUB_STAT(SendDBTingUserTimeCheck, (CServerHandler*))
 STUB_STAT(SendDBPowerwarLoadingTimeReport, (CServerHandler*))
@@ -1627,5 +1624,111 @@ void StatisticManager::SendDBFatigueBattery(CServerHandler* handler)
             *(unsigned int*)((char*)&pkt + 0xa + idx * 8 + 4) = it->second.m_field4;
         }
         handler->SendToDB((PacketHeader*)&pkt);
+    }
+}
+
+void StatisticManager::SendDBDeathTowerValueStatistic(CServerHandler* handler)
+{
+    Packet_DBMW_DeathTower_Statistic_Value pkt;
+    int idx = 0;
+    if (!m_deathTowerValue.empty())
+    {
+        for (std::map<STDeathTowerValueStatisticKey, ValueStatistic>::iterator it =
+                 m_deathTowerValue.begin(); it != m_deathTowerValue.end(); ++it)
+        {
+            char* slot = (char*)&pkt + 0xe + idx * 0x10;
+            slot[0] = it->first.m_field0;
+            *(unsigned short*)(slot + 2) = it->first.m_field2;
+            *(unsigned int*)(slot + 4) = it->first.m_field4;
+            *(int*)(slot + 8) = it->second.m_data[0];
+            *(int*)(slot + 0xc) = it->second.m_data[1];
+            idx++;
+            if (99 < idx)
+            {
+                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                handler->SendToDB((PacketHeader*)&pkt);
+                CMyFileLog log("SendDBDeathTowerValueStatistic", 0x217);
+                log("./log/statistic", "DeathTowerValue DB Sent %d", idx);
+                idx = 0;
+            }
+        }
+        if (idx != 0)
+        {
+            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            handler->SendToDB((PacketHeader*)&pkt);
+            CMyFileLog log("SendDBDeathTowerValueStatistic", 0x220);
+            log("./log/statistic", "DeathTowerValue DB Sent %d", idx);
+        }
+    }
+}
+
+void StatisticManager::SendDBHellPartyStatisticItem(CServerHandler* handler)
+{
+    Packet_DBMW_HellParty_Statistic_Item pkt;
+    int idx = 0;
+    if (!m_hellParty.empty())
+    {
+        for (std::map<STHellPartyStatisticItemKey, HellPartyItenmData>::iterator it =
+                 m_hellParty.begin(); it != m_hellParty.end(); ++it)
+        {
+            char* slot = (char*)&pkt + 0xe + idx * 0x24;
+            slot[0] = it->first.m_field0;
+            *(unsigned int*)(slot + 4) = it->first.m_field4;
+            slot[8] = it->first.m_field8;
+            slot[9] = it->first.m_field9;
+            slot[10] = it->first.m_fielda;
+            *(int*)(slot + 0x14) = it->second.m_count;
+            for (int k = 0; k < 6; k++)
+            {
+                *(int*)(slot + 0x18 + k * 4) = it->second.m_data[k];
+            }
+            idx++;
+            if (99 < idx)
+            {
+                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                handler->SendToDB((PacketHeader*)&pkt);
+                CMyFileLog log("SendDBHellPartyStatisticItem", 0x391);
+                log("./log/statistic", "HellParty DB Sent %d", idx);
+                idx = 0;
+            }
+        }
+        if (idx != 0)
+        {
+            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            handler->SendToDB((PacketHeader*)&pkt);
+            CMyFileLog log("SendDBHellPartyStatisticItem", 0x39b);
+            log("./log/statistic", "HellParty DB Sent %d", idx);
+        }
+    }
+}
+
+void StatisticManager::SendDBUserTingTimeCheckStatistic(CServerHandler* handler)
+{
+    Packet_DBMW_User_Ting_TimeCheck_Write_Query pkt;
+    int idx = 0;
+    if (!m_userTing.empty())
+    {
+        for (std::map<STUserTingTimeCheckKey, int>::iterator it = m_userTing.begin();
+             it != m_userTing.end(); ++it)
+        {
+            *(unsigned int*)((char*)&pkt + 0xe + idx * 8) = it->first.m_field0;
+            *(int*)((char*)&pkt + 0xe + idx * 8 + 4) = it->second;
+            idx++;
+            if (99 < idx)
+            {
+                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                handler->SendToDB((PacketHeader*)&pkt);
+                CMyFileLog log("SendDBUserTingTimeCheckStatistic", 0x353);
+                log("./log/statistic", "UserTing DB Sent %d", idx);
+                idx = 0;
+            }
+        }
+        if (idx != 0)
+        {
+            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            handler->SendToDB((PacketHeader*)&pkt);
+            CMyFileLog log("SendDBUserTingTimeCheckStatistic", 0x35d);
+            log("./log/statistic", "UserTing DB Sent %d", idx);
+        }
     }
 }

@@ -96,6 +96,16 @@ Packet_DBMW_Fatigue_Battery_Money_Statistic::Packet_DBMW_Fatigue_Battery_Money_S
     memset((char*)this + 10, 0, 0x328);
 }
 
+Packet_DBMW_HellParty_Statistic_Item::Packet_DBMW_HellParty_Statistic_Item()
+{
+    new ((void*)this) PacketHeader(0xc32, 0x17ae);
+}
+
+Packet_DBMW_User_Ting_TimeCheck_Write_Query::Packet_DBMW_User_Ting_TimeCheck_Write_Query()
+{
+    new ((void*)this) PacketHeader(0xc46, 0x17fe);
+}
+
 CInnerMsgHandler::CInnerMsgHandler()
 {
 }

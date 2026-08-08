@@ -112,6 +112,20 @@ public:
     char m_data[0x332];
 };
 
+class Packet_DBMW_HellParty_Statistic_Item
+{
+public:
+    Packet_DBMW_HellParty_Statistic_Item();
+    char m_data[0x17ae];
+};
+
+class Packet_DBMW_User_Ting_TimeCheck_Write_Query
+{
+public:
+    Packet_DBMW_User_Ting_TimeCheck_Write_Query();
+    char m_data[0x17fe];
+};
+
 // ---- CInnerMsgHandler：空类 ----
 class CInnerMsgHandler
 {
