@@ -668,6 +668,42 @@ public:
     char m_data[0x1c];
 };
 
+// ---- CTcpRecvBuffer ----
+class CTcpRecvBuffer
+{
+public:
+    char m_data[0x2000];
+};
+
+class TCPSocket
+{
+public:
+    TCPSocket();
+    ~TCPSocket();
+    char m_data[0x1820];
+};
+
+class CPeer : public TCPSocket
+{
+public:
+    CPeer();
+    ~CPeer();
+    char m_data[0x97840];
+};
+
+class CTcpSendBuffer
+{
+public:
+    CTcpSendBuffer();
+    char m_data[0x1000];
+};
+
+class CTcpHandler
+{
+public:
+    void WaitForEvent();
+};
+
 // ---- CTcpNetSystem：0x160 ----
 class CTcpNetSystem
 {
@@ -686,14 +722,21 @@ public:
     CMutex* Get_TcpSendBLock();
     unsigned short Get_TcpServerPort();
     void Init(unsigned short port);
+    void WaitForEvent();
+    CPeer* CreatePeer();
+    void DeletePeer(CPeer* peer);
+    void InsertAcceptedPeer(CPeer* peer);
+    CPeer* GetPeer(unsigned int id);
+    void CleanPeers();
+    void PushTcpSendPacketQ(char* buf);
+    void CleanTcpSendPacketQ();
+    void* Acquire_TcpSendBuffer();
+    void PopDeleteTcpSendPacketQ(CTcpSendBuffer* buf);
+    void SendPacket();
+    void OpenTcpService(int& sock, const char* ip, unsigned short port);
+    void SetEpollAcceptedPeers();
+    void SetEpollConnectedPeer(CPeer* peer);
     char m_data[0x160];
-};
-
-// ---- CTcpRecvBuffer ----
-class CTcpRecvBuffer
-{
-public:
-    char m_data[0x2000];
 };
 
 // ---- 基础结构 ----

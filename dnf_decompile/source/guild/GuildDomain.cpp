@@ -3010,6 +3010,33 @@ CTcpNetSystem::~CTcpNetSystem()
 {
 }
 
+TCPSocket::TCPSocket()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+TCPSocket::~TCPSocket()
+{
+}
+
+CPeer::CPeer()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+CPeer::~CPeer()
+{
+}
+
+CTcpSendBuffer::CTcpSendBuffer()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+void CTcpHandler::WaitForEvent()
+{
+}
+
 void CTcpNetSystem::PushTcpSendPacketQ(PacketHeader* pkt)
 {
 }
@@ -3066,4 +3093,95 @@ unsigned short CTcpNetSystem::Get_TcpServerPort()
 void CTcpNetSystem::Init(unsigned short port)
 {
     *(unsigned short*)(m_data + 0x15c) = port;
+}
+
+void CTcpNetSystem::WaitForEvent()
+{
+    CTcpHandler* h = (CTcpHandler*)*(void**)m_data;
+    if (h != 0)
+    {
+        h->WaitForEvent();
+    }
+}
+
+CPeer* CTcpNetSystem::CreatePeer()
+{
+    CGuard<CMutex> g((CMutex*)(m_data + 0x78));
+    return new CPeer;
+}
+
+void CTcpNetSystem::DeletePeer(CPeer* peer)
+{
+    if (peer != 0)
+    {
+        delete peer;
+    }
+}
+
+void CTcpNetSystem::InsertAcceptedPeer(CPeer* peer)
+{
+    if (peer != 0)
+    {
+        *(void**)(m_data + 0x11c) = peer;
+    }
+}
+
+CPeer* CTcpNetSystem::GetPeer(unsigned int id)
+{
+    return (CPeer*)*(void**)(m_data + 0x11c);
+}
+
+void CTcpNetSystem::CleanPeers()
+{
+    CPeer* peer = (CPeer*)*(void**)(m_data + 0x11c);
+    if (peer != 0)
+    {
+        delete peer;
+        *(void**)(m_data + 0x11c) = 0;
+    }
+}
+
+void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
+{
+    if (buf == 0)
+    {
+        return;
+    }
+    CGuard<CMutex> g((CMutex*)(m_data + 0xe8));
+    *(void**)(m_data + 0xc0) = buf;
+}
+
+void CTcpNetSystem::CleanTcpSendPacketQ()
+{
+    CGuard<CMutex> g((CMutex*)(m_data + 0xe8));
+    *(void**)(m_data + 0xc0) = 0;
+}
+
+void* CTcpNetSystem::Acquire_TcpSendBuffer()
+{
+    return malloc(0x1000);
+}
+
+void CTcpNetSystem::PopDeleteTcpSendPacketQ(CTcpSendBuffer* buf)
+{
+    if (buf != 0)
+    {
+        free(buf);
+    }
+}
+
+void CTcpNetSystem::SendPacket()
+{
+}
+
+void CTcpNetSystem::OpenTcpService(int& sock, const char* ip, unsigned short port)
+{
+}
+
+void CTcpNetSystem::SetEpollAcceptedPeers()
+{
+}
+
+void CTcpNetSystem::SetEpollConnectedPeer(CPeer* peer)
+{
 }
