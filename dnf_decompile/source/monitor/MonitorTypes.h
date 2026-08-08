@@ -410,7 +410,7 @@ public:
     char IsSetErrEvent(int idx);
 };
 
-class CPeer
+class CPeer : public TCPSocket
 {
 public:
     TCPSocket* GetTcpSocket();
@@ -420,6 +420,14 @@ public:
     void send_packet();
     void InitPeer(void* recvQ, void* recvQLock, void* recvBLock);
     void ConnSig();
+    int parsing(int recvLen);
+    char m_data[0x1800];   // +0x1c..+0x181b
+    char* m_buf;           // +0x181c
+    int m_remainLen;       // +0x1820
+    int m_alreadyRead;     // +0x1824
+    void* m_recvQ;         // +0x1828
+    void* m_bLock;         // +0x182c
+    void* m_qLock;         // +0x1830
 };
 
 

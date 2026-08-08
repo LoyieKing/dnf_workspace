@@ -802,6 +802,91 @@ void CPeer::send_packet() {}
 TCPSocket* CPeer::GetTcpSocket() { return 0; }
 void CPeer::InitPeer(void* recvQ, void* recvQLock, void* recvBLock) {}
 void CPeer::ConnSig() {}
+int CPeer::parsing(int recvLen)
+{
+    PacketHeader header(0, 0);
+    unsigned int totalLen = (unsigned int)(m_remainLen + recvLen);
+    int headerSize = 10;
+    if ((int)totalLen < 10)
+    {
+        m_remainLen = m_remainLen + recvLen;
+        m_buf = m_buf + recvLen;
+        CMyFileLog log("parsing", 0xbb);
+        log("./log/TcpRecv", "(offset:%x - buf:%x) = remainlen:%d, Recv Size[%d] ",
+            m_buf, (char*)this + 0x1c, m_remainLen, recvLen);
+    }
+    else
+    {
+        do
+        {
+            if (m_remainLen != 0)
+            {
+                m_buf = m_buf - m_remainLen;
+            }
+            memcpy(&header, m_buf, 10);
+            unsigned int pktSize = (unsigned int)*(unsigned short*)((char*)&header + 2);
+            if (pktSize < 10 || 0x1800 < pktSize)
+            {
+                CMyFileLog log("parsing", 0xd0);
+                log("./log/TcpRecv",
+                    "Recv Size[%d], Parsing Packet Size[%d] is Too Large, offset:%x, buf:%x, alreadyRead:%d",
+                    recvLen, pktSize, m_buf, (char*)this + 0x1c, m_alreadyRead);
+                m_buf = (char*)this + 0x1c;
+                m_remainLen = 0;
+                return 0;
+            }
+            if (totalLen < pktSize)
+            {
+                CMyFileLog log("parsing", 0x100);
+                log("./log/TcpRecv",
+                    "need more data (packetsize > (unsigned int)parsinglength): body=%d !!",
+                    totalLen);
+                goto LAB_51773;
+            }
+            CTcpRecvBuffer* buf;
+            {
+                CGuard<CMutex> guard((CMutex*)m_bLock);
+                buf = new CTcpRecvBuffer;
+            }
+            memcpy(buf, m_buf, pktSize);
+            *(unsigned int*)((char*)buf + 6) = (unsigned int)getHandle();
+            {
+                CGuard<CMutex> guard((CMutex*)m_qLock);
+                ((std::queue<CTcpRecvBuffer*>*)m_recvQ)->push(buf);
+                int qsize = ((std::queue<CTcpRecvBuffer*>*)m_recvQ)->size();
+            }
+            totalLen = totalLen - pktSize;
+            m_buf = m_buf + pktSize;
+            m_remainLen = 0;
+            if (totalLen == 0)
+            {
+                m_buf = (char*)this + 0x1c;
+                goto LAB_51773;
+            }
+        } while (9 < (int)totalLen);
+        {
+            CMyFileLog log("parsing", 0xf8);
+            log("./log/TcpRecv", "need more data (parsinglength < HEADER_SIZE): body=%d !!",
+                totalLen);
+        }
+LAB_51773:
+        if (0 < (int)totalLen)
+        {
+            if (0x1800 < totalLen)
+            {
+                CMyFileLog log("parsing", 0x10e);
+                log("./log/TcpRecv",
+                    "[PARSING LENGTH EXCEPTION] parsinglength > MAX_RECV_BUF , memmove : parsinglength = %d",
+                    totalLen);
+                return 0;
+            }
+            memmove((char*)this + 0x1c, m_buf, totalLen);
+            m_remainLen = (int)totalLen;
+            m_buf = (char*)this + 0x1c + totalLen;
+        }
+    }
+    return 1;
+}
 
 char TCPSocket::open() { return 0; }
 char TCPSocket::bind(unsigned short port, bool flag) { return 0; }
