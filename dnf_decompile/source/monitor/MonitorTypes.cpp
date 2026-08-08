@@ -3035,6 +3035,11 @@ void CVillageAttackedManager::SendVillageAttackedScore(CUser* user)
 }
 void CVillageAttackedManager::SendVillageAttackedReward(CUser* user, int rewardType)
 {
+    Packet_VillageAttackedReward pkt;
+    pkt.m_idByChannel = user->GetIdByChannel();
+    pkt.m_uniqCharNo = user->GetUniqCharNo();
+    pkt.m_rewardType = rewardType;
+    user->SendToGameserver((char*)&pkt, 0x1a);
 }
 void CVillageAttackedManager::OnCharacLogin(CUser* user)
 {
@@ -4345,6 +4350,13 @@ Packet_VillageAttackedScore::Packet_VillageAttackedScore() : PacketHeader(0x1778
     m_field1a = 0;
     m_cur = 0;
     m_max = 0;
+}
+
+Packet_VillageAttackedReward::Packet_VillageAttackedReward() : PacketHeader(0x1775, 0x1a)
+{
+    m_idByChannel = 0;
+    m_uniqCharNo = 0;
+    m_rewardType = 0;
 }
 
 Packet_DBMW_Add_Buddy::Packet_DBMW_Add_Buddy() : PacketHeader(0x673, 0x2c)

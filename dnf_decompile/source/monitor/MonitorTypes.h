@@ -1465,6 +1465,15 @@ public:
     int m_max;                   // +34
 };
 
+class Packet_VillageAttackedReward : public PacketHeader
+{
+public:
+    Packet_VillageAttackedReward();
+    unsigned int m_idByChannel;  // +10
+    unsigned int m_uniqCharNo;   // +14
+    int m_rewardType;            // +18
+};
+
 class Packet_DBMW_Add_Buddy : public PacketHeader
 {
 public:
