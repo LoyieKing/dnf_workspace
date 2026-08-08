@@ -12,6 +12,11 @@
 | DIFF（助记符/结构异） | 787 |
 | EMPTY/MISSING | 625 |
 
+更新（同日第二批）：IDENTICAL 254 / NEAR 163 / DIFF 788 / MISSING **622**。
+新增 OnCallMemberList（341B 会员列表）、OnNotifyNewMail/OnNotifyAuctionMail
+（含 catch(...) 日志 0xb66/0x137e）、OnRegisterGM_mid、
+OnMonitorFullLevelBroadCast。
+
 工作流已优化：全量比对 0.5s（签名缓存），单函数 diff 0.2s
 （diff_func.py）；批量疑似差异分类器 /tmp/mon_classify.py 秒级排序全部 DIFF。
 
