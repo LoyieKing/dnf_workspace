@@ -1,6 +1,7 @@
 // df_guild_r — 线程框架
 #include <stdio.h>
 #include <string.h>
+#include <sys/times.h>
 
 #include "GuildThread.h"
 #include "GuildApp.h"
@@ -81,6 +82,63 @@ void CFrameCountHandler::InitFrameCountInfo(CApplication* app, unsigned int valu
 
 CFrameCountHandler* CFrameCountHandler::GetFrameCountInfo()
 {
+    struct tms t;
+    clock_t c;
+    *(unsigned char*)((char*)this + 0x24) = 0;
+    if (*(unsigned char*)this == 0)
+    {
+        *(unsigned char*)this = 1;
+        m_field14 = 0;
+        c = times(&t);
+        m_fieldc = (int)c;
+        if (m_fieldc == -1)
+        {
+            throw CDNFException(
+                "CFrameCountHandler::GetFrameCountInfo() times() Exception Break!");
+        }
+    }
+    else
+    {
+        c = times(&t);
+        m_field10 = (int)c;
+        if (m_field10 == -1)
+        {
+            throw CDNFException(
+                "CFrameCountHandler::GetFrameCountInfo() times() Exception Break!");
+        }
+        if ((unsigned int)m_fieldc > (unsigned int)m_field10)
+        {
+            m_fieldc = m_field10;
+        }
+        if ((unsigned int)m_field14 <
+            (unsigned int)(m_field10 - m_fieldc) / (unsigned int)m_field8)
+        {
+            m_field14 = m_field14 + 1;
+            *(unsigned char*)((char*)this + 0x24) = 1;
+            if (99 < (unsigned int)(m_field10 - m_fieldc))
+            {
+                m_field18 = m_field14;
+                *(unsigned char*)((char*)this + 0x24) = 2;
+                m_field14 = 0;
+                m_fieldc = m_field10 - (m_field10 - m_fieldc) + 100;
+                m_field20 = 0;
+                *(unsigned char*)((char*)this + 0x25) =
+                    (unsigned char)(*(unsigned char*)((char*)this + 0x25) + 1);
+                if (0x3b < *(unsigned char*)((char*)this + 0x25))
+                {
+                    *(unsigned char*)((char*)this + 0x24) = 3;
+                    *(unsigned char*)((char*)this + 0x25) = 0;
+                    *(unsigned char*)((char*)this + 0x26) =
+                        (unsigned char)(*(unsigned char*)((char*)this + 0x26) + 1);
+                    if (0x3b < *(unsigned char*)((char*)this + 0x26))
+                    {
+                        *(unsigned char*)((char*)this + 0x24) = 4;
+                        *(unsigned char*)((char*)this + 0x26) = 0;
+                    }
+                }
+            }
+        }
+    }
     return this;
 }
 

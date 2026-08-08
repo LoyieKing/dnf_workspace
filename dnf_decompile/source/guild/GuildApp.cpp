@@ -208,17 +208,44 @@ void CApplication::Process()
 {
     while (m_loaded)
     {
-        if (m_serverHandler != 0)
+        try
         {
-            m_serverHandler->Process();
+            CFrameCountHandler* f = m_frameCount.GetFrameCountInfo();
+            if (f->m_field24 != 0 && 1 < (unsigned char)f->m_field24)
+            {
+                m_serverHandler->Process();
+                if ((unsigned char)f->m_field24 == 3)
+                {
+                    f->SaveProcess();
+                    m_guildManager.DBGuildProcess(m_serverHandler, false);
+                    m_guildManager.ProcessByMinute();
+                    m_userManager.ProcessByMinute();
+                    m_memoryCash->ProcessLifeTimeOut();
+                }
+                m_guildManager.ProcessBySecond();
+            }
+            SwitchQueueTCP();
+            SwitchQueueUDP();
+            CPacketDecoder* dec = CPacketDecoderInstance();
+            dec->Process();
+            DNFFLib::Sleep_Ext(0, 1);
         }
-        SwitchQueueTCP();
-        SwitchQueueUDP();
-        CPacketDecoder* dec = CPacketDecoderInstance();
-        dec->Process();
-        DNFFLib::Sleep_Ext(0, 1);
+        catch (CDNFException& e)
+        {
+            printf("%s\n", e.what());
+            CMyFileLog log("Process", 0x248);
+            log("./log/process", "%s\n", e.what());
+        }
+        catch (...)
+        {
+            puts("CApplication::Process() Exception Break");
+            CMyFileLog log("Process", 0x24d);
+            log("./log/process", "CApplication::Process() Exception Break");
+        }
     }
     puts("CApplication::Process() Exit");
+    CMyFileLog log("Process", 0x251);
+    log("./log/process", "CApplication::Process() Exit\n");
 }
 
 void CApplication::CheckArgv(int argc, char** argv)

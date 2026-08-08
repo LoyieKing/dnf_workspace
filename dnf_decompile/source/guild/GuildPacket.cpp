@@ -92,14 +92,14 @@ void CPacketTranslater::GuildJoin(CGuild* guild, STGuildJoinInfo* joinInfo, unsi
     }
 }
 
-void CPacketTranslater::SendPacketGuildMail(unsigned char group, unsigned int guildKey,
-                                            unsigned int charNo, const char* title,
+void CPacketTranslater::SendPacketGuildMail(unsigned char group, unsigned int charNo,
+                                            unsigned int guildKey, const char* title,
                                             const char* content,
                                             unsigned int param)
 {
     Packet_DBMW_Send_Guild_Mail pkt;
-    *(unsigned int*)((char*)&pkt + 0xa) = guildKey;
-    *(unsigned int*)((char*)&pkt + 0xe) = charNo;
+    *(unsigned int*)((char*)&pkt + 0xa) = charNo;
+    *(unsigned int*)((char*)&pkt + 0xf) = guildKey;
     *(unsigned char*)((char*)&pkt + 0x12) = group;
     size_t len = strlen(content);
     memcpy((char*)&pkt + 0x13, content, len < 0x100 ? len : 0xff);
@@ -190,6 +190,54 @@ void CPacketTranslater::OnLogout(PacketHeader* pkt)
 
 void CPacketTranslater::OnHeartBeat(PacketHeader* pkt)
 {
+    char* pb = (char*)pkt;
+    if (m_pclApp != 0)
+    {
+        CServerHandler* handler = m_pclApp->Get_ServerHandler();
+        if (handler != 0)
+        {
+            unsigned char idx = (unsigned char)pb[10];
+            if (idx == 0xc8)
+            {
+                handler->ResetDBHeartBeat();
+                if (handler->IsConnectedDBServer() != 1)
+                {
+                    handler->SetDBConnectFlag(true);
+                    handler->SendDBMWConnectionCheck();
+                    CMyFileLog log("OnHeartBeat", 0x10d);
+                    log("./log/Udp", "DB Server Connection Complete!");
+                }
+            }
+            else if (idx == 0 || 0xbe < idx)
+            {
+                CMyFileLog log("OnHeartBeat", 0x130);
+                log("./log/Except", "[ERROR - HEART BEAT] Channel Index(%d) Over.",
+                    (unsigned int)idx);
+            }
+            else
+            {
+                handler->ResetHeartBeat(idx);
+                if (handler->IsConnectedGameServer(idx) != 1)
+                {
+                    handler->SetConnectFlag(idx, true);
+                    Packet_Tcp_Server_Connect connectPkt;
+                    *(unsigned char*)((char*)&connectPkt + 0xa) = 0xcb;
+                    CServerInterface* gs = handler->GetGameServer((unsigned int)idx);
+                    if (gs == 0)
+                    {
+                        CMyFileLog log("OnHeartBeat", 0x129);
+                        log("./log/Except",
+                            "CPacketTranslater::OnHeartBeat() => Channel Index : %d\n",
+                            (unsigned int)idx);
+                    }
+                    else
+                    {
+                        gs->SendToServer((char*)&connectPkt, 0xb);
+                    }
+                }
+            }
+        }
+    }
 }
 
 void CPacketTranslater::OnReplyQueryGuild(PacketHeader* pkt)
@@ -584,8 +632,6 @@ STUB_HANDLER(OnDBMWResponseBlackListOnLogin)
 STUB_HANDLER(OnDBMWChangeUnconnectedGuildMemberGrade)
 STUB_HANDLER(OnNotifyMessageToGuild)
 STUB_HANDLER(OnMonitorManagerConnectOK)
-STUB_HANDLER(OnMonitorSendGuildLetter)
-STUB_HANDLER(OnDBMWReplySendGuildLetter)
 STUB_HANDLER(OnDBMWGuildJoin)
 STUB_HANDLER(OnRequestGuildCreate)
 STUB_HANDLER(OnDBReplyGuildCreate)
@@ -1638,6 +1684,100 @@ void CPacketTranslater::OnBuyGuildSkill(PacketHeader* pkt)
                 guild->DBGuildSave(group, m_pclApp->Get_ServerHandler(), 0);
             }
         }
+    }
+}
+
+void CPacketTranslater::OnMonitorSendGuildLetter(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnMonitorSendGuildLetter : 0 == m_pclApp");
+    char* pb = (char*)pkt;
+    unsigned int charNo = *(unsigned int*)(pb + 0xa);
+    unsigned int guildId = *(unsigned int*)(pb + 0xe);
+    const char* msg = pb + 0x12;
+    Packet_Monitor_Reply_Guild_Mail reply;
+    {
+        CMyFileLog log("OnMonitorSendGuildLetter", 0xa98);
+        log("./log/GuildLetter", "charNo(%d),guildId(%d),msg(%s)", charNo, guildId, msg);
+    }
+    if (guildId == 0)
+    {
+        throw CDNFException(
+            "CPacketTranslater::OnMonitorSendGuildLetter : packet->m_uGuildKey == 0");
+    }
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnMonitorSendGuildLetter", 0xaa0);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnMonitorSendGuildLetter : 0 == pclUser, Char Key = %d", charNo);
+        return;
+    }
+    *(unsigned int*)((char*)&reply + 0xa) = charNo;
+    *(unsigned int*)((char*)&reply + 0xe) = user->GetIdByChannel();
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildId);
+    if (guild != 0)
+    {
+        if (!(guild->IsGuildMaster(charNo) || guild->IsSubGuildMaster(charNo)))
+        {
+            CMyFileLog log("OnMonitorSendGuildLetter", 0xab0);
+            log("./log/GuildModify",
+                "CPacketTranslater::OnMonitorSendGuildLetter : IsGuildMaster or IsSubGuildMaster, g(%d), c(%d)",
+                guildId, charNo);
+            *(unsigned char*)((char*)&reply + 0x12) = 0x24;
+            user->SendToGameserver((char*)&reply, 0x13);
+        }
+        else
+        {
+            CServerInterface* gs = user->GetGameServer();
+            if (gs == 0)
+            {
+                CMyFileLog log("OnMonitorSendGuildLetter", 0xab8);
+                log("./log/GuildModify",
+                    "CPacketTranslater::OnMonitorSendGuildLetter : 0 == pclUser->GetGameServer(), g(%d), c(%d)",
+                    guildId, charNo);
+                *(unsigned char*)((char*)&reply + 0x12) = 1;
+                user->SendToGameserver((char*)&reply, 0x13);
+            }
+            else
+            {
+                SendPacketGuildMail(gs->GetGroupNo(), charNo, guildId, "", msg, 0xffffffff);
+            }
+        }
+    }
+    else
+    {
+        CMyFileLog log("OnMonitorSendGuildLetter", 0xaa8);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnMonitorSendGuildLetter : 0 == pclGuild, Guild Key = %d", guildId);
+        *(unsigned char*)((char*)&reply + 0x12) = 0x22;
+        user->SendToGameserver((char*)&reply, 0x13);
+    }
+}
+
+void CPacketTranslater::OnDBMWReplySendGuildLetter(PacketHeader* pkt)
+{
+    THROW_IF_NO_APP("CPacketTranslater::OnDBMWReplySendGuildLetter : 0 == m_pclApp");
+    char* pb = (char*)pkt;
+    Packet_Monitor_Reply_Guild_Mail reply;
+    if (*(unsigned int*)(pb + 0xe) == 0)
+    {
+        throw CDNFException(
+            "CPacketTranslater::OnDBMWReplySendGuildLetter : packet->m_uGuildKey == 0");
+    }
+    unsigned int charNo = *(unsigned int*)(pb + 0xa);
+    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    if (user == 0)
+    {
+        CMyFileLog log("OnDBMWReplySendGuildLetter", 0xb0e);
+        log("./log/GuildModify",
+            "CPacketTranslater::OnDBMWReplySendGuildLetter : 0 == pclUser, Char Key = %d", charNo);
+    }
+    else
+    {
+        *(unsigned int*)((char*)&reply + 0xa) = charNo;
+        *(unsigned int*)((char*)&reply + 0xe) = user->GetIdByChannel();
+        *(unsigned char*)((char*)&reply + 0x12) = *(unsigned char*)(pb + 0x12);
+        user->SendToGameserver((char*)&reply, 0x13);
     }
 }
 

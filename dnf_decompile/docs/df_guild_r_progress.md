@@ -54,21 +54,36 @@
   OnChangeGuildName、OnCallGuildMembers/AllMembers/Info、OnSetGuildMemberGrade、
   OnNoticeGuildChatMsg/MarkChange 等已实现，其余为桩（待实现）
 
-### TiXml（tinyxml.cpp/h，缺失 112 → 2）
+### TiXml（tinyxml.cpp/h，缺失 112 → 2；2026-08-08 解析族全量真实现）
 - TiXmlBase：IsAlphaNum/IsAlpha/StringEqual/ConvertUTF32ToUTF8/SkipWhiteSpace/
-  StreamWhiteSpace/StreamTo/ReadName/ReadText/GetEntity/EncodeString + TiXmlFOpen
+  StreamWhiteSpace/StreamTo/ReadName/ReadText/GetEntity/EncodeString + TiXmlFOpen +
+  utf8ByteTable[256] + 完整 errorString[16]（原为空串，错误描述缺失）
 - TiXmlNode：NextSibling/GetDocument/InsertEndChild/InsertBeforeChild/InsertAfterChild/
-  RemoveChild/ReplaceChild/Identify/FirstChildElement×4/NextSiblingElement×4/
+  RemoveChild/ReplaceChild/Identify（规范化：<?xml/<!--/<![CDATA[ /<!/字母，非 '<' 返回 0）/
+  FirstChildElement×4/NextSiblingElement×4/
   PreviousSibling/LastChild/IterateChildren×2/CopyTo
 - TiXmlDocument：LoadFile(std::string)/LoadFile(TiXmlEncoding)/SaveFile()/SaveFile(FILE*)/
-  拷贝构造/operator=/CopyTo
+  拷贝构造/operator=/CopyTo；**Parse 按 2.6.2 原版**：ClearError→prevData 行/列→
+  BOM 检测（encoded=1）→Identify/Parse/LinkEndChild 循环→声明编码切换（UTF-8/UTF8/
+  LEGACY）→空文档 DOCUMENT_EMPTY 错误
 - TiXmlAttribute：IntValue/DoubleValue/QueryIntValue/QueryDoubleValue/Print×2/Previous；
+  **Parse 真实现**（ReadName + '=' + 引号/无引号取值，document 指针错误上报）；
+  TiXmlAttribute 改为派生 TiXmlBase（同原版，可访问受保护静态辅助）；
   TiXmlAttributeSet：Find(string)/FindOrCreate×2/Remove
 - TiXmlElement：拷贝构造/operator=/Query×6/GetText/ClearThis/ReadValue/CopyTo/
-  Attribute(string)×3/Attribute(const char*,double*)
-- 叶子类：Comment/Unknown/Text/Declaration 拷贝+CopyTo+Blank+Print+三参构造
+  Attribute(string)×3/Attribute(const char*,double*)；**Parse/ReadValue 真实现**
+  （自闭合标签/属性去重/endTag 校验；ReadValue 改回 const char* 返回）
+- 叶子类：Comment/Unknown/Text/Declaration 拷贝+CopyTo+Blank+Print+三参构造；
+  **Parse 全真实现**（CDATA 分支、注释 "<!--"/"-->"、Unknown 扫到 '>'）；
+  TiXmlText 补 cdata 成员 + SetCDATA/CDATA
+- **TiXmlParsingData 扩为 {row,col,stamp,tabsize}**，Stamp 按原版实现
+  （\r\n/\n\r/\t 制表位/BOM/utf8ByteTable 计数）
+- **StreamIn 六函数全部真实现**（Document/Element/Comment/Unknown/Text/Declaration），
+  StreamTo 修正为 bool 返回（EOF/null 判定）
 - TiXmlVisitor/TiXmlPrinter/TiXmlHandle 全方法 + 自由运算符
-- 签名修正（反编译验证）：StreamIn istream&→istream*、Parse bool→const char*（解析位置）
+- 签名/布局修正（反编译验证）：StreamIn istream&→istream*、Parse bool→const char*、
+  TiXmlDocument error/errorId 顺序（原版 error@0x2c 在前）、errorDesc 初始化 ""、
+  TiXmlNode::Parse 改纯虚（原版无实体）、TIXML_ERROR 枚举 + TIXML_DEFAULT_ENCODING
 - 剩余仅 2 个编译器 clone 伪影（ReadText/Text ctor clone）；server_str.xml 解析冒烟通过
 
 ### PowerWar 配置层
@@ -98,6 +113,12 @@
   CGuildWar 容器构造+Insert/GetGuildWarInfo、CGuild 成员代理/变更信息/超链接广播、
   CPacketTranslater GuildJoin×2/邮件/黑名单、CPowerWarGuildInfo 容器+MakePacket、
   CPacketCounter 扩容 AfterProcess(int)、27 个 allocator 显式实例化
+- 2026-08-08 第三批：OnMonitorSendGuildLetter/OnDBMWReplySendGuildLetter 真实现
+  （邮件流程 + 0x24/0x22/1 错误码应答），**修复 SendPacketGuildMail 字段错位
+  （charNo→+0xa、guildId→+0xf，原实现写反且偏移错）**；GetFrameCountInfo 真实现
+  （times() 帧计数 + 状态机）；OnHeartBeat 真实现（0xc8 DB 心跳/通道心跳/
+  Tcp_Server_Connect 重连）；CApplication::Process 对齐原版（帧计数门控
+  ProcessByMinute/Second + try/catch 顶层兜底 + 退出日志）
 
 ## 下一步
 
@@ -105,12 +126,9 @@
    代码形态差异，需逐函数确认语义等价）
 2. 剩余 2 个局部 clone 符号（编译器伪影，随工具链升级可能自动消除）
 3. 全量语义核验 + 运行压力测试后进入下一二进制（monitor）
-   （GuildJoin×2/SendPacketGuildMail/RequestBlackListToDBMW）
-2. TiXml 函数体补全：Element/Declaration/Comment/Unknown/Text 的 Parse 仍为 8B 桩、
-   StreamIn/ReadText 未达原版指令量
-3. 域类余量：CGuild（LoadGuildAllMembersProxy/NoticeChatMsgToGuildMembersHyperLink/
-   PopGuildMemberChanglableInfo）、CGuildWar（Insert/GetGuildWarInfo）、PowerWar 数据结构
-   （Compare/MakePacketDBPowerWarPoint）、CServerHandler（Process/SetGameServerIpPort/
-   IsConnectedGameServer）、4 个 Packet_* 构造器 + CPacketCounter::AfterProcess
-4. STL allocator 模板实例化符号（_ZNSaI*）随容器使用方式对齐
-5. verify_diffs 队列按 real 数降序逐函数核验/修复
+4. 继续大型桩处理器：OnReplyUserInfo(1364B)/OnGuildCargoMoveItem(1512B)/
+   OnGuildCargoUpgrade(1416B)/OnDBReplyGuildAllMembers(1254B)/OnChangePowerWarPoint(1210B)/
+   OnNoticeGuildWarEnd(1192B)/CServerHandler::Load(1227B)/TranslateSignal(1101B)/
+   CPowerManager::SaveDBPowerWarRank(1674B)/CGuildBoard::sendGuildBoardData(1369B)/
+   CGuildCargo::MoveItem(964B) 等
+5. STL allocator 模板实例化符号（_ZNSaI*）随容器使用方式对齐
