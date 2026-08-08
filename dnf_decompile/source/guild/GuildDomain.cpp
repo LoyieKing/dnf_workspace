@@ -3659,11 +3659,15 @@ void CGuildManager::CargoUnlock()
 
 CGuildCargo::CGuildCargo()
 {
-    memset(m_data, 0, sizeof(m_data));
+    new (m_data) STGuildCargoDBInfo();
+    new (m_data + 0x18e8) std::deque<STGuildCargoLog>();
+    Reset();
 }
 
 CGuildCargo::~CGuildCargo()
 {
+    Reset();
+    ((std::deque<STGuildCargoLog>*)(m_data + 0x18e8))->~deque();
 }
 
 void CGuildCargo::Reset()
@@ -3672,6 +3676,8 @@ void CGuildCargo::Reset()
     *(int*)((char*)this + 0x18dc) = 0;
     *(int*)((char*)this + 0x18e0) = 0;
     *(char*)((char*)this + 0x18e4) = 0;
+    ((std::deque<STGuildCargoLog>*)(m_data + 0x18e8))->clear();
+    memset(m_data, 0, 0x18d8);
 }
 
 int CGuildCargo::GetCapacity()
