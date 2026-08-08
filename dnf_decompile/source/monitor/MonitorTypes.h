@@ -760,6 +760,7 @@ public:
     char* GetCharName();
     char IsBlackUser(unsigned int key);
     unsigned char GetUpperMemberExpLevel();
+    int GetConnLowerMemberCnt();
     void SendTcpGameserver(PacketHeader* pkt);
     void SendToGameserver(char* buf, int len);
     void AttachMember(class CMember* member);
@@ -1677,6 +1678,29 @@ public:
     unsigned int m_uniqCharNo;   // +14
     unsigned char m_type;        // +18
     char m_name[0x1e];           // +19
+};
+
+class Packet_Monitor_Member_Pay_Tax_ToUpper : public PacketHeader
+{
+public:
+    Packet_Monitor_Member_Pay_Tax_ToUpper();
+    unsigned int m_idByChannel;  // +10
+    unsigned int m_uniqCharNo;   // +14
+    int m_money;                 // +18
+    int m_fatigue;               // +22
+    char m_name[0x1e];           // +26
+};
+
+class Packet_Notice_Find_Factory_Hub_User : public PacketHeader
+{
+public:
+    Packet_Notice_Find_Factory_Hub_User();
+    unsigned int m_idByChannel;  // +10
+    unsigned char m_nameLen;     // +14
+    char m_name[0x1e];           // +15
+    unsigned char m_found;       // +45
+    unsigned short m_field2e;    // +46
+    unsigned int m_field30;      // +48
 };
 
 class Packet_Monitor_Call_Member_List_ToUser : public PacketHeader

@@ -3597,6 +3597,19 @@ unsigned int CUser::GetMemberDBFlag()
     }
     return ((CMember*)*(int*)((char*)this + 0x14))->GetMemberDBFlag();
 }
+int CUser::GetConnLowerMemberCnt()
+{
+    if (*(int*)((char*)this + 0x14) == 0)
+    {
+        return 0;
+    }
+    CMember* member = (CMember*)*(int*)((char*)this + 0x14);
+    if (member->GetMemberKey() == 0 || (GetMemberDBFlag() & 4) == 0)
+    {
+        return 0;
+    }
+    return member->GetConnLowerMemberCnt();
+}
 void CUser::SetMemberRegisterFlag(bool flag)
 {
     if (*(int*)((char*)this + 0x14) != 0)
@@ -4700,7 +4713,73 @@ void CPacketTranslater::OnNoticeMemberChatMsg(PacketHeader* pkt)
     throw CDNFException(
         "CPacketTranslater::OnNoticeMemberChatMsg : packet->m_uMemberID && packet->m_msgLen");
 }
-void CPacketTranslater::OnPayTaxToUpper(PacketHeader* pkt) {}
+void CPacketTranslater::OnPayTaxToUpper(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnPayTaxToUpper : 0 == m_pclApp");
+    }
+    CMemberManager* memberMgr = (CMemberManager*)((char*)m_pclApp + 0x2d0);
+    CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+    CMember* member = memberMgr->FindMember(*(unsigned int*)((char*)pkt + 0xa));
+    if (member == 0)
+    {
+        CMyFileLog log("OnPayTaxToUpper", 0x842);
+        log("./log/Except",
+            "[MEMBER] CPacketTranslater::OnPayTaxToUpper : pclMember == 0!\tchar id(%d)\t"
+            "money(%d)\tfatigue(%d)",
+            *(unsigned int*)((char*)pkt + 0xa), *(unsigned int*)((char*)pkt + 0xe),
+            *(unsigned int*)((char*)pkt + 0x12));
+    }
+    else
+    {
+        unsigned int upperCharId = (unsigned int)member->GetUpperMember_CharId();
+        CUser* upperUser = userMgr->FindUser_CharNo(upperCharId);
+        if (upperUser == 0)
+        {
+            CMyFileLog log("OnPayTaxToUpper", 0x849);
+            log("./log/Member",
+                "CPacketTranslater::OnPayTaxToUpper : pclUpperUser == 0!, Maybe, upper Member "
+                "is not connect!\tupper char id(%d)",
+                upperCharId);
+        }
+        else
+        {
+            CUser* payUser = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xa));
+            if (payUser == 0)
+            {
+                CMyFileLog log("OnPayTaxToUpper", 0x84f);
+                log("./log/Except",
+                    "[MEMBER] CPacketTranslater::OnPayTaxToUpper : pclPayUser == 0!\tchar "
+                    "id(%d)\tmoney(%d)\tfatigue(%d)",
+                    *(unsigned int*)((char*)pkt + 0xa), *(unsigned int*)((char*)pkt + 0xe),
+                    *(unsigned int*)((char*)pkt + 0x12));
+            }
+            else
+            {
+                int lowerCnt = upperUser->GetConnLowerMemberCnt();
+                short level = upperUser->GetLevel();
+                unsigned int limit = memberMgr->GetLowerMemberEnterLimit((int)level);
+                unsigned char expLevel = payUser->GetUpperMemberExpLevel();
+                float rate = (float)(0.01 * (double)expLevel) +
+                             (float)(0.05 * ((double)lowerCnt / (double)limit));
+                int moneyTax = (int)((double)*(unsigned int*)((char*)pkt + 0xe) * (double)rate);
+                int fatigueTax =
+                    (int)((double)*(unsigned int*)((char*)pkt + 0x12) * (double)rate);
+                if (moneyTax != 0 || fatigueTax != 0)
+                {
+                    Packet_Monitor_Member_Pay_Tax_ToUpper reply;
+                    reply.m_idByChannel = upperUser->GetIdByChannel();
+                    reply.m_uniqCharNo = upperUser->GetUniqCharNo();
+                    reply.m_money = moneyTax;
+                    reply.m_fatigue = fatigueTax;
+                    memcpy(reply.m_name, payUser->GetCharName(), 0x1d);
+                    upperUser->SendToGameserver((char*)&reply, 0x38);
+                }
+            }
+        }
+    }
+}
 void CPacketTranslater::OnUpdateChangableCharInfo(PacketHeader* pkt) {}
 void CPacketTranslater::OnLogoutComplete(PacketHeader* pkt)
 {
@@ -5054,7 +5133,54 @@ void CPacketTranslater::onItemLimitEditionLoadDataReq(PacketHeader* pkt) {}
 void CPacketTranslater::onItemLimitEditionLoadDataRpy(PacketHeader* pkt) {}
 void CPacketTranslater::onItemLimitEditionSellEnd(PacketHeader* pkt) {}
 void CPacketTranslater::onItemLimitEditionBuyableRequest(PacketHeader* pkt) {}
-void CPacketTranslater::OnMonitorFindFactoryHubUser(PacketHeader* pkt) {}
+void CPacketTranslater::OnMonitorFindFactoryHubUser(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        throw CDNFException("CPacketTranslater::OnMonitorFindFactoryHubUser : 0 == m_pclApp");
+    }
+    CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+    int targetCharNo = 0;
+    if (*(char*)((char*)pkt + 0xe) != 0 &&
+        (unsigned char)*(char*)((char*)pkt + 0xe) < 0x1e)
+    {
+        CUser* target = userMgr->FindUser_CharName((char*)pkt + 0xf);
+        targetCharNo = target != 0 ? (int)target->GetUniqCharNo() : -1;
+    }
+    if (targetCharNo != 0)
+    {
+        CUser* userA = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xa));
+        if (userA != 0)
+        {
+            Packet_Notice_Find_Factory_Hub_User reply;
+            CUser* userB = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xa));
+            if (userB == 0)
+            {
+                reply.m_idByChannel = userA->GetIdByChannel();
+                reply.m_found = 0;
+                reply.m_nameLen = *(unsigned char*)((char*)pkt + 0xe);
+                strncpy(reply.m_name, (char*)pkt + 0xf,
+                        (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe));
+                reply.m_field2e = *(unsigned short*)((char*)pkt + 0x2d);
+                reply.m_field30 = *(unsigned int*)((char*)pkt + 0x2f);
+                *(unsigned short*)((char*)&reply + 2) = 0x34;
+                userA->SendToGameserver((char*)&reply, 0x34);
+            }
+            else
+            {
+                reply.m_idByChannel = userB->GetIdByChannel();
+                reply.m_found = 1;
+                reply.m_nameLen = 0;
+                reply.m_field2e = *(unsigned short*)((char*)pkt + 0x2d);
+                reply.m_field30 = *(unsigned int*)((char*)pkt + 0x2f);
+                *(unsigned short*)((char*)&reply + 2) = 0x34;
+                userB->SendToGameserver((char*)&reply, 0x34);
+            }
+        }
+        return;
+    }
+    throw CDNFException("CPacketTranslater::OnMonitorFindFactoryHubUser");
+}
 void CPacketTranslater::OnSetCleanPadPoint(PacketHeader* pkt)
 {
     try
@@ -6400,6 +6526,23 @@ Packet_Monitor_Notice_Member_Enter_Ok::Packet_Monitor_Notice_Member_Enter_Ok()
 Packet_Monitor_Member_Secede_To_Seceder::Packet_Monitor_Member_Secede_To_Seceder()
     : PacketHeader(0x4bc, 0x31)
 {
+    memset(m_name, 0, 0x1e);
+}
+
+Packet_Monitor_Member_Pay_Tax_ToUpper::Packet_Monitor_Member_Pay_Tax_ToUpper()
+    : PacketHeader(0x4c0, 0x38)
+{
+    memset(m_name, 0, 0x1e);
+}
+
+Packet_Notice_Find_Factory_Hub_User::Packet_Notice_Find_Factory_Hub_User()
+    : PacketHeader(0x100f, 0x34)
+{
+    m_idByChannel = 0;
+    m_nameLen = 0;
+    m_found = 0;
+    m_field2e = 0;
+    m_field30 = 0;
     memset(m_name, 0, 0x1e);
 }
 
