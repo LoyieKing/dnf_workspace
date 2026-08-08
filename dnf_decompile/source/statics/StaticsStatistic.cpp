@@ -560,8 +560,6 @@ void StatisticManager::ResetDisjointAvatarInfoTotal()
 STUB_STAT(SendDBLagStatistics, (CServerHandler*, char*))
 STUB_STAT(AddMoneyLog, (MoneyLogPacket*, CServerHandler*))
 STUB_STAT(AddLagStatistics, (Packet_Stat_Lag_Statistics*))
-STUB_STAT(WriteAssertManagerStatistic, (Packet_Assert_Manager_Info*))
-STUB_STAT(AddLoadingTimeReportStatistics, (Packet_Loading_Time_Report_Statistics*))
 
 #undef STUB_STAT
 
@@ -2009,6 +2007,117 @@ void StatisticManager::SendDBPowerwarLagReport(CServerHandler* handler)
             handler->SendToDB((PacketHeader*)&pkt);
             CMyFileLog log("SendDBPowerwarLagReport", 0x345);
             log("./log/statistic", "PowerwarLag DB Sent %d", idx);
+        }
+    }
+}
+
+void StatisticManager::WriteAssertManagerStatistic(Packet_Assert_Manager_Info* pkt)
+{
+    if (pkt == 0)
+    {
+        return;
+    }
+    STAssertManagerKey key;
+    memcpy(key.m_str0, (char*)pkt + 0xe, *(size_t*)((char*)pkt + 10));
+    AMDecrypt(key.m_str0, *(unsigned int*)((char*)pkt + 10));
+    key.m_field100 = *(unsigned short*)((char*)pkt + 0x10e);
+    if (-1 < *(int*)((char*)pkt + 0x110) && *(int*)((char*)pkt + 0x110) < 0x101)
+    {
+        memcpy(key.m_str2, (char*)pkt + 0x114, *(size_t*)((char*)pkt + 0x110));
+        AMDecrypt(key.m_str2, *(unsigned int*)((char*)pkt + 0x110));
+        CMyFileLog log("WriteAssertManagerStatistic", 0x2b5);
+        log("./log/Statistic", "[AssertManager] Reason(%s)", key.m_str2);
+    }
+    if (99 < m_assertManager.size())
+    {
+        CMyFileLog log("WriteAssertManagerStatistic", 0x2ba);
+        log("./log/Statistic", "[AssertManager] Map 100 Over!!!");
+        return;
+    }
+    std::map<STAssertManagerKey, int>::iterator it = m_assertManager.find(key);
+    bool isNew = (m_assertManager.empty() || it == m_assertManager.end());
+    if (isNew)
+    {
+        m_assertManager.insert(std::make_pair(key, 1));
+    }
+    else
+    {
+        it->second += 1;
+    }
+}
+
+void StatisticManager::AddLoadingTimeReportStatistics(Packet_Loading_Time_Report_Statistics* pkt)
+{
+    for (int i = 0; i <= 8; i++)
+    {
+        if (*(int*)((char*)pkt + i * 4 + 10) != 0)
+        {
+            m_loading.m_data[i] += *(int*)((char*)pkt + i * 4 + 10);
+            m_loading.m_data[i + 9] += 1;
+        }
+        if (i == 7)
+        {
+            unsigned short lcount = *(unsigned short*)((char*)pkt + 0x32);
+            if (lcount != 0)
+            {
+                STPowerwarFightLoadingKey lkey;
+                lkey.m_field0 = *(unsigned int*)((char*)pkt + 0x2e);
+                for (int j = 0; j < (int)lcount; j++)
+                {
+                    lkey.m_field4 = *(unsigned short*)((char*)pkt + j * 9 + 0x34);
+                    if (m_pwLoading.size() < 0x3e9)
+                    {
+                        std::map<STPowerwarFightLoadingKey, STPowerwarFightLoadingData>::iterator it =
+                            m_pwLoading.find(lkey);
+                        bool isNew = (m_pwLoading.empty() || it == m_pwLoading.end());
+                        if (isNew)
+                        {
+                            STPowerwarFightLoadingData v;
+                            v.m_field0 = *(char*)((char*)pkt + j * 9 + 0x36);
+                            v.m_field2 = *(unsigned short*)((char*)pkt + j * 9 + 0x37);
+                            v.m_field4 = *(unsigned short*)((char*)pkt + j * 9 + 0x39);
+                            v.m_field6 = *(unsigned short*)((char*)pkt + j * 9 + 0x3b);
+                            m_pwLoading.insert(std::make_pair(lkey, v));
+                        }
+                        else
+                        {
+                            it->second.m_field2 += *(unsigned short*)((char*)pkt + j * 9 + 0x37);
+                            it->second.m_field4 += *(unsigned short*)((char*)pkt + j * 9 + 0x39);
+                            it->second.m_field6 += *(unsigned short*)((char*)pkt + j * 9 + 0x3b);
+                        }
+                    }
+                }
+            }
+            unsigned short gcount = *(unsigned short*)((char*)pkt + 0x4e);
+            if (gcount != 0)
+            {
+                STPowerwarFightLagKey gkey;
+                gkey.m_field0 = *(unsigned int*)((char*)pkt + 0x4a);
+                for (int j = 0; j < (int)gcount; j++)
+                {
+                    gkey.m_field4 = *(unsigned short*)((char*)pkt + j * 0xd + 0x50);
+                    if (m_pwLag.size() < 0x3e9)
+                    {
+                        std::map<STPowerwarFightLagKey, STPowerwarFightLagData>::iterator it =
+                            m_pwLag.find(gkey);
+                        bool isNew = (m_pwLag.empty() || it == m_pwLag.end());
+                        if (isNew)
+                        {
+                            STPowerwarFightLagData v;
+                            v.m_field0 = *(unsigned int*)((char*)pkt + j * 0xd + 0x52);
+                            v.m_field4 = *(unsigned int*)((char*)pkt + j * 0xd + 0x56);
+                            v.m_field8 = *(unsigned int*)((char*)pkt + j * 0xd + 0x5a);
+                            m_pwLag.insert(std::make_pair(gkey, v));
+                        }
+                        else
+                        {
+                            it->second.m_field0 += *(unsigned int*)((char*)pkt + j * 0xd + 0x52);
+                            it->second.m_field4 += *(unsigned int*)((char*)pkt + j * 0xd + 0x56);
+                            it->second.m_field8 += *(unsigned int*)((char*)pkt + j * 0xd + 0x5a);
+                        }
+                    }
+                }
+            }
         }
     }
 }
