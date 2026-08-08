@@ -138,6 +138,21 @@ Packet_DBMW_Assert_Manager_Info_Write_Query::Packet_DBMW_Assert_Manager_Info_Wri
     new ((void*)this) PacketHeader(0xc42, 0x1244);
 }
 
+Packet_DBMW_Ting_User_TimeCheck_Write_Query::Packet_DBMW_Ting_User_TimeCheck_Write_Query()
+{
+    new ((void*)this) PacketHeader(0xc47, 0x17fe);
+}
+
+Packet_DBMW_Powerwar_Loading_Time_Report::Packet_DBMW_Powerwar_Loading_Time_Report()
+{
+    new ((void*)this) PacketHeader(0xfb2, 0x170e);
+}
+
+Packet_DBMW_Powerwar_Lag_Report::Packet_DBMW_Powerwar_Lag_Report()
+{
+    new ((void*)this) PacketHeader(0xfb3, 0x170e);
+}
+
 CInnerMsgHandler::CInnerMsgHandler()
 {
 }

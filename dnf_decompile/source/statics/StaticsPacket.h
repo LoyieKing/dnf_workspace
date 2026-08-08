@@ -161,6 +161,27 @@ public:
     char m_data[0x1244];
 };
 
+class Packet_DBMW_Ting_User_TimeCheck_Write_Query
+{
+public:
+    Packet_DBMW_Ting_User_TimeCheck_Write_Query();
+    char m_data[0x17fe];
+};
+
+class Packet_DBMW_Powerwar_Loading_Time_Report
+{
+public:
+    Packet_DBMW_Powerwar_Loading_Time_Report();
+    char m_data[0x170e];
+};
+
+class Packet_DBMW_Powerwar_Lag_Report
+{
+public:
+    Packet_DBMW_Powerwar_Lag_Report();
+    char m_data[0x170e];
+};
+
 #include "Packet_P2P_Statistics.h"
 
 // ---- CInnerMsgHandler：空类 ----

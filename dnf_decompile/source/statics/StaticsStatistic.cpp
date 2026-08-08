@@ -557,9 +557,6 @@ void StatisticManager::ResetDisjointAvatarInfoTotal()
 {
     m_disjoint.clear();
 }
-STUB_STAT(SendDBPowerwarLagReport, (CServerHandler*))
-STUB_STAT(SendDBTingUserTimeCheck, (CServerHandler*))
-STUB_STAT(SendDBPowerwarLoadingTimeReport, (CServerHandler*))
 STUB_STAT(SendDBLagStatistics, (CServerHandler*, char*))
 STUB_STAT(AddMoneyLog, (MoneyLogPacket*, CServerHandler*))
 STUB_STAT(AddLagStatistics, (Packet_Stat_Lag_Statistics*))
@@ -1910,6 +1907,108 @@ void StatisticManager::SendDBAssertManagerStatistic(CServerHandler* handler)
             handler->SendToDB((PacketHeader*)&pkt);
             CMyFileLog log("SendDBAssertManagerStatistic", 0x2b1);
             log("./log/statistic", "AssertManager DB Sent %d", idx);
+        }
+    }
+}
+
+void StatisticManager::SendDBTingUserTimeCheck(CServerHandler* handler)
+{
+    Packet_DBMW_Ting_User_TimeCheck_Write_Query pkt;
+    int idx = 0;
+    if (!m_field110.empty())
+    {
+        for (std::map<unsigned int, int>::iterator it = m_field110.begin();
+             it != m_field110.end(); ++it)
+        {
+            *(unsigned int*)((char*)&pkt + 0xe + idx * 8) = it->first;
+            *(int*)((char*)&pkt + 0xe + idx * 8 + 4) = it->second;
+            idx++;
+            if (99 < idx)
+            {
+                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                handler->SendToDB((PacketHeader*)&pkt);
+                CMyFileLog log("SendDBTingUserTimeCheck", 0x377);
+                log("./log/statistic", "TingUserTimeCheck DB Sent %d", idx);
+                idx = 0;
+            }
+        }
+        if (idx != 0)
+        {
+            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            handler->SendToDB((PacketHeader*)&pkt);
+            CMyFileLog log("SendDBTingUserTimeCheck", 0x381);
+            log("./log/statistic", "TingUserTimeCheck DB Sent %d", idx);
+        }
+    }
+}
+
+void StatisticManager::SendDBPowerwarLoadingTimeReport(CServerHandler* handler)
+{
+    Packet_DBMW_Powerwar_Loading_Time_Report pkt;
+    int idx = 0;
+    if (!m_pwLoading.empty())
+    {
+        for (std::map<STPowerwarFightLoadingKey, STPowerwarFightLoadingData>::iterator it =
+                 m_pwLoading.begin(); it != m_pwLoading.end(); ++it)
+        {
+            char* slot = (char*)&pkt + 0xe + idx * 0x14;
+            *(unsigned int*)(slot + 0) = it->first.m_field0;
+            *(unsigned short*)(slot + 4) = it->first.m_field4;
+            slot[6] = it->second.m_field0;
+            *(unsigned short*)(slot + 8) = it->second.m_field2;
+            *(unsigned short*)(slot + 10) = it->second.m_field4;
+            *(unsigned short*)(slot + 12) = it->second.m_field6;
+            idx++;
+            if (99 < idx)
+            {
+                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                handler->SendToDB((PacketHeader*)&pkt);
+                CMyFileLog log("SendDBPowerwarLoadingTimeReport", 0x3cf);
+                log("./log/statistic", "PowerwarLoading DB Sent %d", idx);
+                idx = 0;
+            }
+        }
+        if (idx != 0)
+        {
+            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            handler->SendToDB((PacketHeader*)&pkt);
+            CMyFileLog log("SendDBPowerwarLoadingTimeReport", 0x3d9);
+            log("./log/statistic", "PowerwarLoading DB Sent %d", idx);
+        }
+    }
+}
+
+void StatisticManager::SendDBPowerwarLagReport(CServerHandler* handler)
+{
+    Packet_DBMW_Powerwar_Lag_Report pkt;
+    int idx = 0;
+    if (!m_pwLag.empty())
+    {
+        for (std::map<STPowerwarFightLagKey, STPowerwarFightLagData>::iterator it =
+                 m_pwLag.begin(); it != m_pwLag.end(); ++it)
+        {
+            char* slot = (char*)&pkt + 0xe + idx * 0x14;
+            *(unsigned int*)(slot + 0) = it->first.m_field0;
+            *(unsigned short*)(slot + 4) = it->first.m_field4;
+            *(unsigned int*)(slot + 8) = it->second.m_field0;
+            *(unsigned int*)(slot + 12) = it->second.m_field4;
+            *(unsigned int*)(slot + 16) = it->second.m_field8;
+            idx++;
+            if (99 < idx)
+            {
+                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                handler->SendToDB((PacketHeader*)&pkt);
+                CMyFileLog log("SendDBPowerwarLagReport", 0x33b);
+                log("./log/statistic", "PowerwarLag DB Sent %d", idx);
+                idx = 0;
+            }
+        }
+        if (idx != 0)
+        {
+            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            handler->SendToDB((PacketHeader*)&pkt);
+            CMyFileLog log("SendDBPowerwarLagReport", 0x345);
+            log("./log/statistic", "PowerwarLag DB Sent %d", idx);
         }
     }
 }
