@@ -24,7 +24,7 @@ COMMON_FLAGS="-m32 -O0 -D_GNU_SOURCE -fno-enforce-eh-specs -fno-builtin-memset -
 mkdir -p "$OUT_DIR"
 
 # UserPool TU：原版由 GCC 4.4.6-3 编译（queue(deque&&) rvalue 构造 + 4.4 头文件）
-C6FLAGS="-m32 -O0 -DRELAY_USERPOOL_C6 -fno-enforce-eh-specs -nostdinc \
+C6FLAGS="-m32 -O0 -std=gnu++0x -DRELAY_USERPOOL_C6 -fno-enforce-eh-specs -nostdinc \
   -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include \
   -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include-fixed \
   -isystem /tmp/c6root/usr/include/c++/4.4.7 \
