@@ -269,6 +269,20 @@ public:
     ~CGuildWar();
     void DBSaveProcess(CApplication* app);
     int IsGuildWarEnterableGuild(unsigned int guildId);
+    void SetGuildWarEvent(bool flag, unsigned char param);
+    bool IsGuildWarEventOn();
+    void InitGuildWarInfo();
+    void Clear_VtGuildWarInfo();
+    void AddGuildWarPoint(unsigned int guildId, int point);
+    void Rank();
+    void RankProcess();
+    void SameRankWork();
+    void printGuildWarRank();
+    int GetGuildWarInfo(unsigned int* a, unsigned int* b, unsigned short* c);
+    int GetGuildWarInfo(void* info);
+    int Find_GuildWarInfo(unsigned int guildId);
+    int Insert_GuildWarInfo(void* info);
+    int GetGuildWarInfoDBSave(unsigned int* a, unsigned int* b);
     char m_data[0x100];
 };
 

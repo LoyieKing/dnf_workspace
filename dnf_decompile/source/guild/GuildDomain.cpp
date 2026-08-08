@@ -846,6 +846,76 @@ int CGuildWar::IsGuildWarEnterableGuild(unsigned int guildId)
     return 0;
 }
 
+void CGuildWar::SetGuildWarEvent(bool flag, unsigned char param)
+{
+    *(char*)((char*)this + 0xc) = (char)flag;
+    *(char*)((char*)this + 0xf) = (char)param;
+}
+
+bool CGuildWar::IsGuildWarEventOn()
+{
+    return *(char*)((char*)this + 0xc) != 0;
+}
+
+void CGuildWar::InitGuildWarInfo()
+{
+    *(char*)((char*)this + 0xd) = 0;
+    *(char*)((char*)this + 0xf) = 0;
+    *(char*)((char*)this + 0xc) = 0;
+    Clear_VtGuildWarInfo();
+}
+
+void CGuildWar::Clear_VtGuildWarInfo()
+{
+    std::vector<void*>* v = (std::vector<void*>*)((char*)this + 0x10);
+    v->clear();
+}
+
+void CGuildWar::AddGuildWarPoint(unsigned int guildId, int point)
+{
+}
+
+void CGuildWar::Rank()
+{
+}
+
+void CGuildWar::RankProcess()
+{
+}
+
+void CGuildWar::SameRankWork()
+{
+}
+
+void CGuildWar::printGuildWarRank()
+{
+}
+
+int CGuildWar::GetGuildWarInfo(unsigned int* a, unsigned int* b, unsigned short* c)
+{
+    return 0;
+}
+
+int CGuildWar::GetGuildWarInfo(void* info)
+{
+    return 0;
+}
+
+int CGuildWar::Find_GuildWarInfo(unsigned int guildId)
+{
+    return 0;
+}
+
+int CGuildWar::Insert_GuildWarInfo(void* info)
+{
+    return 0;
+}
+
+int CGuildWar::GetGuildWarInfoDBSave(unsigned int* a, unsigned int* b)
+{
+    return 0;
+}
+
 CGuild::CGuild(unsigned int guildKey)
 {
     m_guildKey = guildKey;
