@@ -602,6 +602,7 @@ public:
     char IsBlackUser(unsigned int key);
     unsigned char GetUpperMemberExpLevel();
     void SendTcpGameserver(PacketHeader* pkt);
+    void SendToGameserver(char* buf, int len);
     void AttachMember(class CMember* member);
     void AddBuddyFromCash(class CBuddy* buddy);
     void SetBuddyDBFlag(unsigned int flag);
@@ -620,6 +621,9 @@ public:
     unsigned int* GetMemberDBInfoW();
     void NoticeMemberLogin_Out(CUser* user, char flag);
     void CheckMemberRegisterFlag();
+    void NoticeChatMsgToMemberMembersHyperLink(char* msg, int len, unsigned char count,
+                                               hyperlink_item_info* items, CUser* user);
+    char IsEmpty();
     char CheckDailyScheduleTimeOver(int day, long long time);
     char CheckDayHourScheduleTimeOver(int day, int hour, long long time);
     void SetMemberRegisterFlag(bool flag);
@@ -1145,6 +1149,24 @@ public:
     char m_charName[0x1d];          // +21
     unsigned char m_expLevel;       // +50
     unsigned int m_uniqCharNo2;     // +54
+};
+
+struct hyperlink_item_info
+{
+    char m_data[0x68];
+};
+
+class Packet_Monitor_Member_Chat_ToUser_Hyper_Link : public PacketHeader
+{
+public:
+    Packet_Monitor_Member_Chat_ToUser_Hyper_Link();
+    unsigned int m_idByChannel;   // +10
+    unsigned int m_uniqCharNo;    // +14
+    char m_charName[0x1e];        // +18
+    unsigned char m_itemCount;    // +48
+    char m_items[0x138];          // +49
+    unsigned char m_msgLen;       // +361
+    char m_msg[0x100];            // +362
 };
 
 class Packet_Load_Periodic_Message : public PacketHeader

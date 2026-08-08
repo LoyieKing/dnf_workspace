@@ -1944,6 +1944,7 @@ char* CUser::GetCharName() { return 0; }
 char CUser::IsBlackUser(unsigned int key) { return 0; }
 unsigned char CUser::GetUpperMemberExpLevel() { return 0; }
 void CUser::SendTcpGameserver(PacketHeader* pkt) {}
+void CUser::SendToGameserver(char* buf, int len) {}
 void CUser::AddBuddyFromCash(CBuddy* buddy) {}
 void CUser::SetBuddyDBFlag(unsigned int flag) {}
 void CUser::RegisterToCashBlackList(std::map<unsigned int, CBlackUser*>* map) {}
@@ -2064,6 +2065,51 @@ void CMember::CheckMemberRegisterFlag()
             "MKey(%d)\tRF(0)\tRT(%04d.%02d.%02d %02d:%02d:%02d)\tDT(%04d.%02d.%02d %02d:%02d:%02d)",
             GetMemberKey(), year1 + 0x76c, mon1 + 1, mday1, hour1, min1, sec1, year2 + 0x76c,
             mon2 + 1, mday2, hour2, min2, sec2);
+    }
+}
+char CMember::IsEmpty()
+{
+    return 0;
+}
+void CMember::NoticeChatMsgToMemberMembersHyperLink(char* msg, int len, unsigned char count,
+                                                    hyperlink_item_info* items, CUser* user)
+{
+    if (len < 0x100 && (m_flag & 4) != 0 && !IsEmpty())
+    {
+        Packet_Monitor_Member_Chat_ToUser_Hyper_Link pkt;
+        memcpy(pkt.m_charName, user->GetCharName(), 0x1d);
+        pkt.m_msgLen = (unsigned char)len;
+        memcpy(pkt.m_msg, msg, len);
+        pkt.m_itemCount = count;
+        for (int i = 0; i < (int)count; i++)
+        {
+            memcpy(pkt.m_items + i * 0x68, (char*)items + i * 0x68, 0x68);
+        }
+        unsigned short totalSize = (unsigned short)len + 0x16a;
+        CUser* member = m_memberManager->FindMemberUser(m_memberKey);
+        if (member != 0)
+        {
+            pkt.m_idByChannel = member->GetIdByChannel();
+            pkt.m_uniqCharNo = member->GetUniqCharNo();
+            member->SendToGameserver((char*)&pkt, totalSize);
+        }
+        pkt.m_idByChannel = user->GetIdByChannel();
+        pkt.m_uniqCharNo = user->GetUniqCharNo();
+        user->SendToGameserver((char*)&pkt, totalSize);
+        unsigned int count2 = (unsigned int)m_count2d;
+        if (count2 != 0)
+        {
+            for (unsigned int i = 0; i < count2; i++)
+            {
+                CUser* m = m_memberManager->FindMemberUser(m_memberKey);
+                if (m != 0)
+                {
+                    pkt.m_idByChannel = m->GetIdByChannel();
+                    pkt.m_uniqCharNo = m->GetUniqCharNo();
+                    m->SendToGameserver((char*)&pkt, totalSize);
+                }
+            }
+        }
     }
 }
 
@@ -2834,6 +2880,19 @@ Packet_Monitor_Notice_Member_Member_Login_out::
     m_uniqCharNo = 0;
     m_channelNo = 0xff;
     m_type = 2;
+}
+
+Packet_Monitor_Member_Chat_ToUser_Hyper_Link::
+    Packet_Monitor_Member_Chat_ToUser_Hyper_Link()
+    : PacketHeader(0x271a, 0x26a)
+{
+    m_idByChannel = 0xffffffff;
+    m_uniqCharNo = 0;
+    m_itemCount = 0;
+    m_msgLen = 0;
+    memset(m_charName, 0, 0x1e);
+    memset(m_msg, 0, 0x100);
+    memset(m_items, 0, 0x138);
 }
 
 unsigned int GetNowTime()
