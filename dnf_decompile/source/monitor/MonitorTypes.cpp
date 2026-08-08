@@ -2600,18 +2600,18 @@ void CUser::RegisterToCashBlackList(std::map<unsigned int, CBlackUser*>* map) {}
 void CUser::SetBlackListDBFlag(unsigned int flag) {}
 void CUser::GetBlackList(unsigned char& count, STBlackUserDBType* out)
 {
-    *count = 0;
+    count = 0;
     if (!m_blackList.empty())
     {
         for (std::map<unsigned int, CBlackUser*>::iterator it = m_blackList.begin();
              it != m_blackList.end(); ++it)
         {
-            memcpy((char*)out + (unsigned int)*count * 0x28 + 4, it->second->GetName(), 0x1d);
-            *(unsigned int*)((char*)out + (unsigned int)*count * 0x28 + 0x24) =
+            memcpy((char*)out + (unsigned int)count * 0x28 + 4, it->second->GetName(), 0x1d);
+            *(unsigned int*)((char*)out + (unsigned int)count * 0x28 + 0x24) =
                 it->second->GetOccurTime();
-            *(unsigned int*)((char*)out + (unsigned int)*count * 0x28) = it->first;
-            (*count)++;
-            if (9 < *count)
+            *(unsigned int*)((char*)out + (unsigned int)count * 0x28) = it->first;
+            count++;
+            if (9 < count)
             {
                 return;
             }
