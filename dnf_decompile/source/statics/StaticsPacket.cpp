@@ -128,6 +128,16 @@ Packet_Secret_Shop_Statistic::Packet_Secret_Shop_Statistic()
     }
 }
 
+Packet_DBMW_Loading_Time_Report::Packet_DBMW_Loading_Time_Report()
+{
+    new ((void*)this) PacketHeader(0xfb1, 0x37);
+}
+
+Packet_DBMW_Assert_Manager_Info_Write_Query::Packet_DBMW_Assert_Manager_Info_Write_Query()
+{
+    new ((void*)this) PacketHeader(0xc42, 0x1244);
+}
+
 CInnerMsgHandler::CInnerMsgHandler()
 {
 }

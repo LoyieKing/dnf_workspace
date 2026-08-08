@@ -557,9 +557,6 @@ void StatisticManager::ResetDisjointAvatarInfoTotal()
 {
     m_disjoint.clear();
 }
-STUB_STAT(SendDBP2PStatistic, (CServerHandler*))
-STUB_STAT(SendDBAssertManagerStatistic, (CServerHandler*))
-STUB_STAT(SendDBLoadingTimeReport, (CServerHandler*))
 STUB_STAT(SendDBPowerwarLagReport, (CServerHandler*))
 STUB_STAT(SendDBTingUserTimeCheck, (CServerHandler*))
 STUB_STAT(SendDBPowerwarLoadingTimeReport, (CServerHandler*))
@@ -1819,5 +1816,100 @@ void StatisticManager::SendDBSecretShopStatistic(CServerHandler* handler)
             }
         }
         handler->SendToDB((PacketHeader*)&pkt);
+    }
+}
+
+void StatisticManager::SendDBP2PStatistic(CServerHandler* handler)
+{
+    Packet_P2P_Statistics pkt;
+    *(unsigned int*)((char*)&pkt + 0xa) = *(unsigned int*)((char*)&m_p2p + 0);
+    *(char*)((char*)&pkt + 0xe) = *(char*)((char*)&m_p2p + 8);
+    if (*(short*)((char*)&m_p2p + 0xa) == 0x7fff)
+    {
+        *(short*)((char*)&pkt + 0xf) = 0;
+    }
+    else
+    {
+        *(short*)((char*)&pkt + 0xf) = *(short*)((char*)&m_p2p + 0xa);
+    }
+    avgPing(*(int*)((char*)&m_p2p + 0x10), *(int*)((char*)&m_p2p + 0x14),
+            *(short*)((char*)&m_p2p + 0xe));
+    *(short*)((char*)&pkt + 0x11) = *(short*)((char*)&m_p2p + 0xc);
+    *(short*)((char*)&pkt + 0x13) = *(short*)((char*)&m_p2p + 0xe);
+    *(int*)((char*)&pkt + 0x15) = *(int*)((char*)&m_p2p + 0x18);
+    *(int*)((char*)&pkt + 0x19) = *(int*)((char*)&m_p2p + 0x1c);
+    *(int*)((char*)&pkt + 0x1d) = *(int*)((char*)&m_p2p + 0x20);
+    *(int*)((char*)&pkt + 0x21) = *(int*)((char*)&m_p2p + 0x24);
+    *(int*)((char*)&pkt + 0x25) = *(int*)((char*)&m_p2p + 4);
+    if (*(short*)((char*)&m_p2p + 0x28) == 0x7fff)
+    {
+        *(short*)((char*)&pkt + 0x29) = 0;
+    }
+    else
+    {
+        *(short*)((char*)&pkt + 0x29) = *(short*)((char*)&m_p2p + 0x28);
+    }
+    avgPing(*(int*)((char*)&m_p2p + 0x30), *(int*)((char*)&m_p2p + 0x34),
+            *(short*)((char*)&m_p2p + 0x2e));
+    *(short*)((char*)&pkt + 0x2b) = *(short*)((char*)&m_p2p + 0x2a);
+    *(short*)((char*)&pkt + 0x2d) = *(short*)((char*)&m_p2p + 0x2e);
+    *(int*)((char*)&pkt + 0x2f) = *(int*)((char*)&m_p2p + 0x38);
+    *(int*)((char*)&pkt + 0x33) = *(int*)((char*)&m_p2p + 0x3c);
+    *(int*)((char*)&pkt + 0x37) = *(int*)((char*)&m_p2p + 0x40);
+    *(int*)((char*)&pkt + 0x3b) = *(int*)((char*)&m_p2p + 0x44);
+    handler->SendToDB((PacketHeader*)&pkt);
+}
+
+void StatisticManager::SendDBLoadingTimeReport(CServerHandler* handler)
+{
+    Packet_DBMW_Loading_Time_Report pkt;
+    for (int i = 0; i < 9; i++)
+    {
+        *(char*)((char*)&pkt + 0xa + i) = handler->GetServerGroupNo();
+        if (m_loading.m_data[i + 9] == 0)
+        {
+            *(unsigned int*)((char*)&pkt + 0x13 + i * 4) = 0;
+        }
+        else
+        {
+            *(unsigned int*)((char*)&pkt + 0x13 + i * 4) =
+                m_loading.m_data[i] / m_loading.m_data[i + 9];
+        }
+    }
+    handler->SendToDB((PacketHeader*)&pkt);
+    m_loading.Reset();
+}
+
+void StatisticManager::SendDBAssertManagerStatistic(CServerHandler* handler)
+{
+    Packet_DBMW_Assert_Manager_Info_Write_Query pkt;
+    int idx = 0;
+    if (!m_assertManager.empty())
+    {
+        for (std::map<STAssertManagerKey, int>::iterator it = m_assertManager.begin();
+             it != m_assertManager.end(); ++it)
+        {
+            char* slot = (char*)&pkt + 0xe + idx * 0x206;
+            memcpy(slot, it->first.m_str0, 0x100);
+            *(unsigned short*)(slot + 0x100) = it->first.m_field100;
+            memcpy(slot + 0x102, it->first.m_str2, 0x100);
+            *(int*)(slot + 0x202) = it->second;
+            idx++;
+            if (99 < idx)
+            {
+                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                handler->SendToDB((PacketHeader*)&pkt);
+                CMyFileLog log("SendDBAssertManagerStatistic", 0x2a7);
+                log("./log/statistic", "AssertManager DB Sent %d", idx);
+                idx = 0;
+            }
+        }
+        if (idx != 0)
+        {
+            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            handler->SendToDB((PacketHeader*)&pkt);
+            CMyFileLog log("SendDBAssertManagerStatistic", 0x2b1);
+            log("./log/statistic", "AssertManager DB Sent %d", idx);
+        }
     }
 }

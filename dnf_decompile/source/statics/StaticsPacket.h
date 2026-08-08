@@ -147,6 +147,22 @@ public:
     char m_data[0xfb2];
 };
 
+class Packet_DBMW_Loading_Time_Report
+{
+public:
+    Packet_DBMW_Loading_Time_Report();
+    char m_data[0x37];
+};
+
+class Packet_DBMW_Assert_Manager_Info_Write_Query
+{
+public:
+    Packet_DBMW_Assert_Manager_Info_Write_Query();
+    char m_data[0x1244];
+};
+
+#include "Packet_P2P_Statistics.h"
+
 // ---- CInnerMsgHandler：空类 ----
 class CInnerMsgHandler
 {
