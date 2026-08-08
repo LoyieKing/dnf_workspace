@@ -5528,11 +5528,21 @@ int CMemoryCashManager::QueryCashMemoryBlackList(CUser* user)
 
 CTcpNetSystem::CTcpNetSystem()
 {
-    memset(m_data, 0, sizeof(m_data));
-    // 构造内部 std 容器（反编译布局：queue@0xc0 / queue@0x11c / map@0x144）
+    *(unsigned int*)m_data = 0;
+    *(unsigned int*)(m_data + 4) = 0;
+    typedef std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*> > TcpRecvQueue;
+    new (m_data + 8) CSwapQueue<TcpRecvQueue, 2>();
+    new (m_data + 0x60) CMutex();
+    new (m_data + 0x78) CMutex();
+    new (m_data + 0x90) CMutex();
+    new (m_data + 0xa8) CMutex();
     new (m_data + 0xc0) std::queue<CTcpSendBuffer*, std::deque<CTcpSendBuffer*> >();
+    new (m_data + 0xe8) CMutex();
+    new (m_data + 0x100) CMutex();
+    *(unsigned int*)(m_data + 0x118) = 0;
     new (m_data + 0x11c) std::queue<CPeer*, std::deque<CPeer*> >();
     new (m_data + 0x144) std::map<unsigned int, CPeer*>();
+    *(unsigned short*)(m_data + 0x15c) = 0;
 }
 
 CTcpNetSystem::~CTcpNetSystem()

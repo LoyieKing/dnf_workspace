@@ -447,7 +447,11 @@ CSwapQueueBase::~CSwapQueueBase()
 template<class T, int N>
 CSwapQueue<T, N>::CSwapQueue()
 {
-    memset(m_data, 0, sizeof(m_data));
+    for (int i = 0; i < N; i++)
+    {
+        new (m_data + 8 + i * 0x28) T();
+    }
+    Init();
 }
 
 template<class T, int N>
@@ -468,24 +472,28 @@ void CSwapQueue<T, N>::Pop()
 template<class T, int N>
 void CSwapQueue<T, N>::Init()
 {
-    memset(m_data, 0, sizeof(m_data));
+    *(unsigned int*)(m_data + 0) = 0;
+    *(unsigned int*)(m_data + 4) = 1;
 }
 
 template<class T, int N>
 T* CSwapQueue<T, N>::GetRecvQ()
 {
-    return (T*)(m_data + 0);
+    return (T*)(m_data + 8 + *(unsigned int*)(m_data + 0) * 0x28);
 }
 
 template<class T, int N>
 T* CSwapQueue<T, N>::GetParseQ()
 {
-    return (T*)(m_data + 0x2c);
+    return (T*)(m_data + 8 + *(unsigned int*)(m_data + 4) * 0x28);
 }
 
 template<class T, int N>
 void CSwapQueue<T, N>::SwapQ()
 {
+    unsigned int tmp = *(unsigned int*)(m_data + 0);
+    *(unsigned int*)(m_data + 0) = *(unsigned int*)(m_data + 4);
+    *(unsigned int*)(m_data + 4) = tmp;
 }
 
 template<class T>
