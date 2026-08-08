@@ -590,6 +590,9 @@ public:
 class CPeer : public TCPSocket
 {
 public:
+    CPeer();
+    ~CPeer();
+    static void operator delete(void* p);
     TCPSocket* GetTcpSocket();
     char RecvPacket();
     void DisConnSig();

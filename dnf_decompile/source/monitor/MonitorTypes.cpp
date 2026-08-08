@@ -1862,6 +1862,10 @@ LAB_51773:
     return 1;
 }
 
+CPeer::CPeer() {}
+CPeer::~CPeer() {}
+void CPeer::operator delete(void* p) { ::operator delete(p); }
+
 char TCPSocket::open() { return 0; }
 char TCPSocket::bind(unsigned short port, bool flag) { return 0; }
 char TCPSocket::listen(int backlog) { return 0; }
@@ -1957,6 +1961,20 @@ CTcpNetSystem::~CTcpNetSystem()
 void CTcpNetSystem::Init(unsigned short port) {}
 bool CTcpNetSystem::OpenTcpService(int& sockRef, const char* ip, unsigned short port) { return false; }
 void CTcpNetSystem::CleanPeers() {}
+void CTcpNetSystem::CleanPeers()
+{
+    for (std::map<unsigned int, CPeer*>::iterator it = m_peers.begin(); it != m_peers.end(); ++it)
+    {
+        {
+            CGuard<CMutex> guard(&m_mutex78);
+            if (it->second != 0)
+            {
+                delete it->second;
+            }
+        }
+    }
+    m_peers.clear();
+}
 void CTcpNetSystem::SetEpollAcceptedPeers() {}
 void CTcpNetSystem::SendPacket() {}
 int CTcpNetSystem::WaitForEvent() { return 0; }
