@@ -2937,6 +2937,17 @@ void CVillageAttackedManager::SetRewardCloseTime(int rewardType)
 }
 void CVillageAttackedManager::SendMaxHuntingPoint()
 {
+    Packet_DBMW_Query_Msg pkt;
+    pkt.m_fieldB = 6;
+    pkt.m_fieldA = 0x4ee2;
+    unsigned int hp = (unsigned int)m_field1c;
+    unsigned int now = GetNowTime();
+    unsigned int group = (unsigned int)m_app->Get_ServerGroup();
+    char sql[0x1001];
+    sprintf(sql,
+            "inSert into village_attacked_server_point_rank(server_info, occ_date, hunting_point) values(%d,cast(from_unixtime(%d) as date),%u)",
+            group & 0xff, now, hp);
+    m_app->Get_ServerHandler()->SendToDB(&pkt);
 }
 void CVillageAttackedManager::Reset()
 {
