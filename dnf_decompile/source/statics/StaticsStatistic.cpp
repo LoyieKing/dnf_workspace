@@ -194,10 +194,42 @@ void CHWSpecResearcher::ResetSpec()
 
 FrameLagCollector::FrameLagCollector()
 {
+    m_field0 = 0;
+    m_field4 = 0;
+    m_field8 = 0;
+    m_fieldc = 0;
+    m_field10 = 0;
+    m_field14 = 0;
+    m_field18 = 0;
+    m_field19 = 0;
+    m_field4c = 0;
+    m_field50 = 0;
+    m_field6c = 0;
+    m_collectInterval = 0x1e;
+    m_field8c = 0;
+    m_field90 = 0;
+    m_field94 = 0;
+    m_map1c.clear();
+    m_map34.clear();
+    m_monitor.clear();
+    m_data.clear();
+    m_field1e4 = 0;
+    Init();
+    m_directx.init();
+    m_renewCnt = 0;
+    m_field9c = m_today;
+    for (int i = 0; i < 6; i++)
+    {
+        m_memory[i].init();
+    }
 }
 
 FrameLagCollector::~FrameLagCollector()
 {
+    m_data.clear();
+    m_monitor.clear();
+    m_map34.clear();
+    m_map1c.clear();
 }
 
 void FrameLagCollector::ReLoadSpec(CServerHandler* handler)
@@ -206,14 +238,23 @@ void FrameLagCollector::ReLoadSpec(CServerHandler* handler)
 
 void FrameLagCollector::RenewToday()
 {
+    m_renewCnt++;
+    if (9 < m_renewCnt)
+    {
+        m_renewCnt = 0;
+        time_t now = time(0);
+        tm* pt = localtime(&now);
+        m_today = pt->tm_mday;
+    }
 }
 
 void FrameLagCollector::SaveUsedMemory(CServerHandler* handler)
 {
 }
 
-void FrameLagCollector::SaveDailyBadSpec(CServerHandler* handler)
+int FrameLagCollector::SaveDailyBadSpec(CServerHandler* handler)
 {
+    return 0;
 }
 
 void FrameLagCollector::SaveFrameLagData(CServerHandler* handler)
@@ -222,7 +263,7 @@ void FrameLagCollector::SaveFrameLagData(CServerHandler* handler)
 
 int FrameLagCollector::GetCollectInterval()
 {
-    return 0;
+    return m_collectInterval;
 }
 
 void FrameLagCollector::PushOneFrameLagData(void* pkt)
@@ -249,11 +290,94 @@ void FrameLagCollector::SaveCollectedDirectxVersion(CServerHandler* handler)
 {
 }
 
-void FrameLagCollector::Init()
+bool FrameLagCollector::Init()
 {
+    if (m_field0 == 0)
+    {
+        m_field0 = 1;
+        time_t now = time(0);
+        tm* pt = localtime(&now);
+        m_today = pt->tm_mday;
+    }
+    return m_field0 != 0;
 }
 
 void FrameLagCollector::LoadSpec(CServerHandler* handler)
+{
+}
+
+void FrameLagCollector::UsedMemoryStruct::init()
+{
+    memset(this, 0, 0x30);
+}
+
+void FrameLagCollector::UsedMemoryStruct::SetUsedMemory(char idx, short value)
+{
+    if (idx < 6)
+    {
+        *(int*)((char*)this + (idx + 4) * 4 + 8) += (int)value;
+        *(int*)((char*)this + idx * 4) += 1;
+    }
+}
+
+void FrameLagCollector::DirectxVersionStruct::init()
+{
+    memset(this, 0, 0x20);
+}
+
+void FrameLagCollector::DirectxVersionStruct::add_cnt(unsigned int version)
+{
+    if (version != 0xffffffff)
+    {
+        if (version < 0x80000)
+        {
+            m_data[0] += 1;
+        }
+        else if (version == 0x80000 || version == 0x90000)
+        {
+            if (version == 0x90000)
+            {
+                m_data[2] += 1;
+            }
+            else
+            {
+                m_data[1] += 1;
+            }
+        }
+        else if (version == 0x90001)
+        {
+            m_data[3] += 1;
+        }
+        else if (version == 0x90002)
+        {
+            m_data[4] += 1;
+        }
+        else if (version == 0x90003)
+        {
+            m_data[5] += 1;
+        }
+        else if (version == 0x90004)
+        {
+            m_data[6] += 1;
+        }
+        else
+        {
+            m_data[7] += 1;
+        }
+    }
+}
+
+FrameLagCollector::FrameLagDataStruct::FrameLagDataStruct()
+{
+    init();
+}
+
+void FrameLagCollector::FrameLagDataStruct::init()
+{
+    memset(this, 0, 0x38);
+}
+
+void FrameLagCollector::accFrameLagStruct(FrameLagDataStruct& data, void* pkt)
 {
 }
 

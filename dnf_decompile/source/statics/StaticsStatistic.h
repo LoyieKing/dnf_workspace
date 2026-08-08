@@ -120,12 +120,40 @@ public:
 class FrameLagCollector
 {
 public:
+    class UsedMemoryStruct
+    {
+    public:
+        void init();
+        void SetUsedMemory(char idx, short value);
+        int m_counts[6];   // +0
+        int m_sums[6];     // +0x18
+    };
+    class DirectxVersionStruct
+    {
+    public:
+        void init();
+        void add_cnt(unsigned int version);
+        int m_data[8];     // +0（0x20）
+    };
+    class FrameLagDataStruct
+    {
+    public:
+        FrameLagDataStruct();
+        void init();
+        int m_data[14];    // +0（0x38）
+    };
+    class MonitoringSpecCase
+    {
+    public:
+        int m_data[4];
+    };
+
     FrameLagCollector();
     ~FrameLagCollector();
     void ReLoadSpec(CServerHandler* handler);
     void RenewToday();
     void SaveUsedMemory(CServerHandler* handler);
-    void SaveDailyBadSpec(CServerHandler* handler);
+    int SaveDailyBadSpec(CServerHandler* handler);
     void SaveFrameLagData(CServerHandler* handler);
     int GetCollectInterval();
     void PushOneFrameLagData(void* pkt);
@@ -134,9 +162,35 @@ public:
     void PushMonitoringSpecData(void* pkt);
     void is_valid_statistic_packet(void* pkt);
     void SaveCollectedDirectxVersion(CServerHandler* handler);
-    void Init();
+    bool Init();
     void LoadSpec(CServerHandler* handler);
-    char m_data[0x1e8];
+    void accFrameLagStruct(FrameLagDataStruct& data, void* pkt);
+
+    int m_field0;                       // +0
+    int m_field4;                       // +4
+    int m_field8;                       // +8
+    int m_fieldc;                       // +0xc
+    int m_field10;                      // +0x10
+    int m_field14;                      // +0x14
+    char m_field18;                     // +0x18
+    char m_field19;                     // +0x19
+    std::map<int, char> m_map1c;        // +0x1c
+    std::map<int, char> m_map34;        // +0x34
+    int m_field4c;                      // +0x4c
+    int m_field50;                      // +0x50
+    std::map<int, MonitoringSpecCase> m_monitor;  // +0x54
+    int m_field6c;                      // +0x6c
+    std::map<int, FrameLagDataStruct> m_data;     // +0x70
+    int m_collectInterval;              // +0x88
+    int m_field8c;                      // +0x8c
+    int m_field90;                      // +0x90
+    int m_field94;                      // +0x94
+    int m_today;                        // +0x98
+    int m_field9c;                      // +0x9c
+    int m_renewCnt;                     // +0xa0
+    DirectxVersionStruct m_directx;     // +0xa4
+    UsedMemoryStruct m_memory[6];       // +0xc4
+    int m_field1e4;                     // +0x1e4
 };
 
 // ---- UdpCharacteristic：0x2C ----
