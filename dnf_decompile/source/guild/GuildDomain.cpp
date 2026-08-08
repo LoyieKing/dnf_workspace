@@ -3746,6 +3746,27 @@ void CPowerWarGuildInfo::CalcAllGuildRanking()
 
 void CPowerWarGuildInfo::PrintDebugInfo()
 {
+    CMyFileLog log1("PrintDebugInfo", 0x187);
+    log1("./log/Power",
+         "------ POWER WAR GUILD DEBUG INFO START ----------------------------------------------------------");
+    CMyFileLog log2("PrintDebugInfo", 0x188);
+    log2("./log/Power",
+         "------ ALL GUILD RANKING -------------------------------------------------------------------------");
+    int rank = 1;
+    std::vector<STPowerWarGuildInfo*>* vec =
+        (std::vector<STPowerWarGuildInfo*>*)(m_data + 0x18);
+    for (std::vector<STPowerWarGuildInfo*>::iterator it = vec->begin(); it != vec->end(); ++it)
+    {
+        STPowerWarGuildInfo* info = *it;
+        CMyFileLog log("PrintDebugInfo", 0x192);
+        log("./log/Power", "RANK:%d, GUILD:%d, POINT:%d, TOTOAL:%d, BONUS:%d", rank,
+            *(unsigned int*)info->m_data, *(unsigned int*)(info->m_data + 4),
+            *(unsigned int*)(info->m_data + 0xc), *(unsigned int*)(info->m_data + 8));
+        rank++;
+    }
+    CMyFileLog log3("PrintDebugInfo", 0x199);
+    log3("./log/Power",
+         "------ POWER WAR GUILD DEBUG INFO END   ----------------------------------------------------------");
 }
 
 void CPowerWarGuildInfo::UpdateGuildPowerwarInfo(unsigned int guildKey, unsigned short point)
@@ -3933,6 +3954,25 @@ unsigned int CPowerWarCharacInfo::GetUserRanking(unsigned int charNo)
 
 void CPowerWarCharacInfo::PrintDebugInfo()
 {
+    CMyFileLog log1("PrintDebugInfo", 0xee);
+    log1("./log/PowerResult",
+         "------ POWER WAR CHARAC DEBUG INFO START --------------------------------------------------------");
+    CMyFileLog log2("PrintDebugInfo", 0xef);
+    log2("./log/PowerResult",
+         "------ ALL USER RANKING -------------------------------------------------------------------------");
+    int rank = 1;
+    std::vector<STPowerWarCharacInfo*>* vec = GetCharacInfoVector();
+    for (std::vector<STPowerWarCharacInfo*>::iterator it = vec->begin(); it != vec->end(); ++it)
+    {
+        STPowerWarCharacInfo* info = *it;
+        CMyFileLog log("PrintDebugInfo", 0xf9);
+        log("./log/PowerResult", "RANK:%d, USER:%d, POWER WAR POINT:%d", rank,
+            *(unsigned int*)info->m_data, *(unsigned int*)(info->m_data + 4));
+        rank++;
+    }
+    CMyFileLog log3("PrintDebugInfo", 0x100);
+    log3("./log/PowerResult",
+         "------ POWER WAR CHARAC DEBUG INFO END   --------------------------------------------------------");
 }
 
 void CPowerWarCharacInfo::CalcAllUserRanking()
