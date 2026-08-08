@@ -4,6 +4,7 @@
 
 #include "GuildThread.h"
 #include "GuildApp.h"
+#include "GuildTable.h"
 #include "GuildUdp.h"
 #include "GuildPacket.h"
 #include "DNFFileLog.h"
@@ -63,51 +64,126 @@ void CFrameCountHandler::SaveProcess()
 {
 }
 
-CNetworkThread::CNetworkThread()
+CUdpNetworkThread::CUdpNetworkThread()
 {
+    m_app = 0;
     m_queue = 0;
-    m_udp = 0;
     m_lock = 0;
     m_bLock = 0;
 }
 
-CNetworkThread::~CNetworkThread()
+CUdpNetworkThread::~CUdpNetworkThread()
 {
+    m_app = 0;
     m_queue = 0;
-    m_udp = 0;
     m_lock = 0;
 }
 
-void CNetworkThread::attach(CApplication* app)
+void CUdpNetworkThread::attach(CApplication* app)
 {
     if (app != 0)
     {
+        m_app = app;
         m_queue = app->Get_UdpPacketRecvQ();
-        m_udp = app->Get_UdpHandler();
         m_lock = app->Get_UdpQLock();
         m_bLock = app->Get_UdpBLock();
     }
 }
 
-void CNetworkThread::Run()
+void CUdpNetworkThread::SetUDPQueue(std::queue<CUdpRecvBuffer*>* q)
 {
+    m_queue = q;
 }
 
-CUdpNetworkThread::CUdpNetworkThread()
+void CUdpNetworkThread::dispatch(void* param)
 {
-    m_app = 0;
+    if (m_queue != 0 && m_app != 0 && m_lock != 0)
+    {
+        DNFFLib::Sleep_Ext(5, 0);
+        puts("Network Thread Start!");
+        m_running = true;
+        while (m_running)
+        {
+            CUdpRecvBuffer* buf = (CUdpRecvBuffer*)CUdpRecvBuffer::operator new(0x1804);
+            int len = 0x1800;
+            unsigned short port = 0;
+            unsigned int ip = 0;
+            if (m_app->Get_UdpHandler()->RecvFromClient((char*)buf, &len, &ip, &port) == 1)
+            {
+                if (*(unsigned short*)((char*)buf + 2) == len)
+                {
+                    if (*(unsigned short*)((char*)buf + 2) < 0x1800)
+                    {
+                        if (len < 0x1801)
+                        {
+                            *(unsigned int*)((char*)buf + 6) = ip;
+                            *(unsigned short*)((char*)buf + 4) = port;
+                            {
+                                CGuard<CMutex> g((CMutex*)m_lock);
+                                ((std::queue<CUdpRecvBuffer*>*)m_queue)->push(buf);
+                                unsigned int qsize =
+                                    ((std::queue<CUdpRecvBuffer*>*)m_queue)->size();
+                                if (100 < qsize)
+                                {
+                                    CMyFileLog log("dispatch", 0xb2);
+                                    log("./log/recv", "cnt(%d)\n",
+                                        ((std::queue<CUdpRecvBuffer*>*)m_queue)->size());
+                                }
+                            }
+                        }
+                        else
+                        {
+                            CMyFileLog log("dispatch", 0x8d);
+                            log("./log/recvErr",
+                                "Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
+                                *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
+                            CUdpRecvBuffer::operator delete(buf, 0x1804);
+                        }
+                    }
+                    else
+                    {
+                        CMyFileLog log("dispatch", 0x81);
+                        log("./log/recvErr",
+                            "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
+                            *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
+                        CUdpRecvBuffer::operator delete(buf, 0x1804);
+                    }
+                }
+                else
+                {
+                    CMyFileLog log("dispatch", 0x76);
+                    log("./log/recvErr",
+                        "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
+                        *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
+                    CUdpRecvBuffer::operator delete(buf, 0x1804);
+                }
+            }
+            else
+            {
+                CUdpRecvBuffer::operator delete(buf, 0x1804);
+            }
+        }
+        return;
+    }
+    throw CDNFException("NetworkThread is Not Ready!\n");
 }
 
-CUdpNetworkThread::~CUdpNetworkThread()
+CTcpNetworkThread::CTcpNetworkThread()
 {
+    m_net = 0;
 }
 
-void CUdpNetworkThread::attach(CApplication* app)
+CTcpNetworkThread::~CTcpNetworkThread()
 {
-    m_app = app;
+    m_net = 0;
 }
 
-void CUdpNetworkThread::Run()
+void CTcpNetworkThread::attach(CTcpNetSystem* net)
+{
+    m_net = net;
+}
+
+void CTcpNetworkThread::dispatch(void* param)
 {
 }
 

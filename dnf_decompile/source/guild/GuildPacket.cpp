@@ -139,6 +139,12 @@ CPacketDecoder::~CPacketDecoder()
 {
 }
 
+CPacketDecoder* CPacketDecoderInstance()
+{
+    static CPacketDecoder instance;
+    return &instance;
+}
+
 void CPacketDecoder::Attach(CApplication* app)
 {
 }

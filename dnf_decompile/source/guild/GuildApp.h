@@ -24,6 +24,8 @@ class CGameServer;
 class CTcpGameServer;
 class CMemoryCashManager;
 
+void ShowLogo();
+
 // ---- CAppBase：vptr@0 ----
 class CAppBase
 {

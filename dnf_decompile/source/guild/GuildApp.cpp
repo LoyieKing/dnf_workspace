@@ -9,6 +9,7 @@
 #include "GuildThread.h"
 #include "GuildPacket.h"
 #include "GuildSignal.h"
+#include "GuildInit.h"
 #include "GuildUdp.h"
 #include "DNFFileLog.h"
 #include "DNFFunctionLib.h"
@@ -64,18 +65,106 @@ CApplication::~CApplication()
 
 void CApplication::Init(int argc, char** argv)
 {
+    ShowLogo();
+    CheckArgv(argc, argv);
+    CSignalTranslator* st = CSignalTranslatorInstance();
+    st->init(this);
+    AttachAppInitor(argv);
+    if (m_appInit != 0)
+    {
+        m_appInit->Init(this, argc, argv);
+    }
+    puts("Application Init() Success!");
 }
 
 void CApplication::Load(int argc, char** argv)
 {
+    if (m_appInit != 0)
+    {
+        m_appInit->Load(this, argc, argv);
+    }
+    m_memoryCash = new CMemoryCashManager;
+    m_memoryCash->Init(this);
+    m_guildManager.Init(this);
+    m_userManager.Init(this);
+    if (m_appConfig != 0)
+    {
+        m_appConfig->Load_Table(argv[1]);
+    }
+    m_powerManager.InitPowerManager("./script/power_war_event.tbl", this);
+    m_udpHandler = new CUdpHandler;
+    if (m_appConfig != 0)
+    {
+        unsigned short port = m_appConfig->Get_ServerUdpPort();
+        if (m_udpHandler->InitServerSocket(port) == -1)
+        {
+            throw CDNFException("CApplication::Load() Init UDP Server Socket Exception Break!");
+        }
+    }
+    m_serverHandler = new CServerHandler;
+    m_serverHandler->Attach(this);
+    if (m_appConfig != 0)
+    {
+        m_serverHandler->Load(m_appConfig->GetServerInfoMap());
+    }
+    CPacketTranslater::attach(this);
+    m_loaded = true;
+    puts("Application Load() Success!");
 }
 
 void CApplication::Free()
 {
+    puts("Application Free Start!");
+    if (m_serverHandler != 0)
+    {
+        m_guildManager.DBGuildAndGuildMemberSave(m_serverHandler);
+        puts("Guild And Guild Member DB Save Success!");
+    }
+    if (m_udpHandler != 0)
+    {
+        delete m_udpHandler;
+        m_udpHandler = 0;
+    }
+    puts("UDP Handler Free Success!");
+    if (m_serverHandler != 0)
+    {
+        delete m_serverHandler;
+        m_serverHandler = 0;
+    }
+    puts("Game Server Handler Free Success!");
+    CSignalTranslator* st = CSignalTranslatorInstance();
+    st->clear();
+    puts("Signal Translater Free Success!");
+    if (m_appConfig != 0)
+    {
+        delete m_appConfig;
+        m_appConfig = 0;
+    }
+    puts("Application Config Free Success!");
+    if (m_appInit != 0)
+    {
+        m_appInit->Free(this);
+        delete m_appInit;
+        m_appInit = 0;
+    }
+    puts("Application Initor Free Success!");
 }
 
 void CApplication::Process()
 {
+    while (m_loaded)
+    {
+        if (m_serverHandler != 0)
+        {
+            m_serverHandler->Process(this);
+        }
+        SwitchQueueTCP();
+        SwitchQueueUDP();
+        CPacketDecoder* dec = CPacketDecoderInstance();
+        dec->Process();
+        DNFFLib::Sleep_Ext(0, 1);
+    }
+    puts("CApplication::Process() Exit");
 }
 
 void CApplication::CheckArgv(int argc, char** argv)

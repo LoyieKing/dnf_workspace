@@ -231,7 +231,7 @@ void CServerHandler::Attach(CApplication* app)
     m_app = app;
 }
 
-void CServerHandler::Process()
+void CServerHandler::Process(CApplication* app)
 {
 }
 

@@ -122,7 +122,7 @@ public:
     ~CServerHandler();
     void Load(std::multimap<unsigned int, stServerInfo*>* map);
     void Attach(CApplication* app);
-    void Process();
+    void Process(CApplication* app);
     CGameServer* GetGameServer(unsigned int group);
     CTcpGameServer* GetTcpGameServer(unsigned int group);
     CDBServer* GetDBServer();

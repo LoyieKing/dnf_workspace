@@ -2,6 +2,10 @@
 #define GUILD_THREAD_H_
 
 #include <pthread.h>
+#include <queue>
+
+class CUdpRecvBuffer;
+class CTcpNetSystem;
 
 class CApplication;
 class CPacketDecoder;
@@ -42,20 +46,6 @@ public:
     int m_field2c;    // +0x2c
 };
 
-// ---- CNetworkThread ----
-class CNetworkThread : public CThreadInterface
-{
-public:
-    CNetworkThread();
-    ~CNetworkThread();
-    void attach(CApplication* app);
-    virtual void Run();
-    void* m_queue;    // +0xc
-    void* m_udp;      // +0x10
-    void* m_lock;     // +0x14
-    void* m_bLock;    // +0x18
-};
-
 // ---- CUdpNetworkThread ----
 class CUdpNetworkThread : public CThreadInterface
 {
@@ -63,8 +53,23 @@ public:
     CUdpNetworkThread();
     ~CUdpNetworkThread();
     void attach(CApplication* app);
-    virtual void Run();
+    void SetUDPQueue(std::queue<CUdpRecvBuffer*>* q);
+    void dispatch(void* param);
     CApplication* m_app;   // +0xc
+    void* m_queue;         // +0x10
+    void* m_lock;          // +0x14
+    void* m_bLock;         // +0x18
+};
+
+// ---- CTcpNetworkThread ----
+class CTcpNetworkThread : public CThreadInterface
+{
+public:
+    CTcpNetworkThread();
+    ~CTcpNetworkThread();
+    void attach(CTcpNetSystem* net);
+    void dispatch(void* param);
+    CTcpNetSystem* m_net;  // +0xc
 };
 
 class CSwapQueueBase

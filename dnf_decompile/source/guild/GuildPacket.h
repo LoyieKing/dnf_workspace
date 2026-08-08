@@ -55,6 +55,8 @@ public:
     char m_data[0x3ec0];
 };
 
+CPacketDecoder* CPacketDecoderInstance();
+
 // ---- CPacketTranslater ----
 class CPacketTranslater
 {
