@@ -2802,6 +2802,46 @@ void CVillageAttackedManager::OnSchedule()
     t2->tm_mday = t2->tm_mday + 1;
     mktime(t2);
 }
+void CVillageAttackedManager::SetRewardCloseTime(int rewardType)
+{
+}
+void CVillageAttackedManager::SendVillageAttackedEnd()
+{
+}
+void CVillageAttackedManager::SendMaxHuntingPoint()
+{
+}
+void CVillageAttackedManager::Reset()
+{
+}
+void CVillageAttackedManager::OnEndVillageAttacked()
+{
+    if (m_state24 == 1)
+    {
+        int now = (int)GetNowTime();
+        if ((unsigned int)m_field1c < (unsigned int)m_field20)
+        {
+            m_field30 = 2;
+            CVillageAttackedReward* task =
+                new CVillageAttackedReward(REWARD_PENALTY_TIME + now, 0, this);
+            m_app->GetTaskScheduler()->AddTask(task);
+        }
+        else
+        {
+            m_field30 = 1;
+            CVillageAttackedReward* task =
+                new CVillageAttackedReward(REWARD_BUFF_TIME + now, 0, this);
+            m_app->GetTaskScheduler()->AddTask(task);
+        }
+        m_state24 = 0;
+        SetRewardCloseTime(m_field30);
+        SendVillageAttackedEnd();
+        SendCharacRank();
+        SendMaxHuntingPoint();
+        Reset();
+        OnSchedule();
+    }
+}
 void CVillageAttackedManager::SendCharacRank()
 {
     unsigned char serverGroup = 0;
@@ -2878,6 +2918,8 @@ CVillageAttackedStart::CVillageAttackedStart(int time, int flag, CVillageAttacke
 CVillageAttackedStart::~CVillageAttackedStart() {}
 CVillageAttackedEnd::CVillageAttackedEnd(int time, int flag, CVillageAttackedManager* mgr) {}
 CVillageAttackedEnd::~CVillageAttackedEnd() {}
+CVillageAttackedReward::CVillageAttackedReward(int time, int flag, CVillageAttackedManager* mgr) {}
+CVillageAttackedReward::~CVillageAttackedReward() {}
 }
 
 CUser::CUser() {}

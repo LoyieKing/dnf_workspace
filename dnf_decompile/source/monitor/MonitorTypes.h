@@ -1268,6 +1268,11 @@ public:
     void SendFirstRankerRewardJpn(CUser* user, int rank);
     void OnSchedule();
     void InsertTimer(int startTime, int endTime);
+    void OnEndVillageAttacked();
+    void SetRewardCloseTime(int rewardType);
+    void SendVillageAttackedEnd();
+    void SendMaxHuntingPoint();
+    void Reset();
     CApplication* m_app;                       // +0
     std::map<unsigned int, stHuntingPoint> m_huntingPoints;  // +4
     int m_field1c;                             // +0x1c
@@ -1276,7 +1281,8 @@ public:
     char m_pad25[3];                           // +0x25
     int m_field28;                             // +0x28
     int m_field2c;                             // +0x2c
-    char m_data2[4];                           // +0x30
+    int m_field30;                             // +0x30
+    char m_data2[4];                           // +0x34
 };
 
 class CVillageAttackedCountdownFirst : public CTaskScheduler::CTask
@@ -1316,6 +1322,14 @@ class CVillageAttackedEnd : public CTaskScheduler::CTask
 public:
     CVillageAttackedEnd(int time, int flag, CVillageAttackedManager* mgr);
     ~CVillageAttackedEnd();
+    char m_data[0x10];
+};
+
+class CVillageAttackedReward : public CTaskScheduler::CTask
+{
+public:
+    CVillageAttackedReward(int time, int flag, CVillageAttackedManager* mgr);
+    ~CVillageAttackedReward();
     char m_data[0x10];
 };
 }
