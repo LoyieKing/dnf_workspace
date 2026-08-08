@@ -182,6 +182,7 @@ public:
     char QueryCashMemoryBlackList(CUser* user);
     char QueryUpdatedCharacName(unsigned int charNo, std::string& name);
     void incMemberCashHitCnt();
+    void incBuddyCashHitCnt();
     std::map<unsigned int, std::string> m_names;        // +0
     std::map<unsigned int, class CCashObject*> m_cashObjects;  // +0x18
     CApplication* m_app;                                // +0x30
@@ -196,7 +197,16 @@ public:
     void SetMemberObject(class CMember* member);
     void ClearMemberObject();
     void DeleteMemberObject();
+    int GetBuddysObject(class CBuddy** buddies);
+    void DeleteBuddys();
     char m_data[0x20];
+};
+
+class CBuddy
+{
+public:
+    unsigned int* getBuddyDBInfo();
+    char m_data[0x40];
 };
 
 // ---- CTcpManagerServer / CTcpDBServer（网络服务封装，各 0x14）----
@@ -379,6 +389,7 @@ class CBuddyRegisterManager
 public:
     CBuddyRegisterManager();
     ~CBuddyRegisterManager();
+    void addBuddyRegister(unsigned int charNo);
     char m_data[0x18];
 };
 
@@ -558,6 +569,7 @@ public:
     CUser* FindUser_CharNo(unsigned int charNo) const;
     void DeleteUsersOnGameServerDown(CGameServer* gameServer);
     void DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer);
+    void SendConnectedBuddysList(CUser* user);
     std::map<unsigned int, std::map<unsigned char, unsigned int> > m_mapSchools;  // +0
     std::map<unsigned int, CUser*> m_users;       // +0x18
     std::map<unsigned int, CUser*> m_charNoUsers; // +0x30
@@ -576,6 +588,8 @@ public:
     void* GetGameServer();
     unsigned int GetDBID();
     void AttachMember(class CMember* member);
+    void AddBuddyFromCash(class CBuddy* buddy);
+    void SetBuddyDBFlag(unsigned int flag);
     char m_data[0x400];
 };
 

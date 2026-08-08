@@ -688,6 +688,46 @@ char CMemoryCashManager::QueryCashMemoryMember(CUser* user)
 }
 int CMemoryCashManager::QueryCashMemoryBuddyInfo(CUser* user)
 {
+    if (!m_cashObjects.empty())
+    {
+        unsigned int dbid = user->GetDBID();
+        std::map<unsigned int, CCashObject*>::iterator it = m_cashObjects.find(dbid);
+        if (it != m_cashObjects.end())
+        {
+            CCashObject* obj = it->second;
+            if (obj->GetCharacNo() == user->GetUniqCharNo())
+            {
+                CBuddy* buddies[32];
+                int count = obj->GetBuddysObject(buddies);
+                for (int i = 0; i < count; i++)
+                {
+                    if (buddies[i] != 0)
+                    {
+                        std::string name;
+                        unsigned int* info = buddies[i]->getBuddyDBInfo();
+                        if (QueryUpdatedCharacName(*(unsigned int*)((char*)info + 0x22), name))
+                        {
+                            memset(info, 0, 0x1e);
+                            strncpy((char*)info, name.c_str(), 0x1d);
+                        }
+                        user->AddBuddyFromCash(buddies[i]);
+                        user->GetUniqCharNo();
+                        unsigned int charNo = *(unsigned int*)((char*)info + 0x22);
+                        m_app->Get_BuddyRegisterManager()->addBuddyRegister(charNo);
+                    }
+                }
+                if (count != 0)
+                {
+                    m_app->Get_UserManager()->SendConnectedBuddysList(user);
+                }
+                user->SetBuddyDBFlag(4);
+                incBuddyCashHitCnt();
+                return 1;
+            }
+            obj->DeleteBuddys();
+            return 0;
+        }
+    }
     return 0;
 }
 char CMemoryCashManager::QueryCashMemoryBlackList(CUser* user)
@@ -699,12 +739,17 @@ char CMemoryCashManager::QueryUpdatedCharacName(unsigned int charNo, std::string
     return 0;
 }
 void CMemoryCashManager::incMemberCashHitCnt() {}
+void CMemoryCashManager::incBuddyCashHitCnt() {}
 
 unsigned int CCashObject::GetCharacNo() { return 0; }
 CMember* CCashObject::GetMemberObject() { return 0; }
 void CCashObject::SetMemberObject(CMember* member) {}
 void CCashObject::ClearMemberObject() {}
 void CCashObject::DeleteMemberObject() {}
+int CCashObject::GetBuddysObject(CBuddy** buddies) { return 0; }
+void CCashObject::DeleteBuddys() {}
+
+unsigned int* CBuddy::getBuddyDBInfo() { return 0; }
 
 CServerHandler::CServerHandler() {}
 CServerHandler::~CServerHandler() {}
@@ -1021,6 +1066,7 @@ void CFrameCountHandler::SaveProcess()
 
 CBuddyRegisterManager::CBuddyRegisterManager() {}
 CBuddyRegisterManager::~CBuddyRegisterManager() {}
+void CBuddyRegisterManager::addBuddyRegister(unsigned int charNo) {}
 
 void CUdpNetworkThread::attach(CApplication* app)
 {
@@ -1545,6 +1591,9 @@ void CUserManager::DeleteUsersOnGameServerDown(CGameServer* gameServer)
 void CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer)
 {
 }
+void CUserManager::SendConnectedBuddysList(CUser* user)
+{
+}
 void CUserManager::AddSchoolNo(unsigned int schoolNo, unsigned char channel)
 {
     std::map<unsigned int, std::map<unsigned char, unsigned int> >::iterator it =
@@ -1737,6 +1786,8 @@ void CUser::AttachMember(CMember* member) {}
 void CUser::operator delete(void* p) { ::operator delete(p); }
 void* CUser::GetGameServer() { return 0; }
 unsigned int CUser::GetDBID() { return 0; }
+void CUser::AddBuddyFromCash(CBuddy* buddy) {}
+void CUser::SetBuddyDBFlag(unsigned int flag) {}
 
 void* CMember::operator new(unsigned int size) { return ::operator new(size); }
 CMember::CMember(unsigned int key, CMemberManager* mgr) {}

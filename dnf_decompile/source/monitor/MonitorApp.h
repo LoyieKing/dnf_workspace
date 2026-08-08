@@ -56,6 +56,7 @@ public:
     CServerHandler* Get_ServerHandler();
     CUserManager* Get_UserManager();
     CMemberManager* Get_MemberManager();
+    CBuddyRegisterManager* Get_BuddyRegisterManager();
     void* Get_UdpPacketRecvQ();
     CUdpHandler* Get_UdpHandler();
     void* Get_UdpQLock();

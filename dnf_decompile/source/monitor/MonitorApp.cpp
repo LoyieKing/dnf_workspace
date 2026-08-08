@@ -479,6 +479,11 @@ CMemberManager* CApplication::Get_MemberManager()
     return &m_memberManager;
 }
 
+CBuddyRegisterManager* CApplication::Get_BuddyRegisterManager()
+{
+    return &m_buddyMgr;
+}
+
 char CApplication::Send_Term_Signal(const std::string& file)
 {
     std::string path = "./pid/" + file;
