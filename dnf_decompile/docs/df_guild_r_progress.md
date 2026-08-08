@@ -226,3 +226,14 @@
   （队列循环+CAppLoadChecker+双锁+失败清理抛异常）；Attach TCP parse queue
   用 GetParseQ()（+0x2c 硬编码曾致冒烟崩溃，已修复）
 - 冒烟通过；DIFF 1121 / IDENTICAL 370 / NEAR 209
+
+## 2026-08-09 第六轮（剩余核验收口）
+
+- 核验：OnReplyUserInfo（用户恢复创建/挂载全流程）、OnNoticeGuildSecede/
+  OnWriteGuildMemberMemo/OnDBResponseApproveJoinGuild/OnNoticeGuildChatMsg/
+  OnDBLoadGuildAgit/OnDBUpgradeGuildAgit/OnPacketJoinPower/GuildJoin、
+  CServerHandler TcpSendToDB/CreateTcpGameServer/DeleteTcpGameServer/
+  IsConnectedGameServer/SetConnectFlag、CAppLoadChecker::RequestDB、
+  CMemoryCashManager、CPowerWarGuildInfo、CSignalTranslator::regist_signal、
+  TiXmlAttributeSet——调用目标全部一致，差异均为代码生成/顺序噪声
+- 冒烟通过；DIFF 1118 / IDENTICAL 373 / NEAR 209
