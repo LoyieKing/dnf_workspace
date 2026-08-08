@@ -622,14 +622,8 @@ STUB_HANDLER(OnMonitorManagerConnectOK)
 STUB_HANDLER(OnInnerPacketLogin)
 STUB_HANDLER(OnInnerPacketLogout)
 STUB_HANDLER(OnPowerWarStartInfo)
-STUB_HANDLER(OnSetPowerWarCfg)
-STUB_HANDLER(OnLoadFromDBOnGuildBooting)
-STUB_HANDLER(OnGMPowerWarStart)
-STUB_HANDLER(OnGMPowerWarEnd)
 STUB_HANDLER(OnChangeGuildNameFromWeb)
 STUB_HANDLER(OnNotifyNewGroupMail)
-STUB_HANDLER(OnInCreaseDecreasePowerWarPoint)
-STUB_HANDLER(OnPowerWarProcessInfo)
 STUB_HANDLER(OnGuildExpLimit)
 STUB_HANDLER(OnWriteGuildMemberMemo)
 STUB_HANDLER(OnLoadGuildCargo)
@@ -3726,6 +3720,144 @@ void CPacketTranslater::OnWebGuildBoardDelete(PacketHeader* pkt)
     }
     guild->GetGuildBoard()->deleteGuildBoardData(no, guildKey, charNo);
     guild->GetGuildBoard()->setWebGuildBoardAction(true);
+}
+
+void CPacketTranslater::OnPowerWarProcessInfo(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnPowerWarProcessInfo", 0x1717);
+        log("./log/Except", "CPacketTranslater::OnPowerWarProcessInfo : 0 == m_pclApp");
+        return;
+    }
+    m_pclApp->GetPowerManager()->SendPowerWarProcessInfo(*(unsigned int*)(pb + 0xa));
+}
+
+void CPacketTranslater::OnSetPowerWarCfg(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnSetPowerWarCfg", 0x1317);
+        log("./log/Power", "CPacketTranslater::OnSetPowerWarCfg : 0 == m_pclApp");
+        return;
+    }
+    CPowerManager* pm = m_pclApp->GetPowerManager();
+    pm->SetPowerWarEndKillPoint(*(unsigned short*)(pb + 0xa));
+    pm->SetPowerWarRewardInfo(*(int*)(pb + 0xc), *(int*)(pb + 0x10), *(int*)(pb + 0x14),
+                              *(int*)(pb + 0x18));
+    CMyFileLog log("OnSetPowerWarCfg", 0x1321);
+    log("./log/Power",
+        "CPacketTranslater::OnSetPowerWarCfg EndKillPoint:%d, BasicPowerWarPoint:%d, FirstGradeBonusPowerWarPoint:%d, BonusDecreasePoint:%d, RankingBonusGrade:%d",
+        (unsigned int)*(unsigned short*)(pb + 0xa), *(int*)(pb + 0xc), *(int*)(pb + 0x10),
+        *(int*)(pb + 0x14), *(int*)(pb + 0x18));
+}
+
+void CPacketTranslater::OnLoadFromDBOnGuildBooting(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnLoadFromDBOnGuildBooting", 0x1343);
+        log("./log/Power",
+            "CPacketTranslater::OnLoadFromDBOnGuildBooting : 0 == m_pclApp");
+        return;
+    }
+    CPowerManager* pm = m_pclApp->GetPowerManager();
+    pm->SetPowerInfo((char)pb[0x12], *(int*)(pb + 0xa), *(int*)(pb + 0xe));
+    pm->SendPowerWarInfo();
+}
+
+void CPacketTranslater::OnGMPowerWarStart(PacketHeader* pkt)
+{
+    (void)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGMPowerWarStart", 0x13f9);
+        log("./log/Power", "CPacketTranslater::OnGMPowerWarStart : 0 == m_pclApp");
+        return;
+    }
+    CPowerManager* pm = m_pclApp->GetPowerManager();
+    if (pm->IsPowerWarOn() == 0)
+    {
+        pm->StartPowerWarEvent();
+        Packet_Monitor_Event_Start start;
+        *(unsigned int*)((char*)&start + 0xa) = 0x1e;
+        CServerHandler* handler = m_pclApp->Get_ServerHandler();
+        if (handler == 0)
+        {
+            throw CDNFException(
+                "CGuildManager::OnGMPowerWarStart() pclServerHandler == NULL\n");
+        }
+        handler->SendAllTcpGameServer(&start);
+    }
+}
+
+void CPacketTranslater::OnGMPowerWarEnd(PacketHeader* pkt)
+{
+    (void)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnGMPowerWarEnd", 0x1426);
+        log("./log/Power", "CPacketTranslater::OnGMPowerWarEnd : 0 == m_pclApp");
+        return;
+    }
+    CPowerManager* pm = m_pclApp->GetPowerManager();
+    if (pm->IsPowerWarOn() == 1)
+    {
+        pm->SendPowerWarScore();
+        pm->EndPowerWarEvent();
+        Packet_Monitor_Event_End end;
+        *(unsigned int*)((char*)&end + 0xa) = 0x1e;
+        CServerHandler* handler = m_pclApp->Get_ServerHandler();
+        if (handler == 0)
+        {
+            throw CDNFException(
+                "CGuildManager::OnGMPowerWarStart() pclServerHandler == NULL\n");
+        }
+        handler->SendAllTcpGameServer(&end);
+    }
+}
+
+void CPacketTranslater::OnInCreaseDecreasePowerWarPoint(PacketHeader* pkt)
+{
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnInCreaseDecreasePowerWarPoint", 0x15d3);
+        log("./log/Except",
+            "CPacketTranslater::OnInCreaseDecreasePowerWarPoint : 0 == m_pclApp");
+        return;
+    }
+    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    if (guildKey == 0 || guild == 0)
+    {
+        CMyFileLog log("OnInCreaseDecreasePowerWarPoint", 0x15db);
+        log("./log/Power",
+            "CPacketTranslater::OnInCreaseDecreasePowerWarPoint : 0 == pclGuild");
+        return;
+    }
+    int point = *(int*)(pb + 0x12);
+    if (point == 0)
+    {
+        CMyFileLog log("OnInCreaseDecreasePowerWarPoint", 0x15e2);
+        log("./log/Power",
+            "CPacketTranslater::OnInCreaseDecreasePowerWarPoint : Invalid Power War Point Reached(characNo:%d, PowerWarPoint:%d)",
+            *(unsigned int*)(pb + 0xe), point);
+        return;
+    }
+    if (point < 1)
+    {
+        unsigned int neg = ((unsigned int)point >> 0x1f);
+        guild->SubPowerWarPoint(((unsigned int)point ^ neg) - neg);
+    }
+    else
+    {
+        guild->AddPowerWarPoint((unsigned int)point);
+    }
+    guild->SendGuildInfoToMembers(false);
 }
 
 #undef STUB_HANDLER
