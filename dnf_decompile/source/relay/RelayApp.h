@@ -8,6 +8,7 @@
 #include <ext/hash_map>
 
 #include "RelayBuffer.h"
+#include "RelayLog.h"
 #include "RelayPool.h"
 #include "RelayService.h"
 #include "RelaySocket.h"
@@ -35,6 +36,23 @@ struct PacketHeader
     unsigned short m_size;
     unsigned int m_accId;
     unsigned int m_reserved;
+};
+
+struct PacketHeaderS2S
+{
+    PacketHeaderS2S(unsigned short a, unsigned short b);
+    unsigned short m_a;  // +0
+    unsigned short m_b;  // +2
+    unsigned short m_c;  // +4
+    unsigned short m_d;  // +6
+    unsigned short m_e;  // +8
+    unsigned int m_f;    // +0xa
+    unsigned char m_g;   // +0xe
+};
+
+struct Packet_Relay_User_Check : public PacketHeaderS2S
+{
+    Packet_Relay_User_Check();
 };
 
 // ---- TManager<T>：pManager_@0 ----
@@ -187,6 +205,26 @@ public:
     int getUserCount() const
     {
         return m_currentUserCount;
+    }
+    int getCurrentMaxUserCount() const
+    {
+        return m_currentMaxUserCount;
+    }
+    double getAverageDispatchTime() const
+    {
+        if (m_dispatchCount != 0)
+        {
+            return (double)(m_totalDispatchTime / m_dispatchCount);
+        }
+        return 0.0;
+    }
+    int getMaxDispatchTime() const
+    {
+        return m_maxDispatchTime;
+    }
+    int getDispatchCout() const
+    {
+        return m_dispatchCount;
     }
     void clearCurrentMaxUserCount();
     void setDispatchTime(int t);
@@ -413,9 +451,17 @@ public:
     void setTick();
     void setTickLog();
     void makeLog();
-    void postDisconnectEvent2TCPUser(unsigned int acc_id);
+    void postDisconnectEvent2TCPUser(unsigned int acc_id, int flag);
     void disconnectEvent2TCPUser(TCPUser* user);
     void relayToTCP(PacketHeader* pkt);
+    enum Mode
+    {
+        MODE_NONE = 0
+    };
+    void setMode(Mode mode)
+    {
+        m_mode = mode;
+    }
 
     PortInfo m_portInfo;      // +0
     Handlers m_handlers;      // +0x18
@@ -423,9 +469,9 @@ public:
     Threads m_threads;        // +0xdc
     UserPools m_userPools;    // +0xf4
     Reactor m_reactor;        // +0x184
-    int m_tick;               // +0x1c4
-    long long m_tickLog;      // +0x1c8
-    long long m_tickLogOld;   // +0x1d0
+    int m_mode;               // +0x1c4
+    long long m_tick;         // +0x1c8
+    long long m_tickLog;      // +0x1d0
 };
 
 void createFileLogInfo();
@@ -445,6 +491,15 @@ void destroyLogCri();
 void destroyLogWarn();
 void destroyLogError();
 
+extern TGlobalInstance<TextOutputDevice_FILE> g_FileLogInfo;
+extern TGlobalInstance<TextOutputDevice_FILE> g_FileLogWarn;
+extern TGlobalInstance<TextOutputDevice_FILE> g_FileLogError;
+extern TGlobalInstance<TextOutputDevice_FILE> g_FileLogCri;
+extern TGlobalInstance<TDebugTrace<char> > g_LogInfo;
+extern TGlobalInstance<TDebugTrace<char> > g_LogCri;
+extern TGlobalInstance<TDebugTrace<char> > g_LogWarn;
+extern TGlobalInstance<TDebugTrace<char> > g_LogError;
+
 } // namespace RelayServiceApp
 
 // ---- App：继承 LinuxService（0x734，无自有成员，全局命名空间）----
@@ -453,6 +508,7 @@ class App : public LinuxService
 public:
     App();
     ~App();
+    bool load_script();
     virtual void readConfig();
     virtual void prepareRun();
     virtual void run();

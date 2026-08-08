@@ -12,7 +12,7 @@ RELAY="$ROOT/relay"
 C5ROOT=/tmp/c5r52tool
 CXX=/tmp/c5root/usr/bin/g++
 
-COMMON_FLAGS="-m32 -O0 -D_GNU_SOURCE -fno-enforce-eh-specs -fno-builtin-memset -fno-builtin-strlen -nostdinc \
+COMMON_FLAGS="-m32 -O0 -D_GNU_SOURCE -fno-enforce-eh-specs -fno-builtin-memset -fno-builtin-strlen -fno-builtin-strcmp -nostdinc \
   -isystem $C5ROOT/usr/lib/gcc/x86_64-redhat-linux/4.1.2/include \
   -isystem $C5ROOT/usr/lib/gcc/x86_64-redhat-linux/4.1.2/include-fixed \
   -isystem $C5ROOT/usr/include/c++/4.1.2 \
@@ -50,6 +50,10 @@ if [ -n "$ALL_OBJS" ]; then
         "$CXX" $COMMON_FLAGS -c "$OUT_DIR/stub_main.cpp" -o "$OUT_DIR/stub_main.o"
         ALL_OBJS="$ALL_OBJS $OUT_DIR/stub_main.o"
     fi
-    g++ -m32 -no-pie -o "$OUT_DIR/df_relay_r" $ALL_OBJS -lpthread -ldl -lm
+    g++ -m32 -no-pie -o "$OUT_DIR/df_relay_r" $ALL_OBJS \
+        "/tmp/c5r52i386/usr/lib/gcc/i386-redhat-linux/4.1.1/libstdc++.a" \
+        "$C5ROOT/usr/lib/gcc/x86_64-redhat-linux/4.1.1/32/libgcc.a" \
+        "$C5ROOT/usr/lib/gcc/x86_64-redhat-linux/4.1.1/32/libgcc_eh.a" \
+        -lpthread -ldl -lm
     echo "OK -> $OUT_DIR/df_relay_r"
 fi

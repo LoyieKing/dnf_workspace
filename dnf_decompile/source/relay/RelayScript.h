@@ -6,6 +6,10 @@
 
 #include "RelayToken.h"
 
+class Script;
+
+Script* G_Script();
+
 // ScriptRawData：m_key[0x100]@0 / m_val@0x100 / m_err_msg@0x104 / m_valsize@0x108 /
 //              m_child_list@0x10c（std::list 8B），总 0x114
 class ScriptRawData

@@ -4,10 +4,34 @@
 #include <sys/epoll.h>
 
 #include "RelayApp.h"
+#include "RelayLog.h"
 #include "RelayReactor.h"
+#include "RelayScript.h"
 
 namespace RelayServiceApp
 {
+
+PacketHeaderS2S::PacketHeaderS2S(unsigned short a, unsigned short b)
+{
+    m_a = a;
+    m_b = b;
+}
+
+Packet_Relay_User_Check::Packet_Relay_User_Check()
+    : PacketHeaderS2S(0x9c4, 0xf)
+{
+    m_f = 0;
+    m_g = 0;
+}
+
+TGlobalInstance<TextOutputDevice_FILE> g_FileLogInfo;
+TGlobalInstance<TextOutputDevice_FILE> g_FileLogWarn;
+TGlobalInstance<TextOutputDevice_FILE> g_FileLogError;
+TGlobalInstance<TextOutputDevice_FILE> g_FileLogCri;
+TGlobalInstance<TDebugTrace<char> > g_LogInfo;
+TGlobalInstance<TDebugTrace<char> > g_LogCri;
+TGlobalInstance<TDebugTrace<char> > g_LogWarn;
+TGlobalInstance<TDebugTrace<char> > g_LogError;
 
 // ---- User ----
 
@@ -935,9 +959,9 @@ void TCPAcceptThread::notifyCannotLoginByMaxUserCount(TCPSocket& sock)
 
 RelayService::RelayService()
 {
+    m_mode = 0;
     m_tick = 0;
     m_tickLog = 0;
-    m_tickLogOld = 0;
 }
 
 RelayService::~RelayService()
@@ -1040,34 +1064,119 @@ void RelayService::setAuthenticated(unsigned int acc_id)
 
 long long RelayService::getTick()
 {
-    return m_tickLog;
+    return m_tick;
 }
 
 long long RelayService::getTickLog()
 {
-    if (m_tickLogOld == 0)
+    if (m_tickLog == 0)
     {
-        m_tickLogOld = getTick();
+        m_tickLog = getTick();
     }
-    return m_tickLogOld;
+    return m_tickLog;
 }
 
 void RelayService::setTick()
 {
-    m_tickLog = get_ms_tick();
+    m_tick = get_ms_tick();
 }
 
 void RelayService::setTickLog()
 {
-    m_tickLogOld = m_tickLog;
+    m_tickLog = m_tick;
 }
 
 void RelayService::makeLog()
 {
+    long long tick = getTick();
+    long long diff = tick - getTickLog();
+    if (getTickLog() != 0 && diff >= 0xea61)
+    {
+        setTickLog();
+        time_t t = (time_t)(tick / 1000);
+        tm* tm_now = localtime(&t);
+        char filename[256] = {0};
+        snprintf(filename, 0x100, "./log/Relay%4d%02d%02d_T%d.log",
+                 tm_now->tm_year + 1900, tm_now->tm_mon + 1, tm_now->tm_mday,
+                 m_portInfo.getTCPPort());
+        FILE* f = fopen(filename, "a+");
+        if (f != 0)
+        {
+            if (!G_ScriptData()->mFlag)
+            {
+                int count = m_users.getDispatchCout();
+                double avg = m_users.getAverageDispatchTime();
+                int max = m_users.getMaxDispatchTime();
+                int cur = m_users.getCurrentMaxUserCount();
+                if (cur == 0)
+                {
+                    cur = -m_users.getUserCount();
+                }
+                fprintf(f,
+                    "%02d/%02d/%02d %02d:%02d:%02d Current User: %d Dispatch Time: MAX = %d, AVG = %.2f, CNT = %d\n",
+                    tm_now->tm_year + 1900, tm_now->tm_mon + 1, tm_now->tm_mday,
+                    tm_now->tm_hour, tm_now->tm_min, tm_now->tm_sec, cur, max, avg, count);
+            }
+            else
+            {
+                UDPSocket* udp = m_threads.m_udpThread->getUDPSocket();
+                if (udp == 0)
+                {
+                    int count = m_users.getDispatchCout();
+                    double avg = m_users.getAverageDispatchTime();
+                    int max = m_users.getMaxDispatchTime();
+                    int cur = m_users.getCurrentMaxUserCount();
+                    if (cur == 0)
+                    {
+                        cur = -m_users.getUserCount();
+                    }
+                    fprintf(f,
+                        "%02d/%02d/%02d %02d:%02d:%02d Current User: %d\tError UDPS2SSocket!! Not Auth mode\tDispatch Time: MAX = %d, AVG = %.2f, CNT = %d\n",
+                        tm_now->tm_year + 1900, tm_now->tm_mon + 1, tm_now->tm_mday,
+                        tm_now->tm_hour, tm_now->tm_min, tm_now->tm_sec, cur, max, avg, count);
+                }
+                else
+                {
+                    int count = m_users.getDispatchCout();
+                    double avg = m_users.getAverageDispatchTime();
+                    int max = m_users.getMaxDispatchTime();
+                    int qsize = udp->sizeMonitorAuthPacket();
+                    int cur = m_users.getCurrentMaxUserCount();
+                    if (cur == 0)
+                    {
+                        cur = -m_users.getUserCount();
+                    }
+                    fprintf(f,
+                        "%02d/%02d/%02d %02d:%02d:%02d Current User: %d\tAuth Packet Queue: %d\tDispatch Time: MAX = %d, AVG = %.2f, CNT = %d\n",
+                        tm_now->tm_year + 1900, tm_now->tm_mon + 1, tm_now->tm_mday,
+                        tm_now->tm_hour, tm_now->tm_min, tm_now->tm_sec, cur, qsize, max, avg, count);
+                }
+            }
+            fclose(f);
+            m_users.clearCurrentMaxUserCount();
+            m_users.clearDispatchTime();
+        }
+    }
+    else
+    {
+        if (getTickLog() == 0)
+        {
+            setTickLog();
+        }
+    }
 }
 
-void RelayService::postDisconnectEvent2TCPUser(unsigned int acc_id)
+void RelayService::postDisconnectEvent2TCPUser(unsigned int acc_id, int flag)
 {
+    if (acc_id != 0)
+    {
+        TScopedLock<TThreadLock<ThreadLock_linux> > scoped(m_users.m_lock3);
+        __gnu_cxx::hash_map<unsigned int, TCPUser*>::iterator it = m_users.m_tcpUsers.find(acc_id);
+        if (it != m_users.m_tcpUsers.end())
+        {
+            it->second->postDisconnected(flag);
+        }
+    }
 }
 
 void RelayService::disconnectEvent2TCPUser(TCPUser* user)
@@ -1101,69 +1210,117 @@ void RelayService::relayToTCP(PacketHeader* pkt)
 
 void createFileLogInfo()
 {
+    g_FileLogInfo.create();
 }
 
 void createFileLogWarn()
 {
+    g_FileLogWarn.create();
 }
 
 void createFileLogError()
 {
+    g_FileLogError.create();
 }
 
 void createFileLogCri()
 {
+    g_FileLogCri.create();
 }
 
 void createLogInfo()
 {
+    g_LogInfo.create();
 }
 
 void createLogCri()
 {
+    g_LogCri.create();
 }
 
 void createLogWarn()
 {
+    g_LogWarn.create();
 }
 
 void createLogError()
 {
+    g_LogError.create();
 }
 
 void destroyFileLogInfo()
 {
+    g_FileLogInfo.destroy();
 }
 
 void destroyFileLogWarn()
 {
+    g_FileLogWarn.destroy();
 }
 
 void destroyFileLogError()
 {
+    g_FileLogError.destroy();
 }
 
 void destroyFileLogCri()
 {
+    g_FileLogCri.destroy();
 }
 
 void destroyLogInfo()
 {
+    g_LogInfo.destroy();
 }
 
 void destroyLogCri()
 {
+    g_LogCri.destroy();
 }
 
 void destroyLogWarn()
 {
+    g_LogWarn.destroy();
 }
 
 void destroyLogError()
 {
+    g_LogError.destroy();
 }
 
 } // namespace RelayServiceApp
+
+RelayServiceApp::RelayService* g_pService = 0;
+
+// ---- SocketSystemLinux（全局作用域，空实现）----
+class SocketSystemLinux
+{
+public:
+    static void startup();
+    static void shutdown();
+};
+
+void SocketSystemLinux::startup()
+{
+}
+
+void SocketSystemLinux::shutdown()
+{
+}
+
+template <class TSystem_>
+class TSocketSystem
+{
+public:
+    static void startup()
+    {
+        TSystem_::startup();
+    }
+    static void shutdown()
+    {
+        TSystem_::shutdown();
+    }
+};
 
 // ---- App（LinuxService 纯虚实现，主体后续补齐）----
 
@@ -1176,34 +1333,102 @@ App::~App()
 {
 }
 
-void App::readConfig()
-{
-}
-
 void App::prepareRun()
 {
+    puts("Called prepareRun");
+    TSocketSystem<SocketSystemLinux>::startup();
+    g_pService = new RelayServiceApp::RelayService;
+    g_pService->setMode(RelayServiceApp::RelayService::MODE_NONE);
+    g_pService->m_portInfo.setTCPPort(G_ScriptData()->mPortTcp);
+    g_pService->m_portInfo.setUDPPort(G_ScriptData()->mPortUdp);
+    g_pService->m_portInfo.setUDPS2SPort(G_ScriptData()->mReservedC);
 }
 
 void App::run()
 {
+    puts("Called run");
+    g_pService->startup();
+    while (m_terminated != 1)
+    {
+        TSystem<LinuxSystem>::sleep(10000);
+    }
 }
 
 void App::finishRun()
 {
+    puts("Called finishRun");
 }
 
 void App::stop()
 {
+    puts("Called stop");
 }
 
 void App::onStop()
 {
+    puts("Called onStop");
 }
 
 void App::onPause()
 {
+    puts("Called onPause");
 }
 
 void App::onContinue()
 {
+    puts("Called onContinue");
+}
+
+bool App::load_script()
+{
+    char path[0x100];
+    snprintf(path, 0x100, "./cfg/%s.cfg", (char*)this + 0x404);
+    printf("[!] Server environment(%s) script loading : %s\n", (char*)this + 0x404, path);
+    if (!G_Script()->load(path))
+    {
+        printf("Can't open script file : %s", (char*)this + 0x404);
+        return false;
+    }
+    return true;
+}
+
+void App::readConfig()
+{
+    puts("Called readConfig");
+    if (!load_script())
+    {
+        puts("ERROR readConfig()");
+    }
+    else
+    {
+        puts("OK readConfig()");
+    }
+}
+
+int main(int argc, char** argv)
+{
+    if ((argc > 1) && (strcmp(argv[1], "version") == 0))
+    {
+        puts("Relay Server v2.5.6.9");
+        return 0;
+    }
+    try
+    {
+        App* app = new App;
+        app->processCommandLine(argc, argv);
+        app->main();
+        return 0;
+    }
+    catch (Exception& e)
+    {
+        if (e.getFunctionName() != 0)
+        {
+            printf("# %d %s at %d in %s\n", e.getErrorCode(), e.getErrorMsg(), e.getLine(),
+                   e.getFunctionName());
+        }
+        else
+        {
+            printf("# %s\n", e.getErrorMsg());
+        }
+    }
 }

@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 
 #include "RelayCommon.h"
+#include "RelayScript.h"
 
 template <> ScriptData* GlobalInstance<ScriptData>::m_p = 0;
 template <> Mutex GlobalInstance<ScriptData>::m_lock = Mutex();
@@ -31,9 +32,37 @@ template <> ScriptData* GlobalInstance<ScriptData>::inst_ptr()
     return m_p;
 }
 
+template <> Script* GlobalInstance<Script>::m_p = 0;
+template <> Mutex GlobalInstance<Script>::m_lock = Mutex();
+
+template <> Script* GlobalInstance<Script>::create()
+{
+    if (m_p == 0)
+    {
+        m_lock.lock();
+        if (m_p == 0)
+        {
+            m_p = new Script;
+        }
+        m_lock.unlock();
+    }
+    return m_p;
+}
+
+template <> Script* GlobalInstance<Script>::inst_ptr()
+{
+    create();
+    return m_p;
+}
+
 ScriptData* G_ScriptData()
 {
     return GlobalInstance<ScriptData>::inst_ptr();
+}
+
+Script* G_Script()
+{
+    return GlobalInstance<Script>::inst_ptr();
 }
 
 static __thread char g_num_buf[0x400];
