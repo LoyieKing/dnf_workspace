@@ -52,6 +52,10 @@ public:
     CItemLimitEditionMgr* getItemLimitEditionMgr();
     CTcpNetSystem* Get_TcpNetSystem();
     void OnGameServerDown(CGameServer* server);
+    void* Get_UdpPacketRecvQ();
+    CUdpHandler* Get_UdpHandler();
+    void* Get_UdpQLock();
+    void* Get_UdpBLock();
     unsigned char Get_ServerGroup();
 
     bool m_loaded;                      // +4

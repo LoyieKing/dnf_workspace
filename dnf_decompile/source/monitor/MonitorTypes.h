@@ -39,7 +39,17 @@ public:
     CUdpHandler();
     virtual ~CUdpHandler();
     int InitServerSocket(int port);
+    char RecvFromClient(char* buf, int* size, unsigned int* addr, unsigned short* port) const;
     char m_data[4];
+};
+
+// ---- CUdpRecvBuffer：0x1804 ----
+class CUdpRecvBuffer
+{
+public:
+    static void* operator new(unsigned int size);
+    static void operator delete(void* ptr);
+    char m_data[0x1804];
 };
 
 class CPeriodicMessageMgr
@@ -254,10 +264,11 @@ public:
     CUdpNetworkThread();
     ~CUdpNetworkThread();
     void attach(CApplication* app);
+    void SetUDPQueue(void* q);
     void dispatch(void* param);
-    CApplication* m_app;   // +0xc
-    void* m_queue;         // +0x10
-    void* m_lock;          // +0x14
+    void* m_recvQ;         // +0xc
+    CUdpHandler* m_udpHandler;  // +0x10
+    void* m_qLock;         // +0x14
     void* m_bLock;         // +0x18
 };
 

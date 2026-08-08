@@ -3,6 +3,17 @@
 #include "DNFFileLog.h"
 #include "MonitorApp.h"
 #include "MonitorTable.h"
+#include "Thread.h"
+#include "DNFFunctionLib.h"
+
+void* CUdpRecvBuffer::operator new(unsigned int size)
+{
+    return ::operator new(size);
+}
+void CUdpRecvBuffer::operator delete(void* ptr)
+{
+    ::operator delete(ptr);
+}
 
 void CMemoryCashManager::Init(CApplication* app) {}
 
@@ -12,6 +23,11 @@ CInnerMsgHandler::~CInnerMsgHandler() {}
 CUdpHandler::CUdpHandler() {}
 CUdpHandler::~CUdpHandler() {}
 int CUdpHandler::InitServerSocket(int port) { return 0; }
+char CUdpHandler::RecvFromClient(char* buf, int* size, unsigned int* addr,
+                                 unsigned short* port) const
+{
+    return 0;
+}
 
 CUdpNetworkThread::CUdpNetworkThread() {}
 CUdpNetworkThread::~CUdpNetworkThread() {}
@@ -244,8 +260,124 @@ void CFrameCountHandler::InitFrameCountInfo(CApplication* app, unsigned int fram
 CFrameCountHandler* CFrameCountHandler::GetFrameCountInfo() { return this; }
 void CFrameCountHandler::SaveProcess() {}
 
-void CUdpNetworkThread::attach(CApplication* app) {}
-void CUdpNetworkThread::dispatch(void* param) {}
+void CUdpNetworkThread::attach(CApplication* app)
+{
+    if (app != 0)
+    {
+        m_recvQ = app->Get_UdpPacketRecvQ();
+        m_udpHandler = app->Get_UdpHandler();
+        m_qLock = app->Get_UdpQLock();
+        m_bLock = app->Get_UdpBLock();
+    }
+}
+void CUdpNetworkThread::SetUDPQueue(void* q)
+{
+    m_recvQ = q;
+}
+void CUdpNetworkThread::dispatch(void* param)
+{
+    if (m_recvQ != 0 && m_udpHandler != 0 && m_qLock != 0)
+    {
+        try
+        {
+            DNFFLib::Sleep_Ext(5, 0);
+            puts("Network Thread Start!");
+            m_running = true;
+            while (m_running)
+            {
+                CUdpRecvBuffer* buf;
+                {
+                    CGuard<CMutex> guard((CMutex*)m_bLock);
+                    buf = new CUdpRecvBuffer;
+                }
+                int recvSize = 0x1800;
+                unsigned short srcPort = 0;
+                unsigned int fromAddr = 0;
+                char ok = m_udpHandler->RecvFromClient((char*)buf, &recvSize, &fromAddr, &srcPort);
+                unsigned int recvByte = (unsigned int)recvSize;
+                if (ok == 1)
+                {
+                    CUdpRecvBuffer* pkt = buf;
+                    if (*(unsigned short*)((char*)buf + 2) == recvSize)
+                    {
+                        if (*(unsigned short*)((char*)buf + 2) < 0x1800)
+                        {
+                            if (recvSize < 0x1801)
+                            {
+                                *(unsigned int*)((char*)buf + 6) = fromAddr;
+                                *(unsigned short*)((char*)buf + 4) = srcPort;
+                                {
+                                    CGuard<CMutex> guard((CMutex*)m_qLock);
+                                    ((std::queue<CUdpRecvBuffer*>*)m_recvQ)->push(pkt);
+                                    unsigned int qsize =
+                                        ((std::queue<CUdpRecvBuffer*>*)m_recvQ)->size();
+                                }
+                            }
+                            else
+                            {
+                                unsigned short code = *(unsigned short*)buf;
+                                unsigned short psize = *(unsigned short*)((char*)buf + 2);
+                                CMyFileLog log("dispatch", 0x85);
+                                log("./log/recvErr",
+                                    "Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
+                                    psize, recvByte, code);
+                                {
+                                    CGuard<CMutex> guard((CMutex*)m_bLock);
+                                    delete buf;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            unsigned short code = *(unsigned short*)buf;
+                            unsigned short psize = *(unsigned short*)((char*)buf + 2);
+                            CMyFileLog log("dispatch", 0x79);
+                            log("./log/recvErr",
+                                "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
+                                psize, recvByte, code);
+                            {
+                                CGuard<CMutex> guard((CMutex*)m_bLock);
+                                delete buf;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        unsigned short code = *(unsigned short*)buf;
+                        unsigned short psize = *(unsigned short*)((char*)buf + 2);
+                        CMyFileLog log("dispatch", 0x6e);
+                        log("./log/recvErr",
+                            "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
+                            psize, recvByte, code);
+                        {
+                            CGuard<CMutex> guard((CMutex*)m_bLock);
+                            delete buf;
+                        }
+                    }
+                }
+                else
+                {
+                    {
+                        CGuard<CMutex> guard((CMutex*)m_bLock);
+                        delete buf;
+                    }
+                }
+            }
+            return;
+        }
+        catch (CDNFException& e)
+        {
+            printf("CUdpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n", e.what());
+            throw CDNFException("CUdpNetworkThread::dispatch() Recv  Socket Exception Break!");
+        }
+        catch (...)
+        {
+            puts("CUdpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
+            throw CDNFException("CUdpNetworkThread::dispatch() Recv  Socket Exception Break!");
+        }
+    }
+    throw CDNFException("NetworkThread is Not Ready!\n");
+}
 
 CTcpNetSystem::CTcpNetSystem() {}
 CTcpNetSystem::~CTcpNetSystem() {}

@@ -446,6 +446,26 @@ void CApplication::OnGameServerDown(CGameServer* server)
 {
 }
 
+void* CApplication::Get_UdpPacketRecvQ()
+{
+    return 0;
+}
+
+CUdpHandler* CApplication::Get_UdpHandler()
+{
+    return m_udpHandler;
+}
+
+void* CApplication::Get_UdpQLock()
+{
+    return 0;
+}
+
+void* CApplication::Get_UdpBLock()
+{
+    return 0;
+}
+
 void CApplication::CheckArgv(int argc, char** argv)
 {
     if (argc < 3)
