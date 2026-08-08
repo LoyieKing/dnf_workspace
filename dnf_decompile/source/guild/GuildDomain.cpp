@@ -600,7 +600,7 @@ void CUserManager::DeleteUser_CharNo(unsigned int charNo)
     }
 }
 
-void CUserManager::DeleteUser_CharName(const std::string& name)
+void CUserManager::DeleteUser_CharName(std::string name)
 {
     std::map<std::string, CUser*>::iterator it = m_charNameUsers.find(name);
     if (it != m_charNameUsers.end())
@@ -2244,8 +2244,8 @@ void CGuildManager::CheckAchieveAttendance(unsigned int guildKey)
     }
 }
 
-void CGuildManager::RewardAttendance(unsigned int guildKey, unsigned int charNo,
-                                     unsigned int flag)
+void CGuildManager::RewardAttendance(unsigned int guildKey, unsigned int charNo, int flag)
+                                     
 {
     if ((int)flag != -1 && (int)flag < 9)
     {
@@ -2277,7 +2277,7 @@ void CGuildManager::GetAttendanceInfo(unsigned int guildKey, STAttendanceInfo& i
 {
 }
 
-int CGuildManager::GetAttendanceExp(unsigned int guildKey, unsigned int phase)
+int CGuildManager::GetAttendanceExp(unsigned int guildKey, int phase)
 {
     CGuild* guild = FindGuild(guildKey);
     if (guild == 0)

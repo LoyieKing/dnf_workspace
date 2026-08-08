@@ -228,7 +228,7 @@ public:
     void DeleteUser(unsigned int dbid);
     void DeleteUser(CUser* user);
     void DeleteUser_CharNo(unsigned int charNo);
-    void DeleteUser_CharName(const std::string& name);
+    void DeleteUser_CharName(std::string name);
     int InsertUser(unsigned int dbid, CUser* user);
     int InsertUser_CharNo(unsigned int charNo, CUser* user);
     int InsertUser_CharName(char* name, CUser* user);
@@ -504,10 +504,10 @@ public:
     void RefreshTodayMember(bool flag);
     void RefreshAttendanceInfo(bool flag);
     void CheckAchieveAttendance(unsigned int guildKey);
-    void RewardAttendance(unsigned int guildKey, unsigned int charNo, unsigned int flag);
+    void RewardAttendance(unsigned int guildKey, unsigned int charNo, int flag);
     int GetAttendancePhase(unsigned int guildKey);
     void GetAttendanceInfo(unsigned int guildKey, STAttendanceInfo& info);
-    int GetAttendanceExp(unsigned int guildKey, unsigned int phase);
+    int GetAttendanceExp(unsigned int guildKey, int phase);
     unsigned int GetGuildExpWithLevel(unsigned char level);
     int GetGuildLevelWithExp(unsigned int exp);
     unsigned int GetMaxGuildExp1();
