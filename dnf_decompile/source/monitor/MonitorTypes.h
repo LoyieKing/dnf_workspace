@@ -36,6 +36,16 @@ class CManagerServer;
 class CTcpGameServer;
 class Packet_Item_Limit_Edition_Update;
 
+struct TimeGateRewardType
+{
+    enum T
+    {
+        TYPE_0 = 0,
+        TYPE_1 = 1,
+        TYPE_2 = 2
+    };
+};
+
 // ---- 基础管理器（monitor 专属，实现逐步补齐）----
 class CInnerMsgHandler
 {
@@ -862,6 +872,8 @@ public:
     void SetUserInfo_CharNo(char a, char b, short level, unsigned int charNo, char* name);
     void SetSex(unsigned char sex);
     void SetSsn(char* ssn);
+    void SetEvent_idx(unsigned int idx);
+    void Event_idx_modify_state();
     void QueryBuddyInfo(class CServerHandler* handler);
     void SetUserPosState(unsigned char state);
     void SetUserChangableInfo(short level, char flag);
@@ -1169,6 +1181,8 @@ public:
     static void onStartGameEventFromServer(PacketHeader* pkt);
     static void onWebReqReloadAutoPunishRule(PacketHeader* pkt);
     static void RequestBlackListToDBMW(unsigned int charNo);
+    static void SendColletItemsReward(unsigned int charNo, int itemId, const char* itemName,
+                                      int nameLen, TimeGateRewardType::T type);
     static void SendRequestMemberEnterResult(CUser* user, unsigned char result,
                                              const char* name);
     static void SendNoticeMemberEnterPacketOk(CUser* user, CUser* other, unsigned char a,
@@ -1331,6 +1345,7 @@ public:
     char IsCurState(int state);
     void ChangeState(int state);
     void SetEventIdx(unsigned int idx);
+    void SendContinueTimeToGS();
     void UpdateEventIdx();
     unsigned int GetEvent_Idx();
     void Clear();
@@ -1340,7 +1355,9 @@ public:
     int m_field28;             // +0x28
     int m_field30;             // +0x30
     unsigned char m_field34;   // +0x34
-    char m_pad[0xb];           // +0x35
+    char m_pad[3];             // +0x35
+    unsigned int m_field38;    // +0x38
+    unsigned int m_field3c;    // +0x3c
     int m_field40;             // +0x40
 };
 
@@ -1962,6 +1979,37 @@ public:
     unsigned int m_idByChannel;  // +14
     unsigned char m_count;       // +18
     unsigned int m_charNos[10];  // +19
+};
+
+class Packet_CollectItemsReward : public PacketHeader
+{
+public:
+    Packet_CollectItemsReward();
+    unsigned int m_idByChannel;  // +10
+    unsigned int m_charNo;       // +14
+    unsigned char m_type;        // +18
+    unsigned char m_nameLen;     // +19
+    char m_name[0x1d];           // +20
+};
+
+class Packet_CollectItemsRewardBroadcast : public PacketHeader
+{
+public:
+    Packet_CollectItemsRewardBroadcast();
+    unsigned int m_charNo;       // +10
+    unsigned char m_type;        // +14
+    unsigned char m_nameLen;     // +15
+    char m_name[0x1d];           // +16
+};
+
+class Packet_MTG_OntimeEvent_RewardStart : public PacketHeader
+{
+public:
+    Packet_MTG_OntimeEvent_RewardStart();
+    unsigned int m_eventIdx;   // +10
+    unsigned int m_fieldE;     // +14
+    unsigned int m_field12;    // +18
+    int m_field16;             // +22
 };
 
 class Packet_Monitor_Call_Member_List_ToUser : public PacketHeader

@@ -4177,6 +4177,14 @@ void CUser::SetSsn(char* ssn)
 {
     memcpy((char*)this + 0x47, ssn, 6);
 }
+void CUser::SetEvent_idx(unsigned int idx)
+{
+    *(unsigned int*)((char*)this + 0xb4) = idx;
+}
+void CUser::Event_idx_modify_state()
+{
+    *(char*)((char*)this + 0xb0) = 1;
+}
 void CUser::SetTcpGameServer(CTcpGameServer* server)
 {
     *(CTcpGameServer**)((char*)this + 0xc) = server;
@@ -6921,6 +6929,30 @@ void CPacketTranslater::RequestBlackListToDBMW(unsigned int charNo)
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendToDB(&pkt);
 }
+void CPacketTranslater::SendColletItemsReward(unsigned int charNo, int itemId,
+                                              const char* itemName, int nameLen,
+                                              TimeGateRewardType::T type)
+{
+    CUser* user =
+        ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(charNo);
+    if (user != 0)
+    {
+        Packet_CollectItemsReward pkt;
+        pkt.m_idByChannel = user->GetIdByChannel();
+        pkt.m_charNo = (unsigned int)itemId;
+        pkt.m_type = (unsigned char)type;
+        pkt.m_nameLen = (unsigned char)nameLen;
+        strncpy(pkt.m_name, itemName, (unsigned int)nameLen);
+        user->SendTcpGameserver(&pkt);
+        Packet_CollectItemsRewardBroadcast bpkt;
+        bpkt.m_charNo = (unsigned int)itemId;
+        bpkt.m_type = (unsigned char)type;
+        bpkt.m_nameLen = (unsigned char)nameLen;
+        strncpy(bpkt.m_name, itemName, (unsigned int)nameLen);
+        CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+        handler->SendAllTcpGameServer(&bpkt);
+    }
+}
 void CPacketTranslater::OnDBMWResponseBlackListOnLogin(PacketHeader* pkt)
 {
     if (m_pclApp == 0)
@@ -7749,7 +7781,25 @@ void CPacketTranslater::OnCheckOverlappedAccusation(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnGameServerRegist(PacketHeader* pkt) {}
-void CPacketTranslater::OnNoCache(PacketHeader* pkt) {}
+void CPacketTranslater::OnNoCache(PacketHeader* pkt)
+{
+    if (*(int*)((char*)pkt + 0xa) == 0)
+    {
+        exchange_server::GetInstanceCacheCharacterMgr()->Reset();
+    }
+    else
+    {
+        exchange_server::CACHE_CHARACTER_TYPE type;
+        if (exchange_server::GetInstanceCacheCharacterMgr()->GetCacheCharacter(
+                *(unsigned int*)((char*)pkt + 0xa), &type) != 0)
+        {
+            char* s = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+            CMyFileLog log("OnNoCache", 0x1970);
+            log("./log/ExchangeServer", "OnNoCache() (%s,%d,%d)\n", s, type.m_field0,
+                type.m_field4);
+        }
+    }
+}
 void CPacketTranslater::OnDisableUserOneToOneChat_GM(PacketHeader* pkt)
 {
     if (m_pclApp != 0)
@@ -7865,9 +7915,88 @@ void CPacketTranslater::OnRegisterEventIdx(PacketHeader* pkt)
         ((COnTimeEventManager*)*(void**)((char*)m_pclApp + 800))->SetEventIdx(idx);
     }
 }
-void CPacketTranslater::OnRegisterEventUserIdx(PacketHeader* pkt) {}
+void CPacketTranslater::OnRegisterEventUserIdx(PacketHeader* pkt)
+{
+    try
+    {
+        unsigned short errType = *(unsigned short*)((char*)pkt + 0x12);
+        unsigned int idx = *(unsigned int*)((char*)pkt + 0xe);
+        unsigned int id = *(unsigned int*)((char*)pkt + 0xa);
+        if (m_pclApp == 0)
+        {
+            CMyFileLog log("OnRegisterEventUserIdx", 0x1a35);
+            log("./log/OnTimeEvent",
+                "OnRegisterEventUserIdx:id = %u , idx = %u, errortype = %d", id, idx,
+                (unsigned int)errType);
+        }
+        else
+        {
+            unsigned int curIdx =
+                ((COnTimeEventManager*)*(void**)((char*)m_pclApp + 800))->GetEvent_Idx();
+            CMyFileLog log("OnRegisterEventUserIdx", 0x1a30);
+            log("./log/OnTimeEvent",
+                "OnRegisterEventUserIdx:id = %u , rcv_idx = %u, cur_idx = %d, errortype = %d",
+                id, idx, curIdx, (unsigned int)errType);
+        }
+        if (*(short*)((char*)pkt + 0x12) == 0 || *(short*)((char*)pkt + 0x12) == 3)
+        {
+            CUser* user = m_pclApp->Get_UserManager()->FindUser(
+                *(unsigned int*)((char*)pkt + 0xa));
+            if (user != 0)
+            {
+                user->SetEvent_idx(idx);
+                if (*(short*)((char*)pkt + 0x12) == 3)
+                {
+                    user->Event_idx_modify_state();
+                }
+            }
+        }
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnRegisterEventUserIdx", 0x1a4a);
+        log("%s", "CPacketTranslater::OnRegisterEventUserIdx() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnRegisterEventUserIdx", 0x1a4f);
+        log("%s", "CPacketTranslater::OnRegisterEventUserIdx() Exception Break");
+    }
+}
 void CPacketTranslater::OnRegisterEventItem(PacketHeader* pkt) {}
-void CPacketTranslater::OnResultRegisterEventIdx(PacketHeader* pkt) {}
+void CPacketTranslater::OnResultRegisterEventIdx(PacketHeader* pkt)
+{
+    try
+    {
+        if (m_pclApp != 0)
+        {
+            COnTimeEventManager* mgr =
+                (COnTimeEventManager*)*(void**)((char*)m_pclApp + 800);
+            unsigned int curIdx = mgr->GetEvent_Idx();
+            unsigned int newIdx = *(unsigned int*)((char*)pkt + 0xa);
+            CMyFileLog log("OnResultRegisterEventIdx", 0x1a85);
+            log("./log/OnTimeEvent",
+                "OnResultRegisterEventIdx:event_idx(%d) , cur_idx(%d)", newIdx, curIdx);
+            if (mgr->GetEvent_Idx() < newIdx)
+            {
+                mgr->SetEventIdx(newIdx);
+            }
+            mgr->SendContinueTimeToGS();
+        }
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnResultRegisterEventIdx", 0x1a92);
+        log("%s", "CPacketTranslater::OnResultRegisterEventIdx() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnResultRegisterEventIdx", 0x1a97);
+        log("%s", "CPacketTranslater::OnResultRegisterEventIdx() Exception Break");
+    }
+}
 void CPacketTranslater::OnGameMonitorGMVillageAttacked(PacketHeader* pkt)
 {
     if (m_pclApp == 0)
@@ -8205,7 +8334,69 @@ void CPacketTranslater::OnWebNoticeInGameAD(PacketHeader* pkt)
     log("./log/Web", "OnWebNoticeInGameAD() packet_id(%d)\n",
         (unsigned int)*(unsigned short*)pkt);
 }
-void CPacketTranslater::onCollectItems(PacketHeader* pkt) {}
+void CPacketTranslater::onCollectItems(PacketHeader* pkt)
+{
+    try
+    {
+        if (m_pclApp == 0)
+        {
+            throw CDNFException("CPacketTranslater::onCollectItems");
+        }
+        char* c = (char*)m_pclApp->getCollectItems();
+        unsigned int cur = *(unsigned int*)(c + 4);
+        if (cur < *(unsigned int*)c)
+        {
+            if (*(int*)(c + 4) == 0)
+            {
+                SendColletItemsReward(*(unsigned int*)((char*)pkt + 0xe),
+                                      *(unsigned int*)((char*)pkt + 0xa), (char*)pkt + 0x1b,
+                                      (int)(unsigned char)*(char*)((char*)pkt + 0x1a),
+                                      TimeGateRewardType::TYPE_0);
+            }
+            else
+            {
+                int cur2 = *(int*)(c + 4);
+                int add = *(int*)((char*)pkt + 0x12);
+                if ((unsigned int)(cur2 + add) < *(unsigned int*)c)
+                {
+                    int cur3 = *(int*)(c + 4);
+                    unsigned int rem = *(unsigned int*)(c + 4);
+                    if ((cur3 - rem % 0x14) + 0x14 <=
+                        (unsigned int)(*(int*)(c + 4) + *(int*)((char*)pkt + 0x12)))
+                    {
+                        SendColletItemsReward(*(unsigned int*)((char*)pkt + 0xe),
+                                              *(unsigned int*)((char*)pkt + 0xa),
+                                              (char*)pkt + 0x1b,
+                                              (int)(unsigned char)*(char*)((char*)pkt + 0x1a),
+                                              TimeGateRewardType::TYPE_1);
+                    }
+                }
+                else
+                {
+                    SendColletItemsReward(*(unsigned int*)((char*)pkt + 0xe),
+                                          *(unsigned int*)((char*)pkt + 0xa),
+                                          (char*)pkt + 0x1b,
+                                          (int)(unsigned char)*(char*)((char*)pkt + 0x1a),
+                                          TimeGateRewardType::TYPE_2);
+                    char* c2 = (char*)m_pclApp->getCollectItems();
+                    *(long*)(c2 + 8) = (long)time(0);
+                }
+            }
+            char* c3 = (char*)m_pclApp->getCollectItems();
+            *(int*)(c3 + 4) = *(int*)(c3 + 4) + *(int*)((char*)pkt + 0x12);
+        }
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("onCollectItems", 0x1fcb);
+        log("%s", "CPacketTranslater::onCollectItems() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("onCollectItems", 0x1fd0);
+        log("%s", "CPacketTranslater::onCollectItems() Exception Break");
+    }
+}
 void CPacketTranslater::onCollectItemsResult(PacketHeader* pkt)
 {
     if (m_pclApp == 0)
@@ -8918,6 +9109,18 @@ void COnTimeEventManager::SetEventIdx(unsigned int idx)
     m_field30 = (int)idx;
     m_field34 = 1;
 }
+void COnTimeEventManager::SendContinueTimeToGS()
+{
+    if (m_app != 0)
+    {
+        Packet_MTG_OntimeEvent_RewardStart pkt;
+        pkt.m_eventIdx = (unsigned int)m_field30;
+        pkt.m_fieldE = m_field38;
+        pkt.m_field12 = m_field3c;
+        pkt.m_field16 = m_field28 * 0x3c;
+        m_app->Get_ServerHandler()->SendAllTcpGameServer(&pkt);
+    }
+}
 void COnTimeEventManager::UpdateEventIdx() {}
 unsigned int COnTimeEventManager::GetEvent_Idx() { return 0; }
 void COnTimeEventManager::Clear() {}
@@ -9345,6 +9548,24 @@ Packet_Monitor_Notice_Black_List::Packet_Monitor_Notice_Black_List()
     : PacketHeader(0x5e2, 0x3b)
 {
     memset(m_charNos, 0xff, 0x28);
+}
+
+Packet_CollectItemsReward::Packet_CollectItemsReward() : PacketHeader(0x27e8, 0x32)
+{
+    m_idByChannel = 0;
+    m_charNo = 0;
+}
+
+Packet_CollectItemsRewardBroadcast::Packet_CollectItemsRewardBroadcast()
+    : PacketHeader(0x27e9, 0x32)
+{
+    m_charNo = 0;
+}
+
+Packet_MTG_OntimeEvent_RewardStart::Packet_MTG_OntimeEvent_RewardStart()
+    : PacketHeader(0x17c0, 0x1a)
+{
+    m_eventIdx = 0;
 }
 
 Packet_Monitor_Call_Member_List_ToUser::Packet_Monitor_Call_Member_List_ToUser()
