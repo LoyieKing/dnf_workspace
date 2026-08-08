@@ -1,6 +1,7 @@
 // df_guild_r — CApplication 主流程
 #include <stdio.h>
 #include <string.h>
+#include <signal.h>
 #include <unistd.h>
 
 #include "GuildApp.h"
@@ -259,6 +260,35 @@ int CApplication::Send_Term_Signal(const std::string& name)
 
 void CApplication::Send_Suspend_Signal(const std::string& name)
 {
+    std::string path = "./pid/" + name;
+    FILE* fp = fopen(path.c_str(), "r");
+    if (fp == 0)
+    {
+        printf("%s process id file open fail\n", path.c_str());
+    }
+    else
+    {
+        int pid = 0;
+        fscanf(fp, "%d", &pid);
+        if (pid < 1)
+        {
+            fclose(fp);
+            printf("\x25\x64\xb9\xf8\xc0\xc7 \xc0\xdf\xb8\xf8\xb5\xc8 process id\n", pid);
+        }
+        else
+        {
+            if (kill(pid, 10) < 0)
+            {
+                fclose(fp);
+                printf("\x25\x64\xb9\xf8 process id\n", pid);
+            }
+            else
+            {
+                printf("SEND SUSPEND SIGNAL TO %d\n", pid);
+                fclose(fp);
+            }
+        }
+    }
 }
 
 void CApplication::App_Stop()

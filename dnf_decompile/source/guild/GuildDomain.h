@@ -642,7 +642,7 @@ public:
     int GetSpecificItemSlot(int itemId);
     void PrintCargo(ENUM_GUILD_CARGO_BEHAVIOR behavior);
     static const char* PrintDnfItemInfo(DnfItemInfo& info);
-    void AddItem(DnfItemInfo& info, int slot, int count);
+    int AddItem(DnfItemInfo& info, int slot, int count);
     int InsertItem(DnfItemInfo& info, int& slot, int count, unsigned char a, int b);
     int DeleteItem(DnfItemInfo& info, int slot, int count, unsigned char a, int b, int c);
     int MoveItem(DnfItemInfo& info, DnfItemInfo& info2, int a, int b, int c, int d, int e);

@@ -3257,8 +3257,7 @@ bool CGuildCargo::IsLoadComplete()
 int CGuildCargo::CalcItemCount()
 {
     *(int*)((char*)this + 0x18dc) = 0;
-    int cap = *(int*)((char*)this + 0x18d8);
-    for (int i = 0; i < cap; i++)
+    for (int i = 0; i < 0x78; i++)
     {
         if (*(int*)((char*)this + i * 0x35 + 1) != 0)
         {
@@ -3323,8 +3322,24 @@ const char* CGuildCargo::PrintDnfItemInfo(DnfItemInfo& info)
     return szBuffer;
 }
 
-void CGuildCargo::AddItem(DnfItemInfo& info, int slot, int count)
+int CGuildCargo::AddItem(DnfItemInfo& info, int slot, int count)
 {
+    if (*(int*)((char*)this + slot * 0x35 + 1) == 0)
+    {
+        memcpy((char*)this + slot * 0x35, &info, 0x35);
+        *(int*)((char*)this + 0x18dc) += 1;
+        CMyFileLog log("AddItem", 0x4b);
+        log("./log/GuildCargo",
+            "AddItem SUCCESS - GUILD:%d, CHARAC:%d, ITEM:%d, SLOT:%d",
+            *(int*)((char*)this + 0x18e0), count, *(int*)((char*)&info + 1), slot);
+        return 0xc1;
+    }
+    CMyFileLog log("AddItem", 0x54);
+    log("./log/GuildCargo",
+        "AddItem ITEM ALREADY EXIST - GUILD:%d, CHARAC:%d, INSERT ITEM:%d, SLOT:%d, AREADY ITEM:%d",
+        *(int*)((char*)this + 0x18e0), count, *(int*)((char*)&info + 1), slot,
+        *(int*)((char*)this + slot * 0x35 + 1));
+    return 0xc9;
 }
 
 int CGuildCargo::InsertItem(DnfItemInfo& info, int& slot, int count, unsigned char a, int b)
