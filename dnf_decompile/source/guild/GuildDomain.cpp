@@ -3248,6 +3248,76 @@ CPeer::~CPeer()
 {
 }
 
+void* CPeer::operator new(unsigned int size)
+{
+    return malloc(size);
+}
+
+void CPeer::operator delete(void* p)
+{
+    free(p);
+}
+
+void CPeer::operator delete(void* p, unsigned int size)
+{
+    free(p);
+}
+
+TCPSocket* CPeer::GetTcpSocket()
+{
+    return this;
+}
+
+int CPeer::get_remain_sendlen()
+{
+    return *(int*)((char*)this + 0x1834);
+}
+
+void CPeer::InitPeer(std::queue<CTcpRecvBuffer*>* q, CMutex* lock1, CMutex* lock2)
+{
+    *(void**)((char*)this + 0x1828) = q;
+    *(void**)((char*)this + 0x1830) = lock1;
+    *(void**)((char*)this + 0x182c) = lock2;
+    *(void**)((char*)this + 0x181c) = (char*)this + 0x1c;
+    *(int*)((char*)this + 0x1824) = 0;
+    *(int*)((char*)this + 0x1820) = 0;
+    *(void**)((char*)this + 0x1838) = (char*)this + 0x183c;
+    *(int*)((char*)this + 0x1834) = 0;
+}
+
+int CPeer::RecvPacket()
+{
+    return 0;
+}
+
+int CPeer::recv_packet()
+{
+    return 0;
+}
+
+int CPeer::parsing(int len)
+{
+    return 0;
+}
+
+void CPeer::send_packet(char* buf, int len)
+{
+}
+
+void CPeer::send_packet()
+{
+}
+
+void CPeer::DisConnSig()
+{
+    *(int*)((char*)this + 0x1820) = 0;
+}
+
+void CPeer::ConnSig()
+{
+    *(int*)((char*)this + 0x1820) = 1;
+}
+
 CTcpSendBuffer::CTcpSendBuffer()
 {
     memset(m_data, 0, sizeof(m_data));

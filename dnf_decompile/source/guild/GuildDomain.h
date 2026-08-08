@@ -2,6 +2,8 @@
 #define GUILD_DOMAIN_H_
 
 #include <map>
+#include <queue>
+#include <deque>
 #include <string>
 #include <vector>
 
@@ -710,6 +712,19 @@ class CPeer : public TCPSocket
 public:
     CPeer();
     ~CPeer();
+    static void* operator new(unsigned int size);
+    static void operator delete(void* p);
+    static void operator delete(void* p, unsigned int size);
+    TCPSocket* GetTcpSocket();
+    int get_remain_sendlen();
+    void InitPeer(std::queue<CTcpRecvBuffer*>* q, CMutex* lock1, CMutex* lock2);
+    int RecvPacket();
+    int recv_packet();
+    int parsing(int len);
+    void send_packet(char* buf, int len);
+    void send_packet();
+    void DisConnSig();
+    void ConnSig();
     char m_data[0x97840];
 };
 
