@@ -146,7 +146,11 @@ void CUdpNetworkThread::dispatch(void* param)
         m_running = true;
         while (m_running)
         {
-            CUdpRecvBuffer* buf = (CUdpRecvBuffer*)CUdpRecvBuffer::operator new(0x1804);
+            CUdpRecvBuffer* buf;
+            {
+                CGuard<CMutex> g((CMutex*)m_bLock);
+                buf = (CUdpRecvBuffer*)CUdpRecvBuffer::operator new(0x1804);
+            }
             int len = 0x1800;
             unsigned short port = 0;
             unsigned int ip = 0;
@@ -175,33 +179,37 @@ void CUdpNetworkThread::dispatch(void* param)
                         }
                         else
                         {
-                            CMyFileLog log("dispatch", 0x8d);
+                            CMyFileLog log("dispatch", 0x7d);
                             log("./log/recvErr",
                                 "Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                                 *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
+                            CGuard<CMutex> g((CMutex*)m_bLock);
                             CUdpRecvBuffer::operator delete(buf, 0x1804);
                         }
                     }
                     else
                     {
-                        CMyFileLog log("dispatch", 0x81);
+                        CMyFileLog log("dispatch", 0x71);
                         log("./log/recvErr",
                             "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                             *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
+                        CGuard<CMutex> g((CMutex*)m_bLock);
                         CUdpRecvBuffer::operator delete(buf, 0x1804);
                     }
                 }
                 else
                 {
-                    CMyFileLog log("dispatch", 0x76);
+                    CMyFileLog log("dispatch", 0x66);
                     log("./log/recvErr",
                         "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                         *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
+                    CGuard<CMutex> g((CMutex*)m_bLock);
                     CUdpRecvBuffer::operator delete(buf, 0x1804);
                 }
             }
             else
             {
+                CGuard<CMutex> g((CMutex*)m_bLock);
                 CUdpRecvBuffer::operator delete(buf, 0x1804);
             }
         }
