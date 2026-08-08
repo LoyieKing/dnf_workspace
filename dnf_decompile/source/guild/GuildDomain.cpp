@@ -4802,11 +4802,25 @@ void CPowerWarCharacInfo::CalcBonus()
 
 CPowerWar::CPowerWar()
 {
-    memset(m_data, 0, sizeof(m_data));
+    new (m_data) CEvent();
+    *(int*)((char*)this + 8) = -1;
+    *(unsigned short*)((char*)this + 0xc) = 0xffff;
+    *(int*)((char*)this + 0x10) = 0;
+    new (m_data + 0x14) CScheduler();
+    *(CPowerWarConfig**)((char*)this + 0x10) = new CPowerWarConfig;
+    resetEvent();
 }
 
 CPowerWar::~CPowerWar()
 {
+    if (*(CPowerWarConfig**)((char*)this + 0x10) != 0)
+    {
+        delete *(CPowerWarConfig**)((char*)this + 0x10);
+        *(CPowerWarConfig**)((char*)this + 0x10) = 0;
+    }
+    puts("Power War Config Free Success!");
+    ((CScheduler*)(m_data + 0x14))->~CScheduler();
+    ((CEvent*)m_data)->~CEvent();
 }
 
 int CPowerWar::IsPowerWarOn()
@@ -4968,11 +4982,24 @@ CPowerWarCharacInfo* CPower::GetPowerWarCharacInfo()
 
 CPowerManager::CPowerManager()
 {
-    memset(m_data, 0, sizeof(m_data));
+    for (int i = 0; i < 3; i++)
+    {
+        new ((char*)this + 8 + i * 0x6c) CPower();
+    }
+    new ((char*)this + 0x14c) CPowerWar();
+    *(char*)((char*)this + 0x184) = 0;
+    *(unsigned short*)((char*)this + 0x186) = 0x3c;
+    *(char*)((char*)this + 0x188) = 3;
+    *(unsigned short*)((char*)this + 0x18a) = 0;
 }
 
 CPowerManager::~CPowerManager()
 {
+    ((CPowerWar*)((char*)this + 0x14c))->~CPowerWar();
+    for (int i = 2; i >= 0; i--)
+    {
+        ((CPower*)((char*)this + 8 + i * 0x6c))->~CPower();
+    }
 }
 
 void CPowerManager::InitPowerManager(char* path, CApplication* app)
