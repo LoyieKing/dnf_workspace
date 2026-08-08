@@ -451,8 +451,64 @@ public:
     CSignalTranslator();
     ~CSignalTranslator();
     void init(CApplication* app);
+    void init_signal();
+    void init_handler(CApplication* app);
+    bool regist_signal(int sig, void (*handler)(int));
+    void* getSignal(int sig) const;
     void clear();
-    char m_data[0x20];
+    char m_data[0x68];
+};
+
+void signal_handler(int sig);
+
+// ---- CSignal 族：vptr[0]=handle, vptr[2]=D0 ----
+class CSignal
+{
+public:
+    virtual void handle(int sig);
+    void attachApp(CApplication* app);
+    static void dump_core_file();
+    CApplication* m_app;  // +4
+};
+
+class CTerminateSig : public CSignal
+{
+public:
+    CTerminateSig();
+    ~CTerminateSig();
+    void handle(int sig);
+};
+
+class CSegmentationFaultSig : public CSignal
+{
+public:
+    CSegmentationFaultSig();
+    ~CSegmentationFaultSig();
+    void handle(int sig);
+};
+
+class CUser1Sig : public CSignal
+{
+public:
+    CUser1Sig();
+    ~CUser1Sig();
+    void handle(int sig);
+};
+
+class CUser2Sig : public CSignal
+{
+public:
+    CUser2Sig();
+    ~CUser2Sig();
+    void handle(int sig);
+};
+
+class CSystemFailSig : public CSignal
+{
+public:
+    CSystemFailSig();
+    ~CSystemFailSig();
+    void handle(int sig);
 };
 
 // ---- 任务 / 事件 ----

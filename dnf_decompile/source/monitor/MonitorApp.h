@@ -60,6 +60,7 @@ public:
     void* Get_UdpBLock();
     char Send_Term_Signal(const std::string& file);
     void Send_Suspend_Signal(const std::string& file);
+    void App_Stop();
     unsigned char Get_ServerGroup();
 
     bool m_loaded;                      // +4

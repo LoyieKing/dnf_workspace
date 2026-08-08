@@ -541,6 +541,11 @@ void CApplication::Send_Suspend_Signal(const std::string& file)
     }
 }
 
+void CApplication::App_Stop()
+{
+    m_loaded = false;
+}
+
 void* CApplication::Get_UdpPacketRecvQ()
 {
     return 0;
