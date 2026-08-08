@@ -5685,6 +5685,7 @@ int TCPSocket::send(char* buf, int len)
         printf("tcp send retry='%d', error ='%s'", r, strerror(errno));
         return 0;
     }
+    printf("1.tcp send='%d', error ='%s'", r, strerror(errno));
     return r;
 }
 
