@@ -55,12 +55,11 @@ void CUserManager::Init(CApplication* app)
 bool CUserManager::DeleteUser(Packet_DoubleCheck_UDP_Logout* pkt)
 {
     unsigned int user_id = *(unsigned int*)((char*)pkt + 0x10);
-    std::map<const unsigned int, CUser>& m = m_maps[user_id % 10];
-    std::map<const unsigned int, CUser>::iterator it = m.find(user_id);
-    bool eq = (it == m.end());
+    std::map<const unsigned int, CUser>::iterator it = m_maps[user_id % 10].find(user_id);
+    bool eq = (it == m_maps[user_id % 10].end());
     if (!eq)
     {
-        m.erase(it);
+        m_maps[user_id % 10].erase(it);
     }
     return !eq;
 }
@@ -81,9 +80,8 @@ void CUserManager::CreateUser(unsigned int user_id, CGameServer* gs)
 
 bool CUserManager::FindUser(unsigned int user_id, CUser& out)
 {
-    std::map<const unsigned int, CUser>& m = m_maps[user_id % 10];
-    std::map<const unsigned int, CUser>::const_iterator it = m.find(user_id);
-    bool eq = (it == m.end());
+    std::map<const unsigned int, CUser>::const_iterator it = m_maps[user_id % 10].find(user_id);
+    bool eq = (it == m_maps[user_id % 10].end());
     if (!eq)
     {
         out.m_gs = it->second.m_gs;
