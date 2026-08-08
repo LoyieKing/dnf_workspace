@@ -1181,6 +1181,36 @@ void CGuild::DBGuildSave(unsigned char flag, CServerHandler* handler, unsigned i
 {
 }
 
+void CGuild::DBSaveGuildMembers(unsigned char flag, CServerHandler* handler, unsigned char param)
+{
+    if ((m_field1c & 4) == 0 || m_members.empty())
+    {
+        return;
+    }
+    for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+         it != m_members.end(); ++it)
+    {
+        if (it->second != 0)
+        {
+            it->second->SaveGuildMember(flag, it->first, handler, param);
+        }
+    }
+}
+
+void CGuild::DBGuildSaveProcess(CServerHandler* handler)
+{
+    if (m_field4d96 != 0 && (m_field1c & 4) != 0)
+    {
+        short* cnt = (short*)((char*)this + 0x4d94);
+        *cnt = (short)(*cnt + 1);
+        if (1 < *(unsigned short*)((char*)this + 0x4d94))
+        {
+            *cnt = 0;
+            m_field4d96 = 0;
+        }
+    }
+}
+
 void CGuild::QueryGuild(CServerHandler* handler, unsigned int charNo)
 {
 }

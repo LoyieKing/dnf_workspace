@@ -360,6 +360,8 @@ public:
     void NoticeGuildMasterDelegateToMembers(char* name);
     void NotifyCreateGuildAgitToGuildMember(unsigned int charNo);
     void NotifyDeleteGuildAgitToGuildMember(unsigned int charNo);
+    void DBSaveGuildMembers(unsigned char flag, CServerHandler* handler, unsigned char param);
+    void DBGuildSaveProcess(CServerHandler* handler);
     unsigned char GetPowerSide();
     void SetPowerSide(unsigned char side);
     unsigned int GetPowerWarPoint();
