@@ -646,6 +646,21 @@ UDPHandlerS2S::~UDPHandlerS2S()
 
 void UDPHandlerS2S::dispatch(char* buf, int size, int flag)
 {
+    short type = *(short*)buf;
+    if (type != 1)
+    {
+        if (type == 0x9c4)
+        {
+            if (*(char*)(buf + 0xe) == 0)
+            {
+                getManager()->postDisconnectEvent2TCPUser(*(unsigned int*)(buf + 0xa), 3);
+            }
+        }
+        else if (type == 0)
+        {
+            getManager()->setAuthenticated(*(unsigned int*)(buf + 0xa));
+        }
+    }
 }
 
 // ---- TCPThread / UDPThread / TCPAcceptThread ----

@@ -68,11 +68,11 @@ if [ -n "$ALL_OBJS" ]; then
         ALL_OBJS="$ALL_OBJS $OUT_DIR/stub_main.o"
     fi
     g++ -m32 -no-pie -o "$OUT_DIR/df_relay_r" $ALL_OBJS \
+        "/tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.4/32/libstdc++.a" \
+        "/tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.4/32/libgcc_eh.a" \
         "/tmp/c5r52i386/usr/lib/gcc/i386-redhat-linux/4.1.1/libstdc++.a" \
         "$C5ROOT/usr/lib/gcc/x86_64-redhat-linux/4.1.1/32/libgcc.a" \
         "$C5ROOT/usr/lib/gcc/x86_64-redhat-linux/4.1.1/32/libgcc_eh.a" \
-        "/tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.4/32/libstdc++.a" \
-        "/tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.4/32/libgcc_eh.a" \
         -lpthread -ldl -lm
     echo "OK -> $OUT_DIR/df_relay_r"
 fi
