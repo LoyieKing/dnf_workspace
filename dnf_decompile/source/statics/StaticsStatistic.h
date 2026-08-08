@@ -5,8 +5,96 @@
 #include <string>
 #include <vector>
 
+class MoneyLogPacket;
+class Packet_P2P_Statistics;
+class Packet_Stat_Lag_Statistics;
+class Packet_Server_Match_data;
+class Packet_Value_Statistic;
+class Packet_Emblem_Create_Statistic;
+class Packet_Stat_Compatibility_Index;
+class Packet_Avater_Disjoint_Statistic;
+class Packet_Randombox_statistic;
+class Packet_Reason_Crash_Down_Info;
+class Packet_Secret_Shop_Statistic;
+class Packet_User_Count_Statistic;
+class Packet_Circulation_Statistic;
+class Packet_Blood_dungeon_statistic;
+class Packet_Goldcard_Event_Statistic_GTS;
+class Packet_TowerOfDespair_Statistic_GTS;
+class Packet_Dungeon_Statistic_Party;
+class Packet_Fatigue_Battery_Money_Statistic;
+class Packet_Assert_Manager_Info;
+class Packet_HellParty_Statistic_Item;
+class Packet_Overflow_Statistic_Add;
+class Packet_DeathTower_Statistic_Value;
+class Packet_Dungeon_Statistic_Party_Job;
+class Packet_Loading_Time_Report_Statistics;
+class Packet_Dungeon_Statistic_Party_Charac;
+class Packet_DeathTower_Statistic_Playdata_Job;
+class Packet_DeathTower_Statistic_Playdata_Party;
+class Packet_User_Ting_TimeCheck_Statistic_Add;
+class Packet_Cube_Statistic;
+
 class CServerHandler;
 class CApplication;
+
+// ---- CCubeStatistic ----
+class CCubeStatistic
+{
+public:
+    CCubeStatistic();
+    ~CCubeStatistic();
+    void addStatisticData(Packet_Cube_Statistic* pkt);
+    void sendStatisticData(CServerHandler* handler);
+    void printStatisticData();
+    void resetStatisticData();
+};
+
+// ---- WongWork::CGMAccounts ----
+namespace WongWork
+{
+class CGMAccounts
+{
+public:
+    struct stGMInfo_t
+    {
+        bool operator==(const stGMInfo_t& other) const;
+        unsigned int m_field0;
+        unsigned char m_field1;
+    };
+    void LoadGmList(unsigned int group, int index);
+    void clearGmList();
+    void AppendGM_Sys(unsigned int id, char flag);
+    void loadGMAccounts(const char* path);
+    int isGM(unsigned int id);
+    void appendGM(unsigned int id, unsigned int value);
+    void removeGM(unsigned int id, unsigned int value);
+    stGMInfo_t getGMInfo(unsigned int id) const;
+    char m_data[0x400];
+};
+}
+
+// ---- CScheduler：0x8 ----
+class CScheduler
+{
+public:
+    CScheduler();
+    ~CScheduler();
+    void SetSpecialHour(int hour);
+    void SetSpecialDayHour(int day, int hour);
+    int IsOnTimeSpecialHour(int hour, int min);
+    int IsOnTimeSpecialDayHour(int day, int hour, int min);
+    char m_day;      // +0
+    char m_min;      // +1
+    char m_hour;     // +2
+    char m_sec;      // +3
+    unsigned short m_week;  // +4
+    char m_flag1;    // +6
+    char m_flag2;    // +7
+};
+
+bool CheckDailyScheduleTimeOver(int hour, long t);
+int CheckDayHourScheduleTimeOver(int day, int hour, long t);
 
 // ---- CHWSpecResearcher：0x6C ----
 class CHWSpecResearcher
@@ -122,6 +210,39 @@ public:
     void SendDBPowerwarLoadingTimeReport(CServerHandler* handler);
     void SendDBServerMatchData(CServerHandler* handler);
     void SendDBLagStatistics(CServerHandler* handler, char* data);
+    void AddMoneyLog(MoneyLogPacket* pkt, CServerHandler* handler);
+    void AddP2PStatistic(Packet_P2P_Statistics* pkt);
+    void AddLagStatistics(Packet_Stat_Lag_Statistics* pkt);
+    void AddServerMatchData(Packet_Server_Match_data* pkt);
+    void AddValueStatistics(Packet_Value_Statistic* pkt);
+    void AddCreateEmblemInfo(Packet_Emblem_Create_Statistic* pkt);
+    void AddCompatibilityIndex(Packet_Stat_Compatibility_Index* pkt, CServerHandler* handler);
+    void AddDisjointAvatarInfo(Packet_Avater_Disjoint_Statistic* pkt);
+    void AddRandomboxStatistic(Packet_Randombox_statistic* pkt);
+    void AddReasonCrashDownData(Packet_Reason_Crash_Down_Info* pkt, CServerHandler* handler);
+    void AddSecretShopStatistic(Packet_Secret_Shop_Statistic* pkt);
+    void AddUserCountStatistics(CServerHandler* handler, Packet_User_Count_Statistic* pkt);
+    void AddCirculationStatistics(Packet_Circulation_Statistic* pkt);
+    void AddBloodDungeonStatistics(Packet_Blood_dungeon_statistic* pkt);
+    void AddGoldcardEventStatistic(Packet_Goldcard_Event_Statistic_GTS* pkt);
+    void AddTowerOfDespairStatistic(Packet_TowerOfDespair_Statistic_GTS* pkt);
+    void WriteDungeonPartyStatistic(Packet_Dungeon_Statistic_Party* pkt);
+    void AddFatigueBatteryStatistics(Packet_Fatigue_Battery_Money_Statistic* pkt);
+    void WriteAssertManagerStatistic(Packet_Assert_Manager_Info* pkt);
+    void WriteHellPartyStatisticItem(Packet_HellParty_Statistic_Item* pkt);
+    void WritePacketOverflowStatistic(Packet_Overflow_Statistic_Add* pkt);
+    void WriteDeathTowerValueStatistic(Packet_DeathTower_Statistic_Value* pkt);
+    void WriteDungeonPartyJobStatistic(Packet_Dungeon_Statistic_Party_Job* pkt);
+    void AddLoadingTimeReportStatistics(Packet_Loading_Time_Report_Statistics* pkt);
+    void WriteUserTingTImeCheckStatistic(Packet_User_Ting_TimeCheck_Statistic_Add* pkt);
+    void WriteDungeonPartyCharacStatistic(Packet_Dungeon_Statistic_Party_Charac* pkt);
+    void WriteDeathTowerPlayDataJobStatistic(Packet_DeathTower_Statistic_Playdata_Job* pkt);
+    void WriteDeathTowerPlayDataPartyStatistic(Packet_DeathTower_Statistic_Playdata_Party* pkt);
+    void avgPing(int& a, int& b, short& c);
+    void maxPing(short& a, short& b);
+    void minPing(short& a, short& b);
+    void sumPing(int& a, short& b, int& c);
+    void AMDecrypt(void* data, unsigned int len);
     char m_data[0xb90];
 };
 

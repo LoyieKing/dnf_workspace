@@ -19,6 +19,18 @@ CInnerMsgHandler::~CInnerMsgHandler()
 template<int Lo, int Hi>
 CPacketCounter<Lo, Hi>::CPacketCounter(char* name, char* title)
 {
+    Reset();
+    time_t t = time(0);
+    *(time_t*)((char*)this + 4) = t;
+    if (name == 0)
+    {
+        sprintf((char*)this + 0x1d540, "./log/%s", title);
+    }
+    else
+    {
+        sprintf((char*)this + 0x1d540, "./log/%s/%s", name, title);
+    }
+    *(unsigned char*)((char*)this + 0x1d640) = 1;
 }
 
 template<int Lo, int Hi>
@@ -27,18 +39,65 @@ CPacketCounter<Lo, Hi>::~CPacketCounter()
 }
 
 template<int Lo, int Hi>
-void CPacketCounter<Lo, Hi>::IncrementPacketCount(unsigned int id)
+void CPacketCounter<Lo, Hi>::IncrementPacketCount(int id)
 {
+    if (id < 0x2800 && 999 < id &&
+        (*(unsigned char*)((char*)this + 0x1d640) == 1 ||
+         *(unsigned int*)((char*)this + (id - 1000) * 4 + 8) < 0xb))
+    {
+        *(unsigned int*)((char*)this + (id - 1000) * 4 + 8) += 1;
+    }
 }
 
 template<int Lo, int Hi>
 void CPacketCounter<Lo, Hi>::BeforeProcess()
 {
+    *(unsigned int*)((char*)this + 0x9068) = *(unsigned int*)this;
+    if (*(int*)((char*)this + 0x9068) == -1)
+    {
+        *(unsigned int*)((char*)this + 0x9068) = 0;
+    }
 }
 
 template<int Lo, int Hi>
-void CPacketCounter<Lo, Hi>::AfterProcess(unsigned int id)
+void CPacketCounter<Lo, Hi>::AfterProcess(int id)
 {
+    if (id < 0x2800 && 999 < id &&
+        (*(unsigned char*)((char*)this + 0x1d640) == 1 ||
+         *(unsigned int*)((char*)this + (id - 1000) * 4 + 8) < 0xb))
+    {
+        int diff = *(int*)this;
+        if (diff != -1)
+        {
+            int start;
+            if (*(unsigned char*)((char*)this + 0x1d640) == 0)
+            {
+                start = *(int*)((char*)this + (id + 0x2030) * 4 + 8);
+                *(unsigned int*)((char*)this + (id - 1000) * 4 + 8) += 1;
+                *(unsigned char*)((char*)this + id + 0x11ce0) = 0;
+            }
+            else
+            {
+                start = *(int*)((char*)this + 0x9068);
+            }
+            diff = diff - start;
+            *(int*)((char*)this + (id + 0x4d50) * 4) += diff;
+        }
+    }
+}
+
+template<int Lo, int Hi>
+void CPacketCounter<Lo, Hi>::Reset()
+{
+    for (int i = 0; i < 0x2418; i++)
+    {
+        *(unsigned int*)((char*)this + i * 4 + 8) = 0;
+        *(unsigned int*)((char*)this + (i + 0x5138) * 4) = 0;
+        *(unsigned int*)((char*)this + (i + 0x2418) * 4 + 8) = 0;
+        *(unsigned char*)((char*)this + i + 0x120c8) = 0;
+    }
+    *(unsigned int*)this = 0;
+    *(unsigned char*)((char*)this + 0x1d641) = 0;
 }
 
 CPacketDecoder* CPacketDecoderInstance()

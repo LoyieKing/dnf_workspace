@@ -25,9 +25,10 @@ class CPacketCounter
 public:
     CPacketCounter(char* name, char* title);
     ~CPacketCounter();
-    void IncrementPacketCount(unsigned int id);
+    void IncrementPacketCount(int id);
     void BeforeProcess();
-    void AfterProcess(unsigned int id);
+    void AfterProcess(int id);
+    void Reset();
 };
 
 // ---- CPacketDecoder：queue@0 / lock@4 / poolLock@8 / handlers@0xc（0x2800 项）----

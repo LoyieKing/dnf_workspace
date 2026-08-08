@@ -1,4 +1,9 @@
 // df_statics_r — 统计类（骨架，待按反编译逐方法补全）
+#include <fcntl.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
+
 #include "StaticsStatistic.h"
 #include "StaticsProxy.h"
 
@@ -130,6 +135,142 @@ void resetStatisticProxy()
 void sendDBStatisticProxy()
 {
 }
+}
+
+statistc_proxy::StatisticProxy* getStatisticProxy()
+{
+    static statistc_proxy::StatisticProxy statisticProxy;
+    return &statisticProxy;
+}
+
+CScheduler::CScheduler()
+{
+    m_day = 0xff;
+    m_min = 0xff;
+    m_hour = 0xff;
+    m_sec = 0xff;
+    m_week = 0xffff;
+    m_flag1 = 0xff;
+    m_flag2 = 0xff;
+}
+
+CScheduler::~CScheduler()
+{
+}
+
+void CScheduler::SetSpecialHour(int hour)
+{
+    m_hour = (char)hour;
+    m_min = 0;
+}
+
+void CScheduler::SetSpecialDayHour(int day, int hour)
+{
+    m_hour = (char)hour;
+    m_day = (char)day;
+    m_min = 0;
+}
+
+int CScheduler::IsOnTimeSpecialHour(int hour, int min)
+{
+    if ((char)m_hour == hour && (char)m_min == min)
+    {
+        return 1;
+    }
+    return 0;
+}
+
+int CScheduler::IsOnTimeSpecialDayHour(int day, int hour, int min)
+{
+    if ((char)m_day == day && (char)m_hour == hour && (char)m_min == min)
+    {
+        return 1;
+    }
+    return 0;
+}
+
+bool CheckDailyScheduleTimeOver(int hour, long t)
+{
+    time_t now = time(0);
+    tm* pt = localtime(&now);
+    tm local;
+    local.tm_mday = pt->tm_mday;
+    local.tm_mon = pt->tm_mon;
+    local.tm_year = pt->tm_year;
+    local.tm_wday = pt->tm_wday;
+    local.tm_yday = pt->tm_yday;
+    local.tm_isdst = pt->tm_isdst;
+    local.tm_gmtoff = pt->tm_gmtoff;
+    local.tm_zone = pt->tm_zone;
+    local.tm_hour = hour;
+    local.tm_min = 0;
+    local.tm_sec = 0;
+    long lt = mktime(&local);
+    if (pt->tm_hour < hour)
+    {
+        lt -= 0x15180;
+    }
+    return t < lt;
+}
+
+int CheckDayHourScheduleTimeOver(int day, int hour, long t)
+{
+    time_t now = time(0);
+    tm* pt = localtime(&now);
+    tm local;
+    local.tm_mday = pt->tm_mday;
+    local.tm_mon = pt->tm_mon;
+    local.tm_year = pt->tm_year;
+    local.tm_wday = pt->tm_wday;
+    local.tm_yday = pt->tm_yday;
+    local.tm_isdst = pt->tm_isdst;
+    local.tm_gmtoff = pt->tm_gmtoff;
+    local.tm_zone = pt->tm_zone;
+    local.tm_hour = hour;
+    local.tm_min = 0;
+    local.tm_sec = 0;
+    long lt = mktime(&local);
+    if (pt->tm_hour < hour)
+    {
+        lt -= 0x15180;
+    }
+    lt += (1 - day) * 0x15180;
+    return t < lt;
+}
+
+bool SetNonBlock(int fd)
+{
+    unsigned int flags = fcntl(fd, 3, 0);
+    int r = fcntl(fd, 4, flags | 0x800);
+    return -1 < r;
+}
+
+unsigned int get_rand_int(int range)
+{
+    if (range < 0)
+    {
+        return 0;
+    }
+    if (range == 0)
+    {
+        return rand();
+    }
+    int r = rand();
+    if (range < r)
+    {
+        r = rand();
+        return (unsigned int)(r % range);
+    }
+    r = r * 0x41c64e6d + 0x3039;
+    int r1 = r * 0x41c64e6d + 0x3039;
+    int r2 = r1 * 0x41c64e6d + 0x3039;
+    unsigned int v = ((((r >> 16) & 0x7ff) << 10) ^ ((r1 >> 16) & 0x3ff)) << 10 ^
+                     ((r2 >> 16) & 0x3ff);
+    if ((unsigned int)range < v)
+    {
+        v = v % (unsigned int)range;
+    }
+    return v;
 }
 
 CHWSpecResearcher::CHWSpecResearcher()
@@ -339,5 +480,105 @@ STUB_STAT(SendDBTingUserTimeCheck, (CServerHandler*))
 STUB_STAT(SendDBPowerwarLoadingTimeReport, (CServerHandler*))
 STUB_STAT(SendDBServerMatchData, (CServerHandler*))
 STUB_STAT(SendDBLagStatistics, (CServerHandler*, char*))
+STUB_STAT(AddMoneyLog, (MoneyLogPacket*, CServerHandler*))
+STUB_STAT(AddP2PStatistic, (Packet_P2P_Statistics*))
+STUB_STAT(AddLagStatistics, (Packet_Stat_Lag_Statistics*))
+STUB_STAT(AddServerMatchData, (Packet_Server_Match_data*))
+STUB_STAT(AddValueStatistics, (Packet_Value_Statistic*))
+STUB_STAT(AddCreateEmblemInfo, (Packet_Emblem_Create_Statistic*))
+STUB_STAT(AddCompatibilityIndex, (Packet_Stat_Compatibility_Index*, CServerHandler*))
+STUB_STAT(AddDisjointAvatarInfo, (Packet_Avater_Disjoint_Statistic*))
+STUB_STAT(AddRandomboxStatistic, (Packet_Randombox_statistic*))
+STUB_STAT(AddReasonCrashDownData, (Packet_Reason_Crash_Down_Info*, CServerHandler*))
+STUB_STAT(AddSecretShopStatistic, (Packet_Secret_Shop_Statistic*))
+STUB_STAT(AddUserCountStatistics, (CServerHandler*, Packet_User_Count_Statistic*))
+STUB_STAT(AddCirculationStatistics, (Packet_Circulation_Statistic*))
+STUB_STAT(AddBloodDungeonStatistics, (Packet_Blood_dungeon_statistic*))
+STUB_STAT(AddGoldcardEventStatistic, (Packet_Goldcard_Event_Statistic_GTS*))
+STUB_STAT(AddTowerOfDespairStatistic, (Packet_TowerOfDespair_Statistic_GTS*))
+STUB_STAT(WriteDungeonPartyStatistic, (Packet_Dungeon_Statistic_Party*))
+STUB_STAT(AddFatigueBatteryStatistics, (Packet_Fatigue_Battery_Money_Statistic*))
+STUB_STAT(WriteAssertManagerStatistic, (Packet_Assert_Manager_Info*))
+STUB_STAT(WriteHellPartyStatisticItem, (Packet_HellParty_Statistic_Item*))
+STUB_STAT(WritePacketOverflowStatistic, (Packet_Overflow_Statistic_Add*))
+STUB_STAT(WriteDeathTowerValueStatistic, (Packet_DeathTower_Statistic_Value*))
+STUB_STAT(WriteDungeonPartyJobStatistic, (Packet_Dungeon_Statistic_Party_Job*))
+STUB_STAT(AddLoadingTimeReportStatistics, (Packet_Loading_Time_Report_Statistics*))
+STUB_STAT(WriteUserTingTImeCheckStatistic, (Packet_User_Ting_TimeCheck_Statistic_Add*))
+STUB_STAT(WriteDungeonPartyCharacStatistic, (Packet_Dungeon_Statistic_Party_Charac*))
+STUB_STAT(WriteDeathTowerPlayDataJobStatistic, (Packet_DeathTower_Statistic_Playdata_Job*))
+STUB_STAT(WriteDeathTowerPlayDataPartyStatistic, (Packet_DeathTower_Statistic_Playdata_Party*))
+STUB_STAT(avgPing, (int&, int&, short&))
+STUB_STAT(maxPing, (short&, short&))
+STUB_STAT(minPing, (short&, short&))
+STUB_STAT(sumPing, (int&, short&, int&))
+STUB_STAT(AMDecrypt, (void*, unsigned int))
 
 #undef STUB_STAT
+
+CCubeStatistic::CCubeStatistic()
+{
+}
+
+CCubeStatistic::~CCubeStatistic()
+{
+}
+
+void CCubeStatistic::addStatisticData(Packet_Cube_Statistic* pkt)
+{
+}
+
+void CCubeStatistic::sendStatisticData(CServerHandler* handler)
+{
+}
+
+void CCubeStatistic::printStatisticData()
+{
+}
+
+void CCubeStatistic::resetStatisticData()
+{
+}
+
+namespace WongWork
+{
+bool CGMAccounts::stGMInfo_t::operator==(const stGMInfo_t& other) const
+{
+    return false;
+}
+
+void CGMAccounts::LoadGmList(unsigned int group, int index)
+{
+}
+
+void CGMAccounts::clearGmList()
+{
+}
+
+void CGMAccounts::AppendGM_Sys(unsigned int id, char flag)
+{
+}
+
+void CGMAccounts::loadGMAccounts(const char* path)
+{
+}
+
+int CGMAccounts::isGM(unsigned int id)
+{
+    return 0;
+}
+
+void CGMAccounts::appendGM(unsigned int id, unsigned int value)
+{
+}
+
+void CGMAccounts::removeGM(unsigned int id, unsigned int value)
+{
+}
+
+CGMAccounts::stGMInfo_t CGMAccounts::getGMInfo(unsigned int id) const
+{
+    stGMInfo_t r = {0, 0};
+    return r;
+}
+}

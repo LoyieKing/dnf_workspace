@@ -63,4 +63,6 @@ void resetStatisticProxy();
 void sendDBStatisticProxy();
 }
 
+statistc_proxy::StatisticProxy* getStatisticProxy();
+
 #endif // STATICS_PROXY_H_
