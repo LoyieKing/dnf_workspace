@@ -184,6 +184,10 @@ public:
     void delUser(unsigned int acc_id);
     void increaseUserCount();
     void decreaseUserCount();
+    int getUserCount() const
+    {
+        return m_currentUserCount;
+    }
     void clearCurrentMaxUserCount();
     void setDispatchTime(int t);
     void clearDispatchTime();
@@ -219,22 +223,6 @@ public:
     TMemoryPoolStatic<TCPSocket, std::queue<TCPSocket*, std::deque<TCPSocket*, std::allocator<TCPSocket*> > > > m_tcpSocketPool;   // +0
     TMemoryPoolStatic<TCPUser, std::queue<TCPUser*, std::deque<TCPUser*, std::allocator<TCPUser*> > > > m_tcpUserPool;             // +0x30
     TMemoryPoolStatic<UDPUser, std::queue<UDPUser*, std::deque<UDPUser*, std::allocator<UDPUser*> > > > m_udpUserPool;             // +0x60
-};
-
-// ---- Reactor：包装 TReactor<EpollReactor<TCPUser,TCPSocket,TCPSocket>,...> ----
-class Reactor
-{
-public:
-    Reactor();
-    ~Reactor();
-    void* getReactor()
-    {
-        return this;
-    }
-    void unregistHandle(TCPUser* user);
-
-private:
-    char m_impl[0x40];  // TReactor<EpollReactor<...>> 占位（0x184..0x1c4）
 };
 
 // ---- TCPUser：TManager@0 / states@4 / accId@8 / kind@0xc / flags@0x10,0x11 /
@@ -277,6 +265,19 @@ public:
     TCPSocket* m_sock;                               // +0x1c
     TDoubleCircularQueueBuffer<51200u> m_recvQueue;  // +0x20
     TDoubleCircularQueueBuffer<51200u> m_sendQueue;  // +0x1902c
+};
+
+// Reactor：包装 TReactor<EpollReactor<TCPUser,TCPSocket,TCPSocket>,...>（0x40）
+class Reactor
+{
+public:
+    Reactor();
+    ~Reactor();
+    void* getReactor()
+    {
+        return this;
+    }
+    void unregistHandle(TCPUser* user);
 };
 
 // ---- TCPHandler / TCPHandlerRelay（vptr@0 + TManager@4，8B）----

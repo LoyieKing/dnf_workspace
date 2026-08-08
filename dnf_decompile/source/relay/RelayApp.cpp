@@ -1,7 +1,10 @@
 // df_relay_r — RelayServiceApp 框架类（GCC 4.1.2, 无 DWARF — Ghidra 反汇编还原）
 #include <string.h>
+#include <errno.h>
+#include <sys/epoll.h>
 
 #include "RelayApp.h"
+#include "RelayReactor.h"
 
 namespace RelayServiceApp
 {
@@ -58,16 +61,6 @@ Threads::Threads()
 }
 
 Threads::~Threads()
-{
-}
-
-// ---- Reactor ----
-
-Reactor::Reactor()
-{
-}
-
-Reactor::~Reactor()
 {
 }
 
@@ -725,6 +718,35 @@ TCPThread::~TCPThread()
 
 void TCPThread::loop(void* pParam)
 {
+    unsigned short port = (unsigned short)m_port;
+    printf("In %s : port='%d'\n", "TCPThread::loop", (unsigned int)port);
+    TReactor<EpollReactor<TCPUser, TCPSocket, TCPSocket>, TCPUser, TCPSocket, TCPSocket> *reactor =
+        (TReactor<EpollReactor<TCPUser, TCPSocket, TCPSocket>, TCPUser, TCPSocket, TCPSocket> *)
+            getManager()->m_reactor.getReactor();
+    reactor->init(G_ScriptData()->mRelayNum + 0x69);
+    reactor->startup();
+    reactor->setManagerToEpoll(getManager());
+    TCPSocket listenSocket;
+    if (!listenSocket.open())
+    {
+        printf("listenSocket.open : ERROR(%s)\n", strerror(*__errno_location()));
+    }
+    if (*(unsigned short*)((char*)G_ScriptData() + 0x1a) != 0)
+    {
+        puts("Set Relay Server for PVP Channel");
+        listenSocket.setOptNagle(false);
+    }
+    if (!listenSocket.bind(port, false))
+    {
+        printf("listenSocket.bind : ERROR(%s)\n", strerror(*__errno_location()));
+    }
+    if (!listenSocket.listen(100))
+    {
+        printf("listenSocket.listen : ERROR(%s)\n", strerror(*__errno_location()));
+    }
+    reactor->handleEvents(2000, listenSocket, 7);
+    reactor->shutdown();
+    setTerminated();
 }
 
 UDPThread::UDPThread()
@@ -741,6 +763,72 @@ UDPThread::~UDPThread()
 
 void UDPThread::loop(void* pParam)
 {
+    int epoll_fd = -1;
+    int max_events = 1;
+    epoll_fd = epoll_create(1);
+    if (epoll_fd == -1)
+    {
+        printf("In %s : Can't create epoll device", "UDPThread::loop");
+    }
+    UDPSocket udp;
+    if (udp.open() == 1)
+    {
+        if (udp.bind((unsigned short)m_port, true) == 1)
+        {
+            if (udp.setOptNonBlock() == 1)
+            {
+                printf("succeeded in binding UDP socket port #%d\n", m_port);
+                epoll_event ev;
+                ev.events = 1;
+                ev.data.ptr = (void*)udp.getHandle();
+                if (epoll_ctl(epoll_fd, 1, udp.getHandle(), &ev) < 0)
+                {
+                    printf("In %s : epoll_ctl error\n", "UDPThread::loop");
+                }
+                setUDPSocket(&udp);
+                char buf[0x1000];
+                while (!isTerminating())
+                {
+                    int n = epoll_wait(epoll_fd, &ev, max_events, 100);
+                    if (n != 0)
+                    {
+                        if (G_ScriptData()->mFlag)
+                        {
+                            long long now = get_ms_tick();
+                            long long diff = now - m_tick;
+                            if (500 < diff)
+                            {
+                                getUDPSocket()->popMonitorAuthPacket();
+                                m_tick = now;
+                            }
+                        }
+                        int r = udp.recv(buf, 0x1000);
+                        if (r < 0)
+                        {
+                            printf("[ERROR] UDP Thread Recv Error(%s)", strerror(*__errno_location()));
+                        }
+                        else if (r != 0)
+                        {
+                            m_handler->dispatch(buf, r, 0);
+                        }
+                    }
+                }
+                setTerminated();
+            }
+            else
+            {
+                puts("failed to set Option Non Blocking");
+            }
+        }
+        else
+        {
+            printf("failed to bind UDP socket port #%d\n", m_port);
+        }
+    }
+    else
+    {
+        puts("failed to open UDP socket port");
+    }
 }
 
 void UDPThread::logError()
@@ -758,6 +846,63 @@ TCPAcceptThread::~TCPAcceptThread()
 
 void TCPAcceptThread::loop(void* pParam)
 {
+    unsigned short port = (unsigned short)m_port;
+    printf("In %s \n", "TCPAcceptThread::loop");
+    TCPSocket listenSocket;
+    if (!listenSocket.open())
+    {
+        throw Exception("Fail to open socket");
+    }
+    if (!listenSocket.bind(port, false))
+    {
+        throw Exception("Fail to bind listen");
+    }
+    if (!listenSocket.listen(100))
+    {
+        throw Exception("Fail to Create AcceptThread.");
+    }
+    while (!isTerminating())
+    {
+        TSystem<LinuxSystem>::usleep(100);
+        if (isStop())
+        {
+            break;
+        }
+        TCPSocket* sock = getManager()->m_userPools.createTCPSocket();
+        if (sock != 0)
+        {
+            if (listenSocket.accept(*sock))
+            {
+                if (getManager()->m_users.getUserCount() < getManager()->m_users.getMaxUserCount())
+                {
+                    TCPUser* user = getManager()->m_userPools.createTCPUser();
+                    if (user == 0)
+                    {
+                        notifyCannotCreateUser(*sock);
+                        sock->close();
+                        getManager()->m_userPools.destroyTCPSocket(sock);
+                    }
+                    else
+                    {
+                        user->setManager(getManager());
+                        user->setSocket(sock);
+                        user->startupAfterSetSocket();
+                        lockPushAcceptedUser(user);
+                    }
+                }
+                else
+                {
+                    notifyCannotLoginByMaxUserCount(*sock);
+                    sock->close();
+                    getManager()->m_userPools.destroyTCPSocket(sock);
+                }
+            }
+            else
+            {
+                getManager()->m_userPools.destroyTCPSocket(sock);
+            }
+        }
+    }
 }
 
 void TCPAcceptThread::lockPushAcceptedUser(TCPUser* user)
@@ -950,10 +1095,6 @@ void RelayService::relayToTCP(PacketHeader* pkt)
     {
         user->send(pkt);
     }
-}
-
-void Reactor::unregistHandle(TCPUser* user)
-{
 }
 
 // ---- 日志创建/销毁（TGlobalInstance 相关，后续补齐实现）----
