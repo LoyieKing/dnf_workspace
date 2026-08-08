@@ -22,12 +22,28 @@ CThreadInterface::~CThreadInterface()
 
 int CThreadInterface::begin()
 {
-    return pthread_create(&m_thread, 0, 0, this);
+    int r = pthread_create(&m_thread, 0, dispatch_proxy, this);
+    if (r < 0)
+    {
+        puts("[ThreadInterface::begin] Can't begin thread");
+    }
+    return r >= 0;
 }
 
-void CThreadInterface::end()
+void CThreadInterface::stop()
 {
     m_running = false;
+}
+
+void CThreadInterface::join()
+{
+    pthread_join(m_thread, 0);
+}
+
+void* CThreadInterface::dispatch_proxy(void* temp)
+{
+    ((CThreadInterface*)temp)->dispatch(temp);
+    return 0;
 }
 
 CFrameCountHandler::CFrameCountHandler()
@@ -50,9 +66,17 @@ CFrameCountHandler::~CFrameCountHandler()
 {
 }
 
-void CFrameCountHandler::InitFrameCountInfo(CApplication* app, unsigned int frameCount)
+void CFrameCountHandler::InitFrameCountInfo(CApplication* app, unsigned int value,
+                                            unsigned short frameCount)
 {
+    if (frameCount == 0)
+    {
+        throw CDNFException("CFrameCountHandler::InitFrameCountInfo() Exception Break!");
+    }
+    m_field2c = (int)value;
+    memset(this, 0, 0x28);
     m_field4 = (int)frameCount;
+    m_field8 = 100 / frameCount;
 }
 
 CFrameCountHandler* CFrameCountHandler::GetFrameCountInfo()
@@ -62,6 +86,24 @@ CFrameCountHandler* CFrameCountHandler::GetFrameCountInfo()
 
 void CFrameCountHandler::SaveProcess()
 {
+    m_field28 = (char)(m_field28 + 1);
+    if (m_field28 != 0)
+    {
+        CMyFileLog log("SaveProcess", 0xa8);
+        log("./log/frame", "FPS(%02d) / DFC(%02d)\n", m_field18, m_field4);
+        m_field28 = 0;
+    }
+}
+
+void CFrameCountHandler::SaveProcess(int interval)
+{
+    m_field28 = (char)(m_field28 + 1);
+    if (m_field28 != 0)
+    {
+        CMyFileLog log("SaveProcess", 0xb8);
+        log("./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", interval, m_field18, m_field4);
+        m_field28 = 0;
+    }
 }
 
 CUdpNetworkThread::CUdpNetworkThread()

@@ -17,9 +17,11 @@ class CThreadInterface
 public:
     CThreadInterface();
     virtual ~CThreadInterface();
+    virtual void stop();
+    virtual void join();
+    virtual void dispatch(void* param) = 0;
     int begin();
-    void end();
-    virtual void Run() = 0;
+    static void* dispatch_proxy(void* temp);
     pthread_t m_thread;   // +4
     bool m_running;       // +8
 };
@@ -30,9 +32,10 @@ class CFrameCountHandler
 public:
     CFrameCountHandler();
     ~CFrameCountHandler();
-    void InitFrameCountInfo(CApplication* app, unsigned int frameCount);
+    void InitFrameCountInfo(CApplication* app, unsigned int frameCount, unsigned short tick);
     CFrameCountHandler* GetFrameCountInfo();
     void SaveProcess();
+    void SaveProcess(int interval);
     int m_field0;     // +0
     int m_field4;     // +4
     int m_field8;     // +8

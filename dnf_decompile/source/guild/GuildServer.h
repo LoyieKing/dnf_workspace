@@ -27,7 +27,7 @@ public:
     virtual void SendToServer(char* buf, int len);
     virtual void SetConnFlag(bool flag);
     virtual bool Initialize();
-    virtual void Destroy();
+    virtual bool Destroy();
     void SetServerInfo(stServerInfo* info);
     stServerInfo* GetServerInfo();
     void* GetUdpHandler();
@@ -55,9 +55,9 @@ public:
     virtual void SendToServer(char* buf, int len);
     virtual void SetConnFlag(bool flag);
     bool Initialize();
-    void Destroy();
+    bool Destroy();
     int GetSocket();
-    void SetSocket(int sock);
+    void SetSocket(unsigned int sock);
     int m_field10;          // +0x10
 };
 
@@ -84,6 +84,8 @@ public:
     CDBServer();
     CDBServer(stServerInfo* info);
     virtual ~CDBServer();
+    bool Initialize();
+    bool Destroy();
 };
 
 // ---- CManagerServer ----
@@ -93,6 +95,9 @@ public:
     CManagerServer();
     CManagerServer(stServerInfo* info);
     virtual ~CManagerServer();
+    bool Initialize();
+    bool Destroy();
+    void SendHeartBeat(int group);
 };
 
 // ---- CMonitorServer ----
@@ -102,6 +107,9 @@ public:
     CMonitorServer();
     CMonitorServer(stServerInfo* info);
     virtual ~CMonitorServer();
+    bool Initialize();
+    bool Destroy();
+    void SendHeartBeat(int group);
 };
 
 // ---- CTcpDBServer：0x14 ----

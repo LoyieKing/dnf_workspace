@@ -6,6 +6,7 @@
 #include "GuildApp.h"
 #include "GuildUdp.h"
 #include "GuildPacket.h"
+#include "Packet_Monitor_UDP_HeartBeat.h"
 #include "DNFFileLog.h"
 #include "DNFFunctionLib.h"
 
@@ -90,11 +91,22 @@ void CServerInterface::SetConnFlag(bool flag)
 
 bool CServerInterface::Initialize()
 {
-    return true;
+    int old = m_sock;
+    if (old == 0)
+    {
+        m_sock = (int)new CUdpHandler;
+        ((CUdpHandler*)m_sock)->InitClientSocket();
+    }
+    return old == 0;
 }
 
-void CServerInterface::Destroy()
+bool CServerInterface::Destroy()
 {
+    if (m_sock != 0)
+    {
+        delete (CUdpHandler*)m_sock;
+    }
+    return true;
 }
 
 CGameServer::CGameServer()
@@ -147,21 +159,22 @@ void CGameServer::SetConnFlag(bool flag)
 
 bool CGameServer::Initialize()
 {
-    return true;
+    return CServerInterface::Initialize();
 }
 
-void CGameServer::Destroy()
+bool CGameServer::Destroy()
 {
+    return CServerInterface::Destroy();
 }
 
 int CGameServer::GetSocket()
 {
-    return m_sock;
+    return m_field10;
 }
 
-void CGameServer::SetSocket(int sock)
+void CGameServer::SetSocket(unsigned int sock)
 {
-    m_sock = sock;
+    m_field10 = (int)sock;
 }
 
 CTcpGameServer::CTcpGameServer()
@@ -249,6 +262,58 @@ CMonitorServer::CMonitorServer(stServerInfo* info)
 
 CMonitorServer::~CMonitorServer()
 {
+}
+
+bool CDBServer::Initialize()
+{
+    return CServerInterface::Initialize();
+}
+
+bool CDBServer::Destroy()
+{
+    return CServerInterface::Destroy();
+}
+
+bool CManagerServer::Initialize()
+{
+    return CServerInterface::Initialize();
+}
+
+bool CManagerServer::Destroy()
+{
+    return CServerInterface::Destroy();
+}
+
+void CManagerServer::SendHeartBeat(int group)
+{
+    CUdpHandler* udp = (CUdpHandler*)GetUdpHandler();
+    if (udp != 0)
+    {
+        Packet_Monitor_UDP_HeartBeat pkt;
+        *(unsigned char*)((char*)&pkt + 0xa) = (unsigned char)group;
+        udp->SendToServer((char*)&pkt, 0xb, m_info->m_port, m_info->m_name);
+    }
+}
+
+bool CMonitorServer::Initialize()
+{
+    return CServerInterface::Initialize();
+}
+
+bool CMonitorServer::Destroy()
+{
+    return CServerInterface::Destroy();
+}
+
+void CMonitorServer::SendHeartBeat(int group)
+{
+    CUdpHandler* udp = (CUdpHandler*)GetUdpHandler();
+    if (udp != 0)
+    {
+        Packet_Monitor_UDP_HeartBeat pkt;
+        *(unsigned char*)((char*)&pkt + 0xa) = (unsigned char)group;
+        udp->SendToServer((char*)&pkt, 0xb, m_info->m_port, m_info->m_name);
+    }
 }
 
 CTcpDBServer::CTcpDBServer()

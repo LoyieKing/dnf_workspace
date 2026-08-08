@@ -75,11 +75,11 @@ public:
     void SwitchQueueUDP();
     CTcpNetSystem* Get_TcpNetSystem();
     CGuildManager* Get_GuildManager();
-    CPowerManager* Get_PowerManager();
+    CPowerManager* GetPowerManager();
     CUserManager* Get_UserManager();
     CMemoryCashManager* Get_MemoryCashManager();
+    CGameServer* FindGameServer(int group);
     void* GetGMAccounts();
-    CGameServer* FindGameServer(unsigned int group);
     CTcpGameServer* FindTcpGameServer(unsigned int group);
     void OnGameServerDown(CGameServer* server);
     void OnTcpGameServerDown(CTcpGameServer* server);

@@ -31,7 +31,7 @@ void CPacketTranslater::OnLogin(PacketHeader* pkt)
     char* pb = (char*)pkt;
     if (m_pclApp != 0)
     {
-        CGameServer* gs = m_pclApp->FindGameServer(*(unsigned int*)(pb + 0xe));
+        CGameServer* gs = m_pclApp->FindGameServer(*(int*)(pb + 0xe));
         if (gs == 0)
         {
             char* mid = NumberToString(*(unsigned int*)(pb + 0xe), 0);
@@ -697,6 +697,18 @@ CPacketDecoder* CPacketDecoderInstance()
 
 void CPacketDecoder::Attach(CApplication* app)
 {
+    if (app != 0)
+    {
+        *(void**)m_data = app->Get_UdpPacketParseQ();
+        *(void**)(m_data + 4) = app->Get_UdpQLock();
+        *(void**)(m_data + 8) = app->Get_UdpBLock();
+        CTcpNetSystem* net = app->Get_TcpNetSystem();
+        void* swapq = net != 0 ? net->Get_TcpSwapQPacket() : 0;
+        *(void**)(m_data + 0xc) = swapq != 0 ? (void*)((char*)swapq + 0x2c) : 0;
+        *(void**)(m_data + 0x10) = net != 0 ? net->Get_TcpRecvQLock() : 0;
+        *(void**)(m_data + 0x14) = net != 0 ? net->Get_TcpRecvBLock() : 0;
+        *(void**)(m_data + 0x18) = app->Get_ServerHandler();
+    }
 }
 
 int CPacketDecoder::Process()

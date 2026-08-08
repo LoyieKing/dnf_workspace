@@ -108,6 +108,7 @@ void CApplication::Load(int argc, char** argv)
         m_serverHandler->Load(m_appConfig->GetServerInfoMap());
     }
     CPacketTranslater::attach(this);
+    CPacketDecoderInstance()->Attach(this);
     m_loaded = true;
     puts("Application Load() Success!");
 }
@@ -254,7 +255,7 @@ CGuildManager* CApplication::Get_GuildManager()
     return &m_guildManager;
 }
 
-CPowerManager* CApplication::Get_PowerManager()
+CPowerManager* CApplication::GetPowerManager()
 {
     return &m_powerManager;
 }
@@ -274,9 +275,9 @@ void* CApplication::GetGMAccounts()
     return 0;
 }
 
-CGameServer* CApplication::FindGameServer(unsigned int group)
+CGameServer* CApplication::FindGameServer(int group)
 {
-    return m_serverHandler ? m_serverHandler->GetGameServer(group) : 0;
+    return m_serverHandler ? m_serverHandler->GetGameServer((unsigned int)group) : 0;
 }
 
 CTcpGameServer* CApplication::FindTcpGameServer(unsigned int group)

@@ -204,3 +204,8 @@ int CUdpHandler::SendToServer(char* buf, int len, unsigned short port, char cons
     *(unsigned int*)(to.sa_data + 2) = ntohl(ipaddr);
     return sendto(m_clientSock, buf, len, 0, &to, 0x10);
 }
+
+void CUdpHandler::InetAddr(char const* ip) const
+{
+    inet_addr(ip);
+}

@@ -4,6 +4,8 @@
 #include <map>
 #include <queue>
 #include <deque>
+#include <list>
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -81,6 +83,8 @@ public:
     CBlackUser();
     ~CBlackUser();
     void SetBlackUser(char* name, unsigned int time);
+    char* GetName();
+    unsigned int GetOccurTime();
     char m_data[0x28];
 };
 
@@ -127,6 +131,29 @@ struct STPowerWarScheduleTime
 {
     char m_data[0x10];
 };
+
+namespace WongWork
+{
+class CGMAccounts
+{
+public:
+    struct stGMInfo_t
+    {
+        bool operator==(const stGMInfo_t& other) const;
+        unsigned int m_field0;
+        unsigned char m_field1;
+    };
+    void LoadGmList(unsigned int group, int index);
+    void clearGmList();
+    void AppendGM_Sys(unsigned int id, char flag);
+    void loadGMAccounts(const char* path);
+    int isGM(unsigned int id);
+    void appendGM(unsigned int id, unsigned int value);
+    void removeGM(unsigned int id, unsigned int value);
+    stGMInfo_t getGMInfo(unsigned int id) const;
+    std::list<stGMInfo_t> m_list;
+};
+}
 struct hyperlink_item_info
 {
     char m_data[0x40];
@@ -160,7 +187,7 @@ public:
     int IsOnTimeSpecialDayHour(int day, int hour, int min);
     int GetSpecificDayScheduleHour(int day);
     void Clear();
-    void SetSpecialWeekDayHour(std::vector<STPowerWarScheduleTime>& schedule);
+    void SetSpecialWeekDayHour(std::vector<STPowerWarScheduleTime> schedule);
     void SetSpecialWeekDayHour(int day, int hour);
     int IsOnTimeSpecialWeekDayHour(int day, int hour, int min);
     void GetNextScheduleTime(unsigned char& hour, unsigned char& min);
@@ -294,6 +321,7 @@ public:
     CUser* FindUser(unsigned int dbid) const;
     CUser* FindUser_CharNo(unsigned int charNo) const;
     CUser* FindUser_CharName(const char* name) const;
+    CUser* FindUser_CharName(std::string name) const;
     void DeleteUsersOnGameServerDown(CGameServer* server);
     void DeleteUsersOnTcpGameServerDown(CTcpGameServer* server);
     void DeleteBlackUserOnCharacDelete(unsigned int charNo);
@@ -777,6 +805,10 @@ public:
     bool listen(int backlog);
     int send(char* buf, int len);
     int recv(char* buf, int len);
+    bool pollReadEvent() const;
+    bool pollWriteEvent() const;
+    bool pollErrorEvent() const;
+    int pollReadWriteErrEvent() const;
     int getHandle() const;
     int shutdown(int how);
     void close();

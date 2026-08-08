@@ -5,6 +5,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
+#include <sys/select.h>
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -132,6 +133,16 @@ void CBlackUser::SetBlackUser(char* name, unsigned int time)
     *(unsigned int*)(m_data + 0x20) = time;
 }
 
+char* CBlackUser::GetName()
+{
+    return m_data;
+}
+
+unsigned int CBlackUser::GetOccurTime()
+{
+    return *(unsigned int*)(m_data + 0x20);
+}
+
 STGuildSkill::STGuildSkill()
 {
     memset(m_data, 0, sizeof(m_data));
@@ -210,8 +221,17 @@ void CScheduler::Clear()
     }
 }
 
-void CScheduler::SetSpecialWeekDayHour(std::vector<STPowerWarScheduleTime>& schedule)
+void CScheduler::SetSpecialWeekDayHour(std::vector<STPowerWarScheduleTime> schedule)
 {
+    for (std::vector<STPowerWarScheduleTime>::iterator it = schedule.begin();
+         it != schedule.end(); ++it)
+    {
+        char* p = (char*)&(*it);
+        *(char*)((char*)this + p[0] * 4 + 8) = 1;
+        *(char*)((char*)this + p[0] * 4 + 9) = p[1];
+        *(char*)((char*)this + p[0] * 4 + 10) = p[2];
+        *(char*)((char*)this + p[0] * 4 + 0xb) = 0;
+    }
 }
 
 void CScheduler::SetSpecialWeekDayHour(int day, int hour)
@@ -785,6 +805,12 @@ CUser* CUserManager::FindUser_CharNo(unsigned int charNo) const
 CUser* CUserManager::FindUser_CharName(const char* name) const
 {
     std::map<std::string, CUser*>::const_iterator it = m_charNameUsers.find(std::string(name));
+    return it == m_charNameUsers.end() ? 0 : it->second;
+}
+
+CUser* CUserManager::FindUser_CharName(std::string name) const
+{
+    std::map<std::string, CUser*>::const_iterator it = m_charNameUsers.find(name);
     return it == m_charNameUsers.end() ? 0 : it->second;
 }
 
@@ -3435,6 +3461,116 @@ int TCPSocket::send(char* buf, int len)
     return r;
 }
 
+bool TCPSocket::pollReadEvent() const
+{
+    fd_set fds;
+    for (unsigned int i = 0; i < 0x20; i++)
+    {
+        fds.fds_bits[i] = 0;
+    }
+    fds.fds_bits[(unsigned int)m_sock >> 5] =
+        (1 << ((unsigned int)m_sock & 0x1f)) | fds.fds_bits[(unsigned int)m_sock >> 5];
+    timeval tv;
+    tv.tv_sec = 5;
+    tv.tv_usec = 0;
+    int r = select(m_sock + 1, &fds, 0, 0, &tv);
+    if (r < 0)
+    {
+        printf("pollReadEvent(%s)", strerror(errno));
+        return 0;
+    }
+    return (fds.fds_bits[(unsigned int)m_sock >> 5] >> ((unsigned int)m_sock & 0x1f)) & 1;
+}
+
+bool TCPSocket::pollWriteEvent() const
+{
+    fd_set fds;
+    for (unsigned int i = 0; i < 0x20; i++)
+    {
+        fds.fds_bits[i] = 0;
+    }
+    fds.fds_bits[(unsigned int)m_sock >> 5] =
+        (1 << ((unsigned int)m_sock & 0x1f)) | fds.fds_bits[(unsigned int)m_sock >> 5];
+    timeval tv;
+    tv.tv_sec = 1;
+    tv.tv_usec = 0;
+    int r = select(2, 0, &fds, 0, &tv);
+    if (r < 0)
+    {
+        printf("pollWriteEvent(%s)", strerror(errno));
+        return 0;
+    }
+    return (fds.fds_bits[(unsigned int)m_sock >> 5] >> ((unsigned int)m_sock & 0x1f)) & 1;
+}
+
+bool TCPSocket::pollErrorEvent() const
+{
+    fd_set fds;
+    for (unsigned int i = 0; i < 0x20; i++)
+    {
+        fds.fds_bits[i] = 0;
+    }
+    fds.fds_bits[(unsigned int)m_sock >> 5] =
+        (1 << ((unsigned int)m_sock & 0x1f)) | fds.fds_bits[(unsigned int)m_sock >> 5];
+    timeval tv;
+    tv.tv_sec = 1;
+    tv.tv_usec = 0;
+    int r = select(2, 0, 0, &fds, &tv);
+    if (r < 0)
+    {
+        printf("pollErrorEvent(%s)", strerror(errno));
+        return 0;
+    }
+    return (fds.fds_bits[(unsigned int)m_sock >> 5] >> ((unsigned int)m_sock & 0x1f)) & 1;
+}
+
+int TCPSocket::pollReadWriteErrEvent() const
+{
+    fd_set rfds;
+    fd_set wfds;
+    fd_set efds;
+    for (unsigned int i = 0; i < 0x20; i++)
+    {
+        rfds.fds_bits[i] = 0;
+        wfds.fds_bits[i] = 0;
+        efds.fds_bits[i] = 0;
+    }
+    rfds.fds_bits[(unsigned int)m_sock >> 5] =
+        (1 << ((unsigned int)m_sock & 0x1f)) | rfds.fds_bits[(unsigned int)m_sock >> 5];
+    wfds.fds_bits[(unsigned int)m_sock >> 5] =
+        (1 << ((unsigned int)m_sock & 0x1f)) | wfds.fds_bits[(unsigned int)m_sock >> 5];
+    efds.fds_bits[(unsigned int)m_sock >> 5] =
+        (1 << ((unsigned int)m_sock & 0x1f)) | efds.fds_bits[(unsigned int)m_sock >> 5];
+    timeval tv;
+    tv.tv_sec = 1;
+    tv.tv_usec = 0;
+    int result = 0;
+    int r = select(2, &rfds, &wfds, &efds, &tv);
+    if (r < 0)
+    {
+        printf("pollReadWriteErrEvent(%s)", strerror(errno));
+    }
+    else if ((rfds.fds_bits[(unsigned int)m_sock >> 5] >> ((unsigned int)m_sock & 0x1f) & 1U) == 0)
+    {
+        if ((wfds.fds_bits[(unsigned int)m_sock >> 5] >> ((unsigned int)m_sock & 0x1f) & 1U) == 0)
+        {
+            if ((efds.fds_bits[(unsigned int)m_sock >> 5] >> ((unsigned int)m_sock & 0x1f) & 1U) != 0)
+            {
+                result = 3;
+            }
+        }
+        else
+        {
+            result = 2;
+        }
+    }
+    else
+    {
+        result = 1;
+    }
+    return result;
+}
+
 int TCPSocket::recv(char* buf, int len)
 {
     if (buf == 0 || len < 1)
@@ -4071,4 +4207,73 @@ void CTcpNetSystem::SetEpollAcceptedPeers()
 
 void CTcpNetSystem::SetEpollConnectedPeer(CPeer* peer)
 {
+}
+
+namespace WongWork
+{
+bool CGMAccounts::stGMInfo_t::operator==(const stGMInfo_t& other) const
+{
+    return m_field0 == other.m_field0;
+}
+
+void CGMAccounts::LoadGmList(unsigned int group, int index)
+{
+    stGMInfo_t info;
+    info.m_field0 = group;
+    info.m_field1 = (unsigned char)index;
+    m_list.push_back(info);
+}
+
+void CGMAccounts::clearGmList()
+{
+    m_list.clear();
+}
+
+void CGMAccounts::AppendGM_Sys(unsigned int id, char flag)
+{
+    stGMInfo_t info;
+    info.m_field0 = id;
+    info.m_field1 = (unsigned char)flag;
+    m_list.push_back(info);
+    char* mid = NumberToString(id, 0);
+    CMyFileLog log("AppendGM_Sys", 0xcd);
+    log("./log/Init", "GM List Add mid:%s", mid);
+}
+
+void CGMAccounts::loadGMAccounts(const char* path)
+{
+}
+
+int CGMAccounts::isGM(unsigned int id)
+{
+    stGMInfo_t key;
+    key.m_field0 = id;
+    key.m_field1 = 3;
+    std::list<stGMInfo_t>::iterator it = std::find(m_list.begin(), m_list.end(), key);
+    return it != m_list.end();
+}
+
+void CGMAccounts::appendGM(unsigned int id, unsigned int value)
+{
+}
+
+void CGMAccounts::removeGM(unsigned int id, unsigned int value)
+{
+}
+
+CGMAccounts::stGMInfo_t CGMAccounts::getGMInfo(unsigned int id) const
+{
+    stGMInfo_t key;
+    key.m_field0 = id;
+    key.m_field1 = 3;
+    stGMInfo_t result;
+    result.m_field0 = 0;
+    result.m_field1 = 3;
+    std::list<stGMInfo_t>::const_iterator it = std::find(m_list.begin(), m_list.end(), key);
+    if (it != m_list.end())
+    {
+        result = *it;
+    }
+    return result;
+}
 }
