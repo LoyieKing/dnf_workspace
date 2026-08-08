@@ -249,3 +249,11 @@
   GetStatueRankingUsers/IsExistCharac/printGuildWarRank/LoadPowerWarTableFile/
   MemPool::alloc（freelist 偏移 m_classSize-4 与原版一致）
 - 冒烟通过；DIFF 1118 / IDENTICAL 373 / NEAR 209
+
+## 2026-08-09 第八轮（网络/查询函数核验）
+
+- TCPSocket::send 补成功日志（1.tcp send=... 原版行为）
+- 核验等价：TCPSocket ctor/open/listen/poll、CUdpHandler RecvFromClient/Server
+  （inet_ntoa 日志差异）、CUserManager Find 族、CServerXml GetServerString/
+  GetEventRGBA、CGuild::PopGuildMemberChanglableInfo、CGuildC1E
+- 冒烟通过；DIFF 1116 / IDENTICAL 377 / NEAR 207
