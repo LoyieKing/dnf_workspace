@@ -1691,6 +1691,33 @@ public:
     char m_lowers[10][0x2a];        // +61
 };
 
+class Packet_Punish_Cancel : public PacketHeader
+{
+public:
+    Packet_Punish_Cancel();
+    unsigned int m_idByChannel;  // +10
+    unsigned short m_fieldE;     // +14
+    unsigned short m_field10;    // +16
+};
+
+class Packet_Set_CleanPad_Point : public PacketHeader
+{
+public:
+    Packet_Set_CleanPad_Point();
+    unsigned int m_idByChannel;  // +10
+    unsigned short m_fieldE;     // +14
+};
+
+class Packet_SecuService_Connect_Web : public PacketHeader
+{
+public:
+    Packet_SecuService_Connect_Web();
+    unsigned int m_idByChannel;  // +10
+    unsigned char m_fieldE;      // +14
+    unsigned char m_fieldF;      // +15
+    char m_data[5];              // +16
+};
+
 class Packet_Arad_ApplyEffect : public PacketHeader
 {
 public:

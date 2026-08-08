@@ -4689,7 +4689,55 @@ void CPacketTranslater::onItemLimitEditionLoadDataRpy(PacketHeader* pkt) {}
 void CPacketTranslater::onItemLimitEditionSellEnd(PacketHeader* pkt) {}
 void CPacketTranslater::onItemLimitEditionBuyableRequest(PacketHeader* pkt) {}
 void CPacketTranslater::OnMonitorFindFactoryHubUser(PacketHeader* pkt) {}
-void CPacketTranslater::OnSetCleanPadPoint(PacketHeader* pkt) {}
+void CPacketTranslater::OnSetCleanPadPoint(PacketHeader* pkt)
+{
+    try
+    {
+        if (m_pclApp == 0)
+        {
+            throw CDNFException("CPacketTranslater::OnSetCleanPadPoint : 0 == m_pclApp");
+        }
+        int charNo = 0;
+        CUser* user =
+            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
+                *(unsigned int*)((char*)pkt + 0xa));
+        if (user == 0)
+        {
+            charNo = -1;
+        }
+        else
+        {
+            charNo = (int)user->GetUniqCharNo();
+        }
+        if (charNo != 0)
+        {
+            CUser* target = ((CUserManager*)((char*)m_pclApp + 0x10))
+                                ->FindUser_CharNo((unsigned int)charNo);
+            if (target != 0)
+            {
+                Packet_Set_CleanPad_Point reply;
+                reply.m_idByChannel = target->GetIdByChannel();
+                reply.m_fieldE = *(unsigned short*)((char*)pkt + 0xe);
+                *(unsigned short*)((char*)&reply + 2) = 0x10;
+                target->SendToGameserver((char*)&reply, 0x10);
+            }
+            return;
+        }
+        throw CDNFException("CPacketTranslater::OnSetCleanPadPoint");
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnNoticeGuildChatMsg() Exception Break : %s\n", e.what());
+        CMyFileLog log("OnSetCleanPadPoint", 0x1660);
+        log("%s", "CPacketTranslater::OnSetCleanPadPoint() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnNoticeGuildChatMsg() Exception Break");
+        CMyFileLog log("OnSetCleanPadPoint", 0x1666);
+        log("%s", "CPacketTranslater::OnSetCleanPadPoint() Exception Break");
+    }
+}
 void CPacketTranslater::OnResponseIPCounterList(PacketHeader* pkt) {}
 void CPacketTranslater::OnResponseFullIPCounterList(PacketHeader* pkt) {}
 void CPacketTranslater::OnTakeScreenShot(PacketHeader* pkt) {}
@@ -4719,9 +4767,137 @@ void CPacketTranslater::OnRegisterEventUserIdx(PacketHeader* pkt) {}
 void CPacketTranslater::OnRegisterEventItem(PacketHeader* pkt) {}
 void CPacketTranslater::OnResultRegisterEventIdx(PacketHeader* pkt) {}
 void CPacketTranslater::OnGameMonitorGMVillageAttacked(PacketHeader* pkt) {}
-void CPacketTranslater::OnMonitorPunishCancel(PacketHeader* pkt) {}
-void CPacketTranslater::OnBroadcastMsg(PacketHeader* pkt) {}
-void CPacketTranslater::OnMonitorSecuServiceConnWeb(PacketHeader* pkt) {}
+void CPacketTranslater::OnMonitorPunishCancel(PacketHeader* pkt)
+{
+    try
+    {
+        if (m_pclApp == 0)
+        {
+            throw CDNFException("CPacketTranslater::OnMonitorPunishCancel : 0 == m_pclApp");
+        }
+        int charNo = 0;
+        CUser* user =
+            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
+                *(unsigned int*)((char*)pkt + 0xa));
+        if (user == 0)
+        {
+            charNo = -1;
+        }
+        else
+        {
+            charNo = (int)user->GetUniqCharNo();
+        }
+        if (charNo != 0)
+        {
+            CUser* target = ((CUserManager*)((char*)m_pclApp + 0x10))
+                                ->FindUser_CharNo((unsigned int)charNo);
+            if (target != 0)
+            {
+                Packet_Punish_Cancel reply;
+                reply.m_idByChannel = target->GetIdByChannel();
+                reply.m_fieldE = *(unsigned short*)((char*)pkt + 0xe);
+                reply.m_field10 = *(unsigned short*)((char*)pkt + 0x10);
+                *(unsigned short*)((char*)&reply + 2) = 0x12;
+                target->SendToGameserver((char*)&reply, 0x12);
+            }
+            return;
+        }
+        throw CDNFException("CPacketTranslater::OnMonitorPunishCancel");
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnMonitorPunishCancel() Exception Break : %s\n", e.what());
+        CMyFileLog log("OnMonitorPunishCancel", 0x1bf5);
+        log("%s", "CPacketTranslater::OnMonitorPunishCancel() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnMonitorPunishCancel() Exception Break");
+        CMyFileLog log("OnMonitorPunishCancel", 0x1bfb);
+        log("%s", "CPacketTranslater::OnMonitorPunishCancel() Exception Break\n");
+    }
+}
+void CPacketTranslater::OnBroadcastMsg(PacketHeader* pkt)
+{
+    try
+    {
+        if (m_pclApp == 0)
+        {
+            CMyFileLog log("OnBroadcastMsg", 0x1c0c);
+            log("./log/WebNotice", "CPacketTranslater::OnBroadcastMsg : 0 == m_pclApp");
+        }
+        else
+        {
+            CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+            handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+            CMyFileLog log("OnBroadcastMsg", 0x1c14);
+            log("./log/WebNotice", "OnBroadcastMsg : (%s,%d)\n", (char*)pkt + 0xf,
+                (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe));
+        }
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnBroadcastMsg", 0x1c18);
+        log("%s", "CPacketTranslater::OnBroadcastMsg Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnBroadcastMsg", 0x1c1d);
+        log("%s", "CPacketTranslater::OnBroadcastMsg Exception Break");
+    }
+}
+void CPacketTranslater::OnMonitorSecuServiceConnWeb(PacketHeader* pkt)
+{
+    try
+    {
+        if (m_pclApp == 0)
+        {
+            throw CDNFException("CPacketTranslater::OnMonitorSecuServiceConnWeb : 0 == m_pclApp");
+        }
+        int charNo = 0;
+        CUser* user =
+            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
+                *(unsigned int*)((char*)pkt + 0xa));
+        if (user == 0)
+        {
+            charNo = -1;
+        }
+        else
+        {
+            charNo = (int)user->GetUniqCharNo();
+        }
+        if (charNo != 0)
+        {
+            CUser* target = ((CUserManager*)((char*)m_pclApp + 0x10))
+                                ->FindUser_CharNo((unsigned int)charNo);
+            if (target != 0)
+            {
+                Packet_SecuService_Connect_Web reply;
+                memcpy(&reply, pkt, 0x15);
+                *(unsigned int*)((char*)&reply + 0xa) = target->GetIdByChannel();
+                target->SendToGameserver((char*)&reply,
+                                         *(unsigned short*)((char*)&reply + 2));
+            }
+            return;
+        }
+        throw CDNFException("CPacketTranslater::OnMonitorSecuServiceConnWeb");
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnMonitorSecuServiceConnWeb() Exception Break : %s\n",
+               e.what());
+        CMyFileLog log("OnMonitorSecuServiceConnWeb", 0x1c4f);
+        log("%s", "CPacketTranslater::OnMonitorSecuServiceConnWeb() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnMonitorSecuServiceConnWeb() Exception Break");
+        CMyFileLog log("OnMonitorSecuServiceConnWeb", 0x1c55);
+        log("%s", "CPacketTranslater::OnMonitorSecuServiceConnWeb() Exception Break\n");
+    }
+}
 void CPacketTranslater::OnResetTODAPCInfo(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoticeMemberChatMsgHyperLink(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt) {}
@@ -5643,6 +5819,28 @@ Packet_Monitor_Call_Member_List_ToUser::Packet_Monitor_Call_Member_List_ToUser()
     : PacketHeader(0x4be, 0x1e1)
 {
     memset((char*)this + 0x12, 0, 0x1cf);
+}
+
+Packet_Punish_Cancel::Packet_Punish_Cancel() : PacketHeader(0xb64, 0x12)
+{
+    m_idByChannel = 0;
+    m_fieldE = 0;
+    m_field10 = 0;
+}
+
+Packet_Set_CleanPad_Point::Packet_Set_CleanPad_Point() : PacketHeader(0xb60, 0x10)
+{
+    m_idByChannel = 0;
+    m_fieldE = 0;
+}
+
+Packet_SecuService_Connect_Web::Packet_SecuService_Connect_Web()
+    : PacketHeader(0xb65, 0x15)
+{
+    m_idByChannel = 0;
+    m_fieldE = 0;
+    m_fieldF = 0;
+    memset(m_data, 0, 5);
 }
 
 Packet_Arad_ApplyEffect::Packet_Arad_ApplyEffect(int group, int code, unsigned int time)
