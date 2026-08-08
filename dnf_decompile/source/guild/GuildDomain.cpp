@@ -424,6 +424,11 @@ void CUser::AddGuildMemberPoint(unsigned int point)
     }
 }
 
+void CUser::ResetGuildPoint()
+{
+    *(unsigned int*)((char*)this + 0x60) = 0;
+}
+
 CUserManager::CUserManager()
 {
     m_app = 0;
@@ -1049,22 +1054,84 @@ void CGuild::AddGuildMemberPoint(unsigned int charNo, unsigned int point)
 
 void CGuild::AddGuildExpUntilLimit(unsigned int exp, unsigned int limit)
 {
+    if ((m_field1c & 4) != 0)
+    {
+        m_field4d96 = 1;
+        unsigned int old = *(unsigned int*)((char*)this + 0x49);
+        *(unsigned int*)((char*)this + 0x49) += exp;
+        if (limit < *(unsigned int*)((char*)this + 0x49))
+        {
+            *(unsigned int*)((char*)this + 0x49) = limit;
+        }
+        if (*(unsigned int*)((char*)this + 0x49) < old)
+        {
+            *(unsigned int*)((char*)this + 0x49) = old;
+        }
+        CMyFileLog log("AddGuildExpUntilLimit", 0x246);
+        log("./log/Guild",
+            "GUILD EXP UNTIL LIMIT : guild key(%d), old exp(%d), add exp(%d), guild exp(%d), exp_limit(%d)",
+            GetGuildKey(), old, exp, *(unsigned int*)((char*)this + 0x49), limit);
+    }
 }
 
 void CGuild::GuildSkillPointUp(unsigned short point)
 {
+    if ((m_field1c & 4) != 0)
+    {
+        unsigned short old = *(unsigned short*)((char*)this + 0x62);
+        *(unsigned short*)((char*)this + 0x62) += point;
+        if (*(unsigned short*)((char*)this + 0x62) < old)
+        {
+            *(unsigned short*)((char*)this + 0x62) = old;
+        }
+    }
 }
 
 void CGuild::CheckGuildSkill()
 {
+    if (*(unsigned char*)((char*)this + 0x3b) != 0 &&
+        *(short*)((char*)this + 0x62) == 0 && *(char*)((char*)this + 100) == 0)
+    {
+        CMyFileLog log("CheckGuildSkill", 0x85c);
+        log("./log/GuildSkill", "Err : key(%d), lev(%d), gsp(0), cnt(0)",
+            GetGuildKey(), (unsigned int)*(unsigned char*)((char*)this + 0x3b));
+    }
 }
 
 void CGuild::ResetGuildPointRank()
 {
+    *(unsigned short*)((char*)this + 0x48) = 0;
+    *(unsigned int*)((char*)this + 0x44) = 0;
+    for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+         it != m_members.end(); ++it)
+    {
+        if (it->second != 0)
+        {
+            it->second->ResetGuildPoint();
+        }
+    }
 }
 
 void CGuild::IncPowerJoinCount()
 {
+}
+
+int CGuild::GuildLevelUp(CServerHandler* handler, CUser* user)
+{
+    if (user == 0 || (m_field1c & 4) == 0)
+    {
+        return 2;
+    }
+    bool isMaster = user->GetUniqCharNo() == GetMasterId();
+    if (!isMaster)
+    {
+        isMaster = IsSubGuildMaster(user->GetUniqCharNo());
+    }
+    if (!isMaster)
+    {
+        return 0;
+    }
+    return 1;
 }
 
 void CGuild::LoadGuild(STGuildDBInfoOnly& info, char* name)
@@ -1292,10 +1359,35 @@ void CGuild::AddGuildPoint(unsigned short point)
 
 void CGuild::AddPowerWarPoint(unsigned int point)
 {
+    if ((m_field1c & 4) != 0)
+    {
+        m_field4d96 = 1;
+        *(unsigned int*)((char*)this + 0xba) += point;
+        if (99999999 < *(unsigned int*)((char*)this + 0xba))
+        {
+            *(unsigned int*)((char*)this + 0xba) = 99999999;
+        }
+        CMyFileLog log("AddPowerWarPoint", 0x277);
+        log("./log/Guild",
+            "GUILD POWERWAR POINT : guild key(%d), add powerwar point(%d), guild powerwar point(%d)",
+            GetGuildKey(), point, *(unsigned int*)((char*)this + 0xba));
+    }
 }
 
 void CGuild::SubPowerWarPoint(unsigned int point)
 {
+    if ((m_field1c & 4) != 0)
+    {
+        m_field4d96 = 1;
+        if (point < *(unsigned int*)((char*)this + 0xba))
+        {
+            *(unsigned int*)((char*)this + 0xba) -= point;
+        }
+        else
+        {
+            *(unsigned int*)((char*)this + 0xba) = 0;
+        }
+    }
 }
 
 void CGuild::SetGuildAgitInfo(STGuildAgitDBInfo& info)

@@ -347,6 +347,7 @@ public:
     char* getUnconnectedGuildMemberName(unsigned int charNo);
     void WriteGuildMemberMemo(CUser* user, const char* memo);
     void ReplyGuildMembers(CUser* user);
+    int GuildLevelUp(CServerHandler* handler, CUser* user);
     unsigned char GetPowerSide();
     void SetPowerSide(unsigned char side);
     unsigned int GetPowerWarPoint();
