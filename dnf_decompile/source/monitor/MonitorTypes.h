@@ -213,6 +213,7 @@ public:
     virtual ~CItemLimitEditionMgr();
     void processScheduledJob(CApplication* app, bool flag);
     void makeItemLimitEditionUpdatePacket(Packet_Item_Limit_Edition_Update& pkt) const;
+    void registItem(const struct stItemLimitEditionItemInfo_t& info);
     std::map<unsigned int, class CItemLimitEdition*> m_items;  // +0
     time_t m_lastTime;                     // +0x18
 };
@@ -220,12 +221,21 @@ public:
 class CItemLimitEdition
 {
 public:
+    CItemLimitEdition(const struct stItemLimitEditionItemInfo_t& info);
     ~CItemLimitEdition();
     unsigned int getSellEndTime() const;
     unsigned int getIPGNO() const;
     unsigned int getSellNum() const;
     char isSellComplete() const;
-    char m_data[0x1c];
+    unsigned int m_ipgno;   // +0
+    char m_data[0x24];      // +4
+    unsigned int m_sellEndTime;  // +0x28
+    char m_data2[0x20];     // +0x2c
+};
+
+struct stItemLimitEditionItemInfo_t
+{
+    char m_data[0x4c];
 };
 
 class CMemoryCashManager

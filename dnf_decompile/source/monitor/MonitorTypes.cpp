@@ -732,6 +732,30 @@ void CItemLimitEditionMgr::makeItemLimitEditionUpdatePacket(
     Packet_Item_Limit_Edition_Update& pkt) const
 {
 }
+void CItemLimitEditionMgr::registItem(const stItemLimitEditionItemInfo_t& info)
+{
+    bool error = false;
+    std::map<unsigned int, CItemLimitEdition*>::iterator it = m_items.find(*(unsigned int*)&info);
+    if (it == m_items.end() && 0x1b < m_items.size())
+    {
+        error = true;
+    }
+    if (!error)
+    {
+        CItemLimitEdition* item = new CItemLimitEdition(info);
+        unsigned int ipgno = item->getIPGNO();
+        std::map<unsigned int, CItemLimitEdition*>::iterator it2 = m_items.find(ipgno);
+        if (it2 != m_items.end())
+        {
+            if (it2->second != 0)
+            {
+                delete it2->second;
+            }
+            m_items.erase(it2);
+        }
+        m_items.insert(std::pair<const unsigned int, CItemLimitEdition*>(item->getIPGNO(), item));
+    }
+}
 void CItemLimitEditionMgr::processScheduledJob(CApplication* app, bool flag)
 {
     time_t now;
@@ -782,6 +806,10 @@ void CItemLimitEditionMgr::processScheduledJob(CApplication* app, bool flag)
 }
 
 CItemLimitEdition::~CItemLimitEdition() {}
+CItemLimitEdition::CItemLimitEdition(const stItemLimitEditionItemInfo_t& info)
+{
+    memcpy(this, &info, 0x4c);
+}
 unsigned int CItemLimitEdition::getSellEndTime() const { return 0; }
 unsigned int CItemLimitEdition::getIPGNO() const { return 0; }
 unsigned int CItemLimitEdition::getSellNum() const { return 0; }
