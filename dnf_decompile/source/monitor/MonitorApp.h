@@ -79,6 +79,9 @@ public:
     void* getTowerRank();
     void* getCollectItems();
     void* FindGameServer(int id);
+    void* Get_MemoryCashManager();
+    void* GetLoginLogoutStatistics();
+    void Remove_GM_id(unsigned int id);
     char isGM_regFromChannel(unsigned int channel);
     char isAbleUserChatWithGM(unsigned int channel, unsigned int charNo);
     void AddChattableUserWithGM(unsigned int channel, unsigned int charNo);

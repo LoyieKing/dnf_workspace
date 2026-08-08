@@ -514,6 +514,26 @@ void* CApplication::FindGameServer(int id)
     return m_serverHandler2->GetGameServer((unsigned int)id);
 }
 
+void* CApplication::Get_MemoryCashManager()
+{
+    return m_memoryCash;
+}
+
+void* CApplication::GetLoginLogoutStatistics()
+{
+    return m_field330;
+}
+
+void CApplication::Remove_GM_id(unsigned int id)
+{
+    std::map<unsigned int, std::list<unsigned int> >::iterator it = m_map368.find(id);
+    if (it != m_map368.end())
+    {
+        it->second.clear();
+        m_map368.erase(it);
+    }
+}
+
 char CApplication::isGM_regFromChannel(unsigned int channel)
 {
     std::map<unsigned int, std::list<unsigned int> >::iterator it = m_map368.find(channel);

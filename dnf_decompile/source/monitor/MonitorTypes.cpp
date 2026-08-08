@@ -699,13 +699,28 @@ void LimitNpcBuyItemManager::undoNpcLimitBuyItem(LimitNpcBuyItemUpdate* info)
     }
 }
 
-CLoginLogoutStatistics::CLoginLogoutStatistics(CApplication& app) {}
-CLoginLogoutStatistics::~CLoginLogoutStatistics() {}
+CLoginLogoutStatistics::CLoginLogoutStatistics(CApplication& app)
+{
+    m_app = &app;
+    for (int i = 0; i < 7; i++)
+    {
+        new (&m_maps[i]) std::map<unsigned char, stLoginLogout>();
+    }
+    m_fieldac = 0;
+    m_fieldb0 = 0;
+}
+CLoginLogoutStatistics::~CLoginLogoutStatistics()
+{
+    for (int i = 0; i < 7; i++)
+    {
+        m_maps[i].~map();
+    }
+}
 void CLoginLogoutStatistics::ProcessByMinute() {}
 void CLoginLogoutStatistics::LoginLogout(ENUM_LOGIN_LOGOUT type, unsigned char channel)
 {
-    std::map<unsigned char, stLoginLogout>::iterator it = m_map.find(channel);
-    if (it == m_map.end())
+    std::map<unsigned char, stLoginLogout>::iterator it = m_maps[(int)type].find(channel);
+    if (it == m_maps[(int)type].end())
     {
         for (int i = 0; i < 7; i++)
         {
@@ -713,13 +728,35 @@ void CLoginLogoutStatistics::LoginLogout(ENUM_LOGIN_LOGOUT type, unsigned char c
             st.m_field0 = 0;
             st.m_count = 0;
             st.m_field8 = 0;
-            m_map.insert(std::pair<const unsigned char, stLoginLogout>(channel, st));
+            m_maps[i].insert(std::pair<const unsigned char, stLoginLogout>(channel, st));
         }
         LoginLogout(type, channel);
     }
     else
     {
         it->second.m_count = it->second.m_count + 1;
+    }
+}
+void CLoginLogoutStatistics::CountNumOfLoginout(ENUM_LOGIN_LOGOUT type)
+{
+    if ((int)type == 0)
+    {
+        m_fieldb4 = m_fieldb4 + 1;
+    }
+    else if ((int)type == 6)
+    {
+        m_fieldb8 = m_fieldb8 + 1;
+    }
+}
+void CLoginLogoutStatistics::CountNumOfOccupations(ENUM_LOGIN_LOGOUT type, int value)
+{
+    if ((int)type == 0)
+    {
+        m_fieldac = (unsigned int)value;
+    }
+    else if ((int)type == 4)
+    {
+        m_fieldb0 = (unsigned int)value;
     }
 }
 
@@ -949,7 +986,8 @@ int CMemoryCashManager::QueryCashMemoryBuddyInfo(CUser* user)
                         user->AddBuddyFromCash(buddies[i]);
                         user->GetUniqCharNo();
                         unsigned int charNo = *(unsigned int*)((char*)info + 0x22);
-                        m_app->Get_BuddyRegisterManager()->addBuddyRegister(charNo);
+                        m_app->Get_BuddyRegisterManager()->addBuddyRegister(charNo,
+                                                                            user->GetUniqCharNo());
                     }
                 }
                 if (count != 0)
@@ -1009,10 +1047,141 @@ char CMemoryCashManager::QueryUpdatedCharacName(unsigned int charNo, std::string
 void CMemoryCashManager::incMemberCashHitCnt() {}
 void CMemoryCashManager::incBuddyCashHitCnt() {}
 void CMemoryCashManager::incBlackListCashHitCnt() {}
+void CMemoryCashManager::incBuddyCashCnt()
+{
+    *(int*)((char*)this + 0x38) = *(int*)((char*)this + 0x38) + 1;
+}
+void CMemoryCashManager::incMemberCashCnt()
+{
+    *(int*)((char*)this + 0x3c) = *(int*)((char*)this + 0x3c) + 1;
+}
+void CMemoryCashManager::incBlackListCashCnt()
+{
+    *(int*)((char*)this + 0x40) = *(int*)((char*)this + 0x40) + 1;
+}
+char CMemoryCashManager::IsRightObject(CUser* user, CMember* member, bool& flag1, bool& flag2,
+                                       bool& flag3)
+{
+    flag1 = false;
+    flag3 = false;
+    flag2 = false;
+    char ret = 0;
+    std::map<unsigned int, CCashObject*>::iterator it = m_cashObjects.find(user->GetDBID());
+    if (it == m_cashObjects.end())
+    {
+        if ((user->GetBuddyDBFlag() & 4) != 0)
+        {
+            flag1 = true;
+            ret = 1;
+        }
+        if ((user->GetBlackListDBFlag() & 4) != 0)
+        {
+            flag3 = true;
+            ret = 1;
+        }
+        if (user->GetMemberKey() != 0 && (user->GetMemberDBFlag() & 4) != 0)
+        {
+            if (member != 0 && member->IsAbleToRegisterMember() != 0)
+            {
+                flag2 = true;
+                ret = 1;
+            }
+        }
+        return ret;
+    }
+    return 0;
+}
+int CMemoryCashManager::InsertCashMemorySetCharacterObject(CUser* user, CMember* member,
+                                                           bool& flag1, bool& flag2)
+{
+    bool local = false;
+    if (IsRightObject(user, member, flag1, flag2, local) == 0)
+    {
+        return 0;
+    }
+    CCashObject* obj = new CCashObject;
+    if (flag1 || flag2)
+    {
+        obj->SetCharacNo(user->GetUniqCharNo());
+    }
+    if (flag2 && member != 0)
+    {
+        obj->SetMemberObject(member);
+        incMemberCashCnt();
+    }
+    if (flag1)
+    {
+        CBuddy* buddies[0x20];
+        int n = user->GetBuddys(buddies);
+        obj->SetBuddysObject(buddies, n);
+        incBuddyCashCnt();
+    }
+    std::pair<std::map<unsigned int, CCashObject*>::iterator, bool> r =
+        m_cashObjects.insert(
+            std::pair<const unsigned int, CCashObject*>(user->GetDBID(), obj));
+    if (r.second)
+    {
+        return 1;
+    }
+    delete obj;
+    return 0;
+}
+bool CMemoryCashManager::SetUserObject(CUser* user)
+{
+    std::map<unsigned int, CCashObject*>::iterator it = m_cashObjects.find(user->GetDBID());
+    if (it != m_cashObjects.end())
+    {
+        CCashObject* obj = it->second;
+        obj->SetBlackUsersObject(user->GetMapBlackList());
+        incBlackListCashCnt();
+        obj->SetLifeTime(5);
+    }
+    return it != m_cashObjects.end();
+}
 
-unsigned int CCashObject::GetCharacNo() { return 0; }
-CMember* CCashObject::GetMemberObject() { return 0; }
-void CCashObject::SetMemberObject(CMember* member) {}
+CCashObject::CCashObject()
+{
+    m_lifeTime = 5;
+    m_characNo = 0;
+    m_memberObject = 0;
+    memset(m_buddys, 0, sizeof(m_buddys));
+    m_blackUsers.clear();
+}
+CCashObject::~CCashObject()
+{
+    m_lifeTime = -1;
+    m_characNo = 0;
+    m_memberObject = 0;
+    memset(m_buddys, 0, sizeof(m_buddys));
+    m_blackUsers.clear();
+}
+unsigned int CCashObject::GetCharacNo() { return m_characNo; }
+CMember* CCashObject::GetMemberObject() { return m_memberObject; }
+void CCashObject::SetCharacNo(unsigned int charNo) { m_characNo = charNo; }
+void CCashObject::SetMemberObject(CMember* member) { m_memberObject = member; }
+void CCashObject::SetBuddysObject(CBuddy** buddies, int count)
+{
+    if (0x20 < count)
+    {
+        count = 0x20;
+    }
+    for (int i = 0; i < count; i++)
+    {
+        m_buddys[i] = buddies[i];
+    }
+}
+void CCashObject::SetBlackUsersObject(std::map<unsigned int, CBlackUser*>* map)
+{
+    if (map != 0)
+    {
+        for (std::map<unsigned int, CBlackUser*>::iterator it = map->begin();
+             it != map->end(); ++it)
+        {
+            m_blackUsers.insert(*it);
+        }
+    }
+}
+void CCashObject::SetLifeTime(int lifeTime) { m_lifeTime = lifeTime; }
 void CCashObject::ClearMemberObject() {}
 void CCashObject::DeleteMemberObject() {}
 int CCashObject::GetBuddysObject(CBuddy** buddies) { return 0; }
@@ -1117,6 +1286,54 @@ void CBuddyHandle::setBuddyCharName(int charNo, const std::string& newName)
             break;
         }
     }
+}
+int CBuddyHandle::getBuddysCharNo(unsigned int* out)
+{
+    if (m_buddies.empty())
+    {
+        return 0;
+    }
+    int count = 0;
+    for (std::map<std::string, CBuddy*>::iterator it = m_buddies.begin();
+         it != m_buddies.end(); ++it)
+    {
+        CBuddy* b = it->second;
+        if (b != 0)
+        {
+            out[count] = *(unsigned int*)((char*)b->getBuddyDBInfo() + 0x22);
+        }
+        count++;
+        if (0x20 < count)
+        {
+            CMyFileLog log("getBuddysCharNo", 0x135);
+            log("./log/buddy", "CBuddyHandle::GetBuddysCharNo iCnt(%d) > MAX_BUDDY_COUNT(%d)",
+                count, 0x20);
+            return 0x20;
+        }
+    }
+    return count;
+}
+int CBuddyHandle::getBuddys(CBuddy** out)
+{
+    if (m_buddies.empty())
+    {
+        return 0;
+    }
+    int count = 0;
+    for (std::map<std::string, CBuddy*>::iterator it = m_buddies.begin();
+         it != m_buddies.end(); ++it)
+    {
+        out[count] = it->second;
+        count++;
+        if (0x20 < count)
+        {
+            CMyFileLog log("getBuddys", 0x153);
+            log("./log/buddy", "CBuddyHandle::GetBuddysCharNo iCnt(%d) > MAX_BUDDY_COUNT(%d)",
+                count, 0x20);
+            return 0x20;
+        }
+    }
+    return count;
 }
 int CBuddyHandle::add(std::string name, STBuddyDBInfo& info)
 {
@@ -1570,7 +1787,42 @@ void CFrameCountHandler::SaveProcess()
 
 CBuddyRegisterManager::CBuddyRegisterManager() {}
 CBuddyRegisterManager::~CBuddyRegisterManager() {}
-void CBuddyRegisterManager::addBuddyRegister(unsigned int charNo) {}
+void CBuddyRegisterManager::addBuddyRegister(unsigned int key, unsigned int value)
+{
+    m_map.insert(std::pair<const unsigned int, unsigned int>(key, value));
+}
+int CBuddyRegisterManager::delBuddyRegister(unsigned int key, unsigned int value)
+{
+    std::multimap<unsigned int, unsigned int>::iterator it = m_map.lower_bound(key);
+    std::multimap<unsigned int, unsigned int>::iterator end = m_map.upper_bound(key);
+    for (; it != end; ++it)
+    {
+        if (it->second == value)
+        {
+            m_map.erase(it);
+            return 1;
+        }
+    }
+    return 0;
+}
+void CBuddyRegisterManager::delBuddyRegister(unsigned int key)
+{
+    std::multimap<unsigned int, unsigned int>::iterator it = m_map.lower_bound(key);
+    std::multimap<unsigned int, unsigned int>::iterator end = m_map.upper_bound(key);
+    while (it != end)
+    {
+        m_map.erase(it++);
+    }
+}
+void CBuddyRegisterManager::findBuddyRegister(unsigned int key, std::vector<unsigned int>& out)
+{
+    std::multimap<unsigned int, unsigned int>::iterator it = m_map.lower_bound(key);
+    std::multimap<unsigned int, unsigned int>::iterator end = m_map.upper_bound(key);
+    for (; it != end; ++it)
+    {
+        out.push_back(it->second);
+    }
+}
 
 void CUdpNetworkThread::attach(CApplication* app)
 {
@@ -2641,6 +2893,48 @@ void CUserManager::DeleteBlackUserOnCharacDelete(unsigned int charNo)
         }
     }
 }
+unsigned int CUserManager::GetSizeOfCharnoUsers()
+{
+    return (unsigned int)m_charNoUsers.size();
+}
+unsigned int CUserManager::Size()
+{
+    return (unsigned int)m_users.size();
+}
+int CUserManager::DeleteUser_CharNo(unsigned int charNo)
+{
+    if (m_charNoUsers.empty() || charNo == 0)
+    {
+        return 0;
+    }
+    if (m_charNoUsers.erase(charNo) == 1)
+    {
+        return 1;
+    }
+    CMyFileLog log("DeleteUser_CharNo", 0x1eb);
+    log("./log/User",
+        "[EXCEPT]CUserManager::DeleteUser_CharNo() : Erase Fail!\tChar No : %d\tChar_No Map "
+        "Count : %d\n",
+        charNo, (unsigned int)m_charNoUsers.size());
+    return 0;
+}
+int CUserManager::DeleteUser_CharName(std::string name)
+{
+    if (m_charNameUsers.empty() || name.empty())
+    {
+        return 0;
+    }
+    if (m_charNameUsers.erase(name) == 1)
+    {
+        return 1;
+    }
+    CMyFileLog log("DeleteUser_CharName", 0x22c);
+    log("./log/Except",
+        "[EXCEPT]CUserManager::DeleteUser_CharNo() : Erase Fail!\tChar Name : %s\tChar_No Map "
+        "Count : %d\n",
+        name.c_str(), (unsigned int)m_charNoUsers.size());
+    return 0;
+}
 
 void CUserManager::DelSchoolNo(unsigned int schoolNo, unsigned char channel)
 {
@@ -3584,6 +3878,78 @@ void CUser::SetUserChangableInfo(short level, char flag)
     *(short*)((char*)this + 0x44) = level;
     *(char*)((char*)this + 0x43) = flag;
 }
+void CUser::ResetMemberInfo()
+{
+    *(unsigned int*)((char*)this + 0x14) = 0;
+    *(unsigned short*)((char*)this + 0x18) = 0;
+    *(char*)((char*)this + 0x1a) = 0;
+    *(unsigned int*)((char*)this + 0x1c) = 0;
+}
+void CUser::ResetCharInfo(bool flag)
+{
+    *(unsigned int*)((char*)this + 4) = 0;
+    *(char*)((char*)this + 0x42) = 0xff;
+    *(char*)((char*)this + 0x43) = 0xff;
+    *(unsigned short*)((char*)this + 0x44) = 0xffff;
+    memset((char*)this + 0x24, 0, 0x1e);
+    ResetMemberInfo();
+    ((CBuddyHandle*)((char*)this + 0x6c))->reset(0, flag);
+}
+void CUser::ResetBlackList(int flag)
+{
+    if (!m_blackList.empty())
+    {
+        if (flag != 0)
+        {
+            for (std::map<unsigned int, CBlackUser*>::iterator it = m_blackList.begin();
+                 it != m_blackList.end(); ++it)
+            {
+                if (it->second != 0)
+                {
+                    delete it->second;
+                }
+            }
+        }
+        m_blackList.clear();
+    }
+}
+int CUser::GetBuddysCharNo(unsigned int* out)
+{
+    return ((CBuddyHandle*)((char*)this + 0x6c))->getBuddysCharNo(out);
+}
+int CUser::GetBuddys(CBuddy** out)
+{
+    return ((CBuddyHandle*)((char*)this + 0x6c))->getBuddys(out);
+}
+void CUser::SendNoticeBuddyInOut(unsigned char channel, unsigned int charNo, char* name,
+                                 unsigned char flag1, unsigned char flag2, char flag3)
+{
+    if (GetGameServer() != 0)
+    {
+        Packet_Monitor_Notice_Buddy_In_Out pkt;
+        pkt.m_charNo = charNo;
+        pkt.m_idByChannel = GetIdByChannel();
+        pkt.m_channel = channel;
+        pkt.m_field13 = flag1;
+        pkt.m_field14 = flag2;
+        memcpy(pkt.m_name, name, 0x1d);
+        pkt.m_field33 = (unsigned char)flag3;
+        ((CServerInterface*)GetGameServer())->SendToServer(
+            (char*)&pkt, *(unsigned short*)((char*)&pkt + 2));
+    }
+}
+unsigned short CUser::GetBuddyDBFlag()
+{
+    return *(unsigned short*)((char*)this + 0x88);
+}
+unsigned short CUser::GetBlackListDBFlag()
+{
+    return *(unsigned short*)((char*)this + 0x68);
+}
+std::map<unsigned int, CBlackUser*>* CUser::GetMapBlackList()
+{
+    return &m_blackList;
+}
 void CUser::GetBlackList(unsigned char& count, STBlackUserDBType* out)
 {
     count = 0;
@@ -4279,7 +4645,163 @@ void CPacketTranslater::SendRequestMemberDeleteResult(CUser* user, unsigned char
     user->SendTcpGameserver(&pkt);
 }
 void CPacketTranslater::OnLogin(PacketHeader* pkt) {}
-void CPacketTranslater::OnLogout(PacketHeader* pkt) {}
+void CPacketTranslater::OnLogout(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        return;
+    }
+    try
+    {
+        CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+        CMemberManager* memberMgr = m_pclApp->Get_MemberManager();
+        CLoginLogoutStatistics* stats =
+            (CLoginLogoutStatistics*)m_pclApp->GetLoginLogoutStatistics();
+        if (stats != 0 && *(char*)((char*)pkt + 0x17) == 0)
+        {
+            stats->CountNumOfLoginout((ENUM_LOGIN_LOGOUT)6);
+        }
+        CUser* user = userMgr->FindUser(*(unsigned int*)((char*)pkt + 0xa));
+        if (user == 0)
+        {
+            char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+            CMyFileLog log("OnLogout", 0x22d);
+            log("./log/User", "LOGOUT ERR : User DB ID(%s), F.O.C(%d), Ch(%d)", dbid,
+                (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x17),
+                (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe));
+            return;
+        }
+        char* name = user->GetCharName();
+        unsigned int memberKey = user->GetMemberKey();
+        unsigned int charNo = user->GetUniqCharNo();
+        char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+        CMyFileLog log("OnLogout", 0x230);
+        log("./log/User",
+            "LOGOUT : User DB ID(%s), Char No(%d), Member K(%d) , name(%s), F.O.C(%d), Ch(%d)",
+            dbid, charNo, memberKey, name,
+            (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x17),
+            (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe));
+        unsigned int memberKey2 = *(unsigned int*)((char*)pkt + 0x18);
+        CMemoryCashManager* cash = (CMemoryCashManager*)m_pclApp->Get_MemoryCashManager();
+        CMember* member = memberMgr->FindMember(*(unsigned int*)((char*)pkt + 0xa));
+        bool f1 = false;
+        bool f2 = false;
+        cash->InsertCashMemorySetCharacterObject(user, member, f1, f2);
+        if (memberKey2 != 0)
+        {
+            memberMgr->MemberMemLogout(memberKey2, user, !f2);
+        }
+        if (user->GetUniqCharNo() != 0)
+        {
+            if (userMgr->DeleteUser_CharNo(user->GetUniqCharNo()) == 1)
+            {
+                user->GetUniqCharNo();
+                m_pclApp->Remove_GM_id(user->GetUniqCharNo());
+                unsigned int charNos[32];
+                int n = user->GetBuddysCharNo(charNos);
+                CBuddyRegisterManager* buddyReg =
+                    (CBuddyRegisterManager*)((char*)m_pclApp + 0x300);
+                for (int i = 0; i < n; i++)
+                {
+                    buddyReg->delBuddyRegister(charNos[i], user->GetUniqCharNo());
+                }
+                std::vector<unsigned int> vec;
+                buddyReg->findBuddyRegister(user->GetUniqCharNo(), vec);
+                for (std::vector<unsigned int>::iterator it = vec.begin(); it != vec.end();
+                     ++it)
+                {
+                    CUser* other = userMgr->FindUser_CharNo(*it);
+                    if (other != 0)
+                    {
+                        other->SendNoticeBuddyInOut(
+                            ((CServerInterface*)other->GetGameServer())->GetChannelNo(),
+                            user->GetUniqCharNo(), user->GetCharName(),
+                            (unsigned char)(user->IsBlackUser(*it) != 0), 0, 0);
+                    }
+                }
+                exchange_server::CACHE_CHARACTER_TYPE cacheType;
+                cacheType.m_field0 = *(int*)((char*)pkt + 0xf);
+                cacheType.m_field4 = (int)(unsigned char)*(char*)((char*)pkt + 0xe);
+                char* dbid2 = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+                CMyFileLog log2("OnLogout", 0x290);
+                log2("./log/ExchangeServer", "CacheCharacter() (%s,%d,%d)\n", dbid2,
+                     cacheType.m_field0, cacheType.m_field4);
+                if (*(char*)((char*)pkt + 0x3a) != 0)
+                {
+                    exchange_server::GetInstanceCacheCharacterMgr()->CacheCharacter(
+                        *(unsigned int*)((char*)pkt + 0xa), &cacheType);
+                }
+                CLoginLogoutStatistics* stats2 =
+                    (CLoginLogoutStatistics*)m_pclApp->GetLoginLogoutStatistics();
+                if (stats2 != 0)
+                {
+                    stats2->CountNumOfOccupations((ENUM_LOGIN_LOGOUT)4,
+                                                  (int)userMgr->GetSizeOfCharnoUsers());
+                }
+            }
+            userMgr->DeleteUser_CharName(user->GetCharName());
+            user->ResetCharInfo(!f1);
+        }
+        if (*(char*)((char*)pkt + 0x17) != 0)
+        {
+            user->SetUserPosState(2);
+            return;
+        }
+        CMemoryCashManager* cash2 = (CMemoryCashManager*)m_pclApp->Get_MemoryCashManager();
+        if (cash2->SetUserObject(user) == 1)
+        {
+            user->ResetBlackList(0);
+        }
+        else
+        {
+            user->ResetBlackList(1);
+        }
+        if (user->GetGameServer() != 0 &&
+            ((CServerInterface*)user->GetGameServer())->GetChannelNo() ==
+                (unsigned char)*(char*)((char*)pkt + 0xe))
+        {
+            if (userMgr->DeleteUser(user) != 1)
+            {
+                char* dbid3 = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+                CMyFileLog log3("OnLogout", 0x2c5);
+                log3("./log/User",
+                     "[NO USER] Disconnected User DB ID : %s, Char No : %d , char name:%s\n",
+                     dbid3, user->GetUniqCharNo(), user->GetCharName());
+            }
+        }
+        else if (user->GetGameServer() != 0)
+        {
+            unsigned char alreadyCh =
+                ((CServerInterface*)user->GetGameServer())->GetChannelNo();
+            unsigned char logoutCh = (unsigned char)*(char*)((char*)pkt + 0xe);
+            char* dbid4 = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+            CMyFileLog log4("OnLogout", 0x2cc);
+            log4("./log/User",
+                 "[LOGOUT SESSION MISMATCH] User DB ID : %s, Char No : %d , Already Ch(%d), "
+                 "Logout Ch(%d)",
+                 dbid4, user->GetUniqCharNo(), (unsigned int)alreadyCh,
+                 (unsigned int)logoutCh);
+        }
+        CLoginLogoutStatistics* stats3 =
+            (CLoginLogoutStatistics*)m_pclApp->GetLoginLogoutStatistics();
+        if (stats3 != 0)
+        {
+            stats3->CountNumOfOccupations((ENUM_LOGIN_LOGOUT)0, (int)userMgr->Size());
+        }
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnLogout() Exception Break : %s\n", e.what());
+        CMyFileLog log("OnLogout", 0x2eb);
+        log("%s", "CPacketTranslater::OnLogout() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnLogout() Exception Break");
+        CMyFileLog log("OnLogout", 0x2f1);
+        log("%s", "CPacketTranslater::OnLogout() Exception Break");
+    }
+}
 void CPacketTranslater::OnReplyUserInfo(PacketHeader* pkt) {}
 void CPacketTranslater::OnHeartBeat(PacketHeader* pkt) {}
 void CPacketTranslater::OnCharLogin(PacketHeader* pkt) {}
@@ -7322,6 +7844,16 @@ Packet_Web_Notice_InGame_Advertisement::Packet_Web_Notice_InGame_Advertisement()
 {
 }
 
+Packet_Monitor_Notice_Buddy_In_Out::Packet_Monitor_Notice_Buddy_In_Out()
+    : PacketHeader(0x3ef, 0x34)
+{
+    m_charNo = 0;
+    m_idByChannel = 0xffffffff;
+    m_channel = 0xff;
+    m_field33 = 0;
+    memset(m_name, 0, 0x1e);
+}
+
 Packet_DBMW_Request_BlackList::Packet_DBMW_Request_BlackList()
     : PacketHeader(0x5e1, 0xf)
 {
@@ -7669,5 +8201,59 @@ void CGMAccounts::AppendGM_Sys(unsigned int dbid, char level)
     info.m_dbid = dbid;
     info.m_field4 = (unsigned int)level;
     m_list.push_back(info);
+}
+}
+
+namespace exchange_server
+{
+CCacheCharacterMgr* g_instance = 0;
+
+CCacheCharacterMgr::CCacheCharacterMgr()
+{
+    m_count = 0;
+}
+CCacheCharacterMgr::~CCacheCharacterMgr() {}
+int CCacheCharacterMgr::CacheCharacter(unsigned int dbid, CACHE_CHARACTER_TYPE* type)
+{
+    type->m_field8 = (long)time(0);
+    std::pair<std::map<unsigned int, CACHE_CHARACTER_TYPE>::iterator, bool> r =
+        m_cache.insert(std::pair<const unsigned int, CACHE_CHARACTER_TYPE>(dbid, *type));
+    if (!r.second)
+    {
+        r.first->second = *type;
+    }
+    else
+    {
+        m_count++;
+        if (49999 < m_count)
+        {
+            m_cache.clear();
+            m_count = 0;
+        }
+    }
+    return 1;
+}
+char CCacheCharacterMgr::GetCacheCharacter(unsigned int dbid, CACHE_CHARACTER_TYPE* out)
+{
+    std::map<unsigned int, CACHE_CHARACTER_TYPE>::iterator it = m_cache.find(dbid);
+    if (it == m_cache.end())
+    {
+        return 0;
+    }
+    *out = it->second;
+    return 1;
+}
+void CCacheCharacterMgr::Reset()
+{
+    m_cache.clear();
+    m_count = 0;
+}
+CCacheCharacterMgr* GetInstanceCacheCharacterMgr()
+{
+    if (g_instance == 0)
+    {
+        g_instance = new CCacheCharacterMgr;
+    }
+    return g_instance;
 }
 }

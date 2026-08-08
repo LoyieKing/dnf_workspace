@@ -24,6 +24,7 @@ class CTcpNetSystem;
 class CMemberConfig;
 class CMemberExpTbl;
 class CMemberManager;
+class CMember;
 class CUser;
 struct hyperlink_item_info;
 struct STBuddyDBInfo;
@@ -182,11 +183,17 @@ class CLoginLogoutStatistics
 {
 public:
     CLoginLogoutStatistics(CApplication& app);
-    virtual ~CLoginLogoutStatistics();
+    ~CLoginLogoutStatistics();
     void ProcessByMinute();
     void LoginLogout(ENUM_LOGIN_LOGOUT type, unsigned char channel);
-    std::map<unsigned char, struct stLoginLogout> m_map;  // +0
-    char m_data[0x98];
+    void CountNumOfLoginout(ENUM_LOGIN_LOGOUT type);
+    void CountNumOfOccupations(ENUM_LOGIN_LOGOUT type, int value);
+    CApplication* m_app;                                     // +0
+    std::map<unsigned char, struct stLoginLogout> m_maps[7]; // +4
+    unsigned int m_fieldac;                                  // +0xac
+    unsigned int m_fieldb0;                                  // +0xb0
+    int m_fieldb4;                                           // +0xb4
+    int m_fieldb8;                                           // +0xb8
 };
 
 struct stLoginLogout
@@ -249,10 +256,17 @@ public:
     void Init(CApplication* app);
     void ProcessLifeTimeOut();
     void ProcessCashDataPrint();
+    void incBuddyCashCnt();
+    void incMemberCashCnt();
+    void incBlackListCashCnt();
     char QueryCashMemoryMember(CUser* user);
     int QueryCashMemoryBuddyInfo(CUser* user);
     char QueryCashMemoryBlackList(CUser* user);
     char QueryUpdatedCharacName(unsigned int charNo, std::string& name);
+    char IsRightObject(CUser* user, CMember* member, bool& flag1, bool& flag2, bool& flag3);
+    int InsertCashMemorySetCharacterObject(CUser* user, CMember* member, bool& flag1,
+                                           bool& flag2);
+    bool SetUserObject(CUser* user);
     void incMemberCashHitCnt();
     void incBuddyCashHitCnt();
     void incBlackListCashHitCnt();
@@ -265,16 +279,26 @@ public:
 class CCashObject
 {
 public:
+    CCashObject();
+    ~CCashObject();
+    void SetCharacNo(unsigned int charNo);
+    void SetMemberObject(class CMember* member);
+    void SetBuddysObject(class CBuddy** buddies, int count);
+    void SetBlackUsersObject(std::map<unsigned int, class CBlackUser*>* map);
+    void SetLifeTime(int lifeTime);
     unsigned int GetCharacNo();
     class CMember* GetMemberObject();
-    void SetMemberObject(class CMember* member);
     void ClearMemberObject();
     void DeleteMemberObject();
     int GetBuddysObject(class CBuddy** buddies);
     void DeleteBuddys();
     std::map<unsigned int, class CBlackUser*>* GetBlackUsersObject();
     void ClearMapBlackUsers();
-    char m_data[0x20];
+    int m_lifeTime;                 // +0
+    unsigned int m_characNo;        // +4
+    CMember* m_memberObject;        // +8
+    CBuddy* m_buddys[0x20];         // +0xc
+    std::map<unsigned int, class CBlackUser*> m_blackUsers;  // +0x8c
 };
 
 class CBuddy
@@ -297,6 +321,8 @@ public:
     int delDB(CServerHandler* handler, char* name);
     void setBuddyCharName(int charNo, const std::string& newName);
     int add(std::string name, STBuddyDBInfo& info);
+    int getBuddysCharNo(unsigned int* out);
+    int getBuddys(class CBuddy** out);
     void reset(CUser* user, bool flag);
     void clear(bool flag);
     std::map<std::string, CBuddy*> m_buddies;  // +0
@@ -516,8 +542,11 @@ class CBuddyRegisterManager
 public:
     CBuddyRegisterManager();
     ~CBuddyRegisterManager();
-    void addBuddyRegister(unsigned int charNo);
-    char m_data[0x18];
+    void addBuddyRegister(unsigned int key, unsigned int value);
+    int delBuddyRegister(unsigned int key, unsigned int value);
+    void delBuddyRegister(unsigned int key);
+    void findBuddyRegister(unsigned int key, std::vector<unsigned int>& out);
+    std::multimap<unsigned int, unsigned int> m_map;  // +0
 };
 
 // ---- CUdpNetworkThread：0x1c ----
@@ -717,6 +746,10 @@ public:
     CUser* FindUser_CharName(const std::string& name) const;
     int DeleteProhibitUser(unsigned int dbid, char channel);
     void DeleteBlackUserOnCharacDelete(unsigned int charNo);
+    unsigned int GetSizeOfCharnoUsers();
+    unsigned int Size();
+    int DeleteUser_CharNo(unsigned int charNo);
+    int DeleteUser_CharName(std::string name);
     CUser* CreateUser(unsigned int dbid, unsigned int charNo, char* charName, int channel,
                       CGameServer* server);
     char InsertUser(unsigned int dbid, CUser* user);
@@ -778,6 +811,16 @@ public:
     void SetGameServer(void* server);
     void SetUserPosState(unsigned char state);
     void SetUserChangableInfo(short level, char flag);
+    void ResetCharInfo(bool flag);
+    void ResetMemberInfo();
+    void ResetBlackList(int flag);
+    int GetBuddysCharNo(unsigned int* out);
+    int GetBuddys(class CBuddy** out);
+    void SendNoticeBuddyInOut(unsigned char channel, unsigned int charNo, char* name,
+                              unsigned char flag1, unsigned char flag2, char flag3);
+    unsigned short GetBuddyDBFlag();
+    unsigned short GetBlackListDBFlag();
+    std::map<unsigned int, class CBlackUser*>* GetMapBlackList();
     void GetBlackList(unsigned char& count, struct STBlackUserDBType* out);
     void GetBlackList(unsigned char& count, unsigned int* out);
     unsigned int GetBlackListSize();
@@ -1768,6 +1811,19 @@ public:
     Packet_Web_Notice_InGame_Advertisement();
 };
 
+class Packet_Monitor_Notice_Buddy_In_Out : public PacketHeader
+{
+public:
+    Packet_Monitor_Notice_Buddy_In_Out();
+    unsigned int m_charNo;       // +10
+    unsigned int m_idByChannel;  // +14
+    unsigned char m_channel;     // +18
+    unsigned char m_field13;     // +19
+    unsigned char m_field14;     // +20
+    char m_name[0x1e];           // +21
+    unsigned char m_field33;     // +51
+};
+
 class Packet_DBMW_Request_BlackList : public PacketHeader
 {
 public:
@@ -2048,6 +2104,30 @@ public:
     };
     std::list<stGMInfo_t> m_list;  // +0
 };
+}
+
+namespace exchange_server
+{
+struct CACHE_CHARACTER_TYPE
+{
+    int m_field0;   // +0
+    int m_field4;   // +4
+    long m_field8;  // +8
+};
+
+class CCacheCharacterMgr
+{
+public:
+    CCacheCharacterMgr();
+    ~CCacheCharacterMgr();
+    int CacheCharacter(unsigned int dbid, CACHE_CHARACTER_TYPE* type);
+    char GetCacheCharacter(unsigned int dbid, CACHE_CHARACTER_TYPE* out);
+    void Reset();
+    std::map<unsigned int, CACHE_CHARACTER_TYPE> m_cache;  // +0
+    int m_count;                                           // +0x18
+};
+
+CCacheCharacterMgr* GetInstanceCacheCharacterMgr();
 }
 
 #endif  // MONITOR_TYPES_H_
