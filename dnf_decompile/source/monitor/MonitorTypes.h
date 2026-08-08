@@ -307,10 +307,11 @@ public:
 class CBlackUser
 {
 public:
+    void SetBlackUser(char* name, unsigned int time);
     void ChangeCharName(char* name);
     char* GetName();
     unsigned int GetOccurTime();
-    char m_data[0x20];
+    char m_data[0x28];
 };
 
 // ---- CExchangeServer：0x14 ----
@@ -774,6 +775,12 @@ public:
     void SetGameServer(void* server);
     void SetUserPosState(unsigned char state);
     void GetBlackList(unsigned char& count, struct STBlackUserDBType* out);
+    void GetBlackList(unsigned char& count, unsigned int* out);
+    unsigned int GetBlackListSize();
+    char RegisterToBlackList(unsigned int charNo, char* name);
+    char RegisterToBlackList(unsigned int charNo, char* name, unsigned int time);
+    int DeleteToBlackList(unsigned int charNo);
+    void SendBlackList();
     unsigned int GetMemberEnterCallerId();
     char CheckPrevCallMemberEnter();
     void ResetRequestMemberEnter();
@@ -1701,6 +1708,63 @@ public:
     unsigned char m_found;       // +45
     unsigned short m_field2e;    // +46
     unsigned int m_field30;      // +48
+};
+
+class Packet_DBMW_Register_To_BlackList : public PacketHeader
+{
+public:
+    Packet_DBMW_Register_To_BlackList();
+    unsigned int m_charNo;       // +10
+    char m_name[0x1e];           // +14
+    unsigned int m_charNo2;      // +44
+};
+
+class Packet_Register_To_BlackList_RESULT : public PacketHeader
+{
+public:
+    Packet_Register_To_BlackList_RESULT();
+    unsigned int m_idByChannel;  // +10
+    char m_name[0x1e];           // +14
+    unsigned int m_charNo;       // +44
+    unsigned char m_result;      // +48
+};
+
+class Packet_DMBW_Delete_To_BlackList : public PacketHeader
+{
+public:
+    Packet_DMBW_Delete_To_BlackList();
+    unsigned int m_charNo;       // +10
+    char m_name[0x1e];           // +14
+    unsigned int m_charNo2;      // +44
+};
+
+class Packet_Delete_To_BlackList_Result : public PacketHeader
+{
+public:
+    Packet_Delete_To_BlackList_Result();
+    unsigned int m_idByChannel;  // +10
+    char m_name[0x1e];           // +14
+    unsigned int m_charNo;       // +44
+    unsigned char m_result;      // +48
+};
+
+class Packet_Request_Result_BlackList : public PacketHeader
+{
+public:
+    Packet_Request_Result_BlackList();
+    unsigned int m_idByChannel;  // +10
+    unsigned char m_count;       // +14
+    char m_blackList[10][0x28];  // +15
+};
+
+class Packet_Monitor_Notice_Black_List : public PacketHeader
+{
+public:
+    Packet_Monitor_Notice_Black_List();
+    unsigned int m_dbid;         // +10
+    unsigned int m_idByChannel;  // +14
+    unsigned char m_count;       // +18
+    unsigned int m_charNos[10];  // +19
 };
 
 class Packet_Monitor_Call_Member_List_ToUser : public PacketHeader

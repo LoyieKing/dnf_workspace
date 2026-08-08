@@ -1158,9 +1158,17 @@ void CBuddyHandle::clear(bool flag)
         m_buddies.clear();
     }
 }
-void CBlackUser::ChangeCharName(char* name) {}
-char* CBlackUser::GetName() { return 0; }
-unsigned int CBlackUser::GetOccurTime() { return 0; }
+void CBlackUser::SetBlackUser(char* name, unsigned int time)
+{
+    memcpy(this, name, 0x1d);
+    *(unsigned int*)((char*)this + 0x20) = time;
+}
+void CBlackUser::ChangeCharName(char* name)
+{
+    memcpy(this, name, 0x1d);
+}
+char* CBlackUser::GetName() { return (char*)this; }
+unsigned int CBlackUser::GetOccurTime() { return *(unsigned int*)((char*)this + 0x20); }
 
 CExchangeServer::CExchangeServer() {}
 CExchangeServer::~CExchangeServer() {}
@@ -3558,6 +3566,73 @@ void CUser::GetBlackList(unsigned char& count, STBlackUserDBType* out)
         }
     }
 }
+void CUser::GetBlackList(unsigned char& count, unsigned int* out)
+{
+    count = 0;
+    if (!m_blackList.empty())
+    {
+        for (std::map<unsigned int, CBlackUser*>::iterator it = m_blackList.begin();
+             it != m_blackList.end(); ++it)
+        {
+            out[(unsigned int)count] = it->first;
+            count++;
+            if (9 < count)
+            {
+                return;
+            }
+        }
+    }
+}
+unsigned int CUser::GetBlackListSize()
+{
+    return (unsigned int)m_blackList.size();
+}
+char CUser::RegisterToBlackList(unsigned int charNo, char* name)
+{
+    if (name == 0 || charNo == 0)
+    {
+        CMyFileLog log("RegisterToBlackList", 0x16e);
+        log("./log/BlackList", "Register Err(%d)(%s)", charNo, name);
+        return 0;
+    }
+    CBlackUser* user = new CBlackUser;
+    user->SetBlackUser(name, (unsigned int)time(0));
+    std::pair<std::map<unsigned int, CBlackUser*>::iterator, bool> r =
+        m_blackList.insert(std::pair<const unsigned int, CBlackUser*>(charNo, user));
+    return r.second ? 1 : 0;
+}
+char CUser::RegisterToBlackList(unsigned int charNo, char* name, unsigned int time)
+{
+    CBlackUser* user = new CBlackUser;
+    user->SetBlackUser(name, time);
+    std::pair<std::map<unsigned int, CBlackUser*>::iterator, bool> r =
+        m_blackList.insert(std::pair<const unsigned int, CBlackUser*>(charNo, user));
+    return r.second ? 1 : 0;
+}
+int CUser::DeleteToBlackList(unsigned int charNo)
+{
+    if (!m_blackList.empty())
+    {
+        std::map<unsigned int, CBlackUser*>::iterator it = m_blackList.find(charNo);
+        if (it != m_blackList.end())
+        {
+            delete it->second;
+            m_blackList.erase(it);
+            return 1;
+        }
+    }
+    return 0;
+}
+void CUser::SendBlackList()
+{
+    Packet_Monitor_Notice_Black_List pkt;
+    pkt.m_dbid = *(unsigned int*)((char*)this + 0);
+    pkt.m_idByChannel = *(unsigned int*)((char*)this + 0x20);
+    unsigned char count = 0;
+    GetBlackList(count, pkt.m_charNos);
+    pkt.m_count = count;
+    SendTcpGameserver(&pkt);
+}
 unsigned int CUser::GetMemberEnterCallerId()
 {
     return *(unsigned int*)((char*)this + 0x1c);
@@ -5012,12 +5087,272 @@ void CPacketTranslater::OnRegisterGM_mid(PacketHeader* pkt)
         m_pclApp->Add_GM_id(*(unsigned int*)((char*)pkt + 0xa));
     }
 }
-void CPacketTranslater::OnRegisterToBlackList(PacketHeader* pkt) {}
-void CPacketTranslater::OnDeleteToBlackList(PacketHeader* pkt) {}
-void CPacketTranslater::OnRequestBlackList(PacketHeader* pkt) {}
-void CPacketTranslater::OnDBMWResisterToBlackList(PacketHeader* pkt) {}
-void CPacketTranslater::OnDBMWDeleteToBlackList(PacketHeader* pkt) {}
-void CPacketTranslater::OnDBMWResponseBlackListOnLogin(PacketHeader* pkt) {}
+void CPacketTranslater::OnRegisterToBlackList(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnRegisterToBlackList", 0xc41);
+        log("./log/BlackList", "CPacketTranslater::OnRegisterToBlackList : 0 == m_pclApp");
+    }
+    else
+    {
+        CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+        CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+        Packet_DBMW_Register_To_BlackList dbPkt;
+        Packet_Register_To_BlackList_RESULT result;
+        dbPkt.m_charNo = *(unsigned int*)((char*)pkt + 0xa);
+        memcpy(dbPkt.m_name, (char*)pkt + 0xe, 0x1d);
+        CUser* user = userMgr->FindUser(*(unsigned int*)((char*)pkt + 0xa));
+        if (user == 0)
+        {
+            CMyFileLog log("OnRegisterToBlackList", 0xc50);
+            log("./log/BlackList", "CPacketTranslater::OnRegisterToBlackList : 0 == pclUser");
+        }
+        else if (strcmp(user->GetCharName(), (char*)pkt + 0xe) == 0)
+        {
+            result.m_result = 3;
+            result.m_idByChannel = user->GetIdByChannel();
+            result.m_charNo = 0xffffffff;
+            memcpy(result.m_name, (char*)pkt + 0xe, 0x1d);
+            user->SendToGameserver((char*)&result, *(unsigned short*)((char*)&result + 2));
+        }
+        else
+        {
+            result.m_idByChannel = user->GetIdByChannel();
+            memcpy(result.m_name, (char*)pkt + 0xe, 0x1d);
+            if (user->GetBlackListSize() < 10)
+            {
+                CUser* target = userMgr->FindUser_CharName((char*)pkt + 0xe);
+                if (target != 0)
+                {
+                    result.m_charNo = target->GetUniqCharNo();
+                    WongWork::CGMAccounts* gm = (WongWork::CGMAccounts*)m_pclApp->GetGMAccounts();
+                    if (gm != 0 && gm->isGM(target->GetDBID()) != 0)
+                    {
+                        result.m_result = 5;
+                        user->SendToGameserver((char*)&result,
+                                               *(unsigned short*)((char*)&result + 2));
+                        return;
+                    }
+                    if (user->RegisterToBlackList(target->GetUniqCharNo(),
+                                                  (char*)pkt + 0xe) != 1)
+                    {
+                        result.m_result = 2;
+                        user->SendToGameserver((char*)&result,
+                                               *(unsigned short*)((char*)&result + 2));
+                        return;
+                    }
+                    dbPkt.m_charNo2 = target->GetUniqCharNo();
+                    result.m_result = 1;
+                    user->SendToGameserver((char*)&result,
+                                           *(unsigned short*)((char*)&result + 2));
+                }
+                handler->SendToDB(&dbPkt);
+            }
+            else
+            {
+                result.m_result = 4;
+                user->SendToGameserver((char*)&result, *(unsigned short*)((char*)&result + 2));
+            }
+        }
+    }
+}
+void CPacketTranslater::OnDeleteToBlackList(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnDeleteToBlackList", 0xca6);
+        log("./log/BlackList", "CPacketTranslater::OnDeleteToBlackList : 0 == m_pclApp");
+        return;
+    }
+    CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    Packet_DMBW_Delete_To_BlackList dbPkt;
+    Packet_Delete_To_BlackList_Result result;
+    dbPkt.m_charNo = *(unsigned int*)((char*)pkt + 0xa);
+    memcpy(dbPkt.m_name, (char*)pkt + 0xe, 0x1d);
+    CUser* target = userMgr->FindUser_CharName((char*)pkt + 0xe);
+    if (target != 0)
+    {
+        CUser* user = userMgr->FindUser(*(unsigned int*)((char*)pkt + 0xa));
+        if (user == 0)
+        {
+            CMyFileLog log("OnDeleteToBlackList", 0xcb6);
+            log("./log/BlackList", "CPacketTranslater::OnDeleteToBlackList : 0 == pclUser");
+            return;
+        }
+        result.m_idByChannel = user->GetIdByChannel();
+        result.m_charNo = target->GetUniqCharNo();
+        memcpy(result.m_name, (char*)pkt + 0xe, 0x1d);
+        if (user->DeleteToBlackList(target->GetUniqCharNo()) != 1)
+        {
+            result.m_result = 2;
+            user->SendToGameserver((char*)&result, *(unsigned short*)((char*)&result + 2));
+            return;
+        }
+        dbPkt.m_charNo2 = target->GetUniqCharNo();
+        result.m_result = 1;
+        user->SendToGameserver((char*)&result, *(unsigned short*)((char*)&result + 2));
+    }
+    handler->SendToDB(&dbPkt);
+}
+void CPacketTranslater::OnRequestBlackList(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnRequestBlackList", 0xce9);
+        log("./log/BlackList", "CPacketTranslater::OnRequestBlackList : 0 == m_pclApp");
+    }
+    else
+    {
+        CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+        Packet_Request_Result_BlackList reply;
+        reply.m_idByChannel = *(unsigned int*)((char*)pkt + 0xe);
+        CUser* user = userMgr->FindUser(*(unsigned int*)((char*)pkt + 0xa));
+        if (user == 0)
+        {
+            CMyFileLog log("OnRequestBlackList", 0xcf3);
+            log("./log/BlackList", "CPacketTranslater::OnRequestBlackList : 0 == pclUser");
+        }
+        else
+        {
+            unsigned char count = 0;
+            user->GetBlackList(count, (unsigned int*)reply.m_blackList);
+            reply.m_count = count;
+            user->SendToGameserver((char*)&reply, *(unsigned short*)((char*)&reply + 2));
+        }
+    }
+}
+void CPacketTranslater::OnDBMWResisterToBlackList(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnDBMWResisterToBlackList", 0xd18);
+        log("./log/BlackList", "CPacketTranslater::OnDBMWResisterToBlackList : 0 == m_pclApp");
+    }
+    else
+    {
+        CUser* user =
+            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
+                *(unsigned int*)((char*)pkt + 0xa));
+        if (user == 0)
+        {
+            CMyFileLog log("OnDBMWResisterToBlackList", 0xd1f);
+            log("./log/BlackList", "CPacketTranslater::OnDBMWResisterToBlackList : 0 == pclUser");
+        }
+        else
+        {
+            Packet_Register_To_BlackList_RESULT result;
+            result.m_idByChannel = user->GetIdByChannel();
+            memcpy(result.m_name, (char*)pkt + 0xe, 0x1d);
+            if (*(int*)((char*)pkt + 0x30) == 0x5a)
+            {
+                result.m_result = 5;
+                user->SendToGameserver((char*)&result, *(unsigned short*)((char*)&result + 2));
+            }
+            else if (*(int*)((char*)pkt + 0x2c) == -1)
+            {
+                result.m_result = 3;
+                user->SendToGameserver((char*)&result, *(unsigned short*)((char*)&result + 2));
+            }
+            else if (user->IsBlackUser(*(unsigned int*)((char*)pkt + 0x2c)) != 0)
+            {
+                result.m_result = 2;
+                user->SendToGameserver((char*)&result, *(unsigned short*)((char*)&result + 2));
+            }
+            else if (user->GetBlackListSize() < 10)
+            {
+                user->RegisterToBlackList(*(unsigned int*)((char*)pkt + 0x2c),
+                                          (char*)pkt + 0xe);
+                result.m_result = 1;
+                result.m_charNo = *(unsigned int*)((char*)pkt + 0x2c);
+                user->SendToGameserver((char*)&result, *(unsigned short*)((char*)&result + 2));
+            }
+            else
+            {
+                result.m_result = 4;
+                user->SendToGameserver((char*)&result, *(unsigned short*)((char*)&result + 2));
+            }
+        }
+    }
+}
+void CPacketTranslater::OnDBMWDeleteToBlackList(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnDBMWDeleteToBlackList", 0xd69);
+        log("./log/BlackList", "CPacketTranslater::OnDBMWDeleteToBlackList : 0 == m_pclApp");
+    }
+    else
+    {
+        CUser* user =
+            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
+                *(unsigned int*)((char*)pkt + 0xa));
+        if (user == 0)
+        {
+            CMyFileLog log("OnDBMWDeleteToBlackList", 0xd70);
+            log("./log/BlackList", "CPacketTranslater::OnDBMWDeleteToBlackList : 0 == pclUser");
+        }
+        else
+        {
+            Packet_Delete_To_BlackList_Result result;
+            result.m_idByChannel = user->GetIdByChannel();
+            memcpy(result.m_name, (char*)pkt + 0xe, 0x1d);
+            if (*(int*)((char*)pkt + 0x2c) == -1)
+            {
+                result.m_result = 3;
+                user->SendToGameserver((char*)&result, *(unsigned short*)((char*)&result + 2));
+            }
+            else if (user->DeleteToBlackList(*(unsigned int*)((char*)pkt + 0x2c)) != 1)
+            {
+                result.m_result = 2;
+                user->SendToGameserver((char*)&result, *(unsigned short*)((char*)&result + 2));
+            }
+            else
+            {
+                result.m_result = 1;
+                result.m_charNo = *(unsigned int*)((char*)pkt + 0x2c);
+                user->SendToGameserver((char*)&result, *(unsigned short*)((char*)&result + 2));
+            }
+        }
+    }
+}
+void CPacketTranslater::OnDBMWResponseBlackListOnLogin(PacketHeader* pkt)
+{
+    if (m_pclApp == 0)
+    {
+        CMyFileLog log("OnDBMWResponseBlackListOnLogin", 0xdc3);
+        log("./log/BlackList",
+            "CPacketTranslater::OnDBMWResponseBlackListOnLogin : 0 == m_pclApp");
+    }
+    else
+    {
+        CUser* user =
+            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
+                *(unsigned int*)((char*)pkt + 0xa));
+        if (user == 0)
+        {
+            CMyFileLog log("OnDBMWResponseBlackListOnLogin", 0xdcb);
+            log("./log/BlackList",
+                "CPacketTranslater::OnDBMWResponseBlackListOnLogin : 0 == pclUser");
+        }
+        else
+        {
+            for (int i = 0; *(int*)((char*)pkt + i * 0x28 + 0x32) != 0; i++)
+            {
+                if (user->IsBlackUser(*(unsigned int*)((char*)pkt + i * 0x28 + 0xe)) != 1)
+                {
+                    user->RegisterToBlackList(
+                        *(unsigned int*)((char*)pkt + i * 0x28 + 0xe),
+                        (char*)pkt + i * 0x28 + 0x12,
+                        *(unsigned int*)((char*)pkt + i * 0x28 + 0x32));
+                }
+            }
+            user->SetBlackListDBFlag(4);
+            user->SendBlackList();
+        }
+    }
+}
 void CPacketTranslater::OnExchangeServerInfo(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoticeCharLiveOnTenMin(PacketHeader* pkt) {}
 void CPacketTranslater::OnWebNoticeSingle(PacketHeader* pkt)
@@ -6768,6 +7103,44 @@ Packet_Notice_Find_Factory_Hub_User::Packet_Notice_Find_Factory_Hub_User()
     m_field2e = 0;
     m_field30 = 0;
     memset(m_name, 0, 0x1e);
+}
+
+Packet_DBMW_Register_To_BlackList::Packet_DBMW_Register_To_BlackList()
+    : PacketHeader(0x5de, 0x34)
+{
+    m_charNo2 = 0xffffffff;
+    memset(m_name, 0, 0x1e);
+}
+
+Packet_Register_To_BlackList_RESULT::Packet_Register_To_BlackList_RESULT()
+    : PacketHeader(0x5dc, 0x31)
+{
+    memset(m_name, 0, 0x1e);
+}
+
+Packet_DMBW_Delete_To_BlackList::Packet_DMBW_Delete_To_BlackList()
+    : PacketHeader(0x5df, 0x30)
+{
+    m_charNo2 = 0xffffffff;
+    memset(m_name, 0, 0x1e);
+}
+
+Packet_Delete_To_BlackList_Result::Packet_Delete_To_BlackList_Result()
+    : PacketHeader(0x5dd, 0x31)
+{
+    memset(m_name, 0, 0x1e);
+}
+
+Packet_Request_Result_BlackList::Packet_Request_Result_BlackList()
+    : PacketHeader(0x5e0, 0x19f)
+{
+    memset(m_blackList, 0, 400);
+}
+
+Packet_Monitor_Notice_Black_List::Packet_Monitor_Notice_Black_List()
+    : PacketHeader(0x5e2, 0x3b)
+{
+    memset(m_charNos, 0xff, 0x28);
 }
 
 Packet_Monitor_Call_Member_List_ToUser::Packet_Monitor_Call_Member_List_ToUser()
