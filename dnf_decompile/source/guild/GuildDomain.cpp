@@ -5617,37 +5617,213 @@ void CServerXml::StrLoading(std::string path)
 
 void CServerXml::CharsetInit(TiXmlNode* node)
 {
+    TiXmlNode* opt = node->FirstChild("option");
+    if (opt == 0)
+    {
+        puts("[CServerXml] <option> Tag Error");
+        exit(-1);
+    }
+    TiXmlNode* charset = opt->FirstChild("charset");
+    if (charset == 0)
+    {
+        puts("[CServerXml] <charset> Tag Error");
+        exit(-1);
+    }
+    TiXmlElement* e = charset->ToElement();
+    const char* type = e->Attribute("type");
+    if (type == 0)
+    {
+        puts("[CServerXml] <type> Tag Error");
+        exit(-1);
+    }
+    if (strcmp(type, "kor") == 0)
+    {
+        *(unsigned int*)((char*)this + 0x50) = 0;
+    }
+    else if (strcmp(type, "chn") == 0)
+    {
+        *(unsigned int*)((char*)this + 0x50) = 1;
+    }
+    else if (strcmp(type, "jpn") == 0)
+    {
+        *(unsigned int*)((char*)this + 0x50) = 2;
+    }
+    else if (strcmp(type, "usa") == 0)
+    {
+        *(unsigned int*)((char*)this + 0x50) = 3;
+    }
+    else if (strcmp(type, "twn") == 0)
+    {
+        *(unsigned int*)((char*)this + 0x50) = 4;
+    }
+    else
+    {
+        puts("[CServerXml] <type> Tag Error");
+        exit(-1);
+    }
+    strcpy((char*)this, type);
 }
 
 void CServerXml::EventLoad(TiXmlNode* node)
 {
+    TiXmlNode* ev = node->FirstChild("event_str");
+    if (ev == 0)
+    {
+        puts("[CServerXml] <event_str> Tag Skip!!");
+        return;
+    }
+    ev = ev->FirstChild("event");
+    if (ev == 0)
+    {
+        puts("[CServerXml] <event> Tag Error");
+        exit(-1);
+    }
+    for (; ev != 0; ev = ev->NextSibling())
+    {
+        int id = 0;
+        TiXmlElement* e = ev->ToElement();
+        e->Attribute("id", &id);
+        RGBALoad(id, ev);
+        TiXmlNode* text = ev->FirstChild((const char*)this);
+        if (text == 0)
+        {
+            printf("%s Tag Error\n", (char*)this);
+            exit(-1);
+        }
+        TiXmlElement* e2 = text->ToElement();
+        StrPunish(id, e2->Attribute("start_msg"), (_eStringType)1);
+        e2 = text->ToElement();
+        StrPunish(id, e2->Attribute("end_msg"), (_eStringType)2);
+    }
 }
 
 void CServerXml::RGBALoad(int idx, TiXmlNode* node)
 {
+    TiXmlNode* color = node->FirstChild("color");
+    if (color == 0)
+    {
+        printf("%s Tag Error\n", (char*)this);
+        exit(-1);
+    }
+    unsigned int rgba = 0;
+    TiXmlElement* e = color->ToElement();
+    int r = atoi(e->Attribute("red"));
+    rgba = (rgba & 0xffffff00U) | ((unsigned int)(unsigned char)r);
+    e = color->ToElement();
+    int g = atoi(e->Attribute("green"));
+    rgba = (rgba & 0xffff00ffU) | (((unsigned int)(unsigned char)g) << 8);
+    e = color->ToElement();
+    int b = atoi(e->Attribute("blue"));
+    rgba = (rgba & 0xff00ffffU) | (((unsigned int)(unsigned char)b) << 16);
+    e = color->ToElement();
+    int a = atoi(e->Attribute("alpha"));
+    rgba = (rgba & 0x00ffffffU) | (((unsigned int)(unsigned char)a) << 24);
+    m_rgba.insert(std::make_pair(idx, (int)rgba));
 }
 
 void CServerXml::ProcessLoad(TiXmlNode* node)
 {
+    TiXmlNode* str = node->FirstChild("str");
+    if (str == 0)
+    {
+        puts("[CServerXml] <str> Tag Skip!!");
+        return;
+    }
+    str = str->FirstChild("string");
+    if (str == 0)
+    {
+        puts("[CServerXml] <string> Tag Error");
+        exit(-1);
+    }
+    for (; str != 0; str = str->NextSibling())
+    {
+        int id = 0;
+        TiXmlElement* e = str->ToElement();
+        e->Attribute("id", &id);
+        TiXmlNode* text = str->FirstChild((const char*)this);
+        if (text == 0)
+        {
+            printf("%s Tag Error\n", (char*)this);
+            return;
+        }
+        TiXmlElement* e2 = text->ToElement();
+        StrPunish(id, e2->Attribute("text"), (_eStringType)0);
+    }
 }
 
 void CServerXml::StrPunish(int idx, const char* str, _eStringType type)
 {
+    if (str != 0)
+    {
+        std::string s = str;
+        if ((int)type == 1)
+        {
+            m_str2.insert(std::make_pair(idx, s));
+        }
+        else if ((int)type == 2)
+        {
+            m_str3.insert(std::make_pair(idx, s));
+        }
+        else if ((int)type == 0)
+        {
+            m_str1.insert(std::make_pair(idx, s));
+        }
+    }
 }
 
 const char* CServerXml::GetServerString(int idx, bool* ok) const
 {
-    return "";
+    std::map<int, std::string>::const_iterator it = m_str1.find(idx);
+    if (it == m_str1.end())
+    {
+        if (ok != 0)
+        {
+            *ok = 0;
+        }
+        return "";
+    }
+    if (ok != 0)
+    {
+        *ok = 1;
+    }
+    return it->second.c_str();
 }
 
 unsigned int CServerXml::GetEventRGBA(int idx) const
 {
-    return 0;
+    std::map<int, int>::const_iterator it = m_rgba.find(idx);
+    if (it == m_rgba.end())
+    {
+        return 0;
+    }
+    return (unsigned int)it->second;
 }
 
 std::string CServerXml::GetEventString(int idx, _eStringType type, bool* ok) const
 {
-    return std::string();
+    const std::map<int, std::string>* m = &m_str1;
+    if ((int)type == 1)
+    {
+        m = &m_str2;
+    }
+    else if ((int)type == 2)
+    {
+        m = &m_str3;
+    }
+    std::map<int, std::string>::const_iterator it = m->find(idx);
+    if (it == m->end())
+    {
+        if (ok != 0)
+        {
+            *ok = 0;
+        }
+        return "";
+    }
+    if (ok != 0)
+    {
+        *ok = 1;
+    }
+    return it->second;
 }
 }
 
