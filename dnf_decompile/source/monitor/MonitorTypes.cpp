@@ -4598,13 +4598,21 @@ void CPacketTranslater::OnEventStart(PacketHeader* pkt) {}
 void CPacketTranslater::OnEventEnd(PacketHeader* pkt) {}
 void CPacketTranslater::OnNotifyNewMail(PacketHeader* pkt)
 {
-    CUser* user =
-        ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
-            *(unsigned int*)((char*)pkt + 0xa));
-    if (user != 0)
+    try
     {
-        *(unsigned int*)((char*)pkt + 0xe) = user->GetIdByChannel();
-        user->SendToGameserver((char*)pkt, 0x12);
+        CUser* user =
+            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
+                *(unsigned int*)((char*)pkt + 0xa));
+        if (user != 0)
+        {
+            *(unsigned int*)((char*)pkt + 0xe) = user->GetIdByChannel();
+            user->SendToGameserver((char*)pkt, 0x12);
+        }
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnNotifyNewMail", 0xb66);
+        log("%s", "%s", "OnNotifyNewMail");
     }
 }
 void CPacketTranslater::OnWebQueryUserState(PacketHeader* pkt) {}
@@ -4652,13 +4660,21 @@ void CPacketTranslater::onLoadBlackIPMonitorDeleteIP(PacketHeader* pkt) {}
 void CPacketTranslater::OnChangeCharName(PacketHeader* pkt) {}
 void CPacketTranslater::OnNotifyAuctionMail(PacketHeader* pkt)
 {
-    CUser* user =
-        ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
-            *(unsigned int*)((char*)pkt + 0xa));
-    if (user != 0)
+    try
     {
-        *(unsigned int*)((char*)pkt + 0xe) = user->GetIdByChannel();
-        user->SendToGameserver((char*)pkt, 0x26);
+        CUser* user =
+            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
+                *(unsigned int*)((char*)pkt + 0xa));
+        if (user != 0)
+        {
+            *(unsigned int*)((char*)pkt + 0xe) = user->GetIdByChannel();
+            user->SendToGameserver((char*)pkt, 0x26);
+        }
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnNotifyAuctionMail", 0x137e);
+        log("%s", "%s", "OnNotifyAuctionMail");
     }
 }
 void CPacketTranslater::OnPvPChannelInfo(PacketHeader* pkt) {}
