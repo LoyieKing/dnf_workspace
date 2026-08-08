@@ -195,3 +195,13 @@
 - 当前：DIFF 1124 / IDENTICAL 368 / NEAR 208，stub=0，冒烟通过。
 - 剩余 DIFF 主要成分：-O0 寄存器分配/栈槽、EH 清理块、
   const_iterator vs iterator 模板实例、std::map<const K> 符号差异。
+
+## 2026-08-09 第三轮（布局/构造语义核验）
+
+- CTcpNetSystem ctor：memset→逐成员构造（CSwapQueue@8、6×CMutex、双 queue、map）；
+  CSwapQueue ctor/Init/GetRecvQ/GetParseQ/SwapQ 全部按原版索引语义实现
+- CGuild::DeleteGuildMember：DetachGuild→SetGuildMemFlag(8)（原版语义）+ 日志路径/行号
+- 其余核验：OnChangeGuildName（响应包/邮件/仅会长权限）、OnSetGuildMemberGrade
+  （完整权限与分支）、CUserManager 三函数、SendPowerWarEndTime、OnDBReplyQueryGuildMember
+  偏移、ReplyGuildMembersToWeb GetChannelNo 等
+- 冒烟通过，DIFF 1124 / IDENTICAL 368 / NEAR 208
