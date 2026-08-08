@@ -27,6 +27,21 @@ int CheckDayScheduleTimeOver(int hour, long t)
     return t < target;
 }
 
+CBlackUser::CBlackUser()
+{
+    memset(m_data, 0, sizeof(m_data));
+}
+
+CBlackUser::~CBlackUser()
+{
+}
+
+void CBlackUser::SetBlackUser(char* name, unsigned int time)
+{
+    strncpy(m_data, name, 0x1e);
+    *(unsigned int*)(m_data + 0x20) = time;
+}
+
 STGuildSkill::STGuildSkill()
 {
     memset(m_data, 0, sizeof(m_data));
@@ -220,25 +235,48 @@ unsigned char CUser::GetGrowthType()
 
 unsigned char CUser::GetSex()
 {
-    return 0;
+    return *(unsigned char*)((char*)this + 0x3a);
 }
 
 void CUser::SetSex(unsigned char sex)
 {
+    *(unsigned char*)((char*)this + 0x3a) = sex;
 }
 
 void CUser::SetSsn(char* ssn)
 {
+    memcpy((char*)this + 0x3b, ssn, 6);
 }
 
 char* CUser::GetSsn()
 {
-    return 0;
+    return (char*)this + 0x3b;
 }
 
 unsigned char CUser::GetLevel()
 {
-    return 0;
+    return *(unsigned short*)((char*)this + 0x38);
+}
+
+void CUser::SetGuildInviteFact(unsigned int guildId, unsigned int callerId, unsigned char fact)
+{
+    *(unsigned int*)((char*)this + 0x84) = guildId;
+    *(unsigned int*)((char*)this + 0x80) = callerId;
+    *(unsigned char*)((char*)this + 0x7e) = fact;
+}
+
+unsigned int CUser::GetGuildInviteGuildId()
+{
+    return *(unsigned int*)((char*)this + 0x84);
+}
+
+unsigned int CUser::GetGuildInviteCallerId()
+{
+    return *(unsigned int*)((char*)this + 0x80);
+}
+
+void CUser::GuildInviteProcess()
+{
 }
 
 unsigned int CUser::GetGuildKey()
@@ -332,6 +370,17 @@ void CUser::LoadGuildMember(unsigned int guildKey, STGuildMemerDBInfo& info)
 
 void CUser::SendGuildMemberDBInfo(const STGuildMemerDBInfo& info)
 {
+}
+
+void CUser::AddGuildMemberPoint(unsigned int point)
+{
+    unsigned int old = *(unsigned int*)((char*)this + 0x60);
+    *(unsigned int*)((char*)this + 0x60) += point;
+    SetGuildMemFlag(0x10);
+    if (*(unsigned int*)((char*)this + 0x60) < old)
+    {
+        *(unsigned int*)((char*)this + 0x60) = old;
+    }
 }
 
 CUserManager::CUserManager()
@@ -527,6 +576,73 @@ CUser* CUserManager::FindUser_CharName(const char* name)
 void CUser::ResetBlackList()
 {
     m_blackList.clear();
+}
+
+int CUser::RegisterToBlackList(unsigned int charNo, char* name)
+{
+    if (name == 0 || charNo == 0)
+    {
+        CMyFileLog log("RegisterToBlackList", 0x1c0);
+        log("./log/BlackList", "Register Err(%d)(%s)", charNo, name);
+        return 0;
+    }
+    CBlackUser* bu = new CBlackUser;
+    bu->SetBlackUser(name, (unsigned int)time(0));
+    m_blackList.insert(std::make_pair(charNo, bu));
+    return 1;
+}
+
+int CUser::RegisterToBlackList(unsigned int charNo, char* name, unsigned int param)
+{
+    if (name == 0 || charNo == 0)
+    {
+        return 0;
+    }
+    CBlackUser* bu = new CBlackUser;
+    bu->SetBlackUser(name, param);
+    m_blackList.insert(std::make_pair(charNo, bu));
+    return 1;
+}
+
+int CUser::DeleteToBlackList(unsigned int charNo)
+{
+    std::map<unsigned int, CBlackUser*>::iterator it = m_blackList.find(charNo);
+    if (it != m_blackList.end())
+    {
+        delete it->second;
+        m_blackList.erase(it);
+        return 1;
+    }
+    return 0;
+}
+
+int CUser::IsBlackUser(unsigned int charNo)
+{
+    if (m_blackList.empty())
+    {
+        return 0;
+    }
+    return m_blackList.find(charNo) != m_blackList.end() ? 1 : 0;
+}
+
+unsigned short CUser::GetBlackListSize()
+{
+    return (unsigned short)m_blackList.size();
+}
+
+void* CUser::GetMapBlackList()
+{
+    return &m_blackList;
+}
+
+unsigned short CUser::GetBlackListDBFlag()
+{
+    return m_field7c;
+}
+
+void CUser::SetBlackListDBFlag(unsigned short flag)
+{
+    m_field7c = flag;
 }
 
 void CUserManager::DeleteUsersOnGameServerDown(CGameServer* server)
@@ -1162,6 +1278,28 @@ void CGuild::DeleteGuildAgit(CServerHandler* handler, unsigned int a, unsigned i
 void CGuild::UpgradeGuildAgit(CServerHandler* handler, unsigned int a, unsigned int b,
                               unsigned int c, unsigned int d)
 {
+}
+
+void CGuild::AddGuildMember(ST_Notice_Guild_Enter& info, CUser* user)
+{
+    if (user == 0 || (m_field1c & 4) == 0 || (m_field1c & 0x10) == 0 || m_members.empty())
+    {
+        return;
+    }
+    unsigned short idx = *(unsigned short*)((char*)this + 0x1e);
+    *(unsigned int*)((char*)this + (unsigned int)idx * 0x41 + 0xdd) =
+        *(unsigned int*)((char*)&info + 8);
+    memcpy((char*)this + (unsigned int)idx * 0x41 + 0xe1, (char*)&info + 0x23, 0x1d);
+    *(unsigned char*)((char*)this + (unsigned int)idx * 0x41 + 0xff) = user->GetJob();
+    *(unsigned char*)((char*)this + (unsigned int)idx * 0x41 + 0x100) = user->GetGrowthType();
+    *(unsigned short*)((char*)this + (unsigned int)idx * 0x41 + 0x101) = user->GetLevel();
+    idx++;
+    if (300 < idx)
+    {
+        idx = 300;
+    }
+    *(unsigned short*)((char*)this + 0x1e) = idx;
+    *(unsigned short*)((char*)this + 0x42) = idx;
 }
 
 void CGuildManager::LoadGuildAgit(unsigned int guildKey, CServerHandler* handler)

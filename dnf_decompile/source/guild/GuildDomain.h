@@ -66,6 +66,16 @@ struct STGuildMemberChangableInfo
 
 int CheckDayScheduleTimeOver(int hour, long t);
 
+// ---- CBlackUser ----
+class CBlackUser
+{
+public:
+    CBlackUser();
+    ~CBlackUser();
+    void SetBlackUser(char* name, unsigned int time);
+    char m_data[0x28];
+};
+
 class CGuildCargo;
 class CGuildBoard;
 
@@ -151,9 +161,9 @@ public:
     void ChangeGuildMemberGrade(unsigned char grade);
     void SendSetGuildKeyToUser(unsigned int guildKey, unsigned int grade);
     void MakeGameServerSendUserInfoPacket(unsigned int charNo);
-    void RegisterToBlackList(unsigned int charNo, char* name);
-    void RegisterToBlackList(unsigned int charNo, char* name, unsigned int param);
-    void DeleteToBlackList(unsigned int charNo);
+    int RegisterToBlackList(unsigned int charNo, char* name);
+    int RegisterToBlackList(unsigned int charNo, char* name, unsigned int param);
+    int DeleteToBlackList(unsigned int charNo);
     void ResetBlackList();
     int IsBlackUser(unsigned int charNo);
     void GetBlackList(unsigned char* count, STBlackUserDBType* list);
@@ -320,6 +330,7 @@ public:
     void DeleteGuildAgit(CServerHandler* handler, unsigned int a, unsigned int b);
     void UpgradeGuildAgit(CServerHandler* handler, unsigned int a, unsigned int b,
                           unsigned int c, unsigned int d);
+    void AddGuildMember(ST_Notice_Guild_Enter& info, CUser* user);
     unsigned char GetPowerSide();
     void SetPowerSide(unsigned char side);
     unsigned int GetPowerWarPoint();
