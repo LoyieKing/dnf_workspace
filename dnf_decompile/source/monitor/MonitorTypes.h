@@ -159,7 +159,7 @@ class LimitNpcBuyItemManager
 public:
     LimitNpcBuyItemManager();
     ~LimitNpcBuyItemManager();
-    int sellNpcLimitBuyItem(void* info);
+    int sellNpcLimitBuyItem(LimitNpcBuyItemInfo* info);
     std::map<unsigned int, NpcBuyLimitItem> m_items;  // +0
 };
 
