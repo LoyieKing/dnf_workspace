@@ -2612,7 +2612,7 @@ char CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member
             characNo);
         return 0;
     }
-    char str[0x40] = {0};
+    char str[0x100] = {0};
     str[0] = '(';
     int n = h->get_n_rows();
     if (n > 0xb)
