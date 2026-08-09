@@ -874,12 +874,13 @@ void CPacketTranslater::OnSavePowerWarPoint(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DB_Save_Power_War_Point* pkt =
+            (Packet_DB_Save_Power_War_Point*)header;
         m_pclApp->m_dbManager.SavePowerWarPoint(
-            (Packet_DB_Save_Power_War_Point*)header);
+            pkt);
         CMyFileLog log("OnSavePowerWarPoint", 0x6a4);
         log("./log/QueryGuildBooting", "QueryGuildBooting A_Side(%d) B_Side(%d)",
-            *(unsigned int*)(h + 0x10), *(unsigned int*)(h + 0xc));
+            pkt->m_bSidePoint, pkt->m_aSidePoint);
     }
     DNF_CATCH_LOG("./log/Except.log",
                   "CPacketTranslater::OnRequestGuildCreate() Exception Break",
@@ -979,16 +980,16 @@ void CPacketTranslater::OnQueryMember(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Query_Member* pkt = (Packet_DBMW_Query_Member*)header;
         Packet_DB_Reply_Query_Member reply;
-        *(unsigned int*)((char*)&reply + 0xb) = *(unsigned int*)(h + 0xa);
+        *(unsigned int*)((char*)&reply + 0xb) = pkt->m_characNo;
         if (!m_pclApp->m_dbManager.QueryMember(
-                *(unsigned int*)(h + 0xa), reply))
+                pkt->m_characNo, reply))
         {
             CMyFileLog log("OnQueryMember", 0x117);
             log("./log/QueryErr",
                 "CPacketTranslater::OnQueryMember() Error, member_id(%d)",
-                *(unsigned int*)(h + 0xa));
+                pkt->m_characNo);
             CMonitorServer* ms =
                 m_pclApp->m_serverHandler->GetMonitorServer();
             int size =
@@ -1007,18 +1008,19 @@ void CPacketTranslater::OnQueryGuildMember(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Query_Guild_Member* pkt =
+            (Packet_DBMW_Query_Guild_Member*)header;
         Packet_DB_Reply_Query_Guild_Member reply;
-        *(unsigned int*)((char*)&reply + 0xf) = *(unsigned int*)(h + 0xb);
+        *(unsigned int*)((char*)&reply + 0xf) = pkt->m_guildId;
         if (!m_pclApp->m_dbManager.QueryGuildMember(
-                *(unsigned char*)(h + 0xa), *(unsigned int*)(h + 0xb),
+                pkt->m_serverId, pkt->m_guildId,
                 reply))
         {
             CMyFileLog log("OnQueryGuildMember", 0x98);
             log("./log/Except",
                 "CPacketTranslater::OnQueryGuildMember() Query Error : %d, Char No : %d, Guild Id : %d",
                 *(unsigned int*)((char*)&reply + 0xb),
-                *(unsigned int*)(h + 0xb),
+                pkt->m_guildId,
                 *(unsigned char*)((char*)&reply + 0xa));
             m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
                 (char*)&reply, 0x2d);
@@ -1311,13 +1313,14 @@ void CPacketTranslater::OnSaveMemberUpdateCharInfo(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Save_Member_Update_CharInfo* pkt =
+            (Packet_DBMW_Save_Member_Update_CharInfo*)header;
         if (!m_pclApp->m_dbManager.UpdateMemberKeyInCharacInfo(
-                *(unsigned char*)(h + 0xe), *(unsigned int*)(h + 0xa)))
+                pkt->m_serverId, pkt->m_characNo))
         {
             CMyFileLog log("OnSaveMemberUpdateCharInfo", 0x1a4);
             log("./log/DBMemberErr", "Member key Update Error %d\n",
-                *(unsigned int*)(h + 0xa));
+                pkt->m_characNo);
         }
     }
     DNF_CATCH_LOG_PRINTF("./log/Except.log",
@@ -1385,7 +1388,6 @@ void CPacketTranslater::OnDBMWVillageAttackRank(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
         bool flag = false;
         int a = 0;
         int b = 0;
@@ -1463,7 +1465,6 @@ void CPacketTranslater::onInsertHolePunchingResult(PacketHeader* header)
 {
     try
     {
-        char* h = (char*)header;
         CMyFileLog log("onInsertHolePunchingResult", 0x15bd);
         log("./log/AradOnly",
             "CPacketTranslater::onInsertHolePunchingResult.\n");
@@ -1487,10 +1488,10 @@ void CPacketTranslater::OnSaveMemberExp(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Save_Member_Exp* pkt =
+            (Packet_DBMW_Save_Member_Exp*)header;
         m_pclApp->m_dbManager.SaveMemberExp(
-            *(unsigned int*)(h + 0xa), *(unsigned int*)(h + 0xe),
-            *(unsigned int*)(h + 0x12));
+            pkt->m_characNo, pkt->m_masterNo, pkt->m_exp);
     }
     DNF_CATCH_LOG_PRINTF("./log/Except.log",
                          "CPacketTranslater::OnSaveMember() Exception Break",
@@ -1503,9 +1504,10 @@ void CPacketTranslater::OnSavePowerSecedeTime(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Save_Power_Secede_Time* pkt =
+            (Packet_DBMW_Save_Power_Secede_Time*)header;
         m_pclApp->m_dbManager.UpdatePowerSecedeTime(
-            *(unsigned char*)(h + 0xa), *(unsigned int*)(h + 0xb));
+            pkt->m_serverId, pkt->m_secedeTime);
     }
     DNF_CATCH_LOG_PRINTF("./log/Except",
                          "CPacketTranslater::OnSaveGuild() Exception Break",

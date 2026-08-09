@@ -411,6 +411,50 @@ public:
     unsigned int m_endTime;  // +0x12
 } __attribute__((packed));
 
+class Packet_DBMW_Save_Member_Exp : public PacketHeader
+{
+public:
+    unsigned int m_characNo;  // +0xa
+    unsigned int m_masterNo;  // +0xe
+    unsigned int m_exp;       // +0x12
+} __attribute__((packed));
+
+class Packet_DBMW_Save_Power_Secede_Time : public PacketHeader
+{
+public:
+    unsigned char m_serverId;   // +0xa
+    unsigned int m_secedeTime;  // +0xb
+} __attribute__((packed));
+
+class Packet_DBMW_Query_Member : public PacketHeader
+{
+public:
+    unsigned int m_characNo;  // +0xa
+} __attribute__((packed));
+
+class Packet_DBMW_Query_Guild_Member : public PacketHeader
+{
+public:
+    unsigned char m_serverId;  // +0xa
+    unsigned int m_guildId;    // +0xb
+} __attribute__((packed));
+
+class Packet_DBMW_Save_Member_Update_CharInfo : public PacketHeader
+{
+public:
+    unsigned int m_characNo;  // +0xa
+    unsigned char m_serverId; // +0xe
+} __attribute__((packed));
+
+class Packet_DB_Save_Power_War_Point : public PacketHeader
+{
+public:
+    unsigned char m_serverId;    // +0xa
+    signed char m_winnerSide;    // +0xb
+    unsigned int m_aSidePoint;   // +0xc
+    unsigned int m_bSidePoint;   // +0x10
+} __attribute__((packed));
+
 class Packet_Result_OnTimeEvent_Idx : public PacketHeader
 {
 public:
