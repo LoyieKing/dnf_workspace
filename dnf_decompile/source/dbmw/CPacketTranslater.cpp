@@ -151,9 +151,10 @@ void CPacketTranslater::OnChangeGuildNotifyMessage(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Request_Guild_Notify_Message* pkt =
+            (Packet_DBMW_Request_Guild_Notify_Message*)header;
         m_pclApp->m_dbManager.ChangeGuildNotifyMessage(
-            *(int*)(h + 0xa), *(unsigned int*)(h + 0xe), h + 0xf);
+            pkt->m_guildId, pkt->m_id, pkt->m_msg);
     }
     DNF_CATCH_LOG("./log/Except.log",
                   "CPacketTranslater::OnChangeGuildNotifyMessage() Exception Break",
@@ -275,43 +276,44 @@ void CPacketTranslater::OnGuildJoin(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
-        if (*(unsigned int*)(h + 0xb) == 0)
+        Packet_DBMW_Request_Guild_Join* pkt =
+            (Packet_DBMW_Request_Guild_Join*)header;
+        if (pkt->m_guildId == 0)
             return;
         Packet_DBMW_Save_Guild_Join_Reply reply;
-        *(unsigned int*)((char*)&reply + 0xa) = *(unsigned int*)(h + 0xb);
-        *(unsigned int*)((char*)&reply + 0xe) = *(unsigned int*)(h + 0x13);
-        *(unsigned int*)((char*)&reply + 0x12) = *(unsigned int*)(h + 0x17);
+        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_guildId;
+        *(unsigned int*)((char*)&reply + 0xe) = pkt->m_field13;
+        *(unsigned int*)((char*)&reply + 0x12) = pkt->m_characNo;
         STGuildJoinInfo join;
         memset(&join, 0, 0x3c);
-        join.m_serverId = *(unsigned char*)(h + 0xa);
-        join.m_guildId = *(int*)(h + 0xb);
-        join.m_id = *(unsigned int*)(h + 0xf);
-        join.m_fieldC = *(unsigned int*)(h + 0x13);
-        join.m_characNo = *(int*)(h + 0x17);
-        strncpy(join.m_characName, h + 0x1b, 0x1d);
-        join.m_lev = *(unsigned char*)(h + 0x39);
-        join.m_growType = *(unsigned char*)(h + 0x3a);
-        join.m_job = *(unsigned char*)(h + 0x3b);
-        join.m_sex = *(unsigned char*)(h + 0x3c);
-        memcpy(join.m_bornYear, h + 0x3d, 3);
+        join.m_serverId = pkt->m_serverId;
+        join.m_guildId = pkt->m_guildId;
+        join.m_id = pkt->m_id;
+        join.m_fieldC = pkt->m_field13;
+        join.m_characNo = pkt->m_characNo;
+        strncpy(join.m_characName, pkt->m_characName, 0x1d);
+        join.m_lev = pkt->m_lev;
+        join.m_growType = pkt->m_growType;
+        join.m_job = pkt->m_job;
+        join.m_sex = pkt->m_sex;
+        memcpy(join.m_bornYear, pkt->m_bornYear, 3);
         if (!m_pclApp->m_dbManager.GuildJoin(
                 &join, *(unsigned int*)((char*)&reply + 0x16)))
         {
             CMyFileLog log("OnGuildJoin", 0x56a);
             log("./log/GuildModify",
                 "OnGuildJoin Err(g:%d,c:%d,r:%d) : return false",
-                *(unsigned int*)(h + 0xb), *(unsigned int*)(h + 0x17),
+                pkt->m_guildId, pkt->m_characNo,
                 *(unsigned int*)((char*)&reply + 0x16));
             if (*(unsigned int*)((char*)&reply + 0x16) == 0)
                 m_pclApp->m_dbManager.DeleteJoinListByInvite(
-                    *(unsigned int*)(h + 0x17), *(unsigned int*)(h + 0xb));
+                    pkt->m_characNo, pkt->m_guildId);
             m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
                 (char*)&reply, reply.packetSize);
         }
         CMyFileLog log2("OnGuildJoin", 0x576);
         log2("./log/GuildModify", "::OnGuildJoin g(%d) c(%d) r(%d)",
-             *(unsigned int*)(h + 0xb), *(unsigned int*)(h + 0x17),
+             pkt->m_guildId, pkt->m_characNo,
              *(unsigned int*)((char*)&reply + 0x16));
     }
     DNF_CATCH_LOG("./log/Except.log",
@@ -325,29 +327,30 @@ void CPacketTranslater::OnSendMailCoinGuildEvent(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
-        if (*(unsigned int*)(h + 0xb) == 0)
+        Packet_DBMW_Send_Mail_Coin_Guild_Event* pkt =
+            (Packet_DBMW_Send_Mail_Coin_Guild_Event*)header;
+        if (pkt->m_guildId == 0)
             return;
-        if (*(int*)(h + 0xf) > 0x10)
+        if (pkt->m_count > 0x10)
         {
             CMyFileLog log("OnSendMailCoinGuildEvent", 0x3d4);
             log("./log/GuildEvent",
                 "CApplication.OnSendMailCoinGuildEvent Err : return false(%d)",
-                *(unsigned int*)(h + 0xb));
+                pkt->m_guildId);
             return;
         }
-        int count = *(int*)(h + 0xf);
+        int count = pkt->m_count;
         int absCount = count < 0 ? -count : count;
         std::vector<int> characNos;
         characNos.clear();
         if (!m_pclApp->m_dbManager.AwardGuildCoinByMail(
-                *(unsigned char*)(h + 0xa), *(unsigned int*)(h + 0xb), 1, 1,
+                pkt->m_serverId, pkt->m_guildId, 1, 1,
                 absCount, 0, characNos))
         {
             CMyFileLog log("OnSendMailCoinGuildEvent", 0x3f5);
             log("./log/GuildEvent",
                 "CApplication.AwardGuildCoinByMail Err(%d) : return false",
-                *(unsigned int*)(h + 0xb));
+                pkt->m_guildId);
         }
         else if (!characNos.empty())
         {
@@ -614,34 +617,35 @@ void CPacketTranslater::OnDeleteToBlackList(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Request_BlackList* pkt =
+            (Packet_DBMW_Request_BlackList*)header;
         CMonitorServer* ms = m_pclApp->m_serverHandler->GetMonitorServer();
-        int characNo = *(int*)(h + 0x2c);
+        int characNo = pkt->m_characNo;
         if (characNo == -1)
         {
-            if (!m_pclApp->m_dbManager.QueryCharacNoByName(h + 0xe, *(unsigned int*)&characNo, 0))
+            if (!m_pclApp->m_dbManager.QueryCharacNoByName(pkt->m_name, *(unsigned int*)&characNo, 0))
             {
                 m_pclApp->m_dbManager.DeleteToBlackListOnly(
-                    *(unsigned int*)(h + 0xa), h + 0xe);
+                    pkt->m_mid, pkt->m_name);
                 CMyFileLog log("OnDeleteToBlackList", 0x287);
                 log("./log/BlackList",
                     "m_clDBManager.QueryCharacNoByName Err : return false");
-                ms->SendToServer(h, *(unsigned short*)(h + 0x2));
+                ms->SendToServer((char*)pkt, pkt->packetSize);
                 return;
             }
         }
         if (!m_pclApp->m_dbManager.DeleteToBlackList(
-                *(unsigned int*)(h + 0xa), characNo))
+                pkt->m_mid, characNo))
         {
             CMyFileLog log("OnDeleteToBlackList", 0x28f);
             log("./log/BlackList",
                 "m_clDBManager.DeleteToBlackList Err : return false");
-            ms->SendToServer(h, *(unsigned short*)(h + 0x2));
+            ms->SendToServer((char*)pkt, pkt->packetSize);
             return;
         }
-        if (*(int*)(h + 0x2c) == -1)
-            *(int*)(h + 0x2c) = characNo;
-        ms->SendToServer(h, *(unsigned short*)(h + 0x2));
+        if (pkt->m_characNo == -1)
+            pkt->m_characNo = characNo;
+        ms->SendToServer((char*)pkt, pkt->packetSize);
     }
     DNF_CATCH_LOG("./log/Except.log",
                   "CPacketTranslater::OnDeleteToBlackList() Exception Break",
@@ -654,35 +658,36 @@ void CPacketTranslater::OnRegisterToBlackList(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Request_BlackList* pkt =
+            (Packet_DBMW_Request_BlackList*)header;
         CMonitorServer* ms = m_pclApp->m_serverHandler->GetMonitorServer();
-        *(int*)(h + 0x30) = 0;
-        int characNo = *(int*)(h + 0x2c);
+        pkt->m_result = 0;
+        int characNo = pkt->m_characNo;
         if (characNo == -1)
         {
             if (!m_pclApp->m_dbManager.QueryCharacNoByName(
-                    h + 0xe, *(unsigned int*)&characNo,
-                    (int*)(h + 0x30)))
+                    pkt->m_name, *(unsigned int*)&characNo,
+                    &pkt->m_result))
             {
                 CMyFileLog log("OnRegisterToBlackList", 0x251);
                 log("./log/BlackList",
                     "m_clDBManager.QueryCharacNoByName Err : return false");
-                ms->SendToServer(h, *(unsigned short*)(h + 0x2));
+                ms->SendToServer((char*)pkt, pkt->packetSize);
                 return;
             }
         }
         if (!m_pclApp->m_dbManager.RegisterToBlackList(
-                *(unsigned int*)(h + 0xa), characNo, h + 0xe))
+                pkt->m_mid, characNo, pkt->m_name))
         {
             CMyFileLog log("OnRegisterToBlackList", 0x259);
             log("./log/BlackList",
                 "m_clDBManager.RegisterToBlackList Err : return false");
-            ms->SendToServer(h, *(unsigned short*)(h + 0x2));
+            ms->SendToServer((char*)pkt, pkt->packetSize);
             return;
         }
-        if (*(int*)(h + 0x2c) == -1)
-            *(int*)(h + 0x2c) = characNo;
-        ms->SendToServer(h, *(unsigned short*)(h + 0x2));
+        if (pkt->m_characNo == -1)
+            pkt->m_characNo = characNo;
+        ms->SendToServer((char*)pkt, pkt->packetSize);
     }
     DNF_CATCH_LOG("./log/Except.log",
                   "CPacketTranslater::OnRegisterToBlackList() Exception Break",
@@ -759,17 +764,18 @@ void CPacketTranslater::OnGuildSecede(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
-        if (*(unsigned int*)(h + 0xa) == 0)
+        Packet_DB_Request_Guild_Secede* pkt =
+            (Packet_DB_Request_Guild_Secede*)header;
+        if (pkt->m_guildId == 0)
             return;
         Packet_DB_Reply_Guild_Secede reply;
-        *(unsigned int*)((char*)&reply + 0xa) = *(unsigned int*)(h + 0xa);
-        *(unsigned int*)((char*)&reply + 0xe) = *(unsigned int*)(h + 0xe);
-        *(char*)((char*)&reply + 0x1a) = *(char*)(h + 0x12);
-        *(unsigned int*)((char*)&reply + 0x1b) = *(unsigned int*)(h + 0x13);
-        memcpy((char*)&reply + 0x1f, h + 0x17, 0x1d);
+        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_guildId;
+        *(unsigned int*)((char*)&reply + 0xe) = pkt->m_characNo;
+        *(char*)((char*)&reply + 0x1a) = pkt->m_grade;
+        *(unsigned int*)((char*)&reply + 0x1b) = pkt->m_secedeType;
+        memcpy((char*)&reply + 0x1f, pkt->m_characName, 0x1d);
         if (!m_pclApp->m_dbManager.GuildSecede(
-                (Packet_DB_Request_Guild_Secede*)header,
+                pkt,
                 *(unsigned int*)((char*)&reply + 0x12),
                 *(unsigned int*)((char*)&reply + 0x3d),
                 *(unsigned int*)((char*)&reply + 0x16)))
@@ -777,19 +783,19 @@ void CPacketTranslater::OnGuildSecede(PacketHeader* header)
             CMyFileLog log("OnGuildSecede", 0x5e1);
             log("./log/GuildModify",
                 "::OnGuildSecede Err g(%d) n(%s) c(%d) r(%d) f(%d)",
-                *(unsigned int*)(h + 0xa), h + 0x17,
+                pkt->m_guildId, pkt->m_characName,
                 *(unsigned int*)((char*)&reply + 0x12),
                 *(unsigned int*)((char*)&reply + 0x16),
-                *(signed char*)(h + 0x12));
+                pkt->m_grade);
         }
         m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
             (char*)&reply, reply.packetSize);
         CMyFileLog log2("OnGuildSecede", 0x5ed);
         log2("./log/GuildModify", "::OnGuildSecede g(%d) c(%d) r(%d) f(%d)",
-             *(unsigned int*)(h + 0xa),
+             pkt->m_guildId,
              *(unsigned int*)((char*)&reply + 0x12),
              *(unsigned int*)((char*)&reply + 0x16),
-             *(signed char*)(h + 0x12));
+             pkt->m_grade);
     }
     DNF_CATCH_LOG("./log/Except.log",
                   "CPacketTranslater::OnGuildSecede() Exception Break",
@@ -1430,14 +1436,15 @@ void CPacketTranslater::onCollectItemsGm(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Collect_Items_Gm* pkt =
+            (Packet_DBMW_Collect_Items_Gm*)header;
         m_pclApp->m_dbManager.updateCollectItemsGm(
-            *(unsigned char*)(h + 0xa), *(unsigned int*)(h + 0xf),
-            *(int*)(h + 0xb), *(int*)(h + 0x13));
+            pkt->m_serverInfo, pkt->m_fieldF, pkt->m_fieldB,
+            pkt->m_field13);
         Packet_CollectItemsResult reply;
-        *(unsigned int*)((char*)&reply + 0xa) = *(unsigned int*)(h + 0xf);
-        *(unsigned int*)((char*)&reply + 0xe) = *(unsigned int*)(h + 0xb);
-        *(int*)((char*)&reply + 0x12) = *(int*)(h + 0x13);
+        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_fieldF;
+        *(unsigned int*)((char*)&reply + 0xe) = pkt->m_fieldB;
+        *(int*)((char*)&reply + 0x12) = pkt->m_field13;
         m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
             (char*)&reply, reply.packetSize);
     }
@@ -1675,18 +1682,19 @@ void CPacketTranslater::onCollectItemsUpdate(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Collect_Items_Update* pkt =
+            (Packet_DBMW_Collect_Items_Update*)header;
         Packet_CollectItemsResult reply;
         unsigned char flag = 0;
         m_pclApp->m_dbManager.selectCollectItems(
-            *(unsigned char*)(h + 0xe),
+            pkt->m_serverInfo,
             *(int*)((char*)&reply + 0xe), *(int*)((char*)&reply + 0xa),
             *(unsigned int*)((char*)&reply + 0x12), flag);
-        int diff = *(int*)(h + 0xa) - *(int*)((char*)&reply + 0xa);
+        int diff = pkt->m_fieldA - *(int*)((char*)&reply + 0xa);
         m_pclApp->m_dbManager.updateCollectItems(
-            *(unsigned char*)(h + 0xe), diff,
+            pkt->m_serverInfo, diff,
             *(unsigned int*)((char*)&reply + 0x12), flag);
-        if (flag == 0 && *(unsigned char*)(h + 0x13) == 0 && diff < 0)
+        if (flag == 0 && pkt->m_field13 == 0 && diff < 0)
         {
             m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
                 (char*)&reply, reply.packetSize);
@@ -1891,10 +1899,11 @@ void CPacketTranslater::OnPcRoomPlayTimeReward(PacketHeader* header)
         return;
     try
     {
-        char* pkt = (char*)header;
-        unsigned char serverInfo = *(unsigned char*)(pkt + 0xa);
-        int accId = *(int*)(pkt + 0xb);
-        int characNo = *(int*)(pkt + 0xf);
+        Packet_DBMW_PcRoom_PlayTime_Reward* pkt =
+            (Packet_DBMW_PcRoom_PlayTime_Reward*)header;
+        unsigned char serverInfo = pkt->m_serverInfo;
+        int accId = pkt->m_accId;
+        int characNo = pkt->m_characNo;
         CMyFileLog log1("OnPcRoomPlayTimeReward", 0x141b);
         log1("./log/event",
              "CPacketTranslater::OnPcRoomPlayTimeReward Noti acc_id(%d), charac_no(%d), server_info(%d)",
@@ -1956,11 +1965,11 @@ void CPacketTranslater::OnAddBuddy(PacketHeader* header)
         return;
     try
     {
-        char* pkt = (char*)header;
+        Packet_DBMW_Add_Buddy* pkt = (Packet_DBMW_Add_Buddy*)header;
         Packet_DBMW_Add_Buddy_Reply reply;
-        *(int*)((char*)&reply + 0xa) = *(int*)(pkt + 0xa);
+        *(int*)((char*)&reply + 0xa) = pkt->m_mid;
         int result = 0;
-        m_pclApp->m_dbManager.AddBuddy(*(int*)(pkt + 0xa), pkt + 0xe,
+        m_pclApp->m_dbManager.AddBuddy(pkt->m_mid, pkt->m_name,
                                        *(STBuddyDBInfo*)((char*)&reply + 0xe),
                                        result);
         *(char*)((char*)&reply + 0x35) = (char)result;
@@ -2294,11 +2303,12 @@ void CPacketTranslater::OnReqOntimeEventIdxUpdate(PacketHeader* header)
             "CPacketTranslater::OnReqOntimeEventIdxUpdate() : 0 == m_pclApp");
     try
     {
-        char* pktIn = (char*)header;
+        Packet_Req_Ontime_Event_Idx_Update* pktIn =
+            (Packet_Req_Ontime_Event_Idx_Update*)header;
         m_pclApp->m_dbManager.QueryOnTimeEventIdxUpdate(
-            (Packet_Req_Ontime_Event_Idx_Update*)pktIn);
+            pktIn);
         Packet_Result_Ontime_Event_Idx_Update reply;
-        *(int*)((char*)&reply + 0xa) = *(int*)(pktIn + 0x12);
+        *(int*)((char*)&reply + 0xa) = pktIn->m_no;
         CTcpServer* tcp =
             m_pclApp->Get_ServerHandler()->GetTcpServer((unsigned char)0xa);
         if (tcp)
@@ -2356,11 +2366,11 @@ void CPacketTranslater::OnQueryBuddyInfo(PacketHeader* header)
         return;
     try
     {
-        char* pkt = (char*)header;
+        Packet_DBMW_Query_Buddy* pkt = (Packet_DBMW_Query_Buddy*)header;
         Packet_DBMW_Query_Buddy_Info_Reply reply;
-        *(int*)((char*)&reply + 0xa) = *(int*)(pkt + 0xa);
+        *(int*)((char*)&reply + 0xa) = pkt->m_characNo;
         if (!m_pclApp->m_dbManager.QueryBuddyInfo(
-                *(unsigned int*)(pkt + 0xa),
+                pkt->m_characNo,
                 (STBuddyDBInfo*)((char*)&reply + 0xf),
                 *(unsigned char*)((char*)&reply + 0xe)))
             return;

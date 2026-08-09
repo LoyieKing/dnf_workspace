@@ -194,6 +194,97 @@ public:
     char m_flags[0x14];      // +0x5c
 } __attribute__((packed));
 
+// ---- 既有 handler 入参 packet（类型化补全）----
+class Packet_DBMW_Request_Guild_Notify_Message : public PacketHeader
+{
+public:
+    int m_guildId;       // +0xa
+    unsigned int m_id;   // +0xe
+    char m_msg[0x1000];  // +0xf
+} __attribute__((packed));
+
+class Packet_DBMW_Query_Buddy : public PacketHeader
+{
+public:
+    unsigned int m_characNo;  // +0xa
+} __attribute__((packed));
+
+class Packet_DBMW_Add_Buddy : public PacketHeader
+{
+public:
+    int m_mid;       // +0xa
+    char m_name[0x1e];  // +0xe
+} __attribute__((packed));
+
+class Packet_DBMW_PcRoom_PlayTime_Reward : public PacketHeader
+{
+public:
+    unsigned char m_serverInfo;  // +0xa
+    int m_accId;      // +0xb
+    int m_characNo;   // +0xf
+} __attribute__((packed));
+
+class Packet_DBMW_Collect_Items_Update : public PacketHeader
+{
+public:
+    int m_fieldA;          // +0xa
+    unsigned char m_serverInfo;  // +0xe
+    unsigned char m_field13;     // +0x13
+} __attribute__((packed));
+
+class Packet_DBMW_Collect_Items_Gm : public PacketHeader
+{
+public:
+    unsigned char m_serverInfo;  // +0xa
+    int m_fieldB;      // +0xb
+    unsigned int m_fieldF;  // +0xf
+    int m_field13;     // +0x13
+} __attribute__((packed));
+
+class Packet_DBMW_Request_Guild_Join : public PacketHeader
+{
+public:
+    unsigned char m_serverId;    // +0xa
+    unsigned int m_guildId;      // +0xb
+    unsigned int m_id;           // +0xf
+    unsigned int m_field13;      // +0x13
+    int m_characNo;              // +0x17
+    char m_characName[0x1d];     // +0x1b
+    unsigned char m_lev;         // +0x39
+    unsigned char m_growType;    // +0x3a
+    unsigned char m_job;         // +0x3b
+    unsigned char m_sex;         // +0x3c
+    char m_bornYear[3];          // +0x3d
+} __attribute__((packed));
+
+class Packet_DBMW_Request_BlackList : public PacketHeader
+{
+public:
+    unsigned int m_mid;      // +0xa
+    char m_name[0x1e];       // +0xe
+    int m_characNo;          // +0x2c
+    int m_result;            // +0x30（仅 Register 使用）
+} __attribute__((packed));
+
+class Packet_DBMW_Send_Mail_Coin_Guild_Event : public PacketHeader
+{
+public:
+    unsigned char m_serverId;  // +0xa
+    unsigned int m_guildId;    // +0xb
+    int m_count;               // +0xf
+} __attribute__((packed));
+
+class Packet_DBMW_Request_Change_Unconnected_GuildMember_Grade : public PacketHeader
+{
+public:
+    unsigned char m_serverId;  // +0xa
+    unsigned int m_guildId;    // +0xb
+    unsigned int m_fieldF;     // +0xf
+    unsigned char m_field13;   // +0x13
+    char m_name[0x1d];         // +0x14
+    unsigned char m_field32;   // +0x32
+} __attribute__((packed));
+
 class Packet_Result_OnTimeEvent_Idx : public PacketHeader
 {
 public:
@@ -433,7 +524,11 @@ class Packet_DBMW_DeathTower_Statistic_Playdata_Party : public PacketHeader
 };
 class Packet_Req_Ontime_Event_Idx_Update : public PacketHeader
 {
-};
+public:
+    unsigned int m_itemIndex;  // +0xa
+    unsigned int m_itemCount;  // +0xe
+    unsigned int m_no;         // +0x12
+} __attribute__((packed));
 class Packet_Stat_Compatibility_Index : public PacketHeader
 {
 };
