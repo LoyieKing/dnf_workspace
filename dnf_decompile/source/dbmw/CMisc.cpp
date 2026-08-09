@@ -124,22 +124,6 @@ void operator delete(void* ptr, const std::nothrow_t&) throw()
         free(ptr);
 }
 
-// ---- packet 构造（出库化）----
-Packet_InnerPakcet_Login::Packet_InnerPakcet_Login() : PacketHeader(0xfa0, 0xa) {}
-Packet_InnerPakcet_Logout::Packet_InnerPakcet_Logout() : PacketHeader(0xfa1, 0xa) {}
-Packet_Monitor_Event_Start::Packet_Monitor_Event_Start() : PacketHeader(0x44f, 0x12) {}
-Packet_Monitor_Event_End::Packet_Monitor_Event_End() : PacketHeader(0x450, 0xe) {}
-Packet_Monitor_Manager_Connect_OK::Packet_Monitor_Manager_Connect_OK() : PacketHeader(0x578, 0xa) {}
-Packet_Web_Notice_Single::Packet_Web_Notice_Single() : PacketHeader(0x9e0, 0x10a) {}
-Packet_Web_Notice_InGame_Advertisement::Packet_Web_Notice_InGame_Advertisement() : PacketHeader(0x27e2, 0xa) {}
-Packet_Web_Prohibit_User_Connect::Packet_Web_Prohibit_User_Connect() : PacketHeader(0x4c8, 0x13)
-{
-    *(int*)((char*)this + 0xa) = 0;
-    *(unsigned short*)((char*)this + 0xf) = 0;
-    *(char*)((char*)this + 0x11) = 0;
-    *(char*)((char*)this + 0x12) = 0;
-}
-
 ST_KillUSRConfig::ST_KillUSRConfig()
 {
     *(int*)((char*)this + 0) = 0;

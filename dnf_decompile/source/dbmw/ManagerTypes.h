@@ -2483,54 +2483,15 @@ CPacketDecoder* CPacketDecoderInstance();
 
 int parse_string(std::vector<std::string>& v, std::string& s, char c);
 
-// ---- packet 类 ----
-class Packet_InnerPakcet_Login : public PacketHeader
-{
-public:
-    Packet_InnerPakcet_Login();
-};
-class Packet_InnerPakcet_Logout : public PacketHeader
-{
-public:
-    Packet_InnerPakcet_Logout();
-};
-class Packet_Monitor_Event_Start : public PacketHeader
-{
-public:
-    Packet_Monitor_Event_Start();
-    char m_pad[0x8];  // 数据区（ORIG ctor size 0x12）
-};
-class Packet_Monitor_Event_End : public PacketHeader
-{
-public:
-    Packet_Monitor_Event_End();
-    char m_pad[0x4];  // 数据区（ORIG ctor size 0xe）
-};
-class Packet_Monitor_Manager_Connect_OK : public PacketHeader
-{
-public:
-    Packet_Monitor_Manager_Connect_OK();
-};
-class Packet_Web_Notice_Single : public PacketHeader
-{
-public:
-    Packet_Web_Notice_Single();
-    char m_pad[0x100];  // 数据区（ORIG ctor size 0x10a）
-};
-class Packet_Web_Notice_InGame_Advertisement : public PacketHeader
-{
-public:
-    Packet_Web_Notice_InGame_Advertisement();
-};
-class Packet_Web_Prohibit_User_Connect : public PacketHeader
-{
-public:
-    Packet_Web_Prohibit_User_Connect();
-    int m_fieldA;       // +0xa
-    char m_fieldE;      // +0xe
-    unsigned short m_fieldF;  // +0xf
-    char m_field11;     // +0x11
-};
+// ---- packet 类（统一使用 shared/packet/include 共享定义）----
+#include "Packet_InnerPakcet_Login.h"
+#include "Packet_InnerPakcet_Logout.h"
+#include "Packet_Monitor_Event_Start.h"
+#include "Packet_Monitor_Event_End.h"
+#include "Packet_Monitor_Manager_Connect_OK.h"
+#include "Packet_Web_Notice_Single.h"
+#include "Packet_Web_Notice_InGame_Advertisement.h"
+#include "Packet_Web_Prohibit_User_Connect.h"
 class Packet_Monitor_UDP_HeartBeat : public PacketHeader
 {
 public:
