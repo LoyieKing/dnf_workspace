@@ -1370,13 +1370,9 @@ void CPacketTranslater::OnUpdateTowerOfDespairStatistic(PacketHeader* header)
                  pkt->m_entries[i].m_fieldE, pkt->m_entries[i].m_field12);
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnUpdateTowerOfDespairStatistic", 0x12ed);
-        log("./log/Except.log",
-            "CPacketTranslater::OnUpdateTowerOfDespairStatistic() Exception Break : %s",
-            e.what());
-    }
+    DNF_CATCH_LOG_CDNF("./log/Except.log",
+                       "CPacketTranslater::OnUpdateTowerOfDespairStatistic() Exception Break",
+                       0x12ed);
 }
 
 void CPacketTranslater::OnDBMWVillageAttackRank(PacketHeader* header)
@@ -1565,19 +1561,10 @@ void CPacketTranslater::OnP2PStatistics(PacketHeader* header)
             return;
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnP2PStatistics", 0x13c6);
-        log("./log/Except.log",
-            "CPacketTranslater::OnP2PStatistics() Exception Break : %s",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnP2PStatistics", 0x13cb);
-        log("./log/Except",
-            "CPacketTranslater::onCompatibilityIndex Exception Break\n");
-    }
+    DNF_CATCH_LOG2_NN("./log/Except.log", "./log/Except",
+                      "CPacketTranslater::OnP2PStatistics() Exception Break",
+                      "CPacketTranslater::onCompatibilityIndex Exception Break",
+                      0x13c6, 0x13cb);
 }
 
 void CPacketTranslater::OnDBMWQueryMsg(PacketHeader* header)
@@ -2085,21 +2072,9 @@ char CPacketTranslater::OnRequestIPCounterList(PacketHeader* header)
         }
         return 1;
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnRequestIPCounterList", 0xbe9);
-        log("./log/Except",
-            "CPacketTranslater::OnRequestIPCounterList Exception Break : %s\n",
-            e.what());
-        return 0;
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnRequestIPCounterList", 0xbee);
-        log("./log/Except",
-            "CPacketTranslater::OnRequestIPCounterList Exception Break\n");
-        return 0;
-    }
+    DNF_CATCH_LOG_RET0("./log/Except",
+                       "CPacketTranslater::OnRequestIPCounterList Exception Break",
+                       0xbe9, 0xbee);
 }
 
 void CPacketTranslater::onQueryTowerFullRank(PacketHeader* header)
@@ -2517,16 +2492,7 @@ void CPacketTranslater::OnEventStart(PacketHeader* header)
             *(unsigned short*)((char*)header + 0xe),
             *(unsigned short*)((char*)header + 0x10));
     }
-    catch (CDNFException& e)
-    {
-        printf("CPacketTranslater::OnEventStart() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n", e.what());
-        throw;
-    }
-    catch (...)
-    {
-        puts("CPacketTranslater::OnEventStart() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd\n");
-        throw;
-    }
+    DNF_CATCH_LOG_THROW("CPacketTranslater::OnEventStart() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
 }
 
 void CPacketTranslater::OnEventEnd(PacketHeader* header)
@@ -2540,16 +2506,7 @@ void CPacketTranslater::OnEventEnd(PacketHeader* header)
         log("./log/Web", "CPacketTranslater::OnEventEnd() eventCode(%d)\n",
             *(int*)((char*)header + 0xa));
     }
-    catch (CDNFException& e)
-    {
-        printf("CPacketTranslater::OnEventEnd() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n", e.what());
-        throw;
-    }
-    catch (...)
-    {
-        puts("CPacketTranslater::OnEventEnd() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd\n");
-        throw;
-    }
+    DNF_CATCH_LOG_THROW("CPacketTranslater::OnEventEnd() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
 }
 
 void CPacketTranslater::OnCommonPacket(PacketHeader* header)
@@ -2562,16 +2519,7 @@ void CPacketTranslater::OnCommonPacket(PacketHeader* header)
         CMyFileLog log("OnCommonPacket", 0xb5);
         log("./log/Web", "CPacketTranslater::OnCommonPacket() packet_id(%d)\n", header->packetId);
     }
-    catch (CDNFException& e)
-    {
-        printf("CPacketTranslater::OnEventEnd() Exception Break : %s\n", e.what());
-        throw;
-    }
-    catch (...)
-    {
-        puts("CPacketTranslater::OnEventEnd() Exception Break\n");
-        throw;
-    }
+    DNF_CATCH_LOG_THROW("CPacketTranslater::OnEventEnd() Exception Break");
 }
 
 void CPacketTranslater::OnInnerPacketLogin(PacketHeader* header)
@@ -3223,13 +3171,9 @@ void CPacketTranslater::OnUpdateChannelOccNum(PacketHeader* header)
                 pkt->m_gcNo, pkt->m_userCount);
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnUpdateChannelOccNum", 0x1305);
-        log("./log/Except.log",
-            "CPacketTranslater::OnUpdateChannelOccNum() Exception Break : %s",
-            e.what());
-    }
+    DNF_CATCH_LOG_CDNF("./log/Except.log",
+                       "CPacketTranslater::OnUpdateChannelOccNum() Exception Break",
+                       0x1305);
 }
 
 void CPacketTranslater::OnInsertUpdate(PacketHeader* header)
@@ -3247,11 +3191,7 @@ void CPacketTranslater::OnInsertUpdate(PacketHeader* header)
                 "CPacketTranslater::PacketInsertUpdate Error");
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnInsertUpdate", 0x131d);
-        log("./log/Except.log",
-            "CPacketTranslater::PacketInsertUpdate() Exception Break : %s",
-            e.what());
-    }
+    DNF_CATCH_LOG_CDNF("./log/Except.log",
+                       "CPacketTranslater::PacketInsertUpdate() Exception Break",
+                       0x131d);
 }
