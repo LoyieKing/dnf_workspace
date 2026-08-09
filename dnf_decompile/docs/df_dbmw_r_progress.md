@@ -126,6 +126,27 @@ dbmw 与 manager 共享约 73% 函数（6,041/8,268），以 `source/manager` �
   与 ORIG 相同。
 - 水位升至：IDENTICAL 609 / NEAR 513 / DIFF 1443 / MISSING 0
 
+## affected-rows 误判修正批（2026-08-09 续，Ghidra 15 函数批量反编译）
+
+- **关键认知修正**：ORIG 的 CDBHandle::getAffectedRowCount 返回 64 位
+  my_ulonglong，调用点以 `or %eax,%edx` 判非零；此前多处以「or %edx
+  死代码恒真短路」为由把 insert 分支删掉/改错，均为误判。getAffectedRowCount
+  声明与 CMySql 实现改 unsigned long long（CMySql 实现 9/9 IDENTICAL）。
+- **修复 7 处真实 insert 语义 bug**：
+  - SaveGuildSkill：insert(0x4e59) 完全缺失（新公会不写 guild_skill）
+  - SavePowerWarPoint / OnSavePowerWarStatueRanker / ChangeGuildNotifyMessage /
+    QueryHWspecCreate(3 分支)：insert 时机改 `exec!=1 || affected==0`
+  - OnGoldcardEventStatistic：循环条件 && → ||，补 insert(0x4f02)
+  - OnServerMatchData：insert 时机反转修正（exec 成功且 affected==0 才插）
+  - OnSavePowerWarStatueRanker：补 exec(0x4ecc) 删除执行；update set_query
+    返回值按 ORIG 忽略
+- **核验一致**：SaveMemberInsert（4 处 affected 检查已正确）、AddBuddy
+  （GM 检查/字段读取一致，m_app +0x44 布局无误）、GetGMAccounts 成员调用
+  正确。
+- **待办（下一批）**：exec/set_query 等 CDBHandle 虚族返回类型 int→bool
+  的全局码型对齐（约 240 处 `!exec()` 调用点改 `!= 1`，ORIG 为 xor 模式；
+  语义无差，纯码型对齐）。
+
 ## DIFF 大函数语义核验批（2026-08-09 续，Ghidra 反编译逐函数比对）
 
 已核验顶部大函数（按 ORIG 指令数）并修复 5 处真实语义 bug：
