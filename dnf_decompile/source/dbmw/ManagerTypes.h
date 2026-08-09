@@ -1813,7 +1813,7 @@ public:
     virtual int get_n_fields() { return 0; }
     virtual int get_n_rows() { return 0; }
     virtual void clear_result_set() {}
-    virtual int getAffectedRowCount() { return 0; }
+    virtual unsigned long long getAffectedRowCount() { return 0; }
     virtual char* escape_string(char* dst, char const* src) { return 0; }
     virtual const char* get_quest_str() const { return 0; }
     // 以下为原版非虚成员
@@ -1858,7 +1858,7 @@ public:
     const char* get_quest_str() const;  // 虚（虚表 vptr+0x7c，返回 m_query）
     int get_n_rows();   // 虚（虚表 vptr+0x5c）
     int get_n_fields(); // 虚（虚表 vptr+0x58）
-    int getAffectedRowCount();
+    unsigned long long getAffectedRowCount();
     char* escape_string(char* dst, char const* src);
     int get_ulonglong(int col, unsigned long long& v);
     char is_valid_col(int col); // 非虚

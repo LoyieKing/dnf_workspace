@@ -99,9 +99,9 @@ char CMySql::set_reconnect_option()
     return 1;
 }
 
-int CMySql::getAffectedRowCount()
+unsigned long long CMySql::getAffectedRowCount()
 {
-    return (int)mysql_affected_rows(m_mysql);
+    return mysql_affected_rows(m_mysql);
 }
 
 int CMySql::get_int(int col, unsigned int& v)

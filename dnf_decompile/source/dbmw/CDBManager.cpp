@@ -513,10 +513,16 @@ char CDBManager::SaveGuildSkill(unsigned char serverGroup,
                  h->blob_to_str(0, (char*)&info + 0x45,
                                 *(unsigned char*)((char*)&info + 0x44) * 5),
                  guildId);
-    if (h->exec(0x4e55))
-        h->getAffectedRowCount();
-    // 原版 exec 后的 affected 检查被 `or %edx,%eax` 死代码恒真短路，
-    // insert(0x4e59) 永不执行——按有效语义直接返回
+    if (h->exec(0x4e55) != 1 || h->getAffectedRowCount() == 0)
+    {
+        h->set_query(0x4e59,
+                     "inSert into guild_skill set guild_id= %d, remain_sp = %d, used_sp = %d, skill_slot = '%s'",
+                     guildId, *(unsigned short*)((char*)&info + 0x42),
+                     *(unsigned char*)((char*)&info + 0x44),
+                     h->blob_to_str(0, (char*)&info + 0x45,
+                                    *(unsigned char*)((char*)&info + 0x44) * 5));
+        h->exec(0x4e59);
+    }
     return 1;
 }
 
@@ -637,10 +643,8 @@ char CDBManager::SavePowerWarPoint(Packet_DB_Save_Power_War_Point* packet)
             *(signed char*)(p + 0xb), *(unsigned char*)(p + 0xa));
         return 0;
     }
-    if (!h->exec(0x4e81))
+    if (h->exec(0x4e81) != 1 || h->getAffectedRowCount() == 0)
     {
-        // 原版 exec 后 affected 检查被 or %edx 死代码短路，insert(0x4e82)
-        // 仅在 exec 失败时执行
         if (!h->set_query(0x4e82,
                           "inSert into power_war set a_side_point=%d, b_side_point=%d, winner_side=%d ,server_id = %d",
                           *(unsigned int*)(p + 0xc),
@@ -661,21 +665,20 @@ char CDBManager::OnSavePowerWarStatueRanker(
     CDBHandle* h2 = m_handles[6];   // sso db
     char* p = (char*)packet;
     unsigned char serverId = *(unsigned char*)(p + 0xa);
-    if (!h2->set_query(0x4ecc,
-                       "deLete from event_server_message where server_info = %d and message_index in (1, 2, 3)",
-                       serverId))
+    h2->set_query(0x4ecc,
+                  "deLete from event_server_message where server_info = %d and message_index in (1, 2, 3)",
+                  serverId);
+    if (h2->exec(0x4ecc) != 1)
     {
         CMyFileLog log("OnSavePowerWarStatueRanker", 0x1943);
         log("./log/DBQueryErr", "deLete_power_war_statue_message Query Error\n");
     }
-    if (!h->set_query(0x4ead,
-                      "upDate power_war_statue_ranker set first_ranker=%d, second_ranker=%d, third_ranker=%d where server_id=%d",
-                      *(unsigned int*)(p + 0xb), *(unsigned int*)(p + 0xf),
-                      *(unsigned int*)(p + 0x13), serverId))
-        return 0;
-    if (!h->exec(0x4ead))
+    h->set_query(0x4ead,
+                 "upDate power_war_statue_ranker set first_ranker=%d, second_ranker=%d, third_ranker=%d where server_id=%d",
+                 *(unsigned int*)(p + 0xb), *(unsigned int*)(p + 0xf),
+                 *(unsigned int*)(p + 0x13), serverId);
+    if (h->exec(0x4ead) != 1 || h->getAffectedRowCount() == 0)
     {
-        // 原版 affected 检查死代码：insert(0x4eac) 仅在 exec 失败时执行
         if (!h->set_query(0x4eac,
                           "inSert into power_war_statue_ranker set first_ranker=%d, second_ranker=%d, third_ranker=%d, server_id=%d",
                           *(unsigned int*)(p + 0xb),
@@ -1140,25 +1143,32 @@ char CDBManager::OnGoldcardEventStatistic(
     char* p = (char*)packet;
     for (int i = 0; i <= 0x62; i++)
     {
-        if (*(int*)(p + i * 9 + 0xb) == 0)
-            continue;
-        if (*(int*)(p + i * 9 + 0xf) == 0)
-            continue;
-        if (!h->set_query(0x4f03,
-                          "upDate log_goldcard_event set create_cnt=create_cnt+%d,open_cnt=open_cnt+%d where occ_date=cast(now() as date) and level=%d",
-                          *(int*)(p + i * 9 + 0xb),
-                          *(int*)(p + i * 9 + 0xf), i))
+        if (*(int*)(p + i * 9 + 0xb) != 0 ||
+            *(int*)(p + i * 9 + 0xf) != 0)
         {
-            CMyFileLog log("OnGoldcardEventStatistic", 0x222b);
-            log("./log/DBQueryErr",
-                "CDBManager::OnGoldcardEventStatistic() upDate Error");
-        }
-        else if (!h->exec(0x4f03))
-        {
-            CMyFileLog log("OnGoldcardEventStatistic", 0x222b);
-            log("./log/DBQueryErr",
-                "CDBManager::OnGoldcardEventStatistic() upDate Error");
-            // 原版 affected 检查 or %edx 死代码：insert(0x4f02) 永不执行
+            h->set_query(0x4f03,
+                         "upDate log_goldcard_event set create_cnt=create_cnt+%d,open_cnt=open_cnt+%d where occ_date=cast(now() as date) and level=%d",
+                         *(int*)(p + i * 9 + 0xb),
+                         *(int*)(p + i * 9 + 0xf), i);
+            if (h->exec(0x4f03) != 1)
+            {
+                CMyFileLog log("OnGoldcardEventStatistic", 0x222b);
+                log("./log/DBQueryErr",
+                    "CDBManager::OnGoldcardEventStatistic() upDate Error");
+            }
+            if (h->getAffectedRowCount() == 0)
+            {
+                h->set_query(0x4f02,
+                             "inSert into log_goldcard_event(occ_date,level,create_cnt,open_cnt) values(cast(now() as date), %d, %d, %d)",
+                             i, *(int*)(p + i * 9 + 0xb),
+                             *(int*)(p + i * 9 + 0xf));
+                if (h->exec(0x4f02) != 1)
+                {
+                    CMyFileLog log("OnGoldcardEventStatistic", 0x2236);
+                    log("./log/DBQueryErr",
+                        "CDBManager::OnGoldcardEventStatistic() inSert Error");
+                }
+            }
         }
     }
     return 1;
@@ -1738,25 +1748,23 @@ char CDBManager::OnServerMatchData(Packet_Server_Match_data_DBMW* packet)
 {
     CDBHandle* h = m_handles[9];    // event db
     char* p = (char*)packet;
-    if (!h->set_query(0x4ef8,
-                      "upDate pvp_score set win_count=win_count+%d,lose_count=lose_count+%d where server_id = %d and occ_date = cast(now() as date)",
-                      *(int*)(p + 0xb), *(int*)(p + 0xf),
-                      *(signed char*)(p + 0xa)))
+    h->set_query(0x4ef8,
+                 "upDate pvp_score set win_count=win_count+%d,lose_count=lose_count+%d where server_id = %d and occ_date = cast(now() as date)",
+                 *(int*)(p + 0xb), *(int*)(p + 0xf),
+                 *(signed char*)(p + 0xa));
+    if (h->exec(0x4ef8) != 1)
     {
         CMyFileLog log("OnServerMatchData", 0x219d);
         log("./log/Except", "OnServerMatchData Error db ");
         return 0;
     }
-    if (!h->exec(0x4ef8))
+    if (h->getAffectedRowCount() == 0)
     {
-        // 原版 affected 死代码：insert(0x4ef9) 仅 exec 失败时执行
-        if (!h->set_query(0x4ef9,
-                          "inSert into pvp_score(server_id,occ_date,win_count,lose_count) values(%d,cast(now() as date),%d,%d)",
-                          *(signed char*)(p + 0xa), *(int*)(p + 0xb),
-                          *(int*)(p + 0xf)))
-            return 0;
-        if (!h->exec(0x4ef9))
-            return 0;
+        h->set_query(0x4ef9,
+                     "inSert into pvp_score(server_id,occ_date,win_count,lose_count) values(%d,cast(now() as date),%d,%d)",
+                     *(signed char*)(p + 0xa), *(int*)(p + 0xb),
+                     *(int*)(p + 0xf));
+        h->exec(0x4ef9);
     }
     return 1;
 }
@@ -5507,7 +5515,7 @@ char CDBManager::QueryHWspecCreate(
                          *(unsigned short*)(e + 0), now,
                          *(unsigned char*)(e + 2), *(int*)(e + 6),
                          *(int*)(e + 0xa));
-            if (!h->exec(0x4e78))
+            if (h->exec(0x4e78) != 1 || h->getAffectedRowCount() == 0)
             {
                 h->set_query(0x4e79,
                              "inSert into log_hardware_ting(occ_time, category1, category2, category3, total) values(from_unixtime(%d), %d, %d, %d, %d)",
@@ -5528,7 +5536,7 @@ char CDBManager::QueryHWspecCreate(
                          *(unsigned short*)(e + 0), now,
                          *(unsigned char*)(e + 2), *(int*)(e + 6),
                          *(int*)(e + 0xa));
-            if (!h->exec(0x4e7a))
+            if (h->exec(0x4e7a) != 1 || h->getAffectedRowCount() == 0)
             {
                 h->set_query(0x4e7b,
                              "inSert into log_hardware_ting(occ_time, category1, category2, category3, ting) values(from_unixtime(%d), %d, %d, %d, %d)",
@@ -5549,7 +5557,7 @@ char CDBManager::QueryHWspecCreate(
                          *(unsigned short*)(e + 0), now,
                          *(unsigned char*)(e + 2), *(int*)(e + 6),
                          *(int*)(e + 0xa));
-            if (!h->exec(0x4e7c))
+            if (h->exec(0x4e7c) != 1 || h->getAffectedRowCount() == 0)
             {
                 h->set_query(0x4e7d,
                              "inSert into log_hardware_ting_low(occ_time, category1, category2, category3, total) values(from_unixtime(%d), %d, %d, %d, %d)",
@@ -7155,9 +7163,7 @@ char CDBManager::ChangeGuildNotifyMessage(int guildId, unsigned int m_id,
             msg, guildId);
         return 0;
     }
-    // 原版 exec 成功路径的 affected 检查被 `or %edx,%eax` 死代码恒真短路，
-    // insert（0x4e63）仅在 exec(0x4e62) 失败时执行——按有效语义复刻
-    if (!h->exec(0x4e62))
+    if (h->exec(0x4e62) != 1 || h->getAffectedRowCount() == 0)
     {
         if (!h->set_query(0x4e63,
                           "inSert into guild_notice set guild_id=%d,notice='%s',acc_date=unix_timestamp(now())",
