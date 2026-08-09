@@ -43,7 +43,24 @@ dbmw 与 manager 共享约 73% 函数（6,041/8,268），以 `source/manager` �
 
 ## 当前水位（严格口径，2026-08-09）
 
-- IDENTICAL 597 / NEAR 504 / DIFF 1396 / MISSING 68（应用层 2,565 对比）
+- IDENTICAL 601 / NEAR 509 / DIFF 1393 / MISSING 62（应用层 2,565 对比；
+  按类拆分全部完成后复核，启动输出与 ORIG 逐字节一致）
+
+## 按类拆分第十三阶段（2026-08-09 续，CDBManager 全族移入独立文件）
+
+- **CDBManager.cpp（7,014 行）**：从 ManagerTypes.cpp 移入 CDBManager 全部
+  成员 + CGuildManager 全族 + CAppLoadChecker + WongWork::CGMAccounts +
+  ST_* 结构构造 + Packet_* 包构造（256 个函数逐字节一致迁入，另含
+  GetIdentity）；ManagerTypes.cpp 7039->35 行（保留为构建占位）
+- 迁移后 ManagerTypes.cpp 仅剩壳，全部类已按粒度拆出（26 个类文件）
+- **PacketNameTables 收敛**：头文件为 `static const` 表，此前 27 个 TU
+  各持一份私有拷贝（nm 54 个符号，约 48KB×27）；仅使用方 CDBManager.cpp
+  保留 include，其余 26 文件移除，收敛为单份（2 个符号）。
+  二进制 4.86MB->3.63MB，更贴近 ORIG（4.04MB）
+- 复核：拆分前后二进制按函数逐条比对仅 1 个函数因链接顺序重分类
+  （ID/NEAR/DIFF 计数差 ±1，非代码回归）；全量比对水位
+  IDENTICAL 601 / NEAR 509 / DIFF 1393 / MISSING 62；启动输出与 ORIG
+  逐字节一致；构建零错误
 
 ## 续批（MISSING 140→110）
 
