@@ -1011,7 +1011,7 @@ public:
     unsigned int InetAddr(const char* ip) const;
     int InitServerSocket(int port);
     int InitClientSocket();
-    char RecvFromClient(char* buf, int* size, unsigned int* addr, unsigned short* port) const;
+    bool RecvFromClient(char* buf, int* size, unsigned int* addr, unsigned short* port) const;
     int SendToClient(char* buf, int len, unsigned short port, const char* ip,
                      unsigned int addr) const;
     int SendToServer(char* buf, int len, unsigned short port, const char* ip) const;
@@ -1321,11 +1321,11 @@ public:
     virtual ~CThreadInterface();
     virtual char begin();
     virtual void* dispatch_proxy(void* param);
-    virtual void* dispatch(void* param) = 0;
+    virtual void dispatch(void* param) = 0;
     virtual void stop();
     virtual void join();
     pthread_t m_thread;  // +4
-    char m_stop;         // +8
+    bool m_stop;         // +8（ORIG bool：循环检查为 test+jne，char 会多 setne）
 };
 
 // ---- CTcpNetworkThread：0x30 ----
@@ -1335,7 +1335,7 @@ public:
     CTcpNetworkThread();
     ~CTcpNetworkThread();
     void attach(CTcpNetSystem* net);
-    void* dispatch(void* param);
+    void dispatch(void* param);
     CTcpNetSystem* m_net;   // +0xc
     void* m_recvQ;          // +0x10
     CTcpHandler* m_handler; // +0x14
@@ -1354,7 +1354,7 @@ public:
     CTcpAcceptThread();
     ~CTcpAcceptThread();
     void attach(CTcpNetSystem* net);
-    void* dispatch(void* param);
+    void dispatch(void* param);
     CTcpNetSystem* m_net;   // +0xc
     CMutex* m_recvQLock;    // +0x10
     CMutex* m_recvBLock;    // +0x14
@@ -1369,7 +1369,7 @@ public:
     CUdpNetworkThread();
     ~CUdpNetworkThread();
     void attach(CApplication* app);
-    void* dispatch(void* param);
+    void dispatch(void* param);
     void SetUDPQueue(UdpRecvQueue* q);
     UdpRecvQueue* m_udpQueue;   // +0xc
     void* m_udpHandler;         // +0x10
@@ -1384,7 +1384,7 @@ public:
     CNetworkThread();
     ~CNetworkThread();
     void attach(CApplication* app);
-    void* dispatch(void* param);
+    void dispatch(void* param);
     void SetUDPQueue(UdpRecvQueue* q);
     UdpRecvQueue* m_udpQueue;   // +0xc
     void* m_udpHandler;         // +0x10

@@ -188,7 +188,7 @@ int CUdpHandler::SendToClient(char* buf, int len, unsigned short port, const cha
     return 1;
 }
 
-char CUdpHandler::RecvFromClient(char* buf, int* size, unsigned int* addr,
+bool CUdpHandler::RecvFromClient(char* buf, int* size, unsigned int* addr,
                                  unsigned short* port) const
 {
     if (m_sock == -1)

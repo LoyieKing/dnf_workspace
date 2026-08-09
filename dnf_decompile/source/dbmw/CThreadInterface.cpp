@@ -50,7 +50,8 @@ char CThreadInterface::begin()
 
 void* CThreadInterface::dispatch_proxy(void* param)
 {
-    return dispatch(param);
+    dispatch(param);
+    return 0;
 }
 
 void CThreadInterface::join()

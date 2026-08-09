@@ -37,22 +37,22 @@ void CTcpAcceptThread::attach(CTcpNetSystem* net)
     m_port = net->Get_TcpServerPort();
 }
 
-void* CTcpAcceptThread::dispatch(void* param)
+void CTcpAcceptThread::dispatch(void* param)
 {
     if (!m_sock.open())
     {
         printf("Tcp Accept Socket Open Err");
-        return 0;
+        return;
     }
     if (!m_sock.bind(m_port, true))
     {
         printf("Tcp Accept Socket Bind Err");
-        return 0;
+        return;
     }
     if (!m_sock.listen(5))
     {
         printf("Tcp Accept Socket Listen Err");
-        return 0;
+        return;
     }
     m_stop = 1;
     DNFFLib::Sleep_Ext(5, 0);
@@ -84,7 +84,6 @@ void* CTcpAcceptThread::dispatch(void* param)
         puts("CTcpNetworkThread::dispatch() Except Break");
         throw CDNFException("CTcpNetworkThread::dispatch() Recv  Socket Exception Break!");
     }
-    return 0;
 }
 
 CTcpNetworkThread::CTcpNetworkThread() {}
@@ -104,7 +103,7 @@ void CTcpNetworkThread::attach(CTcpNetSystem* net)
     m_sendBLock = net->Get_TcpSendBLock();
 }
 
-void* CTcpNetworkThread::dispatch(void* param)
+void CTcpNetworkThread::dispatch(void* param)
 {
     m_runningFlag = 1;
     DNFFLib::Sleep_Ext(5, 0);
@@ -165,7 +164,6 @@ void* CTcpNetworkThread::dispatch(void* param)
         puts("CTcpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
         throw CDNFException("CTcpNetworkThread::dispatch() Recv  Socket Exception Break!");
     }
-    return 0;
 }
 
 CUdpNetworkThread::CUdpNetworkThread() {}
@@ -196,7 +194,7 @@ void CNetworkThread::attach(CApplication* app)
     m_udpBLock = app->Get_BLock();
 }
 
-void* CNetworkThread::dispatch(void* param)
+void CNetworkThread::dispatch(void* param)
 {
     if (!m_udpQueue || !m_udpHandler || !m_udpQLock)
         throw CDNFException("NetworkThread is Not Ready!\n");
@@ -215,7 +213,8 @@ void* CNetworkThread::dispatch(void* param)
             int size = 0x1800;
             unsigned int addr = 0;
             unsigned short port = 0;
-            if (!((CUdpHandler*)m_udpHandler)->RecvFromClient((char*)buf, &size, &addr, &port))
+            if (((CUdpHandler*)m_udpHandler)->RecvFromClient(
+                    (char*)buf, &size, &addr, &port) != 1)
             {
                 {
                     CGuard<CMutex> guard(m_udpBLock);
@@ -223,25 +222,26 @@ void* CNetworkThread::dispatch(void* param)
                 }
                 continue;
             }
-            unsigned short code = *(unsigned short*)((char*)buf + 2);
-            if (code != (unsigned short)size)
+            if (((PacketHeader*)buf)->packetSize != size)
             {
                 CMyFileLog log("dispatch", 0x6c);
                 log("./log/recvErr",
                     "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
-                    *(unsigned short*)buf, size, code);
+                    ((PacketHeader*)buf)->packetSize, size,
+                    ((PacketHeader*)buf)->packetId);
                 {
                     CGuard<CMutex> guard(m_udpBLock);
                     delete buf;
                 }
                 continue;
             }
-            if (code > 0x17ff)
+            if (((PacketHeader*)buf)->packetSize > 0x17ff)
             {
                 CMyFileLog log("dispatch", 0x77);
                 log("./log/recvErr",
                     "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
-                    *(unsigned short*)buf, size, code);
+                    ((PacketHeader*)buf)->packetSize, size,
+                    ((PacketHeader*)buf)->packetId);
                 {
                     CGuard<CMutex> guard(m_udpBLock);
                     delete buf;
@@ -253,7 +253,8 @@ void* CNetworkThread::dispatch(void* param)
                 CMyFileLog log("dispatch", 0x83);
                 log("./log/recvErr",
                     "Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
-                    *(unsigned short*)buf, size, code);
+                    ((PacketHeader*)buf)->packetSize, size,
+                    ((PacketHeader*)buf)->packetId);
                 {
                     CGuard<CMutex> guard(m_udpBLock);
                     delete buf;
@@ -276,10 +277,9 @@ void* CNetworkThread::dispatch(void* param)
         puts("CNetworkThread::dispatch() Exception Break");
         throw CDNFException("CNetworkThread::dispatch() Recv  Socket Exception Break!");
     }
-    return 0;
 }
 
-void* CUdpNetworkThread::dispatch(void* param)
+void CUdpNetworkThread::dispatch(void* param)
 {
     if (!m_udpQueue || !m_udpHandler || !m_udpQLock)
         throw CDNFException("NetworkThread is Not Ready!\n");
@@ -311,7 +311,8 @@ void* CUdpNetworkThread::dispatch(void* param)
         int size = 0x1800;
         unsigned int addr = 0;
         unsigned short port = 0;
-        if (!((CUdpHandler*)m_udpHandler)->RecvFromClient((char*)buf, &size, &addr, &port))
+        if (((CUdpHandler*)m_udpHandler)->RecvFromClient(
+                (char*)buf, &size, &addr, &port) != 1)
         {
             {
                 CGuard<CMutex> guard(m_udpBLock);
@@ -320,25 +321,26 @@ void* CUdpNetworkThread::dispatch(void* param)
             continue;
         }
         // 原版入队前校验包头的 size 字段（buf+2）与实际收包长度一致，且不超 0x17ff
-        unsigned short code = *(unsigned short*)((char*)buf + 2);
-        if (code != (unsigned short)size)
+        if (((PacketHeader*)buf)->packetSize != size)
         {
             CMyFileLog log("dispatch", 0xb5);
             log("./log/recvErr",
                 "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
-                *(unsigned short*)buf, size, code);
+                ((PacketHeader*)buf)->packetSize, size,
+                ((PacketHeader*)buf)->packetId);
             {
                 CGuard<CMutex> guard(m_udpBLock);
                 delete buf;
             }
             continue;
         }
-        if (code > 0x17ff)
+        if (((PacketHeader*)buf)->packetSize > 0x17ff)
         {
             CMyFileLog log("dispatch", 0xc0);
             log("./log/recvErr",
                 "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
-                *(unsigned short*)buf, size, code);
+                ((PacketHeader*)buf)->packetSize, size,
+                ((PacketHeader*)buf)->packetId);
             {
                 CGuard<CMutex> guard(m_udpBLock);
                 delete buf;
@@ -350,7 +352,6 @@ void* CUdpNetworkThread::dispatch(void* param)
             m_udpQueue->push(buf);
         }
     }
-    return 0;
 }
 
 void CUdpNetworkThread::attach(CApplication* app)
