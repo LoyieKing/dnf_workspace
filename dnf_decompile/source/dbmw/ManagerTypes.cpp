@@ -1,7 +1,6 @@
 #include "ManagerTypes.h"
 #include "ServerXmlDbmw.h"
 #include "ManagerApp.h"
-#include "PacketNameTables.h"
 #include "ManagerApp.h"
 
 #include <errno.h>
