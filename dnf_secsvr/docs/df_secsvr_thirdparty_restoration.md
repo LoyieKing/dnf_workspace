@@ -123,6 +123,7 @@ gunnersvr/zergsvr 树已同步重建（203/239 个头）。
 | Shift / Ring | Shift：SHIFTIP+SHIFTBBIT 置换 + shiftCrypt（enc 收集后直接返回，dec 展开回写）；Ring：Gene 同款 LCG 表 + rotr 块变换 |
 | Gramary | 自定义块密码：gra_round 16 模式槽位交织（s0|s1<<1|...|s7<<6|s6<<7，oracle 提取排列表）；gra_crypt 与 shiftCrypt 同构 |
 | DesNew | 自定义 8 字节块：NF 256 表；9 轮密钥索引 +7 mod 15，si 依轮切换 key[7]/[8]/[9]；decrypt 完全镜像 |
+| Blowfish | 标准 Blowfish：P/S 初始表与公版一致；BlowFish8/16/24/32/56 = 5 种密钥长度 + 8 字节块 ECB + TsLocal 余数；Encrypt/Decrypt flag0=ECB flag1=CBC(m_oChain) |
 
 以上全部通过 `toolchain/uni_call.py` 调二进制函数逐字节对拍（含密钥表/状态全量 dump 与
 随机多组向量），详见 `tencrypt_new/README.md` 状态矩阵。
@@ -135,6 +136,9 @@ gunnersvr/zergsvr 树已同步重建（203/239 个头）。
 - DesPC/DesToo/DesBig/Des2P/FastDes/DesDea、D3DES、Magic8/16/32、Amoeba
 - Square / Rijndael / Blowfish / Twofish（开源参考可用）
 - TenCrypt.cpp / TencBase.cpp 封装层
+
+注：Blowfish 已含在上述 13 个中；Amoeba 为复杂位操作自定义密码（amoEnCrypt/
+amoDeCrypt 逐位分支），需完整反汇编转写。
 
 ## 关联材料
 
