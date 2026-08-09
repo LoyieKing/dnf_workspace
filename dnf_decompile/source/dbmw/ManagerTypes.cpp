@@ -36,179 +36,6 @@ int getErrno();
 // ============================================================
 // ============================================================
 // ============================================================
-// CUserManager
-// ============================================================
-CUserManager::CUserManager()
-{
-    m_app = 0;
-}
-
-CUserManager::~CUserManager()
-{
-    for (std::map<unsigned int, CDNFProhibitUser*>::const_iterator it = m_prohibitUsers.begin();
-         it != m_prohibitUsers.end(); ++it)
-    {
-        CDNFProhibitUser* pu = it->second;
-        if (pu)
-        {
-            delete pu;
-        }
-    }
-    m_prohibitUsers.clear();
-}
-
-void CUserManager::Init(CApplication* app)
-{
-    m_app = app;
-}
-
-
-char CUserManager::InsertProhibitUser(unsigned int dbid, CDNFProhibitUser* pu)
-{
-    if (!pu)
-        return 0;
-    return m_prohibitUsers.insert(std::make_pair(dbid, pu)).second;
-}
-
-CDNFProhibitUser* CUserManager::FindProhibitUser(unsigned int dbid) const
-{
-    std::map<unsigned int, CDNFProhibitUser*>::const_iterator it = m_prohibitUsers.find(dbid);
-    if (it == m_prohibitUsers.end())
-        return 0;
-    return it->second;
-}
-
-char CUserManager::DeleteProhibitUser(unsigned int dbid)
-{
-    if (m_prohibitUsers.empty())
-        return 0;
-    CDNFProhibitUser* pu = FindProhibitUser(dbid);
-    if (pu && m_prohibitUsers.erase(dbid) == 1)
-    {
-        delete pu;
-        return 1;
-    }
-    return 0;
-}
-
-void CUserManager::ProcessByMinute()
-{
-    if (m_prohibitUsers.empty())
-        return;
-    for (std::map<unsigned int, CDNFProhibitUser*>::iterator it = m_prohibitUsers.begin();
-         it != m_prohibitUsers.end();)
-    {
-        CDNFProhibitUser* pu = it->second;
-        if (pu && pu->IsTimeOutWaitMonitor())
-        {
-            CMyFileLog log("ProcessByMinute", 0x43);
-            log("./log/ProhibitUser",
-                "[PROHIBIT CONNECT USER TIME_OUT] Prohibit User DB ID : %d. Remain time(%d)\n",
-                pu->GetDBID(), pu->GetProhibitRemainTime());
-            delete pu;
-            m_prohibitUsers.erase(it++);
-        }
-        else
-        {
-            ++it;
-        }
-    }
-}
-
-// ============================================================
-// CDNFProhibitUser
-// ============================================================
-CDNFProhibitUser::CDNFProhibitUser()
-{
-    m_dbid = 0xffffffff;
-    m_remainTime = 0;
-    m_retPacketCnt = 0;
-    m_ip = 0;
-    m_port = 0;
-    m_connectFlag = 0;
-}
-
-CDNFProhibitUser::~CDNFProhibitUser()
-{
-    m_remainTime = 0;
-    m_dbid = 0xffffffff;
-    m_retPacketCnt = 0;
-    m_ip = 0;
-    m_port = 0;
-    m_connectFlag = 0;
-}
-
-void CDNFProhibitUser::SetIpPort(unsigned int ip, unsigned short port)
-{
-    m_ip = ip;
-    m_port = port;
-}
-
-void CDNFProhibitUser::GetIpPort(unsigned int& ip, unsigned short& port)
-{
-    ip = m_ip;
-    port = m_port;
-}
-
-void CDNFProhibitUser::SetMonitorWaitTime(unsigned int dbid, short time)
-{
-    m_remainTime = time;
-    m_dbid = dbid;
-}
-
-void CDNFProhibitUser::SetProhibitUserInfo(char flag)
-{
-    if (flag)
-        m_connectFlag = flag;
-}
-
-
-
-// ============================================================
-// CTcpServer
-// ============================================================
-CTcpServer::CTcpServer()
-{
-    m_index = 0;
-    m_socket = 0;
-    m_net = 0;
-    m_heartbeat = 0;
-}
-
-CTcpServer::~CTcpServer()
-{
-    m_socket = 0;
-    m_net = 0;
-    m_index = 0;
-    m_heartbeat = 0;
-}
-
-void CTcpServer::Init(unsigned int sock, CTcpNetSystem* net)
-{
-    m_socket = (void*)sock;
-    m_net = net;
-}
-
-char CTcpServer::IsValidServer()
-{
-    return m_socket != 0 && m_net != 0;
-}
-
-char CTcpServer::IsHeartbeatTimeOver()
-{
-    time_t now;
-    time(&now);
-    if (m_heartbeat && now - m_heartbeat > 0x3b)
-        return 1;
-    return 0;
-}
-
-void CTcpServer::SendToServer(char* buf)
-{
-    m_net->PushTcpSendPacketQ(buf);
-}
-
-// ============================================================
 // CTcpNetSystem
 // ============================================================
 CTcpNetSystem::CTcpNetSystem()
@@ -14550,19 +14377,6 @@ void CServerHandler::SendAllToMonitorServer(char* buf, int len)
 }
 // ---- packet 构造（出库化）----
 
-char* CTcpServer::makePacketHeader(unsigned short type, unsigned short size)
-{
-    if (!m_net)
-        return 0;
-    CTcpSendBuffer* buf = m_net->Acquire_TcpSendBuffer();
-    char* p = (char*)buf;
-    *(unsigned short*)p = type;
-    *(unsigned short*)(p + 2) = size;
-    *(int*)(p + 6) = (int)m_socket;
-    return (char*)buf;
-}
-
-
 // ---- nothrow new/delete（原版来自 libstdc++ 弱符号）----
 void* operator new(std::size_t size, const std::nothrow_t&) throw()
 {
@@ -14586,18 +14400,6 @@ void operator delete(void* ptr, const std::nothrow_t&) throw()
 // ============================================================
 // 出库化 getter（原版为独立符号）
 // ============================================================
-
-unsigned int CDNFProhibitUser::GetDBID() { return m_dbid; }
-unsigned short CDNFProhibitUser::GetProhibitRemainTime() { return m_remainTime; }
-unsigned char CDNFProhibitUser::GetMonitorRetPacketCnt() { return m_retPacketCnt; }
-char CDNFProhibitUser::GetConnectFlag() { return m_connectFlag; }
-void CDNFProhibitUser::IncreMonitorRetPacket() { m_retPacketCnt++; }
-
-
-void* CTcpServer::GetSocket() { return m_socket; }
-void CTcpServer::SetServerType(unsigned char type) { m_index = type; }
-unsigned char CTcpServer::GetServerType() { return m_index; }
-void CTcpServer::NotifyHeartbeat() { time(&m_heartbeat); }
 
 unsigned short CTcpNetSystem::Get_TcpServerPort() { return m_serverPort; }
 CTcpHandler* CTcpNetSystem::Get_TcpHandler() { return m_tcpHandler; }
@@ -14666,14 +14468,6 @@ Packet_Web_Prohibit_User_Connect::Packet_Web_Prohibit_User_Connect() : PacketHea
     *(unsigned short*)((char*)this + 0xf) = 0;
     *(char*)((char*)this + 0x11) = 0;
     *(char*)((char*)this + 0x12) = 0;
-}
-
-char CDNFProhibitUser::IsTimeOutWaitMonitor()
-{
-    m_remainTime--;
-    if (m_remainTime <= 0)
-        return 1;
-    return 0;
 }
 
 ST_KillUSRConfig::ST_KillUSRConfig()
