@@ -77,6 +77,33 @@ dbmw 与 manager 共享约 73% 函数（6,041/8,268），以 `source/manager` �
 - 全量水位（2026-08-09 末）：IDENTICAL 608 / NEAR 512 / DIFF 1445 /
   MISSING 0；启动输出与 ORIG 逐字节一致
 
+## Packet 类共享化 + PacketTranslator 类型化第八批（2026-08-09 续）
+
+- **manager/dbmw 自带 packet 类并入 shared/packet/include**：ManagerTypes.h
+  内联定义的 8 个 packet 类（InnerPakcet_Login/Logout、Monitor_Event_Start/End、
+  Monitor_Manager_Connect_OK、Web_Notice_Single、Web_Notice_InGame_
+  Advertisement、Web_Prohibit_User_Connect）与共享块合并，补齐 6 个缺失共享头
+  （Event_Start/End 已有），头文件改为 include，.cpp 删除出库化构造。
+  Web_Prohibit_User_Connect 构造改真实字段赋值后与 ORIG 18/18 逐字节一致。
+  导出核对：manager ORIG 8 个 ctor 全 W（头文件内联），dbmw ORIG 仅导出
+  Login/Logout/Event_Start/UDP_HeartBeat；合并后 dbmw 的 Event_End、
+  Web_Prohibit 两个 ORIG 没有的 ctor 符号自然消失（更贴近 ORIG）。
+  Monitor_UDP_HeartBeat/Notice_Guild_Mail_Arrived 因共享头 ctor 语义与其他
+  服不一致（导出签名不同）暂保持 dbmw 本地。
+- **PacketTranslator 输入侧类型化第八批（7 个）**：OnQueryUnconnGuildMemberProxy/
+  OnQueryGuildAllMembersProxy 改用 Packet_DB_Call_Unconn_Guild_Member/
+  Packet_DB_Call_Guild_All_Members（与 guild 侧 0x425/0x427 同名）；网络族
+  OnInnerPacketLogin/Logout、OnTcpServerLogin/Logout/Heartbeat 用
+  Packet_InnerPakcet_*::reversed2（+6 sock）与新增 Packet_Tcp_Server_* view
+  类（m_idx +0xa）。访问形态与 ORIG 一致（临时指针+直接偏移），指令数向 ORIG
+  收敛。
+- **try/catch 100% 宏化**：DNFFileLog.h 补 DNF_CATCH_LOG_CDNF（单 catch）、
+  DNF_CATCH_LOG2_NN（双日志双消息）、DNF_CATCH_LOG_RET0（catch 带 return 0）、
+  DNF_CATCH_LOG_THROW（printf+puts+throw）；CPacketTranslater 剩余 8 处手写
+  catch 全部改宏，文件内 123 个 try 块 0 手写 catch。
+- 全量水位维持：IDENTICAL 608 / NEAR 512 / DIFF 1445 / MISSING 0（manager
+  460/422/997，较前 459/422/998 微升）
+
 ## DIFF 大函数语义核验批（2026-08-09 续，Ghidra 反编译逐函数比对）
 
 已核验顶部大函数（按 ORIG 指令数）并修复 5 处真实语义 bug：
