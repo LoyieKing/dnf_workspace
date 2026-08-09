@@ -2460,7 +2460,7 @@ class CGameServer
 public:
     CGameServer();
     ~CGameServer();
-    void Init(unsigned char type, const std::string& name, unsigned short port,
+    void Init(unsigned char type, std::string& name, unsigned short port,
               unsigned char flag);
     void SendToServer(char* buf, int len);
     void SendHeartBeat();
@@ -2480,7 +2480,7 @@ class CGuildServer
 public:
     CGuildServer();
     ~CGuildServer();
-    void Init(unsigned char type, const std::string& name, unsigned short port,
+    void Init(unsigned char type, std::string& name, unsigned short port,
               unsigned char flag);
     void SendToServer(char* buf, int len);
     void SendHeartBeat();
@@ -2500,7 +2500,7 @@ class CMonitorServer
 public:
     CMonitorServer();
     ~CMonitorServer();
-    void Init(unsigned char type, const std::string& name, unsigned short port,
+    void Init(unsigned char type, std::string& name, unsigned short port,
               unsigned char flag);
     void SendToServer(char* buf, int len);
     void SendHeartBeat();
@@ -2520,7 +2520,7 @@ class CStatisticsServer
 public:
     CStatisticsServer();
     ~CStatisticsServer();
-    void Init(unsigned char type, const std::string& name, unsigned short port,
+    void Init(unsigned char type, std::string& name, unsigned short port,
               unsigned char flag);
     void SendToServer(char* buf, int len);
     void SendHeartBeat();
