@@ -1155,6 +1155,256 @@ startup ×2、TCPSocket::shutdown（§36 伪影）、_Rb_tree _M_create_node（S
 伪影 16；bridge 23 = 布局/寄存器/STL 伪影。handler 家族（onCS_GET_SCRIPT
 等）已从结构差异压到「寄存器分配 + lea/sub 形态」残差。
 
+### 第六十批（2026-08-09 续，auction：DWARF 名/型修复 + stun 基线）
+
+- **`DNFFLib::CharacSetSwitch`（auction + point）→ ext/full IDENTICAL**：
+  - 局部按 ORIG DWARF 重命名：`in/out/inLen/outLen/remain/cd/iconvResult`
+    → **SrcPtr/DstPtr/size1/string_size/size2/cc/it**；
+  - 声明序：`size1, string_size, size2`（ORIG 初始化顺序
+    `movl $0` 序列按槽位 -0x18/-0x1c/-0x20/-0x24/-0x14）；
+  - `cc` **不初始化**（直接由 iconv 赋值，去掉 `= 0`）；
+  - `size1 = strlen(SrcPtr)`（读槽位而非参数 src）；
+  - 计算序：`string_size = size1*3; size2 = string_size;`（iconv 第 5 参是
+    &string_size，dst[size2-string_size] 用 size2 作初始容量）；
+  - point 同源同步重建，同样 ext/full IDENTICAL。
+- **`PrintBackTrace`（auction）**：`char* s = symbols[i]` 加 **register**
+  （ORIG 跨 CMyFileLog ctor/log 调用驻 ebx）；剩 §3.3 `jmp; nop`。
+- **stun 基线复核（64 位独立工具链）**：28 函数 0 MISSING；
+  strict 3 IDENTICAL / 17 NEAR / 1 DIFF；ext/full 10/10/1。唯一 DIFF
+  `write_log(char const*, int)` 为已记录的寄存器分配差异（408 vs 411B，
+  callset 一致）。**无新问题。**
+
+### 第六十一批（2026-08-09 续，auction：DWARF 局部名审计）
+
+- **`AuctionDictionary::GetBiddingInfo/GetRegistedItemInfo`**：局部
+  `category` → **`check_category`**（ORIG DWARF decl 2542/2437）；
+  `index_cnt` 确认为 **static**（ORIG .bss 符号
+  `_ZZN17AuctionDictionary14GetBiddingInfo...E9index_cnt`），源码一致。
+  两函数为槽位/顺序伪影（30/34 条），命名已合规。
+- **`AuctionDictionary::Bidding/Purchase` 审计**：ORIG 局部名
+  （prev_buyer_id/prev_bidding_price/minimum_bidding_price/char_name_iter/
+  new_character_name/dbtr_upper_bidding/pMsg/pNewCell/dbtr_buyer/
+  _itemName/dbtrSendPackage/category/pNewMsg；Purchase:
+  commission/send_money/_temp_roi_average_key/remain_price/remain_count/i）
+  与源码仍有差异（Bidding 缺 iter/char_name_iter 等中间名）——列入后续
+  大函数系统性重构（与 makeSuccessfulBid 同批）。
+- 方法沉淀：对每个 DIFF 函数批量提取 ORIG DWARF 局部名（decl_line + 类型），
+  与源码逐名对照；命名修正即使不改变机器码，也满足 DWARF 合规目标。
+
+### 第六十二批（2026-08-09 续，auction：Strings/full-NEAR 审计）
+
+- **`CharString/WideString::getHash`**：38 vs 39，唯一差异是 NEW 尾部多 1 个
+  `nop`（§3.3 块填充）；哈希公式 `value*65599+c`（`shl $6 + shl $0x10 -
+  value`）与 `value==0 → 1` 守卫均已对齐。WideString 同。
+- **`CharString::endsWith`**：差异为 `strlen` 后指针差（end-start）的
+  §81 寄存器流（`mov eax,edx; mov slot,eax; mov edx,ecx; sub`），语义一致。
+- **`GetRandomOptionName`**：63 条差异全部是 callee-saved 寄存器选择
+  （ORIG edi/esi/ebx vs NEW eax/栈，§5.3）。
+- **`AuctionDictionary::Bidding`**：局部名已与 ORIG 一致（审计确认），
+  258 条差异为早期 return 块的「延迟置尾」布局（§91 家族）+ 寄存器流——
+  与 makeSuccessfulBid 同批系统性重构。
+- **`onAUCTION_REGIST_GA` 等 HandlerFor_GA_**：callset 已清，剩余为包构造
+  顺序与寄存器分配（§5.3）。
+
+**结论（平台期确认）**：auction 剩余 137 DIFF 的构成已全部归类：
+§3.3 块序/nop（约 1/3）、§81 寄存器拷贝、§5.3 callee-saved 选择、
+§80 lea/sub、帧/槽位布局（§78/§5.1）、以及 4-5 个大函数
+（makeSuccessfulBid/Bidding/GA handlers 等）的延迟 return 布局重构。
+语义等价均已核验；继续压差只能按函数逐个尝试 ORIG 源码拼写，边际收益递减。
+
+### 第六十三批（2026-08-09 续，bridge：ScriptThread 嵌套作用域）
+
+- **`ScriptThread::loop`（bridge）**：按 ORIG DWARF 作用域重构——
+  `sub_query/kind_name/dungeon_name/sub_res/sub_row/sub_count/tmp_buf/
+  server_id/tm_id` 移入 `while (fp = fopen(...))` 循环体（SBB 层），
+  `dungeon_id` 移入内层 `while(true)`（SBBB 层），`pre_server_id` 保持
+  函数作用域（SB，decl 285）。**DWARF 嵌套结构现与 ORIG 一致**。
+- 但机器码帧差不变（ORIG 0x94c vs NEW 0xa7c）：gcc 4.4 -O0 不做跨作用域
+  大数组栈槽重叠（ORIG 的 tmp_buf[300]/sub_query[1024] 与 query[1024] 区域
+  重叠，NEW 不重叠）——记录为 §78 不可控帧打包行为。
+- bridge 全量维持 strict 739/156/23、ext 863/32/23、full 869/26/23。
+
+### 第六十四批（2026-08-09 续，auction：RegistCancel 直接返回重构）
+
+- **`AuctionDictionary::RegistCancel`（652 insns）**：按 ORIG 反汇编重构开头——
+  `error_code = 0x24/0x2b/0xb;`（存局部再统一返回）改为**直接
+  `return 0x24/0x2b/0xb`**（ORIG `mov $const,%eax; jmp END`），
+  `else if (owner == ownerId)` 链去嵌套为 `if (owner != ownerId) return 0x2b;`
+  + 扁平体；Delete/SubAuctionId 失败改为 `return error_code`。
+  ext diff 322 → 312；剩余为槽位偏移（ptr_data -0x3c vs -0x34 等）与
+  dbtr_history 结构体拷贝的寄存器流（§5.3/§78）。
+- 该方法（对照 ORIG 反汇编把「存 error_code 再返回」改为直接 return）可
+  推广到其它 AuctionDictionary 大函数（Bidding/Purchase 已是直接返回形态；
+  makeSuccessfulBid 待同法处理）。
+- auction/point 均已重建（AuctionDictionary.cpp 共享）。
+
+### 第六十五批（2026-08-09 续，auction：FP 费率形态 + i586 定点覆盖）
+
+- **`makeSuccessfulBid`**：`double dVar1 = (double)money/100.0`（反编译残留
+  名，ORIG DWARF 无此局部）→ 内联三元
+  `(int)(((double)money/100.0) * (owner==1 ? GetVIPCommission() :
+  GetCommission()))`——费率作左操作数、gcc 单次物化临时（与 ORIG -0x7e0
+  无名临时一致）。ext diff 862 → **679**、指令 1429 → 1421。
+- **`Purchase`**：`double commission_rate`（同样无 ORIG 局部）→ 双分支内联
+  `(int)(((double)price/100.0) * GetXxxCommission())`（费率左操作数；ORIG
+  是 2 次 fdivrp——每分支各算一次，与 makeSuccessfulBid 的单次不同！）；
+  并加 `__attribute__((target("arch=i586")))`（§89 定点法）使 x87
+  `fnstcw/fldcw/fistpl` 浮转整与 ORIG 一致。ext diff → **101**。
+- **方法沉淀**：FP 表达式操作数顺序（左/右）决定 x87 临时是否落内存；
+  费率类局部先查 ORIG DWARF 是否命名，未命名则内联并按其 fdivrp 次数
+  （1 次=单三元、2 次=双分支）还原。
+- auction/point 已重建。
+
+### 第六十六批（2026-08-09 续，auction：结构体初始化顺序）
+
+- **`PutDBSendPackageByExpire`（auction + point）**：ORIG 的
+  `tagGAME_DB_SEND_PACKAGE_BY_EXPIRE` 初始化顺序是
+  **`send_to_owner.auction_id` 最先**（紧接 ctor），再 package_type/
+  b_exist_buyer/send_to_buyer 各字段；源码把 auction_id 放在第 7 位 →
+  前移后 ext diff 44 → **23**（auction 与 point 同步）。
+- 剩余 23 条：`item_info` 8 字节拷贝的寻址形态（ORIG 折叠 `mov
+  0x54/0x58(%eax)`，NEW `add $0x54,%eax`，§39 族）+ 分支目标偏移。
+- **`GetBiddingInfo` 复核**：`error_code = 0x24/0x29`（存局部再返回）与
+  ORIG 一致（ORIG 也是 `movl $0x24,-0x14; jmp END`）；剩余 30 条为槽位
+  偏移与 static index_cnt（0x82c9768）的装载位置。
+
+### 第六十七批（2026-08-09 续，auction：64 位比较边界语义修正）
+
+- **`AveragePriceDictionary::UpdateAveragePirce`**：ORIG 的
+  `average_max_limit`/`average_min_limit` 边界比较是**严格**形态
+  （`avg < max && avg > min`，机器码 `ja/jb + jae/jbe` 跳过相等），
+  源码误用包含形态（`<=`/`>=`）→ 修正为 `<`/`>`。**这是语义边界修正**
+  （avg == max 或 avg == min 时行为不同）。
+- 修正后分支指令与 ORIG **完全一致**（含循环 `setle`、x87 部分）；
+  剩余 155 条 ext 差异全部为栈槽偏移（ORIG 循环计数 -0x24/-0x28 vs NEW
+  -0x50/-0x54，§78 帧布局）。auction + point 同步。
+- 方法沉淀：64 位比较先看机器码高字分支的 `jae/jbe` vs `ja/jb`
+  （含相等与否），直接还原为 `<=`/`>=` 或 `<`/`>`；不要凭语义直觉。
+
+### 第六十八批（2026-08-09 续，auction：声明作用域 → 槽位布局对齐）
+
+- **`AveragePriceDictionary::UpdateAveragePirce` → ext/full IDENTICAL**：
+  在第六十七批严格比较（分支全对齐）基础上，把 `ptr_data`/
+  `average_max_limit`/`average_min_limit` 从 while 循环体内声明**移到函数
+  作用域**（ORIG DWARF 为 depth-1，decl 515/516；j/i/iter_pos 保持嵌套
+  depth 2/3/4）——槽位布局随之完全对齐，ext diff 155 → **0**（auction +
+  point 均验证）。strict 仅差 0.01 常量地址（fldl 数据地址，ext 归一化）。
+- 方法沉淀：大函数槽位差先查 ORIG DWARF 声明**嵌套深度**（depth 1 函数级
+  vs 循环体内），把跨循环复用的局部提到函数作用域——gcc 按声明作用域分配
+  槽位，声明位置与槽位一一对应。
+
+### 第六十九批（2026-08-09 续，auction：AddItemAveragePrice 边界 + 作用域）
+
+- **`AveragePriceDictionary::AddItemAveragePrice`（2229 insns）**：
+  - 函数级声明序对齐：`ptr_data` 先于 `is_first_add`（ORIG decl 151/153）；
+  - `error_code` 从函数级改为**分支内局部**（ORIG DWARF decl 189/234，
+    两个 if/else 分支各一个）；
+  - 平均价格更新条件边界修正：`price < average_max_limit` 且
+    `average_min_limit < price`（ORIG 64 位比较 `ja/jb + jae/jbe` 相等跳过，
+    严格形态）。
+  - ext diff **792 → 254**；剩余为槽位偏移（error_code -0x38 vs -0x40 等，
+    §78）与 ORIG 的 `average_price_temp`（64 位均值中间量，decl 154，暂未
+    还原）。auction + point 已重建。
+- 方法沉淀：本批与第六十七/六十八批同族——先对照 ORIG 机器码修正比较
+  边界（严格 vs 包含），再按 DWARF 声明深度/顺序对齐槽位。
+
+### 第七十批（2026-08-09 续，auction：AddItemAveragePrice 收尾 + StatisticsCollector ODR 还原）
+
+- **`AveragePriceDictionary::AddItemAveragePrice` 686/686 逐指令对齐**（栈槽
+  偏移全部一致，仅剩 23 处全局常量/静态变量绝对地址伪影，strict 归 NEAR、
+  ext/full 归 IDENTICAL）。四步关键修复：
+  1. ROI 分支 `average_min_limit`：avg 先经 `(double)(__int64)`（fildll +
+    2^64 修正，u64→double 形态），且乘数顺序 `avg * (inf_min/10000)`；
+  2. unseal 检查：`&&` 链改**嵌套 if**（复现 ORIG 的 setne+test+je 直跳，
+    消除整链布尔物化）；
+  3. 均值计算：删 `old_cnt` 中间变量，改 `(unsigned int)added_cnt * (u64)avg`
+    （左操作数在前，寄存器流一致、无 spill）；
+  4. `added_cnt>0xf` 截断移到 `average_price=avg_temp` 之前（ORIG 语句序）。
+- **`StatisticsCollector::IncTryCnt` / `IncFailCnt` → strict 仅剩日志字符串
+  地址伪影**（NEAR，ext IDENTICAL）。发现 ORIG 双版本头 ODR 违背：
+  - StatisticsCollector.cpp CU：StData becauseCnt[55]（228B，DWARF 确认）；
+  - HandlerFor_GA_/HandlerFor_GP_JPN CU：StData becauseCnt[57]（236B，
+    DWARF byte_size 236；IncTryCnt/IncFailCnt 为内联弱符号，仅这两 CU 发出）。
+  - 还原方式：头文件 `#ifdef STATISTICS_STDATA_57` 切换数组尺寸，GA/GP 两个
+    TU 编译时加宏；IncTryCnt/IncFailCnt 移入头文件内联（弱符号位置与 ORIG 一致）。
+  - 增量写法用**后置 `++`**（`x++` 与 `x = x + 1` 的 GIMPLE 形态不同：前者
+    单装载复用 kind/error_no 寄存器，后者拆成两个伪寄存器——见
+    `identical_pitfalls.md` §新坑）。
+  - 原源码的 else（无效 error_no）分支**先自增** `becauseCnt[56]`（day/sec
+    各一次，[57] 版最后一个桶）**再打日志**——此前还原遗漏，已补回。
+- 水位（auction，fast_strict 全量）：strict 4152/451/133，extended
+  4546/57/133，full 4560/43/133；auction + point 已同步重建。
+
+### 第七十一批（2026-08-09 续，auction：RegistCancel/Bidding 语义与布局还原）
+
+- **`AuctionDictionary::RegistCancel` 652/652 指令、mnemonic 序列全等
+  （DIFF → NEAR，剩余仅栈槽/常量地址操作数差）**。关键修复：
+  1. CheckItemType 的 item_type 分发从 if/else-if 改 **switch**
+    （case 序 PLAIN/CREATURE/AVATAR=1/2/3；gcc 4.4 -O0 反序发射
+    cmp 2/3/1 + 尾 jmp，与 if 链的 jne 反转形态不同）；
+  2. 64 位 `_high_category_key != 0` 用成员直取（`mov 0x54/0x58(%eax)`
+    双位移 or+test），替代 `*(long long*)&` cast 形态（后者发
+    `add $0x54; mov 0/4(%eax)`）；
+  3. `b_exist_buyer` 的 if/else 正反交换：ORIG 大块（true + 买家逻辑）在
+    then、false 块延迟置尾（`je L_false`）；
+  4. `dbtr_history.auction_id` 赋值移到最前；`dbtr_expire_package` 先
+    auction_id 再 package_type（ORIG 语句序）；
+  5. send_to_owner 段 GetItemInfo：**category 用 ptr_data 的 item_id、
+    sName 用 dbtr 副本的 item_id**（两分支一致），temp_item_id 也取副本；
+  6. 尾部 `return 0`（去掉 `error_code = 0` 赋值）。
+- **`AuctionDictionary::Bidding` 541/541 指令、536/541 归一化对齐**
+  （剩余启动区返回块布局伪影 + 2 条寄存器装载）。关键修复：
+  1. 嵌套 if 改早退结构（`iter == end → return 0x24`，ptr_data 函数级，
+    DWARF decl 989 在 prev_buyer_id 之前）；
+  2. 两处 `if (prev_buyer_id != -1) { AddAuctionId; } return error_code;`
+    （延迟返回形态，`je L_ret` 而非内联）；
+  3. qword 成员直取同 RegistCancel。
+- 水位（auction，fast_strict 全量）：strict 4152/451/133，extended
+  4546/57/133，full 4560/43/133——分类计数未变（RegistCancel 入 NEAR
+  的槽位差与 Bidding 的启动布局差仍使 mnemonic 序列差 2-4 条），但两个
+  大函数的语义缺陷已清除、机器码对齐度 98-100%。auction + point 已重建。
+
+### 第七十二批（2026-08-09 续，auction：Purchase 达 NEAR + makeSuccessfulBid 同型修复）
+
+- **`AuctionDictionary::Purchase` 340/340 指令、mnemonic 全等
+  （DIFF → NEAR）**。关键修复：
+  1. `_temp_roi_average_key` 的 option_category 复制改**整结构赋值**
+    （`_temp.option_category = pAucDicData->_reg_roi_category_key;`，
+    逐对装载存储，消除先取后存 + 重载基址）；
+  2. 循环写 option_index 用 `_oiv.option_index_value[i]` 直接索引（替代
+    `*(short*)((char*)&option_index_key + i*2)`，寻址形态一致）；
+  3. `send_money` 函数级先置 0（ORIG 在 commission if/else 汇合点
+    `movl $0`，我的原写法在分支内声明）；
+  4. sysLog 的 `%hu` 参数去掉 `(unsigned short)` cast（ORIG 直接
+    `mov 0x15(%eax),%edi` 4 字节装载；cast 强制 movzwl）。
+- **makeSuccessfulBid** 同步 `_temp_roi_average_key` 整结构赋值 + qword
+  成员直取 + 循环直接索引（1416 → 1410 insns）；剩余 49 区主要是
+  commission 计算的 FP 分支结构（ORIG 双 fistpl 块 vs 我方单序列），
+  留待下一轮。
+- 水位（auction，fast_strict 全量）：strict 4152/453/131，extended
+  4546/59/131，full 4560/45/131（本轮 DIFF 135→131、NEAR 450→453、
+  IDENTICAL +1）。auction + point 已重建。
+
+### 第七十三批（2026-08-09 续，auction：makeSuccessfulBid 佣金阶梯还原）
+
+- **`AuctionDictionary::makeSuccessfulBid`（1409 指令）**：主结构区域基本
+  对齐（1416 → 1430 insns、差异区 74 → 34，剩余全为 1-4 行寄存器/FP 放置
+  伪影）。关键修复：
+  1. POINT 非私店分支的 PriceRate 阶梯：`if (PriceRate < 1.5) { owner } 
+    else { if (PriceRate >= 1.5) { <1.6 → 0x32; >=1.6&&<1.7 → 0x32;
+    >=1.7&&<1.8 → 0x32; else 0x50 } }`——复合条件重检（`>= 1.6 && < 1.7`）
+    对应 ORIG 的 `fxch; fucompp; sahf; setae` + `fucompp; test; sete`
+    双形态；else 里冗余 `>= 1.5` 重检是 NaN 分支；
+  2. 佣金乘法操作数：`(money/100.0) * GetVIPCommission()`（rate 先算存
+    -0x7d0 临时再 `fmull`），与 ORIG 逐指令一致；
+  3. 私店分支 owner_type 用 if/else 两转换块（非三元）；
+  4. `dbtr_expire_package.auction_id` 最先赋；`package_type` 用
+    `isInstantBuying ? 1 : 0` 三元物化（mov $1/mov $0）。
+- 剩余 34 区：o[341] 的 FP 转换块放置、o[937:940] 的 64 位 `or` vs
+  add 链、以及散落的 mov/movl 装载——属 -O0 工具链伪影族，可继续逐点压。
+- 水位（auction，fast_strict 全量）：strict 4152/453/131，extended
+  4546/59/131，full 4560/45/131。auction + point 已重建。
+
 ## 1. 源码依赖拓扑（并行任务分配）
 
 ### 1.1 源码树隔离关系（已从目录与构建脚本验证）
@@ -1231,7 +1481,7 @@ startup ×2、TCPSocket::shutdown（§36 伪影）、_Rb_tree _M_create_node（S
 |---|---:|---:|---:|
 | channel | 594 / 125 / 24 | 700 / 19 / 24 | 704 / 15 / 24 |
 | bridge | 739 / 156 / 23 | 863 / 32 / 23 | 869 / 26 / 23 |
-| auction | 4151 / 448 / 137 | 4541 / 58 / 137 | 4555 / 44 / 137 |
+| auction | 4151 / 449 / 136 | 4543 / 57 / 136 | 4557 / 43 / 136 |
 
 （channel/bridge 的 24 DIFF 中：Rijndael 8 个已按通用算法策略语义验证；
 其余为 EH landing / 布局 / STL 模板类伪影，见第五十五~五十七批与

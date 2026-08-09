@@ -1071,3 +1071,97 @@ if/else-if 链 → 逐条 `jne` 跳过。实例：`Script::get_key_val`。
 - **`mov $0,%eax; test %al,%al; je`（恒假死代码）**：ScriptThread::loop 的
   首查询后 ORIG 有这段死 `exit(1)` 块；常量假条件（`if (0)`/`1==0`）在我们
   工具链会被折叠，复现不了该写法——死代码语义无关，记录即可。
+
+## 93. 后置 ++ 与 x=x+1 的 GIMPLE 形态差异（2026-08-09 auction StatisticsCollector）
+
+- 同一语义 `a[k].f = a[k].f + 1` 与 `a[k].f++` 在 gcc 4.4 -O0 下生成
+  **不同的寄存器流**：
+  - `x = x + 1`：RHS 与 LHS 的地址计算各自装载 `k`，生成两个伪寄存器
+    （`mov 0xc,%eax; mov 0xc,%edx; imul %edx`——多 1 条 mov）；
+  - `x++`：单装载 `k`，RHS/LHS 复用同一寄存器
+    （`mov 0xc,%eax; imul $0xec,%eax,%edx; ... imul $0xec,%eax,%eax`）。
+  - 实测 `+= 1` 与 `= + 1` 同属前者；**只有 `++`（含后置）复现单装载**。
+- 适用场景：`mStDataPerDay[kind].failCnt++` 这类数组元素自增；改完后
+  IncTryCnt 41/41、IncFailCnt 109/109 逐指令对齐（仅日志字符串地址伪影）。
+
+## 94. 原版双版本头（ODR 违背）的按 TU 还原（2026-08-09 auction StatisticsCollector）
+
+- **现象**：`StatisticsCollector::StData` 在原版不同 CU 里尺寸不同——
+  StatisticsCollector.cpp CU DWARF byte_size 228（becauseCnt[55]），
+  HandlerFor_GA_/HandlerFor_GP_JPN CU DWARF byte_size 236（becauseCnt[57]）；
+  IncTryCnt/IncFailCnt 是头文件内联弱符号，只在 GA/GP 两个调用方 TU 发出，
+  用 236B 步长（`imul $0xec`/`imul $0x3b`），其余方法用 228B。
+- **还原**：头文件数组尺寸用 `#ifdef STATISTICS_STDATA_57` 切换；GA/GP 两个
+  TU 编译时加 `-DSTATISTICS_STDATA_57`（build-auction.sh / build-point.sh
+  按 base 名加分支）；IncTryCnt/IncFailCnt 移入头文件内联（与 ORIG 弱符号
+  位置一致），其余 TU 保持声明 + StatisticsCollector.cpp 定义。
+- **排查要点**：同函数 diff 里步长常量不同（0xe4 vs 0xec）先查 DWARF
+  `DW_AT_byte_size`（按 CU 分开查，别只看符号所在 CU）；同地址范围出现在
+  多个 CU 的 subprogram = 头文件内联弱符号的痕迹。
+
+## 95. 原版「先自增再报错」的隐藏语句（2026-08-09 auction StatisticsCollector）
+
+- ORIG `IncFailCnt` 的 else（无效 error_no）分支在打日志**之前**先执行
+  `mStDataPerDay[kind].becauseCnt[56]++` 与
+  `mStDataPerSec[kind].becauseCnt[56]++`（[57] 版最后一个桶，反汇编为
+  `add $0xec`/`add $0x3b0` 后 `mov (%edx); add $0x1; mov %edx,(%eax)`）。
+- 还原时若只写日志、漏掉这两个自增，else 块短 24 条指令、且分支目标偏移
+  全变——这类「错误路径里的业务副作用」在逐函数比对时最容易漏。
+
+## 96. switch vs if/else-if 的多路分发形态（2026-08-09 auction RegistCancel）
+
+- 同一逻辑 `switch (t) { case 1: ; case 2: A; case 3: B; }`（case 序
+  1/2/3）在 gcc 4.4 -O0 反序发射 `cmp 2; je; cmp 3; je; cmp 1; jmp
+  default`（连续比较 + 尾 jmp）；`if (t==2) A; else if (t==3) B;` 则发
+  `cmpl; jne L1; A; jmp END; L1: cmpl; jne L2; B; ...`（jne 反转链）。
+  ORIG 用前者（cmp/je/jmp 序列），还原多路分发先试 switch。
+- 注意 case 顺序：源里 case 1 在 2/3 之前，gcc 反序发射 2/3/1；空 case
+  与 default 合并时 `cmp 1` 后的 je 会消失（只剩 jmp），要保留
+  `cmp $1; jmp` 需 case 1 单独存在。
+
+## 97. 64 位成员判零：成员直取 vs `*(long long*)&` cast（2026-08-09 auction）
+
+- `X->key.field0._high_category_key != 0`（long long 成员）→
+  `mov 0x54(%eax),%eax; mov 0x58(%eax),%edx; or; test`（双位移直取，
+  高字先入 edx）；
+- `*(long long*)&X->key.field0 != 0` → `add $0x54,%eax; mov (%eax);
+  mov 0x4(%eax); or; test`（先算地址再按 0/4 偏移）。
+- 语义等价但机器码不同；还原以 ORIG 反汇编为准选前者。同类注意
+  GetItemInfo 参数来源：ORIG 在同一段里 category 用源指针、sName 用
+  dbtr 副本（`send_to_owner.item_info.item_id`）——逐调用核对，别一刀切。
+
+## 98. 批量替换的误伤防范（2026-08-09 auction）
+
+- `apply_patch` 里无函数头上下文时，`return error_code;\n}` 这类短模式会
+  命中**别的函数**（实例：想把 RegistCancel 尾部改 `return 0`，实际改到
+  GetRegistedItemInfo）。批量/短模式替换前先 `grep -n` 全部命中点，或带上
+  函数签名上下文；改完用 `git diff` 核对每个 hunk 落在预期函数。
+
+## 99. 结构体整赋值 vs 逐字段赋值的装载/存储形态（2026-08-09 auction）
+
+- `dst.option_category = src.option_category;`（12B 结构）→ gcc 4.4 -O0
+  逐对 `mov [src+off]; mov [dst+off]`（基址寄存器保持，无重载）；
+- `dst.option_category.field_0._high_category_key = src...;` +
+  `dst.option_category.field_1._low_category_key = src...;`（逐字段）→
+  先取两字（edx/eax）再连存 + 第三个字段前**重载基址**（多 1 条 mov）。
+- 字段布局相同、语义相同，但整赋值少 1 条且寻址形态一致；ORIG 用整赋值。
+
+## 100. 短字段 vararg 的 cast 影响（2026-08-09 auction）
+
+- `sysLog("... %hu", (unsigned short)x)` → gcc 发 `movzwl`（零扩展）；
+  `sysLog("... %hu", x)`（x 为 unsigned long/int）→ 直接 `mov 4字节`
+  （vararg 提升后原值入栈，%hu 只读低 2 字节，语义等价）。
+- ORIG 用后者（`mov 0x15(%eax),%edi`）；还原时删掉多余 cast。
+
+## 101. FP 区间阶梯的复合条件重检形态（2026-08-09 auction makeSuccessfulBid）
+
+- 同一语义 `else if (a >= 1.6 && a < 1.7)` 与 `else if (a < 1.7)` 机器码
+  不同：前者 gcc 4.4 -O0 在 else 里**重检上界**（NaN 语义），生成
+  `fxch; fucompp; fnstsw; sahf; setae`（>= 形态）+ `fucompp; fnstsw;
+  test $0x45; sete`（< 形态）两个独立比较；后者只发 `<` 一个比较。
+- ORIG 用复合条件（`>= 1.6 && < 1.7`），且最外层 else 里还有冗余
+  `if (PriceRate >= 1.5)` 重检——逐分支形态还原时先数 ORIG 的比较次数
+  （sahf/setae 出现次数），据此决定写不写复合条件。
+- 三元 `cond ? A : B` 与 if/else 两块的机器码不同（前者常物化 setcc+
+  mov，后者每分支独立转换块）；ORIG 里大块分支用 if/else，布尔赋值用
+  三元（`isInstantBuying ? 1 : 0` → mov $1/mov $0/jmp 链）。

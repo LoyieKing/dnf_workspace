@@ -77,6 +77,29 @@ dbmw 与 manager 共享约 73% 函数（6,041/8,268），以 `source/manager` �
 - 全量水位（2026-08-09 末）：IDENTICAL 608 / NEAR 512 / DIFF 1445 /
   MISSING 0；启动输出与 ORIG 逐字节一致
 
+## DIFF 大函数语义核验批（2026-08-09 续，Ghidra 反编译逐函数比对）
+
+已核验顶部大函数（按 ORIG 指令数）并修复 5 处真实语义 bug：
+
+1. **QueryPartyStatisticCreate**：sprintf 后 4 参数按 ORIG 倒序
+   （+0x46,+0x42,+0x3e,+0x3a），SQL 末 4 列此前写错字段
+2. **QueryGuildCreate**：0x4e6d SQL 缺 `server_id=%d`；0x4e6e insert
+   改为仅在 update 失败/affected==0 时执行（原无条件 insert 会重复插入）；
+   characName 为空时补 return 0（原会继续建公会）
+3. **QueryMember**：str 缓冲 0x40->0x100（与 ORIG 一致，防 in() 串溢出）
+4. **onItemLimitEditionLoadData**：ipg_no 过滤条件反转（ORIG 在
+   fieldF!=0||fieldA!=1 时加 'and ipg_no '，原实现取反导致指定 ipg
+   列表时不过滤返回全部）
+5. **CServerHandler::Load**：Monitor/Guild 表项 idx==0xff 应抛异常
+   （ORIG `idx==0xff||idx!=0xc9`），原实现静默跳过；Init idx 参数对齐
+   常量（0xc9/0xcb/0xcd）
+
+核验一致（仅码型/寄存器差异）：GuildSecede、GuildJoin、
+QueryPartyJobStatisticCreate、QueryPartyCharacStatisticCreate、
+SaveUnchangableGuildInfo、QueryReloadSpecDb、QueryFirstLoadSpecDb、
+InsertFrameLagStatistics、CSHA::Transform（ORIG 64 轮展开 vs 我们的
+循环版，语义一致）。
+
 ## 续批（MISSING 140→110）
 
 ### PowerWar Rank 族（4 个）
