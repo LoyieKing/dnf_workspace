@@ -2492,6 +2492,40 @@ int parse_string(std::vector<std::string>& v, std::string& s, char c);
 #include "Packet_Web_Notice_Single.h"
 #include "Packet_Web_Notice_InGame_Advertisement.h"
 #include "Packet_Web_Prohibit_User_Connect.h"
+
+// ---- 输入类（handler 入口 view，无 ctor；与 guild 侧同名 packet 对齐）----
+class Packet_DB_Call_Unconn_Guild_Member : public PacketHeader
+{
+public:
+    unsigned int m_fieldA;  // +0xa（guildKey）
+    unsigned int m_fieldE;  // +0xe（characNo）
+} __attribute__((packed));
+
+class Packet_DB_Call_Guild_All_Members : public PacketHeader
+{
+public:
+    unsigned int m_fieldA;  // +0xa（guildKey）
+    unsigned int m_fieldE;  // +0xe（characNo）
+} __attribute__((packed));
+
+class Packet_Tcp_Server_Login : public PacketHeader
+{
+public:
+    unsigned char m_idx;  // +0xa
+} __attribute__((packed));
+
+class Packet_Tcp_Server_Logout : public PacketHeader
+{
+public:
+    unsigned char m_idx;  // +0xa
+} __attribute__((packed));
+
+class Packet_Tcp_Server_Heartbeat : public PacketHeader
+{
+public:
+    unsigned char m_idx;  // +0xa
+} __attribute__((packed));
+
 class Packet_Monitor_UDP_HeartBeat : public PacketHeader
 {
 public:

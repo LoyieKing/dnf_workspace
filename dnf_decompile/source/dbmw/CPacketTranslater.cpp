@@ -2396,8 +2396,10 @@ void CPacketTranslater::OnQueryUnconnGuildMemberProxy(PacketHeader* header)
         if (!m_pclApp)
             return;
         Packet_DB_Reply_Unconn_Guild_Member reply;
-        reply.m_fieldA = *(int*)((char*)header + 0xa);
-        reply.m_fieldE = *(int*)((char*)header + 0xe);
+        Packet_DB_Call_Unconn_Guild_Member* pkt =
+            (Packet_DB_Call_Unconn_Guild_Member*)header;
+        reply.m_fieldA = pkt->m_fieldA;
+        reply.m_fieldE = pkt->m_fieldE;
         if (!m_pclApp->m_dbManager.QueryGuildMemberProxy(
                 reply.m_fieldA, reply.m_fieldE, reply.m_proxy))
         {
@@ -2422,8 +2424,10 @@ void CPacketTranslater::OnQueryGuildAllMembersProxy(PacketHeader* header)
         if (!m_pclApp)
             return;
         Packet_DB_Reply_Guild_All_Members reply;
-        reply.m_fieldA = *(int*)((char*)header + 0xa);
-        reply.m_fieldE = *(int*)((char*)header + 0xe);
+        Packet_DB_Call_Guild_All_Members* pkt =
+            (Packet_DB_Call_Guild_All_Members*)header;
+        reply.m_fieldA = pkt->m_fieldA;
+        reply.m_fieldE = pkt->m_fieldE;
         unsigned short tot = 0;
         STGuildMemberProxy* temp = m_pclApp->m_guildManager->GetArrayTempGuildMemberList();
         memset(temp, 0, 0x4c2c);
@@ -2582,7 +2586,7 @@ void CPacketTranslater::OnInnerPacketLogin(PacketHeader* header)
         }
         CMyFileLog log("OnInnerPacketLogin", 0x1f6);
         log("./log/TcpServer", "CPacketTranslater::OnInnerPacketLogin (sock:%d)",
-            *(int*)((char*)header + 6));
+            (int)((Packet_InnerPakcet_Login*)header)->reversed2);
     }
     DNF_CATCH_LOG("./log/Except",
                   "CPacketTranslater::OnInnerPacketLogin Exception Break",
@@ -2599,7 +2603,7 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
             log("./log/Except", "CPacketTranslater::OnInnerPacketLogout : 0 == m_pclApp");
             return;
         }
-        int port = *(int*)((char*)header + 6);
+        int port = (int)((Packet_InnerPakcet_Logout*)header)->reversed2;
         CServerHandler* handler = m_pclApp->Get_ServerHandler();
         CTcpServer* server = handler->GetTcpServer((unsigned int)port);
         if (!server)
@@ -2634,8 +2638,9 @@ void CPacketTranslater::OnTcpServerLogin(PacketHeader* header)
     {
         if (!m_pclApp)
             return;
-        int port = *(int*)((char*)header + 6);
-        unsigned char idx = ((char*)header)[0xa];
+        Packet_Tcp_Server_Login* pkt = (Packet_Tcp_Server_Login*)header;
+        int port = (int)pkt->reversed2;
+        unsigned char idx = pkt->m_idx;
         CServerHandler* handler = m_pclApp->Get_ServerHandler();
         if (handler->GetTcpServer(idx))
         {
@@ -2669,8 +2674,9 @@ void CPacketTranslater::OnTcpServerLogout(PacketHeader* header)
     {
         if (!m_pclApp)
             return;
-        unsigned char idx = ((char*)header)[0xa];
-        int port = *(int*)((char*)header + 6);
+        Packet_Tcp_Server_Logout* pkt = (Packet_Tcp_Server_Logout*)header;
+        unsigned char idx = pkt->m_idx;
+        int port = (int)pkt->reversed2;
         CServerHandler* handler = m_pclApp->Get_ServerHandler();
         if (!handler->GetTcpServer(idx))
         {
@@ -2703,7 +2709,9 @@ void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)
     {
         if (!m_pclApp)
             return;
-        unsigned char idx = ((char*)header)[0xa];
+        Packet_Tcp_Server_Heartbeat* pkt =
+            (Packet_Tcp_Server_Heartbeat*)header;
+        unsigned char idx = pkt->m_idx;
         CServerHandler* handler = m_pclApp->Get_ServerHandler();
         CTcpServer* server = handler->GetTcpServer(idx);
         if (!server)
@@ -2711,7 +2719,7 @@ void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)
             CMyFileLog log("OnTcpServerHeartbeat", 0x28d);
             log("./log/TcpServer",
                 "CPacketTranslater::OnTcpServerHeartbeat Invalid Server Instance(TYPE:%d, sock:%d)",
-                idx, *(int*)((char*)header + 6));
+                idx, (int)pkt->reversed2);
             return;
         }
         server->NotifyHeartbeat();
