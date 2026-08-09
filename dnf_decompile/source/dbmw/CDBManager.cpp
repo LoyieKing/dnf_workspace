@@ -3690,22 +3690,20 @@ unsigned int CDBManager::GetIdentity(CDBHandle* h)
 
 char CDBManager::QueryInsertUpdate(PacketInsertUpdate* packet)
 {
-    CDBHandle* h = m_handles[*(int*)((char*)packet + 0xa)];
-    h->set_query(*(unsigned int*)((char*)packet + 0x12),
-                 (char*)packet + 0x817);
-    if (h->exec(*(unsigned int*)((char*)packet + 0x12)))
+    CDBHandle* h = m_handles[packet->m_handleIdx];
+    h->set_query(packet->m_insertQueryId, packet->m_insertSql);
+    if (h->exec(packet->m_insertQueryId))
     {
         if (h->getAffectedRowCount() == 0)
         {
-            h->set_query(*(unsigned int*)((char*)packet + 0xe),
-                         (char*)packet + 0x16);
-            h->exec(*(unsigned int*)((char*)packet + 0xe));
+            h->set_query(packet->m_updateQueryId, packet->m_updateSql);
+            h->exec(packet->m_updateQueryId);
         }
         return 1;
     }
     CMyFileLog log("QueryInsertUpdate", 0x27f5);
     log("./log/DBQueryErr", "QueryInsertUpdate Query(%s) Error\n",
-        (char*)packet + 0x817);
+        packet->m_insertSql);
     return 0;
 }
 
@@ -3717,7 +3715,7 @@ char CDBManager::InsertDailyBadSpecStatistics(
         return 0;
     h->set_query(0x4e8b,
                  "insert into daily_bad_spec(occ_date,spec_id,server_group) values(curdate(),%d,%hhd",
-                 *(int*)((char*)packet + 0xa), (char)((char*)packet)[0xe]);
+                 packet->m_specId, packet->m_serverGroup);
     return h->exec(0x4e8b);
 }
 
@@ -3775,15 +3773,15 @@ char CDBManager::OnSaveTingUserAccount(
     CDBHandle* h = m_handles[0xf];  // frame_lag db
     if (!h)
         return 0;
-    int count = *(int*)((char*)packet + 0xa);
+    int count = packet->m_count;
     for (int i = 0; i < count; i++)
     {
         char buf[0x400];
         memset(buf, 0, 0x400);
         snprintf(buf, 0x400,
                  "inSert into ting_user_account (occ_time, m_id, minute) values (now(), %s, %d)",
-                 NumberToString(*(unsigned int*)((char*)packet + i * 8 + 0xe), 0),
-                 *(int*)((char*)packet + i * 8 + 0x12));
+                 NumberToString(packet->m_entries[i].m_id, 0),
+                 packet->m_entries[i].m_minute);
         h->set_query(0x4ebf, "%s", buf);
         h->exec(0x4ebf);
     }
@@ -3796,14 +3794,14 @@ char CDBManager::OnSavePowerwarLagReport(
     CDBHandle* h = m_handles[0xf];  // frame_lag db
     if (!h)
         return 0;
-    int count = *(int*)((char*)packet + 0xa);
+    int count = packet->m_count;
     for (int i = 0; i < count; i++)
     {
-        h->set_query(0x4eca, "%s", (char*)packet + i * 0x100 + 0xe);
+        h->set_query(0x4eca, "%s", packet->m_sql[i]);
         h->exec(0x4eca);
         CMyFileLog log("OnSavePowerwarLagReport", 0x1b0f);
         log("./log/Statistics", "[PowerWar Lag] %s",
-            (char*)packet + i * 0x100 + 0xe);
+            packet->m_sql[i]);
     }
     return 1;
 }
@@ -3814,7 +3812,7 @@ char CDBManager::OnSaveUsedMemoryWriteQuery(
     CDBHandle* h = m_handles[0xf];  // frame_lag db
     if (!h)
         return 0;
-    h->set_query(0x4e91, "%s", (char*)packet + 0xa);
+    h->set_query(0x4e91, "%s", packet->m_query);
     return h->exec(0x4e91);
 }
 
@@ -3822,13 +3820,13 @@ char CDBManager::OnReasonCrashDownQueryWrite(
     Packet_DBMW_Reason_Crash_Down_Query* packet)
 {
     CDBHandle* h = m_handles[4];    // log db
-    h->set_query(0x4edd, (char*)packet + 0xa);
+    h->set_query(0x4edd, packet->m_query);
     char ok = h->exec(0x4edd);
     if (!ok)
     {
         CMyFileLog log("OnReasonCrashDownQueryWrite", 0x1d53);
         log("./log/StatisticsErr", "Query Error : %s",
-            (char*)packet + 0xa);
+            packet->m_query);
     }
     return ok;
 }
@@ -3839,14 +3837,14 @@ char CDBManager::OnSavePowerwarLoadingReport(
     CDBHandle* h = m_handles[0xf];  // frame_lag db
     if (!h)
         return 0;
-    int count = *(int*)((char*)packet + 0xa);
+    int count = packet->m_count;
     for (int i = 0; i < count; i++)
     {
-        h->set_query(0x4ec9, "%s", (char*)packet + i * 0x100 + 0xe);
+        h->set_query(0x4ec9, "%s", packet->m_sql[i]);
         h->exec(0x4ec9);
         CMyFileLog log("OnSavePowerwarLoadingReport", 0x1afc);
         log("./log/Statistics", "[PowerWar LoadingTime] %s",
-            (char*)packet + i * 0x100 + 0xe);
+            packet->m_sql[i]);
     }
     return 1;
 }
@@ -3857,15 +3855,15 @@ char CDBManager::OnSaveUserTingTimeCheckWrite(
     CDBHandle* h = m_handles[0xf];  // frame_lag db
     if (!h)
         return 0;
-    int count = *(int*)((char*)packet + 0xa);
+    int count = packet->m_count;
     for (int i = 0; i < count; i++)
     {
         char buf[0x400];
         memset(buf, 0, 0x400);
         sprintf(buf,
                 "inSert into user_ting_timecheck (occ_time, minute, cnt) values (now(),%d,%d)",
-                *(int*)((char*)packet + i * 8 + 0xe),
-                *(int*)((char*)packet + i * 8 + 0x12));
+                packet->m_entries[i].m_minute,
+                packet->m_entries[i].m_count);
         h->set_query(0x4ebc, "%s", buf);
         h->exec(0x4ebc);
     }
@@ -3876,12 +3874,12 @@ char CDBManager::OnTechnicalReportCommonQuery(
     Packet_DBMW_TechnicalReport_Common_Query* packet)
 {
     CDBHandle* h = m_handles[0xf];  // frame_lag db
-    h->set_query(0x4ef2, "%s", (char*)packet + 0xa);
+    h->set_query(0x4ef2, "%s", packet->m_query);
     if (!h->exec(0x4ef2))
     {
         CMyFileLog log("OnTechnicalReportCommonQuery", 0x2188);
         log("./log/TechnicalReport", "OnTechnicalReportCommonQuery Error (%s)",
-            (char*)packet + 0xa);
+            packet->m_query);
     }
     return 1;
 }
@@ -3892,7 +3890,7 @@ char CDBManager::SunAhWriteQuery(
     CDBHandle* h = m_handles[0xf];  // frame_lag db
     if (!h)
         return 0;
-    h->set_query(0x4e90, "%s", (char*)packet + 0xa);
+    h->set_query(0x4e90, "%s", packet->m_query);
     return h->exec(0x4e90);
 }
 

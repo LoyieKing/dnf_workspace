@@ -59,7 +59,6 @@ class Packet_StartGameEventFromServer;
 class Packet_StopGameEventFromServer;
 class Packet_P2P_Statistics;
 class Packet_Goldcard_Event_Statistic_STD;
-class Packet_User_Count_Statistic;
 class Packet_DBMW_HellParty_Statistic_Item;
 class Packet_DBMW_Packet_Overflow_Statistic;
 class Packet_DBMW_Save_Error_Line_Statistic;
@@ -73,16 +72,6 @@ class Packet_Emblem_Create_Statistic_DB;
 class Packet_DB_Write_Guild_Member_Memo;
 class Packet_Server_Match_data_DBMW;
 class Packet_Manager_Event_Trigger_Ack;
-class PacketInsertUpdate;
-class Packet_Frame_Lag_Statistic_Write_Query;
-class Packet_Frame_Lag_Used_Memory_Write_Query;
-class Packet_Frame_Lag_Statistic_Write_Daily_Bad_Spec;
-class Packet_DBMW_User_Ting_TimeCheck_Write_Query;
-class Packet_DBMW_Ting_User_TimeCheck_Write_Query;
-class Packet_DBMW_Powerwar_Loading_Time_Report;
-class Packet_DBMW_Powerwar_Lag_Report;
-class Packet_DBMW_Reason_Crash_Down_Query;
-class Packet_DBMW_TechnicalReport_Common_Query;
 class Packet_DBMW_Loading_Time_Report;
 class Packet_DBMW_Fatigue_Battery_Money_Statistic;
 class Packet_Load_Periodic_Message;
@@ -103,6 +92,108 @@ class Packet_DB_Guild_Cargo_Upgrade;
 class Packet_DB_Update_Guild_Cargo;
 class Packet_DBMW_Statistic_Login_Logout;
 class Packet_Result_OnTimeEvent_Idx;
+// ---- 统计/框架 packet（MISSING 62 批补全布局，+0xa 起数据区）----
+class Packet_User_Count_Statistic : public PacketHeader
+{
+public:
+    int m_gcNo;              // +0xa
+    int m_userCount;         // +0xe
+    short m_occ[0x64];       // +0x12（0..99 年龄段）
+} __attribute__((packed));
+
+class PacketInsertUpdate : public PacketHeader
+{
+public:
+    int m_handleIdx;         // +0xa（DB 槽位）
+    int m_updateQueryId;     // +0xe（update 查询 id）
+    int m_insertQueryId;     // +0x12（insert 查询 id）
+    char m_updateSql[0x801]; // +0x16（update SQL，exec 无影响行时执行）
+    char m_insertSql[0x1000]; // +0x817（主 SQL）
+} __attribute__((packed));
+
+class Packet_Frame_Lag_Statistic_Write_Query : public PacketHeader
+{
+public:
+    char m_query[0x800];     // +0xa
+} __attribute__((packed));
+
+class Packet_Frame_Lag_Used_Memory_Write_Query : public PacketHeader
+{
+public:
+    char m_query[0x800];     // +0xa
+} __attribute__((packed));
+
+class Packet_Frame_Lag_Statistic_Write_Daily_Bad_Spec : public PacketHeader
+{
+public:
+    int m_specId;            // +0xa
+    char m_serverGroup;      // +0xe
+    char m_pad[3];
+} __attribute__((packed));
+
+class Packet_DBMW_Reason_Crash_Down_Query : public PacketHeader
+{
+public:
+    char m_query[0x800];     // +0xa
+} __attribute__((packed));
+
+class Packet_DBMW_TechnicalReport_Common_Query : public PacketHeader
+{
+public:
+    char m_query[0x800];     // +0xa
+} __attribute__((packed));
+
+class Packet_DBMW_Powerwar_Lag_Report : public PacketHeader
+{
+public:
+    int m_count;             // +0xa
+    char m_sql[1][0x100];    // +0xe（SQL 字符串，步长 0x100）
+} __attribute__((packed));
+
+class Packet_DBMW_Powerwar_Loading_Time_Report : public PacketHeader
+{
+public:
+    int m_count;             // +0xa
+    char m_sql[1][0x100];    // +0xe（SQL 字符串，步长 0x100）
+} __attribute__((packed));
+
+class Packet_DBMW_Ting_User_TimeCheck_Write_Query : public PacketHeader
+{
+public:
+    int m_count;             // +0xa
+    struct Entry
+    {
+        unsigned int m_id;   // +0xe
+        int m_minute;        // +0x12
+    } m_entries[1];          // +0xe，步长 8
+} __attribute__((packed));
+
+class Packet_DBMW_User_Ting_TimeCheck_Write_Query : public PacketHeader
+{
+public:
+    int m_count;             // +0xa
+    struct Entry
+    {
+        int m_minute;        // +0xe
+        int m_count;         // +0x12
+    } m_entries[1];          // +0xe，步长 8
+} __attribute__((packed));
+
+class Packet_DB_Request_Member_Delete : public PacketHeader
+{
+public:
+    unsigned int m_characNo; // +0xa
+} __attribute__((packed));
+
+class Packet_GM_List : public PacketHeader
+{
+public:
+    char m_flag;             // +0xa（0 时先 clearGmList）
+    char m_count;            // +0xb（GM 数量）
+    unsigned int m_ids[0x14];  // +0xc
+    char m_flags[0x14];      // +0x5c
+} __attribute__((packed));
+
 class Packet_Result_OnTimeEvent_Idx : public PacketHeader
 {
 public:

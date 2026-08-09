@@ -35,19 +35,9 @@ void CPacketTranslater::OnSecretShopStatistic(PacketHeader* header)
         m_pclApp->m_dbManager.OnSecretShopStatistic(
             (Packet_Secret_Shop_Statistic*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnSecretShopStatistic", 0xeed);
-        log("./log/Except",
-            "CPacketTranslater::OnSecretShopStatistic() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnSecretShopStatistic", 0xef2);
-        log("./log/Except",
-            "CPacketTranslater::OnSecretShopStatistic() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnSecretShopStatistic() Exception Break",
+                  0xeed, 0xef2);
 }
 
 void CPacketTranslater::onLoadLimitNpcBuyItemInfo(PacketHeader* header)
@@ -68,19 +58,9 @@ void CPacketTranslater::onLoadLimitNpcBuyItemInfo(PacketHeader* header)
         m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
             (char*)&result, 0x176);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("onLoadLimitNpcBuyItemInfo", 0x1338);
-        log("./log/Except",
-            "CPacketTranslater::onLoadLimitNpcBuyItemInfo Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("onLoadLimitNpcBuyItemInfo", 0x133d);
-        log("./log/Except",
-            "CPacketTranslater::onLoadLimitNpcBuyItemInfo Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::onLoadLimitNpcBuyItemInfo Exception Break",
+                  0x1338, 0x133d);
 }
 
 void CPacketTranslater::onUpdateLimitNpcBuyItemInfo(PacketHeader* header)
@@ -98,19 +78,9 @@ void CPacketTranslater::onUpdateLimitNpcBuyItemInfo(PacketHeader* header)
             return;
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("onUpdateLimitNpcBuyItemInfo", 0x1352);
-        log("./log/Except",
-            "CPacketTranslater::onUpdateLimitNpcBuyItemInfo Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("onUpdateLimitNpcBuyItemInfo", 0x1357);
-        log("./log/Except",
-            "CPacketTranslater::onUpdateLimitNpcBuyItemInfo Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::onUpdateLimitNpcBuyItemInfo Exception Break",
+                  0x1352, 0x1357);
 }
 
 void CPacketTranslater::OnChangeUnconnectedGuildMemberGrade(PacketHeader* header)
@@ -170,19 +140,9 @@ void CPacketTranslater::OnChangeUnconnectedGuildMemberGrade(PacketHeader* header
             *(unsigned char*)(h + 0x32),
             *(unsigned char*)((char*)&pkt + 0x31));
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnChangeUnconnectedGuildMemberGrade", 0x49a);
-        log("./log/Except.log",
-            "CPacketTranslater::OnChangeUnconnectedGuildMemberGrade() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnChangeUnconnectedGuildMemberGrade", 0x49f);
-        log("./log/Except.log",
-            "CPacketTranslater::OnChangeUnconnectedGuildMemberGrade() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnChangeUnconnectedGuildMemberGrade() Exception Break",
+                  0x49a, 0x49f);
 }
 
 void CPacketTranslater::OnChangeGuildNotifyMessage(PacketHeader* header)
@@ -195,19 +155,9 @@ void CPacketTranslater::OnChangeGuildNotifyMessage(PacketHeader* header)
         m_pclApp->m_dbManager.ChangeGuildNotifyMessage(
             *(int*)(h + 0xa), *(unsigned int*)(h + 0xe), h + 0xf);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnChangeGuildNotifyMessage", 0x4b9);
-        log("./log/Except.log",
-            "CPacketTranslater::OnChangeGuildNotifyMessage() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnChangeGuildNotifyMessage", 0x4be);
-        log("./log/Except.log",
-            "CPacketTranslater::OnChangeGuildNotifyMessage() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnChangeGuildNotifyMessage() Exception Break",
+                  0x4b9, 0x4be);
 }
 
 void CPacketTranslater::OnGuildMasterDelegate(PacketHeader* header)
@@ -260,19 +210,9 @@ void CPacketTranslater::OnGuildMasterDelegate(PacketHeader* header)
             *(unsigned int*)(h + 0xa), *(unsigned int*)(h + 0xe), h + 0x13,
             resultCode);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnGuildMasterDelegate", 0x63b);
-        log("./log/Except.log",
-            "CPacketTranslater::OnGuildMasterDelegate() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnGuildMasterDelegate", 0x640);
-        log("./log/Except.log",
-            "CPacketTranslater::OnGuildMasterDelegate() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnGuildMasterDelegate() Exception Break",
+                  0x63b, 0x640);
 }
 
 void CPacketTranslater::OnSendGuildLetter(PacketHeader* header)
@@ -324,19 +264,9 @@ void CPacketTranslater::OnSendGuildLetter(PacketHeader* header)
         log("./log/GuildMail", "Guild(%d) Message(%s)",
             *(unsigned int*)(h + 0xf), h + 0x13);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnSendGuildLetter", 0x50c);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSendGuildLetter() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnSendGuildLetter", 0x511);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSendGuildLetter() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnSendGuildLetter() Exception Break",
+                  0x50c, 0x511);
 }
 
 void CPacketTranslater::OnGuildJoin(PacketHeader* header)
@@ -384,19 +314,9 @@ void CPacketTranslater::OnGuildJoin(PacketHeader* header)
              *(unsigned int*)(h + 0xb), *(unsigned int*)(h + 0x17),
              *(unsigned int*)((char*)&reply + 0x16));
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnGuildJoin", 0x57b);
-        log("./log/Except.log",
-            "CPacketTranslater::OnGuildJoin() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnGuildJoin", 0x580);
-        log("./log/Except.log",
-            "CPacketTranslater::OnGuildJoin() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnGuildJoin() Exception Break",
+                  0x57b, 0x580);
 }
 
 void CPacketTranslater::OnSendMailCoinGuildEvent(PacketHeader* header)
@@ -440,19 +360,9 @@ void CPacketTranslater::OnSendMailCoinGuildEvent(PacketHeader* header)
             characNos.clear();
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnSendMailCoinGuildEvent", 0x449);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSendMailCoinGuildEvent() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnSendMailCoinGuildEvent", 0x44e);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSendMailCoinGuildEvent() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnSendMailCoinGuildEvent() Exception Break",
+                  0x449, 0x44e);
 }
 
 void CPacketTranslater::OnDBLoadRequestGuildBoardWrite(PacketHeader* header)
@@ -484,19 +394,9 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardWrite(PacketHeader* header)
         memcpy((char*)&reply + 0x14, &info, 0xa5);
         gs->SendToServer((char*)&reply, 0xb9);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDBLoadRequestGuildBoardWrite", 0xfc8);
-        log("./log/Except",
-            "CPacketTranslater::OnDBLoadRequestGuildBoardWrite() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDBLoadRequestGuildBoardWrite", 0xfcd);
-        log("./log/Except",
-            "CPacketTranslater::OnDBLoadRequestGuildBoardWrite() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnDBLoadRequestGuildBoardWrite() Exception Break",
+                  0xfc8, 0xfcd);
 }
 
 void CPacketTranslater::OnDBLoadRequestWebGuildBoardWrite(PacketHeader* header)
@@ -528,19 +428,9 @@ void CPacketTranslater::OnDBLoadRequestWebGuildBoardWrite(PacketHeader* header)
         memcpy((char*)&reply + 0x14, &info, 0xa5);
         gs->SendToServer((char*)&reply, 0xb9);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDBLoadRequestWebGuildBoardWrite", 0x1026);
-        log("./log/Except",
-            "CPacketTranslater::OnDBLoadRequestWebGuildBoardWrite() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDBLoadRequestWebGuildBoardWrite", 0x102b);
-        log("./log/Except",
-            "CPacketTranslater::OnDBLoadRequestWebGuildBoardWrite() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnDBLoadRequestWebGuildBoardWrite() Exception Break",
+                  0x1026, 0x102b);
 }
 
 void CPacketTranslater::OnDBLoadRequestGuildBoardDelete(PacketHeader* header)
@@ -570,19 +460,9 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardDelete(PacketHeader* header)
         *(unsigned int*)((char*)&reply + 0x14) = *(unsigned int*)(h + 0xb);
         gs->SendToServer((char*)&reply, 0x18);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDBLoadRequestGuildBoardDelete", 0xff6);
-        log("./log/Except",
-            "CPacketTranslater::OnDBLoadRequestGuildBoardDelete() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDBLoadRequestGuildBoardDelete", 0xffb);
-        log("./log/Except",
-            "CPacketTranslater::OnDBLoadRequestGuildBoardDelete() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnDBLoadRequestGuildBoardDelete() Exception Break",
+                  0xff6, 0xffb);
 }
 
 void CPacketTranslater::OnLoadGuildAgit(PacketHeader* header)
@@ -610,19 +490,9 @@ void CPacketTranslater::OnLoadGuildAgit(PacketHeader* header)
         gs->SendToServer((char*)&cargo, 0x18ea);
         gs->SendToServer((char*)&history, 0x972);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnLoadGuildAgit", 0x95f);
-        log("./log/Except.log",
-            "CPacketTranslater::OnLoadGuildAgit() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnLoadGuildAgit", 0x964);
-        log("./log/Except.log",
-            "CPacketTranslater::OnLoadGuildAgit() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnLoadGuildAgit() Exception Break",
+                  0x95f, 0x964);
 }
 
 void CPacketTranslater::OnCreateGuildAgit(PacketHeader* header)
@@ -649,19 +519,9 @@ void CPacketTranslater::OnCreateGuildAgit(PacketHeader* header)
             gs->SendToServer((char*)&cargo, 0x18ea);
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnCreateGuildAgit", 0x911);
-        log("./log/Except.log",
-            "CPacketTranslater::OnCreateGuildAgit() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnCreateGuildAgit", 0x916);
-        log("./log/Except.log",
-            "CPacketTranslater::OnCreateGuildAgit() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnCreateGuildAgit() Exception Break",
+                  0x911, 0x916);
 }
 
 void CPacketTranslater::OnDeleteGuildAgit(PacketHeader* header)
@@ -680,19 +540,9 @@ void CPacketTranslater::OnDeleteGuildAgit(PacketHeader* header)
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         gs->SendToServer((char*)&reply, 0x16);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDeleteGuildAgit", 0x932);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDeleteGuildAgit() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDeleteGuildAgit", 0x937);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDeleteGuildAgit() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnDeleteGuildAgit() Exception Break",
+                  0x932, 0x937);
 }
 
 void CPacketTranslater::OnUpgradeGuildAgit(PacketHeader* header)
@@ -711,19 +561,9 @@ void CPacketTranslater::OnUpgradeGuildAgit(PacketHeader* header)
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         gs->SendToServer((char*)&reply, 0x16);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnUpgradeGuildAgit", 0x980);
-        log("./log/Except.log",
-            "CPacketTranslater::OnUpgradeGuildAgit() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnUpgradeGuildAgit", 0x985);
-        log("./log/Except.log",
-            "CPacketTranslater::OnUpgradeGuildAgit() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnUpgradeGuildAgit() Exception Break",
+                  0x980, 0x985);
 }
 
 void CPacketTranslater::OnUpdateGuildCargo(PacketHeader* header)
@@ -735,19 +575,9 @@ void CPacketTranslater::OnUpdateGuildCargo(PacketHeader* header)
         m_pclApp->m_dbManager.OnUpdateGuildCargo(
             (Packet_DB_Update_Guild_Cargo*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnUpdateGuildCargo", 0xa5e);
-        log("./log/Except",
-            "CPacketTranslater::OnUpdateGuildCargo() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnUpdateGuildCargo", 0xa63);
-        log("./log/Except",
-            "CPacketTranslater::OnUpdateGuildCargo() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnUpdateGuildCargo() Exception Break",
+                  0xa5e, 0xa63);
 }
 
 void CPacketTranslater::OnUpgradeGuildCargo(PacketHeader* header)
@@ -759,19 +589,9 @@ void CPacketTranslater::OnUpgradeGuildCargo(PacketHeader* header)
         m_pclApp->m_dbManager.OnUpgradeGuildCargo(
             (Packet_DB_Guild_Cargo_Upgrade*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnUpgradeGuildCargo", 0xa8e);
-        log("./log/Except",
-            "CPacketTranslater::OnUpgradeGuildCargo() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnUpgradeGuildCargo", 0xa93);
-        log("./log/Except",
-            "CPacketTranslater::OnUpgradeGuildCargo() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnUpgradeGuildCargo() Exception Break",
+                  0xa8e, 0xa93);
 }
 
 void CPacketTranslater::OnInsertGuildCargoHistory(PacketHeader* header)
@@ -783,19 +603,9 @@ void CPacketTranslater::OnInsertGuildCargoHistory(PacketHeader* header)
         m_pclApp->m_dbManager.OnInsertGuildCargoHistory(
             (Packet_DB_Insert_Guild_Cargo_History*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnInsertGuildCargoHistory", 0xa75);
-        log("./log/Except",
-            "CPacketTranslater::OnInsertGuildCargoHistory() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnInsertGuildCargoHistory", 0xa7a);
-        log("./log/Except",
-            "CPacketTranslater::OnInsertGuildCargoHistory() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnInsertGuildCargoHistory() Exception Break",
+                  0xa75, 0xa7a);
 }
 
 void CPacketTranslater::OnDeleteToBlackList(PacketHeader* header)
@@ -833,19 +643,9 @@ void CPacketTranslater::OnDeleteToBlackList(PacketHeader* header)
             *(int*)(h + 0x2c) = characNo;
         ms->SendToServer(h, *(unsigned short*)(h + 0x2));
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDeleteToBlackList", 0x29c);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDeleteToBlackList() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDeleteToBlackList", 0x2a1);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDeleteToBlackList() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnDeleteToBlackList() Exception Break",
+                  0x29c, 0x2a1);
 }
 
 void CPacketTranslater::OnRegisterToBlackList(PacketHeader* header)
@@ -884,19 +684,9 @@ void CPacketTranslater::OnRegisterToBlackList(PacketHeader* header)
             *(int*)(h + 0x2c) = characNo;
         ms->SendToServer(h, *(unsigned short*)(h + 0x2));
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnRegisterToBlackList", 0x266);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRegisterToBlackList() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnRegisterToBlackList", 0x26b);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRegisterToBlackList() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnRegisterToBlackList() Exception Break",
+                  0x266, 0x26b);
 }
 
 void CPacketTranslater::OnRequestBlackListOnLogin(PacketHeader* header)
@@ -924,19 +714,9 @@ void CPacketTranslater::OnRequestBlackListOnLogin(PacketHeader* header)
             m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
                 (char*)&reply, reply.packetSize);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnRequestBlackListOnLogin", 0x2ca);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRequestBlackListOnLogin() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnRequestBlackListOnLogin", 0x2cf);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRequestBlackListOnLogin() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnRequestBlackListOnLogin() Exception Break",
+                  0x2ca, 0x2cf);
 }
 
 void CPacketTranslater::OnSaveGuild(PacketHeader* header)
@@ -968,22 +748,9 @@ void CPacketTranslater::OnSaveGuild(PacketHeader* header)
                 *(unsigned char*)(h + 0xae));
         }
     }
-    catch (CDNFException& e)
-    {
-        printf("CPacketTranslater::OnSaveGuild() Exception Break : %s\n",
-               e.what());
-        CMyFileLog log("OnSaveGuild", 0xd8);
-        log("./log/Except",
-            "CPacketTranslater::OnSaveGuild() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        puts("CPacketTranslater::OnSaveGuild() Exception Break");
-        CMyFileLog log("OnSaveGuild", 0xde);
-        log("./log/Except",
-            "CPacketTranslater::OnSaveGuild() Exception Break\n");
-    }
+    DNF_CATCH_LOG_PRINTF("./log/Except",
+                         "CPacketTranslater::OnSaveGuild() Exception Break",
+                         0xd8, 0xde);
 }
 
 void CPacketTranslater::OnGuildSecede(PacketHeader* header)
@@ -1024,19 +791,9 @@ void CPacketTranslater::OnGuildSecede(PacketHeader* header)
              *(unsigned int*)((char*)&reply + 0x16),
              *(signed char*)(h + 0x12));
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnGuildSecede", 0x5f6);
-        log("./log/Except.log",
-            "CPacketTranslater::OnGuildSecede() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnGuildSecede", 0x5fb);
-        log("./log/Except.log",
-            "CPacketTranslater::OnGuildSecede() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnGuildSecede() Exception Break",
+                  0x5f6, 0x5fb);
 }
 
 void CPacketTranslater::OnSaveGuildMember(PacketHeader* header)
@@ -1051,22 +808,9 @@ void CPacketTranslater::OnSaveGuildMember(PacketHeader* header)
             *(STGuildMemerDBInfo*)(h + 0x13), *(unsigned int*)(h + 0xf),
             *(unsigned char*)(h + 0x2d));
     }
-    catch (CDNFException& e)
-    {
-        printf("CPacketTranslater::OnSaveGuildMember() Exception Break : %s\n",
-               e.what());
-        CMyFileLog log("OnSaveGuildMember", 0x1c7);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSaveGuildMember() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        puts("CPacketTranslater::OnSaveGuildMember() Exception Break");
-        CMyFileLog log("OnSaveGuildMember", 0x1cd);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSaveGuildMember() Exception Break\n");
-    }
+    DNF_CATCH_LOG_PRINTF("./log/Except.log",
+                         "CPacketTranslater::OnSaveGuildMember() Exception Break",
+                         0x1c7, 0x1cd);
 }
 
 void CPacketTranslater::OnSaveGuildWarInfo(PacketHeader* header)
@@ -1085,19 +829,9 @@ void CPacketTranslater::OnSaveGuildWarInfo(PacketHeader* header)
                 "m_clDBManager.OnSaveGuildWarInfo Err : return false");
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnSaveGuildWarInfo", 0x207);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSaveGuildWarInfo() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnSaveGuildWarInfo", 0x20c);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSaveGuildWarInfo() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnSaveGuildWarInfo() Exception Break",
+                  0x207, 0x20c);
 }
 
 void CPacketTranslater::OnSavePowerWarBonusPoint(PacketHeader* header)
@@ -1120,19 +854,9 @@ void CPacketTranslater::OnSavePowerWarBonusPoint(PacketHeader* header)
                 (char*)&notice, notice.packetSize);
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnSavePowerWarBonusPoint", 0xea5);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSavePowerWarBonusPoint() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnSavePowerWarBonusPoint", 0xeaa);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSavePowerWarBonusPoint() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnSavePowerWarBonusPoint() Exception Break",
+                  0xea5, 0xeaa);
 }
 
 void CPacketTranslater::OnSavePowerWarPoint(PacketHeader* header)
@@ -1148,19 +872,9 @@ void CPacketTranslater::OnSavePowerWarPoint(PacketHeader* header)
         log("./log/QueryGuildBooting", "QueryGuildBooting A_Side(%d) B_Side(%d)",
             *(unsigned int*)(h + 0x10), *(unsigned int*)(h + 0xc));
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnSavePowerWarPoint", 0x6a8);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRequestGuildCreate() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnSavePowerWarPoint", 0x6ad);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRequestGuildCreate() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnRequestGuildCreate() Exception Break",
+                  0x6a8, 0x6ad);
 }
 
 void CPacketTranslater::OnSavePowerWarStatueRanker(PacketHeader* header)
@@ -1173,19 +887,9 @@ void CPacketTranslater::OnSavePowerWarStatueRanker(PacketHeader* header)
         m_pclApp->m_dbManager.OnSavePowerWarStatueRanker(
             (Packet_DB_Save_Power_War_Statue_Ranker*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnSavePowerWarStatueRanker", 0x8e4);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSavePowerWarStatueRanker() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnSavePowerWarStatueRanker", 0x8e9);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSavePowerWarStatueRanker() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnSavePowerWarStatueRanker() Exception Break",
+                  0x8e4, 0x8e9);
 }
 
 void CPacketTranslater::OnSavePowerWarPointReward(PacketHeader* header)
@@ -1198,19 +902,9 @@ void CPacketTranslater::OnSavePowerWarPointReward(PacketHeader* header)
         m_pclApp->m_dbManager.OnSavePowerWarPointReward(
             (Packet_DB_Save_Power_War_Point_Reward*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnSavePowerWarPointReward", 0x8cb);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSavePowerWarPoint() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnSavePowerWarPointReward", 0x8d0);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSavePowerWarPoint() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnSavePowerWarPoint() Exception Break",
+                  0x8cb, 0x8d0);
 }
 
 void CPacketTranslater::OnLoadPeriodicMessage(PacketHeader* header)
@@ -1226,19 +920,9 @@ void CPacketTranslater::OnLoadPeriodicMessage(PacketHeader* header)
         m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
             (char*)&reply, 0x212);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnLoadPeriodicMessage", 0x104d);
-        log("./log/Except",
-            "CPacketTranslater::OnLoadPeriodicMessage() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnLoadPeriodicMessage", 0x1052);
-        log("./log/Except",
-            "CPacketTranslater::OnLoadPeriodicMessage() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnLoadPeriodicMessage() Exception Break",
+                  0x104d, 0x1052);
 }
 
 void CPacketTranslater::OnDBMWInsertMail(PacketHeader* header)
@@ -1275,19 +959,9 @@ void CPacketTranslater::OnDBMWInsertMail(PacketHeader* header)
         m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
             (char*)&notice, notice.packetSize);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDBMWInsertMail", 0xd29);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWInsertMail() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDBMWInsertMail", 0xd2e);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWInsertMail() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnDBMWInsertMail() Exception Break",
+                  0xd29, 0xd2e);
 }
 
 void CPacketTranslater::OnQueryMember(PacketHeader* header)
@@ -1313,22 +987,9 @@ void CPacketTranslater::OnQueryMember(PacketHeader* header)
             ms->SendToServer((char*)&reply, size);
         }
     }
-    catch (CDNFException& e)
-    {
-        printf("CPacketTranslater::OnQueryMember() Exception Break : %s\n",
-               e.what());
-        CMyFileLog log("OnQueryMember", 0x124);
-        log("./log/Except",
-            "CPacketTranslater::OnQueryMember() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        puts("CPacketTranslater::OnQueryMember() Exception Break");
-        CMyFileLog log("OnQueryMember", 0x12a);
-        log("./log/Except",
-            "CPacketTranslater::OnQueryMember() Exception Break\n");
-    }
+    DNF_CATCH_LOG_PRINTF("./log/Except",
+                         "CPacketTranslater::OnQueryMember() Exception Break",
+                         0x124, 0x12a);
 }
 
 void CPacketTranslater::OnQueryGuildMember(PacketHeader* header)
@@ -1354,22 +1015,9 @@ void CPacketTranslater::OnQueryGuildMember(PacketHeader* header)
                 (char*)&reply, 0x2d);
         }
     }
-    catch (CDNFException& e)
-    {
-        printf("CPacketTranslater::OnQueryGuildMember() Exception Break : %s\n",
-               e.what());
-        CMyFileLog log("OnQueryGuildMember", 0xa8);
-        log("./log/Except",
-            "CPacketTranslater::OnQueryGuildMember() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        puts("CPacketTranslater::OnQueryGuildMember() Exception Break");
-        CMyFileLog log("OnQueryGuildMember", 0xae);
-        log("./log/Except",
-            "CPacketTranslater::OnQueryGuildMember() Exception Break\n");
-    }
+    DNF_CATCH_LOG_PRINTF("./log/Except",
+                         "CPacketTranslater::OnQueryGuildMember() Exception Break",
+                         0xa8, 0xae);
 }
 
 void CPacketTranslater::OnQueryTodayGuildMemeber(PacketHeader* header)
@@ -1386,19 +1034,9 @@ void CPacketTranslater::OnQueryTodayGuildMemeber(PacketHeader* header)
         m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
             (char*)&reply, reply.packetSize);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnQueryTodayGuildMemeber", 0x106a);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnQueryTodayGuildMemeber", 0x106f);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break",
+                  0x106a, 0x106f);
 }
 
 void CPacketTranslater::OnRequestGuildCreate(PacketHeader* header)
@@ -1424,19 +1062,9 @@ void CPacketTranslater::OnRequestGuildCreate(PacketHeader* header)
             *(unsigned int*)(h + 0xf),
             *(unsigned int*)((char*)&reply + 0xe));
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnRequestGuildCreate", 0x663);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRequestGuildCreate() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnRequestGuildCreate", 0x668);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRequestGuildCreate() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnRequestGuildCreate() Exception Break",
+                  0x663, 0x668);
 }
 
 void CPacketTranslater::OnSavePowerWarUserRank(PacketHeader* header)
@@ -1449,19 +1077,9 @@ void CPacketTranslater::OnSavePowerWarUserRank(PacketHeader* header)
         m_pclApp->m_dbManager.OnSavePowerWarUserRank(
             (Packet_DB_Save_Power_War_User_Rank*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnSavePowerWarUserRank", 0x899);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSavePowerWarUserRank() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnSavePowerWarUserRank", 0x89e);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSavePowerWarUserRank() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnSavePowerWarUserRank() Exception Break",
+                  0x899, 0x89e);
 }
 
 void CPacketTranslater::OnSavePowerWarGuildRank(PacketHeader* header)
@@ -1474,19 +1092,9 @@ void CPacketTranslater::OnSavePowerWarGuildRank(PacketHeader* header)
         m_pclApp->m_dbManager.OnSavePowerWarGuildRank(
             (Packet_DB_Save_Power_War_Guild_Rank*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnSavePowerWarGuildRank", 0x8b2);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSavePowerWarGuildRank() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnSavePowerWarGuildRank", 0x8b7);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSavePowerWarGuildRank() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnSavePowerWarGuildRank() Exception Break",
+                  0x8b2, 0x8b7);
 }
 
 void CPacketTranslater::OnRequestApproveJoinGuild(PacketHeader* header)
@@ -1521,19 +1129,9 @@ void CPacketTranslater::OnRequestApproveJoinGuild(PacketHeader* header)
                  *(unsigned int*)(h + 0x12), *(unsigned int*)(h + 0xa));
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnRequestApproveJoinGuild", 0x534);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRequestApproveJoinGuild() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnRequestApproveJoinGuild", 0x539);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRequestApproveJoinGuild() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnRequestApproveJoinGuild() Exception Break",
+                  0x534, 0x539);
 }
 
 void CPacketTranslater::OnInsertUdpCharacteristic(PacketHeader* header)
@@ -1546,19 +1144,9 @@ void CPacketTranslater::OnInsertUdpCharacteristic(PacketHeader* header)
         m_pclApp->m_dbManager.InsertUdpCharacteristic(
             (Packet_Udp_Characteristic*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnInsertUdpCharacteristic", 0x87f);
-        log("./log/Except.log",
-            "CPacketTranslater::OnInsertUdpCharacteristic() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnInsertUdpCharacteristic", 0x884);
-        log("./log/Except.log",
-            "CPacketTranslater::OnInsertUdpCharacteristic() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnInsertUdpCharacteristic() Exception Break",
+                  0x87f, 0x884);
 }
 
 void CPacketTranslater::OnDelBuddy(PacketHeader* header)
@@ -1577,19 +1165,9 @@ void CPacketTranslater::OnDelBuddy(PacketHeader* header)
         m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
             (char*)&reply, reply.packetSize);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDelBuddy", 0x319);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDelBuddy() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDelBuddy", 0x31e);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDelBuddy() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnDelBuddy() Exception Break",
+                  0x319, 0x31e);
 }
 
 void CPacketTranslater::OnEndGuildWar(PacketHeader* header)
@@ -1608,19 +1186,9 @@ void CPacketTranslater::OnEndGuildWar(PacketHeader* header)
                 "m_clDBManager.OnEndGuildWar Err : return false");
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnEndGuildWar", 0x229);
-        log("./log/Except.log",
-            "CPacketTranslater::OnEndGuildWar() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnEndGuildWar", 0x22e);
-        log("./log/Except.log",
-            "CPacketTranslater::OnEndGuildWar() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnEndGuildWar() Exception Break",
+                  0x229, 0x22e);
 }
 
 void CPacketTranslater::onStartGameEventFromServer(PacketHeader* header)
@@ -1657,19 +1225,10 @@ void CPacketTranslater::onStartGameEventFromServer(PacketHeader* header)
                 h, 0x1a);
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("onStartGameEventFromServer", 0x1583);
-        log("./log/AradOnly",
-            "CPacketTranslater::onStartGameEventFromServer Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("onStartGameEventFromServer", 0x1588);
-        log("./log/AradOnly",
-            "CPacketTranslater::onRegistServerEvent Exception Break\n");
-    }
+    DNF_CATCH_LOG2("./log/AradOnly",
+                   "CPacketTranslater::onStartGameEventFromServer Exception Break",
+                   "CPacketTranslater::onRegistServerEvent Exception Break",
+                   0x1583, 0x1588);
 }
 
 void CPacketTranslater::onEndGameEventFromServer(PacketHeader* header)
@@ -1705,19 +1264,9 @@ void CPacketTranslater::onEndGameEventFromServer(PacketHeader* header)
                 h, 0x16);
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("onEndGameEventFromServer", 0x15ac);
-        log("./log/AradOnly",
-            "CPacketTranslater::onEndGameEventFromServer Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("onEndGameEventFromServer", 0x15b1);
-        log("./log/AradOnly",
-            "CPacketTranslater::onEndGameEventFromServer Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/AradOnly",
+                  "CPacketTranslater::onEndGameEventFromServer Exception Break",
+                  0x15ac, 0x15b1);
 }
 
 void CPacketTranslater::OnSaveMember(PacketHeader* header)
@@ -1740,22 +1289,9 @@ void CPacketTranslater::OnSaveMember(PacketHeader* header)
                 *(unsigned char*)(h + 0x13));
         }
     }
-    catch (CDNFException& e)
-    {
-        printf("CPacketTranslater::OnSaveMember() Exception Break : %s\n",
-               e.what());
-        CMyFileLog log("OnSaveMember", 0x148);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSaveMember() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        puts("CPacketTranslater::OnSaveMember() Exception Break");
-        CMyFileLog log("OnSaveMember", 0x14e);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSaveMember() Exception Break\n");
-    }
+    DNF_CATCH_LOG_PRINTF("./log/Except.log",
+                         "CPacketTranslater::OnSaveMember() Exception Break",
+                         0x148, 0x14e);
 }
 
 void CPacketTranslater::OnSaveMemberUpdateCharInfo(PacketHeader* header)
@@ -1773,22 +1309,9 @@ void CPacketTranslater::OnSaveMemberUpdateCharInfo(PacketHeader* header)
                 *(unsigned int*)(h + 0xa));
         }
     }
-    catch (CDNFException& e)
-    {
-        printf("CPacketTranslater::OnSaveMemberUpdateCharInfo() Exception Break : %s\n",
-               e.what());
-        CMyFileLog log("OnSaveMemberUpdateCharInfo", 0x1a9);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSaveMemberUpdateCharInfo() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        puts("CPacketTranslater::OnSaveMemberUpdateCharInfo() Exception Break");
-        CMyFileLog log("OnSaveMemberUpdateCharInfo", 0x1af);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSaveMemberUpdateCharInfo() Exception Break\n");
-    }
+    DNF_CATCH_LOG_PRINTF("./log/Except.log",
+                         "CPacketTranslater::OnSaveMemberUpdateCharInfo() Exception Break",
+                         0x1a9, 0x1af);
 }
 
 void CPacketTranslater::OnQueryGuildBooting(PacketHeader* header)
@@ -1810,19 +1333,9 @@ void CPacketTranslater::OnQueryGuildBooting(PacketHeader* header)
             *(unsigned int*)((char*)&reply + 0xe),
             *(signed char*)((char*)&reply + 0x12));
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnQueryGuildBooting", 0x689);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRequestGuildCreate() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnQueryGuildBooting", 0x68e);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRequestGuildCreate() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnRequestGuildCreate() Exception Break",
+                  0x689, 0x68e);
 }
 
 void CPacketTranslater::OnUpdateTowerOfDespairStatistic(PacketHeader* header)
@@ -1882,19 +1395,9 @@ void CPacketTranslater::OnDBMWVillageAttackRank(PacketHeader* header)
                 (char*)&ev, ev.packetSize);
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDBMWVillageAttackRank", 0xd69);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWInsertMail() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDBMWVillageAttackRank", 0xd6e);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWInsertMail() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnDBMWInsertMail() Exception Break",
+                  0xd69, 0xd6e);
 }
 
 void CPacketTranslater::onItemLimitEditionLoadDataReq(PacketHeader* header)
@@ -1916,19 +1419,9 @@ void CPacketTranslater::onItemLimitEditionLoadDataReq(PacketHeader* header)
         m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
             (char*)&reply, 0x7ef);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("onItemLimitEditionLoadDataReq", 0xaae);
-        log("./log/Except",
-            "CPacketTranslater::onItemLimitEditionBuyableRequest Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("onItemLimitEditionLoadDataReq", 0xab3);
-        log("./log/Except",
-            "CPacketTranslater::onItemLimitEditionBuyableRequest Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::onItemLimitEditionBuyableRequest Exception Break",
+                  0xaae, 0xab3);
 }
 
 void CPacketTranslater::onCollectItemsGm(PacketHeader* header)
@@ -1948,19 +1441,9 @@ void CPacketTranslater::onCollectItemsGm(PacketHeader* header)
         m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
             (char*)&reply, reply.packetSize);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("onCollectItemsGm", 0x1406);
-        log("./log/Except",
-            "CPacketTranslater::onCollectItemsGm Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("onCollectItemsGm", 0x140b);
-        log("./log/Except",
-            "CPacketTranslater::onCollectItemsGm Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::onCollectItemsGm Exception Break",
+                  0x1406, 0x140b);
 }
 
 void CPacketTranslater::onInsertHolePunchingResult(PacketHeader* header)
@@ -1980,19 +1463,9 @@ void CPacketTranslater::onInsertHolePunchingResult(PacketHeader* header)
             return;
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("onInsertHolePunchingResult", 0x15c6);
-        log("./log/AradOnly",
-            "CPacketTranslater::onInsertHolePunchingResult Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("onInsertHolePunchingResult", 0x15cb);
-        log("./log/AradOnly",
-            "CPacketTranslater::onInsertHolePunchingResult Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/AradOnly",
+                  "CPacketTranslater::onInsertHolePunchingResult Exception Break",
+                  0x15c6, 0x15cb);
 }
 
 void CPacketTranslater::OnSaveMemberExp(PacketHeader* header)
@@ -2006,22 +1479,9 @@ void CPacketTranslater::OnSaveMemberExp(PacketHeader* header)
             *(unsigned int*)(h + 0xa), *(unsigned int*)(h + 0xe),
             *(unsigned int*)(h + 0x12));
     }
-    catch (CDNFException& e)
-    {
-        printf("CPacketTranslater::OnSaveMember() Exception Break : %s\n",
-               e.what());
-        CMyFileLog log("OnSaveMemberExp", 0x168);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSaveMember() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        puts("CPacketTranslater::OnSaveMember() Exception Break");
-        CMyFileLog log("OnSaveMemberExp", 0x16e);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSaveMember() Exception Break\n");
-    }
+    DNF_CATCH_LOG_PRINTF("./log/Except.log",
+                         "CPacketTranslater::OnSaveMember() Exception Break",
+                         0x168, 0x16e);
 }
 
 void CPacketTranslater::OnSavePowerSecedeTime(PacketHeader* header)
@@ -2034,22 +1494,9 @@ void CPacketTranslater::OnSavePowerSecedeTime(PacketHeader* header)
         m_pclApp->m_dbManager.UpdatePowerSecedeTime(
             *(unsigned char*)(h + 0xa), *(unsigned int*)(h + 0xb));
     }
-    catch (CDNFException& e)
-    {
-        printf("CPacketTranslater::OnSaveGuild() Exception Break : %s\n",
-               e.what());
-        CMyFileLog log("OnSavePowerSecedeTime", 0xf8);
-        log("./log/Except",
-            "CPacketTranslater::OnSaveGuild() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        puts("CPacketTranslater::OnSaveGuild() Exception Break");
-        CMyFileLog log("OnSavePowerSecedeTime", 0xfe);
-        log("./log/Except",
-            "CPacketTranslater::OnSaveGuild() Exception Break\n");
-    }
+    DNF_CATCH_LOG_PRINTF("./log/Except",
+                         "CPacketTranslater::OnSaveGuild() Exception Break",
+                         0xf8, 0xfe);
 }
 
 void CPacketTranslater::onItemLimitEditionUpdateData(PacketHeader* header)
@@ -2067,19 +1514,9 @@ void CPacketTranslater::onItemLimitEditionUpdateData(PacketHeader* header)
             return;
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("onItemLimitEditionUpdateData", 0xac7);
-        log("./log/Except",
-            "CPacketTranslater::onItemLimitEditionBuyableRequest Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("onItemLimitEditionUpdateData", 0xacc);
-        log("./log/Except",
-            "CPacketTranslater::onItemLimitEditionBuyableRequest Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::onItemLimitEditionBuyableRequest Exception Break",
+                  0xac7, 0xacc);
 }
 
 void CPacketTranslater::onCompatibilityIndex(PacketHeader* header)
@@ -2097,19 +1534,9 @@ void CPacketTranslater::onCompatibilityIndex(PacketHeader* header)
             return;
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("onCompatibilityIndex", 0x13ab);
-        log("./log/Except",
-            "CPacketTranslater::onCompatibilityIndex Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("onCompatibilityIndex", 0x13b0);
-        log("./log/Except",
-            "CPacketTranslater::onCompatibilityIndex Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::onCompatibilityIndex Exception Break",
+                  0x13ab, 0x13b0);
 }
 
 void CPacketTranslater::OnP2PStatistics(PacketHeader* header)
@@ -2156,19 +1583,9 @@ void CPacketTranslater::OnDBMWQueryMsg(PacketHeader* header)
             return;
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDBMWQueryMsg", 0xd43);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWQueryMsg() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDBMWQueryMsg", 0xd48);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWQueryMsg() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnDBMWQueryMsg() Exception Break",
+                  0xd43, 0xd48);
 }
 
 void CPacketTranslater::OnDBMWRandomboxStatic(PacketHeader* header)
@@ -2186,19 +1603,9 @@ void CPacketTranslater::OnDBMWRandomboxStatic(PacketHeader* header)
             return;
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDBMWRandomboxStatic", 0xdc1);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWRandomboxStatic() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDBMWRandomboxStatic", 0xdc6);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWRandomboxStatic() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnDBMWRandomboxStatic() Exception Break",
+                  0xdc1, 0xdc6);
 }
 
 void CPacketTranslater::OnBloodDungeonStatistic(PacketHeader* header)
@@ -2216,19 +1623,9 @@ void CPacketTranslater::OnBloodDungeonStatistic(PacketHeader* header)
             return;
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnBloodDungeonStatistic", 0xb6c);
-        log("./log/Except",
-            "CPacketTranslater::OnBloodDungeonStatistic Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnBloodDungeonStatistic", 0xb71);
-        log("./log/Except",
-            "CPacketTranslater::OnBloodDungeonStatistic Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnBloodDungeonStatistic Exception Break",
+                  0xb6c, 0xb71);
 }
 
 void CPacketTranslater::OnDBMWCreateEmblemStatic(PacketHeader* header)
@@ -2246,19 +1643,9 @@ void CPacketTranslater::OnDBMWCreateEmblemStatic(PacketHeader* header)
             return;
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDBMWCreateEmblemStatic", 0xda4);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWCreateEmblemStatic() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDBMWCreateEmblemStatic", 0xda9);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWCreateEmblemStatic() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnDBMWCreateEmblemStatic() Exception Break",
+                  0xda4, 0xda9);
 }
 
 void CPacketTranslater::OnDBMWDisjointAvatarStatic(PacketHeader* header)
@@ -2277,19 +1664,9 @@ void CPacketTranslater::OnDBMWDisjointAvatarStatic(PacketHeader* header)
             return;
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDBMWDisjointAvatarStatic", 0xd86);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWDisjointAvatarStatic() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDBMWDisjointAvatarStatic", 0xd8b);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWDisjointAvatarStatic() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnDBMWDisjointAvatarStatic() Exception Break",
+                  0xd86, 0xd8b);
 }
 
 void CPacketTranslater::onCollectItemsUpdate(PacketHeader* header)
@@ -2315,19 +1692,9 @@ void CPacketTranslater::onCollectItemsUpdate(PacketHeader* header)
                 (char*)&reply, reply.packetSize);
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("onCollectItemsUpdate", 0x13e7);
-        log("./log/Except",
-            "CPacketTranslater::onCollectItemsUpdate Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("onCollectItemsUpdate", 0x13ec);
-        log("./log/Except",
-            "CPacketTranslater::onCollectItemsUpdate Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::onCollectItemsUpdate Exception Break",
+                  0x13e7, 0x13ec);
 }
 
 void CPacketTranslater::OnDBMWConnectionCheck(PacketHeader* header)
@@ -2341,19 +1708,9 @@ void CPacketTranslater::OnDBMWConnectionCheck(PacketHeader* header)
         log("./log/Udp", "%d Server Connection Complete!",
             *(unsigned char*)(h + 0xa));
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDBMWConnectionCheck", 0x1e3);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWConnectionCheck() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDBMWConnectionCheck", 0x1e8);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWConnectionCheck() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnDBMWConnectionCheck() Exception Break",
+                  0x1e3, 0x1e8);
 }
 
 void CPacketTranslater::OnChangeCharacName(PacketHeader* header)
@@ -2367,19 +1724,9 @@ void CPacketTranslater::OnChangeCharacName(PacketHeader* header)
         m_pclApp->m_dbManager.ChangePvPBuddyName(
             (Packet_DBMW_Change_Char_Name*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnChangeCharacName", 0x6e5);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRequestGuildCreate() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnChangeCharacName", 0x6ea);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRequestGuildCreate() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnRequestGuildCreate() Exception Break",
+                  0x6e5, 0x6ea);
 }
 
 void CPacketTranslater::OnServerMatchData(PacketHeader* header)
@@ -2391,19 +1738,9 @@ void CPacketTranslater::OnServerMatchData(PacketHeader* header)
         m_pclApp->m_dbManager.OnServerMatchData(
             (Packet_Server_Match_data_DBMW*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnServerMatchData", 0xed5);
-        log("./log/Except.log",
-            "CPacketTranslater::OnServerMatchData() Exception Break : %s",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnServerMatchData", 0xeda);
-        log("./log/Except.log",
-            "CPacketTranslater::OnServerMatchData() Exception Break");
-    }
+    DNF_CATCH_LOG_NN("./log/Except.log",
+                     "CPacketTranslater::OnServerMatchData() Exception Break",
+                     0xed5, 0xeda);
 }
 
 void CPacketTranslater::OnManagerEventTriggerAck(PacketHeader* header)
@@ -2415,19 +1752,9 @@ void CPacketTranslater::OnManagerEventTriggerAck(PacketHeader* header)
         m_pclApp->m_dbManager.OnManagerEventTriggerAck(
             (Packet_Manager_Event_Trigger_Ack*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnManagerEventTriggerAck", 0xf1e);
-        log("./log/Except.log",
-            "CPacketTranslater::OnManagerEventTriggerAck() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnManagerEventTriggerAck", 0xf23);
-        log("./log/Except.log",
-            "CPacketTranslater::OnManagerEventTriggerAck() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnManagerEventTriggerAck() Exception Break",
+                  0xf1e, 0xf23);
 }
 
 void CPacketTranslater::OnRecvLoadingTimeReport(PacketHeader* header)
@@ -2439,19 +1766,9 @@ void CPacketTranslater::OnRecvLoadingTimeReport(PacketHeader* header)
         m_pclApp->m_dbManager.OnSaveLoadingTimeReport(
             (Packet_DBMW_Loading_Time_Report*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnRecvLoadingTimeReport", 0xa09);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRecvLoadingTimeReport() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnRecvLoadingTimeReport", 0xa0e);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRecvLoadingTimeReport() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnRecvLoadingTimeReport() Exception Break",
+                  0xa09, 0xa0e);
 }
 
 void CPacketTranslater::OnSaveFatigueBatteryStatistic(PacketHeader* header)
@@ -2463,19 +1780,9 @@ void CPacketTranslater::OnSaveFatigueBatteryStatistic(PacketHeader* header)
         m_pclApp->m_dbManager.OnSaveFatigueBattery(
             (Packet_DBMW_Fatigue_Battery_Money_Statistic*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnSaveFatigueBatteryStatistic", 0xa46);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRecvLoadingTimeReport() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnSaveFatigueBatteryStatistic", 0xa4b);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRecvLoadingTimeReport() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnRecvLoadingTimeReport() Exception Break",
+                  0xa46, 0xa4b);
 }
 
 void CPacketTranslater::OnServeQueueLoadStatistic(PacketHeader* header)
@@ -2498,19 +1805,9 @@ void CPacketTranslater::OnServeQueueLoadStatistic(PacketHeader* header)
         m_pclApp->m_dbManager.SaveServerQueueLoadStatistic(
             fieldA, pkt->m_fieldB, pkt->m_fieldC);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnServeQueueLoadStatistic", 0xae8);
-        log("./log/Except.log",
-            "CPacketTranslater::OnServeQueueLoadStatistic() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnServeQueueLoadStatistic", 0xaed);
-        log("./log/Except.log",
-            "CPacketTranslater::OnServeQueueLoadStatistic() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnServeQueueLoadStatistic() Exception Break",
+                  0xae8, 0xaed);
 }
 
 void CPacketTranslater::OnDBLoadRequestGuildBoardOpen(PacketHeader* header)
@@ -2583,19 +1880,9 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardOpen(PacketHeader* header)
             gs->SendToServer((char*)&reply, 0x688);
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDBLoadRequestGuildBoardOpen", 0xf98);
-        log("./log/Except",
-            "CPacketTranslater::OnDBLoadRequestGuildBoardOpen() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDBLoadRequestGuildBoardOpen", 0xf9d);
-        log("./log/Except",
-            "CPacketTranslater::OnDBLoadRequestGuildBoardOpen() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnDBLoadRequestGuildBoardOpen() Exception Break",
+                  0xf98, 0xf9d);
 }
 
 void CPacketTranslater::OnPcRoomPlayTimeReward(PacketHeader* header)
@@ -2658,19 +1945,9 @@ void CPacketTranslater::OnPcRoomPlayTimeReward(PacketHeader* header)
              "CPacketTranslater::OnPcRoomPlayTimeReward reward acc_id(%d), charac_no(%d), server_info(%d), pin_num(%d), letter_id(%d)",
              accId, characNo, serverInfo, pinNo, letterNo);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnPcRoomPlayTimeReward", 0x144c);
-        log("./log/Except",
-            "CPacketTranslater::OnPcRoomPlayTimeReward Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnPcRoomPlayTimeReward", 0x1451);
-        log("./log/Except",
-            "CPacketTranslater::OnPcRoomPlayTimeReward Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnPcRoomPlayTimeReward Exception Break",
+                  0x144c, 0x1451);
 }
 
 void CPacketTranslater::OnAddBuddy(PacketHeader* header)
@@ -2690,17 +1967,9 @@ void CPacketTranslater::OnAddBuddy(PacketHeader* header)
         CMonitorServer* ms = m_pclApp->m_serverHandler->GetMonitorServer();
         ms->SendToServer((char*)&reply, reply.packetSize);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnAddBuddy", 0x2f5);
-        log("./log/Except", "CPacketTranslater::OnAddBuddy() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnAddBuddy", 0x2fa);
-        log("./log/Except", "CPacketTranslater::OnAddBuddy() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnAddBuddy() Exception Break",
+                  0x2f5, 0x2fa);
 }
 
 char CPacketTranslater::OnRequestIPCounterList(PacketHeader* header)
@@ -2866,19 +2135,9 @@ void CPacketTranslater::onQueryTowerFullRank(PacketHeader* header)
             i = 0;
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("onQueryTowerFullRank", 0x5b9);
-        log("./log/Except.log",
-            "CPacketTranslater::onQueryTowerFullRank() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("onQueryTowerFullRank", 0x5be);
-        log("./log/Except.log",
-            "CPacketTranslater::onQueryTowerFullRank() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::onQueryTowerFullRank() Exception Break",
+                  0x5b9, 0x5be);
 }
 
 void CPacketTranslater::OnRequestARSInfo(PacketHeader* header)
@@ -2939,19 +2198,9 @@ void CPacketTranslater::OnRequestARSInfo(PacketHeader* header)
                 0);
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnRequestARSInfo", 0xe32);
-        log("./log/Except",
-            "CPacketTranslater::OnRequestARSInfo Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnRequestARSInfo", 0xe37);
-        log("./log/Except",
-            "CPacketTranslater::OnRequestARSInfo Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnRequestARSInfo Exception Break",
+                  0xe32, 0xe37);
 }
 
 void CPacketTranslater::OnQueryGuild(PacketHeader* header)
@@ -3003,22 +2252,9 @@ void CPacketTranslater::OnQueryGuild(PacketHeader* header)
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         gs->SendToServer((char*)&reply, 0x135);
     }
-    catch (CDNFException& e)
-    {
-        printf("CPacketTranslater::OnQueryGuild() Exception Break : %s\n",
-               e.what());
-        CMyFileLog log("OnQueryGuild", 0x74);
-        log("./log/Except",
-            "CPacketTranslater::OnQueryGuild() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        puts("CPacketTranslater::OnQueryGuild() Exception Break");
-        CMyFileLog log("OnQueryGuild", 0x7a);
-        log("./log/Except",
-            "CPacketTranslater::OnQueryGuild() Exception Break\n");
-    }
+    DNF_CATCH_LOG_PRINTF("./log/Except",
+                         "CPacketTranslater::OnQueryGuild() Exception Break",
+                         0x74, 0x7a);
 }
 
 void CPacketTranslater::OnReqOntimeEventIdx(PacketHeader* header)
@@ -3046,19 +2282,9 @@ void CPacketTranslater::OnReqOntimeEventIdx(PacketHeader* header)
             log("./log/TcpServer", "OnReqOntimeEventIdx:GetTcpServer null");
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnReqOntimeEventIdx", 0x109d);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnReqOntimeEventIdx", 0x10a2);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break",
+                  0x109d, 0x10a2);
 }
 
 void CPacketTranslater::OnReqOntimeEventIdxUpdate(PacketHeader* header)
@@ -3089,19 +2315,9 @@ void CPacketTranslater::OnReqOntimeEventIdxUpdate(PacketHeader* header)
             log("./log/TcpServer", "OnReqOntimeEventItem:GetTcpServer null");
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnReqOntimeEventIdxUpdate", 0x1151);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnReqOntimeEventIdxUpdate", 0x1156);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break",
+                  0x1151, 0x1156);
 }
 
 void CPacketTranslater::OnReqOntimeEventItem(PacketHeader* header)
@@ -3129,19 +2345,9 @@ void CPacketTranslater::OnReqOntimeEventItem(PacketHeader* header)
             log("./log/TcpServer", "OnReqOntimeEventItem:GetTcpServer null");
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnReqOntimeEventItem", 0x111d);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnReqOntimeEventItem", 0x1122);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break",
+                  0x111d, 0x1122);
 }
 
 void CPacketTranslater::OnQueryBuddyInfo(PacketHeader* header)
@@ -3161,19 +2367,9 @@ void CPacketTranslater::OnQueryBuddyInfo(PacketHeader* header)
         CMonitorServer* ms = m_pclApp->m_serverHandler->GetMonitorServer();
         ms->SendToServer((char*)&reply, reply.packetSize);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnQueryBuddyInfo", 0x33c);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryBuddyInfo() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnQueryBuddyInfo", 0x341);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryBuddyInfo() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnQueryBuddyInfo() Exception Break",
+                  0x33c, 0x341);
 }
 
 void CPacketTranslater::OnQueryUnconnGuildMemberProxy(PacketHeader* header)
@@ -3197,19 +2393,9 @@ void CPacketTranslater::OnQueryUnconnGuildMemberProxy(PacketHeader* header)
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         gs->SendToServer((char*)&reply, reply.packetSize);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnQueryUnconnGuildMemberProxy", 0x3b7);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryGuildAllMembersProxy() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnQueryUnconnGuildMemberProxy", 0x3bc);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryGuildAllMembersProxy() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnQueryGuildAllMembersProxy() Exception Break",
+                  0x3b7, 0x3bc);
 }
 
 void CPacketTranslater::OnQueryGuildAllMembersProxy(PacketHeader* header)
@@ -3263,19 +2449,9 @@ void CPacketTranslater::OnQueryGuildAllMembersProxy(PacketHeader* header)
             "Query All Guild Member List g(%d), c(%d), tot(%d)\n",
             reply.m_fieldA, reply.m_fieldE, tot);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnQueryGuildAllMembersProxy", 0x38f);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryGuildAllMembersProxy() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnQueryGuildAllMembersProxy", 0x394);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryGuildAllMembersProxy() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnQueryGuildAllMembersProxy() Exception Break",
+                  0x38f, 0x394);
 }
 
 void CPacketTranslater::attach(CApplication* app)
@@ -3391,16 +2567,9 @@ void CPacketTranslater::OnInnerPacketLogin(PacketHeader* header)
         log("./log/TcpServer", "CPacketTranslater::OnInnerPacketLogin (sock:%d)",
             *(int*)((char*)header + 6));
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnInnerPacketLogin", 0x1fa);
-        log("./log/Except", "CPacketTranslater::OnInnerPacketLogin Exception Break : %s\n", e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnInnerPacketLogin", 0x1ff);
-        log("./log/Except", "CPacketTranslater::OnInnerPacketLogin Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnInnerPacketLogin Exception Break",
+                  0x1fa, 0x1ff);
 }
 
 void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
@@ -3437,16 +2606,9 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
             "CPacketTranslater::OnInnerPacketLogout DeleteTcpServer Success(TYPE:%d, sock:%d)",
             idx, port);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnInnerPacketLogout", 0x225);
-        log("./log/Except", "CPacketTranslater::OnInnerPacketLogout Exception Break : %s\n", e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnInnerPacketLogout", 0x22a);
-        log("./log/Except", "CPacketTranslater::OnInnerPacketLogout Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnInnerPacketLogout Exception Break",
+                  0x225, 0x22a);
 }
 
 void CPacketTranslater::OnTcpServerLogin(PacketHeader* header)
@@ -3479,16 +2641,9 @@ void CPacketTranslater::OnTcpServerLogin(PacketHeader* header)
         CMyFileLog log("OnTcpServerLogin", 0x250);
         log("./log/TcpServer", "CPacketTranslater::OnTcpServerLogin(TYPE:%d, sock:%d)", idx, port);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnTcpServerLogin", 0x254);
-        log("./log/Except", "CPacketTranslater::OnTcpServerLogin Exception Break : %s\n", e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnTcpServerLogin", 0x259);
-        log("./log/Except", "CPacketTranslater::OnTcpServerLogin Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnTcpServerLogin Exception Break",
+                  0x254, 0x259);
 }
 
 void CPacketTranslater::OnTcpServerLogout(PacketHeader* header)
@@ -3520,16 +2675,9 @@ void CPacketTranslater::OnTcpServerLogout(PacketHeader* header)
         CMyFileLog log("OnTcpServerLogout", 0x273);
         log("./log/TcpServer", "CPacketTranslater::OnTcpServerLogout(TYPE:%d, sock:%d)", idx, port);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnTcpServerLogout", 0x277);
-        log("./log/Except", "CPacketTranslater::OnTcpServerLogout Exception Break : %s\n", e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnTcpServerLogout", 0x27c);
-        log("./log/Except", "CPacketTranslater::OnTcpServerLogout Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnTcpServerLogout Exception Break",
+                  0x277, 0x27c);
 }
 
 void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)
@@ -3551,16 +2699,9 @@ void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)
         }
         server->NotifyHeartbeat();
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnTcpServerHeartbeat", 0x299);
-        log("./log/Except", "CPacketTranslater::OnTcpServerHeartbeat Exception Break : %s\n", e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnTcpServerHeartbeat", 0x29e);
-        log("./log/Except", "CPacketTranslater::OnTcpServerHeartbeat Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnTcpServerHeartbeat Exception Break",
+                  0x299, 0x29e);
 }
 
 void CPacketTranslater::OnWebNoticeInGameAD(PacketHeader* header)
@@ -3574,16 +2715,9 @@ void CPacketTranslater::OnWebNoticeInGameAD(PacketHeader* header)
         CMyFileLog log("OnWebNoticeInGameAD", 0x2ae);
         log("./log/Web", "OnWebNoticeInGameAD() packet_id(%d)\n", header->packetId);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnWebNoticeInGameAD", 0x2b2);
-        log("./log/Except", "CPacketTranslater::OnWebNoticeInGameAD Exception Break : %s\n", e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnWebNoticeInGameAD", 0x2b7);
-        log("./log/Except", "CPacketTranslater::OnWebNoticeInGameAD Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnWebNoticeInGameAD Exception Break",
+                  0x2b2, 0x2b7);
 }
 
 void CPacketTranslater::OnWebNoticeBroadcast(PacketHeader* header)
@@ -3617,16 +2751,9 @@ void CPacketTranslater::OnWebNoticeBroadcast(PacketHeader* header)
             }
         }
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnWebNoticeBroadcast", 0x1e0);
-        log("./log/Except", "CPacketTranslater::OnWebNoticeBroadcast() Exception Break : %s\n", e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnWebNoticeBroadcast", 0x1e5);
-        log("./log/Except", "CPacketTranslater::OnWebNoticeBroadcast() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnWebNoticeBroadcast() Exception Break",
+                  0x1e0, 0x1e5);
 }
 
 void CPacketTranslater::OnMemberDeleteAsCharDelete(PacketHeader* header)
@@ -3636,21 +2763,11 @@ void CPacketTranslater::OnMemberDeleteAsCharDelete(PacketHeader* header)
     try
     {
         m_pclApp->m_dbManager.OnMemberDeleteAsCharDelete(
-            *(unsigned int*)((char*)header + 0xa));
+            ((Packet_DB_Request_Member_Delete*)header)->m_characNo);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnMemberDeleteAsCharDelete", 0x189);
-        log("./log/Except.log",
-            "CPacketTranslater::OnMemberDeleteAsCharDelete() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnMemberDeleteAsCharDelete", 0x18f);
-        log("./log/Except.log",
-            "CPacketTranslater::OnMemberDeleteAsCharDelete() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnMemberDeleteAsCharDelete() Exception Break",
+                  0x189, 0x18f);
 }
 
 void CPacketTranslater::OnSendHWspec(PacketHeader* header)
@@ -3662,18 +2779,9 @@ void CPacketTranslater::OnSendHWspec(PacketHeader* header)
         m_pclApp->m_dbManager.QueryHWspecCreate(
             (Packet_DBMW_Save_Client_Spec_Statistic*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnSendHWspec", 0x6fe);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSendHWspec() Exception Break : %s\n", e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnSendHWspec", 0x703);
-        log("./log/Except.log",
-            "CPacketTranslater::OnSendHWspec() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnSendHWspec() Exception Break",
+                  0x6fe, 0x703);
 }
 
 void CPacketTranslater::OnSaveUnchangableGuildInfo(PacketHeader* header)
@@ -3685,19 +2793,9 @@ void CPacketTranslater::OnSaveUnchangableGuildInfo(PacketHeader* header)
         m_pclApp->m_dbManager.SaveUnchangableGuildInfo(
             (Packet_UnChangable_GuildInfo_Save*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnSaveUnchangableGuildInfo", 0x6c6);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRequestGuildCreate() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnSaveUnchangableGuildInfo", 0x6cb);
-        log("./log/Except.log",
-            "CPacketTranslater::OnRequestGuildCreate() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnRequestGuildCreate() Exception Break",
+                  0x6c6, 0x6cb);
 }
 
 void CPacketTranslater::OnErrorLineSave(PacketHeader* header)
@@ -3709,19 +2807,9 @@ void CPacketTranslater::OnErrorLineSave(PacketHeader* header)
         m_pclApp->m_dbManager.QueryErrorLineStatisticCreate(
             (Packet_DBMW_Save_Error_Line_Statistic*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnErrorLineSave", 0x716);
-        log("./log/Except.log",
-            "CPacketTranslater::OnErrorLineSave() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnErrorLineSave", 0x71b);
-        log("./log/Except.log",
-            "CPacketTranslater::OnErrorLineSave() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnErrorLineSave() Exception Break",
+                  0x716, 0x71b);
 }
 
 void CPacketTranslater::OnPartyStatisticSave(PacketHeader* header)
@@ -3733,19 +2821,9 @@ void CPacketTranslater::OnPartyStatisticSave(PacketHeader* header)
         m_pclApp->m_dbManager.QueryPartyStatisticCreate(
             (Packet_DBMW_Dungeon_Statistic_Party*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnPartyStatisticSave", 0x72e);
-        log("./log/Except.log",
-            "CPacketTranslater::OnPartyStatisticSave() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnPartyStatisticSave", 0x733);
-        log("./log/Except.log",
-            "CPacketTranslater::OnPartyStatisticSave() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnPartyStatisticSave() Exception Break",
+                  0x72e, 0x733);
 }
 
 void CPacketTranslater::OnPartyJobStatisticSave(PacketHeader* header)
@@ -3757,19 +2835,9 @@ void CPacketTranslater::OnPartyJobStatisticSave(PacketHeader* header)
         m_pclApp->m_dbManager.QueryPartyJobStatisticCreate(
             (Packet_DBMW_Dungeon_Statistic_Party_Job*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnPartyJobStatisticSave", 0x747);
-        log("./log/Except.log",
-            "CPacketTranslater::OnPartyJobStatisticSave() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnPartyJobStatisticSave", 0x74c);
-        log("./log/Except.log",
-            "CPacketTranslater::OnPartyJobStatisticSave() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnPartyJobStatisticSave() Exception Break",
+                  0x747, 0x74c);
 }
 
 void CPacketTranslater::OnPartyCharacStatisticSave(PacketHeader* header)
@@ -3781,19 +2849,9 @@ void CPacketTranslater::OnPartyCharacStatisticSave(PacketHeader* header)
         m_pclApp->m_dbManager.QueryPartyCharacStatisticCreate(
             (Packet_DBMW_Dungeon_Statistic_Party_Charac*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnPartyCharacStatisticSave", 0x760);
-        log("./log/Except.log",
-            "CPacketTranslater::OnPartyCharacStatisticSave() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnPartyCharacStatisticSave", 0x765);
-        log("./log/Except.log",
-            "CPacketTranslater::OnPartyCharacStatisticSave() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnPartyCharacStatisticSave() Exception Break",
+                  0x760, 0x765);
 }
 
 void CPacketTranslater::OnDeathTowerValueStatisticSave(PacketHeader* header)
@@ -3805,19 +2863,9 @@ void CPacketTranslater::OnDeathTowerValueStatisticSave(PacketHeader* header)
         m_pclApp->m_dbManager.QueryDeathTowerValueStatisticCreate(
             (Packet_DBMW_DeathTower_Statistic_Value*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDeathTowerValueStatisticSave", 0x779);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDeathTowerValueStatisticSave() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDeathTowerValueStatisticSave", 0x77e);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDeathTowerValueStatisticSave() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnDeathTowerValueStatisticSave() Exception Break",
+                  0x779, 0x77e);
 }
 
 void CPacketTranslater::OnDeathTowerPlayDataJobStatisticSave(
@@ -3830,19 +2878,9 @@ void CPacketTranslater::OnDeathTowerPlayDataJobStatisticSave(
         m_pclApp->m_dbManager.QueryDeathTowerPlayDataJobStatisticCreate(
             (Packet_DBMW_DeathTower_Statistic_Playdata_Job*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDeathTowerPlayDataJobStatisticSave", 0x792);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDeathTowerPlayDataJobStatisticSave() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDeathTowerPlayDataJobStatisticSave", 0x797);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDeathTowerPlayDataJobStatisticSave() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnDeathTowerPlayDataJobStatisticSave() Exception Break",
+                  0x792, 0x797);
 }
 
 void CPacketTranslater::OnDeathTowerPlayDataPartyStatisticSave(
@@ -3855,19 +2893,9 @@ void CPacketTranslater::OnDeathTowerPlayDataPartyStatisticSave(
         m_pclApp->m_dbManager.QueryDeathTowerPlayDataPartyStatisticCreate(
             (Packet_DBMW_DeathTower_Statistic_Playdata_Party*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDeathTowerPlayDataPartyStatisticSave", 0x7ab);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDeathTowerPlayDataPartyStatisticSave() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDeathTowerPlayDataPartyStatisticSave", 0x7b0);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDeathTowerPlayDataPartyStatisticSave() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnDeathTowerPlayDataPartyStatisticSave() Exception Break",
+                  0x7ab, 0x7b0);
 }
 
 void CPacketTranslater::OnHellPartyStatisticItemSave(PacketHeader* header)
@@ -3879,19 +2907,9 @@ void CPacketTranslater::OnHellPartyStatisticItemSave(PacketHeader* header)
         m_pclApp->m_dbManager.QueryHellPartyStatisticItemCreate(
             (Packet_DBMW_HellParty_Statistic_Item*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnHellPartyStatisticItemSave", 0x7c3);
-        log("./log/Except.log",
-            "CPacketTranslater::OnHellPartyStatisticItemSave() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnHellPartyStatisticItemSave", 0x7c8);
-        log("./log/Except.log",
-            "CPacketTranslater::OnHellPartyStatisticItemSave() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnHellPartyStatisticItemSave() Exception Break",
+                  0x7c3, 0x7c8);
 }
 
 void CPacketTranslater::OnCubeStatisticDataSave(PacketHeader* header)
@@ -3903,19 +2921,9 @@ void CPacketTranslater::OnCubeStatisticDataSave(PacketHeader* header)
         m_pclApp->m_dbManager.QueryCubeStatisticCreate(
             (Packet_DBMW_Cube_Statistic*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnCubeStatisticDataSave", 0x7da);
-        log("./log/Except.log",
-            "CPacketTranslater::OnCubeStatisticDataSave() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnCubeStatisticDataSave", 0x7df);
-        log("./log/Except.log",
-            "CPacketTranslater::OnCubeStatisticDataSave() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnCubeStatisticDataSave() Exception Break",
+                  0x7da, 0x7df);
 }
 
 void CPacketTranslater::OnQueryFirstLoadSpecDb(PacketHeader* header)
@@ -3929,19 +2937,10 @@ void CPacketTranslater::OnQueryFirstLoadSpecDb(PacketHeader* header)
         m_pclApp->m_dbManager.QueryFirstLoadSpecDb(
             (Packet_Frame_Lag_Statistic_Load_Spec*)header, stats);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnQueryFirstLoadSpecDb", 0x7f5);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryFirstLoadSpecDb Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnQueryFirstLoadSpecDb", 0x7fa);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryFirstLoadSpecDb() Exception Break\n");
-    }
+    DNF_CATCH_LOG2("./log/Except.log",
+                   "CPacketTranslater::OnQueryFirstLoadSpecDb Exception Break",
+                   "CPacketTranslater::OnQueryFirstLoadSpecDb() Exception Break",
+                   0x7f5, 0x7fa);
 }
 
 void CPacketTranslater::OnQueryReloadSpecDb(PacketHeader* header)
@@ -3955,19 +2954,10 @@ void CPacketTranslater::OnQueryReloadSpecDb(PacketHeader* header)
         m_pclApp->m_dbManager.QueryReloadSpecDb(
             (Packet_Frame_Lag_Statistic_Reload_Spec*)header, stats);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnQueryReloadSpecDb", 0x80b);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryReloadSpecDb Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnQueryReloadSpecDb", 0x810);
-        log("./log/Except.log",
-            "CPacketTranslater::OnQueryReloadSpecDb() Exception Break\n");
-    }
+    DNF_CATCH_LOG2("./log/Except.log",
+                   "CPacketTranslater::OnQueryReloadSpecDb Exception Break",
+                   "CPacketTranslater::OnQueryReloadSpecDb() Exception Break",
+                   0x80b, 0x810);
 }
 
 void CPacketTranslater::OnInsertFrameLagStatistics(PacketHeader* header)
@@ -3981,19 +2971,10 @@ void CPacketTranslater::OnInsertFrameLagStatistics(PacketHeader* header)
         m_pclApp->m_dbManager.InsertFrameLagStatistics(
             (Packet_Frame_Lag_Statistic_Write_Lag_Index*)header, stats);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnInsertFrameLagStatistics", 0x821);
-        log("./log/Except.log",
-            "CPacketTranslater::OnInsertFrameLagStatistics Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnInsertFrameLagStatistics", 0x826);
-        log("./log/Except.log",
-            "CPacketTranslater::OnInsertFrameLagStatistics() Exception Break\n");
-    }
+    DNF_CATCH_LOG2("./log/Except.log",
+                   "CPacketTranslater::OnInsertFrameLagStatistics Exception Break",
+                   "CPacketTranslater::OnInsertFrameLagStatistics() Exception Break",
+                   0x821, 0x826);
 }
 
 void CPacketTranslater::OnWriteQueryStatistics(PacketHeader* header)
@@ -4005,19 +2986,9 @@ void CPacketTranslater::OnWriteQueryStatistics(PacketHeader* header)
         m_pclApp->m_dbManager.SunAhWriteQuery(
             (Packet_Frame_Lag_Statistic_Write_Query*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnWriteQueryStatistics", 0x838);
-        log("./log/Except.log",
-            "CPacketTranslater::OnInsertDirectxVersiongStatistics Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnWriteQueryStatistics", 0x83d);
-        log("./log/Except.log",
-            "CPacketTranslater::OnInsertDirectxVersiongStatistics() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnInsertDirectxVersiongStatistics() Exception Break",
+                  0x838, 0x83d);
 }
 
 void CPacketTranslater::OnInsertDailyBadSpecStatistics(PacketHeader* header)
@@ -4033,19 +3004,10 @@ void CPacketTranslater::OnInsertUsedMemoryStatistic(PacketHeader* header)
         m_pclApp->m_dbManager.OnSaveUsedMemoryWriteQuery(
             (Packet_Frame_Lag_Used_Memory_Write_Query*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnInsertUsedMemoryStatistic", 0x84f);
-        log("./log/Except",
-            "CPacketTranslater::OnInsertUsedMemoryStatistic Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnInsertUsedMemoryStatistic", 0x854);
-        log("./log/Except",
-            "CPacketTranslater::OnInsertUsedMemoryStatistic() Exception Break\n");
-    }
+    DNF_CATCH_LOG2("./log/Except",
+                   "CPacketTranslater::OnInsertUsedMemoryStatistic Exception Break",
+                   "CPacketTranslater::OnInsertUsedMemoryStatistic() Exception Break",
+                   0x84f, 0x854);
 }
 
 void CPacketTranslater::OnSaveAssertManagerInfo(PacketHeader* header)
@@ -4057,19 +3019,9 @@ void CPacketTranslater::OnSaveAssertManagerInfo(PacketHeader* header)
         m_pclApp->m_dbManager.OnSaveAssertManagerInfoWrite(
             (Packet_DBMW_Assert_Manager_Info_Write_Query*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnSaveAssertManagerInfo", 0x998);
-        log("./log/Except",
-            "CPacketTranslater::OnSaveAssertManagerInfo() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnSaveAssertManagerInfo", 0x99d);
-        log("./log/Except",
-            "CPacketTranslater::OnSaveAssertManagerInfo() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnSaveAssertManagerInfo() Exception Break",
+                  0x998, 0x99d);
 }
 
 void CPacketTranslater::OnSavePacketOverflowStatistic(PacketHeader* header)
@@ -4081,19 +3033,9 @@ void CPacketTranslater::OnSavePacketOverflowStatistic(PacketHeader* header)
         m_pclApp->m_dbManager.OnSavePacketOverflowWrite(
             (Packet_DBMW_Packet_Overflow_Statistic*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnSavePacketOverflowStatistic", 0x9af);
-        log("./log/Except",
-            "CPacketTranslater::OnSavePacketOverflowStatistic() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnSavePacketOverflowStatistic", 0x9b4);
-        log("./log/Except",
-            "CPacketTranslater::OnSavePacketOverflowStatistic() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnSavePacketOverflowStatistic() Exception Break",
+                  0x9af, 0x9b4);
 }
 
 void CPacketTranslater::OnWriteGuildMemberMemo(PacketHeader* header)
@@ -4105,19 +3047,9 @@ void CPacketTranslater::OnWriteGuildMemberMemo(PacketHeader* header)
         m_pclApp->m_dbManager.OnWriteGuildMemberMemo(
             (Packet_DB_Write_Guild_Member_Memo*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnWriteGuildMemberMemo", 0x9c6);
-        log("./log/Except",
-            "CPacketTranslater::OnWriteGuildMemberMemo() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnWriteGuildMemberMemo", 0x9cb);
-        log("./log/Except",
-            "CPacketTranslater::OnWriteGuildMemberMemo() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnWriteGuildMemberMemo() Exception Break",
+                  0x9c6, 0x9cb);
 }
 
 void CPacketTranslater::OnWriteUserTingTimeCheck(PacketHeader* header)
@@ -4129,19 +3061,9 @@ void CPacketTranslater::OnWriteUserTingTimeCheck(PacketHeader* header)
         m_pclApp->m_dbManager.OnSaveUserTingTimeCheckWrite(
             (Packet_DBMW_User_Ting_TimeCheck_Write_Query*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnWriteUserTingTimeCheck", 0x9dd);
-        log("./log/Except",
-            "CPacketTranslater::OnWriteUserTingTimeCheck() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnWriteUserTingTimeCheck", 0x9e2);
-        log("./log/Except",
-            "CPacketTranslater::OnWriteUserTingTimeCheck() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnWriteUserTingTimeCheck() Exception Break",
+                  0x9dd, 0x9e2);
 }
 
 void CPacketTranslater::OnTingUserCollect(PacketHeader* header)
@@ -4153,19 +3075,9 @@ void CPacketTranslater::OnTingUserCollect(PacketHeader* header)
         m_pclApp->m_dbManager.OnSaveTingUserAccount(
             (Packet_DBMW_Ting_User_TimeCheck_Write_Query*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnTingUserCollect", 0x9f4);
-        log("./log/Except",
-            "CPacketTranslater::OnTingUserCollect() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnTingUserCollect", 0x9f9);
-        log("./log/Except",
-            "CPacketTranslater::OnTingUserCollect() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnTingUserCollect() Exception Break",
+                  0x9f4, 0x9f9);
 }
 
 void CPacketTranslater::OnRecvPowerwarLoadingReport(PacketHeader* header)
@@ -4177,19 +3089,9 @@ void CPacketTranslater::OnRecvPowerwarLoadingReport(PacketHeader* header)
         m_pclApp->m_dbManager.OnSavePowerwarLoadingReport(
             (Packet_DBMW_Powerwar_Loading_Time_Report*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnRecvPowerwarLoadingReport", 0xa1d);
-        log("./log/Except",
-            "CPacketTranslater::OnRecvPowerwarLoadingReport() Exception Break : %s",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnRecvPowerwarLoadingReport", 0xa22);
-        log("./log/Except",
-            "CPacketTranslater::OnRecvPowerwarLoadingReport() Exception Break");
-    }
+    DNF_CATCH_LOG_NN("./log/Except",
+                     "CPacketTranslater::OnRecvPowerwarLoadingReport() Exception Break",
+                     0xa1d, 0xa22);
 }
 
 void CPacketTranslater::OnRecvPowerwarLagReport(PacketHeader* header)
@@ -4201,19 +3103,9 @@ void CPacketTranslater::OnRecvPowerwarLagReport(PacketHeader* header)
         m_pclApp->m_dbManager.OnSavePowerwarLagReport(
             (Packet_DBMW_Powerwar_Lag_Report*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnRecvPowerwarLagReport", 0xa31);
-        log("./log/Except",
-            "CPacketTranslater::OnRecvPowerwarLagReport() Exception Break : %s",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnRecvPowerwarLagReport", 0xa36);
-        log("./log/Except",
-            "CPacketTranslater::OnRecvPowerwarLagReport() Exception Break");
-    }
+    DNF_CATCH_LOG_NN("./log/Except",
+                     "CPacketTranslater::OnRecvPowerwarLagReport() Exception Break",
+                     0xa31, 0xa36);
 }
 
 void CPacketTranslater::OnReasonCrashDownQuery(PacketHeader* header)
@@ -4225,19 +3117,9 @@ void CPacketTranslater::OnReasonCrashDownQuery(PacketHeader* header)
         m_pclApp->m_dbManager.OnReasonCrashDownQueryWrite(
             (Packet_DBMW_Reason_Crash_Down_Query*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnReasonCrashDownQuery", 0xcb8);
-        log("./log/Except",
-            "CPacketTranslater::OnReasonCrashDownQuery() Exception Break : %s",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnReasonCrashDownQuery", 0xcbd);
-        log("./log/Except",
-            "CPacketTranslater::OnReasonCrashDownQuery() Exception Break");
-    }
+    DNF_CATCH_LOG_NN("./log/Except",
+                     "CPacketTranslater::OnReasonCrashDownQuery() Exception Break",
+                     0xcb8, 0xcbd);
 }
 
 void CPacketTranslater::OnDBMWLoginLogoutStatistics(PacketHeader* header)
@@ -4249,19 +3131,9 @@ void CPacketTranslater::OnDBMWLoginLogoutStatistics(PacketHeader* header)
         m_pclApp->m_dbManager.OnStatisticNumOfOccupations(
             (Packet_DBMW_Statistic_Login_Logout*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDBMWLoginLogoutStatistics", 0xde0);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWLoginLogoutStatistics() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDBMWLoginLogoutStatistics", 0xde5);
-        log("./log/Except.log",
-            "CPacketTranslater::OnDBMWLoginLogoutStatistics() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except.log",
+                  "CPacketTranslater::OnDBMWLoginLogoutStatistics() Exception Break",
+                  0xde0, 0xde5);
 }
 
 void CPacketTranslater::OnDBMWTechnicalReportCommonQuery(PacketHeader* header)
@@ -4273,19 +3145,9 @@ void CPacketTranslater::OnDBMWTechnicalReportCommonQuery(PacketHeader* header)
         m_pclApp->m_dbManager.OnTechnicalReportCommonQuery(
             (Packet_DBMW_TechnicalReport_Common_Query*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnDBMWTechnicalReportCommonQuery", 0xebd);
-        log("./log/Except",
-            "CPacketTranslater::OnDBMWTechnicalReportCommonQuery() Exception Break : %s",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnDBMWTechnicalReportCommonQuery", 0xec2);
-        log("./log/Except",
-            "CPacketTranslater::OnDBMWTechnicalReportCommonQuery() Exception Break");
-    }
+    DNF_CATCH_LOG_NN("./log/Except",
+                     "CPacketTranslater::OnDBMWTechnicalReportCommonQuery() Exception Break",
+                     0xebd, 0xec2);
 }
 
 void CPacketTranslater::OnGoldcardEventStatistic(PacketHeader* header)
@@ -4297,19 +3159,9 @@ void CPacketTranslater::OnGoldcardEventStatistic(PacketHeader* header)
         m_pclApp->m_dbManager.OnGoldcardEventStatistic(
             (Packet_Goldcard_Event_Statistic_STD*)header);
     }
-    catch (CDNFException& e)
-    {
-        CMyFileLog log("OnGoldcardEventStatistic", 0xf36);
-        log("./log/Except",
-            "CPacketTranslater::OnGoldcardEventStatistic() Exception Break : %s\n",
-            e.what());
-    }
-    catch (...)
-    {
-        CMyFileLog log("OnGoldcardEventStatistic", 0xf3b);
-        log("./log/Except",
-            "CPacketTranslater::OnGoldcardEventStatistic() Exception Break\n");
-    }
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnGoldcardEventStatistic() Exception Break",
+                  0xf36, 0xf3b);
 }
 
 void CPacketTranslater::OnRenew_GM_List(PacketHeader* header)
@@ -4318,12 +3170,12 @@ void CPacketTranslater::OnRenew_GM_List(PacketHeader* header)
         (WongWork::CGMAccounts*)m_pclApp->GetGMAccounts();
     if (gm && header)
     {
-        if (((char*)header)[0xa] == 0)
+        Packet_GM_List* pkt = (Packet_GM_List*)header;
+        if (pkt->m_flag == 0)
             gm->clearGmList();
-        for (int i = 0; i < (char)((char*)header)[0xb]; i++)
+        for (int i = 0; i < pkt->m_count; i++)
         {
-            gm->AppendGM_Sys(*(unsigned int*)((char*)header + i * 4 + 0xc),
-                             (char)((char*)header)[i + 0x5c]);
+            gm->AppendGM_Sys(pkt->m_ids[i], pkt->m_flags[i]);
         }
     }
 }
@@ -4334,14 +3186,16 @@ void CPacketTranslater::OnUpdateChannelOccNum(PacketHeader* header)
         return;
     try
     {
+        Packet_User_Count_Statistic* pkt =
+            (Packet_User_Count_Statistic*)header;
         char ok = m_pclApp->m_dbManager.QueryUpdateChannelOccNum(
-            (Packet_User_Count_Statistic*)header);
+            pkt);
         if (ok != 1 && header)
         {
             CMyFileLog log("OnUpdateChannelOccNum", 0x1300);
             log("./log/statistic",
                 "CPacketTranslater::OnUpdateChannelOccNum Error ch_no(%d), count(%d)",
-                *(int*)((char*)header + 0xa), *(int*)((char*)header + 0xe));
+                pkt->m_gcNo, pkt->m_userCount);
         }
     }
     catch (CDNFException& e)
