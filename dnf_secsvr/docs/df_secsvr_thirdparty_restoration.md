@@ -125,6 +125,12 @@ gunnersvr/zergsvr 树已同步重建（203/239 个头）。
 | DesNew | 自定义 8 字节块：NF 256 表；9 轮密钥索引 +7 mod 15，si 依轮切换 key[7]/[8]/[9]；decrypt 完全镜像 |
 | Blowfish | 标准 Blowfish：P/S 初始表与公版一致；BlowFish8/16/24/32/56 = 5 种密钥长度 + 8 字节块 ECB + TsLocal 余数；Encrypt/Decrypt flag0=ECB flag1=CBC(m_oChain) |
 | D3DES 族 | 自实现三密钥 3DES 变体：deskey=PC1→totrot→PC2+bigbyte[0..23]→cookey 掩码公式；desfunc=经验提取 IP/FP 置换 + 8 轮 R^=F(ror4(L),k0,k1) 交错；des3key 解密模式 (key+8,EN0)→(key,DE1)→(key+16,DE1)；D3des161/162=24 字节密钥 + 8/16 块 ECB + TsLocal 余数，D3des24=72 字节密钥 + 24 字节块；TenD3desN 包装 key 在前 |
+| CDes2p | libdes 位操作版：des_set_key/des_ecb_encrypt/des_set_odd_parity/des_func（pkbit/unbit 比特数组，E 展开 + PC2 子钥查表） |
+| CDesPC | Phil Karn DES：pc_perminit 由 1 基位号表（IP/FP）构建 perm 查表；**坑：PC_NIBB 掩码** |
+| CDesToo | 4.3BSD des.c：fsf=E 展开（ror(r,1) 分 6 位段 ⊕ 子钥字节）→ 静态 SP 表；**静态表，成员表为死代码** |
+| CDesMo | Baldwin 式单函数 DES：pc1m/pcrn 置换 + 8 轮 nibble 旋转 + 最终散布 |
+| CFastDes | Eric Young 老版 libdes “fast” DES：fsetkey PC1 查表+28 位轮转+7 组 hKS/lKS PC2；fencrypt IP/16 轮 D_ENCRYPT/FP |
+| DesDea / des_sched / des_dea3 | **3DES-EDE2（16 字节密钥）**：des_sched=dea_pc1 查表 OR 两个 32 位状态 → 28 位右旋 → dea_pc2 合成轮子钥；des_dea3=48 轮（E_K1→swap→D_K2→swap→E_K1，**段边界 L/R 交换**），IP=dea_ip、SP=s_and_p、FP=ip_inv；DesDea 包装 des_sched(key)+des_sched(key+8) → 8 字节块循环 → TsLocal 余数 |
 
 以上全部通过 `toolchain/uni_call.py` 调二进制函数逐字节对拍（含密钥表/状态全量 dump 与
 随机多组向量），详见 `tencrypt_new/README.md` 状态矩阵。
@@ -134,7 +140,7 @@ gunnersvr/zergsvr 树已同步重建（203/239 个头）。
 - BOX3D1..7（TsLocal::ProcessLastBytes 的余数分发目标，7 个同族函数）
 - CTsLocalImp / CreateTsLocal / FreeTsLocal（共享层 TsLocal 单例，Frog/Hpc/Shift/Ring/
   Gramary/DesNew 包装层余数处理的依赖）
-- DesPC/DesToo/DesBig/Des2P/FastDes/DesDea、D3DES、Magic8/16/32、Amoeba
+- DesPC/DesToo/DesBig/Des2P/FastDes/DesDea、D3DES 已完成；Magic8/16/32、Amoeba
 - Square / Rijndael / Blowfish / Twofish（开源参考可用）
 - TenCrypt.cpp / TencBase.cpp 封装层
 
