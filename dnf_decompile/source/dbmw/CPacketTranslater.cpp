@@ -1204,13 +1204,14 @@ void CPacketTranslater::onStartGameEventFromServer(PacketHeader* header)
 {
     try
     {
-        char* h = (char*)header;
+        Packet_StartGameEventFromServer* pkt =
+            (Packet_StartGameEventFromServer*)header;
         CMyFileLog log("onStartGameEventFromServer", 0x1567);
         log("./log/AradOnly",
             "CPacketTranslater::onStartGameEventFromServer data. (event:%d)\n",
-            *(int*)(h + 0xa));
+            pkt->m_eventType);
         if (!m_pclApp->m_dbManager.insertServerGameEvent(
-                (Packet_StartGameEventFromServer*)header))
+                pkt))
         {
             CMyFileLog log2("onStartGameEventFromServer", 0x156b);
             log2("./log/AradOnly",
@@ -1222,16 +1223,16 @@ void CPacketTranslater::onStartGameEventFromServer(PacketHeader* header)
         if (tcp)
         {
             char* buf = tcp->makePacketHeader(0x27fb, 0x1a);
-            *(int*)(buf + 0xa) = *(int*)(h + 0xa);
-            *(int*)(buf + 0xe) = *(int*)(h + 0xe);
-            *(int*)(buf + 0x12) = *(int*)(h + 0x12);
-            *(int*)(buf + 0x16) = *(int*)(h + 0x16);
+            *(int*)(buf + 0xa) = pkt->m_eventType;
+            *(int*)(buf + 0xe) = pkt->m_eventFlag;
+            *(int*)(buf + 0x12) = pkt->m_serverId;
+            *(int*)(buf + 0x16) = pkt->m_parameter1;
             tcp->SendToServer(buf);
         }
         else
         {
             m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
-                h, 0x1a);
+                (char*)pkt, 0x1a);
         }
     }
     DNF_CATCH_LOG2("./log/AradOnly",
@@ -1244,13 +1245,14 @@ void CPacketTranslater::onEndGameEventFromServer(PacketHeader* header)
 {
     try
     {
-        char* h = (char*)header;
+        Packet_StopGameEventFromServer* pkt =
+            (Packet_StopGameEventFromServer*)header;
         CMyFileLog log("onEndGameEventFromServer", 0x1592);
         log("./log/AradOnly",
             "CPacketTranslater::onEndGameEventFromServer data. (event:%d)\n",
-            *(int*)(h + 0xa));
+            pkt->m_eventType);
         if (!m_pclApp->m_dbManager.updateServerGameEvent(
-                (Packet_StopGameEventFromServer*)header))
+                pkt))
         {
             CMyFileLog log2("onEndGameEventFromServer", 0x1596);
             log2("./log/AradOnly",
@@ -1262,15 +1264,15 @@ void CPacketTranslater::onEndGameEventFromServer(PacketHeader* header)
         if (tcp)
         {
             char* buf = tcp->makePacketHeader(0x27fc, 0x16);
-            *(int*)(buf + 0xa) = *(int*)(h + 0xa);
-            *(int*)(buf + 0x12) = *(int*)(h + 0x12);
-            *(int*)(buf + 0xe) = *(int*)(h + 0xe);
+            *(int*)(buf + 0xa) = pkt->m_eventType;
+            *(int*)(buf + 0x12) = pkt->m_endTime;
+            *(int*)(buf + 0xe) = pkt->m_serverId;
             tcp->SendToServer(buf);
         }
         else
         {
             m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
-                h, 0x16);
+                (char*)pkt, 0x16);
         }
     }
     DNF_CATCH_LOG("./log/AradOnly",

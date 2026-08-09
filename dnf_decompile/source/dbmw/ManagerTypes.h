@@ -393,6 +393,24 @@ public:
     unsigned int m_fieldE;   // +0xe
 } __attribute__((packed));
 
+class Packet_StartGameEventFromServer : public PacketHeader
+{
+public:
+    int m_eventType;      // +0xa
+    int m_eventFlag;      // +0xe
+    int m_serverId;       // +0x12
+    int m_parameter1;     // +0x16（handler 按 int 读；CDBManager 按 ushort）
+    unsigned short m_parameter2;  // +0x18
+} __attribute__((packed));
+
+class Packet_StopGameEventFromServer : public PacketHeader
+{
+public:
+    int m_eventType;      // +0xa
+    int m_serverId;       // +0xe
+    unsigned int m_endTime;  // +0x12
+} __attribute__((packed));
+
 class Packet_Result_OnTimeEvent_Idx : public PacketHeader
 {
 public:
