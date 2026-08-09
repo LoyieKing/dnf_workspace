@@ -62,6 +62,21 @@ dbmw 与 manager 共享约 73% 函数（6,041/8,268），以 `source/manager` �
   IDENTICAL 601 / NEAR 509 / DIFF 1393 / MISSING 62；启动输出与 ORIG
   逐字节一致；构建零错误
 
+## PacketTranslator 重构批（2026-08-09 续）
+
+- **try/catch 宏化**：DNFFileLog.h 新增 DNF_CATCH_LOG_NN/DNF_CATCH_LOG2/
+  DNF_CATCH_LOG_PRINTF 变体；125 个 handler 中 115 个 catch 改为宏
+  （8 个特例手动：单 catch、rethrow 带 \n、双路径、catch 带 return）
+- **真实 packet 类型**：124 个 handler 中 122 个输入改为 pkt->m_field
+  类型化访问（新增约 30 个输入 packet 类布局）；2 个保留 char*：
+  OnChangeUnconnectedGuildMemberGrade（+0x32 混合 movsbl/movzbl）、
+  OnGuildMasterDelegate（+0x12 混合 uchar/uint 读取）——无法在不改变
+  机器码的前提下类型化
+- 类型化后指令数普遍向 ORIG 收敛（如 OnPcRoomPlayTimeReward 252->249
+  与 ORIG 完全一致；OnGuildJoin 242->223/ORIG 211）
+- 全量水位（2026-08-09 末）：IDENTICAL 608 / NEAR 512 / DIFF 1445 /
+  MISSING 0；启动输出与 ORIG 逐字节一致
+
 ## 续批（MISSING 140→110）
 
 ### PowerWar Rank 族（4 个）
