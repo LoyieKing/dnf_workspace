@@ -1617,6 +1617,37 @@ struct STGuildDBInfoOnly
     int m_fieldB9;                // +0xb9
 } __attribute__((packed));
 
+class Packet_DBMW_Save_Guild : public PacketHeader
+{
+public:
+    unsigned char m_serverId;    // +0xa
+    unsigned int m_guildId;      // +0xb
+    STGuildDBInfoOnly m_info;    // +0xf（0xbd 字节，至 +0xcb）
+    int m_fieldCC;               // +0xcc（0=SaveGuildInfo，1=SaveGuildSkill）
+} __attribute__((packed));
+
+class Packet_DBMW_Save_Guild_Member : public PacketHeader
+{
+public:
+    unsigned char m_serverId;    // +0xa
+    unsigned int m_guildId;      // +0xb
+    unsigned int m_fieldF;       // +0xf
+    STGuildMemerDBInfo m_info;   // +0x13（0x1a 字节，至 +0x2c）
+    unsigned char m_field2D;     // +0x2d
+} __attribute__((packed));
+
+class Packet_DBMW_Insert_Mail : public PacketHeader
+{
+public:
+    unsigned int m_characNo;  // +0xa
+    unsigned int m_fieldE;    // +0xe
+    int m_field12;            // +0x12
+    int m_field16;            // +0x16
+    char m_subject[0x15];     // +0x1a
+    char m_content[0x100];    // +0x2f
+    int m_delayHours;         // +0x12f
+} __attribute__((packed));
+
 struct STGuildSkill
 {
     STGuildSkill();

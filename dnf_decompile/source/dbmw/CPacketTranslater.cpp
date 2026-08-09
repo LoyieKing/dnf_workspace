@@ -731,27 +731,24 @@ void CPacketTranslater::OnSaveGuild(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
-        if (*(int*)(h + 0xcc) == 0)
+        Packet_DBMW_Save_Guild* pkt = (Packet_DBMW_Save_Guild*)header;
+        if (pkt->m_fieldCC == 0)
         {
             m_pclApp->m_dbManager.SaveGuildInfo(
-                *(unsigned char*)(h + 0xa), *(unsigned int*)(h + 0xb),
-                *(STGuildDBInfoOnly*)(h + 0xf));
+                pkt->m_serverId, pkt->m_guildId, pkt->m_info);
         }
-        else if (*(int*)(h + 0xcc) == 1)
+        else if (pkt->m_fieldCC == 1)
         {
             m_pclApp->m_dbManager.SaveGuildSkill(
-                *(unsigned char*)(h + 0xa), *(unsigned int*)(h + 0xb),
-                *(STGuildDBInfoOnly*)(h + 0xf));
+                pkt->m_serverId, pkt->m_guildId, pkt->m_info);
             CMyFileLog log("OnSaveGuild", 0xca);
             log("./log/GuildModify",
                 "::OnSaveGuild s(%d) g(%d) k(%d) g_level(%d) g_cnt(%d) g_exp(%d) g_sub_cnt(%d) power_side(%d) power_war_p(%d) agit(%d) power_join_cnt(%d)",
-                *(unsigned char*)(h + 0xa), *(unsigned int*)(h + 0xb),
-                *(int*)(h + 0xcc), *(unsigned char*)(h + 0x2a),
-                *(unsigned short*)(h + 0x31), *(unsigned int*)(h + 0x38),
-                *(unsigned char*)(h + 0x3c), *(unsigned char*)(h + 0xa4),
-                *(unsigned int*)(h + 0xa9), *(unsigned char*)(h + 0xad),
-                *(unsigned char*)(h + 0xae));
+                pkt->m_serverId, pkt->m_guildId, pkt->m_fieldCC,
+                pkt->m_info.m_lev, pkt->m_info.m_memberCount,
+                pkt->m_info.m_guildExp, pkt->m_info.m_pad2D[0],
+                pkt->m_info.m_powerSide, pkt->m_info.m_powerWarPoint,
+                pkt->m_info.m_guildAgitFlag, pkt->m_info.m_powerJoinCount);
         }
     }
     DNF_CATCH_LOG_PRINTF("./log/Except",
@@ -809,11 +806,11 @@ void CPacketTranslater::OnSaveGuildMember(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Save_Guild_Member* pkt =
+            (Packet_DBMW_Save_Guild_Member*)header;
         m_pclApp->m_dbManager.SaveGuildMember(
-            *(unsigned char*)(h + 0xa), *(unsigned int*)(h + 0xb),
-            *(STGuildMemerDBInfo*)(h + 0x13), *(unsigned int*)(h + 0xf),
-            *(unsigned char*)(h + 0x2d));
+            pkt->m_serverId, pkt->m_guildId, pkt->m_info, pkt->m_fieldF,
+            pkt->m_field2D);
     }
     DNF_CATCH_LOG_PRINTF("./log/Except.log",
                          "CPacketTranslater::OnSaveGuildMember() Exception Break",
@@ -941,8 +938,8 @@ void CPacketTranslater::OnDBMWInsertMail(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
-        if (*(int*)(h + 0x12f) != 0)
+        Packet_DBMW_Insert_Mail* pkt = (Packet_DBMW_Insert_Mail*)header;
+        if (pkt->m_delayHours != 0)
         {
             time_t now = time(0);
             struct tm* lt = localtime(&now);
@@ -950,22 +947,21 @@ void CPacketTranslater::OnDBMWInsertMail(PacketHeader* header)
             lt->tm_min = 0;
             lt->tm_sec = 0;
             long nextHour = mktime(lt);
-            long occTime = nextHour + *(int*)(h + 0x12f) * 0x15180;
+            long occTime = nextHour + pkt->m_delayHours * 0x15180;
             int letterNo = (occTime - 0x44a53c70) / 0x15180;
             if (!m_pclApp->m_dbManager.InsertMail(
-                    *(unsigned int*)(h + 0xa), h + 0x1a, h + 0x2f,
-                    *(unsigned int*)(h + 0xe), letterNo,
-                    *(int*)(h + 0x12), *(int*)(h + 0x16)))
+                    pkt->m_characNo, pkt->m_subject, pkt->m_content,
+                    pkt->m_fieldE, letterNo, pkt->m_field12, pkt->m_field16))
             {
                 CMyFileLog log("OnDBMWInsertMail", 0xd1e);
                 log("./log/GuildEvent",
                     "CPacketTranslater.OnDBMWInsertMail Err(%d) : return false",
-                    *(unsigned int*)(h + 0xa));
+                    pkt->m_characNo);
                 return;
             }
         }
         Packet_Monitor_Notify_New_Mail notice;
-        *(unsigned int*)((char*)&notice + 0xa) = *(unsigned int*)(h + 0xa);
+        *(unsigned int*)((char*)&notice + 0xa) = pkt->m_characNo;
         m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
             (char*)&notice, notice.packetSize);
     }
@@ -1057,21 +1053,22 @@ void CPacketTranslater::OnRequestGuildCreate(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Request_Guild_Create* pkt =
+            (Packet_DBMW_Request_Guild_Create*)header;
         Packet_DBMW_Reply_Guild_Create reply;
-        *(unsigned int*)((char*)&reply + 0xa) = *(unsigned int*)(h + 0xf);
+        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_characNo;
         m_pclApp->m_dbManager.QueryGuildCreate(
-            (Packet_DBMW_Request_Guild_Create*)header,
+            pkt,
             *(unsigned int*)((char*)&reply + 0xe),
             *(unsigned int*)((char*)&reply + 0x12));
-        memcpy((char*)&reply + 0x16, h + 0x38, 0x16);
+        memcpy((char*)&reply + 0x16, pkt->m_guildName, 0x16);
         m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
             (char*)&reply, reply.packetSize);
         CMyFileLog log("OnRequestGuildCreate", 0x65f);
         log("./log/GuildModify",
             "::OnRequestGuildCreate g(%d) c(%d) r(%d)",
             *(unsigned int*)((char*)&reply + 0x12),
-            *(unsigned int*)(h + 0xf),
+            pkt->m_characNo,
             *(unsigned int*)((char*)&reply + 0xe));
     }
     DNF_CATCH_LOG("./log/Except.log",
