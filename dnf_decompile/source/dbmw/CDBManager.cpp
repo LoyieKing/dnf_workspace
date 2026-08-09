@@ -2028,7 +2028,7 @@ CAppLoadChecker::CAppLoadChecker()
     m_tcpSendLevel = 0;
 }
 
-char CAppLoadChecker::CheckTcpRecvQ(int size)
+bool CAppLoadChecker::CheckTcpRecvQ(int size)
 {
     if (checkTcpRecvLoad(size))
     {
@@ -2038,7 +2038,7 @@ char CAppLoadChecker::CheckTcpRecvQ(int size)
     return 0;
 }
 
-char CAppLoadChecker::CheckUdpRecvQ(int size)
+bool CAppLoadChecker::CheckUdpRecvQ(int size)
 {
     if (checkUdpRecvLoad(size))
     {
@@ -2048,7 +2048,7 @@ char CAppLoadChecker::CheckUdpRecvQ(int size)
     return 0;
 }
 
-char CAppLoadChecker::CheckTcpSendQ(int size)
+bool CAppLoadChecker::CheckTcpSendQ(int size)
 {
     if (checkTcpSendLoad(size))
     {

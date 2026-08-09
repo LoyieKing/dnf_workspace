@@ -435,9 +435,9 @@ class CAppLoadChecker
 {
 public:
     CAppLoadChecker();
-    char CheckTcpRecvQ(int size);
-    char CheckUdpRecvQ(int size);
-    char CheckTcpSendQ(int size);
+    bool CheckTcpRecvQ(int size);
+    bool CheckUdpRecvQ(int size);
+    bool CheckTcpSendQ(int size);
     bool checkTcpRecvLoad(int size);
     bool checkUdpRecvLoad(int size);
     bool checkTcpSendLoad(int size);
@@ -2025,14 +2025,15 @@ public:
     void SetUdpQueue(UdpRecvQueue* q);
     void TcpProcess();
     void UdpProcess();
-    char MsgDecode(PacketHeader* header);
-    TcpRecvQueue* m_tcpQueue;  // +0
-    CMutex* m_tcpRecvQLock;    // +4
-    CMutex* m_tcpRecvBLock;    // +8
-    UdpRecvQueue* m_udpQueue;  // +0xc
-    CMutex* m_udpQLock;        // +0x10
-    CMutex* m_udpBLock;        // +0x14
-    char m_table[0xa018 - 0x18];  // +0x18（0x3e8..0x27ff 表项）
+    bool MsgDecode(PacketHeader* header);
+    UdpRecvQueue* m_udpQueue;    // +0
+    CMutex* m_udpQLock;          // +4
+    CMutex* m_udpBLock;          // +8
+    TcpRecvQueue* m_tcpQueue;    // +0xc
+    CMutex* m_tcpRecvQLock;      // +0x10
+    CMutex* m_tcpRecvBLock;      // +0x14
+    CServerHandler* m_serverHandler;  // +0x18
+    void (*m_table[0x2418])(PacketHeader*);  // +0x1c（0x3e8..0x27ff）
 };
 
 CPacketDecoder* CPacketDecoderInstance();
