@@ -16,10 +16,10 @@ class IHandler
 public:
     typedef unsigned int (IHandler::*DBHandlerFunc)(CMsgCell*);
 
+    // ORIG 的 IHandlerC2 只写 vtable（6 条指令），不初始化 sendTCP_/pTimeHandler；
+    // 清零会使 IHandlerC2 多 4 条 mov（DIFF）。成员在使用前由 setSendThread 等赋值。
     IHandler()
     {
-        sendTCP_ = NULL;
-        pTimeHandler = NULL;
     }
     virtual ~IHandler();
     virtual void init();

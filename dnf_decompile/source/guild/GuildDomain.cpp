@@ -531,8 +531,7 @@ void CUser::ChangeGuildMemberGrade(unsigned char grade)
     if (grade == 1 || grade == 2 || *(unsigned char*)((char*)this + 0x5f) == 1 ||
         *(unsigned char*)((char*)this + 0x5f) == 2)
     {
-        CMyFileLog log("ChangeGuildMemberGrade", 0x183);
-        log("./log/GuildModify", "char(%s), old(%d), new(%d)", GetCharName(),
+        DNF_LOG_SCOPE_LINE(0x183, "./log/GuildModify", "char(%s), old(%d), new(%d)", GetCharName(),
             (unsigned int)*(unsigned char*)((char*)this + 0x5f), (unsigned int)grade);
     }
     *(unsigned char*)((char*)this + 0x5f) = grade;
@@ -552,8 +551,7 @@ void CUser::SendGuildMemberDBInfo(STGuildMemerDBInfo& info)
 {
     if (GetUniqCharNo() == 0)
     {
-        CMyFileLog log("SendGuildMemberDBInfo", 0x193);
-        log("./log/GuildModify", "SendGuildMemberDBInfo(), 0 == this->GetUniqCharNo() ERR");
+        DNF_LOG_SCOPE_LINE(0x193, "./log/GuildModify", "SendGuildMemberDBInfo(), 0 == this->GetUniqCharNo() ERR");
     }
     else
     {
@@ -737,8 +735,7 @@ CUser* CUserManager::CreateUser(unsigned int dbid, unsigned int charNo, char* ch
     if (InsertUser(dbid, user) != 1)
     {
         char* mid = NumberToString(dbid, 0);
-        CMyFileLog log("CreateUser", 0x13c);
-        log("./log/LoginErr",
+        DNF_LOG_SCOPE_AT("CreateUser", 0x13c,"./log/LoginErr",
             "uDBID(%s) uCharNo(%d) is already exist at m_mapUsers!", mid, charNo);
     }
     user->SetUserPosState(2);
@@ -747,15 +744,13 @@ CUser* CUserManager::CreateUser(unsigned int dbid, unsigned int charNo, char* ch
         if (InsertUser_CharNo(charNo, user) != 1)
         {
             char* mid = NumberToString(dbid, 0);
-            CMyFileLog log("CreateUser", 0x146);
-            log("./log/LoginErr",
+            DNF_LOG_SCOPE_AT("CreateUser", 0x146,"./log/LoginErr",
                 "uDBID(%s) uCharNo(%d) is already exist at m_mapCharNoUsers!", mid, charNo);
         }
         if (InsertUser_CharName(charName, user) != 1)
         {
             char* mid = NumberToString(dbid, 0);
-            CMyFileLog log("CreateUser", 0x14a);
-            log("./log/LoginErr",
+            DNF_LOG_SCOPE_AT("CreateUser", 0x14a,"./log/LoginErr",
                 "uDBID(%s) uCharName(%s) is already exist at m_mapCharNameUsers!", mid, charName);
         }
         user->SetUserPosState(3);
@@ -810,8 +805,7 @@ void CUserManager::DeleteUser(unsigned int dbid)
         if (m_users.erase(dbid) == 1)
         {
             char* mid = NumberToString(dbid, 0);
-            CMyFileLog log("DeleteUser", 0x5f);
-            log("./log/User",
+            DNF_LOG_SCOPE_LINE(0x5f,"./log/User",
                 "[USER LOGOUT] Disconnected User DB ID : %s, Char No : %d , char name:%s\n",
                 mid, user->GetUniqCharNo(), user->GetCharName());
             delete user;
@@ -833,8 +827,7 @@ void CUserManager::DeleteUser(CUser* user)
     if (m_users.erase(dbid) == 1)
     {
         char* mid = NumberToString(dbid, 0);
-        CMyFileLog log("DeleteUser", 0x7d);
-        log("./log/User", "[USER LOGOUT] Disconnected User DB ID : %s\n", mid);
+        DNF_LOG_SCOPE_LINE(0x7d, "./log/User", "[USER LOGOUT] Disconnected User DB ID : %s\n", mid);
         delete user;
     }
 }
@@ -930,8 +923,7 @@ int CUser::RegisterToBlackList(unsigned int charNo, char* name)
 {
     if (name == 0 || charNo == 0)
     {
-        CMyFileLog log("RegisterToBlackList", 0x1c0);
-        log("./log/BlackList", "Register Err(%d)(%s)", charNo, name);
+        DNF_LOG_SCOPE_LINE(0x1c0, "./log/BlackList", "Register Err(%d)(%s)", charNo, name);
         return 0;
     }
     CBlackUser* bu = new CBlackUser;
@@ -1299,8 +1291,7 @@ void CGuildWar::printGuildWarRank()
             if (info != 0)
             {
                 rank++;
-                CMyFileLog log("printGuildWarRank", 0x192);
-                log("./log/GuildWar",
+                DNF_LOG_SCOPE_LINE(0x192,"./log/GuildWar",
                     "GuildKey : %d(%s),  GuildWarPoint : %d, GuildWarRank : %d",
                     *(unsigned int*)info->m_data, info->m_data + 8,
                     *(unsigned int*)(info->m_data + 4), rank);
@@ -1378,12 +1369,10 @@ void CGuildWar::Insert_GuildWarInfo(STGuildWarInfo* info)
 {
     if (info == 0)
     {
-        CMyFileLog log("Insert_GuildWarInfo", 0x95);
-        log("./log/GuildWar", "[INSERT_ERR]info == 0\n");
+        DNF_LOG_SCOPE_LINE(0x95, "./log/GuildWar", "[INSERT_ERR]info == 0\n");
         return;
     }
-    CMyFileLog log("Insert_GuildWarInfo", 0x90);
-    log("./log/GuildWar", "[INSERT]\tGuild Key : %d\tGuild Point : %d\n",
+    DNF_LOG_SCOPE_LINE(0x90,"./log/GuildWar", "[INSERT]\tGuild Key : %d\tGuild Point : %d\n",
         *(unsigned int*)info, *(unsigned int*)((char*)info + 4));
     ((std::vector<std::pair<unsigned int, STGuildWarInfo*> >*)m_data)
         ->push_back(std::make_pair(*(unsigned int*)info, info));
@@ -1545,8 +1534,7 @@ int CGuild::InsertGuildMember(unsigned int charNo, CUser* user)
         m_members.insert(std::make_pair(charNo, user));
     if (!r.second)
     {
-        CMyFileLog log("InsertGuildMember", 0x7b);
-        log("./log/GuildMember",
+        DNF_LOG_SCOPE_LINE(0x7b,"./log/GuildMember",
             "[INSERT_ERR]\tAlready Exist : Guild Key : %d\tChar Key : %d,\tChar Name : %s\tLogin Mem Cnt : %d\n",
             GetGuildKey(), charNo, user->GetCharName(), (int)m_members.size());
         return 0;
@@ -1566,8 +1554,7 @@ int CGuild::DeleteGuildMember(unsigned int charNo, CUser* user)
     }
     if (m_members.erase(charNo) == 0)
     {
-        CMyFileLog log("DeleteGuildMember", 0xaf);
-        log("./log/Except",
+        DNF_LOG_SCOPE_LINE(0xaf,"./log/Except",
             "CGuild::DeleteGuildMember\tException Break Possible! Or Check Using Function FindUser() or FindUser_CharNo()\tGuild Key : %d\tChar Key : %d,\tChar Name : %s\tLogin Mem Cnt : %d\n",
             GetGuildKey(), charNo, user->GetCharName(), (int)m_members.size());
         return 0;
@@ -1593,8 +1580,7 @@ void CGuild::AddGuildFund(unsigned int fund)
 {
     if ((m_field1c & 4) == 0)
     {
-        CMyFileLog log("AddGuildFund", 0xb06);
-        log("./log/GuildFund",
+        DNF_LOG_SCOPE_LINE(0xb06,"./log/GuildFund",
             "CPacketTranslater::AddGuildFund() Error!! : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u), STATE (%d), CONNECTING_GUILD_MEMBER_CNT (%d)\n",
             GetGuildKey(), *(unsigned int*)((char*)this + 0xc0), fund,
             (unsigned int)m_field1c, (int)m_members.size());
@@ -1615,8 +1601,7 @@ void CGuild::AddGuildFund(unsigned int fund)
         {
             *fundPtr = 10000000;
         }
-        CMyFileLog log("AddGuildFund", 0xb0a);
-        log("./log/GuildFund",
+        DNF_LOG_SCOPE_LINE(0xb0a,"./log/GuildFund",
             "CPacketTranslater::AddGuildFund() : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u)\n",
             GetGuildKey(), *fundPtr, fund);
     }
@@ -1626,8 +1611,7 @@ void CGuild::SubGuildFund(unsigned int fund)
 {
     if ((m_field1c & 4) == 0)
     {
-        CMyFileLog log("SubGuildFund", 0xb24);
-        log("./log/GuildFund",
+        DNF_LOG_SCOPE_LINE(0xb24,"./log/GuildFund",
             "CPacketTranslater::SubGuildFund() Error!! : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u), STATE (%d), CONNECTING_GUILD_MEMBER_CNT (%d)\n",
             GetGuildKey(), *(unsigned int*)((char*)this + 0xc0), fund,
             (unsigned int)m_field1c, (int)m_members.size());
@@ -1644,8 +1628,7 @@ void CGuild::SubGuildFund(unsigned int fund)
         {
             *fundPtr = 0;
         }
-        CMyFileLog log("SubGuildFund", 0xb28);
-        log("./log/GuildFund",
+        DNF_LOG_SCOPE_LINE(0xb28,"./log/GuildFund",
             "CPacketTranslater::SubGuildFund() : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u)\n",
             GetGuildKey(), *fundPtr, fund);
     }
@@ -1700,8 +1683,7 @@ void CGuild::AddGuildExpUntilLimit(unsigned int exp, unsigned int limit)
         {
             *(unsigned int*)((char*)this + 0x49) = old;
         }
-        CMyFileLog log("AddGuildExpUntilLimit", 0x246);
-        log("./log/Guild",
+        DNF_LOG_SCOPE_LINE(0x246,"./log/Guild",
             "GUILD EXP UNTIL LIMIT : guild key(%d), old exp(%d), add exp(%d), guild exp(%d), exp_limit(%d)",
             GetGuildKey(), old, exp, *(unsigned int*)((char*)this + 0x49), limit);
     }
@@ -1725,8 +1707,7 @@ void CGuild::CheckGuildSkill()
     if (*(unsigned char*)((char*)this + 0x3b) != 0 &&
         *(short*)((char*)this + 0x62) == 0 && *(char*)((char*)this + 100) == 0)
     {
-        CMyFileLog log("CheckGuildSkill", 0x85c);
-        log("./log/GuildSkill", "Err : key(%d), lev(%d), gsp(0), cnt(0)",
+        DNF_LOG_SCOPE_LINE(0x85c,"./log/GuildSkill", "Err : key(%d), lev(%d), gsp(0), cnt(0)",
             GetGuildKey(), (unsigned int)*(unsigned char*)((char*)this + 0x3b));
     }
 }
@@ -1757,8 +1738,7 @@ void CGuild::IncPowerJoinCount()
     {
         *(char*)((char*)this + 0xbf) = (char)0x80;
     }
-    CMyFileLog log("IncPowerJoinCount", 0xacf);
-    log("./log/Guild", "IncPowerJoinCount Guild(%d), JoinCount(%d)",
+    DNF_LOG_SCOPE_LINE(0xacf,"./log/Guild", "IncPowerJoinCount Guild(%d), JoinCount(%d)",
         GetGuildKey(), (unsigned int)(unsigned char)*(char*)((char*)this + 0xbf));
 }
 
@@ -1796,8 +1776,7 @@ void CGuild::LoadGuild(STGuildDBInfoOnly& info, char* name)
         }
         if ((int)local11 != (int)(unsigned char)info.m_data[0x44])
         {
-            CMyFileLog log("LoadGuild", 0x11b);
-            log("./log/GuildSkill", "Guild Skill Learn Error(%d)(%d)",
+            DNF_LOG_SCOPE_LINE(0x11b,"./log/GuildSkill", "Guild Skill Learn Error(%d)(%d)",
                 (unsigned char)info.m_data[0x44], (int)local11);
             info.m_data[0x44] = local11;
         }
@@ -1843,8 +1822,7 @@ void CGuild::DBGuildSave(unsigned char flag, CServerHandler* handler, unsigned i
 {
     if (m_field4d96 != 0 && (m_field1c & 4) != 0)
     {
-        CMyFileLog log("DBGuildSave", 0x1ba);
-        log("./log/Guild", "GUILD EXP   Guild Key : %d, Guild Exp : %d",
+        DNF_LOG_SCOPE_LINE(0x1ba,"./log/Guild", "GUILD EXP   Guild Key : %d, Guild Exp : %d",
             m_guildKey, GetGuildExp());
         SaveGuild(flag, handler, param);
         m_field4d94 = 0;
@@ -1887,8 +1865,7 @@ void CGuild::QueryGuild(CServerHandler* handler, unsigned int charNo)
     if ((m_field1c & 4) == 0)
     {
         handler->QueryGuild(m_guildKey, charNo);
-        CMyFileLog log("QueryGuild", 0xf5);
-        log("./log/Guild", "[QUERY]  Guild Key : %d\n", m_guildKey);
+        DNF_LOG_SCOPE_LINE(0xf5, "./log/Guild", "[QUERY]  Guild Key : %d\n", m_guildKey);
         m_field1c |= 2;
     }
 }
@@ -2546,8 +2523,7 @@ void CGuild::AddPowerWarPoint(unsigned int point)
         {
             *(unsigned int*)((char*)this + 0xba) = 99999999;
         }
-        CMyFileLog log("AddPowerWarPoint", 0x277);
-        log("./log/Guild",
+        DNF_LOG_SCOPE_LINE(0x277,"./log/Guild",
             "GUILD POWERWAR POINT : guild key(%d), add powerwar point(%d), guild powerwar point(%d)",
             GetGuildKey(), point, *(unsigned int*)((char*)this + 0xba));
     }
@@ -2670,8 +2646,7 @@ void CGuild::SetSubGuildMaster(unsigned int charNo, bool flag)
             }
         }
     }
-    CMyFileLog log("SetSubGuildMaster", 0x84e);
-    log("./log/GuildModify", "Set Sub Guild Master guild(%d) CharNo(%d) flag(%d)",
+    DNF_LOG_SCOPE_LINE(0x84e,"./log/GuildModify", "Set Sub Guild Master guild(%d) CharNo(%d) flag(%d)",
         GetGuildKey(), charNo, (unsigned int)flag);
 }
 
@@ -2892,8 +2867,7 @@ void CGuild::ReplyGuildAllMembers(CUser* user)
     int count = 0;
     if (*(short*)((char*)this + 0x42) != *(short*)((char*)this + 0x1e))
     {
-        CMyFileLog log("ReplyGuildAllMembers", 0x63b);
-        log("./log/GuildModify", "Error Guild Member Cnt Not Valid , (%d)/(%d)",
+        DNF_LOG_SCOPE_LINE(0x63b,"./log/GuildModify", "Error Guild Member Cnt Not Valid , (%d)/(%d)",
             (unsigned int)*(unsigned short*)((char*)this + 0x42),
             (unsigned int)*(unsigned short*)((char*)this + 0x1e));
         *(unsigned short*)((char*)this + 0x42) = *(unsigned short*)((char*)this + 0x1e);
@@ -2921,8 +2895,7 @@ void CGuild::ReplyGuildAllMembers(CUser* user)
             *(unsigned short*)(rec + 2) = m->GetLevel();
             if (m->GetGameServer() == 0)
             {
-                CMyFileLog log("ReplyGuildAllMembers", 0x658);
-                log("./log/Except",
+                DNF_LOG_SCOPE_LINE(0x658,"./log/Except",
                     "CGuild::ReplyGuildMembers() Guild Key : %d\tGuild Name : %s\tDB Id : %d\tChar Id : %d\n",
                     GetGuildKey(), GetGuildName(), m->GetDBID(), *(unsigned int*)src);
             }
@@ -2978,8 +2951,7 @@ void CGuild::ReplyGuildAllMembers(CUser* user)
                 *(unsigned short*)(rec + 2) = m->GetLevel();
                 if (m->GetGameServer() == 0)
                 {
-                    CMyFileLog log("ReplyGuildAllMembers", 0x695);
-                    log("./log/Except",
+                    DNF_LOG_SCOPE_LINE(0x695,"./log/Except",
                         "CGuild::ReplyGuildMembers() Guild Key : %d\tGuild Name : %s\tDB Id : %d\tChar Id : %d\n",
                         GetGuildKey(), GetGuildName(), m->GetDBID(), *(unsigned int*)src);
                 }
@@ -3270,8 +3242,7 @@ CGuild* CGuildManager::GuildSecede(unsigned int guildKey, ST_Notice_Guild_Secede
         if (user != 0)
         {
             char* accId = NumberToString(*(unsigned int*)((char*)&info + 4), 0);
-            CMyFileLog log("GuildSecede", 0x2a1);
-            log("./log/Except",
+            DNF_LOG_SCOPE_LINE(0x2a1,"./log/Except",
                 "GUILD : CGuildManager::GuildSecede() pclGuild == NULL But pclUser != NULL( Guild Key : %d, Acc Id : %s, Char Id : %d )\n",
                 guildKey, accId, *(unsigned int*)((char*)&info + 8));
         }
@@ -3313,14 +3284,12 @@ void CGuildManager::DeleteGuild(unsigned int guildKey)
     std::map<unsigned int, CGuild*>::iterator it = m_guilds.find(guildKey);
     if (it == m_guilds.end())
     {
-        CMyFileLog log("DeleteGuild", 0xcd);
-        log("./log/Guild",
+        DNF_LOG_SCOPE_LINE(0xcd,"./log/Guild",
             "[DELETE_ERR]  Guild Key : %d\tCurr Guild Load Cnt : %d\n",
             guildKey, (int)m_guilds.size());
         return;
     }
-    CMyFileLog log("DeleteGuild", 0xc4);
-    log("./log/Guild",
+    DNF_LOG_SCOPE_LINE(0xc4,"./log/Guild",
         "[DELETE]  Guild Key : %d\tGuild Name : %s\tGuild State:%d\tCurr Guild Load Cnt : %d\n",
         guildKey, it->second->GetGuildName(),
         it->second->GetGuildDBFlag() & 0xffff, (int)m_guilds.size() - 1);
@@ -3336,16 +3305,14 @@ void CGuildManager::DeleteGuild(CGuild* guild)
     }
     if (m_guilds.erase(guild->GetGuildKey()) == 1)
     {
-        CMyFileLog log("DeleteGuild", 0xe0);
-        log("./log/Guild",
+        DNF_LOG_SCOPE_LINE(0xe0,"./log/Guild",
             "[DELETE]  Guild Key : %d\tGuild Name : %s\tCurr Guild Load Cnt : %d\n",
             guild->GetGuildKey(), guild->GetGuildName(), (int)m_guilds.size());
         delete guild;
     }
     else
     {
-        CMyFileLog log("DeleteGuild", 0xe7);
-        log("./log/Guild",
+        DNF_LOG_SCOPE_LINE(0xe7,"./log/Guild",
             "[DELETE_ERR]  Guild Key : %d\tCurr Guild Load Cnt : %d\n",
             guild->GetGuildKey(), (int)m_guilds.size());
     }
@@ -3760,8 +3727,7 @@ void CGuildCargo::PrintCargo(ENUM_GUILD_CARGO_BEHAVIOR behavior)
         if (*(int*)((char*)this + i * 0x35 + 1) != 0)
         {
             const char* itemDesc = PrintDnfItemInfo(*(DnfItemInfo*)((char*)this + i * 0x35));
-            CMyFileLog log("PrintCargo", 0x195);
-            log("./log/GuildCargo", "SLOT - %d,%s", i, itemDesc);
+            DNF_LOG_SCOPE_LINE(0x195, "./log/GuildCargo", "SLOT - %d,%s", i, itemDesc);
         }
     }
 }
@@ -3792,14 +3758,12 @@ int CGuildCargo::AddItem(DnfItemInfo& info, int slot, int count)
     {
         memcpy((char*)this + slot * 0x35, &info, 0x35);
         *(int*)((char*)this + 0x18dc) += 1;
-        CMyFileLog log("AddItem", 0x4b);
-        log("./log/GuildCargo",
+        DNF_LOG_SCOPE_LINE(0x4b,"./log/GuildCargo",
             "AddItem SUCCESS - GUILD:%d, CHARAC:%d, ITEM:%d, SLOT:%d",
             *(int*)((char*)this + 0x18e0), count, *(int*)((char*)&info + 1), slot);
         return 0xc1;
     }
-    CMyFileLog log("AddItem", 0x54);
-    log("./log/GuildCargo",
+    DNF_LOG_SCOPE_LINE(0x54,"./log/GuildCargo",
         "AddItem ITEM ALREADY EXIST - GUILD:%d, CHARAC:%d, INSERT ITEM:%d, SLOT:%d, AREADY ITEM:%d",
         *(int*)((char*)this + 0x18e0), count, *(int*)((char*)&info + 1), slot,
         *(int*)((char*)this + slot * 0x35 + 1));
@@ -3822,16 +3786,14 @@ int CGuildCargo::InsertItem(DnfItemInfo& info, int& slot, int count, unsigned ch
             if (oldCount + addCount <= count)
             {
                 *(int*)((char*)this + existingSlot * 0x35 + 6) += addCount;
-                CMyFileLog log("InsertItem", 0x89);
-                log("./log/GuildCargo",
+                DNF_LOG_SCOPE_LINE(0x89,"./log/GuildCargo",
                     "InsertItem STACKABLE ADD SUCCESS - GUILD:%d, CHARAC:%d, ITEM:%d, OLD:%d, ADD:%d, CURR:%d",
                     *(int*)((char*)this + 0x18e0), b, *(int*)((char*)&info + 1),
                     oldCount, addCount, *(int*)((char*)this + existingSlot * 0x35 + 6));
                 slot = existingSlot;
                 return 0xc1;
             }
-            CMyFileLog log("InsertItem", 0x96);
-            log("./log/GuildCargo",
+            DNF_LOG_SCOPE_LINE(0x96,"./log/GuildCargo",
                 "InsertItem STACKABLE ADD OVER STACK LIMIT - GUILD:%d, CHARAC:%d, ITEM:%d, OLD:%d, ADD:%d, LMT:%d, CURR:%d",
                 *(int*)((char*)this + 0x18e0), b, *(int*)((char*)&info + 1),
                 oldCount, addCount, count, *(int*)((char*)this + existingSlot * 0x35 + 6));
@@ -3868,8 +3830,7 @@ int CGuildCargo::DeleteItem(DnfItemInfo& info, int slot, int count, unsigned cha
         {
             ((DnfItemInfo*)((char*)this + slot * 0x35))->reset();
         }
-        CMyFileLog log("DeleteItem", 0xee);
-        log("./log/GuildCargo",
+        DNF_LOG_SCOPE_LINE(0xee,"./log/GuildCargo",
             "DeleteItem STACKABLE DELETE SUCCESS(Stackable) - GUILD:%d, CHARAC:%d, ITEM:%d, OLD:%d, SUB:%d, CURR:%d",
             *(int*)((char*)this + 0x18e0), c, *(int*)((char*)&info + 1),
             oldCount, subCount, *(int*)((char*)this + slot * 0x35 + 6));
@@ -3877,8 +3838,7 @@ int CGuildCargo::DeleteItem(DnfItemInfo& info, int slot, int count, unsigned cha
     else
     {
         ((DnfItemInfo*)((char*)this + slot * 0x35))->reset();
-        CMyFileLog log("DeleteItem", 0xfa);
-        log("./log/GuildCargo",
+        DNF_LOG_SCOPE_LINE(0xfa,"./log/GuildCargo",
             "DeleteItem STACKABLE DELETE SUCCESS(Equip) - GUILD:%d, CHARAC:%d, ITEM:%d",
             *(int*)((char*)this + 0x18e0), c, *(int*)((char*)&info + 1));
     }
@@ -3896,8 +3856,7 @@ int CGuildCargo::MoveItem(DnfItemInfo& from, DnfItemInfo& to, int fromSlot, int 
     int fromId = *(int*)((char*)this + fromSlot * 0x35 + 1);
     int toId = *(int*)((char*)this + toSlot * 0x35 + 1);
     {
-        CMyFileLog log("MoveItem", 0x115);
-        log("./log/GuildCargo",
+        DNF_LOG_SCOPE_AT("MoveItem", 0x115,"./log/GuildCargo",
             "Before MoveItem - GUILD:%d, CHARAC:%d, SLOT1:(%d,%d), SLOT2:(%d,%d)",
             guildKey, charNo, fromSlot, fromId, toSlot, toId);
     }
@@ -3911,8 +3870,7 @@ int CGuildCargo::MoveItem(DnfItemInfo& from, DnfItemInfo& to, int fromSlot, int 
         int newFromId = *(int*)((char*)this + fromSlot * 0x35 + 1);
         int newToId = *(int*)((char*)this + toSlot * 0x35 + 1);
         {
-            CMyFileLog log("MoveItem", 0x131);
-            log("./log/GuildCargo",
+            DNF_LOG_SCOPE_AT("MoveItem", 0x131,"./log/GuildCargo",
                 "After MoveItem - GUILD:%d, CHARAC:%d, SLOT1:(%d,%d), SLOT2:(%d,%d)",
                 guildKey, charNo, fromSlot, newFromId, toSlot, newToId);
         }
@@ -4063,8 +4021,7 @@ void CGuildBoard::printGuildBoard()
              map->begin();
          it != map->end(); ++it)
     {
-        CMyFileLog log("printGuildBoard", 0x188);
-        log("./log/GuildBoard", "\n*%d* %d %s\n",
+        DNF_LOG_SCOPE_LINE(0x188,"./log/GuildBoard", "\n*%d* %d %s\n",
             it->first, *(unsigned int*)((char*)&it->second + 0x7c),
             (char*)&it->second + 4);
     }
@@ -4091,8 +4048,7 @@ void CGuildBoard::setGuildBoardData(unsigned int a, unsigned int b, CGuild* guil
         }
         map->insert(std::make_pair(key, entry));
     }
-    CMyFileLog log("setGuildBoardData", 0x5f);
-    log("./log/GuildBoard", "SET SUCCESS - GUILD:%u, CHARAC:%u, COUNT:%u", a, b, c);
+    DNF_LOG_SCOPE_AT("setGuildBoardData", 0x5f, "./log/GuildBoard", "SET SUCCESS - GUILD:%u, CHARAC:%u, COUNT:%u", a, b, c);
 }
 
 void CGuildBoard::sendGuildBoardData(unsigned int a, unsigned int b, unsigned int c,
@@ -4115,8 +4071,7 @@ void CGuildBoard::sendGuildBoardData(unsigned int a, unsigned int b, unsigned in
         *(unsigned char*)((char*)&reply + 0xe) = 0;
         *(unsigned char*)((char*)&reply + 0x17) = 0;
         user->SendTcpGameserver(&reply);
-        CMyFileLog log("sendGuildBoardData", 0x77);
-        log("./log/GuildBoard", "SEND SUCCESS - CODE TYPE:%u, GUILD:%u, CHARAC:%u, COUNT:%u",
+        DNF_LOG_SCOPE_AT("sendGuildBoardData", 0x77,"./log/GuildBoard", "SEND SUCCESS - CODE TYPE:%u, GUILD:%u, CHARAC:%u, COUNT:%u",
             c, a, b, 0);
         return;
     }
@@ -4148,8 +4103,7 @@ void CGuildBoard::sendGuildBoardData(unsigned int a, unsigned int b, unsigned in
             ++it;
         }
         user->SendTcpGameserver(&reply);
-        CMyFileLog log("sendGuildBoardData", 0xa5);
-        log("./log/GuildBoard", "SEND SUCCESS - CODE TYPE:%u, GUILD:%u, CHARAC:%u, COUNT:%u",
+        DNF_LOG_SCOPE_AT("sendGuildBoardData", 0xa5,"./log/GuildBoard", "SEND SUCCESS - CODE TYPE:%u, GUILD:%u, CHARAC:%u, COUNT:%u",
             c, a, b, total, 10);
     }
     if (remainder != 0)
@@ -4172,8 +4126,7 @@ void CGuildBoard::sendGuildBoardData(unsigned int a, unsigned int b, unsigned in
             ++it;
         }
         user->SendTcpGameserver(&reply);
-        CMyFileLog log("sendGuildBoardData", 0xcb);
-        log("./log/GuildBoard", "SEND SUCCESS - CODE TYPE:%u, GUILD:%u, CHARAC:%u, COUNT:%u",
+        DNF_LOG_SCOPE_AT("sendGuildBoardData", 0xcb,"./log/GuildBoard", "SEND SUCCESS - CODE TYPE:%u, GUILD:%u, CHARAC:%u, COUNT:%u",
             c, a, b, total, remainder);
     }
 }
@@ -4192,14 +4145,12 @@ void CGuildBoard::deleteGuildBoardData(unsigned int a, unsigned int b, unsigned 
         map->find(a);
     if (it == map->end())
     {
-        CMyFileLog log("deleteGuildBoardData", 0xe3);
-        log("./log/GuildBoard", "DELETE FAIL - GUILD:%u, CHARAC:%u, NO:%u", b, c, a);
+        DNF_LOG_SCOPE_LINE(0xe3, "./log/GuildBoard", "DELETE FAIL - GUILD:%u, CHARAC:%u, NO:%u", b, c, a);
     }
     else
     {
         map->erase(it);
-        CMyFileLog log("deleteGuildBoardData", 0xdc);
-        log("./log/GuildBoard", "DELETE SUCCESS - GUILD:%u, CHARAC:%u, NO:%u", b, c, a);
+        DNF_LOG_SCOPE_LINE(0xdc, "./log/GuildBoard", "DELETE SUCCESS - GUILD:%u, CHARAC:%u, NO:%u", b, c, a);
     }
 }
 
@@ -4252,8 +4203,7 @@ void CGuildBoard::sendMessageToDBMW_GuildFund(CServerHandler* handler, int fund,
     {
         memcpy((char*)&pkt + 0x17, msg.c_str(), msg.length());
         handler->SendToDB(&pkt);
-        CMyFileLog log("sendMessageToDBMW_GuildFund", 0x15d);
-        log("./log/GuildBoard", "SET SUCCESS - GUILD:%u, CHARAC:%u, gold :%d",
+        DNF_LOG_SCOPE_LINE(0x15d,"./log/GuildBoard", "SET SUCCESS - GUILD:%u, CHARAC:%u, gold :%d",
             *(unsigned int*)((char*)&pkt + 0xb), *(unsigned int*)((char*)&pkt + 0x13), fund);
     }
 }
@@ -4275,8 +4225,7 @@ void CGuildBoard::sendMessageToDBMW_GuildLevelUP(CServerHandler* handler, int le
     {
         memcpy((char*)&pkt + 0x17, msg.c_str(), msg.length());
         handler->SendToDB(&pkt);
-        CMyFileLog log("sendMessageToDBMW_GuildLevelUP", 0x107);
-        log("./log/GuildBoard", "SET SUCCESS - GUILD:%u, CHARAC:%u, LEVEL:%u",
+        DNF_LOG_SCOPE_AT("sendMessageToDBMW_GuildLevelUP", 0x107,"./log/GuildBoard", "SET SUCCESS - GUILD:%u, CHARAC:%u, LEVEL:%u",
             *(unsigned int*)((char*)&pkt + 0xb), *(unsigned int*)((char*)&pkt + 0x13),
             level + 1);
     }
@@ -4300,8 +4249,7 @@ void CGuildBoard::sendMessageToDBMW_GuildMasterChanging(CServerHandler* handler,
     {
         memcpy((char*)&pkt + 0x17, msg.c_str(), msg.length());
         handler->SendToDB(&pkt);
-        CMyFileLog log("sendMessageToDBMW_GuildMasterChanging", 0x17b);
-        log("./log/GuildBoard", "SET SUCCESS - GUILD:%u, CHARAC:%u",
+        DNF_LOG_SCOPE_AT("sendMessageToDBMW_GuildMasterChanging", 0x17b,"./log/GuildBoard", "SET SUCCESS - GUILD:%u, CHARAC:%u",
             *(unsigned int*)((char*)&pkt + 0xb), *(unsigned int*)((char*)&pkt + 0x13));
     }
 }
@@ -4413,8 +4361,7 @@ void CPowerWarGuildInfo::PrintDebugInfo()
     for (std::vector<STPowerWarGuildInfo*>::iterator it = vec->begin(); it != vec->end(); ++it)
     {
         STPowerWarGuildInfo* info = *it;
-        CMyFileLog log("PrintDebugInfo", 0x192);
-        log("./log/Power", "RANK:%d, GUILD:%d, POINT:%d, TOTOAL:%d, BONUS:%d", rank,
+        DNF_LOG_SCOPE_LINE(0x192,"./log/Power", "RANK:%d, GUILD:%d, POINT:%d, TOTOAL:%d, BONUS:%d", rank,
             *(unsigned int*)info->m_data, *(unsigned int*)(info->m_data + 4),
             *(unsigned int*)(info->m_data + 0xc), *(unsigned int*)(info->m_data + 8));
         rank++;
@@ -4452,8 +4399,7 @@ void CPowerWarGuildInfo::RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int
     std::vector<STPowerWarGuildInfo*>* vec =
         (std::vector<STPowerWarGuildInfo*>*)(m_data + 0x18);
     unsigned int count = (unsigned int)vec->size();
-    CMyFileLog log("RewardGuildPowerWarPoint", 0xec);
-    log("./log/PowerResult",
+    DNF_LOG_SCOPE_AT("RewardGuildPowerWarPoint", 0xec,"./log/PowerResult",
         "Basic:%d, First:%d, Decrease:%d, MaxGrade:%d, DomainCount:%d", basic, firstBonus,
         decrease, maxGrade, count);
     for (std::vector<STPowerWarGuildInfo*>::iterator it = vec->begin(); it != vec->end(); ++it)
@@ -4482,8 +4428,7 @@ void CPowerWarGuildInfo::RewardGuildPowerWarPoint(CGuildManager& gm, bool a, int
                 *(unsigned int*)p = guildKey;
                 *(unsigned int*)((char*)p + 4) = *(unsigned int*)(info->m_data + 0xc);
                 ((std::vector<STDBSavePowerWarPoint*>*)(m_data + 0x24))->push_back(p);
-                CMyFileLog log("RewardGuildPowerWarPoint", 0x120);
-                log("./log/PowerResult",
+                DNF_LOG_SCOPE_AT("RewardGuildPowerWarPoint", 0x120,"./log/PowerResult",
                     "Additional Save(GRADE:%d, Guild ID:%d, PowerWarPoint:%d)", rankIdx,
                     guildKey, *(unsigned int*)((char*)p + 4));
             }
@@ -4532,8 +4477,7 @@ void CPowerWarGuildInfo::MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Poin
             STDBSavePowerWarPoint* p = *it;
             *(unsigned int*)(out + i * 8) = *(unsigned int*)p;
             *(unsigned int*)(out + i * 8 + 4) = *(unsigned int*)((char*)p + 4);
-            CMyFileLog log("MakePacketDBPowerWarPoint", 0x16b);
-            log("./log/Power", "INTERVAL SAVE - GUILD:%d, POINT:%d",
+            DNF_LOG_SCOPE_LINE(0x16b,"./log/Power", "INTERVAL SAVE - GUILD:%d, POINT:%d",
                 *(unsigned int*)p, *(unsigned int*)((char*)p + 4));
             DeleteDBSavePowerWarPoint(p);
             it = vec->erase(it);
@@ -4629,8 +4573,7 @@ void CPowerWarCharacInfo::PrintDebugInfo()
     for (std::vector<STPowerWarCharacInfo*>::iterator it = vec->begin(); it != vec->end(); ++it)
     {
         STPowerWarCharacInfo* info = *it;
-        CMyFileLog log("PrintDebugInfo", 0xf9);
-        log("./log/PowerResult", "RANK:%d, USER:%d, POWER WAR POINT:%d", rank,
+        DNF_LOG_SCOPE_LINE(0xf9,"./log/PowerResult", "RANK:%d, USER:%d, POWER WAR POINT:%d", rank,
             *(unsigned int*)info->m_data, *(unsigned int*)(info->m_data + 4));
         rank++;
     }
@@ -4701,8 +4644,7 @@ void CPowerWarCharacInfo::GetAllUserRankingInfo(unsigned int& count, STUserRank*
             *(unsigned int*)(rank + n * 8) = charNo;
             *(unsigned int*)(rank + n * 8 + 4) = point;
             n++;
-            CMyFileLog log("GetAllUserRankingInfo", 0xcc);
-            log("./log/Power", "Rank:%7d, Charac No:%d, PowerWarPoint:%d", n, charNo, point);
+            DNF_LOG_SCOPE_LINE(0xcc, "./log/Power", "Rank:%7d, Charac No:%d, PowerWarPoint:%d", n, charNo, point);
         }
     }
     count = n;
@@ -4717,8 +4659,7 @@ void CPowerWarCharacInfo::GetStatueRankingUsers(std::vector<STPowerWarCharacInfo
         {
             STPowerWarCharacInfo* info = self->at(i);
             vec.push_back(info);
-            CMyFileLog log("GetStatueRankingUsers", 0xe4);
-            log("./log/Power", "Rank:%d, Charac No:%d Point:%d", i,
+            DNF_LOG_SCOPE_LINE(0xe4,"./log/Power", "Rank:%d, Charac No:%d Point:%d", i,
                 *(unsigned int*)info->m_data, *(unsigned int*)(info->m_data + 4));
         }
     }
@@ -4873,8 +4814,7 @@ void CPowerWar::GetPowerWarConfigTbl(unsigned char& a, unsigned char& b, unsigne
 
 void CPowerWar::LoadPowerWarTableFile(char* path)
 {
-    CMyFileLog log("LoadPowerWarTableFile", 0x9e);
-    log("./log/Power", "LoadPowerWarTableFile filename(%s)\n", path);
+    DNF_LOG_SCOPE_LINE(0x9e, "./log/Power", "LoadPowerWarTableFile filename(%s)\n", path);
     CPowerWarConfig* config = *(CPowerWarConfig**)((char*)this + 0x10);
     config->Load_Table(std::string(path));
     ((CScheduler*)((char*)this + 0x14))->Clear();
@@ -5033,8 +4973,7 @@ void CPowerManager::CleanPowerWar()
     {
         ((CPower*)((char*)this + i * 0x6c + 8))->CleanPower();
     }
-    CMyFileLog log("CleanPowerWar", 0x170);
-    log("./log/Power", "CleanPower");
+    DNF_LOG_SCOPE_LINE(0x170, "./log/Power", "CleanPower");
 }
 
 int CPowerManager::GetPowerScore(ENUM_POWER_SIDE_TYPE side)
@@ -5084,8 +5023,7 @@ void CPowerManager::LoadPowerWarCfg(char* path)
 void CPowerManager::CalcPowerWarRank(bool flag)
 {
     const char* s = flag ? "All" : "Winner";
-    CMyFileLog log("CalcPowerWarRank", 0x17c);
-    log("./log/Power", "CPowerManager::CalcPowerWarRank(%s)", s);
+    DNF_LOG_SCOPE_LINE(0x17c, "./log/Power", "CPowerManager::CalcPowerWarRank(%s)", s);
     if (flag)
     {
         ((CPower*)((char*)this + 0x74))->CalcPowerWarRank();
@@ -5094,8 +5032,7 @@ void CPowerManager::CalcPowerWarRank(bool flag)
     else if (*(char*)((char*)this + 0x184) == 0 ||
              *(char*)((char*)this + 0x184) > 2)
     {
-        CMyFileLog log("CalcPowerWarRank", 0x187);
-        log("./log/Power", "invalid winner side income(%d)",
+        DNF_LOG_SCOPE_LINE(0x187,"./log/Power", "invalid winner side income(%d)",
             (int)*(char*)((char*)this + 0x184));
     }
     else
@@ -5168,8 +5105,7 @@ void CPowerManager::SendPowerWarScore()
     *(unsigned int*)((char*)&pkt + 0xa) = (unsigned int)GetPowerScore((ENUM_POWER_SIDE_TYPE)1);
     *(unsigned int*)((char*)&pkt + 0xe) = (unsigned int)GetPowerScore((ENUM_POWER_SIDE_TYPE)2);
     handler->SendAllTcpGameServer(&pkt);
-    CMyFileLog log("SendPowerWarScore", 0x75);
-    log("./log/Power", "Power Point : A(%d)  B(%d)",
+    DNF_LOG_SCOPE_LINE(0x75,"./log/Power", "Power Point : A(%d)  B(%d)",
         (int)GetPowerScore((ENUM_POWER_SIDE_TYPE)1),
         (int)GetPowerScore((ENUM_POWER_SIDE_TYPE)2));
 }
@@ -5195,14 +5131,12 @@ void CPowerManager::SaveDBPowerWarRank()
             unsigned int count = 0;
             characInfo->GetAllUserRankingInfo(count, userRanks);
             {
-                CMyFileLog log("SaveDBPowerWarRank", 0x1d1);
-                log("./log/PowerResult", "SaveDBPowerWarRank() PowerSide %d, User Rank Count is %d",
+                DNF_LOG_SCOPE_LINE(0x1d1,"./log/PowerResult", "SaveDBPowerWarRank() PowerSide %d, User Rank Count is %d",
                     side, count);
             }
             if (count == 0)
             {
-                CMyFileLog log("SaveDBPowerWarRank", 0x1d6);
-                log("./log/PowerResult",
+                DNF_LOG_SCOPE_LINE(0x1d6,"./log/PowerResult",
                     "SaveDBPowerWarRank() PowerSide %d, User Rank Count is 0", side, count);
             }
             else if (count < 0xfb)
@@ -5238,8 +5172,7 @@ void CPowerManager::SaveDBPowerWarRank()
             guildInfo->GetAllGuildRankingInfo(count, (STGuildRank*)((char*)&guildPkt + 0x10));
             app->Get_ServerHandler()->SendToDB(&guildPkt);
             {
-                CMyFileLog log("SaveDBPowerWarRank", 0x248);
-                log("./log/PowerResult",
+                DNF_LOG_SCOPE_LINE(0x248,"./log/PowerResult",
                     "SaveDBPowerWarRank() SEND Packet_DB_Save_Power_War_Guild_Rank Power:%d", side);
             }
         }
@@ -5262,19 +5195,16 @@ void CPowerManager::SaveDBPowerWarRank()
             {
                 unsigned int charNo = *(unsigned int*)users[i]->m_data;
                 *(unsigned int*)((char*)&statuePkt + 0xb + i * 4) = charNo;
-                CMyFileLog log("SaveDBPowerWarRank", 0x273);
-                log("./log/PowerResult", "Last Rank:%d, Charac No:%d", i, charNo);
+                DNF_LOG_SCOPE_LINE(0x273, "./log/PowerResult", "Last Rank:%d, Charac No:%d", i, charNo);
             }
         }
         {
-            CMyFileLog log("SaveDBPowerWarRank", 0x277);
-            log("./log/PowerResult",
+            DNF_LOG_SCOPE_LINE(0x277,"./log/PowerResult",
                 "SaveDBPowerWarRank() SEND Packet_DB_Save_Power_War_Statue_Ranker");
         }
         app->Get_ServerHandler()->SendToDB(&statuePkt);
         {
-            CMyFileLog log("SaveDBPowerWarRank", 0x27b);
-            log("./log/PowerResult", "POWER WAR RESULT DB SAVE END");
+            DNF_LOG_SCOPE_LINE(0x27b, "./log/PowerResult", "POWER WAR RESULT DB SAVE END");
         }
     }
 }
@@ -5286,8 +5216,7 @@ void CPowerManager::StartPowerWarEvent()
     {
         ((CPower*)((char*)this + i * 0x6c + 8))->InitPower();
     }
-    CMyFileLog log("StartPowerWarEvent", 0xb9);
-    log("./log/Power", "CPowerManager::StartPowerWarEvent");
+    DNF_LOG_SCOPE_LINE(0xb9, "./log/Power", "CPowerManager::StartPowerWarEvent");
 }
 
 void CPowerManager::UpdatePowerWarInfo(bool flag, ENUM_POWER_SIDE_TYPE side, int score, unsigned int* p)
@@ -5303,8 +5232,7 @@ void CPowerManager::SaveDBPowerWarPoint()
     *(unsigned int*)((char*)&pkt + 0x10) = (unsigned int)GetPowerScore((ENUM_POWER_SIDE_TYPE)2);
     *(unsigned char*)((char*)&pkt + 0xa) = app->Get_ServerGroup();
     app->Get_ServerHandler()->SendToDB(&pkt);
-    CMyFileLog log("SaveDBPowerWarPoint", 0x28e);
-    log("./log/Power", "winner:%d, A:%d, B:%d, svr group:%d",
+    DNF_LOG_SCOPE_LINE(0x28e,"./log/Power", "winner:%d, A:%d, B:%d, svr group:%d",
         (int)GetWinnerSide(), (int)GetPowerScore((ENUM_POWER_SIDE_TYPE)1),
         (int)GetPowerScore((ENUM_POWER_SIDE_TYPE)2),
         (unsigned int)app->Get_ServerGroup());
@@ -5332,8 +5260,7 @@ void CPowerManager::SendPowerWarEndTime(int time)
 
 void CPowerManager::SendPowerWarEndInfo()
 {
-    CMyFileLog log("SendPowerWarEndInfo", 0x419);
-    log("./log/PowerResult", "SEND POWER WAR END INFO START");
+    DNF_LOG_SCOPE_LINE(0x419, "./log/PowerResult", "SEND POWER WAR END INFO START");
     SendPowerWarEndInfoInSpecificPower(1);
     SendPowerWarEndInfoInSpecificPower(2);
     CMyFileLog log2("SendPowerWarEndInfo", 0x41f);
@@ -5370,8 +5297,7 @@ void CPowerManager::SendPowerWarProcessInfo(unsigned int charNo)
     CUser* user = app->Get_UserManager()->FindUser_CharNo(charNo);
     if (user == 0)
     {
-        CMyFileLog log("SendPowerWarProcessInfo", 0x3e2);
-        log("./log/Power", "CPacketTranslater::SendPowerWarProcessInfo : 0 == pclUser(%d)",
+        DNF_LOG_SCOPE_LINE(0x3e2,"./log/Power", "CPacketTranslater::SendPowerWarProcessInfo : 0 == pclUser(%d)",
             charNo);
         return;
     }
@@ -5379,8 +5305,7 @@ void CPowerManager::SendPowerWarProcessInfo(unsigned int charNo)
     CGuild* guild = app->Get_GuildManager()->FindGuild(guildKey);
     if (guild == 0)
     {
-        CMyFileLog log("SendPowerWarProcessInfo", 0x3ea);
-        log("./log/Power",
+        DNF_LOG_SCOPE_LINE(0x3ea,"./log/Power",
             "CPacketTranslater::SendPowerWarProcessInfo : 0 == pclGuild(%d), pclUser(%d)",
             guildKey, charNo);
         return;
@@ -5401,8 +5326,7 @@ void CPowerManager::SendPowerWarProcessInfo(unsigned int charNo)
     }
     else if (side == 0 || 4 < side)
     {
-        CMyFileLog log("SendPowerWarProcessInfo", 0x3fd);
-        log("./log/Power", "CPacketTranslater::SendPowerWarProcessInfo : Invalid Power Side(%d)",
+        DNF_LOG_SCOPE_LINE(0x3fd,"./log/Power", "CPacketTranslater::SendPowerWarProcessInfo : Invalid Power Side(%d)",
             (unsigned int)guild->GetPowerSide() & 0xff);
         return;
     }
@@ -5435,8 +5359,7 @@ void CPowerManager::RewardGuildPowerWarPoint()
     char winnerSide = *(char*)((char*)this + 0x184);
     if (winnerSide == 0 || winnerSide > 2)
     {
-        CMyFileLog log("RewardGuildPowerWarPoint", 0x19c);
-        log("./log/PowerResult", "invalid winner side income(%d)", (int)winnerSide);
+        DNF_LOG_SCOPE_LINE(0x19c, "./log/PowerResult", "invalid winner side income(%d)", (int)winnerSide);
         return;
     }
     CApplication* app = *(CApplication**)((char*)this + 4);
@@ -5482,8 +5405,7 @@ void CPowerManager::SaveDBPowerWarPointReward()
     char winnerSide = *(char*)((char*)this + 0x184);
     if (winnerSide == 0 || winnerSide > 2)
     {
-        CMyFileLog log("SaveDBPowerWarPointReward", 0x357);
-        log("./log/Power", "invalid winner side income(%d)", (int)winnerSide);
+        DNF_LOG_SCOPE_LINE(0x357, "./log/Power", "invalid winner side income(%d)", (int)winnerSide);
         return;
     }
     CApplication* app = *(CApplication**)((char*)this + 4);
@@ -5705,7 +5627,7 @@ int TCPSocket::send(char* buf, int len)
     int r = write(m_sock, buf, len);
     if (r < 1)
     {
-        if (errno != 0xb && errno != 4 && errno != 0)
+        if (errno != EAGAIN && errno != EINTR && errno != 0)
         {
             printf("tcp send fail='%d', error ='%s'", r, strerror(errno));
             return -1;
@@ -5837,7 +5759,7 @@ int TCPSocket::recv(char* buf, int len)
     int r = read(m_sock, buf, len);
     if (r < 0)
     {
-        if (errno == 0xb || errno == 4 || errno == 0)
+        if (errno == EAGAIN || errno == EINTR || errno == 0)
         {
             return 0;
         }
@@ -6051,8 +5973,7 @@ int CPeer::send_packet(char* buf, int len)
             (CPeer*)((char*)this + 0x9783c) <= *(CPeer**)((char*)this + 0x1838))
         {
             int remain = *(int*)((char*)this + 0x1834);
-            CMyFileLog log("send_packet", 0x13b);
-            log("./log/TcpErr",
+            DNF_LOG_SCOPE_LINE(0x13b,"./log/TcpErr",
                 "!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",
                 (int)buf[1], remain, len);
             *(CPeer**)((char*)this + 0x1838) = (CPeer*)((char*)this + 0x183c);
@@ -6064,8 +5985,7 @@ int CPeer::send_packet(char* buf, int len)
         return send_packet();
     }
     int remain = *(int*)((char*)this + 0x1834);
-    CMyFileLog log("send_packet", 0x133);
-    log("./log/TcpErr", "!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",
+    DNF_LOG_SCOPE_LINE(0x133,"./log/TcpErr", "!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",
         (int)buf[1], remain, len);
     *(CPeer**)((char*)this + 0x1838) = (CPeer*)((char*)this + 0x183c);
     *(int*)((char*)this + 0x1834) = 0;
@@ -6086,7 +6006,7 @@ int CPeer::send_packet()
         r = write(fd, (char*)this + 0x183c, n);
         if (r < 1)
         {
-            if (errno == 0xb || errno == 4 || errno == 0)
+            if (errno == EAGAIN || errno == EINTR || errno == 0)
             {
                 r = 1;
             }
@@ -6573,8 +6493,7 @@ void CPowerWarConfig::Load_Table(const std::string& path)
     {
         return;
     }
-    CMyFileLog log("Load_Table", 0xcc);
-    log("./log/TableError", "Power War Config Table - ReturnCode = %d\n", rc);
+    DNF_LOG_SCOPE_LINE(0xcc, "./log/TableError", "Power War Config Table - ReturnCode = %d\n", rc);
     throw CDNFException("CPowerWarConfig::Load_Setup_Table() Exception break!");
 }
 
@@ -6924,8 +6843,7 @@ void CTcpNetSystem::SendPacket()
         peers->find(*(unsigned int*)((char*)buf + 6));
     if (it == peers->end())
     {
-        CMyFileLog log("SendPacket", 0xba);
-        log("./log/TcpSend", "SEND ERR:no peer(id:%d,size:%d,ip:%d)",
+        DNF_LOG_SCOPE_LINE(0xba,"./log/TcpSend", "SEND ERR:no peer(id:%d,size:%d,ip:%d)",
             (unsigned int)*(unsigned short*)buf, (unsigned int)*(unsigned short*)((char*)buf + 2),
             *(unsigned int*)((char*)buf + 6));
         PopDeleteTcpSendPacketQ(buf);
@@ -6940,8 +6858,7 @@ void CTcpNetSystem::SendPacket()
     }
     if (invalid)
     {
-        CMyFileLog log("SendPacket", 0xc3);
-        log("./log/TcpSend", "SEND ERR:invalid peer(%x)(id:%d)(size:%d)(ip:%d)", peer,
+        DNF_LOG_SCOPE_LINE(0xc3,"./log/TcpSend", "SEND ERR:invalid peer(%x)(id:%d)(size:%d)(ip:%d)", peer,
             (unsigned int)*(unsigned short*)buf, (unsigned int)*(unsigned short*)((char*)buf + 2),
             *(unsigned int*)((char*)buf + 6));
         PopDeleteTcpSendPacketQ(buf);
@@ -6950,8 +6867,7 @@ void CTcpNetSystem::SendPacket()
     int r = peer->send_packet((char*)buf, (int)*(unsigned short*)((char*)buf + 2));
     if (r < 1)
     {
-        CMyFileLog log("SendPacket", 0xd5);
-        log("./log/TcpSend", "SEND(id:%d,size:%d,ip:%d, cnt:%d)",
+        DNF_LOG_SCOPE_LINE(0xd5,"./log/TcpSend", "SEND(id:%d,size:%d,ip:%d, cnt:%d)",
             (unsigned int)*(unsigned short*)buf, (unsigned int)*(unsigned short*)((char*)buf + 2),
             *(unsigned int*)((char*)buf + 6), (unsigned int)q->size());
     }
@@ -6978,16 +6894,14 @@ bool CTcpNetSystem::OpenTcpService(int& sock, const char* ip, unsigned short por
             return true;
         }
         puts("tcpSock.connect Fail!");
-        CMyFileLog log("OpenTcpService", 0x123);
-        log("./log/TcpServer", "tcpSock.connect(%s, %d) Fail!", ip, (unsigned int)port);
+        DNF_LOG_SCOPE_LINE(0x123, "./log/TcpServer", "tcpSock.connect(%s, %d) Fail!", ip, (unsigned int)port);
         DeletePeer(peer);
         return false;
     }
     else
     {
         puts("tcpSock.open() Fail!");
-        CMyFileLog log("OpenTcpService", 0x118);
-        log("./log/TcpServer", "tcpSock.open() Fail!");
+        DNF_LOG_SCOPE_LINE(0x118, "./log/TcpServer", "tcpSock.open() Fail!");
         DeletePeer(peer);
         return false;
     }
@@ -7062,8 +6976,7 @@ void CGMAccounts::AppendGM_Sys(unsigned int id, char flag)
     info.m_field1 = (unsigned char)flag;
     m_list.push_back(info);
     char* mid = NumberToString(id, 0);
-    CMyFileLog log("AppendGM_Sys", 0xcd);
-    log("./log/Init", "GM List Add mid:%s", mid);
+    DNF_LOG_SCOPE_AT("AppendGM_Sys", 0xcd, "./log/Init", "GM List Add mid:%s", mid);
 }
 
 void CGMAccounts::loadGMAccounts(const char* path)

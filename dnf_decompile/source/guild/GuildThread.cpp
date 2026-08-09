@@ -147,8 +147,7 @@ void CFrameCountHandler::SaveProcess()
     m_field28 = (char)(m_field28 + 1);
     if (m_field28 != 0)
     {
-        CMyFileLog log("SaveProcess", 0xa8);
-        log("./log/frame", "FPS(%02d) / DFC(%02d)\n", m_field18, m_field4);
+        DNF_LOG_SCOPE_LINE(0xa8, "./log/frame", "FPS(%02d) / DFC(%02d)\n", m_field18, m_field4);
         m_field28 = 0;
     }
 }
@@ -158,8 +157,7 @@ void CFrameCountHandler::SaveProcess(int interval)
     m_field28 = (char)(m_field28 + 1);
     if (m_field28 != 0)
     {
-        CMyFileLog log("SaveProcess", 0xb8);
-        log("./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", interval, m_field18, m_field4);
+        DNF_LOG_SCOPE_LINE(0xb8, "./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", interval, m_field18, m_field4);
         m_field28 = 0;
     }
 }
@@ -229,16 +227,14 @@ void CUdpNetworkThread::dispatch(void* param)
                                     ((std::queue<CUdpRecvBuffer*>*)m_queue)->size();
                                 if (100 < qsize)
                                 {
-                                    CMyFileLog log("dispatch", 0xb2);
-                                    log("./log/recv", "cnt(%d)\n",
+                                    DNF_LOG_SCOPE_LINE(0xb2,"./log/recv", "cnt(%d)\n",
                                         ((std::queue<CUdpRecvBuffer*>*)m_queue)->size());
                                 }
                             }
                         }
                         else
                         {
-                            CMyFileLog log("dispatch", 0x7d);
-                            log("./log/recvErr",
+                            DNF_LOG_SCOPE_LINE(0x7d,"./log/recvErr",
                                 "Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                                 *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
                             CGuard<CMutex> g((CMutex*)m_bLock);
@@ -247,8 +243,7 @@ void CUdpNetworkThread::dispatch(void* param)
                     }
                     else
                     {
-                        CMyFileLog log("dispatch", 0x71);
-                        log("./log/recvErr",
+                        DNF_LOG_SCOPE_LINE(0x71,"./log/recvErr",
                             "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                             *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
                         CGuard<CMutex> g((CMutex*)m_bLock);
@@ -257,8 +252,7 @@ void CUdpNetworkThread::dispatch(void* param)
                 }
                 else
                 {
-                    CMyFileLog log("dispatch", 0x66);
-                    log("./log/recvErr",
+                    DNF_LOG_SCOPE_LINE(0x66,"./log/recvErr",
                         "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                         *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
                     CGuard<CMutex> g((CMutex*)m_bLock);
@@ -323,8 +317,7 @@ void CTcpNetworkThread::dispatch(void* param)
             {
                 if (m_runningFlag == 0)
                 {
-                    CMyFileLog log("dispatch", 0xae);
-                    log("./log/TcpRecv", "RecvThread Terminate");
+                    DNF_LOG_SCOPE_LINE(0xae, "./log/TcpRecv", "RecvThread Terminate");
                     return;
                 }
                 errno = 0;
@@ -334,7 +327,7 @@ void CTcpNetworkThread::dispatch(void* param)
             m_net->SendPacket();
             eventCount = m_net->WaitForEvent();
         } while (eventCount == 0);
-        if (eventCount < 0 && errno != 4 && errno != 0)
+        if (eventCount < 0 && errno != EINTR && errno != 0)
         {
             break;
         }

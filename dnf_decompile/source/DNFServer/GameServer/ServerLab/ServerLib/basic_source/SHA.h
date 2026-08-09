@@ -19,19 +19,23 @@ private:
 
     static uint CH(uint x, uint y, uint z)
     {
-        return (z ^ y) & x ^ z;
+        // ORIG：z ^ (x & (y ^ z))（标准 SHA-256 形式，装载序 z→y→x→z）。
+        return z ^ (x & (y ^ z));
     }
     static uint MAJ(uint x, uint y, uint z)
     {
-        return (y | x) & z | y & x;
+        // ORIG：(x | y) & z | x & y（装载序 y→x→z）。
+        return (x | y) & z | x & y;
     }
     static uint SIG0(uint x)
     {
-        return (x >> 0x16 | x << 10) ^ (x >> 2 | x << 0x1e) ^ (x >> 0xd | x << 0x13);
+        // ORIG：旋转序 2,13,22（xor 交换律等价，但装载/发射序由源码顺序决定）。
+        return (x >> 2 | x << 0x1e) ^ (x >> 0xd | x << 0x13) ^ (x >> 0x16 | x << 10);
     }
     static uint SIG1(uint x)
     {
-        return (x >> 0x19 | x << 7) ^ (x >> 6 | x << 0x1a) ^ (x >> 0xb | x << 0x15);
+        // ORIG：旋转序 6,11,25。
+        return (x >> 6 | x << 0x1a) ^ (x >> 0xb | x << 0x15) ^ (x >> 0x19 | x << 7);
     }
     static uint sig0(uint x)
     {

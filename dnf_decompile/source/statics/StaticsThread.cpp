@@ -138,8 +138,7 @@ void CFrameCountHandler::SaveProcess()
     m_writeTick = (char)(m_writeTick + 1);
     if (m_writeTick != 0)
     {
-        CMyFileLog log("SaveProcess", 0xa8);
-        log("./log/frame", "FPS(%02d) / DFC(%02d)\n", m_fps, m_tick);
+        DNF_LOG_SCOPE_LINE(0xa8, "./log/frame", "FPS(%02d) / DFC(%02d)\n", m_fps, m_tick);
         m_writeTick = 0;
     }
 }
@@ -193,16 +192,14 @@ void CNetworkThread::dispatch(void* param)
                                     ((std::queue<CUdpRecvBuffer*>*)m_queue)->size();
                                 if (100 < qsize)
                                 {
-                                    CMyFileLog log("dispatch", 0xb2);
-                                    log("./log/recv", "cnt(%d)\n",
+                                    DNF_LOG_SCOPE_LINE(0xb2,"./log/recv", "cnt(%d)\n",
                                         ((std::queue<CUdpRecvBuffer*>*)m_queue)->size());
                                 }
                             }
                         }
                         else
                         {
-                            CMyFileLog log("dispatch", 0x8d);
-                            log("./log/recvErr",
+                            DNF_LOG_SCOPE_LINE(0x8d,"./log/recvErr",
                                 "Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                                 *(unsigned short*)((char*)buf + 2), len,
                                 *(unsigned short*)buf);
@@ -214,8 +211,7 @@ void CNetworkThread::dispatch(void* param)
                     }
                     else
                     {
-                        CMyFileLog log("dispatch", 0x81);
-                        log("./log/recvErr",
+                        DNF_LOG_SCOPE_LINE(0x81,"./log/recvErr",
                             "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                             *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
                         {
@@ -226,8 +222,7 @@ void CNetworkThread::dispatch(void* param)
                 }
                 else
                 {
-                    CMyFileLog log("dispatch", 0x76);
-                    log("./log/recvErr",
+                    DNF_LOG_SCOPE_LINE(0x76,"./log/recvErr",
                         "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                         *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
                     {

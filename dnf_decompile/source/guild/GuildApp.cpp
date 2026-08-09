@@ -126,8 +126,7 @@ void CApplication::Load(int argc, char** argv)
         if (*dbIp == '\0' || dbPort == 0)
         {
             puts("Application TCP cfg empty!");
-            CMyFileLog log("Load", 0x180);
-            log("./log/TcpServer", "Application TCP cfg empty!");
+            DNF_LOG_SCOPE_LINE(0x180, "./log/TcpServer", "Application TCP cfg empty!");
         }
         else
         {
@@ -139,8 +138,7 @@ void CApplication::Load(int argc, char** argv)
             {
                 printf("Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!\n",
                        db->GetSock(), dbIp, (unsigned int)dbPort);
-                CMyFileLog log("Load", 0x179);
-                log("./log/TcpServer",
+                DNF_LOG_SCOPE_LINE(0x179,"./log/TcpServer",
                     "Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!",
                     db->GetSock(), dbIp, (unsigned int)dbPort);
             }
@@ -148,8 +146,7 @@ void CApplication::Load(int argc, char** argv)
             {
                 printf("Application OpenTcpService(%s, %d) Fail!\n", dbIp,
                        (unsigned int)dbPort);
-                CMyFileLog log("Load", 0x175);
-                log("./log/TcpServer", "Application OpenTcpService(%s, %d, %d) Fail!",
+                DNF_LOG_SCOPE_LINE(0x175,"./log/TcpServer", "Application OpenTcpService(%s, %d, %d) Fail!",
                     dbIp, (unsigned int)dbPort, db->GetSock());
             }
         }
@@ -247,19 +244,16 @@ void CApplication::Process()
         catch (CDNFException& e)
         {
             printf("%s\n", e.what());
-            CMyFileLog log("Process", 0x248);
-            log("./log/process", "%s\n", e.what());
+            DNF_LOG_SCOPE_LINE(0x248, "./log/process", "%s\n", e.what());
         }
         catch (...)
         {
             puts("CApplication::Process() Exception Break");
-            CMyFileLog log("Process", 0x24d);
-            log("./log/process", "CApplication::Process() Exception Break");
+            DNF_LOG_SCOPE_LINE(0x24d, "./log/process", "CApplication::Process() Exception Break");
         }
     }
     puts("CApplication::Process() Exit");
-    CMyFileLog log("Process", 0x251);
-    log("./log/process", "CApplication::Process() Exit\n");
+    DNF_LOG_SCOPE_LINE(0x251, "./log/process", "CApplication::Process() Exit\n");
 }
 
 void CApplication::CheckArgv(int argc, char** argv)

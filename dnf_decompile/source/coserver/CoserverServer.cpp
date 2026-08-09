@@ -153,8 +153,7 @@ void CServerHandler::Process()
                 if (p->IsHeartBeatTimeOver())
                 {
                     p->OnDisconnect();
-                    CMyFileLog log("Process", 0x5e);
-                    log("./log/GameServer",
+                    DNF_LOG_SCOPE_LINE(0x5e, "./log/GameServer",
                         "Game Server Disconnect, Index : %d, channel no : %d, group no: %d\n",
                         counter, p->GetChannelNo() & 0xff, p->GetGroupNo() & 0xff);
                 }
@@ -174,8 +173,7 @@ void CServerHandler::ResetHeartBeat(unsigned char group, unsigned char index)
     }
     else
     {
-        CMyFileLog log("ResetHeartBeat", 0x7a);
-        log("./log/GameServer",
+        DNF_LOG_SCOPE_LINE(0x7a,"./log/GameServer",
             "CServerHandler::ResetHeartBeat\tGame Server Index Over(%d), Group Index Over(%d)",
             (int)index, (int)group);
     }
@@ -195,8 +193,7 @@ bool CServerHandler::IsConnectedGameServer(unsigned char group, unsigned char in
     {
         return m_servers[(int)group * 0xff + (int)index].IsConnected() != 0;
     }
-    CMyFileLog log("IsConnectedGameServer", 0xa4);
-    log("./log/GameServer",
+    DNF_LOG_SCOPE_LINE(0xa4,"./log/GameServer",
         "CServerHandler::IsConnectedGameServer\tGame Server Index Over(%d), Group Index Over(%d)",
         (int)index, (int)group);
     return 0;
@@ -212,8 +209,7 @@ void CServerHandler::SetConnectFlag(unsigned char group, unsigned char index, bo
     }
     else
     {
-        CMyFileLog log("SetConnectFlag", 0xbc);
-        log("./log/GameServer",
+        DNF_LOG_SCOPE_LINE(0xbc,"./log/GameServer",
             "CServerHandler::SetConnectFlag\tGame Server Index Over(%d), Group Index Over(%d)",
             (int)index, (int)group);
     }
@@ -225,8 +221,7 @@ CGameServer* CServerHandler::GetGameServer(int idx)
     {
         return &m_servers[idx];
     }
-    CMyFileLog log("GetGameServer", 0xdc);
-    log("./log/GameServer", "CServerHandler::GetGameServer\tGame Server Index Over Index : %d!\n",
+    DNF_LOG_SCOPE_LINE(0xdc,"./log/GameServer", "CServerHandler::GetGameServer\tGame Server Index Over Index : %d!\n",
         idx);
     return 0;
 }
@@ -296,8 +291,7 @@ void CServerConfig::Load_Table(const std::string& path)
     {
         return;
     }
-    CMyFileLog log("Load_Table", 0x39);
-    log("./log/TableError", "Server Config Table - ReturnCode = %d\n", rc);
+    DNF_LOG_SCOPE_LINE(0x39, "./log/TableError", "Server Config Table - ReturnCode = %d\n", rc);
     throw CDNFException("CServerConfig::Load_Setup_Table() Exception Break!");
 }
 

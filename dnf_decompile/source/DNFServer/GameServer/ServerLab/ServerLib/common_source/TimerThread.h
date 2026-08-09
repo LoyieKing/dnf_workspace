@@ -20,6 +20,7 @@ class ITimeEntity : public IMessageStruct
 public:
     ITimeEntity()
     {
+        bTerminated = false;
     }
     virtual ~ITimeEntity()
     {

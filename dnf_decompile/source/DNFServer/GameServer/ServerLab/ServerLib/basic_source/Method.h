@@ -46,8 +46,8 @@ public:
     virtual void ResetChain() = 0;
 
     void Xor(char* buff, const char* chain);
-    void BytesToWord(const unsigned char* pucBytes, unsigned int& ruiWord);
-    void WordToBytes(unsigned int uiWord, unsigned char* pucBytes);
+    static void BytesToWord(const unsigned char* pucBytes, unsigned int& ruiWord);
+    static void WordToBytes(unsigned int uiWord, unsigned char* pucBytes);
     void SetMode(int iMode);
     void SetPadding(int iPadding);
     int GetKeyLength();

@@ -116,7 +116,7 @@ struct PCK_AUCTION_SEARCH_BY_ITEMKEY_GA : public nsl::PACKET_HEADER
     {
         memset(this, 0, 0x81);
         setCategory(0);
-        setPacketID(6);
+        setPacketID(6);  // AUCTION_SEARCH_BY_ITEMKEY_GA
         setSize(0x81);
     }
 };
@@ -222,17 +222,11 @@ struct PCK_AUCTION_BUY_ITEM_APIECE_GA : public nsl::PACKET_HEADER
 
 // ---- AG response packets (category 1) ----
 
-#define AUCTION_PACKET_CTOR_BODY(cat, pid, sz) \
-    memset(this, 0, sz); \
-    setCategory(cat); \
-    setPacketID(pid); \
-    setSize(sz)
-
 struct PCK_AUCTION_REGIST_ACK_AG : public nsl::PACKET_HEADER
 {
     PCK_AUCTION_REGIST_ACK_AG()
     {
-        AUCTION_PACKET_CTOR_BODY(1, 0x0, 0x12);
+        PACKET_CTOR_BODY(1, 0x0, 0x12);
     }
 };
 
@@ -242,7 +236,7 @@ struct PCK_AUCTION_CHECK_AUCTION_READY_AG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_CHECK_AUCTION_READY_AG()
     {
-        AUCTION_PACKET_CTOR_BODY(1, 0xd, 0x13);
+        PACKET_CTOR_BODY(1, 0xd, 0x13);
     }
 };
 
@@ -256,7 +250,7 @@ struct PCK_AUCTION_ASK_AVERAGE_PRICE_AG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_ASK_AVERAGE_PRICE_AG()
     {
-        AUCTION_PACKET_CTOR_BODY(1, 0x2, 0x36);
+        PACKET_CTOR_BODY(1, 0x2, 0x36);
     }
 };
 
@@ -276,7 +270,7 @@ struct PCK_AUCTION_ASK_REGISTED_ITEM_NUM_AG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_ASK_REGISTED_ITEM_NUM_AG()
     {
-        AUCTION_PACKET_CTOR_BODY(1, 0x3, 0x3f);
+        PACKET_CTOR_BODY(1, 0x3, 0x3f);
     }
 };
 
@@ -289,7 +283,7 @@ struct PCK_AUCTION_REGIST_RESULT_AG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_REGIST_RESULT_AG()
     {
-        AUCTION_PACKET_CTOR_BODY(1, 0x4, 0x1c);
+        PACKET_CTOR_BODY(1, 0x4, 0x1c);
     }
 };
 
@@ -304,7 +298,7 @@ struct PCK_AUCTION_BIDDING_RESULT_AG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_BIDDING_RESULT_AG()
     {
-        AUCTION_PACKET_CTOR_BODY(1, 0x5, 0x28);
+        PACKET_CTOR_BODY(1, 0x5, 0x28);
     }
 };
 
@@ -317,7 +311,7 @@ struct PCK_AUCTION_REGIST_CANCEL_RESULT_AG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_REGIST_CANCEL_RESULT_AG()
     {
-        AUCTION_PACKET_CTOR_BODY(1, 0x6, 0x1c);
+        PACKET_CTOR_BODY(1, 0x6, 0x1c);
     }
 };
 
@@ -332,7 +326,7 @@ struct PCK_AUCTION_ITEM_LIST_AG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_ITEM_LIST_AG()
     {
-        AUCTION_PACKET_CTOR_BODY(1, 0x7, 0x203d);
+        PACKET_CTOR_BODY(1, 0x7, 0x203d);
     }
 };
 
@@ -346,7 +340,7 @@ struct PCK_AUCTION_MY_REGISTED_ITEM_INFO_AG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_MY_REGISTED_ITEM_INFO_AG()
     {
-        AUCTION_PACKET_CTOR_BODY(1, 0x8, 0xdd2);
+        PACKET_CTOR_BODY(1, 0x8, 0xdd2);
     }
 };
 
@@ -360,7 +354,7 @@ struct PCK_AUCTION_MY_BIDDING_INFO_AG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_MY_BIDDING_INFO_AG()
     {
-        AUCTION_PACKET_CTOR_BODY(1, 0x9, 0x1d69);
+        PACKET_CTOR_BODY(1, 0x9, 0x1d69);
     }
 };
 
@@ -380,7 +374,7 @@ struct PCK_AUCTION_LOG_MESSAGE_AG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_LOG_MESSAGE_AG()
     {
-        AUCTION_PACKET_CTOR_BODY(1, 0xb, 0x37);
+        PACKET_CTOR_BODY(1, 0xb, 0x37);
     }
 };
 
@@ -395,13 +389,13 @@ struct PCK_AUCTION_BUY_ITEM_APIECE_AG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_BUY_ITEM_APIECE_AG()
     {
-        AUCTION_PACKET_CTOR_BODY(1, 0xe, 0x28);
+        PACKET_CTOR_BODY(1, 0xe, 0x28);
     }
 };
 
 // ---- PG response packets (category 0x13) ----
 
-#define AUCTION_PACKET_CTOR_BODY(cat, pid, sz) \
+#define PACKET_CTOR_BODY(cat, pid, sz) \
     memset(this, 0, sz); \
     setCategory(cat); \
     setPacketID(pid); \
@@ -411,7 +405,7 @@ struct PCK_AUCTION_REGIST_ACK_PG : public nsl::PACKET_HEADER
 {
     PCK_AUCTION_REGIST_ACK_PG()
     {
-        AUCTION_PACKET_CTOR_BODY(0x13, 0x0, 0x12);
+        PACKET_CTOR_BODY(0x13, 0x0, 0x12);
     }
 };
 
@@ -421,7 +415,7 @@ struct PCK_AUCTION_CHECK_AUCTION_READY_PG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_CHECK_AUCTION_READY_PG()
     {
-        AUCTION_PACKET_CTOR_BODY(0x13, 0xd, 0x13);
+        PACKET_CTOR_BODY(0x13, 0xd, 0x13);
     }
 };
 
@@ -433,7 +427,7 @@ struct PCK_AUCTION_ASK_AVERAGE_PRICE_PG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_ASK_AVERAGE_PRICE_PG()
     {
-        AUCTION_PACKET_CTOR_BODY(0x13, 0x2, 0x1e);
+        PACKET_CTOR_BODY(0x13, 0x2, 0x1e);
     }
 };
 
@@ -451,7 +445,7 @@ struct PCK_AUCTION_ASK_REGISTED_ITEM_NUM_PG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_ASK_REGISTED_ITEM_NUM_PG()
     {
-        AUCTION_PACKET_CTOR_BODY(0x13, 0x3, 0x2f);
+        PACKET_CTOR_BODY(0x13, 0x3, 0x2f);
     }
 };
 
@@ -464,7 +458,7 @@ struct PCK_AUCTION_REGIST_RESULT_PG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_REGIST_RESULT_PG()
     {
-        AUCTION_PACKET_CTOR_BODY(0x13, 0x4, 0x1c);
+        PACKET_CTOR_BODY(0x13, 0x4, 0x1c);
     }
 };
 
@@ -481,7 +475,7 @@ struct PCK_AUCTION_BIDDING_RESULT_PG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_BIDDING_RESULT_PG()
     {
-        AUCTION_PACKET_CTOR_BODY(0x13, 0x5, 0x4c);
+        PACKET_CTOR_BODY(0x13, 0x5, 0x4c);
     }
 };
 
@@ -494,7 +488,7 @@ struct PCK_AUCTION_REGIST_CANCEL_RESULT_PG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_REGIST_CANCEL_RESULT_PG()
     {
-        AUCTION_PACKET_CTOR_BODY(0x13, 0x6, 0x1c);
+        PACKET_CTOR_BODY(0x13, 0x6, 0x1c);
     }
 };
 
@@ -509,7 +503,7 @@ struct PCK_AUCTION_ITEM_LIST_PG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_ITEM_LIST_PG()
     {
-        AUCTION_PACKET_CTOR_BODY(0x13, 0x7, 0x203d);
+        PACKET_CTOR_BODY(0x13, 0x7, 0x203d);
     }
 };
 
@@ -523,7 +517,7 @@ struct PCK_AUCTION_MY_REGISTED_ITEM_INFO_PG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_MY_REGISTED_ITEM_INFO_PG()
     {
-        AUCTION_PACKET_CTOR_BODY(0x13, 0x8, 0xdd2);
+        PACKET_CTOR_BODY(0x13, 0x8, 0xdd2);
     }
 };
 
@@ -537,7 +531,7 @@ struct PCK_AUCTION_MY_BIDDING_INFO_PG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_MY_BIDDING_INFO_PG()
     {
-        AUCTION_PACKET_CTOR_BODY(0x13, 0x9, 0x1d69);
+        PACKET_CTOR_BODY(0x13, 0x9, 0x1d69);
     }
 };
 
@@ -556,7 +550,7 @@ struct PCK_AUCTION_LOG_MESSAGE_PG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_LOG_MESSAGE_PG()
     {
-        AUCTION_PACKET_CTOR_BODY(0x13, 0xb, 0x36);
+        PACKET_CTOR_BODY(0x13, 0xb, 0x36);
     }
 };
 
@@ -573,7 +567,7 @@ struct PCK_AUCTION_ASK_OWNER_IS_VIP_PG : public nsl::PACKET_HEADER
 
     PCK_AUCTION_ASK_OWNER_IS_VIP_PG()
     {
-        AUCTION_PACKET_CTOR_BODY(0x13, 0xe, 0x3c);
+        PACKET_CTOR_BODY(0x13, 0xe, 0x3c);
     }
 };
 
@@ -601,6 +595,5 @@ struct OwnerInfo
     }
 };
 
-#undef AUCTION_PACKET_CTOR_BODY
 
 #endif // NSL_AUCTIONPACKET_H_

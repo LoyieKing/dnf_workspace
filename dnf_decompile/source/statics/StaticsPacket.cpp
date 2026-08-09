@@ -10,9 +10,11 @@
 #include "DNFFileLog.h"
 #include "StaticsProxy.h"
 
+#define PACKET_HEADER_INIT(id, sz) new ((void*)this) PacketHeader(id, sz)
+
 Packet_Goldcard_Event_Statistic_STD::Packet_Goldcard_Event_Statistic_STD()
 {
-    new ((void*)this) PacketHeader(0x1f47, 0x385);
+    PACKET_HEADER_INIT(0x1f47, 0x385);
     GoldCardEventStatistic* p = (GoldCardEventStatistic*)((char*)this + 10);
     for (int i = 0x62; i != -1; i--)
     {
@@ -24,7 +26,7 @@ Packet_Goldcard_Event_Statistic_STD::Packet_Goldcard_Event_Statistic_STD()
 
 Packet_TowerOfDespair_Statistic_STD::Packet_TowerOfDespair_Statistic_STD()
 {
-    new ((void*)this) PacketHeader(0x271d, 0x33a);
+    PACKET_HEADER_INIT(0x271d, 0x33a);
     *(unsigned int*)((char*)this + 10) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
     TowerOfDespairStatistic_Value* p = (TowerOfDespairStatistic_Value*)((char*)this + 0x12);
@@ -37,89 +39,89 @@ Packet_TowerOfDespair_Statistic_STD::Packet_TowerOfDespair_Statistic_STD()
 
 Packet_DBMW_Reason_Crash_Down_Query::Packet_DBMW_Reason_Crash_Down_Query()
 {
-    new ((void*)this) PacketHeader(0xc49, 0x10a);
+    PACKET_HEADER_INIT(0xc49, 0x10a);
 }
 
 Packet_DBMW_Dungeon_Statistic_Party::Packet_DBMW_Dungeon_Statistic_Party()
 {
-    new ((void*)this) PacketHeader(0xc36, 0x177e);
+    PACKET_HEADER_INIT(0xc36, 0x177e);
 }
 
 Packet_DBMW_Dungeon_Statistic_Party_Job::Packet_DBMW_Dungeon_Statistic_Party_Job()
 {
-    new ((void*)this) PacketHeader(0xc38, 0x17c9);
+    PACKET_HEADER_INIT(0xc38, 0x17c9);
 }
 
 Packet_DBMW_Dungeon_Statistic_Party_Charac::Packet_DBMW_Dungeon_Statistic_Party_Charac()
 {
-    new ((void*)this) PacketHeader(0xc3a, 0x1759);
+    PACKET_HEADER_INIT(0xc3a, 0x1759);
 }
 
 Packet_DBMW_Packet_Overflow_Statistic::Packet_DBMW_Packet_Overflow_Statistic()
 {
-    new ((void*)this) PacketHeader(0xc44, 0x11);
+    PACKET_HEADER_INIT(0xc44, 0x11);
 }
 
 Packet_Avater_Disjoint_Statistic_DB::Packet_Avater_Disjoint_Statistic_DB()
 {
-    new ((void*)this) PacketHeader(0x17a3, 0x14e);
+    PACKET_HEADER_INIT(0x17a3, 0x14e);
     new ((void*)((char*)this + 0xa)) stDisjointAvatarInfoTotal;
 }
 
 Packet_Emblem_Create_Statistic_DB::Packet_Emblem_Create_Statistic_DB()
 {
-    new ((void*)this) PacketHeader(0x17a5, 0x26);
+    PACKET_HEADER_INIT(0x17a5, 0x26);
 }
 
 Packet_Randombox_statistic_DB::Packet_Randombox_statistic_DB()
 {
-    new ((void*)this) PacketHeader(0x17b7, 0x32);
+    PACKET_HEADER_INIT(0x17b7, 0x32);
 }
 
 Packet_Server_Match_data_DBMW::Packet_Server_Match_data_DBMW()
 {
-    new ((void*)this) PacketHeader(0x1b68, 0x13);
+    PACKET_HEADER_INIT(0x1b68, 0x13);
 }
 
 Packet_DBMW_DeathTower_Statistic_Value::Packet_DBMW_DeathTower_Statistic_Value()
 {
-    new ((void*)this) PacketHeader(0xc3c, 0x17e7);
+    PACKET_HEADER_INIT(0xc3c, 0x17e7);
 }
 
 Packet_DBMW_Query_String::Packet_DBMW_Query_String()
 {
-    new ((void*)this) PacketHeader(0x1037, 0x100f);
+    PACKET_HEADER_INIT(0x1037, 0x100f);
 }
 
 Packet_DBMW_Fatigue_Battery_Money_Statistic::Packet_DBMW_Fatigue_Battery_Money_Statistic()
 {
-    new ((void*)this) PacketHeader(0xc4a, 0x332);
+    PACKET_HEADER_INIT(0xc4a, 0x332);
     memset((char*)this + 10, 0, 0x328);
 }
 
 Packet_DBMW_HellParty_Statistic_Item::Packet_DBMW_HellParty_Statistic_Item()
 {
-    new ((void*)this) PacketHeader(0xc32, 0x17ae);
+    PACKET_HEADER_INIT(0xc32, 0x17ae);
 }
 
 Packet_DBMW_User_Ting_TimeCheck_Write_Query::Packet_DBMW_User_Ting_TimeCheck_Write_Query()
 {
-    new ((void*)this) PacketHeader(0xc46, 0x17fe);
+    PACKET_HEADER_INIT(0xc46, 0x17fe);
 }
 
 Packet_DBMW_DeathTower_Statistic_Playdata_Job::Packet_DBMW_DeathTower_Statistic_Playdata_Job()
 {
-    new ((void*)this) PacketHeader(0xc3e, 0x17ee);
+    PACKET_HEADER_INIT(0xc3e, 0x17ee);
 }
 
 Packet_DBMW_DeathTower_Statistic_Playdata_Party::Packet_DBMW_DeathTower_Statistic_Playdata_Party()
 {
-    new ((void*)this) PacketHeader(0xc40, 0x17f6);
+    PACKET_HEADER_INIT(0xc40, 0x17f6);
 }
 
 Packet_Secret_Shop_Statistic::Packet_Secret_Shop_Statistic()
 {
-    new ((void*)this) PacketHeader(0x1b69, 0xfb2);
+    PACKET_HEADER_INIT(0x1b69, 0xfb2);
     *(unsigned int*)((char*)this + 10) = 0;
     SECRET_SHOP_STATISTIC_DATA* p = (SECRET_SHOP_STATISTIC_DATA*)((char*)this + 0x12);
     for (int i = 199; i != -1; i--)
@@ -131,37 +133,37 @@ Packet_Secret_Shop_Statistic::Packet_Secret_Shop_Statistic()
 
 Packet_DBMW_Loading_Time_Report::Packet_DBMW_Loading_Time_Report()
 {
-    new ((void*)this) PacketHeader(0xfb1, 0x37);
+    PACKET_HEADER_INIT(0xfb1, 0x37);
 }
 
 Packet_DBMW_Assert_Manager_Info_Write_Query::Packet_DBMW_Assert_Manager_Info_Write_Query()
 {
-    new ((void*)this) PacketHeader(0xc42, 0x1244);
+    PACKET_HEADER_INIT(0xc42, 0x1244);
 }
 
 Packet_DBMW_Ting_User_TimeCheck_Write_Query::Packet_DBMW_Ting_User_TimeCheck_Write_Query()
 {
-    new ((void*)this) PacketHeader(0xc47, 0x17fe);
+    PACKET_HEADER_INIT(0xc47, 0x17fe);
 }
 
 Packet_DBMW_Powerwar_Loading_Time_Report::Packet_DBMW_Powerwar_Loading_Time_Report()
 {
-    new ((void*)this) PacketHeader(0xfb2, 0x170e);
+    PACKET_HEADER_INIT(0xfb2, 0x170e);
 }
 
 Packet_DBMW_Powerwar_Lag_Report::Packet_DBMW_Powerwar_Lag_Report()
 {
-    new ((void*)this) PacketHeader(0xfb3, 0x170e);
+    PACKET_HEADER_INIT(0xfb3, 0x170e);
 }
 
 PacketInsertUpdate::PacketInsertUpdate()
 {
-    new ((void*)this) PacketHeader(0x2721, 0x1018);
+    PACKET_HEADER_INIT(0x2721, 0x1018);
 }
 
 Packet_DBMW_TechnicalReport_Common_Query::Packet_DBMW_TechnicalReport_Common_Query()
 {
-    new ((void*)this) PacketHeader(0x17c5, 0x40a);
+    PACKET_HEADER_INIT(0x17c5, 0x40a);
 }
 
 Packet_Frame_Lag_Statistic_Load_Spec::Packet_Frame_Lag_Statistic_Load_Spec()
@@ -191,7 +193,7 @@ Packet_Frame_Lag_Used_Memory_Write_Query::Packet_Frame_Lag_Used_Memory_Write_Que
 
 Packet_Udp_Characteristic::Packet_Udp_Characteristic()
 {
-    new ((void*)this) PacketHeader(0xfaa, 0x33);
+    PACKET_HEADER_INIT(0xfaa, 0x33);
     *(char*)((char*)this + 10) = 0;
     *(int*)((char*)this + 0xb) = 0;
     *(int*)((char*)this + 0xf) = 0;
@@ -207,7 +209,7 @@ Packet_Udp_Characteristic::Packet_Udp_Characteristic()
 
 Packet_DBMW_Save_Client_Spec_Statistic::Packet_DBMW_Save_Client_Spec_Statistic()
 {
-    new ((void*)this) PacketHeader(0x9cf, 0x17e7);
+    PACKET_HEADER_INIT(0x9cf, 0x17e7);
     *(char*)((char*)this + 10) = 0;
     *(int*)((char*)this + 0xb) = 0;
     STSpecCount* p = (STSpecCount*)((char*)this + 0xf);
@@ -220,7 +222,7 @@ Packet_DBMW_Save_Client_Spec_Statistic::Packet_DBMW_Save_Client_Spec_Statistic()
 
 Packet_DBMW_Save_Error_Line_Statistic::Packet_DBMW_Save_Error_Line_Statistic()
 {
-    new ((void*)this) PacketHeader(0x9d1, 0x17f6);
+    PACKET_HEADER_INIT(0x9d1, 0x17f6);
     STErrorCount* p = (STErrorCount*)((char*)this + 0xe);
     for (int i = 0x263; i != -1; i--)
     {
@@ -231,7 +233,7 @@ Packet_DBMW_Save_Error_Line_Statistic::Packet_DBMW_Save_Error_Line_Statistic()
 
 Packet_DBMW_Cube_Statistic::Packet_DBMW_Cube_Statistic()
 {
-    new ((void*)this) PacketHeader(0xc34, 0x17ec);
+    PACKET_HEADER_INIT(0xc34, 0x17ec);
     *(int*)((char*)this + 10) = 0;
     memset((char*)this + 0xe, 0, 0x17de);
 }
@@ -250,7 +252,7 @@ void CInnerMsgHandler::SendStopNetworkThread()
 
 Packet_GameServer2Statisctics2DBServer::Packet_GameServer2Statisctics2DBServer()
 {
-    new ((void*)this) PacketHeader(0x27fd, 0x35);
+    PACKET_HEADER_INIT(0x27fd, 0x35);
     *(unsigned short*)((char*)this + 10) = 0;
     *(char*)((char*)this + 0xc) = 0xff;
     *(int*)((char*)this + 0xd) = 0;
@@ -434,8 +436,7 @@ int CPacketDecoder::MsgDecode(PacketHeader* pkt)
         packet_counter.IncrementPacketCount(*(unsigned short*)pkt);
         if (m_handlers[*(unsigned short*)pkt] == 0)
         {
-            CMyFileLog log("MsgDecode", 0xca);
-            log("./log/Decoder",
+            DNF_LOG_SCOPE_LINE(0xca, "./log/Decoder",
                 "CPacketDecoder::MsgDecode() Game Message with identifier %d has arrived.\n",
                 *(unsigned short*)pkt);
             return 0;
@@ -446,8 +447,7 @@ int CPacketDecoder::MsgDecode(PacketHeader* pkt)
         return 1;
     }
     printf("Game Message with identifier %d has arrived.\n", *(unsigned short*)pkt);
-    CMyFileLog log("MsgDecode", 0xea);
-    log("./log/Decoder",
+    DNF_LOG_SCOPE_LINE(0xea,"./log/Decoder",
         "CPacketDecoder::MsgDecode() Game Message with identifier %d has arrived.\n",
         *(unsigned short*)pkt);
     return 0;
@@ -530,16 +530,14 @@ void CPacketTracer::WriteLog()
 {
     if (m_count == (m_count / 0x1e) * 0x1e)
     {
-        CMyFileLog log("WriteLog", 0x2a);
-        log("./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
+        DNF_LOG_SCOPE_LINE(0x2a, "./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
         ResetLog();
     }
 }
 
 void CPacketTracer::AbsoluteWriteLog()
 {
-    CMyFileLog log("AbsoluteWriteLog", 0x32);
-    log("./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
+    DNF_LOG_SCOPE_LINE(0x32, "./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
     ResetLog();
 }
 

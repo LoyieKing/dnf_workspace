@@ -3,7 +3,10 @@
 
 For every named text symbol in the ORIGINAL binary (excluding .L locals), check
 whether our binary provides it, and if so classify the alignment:
-  - IDENTICAL: instruction text (mnemonic+operands, normalized) equal
+  - IDENTICAL: instruction text (mnemonic+operands) equal under the unified
+    caliber (see compare_common.py): immediates, field/stack offsets and
+    global addresses are preserved strictly; only direct branch/call target
+    addresses are normalized
   - NEAR:     mnemonic sequence equal but operand-level differences
   - DIFF:     structural differences (mnemonic sequence differs)
   - MISSING:  present in original, absent from our binary
@@ -16,6 +19,11 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+
+sys.path.insert(0, str(Path(__file__).resolve().parent / 'toolchain'))
+from compare_common import demangle_batch, disasm_slice, load_disasm, norm_line
+
+
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/community/df_community_r'
 NEW = Path(os.environ.get('DF_NEW_BIN', ROOT / 'dnf_decompile/source/build-verify-community/df_community_r'))
@@ -26,19 +34,10 @@ def run(cmd):
     return subprocess.check_output(cmd, shell=True, text=True, stderr=subprocess.DEVNULL)
 
 
-def demangle(name):
-    try:
-        p = subprocess.run(['c++filt', '-n'], input=name, text=True,
-                           capture_output=True, check=True)
-        return p.stdout.strip()
-    except Exception:
-        return name
-
-
 def text_symbols(bin_path):
     """Return {name: (type, size)} for defined text symbols (T/t/W/w)."""
     out = run("nm -S --defined-only '{}'".format(bin_path))
-    result = {}
+    rows = []
     for line in out.splitlines():
         parts = line.split(None, 3)
         if len(parts) < 4:
@@ -48,13 +47,15 @@ def text_symbols(bin_path):
             continue
         if name.startswith('.L'):
             continue
-        result[name] = (sym_type, int(size, 16), demangle(name), int(addr, 16))
-    return result
+        rows.append((name, sym_type, int(size, 16), int(addr, 16)))
+    dem = demangle_batch([r[0] for r in rows])
+    return {r[0]: (r[1], r[2], dem.get(r[0], r[0]), r[3]) for r in rows}
 
 
 BRANCH_RE = re.compile(r'^(.*?\b(?:j[a-z]*|call)\b.*?)\b0x[0-9a-f]+(<[^>]*>)?$')
 
 _SYM_CACHE = {}
+_DIS_CACHE = {}
 
 
 def syms_cached(bin_path):
@@ -70,27 +71,12 @@ def disasm(bin_path, symbol):
     info = syms_cached(bin_path).get(symbol)
     if not info:
         return []
-    start = info[3]
-    stop = start + info[1]
-    cmd = ("objdump -d --no-show-raw-insn --start-address=0x{:x} "
-           "--stop-address=0x{:x} '{}'".format(start, stop, bin_path))
-    try:
-        out = run(cmd)
-    except Exception:
-        return []
-    lines = []
-    for line in out.splitlines():
-        m = re.match(r'^\s*[0-9a-fA-F]+:\s*(.*)$', line)
-        if not m:
-            continue
-        txt = m.group(1).strip()
-        if not txt:
-            continue
-        # normalize branch/call target addresses to <target> so layout shifts
-        # do not count as differences; keep the symbol name if present
-        txt = re.sub(r'\b0x[0-9a-f]+(<[^>]*>)?$', r'<target>\1', txt)
-        lines.append(txt)
-    return lines
+    loaded = _DIS_CACHE.get(bin_path)
+    if loaded is None:
+        loaded = _DIS_CACHE[bin_path] = load_disasm(bin_path)
+    # 统一口径：仅归一化直接跳转/调用目标地址；
+    # 立即数、字段偏移等常量严格保留
+    return [norm_line(x) for x in disasm_slice(loaded, info[3], info[3] + info[1])]
 
 
 def mnemonic_list(insns):

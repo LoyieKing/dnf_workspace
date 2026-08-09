@@ -11,10 +11,7 @@ struct PCK_CS_POSTING_LOG : public PACKET_HEADER
 {
     PCK_CS_POSTING_LOG()
     {
-        memset(this, 0, 0x12);
-        setCategory(1);
-        setPacketID(0);
-        setSize(0x12);
+        PACKET_CTOR_BODY(1, 0, 0x12);
     }
 
     void _Clear()

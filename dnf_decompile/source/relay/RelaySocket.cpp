@@ -86,8 +86,8 @@ ssize_t TCPSocket::send(char* buf, int len)
     ssize_t r = write(sock_, buf, len);
     if (r < 1)
     {
-        if ((*__errno_location() == 0xb) || (*__errno_location() == 4) ||
-            (*__errno_location() == 0xb) || (*__errno_location() == 0))
+        if ((*__errno_location() == EAGAIN) || (*__errno_location() == EINTR) ||
+            (*__errno_location() == EAGAIN) || (*__errno_location() == 0))
         {
             r = 0;
         }
@@ -108,8 +108,8 @@ ssize_t TCPSocket::recv(char* buf, int len)
     ssize_t r = read(sock_, buf, len);
     if (r < 0)
     {
-        if ((*__errno_location() == 0xb) || (*__errno_location() == 4) ||
-            (*__errno_location() == 0xb) || (*__errno_location() == 0))
+        if ((*__errno_location() == EAGAIN) || (*__errno_location() == EINTR) ||
+            (*__errno_location() == EAGAIN) || (*__errno_location() == 0))
         {
             r = 0;
         }

@@ -158,7 +158,8 @@ struct ROI_AverageKey
     ROI_Category option_category;              // @4
     union
     {
-        __int64 option_index_key;              // @16
+        // ORIG DWARF：option_index_key 是 signed long long（非 __int64 typedef）
+        long long option_index_key;            // @16
         struct
         {
             short option_index_value[3];
@@ -175,11 +176,12 @@ struct ROI_AverageKey
     {
         if (baseItem_index == _rhp.baseItem_index)
         {
-            if ((unsigned long long)option_index_key == (unsigned long long)_rhp.option_index_key)
+            // ORIG：64 位比较为有符号（高字 jl/jg + 低字 jb），不要无符号强转
+            if (option_index_key == _rhp.option_index_key)
             {
                 return option_category < _rhp.option_category;
             }
-            return (unsigned long long)option_index_key < (unsigned long long)_rhp.option_index_key;
+            return option_index_key < _rhp.option_index_key;
         }
         return baseItem_index < _rhp.baseItem_index;
     }

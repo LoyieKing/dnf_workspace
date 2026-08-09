@@ -28,6 +28,8 @@ IDENTICAL（精准）要求：单个函数内，除「直接跳转/调用指令�
     （compare_all_functions.py 旧版）
 """
 import bisect
+import os
+import pickle
 import re
 import subprocess
 
@@ -129,3 +131,51 @@ def disasm_slice(loaded, start, stop):
     lo = bisect.bisect_left(addrs, start)
     hi = bisect.bisect_left(addrs, stop)
     return [insn[addrs[i]] for i in range(lo, hi)]
+
+
+# 逐符号审查用反汇编磁盘缓存目录（按二进制 mtime+size 失效）。
+DIS_CACHE_DIR = '/tmp/df_disasm_cache'
+
+
+def load_disasm_cached(bin_path):
+    """整二进制一次 objdump -d，按符号分片并落盘缓存（mtime+size 失效）。
+
+    返回 {symbol: [(addr_hex, 指令文本)...]}。供 diff_func / classify 等
+    逐符号审查复用，避免每个函数重复起 objdump 子进程（/mnt/d 上子进程开销大）。
+    """
+    bin_path = str(bin_path)
+    st = os.stat(bin_path)
+    key = (st.st_mtime_ns, st.st_size)
+    os.makedirs(DIS_CACHE_DIR, exist_ok=True)
+    cache_file = os.path.join(DIS_CACHE_DIR, re.sub(r'[^A-Za-z0-9]', '_', bin_path) + '.pkl')
+    try:
+        with open(cache_file, 'rb') as f:
+            saved_key, funcs = pickle.load(f)
+        if saved_key == key:
+            return funcs
+    except Exception:
+        pass
+    out = subprocess.check_output(
+        ["objdump", "-d", "--no-show-raw-insn", bin_path],
+        text=True, stderr=subprocess.DEVNULL)
+    funcs = {}
+    cur = None
+    for ln in out.splitlines():
+        m = re.match(r'^([0-9a-f]+) <(.*)>:', ln)
+        if m:
+            name = m.group(2)
+            # 局部标签（.Lxxx / 符号+偏移）不是函数边界，跳过以免截断当前函数。
+            if name.startswith('.L') or '+' in name:
+                continue
+            cur = name
+            funcs[cur] = []
+            continue
+        m = re.match(r'^\s*([0-9a-f]+):\s+([^\t]+)', ln)
+        if cur is not None and m:
+            funcs[cur].append((m.group(1), m.group(2).strip()))
+    try:
+        with open(cache_file, 'wb') as f:
+            pickle.dump((key, funcs), f)
+    except Exception:
+        pass
+    return funcs

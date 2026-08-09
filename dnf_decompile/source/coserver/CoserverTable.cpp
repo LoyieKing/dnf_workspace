@@ -100,8 +100,7 @@ void CAppConfig::Load_Table(const std::string& filename)
     {
         return;
     }
-    CMyFileLog log("Load_Table", 0x60);
-    log("./log/TableError", "App Config Table - ReturnCode = %d\n", rc);
+    DNF_LOG_SCOPE_LINE(0x60, "./log/TableError", "App Config Table - ReturnCode = %d\n", rc);
     throw CDNFException("CAppConfig::Load_Setup_Table() Exception Break!");
 }
 
@@ -111,15 +110,13 @@ void CAppConfig::Check_FileName(const std::string& filename)
     std::string pid = "./pid/" + filename + ".pid";
     if (access(cfg.c_str(), 0) != 0)
     {
-        CMyFileLog log("Check_FileName", 0x73);
-        log("./log/Init", "Check_FileName - %s,%s\n", cfg.c_str(), pid.c_str());
+        DNF_LOG_SCOPE_LINE(0x73, "./log/Init", "Check_FileName - %s,%s\n", cfg.c_str(), pid.c_str());
         throw CDNFException(
             "CAppConfig::Set_FileName() There is no cfg file Exception Break! Check ./cfg/*.cfg files");
     }
     if (access(pid.c_str(), 0) == 0)
     {
-        CMyFileLog log("Check_FileName", 0x78);
-        log("./log/Init", "Check_FileName - %s,%s\n", cfg.c_str(), pid.c_str());
+        DNF_LOG_SCOPE_LINE(0x78, "./log/Init", "Check_FileName - %s,%s\n", cfg.c_str(), pid.c_str());
         throw CDNFException(
             "CAppConfig::Set_FileName() There is already pid file! Exception Break! Check ./pid/*.pid files");
     }
@@ -149,7 +146,6 @@ CDNFException::~CDNFException() throw()
 const char* CDNFException::what() const throw()
 {
     const char* msg = m_msg.c_str();
-    CMyFileLog log("what", 0x1a);
-    log("./log/Except", "%s", msg);
+    DNF_LOG_SCOPE_LINE(0x1a, "./log/Except", "%s", msg);
     return m_msg.c_str();
 }

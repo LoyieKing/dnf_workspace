@@ -14,10 +14,11 @@ class TThreadStateControl
 public:
     TThreadStateControl()
     {
+        // ORIG：m_bisStarted(+4) 先写，再按 m_bisStop/m_bisTerminating/m_bIsTerminated。
+        m_bisStarted = false;
         m_bisStop = false;
         m_bisTerminating = false;
         m_bIsTerminated = false;
-        m_bisStarted = false;
     }
     ~TThreadStateControl()
     {

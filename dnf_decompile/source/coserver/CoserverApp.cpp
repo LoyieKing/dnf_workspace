@@ -267,14 +267,12 @@ void CApplication::Process()
         catch (CDNFException& e)
         {
             printf("CApplication::Process() Exception Break : %s\n", e.what());
-            CMyFileLog log("Process", 0x1ec);
-            log("./log/process", "CApplication::Process() Exception Break : %s\n", e.what());
+            DNF_LOG_SCOPE_LINE(0x1ec, "./log/process", "CApplication::Process() Exception Break : %s\n", e.what());
         }
         catch (...)
         {
             puts("CApplication::Process() Exception Break");
-            CMyFileLog log("Process", 0x1f1);
-            log("./log/process", "CApplication::Process() Exception Break\n");
+            DNF_LOG_SCOPE_LINE(0x1f1, "./log/process", "CApplication::Process() Exception Break\n");
         }
     }
 }

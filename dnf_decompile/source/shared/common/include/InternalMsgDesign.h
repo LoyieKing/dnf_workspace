@@ -9,6 +9,7 @@ namespace nsl {
 
 class TCPUser;
 class ConInterface;
+extern __thread unsigned int tlsThreadId;  // 与 Thread.h 一致，供 ctor 初始化 mOwnerWorkId
 
 #pragma pack(push, 1)
 struct INTERNALMSG_HEADER
@@ -85,6 +86,11 @@ struct INTERNALMSG_SERVICE_UNAVAILABLE : public nsl::INTERNALMSG_HEADER
         setCategory(0);
         setInternalMsgID(0);
         setSize(sizeof(INTERNALMSG_SERVICE_UNAVAILABLE));
+        // ORIG：setSize 后按序显式清 bWillDelete(0x15)/workIndex(0x5)/mOwnerWorkId(0x16)，
+        // 再置 bActiveJob(0x4)（memset 已清零，冗余但机器码可见，缺则差 6 条）。
+        bWillDelete = false;
+        workIndex = 0;
+        mOwnerWorkId = 0;
         bActiveJob = false;
     }
 };
@@ -99,8 +105,13 @@ struct INTERNALMSG_DESTROY_CHARACTER : public nsl::INTERNALMSG_HEADER
     {
         memset(this, 0, sizeof(INTERNALMSG_DESTROY_CHARACTER));
         setCategory(1);
-        setInternalMsgID(0);
+        setInternalMsgID(2);  // ORIG：internal msg ID = 2（原误写 0）
         setSize(sizeof(INTERNALMSG_DESTROY_CHARACTER));
+        // ORIG：setSize 后还有 4 个成员初始化（bWillDelete/workIndex/mOwnerWorkId/bActiveJob）
+        bWillDelete = false;
+        workIndex = 0;
+        mOwnerWorkId = nsl::tlsThreadId;
+        bActiveJob = false;
     }
 };
 

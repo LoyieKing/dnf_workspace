@@ -73,7 +73,7 @@ void CApplication::Init(int argc, char** argv)
     try
     {
         ShowLogo();
-        np_server_xml::CServerXml::StrLoading();
+        g_ServerString_.StrLoading();
         CheckArgv(argc, argv);
         CSignalTranslatorInstance()->init(this);
         AttachAppInitor(argv);
@@ -130,8 +130,7 @@ void CApplication::Load(int argc, char** argv)
 
         m_tcpNetSystem.Init(m_appConfig->Get_ServerTcpPort());
         {
-            CMyFileLog log("Load", 0x1ba);
-            log("./log/Tcp", "App Load : Network system (%x)", &m_tcpNetSystem);
+            DNF_LOG_SCOPE_LINE(0x1ba, "./log/Tcp", "App Load : Network system (%x)", &m_tcpNetSystem);
         }
 
         {
@@ -141,8 +140,7 @@ void CApplication::Load(int argc, char** argv)
             if (*mgrIp == '\0' || mgrPort == 0)
             {
                 puts("Application TCP cfg empty!");
-                CMyFileLog log("Load", 0x1e4);
-                log("./log/TcpServer", "Application TCP cfg empty!");
+                DNF_LOG_SCOPE_LINE(0x1e4, "./log/TcpServer", "Application TCP cfg empty!");
             }
             else
             {
@@ -151,8 +149,7 @@ void CApplication::Load(int argc, char** argv)
                 mgr->SetPort(mgrPort);
                 if (m_tcpNetSystem.OpenTcpService(*mgr->GetSockRef(), mgrIp, mgrPort) == 1)
                 {
-                    CMyFileLog log("Load", 0x1dc);
-                    log("./log/TcpServer", "Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!",
+                    DNF_LOG_SCOPE_LINE(0x1dc,"./log/TcpServer", "Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!",
                         mgr->GetSock(), mgrIp, mgrPort);
                     printf("Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!\n",
                         mgr->GetSock(), mgrIp, mgrPort);
@@ -160,8 +157,7 @@ void CApplication::Load(int argc, char** argv)
                 else
                 {
                     printf("Application OpenTcpService(%s, %d) Fail!\n", mgrIp, mgrPort);
-                    CMyFileLog log("Load", 0x1d3);
-                    log("./log/TcpServer", "Application OpenTcpService(%s, %d, %d) Fail!",
+                    DNF_LOG_SCOPE_LINE(0x1d3,"./log/TcpServer", "Application OpenTcpService(%s, %d, %d) Fail!",
                         mgrIp, mgrPort, mgr->GetSock());
                 }
             }
@@ -174,8 +170,7 @@ void CApplication::Load(int argc, char** argv)
             if (*dbIp == '\0' || dbPort == 0)
             {
                 puts("Application TCP cfg empty!");
-                CMyFileLog log("Load", 0x211);
-                log("./log/TcpServer", "Application TCP cfg empty!");
+                DNF_LOG_SCOPE_LINE(0x211, "./log/TcpServer", "Application TCP cfg empty!");
             }
             else
             {
@@ -184,8 +179,7 @@ void CApplication::Load(int argc, char** argv)
                 db->SetPort(dbPort);
                 if (m_tcpNetSystem.OpenTcpService(*db->GetSockRef(), dbIp, dbPort) == 1)
                 {
-                    CMyFileLog log("Load", 0x209);
-                    log("./log/TcpServer", "Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!",
+                    DNF_LOG_SCOPE_LINE(0x209,"./log/TcpServer", "Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!",
                         db->GetSock(), dbIp, dbPort);
                     printf("Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!\n",
                         db->GetSock(), dbIp, dbPort);
@@ -193,8 +187,7 @@ void CApplication::Load(int argc, char** argv)
                 else
                 {
                     printf("Application OpenTcpService(%s, %d) Fail!\n", dbIp, dbPort);
-                    CMyFileLog log("Load", 0x200);
-                    log("./log/TcpServer", "Application OpenTcpService(%s, %d, %d) Fail!",
+                    DNF_LOG_SCOPE_LINE(0x200,"./log/TcpServer", "Application OpenTcpService(%s, %d, %d) Fail!",
                         dbIp, dbPort, db->GetSock());
                 }
             }
@@ -425,34 +418,56 @@ void CApplication::Process()
         catch (CDNFException& e)
         {
             printf("CApplication::Process() Exception Break : %s\n", e.what());
-            CMyFileLog log("Process", 0x413);
-            log("./log/process", "CApplication::Process() Exception Break : %s", e.what());
+            DNF_LOG_SCOPE_LINE(0x413, "./log/process", "CApplication::Process() Exception Break : %s", e.what());
             throw;
         }
         catch (...)
         {
             puts("CApplication::Process() Exception Break");
-            CMyFileLog log("Process", 0x418);
-            log("./log/process", "CApplication::Process() Exception Break\n");
+            DNF_LOG_SCOPE_LINE(0x418, "./log/process", "CApplication::Process() Exception Break\n");
             throw;
         }
     }
     puts("CApplication::Process() Exit");
-    CMyFileLog log("Process", 0x41c);
-    log("./log/process", "CApplication::Process() Exit\n");
+    DNF_LOG_SCOPE_LINE(0x41c, "./log/process", "CApplication::Process() Exit\n");
 }
 
 void CApplication::SwitchQueueTCP()
 {
+    CGuard<CMutex> guard(Get_TcpNetSystem()->Get_TcpRecvQLock());
+    if (!IQueue<TcpRecvQueue>::Get()->SwitchQueue())
+    {
+        CPacketDecoderInstance()->SetTCPQueue(IQueue<TcpRecvQueue>::Get()->GetParseQueue());
+    }
 }
 
 void CApplication::SwitchQueueUDP()
 {
+    CGuard<CMutex> guard(&m_udpQLock);
+    if (!m_udpSwapQueue.GetRecvQ()->empty())
+    {
+        m_udpSwapQueue.SwapQ();
+        m_udpThread->SetUDPQueue(m_udpSwapQueue.GetRecvQ());
+        CPacketDecoderInstance()->SetUdpQueue(m_udpSwapQueue.GetParseQ());
+    }
+}
+
+void CApplication::SendTestPacket_2()
+{
+}
+
+UdpRecvQueue* CApplication::Get_UdpPacketParseQ()
+{
+    return m_udpSwapQueue.GetParseQ();
 }
 
 CItemLimitEditionMgr* CApplication::getItemLimitEditionMgr()
 {
     return m_itemLimitMgr;
+}
+LimitNpcBuyItemManager* CApplication::getLimitNpcBuyItemManager()
+{
+    return m_limitNpc;
 }
 
 CTcpNetSystem* CApplication::Get_TcpNetSystem()
@@ -488,6 +503,10 @@ CTaskScheduler* CApplication::GetTaskScheduler()
 {
     return m_taskScheduler;
 }
+COnTimeEventManager* CApplication::GetOnTimeEventManager()
+{
+    return *(COnTimeEventManager**)((char*)this + 0x320);
+}
 
 void* CApplication::GetGMAccounts()
 {
@@ -522,6 +541,21 @@ void* CApplication::FindGameServer(int id)
 void* CApplication::FindTcpGameServer(unsigned int id)
 {
     return m_serverHandler2->GetTcpGameServer(id);
+}
+void CApplication::OnTcpGameServerDown(CTcpGameServer* tcpGameServer)
+{
+    m_userManager.DeleteUsersOnTcpGameServerDown(tcpGameServer);
+}
+void CApplication::SendTestPacket_1()
+{
+    Packet_Monitor_Event_End endPkt;
+    *(unsigned int*)((char*)&endPkt + 0xa) = 9;
+    CPacketTranslater::OnEventEnd(&endPkt);
+    Packet_Monitor_Event_Start startPkt;
+    *(unsigned int*)((char*)&startPkt + 0xa) = 9;
+    *(unsigned short*)((char*)&startPkt + 0xe) = 4;
+    *(unsigned short*)((char*)&startPkt + 0x12) = 0;
+    CPacketTranslater::OnEventStart(&startPkt);
 }
 
 void* CApplication::Get_MemoryCashManager()
@@ -687,10 +721,11 @@ void CApplication::TranslateSignal()
 {
     m_serverHandler->Clear_Table();
     m_serverHandler->Load_Table("./script/kill_user_config.tbl");
-    std::vector<ST_KillUSRConfig*>* vec = m_serverHandler->GetInfo();
+    const std::vector<ST_KillUSRConfig*>* vec = m_serverHandler->GetInfo();
     if (!vec->empty())
     {
-        for (std::vector<ST_KillUSRConfig*>::iterator it = vec->begin(); it != vec->end(); ++it)
+        for (std::vector<ST_KillUSRConfig*>::const_iterator it = vec->begin(); it != vec->end();
+             ++it)
         {
             ST_KillUSRConfig* cfg = *it;
             if (cfg->m_type == 3)
@@ -709,7 +744,6 @@ void CApplication::TranslateSignal()
             }
             else if (cfg->m_type == 4)
             {
-                m_appConfig->GetServerInfoMap();
                 m_serverHandler2->Load(m_appConfig->GetServerInfoMap());
                 m_memberConfig->Load_Table("./script/member_cnt_config.tbl");
                 m_memberExpTbl->Load_Table("./script/member_exp.tbl");
@@ -753,10 +787,9 @@ int CApplication::AddAccusationCharac(const std::string& a, const std::string& b
     }
     if (m_map350.size() == (m_map350.size() / 100) * 100)
     {
-        CMyFileLog log("AddAccusationCharac", 0x5c0);
-        log("./log/mannerlessUser", "user count : %u\n", m_map350.size());
+        DNF_LOG_SCOPE_AT("AddAccusationCharac", 0x5c0, "./log/mannerlessUser", "user count : %u\n", m_map350.size());
     }
-    std::pair<std::string, int> key(b, c);
+    std::pair<const std::string, int> key(b, c);
     if (m_set338.find(key) != m_set338.end())
     {
         return 0x6f;

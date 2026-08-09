@@ -44,6 +44,8 @@ FLAGS="-m32 -O0 -std=gnu++0x -fno-enforce-eh-specs -nostdinc -DTIXML_USE_STL -DB
   -I$ROOT/shared -I$ROOT/shared/common/include"
 
 # TinyXML 2.6.2 原始编译形态（独立对象，-O3 + gnu++98 + 4.4.6 libstdc++ 头 + TIXML_USE_STL）。
+# guild 原始 tinyxml 由 GCC 4.4.4 编译（校验 145/148，见 docs/tinyxml_boost_version_verify.md）。
+TINYXML_CXX=${TINYXML_CXX:-/tmp/c6-g++-444r}
 TINYXML_FLAGS="-m32 -O3 -std=gnu++98 -fno-enforce-eh-specs -nostdinc -DTIXML_USE_STL -DBOOST_DISABLE_ASSERTS \
   -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include \
   -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include-fixed \
@@ -81,7 +83,7 @@ for f in DNFFileLog.cpp CFileLogWriterBase.cpp DNFFunctionLib.cpp Thread.cpp tin
         if [ ! -f "$OUT_DIR/$(basename "$f" .cpp).o" ] || \
            [ "$COMMON/$f" -nt "$OUT_DIR/$(basename "$f" .cpp).o" ]; then
             echo "CC  $f (-O3 gnu++98 4.4.6hdr, TinyXML 2.6.2)"
-            run_job "$CXX" $TINYXML_FLAGS -c "$COMMON/$f" -o "$OUT_DIR/$(basename "$f" .cpp).o"
+            run_job "$TINYXML_CXX" $TINYXML_FLAGS -c "$COMMON/$f" -o "$OUT_DIR/$(basename "$f" .cpp).o"
         else
             echo "SKIP $f"
         fi

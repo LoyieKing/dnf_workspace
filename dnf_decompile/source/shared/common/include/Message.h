@@ -199,7 +199,13 @@ inline void Message::setOffDataTypeMask(int bit)
 
 inline int Message::getDataTypeMask(int bit)
 {
-    return (0 < (1 << bit & dataTypeMask));
+    // ORIG：dataTypeMask 先载 edx，1<<bit 走 ebx/esi（callee-saved）——
+    // 操作数顺序 + if/else 分支物化（test; jle; mov $1; jmp; mov $0）。
+    if (0 < (dataTypeMask & (1 << bit)))
+    {
+        return 1;
+    }
+    return 0;
 }
 
 inline void Message::SetWouldBlock()

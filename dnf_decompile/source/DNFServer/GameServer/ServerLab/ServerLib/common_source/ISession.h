@@ -11,11 +11,12 @@ public:
     ISession()
     {
     }
+    // Virtual order must match auction DWARF/vtable: onClose, onDoClose, then dtor.
+    virtual void onClose(bool bActiveClosing) = 0;
+    virtual void onDoClose() = 0;
     virtual ~ISession()
     {
     }
-    virtual void onClose(bool bActiveClosing) = 0;
-    virtual void onDoClose() = 0;
     inline void setTCPUser(TCPUser* pUser)
     {
         pTCPUser = pUser;

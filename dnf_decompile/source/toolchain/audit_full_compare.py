@@ -8,6 +8,7 @@ Improvements over compare_df_community_functions.py:
 """
 import re
 import subprocess
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 

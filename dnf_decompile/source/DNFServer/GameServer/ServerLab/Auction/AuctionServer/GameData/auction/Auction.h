@@ -80,7 +80,7 @@ public:
     int AddItemAveragePrice(unsigned long item_id, unsigned char upgrade,
                             int average_price, unsigned int purchase_cnt,
                             const ROI_AverageKey& roiKey, unsigned char refine, bool bFlag);
-    void Set_ROI_Constraint(const ROI_Average_Constraint& constraint);
+    int Set_ROI_Constraint(const ROI_Average_Constraint& constraint);
     int TransErrToReason(int err);
     int GetAvatarEmblemInfo(int ui_id, stAvatarEmblemInfo_t* pInfo);
     int GetAvatarExpansionInfo(int ui_id, stAvatarExpansionInfo_t* pInfo);
@@ -94,14 +94,14 @@ public:
                          unsigned short* pNumberOfFound,
                          AuctionItemInfo* pOutAuctionItemInfoArray);
     int RegistCancel(int owner_id, unsigned long long auction_id);
-    int OpenPrivateStore(unsigned int m_id, int character_num, int* character_ids);
+    void OpenPrivateStore(unsigned int m_id, int character_num, int* character_ids);
     int GetMyRegistedItemInfo(int owner_id, int* pNum, MyRegistedItemInfo* pOut);
     int GetMyBiddingInfo(int buyer_id, int* pNum, MyBiddingItemInfo* pOut);
-    int ClosePrivateStore(unsigned int m_id);
+    void ClosePrivateStore(unsigned int m_id);
     int BuyItemApiece(unsigned long long auction_id, int buyer_id, int price, int count);
     int Bidding(int buyer_id, const char* buyer_name, unsigned long long auction_id,
                 int price, char* out, int& ret);
-    int IsOwnerVIP(unsigned long long auction_id, OwnerInfo& ownerInfo);
+    bool IsOwnerVIP(unsigned long long auction_id, OwnerInfo& ownerInfo);
     char* GetAvatarColorName(int ui_id);
     EnumAuctionItemType CheckItemType(unsigned long item_id);
     void UnregistChkMapForAvatarCreature(bool bCreature, int add_info);
@@ -110,19 +110,11 @@ public:
     bool IsPrivateStoreOpen(int owner_id);
     bool IsStackableCategory(unsigned short category) const
     {
-        if ((category > 0x32c7) && (category <= 0x32ce))
-        {
-            return true;
-        }
-        if ((category > 0x752f) && (category <= 0x7598))
-        {
-            return true;
-        }
-        if ((category > 0x7917) && (category <= 0x7a49))
-        {
-            return true;
-        }
-        if ((category > 0x80e7) && (category <= 0x80ec))
+        // ORIG：单条 OR 链 + 共享 return true（jbe 逐区间跳过）
+        if ((0x32c7 < category && category <= 0x32ce)
+            || (0x752f < category && category <= 0x7598)
+            || (0x7917 < category && category <= 0x7a49)
+            || (0x80e7 < category && category <= 0x80ec))
         {
             return true;
         }

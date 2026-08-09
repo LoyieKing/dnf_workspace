@@ -55,8 +55,7 @@ void* MemPool<T>::alloc()
             headOfFreeList_ = (void*)((int)block + 0x1804);
             result = block;
             m_chunks.push_back(std::move(block));
-            CMyFileLog log("alloc", 0x7d);
-            log("./log/Mempool", "class size(%d) cnt(%d)", m_classSize, m_count * (int)m_chunks.size());
+            DNF_LOG_SCOPE_LINE(0x7d, "./log/Mempool", "class size(%d) cnt(%d)", m_classSize, m_count * (int)m_chunks.size());
         }
         else
         {
@@ -225,8 +224,7 @@ void CKillUSRConfig::Load_Table(const std::string& path)
     {
         return;
     }
-    CMyFileLog log("Load_Table", 0x5b);
-    log("./log/TableError", "Kill USR Config Table - ReturnCode = %d\n", rc);
+    DNF_LOG_SCOPE_LINE(0x5b, "./log/TableError", "Kill USR Config Table - ReturnCode = %d\n", rc);
     throw CDNFException("CKillUSRConfig::Load_Setup_Table() Exception break!");
 }
 
@@ -247,4 +245,3 @@ void CommonTime::SetCurTime()
     m_time[4] = (char)pt->tm_min;
     m_time[5] = (char)pt->tm_wday;
 }
-

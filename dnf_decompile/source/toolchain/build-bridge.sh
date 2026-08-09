@@ -12,8 +12,29 @@
 # ============================================================
 set -e
 
-SRC_DIR=$(cd "$(dirname "$0")/../ChannelOld/DNFChannelBridge" && pwd)
-OUT_DIR="$(cd "$(dirname "$0")/.." && pwd)/build-bridge"
+# 并行编译：默认按核数分批，逐 PID 检查退出码（不改变编译输出与链接顺序）。
+JOBS=${JOBS:-$(nproc 2>/dev/null || echo 4)}
+_job_pids=""
+_job_count=0
+run_job() {
+    "$@" &
+    _job_pids="$_job_pids $!"
+    _job_count=$((_job_count + 1))
+    if [ "$_job_count" -ge "$JOBS" ]; then
+        wait_jobs
+    fi
+}
+wait_jobs() {
+    for p in $_job_pids; do
+        wait "$p" || exit 1
+    done
+    _job_pids=""
+    _job_count=0
+}
+
+ROOT=$(cd "$(dirname "$0")/.." && pwd)
+SRC_DIR="$ROOT/ChannelOld/DNFChannelBridge"
+OUT_DIR="$ROOT/build-bridge"
 C6ROOT=${C6ROOT:-/tmp/c6root}
 CXX=/tmp/c6-g++-446r
 
@@ -23,7 +44,8 @@ COMMON_FLAGS="-m32 -O0 -D_GNU_SOURCE -std=gnu++98 -pthread -fno-enforce-eh-specs
   -isystem $C6ROOT/usr/include/c++/4.4.7 \
   -isystem $C6ROOT/usr/include/c++/4.4.7/x86_64-redhat-linux \
   -isystem $C6ROOT/usr/include/c++/4.4.7/backward \
-  -isystem $C6ROOT/usr/include"
+  -isystem $C6ROOT/usr/include \
+  -isystem $ROOT/Library3rd/MySQL/include"
 
 mkdir -p "$OUT_DIR"
 
@@ -45,13 +67,15 @@ for f in $SOURCES; do
     echo "CC  $f.cpp"
     if [ -n "$subdir" ] && [ "$subdir" != "." ]; then
         mkdir -p "$OUT_DIR/$subdir"
-        "$CXX" $COMMON_FLAGS -c "$SRC_DIR/$f.cpp" -o "$OUT_DIR/$subdir/$base.o"
+        run_job "$CXX" $COMMON_FLAGS -c "$SRC_DIR/$f.cpp" -o "$OUT_DIR/$subdir/$base.o"
         OBJS="$OBJS $OUT_DIR/$subdir/$base.o"
     else
-        "$CXX" $COMMON_FLAGS -c "$SRC_DIR/$f.cpp" -o "$OUT_DIR/$base.o"
+        run_job "$CXX" $COMMON_FLAGS -c "$SRC_DIR/$f.cpp" -o "$OUT_DIR/$base.o"
         OBJS="$OBJS $OUT_DIR/$base.o"
     fi
 done
+
+wait_jobs
 
 if [ -n "$OBJS" ]; then
     echo "LD  df_bridge_r"

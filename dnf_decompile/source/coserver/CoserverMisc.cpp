@@ -55,8 +55,7 @@ void* MemPool<T>::alloc()
             headOfFreeList_ = (void*)((int)block + 0x204);
             result = block;
             m_chunks.push_back(std::move(block));
-            CMyFileLog log("alloc", 0x7d);
-            log("./log/Mempool", "class size(%d) cnt(%d)", m_classSize, m_count * (int)m_chunks.size());
+            DNF_LOG_SCOPE_LINE(0x7d, "./log/Mempool", "class size(%d) cnt(%d)", m_classSize, m_count * (int)m_chunks.size());
         }
         else
         {
@@ -148,8 +147,7 @@ void CDNFUserInOutCounter::WriteLog()
                         *(int*)(m_counters + ((g * 0xff + c) * 2 + 1) * 4));
             }
         }
-        CMyFileLog log("WriteLog", 0x24);
-        log("./log/UserCounter", "%s", buf);
+        DNF_LOG_SCOPE_LINE(0x24, "./log/UserCounter", "%s", buf);
         memset(buf, 0, 4000);
     }
 }
@@ -294,8 +292,7 @@ void CKillUSRConfig::Load_Table(const std::string& path)
     {
         return;
     }
-    CMyFileLog log("Load_Table", 0x5b);
-    log("./log/TableError", "Kill USR Config Table - ReturnCode = %d\n", rc);
+    DNF_LOG_SCOPE_LINE(0x5b, "./log/TableError", "Kill USR Config Table - ReturnCode = %d\n", rc);
     throw CDNFException("CKillUSRConfig::Load_Setup_Table() Exception break!");
 }
 

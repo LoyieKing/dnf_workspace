@@ -56,14 +56,16 @@ public:
     }
     void shutdown()
     {
-        if (this->epoll_fd_ != -1)
+        // ORIG：外层早退（je→nop）、内层 je→EPI、delete 后 jmp EPI + nop。
+        if (this->epoll_fd_ == -1)
         {
-            close(this->epoll_fd_);
-            this->epoll_fd_ = -1;
-            if (this->events_ != NULL)
-            {
-                operator delete[](this->events_);
-            }
+            return;
+        }
+        close(this->epoll_fd_);
+        this->epoll_fd_ = -1;
+        if (this->events_ != NULL)
+        {
+            operator delete[](this->events_);
         }
     }
     bool handleEvents(unsigned int milisec, DataPool* pPool);
@@ -92,12 +94,15 @@ public:
             printf("regist handle fail1!!-%x\n", s->getHandle());
             exit(1);
         }
-        int iResult = epoll_ctl(this->epoll_fd_, EPOLL_CTL_ADD, s->getHandle(), &ev);
-        if (iResult < 0)
+        if (epoll_ctl(this->epoll_fd_, EPOLL_CTL_ADD, s->getHandle(), &ev) < 0)
         {
             puts("regist handle fail2!!");
+            return false;
         }
-        return iResult > -1;
+        else
+        {
+            return true;
+        }
     }
     bool unregistHandle(T* s)
     {
@@ -107,8 +112,7 @@ public:
         }
         epoll_event ev;
         memset(&ev, 0, sizeof(epoll_event));
-        int iResult = epoll_ctl(this->epoll_fd_, EPOLL_CTL_DEL, s->getHandle(), &ev);
-        if (iResult < 0)
+        if (epoll_ctl(this->epoll_fd_, EPOLL_CTL_DEL, s->getHandle(), &ev) < 0)
         {
             return false;
         }
@@ -116,10 +120,15 @@ public:
     }
     unsigned int getNativeEventFilter(unsigned int event_filter)
     {
-        unsigned int t = (event_filter & 1) != 0;
+        // ORIG：t 从 0 起，条件满足时 |=（movl $0 + orl 形态）
+        unsigned int t = 0;
+        if ((event_filter & 1) != 0)
+        {
+            t |= 1;
+        }
         if ((event_filter & 4) != 0)
         {
-            t = t | 0x18;
+            t |= 0x18;
         }
         return t;
     }
@@ -170,14 +179,60 @@ bool EpollReactor<T>::handleEvents(unsigned int milisec, DataPool* pPool)
     }
     for (int i = 0; i < n_event; i++)
     {
-        if ((G_Script()->findIntValue(0, 4) == 0x5209) || (this->m_ServerSession == NULL)
-            || (this->events_[i].data.ptr != (void*)this->m_ServerSession->getHandle()))
+        // ORIG：accept 块在 fall-through（jne 直跳事件块）→ 条件反置 + 分支互换
+        if ((G_Script()->findIntValue(0, 4) != 0x5209) && (this->m_ServerSession != NULL)
+            && (this->events_[i].data.ptr == (void*)this->m_ServerSession->getHandle()))
         {
-            TCPUser* s = *(TCPUser**)&this->events_[i].data;
-            unsigned int session_id = s->getUserId();
-            if ((this->events_[i].events & 8) == 0)
+            TCPUser* newSession = pPool->createTCPUser();
+            newSession->setNeedReconnect(false);
+            newSession->setLastAccessTime();
+            // ORIG：createTCPSocket 结果直传 setSocket（无 pSock 命名局部）
+            newSession->setSocket(pPool->createTCPSocket());
+            // ORIG：if (!accept()) {destroy} else {success} —— ! 物化 xor $0x1
+            if (!this->m_ServerSession->getSocket()->accept(*newSession->getSocket()))
             {
-                if ((this->events_[i].events & 0x10) == 0)
+                pPool->destroyTCPUser(newSession);
+            }
+            else
+            {
+                newSession->setRecvDataType(TCPUser::RECV_DATA_NORMAL);
+                newSession->setSendDataType(TCPUser::SEND_DATA_NORMAL);
+                // ORIG：count 常驻 ebx（register 局部）
+                register unsigned int count = pPool->GetTcpUserCount();
+                if ((int)count < G_Script()->findIntValue(0, 2) + 2)
+                {
+                    registHandle(newSession, 5);
+                    addConnectedUser(newSession->getUserId(), newSession, false);
+                }
+                else
+                {
+                    newSession->onPassiveClose("../basic_header/Reactor.inl", 0xe6);
+                }
+            }
+        }
+        else
+        {
+            // ORIG：data.ptr 字段直访（位移折叠），勿用 reinterpret cast
+            TCPUser* s = (TCPUser*)this->events_[i].data.ptr;
+            unsigned int session_id = s->getUserId();
+            // ORIG：掩码判断为正向 !=0（0xf5/0x103 块在 fall-through）
+            if ((this->events_[i].events & 8) != 0)
+            {
+                if (s->onPassiveClose("../basic_header/Reactor.inl", 0xf5))
+                {
+                    delConnectedUser(session_id, s);
+                }
+            }
+            else
+            {
+                if ((this->events_[i].events & 0x10) != 0)
+                {
+                    if (s->onPassiveClose("../basic_header/Reactor.inl", 0x103))
+                    {
+                        delConnectedUser(session_id, s);
+                    }
+                }
+                else
                 {
                     if ((this->events_[i].events & 1) != 0)
                     {
@@ -195,47 +250,6 @@ bool EpollReactor<T>::handleEvents(unsigned int milisec, DataPool* pPool)
                         }
                     }
                 }
-                else
-                {
-                    if (s->onPassiveClose("../basic_header/Reactor.inl", 0x103))
-                    {
-                        delConnectedUser(session_id, s);
-                    }
-                }
-            }
-            else
-            {
-                if (s->onPassiveClose("../basic_header/Reactor.inl", 0xf5))
-                {
-                    delConnectedUser(session_id, s);
-                }
-            }
-        }
-        else
-        {
-            TCPUser* newSession = pPool->createTCPUser();
-            newSession->setNeedReconnect(false);
-            newSession->setLastAccessTime();
-            TCPSocket* pSock = pPool->createTCPSocket();
-            newSession->setSocket(pSock);
-            if (this->m_ServerSession->getSocket()->accept(*newSession->getSocket()))
-            {
-                newSession->setRecvDataType(TCPUser::RECV_DATA_NORMAL);
-                newSession->setSendDataType(TCPUser::SEND_DATA_NORMAL);
-                unsigned int count = pPool->GetTcpUserCount();
-                if ((int)count < G_Script()->findIntValue(0, 2) + 2)
-                {
-                    registHandle(newSession, 5);
-                    addConnectedUser(newSession->getUserId(), newSession, false);
-                }
-                else
-                {
-                    newSession->onPassiveClose("../basic_header/Reactor.inl", 0xe6);
-                }
-            }
-            else
-            {
-                pPool->destroyTCPUser(newSession);
             }
         }
     }
@@ -245,8 +259,8 @@ bool EpollReactor<T>::handleEvents(unsigned int milisec, DataPool* pPool)
 template <class T>
 void EpollReactor<T>::addConnectedUser(unsigned int id, T* connectedUser, bool isServerUser)
 {
-    const char* pcVar4 = isServerUser ? "true" : "false";
-    G_TraceLog()->sysLog(1, "addConnectedUser(%d), isServer:%s", id, pcVar4);
+    G_TraceLog()->sysLog(1, "addConnectedUser(%d), isServer:%s", id,
+                         isServerUser ? "true" : "false");
     if (isServerUser)
     {
         mServerUsers[id] = connectedUser;

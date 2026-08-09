@@ -517,11 +517,36 @@ if/else-if 链 → 逐条 `jne` 跳过。实例：`Script::get_key_val`。
   全部分支目标偏移 7 字节）。
 
 ## 39. `* 4` 的 lea vs shl（2026-08-09 auction）
-- `temp * 4`（临时表达式结果）→ ORIG 常发 `lea 0x0(,%eax,4),%reg`（保留源寄存器）；
-- `var * 4`（变量）或 NEW 的分配 → `shl $0x2,%eax; mov %eax,%reg`。
-- `&global[idx*0x40]` 基址加法：ORIG `lea (%edx,%eax,1),%eax` vs NEW
-  `add %eax,%edx`——同为寄存器偏好，语义一致。
-- 实例：`WideString::assign(PKwi)`、`trimLeft`、`NumberToString`。
+- **先查 DWARF 类型形态，再判伪影**（2026-08-09 修订，原「不可复现」结论作废）：
+- 该家族实为**两个不同机理**，处理方式截然不同：
+- **子类 A：数组下标地址的 PLUS**（`base + idx*scale` 作为地址）
+- - ORIG `lea (%edx,%eax,1),%eax`（和为目的地=基址寄存器）vs NEW
+-   `add %eax,%edx`（目的地=比例寄存器）——取决于 gimplify 树的操作数顺序，
+-   而树顺序由**数组类型形态**决定：
+- - 反例（已修）：`gNumberToStringBuffer` ORIG DWARF 类型 = `char[8][0x40]`
+-   （subrange 7/63），若源码写成 `char[0x200]` + `&buf[index * 0x40]`，
+-   PLUS 以比例寄存器为目的地 → `add`；改回二维数组 + 自然下标
+-   `sprintf(gNumberToStringBuffer[index], ...)` → 与 ORIG **逐指令一致**
+-   （`NumberToString(unsigned)` 22/22、`NumberToString(unsigned long long)` 29/29，
+-   仅剩 rodata 格式串地址，ext/full 口径归一化）。
+- - 判定法：读 ORIG DWARF 变量 `DW_AT_type` 的 subrange 链；shape 不符就改声明，
+-   这同时满足「类布局/字段严格照 DWARF」的硬性要求。
+- - 剩余 `RecvBuffer::Parse`/`DBDispatcher::dispatch` 的 lea/add 属于更宽的
+-   帧与局部布局差异（§63/§81 类），不是纯数组形态，需整体对齐局部集。
+- **子类 B：裸乘 `len * 4`（memcpy 长度等临时值）**
+- - ORIG 偶发 `lea 0x0(,%eax,4),%reg`（保留源寄存器、1 条）；NEW 恒为
+-   `shl $0x2,%eax; mov %eax,%reg`（2 条）。
+- - 实测方向会**反转**：`WideString::C2(PKw)` ORIG 是 `shl+mov`、NEW 反而
+-   是 `lea`——证明是逐函数寄存器分配翻转，非编译器固定偏好。
+- - 尝试矩阵（全部无效）：`-mtune=i386/i486/i586`、`-march` 全族、
+-   `-maccumulate-outgoing-args`、`-g`、gnu++98、十余种 `-fno-*`、
+-   4.4.4/4.4.6-3/c6 后端、命名局部/指针算术/整型算术/强转各种写法。
+-   `-mtune≤i586` 能强制地址求和变 lea，但会把全二进制 outgoing-args 切成
+-   push 风格（ORIG 是槽式），引入海量新 DIFF，不可用。
+- - 结论：子类 B 确认为工具链调度伪影，语义等价即可（实例：`WideString::assign(PKwi)`、
+-   `concat` ×3、`insert` ×2、`remove`、`trimLeft`、`WideString::C2(PKwi)`）。
+- - 连带：±2 字节指令差异会使同函数内 `jmp <T> +0x62` vs `+0x60`（trimLeft/
+-   CharString::assign 等），归一化目标符号后仍差 2——是布局后果，非独立缺陷。
 
 ## 40. 栈槽按「反声明序」分配（2026-08-09 auction HandlerFor_DB_）
 - GCC 4.4 -O0 给局部变量分配栈槽时，**最后声明的变量地址最高**（最靠近
@@ -676,3 +701,373 @@ if/else-if 链 → 逐条 `jne` 跳过。实例：`Script::get_key_val`。
   不会触发受影响 TU 重建（§10.2 同类）。修复流程：`touch` 受影响 `.cpp` 后重跑。
 - 注意源目录搜索顺序（basic_source 优先于 common_source），要 touch 实际被
   编译的那份源文件。
+
+## 61. if/else 整块互换 + 条件反置（2026-08-09 auction EpollReactor）
+- ORIG 常把「else 块」放在 fall-through（`jne/jg` 直跳 then 块）：事件循环里
+  accept 块、0xf5/0x103 掩码块都是如此。必须把源码写成正条件 + 分支互换：
+  `if (!A && !B && !C) {accept} else {event}`（De Morgan 反写），而不是
+  `if (A || B || C) {event} else {accept}`。
+- 判定法：看条件检查后的第一条分支指令跳向哪块——je/jne 的目标是 then 还是
+  else。一次性换块可消除 0x80+ 的块布局差异。
+
+## 62. 模板头改动与弱符号多实例（2026-08-09 auction Reactor.h）
+- Reactor.h 是模板头，改动后 build 脚本不会自动重编引用 TU——需 touch 实际
+  实例化该模板的 .cpp（如 TCPThread/TActiveConnect）再跑构建。
+- 模板成员是弱符号，链接器从多个实例化 TU 中挑一个进最终二进制；必须把所有
+  含该符号的 .o 都重编，否则比对的是旧实例（getNativeEventFilter 教训）。
+
+## 63. 语义重复的局部要合并（2026-08-09 auction RecvBuffer::Parse）
+- `unsigned int parsableLength = ...; unsigned int lenCheck = parsableLength;`
+  两个同值局部会让 GCC 各占一个栈槽（且多一次拷贝）；ORIG 只有一个
+  `unsigned int lenCheck`，后续 `(int)lenCheck < msgSize` 直接复用。
+- 教训：Ghidra 反编译常把同一变量拆成两个命名，合并回单一局部才能对上槽位。
+
+## 64. bool 局部物化位置不可控（2026-08-09 auction RecvBuffer::Parse）
+- `bool bOversize = (A || B); if (bOversize) return false;`：
+  - 普通局部 → `mov %al,-slot; cmpb $0,-slot`（栈槽往返）；
+  - `register bool` → `mov %eax,%ebx; test %bl,%bl`（callee-saved）；
+  - ORIG 是 `test %al,%al`（留在 eax，无转移）。三态都试过，eax 形态不可复现。
+- 同函数还有：lenCheck 的 `mov+cmpl` vs `cmpl mem`、`lea` vs `add`、
+  jle/jge 与 jl/jg 的 RTL 方向（§59）——均为工具链伪影，语义一致。
+
+## 65. switch 值命名局部会多一层栈往返（2026-08-09 auction WorkThread::loop）
+- `char msgType = recvMessage->mMsgType; switch (msgType)` → 额外
+  `mov %al,-slot; movsbl -slot,%eax`（存储+重载）；
+- `switch (recvMessage->mMsgType)`（无命名局部）→ ORIG 直接比较 al。
+- 同类：`err` 检查改 `if ((err = call()) != 0)`（赋值在条件内 setne，§54）。
+- 该函数剩余 ~22 条差异全为 case 内局部往返（dispatch 参数、acUser 字段、
+  64 位 Message::ident 暂存）——语义一致，工具链伪影。
+
+## 66. 常量乘减的前端分发折叠（2026-08-09 auction MY_BIDDING_INFO_GP）
+- `0x1d69 - X * 0x7d` 被 cc1plus_446 前端分发成 `X * (-0x7d) + 0x1d69`
+  （imul 负常量 + add）；ORIG 4.4.6-3 不折叠，保留 `mov $0x3c; sub;
+  imul $0x7d; 0x1d69 - result`（正乘后 sub）。
+- 中间局部（`int t = 0x3c - n; setSize(0x1d69 - t*0x7d)`）只能阻止
+  `0x3c*0x7d` 的完全折叠，减号仍会分发——语义一致，指令形态不可复现。
+- 同类批量内联（§56）注意：11 个站点的批量替换要连双发送第二处一起，
+  否则编译失败；批量后全量 DIFF 183→179。
+
+## 67. 多区间判定用单条 OR 链共享 return 块（2026-08-09 auction）
+- 多条 `if (A && B) return true;` 会各自物化 `mov $1,%eax; jmp`（+10 条）；
+- 单条 `if (A1&&B1 || A2&&B2 || ...) return true; return false;` 让 GCC 共享
+  一个 return-true 块（每个区间 `jle` 跳过，命中末段 `jle` 跳共享块）——严格
+  IDENTICAL（IsAvatarCategory 31/31、isEmblemAvatar 23/23）。
+- 跳表 switch 的 base 选择：`switch (x % 10)`（cases 2-9）→ base-0 10 项表；
+  `switch (x % 10 - 2)`（cases 0-7）→ base-2 8 项表 + `lea -2`（isValidEmblemAvatar）。
+
+## 68. 直接 return 消除 result 局部物化（2026-08-09 auction Search）
+- `if (p==0) { result=0x24; } return result;` → 本工具链必把 result 物化到栈槽
+  （`movl $0x24,-0xc(%ebp); mov -0xc(%ebp),%eax`）；
+- ORIG（DWARF 有 `result` 局部但代码是死变量）用 `mov $0x24,%eax; jmp` 直出。
+- 修复：全部改用 `return 0x24;` / `return 0;`，并**保留 `int result;` 声明不删**
+  （gcc 对未使用声明仍出 DWARF 变量条目，保住局部名合规）。GetRegisteredInfo 67/67。
+- 若 result 还有真实使用（如 GetAuctionItemInfo 的 GetItemAveragePrice 返回值），
+  result 照常用；只有纯赋值后返回的分支改直 return。
+
+## 69. 外层 if/else + 独立 if 的早退块布局（2026-08-09 auction Search）
+- ORIG 常见形态：`if (A) { 取数 } else { return err; } if (B) { return err; } 主体;`
+  生成 `je err1; 取数; je err2; jmp 主体; err1; err2; 主体`（err1/err2 相邻在主体前）。
+- 嵌套在 if 里（`if (A) { if (B) ... } else ...`）会生成不同块序，DIFF。
+- 行号表（decodedline）可直接还原块顺序：err1 行号 < err2 行号 < 主体行号即此形态。
+- 已用于 GetRegisteredInfo（67/67 严格 IDENTICAL）与 GetAuctionItemInfo 主干。
+
+## 70. 三目包表达式 vs if/else 赋值的公共 store（2026-08-09 auction SetOperateParameter）
+- `gap = (c<25000) ? (c-0x59d8) : (c-0x61a8);`（三目包**整个减法表达式**）→
+  分支内各 reload c + sub 常量，末段一个公共 `mov %ax,-slot`；与 ORIG 完全一致。
+- `if (c<25000) gap=c-0x59d8; else gap=c-0x61a8;` → 每个分支各自 store（重复 store），DIFF。
+- `gap = c - (c<25000 ? 0x59d8 : 0x61a8);`（三目只包常量）→ 先预载 c 到 edx、
+  再物化常量相减，DIFF（多了 `mov 0xc(%ebp),%eax; movzwl 0x4(%eax),%edx`）。
+- 分支里再嵌套 `pOperate->category = (c<25000) ? (gap+19000) : (gap+21000);` 同规则。
+- 修复后 SetOperateParameter 仅剩日志格式串地址（扩展口径归一化）。
+
+## 71. 嵌套 if 替代 `&&` 避免布尔物化（2026-08-09 auction GetAuctionItemInfo）
+- `if (!isEmpty() && !isMatching()) return 0x24;` → gcc 物化 `mov $1,%eax;
+  mov $0,%eax; test; je`（把 && 结果存到栈/寄存器再判）；
+- ORIG 是两条独立 `call; xor $0x1,%eax; test %al,%al; je 成功`，中间无物化。
+- 改嵌套：`if (!isEmpty()) { if (!isMatching()) { return 0x24; } }` → 与 ORIG 逐条一致。
+- 同一函数剩余只有排序 end 指针的 `add $0x16` 折叠伪影（见 §39/§80）。
+
+## 72. 循环内 `break` 共享尾部 return（2026-08-09 auction Search/ProcessMostRecentExpireItem）
+- 循环里 `if (cond) return 0;` 且循环后有 `return 0;` → 本工具链内联
+  `mov $0,%eax; jmp exit`（两处 return 各自生成）；ORIG 合并到尾部单一出口。
+- 改 `if (cond) break;` + 循环后单一 `return 0;` → 与 ORIG 完全一致
+  （SetSearchResult、SearchByItemIdUpgrade 均严格 IDENTICAL）。
+- 多分支错误路径同理：`if (err==0x2c) break; log; break;` + 末尾
+  `return error_code;`（Auction::ProcessMostRecentExpireItem，仅剩日志串地址）。
+
+## 73. 局部声明顺序按 DWARF decl_line 排（2026-08-09 auction 多函数）
+- gcc -O0 的栈槽分配与声明顺序强相关：DWARF 里 decl_line 靠前的局部
+  （如 GetRegistedItemInfo：error_code 2376 → ptr_auc_data 2378 → ptr_data 2380 →
+  id_list_iter 2381）若源码顺序颠倒，槽位整体互换（-0x14/-0x10 对调）→ DIFF。
+- 修复：把顶层局部按 DWARF decl_line 重排；块内局部（如 ptr_data 在 else 里用）
+  也要提升到与 DWARF 一致的层级。GetRegistedItemInfo/GetBiddingInfo 靠此对齐槽位。
+- 槽位整体平移（如全部 -0x10）通常是多了非 DWARF 局部（pItemInfo/pPool/sVar4 等），
+  删除并内联后帧大小回归（见 §78）。
+
+## 74. ORIG 死变量语义要照抄（2026-08-09 auction GetBiddingInfo）
+- ORIG 的 error_code 局部在 break 路径赋值（0x29/0x24），但函数末尾
+  `mov $0x0,%eax`（永远 return 0，error_code 从不读回）——原版就是这样。
+- 重建必须 `return 0;` 而不是 `return error_code;`，否则语义不等价。
+- 行号表 + 反汇编尾部可确认：break 跳转目标落在 `*pInOutItemNum=index_cnt;
+  mov $0,%eax; epilogue`，error_code 槽位之后无任何读取。
+
+## 75. `result = result + f()` vs `result += f()`（2026-08-09 auction Search::Delete）
+- `result += OperateBy...(…)` → `add %eax,-0x1c(%ebp)`（单条内存加法）；
+- ORIG 是 `mov -0x1c(%ebp),%edx; add %edx,%eax; mov %eax,-0x1c(%ebp)`。
+- 改显式 `result = result + OperateBy...(…)` → 与 ORIG 一致。Delete 全函数对齐
+  （仅静态地址，扩展口径归一化）。
+
+## 76. `iter != end` 包 body + else 错误块（2026-08-09 auction GetRegistedItemInfo）
+- `if (iter == end) { err; break; } body;` → 本工具链生成 `call eq; test; je body`
+  （eq 方法 + body 落 je 目标）；ORIG 是 `call ne; test; je err`（ne + err 落 je 目标，
+  body 顺落）。
+- 改 `if (iter != end) { body } else { err; break; }` → 与 ORIG 同形
+  （`call ne; test; je err_block; body...`）。仍剩 1 条比较载入伪影（§81 类）。
+
+## 77. 临时 map 指针 + NULL 检查要照抄（2026-08-09 auction GetAvatarColorName）
+- ORIG 有 DWARF 局部 `tempMap = &avatarColorInfo.avatarColorNameMap`（指针），
+  且随后 `if (tempMap == NULL) return "";`（对必然非空指针做空检查）。
+- 直接 `avatarColorInfo.avatarColorNameMap.find(...)` 少了 tempMap 槽位与空检查 → DIFF。
+- 补上后 GetAvatarColorName 仅剩 `""` 常量地址（扩展口径归一化）。
+
+## 78. 多余反编译局部导致帧整体变大（2026-08-09 auction 多函数）
+- 反编译器命名局部（pItemInfo/pPool/sVar4/pSVar9/pacVar10/dVar9/itemId/
+  itemUpgradeValue/itemRefineValue/sub_result 等）大多不在 DWARF → 栈帧 +0x10~0xa0。
+- 规则：非 DWARF 局部一律删除，把表达式内联进调用点
+  （`mpAuction->GetItemInfo(id)->category_`、`GetItemId()` 直接作实参、循环条件直写）。
+- 只有 ORIG 明显暂存的值（如 commission_rate 的 FP 暂存）保留局部。
+- Purchase：删 dVar9/sVar7/itemRefineValue/price_00/itemUpgradeValue/uVar8 后帧对齐，
+  剩 FP 暂存槽位与 sort 折叠伪影。
+
+## 79. FP 除法暂存要提前（2026-08-09 auction Purchase）
+- `(double)price / 100.0` 若在两个分支各写一次，gcc 不公共子表达式提升（-O0）；
+  ORIG 在 owner_type 分支**之前** `fildl price; fldl 100.0; fdivrp; fstpl -0x68`
+  暂存一次，分支内只 `fmull -0x68`。
+- 保留 `double commission_rate = (double)price / 100.0;` 命名局部（虽不在 DWARF，
+  但这是复现 ORIG 暂存形态的唯一途径），并把两条分支写成
+  `commission = (int)(Get*Commission() * commission_rate);`。
+
+## 80. 排序 end 指针的 add 折叠不可复现（2026-08-09 auction 多处）
+- `std::sort((short*)&k.option_index_key, (short*)((int)&k.option_index_key + 6))`
+  ORIG 折叠为 `lea base; add $0x16,%eax`；本工具链必拆成 `add $0x10; add $0x6`
+  （或 `lea 0x6(%eax)` 位移折叠）。
+- 试过 `+3`（指针算术）、`&arr[3]`、`(char*)+6` 均不产生 `add $0x16` 单条形态。
+- 1 条指令伪影（§39 同类），记录即可；GetAuctionItemInfo/Purchase 均为此。
+
+## 81. 比较载入的 `mov mem,%eax; mov %eax,%edx` 伪影（2026-08-09 auction）
+- `if (*pInOutItemNum == index_cnt)`（静态 int 比较）：ORIG 生成
+  `mov (%eax),%eax; mov %eax,%edx; mov idx,%eax; cmp %eax,%edx`（多一条 mov）；
+  本工具链直接 `mov (%eax),%edx`。操作数互换（`index_cnt == *p`）无影响。
+- 同类：Char2Hex 表查 `movzbl tab(%eax),%eax; mov %eax,%edx` vs 直载 edx；
+  GetBiddingInfo 尾部 `*pInOutItemNum = index_cnt` 的 `mov %eax,%edx`。
+- 不可复现的寄存器调度伪影，语义一致，记录即可。
+
+## 82. 全量比对期间禁止重编（2026-08-09）
+- `fast_strict.py` 全量跑 ~5-6 分钟；期间若重链 df_auction_r，`nm` 读半成品
+  返回非零，整轮白跑。先停手等 DONE 再动 build。
+- 增量单函数校验用 `/tmp/diff_sym.py`（逐条，秒级），不受影响。
+
+## 83. `unsigned char >> n` 提升后是 sar（2026-08-09 auction PrintDnfItemInfo）
+- `(unsigned int)(itemInfo.uniItemAttr >> 5)`：移位发生在**提升后的 int** 上，
+  gcc 发 `sar`；uniItemAttr ≥ 0x80 时结果错误（ORIG 是 `shr $0x5,%al`）。
+- 必须先转 unsigned 再移：`((unsigned int)itemInfo.uniItemAttr) >> 5` → `shr`。
+- 形似而实异的语义坑：外层 `(unsigned int)` 只影响结果截断，不影响移位方向。
+- 修复后该函数剩 sprintf 多实参的寄存器分配/帧差（0x4c vs 0x5c，§81 类）。
+
+## 84. DWARF 有、代码不读的死局部（2026-08-09 auction Parse_Table）
+- ORIG `int AVATAR_COLOR_SCRIPT = 5;` 只初始化到栈槽（-0xc），调用处仍用字面量
+  `ExplodeString(..., 5) == 5`（`movl $0x5,0xc(%esp)`、`cmp $0x5,%eax`）。
+- 若在调用处改用该局部（`== AVATAR_COLOR_SCRIPT`），gcc 会读槽位 → DIFF。
+- 修复：**声明并初始化死局部（占槽、保 DWARF 名），调用处保持字面量**。
+- 同类见 §68（result 死局部保名不读）。Parse_Table 由此对齐帧与调用形态。
+
+## 85. 大函数命名合规：删反编译局部 + 内联单次表达式（2026-08-09 续）
+- CFileLogWriter::writeLog/writeRawLog：`delete prev_itr->second;` 与
+  `logs.insert(...).second` 内联后帧 0x2ec→0x2dc（少 oldLog 4B + inserted 8B）；
+  参数/局部全部对齐 DWARF（fileName/logMsg/auto1/currTime/result/currtm/args/
+  newTempFileName/newFileName/itr/prevtime/result2/prevtm/prevTempFileName/
+  prevFileName/prev_itr/newLog）。
+- TimerThread::loop：`size`/`remain` 非 DWARF 局部内联（printf/sleep 直写表达式），
+  命名对齐 temp/startTime/endTime/elapsedTime。
+- PutDBSendPackageByExpire：`send_to_buyer.temp_item_id` 读包内
+  `item_info.item_id`（ORIG 是包内拷贝非 pAucDicData 直读）；`field_0` 双 32 位
+  判断改单条 64 位（or/test）。
+- 教训：先查 DWARF decl_line 与局部集，再决定「命名」还是「内联」。
+
+## 86. RegistItem/RegistCancel 收尾（2026-08-09）
+- **RegistItem**（573/573 指令对齐，仅剩 SENDER_NPC_NAME 数据地址）：
+  - 尾部 Insert 实参全内联（GetItemId/GetUpgradeValue/auctionId/
+    `GetUpgradeValue() != 0`/instancePricePerUnit/GetUpgradeSeparate）；
+    ORIG 对 `upgrade != 0` 用 `test %al,%al; setne %al`（-0xb0 暂存），
+    内联后自动复现；
+  - `if (IsStackableCategory(...) && (1 < add_info))` 的 && 物化
+    （mov $1/mov $0/test）→ 改嵌套 if，指令数 578→573。
+- **RegistCancel**（652/652 指令对齐，剩槽位布局）：
+  - 三处 `category`（582/636/657）与 `item_category`（717）按 DWARF 分别命名；
+  - pMsg/pNewCell 段（677/678）必须包独立词法块——它与 dbtr_history 的
+    pNewCell（522）同作用域，不包块会重声明编译错（DWARF 本就是嵌套块）；
+  - pSVar9/pacVar10/ptVar13/pPool 全内联 + 64 位 field_0 检查。
+
+## 87. 伪影（artifact）的机理与还原实验总结（2026-08-09 auction）
+
+### 什么是「伪影」
+- 伪影 = 同一源码在 -O0 下、同一语义的多种合法机器码形态：
+  PLUS 目的寄存器（add vs lea）、setcc 物化位置、块序/jmp+nop 尾部、
+  多余 mov（§81）、callee-saved 偏好（§57）、帧布局（§40/§78）等。
+- 它们不是语义差异；口径上严格 NEAR/DIFF，扩展/全量口径部分归一化。
+
+### 机理（以 lea/add 家族为样本，已实证）
+- 地址表达式 `base + idx*scale` 的 PLUS 展开会复用某个操作数寄存器作目的地：
+  复用**基址寄存器** → `lea (%edx,%eax,1),%eax`；复用**比例寄存器** → `add %eax,%edx`。
+- 该选择由 gimplify 树的操作数顺序决定，而树顺序由**数组类型形态**决定
+  （`char[8][0x40]`+自然下标 vs `char[0x200]`+手动 `*0x40`）——
+  这就是 §39 子类 A 的根因，也是本工程第一个被完整还原的「伪影」。
+
+### 还原实验矩阵（全部在 c6-g++-446r = g++ 4.4.7 驱动 + cc1plus 4.4.6-3 后端下）
+| 尝试 | 结果 |
+|---|---|
+| `-mtune=i386/i486/i586` | 地址求和 → lea ✅；但 outgoing-args 切 push，与 ORIG 槽式不符 ❌ |
+| `-maccumulate-outgoing-args` + `-mtune=i386` | 回到 add（两个 knob 纠缠）❌ |
+| `-march` 全族 × `-mtune` 全族 | 仅 tune≤i586 出 lea，其余 add ❌ |
+| `-g/-g3/-gdwarf-2/-gdwarf-3/-fno-var-tracking` | 无影响（含真 TU 全量验证）❌ |
+| `-std=gnu++98/gnu++0x` | 无影响 ❌ |
+| `-fno-exceptions/-fno-rtti/-fno-forward-propagate/-fno-cprop-registers` 等十余种 | 无影响 ❌ |
+| 4.4.4 / 4.4.6-3 / c6 其它后端 | 同样 add-first ❌ |
+| 命名局部（`char* p = ...`） | lea 形态精确复现但 +spill +frame+8 ❌ |
+| 指针算术 `buf + idx*0x40` | 第一处 lea，第二处 add，寄存器换位 ❌ |
+| 整型算术 `(char*)((uint)buf + idx*0x40)` | 两处 lea 但求值序/装载形态不同 ❌ |
+| ✅ 数组形态与 DWARF 一致（`char[8][0x40]` + `buf[index]`） | **逐指令一致**（NumberToString 2/2） |
+
+### 结论
+- §39 子类 A（数组下标）：**可还原**，修法 = 按 DWARF subrange 改声明形态。
+- §39 子类 B（裸乘 `*4`）：**不可还原**——方向随函数反转（`WideString::C2(PKw)`
+  ORIG 是 shl / NEW 是 lea），判定为 4.4.6-3 构建上下文的分配翻转，语义等价即可。
+- 其它伪影（§36/§59/§61/§80/§81）机理同源：-O0 展开/分配自由度；记录即可，
+  不阻塞验收。压差优先级仍为：callset/控制流/常量 > 助记符形态 > 行号。
+
+## 88. 第三十八批压差速记（2026-08-09 auction）
+- **字节移位复现**：`(x >> 5) & 0x1f` 或 `(x & 0xe0) >> 5` → `shr $0x5,%al;
+  movzbl %al,%eax`（ORIG 形态）。反例：
+  - `((unsigned int)x) >> 5`（先转 unsigned）→ 32 位 `shr $0x5,%eax`；
+  - `(unsigned char)(x >> 5)`（先移再截断）→ **`sar`**（x 提升为 int 后符号移，
+    且 32 位）——提升陷阱，先 & 0x1f/0xe0 或加掩码才安全。
+- **bool 物化**：`packet.b = call()` 直赋 → `mov %al,slot`；if/else 显式赋
+  → `test %al,%al; je L; movb $1; jmp L2; L: movb $0; L2`（ORIG 形态）。
+- **死局部保名**：ORIG 里「赋值后未读」的局部必须声明并初始化（占槽、保 DWARF
+  名），调用处保持重读/字面量（§84 同类）：
+  - `onAUCTION_CLOSE_PRIVATE_STORE_GA` 的 `mId = pPck->m_id`（DWARF decl 1541，
+    ClosePrivateStore 仍传 `pPck->m_id`）；
+  - `Script::findIntValue` 的 `ret = atoi(...)`（DWARF decl 43，return ret）。
+- **初始化列表顺序**：`TraceLog` 的 `logmask=0` 在 ctor body 会晚于成员锁构造；
+  移入 init-list（声明序在锁前）才与 ORIG 一致（0x33c 先于 TThreadLock ctor）。
+- **冗余清零要照抄**：`INTERNALMSG_SERVICE_UNAVAILABLE` 的 ctor 在 memset(0x24)
+  之后仍显式清 bWillDelete/workIndex/mOwnerWorkId（机器码可见，缺 6 条）。
+- **分支语义复核**：`test %al,%al; je` 是 al==0 才跳；改块序（`isIterEnd` 的
+  双 return）先对反汇编确认 je 目标再落笔，避免把语义写反。
+- **早退布局**：`if (cond) return; body;` 产生 `jne SKIP; body; jmp EPI; SKIP:
+  nop; EPI`；`if (cond) {} else { body; }` 产生 fall-through（少 jmp+nop）。
+- **error_no==0 显式返回**：`if (err) {log} else { return 0; } return err;`
+  复现 ORIG 的 `mov $0,%eax` 尾；`if (err) {log} return err;` 会 je 直跳 epilogue。
+
+## 89. i586 arch 实验与函数级 target 覆盖（2026-08-09 auction）
+- **现象**：ORIG 的 FP 比较是 `fucompp+fnstsw %ax+test $0x45,%ah+sete`（i386/i586
+  形态），NEW（-march=i686）发 `fucomip+seta`（P6+）。FP 形态由 **-march** 决定，
+  -mtune 不影响；ORIG 工程代码无任何 i686+ 指令（唯一 bsr 属 i386），
+  疑似 i586 指令集编译。
+- **实验 1（全 TU i586，已回滚）**：`-march=i586 -maccumulate-outgoing-args`
+  全量编译 → strict 4116→**3667**、DIFF 143→**648**。i586 改变字节装载
+  （`movzbl mem,%reg` → `xor;mov mem,%l`）、寻址形态等，破坏大批按 i686
+  校准到 ORIG 的函数——ORIG 并非全局 i586。
+- **实验 2（按 TU i586，已回滚）**：仅 Auction/AuctionDictionary/
+  AveragePriceDictionary 三个含 FP 差异的 TU 用 i586 → strict 4023、DIFF 235。
+  仍负（同 TU 其它函数连带回归，如 SendMessageToMonitor 65→60 对齐）。
+- **方案定案（函数级属性，保留）**：GCC 4.4.6-3 支持
+  `__attribute__((target("arch=i586")))`（`#pragma GCC target("arch=...")` 无效）。
+  只加在 4 个 FP 函数（makeSuccessfulBid/RegistItem/AddItemAveragePrice/
+  UpdateAveragePirce）：FP 比较形态与 ORIG 对齐、参数仍槽式（属性不改
+  push-args 默认）、同 TU 其它函数零影响；全量总量不变（它们其余差异仍在）。
+  注意该属性会同时把函数内字节装载切成 i586 形态，是取舍不是纯收益。
+- 维护：I586_TUS/ARCH_OVERRIDE 保留在 build-auction/point.sh（当前名单为空），
+  后续若发现其它需要函数级覆盖的点，直接加属性即可。
+
+## 90. 通用算法语义策略 + Rijndael 解密尾字轮转坑（2026-08-09 channel）
+
+- **策略**：Rijndael（AES，FIPS-197 公开标准）属通用算法，按用户指示只验证
+  **输入输出正确性**，不追机器码逐条一致。验证工具：
+  `source/toolchain/verify_rijndael.sh`（FIPS-197 AES-128/192/256 向量 +
+  ECB/CBC 多块往返），全 PASS。
+- **真实 bug 实例——尾字轮转映射照抄错了**：重写 DefDecryptBlock 时，把
+  result[4..15] 的 a 下标按「加密侧」轮转抄（a3,a2,a1,a0），ORIG 是「解密侧」
+  轮转（与解密循环 t0..t3 同构：a1,a0,a3,a2 / a2,a1,a0,a3 / a3,a2,a1,a0）。
+  症状：解密输出第 2/3/4 字各字节多 0x80 位（0x44→0xc4、0x55→0xd5…）。
+  **教训：解密函数的尾字表（tt=Kdr[j] 组）必须与解密循环 t_j 的轮转一致，
+  不能按加密侧类推；改完先跑语义测试再谈机器码。**
+- **Rijndael -O0 机器码形态速记**（第五十五批，供同类对照）：
+  - a0 装载 = `a = (unsigned char)*in++ << 24; a |= ...`（先存槽、读后即
+    in++）；不能用单条大表达式（会寄存器累积 + 末尾统一 in++）；
+  - `Ker = &m_Ke[0][0]` / 循环内 `&m_Ke[r][0]`：常数 0x38 被 gcc 拆成
+    `add $0x30` + `add $0x8`（成员数组取址固有形态），无需刻意拼接；
+  - 移位混型：int 局部只有 `(unsigned)a >> 24` 项发 shr，`(a >> 16) & 0xff`、
+    `(a >> 8) & 0xff` 发 sar——DWARF 类型 int 时照抄，不要统一转 unsigned；
+  - 尾部 `(unsigned char)(tt >> N)` 必须是有符号 sar（无 unsigned cast），
+    低字节结果与 shr 相同但机器码不同；
+  - 声明序决定槽位：a0..a3 先声明才与 ORIG 的槽位分组一致（DWARF decl_line
+    与机器码槽序冲突时以机器码为准）。
+
+## 91. 「正条件 + else（错误块置尾）」布局家族（2026-08-09 channel/bridge）
+
+同一个「检查失败就 return/报错」的语义，ORIG 常写成**正条件 + else**，
+错误块被 gcc 放到函数/块末尾（跳转目标），而不是 `if (!x) return;` 的内联形态。
+这是本会话最反复出现的可复现坑族，已借此把 channel/bridge 的
+`get_server_section`/`get_db_section`/`onRead`/`onRead_` 压到 IDENTICAL。
+
+- **识别**：ORIG `jne BODY; jmp RET_prev; RET: mov 0; jmp END; BODY: ...`
+  （return/错误块延迟到「下一个检查之后」）；NEW 是 `jne BODY; mov 0; jmp END`
+  内联。
+- **修法**：写成
+  ```cpp
+  if (pos_cond) { body; } else { return false; /* 或 GLOG+return */ }
+  ```
+  其中 `pos_cond` 是 ORIG 的跳转极性所对应的条件（对照反汇编的 je/jne 目标）。
+  链式检查（get_server_section 7 段、onRead_ 的 peekCopy/peekPop 分支）全部
+  同法。
+- **反向案例**：`if (nRead < 1) {...} else {...}` 编译成 `jg` 内联；ORIG 是
+  `if (nRead >= 1) {...} else if (nRead < 0) {...}` → `jle` 置尾布局。
+- **对照表（本会话实证）**：
+
+  | 源码形态 | 机器码 |
+  |---|---|
+  | `if (x < 0) return;` / `if (x < 0) {} else {body}` | `shr $0x1f; test; jne SKIP`（早退块尾部） |
+  | `if (x > -1)` / `if (x >= 0)` | `not; shr $0x1f; test; je`（注意 not！） |
+  | `if ((unsigned)x > 0xa)` | `cmp $0xa; seta` |
+  | `if (x < 0xb)`（int） | `setl/setle`；要 setb/setbe 必须 unsigned cast |
+  | `if (A() \|\| B()) return;` | bool 物化 `jne L1; je L2; L1: mov $1; L2: mov $0; test; jne SKIP` |
+  | `if (!(A() \|\| B())) {...}` | 每个调用后 `xor $0x1`（De Morgan 展开） |
+  | 连续单条 `if (c) return;` | 每条 return 块内联（`jne BODY; mov 0; jmp END`） |
+  | 正条件 else 链 | return 块延迟置尾（`jne BODY; jmp RET_prev; RET: ...`） |
+
+- **DWARF 数组尺寸**：`DW_AT_upper_bound` 是**含端点**下标
+  （upper_bound=11 → 12 元素）。onRead_ 的 `char s[12]` 写成 `[11]` 会让 buf
+  槽位整体差 1 字节（-0x3c vs -0x3b），全函数错位。
+- **指针链**：`char* s = (char*)peekPop(); tagPacketHeader* hdr =
+  (tagPacketHeader*)s;` 产生 ORIG 的双槽/双存（-0x24/-0x20）；直接
+  `hdr = (tagPacketHeader*)peekPop()` 少 2 条。
+- **VLA 陷阱**：bridge `onRead_` 的 `char szBuf[nMessageSize]` 在深层嵌套
+  正条件结构下触发 gcc 4.4 帧膨胀（0xa0058→0xa00c0、指令+160）；ORIG 的 VLA
+  布局依赖其自身块结构，复现不了就改用 malloc+free（语义等价，指令数更近）。
+
+## 92. 64 位比较的语义还原 + 防「条件被改坏」核查（2026-08-09 bridge isIdle）
+
+- **ORIG 形态**：`__int64 gap <= 0x124f80` 编译成
+  `cmpl $0,high; js FALSE; cmpl $0,high; jg TRUE; cmpl $0x124f80,low; jbe
+  FALSE`（js/jg 顺序 gcc 版本相关，见 §91 表）。
+- **反例（真实语义 bug）**：还原时把条件写成
+  `(gap <= 0 && (unsigned int)gap <= 0x124f80)`——对正 gap 恒假，导致
+  **任何正 gap 都返回 idle**，0x124f80 阈值失效。症状：机器码多 5 条
+  （64 位比较被拆成高低字两段独立判断）。
+- **教训**：还原 64 位比较先对照反汇编的 `js/jg/jbe` 三段，直接按
+  `gap <= 阈值`（64 位）落笔，不要凭「语义直觉」改写；改完用边界值
+  （gap = 阈值±1、负值、0）过一遍语义。
+- **`mov $0,%eax; test %al,%al; je`（恒假死代码）**：ScriptThread::loop 的
+  首查询后 ORIG 有这段死 `exit(1)` 块；常量假条件（`if (0)`/`1==0`）在我们
+  工具链会被折叠，复现不了该写法——死代码语义无关，记录即可。

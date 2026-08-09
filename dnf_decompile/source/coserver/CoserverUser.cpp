@@ -72,8 +72,7 @@ void CUserManager::CreateUser(unsigned int user_id, CGameServer* gs)
             std::make_pair<const unsigned int&, CUser>(user_id, std::move(user)));
     if (r.second != 1)
     {
-        CMyFileLog log("CreateUser", 0x5f);
-        log("./log/LoginErr", "CreateUser() uDBID(%s) is already exist at m_mapUsers!",
+        DNF_LOG_SCOPE_LINE(0x5f, "./log/LoginErr", "CreateUser() uDBID(%s) is already exist at m_mapUsers!",
             NumberToString(user_id, 0));
     }
 }

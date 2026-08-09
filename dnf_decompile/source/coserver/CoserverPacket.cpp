@@ -80,8 +80,7 @@ int CPacketDecoder::MsgDecode(PacketHeader* pkt)
     {
         if (m_handlers[*(unsigned short*)pkt] == 0)
         {
-            CMyFileLog log("MsgDecode", 0x44);
-            log("./log/Decoder",
+            DNF_LOG_SCOPE_LINE(0x44, "./log/Decoder",
                 "CPacketDecoder::MsgDecode() Game Message with identifier %d has arrived.\n",
                 *(unsigned short*)pkt);
             return 0;
@@ -90,8 +89,7 @@ int CPacketDecoder::MsgDecode(PacketHeader* pkt)
         return 1;
     }
     printf("Game Message with identifier %d has arrived.\n", *(unsigned short*)pkt);
-    CMyFileLog log("MsgDecode", 0x5a);
-    log("./log/Decoder",
+    DNF_LOG_SCOPE_LINE(0x5a,"./log/Decoder",
         "CPacketDecoder::MsgDecode() Game Message with identifier %d has arrived.\n",
         *(unsigned short*)pkt);
     return 0;
@@ -173,16 +171,14 @@ void CPacketTracer::WriteLog()
 {
     if (m_count == (m_count / 0x1e) * 0x1e)
     {
-        CMyFileLog log("WriteLog", 0x2a);
-        log("./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
+        DNF_LOG_SCOPE_LINE(0x2a, "./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
         ResetLog();
     }
 }
 
 void CPacketTracer::AbsoluteWriteLog()
 {
-    CMyFileLog log("AbsoluteWriteLog", 0x32);
-    log("./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
+    DNF_LOG_SCOPE_LINE(0x32, "./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
     ResetLog();
 }
 
@@ -222,8 +218,7 @@ void CPacketTranslater::OnLogin(PacketHeader* pkt)
                     getout.m_userID = user_id;
                     old_gs->SendToGameServer((char*)&getout, 0xe);
                     new_gs->SendToGameServer((char*)&getout, 0xe);
-                    CMyFileLog log("OnLogin", 0x66);
-                    log("./log/User",
+                    DNF_LOG_SCOPE_LINE(0x66,"./log/User",
                         "DOUBLE : ID(%s) Already Gr(%d) Ch(%d)\tCurrent Gr(%d) Ch(%d)",
                         NumberToString(user_id, 0), old_gs->GetGroupNo() & 0xff,
                         old_gs->GetChannelNo() & 0xff, group, channel);
@@ -231,20 +226,17 @@ void CPacketTranslater::OnLogin(PacketHeader* pkt)
             }
             return;
         }
-        CMyFileLog log("OnLogin", 0x42);
-        log("./log/Channel", "Not Found M_ID(%s) Group No(%d) Channel No(%d)",
+        DNF_LOG_SCOPE_LINE(0x42,"./log/Channel", "Not Found M_ID(%s) Group No(%d) Channel No(%d)",
             NumberToString(user_id, 0), group, channel);
     }
     catch (CDNFException& e)
     {
-        CMyFileLog log("OnLogin", 0x75);
-        log("./log/Except", "CPacketTranslater::OnLogin() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x75, "./log/Except", "CPacketTranslater::OnLogin() Exception Break : %s\n", e.what());
     }
     catch (...)
     {
         puts("CPacketTranslater::OnLogin() Exception Break");
-        CMyFileLog log("OnLogin", 0x7a);
-        log("./log/Except", "CPacketTranslater::OnLogin() Exception Break\n");
+        DNF_LOG_SCOPE_LINE(0x7a, "./log/Except", "CPacketTranslater::OnLogin() Exception Break\n");
     }
 }
 
@@ -261,16 +253,14 @@ void CPacketTranslater::OnLogout(PacketHeader* pkt)
             {
                 if (user.GetGameServer() == 0)
                 {
-                    CMyFileLog log("OnLogout", 0x9d);
-                    log("./log/User",
+                    DNF_LOG_SCOPE_LINE(0x9d,"./log/User",
                         "[NO USER_GameServer_Diff] Disconnected User DB ID(%s), Group(%d), Channel(%d), GameServer(%d)",
                         NumberToString(user_id, 0), *(unsigned char*)((char*)pkt + 0xf),
                         *(unsigned char*)((char*)pkt + 0xe), 0);
                 }
                 else if (!um->DeleteUser((Packet_DoubleCheck_UDP_Logout*)pkt))
                 {
-                    CMyFileLog log("OnLogout", 0x99);
-                    log("./log/User",
+                    DNF_LOG_SCOPE_LINE(0x99,"./log/User",
                         "[NO USER_DeleteUser_False] Disconnected User DB ID(%s), Group(%d), Channel(%d)",
                         NumberToString(user_id, 0), *(unsigned char*)((char*)pkt + 0xf),
                         *(unsigned char*)((char*)pkt + 0xe));
@@ -279,14 +269,12 @@ void CPacketTranslater::OnLogout(PacketHeader* pkt)
         }
         catch (CDNFException& e)
         {
-            CMyFileLog log("OnLogout", 0xa8);
-            log("./log/Except", "CPacketTranslater::OnLogout() Exception Break : %s\n", e.what());
+            DNF_LOG_SCOPE_LINE(0xa8, "./log/Except", "CPacketTranslater::OnLogout() Exception Break : %s\n", e.what());
         }
         catch (...)
         {
             puts("CPacketTranslater::OnLogout() Exception Break");
-            CMyFileLog log("OnLogout", 0xae);
-            log("./log/Except", "CPacketTranslater::OnLogout() Exception Break\n");
+            DNF_LOG_SCOPE_LINE(0xae, "./log/Except", "CPacketTranslater::OnLogout() Exception Break\n");
         }
     }
 }
@@ -318,15 +306,13 @@ void CPacketTranslater::OnHeartBeat(PacketHeader* pkt)
         }
         catch (CDNFException& e)
         {
-            CMyFileLog log("OnHeartBeat", 0xea);
-            log("./log/Except", "CPacketTranslater::OnHeartBeat() Exception Break : %s\n",
+            DNF_LOG_SCOPE_LINE(0xea,"./log/Except", "CPacketTranslater::OnHeartBeat() Exception Break : %s\n",
                 e.what());
         }
         catch (...)
         {
             puts("CPacketTranslater::OnHeartBeat() Exception Break");
-            CMyFileLog log("OnHeartBeat", 0xf0);
-            log("./log/Except", "CPacketTranslater::OnHeartBeat() Exception Break\n");
+            DNF_LOG_SCOPE_LINE(0xf0, "./log/Except", "CPacketTranslater::OnHeartBeat() Exception Break\n");
         }
     }
 }
@@ -335,8 +321,7 @@ void CPacketTranslater::OnReplyUserInfo(PacketHeader* pkt)
 {
     unsigned char channel = *(unsigned char*)((char*)pkt + 0xc);
     unsigned char group = *(unsigned char*)((char*)pkt + 0xd);
-    CMyFileLog log("OnReplyUserInfo", 0x102);
-    log("./log/Reboot", "[GAME SERVER] Group(%d) Channel(%d)", group, channel);
+    DNF_LOG_SCOPE_LINE(0x102, "./log/Reboot", "[GAME SERVER] Group(%d) Channel(%d)", group, channel);
     try
     {
         if (m_pclApp == 0)
@@ -362,14 +347,12 @@ void CPacketTranslater::OnReplyUserInfo(PacketHeader* pkt)
     }
     catch (CDNFException& e)
     {
-        CMyFileLog log("OnReplyUserInfo", 0x11b);
-        log("./log/Except", "CPacketTranslater::OnReplyUserInfo() Exception Break : %s\n",
+        DNF_LOG_SCOPE_LINE(0x11b,"./log/Except", "CPacketTranslater::OnReplyUserInfo() Exception Break : %s\n",
             e.what());
     }
     catch (...)
     {
         puts("CPacketTranslater::OnReplyUserInfo() Exception Break\n");
-        CMyFileLog log("OnReplyUserInfo", 0x120);
-        log("./log/Except", "CPacketTranslater::OnReplyUserInfo() Exception Break\n");
+        DNF_LOG_SCOPE_LINE(0x120, "./log/Except", "CPacketTranslater::OnReplyUserInfo() Exception Break\n");
     }
 }

@@ -12,6 +12,7 @@
 #include "Thread.h"
 
 typedef std::queue<CUdpRecvBuffer*, std::deque<CUdpRecvBuffer*, std::allocator<CUdpRecvBuffer*> > > UdpRecvQueue;
+typedef std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > > TcpRecvQueue;
 
 // ---- CAppBase ----
 class CAppBase
@@ -50,7 +51,10 @@ public:
     void SetMiniCraneRandomSeed();
     void SwitchQueueTCP();
     void SwitchQueueUDP();
+    void SendTestPacket_1();
+    void SendTestPacket_2();
     CItemLimitEditionMgr* getItemLimitEditionMgr();
+    LimitNpcBuyItemManager* getLimitNpcBuyItemManager();
     CTcpNetSystem* Get_TcpNetSystem();
     void OnGameServerDown(CGameServer* server);
     CServerHandler* Get_ServerHandler();
@@ -58,7 +62,9 @@ public:
     CMemberManager* Get_MemberManager();
     CBuddyRegisterManager* Get_BuddyRegisterManager();
     CTaskScheduler* GetTaskScheduler();
+    COnTimeEventManager* GetOnTimeEventManager();
     void* Get_UdpPacketRecvQ();
+    UdpRecvQueue* Get_UdpPacketParseQ();
     CUdpHandler* Get_UdpHandler();
     void* Get_UdpQLock();
     void* Get_UdpBLock();
@@ -81,6 +87,7 @@ public:
     void* getCollectItems();
     void* FindGameServer(int id);
     void* FindTcpGameServer(unsigned int id);
+    void OnTcpGameServerDown(CTcpGameServer* tcpGameServer);
     void* Get_MemoryCashManager();
     void* GetLoginLogoutStatistics();
     void* GetPeriodicMessageManager();
@@ -120,7 +127,7 @@ public:
     CIPCounter* m_ipCounter;            // +0x32c
     void* m_field330;                   // +0x330
     void* m_field334;                   // +0x334
-    std::set<std::pair<std::string, int> > m_set338;  // +0x338
+    std::set<std::pair<const std::string, int> > m_set338;  // +0x338
     std::map<const std::string, int> m_map350;        // +0x350
     std::map<unsigned int, std::list<unsigned int> > m_map368;  // +0x368
     CPeriodicMessageMgr* m_periodicMsg; // +0x380

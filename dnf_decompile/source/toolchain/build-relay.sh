@@ -6,6 +6,26 @@
 # ============================================================
 set -e
 
+# 并行编译：默认按核数分批，逐 PID 检查退出码（不改变编译输出与链接顺序）。
+JOBS=${JOBS:-$(nproc 2>/dev/null || echo 4)}
+_job_pids=""
+_job_count=0
+run_job() {
+    "$@" &
+    _job_pids="$_job_pids $!"
+    _job_count=$((_job_count + 1))
+    if [ "$_job_count" -ge "$JOBS" ]; then
+        wait_jobs
+    fi
+}
+wait_jobs() {
+    for p in $_job_pids; do
+        wait "$p" || exit 1
+    done
+    _job_pids=""
+    _job_count=0
+}
+
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 OUT_DIR="$ROOT/build-relay"
 RELAY="$ROOT/relay"
@@ -36,7 +56,7 @@ C6CXX="env LD_LIBRARY_PATH=/tmp/c6root/usr/lib64:/tmp/c6root/usr/lib /tmp/c6root
 for f in RelayUserPool RelayApp RelaySocket RelayScriptRawData RelayScript RelayThread RelayToken RelayException RelayLog RelayReactor; do
     if [ ! -f "$OUT_DIR/$f.o" ] || [ "$RELAY/$f.cpp" -nt "$OUT_DIR/$f.o" ]; then
         echo "CC6 $f.cpp (4.4.6-3 + c++0x)"
-        $C6CXX $C6FLAGS -c "$RELAY/$f.cpp" -o "$OUT_DIR/$f.o"
+        run_job $C6CXX $C6FLAGS -c "$RELAY/$f.cpp" -o "$OUT_DIR/$f.o"
     fi
 done
 
@@ -51,13 +71,15 @@ for f in $SOURCES; do
     if [ -f "$RELAY/$base.cpp" ]; then
         if [ ! -f "$OUT_DIR/$base.o" ] || [ "$RELAY/$base.cpp" -nt "$OUT_DIR/$base.o" ]; then
             echo "CC  $base.cpp"
-            "$CXX" $COMMON_FLAGS -c "$RELAY/$base.cpp" -o "$OUT_DIR/$base.o"
+            run_job "$CXX" $COMMON_FLAGS -c "$RELAY/$base.cpp" -o "$OUT_DIR/$base.o"
         else
             echo "SKIP $base.cpp (up to date)"
         fi
         OBJS="$OBJS $OUT_DIR/$base.o"
     fi
 done
+
+wait_jobs
 
 ALL_OBJS="$OUT_DIR/RelayUserPool.o $OUT_DIR/RelayApp.o $(ls "$OUT_DIR"/*.o 2>/dev/null | grep -vE 'stub_main|RelayUserPool|RelayApp' || true)"
 if [ -n "$ALL_OBJS" ]; then

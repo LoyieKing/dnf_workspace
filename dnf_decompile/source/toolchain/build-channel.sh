@@ -12,6 +12,26 @@
 # ============================================================
 set -e
 
+# 并行编译：默认按核数分批，逐 PID 检查退出码（不改变编译输出与链接顺序）。
+JOBS=${JOBS:-$(nproc 2>/dev/null || echo 4)}
+_job_pids=""
+_job_count=0
+run_job() {
+    "$@" &
+    _job_pids="$_job_pids $!"
+    _job_count=$((_job_count + 1))
+    if [ "$_job_count" -ge "$JOBS" ]; then
+        wait_jobs
+    fi
+}
+wait_jobs() {
+    for p in $_job_pids; do
+        wait "$p" || exit 1
+    done
+    _job_pids=""
+    _job_count=0
+}
+
 SRC_DIR=$(cd "$(dirname "$0")/../ChannelOld/DNFChannelServer" && pwd)
 OUT_DIR=$(cd "$(dirname "$0")/../build-channel" && pwd)
 C6ROOT=${C6ROOT:-/tmp/c6root}
@@ -29,7 +49,8 @@ mkdir -p "$OUT_DIR"
 
 SOURCES="$*"
 if [ -z "$SOURCES" ]; then
-    SOURCES="stdafx Exception System Thread ThreadLock Token UDPUser SocketSystem Method SHA Rijndael Service LinuxService Globals ScriptData ScriptRawData TCPHandler UDPHandler Thread.cpp"
+    # Full project TU list (must stay complete for linkable df_channel_r)
+    SOURCES="stdafx Exception System Thread ThreadLock Token SocketSystem Method SHA Rijndael Service LinuxService Globals ScriptData ScriptRawData Script Socket TCPUser TCPHandler UDPUser UDPHandler TCPAcceptThread TCPThread UDPThread CheckThread ChannelService DNFChannelServer PIDHelper SignalHandler UniqueIndex CommandLineParser Reactor"
 fi
 
 OBJS=""
@@ -43,9 +64,11 @@ for f in $SOURCES; do
         continue
     fi
     echo "CC  $base.cpp"
-    "$CXX" $COMMON_FLAGS -c "$SRC_DIR/$base.cpp" -o "$OUT_DIR/$base.o"
+    run_job "$CXX" $COMMON_FLAGS -c "$SRC_DIR/$base.cpp" -o "$OUT_DIR/$base.o"
     OBJS="$OBJS $OUT_DIR/$base.o"
 done
+
+wait_jobs
 
 if [ -n "$OBJS" ]; then
     echo "LD  df_channel_r"

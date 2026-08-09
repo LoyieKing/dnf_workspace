@@ -28,6 +28,10 @@ public:
                 m_p = new T;
             }
         }
+        else
+        {
+            return;  // ORIG：外层 if/else + return，产出 jne→nop/jne→出口 形态
+        }
     }
 };
 

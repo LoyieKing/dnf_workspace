@@ -54,8 +54,7 @@ int CUdpHandler::InitServerSocket(int port)
     }
     int bufsize = 1000000;
     setsockopt(m_clientSock, 1, 8, &bufsize, 4);
-    CMyFileLog log("InitServerSocket", 0x6e);
-    log("./log/Udp", "Opened port %d with fd %d, recv buf size %d\n", port, m_sock, bufsize);
+    DNF_LOG_SCOPE_LINE(0x6e, "./log/Udp", "Opened port %d with fd %d, recv buf size %d\n", port, m_sock, bufsize);
     return m_sock;
 }
 
@@ -67,8 +66,7 @@ int CUdpHandler::InitClientSocket()
         printf("Could not create a UDP socket : %d\n", getErrno());
         return -1;
     }
-    CMyFileLog log("InitClientSocket", 0x8f);
-    log("./log/Udp", "Opened port with fd %d\n", m_clientSock);
+    DNF_LOG_SCOPE_LINE(0x8f, "./log/Udp", "Opened port with fd %d\n", m_clientSock);
     return m_clientSock;
 }
 
@@ -89,14 +87,12 @@ int CUdpHandler::RecvFromClient(char* buf, int* len, unsigned int* ip,
         if (err == 0x58)
         {
             puts("Error fd not a socket");
-            CMyFileLog log("RecvFromClient", 0xaf);
-            log("./log/UdpErr", "Error fd not a socket\n");
+            DNF_LOG_SCOPE_AT("RecvFromClient", 0xaf, "./log/UdpErr", "Error fd not a socket\n");
         }
         else if (err == 0x68)
         {
             puts("Error connection reset - host not reachable");
-            CMyFileLog log("RecvFromClient", 0xb6);
-            log("./log/UdpErr", "Error connection reset - host not reachable\n");
+            DNF_LOG_SCOPE_AT("RecvFromClient", 0xb6, "./log/UdpErr", "Error connection reset - host not reachable\n");
         }
         else
         {
@@ -107,8 +103,7 @@ int CUdpHandler::RecvFromClient(char* buf, int* len, unsigned int* ip,
     if (r < 1)
     {
         printf("Socket closed? Recv size = %d\n", r);
-        CMyFileLog log("RecvFromClient", 0xc6);
-        log("./log/UdpErr", "Socket closed? Recv size = %d\n", r);
+        DNF_LOG_SCOPE_AT("RecvFromClient", 0xc6, "./log/UdpErr", "Socket closed? Recv size = %d\n", r);
         return 0;
     }
     *port = ntohs(*(unsigned short*)from);
@@ -119,8 +114,7 @@ int CUdpHandler::RecvFromClient(char* buf, int* len, unsigned int* ip,
     if (*(short*)buf == 0x4c8 || *(short*)buf == 0x4c9 || *(short*)buf == 0x44f ||
         *(short*)buf == 0x450)
     {
-        CMyFileLog log("RecvFromClient", 0xd1);
-        log("./log/Udp", "PacketId(%d) Recv success! IP = %s, Port %d, Recv size = %d",
+        DNF_LOG_SCOPE_AT("RecvFromClient", 0xd1,"./log/Udp", "PacketId(%d) Recv success! IP = %s, Port %d, Recv size = %d",
             *(unsigned short*)buf, ipstr, *port, *len);
     }
     buf[*len] = '\0';
@@ -165,28 +159,24 @@ int CUdpHandler::SendToClient(char* buf, int len, unsigned short port, char cons
         if (err == 0x61)
         {
             puts("err EAFNOSUPPORT in send");
-            CMyFileLog log("SendToClient", 0x119);
-            log("./log/UdpErr", "Error( EAFNOSUPPORT ) in send = %d\n", err);
+            DNF_LOG_SCOPE_AT("SendToClient", 0x119, "./log/UdpErr", "Error( EAFNOSUPPORT ) in send = %d\n", err);
         }
         else if (err < 0x61 || 2 < err - 0x6fU)
         {
             printf("err = %d , strerror = %s in send\n", err, strerror(err));
-            CMyFileLog log("SendToClient", 0x11f);
-            log("./log/UdpErr", "err = %d , strerror = %s in send\n", err, strerror(err));
+            DNF_LOG_SCOPE_AT("SendToClient", 0x11f, "./log/UdpErr", "err = %d , strerror = %s in send\n", err, strerror(err));
         }
         else
         {
             printf("Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", err);
-            CMyFileLog log("SendToClient", 0x113);
-            log("./log/UdpErr", "Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", err);
+            DNF_LOG_SCOPE_AT("SendToClient", 0x113, "./log/UdpErr", "Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", err);
         }
         return 0;
     }
     if (n == 0)
     {
         puts("no data sent in send");
-        CMyFileLog log("SendToClient", 0x128);
-        log("./log/UdpErr", "no data sent in send\n");
+        DNF_LOG_SCOPE_AT("SendToClient", 0x128, "./log/UdpErr", "no data sent in send\n");
         return 0;
     }
     if (len == n)
@@ -194,8 +184,7 @@ int CUdpHandler::SendToClient(char* buf, int len, unsigned short port, char cons
         return 1;
     }
     printf("Only %s out of %d bytes sent\n", n, len);
-    CMyFileLog log("SendToClient", 0x133);
-    log("./log/UdpErr", "Only %s out of %d bytes sent\n", n, len);
+    DNF_LOG_SCOPE_AT("SendToClient", 0x133, "./log/UdpErr", "Only %s out of %d bytes sent\n", n, len);
     return 0;
 }
 
@@ -216,14 +205,12 @@ int CUdpHandler::RecvFromServer(char* buf, int* len, unsigned int* ip,
         if (err == 0x58)
         {
             puts("Error fd not a socket");
-            CMyFileLog log("RecvFromServer", 0x156);
-            log("./log/UdpErr", "Error fd not a socket\n");
+            DNF_LOG_SCOPE_AT("RecvFromServer", 0x156, "./log/UdpErr", "Error fd not a socket\n");
         }
         else if (err == 0x68)
         {
             puts("Error connection reset - host not reachable");
-            CMyFileLog log("RecvFromServer", 0x15d);
-            log("./log/UdpErr", "Error connection reset - host not reachable\n");
+            DNF_LOG_SCOPE_AT("RecvFromServer", 0x15d, "./log/UdpErr", "Error connection reset - host not reachable\n");
         }
         else
         {
@@ -234,8 +221,7 @@ int CUdpHandler::RecvFromServer(char* buf, int* len, unsigned int* ip,
     if (r < 1)
     {
         printf("Socket closed? Recv size = %d\n", r);
-        CMyFileLog log("RecvFromServer", 0x16d);
-        log("./log/UdpErr", "Socket closed? Recv size = %d\n", r);
+        DNF_LOG_SCOPE_AT("RecvFromServer", 0x16d, "./log/UdpErr", "Socket closed? Recv size = %d\n", r);
         return 0;
     }
     *port = ntohs(*(unsigned short*)from);
@@ -245,8 +231,7 @@ int CUdpHandler::RecvFromServer(char* buf, int* len, unsigned int* ip,
     (void)unused_buf;
     if (*(short*)buf == 0x4c8 || *(short*)buf == 0x4c9)
     {
-        CMyFileLog log("RecvFromServer", 0x179);
-        log("./log/Udp", "PacketId(%d) Recv success! IP = %s, Port %d, Recv size = %d",
+        DNF_LOG_SCOPE_AT("RecvFromServer", 0x179,"./log/Udp", "PacketId(%d) Recv success! IP = %s, Port %d, Recv size = %d",
             *(unsigned short*)buf, ipstr, *port, *len);
     }
     buf[*len] = '\0';
@@ -281,33 +266,28 @@ int CUdpHandler::SendToServer(char* buf, int len, unsigned short port, char cons
         int err = getErrno();
         if (err == 0x61)
         {
-            CMyFileLog log("SendToServer", 0x1b8);
-            log("./log/UdpErr", "Error( EAFNOSUPPORT ) in send = %d\n", err);
+            DNF_LOG_SCOPE_LINE(0x1b8, "./log/UdpErr", "Error( EAFNOSUPPORT ) in send = %d\n", err);
         }
         else if (err < 0x61 || 2 < err - 0x6fU)
         {
-            CMyFileLog log("SendToServer", 0x1be);
-            log("./log/UdpErr", "err = %d , strerror = %s in send\n", err, strerror(err));
+            DNF_LOG_SCOPE_LINE(0x1be, "./log/UdpErr", "err = %d , strerror = %s in send\n", err, strerror(err));
         }
         else
         {
-            CMyFileLog log("SendToServer", 0x1b2);
-            log("./log/UdpErr", "Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", err);
+            DNF_LOG_SCOPE_LINE(0x1b2, "./log/UdpErr", "Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", err);
         }
         return 0;
     }
     if (n == 0)
     {
-        CMyFileLog log("SendToServer", 0x1c7);
-        log("./log/UdpErr", "no data sent in send\n");
+        DNF_LOG_SCOPE_LINE(0x1c7, "./log/UdpErr", "no data sent in send\n");
         return 0;
     }
     if (len == n)
     {
         return 1;
     }
-    CMyFileLog log("SendToServer", 0x1ce);
-    log("./log/UdpErr", "Only %d out of %d bytes sent\n", n, len);
+    DNF_LOG_SCOPE_LINE(0x1ce, "./log/UdpErr", "Only %d out of %d bytes sent\n", n, len);
     return 0;
 }
 

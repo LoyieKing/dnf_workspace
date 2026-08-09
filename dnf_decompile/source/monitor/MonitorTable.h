@@ -55,6 +55,14 @@ public:
     unsigned short m_ushort30;          // +0x30
 };
 
+// ---- ST_ServerInfo：0xc（CServerConfig 表项）----
+struct ST_ServerInfo
+{
+    int m_field0;       // +0
+    std::string m_str;  // +4
+    int m_field8;       // +8
+};
+
 // ---- CServerConfig：monitor 服务器配置表 ----
 class CServerConfig : public CTableBase
 {
@@ -63,6 +71,7 @@ public:
     virtual ~CServerConfig();
     virtual void Load_Table(const std::string& path);
     virtual int Parse_Table(char* line, int idx);
+    ST_ServerInfo m_table[0xff];  // +4
 };
 
 #endif  // MONITOR_TABLE_H_

@@ -16,6 +16,26 @@
 # ============================================================
 set -e
 
+# 并行编译：默认按核数分批，逐 PID 检查退出码（不改变编译输出与链接顺序）。
+JOBS=${JOBS:-$(nproc 2>/dev/null || echo 4)}
+_job_pids=""
+_job_count=0
+run_job() {
+    "$@" &
+    _job_pids="$_job_pids $!"
+    _job_count=$((_job_count + 1))
+    if [ "$_job_count" -ge "$JOBS" ]; then
+        wait_jobs
+    fi
+}
+wait_jobs() {
+    for p in $_job_pids; do
+        wait "$p" || exit 1
+    done
+    _job_pids=""
+    _job_count=0
+}
+
 SRC_DIR=$(cd "$(dirname "$0")/../DNFServer/StunServer/stun_server" && pwd)
 OUT_DIR=$(cd "$(dirname "$0")/../build-stun" && pwd)
 C5ROOT=${C5ROOT:-/tmp/c5root}
@@ -34,8 +54,10 @@ mkdir -p "$OUT_DIR"
 
 for f in stun udp global_func server; do
     echo "CC  $f.cpp"
-    "$CXX" $COMMON_FLAGS -c "$SRC_DIR/$f.cpp" -o "$OUT_DIR/$f.o"
+    run_job "$CXX" $COMMON_FLAGS -c "$SRC_DIR/$f.cpp" -o "$OUT_DIR/$f.o"
 done
+
+wait_jobs
 
 echo "LD  df_stun_r"
 g++ -no-pie -o "$OUT_DIR/df_stun_r" \

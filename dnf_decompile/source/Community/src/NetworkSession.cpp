@@ -14,7 +14,7 @@
 #include <cstring>
 
 #include "ArchiveLog.h"
-#include "BoostPool.h"
+#include <boost/pool/object_pool.hpp>
 #include "ISessionManager.h"
 
 // 原始二进制：全局对象池 g_network_session_pool（bss 0x80df098），

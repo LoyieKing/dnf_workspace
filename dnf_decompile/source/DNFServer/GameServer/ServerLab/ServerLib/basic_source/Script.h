@@ -26,7 +26,10 @@ public:
     inline int findIntValue(int parentIndex, int childIndex)
     {
         TScopedLock<TThreadLock<ThreadLock_linux> > slock(mLoadScriptLock);
-        return atoi(mChildValues[parentIndex][childIndex].c_str());
+        // ORIG：DWARF 局部含 ret（atoi 结果先入栈槽再回寄存器）；直接 return
+        // 会少一次栈往返、slock 槽位偏移 -4。
+        int ret = atoi(mChildValues[parentIndex][childIndex].c_str());
+        return ret;
     }
 
     bool fgetln(FILE* fp, char* buf);

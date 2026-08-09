@@ -6,6 +6,26 @@
 # ============================================================
 set -e
 
+# 并行编译：默认按核数分批，逐 PID 检查退出码（不改变编译输出与链接顺序）。
+JOBS=${JOBS:-$(nproc 2>/dev/null || echo 4)}
+_job_pids=""
+_job_count=0
+run_job() {
+    "$@" &
+    _job_pids="$_job_pids $!"
+    _job_count=$((_job_count + 1))
+    if [ "$_job_count" -ge "$JOBS" ]; then
+        wait_jobs
+    fi
+}
+wait_jobs() {
+    for p in $_job_pids; do
+        wait "$p" || exit 1
+    done
+    _job_pids=""
+    _job_count=0
+}
+
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 OUT_DIR="$ROOT/build-statics"
 STATICS="$ROOT/statics"
@@ -32,7 +52,7 @@ compile() {
     base=$(basename "$src" .cpp)
     if [ ! -f "$OUT_DIR/$base.o" ] || [ "$src" -nt "$OUT_DIR/$base.o" ]; then
         echo "CC  $base.cpp"
-        "$CXX" $FLAGS -c "$src" -o "$OUT_DIR/$base.o"
+        run_job "$CXX" $FLAGS -c "$src" -o "$OUT_DIR/$base.o"
     else
         echo "SKIP $base.cpp"
     fi
@@ -44,7 +64,7 @@ for f in DNFFileLog.cpp CFileLogWriterBase.cpp DNFFunctionLib.cpp Thread.cpp; do
         if [ ! -f "$OUT_DIR/CFileLogWriterBase.o" ] || \
            [ "$COMMON/$f" -nt "$OUT_DIR/CFileLogWriterBase.o" ]; then
             echo "CC  CFileLogWriterBase.cpp (-fno-exceptions)"
-            "$CXX" $FLAGS -fno-exceptions -c "$COMMON/$f" -o "$OUT_DIR/CFileLogWriterBase.o"
+            run_job "$CXX" $FLAGS -fno-exceptions -c "$COMMON/$f" -o "$OUT_DIR/CFileLogWriterBase.o"
         else
             echo "SKIP CFileLogWriterBase.cpp"
         fi
@@ -60,6 +80,8 @@ compile "$PACKET/src/PacketHeader.cpp"
 for f in "$STATICS"/*.cpp; do
     [ -f "$f" ] && compile "$f"
 done
+
+wait_jobs
 
 OBJS=$(ls "$OUT_DIR"/*.o 2>/dev/null | grep -v stub_main || true)
 if [ -n "$OBJS" ]; then

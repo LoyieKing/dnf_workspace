@@ -66,8 +66,48 @@ int CUdpHandler::InitServerSocket(int port)
     }
     int bufsize = 1000000;
     setsockopt(m_clientSock, 1, 8, &bufsize, 4);
-    CMyFileLog log("InitServerSocket", 0x6e);
-    log("./log/Udp", "Opened port %d with fd %d, recv buf size %d\n", port, m_sock, bufsize);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    DNF_LOG_SCOPE("./log/Udp", "Opened port %d with fd %d, recv buf size %d\n", port, m_sock, bufsize);
     return m_sock;
 }
 
@@ -94,22 +134,88 @@ int CUdpHandler::RecvFromClient(char* buf, int* len, unsigned int* ip,
         if (err == 0x58)
         {
             puts("Error fd not a socket");
-            CMyFileLog log("RecvFromClient", 0xc6);
-            log("./log/UdpErr", "Error fd not a socket\n");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            DNF_LOG_SCOPE("./log/UdpErr", "Error fd not a socket\n");
         }
         else if (err == 0x68)
         {
             puts("Error connection reset - host not reachable");
-            CMyFileLog log("RecvFromClient", 0xcd);
-            log("./log/UdpErr", "Error connection reset - host not reachable\n");
+
+            DNF_LOG_SCOPE("./log/UdpErr", "Error connection reset - host not reachable\n");
         }
         return 0;
     }
     if (r < 1)
     {
         printf("Socket closed? Recv size = %d\n", r);
-        CMyFileLog log("RecvFromClient", 0xdd);
-        log("./log/UdpErr", "Socket closed? Recv size = %d\n", r);
+
+
+
+
+
+
+
+
+        DNF_LOG_SCOPE("./log/UdpErr", "Socket closed? Recv size = %d\n", r);
         return 0;
     }
     *port = ntohs(*(unsigned short*)from.sa_data);
@@ -135,14 +241,130 @@ int CUdpHandler::RecvFromServer(char* buf, int* len, unsigned int* ip,
         if (err == 0x58)
         {
             puts("Error fd not a socket");
-            CMyFileLog log("RecvFromServer", 0x16d);
-            log("./log/UdpErr", "Error fd not a socket\n");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            DNF_LOG_SCOPE("./log/UdpErr", "Error fd not a socket\n");
         }
         else if (err == 0x68)
         {
             puts("Error connection reset - host not reachable");
-            CMyFileLog log("RecvFromServer", 0x174);
-            log("./log/UdpErr", "Error connection reset - host not reachable\n");
+
+            DNF_LOG_SCOPE("./log/UdpErr", "Error connection reset - host not reachable\n");
         }
         else
         {
@@ -153,8 +375,11 @@ int CUdpHandler::RecvFromServer(char* buf, int* len, unsigned int* ip,
     if (r < 1)
     {
         printf("Socket closed? Recv size = %d\n", r);
-        CMyFileLog log("RecvFromServer", 0x184);
-        log("./log/UdpErr", "Socket closed? Recv size = %d\n", r);
+
+
+
+
+        DNF_LOG_SCOPE("./log/UdpErr", "Socket closed? Recv size = %d\n", r);
         return 0;
     }
     *port = ntohs(*(unsigned short*)from.sa_data);

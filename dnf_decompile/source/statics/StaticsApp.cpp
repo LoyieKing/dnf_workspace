@@ -258,15 +258,13 @@ void CApplication::Process()
                             *(unsigned short*)((char*)pkt + 4) = port;
                             if (CPacketDecoderInstance()->MsgDecode(pkt) != 1)
                             {
-                                CMyFileLog log("Process", 0x22a);
-                                log("./log/recv",
+                                DNF_LOG_SCOPE_LINE(0x22a, "./log/recv",
                                     "CPacketDecoder::MsgDecode() Undefined Packet Arrived Exception Break!");
                             }
                         }
                         else
                         {
-                            CMyFileLog log("Process", 0x219);
-                            log("./log/recvErr",
+                            DNF_LOG_SCOPE_LINE(0x219,"./log/recvErr",
                                 "Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                                 *(unsigned short*)((char*)pkt + 2), len,
                                 *(unsigned short*)pkt);
@@ -274,16 +272,14 @@ void CApplication::Process()
                     }
                     else
                     {
-                        CMyFileLog log("Process", 0x212);
-                        log("./log/recvErr",
+                        DNF_LOG_SCOPE_LINE(0x212,"./log/recvErr",
                             "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                             *(unsigned short*)((char*)pkt + 2), len, *(unsigned short*)pkt);
                     }
                 }
                 else
                 {
-                    CMyFileLog log("Process", 0x20c);
-                    log("./log/recvErr",
+                    DNF_LOG_SCOPE_LINE(0x20c,"./log/recvErr",
                         "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                         *(unsigned short*)((char*)pkt + 2), len, *(unsigned short*)pkt);
                 }
@@ -292,14 +288,12 @@ void CApplication::Process()
         catch (CDNFException& e)
         {
             printf("CApplication::Process() Exception Break : %s\n", e.what());
-            CMyFileLog log("Process", 0x22e);
-            log("./log/process", "CApplication::Process() Exception Break : %s\n", e.what());
+            DNF_LOG_SCOPE_LINE(0x22e, "./log/process", "CApplication::Process() Exception Break : %s\n", e.what());
         }
         catch (...)
         {
             puts("CApplication::Process() Exception Break");
-            CMyFileLog log("Process", 0x233);
-            log("./log/process", "CApplication::Process() Exception Break\n");
+            DNF_LOG_SCOPE_LINE(0x233, "./log/process", "CApplication::Process() Exception Break\n");
         }
     }
 }

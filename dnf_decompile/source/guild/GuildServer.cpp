@@ -423,8 +423,7 @@ void CTcpDBServer::Connected()
     {
         m_guildMgr->CargoUnlock();
     }
-    CMyFileLog log("Connected", 0x121);
-    log("./log/GuildCargo", "TCP DBMW(%s,%d) CONNECTED! GUILD CARGO ACTIVE!",
+    DNF_LOG_SCOPE_LINE(0x121, "./log/GuildCargo", "TCP DBMW(%s,%d) CONNECTED! GUILD CARGO ACTIVE!",
         m_ip.c_str(), (unsigned int)m_port);
 }
 
@@ -488,8 +487,7 @@ void CServerHandler::Load(std::multimap<unsigned int, stServerInfo*>* map)
             if (m_dbServer != 0)
             {
                 UnregistDBServer();
-                CMyFileLog log("Load", 0x59);
-                log("./log/Config", "DB Config Reload.\n");
+                DNF_LOG_SCOPE_LINE(0x59, "./log/Config", "DB Config Reload.\n");
             }
             CDBServer* db = new CDBServer(info);
             RegistDBServer(db);
@@ -504,8 +502,7 @@ void CServerHandler::Load(std::multimap<unsigned int, stServerInfo*>* map)
             if (m_managerServer != 0)
             {
                 UnregistManagerServer();
-                CMyFileLog log("Load", 0x6b);
-                log("./log/Config", "Manager Config Reload.\n");
+                DNF_LOG_SCOPE_LINE(0x6b, "./log/Config", "Manager Config Reload.\n");
             }
             CManagerServer* ms = new CManagerServer(info);
             RegistManagerServer(ms);
@@ -550,8 +547,7 @@ void CServerHandler::Process()
         if (m_dbServer->IsConnected() && m_dbServer->IsHeartBeatTimeOver())
         {
             m_dbServer->OnDisconnect();
-            CMyFileLog log("Process", 0xea);
-            log("./log/DBServerErr", "CServerHandler::Process() DB Server Down!\n");
+            DNF_LOG_SCOPE_LINE(0xea, "./log/DBServerErr", "CServerHandler::Process() DB Server Down!\n");
         }
     }
     if (m_tcpDbServer.IsValidServer() != 1)
@@ -562,8 +558,7 @@ void CServerHandler::Process()
             int sockRef = 0;
             m_app->Get_TcpNetSystem()->OpenTcpService(
                 *m_tcpDbServer.GetSockRef(), ip, m_tcpDbServer.GetPort());
-            CMyFileLog log("Process", 0x135);
-            log("./log/TcpServer", "try connect to DBMW(%s, %d)", ip,
+            DNF_LOG_SCOPE_LINE(0x135,"./log/TcpServer", "try connect to DBMW(%s, %d)", ip,
                 (unsigned int)m_tcpDbServer.GetPort());
         }
     }
@@ -581,8 +576,7 @@ int CServerHandler::IsConnectedGameServer(unsigned char group)
     std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.find(group);
     if (it == m_gameServers.end())
     {
-        CMyFileLog log("IsConnectedGameServer", 0x1a1);
-        log("./log/GameServer",
+        DNF_LOG_SCOPE_LINE(0x1a1,"./log/GameServer",
             "CServerHandler::IsConnectedGameServer\tGame Server Index Over Index : %d!\n",
             (unsigned int)group);
         return 0;
@@ -784,8 +778,7 @@ void CServerHandler::UnregistGameServer(unsigned int group)
         delete gs;
     }
     m_gameServers.erase(it);
-    CMyFileLog log("UnregistGameServer", 0x387);
-    log("./log/GameServer", "Game server unregist. Channel: %d", group);
+    DNF_LOG_SCOPE_LINE(0x387, "./log/GameServer", "Game server unregist. Channel: %d", group);
 }
 
 CTcpGameServer* CServerHandler::CreateTcpGameServer(unsigned int group)
@@ -815,8 +808,7 @@ void CServerHandler::DeleteTcpGameServer(unsigned int group)
         delete tgs;
     }
     m_tcpGameServers.erase(it);
-    CMyFileLog log("DeleteTcpGameServer", 0x33e);
-    log("./log/Tcp", "TcpGameServer unregist. Channel: %d", group);
+    DNF_LOG_SCOPE_LINE(0x33e, "./log/Tcp", "TcpGameServer unregist. Channel: %d", group);
 }
 
 void CServerHandler::SetGameServerIpPort(unsigned char group, unsigned int port,

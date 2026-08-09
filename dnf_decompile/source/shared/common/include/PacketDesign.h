@@ -3,6 +3,12 @@
 
 #include <string.h>
 
+#define PACKET_CTOR_BODY(cat, pid, sz) \
+    memset(this, 0, sz); \
+    setCategory(cat); \
+    setPacketID(pid); \
+    setSize(sz)
+
 namespace nsl {
 
 #pragma pack(push, 1)
@@ -98,10 +104,7 @@ struct PCK_AUCTION_SERVICE_UNAVAILABLE_AG : public nsl::PACKET_HEADER
 {
     PCK_AUCTION_SERVICE_UNAVAILABLE_AG()
     {
-        memset(this, 0, sizeof(PCK_AUCTION_SERVICE_UNAVAILABLE_AG));
-        setCategory(1);
-        setPacketID(1);
-        setSize(sizeof(PCK_AUCTION_SERVICE_UNAVAILABLE_AG));
+        PACKET_CTOR_BODY(1, 1, sizeof(PCK_AUCTION_SERVICE_UNAVAILABLE_AG));
     }
 };
 
@@ -109,10 +112,7 @@ struct PCK_AUCTION_SERVICE_UNAVAILABLE_PG : public nsl::PACKET_HEADER
 {
     PCK_AUCTION_SERVICE_UNAVAILABLE_PG()
     {
-        memset(this, 0, sizeof(PCK_AUCTION_SERVICE_UNAVAILABLE_PG));
-        setCategory(0x13);
-        setPacketID(1);
-        setSize(sizeof(PCK_AUCTION_SERVICE_UNAVAILABLE_PG));
+        PACKET_CTOR_BODY(0x13, 1, sizeof(PCK_AUCTION_SERVICE_UNAVAILABLE_PG));
     }
 };
 
@@ -120,10 +120,7 @@ struct PCK_AUCTION_SERVICE_AVAILABLE_AG : public nsl::PACKET_HEADER
 {
     PCK_AUCTION_SERVICE_AVAILABLE_AG()
     {
-        memset(this, 0, 0x12);
-        setCategory(1);
-        setPacketID(0xc);
-        setSize(0x12);
+        PACKET_CTOR_BODY(1, 0xc, 0x12);
     }
 };
 
@@ -131,10 +128,7 @@ struct PCK_AUCTION_SERVICE_AVAILABLE_PG : public nsl::PACKET_HEADER
 {
     PCK_AUCTION_SERVICE_AVAILABLE_PG()
     {
-        memset(this, 0, 0x12);
-        setCategory(0x13);
-        setPacketID(0xc);
-        setSize(0x12);
+        PACKET_CTOR_BODY(0x13, 0xc, 0x12);
     }
 };
 

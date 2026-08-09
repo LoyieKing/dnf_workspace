@@ -1,8 +1,17 @@
 #!/usr/bin/env python3
 import re
 import subprocess
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent / 'toolchain'))
+from compare_common import (
+    demangle_batch,
+    disasm_slice,
+    load_disasm,
+    norm_line,
+)
 
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/community/df_community_r'
@@ -16,23 +25,19 @@ def run(cmd):
     return subprocess.check_output(cmd, shell=True, text=True, stderr=subprocess.DEVNULL)
 
 
-def demangle(name):
-    p = subprocess.run(['c++filt', '-n'], input=name, text=True, capture_output=True, check=True)
-    return p.stdout.strip()
-
-
 def nm_map(bin_path):
     out = run("nm -S --defined-only '{}'".format(bin_path))
-    result = {}
+    rows = []
     for line in out.splitlines():
         parts = line.split(None, 3)
         if len(parts) < 4:
             continue
-        _addr, size, sym_type, name = parts
+        addr, size, sym_type, name = parts
         if sym_type not in {'T', 't', 'W', 'w'}:
             continue
-        result[name] = (sym_type, size, demangle(name))
-    return result
+        rows.append((name, sym_type, size, int(addr, 16)))
+    dem = demangle_batch([r[0] for r in rows])
+    return {r[0]: (r[1], r[2], dem.get(r[0], r[0]), r[3]) for r in rows}
 
 
 def obj_funcs(obj_path):
@@ -47,24 +52,19 @@ def obj_funcs(obj_path):
     return symbols
 
 
-def mnemonic_seq(bin_path, symbol):
-    cmd = "objdump -d --no-show-raw-insn --disassemble='{}' '{}'".format(symbol, bin_path)
-    try:
-        out = run(cmd)
-    except Exception:
-        return []
+_DIS_CACHE = {}
 
-    seq = []
-    for line in out.splitlines():
-        if re.match(r'^\s*[0-9a-fA-F]+:\s', line):
-            cols = line.split('\t')
-            if len(cols) < 2:
-                continue
-            ins = cols[1].strip()
-            if not ins:
-                continue
-            seq.append(ins.split()[0])
-    return seq
+
+def disasm_sig(bin_path, addr, size):
+    """Return (normalized_instruction_texts, mnemonic_sequence) for a range."""
+    loaded = _DIS_CACHE.get(bin_path)
+    if loaded is None:
+        loaded = _DIS_CACHE[bin_path] = load_disasm(bin_path)
+    texts, seq = [], []
+    for ins in disasm_slice(loaded, addr, addr + size):
+        texts.append(norm_line(ins))
+        seq.append(ins.split()[0])
+    return texts, seq
 
 
 def main():
@@ -78,14 +78,17 @@ def main():
             if sym not in new_nm:
                 continue
 
-            _typ, new_size, demangled = new_nm[sym]
+            _typ, new_size, demangled, n_addr = new_nm[sym]
             in_orig = sym in orig_nm
             orig_size = orig_nm[sym][1] if in_orig else ''
+            o_addr = orig_nm[sym][3] if in_orig else 0
 
-            new_seq = mnemonic_seq(NEW, sym)
-            old_seq = mnemonic_seq(ORIG, sym) if in_orig else []
+            new_texts, new_seq = disasm_sig(NEW, n_addr, int(new_size, 16))
+            old_texts, old_seq = (
+                disasm_sig(ORIG, o_addr, int(orig_size, 16)) if in_orig else ([], []))
 
-            exact = in_orig and bool(new_seq) and (new_seq == old_seq)
+            # 统一严格口径：除直接跳转/调用目标地址外，指令文本逐条一致
+            exact = in_orig and bool(new_texts) and (new_texts == old_texts)
             if in_orig and new_seq and old_seq:
                 c1 = Counter(new_seq)
                 c2 = Counter(old_seq)
@@ -103,12 +106,12 @@ def main():
                 'orig_size_hex': orig_size,
                 'new_insn_count': len(new_seq),
                 'orig_insn_count': len(old_seq),
-                'mnemonic_exact': 'yes' if exact else 'no',
+                'identical': 'yes' if exact else 'no',
                 'mnemonic_overlap': overlap,
             })
 
     with OUT_TSV.open('w', encoding='utf-8') as f:
-        f.write('file\tsymbol\tdemangled\tin_original\tnew_size_hex\torig_size_hex\tnew_insn_count\torig_insn_count\tmnemonic_exact\tmnemonic_overlap\n')
+        f.write('file\tsymbol\tdemangled\tin_original\tnew_size_hex\torig_size_hex\tnew_insn_count\torig_insn_count\tidentical\tmnemonic_overlap\n')
         for r in rows:
             f.write(
                 '{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{:.4f}\n'.format(
@@ -120,14 +123,14 @@ def main():
                     r['orig_size_hex'],
                     r['new_insn_count'],
                     r['orig_insn_count'],
-                    r['mnemonic_exact'],
+                    r['identical'],
                     r['mnemonic_overlap'],
                 )
             )
 
     total = len(rows)
     in_orig = sum(1 for r in rows if r['in_original'])
-    exact = sum(1 for r in rows if r['mnemonic_exact'] == 'yes')
+    exact = sum(1 for r in rows if r['identical'] == 'yes')
     avg_overlap = (sum(r['mnemonic_overlap'] for r in rows if r['in_original']) / in_orig) if in_orig else 0.0
 
     per_file = defaultdict(lambda: {'total': 0, 'in_orig': 0, 'exact': 0, 'ov_sum': 0.0})
@@ -137,7 +140,7 @@ def main():
         if r['in_original']:
             p['in_orig'] += 1
             p['ov_sum'] += r['mnemonic_overlap']
-        if r['mnemonic_exact'] == 'yes':
+        if r['identical'] == 'yes':
             p['exact'] += 1
 
     rank_low = sorted(
@@ -150,7 +153,7 @@ def main():
         f.write('## 已从文件/日志验证（Verified from files/logs）\n\n')
         f.write('- 总函数数（按重建对象文件导出符号统计）：`{}`\n'.format(total))
         f.write('- 原始 ELF 可匹配函数数：`{}`\n'.format(in_orig))
-        f.write('- 助记符序列完全一致函数数：`{}`\n'.format(exact))
+        f.write('- IDENTICAL（统一严格口径，仅归一化跳转/调用目标地址）函数数：`{}`\n'.format(exact))
         f.write('- 原始可匹配函数平均助记符重叠率：`{:.2f}%`\n'.format(avg_overlap * 100.0))
         f.write('- 逐函数明细：`{}`\n\n'.format(OUT_TSV.relative_to(ROOT)))
 
@@ -173,7 +176,7 @@ def main():
 
     print('TSV={}'.format(OUT_TSV))
     print('MD={}'.format(OUT_MD))
-    print('TOTAL={} IN_ORIG={} EXACT={} AVG_OVERLAP={:.2f}%'.format(total, in_orig, exact, avg_overlap * 100.0))
+    print('TOTAL={} IN_ORIG={} IDENTICAL={} AVG_OVERLAP={:.2f}%'.format(total, in_orig, exact, avg_overlap * 100.0))
 
 
 if __name__ == '__main__':

@@ -6,6 +6,7 @@
   python3 compare_monitor.py CApplication    # 只比符号名含 CApplication 的函数
 """
 import re
+import os
 import sys
 import time
 import pickle
@@ -65,12 +66,15 @@ def dedup_aliases(syms):
 
 
 def load_sigs(path, keys, use_cache=True):
-    cache_key = (str(path), tuple(sorted(keys)), CALIBER_VERSION)
+    # 缓存键含二进制 mtime+size：重建后符号名可能不变，但反汇编已变，
+    # 必须失效重算，避免报告陈旧数字。
+    st = os.stat(str(path))
+    cache_key = (str(path), tuple(sorted(keys)), CALIBER_VERSION, st.st_mtime_ns, st.st_size)
     if use_cache:
         try:
             with open(SIG_CACHE, 'rb') as f:
                 ck, cached = pickle.load(f)
-            if ck[0] == str(path) and ck[1] == cache_key[1]:
+            if ck == cache_key:
                 return cached
         except Exception:
             pass

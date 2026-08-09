@@ -80,8 +80,7 @@ CUser1Sig::~CUser1Sig()
 
 void CUser1Sig::handle(int sig)
 {
-    CMyFileLog log("handle", 0x13);
-    log("./log/Signal", "CUser1Sig::handle( int sig )");
+    DNF_LOG_SCOPE_LINE(0x13, "./log/Signal", "CUser1Sig::handle( int sig )");
     if (m_app != 0)
     {
         m_app->SendTestPacket_2();
@@ -98,8 +97,7 @@ CUser2Sig::~CUser2Sig()
 
 void CUser2Sig::handle(int sig)
 {
-    CMyFileLog log("handle", 0x20);
-    log("./log/Signal", "CUser2Sig::handle( int sig )");
+    DNF_LOG_SCOPE_LINE(0x20, "./log/Signal", "CUser2Sig::handle( int sig )");
     if (m_app != 0)
     {
         m_app->TranslateSignal();

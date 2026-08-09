@@ -234,8 +234,7 @@ void CHWSpecResearcher::WriteSpecStatics(unsigned char param, const HWSpec& spec
 {
     if (2 < param)
     {
-        CMyFileLog log("WriteSpecStatics", 0x27);
-        log("./log/HWSpec.log", "CHWSpecResearcher::WriteSpecStatics Over db_type(%d)",
+        DNF_LOG_SCOPE_LINE(0x27, "./log/HWSpec.log", "CHWSpecResearcher::WriteSpecStatics Over db_type(%d)",
             (unsigned int)param);
         return;
     }
@@ -884,8 +883,7 @@ void StatisticManager::ResetGoldcardEventStatistic()
 
 void StatisticManager::ResetTowerOfDespair()
 {
-    CMyFileLog log("ResetTowerOfDespair", 0x83c);
-    log("./log/statistic", "TOD reset");
+    DNF_LOG_SCOPE_LINE(0x83c, "./log/statistic", "TOD reset");
     memset(m_tower, 0, 0x328);
     m_serverList.clear();
 }
@@ -956,8 +954,7 @@ void CCubeStatistic::sendStatisticData(CServerHandler* handler)
                 *(unsigned int*)((char*)&pkt + 10) = 0x1d6;
                 handler->SendToDB((PacketHeader*)&pkt);
                 count = 0;
-                CMyFileLog log("sendStatisticData", 0x40);
-                log("./log/statistic", "cube statistic DB Sent %d", 0x1d6);
+                DNF_LOG_SCOPE_LINE(0x40, "./log/statistic", "cube statistic DB Sent %d", 0x1d6);
             }
         }
         if (0 < (int)count)
@@ -965,8 +962,7 @@ void CCubeStatistic::sendStatisticData(CServerHandler* handler)
             *(unsigned int*)((char*)&pkt + 10) = count;
             *(short*)((char*)&pkt + 8) = (short)(count * 0xd + 0xe);
             handler->SendToDB((PacketHeader*)&pkt);
-            CMyFileLog log("sendStatisticData", 0x49);
-            log("./log/statistic", "cube statistic DB Sent %d", count);
+            DNF_LOG_SCOPE_LINE(0x49, "./log/statistic", "cube statistic DB Sent %d", count);
         }
     }
 }
@@ -1014,8 +1010,7 @@ void CGMAccounts::AppendGM_Sys(unsigned int id, char flag)
     info.m_field1 = (unsigned char)flag;
     m_list.push_back(info);
     char* mid = NumberToString(id, 0);
-    CMyFileLog log("AppendGM_Sys", 0xcd);
-    log("./log/Init", "GM List Add mid:%s", mid);
+    DNF_LOG_SCOPE_AT("AppendGM_Sys", 0xcd, "./log/Init", "GM List Add mid:%s", mid);
 }
 
 void CGMAccounts::loadGMAccounts(const char* path)
@@ -1498,8 +1493,7 @@ void StatisticManager::SendDBTowerOfDespairStatistic(CServerHandler* handler)
     memcpy((char*)&pkt + 0x12, (char*)this + 0x807, 0x328);
     unsigned int size = m_serverList.size();
     handler->SendToDB((PacketHeader*)&pkt);
-    CMyFileLog log("SendDBTowerOfDespairStatistic", 0x837);
-    log("./log/statistic", "TOD Send to DB");
+    DNF_LOG_SCOPE_LINE(0x837, "./log/statistic", "TOD Send to DB");
 }
 
 void StatisticManager::WriteDungeonPartyJobStatistic(Packet_Dungeon_Statistic_Party_Job* pkt)
@@ -1684,8 +1678,7 @@ void StatisticManager::WriteUserTingTImeCheckStatistic(
     key.m_field0 = *(int*)((char*)pkt + 10) / 0x3c;
     if (0x59f < (int)key.m_field0)
     {
-        CMyFileLog log("WriteUserTingTImeCheckStatistic", 0x2fd);
-        log("./log/Statistic", "[User Ting Wrong] %d Sec", *(unsigned int*)((char*)pkt + 10));
+        DNF_LOG_SCOPE_AT("WriteUserTingTImeCheckStatistic", 0x2fd, "./log/Statistic", "[User Ting Wrong] %d Sec", *(unsigned int*)((char*)pkt + 10));
         return;
     }
     std::map<STUserTingTimeCheckKey, int>::iterator it = m_userTing.find(key);
@@ -1766,8 +1759,7 @@ void StatisticManager::AddReasonCrashDownData(Packet_Reason_Crash_Down_Info* pkt
              *(unsigned int*)((char*)pkt + 10), *(unsigned int*)((char*)pkt + 0xe),
              *(unsigned int*)((char*)pkt + 0x12), *(unsigned int*)((char*)pkt + 0x16));
     handler->SendToDB((PacketHeader*)&query);
-    CMyFileLog log("AddReasonCrashDownData", 0x5b8);
-    log("./log/ReasonCrashDown", "%s", sql);
+    DNF_LOG_SCOPE_AT("AddReasonCrashDownData", 0x5b8, "./log/ReasonCrashDown", "%s", sql);
 }
 
 void StatisticManager::SendDBPartyStatistic(CServerHandler* handler)
@@ -1797,8 +1789,7 @@ void StatisticManager::SendDBPartyStatistic(CServerHandler* handler)
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                CMyFileLog log("SendDBPartyStatistic", 0x183);
-                log("./log/statistic", "Party DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x183, "./log/statistic", "Party DB Sent %d", idx);
                 idx = 0;
             }
         }
@@ -1806,8 +1797,7 @@ void StatisticManager::SendDBPartyStatistic(CServerHandler* handler)
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            CMyFileLog log("SendDBPartyStatistic", 0x18d);
-            log("./log/statistic", "Party DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x18d, "./log/statistic", "Party DB Sent %d", idx);
         }
     }
 }
@@ -1838,8 +1828,7 @@ void StatisticManager::SendDBPartyJobStatistic(CServerHandler* handler)
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                CMyFileLog log("SendDBPartyJobStatistic", 0x19a);
-                log("./log/statistic", "PartyJob DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x19a, "./log/statistic", "PartyJob DB Sent %d", idx);
                 idx = 0;
             }
         }
@@ -1847,8 +1836,7 @@ void StatisticManager::SendDBPartyJobStatistic(CServerHandler* handler)
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            CMyFileLog log("SendDBPartyJobStatistic", 0x1a4);
-            log("./log/statistic", "PartyJob DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x1a4, "./log/statistic", "PartyJob DB Sent %d", idx);
         }
     }
 }
@@ -1880,8 +1868,7 @@ void StatisticManager::SendDBPartyCharacStatistic(CServerHandler* handler)
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                CMyFileLog log("SendDBPartyCharacStatistic", 0x1b1);
-                log("./log/statistic", "PartyCharac DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x1b1, "./log/statistic", "PartyCharac DB Sent %d", idx);
                 idx = 0;
             }
         }
@@ -1889,8 +1876,7 @@ void StatisticManager::SendDBPartyCharacStatistic(CServerHandler* handler)
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            CMyFileLog log("SendDBPartyCharacStatistic", 0x1bb);
-            log("./log/statistic", "PartyCharac DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x1bb, "./log/statistic", "PartyCharac DB Sent %d", idx);
         }
     }
 }
@@ -1913,8 +1899,7 @@ void StatisticManager::SendDBDisjointAvatarInfoTotal(CServerHandler* handler)
     Packet_Avater_Disjoint_Statistic_DB pkt;
     memcpy((char*)&pkt + 0xa, (char*)this + 0x1e8, 0x144);
     handler->SendToDB((PacketHeader*)&pkt);
-    CMyFileLog log("SendDBDisjointAvatarInfoTotal", 0x5fa);
-    log("./log/statistic", "Packet_Avater_Disjoint_Statistic_DB");
+    DNF_LOG_SCOPE_LINE(0x5fa, "./log/statistic", "Packet_Avater_Disjoint_Statistic_DB");
 }
 
 void StatisticManager::SendDBCreateEmblemInfo(CServerHandler* handler)
@@ -1951,8 +1936,7 @@ void StatisticManager::SendDBPacketOverflowStatistic(CServerHandler* handler)
             handler->SendToDB((PacketHeader*)&pkt);
             count++;
         }
-        CMyFileLog log("SendDBPacketOverflowStatistic", 0x297);
-        log("./log/Statistic", "Packet Overflow DB Sent %d", count);
+        DNF_LOG_SCOPE_LINE(0x297, "./log/Statistic", "Packet Overflow DB Sent %d", count);
     }
 }
 
@@ -2067,8 +2051,7 @@ void StatisticManager::SendDBDeathTowerValueStatistic(CServerHandler* handler)
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                CMyFileLog log("SendDBDeathTowerValueStatistic", 0x217);
-                log("./log/statistic", "DeathTowerValue DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x217, "./log/statistic", "DeathTowerValue DB Sent %d", idx);
                 idx = 0;
             }
         }
@@ -2076,8 +2059,7 @@ void StatisticManager::SendDBDeathTowerValueStatistic(CServerHandler* handler)
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            CMyFileLog log("SendDBDeathTowerValueStatistic", 0x220);
-            log("./log/statistic", "DeathTowerValue DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x220, "./log/statistic", "DeathTowerValue DB Sent %d", idx);
         }
     }
 }
@@ -2107,8 +2089,7 @@ void StatisticManager::SendDBHellPartyStatisticItem(CServerHandler* handler)
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                CMyFileLog log("SendDBHellPartyStatisticItem", 0x391);
-                log("./log/statistic", "HellParty DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x391, "./log/statistic", "HellParty DB Sent %d", idx);
                 idx = 0;
             }
         }
@@ -2116,8 +2097,7 @@ void StatisticManager::SendDBHellPartyStatisticItem(CServerHandler* handler)
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            CMyFileLog log("SendDBHellPartyStatisticItem", 0x39b);
-            log("./log/statistic", "HellParty DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x39b, "./log/statistic", "HellParty DB Sent %d", idx);
         }
     }
 }
@@ -2138,8 +2118,7 @@ void StatisticManager::SendDBUserTingTimeCheckStatistic(CServerHandler* handler)
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                CMyFileLog log("SendDBUserTingTimeCheckStatistic", 0x353);
-                log("./log/statistic", "UserTing DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x353, "./log/statistic", "UserTing DB Sent %d", idx);
                 idx = 0;
             }
         }
@@ -2147,8 +2126,7 @@ void StatisticManager::SendDBUserTingTimeCheckStatistic(CServerHandler* handler)
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            CMyFileLog log("SendDBUserTingTimeCheckStatistic", 0x35d);
-            log("./log/statistic", "UserTing DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x35d, "./log/statistic", "UserTing DB Sent %d", idx);
         }
     }
 }
@@ -2174,8 +2152,7 @@ void StatisticManager::SendDBDeathTowerPlayDataJobStatistic(CServerHandler* hand
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                CMyFileLog log("SendDBDeathTowerPlayDataJobStatistic", 0x236);
-                log("./log/statistic", "DeathTowerPlayDataJob DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x236, "./log/statistic", "DeathTowerPlayDataJob DB Sent %d", idx);
                 idx = 0;
             }
         }
@@ -2183,8 +2160,7 @@ void StatisticManager::SendDBDeathTowerPlayDataJobStatistic(CServerHandler* hand
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            CMyFileLog log("SendDBDeathTowerPlayDataJobStatistic", 0x240);
-            log("./log/statistic", "DeathTowerPlayDataJob DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x240, "./log/statistic", "DeathTowerPlayDataJob DB Sent %d", idx);
         }
     }
 }
@@ -2208,8 +2184,7 @@ void StatisticManager::SendDBDeathTowerPlayDataPartyStatistic(CServerHandler* ha
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                CMyFileLog log("SendDBDeathTowerPlayDataPartyStatistic", 0x26d);
-                log("./log/statistic", "DeathTowerPlayDataParty DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x26d, "./log/statistic", "DeathTowerPlayDataParty DB Sent %d", idx);
                 idx = 0;
             }
         }
@@ -2217,8 +2192,7 @@ void StatisticManager::SendDBDeathTowerPlayDataPartyStatistic(CServerHandler* ha
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            CMyFileLog log("SendDBDeathTowerPlayDataPartyStatistic", 0x277);
-            log("./log/statistic", "DeathTowerPlayDataParty DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x277, "./log/statistic", "DeathTowerPlayDataParty DB Sent %d", idx);
         }
     }
 }
@@ -2325,8 +2299,7 @@ void StatisticManager::SendDBAssertManagerStatistic(CServerHandler* handler)
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                CMyFileLog log("SendDBAssertManagerStatistic", 0x2a7);
-                log("./log/statistic", "AssertManager DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x2a7, "./log/statistic", "AssertManager DB Sent %d", idx);
                 idx = 0;
             }
         }
@@ -2334,8 +2307,7 @@ void StatisticManager::SendDBAssertManagerStatistic(CServerHandler* handler)
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            CMyFileLog log("SendDBAssertManagerStatistic", 0x2b1);
-            log("./log/statistic", "AssertManager DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x2b1, "./log/statistic", "AssertManager DB Sent %d", idx);
         }
     }
 }
@@ -2356,8 +2328,7 @@ void StatisticManager::SendDBTingUserTimeCheck(CServerHandler* handler)
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                CMyFileLog log("SendDBTingUserTimeCheck", 0x377);
-                log("./log/statistic", "TingUserTimeCheck DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x377, "./log/statistic", "TingUserTimeCheck DB Sent %d", idx);
                 idx = 0;
             }
         }
@@ -2365,8 +2336,7 @@ void StatisticManager::SendDBTingUserTimeCheck(CServerHandler* handler)
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            CMyFileLog log("SendDBTingUserTimeCheck", 0x381);
-            log("./log/statistic", "TingUserTimeCheck DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x381, "./log/statistic", "TingUserTimeCheck DB Sent %d", idx);
         }
     }
 }
@@ -2392,8 +2362,7 @@ void StatisticManager::SendDBPowerwarLoadingTimeReport(CServerHandler* handler)
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                CMyFileLog log("SendDBPowerwarLoadingTimeReport", 0x3cf);
-                log("./log/statistic", "PowerwarLoading DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x3cf, "./log/statistic", "PowerwarLoading DB Sent %d", idx);
                 idx = 0;
             }
         }
@@ -2401,8 +2370,7 @@ void StatisticManager::SendDBPowerwarLoadingTimeReport(CServerHandler* handler)
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            CMyFileLog log("SendDBPowerwarLoadingTimeReport", 0x3d9);
-            log("./log/statistic", "PowerwarLoading DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x3d9, "./log/statistic", "PowerwarLoading DB Sent %d", idx);
         }
         m_pwLoading.clear();
     }
@@ -2428,8 +2396,7 @@ void StatisticManager::SendDBPowerwarLagReport(CServerHandler* handler)
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                CMyFileLog log("SendDBPowerwarLagReport", 0x33b);
-                log("./log/statistic", "PowerwarLag DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x33b, "./log/statistic", "PowerwarLag DB Sent %d", idx);
                 idx = 0;
             }
         }
@@ -2437,8 +2404,7 @@ void StatisticManager::SendDBPowerwarLagReport(CServerHandler* handler)
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            CMyFileLog log("SendDBPowerwarLagReport", 0x345);
-            log("./log/statistic", "PowerwarLag DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x345, "./log/statistic", "PowerwarLag DB Sent %d", idx);
         }
         m_pwLag.clear();
     }
@@ -2458,13 +2424,11 @@ void StatisticManager::WriteAssertManagerStatistic(Packet_Assert_Manager_Info* p
     {
         memcpy(key.m_str2, (char*)pkt + 0x114, *(size_t*)((char*)pkt + 0x110));
         AMDecrypt(key.m_str2, *(unsigned int*)((char*)pkt + 0x110));
-        CMyFileLog log("WriteAssertManagerStatistic", 0x2b5);
-        log("./log/Statistic", "[AssertManager] Reason(%s)", key.m_str2);
+        DNF_LOG_SCOPE_LINE(0x2b5, "./log/Statistic", "[AssertManager] Reason(%s)", key.m_str2);
     }
     if (99 < m_assertManager.size())
     {
-        CMyFileLog log("WriteAssertManagerStatistic", 0x2ba);
-        log("./log/Statistic", "[AssertManager] Map 100 Over!!!");
+        DNF_LOG_SCOPE_LINE(0x2ba, "./log/Statistic", "[AssertManager] Map 100 Over!!!");
         return;
     }
     std::map<STAssertManagerKey, int>::iterator it = m_assertManager.find(key);
@@ -2593,8 +2557,7 @@ void StatisticManager::SendDBLagStatistics(CServerHandler* handler, char* timeSt
             snprintf(sql, 0x400,
                 "inSert into lag_stat_module (occ_time, server_id, module, average, deviation, count) values ('%s', %d, %d, %d, %d, %d)",
                 timeStr, group & 0xff, i, c / d, a / b, d1 / d2);
-            CMyFileLog log("SendDBLagStatistics", 0x6a1);
-            log("./log/LagStatistics", "%s", sql);
+            DNF_LOG_SCOPE_LINE(0x6a1, "./log/LagStatistics", "%s", sql);
             handler->SendToDB((PacketHeader*)&pkt);
             m_modules[i].Reset();
         }
@@ -2618,8 +2581,7 @@ void StatisticManager::SendDBLagStatistics(CServerHandler* handler, char* timeSt
             snprintf(sql, 0x400,
                 "inSert into lag_stat_dungeon (occ_time, server_id, dungeon_id, average, deviation, count, e1, e2, e3) values ('%s', %d, %d, %d, %d, %d, %d, %d, %d)",
                 timeStr, group & 0xff, it->first, c / d, a / b, d1 / d2, e, f, g);
-            CMyFileLog log("SendDBLagStatistics", 0x6bb);
-            log("./log/LagStatistics", "%s", sql);
+            DNF_LOG_SCOPE_LINE(0x6bb, "./log/LagStatistics", "%s", sql);
             handler->SendToDB((PacketHeader*)&pkt);
         }
         m_dungeonLag.clear();

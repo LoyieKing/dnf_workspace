@@ -139,8 +139,7 @@ void CFrameCountHandler::SaveProcess()
     m_writeTick = (char)(m_writeTick + 1);
     if (m_writeTick != 0)
     {
-        CMyFileLog log("SaveProcess", 0xa8);
-        log("./log/frame", "FPS(%02d) / DFC(%02d)\n", m_fps, m_tick);
+        DNF_LOG_SCOPE_LINE(0xa8, "./log/frame", "FPS(%02d) / DFC(%02d)\n", m_fps, m_tick);
         m_writeTick = 0;
     }
 }
@@ -150,8 +149,7 @@ void CFrameCountHandler::SaveProcess(int interval)
     m_writeTick = (char)(m_writeTick + 1);
     if (m_writeTick != 0)
     {
-        CMyFileLog log("SaveProcess", 0xb8);
-        log("./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", interval, m_fps, m_tick);
+        DNF_LOG_SCOPE_LINE(0xb8, "./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", interval, m_fps, m_tick);
         m_writeTick = 0;
     }
 }
@@ -201,14 +199,12 @@ void CAppThread::dispatch(void* param)
     catch (CDNFException& e)
     {
         printf("CApplication::Process() Exception Break : %s\n", e.what());
-        CMyFileLog log("dispatch", 0x63);
-        log("./log/process", "CAppThread::dispatch() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x63, "./log/process", "CAppThread::dispatch() Exception Break : %s\n", e.what());
     }
     catch (...)
     {
         puts("CApplication::Process() Exception Break");
-        CMyFileLog log("dispatch", 0x68);
-        log("./log/process", "CAppThread::dispatch() Exception Break\n");
+        DNF_LOG_SCOPE_LINE(0x68, "./log/process", "CAppThread::dispatch() Exception Break\n");
     }
 }
 
@@ -284,16 +280,14 @@ void CNetworkThread::dispatch(void* param)
                                         ((std::queue<CUdpRecvBuffer*>*)m_queues[idx])->size();
                                     if (100 < qsize)
                                     {
-                                        CMyFileLog log("dispatch", 0xa3);
-                                        log("./log/recv", "idx(%d) cnt(%d)", idx,
+                                        DNF_LOG_SCOPE_LINE(0xa3,"./log/recv", "idx(%d) cnt(%d)", idx,
                                             ((std::queue<CUdpRecvBuffer*>*)m_queues[idx])->size());
                                     }
                                 }
                             }
                             else
                             {
-                                CMyFileLog log("dispatch", 0x86);
-                                log("./log/recvErr",
+                                DNF_LOG_SCOPE_LINE(0x86,"./log/recvErr",
                                     "Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                                     *(unsigned short*)((char*)buf + 2), len,
                                     *(unsigned short*)buf);
@@ -305,8 +299,7 @@ void CNetworkThread::dispatch(void* param)
                         }
                         else
                         {
-                            CMyFileLog log("dispatch", 0x7a);
-                            log("./log/recvErr",
+                            DNF_LOG_SCOPE_LINE(0x7a,"./log/recvErr",
                                 "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                                 *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
                             {
@@ -317,8 +310,7 @@ void CNetworkThread::dispatch(void* param)
                     }
                     else
                     {
-                        CMyFileLog log("dispatch", 0x6f);
-                        log("./log/recvErr",
+                        DNF_LOG_SCOPE_LINE(0x6f,"./log/recvErr",
                             "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                             *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
                         {
