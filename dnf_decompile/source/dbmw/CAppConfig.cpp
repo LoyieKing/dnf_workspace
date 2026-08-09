@@ -432,7 +432,7 @@ CSourceVersionMgr::~CSourceVersionMgr() {}
 
 int CAppConfig::Get_ServerUdpPort() { return m_udpPort; }
 int CAppConfig::Get_ServerTcpPort() { return m_tcpPort; }
-unsigned char CAppConfig::Get_FrameCountValue() { return m_tickValue; }
+unsigned short CAppConfig::Get_FrameCountValue() { return (unsigned char)m_tickValue; }
 unsigned char CAppConfig::Get_DbmwType() { return m_dbmwType; }
 void* CServerConfig::GetServerInfo() { return &m_servers; }
 void* CKillUSRConfig::GetInfo() const { return (void*)&m_list; }

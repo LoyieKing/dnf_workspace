@@ -42,10 +42,10 @@ public:
     virtual void Init(int argc, char** argv);
     virtual void Load(int argc, char** argv);
     virtual void Free();
-    int InitDB();
-    int OpenDB(ENUM_DB_HANDLE_IDX idx, std::string name);
-    int QueryConnInfo(ENUM_DB_HANDLE_IDX idx, ENUM_SERVER_GROUP serverGroup,
-                      STDBConnInfo& connInfo);
+    bool InitDB();
+    bool OpenDB(ENUM_DB_HANDLE_IDX idx, std::string name);
+    bool QueryConnInfo(ENUM_DB_HANDLE_IDX idx, ENUM_SERVER_GROUP serverGroup,
+                       STDBConnInfo& connInfo);
     void CheckArgv(int argc, char** argv);
     void App_Stop();
     void SendTestPacket_1();

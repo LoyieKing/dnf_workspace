@@ -37,7 +37,7 @@ static void* thread_proxy(void* param)
     return ((CThreadInterface*)param)->dispatch_proxy(param);
 }
 
-char CThreadInterface::begin()
+bool CThreadInterface::begin()
 {
     int ret = pthread_create(&m_thread, 0, thread_proxy, this);
     if (ret < 0)

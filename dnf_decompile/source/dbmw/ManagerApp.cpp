@@ -94,7 +94,8 @@ void CApplication::Load(int argc, char** argv)
         m_frameCount.InitFrameCountInfo(this, m_appConfig->Get_FrameCountValue(), 0x3e8);
         puts("Application Init Frame Count() Success!");
         m_udpHandler = new CUdpHandler;
-        if (((CUdpHandler*)m_udpHandler)->InitServerSocket(m_appConfig->Get_ServerUdpPort()) == -1)
+        if (((CUdpHandler*)m_udpHandler)->InitServerSocket(
+                (unsigned short)m_appConfig->Get_ServerUdpPort()) == -1)
             throw CDNFException("CApplication::Load() Init Server Socket Exception Break!");
         puts("Application UDP Handler Create() Success!");
         m_serverHandler = new CServerHandler;
@@ -106,7 +107,7 @@ void CApplication::Load(int argc, char** argv)
         CPacketDecoderInstance()->Attach(this);
         puts("Application Packet Decoder Attach() Success!");
         // TODO(dbmw): InitDB() 尚未按原版 0x0806d25c 还原
-        if (!InitDB())
+        if (InitDB() != 1)
         {
             puts("DB Open Fail");
             throw;
@@ -114,7 +115,7 @@ void CApplication::Load(int argc, char** argv)
         m_guildManager = new CGuildManager;
         m_networkThread = new CNetworkThread;
         m_networkThread->attach(this);
-        if (!m_networkThread->begin())
+        if (m_networkThread->begin() != 1)
             throw;
         puts("Application Network Thread Begin() Success!");
         unsigned short port = m_appConfig->Get_ServerTcpPort();
@@ -129,8 +130,8 @@ void CApplication::Load(int argc, char** argv)
         }
         m_gmAccounts = new WongWork::CGMAccounts;
         IQueue<TcpRecvQueue>::Get().InitQueue(
-            m_tcpNetSystem.Get_TcpSwapQPacket()->GetParseQ(),
-            m_tcpNetSystem.Get_TcpSwapQPacket()->GetRecvQ());
+            m_tcpNetSystem.Get_TcpSwapQPacket()->GetRecvQ(),
+            m_tcpNetSystem.Get_TcpSwapQPacket()->GetParseQ());
         puts("Application Load() Success!");
         m_loaded = 1;
     }
@@ -142,11 +143,11 @@ void CApplication::CheckArgv(int argc, char** argv)
         throw CDNFException("CApplication::CheckArgv() start argument error\n");
 }
 
-int CApplication::InitDB()
+bool CApplication::InitDB()
 {
     m_dbManager.Init((ENUM_DB_KIND)1, this);
     puts("Application DB Manager Init() Success!");
-    if (!OpenDB(DB_HANDLE_0, "E_MASTER_DB"))
+    if (OpenDB(DB_HANDLE_0, "E_MASTER_DB") != 1)
         return 0;
     std::map<ENUM_DB_HANDLE_IDX, std::string> dbMap;
     dbMap.insert(std::make_pair(DB_HANDLE_1, "E_ACCOUNT_DB"));
@@ -162,17 +163,17 @@ int CApplication::InitDB()
     for (std::map<ENUM_DB_HANDLE_IDX, std::string>::iterator it = dbMap.begin();
          it != dbMap.end(); ++it)
     {
-        if (!QueryConnInfo(it->first, (ENUM_SERVER_GROUP)m_appConfig->GetServerGroup(),
-                           *m_appConfig->GetDBConnInfo(it->first)))
+        if (QueryConnInfo(it->first, (ENUM_SERVER_GROUP)m_appConfig->GetServerGroup(),
+                          *m_appConfig->GetDBConnInfo(it->first)) != 1)
             return 0;
-        if (!OpenDB(it->first, it->second))
+        if (OpenDB(it->first, it->second) != 1)
             return 0;
     }
     puts("DBMW_ALL_DB Open Success");
     return 1;
 }
 
-int CApplication::OpenDB(ENUM_DB_HANDLE_IDX idx, std::string name)
+bool CApplication::OpenDB(ENUM_DB_HANDLE_IDX idx, std::string name)
 {
     STDBConnInfo* connInfo = m_appConfig->GetDBConnInfo(idx);
     if (strncmp(connInfo->m_host, "unused", strlen(connInfo->m_host)) == 0 ||
@@ -191,8 +192,8 @@ int CApplication::OpenDB(ENUM_DB_HANDLE_IDX idx, std::string name)
     return 1;
 }
 
-int CApplication::QueryConnInfo(ENUM_DB_HANDLE_IDX idx, ENUM_SERVER_GROUP serverGroup,
-                                STDBConnInfo& connInfo)
+bool CApplication::QueryConnInfo(ENUM_DB_HANDLE_IDX idx, ENUM_SERVER_GROUP serverGroup,
+                                 STDBConnInfo& connInfo)
 {
     CDBHandle* h = m_dbManager.GetDBHandle(DB_HANDLE_0);
     if (!h->set_query(0,

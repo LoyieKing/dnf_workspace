@@ -1319,7 +1319,7 @@ class CThreadInterface
 public:
     CThreadInterface();
     virtual ~CThreadInterface();
-    virtual char begin();
+    virtual bool begin();
     virtual void* dispatch_proxy(void* param);
     virtual void dispatch(void* param) = 0;
     virtual void stop();
@@ -2312,7 +2312,7 @@ public:
     int Check_FileName(const std::string& fileName);
     int Get_ServerUdpPort();
     int Get_ServerTcpPort();
-    unsigned char Get_FrameCountValue();
+    unsigned short Get_FrameCountValue();
     unsigned char Get_DbmwType();
     STDBConnInfo* GetDBConnInfo(ENUM_DB_HANDLE_IDX idx);
     int GetServerGroup();
