@@ -344,6 +344,55 @@ public:
     } m_entries[1];      // +0xe，步长 8
 } __attribute__((packed));
 
+class Packet_DB_Load_Request_Guild_Board_Write : public PacketHeader
+{
+public:
+    unsigned int m_guildId;  // +0xb
+    unsigned int m_field13;  // +0x13
+} __attribute__((packed));
+
+class Packet_DB_Load_Request_Web_Guild_Board_Write : public PacketHeader
+{
+public:
+    unsigned int m_guildId;  // +0xa
+    unsigned int m_fieldE;   // +0xe
+} __attribute__((packed));
+
+class Packet_DB_Load_Request_Guild_Board_Delete : public PacketHeader
+{
+public:
+    unsigned int m_fieldB;   // +0xb
+    unsigned int m_fieldF;   // +0xf
+    unsigned int m_field13;  // +0x13
+} __attribute__((packed));
+
+class Packet_DB_Load_Guild_Agit : public PacketHeader
+{
+public:
+    unsigned int m_guildId;  // +0xa
+} __attribute__((packed));
+
+class Packet_DB_Create_Guild_Agit : public PacketHeader
+{
+public:
+    unsigned int m_guildId;  // +0xa
+    unsigned int m_fieldE;   // +0xe
+} __attribute__((packed));
+
+class Packet_DB_Delete_Guild_Agit : public PacketHeader
+{
+public:
+    unsigned int m_guildId;  // +0xa
+    unsigned int m_fieldE;   // +0xe
+} __attribute__((packed));
+
+class Packet_DB_Upgrade_Guild_Agit : public PacketHeader
+{
+public:
+    unsigned int m_guildId;  // +0xa
+    unsigned int m_fieldE;   // +0xe
+} __attribute__((packed));
+
 class Packet_Result_OnTimeEvent_Idx : public PacketHeader
 {
 public:

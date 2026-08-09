@@ -374,26 +374,27 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardWrite(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DB_Load_Request_Guild_Board_Write* pkt =
+            (Packet_DB_Load_Request_Guild_Board_Write*)header;
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         STGuildBoardDBInfo info;
         if (!m_pclApp->m_dbManager.OnWriteGuildBoard(
-                (Packet_DB_Load_Request_Guild_Board_Write*)header, &info))
+                pkt, &info))
         {
             CMyFileLog log("OnDBLoadRequestGuildBoardWrite", 0xfbc);
             log("./log/Except",
                 "CPacketTranslater::OnDBLoadRequestGuildBoardWrite()\tGuild Id : %d,\t Query Result : %d\n",
-                *(unsigned int*)(h + 0xb), 0);
+                pkt->m_guildId, 0);
             Packet_DB_Load_Reply_Guild_Board_Write reply;
             *(unsigned short*)((char*)&reply + 0xa) = 1;
-            *(unsigned int*)((char*)&reply + 0xc) = *(unsigned int*)(h + 0xb);
-            *(unsigned int*)((char*)&reply + 0x10) = *(unsigned int*)(h + 0x13);
+            *(unsigned int*)((char*)&reply + 0xc) = pkt->m_guildId;
+            *(unsigned int*)((char*)&reply + 0x10) = pkt->m_field13;
             gs->SendToServer((char*)&reply, 0xb9);
             return;
         }
         Packet_DB_Load_Reply_Guild_Board_Write reply;
-        *(unsigned int*)((char*)&reply + 0xc) = *(unsigned int*)(h + 0xb);
-        *(unsigned int*)((char*)&reply + 0x10) = *(unsigned int*)(h + 0x13);
+        *(unsigned int*)((char*)&reply + 0xc) = pkt->m_guildId;
+        *(unsigned int*)((char*)&reply + 0x10) = pkt->m_field13;
         memcpy((char*)&reply + 0x14, &info, 0xa5);
         gs->SendToServer((char*)&reply, 0xb9);
     }
@@ -408,26 +409,27 @@ void CPacketTranslater::OnDBLoadRequestWebGuildBoardWrite(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DB_Load_Request_Web_Guild_Board_Write* pkt =
+            (Packet_DB_Load_Request_Web_Guild_Board_Write*)header;
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         STGuildBoardDBInfo info;
         if (!m_pclApp->m_dbManager.OnWriteWebGuildBoard(
-                (Packet_DB_Load_Request_Web_Guild_Board_Write*)header, &info))
+                pkt, &info))
         {
             CMyFileLog log("OnDBLoadRequestWebGuildBoardWrite", 0x101a);
             log("./log/Except",
                 "CPacketTranslater::OnDBLoadRequestWebGuildBoardWrite()\tGuild Id : %d,\t Query Result : %d\n",
-                *(unsigned int*)(h + 0xa), 0);
+                pkt->m_guildId, 0);
             Packet_DB_Load_Reply_Web_Guild_Board_Write reply;
             *(unsigned short*)((char*)&reply + 0xa) = 1;
-            *(unsigned int*)((char*)&reply + 0xc) = *(unsigned int*)(h + 0xa);
-            *(unsigned int*)((char*)&reply + 0x10) = *(unsigned int*)(h + 0xe);
+            *(unsigned int*)((char*)&reply + 0xc) = pkt->m_guildId;
+            *(unsigned int*)((char*)&reply + 0x10) = pkt->m_fieldE;
             gs->SendToServer((char*)&reply, 0xb9);
             return;
         }
         Packet_DB_Load_Reply_Web_Guild_Board_Write reply;
-        *(unsigned int*)((char*)&reply + 0xc) = *(unsigned int*)(h + 0xa);
-        *(unsigned int*)((char*)&reply + 0x10) = *(unsigned int*)(h + 0xe);
+        *(unsigned int*)((char*)&reply + 0xc) = pkt->m_guildId;
+        *(unsigned int*)((char*)&reply + 0x10) = pkt->m_fieldE;
         memcpy((char*)&reply + 0x14, &info, 0xa5);
         gs->SendToServer((char*)&reply, 0xb9);
     }
@@ -442,25 +444,26 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardDelete(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DB_Load_Request_Guild_Board_Delete* pkt =
+            (Packet_DB_Load_Request_Guild_Board_Delete*)header;
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
-        if (!m_pclApp->m_dbManager.OnDeleteGuildBoard(*(unsigned int*)(h + 0xb)))
+        if (!m_pclApp->m_dbManager.OnDeleteGuildBoard(pkt->m_fieldB))
         {
             CMyFileLog log("OnDBLoadRequestGuildBoardDelete", 0xfe9);
             log("./log/Except",
                 "CPacketTranslater::OnDBLoadRequestGuildBoardDelete()\tGuild Id : %d,\t Query Result : %d\n",
-                *(unsigned int*)(h + 0xf), 0);
+                pkt->m_fieldF, 0);
             Packet_DB_Load_Reply_Guild_Board_Delete reply;
             *(unsigned short*)((char*)&reply + 0xa) = 1;
-            *(unsigned int*)((char*)&reply + 0xc) = *(unsigned int*)(h + 0xf);
-            *(unsigned int*)((char*)&reply + 0x10) = *(unsigned int*)(h + 0x13);
+            *(unsigned int*)((char*)&reply + 0xc) = pkt->m_fieldF;
+            *(unsigned int*)((char*)&reply + 0x10) = pkt->m_field13;
             gs->SendToServer((char*)&reply, 0x18);
             return;
         }
         Packet_DB_Load_Reply_Guild_Board_Delete reply;
-        *(unsigned int*)((char*)&reply + 0xc) = *(unsigned int*)(h + 0xf);
-        *(unsigned int*)((char*)&reply + 0x10) = *(unsigned int*)(h + 0x13);
-        *(unsigned int*)((char*)&reply + 0x14) = *(unsigned int*)(h + 0xb);
+        *(unsigned int*)((char*)&reply + 0xc) = pkt->m_fieldF;
+        *(unsigned int*)((char*)&reply + 0x10) = pkt->m_field13;
+        *(unsigned int*)((char*)&reply + 0x14) = pkt->m_fieldB;
         gs->SendToServer((char*)&reply, 0x18);
     }
     DNF_CATCH_LOG("./log/Except",
@@ -475,19 +478,17 @@ void CPacketTranslater::OnLoadGuildAgit(PacketHeader* header)
             "CPacketTranslater::OnLoadGuildAgit() : 0 == m_pclApp"));
     try
     {
-        char* h = (char*)header;
+        Packet_DB_Load_Guild_Agit* pkt = (Packet_DB_Load_Guild_Agit*)header;
         Packet_Guild_Load_Guild_Agit reply;
-        *(unsigned int*)((char*)&reply + 0xa) = *(unsigned int*)(h + 0xa);
-        m_pclApp->m_dbManager.OnLoadGuildAgit(
-            (Packet_DB_Load_Guild_Agit*)header, reply);
+        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_guildId;
+        m_pclApp->m_dbManager.OnLoadGuildAgit(pkt, reply);
         Packet_Guild_Load_Guild_Cargo cargo;
-        *(unsigned int*)((char*)&cargo + 0xa) = *(unsigned int*)(h + 0xa);
-        m_pclApp->m_dbManager.OnLoadGuildCargo(*(unsigned int*)(h + 0xa),
-                                               cargo);
+        *(unsigned int*)((char*)&cargo + 0xa) = pkt->m_guildId;
+        m_pclApp->m_dbManager.OnLoadGuildCargo(pkt->m_guildId, cargo);
         Packet_Guild_Load_Guild_Cargo_History history;
-        *(unsigned int*)((char*)&history + 0xa) = *(unsigned int*)(h + 0xa);
+        *(unsigned int*)((char*)&history + 0xa) = pkt->m_guildId;
         m_pclApp->m_dbManager.OnLoadGuildCargoHistory(
-            *(unsigned int*)(h + 0xa), history);
+            pkt->m_guildId, history);
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         gs->SendToServer((char*)&reply, 0xf);
         gs->SendToServer((char*)&cargo, 0x18ea);
@@ -505,20 +506,19 @@ void CPacketTranslater::OnCreateGuildAgit(PacketHeader* header)
             "CPacketTranslater::OnCreateGuildAgit() : 0 == m_pclApp"));
     try
     {
-        char* h = (char*)header;
+        Packet_DB_Create_Guild_Agit* pkt =
+            (Packet_DB_Create_Guild_Agit*)header;
         Packet_DB_Create_Guild_Agit_Reply reply;
-        *(unsigned int*)((char*)&reply + 0xa) = *(unsigned int*)(h + 0xa);
-        *(unsigned int*)((char*)&reply + 0xe) = *(unsigned int*)(h + 0xe);
-        m_pclApp->m_dbManager.OnCreateGuildAgit(
-            (Packet_DB_Create_Guild_Agit*)header, reply);
+        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_guildId;
+        *(unsigned int*)((char*)&reply + 0xe) = pkt->m_fieldE;
+        m_pclApp->m_dbManager.OnCreateGuildAgit(pkt, reply);
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         gs->SendToServer((char*)&reply, 0x16);
         if (*(int*)((char*)&reply + 0x12) == 0)
         {
             Packet_Guild_Load_Guild_Cargo cargo;
-            *(unsigned int*)((char*)&cargo + 0xa) = *(unsigned int*)(h + 0xa);
-            m_pclApp->m_dbManager.OnLoadGuildCargo(*(unsigned int*)(h + 0xa),
-                                                   cargo);
+            *(unsigned int*)((char*)&cargo + 0xa) = pkt->m_guildId;
+            m_pclApp->m_dbManager.OnLoadGuildCargo(pkt->m_guildId, cargo);
             gs->SendToServer((char*)&cargo, 0x18ea);
         }
     }
@@ -534,12 +534,12 @@ void CPacketTranslater::OnDeleteGuildAgit(PacketHeader* header)
             "CPacketTranslater::OnDeleteGuildAgit() : 0 == m_pclApp"));
     try
     {
-        char* h = (char*)header;
+        Packet_DB_Delete_Guild_Agit* pkt =
+            (Packet_DB_Delete_Guild_Agit*)header;
         Packet_DB_Delete_Guild_Agit_Reply reply;
-        *(unsigned int*)((char*)&reply + 0xa) = *(unsigned int*)(h + 0xa);
-        *(unsigned int*)((char*)&reply + 0xe) = *(unsigned int*)(h + 0xe);
-        m_pclApp->m_dbManager.OnDeleteGuildAgit(
-            (Packet_DB_Delete_Guild_Agit*)header, reply);
+        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_guildId;
+        *(unsigned int*)((char*)&reply + 0xe) = pkt->m_fieldE;
+        m_pclApp->m_dbManager.OnDeleteGuildAgit(pkt, reply);
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         gs->SendToServer((char*)&reply, 0x16);
     }
@@ -555,12 +555,12 @@ void CPacketTranslater::OnUpgradeGuildAgit(PacketHeader* header)
             "CPacketTranslater::OnUpgradeGuildAgit() : 0 == m_pclApp"));
     try
     {
-        char* h = (char*)header;
+        Packet_DB_Upgrade_Guild_Agit* pkt =
+            (Packet_DB_Upgrade_Guild_Agit*)header;
         Packet_DB_Upgrade_Guild_Agit_Reply reply;
-        *(unsigned int*)((char*)&reply + 0xa) = *(unsigned int*)(h + 0xa);
-        *(unsigned int*)((char*)&reply + 0xe) = *(unsigned int*)(h + 0xe);
-        m_pclApp->m_dbManager.OnUpgradeGuildAgit(
-            (Packet_DB_Upgrade_Guild_Agit*)header, reply);
+        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_guildId;
+        *(unsigned int*)((char*)&reply + 0xe) = pkt->m_fieldE;
+        m_pclApp->m_dbManager.OnUpgradeGuildAgit(pkt, reply);
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         gs->SendToServer((char*)&reply, 0x16);
     }
