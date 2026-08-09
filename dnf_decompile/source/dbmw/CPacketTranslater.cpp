@@ -700,11 +700,12 @@ void CPacketTranslater::OnRequestBlackListOnLogin(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Request_BlackList_Login* pkt =
+            (Packet_DBMW_Request_BlackList_Login*)header;
         Packet_DBMW_Reponse_BlackList reply;
-        *(unsigned int*)((char*)&reply + 0xa) = *(unsigned int*)(h + 0xa);
+        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_mid;
         if (!m_pclApp->m_dbManager.QueryBlackList(
-                *(unsigned int*)(h + 0xa),
+                pkt->m_mid,
                 (STBlackUserDBType*)((char*)&reply + 0xe)))
         {
             CMyFileLog log("OnRequestBlackListOnLogin", 0x2b8);
@@ -712,10 +713,10 @@ void CPacketTranslater::OnRequestBlackListOnLogin(PacketHeader* header)
                 "m_clDBManager.QueryBlackList Err : return false");
             return;
         }
-        if (*(unsigned char*)(h + 0xe) == 0xc9)
+        if (pkt->m_fieldE == 0xc9)
             m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
                 (char*)&reply, reply.packetSize);
-        else if (*(unsigned char*)(h + 0xe) == 0xcb)
+        else if (pkt->m_fieldE == 0xcb)
             m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
                 (char*)&reply, reply.packetSize);
     }
@@ -847,15 +848,17 @@ void CPacketTranslater::OnSavePowerWarBonusPoint(PacketHeader* header)
             "CPacketTranslater::OnSavePowerWarBonusPoint() : 0 == m_pclApp"));
     try
     {
-        char* h = (char*)header;
+        Packet_DB_Save_Power_War_Bonus_Point* pkt =
+            (Packet_DB_Save_Power_War_Bonus_Point*)header;
         m_pclApp->m_dbManager.OnSavePowerWarBonusPoint(
-            (Packet_DB_Save_Power_War_Bonus_Point*)header);
-        if (*(int*)(h + 0xa) > 0)
+            pkt);
+        if (pkt->m_count > 0)
         {
             Packet_Notify_New_Group_Mail notice;
-            int n = *(int*)(h + 0xa) > 0x12c ? 0x12c : *(int*)(h + 0xa);
+            int n = pkt->m_count > 0x12c ? 0x12c : pkt->m_count;
             for (int i = 0; i < n; i++)
-                *(int*)((char*)&notice + 0xe + i * 4) = *(int*)(h + 0xe + i * 8);
+                *(int*)((char*)&notice + 0xe + i * 4) =
+                    pkt->m_entries[i].m_characNo;
             m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
                 (char*)&notice, notice.packetSize);
         }
@@ -1033,10 +1036,11 @@ void CPacketTranslater::OnQueryTodayGuildMemeber(PacketHeader* header)
             "CPacketTranslater::OnQueryTodayGuildMemeber() : 0 == m_pclApp"));
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Request_Today_Guild_Member* pkt =
+            (Packet_DBMW_Request_Today_Guild_Member*)header;
         Packet_Reply_Today_Guild_Member reply;
         m_pclApp->m_dbManager.QueryTodayGuildMember(
-            *(unsigned int*)(h + 0xa), reply);
+            pkt->m_guildId, reply);
         m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
             (char*)&reply, reply.packetSize);
     }
@@ -1161,13 +1165,12 @@ void CPacketTranslater::OnDelBuddy(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Del_Buddy* pkt = (Packet_DBMW_Del_Buddy*)header;
         Packet_DBMW_Del_Buddy_Reply reply;
-        *(unsigned int*)((char*)&reply + 0xa) = *(unsigned int*)(h + 0xa);
-        *(unsigned int*)((char*)&reply + 0xe) = *(unsigned int*)(h + 0xe);
-        memcpy((char*)&reply + 0x12, h + 0x12, 0x1d);
-        m_pclApp->m_dbManager.DelBuddy(*(unsigned int*)(h + 0xa),
-                                       *(unsigned int*)(h + 0xe));
+        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_mid;
+        *(unsigned int*)((char*)&reply + 0xe) = pkt->m_characNo;
+        memcpy((char*)&reply + 0x12, pkt->m_name, 0x1d);
+        m_pclApp->m_dbManager.DelBuddy(pkt->m_mid, pkt->m_characNo);
         m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
             (char*)&reply, reply.packetSize);
     }
@@ -1326,10 +1329,11 @@ void CPacketTranslater::OnQueryGuildBooting(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Request_Guild_Booting* pkt =
+            (Packet_DBMW_Request_Guild_Booting*)header;
         Packet_DB_Query_Reply_On_Guild_Booting reply;
         m_pclApp->m_dbManager.QueryGuildBooting(
-            reply, *(unsigned char*)(h + 0xa));
+            reply, pkt->m_serverId);
         m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
             (char*)&reply, reply.packetSize);
         CMyFileLog log("OnQueryGuildBooting", 0x685);
@@ -1711,10 +1715,11 @@ void CPacketTranslater::OnDBMWConnectionCheck(PacketHeader* header)
         return;
     try
     {
-        char* h = (char*)header;
+        Packet_DBMW_Connection_Check* pkt =
+            (Packet_DBMW_Connection_Check*)header;
         CMyFileLog log("OnDBMWConnectionCheck", 0x1df);
         log("./log/Udp", "%d Server Connection Complete!",
-            *(unsigned char*)(h + 0xa));
+            pkt->m_serverId);
     }
     DNF_CATCH_LOG("./log/Except.log",
                   "CPacketTranslater::OnDBMWConnectionCheck() Exception Break",
@@ -2101,11 +2106,11 @@ void CPacketTranslater::onQueryTowerFullRank(PacketHeader* header)
         return;
     try
     {
-        char* pkt = (char*)header;
+        Packet_DBMW_Query_Tower_Full_Rank* pkt =
+            (Packet_DBMW_Query_Tower_Full_Rank*)header;
         std::vector<stTowerRank_t> ranks;
         if (!m_pclApp->m_dbManager.queryTowerFullRank(
-                *(unsigned int*)(pkt + 0xa), ranks,
-                *(unsigned int*)(pkt + 0xe)))
+                pkt->m_towerIndex, ranks, pkt->m_limit))
             return;
         CMonitorServer* ms = m_pclApp->m_serverHandler->GetMonitorServer();
         Packet_Reply_Load_Tower_Full_Rank reply;
@@ -2219,11 +2224,11 @@ void CPacketTranslater::OnQueryGuild(PacketHeader* header)
         return;
     try
     {
-        char* pkt = (char*)header;
-        unsigned int guildId = *(unsigned int*)(pkt + 0xb);
-        unsigned int serverGroup = *(unsigned int*)(pkt + 0xf);
+        Packet_DBMW_Query_Guild* pkt = (Packet_DBMW_Query_Guild*)header;
+        unsigned int guildId = pkt->m_guildId;
+        unsigned int serverGroup = pkt->m_serverGroup;
         if (!m_pclApp->m_dbManager.QueryGuild(
-                *(unsigned char*)(pkt + 0xa), guildId, reply))
+                pkt->m_serverId, guildId, reply))
         {
             CMyFileLog log("OnQueryGuild", 0x56);
             log("./log/Except",
@@ -2232,7 +2237,7 @@ void CPacketTranslater::OnQueryGuild(PacketHeader* header)
             return;
         }
         if (!m_pclApp->m_dbManager.QuerySubGuildMaster(
-                *(unsigned char*)(pkt + 0xa), guildId, reply))
+                pkt->m_serverId, guildId, reply))
         {
             CMyFileLog log("OnQueryGuild", 0x5b);
             log("./log/Except",

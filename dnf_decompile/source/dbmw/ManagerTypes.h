@@ -285,6 +285,65 @@ public:
     unsigned char m_field32;   // +0x32
 } __attribute__((packed));
 
+class Packet_DBMW_Request_BlackList_Login : public PacketHeader
+{
+public:
+    unsigned int m_mid;    // +0xa
+    unsigned char m_fieldE;  // +0xe
+} __attribute__((packed));
+
+class Packet_DBMW_Request_Guild_Booting : public PacketHeader
+{
+public:
+    unsigned char m_serverId;  // +0xa
+} __attribute__((packed));
+
+class Packet_DBMW_Request_Today_Guild_Member : public PacketHeader
+{
+public:
+    unsigned int m_guildId;  // +0xa
+} __attribute__((packed));
+
+class Packet_DBMW_Connection_Check : public PacketHeader
+{
+public:
+    unsigned char m_serverId;  // +0xa
+} __attribute__((packed));
+
+class Packet_DBMW_Query_Guild : public PacketHeader
+{
+public:
+    unsigned char m_serverId;  // +0xa
+    unsigned int m_guildId;    // +0xb
+    unsigned int m_serverGroup;  // +0xf
+} __attribute__((packed));
+
+class Packet_DBMW_Query_Tower_Full_Rank : public PacketHeader
+{
+public:
+    unsigned int m_towerIndex;  // +0xa
+    unsigned int m_limit;       // +0xe
+} __attribute__((packed));
+
+class Packet_DBMW_Del_Buddy : public PacketHeader
+{
+public:
+    unsigned int m_mid;      // +0xa
+    unsigned int m_characNo; // +0xe
+    char m_name[0x1d];       // +0x12
+} __attribute__((packed));
+
+class Packet_DB_Save_Power_War_Bonus_Point : public PacketHeader
+{
+public:
+    int m_count;   // +0xa
+    struct Entry
+    {
+        int m_characNo;  // +0xe
+        int m_addInfo;   // +0x12
+    } m_entries[1];      // +0xe，步长 8
+} __attribute__((packed));
+
 class Packet_Result_OnTimeEvent_Idx : public PacketHeader
 {
 public:
