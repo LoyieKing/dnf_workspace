@@ -104,6 +104,28 @@ dbmw 与 manager 共享约 73% 函数（6,041/8,268），以 `source/manager` �
 - 全量水位维持：IDENTICAL 608 / NEAR 512 / DIFF 1445 / MISSING 0（manager
   460/422/997，较前 459/422/998 微升）
 
+## 大函数语义核验批二（2026-08-09 续，Ghidra + 反汇编逐段）
+
+- **CNetworkThread 线程族**：RecvFromClient 成功判定改 `!= 1`（ORIG
+  `xor $1;test;je`，原 `!ret` 放行任意非 0）；日志参数序修正
+  (packetSize,size,packetId)；包长/包号改 PacketHeader 成员访问；
+  m_stop char→bool（循环检查 test+jne 对齐）；dispatch 全族 void*→void、
+  dispatch_proxy 改忽略返回值返回 0。CNetworkThread::dispatch
+  513/510→513/513，CTcpAccept 303/313→303/308，CTcpNetwork
+  328/327→328/325。
+- **CAppConfig::Parse_Table**：sso/web/guild 三个库写错 STDBConnInfo
+  下标（[5]/[7]/[6]，ORIG 应为 [6]/[5]/[8]，与 InitDB dbMap 错位导致
+  配置串线）——真实 bug，已修；其余键/偏移逐项核对一致。
+- **CApplication::Load 族**：IQueue::InitQueue 参数序反了（ORIG
+  (recvQ,parseQ)，原 (parseQ,recvQ)，解码器会拿错队列）——真实 bug；
+  InitServerSocket 参数补 ushort 转换；Get_FrameCountValue 返回改
+  ushort（二次 movzx 8/8 IDENTICAL）；InitDB/OpenDB/QueryConnInfo/
+  begin 返回改 bool、调用点 `!= 1`（xor 模式），InitDB 504/504 DIFF→NEAR。
+- **QueryMember / RecvFromClient**：核验语义一致（Ghidra 对缓冲下标、
+  参数角色的渲染有误，以反汇编为准）；QueryMember 的 str[strlen-1]=0
+  与 ORIG 相同。
+- 水位升至：IDENTICAL 609 / NEAR 513 / DIFF 1443 / MISSING 0
+
 ## DIFF 大函数语义核验批（2026-08-09 续，Ghidra 反编译逐函数比对）
 
 已核验顶部大函数（按 ORIG 指令数）并修复 5 处真实语义 bug：
