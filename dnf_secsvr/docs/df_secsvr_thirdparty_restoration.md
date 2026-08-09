@@ -124,6 +124,7 @@ gunnersvr/zergsvr 树已同步重建（203/239 个头）。
 | Gramary | 自定义块密码：gra_round 16 模式槽位交织（s0|s1<<1|...|s7<<6|s6<<7，oracle 提取排列表）；gra_crypt 与 shiftCrypt 同构 |
 | DesNew | 自定义 8 字节块：NF 256 表；9 轮密钥索引 +7 mod 15，si 依轮切换 key[7]/[8]/[9]；decrypt 完全镜像 |
 | Blowfish | 标准 Blowfish：P/S 初始表与公版一致；BlowFish8/16/24/32/56 = 5 种密钥长度 + 8 字节块 ECB + TsLocal 余数；Encrypt/Decrypt flag0=ECB flag1=CBC(m_oChain) |
+| D3DES 族 | 自实现三密钥 3DES 变体：deskey=PC1→totrot→PC2+bigbyte[0..23]→cookey 掩码公式；desfunc=经验提取 IP/FP 置换 + 8 轮 R^=F(ror4(L),k0,k1) 交错；des3key 解密模式 (key+8,EN0)→(key,DE1)→(key+16,DE1)；D3des161/162=24 字节密钥 + 8/16 块 ECB + TsLocal 余数，D3des24=72 字节密钥 + 24 字节块；TenD3desN 包装 key 在前 |
 
 以上全部通过 `toolchain/uni_call.py` 调二进制函数逐字节对拍（含密钥表/状态全量 dump 与
 随机多组向量），详见 `tencrypt_new/README.md` 状态矩阵。
