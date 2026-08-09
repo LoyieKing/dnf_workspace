@@ -105,30 +105,36 @@ def parse_plt(data, sections):
 def apply_relocs(uc, data, sections, syms):
     """应用 .rel.dyn 重定位（R_386_32 / R_386_RELATIVE），把内部符号地址
        写入 GOT/数据区（模拟动态链接器的静态重定位）。"""
-    if ".rel.dyn" not in sections:
-        return
-    rel = sections[".rel.dyn"]
-    r_off, r_size = rel[4], rel[5]
-    for i in range(r_size // 8):
-        r_offset, r_info = struct.unpack_from("<II", data, r_off + i * 8)
-        rtype = r_info & 0xff
-        sym_idx = r_info >> 8
-        if rtype in (1, 6):      # R_386_32: S+A；R_386_GLOB_DAT: S
-            sym_name = None
-            dynsym = sections[".dynsym"]
-            st_name, st_value, st_size, st_info, st_other, st_shndx = \
-                struct.unpack_from("<IIIBBH", data, dynsym[4] + sym_idx * 16)
-            str_off = sections[".dynstr"][4]
-            strtab = data[str_off:]
-            sym_name = strtab[st_name:strtab.find(b"\x00", st_name)].decode() if st_name else ""
-            base = syms.get(sym_name, 0)
-            if rtype == 1:
+    # 按节类型（SHT_REL/SHT_RELA）扫描，兼容节名被剥离的二进制
+    for name, sh in sections.items():
+        sh_type = sh[1]
+        if sh_type not in (4, 9):
+            continue
+        r_off, r_size = sh[4], sh[5]
+        link = sh[6]
+        for i in range(r_size // 8):
+            r_offset, r_info = struct.unpack_from("<II", data, r_off + i * 8)
+            rtype = r_info & 0xff
+            sym_idx = r_info >> 8
+            if rtype in (1, 6):      # R_386_32: S+A；R_386_GLOB_DAT: S
+                sym_name = None
+                # 用 .dynsym 或链接到的 symtab
+                dynsym = sections.get(".dynsym")
+                if dynsym is None:
+                    continue
+                st_name, st_value, st_size, st_info, st_other, st_shndx = \
+                    struct.unpack_from("<IIIBBH", data, dynsym[4] + sym_idx * 16)
+                str_off = sections[".dynstr"][4]
+                strtab = data[str_off:]
+                sym_name = strtab[st_name:strtab.find(b"\x00", st_name)].decode() if st_name else ""
+                base = syms.get(sym_name, 0)
+                if rtype == 1:
+                    addend = struct.unpack("<I", uc.mem_read(r_offset, 4))[0]
+                    base = (base + addend) & 0xFFFFFFFF
+                uc.mem_write(r_offset, struct.pack("<I", base))
+            elif rtype == 8:    # R_386_RELATIVE: B + A
                 addend = struct.unpack("<I", uc.mem_read(r_offset, 4))[0]
-                base = (base + addend) & 0xFFFFFFFF
-            uc.mem_write(r_offset, struct.pack("<I", base))
-        elif rtype == 8:    # R_386_RELATIVE: B + A
-            addend = struct.unpack("<I", uc.mem_read(r_offset, 4))[0]
-            uc.mem_write(r_offset, struct.pack("<I", (0x08048000 + addend) & 0xFFFFFFFF))
+                uc.mem_write(r_offset, struct.pack("<I", (0x08048000 + addend) & 0xFFFFFFFF))
 
 
 def main():

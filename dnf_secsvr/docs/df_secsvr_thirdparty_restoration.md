@@ -107,6 +107,35 @@ gunnersvr/zergsvr 树已同步重建（203/239 个头）。
 4. 服务代码：gunnersvr（9 CU）→ zergsvr（15 CU）→ secagent（16 CU + formmog 协议）；
 5. 每单元沿用本报告 §4 的验收方法（符号命中 + 测试向量 + 助记符重叠）。
 
+## 6. 对称加密族进度（2026-08-09 续）
+
+第二阶段对称加密族已按“二进制即 oracle”方法完成 **12 个新算法**并逐字节验证：
+
+| 算法 | 结论 |
+|---|---|
+| MARS | 加解密为 Gladman 标准宏；setkey 完全自定义（15 项 t_key + IM1/IM2/IM7/I4M 表驱动置换 + 4 轮外层 + gen_mask 无 bit31 修补） |
+| Diamond2 Lite | AC 公版结构；Init 固定分配 Ccitt32Table/s/si，setkey 不分配；keyrand 无 sbox；Diamond 包装固定 (key16,3轮,8块) |
+| FROG | AC 公版 make_perm/make_ikey；SetKey 只用 sim_key（无 loc_key）；余数交 CreateTsLocal()->Seattos |
+| HPC | AC 公版 mult_64/set_key/encrypt/decrypt；Init 固定分配 l_key/spice/p119/e19/r220；包装 setKey(key,0x20) |
+| Gene / GeneNew | 自定义流式：table[i]=i + MSVC rand LCG 洗牌；Gene 逐字节混合，GeneNew 逐字节 ^i^key[i&7] |
+| Seattos | 自定义流式：64 位比特置换 + t16 表混合（v1^t^key，v2=v1±t，输出 (t^v2)^key） |
+| Adder / Subtracter | 自定义流式：比特置换密钥；逐字节 v 次加/减（enc 计数=v 跳过>=0x80，dec 计数=256-v） |
+| Shift / Ring | Shift：SHIFTIP+SHIFTBBIT 置换 + shiftCrypt（enc 收集后直接返回，dec 展开回写）；Ring：Gene 同款 LCG 表 + rotr 块变换 |
+| Gramary | 自定义块密码：gra_round 16 模式槽位交织（s0|s1<<1|...|s7<<6|s6<<7，oracle 提取排列表）；gra_crypt 与 shiftCrypt 同构 |
+| DesNew | 自定义 8 字节块：NF 256 表；9 轮密钥索引 +7 mod 15，si 依轮切换 key[7]/[8]/[9]；decrypt 完全镜像 |
+
+以上全部通过 `toolchain/uni_call.py` 调二进制函数逐字节对拍（含密钥表/状态全量 dump 与
+随机多组向量），详见 `tencrypt_new/README.md` 状态矩阵。
+
+### 待续
+
+- BOX3D1..7（TsLocal::ProcessLastBytes 的余数分发目标，7 个同族函数）
+- CTsLocalImp / CreateTsLocal / FreeTsLocal（共享层 TsLocal 单例，Frog/Hpc/Shift/Ring/
+  Gramary/DesNew 包装层余数处理的依赖）
+- DesPC/DesToo/DesBig/Des2P/FastDes/DesDea、D3DES、Magic8/16/32、Amoeba
+- Square / Rijndael / Blowfish / Twofish（开源参考可用）
+- TenCrypt.cpp / TencBase.cpp 封装层
+
 ## 关联材料
 
 - 构建重构报告：`df_secsvr_build_recon.md`（三方库清单与依赖）
