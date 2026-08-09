@@ -1165,3 +1165,22 @@ if/else-if 链 → 逐条 `jne` 跳过。实例：`Script::get_key_val`。
 - 三元 `cond ? A : B` 与 if/else 两块的机器码不同（前者常物化 setcc+
   mov，后者每分支独立转换块）；ORIG 里大块分支用 if/else，布尔赋值用
   三元（`isInstantBuying ? 1 : 0` → mov $1/mov $0/jmp 链）。
+
+## 102. FP 转换的 cw 设置块归属（2026-08-09 auction makeSuccessfulBid）
+
+- `commission = (int)((double)x * (double)y)` 的 fnstcw/fldcw 设置在
+  gcc 4.4 -O0 下会随基本块布局**落在不同块**：ORIG 把设置放在阶梯
+  0x32/0x50 赋值块内（随后 jmp 到转换，转换复用 `fldcw -0x7b8`），
+  我方工具链把设置放在转换块自身（阶梯块无设置 + 转换块 fnstcw）。
+- 语义、指令数、mnemonic 内容完全一致，仅块边界归属不同——属 -O0 布局
+  伪影，记录即可，不阻塞语义验收。
+
+## 103. 整数范围检查的嵌套 if vs && 链（2026-08-09 auction makeSuccessfulBid）
+
+- `if (pay()==1 && a<x && x<b)`（单链）→ 整链布尔物化（jne L0; ...;
+  mov 1; jmp; L0: mov 0; test; je）；
+- 嵌套 `if (pay()==1) { if (a<x && x<b) {...} }` → 首个 == 用
+  `cmp; sete; test; je`（比较结果物化），内层范围检查用 `jbe/ja` 直跳
+  （无物化）。
+- ORIG 用嵌套形态；`0x28d287 < item_id && item_id < 0x28d294` 这类
+  unsigned long 范围检查在嵌套下直接 jbe/ja。

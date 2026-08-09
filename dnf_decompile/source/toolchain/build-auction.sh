@@ -114,6 +114,9 @@ for f in $SOURCES; do
             elif [ "$base" = "CFileLogWriterBase" ]; then
                 echo "CC  $base.cpp (-fno-exceptions)"
                 run_job "$CXX" $COMMON_FLAGS -fno-exceptions -c "$srcdir/$base.cpp" -o "$OUT_DIR/$base.o"
+            elif [ "$base" = "HandlerFor_GA_" ] || [ "$base" = "HandlerFor_GP_JPN" ]; then
+                echo "CC  $base.cpp (-DSTATISTICS_STDATA_57)"
+                run_job "$CXX" $COMMON_FLAGS -DSTATISTICS_STDATA_57 -c "$srcdir/$base.cpp" -o "$OUT_DIR/$base.o"
             else
                 if echo " $I586_TUS " | grep -q " $base "; then
                     echo "CC  $base.cpp (-march=i586)"

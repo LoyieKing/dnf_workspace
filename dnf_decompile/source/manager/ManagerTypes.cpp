@@ -60,7 +60,8 @@ void* MemPool<T>::alloc()
             headOfFreeList_ = (void*)((char*)block + m_size);
             head = block;
             m_blocks.push_back(block);
-            DNF_LOG_SCOPE_LINE(0x7d, "./log/Mempool", "class size(%d) cnt(%d)", m_size,
+            CMyFileLog log("alloc", 0x7d);
+            log("./log/Mempool", "class size(%d) cnt(%d)", m_size,
                 m_count * (int)m_blocks.size());
         }
         else
@@ -114,7 +115,7 @@ template class MemPool<CUdpRecvBuffer>;
 template class MemPool<CTcpRecvBuffer>;
 template class MemPool<CTcpSendBuffer>;
 template class MemPool<CPacketBuffer>;
-
+template class MemPool<CPeer>;
 template class MemPool<CDNFProhibitUser>;
 
 void* CUdpRecvBuffer::operator new(unsigned int size) { return g_udpRecvPool.alloc(); }
@@ -227,7 +228,8 @@ void CFrameCountHandler::SaveProcess()
     m_field28++;
     if (m_field28 != 0)
     {
-        DNF_LOG_SCOPE_LINE(0xa8, "./log/frame", "FPS(%02d) / DFC(%02d)\n", m_field18, m_field4);
+        CMyFileLog log("SaveProcess", 0xa8);
+        log("./log/frame", "FPS(%02d) / DFC(%02d)\n", m_field18, m_field4);
         m_field28 = 0;
     }
 }
@@ -237,7 +239,8 @@ void CFrameCountHandler::SaveProcess(int n)
     m_field28++;
     if (m_field28 != 0)
     {
-        DNF_LOG_SCOPE_LINE(0xb8, "./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", n, m_field18, m_field4);
+        CMyFileLog log("SaveProcess", 0xb8);
+        log("./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", n, m_field18, m_field4);
         m_field28 = 0;
     }
 }
@@ -330,7 +333,8 @@ int CUdpHandler::InitServerSocket(int port)
     }
     int bufsize = 0xf4240;
     setsockopt(m_clientSock, SOL_SOCKET, SO_RCVBUF, &bufsize, 4);
-    DNF_LOG_SCOPE_LINE(0x6e, "./log/Udp", "Opened port %d with fd %d, recv buf size %d\n", port, m_sock, bufsize);
+    CMyFileLog log("InitServerSocket", 0x6e);
+    log("./log/Udp", "Opened port %d with fd %d, recv buf size %d\n", port, m_sock, bufsize);
     return m_sock;
 }
 
@@ -342,7 +346,8 @@ int CUdpHandler::InitClientSocket()
         printf("udp client socket error : %d", getErrno());
         return -1;
     }
-    DNF_LOG_SCOPE_AT("CUdpHandler::InitClientSocket", 0x8f, "./log/UdpClient", "udp client socket = %d", m_clientSock);
+    CMyFileLog log("CUdpHandler::InitClientSocket", 0x8f);
+    log("./log/UdpClient", "udp client socket = %d", m_clientSock);
     return m_clientSock;
 }
 
@@ -369,26 +374,31 @@ int CUdpHandler::SendToServer(char* buf, int len, unsigned short port, const cha
         int e = getErrno();
         if (e == 0x61)
         {
-            DNF_LOG_SCOPE_LINE(0x1b8, "./log/UdpErr", "Error( EAFNOSUPPORT ) in send = %d\n", e);
+            CMyFileLog log("SendToServer", 0x1b8);
+            log("./log/UdpErr", "Error( EAFNOSUPPORT ) in send = %d\n", e);
         }
         else if (e >= 0x6f && e <= 0x71)
         {
-            DNF_LOG_SCOPE_LINE(0x1b2, "./log/UdpErr", "Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", e);
+            CMyFileLog log("SendToServer", 0x1b2);
+            log("./log/UdpErr", "Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", e);
         }
         else
         {
-            DNF_LOG_SCOPE_LINE(0x1be, "./log/UdpErr", "err = %d , strerror = %s in send\n", e, strerror(e));
+            CMyFileLog log("SendToServer", 0x1be);
+            log("./log/UdpErr", "err = %d , strerror = %s in send\n", e, strerror(e));
         }
         return 0;
     }
     if (n == 0)
     {
-        DNF_LOG_SCOPE_LINE(0x1c7, "./log/UdpErr", "no data sent in send\n");
+        CMyFileLog log("SendToServer", 0x1c7);
+        log("./log/UdpErr", "no data sent in send\n");
         return 0;
     }
     if (n != len)
     {
-        DNF_LOG_SCOPE_LINE(0x1ce, "./log/UdpErr", "Only %d out of %d bytes sent\n", n, len);
+        CMyFileLog log("SendToServer", 0x1ce);
+        log("./log/UdpErr", "Only %d out of %d bytes sent\n", n, len);
         return 0;
     }
     return 1;
@@ -423,30 +433,35 @@ int CUdpHandler::SendToClient(char* buf, int len, unsigned short port, const cha
         if (e == 0x61)
         {
             puts("err EAFNOSUPPORT in send");
-            DNF_LOG_SCOPE_AT("SendToClient", 0x119, "./log/UdpErr", "Error( EAFNOSUPPORT ) in send = %d\n", e);
+            CMyFileLog log("SendToClient", 0x119);
+            log("./log/UdpErr", "Error( EAFNOSUPPORT ) in send = %d\n", e);
         }
         else if (e >= 0x6f && e <= 0x71)
         {
             printf("Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", e);
-            DNF_LOG_SCOPE_AT("SendToClient", 0x113, "./log/UdpErr", "Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", e);
+            CMyFileLog log("SendToClient", 0x113);
+            log("./log/UdpErr", "Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", e);
         }
         else
         {
             printf("err = %d , strerror = %s in send\n", e, strerror(e));
-            DNF_LOG_SCOPE_AT("SendToClient", 0x11f, "./log/UdpErr", "err = %d , strerror = %s in send\n", e, strerror(e));
+            CMyFileLog log("SendToClient", 0x11f);
+            log("./log/UdpErr", "err = %d , strerror = %s in send\n", e, strerror(e));
         }
         return 0;
     }
     if (n == 0)
     {
         puts("no data sent in send");
-        DNF_LOG_SCOPE_AT("SendToClient", 0x128, "./log/UdpErr", "no data sent in send\n");
+        CMyFileLog log("SendToClient", 0x128);
+        log("./log/UdpErr", "no data sent in send\n");
         return 0;
     }
     if (n != len)
     {
         printf("Only %s out of %d bytes sent\n", (const char*)n, len);
-        DNF_LOG_SCOPE_AT("SendToClient", 0x133, "./log/UdpErr", "Only %d out of %d bytes sent\n", n, len);
+        CMyFileLog log("SendToClient", 0x133);
+        log("./log/UdpErr", "Only %d out of %d bytes sent\n", n, len);
         return 0;
     }
     return 1;
@@ -466,12 +481,14 @@ char CUdpHandler::RecvFromClient(char* buf, int* size, unsigned int* addr,
         if (e == 0x58)
         {
             puts("Error fd not a socket");
-            DNF_LOG_SCOPE_AT("RecvFromClient", 0xaf, "./log/UdpErr", "Error fd not a socket\n");
+            CMyFileLog log("RecvFromClient", 0xaf);
+            log("./log/UdpErr", "Error fd not a socket\n");
         }
         else if (e == 0x68)
         {
             puts("Error connection reset - host not reachable");
-            DNF_LOG_SCOPE_AT("RecvFromClient", 0xb6, "./log/UdpErr", "Error connection reset - host not reachable\n");
+            CMyFileLog log("RecvFromClient", 0xb6);
+            log("./log/UdpErr", "Error connection reset - host not reachable\n");
         }
         else
         {
@@ -482,7 +499,8 @@ char CUdpHandler::RecvFromClient(char* buf, int* size, unsigned int* addr,
     if (*size <= 0)
     {
         printf("Socket closed? Recv size = %d\n", *size);
-        DNF_LOG_SCOPE_AT("RecvFromClient", 0xc6, "./log/UdpErr", "Socket closed? Recv size = %d\n", *size);
+        CMyFileLog log("RecvFromClient", 0xc6);
+        log("./log/UdpErr", "Socket closed? Recv size = %d\n", *size);
         return 0;
     }
     *port = ntohs(from.sin_port);
@@ -490,7 +508,8 @@ char CUdpHandler::RecvFromClient(char* buf, int* size, unsigned int* addr,
     if (*(unsigned short*)buf == 0x4c8 || *(unsigned short*)buf == 0x4c9 ||
         *(unsigned short*)buf == 0x44f || *(unsigned short*)buf == 0x450)
     {
-        DNF_LOG_SCOPE_AT("RecvFromClient", 0xd1,"./log/Udp", "PacketId(%d) Recv success! IP = %s, Port %d, Recv size = %d",
+        CMyFileLog log("RecvFromClient", 0xd1);
+        log("./log/Udp", "PacketId(%d) Recv success! IP = %s, Port %d, Recv size = %d",
             *(unsigned short*)buf, inet_ntoa(from.sin_addr), *port, *size);
         buf[*size] = 0;
         return 1;
@@ -512,12 +531,14 @@ char CUdpHandler::RecvFromServer(char* buf, int* size, unsigned int* addr,
         if (e == 0x58)
         {
             puts("Error fd not a socket");
-            DNF_LOG_SCOPE_AT("RecvFromServer", 0x156, "./log/UdpErr", "Error fd not a socket\n");
+            CMyFileLog log("RecvFromServer", 0x156);
+            log("./log/UdpErr", "Error fd not a socket\n");
         }
         else if (e == 0x68)
         {
             puts("Error connection reset - host not reachable");
-            DNF_LOG_SCOPE_AT("RecvFromServer", 0x15d, "./log/UdpErr", "Error connection reset - host not reachable\n");
+            CMyFileLog log("RecvFromServer", 0x15d);
+            log("./log/UdpErr", "Error connection reset - host not reachable\n");
         }
         else
         {
@@ -528,7 +549,8 @@ char CUdpHandler::RecvFromServer(char* buf, int* size, unsigned int* addr,
     if (*size <= 0)
     {
         printf("Socket closed? Recv size = %d\n", *size);
-        DNF_LOG_SCOPE_AT("RecvFromServer", 0x16d, "./log/UdpErr", "Socket closed? Recv size = %d\n", *size);
+        CMyFileLog log("RecvFromServer", 0x16d);
+        log("./log/UdpErr", "Socket closed? Recv size = %d\n", *size);
         return 0;
     }
     *port = ntohs(from.sin_port);
@@ -536,7 +558,8 @@ char CUdpHandler::RecvFromServer(char* buf, int* size, unsigned int* addr,
     if (*(unsigned short*)buf == 0x4c8 || *(unsigned short*)buf == 0x4c9 ||
         *(unsigned short*)buf == 0x44f || *(unsigned short*)buf == 0x450)
     {
-        DNF_LOG_SCOPE_AT("RecvFromServer", 0x178,"./log/Udp", "PacketId(%d) Recv success! IP = %s, Port %d, Recv size = %d",
+        CMyFileLog log("RecvFromServer", 0x178);
+        log("./log/Udp", "PacketId(%d) Recv success! IP = %s, Port %d, Recv size = %d",
             *(unsigned short*)buf, inet_ntoa(from.sin_addr), *port, *size);
         buf[*size] = 0;
         return 1;
@@ -609,7 +632,8 @@ void CUserManager::ProcessByMinute()
         CDNFProhibitUser* pu = it->second;
         if (pu && pu->IsTimeOutWaitMonitor())
         {
-            DNF_LOG_SCOPE_LINE(0x43,"./log/ProhibitUser",
+            CMyFileLog log("ProcessByMinute", 0x43);
+            log("./log/ProhibitUser",
                 "[PROHIBIT CONNECT USER TIME_OUT] Prohibit User DB ID : %d. Remain time(%d)\n",
                 pu->GetDBID(), pu->GetProhibitRemainTime());
             delete pu;
@@ -783,14 +807,16 @@ int CTcpNetSystem::OpenTcpService(int& serverCount, const char* ip, unsigned sho
     if (!sock->open())
     {
         puts("Tcp Open Socket Err");
-        DNF_LOG_SCOPE_LINE(0x118, "./log/TcpConnect", "Tcp Open Socket Err");
+        CMyFileLog log("OpenTcpService", 0x118);
+        log("./log/TcpConnect", "Tcp Open Socket Err");
         DeletePeer(peer);
         return 0;
     }
     if (!sock->connect(ip, port))
     {
         puts("Tcp Connect Err");
-        DNF_LOG_SCOPE_LINE(0x123, "./log/TcpConnect", "Tcp Connect Err(ip:%s, port:%d)", ip, port);
+        CMyFileLog log("OpenTcpService", 0x123);
+        log("./log/TcpConnect", "Tcp Connect Err(ip:%s, port:%d)", ip, port);
         DeletePeer(peer);
         return 0;
     }
@@ -815,7 +841,8 @@ void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
     int n = m_sendQueue.size();
     if (n > 0xa)
     {
-        DNF_LOG_SCOPE_LINE(0x91,"./log/TcpSend", "SEND PUSH(cnt:%d,id:%d,size:%d,ip:%d)", n,
+        CMyFileLog log("PushTcpSendPacketQ", 0x91);
+        log("./log/TcpSend", "SEND PUSH(cnt:%d,id:%d,size:%d,ip:%d)", n,
             (unsigned short)buf[0], (unsigned short)((unsigned short*)buf)[1],
             ((char*)buf)[6]);
     }
@@ -904,7 +931,8 @@ void CTcpNetSystem::SendPacket()
     std::map<unsigned int, CPeer*>::iterator it = m_peerMap.find(port);
     if (it == m_peerMap.end())
     {
-        DNF_LOG_SCOPE_AT("CTcpNetSystem::SendPacket", 0xba,"./log/TcpSend", "SEND FAIL(port:%d,id:%d,size:%d)",
+        CMyFileLog log("CTcpNetSystem::SendPacket", 0xba);
+        log("./log/TcpSend", "SEND FAIL(port:%d,id:%d,size:%d)",
             port, *(unsigned short*)((char*)buf),
             *(unsigned short*)((char*)buf + 2));
         PopDeleteTcpSendPacketQ(buf);
@@ -913,7 +941,8 @@ void CTcpNetSystem::SendPacket()
     CPeer* peer = it->second;
     if (!peer)
     {
-        DNF_LOG_SCOPE_AT("CTcpNetSystem::SendPacket", 0xba,"./log/TcpSend", "SEND FAIL(port:%d,id:%d,size:%d)",
+        CMyFileLog log("CTcpNetSystem::SendPacket", 0xba);
+        log("./log/TcpSend", "SEND FAIL(port:%d,id:%d,size:%d)",
             port, *(unsigned short*)((char*)buf),
             *(unsigned short*)((char*)buf + 2));
         PopDeleteTcpSendPacketQ(buf);
@@ -921,7 +950,8 @@ void CTcpNetSystem::SendPacket()
     }
     if (peer->GetTcpSocket()->getHandle() == port)
     {
-        DNF_LOG_SCOPE_AT("CTcpNetSystem::SendPacket", 0xc3,"./log/TcpSend", "SEND FAIL(peer:%p, id:%d, size:%d, port:%d)",
+        CMyFileLog log("CTcpNetSystem::SendPacket", 0xc3);
+        log("./log/TcpSend", "SEND FAIL(peer:%p, id:%d, size:%d, port:%d)",
             peer, *(unsigned short*)((char*)buf),
             *(unsigned short*)((char*)buf + 2), port);
         PopDeleteTcpSendPacketQ(buf);
@@ -934,7 +964,8 @@ void CTcpNetSystem::SendPacket()
     }
     else
     {
-        DNF_LOG_SCOPE_AT("CTcpNetSystem::SendPacket", 0xd5,"./log/TcpSend", "SEND QUEUE(%d, id:%d, size:%d, port:%d)",
+        CMyFileLog log("CTcpNetSystem::SendPacket", 0xd5);
+        log("./log/TcpSend", "SEND QUEUE(%d, id:%d, size:%d, port:%d)",
             (int)m_sendQueue.size(), *(unsigned short*)((char*)buf),
             *(unsigned short*)((char*)buf + 2), port);
     }
@@ -1443,7 +1474,8 @@ int CPeer::recv_packet()
     }
     if (n == 0)
     {
-        DNF_LOG_SCOPE_LINE(0xa4,"./log/TcpRecv", "Recv ERROR = 0 (%d) : %s, MaxRead(%d) nRead(%d)",
+        CMyFileLog log("recv_packet", 0xa4);
+        log("./log/TcpRecv", "Recv ERROR = 0 (%d) : %s, MaxRead(%d) nRead(%d)",
             errno, strerror(errno), remaining, n);
         return -1;
     }
@@ -1482,7 +1514,8 @@ int CPeer::send_packet()
     m_remainSendLen -= ret;
     if (m_remainSendLen > 0x96000)
     {
-        DNF_LOG_SCOPE_LINE(0x17e,"./log/TcpErr", "m_remain_sendlen < MAX_PACKET_SIZE_UDP :  m_remain_sendlen:%d]",
+        CMyFileLog log("send_packet", 0x17e);
+        log("./log/TcpErr", "m_remain_sendlen < MAX_PACKET_SIZE_UDP :  m_remain_sendlen:%d]",
             m_remainSendLen);
         m_recvBuf = (char*)this + 0x183c;
         m_remainSendLen = 0;
@@ -1506,7 +1539,8 @@ int CPeer::send_packet(char* buf, int len)
     m_remainSendLen += len;
     if (m_remainSendLen > 0x96000)
     {
-        DNF_LOG_SCOPE_LINE(0x133,"./log/TcpErr", "!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",
+        CMyFileLog log("send_packet", 0x133);
+        log("./log/TcpErr", "!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",
             buf[1], m_remainSendLen, len);
         m_recvBuf = (char*)this + 0x183c;
         m_remainSendLen = 0;
@@ -1515,7 +1549,8 @@ int CPeer::send_packet(char* buf, int len)
     if (m_recvBuf < (char*)this + 0x183c ||
         m_recvBuf >= (char*)this + 0x183c + 0x96000)
     {
-        DNF_LOG_SCOPE_LINE(0x13b,"./log/TcpErr", "!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",
+        CMyFileLog log("send_packet", 0x13b);
+        log("./log/TcpErr", "!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",
             buf[1], m_remainSendLen, len);
         m_recvBuf = (char*)this + 0x183c;
         m_remainSendLen = 0;
@@ -1543,7 +1578,8 @@ int CPeer::parsing(int len)
     {
         m_recvLen += len;
         m_sendBuf += len;
-        DNF_LOG_SCOPE_LINE(0xbb,"./log/TcpRecv", "(offset:%x - buf:%x) = remainlen:%d, Recv Size[%d] ",
+        CMyFileLog log("parsing", 0xbb);
+        log("./log/TcpRecv", "(offset:%x - buf:%x) = remainlen:%d, Recv Size[%d] ",
             (char*)this + 0x1c, m_sendBuf, m_recvLen, len);
         return 1;
     }
@@ -1556,7 +1592,8 @@ int CPeer::parsing(int len)
         int size = hdr.packetSize;
         if (size <= 9 || size > 0x1800)
         {
-            DNF_LOG_SCOPE_LINE(0xd0,"./log/TcpRecv",
+            CMyFileLog log("parsing", 0xd0);
+            log("./log/TcpRecv",
                 "Recv Size[%d], Parsing Packet Size[%d] is Too Large, offset:%x, buf:%x, alreadyRead:%d",
                 len, size, m_sendBuf, (char*)this + 0x1c, m_sendLen);
             m_sendBuf = (char*)this + 0x1c;
@@ -1565,7 +1602,8 @@ int CPeer::parsing(int len)
         }
         if (parsinglength < size)
         {
-            DNF_LOG_SCOPE_LINE(0x100,"./log/TcpRecv",
+            CMyFileLog log("parsing", 0x100);
+            log("./log/TcpRecv",
                 "need more data (packetsize > (unsigned int)parsinglength): body=%d !!",
                 parsinglength);
             break;
@@ -1591,7 +1629,8 @@ int CPeer::parsing(int len)
         }
         if (parsinglength <= 9)
         {
-            DNF_LOG_SCOPE_LINE(0xf8,"./log/TcpRecv",
+            CMyFileLog log("parsing", 0xf8);
+            log("./log/TcpRecv",
                 "need more data (parsinglength < HEADER_SIZE): body=%d !!",
                 parsinglength);
             break;
@@ -1601,7 +1640,8 @@ int CPeer::parsing(int len)
     {
         if (parsinglength > 0x1800)
         {
-            DNF_LOG_SCOPE_LINE(0x10e,"./log/TcpRecv",
+            CMyFileLog log("parsing", 0x10e);
+            log("./log/TcpRecv",
                 "[PARSING LENGTH EXCEPTION] parsinglength > MAX_RECV_BUF , memmove : parsinglength = %d",
                 parsinglength);
             return 0;
@@ -1649,7 +1689,8 @@ char CPeer::RecvPacket()
     {
         if (!parsing(ret))
         {
-            DNF_LOG_SCOPE_LINE(0x4d, "./log/TcpRecv", "CPeer::Recv (false == parsing( size:%d ) )\n", ret);
+            CMyFileLog log("RecvPacket", 0x4d);
+            log("./log/TcpRecv", "CPeer::Recv (false == parsing( size:%d ) )\n", ret);
             printf("CPeer::Recv (false == parsing( size:%d ) )\n", ret);
             return 1;
         }
@@ -1657,13 +1698,15 @@ char CPeer::RecvPacket()
     }
     if (ret < 0)
     {
-        DNF_LOG_SCOPE_LINE(0x59,"./log/TcpRecv",
+        CMyFileLog log("RecvPacket", 0x59);
+        log("./log/TcpRecv",
             "Maybe Peer is disconnect!(%d), socket no(%d), addr(%s), port(%d)",
             ret, getHandle(), getPeerAdrs(), getPeerPort());
         printf("CPeer::Recv (size(%d) < 0)\n", ret);
         return 0;
     }
-    DNF_LOG_SCOPE_LINE(0x63, "./log/TcpRecv", "Maybe Peer is disconnect!(size == 0)");
+    CMyFileLog log("RecvPacket", 0x63);
+    log("./log/TcpRecv", "Maybe Peer is disconnect!(size == 0)");
     puts("CPeer::Recv (size == 0)");
     return 1;
 }
@@ -1798,7 +1841,8 @@ void* CTcpNetworkThread::dispatch(void* param)
         {
             if (!m_runningFlag)
             {
-                DNF_LOG_SCOPE_LINE(0xae, "./log/TcpRecv", "RecvThread Terminate");
+                CMyFileLog log("dispatch", 0xae);
+                log("./log/TcpRecv", "RecvThread Terminate");
                 break;
             }
             errno = 0;
@@ -1812,7 +1856,7 @@ void* CTcpNetworkThread::dispatch(void* param)
                 continue;
             if (nEvent < 0)
             {
-                if (errno == EINTR)
+                if (errno == 0x4)
                     continue;
                 if (errno != 0)
                     break;
@@ -1908,7 +1952,8 @@ void* CUdpNetworkThread::dispatch(void* param)
         unsigned short code = *(unsigned short*)((char*)buf + 2);
         if (code != (unsigned short)size)
         {
-            DNF_LOG_SCOPE_LINE(0xb5,"./log/recvErr",
+            CMyFileLog log("dispatch", 0xb5);
+            log("./log/recvErr",
                 "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                 *(unsigned short*)buf, size, code);
             {
@@ -1919,7 +1964,8 @@ void* CUdpNetworkThread::dispatch(void* param)
         }
         if (code > 0x17ff)
         {
-            DNF_LOG_SCOPE_LINE(0xc0,"./log/recvErr",
+            CMyFileLog log("dispatch", 0xc0);
+            log("./log/recvErr",
                 "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                 *(unsigned short*)buf, size, code);
             {
@@ -1985,16 +2031,19 @@ int CMySql::exec_query()
             int pingRet = mysql_ping(m_mysql);
             if (pingRet != 0)
             {
-                DNF_LOG_SCOPE_LINE(0xa3, "./log/MysqlErr.log", "DB reconnection fail. %d\n", pingRet);
+                CMyFileLog log("exec_query", 0xa3);
+                log("./log/MysqlErr.log", "DB reconnection fail. %d\n", pingRet);
             }
             return 2;
         }
         if (m_lastErrno != 0x426)
         {
-            DNF_LOG_SCOPE_LINE(0xaa, "./log/MysqlErr.log", "DB error occured (%d) Query('%s')\n", m_lastErrno, m_query);
+            CMyFileLog log("exec_query", 0xaa);
+            log("./log/MysqlErr.log", "DB error occured (%d) Query('%s')\n", m_lastErrno, m_query);
             if (m_lastErrno == 0x7d6)
             {
-                DNF_LOG_SCOPE_LINE(0xac,"./log/MysqlErr.log",
+                CMyFileLog log("exec_query", 0xac);
+                log("./log/MysqlErr.log",
                     "CMySql::open() Function Error!\tCheck Connection First, Must Be Not Connected!\n");
             }
         }
@@ -2033,7 +2082,8 @@ int CMySql::exec(unsigned int q)
         }
         return 1;
     }
-    DNF_LOG_SCOPE_LINE(0xed, "./log/MysqlErr.log", "Database query error. The last query('%s') has been lost.", m_query);
+    CMyFileLog log("exec", 0xed);
+    log("./log/MysqlErr.log", "Database query error. The last query('%s') has been lost.", m_query);
     return 0;
 }
 
@@ -2236,7 +2286,8 @@ char CMySql::open(const char* host, const char* user, const char* pass, const ch
     {
         printf("Can't connect db : ( dbname : %s, ip : %s, id : %s, pwd : %s )\n",
                user, host, pass, db);
-        DNF_LOG_SCOPE_LINE(0x6b,"./log/DBErr", "Can't connect db : ( dbname : %s, ip : %s, id : %s, pwd : %s )\n",
+        CMyFileLog log("open", 0x6b);
+        log("./log/DBErr", "Can't connect db : ( dbname : %s, ip : %s, id : %s, pwd : %s )\n",
             user, host, pass, db);
         return 0;
     }
@@ -2378,7 +2429,8 @@ CUser1Sig::~CUser1Sig() {}
 
 void CUser1Sig::handle(int sig)
 {
-    DNF_LOG_SCOPE_AT("CUser1Sig", 0x13, "USER1", "SIGUSR1");
+    CMyFileLog log("CUser1Sig", 0x13);
+    log("USER1", "SIGUSR1");
     if (m_app)
         m_app->SendTestPacket_2();
 }
@@ -2388,7 +2440,8 @@ CUser2Sig::~CUser2Sig() {}
 
 void CUser2Sig::handle(int sig)
 {
-    DNF_LOG_SCOPE_AT("CUser2Sig", 0x20, "USER2", "SIGUSR2");
+    CMyFileLog log("CUser2Sig", 0x20);
+    log("USER2", "SIGUSR2");
     if (m_app)
         m_app->TranslateSignal();
 }
@@ -2599,7 +2652,8 @@ void CPacketTranslater::OnHeartBeat(PacketHeader* header)
         Packet_Monitor_Manager_Connect_OK pkt;
         handler->SendToTcpServer(&pkt, idx);
         printf("First Heart Beat Arrived From %d Group Monitor!\n", idx);
-        DNF_LOG_SCOPE_LINE(0x43, "./log/Monitor", "First Heart Beat Arrived From %d Group Monitor!", idx);
+        CMyFileLog log("OnHeartBeat", 0x43);
+        log("./log/Monitor", "First Heart Beat Arrived From %d Group Monitor!", idx);
     }
 }
 
@@ -2610,7 +2664,8 @@ void CPacketTranslater::OnEventStart(PacketHeader* header)
         if (!m_pclApp)
             throw CDNFException("CPacketTranslater::OnEventStart : 0 == m_pclApp");
         m_pclApp->m_serverHandler->SendAllTcpServer(header);
-        DNF_LOG_SCOPE_LINE(0x70,"./log/Web",
+        CMyFileLog log("OnEventStart", 0x70);
+        log("./log/Web",
             "CPacketTranslater::OnEventStart() eventCode(%d), eventParam1(%d), eventParam2(%d)\n",
             *(int*)((char*)header + 0xa),
             *(unsigned short*)((char*)header + 0xe),
@@ -2635,7 +2690,8 @@ void CPacketTranslater::OnEventEnd(PacketHeader* header)
         if (!m_pclApp)
             throw CDNFException("CPacketTranslater::OnEventEnd : 0 == m_pclApp");
         m_pclApp->m_serverHandler->SendAllTcpServer(header);
-        DNF_LOG_SCOPE_LINE(0x92,"./log/Web", "CPacketTranslater::OnEventEnd() eventCode(%d)\n",
+        CMyFileLog log("OnEventEnd", 0x92);
+        log("./log/Web", "CPacketTranslater::OnEventEnd() eventCode(%d)\n",
             *(int*)((char*)header + 0xa));
     }
     catch (CDNFException& e)
@@ -2657,7 +2713,8 @@ void CPacketTranslater::OnCommonPacket(PacketHeader* header)
         if (!m_pclApp)
             throw CDNFException("CPacketTranslater::OnCommonPacket : 0 == m_pclApp");
         m_pclApp->m_serverHandler->SendAllTcpServer(header);
-        DNF_LOG_SCOPE_LINE(0xb5, "./log/Web", "CPacketTranslater::OnCommonPacket() packet_id(%d)\n", header->packetId);
+        CMyFileLog log("OnCommonPacket", 0xb5);
+        log("./log/Web", "CPacketTranslater::OnCommonPacket() packet_id(%d)\n", header->packetId);
     }
     catch (CDNFException& e)
     {
@@ -2677,19 +2734,23 @@ void CPacketTranslater::OnInnerPacketLogin(PacketHeader* header)
     {
         if (!m_pclApp)
         {
-            DNF_LOG_SCOPE_LINE(0x1f0, "./log/Except", "CPacketTranslater::OnInnerPacketLogin : 0 == m_pclApp");
+            CMyFileLog log("OnInnerPacketLogin", 0x1f0);
+            log("./log/Except", "CPacketTranslater::OnInnerPacketLogin : 0 == m_pclApp");
             return;
         }
-        DNF_LOG_SCOPE_LINE(0x1f6,"./log/TcpServer", "CPacketTranslater::OnInnerPacketLogin (sock:%d)",
+        CMyFileLog log("OnInnerPacketLogin", 0x1f6);
+        log("./log/TcpServer", "CPacketTranslater::OnInnerPacketLogin (sock:%d)",
             *(int*)((char*)header + 6));
     }
     catch (CDNFException& e)
     {
-        DNF_LOG_SCOPE_LINE(0x1fa, "./log/Except", "CPacketTranslater::OnInnerPacketLogin Exception Break : %s\n", e.what());
+        CMyFileLog log("OnInnerPacketLogin", 0x1fa);
+        log("./log/Except", "CPacketTranslater::OnInnerPacketLogin Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        DNF_LOG_SCOPE_LINE(0x1ff, "./log/Except", "CPacketTranslater::OnInnerPacketLogin Exception Break\n");
+        CMyFileLog log("OnInnerPacketLogin", 0x1ff);
+        log("./log/Except", "CPacketTranslater::OnInnerPacketLogin Exception Break\n");
     }
 }
 
@@ -2699,7 +2760,8 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
     {
         if (!m_pclApp)
         {
-            DNF_LOG_SCOPE_LINE(0x20a, "./log/Except", "CPacketTranslater::OnInnerPacketLogout : 0 == m_pclApp");
+            CMyFileLog log("OnInnerPacketLogout", 0x20a);
+            log("./log/Except", "CPacketTranslater::OnInnerPacketLogout : 0 == m_pclApp");
             return;
         }
         int port = *(int*)((char*)header + 6);
@@ -2707,7 +2769,8 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
         CTcpServer* server = handler->GetTcpServer((unsigned int)port);
         if (!server)
         {
-            DNF_LOG_SCOPE_LINE(0x215,"./log/TcpServer", "CPacketTranslater::OnInnerPacketLogout Invalid Server Instance(sock:%d)",
+            CMyFileLog log("OnInnerPacketLogout", 0x215);
+            log("./log/TcpServer", "CPacketTranslater::OnInnerPacketLogout Invalid Server Instance(sock:%d)",
                 port);
             return;
         }
@@ -2715,21 +2778,25 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
         handler = m_pclApp->Get_ServerHandler();
         if (!handler->DeleteTcpServer(idx))
         {
-            DNF_LOG_SCOPE_LINE(0x21d,"./log/TcpServer", "CPacketTranslater::OnInnerPacketLogout DeleteTcpServer fail(sock:%d)",
+            CMyFileLog log("OnInnerPacketLogout", 0x21d);
+            log("./log/TcpServer", "CPacketTranslater::OnInnerPacketLogout DeleteTcpServer fail(sock:%d)",
                 port);
             return;
         }
-        DNF_LOG_SCOPE_LINE(0x221,"./log/TcpServer",
+        CMyFileLog log("OnInnerPacketLogout", 0x221);
+        log("./log/TcpServer",
             "CPacketTranslater::OnInnerPacketLogout DeleteTcpServer Success(TYPE:%d, sock:%d)",
             idx, port);
     }
     catch (CDNFException& e)
     {
-        DNF_LOG_SCOPE_LINE(0x225, "./log/Except", "CPacketTranslater::OnInnerPacketLogout Exception Break : %s\n", e.what());
+        CMyFileLog log("OnInnerPacketLogout", 0x225);
+        log("./log/Except", "CPacketTranslater::OnInnerPacketLogout Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        DNF_LOG_SCOPE_LINE(0x22a, "./log/Except", "CPacketTranslater::OnInnerPacketLogout Exception Break\n");
+        CMyFileLog log("OnInnerPacketLogout", 0x22a);
+        log("./log/Except", "CPacketTranslater::OnInnerPacketLogout Exception Break\n");
     }
 }
 
@@ -2744,7 +2811,8 @@ void CPacketTranslater::OnTcpServerLogin(PacketHeader* header)
         CServerHandler* handler = m_pclApp->Get_ServerHandler();
         if (handler->GetTcpServer(idx))
         {
-            DNF_LOG_SCOPE_LINE(0x239,"./log/TcpServer",
+            CMyFileLog log("OnTcpServerLogin", 0x239);
+            log("./log/TcpServer",
                 "CPacketTranslater::OnTcpServerLogin Duplicate Server Instance(TYPE:%d, sock:%d)",
                 idx, port);
             return;
@@ -2752,21 +2820,25 @@ void CPacketTranslater::OnTcpServerLogin(PacketHeader* header)
         handler = m_pclApp->Get_ServerHandler();
         if (!handler->CreateTcpServer(idx, port))
         {
-            DNF_LOG_SCOPE_LINE(0x242,"./log/TcpServer",
+            CMyFileLog log("OnTcpServerLogin", 0x242);
+            log("./log/TcpServer",
                 "CPacketTranslater::OnTcpServerLogin CreateTcpServer fail(TYPE:%d, sock:%d)\n",
                 idx, port);
             return;
         }
         printf("CPacketTranslater::OnTcpServerLogin(TYPE:%d, sock:%d)", idx, port);
-        DNF_LOG_SCOPE_LINE(0x250, "./log/TcpServer", "CPacketTranslater::OnTcpServerLogin(TYPE:%d, sock:%d)", idx, port);
+        CMyFileLog log("OnTcpServerLogin", 0x250);
+        log("./log/TcpServer", "CPacketTranslater::OnTcpServerLogin(TYPE:%d, sock:%d)", idx, port);
     }
     catch (CDNFException& e)
     {
-        DNF_LOG_SCOPE_LINE(0x254, "./log/Except", "CPacketTranslater::OnTcpServerLogin Exception Break : %s\n", e.what());
+        CMyFileLog log("OnTcpServerLogin", 0x254);
+        log("./log/Except", "CPacketTranslater::OnTcpServerLogin Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        DNF_LOG_SCOPE_LINE(0x259, "./log/Except", "CPacketTranslater::OnTcpServerLogin Exception Break\n");
+        CMyFileLog log("OnTcpServerLogin", 0x259);
+        log("./log/Except", "CPacketTranslater::OnTcpServerLogin Exception Break\n");
     }
 }
 
@@ -2781,28 +2853,33 @@ void CPacketTranslater::OnTcpServerLogout(PacketHeader* header)
         CServerHandler* handler = m_pclApp->Get_ServerHandler();
         if (!handler->GetTcpServer(idx))
         {
-            DNF_LOG_SCOPE_LINE(0x269,"./log/TcpServer",
+            CMyFileLog log("OnTcpServerLogout", 0x269);
+            log("./log/TcpServer",
                 "CPacketTranslater::OnTcpServerLogout Invalid Server Instance(TYPE:%d, sock:%d)",
                 idx, port);
             return;
         }
         if (!handler->DeleteTcpServer(idx))
         {
-            DNF_LOG_SCOPE_LINE(0x26f,"./log/TcpServer",
+            CMyFileLog log("OnTcpServerLogout", 0x26f);
+            log("./log/TcpServer",
                 "CPacketTranslater::OnTcpServerLogout DeleteTcpServer fail(TYPE:%d, sock:%d)",
                 idx, port);
             return;
         }
         printf("CPacketTranslater::OnTcpServerLogout(TYPE:%d, sock:%d)", idx, port);
-        DNF_LOG_SCOPE_LINE(0x273, "./log/TcpServer", "CPacketTranslater::OnTcpServerLogout(TYPE:%d, sock:%d)", idx, port);
+        CMyFileLog log("OnTcpServerLogout", 0x273);
+        log("./log/TcpServer", "CPacketTranslater::OnTcpServerLogout(TYPE:%d, sock:%d)", idx, port);
     }
     catch (CDNFException& e)
     {
-        DNF_LOG_SCOPE_LINE(0x277, "./log/Except", "CPacketTranslater::OnTcpServerLogout Exception Break : %s\n", e.what());
+        CMyFileLog log("OnTcpServerLogout", 0x277);
+        log("./log/Except", "CPacketTranslater::OnTcpServerLogout Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        DNF_LOG_SCOPE_LINE(0x27c, "./log/Except", "CPacketTranslater::OnTcpServerLogout Exception Break\n");
+        CMyFileLog log("OnTcpServerLogout", 0x27c);
+        log("./log/Except", "CPacketTranslater::OnTcpServerLogout Exception Break\n");
     }
 }
 
@@ -2817,7 +2894,8 @@ void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)
         CTcpServer* server = handler->GetTcpServer(idx);
         if (!server)
         {
-            DNF_LOG_SCOPE_LINE(0x28d,"./log/TcpServer",
+            CMyFileLog log("OnTcpServerHeartbeat", 0x28d);
+            log("./log/TcpServer",
                 "CPacketTranslater::OnTcpServerHeartbeat Invalid Server Instance(TYPE:%d, sock:%d)",
                 idx, *(int*)((char*)header + 6));
             return;
@@ -2826,11 +2904,13 @@ void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)
     }
     catch (CDNFException& e)
     {
-        DNF_LOG_SCOPE_LINE(0x299, "./log/Except", "CPacketTranslater::OnTcpServerHeartbeat Exception Break : %s\n", e.what());
+        CMyFileLog log("OnTcpServerHeartbeat", 0x299);
+        log("./log/Except", "CPacketTranslater::OnTcpServerHeartbeat Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        DNF_LOG_SCOPE_LINE(0x29e, "./log/Except", "CPacketTranslater::OnTcpServerHeartbeat Exception Break\n");
+        CMyFileLog log("OnTcpServerHeartbeat", 0x29e);
+        log("./log/Except", "CPacketTranslater::OnTcpServerHeartbeat Exception Break\n");
     }
 }
 
@@ -2842,15 +2922,18 @@ void CPacketTranslater::OnWebNoticeInGameAD(PacketHeader* header)
             return;
         Packet_Web_Notice_InGame_Advertisement pkt;
         m_pclApp->m_serverHandler->SendAllTcpServer(&pkt);
-        DNF_LOG_SCOPE_LINE(0x2ae, "./log/Web", "OnWebNoticeInGameAD() packet_id(%d)\n", header->packetId);
+        CMyFileLog log("OnWebNoticeInGameAD", 0x2ae);
+        log("./log/Web", "OnWebNoticeInGameAD() packet_id(%d)\n", header->packetId);
     }
     catch (CDNFException& e)
     {
-        DNF_LOG_SCOPE_LINE(0x2b2, "./log/Except", "CPacketTranslater::OnWebNoticeInGameAD Exception Break : %s\n", e.what());
+        CMyFileLog log("OnWebNoticeInGameAD", 0x2b2);
+        log("./log/Except", "CPacketTranslater::OnWebNoticeInGameAD Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        DNF_LOG_SCOPE_LINE(0x2b7, "./log/Except", "CPacketTranslater::OnWebNoticeInGameAD Exception Break\n");
+        CMyFileLog log("OnWebNoticeInGameAD", 0x2b7);
+        log("./log/Except", "CPacketTranslater::OnWebNoticeInGameAD Exception Break\n");
     }
 }
 
@@ -2861,7 +2944,8 @@ void CPacketTranslater::OnWebNoticeBroadcast(PacketHeader* header)
         if (!m_pclApp)
             throw CDNFException("CPacketTranslater::OnWebNoticeBroadcast : 0 == m_pclApp");
         int len = ((char*)header)[0x10a];
-        DNF_LOG_SCOPE_LINE(0x1b2,"./log/test", "%d, %s, %d, %s\n",
+        CMyFileLog log("OnWebNoticeBroadcast", 0x1b2);
+        log("./log/test", "%d, %s, %d, %s\n",
             ((char*)header)[0xa], (char*)header + 0xb, len, (char*)header + 0x10b);
         if (m_pclApp && m_pclApp->m_serverHandler)
         {
@@ -2886,11 +2970,13 @@ void CPacketTranslater::OnWebNoticeBroadcast(PacketHeader* header)
     }
     catch (CDNFException& e)
     {
-        DNF_LOG_SCOPE_LINE(0x1e0, "./log/Except", "CPacketTranslater::OnWebNoticeBroadcast() Exception Break : %s\n", e.what());
+        CMyFileLog log("OnWebNoticeBroadcast", 0x1e0);
+        log("./log/Except", "CPacketTranslater::OnWebNoticeBroadcast() Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        DNF_LOG_SCOPE_LINE(0x1e5, "./log/Except", "CPacketTranslater::OnWebNoticeBroadcast() Exception Break\n");
+        CMyFileLog log("OnWebNoticeBroadcast", 0x1e5);
+        log("./log/Except", "CPacketTranslater::OnWebNoticeBroadcast() Exception Break\n");
     }
 }
 
@@ -2907,14 +2993,16 @@ void CPacketTranslater::OnWebNoticeProhibitConnectUser(PacketHeader* header)
         char flag = ((char*)header)[0xe];
         short time = *(short*)((char*)header + 0xf);
         {
-            DNF_LOG_SCOPE_LINE(0xdb,"./log/ProhibitUser",
+            CMyFileLog log("OnWebNoticeProhibitConnectUser", 0xdb);
+            log("./log/ProhibitUser",
                 "CPacketTranslater::OnWebNoticeProhibitConnectUser m_id : %d, flag( %d ), time( %d ), ip( %d ), port( %d )\n",
                 m_id, flag, time, ip, port);
         }
         CUserManager* um = &m_pclApp->m_userManager;
         if (flag && um->DeleteProhibitUser(m_id))
         {
-            DNF_LOG_SCOPE_LINE(0xe6,"./log/ProhibitUser",
+            CMyFileLog log("OnWebNoticeProhibitConnectUser", 0xe6);
+            log("./log/ProhibitUser",
                 "CPacketTranslater::OnWebNoticeProhibitConnectUser Delete Err  m_id : %d, flag( %d ), time( %d ), ip( %d ), port( %d )\n",
                 m_id, flag, time, ip, port);
             m_pclApp->m_serverHandler->SendAllTcpServer(header);
@@ -2932,7 +3020,8 @@ void CPacketTranslater::OnWebNoticeProhibitConnectUser(PacketHeader* header)
         }
         ((char*)header)[0x11] = 2;
         {
-            DNF_LOG_SCOPE_LINE(0x113,"./log/ProhibitUser",
+            CMyFileLog log("OnWebNoticeProhibitConnectUser", 0x113);
+            log("./log/ProhibitUser",
                 "CPacketTranslater::OnWebNoticeProhibitConnectUser SendToClient, m_id : %d, ip( %d ), port( %d ), m_bIsConnect(%d), m_bProhibitConnect(%d)\n",
                 m_id, ip, port, ((char*)header)[0x11], ((char*)header)[0xe]);
         }
@@ -2942,13 +3031,15 @@ void CPacketTranslater::OnWebNoticeProhibitConnectUser(PacketHeader* header)
     }
     catch (CDNFException& e)
     {
-        DNF_LOG_SCOPE_LINE(0x11b,"./log/Except",
+        CMyFileLog log("OnWebNoticeProhibitConnectUser", 0x11b);
+        log("./log/Except",
             "CPacketTranslater::OnWebNoticeProhibitConnectUser() Exception Break : %s\n",
             e.what());
     }
     catch (...)
     {
-        DNF_LOG_SCOPE_LINE(0x120,"./log/Except",
+        CMyFileLog log("OnWebNoticeProhibitConnectUser", 0x120);
+        log("./log/Except",
             "CPacketTranslater::OnWebNoticeProhibitConnectUser() Exception Break\n");
     }
 }
@@ -2967,7 +3058,8 @@ void CPacketTranslater::OnMonitorNoticeProhibitConnectUser(PacketHeader* header)
         CDNFProhibitUser* pu = um->FindProhibitUser(key);
         if (!pu)
         {
-            DNF_LOG_SCOPE_LINE(0x138,"./log/ProhibitUser",
+            CMyFileLog log("OnMonitorNoticeProhibitConnectUser", 0x138);
+            log("./log/ProhibitUser",
                 "CPacketTranslater::OnMonitorNoticeProhibitConnectUser Time Out, m_id : %d, flag( %d ), time( %d )\n",
                 key, flag, time);
             return;
@@ -2982,7 +3074,8 @@ void CPacketTranslater::OnMonitorNoticeProhibitConnectUser(PacketHeader* header)
             *(unsigned short*)((char*)header) = 0x4c8;
             ((char*)header)[0x11] = 2;
             *(unsigned short*)((char*)header + 2) = 0x12;
-            DNF_LOG_SCOPE_LINE(0x14a,"./log/ProhibitUser",
+            CMyFileLog log("OnMonitorNoticeProhibitConnectUser", 0x14a);
+            log("./log/ProhibitUser",
                 "CPacketTranslater::OnMonitorNoticeProhibitConnectUser SendToClient, m_id : %d, ip( %d ), port( %d ), m_bIsConnect(%d), m_bProhibitConnect(%d)\n",
                 key, uip, uport, ((char*)header)[0x11], ((char*)header)[0xe]);
             if (!((CUdpHandler*)m_pclApp->Get_UdpHandler())
@@ -2992,7 +3085,8 @@ void CPacketTranslater::OnMonitorNoticeProhibitConnectUser(PacketHeader* header)
         }
         pu->IncreMonitorRetPacket();
         pu->SetProhibitUserInfo(((char*)header)[0x11]);
-        DNF_LOG_SCOPE_LINE(0x157,"./log/ProhibitUser",
+        CMyFileLog log("OnMonitorNoticeProhibitConnectUser", 0x157);
+        log("./log/ProhibitUser",
             "CPacketTranslater::OnMonitorNoticeProhibitConnectUser Check IP Port, m_id : %d, server group(%d), cnt(%d), m_bIsConnect(%d)",
             key, ((char*)header)[0x12], pu->GetMonitorRetPacketCnt(), ((char*)header)[0x11]);
         if (pu->GetMonitorRetPacketCnt() >= m_pclApp->m_serverHandler->GetAlivedMonitorServer())
@@ -3012,13 +3106,15 @@ void CPacketTranslater::OnMonitorNoticeProhibitConnectUser(PacketHeader* header)
     }
     catch (CDNFException& e)
     {
-        DNF_LOG_SCOPE_LINE(0x180,"./log/Except",
+        CMyFileLog log("OnMonitorNoticeProhibitConnectUser", 0x180);
+        log("./log/Except",
             "CPacketTranslater::OnMonitorNoticeProhibitConnectUser Exception Break : %s\n",
             e.what());
     }
     catch (...)
     {
-        DNF_LOG_SCOPE_LINE(0x185,"./log/Except",
+        CMyFileLog log("OnMonitorNoticeProhibitConnectUser", 0x185);
+        log("./log/Except",
             "CPacketTranslater::OnMonitorNoticeProhibitConnectUser Exception Break\n");
     }
 }
@@ -3124,7 +3220,8 @@ int CAppConfig::Load_Table(const std::string& fileName)
     int n = Load_Txt_Table_Data(path.c_str(), 0x13);
     if (n > 0 && n <= 0x12)
         return 1;
-    DNF_LOG_SCOPE_LINE(0x4e, "./log/TableError.log", "App Config Table - ReturnCode = %d\n", n);
+    CMyFileLog log("Load_Table", 0x4e);
+    log("./log/TableError.log", "App Config Table - ReturnCode = %d\n", n);
     throw CDNFException("CAppConfig::Load_Setup_Table() Exception Break!");
 }
 int CAppConfig::Parse_Table(char* data, int size)
@@ -3174,7 +3271,8 @@ int CServerConfig::Load_Table(const std::string& fileName)
     int n = Load_Txt_Table_Data(fileName.c_str(), 0x65);
     if (n > 0 && n <= 0x64)
         return 1;
-    DNF_LOG_SCOPE_LINE(0x38, "./log/TableError.log", "Server Config Table - ReturnCode = %d\n", n);
+    CMyFileLog log("Load_Table", 0x38);
+    log("./log/TableError.log", "Server Config Table - ReturnCode = %d\n", n);
     throw CDNFException("CServerConfig::Load_Setup_Table() Exception Break!");
 }
 int CServerConfig::Parse_Table(char* data, int size)
@@ -3201,7 +3299,8 @@ int CKillUSRConfig::Load_Table(const std::string& fileName)
     int n = Load_Txt_Table_Data(fileName.c_str(), 0x64);
     if (n > 0 && n <= 0x64)
         return 1;
-    DNF_LOG_SCOPE_AT("CKillUSRConfig::Load_Table", 0x5b, "./log/Config", "CKillUSRConfig Load_Table() fail(%d)", n);
+    CMyFileLog log("CKillUSRConfig::Load_Table", 0x5b);
+    log("./log/Config", "CKillUSRConfig Load_Table() fail(%d)", n);
     throw CDNFException("CKillUSRConfig::Load_Table() fail!");
 }
 int CKillUSRConfig::Parse_Table(char* data, int size)
@@ -3302,7 +3401,8 @@ void CQueryCounter::WriteFileLog()
     char buf[0x400] = {0};
     for (int i = 1; i <= 0x140; i++)
         sprintf(buf, "%s\t%d(%d)", buf, i, m_counts[i]);
-    DNF_LOG_SCOPE_LINE(0x56, "./log/QueryCount", "%s", buf);
+    CMyFileLog log("WriteFileLog", 0x56);
+    log("./log/QueryCount", "%s", buf);
 }
 
 void CQueryCounter::WriteDBLog(CDBManager& db)
@@ -3316,11 +3416,13 @@ void CQueryCounter::WriteDBLog(CDBManager& db)
         int time = (int)(m_responseTimes[idx] * 1000.0);
         if (!db.UpdateQueryCount(q, m_counts[idx], time))
         {
-            DNF_LOG_SCOPE_LINE(0x63, "./log/QueryCount", "Count DB Insert Fail! id(%d), count(%d), time(%d)", q, m_counts[idx], time);
+            CMyFileLog log("WriteDBLog", 0x63);
+            log("./log/QueryCount", "Count DB Insert Fail! id(%d), count(%d), time(%d)", q, m_counts[idx], time);
         }
         else
         {
-            DNF_LOG_SCOPE_LINE(0x66, "./log/QueryCount", "Count DB Insert Success! id(%d), count(%d), time(%d)", q, m_counts[idx], time);
+            CMyFileLog log("WriteDBLog", 0x66);
+            log("./log/QueryCount", "Count DB Insert Success! id(%d), count(%d), time(%d)", q, m_counts[idx], time);
             m_counts[idx] = 0;
             m_responseTimes[idx] = 0.0;
         }
@@ -3335,7 +3437,8 @@ void CQueryCounter::IncreQureyCount(unsigned int idx)
     int i = idx - 0x4e20;
     m_counts[i]++;
     m_timer->SetLastTime();
-    DNF_LOG_SCOPE_LINE(0x42, "./log/QueryCount", "IncreQureyCount() type(%d) , Count(%d)!", i, m_counts[i]);
+    CMyFileLog log("IncreQureyCount", 0x42);
+    log("./log/QueryCount", "IncreQureyCount() type(%d) , Count(%d)!", i, m_counts[i]);
 }
 
 void CQueryCounter::SetResponseTime(unsigned int ms)
@@ -3362,7 +3465,8 @@ CPacketTracer::~CPacketTracer() {}
 
 void CPacketTracer::AbsoluteWriteLog()
 {
-    DNF_LOG_SCOPE_LINE(0x2e, "./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
+    CMyFileLog log("AbsoluteWriteLog", 0x2e);
+    log("./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
     ResetLog();
 }
 
@@ -3370,7 +3474,8 @@ void CPacketTracer::WriteLog()
 {
     if (m_field0 % 30 == 0)
     {
-        DNF_LOG_SCOPE_LINE(0x26, "./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
+        CMyFileLog log("WriteLog", 0x26);
+        log("./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
         ResetLog();
     }
 }
@@ -3471,7 +3576,8 @@ template class std::allocator<ST_KillUSRConfig*>;
 
 const char* CDNFException::what() const throw()
 {
-    DNF_LOG_SCOPE_LINE(0x1a, "./log/Except", "%s", m_msg.c_str());
+    CMyFileLog log("what", 0x1a);
+    log("./log/Except", "%s", m_msg.c_str());
     return m_msg.c_str();
 }
 
@@ -3586,7 +3692,8 @@ void CPacketDecoder::TcpProcess()
         PacketHeader* p = (PacketHeader*)buf;
         if (m_tcpQueue->size() > 0xa)
         {
-            DNF_LOG_SCOPE_LINE(0xe7,"./log/TcpRecv", "cnt(%)id(%d)size(%d)ip(%d)",
+            CMyFileLog log("TcpProcess", 0xe7);
+            log("./log/TcpRecv", "cnt(%)id(%d)size(%d)ip(%d)",
                 (int)m_tcpQueue->size(), p->packetId, p->packetSize,
                 ((char*)buf)[6]);
         }
@@ -3622,7 +3729,8 @@ void CPacketDecoder::UdpProcess()
         PacketHeader* p = (PacketHeader*)buf;
         if (m_udpQueue->size() > 0x64)
         {
-            DNF_LOG_SCOPE_LINE(0x91,"./log/UdpRecv", "cnt(%d)id(%d)size(%d)",
+            CMyFileLog log("UdpProcess", 0x91);
+            log("./log/UdpRecv", "cnt(%d)id(%d)size(%d)",
                 (int)m_udpQueue->size(), p->packetId, p->packetSize);
         }
         if (!MsgDecode(p))
@@ -3650,7 +3758,8 @@ char CPacketDecoder::MsgDecode(PacketHeader* header)
     if (id > 0x27ff || id <= 0x3e7)
     {
         printf("Unknown Packet(%d)", id);
-        DNF_LOG_SCOPE_LINE(0x6c, "./log/PacketDecode", "Unknown Packet(%d)", id);
+        CMyFileLog log("MsgDecode", 0x6c);
+        log("./log/PacketDecode", "Unknown Packet(%d)", id);
         return 0;
     }
     void (**handler)(PacketHeader*) = (void (**)(PacketHeader*))((char*)this + 0x18 + id * 4);
@@ -3724,7 +3833,8 @@ CMonitorServer* CServerHandler::GetMonitorServer(int idx)
 {
     if (idx <= 0x64 && m_monitorServers[idx].IsValidMonitorServer())
         return &m_monitorServers[idx];
-    DNF_LOG_SCOPE_AT("CServerHandler::GetMonitorServer", 0xc7, "./log/ServerHandler", "GetMonitorServer(%d) fail", idx);
+    CMyFileLog log("CServerHandler::GetMonitorServer", 0xc7);
+    log("./log/ServerHandler", "GetMonitorServer(%d) fail", idx);
     return 0;
 }
 
@@ -3738,7 +3848,8 @@ void CServerHandler::Process()
         if (p->IsConnected() && p->IsHeartBeatTimeOver())
         {
             p->OnDisconnect();
-            DNF_LOG_SCOPE_AT("CServerHandler::Process", 0x55, "./log/ServerHandler", "MonitorServer(%d) disconnect", 0x66 - i);
+            CMyFileLog log("CServerHandler::Process", 0x55);
+            log("./log/ServerHandler", "MonitorServer(%d) disconnect", 0x66 - i);
         }
     }
 }
@@ -3811,7 +3922,8 @@ void CServerHandler::SetConnectFlag(unsigned char idx, bool flag)
         m_monitorServers[idx].SetConnFlag(flag);
         return;
     }
-    DNF_LOG_SCOPE_AT("CServerHandler::SetConnectFlag", 0xa7, "./log/ServerHandler", "SetConnectFlag(%d) fail", idx);
+    CMyFileLog log("CServerHandler::SetConnectFlag", 0xa7);
+    log("./log/ServerHandler", "SetConnectFlag(%d) fail", idx);
 }
 
 int CServerHandler::GetAlivedMonitorServer()
@@ -3833,7 +3945,8 @@ char CServerHandler::IsConnectedMonitorServer(unsigned char idx)
 {
     if (idx <= 0x64 && m_monitorServers[idx].IsValidMonitorServer())
         return m_monitorServers[idx].IsConnected();
-    DNF_LOG_SCOPE_AT("CServerHandler::IsConnectedMonitorServer", 0x91, "./log/ServerHandler", "IsConnectedMonitorServer(%d) fail", idx);
+    CMyFileLog log("CServerHandler::IsConnectedMonitorServer", 0x91);
+    log("./log/ServerHandler", "IsConnectedMonitorServer(%d) fail", idx);
     return 0;
 }
 
@@ -3844,7 +3957,8 @@ void CServerHandler::ResetHeartBeat(unsigned char idx)
         m_monitorServers[idx].ResetHeartBeat();
         return;
     }
-    DNF_LOG_SCOPE_AT("CServerHandler::ResetHeartBeat", 0x70, "./log/ServerHandler", "ResetHeartBeat(%d) fail", idx);
+    CMyFileLog log("CServerHandler::ResetHeartBeat", 0x70);
+    log("./log/ServerHandler", "ResetHeartBeat(%d) fail", idx);
 }
 
 void CServerHandler::SendToTcpServer(PacketHeader* header, unsigned char idx)

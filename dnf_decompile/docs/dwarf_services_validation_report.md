@@ -1405,6 +1405,26 @@ startup ×2、TCPSocket::shutdown（§36 伪影）、_Rb_tree _M_create_node（S
 - 水位（auction，fast_strict 全量）：strict 4152/453/131，extended
   4546/59/131，full 4560/45/131。auction + point 已重建。
 
+### 第七十四批（2026-08-09 续，auction：makeSuccessfulBid 1409/1409 指令等长）
+
+- **`AuctionDictionary::makeSuccessfulBid` 1409/1409 指令、mnemonic 序列
+  等长**（auction + point 均验证），剩余 24 个差异区全部为 ≤4 行的
+  cw 设置块边界 / 寄存器装载伪影。本批修复：
+  1. CheckItemType 第二处 if/else-if 改 switch（case 1/2/3，反序发射）；
+  2. 无买家路径的 qword 检查从 int 短路双检查改
+    `field_0._high_category_key != 0`（or 形态）；
+  3. 两处 `dbtr_expire_package` 的 auction_id 赋值提前 + package_type /
+    event_type 用 `isInstantBuying ? 1 : 0` 三元物化；
+  4. `dbtr_history` 的 auction_id 提到最前；
+  5. 特殊 item_id 范围检查（0x28d287-0x28d29a）改**嵌套 if**
+    （== 物化 sete、范围 jbe/ja 直跳，消除整链布尔物化）；
+  6. POINT 最终佣金 `(money/100.0) * commission` 操作数交换（rate 先算），
+    转换块内移到阶梯后（0x50 分支落入）。
+- 剩余 24 区中的 5 个 cw 设置块（fnstcw/movzwl/mov/mov）仅块边界位置
+  不同（ORIG 在阶梯块、NEW 在转换块），内容等长——-O0 布局伪影，记录
+  即可；另 19 个为 1-2 行 mov/movl 装载。
+- 水位（auction，fast_strict 全量）：见下轮输出；auction + point 已重建。
+
 ## 1. 源码依赖拓扑（并行任务分配）
 
 ### 1.1 源码树隔离关系（已从目录与构建脚本验证）

@@ -1,0 +1,911 @@
+#include "ManagerTypes.h"
+
+#include <errno.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/epoll.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <pthread.h>
+
+#include "DNFFileLog.h"
+
+// ============================================================
+// 全局对象池（原版 .bss 地址：0x82b5808 / 0x82b581c / 0x82b5830 /
+// 0x82b5844 / 0x82b58f8 / 0x82c0b8c；计数见全局初始化反汇编）
+// ============================================================
+template<class T> void* MemPool<T>::headOfFreeList_;
+
+template<class T>
+MemPool<T>::MemPool() {}
+
+template<class T>
+MemPool<T>::MemPool(unsigned int count) : m_size((int)sizeof(T)), m_count((int)count) {}
+
+template<class T>
+MemPool<T>::~MemPool()
+{
+    for (std::vector<void*>::iterator it = m_blocks.begin(); it != m_blocks.end(); ++it)
+        ::operator delete(*it);
+}
+
+template<class T>
+void* MemPool<T>::alloc()
+{
+    void* result;
+    if (m_size == (int)sizeof(T))
+    {
+        void* head = headOfFreeList_;
+        if (head == 0)
+        {
+            void* block = ::operator new((unsigned int)m_size * (unsigned int)m_count);
+            for (unsigned int i = 0; i < (unsigned int)m_count - 1; i++)
+            {
+                *(void**)((char*)block + i * m_size + m_size - 4) =
+                    (void*)((i + 1) * m_size + (unsigned int)block);
+            }
+            *(void**)((char*)block + ((unsigned int)m_count - 1) * m_size + m_size - 4) = 0;
+            headOfFreeList_ = (void*)((char*)block + m_size);
+            head = block;
+            m_blocks.push_back(block);
+            CMyFileLog log("alloc", 0x7d);
+            log("./log/Mempool", "class size(%d) cnt(%d)", m_size,
+                m_count * (int)m_blocks.size());
+        }
+        else
+        {
+            headOfFreeList_ = *(void**)((char*)head + m_size - 4);
+        }
+        result = head;
+    }
+    else
+    {
+        result = ::operator new(sizeof(T));
+    }
+    return result;
+}
+
+template<class T>
+void MemPool<T>::free(void* ptr, unsigned int size)
+{
+    if (ptr != 0)
+    {
+        if ((unsigned int)m_size == size)
+        {
+            *(void**)((char*)ptr + m_size - 4) = headOfFreeList_;
+            headOfFreeList_ = ptr;
+        }
+        else
+        {
+            ::operator delete(ptr);
+        }
+    }
+}
+
+template<class T>
+void MemPool<T>::free(void* ptr)
+{
+    if (ptr != 0)
+    {
+        *(void**)((char*)ptr + m_size - 4) = headOfFreeList_;
+        headOfFreeList_ = ptr;
+    }
+}
+
+MemPool<CUdpRecvBuffer> g_udpRecvPool(10000);
+MemPool<CTcpRecvBuffer> g_tcpRecvPool(1000);
+MemPool<CTcpSendBuffer> g_tcpSendPool(1000);
+MemPool<CPacketBuffer> g_packetBufferPool(1000);
+MemPool<CPeer> g_peerPool(1000);
+MemPool<CDNFProhibitUser> g_prohibitUserPool(10000);
+
+template class MemPool<CUdpRecvBuffer>;
+template class MemPool<CTcpRecvBuffer>;
+template class MemPool<CTcpSendBuffer>;
+template class MemPool<CPacketBuffer>;
+template class MemPool<CPeer>;
+template class MemPool<CDNFProhibitUser>;
+
+void* CUdpRecvBuffer::operator new(unsigned int size) { return g_udpRecvPool.alloc(); }
+void CUdpRecvBuffer::operator delete(void* ptr) { g_udpRecvPool.free(ptr); }
+void CUdpRecvBuffer::operator delete(void* ptr, unsigned int size) { g_udpRecvPool.free(ptr, size); }
+
+void* CTcpRecvBuffer::operator new(unsigned int size) { return g_tcpRecvPool.alloc(); }
+void CTcpRecvBuffer::operator delete(void* ptr) { g_tcpRecvPool.free(ptr); }
+void CTcpRecvBuffer::operator delete(void* ptr, unsigned int size) { g_tcpRecvPool.free(ptr, size); }
+
+void* CTcpSendBuffer::operator new(unsigned int size) { return g_tcpSendPool.alloc(); }
+void CTcpSendBuffer::operator delete(void* ptr) { g_tcpSendPool.free(ptr); }
+void CTcpSendBuffer::operator delete(void* ptr, unsigned int size) { g_tcpSendPool.free(ptr, size); }
+
+void* CPacketBuffer::operator new(unsigned int size) { return g_packetBufferPool.alloc(); }
+void CPacketBuffer::operator delete(void* ptr) { g_packetBufferPool.free(ptr); }
+void CPacketBuffer::operator delete(void* ptr, unsigned int size) { g_packetBufferPool.free(ptr, size); }
+
+void* CPeer::operator new(unsigned int size) { return g_peerPool.alloc(); }
+void CPeer::operator delete(void* ptr) { g_peerPool.free(ptr); }
+void CPeer::operator delete(void* ptr, unsigned int size) { g_peerPool.free(ptr, size); }
+
+void* CDNFProhibitUser::operator new(unsigned int size) { return g_prohibitUserPool.alloc(); }
+void CDNFProhibitUser::operator delete(void* ptr) { g_prohibitUserPool.free(ptr); }
+void CDNFProhibitUser::operator delete(void* ptr, unsigned int size) { g_prohibitUserPool.free(ptr, size); }
+
+// ============================================================
+// IQueue / CSwapQueue
+// ============================================================
+template<class T>
+char IQueue<T>::SwitchQueue()
+{
+    if (m_recv->empty())
+        return 0;
+    T* tmp = m_recv;
+    m_recv = m_parse;
+    m_parse = tmp;
+    return 1;
+}
+
+template<class T, int N>
+void CSwapQueue<T, N>::SwapQ()
+{
+    int t = m_recvIdx;
+    m_recvIdx = m_parseIdx;
+    m_parseIdx = t;
+}
+
+template class IQueue<TcpRecvQueue>;
+template class IQueue<UdpRecvQueue>;
+template class CSwapQueue<TcpRecvQueue, 2>;
+template class CSwapQueue<UdpRecvQueue, 2>;
+
+// ============================================================
+// CSystemTime / CSystemTimeHandler
+// ============================================================
+CSystemTime::CSystemTime()
+{
+    gettimeofday(&m_tv, 0);
+    m_field10 = m_tv.tv_sec;
+    m_field4 = m_tv.tv_usec / 1000000;
+}
+
+static CSystemTimeHandler g_systemTimeHandler;
+
+CSystemTimeHandler* CSystemTimeHandlerInstance()
+{
+    return &g_systemTimeHandler;
+}
+
+// ============================================================
+// CDnFTimer / CUnixTimer
+// ============================================================
+CDnFTimer::CDnFTimer() {}
+
+CUnixTimer::CUnixTimer() {}
+
+double CUnixTimer::GetNowTime()
+{
+    struct timeval tv;
+    gettimeofday(&tv, 0);
+    return tv.tv_sec + tv.tv_usec / 1000000.0;
+}
+
+double CUnixTimer::GetTimeInterval()
+{
+    return GetNowTime() - m_lastTime;
+}
+
+void CUnixTimer::SetLastTime()
+{
+    m_lastTime = GetNowTime();
+}
+
+// ============================================================
+// CFrameCountHandler / CUdpHandler（占位，本批仅 C1/D1）
+// ============================================================
+CFrameCountHandler::CFrameCountHandler() {}
+CFrameCountHandler::~CFrameCountHandler() {}
+
+CUdpHandler::CUdpHandler() {}
+CUdpHandler::~CUdpHandler() {}
+
+// ============================================================
+// CUserManager
+// ============================================================
+CUserManager::CUserManager()
+{
+    m_app = 0;
+}
+
+CUserManager::~CUserManager() {}
+
+void CUserManager::Init(CApplication* app)
+{
+    m_app = app;
+}
+
+// ============================================================
+// CDNFProhibitUser
+// ============================================================
+CDNFProhibitUser::CDNFProhibitUser()
+{
+    m_dbid = 0xffffffff;
+    m_remainTime = 0;
+    m_retPacketCnt = 0;
+    m_ip = 0;
+    m_port = 0;
+    m_connectFlag = 0;
+}
+
+CDNFProhibitUser::~CDNFProhibitUser()
+{
+    m_remainTime = 0;
+    m_dbid = 0xffffffff;
+    m_retPacketCnt = 0;
+    m_ip = 0;
+    m_port = 0;
+    m_connectFlag = 0;
+}
+
+void CDNFProhibitUser::SetIpPort(unsigned int ip, unsigned short port)
+{
+    m_ip = ip;
+    m_port = port;
+}
+
+void CDNFProhibitUser::GetIpPort(unsigned int* ip, unsigned short* port)
+{
+    *ip = m_ip;
+    *port = m_port;
+}
+
+void CDNFProhibitUser::SetMonitorWaitTime(unsigned int dbid, unsigned short time)
+{
+    m_remainTime = time;
+    m_dbid = dbid;
+}
+
+void CDNFProhibitUser::SetProhibitUserInfo(char flag)
+{
+    if (flag)
+        m_connectFlag = flag;
+}
+
+// ============================================================
+// CMonitorServer
+// ============================================================
+CMonitorServer::CMonitorServer()
+{
+    m_index = 0xff;
+    m_name = "";
+    m_port = 0;
+    m_connected = 0;
+    m_heartBeat = 0x14;
+    m_fieldC = 0;
+    m_field10 = 0;
+}
+
+CMonitorServer::~CMonitorServer() {}
+
+char CMonitorServer::IsValidMonitorServer()
+{
+    return m_index != 0xff;
+}
+
+// ============================================================
+// CTcpServer
+// ============================================================
+CTcpServer::CTcpServer()
+{
+    m_index = 0;
+    m_socket = 0;
+    m_net = 0;
+    m_heartbeat = 0;
+}
+
+CTcpServer::~CTcpServer()
+{
+    m_socket = 0;
+    m_net = 0;
+    m_index = 0;
+    m_heartbeat = 0;
+}
+
+void CTcpServer::Init(unsigned int sock, CTcpNetSystem* net)
+{
+    m_socket = (void*)sock;
+    m_net = net;
+}
+
+char CTcpServer::IsValidServer()
+{
+    return m_socket != 0 && m_net != 0;
+}
+
+char CTcpServer::IsHeartbeatTimeOver()
+{
+    time_t now;
+    time(&now);
+    if (m_heartbeat && now - m_heartbeat > 0x3b)
+        return 1;
+    return 0;
+}
+
+void CTcpServer::SendToServer(char* buf)
+{
+    m_net->PushTcpSendPacketQ(buf);
+}
+
+// ============================================================
+// CTcpNetSystem
+// ============================================================
+CTcpNetSystem::CTcpNetSystem()
+{
+    m_tcpHandler = 0;
+    m_field4 = 0;
+    m_acceptThread = 0;
+    m_serverPort = 0;
+}
+
+CTcpNetSystem::~CTcpNetSystem() {}
+
+// ============================================================
+// CProtocol / EpollHandler / CTcpHandler
+// ============================================================
+EpollHandler::EpollHandler()
+{
+    Init();
+}
+
+EpollHandler::~EpollHandler()
+{
+    Destroy();
+}
+
+int EpollHandler::Init()
+{
+    m_epollFd = epoll_create(0x3e8);
+    if (m_epollFd < 0)
+    {
+        puts("epoll create error");
+        return 0;
+    }
+    m_events = (void*)new char[0x2ee0];
+    if (!m_events)
+    {
+        printf("epoll events alloc error\n");
+        return 0;
+    }
+    return 1;
+}
+
+void EpollHandler::Destroy()
+{
+    if (m_events)
+    {
+        delete[] (char*)m_events;
+        m_events = 0;
+    }
+}
+
+int EpollHandler::WaitForEvent()
+{
+    return epoll_wait(m_epollFd, (struct epoll_event*)m_events, 0x3e8, 0x64);
+}
+
+void* EpollHandler::GetEventPtr(int idx)
+{
+    return ((struct epoll_event*)m_events)[idx].data.ptr;
+}
+
+char EpollHandler::IsSetInEvent(int idx)
+{
+    return ((struct epoll_event*)m_events)[idx].events & 0x1;
+}
+
+char EpollHandler::IsSetOutEvent(int idx)
+{
+    return ((struct epoll_event*)m_events)[idx].events & 0x4;
+}
+
+char EpollHandler::IsSetErrEvent(int idx)
+{
+    return ((struct epoll_event*)m_events)[idx].events & 0x18;
+}
+
+int EpollHandler::SetEpoll(void* peer, int fd, bool flag)
+{
+    m_eventType = flag ? 0x8000001d : 0x1d;
+    m_peer = peer;
+    CGuard<CMutex> guard(&m_mutex);
+    int ret = epoll_ctl(m_epollFd, 0x1, fd, (struct epoll_event*)&m_eventType);
+    return ret < 0 ? errno : 0;
+}
+
+int EpollHandler::ResetEpoll(int fd)
+{
+    memset(&m_eventType, 0, 0xc);
+    m_eventType = 0x1;
+    CGuard<CMutex> guard(&m_mutex);
+    int ret = epoll_ctl(m_epollFd, 0x2, fd, (struct epoll_event*)&m_eventType);
+    return ret < 0 ? errno : 0;
+}
+
+int EpollHandler::SetPeer(void* peer, int fd, bool flag)
+{
+    return SetEpoll(peer, fd, flag);
+}
+
+CTcpHandler::CTcpHandler()
+{
+    m_epoll = new EpollHandler;
+}
+
+CTcpHandler::~CTcpHandler()
+{
+    if (m_epoll)
+    {
+        delete m_epoll;
+        m_epoll = 0;
+    }
+}
+
+int CTcpHandler::WaitForEvent()
+{
+    return m_epoll ? m_epoll->WaitForEvent() : 0;
+}
+
+int CTcpHandler::ResetEpoll(int flag)
+{
+    return m_epoll ? m_epoll->ResetEpoll(flag) : -1;
+}
+
+int CTcpHandler::SetPeer(void* peer, int fd, bool flag)
+{
+    return m_epoll ? m_epoll->SetPeer(peer, fd, flag) : -1;
+}
+
+void* CTcpHandler::GetEventPtr(int idx)
+{
+    return m_epoll ? m_epoll->GetEventPtr(idx) : 0;
+}
+
+char CTcpHandler::IsSetInEvent(int idx)
+{
+    return m_epoll ? m_epoll->IsSetInEvent(idx) : 0;
+}
+
+char CTcpHandler::IsSetOutEvent(int idx)
+{
+    return m_epoll ? m_epoll->IsSetOutEvent(idx) : 0;
+}
+
+char CTcpHandler::IsSetErrEvent(int idx)
+{
+    return m_epoll ? m_epoll->IsSetErrEvent(idx) : 0;
+}
+
+// ============================================================
+// TCPSocket / CPeer
+// ============================================================
+TCPSocket::TCPSocket()
+{
+    m_fd = -1;
+    memset(&m_addr, 0, 4);
+    memset(&m_data4, 0, 0x10);
+    m_port = 0;
+}
+
+TCPSocket::~TCPSocket()
+{
+    close();
+}
+
+char TCPSocket::open()
+{
+    m_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (m_fd == -1)
+    {
+        printf("socket error %d", errno);
+        return 0;
+    }
+    return 1;
+}
+
+void TCPSocket::close()
+{
+    if (m_fd != -1)
+    {
+        ::close(m_fd);
+        m_fd = -1;
+        memset(&m_addr, 0, 4);
+        m_port = 0;
+    }
+}
+
+int TCPSocket::shutdown(int how)
+{
+    if (m_fd == -1)
+        return -1;
+    return ::shutdown(m_fd, how);
+}
+
+char TCPSocket::setOptResizeRecvBuf(int size)
+{
+    if (size <= 0)
+        return 0;
+    int ret = setsockopt(m_fd, SOL_SOCKET, SO_RCVBUF, &size, 4);
+    if (ret < 0)
+        return 0;
+    return 1;
+}
+
+CPeer::CPeer()
+{
+    memset(&m_data181c, 0, 0x20);
+}
+
+CPeer::~CPeer() {}
+
+// ============================================================
+// CThreadInterface
+// ============================================================
+CThreadInterface::CThreadInterface()
+{
+    m_thread = 0;
+    m_stop = 0;
+}
+
+CThreadInterface::~CThreadInterface() {}
+
+void CThreadInterface::join()
+{
+    pthread_join(m_thread, 0);
+}
+
+// ============================================================
+// 线程类
+// ============================================================
+CTcpAcceptThread::CTcpAcceptThread() {}
+CTcpAcceptThread::~CTcpAcceptThread() {}
+
+void CTcpAcceptThread::attach(CTcpNetSystem* net)
+{
+    if (!net)
+        return;
+    m_net = net;
+    m_recvQLock = net->Get_TcpRecvQLock();
+    m_recvBLock = net->Get_TcpRecvBLock();
+    m_port = net->Get_TcpServerPort();
+}
+
+CTcpNetworkThread::CTcpNetworkThread() {}
+CTcpNetworkThread::~CTcpNetworkThread() {}
+
+CUdpNetworkThread::CUdpNetworkThread() {}
+CUdpNetworkThread::~CUdpNetworkThread() {}
+
+// ============================================================
+// CDBHandle / CMySql / CDBManager
+// ============================================================
+CDBHandle::CDBHandle() {}
+CDBHandle::~CDBHandle() {}
+
+CMySql::CMySql()
+{
+    m_mysql = 0;
+    m_field8 = 0;
+    m_field10 = 0;
+}
+
+CMySql::~CMySql()
+{
+    close();
+}
+
+void CMySql::close()
+{
+    if (m_mysql)
+    {
+        mysql_close(m_mysql);
+        m_mysql = 0;
+    }
+}
+
+char CMySql::init_db_handle()
+{
+    if (m_mysql)
+        return 0;
+    m_mysql = mysql_init(0);
+    if (!m_mysql)
+        return 0;
+    return 1;
+}
+
+char CMySql::is_valid_col(int col)
+{
+    if (col < 0)
+        return 0;
+    if (m_nFields > col)
+        return 1;
+    return 0;
+}
+
+CDBManager::CDBManager()
+{
+    m_field44 = 0;
+    m_handles[1] = 0;
+    m_handles[2] = 0;
+    m_handles[4] = 0;
+}
+
+CDBManager::~CDBManager()
+{
+    Close();
+    for (int i = 0; i <= 0x10; i++)
+    {
+        if (m_handles[i])
+        {
+            delete m_handles[i];
+            m_handles[i] = 0;
+        }
+    }
+}
+
+void CDBManager::Open(ENUM_DB_HANDLE_IDX idx, const char* host, const char* user,
+                      const char* pass, const char* db)
+{
+    ((CMySql*)m_handles[idx])->open(host, user, pass, db);
+}
+
+void CDBManager::Close() {}
+
+// ============================================================
+// CSignal 家族
+// ============================================================
+CSignal::CSignal()
+{
+    m_app = 0;
+}
+
+CSignal::~CSignal() {}
+
+CTerminateSig::CTerminateSig() {}
+CTerminateSig::~CTerminateSig() {}
+
+void CTerminateSig::handle(int sig)
+{
+    puts("CTerminateSig");
+    if (m_app)
+        m_app->App_Stop();
+}
+
+CSystemFailSig::CSystemFailSig() {}
+CSystemFailSig::~CSystemFailSig() {}
+
+CSegmentationFaultSig::CSegmentationFaultSig() {}
+CSegmentationFaultSig::~CSegmentationFaultSig() {}
+
+CFloatingPointExceptSig::CFloatingPointExceptSig() {}
+CFloatingPointExceptSig::~CFloatingPointExceptSig() {}
+
+CUser1Sig::CUser1Sig() {}
+CUser1Sig::~CUser1Sig() {}
+
+void CUser1Sig::handle(int sig)
+{
+    CMyFileLog log("CUser1Sig", 0x13);
+    log("USER1", "SIGUSR1");
+    if (m_app)
+        m_app->SendTestPacket_2();
+}
+
+CUser2Sig::CUser2Sig() {}
+CUser2Sig::~CUser2Sig() {}
+
+void CUser2Sig::handle(int sig)
+{
+    CMyFileLog log("CUser2Sig", 0x20);
+    log("USER2", "SIGUSR2");
+    if (m_app)
+        m_app->TranslateSignal();
+}
+
+// ============================================================
+// CSignalTranslator（本批 C1/D1/getSignal；init/regist 下一批）
+// ============================================================
+CSignalTranslator::CSignalTranslator() {}
+CSignalTranslator::~CSignalTranslator() {}
+
+static CSignalTranslator g_signalTranslator;
+
+CSignalTranslator* CSignalTranslatorInstance()
+{
+    return &g_signalTranslator;
+}
+
+void signal_handler(int sig)
+{
+    CSignalTranslator* t = CSignalTranslatorInstance();
+    CSignal* s = t->getSignal(sig);
+    s->handle(sig);
+}
+
+// ============================================================
+// CTableBase / CAppInit / CAppConfig / CServerConfig
+// ============================================================
+CTableBase::CTableBase() {}
+CTableBase::~CTableBase() {}
+
+int CTableBase::Load_Txt_Table_Data(const char* fileName, int idx) { return 0; }
+
+CAppInit::CAppInit() {}
+CAppInit::~CAppInit() {}
+
+CAppStartInit::CAppStartInit() {}
+CAppStartInit::~CAppStartInit() {}
+
+CAppStopInit::CAppStopInit() {}
+CAppStopInit::~CAppStopInit() {}
+
+CAppConfig::CAppConfig() {}
+CAppConfig::~CAppConfig() {}
+
+int CAppConfig::Load_Txt_Table_Data(const char* fileName, int idx) { return 0; }
+int CAppConfig::Load_Table(const std::string& fileName) { return 0; }
+int CAppConfig::Parse_Table(const char* data, int size) { return 0; }
+int CAppConfig::Check_FileName(const std::string& fileName) { return 0; }
+
+CServerConfig::CServerConfig() {}
+CServerConfig::~CServerConfig() {}
+
+int CServerConfig::Load_Txt_Table_Data(const char* fileName, int idx) { return 0; }
+int CServerConfig::Load_Table(const std::string& fileName) { return 0; }
+int CServerConfig::Parse_Table(const char* data, int size) { return 0; }
+
+CKillUSRConfig::CKillUSRConfig() {}
+CKillUSRConfig::~CKillUSRConfig() {}
+int CKillUSRConfig::Load_Table(const std::string& fileName) { return 0; }
+int CKillUSRConfig::Parse_Table(const char* data, int size) { return 0; }
+void CKillUSRConfig::Clear_Table() {}
+
+// ============================================================
+// ST_ServerInfo / CVersionMgr / CSourceVersionMgr
+// ============================================================
+ST_ServerInfo::ST_ServerInfo()
+{
+    m_index = 0;
+    m_type = 0xff;
+    m_name = "";
+    m_port = 0;
+}
+
+ST_ServerInfo::~ST_ServerInfo() {}
+
+CVersionMgr::CVersionMgr(int a, int b, int c, int d)
+{
+    m_versions[0] = a;
+    m_versions[1] = b;
+    m_versions[2] = c;
+    m_versions[3] = d;
+}
+
+CSourceVersionMgr::SourceVersion::SourceVersion(const char* name, int version)
+{
+    m_name = name;
+    m_version = version;
+}
+
+CSourceVersionMgr::SourceVersion::SourceVersion(const SourceVersion& other)
+{
+    m_name = other.m_name;
+    m_version = other.m_version;
+}
+
+CSourceVersionMgr::SourceVersion& CSourceVersionMgr::SourceVersion::operator=(const SourceVersion& other)
+{
+    m_name = other.m_name;
+    m_version = other.m_version;
+    return *this;
+}
+
+CSourceVersionMgr::SourceVersion::~SourceVersion() {}
+
+CSourceVersionMgr::CSourceVersionMgr() {}
+CSourceVersionMgr::~CSourceVersionMgr() {}
+void CSourceVersionMgr::InsertSourceVersion(const char* name, int version) {}
+
+// ============================================================
+// CQueryCounter
+// ============================================================
+CQueryCounter::CQueryCounter()
+{
+    m_interval = 0x1e;
+    m_timer = new CUnixTimer;
+    ResetQueryCount();
+}
+
+CQueryCounter::~CQueryCounter()
+{
+    delete m_timer;
+}
+
+void CQueryCounter::ResetQueryCount()
+{
+    m_interval = 0x1e;
+    memset(&m_counts, 0, 0x504);
+    memset((char*)&m_counts + 0x504, 0, 0xa08);
+}
+
+// ============================================================
+// CPacketTracer / CPacketDecoder
+// ============================================================
+CPacketTracer::CPacketTracer()
+{
+    m_field0 = 0;
+    m_log = "";
+}
+
+CPacketTracer::~CPacketTracer() {}
+
+static CPacketTracer g_packetTracer;
+CPacketTracer* CPacketTracerInstance() { return &g_packetTracer; }
+
+CPacketDecoder::CPacketDecoder()
+{
+    m_udpQueue = 0;
+    m_field10 = 0;
+    m_field14 = 0;
+    memset(&m_table, 0, sizeof(m_table));
+}
+
+CPacketDecoder::~CPacketDecoder()
+{
+    m_udpQueue = 0;
+    m_field10 = 0;
+}
+
+static CPacketDecoder g_packetDecoder;
+CPacketDecoder* CPacketDecoderInstance() { return &g_packetDecoder; }
+
+// ============================================================
+// CServerHandler（本批最小实现）
+// ============================================================
+CServerHandler::CServerHandler() {}
+CServerHandler::~CServerHandler() {}
+
+void CServerHandler::SendToMonitorServer(char* buf, int len, unsigned char idx)
+{
+    ((CMonitorServer*)this + idx)->SendToServer(buf, len);
+}
+
+// ============================================================
+// 杂项
+// ============================================================
+int getErrno()
+{
+    return *__errno_location();
+}
+
+unsigned long long TIME_to_ulonglong_date(void* t)
+{
+    unsigned int* p = (unsigned int*)t;
+    return (unsigned long long)(p[0] * 10000 + p[1] * 100 + p[2]);
+}
+
+unsigned long long TIME_to_ulonglong_time(void* t)
+{
+    unsigned int* p = (unsigned int*)t;
+    return (unsigned long long)(p[3] * 10000 + p[4] * 100 + p[5]);
+}
+
+unsigned long long TIME_to_ulonglong(void* t)
+{
+    return 0;
+}
+
+unsigned long long TIME_to_ulonglong_datetime(void* t)
+{
+    return 0;
+}
+
