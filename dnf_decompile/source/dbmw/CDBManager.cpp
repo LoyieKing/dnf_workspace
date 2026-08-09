@@ -4759,7 +4759,7 @@ char CDBManager::onItemLimitEditionLoadData(
     time_t now = time(0);
     char buf[0x400];
     memset(buf, 0, 0x400);
-    if (req->m_fieldF == 0 && req->m_fieldA == 0)
+    if (req->m_fieldF != 0 || req->m_fieldA != 1)
     {
         memcpy(buf, "and ipg_no ", 0xc);
         getList2inQuery(req->m_fieldF, (const unsigned int*)((char*)req + 0x13),
