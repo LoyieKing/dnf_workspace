@@ -28,9 +28,16 @@ CPacketTracer::CPacketTracer()
 {
     m_field0 = 0;
     m_log = "";
+    m_timer = 0;
+    m_processCount = 0;
+    m_timer = new CUnixTimer;
+    ResetPacketProcessLog();
 }
 
-CPacketTracer::~CPacketTracer() {}
+CPacketTracer::~CPacketTracer()
+{
+    delete m_timer;
+}
 
 void CPacketTracer::WriteLog()
 {
@@ -61,6 +68,62 @@ static CPacketTracer g_packetTracer;
 CPacketTracer* CPacketTracerInstance() { return &g_packetTracer; }
 
 void CPacketTracer::ResetLog() { m_log.clear(); }
+
+void CPacketTracer::StartPacketProcessLog(unsigned int id)
+{
+    m_timer->SetLastTime();
+    std::map<unsigned int, stPacketProcess>::iterator it =
+        m_processMap.find(id);
+    if (it == m_processMap.end())
+    {
+        stPacketProcess p;
+        p.m_accTime = 0.0;
+        p.m_count = 0;
+        m_processMap.insert(std::make_pair(id, p));
+    }
+}
+
+void CPacketTracer::EndPacketProcessLog(unsigned int id)
+{
+    std::map<unsigned int, stPacketProcess>::iterator it =
+        m_processMap.find(id);
+    if (it != m_processMap.end())
+    {
+        it->second.m_count += 1;
+        it->second.m_accTime += 1000.0 * m_timer->GetTimeInterval();
+    }
+}
+
+void CPacketTracer::WritePacketProcessLog()
+{
+    m_processCount -= 1;
+    if (m_processCount < 1)
+    {
+        for (std::map<unsigned int, stPacketProcess>::iterator it =
+                 m_processMap.begin();
+             it != m_processMap.end(); ++it)
+        {
+            if (it->second.m_count != 0)
+            {
+                CMyFileLog log("WritePacketProcessLog", 0x6f);
+                log("./log/PacketProcess",
+                    "id(%d), acc count(%d), acc time(%.4f ms), average time(%4.4f ms)",
+                    it->first, it->second.m_count, it->second.m_accTime,
+                    it->second.m_accTime / (double)it->second.m_count);
+            }
+        }
+        ResetPacketProcessLog();
+    }
+}
+
+void CPacketTracer::ResetPacketProcessLog()
+{
+    m_processMap.clear();
+    m_processCount = 0x1e;
+}
+
+// 强制发出原版存在的 map<unsigned int, stPacketProcess> 分配器弱符号
+template class std::allocator<std::_Rb_tree_node<std::pair<const unsigned int, stPacketProcess> > >;
 
 CPacketDecoder::CPacketDecoder()
 {

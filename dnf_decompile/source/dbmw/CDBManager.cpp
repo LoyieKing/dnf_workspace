@@ -1533,8 +1533,8 @@ char CDBManager::updateCollectItems(unsigned char a, int b, unsigned int c,
     return 1;
 }
 
-char CDBManager::updateCollectItemsGm(unsigned char a, unsigned int b, int c,
-                                      int d)
+char CDBManager::updateCollectItemsGm(unsigned char a, int b, int c,
+                                      unsigned int d)
 {
     CDBHandle* h = m_handles[9];    // event db
     if (!h)
@@ -3533,6 +3533,26 @@ unsigned int WongWork::CGMAccounts::isGM(unsigned int id)
         std::find(m_list.begin(), m_list.end(), key);
     return it != m_list.end();
 }
+WongWork::CGMAccounts::stGMInfo_t WongWork::CGMAccounts::getGMInfo(
+    unsigned int id) const
+{
+    stGMInfo_t key = {};
+    key.m_field1 = 3;
+    key.m_field0 = (int)id;
+    std::list<stGMInfo_t>::const_iterator it =
+        std::find(m_list.begin(), m_list.end(), key);
+    stGMInfo_t result;
+    if (it != m_list.end())
+    {
+        result = *it;
+    }
+    else
+    {
+        result.m_field0 = 0;
+        result.m_field1 = 3;
+    }
+    return result;
+}
 int WongWork::CGMAccounts::appendGM(unsigned int id, unsigned int flag)
 {
     return 0;
@@ -3666,6 +3686,220 @@ unsigned int CDBManager::GetIdentity(CDBHandle* h)
     if (!h->get_uint(0, id))
         return 0;
     return id;
+}
+
+char CDBManager::QueryInsertUpdate(PacketInsertUpdate* packet)
+{
+    CDBHandle* h = m_handles[*(int*)((char*)packet + 0xa)];
+    h->set_query(*(unsigned int*)((char*)packet + 0x12),
+                 (char*)packet + 0x817);
+    if (h->exec(*(unsigned int*)((char*)packet + 0x12)))
+    {
+        if (h->getAffectedRowCount() == 0)
+        {
+            h->set_query(*(unsigned int*)((char*)packet + 0xe),
+                         (char*)packet + 0x16);
+            h->exec(*(unsigned int*)((char*)packet + 0xe));
+        }
+        return 1;
+    }
+    CMyFileLog log("QueryInsertUpdate", 0x27f5);
+    log("./log/DBQueryErr", "QueryInsertUpdate Query(%s) Error\n",
+        (char*)packet + 0x817);
+    return 0;
+}
+
+char CDBManager::InsertDailyBadSpecStatistics(
+    Packet_Frame_Lag_Statistic_Write_Daily_Bad_Spec* packet)
+{
+    CDBHandle* h = m_handles[0xf];  // frame_lag db
+    if (!h)
+        return 0;
+    h->set_query(0x4e8b,
+                 "insert into daily_bad_spec(occ_date,spec_id,server_group) values(curdate(),%d,%hhd",
+                 *(int*)((char*)packet + 0xa), (char)((char*)packet)[0xe]);
+    return h->exec(0x4e8b);
+}
+
+char CDBManager::RegisterQueryIdTable(int queryId, const char* query)
+{
+    CDBHandle* h = m_handles[6];    // sso db
+    char buf[0x6002];
+    memset(buf, 0, 0x6002);
+    h->escape_string(buf, query);
+    h->set_query(0x4f61,
+                 "inSert into log_query_dbmw_ref(q_id,query,query_hash) values(%d,'%s',password('%s'))",
+                 queryId, buf, buf);
+    h->exec(0x4f61);
+    return 1;
+}
+
+char CDBManager::LoadQueryIdTable()
+{
+    CDBHandle* h = m_handles[6];    // sso db
+    if (!h->set_query(0x4f61, "seLect q_id from log_query_dbmw_ref"))
+    {
+        CMyFileLog log("LoadQueryIdTable", 0xcb6);
+        log("./log/DBQueryErr", "seLect q_id from log_query_dbmw_ref");
+        return 0;
+    }
+    if (!h->exec(0x4f61))
+        return 0;
+    int n = h->get_n_rows();
+    for (int i = 0; i < n; i++)
+    {
+        if (!h->fetch())
+            break;
+        int queryId = 0;
+        if (!h->get_int(0, queryId))
+            return 0;
+        CQueryCounterInstance()->LoadQueryIdTable(queryId);
+    }
+    return 1;
+}
+
+int CDBManager::FindCharIdInArray(unsigned int* arr, unsigned int characNo,
+                                  unsigned char maxIdx)
+{
+    for (int i = 0; i < (int)maxIdx; i++)
+    {
+        if (arr[i] != 0 && arr[i] == characNo)
+            return i;
+    }
+    return -1;
+}
+
+char CDBManager::OnSaveTingUserAccount(
+    Packet_DBMW_Ting_User_TimeCheck_Write_Query* packet)
+{
+    CDBHandle* h = m_handles[0xf];  // frame_lag db
+    if (!h)
+        return 0;
+    int count = *(int*)((char*)packet + 0xa);
+    for (int i = 0; i < count; i++)
+    {
+        char buf[0x400];
+        memset(buf, 0, 0x400);
+        snprintf(buf, 0x400,
+                 "inSert into ting_user_account (occ_time, m_id, minute) values (now(), %s, %d)",
+                 NumberToString(*(unsigned int*)((char*)packet + i * 8 + 0xe), 0),
+                 *(int*)((char*)packet + i * 8 + 0x12));
+        h->set_query(0x4ebf, "%s", buf);
+        h->exec(0x4ebf);
+    }
+    return 1;
+}
+
+char CDBManager::OnSavePowerwarLagReport(
+    Packet_DBMW_Powerwar_Lag_Report* packet)
+{
+    CDBHandle* h = m_handles[0xf];  // frame_lag db
+    if (!h)
+        return 0;
+    int count = *(int*)((char*)packet + 0xa);
+    for (int i = 0; i < count; i++)
+    {
+        h->set_query(0x4eca, "%s", (char*)packet + i * 0x100 + 0xe);
+        h->exec(0x4eca);
+        CMyFileLog log("OnSavePowerwarLagReport", 0x1b0f);
+        log("./log/Statistics", "[PowerWar Lag] %s",
+            (char*)packet + i * 0x100 + 0xe);
+    }
+    return 1;
+}
+
+char CDBManager::OnSaveUsedMemoryWriteQuery(
+    Packet_Frame_Lag_Used_Memory_Write_Query* packet)
+{
+    CDBHandle* h = m_handles[0xf];  // frame_lag db
+    if (!h)
+        return 0;
+    h->set_query(0x4e91, "%s", (char*)packet + 0xa);
+    return h->exec(0x4e91);
+}
+
+char CDBManager::OnReasonCrashDownQueryWrite(
+    Packet_DBMW_Reason_Crash_Down_Query* packet)
+{
+    CDBHandle* h = m_handles[4];    // log db
+    h->set_query(0x4edd, (char*)packet + 0xa);
+    char ok = h->exec(0x4edd);
+    if (!ok)
+    {
+        CMyFileLog log("OnReasonCrashDownQueryWrite", 0x1d53);
+        log("./log/StatisticsErr", "Query Error : %s",
+            (char*)packet + 0xa);
+    }
+    return ok;
+}
+
+char CDBManager::OnSavePowerwarLoadingReport(
+    Packet_DBMW_Powerwar_Loading_Time_Report* packet)
+{
+    CDBHandle* h = m_handles[0xf];  // frame_lag db
+    if (!h)
+        return 0;
+    int count = *(int*)((char*)packet + 0xa);
+    for (int i = 0; i < count; i++)
+    {
+        h->set_query(0x4ec9, "%s", (char*)packet + i * 0x100 + 0xe);
+        h->exec(0x4ec9);
+        CMyFileLog log("OnSavePowerwarLoadingReport", 0x1afc);
+        log("./log/Statistics", "[PowerWar LoadingTime] %s",
+            (char*)packet + i * 0x100 + 0xe);
+    }
+    return 1;
+}
+
+char CDBManager::OnSaveUserTingTimeCheckWrite(
+    Packet_DBMW_User_Ting_TimeCheck_Write_Query* packet)
+{
+    CDBHandle* h = m_handles[0xf];  // frame_lag db
+    if (!h)
+        return 0;
+    int count = *(int*)((char*)packet + 0xa);
+    for (int i = 0; i < count; i++)
+    {
+        char buf[0x400];
+        memset(buf, 0, 0x400);
+        sprintf(buf,
+                "inSert into user_ting_timecheck (occ_time, minute, cnt) values (now(),%d,%d)",
+                *(int*)((char*)packet + i * 8 + 0xe),
+                *(int*)((char*)packet + i * 8 + 0x12));
+        h->set_query(0x4ebc, "%s", buf);
+        h->exec(0x4ebc);
+    }
+    return 1;
+}
+
+char CDBManager::OnTechnicalReportCommonQuery(
+    Packet_DBMW_TechnicalReport_Common_Query* packet)
+{
+    CDBHandle* h = m_handles[0xf];  // frame_lag db
+    h->set_query(0x4ef2, "%s", (char*)packet + 0xa);
+    if (!h->exec(0x4ef2))
+    {
+        CMyFileLog log("OnTechnicalReportCommonQuery", 0x2188);
+        log("./log/TechnicalReport", "OnTechnicalReportCommonQuery Error (%s)",
+            (char*)packet + 0xa);
+    }
+    return 1;
+}
+
+char CDBManager::SunAhWriteQuery(
+    Packet_Frame_Lag_Statistic_Write_Query* packet)
+{
+    CDBHandle* h = m_handles[0xf];  // frame_lag db
+    if (!h)
+        return 0;
+    h->set_query(0x4e90, "%s", (char*)packet + 0xa);
+    return h->exec(0x4e90);
+}
+
+char CDBManager::Open(ENUM_DB_HANDLE_IDX idx, const char* host,
+                      const char* user, const char* pass, const char* db)
+{
+    return m_handles[idx]->open(host, user, pass, db);
 }
 
 // ============================================================

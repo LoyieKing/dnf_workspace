@@ -73,6 +73,16 @@ class Packet_Emblem_Create_Statistic_DB;
 class Packet_DB_Write_Guild_Member_Memo;
 class Packet_Server_Match_data_DBMW;
 class Packet_Manager_Event_Trigger_Ack;
+class PacketInsertUpdate;
+class Packet_Frame_Lag_Statistic_Write_Query;
+class Packet_Frame_Lag_Used_Memory_Write_Query;
+class Packet_Frame_Lag_Statistic_Write_Daily_Bad_Spec;
+class Packet_DBMW_User_Ting_TimeCheck_Write_Query;
+class Packet_DBMW_Ting_User_TimeCheck_Write_Query;
+class Packet_DBMW_Powerwar_Loading_Time_Report;
+class Packet_DBMW_Powerwar_Lag_Report;
+class Packet_DBMW_Reason_Crash_Down_Query;
+class Packet_DBMW_TechnicalReport_Common_Query;
 class Packet_DBMW_Loading_Time_Report;
 class Packet_DBMW_Fatigue_Battery_Money_Statistic;
 class Packet_Load_Periodic_Message;
@@ -1245,6 +1255,7 @@ public:
     ~CGMAccounts();
     int loadGMAccounts(char const* path);
     unsigned int isGM(unsigned int id);
+    stGMInfo_t getGMInfo(unsigned int id) const;
     int appendGM(unsigned int id, unsigned int flag);
     int removeGM(unsigned int id, unsigned int flag);
     void clearGmList();
@@ -1656,7 +1667,7 @@ public:
     int GetMaxHuntingPointServerGroup(int serverId);
     char updateCollectItems(unsigned char a, int b, unsigned int c,
                             unsigned char d);
-    char updateCollectItemsGm(unsigned char a, unsigned int b, int c, int d);
+    char updateCollectItemsGm(unsigned char a, int b, int c, unsigned int d);
     char insertHolePunchingResult(
         Packet_GameServer2Statisctics2DBServer* packet);
     char UpdateRandomboxStatistic(Packet_Randombox_statistic_DB* packet);
@@ -1675,6 +1686,29 @@ public:
     char OnSaveLoadingTimeReport(Packet_DBMW_Loading_Time_Report* packet);
     char OnSaveFatigueBattery(
         Packet_DBMW_Fatigue_Battery_Money_Statistic* packet);
+    char QueryInsertUpdate(PacketInsertUpdate* packet);
+    char InsertDailyBadSpecStatistics(
+        Packet_Frame_Lag_Statistic_Write_Daily_Bad_Spec* packet);
+    char RegisterQueryIdTable(int queryId, const char* query);
+    char LoadQueryIdTable();
+    int FindCharIdInArray(unsigned int* arr, unsigned int characNo,
+                          unsigned char maxIdx);
+    char OnSaveTingUserAccount(
+        Packet_DBMW_Ting_User_TimeCheck_Write_Query* packet);
+    char OnSavePowerwarLagReport(Packet_DBMW_Powerwar_Lag_Report* packet);
+    char OnSaveUsedMemoryWriteQuery(
+        Packet_Frame_Lag_Used_Memory_Write_Query* packet);
+    char OnReasonCrashDownQueryWrite(
+        Packet_DBMW_Reason_Crash_Down_Query* packet);
+    char OnSavePowerwarLoadingReport(
+        Packet_DBMW_Powerwar_Loading_Time_Report* packet);
+    char OnSaveUserTingTimeCheckWrite(
+        Packet_DBMW_User_Ting_TimeCheck_Write_Query* packet);
+    char OnTechnicalReportCommonQuery(
+        Packet_DBMW_TechnicalReport_Common_Query* packet);
+    char SunAhWriteQuery(Packet_Frame_Lag_Statistic_Write_Query* packet);
+    char Open(ENUM_DB_HANDLE_IDX idx, const char* host, const char* user,
+              const char* pass, const char* db);
     unsigned int GetIdentity(CDBHandle* h);
     CDBHandle* m_handles[0x11];  // +0（0x44 字节，17 个槽）
     CApplication* m_app;  // +0x44
@@ -1698,6 +1732,7 @@ public:
 } __attribute__((packed));
 
 int get_awardItem_using_interval();
+void get_awardItem_using_interval(int monthInterval);
 char isDayTimeOver(unsigned int timestamp, unsigned int days);
 
 // ---- CSignal ----
@@ -1935,6 +1970,27 @@ public:
 CQueryCounter* CQueryCounterInstance();
 
 // ---- CPacketTracer ----
+// ---- stPacketProcess：CPacketTracer 进程统计值（map 节点 +4/+0xc）----
+struct stPacketProcess
+{
+    double m_accTime;      // +0（map 节点 +4）
+    unsigned int m_count;  // +8（map 节点 +0xc）
+};
+
+// ---- CPacketCounter<Lo,Hi>：包计数/耗时统计（ORIG 布局 0x1d648）----
+template<int Lo, int Hi>
+class CPacketCounter
+{
+public:
+    CPacketCounter(char* dir, char* name);
+    ~CPacketCounter();
+    void Reset();
+    void IncrementPacketCount(int id);
+    void BeforeProcess();
+    void AfterProcess(int id);
+    char m_data[0x1d648];  // +0
+};
+
 class CPacketTracer
 {
 public:
@@ -1944,8 +2000,15 @@ public:
     void WriteLog();
     void AbsoluteWriteLog();
     void ResetLog();
+    void StartPacketProcessLog(unsigned int id);
+    void EndPacketProcessLog(unsigned int id);
+    void WritePacketProcessLog();
+    void ResetPacketProcessLog();
     int m_field0;      // +0
     std::string m_log; // +4
+    CUnixTimer* m_timer;  // +8
+    std::map<unsigned int, stPacketProcess> m_processMap;  // +0xc
+    int m_processCount;   // +0x24
 };
 
 CPacketTracer* CPacketTracerInstance();
@@ -2334,6 +2397,7 @@ public:
 };
 
 StackBuffer_char sformat(const char* fmt, ...);
+StackBuffer_wchar wformat(const wchar_t* fmt, ...);
 
 class CommonTime
 {
@@ -2448,6 +2512,38 @@ public:
     static void OnManagerEventTriggerAck(PacketHeader* header);
     static void OnRecvLoadingTimeReport(PacketHeader* header);
     static void OnSaveFatigueBatteryStatistic(PacketHeader* header);
+    static void OnMemberDeleteAsCharDelete(PacketHeader* header);
+    static void OnSendHWspec(PacketHeader* header);
+    static void OnSaveUnchangableGuildInfo(PacketHeader* header);
+    static void OnErrorLineSave(PacketHeader* header);
+    static void OnPartyStatisticSave(PacketHeader* header);
+    static void OnPartyJobStatisticSave(PacketHeader* header);
+    static void OnPartyCharacStatisticSave(PacketHeader* header);
+    static void OnDeathTowerValueStatisticSave(PacketHeader* header);
+    static void OnDeathTowerPlayDataJobStatisticSave(PacketHeader* header);
+    static void OnDeathTowerPlayDataPartyStatisticSave(PacketHeader* header);
+    static void OnHellPartyStatisticItemSave(PacketHeader* header);
+    static void OnCubeStatisticDataSave(PacketHeader* header);
+    static void OnQueryFirstLoadSpecDb(PacketHeader* header);
+    static void OnQueryReloadSpecDb(PacketHeader* header);
+    static void OnInsertFrameLagStatistics(PacketHeader* header);
+    static void OnWriteQueryStatistics(PacketHeader* header);
+    static void OnInsertDailyBadSpecStatistics(PacketHeader* header);
+    static void OnInsertUsedMemoryStatistic(PacketHeader* header);
+    static void OnSaveAssertManagerInfo(PacketHeader* header);
+    static void OnSavePacketOverflowStatistic(PacketHeader* header);
+    static void OnWriteGuildMemberMemo(PacketHeader* header);
+    static void OnWriteUserTingTimeCheck(PacketHeader* header);
+    static void OnTingUserCollect(PacketHeader* header);
+    static void OnRecvPowerwarLoadingReport(PacketHeader* header);
+    static void OnRecvPowerwarLagReport(PacketHeader* header);
+    static void OnReasonCrashDownQuery(PacketHeader* header);
+    static void OnDBMWLoginLogoutStatistics(PacketHeader* header);
+    static void OnDBMWTechnicalReportCommonQuery(PacketHeader* header);
+    static void OnGoldcardEventStatistic(PacketHeader* header);
+    static void OnRenew_GM_List(PacketHeader* header);
+    static void OnUpdateChannelOccNum(PacketHeader* header);
+    static void OnInsertUpdate(PacketHeader* header);
     static CApplication* m_pclApp;
 };
 

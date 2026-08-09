@@ -3628,3 +3628,751 @@ void CPacketTranslater::OnWebNoticeBroadcast(PacketHeader* header)
         log("./log/Except", "CPacketTranslater::OnWebNoticeBroadcast() Exception Break\n");
     }
 }
+
+void CPacketTranslater::OnMemberDeleteAsCharDelete(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.OnMemberDeleteAsCharDelete(
+            *(unsigned int*)((char*)header + 0xa));
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnMemberDeleteAsCharDelete", 0x189);
+        log("./log/Except.log",
+            "CPacketTranslater::OnMemberDeleteAsCharDelete() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnMemberDeleteAsCharDelete", 0x18f);
+        log("./log/Except.log",
+            "CPacketTranslater::OnMemberDeleteAsCharDelete() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnSendHWspec(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.QueryHWspecCreate(
+            (Packet_DBMW_Save_Client_Spec_Statistic*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnSendHWspec", 0x6fe);
+        log("./log/Except.log",
+            "CPacketTranslater::OnSendHWspec() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnSendHWspec", 0x703);
+        log("./log/Except.log",
+            "CPacketTranslater::OnSendHWspec() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnSaveUnchangableGuildInfo(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.SaveUnchangableGuildInfo(
+            (Packet_UnChangable_GuildInfo_Save*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnSaveUnchangableGuildInfo", 0x6c6);
+        log("./log/Except.log",
+            "CPacketTranslater::OnRequestGuildCreate() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnSaveUnchangableGuildInfo", 0x6cb);
+        log("./log/Except.log",
+            "CPacketTranslater::OnRequestGuildCreate() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnErrorLineSave(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.QueryErrorLineStatisticCreate(
+            (Packet_DBMW_Save_Error_Line_Statistic*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnErrorLineSave", 0x716);
+        log("./log/Except.log",
+            "CPacketTranslater::OnErrorLineSave() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnErrorLineSave", 0x71b);
+        log("./log/Except.log",
+            "CPacketTranslater::OnErrorLineSave() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnPartyStatisticSave(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.QueryPartyStatisticCreate(
+            (Packet_DBMW_Dungeon_Statistic_Party*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnPartyStatisticSave", 0x72e);
+        log("./log/Except.log",
+            "CPacketTranslater::OnPartyStatisticSave() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnPartyStatisticSave", 0x733);
+        log("./log/Except.log",
+            "CPacketTranslater::OnPartyStatisticSave() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnPartyJobStatisticSave(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.QueryPartyJobStatisticCreate(
+            (Packet_DBMW_Dungeon_Statistic_Party_Job*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnPartyJobStatisticSave", 0x747);
+        log("./log/Except.log",
+            "CPacketTranslater::OnPartyJobStatisticSave() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnPartyJobStatisticSave", 0x74c);
+        log("./log/Except.log",
+            "CPacketTranslater::OnPartyJobStatisticSave() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnPartyCharacStatisticSave(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.QueryPartyCharacStatisticCreate(
+            (Packet_DBMW_Dungeon_Statistic_Party_Charac*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnPartyCharacStatisticSave", 0x760);
+        log("./log/Except.log",
+            "CPacketTranslater::OnPartyCharacStatisticSave() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnPartyCharacStatisticSave", 0x765);
+        log("./log/Except.log",
+            "CPacketTranslater::OnPartyCharacStatisticSave() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnDeathTowerValueStatisticSave(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.QueryDeathTowerValueStatisticCreate(
+            (Packet_DBMW_DeathTower_Statistic_Value*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnDeathTowerValueStatisticSave", 0x779);
+        log("./log/Except.log",
+            "CPacketTranslater::OnDeathTowerValueStatisticSave() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnDeathTowerValueStatisticSave", 0x77e);
+        log("./log/Except.log",
+            "CPacketTranslater::OnDeathTowerValueStatisticSave() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnDeathTowerPlayDataJobStatisticSave(
+    PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.QueryDeathTowerPlayDataJobStatisticCreate(
+            (Packet_DBMW_DeathTower_Statistic_Playdata_Job*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnDeathTowerPlayDataJobStatisticSave", 0x792);
+        log("./log/Except.log",
+            "CPacketTranslater::OnDeathTowerPlayDataJobStatisticSave() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnDeathTowerPlayDataJobStatisticSave", 0x797);
+        log("./log/Except.log",
+            "CPacketTranslater::OnDeathTowerPlayDataJobStatisticSave() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnDeathTowerPlayDataPartyStatisticSave(
+    PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.QueryDeathTowerPlayDataPartyStatisticCreate(
+            (Packet_DBMW_DeathTower_Statistic_Playdata_Party*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnDeathTowerPlayDataPartyStatisticSave", 0x7ab);
+        log("./log/Except.log",
+            "CPacketTranslater::OnDeathTowerPlayDataPartyStatisticSave() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnDeathTowerPlayDataPartyStatisticSave", 0x7b0);
+        log("./log/Except.log",
+            "CPacketTranslater::OnDeathTowerPlayDataPartyStatisticSave() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnHellPartyStatisticItemSave(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.QueryHellPartyStatisticItemCreate(
+            (Packet_DBMW_HellParty_Statistic_Item*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnHellPartyStatisticItemSave", 0x7c3);
+        log("./log/Except.log",
+            "CPacketTranslater::OnHellPartyStatisticItemSave() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnHellPartyStatisticItemSave", 0x7c8);
+        log("./log/Except.log",
+            "CPacketTranslater::OnHellPartyStatisticItemSave() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnCubeStatisticDataSave(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.QueryCubeStatisticCreate(
+            (Packet_DBMW_Cube_Statistic*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnCubeStatisticDataSave", 0x7da);
+        log("./log/Except.log",
+            "CPacketTranslater::OnCubeStatisticDataSave() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnCubeStatisticDataSave", 0x7df);
+        log("./log/Except.log",
+            "CPacketTranslater::OnCubeStatisticDataSave() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnQueryFirstLoadSpecDb(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    CStatisticsServer* stats =
+        m_pclApp->m_serverHandler->GetStatisticsServerPtr();
+    try
+    {
+        m_pclApp->m_dbManager.QueryFirstLoadSpecDb(
+            (Packet_Frame_Lag_Statistic_Load_Spec*)header, stats);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnQueryFirstLoadSpecDb", 0x7f5);
+        log("./log/Except.log",
+            "CPacketTranslater::OnQueryFirstLoadSpecDb Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnQueryFirstLoadSpecDb", 0x7fa);
+        log("./log/Except.log",
+            "CPacketTranslater::OnQueryFirstLoadSpecDb() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnQueryReloadSpecDb(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    CStatisticsServer* stats =
+        m_pclApp->m_serverHandler->GetStatisticsServerPtr();
+    try
+    {
+        m_pclApp->m_dbManager.QueryReloadSpecDb(
+            (Packet_Frame_Lag_Statistic_Reload_Spec*)header, stats);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnQueryReloadSpecDb", 0x80b);
+        log("./log/Except.log",
+            "CPacketTranslater::OnQueryReloadSpecDb Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnQueryReloadSpecDb", 0x810);
+        log("./log/Except.log",
+            "CPacketTranslater::OnQueryReloadSpecDb() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnInsertFrameLagStatistics(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    CStatisticsServer* stats =
+        m_pclApp->m_serverHandler->GetStatisticsServerPtr();
+    try
+    {
+        m_pclApp->m_dbManager.InsertFrameLagStatistics(
+            (Packet_Frame_Lag_Statistic_Write_Lag_Index*)header, stats);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnInsertFrameLagStatistics", 0x821);
+        log("./log/Except.log",
+            "CPacketTranslater::OnInsertFrameLagStatistics Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnInsertFrameLagStatistics", 0x826);
+        log("./log/Except.log",
+            "CPacketTranslater::OnInsertFrameLagStatistics() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnWriteQueryStatistics(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.SunAhWriteQuery(
+            (Packet_Frame_Lag_Statistic_Write_Query*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnWriteQueryStatistics", 0x838);
+        log("./log/Except.log",
+            "CPacketTranslater::OnInsertDirectxVersiongStatistics Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnWriteQueryStatistics", 0x83d);
+        log("./log/Except.log",
+            "CPacketTranslater::OnInsertDirectxVersiongStatistics() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnInsertDailyBadSpecStatistics(PacketHeader* header)
+{
+}
+
+void CPacketTranslater::OnInsertUsedMemoryStatistic(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.OnSaveUsedMemoryWriteQuery(
+            (Packet_Frame_Lag_Used_Memory_Write_Query*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnInsertUsedMemoryStatistic", 0x84f);
+        log("./log/Except",
+            "CPacketTranslater::OnInsertUsedMemoryStatistic Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnInsertUsedMemoryStatistic", 0x854);
+        log("./log/Except",
+            "CPacketTranslater::OnInsertUsedMemoryStatistic() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnSaveAssertManagerInfo(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.OnSaveAssertManagerInfoWrite(
+            (Packet_DBMW_Assert_Manager_Info_Write_Query*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnSaveAssertManagerInfo", 0x998);
+        log("./log/Except",
+            "CPacketTranslater::OnSaveAssertManagerInfo() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnSaveAssertManagerInfo", 0x99d);
+        log("./log/Except",
+            "CPacketTranslater::OnSaveAssertManagerInfo() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnSavePacketOverflowStatistic(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.OnSavePacketOverflowWrite(
+            (Packet_DBMW_Packet_Overflow_Statistic*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnSavePacketOverflowStatistic", 0x9af);
+        log("./log/Except",
+            "CPacketTranslater::OnSavePacketOverflowStatistic() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnSavePacketOverflowStatistic", 0x9b4);
+        log("./log/Except",
+            "CPacketTranslater::OnSavePacketOverflowStatistic() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnWriteGuildMemberMemo(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.OnWriteGuildMemberMemo(
+            (Packet_DB_Write_Guild_Member_Memo*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnWriteGuildMemberMemo", 0x9c6);
+        log("./log/Except",
+            "CPacketTranslater::OnWriteGuildMemberMemo() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnWriteGuildMemberMemo", 0x9cb);
+        log("./log/Except",
+            "CPacketTranslater::OnWriteGuildMemberMemo() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnWriteUserTingTimeCheck(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.OnSaveUserTingTimeCheckWrite(
+            (Packet_DBMW_User_Ting_TimeCheck_Write_Query*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnWriteUserTingTimeCheck", 0x9dd);
+        log("./log/Except",
+            "CPacketTranslater::OnWriteUserTingTimeCheck() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnWriteUserTingTimeCheck", 0x9e2);
+        log("./log/Except",
+            "CPacketTranslater::OnWriteUserTingTimeCheck() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnTingUserCollect(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.OnSaveTingUserAccount(
+            (Packet_DBMW_Ting_User_TimeCheck_Write_Query*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnTingUserCollect", 0x9f4);
+        log("./log/Except",
+            "CPacketTranslater::OnTingUserCollect() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnTingUserCollect", 0x9f9);
+        log("./log/Except",
+            "CPacketTranslater::OnTingUserCollect() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnRecvPowerwarLoadingReport(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.OnSavePowerwarLoadingReport(
+            (Packet_DBMW_Powerwar_Loading_Time_Report*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnRecvPowerwarLoadingReport", 0xa1d);
+        log("./log/Except",
+            "CPacketTranslater::OnRecvPowerwarLoadingReport() Exception Break : %s",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnRecvPowerwarLoadingReport", 0xa22);
+        log("./log/Except",
+            "CPacketTranslater::OnRecvPowerwarLoadingReport() Exception Break");
+    }
+}
+
+void CPacketTranslater::OnRecvPowerwarLagReport(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.OnSavePowerwarLagReport(
+            (Packet_DBMW_Powerwar_Lag_Report*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnRecvPowerwarLagReport", 0xa31);
+        log("./log/Except",
+            "CPacketTranslater::OnRecvPowerwarLagReport() Exception Break : %s",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnRecvPowerwarLagReport", 0xa36);
+        log("./log/Except",
+            "CPacketTranslater::OnRecvPowerwarLagReport() Exception Break");
+    }
+}
+
+void CPacketTranslater::OnReasonCrashDownQuery(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.OnReasonCrashDownQueryWrite(
+            (Packet_DBMW_Reason_Crash_Down_Query*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnReasonCrashDownQuery", 0xcb8);
+        log("./log/Except",
+            "CPacketTranslater::OnReasonCrashDownQuery() Exception Break : %s",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnReasonCrashDownQuery", 0xcbd);
+        log("./log/Except",
+            "CPacketTranslater::OnReasonCrashDownQuery() Exception Break");
+    }
+}
+
+void CPacketTranslater::OnDBMWLoginLogoutStatistics(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.OnStatisticNumOfOccupations(
+            (Packet_DBMW_Statistic_Login_Logout*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnDBMWLoginLogoutStatistics", 0xde0);
+        log("./log/Except.log",
+            "CPacketTranslater::OnDBMWLoginLogoutStatistics() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnDBMWLoginLogoutStatistics", 0xde5);
+        log("./log/Except.log",
+            "CPacketTranslater::OnDBMWLoginLogoutStatistics() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnDBMWTechnicalReportCommonQuery(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.OnTechnicalReportCommonQuery(
+            (Packet_DBMW_TechnicalReport_Common_Query*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnDBMWTechnicalReportCommonQuery", 0xebd);
+        log("./log/Except",
+            "CPacketTranslater::OnDBMWTechnicalReportCommonQuery() Exception Break : %s",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnDBMWTechnicalReportCommonQuery", 0xec2);
+        log("./log/Except",
+            "CPacketTranslater::OnDBMWTechnicalReportCommonQuery() Exception Break");
+    }
+}
+
+void CPacketTranslater::OnGoldcardEventStatistic(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        m_pclApp->m_dbManager.OnGoldcardEventStatistic(
+            (Packet_Goldcard_Event_Statistic_STD*)header);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnGoldcardEventStatistic", 0xf36);
+        log("./log/Except",
+            "CPacketTranslater::OnGoldcardEventStatistic() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log("OnGoldcardEventStatistic", 0xf3b);
+        log("./log/Except",
+            "CPacketTranslater::OnGoldcardEventStatistic() Exception Break\n");
+    }
+}
+
+void CPacketTranslater::OnRenew_GM_List(PacketHeader* header)
+{
+    WongWork::CGMAccounts* gm =
+        (WongWork::CGMAccounts*)m_pclApp->GetGMAccounts();
+    if (gm && header)
+    {
+        if (((char*)header)[0xa] == 0)
+            gm->clearGmList();
+        for (int i = 0; i < (char)((char*)header)[0xb]; i++)
+        {
+            gm->AppendGM_Sys(*(unsigned int*)((char*)header + i * 4 + 0xc),
+                             (char)((char*)header)[i + 0x5c]);
+        }
+    }
+}
+
+void CPacketTranslater::OnUpdateChannelOccNum(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        char ok = m_pclApp->m_dbManager.QueryUpdateChannelOccNum(
+            (Packet_User_Count_Statistic*)header);
+        if (ok != 1 && header)
+        {
+            CMyFileLog log("OnUpdateChannelOccNum", 0x1300);
+            log("./log/statistic",
+                "CPacketTranslater::OnUpdateChannelOccNum Error ch_no(%d), count(%d)",
+                *(int*)((char*)header + 0xa), *(int*)((char*)header + 0xe));
+        }
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnUpdateChannelOccNum", 0x1305);
+        log("./log/Except.log",
+            "CPacketTranslater::OnUpdateChannelOccNum() Exception Break : %s",
+            e.what());
+    }
+}
+
+void CPacketTranslater::OnInsertUpdate(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    try
+    {
+        char ok = m_pclApp->m_dbManager.QueryInsertUpdate(
+            (PacketInsertUpdate*)header);
+        if (ok != 1 && header)
+        {
+            CMyFileLog log("OnInsertUpdate", 0x1318);
+            log("./log/statistic",
+                "CPacketTranslater::PacketInsertUpdate Error");
+        }
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnInsertUpdate", 0x131d);
+        log("./log/Except.log",
+            "CPacketTranslater::PacketInsertUpdate() Exception Break : %s",
+            e.what());
+    }
+}
