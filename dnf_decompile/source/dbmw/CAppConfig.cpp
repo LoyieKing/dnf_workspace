@@ -229,14 +229,14 @@ int CAppConfig::Parse_Table(char* data, int size)
     else if (strcmp(key, "log_db_name") == 0)
         memcpy(m_dbConnInfo[4].m_db, value, strlen(value));
     else if (strcmp(key, "sso_db_ip") == 0)
-        memcpy(m_dbConnInfo[5].m_host, value, strlen(value));
+        memcpy(m_dbConnInfo[6].m_host, value, strlen(value));
     else if (strcmp(key, "sso_db_port") == 0)
-        m_dbConnInfo[5].m_port = atoi(value);
+        m_dbConnInfo[6].m_port = atoi(value);
     else if (strcmp(key, "sso_db_acc") == 0)
-        memcpy(m_dbConnInfo[5].m_user, value, strlen(value));
-    DBMW_PARSE_PWD(5, "sso_db_pwd")
+        memcpy(m_dbConnInfo[6].m_user, value, strlen(value));
+    DBMW_PARSE_PWD(6, "sso_db_pwd")
     else if (strcmp(key, "sso_db_name") == 0)
-        memcpy(m_dbConnInfo[5].m_db, value, strlen(value));
+        memcpy(m_dbConnInfo[6].m_db, value, strlen(value));
     else if (strcmp(key, "game_db_2nd_ip") == 0)
         memcpy(m_dbConnInfo[3].m_host, value, strlen(value));
     else if (strcmp(key, "game_db_2nd_port") == 0)
@@ -247,23 +247,23 @@ int CAppConfig::Parse_Table(char* data, int size)
     else if (strcmp(key, "game_db_2nd_name") == 0)
         memcpy(m_dbConnInfo[3].m_db, value, strlen(value));
     else if (strcmp(key, "guild_db_ip") == 0)
-        memcpy(m_dbConnInfo[6].m_host, value, strlen(value));
+        memcpy(m_dbConnInfo[8].m_host, value, strlen(value));
     else if (strcmp(key, "guild_db_port") == 0)
-        m_dbConnInfo[6].m_port = atoi(value);
+        m_dbConnInfo[8].m_port = atoi(value);
     else if (strcmp(key, "guild_db_acc") == 0)
-        memcpy(m_dbConnInfo[6].m_user, value, strlen(value));
-    DBMW_PARSE_PWD(6, "guild_db_pwd")
+        memcpy(m_dbConnInfo[8].m_user, value, strlen(value));
+    DBMW_PARSE_PWD(8, "guild_db_pwd")
     else if (strcmp(key, "guild_db_name") == 0)
-        memcpy(m_dbConnInfo[6].m_db, value, strlen(value));
+        memcpy(m_dbConnInfo[8].m_db, value, strlen(value));
     else if (strcmp(key, "web_db_ip") == 0)
-        memcpy(m_dbConnInfo[7].m_host, value, strlen(value));
+        memcpy(m_dbConnInfo[5].m_host, value, strlen(value));
     else if (strcmp(key, "web_db_port") == 0)
-        m_dbConnInfo[7].m_port = atoi(value);
+        m_dbConnInfo[5].m_port = atoi(value);
     else if (strcmp(key, "web_db_acc") == 0)
-        memcpy(m_dbConnInfo[7].m_user, value, strlen(value));
-    DBMW_PARSE_PWD(7, "web_db_pwd")
+        memcpy(m_dbConnInfo[5].m_user, value, strlen(value));
+    DBMW_PARSE_PWD(5, "web_db_pwd")
     else if (strcmp(key, "web_db_name") == 0)
-        memcpy(m_dbConnInfo[7].m_db, value, strlen(value));
+        memcpy(m_dbConnInfo[5].m_db, value, strlen(value));
     else if (strcmp(key, "stat_db_ip") == 0)
         memcpy(m_dbConnInfo[0xf].m_host, value, strlen(value));
     else if (strcmp(key, "stat_db_port") == 0)
