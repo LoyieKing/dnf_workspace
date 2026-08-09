@@ -455,6 +455,62 @@ public:
     unsigned int m_bSidePoint;   // +0x10
 } __attribute__((packed));
 
+class Packet_DBMW_Send_Guild_Letter : public PacketHeader
+{
+public:
+    unsigned int m_fieldA;   // +0xa
+    unsigned char m_serverId; // +0xe
+    unsigned int m_guildId;  // +0xf
+    char m_content[0x100];   // +0x13
+    char m_subject[0x100];   // +0x113
+    int m_flag;              // +0x124
+} __attribute__((packed));
+
+class Packet_DB_Save_Guild_War_Info : public PacketHeader
+{
+public:
+    unsigned int m_serverId;    // +0xa
+    unsigned int m_guildIds[10];  // +0xb
+    unsigned int m_points[10];    // +0x33
+} __attribute__((packed));
+
+class Packet_DBMW_Save_Member : public PacketHeader
+{
+public:
+    unsigned char m_type;    // +0xa
+    unsigned int m_fieldB;   // +0xb
+    unsigned int m_fieldF;   // +0xf
+    unsigned char m_field13; // +0x13
+} __attribute__((packed));
+
+class Packet_TowerOfDespair_Statistic_STD : public PacketHeader
+{
+public:
+    int m_serverId;  // +0xa
+    int m_uv;        // +0xe（与 m_entries[0] 同址）
+    struct Entry
+    {
+        int m_fieldE;   // +0xe
+        int m_field12;  // +0x12
+    } m_entries[1];     // +0xe，步长 8（条目从 i=1 起用）
+} __attribute__((packed));
+
+class Packet_DBMW_Request_IPCounter_List : public PacketHeader
+{
+public:
+    unsigned char m_serverGroup;  // +0xa
+    unsigned char m_fieldB;       // +0xb
+} __attribute__((packed));
+
+class Packet_DBMW_Request_Approve_Join_Guild : public PacketHeader
+{
+public:
+    unsigned int m_guildId;   // +0xa
+    unsigned int m_id;        // +0xe
+    unsigned int m_characNo;  // +0x12
+    signed char m_serverId;   // +0x16
+} __attribute__((packed));
+
 class Packet_Result_OnTimeEvent_Idx : public PacketHeader
 {
 public:
