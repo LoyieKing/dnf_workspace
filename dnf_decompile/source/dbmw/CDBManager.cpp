@@ -3313,8 +3313,8 @@ char CDBManager::QueryPartyStatisticCreate(
                     PM(i)->m_field18, PM(i)->m_field19, PM(i)->m_field1A,
                     PM(i)->m_field1E, PM(i)->m_field22, PM(i)->m_field26,
                     PM(i)->m_field2A, PM(i)->m_field2E, PM(i)->m_field32,
-                    PM(i)->m_field36, PM(i)->m_field3A, PM(i)->m_field3E,
-                    PM(i)->m_field42, PM(i)->m_field46);
+                    PM(i)->m_field36, PM(i)->m_field46, PM(i)->m_field42,
+                    PM(i)->m_field3E, PM(i)->m_field3A);
         else
             sprintf(buf,
                     "(now(),%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d)",
@@ -3323,8 +3323,8 @@ char CDBManager::QueryPartyStatisticCreate(
                     PM(i)->m_field18, PM(i)->m_field19, PM(i)->m_field1A,
                     PM(i)->m_field1E, PM(i)->m_field22, PM(i)->m_field26,
                     PM(i)->m_field2A, PM(i)->m_field2E, PM(i)->m_field32,
-                    PM(i)->m_field36, PM(i)->m_field3A, PM(i)->m_field3E,
-                    PM(i)->m_field42, PM(i)->m_field46);
+                    PM(i)->m_field36, PM(i)->m_field46, PM(i)->m_field42,
+                    PM(i)->m_field3E, PM(i)->m_field3A);
 #undef PM
         if (sql.length() + 0x800 > 0x6000)
         {
@@ -4578,6 +4578,7 @@ char CDBManager::QueryGuildCreate(Packet_DBMW_Request_Guild_Create* req,
             log("./log/TraceGuildErr",
                 "CDBManager::QueryGuildCreate server_group(%d), charac_no(%d) CharacName NULL\n",
                 req->m_serverId, req->m_characNo);
+            return 0;
         }
         else
         {
@@ -4585,7 +4586,6 @@ char CDBManager::QueryGuildCreate(Packet_DBMW_Request_Guild_Create* req,
             log("./log/TraceGuildErr",
                 "CDBManager::QueryGuildCreate server_group(%d), charac_no(%d) GuildName NULL\n",
                 req->m_serverId, req->m_characNo);
-            return 0;
         }
     }
     if (!h->set_query(0x4e6c,
@@ -4612,23 +4612,23 @@ char CDBManager::QueryGuildCreate(Packet_DBMW_Request_Guild_Create* req,
     if (!h->exec(0x4f5f) || h->getAffectedRowCount() == 0)
         result = 2;
     h->set_query(0x4e6d,
-                 "upDate guild_member set guild_id=%d,m_id=%s,charac_name='%s',grade=1,job=%d,grow_type=%d,lev=%d,born_year='%s',sex=%d,apply_time=now(),member_time=now(),member_flag=1 where charac_no=%d and server_id=",
+                 "upDate guild_member set guild_id=%d,m_id=%s,charac_name='%s',grade=1,job=%d,grow_type=%d,lev=%d,born_year='%s',sex=%d,apply_time=now(),member_time=now(),member_flag=1 where charac_no=%d and server_id=%d",
                  guildId, NumberToString(req->m_id, 0), req->m_characName,
                  req->m_job, req->m_growType, req->m_lev, req->m_bornYear,
                  req->m_sex, req->m_characNo, req->m_serverId);
-    if (!h->exec(0x4e6d) || h->getAffectedRowCount() == 0)
-        result = 2;
-    if (!h->set_query(0x4e6e,
-                      "inSert into guild_member set guild_id=%d,charac_no=%d,m_id=%s,server_id=%d,charac_name='%s',grade=1,job=%d,grow_type=%d,lev=%d,born_year='%s',sex=%d,apply_time=now(),member_time=now(),member_flag=1",
-                      guildId, req->m_characNo, NumberToString(req->m_id, 0),
-                      req->m_serverId, req->m_characName, req->m_job,
-                      req->m_growType, req->m_lev, req->m_bornYear, req->m_sex))
+    if (h->exec(0x4e6d) && h->getAffectedRowCount() != 0)
     {
-        result = 2;
-        return 0;
     }
-    if (!h->exec(0x4e6e))
-        result = 2;
+    else
+    {
+        h->set_query(0x4e6e,
+                     "inSert into guild_member set guild_id=%d,charac_no=%d,m_id=%s,server_id=%d,charac_name='%s',grade=1,job=%d,grow_type=%d,lev=%d,born_year='%s',sex=%d,apply_time=now(),member_time=now(),member_flag=1",
+                     guildId, req->m_characNo, NumberToString(req->m_id, 0),
+                     req->m_serverId, req->m_characName, req->m_job,
+                     req->m_growType, req->m_lev, req->m_bornYear, req->m_sex);
+        if (!h->exec(0x4e6e))
+            result = 2;
+    }
     if (!h->set_query(0x4e6f,
                       "inSert into guild_introduce set guild_id=%d,server_id=%d",
                       guildId, req->m_serverId))
