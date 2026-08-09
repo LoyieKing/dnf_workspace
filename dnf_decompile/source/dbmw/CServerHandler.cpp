@@ -60,25 +60,23 @@ void CServerHandler::Load(ST_ServerInfo* infos)
         if (info.m_type == 3)
         {
             unsigned char idx = info.m_idx;
-            if (idx != 0xff && idx != 0xc9)
+            if (idx == 0xff || idx != 0xc9)
                 throw CDNFException("CServerHandler::Load() Monitor Server Table Exception Break!");
-            if (idx == 0xc9)
-                m_monitorServer.Init(info.m_flag, info.m_name, info.m_port, idx);
+            m_monitorServer.Init(info.m_flag, info.m_name, info.m_port, 0xc9);
         }
         if (info.m_type == 5)
         {
             unsigned char idx = info.m_idx;
-            if (idx != 0xff && idx != 0xcb)
+            if (idx == 0xff || idx != 0xcb)
                 throw CDNFException("CServerHandler::Load() Guild Server Table Exception Break!");
-            if (idx == 0xcb)
-                m_guildServer.Init(info.m_flag, info.m_name, info.m_port, idx);
+            m_guildServer.Init(info.m_flag, info.m_name, info.m_port, 0xcb);
         }
         if (info.m_type == 7)
         {
             unsigned char idx = info.m_idx;
             if (idx != 0xcd)
                 throw CDNFException("CServerHandler::Load() Statistics Server Table Exception Break!");
-            m_statisticsServer.Init(info.m_flag, info.m_name, info.m_port, idx);
+            m_statisticsServer.Init(info.m_flag, info.m_name, info.m_port, 0xcd);
         }
     }
 }
