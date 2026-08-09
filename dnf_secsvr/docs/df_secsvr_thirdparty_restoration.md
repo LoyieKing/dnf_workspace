@@ -131,6 +131,7 @@ gunnersvr/zergsvr 树已同步重建（203/239 个头）。
 | CDesMo | Baldwin 式单函数 DES：pc1m/pcrn 置换 + 8 轮 nibble 旋转 + 最终散布 |
 | CFastDes | Eric Young 老版 libdes “fast” DES：fsetkey PC1 查表+28 位轮转+7 组 hKS/lKS PC2；fencrypt IP/16 轮 D_ENCRYPT/FP |
 | DesDea / des_sched / des_dea3 | **3DES-EDE2（16 字节密钥）**：des_sched=dea_pc1 查表 OR 两个 32 位状态 → 28 位右旋 → dea_pc2 合成轮子钥；des_dea3=48 轮（E_K1→swap→D_K2→swap→E_K1，**段边界 L/R 交换**），IP=dea_ip、SP=s_and_p、FP=ip_inv；DesDea 包装 des_sched(key)+des_sched(key+8) → 8 字节块循环 → TsLocal 余数 |
+| CAmoeba | 自定义 64 位位级密码：Init 三表（amobbit 多比特掩码/amobb/amoIP）；amoKey 按 amoIP 位号提 64 位；amoEnCrypt/DeCrypt=8 轮按密钥位选 SET/CLEAR 块（字节旋转+NOT 扩散+交叉），bit7 特殊/普通块，加解密镜像；Amoeba 包装 amoKey 生成 Add → 块循环 → TsLocal 余数 |
 
 以上全部通过 `toolchain/uni_call.py` 调二进制函数逐字节对拍（含密钥表/状态全量 dump 与
 随机多组向量），详见 `tencrypt_new/README.md` 状态矩阵。
@@ -138,14 +139,12 @@ gunnersvr/zergsvr 树已同步重建（203/239 个头）。
 ### 待续
 
 - BOX3D1..7（TsLocal::ProcessLastBytes 的余数分发目标，7 个同族函数）
-- CTsLocalImp / CreateTsLocal / FreeTsLocal（共享层 TsLocal 单例，Frog/Hpc/Shift/Ring/
-  Gramary/DesNew 包装层余数处理的依赖）
-- DesPC/DesToo/DesBig/Des2P/FastDes/DesDea、D3DES 已完成；Magic8/16/32、Amoeba
+- DesPC/DesToo/DesBig/Des2P/FastDes/DesDea、D3DES、Amoeba 已完成；Magic8/16/32
 - Square / Rijndael / Blowfish / Twofish（开源参考可用）
 - TenCrypt.cpp / TencBase.cpp 封装层
 
-注：Blowfish 已含在上述 13 个中；Amoeba 为复杂位操作自定义密码（amoEnCrypt/
-amoDeCrypt 逐位分支），需完整反汇编转写。
+注：Blowfish 已含在上述 13 个中；Amoeba（amoEnCrypt/amoDeCrypt 逐位分支）已完成，
+表/块语义经二进制内部状态逐块对拍确认。
 
 ## 关联材料
 
