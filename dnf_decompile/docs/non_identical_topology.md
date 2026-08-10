@@ -19,7 +19,7 @@
 | bridge | 20 | 27 | 18 | 79 | 6 | 0 |
 | auction | 53 | 89 | 81 | 487 | 9 | 0 |
 | point | 53 | 89 | 81 | 487 | 9 | 0 |
-| community | 28 | 47 | 29 | 165 | 11 | 0 |
+| community | 22 | 44 | 24 | 143 | 6 | 0 |
 | manager | 11 | 41 | 33 | 72 | 6 | 0 |
 | dbmw | 29 | 25 | 24 | 162 | 6 | 0 |
 | monitor | 7 | 16 | 9 | 42 | 5 | 0 |
@@ -331,58 +331,64 @@
 
 ### 3.6 community
 
-- 非 identical TU：**28**；依赖头：47；共享头(≥2 TU)：29；include 边：165；层数：11；include 环：0
+- 目录结构已按 ORIG 二进制 STT_FILE 布局重构（2026-08-10）：`source/Community/` 平铺，
+  一个主类一个文件（ArchiveLog 含 DateTime、BuddyManager 含 CFindBuddy、CommunityServer、
+  ConfigFileReader、CoreDump、GlobalFunction、GlobalInstance、NetworkSession 含 CAbstractSocket、
+  PacketDispatcher、PacketParser、PacketProc 含 g_user_manager、ProcessManager、SessionManager
+  含 ISessionManager/CEpoll/CSessionProxy、User、UserManager 含 CFindUser、rand_r；
+  DNFFileLog/DNFFunctionLib 复用 DNFServer/ServerCommon 同源文件）。
+- 非 identical TU：**22**；依赖头：44；共享头(≥2 TU)：24；include 边：143；层数：6；include 环：0
 
 非 identical 源文件（DIFF/NEAR/MISSING 函数数，均为豁免后）：
 
 | 源文件 | DIFF | NEAR | MISSING |
 |---|---:|---:|---:|
-| `Community/src/User.cpp` | 46 | 0 | 0 |
+| `Community/User.cpp` | 46 | 0 | 0 |
+| `Community/NetworkSession.cpp` | 36 | 1 | 2 |
 | `DNFServer/ServerCommon/DNFFunctionLib.cpp` | 28 | 0 | 1 |
-| `Community/src/AbstractSocket.cpp` | 18 | 1 | 0 |
-| `Community/src/NetworkSession.cpp` | 18 | 0 | 1 |
+| `Community/SessionManager.cpp` | 32 | 0 | 0 |
 | `DNFServer/ServerCommon/DNFFileLog.cpp` | 17 | 0 | 0 |
-| `Community/src/SessionManager.cpp` | 15 | 0 | 0 |
-| `Community/src/ArchiveLog.cpp` | 11 | 0 | 0 |
+| `Community/PacketProc.cpp` | 14 | 1 | 1 |
+| `Community/ArchiveLog.cpp` | 13 | 0 | 0 |
+| `Community/BuddyManager.cpp` | 13 | 0 | 0 |
 | `DNFServer/ServerCommon/Thread.cpp` | 11 | 0 | 0 |
-| `Community/src/BuddyManager.cpp` | 10 | 0 | 0 |
-| `Community/src/ConfigFileReader.cpp` | 9 | 0 | 0 |
-| `Community/src/Epoll.cpp` | 9 | 0 | 0 |
-| `Community/src/ProcessManager.cpp` | 9 | 0 | 0 |
-| `Community/src/global.cpp` | 8 | 1 | 0 |
-| `Community/src/GlobalObjects.cpp` | 6 | 0 | 2 |
-| `Community/src/SessionProxy.cpp` | 8 | 0 | 0 |
-| `Community/src/CoreDump.cpp` | 7 | 0 | 0 |
-| `Community/src/UserManager.cpp` | 5 | 0 | 0 |
+| `Community/ConfigFileReader.cpp` | 9 | 0 | 0 |
+| `Community/ProcessManager.cpp` | 9 | 0 | 0 |
+| `Community/UserManager.cpp` | 8 | 0 | 0 |
+| `Community/CoreDump.cpp` | 7 | 0 | 0 |
 | `DNFServer/ServerCommon/CFileLogWriterBase.cpp` | 5 | 0 | 0 |
-| `Community/src/CPacketParser.cpp` | 4 | 0 | 0 |
-| `Community/src/PacketDispatcher.cpp` | 4 | 0 | 0 |
-| `Community/src/main.cpp` | 4 | 0 | 0 |
-| `Community/src/DateTime.cpp` | 3 | 0 | 0 |
-| `Community/src/FindBuddy.cpp` | 3 | 0 | 0 |
-| `Community/src/FindUser.cpp` | 3 | 0 | 0 |
+| `Community/CommunityServer.cpp` | 4 | 0 | 0 |
+| `Community/PacketDispatcher.cpp` | 4 | 0 | 0 |
+| `Community/PacketParser.cpp` | 4 | 0 | 0 |
 | `shared/packet/src/PacketHeader.cpp` | 2 | 0 | 0 |
 | `shared/packet/src/STGameUserInfo.cpp` | 2 | 0 | 0 |
 | `shared/packet/src/STPvPBuddyDBInfo.cpp` | 2 | 0 | 0 |
-| `Community/src/global_function.cpp` | 1 | 0 | 0 |
+| `Community/GlobalFunction.cpp` | 1 | 0 | 0 |
+| `Community/rand_r.cpp` | 1 | 0 | 0 |
 
 耦合最重的共享头（被非 identical TU 依赖数）：
 
 | 头文件 | 依赖它的非 identical TU 数 |
 |---|---:|
-| `shared/common/include/ReverseEngineerLib.h` | 21 |
-| `DNFServer/ServerCommon/DNFFunctionLib.h` | 18 |
-| `Community/src/CommonConstants.h` | 16 |
-| `Community/src/DateTime.h` | 16 |
-| `shared/packet/include/STPvPBuddyDBInfo.h` | 16 |
-| `Community/src/ArchiveLog.h` | 15 |
-| `shared/packet/include/STGameUserInfo.h` | 14 |
-| `Community/src/UserManager.h` | 13 |
+| `DNFServer/ServerCommon/DNFFunctionLib.h` | 17 |
+| `Community/CommonConstants.h` | 13 |
+| `shared/common/include/ReverseEngineerLib.h` | 12 |
+| `Community/GuildConstants.h` | 7 |
+| `shared/packet/include/PacketHeader.h` | 7 |
+| `Community/ArchiveLog.h` | 6 |
+| `Community/NetworkSession.h` | 6 |
+| `shared/packet/include/STPvPBuddyDBInfo.h` | 6 |
+| `Community/BuddyManager.h` | 5 |
+| `Community/PacketDispatcher.h` | 5 |
+| `Community/PacketProc.h` | 5 |
+| `shared/packet/include/STGameUserInfo.h` | 5 |
+| `Community/User.h` | 4 |
+| `Community/UserManager.h` | 4 |
 
-分层摘要（共 11 层）：
+分层摘要（共 6 层）：
 
 - 底层根（Layer 0，1 个）：`shared/common/include/ReverseEngineerLib.h`
-- 顶层（Layer 10，28 个）：`Community/src/AbstractSocket.cpp`、`Community/src/ArchiveLog.cpp`、`Community/src/BuddyManager.cpp`、`Community/src/CPacketParser.cpp`、`Community/src/ConfigFileReader.cpp`、`Community/src/CoreDump.cpp` …
+- 顶层（Layer 5，22 个）：`Community/ArchiveLog.cpp`、`Community/BuddyManager.cpp`、`Community/CommunityServer.cpp`、`Community/ConfigFileReader.cpp`、`Community/CoreDump.cpp`、`Community/GlobalFunction.cpp` …
 
 完整分层见 `docs/data/topology/community/layers.txt`，逐文件依赖见 `edges.tsv`，DOT 图见 `graph.dot`。
 

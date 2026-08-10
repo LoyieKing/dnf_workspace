@@ -28,6 +28,8 @@
 | `optimization_wave1_report.md` | **并行 identical 优化 Wave A/B 报告**（13 代理并行编辑 + 全量重建验证的水位变化、回归与开放项、Wave C 建议） | 报告 |
 | `wave_e_identical_final_report.md` | **Wave E 全量 identical 攻坚最终报告**（13 服务 + 共享根全部 NEAR/DIFF 逐函数定性：约 400+ 真实语义修复、其余带证据归档为编译器尾音；终验水位表、工具链边界） | 报告 |
 | `identical_brief_for_agents.md` | **identical 口径 Agent 必读**（strict/extended/full 三档定义、豁免规则、FIXED/ARCHIVED/REMAIN 判定与闭环验证要求） | 规范 |
+| `toolchain_bootstrap.md` | **GCC 4.x 工具链从零启动**（bootstrap_toolchain.sh 一键从 CentOS vault 重建 c6root/c5root/c5r52/cc1plus446/lsd44/zlib32，纯 Python RPM 解包） | 规范 |
+| `restructure_2026-08-10.md` | **工程结构重整**（无 DWARF 服务按 ORIG .o 拆分一主类一文件 + 仿 DWARF 目录；构建脚本全量 CMake 化 + 一键构建/验证） | 报告 |
 | `df_community_r_validation.md` | 逐文件符号/字符串命中率验证（`compare_df_community_functions.py` 产物副本） | 验证报告 |
 | `df_community_r_function_validation.md` | 逐函数助记符重叠验证摘要（产物副本） | 验证报告 |
 

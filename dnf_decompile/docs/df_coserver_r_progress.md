@@ -26,7 +26,7 @@
 - 链接：4.4.4 libstdc++.a + libgcc_eh.a + 4.1.1 libstdc++.a + 4.1.1 libgcc.a/e_h.a（与 relay 同款前置链接，解决 `__udivdi3` 等 libgcc 符号）。
 - 产出：`source/build-coserver/df_coserver_r`。
 
-## 源码结构（source/coserver/）
+## 源码结构（source/DNFServer/GameServer/COServer/）
 
 | 文件 | 内容 |
 |---|---|

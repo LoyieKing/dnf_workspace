@@ -1,6 +1,7 @@
 #!/bin/sh
 # ============================================================
 # df_manager_r 可复现构建脚本（无 DWARF，Ghidra 逆向）
+# 应用层：source/DNFServer/GameServer/Manager（按 ORIG .o 文件拆分，仿 DWARF 工程结构）
 # 编译：/tmp/c6root/usr/bin/g++（GCC 4.4.7 头文件）-m32 -O0 -std=gnu++0x
 # ============================================================
 set -e
@@ -26,7 +27,7 @@ wait_jobs() {
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 OUT_DIR="$ROOT/../build/manager"
-MANAGER="$ROOT/manager"
+MANAGER="$ROOT/DNFServer/GameServer/Manager"
 COMMON="$ROOT/DNFServer/ServerCommon"
 PACKET="$ROOT/shared/packet"
 YASSL="$ROOT/Library3rd/MySQL/extlib/yassl"

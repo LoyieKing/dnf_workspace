@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """从 Ghidra 反编译生成 guild 缺失的 Packet 构造器（GuildPackets.h + GuildPacketCtor.cpp）。
 
+【已废弃】2026-08-10 工程结构重组后，guild 已按 ORIG .o 布局拆分为
+source/DNFServer/GameServer/Guild/（一个主类一个 .h/.cpp，Packet_* 随 handler）。
+本脚本输出的旧单体布局（source/guild/GuildPackets.h + GuildPacketCtor.cpp）已不再使用，
+仅供历史参考；新树中包类声明与构造器定义已分布到各 handler 文件。
+
 用法: python3 gen_packet_ctors.py /tmp/guild_decomp.c
 """
 import re

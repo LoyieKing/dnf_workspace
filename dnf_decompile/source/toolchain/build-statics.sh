@@ -1,6 +1,6 @@
 #!/bin/sh
 # ============================================================
-# df_statics_r 可复现构建脚本（与 coserver 同框架，应用层 source/statics）
+# df_statics_r 可复现构建脚本（与 coserver 同框架，应用层 source/DNFServer/GameServer/Statics）
 # 编译：/tmp/c6root/usr/bin/g++（GCC 4.4.7 头文件）-m32 -O0 -std=gnu++0x
 # 链接：4.4.4 libstdc++ + 4.4.4/4.1.1 libgcc 前置链接
 # ============================================================
@@ -28,7 +28,7 @@ wait_jobs() {
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 OUT_DIR="$ROOT/../build/statics"
-STATICS="$ROOT/statics"
+STATICS="$ROOT/DNFServer/GameServer/Statics"
 COMMON="$ROOT/DNFServer/ServerCommon"
 PACKET="$ROOT/shared/packet"
 

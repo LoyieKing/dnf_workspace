@@ -3,6 +3,8 @@
 # df_relay_r 可复现构建脚本（GCC 4.1.2-55，原始 relay 用 4.1.2-52）
 # 编译：/tmp/c5root/usr/bin/g++（Red Hat 4.1.2-55） -m32
 # 链接：宿主机 g++ -m32 -no-pie
+# 工程结构（2026-08-10 重构后）：
+#   source/DNFServer/GameServer/Relay/（按 ORIG .o 文件拆分，一主类一 .h/.cpp）
 # ============================================================
 set -e
 
@@ -28,7 +30,7 @@ wait_jobs() {
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 OUT_DIR="$ROOT/../build/relay"
-RELAY="$ROOT/relay"
+RELAY="$ROOT/DNFServer/GameServer/Relay"
 C5ROOT=/tmp/c5r52tool
 CXX=/tmp/c5root/usr/bin/g++
 
@@ -53,7 +55,9 @@ C6FLAGS="-m32 -O0 -std=gnu++0x -DRELAY_USERPOOL_C6 -fno-enforce-eh-specs -nostdi
   -isystem /tmp/c6root/usr/include -I$RELAY"
 C6CXX="env LD_LIBRARY_PATH=/tmp/c6root/usr/lib64:/tmp/c6root/usr/lib /tmp/c6root/usr/bin/g++ -B /tmp/cc1plus446bin/"
 
-for f in RelayUserPool RelayApp RelaySocket RelayScriptRawData RelayScript RelayThread RelayToken RelayException RelayLog RelayReactor; do
+for f in UserPool DNFRelayServer RelayService TCPUser UDPUser User TCPThread UDPThread \
+         TCPAcceptThread TCPHandler UDPHandler SocketSystem Globals Socket ScriptRawData \
+         Script ScriptData Thread ThreadLock System Token Exception Reactor; do
     if [ ! -f "$OUT_DIR/$f.o" ] || [ "$RELAY/$f.cpp" -nt "$OUT_DIR/$f.o" ]; then
         echo "CC6 $f.cpp (4.4.6-3 + c++0x)"
         run_job $C6CXX $C6FLAGS -c "$RELAY/$f.cpp" -o "$OUT_DIR/$f.o"
@@ -62,7 +66,7 @@ done
 
 SOURCES="$*"
 if [ -z "$SOURCES" ]; then
-    SOURCES="RelayUtil"
+    SOURCES="Helper Service LinuxService PIDHelper SignalHandler"
 fi
 
 OBJS=""
@@ -81,7 +85,7 @@ done
 
 wait_jobs
 
-ALL_OBJS="$OUT_DIR/RelayUserPool.o $OUT_DIR/RelayApp.o $(ls "$OUT_DIR"/*.o 2>/dev/null | grep -vE 'stub_main|RelayUserPool|RelayApp' || true)"
+ALL_OBJS="$OUT_DIR/UserPool.o $OUT_DIR/DNFRelayServer.o $(ls "$OUT_DIR"/*.o 2>/dev/null | grep -vE 'stub_main|UserPool|DNFRelayServer' || true)"
 if [ -n "$ALL_OBJS" ]; then
     echo "LD  df_relay_r"
     if ! nm $ALL_OBJS 2>/dev/null | grep -q ' T main$'; then

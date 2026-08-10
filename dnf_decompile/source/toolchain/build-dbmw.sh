@@ -26,7 +26,7 @@ wait_jobs() {
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 OUT_DIR="$ROOT/../build/dbmw"
-DBMW="$ROOT/dbmw"
+DBMW="$ROOT/DNFServer/GameServer/DBMW"
 COMMON="$ROOT/DNFServer/ServerCommon"
 PACKET="$ROOT/shared/packet"
 YASSL="$ROOT/Library3rd/MySQL/extlib/yassl"

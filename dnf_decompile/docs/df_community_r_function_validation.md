@@ -2,54 +2,52 @@
 
 ## 已从文件/日志验证（Verified from files/logs）
 
-- 总函数数（按重建对象文件导出符号统计）：`552`
-- 原始 ELF 可匹配函数数：`552`
-- 助记符序列完全一致函数数：`351`
-- 原始可匹配函数平均助记符重叠率：`77.80%`
-- 逐函数明细：`dnf_decompile/source/build-verify-community/df_community_r_function_compare.tsv`
+- 总函数数（按重建对象文件导出符号统计）：`1043`
+- 原始 ELF 可匹配函数数：`656`
+- IDENTICAL（统一严格口径，仅归一化跳转/调用目标地址）函数数：`113`
+- 原始可匹配函数平均助记符重叠率：`69.07%`
+- 逐函数明细：`dnf_decompile/build/community/df_community_r_function_compare.tsv`
 
 ## 每文件函数级摘要
 
 | File | Func Total | In Original | Exact Match | Avg Mnemonic Overlap |
 |---|---:|---:|---:|---:|
-| `Community/src/AbstractSocket.cpp.o` | 21 | 21 | 9 | 85.66% |
-| `Community/src/ArchiveLog.cpp.o` | 11 | 11 | 6 | 70.53% |
-| `Community/src/BuddyManager.cpp.o` | 57 | 57 | 45 | 78.95% |
-| `Community/src/CPacketParser.cpp.o` | 4 | 4 | 2 | 50.00% |
-| `Community/src/ConfigFileReader.cpp.o` | 52 | 52 | 43 | 93.25% |
-| `Community/src/CoreDump.cpp.o` | 8 | 8 | 2 | 69.87% |
-| `Community/src/DateTime.cpp.o` | 3 | 3 | 2 | 66.67% |
-| `Community/src/Epoll.cpp.o` | 7 | 7 | 3 | 81.89% |
-| `Community/src/FindBuddy.cpp.o` | 3 | 3 | 2 | 66.67% |
-| `Community/src/FindUser.cpp.o` | 3 | 3 | 2 | 66.67% |
-| `Community/src/NetworkSession.cpp.o` | 19 | 19 | 8 | 83.72% |
-| `Community/src/PacketDispatcher.cpp.o` | 3 | 3 | 3 | 100.00% |
-| `Community/src/ProcessManager.cpp.o` | 9 | 9 | 5 | 74.54% |
-| `Community/src/SessionManager.cpp.o` | 23 | 23 | 15 | 69.33% |
-| `Community/src/SessionProxy.cpp.o` | 8 | 8 | 6 | 85.42% |
-| `Community/src/User.cpp.o` | 80 | 80 | 48 | 75.84% |
-| `Community/src/UserManager.cpp.o` | 75 | 75 | 52 | 75.66% |
-| `Community/src/global.cpp.o` | 11 | 11 | 4 | 96.75% |
-| `Community/src/main.cpp.o` | 44 | 44 | 27 | 65.50% |
-| `DNFServer/ServerCommon/DNFFileLog.cpp.o` | 63 | 63 | 41 | 75.65% |
-| `DNFServer/ServerCommon/DNFFunctionLib.cpp.o` | 30 | 30 | 16 | 93.16% |
-| `DNFServer/ServerCommon/Thread.cpp.o` | 10 | 10 | 6 | 60.00% |
-| `shared/packet/src/PacketHeader.cpp.o` | 2 | 2 | 1 | 50.00% |
-| `shared/packet/src/STGameUserInfo.cpp.o` | 2 | 2 | 1 | 50.00% |
-| `shared/packet/src/STPvPBuddyDBInfo.cpp.o` | 4 | 4 | 2 | 50.00% |
+| `Community/ArchiveLog.cpp.o` | 15 | 15 | 2 | 70.59% |
+| `Community/BuddyManager.cpp.o` | 129 | 76 | 16 | 68.57% |
+| `Community/CommunityServer.cpp.o` | 43 | 29 | 5 | 59.86% |
+| `Community/ConfigFileReader.cpp.o` | 162 | 80 | 19 | 70.68% |
+| `Community/CoreDump.cpp.o` | 9 | 9 | 2 | 72.26% |
+| `Community/GlobalFunction.cpp.o` | 2 | 2 | 1 | 83.33% |
+| `Community/GlobalInstance.cpp.o` | 1 | 1 | 1 | 100.00% |
+| `Community/NetworkSession.cpp.o` | 92 | 89 | 15 | 73.33% |
+| `Community/PacketDispatcher.cpp.o` | 83 | 29 | 8 | 70.12% |
+| `Community/PacketParser.cpp.o` | 5 | 5 | 1 | 84.00% |
+| `Community/PacketProc.cpp.o` | 53 | 34 | 5 | 66.27% |
+| `Community/ProcessManager.cpp.o` | 10 | 10 | 1 | 69.25% |
+| `Community/SessionManager.cpp.o` | 89 | 62 | 10 | 64.85% |
+| `Community/User.cpp.o` | 57 | 57 | 6 | 71.42% |
+| `Community/UserManager.cpp.o` | 104 | 44 | 8 | 69.47% |
+| `Community/rand_r.cpp.o` | 3 | 3 | 2 | 91.98% |
+| `DNFServer/ServerCommon/CFileLogWriterBase.cpp.o` | 39 | 22 | 3 | 63.07% |
+| `DNFServer/ServerCommon/DNFFileLog.cpp.o` | 99 | 43 | 7 | 66.71% |
+| `DNFServer/ServerCommon/DNFFunctionLib.cpp.o` | 31 | 29 | 1 | 64.67% |
+| `DNFServer/ServerCommon/Thread.cpp.o` | 11 | 11 | 0 | 67.55% |
+| `shared/packet/src/PacketHeader.cpp.o` | 2 | 2 | 0 | 95.00% |
+| `shared/packet/src/STGameUserInfo.cpp.o` | 2 | 2 | 0 | 81.25% |
+| `shared/packet/src/STPvPBuddyDBInfo.cpp.o` | 2 | 2 | 0 | 78.57% |
 
 ## 低重叠优先复核（按文件）
 
-- `Community/src/CPacketParser.cpp.o`: 50.00%
-- `shared/packet/src/PacketHeader.cpp.o`: 50.00%
-- `shared/packet/src/STGameUserInfo.cpp.o`: 50.00%
-- `shared/packet/src/STPvPBuddyDBInfo.cpp.o`: 50.00%
-- `DNFServer/ServerCommon/Thread.cpp.o`: 60.00%
-- `Community/src/main.cpp.o`: 65.50%
-- `Community/src/DateTime.cpp.o`: 66.67%
-- `Community/src/FindBuddy.cpp.o`: 66.67%
-- `Community/src/FindUser.cpp.o`: 66.67%
-- `Community/src/SessionManager.cpp.o`: 69.33%
+- `Community/CommunityServer.cpp.o`: 59.86%
+- `DNFServer/ServerCommon/CFileLogWriterBase.cpp.o`: 63.07%
+- `DNFServer/ServerCommon/DNFFunctionLib.cpp.o`: 64.67%
+- `Community/SessionManager.cpp.o`: 64.85%
+- `Community/PacketProc.cpp.o`: 66.27%
+- `DNFServer/ServerCommon/DNFFileLog.cpp.o`: 66.71%
+- `DNFServer/ServerCommon/Thread.cpp.o`: 67.55%
+- `Community/BuddyManager.cpp.o`: 68.57%
+- `Community/ProcessManager.cpp.o`: 69.25%
+- `Community/UserManager.cpp.o`: 69.47%
 
 ## 来自反编译/DWARF 的推断（Inferred from decompile/DWARF）
 

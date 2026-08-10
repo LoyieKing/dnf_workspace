@@ -6,7 +6,7 @@
 - 与工程 GCC 时代吻合：原始二进制 `.comment` 为 Red Hat GCC 4.1.2-52 / 4.4.4-13 / 4.4.6-3 / 4.4.7 混合链接，构建年份约 2012；TinyXML 2.6.2 与 Boost 1.48 正好处于该窗口（2010-11 ~ 2011-11）。
 - 替换内容：
   - `source/DNFServer/ServerCommon/tinyxml.h/.cpp` → 纯净上游 2.6.2，新增 `tinyxmlerror.cpp`、`tinyxmlparser.cpp`（恢复原始 4 文件布局）；
-  - `source/shared/BoostPool.h`（手写复刻版）删除，`Community/src/NetworkSession.cpp` 改用真实 `<boost/pool/object_pool.hpp>`；
+  - `source/shared/BoostPool.h`（手写复刻版）删除，`Community/NetworkSession.cpp` 改用真实 `<boost/pool/object_pool.hpp>`；
   - 新增 `source/Library3rd/Boost/Include/boost/`（官方 Boost 1.48.0 头文件子集，与原始工程 `Library3rd/Boost/Include` 路径一致）；
   - 构建脚本（build-auction/point/guild、w4_compile.sh、CMakeLists）按原始编译形态给 tinyxml 三个 TU 使用专属标志，并统一 `-DBOOST_DISABLE_ASSERTS`。
 
@@ -68,7 +68,7 @@ source/DNFServer/ServerCommon/tinyxmlerror.cpp   ← 新增（2.6.2）
 source/DNFServer/ServerCommon/tinyxmlparser.cpp  ← 新增（2.6.2）
 source/Library3rd/Boost/Include/boost/           ← Boost 1.48.0 官方头子集（426 文件）
 source/shared/BoostPool.h                        ← 删除（手写复刻）
-source/Community/src/NetworkSession.cpp          ← #include <boost/pool/object_pool.hpp>
+source/Community/NetworkSession.cpp              ← #include <boost/pool/object_pool.hpp>
 source/toolchain/build-auction.sh / build-point.sh / build-guild.sh / w4_compile.sh
 source/CMakeLists.txt                            ← tinyxml 专属标志 + vendored boost 路径
 ```

@@ -273,7 +273,7 @@ Parallel safety rules
 4. ServerCommon (DNFServer/ServerCommon) is linked by auction/point AND
    also compiled by in-progress coserver. Coserver work must not mutate
    ServerCommon without re-validating auction/point.
-5. IGNORE in-progress trees: source/relay/, source/coserver/, Community/
+5. IGNORE in-progress trees: source/relay/, source/DNFServer/GameServer/COServer/, Community/
    (no-DWARF path). Do not 'fix' their dirty files into this audit.
 
 Suggested parallel waves

@@ -1,9 +1,9 @@
 #!/bin/sh
 # ============================================================
 # df_coserver_r 可复现构建脚本
-# 共享框架：source/Community/src + source/DNFServer/ServerCommon
+# 共享框架：source/Community + source/DNFServer/ServerCommon
 # （df_community_r 已验证方案：gcc-4.4.7 + CentOS5.11 4.1.2 静态 libstdc++）
-# 应用层：source/coserver（还原中）
+# 应用层：source/DNFServer/GameServer/COServer（按 ORIG .o 文件拆分）
 # ============================================================
 set -e
 
@@ -29,8 +29,8 @@ wait_jobs() {
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 OUT_DIR="$ROOT/../build/coserver"
-COS="$ROOT/coserver"
-COMMUNITY="$ROOT/Community/src"
+COS="$ROOT/DNFServer/GameServer/COServer"
+COMMUNITY="$ROOT/Community"
 COMMON="$ROOT/DNFServer/ServerCommon"
 PACKET="$ROOT/shared/packet"
 

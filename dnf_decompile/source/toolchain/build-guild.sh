@@ -27,7 +27,7 @@ wait_jobs() {
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 OUT_DIR="$ROOT/../build/guild"
-GUILD="$ROOT/guild"
+GUILD="$ROOT/DNFServer/GameServer/Guild"
 COMMON="$ROOT/DNFServer/ServerCommon"
 PACKET="$ROOT/shared/packet"
 
