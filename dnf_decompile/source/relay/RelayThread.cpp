@@ -4,6 +4,16 @@
 
 #include "RelayThread.h"
 
+ThreadLock_linux::ThreadLock_linux()
+{
+    pthread_mutex_init(&handle_, 0);
+}
+
+ThreadLock_linux::~ThreadLock_linux()
+{
+    pthread_mutex_destroy(&handle_);
+}
+
 void LinuxSystem::sleep(int milisecond)
 {
     timeval tv;

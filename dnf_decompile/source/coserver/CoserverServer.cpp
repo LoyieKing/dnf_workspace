@@ -9,14 +9,9 @@
 #include "PacketHeader.h"
 
 CGameServer::CGameServer()
+    : m_group(0xff), m_port(0), m_connectFlag(0), m_heartBeatCount(0x1e),
+      m_heartBeatOver(0), m_channelNo(0), m_udp(0)
 {
-    m_group = 0xff;
-    m_port = 0;
-    m_connectFlag = 0;
-    m_heartBeatCount = 0x1e;
-    m_heartBeatOver = 0;
-    m_channelNo = 0;
-    m_udp = 0;
 }
 
 CGameServer::~CGameServer()
@@ -36,7 +31,11 @@ void CGameServer::Init(unsigned char group, std::string& name, unsigned short po
 
 bool CGameServer::IsValidServer()
 {
-    return m_group != 0xff;
+    if (m_group == 0xff)
+    {
+        return false;
+    }
+    return true;
 }
 
 int CGameServer::IsHeartBeatTimeOver()
@@ -62,7 +61,11 @@ void CGameServer::ResetHeartBeat()
 
 void CGameServer::SendToGameServer(char* buf, int len)
 {
-    if (m_group != 0xff && m_udp != 0)
+    if (m_group == 0xff)
+    {
+        return;
+    }
+    if (m_udp != 0)
     {
         m_udp->SendToServer(buf, len, m_port, m_name.c_str());
     }
@@ -165,9 +168,8 @@ void CServerHandler::Process()
 
 void CServerHandler::ResetHeartBeat(unsigned char group, unsigned char index)
 {
-    bool ok = (index != 0xff && group < 0x65 &&
-               m_servers[(int)group * 0xff + (int)index].IsValidServer());
-    if (ok)
+    if (index != 0xff && group < 0x65 &&
+        m_servers[(int)group * 0xff + (int)index].IsValidServer())
     {
         m_servers[(int)group * 0xff + (int)index].ResetHeartBeat();
     }
@@ -187,11 +189,10 @@ void CServerHandler::SetGameServerIpPort(unsigned char id, unsigned int ip,
 
 bool CServerHandler::IsConnectedGameServer(unsigned char group, unsigned char index)
 {
-    bool ok = (index != 0xff && group < 0x65 &&
-               m_servers[(int)group * 0xff + (int)index].IsValidServer());
-    if (ok)
+    if (index != 0xff && group < 0x65 &&
+        m_servers[(int)group * 0xff + (int)index].IsValidServer())
     {
-        return m_servers[(int)group * 0xff + (int)index].IsConnected() != 0;
+        return m_servers[(int)group * 0xff + (int)index].IsConnected();
     }
     DNF_LOG_SCOPE_LINE(0xa4,"./log/GameServer",
         "CServerHandler::IsConnectedGameServer\tGame Server Index Over(%d), Group Index Over(%d)",
@@ -201,9 +202,8 @@ bool CServerHandler::IsConnectedGameServer(unsigned char group, unsigned char in
 
 void CServerHandler::SetConnectFlag(unsigned char group, unsigned char index, bool flag)
 {
-    bool ok = (index != 0xff && group < 0x65 &&
-               m_servers[(int)group * 0xff + (int)index].IsValidServer());
-    if (ok)
+    if (index != 0xff && group < 0x65 &&
+        m_servers[(int)group * 0xff + (int)index].IsValidServer())
     {
         m_servers[(int)group * 0xff + (int)index].SetConnFlag(flag);
     }
@@ -232,7 +232,7 @@ void CServerHandler::SendToGameServer(unsigned char group, unsigned char index,
     CGameServer* gs = GetGameServer((int)group * 0xff + (int)index);
     if (gs != 0)
     {
-        gs->SendToGameServer((char*)header, *(unsigned short*)((char*)header + 2));
+        gs->SendToGameServer((char*)header, header->packetSize);
     }
 }
 
@@ -242,12 +242,12 @@ void CServerHandler::SendAllToGameServer(char* buf, int len)
     int left = 0x649b;
     while (left != 0)
     {
-        left--;
         if (p->IsValidServer())
         {
             p->SendToGameServer(buf, len);
         }
         p++;
+        left--;
     }
 }
 
@@ -259,17 +259,17 @@ CServerConfig::~CServerConfig()
 {
 }
 
-int CServerConfig::Parse_Table(char* line, int idx)
+bool CServerConfig::Parse_Table(char* line, int idx)
 {
     if (line[0] == '#')
     {
         return 0;
     }
-    char* tok0 = 0;
-    char* tok1 = 0;
-    char* tok2 = 0;
-    char* tok3 = 0;
-    char* tok4 = 0;
+    char* tok0;
+    char* tok1;
+    char* tok2;
+    char* tok3;
+    char* tok4;
     int n = DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 5);
     if (n == 5 && idx < 0x649b)
     {

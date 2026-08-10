@@ -129,7 +129,7 @@ bool STPartyStatisticKey::operator<(const STPartyStatisticKey& other) const
     if (m_field0 < other.m_field0) return true;
     if ((short)m_field0 == (short)other.m_field0)
     {
-        if (m_field4 < other.m_field4) return true;
+        if ((int)m_field4 < (int)other.m_field4) return true;
         if (m_field4 == other.m_field4)
         {
             if ((unsigned char)m_field8 < (unsigned char)other.m_field8) return true;
@@ -167,19 +167,33 @@ PartyStatistic::~PartyStatistic()
 
 void PartyStatistic::Reset()
 {
-    for (int i = 0; i < 12; i++)
-    {
-        m_data[i] = 0;
-    }
+    m_data[0] = 0;
+    m_data[1] = 0;
+    m_data[2] = 0;
+    m_data[3] = 0;
+    m_data[4] = 0;
+    m_data[5] = 0;
+    m_data[6] = 0;
+    m_data[7] = 0;
+    m_data[8] = 0;
+    m_data[9] = 0;
+    m_data[10] = 0;
     m_data[11] = 1;
 }
 
 PartyStatistic& PartyStatistic::operator+=(const PartyStatistic& other)
 {
-    for (int i = 0; i < 11; i++)
-    {
-        m_data[i] += other.m_data[i];
-    }
+    m_data[0] += other.m_data[0];
+    m_data[1] += other.m_data[1];
+    m_data[2] += other.m_data[2];
+    m_data[3] += other.m_data[3];
+    m_data[4] += other.m_data[4];
+    m_data[5] += other.m_data[5];
+    m_data[6] += other.m_data[6];
+    m_data[7] += other.m_data[7];
+    m_data[8] += other.m_data[8];
+    m_data[9] += other.m_data[9];
+    m_data[10] += other.m_data[10];
     m_data[11] += 1;
     return *this;
 }
@@ -187,7 +201,16 @@ PartyStatistic& PartyStatistic::operator+=(const PartyStatistic& other)
 // STPartyJobStatisticKey
 STPartyJobStatisticKey::STPartyJobStatisticKey()
 {
-    memset(this, 0, sizeof(*this));
+    m_field0 = 0;
+    m_field4 = 0;
+    m_field8 = 0;
+    m_field9 = 0;
+    m_fielda = 0;
+    m_fieldb = 0;
+    m_fieldc = 0;
+    m_fieldd = 0;
+    m_field10 = 0;
+    m_field14 = 0;
 }
 
 STPartyJobStatisticKey::~STPartyJobStatisticKey()
@@ -199,7 +222,7 @@ bool STPartyJobStatisticKey::operator<(const STPartyJobStatisticKey& other) cons
     if (m_field0 < other.m_field0) return true;
     if (m_field0 == other.m_field0)
     {
-        if (m_field4 < other.m_field4) return true;
+        if ((int)m_field4 < (int)other.m_field4) return true;
         if (m_field4 == other.m_field4)
         {
             if ((unsigned char)m_field8 < (unsigned char)other.m_field8) return true;
@@ -221,7 +244,7 @@ bool STPartyJobStatisticKey::operator<(const STPartyJobStatisticKey& other) cons
                                     return true;
                                 if (m_fieldd == other.m_fieldd)
                                 {
-                                    if (m_field10 < other.m_field10) return true;
+                                    if ((int)m_field10 < (int)other.m_field10) return true;
                                     if (m_field10 == other.m_field10 &&
                                         (unsigned char)m_field14 <
                                             (unsigned char)other.m_field14) return true;
@@ -261,7 +284,14 @@ PartyJobStatistic& PartyJobStatistic::operator+=(const PartyJobStatistic& other)
 // STPartyCharacKey
 STPartyCharacKey::STPartyCharacKey()
 {
-    memset(this, 0, sizeof(*this));
+    m_field0 = 0;
+    m_field4 = 0;
+    m_field8 = 0;
+    m_field9 = 0;
+    m_fielda = 0;
+    m_fieldc = 0;
+    m_field10 = 0;
+    m_field11 = 0;
 }
 
 STPartyCharacKey::~STPartyCharacKey()
@@ -273,7 +303,7 @@ bool STPartyCharacKey::operator<(const STPartyCharacKey& other) const
     if (m_field0 < other.m_field0) return true;
     if (m_field0 == other.m_field0)
     {
-        if (m_field4 < other.m_field4) return true;
+        if ((int)m_field4 < (int)other.m_field4) return true;
         if (m_field4 == other.m_field4)
         {
             if ((unsigned char)m_field8 < (unsigned char)other.m_field8) return true;
@@ -285,7 +315,7 @@ bool STPartyCharacKey::operator<(const STPartyCharacKey& other) const
                     if ((unsigned char)m_fielda < (unsigned char)other.m_fielda) return true;
                     if (m_fielda == other.m_fielda)
                     {
-                        if (m_fieldc < other.m_fieldc) return true;
+                        if ((int)m_fieldc < (int)other.m_fieldc) return true;
                         if (m_fieldc == other.m_fieldc)
                         {
                             if ((unsigned char)m_field10 < (unsigned char)other.m_field10)
@@ -313,19 +343,34 @@ PartyCharacStatistic::~PartyCharacStatistic()
 
 void PartyCharacStatistic::Reset()
 {
-    for (int i = 0; i < 13; i++)
-    {
-        m_data[i] = 0;
-    }
+    m_data[0] = 0;
+    m_data[1] = 0;
+    m_data[2] = 0;
+    m_data[3] = 0;
+    m_data[4] = 0;
+    m_data[5] = 0;
+    m_data[6] = 0;
+    m_data[7] = 0;
+    m_data[8] = 0;
+    m_data[9] = 0;
+    m_data[10] = 0;
     m_data[11] = 1;
+    m_data[12] = 0;
 }
 
 PartyCharacStatistic& PartyCharacStatistic::operator+=(const PartyCharacStatistic& other)
 {
-    for (int i = 0; i < 12; i++)
-    {
-        m_data[i] += other.m_data[i];
-    }
+    m_data[0] += other.m_data[0];
+    m_data[1] += other.m_data[1];
+    m_data[2] += other.m_data[2];
+    m_data[3] += other.m_data[3];
+    m_data[4] += other.m_data[4];
+    m_data[5] += other.m_data[5];
+    m_data[6] += other.m_data[6];
+    m_data[7] += other.m_data[7];
+    m_data[8] += other.m_data[8];
+    m_data[9] += other.m_data[9];
+    m_data[10] += other.m_data[10];
     m_data[11] += 1;
     m_data[12] += other.m_data[12];
     return *this;
@@ -349,7 +394,8 @@ bool STDeathTowerValueStatisticKey::operator<(const STDeathTowerValueStatisticKe
     if (m_field0 == other.m_field0)
     {
         if ((short)m_field2 < (short)other.m_field2) return true;
-        if ((short)m_field2 == (short)other.m_field2 && m_field4 < other.m_field4) return true;
+        if ((short)m_field2 == (short)other.m_field2 &&
+            (int)m_field4 < (int)other.m_field4) return true;
     }
     return false;
 }
@@ -379,7 +425,10 @@ ValueStatistic& ValueStatistic::operator+=(const ValueStatistic& other)
 // STDeathTowerPlayDataJobStatisticKey
 STDeathTowerPlayDataJobStatisticKey::STDeathTowerPlayDataJobStatisticKey()
 {
-    memset(this, 0, sizeof(*this));
+    m_field0 = 0;
+    m_field2 = 0;
+    m_field4 = 0;
+    m_field8 = 0;
 }
 
 STDeathTowerPlayDataJobStatisticKey::~STDeathTowerPlayDataJobStatisticKey()
@@ -395,7 +444,7 @@ bool STDeathTowerPlayDataJobStatisticKey::operator<(
         if (m_field2 < other.m_field2) return true;
         if (m_field2 == other.m_field2)
         {
-            if (m_field4 < other.m_field4) return true;
+            if ((int)m_field4 < (int)other.m_field4) return true;
             if (m_field4 == other.m_field4 &&
                 (unsigned char)m_field8 < (unsigned char)other.m_field8) return true;
         }
@@ -539,7 +588,8 @@ void STUserTingTimeCheckKey::Reset()
 
 bool STUserTingTimeCheckKey::operator<(const STUserTingTimeCheckKey& other) const
 {
-    return m_field0 < other.m_field0;
+    if ((int)m_field0 < (int)other.m_field0) return true;
+    return false;
 }
 
 STHellPartyStatisticItemKey::STHellPartyStatisticItemKey()
@@ -560,7 +610,7 @@ bool STHellPartyStatisticItemKey::operator<(const STHellPartyStatisticItemKey& o
     if ((unsigned char)m_field0 < (unsigned char)other.m_field0) return true;
     if (m_field0 == other.m_field0)
     {
-        if (m_field4 < other.m_field4) return true;
+        if ((int)m_field4 < (int)other.m_field4) return true;
         if (m_field4 == other.m_field4)
         {
             if ((unsigned char)m_field8 < (unsigned char)other.m_field8) return true;
@@ -640,7 +690,7 @@ void STPowerwarFightLoadingKey::Reset()
 bool STPowerwarFightLoadingKey::operator<(const STPowerwarFightLoadingKey& other) const
 {
     if (m_field0 < other.m_field0) return true;
-    if ((int)m_field0 == (int)other.m_field0 && m_field4 < other.m_field4) return true;
+    if (m_field0 == other.m_field0 && m_field4 < other.m_field4) return true;
     return false;
 }
 
@@ -679,7 +729,7 @@ void STPowerwarFightLagKey::Reset()
 bool STPowerwarFightLagKey::operator<(const STPowerwarFightLagKey& other) const
 {
     if (m_field0 < other.m_field0) return true;
-    if ((int)m_field0 == (int)other.m_field0 && m_field4 < other.m_field4) return true;
+    if (m_field0 == other.m_field0 && m_field4 < other.m_field4) return true;
     return false;
 }
 
@@ -733,10 +783,14 @@ STDungeonLagStatistics::~STDungeonLagStatistics()
 
 void STDungeonLagStatistics::Reset()
 {
-    for (int i = 0; i < 8; i++)
-    {
-        m_data[i] = 0;
-    }
+    m_data[0] = 0;
+    m_data[1] = 0;
+    m_data[2] = 0;
+    m_data[3] = 0;
+    m_data[4] = 0;
+    m_data[5] = 0;
+    m_data[6] = 0;
+    m_data[7] = 0;
 }
 
 ValueStatisticData::ValueStatisticData()

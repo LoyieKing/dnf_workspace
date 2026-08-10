@@ -1,0 +1,86 @@
+Layer 0 (1 files):
+  shared/common/include/ReverseEngineerLib.h
+Layer 1 (3 files):
+  Community/src/DateTime.h
+  shared/packet/include/STGameUserInfo.h
+  shared/packet/include/STPvPBuddyDBInfo.h
+Layer 2 (2 files):
+  Community/src/ArchiveLog.h
+  Community/src/UserManager.h
+Layer 3 (1 files):
+  Community/src/global.h
+Layer 4 (2 files):
+  Community/src/PacketDispatcher.h
+  shared/packet/include/PacketHeader.h
+Layer 5 (2 files):
+  Community/src/AbstractSocket.h
+  Community/src/ISessionManager.h
+Layer 6 (1 files):
+  Community/src/NetworkSession.h
+Layer 7 (4 files):
+  Community/src/BuddyManager.h
+  Community/src/Epoll.h
+  shared/packet/include/Packet_Monitor_Other_Channel_Chat.h
+  shared/packet/include/Packet_Monitor_Other_Channel_Chat_Hyper_Link.h
+Layer 8 (4 files):
+  Community/src/SessionProxy.h
+  Community/src/User.h
+  DNFServer/ServerCommon/Thread.h
+  shared/packet/include/PvPBuddyInfo.h
+Layer 9 (27 files):
+  Community/src/CPacketParser.h
+  Community/src/CommonConstants.h
+  Community/src/ConfigFileReader.h
+  Community/src/CoreDump.h
+  Community/src/FindBuddy.h
+  Community/src/FindUser.h
+  Community/src/GuildConstants.h
+  Community/src/ProcessManager.h
+  Community/src/SessionManager.h
+  DNFServer/ServerCommon/DNFFileLog.h
+  DNFServer/ServerCommon/DNFFunctionLib.h
+  shared/packet/include/Packet_Community_Login.h
+  shared/packet/include/Packet_Community_Logout.h
+  shared/packet/include/Packet_Delete_PvP_Buddy.h
+  shared/packet/include/Packet_Insert_PvP_Buddy.h
+  shared/packet/include/Packet_Monitor_Other_Channel_Chat_ToUser.h
+  shared/packet/include/Packet_Monitor_Other_Channel_Chat_ToUser_Hyper_Link.h
+  shared/packet/include/Packet_Notice_Add_PvP_Buddy_Result.h
+  shared/packet/include/Packet_Notice_PvP_Buddy_In_Out.h
+  shared/packet/include/Packet_Notice_Request_Add_PvP_Buddy.h
+  shared/packet/include/Packet_Request_Add_PvP_Buddy.h
+  shared/packet/include/Packet_Request_PvP_Buddy_Conn_List.h
+  shared/packet/include/Packet_Request_Remove_PvP_Buddy.h
+  shared/packet/include/Packet_Response_Add_PvP_Buddy.h
+  shared/packet/include/Packet_Response_PvP_Buddy_Conn_List.h
+  shared/packet/include/Packet_Response_Remove_PvP_Buddy.h
+  shared/packet/include/Packet_Update_PvP_Buddy.h
+Layer 10 (28 files):
+  Community/src/AbstractSocket.cpp
+  Community/src/ArchiveLog.cpp
+  Community/src/BuddyManager.cpp
+  Community/src/CPacketParser.cpp
+  Community/src/ConfigFileReader.cpp
+  Community/src/CoreDump.cpp
+  Community/src/DateTime.cpp
+  Community/src/Epoll.cpp
+  Community/src/FindBuddy.cpp
+  Community/src/FindUser.cpp
+  Community/src/GlobalObjects.cpp
+  Community/src/NetworkSession.cpp
+  Community/src/PacketDispatcher.cpp
+  Community/src/ProcessManager.cpp
+  Community/src/SessionManager.cpp
+  Community/src/SessionProxy.cpp
+  Community/src/User.cpp
+  Community/src/UserManager.cpp
+  Community/src/global.cpp
+  Community/src/global_function.cpp
+  Community/src/main.cpp
+  DNFServer/ServerCommon/CFileLogWriterBase.cpp
+  DNFServer/ServerCommon/DNFFileLog.cpp
+  DNFServer/ServerCommon/DNFFunctionLib.cpp
+  DNFServer/ServerCommon/Thread.cpp
+  shared/packet/src/PacketHeader.cpp
+  shared/packet/src/STGameUserInfo.cpp
+  shared/packet/src/STPvPBuddyDBInfo.cpp

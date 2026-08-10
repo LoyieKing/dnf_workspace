@@ -1,0 +1,53 @@
+Layer 0 (1 files):
+  ChannelOld/DNFChannelBridge/stdafx.h
+Layer 1 (2 files):
+  ChannelOld/DNFChannelBridge/Exception.h
+  ChannelOld/DNFChannelBridge/ThreadLock.h
+Layer 2 (6 files):
+  ChannelOld/DNFChannelBridge/DebugLog.h
+  ChannelOld/DNFChannelBridge/GlobalInstance.h
+  ChannelOld/DNFChannelBridge/Reactor.h
+  ChannelOld/DNFChannelBridge/Service.h
+  ChannelOld/DNFChannelBridge/System.h
+  ChannelOld/DNFChannelBridge/Thread.h
+Layer 3 (4 files):
+  ChannelOld/DNFChannelBridge/ChannelServiceApp.h
+  ChannelOld/DNFChannelBridge/LinuxService.h
+  ChannelOld/DNFChannelBridge/ScriptRawData.h
+  ChannelOld/DNFChannelBridge/Token.h
+Layer 4 (14 files):
+  ChannelOld/DNFChannelBridge/ChannelService.h
+  ChannelOld/DNFChannelBridge/CheckThread.h
+  ChannelOld/DNFChannelBridge/DBMgr.h
+  ChannelOld/DNFChannelBridge/DNFChannelBridge.h
+  ChannelOld/DNFChannelBridge/DNFServerCommon/DNFFunctionLib.h
+  ChannelOld/DNFChannelBridge/Globals.h
+  ChannelOld/DNFChannelBridge/Method.h
+  ChannelOld/DNFChannelBridge/Script.h
+  ChannelOld/DNFChannelBridge/ScriptData.h
+  ChannelOld/DNFChannelBridge/ScriptThread.h
+  ChannelOld/DNFChannelBridge/Socket.h
+  ChannelOld/DNFChannelBridge/SocketSystem.h
+  ChannelOld/DNFChannelBridge/TCPThread.h
+  ChannelOld/DNFChannelBridge/TCPUser.h
+Layer 5 (20 files):
+  ChannelOld/DNFChannelBridge/ChannelService.cpp
+  ChannelOld/DNFChannelBridge/CheckThread.cpp
+  ChannelOld/DNFChannelBridge/DBMgr.cpp
+  ChannelOld/DNFChannelBridge/DNFChannelBridge.cpp
+  ChannelOld/DNFChannelBridge/DNFServerCommon/DNFFunctionLib.cpp
+  ChannelOld/DNFChannelBridge/Globals.cpp
+  ChannelOld/DNFChannelBridge/Script.cpp
+  ChannelOld/DNFChannelBridge/ScriptData.cpp
+  ChannelOld/DNFChannelBridge/ScriptRawData.cpp
+  ChannelOld/DNFChannelBridge/ScriptThread.cpp
+  ChannelOld/DNFChannelBridge/Service.cpp
+  ChannelOld/DNFChannelBridge/Socket.cpp
+  ChannelOld/DNFChannelBridge/TCPAcceptThread.cpp
+  ChannelOld/DNFChannelBridge/TCPHandler.cpp
+  ChannelOld/DNFChannelBridge/TCPThread.cpp
+  ChannelOld/DNFChannelBridge/TCPUser.cpp
+  ChannelOld/DNFChannelBridge/Thread.cpp
+  ChannelOld/DNFChannelBridge/Token.cpp
+  ChannelOld/DNFChannelBridge/UDPHandler.cpp
+  ChannelOld/DNFChannelBridge/UDPThread.cpp

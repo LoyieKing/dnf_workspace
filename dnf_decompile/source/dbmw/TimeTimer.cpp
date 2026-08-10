@@ -31,14 +31,13 @@ CSystemTime::CSystemTime()
 {
     gettimeofday(&m_tv, 0);
     m_field10 = m_tv.tv_sec;
-    m_field4 = m_tv.tv_usec / 1000000;
+    m_field4 = m_tv.tv_usec / 1000;
 }
-
-static CSystemTimeHandler g_systemTimeHandler;
 
 CSystemTimeHandler* CSystemTimeHandlerInstance()
 {
-    return &g_systemTimeHandler;
+    static CSystemTimeHandler instance;
+    return &instance;
 }
 
 // ============================================================

@@ -18,35 +18,33 @@ CTableBase::~CTableBase()
 
 int CTableBase::Load_Txt_Table_Data(const char* path, int maxCount)
 {
-    FILE* f = fopen(path, "rb");
     int count = 0;
+    FILE* f = fopen(path, "rb");
     if (f == 0)
     {
-        count = -1;
+        return -1;
     }
     else
     {
         char line[1024];
         while (true)
         {
-            if (!feof(f) && fgets(line, 0x400, f) != 0)
+            if (line[0] != '#')
             {
-                if (line[0] != '#')
+                if (count >= maxCount)
                 {
-                    if (maxCount <= count)
-                    {
-                        return -2;
-                    }
-                    if (Parse_Table(line, count) != 0)
-                    {
-                        count++;
-                    }
+                    return -2;
+                }
+                if (Parse_Table(line, count))
+                {
+                    count++;
                 }
             }
-            else
+            if (!feof(f) && fgets(line, 0x400, f) != 0)
             {
-                break;
+                continue;
             }
+            break;
         }
         fclose(f);
     }
@@ -76,34 +74,35 @@ unsigned char CAppConfig::Get_ServerGroup()
     return m_serverGroup;
 }
 
-int CAppConfig::Parse_Table(char* line, int idx)
+bool CAppConfig::Parse_Table(char* line, int idx)
 {
     if (line[0] == '#')
     {
         return 0;
     }
-    char* tok0 = 0;
-    char* tok1 = 0;
-    int n = DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 2);
-    if (n == 2 && idx < 10)
+    char* tok0;
+    char* tok1;
+    int n;  // 死局部：与 ORIG 栈布局对齐（tok 槽位 -0x14/-0x10）
+    if (DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 2) == 2)
     {
-        if (idx == 1)
+        if (idx < 10)
         {
-            m_udpPort = (unsigned int)atoi(tok1);
+            switch (idx)
+            {
+            case 0:
+                m_frameCount = (char)atoi(tok1);
+                break;
+            case 1:
+                m_udpPort = (unsigned int)atoi(tok1);
+                break;
+            case 2:
+                m_serverGroup = (char)atoi(tok1);
+                break;
+            default:
+                return 0;
+            }
+            return 1;
         }
-        else if (idx == 2)
-        {
-            m_serverGroup = (char)atoi(tok1);
-        }
-        else if (idx == 0)
-        {
-            m_frameCount = (char)atoi(tok1);
-        }
-        else
-        {
-            return 0;
-        }
-        return 1;
     }
     return 0;
 }
@@ -138,12 +137,11 @@ void CAppConfig::Check_FileName(const std::string& filename)
     }
 }
 
-ST_ServerInfo::ST_ServerInfo()
+ST_ServerInfo::ST_ServerInfo() : m_string()
 {
     m_field0 = 0;
     m_field1 = 0;
     m_field2 = 0xff;
-    m_string = std::string();
     m_ushort = 0;
 }
 

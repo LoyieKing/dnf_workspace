@@ -74,9 +74,11 @@ int CEpoll<Session>::WaitForEvent(int timeout) {
         if (this->epollEvents[i].events & EPOLLIN) {
             // 原始：(type & 8) != 0 分支在前（OnAccept），== 0 为 else（OnRecv）
             if (((session)->GetTriggerSessionEventType() & 8) != 0) {
-                newSession = session->OnAccept();
-                if (newSession != NULL) {
-                    RegisterSession(newSession, 7);
+                // 原始：OnAccept 结果经独立临时承接（mov DWORD [ebp-0x10],0 再赋值）
+                Session *ns = NULL;
+                ns = session->OnAccept();
+                if (ns != NULL) {
+                    RegisterSession(ns, 7);
                 }
             } else {
                 if ((session)->GetTriggerSessionEventType() & 1) {

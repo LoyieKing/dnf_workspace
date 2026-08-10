@@ -119,7 +119,7 @@ void CApplication::Load(int argc, char** argv)
         puts("Application Packet Decoder Attach() Success!");
         m_udpNetworkThread = new CUdpNetworkThread;
         m_udpNetworkThread->attach(this);
-        if (!m_udpNetworkThread->begin())
+        if (!m_udpNetworkThread->CThreadInterface::begin())
             throw;
         puts("Application Network Thread Begin() Success!");
         IQueue<TcpRecvQueue>::Get().InitQueue(
@@ -234,14 +234,13 @@ CMonitorServer* CApplication::FindMonitorServer(int idx)
 void CApplication::SwitchQueueTCP()
 {
     CGuard<CMutex> guard(m_tcpNetSystem.Get_TcpRecvQLock());
-    IQueue<TcpRecvQueue>* q = (IQueue<TcpRecvQueue>*)m_tcpNetSystem.Get_TcpSwapQPacket();
-    if (q->SwitchQueue())
-        CPacketDecoderInstance()->SetTCPQueue(q->GetParseQueue());
+    if (IQueue<TcpRecvQueue>::Get().SwitchQueue())
+        CPacketDecoderInstance()->SetTCPQueue(IQueue<TcpRecvQueue>::Get().GetParseQueue());
 }
 
 void CApplication::SwitchQueueUDP()
 {
-    CGuard<CMutex> guard(Get_UdpQLock());
+    CGuard<CMutex> guard(&m_mutex22c);
     if (!m_udpSwapQueue.GetRecvQ()->empty())
     {
         m_udpSwapQueue.SwapQ();
@@ -311,11 +310,11 @@ void CApplication::TranslateSignal()
 {
     m_killUsrConfig->Clear_Table();
     m_killUsrConfig->Load_Table(std::string("./script/kill_user_config.tbl"));
-    std::vector<ST_KillUSRConfig*>* list =
-        (std::vector<ST_KillUSRConfig*>*)m_killUsrConfig->GetInfo();
+    const std::vector<ST_KillUSRConfig*>* list =
+        (const std::vector<ST_KillUSRConfig*>*)m_killUsrConfig->GetInfo();
     if (list->empty())
         return;
-    for (std::vector<ST_KillUSRConfig*>::iterator it = list->begin();
+    for (std::vector<ST_KillUSRConfig*>::const_iterator it = list->begin();
          it != list->end(); ++it)
     {
         ST_KillUSRConfig* kc = *it;

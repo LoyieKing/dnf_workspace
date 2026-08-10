@@ -1,13 +1,56 @@
 #ifndef RELAY_REACTOR_H_
 #define RELAY_REACTOR_H_
 
+#include <stdio.h>
 #include <set>
 #include <sys/epoll.h>
 #include <unistd.h>
 
-#include "RelayApp.h"
 #include "RelayException.h"
 #include "RelayThread.h"
+
+namespace RelayServiceApp
+{
+class RelayService;
+class TCPUser;
+class UDPUser;
+class TCPThread;
+class UDPThread;
+class TCPAcceptThread;
+class TCPHandler;
+class TCPHandlerRelay;
+class UDPHandler;
+class UDPHandlerRelay;
+class UDPHandlerS2S;
+}
+
+class TCPSocket;
+class UDPSocket;
+
+// ---- TManager<T>：pManager_@0 ----
+template <class T>
+class TManager
+{
+public:
+    TManager()
+    {
+    }
+    void setManager(T* p)
+    {
+        pManager_ = p;
+    }
+    T* getManager()
+    {
+        return pManager_;
+    }
+    const T* getManager() const
+    {
+        return pManager_;
+    }
+
+private:
+    T* pManager_;
+};
 
 // EpollReactor：TManager@0 / set<TSession*>@4 / epoll_fd_@0x1c / max_client_@0x20 /
 //              events_@0x24 / lock@0x28，总 0x40
@@ -15,11 +58,8 @@ template <class TSession, class TSendSocket, class TRecvSocket>
 class EpollReactor : public TManager<RelayServiceApp::RelayService>
 {
 public:
-    EpollReactor()
+    EpollReactor() : epoll_fd_(-1), max_client_(0), events_(0)
     {
-        epoll_fd_ = -1;
-        max_client_ = 0;
-        events_ = 0;
     }
     ~EpollReactor()
     {
@@ -41,27 +81,30 @@ public:
         epoll_fd_ = epoll_create(max_client_);
         if (epoll_fd_ == -1)
         {
-            printf("[EpollReactor< TSession >::Init] Can't create epoll device : max_client(%d)\n",
-                   max_client_);
+            throw Exception(-2,
+                "[EpollReactor< TSession >::Init] Can't create epoll device : max_client(%d)\n",
+                max_client_);
         }
         events_ = new epoll_event[max_client_];
         if (events_ == 0)
         {
-            printf("[EpollReactor< TSession >::Init] Can't allocate epoll repository : max_client(%d)\n",
-                   max_client_);
+            throw Exception(-3,
+                "[EpollReactor< TSession >::Init] Can't allocate epoll repository : max_client(%d)\n",
+                max_client_);
         }
     }
     void shutdown()
     {
-        if (epoll_fd_ != -1)
+        if (epoll_fd_ == -1)
         {
-            close(epoll_fd_);
-            epoll_fd_ = -1;
-            if (events_ != 0)
-            {
-                delete[] events_;
-            }
+            return;
         }
+        close(epoll_fd_);
+        epoll_fd_ = -1;
+        delete[] events_;
+        m_lock.lock();
+        m_users.clear();
+        m_lock.unlock();
     }
     bool handleEvents(unsigned int milisec, TSendSocket listenSocket, unsigned int maxEvents);
     bool registHandle(TSession* s, unsigned int event_filter);
@@ -105,7 +148,7 @@ public:
     }
     void setManagerToEpoll(RelayServiceApp::RelayService* service)
     {
-        m_epoll.setManagerToEpoll(service);
+        m_epoll.setManager(service);
     }
     bool handleEvents(unsigned int milisec, TSendSocket listenSocket, unsigned int maxEvents)
     {
@@ -123,5 +166,11 @@ public:
 private:
     TEpollReactor m_epoll;
 };
+
+namespace RelayServiceApp
+{
+typedef TReactor<EpollReactor<TCPUser, TCPSocket, TCPSocket>, TCPUser, TCPSocket, TCPSocket>
+    RelayTReactor;
+}
 
 #endif // RELAY_REACTOR_H_

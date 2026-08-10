@@ -89,7 +89,7 @@ public:
     void Load(ST_ServerInfo* info);
     void Process();
     void ResetHeartBeat(unsigned char index);
-    bool IsConnectedGameServer(unsigned char index);
+    char IsConnectedGameServer(unsigned char index);
     void SetConnectFlag(unsigned char index, bool flag);
     CGameServer* GetGameServer(int idx);
     void SendToGameServer(unsigned char index, PacketHeader* header);
@@ -99,7 +99,7 @@ public:
     void SetDBConnectFlag(bool flag);
     void SetManagerConnectFlag(bool flag);
     void ResetDBHeartBeat();
-    bool IsConnectedDBServer();
+    char IsConnectedDBServer();
     unsigned char GetServerGroupNo();
     void SetGameServerIpPort(unsigned char id, unsigned int ip, unsigned short port);
     CGameServer m_servers[0xff];  // +0
@@ -115,7 +115,7 @@ class CServerConfig : public CTableBase
 public:
     CServerConfig();
     virtual ~CServerConfig();
-    virtual int Parse_Table(char* line, int idx);
+    virtual bool Parse_Table(char* line, int idx);
     void Load_Table(const std::string& path);
     ST_ServerInfo* GetServerInfo();
     ST_ServerInfo m_servers[0xff];  // +4

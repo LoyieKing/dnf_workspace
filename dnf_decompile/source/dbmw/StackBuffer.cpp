@@ -157,10 +157,6 @@ char* StackBuffer::getBuffer()
     return m_buf;
 }
 
-StackBuffer_char::StackBuffer_char() {}
-StackBuffer_char::StackBuffer_char(const StackBuffer_char& other) : StackBuffer(other) {}
-StackBuffer_char::~StackBuffer_char() {}
-
 void StackBuffer_char::alloc(unsigned int size)
 {
     m_buf = 0;
@@ -172,10 +168,6 @@ StackBuffer_char::operator char*()
 {
     return getBuffer();
 }
-
-StackBuffer_wchar::StackBuffer_wchar() {}
-StackBuffer_wchar::StackBuffer_wchar(const StackBuffer_wchar& other) : StackBuffer(other) {}
-StackBuffer_wchar::~StackBuffer_wchar() {}
 
 void StackBuffer_wchar::alloc(unsigned int size)
 {

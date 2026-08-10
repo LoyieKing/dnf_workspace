@@ -26,8 +26,8 @@ from compare_common import demangle_batch, disasm_slice, load_disasm, norm_line
 
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/community/df_community_r'
-NEW = Path(os.environ.get('DF_NEW_BIN', ROOT / 'dnf_decompile/source/build-verify-community/df_community_r'))
-OUT_TSV = ROOT / 'dnf_decompile/source/build-verify-community/df_community_r_all_function_compare.tsv'
+NEW = Path(os.environ.get('DF_NEW_BIN', ROOT / 'dnf_decompile/build/community/df_community_r'))
+OUT_TSV = ROOT / 'dnf_decompile/build/community/df_community_r_all_function_compare.tsv'
 
 
 def run(cmd):
@@ -104,7 +104,7 @@ def main():
     rows = []
 
     # project-object symbols from our build (the code we actually wrote)
-    obj_dir = ROOT / 'dnf_decompile/source/build-verify-community/CMakeFiles/df_community_r.dir'
+    obj_dir = ROOT / 'dnf_decompile/build/community/CMakeFiles/df_community_r.dir'
     project_syms = set()
     for obj in sorted(obj_dir.rglob('*.cpp.o')):
         for sym in run("nm --defined-only '{}'".format(obj)).splitlines():

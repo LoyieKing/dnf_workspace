@@ -114,6 +114,13 @@ int CUdpHandler::InitServerSocket(int port)
 int CUdpHandler::InitClientSocket()
 {
     m_clientSock = socket(2, 2, 0x11);
+    if (m_clientSock == -1)
+    {
+        int err = getErrno();
+        printf("Could not create a UDP socket : %d\n", err);
+        return -1;
+    }
+    DNF_LOG_SCOPE_LINE(0x8f, "./log/Udp", "Opened port with fd %d\n", m_clientSock);
     return m_clientSock;
 }
 
@@ -134,96 +141,38 @@ int CUdpHandler::RecvFromClient(char* buf, int* len, unsigned int* ip,
         if (err == 0x58)
         {
             puts("Error fd not a socket");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            DNF_LOG_SCOPE("./log/UdpErr", "Error fd not a socket\n");
+            DNF_LOG_SCOPE_LINE(0xaf, "./log/UdpErr", "Error fd not a socket\n");
         }
         else if (err == 0x68)
         {
             puts("Error connection reset - host not reachable");
-
-            DNF_LOG_SCOPE("./log/UdpErr", "Error connection reset - host not reachable\n");
+            DNF_LOG_SCOPE_LINE(0xb6, "./log/UdpErr", "Error connection reset - host not reachable\n");
+        }
+        else
+        {
+            printf("Hm! Time out Or Socket Error = %d\n", err);
         }
         return 0;
     }
     if (r < 1)
     {
         printf("Socket closed? Recv size = %d\n", r);
-
-
-
-
-
-
-
-
-        DNF_LOG_SCOPE("./log/UdpErr", "Socket closed? Recv size = %d\n", r);
+        DNF_LOG_SCOPE_LINE(0xc6, "./log/UdpErr", "Socket closed? Recv size = %d\n", r);
         return 0;
     }
     *port = ntohs(*(unsigned short*)from.sa_data);
     *ip = ntohl(*(unsigned int*)(from.sa_data + 2));
+    char* ipStr = inet_ntoa(*(struct in_addr*)(from.sa_data + 2));
+    unsigned short pktId = *(unsigned short*)buf;
+    if (pktId == 0x4c8 || pktId == 0x4c9 || pktId == 0x44f || pktId == 0x450)
+    {
+        DNF_LOG_SCOPE_LINE(0xd1, "./log/Udp",
+            "PacketId(%d) Recv success! IP = %s, Port %d, Recv size = %d",
+            pktId, ipStr, (int)*port, *len);
+    }
     buf[*len] = '\0';
     return 1;
 }
-
 int CUdpHandler::RecvFromServer(char* buf, int* len, unsigned int* ip,
                                 unsigned short* port) const
 {
@@ -241,130 +190,12 @@ int CUdpHandler::RecvFromServer(char* buf, int* len, unsigned int* ip,
         if (err == 0x58)
         {
             puts("Error fd not a socket");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            DNF_LOG_SCOPE("./log/UdpErr", "Error fd not a socket\n");
+            DNF_LOG_SCOPE_LINE(0x156, "./log/UdpErr", "Error fd not a socket\n");
         }
         else if (err == 0x68)
         {
             puts("Error connection reset - host not reachable");
-
-            DNF_LOG_SCOPE("./log/UdpErr", "Error connection reset - host not reachable\n");
+            DNF_LOG_SCOPE_LINE(0x15d, "./log/UdpErr", "Error connection reset - host not reachable\n");
         }
         else
         {
@@ -375,19 +206,22 @@ int CUdpHandler::RecvFromServer(char* buf, int* len, unsigned int* ip,
     if (r < 1)
     {
         printf("Socket closed? Recv size = %d\n", r);
-
-
-
-
-        DNF_LOG_SCOPE("./log/UdpErr", "Socket closed? Recv size = %d\n", r);
+        DNF_LOG_SCOPE_LINE(0x16d, "./log/UdpErr", "Socket closed? Recv size = %d\n", r);
         return 0;
     }
     *port = ntohs(*(unsigned short*)from.sa_data);
     *ip = ntohl(*(unsigned int*)(from.sa_data + 2));
+    char* ipStr = inet_ntoa(*(struct in_addr*)(from.sa_data + 2));
+    unsigned short pktId = *(unsigned short*)buf;
+    if (pktId == 0x4c8 || pktId == 0x4c9)
+    {
+        DNF_LOG_SCOPE_LINE(0x179, "./log/Udp",
+            "PacketId(%d) Recv success! IP = %s, Port %d, Recv size = %d",
+            pktId, ipStr, (int)*port, *len);
+    }
     buf[*len] = '\0';
     return 1;
 }
-
 int CUdpHandler::SendToClient(char* buf, int len, unsigned short port, char const* ip,
                               unsigned int ipaddr) const
 {
@@ -403,33 +237,123 @@ int CUdpHandler::SendToClient(char* buf, int len, unsigned short port, char cons
     {
         return 0;
     }
-    sockaddr to;
-    memset(&to, 0, 0x10);
-    to.sa_family = 2;
-    *(unsigned short*)to.sa_data = htons(port);
-    *(unsigned int*)(to.sa_data + 2) = ntohl(ipaddr);
-    return sendto(m_sock, buf, len, 0, &to, 0x10);
-}
-
-int CUdpHandler::SendToServer(char* buf, int len, unsigned short port, char const* ip) const
-{
-    if (ip == 0)
+    int sent;
+    if (port != 0)
     {
+        sockaddr to;
+        memset(&to, 0, 0x10);
+        to.sa_family = 2;
+        *(unsigned short*)to.sa_data = htons(port);
+        *(unsigned int*)(to.sa_data + 2) = ntohl(ipaddr);
+        sent = sendto(m_sock, buf, len, 0, &to, 0x10);
+    }
+    else if (ipaddr == 0)
+    {
+        sent = send(m_sock, buf, len, 0);
+    }
+    if (sent == -1)
+    {
+        int err = getErrno();
+        switch (err)
+        {
+        case 0x61:
+        {
+            puts("err EAFNOSUPPORT in send");
+            DNF_LOG_SCOPE_LINE(0x119, "./log/UdpErr", "Error( EAFNOSUPPORT ) in send = %d\n", err);
+            break;
+        }
+        case 0x6f:
+        case 0x70:
+        case 0x71:
+        {
+            printf("Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", err);
+            DNF_LOG_SCOPE_LINE(0x113, "./log/UdpErr",
+                "Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", err);
+            break;
+        }
+        default:
+        {
+            printf("err = %d , strerror = %s in send\n", err, strerror(err));
+            DNF_LOG_SCOPE_LINE(0x11f, "./log/UdpErr", "err = %d , strerror = %s in send\n",
+                err, strerror(err));
+            break;
+        }
+        }
         return 0;
     }
+    if (sent == 0)
+    {
+        puts("no data sent in send");
+        DNF_LOG_SCOPE_LINE(0x128, "./log/UdpErr", "no data sent in send\n");
+        return 0;
+    }
+    if (sent != len)
+    {
+        printf("Only %s out of %d bytes sent\n", len, sent);
+        DNF_LOG_SCOPE_LINE(0x133, "./log/UdpErr", "Only %s out of %d bytes sent\n", len, sent);
+        return 0;
+    }
+    return 1;
+}
+int CUdpHandler::SendToServer(char* buf, int len, unsigned short port, char const* ip) const
+{
     if (m_clientSock == -1)
     {
         return 0;
     }
-    unsigned int ipaddr = inet_addr(ip);
-    sockaddr to;
-    memset(&to, 0, 0x10);
-    to.sa_family = 2;
-    *(unsigned short*)to.sa_data = htons(port);
-    *(unsigned int*)(to.sa_data + 2) = ntohl(ipaddr);
-    return sendto(m_clientSock, buf, len, 0, &to, 0x10);
+    int sent;
+    if (port != 0)
+    {
+        sockaddr to;
+        memset(&to, 0, 0x10);
+        to.sa_family = 2;
+        *(unsigned short*)to.sa_data = htons(port);
+        *(unsigned int*)(to.sa_data + 2) = inet_addr(ip);
+        sent = sendto(m_clientSock, buf, len, 0, &to, 0x10);
+    }
+    else if (ip == 0)
+    {
+        sent = send(m_clientSock, buf, len, 0);
+    }
+    if (sent == -1)
+    {
+        int err = getErrno();
+        switch (err)
+        {
+        case 0x61:
+        {
+            DNF_LOG_SCOPE_LINE(0x1b8, "./log/UdpErr", "Error( EAFNOSUPPORT ) in send = %d\n", err);
+            break;
+        }
+        case 0x6f:
+        case 0x70:
+        case 0x71:
+        {
+            DNF_LOG_SCOPE_LINE(0x1b2, "./log/UdpErr",
+                "Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", err);
+            break;
+        }
+        default:
+        {
+            DNF_LOG_SCOPE_LINE(0x1be, "./log/UdpErr", "err = %d , strerror = %s in send\n",
+                err, strerror(err));
+            break;
+        }
+        }
+        return 0;
+    }
+    if (sent == 0)
+    {
+        DNF_LOG_SCOPE_LINE(0x1c7, "./log/UdpErr", "no data sent in send\n");
+        return 0;
+    }
+    if (sent != len)
+    {
+        DNF_LOG_SCOPE_LINE(0x1ce, "./log/UdpErr", "Only %d out of %d bytes sent\n", len, sent);
+        return 0;
+    }
+    return 1;
 }
-
 void CUdpHandler::InetAddr(char const* ip) const
 {
     inet_addr(ip);

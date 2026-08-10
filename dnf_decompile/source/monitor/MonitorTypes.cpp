@@ -41,71 +41,84 @@ template<class T>
 void* MemPool<T>::headOfFreeList_;
 
 template<class T>
+struct MemPoolSlot
+{
+    char pad[sizeof(T) - 4];
+    void* next;
+};
+
+template<class T>
 MemPool<T>::MemPool() {}
 template<class T>
 MemPool<T>::MemPool(unsigned int count) : m_size((int)sizeof(T)), m_count((int)count) {}
 template<class T>
-MemPool<T>::~MemPool() {}
+MemPool<T>::~MemPool()
+{
+    if (!m_blocks.empty())
+    {
+        for (std::vector<void*>::iterator it = m_blocks.begin(); it != m_blocks.end(); ++it)
+        {
+            ::operator delete(*it);
+        }
+        m_blocks.clear();
+    }
+}
 
 template<class T>
 void* MemPool<T>::alloc()
 {
-    void* result;
-    if (m_size == (int)sizeof(T))
+    if (m_size != (int)sizeof(T))
     {
-        void* head = headOfFreeList_;
-        if (head == 0)
-        {
-            void* block = ::operator new((unsigned int)m_size * (unsigned int)m_count);
-            for (unsigned int i = 0; i < (unsigned int)m_count - 1; i++)
-            {
-                *(void**)((char*)block + i * m_size + m_size - 4) =
-                    (void*)((i + 1) * m_size + (unsigned int)block);
-            }
-            *(void**)((char*)block + ((unsigned int)m_count - 1) * m_size + m_size - 4) = 0;
-            headOfFreeList_ = (void*)((char*)block + m_size);
-            head = block;
-            m_blocks.push_back(block);
-            DNF_LOG_SCOPE_LINE(0x7d, "./log/Mempool", "class size(%d) cnt(%d)", m_size,
-                m_count * (int)m_blocks.size());
-        }
-        else
-        {
-            headOfFreeList_ = *(void**)((char*)head + m_size - 4);
-        }
-        result = head;
+        return ::operator new(sizeof(T));
     }
-    else
+    void* head = headOfFreeList_;
+    if (head != 0)
     {
-        result = ::operator new(sizeof(T));
+        headOfFreeList_ = *(void**)((char*)head + sizeof(T) - 4);
+        return head;
     }
-    return result;
+    void* block = ::operator new((unsigned int)m_count * (unsigned int)m_size);
+    for (unsigned int i = 0; i < (unsigned int)m_count - 1; i++)
+    {
+        *(void**)((char*)block + i * sizeof(T) + sizeof(T) - 4) =
+            (void*)((i + 1) * sizeof(T) + (unsigned int)block);
+    }
+    *(void**)((char*)block + ((unsigned int)m_count - 1) * sizeof(T) + sizeof(T) - 4) = 0;
+    head = block;
+    headOfFreeList_ = (void*)((char*)block + sizeof(T));
+    m_blocks.push_back((void*)block);
+    DNF_LOG_SCOPE_LINE(0x7d, "./log/Mempool", "class size(%d) cnt(%d)", m_size,
+        m_count * (int)m_blocks.size());
+    return head;
 }
 
 template<class T>
 void MemPool<T>::free(void* ptr, unsigned int size)
 {
-    if (ptr != 0)
+    if (ptr == 0)
     {
-        if ((unsigned int)m_size == size)
-        {
-            *(void**)((char*)ptr + m_size - 4) = headOfFreeList_;
-            headOfFreeList_ = ptr;
-        }
-        else
-        {
-            ::operator delete(ptr);
-        }
+        return;
     }
+    if ((unsigned int)m_size != size)
+    {
+        ::operator delete(ptr);
+        return;
+    }
+    void* p = ptr;
+    ((MemPoolSlot<T>*)p)->next = headOfFreeList_;
+    headOfFreeList_ = p;
 }
 
 template<class T>
 void MemPool<T>::free(void* ptr)
 {
-    if (ptr != 0)
+    if (ptr == 0)
     {
-        ::operator delete(ptr);
+        return;
     }
+    void* p = ptr;
+    ((MemPoolSlot<T>*)p)->next = headOfFreeList_;
+    headOfFreeList_ = p;
 }
 
 template class MemPool<CUdpRecvBuffer>;
@@ -219,7 +232,11 @@ CAppLoadChecker::CAppLoadChecker()
     m_udpRecvLevel = 0;
     m_tcpSendLevel = 0;
 }
-CAppLoadChecker* CAppLoadCheckerInstance() { return 0; }
+CAppLoadChecker* CAppLoadCheckerInstance()
+{
+    static CAppLoadChecker inst;
+    return &inst;
+}
 int CAppLoadChecker::checkTcpRecvLoad(int size)
 {
     char level = m_tcpRecvLevel;
@@ -441,26 +458,93 @@ int CAppLoadChecker::checkTcpSendLoad(int size)
 }
 
 template<int A, int B>
-CPacketCounter<A, B>::CPacketCounter(char* dir, char* name) {}
+CPacketCounter<A, B>::CPacketCounter(char* dir, char* name)
+{
+    Reset();
+    m_startTime = time(0);
+    if (dir)
+    {
+        sprintf(m_path, "./log/%s/%s", dir, name);
+    }
+    else
+    {
+        sprintf(m_path, "./log/%s", name);
+    }
+    m_flagInit = 1;
+}
 template<int A, int B>
 CPacketCounter<A, B>::~CPacketCounter() {}
 template<int A, int B>
-void CPacketCounter<A, B>::Reset() {}
+void CPacketCounter<A, B>::Reset()
+{
+    for (int i = 0; i <= 0x2417; i++)
+    {
+        m_packetCount[i] = 0;
+        m_packetTotal[i] = 0;
+        m_packetTime[i] = 0;
+        m_packetFlag[i] = 0;
+    }
+    m_totalCount = 0;
+    m_flag2 = 0;
+}
 template<int A, int B>
-void CPacketCounter<A, B>::IncrementPacketCount(int id) {}
+void CPacketCounter<A, B>::IncrementPacketCount(int id)
+{
+    if (id > 0x27ff) return;
+    if (id < 0x3e8) return;
+    if (!m_flagInit && m_packetCount[id - 0x3e8] > 10) return;
+    m_packetCount[id - 0x3e8]++;
+}
 template<int A, int B>
-void CPacketCounter<A, B>::BeforeProcess() {}
+void CPacketCounter<A, B>::BeforeProcess()
+{
+    if ((m_packetTime[0] = m_totalCount) == -1)
+    {
+        m_packetTime[0] = 0;
+    }
+}
 template<int A, int B>
-void CPacketCounter<A, B>::AfterProcess(int id) {}
+void CPacketCounter<A, B>::AfterProcess(int id)
+{
+    if (id > 0x27ff) return;
+    if (id < 0x3e8) return;
+    if (!m_flagInit && m_packetCount[id - 0x3e8] > 10) return;
+    int v = m_totalCount;
+    if (v == -1)
+    {
+        v = 0;
+        return;
+    }
+    int diff;
+    if (m_flagInit)
+    {
+        diff = v - m_packetTime[0];
+    }
+    else
+    {
+        diff = v - m_packetTime[id - 0x3e8];
+        m_packetCount[id - 0x3e8]++;
+        m_packetFlag[id - 0x3e8] = 0;
+    }
+    m_packetTotal[id - 0x3e8] += diff;
+}
 template class CPacketCounter<1000, 10240>;
 
-void CMemoryCashManager::Init(CApplication* app) {}
+void CMemoryCashManager::Init(CApplication* app)
+{
+    m_app = app;
+    resetCashCnt();
+}
 
 CInnerMsgHandler::CInnerMsgHandler() {}
 CInnerMsgHandler::~CInnerMsgHandler() {}
 void CInnerMsgHandler::SendStopNetworkThread() {}
 
-CUdpHandler::CUdpHandler() {}
+CUdpHandler::CUdpHandler()
+{
+    m_sock = -1;
+    m_clientSock = -1;
+}
 CUdpHandler::~CUdpHandler() {}
 unsigned int CUdpHandler::InetAddr(const char* ip) const { return inet_addr(ip); }
 int CUdpHandler::InitServerSocket(int port)
@@ -477,8 +561,7 @@ int CUdpHandler::InitServerSocket(int port)
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = htonl(0);
     addr.sin_port = htons((unsigned short)port);
-    int r = bind(m_sock, (sockaddr*)&addr, 0x10);
-    if (r != 0)
+    if (bind(m_sock, (sockaddr*)&addr, 0x10) != 0)
     {
         int err = getErrno();
         if (err == 0x62)
@@ -494,9 +577,14 @@ int CUdpHandler::InitServerSocket(int port)
             printf("Could not bind UDP receive port. Error= %d , strerror = %s\n", err,
                    strerror(err));
         }
-        return -1;
+        m_sock = -1;
     }
-    return 0;
+    unsigned int rcvbuf = 0xf4240;
+    setsockopt(m_clientSock, SOL_SOCKET, SO_RCVBUF, (char*)&rcvbuf, 4);
+    CMyFileLog log("InitServerSocket", 0x6e);
+    log("./log/Udp", "Opened port %d with fd %d, recv buf size %d\n", port, m_sock,
+        rcvbuf);
+    return m_sock;
 }
 int CUdpHandler::InitClientSocket()
 {
@@ -507,7 +595,9 @@ int CUdpHandler::InitClientSocket()
         printf("Could not create a UDP socket : %d\n", getErrno());
         return -1;
     }
-    return 0;
+    CMyFileLog log("InitClientSocket", 0x8f);
+    log("./log/Udp", "Opened port with fd %d\n", m_clientSock);
+    return m_clientSock;
 }
 char CUdpHandler::RecvFromClient(char* buf, int* size, unsigned int* addr,
                                  unsigned short* port) const
@@ -714,7 +804,7 @@ char CUdpHandler::RecvFromServer(char* buf, int* size, unsigned int* addr,
 CUdpNetworkThread::CUdpNetworkThread() {}
 CUdpNetworkThread::~CUdpNetworkThread() {}
 
-CPeriodicMessageMgr::CPeriodicMessageMgr() {}
+CPeriodicMessageMgr::CPeriodicMessageMgr() { init(); }
 CPeriodicMessageMgr::~CPeriodicMessageMgr() {}
 void CPeriodicMessageMgr::init()
 {
@@ -722,7 +812,21 @@ void CPeriodicMessageMgr::init()
     m_startHour = 0;
     m_endHour = 0;
 }
-void CPeriodicMessageMgr::OnProcess(CServerHandler* handler) {}
+void CPeriodicMessageMgr::OnProcess(CServerHandler* handler)
+{
+    time_t t = time(0);
+    struct tm st = *localtime(&t);
+    if (st.tm_min == 0 && m_startHour <= st.tm_hour && m_endHour >= st.tm_hour &&
+        st.tm_hour != 0)
+    {
+        OnTimerSendData(handler);
+    }
+    if (st.tm_hour == 0 && st.tm_min == 10)
+    {
+        Packet_Load_Periodic_Message pkt;
+        handler->SendToDB(&pkt);
+    }
+}
 void CPeriodicMessageMgr::OnTimerSendData(CServerHandler* handler)
 {
     if (m_msg[0] != 0)
@@ -852,7 +956,17 @@ CLoginLogoutStatistics::~CLoginLogoutStatistics()
         m_maps[i].~map();
     }
 }
-void CLoginLogoutStatistics::ProcessByMinute() {}
+void CLoginLogoutStatistics::ProcessByMinute()
+{
+    Packet_DBMW_Statistic_Login_Logout pkt;
+    *(unsigned int*)((char*)&pkt + 0x608) = m_fieldac;
+    *(unsigned int*)((char*)&pkt + 0x60c) = m_fieldb0;
+    *(unsigned int*)((char*)&pkt + 0x610) = m_fieldb4;
+    *(unsigned int*)((char*)&pkt + 0x614) = m_fieldb8;
+    m_fieldb4 = 0;
+    m_fieldb8 = 0;
+    m_app->Get_ServerHandler()->GetDBServer()->SendToServer((char*)&pkt, 0x618);
+}
 void CLoginLogoutStatistics::LoginLogout(ENUM_LOGIN_LOGOUT type, unsigned char channel)
 {
     std::map<unsigned char, stLoginLogout>::iterator it = m_maps[(int)type].find(channel);
@@ -898,8 +1012,36 @@ void CLoginLogoutStatistics::CountNumOfOccupations(ENUM_LOGIN_LOGOUT type, int v
 
 CIPCounter::CIPCounter() {}
 CIPCounter::~CIPCounter() {}
-void CIPCounter::Init(CServerHandler* handler) {}
-void CIPCounter::Proc(unsigned int tick) {}
+void CIPCounter::Init(CServerHandler* handler)
+{
+    m_count = 0;
+    m_min = 0;
+    m_term = 0x708;
+    m_option = 5;
+    m_field10 = 1;
+    m_field11 = 1;
+    m_handler = handler;
+}
+void CIPCounter::Proc(unsigned int tick)
+{
+    if (m_min >= tick)
+    {
+        return;
+    }
+    if (m_field10 == 0)
+    {
+        return;
+    }
+    if (m_count + m_term >= tick)
+    {
+        return;
+    }
+    m_handler->SendDBMWRequestIPCounter(m_field11, m_option);
+    m_count = tick;
+    CMyFileLog log("Proc", 0x3c);
+    log("./log/Secu", "[IP Counter] LoadStart");
+    m_min = tick + 0x3c;
+}
 void CIPCounter::setLoadTerm(unsigned char term)
 {
     unsigned int v = (unsigned int)term * 0x3c;
@@ -949,8 +1091,8 @@ void CIPCounter::setOption(unsigned char type, unsigned char opt)
     }
 }
 
-CItemLimitEditionMgr::CItemLimitEditionMgr() {}
-CItemLimitEditionMgr::~CItemLimitEditionMgr() {}
+CItemLimitEditionMgr::CItemLimitEditionMgr() { m_lastTime = time(0); }
+CItemLimitEditionMgr::~CItemLimitEditionMgr() { clear(); }
 void CItemLimitEditionMgr::makeItemLimitEditionUpdatePacket(
     Packet_Item_Limit_Edition_Update& pkt) const
 {
@@ -1128,8 +1270,41 @@ void CItemLimitEdition::updateSellNum(unsigned int num)
 
 CMemoryCashManager::CMemoryCashManager() {}
 CMemoryCashManager::~CMemoryCashManager() {}
-void CMemoryCashManager::ProcessLifeTimeOut() {}
-void CMemoryCashManager::ProcessCashDataPrint() {}
+void CMemoryCashManager::ProcessLifeTimeOut()
+{
+    if (m_app)
+    {
+        for (std::map<unsigned int, CCashObject*>::iterator it = m_cashObjects.begin();
+             it != m_cashObjects.end(); )
+        {
+            CCashObject* obj = it->second;
+            if (obj->IsLifeTimeOut())
+            {
+                obj->DeleteMemberObject();
+                obj->DeleteBuddys();
+                obj->DeleteBlackUsers();
+                m_cashObjects.erase(it++);
+                delete obj;
+            }
+            else
+            {
+                ++it;
+            }
+        }
+    }
+}
+void CMemoryCashManager::ProcessCashDataPrint()
+{
+    m_cashCnt34 = m_cashCnt34 - 1;
+    if (m_cashCnt34 <= 0)
+    {
+        CMyFileLog log("ProcessCashDataPrint", 0x4e);
+        log("./log/cashmem", "buddy(%d/%d)  member(%d/%d)  black(%d/%d)\n",
+            m_field44, m_buddyCashCnt, m_field48, m_memberCashCnt, m_field4c,
+            m_blackListCashCnt);
+        resetCashCnt();
+    }
+}
 char CMemoryCashManager::QueryCashMemoryMember(CUser* user)
 {
     char ok = 0;
@@ -1286,9 +1461,18 @@ void CMemoryCashManager::InsertUpdatedCharacName(unsigned int dbid, const std::s
         m_names.insert(std::pair<const unsigned int, std::string>(dbid, name));
     }
 }
-void CMemoryCashManager::incMemberCashHitCnt() {}
-void CMemoryCashManager::incBuddyCashHitCnt() {}
-void CMemoryCashManager::incBlackListCashHitCnt() {}
+void CMemoryCashManager::incMemberCashHitCnt()
+{
+    m_field48 = m_field48 + 1;
+}
+void CMemoryCashManager::incBuddyCashHitCnt()
+{
+    m_field44 = m_field44 + 1;
+}
+void CMemoryCashManager::incBlackListCashHitCnt()
+{
+    m_field4c = m_field4c + 1;
+}
 void CMemoryCashManager::incBuddyCashCnt()
 {
     m_buddyCashCnt = m_buddyCashCnt + 1;
@@ -1404,9 +1588,12 @@ CCashObject::CCashObject()
 CCashObject::~CCashObject()
 {
     m_lifeTime = -1;
-    m_characNo = 0;
     m_memberObject = 0;
-    memset(m_buddys, 0, sizeof(m_buddys));
+    m_characNo = 0;
+    for (int i = 0; i <= 0x1f; i++)
+    {
+        m_buddys[i] = 0;
+    }
     m_blackUsers.clear();
 }
 unsigned int CCashObject::GetCharacNo() { return m_characNo; }
@@ -1438,9 +1625,45 @@ void CCashObject::SetBlackUsersObject(std::map<unsigned int, CBlackUser*>& map)
 }
 void CCashObject::SetLifeTime(unsigned int lifeTime) { m_lifeTime = lifeTime; }
 void CCashObject::ClearMemberObject() {}
-void CCashObject::DeleteMemberObject() {}
-int CCashObject::GetBuddysObject(CBuddy** buddies) { return 0; }
-void CCashObject::DeleteBuddys() {}
+void CCashObject::DeleteMemberObject()
+{
+    if (m_memberObject != 0)
+    {
+        delete m_memberObject;
+    }
+    m_memberObject = 0;
+}
+int CCashObject::GetBuddysObject(CBuddy** buddies)
+{
+    int i = 0;
+    for (;;)
+    {
+        buddies[i] = m_buddys[i];
+        if (buddies[i] != 0)
+        {
+            i++;
+            if (i <= 0x1f)
+            {
+                continue;
+            }
+            i = 0x20;
+        }
+        break;
+    }
+    ClearBuddys();
+    return i;
+}
+void CCashObject::DeleteBuddys()
+{
+    for (int i = 0; i <= 0x1f; i++)
+    {
+        if (m_buddys[i] != 0)
+        {
+            delete m_buddys[i];
+            m_buddys[i] = 0;
+        }
+    }
+}
 void CCashObject::DeleteBlackUsers()
 {
     if (!m_blackUsers.empty())
@@ -1473,7 +1696,7 @@ char CCashObject::IsLifeTimeOut()
     return (char)(m_lifeTime == 0);
 }
 std::map<unsigned int, CBlackUser*>* CCashObject::GetBlackUsersObject() { return 0; }
-void CCashObject::ClearMapBlackUsers() {}
+void CCashObject::ClearMapBlackUsers() { m_blackUsers.clear(); }
 
 unsigned int* CBuddy::getBuddyDBInfo() { return (unsigned int*)this; }
 void* CBuddy::operator new(unsigned int size) { return ::operator new(size); }
@@ -1487,7 +1710,7 @@ CBuddy::~CBuddy() {}
 CBuddyHandle::CBuddyHandle() {}
 unsigned short CBuddyHandle::GetBuddyDBFlag() { return m_field1c; }
 void CBuddyHandle::SetBuddyDBFlag(unsigned short flag) { m_field1c |= flag; }
-CBuddyHandle::~CBuddyHandle() {}
+CBuddyHandle::~CBuddyHandle() { reset(0, 0); }
 int CBuddyHandle::addDB(CServerHandler* handler, char* name)
 {
     bool invalid = true;
@@ -1943,12 +2166,26 @@ void CExchangeServer::SetExchageServer(unsigned int ip, short port, int code, bo
 }
 
 CServerHandler::CServerHandler() {}
-CServerHandler::~CServerHandler() {}
+CServerHandler::~CServerHandler()
+{
+    if (m_dbServer != 0)
+    {
+        m_dbServer->Destroy();
+        delete m_dbServer;
+        m_dbServer = 0;
+    }
+    if (m_managerServer != 0)
+    {
+        m_managerServer->Destroy();
+        delete m_managerServer;
+        m_managerServer = 0;
+    }
+}
 
 void CServerHandler::Attach(CApplication* app) {}
 unsigned char CServerHandler::GetServerGroupNo()
 {
-    return 0;
+    return m_app->Get_ServerGroup();
 }
 void CServerHandler::Process()
 {
@@ -2243,7 +2480,17 @@ int CServerHandler::SendAllTcpGameServer(PacketHeader* pkt, int channel)
     }
     return count;
 }
-void CServerHandler::SendAllToGameServer(char* buf, int len) {}
+void CServerHandler::SendAllToGameServer(char* buf, int len)
+{
+    for (std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.begin();
+         it != m_gameServers.end(); it++)
+    {
+        if (it->second->IsValidServer())
+        {
+            it->second->SendToServer(buf, len);
+        }
+    }
+}
 void CServerHandler::SendToGameServer(unsigned char channel, PacketHeader* pkt)
 {
     CGameServer* gs = GetGameServer((unsigned int)channel);
@@ -2316,6 +2563,13 @@ void CServerHandler::SetConnectFlag(unsigned char channel, bool flag)
     {
         ((CServerInterface*)it->second)->SetConnFlag(flag);
     }
+    else
+    {
+        CMyFileLog log("SetConnectFlag", 0x1f8);
+        log("./log/GameServer",
+            "CServerHandler::SetConnectFlag\tGame Server Index Over Index : %d!\n",
+            channel);
+    }
 }
 void CServerHandler::SendDBMWRequestARSInfo(unsigned char flag)
 {
@@ -2325,7 +2579,13 @@ void CServerHandler::SendDBMWRequestARSInfo(unsigned char flag)
 }
 CTcpManagerServer* CServerHandler::GetTcpManagerServer() { return &m_tcpManagerServer; }
 CTcpDBServer* CServerHandler::GetTcpDBServer() { return &m_tcpDbServer; }
-void CServerHandler::SendToDB(PacketHeader* pkt) {}
+void CServerHandler::SendToDB(PacketHeader* pkt)
+{
+    if (m_dbServer)
+    {
+        m_dbServer->SendToServer((char*)pkt, pkt->packetSize);
+    }
+}
 CDBServer* CServerHandler::GetDBServer() { return m_dbServer; }
 CManagerServer* CServerHandler::GetManagerServer() { return m_managerServer; }
 void CServerHandler::SetGameServerIpPort(unsigned char a, unsigned int b, unsigned short c)
@@ -2361,19 +2621,60 @@ CServerInterface::CServerInterface()
     m_field8[2] = 0;
     m_udpHandler = 0;
 }
-CServerInterface::CServerInterface(stServerInfo* info) {}
+CServerInterface::CServerInterface(stServerInfo* info)
+{
+    m_info = info;
+    m_field8[0] = 0;
+    m_field8[1] = 0;
+    m_field8[2] = 0;
+    m_udpHandler = 0;
+}
 CServerInterface::~CServerInterface() {}
 stServerInfo* CServerInterface::GetServerInfo() { return m_info; }
 void* CServerInterface::GetUdpHandler() { return m_udpHandler; }
 unsigned char CServerInterface::GetGroupNo() { return *(unsigned char*)((char*)m_info); }
 void CServerInterface::SetServerInfo(stServerInfo* info) { m_info = info; }
-bool CServerInterface::Initialize() { return true; }
-bool CServerInterface::Destroy() { return true; }
-char CServerInterface::IsValidServer() { return 1; }
+bool CServerInterface::Initialize()
+{
+    if (m_udpHandler != 0)
+    {
+        return false;
+    }
+    m_udpHandler = new CUdpHandler;
+    ((CUdpHandler*)m_udpHandler)->InitClientSocket();
+    return true;
+}
+bool CServerInterface::Destroy()
+{
+    if (m_udpHandler != 0)
+    {
+        ::operator delete(m_udpHandler);
+    }
+    return true;
+}
+bool CServerInterface::IsValidServer() { return 1; }
 char CServerInterface::IsConnected() { return 1; }
-char CServerInterface::IsHeartBeatTimeOver() { return 0; }
+char CServerInterface::IsHeartBeatTimeOver()
+{
+    m_field8[1] = m_field8[1] - 1;
+    if (m_field8[1] == 0)
+    {
+        m_field8[2] = m_field8[2] + 1;
+        if (m_field8[2] > 20)
+        {
+            return 1;
+        }
+        m_field8[1] = 20;
+    }
+    return 0;
+}
 unsigned char CServerInterface::GetChannelNo() { return 0; }
-void CServerInterface::OnDisconnect() {}
+void CServerInterface::OnDisconnect()
+{
+    m_field8[0] = 0;
+    m_field8[1] = 20;
+    m_field8[2] = 0;
+}
 void CServerInterface::SetConnFlag(bool flag)
 {
     *(char*)((char*)this + 8) = (char)flag;
@@ -2444,7 +2745,17 @@ bool CManagerServer::Destroy()
         return 1;
     }
 }
-void CManagerServer::SendHeartBeat(int group) {}
+void CManagerServer::SendHeartBeat(int group)
+{
+    if (GetUdpHandler() != 0)
+    {
+        Packet_Monitor_UDP_HeartBeat pkt;
+        pkt.m_fieldA = (char)group;
+        ((CUdpHandler*)GetUdpHandler())
+            ->SendToServer((char*)&pkt, 0xb, GetServerInfo()->m_port,
+                           GetServerInfo()->m_name);
+    }
+}
 CGameServer::CGameServer() { m_socket = 0; }
 CGameServer::CGameServer(stServerInfo* info) : CServerInterface(info) {}
 CGameServer::~CGameServer() {}
@@ -2478,7 +2789,15 @@ void CGameServer::SetSocket(unsigned int sock)
 
 CTowerRank::CTowerRank() {}
 CTowerRank::~CTowerRank() {}
-void CTowerRank::processReloadRanking(CServerHandler* handler, bool flag, unsigned int tick) {}
+void CTowerRank::processReloadRanking(CServerHandler* handler, bool flag, unsigned int tick)
+{
+    time_t t = time(0);
+    struct tm* lt = localtime(&t);
+    if (flag || (lt->tm_hour == 4 && lt->tm_min == 30))
+    {
+        handler->queryReloadTowerRank(tick);
+    }
+}
 stTowerRankElement_t::stTowerRankElement_t()
 {
     m_job = 0;
@@ -2539,8 +2858,20 @@ unsigned int CTowerRank::getRankData(unsigned int floor, const char* name, unsig
 CThreadInterface::CThreadInterface() {}
 CThreadInterface::~CThreadInterface() {}
 void CThreadInterface::stop() {}
-void CThreadInterface::join() {}
-bool CThreadInterface::begin() { return true; }
+void CThreadInterface::join()
+{
+    pthread_join((pthread_t)m_thread, 0);
+}
+bool CThreadInterface::begin()
+{
+    int r = pthread_create((pthread_t*)&m_thread, 0, dispatch_proxy, this);
+    if (r < 0)
+    {
+        puts("[ThreadInterface::begin] Can't begin thread");
+        return 0;
+    }
+    return 1;
+}
 void* CThreadInterface::dispatch_proxy(void* temp) { return 0; }
 
 CFrameCountHandler::CFrameCountHandler() {}
@@ -2646,8 +2977,14 @@ void CTowerRank::registRank(unsigned int floor, unsigned int job, unsigned int s
     }
 }
 
-CBuddyRegisterManager::CBuddyRegisterManager() {}
-CBuddyRegisterManager::~CBuddyRegisterManager() {}
+CBuddyRegisterManager::CBuddyRegisterManager()
+{
+    m_map.clear();
+}
+CBuddyRegisterManager::~CBuddyRegisterManager()
+{
+    m_map.clear();
+}
 void CBuddyRegisterManager::addBuddyRegister(unsigned int key, unsigned int value)
 {
     m_map.insert(std::pair<const unsigned int, unsigned int>(key, value));
@@ -2711,62 +3048,51 @@ void CUdpNetworkThread::SetUDPQueue(
 }
 void CUdpNetworkThread::dispatch(void* param)
 {
-    if (m_recvQ != 0 && m_udpHandler != 0 && m_qLock != 0)
+    if (m_recvQ == 0 || m_udpHandler == 0 || m_qLock == 0)
     {
-        try
+        throw CDNFException("NetworkThread is Not Ready!\n");
+    }
+    try
+    {
+        DNFFLib::Sleep_Ext(5, 0);
+        puts("Network Thread Start!");
+        m_running = true;
+        while (m_running)
         {
-            DNFFLib::Sleep_Ext(5, 0);
-            puts("Network Thread Start!");
-            m_running = true;
-            while (m_running)
+            CUdpRecvBuffer* buf;
             {
-                CUdpRecvBuffer* buf;
+                CGuard<CMutex> guard((CMutex*)m_bLock);
+                buf = new CUdpRecvBuffer;
+            }
+            int recvSize = 0x1800;
+            unsigned short srcPort = 0;
+            unsigned int fromAddr = 0;
+            char ok = m_udpHandler->RecvFromClient((char*)buf, &recvSize, &fromAddr, &srcPort);
+            unsigned int recvByte = (unsigned int)recvSize;
+            if (ok == 1)
+            {
+                CUdpRecvBuffer* pkt = buf;
+                if (*(unsigned short*)((char*)buf + 2) == recvSize)
                 {
-                    CGuard<CMutex> guard((CMutex*)m_bLock);
-                    buf = new CUdpRecvBuffer;
-                }
-                int recvSize = 0x1800;
-                unsigned short srcPort = 0;
-                unsigned int fromAddr = 0;
-                char ok = m_udpHandler->RecvFromClient((char*)buf, &recvSize, &fromAddr, &srcPort);
-                unsigned int recvByte = (unsigned int)recvSize;
-                if (ok == 1)
-                {
-                    CUdpRecvBuffer* pkt = buf;
-                    if (*(unsigned short*)((char*)buf + 2) == recvSize)
+                    if (*(unsigned short*)((char*)buf + 2) < 0x1800)
                     {
-                        if (*(unsigned short*)((char*)buf + 2) < 0x1800)
+                        if (recvSize < 0x1801)
                         {
-                            if (recvSize < 0x1801)
+                            *(unsigned int*)((char*)buf + 6) = fromAddr;
+                            *(unsigned short*)((char*)buf + 4) = srcPort;
                             {
-                                *(unsigned int*)((char*)buf + 6) = fromAddr;
-                                *(unsigned short*)((char*)buf + 4) = srcPort;
-                                {
-                                    CGuard<CMutex> guard((CMutex*)m_qLock);
-                                    ((std::queue<CUdpRecvBuffer*>*)m_recvQ)->push(pkt);
-                                    unsigned int qsize =
-                                        ((std::queue<CUdpRecvBuffer*>*)m_recvQ)->size();
-                                }
-                            }
-                            else
-                            {
-                                unsigned short code = *(unsigned short*)buf;
-                                unsigned short psize = *(unsigned short*)((char*)buf + 2);
-                                DNF_LOG_SCOPE_LINE(0x85,"./log/recvErr",
-                                    "Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
-                                    psize, recvByte, code);
-                                {
-                                    CGuard<CMutex> guard((CMutex*)m_bLock);
-                                    delete buf;
-                                }
+                                CGuard<CMutex> guard((CMutex*)m_qLock);
+                                ((std::queue<CUdpRecvBuffer*>*)m_recvQ)->push(pkt);
+                                unsigned int qsize =
+                                    ((std::queue<CUdpRecvBuffer*>*)m_recvQ)->size();
                             }
                         }
                         else
                         {
                             unsigned short code = *(unsigned short*)buf;
                             unsigned short psize = *(unsigned short*)((char*)buf + 2);
-                            DNF_LOG_SCOPE_LINE(0x79,"./log/recvErr",
-                                "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
+                            DNF_LOG_SCOPE_LINE(0x85,"./log/recvErr",
+                                "Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                                 psize, recvByte, code);
                             {
                                 CGuard<CMutex> guard((CMutex*)m_bLock);
@@ -2778,8 +3104,8 @@ void CUdpNetworkThread::dispatch(void* param)
                     {
                         unsigned short code = *(unsigned short*)buf;
                         unsigned short psize = *(unsigned short*)((char*)buf + 2);
-                        DNF_LOG_SCOPE_LINE(0x6e,"./log/recvErr",
-                            "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
+                        DNF_LOG_SCOPE_LINE(0x79,"./log/recvErr",
+                            "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
                             psize, recvByte, code);
                         {
                             CGuard<CMutex> guard((CMutex*)m_bLock);
@@ -2789,31 +3115,55 @@ void CUdpNetworkThread::dispatch(void* param)
                 }
                 else
                 {
+                    unsigned short code = *(unsigned short*)buf;
+                    unsigned short psize = *(unsigned short*)((char*)buf + 2);
+                    DNF_LOG_SCOPE_LINE(0x6e,"./log/recvErr",
+                        "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
+                        psize, recvByte, code);
                     {
                         CGuard<CMutex> guard((CMutex*)m_bLock);
                         delete buf;
                     }
                 }
             }
-            return;
+            else
+            {
+                {
+                    CGuard<CMutex> guard((CMutex*)m_bLock);
+                    delete buf;
+                }
+            }
         }
-        catch (CDNFException& e)
-        {
-            printf("CUdpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n", e.what());
-            throw CDNFException("CUdpNetworkThread::dispatch() Recv  Socket Exception Break!");
-        }
-        catch (...)
-        {
-            puts("CUdpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
-            throw CDNFException("CUdpNetworkThread::dispatch() Recv  Socket Exception Break!");
-        }
+        return;
     }
-    throw CDNFException("NetworkThread is Not Ready!\n");
+    catch (CDNFException& e)
+    {
+        printf("CUdpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n", e.what());
+        throw CDNFException("CUdpNetworkThread::dispatch() Recv  Socket Exception Break!");
+    }
+    catch (...)
+    {
+        puts("CUdpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
+        throw CDNFException("CUdpNetworkThread::dispatch() Recv  Socket Exception Break!");
+    }
 }
 
 CTcpNetworkThread::CTcpNetworkThread() {}
 CTcpNetworkThread::~CTcpNetworkThread() {}
-void CTcpNetworkThread::attach(CTcpNetSystem* net) {}
+void CTcpNetworkThread::attach(CTcpNetSystem* net)
+{
+    if (net != 0)
+    {
+        m_net = net;
+        m_recvQ = net->Get_TcpSwapQPacket()->GetRecvQ();
+        m_handler = net->Get_TcpHandler();
+        m_recvQLock = net->Get_TcpRecvQLock();
+        m_recvBLock = net->Get_TcpRecvBLock();
+        m_sendQ = net->Get_TcpSendQPacket();
+        m_sendQLock = net->Get_TcpSendQLock();
+        m_sendBLock = net->Get_TcpSendBLock();
+    }
+}
 void CTcpNetworkThread::dispatch(void* param)
 {
     CPeer* peer = 0;
@@ -2849,7 +3199,7 @@ void CTcpNetworkThread::dispatch(void* param)
                 peer = (CPeer*)((CTcpHandler*)m_handler)->GetEventPtr(i);
                 if (peer != 0 && ((CTcpHandler*)m_handler)->IsSetInEvent(i))
                 {
-                    if (peer->recv_packet() < 1)
+                    if (peer->RecvPacket() < 1)
                     {
                         peer->DisConnSig();
                         m_net->DeletePeer(peer);
@@ -2952,8 +3302,22 @@ void CTcpAcceptThread::dispatch(void* param)
     }
 }
 
-void* CTcpHandler::GetEventPtr(int idx) { return 0; }
-int CTcpHandler::SetPeer(void* peer, int fd, bool flag) { return 0; }
+void* CTcpHandler::GetEventPtr(int idx)
+{
+    if (m_epoll == 0)
+    {
+        return 0;
+    }
+    return m_epoll->GetEventPtr(idx);
+}
+int CTcpHandler::SetPeer(void* peer, int fd, bool flag)
+{
+    if (m_epoll == 0)
+    {
+        return -1;
+    }
+    return m_epoll->SetEpoll(peer, fd, flag);
+}
 int CTcpHandler::WaitForEvent()
 {
     if (m_epoll == 0)
@@ -2971,7 +3335,14 @@ int CTcpHandler::ResetEpoll(int flag)
     return ((EpollHandler*)m_epoll)->ResetEpoll(flag);
 }
 CTcpHandler::CTcpHandler() : m_epoll(new EpollHandler) {}
-CTcpHandler::~CTcpHandler() {}
+CTcpHandler::~CTcpHandler()
+{
+    if (m_epoll)
+    {
+        delete m_epoll;
+        m_epoll = 0;
+    }
+}
 EpollHandler::EpollHandler()
 {
     Init();
@@ -3003,10 +3374,6 @@ int EpollHandler::Init()
         return 0;
     }
     return 1;
-}
-int EpollHandler::SetPeer(void* peer, int fd, bool flag)
-{
-    return SetEpoll(peer, fd, flag);
 }
 int EpollHandler::SetEpoll(void* peer, int fd, bool flag)
 {
@@ -3061,9 +3428,30 @@ void* EpollHandler::GetEventPtr(int idx)
 {
     return *(void**)((char*)m_events + idx * 0xc + 4);
 }
-char CTcpHandler::IsSetInEvent(int idx) { return 1; }
-char CTcpHandler::IsSetOutEvent(int idx) { return 0; }
-char CTcpHandler::IsSetErrEvent(int idx) { return 0; }
+char CTcpHandler::IsSetInEvent(int idx)
+{
+    if (m_epoll == 0)
+    {
+        return 0;
+    }
+    return m_epoll->IsSetInEvent(idx);
+}
+char CTcpHandler::IsSetOutEvent(int idx)
+{
+    if (m_epoll == 0)
+    {
+        return 0;
+    }
+    return m_epoll->IsSetOutEvent(idx);
+}
+char CTcpHandler::IsSetErrEvent(int idx)
+{
+    if (m_epoll == 0)
+    {
+        return 0;
+    }
+    return m_epoll->IsSetErrEvent(idx);
+}
 
 int CPeer::recv_packet()
 {
@@ -3099,7 +3487,21 @@ int CPeer::recv_packet()
     }
     return n;
 }
-void CPeer::DisConnSig() {}
+void CPeer::DisConnSig()
+{
+    Packet_InnerPakcet_Logout pkt;
+    getHandle();
+    CTcpRecvBuffer* buf;
+    {
+        CGuard<CMutex> guard((CMutex*)m_bLock);
+        buf = new CTcpRecvBuffer;
+    }
+    memcpy(buf, &pkt, pkt.packetSize);
+    {
+        CGuard<CMutex> guard((CMutex*)m_qLock);
+        ((std::queue<CTcpRecvBuffer*>*)m_recvQ)->push(buf);
+    }
+}
 unsigned int CPeer::get_remain_sendlen() { return 0; }
 int CPeer::send_packet()
 {
@@ -3233,7 +3635,21 @@ int CPeer::RecvPacket()
     printf("CPeer::Recv (false == parsing( size:%d ) )\n", n);
     return 1;
 }
-void CPeer::ConnSig() {}
+void CPeer::ConnSig()
+{
+    Packet_InnerPakcet_Login pkt;
+    getHandle();
+    CTcpRecvBuffer* buf;
+    {
+        CGuard<CMutex> guard((CMutex*)m_bLock);
+        buf = new CTcpRecvBuffer;
+    }
+    memcpy(buf, &pkt, pkt.packetSize);
+    {
+        CGuard<CMutex> guard((CMutex*)m_qLock);
+        ((std::queue<CTcpRecvBuffer*>*)m_recvQ)->push(buf);
+    }
+}
 int CPeer::parsing(int recvLen)
 {
     PacketHeader header(0, 0);
@@ -3307,16 +3723,31 @@ LAB_51773:
                     totalLen);
                 return 0;
             }
-            memmove((char*)this + 0x1c, m_buf, totalLen);
-            m_remainLen = (int)totalLen;
-            m_buf = (char*)this + 0x1c + totalLen;
+            try
+            {
+                memmove((char*)this + 0x1c, m_buf, totalLen);
+                m_remainLen = (int)totalLen;
+                m_buf = (char*)this + 0x1c + totalLen;
+            }
+            catch (...)
+            {
+                printf("[PARSING EXCEPTION] memmove : parsinglength = %d", totalLen);
+                return 0;
+            }
         }
     }
     return 1;
 }
 
 CPeer::CPeer() {}
-CPeer::~CPeer() {}
+CPeer::~CPeer()
+{
+    m_buf = (char*)this + 0x1c;
+    m_alreadyRead = 0;
+    m_remainLen = 0;
+    m_sendPtr = (char*)this + 0x183c;
+    m_sendRemain = 0;
+}
 void* CPeer::operator new(unsigned int size) { return ::operator new(size); }
 void CPeer::operator delete(void* p) { ::operator delete(p); }
 
@@ -3630,18 +4061,23 @@ CTcpNetSystem::~CTcpNetSystem()
     CleanPeers();
     if (m_handler != 0)
     {
-        void* h = m_handler;
+        delete m_handler;
+        m_handler = 0;
+    }
+    if (m_acceptThread != 0)
+    {
+        void* h = (void*)m_acceptThread;
         if (h != 0)
         {
             void (**vt)(void*) = *(void(***)(void*))h;
             vt[0](h);
         }
-        if (m_handler != 0)
+        if (m_acceptThread != 0)
         {
-            void (**vt)(void*) = *(void(***)(void*))m_handler;
-            vt[3](m_handler);
+            void (**vt)(void*) = *(void(***)(void*))(void*)m_acceptThread;
+            vt[3]((void*)m_acceptThread);
         }
-        m_handler = 0;
+        m_acceptThread = 0;
     }
     if (m_networkThread != 0)
     {
@@ -3659,7 +4095,13 @@ CTcpNetSystem::~CTcpNetSystem()
         m_networkThread = 0;
     }
 }
-CTcpGameServer::CTcpGameServer() {}
+CTcpGameServer::CTcpGameServer()
+{
+    m_sock = 0;
+    m_net = 0;
+    m_channelNo = 0;
+    m_channelType = 0;
+}
 CTcpGameServer::~CTcpGameServer() {}
 char* CTcpGameServer::makePacketHeader(unsigned short id, unsigned short size)
 {
@@ -3712,11 +4154,11 @@ unsigned char CTcpGameServer::GetChannelNo()
 }
 char CTcpGameServer::IsValidServer()
 {
-    if (m_sock == 0 || m_net == 0)
+    if (m_sock != 0 && m_net != 0)
     {
-        return 0;
+        return 1;
     }
-    return 1;
+    return 0;
 }
 void CTcpNetSystem::Init(unsigned short port)
 {
@@ -3967,8 +4409,14 @@ CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocato
     return &m_recvSwapQ;
 }
 
-CTcpManagerServer::CTcpManagerServer() {}
-CTcpManagerServer::~CTcpManagerServer() {}
+CTcpManagerServer::CTcpManagerServer()
+{
+    m_port = 0;
+    m_sock = -1;
+    m_net = 0;
+    m_ip.clear();
+}
+CTcpManagerServer::~CTcpManagerServer() { Clear(); }
 void CTcpManagerServer::Clear()
 {
     m_sock = -1;
@@ -3981,7 +4429,16 @@ void CTcpManagerServer::SetIP(std::string ip) {}
 void CTcpManagerServer::SetPort(unsigned short port) {}
 int* CTcpManagerServer::GetSockRef() { return 0; }
 int CTcpManagerServer::GetSock() { return m_sock; }
-char CTcpManagerServer::IsValidServer() { return 1; }
+char CTcpManagerServer::IsValidServer()
+{
+    if (m_sock != -1 && m_net != 0)
+    {
+        return 1;
+    }
+    CMyFileLog log("IsValidServer", 0x1a0);
+    log("./log/TcpServer", "Invalid Tcp Server(%d,%x)", m_sock, m_net);
+    return 0;
+}
 const char* CTcpManagerServer::GetIP() { return m_ip.c_str(); }
 unsigned short CTcpManagerServer::GetPort() { return m_port; }
 void CTcpManagerServer::SendHeartbeat(unsigned char group)
@@ -4045,8 +4502,14 @@ void CTcpManagerServer::SendTcpPacket(PacketHeader* pkt)
     }
 }
 
-CTcpDBServer::CTcpDBServer() {}
-CTcpDBServer::~CTcpDBServer() {}
+CTcpDBServer::CTcpDBServer()
+{
+    m_port = 0;
+    m_sock = -1;
+    m_net = 0;
+    m_ip.clear();
+}
+CTcpDBServer::~CTcpDBServer() { Clear(); }
 void CTcpDBServer::Clear()
 {
     m_sock = -1;
@@ -4059,7 +4522,16 @@ void CTcpDBServer::SetIP(std::string ip) {}
 void CTcpDBServer::SetPort(unsigned short port) {}
 int* CTcpDBServer::GetSockRef() { return 0; }
 int CTcpDBServer::GetSock() { return m_sock; }
-char CTcpDBServer::IsValidServer() { return 1; }
+char CTcpDBServer::IsValidServer()
+{
+    if (m_sock != -1 && m_net != 0)
+    {
+        return 1;
+    }
+    CMyFileLog log("IsValidServer", 0x16d);
+    log("./log/TcpServer", "Invalid Tcp Server(%d,%x)", m_sock, m_net);
+    return 0;
+}
 const char* CTcpDBServer::GetIP() { return m_ip.c_str(); }
 unsigned short CTcpDBServer::GetPort() { return m_port; }
 void CTcpDBServer::SendHeartbeat()
@@ -4139,8 +4611,47 @@ CUserManager::~CUserManager()
     m_prohibitUsers.clear();
 }
 void CUserManager::Init(CApplication* app) {}
-void CUserManager::MemberEnterProcess() {}
-void CUserManager::ProcessByMinute() {}
+void CUserManager::MemberEnterProcess()
+{
+    for (std::map<const unsigned int, CUser*>::const_iterator it = m_charNoUsers.begin();
+         it != m_charNoUsers.end(); ++it)
+    {
+        if (it->second != 0)
+        {
+            it->second->MemberEnterProcess();
+        }
+    }
+}
+void CUserManager::ProcessByMinute()
+{
+    if (!m_prohibitUsers.empty())
+    {
+        for (std::map<const unsigned int, CDNFProhibitUser*>::iterator it = m_prohibitUsers.begin();
+             it != m_prohibitUsers.end(); )
+        {
+            CDNFProhibitUser* pu = (*it).second;
+            register bool hasUser = (pu != 0);
+            if (hasUser)
+            {
+                if (pu->IsTimeOutConnectable())
+                {
+                    register int remain = (short)pu->GetProhibitRemainTime();
+                    register unsigned int dbid = pu->GetDBID();
+                    CMyFileLog log("ProcessByMinute", 0x292);
+                    log("./log/User",
+                        "[PROHIBIT CONNECT USER TIME_OUT] Prohibit User DB ID : %d\t Remain time(%d)\n",
+                        dbid, remain);
+                    delete pu;
+                    m_prohibitUsers.erase(it++);
+                }
+                else
+                {
+                    ++it;
+                }
+            }
+        }
+    }
+}
 CUser* CUserManager::FindUser_CharNo(unsigned int charNo) const
 {
     if (!m_charNoUsers.empty())
@@ -4481,8 +4992,19 @@ char CUserManager::InsertUser_CharName(char* name, CUser* user)
     {
         return 0;
     }
-    m_charNameUsers.insert(std::pair<const std::string, CUser*>(name, user));
-    return 1;
+    bool ok;
+    {
+        std::pair<const std::string, CUser*> p(name, user);
+        ok = m_charNameUsers.insert(p).second;
+    }
+    if (ok)
+    {
+        return 1;
+    }
+    CMyFileLog log("InsertUser_CharName", 0x211);
+    log("./log/Except", "[INSERT_ERR]Already Exist!\tChar Name : %s\tDB No : %d\n",
+        name, user->GetDBID());
+    return 0;
 }
 CUser* CUserManager::CreateUser(unsigned int dbid, unsigned int charNo, char* charName,
                                 int channel, CGameServer* server)
@@ -4597,12 +5119,17 @@ int CUserManager::DeleteUser(CUser* user)
 
 CDNFProhibitUser::CDNFProhibitUser()
 {
-    *(unsigned int*)this = 0;
-    *(unsigned short*)((char*)this + 4) = 0;
-    *(char*)((char*)this + 6) = 0xff;
-    *(char*)((char*)this + 7) = 0;
+    m_dbid = 0;
+    m_remain = 0;
+    m_channel = 0xff;
+    m_flag = 0;
 }
-CDNFProhibitUser::~CDNFProhibitUser() {}
+CDNFProhibitUser::~CDNFProhibitUser()
+{
+    m_remain = 0;
+    m_dbid = 0;
+    m_channel = 0xff;
+}
 void* CDNFProhibitUser::operator new(unsigned int size) { return ::operator new(size); }
 void CDNFProhibitUser::operator delete(void* p) { ::operator delete(p); }
 unsigned int CDNFProhibitUser::GetDBID() { return *(unsigned int*)this; }
@@ -4610,7 +5137,7 @@ unsigned short CDNFProhibitUser::GetProhibitRemainTime()
 {
     return *(unsigned short*)((char*)this + 4);
 }
-char CDNFProhibitUser::IsTimeOutConnectable()
+bool CDNFProhibitUser::IsTimeOutConnectable()
 {
     *(unsigned short*)((char*)this + 4) =
         (unsigned short)(*(unsigned short*)((char*)this + 4) - 1);
@@ -4751,8 +5278,22 @@ void CUserManager::DelSchoolNo(unsigned int schoolNo, unsigned char channel)
     }
 }
 
-CMemberManager::CMemberManager() {}
-CMemberManager::~CMemberManager() {}
+CMemberManager::CMemberManager()
+{
+    m_app = 0;
+    m_userMgr = 0;
+    m_memberConfig = 0;
+    m_memberExpTbl = 0;
+    m_scheduler.SetSpecialHour(6);
+}
+CMemberManager::~CMemberManager()
+{
+    m_app = 0;
+    m_userMgr = 0;
+    m_memberConfig = 0;
+    m_memberExpTbl = 0;
+    m_members.clear();
+}
 void CMemberManager::Init(CApplication* app, CUserManager* userMgr, CMemberConfig* memberConfig,
                           CMemberExpTbl* memberExpTbl)
 {
@@ -4761,8 +5302,38 @@ void CMemberManager::Init(CApplication* app, CUserManager* userMgr, CMemberConfi
     m_memberConfig = memberConfig;
     m_memberExpTbl = memberExpTbl;
 }
-void CMemberManager::MemberRegisterFlagProcess() {}
-char CMemberManager::LoadMemberFromCash(CUser* user, CMember* member) { return 0; }
+void CMemberManager::MemberRegisterFlagProcess()
+{
+    time_t t = time(0);
+    struct tm* lt = localtime(&t);
+    if (!m_scheduler.IsOnTimeSpecialHour(lt->tm_hour, lt->tm_min))
+    {
+        for (std::map<unsigned int, CMember*>::iterator it = m_members.begin();
+             it != m_members.end(); ++it)
+        {
+            CMember* member = it->second;
+            member->CheckMemberRegisterFlag();
+        }
+        CMyFileLog log("MemberRegisterFlagProcess", 0x19a);
+        log("./log/MemberModify", "CMemberManager::MemberRegisterFlagProcess(%d,%d)",
+            lt->tm_min, lt->tm_hour);
+    }
+}
+char CMemberManager::LoadMemberFromCash(CUser* user, CMember* member)
+{
+    if (member == 0)
+    {
+        return 0;
+    }
+    if (user != 0)
+    {
+        InsertMember(member->GetMemberKey(), member);
+        user->AttachMember(member);
+        member->NoticeMemberLogin_Out(user, 1);
+        return 1;
+    }
+    return 0;
+}
 int CMemberManager::DeleteMember(unsigned int key, bool cash)
 {
     if (m_members.empty())
@@ -4782,6 +5353,11 @@ int CMemberManager::DeleteMember(unsigned int key, bool cash)
         }
         m_members.erase(it);
         return 1;
+    }
+    if (cash)
+    {
+        CMyFileLog log("DeleteMember", 0xbb);
+        log("./log/Member", "[DELETE_CASH_PROCESS] Member Key : %d", key);
     }
     return 0;
 }
@@ -5320,9 +5896,23 @@ void SetGMConfig(unsigned int a, unsigned int b, unsigned int c)
     COUNTDOWN_THIRD_TIME = 10;
 }
 
-CVillageAttackedManager::CVillageAttackedManager(CApplication* app) {}
+CVillageAttackedManager::CVillageAttackedManager(CApplication* app)
+{
+    SetRealConfig();
+    m_app = app;
+    m_field30 = 0;
+    Reset();
+}
 CVillageAttackedManager::~CVillageAttackedManager() {}
-void CVillageAttackedManager::SendFirstRankerRewardJpn(CUser* user, int rank) {}
+void CVillageAttackedManager::SendFirstRankerRewardJpn(CUser* user, int rank)
+{
+    Packet_VillageAttackedReward pkt;
+    pkt.m_idByChannel = user->GetIdByChannel();
+    pkt.m_uniqCharNo = user->GetUniqCharNo();
+    pkt.m_count = 6;
+    pkt.m_rewardType = rank;
+    user->SendToGameserver((char*)&pkt, pkt.packetSize);
+}
 void CVillageAttackedManager::InsertTimer(int startTime, int endTime)
 {
     m_field2c = startTime;
@@ -5475,6 +6065,12 @@ void CVillageAttackedManager::SendMaxHuntingPoint()
 }
 void CVillageAttackedManager::Reset()
 {
+    m_huntingPoints.clear();
+    m_field1c = 0;
+    m_field20 = (int)GetMaxHuntingPoint();
+    m_state24 = 0;
+    m_field28 = 0;
+    m_field2c = 0;
 }
 void CVillageAttackedManager::OnEndVillageAttacked()
 {
@@ -5631,7 +6227,7 @@ void CVillageAttackedManager::OnServerGroupRewardVillageAttacked()
 }
 unsigned int CVillageAttackedManager::GetElapseTime()
 {
-    return 0;
+    return (unsigned int)(GetNowTime() - m_field2c);
 }
 void CVillageAttackedManager::ClearDungeonCloseTime()
 {
@@ -5858,7 +6454,19 @@ char CUser::GetJob() { return *(char*)((char*)this + 0x42); }
 char CUser::GetGrowthType() { return *(char*)((char*)this + 0x43); }
 unsigned int CUser::GetIdByChannel() { return *(unsigned int*)((char*)this + 0x20); }
 char* CUser::GetCharName() { return (char*)this + 0x24; }
-char CUser::IsBlackUser(unsigned int key) { return 0; }
+char CUser::IsBlackUser(unsigned int key)
+{
+    if (m_blackList.empty())
+    {
+        return 0;
+    }
+    std::map<unsigned int, CBlackUser*>::iterator it = m_blackList.find(key);
+    if (it != m_blackList.end())
+    {
+        return 1;
+    }
+    return 0;
+}
 unsigned char CUser::GetUpperMemberExpLevel()
 {
     if (*(int*)((char*)this + 0x14) != 0)
@@ -5885,7 +6493,13 @@ void CUser::SendTcpGameserver(PacketHeader* pkt)
         }
     }
 }
-void CUser::SendToGameserver(char* buf, int len) {}
+void CUser::SendToGameserver(char* buf, int len)
+{
+    if (m_gameServer)
+    {
+        m_gameServer->SendToServer(buf, len);
+    }
+}
 void CUser::ResetChannelUserCount(int count)
 {
     m_channelCount = count;
@@ -5950,11 +6564,13 @@ int CUser::ChangeCharNameToBlackList(unsigned int dbid, char* name)
     }
     return 0;
 }
-void CUser::AddBuddyFromCash(CBuddy* buddy) {}
+void CUser::AddBuddyFromCash(CBuddy* buddy)
+{
+    m_buddyHandle.addFromCash(buddy);
+}
 void CUser::SetBuddyDBFlag(unsigned short flag)
 {
-    *(unsigned short*)((char*)this + 0x88) =
-        (unsigned short)(*(unsigned short*)((char*)this + 0x88) | flag);
+    m_buddyHandle.SetBuddyDBFlag(flag);
 }
 int CUser::AddBuddyDB(CServerHandler* handler, char* name)
 {
@@ -6024,7 +6640,7 @@ void CUser::SetEvent_idx(unsigned int idx)
 }
 void CUser::Event_idx_modify_state()
 {
-    *(char*)((char*)this + 0xb0) = 1;
+    m_data2[8] = 1;
 }
 void CUser::SetTcpGameServer(CTcpGameServer* server)
 {
@@ -6112,7 +6728,7 @@ void CUser::SendNoticeBuddyInOut(unsigned char channel, unsigned int charNo, cha
 }
 unsigned short CUser::GetBuddyDBFlag()
 {
-    return *(unsigned short*)((char*)this + 0x88);
+    return m_buddyHandle.GetBuddyDBFlag();
 }
 unsigned short CUser::GetBlackListDBFlag()
 {
@@ -6293,7 +6909,6 @@ CMember::CMember(unsigned int key, CMemberManager* mgr)
 {
     m_key = key;
     m_flag = 0;
-    memset((char*)this + 6, 0, 0x1ae);
     m_memberManager = mgr;
     m_state1b8 = 1;
     m_registerTime = 0;
@@ -6309,7 +6924,11 @@ CMember::~CMember()
     m_dayHourTime = 0;
     m_state1b8 = 0;
 }
-void CMember::QueryMember(CServerHandler* handler) {}
+void CMember::QueryMember(CServerHandler* handler)
+{
+    handler->QueryMember(m_key);
+    m_flag |= 2;
+}
 unsigned int* CMember::GetMemberDBInfoW() { return 0; }
 void CMember::NoticeMemberLogin_Out(CUser* user, char flag)
 {
@@ -6317,7 +6936,7 @@ void CMember::NoticeMemberLogin_Out(CUser* user, char flag)
     if (!invalid && (m_flag & 4) != 0)
     {
         Packet_Monitor_Notice_Member_Member_Login_out pkt;
-        CUser* member = m_memberManager->FindMemberUser(m_memberKey);
+        CUser* member = m_memberManager->FindMemberUser(m_dbInfo.m_member.m_field0);
         if (member != 0)
         {
             member->GetUniqCharNo();
@@ -6353,12 +6972,12 @@ void CMember::NoticeMemberLogin_Out(CUser* user, char flag)
                 }
             }
         }
-        unsigned int count = (unsigned int)m_count2d;
+        unsigned int count = (unsigned int)m_dbInfo.m_count27;
         if (count != 0)
         {
             for (unsigned int i = 0; i < count; i++)
             {
-                CUser* m = m_memberManager->FindMemberUser(m_memberKey);
+                CUser* m = m_memberManager->FindMemberUser(m_dbInfo.m_member.m_field0);
                 if (m != 0)
                 {
                     m->GetUniqCharNo();
@@ -6425,6 +7044,10 @@ void CMember::CheckMemberRegisterFlag()
 }
 char CMember::IsEmpty()
 {
+    if (!IsThereUpper() && m_dbInfo.m_count27 == 0)
+    {
+        return 1;
+    }
     return 0;
 }
 void CMember::NoticeChatMsgToMemberMembersHyperLink(char* msg, int len, unsigned char count,
@@ -6442,7 +7065,7 @@ void CMember::NoticeChatMsgToMemberMembersHyperLink(char* msg, int len, unsigned
             memcpy(pkt.m_items + i * 0x68, (char*)items + i * 0x68, 0x68);
         }
         unsigned short totalSize = (unsigned short)len + 0x16a;
-        CUser* member = m_memberManager->FindMemberUser(m_memberKey);
+        CUser* member = m_memberManager->FindMemberUser(m_dbInfo.m_member.m_field0);
         if (member != 0)
         {
             pkt.m_idByChannel = member->GetIdByChannel();
@@ -6452,12 +7075,12 @@ void CMember::NoticeChatMsgToMemberMembersHyperLink(char* msg, int len, unsigned
         pkt.m_idByChannel = user->GetIdByChannel();
         pkt.m_uniqCharNo = user->GetUniqCharNo();
         user->SendToGameserver((char*)&pkt, totalSize);
-        unsigned int count2 = (unsigned int)m_count2d;
+        unsigned int count2 = (unsigned int)m_dbInfo.m_count27;
         if (count2 != 0)
         {
             for (unsigned int i = 0; i < count2; i++)
             {
-                CUser* m = m_memberManager->FindMemberUser(m_memberKey);
+                CUser* m = m_memberManager->FindMemberUser(m_dbInfo.m_member.m_field0);
                 if (m != 0)
                 {
                     pkt.m_idByChannel = m->GetIdByChannel();
@@ -6477,7 +7100,7 @@ void CMember::NoticeChatMsgToMemberMembers(char* msg, int len, CUser* user)
         pkt.m_msgLen = (unsigned char)len;
         memcpy(pkt.m_msg, msg, len);
         unsigned short totalSize = (unsigned short)len + 0x31;
-        CUser* member = m_memberManager->FindMemberUser(m_memberKey);
+        CUser* member = m_memberManager->FindMemberUser(m_dbInfo.m_member.m_field0);
         if (member != 0)
         {
             pkt.m_idByChannel = member->GetIdByChannel();
@@ -6487,12 +7110,12 @@ void CMember::NoticeChatMsgToMemberMembers(char* msg, int len, CUser* user)
         pkt.m_idByChannel = user->GetIdByChannel();
         pkt.m_uniqCharNo = user->GetUniqCharNo();
         user->SendToGameserver((char*)&pkt, totalSize);
-        unsigned int count = (unsigned int)m_count2d;
+        unsigned int count = (unsigned int)m_dbInfo.m_count27;
         if (count != 0)
         {
             for (unsigned int i = 0; i < count; i++)
             {
-                CUser* m = m_memberManager->FindMemberUser(m_memberKey);
+                CUser* m = m_memberManager->FindMemberUser(m_dbInfo.m_member.m_field0);
                 if (m != 0)
                 {
                     pkt.m_idByChannel = m->GetIdByChannel();
@@ -6505,6 +7128,19 @@ void CMember::NoticeChatMsgToMemberMembers(char* msg, int len, CUser* user)
 }
 void CMember::LoadMember(STMemberDBInfo& info, short level, unsigned int a, unsigned int b)
 {
+    if ((m_flag & 2) != 0)
+    {
+        unsigned int limit = m_memberManager->GetLowerMemberEnterLimit(level);
+        if ((unsigned int)info.m_count27 > limit)
+        {
+            info.m_count27 = (unsigned char)limit;
+        }
+        memcpy((char*)this + 6, &info, (unsigned int)info.m_count27 * 0x27 + 0x28);
+        m_flag |= 4;
+        SetMemberRegisterTime(a);
+        SetMemberDeleteTime(b);
+        CheckMemberRegisterFlag();
+    }
 }
 int CMember::IsThereUpper() const { return *(int*)((char*)this + 6) != 0; }
 int CMember::GetUpperMember_CharId() const
@@ -6521,7 +7157,7 @@ int CMember::GetUpperMember_CharId() const
 }
 int CMember::FindLowerMember(unsigned int charNo) const
 {
-    unsigned int count = (unsigned int)m_count2d;
+    unsigned int count = (unsigned int)m_dbInfo.m_count27;
     if (count != 0)
     {
         const char* p = (const char*)this + 0x2e;
@@ -6657,9 +7293,9 @@ unsigned int CMember::GetUpperMemberExpLevel()
 int CMember::GetConnLowerMemberCnt()
 {
     int cnt = 0;
-    if (m_count2d != 0)
+    if (m_dbInfo.m_count27 != 0)
     {
-        for (int i = 0; i < (int)(unsigned int)m_count2d; i++)
+        for (int i = 0; i < (int)(unsigned int)m_dbInfo.m_count27; i++)
         {
             if (m_memberManager->FindMemberUser(
                     *(unsigned int*)((char*)this + 0x2e + i * 0x27)) != 0)
@@ -6689,7 +7325,7 @@ int CMember::InsertUpperMember(unsigned int charNo, unsigned char level, const c
 int CMember::InsertLowerMember(unsigned int charNo, unsigned char level, const char* name,
                                bool flag)
 {
-    unsigned int n = (unsigned int)m_count2d;
+    unsigned int n = (unsigned int)m_dbInfo.m_count27;
     if (n + 1 < 0xb)
     {
         *(unsigned char*)((char*)this + n * 0x27 + 0x32) = level;
@@ -6699,7 +7335,7 @@ int CMember::InsertLowerMember(unsigned int charNo, unsigned char level, const c
         {
             SetMemberRegisterTime((unsigned int)time(0));
         }
-        m_count2d++;
+        m_dbInfo.m_count27++;
         return 1;
     }
     return 0;
@@ -6722,18 +7358,17 @@ void CMember::DeleteUpperMember(unsigned int charNo, bool flag)
 }
 void CMember::DeleteLowerMember(unsigned int charNo, bool flag)
 {
-    unsigned int count = (unsigned int)m_count2d;
-    if (count != 0)
+    int count = (int)m_dbInfo.m_count27;
+    if (count > 0)
     {
         char* p = (char*)this + 0x2e;
         unsigned char idx = 0;
-        while (count != 0)
+        do
         {
-            count--;
             if (*(unsigned int*)p == charNo)
             {
                 memcpy(p, p + 0x27, (unsigned int)(~(unsigned char)idx) * 0x27 + 0x186);
-                m_count2d--;
+                m_dbInfo.m_count27--;
                 if (flag)
                 {
                     SetMemberDeleteTime(time(0));
@@ -6742,7 +7377,8 @@ void CMember::DeleteLowerMember(unsigned int charNo, bool flag)
             }
             p += 0x27;
             idx++;
-        }
+        } while (count-- != 0);
+        DebugPrintMemberMember("DELETE_LOWER_MEMBER");
     }
 }
 unsigned char* CMember::GetMemberDBInfo() const
@@ -6761,7 +7397,7 @@ int CMember::DeleteMemberByName(char* name, unsigned int& outKey)
     }
     char* p = (char*)this + 0x2e;
     int idx = 0;
-    unsigned int count = (unsigned int)m_count2d;
+    unsigned int count = (unsigned int)m_dbInfo.m_count27;
     if (count == 0)
     {
         return 0;
@@ -6773,7 +7409,7 @@ int CMember::DeleteMemberByName(char* name, unsigned int& outKey)
         {
             outKey = *(unsigned int*)p;
             memcpy(p, p + 0x27, (unsigned int)(~(unsigned char)idx) * 0x27 + 0x186);
-            m_count2d--;
+            m_dbInfo.m_count27--;
             SetMemberDeleteTime(time(0));
             return 2;
         }
@@ -7611,7 +8247,10 @@ void CPacketTranslater::OnCharLogin(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnNoticeBuddyChatMsg : 0 == m_pclApp");
@@ -7711,9 +8350,24 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt)
         receiver->SendToGameserver((char*)&reply,
                                    *(unsigned short*)((char*)&reply + 2));
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0xb4c, "./log/Except", "Exception Break : %s", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0xb51, "./log/Except", "Exception Break");
+    }
 }
+
 void CPacketTranslater::OnCeraUpdate(PacketHeader* pkt)
+{try
 {
+
+
     CUser* user =
         ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
             *(unsigned int*)((char*)pkt + 0xa));
@@ -7733,7 +8387,21 @@ void CPacketTranslater::OnCeraUpdate(PacketHeader* pkt)
             ((CServerInterface*)gs)->SendToServer((char*)pkt, 0xe);
         }
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnCeraUpdate() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x490, "./log/Except", "CPacketTranslater::OnCeraUpdate() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnCeraUpdate() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x496, "./log/Except", "CPacketTranslater::OnCeraUpdate() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt)
 {
     try
@@ -7795,7 +8463,10 @@ void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnReplyQueryMember(PacketHeader* pkt)
+{try
 {
+
+
     if (*(char*)((char*)pkt + 0xa) == 1)
     {
         CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
@@ -7821,9 +8492,26 @@ void CPacketTranslater::OnReplyQueryMember(PacketHeader* pkt)
             "[DB ERROR]CPacketTranslater::OnReplyQueryMember() packet->bSuccess : %d\n",
             (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xa));
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnReplyQueryMember() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x4f1, "./log/Except", "CPacketTranslater::OnReplyQueryMember() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnReplyQueryMember() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x4f7, "./log/Except", "CPacketTranslater::OnReplyQueryMember() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnRequestMemberEnter(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         return;
@@ -7918,9 +8606,26 @@ void CPacketTranslater::OnRequestMemberEnter(PacketHeader* pkt)
                 requester->GetUniqCharNo(), target->GetUniqCharNo());
         }
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnRequestMemberEnter() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x5ee, "./log/Except", "CPacketTranslater::OnRequestMemberEnter() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnRequestMemberEnter() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x5f4, "./log/Except", "CPacketTranslater::OnRequestMemberEnter() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnMemberEnterReply(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp != 0)
     {
         CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
@@ -8105,9 +8810,26 @@ void CPacketTranslater::OnMemberEnterReply(PacketHeader* pkt)
             }
         }
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnRequestMemberEnter() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x6be, "./log/Except", "CPacketTranslater::OnRequestMemberEnter() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnRequestMemberEnter() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x6c4, "./log/Except", "CPacketTranslater::OnRequestMemberEnter() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnMemberSecede(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp != 0)
     {
         CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
@@ -8196,7 +8918,21 @@ void CPacketTranslater::OnMemberSecede(PacketHeader* pkt)
             }
         }
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnMemberSecede() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x750, "./log/Except", "CPacketTranslater::OnMemberSecede() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnMemberSecede() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x756, "./log/Except", "CPacketTranslater::OnMemberSecede() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnCallMemberList(PacketHeader* pkt)
 {
     if (m_pclApp != 0)
@@ -8294,7 +9030,10 @@ void CPacketTranslater::OnCallMemberList(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnNoticeMemberChatMsg(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnNoticeMemberChatMsg : 0 == m_pclApp");
@@ -8320,7 +9059,21 @@ void CPacketTranslater::OnNoticeMemberChatMsg(PacketHeader* pkt)
     }
     throw CDNFException(
         "CPacketTranslater::OnNoticeMemberChatMsg : packet->m_uMemberID && packet->m_msgLen");
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnNoticeMemberChatMsg() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x822, "./log/Except", "CPacketTranslater::OnNoticeMemberChatMsg() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnNoticeMemberChatMsg() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x828, "./log/Except", "CPacketTranslater::OnNoticeMemberChatMsg() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnPayTaxToUpper(PacketHeader* pkt)
 {
     try
@@ -8404,7 +9157,10 @@ void CPacketTranslater::OnPayTaxToUpper(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnUpdateChangableCharInfo(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnUpdateChangableCharInfo : 0 == m_pclApp");
@@ -8416,9 +9172,26 @@ void CPacketTranslater::OnUpdateChangableCharInfo(PacketHeader* pkt)
     {
         user->SetUserChangableInfo(*(short*)((char*)pkt + 0xf), *(char*)((char*)pkt + 0x11));
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnNoticeMemberChatMsg() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x7f2, "./log/Except", "CPacketTranslater::OnNoticeMemberChatMsg() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnNoticeMemberChatMsg() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x7f8, "./log/Except", "CPacketTranslater::OnNoticeMemberChatMsg() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnLogoutComplete(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnLogoutComplete : 0 == m_pclApp");
@@ -8439,9 +9212,26 @@ void CPacketTranslater::OnLogoutComplete(PacketHeader* pkt)
             "[DELETE_ERR_] CPacketTranslater::OnLogoutComplete m_id : %s\tChannel No : %d\n",
             dbid, (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe));
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnLogoutComplete() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x8aa, "./log/Except", "CPacketTranslater::OnLogoutComplete() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnLogoutComplete() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x8b0, "./log/Except", "CPacketTranslater::OnLogoutComplete() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnUserRepel(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnUserRepel : 0 == m_pclApp");
@@ -8458,9 +9248,26 @@ void CPacketTranslater::OnUserRepel(PacketHeader* pkt)
         *(unsigned int*)((char*)pkt + 0xa) = user->GetIdByChannel();
         user->SendToGameserver((char*)pkt, 0x12);
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnUserRepel Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x969, "./log/Except", "CPacketTranslater::OnUserRepel Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnUserRepel Exception Break");
+        DNF_LOG_SCOPE_LINE(0x96f, "./log/Except", "CPacketTranslater::OnUserRepel Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnCharacterDelete(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnCharacterDelete : 0 == m_pclApp");
@@ -8474,7 +9281,21 @@ void CPacketTranslater::OnCharacterDelete(PacketHeader* pkt)
         dbPkt.m_charNo = *(unsigned int*)((char*)pkt + 0xe);
         handler->SendToDB(&dbPkt);
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnCharacterDelete Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x9d8, "./log/Except", "CPacketTranslater::OnCharacterDelete Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnCharacterDelete Exception Break");
+        DNF_LOG_SCOPE_LINE(0x9de, "./log/Except", "CPacketTranslater::OnCharacterDelete Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnEventStart(PacketHeader* pkt)
 {
     try
@@ -8493,7 +9314,8 @@ void CPacketTranslater::OnEventStart(PacketHeader* pkt)
             code, (unsigned int)p1, (unsigned int)p2);
         ((CEventActionManager*)*(int*)((char*)m_pclApp + 0x31c))
             ->OnStartAction((Packet_Monitor_Event_Start*)pkt);
-        m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(pkt);
+        ((CServerHandler*)*(void**)((char*)m_pclApp + 0xa0))
+            ->SendAllTcpGameServer(pkt);
     }
     catch (CDNFException& e)
     {
@@ -8550,7 +9372,10 @@ void CPacketTranslater::OnNotifyNewMail(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnWebQueryUserState(PacketHeader* pkt)
+{try
 {
+
+
     CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
     int found = 0;
     if (userMgr->FindUser(*(unsigned int*)((char*)pkt + 0xa)) == 0)
@@ -8570,9 +9395,24 @@ void CPacketTranslater::OnWebQueryUserState(PacketHeader* pkt)
     {
         throw CDNFException(strerror(errno));
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0xb7f, "./log/Except", "%s Exception Break : %s\n", "OnWebQueryUserState", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0xb84, "./log/Except", "%s Exception Break\n", "OnWebQueryUserState");
+    }
 }
+
 void CPacketTranslater::OnNoticeMessage(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnNoticeMessage : 0 == m_pclApp");
@@ -8580,9 +9420,24 @@ void CPacketTranslater::OnNoticeMessage(PacketHeader* pkt)
     DNF_LOG_SCOPE_LINE(0xf8e, "./log/GM_msg", "CPacketTranslater::OnNoticeMessage()%s\n", (char*)pkt + 0xb);
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, 0x10b);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0xf95, "./log/Except", "CPacketTranslater::OnNoticeMessage() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0xf9a, "./log/Except", "CPacketTranslater::OnNoticeMessage() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnRelayServerUserCheck(PacketHeader* pkt)
+{try
 {
+
+
     CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
     int found = 0;
     if (userMgr->FindUser(*(unsigned int*)((char*)pkt + 0xa)) == 0)
@@ -8600,9 +9455,24 @@ void CPacketTranslater::OnRelayServerUserCheck(PacketHeader* pkt)
         throw CDNFException(strerror(errno));
     }
     gs->SendToServer((char*)pkt, 0xf);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0xfc8, "./log/Except", "%s Exception Break : %s\n", "OnRelayServerUserCheck", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0xfcd, "./log/Except", "%s Exception Break\n", "OnRelayServerUserCheck");
+    }
 }
+
 void CPacketTranslater::OnForbidChat(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnForbidChat : 0 == m_pclApp");
@@ -8611,7 +9481,19 @@ void CPacketTranslater::OnForbidChat(PacketHeader* pkt)
         *(unsigned int*)((char*)pkt + 0xa));
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, 0x30);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0xfe3, "./log/Except", "CPacketTranslater::OnForbidChat() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0xfe8, "./log/Except", "CPacketTranslater::OnForbidChat() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnNoticeProhibitConnectUser(PacketHeader* pkt)
 {
     try
@@ -8746,13 +9628,17 @@ void CPacketTranslater::OnMonitorMegaPhoneMsg(PacketHeader* pkt)
 }
 void CPacketTranslater::OnRegisterGM_mid(PacketHeader* pkt)
 {
+    PacketHeader* p = pkt;
     if (m_pclApp != 0)
     {
-        m_pclApp->Add_GM_id(*(unsigned int*)((char*)pkt + 0xa));
+        m_pclApp->Add_GM_id(*(unsigned int*)((char*)p + 0xa));
     }
 }
 void CPacketTranslater::OnRegisterToBlackList(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0xc41, "./log/BlackList", "CPacketTranslater::OnRegisterToBlackList : 0 == m_pclApp");
@@ -8818,9 +9704,24 @@ void CPacketTranslater::OnRegisterToBlackList(PacketHeader* pkt)
             }
         }
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0xc8c, "./log/Except", "CPacketTranslater::OnRegisterToBlackList Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0xc91, "./log/Except", "CPacketTranslater::OnRegisterToBlackList Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnDeleteToBlackList(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0xca6, "./log/BlackList", "CPacketTranslater::OnDeleteToBlackList : 0 == m_pclApp");
@@ -8855,9 +9756,24 @@ void CPacketTranslater::OnDeleteToBlackList(PacketHeader* pkt)
         user->SendToGameserver((char*)&result, *(unsigned short*)((char*)&result + 2));
     }
     handler->SendToDB(&dbPkt);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0xcd0, "./log/Except", "CPacketTranslater::OnDeleteToBlackList Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0xcd5, "./log/Except", "CPacketTranslater::OnDeleteToBlackList Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnRequestBlackList(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0xce9, "./log/BlackList", "CPacketTranslater::OnRequestBlackList : 0 == m_pclApp");
@@ -8875,14 +9791,29 @@ void CPacketTranslater::OnRequestBlackList(PacketHeader* pkt)
         else
         {
             unsigned char count = 0;
-            user->GetBlackList(count, (unsigned int*)reply.m_blackList);
+            user->GetBlackList(count, reply.m_blackList);
             reply.m_count = count;
             user->SendToGameserver((char*)&reply, *(unsigned short*)((char*)&reply + 2));
         }
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0xcff, "./log/Except", "CPacketTranslater::OnRequestBlackList Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0xd04, "./log/Except", "CPacketTranslater::OnRequestBlackList Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnDBMWResisterToBlackList(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0xd18, "./log/BlackList", "CPacketTranslater::OnDBMWResisterToBlackList : 0 == m_pclApp");
@@ -8931,9 +9862,24 @@ void CPacketTranslater::OnDBMWResisterToBlackList(PacketHeader* pkt)
             }
         }
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0xd50, "./log/Except", "CPacketTranslater::OnDBMWResisterToBlackList Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0xd55, "./log/Except", "CPacketTranslater::OnDBMWResisterToBlackList Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnDBMWDeleteToBlackList(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0xd69, "./log/BlackList", "CPacketTranslater::OnDBMWDeleteToBlackList : 0 == m_pclApp");
@@ -8970,15 +9916,42 @@ void CPacketTranslater::OnDBMWDeleteToBlackList(PacketHeader* pkt)
             }
         }
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0xd8d, "./log/Except", "CPacketTranslater::OnDBMWDeleteToBlackList Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0xd92, "./log/Except", "CPacketTranslater::OnDBMWDeleteToBlackList Exception Break\n");
+    }
 }
+
 void CPacketTranslater::RequestBlackListToDBMW(unsigned int charNo)
+{try
 {
+
+
     Packet_DBMW_Request_BlackList pkt;
     pkt.m_charNo = charNo;
     pkt.m_flag = 0xc9;
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendToDB(&pkt);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0xdab, "./log/Except", "CPacketTranslater::RequestBlackListToDBMW Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0xdb0, "./log/Except", "CPacketTranslater::RequestBlackListToDBMW Exception Break\n");
+    }
 }
+
 void CPacketTranslater::SendColletItemsReward(unsigned int charNo, int itemId,
                                               const char* itemName, int nameLen,
                                               TimeGateRewardType::T type)
@@ -9004,7 +9977,10 @@ void CPacketTranslater::SendColletItemsReward(unsigned int charNo, int itemId,
     }
 }
 void CPacketTranslater::OnDBMWResponseBlackListOnLogin(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0xdc3,"./log/BlackList",
@@ -9036,7 +10012,19 @@ void CPacketTranslater::OnDBMWResponseBlackListOnLogin(PacketHeader* pkt)
             user->SendBlackList();
         }
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0xde0, "./log/Except", "CPacketTranslater::OnDBMWResponseBlackListOnLogin Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0xde5, "./log/Except", "CPacketTranslater::OnDBMWResponseBlackListOnLogin Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnExchangeServerInfo(PacketHeader* pkt)
 {
     try
@@ -9177,16 +10165,28 @@ void CPacketTranslater::OnNoticeCharLiveOnTenMin(PacketHeader* pkt)
 }
 void CPacketTranslater::OnWebNoticeSingle(PacketHeader* pkt)
 {
-    if (m_pclApp == 0)
+    try
     {
-        DNF_LOG_SCOPE_LINE(0xf67, "./log/WebNotice", "CPacketTranslater::OnWebNoticeSingle : 0 == m_pclApp");
+        if (m_pclApp == 0)
+        {
+            DNF_LOG_SCOPE_LINE(0xf67, "./log/WebNotice", "CPacketTranslater::OnWebNoticeSingle : 0 == m_pclApp");
+        }
+        else
+        {
+            CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+            handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+            DNF_LOG_SCOPE_LINE(0xf6f,"./log/WebNotice", "OnWebNoticeSingle : (%s,%d)\n", (char*)pkt + 0xb,
+                (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xa));
+        }
     }
-    else
+    catch (CDNFException& e)
     {
-        CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
-        handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
-        DNF_LOG_SCOPE_LINE(0xf6f,"./log/WebNotice", "OnWebNoticeSingle : (%s,%d)\n", (char*)pkt + 0xb,
-            (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xa));
+        DNF_LOG_SCOPE_LINE(0xf73, "./log/Except", "CPacketTranslater::OnWebNoticeSingle Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0xf78, "./log/Except", "CPacketTranslater::OnWebNoticeSingle Exception Break\n");
     }
 }
 void CPacketTranslater::OnAddBuddy(PacketHeader* pkt)
@@ -9458,7 +10458,10 @@ void CPacketTranslater::OnWebChangeUserHandicap(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnGMRequestMid(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x113c, "./log/Except", "CPacketTranslater::OnGMRequestMid : 0 == m_pclApp");
@@ -9485,9 +10488,24 @@ void CPacketTranslater::OnGMRequestMid(PacketHeader* pkt)
             user->SendToGameserver((char*)&reply, *(unsigned short*)((char*)&reply + 2));
         }
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1161, "./log/Except", "CPacketTranslater::OnQueryBuddyInfoDBReply Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x1166, "./log/Except", "CPacketTranslater::OnQueryBuddyInfoDBReply Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnUserRepelByCharName(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp != 0)
     {
         CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
@@ -9505,7 +10523,21 @@ void CPacketTranslater::OnUserRepelByCharName(PacketHeader* pkt)
         return;
     }
     throw CDNFException("CPacketTranslater::OnUserRepel : 0 == m_pclApp");
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnUserRepel Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x9a2, "./log/Except", "CPacketTranslater::OnUserRepel Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnUserRepel Exception Break");
+        DNF_LOG_SCOPE_LINE(0x9a8, "./log/Except", "CPacketTranslater::OnUserRepel Exception Break\n");
+    }
 }
+
 void CPacketTranslater::onReplyLoadTowerFullRank(PacketHeader* pkt)
 {
     try
@@ -9537,7 +10569,10 @@ void CPacketTranslater::onReplyLoadTowerFullRank(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::onRequestCharacTowerUpdateRank(PacketHeader* pkt)
+{try
 {
+
+
     CUser* user =
         ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
             *(unsigned int*)((char*)pkt + 0xe));
@@ -9550,19 +10585,61 @@ void CPacketTranslater::onRequestCharacTowerUpdateRank(PacketHeader* pkt)
         CTowerRank* tower = (CTowerRank*)m_pclApp->getTowerRank();
         tower->registCharacRank(c, name, b, a);
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1197, "./log/Except", "CPacketTranslater::onRequestCharacTowerUpdateRank Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x119c, "./log/Except", "CPacketTranslater::onRequestCharacTowerUpdateRank Exception Break\n");
+    }
 }
+
 void CPacketTranslater::onRequestReloadTowerRanker(PacketHeader* pkt)
+{try
 {
+
+
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     CTowerRank* tower = (CTowerRank*)m_pclApp->getTowerRank();
     tower->processReloadRanking(handler, true, 5);
     handler->SendAllToGameServer((char*)pkt, 10);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x11aa, "./log/Except", "CPacketTranslater::onRequestReloadTowerRanker Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x11af, "./log/Except", "CPacketTranslater::onRequestReloadTowerRanker Exception Break\n");
+    }
 }
+
 void CPacketTranslater::onWebReqReloadAutoPunishRule(PacketHeader* pkt)
+{try
 {
+
+
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, 0xb);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x11bc, "./log/Except", "CPacketTranslater::onWebReqReloadAutoPunishRule Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x11c1, "./log/Except", "CPacketTranslater::onWebReqReloadAutoPunishRule Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnInnerPacketLogin(PacketHeader* pkt)
 {
     try
@@ -9693,33 +10770,93 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnNoticeSlang(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnNoticeSlang : 0 == m_pclApp");
     }
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, 0x3d);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x12d1, "./log/Except", "CPacketTranslater::OnNoticeSlang() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x12d6, "./log/Except", "CPacketTranslater::OnNoticeSlang() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::onLoadCleanPadPoint(PacketHeader* pkt)
+{try
 {
+
+
     DNF_LOG_SCOPE_LINE(0x12e0, "./log/Cleanpad", "CleanPad Point");
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, 10);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x12e5, "./log/Except", "CPacketTranslater::onLoadCleanPadPoint Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x12ea, "./log/Except", "CPacketTranslater::onLoadCleanPadPoint Exception Break\n");
+    }
 }
+
 void CPacketTranslater::onLoadBlackIPMonitor(PacketHeader* pkt) {}
 void CPacketTranslater::onLoadBlackIPMonitorPartLoad(PacketHeader* pkt)
+{try
 {
+
+
     DNF_LOG_SCOPE_LINE(0x1307, "./log/BlackIP", "BlackIP Monitor Part Load");
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, 10);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x130c, "./log/Except", "CPacketTranslater::onLoadBlackIPMonitorPartLoad Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x1311, "./log/Except", "CPacketTranslater::onLoadBlackIPMonitorPartLoad Exception Break\n");
+    }
 }
+
 void CPacketTranslater::onLoadBlackIPMonitorDeleteIP(PacketHeader* pkt)
+{try
 {
+
+
     DNF_LOG_SCOPE_LINE(0x131a, "./log/BlackIP", "BlackIP Monitor Delete IP");
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, 0x19e);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1320, "./log/Except", "CPacketTranslater::onLoadBlackIPMonitorDeleteIP Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x1325, "./log/Except", "CPacketTranslater::onLoadBlackIPMonitorDeleteIP Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnChangeCharName(PacketHeader* pkt)
 {
     try
@@ -9877,25 +11014,73 @@ void CPacketTranslater::OnChannelType(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnServerMessageInfo(PacketHeader* pkt)
+{try
 {
+
+
     DNF_LOG_SCOPE_LINE(0x1402, "./log/ServerEvent", "Packet_Monitor_Server_Message_Info");
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, 0x5f);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1408, "./log/Except", "CPacketTranslater::OnServerMessageInfo Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x140d, "./log/Except", "CPacketTranslater::OnServerMessageInfo Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnRequestReloadPowerWarRanker(PacketHeader* pkt)
+{try
 {
+
+
     DNF_LOG_SCOPE_LINE(0x1418, "./log/ServerEvent", "Packet_Request_Reload_Power_War_Ranker");
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, 10);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x141e, "./log/Except", "CPacketTranslater::OnRequestReloadPowerWarRanker Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x1423, "./log/Except", "CPacketTranslater::OnRequestReloadPowerWarRanker Exception Break\n");
+    }
 }
+
 void CPacketTranslater::onLoadPunishUserReq(PacketHeader* pkt)
+{try
 {
+
+
     DNF_LOG_SCOPE_LINE(0x142d, "./log/Secu", "Punish User Request");
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, 0x4bd);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1432, "./log/Except", "CPacketTranslater::onLoadPunishUserReq Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x1437, "./log/Except", "CPacketTranslater::onLoadPunishUserReq Exception Break\n");
+    }
 }
+
 void CPacketTranslater::onIPCounterControl(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::onIPCounterControl : 0 == m_pclApp");
@@ -9905,7 +11090,19 @@ void CPacketTranslater::onIPCounterControl(PacketHeader* pkt)
         (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xb));
     CIPCounter* counter = (CIPCounter*)m_pclApp->getIPCounter();
     counter->setOption(*(unsigned char*)((char*)pkt + 0xa), *(unsigned char*)((char*)pkt + 0xb));
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1452, "./log/Except", "CPacketTranslater::onIPCounterControl Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x1457, "./log/Except", "CPacketTranslater::onIPCounterControl Exception Break\n");
+    }
 }
+
 void CPacketTranslater::onItemLimitEditionLoadDataReq(PacketHeader* pkt)
 {
     try
@@ -9926,7 +11123,7 @@ void CPacketTranslater::onItemLimitEditionLoadDataReq(PacketHeader* pkt)
             *(unsigned int*)((char*)pkt + 0xb) =
                 (unsigned int)m_pclApp->Get_ServerGroup() & 0xff;
         }
-        m_pclApp->Get_ServerHandler()->SendToDB(pkt);
+        ((CServerHandler*)*(void**)((char*)m_pclApp + 0xa0))->SendToDB(pkt);
         DNF_LOG_SCOPE_LINE(0x1474,"./log/ItemLimitEdition",
             "(FullLoad: %d, ServerType:%d, LoadTargetNum: %d, IPGNO: "
             "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d)",
@@ -10152,7 +11349,10 @@ void CPacketTranslater::onItemLimitEditionBuyableRequest(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnMonitorFindFactoryHubUser(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnMonitorFindFactoryHubUser : 0 == m_pclApp");
@@ -10198,7 +11398,21 @@ void CPacketTranslater::OnMonitorFindFactoryHubUser(PacketHeader* pkt)
         return;
     }
     throw CDNFException("CPacketTranslater::OnMonitorFindFactoryHubUser");
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnNoticeGuildChatMsg() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x1629, "./log/Except", "CPacketTranslater::OnMonitorFindFactoryHubUser() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnNoticeGuildChatMsg() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x162f, "./log/Except", "CPacketTranslater::OnMonitorFindFactoryHubUser() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnSetCleanPadPoint(PacketHeader* pkt)
 {
     try
@@ -10247,7 +11461,10 @@ void CPacketTranslater::OnSetCleanPadPoint(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnResponseIPCounterList(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnResponseIPCounterList : 0 == m_pclApp");
@@ -10257,9 +11474,26 @@ void CPacketTranslater::OnResponseIPCounterList(PacketHeader* pkt)
         (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xb));
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnResponseIPCounterList() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x16d1, "./log/Except", "CPacketTranslater::OnResponseIPCounterList() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnResponseIPCounterList() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x16d7, "./log/Except", "CPacketTranslater::OnResponseIPCounterList() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnResponseFullIPCounterList(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnResponseFullIPCounterList : 0 == m_pclApp");
@@ -10269,7 +11503,21 @@ void CPacketTranslater::OnResponseFullIPCounterList(PacketHeader* pkt)
         (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xb));
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnResponseFullIPCounterList() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x16f1, "./log/Except", "CPacketTranslater::OnResponseFullIPCounterList() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnResponseFullIPCounterList() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x16f7, "./log/Except", "CPacketTranslater::OnResponseFullIPCounterList() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnTakeScreenShot(PacketHeader* pkt)
 {
     try
@@ -10310,7 +11558,10 @@ void CPacketTranslater::OnTakeScreenShot(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnVillageMonsterFightResult(PacketHeader* pkt)
+{try
 {
+
+
     unsigned int users[4] = {0, 0, 0, 0};
     CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
     for (int i = 0; i < 4; i++)
@@ -10321,7 +11572,19 @@ void CPacketTranslater::OnVillageMonsterFightResult(PacketHeader* pkt)
             users[i] = (unsigned int)userMgr->FindUser_CharNo(key);
         }
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1736, "./log/Except", "CPacketTranslater::OnVillageMonsterFightResult() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x173b, "./log/Except", "CPacketTranslater::OnVillageMonsterFightResult() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnVillageAttackedGMCommand(PacketHeader* pkt)
 {
     try
@@ -10349,7 +11612,10 @@ void CPacketTranslater::OnMonitorFullLevelBroadCast(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnSetARSInfo(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnSetARSInfo : 0 == m_pclApp");
@@ -10357,9 +11623,26 @@ void CPacketTranslater::OnSetARSInfo(PacketHeader* pkt)
     DNF_LOG_SCOPE_LINE(0x183d, "./log/Secu", "[ARS_INFO] DBMW -> Monitor -> GameSvr");
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllToGameServer((char*)pkt, 0x4bf);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnSetARSInfo() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x1844, "./log/Except", "CPacketTranslater::OnSetARSInfo() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnSetARSInfo() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x184a, "./log/Except", "CPacketTranslater::OnSetARSInfo() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnWebRequestARSInfo(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnWebRequestARSInfo : 0 == m_pclApp");
@@ -10370,7 +11653,21 @@ void CPacketTranslater::OnWebRequestARSInfo(PacketHeader* pkt)
         DNF_LOG_SCOPE_LINE(0x181d, "./log/Secu", "[ARS_INFO] Web -> Monitor -> DBMW");
         handler->SendDBMWRequestARSInfo(*(unsigned char*)((char*)pkt + 0xa));
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnWebRequestARSInfo() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x1824, "./log/Except", "CPacketTranslater::OnWebRequestARSInfo() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnWebRequestARSInfo() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x182a, "./log/Except", "CPacketTranslater::OnWebRequestARSInfo() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnCheckOverlappedAccusation(PacketHeader* pkt)
 {
     CTcpGameServer* tcpGs =
@@ -10444,9 +11741,16 @@ void CPacketTranslater::OnGameServerRegist(PacketHeader* pkt)
         }
     }
 }
+struct Packet_No_Cache_View
+{
+    char m_header[0xa];
+    unsigned int m_dbid;
+} __attribute__((packed));
+
 void CPacketTranslater::OnNoCache(PacketHeader* pkt)
 {
-    if (*(int*)((char*)pkt + 0xa) == 0)
+    PacketHeader* p = pkt;
+    if (((Packet_No_Cache_View*)p)->m_dbid == 0)
     {
         exchange_server::GetInstanceCacheCharacterMgr()->Reset();
     }
@@ -10454,11 +11758,15 @@ void CPacketTranslater::OnNoCache(PacketHeader* pkt)
     {
         exchange_server::CACHE_CHARACTER_TYPE type;
         if (exchange_server::GetInstanceCacheCharacterMgr()->GetCacheCharacter(
-                *(unsigned int*)((char*)pkt + 0xa), &type) != 0)
+                ((Packet_No_Cache_View*)p)->m_dbid, &type))
         {
-            char* s = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
-            DNF_LOG_SCOPE_LINE(0x1970,"./log/ExchangeServer", "OnNoCache() (%s,%d,%d)\n", s, type.m_field0,
-                type.m_field4);
+            register char* s;
+            register int f0;
+            register int f4;
+            f4 = type.m_field4;
+            f0 = type.m_field0;
+            s = NumberToString(((Packet_No_Cache_View*)p)->m_dbid, 0);
+            DNF_LOG_SCOPE_LINE(0x1970,"./log/ExchangeServer", "OnNoCache() (%s,%d,%d)\n", s, f0, f4);
         }
     }
 }
@@ -10535,11 +11843,26 @@ void CPacketTranslater::OnRenew_GM_List(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnLoadPeriodicMessage(PacketHeader* pkt)
+{try
 {
+
+
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendToDB(pkt);
     DNF_LOG_SCOPE_LINE(0x19e0, "./log/PeriodicMessage", "Web Request is Arrived and Send Request DBMW");
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x19e4, "./log/Except", "CPacketTranslater::OnLoadPeriodicMessage Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x19e9, "./log/Except", "CPacketTranslater::OnLoadPeriodicMessage Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnResultLoadPeriodicMessage(PacketHeader* pkt)
 {
     try
@@ -10563,7 +11886,10 @@ void CPacketTranslater::OnResultLoadPeriodicMessage(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnRegisterEventIdx(PacketHeader* pkt)
+{try
 {
+
+
     unsigned int idx = *(unsigned int*)((char*)pkt + 0xa);
     DNF_LOG_SCOPE_LINE(0x1a15,"./log/OnTimeEvent", "OnRegisterEventIdx:result =%d, Eventidx =%d",
         (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe), idx);
@@ -10571,7 +11897,19 @@ void CPacketTranslater::OnRegisterEventIdx(PacketHeader* pkt)
     {
         ((COnTimeEventManager*)*(void**)((char*)m_pclApp + 800))->SetEventIdx(idx);
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1a1e, "./log/Except", "CPacketTranslater::OnResultLoadPeriodicMessage Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x1a23, "./log/Except", "CPacketTranslater::OnResultLoadPeriodicMessage Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnRegisterEventUserIdx(PacketHeader* pkt)
 {
     try
@@ -10690,7 +12028,10 @@ void CPacketTranslater::OnResultRegisterEventIdx(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnGameMonitorGMVillageAttacked(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException(
@@ -10706,7 +12047,19 @@ void CPacketTranslater::OnGameMonitorGMVillageAttacked(PacketHeader* pkt)
                                       *(unsigned int*)((char*)pkt + 0xf),
                                       *(unsigned int*)((char*)pkt + 0x13));
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1bbd, "./log/Except", "CPacketTranslater::OnGameMonitorGMVillageAttacked Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x1bc2, "./log/Except", "CPacketTranslater::OnGameMonitorGMVillageAttacked Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnMonitorPunishCancel(PacketHeader* pkt)
 {
     try
@@ -10832,7 +12185,10 @@ void CPacketTranslater::OnMonitorSecuServiceConnWeb(PacketHeader* pkt)
 }
 void CPacketTranslater::OnResetTODAPCInfo(PacketHeader* pkt) {}
 void CPacketTranslater::OnNoticeMemberChatMsgHyperLink(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnNoticeMemberChatMsgHyperLink : 0 == m_pclApp");
@@ -10861,9 +12217,26 @@ void CPacketTranslater::OnNoticeMemberChatMsgHyperLink(PacketHeader* pkt)
     throw CDNFException(
         "CPacketTranslater::OnNoticeMemberChatMsgHyperLink : packet->m_uMemberID && "
         "packet->m_msgLen");
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnNoticeMemberChatMsgHyperLink() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x1cb7, "./log/Except", "CPacketTranslater::OnNoticeMemberChatMsgHyperLink() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnNoticeMemberChatMsgHyperLink() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x1cbd, "./log/Except", "CPacketTranslater::OnNoticeMemberChatMsgHyperLink() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException(
@@ -10983,7 +12356,19 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink(PacketHeader* pkt)
             (unsigned short)((unsigned char)*(char*)((char*)pkt + 0x173) + 0x170);
         receiver->SendToGameserver((char*)&reply, *(unsigned short*)((char*)&reply + 2));
     }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1d77, "./log/Except", "CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x1d7c, "./log/Except", "CPacketTranslater::OnNoticeOtherChannelChatMsgHyperLink() Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnMonitorMegaPhoneMsgHyperLink(PacketHeader* pkt)
 {
     *(char*)((char*)pkt + 0xa) = (char)m_pclApp->Get_ServerGroup();
@@ -10991,14 +12376,29 @@ void CPacketTranslater::OnMonitorMegaPhoneMsgHyperLink(PacketHeader* pkt)
     handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
 }
 void CPacketTranslater::onSocialEventRewardItemRequest(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::onSocialEventRewardItemRequest");
     }
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendToDB(pkt);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1db8, "./log/Except", "CPacketTranslater::onSocialEventRewardItemRequest Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x1dbd, "./log/Except", "CPacketTranslater::onSocialEventRewardItemRequest Exception Break\n");
+    }
 }
+
 void CPacketTranslater::onSocialEventRewardItemResponse(PacketHeader* pkt)
 {
     try
@@ -11023,7 +12423,8 @@ void CPacketTranslater::onSocialEventRewardItemResponse(PacketHeader* pkt)
                 a, b, c);
             i++;
         }
-        m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(pkt);
+        ((CServerHandler*)*(void**)((char*)m_pclApp + 0xa0))
+            ->SendAllTcpGameServer(pkt);
     }
     catch (CDNFException& e)
     {
@@ -11047,7 +12448,8 @@ void CPacketTranslater::onSocialEventRewardItemInfo(PacketHeader* pkt)
         }
         PacketHeader* rpkt = pkt;
         CUser* user =
-            m_pclApp->Get_UserManager()->FindUser(*(unsigned int*)((char*)pkt + 0xe));
+            ((CUserManager*)((char*)m_pclApp + 0x10))
+                ->FindUser(*(unsigned int*)((char*)pkt + 0xe));
         if (user == 0)
         {
             unsigned int cn = *(unsigned int*)((char*)pkt + 0x12);
@@ -11101,7 +12503,8 @@ void CPacketTranslater::onSocialEventRewardItemInfoAll(PacketHeader* pkt)
         }
         PacketHeader* rpkt = pkt;
         CUser* user =
-            m_pclApp->Get_UserManager()->FindUser(*(unsigned int*)((char*)pkt + 0xe));
+            ((CUserManager*)((char*)m_pclApp + 0x10))
+                ->FindUser(*(unsigned int*)((char*)pkt + 0xe));
         if (user == 0)
         {
             unsigned int cn = *(unsigned int*)((char*)pkt + 0x12);
@@ -11144,8 +12547,9 @@ void CPacketTranslater::onSocialEventRewardItemUpdate(PacketHeader* pkt)
             unsigned int itemId = *(unsigned int*)((char*)pkt + 0xa);
             LimitNpcBuyItemManager* mgr = m_pclApp->getLimitNpcBuyItemManager();
             mgr->getNpcLimitBuyItemCount(itemId, change);
-            m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(&change);
-            m_pclApp->Get_ServerHandler()->SendToDB(pkt);
+            ((CServerHandler*)*(void**)((char*)m_pclApp + 0xa0))
+                ->SendAllTcpGameServer(&change);
+            ((CServerHandler*)*(void**)((char*)m_pclApp + 0xa0))->SendToDB(pkt);
             unsigned int buyCount = *(unsigned int*)((char*)pkt + 0x12);
             unsigned int itemId2 = *(unsigned int*)((char*)pkt + 0xa);
             unsigned int charNo = *(unsigned int*)((char*)pkt + 0xe);
@@ -11219,7 +12623,10 @@ void CPacketTranslater::onRequestCharacInfoByCharacName(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::OnWebNoticeInGameAD(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("m_pclApp == 0");
@@ -11229,7 +12636,19 @@ void CPacketTranslater::OnWebNoticeInGameAD(PacketHeader* pkt)
     handler->SendAllTcpGameServer(&reply);
     DNF_LOG_SCOPE_LINE(0x1f84,"./log/Web", "OnWebNoticeInGameAD() packet_id(%d)\n",
         (unsigned int)*(unsigned short*)pkt);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1f88, "./log/Except", "CPacketTranslater::OnWebNoticeInGameAD Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x1f8d, "./log/Except", "CPacketTranslater::OnWebNoticeInGameAD Exception Break\n");
+    }
 }
+
 void CPacketTranslater::onCollectItems(PacketHeader* pkt)
 {
     try
@@ -11292,19 +12711,44 @@ void CPacketTranslater::onCollectItems(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::onCollectItemsResult(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::onCollectItemsResult");
     }
-    char* c = (char*)m_pclApp->getCollectItems();
-    *(unsigned int*)(c + 4) = *(unsigned int*)((char*)pkt + 0xe);
-    *(unsigned int*)c = *(unsigned int*)((char*)pkt + 0xa);
-    *(unsigned int*)(c + 8) = *(unsigned int*)((char*)pkt + 0x12);
-    *(char*)(c + 0xc) = 0;
+    struct STCollectItemsData
+    {
+        unsigned int m_uniqCharNo;
+        unsigned int m_money;
+        unsigned int m_etc;
+        unsigned char m_end;
+    };
+    Packet_CollectItemsResult* p = (Packet_CollectItemsResult*)pkt;
+    ((STCollectItemsData*)m_pclApp->getCollectItems())->m_money = p->m_fieldE;
+    ((STCollectItemsData*)m_pclApp->getCollectItems())->m_uniqCharNo = p->m_fieldA;
+    ((STCollectItemsData*)m_pclApp->getCollectItems())->m_etc = p->m_field12;
+    ((STCollectItemsData*)m_pclApp->getCollectItems())->m_end = 0;
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1fe6, "./log/Except", "CPacketTranslater::onCollectItemsResult Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x1feb, "./log/Except", "CPacketTranslater::onCollectItemsResult Exception Break\n");
+    }
 }
+
 void CPacketTranslater::onCollectItemsGm(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::onCollectItemsGm");
@@ -11312,16 +12756,43 @@ void CPacketTranslater::onCollectItemsGm(PacketHeader* pkt)
     *(char*)((char*)pkt + 0xa) = (char)m_pclApp->Get_ServerGroup();
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendToDB(pkt);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1ffe, "./log/Except", "CPacketTranslater::onCollectItemsGm Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x2003, "./log/Except", "CPacketTranslater::onCollectItemsGm Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnPcRoomPlayTimeReward(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         throw CDNFException("CPacketTranslater::OnPcRoomPlayTimeReward");
     }
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendToDB(pkt);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x2017, "./log/Except", "CPacketTranslater::OnPcRoomPlayTimeReward Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x201c, "./log/Except", "CPacketTranslater::OnPcRoomPlayTimeReward Exception Break\n");
+    }
 }
+
 void CPacketTranslater::OnWebEmergencyPatchMessage(PacketHeader* pkt)
 {
     try
@@ -11396,7 +12867,10 @@ void CPacketTranslater::OnUpdateMiniCraneSeed(PacketHeader* pkt)
     }
 }
 void CPacketTranslater::onStartGameEventFromServer(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x22e2, "./log/AradOnly", "[Server Event] m_pclApp is null.");
@@ -11416,9 +12890,20 @@ void CPacketTranslater::onStartGameEventFromServer(PacketHeader* pkt)
     DNF_LOG_SCOPE_LINE(0x22f2,"./log/AradOnly", "[Server Event] start event. (event:%d, param:%d,%d)",
         *(unsigned int*)((char*)pkt + 0xa), *(unsigned short*)((char*)pkt + 0x16),
         *(unsigned short*)((char*)pkt + 0x18));
+
+
+    }
+    catch (int line)
+    {
+        DNF_LOG_SCOPE_LINE(0x22f9, "./log/AradOnly", "[6ThBirthday] error onStartGameEventFromServer line. (line:%u)", line);
+    }
 }
+
 void CPacketTranslater::onEndGameEventFromServer(PacketHeader* pkt)
+{try
 {
+
+
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x2304, "./log/AradOnly", "[Server Event] m_pclApp is null.");
@@ -11435,19 +12920,57 @@ void CPacketTranslater::onEndGameEventFromServer(PacketHeader* pkt)
     handler->SendAllTcpGameServer(&epkt);
     DNF_LOG_SCOPE_LINE(0x2312,"./log/AradOnly", "[Server Event] end event. (event:%d)",
         *(unsigned int*)((char*)pkt + 0xa));
+
+
+    }
+    catch (int line)
+    {
+        DNF_LOG_SCOPE_LINE(0x2316, "./log/AradOnly", "[6ThBirthday] error onEndGameEventFromServer line. (line:%u)", line);
+    }
 }
+
 void CPacketTranslater::onReloadCountryCode(PacketHeader* pkt)
+{try
 {
+
+
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllTcpGameServer(pkt);
     DNF_LOG_SCOPE_LINE(0x2344, "./log/Web", "CPacketTranslater::onReloadCountryCode()\n");
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x2348, "./log/Except", "CPacketTranslater::onReloadCountryCode Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x234d, "./log/Except", "CPacketTranslater::onReloadCountryCode Exception Break\n");
+    }
 }
+
 void CPacketTranslater::onReloadSecurityRestrictPolicy(PacketHeader* pkt)
+{try
 {
+
+
     CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
     handler->SendAllTcpGameServer(pkt);
     DNF_LOG_SCOPE_LINE(0x2359, "./log/Web", "CPacketTranslater::onReloadSecurityRestrictPolicy()\n");
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x235d, "./log/Except", "CPacketTranslater::onReloadSecurityRestrictPolicy Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x2362, "./log/Except", "CPacketTranslater::onReloadSecurityRestrictPolicy Exception Break\n");
+    }
 }
+
+
 CPacketDecoder::CPacketDecoder()
 {
     int i;
@@ -11585,8 +13108,27 @@ CPacketDecoder::CPacketDecoder()
 
 CPacketDecoder::~CPacketDecoder() {}
 
-void CPacketDecoder::Attach(CApplication* app) {}
-void CPacketDecoder::Process() {}
+void CPacketDecoder::Attach(CApplication* app)
+{
+    if (app != 0)
+    {
+        *(std::queue<CUdpRecvBuffer*, std::deque<CUdpRecvBuffer*,
+            std::allocator<CUdpRecvBuffer*> > >**)((char*)this + 0) =
+            app->Get_UdpPacketParseQ();
+        *(void**)((char*)this + 0xc) =
+            app->Get_TcpNetSystem()->Get_TcpSwapQPacket()->GetParseQ();
+        *(void**)((char*)this + 4) = app->Get_UdpQLock();
+        *(void**)((char*)this + 8) = app->Get_UdpBLock();
+        *(void**)((char*)this + 0x10) = app->Get_TcpNetSystem()->Get_TcpRecvQLock();
+        *(void**)((char*)this + 0x14) = app->Get_TcpNetSystem()->Get_TcpRecvBLock();
+        *(void**)((char*)this + 0x18) = app->Get_ServerHandler();
+    }
+}
+void CPacketDecoder::Process()
+{
+    UdpProcess();
+    TcpProcess();
+}
 void CPacketDecoder::TcpProcess()
 {
     if (*(void**)((char*)this + 0xc) != 0 && *(void**)((char*)this + 0x10) != 0)
@@ -11704,8 +13246,16 @@ char CPacketDecoder::MsgDecode(PacketHeader* pkt)
     return 0;
 }
 
-CPacketDecoder* CPacketDecoderInstance() { return 0; }
-CSignalTranslator* CSignalTranslatorInstance() { return 0; }
+CPacketDecoder* CPacketDecoderInstance()
+{
+    static CPacketDecoder inst;
+    return &inst;
+}
+CSignalTranslator* CSignalTranslatorInstance()
+{
+    static CSignalTranslator inst;
+    return &inst;
+}
 CSignalTranslator::CSignalTranslator() {}
 CSignalTranslator::~CSignalTranslator() {}
 void CSignalTranslator::init(CApplication* app)
@@ -11865,15 +13415,39 @@ void CTerminateSig::handle(int sig)
 
 CSegmentationFaultSig::CSegmentationFaultSig() {}
 CSegmentationFaultSig::~CSegmentationFaultSig() {}
-void CSegmentationFaultSig::handle(int sig) {}
+void CSegmentationFaultSig::handle(int sig)
+{
+    puts("Recv SIGSEGV signal --> make Dump Core file.");
+    if (m_app != 0)
+    {
+        m_app->App_Stop();
+    }
+    CSignal::dump_core_file();
+}
 
 CUser1Sig::CUser1Sig() {}
 CUser1Sig::~CUser1Sig() {}
-void CUser1Sig::handle(int sig) {}
+void CUser1Sig::handle(int sig)
+{
+    CMyFileLog log("handle", 0x13);
+    log("./log/Signal", "CUser1Sig::handle( int sig )");
+    if (m_app != 0)
+    {
+        m_app->SendTestPacket_2();
+    }
+}
 
 CUser2Sig::CUser2Sig() {}
 CUser2Sig::~CUser2Sig() {}
-void CUser2Sig::handle(int sig) {}
+void CUser2Sig::handle(int sig)
+{
+    CMyFileLog log("handle", 0x20);
+    log("./log/Signal", "CUser2Sig::handle( int sig )");
+    if (m_app != 0)
+    {
+        m_app->TranslateSignal();
+    }
+}
 
 CSystemFailSig::CSystemFailSig() {}
 CSystemFailSig::~CSystemFailSig() {}
@@ -12410,6 +13984,22 @@ void COnTimeEventManager::OnRewardStart()
 }
 void COnTimeEventManager::OnRewardEnd()
 {
+    time_t now = time(0);
+    CMyFileLog log("OnRewardEnd", 0xae);
+    log("./log/OnTimeEvent", "On Time Event : On Reward End Trigger On(%d)\n", now);
+    if (IsCurState(ONTIME_EVENT_STATE_REWARD))
+    {
+        puts("On Time Event : Event Off Trigger");
+        Clear();
+    }
+    else if (!IsCurState(ONTIME_EVENT_STATE_START))
+    {
+        ChangeState(ONTIME_EVENT_STATE_START);
+        Packet_MTG_OntimeEvent_RewardEnd pkt;
+        m_app->Get_ServerHandler()->SendAllTcpGameServer(&pkt);
+        CMyFileLog log2("OnRewardEnd", 0xd9);
+        log2("./log/OnTimeEvent", "On Time Event : On Reward End Trigger Process Success");
+    }
 }
 
 COnTimeEventRewardEndTrigger::COnTimeEventRewardEndTrigger(unsigned int time,
@@ -12443,7 +14033,21 @@ namespace init_accusation
 {
 CInitAccusationListMgr::CInitAccusationListMgr(CApplication& app) {}
 CInitAccusationListMgr::~CInitAccusationListMgr() {}
-void CInitAccusationListMgr::setSchedule(bool const& flag) {}
+void CInitAccusationListMgr::setSchedule(bool const& flag)
+{
+    time_t t = GetNowTime();
+    struct tm* lt = localtime(&t);
+    lt->tm_hour = 6;
+    lt->tm_min = 0;
+    lt->tm_sec = 0;
+    time_t next = mktime(lt);
+    if (flag)
+    {
+        next += 0x15180;
+    }
+    CInitAccusationList* list = new CInitAccusationList(next, 0, this);
+    getApp()->GetTaskScheduler()->AddTask(list);
+}
 }
 
 namespace momiji_event
@@ -12582,11 +14186,7 @@ void EventManager::EndEvent()
     {
         *(char*)((char*)m_endTask + 0x10) = 0;
     }
-    m_interval = 0;
-    m_duration = 0;
-    m_startHour = 0;
-    m_startTask = 0;
-    m_endTask = 0;
+    Init();
 }
 EventAction::EventAction() {}
 void EventAction::onStartAction(EventParam& param)
@@ -12650,7 +14250,10 @@ Packet_DBMW_Query_Msg::Packet_DBMW_Query_Msg() : PacketHeader(0x177d, 0x1013)
 {
     m_fieldA = 0;
     m_fieldB = 0;
-    memset(m_data, 0, 0x1001);
+    for (int i = 0; i <= 0x1000; i++)
+    {
+        *(char*)((char*)this + 0x12 + i) = 0;
+    }
 }
 
 Packet_VillageAttackedRewardServer::Packet_VillageAttackedRewardServer()
@@ -12710,6 +14313,8 @@ Packet_Monitor_Notice_Member_Member_Login_out::
     m_uniqCharNo = 0;
     m_channelNo = 0xff;
     m_type = 2;
+    m_uniqCharNo2 = 0;
+    memset(m_charName, 0, 0x1e);
 }
 
 Packet_Monitor_Member_Chat_ToUser_Hyper_Link::
@@ -12834,7 +14439,6 @@ Packet_Delete_To_BlackList_Result::Packet_Delete_To_BlackList_Result()
 Packet_Request_Result_BlackList::Packet_Request_Result_BlackList()
     : PacketHeader(0x5e0, 0x19f)
 {
-    memset(m_blackList, 0, 400);
 }
 
 Packet_Web_Notice_InGame_Advertisement::Packet_Web_Notice_InGame_Advertisement()
@@ -12909,12 +14513,19 @@ Packet_CollectItemsReward::Packet_CollectItemsReward() : PacketHeader(0x27e8, 0x
 {
     m_idByChannel = 0;
     m_charNo = 0;
+    m_type = 0;
+    m_nameLen = 0;
+    memset(m_name, 0, 0x1e);
 }
 
 Packet_CollectItemsRewardBroadcast::Packet_CollectItemsRewardBroadcast()
     : PacketHeader(0x27e9, 0x32)
 {
+    m_fieldA = 0;
     m_charNo = 0;
+    m_type = 0;
+    m_nameLen = 0;
+    memset(m_name, 0, 0x1e);
 }
 
 Packet_MTG_OntimeEvent_RewardStart::Packet_MTG_OntimeEvent_RewardStart()
@@ -12977,15 +14588,7 @@ void CSourceVersionMgr::InsertSourceVersion(char* path, int version)
     SourceVersion sv(path, version);
     m_versions.push_back(sv);
 }
-STMemberDBInfo::STMemberDBInfo()
-{
-    new ((char*)this + 0) ST_MemberProxy();
-    *(char*)((char*)this + 0x27) = 0;
-    for (int i = 0; i < 9; i++)
-    {
-        new ((char*)this + 0x28 + i * 0x27) ST_MemberProxy();
-    }
-}
+STMemberDBInfo::STMemberDBInfo() : m_count27(0) {}
 STMemberListInfo::STMemberListInfo()
 {
     m_count = 0;
@@ -13000,10 +14603,9 @@ void CPacketTracer::AddLog(int a, int b)
 {
     time_t t;
     time(&t);
-    tm* p = localtime(&t);
+    struct tm st = *localtime(&t);
     char buf[32];
-    memset(buf, 0, 0x20);
-    sprintf(buf, "(%02d:%02d:%02d/%d/%d)", p->tm_hour, p->tm_min, p->tm_sec, b, a);
+    sprintf(buf, "(%02d:%02d:%02d/%d/%d)", st.tm_hour, st.tm_min, st.tm_sec, b, a);
     m_str += buf;
     m_count = m_count + 1;
 }
@@ -13042,18 +14644,14 @@ Packet_DB_InsertMail::Packet_DB_InsertMail() : PacketHeader(0x177c, 0x133)
     }
 }
 Packet_DBMW_Statistic_Login_Logout::Packet_DBMW_Statistic_Login_Logout()
-    : PacketHeader(0x17b8, 0x618)
+    : PacketHeader(0x17b8, 0x618),
+      m_fieldA(0),
+      m_field608(0),
+      m_field60c(0),
+      m_field610(0),
+      m_field614(0)
 {
-    *(unsigned int*)((char*)this + 0xa) = 0;
-    for (int i = 0xfe; i != -1; i--)
-    {
-        new ((char*)this + 0xe + i * 6) stLoginLogoutVariable();
-    }
     memset((char*)this + 0xe, 0, 0x5fa);
-    *(unsigned int*)((char*)this + 0x608) = 0;
-    *(unsigned int*)((char*)this + 0x60c) = 0;
-    *(unsigned int*)((char*)this + 0x610) = 0;
-    *(unsigned int*)((char*)this + 0x614) = 0;
 }
 
 Packet_Monitor_Call_Member_List_ToUser::Packet_Monitor_Call_Member_List_ToUser()
@@ -13135,8 +14733,8 @@ LimitNpcBuyItemRequestInfo::LimitNpcBuyItemRequestInfo() : PacketHeader(0x27d8, 
 
 namespace np_server_xml
 {
-CServerXml::CServerXml() {}
-CServerXml::~CServerXml() {}
+CServerXml::CServerXml() { InitString(); }
+CServerXml::~CServerXml() { InitString(); }
 void CServerXml::StrLoading()
 {
     StrLoading(std::string("server_str.xml"));
@@ -13296,11 +14894,53 @@ std::string CServerXml::GetServerString(int idx, bool* ok) const
 }
 unsigned int CServerXml::GetEventRGBA(int idx) const
 {
+    std::map<int, int>::const_iterator it;
+    it = m_mapa0.find(idx);
+    if (it != m_mapa0.end())
+    {
+        return (unsigned int)it->second;
+    }
     return 0;
 }
 std::string CServerXml::GetEventString(int idx, _eStringType type, bool* ok) const
 {
-    return "";
+    std::string s("");
+    std::map<int, std::string>::const_iterator it;
+    switch (type)
+    {
+    case STRING_TYPE_1:
+        it = m_map70.find(idx);
+        if (it != m_map70.end())
+        {
+            if (ok != 0)
+            {
+                *ok = 1;
+            }
+            return it->second;
+        }
+        if (ok != 0)
+        {
+            *ok = 0;
+        }
+        return s;
+    case STRING_TYPE_2:
+        it = m_map88.find(idx);
+        if (it != m_map88.end())
+        {
+            if (ok != 0)
+            {
+                *ok = 1;
+            }
+            return it->second;
+        }
+        if (ok != 0)
+        {
+            *ok = 0;
+        }
+        return s;
+    default:
+        return s;
+    }
 }
 void CServerXml::RGBALoad(int idx, TiXmlNode* node)
 {
@@ -13447,7 +15087,7 @@ void CAppStopInit::Init(CApplication* app, int argc, char** argv)
 }
 
 CKillUSRConfig::CKillUSRConfig() {}
-CKillUSRConfig::~CKillUSRConfig() {}
+CKillUSRConfig::~CKillUSRConfig() { Clear_Table(); }
 void CKillUSRConfig::Load_Table(const std::string& path) {}
 int CKillUSRConfig::Parse_Table(char* line, int idx)
 {
@@ -13494,7 +15134,13 @@ std::vector<ST_KillUSRConfig*>* CKillUSRConfig::GetInfo() const
 
 CDNFException::CDNFException(const std::string& msg) : m_msg(msg) {}
 CDNFException::~CDNFException() throw() {}
-const char* CDNFException::what() const throw() { return m_msg.c_str(); }
+const char* CDNFException::what() const throw()
+{
+    register const char* p = m_msg.c_str();
+    CMyFileLog log("what", 0x1a);
+    log("./log/Except", "%s", p);
+    return m_msg.c_str();
+}
 
 namespace WongWork
 {
@@ -13579,15 +15225,23 @@ int CCacheCharacterMgr::CacheCharacter(unsigned int dbid, CACHE_CHARACTER_TYPE* 
     }
     return 1;
 }
-char CCacheCharacterMgr::GetCacheCharacter(unsigned int dbid, CACHE_CHARACTER_TYPE* out)
+bool CCacheCharacterMgr::GetCacheCharacter(unsigned int dbid, CACHE_CHARACTER_TYPE* out)
 {
     std::map<unsigned int, CACHE_CHARACTER_TYPE>::iterator it = m_cache.find(dbid);
-    if (it == m_cache.end())
+    if (it != m_cache.end())
+    {
+        *out = it->second;
+        m_cache.erase(it);
+        if (time(0) - out->m_field8 > 0x1d)
+        {
+            return 0;
+        }
+        return 1;
+    }
+    else
     {
         return 0;
     }
-    *out = it->second;
-    return 1;
 }
 char CCacheCharacterMgr::CollectGarbage()
 {

@@ -26,7 +26,7 @@ int getErrno();
 
 CPeer::CPeer()
 {
-    memset(&m_sendBuf, 0, 0x1c);
+    memset(&m_sendBuf, 0, 0x20);
 }
 
 CPeer::~CPeer()

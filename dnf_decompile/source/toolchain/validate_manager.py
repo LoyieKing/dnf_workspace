@@ -17,7 +17,7 @@ import monitorlib
 
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/manager/df_manager_r'
-NEW = ROOT / 'dnf_decompile/source/build-manager/df_manager_r'
+NEW = ROOT / 'dnf_decompile/build/manager/df_manager_r'
 OUT_MD = ROOT / 'dnf_decompile/docs/df_manager_r_validation.md'
 
 import compare_manager as cm
@@ -114,7 +114,7 @@ def main():
     out.append('- 脚本：build-manager.sh（应用 -O0 gnu++0x；yassl/taocrypt -O3 -fPIC -DNDEBUG')
     out.append('  -DYASSL_PURE_C；MySQL client -O2 -fPIC -DNDEBUG -DDBUG_OFF，')
     out.append('  libmysqlclient.a 静态归档；zlib trees.o 直接链接）')
-    out.append('- 产物：source/build-manager/df_manager_r（可链接，缺失符号 0）')
+    out.append('- 产物：build/manager/df_manager_r（可链接，缺失符号 0）')
     out.append('- 工具链：GCC 4.4.7 驱动 + 4.4.4 cc1（与原始 .comment 一致）')
     out.append('')
     out.append('详见 docs/df_manager_r_progress.md（分批复核记录）。')

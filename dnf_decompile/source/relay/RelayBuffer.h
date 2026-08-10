@@ -18,10 +18,6 @@ public:
     }
     ~TDoubleCircularQueueBuffer()
     {
-        m_nPopIndex = 0;
-        m_nPushIndex = m_nPopIndex;
-        m_nEndIndex = N;
-        memset(m_buffer, 0, sizeof(m_buffer));
     }
     void clear()
     {
@@ -88,20 +84,25 @@ public:
     }
     bool isPopStraight(int n)
     {
-        if (n > (int)N - 1)
+        if ((unsigned int)n > (unsigned int)N - 1)
         {
             return false;
         }
-        if (m_nPopIndex > m_nPushIndex)
+        if (m_nPopIndex <= m_nPushIndex)
         {
-            return false;
-        }
-        unsigned int len = m_nPushIndex - m_nPopIndex;
-        if ((unsigned int)n <= len)
-        {
+            unsigned int len = m_nPushIndex - m_nPopIndex;
+            if ((unsigned int)n > len)
+            {
+                return false;
+            }
             return true;
         }
-        return false;
+        unsigned int len = m_nEndIndex - m_nPopIndex;
+        if ((unsigned int)n > len)
+        {
+            return false;
+        }
+        return true;
     }
     char* peekPop()
     {
@@ -113,7 +114,7 @@ public:
         {
             return -1;
         }
-        if (getPushedLength() < (unsigned int)n)
+        if ((int)getPushedLength() < n)
         {
             return -2;
         }
@@ -147,7 +148,7 @@ public:
     }
     bool popCopy(int n, char* out)
     {
-        if (!(n > 0 && getPushedLength() >= (unsigned int)n))
+        if (!(n > 0 && (int)getPushedLength() >= n))
         {
             return false;
         }
@@ -177,7 +178,7 @@ public:
     }
     bool peekCopy(int n, char* out)
     {
-        if (!(n > 0 && getPushedLength() >= (unsigned int)n))
+        if (!(n > 0 && (int)getPushedLength() >= n))
         {
             return false;
         }

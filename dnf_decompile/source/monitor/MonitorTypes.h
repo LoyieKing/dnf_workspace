@@ -38,6 +38,7 @@ class CDBServer;
 class CManagerServer;
 class CTcpGameServer;
 class Packet_Item_Limit_Edition_Update;
+class EpollHandler;
 
 struct TimeGateRewardType
 {
@@ -172,7 +173,16 @@ public:
     void IncrementPacketCount(int id);
     void BeforeProcess();
     void AfterProcess(int id);
-    char m_data[0x1d648];
+    int m_totalCount;             // +0
+    int m_startTime;              // +4
+    unsigned int m_packetCount[0x2418];  // +8
+    int m_packetTime[0x2418];     // +0x9068
+    char m_packetFlag[0x2418];    // +0x120c8
+    int m_packetTotal[0x2418];    // +0x144e0
+    char m_path[0x100];           // +0x1d540
+    char m_flagInit;              // +0x1d640
+    char m_flag2;                 // +0x1d641
+    char m_pad[6];                // +0x1d642
 };
 
 class CPeriodicMessageMgr
@@ -282,14 +292,22 @@ public:
     void setOption(unsigned char type, unsigned char opt);
     void setLoadTerm(unsigned char term);
     void setMinIPCount(unsigned char count);
-    char m_data[0x14];
+    char m_option;                 // +0
+    char m_pad1[3];                // +1
+    unsigned int m_count;          // +4
+    unsigned int m_min;            // +8
+    unsigned int m_term;           // +0xc
+    char m_field10;                // +0x10
+    char m_field11;                // +0x11
+    char m_pad2[2];                // +0x12
+    CServerHandler* m_handler;     // +0x14
 };
 
 class CItemLimitEditionMgr
 {
 public:
     CItemLimitEditionMgr();
-    virtual ~CItemLimitEditionMgr();
+    ~CItemLimitEditionMgr();
     void processScheduledJob(CApplication* app, bool flag);
     void makeItemLimitEditionUpdatePacket(Packet_Item_Limit_Edition_Update& pkt) const;
     void makeItemLimitEditionSellStartPacket(
@@ -534,14 +552,14 @@ class CServerInterface
 public:
     CServerInterface();
     CServerInterface(stServerInfo* info);
-    virtual ~CServerInterface();
+    ~CServerInterface();
     virtual bool Initialize();
     virtual bool Destroy();
     stServerInfo* GetServerInfo();
     void* GetUdpHandler();
     unsigned char GetGroupNo();
     void SetServerInfo(stServerInfo* info);
-    char IsValidServer();
+    bool IsValidServer();
     char IsConnected();
     char IsHeartBeatTimeOver();
     unsigned char GetChannelNo();
@@ -592,7 +610,7 @@ class CServerHandler
 {
 public:
     CServerHandler();
-    virtual ~CServerHandler();
+    ~CServerHandler();
     void Attach(CApplication* app);
     void Process();
     unsigned char GetServerGroupNo();
@@ -831,7 +849,7 @@ public:
     char IsSetInEvent(int idx);
     char IsSetOutEvent(int idx);
     char IsSetErrEvent(int idx);
-    void* m_epoll;  // +0
+    EpollHandler* m_epoll;  // +0
 };
 
 class CProtocol
@@ -839,13 +857,15 @@ class CProtocol
 public:
     CProtocol() {}
     virtual ~CProtocol() {}
-    virtual int SetPeer(void* peer, int fd, bool flag) { return 0; }
-    virtual void* GetEventPtr(int idx) { return 0; }
-    virtual char IsSetInEvent(int idx) { return 0; }
-    virtual int ResetEpoll(int fd) { return 0; }
-    virtual char IsSetOutEvent(int idx) { return 0; }
-    virtual int WaitForEvent() { return 0; }
-    virtual char IsSetErrEvent(int idx) { return 0; }
+    virtual int Init() = 0;                                    // +0x08
+    virtual int SetEpoll(void* peer, int fd, bool flag) = 0;   // +0x0c
+    virtual int ResetEpoll(int fd) = 0;                        // +0x10
+    virtual void Destroy() = 0;                                // +0x14
+    virtual int WaitForEvent() = 0;                            // +0x18
+    virtual char IsSetErrEvent(int idx) = 0;                   // +0x1c
+    virtual char IsSetOutEvent(int idx) = 0;                   // +0x20
+    virtual char IsSetInEvent(int idx) = 0;                    // +0x24
+    virtual void* GetEventPtr(int idx) = 0;                    // +0x28
 };
 
 class EpollHandler : public CProtocol
@@ -853,18 +873,17 @@ class EpollHandler : public CProtocol
 public:
     EpollHandler();
     virtual ~EpollHandler();
+    virtual int Init();
+    virtual int SetEpoll(void* peer, int fd, bool flag);
     virtual int ResetEpoll(int fd);
-    virtual char IsSetOutEvent(int idx);
+    virtual void Destroy();
     virtual int WaitForEvent();
     virtual char IsSetErrEvent(int idx);
+    virtual char IsSetOutEvent(int idx);
     virtual char IsSetInEvent(int idx);
     virtual void* GetEventPtr(int idx);
-    virtual int SetPeer(void* peer, int fd, bool flag);
-    int SetEpoll(void* peer, int fd, bool flag);
     int GetEpollFD() { return m_epollFd; }
     void* GetEpollEvents() { return m_events; }
-    void Destroy();
-    int Init();
     int m_eventType;  // +4
     void* m_peer;     // +8
     void* m_events;   // +0x10
@@ -1041,9 +1060,13 @@ public:
     char fromWeb();
     unsigned int GetDBID();
     unsigned short GetProhibitRemainTime();
-    char IsTimeOutConnectable();
+    bool IsTimeOutConnectable();
     void SetUserConnectableTime(unsigned int dbid, short time, char channel, bool flag);
-    char m_data[0xc];
+    unsigned int m_dbid;        // +0
+    unsigned short m_remain;    // +4
+    char m_channel;             // +6
+    char m_flag;                // +7
+    char m_data[4];             // +8
 };
 
 // ---- CUser / CMember（最小声明）----
@@ -1153,7 +1176,7 @@ struct STBlackUserDBType
     char m_name[0x1e];         // +4
     unsigned short m_field22;  // +0x22
     unsigned int m_field24;    // +0x24
-};
+} __attribute__((packed));
 
 struct STPvPChannelInfo
 {
@@ -1161,13 +1184,6 @@ struct STPvPChannelInfo
     int m_countA;   // +4
     int m_countB;   // +8
     int m_countC;   // +0xc
-};
-
-struct STMemberDBInfo
-{
-    STMemberDBInfo();
-    unsigned int m_memberKey;  // +0
-    char m_data[0x1ac];        // +4
 };
 
 struct ST_MemberProxy
@@ -1185,6 +1201,14 @@ struct ST_MemberProxy
     char m_name[0x1e];        // +5
     unsigned int m_field23;   // +0x23
 } __attribute__((packed));
+
+struct STMemberDBInfo
+{
+    STMemberDBInfo();
+    ST_MemberProxy m_member;    // +0
+    unsigned char m_count27;    // +0x27
+    ST_MemberProxy m_lowers[10];// +0x28
+};
 
 struct ST_MemberInfo
 {
@@ -1264,18 +1288,30 @@ public:
     unsigned char* GetMemberDBInfo() const;
     unsigned int m_key;              // +0
     unsigned short m_flag;          // +4
-    unsigned int m_memberKey;       // +6
-    char m_data[0x27];              // +0xa
-    unsigned char m_count2d;        // +0x2d
-    char m_data2[0x187];            // +0x2e
+    STMemberDBInfo m_dbInfo;        // +6
     CMemberManager* m_memberManager;// +0x1b4
     char m_state1b8;                // +0x1b8
     char m_pad1b9[3];               // +0x1b9
     unsigned int m_registerTime;    // +0x1bc
     unsigned int m_dayHourTime;     // +0x1c0
+    char m_pad1c4[4];               // +0x1c4
 };
 
 // ---- CMemberManager：0x30 ----
+class CScheduler
+{
+public:
+    CScheduler();
+    ~CScheduler();
+    char IsOnTimeSpecialDayHour(int day, int hour, int min);
+    char IsOnTimeSpecialHour(int day, int hour);
+    void SetSpecialHour(int hour);
+    void SetSpecialDayHour(int day, int hour);
+    char m_data[4];             // +0..3
+    unsigned short m_ushort4;   // +4
+    char m_data2[2];            // +6..7
+};
+
 class CMemberManager
 {
 public:
@@ -1321,6 +1357,7 @@ public:
     std::map<unsigned int, CMember*> m_members;  // +8
     CMemberConfig* m_memberConfig;               // +0x20
     CMemberExpTbl* m_memberExpTbl;               // +0x24
+    CScheduler m_scheduler;                      // +0x28
 };
 
 // ---- CMemberConfig / CMemberExpTbl（表类）----
@@ -1657,26 +1694,12 @@ public:
         CTask* m_task;  // +0
     };
     CTaskScheduler();
-    virtual ~CTaskScheduler();
+    ~CTaskScheduler();
     int AddTask(CTask* task);
     void ProcessTask(unsigned int tick);
     int RemoveTask(unsigned int taskID);
     int RemoveTask(CTask* task);
     std::priority_queue<CTaskProxy> m_queue;  // +0
-};
-
-class CScheduler
-{
-public:
-    CScheduler();
-    ~CScheduler();
-    char IsOnTimeSpecialDayHour(int day, int hour, int min);
-    char IsOnTimeSpecialHour(int day, int hour);
-    void SetSpecialHour(int hour);
-    void SetSpecialDayHour(int day, int hour);
-    char m_data[4];             // +0..3
-    unsigned short m_ushort4;   // +4
-    char m_data2[2];            // +6..7
 };
 
 class CTask_ChristmasEvent : public CTaskScheduler::CTask
@@ -2163,9 +2186,9 @@ class Packet_DBMW_Query_Msg : public PacketHeader
 {
 public:
     Packet_DBMW_Query_Msg();
-    unsigned int m_fieldA;    // +10
-    unsigned int m_fieldB;    // +14
-    char m_data[0x1001];      // +18
+    unsigned int m_fieldA;    // +0xa
+    unsigned int m_fieldB;    // +0xe
+    char m_data[0x1001];      // +0x12
 } __attribute__((packed));
 
 class Packet_VillageAttackedRewardServer : public PacketHeader
@@ -2242,9 +2265,9 @@ public:
     unsigned int m_uniqCharNo;      // +15
     unsigned char m_channelNo;      // +19
     unsigned char m_type;           // +20
-    char m_charName[0x1d];          // +21
-    unsigned char m_expLevel;       // +50
-    unsigned int m_uniqCharNo2;     // +54
+    char m_charName[0x1e];          // +21
+    unsigned char m_expLevel;       // +51
+    unsigned int m_uniqCharNo2;     // +52
 } __attribute__((packed));
 
 struct hyperlink_item_info
@@ -2429,7 +2452,7 @@ public:
     Packet_Request_Result_BlackList();
     unsigned int m_idByChannel;  // +10
     unsigned char m_count;       // +14
-    char m_blackList[10][0x28];  // +15
+    STBlackUserDBType m_blackList[10];  // +15
 } __attribute__((packed));
 
 class Packet_Web_Notice_InGame_Advertisement : public PacketHeader
@@ -2628,10 +2651,11 @@ class Packet_CollectItemsRewardBroadcast : public PacketHeader
 {
 public:
     Packet_CollectItemsRewardBroadcast();
-    unsigned int m_charNo;       // +10
-    unsigned char m_type;        // +14
-    unsigned char m_nameLen;     // +15
-    char m_name[0x1d];           // +16
+    unsigned int m_fieldA;       // +10
+    unsigned int m_charNo;       // +14
+    unsigned char m_type;        // +18
+    unsigned char m_nameLen;     // +19
+    char m_name[0x1e];           // +20
 } __attribute__((packed));
 
 class Packet_MTG_OntimeEvent_RewardStart : public PacketHeader
@@ -2723,20 +2747,16 @@ public:
         *(char*)((char*)this + 2) = 0;
         memset((char*)this + 3, 0, 0x27);
     }
-};
+    char m_data[0x2a];
+} __attribute__((packed));
 
 class Packet_Monitor_Reply_Buddy_List : public PacketHeader
 {
 public:
-    Packet_Monitor_Reply_Buddy_List() : PacketHeader(0x3f2, 0x54f)
-    {
-        *(int*)((char*)this + 0xa) = 0;
-        *(char*)((char*)this + 0xe) = 0;
-        for (int i = 0x1f; i != -1; i--)
-        {
-            new ((char*)this + 0xf + i * 0x2a) BuddyList();
-        }
-    }
+    Packet_Monitor_Reply_Buddy_List() : PacketHeader(0x3f2, 0x54f), m_fieldA(0), m_fieldE(0) {}
+    unsigned int m_fieldA;       // +0xa
+    unsigned char m_fieldE;      // +0xe
+    BuddyList m_buddies[32];     // +0xf
 } __attribute__((packed));
 
 class Packet_DB_InsertMail : public PacketHeader
@@ -2810,21 +2830,30 @@ public:
     Packet_TOD_DoRandomSelect() : PacketHeader(0x2712, 0xa) {}
 } __attribute__((packed));
 
-class Packet_DBMW_Statistic_Login_Logout : public PacketHeader
-{
-public:
-    Packet_DBMW_Statistic_Login_Logout();
-} __attribute__((packed));
-
 struct stLoginLogoutVariable
 {
     stLoginLogoutVariable()
     {
-        *(char*)((char*)this + 0) = 0;
-        *(char*)((char*)this + 1) = 0;
-        *(int*)((char*)this + 2) = 0;
+        m_b0 = 0;
+        m_b1 = 0;
+        m_i2 = 0;
     }
-};
+    char m_b0;  // +0
+    char m_b1;  // +1
+    int m_i2;   // +2
+} __attribute__((packed));
+class Packet_DBMW_Statistic_Login_Logout : public PacketHeader
+{
+public:
+    Packet_DBMW_Statistic_Login_Logout();
+    unsigned int m_fieldA;      // +0xa
+    stLoginLogoutVariable m_entries[255]; // +0xe
+    unsigned int m_field608;    // +0x608
+    unsigned int m_field60c;    // +0x60c
+    unsigned int m_field610;    // +0x610
+    unsigned int m_field614;    // +0x614
+} __attribute__((packed));
+
 
 class CommonTime
 {
@@ -3241,7 +3270,7 @@ public:
     CCacheCharacterMgr();
     ~CCacheCharacterMgr();
     int CacheCharacter(unsigned int dbid, CACHE_CHARACTER_TYPE* type);
-    char GetCacheCharacter(unsigned int dbid, CACHE_CHARACTER_TYPE* out);
+    bool GetCacheCharacter(unsigned int dbid, CACHE_CHARACTER_TYPE* out);
     char CollectGarbage();
     void Reset();
     std::map<unsigned int, CACHE_CHARACTER_TYPE> m_cache;  // +0

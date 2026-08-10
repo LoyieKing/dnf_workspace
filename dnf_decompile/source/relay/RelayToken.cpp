@@ -47,10 +47,7 @@ bool Token::get_token(char* str, int size)
         n_token++;
         token = strtok(0, seps);
     }
-    if (dest != 0)
-    {
-        delete[] dest;
-    }
+    delete[] dest;
     return true;
 }
 

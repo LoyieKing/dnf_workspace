@@ -25,7 +25,7 @@ wait_jobs() {
 }
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
-OUT_DIR="$ROOT/build-monitor"
+OUT_DIR="$ROOT/../build/monitor"
 MONITOR="$ROOT/monitor"
 COMMON="$ROOT/DNFServer/ServerCommon"
 PACKET="$ROOT/shared/packet"

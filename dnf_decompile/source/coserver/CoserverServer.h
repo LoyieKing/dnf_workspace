@@ -65,7 +65,7 @@ class CServerConfig : public CTableBase
 public:
     CServerConfig();
     virtual ~CServerConfig();
-    virtual int Parse_Table(char* line, int idx);
+    virtual bool Parse_Table(char* line, int idx);
     void Load_Table(const std::string& path);
     ST_ServerInfo* GetServerInfo();
     ST_ServerInfo m_servers[0x649b];  // +4

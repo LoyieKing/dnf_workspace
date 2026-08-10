@@ -21,7 +21,7 @@ public:
     virtual ~CAppStartInit();
     virtual void Init(CApplication* app, int argc, char** argv);
     int Init_Daemon(int argc, char** argv);
-    int Save_pid(const std::string& name);
+    bool Save_pid(const std::string& name);
 };
 
 class CAppStopInit : public CAppInit

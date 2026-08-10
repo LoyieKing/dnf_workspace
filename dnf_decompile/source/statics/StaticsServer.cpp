@@ -9,12 +9,11 @@
 #include "PacketHeader.h"
 #include "Packet_Monitor_UDP_HeartBeat.h"
 
-CGameServer::CGameServer()
+CGameServer::CGameServer() : m_group(0xff)
 {
-    m_group = 0xff;
     m_port = 0;
     m_connectFlag = 0;
-    m_heartBeatCount = 0x1e;
+    m_heartBeatCount = 0x14;
     m_heartBeatOver = 0;
     m_channelNo = 0;
     m_udp = 0;
@@ -37,7 +36,11 @@ void CGameServer::Init(unsigned char group, std::string& name, unsigned short po
 
 bool CGameServer::IsValidServer()
 {
-    return m_group != 0xff;
+    if (m_group == 0xff)
+    {
+        return false;
+    }
+    return true;
 }
 
 int CGameServer::IsHeartBeatTimeOver()
@@ -50,14 +53,14 @@ int CGameServer::IsHeartBeatTimeOver()
         {
             return 1;
         }
-        m_heartBeatCount = 0x1e;
+        m_heartBeatCount = 0x14;
     }
     return 0;
 }
 
 void CGameServer::ResetHeartBeat()
 {
-    m_heartBeatCount = 0x1e;
+    m_heartBeatCount = 0x14;
     m_heartBeatOver = 0;
 }
 
@@ -72,7 +75,7 @@ void CGameServer::SendToGameServer(char* buf, int len)
 void CGameServer::OnDisconnect()
 {
     m_connectFlag = 0;
-    m_heartBeatCount = 0x1e;
+    m_heartBeatCount = 0x14;
     m_heartBeatOver = 0;
 }
 
@@ -86,9 +89,8 @@ void CGameServer::SetConnFlag(bool flag)
     m_connectFlag = flag;
 }
 
-CDBServer::CDBServer()
+CDBServer::CDBServer() : m_id(0xff)
 {
-    m_id = 0xff;
     m_port = 0;
     m_connectFlag = 0;
     m_heartBeatCount = 0x14;
@@ -114,7 +116,11 @@ void CDBServer::Init(unsigned char id, std::string& name, unsigned short port,
 
 bool CDBServer::IsValidServer()
 {
-    return m_id != 0xff;
+    if (m_id == 0xff)
+    {
+        return false;
+    }
+    return true;
 }
 
 int CDBServer::IsHeartBeatTimeOver()
@@ -153,9 +159,8 @@ void CDBServer::OnDisconnect()
     m_heartBeatOver = 0;
 }
 
-CManagerServer::CManagerServer()
+CManagerServer::CManagerServer() : m_id(0xff)
 {
-    m_id = 0xff;
     m_port = 0;
     m_connectFlag = 0;
     m_param = 0;
@@ -179,16 +184,20 @@ void CManagerServer::Init(unsigned char id, std::string& name, unsigned short po
 
 bool CManagerServer::IsValidServer()
 {
-    return m_id != 0xff;
+    if (m_id == 0xff)
+    {
+        return false;
+    }
+    return true;
 }
 
 int CManagerServer::SendToServer(char* buf, int len)
 {
-    if (m_udp == 0)
+    if (m_udp != 0)
     {
-        return 0;
+        return m_udp->SendToServer(buf, len, m_port, m_name.c_str());
     }
-    return m_udp->SendToServer(buf, len, m_port, m_name.c_str());
+    return 0;
 }
 
 void CManagerServer::OnDisconnect()
@@ -201,7 +210,7 @@ void CManagerServer::SendHeartBeat(int group)
     if (m_udp != 0)
     {
         Packet_Monitor_UDP_HeartBeat pkt;
-        *(unsigned char*)((char*)&pkt + 0xa) = (unsigned char)group;
+        char g = (char)group;
         m_udp->SendToServer((char*)&pkt, 0xb, m_port, m_name.c_str());
     }
 }
@@ -221,7 +230,7 @@ void CManagerServer::SetConnFlag(bool flag)
     m_connectFlag = flag;
 }
 
-CServerHandler::CServerHandler()
+CServerHandler::CServerHandler() : m_app(0)
 {
     m_reserved2 = 0;
 }
@@ -259,7 +268,7 @@ void CServerHandler::Load(ST_ServerInfo* info)
                 printf("*******%d", index);
                 throw CDNFException("CServerHandler::Load() DB2 Server Table Exception Break!");
             }
-            m_dbServer.Init(info[i].m_field1, info[i].m_string, info[i].m_ushort, 200);
+            m_dbServer.Init(info[i].m_field1, info[i].m_string, info[i].m_ushort, index);
         }
         if (info[i].m_field0 == 4)
         {
@@ -268,7 +277,7 @@ void CServerHandler::Load(ST_ServerInfo* info)
             {
                 throw CDNFException("CServerHandler::Load() Manager Server Table Exception Break!");
             }
-            m_mgrServer.Init(info[i].m_field1, info[i].m_string, info[i].m_ushort, 0xca);
+            m_mgrServer.Init(info[i].m_field1, info[i].m_string, info[i].m_ushort, index);
         }
     }
 }
@@ -316,41 +325,41 @@ void CServerHandler::Process()
 
 void CServerHandler::ResetHeartBeat(unsigned char index)
 {
-    bool ok = (index != 0xff && m_servers[index].IsValidServer());
-    if (ok)
+    if (index != 0xff && m_servers[index].IsValidServer())
     {
         m_servers[index].ResetHeartBeat();
     }
     else
     {
+        register int idx = index;
         DNF_LOG_SCOPE_LINE(0xb4,"./log/GameServer", "CServerHandler::ResetHeartBeat\tGame Server Index Over Index : %d!\n",
-            index);
+            idx);
     }
 }
 
-bool CServerHandler::IsConnectedGameServer(unsigned char index)
+char CServerHandler::IsConnectedGameServer(unsigned char index)
 {
-    bool ok = (index != 0xff && m_servers[index].IsValidServer());
-    if (ok)
+    if (index != 0xff && m_servers[index].IsValidServer())
     {
-        return m_servers[index].IsConnected() != 0;
+        return m_servers[index].IsConnected();
     }
+    register int idx = index;
     DNF_LOG_SCOPE_LINE(0xe9,"./log/GameServer", "CServerHandler::IsConnectedGameServer\tGame Server Index Over Index : %d!\n",
-        index);
+        idx);
     return 0;
 }
 
 void CServerHandler::SetConnectFlag(unsigned char index, bool flag)
 {
-    bool ok = (index != 0xff && m_servers[index].IsValidServer());
-    if (ok)
+    if (index != 0xff && m_servers[index].IsValidServer())
     {
         m_servers[index].SetConnFlag(flag);
     }
     else
     {
+        register int idx = index;
         DNF_LOG_SCOPE_LINE(0x125,"./log/GameServer", "CServerHandler::SetConnectFlag\tGame Server Index Over Index : %d!\n",
-            index);
+            idx);
     }
 }
 
@@ -370,7 +379,7 @@ void CServerHandler::SendToGameServer(unsigned char index, PacketHeader* header)
     CGameServer* gs = GetGameServer(index);
     if (gs != 0)
     {
-        gs->SendToGameServer((char*)header, *(unsigned short*)((char*)header + 2));
+        gs->SendToGameServer((char*)header, header->packetSize);
     }
 }
 
@@ -378,9 +387,8 @@ void CServerHandler::SendAllToGameServer(char* buf, int len)
 {
     CGameServer* p = m_servers;
     int left = 0xff;
-    while (left != 0)
+    while (left-- != 0)
     {
-        left--;
         if (p->IsValidServer())
         {
             p->SendToGameServer(buf, len);
@@ -391,12 +399,12 @@ void CServerHandler::SendAllToGameServer(char* buf, int len)
 
 void CServerHandler::SendToDB(PacketHeader* header)
 {
-    m_dbServer.SendToServer((char*)header, *(unsigned short*)((char*)header + 2));
+    m_dbServer.SendToServer((char*)header, header->packetSize);
 }
 
 void CServerHandler::SendToManager(PacketHeader* header)
 {
-    m_mgrServer.SendToServer((char*)header, *(unsigned short*)((char*)header + 2));
+    m_mgrServer.SendToServer((char*)header, header->packetSize);
 }
 
 void CServerHandler::SetDBConnectFlag(bool flag)
@@ -414,9 +422,9 @@ void CServerHandler::ResetDBHeartBeat()
     m_dbServer.ResetHeartBeat();
 }
 
-bool CServerHandler::IsConnectedDBServer()
+char CServerHandler::IsConnectedDBServer()
 {
-    return m_dbServer.IsConnected() != 0;
+    return m_dbServer.IsConnected();
 }
 
 unsigned char CServerHandler::GetServerGroupNo()
@@ -437,27 +445,30 @@ CServerConfig::~CServerConfig()
 {
 }
 
-int CServerConfig::Parse_Table(char* line, int idx)
+bool CServerConfig::Parse_Table(char* line, int idx)
 {
     if (line[0] == '#')
     {
         return 0;
     }
-    char* tok0 = 0;
-    char* tok1 = 0;
-    char* tok2 = 0;
-    char* tok3 = 0;
-    char* tok4 = 0;
-    int n = DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 5);
-    if (n == 5 && idx < 0xff)
+    char* tok0;
+    char* tok1;
+    char* tok2;
+    char* tok3;
+    char* tok4;
+    int n;  // 死局部：与 ORIG 栈布局对齐（tok 槽位 -0x24..-0x14）
+    if (DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 5) == 5)
     {
-        ST_ServerInfo* s = &m_servers[idx];
-        s->m_field0 = (char)atoi(tok0);
-        s->m_field1 = (char)atoi(tok1);
-        s->m_field2 = (char)atoi(tok2);
-        s->m_string = tok3;
-        s->m_ushort = (unsigned short)atoi(tok4);
-        return 1;
+        if (idx < 0xff)
+        {
+            ST_ServerInfo* s = &m_servers[idx];
+            s->m_field0 = (char)atoi(tok0);
+            s->m_field1 = (char)atoi(tok1);
+            s->m_field2 = (char)atoi(tok2);
+            s->m_string = tok3;
+            s->m_ushort = (unsigned short)atoi(tok4);
+            return 1;
+        }
     }
     return 0;
 }

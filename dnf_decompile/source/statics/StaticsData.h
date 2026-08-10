@@ -22,14 +22,17 @@ struct ErrorValue
 };
 
 // ---- STSpecCount：0xe ----
+#pragma pack(push, 1)
 struct STSpecCount
 {
     STSpecCount();
     unsigned short m_field0;  // +0
     HWSpec m_spec;            // +2
 };
+#pragma pack(pop)
 
 // ---- STErrorCount：0xa ----
+#pragma pack(push, 1)
 struct STErrorCount
 {
     STErrorCount();
@@ -37,24 +40,20 @@ struct STErrorCount
     unsigned short m_field4; // +4
     unsigned int m_field6;   // +6
 };
+#pragma pack(pop)
 
 // ---- STSpecStatic：0xc ----
-struct STSpecStatic
+struct STSpecStatic : public HWSpec
 {
     STSpecStatic(const HWSpec& spec);
     bool operator<(const STSpecStatic& other) const;
-    unsigned char m_field0;   // +0
-    unsigned int m_field4;    // +4
-    unsigned int m_field8;    // +8
 };
 
 // ---- STErrorStatic：0x8 ----
-struct STErrorStatic
+struct STErrorStatic : public ErrorValue
 {
     STErrorStatic(const ErrorValue& value);
     bool operator<(const STErrorStatic& other) const;
-    unsigned short m_field0;  // +0
-    unsigned int m_field4;    // +4
 };
 
 // ---- STCubeStatisticKey：0xd ----
@@ -319,7 +318,7 @@ struct STPowerwarFightLagData
     STPowerwarFightLagData();
     ~STPowerwarFightLagData();
     void Reset();
-    unsigned int m_field0;  // +0
+    unsigned char m_field0; // +0
     unsigned int m_field4;  // +4
     unsigned int m_field8;  // +8
 };
@@ -398,6 +397,7 @@ struct SECRET_SHOP_STATISTIC_DATA
 };
 
 // ---- GoldCardEventStatistic：0x9 ----
+#pragma pack(push, 1)
 struct GoldCardEventStatistic
 {
     GoldCardEventStatistic();
@@ -405,6 +405,7 @@ struct GoldCardEventStatistic
     unsigned int m_field1;  // +1
     unsigned int m_field5;  // +5
 };
+#pragma pack(pop)
 
 // ---- TowerOfDespairStatistic_Value：0x8 ----
 struct TowerOfDespairStatistic_Value

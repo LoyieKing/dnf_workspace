@@ -99,7 +99,7 @@ public:
 
     bool m_loaded;                      // +4
     int m_reserved8;                    // +8
-    void* m_appInit;                    // +0xc
+    CAppInit* m_appInit;                // +0xc
     CUserManager m_userManager;         // +0x10
     CAppConfig* m_appConfig;            // +0x8c
     void* m_field90;                    // +0x90
@@ -116,8 +116,9 @@ public:
     CMutex m_udpBLock;                  // +0x150
     CTcpNetSystem m_tcpNetSystem;       // +0x168
     CTaskScheduler* m_taskScheduler;    // +0x2c8
-    void* m_field2cc;                   // +0x2cc
+    WongWork::CGMAccounts* m_field2cc;  // +0x2cc
     CMemberManager m_memberManager;     // +0x2d0
+    unsigned char m_pad[8];             // +0x2f8 (ORIG CMemberManager 实际 0x30)
     CBuddyRegisterManager m_buddyMgr;   // +0x300
     CMemoryCashManager* m_memoryCash;   // +0x318
     void* m_field31c;                   // +0x31c
@@ -125,7 +126,7 @@ public:
     CTowerRank* m_towerRank;            // +0x324
     CItemLimitEditionMgr* m_itemLimitMgr;  // +0x328
     CIPCounter* m_ipCounter;            // +0x32c
-    void* m_field330;                   // +0x330
+    CLoginLogoutStatistics* m_field330; // +0x330
     void* m_field334;                   // +0x334
     std::set<std::pair<const std::string, int> > m_set338;  // +0x338
     std::map<const std::string, int> m_map350;        // +0x350

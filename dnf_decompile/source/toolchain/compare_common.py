@@ -34,13 +34,86 @@ import re
 import subprocess
 
 # 统一口径版本号：归一化规则变更时必须 +1，用于失效签名缓存
-CALIBER_VERSION = 3
+CALIBER_VERSION = 4
 
 # 扩展口径（CALIBER_VERSION=4）：在严格口径基础上，把「大绝对地址」
 # （>=0x40000000，即 rodata/数据/全局引用等跨二进制布局产物）也归一化为 <A>。
 # 保留：立即数小常量、字段/栈偏移、寄存器、寻址形态。
 # 用于「全部 identical」可达性度量：数据地址差异不是函数局部语义差异。
 EXT_CALIBER_VERSION = 4
+
+# ============================================================
+# identical 豁免口径（2026-08-10 用户规则）
+# ------------------------------------------------------------
+# 以下“基础内容/第三方内容”获得 identical 豁免，移出统计口径
+# （不计入 IDENTICAL/NEAR/DIFF/MISSING 计数，语义正确性另行验证）：
+#   1. tinyxml（TiXml*）
+#   2. 加密/哈希通用算法：CRijndael(AES)、CSHA、CTEA、IMethod 基类，
+#      yaSSL/TaoCrypt 全族（MD2/MD4/MD5/SHA/DES/3DES/AES/RSA/RIPEMD160…）
+#   3. Boost（boost:: 及项目包装 object_pool_by_boost_pool）
+#   4. STL/std/__gnu_cxx/libstdc++ 内部实例化
+#   5. 工具链/运行时：_Unwind_*、__cxa_*、__gxx_personality、operator new/delete、
+#      __libc_csu_*
+# 判定同时支持 mangled 与 demangled 匹配。
+# ============================================================
+
+_EXEMPT_MANGLE_SUBSTR = (
+    'TiXml',                      # tinyxml
+    'CRijndael', 'CSHA', 'CTEA', 'IMethod',   # 通用加密/哈希算法（DWARF 服务）
+    'TaoCrypt', 'yaSSL',          # yaSSL/taocrypt 第三方 crypto
+    'boost', 'object_pool_by_boost_pool',     # Boost + 项目包装
+    '_ZNSt', '_ZNKSt', '_ZSt', '__gnu_cxx', '__cxxabiv',  # std/STL 内部
+    '_Unwind_', '__cxa_', '__gxx_personality',
+    '_ZdlPv', '_Znwj', '_Znwm',   # operator delete / new
+    '__libc_csu_',
+    # ---- 2026-08-10 扩充：其余第三方基础库（用户豁免规则“等基础内容”）----
+    # zlib 压缩库（避免 'compress'/'zError'/'ARIA' 等会误伤项目符号的裸串）
+    '_tr_', 'inflate', 'deflate', 'zcalloc', 'zcfree', 'zlib', 'crc32',
+    'adler32', 'fill_window', 'flush_pending', 'get_crc_table',
+    'my_compress', 'my_uncompress', 'uncompr', 'compress2', 'compressBound',
+    # SHA1 C 实现
+    'SHA1ProcessMessageBlock', 'SHA1PadMessage', 'SHA1Reset', 'SHA1Result',
+    'SHA1Input',
+    # NCrypto / tomcrypt 第三方加密库（ORIG 静态链接，重建不含此库）
+    'CNCrypto', 'CNChecksum', 'ICryptoGraph', 'IChecksum', 'CBlowFish',
+    'NCrypto', 'CryptoGraph', 'CreateCrypto', 'DestroyCrypto', 'GenerateRandom',
+    '_ZN4ARIA', '_ZNK4ARIA', '_ZN6SBlock', '_ZNK6SBlock',
+    'xtea', 'cast5', 'anubis', 'kasumi', 'khazad', 'multi2', 'noekeon',
+    'skipjack', 'twofish', 'rc6_', 'RIJNDAEL', 'symmetric_key', 'ALG_INFO',
+    'md5', 'burn_stack', 'zeromem', 'Balloc', 'Bfree', 'TIME_to_ulonglong',
+    'gf_mult', 'rs_mult', 'mds_mult', 'PaddSet', 'PaddCheck', 'gen_tabs',
+    'g_func', '_ZL6h_func', '_Z11Seed', '_Z15Seed',
+    # libgcc 栈展开运行时（工具链）
+    'uw_', 'execute_cfa', 'sleb128', 'uleb128', 'add_fdes', 'frame_heapsort',
+    'base_from_', 'size_of_encoded_value', 'search_object', 'frame_state_for',
+    'read_encoded_value',
+)
+
+_EXEMPT_DEMANGLE_SUBSTR = (
+    'TiXml', 'tinyxml',
+    'CRijndael', 'CSHA', 'CTEA', 'IMethod',
+    'TaoCrypt::', 'yaSSL::',
+    'boost::', 'object_pool_by_boost_pool',
+    'std::', '__gnu_cxx::', '__cxxabiv::',
+    '_Unwind_', '__cxa_', '__gxx_personality',
+    'operator new', 'operator delete',
+    # ---- 2026-08-10 扩充：其余第三方基础库 ----
+    'zlib', 'inflate', 'deflate', 'crc32', 'adler32',
+    'CNCrypto', 'CNChecksum', 'ICryptoGraph', 'IChecksum', 'CBlowFish',
+    'ARIA::', 'SBlock::', 'symmetric_key', 'md5_context', 'ALG_INFO',
+    'NCrypto', 'CryptoGraph',
+)
+
+
+def is_exempt_symbol(mangled, demangled=None):
+    """返回 True 表示该符号属于豁免范围（不计入 identical 统计）。"""
+    if any(s in mangled for s in _EXEMPT_MANGLE_SUBSTR):
+        return True
+    if demangled and any(s in demangled for s in _EXEMPT_DEMANGLE_SUBSTR):
+        return True
+    return False
+
+
 _LARGE_ADDR_RE = re.compile(r'0x[0-9a-f]{7,8}')
 # 64 位 ET_EXEC（stun 等）的代码/数据地址在 0x40xxxx 区间（0x400000-0x40ffffff）
 # 注意：不能放宽到 0x4xxxxxxx，否则 32 位的 0x4c4d58（"XML" 魔数）等常量会被误归一化

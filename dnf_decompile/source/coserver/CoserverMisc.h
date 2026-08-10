@@ -2,6 +2,7 @@
 #define COSERVER_MISC_H_
 
 #include <string>
+#include <sys/time.h>
 #include <vector>
 
 #include "CoserverTable.h"
@@ -93,7 +94,7 @@ public:
     CKillUSRConfig();
     virtual ~CKillUSRConfig();
     virtual void Load_Table(const std::string& path);
-    virtual int Parse_Table(char* line, int idx);
+    virtual bool Parse_Table(char* line, int idx);
     void Clear_Table();
     std::vector<ST_KillUSRConfig*>* GetInfo() const;
     std::vector<ST_KillUSRConfig*> m_infos;  // +4
@@ -115,7 +116,7 @@ public:
     ~CSystemTime();
     int m_field0;     // +0
     int m_msec;       // +4
-    char m_tv[8];     // +8（timeval）
+    struct timeval m_tv;  // +8
     int m_sec;        // +0x10
 };
 

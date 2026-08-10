@@ -28,10 +28,11 @@ void CSignal::attachApp(CApplication* app)
 void CSignal::dump_core_file()
 {
     CPacketTracerInstance()->AbsoluteWriteLog();
+    volatile int r;  // ORIG keeps getrlimit/setrlimit 的返回值存储（死存储）；GCC4.4.7 会消除普通局部，用 volatile 照抄 ORIG 机器码（§16/§36/§74）
     struct rlimit rl;
-    getrlimit(RLIMIT_CORE, &rl);
+    r = getrlimit(RLIMIT_CORE, &rl);
     rl.rlim_cur = 0xffffffff;
-    setrlimit(RLIMIT_CORE, &rl);
+    r = setrlimit(RLIMIT_CORE, &rl);
     abort();
 }
 
@@ -279,7 +280,7 @@ int CSignalTranslator::init_handler(CApplication* app)
     m_handlers[0x60 / 4] = m_handlers[0x10 / 4];
     m_handlers[100 / 4] = m_handlers[0x10 / 4];
     m_handlers[0x7c / 4] = m_handlers[0x10 / 4];
-    return 0;
+    // NOTE: ORIG 无 return 语句直接落底（返回残留 eax），调用方均忽略返回值；照抄 ORIG 以对齐机器码
 }
 
 int CSignalTranslator::regist_signal(int sig, void (*handler)(int))
@@ -297,16 +298,14 @@ int CSignalTranslator::regist_signal(int sig, void (*handler)(int))
     return -1 < r;
 }
 
-int CSignalTranslator::getSignal(int sig) const
+CSignal* CSignalTranslator::getSignal(int sig) const
 {
-    return (int)m_handlers[sig];
+    return m_handlers[sig];
 }
 
 void signal_handler(int sig)
 {
-    CSignalTranslator* st = CSignalTranslatorInstance();
-    CSignal* s = (CSignal*)st->getSignal(sig);
-    s->handle(sig);
+    CSignalTranslatorInstance()->getSignal(sig)->handle(sig);
 }
 
 CSignalTranslator* CSignalTranslatorInstance()

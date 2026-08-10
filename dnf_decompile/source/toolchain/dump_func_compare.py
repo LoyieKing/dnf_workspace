@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/community/df_community_r'
-NEW = ROOT / 'dnf_decompile/source/build-verify-community/df_community_r'
+NEW = ROOT / 'dnf_decompile/build/community/df_community_r'
 GHIDRA = Path('/mnt/d/Works/ghidra/support/analyzeHeadless')
 PROJ = ROOT / 'dnf_decompile/dnf_project.rep'
 SCRIPT = ROOT / 'dnf_decompile/source/toolchain/ghidra_decompile_targets.java'

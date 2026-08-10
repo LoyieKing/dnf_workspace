@@ -61,14 +61,14 @@ int CAppStartInit::Init_Daemon(int argc, char** argv)
         chdir("./");
         umask(0);
     }
-    if (Save_pid(argv[1]) == 1)
+    if (Save_pid(argv[1]) != 1)
     {
-        return 0;
+        return -1;
     }
-    return -1;
+    return 0;
 }
 
-int CAppStartInit::Save_pid(const std::string& name)
+bool CAppStartInit::Save_pid(const std::string& name)
 {
     std::string path = "./pid/" + name + ".pid";
     int fd = open(path.c_str(), 0x42, 0x1a4);

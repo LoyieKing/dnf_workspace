@@ -39,6 +39,8 @@ public:
     void ResetLog();
     void WriteLog();
     void AbsoluteWriteLog();
+    int m_nCount;        // offset 0
+    std::string m_strLog; // offset 4
 };
 
 CPacketTracer* CPacketTracerInstance();

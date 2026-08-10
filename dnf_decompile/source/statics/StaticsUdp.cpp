@@ -10,6 +10,8 @@
 #include "StaticsUdp.h"
 #include "DNFFileLog.h"
 
+bool SetNonBlock(int fd);
+
 __attribute__((weak)) int getErrno()
 {
     return errno;
@@ -54,7 +56,8 @@ int CUdpHandler::InitServerSocket(int port)
     }
     int bufsize = 1000000;
     setsockopt(m_clientSock, 1, 8, &bufsize, 4);
-    DNF_LOG_SCOPE_LINE(0x6e, "./log/Udp", "Opened port %d with fd %d, recv buf size %d\n", port, m_sock, bufsize);
+    DNF_LOG_SCOPE_LINE(0x80, "./log/Udp", "Opened port %d with fd %d, recv buf size %d\n", port, m_sock, bufsize);
+    SetNonBlock(m_sock);
     return m_sock;
 }
 
@@ -66,7 +69,8 @@ int CUdpHandler::InitClientSocket()
         printf("Could not create a UDP socket : %d\n", getErrno());
         return -1;
     }
-    DNF_LOG_SCOPE_LINE(0x8f, "./log/Udp", "Opened port with fd %d\n", m_clientSock);
+    SetNonBlock(m_clientSock);
+    DNF_LOG_SCOPE_LINE(0xa6, "./log/Udp", "Opened port with fd %d\n", m_clientSock);
     return m_clientSock;
 }
 

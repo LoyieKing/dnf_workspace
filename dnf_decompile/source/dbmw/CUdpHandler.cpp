@@ -279,7 +279,7 @@ char CUdpHandler::RecvFromServer(char* buf, int* size, unsigned int* addr,
     if (*(unsigned short*)buf == 0x4c8 || *(unsigned short*)buf == 0x4c9 ||
         *(unsigned short*)buf == 0x44f || *(unsigned short*)buf == 0x450)
     {
-        CMyFileLog log("RecvFromServer", 0x178);
+        CMyFileLog log("RecvFromServer", 0x179);
         log("./log/Udp", "PacketId(%d) Recv success! IP = %s, Port %d, Recv size = %d",
             *(unsigned short*)buf, inet_ntoa(from.sin_addr), *port, *size);
         buf[*size] = 0;

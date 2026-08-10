@@ -62,7 +62,7 @@ void EpollHandler::Destroy()
 
 int EpollHandler::WaitForEvent()
 {
-    return epoll_wait(m_epollFd, (struct epoll_event*)m_events, 0x3e8, 0x64);
+    return epoll_wait(GetEpollFD(), (struct epoll_event*)GetEpollEvents(), 0x3e8, 0x64);
 }
 
 void* EpollHandler::GetEventPtr(int idx)
@@ -77,12 +77,12 @@ char EpollHandler::IsSetInEvent(int idx)
 
 char EpollHandler::IsSetOutEvent(int idx)
 {
-    return ((struct epoll_event*)m_events)[idx].events & 0x4;
+    return (((struct epoll_event*)m_events)[idx].events & 0x4) != 0;
 }
 
 char EpollHandler::IsSetErrEvent(int idx)
 {
-    return ((struct epoll_event*)m_events)[idx].events & 0x18;
+    return (((struct epoll_event*)m_events)[idx].events & 0x18) != 0;
 }
 
 int EpollHandler::SetEpoll(void* peer, int fd, bool flag)
@@ -101,11 +101,6 @@ int EpollHandler::ResetEpoll(int fd)
     CGuard<CMutex> guard(&m_mutex);
     int ret = epoll_ctl(m_epollFd, 0x2, fd, (struct epoll_event*)&m_eventType);
     return ret < 0 ? errno : 0;
-}
-
-int EpollHandler::SetPeer(void* peer, int fd, bool flag)
-{
-    return SetEpoll(peer, fd, flag);
 }
 
 int EpollHandler::GetEpollFD() { return m_epollFd; }

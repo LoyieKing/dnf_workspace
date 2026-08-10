@@ -123,7 +123,7 @@ void CApplication::Load(int argc, char** argv)
         statistc_proxy::StatisticProxy::sendPacketFunctionPointer = global_function::SendPacketToDbmw;
         m_appConfig->Load_Table(argv[1]);
         m_serverConfig->Load_Table("./table/server_config.tbl");
-        m_frame.InitFrameCountInfo(this, (unsigned int)this, m_appConfig->Get_FrameCountValue());
+        m_frame.InitFrameCountInfo(this, m_appConfig->Get_FrameCountValue(), 0x3e8);
         m_udpHandler = new CUdpHandler;
         if (m_udpHandler->InitServerSocket(m_appConfig->Get_ServerUdpPort() & 0xffff) == -1)
         {

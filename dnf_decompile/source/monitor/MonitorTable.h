@@ -34,7 +34,7 @@ public:
     virtual int Parse_Table(char* line, int idx);
     void Check_FileName(const std::string& filename);
     void clearServerInfoMap();
-    unsigned char Get_FrameCountValue();     // +4
+    unsigned short Get_FrameCountValue();    // +4
     unsigned short Get_ServerUdpPort();      // +6
     unsigned short Get_ServerTcpPort();      // +8
     unsigned char Get_ServerGroup();         // +0xa

@@ -7,9 +7,7 @@
 class ServiceInfo
 {
 public:
-    ServiceInfo()
-    {
-    }
+    ServiceInfo();
     void setInfo(const char* name, const char* display, const char* binary, const char* config);
     void setPIDFileName(const char* fn);
     void setRunAsService(bool b)
@@ -46,9 +44,7 @@ public:
 class IService
 {
 public:
-    IService()
-    {
-    }
+    IService();
     virtual bool checkConfigFile() = 0;
     virtual bool checkPIDFile() = 0;
     virtual bool prepareStart() = 0;

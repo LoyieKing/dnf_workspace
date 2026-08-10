@@ -5,14 +5,14 @@
 #   GCC 4.4.4 时代 codegen（c6root gcc 4.4.7 驱动 + 4.4.4 cc1）
 #   -m32 -O2 -fPIC -DNDEBUG -DDBUG_OFF
 #   -DHAVE_YASSL -DYASSL_PURE_C -DHAVE_OPENSSL（顶层 CMakeLists）
-# 产物：build-manager/mysqlclient/libmysqlclient.a
+# 产物：build/manager/mysqlclient/libmysqlclient.a
 # ============================================================
 set -e
 
 JOBS=${JOBS:-$(nproc 2>/dev/null || echo 4)}
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 MYSQL="$ROOT/Library3rd/MySQL"
-OUT="$ROOT/build-manager/mysqlclient"
+OUT="$ROOT/../build/manager/mysqlclient"
 
 CXX="/tmp/c6root/usr/bin/gcc"
 export GCC_EXEC_PREFIX=/tmp/c6root/usr/libexec/gcc/

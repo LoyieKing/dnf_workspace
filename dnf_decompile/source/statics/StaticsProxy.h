@@ -42,12 +42,14 @@ public:
     Table(const Table& other);
     ~Table();
     void resetValue();
-    void updateDatabase(const char* table);
+    int updateDatabase(const char* table);
     void add(const char* name, unsigned int value, const char* key);
     void reset();
     void setKey(const char* key);
     std::map<std::string, Field> m_fields;  // +0
-    std::string m_key;                      // +0x18
+    int m_nValue;                           // +0x18
+    char m_bFlag;                           // +0x1c
+    std::string m_key;                      // +0x20
 };
 
 class StatisticProxy
@@ -56,14 +58,14 @@ public:
     StatisticProxy();
     ~StatisticProxy();
     void resetTable();
-    void registTable(const char* name, Table& table);
-    void updateDatabase();
+    bool registTable(const char* name, Table& table);
+    int updateDatabase();
     void add(const char* table, unsigned int value, const char* key, const char* cond);
     std::map<std::string, Table> m_tables;  // +0
     static void (*sendPacketFunctionPointer)(char*);
 };
 
-void initialize();
+int initialize();
 void addStatisticProxy(StatisticsPacket* packet);
 void resetStatisticProxy();
 void sendDBStatisticProxy();

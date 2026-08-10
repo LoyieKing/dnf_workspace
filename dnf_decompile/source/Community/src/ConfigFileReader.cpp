@@ -48,7 +48,9 @@ const char *CConfigFileReader::get_value(const char *_key) {
     // 原始：临时 std::string（find 后立即销毁，先于 end()）
     std::map<std::string, std::string>::const_iterator result = this->configs.find(std::string(_key));
     if (result != this->configs.end()) {
-        return result->second.c_str();
+        // 原始：operator-> 结果先存入命名局部（-0xc）再取 c_str（复现 store+reload 形态）
+        const std::string *p = &result->second;
+        return p->c_str();
     }
     return NULL;
 }

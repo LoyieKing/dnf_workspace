@@ -22,7 +22,7 @@ from pathlib import Path
 
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/community/df_community_r'
-NEW = ROOT / 'dnf_decompile/source/build-verify-community/df_community_r'
+NEW = ROOT / 'dnf_decompile/build/community/df_community_r'
 
 BRANCH = {'jmp', 'je', 'jne', 'jz', 'jnz', 'ja', 'jae', 'jb', 'jbe', 'jg', 'jge', 'jl', 'jle',
           'js', 'jns', 'jo', 'jno', 'jp', 'jnp', 'loop', 'loope', 'loopne'}

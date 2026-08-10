@@ -1,4 +1,5 @@
 #include "ManagerApp.h"
+#include "ServerXmlDbmw.h"
 
 #include <string.h>
 #include <signal.h>
@@ -13,6 +14,8 @@ void CAppBase::Process() {}
 void CAppBase::Create(int argc, char** argv)
 {
     Init(argc, argv);
+    if (strcmp(argv[2], "stop") == 0)
+        return;
     Load(argc, argv);
 }
 void CAppBase::Clear()
@@ -48,7 +51,7 @@ CGameServer* CApplication::FindGameServer(int idx)
 }
 void CApplication::Process()
 {
-    while (1)
+    while (m_loaded)
     {
         try
         {
@@ -59,6 +62,8 @@ void CApplication::Process()
                 if (info->m_field24 == 3)
                 {
                     m_frameCount.SaveProcess();
+                    CQueryCounterInstance()->WriteDBLog(m_dbManager);
+                    CPacketTracerInstance()->WritePacketProcessLog();
                 }
             }
             SwitchQueueTCP();
@@ -66,7 +71,7 @@ void CApplication::Process()
             CPacketDecoderInstance()->Process();
             DNFFLib::Sleep_Ext(0, 1);
         }
-        DNF_CATCH_LOG("./log/process.log", "CApplication::Process() Exception Break", 0x22a, 0x22f);
+        DNF_CATCH_LOG_PRINTF("./log/process.log", "CApplication::Process() Exception Break", 0x315, 0x31a);
     }
 }
 
@@ -80,6 +85,7 @@ void CApplication::Init(int argc, char** argv)
         AttachAppInitor(argv);
         m_appInitor->Init(this, argc, argv);
         puts("Application Init() Success!");
+        g_ServerString_.StrLoading();
     }
     DNF_CATCH_RETHROW("CApplication::Init() Exception Break");
 }
@@ -313,14 +319,14 @@ CMonitorServer* CApplication::FindMonitorServer(int idx)
 void CApplication::SwitchQueueTCP()
 {
     CGuard<CMutex> guard(m_tcpNetSystem.Get_TcpRecvQLock());
-    IQueue<TcpRecvQueue>* q = (IQueue<TcpRecvQueue>*)m_tcpNetSystem.Get_TcpSwapQPacket();
+    IQueue<TcpRecvQueue>* q = &IQueue<TcpRecvQueue>::Get();
     if (q->SwitchQueue())
         CPacketDecoderInstance()->SetTCPQueue(q->GetParseQueue());
 }
 
 void CApplication::SwitchQueueUDP()
 {
-    CGuard<CMutex> guard(Get_UdpQLock());
+    CGuard<CMutex> guard(&m_mutexF8);
     if (!m_udpSwapQueue.GetRecvQ()->empty())
     {
         m_udpSwapQueue.SwapQ();
@@ -336,7 +342,10 @@ void CApplication::Free()
         puts("Application Free Start!");
         if (m_networkThread)
         {
-            delete m_networkThread;
+            void (**vt)(void*) = *(void(***)(void*))m_networkThread;
+            vt[0](m_networkThread);
+            if (m_networkThread != 0)
+                vt[3](m_networkThread);
             m_networkThread = 0;
         }
         puts("Thread Free Success!");

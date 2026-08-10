@@ -11,7 +11,7 @@ public:
     virtual ~CTableBase();
     int Load_Txt_Table_Data(const char* path, int maxCount);
     virtual void Load_Table(const std::string& path) = 0;
-    virtual int Parse_Table(char* line, int idx) = 0;
+    virtual bool Parse_Table(char* line, int idx) = 0;
 };
 
 // CAppConfig：CTableBase@0 / frameCount@4 / udpPorts[101]@8
@@ -21,12 +21,12 @@ public:
     CAppConfig();
     virtual ~CAppConfig();
     virtual void Load_Table(const std::string& filename);
-    virtual int Parse_Table(char* line, int idx);
-    unsigned char Get_FrameCountValue();
+    virtual bool Parse_Table(char* line, int idx);
+    unsigned short Get_FrameCountValue();
     unsigned int Get_ServerUdpPort(unsigned char idx);
     void Check_FileName(const std::string& filename);
 
-    char m_frameCount;             // +4
+    unsigned char m_frameCount;    // +4
     unsigned int m_udpPorts[101];  // +8
 };
 

@@ -52,7 +52,31 @@ struct STGuildMemberProxy
 struct STGuildDBInfoOnly
 {
     STGuildDBInfoOnly();
-    char m_data[0xbd];
+    union
+    {
+        char m_data[0xbd];
+        struct __attribute__((packed))
+        {
+            char m_pad0[0x17];
+            unsigned int m_masterId;       // +0x17（this+0x37）
+            unsigned char m_guildLevel;    // +0x1b（this+0x3b）
+            char m_pad2[0x22 - 0x1c];
+            unsigned short m_totalCnt;     // +0x22（this+0x42）
+            unsigned int m_guildPoint;     // +0x24（this+0x44）
+            unsigned char m_guildRank;     // +0x28（this+0x48）
+            unsigned int m_guildExp;       // +0x29（this+0x49）
+            char m_pad5[0x2d - 0x2d];
+            unsigned char m_subMasterCnt;  // +0x2d（this+0x4d）
+            char m_pad6[0x95 - 0x2e];
+            unsigned char m_powerSide;     // +0x95（this+0xb5）
+            unsigned int m_powerSecedeTime;// +0x96（this+0xb6）
+            unsigned int m_powerWarPoint;  // +0x9a（this+0xba）
+            unsigned char m_agitFlag;      // +0x9e（this+0xbe）
+            char m_pad7[0xa0 - 0x9f];
+            unsigned int m_guildFund;      // +0xa0（this+0xc0）
+            char m_pad8[0xbd - 0xa4];
+        };
+    };
 };
 
 // ---- STGuildDBInfo：0xbd + 300*0x41 ----
@@ -67,7 +91,11 @@ struct STGuildDBInfo
 struct STGuildAgitDBInfo
 {
     STGuildAgitDBInfo();
-    char m_data[0x89];
+    union
+    {
+        char m_data[1];
+        unsigned char m_agitLevel;         // +0（this+0x4d09，ORIG 仅 1 字节）
+    };
 };
 
 struct STGuildMemberChangableInfo
@@ -94,14 +122,15 @@ class CBlackUser
 {
 public:
     CBlackUser();
-    ~CBlackUser();
     static void* operator new(unsigned int size);
     static void operator delete(void* p);
     static void operator delete(void* p, unsigned int size);
     void SetBlackUser(char* name, unsigned int time);
     char* GetName();
     unsigned int GetOccurTime();
-    char m_data[0x28];
+    char m_data[0x20];
+    unsigned int m_time;  // +0x20
+    char m_pad[4];        // +0x24
 };
 
 class CGuildCargo;
@@ -193,9 +222,7 @@ struct Packet_DB_Save_Power_War_Bonus_Point;
 struct Packet_DB_Save_Power_War_Point_Reward;
 struct STPowerWarScheduleTime
 {
-    STPowerWarScheduleTime() {}
-    ~STPowerWarScheduleTime() {}
-    char m_data[0x10];
+    char m_data[3];   // {type@0, hour@1, min@2}（ORIG：POD 3 字节，vector 元素步进 3）
 };
 
 // ---- ST_PowerWarEventStartTimeConfig：0x14 ----
@@ -294,7 +321,7 @@ public:
     void SetSpecialWeekDayHour(std::vector<STPowerWarScheduleTime> schedule);
     void SetSpecialWeekDayHour(int day, int hour);
     int IsOnTimeSpecialWeekDayHour(int day, int hour, int min);
-    void GetNextScheduleTime(unsigned char& hour, unsigned char& min);
+    STPowerWarScheduleTime* GetNextScheduleTime(unsigned char& hour, unsigned char& min);
     char m_day;       // +0
     char m_min;       // +1
     char m_hour;      // +2
@@ -415,9 +442,9 @@ public:
     CUser* CreateUser(unsigned int dbid, unsigned int charNo, char* charName, int channel,
                       CGameServer* server);
     void DeleteUser(unsigned int dbid);
-    void DeleteUser(CUser* user);
-    void DeleteUser_CharNo(unsigned int charNo);
-    void DeleteUser_CharName(std::string name);
+    int DeleteUser(CUser* user);
+    int DeleteUser_CharNo(unsigned int charNo);
+    int DeleteUser_CharName(std::string name);
     int InsertUser(unsigned int dbid, CUser* user);
     int InsertUser_CharNo(unsigned int charNo, CUser* user);
     int InsertUser_CharName(char* name, CUser* user);
@@ -428,9 +455,9 @@ public:
     void DeleteUsersOnTcpGameServerDown(CTcpGameServer* server);
     void DeleteBlackUserOnCharacDelete(unsigned int charNo);
     void RefreshGuildAttendanceInfo();
-    std::map<unsigned int, CUser*> m_users;         // +0
-    std::map<unsigned int, CUser*> m_charNoUsers;   // +0x18
-    std::map<std::string, CUser*> m_charNameUsers;  // +0x30
+    std::map<const unsigned int, CUser*> m_users;         // +0
+    std::map<const unsigned int, CUser*> m_charNoUsers;   // +0x18
+    std::map<const std::string, CUser*> m_charNameUsers;  // +0x30
     CApplication* m_app;                            // +0x48
 };
 
@@ -456,7 +483,13 @@ public:
     int Find_GuildWarInfo(unsigned int guildId);
     void Insert_GuildWarInfo(STGuildWarInfo* info);
     int GetGuildWarInfoDBSave(unsigned int* a, unsigned int* b);
-    char m_data[0x100];
+    std::vector<std::pair<unsigned int, STGuildWarInfo*> > m_vtGuildWarInfo;  // +0（0xc）
+    bool m_bEventOn;           // +0xc
+    char m_bRankCnt;           // +0xd
+    char m_bSaveCnt;           // +0xe
+    unsigned char m_bParam;    // +0xf
+    char m_bRankWorked;        // +0x10
+    char m_pad[3];             // +0x11
 };
 
 struct ST_Notice_Guild_Enter
@@ -475,6 +508,71 @@ struct STAttendanceInfo
 {
     STAttendanceInfo();
     char m_data[0x1c];
+};
+
+// ---- CGuildCargo：0x1910（ORIG 内嵌于 CGuild+0x4db4）----
+class CGuild;
+class CGuildCargo
+{
+public:
+    CGuildCargo();
+    ~CGuildCargo();
+    void Reset();
+    int GetCapacity();
+    void SetCapacity(unsigned int capacity);
+    int IsValidSlot(int slot);
+    void SetGuildInfo(int guildKey);
+    bool IsLoadComplete();
+    int CalcItemCount();
+    int IsEmpty();
+    void* GetGuildCargoDBInfo();
+    int GetSpecificItemSlot(int itemId);
+    void PrintCargo(ENUM_GUILD_CARGO_BEHAVIOR behavior);
+    static const char* PrintDnfItemInfo(DnfItemInfo& info);
+    int AddItem(DnfItemInfo& info, int slot, int count);
+    int InsertItem(DnfItemInfo& info, int& slot, int count, unsigned char a, int b);
+    int DeleteItem(DnfItemInfo& info, int slot, int count, unsigned char a, int b, int c);
+    int MoveItem(DnfItemInfo& info, DnfItemInfo& info2, int a, int b, int c, int d, int e);
+    int CheckInsertItem(int itemId, int count, int slot, unsigned char stackable, int maxStack);
+    void SendGuildCargo(CUser* user);
+    void GetHistory(STGuildCargoLog* out);
+    void InsertHistory(ENUM_GUILD_CARGO_BEHAVIOR behavior, int slot, const char* name,
+                       int count, int param, const RandomOption* option);
+    void SendHistoryToDBMW(CServerHandler* handler, ENUM_GUILD_CARGO_BEHAVIOR behavior,
+                           int slot, const char* name, int count, int param,
+                           DnfItemInfo& info);
+    void SendGuildCargoToDBMW(CServerHandler* handler, int slot);
+    void SetGuildCargoHistory(unsigned int idx, STGuildCargoLog* log);
+    void SetGuildCargoDBInfo(STGuildCargoDBInfo& info);
+    char m_data[0x1910];
+};
+
+// ---- CGuildBoard：0x1900（ORIG 内嵌于 CGuild+0x66c4）----
+class CGuildBoard
+{
+public:
+    CGuildBoard();
+    ~CGuildBoard();
+    void reset();
+    void printGuildBoard();
+    void setGuildBoardData(unsigned int a, unsigned int b, CGuild* guild, int c,
+                           STGuildBoardDBInfo* info);
+    void sendGuildBoardData(unsigned int a, unsigned int b, unsigned int c, CUser* user);
+    void clearGuildBoardData();
+    void deleteGuildBoardData(unsigned int a, unsigned int b, unsigned int c);
+    bool isGuildBoardDBAccess();
+    bool isWebGuildBoardAction();
+    void setGuildBoardDBAccess();
+    void setWebGuildBoardAction(bool flag);
+    int getGuildBoardDBLoadState();
+    void setGuildBoardDBLoadState(ENUM_DB_LOAD_STATE state);
+    void sendMessageToDBMW_GuildFund(CServerHandler* handler, int fund, CUser* user);
+    void sendMessageToDBMW_GuildLevelUP(CServerHandler* handler, int level, CUser* user);
+    void sendMessageToDBMW_GuildAttendance(CServerHandler* handler, int a, int b,
+                                           unsigned int c, unsigned int d);
+    void sendMessageToDBMW_GuildMasterChanging(CServerHandler* handler, CUser* user,
+                                               const char* name);
+    char m_data[0x54];   // ORIG 内嵌于 CGuild+0x66c4，sizeof(CGuild)=0x6718
 };
 
 // ---- CGuild ----
@@ -497,8 +595,8 @@ public:
     bool GetDBSaveFlag();
     unsigned int GetGuildExp();
     void AddGuildExp(unsigned int exp);
-    unsigned short GetGuildLevel();
-    unsigned short GetGuildRank();
+    unsigned char GetGuildLevel();
+    unsigned char GetGuildRank();
     unsigned int GetMasterId();
     unsigned int GetGuildFund();
     void AddGuildFund(unsigned int fund);
@@ -613,80 +711,19 @@ public:
     STGuildDBInfo m_dbInfo;                     // +0x20
     STGuildAgitDBInfo m_agitInfo;               // +0x4d09
     char m_field4d0a[100];                      // +0x4d0a
+    char m_pad4d6e[2];                          // +0x4d6e
     unsigned short m_field4d70;                 // +0x4d70
     unsigned short m_field4d72;                 // +0x4d72
     unsigned short m_field4d74;                 // +0x4d74
+    char m_field4d76[0x1c];                     // +0x4d76（未知区域）
     unsigned short m_field4d92;                 // +0x4d92
     unsigned short m_field4d94;                 // +0x4d94
     unsigned char m_field4d96;                  // +0x4d96
     std::map<unsigned int, STGuildMemberChangableInfo> m_changable;  // +0x4d98
     unsigned char m_field4db0;                  // +0x4db0
-    CGuildCargo* m_cargo;                       // +0x4db4（对象在 0x4db4）
-    CGuildBoard* m_board;                       // +0x66c4（对象在 0x66c4）
-};
-
-// ---- CGuildCargo：0x1928 ----
-class CGuildCargo
-{
-public:
-    CGuildCargo();
-    ~CGuildCargo();
-    void Reset();
-    int GetCapacity();
-    void SetCapacity(unsigned int capacity);
-    int IsValidSlot(int slot);
-    void SetGuildInfo(int guildKey);
-    bool IsLoadComplete();
-    int CalcItemCount();
-    int IsEmpty();
-    void* GetGuildCargoDBInfo();
-    int GetSpecificItemSlot(int itemId);
-    void PrintCargo(ENUM_GUILD_CARGO_BEHAVIOR behavior);
-    static const char* PrintDnfItemInfo(DnfItemInfo& info);
-    int AddItem(DnfItemInfo& info, int slot, int count);
-    int InsertItem(DnfItemInfo& info, int& slot, int count, unsigned char a, int b);
-    int DeleteItem(DnfItemInfo& info, int slot, int count, unsigned char a, int b, int c);
-    int MoveItem(DnfItemInfo& info, DnfItemInfo& info2, int a, int b, int c, int d, int e);
-    int CheckInsertItem(int itemId, int count, int slot, unsigned char stackable, int maxStack);
-    void SendGuildCargo(CUser* user);
-    void GetHistory(STGuildCargoLog* out);
-    void InsertHistory(ENUM_GUILD_CARGO_BEHAVIOR behavior, int slot, const char* name,
-                       int count, int param, const RandomOption* option);
-    void SendHistoryToDBMW(CServerHandler* handler, ENUM_GUILD_CARGO_BEHAVIOR behavior,
-                           int slot, const char* name, int count, int param,
-                           DnfItemInfo& info);
-    void SendGuildCargoToDBMW(CServerHandler* handler, int slot);
-    void SetGuildCargoHistory(unsigned int idx, STGuildCargoLog* log);
-    void SetGuildCargoDBInfo(STGuildCargoDBInfo& info);
-    char m_data[0x1928];
-};
-
-// ---- CGuildBoard ----
-class CGuildBoard
-{
-public:
-    CGuildBoard();
-    ~CGuildBoard();
-    void reset();
-    void printGuildBoard();
-    void setGuildBoardData(unsigned int a, unsigned int b, CGuild* guild, int c,
-                           STGuildBoardDBInfo* info);
-    void sendGuildBoardData(unsigned int a, unsigned int b, unsigned int c, CUser* user);
-    void clearGuildBoardData();
-    void deleteGuildBoardData(unsigned int a, unsigned int b, unsigned int c);
-    bool isGuildBoardDBAccess();
-    bool isWebGuildBoardAction();
-    void setGuildBoardDBAccess();
-    void setWebGuildBoardAction(bool flag);
-    int getGuildBoardDBLoadState();
-    void setGuildBoardDBLoadState(ENUM_DB_LOAD_STATE state);
-    void sendMessageToDBMW_GuildFund(CServerHandler* handler, int fund, CUser* user);
-    void sendMessageToDBMW_GuildLevelUP(CServerHandler* handler, int level, CUser* user);
-    void sendMessageToDBMW_GuildAttendance(CServerHandler* handler, int a, int b,
-                                           unsigned int c, unsigned int d);
-    void sendMessageToDBMW_GuildMasterChanging(CServerHandler* handler, CUser* user,
-                                               const char* name);
-    char m_data[0x1900];
+    char m_pad4db1[3];                          // 对齐：cargo 从 +0x4db4 开始
+    CGuildCargo m_cargo;                        // +0x4db4（内嵌对象）
+    CGuildBoard m_board;                        // +0x66c4（内嵌对象）
 };
 
 // ---- CGuildManager：0xe0 ----
@@ -828,16 +865,16 @@ public:
     unsigned short getPowerWarEndKillPoint();
     unsigned short getPowerWarEndKillPoint() const;
     void setPowerWarEndKillPoint(unsigned short point);
-    void resetEvent();
-    void setEvent();
+    virtual void resetEvent();
+    virtual void setEvent();
     void setProlongTime();
     void GetPowerWarConfigTbl(unsigned char& a, unsigned char& b, unsigned char& c,
                               unsigned char& d);
     void LoadPowerWarTableFile(char* path);
-    void ProcessByMinuteEndEvent();
+    int ProcessByMinuteEndEvent();
     int ProcessByMinuteStartEvent();
     int GetPowerWarRankingUpdateTime();
-    char m_data[0x130];
+    char m_data[0x34];
 };
 
 // ---- CPower ----
@@ -908,7 +945,7 @@ public:
                                            unsigned int d, unsigned int e, unsigned int f,
                                            unsigned int g, unsigned int h);
     void SendPowerWarEndInfoInSpecificPower(char side);
-    char m_data[0x1a0];
+    char m_data[0x198];
 };
 
 // ---- CMemoryCashManager ----
@@ -1054,7 +1091,7 @@ public:
     void RGBALoad(int idx, TiXmlNode* node);
     void ProcessLoad(TiXmlNode* node);
     void StrPunish(int idx, const char* str, _eStringType type);
-    const char* GetServerString(int idx, bool* ok) const;
+    std::string GetServerString(int idx, bool* ok) const;
     unsigned int GetEventRGBA(int idx) const;
     std::string GetEventString(int idx, _eStringType type, bool* ok) const;
     char m_data[5];   // +0
@@ -1075,7 +1112,15 @@ class CProtocol
 public:
     CProtocol();
     virtual ~CProtocol();
-    char m_data[0x18];
+    virtual int Init() = 0;
+    virtual int SetEpoll(void* ptr, int fd, bool flag) = 0;
+    virtual int ResetEpoll(int fd) = 0;
+    virtual void Destroy() = 0;
+    virtual int WaitForEvent() = 0;
+    virtual bool IsSetErrEvent(int idx) = 0;
+    virtual bool IsSetOutEvent(int idx) = 0;
+    virtual unsigned int IsSetInEvent(int idx) = 0;
+    virtual void* GetEventPtr(int idx) = 0;
 };
 
 // ---- CEvent ----
@@ -1092,23 +1137,23 @@ class EpollHandler : public CProtocol
 public:
     EpollHandler();
     virtual ~EpollHandler();
-    int Init();
-    void Destroy();
-    int SetEpoll(void* ptr, int fd, bool flag);
-    int ResetEpoll(int fd);
-    int WaitForEvent();
-    bool IsSetErrEvent(int idx);
-    bool IsSetOutEvent(int idx);
-    unsigned int IsSetInEvent(int idx);
-    void* GetEventPtr(int idx);
+    virtual int Init();
+    virtual int SetEpoll(void* ptr, int fd, bool flag);
+    virtual int ResetEpoll(int fd);
+    virtual void Destroy();
+    virtual int WaitForEvent();
+    virtual bool IsSetErrEvent(int idx);
+    virtual bool IsSetOutEvent(int idx);
+    virtual unsigned int IsSetInEvent(int idx);
+    virtual void* GetEventPtr(int idx);
     int GetEpollFD();
     void* GetEpollEvents();
-    CMutex m_mutex;   // +0x18
-    int m_events;     // +0x10
-    int m_epollFd;    // +0x14
     int m_field4;     // +4
     void* m_ptr;      // +8
-    char m_data[0x20];
+    int m_fieldC;     // +0xc
+    unsigned char* m_events;  // +0x10
+    int m_epollFd;    // +0x14
+    CMutex m_mutex;   // +0x18
 };
 
 // ---- CTcpNetSystem：0x160 ----

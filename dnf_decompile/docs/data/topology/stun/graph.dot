@@ -1,0 +1,20 @@
+digraph "stun" {
+  rankdir=LR;
+  "DNFServer/StunServer/stun_server/stun.cpp" [label="DNFServer/StunServer/stun_server/stun.cpp", shape=ellipse];
+  "DNFServer/StunServer/stun_server/server.h" [label="DNFServer/StunServer/stun_server/server.h", shape=box];
+  "DNFServer/StunServer/stun_server/server.cpp" [label="DNFServer/StunServer/stun_server/server.cpp", shape=ellipse];
+  "DNFServer/StunServer/stun_server/global_func.cpp" [label="DNFServer/StunServer/stun_server/global_func.cpp", shape=ellipse];
+  "DNFServer/StunServer/stun_server/stun.h" [label="DNFServer/StunServer/stun_server/stun.h", shape=box];
+  "DNFServer/StunServer/stun_server/udp.h" [label="DNFServer/StunServer/stun_server/udp.h", shape=box];
+  "DNFServer/StunServer/stun_server/global_func.h" [label="DNFServer/StunServer/stun_server/global_func.h", shape=box];
+  "DNFServer/StunServer/stun_server/udp.cpp" [label="DNFServer/StunServer/stun_server/udp.cpp", shape=ellipse];
+  "DNFServer/StunServer/stun_server/stun.cpp" -> "DNFServer/StunServer/stun_server/udp.h";
+  "DNFServer/StunServer/stun_server/stun.cpp" -> "DNFServer/StunServer/stun_server/stun.h";
+  "DNFServer/StunServer/stun_server/server.cpp" -> "DNFServer/StunServer/stun_server/udp.h";
+  "DNFServer/StunServer/stun_server/server.cpp" -> "DNFServer/StunServer/stun_server/global_func.h";
+  "DNFServer/StunServer/stun_server/server.cpp" -> "DNFServer/StunServer/stun_server/stun.h";
+  "DNFServer/StunServer/stun_server/server.cpp" -> "DNFServer/StunServer/stun_server/server.h";
+  "DNFServer/StunServer/stun_server/global_func.cpp" -> "DNFServer/StunServer/stun_server/global_func.h";
+  "DNFServer/StunServer/stun_server/udp.cpp" -> "DNFServer/StunServer/stun_server/udp.h";
+  "DNFServer/StunServer/stun_server/udp.cpp" -> "DNFServer/StunServer/stun_server/global_func.h";
+}

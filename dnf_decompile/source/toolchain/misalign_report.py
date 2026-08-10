@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile')
 TOOL = ROOT / 'source/toolchain/semantic_compare.py'
-ALL_TSV = ROOT / 'source/build-verify-community/df_community_r_all_function_compare.tsv'
+ALL_TSV = ROOT / 'build/community/df_community_r_all_function_compare.tsv'
 SEM_TSV = Path('/tmp/review_all_diffs/semantic_classified.tsv')
 OUT = ROOT / 'docs/data/misalign_details.txt'
 

@@ -1,6 +1,7 @@
 // df_relay_r — 日志系统（GCC 4.1.2, 无 DWARF — Ghidra 反汇编还原）
 #include <stdlib.h>
 #include <string.h>
+#include <wchar.h>
 
 #include "RelayLog.h"
 #include "RelayApp.h"
@@ -17,19 +18,6 @@ TGlobalInstance<TDebugTrace<char> > g_LogCri;
 TGlobalInstance<TDebugTrace<char> > g_LogWarn;
 TGlobalInstance<TDebugTrace<char> > g_LogError;
 
-PacketHeaderS2S::PacketHeaderS2S(unsigned short a, unsigned short b)
-{
-    m_a = a;
-    m_b = b;
-}
-
-Packet_Relay_User_Check::Packet_Relay_User_Check()
-    : PacketHeaderS2S(0x9c4, 0xf)
-{
-    m_f = 0;
-    m_g = 0;
-}
-
 } // namespace RelayServiceApp
 
 TextOutputDevice_FILE::TextOutputDevice_FILE()
@@ -40,19 +28,21 @@ TextOutputDevice_FILE::TextOutputDevice_FILE()
 
 TextOutputDevice_FILE::~TextOutputDevice_FILE()
 {
-    if (m_fp != 0)
-    {
-        fclose(m_fp);
-        m_fp = 0;
-    }
+    close();
 }
 
 void TextOutputDevice_FILE::_reopen()
 {
-    if (m_fp == 0)
+    if (m_fp != 0)
     {
-        m_fp = fopen(m_filename, "a");
+        return;
     }
+    FILE* fp = fopen(m_filename, "a");
+    if (fp == 0)
+    {
+        return;
+    }
+    m_fp = fp;
 }
 
 void TextOutputDevice_FILE::serialize(char c)
@@ -76,7 +66,7 @@ void TextOutputDevice_FILE::serialize(char const* str)
 void TextOutputDevice_FILE::serialize(wchar_t c)
 {
     _reopen();
-    fputc((char)c, m_fp);
+    fputwc(c, m_fp);
 }
 
 void TextOutputDevice_FILE::serialize(wchar_t* str)
@@ -88,7 +78,7 @@ void TextOutputDevice_FILE::serialize(wchar_t* str)
 void TextOutputDevice_FILE::serialize(wchar_t const* str)
 {
     _reopen();
-    fputs((char*)str, m_fp);
+    fputws(str, m_fp);
 }
 
 void TextOutputDevice_FILE::close()
@@ -102,8 +92,5 @@ void TextOutputDevice_FILE::close()
 
 void TextOutputDevice_FILE::flush()
 {
-    if (m_fp != 0)
-    {
-        fflush(m_fp);
-    }
+    close();
 }

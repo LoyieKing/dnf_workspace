@@ -13,14 +13,14 @@
 Packet_Achieve_Guild_Attendance::Packet_Achieve_Guild_Attendance()
     : PacketHeader(0x1bc8, 0x1a)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
 }
 
 Packet_Add_Guild_Fund_Result::Packet_Add_Guild_Fund_Result()
     : PacketHeader(0x1bbd, 0x17)
 {
-    *(unsigned char*)((char*)this + 0x10) = 0x0;
+    *(unsigned char*)((char*)this + 0xa) = 0x0;
     *(unsigned int*)((char*)this + 0xb) = 0;
     *(unsigned int*)((char*)this + 0xf) = 0;
     *(unsigned int*)((char*)this + 0x13) = 0;
@@ -41,7 +41,7 @@ Packet_Answer_Secede_Power::Packet_Answer_Secede_Power()
 Packet_Approve_Join_Guild_Result::Packet_Approve_Join_Guild_Result()
     : PacketHeader(0x1bc3, 0x1a)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
     *(unsigned int*)((char*)this + 0x12) = 0;
     *(unsigned int*)((char*)this + 0x16) = 0;
@@ -153,7 +153,7 @@ Packet_DBMW_Connection_Check::Packet_DBMW_Connection_Check()
 Packet_DBMW_Query_Msg::Packet_DBMW_Query_Msg()
     : PacketHeader(0x177d, 0x1013)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
     for (int i = 0; i < 0x1001; i++) { *(unsigned char*)((char*)this + i + 0x12) = 0x0; }
 }
@@ -203,28 +203,28 @@ Packet_DBMW_Send_Guild_Mail::Packet_DBMW_Send_Guild_Mail()
 Packet_DB_Call_Guild_All_Members::Packet_DB_Call_Guild_All_Members()
     : PacketHeader(0x425, 0x12)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
 }
 
 Packet_DB_Call_Unconn_Guild_Member::Packet_DB_Call_Unconn_Guild_Member()
     : PacketHeader(0x427, 0x12)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
 }
 
 Packet_DB_Create_Guild_Agit::Packet_DB_Create_Guild_Agit()
     : PacketHeader(0x6dd, 0x12)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
 }
 
 Packet_DB_Delete_Guild_Agit::Packet_DB_Delete_Guild_Agit()
     : PacketHeader(0x6df, 0x12)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
 }
 
@@ -245,13 +245,13 @@ Packet_DB_Insert_Guild_Cargo_History::Packet_DB_Insert_Guild_Cargo_History()
 Packet_DB_Load_Guild_Agit::Packet_DB_Load_Guild_Agit()
     : PacketHeader(0x6e1, 0xe)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
 }
 
 Packet_DB_Load_Request_Guild_Board_Delete::Packet_DB_Load_Request_Guild_Board_Delete()
     : PacketHeader(0x2333, 0x17)
 {
-    *(unsigned char*)((char*)this + 0x10) = 0x0;
+    *(unsigned char*)((char*)this + 0xa) = 0x0;
     *(unsigned int*)((char*)this + 0xb) = 0;
     *(unsigned int*)((char*)this + 0xf) = 0;
     *(unsigned int*)((char*)this + 0x13) = 0;
@@ -277,7 +277,7 @@ Packet_DB_Load_Request_Guild_Board_Write::Packet_DB_Load_Request_Guild_Board_Wri
 Packet_DB_Load_Request_Web_Guild_Board_Write::Packet_DB_Load_Request_Web_Guild_Board_Write()
     : PacketHeader(0x233e, 0x16)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
     *(unsigned int*)((char*)this + 0x12) = 0;
 }
@@ -285,7 +285,7 @@ Packet_DB_Load_Request_Web_Guild_Board_Write::Packet_DB_Load_Request_Web_Guild_B
 Packet_DB_Query_Guild::Packet_DB_Query_Guild()
     : PacketHeader(0x404, 0x13)
 {
-    *(unsigned char*)((char*)this + 0x10) = 0xff;
+    *(unsigned char*)((char*)this + 0xa) = 0xff;
     *(unsigned int*)((char*)this + 0xb) = 0;
     *(unsigned int*)((char*)this + 0xf) = 0;
 }
@@ -305,7 +305,7 @@ Packet_DB_Query_On_Guild_Booting::Packet_DB_Query_On_Guild_Booting()
 Packet_DB_Request_Approve_Join_Guild::Packet_DB_Request_Approve_Join_Guild()
     : PacketHeader(0x1bc4, 0x17)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
     *(unsigned int*)((char*)this + 0x12) = 0;
     *(unsigned char*)((char*)this + 0x16) = 0x0;
@@ -359,7 +359,7 @@ Packet_DB_Save_Power_War_Point_Reward::Packet_DB_Save_Power_War_Point_Reward()
 Packet_DB_Save_Power_War_Statue_Ranker::Packet_DB_Save_Power_War_Statue_Ranker()
     : PacketHeader(0x6da, 0x17)
 {
-    *(unsigned char*)((char*)this + 0x10) = 0x0;
+    *(unsigned char*)((char*)this + 0xa) = 0x0;
     memset((char*)this + 0xb, 0, 0xc);
 }
 
@@ -378,14 +378,14 @@ Packet_DB_Save_Power_War_User_Rank::Packet_DB_Save_Power_War_User_Rank()
 Packet_DB_Upgrade_Guild_Agit::Packet_DB_Upgrade_Guild_Agit()
     : PacketHeader(0x6e4, 0x12)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
 }
 
 Packet_DB_Write_Guild_Member_Memo::Packet_DB_Write_Guild_Member_Memo()
     : PacketHeader(0x4d3, 0x27)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
     memset((char*)this + 0x12, 0, 0x15);
 }
@@ -406,7 +406,7 @@ Packet_Delete_To_BlackList_Result::Packet_Delete_To_BlackList_Result()
 Packet_Guild_Apply_Origial_Power_Side_Reply::Packet_Guild_Apply_Origial_Power_Side_Reply()
     : PacketHeader(0x6b2, 0x17)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
     *(unsigned int*)((char*)this + 0x12) = 0;
     *(unsigned char*)((char*)this + 0x16) = 0x0;
@@ -482,7 +482,7 @@ Packet_Guild_Notice_Guild_Name_Change::Packet_Guild_Notice_Guild_Name_Change()
 Packet_Guild_Notify_Guild_Member_Memo::Packet_Guild_Notify_Guild_Member_Memo()
     : PacketHeader(0x4d2, 0x45)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
     memset((char*)this + 0x30, 0, 0x15);
     memset((char*)this + 0x12, 0, 0x1e);
@@ -497,6 +497,9 @@ Packet_Guild_Notify_Message_To_Guild_Mem::Packet_Guild_Notify_Message_To_Guild_M
 Packet_Guild_Reply_Guild_Board::Packet_Guild_Reply_Guild_Board()
     : PacketHeader(0x2328, 0x68a)
 {
+    for (int i = 0; i < 9; ++i)
+        new ((char*)this + 0x18 + i * 0xa5) STGuildBoardDBInfo;
+    *(unsigned short*)((char*)this + 0xa) = 0;
     *(unsigned short*)((char*)this + 0xc) = 0;
     *(unsigned char*)((char*)this + 0xe) = 0x0;
     *(unsigned int*)((char*)this + 0xf) = 0;
@@ -508,7 +511,7 @@ Packet_Guild_Reply_Guild_Board::Packet_Guild_Reply_Guild_Board()
 Packet_Guild_Reply_Guild_Board_Delete::Packet_Guild_Reply_Guild_Board_Delete()
     : PacketHeader(0x2332, 0x14)
 {
-    *(unsigned short*)((char*)this + 0x10) = 0;
+    *(unsigned short*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xc) = 0;
     *(unsigned int*)((char*)this + 0x10) = 0;
 }
@@ -639,7 +642,7 @@ Packet_Monitor_Notice_Guild_Member_Info::Packet_Monitor_Notice_Guild_Member_Info
 Packet_Monitor_Notice_Guild_Member_Login_out::Packet_Monitor_Notice_Guild_Member_Login_out()
     : PacketHeader(0x407, 0x32)
 {
-    *(unsigned char*)((char*)this + 0x10) = 0x0;
+    *(unsigned char*)((char*)this + 0xa) = 0x0;
     *(unsigned int*)((char*)this + 0xb) = 0xffffffff;
     *(unsigned int*)((char*)this + 0xf) = 0;
     *(unsigned char*)((char*)this + 0x13) = 0xff;
@@ -711,25 +714,25 @@ Packet_Monitor_Set_Guild_Key::Packet_Monitor_Set_Guild_Key()
 Packet_Monitor_Set_Sub_Guild_Master_Reply::Packet_Monitor_Set_Sub_Guild_Master_Reply()
     : PacketHeader(0x430, 0x3a)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
 }
 
 Packet_Monitor_UDP_HeartBeat::Packet_Monitor_UDP_HeartBeat()
     : PacketHeader(0x3ec, 0xb)
 {
-    *(unsigned char*)((char*)this + 0x10) = 0xff;
+    *(unsigned char*)((char*)this + 0xa) = 0xff;
 }
 
 Packet_Monitor_UDP_User_Getout::Packet_Monitor_UDP_User_Getout()
     : PacketHeader(0x3ee, 0xe)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
 }
 
 Packet_No_Cache::Packet_No_Cache()
     : PacketHeader(0x1b6d, 0x16)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
     *(unsigned int*)((char*)this + 0x12) = 0;
 }
@@ -752,7 +755,7 @@ Packet_Notice_DB_Save_Guild_War_Point::Packet_Notice_DB_Save_Guild_War_Point()
 Packet_Notice_GuildName_On_Guild_Create::Packet_Notice_GuildName_On_Guild_Create()
     : PacketHeader(0x445, 0x2e)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0xffffffff;
     *(unsigned int*)((char*)this + 0x12) = 0;
     *(unsigned char*)((char*)this + 0x2d) = 0xff;
@@ -808,14 +811,14 @@ Packet_Notice_Power_war_End_Info::Packet_Notice_Power_war_End_Info()
 Packet_Notify_Today_Guild_Member::Packet_Notify_Today_Guild_Member()
     : PacketHeader(0x1bc1, 0x3d)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     memset((char*)this + 0x16, 0, 0x27);
 }
 
 Packet_Query_Today_Guild_Member::Packet_Query_Today_Guild_Member()
     : PacketHeader(0x1bbf, 0xe)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
 }
 
 Packet_Register_To_BlackList_RESULT::Packet_Register_To_BlackList_RESULT()
@@ -827,7 +830,7 @@ Packet_Register_To_BlackList_RESULT::Packet_Register_To_BlackList_RESULT()
 Packet_Reply_Change_Guild_Name::Packet_Reply_Change_Guild_Name()
     : PacketHeader(0x444, 0x2e)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0x12) = 0;
     memset((char*)this + 0x17, 0, 0x17);
 }
@@ -841,20 +844,21 @@ Packet_Reply_Guild_Create::Packet_Reply_Guild_Create()
 Packet_Reply_Power_War_Score::Packet_Reply_Power_War_Score()
     : PacketHeader(0x6a5, 0x12)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
 }
 
 Packet_Request_Result_BlackList::Packet_Request_Result_BlackList()
     : PacketHeader(0x5e0, 0x19f)
 {
-    (void)0;
+    for (int i = 0; i < 9; ++i)
+        new ((char*)this + 0xf + i * 0x28) STBlackUserDBType;
 }
 
 Packet_Server_Queue_Load_Statistic::Packet_Server_Queue_Load_Statistic()
     : PacketHeader(0x9d2, 0xe)
 {
-    *(unsigned char*)((char*)this + 0x10) = 0x0;
+    *(unsigned char*)((char*)this + 0xa) = 0x0;
     *(unsigned char*)((char*)this + 0xb) = 0x0;
     *(unsigned short*)((char*)this + 0xc) = 0;
 }
@@ -868,7 +872,7 @@ Packet_Tcp_Server_Connect::Packet_Tcp_Server_Connect()
 Packet_UnChangable_GuildInfo_Save::Packet_UnChangable_GuildInfo_Save()
     : PacketHeader(0x452, 0x30)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned int*)((char*)this + 0xe) = 0;
     memset((char*)this + 0x12, 0, 0x1e);
 }
@@ -876,7 +880,7 @@ Packet_UnChangable_GuildInfo_Save::Packet_UnChangable_GuildInfo_Save()
 Packet_Web_Notify_Message_To_Guild::Packet_Web_Notify_Message_To_Guild()
     : PacketHeader(0x42d, 0x74)
 {
-    *(unsigned int*)((char*)this + 0x10) = 0;
+    *(unsigned int*)((char*)this + 0xa) = 0;
     *(unsigned char*)((char*)this + 0xe) = 0x0;
     memset((char*)this + 0xf, 0, 0x65);
 }

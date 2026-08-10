@@ -1,6 +1,7 @@
 #include "ManagerTypes.h"
 #include "ManagerApp.h"
 
+#include <utility>
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
@@ -37,8 +38,13 @@ MemPool<T>::MemPool(unsigned int count) : m_size((int)sizeof(T)), m_count((int)c
 template<class T>
 MemPool<T>::~MemPool()
 {
-    for (std::vector<void*>::iterator it = m_blocks.begin(); it != m_blocks.end(); ++it)
-        ::operator delete(*it);
+    if (!m_blocks.empty())
+    {
+        for (std::vector<void*>::iterator it = m_blocks.begin();
+             it != m_blocks.end(); ++it)
+            ::operator delete(*it);
+        m_blocks.clear();
+    }
 }
 
 template<class T>
@@ -59,7 +65,7 @@ void* MemPool<T>::alloc()
             *(void**)((char*)block + ((unsigned int)m_count - 1) * m_size + m_size - 4) = 0;
             headOfFreeList_ = (void*)((char*)block + m_size);
             head = block;
-            m_blocks.push_back(block);
+            m_blocks.push_back((void*)block);
             CMyFileLog log("alloc", 0x7d);
             log("./log/Mempool", "class size(%d) cnt(%d)", m_size,
                 m_count * (int)m_blocks.size());
@@ -183,14 +189,13 @@ CSystemTime::CSystemTime()
 {
     gettimeofday(&m_tv, 0);
     m_field10 = m_tv.tv_sec;
-    m_field4 = m_tv.tv_usec / 1000000;
+    m_field4 = m_tv.tv_usec / 1000;
 }
-
-static CSystemTimeHandler g_systemTimeHandler;
 
 CSystemTimeHandler* CSystemTimeHandlerInstance()
 {
-    return &g_systemTimeHandler;
+    static CSystemTimeHandler instance;
+    return &instance;
 }
 
 // ============================================================
@@ -220,8 +225,11 @@ void CUnixTimer::SetLastTime()
 // ============================================================
 // CFrameCountHandler / CUdpHandler（占位，本批仅 C1/D1）
 // ============================================================
-CFrameCountHandler::CFrameCountHandler() {}
-CFrameCountHandler::~CFrameCountHandler() {}
+CFrameCountHandler::CFrameCountHandler()
+{
+    m_field28 = 0;
+    m_app = 0;
+}
 
 void CFrameCountHandler::SaveProcess()
 {
@@ -303,7 +311,11 @@ void* CFrameCountHandler::GetFrameCountInfo()
     return this;
 }
 
-CUdpHandler::CUdpHandler() {}
+CUdpHandler::CUdpHandler()
+{
+    m_sock = -1;
+    m_clientSock = -1;
+}
 CUdpHandler::~CUdpHandler() {}
 
 int CUdpHandler::InitServerSocket(int port)
@@ -577,7 +589,7 @@ CUserManager::CUserManager()
 
 CUserManager::~CUserManager()
 {
-    for (std::map<unsigned int, CDNFProhibitUser*>::const_iterator it = m_prohibitUsers.begin();
+    for (std::map<const unsigned int, CDNFProhibitUser*>::const_iterator it = m_prohibitUsers.begin();
          it != m_prohibitUsers.end(); ++it)
     {
         CDNFProhibitUser* pu = it->second;
@@ -594,7 +606,7 @@ void CUserManager::Init(CApplication* app)
     m_app = app;
 }
 
-char CUserManager::InsertProhibitUser(unsigned int dbid, CDNFProhibitUser* pu)
+char CUserManager::InsertProhibitUser(const unsigned int dbid, CDNFProhibitUser* pu)
 {
     if (!pu)
         return 0;
@@ -603,7 +615,7 @@ char CUserManager::InsertProhibitUser(unsigned int dbid, CDNFProhibitUser* pu)
 
 CDNFProhibitUser* CUserManager::FindProhibitUser(unsigned int dbid) const
 {
-    std::map<unsigned int, CDNFProhibitUser*>::const_iterator it = m_prohibitUsers.find(dbid);
+    std::map<const unsigned int, CDNFProhibitUser*>::const_iterator it = m_prohibitUsers.find(dbid);
     if (it == m_prohibitUsers.end())
         return 0;
     return it->second;
@@ -624,24 +636,25 @@ char CUserManager::DeleteProhibitUser(unsigned int dbid)
 
 void CUserManager::ProcessByMinute()
 {
-    if (m_prohibitUsers.empty())
-        return;
-    for (std::map<unsigned int, CDNFProhibitUser*>::iterator it = m_prohibitUsers.begin();
-         it != m_prohibitUsers.end();)
+    if (!m_prohibitUsers.empty())
     {
-        CDNFProhibitUser* pu = it->second;
-        if (pu && pu->IsTimeOutWaitMonitor())
+        for (std::map<const unsigned int, CDNFProhibitUser*>::iterator it = m_prohibitUsers.begin();
+             it != m_prohibitUsers.end();)
         {
-            CMyFileLog log("ProcessByMinute", 0x43);
-            log("./log/ProhibitUser",
-                "[PROHIBIT CONNECT USER TIME_OUT] Prohibit User DB ID : %d. Remain time(%d)\n",
-                pu->GetDBID(), pu->GetProhibitRemainTime());
-            delete pu;
-            m_prohibitUsers.erase(it++);
-        }
-        else
-        {
-            ++it;
+            CDNFProhibitUser* pu = (*it).second;
+            if (pu && pu->IsTimeOutWaitMonitor())
+            {
+                CMyFileLog log("ProcessByMinute", 0x43);
+                log("./log/ProhibitUser",
+                    "[PROHIBIT CONNECT USER TIME_OUT] Prohibit User DB ID : %d. Remain time(%d)\n",
+                    pu->GetDBID(), pu->GetProhibitRemainTime());
+                delete pu;
+                m_prohibitUsers.erase(it++);
+            }
+            else
+            {
+                ++it;
+            }
         }
     }
 }
@@ -711,7 +724,9 @@ CMonitorServer::~CMonitorServer() {}
 
 char CMonitorServer::IsValidMonitorServer()
 {
-    return m_index != 0xff;
+    if (m_index == 0xff)
+        return 0;
+    return 1;
 }
 
 void CMonitorServer::SendToServer(char* buf, int len)
@@ -750,7 +765,7 @@ CTcpServer::~CTcpServer()
 
 void CTcpServer::Init(unsigned int sock, CTcpNetSystem* net)
 {
-    m_socket = (void*)sock;
+    m_socket = sock;
     m_net = net;
 }
 
@@ -784,7 +799,25 @@ CTcpNetSystem::CTcpNetSystem()
     m_serverPort = 0;
 }
 
-CTcpNetSystem::~CTcpNetSystem() {}
+CTcpNetSystem::~CTcpNetSystem()
+{
+    CleanPeers();
+    if (m_tcpHandler)
+    {
+        delete m_tcpHandler;
+        m_tcpHandler = 0;
+    }
+    if (m_acceptThread)
+    {
+        delete m_acceptThread;
+        m_acceptThread = 0;
+    }
+    if (m_field4)
+    {
+        delete (CTcpNetworkThread*)m_field4;
+        m_field4 = 0;
+    }
+}
 
 void CTcpNetSystem::Init(unsigned short port)
 {
@@ -792,12 +825,12 @@ void CTcpNetSystem::Init(unsigned short port)
     m_tcpHandler = new CTcpHandler;
     m_acceptThread = new CTcpAcceptThread;
     m_acceptThread->attach(this);
-    if (!m_acceptThread->begin())
-        throw 1;
+    if (!m_acceptThread->CThreadInterface::begin())
+        throw;
     m_field4 = new CTcpNetworkThread;
     ((CTcpNetworkThread*)m_field4)->attach(this);
-    if (!((CTcpNetworkThread*)m_field4)->begin())
-        throw 1;
+    if (!((CTcpNetworkThread*)m_field4)->CThreadInterface::begin())
+        throw;
 }
 
 int CTcpNetSystem::OpenTcpService(int& serverCount, const char* ip, unsigned short port)
@@ -836,8 +869,7 @@ int CTcpNetSystem::WaitForEvent()
 void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
 {
     CGuard<CMutex> guard(&m_mutexE8);
-    CTcpSendBuffer* p = (CTcpSendBuffer*)buf;
-    m_sendQueue.push(p);
+    m_sendQueue.push((CTcpSendBuffer*)buf);
     int n = m_sendQueue.size();
     if (n > 0xa)
     {
@@ -850,12 +882,18 @@ void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
 
 void CTcpNetSystem::CleanTcpSendPacketQ()
 {
-    while (!m_sendQueue.empty())
+    while (true)
     {
+        CGuard<CMutex> guard(&m_mutexE8);
+        if (m_sendQueue.empty())
+            break;
         CTcpSendBuffer* p = m_sendQueue.front();
         m_sendQueue.pop();
+        CGuard<CMutex> guard2(&m_mutex100);
         delete p;
     }
+    CMyFileLog log("CleanTcpSendPacketQ", 0x16b);
+    log("./log/TcpSend", "Clean Tcp Send Queue Complete!");
 }
 
 void CTcpNetSystem::CleanPeers()
@@ -868,6 +906,7 @@ void CTcpNetSystem::CleanPeers()
         if (peer)
             delete peer;
     }
+    m_peerMap.clear();
 }
 
 void CTcpNetSystem::DeletePeer(CPeer* peer)
@@ -879,7 +918,13 @@ void CTcpNetSystem::DeletePeer(CPeer* peer)
     CGuard<CMutex> guard(&m_mutex78);
     delete peer;
 }
-CPeer* CTcpNetSystem::GetPeer(unsigned int idx) { return 0; }
+CPeer* CTcpNetSystem::GetPeer(unsigned int idx)
+{
+    std::map<unsigned int, CPeer*>::iterator it = m_peerMap.find(idx);
+    if (it == m_peerMap.end())
+        return 0;
+    return it->second;
+}
 CPeer* CTcpNetSystem::CreatePeer()
 {
     CGuard<CMutex> guard(&m_mutex78);
@@ -900,7 +945,7 @@ void CTcpNetSystem::SetEpollConnectedPeer(CPeer* peer)
         printf("Epoll SetPeer fail(fd:%d, error:%d, %s)", fd, ret, strerror(ret));
         return;
     }
-    m_peerMap[fd] = peer;
+    m_peerMap.insert(std::make_pair((int)fd, peer));
 }
 void CTcpNetSystem::SetEpollAcceptedPeers()
 {
@@ -915,7 +960,7 @@ void CTcpNetSystem::SetEpollAcceptedPeers()
                    peer->GetTcpSocket()->getHandle(), ret, strerror(ret));
         }
         int fd = peer->GetTcpSocket()->getHandle();
-        m_peerMap.insert(std::make_pair(fd, peer));
+        m_peerMap.insert(std::make_pair((int)fd, peer));
         m_peerQueue.pop();
     }
 }
@@ -981,7 +1026,11 @@ void CTcpNetSystem::PopDeleteTcpSendPacketQ(CTcpSendBuffer* buf)
         delete buf;
     }
 }
-CTcpSendBuffer* CTcpNetSystem::Acquire_TcpSendBuffer() { return new CTcpSendBuffer; }
+CTcpSendBuffer* CTcpNetSystem::Acquire_TcpSendBuffer()
+{
+    CGuard<CMutex> guard(&m_mutex100);
+    return new CTcpSendBuffer;
+}
 
 // ============================================================
 // CProtocol / EpollHandler / CTcpHandler
@@ -1001,13 +1050,13 @@ int EpollHandler::Init()
     m_epollFd = epoll_create(0x3e8);
     if (m_epollFd < 0)
     {
-        puts("epoll create error");
+        puts("[Epoll::init] Can't init epoll create");
         return 0;
     }
     m_events = (void*)new char[0x2ee0];
     if (!m_events)
     {
-        printf("epoll events alloc error\n");
+        printf("[Epoll::init] Can't alloc event memory");
         return 0;
     }
     return 1;
@@ -1024,7 +1073,7 @@ void EpollHandler::Destroy()
 
 int EpollHandler::WaitForEvent()
 {
-    return epoll_wait(m_epollFd, (struct epoll_event*)m_events, 0x3e8, 0x64);
+    return epoll_wait(GetEpollFD(), (struct epoll_event*)GetEpollEvents(), 0x3e8, 0x64);
 }
 
 void* EpollHandler::GetEventPtr(int idx)
@@ -1032,17 +1081,17 @@ void* EpollHandler::GetEventPtr(int idx)
     return ((struct epoll_event*)m_events)[idx].data.ptr;
 }
 
-char EpollHandler::IsSetInEvent(int idx)
+bool EpollHandler::IsSetInEvent(int idx)
 {
     return ((struct epoll_event*)m_events)[idx].events & 0x1;
 }
 
-char EpollHandler::IsSetOutEvent(int idx)
+bool EpollHandler::IsSetOutEvent(int idx)
 {
     return ((struct epoll_event*)m_events)[idx].events & 0x4;
 }
 
-char EpollHandler::IsSetErrEvent(int idx)
+bool EpollHandler::IsSetErrEvent(int idx)
 {
     return ((struct epoll_event*)m_events)[idx].events & 0x18;
 }
@@ -1065,11 +1114,6 @@ int EpollHandler::ResetEpoll(int fd)
     return ret < 0 ? errno : 0;
 }
 
-int EpollHandler::SetPeer(void* peer, int fd, bool flag)
-{
-    return SetEpoll(peer, fd, flag);
-}
-
 CTcpHandler::CTcpHandler()
 {
     m_epoll = new EpollHandler;
@@ -1086,37 +1130,51 @@ CTcpHandler::~CTcpHandler()
 
 int CTcpHandler::WaitForEvent()
 {
-    return m_epoll ? m_epoll->WaitForEvent() : 0;
+    if (m_epoll)
+        return m_epoll->WaitForEvent();
+    return -1;
 }
 
 int CTcpHandler::ResetEpoll(int flag)
 {
-    return m_epoll ? m_epoll->ResetEpoll(flag) : -1;
+    if (m_epoll)
+        return m_epoll->ResetEpoll(flag);
+    return -1;
 }
 
 int CTcpHandler::SetPeer(void* peer, int fd, bool flag)
 {
-    return m_epoll ? m_epoll->SetPeer(peer, fd, flag) : -1;
+    if (m_epoll)
+        return m_epoll->SetEpoll(peer, fd, flag);
+    return -1;
 }
 
 void* CTcpHandler::GetEventPtr(int idx)
 {
-    return m_epoll ? m_epoll->GetEventPtr(idx) : 0;
+    if (m_epoll)
+        return m_epoll->GetEventPtr(idx);
+    return 0;
 }
 
-char CTcpHandler::IsSetInEvent(int idx)
+bool CTcpHandler::IsSetInEvent(int idx)
 {
-    return m_epoll ? m_epoll->IsSetInEvent(idx) : 0;
+    if (m_epoll)
+        return m_epoll->IsSetInEvent(idx);
+    return 0;
 }
 
-char CTcpHandler::IsSetOutEvent(int idx)
+bool CTcpHandler::IsSetOutEvent(int idx)
 {
-    return m_epoll ? m_epoll->IsSetOutEvent(idx) : 0;
+    if (m_epoll)
+        return m_epoll->IsSetOutEvent(idx);
+    return 0;
 }
 
-char CTcpHandler::IsSetErrEvent(int idx)
+bool CTcpHandler::IsSetErrEvent(int idx)
 {
-    return m_epoll ? m_epoll->IsSetErrEvent(idx) : 0;
+    if (m_epoll)
+        return m_epoll->IsSetErrEvent(idx);
+    return 0;
 }
 
 // ============================================================
@@ -1159,9 +1217,10 @@ void TCPSocket::close()
 
 int TCPSocket::shutdown(int how)
 {
-    if (m_fd == -1)
-        return -1;
-    return ::shutdown(m_fd, how);
+    // ORIG 反汇编：不调用 ::shutdown(2)，仅装载 m_fd 并与 -1 比较（返回值仍为 m_fd）。
+    (void)how;
+    m_fd == -1;
+    return m_fd;
 }
 
 int TCPSocket::send(char* buf, int len)
@@ -1288,10 +1347,10 @@ char* TCPSocket::getPeerIP()
 {
     static char ip[0x20];
     sprintf(ip, "%d.%d.%d.%d",
-            (unsigned char)((char*)&m_addr)[0],
-            (unsigned char)((char*)&m_addr)[1],
-            (unsigned char)((char*)&m_addr)[2],
-            (unsigned char)((char*)&m_addr)[3]);
+            (unsigned char)m_addr[0],
+            (unsigned char)m_addr[1],
+            (unsigned char)m_addr[2],
+            (unsigned char)m_addr[3]);
     return ip;
 }
 
@@ -1435,7 +1494,14 @@ char TCPSocket::accept(TCPSocket& sock)
 
 CPeer::CPeer()
 {
-    memset(&m_sendBuf, 0, 0x1c);
+    m_sendBuf = 0;
+    m_recvLen = 0;
+    m_sendLen = 0;
+    m_recvQ = 0;
+    m_sendBLock = 0;
+    m_sendQLock = 0;
+    m_remainSendLen = 0;
+    m_recvBuf = 0;
 }
 
 CPeer::~CPeer()
@@ -1646,9 +1712,17 @@ int CPeer::parsing(int len)
                 parsinglength);
             return 0;
         }
-        memmove((char*)this + 0x1c, m_sendBuf, parsinglength);
-        m_recvLen = parsinglength;
-        m_sendBuf = (char*)this + 0x1c + parsinglength;
+        try
+        {
+            memmove((char*)this + 0x1c, m_sendBuf, parsinglength);
+            m_recvLen = parsinglength;
+            m_sendBuf = (char*)this + 0x1c + parsinglength;
+        }
+        catch (...)
+        {
+            printf("[PARSING EXCEPTION] memmove : parsinglength = %d", parsinglength);
+            return 0;
+        }
     }
     return 1;
 }
@@ -1701,7 +1775,8 @@ char CPeer::RecvPacket()
         CMyFileLog log("RecvPacket", 0x59);
         log("./log/TcpRecv",
             "Maybe Peer is disconnect!(%d), socket no(%d), addr(%s), port(%d)",
-            ret, getHandle(), getPeerAdrs(), getPeerPort());
+            ret, GetTcpSocket()->getHandle(), GetTcpSocket()->getPeerAdrs(),
+            GetTcpSocket()->getPeerPort());
         printf("CPeer::Recv (size(%d) < 0)\n", ret);
         return 0;
     }
@@ -1910,76 +1985,110 @@ void CUdpNetworkThread::attach(CApplication* app)
 
 void* CUdpNetworkThread::dispatch(void* param)
 {
-    if (!m_udpQueue || !m_udpHandler || !m_udpQLock)
-        throw CDNFException("NetworkThread is Not Ready!\n");
-    DNFFLib::Sleep_Ext(5, 0);
-    puts("Network Thread Start!");
-    m_stop = 1;
-    int sock = ((CUdpHandler*)m_udpHandler)->GetServerSocket();
-    int flags = fcntl(sock, F_GETFL, 0);
-    flags |= O_NONBLOCK;
-    if (fcntl(sock, F_SETFL, flags) < 0)
-        puts("fcntl error!");
-    while (1)
+    try
     {
-        fd_set readfds;
-        FD_ZERO(&readfds);
-        FD_SET(sock, &readfds);
-        struct timeval tv;
-        tv.tv_sec = 1;
-        tv.tv_usec = 0;
-        if (select(sock + 1, &readfds, 0, 0, &tv) < 0)
-            continue;
-        if (!FD_ISSET(sock, &readfds))
-            continue;
-        CUdpRecvBuffer* buf;
+        if (!m_udpQueue || !m_udpHandler || !m_udpQLock)
+            throw CDNFException("NetworkThread is Not Ready!\n");
+        DNFFLib::Sleep_Ext(5, 0);
+        puts("Network Thread Start!");
+        m_stop = 1;
+        int sock = ((CUdpHandler*)m_udpHandler)->GetServerSocket();
+        int flags = fcntl(sock, F_GETFL, 0);
+        flags |= O_NONBLOCK;
+        if (fcntl(sock, F_SETFL, flags) < 0)
         {
-            CGuard<CMutex> guard(m_udpBLock);
-            buf = new CUdpRecvBuffer;
+            puts("fcntl error!");
+            return 0;
         }
-        int size = 0x1800;
-        unsigned int addr = 0;
-        unsigned short port = 0;
-        if (!((CUdpHandler*)m_udpHandler)->RecvFromClient((char*)buf, &size, &addr, &port))
+        while (m_stop)
         {
+            fd_set readfds;
+            FD_ZERO(&readfds);
+            FD_SET(sock, &readfds);
+            struct timeval tv;
+            tv.tv_sec = 1;
+            tv.tv_usec = 0;
+            if (select(sock + 1, &readfds, 0, 0, &tv) < 0)
+                continue;
+            if (!FD_ISSET(sock, &readfds))
+                continue;
+            CUdpRecvBuffer* buf;
+            {
+                CGuard<CMutex> guard(m_udpBLock);
+                buf = new CUdpRecvBuffer;
+            }
+            int size = 0x1800;
+            unsigned int addr = 0;
+            unsigned short port = 0;
+            if (!((CUdpHandler*)m_udpHandler)->RecvFromClient((char*)buf, &size, &addr, &port))
             {
                 CGuard<CMutex> guard(m_udpBLock);
                 delete buf;
+                continue;
             }
-            continue;
-        }
-        // 原版入队前校验包头的 size 字段（buf+2）与实际收包长度一致，且不超 0x17ff
-        unsigned short code = *(unsigned short*)((char*)buf + 2);
-        if (code != (unsigned short)size)
-        {
-            CMyFileLog log("dispatch", 0xb5);
-            log("./log/recvErr",
-                "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
-                *(unsigned short*)buf, size, code);
+            unsigned short code = *(unsigned short*)((char*)buf + 2);
+            if (code != (unsigned short)size)
             {
-                CGuard<CMutex> guard(m_udpBLock);
-                delete buf;
+                CMyFileLog log("dispatch", 0xb5);
+                log("./log/recvErr",
+                    "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
+                    *(unsigned short*)buf, size, code);
+                {
+                    CGuard<CMutex> guard(m_udpBLock);
+                    delete buf;
+                }
+                continue;
             }
-            continue;
-        }
-        if (code > 0x17ff)
-        {
-            CMyFileLog log("dispatch", 0xc0);
-            log("./log/recvErr",
-                "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
-                *(unsigned short*)buf, size, code);
+            if (code > 0x17ff)
             {
-                CGuard<CMutex> guard(m_udpBLock);
-                delete buf;
+                CMyFileLog log("dispatch", 0xc0);
+                log("./log/recvErr",
+                    "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
+                    *(unsigned short*)buf, size, code);
+                {
+                    CGuard<CMutex> guard(m_udpBLock);
+                    delete buf;
+                }
+                continue;
             }
-            continue;
+            if (size > 0x1800)
+            {
+                CMyFileLog log("dispatch", 0xcc);
+                log("./log/recvErr",
+                    "Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
+                    *(unsigned short*)buf, size, code);
+                {
+                    CGuard<CMutex> guard(m_udpBLock);
+                    delete buf;
+                }
+                continue;
+            }
+            *(unsigned int*)((char*)buf + 6) = addr;
+            *(unsigned short*)((char*)buf + 4) = port;
+            {
+                CGuard<CMutex> guard(m_udpQLock);
+                m_udpQueue->push(buf);
+                if (m_udpQueue->size() > 0x64)
+                {
+                    CMyFileLog log("dispatch", 0xe0);
+                    log("./log/recv",
+                        "buffer(%d) ,id(%d), size(%d) \n",
+                        m_udpQueue->size(), *(unsigned short*)buf, code);
+                }
+            }
         }
-        {
-            CGuard<CMutex> guard(m_udpQLock);
-            m_udpQueue->push(buf);
-        }
+        return 0;
     }
-    return 0;
+    catch (CDNFException& e)
+    {
+        printf("CNetworkThread::dispatch() Exception Break : %s\n", e.what());
+        throw CDNFException("CNetworkThread::dispatch() Recv  Socket Exception Break!");
+    }
+    catch (...)
+    {
+        puts("CNetworkThread::dispatch() Exception Break");
+        throw CDNFException("CNetworkThread::dispatch() Recv  Socket Exception Break!");
+    }
 }
 
 // ============================================================
@@ -2009,7 +2118,7 @@ void CMySql::close()
     }
 }
 
-char CMySql::init_db_handle()
+bool CMySql::init_db_handle()
 {
     if (m_mysql)
         return 0;
@@ -2052,21 +2161,23 @@ int CMySql::exec_query()
     return 0;
 }
 
-int CMySql::exec(unsigned int q)
+bool CMySql::exec(unsigned int q)
 {
-    int ret = 0;
+    int ret;
     for (int i = 0; i <= 4; i++)
     {
         ret = exec_query();
         if (ret == 1)
         {
-            CQueryCounterInstance()->SetResponseTime(q);
+            CQueryCounter* p1 = CQueryCounterInstance();
+            p1->SetResponseTime(q);
             return 0;
         }
         if (ret == 0)
             break;
     }
-    CQueryCounterInstance()->SetResponseTime(q);
+    CQueryCounter* p2 = CQueryCounterInstance();
+    p2->SetResponseTime(q);
     if (ret == 0)
     {
         m_result = mysql_store_result(m_mysql);
@@ -2087,15 +2198,17 @@ int CMySql::exec(unsigned int q)
     return 0;
 }
 
-int CMySql::fetch()
+bool CMySql::fetch()
 {
     if (!m_result)
         return 0;
     m_row = mysql_fetch_row(m_result);
-    if (!m_row)
-        return 0;
-    m_lengths = mysql_fetch_lengths(m_result);
-    return 1;
+    if (m_row)
+    {
+        m_lengths = mysql_fetch_lengths(m_result);
+        return 1;
+    }
+    return 0;
 }
 
 void CMySql::clear_result_set()
@@ -2106,7 +2219,7 @@ void CMySql::clear_result_set()
     m_row = 0;
 }
 
-int CMySql::set_query(unsigned int q, char* fmt, ...)
+bool CMySql::set_query(unsigned int q, char* fmt, ...)
 {
     va_list ap;
     va_start(ap, fmt);
@@ -2116,132 +2229,109 @@ int CMySql::set_query(unsigned int q, char* fmt, ...)
     if (len > 0xfff)
         return 0;
     m_queryLen = len;
-    CQueryCounterInstance()->IncreQureyCount(q);
+    CQueryCounter* pCounter = CQueryCounterInstance();
+    pCounter->IncreQureyCount(q);
     return 1;
 }
 
-int CMySql::get_int(int col, int& v)
+bool CMySql::get_int(int col, int& v)
 {
-    if (!m_row)
-        return 0;
-    if (!is_valid_col(col))
+    if (!(m_row && is_valid_col(col)))
         return 0;
     v = atoi(m_row[col]);
     return 1;
 }
 
-int CMySql::get_uint(int col, unsigned int& v)
+bool CMySql::get_uint(int col, unsigned int& v)
 {
-    if (!m_row)
-        return 0;
-    if (!is_valid_col(col))
+    if (!(m_row && is_valid_col(col)))
         return 0;
     v = (unsigned int)atoi(m_row[col]);
     return 1;
 }
 
-int CMySql::get_short(int col, short& v)
+bool CMySql::get_short(int col, short& v)
 {
-    if (!m_row)
-        return 0;
-    if (!is_valid_col(col))
+    if (!(m_row && is_valid_col(col)))
         return 0;
     v = (short)atoi(m_row[col]);
     return 1;
 }
 
-int CMySql::get_short(int col, int& v)
+bool CMySql::get_short(int col, int& v)
 {
-    if (!m_row)
+    if (!(m_row && is_valid_col(col)))
         return 0;
-    if (!is_valid_col(col))
-        return 0;
-    v = (short)atoi(m_row[col]);
+    short s = (short)atoi(m_row[col]);
+    v = s;
     return 1;
 }
 
-int CMySql::get_ushort(int col, unsigned short& v)
+bool CMySql::get_ushort(int col, unsigned short& v)
 {
-    if (!m_row)
-        return 0;
-    if (!is_valid_col(col))
+    if (!(m_row && is_valid_col(col)))
         return 0;
     v = (unsigned short)atoi(m_row[col]);
     return 1;
 }
 
-int CMySql::get_ushort(int col, int& v)
+bool CMySql::get_ushort(int col, int& v)
 {
-    if (!m_row)
+    if (!(m_row && is_valid_col(col)))
         return 0;
-    if (!is_valid_col(col))
-        return 0;
-    v = (unsigned short)atoi(m_row[col]);
+    unsigned short s = (unsigned short)atoi(m_row[col]);
+    v = s;
     return 1;
 }
 
-int CMySql::get_byte(int col, char& v)
+bool CMySql::get_byte(int col, char& v)
 {
-    if (!m_row)
-        return 0;
-    if (!is_valid_col(col))
+    if (!(m_row && is_valid_col(col)))
         return 0;
     v = (char)atoi(m_row[col]);
     return 1;
 }
 
-int CMySql::get_byte(int col, int& v)
+bool CMySql::get_byte(int col, int& v)
 {
-    if (!m_row)
+    if (!(m_row && is_valid_col(col)))
         return 0;
-    if (!is_valid_col(col))
-        return 0;
-    v = (char)atoi(m_row[col]);
+    char c = (char)atoi(m_row[col]);
+    v = c;
     return 1;
 }
 
-int CMySql::get_ubyte(int col, unsigned char& v)
+bool CMySql::get_ubyte(int col, unsigned char& v)
 {
-    if (!m_row)
-        return 0;
-    if (!is_valid_col(col))
+    if (!(m_row && is_valid_col(col)))
         return 0;
     v = (unsigned char)atoi(m_row[col]);
     return 1;
 }
 
-int CMySql::get_ubyte(int col, int& v)
+bool CMySql::get_ubyte(int col, int& v)
 {
-    if (!m_row)
+    if (!(m_row && is_valid_col(col)))
         return 0;
-    if (!is_valid_col(col))
-        return 0;
-    v = (unsigned char)atoi(m_row[col]);
+    unsigned char c = (unsigned char)atoi(m_row[col]);
+    v = c;
     return 1;
 }
 
-int CMySql::get_str(int col, char* buf, int len)
+bool CMySql::get_str(int col, char* buf, int len)
 {
-    if (!m_row)
-        return 0;
-    if (!is_valid_col(col))
-        return 0;
-    if (len <= 0)
+    if (!(m_row && is_valid_col(col)) || len <= 0)
         return 0;
     strncpy(buf, m_row[col], len);
     buf[len - 1] = 0;
     return 1;
 }
 
-int CMySql::get_binary(int col, void* buf, int len)
+bool CMySql::get_binary(int col, void* buf, int len)
 {
-    if (!m_row)
+    if (!(m_row && is_valid_col(col)) || len <= 0)
         return 0;
-    if (!is_valid_col(col))
-        return 0;
-    if (len <= 0)
-        return 0;
-    int copyLen = m_lengths[col] < (unsigned int)len ? m_lengths[col] : len;
+    int copyLen = (int)m_lengths[col] < len ? (int)m_lengths[col] : len;
     memcpy(buf, m_row[col], copyLen);
     return 1;
 }
@@ -2252,32 +2342,31 @@ char* CMySql::blob_to_str(int col, void* buf, int len)
         return 0;
     if (buf == 0 && len > 0xfff)
         return 0;
-    char* base = (char*)this + 0x1010 + col * 0x1001;
-    base[0xd] = 0;
+    ((char*)this + col * 0x1001 + 0x1010)[0xd] = 0;
     if (len > 0)
     {
-        char* dst = base + 0xd;
+        char* dst = (char*)this + col * 0x1001 + 0x1010 + 0xd;
         dst += mysql_real_escape_string(m_mysql, dst, (const char*)buf, len);
-        *dst = 0;
+        *dst++ = 0;
     }
-    return base + 0xd;
+    return (char*)this + col * 0x1001 + 0x1010 + 0xd;
 }
 
-char CMySql::set_compress_option()
+bool CMySql::set_compress_option()
 {
     if (mysql_options(m_mysql, MYSQL_OPT_COMPRESS, 0) != 0)
         return 0;
     return 1;
 }
 
-char CMySql::set_read_default_grp_option()
+bool CMySql::set_read_default_grp_option()
 {
     if (mysql_options(m_mysql, MYSQL_READ_DEFAULT_GROUP, "UseSQL") != 0)
         return 0;
     return 1;
 }
 
-char CMySql::open(const char* host, const char* user, const char* pass, const char* db)
+bool CMySql::open(const char* host, const char* user, const char* pass, const char* db)
 {
     if (!host || !user || !pass || !db)
         return 0;
@@ -2294,13 +2383,11 @@ char CMySql::open(const char* host, const char* user, const char* pass, const ch
     return 1;
 }
 
-char CMySql::is_valid_col(int col)
+bool CMySql::is_valid_col(int col)
 {
-    if (col < 0)
+    if (col < 0 || m_nFields <= col)
         return 0;
-    if (m_nFields > col)
-        return 1;
-    return 0;
+    return 1;
 }
 
 CDBManager::CDBManager()
@@ -2346,21 +2433,24 @@ void CDBManager::Close()
 
 char CDBManager::UpdateQueryCount(unsigned int idx, int count, int time)
 {
+    bool b;
     CDBHandle* h = m_handles[4];
     if (count <= 0)
         return 0;
     h->set_query(0x4e2c,
                  "inSert into log_query_stat(occ_time,q_id,total,response_time) values(now(),%d,%d,%d)",
                  idx, count, time);
-    if (!h->exec(0x4e2c))
+    b = h->exec(0x4e2c);
+    if (b == 0)
         return 0;
     return 1;
 }
 
 char CDBManager::SelectTest()
 {
-    int i = 0;
+    bool b;
     int j = 0;
+    int i = 0;
     CDBHandle* h = m_handles[2];
     if (!h->set_query(0x4e21,
                       "seLect m_id, charac_no from charac_info where m_id = 1001024"))
@@ -2368,14 +2458,16 @@ char CDBManager::SelectTest()
         puts("select login_status, m_channel_no from login_account");
         return 0;
     }
-    if (!h->exec(0x4e21))
+    b = h->exec(0x4e21);
+    if (b == 0)
         return 0;
-    if (!h->fetch())
+    b = h->fetch();
+    if (b == 0)
         return 0;
-    if (!h->get_uint(0, (unsigned int&)j))
+    b = h->get_uint(0, (unsigned int&)j);
+    if (b == 0)
         return 0;
-    if (!h->get_uint(1, (unsigned int&)i))
-        return 0;
+    b = h->get_uint(1, (unsigned int&)i);
     return 1;
 }
 
@@ -2488,11 +2580,10 @@ void CSignal::dump_core_file()
 CSignalTranslator::CSignalTranslator() {}
 CSignalTranslator::~CSignalTranslator() {}
 
-static CSignalTranslator g_signalTranslator;
-
 CSignalTranslator* CSignalTranslatorInstance()
 {
-    return &g_signalTranslator;
+    static CSignalTranslator instance;
+    return &instance;
 }
 
 char CSignalTranslator::regist_signal(int sig, void (*handler)(int))
@@ -2619,9 +2710,7 @@ void CSignalTranslator::init(CApplication* app)
 
 void signal_handler(int sig)
 {
-    CSignalTranslator* t = CSignalTranslatorInstance();
-    CSignal* s = t->getSignal(sig);
-    s->handle(sig);
+    CSignalTranslatorInstance()->getSignal(sig)->handle(sig);
 }
 
 // ============================================================
@@ -2636,24 +2725,39 @@ void CPacketTranslater::attach(CApplication* app)
 
 void CPacketTranslater::OnHeartBeat(PacketHeader* header)
 {
-    if (!m_pclApp)
-        return;
-    CServerHandler* handler = m_pclApp->m_serverHandler;
-    if (!handler)
-        return;
-    unsigned char idx = ((char*)header)[0xa];
-    if (idx > 0x64)
-        throw CDNFException(
-            "CPacketTranslater::OnHeartBeat() \xc3\xa4\xb3\xce \xc0\xce\xb5\xa6\xbd\xba \xbf\xc0\xb7\xf9\n");
-    handler->ResetHeartBeat(idx);
-    if (!handler->IsConnectedMonitorServer(idx))
+    try
     {
-        handler->SetConnectFlag(idx, 1);
-        Packet_Monitor_Manager_Connect_OK pkt;
-        handler->SendToTcpServer(&pkt, idx);
-        printf("First Heart Beat Arrived From %d Group Monitor!\n", idx);
-        CMyFileLog log("OnHeartBeat", 0x43);
-        log("./log/Monitor", "First Heart Beat Arrived From %d Group Monitor!", idx);
+        if (!m_pclApp)
+            return;
+        CServerHandler* handler = m_pclApp->m_serverHandler;
+        if (!handler)
+            return;
+        unsigned char idx = ((char*)header)[0xa];
+        if (idx > 0x64)
+            throw CDNFException(
+                "CPacketTranslater::OnHeartBeat() \xc3\xa4\xb3\xce \xc0\xce\xb5\xa6\xbd\xba \xbf\xc0\xb7\xf9\n");
+        handler->ResetHeartBeat(idx);
+        if (!handler->IsConnectedMonitorServer(idx))
+        {
+            handler->SetConnectFlag(idx, 1);
+            Packet_Monitor_Manager_Connect_OK pkt;
+            handler->SendToTcpServer(&pkt, idx);
+            printf("First Heart Beat Arrived From %d Group Monitor!\n", idx);
+            CMyFileLog log("OnHeartBeat", 0x43);
+            log("./log/Monitor", "First Heart Beat Arrived From %d Group Monitor!", idx);
+        }
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnHeartBeat() Exception Break : %s\n", e.what());
+        CMyFileLog log("OnHeartBeat", 0x52);
+        log("./log/Except", "CPacketTranslater::OnHeartBeat() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnHeartBeat() Exception Break");
+        CMyFileLog log("OnHeartBeat", 0x58);
+        log("./log/Except", "CPacketTranslater::OnHeartBeat() Exception Break\n");
     }
 }
 
@@ -2674,12 +2778,17 @@ void CPacketTranslater::OnEventStart(PacketHeader* header)
     catch (CDNFException& e)
     {
         printf("CPacketTranslater::OnEventStart() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n", e.what());
-        throw;
+        CMyFileLog log("OnEventStart", 0x75);
+        log("./log/Except",
+            "CPacketTranslater::OnEventStart() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n",
+            e.what());
     }
     catch (...)
     {
-        puts("CPacketTranslater::OnEventStart() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd\n");
-        throw;
+        puts("CPacketTranslater::OnEventStart() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
+        CMyFileLog log("OnEventStart", 0x7b);
+        log("./log/Except",
+            "CPacketTranslater::OnEventStart() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd\n");
     }
 }
 
@@ -2697,12 +2806,17 @@ void CPacketTranslater::OnEventEnd(PacketHeader* header)
     catch (CDNFException& e)
     {
         printf("CPacketTranslater::OnEventEnd() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n", e.what());
-        throw;
+        CMyFileLog log("OnEventEnd", 0x97);
+        log("./log/Except",
+            "CPacketTranslater::OnEventEnd() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n",
+            e.what());
     }
     catch (...)
     {
-        puts("CPacketTranslater::OnEventEnd() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd\n");
-        throw;
+        puts("CPacketTranslater::OnEventEnd() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
+        CMyFileLog log("OnEventEnd", 0x9d);
+        log("./log/Except",
+            "CPacketTranslater::OnEventEnd() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd\n");
     }
 }
 
@@ -2718,13 +2832,18 @@ void CPacketTranslater::OnCommonPacket(PacketHeader* header)
     }
     catch (CDNFException& e)
     {
-        printf("CPacketTranslater::OnEventEnd() Exception Break : %s\n", e.what());
-        throw;
+        printf("CPacketTranslater::OnCommonPacket() Exception Break : %s\n", e.what());
+        CMyFileLog log("OnCommonPacket", 0xbb);
+        log("./log/Except",
+            "CPacketTranslater::OnEventEnd() Exception Break : %s\n",
+            e.what());
     }
     catch (...)
     {
-        puts("CPacketTranslater::OnEventEnd() Exception Break\n");
-        throw;
+        puts("CPacketTranslater::OnCommonPacket() Exception Break");
+        CMyFileLog log("OnCommonPacket", 0xc1);
+        log("./log/Except",
+            "CPacketTranslater::OnEventEnd() Exception Break\n");
     }
 }
 
@@ -2987,11 +3106,14 @@ void CPacketTranslater::OnWebNoticeProhibitConnectUser(PacketHeader* header)
         if (!m_pclApp)
             throw CDNFException(
                 "CPacketTranslater::OnWebNoticeProhibitConnectUser : 0 == m_pclApp");
-        int m_id = *(int*)((char*)header + 0xa);
-        int ip = *(int*)((char*)header + 6);
-        int port = *(unsigned short*)((char*)header + 4);
-        char flag = ((char*)header)[0xe];
-        short time = *(short*)((char*)header + 0xf);
+        Packet_Web_Prohibit_User_Connect pkt;
+        memcpy(&pkt, header, 0x12);
+        *(unsigned short*)((char*)&pkt + 2) = 0x13;
+        int m_id = pkt.m_fieldA;
+        int ip = *(int*)((char*)&pkt + 6);
+        int port = *(unsigned short*)((char*)&pkt + 4);
+        char flag = ((char*)&pkt)[0xe];
+        short time = *(short*)((char*)&pkt + 0xf);
         {
             CMyFileLog log("OnWebNoticeProhibitConnectUser", 0xdb);
             log("./log/ProhibitUser",
@@ -3005,7 +3127,7 @@ void CPacketTranslater::OnWebNoticeProhibitConnectUser(PacketHeader* header)
             log("./log/ProhibitUser",
                 "CPacketTranslater::OnWebNoticeProhibitConnectUser Delete Err  m_id : %d, flag( %d ), time( %d ), ip( %d ), port( %d )\n",
                 m_id, flag, time, ip, port);
-            m_pclApp->m_serverHandler->SendAllTcpServer(header);
+            m_pclApp->m_serverHandler->SendAllTcpServer((PacketHeader*)&pkt);
             return;
         }
         CDNFProhibitUser* pu = um->FindProhibitUser(m_id);
@@ -3015,7 +3137,7 @@ void CPacketTranslater::OnWebNoticeProhibitConnectUser(PacketHeader* header)
             pu->SetMonitorWaitTime(m_id, 2);
             pu->SetIpPort(ip, port);
             um->InsertProhibitUser(m_id, pu);
-            m_pclApp->m_serverHandler->SendAllTcpServer(header);
+            m_pclApp->m_serverHandler->SendAllTcpServer((PacketHeader*)&pkt);
             return;
         }
         ((char*)header)[0x11] = 2;
@@ -3138,10 +3260,10 @@ int CTableBase::Load_Txt_Table_Data(const char* fileName, int idx)
             continue;
         if (count >= idx)
             return -2;
-        if (!Parse_Table(buf, count))
-            return -1;
-        count++;
+        if (Parse_Table(buf, count))
+            count++;
     }
+    fclose(f);
     return count;
 }
 
@@ -3194,7 +3316,7 @@ void CAppStartInit::Init(CApplication* app, int argc, char** argv)
     app->m_appConfig->Check_FileName(std::string(argv[1]));
     app->m_serverConfig = new CServerConfig;
     app->m_killUsrConfig = new CKillUSRConfig;
-    if (Init_Daemon(argc, argv) != 0)
+    if (Init_Daemon(argc, argv) == -1)
         throw CDNFException("CAppStartInit::Init() Demon Init Exception Break!");
 }
 
@@ -3213,7 +3335,6 @@ void CAppStopInit::Init(CApplication* app, int argc, char** argv)
 CAppConfig::CAppConfig() {}
 CAppConfig::~CAppConfig() {}
 
-int CAppConfig::Load_Txt_Table_Data(const char* fileName, int idx) { return 0; }
 int CAppConfig::Load_Table(const std::string& fileName)
 {
     std::string path = std::string("./cfg/") + fileName + std::string(".cfg");
@@ -3265,7 +3386,6 @@ int CAppConfig::Check_FileName(const std::string& fileName)
 CServerConfig::CServerConfig() {}
 CServerConfig::~CServerConfig() {}
 
-int CServerConfig::Load_Txt_Table_Data(const char* fileName, int idx) { return 0; }
 int CServerConfig::Load_Table(const std::string& fileName)
 {
     int n = Load_Txt_Table_Data(fileName.c_str(), 0x65);
@@ -3293,7 +3413,10 @@ int CServerConfig::Parse_Table(char* data, int size)
 }
 
 CKillUSRConfig::CKillUSRConfig() {}
-CKillUSRConfig::~CKillUSRConfig() {}
+CKillUSRConfig::~CKillUSRConfig()
+{
+    Clear_Table();
+}
 int CKillUSRConfig::Load_Table(const std::string& fileName)
 {
     int n = Load_Txt_Table_Data(fileName.c_str(), 0x64);
@@ -3324,15 +3447,17 @@ int CKillUSRConfig::Parse_Table(char* data, int size)
 }
 void CKillUSRConfig::Clear_Table()
 {
-    if (m_list.empty())
-        return;
-    for (std::vector<ST_KillUSRConfig*>::iterator it = m_list.begin();
-         it != m_list.end(); ++it)
+    if (!m_list.empty())
     {
-        delete *it;
-        *it = 0;
+        for (std::vector<ST_KillUSRConfig*>::iterator it = m_list.begin();
+             it != m_list.end(); ++it)
+        {
+            ST_KillUSRConfig* p = *it;
+            delete p;
+            p = 0;
+        }
+        m_list.clear();
     }
-    m_list.clear();
 }
 
 // ============================================================
@@ -3342,7 +3467,6 @@ ST_ServerInfo::ST_ServerInfo()
 {
     m_index = 0;
     m_type = 0xff;
-    m_name = "";
     m_port = 0;
 }
 
@@ -3357,10 +3481,7 @@ CVersionMgr::CVersionMgr(int a, int b, int c, int d)
 }
 
 CSourceVersionMgr::SourceVersion::SourceVersion(const SourceVersion& other)
-{
-    m_name = other.m_name;
-    m_version = other.m_version;
-}
+    : m_name(other.m_name), m_version(other.m_version) {}
 
 CSourceVersionMgr::SourceVersion& CSourceVersionMgr::SourceVersion::operator=(const SourceVersion& other)
 {
@@ -3371,7 +3492,11 @@ CSourceVersionMgr::SourceVersion& CSourceVersionMgr::SourceVersion::operator=(co
 
 CSourceVersionMgr::SourceVersion::~SourceVersion() {}
 
-CSourceVersionMgr::CSourceVersionMgr() {}
+CSourceVersionMgr::CSourceVersionMgr()
+{
+    InsertSourceVersion(".svn/all-wcprops", 0x368f);
+    InsertSourceVersion("DNFServerCommon/.svn/all-wcprops", 0x36c9);
+}
 CSourceVersionMgr::~CSourceVersionMgr() {}
 
 // ============================================================
@@ -3386,7 +3511,7 @@ CQueryCounter::CQueryCounter()
 
 CQueryCounter::~CQueryCounter()
 {
-    delete m_timer;
+    ::operator delete(m_timer);
 }
 
 void CQueryCounter::ResetQueryCount()
@@ -3445,12 +3570,17 @@ void CQueryCounter::SetResponseTime(unsigned int ms)
 {
     if (ms > 0x4f60)
         return;
+    double cur;
     int i = ms - 0x4e20;
-    m_responseTimes[i] = m_timer->GetTimeInterval() + m_responseTimes[i];
+    cur = m_responseTimes[i];
+    m_responseTimes[i] = cur + m_timer->GetTimeInterval();
 }
 
-static CQueryCounter g_queryCounter;
-CQueryCounter* CQueryCounterInstance() { return &g_queryCounter; }
+CQueryCounter* CQueryCounterInstance()
+{
+    static CQueryCounter instance;
+    return &instance;
+}
 
 // ============================================================
 // CPacketTracer / CPacketDecoder
@@ -3458,7 +3588,6 @@ CQueryCounter* CQueryCounterInstance() { return &g_queryCounter; }
 CPacketTracer::CPacketTracer()
 {
     m_field0 = 0;
-    m_log = "";
 }
 
 CPacketTracer::~CPacketTracer() {}
@@ -3483,13 +3612,16 @@ void CPacketTracer::WriteLog()
 void CPacketTracer::AddLog(int type, int len)
 {
     char buf[0x20] = {0};
-    sprintf(buf, "(%d/%d)", type, len);
+    sprintf(buf, "(%d/%d)", len, type);
     m_log += buf;
     m_field0++;
 }
 
-static CPacketTracer g_packetTracer;
-CPacketTracer* CPacketTracerInstance() { return &g_packetTracer; }
+CPacketTracer* CPacketTracerInstance()
+{
+    static CPacketTracer instance;
+    return &instance;
+}
 
 CPacketDecoder::CPacketDecoder()
 {
@@ -3522,8 +3654,11 @@ CPacketDecoder::~CPacketDecoder()
     m_udpQLock = 0;
 }
 
-static CPacketDecoder g_packetDecoder;
-CPacketDecoder* CPacketDecoderInstance() { return &g_packetDecoder; }
+CPacketDecoder* CPacketDecoderInstance()
+{
+    static CPacketDecoder instance;
+    return &instance;
+}
 
 // ============================================================
 // CServerHandler（本批最小实现）
@@ -3608,7 +3743,7 @@ unsigned long long TIME_to_ulonglong_datetime(void* t)
 // ============================================================
 
 unsigned int CDNFProhibitUser::GetDBID() { return m_dbid; }
-unsigned short CDNFProhibitUser::GetProhibitRemainTime() { return m_remainTime; }
+short CDNFProhibitUser::GetProhibitRemainTime() { return m_remainTime; }
 unsigned char CDNFProhibitUser::GetMonitorRetPacketCnt() { return m_retPacketCnt; }
 char CDNFProhibitUser::GetConnectFlag() { return m_connectFlag; }
 void CDNFProhibitUser::IncreMonitorRetPacket() { m_retPacketCnt++; }
@@ -3620,7 +3755,7 @@ void CMonitorServer::OnDisconnect() { m_connected = 0; ResetHeartBeat(); }
 
 void CTcpServer::SetServerIndex(unsigned char idx) { m_index = idx; }
 unsigned char CTcpServer::GetServerIndex() { return m_index; }
-void* CTcpServer::GetSocket() { return m_socket; }
+void* CTcpServer::GetSocket() { return (void*)m_socket; }
 void CTcpServer::NotifyHeartbeat() { time(&m_heartbeat); }
 
 unsigned short CTcpNetSystem::Get_TcpServerPort() { return m_serverPort; }
@@ -3656,7 +3791,7 @@ unsigned int CUdpHandler::InetAddr(const char* ip) const
 
 int CAppConfig::Get_ServerUdpPort() { return m_serverUdpPort; }
 int CAppConfig::Get_ServerTcpPort() { return m_serverTcpPort; }
-unsigned char CAppConfig::Get_FrameCountValue() { return m_frameCount; }
+unsigned int CAppConfig::Get_FrameCountValue() { return m_frameCount; }
 void* CServerConfig::GetServerInfo() { return &m_servers; }
 void* CKillUSRConfig::GetInfo() const { return (void*)&m_list; }
 
@@ -3667,14 +3802,15 @@ void CPacketDecoder::SetUdpQueue(UdpRecvQueue* q) { m_udpQueue = q; }
 
 void CPacketDecoder::Attach(CApplication* app)
 {
-    if (!app)
-        return;
-    m_udpQueue = app->Get_UdpPacketParseQ();
-    m_tcpQueue = app->Get_TcpNetSystem()->Get_TcpSwapQPacket()->GetParseQ();
-    m_udpQLock = app->Get_UdpQLock();
-    m_udpBLock = app->Get_UdpBLock();
-    m_tcpRecvQLock = app->Get_TcpNetSystem()->Get_TcpRecvQLock();
-    m_tcpRecvBLock = app->Get_TcpNetSystem()->Get_TcpRecvBLock();
+    if (app)
+    {
+        m_udpQueue = app->Get_UdpPacketParseQ();
+        m_tcpQueue = app->Get_TcpNetSystem()->Get_TcpSwapQPacket()->GetParseQ();
+        m_udpQLock = app->Get_UdpQLock();
+        m_udpBLock = app->Get_UdpBLock();
+        m_tcpRecvQLock = app->Get_TcpNetSystem()->Get_TcpRecvQLock();
+        m_tcpRecvBLock = app->Get_TcpNetSystem()->Get_TcpRecvBLock();
+    }
 }
 
 void CPacketDecoder::TcpProcess()
@@ -3771,14 +3907,18 @@ char CPacketDecoder::MsgDecode(PacketHeader* header)
 
 int CMySql::get_n_rows() { return m_nRows; }
 int CMySql::get_n_fields() { return m_nFields; }
-char CMySql::ping() { return mysql_ping(m_mysql); }
-char CMySql::init()
+bool CMySql::ping() { return mysql_ping(m_mysql); }
+bool CMySql::init()
 {
-    if (!init_db_handle())
+    bool b;
+    b = init_db_handle();
+    if (b == 0)
         return 0;
-    if (!set_compress_option())
+    b = set_compress_option();
+    if (b == 0)
         return 0;
-    if (!set_read_default_grp_option())
+    b = set_read_default_grp_option();
+    if (b == 0)
         return 0;
     memset(m_query, 0, 0x1001);
     m_queryLen = 0;
@@ -3852,6 +3992,7 @@ void CServerHandler::Process()
             log("./log/ServerHandler", "MonitorServer(%d) disconnect", 0x66 - i);
         }
     }
+    CheckTcpServerHeartbeat();
 }
 
 char CServerHandler::CreateTcpServer(unsigned char idx, unsigned int port)
@@ -3859,8 +4000,12 @@ char CServerHandler::CreateTcpServer(unsigned char idx, unsigned int port)
     CTcpServer* server = new CTcpServer;
     server->Init(port, m_app->Get_TcpNetSystem());
     server->SetServerIndex(idx);
-    m_tcpServers[idx] = server;
-    return 1;
+    std::pair<std::map<unsigned int, CTcpServer*>::iterator, bool> pr =
+        m_tcpServers.insert(std::make_pair(idx, server));
+    if (pr.second)
+        return 1;
+    delete server;
+    return 0;
 }
 
 char CServerHandler::DeleteTcpServer(unsigned char idx)
@@ -3872,6 +4017,8 @@ char CServerHandler::DeleteTcpServer(unsigned char idx)
         if (server)
             delete server;
         m_tcpServers.erase(it);
+        CMyFileLog log("DeleteTcpServer", 0x113);
+        log("./log/Tcp", "TcpMonitorServer Delete !");
         return 1;
     }
     return 0;
@@ -3880,7 +4027,7 @@ char CServerHandler::DeleteTcpServer(unsigned char idx)
 void CServerHandler::CheckTcpServerHeartbeat()
 {
     for (std::map<unsigned int, CTcpServer*>::iterator it = m_tcpServers.begin();
-         it != m_tcpServers.end();)
+         it != m_tcpServers.end(); ++it)
     {
         CTcpServer* server = it->second;
         if (server && server->IsHeartbeatTimeOver())
@@ -3888,14 +4035,11 @@ void CServerHandler::CheckTcpServerHeartbeat()
             CPeer* peer = m_app->Get_TcpNetSystem()->GetPeer((unsigned int)server->GetSocket());
             if (peer)
             {
+                peer->DisConnSig();
                 m_app->Get_TcpNetSystem()->DeletePeer(peer);
             }
-            delete server;
-            m_tcpServers.erase(it++);
-        }
-        else
-        {
-            ++it;
+            m_tcpServers.erase(it);
+            break;
         }
     }
 }
@@ -3982,17 +4126,17 @@ void CServerHandler::SendToTcpServer(char* buf, int len, unsigned char idx)
 void CServerHandler::SendAllToMonitorServer(char* buf, int len)
 {
     CMonitorServer* p = m_monitorServers;
-    for (int i = 0x65; i != 0; i--, p++)
+    for (int i = 0x65; i != 0; i--)
     {
         if (p->IsValidMonitorServer() && p->IsConnected())
             p->SendToServer(buf, len);
+        p++;
     }
 }
 
 char CDNFProhibitUser::IsTimeOutWaitMonitor()
 {
-    m_remainTime--;
-    if (m_remainTime <= 0)
+    if (--m_remainTime <= 0)
         return 1;
     return 0;
 }
@@ -4018,11 +4162,9 @@ CSourceVersionMgr::SourceVersion::SourceVersion(char* name, int version)
 
 char CMonitorServer::IsHeartBeatTimeOver()
 {
-    m_heartBeat--;
-    if (m_heartBeat == 0)
+    if (--m_heartBeat == 0)
     {
-        m_fieldC++;
-        if (m_fieldC > 0x14)
+        if (++m_fieldC > 0x14)
             return 1;
         m_heartBeat = 0x14;
     }
@@ -4051,7 +4193,7 @@ void CommonTime::SetCurTime()
     m_mday = tm->tm_mday;
     m_hour = tm->tm_hour;
     m_min = tm->tm_min;
-    m_sec = tm->tm_sec;
+    m_sec = tm->tm_wday;  // ORIG 读 tm 偏移 0x18（tm_wday）
 }
 
 // ---- nothrow new/delete（原版来自 libstdc++ 弱符号）----

@@ -136,15 +136,57 @@ gunnersvr/zergsvr 树已同步重建（203/239 个头）。
 以上全部通过 `toolchain/uni_call.py` 调二进制函数逐字节对拍（含密钥表/状态全量 dump 与
 随机多组向量），详见 `tencrypt_new/README.md` 状态矩阵。
 
-### 待续
+### 对称加密族完成（2026-08-10）
 
-- BOX3D1..7（TsLocal::ProcessLastBytes 的余数分发目标，7 个同族函数）
-- DesPC/DesToo/DesBig/Des2P/FastDes/DesDea、D3DES、Amoeba 已完成；Magic8/16/32
-- Square / Rijndael / Blowfish / Twofish（开源参考可用）
-- TenCrypt.cpp / TencBase.cpp 封装层
+- ✅ **Square / Rijndael / Twofish**：均采用公版参考实现（Barreto Square、
+  Daemen-Rijmen Rijndael/FIPS-197、Counterpane Doug Whiting Twofish），
+  常量表从二进制 `.rodata` 提取，官方向量 + uni_call 逐字节对拍全过；
+  各自的 Ten* 封装余数统一走 `CreateTsLocal()->Seattos`。
+- ✅ **Loki97 / Magic8/16/32**：修复 WIP 后验证通过（Loki97：deltan 初值、
+  keyMaterial 64 字节；Magic：ZF/SF/CF 标志漏置）。
+- ✅ **BOX3D1..7（TencBase.cpp）**：TsLocal::ProcessLastBytes 的余数分发目标全部
+  逆向完成（CBOX=4 指针+Value@16，8n 盒位网络，bnec 决定 key 正/反向读取）。
+- ✅ **SetKey（genenew.cpp 桩）**：补入 gene.cpp，LCG+位掩码派生，对拍一致。
+- ✅ **TenCrypt.cpp 封装层**：全部 Ten* 包装已分散落地于各算法文件
+  （TenRijnDael/TenTwofish*/TenSquare/TenLoki97/TenMagic* 等），
+  CreateTsLocal/FreeTsLocal 在 ts_local.cpp，TencBase 的 CTsLocalImp 不重复实现。
+- 至此 **tencrypt_new 全部 59 个 CU 覆盖完成**：`compare_syms.py`（加密族过滤）
+  缺符号 **0**；余量仅 GCC 13 `.part.0`/`.cold` 克隆段（已知编译器产物）。
 
-注：Blowfish 已含在上述 13 个中；Amoeba（amoEnCrypt/amoDeCrypt 逐位分支）已完成，
-表/块语义经二进制内部状态逐块对拍确认。
+## 7. protocol/common 还原完成（2026-08-10，gunnersvr）
+
+- 共享 Tdr 头（TdrPal/TdrError/TdrTime/TdrBuf/TdrParse/TdrTypeUtil/TdrBufUtil/TdrIO/TdrXml）按
+  反汇编重建：TdrWriteBuf/TdrReadBuf（data/pos/limit 布局，大端序列化）、TdrOutStream（FILE* 或
+  缓冲双模式）、TdrXmlReader（内嵌 rapidxml document + 64KB 池，0x10058 字节）、TdrXmlWriter、
+  TdrDate/TdrTime/TdrDateTime 编码（uint64 = year|mon<<16|day<<24|hour<<32|min<<48|sec<<56）。
+- 14 个 CU 全部实现并验收：TdrParse 30、TdrTypeUtil 12、TdrTime 1、TdrIO 3、TdrBufUtil 18、
+  TdrXml 21、comm_conf_cfgsdk 24、comm_conf_framework 48、comm_conf_gunnersvr 36、
+  comm_conf_svcid 24、comm_conf_zerg 144、comm_proto_public_cfgsvr 252、logsvr 9、monitorsvr 18
+  ——合计 **640/640 符号 MISSING=0**；construct/pack/unpack/visualize_ex/fromXml/toXml 与二进制
+  uni_call 字节级对拍通过（TdrParse 168 向量、TdrBufUtil 42 项、cfgsvr pack/unpack 11 组、
+  visualize 9 组等）。
+- 关键语义：TDR 大端线格式（string=uint32 长度含 NUL，上限 0x800）；
+  TdrParse 分隔符 " \r\n\t"；嵌套 pack/visualize 一律字面量 cutVer=1；
+  sec_proto 消息类全部 `#pragma pack(1)`。
+- 工具链增强：uni_call.py 新增 strptime/strtok_r/__strtol*__internal/__strtod_internal 仿真、
+  vsnprintf 参数修正、%d 负数/%lld 渲染修复；新增 file_symbols.py（文件→符号/地址/行号）。
+- 三棵树 import/include 已装 real rapidxml 1.13、mysqlclient 5.0.92、TenHash.h/TenCrypt.h。
+- 进行中（并行 agent）：framework 13 CU（gunnersvr）、zergsvr/secagent protocol/common 差异轮、
+  secagent protocol/formmog 4 文件（antibot_client 980 等）。
+
+## 8. 全量完成（2026-08-10）
+
+- **三二进制全部工程源码还原并验收**：gunnersvr 77 个源文件 / zergsvr 87 / secagent 92，
+  `check_file_coverage.py` 全文件 **MISSING = 0**（源码映射符号 1463 / 1541 / 2875）。
+- **32 位全量链接成功**：GCC 4.1.2（-m32 -fPIC -fno-implement-inlines）对象 + 宿主 32 位运行库
+  链接为 ELF32 可执行文件（/tmp/gunnersvr_rebuilt 694KB、zergsvr_rebuilt 791KB、
+  secagent_rebuilt 1.66MB）；与原二进制逐符号对照，**全部函数符号命中**。
+- 剩余差异仅为编译器版本产物：GCC 4.1.0 与 4.1.2 的静态局部表命名（`::C.*`、
+  `::__PRETTY_FUNCTION__`、`::workspace`）、libstdc++ 模板内联决策（`std::fill` 等
+  出线与否）、闭源密码实现的数据表符号命名（`CDes*::FUCKING_*`、`dea_*`——算法与
+  常量值已逐字节对拍，仅符号名/作用域不同）、以及少量内部 inline 复制符号。
+- 每二进制输出 include 目录（output/commlib/zenlib、output/commlib/framework、
+  output/protocol/common、output/protocol/formmog）均已同步重建头，供下游编译。
 
 ## 关联材料
 

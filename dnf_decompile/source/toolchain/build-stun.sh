@@ -37,7 +37,7 @@ wait_jobs() {
 }
 
 SRC_DIR=$(cd "$(dirname "$0")/../DNFServer/StunServer/stun_server" && pwd)
-OUT_DIR=$(cd "$(dirname "$0")/../build-stun" && pwd)
+OUT_DIR=$(cd "$(dirname "$0")/../.." && pwd)/build/stun
 C5ROOT=${C5ROOT:-/tmp/c5root}
 CXX=$C5ROOT/usr/bin/g++
 GCINC=$C5ROOT/usr/lib/gcc/x86_64-redhat-linux/4.1.2/include

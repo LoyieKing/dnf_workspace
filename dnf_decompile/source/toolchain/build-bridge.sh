@@ -34,7 +34,7 @@ wait_jobs() {
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 SRC_DIR="$ROOT/ChannelOld/DNFChannelBridge"
-OUT_DIR="$ROOT/build-bridge"
+OUT_DIR="$ROOT/../build/bridge"
 C6ROOT=${C6ROOT:-/tmp/c6root}
 CXX=/tmp/c6-g++-446r
 

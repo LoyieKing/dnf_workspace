@@ -87,7 +87,7 @@ void MemPool<T>::free(void* p)
 {
     if (p != 0)
     {
-        *(void**)((char*)p + (m_classSize - 4)) = headOfFreeList_;
+        *(void**)((char*)p + (sizeof(T) - 4)) = headOfFreeList_;
         headOfFreeList_ = p;
     }
 }
@@ -162,6 +162,14 @@ void CCashObject::SetBlackUsersObject(std::map<unsigned int, CBlackUser*>& black
 
 void CCashObject::ClearBlackUsers()
 {
+    for (std::map<unsigned int, CBlackUser*>::iterator it = m_blackUsers.begin();
+         it != m_blackUsers.end(); ++it)
+    {
+        if (it->second)
+        {
+            delete it->second;
+        }
+    }
     m_blackUsers.clear();
 }
 

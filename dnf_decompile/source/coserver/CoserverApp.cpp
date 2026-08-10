@@ -187,10 +187,7 @@ void CApplication::Free()
             if (m_netThreads[i] != 0)
             {
                 m_netThreads[i]->stop();
-                if (m_netThreads[i] != 0)
-                {
-                    delete m_netThreads[i];
-                }
+                delete m_netThreads[i];
                 m_netThreads[i] = 0;
             }
             if (m_udpHandlers[i] != 0)
@@ -267,7 +264,8 @@ void CApplication::Process()
         catch (CDNFException& e)
         {
             printf("CApplication::Process() Exception Break : %s\n", e.what());
-            DNF_LOG_SCOPE_LINE(0x1ec, "./log/process", "CApplication::Process() Exception Break : %s\n", e.what());
+            register const char* msg = e.what();
+            DNF_LOG_SCOPE_LINE(0x1ec, "./log/process", "CApplication::Process() Exception Break : %s\n", msg);
         }
         catch (...)
         {
@@ -303,7 +301,7 @@ void CApplication::AttachAppInitor(char** argv)
                         "\xbe\xc6\xb1\xd4\xb8\xd5\xc6\xae \xbf\xc0\xb7\xf9\n");
 }
 
-int CApplication::Send_Term_Signal(const std::string& name)
+bool CApplication::Send_Term_Signal(const std::string& name)
 {
     std::string path = "./pid/" + name + ".pid";
     FILE* f = fopen(path.c_str(), "r");
@@ -374,11 +372,11 @@ void CApplication::Send_Suspend_Signal(const std::string& name)
 
 CGameServer* CApplication::FindGameServer(int group, int channel)
 {
-    if (group < 0x65 && channel < 0xff)
+    if (group > 0x64 || channel > 0xfe)
     {
-        return m_serverHandler->GetGameServer(group * 0xff + channel);
+        return 0;
     }
-    return 0;
+    return m_serverHandler->GetGameServer(group * 0xff + channel);
 }
 
 void CApplication::App_Stop()

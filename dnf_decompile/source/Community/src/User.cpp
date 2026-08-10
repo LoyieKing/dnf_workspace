@@ -225,12 +225,13 @@ void CUser::send_buddy_list() {
             break;
         }
         CUser* user = g_user_manager.find_user((*iBuddy).server_id, (*iBuddy).buddy_n_user_id_what);
-        if (user == NULL) {
-            packet.buddies[i].isOnline = false;
-            packet.buddies[i].channel_no = -1;
-        } else {
+        // 原始：user != NULL 分支内联在前（je 跳 NULL 分支），极性以 ORIG 反汇编为准
+        if (user != NULL) {
             packet.buddies[i].isOnline = true;
             packet.buddies[i].channel_no = user->stGameUserInfo.channel_no;
+        } else {
+            packet.buddies[i].isOnline = false;
+            packet.buddies[i].channel_no = -1;
         }
         STPvPBuddyDBInfo buddy = *iBuddy;
         packet.buddies[i].server_id = buddy.server_id;

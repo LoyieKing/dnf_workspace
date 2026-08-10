@@ -36,7 +36,7 @@ wait_jobs() {
 }
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
-OUT_DIR="$ROOT/build-auction"
+OUT_DIR="$ROOT/../build/auction"
 C6ROOT=${C6ROOT:-/tmp/c6root}
 CXX=/tmp/c6-g++-446r
 

@@ -1425,6 +1425,81 @@ startup ×2、TCPSocket::shutdown（§36 伪影）、_Rb_tree _M_create_node（S
   即可；另 19 个为 1-2 行 mov/movl 装载。
 - 水位（auction，fast_strict 全量）：见下轮输出；auction + point 已重建。
 
+### 第七十五批（2026-08-09 续，auction 水位确认 + channel 小函数审计 + DWARF 合规核对）
+
+- auction 全量水位（w11）：strict 4152/453/131、extended 4546/59/131、
+  full 4560/45/131——makeSuccessfulBid 1409/1409 等长但 24 个 mnemonic
+  小区（cw 设置块归属 + mov/movl 装载）仍使其在 DIFF；auction + point
+  已同步重建。
+- **DWARF 合规核对**：AuctionDictionaryData（132B，price@0..expire_table_ptr@128）、
+  ROI_Category（12B）、ROI_AverageKey（24B）与 ORIG DWARF 逐字段一致；
+  makeSuccessfulBid 局部变量名（error_code/price/commission/item_type/
+  item_category/money/send_money/_temp_roi_average_key/BasicCommission/
+  VipCommission/AvePrice/roiAverageKey/itemRefineValue/PriceRate/_itemName/
+  dbtr_expire_package/pMsg/pNewCell/i/dbtr_history）与 ORIG 完全对应。
+- **channel 水位确认**：strict 594/125/24、extended 700/19/24、
+  full 704/15/24（无回归）。24 个 DIFF 中 CRijndael 相关 10 个按用户规则
+  属**通用算法豁免**（仅验语义，FIPS-197 向量已 PASS）；其余多为
+  1-4 区伪影。
+- 新记录伪影：`sock_ == -1;` 死比较 ORIG 保留 `cmp $0xffffffff,%eax`，
+  本工具链折叠（同类 §92）；EpollReactor begin() 的迭代器临时槽
+  （ORIG 双槽 -0x30→-0x24 拷贝，本工具链直写）——见
+  `identical_pitfalls.md` §104-105。
+
+### 第七十六批（2026-08-09 续，auction：ProcessMostRecentExpireItem + makeSuccessfulBid 收尾）
+
+- **`AuctionDictionary::ProcessMostRecentExpireItem` 134/135 指令**
+  （剩余 2 小区：最终 return 0 的共享块合并与 0x24 块序——-O0 布局伪影）。
+  修复：`iter == end` 改 `if (iter != end) { ... } else { return 0x24; }`
+  （ORIG 调 ne()）；错误路径改 `if (error_code == 0) { return 0; } log;
+  return error_code;`（log+return 延迟置尾形态）。auction + point 已重建。
+- **makeSuccessfulBid 保持 1409/1409**（w11 起 24 小区未再压缩，均为
+  cw 设置块归属 + mov 装载伪影）。
+- auction 全量水位（w12）：strict 4152/453/131、extended 4546/59/131、
+  full 4560/45/131——自本轮起始（strict 4151/450/135）累计 DIFF 135→131、
+  NEAR 450→453、IDENTICAL +1。
+- channel/bridge/stun 水位复核无回归（channel 594/125/24）。
+
+### 第七十七批（2026-08-09 续，channel：handler 语义重构 + DWARF 局部审计）
+
+- **`onCS_UPDATE_CHANNEL_INFO` 88 → 41 行 mnemonic 差、718/715 指令**。
+  按 ORIG DWARF 重构：
+  1. 删除全部 u* 中间变量（uVar3/uErr/uCnt/uAdd/iSgc/pIp/iPort——ORIG
+    DWARF 无这些局部，日志直接用 gc_no 等）；
+  2. `if (isReadyToStart == true) { body }` 改
+    `if (isReadyToStart != true) return 0;` 早退（ORIG 的 xor $1 +
+    mov 0/jmp 形态）；
+  3. bMatch 局部删除（ORIG DWARF 无），条件直接 if
+    （`0<diff && diff<=999`，正区间 then）；
+  4. iter 声明时初始化（消除默认构造调用）。
+- **`onCS_ASK_CHANNEL_INFO` 30 → 5 行差**：`it->second` 改 `(*it).second`
+  （ORIG 调 operator* deEv 而非 operator-> ptEv）、补 ServerGroupNum
+  局部（DWARF decl 488）。
+- **DWARF 局部名审计**：onCS_CHECK_SCRIPT_VERSION（_pEPCK/_DPCK/pck/
+  pMsg/buffer/encMsg/encbuffer/tmpbuffer/enc_len）、onCS_GET_SCRIPT
+  （pck/script/CompressLen/pMsg/buffer/encMsg/encbuffer/tmpbuffer/
+  zipMsg/zipbuffer/len/enc_len/remain/i）、onSC_GET_SCRIPT（pSGet/
+  pFile/ret）全部与 ORIG 一致。
+- 剩余 channel DIFF 以循环物化（setle vs jg）、xor vs test、lea vs
+  add/sub 指针形态为主——已记录的工具链伪影族。
+
+### 第七十八批（2026-08-09 续，channel：onCS_ASK_CHANNEL_INFO 变量名审计收尾）
+
+- **`onCS_ASK_CHANNEL_INFO` 522/518、3 个 mnemonic 差异区（5 行）**——
+  达伪影下限。按 ORIG DWARF 补齐变量名：
+  `ServerGroupNum`（488，替代直接 ServerGroupCount）、`CompressLen`
+  （489 顶部声明）、`ServerGroupInfo`（527，struct，原误名 Ginfo）、
+  `Ginfo`（528，serializer，原误名 Ginfo_ser）、`_ServerInfo`（557，
+  tpServerInfo struct，原误名 info）、`ttt`（613，压缩长度临时）。
+- `onCS_UPDATE_CHANNEL_INFO` 保持 14 区/41 行、718/715；其余 channel
+  DIFF 函数（TCPThread::loop/UDPThread::loop/CheckThread::loop/
+  EpollReactor::handleEvents/TMemoryPoolStatic::startup/GlobalInstance
+  ::create）局部变量名与 ORIG DWARF 全部一致。
+- channel 全量水位：strict 594/125/24、extended 700/19/24、
+  full 704/15/24（10 个 CRijndael 按通用算法豁免）。
+- 剩余可修面：auction 的 TimerThread::C2（vtable 序）、prepareRun
+  （寄存器驻留）等单行伪影，以及 CheckThread::loop 整函数重构（187 行）。
+
 ## 1. 源码依赖拓扑（并行任务分配）
 
 ### 1.1 源码树隔离关系（已从目录与构建脚本验证）

@@ -1,0 +1,12 @@
+file	diff	near	missing	sum
+DNFServer/ServerCommon/CFileLogWriterBase.cpp	0	2	0	2
+DNFServer/ServerCommon/DNFFileLog.cpp	6	5	0	11
+DNFServer/ServerCommon/DNFFunctionLib.cpp	12	7	0	19
+DNFServer/ServerCommon/Thread.cpp	1	0	0	1
+Library3rd/MySQL/extlib/zlib/trees.h	4	1	0	5
+Library3rd/MySQL/include/my_time.h	3	0	0	3
+Library3rd/MySQL/include/sha1.h	1	0	0	1
+Library3rd/MySQL/mysys/my_thr_init.c	1	0	0	1
+Library3rd/MySQL/strings/dtoa.c	0	2	0	2
+manager/ManagerApp.cpp	13	7	0	20
+manager/ManagerTypes.cpp	243	88	0	331

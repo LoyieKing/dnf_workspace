@@ -1,0 +1,8 @@
+file	diff	near	missing	sum
+DNFServer/ServerCommon/CFileLogWriterBase.cpp	0	2	0	2
+DNFServer/ServerCommon/DNFFileLog.cpp	6	5	0	11
+DNFServer/ServerCommon/DNFFunctionLib.cpp	12	7	0	19
+DNFServer/ServerCommon/Thread.cpp	1	0	0	1
+monitor/MonitorApp.cpp	38	17	0	55
+monitor/MonitorTable.cpp	6	7	0	13
+monitor/MonitorTypes.cpp	809	128	0	937

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""符号级对照：libtencrypt_new.a vs secagent 二进制。
+"""符号级对照：给定库（.a/.o/可执行）vs 给定二进制。
 
-用法：python3 compare_syms.py [--lib libtencrypt_new.a] [--filter 正则]
+用法：python3 compare_syms.py [--bin <二进制>] [--lib <库或.o>] [--filter 正则]
 输出：二进制有而我们缺的符号（按类分组），以及统计。
 """
 import re
@@ -32,12 +32,23 @@ def nm_symbols(path, tfilter=True):
 
 
 def main():
-    filt = None
     args = sys.argv[1:]
-    if args and args[0] == "--filter":
-        filt = re.compile(args[1])
-    bin_syms = nm_symbols(BIN)
-    our_syms = nm_symbols(LIB)
+    bin_path = BIN
+    lib_path = LIB
+    filt = None
+    while args:
+        a = args.pop(0)
+        if a == "--bin":
+            bin_path = args.pop(0)
+        elif a == "--lib":
+            lib_path = args.pop(0)
+        elif a == "--filter":
+            filt = re.compile(args.pop(0))
+        else:
+            print(f"未知参数: {a}")
+            sys.exit(1)
+    bin_syms = nm_symbols(bin_path)
+    our_syms = nm_symbols(lib_path)
     missing = sorted(bin_syms - our_syms)
     extra = sorted(our_syms - bin_syms)
     if filt:

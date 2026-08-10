@@ -77,7 +77,7 @@ void CApplication::Init(int argc, char** argv)
         CheckArgv(argc, argv);
         CSignalTranslatorInstance()->init(this);
         AttachAppInitor(argv);
-        ((CAppInit*)m_appInit)->Init(this, argc, argv);
+        m_appInit->Init(this, argc, argv);
         m_field31c = 0;
         m_field320 = 0;
         puts("Application Init() Success!");
@@ -137,29 +137,29 @@ void CApplication::Load(int argc, char** argv)
             const char* mgrIp = m_appConfig->Get_ManagerTcpIP();
             unsigned short mgrPort = m_appConfig->Get_ManagerTcpPort();
             CTcpManagerServer* mgr = (CTcpManagerServer*)m_serverHandler2->GetTcpManagerServer();
-            if (*mgrIp == '\0' || mgrPort == 0)
-            {
-                puts("Application TCP cfg empty!");
-                DNF_LOG_SCOPE_LINE(0x1e4, "./log/TcpServer", "Application TCP cfg empty!");
-            }
-            else
+            if (*mgrIp != '\0' && mgrPort != 0)
             {
                 mgr->Init(&m_tcpNetSystem);
                 mgr->SetIP(mgrIp);
                 mgr->SetPort(mgrPort);
                 if (m_tcpNetSystem.OpenTcpService(*mgr->GetSockRef(), mgrIp, mgrPort) == 1)
                 {
+                    printf("Application OpenTcpService(%s, %d) Fail!\n", mgrIp, mgrPort);
+                    DNF_LOG_SCOPE_LINE(0x1d3,"./log/TcpServer", "Application OpenTcpService(%s, %d, %d) Fail!",
+                        mgrIp, mgrPort, mgr->GetSock());
+                }
+                else
+                {
                     DNF_LOG_SCOPE_LINE(0x1dc,"./log/TcpServer", "Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!",
                         mgr->GetSock(), mgrIp, mgrPort);
                     printf("Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!\n",
                         mgr->GetSock(), mgrIp, mgrPort);
                 }
-                else
-                {
-                    printf("Application OpenTcpService(%s, %d) Fail!\n", mgrIp, mgrPort);
-                    DNF_LOG_SCOPE_LINE(0x1d3,"./log/TcpServer", "Application OpenTcpService(%s, %d, %d) Fail!",
-                        mgrIp, mgrPort, mgr->GetSock());
-                }
+            }
+            else
+            {
+                puts("Application TCP cfg empty!");
+                DNF_LOG_SCOPE_LINE(0x1e4, "./log/TcpServer", "Application TCP cfg empty!");
             }
         }
 
@@ -167,39 +167,38 @@ void CApplication::Load(int argc, char** argv)
             const char* dbIp = m_appConfig->Get_DBMWTcpIP();
             unsigned short dbPort = m_appConfig->Get_DBMWTcpPort();
             CTcpDBServer* db = (CTcpDBServer*)m_serverHandler2->GetTcpDBServer();
-            if (*dbIp == '\0' || dbPort == 0)
-            {
-                puts("Application TCP cfg empty!");
-                DNF_LOG_SCOPE_LINE(0x211, "./log/TcpServer", "Application TCP cfg empty!");
-            }
-            else
+            if (*dbIp != '\0' && dbPort != 0)
             {
                 db->Init(&m_tcpNetSystem);
                 db->SetIP(dbIp);
                 db->SetPort(dbPort);
                 if (m_tcpNetSystem.OpenTcpService(*db->GetSockRef(), dbIp, dbPort) == 1)
                 {
+                    printf("Application OpenTcpService(%s, %d) Fail!\n", dbIp, dbPort);
+                    DNF_LOG_SCOPE_LINE(0x200,"./log/TcpServer", "Application OpenTcpService(%s, %d, %d) Fail!",
+                        dbIp, dbPort, db->GetSock());
+                }
+                else
+                {
                     DNF_LOG_SCOPE_LINE(0x209,"./log/TcpServer", "Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!",
                         db->GetSock(), dbIp, dbPort);
                     printf("Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!\n",
                         db->GetSock(), dbIp, dbPort);
                 }
-                else
-                {
-                    printf("Application OpenTcpService(%s, %d) Fail!\n", dbIp, dbPort);
-                    DNF_LOG_SCOPE_LINE(0x200,"./log/TcpServer", "Application OpenTcpService(%s, %d, %d) Fail!",
-                        dbIp, dbPort, db->GetSock());
-                }
+            }
+            else
+            {
+                puts("Application TCP cfg empty!");
+                DNF_LOG_SCOPE_LINE(0x211, "./log/TcpServer", "Application TCP cfg empty!");
             }
         }
 
         srand((unsigned int)(m_appConfig->Get_ServerUdpPort() + time(0)));
 
         m_taskScheduler = new CTaskScheduler;
-        if (time(0) <= CTask_ChristmasEvent::getEventEndTime())
+        if (CTask_ChristmasEvent::getEventEndTime() >= (int)time(0))
         {
-            unsigned int tick = CTask_ChristmasEvent::MakeEventStartTick(0);
-            m_taskScheduler->AddTask(new CTask_ChristmasEvent(tick, 0));
+            m_taskScheduler->AddTask(new CTask_ChristmasEvent(CTask_ChristmasEvent::MakeEventStartTick(0), 0));
         }
         m_taskScheduler->AddTask(new TowerOfDespairReloadAPC_Task(0, 0));
 
@@ -279,102 +278,115 @@ void CApplication::Load(int argc, char** argv)
 
 void CApplication::Free()
 {
-    puts("Application Free Start!");
-    if (m_udpThread != 0)
+    try
     {
-        m_udpThread->stop();
-        delete m_udpThread;
-        m_udpThread = 0;
+        puts("Application Free Start!");
+        if (m_udpThread != 0)
+        {
+            m_udpThread->stop();
+            delete m_udpThread;
+            m_udpThread = 0;
+        }
+        puts("Udp Thread Free Success!");
+        if (m_innerMsgHandler != 0)
+        {
+            delete m_innerMsgHandler;
+            m_innerMsgHandler = 0;
+        }
+        puts("UDP Handler Free Success!");
+        if (m_serverHandler2 != 0)
+        {
+            delete m_serverHandler2;
+            m_serverHandler2 = 0;
+        }
+        puts("Game Server Handler Free Success!");
+        if (m_udpHandler != 0)
+        {
+            ::operator delete(m_udpHandler);
+            m_udpHandler = 0;
+        }
+        puts("UDP Handler Free Success!");
+        CSignalTranslatorInstance()->clear();
+        puts("Signal Translater Free Success!");
+        if (m_appConfig != 0)
+        {
+            delete m_appConfig;
+            m_appConfig = 0;
+        }
+        puts("Application Config Free Success!");
+        if (m_appInit != 0)
+        {
+        delete m_appInit;
+            m_appInit = 0;
+        }
+        puts("Application Initor Free Success!");
+        if (m_taskScheduler != 0)
+        {
+            delete m_taskScheduler;
+            m_taskScheduler = 0;
+        }
+        if (m_field2cc != 0)
+        {
+        delete m_field2cc;
+            m_field2cc = 0;
+        }
+        if (m_memoryCash != 0)
+        {
+            delete m_memoryCash;
+            m_memoryCash = 0;
+        }
+        if (m_towerRank != 0)
+        {
+            delete m_towerRank;
+            m_towerRank = 0;
+        }
+        if (m_itemLimitMgr != 0)
+        {
+            delete m_itemLimitMgr;
+            m_itemLimitMgr = 0;
+        }
+        if (m_ipCounter != 0)
+        {
+            delete m_ipCounter;
+            m_ipCounter = 0;
+        }
+        if (m_field334 != 0)
+        {
+            ::operator delete(m_field334);
+            m_field334 = 0;
+        }
+        if (m_periodicMsg != 0)
+        {
+            delete m_periodicMsg;
+            m_periodicMsg = 0;
+        }
+        if (m_limitNpc != 0)
+        {
+            delete m_limitNpc;
+            m_limitNpc = 0;
+        }
+        if (m_field388 != 0)
+        {
+            ::operator delete(m_field388);
+            m_field388 = 0;
+        }
+        if (m_field330 != 0)
+        {
+        delete m_field330;
+            m_field330 = 0;
+        }
+        puts("Application Exit!");
     }
-    puts("Udp Thread Free Success!");
-    if (m_innerMsgHandler != 0)
+    catch (CDNFException& e)
     {
-        delete m_innerMsgHandler;
-        m_innerMsgHandler = 0;
+        printf("CApplication::Free() Exception Break : %s\n", e.what());
+        throw;
     }
-    puts("UDP Handler Free Success!");
-    if (m_serverHandler2 != 0)
+    catch (...)
     {
-        delete m_serverHandler2;
-        m_serverHandler2 = 0;
+        puts("CApplication::Free() Exception Break");
+        throw;
     }
-    puts("Game Server Handler Free Success!");
-    if (m_udpHandler != 0)
-    {
-        ::operator delete(m_udpHandler);
-        m_udpHandler = 0;
-    }
-    puts("UDP Handler Free Success!");
-    CSignalTranslatorInstance()->clear();
-    puts("Signal Translater Free Success!");
-    if (m_appConfig != 0)
-    {
-        delete m_appConfig;
-        m_appConfig = 0;
-    }
-    puts("Application Config Free Success!");
-    if (m_appInit != 0)
-    {
-        delete (CAppInit*)((char*)this + 0xc);
-        m_appInit = 0;
-    }
-    puts("Application Initor Free Success!");
-    if (m_taskScheduler != 0)
-    {
-        delete m_taskScheduler;
-        m_taskScheduler = 0;
-    }
-    if (m_field2cc != 0)
-    {
-        delete (WongWork::CGMAccounts*)m_field2cc;
-        m_field2cc = 0;
-    }
-    if (m_memoryCash != 0)
-    {
-        delete m_memoryCash;
-        m_memoryCash = 0;
-    }
-    if (m_towerRank != 0)
-    {
-        delete m_towerRank;
-        m_towerRank = 0;
-    }
-    if (m_itemLimitMgr != 0)
-    {
-        delete m_itemLimitMgr;
-        m_itemLimitMgr = 0;
-    }
-    if (m_ipCounter != 0)
-    {
-        delete m_ipCounter;
-        m_ipCounter = 0;
-    }
-    if (m_field334 != 0)
-    {
-        ::operator delete(m_field334);
-        m_field334 = 0;
-    }
-    if (m_periodicMsg != 0)
-    {
-        delete m_periodicMsg;
-        m_periodicMsg = 0;
-    }
-    if (m_limitNpc != 0)
-    {
-        delete m_limitNpc;
-        m_limitNpc = 0;
-    }
-    if (m_field388 != 0)
-    {
-        ::operator delete(m_field388);
-        m_field388 = 0;
-    }
-    if (m_field330 != 0)
-    {
-        delete (CLoginLogoutStatistics*)m_field330;
-        m_field330 = 0;
-    }
-    puts("Application Exit!");
 }
 
 void CApplication::Process()
@@ -434,7 +446,7 @@ void CApplication::Process()
 
 void CApplication::SwitchQueueTCP()
 {
-    CGuard<CMutex> guard(Get_TcpNetSystem()->Get_TcpRecvQLock());
+    CGuard<CMutex> guard(m_tcpNetSystem.Get_TcpRecvQLock());
     if (!IQueue<TcpRecvQueue>::Get()->SwitchQueue())
     {
         CPacketDecoderInstance()->SetTCPQueue(IQueue<TcpRecvQueue>::Get()->GetParseQueue());
@@ -477,6 +489,7 @@ CTcpNetSystem* CApplication::Get_TcpNetSystem()
 
 void CApplication::OnGameServerDown(CGameServer* server)
 {
+    m_userManager.DeleteUsersOnGameServerDown(server);
 }
 
 CServerHandler* CApplication::Get_ServerHandler()
@@ -817,23 +830,27 @@ void CApplication::Add_GM_id(unsigned int id)
 
 void CApplication::Call_DeleteMember(unsigned int key, CUser* user)
 {
+    m_memberManager.MemberMemLogout(key, user, true);
 }
 
 void CApplication::Call_ResetBlackList(unsigned int charNo)
 {
+    m_userManager.ResetBlackList(charNo);
 }
 
 void CApplication::Call_ResetBuddyList(unsigned int charNo)
 {
+    m_userManager.ResetBuddyList(charNo);
 }
 
 void CApplication::Call_ResetUserMemberInfo(unsigned int key)
 {
+    m_userManager.ResetMemberInfo(key);
 }
 
 void* CApplication::Get_UdpPacketRecvQ()
 {
-    return 0;
+    return m_udpSwapQueue.GetRecvQ();
 }
 
 CUdpHandler* CApplication::Get_UdpHandler()
@@ -886,6 +903,9 @@ void CApplication::SetMiniCraneRandomSeed()
 
 void CApplication::SendMiniCraneRandomSeed()
 {
+    Packet_MiniCraneSeed packet;
+    packet.m_fieldA = getMiniCraneSeed();
+    m_serverHandler2->SendAllTcpGameServer(&packet);
 }
 
 void CApplication::UpdateMiniCraneSeed()
@@ -902,11 +922,15 @@ void CApplication::UpdateMiniCraneSeed()
 void CApplication::ProcessTimeSync()
 {
     time_t now = time(0);
-    tm* pt = localtime(&now);
-    int hour = pt->tm_hour;
-    int min = pt->tm_min;
+    tm t = *localtime(&now);
+    int hour = t.tm_hour;
+    int min = t.tm_min;
     if (hour != m_timeSyncHour && hour >= 0 && hour < 0x18 && min >= 0 && min < 0x3c)
     {
+        Packet_Send_Time_Sync pkt;
+        pkt.m_fieldA = (unsigned short)hour;
+        pkt.m_fieldC = (unsigned short)min;
+        m_serverHandler2->SendAllTcpGameServer(&pkt);
         m_timeSyncHour = (short)hour;
     }
 }
@@ -914,9 +938,21 @@ void CApplication::ProcessTimeSync()
 void CApplication::UpdateCollectItems()
 {
     time_t now = time(0);
-    tm* pt = localtime(&now);
-    if ((pt->tm_min & 1U) == 0 && m_field388 != 0)
+    tm t = *localtime(&now);
+    if ((t.tm_min & 1U) == 0)
     {
+        CollectItms* items = (CollectItms*)m_field388;
+        Packet_CollectItemsUpdate pkt;
+        pkt.m_fieldA = *(unsigned int*)((char*)items + 4);
+        pkt.m_fieldF = *(unsigned int*)((char*)items + 8);
+        pkt.m_fieldE = Get_ServerGroup();
+        pkt.m_field13 = *(unsigned char*)((char*)items + 0xc);
+        m_serverHandler2->SendToDB(&pkt);
+        Packet_CollectItemsResult pkt2;
+        pkt2.m_fieldE = *(unsigned int*)((char*)items + 4);
+        pkt2.m_fieldA = *(unsigned int*)((char*)items + 0);
+        pkt2.m_field12 = *(unsigned int*)((char*)items + 8);
+        m_serverHandler2->SendAllTcpGameServer(&pkt2);
     }
 }
 
@@ -929,9 +965,17 @@ CAppBase* CApplicationInstance()
 
 void ShowLogo()
 {
+    putchar('\n');
     puts("**********************************************************");
     puts("* DUNGEON & FIGHTER Monitor Server                        *");
     puts("**********************************************************");
+    puts("**********************************************************");
+    puts("* DUNGEON & FIGHTER Monitor Server                        *");
+    puts("**********************************************************");
+    puts("**********************************************************");
+    CommonTime t;
+    t.SetCurTime();
+    printf("%c%c%c%c%c", t.m_field0, t.m_field1, t.m_field2, t.m_field3, t.m_field4);
 }
 
 int main(int argc, char** argv)

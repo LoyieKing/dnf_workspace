@@ -160,6 +160,8 @@ CNetworkThread::~CNetworkThread()
 
 void CNetworkThread::dispatch(void* param)
 {
+    try
+    {
     if (m_queue != 0 && m_udp != 0 && m_lock != 0)
     {
         DNFFLib::Sleep_Ext(5, 0);
@@ -205,7 +207,7 @@ void CNetworkThread::dispatch(void* param)
                                 *(unsigned short*)buf);
                             {
                                 CGuard<CMutex> g((CMutex*)m_bLock);
-                                CUdpRecvBuffer::operator delete(buf, (unsigned int)m_bLock);
+                                CUdpRecvBuffer::operator delete(buf);
                             }
                         }
                     }
@@ -216,7 +218,7 @@ void CNetworkThread::dispatch(void* param)
                             *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
                         {
                             CGuard<CMutex> g((CMutex*)m_bLock);
-                            CUdpRecvBuffer::operator delete(buf, (unsigned int)m_bLock);
+                            CUdpRecvBuffer::operator delete(buf);
                         }
                     }
                 }
@@ -227,19 +229,30 @@ void CNetworkThread::dispatch(void* param)
                         *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
                     {
                         CGuard<CMutex> g((CMutex*)m_bLock);
-                        CUdpRecvBuffer::operator delete(buf, (unsigned int)m_bLock);
+                        CUdpRecvBuffer::operator delete(buf);
                     }
                 }
             }
             else
             {
                 CGuard<CMutex> g((CMutex*)m_bLock);
-                CUdpRecvBuffer::operator delete(buf, (unsigned int)m_bLock);
+                CUdpRecvBuffer::operator delete(buf);
             }
         }
         return;
     }
     throw CDNFException("NetworkThread is Not Ready!\n");
+    }
+    catch (std::exception& e)
+    {
+        printf("CNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n", e.what());
+        throw CDNFException("CNetworkThread::dispatch() Recv  Socket Exception Break!");
+    }
+    catch (...)
+    {
+        puts("CNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
+        throw CDNFException("CNetworkThread::dispatch() Recv  Socket Exception Break!");
+    }
 }
 
 void CNetworkThread::attach(CApplication* app)

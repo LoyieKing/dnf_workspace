@@ -10,35 +10,10 @@
 #include "RelayBuffer.h"
 #include "RelayLog.h"
 #include "RelayPool.h"
+#include "RelayReactor.h"
 #include "RelayService.h"
 #include "RelaySocket.h"
 #include "RelayThread.h"
-
-// ---- TManager<T>：pManager_@0 ----
-template <class T>
-class TManager
-{
-public:
-    TManager()
-    {
-        pManager_ = 0;
-    }
-    void setManager(T* p)
-    {
-        pManager_ = p;
-    }
-    T* getManager()
-    {
-        return pManager_;
-    }
-    const T* getManager() const
-    {
-        return pManager_;
-    }
-
-private:
-    T* pManager_;
-};
 
 namespace RelayServiceApp
 {
@@ -58,42 +33,51 @@ class UDPHandlerS2S;
 // PacketHeader：type@0(short) / size@2(ushort) / ...（头部 0xc 字节）
 struct PacketHeader
 {
-    short m_type;
-    unsigned short m_size;
-    unsigned int m_accId;
-    unsigned int m_reserved;
+    short m_type;              // +0
+    unsigned short m_size;     // +2
+    unsigned int m_reserved;   // +4
+    unsigned int m_accId;      // +8
 };
 
+#pragma pack(push, 1)
 struct PacketHeaderS2S
 {
-    PacketHeaderS2S(unsigned short a, unsigned short b);
-    unsigned short m_a;  // +0
-    unsigned short m_b;  // +2
-    unsigned short m_c;  // +4
-    unsigned short m_d;  // +6
-    unsigned short m_e;  // +8
-    unsigned int m_f;    // +0xa
-    unsigned char m_g;   // +0xe
+    PacketHeaderS2S(unsigned short a, unsigned short b)
+    {
+        m_a = a;
+        m_b = b;
+        m_c = 0;
+        m_reserved = 0;
+    }
+    unsigned short m_a;       // +0
+    unsigned short m_b;       // +2
+    unsigned short m_c;       // +4
+    unsigned int m_reserved;  // +6
+    unsigned int m_f;         // +0xa
+    unsigned char m_g;        // +0xe
 };
+#pragma pack(pop)
 
 struct Packet_Relay_User_Check : public PacketHeaderS2S
 {
-    Packet_Relay_User_Check();
+    Packet_Relay_User_Check()
+        : PacketHeaderS2S(0x9c4, 0xf)
+    {
+        m_f = 0;
+        m_g = 0;
+    }
 };
 
-// ---- UserState（基类，空）----
+// ---- UserState（独立空类，只有用户构造、平凡析构；ORIG 无 UserStateD1 符号）----
 class UserState
 {
 public:
     UserState()
     {
     }
-    ~UserState()
-    {
-    }
 };
 
-class UDPUserStates : public UserState
+class UDPUserStates
 {
 public:
     UDPUserStates()
@@ -101,7 +85,7 @@ public:
     }
 };
 
-class TCPUserStates : public UserState
+class TCPUserStates
 {
 public:
     TCPUserStates()
@@ -109,13 +93,12 @@ public:
     }
 };
 
-// ---- User：UserState@0 + 2 int ----
-class User
+// ---- User：继承 UserState（EBO），m_acc_id@0 / m_user_id@4 ----
+class User : public UserState
 {
 public:
     User();
     ~User();
-    UserState states_;
     int m_acc_id;
     int m_user_id;
 };
@@ -168,11 +151,11 @@ public:
     Handlers();
     TCPHandlerRelay* getTCPHandlerRelay()
     {
-        return (TCPHandlerRelay*)m_tcpHandlerRelay;
+        return m_tcpHandlerRelay;
     }
     TCPHandler* m_tcpHandler;       // +0
-    UDPHandler* m_udpHandler;       // +4（实际放 UDPHandlerS2S）
-    TCPHandler* m_tcpHandlerRelay;  // +8（实际放 TCPHandlerRelay）
+    UDPHandlerS2S* m_udpHandler;    // +4（实际放 UDPHandlerS2S）
+    TCPHandlerRelay* m_tcpHandlerRelay;  // +8
 };
 
 // ---- Threads：TCPThread*@0 / UDPThread*@4 / UDPThread*@8 / vector<UDPThread*>@0xc ----
@@ -213,13 +196,18 @@ public:
     {
         return m_currentMaxUserCount;
     }
-    double getAverageDispatchTime() const
+    float getAverageDispatchTime() const
     {
+        volatile float f;
         if (m_dispatchCount != 0)
         {
-            return (double)(m_totalDispatchTime / m_dispatchCount);
+            f = (float)(m_totalDispatchTime / m_dispatchCount);
         }
-        return 0.0;
+        else
+        {
+            f = 0.0f;
+        }
+        return f;
     }
     int getMaxDispatchTime() const
     {
@@ -311,8 +299,8 @@ public:
     TDoubleCircularQueueBuffer<51200u> m_sendQueue;  // +0x1902c
 };
 
-// Reactor：包装 TReactor<EpollReactor<TCPUser,TCPSocket,TCPSocket>,...>（0x40）
-class Reactor
+// Reactor：继承 TReactor<EpollReactor<TCPUser,TCPSocket,TCPSocket>,...>（0x40）
+class Reactor : public RelayTReactor
 {
 public:
     Reactor();
@@ -321,19 +309,17 @@ public:
     {
         return this;
     }
-    void unregistHandle(TCPUser* user);
 };
 
-// ---- TCPHandler / TCPHandlerRelay（vptr@0 + TManager@4，8B）----
-class TCPHandler : public TManager<RelayService>
+// ---- TCPHandler / TCPHandlerRelay（派生 vptr@0 + TManager@4，8B）----
+class TCPHandler
 {
 public:
     TCPHandler();
-    virtual ~TCPHandler();
     virtual void dispatch(TCPUser* user, char* buf, int size, int flag) = 0;
 };
 
-class TCPHandlerRelay : public TCPHandler
+class TCPHandlerRelay : public TManager<RelayService>, public TCPHandler
 {
 public:
     TCPHandlerRelay();
@@ -341,16 +327,15 @@ public:
     virtual void dispatch(TCPUser* user, char* buf, int size, int flag);
 };
 
-// ---- UDPHandler / UDPHandlerRelay / UDPHandlerS2S（vptr@0 + TManager@4，8B）----
-class UDPHandler : public TManager<RelayService>
+// ---- UDPHandler / UDPHandlerRelay / UDPHandlerS2S（派生 vptr@0 + TManager@4，8B）----
+class UDPHandler
 {
 public:
     UDPHandler();
-    virtual ~UDPHandler();
     virtual void dispatch(char* buf, int size, int flag) = 0;
 };
 
-class UDPHandlerRelay : public UDPHandler
+class UDPHandlerRelay : public TManager<RelayService>, public UDPHandler
 {
 public:
     UDPHandlerRelay();
@@ -358,7 +343,7 @@ public:
     virtual void dispatch(char* buf, int size, int flag);
 };
 
-class UDPHandlerS2S : public UDPHandler
+class UDPHandlerS2S : public TManager<RelayService>, public UDPHandler
 {
 public:
     UDPHandlerS2S();
@@ -391,7 +376,7 @@ private:
     TCPHandler* m_handler;    // +0x1c
 };
 
-// ---- UDPThread（Thread@0 + TManager@0x14 + port@0x18 + handler@0x1c +
+// ---- UDPThread（Thread@0 + TManager@0x14 + handler@0x18 + port@0x1c +
 //      udpSocket@0x20 + tick@0x24，0x2c）----
 class UDPThread : public Thread, public TManager<RelayService>
 {
@@ -422,8 +407,8 @@ public:
     void logError();
 
 private:
-    int m_port;               // +0x18
-    UDPHandler* m_handler;    // +0x1c
+    UDPHandler* m_handler;    // +0x18
+    int m_port;               // +0x1c
     UDPSocket* m_udpSocket;   // +0x20
     long long m_tick;         // +0x24
 };

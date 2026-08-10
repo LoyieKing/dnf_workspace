@@ -20,9 +20,8 @@ MemPool<CUdpRecvBuffer> m_RecvBufferMemPool_(10000);
 
 template<class T>
 MemPool<T>::MemPool(unsigned int count)
+    : m_classSize(0x204), m_count(count)
 {
-    m_classSize = 0x204;
-    m_count = count;
 }
 
 template<class T>
@@ -54,7 +53,7 @@ void* MemPool<T>::alloc()
             *(void**)((int)block + (m_count - 1) * 0x204 + 0x200) = 0;
             headOfFreeList_ = (void*)((int)block + 0x204);
             result = block;
-            m_chunks.push_back(std::move(block));
+            m_chunks.push_back(static_cast<void*&&>(block));
             DNF_LOG_SCOPE_LINE(0x7d, "./log/Mempool", "class size(%d) cnt(%d)", m_classSize, m_count * (int)m_chunks.size());
         }
         else
@@ -75,8 +74,9 @@ void MemPool<T>::free(void* p)
 {
     if (p != 0)
     {
-        *(void**)((int)p + 0x200) = headOfFreeList_;
-        headOfFreeList_ = p;
+        void* q = p;
+        *((void**)q + 0x80) = headOfFreeList_;
+        headOfFreeList_ = q;
     }
 }
 
@@ -85,14 +85,15 @@ void MemPool<T>::free(void* p, unsigned int size)
 {
     if (p != 0)
     {
-        if (m_classSize == (int)size)
+        if (m_classSize != (int)size)
         {
-            *(void**)((int)p + 0x200) = headOfFreeList_;
-            headOfFreeList_ = p;
+            ::operator delete(p);
         }
         else
         {
-            ::operator delete(p);
+            void* q = p;
+            *((void**)q + 0x80) = headOfFreeList_;
+            headOfFreeList_ = q;
         }
     }
 }
@@ -127,7 +128,7 @@ CDNFUserInOutCounter::~CDNFUserInOutCounter()
 
 void CDNFUserInOutCounter::Reset()
 {
-    memset(this, 0, 0x1926c);
+    memset(m_counters, 0, 0x1926c);
     m_tick = 0;
 }
 
@@ -155,7 +156,7 @@ void CDNFUserInOutCounter::WriteLog()
 void CDNFUserInOutCounter::ProcessWrite()
 {
     m_tick = (char)(m_tick + 1);
-    if ((unsigned char)USER_IN_OUT_WRITE_LOG_TIME < (unsigned char)m_tick)
+    if ((unsigned char)m_tick > (unsigned char)USER_IN_OUT_WRITE_LOG_TIME)
     {
         WriteLog();
         Reset();
@@ -252,22 +253,24 @@ void CKillUSRConfig::Clear_Table()
         for (std::vector<ST_KillUSRConfig*>::iterator it = m_infos.begin(); it != m_infos.end();
              ++it)
         {
-            ::operator delete(*it);
+            ST_KillUSRConfig* p = *it;
+            ::operator delete(p);
+            p = 0;
         }
         m_infos.clear();
     }
 }
 
-int CKillUSRConfig::Parse_Table(char* line, int idx)
+bool CKillUSRConfig::Parse_Table(char* line, int idx)
 {
     if (line[0] == '#')
     {
         return 0;
     }
-    char* tok0 = 0;
-    char* tok1 = 0;
-    char* tok2 = 0;
-    char* tok3 = 0;
+    char* tok0;
+    char* tok1;
+    char* tok2;
+    char* tok3;
     int n = DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 4);
     if (n == 4)
     {
@@ -304,7 +307,8 @@ std::vector<ST_KillUSRConfig*>* CKillUSRConfig::GetInfo() const
 // ---- CommonTime ----
 void CommonTime::SetCurTime()
 {
-    time_t t = time(0);
+    time_t t;
+    time(&t);
     tm* pt = localtime(&t);
     m_time[0] = (char)((char)pt->tm_year - 100);
     m_time[1] = (char)((char)pt->tm_mon + 1);
@@ -317,9 +321,9 @@ void CommonTime::SetCurTime()
 // ---- CSystemTime / CSystemTimeHandler ----
 CSystemTime::CSystemTime()
 {
-    gettimeofday((struct timeval*)((char*)this + 8), 0);
-    *(unsigned int*)((char*)this + 0x10) = *(unsigned int*)((char*)this + 8);
-    *(int*)((char*)this + 4) = *(int*)((char*)this + 0xc) / 1000;
+    gettimeofday(&m_tv, 0);
+    m_sec = m_tv.tv_sec;
+    m_msec = m_tv.tv_usec / 1000;
 }
 
 CSystemTime::~CSystemTime()

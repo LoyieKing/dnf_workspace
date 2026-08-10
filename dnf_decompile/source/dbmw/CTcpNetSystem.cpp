@@ -32,7 +32,31 @@ CTcpNetSystem::CTcpNetSystem()
     m_serverPort = 0;
 }
 
-CTcpNetSystem::~CTcpNetSystem() {}
+CTcpNetSystem::~CTcpNetSystem()
+{
+    CleanPeers();
+    if (m_tcpHandler != 0)
+    {
+        delete m_tcpHandler;
+        m_tcpHandler = 0;
+    }
+    if (m_acceptThread != 0)
+    {
+        void (**vt)(void*) = *(void(***)(void*))m_acceptThread;
+        vt[0](m_acceptThread);
+        if (m_acceptThread != 0)
+            vt[3](m_acceptThread);
+        m_acceptThread = 0;
+    }
+    if (m_field4 != 0)
+    {
+        void (**vt)(void*) = *(void(***)(void*))m_field4;
+        vt[0](m_field4);
+        if (m_field4 != 0)
+            vt[3](m_field4);
+        m_field4 = 0;
+    }
+}
 
 int CTcpNetSystem::OpenTcpService(int& serverCount, const char* ip, unsigned short port)
 {
@@ -55,7 +79,7 @@ int CTcpNetSystem::OpenTcpService(int& serverCount, const char* ip, unsigned sho
         return 0;
     }
     sock->setOptNonBlock();
-    peer->InitPeer(m_recvSwapQueue.GetRecvQ(), Get_TcpRecvQLock(), Get_TcpRecvBLock());
+    peer->InitPeer(Get_TcpSwapQPacket()->GetRecvQ(), Get_TcpRecvQLock(), Get_TcpRecvBLock());
     peer->ConnSig();
     SetEpollConnectedPeer(peer);
     serverCount = sock->getHandle();
@@ -69,11 +93,11 @@ void CTcpNetSystem::Init(unsigned short port)
     m_acceptThread = new CTcpAcceptThread;
     m_acceptThread->attach(this);
     if (!m_acceptThread->begin())
-        throw 1;
+        throw;   // ORIG 失败路径 __cxa_rethrow（rethrow 当前异常），非 throw 1
     m_field4 = new CTcpNetworkThread;
     ((CTcpNetworkThread*)m_field4)->attach(this);
     if (!((CTcpNetworkThread*)m_field4)->begin())
-        throw 1;
+        throw;   // ORIG 失败路径 __cxa_rethrow
 }
 
 void CTcpNetSystem::CleanPeers()
@@ -86,6 +110,7 @@ void CTcpNetSystem::CleanPeers()
         if (peer)
             delete peer;
     }
+    m_peerMap.clear();
 }
 
 void CTcpNetSystem::DeletePeer(CPeer* peer)
@@ -120,9 +145,8 @@ void CTcpNetSystem::SetEpollConnectedPeer(CPeer* peer)
     if (ret != 0)
     {
         printf("Epoll SetPeer fail(fd:%d, error:%d, %s)", fd, ret, strerror(ret));
-        return;
     }
-    m_peerMap[fd] = peer;
+    m_peerMap.insert(std::make_pair(fd, peer));
 }
 
 void CTcpNetSystem::SetEpollAcceptedPeers()
@@ -156,26 +180,17 @@ void CTcpNetSystem::SendPacket()
     if (it == m_peerMap.end())
     {
         CMyFileLog log("CTcpNetSystem::SendPacket", 0xba);
-        log("./log/TcpSend", "SEND FAIL(port:%d,id:%d,size:%d)",
-            port, *(unsigned short*)((char*)buf),
-            *(unsigned short*)((char*)buf + 2));
+        log("./log/TcpSend", "SEND ERR:no peer(id:%d,size:%d,ip:%d)",
+            *(unsigned short*)((char*)buf),
+            *(unsigned short*)((char*)buf + 2), port);
         PopDeleteTcpSendPacketQ(buf);
         return;
     }
     CPeer* peer = it->second;
-    if (!peer)
-    {
-        CMyFileLog log("CTcpNetSystem::SendPacket", 0xba);
-        log("./log/TcpSend", "SEND FAIL(port:%d,id:%d,size:%d)",
-            port, *(unsigned short*)((char*)buf),
-            *(unsigned short*)((char*)buf + 2));
-        PopDeleteTcpSendPacketQ(buf);
-        return;
-    }
-    if (peer->GetTcpSocket()->getHandle() == port)
+    if (!peer || peer->GetTcpSocket()->getHandle() != port)
     {
         CMyFileLog log("CTcpNetSystem::SendPacket", 0xc3);
-        log("./log/TcpSend", "SEND FAIL(peer:%p, id:%d, size:%d, port:%d)",
+        log("./log/TcpSend", "SEND ERR:invalid peer(%x)(id:%d)(size:%d)(ip:%d)",
             peer, *(unsigned short*)((char*)buf),
             *(unsigned short*)((char*)buf + 2), port);
         PopDeleteTcpSendPacketQ(buf);
@@ -189,9 +204,10 @@ void CTcpNetSystem::SendPacket()
     else
     {
         CMyFileLog log("CTcpNetSystem::SendPacket", 0xd5);
-        log("./log/TcpSend", "SEND QUEUE(%d, id:%d, size:%d, port:%d)",
-            (int)m_sendQueue.size(), *(unsigned short*)((char*)buf),
-            *(unsigned short*)((char*)buf + 2), port);
+        log("./log/TcpSend", "SEND(id:%d,size:%d,ip:%d, cnt:%d)",
+            *(unsigned short*)((char*)buf),
+            *(unsigned short*)((char*)buf + 2), port,
+            (int)m_sendQueue.size());
     }
 }
 
@@ -207,7 +223,11 @@ void CTcpNetSystem::PopDeleteTcpSendPacketQ(CTcpSendBuffer* buf)
     }
 }
 
-CTcpSendBuffer* CTcpNetSystem::Acquire_TcpSendBuffer() { return new CTcpSendBuffer; }
+CTcpSendBuffer* CTcpNetSystem::Acquire_TcpSendBuffer()
+{
+    CGuard<CMutex> guard(&m_mutex100);
+    return new CTcpSendBuffer;
+}
 
 void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
 {
@@ -226,12 +246,18 @@ void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
 
 void CTcpNetSystem::CleanTcpSendPacketQ()
 {
+    CGuard<CMutex> guard(&m_mutexE8);
     while (!m_sendQueue.empty())
     {
         CTcpSendBuffer* p = m_sendQueue.front();
         m_sendQueue.pop();
-        delete p;
+        {
+            CGuard<CMutex> guard(&m_mutex100);
+            delete p;
+        }
     }
+    CMyFileLog log("CleanTcpSendPacketQ", 0x16b);
+    log("./log/TcpSend", "Clean Tcp Send Queue Complete !");
 }
 
 int CTcpNetSystem::WaitForEvent()

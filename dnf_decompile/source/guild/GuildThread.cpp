@@ -286,6 +286,12 @@ CTcpNetworkThread::CTcpNetworkThread()
 CTcpNetworkThread::~CTcpNetworkThread()
 {
     m_net = 0;
+    m_recvQ = 0;
+    m_handler = 0;
+    m_recvQLock = 0;
+    m_sendQ = 0;
+    m_sendQLock = 0;
+    m_sendBLock = 0;
 }
 
 void CTcpNetworkThread::attach(CTcpNetSystem* net)
@@ -293,7 +299,8 @@ void CTcpNetworkThread::attach(CTcpNetSystem* net)
     if (net != 0)
     {
         m_net = net;
-        m_recvQ = net->Get_TcpSwapQPacket();
+        m_recvQ =
+            ((CSwapQueue<std::queue<CTcpRecvBuffer*>, 2>*)net->Get_TcpSwapQPacket())->GetRecvQ();
         m_handler = net->Get_TcpHandler();
         m_recvQLock = net->Get_TcpRecvQLock();
         m_recvBLock = net->Get_TcpRecvBLock();
@@ -309,47 +316,58 @@ void CTcpNetworkThread::dispatch(void* param)
     int eventCount = 0;
     m_runningFlag = 1;
     DNFFLib::Sleep_Ext(5, 0);
-    while (true)
+    try
     {
-        do
+        while (m_runningFlag)
         {
-            do
+            errno = 0;
+            DNFFLib::Sleep_Ext(0, 5);
+            if (m_net == 0)
             {
-                if (m_runningFlag == 0)
-                {
-                    DNF_LOG_SCOPE_LINE(0xae, "./log/TcpRecv", "RecvThread Terminate");
-                    return;
-                }
-                errno = 0;
-                DNFFLib::Sleep_Ext(0, 5);
-            } while (m_net == 0);
+                continue;
+            }
             m_net->SetEpollAcceptedPeers();
             m_net->SendPacket();
             eventCount = m_net->WaitForEvent();
-        } while (eventCount == 0);
-        if (eventCount < 0 && errno != EINTR && errno != 0)
-        {
-            break;
-        }
-        for (int i = 0; i < eventCount; i++)
-        {
-            CTcpHandler* handler = (CTcpHandler*)m_handler;
-            CPeer* p = (CPeer*)handler->GetEventPtr(i);
-            bool isIn = p != 0 && handler->IsSetInEvent(i);
-            if (isIn && p->RecvPacket() != 1)
+            if (eventCount == 0)
             {
-                p->DisConnSig();
-                m_net->DeletePeer(p);
-                p = 0;
+                continue;
             }
-            bool isOut = p != 0 && p->get_remain_sendlen() != 0 &&
-                         handler->IsSetOutEvent(i);
-            if (isOut && p->get_remain_sendlen() < 0x1801)
+            if (eventCount < 0 && errno != EINTR && errno != 0)
             {
-                p->send_packet();
+                break;
             }
-            handler->IsSetErrEvent(i);
+            for (int i = 0; i < eventCount; i++)
+            {
+                CTcpHandler* handler = (CTcpHandler*)m_handler;
+                CPeer* p = (CPeer*)handler->GetEventPtr(i);
+                bool isIn = p != 0 && handler->IsSetInEvent(i);
+                if (isIn && p->RecvPacket() != 1)
+                {
+                    p->DisConnSig();
+                    m_net->DeletePeer(p);
+                    p = 0;
+                }
+                bool isOut = p != 0 && p->get_remain_sendlen() != 0 &&
+                             handler->IsSetOutEvent(i);
+                if (isOut && p->get_remain_sendlen() < 0x1801)
+                {
+                    p->send_packet();
+                }
+                handler->IsSetErrEvent(i);
+            }
         }
+        DNF_LOG_SCOPE_LINE(0xae, "./log/TcpRecv", "RecvThread Terminate");
+    }
+    catch (CDNFException& e)
+    {
+        printf("CTcpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n", e.what());
+        throw CDNFException("CTcpNetworkThread::dispatch() Recv  Socket Exception Break!");
+    }
+    catch (...)
+    {
+        puts("CTcpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
+        throw CDNFException("CTcpNetworkThread::dispatch() Recv  Socket Exception Break!");
     }
 }
 
@@ -366,7 +384,6 @@ CTcpAcceptThread::CTcpAcceptThread()
 
 CTcpAcceptThread::~CTcpAcceptThread()
 {
-    m_recvBLock = 0;
     m_recvQLock = 0;
     m_net = 0;
     ((TCPSocket*)m_sock)->~TCPSocket();
@@ -405,8 +422,9 @@ void CTcpAcceptThread::dispatch(void* param)
                             printf("Accept GameServer Fail(Port : %d)\n", ps->getHandle());
                         }
                         printf("Accept GameServer(Port : %d)\n", ps->getHandle());
-                        peer->InitPeer((std::queue<CTcpRecvBuffer*>*)m_net->Get_TcpSwapQPacket(),
-                                       (CMutex*)m_recvQLock, (CMutex*)m_recvBLock);
+                        peer->InitPeer(
+                            ((CSwapQueue<std::queue<CTcpRecvBuffer*>, 2>*)m_net->Get_TcpSwapQPacket())->GetRecvQ(),
+                                       m_net->Get_TcpRecvQLock(), m_net->Get_TcpRecvBLock());
                         peer->ConnSig();
                         m_net->InsertAcceptedPeer(peer);
                     }

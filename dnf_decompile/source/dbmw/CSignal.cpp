@@ -119,11 +119,10 @@ void CSignal::attachApp(CApplication* app) { m_app = app; }
 CSignalTranslator::CSignalTranslator() {}
 CSignalTranslator::~CSignalTranslator() {}
 
-static CSignalTranslator g_signalTranslator;
-
 CSignalTranslator* CSignalTranslatorInstance()
 {
-    return &g_signalTranslator;
+    static CSignalTranslator instance;
+    return &instance;
 }
 
 char CSignalTranslator::regist_signal(int sig, void (*handler)(int))

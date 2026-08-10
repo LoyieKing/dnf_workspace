@@ -18,7 +18,7 @@ import monitorlib
 
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/monitor/df_monitor_r'
-NEW = ROOT / 'dnf_decompile/source/build-monitor/df_monitor_r'
+NEW = ROOT / 'dnf_decompile/build/monitor/df_monitor_r'
 OUT_MD = ROOT / 'dnf_decompile/docs/df_monitor_r_validation.md'
 
 import compare_monitor as cm

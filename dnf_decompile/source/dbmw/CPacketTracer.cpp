@@ -27,7 +27,6 @@ int getErrno();
 CPacketTracer::CPacketTracer()
 {
     m_field0 = 0;
-    m_log = "";
     m_timer = 0;
     m_processCount = 0;
     m_timer = new CUnixTimer;
@@ -43,7 +42,7 @@ void CPacketTracer::WriteLog()
 {
     if (m_field0 % 30 == 0)
     {
-        CMyFileLog log("WriteLog", 0x26);
+        CMyFileLog log("WriteLog", 0x37);
         log("./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
         ResetLog();
     }
@@ -52,20 +51,19 @@ void CPacketTracer::WriteLog()
 void CPacketTracer::AddLog(int type, int len)
 {
     char buf[0x20] = {0};
-    sprintf(buf, "(%d/%d)", type, len);
+    sprintf(buf, "(%d/%d)", len, type);
     m_log += buf;
     m_field0++;
 }
 
 void CPacketTracer::AbsoluteWriteLog()
 {
-    CMyFileLog log("AbsoluteWriteLog", 0x2e);
+    CMyFileLog log("AbsoluteWriteLog", 0x3f);
     log("./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
     ResetLog();
 }
 
-static CPacketTracer g_packetTracer;
-CPacketTracer* CPacketTracerInstance() { return &g_packetTracer; }
+CPacketTracer* CPacketTracerInstance() { static CPacketTracer instance; return &instance; }
 
 void CPacketTracer::ResetLog() { m_log.clear(); }
 

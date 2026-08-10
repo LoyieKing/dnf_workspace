@@ -1,0 +1,10 @@
+header	depending_tus
+DNFServer/ServerCommon/DNFFileLog.h	DNFServer/ServerCommon/CFileLogWriterBase.cpp,DNFServer/ServerCommon/DNFFileLog.cpp,DNFServer/ServerCommon/DNFFunctionLib.cpp,monitor/MonitorApp.cpp,monitor/MonitorTable.cpp,monitor/MonitorTypes.cpp
+DNFServer/ServerCommon/DNFFunctionLib.h	DNFServer/ServerCommon/DNFFileLog.cpp,DNFServer/ServerCommon/DNFFunctionLib.cpp,monitor/MonitorApp.cpp,monitor/MonitorTable.cpp,monitor/MonitorTypes.cpp
+DNFServer/ServerCommon/Thread.h	DNFServer/ServerCommon/CFileLogWriterBase.cpp,DNFServer/ServerCommon/DNFFileLog.cpp,DNFServer/ServerCommon/DNFFunctionLib.cpp,DNFServer/ServerCommon/Thread.cpp,monitor/MonitorApp.cpp,monitor/MonitorTable.cpp,monitor/MonitorTypes.cpp
+DNFServer/ServerCommon/tinyxml.h	monitor/MonitorApp.cpp,monitor/MonitorTable.cpp,monitor/MonitorTypes.cpp
+monitor/MonitorApp.h	monitor/MonitorApp.cpp,monitor/MonitorTable.cpp,monitor/MonitorTypes.cpp
+monitor/MonitorTable.h	monitor/MonitorApp.cpp,monitor/MonitorTable.cpp,monitor/MonitorTypes.cpp
+monitor/MonitorTypes.h	monitor/MonitorApp.cpp,monitor/MonitorTable.cpp,monitor/MonitorTypes.cpp
+shared/common/include/ReverseEngineerLib.h	monitor/MonitorApp.cpp,monitor/MonitorTable.cpp,monitor/MonitorTypes.cpp
+shared/packet/include/PacketHeader.h	monitor/MonitorApp.cpp,monitor/MonitorTable.cpp,monitor/MonitorTypes.cpp

@@ -36,16 +36,18 @@ void CThreadInterface::join()
 bool CThreadInterface::begin()
 {
     int r = pthread_create(&m_handle, 0, dispatch_proxy, this);
-    if (-1 >= r)
+    if (r < 0)
     {
         puts("[ThreadInterface::begin] Can't begin thread");
+        return false;
     }
-    return -1 < r;
+    return true;
 }
 
 void* CThreadInterface::dispatch_proxy(void* temp)
 {
-    ((CThreadInterface*)temp)->dispatch(temp);
+    CThreadInterface* th = (CThreadInterface*)temp;
+    th->dispatch(temp);
     return 0;
 }
 
@@ -155,8 +157,8 @@ void CFrameCountHandler::SaveProcess(int interval)
 }
 
 CAppThread::CAppThread()
+    : m_app(0)
 {
-    m_app = 0;
     m_queue = 0;
     m_lock = 0;
     m_reserved = 0;
@@ -293,7 +295,7 @@ void CNetworkThread::dispatch(void* param)
                                     *(unsigned short*)buf);
                                 {
                                     CGuard<CMutex> g((CMutex*)m_bLock);
-                                    CUdpRecvBuffer::operator delete(buf, (unsigned int)m_bLock);
+                                    CUdpRecvBuffer::operator delete(buf);
                                 }
                             }
                         }
@@ -304,7 +306,7 @@ void CNetworkThread::dispatch(void* param)
                                 *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
                             {
                                 CGuard<CMutex> g((CMutex*)m_bLock);
-                                CUdpRecvBuffer::operator delete(buf, (unsigned int)m_bLock);
+                                CUdpRecvBuffer::operator delete(buf);
                             }
                         }
                     }
@@ -315,14 +317,14 @@ void CNetworkThread::dispatch(void* param)
                             *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
                         {
                             CGuard<CMutex> g((CMutex*)m_bLock);
-                            CUdpRecvBuffer::operator delete(buf, (unsigned int)m_bLock);
+                            CUdpRecvBuffer::operator delete(buf);
                         }
                     }
                 }
                 else
                 {
                     CGuard<CMutex> g((CMutex*)m_bLock);
-                    CUdpRecvBuffer::operator delete(buf, (unsigned int)m_bLock);
+                    CUdpRecvBuffer::operator delete(buf);
                 }
             }
             return;

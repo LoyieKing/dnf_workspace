@@ -20,7 +20,7 @@ from compare_common import norm_identical
 
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/dbmw_guild/df_dbmw_r'
-NEW = ROOT / 'dnf_decompile/source/build-dbmw/df_dbmw_r'
+NEW = ROOT / 'dnf_decompile/build/dbmw/df_dbmw_r'
 
 
 def main():

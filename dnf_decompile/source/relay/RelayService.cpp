@@ -8,6 +8,14 @@
 #include "RelayCommon.h"
 #include "RelayService.h"
 
+ServiceInfo::ServiceInfo()
+{
+}
+
+IService::IService()
+{
+}
+
 static void __attribute__((regparm(0))) _evlog(const char* sz)
     __asm__("_ZL6_evlogPKc");
 static void __attribute__((regparm(0))) _evlog(const char* sz)

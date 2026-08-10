@@ -1,0 +1,17 @@
+file	diff	near	missing	sum
+DNFServer/ServerCommon/CFileLogWriterBase.cpp	0	2	0	2
+DNFServer/ServerCommon/DNFFileLog.cpp	6	5	0	11
+DNFServer/ServerCommon/DNFFunctionLib.cpp	12	7	0	19
+DNFServer/ServerCommon/Thread.cpp	1	0	0	1
+guild/GuildApp.cpp	22	6	0	28
+guild/GuildDomain.cpp	459	33	0	492
+guild/GuildInit.cpp	5	6	0	11
+guild/GuildMisc.cpp	64	22	0	86
+guild/GuildPacket.cpp	133	1	0	134
+guild/GuildPacketCtor.cpp	77	1	0	78
+guild/GuildServer.cpp	73	13	0	86
+guild/GuildSignal.cpp	13	17	0	30
+guild/GuildStCtor.cpp	19	3	0	22
+guild/GuildTable.cpp	29	6	0	35
+guild/GuildThread.cpp	32	6	0	38
+guild/GuildUdp.cpp	8	0	0	8

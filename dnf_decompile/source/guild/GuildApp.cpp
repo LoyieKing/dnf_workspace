@@ -13,6 +13,7 @@
 #include "GuildInit.h"
 #include "GuildUdp.h"
 #include "GuildPackets.h"
+#include "GuildMisc.h"
 #include "DNFFileLog.h"
 #include "DNFFunctionLib.h"
 
@@ -157,14 +158,16 @@ void CApplication::Load(int argc, char** argv)
     m_powerManager.SetPowerDBFlag(2);
     typedef std::queue<CTcpRecvBuffer*> TcpRecvQueue;
     IQueue<TcpRecvQueue>::Get()->InitQueue(
-        (TcpRecvQueue*)m_tcpNetSystem.Get_TcpSwapQPacket(),
-        (TcpRecvQueue*)((char*)m_tcpNetSystem.Get_TcpSwapQPacket() + 0x2c));
+        ((CSwapQueue<TcpRecvQueue, 2>*)m_tcpNetSystem.Get_TcpSwapQPacket())->GetRecvQ(),
+        ((CSwapQueue<TcpRecvQueue, 2>*)m_tcpNetSystem.Get_TcpSwapQPacket())->GetParseQ());
     m_loaded = true;
     puts("Application Load() Success!");
 }
 
 void CApplication::Free()
 {
+    try
+    {
     puts("Application Free Start!");
     CServerHandler* handler = Get_ServerHandler();
     m_guildManager.DBGuildAndGuildMemberSave(handler);
@@ -208,11 +211,21 @@ void CApplication::Free()
     puts("Application Config Free Success!");
     if (m_appInit != 0)
     {
-        m_appInit->Free(this);
         delete m_appInit;
         m_appInit = 0;
     }
     puts("Application Initor Free Success!");
+    }
+    catch (CDNFException& e)
+    {
+        printf("CApplication::Free() Exception Break : %s\n", e.what());
+        throw;
+    }
+    catch (...)
+    {
+        puts("CApplication::Free() Exception Break");
+        throw;
+    }
 }
 
 void CApplication::Process()
@@ -306,6 +319,8 @@ void CApplication::Send_Suspend_Signal(const std::string& name)
 void CApplication::App_Stop()
 {
     m_loaded = false;
+    m_guildManager.DBGuildAndGuildMemberSave(Get_ServerHandler());
+    puts("Guild And Guild Member DB Save Success!");
 }
 
 void CApplication::SendTestPacket_1()
@@ -526,7 +541,7 @@ WongWork::CGMAccounts* CApplication::GetGMAccounts()
 
 CGameServer* CApplication::FindGameServer(int group)
 {
-    return m_serverHandler ? m_serverHandler->GetGameServer((unsigned int)group) : 0;
+    return m_serverHandler->GetGameServer((unsigned int)group);
 }
 
 CTcpGameServer* CApplication::FindTcpGameServer(unsigned int group)
@@ -536,10 +551,12 @@ CTcpGameServer* CApplication::FindTcpGameServer(unsigned int group)
 
 void CApplication::OnGameServerDown(CGameServer* server)
 {
+    m_userManager.DeleteUsersOnGameServerDown(server);
 }
 
 void CApplication::OnTcpGameServerDown(CTcpGameServer* server)
 {
+    m_userManager.DeleteUsersOnTcpGameServerDown(server);
 }
 
 void CApplication::Call_DeleteGuildMember(unsigned int group, CUser* user)
@@ -557,5 +574,9 @@ void ShowLogo()
     puts("* |   |  | | |  |      Open Beta Test on 2005.08.10~     *");
     puts("* +---   + +-+  |      Copyright(c) 2004,2005 Neople Co. *");
     puts("**********************************************************");
-    printf("[!] Service Date\n");
+    CommonTime curTime;
+    curTime.SetCurTime();
+    printf("[!] Service Date (%02d-%02d-%02d/%02d:%02d)\n",
+           curTime.m_time[0], curTime.m_time[1], curTime.m_time[2],
+           curTime.m_time[3], curTime.m_time[4]);
 }

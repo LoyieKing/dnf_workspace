@@ -183,7 +183,7 @@ unsigned char CAppConfig::Get_ServerGroup()
     return m_serverGroup;
 }
 
-unsigned char CAppConfig::Get_FrameCountValue()
+unsigned short CAppConfig::Get_FrameCountValue()
 {
     return m_frameCountValue;
 }
@@ -232,5 +232,24 @@ void CServerConfig::Load_Table(const std::string& path)
 }
 int CServerConfig::Parse_Table(char* line, int idx)
 {
-    return 0;
+    if (*(char*)line == '#')
+    {
+        return 0;
+    }
+    char* tokens[5];
+    if (DNFFLib::ExplodeString(line, " \t\r\n\"", tokens, 5) != 5)
+    {
+        return 0;
+    }
+    if (idx > 0xfe)
+    {
+        return 0;
+    }
+    ST_ServerInfo* entry = &m_table[idx];
+    *(char*)((char*)entry + 0) = (char)atoi(tokens[0]);
+    *(char*)((char*)entry + 1) = (char)atoi(tokens[1]);
+    *(char*)((char*)entry + 2) = (char)atoi(tokens[2]);
+    entry->m_str = tokens[3];
+    *(unsigned short*)((char*)entry + 8) = (unsigned short)atoi(tokens[4]);
+    return 1;
 }

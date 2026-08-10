@@ -35,7 +35,7 @@ def dis(b,name):
     return []
 def main():
     tu = sys.argv[1]  # e.g. "Exception.cpp"
-    obj = sys.argv[2] if len(sys.argv)>2 else f"source/build-channel/{tu.replace('.cpp','')}.o"
+    obj = sys.argv[2] if len(sys.argv)>2 else f"build/channel/{tu.replace('.cpp','')}.o"
     fn2cu = json.load(open(FN2CU))
     tu_names = [n for n,v in fn2cu.items() if v['cu']==tu]
     orig = syms(ORIG); new = syms(obj)

@@ -304,9 +304,7 @@ int CSignalTranslator::getSignal(int sig) const
 
 void signal_handler(int sig)
 {
-    CSignalTranslator* st = CSignalTranslatorInstance();
-    CSignal* s = (CSignal*)st->getSignal(sig);
-    s->handle(sig);
+    ((CSignal*)CSignalTranslatorInstance()->getSignal(sig))->handle(sig);
 }
 
 CSignalTranslator* CSignalTranslatorInstance()

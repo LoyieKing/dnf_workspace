@@ -972,25 +972,26 @@ void CPacketTranslater::OnDBMWInsertMail(PacketHeader* header)
 
 void CPacketTranslater::OnQueryMember(PacketHeader* header)
 {
-    if (!m_pclApp)
-        return;
     try
     {
-        Packet_DBMW_Query_Member* pkt = (Packet_DBMW_Query_Member*)header;
         Packet_DB_Reply_Query_Member reply;
-        *(unsigned int*)((char*)&reply + 0xb) = pkt->m_characNo;
-        if (!m_pclApp->m_dbManager.QueryMember(
-                pkt->m_characNo, reply))
+        if (m_pclApp)
         {
-            CMyFileLog log("OnQueryMember", 0x117);
-            log("./log/QueryErr",
-                "CPacketTranslater::OnQueryMember() Error, member_id(%d)",
-                pkt->m_characNo);
-            CMonitorServer* ms =
-                m_pclApp->m_serverHandler->GetMonitorServer();
-            int size =
-                *(unsigned char*)((char*)&reply + 0x3e) * 0x2b + 0x3f;
-            ms->SendToServer((char*)&reply, size);
+            Packet_DBMW_Query_Member* pkt = (Packet_DBMW_Query_Member*)header;
+            reply.m_fieldB = pkt->m_characNo;
+            if (!m_pclApp->m_dbManager.QueryMember(
+                    pkt->m_characNo, reply))
+            {
+                CMyFileLog log("OnQueryMember", 0x117);
+                log("./log/QueryErr",
+                    "CPacketTranslater::OnQueryMember() Error, member_id(%d)",
+                    pkt->m_characNo);
+                CMonitorServer* ms =
+                    m_pclApp->m_serverHandler->GetMonitorServer();
+                int size =
+                    *(unsigned char*)((char*)&reply + 0x3e) * 0x27 + 0x3f;
+                ms->SendToServer((char*)&reply, size);
+            }
         }
     }
     DNF_CATCH_LOG_PRINTF("./log/Except",
@@ -1000,26 +1001,27 @@ void CPacketTranslater::OnQueryMember(PacketHeader* header)
 
 void CPacketTranslater::OnQueryGuildMember(PacketHeader* header)
 {
-    if (!m_pclApp)
-        return;
     try
     {
-        Packet_DBMW_Query_Guild_Member* pkt =
-            (Packet_DBMW_Query_Guild_Member*)header;
         Packet_DB_Reply_Query_Guild_Member reply;
-        *(unsigned int*)((char*)&reply + 0xf) = pkt->m_guildId;
-        if (!m_pclApp->m_dbManager.QueryGuildMember(
-                pkt->m_serverId, pkt->m_guildId,
-                reply))
+        if (m_pclApp)
         {
-            CMyFileLog log("OnQueryGuildMember", 0x98);
-            log("./log/Except",
-                "CPacketTranslater::OnQueryGuildMember() Query Error : %d, Char No : %d, Guild Id : %d",
-                *(unsigned int*)((char*)&reply + 0xb),
-                pkt->m_guildId,
-                *(unsigned char*)((char*)&reply + 0xa));
-            m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
-                (char*)&reply, 0x2d);
+            Packet_DBMW_Query_Guild_Member* pkt =
+                (Packet_DBMW_Query_Guild_Member*)header;
+            reply.m_fieldF = pkt->m_guildId;
+            if (!m_pclApp->m_dbManager.QueryGuildMember(
+                    pkt->m_serverId, pkt->m_guildId,
+                    reply))
+            {
+                CMyFileLog log("OnQueryGuildMember", 0x98);
+                log("./log/Except",
+                    "CPacketTranslater::OnQueryGuildMember() Query Error : %d, Char No : %d, Guild Id : %d",
+                    *(unsigned int*)((char*)&reply + 0xb),
+                    pkt->m_guildId,
+                    *(unsigned char*)((char*)&reply + 0xa));
+                m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
+                    (char*)&reply, 0x2d);
+            }
         }
     }
     DNF_CATCH_LOG_PRINTF("./log/Except",
@@ -2528,17 +2530,17 @@ void CPacketTranslater::OnInnerPacketLogin(PacketHeader* header)
     {
         if (!m_pclApp)
         {
-            CMyFileLog log("OnInnerPacketLogin", 0x1f0);
+            CMyFileLog log("OnInnerPacketLogin", 0xbfa);
             log("./log/Except", "CPacketTranslater::OnInnerPacketLogin : 0 == m_pclApp");
             return;
         }
-        CMyFileLog log("OnInnerPacketLogin", 0x1f6);
+        CMyFileLog log("OnInnerPacketLogin", 0xc00);
         log("./log/TcpServer", "CPacketTranslater::OnInnerPacketLogin (sock:%d)",
             (int)((Packet_InnerPakcet_Login*)header)->reversed2);
     }
     DNF_CATCH_LOG("./log/Except",
                   "CPacketTranslater::OnInnerPacketLogin Exception Break",
-                  0x1fa, 0x1ff);
+                  0xc04, 0xc09);
 }
 
 void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
@@ -2547,7 +2549,7 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
     {
         if (!m_pclApp)
         {
-            CMyFileLog log("OnInnerPacketLogout", 0x20a);
+            CMyFileLog log("OnInnerPacketLogout", 0xc14);
             log("./log/Except", "CPacketTranslater::OnInnerPacketLogout : 0 == m_pclApp");
             return;
         }
@@ -2556,7 +2558,7 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
         CTcpServer* server = handler->GetTcpServer((unsigned int)port);
         if (!server)
         {
-            CMyFileLog log("OnInnerPacketLogout", 0x215);
+            CMyFileLog log("OnInnerPacketLogout", 0xc1f);
             log("./log/TcpServer", "CPacketTranslater::OnInnerPacketLogout Invalid Server Instance(sock:%d)",
                 port);
             return;
@@ -2565,19 +2567,19 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
         handler = m_pclApp->Get_ServerHandler();
         if (!handler->DeleteTcpServer(idx))
         {
-            CMyFileLog log("OnInnerPacketLogout", 0x21d);
+            CMyFileLog log("OnInnerPacketLogout", 0xc27);
             log("./log/TcpServer", "CPacketTranslater::OnInnerPacketLogout DeleteTcpServer fail(sock:%d)",
                 port);
             return;
         }
-        CMyFileLog log("OnInnerPacketLogout", 0x221);
+        CMyFileLog log("OnInnerPacketLogout", 0xc2b);
         log("./log/TcpServer",
             "CPacketTranslater::OnInnerPacketLogout DeleteTcpServer Success(TYPE:%d, sock:%d)",
             idx, port);
     }
     DNF_CATCH_LOG("./log/Except",
                   "CPacketTranslater::OnInnerPacketLogout Exception Break",
-                  0x225, 0x22a);
+                  0xc2f, 0xc34);
 }
 
 void CPacketTranslater::OnTcpServerLogin(PacketHeader* header)
@@ -2628,7 +2630,7 @@ void CPacketTranslater::OnTcpServerLogout(PacketHeader* header)
         CServerHandler* handler = m_pclApp->Get_ServerHandler();
         if (!handler->GetTcpServer(idx))
         {
-            CMyFileLog log("OnTcpServerLogout", 0x269);
+            CMyFileLog log("OnTcpServerLogout", 0xc74);
             log("./log/TcpServer",
                 "CPacketTranslater::OnTcpServerLogout Invalid Server Instance(TYPE:%d, sock:%d)",
                 idx, port);
@@ -2636,19 +2638,19 @@ void CPacketTranslater::OnTcpServerLogout(PacketHeader* header)
         }
         if (!handler->DeleteTcpServer(idx))
         {
-            CMyFileLog log("OnTcpServerLogout", 0x26f);
+            CMyFileLog log("OnTcpServerLogout", 0xc7a);
             log("./log/TcpServer",
                 "CPacketTranslater::OnTcpServerLogout DeleteTcpServer fail(TYPE:%d, sock:%d)",
                 idx, port);
             return;
         }
         printf("CPacketTranslater::OnTcpServerLogout(TYPE:%d, sock:%d)", idx, port);
-        CMyFileLog log("OnTcpServerLogout", 0x273);
+        CMyFileLog log("OnTcpServerLogout", 0xc7e);
         log("./log/TcpServer", "CPacketTranslater::OnTcpServerLogout(TYPE:%d, sock:%d)", idx, port);
     }
     DNF_CATCH_LOG("./log/Except",
                   "CPacketTranslater::OnTcpServerLogout Exception Break",
-                  0x277, 0x27c);
+                  0xc82, 0xc87);
 }
 
 void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)
@@ -2664,7 +2666,7 @@ void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)
         CTcpServer* server = handler->GetTcpServer(idx);
         if (!server)
         {
-            CMyFileLog log("OnTcpServerHeartbeat", 0x28d);
+            CMyFileLog log("OnTcpServerHeartbeat", 0xc98);
             log("./log/TcpServer",
                 "CPacketTranslater::OnTcpServerHeartbeat Invalid Server Instance(TYPE:%d, sock:%d)",
                 idx, (int)pkt->reversed2);
@@ -2674,7 +2676,7 @@ void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)
     }
     DNF_CATCH_LOG("./log/Except",
                   "CPacketTranslater::OnTcpServerHeartbeat Exception Break",
-                  0x299, 0x29e);
+                  0xca4, 0xca9);
 }
 
 void CPacketTranslater::OnWebNoticeInGameAD(PacketHeader* header)

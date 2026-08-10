@@ -14,11 +14,11 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from compare_common import CALIBER_VERSION, norm_identical
+from compare_common import CALIBER_VERSION, norm_identical, is_exempt_symbol, demangle_batch
 
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/manager/df_manager_r'
-NEW = ROOT / 'dnf_decompile/source/build-manager/df_manager_r'
+NEW = ROOT / 'dnf_decompile/build/manager/df_manager_r'
 SIG_CACHE = '/tmp/manager_sig_cache.pkl'
 
 sys.path.insert(0, '/tmp')
@@ -108,7 +108,9 @@ def main():
     newset = new_names | set(norm_sym(k) for k in new_names)
 
     names = sorted(orig_names)
-    names = [n for n in names if is_app(n)]
+    names = [n for n in names if is_app(n) and not is_exempt_symbol(n)]
+    dem = demangle_batch(names)
+    names = [n for n in names if not is_exempt_symbol(n, dem.get(n, n))]
     if pat:
         rx = re.compile(pat)
         names = [n for n in names if rx.search(n)]

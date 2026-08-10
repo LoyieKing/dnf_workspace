@@ -28,7 +28,7 @@ wait_jobs() {
 }
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
-OUT_DIR="$ROOT/build-coserver"
+OUT_DIR="$ROOT/../build/coserver"
 COS="$ROOT/coserver"
 COMMUNITY="$ROOT/Community/src"
 COMMON="$ROOT/DNFServer/ServerCommon"

@@ -78,7 +78,7 @@ public:
     {
         bool operator==(const stGMInfo_t& other) const;
         unsigned int m_field0;
-        unsigned char m_field1;
+        int m_field1;
     };
     void LoadGmList(unsigned int group, int index);
     void clearGmList();
@@ -102,17 +102,17 @@ public:
     void SetSpecialDayHour(int day, int hour);
     int IsOnTimeSpecialHour(int hour, int min);
     int IsOnTimeSpecialDayHour(int day, int hour, int min);
-    char m_day;      // +0
+    char m_sec;      // +0（ORIG：day 在 +3，+0 未使用）
     char m_min;      // +1
     char m_hour;     // +2
-    char m_sec;      // +3
+    char m_day;      // +3
     unsigned short m_week;  // +4
     char m_flag1;    // +6
     char m_flag2;    // +7
 };
 
 bool CheckDailyScheduleTimeOver(int hour, long t);
-int CheckDayHourScheduleTimeOver(int day, int hour, long t);
+bool CheckDayHourScheduleTimeOver(int day, int hour, long t);
 
 // ---- CHWSpecResearcher：0x6C ----
 class CHWSpecResearcher
@@ -158,12 +158,12 @@ public:
     public:
         FrameLagDataStruct();
         void init();
-        char m_data[0x24c];  // +0（实际大小 0x24c，map 节点 0x25c）
+        char m_data[0x248];  // +0（实际大小 0x248，map 节点 0x25c）
     };
     class MonitoringSpecCase
     {
     public:
-        char m_data[0x28];  // +0（实际大小 0x28，map 节点 0x34）
+        char m_data[0x20];  // +0（实际大小 0x20，map 节点 0x34）
     };
 
     FrameLagCollector();
@@ -185,7 +185,7 @@ public:
     void LoadSpec(CServerHandler* handler);
     void accFrameLagStruct(FrameLagDataStruct& data, FrameLagStruct* pkt);
 
-    int m_field0;                       // +0
+    unsigned char m_field0;             // +0
     int m_field4;                       // +4
     int m_field8;                       // +8
     int m_fieldc;                       // +0xc
@@ -225,7 +225,17 @@ public:
     void PushAbnormalExitData(Packet_Abnormal_Exit_Statistic* pkt);
     void InitUdpCharacteristicData();
     void SaveUdpCharacteristicData(CServerHandler* handler, int interval);
-    char m_data[0x2c];
+    int m_field0;   // +0
+    int m_field4;   // +4
+    int m_field8;   // +8
+    int m_fieldc;   // +0xc
+    int m_field10;  // +0x10
+    int m_field14;  // +0x14
+    int m_field18;  // +0x18
+    int m_field1c;  // +0x1c
+    int m_field20;  // +0x20
+    int m_field24;  // +0x24
+    int m_field28;  // +0x28
 };
 
 // ---- StatisticManager（布局见 ctor 反编译）----

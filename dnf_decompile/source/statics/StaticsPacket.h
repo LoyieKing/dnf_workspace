@@ -5,196 +5,207 @@
 #include <string>
 
 #include "PacketHeader.h"
+#include "StaticsData.h"
 #include "Thread.h"
 
 class CApplication;
 class CUdpRecvBuffer;
 
 // ---- statics 专用 DB 统计包 ----
-struct GoldCardEventStatistic;
-struct TowerOfDespairStatistic_Value;
 
-class Packet_Goldcard_Event_Statistic_STD
+#pragma pack(push, 1)
+
+class Packet_Goldcard_Event_Statistic_STD : public PacketHeader
 {
 public:
     Packet_Goldcard_Event_Statistic_STD();
-    char m_data[0x385];
-};
+    GoldCardEventStatistic m_items[99];  // +0xa（99 * 0x9）
+} __attribute__((packed));
 
-class Packet_TowerOfDespair_Statistic_STD
+class Packet_TowerOfDespair_Statistic_STD : public PacketHeader
 {
 public:
     Packet_TowerOfDespair_Statistic_STD();
-    char m_data[0x33a];
-};
+    int m_countA;                                   // +0xa
+    int m_countB;                                   // +0xe
+    TowerOfDespairStatistic_Value m_items[101];     // +0x12（101 * 0x8）
+} __attribute__((packed));
 
-class Packet_DBMW_Reason_Crash_Down_Query
+class Packet_DBMW_Reason_Crash_Down_Query : public PacketHeader
 {
 public:
     Packet_DBMW_Reason_Crash_Down_Query();
-    char m_data[0x10a];
-};
+    char m_data[0x100];
+} __attribute__((packed));
 
-class Packet_DBMW_Dungeon_Statistic_Party
+class Packet_DBMW_Dungeon_Statistic_Party : public PacketHeader
 {
 public:
     Packet_DBMW_Dungeon_Statistic_Party();
-    char m_data[0x177e];
-};
+    char m_data[0x1774];
+} __attribute__((packed));
 
-class Packet_DBMW_Dungeon_Statistic_Party_Job
+class Packet_DBMW_Dungeon_Statistic_Party_Job : public PacketHeader
 {
 public:
     Packet_DBMW_Dungeon_Statistic_Party_Job();
-    char m_data[0x17c9];
-};
+    char m_data[0x17bf];
+} __attribute__((packed));
 
-class Packet_DBMW_Dungeon_Statistic_Party_Charac
+class Packet_DBMW_Dungeon_Statistic_Party_Charac : public PacketHeader
 {
 public:
     Packet_DBMW_Dungeon_Statistic_Party_Charac();
-    char m_data[0x1759];
-};
+    char m_data[0x174f];
+} __attribute__((packed));
 
-class Packet_DBMW_Packet_Overflow_Statistic
+class Packet_DBMW_Packet_Overflow_Statistic : public PacketHeader
 {
 public:
     Packet_DBMW_Packet_Overflow_Statistic();
-    char m_data[0x11];
-};
+    char m_data[0x7];
+} __attribute__((packed));
 
-class Packet_Avater_Disjoint_Statistic_DB
+class Packet_Avater_Disjoint_Statistic_DB : public PacketHeader
 {
 public:
     Packet_Avater_Disjoint_Statistic_DB();
-    char m_data[0x14e];
-};
+    stDisjointAvatarInfoTotal m_info;  // +0xa（0x144）
+} __attribute__((packed));
 
-class Packet_Emblem_Create_Statistic_DB
+class Packet_Emblem_Create_Statistic_DB : public PacketHeader
 {
 public:
     Packet_Emblem_Create_Statistic_DB();
-    char m_data[0x26];
-};
+    char m_data[0x1c];
+} __attribute__((packed));
 
-class Packet_Randombox_statistic_DB
+class Packet_Randombox_statistic_DB : public PacketHeader
 {
 public:
     Packet_Randombox_statistic_DB();
-    char m_data[0x32];
-};
+    char m_data[0x28];
+} __attribute__((packed));
 
-class Packet_Server_Match_data_DBMW
+class Packet_Server_Match_data_DBMW : public PacketHeader
 {
 public:
     Packet_Server_Match_data_DBMW();
-    char m_data[0x13];
-};
+    char m_fieldA;   // +0xa
+    int m_fieldB;    // +0xb
+    int m_fieldC;    // +0xf
+} __attribute__((packed));
 
-class Packet_DBMW_DeathTower_Statistic_Value
+class Packet_DBMW_DeathTower_Statistic_Value : public PacketHeader
 {
 public:
     Packet_DBMW_DeathTower_Statistic_Value();
-    char m_data[0x17e7];
-};
+    char m_data[0x17dd];
+} __attribute__((packed));
 
-class Packet_DBMW_Query_String
+class Packet_DBMW_Query_String : public PacketHeader
 {
 public:
     Packet_DBMW_Query_String();
-    char m_data[0x100f];
-};
+    char m_data[0x1005];
+} __attribute__((packed));
 
-class Packet_DBMW_Fatigue_Battery_Money_Statistic
+class Packet_DBMW_Fatigue_Battery_Money_Statistic : public PacketHeader
 {
 public:
     Packet_DBMW_Fatigue_Battery_Money_Statistic();
-    char m_data[0x332];
-};
+    char m_data[0x328];
+} __attribute__((packed));
 
-class Packet_DBMW_HellParty_Statistic_Item
+class Packet_DBMW_HellParty_Statistic_Item : public PacketHeader
 {
 public:
     Packet_DBMW_HellParty_Statistic_Item();
-    char m_data[0x17ae];
-};
+    char m_data[0x17a4];
+} __attribute__((packed));
 
-class Packet_DBMW_User_Ting_TimeCheck_Write_Query
+class Packet_DBMW_User_Ting_TimeCheck_Write_Query : public PacketHeader
 {
 public:
     Packet_DBMW_User_Ting_TimeCheck_Write_Query();
-    char m_data[0x17fe];
-};
+    char m_data[0x17f4];
+} __attribute__((packed));
 
-class Packet_DBMW_DeathTower_Statistic_Playdata_Job
+class Packet_DBMW_DeathTower_Statistic_Playdata_Job : public PacketHeader
 {
 public:
     Packet_DBMW_DeathTower_Statistic_Playdata_Job();
-    char m_data[0x17ee];
-};
+    char m_data[0x17e4];
+} __attribute__((packed));
 
-class Packet_DBMW_DeathTower_Statistic_Playdata_Party
+class Packet_DBMW_DeathTower_Statistic_Playdata_Party : public PacketHeader
 {
 public:
     Packet_DBMW_DeathTower_Statistic_Playdata_Party();
-    char m_data[0x17f6];
-};
+    char m_data[0x17ec];
+} __attribute__((packed));
 
-class Packet_Secret_Shop_Statistic
+class Packet_Secret_Shop_Statistic : public PacketHeader
 {
 public:
     Packet_Secret_Shop_Statistic();
-    char m_data[0xfb2];
-};
+    int m_count;                              // +0xa
+    int m_shopIdx;                            // +0xe
+    SECRET_SHOP_STATISTIC_DATA m_items[200];  // +0x12（200 * 0x14）
+} __attribute__((packed));
 
-class Packet_DBMW_Loading_Time_Report
+class Packet_DBMW_Loading_Time_Report : public PacketHeader
 {
 public:
     Packet_DBMW_Loading_Time_Report();
-    char m_data[0x37];
-};
+    char m_data[0x2d];
+} __attribute__((packed));
 
-class Packet_DBMW_Assert_Manager_Info_Write_Query
+class Packet_DBMW_Assert_Manager_Info_Write_Query : public PacketHeader
 {
 public:
     Packet_DBMW_Assert_Manager_Info_Write_Query();
-    char m_data[0x1244];
-};
+    char m_data[0x123a];
+} __attribute__((packed));
 
-class Packet_DBMW_Ting_User_TimeCheck_Write_Query
+class Packet_DBMW_Ting_User_TimeCheck_Write_Query : public PacketHeader
 {
 public:
     Packet_DBMW_Ting_User_TimeCheck_Write_Query();
-    char m_data[0x17fe];
-};
+    char m_data[0x17f4];
+} __attribute__((packed));
 
-class Packet_DBMW_Powerwar_Loading_Time_Report
+class Packet_DBMW_Powerwar_Loading_Time_Report : public PacketHeader
 {
 public:
     Packet_DBMW_Powerwar_Loading_Time_Report();
-    char m_data[0x170e];
-};
+    char m_data[0x1704];
+} __attribute__((packed));
 
-class Packet_DBMW_Powerwar_Lag_Report
+class Packet_DBMW_Powerwar_Lag_Report : public PacketHeader
 {
 public:
     Packet_DBMW_Powerwar_Lag_Report();
-    char m_data[0x170e];
-};
+    char m_data[0x1704];
+} __attribute__((packed));
 
-class PacketInsertUpdate
+class PacketInsertUpdate : public PacketHeader
 {
 public:
     PacketInsertUpdate();
-    char m_data[0x1018];
-};
+    int m_handleIdx;          // +0xa
+    int m_updateQueryId;      // +0xe
+    int m_insertQueryId;      // +0x12
+    char m_updateSql[0x801];  // +0x16
+    char m_insertSql[0x801];  // +0x817
+} __attribute__((packed));
 
-class Packet_DBMW_TechnicalReport_Common_Query
+class Packet_DBMW_TechnicalReport_Common_Query : public PacketHeader
 {
 public:
     Packet_DBMW_TechnicalReport_Common_Query();
-    char m_data[0x40a];
-};
+    char m_data[0x400];
+} __attribute__((packed));
 
 // ---- FrameLag 专用包（0xc26-0xc30 族）----
 class Packet_Frame_Lag_Statistic_Load_Spec : public PacketHeader
@@ -213,56 +224,71 @@ class Packet_Frame_Lag_Statistic_Write_Lag_Index : public PacketHeader
 {
 public:
     Packet_Frame_Lag_Statistic_Write_Lag_Index();
+    char m_data[0x171];  // +0xa（packetSize 0x17b）
 };
 
 class Packet_Frame_Lag_Statistic_Write_Query : public PacketHeader
 {
 public:
     Packet_Frame_Lag_Statistic_Write_Query();
+    char m_data[0x400];  // +0xa（packetSize 0x40a）
 };
 
 class Packet_Frame_Lag_Used_Memory_Write_Query : public PacketHeader
 {
 public:
     Packet_Frame_Lag_Used_Memory_Write_Query();
+    char m_data[0x400];  // +0xa（packetSize 0x40a）
 };
 
-class Packet_Udp_Characteristic
+class Packet_Udp_Characteristic : public PacketHeader
 {
 public:
     Packet_Udp_Characteristic();
-    char m_data[0x33];
-};
+    char m_fieldA;    // +0xa
+    int m_values[10]; // +0xb
+} __attribute__((packed));
 
-class Packet_DBMW_Save_Client_Spec_Statistic
+class Packet_DBMW_Save_Client_Spec_Statistic : public PacketHeader
 {
 public:
     Packet_DBMW_Save_Client_Spec_Statistic();
-    char m_data[0x17e7];
-};
+    char m_fieldA;                // +0xa
+    int m_fieldB;                 // +0xb
+    STSpecCount m_items[436];     // +0xf（436 * 0xe）
+} __attribute__((packed));
 
-class Packet_DBMW_Save_Error_Line_Statistic
+class Packet_DBMW_Save_Error_Line_Statistic : public PacketHeader
 {
 public:
     Packet_DBMW_Save_Error_Line_Statistic();
-    char m_data[0x17f6];
-};
+    int m_count;              // +0xa
+    STErrorCount m_items[612];  // +0xe（612 * 0xa）
+} __attribute__((packed));
 
-class Packet_DBMW_Cube_Statistic
+class Packet_DBMW_Cube_Statistic : public PacketHeader
 {
 public:
     Packet_DBMW_Cube_Statistic();
-    char m_data[0x17ec];
-};
+    int m_count;             // +0xa
+    char m_rest[0x17de];     // +0xe
+} __attribute__((packed));
 
-class Packet_GameServer2Statisctics2DBServer
+class Packet_GameServer2Statisctics2DBServer : public PacketHeader
 {
 public:
     Packet_GameServer2Statisctics2DBServer();
-    char m_data[0x35];
-};
+    unsigned short m_fieldA;  // +0xa
+    char m_fieldB;            // +0xc
+    int m_fieldC;             // +0xd
+    int m_fieldD;             // +0x11
+    char m_restE[0x10];       // +0x15
+    char m_restF[0x10];       // +0x25
+} __attribute__((packed));
 
 #include "Packet_P2P_Statistics.h"
+
+#pragma pack(pop)
 
 // ---- CInnerMsgHandler：空类 ----
 class CInnerMsgHandler

@@ -48,9 +48,9 @@ PortInfo::~PortInfo()
 
 Handlers::Handlers()
 {
-    m_tcpHandlerRelay = 0;
-    m_udpHandler = 0;
     m_tcpHandler = 0;
+    m_udpHandler = 0;
+    m_tcpHandlerRelay = 0;
 }
 
 // ---- Threads ----
@@ -69,13 +69,9 @@ Threads::~Threads()
 // ---- Users ----
 
 Users::Users()
+    : m_currentUserCount(0), m_currentMaxUserCount(0), m_maxUserCount(0),
+      m_maxDispatchTime(0), m_totalDispatchTime(0), m_dispatchCount(0)
 {
-    m_currentUserCount = 0;
-    m_currentMaxUserCount = 0;
-    m_maxUserCount = 0;
-    m_maxDispatchTime = 0;
-    m_totalDispatchTime = 0;
-    m_dispatchCount = 0;
 }
 
 Users::~Users()
@@ -95,7 +91,8 @@ TCPUser* Users::getTCPUser(unsigned int acc_id)
     {
         return 0;
     }
-    return it->second;
+    TCPUser* user = (*it).second;
+    return user;
 }
 
 void Users::setTCPUser(unsigned int acc_id, TCPUser* user)
@@ -112,7 +109,8 @@ UDPUser* Users::getUDPUser(unsigned int acc_id)
     {
         return 0;
     }
-    return it->second;
+    UDPUser* user = (*it).second;
+    return user;
 }
 
 void Users::setUDPUser(unsigned int acc_id, UDPUser* user)
@@ -172,13 +170,9 @@ void Users::clearDispatchTime()
 // ---- TCPUser ----
 
 TCPUser::TCPUser()
+    : m_accId(0), m_kind(4), m_isDisconnected(false),
+      m_isAboutToDisconnect(false), m_lastAccessTime(0), m_sock(0)
 {
-    m_accId = 0;
-    m_kind = 4;
-    m_isDisconnected = false;
-    m_isAboutToDisconnect = false;
-    m_lastAccessTime = 0;
-    m_sock = 0;
 }
 
 TCPUser::~TCPUser()
@@ -192,6 +186,10 @@ void TCPUser::setACCID(unsigned int acc_id)
 
 int TCPUser::getHandle()
 {
+    if (m_sock == 0)
+    {
+        return 0;
+    }
     return m_sock->getHandle();
 }
 
@@ -218,13 +216,14 @@ bool TCPUser::isDisconnected() const
 bool TCPUser::isIdle() const
 {
     long long now = get_ms_tick();
+    long long diff = now - m_lastAccessTime;
     if (m_lastAccessTime != 0)
     {
-        if (30000 < now - m_lastAccessTime)
+        if (30000 < diff)
         {
             return true;
         }
-        if ((m_accId == 0) && (5000 < now - m_lastAccessTime))
+        if ((m_accId == 0) && (5000 < diff))
         {
             return true;
         }
@@ -560,109 +559,6 @@ void TCPUser::onPacketParse()
     } while (true);
 }
 
-// ---- TCPHandler / UDPHandler ----
-
-TCPHandler::TCPHandler()
-{
-}
-
-TCPHandler::~TCPHandler()
-{
-}
-
-TCPHandlerRelay::TCPHandlerRelay()
-{
-}
-
-TCPHandlerRelay::~TCPHandlerRelay()
-{
-}
-
-void TCPHandlerRelay::dispatch(TCPUser* user, char* buf, int size, int flag)
-{
-    if (*(short*)buf == 0)
-    {
-        if (user->getACCID() == 0)
-        {
-            unsigned int new_acc = *(unsigned int*)(buf + 4);
-            if (new_acc == 0)
-            {
-                user->onClose();
-            }
-            else
-            {
-                TCPUser* old = getManager()->m_users.getTCPUser(new_acc);
-                if (old != 0)
-                {
-                    old->onClose();
-                }
-                user->setACCID(new_acc);
-                getManager()->m_users.setTCPUser(new_acc, user);
-                getManager()->setAuthenticated(new_acc);
-            }
-        }
-    }
-    else if (*(short*)buf == 1)
-    {
-        if (user->getACCID() == 0)
-        {
-            user->onClose();
-        }
-        else
-        {
-            user->setLastAccessTime();
-            getManager()->relayToTCP((PacketHeader*)buf);
-        }
-    }
-}
-
-UDPHandler::UDPHandler()
-{
-}
-
-UDPHandler::~UDPHandler()
-{
-}
-
-UDPHandlerRelay::UDPHandlerRelay()
-{
-}
-
-UDPHandlerRelay::~UDPHandlerRelay()
-{
-}
-
-void UDPHandlerRelay::dispatch(char* buf, int size, int flag)
-{
-}
-
-UDPHandlerS2S::UDPHandlerS2S()
-{
-}
-
-UDPHandlerS2S::~UDPHandlerS2S()
-{
-}
-
-void UDPHandlerS2S::dispatch(char* buf, int size, int flag)
-{
-    short type = *(short*)buf;
-    if (type != 1)
-    {
-        if (type == 0x9c4)
-        {
-            if (*(char*)(buf + 0xe) == 0)
-            {
-                getManager()->postDisconnectEvent2TCPUser(*(unsigned int*)(buf + 0xa), 3);
-            }
-        }
-        else if (type == 0)
-        {
-            getManager()->setAuthenticated(*(unsigned int*)(buf + 0xa));
-        }
-    }
-}
-
 // ---- TCPThread / UDPThread / TCPAcceptThread ----
 
 TCPThread::TCPThread()
@@ -732,11 +628,11 @@ void UDPThread::loop(void* pParam)
     UDPSocket udp;
     if (udp.open() == 1)
     {
-        if (udp.bind((unsigned short)getPort(), true) == 1)
+        if (udp.bind((unsigned short)m_port, true) == 1)
         {
             if (udp.setOptNonBlock() == 1)
             {
-                printf("succeeded in binding UDP socket port #%d\n", getPort());
+                printf("succeeded in binding UDP socket port #%d\n", m_port);
                 epoll_event ev;
                 ev.events = 1;
                 ev.data.ptr = (void*)udp.getHandle();
@@ -781,7 +677,7 @@ void UDPThread::loop(void* pParam)
         }
         else
         {
-            printf("failed to bind UDP socket port #%d\n", getPort());
+            printf("failed to bind UDP socket port #%d\n", m_port);
         }
     }
     else
@@ -792,6 +688,7 @@ void UDPThread::loop(void* pParam)
 
 void UDPThread::logError()
 {
+    int err = errno;
 }
 
 TCPAcceptThread::TCPAcceptThread()
@@ -830,9 +727,20 @@ void TCPAcceptThread::loop(void* pParam)
         TCPSocket* sock = getManager()->m_userPools.createTCPSocket();
         if (sock != 0)
         {
-            if (listenSocket.accept(*sock))
+            bool accepted = listenSocket.accept(*sock);
+            if (!accepted)
             {
-                if (getManager()->m_users.getUserCount() < getManager()->m_users.getMaxUserCount())
+                getManager()->m_userPools.destroyTCPSocket(sock);
+            }
+            else
+            {
+                if (getManager()->m_users.getUserCount() >= getManager()->m_users.getMaxUserCount())
+                {
+                    notifyCannotLoginByMaxUserCount(*sock);
+                    sock->close();
+                    getManager()->m_userPools.destroyTCPSocket(sock);
+                }
+                else
                 {
                     TCPUser* user = getManager()->m_userPools.createTCPUser();
                     if (user == 0)
@@ -849,19 +757,12 @@ void TCPAcceptThread::loop(void* pParam)
                         lockPushAcceptedUser(user);
                     }
                 }
-                else
-                {
-                    notifyCannotLoginByMaxUserCount(*sock);
-                    sock->close();
-                    getManager()->m_userPools.destroyTCPSocket(sock);
-                }
-            }
-            else
-            {
-                getManager()->m_userPools.destroyTCPSocket(sock);
             }
         }
     }
+    isTerminating();
+    listenSocket.close();
+    setTerminated();
 }
 
 void TCPAcceptThread::lockPushAcceptedUser(TCPUser* user)
@@ -921,9 +822,9 @@ void RelayService::startup()
     m_threads.m_tcpThread->setPort(m_portInfo.getTCPPort());
     if (G_ScriptData()->mFlag)
     {
-        m_threads.m_udpThread = new UDPThread;
-        m_threads.m_udpThread->setManager(this);
-        m_threads.m_udpThread->setPort(m_portInfo.getUDPS2SPort());
+        m_threads.m_udpS2SThread = new UDPThread;
+        m_threads.m_udpS2SThread->setManager(this);
+        m_threads.m_udpS2SThread->setPort(m_portInfo.getUDPS2SPort());
     }
     m_handlers.m_tcpHandlerRelay = new TCPHandlerRelay;
     m_handlers.m_tcpHandlerRelay->setManager(this);
@@ -935,20 +836,20 @@ void RelayService::startup()
     m_threads.m_tcpThread->setHandler(m_handlers.m_tcpHandlerRelay);
     if (G_ScriptData()->mFlag)
     {
-        m_threads.m_udpThread->setHandler(m_handlers.m_udpHandler);
+        m_threads.m_udpS2SThread->setHandler(m_handlers.m_udpHandler);
     }
     m_threads.m_tcpThread->begin();
     if (G_ScriptData()->mFlag)
     {
-        m_threads.m_udpThread->begin();
+        m_threads.m_udpS2SThread->begin();
     }
 }
 
 void RelayService::shutdown()
 {
-    if (G_ScriptData()->mFlag && m_threads.m_udpThread != 0)
+    if (G_ScriptData()->mFlag && m_threads.m_udpS2SThread != 0)
     {
-        m_threads.m_udpThread->waitForTerminated(100);
+        m_threads.m_udpS2SThread->waitForTerminated(100);
     }
     if (m_threads.m_tcpThread != 0)
     {
@@ -963,14 +864,14 @@ void RelayService::shutdown()
     {
         if (m_handlers.m_udpHandler != 0)
         {
-            delete m_handlers.m_udpHandler;
+            operator delete(m_handlers.m_udpHandler);
         }
         m_handlers.m_udpHandler = 0;
-        if (m_threads.m_udpThread != 0)
+        if (m_threads.m_udpS2SThread != 0)
         {
-            delete m_threads.m_udpThread;
+            delete m_threads.m_udpS2SThread;
         }
-        m_threads.m_udpThread = 0;
+        m_threads.m_udpS2SThread = 0;
     }
     if (m_threads.m_tcpThread != 0)
     {
@@ -991,10 +892,16 @@ void RelayService::shutdown()
 
 void RelayService::setAuthenticated(unsigned int acc_id)
 {
-    if (G_ScriptData()->mFlag && m_threads.m_udpThread->getUDPSocket() != 0)
+    if (!G_ScriptData()->mFlag)
     {
-        m_threads.m_udpThread->getUDPSocket()->pushMonitorAuthPacket(acc_id);
+        return;
     }
+    UDPSocket* udp = m_threads.m_udpS2SThread->getUDPSocket();
+    if (udp != 0)
+    {
+        udp->pushMonitorAuthPacket(acc_id);
+    }
+    return;
 }
 
 void RelayService::setTick()
@@ -1037,28 +944,36 @@ void RelayService::makeLog()
                 int count = m_users.getDispatchCout();
                 double avg = m_users.getAverageDispatchTime();
                 int max = m_users.getMaxDispatchTime();
-                int cur = m_users.getCurrentMaxUserCount();
-                if (cur == 0)
+                int cur;
+                if (m_users.getCurrentMaxUserCount() == 0)
                 {
                     cur = -m_users.getUserCount();
+                }
+                else
+                {
+                    cur = m_users.getCurrentMaxUserCount();
                 }
                 fprintf(f,
                     "%02d/%02d/%02d %02d:%02d:%02d Current User: %d Dispatch Time: MAX = %d, AVG = %.2f, CNT = %d\n",
                     tm_now->tm_year + 1900, tm_now->tm_mon + 1, tm_now->tm_mday,
                     tm_now->tm_hour, tm_now->tm_min, tm_now->tm_sec, cur, max, avg, count);
             }
-            else
-            {
-                UDPSocket* udp = m_threads.m_udpThread->getUDPSocket();
+                else
+                {
+                    UDPSocket* udp = m_threads.m_udpS2SThread->getUDPSocket();
                 if (udp == 0)
                 {
                     int count = m_users.getDispatchCout();
                     double avg = m_users.getAverageDispatchTime();
                     int max = m_users.getMaxDispatchTime();
-                    int cur = m_users.getCurrentMaxUserCount();
-                    if (cur == 0)
+                    int cur;
+                    if (m_users.getCurrentMaxUserCount() == 0)
                     {
                         cur = -m_users.getUserCount();
+                    }
+                    else
+                    {
+                        cur = m_users.getCurrentMaxUserCount();
                     }
                     fprintf(f,
                         "%02d/%02d/%02d %02d:%02d:%02d Current User: %d\tError UDPS2SSocket!! Not Auth mode\tDispatch Time: MAX = %d, AVG = %.2f, CNT = %d\n",
@@ -1071,10 +986,14 @@ void RelayService::makeLog()
                     double avg = m_users.getAverageDispatchTime();
                     int max = m_users.getMaxDispatchTime();
                     int qsize = udp->sizeMonitorAuthPacket();
-                    int cur = m_users.getCurrentMaxUserCount();
-                    if (cur == 0)
+                    int cur;
+                    if (m_users.getCurrentMaxUserCount() == 0)
                     {
                         cur = -m_users.getUserCount();
+                    }
+                    else
+                    {
+                        cur = m_users.getCurrentMaxUserCount();
                     }
                     fprintf(f,
                         "%02d/%02d/%02d %02d:%02d:%02d Current User: %d\tAuth Packet Queue: %d\tDispatch Time: MAX = %d, AVG = %.2f, CNT = %d\n",
@@ -1104,7 +1023,7 @@ void RelayService::postDisconnectEvent2TCPUser(unsigned int acc_id, int flag)
         __gnu_cxx::hash_map<unsigned int, TCPUser*>::iterator it = m_users.m_tcpUsers.find(acc_id);
         if (it != m_users.m_tcpUsers.end())
         {
-            it->second->postDisconnected(flag);
+            (*it).second->postDisconnected(flag);
         }
     }
 }
@@ -1119,9 +1038,10 @@ void RelayService::disconnectEvent2TCPUser(TCPUser* user)
     }
     if (G_ScriptData()->mFlag)
     {
-        m_threads.m_udpThread->getUDPSocket()->delDisconnectUser(acc_id);
+        m_threads.m_udpS2SThread->getUDPSocket()->delDisconnectUser(acc_id);
     }
-    m_reactor.unregistHandle(user);
+    RelayTReactor* reactor = (RelayTReactor*)m_reactor.getReactor();
+    reactor->unregistHandle(user);
     m_userPools.destroyTCPUser(user);
     m_users.decreaseUserCount();
 }
@@ -1132,9 +1052,106 @@ void RelayService::relayToTCP(PacketHeader* pkt)
     TCPUser* user = m_users.getTCPUser(pkt->m_accId);
     if (user != 0)
     {
-        user->send(pkt);
+        int r = user->send(pkt);
     }
 }
+
+// ---- TCPHandler / UDPHandler ----
+
+TCPHandler::TCPHandler()
+{
+}
+
+TCPHandlerRelay::TCPHandlerRelay()
+{
+}
+
+TCPHandlerRelay::~TCPHandlerRelay()
+{
+}
+
+void TCPHandlerRelay::dispatch(TCPUser* user, char* buf, int size, int flag)
+{
+    if (*(short*)buf == 0)
+    {
+        if (user->getACCID() == 0)
+        {
+            unsigned int new_acc = *(unsigned int*)(buf + 4);
+            if (new_acc == 0)
+            {
+                user->onClose();
+            }
+            else
+            {
+                TCPUser* old = getManager()->m_users.getTCPUser(new_acc);
+                if (old != 0)
+                {
+                    old->onClose();
+                }
+                user->setACCID(new_acc);
+                getManager()->m_users.setTCPUser(new_acc, user);
+                getManager()->setAuthenticated(new_acc);
+            }
+        }
+    }
+    else if (*(short*)buf == 1)
+    {
+        if (user->getACCID() == 0)
+        {
+            user->onClose();
+        }
+        else
+        {
+            user->setLastAccessTime();
+            getManager()->relayToTCP((PacketHeader*)buf);
+        }
+    }
+}
+
+UDPHandler::UDPHandler()
+{
+}
+
+UDPHandlerRelay::UDPHandlerRelay()
+{
+}
+
+UDPHandlerRelay::~UDPHandlerRelay()
+{
+}
+
+void UDPHandlerRelay::dispatch(char* buf, int size, int flag)
+{
+    PacketHeader* pkt = (PacketHeader*)buf;
+    if (*(unsigned short*)pkt == 0)
+    {
+        getManager()->relayToTCP(pkt);
+    }
+}
+
+UDPHandlerS2S::UDPHandlerS2S()
+{
+}
+
+void UDPHandlerS2S::dispatch(char* buf, int size, int flag)
+{
+    short type = *(short*)buf;
+    if (type != 1)
+    {
+        if (type == 0x9c4)
+        {
+            if (*(char*)(buf + 0xe) == 0)
+            {
+                getManager()->postDisconnectEvent2TCPUser(*(unsigned int*)(buf + 0xa), 3);
+            }
+        }
+        else if (type == 0)
+        {
+            getManager()->setAuthenticated(*(unsigned int*)(buf + 0xa));
+        }
+    }
+}
+
 
 // ---- 日志创建/销毁（TGlobalInstance 相关，后续补齐实现）----
 
@@ -1271,7 +1288,7 @@ void App::prepareRun()
     g_pService->setMode(RelayServiceApp::RelayService::MODE_NONE);
     g_pService->m_portInfo.setTCPPort(G_ScriptData()->mPortTcp);
     g_pService->m_portInfo.setUDPPort(G_ScriptData()->mPortUdp);
-    g_pService->m_portInfo.setUDPS2SPort(G_ScriptData()->mReservedC);
+    g_pService->m_portInfo.setUDPS2SPort(G_ScriptData()->mReservedB);
 }
 
 void App::run()
@@ -1314,9 +1331,15 @@ bool App::load_script()
     char path[0x100];
     snprintf(path, 0x100, "./cfg/%s.cfg", (char*)this + 0x404);
     printf("[!] Server environment(%s) script loading : %s\n", (char*)this + 0x404, path);
-    if (!G_Script()->load(path))
+    char loaded = G_Script()->load(path);
+    if (!loaded)
     {
         printf("Can't open script file : %s", (char*)this + 0x404);
+        return false;
+    }
+    loaded = G_Script()->parse_channel_script();
+    if (!loaded)
+    {
         return false;
     }
     return true;

@@ -27,7 +27,7 @@ wait_jobs() {
 }
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
-OUT_DIR="$ROOT/build-relay"
+OUT_DIR="$ROOT/../build/relay"
 RELAY="$ROOT/relay"
 C5ROOT=/tmp/c5r52tool
 CXX=/tmp/c5root/usr/bin/g++

@@ -104,27 +104,31 @@ unsigned long long CMySql::getAffectedRowCount()
     return mysql_affected_rows(m_mysql);
 }
 
-int CMySql::get_int(int col, unsigned int& v)
+bool CMySql::get_int(int col, unsigned int& v)
 {
-    return get_int(col, *(int*)&v);
+    return get_uint(col, v);
 }
 
-int CMySql::get_int(int col, unsigned long long& v)
-{
-    return get_int(col, *(int*)&v);
-}
-
-int CMySql::get_uint(int col, unsigned long long& v)
+bool CMySql::get_int(int col, unsigned long long& v)
 {
     return get_ulonglong(col, v);
 }
 
-int CMySql::get_ulonglong(int col, unsigned long long& v)
+bool CMySql::get_uint(int col, unsigned long long& v)
 {
-    if (!m_row || !is_valid_col(col))
+    return get_ulonglong(col, v);
+}
+
+bool CMySql::get_ulonglong(int col, unsigned long long& v)
+{
+    switch ((m_row == 0) ? 1 : !is_valid_col(col))
+    {
+    default:
         return 0;
-    v = strtoull(m_row[col], 0, 10);
-    return 1;
+    case 0:
+        v = strtoull(m_row[col], 0, 10);
+        return 1;
+    }
 }
 
 const char* CMySql::get_quest_str() const
@@ -139,36 +143,57 @@ char* CMySql::escape_string(char* dst, char const* src)
 
 int CMySql::exec_query()
 {
+    clear_result_set();
     int ret = mysql_real_query(m_mysql, m_query, m_queryLen);
     if (ret != 0)
     {
         m_lastErrno = mysql_errno(m_mysql);
-        if (m_lastErrno == 0x7dd)
+        if (m_lastErrno == 0x7d5 || m_lastErrno == 0x7dd ||
+            m_lastErrno == 0x7d6)
         {
-            if (mysql_ping(m_mysql) != 0)
+            int ping = mysql_ping(m_mysql);
+            if (ping != 0)
             {
-                CMyFileLog log("CMySql::exec_query", 0xa3);
-                log("./log/DBErr", "mysql ping error(%d)", ret);
-                return 2;
+                int e = mysql_errno(m_mysql);
+                if (e == 0x7d6)
+                {
+                    if (!mysql_real_connect(m_mysql, m_host, m_pass, m_db,
+                                            m_user, 0xcea, 0, 0x400))
+                    {
+                        int e2 = mysql_errno(m_mysql);
+                        CMyFileLog log("exec_query", 0x118);
+                        log("./log/MysqlErr.log",
+                            "DB reconnection fail. err_no(%d)\n", e2);
+                    }
+                    else
+                    {
+                        CMyFileLog log("exec_query", 0x11c);
+                        log("./log/MysqlErr.log",
+                            "DB Reconnect By Server Gone Error\n");
+                    }
+                }
             }
+            return 2;
         }
         if (m_lastErrno != 0x426)
         {
-            CMyFileLog log("CMySql::exec_query", 0xaa);
-            log("./log/DBErr", "mysql error(%d) query(%s)", m_lastErrno, m_query);
+            CMyFileLog log("exec_query", 0x12a);
+            log("./log/MysqlErr.log",
+                "DB error occured (%d) Query('%s')\n", m_lastErrno, m_query);
+            if (m_lastErrno == 0x7d6)
+            {
+                CMyFileLog log2("exec_query", 300);
+                log2("./log/MysqlErr.log",
+                     "CMySql::open() Function Error!\tCheck Connection First, Must Be Not Connected!\n",
+                     m_lastErrno, m_query);
+            }
         }
-        if (m_lastErrno == 0x7d6)
-        {
-            CMyFileLog log("CMySql::exec_query", 0xac);
-            log("./log/DBErr", "mysql error(2006)");
-            return 1;
-        }
-        return 0;
+        return 1;
     }
     return 0;
 }
 
-int CMySql::exec(unsigned int q)
+bool CMySql::exec(unsigned int q)
 {
     int ret = 0;
     for (int i = 0; i <= 4; i++)
@@ -177,6 +202,10 @@ int CMySql::exec(unsigned int q)
         if (ret == 1)
         {
             CQueryCounterInstance()->SetResponseTime(q);
+            CMyFileLog log("exec", 0x14e);
+            log("./log/MysqlErr.log",
+                "Database query error. The last query('%s') has been lost. iret == R_FAIL",
+                m_query);
             return 0;
         }
         if (ret == 0)
@@ -198,12 +227,13 @@ int CMySql::exec(unsigned int q)
         }
         return 1;
     }
-    CMyFileLog log("CMySql::exec", 0xed);
-    log("./log/DBErr", "mysql exec fail(%s)", m_query);
+    CMyFileLog log("exec", 0x16e);
+    log("./log/MysqlErr.log",
+        "Database query error. The last query('%s') has been lost.", m_query);
     return 0;
 }
 
-int CMySql::fetch()
+bool CMySql::fetch()
 {
     if (!m_result)
         return 0;
@@ -224,158 +254,187 @@ void CMySql::clear_result_set()
     }
 }
 
-int CMySql::set_query(unsigned int q, char* fmt, ...)
+bool CMySql::set_query(unsigned int q, char* fmt, ...)
 {
     va_list ap;
     va_start(ap, fmt);
     vsprintf(m_query, fmt, ap);
     va_end(ap);
     int len = strlen(m_query);
-    if (len > 0xfff)
+    if (len >= 0x6000)
         return 0;
     m_queryLen = len;
     CQueryCounterInstance()->IncreQureyCount(q, fmt);
     return 1;
 }
 
-int CMySql::get_int(int col, int& v)
+bool CMySql::get_int(int col, int& v)
 {
-    if (!m_row)
+    switch ((m_row == 0) ? 1 : !is_valid_col(col))
+    {
+    default:
+        return 0;
+    case 0:
+        v = atoi(m_row[col]);
         return 1;
-    if (!is_valid_col(col))
-        return 1;
-    v = atoi(m_row[col]);
-    return 1;
+    }
 }
 
-int CMySql::get_uint(int col, unsigned int& v)
+bool CMySql::get_uint(int col, unsigned int& v)
 {
-    if (!m_row)
+    switch ((m_row == 0) ? 1 : !is_valid_col(col))
+    {
+    default:
+        return 0;
+    case 0:
+        unsigned long uRet = strtoul(m_row[col], 0, 10);
+        v = (unsigned int)uRet;
         return 1;
-    if (!is_valid_col(col))
-        return 1;
-    v = (unsigned int)atoi(m_row[col]);
-    return 1;
+    }
 }
 
-int CMySql::get_short(int col, short& v)
+bool CMySql::get_short(int col, short& v)
 {
-    if (!m_row)
+    switch ((m_row == 0) ? 1 : !is_valid_col(col))
+    {
+    default:
+        return 0;
+    case 0:
+        v = (short)atoi(m_row[col]);
         return 1;
-    if (!is_valid_col(col))
-        return 1;
-    v = (short)atoi(m_row[col]);
-    return 1;
+    }
 }
 
-int CMySql::get_short(int col, int& v)
+bool CMySql::get_short(int col, int& v)
 {
-    if (!m_row)
+    switch ((m_row == 0) ? 1 : !is_valid_col(col))
+    {
+    default:
+        return 0;
+    case 0:
+        v = (short)atoi(m_row[col]);
         return 1;
-    if (!is_valid_col(col))
-        return 1;
-    v = (short)atoi(m_row[col]);
-    return 1;
+    }
 }
 
-int CMySql::get_ushort(int col, unsigned short& v)
+bool CMySql::get_ushort(int col, unsigned short& v)
 {
-    if (!m_row)
+    switch ((m_row == 0) ? 1 : !is_valid_col(col))
+    {
+    default:
+        return 0;
+    case 0:
+        v = (unsigned short)atoi(m_row[col]);
         return 1;
-    if (!is_valid_col(col))
-        return 1;
-    v = (unsigned short)atoi(m_row[col]);
-    return 1;
+    }
 }
 
-int CMySql::get_ushort(int col, int& v)
+bool CMySql::get_ushort(int col, int& v)
 {
-    if (!m_row)
+    switch ((m_row == 0) ? 1 : !is_valid_col(col))
+    {
+    default:
+        return 0;
+    case 0:
+        v = (unsigned short)atoi(m_row[col]);
         return 1;
-    if (!is_valid_col(col))
-        return 1;
-    v = (unsigned short)atoi(m_row[col]);
-    return 1;
+    }
 }
 
-int CMySql::get_byte(int col, char& v)
+bool CMySql::get_byte(int col, char& v)
 {
-    if (!m_row)
+    switch ((m_row == 0) ? 1 : !is_valid_col(col))
+    {
+    default:
+        return 0;
+    case 0:
+        v = (char)atoi(m_row[col]);
         return 1;
-    if (!is_valid_col(col))
-        return 1;
-    v = (char)atoi(m_row[col]);
-    return 1;
+    }
 }
 
-int CMySql::get_byte(int col, int& v)
+bool CMySql::get_byte(int col, int& v)
 {
-    if (!m_row)
+    switch ((m_row == 0) ? 1 : !is_valid_col(col))
+    {
+    default:
+        return 0;
+    case 0:
+        v = (char)atoi(m_row[col]);
         return 1;
-    if (!is_valid_col(col))
-        return 1;
-    v = (char)atoi(m_row[col]);
-    return 1;
+    }
 }
 
-int CMySql::get_ubyte(int col, unsigned char& v)
+bool CMySql::get_ubyte(int col, unsigned char& v)
 {
-    if (!m_row)
+    switch ((m_row == 0) ? 1 : !is_valid_col(col))
+    {
+    default:
+        return 0;
+    case 0:
+        v = (unsigned char)atoi(m_row[col]);
         return 1;
-    if (!is_valid_col(col))
-        return 1;
-    v = (unsigned char)atoi(m_row[col]);
-    return 1;
+    }
 }
 
-int CMySql::get_ubyte(int col, int& v)
+bool CMySql::get_ubyte(int col, int& v)
 {
-    if (!m_row)
+    switch ((m_row == 0) ? 1 : !is_valid_col(col))
+    {
+    default:
+        return 0;
+    case 0:
+        v = (unsigned char)atoi(m_row[col]);
         return 1;
-    if (!is_valid_col(col))
-        return 1;
-    v = (unsigned char)atoi(m_row[col]);
-    return 1;
+    }
 }
 
-int CMySql::get_str(int col, char* buf, int len)
+bool CMySql::get_str(int col, char* buf, int len)
 {
-    if (!m_row)
+    if ((m_row == 0) || !is_valid_col(col) || len <= 0)
+    {
+    }
+    else
+    {
+        strncpy(buf, m_row[col], len);
+        buf[len - 1] = 0;
         return 1;
-    if (is_valid_col(col))
-        return 1;
-    if (len <= 0)
-        return 1;
-    strncpy(buf, m_row[col], len);
-    buf[len - 1] = 0;
-    return 1;
+    }
+    return 0;
 }
 
-int CMySql::get_binary(int col, void* buf, int len)
+bool CMySql::get_binary(int col, void* buf, int len)
 {
-    if (!m_row)
+    if ((m_row == 0) || !is_valid_col(col) || len <= 0)
+    {
+    }
+    else
+    {
+        int copyLen = m_lengths[col] < (unsigned int)len ? m_lengths[col] : len;
+        memcpy(buf, m_row[col], copyLen);
         return 1;
-    if (is_valid_col(col))
-        return 1;
-    if (len <= 0)
-        return 1;
-    int copyLen = m_lengths[col] < (unsigned int)len ? m_lengths[col] : len;
-    memcpy(buf, m_row[col], copyLen);
-    return 1;
+    }
+    return 0;
 }
 
 char CMySql::open(const char* host, const char* user, const char* pass, const char* db)
 {
     if (!host || !user || !pass || !db)
         return 0;
-    // 原版实际传参顺序（host, pass, db, user）
-    if (!mysql_real_connect(m_mysql, host, pass, db, user, 0xcea, 0, 0))
+    strcpy(m_user, user);
+    strcpy(m_host, host);
+    strcpy(m_pass, pass);
+    strcpy(m_db, db);
+    m_port = 0xcea;
+    // 原版实际传参顺序（host, pass, db, user），client_flag 0x400
+    if (!mysql_real_connect(m_mysql, host, pass, db, user, 0xcea, 0, 0x400))
     {
-        printf("Can't connect db : ( dbname : %s, ip : %s, id : %s, pwd : %s )\n",
-               user, host, pass, db);
-        CMyFileLog log("open", 0x6b);
-        log("./log/DBErr", "Can't connect db : ( dbname : %s, ip : %s, id : %s, pwd : %s )\n",
-            user, host, pass, db);
+        m_lastErrno = mysql_errno(m_mysql);
+        printf("Can't connect db : ( dbname : %s, ip : %s, id : %s )\n",
+               user, host, pass);
+        CMyFileLog log("open", 0xad);
+        log("./log/DBErr", "Can't connect db : ( dbname : %s, ip : %s, id : %s )\n",
+            user, host, pass);
         return 0;
     }
     return 1;
@@ -420,10 +479,19 @@ char CMySql::init()
         return 0;
     if (!set_read_default_grp_option())
         return 0;
+    if (!set_charset_name_option())
+        return 0;
+    if (!set_reconnect_option())
+        return 0;
     memset(m_query, 0, 0x6001);
     m_queryLen = 0;
     m_nRows = 0;
     m_nFields = 0;
+    memset(m_host, 0, 0x10);
+    memset(m_pass, 0, 0x14);
+    memset(m_user, 0, 0x1e);
+    memset(m_db, 0, 0x14);
+    m_port = 0xcea;
     return 1;
 }
 

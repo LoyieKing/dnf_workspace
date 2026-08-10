@@ -1,0 +1,33 @@
+Layer 0 (1 files):
+  shared/common/include/ReverseEngineerLib.h
+Layer 1 (5 files):
+  DNFServer/ServerCommon/Thread.h
+  coserver/CoserverTable.h
+  coserver/CoserverThread.h
+  coserver/CoserverUser.h
+  shared/packet/include/PacketHeader.h
+Layer 2 (9 files):
+  DNFServer/ServerCommon/DNFFileLog.h
+  DNFServer/ServerCommon/DNFFunctionLib.h
+  coserver/CoserverApp.h
+  coserver/CoserverInit.h
+  coserver/CoserverMisc.h
+  coserver/CoserverPacket.h
+  coserver/CoserverServer.h
+  coserver/CoserverSignal.h
+  coserver/CoserverUdp.h
+Layer 3 (14 files):
+  DNFServer/ServerCommon/CFileLogWriterBase.cpp
+  DNFServer/ServerCommon/DNFFileLog.cpp
+  DNFServer/ServerCommon/DNFFunctionLib.cpp
+  DNFServer/ServerCommon/Thread.cpp
+  coserver/CoserverApp.cpp
+  coserver/CoserverInit.cpp
+  coserver/CoserverMisc.cpp
+  coserver/CoserverPacket.cpp
+  coserver/CoserverServer.cpp
+  coserver/CoserverSignal.cpp
+  coserver/CoserverTable.cpp
+  coserver/CoserverThread.cpp
+  coserver/CoserverUdp.cpp
+  coserver/CoserverUser.cpp

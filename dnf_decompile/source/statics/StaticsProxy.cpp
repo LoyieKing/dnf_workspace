@@ -33,13 +33,13 @@ void Field::reset()
 void Field::add(const char* name, unsigned int value)
 {
     std::map<std::string, unsigned long long>::iterator it = m_fields.find(name);
-    if (it == m_fields.end())
+    if (it != m_fields.end())
     {
-        m_fields.insert(std::make_pair(name, (unsigned long long)value));
+        it->second += value;
     }
     else
     {
-        it->second += value;
+        m_fields.insert(std::make_pair(name, value));
     }
 }
 
@@ -160,12 +160,14 @@ int Field::updateDatabase(const char* table, const std::string& key, const std::
 }
 
 Table::Table()
-    : m_fields()
+    : m_fields(), m_key()
 {
+    reset();
 }
 
 Table::Table(const Table& other)
-    : m_fields(other.m_fields), m_key(other.m_key)
+    : m_fields(other.m_fields), m_nValue(other.m_nValue), m_bFlag(other.m_bFlag),
+      m_key(other.m_key)
 {
 }
 
@@ -180,16 +182,16 @@ void Table::setKey(const char* key)
 
 void Table::add(const char* name, unsigned int value, const char* key)
 {
-    std::map<std::string, Field>::iterator it = m_fields.find(name);
-    if (it == m_fields.end())
+    std::map<std::string, Field>::iterator it = m_fields.find(key);
+    if (it != m_fields.end())
     {
-        Field f;
-        f.add(key, value);
-        m_fields.insert(std::make_pair(name, f));
+        it->second.add(name, value);
     }
     else
     {
-        it->second.add(key, value);
+        Field f;
+        f.add(name, value);
+        m_fields.insert(std::make_pair(key, f));
     }
 }
 
@@ -201,18 +203,20 @@ void Table::resetValue()
     }
 }
 
-void Table::updateDatabase(const char* table)
+int Table::updateDatabase(const char* table)
 {
     for (std::map<std::string, Field>::iterator it = m_fields.begin(); it != m_fields.end(); ++it)
     {
-        it->second.updateDatabase(table, m_key, it->first);
+        it->second.updateDatabase(table, it->first, m_key);
     }
+    return 1;
 }
 
 void Table::reset()
 {
     m_fields.clear();
-    m_key.clear();
+    m_nValue = 0;
+    m_bFlag = 0;
 }
 
 StatisticProxy::StatisticProxy()
@@ -224,50 +228,52 @@ StatisticProxy::~StatisticProxy()
 {
 }
 
-void StatisticProxy::registTable(const char* name, Table& table)
+bool StatisticProxy::registTable(const char* name, Table& table)
 {
-    m_tables[name] = table;
+    return m_tables.insert(std::make_pair(name, table)).second;
 }
 
-void StatisticProxy::add(const char* table, unsigned int value, const char* key,
-                         const char* cond)
+void StatisticProxy::add(const char* name, unsigned int value, const char* key,
+                         const char* table)
 {
     std::map<std::string, Table>::iterator it = m_tables.find(table);
     if (it != m_tables.end())
     {
-        it->second.add(key, value, cond);
+        it->second.add(name, value, key);
     }
 }
 
-void StatisticProxy::updateDatabase()
+int StatisticProxy::updateDatabase()
 {
     for (std::map<std::string, Table>::iterator it = m_tables.begin(); it != m_tables.end(); ++it)
     {
         it->second.updateDatabase(it->first.c_str());
     }
+    return 1;
 }
 
 void StatisticProxy::resetTable()
 {
     for (std::map<std::string, Table>::iterator it = m_tables.begin(); it != m_tables.end(); ++it)
     {
-        it->second.resetValue();
+        it->second.reset();
     }
 }
 
-void initialize()
+int initialize()
 {
     Table t;
     t.setKey("level,occ_date");
     getStatisticProxy()->registTable("log_random_option", t);
     t.reset();
+    return 1;
 }
 
 void addStatisticProxy(StatisticsPacket* packet)
 {
+    char* p = (char*)packet + 0xa;
     unsigned int value = *(unsigned int*)((char*)packet + 0x85);
-    getStatisticProxy()->add((char*)packet + 0x2b, value, (char*)packet + 0x4c,
-                             (char*)packet + 10);
+    getStatisticProxy()->add((char*)packet + 0x2b, value, (char*)packet + 0x4c, p);
 }
 
 void sendDBStatisticProxy()

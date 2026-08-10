@@ -22,8 +22,8 @@ from compare_common import (
 
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/community/df_community_r'
-NEW = ROOT / 'dnf_decompile/source/build-c6/df_community_r'
-OBJ_DIR = ROOT / 'dnf_decompile/source/build-c6/CMakeFiles/df_community_r.dir'
+NEW = ROOT / 'dnf_decompile/build/community/df_community_r'
+OBJ_DIR = ROOT / 'dnf_decompile/build/community/CMakeFiles/df_community_r.dir'
 OUT_DIR = ROOT / 'dnf_decompile/source/toolchain/audit'
 OUT_TSV = ROOT / 'dnf_decompile/docs/data/df_community_r_function_compare_full.tsv'
 

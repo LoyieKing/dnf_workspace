@@ -5,10 +5,8 @@
 #include "RelayScript.h"
 
 ScriptRawData::ScriptRawData(char* key, char* val, int val_size)
+    : m_val(0), m_err_msg(0), m_valsize(val_size)
 {
-    m_val = 0;
-    m_err_msg = 0;
-    m_valsize = val_size;
     strncpy(m_key, key, 0xff);
     if (val != 0)
     {

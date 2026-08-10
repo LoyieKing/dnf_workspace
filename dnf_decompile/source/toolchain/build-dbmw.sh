@@ -25,7 +25,7 @@ wait_jobs() {
 }
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
-OUT_DIR="$ROOT/build-dbmw"
+OUT_DIR="$ROOT/../build/dbmw"
 DBMW="$ROOT/dbmw"
 COMMON="$ROOT/DNFServer/ServerCommon"
 PACKET="$ROOT/shared/packet"
@@ -182,8 +182,8 @@ wait_jobs
 OBJS=$(ls "$OUT_DIR"/*.o "$OUT_DIR"/yassl/*.o 2>/dev/null | grep -v stub_main || true)
 if [ -n "$OBJS" ]; then
     g++ -m32 -no-pie -o "$OUT_DIR/df_dbmw_r" $OBJS \
-        "$ROOT/build-manager/mysqlclient/trees.o" \
-        "$ROOT/build-manager/mysqlclient/libmysqlclient.a" \
+        "$ROOT/../build/manager/mysqlclient/trees.o" \
+        "$ROOT/../build/manager/mysqlclient/libmysqlclient.a" \
         /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.4/32/libstdc++.a \
         /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.4/32/libgcc_eh.a \
         /tmp/c5r52i386/usr/lib/gcc/i386-redhat-linux/4.1.1/libstdc++.a \

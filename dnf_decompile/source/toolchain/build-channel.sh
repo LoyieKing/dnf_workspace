@@ -33,7 +33,7 @@ wait_jobs() {
 }
 
 SRC_DIR=$(cd "$(dirname "$0")/../ChannelOld/DNFChannelServer" && pwd)
-OUT_DIR=$(cd "$(dirname "$0")/../build-channel" && pwd)
+OUT_DIR=$(cd "$(dirname "$0")/../.." && pwd)/build/channel
 C6ROOT=${C6ROOT:-/tmp/c6root}
 CXX=/tmp/c6-g++-446r
 

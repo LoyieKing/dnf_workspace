@@ -18,14 +18,14 @@ class CServerInterface
 public:
     CServerInterface();
     CServerInterface(stServerInfo* info);
-    virtual ~CServerInterface();
-    virtual bool IsValidServer();
-    virtual bool IsConnected();
-    virtual int IsHeartBeatTimeOver();
-    virtual void ResetHeartBeat();
-    virtual void OnDisconnect();
-    virtual void SendToServer(char* buf, int len);
-    virtual void SetConnFlag(bool flag);
+    ~CServerInterface();
+    bool IsValidServer();
+    bool IsConnected();
+    int IsHeartBeatTimeOver();
+    void ResetHeartBeat();
+    void OnDisconnect();
+    int SendToServer(char* buf, int len);
+    void SetConnFlag(bool flag);
     virtual bool Initialize();
     virtual bool Destroy();
     void SetServerInfo(stServerInfo* info);
@@ -46,7 +46,7 @@ class CGameServer : public CServerInterface
 public:
     CGameServer();
     CGameServer(stServerInfo* info);
-    virtual ~CGameServer();
+    ~CGameServer();
     bool Initialize();
     bool Destroy();
     int GetSocket();
@@ -77,7 +77,7 @@ class CDBServer : public CServerInterface
 public:
     CDBServer();
     CDBServer(stServerInfo* info);
-    virtual ~CDBServer();
+    ~CDBServer();
     bool Initialize();
     bool Destroy();
 };
@@ -88,7 +88,7 @@ class CManagerServer : public CServerInterface
 public:
     CManagerServer();
     CManagerServer(stServerInfo* info);
-    virtual ~CManagerServer();
+    ~CManagerServer();
     bool Initialize();
     bool Destroy();
     void SendHeartBeat(int group);
@@ -100,7 +100,7 @@ class CMonitorServer : public CServerInterface
 public:
     CMonitorServer();
     CMonitorServer(stServerInfo* info);
-    virtual ~CMonitorServer();
+    ~CMonitorServer();
     bool Initialize();
     bool Destroy();
     void SendHeartBeat(int group);
@@ -137,8 +137,8 @@ public:
 
 // ---- CServerHandler：0x5c ----
 // map<uint,CGameServer*>@0 / @0x18=CDBServer* / @0x1c=CManagerServer* /
-// map<uint,CTcpGameServer*>@0x24 / @0x3c=CApplication* / @0x40=heartbeat /
-// CTcpDBServer@0x44(0x14) / @0x58=@
+// @0x20=CMonitorServer* / map<uint,CTcpGameServer*>@0x24 / @0x3c=CApplication* /
+// @0x40=heartbeat / CTcpDBServer@0x44(0x14) / @0x58=@
 class CServerHandler
 {
 public:
@@ -149,7 +149,7 @@ public:
     void Process();
     CGameServer* GetGameServer(unsigned int group);
     CTcpGameServer* GetTcpGameServer(unsigned int group);
-    int IsConnectedGameServer(unsigned char group);
+    bool IsConnectedGameServer(unsigned char group);
     CDBServer* GetDBServer();
     CManagerServer* GetManagerServer();
     CMonitorServer* GetMonitorServer();
@@ -168,12 +168,12 @@ public:
     void SendAllTcpGameServer(PacketHeader* pkt);
     void SendAllUdpGameServer(char* buf, int len);
     void SendTcpGameServerFirst(PacketHeader* pkt);
-    void RegistDBServer(CDBServer* server);
-    void UnregistDBServer();
-    void RegistManagerServer(CManagerServer* server);
-    void UnregistManagerServer();
-    void RegistMonitorServer(CMonitorServer* server);
-    void UnregistMonitorServer();
+    bool RegistDBServer(CDBServer* server);
+    bool UnregistDBServer();
+    bool RegistManagerServer(CManagerServer* server);
+    bool UnregistManagerServer();
+    bool RegistMonitorServer(CMonitorServer* server);
+    bool UnregistMonitorServer();
     bool RegistGameServer(stServerInfo* info);
     void UnregistGameServer(unsigned int group);
     CTcpGameServer* CreateTcpGameServer(unsigned int group);
@@ -186,6 +186,7 @@ public:
     std::map<unsigned int, CGameServer*> m_gameServers;   // +0
     CDBServer* m_dbServer;                                 // +0x18
     CManagerServer* m_managerServer;                       // +0x1c
+    CMonitorServer* m_monitorServer;                       // +0x20
     std::map<unsigned int, CTcpGameServer*> m_tcpGameServers;  // +0x24
     CApplication* m_app;                                   // +0x3c
     int m_heartbeat;                                       // +0x40

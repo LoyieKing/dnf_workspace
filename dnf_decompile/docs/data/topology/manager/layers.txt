@@ -1,0 +1,55 @@
+Layer 0 (2 files):
+  Library3rd/MySQL/include/my_alloc.h
+  shared/common/include/ReverseEngineerLib.h
+Layer 1 (9 files):
+  DNFServer/ServerCommon/Thread.h
+  Library3rd/MySQL/include/my_attribute.h
+  Library3rd/MySQL/include/my_list.h
+  Library3rd/MySQL/include/mysql_com.h
+  Library3rd/MySQL/include/mysql_time.h
+  Library3rd/MySQL/include/mysql_version.h
+  Library3rd/MySQL/include/t_ctype.h
+  Library3rd/MySQL/include/typelib.h
+  shared/packet/include/PacketHeader.h
+Layer 2 (15 files):
+  Library3rd/MySQL/include/config-win.h
+  Library3rd/MySQL/include/m_ctype.h
+  Library3rd/MySQL/include/my_charsets.h
+  Library3rd/MySQL/include/my_config.h
+  Library3rd/MySQL/include/my_dbug.h
+  Library3rd/MySQL/include/my_pthread.h
+  Library3rd/MySQL/include/mysql.h
+  shared/packet/include/Packet_InnerPakcet_Login.h
+  shared/packet/include/Packet_InnerPakcet_Logout.h
+  shared/packet/include/Packet_Monitor_Event_End.h
+  shared/packet/include/Packet_Monitor_Event_Start.h
+  shared/packet/include/Packet_Monitor_Manager_Connect_OK.h
+  shared/packet/include/Packet_Web_Notice_InGame_Advertisement.h
+  shared/packet/include/Packet_Web_Notice_Single.h
+  shared/packet/include/Packet_Web_Prohibit_User_Connect.h
+Layer 3 (7 files):
+  Library3rd/MySQL/include/m_string.h
+  Library3rd/MySQL/include/my_dir.h
+  Library3rd/MySQL/include/my_global.h
+  Library3rd/MySQL/include/my_no_pthread.h
+  Library3rd/MySQL/include/my_nosys.h
+  Library3rd/MySQL/include/my_sys.h
+  manager/ManagerTypes.h
+Layer 4 (5 files):
+  DNFServer/ServerCommon/DNFFileLog.h
+  DNFServer/ServerCommon/DNFFunctionLib.h
+  Library3rd/MySQL/include/my_base.h
+  Library3rd/MySQL/mysys/mysys_priv.h
+  manager/ManagerApp.h
+Layer 5 (11 files):
+  DNFServer/ServerCommon/CFileLogWriterBase.cpp
+  DNFServer/ServerCommon/DNFFileLog.cpp
+  DNFServer/ServerCommon/DNFFunctionLib.cpp
+  DNFServer/ServerCommon/Thread.cpp
+  Library3rd/MySQL/extlib/zlib/trees.h
+  Library3rd/MySQL/include/my_time.h
+  Library3rd/MySQL/include/sha1.h
+  Library3rd/MySQL/mysys/my_thr_init.c
+  Library3rd/MySQL/strings/dtoa.c
+  manager/ManagerApp.cpp
+  manager/ManagerTypes.cpp

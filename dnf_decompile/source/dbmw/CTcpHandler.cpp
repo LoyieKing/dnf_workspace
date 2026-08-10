@@ -40,7 +40,7 @@ CTcpHandler::~CTcpHandler()
 
 int CTcpHandler::WaitForEvent()
 {
-    return m_epoll ? m_epoll->WaitForEvent() : 0;
+    return m_epoll ? m_epoll->WaitForEvent() : -1;
 }
 
 int CTcpHandler::ResetEpoll(int flag)
@@ -50,7 +50,7 @@ int CTcpHandler::ResetEpoll(int flag)
 
 int CTcpHandler::SetPeer(void* peer, int fd, bool flag)
 {
-    return m_epoll ? m_epoll->SetPeer(peer, fd, flag) : -1;
+    return m_epoll ? m_epoll->SetEpoll(peer, fd, flag) : -1;
 }
 
 void* CTcpHandler::GetEventPtr(int idx)

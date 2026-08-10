@@ -63,9 +63,6 @@ public:
     ITextOutputDevice()
     {
     }
-    virtual ~ITextOutputDevice()
-    {
-    }
     virtual void serialize(char c) = 0;
     virtual void serialize(char* str) = 0;
     virtual void serialize(char const* str) = 0;
@@ -95,27 +92,26 @@ private:
     char m_filename[0x104];
 };
 
-// TDebugTrace<char>：0x408
+// TDebugTrace<char>：0x408（ORIG ctor 只清 byte@0、byte@0x400、dword@0x404）
 template <class T>
 class TDebugTrace
 {
 public:
     TDebugTrace()
     {
-        m_pDevice = 0;
-        memset(m_buf, 0, sizeof(m_buf));
+        m_buf[0] = 0;
+        m_flag = 0;
+        m_len = 0;
     }
     ~TDebugTrace()
     {
     }
-    void setOutputDevice(ITextOutputDevice* p)
-    {
-        m_pDevice = p;
-    }
 
 private:
-    ITextOutputDevice* m_pDevice;
-    char m_buf[0x404];
+    char m_buf[0x400];   // @0
+    char m_flag;         // @0x400
+    char m_pad[3];       // @0x401..0x403
+    int m_len;           // @0x404
 };
 
 #endif // RELAY_LOG_H_

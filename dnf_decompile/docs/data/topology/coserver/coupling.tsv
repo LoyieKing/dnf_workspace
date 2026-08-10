@@ -1,0 +1,16 @@
+header	depending_tus
+DNFServer/ServerCommon/DNFFileLog.h	DNFServer/ServerCommon/CFileLogWriterBase.cpp,DNFServer/ServerCommon/DNFFileLog.cpp,DNFServer/ServerCommon/DNFFunctionLib.cpp,coserver/CoserverApp.cpp,coserver/CoserverMisc.cpp,coserver/CoserverPacket.cpp,coserver/CoserverServer.cpp,coserver/CoserverSignal.cpp,coserver/CoserverTable.cpp,coserver/CoserverThread.cpp,coserver/CoserverUdp.cpp,coserver/CoserverUser.cpp
+DNFServer/ServerCommon/DNFFunctionLib.h	DNFServer/ServerCommon/DNFFileLog.cpp,DNFServer/ServerCommon/DNFFunctionLib.cpp,coserver/CoserverApp.cpp,coserver/CoserverMisc.cpp,coserver/CoserverPacket.cpp,coserver/CoserverServer.cpp,coserver/CoserverTable.cpp,coserver/CoserverThread.cpp,coserver/CoserverUser.cpp
+DNFServer/ServerCommon/Thread.h	DNFServer/ServerCommon/CFileLogWriterBase.cpp,DNFServer/ServerCommon/DNFFileLog.cpp,DNFServer/ServerCommon/DNFFunctionLib.cpp,DNFServer/ServerCommon/Thread.cpp,coserver/CoserverApp.cpp,coserver/CoserverInit.cpp,coserver/CoserverMisc.cpp,coserver/CoserverPacket.cpp,coserver/CoserverServer.cpp,coserver/CoserverSignal.cpp,coserver/CoserverTable.cpp,coserver/CoserverThread.cpp,coserver/CoserverUdp.cpp,coserver/CoserverUser.cpp
+coserver/CoserverApp.h	coserver/CoserverApp.cpp,coserver/CoserverInit.cpp,coserver/CoserverPacket.cpp,coserver/CoserverServer.cpp,coserver/CoserverSignal.cpp,coserver/CoserverThread.cpp
+coserver/CoserverInit.h	coserver/CoserverApp.cpp,coserver/CoserverInit.cpp
+coserver/CoserverMisc.h	coserver/CoserverApp.cpp,coserver/CoserverInit.cpp,coserver/CoserverMisc.cpp
+coserver/CoserverPacket.h	coserver/CoserverApp.cpp,coserver/CoserverPacket.cpp,coserver/CoserverSignal.cpp,coserver/CoserverThread.cpp
+coserver/CoserverServer.h	coserver/CoserverApp.cpp,coserver/CoserverInit.cpp,coserver/CoserverPacket.cpp,coserver/CoserverServer.cpp,coserver/CoserverUser.cpp
+coserver/CoserverSignal.h	coserver/CoserverApp.cpp,coserver/CoserverSignal.cpp
+coserver/CoserverTable.h	coserver/CoserverApp.cpp,coserver/CoserverInit.cpp,coserver/CoserverMisc.cpp,coserver/CoserverPacket.cpp,coserver/CoserverServer.cpp,coserver/CoserverSignal.cpp,coserver/CoserverTable.cpp,coserver/CoserverThread.cpp,coserver/CoserverUser.cpp
+coserver/CoserverThread.h	coserver/CoserverApp.cpp,coserver/CoserverInit.cpp,coserver/CoserverPacket.cpp,coserver/CoserverServer.cpp,coserver/CoserverSignal.cpp,coserver/CoserverThread.cpp
+coserver/CoserverUdp.h	coserver/CoserverApp.cpp,coserver/CoserverMisc.cpp,coserver/CoserverPacket.cpp,coserver/CoserverServer.cpp,coserver/CoserverThread.cpp,coserver/CoserverUdp.cpp
+coserver/CoserverUser.h	coserver/CoserverApp.cpp,coserver/CoserverInit.cpp,coserver/CoserverPacket.cpp,coserver/CoserverServer.cpp,coserver/CoserverSignal.cpp,coserver/CoserverThread.cpp,coserver/CoserverUser.cpp
+shared/common/include/ReverseEngineerLib.h	coserver/CoserverApp.cpp,coserver/CoserverPacket.cpp,coserver/CoserverServer.cpp,coserver/CoserverSignal.cpp,coserver/CoserverThread.cpp
+shared/packet/include/PacketHeader.h	coserver/CoserverApp.cpp,coserver/CoserverPacket.cpp,coserver/CoserverServer.cpp,coserver/CoserverSignal.cpp,coserver/CoserverThread.cpp

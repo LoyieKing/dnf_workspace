@@ -75,7 +75,7 @@ public:
     void init_signal();
     int init_handler(CApplication* app);
     int regist_signal(int sig, void (*handler)(int));
-    int getSignal(int sig) const;
+    CSignal* getSignal(int sig) const;
     CSignal* m_handlers[0x20];  // +0
 };
 

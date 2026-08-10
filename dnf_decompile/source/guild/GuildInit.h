@@ -11,9 +11,9 @@ class CAppInit
 public:
     CAppInit();
     virtual ~CAppInit();
-    virtual void Init(CApplication* app, int argc, char** argv);
-    virtual void Load(CApplication* app, int argc, char** argv);
-    virtual void Free(CApplication* app);
+    virtual void Init(CApplication* app, int argc, char** argv) = 0;
+    void Load(CApplication* app, int argc, char** argv);
+    void Free(CApplication* app);
 };
 
 class CAppStartInit : public CAppInit

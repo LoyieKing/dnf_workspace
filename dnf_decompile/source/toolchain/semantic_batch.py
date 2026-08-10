@@ -8,7 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile')
-MANIFEST_DIR = ROOT / 'source/build-verify-community'
+MANIFEST_DIR = ROOT / 'build/community'
 TOOL = ROOT / 'source/toolchain/semantic_compare.py'
 OUT = Path('/tmp/review_all_diffs/semantic_classified.tsv')
 

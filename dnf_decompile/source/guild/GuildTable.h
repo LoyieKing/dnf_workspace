@@ -123,16 +123,20 @@ public:
     void setUdpRecvQueue(int n);
     void setTcpRecvQueue(int n);
     void setTcpSendQueue(int n);
-    int checkUdpRecvLoad(int n);
-    int checkTcpRecvLoad(int n);
-    int checkTcpSendLoad(int n);
+    bool checkUdpRecvLoad(int n);
+    bool checkTcpRecvLoad(int n);
+    bool checkTcpSendLoad(int n);
     int CheckUdpRecvQ(int n);
     int CheckTcpRecvQ(int n);
     int CheckTcpSendQ(int n);
     void RequestDB(CServerHandler* handler, int a, int b);
-    char m_field0;   // +0
-    char m_field1;   // +1
-    char m_field2;   // +2
+    int m_tcpRecvLast;   // +0
+    int m_udpRecvLast;   // +4
+    int m_tcpSendLast;   // +8
+    char m_tcpRecvLevel; // +0xc
+    char m_udpRecvLevel; // +0xd
+    char m_tcpSendLevel; // +0xe
+    char m_padF;         // +0xf
 };
 
 CAppLoadChecker* CAppLoadCheckerInstance();

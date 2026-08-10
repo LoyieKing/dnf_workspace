@@ -90,7 +90,16 @@ class Packet_Item_Limit_Edition_Update;
 class Packet_DBMW_Change_Char_Name;
 class Packet_DB_Guild_Cargo_Upgrade;
 class Packet_DB_Update_Guild_Cargo;
-class Packet_DBMW_Statistic_Login_Logout;
+class Packet_DBMW_Statistic_Login_Logout : public PacketHeader
+{
+public:
+    Packet_DBMW_Statistic_Login_Logout();
+    char m_pad[0x5fe];  // +0xa .. +0x607
+    int m_field608;     // +0x608
+    int m_field60c;     // +0x60c
+    int m_field610;     // +0x610
+    int m_field614;     // +0x614
+} __attribute__((packed));
 class Packet_Result_OnTimeEvent_Idx;
 // ---- 统计/框架 packet（MISSING 62 批补全布局，+0xa 起数据区）----
 class Packet_User_Count_Statistic : public PacketHeader
@@ -666,13 +675,17 @@ class Packet_DB_Reply_Query_Guild_Member : public PacketHeader
 {
 public:
     Packet_DB_Reply_Query_Guild_Member();
-    char m_pad[0x23];  // 数据区（ORIG ctor size 0x2d）
+    char m_flag;            // +0xa
+    int m_fieldB;           // +0xb
+    int m_fieldF;           // +0xf
+    char m_pad[0x23 - 0xf]; // 数据区（ORIG ctor size 0x2d）
 } __attribute__((packed));
 class Packet_DB_Upgrade_Guild_Agit_Reply : public PacketHeader
 {
 public:
     Packet_DB_Upgrade_Guild_Agit_Reply();
-    char m_pad[0xc];  // 数据区（ORIG ctor size 0x16）
+    char m_pad[0x8];  // +0xa（ORIG ctor size 0x16）
+    int m_result;     // +0x12
 } __attribute__((packed));
 class Packet_DB_Load_Reply_Guild_Board_Open : public PacketHeader
 {
@@ -1044,6 +1057,7 @@ class CSystemTime
 public:
     CSystemTime();
     ~CSystemTime() {}
+    int m_field0;       // +0
     int m_field4;       // +4
     struct timeval m_tv;  // +8
     int m_field10;      // +0x10
@@ -1063,7 +1077,6 @@ class CDnFTimer
 {
 public:
     CDnFTimer();
-    ~CDnFTimer() {}
     virtual void SetLastTime() {}
     virtual double GetTimeInterval() { return 0.0; }
 };
@@ -1073,7 +1086,6 @@ class CUnixTimer : public CDnFTimer
 {
 public:
     CUnixTimer();
-    ~CUnixTimer() {}
     virtual void SetLastTime();
     virtual double GetTimeInterval();
     double GetNowTime();  // 非虚（原版无虚表槽）
@@ -1199,13 +1211,12 @@ class CProtocol
 public:
     CProtocol() {}
     virtual ~CProtocol() {}
-    virtual int SetPeer(void* peer, int fd, bool flag) { return 0; }
-    virtual void* GetEventPtr(int idx) { return 0; }
-    virtual char IsSetInEvent(int idx) { return 0; }
-    virtual int ResetEpoll(int fd) { return 0; }
-    virtual char IsSetOutEvent(int idx) { return 0; }
-    virtual int WaitForEvent() { return 0; }
-    virtual char IsSetErrEvent(int idx) { return 0; }
+    virtual int Init() = 0;
+    virtual int SetEpoll(void* peer, int fd, bool flag) = 0;
+    virtual int ResetEpoll(int fd) = 0;
+    virtual void Destroy() = 0;
+    virtual int WaitForEvent() = 0;
+    virtual char IsSetErrEvent(int idx) = 0;
 };
 
 class EpollHandler : public CProtocol
@@ -1213,18 +1224,17 @@ class EpollHandler : public CProtocol
 public:
     EpollHandler();
     virtual ~EpollHandler();
+    virtual int Init();
+    virtual int SetEpoll(void* peer, int fd, bool flag);
     virtual int ResetEpoll(int fd);
-    virtual char IsSetOutEvent(int idx);
+    virtual void Destroy();
     virtual int WaitForEvent();
     virtual char IsSetErrEvent(int idx);
+    virtual char IsSetOutEvent(int idx);
     virtual char IsSetInEvent(int idx);
     virtual void* GetEventPtr(int idx);
-    virtual int SetPeer(void* peer, int fd, bool flag);
-    int SetEpoll(void* peer, int fd, bool flag);
     int GetEpollFD();
     void* GetEpollEvents();
-    void Destroy();
-    int Init();
     int m_eventType;  // +4
     void* m_peer;     // +8
     char m_dataC[4];  // +0xc
@@ -1253,7 +1263,7 @@ class TCPSocket
 {
 public:
     TCPSocket();
-    virtual ~TCPSocket();
+    ~TCPSocket();
     char open();
     char connect(const char* ip, unsigned short port);
     char setOptNonBlock();
@@ -1278,7 +1288,7 @@ public:
     unsigned short getPeerPort();
     int m_fd;       // +0
     char m_data4[0x10];  // +4
-    struct sockaddr_in m_addr;  // +0x14
+    unsigned int m_addr;  // +0x14（4 字节 IP，ORIG connect 仅 memcpy sin_addr 4 字节到此）
     unsigned short m_port;  // +0x18
     char m_pad1A[2];
 };
@@ -1302,6 +1312,7 @@ public:
     void ConnSig();
     void DisConnSig();
     char RecvPacket();
+    char m_gap1c[0x1800];   // +0x1c（收包缓冲区：this+0x1c..this+0x181c，代码以指针算术访问，无成员）
     char* m_sendBuf;        // +0x181c
     int m_recvLen;          // +0x1820
     int m_sendLen;          // +0x1824
@@ -1318,12 +1329,12 @@ class CThreadInterface
 {
 public:
     CThreadInterface();
-    virtual ~CThreadInterface();
-    virtual bool begin();
-    virtual void* dispatch_proxy(void* param);
-    virtual void dispatch(void* param) = 0;
     virtual void stop();
     virtual void join();
+    virtual ~CThreadInterface();
+    virtual void dispatch(void* param) = 0;
+    bool begin();
+    void* dispatch_proxy(void* param);
     pthread_t m_thread;  // +4
     bool m_stop;         // +8（ORIG bool：循环检查为 test+jne，char 会多 setne）
 };
@@ -1541,6 +1552,7 @@ struct STTodayGuildMember
     unsigned char m_field25; // +0x25（sex）
     unsigned char m_field26; // +0x26（lev）
 };
+#pragma pack(push, 1)
 struct STBuddyDBInfo
 {
     char m_name[0x1e];        // +0
@@ -1550,6 +1562,7 @@ struct STBuddyDBInfo
     unsigned int m_characNo;  // +0x22
     char m_sex;               // +0x26
 };
+#pragma pack(pop)
 struct st_ip_counter_list
 {
     ~st_ip_counter_list();
@@ -1791,25 +1804,25 @@ public:
     virtual char open(const char* host, unsigned int port, const char* user, const char* pass, const char* db) { return 0; }
     virtual void close() {}
     virtual char ping() { return 0; }
-    virtual int set_query(unsigned int q, char* fmt, ...) { return 0; }
-    virtual int exec(unsigned int q) { return 0; }
-    virtual int fetch() { return 0; }
+    virtual bool set_query(unsigned int q, char* fmt, ...) { return 0; }
+    virtual bool exec(unsigned int q) { return 0; }
+    virtual bool fetch() { return 0; }
     virtual char* blob_to_str(int col, void* buf, int len) { return 0; }
-    virtual int get_str(int col, char* buf, int len) { return 0; }
-    virtual int get_binary(int col, void* buf, int len) { return 0; }
-    virtual int get_int(int col, int& v) { return 0; }
-    virtual int get_uint(int col, unsigned int& v) { return 0; }
-    virtual int get_short(int col, int& v) { return 0; }
-    virtual int get_short(int col, short& v) { return 0; }
-    virtual int get_ushort(int col, int& v) { return 0; }
-    virtual int get_ushort(int col, unsigned short& v) { return 0; }
-    virtual int get_byte(int col, int& v) { return 0; }
-    virtual int get_byte(int col, char& v) { return 0; }
-    virtual int get_ubyte(int col, int& v) { return 0; }
-    virtual int get_ubyte(int col, unsigned char& v) { return 0; }
-    virtual int get_int(int col, unsigned int& v) { return 0; }
-    virtual int get_int(int col, unsigned long long& v) { return 0; }
-    virtual int get_uint(int col, unsigned long long& v) { return 0; }
+    virtual bool get_str(int col, char* buf, int len) { return 0; }
+    virtual bool get_binary(int col, void* buf, int len) { return 0; }
+    virtual bool get_int(int col, int& v) { return 0; }
+    virtual bool get_uint(int col, unsigned int& v) { return 0; }
+    virtual bool get_short(int col, int& v) { return 0; }
+    virtual bool get_short(int col, short& v) { return 0; }
+    virtual bool get_ushort(int col, int& v) { return 0; }
+    virtual bool get_ushort(int col, unsigned short& v) { return 0; }
+    virtual bool get_byte(int col, int& v) { return 0; }
+    virtual bool get_byte(int col, char& v) { return 0; }
+    virtual bool get_ubyte(int col, int& v) { return 0; }
+    virtual bool get_ubyte(int col, unsigned char& v) { return 0; }
+    virtual bool get_int(int col, unsigned int& v) { return 0; }
+    virtual bool get_int(int col, unsigned long long& v) { return 0; }
+    virtual bool get_uint(int col, unsigned long long& v) { return 0; }
     virtual int get_n_fields() { return 0; }
     virtual int get_n_rows() { return 0; }
     virtual void clear_result_set() {}
@@ -1835,32 +1848,32 @@ public:
     void close();
     char init_db_handle();  // 非虚
     int exec_query();       // 非虚
-    int set_query(unsigned int q, char* fmt, ...);
-    int exec(unsigned int q);
-    int fetch();
+    bool set_query(unsigned int q, char* fmt, ...);
+    bool exec(unsigned int q);
+    bool fetch();
     void clear_result_set();
     char* blob_to_str(int col, void* buf, int len);
-    int get_str(int col, char* buf, int len);
-    int get_binary(int col, void* buf, int len);
-    int get_int(int col, int& v);
-    int get_uint(int col, unsigned int& v);
-    int get_short(int col, int& v);
-    int get_short(int col, short& v);
-    int get_ushort(int col, int& v);
-    int get_ushort(int col, unsigned short& v);
-    int get_byte(int col, int& v);
-    int get_byte(int col, char& v);
-    int get_ubyte(int col, int& v);
-    int get_ubyte(int col, unsigned char& v);
-    int get_int(int col, unsigned int& v);
-    int get_int(int col, unsigned long long& v);
-    int get_uint(int col, unsigned long long& v);
+    bool get_str(int col, char* buf, int len);
+    bool get_binary(int col, void* buf, int len);
+    bool get_int(int col, int& v);
+    bool get_uint(int col, unsigned int& v);
+    bool get_short(int col, int& v);
+    bool get_short(int col, short& v);
+    bool get_ushort(int col, int& v);
+    bool get_ushort(int col, unsigned short& v);
+    bool get_byte(int col, int& v);
+    bool get_byte(int col, char& v);
+    bool get_ubyte(int col, int& v);
+    bool get_ubyte(int col, unsigned char& v);
+    bool get_int(int col, unsigned int& v);
+    bool get_int(int col, unsigned long long& v);
+    bool get_uint(int col, unsigned long long& v);
     const char* get_quest_str() const;  // 虚（虚表 vptr+0x7c，返回 m_query）
     int get_n_rows();   // 虚（虚表 vptr+0x5c）
     int get_n_fields(); // 虚（虚表 vptr+0x58）
     unsigned long long getAffectedRowCount();
     char* escape_string(char* dst, char const* src);
-    int get_ulonglong(int col, unsigned long long& v);
+    bool get_ulonglong(int col, unsigned long long& v);
     char is_valid_col(int col); // 非虚
     char set_compress_option(); // 非虚
     char set_read_default_grp_option(); // 非虚
@@ -1880,8 +1893,9 @@ public:
     char m_user[0x1e];  // +0x54
     unsigned int m_port;  // +0x74
     char m_query[0x6001];  // +0x78（memset 0x6001）
+    char m_blob[10][0x6001];  // +0x6079（blob_to_str 基址 this+0x6079+col*0x6001，10×0x6001=0x3c00a 至 0x42083）
     unsigned int m_queryLen;  // +0x42084
-    unsigned int m_lastErrno; // +0x42088
+    unsigned int m_lastErrno; // +0x42088（sizeof=0x4208c，与 ORIG 分配一致）
 };
 
 class CDBManager
@@ -2164,14 +2178,18 @@ class LimitNpcBuyItemResultInfo : public PacketHeader
 {
 public:
     LimitNpcBuyItemResultInfo();
-    char m_data[0x16c];  // +0xa..0x176 数据区（count@+0xa、items@+0xe 步长 0xc）
+    int m_count;                 // +0xa
+    NpcBuyLimitItem m_items[0x1d];  // +0xe（0x1d × 0xc = 0x15c）
+    char m_tail[5];              // +0x16a
 } __attribute__((packed));
 
 class LimitNpcBuyItemUpdate : public PacketHeader
 {
 public:
     unsigned int m_fieldA;   // +0xa（sell_count 增量）
+    unsigned int m_fieldE;   // +0xe
     unsigned int m_field12;  // +0x12（item_index）
+    unsigned int m_field16;  // +0x16
 } __attribute__((packed));
 
 int get_awardItem_using_interval();
@@ -2183,8 +2201,8 @@ class CSignal
 {
 public:
     CSignal();
+    virtual void handle(int sig) = 0;
     virtual ~CSignal();
-    virtual void handle(int sig) {}
     void attachApp(CApplication* app);
     void dump_core_file();
     CApplication* m_app;  // +4
@@ -2549,15 +2567,14 @@ struct ST_MemberProxy
     unsigned char m_lev;    // +4
     char m_name[0x1e];      // +5（memset 0x1e）
     int m_field23;          // +0x23
-};
+} __attribute__((packed));
 
 struct STMemberDBInfo
 {
     STMemberDBInfo();
     ST_MemberProxy m_proxy;     // +0
     char m_count;               // +0x27
-    char m_pad28[1];
-    ST_MemberProxy m_lowers[9]; // +0x28
+    ST_MemberProxy m_lowers[10]; // +0x28
 };
 
 class Packet_DB_Reply_Query_Member : public PacketHeader
@@ -2569,7 +2586,7 @@ public:
     int m_fieldF;            // +0xf（maxExp）
     int m_field13;           // +0x13（maxIdx）
     STMemberDBInfo m_master; // +0x17
-    char m_rest[0x1c5 - 0x17 - 0x187];
+    char m_rest[0x1c5 - 0x17 - 0x1ae];
 } __attribute__((packed));
 
 class Packet_DB_Reply_Unconn_Guild_Member : public PacketHeader
@@ -2816,23 +2833,15 @@ public:
 class StackBuffer_char : public StackBuffer
 {
 public:
-    StackBuffer_char();
-    StackBuffer_char(const StackBuffer_char& other);
-    ~StackBuffer_char();
     void alloc(unsigned int size);
     operator char*();
-    char m_data[0x20];  // +8
 };
 
 class StackBuffer_wchar : public StackBuffer
 {
 public:
-    StackBuffer_wchar();
-    StackBuffer_wchar(const StackBuffer_wchar& other);
-    ~StackBuffer_wchar();
     void alloc(unsigned int size);
     operator wchar_t*();
-    wchar_t m_data[0x10];  // +8
 };
 
 StackBuffer_char sformat(const char* fmt, ...);

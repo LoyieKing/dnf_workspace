@@ -15,10 +15,10 @@ from compare_common import (
 
 ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/community/df_community_r'
-NEW = ROOT / 'dnf_decompile/source/build-verify-community/df_community_r'
-OBJ_DIR = ROOT / 'dnf_decompile/source/build-verify-community/CMakeFiles/df_community_r.dir'
-OUT_TSV = ROOT / 'dnf_decompile/source/build-verify-community/df_community_r_function_compare.tsv'
-OUT_MD = ROOT / 'dnf_decompile/source/build-verify-community/df_community_r_function_validation.md'
+NEW = ROOT / 'dnf_decompile/build/community/df_community_r'
+OBJ_DIR = ROOT / 'dnf_decompile/build/community/CMakeFiles/df_community_r.dir'
+OUT_TSV = ROOT / 'dnf_decompile/build/community/df_community_r_function_compare.tsv'
+OUT_MD = ROOT / 'dnf_decompile/build/community/df_community_r_function_validation.md'
 
 
 def run(cmd):

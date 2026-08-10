@@ -58,6 +58,23 @@
 
 - `compare_statics.py` 的签名缓存 key 加入 `CALIBER_VERSION`，防止旧口径缓存污染新判定。
 
+## identical 豁免口径（2026-08-10 用户规则）
+
+以下“基础内容 / 第三方内容”获得 identical 豁免，**移出统计口径**（不计入
+IDENTICAL / NEAR / DIFF / MISSING 计数，也不进入拓扑统计；语义正确性另行验证）：
+
+| 类别 | 覆盖范围 | 判定依据 |
+|---|---|---|
+| tinyxml | `TiXml*` 全部类与函数（tinyxml.cpp/.h、tinyxmlerror.cpp、tinyxmlparser.cpp） | mangled/demangled 含 `TiXml` / `tinyxml` |
+| 通用加密/哈希算法 | `CRijndael`(AES)、`CSHA`、`CTEA`、`IMethod` 基类（DWARF 服务）；`yaSSL::*`、`TaoCrypt::*` 全族（MD2/MD4/MD5/SHA/DES/3DES/AES/RSA/RIPEMD160/ARC4…，Library3rd/MySQL） | mangled/demangled 含类名或命名空间 |
+| Boost | `boost::*` 及项目包装 `nsl::object_pool_by_boost_pool` | mangled 含 `boost` / `object_pool_by_boost_pool` |
+| STL/std 内部 | `std::*`、`__gnu_cxx::*`、`__cxxabiv::*` 实例化（libstdc++ 内部实现差异） | mangled 含 `_ZNSt` / `_ZNKSt` / `_ZSt` / `__gnu_cxx` / `__cxxabiv` |
+| 工具链/运行时 | `_Unwind_*`、`__cxa_*`、`__gxx_personality`、`operator new/delete`、`__libc_csu_*` | mangled 模式匹配 |
+
+实现：`source/toolchain/compare_common.py::is_exempt_symbol(mangled, demangled=None)`；
+已接入 `compare_manager/dbmw/monitor/guild/statics.py`、`topology_map.py` 与
+`/tmp/fast_strict.py`。统计时先按豁免过滤符号，再按严格/extended/full 三档归一化。
+
 ## 验证
 
 - 12 组合成样例（常量 / 字段偏移 / 栈偏移 / 目标漂移 / 目标符号 / Intel 语法 / 间接跳转等）全部符合预期。

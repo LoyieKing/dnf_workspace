@@ -108,7 +108,6 @@ CAppStopInit::~CAppStopInit() {}
 void CAppStopInit::Init(CApplication* app, int argc, char** argv)
 {
     puts("RECV STOP, Manager had stoped this program.");
-    app->Clear();
     if (app->Send_Term_Signal(std::string(argv[1])))
         throw CDNFException("By CAppStopInit::Init(), this app had stoped!");
     throw CDNFException("By CAppStopInit::Init(), this app had stoped!_1");
@@ -150,7 +149,7 @@ int CAppConfig::Load_Table(const std::string& fileName)
 
 STDBConnInfo* CAppConfig::GetDBConnInfo(ENUM_DB_HANDLE_IDX idx)
 {
-    return (STDBConnInfo*)((char*)this + 0x60 + (int)idx * 0x168);
+    return (STDBConnInfo*)((char*)this + ((int)idx * 0x168 + 0x60));
 }
 
 int CAppConfig::GetServerGroup()
@@ -333,21 +332,27 @@ int CServerConfig::Parse_Table(char* data, int size)
     if (data[0] == '#')
         return 0;
     char* fields[5];
-    if (DNFFLib::ExplodeString(data, " \t\r\n\"", fields, 5) == 5 && size <= 0xfe)
+    if (DNFFLib::ExplodeString(data, " \t\r\n\"", fields, 5) == 5)
     {
-        ST_ServerInfo* info = &m_servers[size];
-        info->m_type = (char)atoi(fields[0]);
-        info->m_flag = (char)atoi(fields[1]);
-        info->m_idx = (char)atoi(fields[2]);
-        info->m_name = fields[3];
-        info->m_port = (unsigned short)atoi(fields[4]);
-        return 1;
+        if (size <= 0xfe)
+        {
+            ST_ServerInfo* info = &m_servers[size];
+            info->m_type = (char)atoi(fields[0]);
+            info->m_flag = (char)atoi(fields[1]);
+            info->m_idx = (char)atoi(fields[2]);
+            info->m_name = fields[3];
+            info->m_port = (unsigned short)atoi(fields[4]);
+            return 1;
+        }
     }
     return 0;
 }
 
 CKillUSRConfig::CKillUSRConfig() {}
-CKillUSRConfig::~CKillUSRConfig() {}
+CKillUSRConfig::~CKillUSRConfig()
+{
+    Clear_Table();
+}
 
 int CKillUSRConfig::Load_Table(const std::string& fileName)
 {
@@ -387,8 +392,9 @@ void CKillUSRConfig::Clear_Table()
     for (std::vector<ST_KillUSRConfig*>::iterator it = m_list.begin();
          it != m_list.end(); ++it)
     {
-        delete *it;
-        *it = 0;
+        ST_KillUSRConfig* p = *it;
+        delete p;
+        p = 0;
     }
     m_list.clear();
 }
@@ -413,9 +419,8 @@ CVersionMgr::CVersionMgr(int a, int b, int c, int d)
 }
 
 CSourceVersionMgr::SourceVersion::SourceVersion(const SourceVersion& other)
+    : m_name(other.m_name), m_version(other.m_version)
 {
-    m_name = other.m_name;
-    m_version = other.m_version;
 }
 
 CSourceVersionMgr::SourceVersion& CSourceVersionMgr::SourceVersion::operator=(const SourceVersion& other)
@@ -427,7 +432,11 @@ CSourceVersionMgr::SourceVersion& CSourceVersionMgr::SourceVersion::operator=(co
 
 CSourceVersionMgr::SourceVersion::~SourceVersion() {}
 
-CSourceVersionMgr::CSourceVersionMgr() {}
+CSourceVersionMgr::CSourceVersionMgr()
+{
+    InsertSourceVersion(".svn/all-wcprops", 0x19daa);
+    InsertSourceVersion("../ServerCommon/.svn/all-wcprops", 0x19daa);
+}
 CSourceVersionMgr::~CSourceVersionMgr() {}
 
 int CAppConfig::Get_ServerUdpPort() { return m_udpPort; }

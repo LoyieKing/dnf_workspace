@@ -151,7 +151,6 @@ class CFrameCountHandler
 {
 public:
     CFrameCountHandler();
-    ~CFrameCountHandler();
     void InitFrameCountInfo(CApplication* app, unsigned int a, unsigned short b);
     void SaveProcess();
     void SaveProcess(int n);
@@ -191,7 +190,6 @@ public:
     int GetServerSocket();
     int m_sock;         // +0
     int m_clientSock;   // +4
-    char m_data8[8];    // +8
 };
 
 // ---- CSwapQueue<T,N>：0x58 ----
@@ -216,6 +214,7 @@ class CSystemTime
 public:
     CSystemTime();
     ~CSystemTime() {}
+    int m_field0;       // +0（ORIG 布局：+0 未初始化 int，m_tv 在 +8）
     int m_field4;       // +4
     struct timeval m_tv;  // +8
     int m_field10;      // +0x10
@@ -259,11 +258,11 @@ public:
     CUserManager();
     ~CUserManager();
     void Init(CApplication* app);
-    char InsertProhibitUser(unsigned int dbid, CDNFProhibitUser* pu);
+    char InsertProhibitUser(const unsigned int dbid, CDNFProhibitUser* pu);
     CDNFProhibitUser* FindProhibitUser(unsigned int dbid) const;
     char DeleteProhibitUser(unsigned int dbid);
     void ProcessByMinute();
-    std::map<unsigned int, CDNFProhibitUser*> m_prohibitUsers;  // +0
+    std::map<const unsigned int, CDNFProhibitUser*> m_prohibitUsers;  // +0
     CApplication* m_app;  // +0x18
 };
 
@@ -277,7 +276,7 @@ public:
     static void operator delete(void* ptr);
     static void operator delete(void* ptr, unsigned int size);
     unsigned int GetDBID();
-    unsigned short GetProhibitRemainTime();
+    short GetProhibitRemainTime();
     unsigned char GetMonitorRetPacketCnt();
     char GetConnectFlag();
     void SetIpPort(unsigned int ip, unsigned short port);
@@ -287,13 +286,14 @@ public:
     void IncreMonitorRetPacket();
     char IsTimeOutWaitMonitor();
     unsigned int m_dbid;        // +0
-    unsigned short m_remainTime;  // +4
+    short m_remainTime;  // +4（ORIG setle 有符号比较）
     unsigned char m_retPacketCnt; // +6
     char m_pad7;                // +7
     unsigned int m_ip;          // +8
     unsigned short m_port;      // +0xc
     char m_connectFlag;         // +0xe
     char m_padF;                // +0xf
+    int m_field10;              // +0x10（ORIG sizeof=0x14，MemPool 元素大小）
 };
 
 // ---- CMonitorServer：0x14 ----
@@ -310,14 +310,14 @@ public:
     char IsHeartBeatTimeOver();
     void Init(std::string& name, unsigned short port, unsigned char flag);
     void SendToServer(char* buf, int len);
-    char m_index;       // +0
+    unsigned char m_index;  // +0
     char m_valid;       // +1
     char m_pad2[2];     // +2
     std::string m_name; // +4
     unsigned short m_port;  // +8
-    char m_connected;   // +0xa
+    bool m_connected;   // +0xa
     char m_heartBeat;   // +0xb
-    char m_fieldC;      // +0xc
+    unsigned char m_fieldC;      // +0xc（ORIG seta 无符号比较）
     char m_padD[3];     // +0xd
     CUdpHandler* m_udpHandler;  // +0x10
 };
@@ -337,9 +337,9 @@ public:
     char IsHeartbeatTimeOver();
     void SendToServer(char* buf);
     unsigned short makePacketHeader(unsigned short type, unsigned short size);
-    char m_index;       // +0
+    unsigned char m_index;  // +0
     char m_pad1[3];
-    void* m_socket;     // +4
+    unsigned int m_socket;  // +4（原版为无符号整型套接字句柄）
     CTcpNetSystem* m_net;  // +8
     time_t m_heartbeat; // +0xc
 };
@@ -397,13 +397,14 @@ class CProtocol
 public:
     CProtocol() {}
     virtual ~CProtocol() {}
-    virtual int SetPeer(void* peer, int fd, bool flag) { return 0; }
-    virtual void* GetEventPtr(int idx) { return 0; }
-    virtual char IsSetInEvent(int idx) { return 0; }
-    virtual int ResetEpoll(int fd) { return 0; }
-    virtual char IsSetOutEvent(int idx) { return 0; }
-    virtual int WaitForEvent() { return 0; }
-    virtual char IsSetErrEvent(int idx) { return 0; }
+    virtual int Init() = 0;
+    virtual int SetEpoll(void* peer, int fd, bool flag) = 0;
+    virtual int ResetEpoll(int fd) = 0;
+    virtual void Destroy() = 0;
+    virtual int WaitForEvent() = 0;
+    virtual bool IsSetErrEvent(int idx) = 0;
+    virtual bool IsSetOutEvent(int idx) = 0;
+    virtual bool IsSetInEvent(int idx) = 0;
 };
 
 class EpollHandler : public CProtocol
@@ -411,18 +412,17 @@ class EpollHandler : public CProtocol
 public:
     EpollHandler();
     virtual ~EpollHandler();
+    virtual int Init();
+    virtual int SetEpoll(void* peer, int fd, bool flag);
     virtual int ResetEpoll(int fd);
-    virtual char IsSetOutEvent(int idx);
+    virtual void Destroy();
     virtual int WaitForEvent();
-    virtual char IsSetErrEvent(int idx);
-    virtual char IsSetInEvent(int idx);
+    virtual bool IsSetErrEvent(int idx);
+    virtual bool IsSetOutEvent(int idx);
+    virtual bool IsSetInEvent(int idx);
     virtual void* GetEventPtr(int idx);
-    virtual int SetPeer(void* peer, int fd, bool flag);
-    int SetEpoll(void* peer, int fd, bool flag);
     int GetEpollFD();
     void* GetEpollEvents();
-    void Destroy();
-    int Init();
     int m_eventType;  // +4
     void* m_peer;     // +8
     char m_dataC[4];  // +0xc
@@ -440,9 +440,9 @@ public:
     int ResetEpoll(int flag);
     int SetPeer(void* peer, int fd, bool flag);
     void* GetEventPtr(int idx);
-    char IsSetInEvent(int idx);
-    char IsSetOutEvent(int idx);
-    char IsSetErrEvent(int idx);
+    bool IsSetInEvent(int idx);
+    bool IsSetOutEvent(int idx);
+    bool IsSetErrEvent(int idx);
     EpollHandler* m_epoll;  // +0
 };
 
@@ -451,7 +451,7 @@ class TCPSocket
 {
 public:
     TCPSocket();
-    virtual ~TCPSocket();
+    ~TCPSocket();
     char open();
     char connect(const char* ip, unsigned short port);
     char setOptNonBlock();
@@ -476,7 +476,7 @@ public:
     unsigned short getPeerPort();
     int m_fd;       // +0
     char m_data4[0x10];  // +4
-    struct sockaddr_in m_addr;  // +0x14
+    char m_addr[4];     // +0x14（原版仅 4 字节地址域）
     unsigned short m_port;  // +0x18
     char m_pad1A[2];
 };
@@ -500,6 +500,7 @@ public:
     void ConnSig();
     void DisConnSig();
     char RecvPacket();
+    char m_sendData[0x1800];    // +0x1c（内联收发缓冲，m_sendBuf 指向此处）
     char* m_sendBuf;        // +0x181c
     int m_recvLen;          // +0x1820
     int m_sendLen;          // +0x1824
@@ -582,34 +583,34 @@ public:
     CDBHandle();
     virtual ~CDBHandle();
     // 虚表顺序与原版完全一致（vptr+0x08 起）
-    virtual char init() { return 0; }
-    virtual char open(const char* host, const char* user, const char* pass, const char* db) { return 0; }
+    virtual bool init() { return 0; }
+    virtual bool open(const char* host, const char* user, const char* pass, const char* db) { return 0; }
     virtual void close() {}
-    virtual char ping() { return 0; }
-    virtual int set_query(unsigned int q, char* fmt, ...) { return 0; }
-    virtual int exec(unsigned int q) { return 0; }
-    virtual int fetch() { return 0; }
+    virtual bool ping() { return 0; }
+    virtual bool set_query(unsigned int q, char* fmt, ...) { return 0; }
+    virtual bool exec(unsigned int q) { return 0; }
+    virtual bool fetch() { return 0; }
     virtual char* blob_to_str(int col, void* buf, int len) { return 0; }
-    virtual int get_str(int col, char* buf, int len) { return 0; }
-    virtual int get_binary(int col, void* buf, int len) { return 0; }
-    virtual int get_int(int col, int& v) { return 0; }
-    virtual int get_uint(int col, unsigned int& v) { return 0; }
-    virtual int get_short(int col, int& v) { return 0; }
-    virtual int get_short(int col, short& v) { return 0; }
-    virtual int get_ushort(int col, int& v) { return 0; }
-    virtual int get_ushort(int col, unsigned short& v) { return 0; }
-    virtual int get_byte(int col, int& v) { return 0; }
-    virtual int get_byte(int col, char& v) { return 0; }
-    virtual int get_ubyte(int col, int& v) { return 0; }
-    virtual int get_ubyte(int col, unsigned char& v) { return 0; }
+    virtual bool get_str(int col, char* buf, int len) { return 0; }
+    virtual bool get_binary(int col, void* buf, int len) { return 0; }
+    virtual bool get_int(int col, int& v) { return 0; }
+    virtual bool get_uint(int col, unsigned int& v) { return 0; }
+    virtual bool get_short(int col, int& v) { return 0; }
+    virtual bool get_short(int col, short& v) { return 0; }
+    virtual bool get_ushort(int col, int& v) { return 0; }
+    virtual bool get_ushort(int col, unsigned short& v) { return 0; }
+    virtual bool get_byte(int col, int& v) { return 0; }
+    virtual bool get_byte(int col, char& v) { return 0; }
+    virtual bool get_ubyte(int col, int& v) { return 0; }
+    virtual bool get_ubyte(int col, unsigned char& v) { return 0; }
     virtual int get_n_fields() { return 0; }
     virtual int get_n_rows() { return 0; }
     virtual void clear_result_set() {}
     // 以下为原版非虚成员
-    char init_db_handle();
-    char set_compress_option();
-    char set_read_default_grp_option();
-    char is_valid_col(int col);
+    bool init_db_handle();
+    bool set_compress_option();
+    bool set_read_default_grp_option();
+    bool is_valid_col(int col);
     int exec_query();
 };
 
@@ -618,34 +619,34 @@ class CMySql : public CDBHandle
 public:
     CMySql();
     virtual ~CMySql();
-    virtual char init();
-    char open(const char* host, const char* user, const char* pass, const char* db);
+    virtual bool init();
+    bool open(const char* host, const char* user, const char* pass, const char* db);
     void close();
-    char init_db_handle();  // 非虚
+    bool init_db_handle();  // 非虚
     int exec_query();       // 非虚
-    int set_query(unsigned int q, char* fmt, ...);
-    int exec(unsigned int q);
-    int fetch();
+    bool set_query(unsigned int q, char* fmt, ...);
+    bool exec(unsigned int q);
+    bool fetch();
     void clear_result_set();
     char* blob_to_str(int col, void* buf, int len);
-    int get_str(int col, char* buf, int len);
-    int get_binary(int col, void* buf, int len);
-    int get_int(int col, int& v);
-    int get_uint(int col, unsigned int& v);
-    int get_short(int col, int& v);
-    int get_short(int col, short& v);
-    int get_ushort(int col, int& v);
-    int get_ushort(int col, unsigned short& v);
-    int get_byte(int col, int& v);
-    int get_byte(int col, char& v);
-    int get_ubyte(int col, int& v);
-    int get_ubyte(int col, unsigned char& v);
+    bool get_str(int col, char* buf, int len);
+    bool get_binary(int col, void* buf, int len);
+    bool get_int(int col, int& v);
+    bool get_uint(int col, unsigned int& v);
+    bool get_short(int col, int& v);
+    bool get_short(int col, short& v);
+    bool get_ushort(int col, int& v);
+    bool get_ushort(int col, unsigned short& v);
+    bool get_byte(int col, int& v);
+    bool get_byte(int col, char& v);
+    bool get_ubyte(int col, int& v);
+    bool get_ubyte(int col, unsigned char& v);
     int get_n_rows();   // 虚（虚表 vptr+0x5c）
     int get_n_fields(); // 虚（虚表 vptr+0x58）
-    char is_valid_col(int col); // 非虚
-    char set_compress_option(); // 非虚
-    char set_read_default_grp_option(); // 非虚
-    char ping();        // 虚（虚表 vptr+0x14）
+    bool is_valid_col(int col); // 非虚
+    bool set_compress_option(); // 非虚
+    bool set_read_default_grp_option(); // 非虚
+    bool ping();        // 虚（虚表 vptr+0x14）
     MYSQL* m_mysql;   // +4
     MYSQL_RES* m_result;  // +8
     MYSQL_ROW m_row;      // +0xc
@@ -670,7 +671,8 @@ public:
     char UpdateQueryCount(unsigned int idx, int count, int time);
     char SelectTest();
     CDBHandle* m_handles[0x10];  // +0
-    CApplication* m_app;  // +0x44
+    char m_pad40[4];        // +0x40
+    CApplication* m_app;    // +0x44
 };
 
 // ---- CSignal ----
@@ -678,8 +680,8 @@ class CSignal
 {
 public:
     CSignal();
+    virtual void handle(int sig) = 0;
     virtual ~CSignal();
-    virtual void handle(int sig) {}
     void attachApp(CApplication* app);
     void dump_core_file();
     CApplication* m_app;  // +4
@@ -689,43 +691,43 @@ class CTerminateSig : public CSignal
 {
 public:
     CTerminateSig();
-    virtual ~CTerminateSig();
     virtual void handle(int sig);
+    virtual ~CTerminateSig();
 };
 class CSystemFailSig : public CSignal
 {
 public:
     CSystemFailSig();
-    virtual ~CSystemFailSig();
     virtual void handle(int sig);
+    virtual ~CSystemFailSig();
 };
 class CSegmentationFaultSig : public CSignal
 {
 public:
     CSegmentationFaultSig();
-    virtual ~CSegmentationFaultSig();
     virtual void handle(int sig);
+    virtual ~CSegmentationFaultSig();
 };
 class CFloatingPointExceptSig : public CSignal
 {
 public:
     CFloatingPointExceptSig();
-    virtual ~CFloatingPointExceptSig();
     virtual void handle(int sig);
+    virtual ~CFloatingPointExceptSig();
 };
 class CUser1Sig : public CSignal
 {
 public:
     CUser1Sig();
-    virtual ~CUser1Sig();
     virtual void handle(int sig);
+    virtual ~CUser1Sig();
 };
 class CUser2Sig : public CSignal
 {
 public:
     CUser2Sig();
-    virtual ~CUser2Sig();
     virtual void handle(int sig);
+    virtual ~CUser2Sig();
 };
 
 // ---- CSignalTranslator ----
@@ -765,8 +767,9 @@ class CTableBase
 public:
     CTableBase();
     virtual ~CTableBase();
-    virtual int Load_Txt_Table_Data(const char* fileName, int idx);
-    virtual int Parse_Table(char* data, int size) { return 0; }
+    virtual int Load_Table(const std::string& fileName) = 0;
+    virtual int Parse_Table(char* data, int size) = 0;
+    int Load_Txt_Table_Data(const char* fileName, int idx);
 };
 
 class CAppInit
@@ -800,14 +803,13 @@ class CAppConfig : public CTableBase
 public:
     CAppConfig();
     virtual ~CAppConfig();
-    virtual int Load_Txt_Table_Data(const char* fileName, int idx);
-    int Load_Table(const std::string& fileName);
-    int Parse_Table(char* data, int size);
+    virtual int Load_Table(const std::string& fileName);
+    virtual int Parse_Table(char* data, int size);
     int Check_FileName(const std::string& fileName);
     int Get_ServerUdpPort();
     int Get_ServerTcpPort();
-    unsigned char Get_FrameCountValue();
-    char m_frameCount;      // +4
+    unsigned int Get_FrameCountValue();
+    unsigned char m_frameCount;  // +4
     char m_pad5[3];
     int m_serverUdpPort;    // +8
     int m_serverTcpPort;    // +0xc
@@ -818,12 +820,10 @@ class CServerConfig : public CTableBase
 public:
     CServerConfig();
     virtual ~CServerConfig();
-    virtual int Load_Txt_Table_Data(const char* fileName, int idx);
-    int Load_Table(const std::string& fileName);
-    int Parse_Table(char* data, int size);
+    virtual int Load_Table(const std::string& fileName);
+    virtual int Parse_Table(char* data, int size);
     void* GetServerInfo();
-    ST_ServerInfo m_servers[0x64];  // +4（100 × 0xc = 0x4b0，至 0x4b4）
-    char m_data[0x4c0 - 0x4b4];     // 至 0x4c0
+    ST_ServerInfo m_servers[0x65];  // +4（101 × 0xc = 0x4bc；ORIG C1/D1 循环计数 101；sizeof=0x4c0）
 };
 
 // ---- ST_KillUSRConfig：0x10 ----
@@ -842,8 +842,8 @@ class CKillUSRConfig : public CTableBase
 public:
     CKillUSRConfig();
     virtual ~CKillUSRConfig();
-    int Load_Table(const std::string& fileName);
-    int Parse_Table(char* data, int size);
+    virtual int Load_Table(const std::string& fileName);
+    virtual int Parse_Table(char* data, int size);
     void Clear_Table();
     void* GetInfo() const;
     std::vector<ST_KillUSRConfig*> m_list;  // +4（sizeof=0x10）
@@ -986,7 +986,7 @@ class CServerHandler
 {
 public:
     CServerHandler();
-    virtual ~CServerHandler();
+    ~CServerHandler();
     void Attach(CApplication* app);
     void SetMonitorServerIpPort(unsigned char idx, unsigned int ip, unsigned short port);
     void SendToMonitorServer(char* buf, int len, unsigned char idx);

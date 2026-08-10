@@ -184,24 +184,26 @@ void CKillUSRConfig::Clear_Table()
         for (std::vector<ST_KillUSRConfig*>::iterator it = m_infos.begin(); it != m_infos.end();
              ++it)
         {
-            ::operator delete(*it);
+            ST_KillUSRConfig* p = *it;
+            ::operator delete(p);
+            p = 0;
         }
         m_infos.clear();
     }
 }
 
-int CKillUSRConfig::Parse_Table(char* line, int idx)
+bool CKillUSRConfig::Parse_Table(char* line, int idx)
 {
     if (line[0] == '#')
     {
         return 0;
     }
-    char* tok0 = 0;
-    char* tok1 = 0;
-    char* tok2 = 0;
-    char* tok3 = 0;
-    int n = DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 4);
-    if (n == 4)
+    char* tok0;
+    char* tok1;
+    char* tok2;
+    char* tok3;
+    int n;  // 死局部：与 ORIG 栈布局对齐（tok 槽位 -0x1c..-0x10）
+    if (DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 4) == 4)
     {
         ST_KillUSRConfig* p = new (std::nothrow) ST_KillUSRConfig;
         if (p != 0)
@@ -236,7 +238,8 @@ std::vector<ST_KillUSRConfig*>* CKillUSRConfig::GetInfo() const
 // ---- CommonTime ----
 void CommonTime::SetCurTime()
 {
-    time_t t = time(0);
+    time_t t;
+    time(&t);
     tm* pt = localtime(&t);
     m_time[0] = (char)((char)pt->tm_year - 100);
     m_time[1] = (char)((char)pt->tm_mon + 1);

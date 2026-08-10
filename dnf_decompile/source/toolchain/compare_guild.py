@@ -15,7 +15,7 @@ from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from compare_common import CALIBER_VERSION, norm_identical
+from compare_common import CALIBER_VERSION, norm_identical, is_exempt_symbol
 
 sys.path.insert(0, '/tmp')
 import guildlib
@@ -118,7 +118,7 @@ def main():
 
     names = sorted(orig_names)
     if not all_syms:
-        names = [n for n in names if is_app(n)]
+        names = [n for n in names if is_app(n) and not is_exempt_symbol(n)]
     if pat:
         rx = re.compile(pat)
         names = [n for n in names if rx.search(n)]

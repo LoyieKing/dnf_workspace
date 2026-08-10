@@ -27,7 +27,7 @@ wait_jobs() {
 }
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
-OUT_DIR="$ROOT/build-statics"
+OUT_DIR="$ROOT/../build/statics"
 STATICS="$ROOT/statics"
 COMMON="$ROOT/DNFServer/ServerCommon"
 PACKET="$ROOT/shared/packet"

@@ -2,7 +2,7 @@
 
 本目录保存 DNF 服务端逆向重建（df_community_r / df_channel_r / df_stun_r）的全部调研报告与验证数据，生成于 2026-08-06 ~ 2026-08-07。
 
-- `data/`：对比脚本产出的原始数据（TSV / 明细），多数可由 gitignored 的 `source/build-verify-community/` 或重新运行生成脚本复现；此处保留可追踪副本。
+- `data/`：对比脚本产出的原始数据（TSV / 明细），多数可由 gitignored 的 `build/community/` 或重新运行生成脚本复现；此处保留可追踪副本。
 - `function_review/`：df_community_r 全量逐函数复核的迭代报告（第二轮 + 第 3~11 轮 + 主 agent 组）。
 
 ## 报告（docs/ 根目录）
@@ -24,6 +24,10 @@
 | `dwarf_services_validation_report.md` | **有 DWARF 服务精细校验**（拓扑并行、共享类交叉污染、NEAR/DIFF 语义审计、channel Socket 修复） | 报告 |
 | `tinyxml_boost_version_verify.md` | **TinyXML/Boost 真实版本鉴定与替换校验（2026-08-09）**：TinyXML 2.6.2 / Boost 1.48.0（常量、符号、DWARF 行号三重证据）；原始 tinyxml 为 -O3+gnu++98+4.4.6 头独立对象；替换后 auction/point tinyxml 149/150、boost 120/121、community boost 46/46 归一化 identical | 报告 |
 | `identical_pitfalls.md` | **identical 校验坑点速查**（类型/有符号性、pack 布局、布尔物化、循环/栈槽/寄存器、EH、归一化口径、构建流程） | 指南 |
+| `non_identical_topology.md` | **非 identical 源文件拓扑**（13 个服务的非 identical TU 清单、include 依赖分层、共享耦合头、跨服务共享根；数据见 `data/topology/`） | 报告 |
+| `optimization_wave1_report.md` | **并行 identical 优化 Wave A/B 报告**（13 代理并行编辑 + 全量重建验证的水位变化、回归与开放项、Wave C 建议） | 报告 |
+| `wave_e_identical_final_report.md` | **Wave E 全量 identical 攻坚最终报告**（13 服务 + 共享根全部 NEAR/DIFF 逐函数定性：约 400+ 真实语义修复、其余带证据归档为编译器尾音；终验水位表、工具链边界） | 报告 |
+| `identical_brief_for_agents.md` | **identical 口径 Agent 必读**（strict/extended/full 三档定义、豁免规则、FIXED/ARCHIVED/REMAIN 判定与闭环验证要求） | 规范 |
 | `df_community_r_validation.md` | 逐文件符号/字符串命中率验证（`compare_df_community_functions.py` 产物副本） | 验证报告 |
 | `df_community_r_function_validation.md` | 逐函数助记符重叠验证摘要（产物副本） | 验证报告 |
 
@@ -55,6 +59,7 @@
 | `df_community_r_compare.tsv` | 逐文件符号命中/字符串命中汇总（23 行） | `source/compare_df_community_functions.py` |
 | `df_stun_r_all_function_compare.tsv` | df_stun_r 逐函数对比明细：符号、地址、尺寸、指令数、分类（IDENTICAL/NEAR/DIFF） | `source/toolchain/compare_stun.py` |
 | `misalign_details.txt` | 项目 MISALIGN 函数的逐项语义复核明细（语义分析输出） | `source/toolchain/misalign_report.py` |
+| `topology/<svc>/*` | 逐服务非 identical 拓扑原始数据（files/headers/coupling/edges/layers/scc/fanout/`graph.dot`） | `source/toolchain/topology_map.py` |
 
 ## 其他相关文档
 

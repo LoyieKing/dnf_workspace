@@ -1184,3 +1184,40 @@ if/else-if 链 → 逐条 `jne` 跳过。实例：`Script::get_key_val`。
   （无物化）。
 - ORIG 用嵌套形态；`0x28d287 < item_id && item_id < 0x28d294` 这类
   unsigned long 范围检查在嵌套下直接 jbe/ja。
+
+## 104. 死比较表达式 `x == -1;`（2026-08-09 channel TCPSocket::shutdown）
+
+- 裸表达式语句 `sock_ == -1;`（结果未用）：ORIG 4.4.6-3 保留
+  `cmp $0xffffffff,%eax`；本工具链（4.4.7 前端）在 gimplify 阶段折叠该
+  纯比较（无副作用）。试过 `(void)(x==-1)`、空 if、volatile 赋值均无法
+  复现裸 cmp（volatile 会多出 setcc+存储）。
+- 结论：工具链不可复现，语义等价即可（该比较无副作用）。
+
+## 105. begin() 返回的迭代器临时槽（2026-08-09 channel EpollReactor）
+
+- `iterator iter = map_.begin();` 在 ORIG 生成：`lea tmp; call begin();
+  mov tmp→iter`（两个槽，begin 结果先落临时再拷贝到循环变量）；本工具链
+  直写 `lea iter; call begin()`（单槽）。同源码不同编译器版本的 -O0
+  展开差异，无法用源码形态复现，记录即可。
+
+## 106. `x == true` 与 `x != true` 的 if 形态（2026-08-09 channel）
+
+- `if (isReadyToStart == true) { body }`（大块）→ 本工具链
+  `test %al; je L_out`；ORIG 是 `if (isReadyToStart != true) return 0;`
+  → `movzbl; xor $1; test; je L_body; mov 0; jmp END`。
+- 同一 bool 语义，**早退 if（!= true + return）**产生 xor $1 物化，
+  正条件大块被折叠成直测——还原时按 ORIG 反汇编选形态。
+
+## 107. 日志的中间变量会多占槽位（2026-08-09 channel）
+
+- `gFileLogInfo << ... << gc_no << endl;` 直接用字段/变量，ORIG 无多余
+  局部；还原时若写成 `unsigned int uVar = gc_no; ... << uVar`，会多出
+  一个槽位拷贝（mov 到中间槽再取），指令多 1-2 条且 DWARF 多一个不
+  存在的局部。用 ORIG DWARF 局部清单反查：凡 ORIG 没有的 u* 中间变量
+  一律删掉。
+
+## 108. 迭代器解引用 operator* vs operator->（2026-08-09 channel）
+
+- `it->second` → `call operator->(ptEv)`；`(*it).second` →
+  `call operator*(deEv)`。ORIG 用 `(*it).second`（deEv），调用符号不同
+  导致 mnemonic 判定 DIFF；还原时按 ORIG 反汇编的调用符号选 `*` 或 `->`。

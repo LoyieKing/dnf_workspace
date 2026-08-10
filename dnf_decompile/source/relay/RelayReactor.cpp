@@ -3,13 +3,11 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "RelayApp.h"
 #include "RelayReactor.h"
 
 namespace RelayServiceApp
 {
-
-typedef TReactor<EpollReactor<TCPUser, TCPSocket, TCPSocket>, TCPUser, TCPSocket, TCPSocket>
-    RelayTReactor;
 
 Reactor::Reactor()
 {
@@ -17,11 +15,6 @@ Reactor::Reactor()
 
 Reactor::~Reactor()
 {
-}
-
-void Reactor::unregistHandle(TCPUser* user)
-{
-    ((RelayTReactor*)this)->unregistHandle(user);
 }
 
 } // namespace RelayServiceApp
@@ -32,7 +25,15 @@ template <class TSession, class TSendSocket, class TRecvSocket>
 unsigned int EpollReactor<TSession, TSendSocket, TRecvSocket>::getNativeEventFilter(
     unsigned int event_filter)
 {
-    unsigned int t = (event_filter & 1) != 0;
+    unsigned int t = 0;
+    if ((event_filter & 1) != 0)
+    {
+        t |= 1;
+    }
+    if ((event_filter & 2) != 0)
+    {
+        t |= 4;
+    }
     if ((event_filter & 4) != 0)
     {
         t = t | 0x18;
@@ -59,27 +60,24 @@ bool EpollReactor<TSession, TSendSocket, TRecvSocket>::unregistHandle(TSession* 
     {
         return false;
     }
-    if (epoll_fd_ == -1)
-    {
-        return false;
-    }
-    if (s->getHandle() == -1)
+    if (s->getHandle() == -1 || epoll_fd_ == -1)
     {
         return false;
     }
     epoll_event ev;
     memset(&ev, 0, sizeof(epoll_event));
-    int r = epoll_ctl(epoll_fd_, EPOLL_CTL_DEL, s->getHandle(), &ev);
-    if (r < 0)
+    if (epoll_ctl(epoll_fd_, EPOLL_CTL_DEL, s->getHandle(), &ev) < 0)
     {
         return false;
     }
     m_lock.lock();
     typename std::set<TSession*>::iterator it = m_users.find(s);
-    if (it != m_users.end())
+    if (it == m_users.end())
     {
-        m_users.erase(it);
+        m_lock.unlock();
+        return false;
     }
+    m_users.erase(it);
     m_lock.unlock();
     return true;
 }
@@ -89,7 +87,7 @@ bool EpollReactor<TSession, TSendSocket, TRecvSocket>::handleEvents(
     unsigned int milisec, TSendSocket listenSocket, unsigned int maxEvents)
 {
     epoll_event ev;
-    memset(&ev, 0, sizeof(epoll_event));
+    epoll_event ev2;
     ev.events = 1;
     ev.data.ptr = (void*)listenSocket.getHandle();
     epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, listenSocket.getHandle(), &ev);
@@ -99,87 +97,105 @@ bool EpollReactor<TSession, TSendSocket, TRecvSocket>::handleEvents(
         int n = epoll_wait(epoll_fd_, events_, max_client_, milisec);
         getManager()->setTick();
         getManager()->makeLog();
-        while (true)
+        if (n == 0)
         {
-            TCPSocket* sock = getManager()->m_userPools.createTCPSocket();
-            if (sock == 0)
-            {
-                WriteLog("[CRITICAL] Reactor.inl: createTCPSocket() Error");
-                break;
-            }
-            if (!listenSocket.accept(*sock))
-            {
-                WriteLog("Reactor.inl: listenSocket.accept() Error");
-                getManager()->m_userPools.destroyTCPSocket(sock);
-                break;
-            }
-            if (getManager()->m_users.getUserCount() >= getManager()->m_users.getMaxUserCount())
-            {
-                sock->close();
-                getManager()->m_userPools.destroyTCPSocket(sock);
-                break;
-            }
-            TCPUser* user = getManager()->m_userPools.createTCPUser();
-            if (user == 0)
-            {
-                WriteLog("Reactor.inl: createTCPUser() Error");
-                sock->close();
-                getManager()->m_userPools.destroyTCPSocket(sock);
-                break;
-            }
-            getManager()->m_users.increaseUserCount();
-            sock->setOptNonBlock();
-            user->setManager(getManager());
-            user->setSocket(sock);
-            user->startupAfterSetSocket();
-            user->setLastAccessTime();
-            user->onAccept();
-            ev.events = getNativeEventFilter(1);
-            ev.data.ptr = user;
-            epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, user->getHandle(), &ev);
-            m_lock.lock();
-            m_users.insert(user);
-            m_lock.unlock();
-            WriteLog("[CRITICAL] Reactor.inl: abnormal connection");
         }
-        for (int i = 0; i < n; i++)
+        else if (n < 0)
         {
-            if (events_[i].data.ptr == (void*)listenSocket.getHandle())
+            continue;
+        }
+        else
+        {
+            for (int i = 0; i < n; i++)
             {
-                continue;
-            }
-            TCPUser* user = (TCPUser*)events_[i].data.ptr;
-            if ((events_[i].events & 8) == 0)
-            {
-                if ((events_[i].events & 0x10) == 0)
+                if (events_[i].data.ptr == (void*)listenSocket.getHandle())
                 {
-                    if ((events_[i].events & 1) != 0)
+                    TCPSocket* sock = getManager()->m_userPools.createTCPSocket();
+                    if (sock == 0)
                     {
-                        user->onRead();
-                    }
-                    if (user->isDisconnected())
-                    {
-                        user->onClose();
+                        WriteLog("[CRITICAL] Reactor.inl: createTCPSocket() Error");
                         continue;
                     }
-                    if (user->isToWrite())
+                    if (!listenSocket.accept(*sock))
                     {
-                        user->onWrite();
+                        WriteLog("Reactor.inl: listenSocket.accept() Error");
+                        getManager()->m_userPools.destroyTCPSocket(sock);
+                        continue;
                     }
-                    if (user->isDisconnected() || user->isAboutToDisconnect())
+                    if (getManager()->m_users.getUserCount() >=
+                        getManager()->m_users.getMaxUserCount())
+                    {
+                        sock->close();
+                        getManager()->m_userPools.destroyTCPSocket(sock);
+                        continue;
+                    }
+                    TCPUser* user = getManager()->m_userPools.createTCPUser();
+                    if (user == 0)
+                    {
+                        WriteLog("Reactor.inl: createTCPUser() Error");
+                        sock->close();
+                        getManager()->m_userPools.destroyTCPSocket(sock);
+                        continue;
+                    }
+                    getManager()->m_users.increaseUserCount();
+                    sock->setOptNonBlock();
+                    user->setManager(getManager());
+                    user->setSocket(sock);
+                    user->startupAfterSetSocket();
+                    user->setLastAccessTime();
+                    user->onAccept();
+                    ev2.events = getNativeEventFilter(maxEvents);
+                    ev2.data.ptr = user;
+                    if (epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, user->getHandle(), &ev2) < 0)
                     {
                         user->onClose();
-                        continue;
+                    }
+                    else
+                    {
+                        m_lock.lock();
+                        m_users.insert(user);
+                        m_lock.unlock();
                     }
                 }
                 else
                 {
-                    user->onClose();
+                    TCPUser* user = (TCPUser*)events_[i].data.ptr;
+                    if (user->getManager() != getManager())
+                    {
+                        WriteLog("[CRITICAL] Reactor.inl: abnormal connection");
+                        close(events_[i].data.fd);
+                    }
+                    if ((events_[i].events & 8) != 0)
+                    {
+                        user->onClose();
+                        continue;
+                    }
+                    if ((events_[i].events & 0x10) != 0)
+                    {
+                        user->onClose();
+                        continue;
+                    }
+                    if ((events_[i].events & 1) != 0)
+                    {
+                        user->onRead();
+                        if (user->isDisconnected())
+                        {
+                            continue;
+                        }
+                    }
+                    if ((events_[i].events & 4) != 0 && user->isToWrite())
+                    {
+                        user->onWrite();
+                        if (user->isDisconnected())
+                        {
+                            continue;
+                        }
+                    }
+                    if (user->isAboutToDisconnect())
+                    {
+                        user->onClose();
+                    }
                 }
-            }
-            else
-            {
-                user->onClose();
             }
         }
         m_lock.lock();
@@ -190,14 +206,18 @@ bool EpollReactor<TSession, TSendSocket, TRecvSocket>::handleEvents(
             while (it != m_users.end())
             {
                 TSession* user = *it;
-                if (user != 0 && (user->isAboutToDisconnect() || user->isIdle()))
+                if (user == 0)
+                {
+                    break;
+                }
+                if (user->isAboutToDisconnect() || user->isIdle())
                 {
                     bAll = false;
                     m_lock.unlock();
                     user->onClose();
                     break;
                 }
-                it++;
+                ++it;
             }
         }
         if (bAll)

@@ -17,8 +17,8 @@
 
 template<int TSizeIn, int TSizeOut>
 int CAbstractSocket<TSizeIn, TSizeOut>::AcceptSocket() {
-    socklen_t len;
     sockaddr_in addr;
+    socklen_t len;
     len = 16;
     int sock = accept(socket, (sockaddr *)&addr, &len);
     if (sock < 0) {
@@ -76,6 +76,7 @@ bool CAbstractSocket<MaxRecvBuf, MaxSendBuf>::ConnectPeer() {
 
 template<int MaxRecvBuf, int MaxSendBuf>
 bool CAbstractSocket<MaxRecvBuf, MaxSendBuf>::CreateConnectionSocket(const char *ip, int port) {
+    int sock = 0;  // 原始：函数入口先初始化 0（mov [ebp-0xc],0）
     this->socket = ::socket(PF_INET, SOCK_STREAM, 0);
     if (this->socket < 0) {
         return false;
@@ -251,32 +252,32 @@ int CAbstractSocket<MaxRecvBuf, MaxSendBuf>::send_packet(const char *data, int l
         int result = 0;  // 原始：声明未使用的局部变量（mov [ebp-0xc],0）
         errno = 0;
         this->remainSendLen = this->remainSendLen + last;
-        if (this->remainSendLen < MaxSendBuf + 1) {
-            // 原始：偏移超出 [sendBuffer, sendBuffer+MaxSendBuf) 即错误（jb/jb 无符号比较）
-            if ((this->sendBufferOffset < this->sendBuffer) || (this->sendBufferOffset >= this->sendBuffer + MaxSendBuf)) {
-                this->remainSendLen = this->remainSendLen - last;
-                ArchiveLog("!!!Send Packet Buffer error P_TYPE[%d] Size:Remain[%d] Last[%d]", (int)data[1], this->remainSendLen, last);
-                return -1;
-            } else {
-                memcpy(this->sendBufferOffset, data, last);
-                this->sendBufferOffset = this->sendBufferOffset + last;
-                return send_packet();
-            }
-        } else {
+        // 原始：Overflow 错误分支在前（cmp;jle 直达后续检查）
+        if (this->remainSendLen > MaxSendBuf) {
             this->remainSendLen = this->remainSendLen - last;
             ArchiveLog("!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]", (int)data[1], this->remainSendLen, last);
             return -1;
+        }
+        // 原始：偏移超出 [sendBuffer, sendBuffer+MaxSendBuf) 即错误（jb/jb 无符号比较）
+        if ((this->sendBufferOffset < this->sendBuffer) || (this->sendBufferOffset >= this->sendBuffer + MaxSendBuf)) {
+            this->remainSendLen = this->remainSendLen - last;
+            ArchiveLog("!!!Send Packet Buffer error P_TYPE[%d] Size:Remain[%d] Last[%d]", (int)data[1], this->remainSendLen, last);
+            return -1;
+        } else {
+            memcpy(this->sendBufferOffset, data, last);
+            this->sendBufferOffset = this->sendBufferOffset + last;
+            return send_packet();
         }
     }
 }
 
 template<int MaxRecvBuf, int MaxSendBuf>
 int CAbstractSocket<MaxRecvBuf, MaxSendBuf>::send_packet() {
+    // 原始：nSend 先初始化 0（mov [ebp-0xc],0）再赋值
+    int nSend = 0;
     if (this->remainSendLen < 1) {
         return 0;
     }
-    // 原始：nSend 先初始化 0（mov [ebp-0xc],0）再赋值
-    int nSend = 0;
     nSend = write(this->socket, this->sendBuffer, this->remainSendLen);
     if (nSend < 1) {
         if (errno == EAGAIN || errno == EINTR || errno == EAGAIN /*two 0xb, not typo. copied from original code*/ || errno == 0) {
@@ -291,11 +292,13 @@ int CAbstractSocket<MaxRecvBuf, MaxSendBuf>::send_packet() {
             this->remainSendLen = this->remainSendLen - nSend;
             if (this->remainSendLen < 0) {
                 return -1;
-            } else if (this->remainSendLen < MaxSendBuf + 1) {
+            } else {
+                // 原始：> MaxSendBuf 错误分支在前（cmp;jle 直达 memmove）
+                if (this->remainSendLen > MaxSendBuf) {
+                    return -1;
+                }
                 memmove(this->sendBuffer, this->sendBufferOffset, this->remainSendLen);
                 this->sendBufferOffset = (this->sendBuffer + this->remainSendLen);
-            } else {
-                return -1;
             }
         } else if (this->remainSendLen < nSend) {
             ArchiveLog("offset error[Remain_Data: %d Send:%d]", this->remainSendLen, nSend);

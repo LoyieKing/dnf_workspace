@@ -1,0 +1,13 @@
+header	depending_tus
+relay/RelayApp.h	relay/RelayApp.cpp,relay/RelayLog.cpp,relay/RelayReactor.cpp,relay/RelayUserPool.cpp
+relay/RelayBuffer.h	relay/RelayApp.cpp,relay/RelayLog.cpp,relay/RelayReactor.cpp,relay/RelayUserPool.cpp
+relay/RelayCommon.h	relay/RelayApp.cpp,relay/RelayLog.cpp,relay/RelayReactor.cpp,relay/RelayScript.cpp,relay/RelayService.cpp,relay/RelaySignal.cpp,relay/RelayUserPool.cpp,relay/RelayUtil.cpp
+relay/RelayException.h	relay/RelayApp.cpp,relay/RelayException.cpp,relay/RelayLog.cpp,relay/RelayReactor.cpp,relay/RelaySocket.cpp,relay/RelayThread.cpp,relay/RelayUserPool.cpp
+relay/RelayLog.h	relay/RelayApp.cpp,relay/RelayLog.cpp,relay/RelayReactor.cpp,relay/RelayUserPool.cpp
+relay/RelayPool.h	relay/RelayApp.cpp,relay/RelayLog.cpp,relay/RelayReactor.cpp,relay/RelayUserPool.cpp
+relay/RelayReactor.h	relay/RelayApp.cpp,relay/RelayLog.cpp,relay/RelayReactor.cpp,relay/RelayUserPool.cpp
+relay/RelayScript.h	relay/RelayApp.cpp,relay/RelayScript.cpp,relay/RelayScriptRawData.cpp,relay/RelayUtil.cpp
+relay/RelayService.h	relay/RelayApp.cpp,relay/RelayLog.cpp,relay/RelayReactor.cpp,relay/RelayService.cpp,relay/RelaySignal.cpp,relay/RelayUserPool.cpp
+relay/RelaySocket.h	relay/RelayApp.cpp,relay/RelayLog.cpp,relay/RelayReactor.cpp,relay/RelaySocket.cpp,relay/RelayUserPool.cpp
+relay/RelayThread.h	relay/RelayApp.cpp,relay/RelayLog.cpp,relay/RelayReactor.cpp,relay/RelaySocket.cpp,relay/RelayThread.cpp,relay/RelayUserPool.cpp
+relay/RelayToken.h	relay/RelayApp.cpp,relay/RelayScript.cpp,relay/RelayScriptRawData.cpp,relay/RelayToken.cpp,relay/RelayUtil.cpp
