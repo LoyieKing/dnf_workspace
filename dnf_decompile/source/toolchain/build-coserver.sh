@@ -2,8 +2,11 @@
 # ============================================================
 # df_coserver_r 可复现构建脚本
 # 共享框架：source/Community + source/DNFServer/ServerCommon
-# （df_community_r 已验证方案：gcc-4.4.7 + CentOS5.11 4.1.2 静态 libstdc++）
 # 应用层：source/DNFServer/GameServer/COServer（按 ORIG .o 文件拆分）
+# 工具链（2026-08-11 对齐）：c6-g++-446r（4.4.6-3 精确后端，与 channel 同款）。
+# 依据：ORIG .comment = GCC 4.1.2(×3)+4.4.6(×1)，布局与 4.4.x 头一致；
+# 4.4.6-3 后端修复虚调用寄存器分配类差异（如 CApplication::Free 的 call *%edx）。
+# __FILE__：切到源目录传 basename 编译，assert/日志路径与 ORIG 一致（仅文件名）。
 # ============================================================
 set -e
 
@@ -35,7 +38,7 @@ COMMON="$ROOT/DNFServer/ServerCommon"
 PACKET="$ROOT/shared/packet"
 
 # 4.4.7 编译器（与 df_community_r 验证方案一致）
-CXX="/tmp/c6root/usr/bin/g++"
+CXX="/tmp/c6-g++-446r"
 export LD_LIBRARY_PATH=/tmp/c6root/usr/lib64:/tmp/c6root/usr/lib
 FLAGS="-m32 -O0 -std=gnu++0x -DDF_NO_CODEPAGE -fno-enforce-eh-specs -nostdinc \
   -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include \
@@ -55,7 +58,8 @@ compile() {
     base=$(basename "$src" .cpp)
     if [ ! -f "$OUT_DIR/$base.o" ] || [ "$src" -nt "$OUT_DIR/$base.o" ]; then
         echo "CC  $base.cpp"
-        run_job "$CXX" $FLAGS -c "$src" -o "$OUT_DIR/$base.o"
+        run_job sh -c 'cd "$1" && shift && exec "$@"' _ "$(dirname "$src")" \
+            "$CXX" $FLAGS -c "$base.cpp" -o "$OUT_DIR/$base.o"
     else
         echo "SKIP $base.cpp"
     fi
@@ -68,7 +72,9 @@ for f in DNFFileLog.cpp CFileLogWriterBase.cpp DNFFunctionLib.cpp Thread.cpp; do
         if [ ! -f "$OUT_DIR/CFileLogWriterBase.o" ] || \
            [ "$COMMON/$f" -nt "$OUT_DIR/CFileLogWriterBase.o" ]; then
             echo "CC  CFileLogWriterBase.cpp (-fno-exceptions)"
-            run_job "$CXX" $FLAGS -fno-exceptions -c "$COMMON/$f" -o "$OUT_DIR/CFileLogWriterBase.o"
+            run_job sh -c 'cd "$1" && shift && exec "$@"' _ "$COMMON" \
+                "$CXX" $FLAGS -fno-exceptions -c "CFileLogWriterBase.cpp" \
+                -o "$OUT_DIR/CFileLogWriterBase.o"
         else
             echo "SKIP CFileLogWriterBase.cpp"
         fi

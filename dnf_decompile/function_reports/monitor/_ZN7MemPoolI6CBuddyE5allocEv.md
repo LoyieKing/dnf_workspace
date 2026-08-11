@@ -1,0 +1,253 @@
+# _ZN7MemPoolI6CBuddyE5allocEv
+
+`MemPool<CBuddy>::alloc()`
+
+| 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
+|---|---|---|---|---|---|
+| monitor | DIFF | `0x809e1e2` | `0x13a` | `0x8065f9e` | `0x164` |
+
+## 1. 汇编 diff（完整函数，伪代码化）
+
+归一化口径：直接跳转/调用目标地址归一化为 `<T>`；字符串/全局变量地址替换为其内容或 `&符号名`（地址不同但指向相同内容视为等价，2026-08-11 用户口径）。
+
+```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,93 +1,110 @@
+ push   %ebp
+ mov    %esp,%ebp
+-push   %esi
+ push   %ebx
+-sub    $0x40,%esp
++sub    $0x44,%esp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ cmp    $0x2c,%eax
+-je     <T> <_ZN7MemPoolI6CBuddyE5allocEv+0x23>
++je     <T> <_ZN7MemPoolI6CBuddyE5allocEv+0x22>
+ movl   $0x2c,(%esp)
+ call   <T> <_Znwj>
+-jmp    <T> <_ZN7MemPoolI6CBuddyE5allocEv+0x133>
++jmp    <T> <_ZN7MemPoolI6CBuddyE5allocEv+0x15e>
+ mov    &_ZN7MemPoolI6CBuddyE15headOfFreeList_E,%eax
+ mov    %eax,-0x14(%ebp)
+ cmpl   $0x0,-0x14(%ebp)
+-je     <T> <_ZN7MemPoolI6CBuddyE5allocEv+0x41>
++je     <T> <_ZN7MemPoolI6CBuddyE5allocEv+0x45>
+ mov    -0x14(%ebp),%eax
+-mov    0x28(%eax),%eax
++add    $0x28,%eax
++mov    (%eax),%eax
+ mov    %eax,&_ZN7MemPoolI6CBuddyE15headOfFreeList_E
+-jmp    <T> <_ZN7MemPoolI6CBuddyE5allocEv+0x130>
++mov    -0x14(%ebp),%eax
++jmp    <T> <_ZN7MemPoolI6CBuddyE5allocEv+0x15e>
+ mov    0x8(%ebp),%eax
+-mov    0x4(%eax),%edx
++mov    0x4(%eax),%eax
++mov    %eax,%edx
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ imul   %edx,%eax
+ mov    %eax,(%esp)
+ call   <T> <_Znwj>
+ mov    %eax,-0x10(%ebp)
+ movl   $0x0,-0xc(%ebp)
+-jmp    <T> <_ZN7MemPoolI6CBuddyE5allocEv+0x7f>
++jmp    <T> <_ZN7MemPoolI6CBuddyE5allocEv+0x9b>
++mov    -0x10(%ebp),%ecx
+ mov    -0xc(%ebp),%eax
+-imul   $0x2c,%eax,%eax
+-add    -0x10(%ebp),%eax
+-mov    -0xc(%ebp),%edx
+-add    $0x1,%edx
+-imul   $0x2c,%edx,%edx
+-add    -0x10(%ebp),%edx
+-mov    %edx,0x28(%eax)
++lea    0x1(%eax),%edx
++mov    %edx,%eax
++shl    $0x2,%eax
++add    %edx,%eax
++add    %eax,%eax
++add    %edx,%eax
++sub    $0x1,%eax
++shl    $0x2,%eax
++lea    (%ecx,%eax,1),%edx
++mov    -0xc(%ebp),%eax
++add    $0x1,%eax
++imul   $0x2c,%eax,%ecx
++mov    -0x10(%ebp),%eax
++lea    (%ecx,%eax,1),%eax
++mov    %eax,(%edx)
+ addl   $0x1,-0xc(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0x4(%eax),%eax
+ sub    $0x1,%eax
+ cmp    -0xc(%ebp),%eax
+ seta   %al
+ test   %al,%al
+-jne    <T> <_ZN7MemPoolI6CBuddyE5allocEv+0x63>
++jne    <T> <_ZN7MemPoolI6CBuddyE5allocEv+0x69>
++mov    -0x10(%ebp),%ecx
+ mov    0x8(%ebp),%eax
+ mov    0x4(%eax),%eax
++mov    %eax,%edx
++mov    %edx,%eax
++shl    $0x2,%eax
++add    %edx,%eax
++add    %eax,%eax
++add    %edx,%eax
+ sub    $0x1,%eax
+-imul   $0x2c,%eax,%eax
+-add    -0x10(%ebp),%eax
+-movl   $0x0,0x28(%eax)
++shl    $0x2,%eax
++lea    (%ecx,%eax,1),%eax
++movl   $0x0,(%eax)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,-0x14(%ebp)
+ mov    -0x10(%ebp),%eax
+ add    $0x2c,%eax
+ mov    %eax,&_ZN7MemPoolI6CBuddyE15headOfFreeList_E
+ mov    -0x10(%ebp),%eax
+-mov    %eax,-0x20(%ebp)
++mov    %eax,-0x18(%ebp)
+ mov    0x8(%ebp),%eax
+ lea    0x8(%eax),%edx
+-lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZNSt6vectorIPvSaIS0_EE9push_backEOS0_>
++movl   $0x7d,0x8(%esp)
++movl   $"alloc",0x4(%esp)
++lea    -0x20(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0x8(%ebp),%eax
+ mov    0x4(%eax),%ebx
+ mov    0x8(%ebp),%eax
+ add    $0x8,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt6vectorIPvSaIS0_EE4sizeEv>
+-mov    %ebx,%esi
+-imul   %eax,%esi
++mov    %ebx,%edx
++imul   %eax,%edx
+ mov    0x8(%ebp),%eax
+-mov    (%eax),%ebx
+-movl   $0x7d,0x8(%esp)
+-movl   $"alloc",0x4(%esp)
+-lea    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %esi,0x10(%esp)
+-mov    %ebx,0xc(%esp)
++mov    (%eax),%eax
++mov    %edx,0x10(%esp)
++mov    %eax,0xc(%esp)
+ movl   $"class size(%d) cnt(%d)",0x8(%esp)
+ movl   $"./log/Mempool",0x4(%esp)
+-lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    -0x14(%ebp),%eax
+-add    $0x40,%esp
++add    $0x44,%esp
+ pop    %ebx
+-pop    %esi
+ pop    %ebp
+ ret
+```
+## 2. Ghidra 反编译 C
+
+```c
+
+/* MemPool<CBuddy>::alloc() */
+
+void * __thiscall MemPool<CBuddy>::_ZN7MemPoolI6CBuddyE5allocEv(MemPool<CBuddy> *this)
+
+{
+  int iVar1;
+  undefined4 uVar2;
+  int iVar3;
+  void *local_24;
+  CMyFileLog local_20 [8];
+  void *local_18;
+  void *local_14;
+  uint local_10;
+  
+  if (*(int *)this == 0x2c) {
+    local_18 = headOfFreeList_;
+    if (headOfFreeList_ == (void *)0x0) {
+      local_24 = operator_new(*(int *)this * *(int *)(this + 4));
+      for (local_10 = 0; local_10 < *(int *)(this + 4) - 1U; local_10 = local_10 + 1) {
+        *(void **)((int)local_24 + local_10 * 0x2c + 0x28) =
+             (void *)((local_10 + 1) * 0x2c + (int)local_24);
+      }
+      *(undefined4 *)((int)local_24 + (*(int *)(this + 4) + -1) * 0x2c + 0x28) = 0;
+      headOfFreeList_ = (void *)((int)local_24 + 0x2c);
+      local_18 = local_24;
+      local_14 = local_24;
+      std::vector<void*,std::allocator<void*>>::push_back
+                ((vector<void*,std::allocator<void*>> *)(this + 8),&local_24);
+      iVar1 = *(int *)(this + 4);
+      iVar3 = std::vector<void*,std::allocator<void*>>::size
+                        ((vector<void*,std::allocator<void*>> *)(this + 8));
+      uVar2 = *(undefined4 *)this;
+      CMyFileLog::CMyFileLog(local_20,"alloc",0x7d);
+      CMyFileLog::_ZN10CMyFileLogclEPKcS1_z
+                (local_20,"./log/Mempool","class size(%d) cnt(%d)",uVar2,iVar1 * iVar3);
+    }
+    else {
+      headOfFreeList_ = *(void **)((int)headOfFreeList_ + 0x28);
+    }
+  }
+  else {
+    local_18 = operator_new(0x2c);
+  }
+  return local_18;
+}
+```
+
+## 3. 我们的源码函数
+
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp)（约第 40 行）：
+
+```cpp
+void* MemPool<T>::alloc()
+{
+    void* result;
+    if (m_size == (int)sizeof(T))
+    {
+        void* head = headOfFreeList_;
+        if (head == 0)
+        {
+            void* block = ::operator new((unsigned int)m_size * (unsigned int)m_count);
+            for (unsigned int i = 0; i < (unsigned int)m_count - 1; i++)
+            {
+                *(void**)((char*)block + i * m_size + m_size - 4) =
+                    (void*)((i + 1) * m_size + (unsigned int)block);
+            }
+            *(void**)((char*)block + ((unsigned int)m_count - 1) * m_size + m_size - 4) = 0;
+            headOfFreeList_ = (void*)((char*)block + m_size);
+            head = block;
+            m_blocks.push_back(block);
+            CMyFileLog log("alloc", 0x7d);
+            log("./log/Mempool", "class size(%d) cnt(%d)", m_size,
+                m_count * (int)m_blocks.size());
+        }
+        else
+        {
+            headOfFreeList_ = *(void**)((char*)head + m_size - 4);
+        }
+        result = head;
+    }
+    else
+    {
+        result = ::operator new(sizeof(T));
+    }
+    return result;
+}
+```

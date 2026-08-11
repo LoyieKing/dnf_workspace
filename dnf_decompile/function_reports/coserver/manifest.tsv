@@ -1,0 +1,110 @@
+status	name	orig_addr	orig_size	new_addr	new_size	md_file
+DIFF	_ZL15get_ttype_entryP16lsda_header_infom	0x809dd80	0x8c	0x809e3c0	0x8c	
+DIFF	_ZN12_GLOBAL__N_116get_locale_mutexEv	0x805dd60	0xa3	0x805d320	0xaf	
+DIFF	_ZN12_GLOBAL__N_121system_error_categoryD0Ev	0x805f5e0	0x15	0x805ebe0	0x16	
+DIFF	_ZN12_GLOBAL__N_122generic_error_categoryD0Ev	0x805f600	0x15	0x805ec00	0x16	
+DIFF	_ZN12_GLOBAL__N_1L6xwriteEiPKci	0x809c8f0	0x4a	0x809c1a0	0x4c	
+DIFF	_ZNK12_GLOBAL__N_121system_error_category7messageEi	0x805f6c0	0x3a	0x805ecc0	0x3c	
+DIFF	_ZNK12_GLOBAL__N_122generic_error_category7messageEi	0x805f680	0x3a	0x805ec80	0x3c	
+NEAR	__deregister_frame	0x80b3c30	0x31	0x80b34d0	0x31	
+NEAR	__deregister_frame_info_bases	0x80b3b20	0xff	0x80b33c0	0xff	
+DIFF	__dynamic_cast	0x809fe10	0x10a	0x809de20	0x109	
+DIFF	__gcclibcxx_demangle_callback	0x80ae560	0x3a	0x80ae070	0x3a	
+NEAR	__register_frame	0x80b3290	0x42	0x80b2b30	0x42	
+NEAR	__register_frame_info_bases	0x80b2140	0x99	0x80b19c0	0x99	
+NEAR	__register_frame_info_table_bases	0x80b2210	0x93	0x80b1a90	0x93	
+NEAR	__register_frame_table	0x80b3250	0x33	0x80b2af0	0x33	
+DIFF	d_append_buffer	0x80ac450	0xa7	0x80abf50	0xb0	
+DIFF	d_append_char	0x80aa540	0x7c	0x80aa020	0x7c	
+DIFF	d_append_string	0x80ac500	0xc0	0x80ac000	0xc1	
+DIFF	d_bare_function_type	0x80abc20	0xfa	0x80ab710	0xfa	
+DIFF	d_call_offset	0x80aa1a0	0x64	0x80a9c80	0x64	
+DIFF	d_cv_qualifiers	0x80aa210	0xa1	0x80a9cf0	0xa2	
+DIFF	d_demangle_callback	0x80ae220	0x335	0x80add30	0x331	
+DIFF	d_encoding	0x80aacb0	0x5a9	0x80aa7a0	0x5a9	
+DIFF	d_expr_primary	0x80ab260	0x13d	0x80aad50	0x13d	
+DIFF	d_expression	0x80abeb0	0x3e2	0x80ab9b0	0x3e2	
+DIFF	d_exprlist	0x80ac2a0	0xa1	0x80abda0	0xa2	
+DIFF	d_find_pack	0x80aa5c0	0xb4	0x80aa0a0	0xb4	
+DIFF	d_growable_string_callback_adapter	0x80ac350	0xf2	0x80abe50	0xf2	
+DIFF	d_make_comp	0x80aa020	0x8d	0x80a9b00	0x8d	
+DIFF	d_make_name	0x80aa0b0	0x61	0x80a9b90	0x61	
+DIFF	d_name	0x80aa940	0x368	0x80aa420	0x371	
+DIFF	d_number	0x80aa120	0x7f	0x80a9c00	0x7f	
+DIFF	d_operator_name	0x80abd20	0x18a	0x80ab810	0x1a0	
+DIFF	d_print_array_type	0x80ac5c0	0x32c	0x80ac0d0	0x32c	
+DIFF	d_print_cast	0x80ae860	0x199	0x80ae370	0x1a1	
+DIFF	d_print_comp	0x80acdb0	0x1464	0x80ac8c0	0x1464	
+DIFF	d_print_expr_op	0x80aea00	0xc7	0x80ae520	0xd0	
+DIFF	d_print_function_type	0x80aca50	0x35c	0x80ac560	0x35c	
+DIFF	d_print_mod	0x80ae740	0x11a	0x80ae250	0x11a	
+DIFF	d_print_mod_list	0x80ac8f0	0x15b	0x80ac400	0x15c	
+DIFF	d_print_subexpr	0x80aead0	0x102	0x80ae5f0	0x10a	
+DIFF	d_source_name	0x80aa680	0xe6	0x80aa160	0xe6	
+DIFF	d_substitution	0x80aa340	0x1fc	0x80a9e20	0x1fc	
+DIFF	d_template_args	0x80ab3a0	0x116	0x80aae90	0x117	
+DIFF	d_template_param	0x80aa2c0	0x71	0x80a9da0	0x71	
+DIFF	d_type	0x80ab4c0	0x75f	0x80aafb0	0x75f	
+DIFF	d_unqualified_name	0x80aa770	0x1ca	0x80aa250	0x1ca	
+DIFF	execute_stack_op	0x80afc40	0xe7d	0x80af4e0	0xe65	
+DIFF	fde_mixed_encoding_compare	0x80b2b10	0x8c	0x80b23b0	0x89	
+DIFF	fde_single_encoding_compare	0x80b2a90	0x7c	0x80b2330	0x7d	
+DIFF	fde_unencoded_compare	0x80b22e0	0x1c	0x80b1b60	0x20	
+DIFF	frame_downheap	0x80b2300	0xb8	0x80b1b80	0xc3	
+NEAR	get_cie_encoding	0x80b26e0	0x112	0x80b1f80	0x112	
+NEAR	init_dwarf_reg_size_table	0x80af0c0	0x80	0x80ae930	0x80	
+NEAR	main	0x804dab8	0x8e	0x804c408	0x8e	main.md
+DIFF	_ZN10CAppThread8dispatchEPv	0x8051fc2	0x2f9	0x804be7e	0x307	_ZN10CAppThread8dispatchEPv.md
+DIFF	_ZN10CTableBase19Load_Txt_Table_DataEPKci	0x8053ce8	0xda	0x8056136	0xd4	_ZN10CTableBase19Load_Txt_Table_DataEPKci.md
+DIFF	_ZN11CUdpHandler16InitServerSocketEi	0x804cc24	0x1b8	0x8056a46	0x1b9	_ZN11CUdpHandler16InitServerSocketEi.md
+DIFF	_ZN12CApplication15TranslateSignalEv	0x8050538	0xc9	0x804dbc2	0xc7	_ZN12CApplication15TranslateSignalEv.md
+DIFF	_ZN12CApplication4LoadEiPPc	0x804f2fa	0x74d	0x804c99c	0x749	_ZN12CApplication4LoadEiPPc.md
+DIFF	_ZN12CApplication7ProcessEv	0x804fd46	0x19a	0x804d3e4	0x19e	_ZN12CApplication7ProcessEv.md
+DIFF	_ZN12CApplicationD1Ev	0x804ef84	0x192	0x804c6e4	0x191	_ZN12CApplicationD1Ev.md
+DIFF	_ZN12CApplicationD2Ev	0x804ef84	0x192	0x804c6e4	0x191	_ZN12CApplicationD2Ev.md
+DIFF	_ZN12CToolFileLogclEPKciS1_z	0x80551ea	0x149	0x804f3de	0x147	_ZN12CToolFileLogclEPKciS1_z.md
+DIFF	_ZN12CUserManager10CreateUserEjP11CGameServer	0x805a706	0x163	0x8058d6c	0x160	_ZN12CUserManager10CreateUserEjP11CGameServer.md
+NEAR	_ZN12CUserManager8FindUserEjR5CUser	0x805a86a	0xe0	0x8058ecc	0xe0	_ZN12CUserManager8FindUserEjR5CUser.md
+DIFF	_ZN13CAppStartInit4InitEP12CApplicationiPPc	0x805144e	0x252	0x804b614	0x24e	_ZN13CAppStartInit4InitEP12CApplicationiPPc.md
+NEAR	_ZN13CAppStartInitC1Ev	0x80513e4	0x1c	0x804b5aa	0x1c	_ZN13CAppStartInitC1Ev.md
+NEAR	_ZN13CAppStartInitC2Ev	0x80513e4	0x1c	0x804b5aa	0x1c	_ZN13CAppStartInitC2Ev.md
+DIFF	_ZN13CDNFExceptionD1Ev	0x804c11a	0x73	0x8056260	0x62	_ZN13CDNFExceptionD1Ev.md
+DIFF	_ZN13CDNFExceptionD2Ev	0x804c11a	0x73	0x8056260	0x62	_ZN13CDNFExceptionD2Ev.md
+DIFF	_ZN13CMyRawFileLogclEPKcS1_z	0x8055334	0x6a	0x804f35e	0x69	_ZN13CMyRawFileLogclEPKcS1_z.md
+DIFF	_ZN13CPacketTracer6AddLogEii	0x8057400	0xdf	0x8052f36	0xe9	_ZN13CPacketTracer6AddLogEii.md
+DIFF	_ZN13CServerConfig11Parse_TableEPci	0x80539b4	0xd7	0x8053f38	0xde	_ZN13CServerConfig11Parse_TableEPci.md
+DIFF	_ZN14CFileLogWriter11writeRawLogEPKcS1_z	0x8054d20	0x3ef	0x804eea2	0x3f9	_ZN14CFileLogWriter11writeRawLogEPKcS1_z.md
+DIFF	_ZN14CFileLogWriter8writeLogEPKcS1_z	0x8054922	0x3fd	0x804ea9a	0x407	_ZN14CFileLogWriter8writeLogEPKcS1_z.md
+NEAR	_ZN14CKillUSRConfig11Parse_TableEPci	0x8052c52	0xeb	0x8050a8e	0xeb	_ZN14CKillUSRConfig11Parse_TableEPci.md
+DIFF	_ZN14CNetworkThread8dispatchEPv	0x8059544	0x7b6	0x80518f4	0x7da	_ZN14CNetworkThread8dispatchEPv.md
+DIFF	_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader	0x8056d8e	0x11f	0x8052914	0x120	_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader.md
+DIFF	_ZN14CServerHandler14ResetHeartBeatEhh	0x80567ea	0xd7	0x805466e	0xd0	_ZN14CServerHandler14ResetHeartBeatEhh.md
+DIFF	_ZN14CServerHandler21IsConnectedGameServerEhh	0x80568d8	0xdc	0x8054754	0xda	_ZN14CServerHandler21IsConnectedGameServerEhh.md
+NEAR	_ZN14CServerHandler4LoadEP13ST_ServerInfo	0x805644c	0x2b5	0x80542b0	0x2b5	_ZN14CServerHandler4LoadEP13ST_ServerInfo.md
+DIFF	_ZN14CServerHandler7ProcessEv	0x8056702	0xe8	0x8054566	0x107	_ZN14CServerHandler7ProcessEv.md
+DIFF	_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader	0x8057ca4	0x30f	0x8053716	0x310	_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader.md
+DIFF	_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader	0x8057fb4	0x3c0	0x8053a26	0x3c1	_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader.md
+DIFF	_ZN17CPacketTranslater7OnLoginEP12PacketHeader	0x8057692	0x358	0x8053140	0x325	_ZN17CPacketTranslater7OnLoginEP12PacketHeader.md
+DIFF	_ZN17CPacketTranslater8OnLogoutEP12PacketHeader	0x80579ea	0x2b9	0x8053466	0x2b0	_ZN17CPacketTranslater8OnLogoutEP12PacketHeader.md
+DIFF	_ZN18CFrameCountHandler11SaveProcessEi	0x804c96e	0x87	0x80569a0	0x7d	_ZN18CFrameCountHandler11SaveProcessEi.md
+DIFF	_ZN18CFrameCountHandler11SaveProcessEv	0x804c8ee	0x80	0x805692a	0x76	_ZN18CFrameCountHandler11SaveProcessEv.md
+DIFF	_ZN18CFrameCountHandler17GetFrameCountInfoEv	0x804c572	0x37c	0x80565b0	0x37a	_ZN18CFrameCountHandler17GetFrameCountInfoEv.md
+DIFF	_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt	0x804c436	0x13c	0x8056472	0x13d	_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt.md
+DIFF	_ZN20CDNFUserInOutCounter10IncUserOutEii	0x804de54	0x4f	0x8058aec	0x56	_ZN20CDNFUserInOutCounter10IncUserOutEii.md
+DIFF	_ZN20CDNFUserInOutCounter12ProcessWriteEv	0x804ddc0	0x4e	0x8058a52	0x4d	_ZN20CDNFUserInOutCounter12ProcessWriteEv.md
+DIFF	_ZN20CDNFUserInOutCounter8WriteLogEv	0x804dc5a	0x165	0x80588d4	0x17d	_ZN20CDNFUserInOutCounter8WriteLogEv.md
+DIFF	_ZN20CDNFUserInOutCounter9IncUserInEii	0x804de0e	0x45	0x8058aa0	0x4c	_ZN20CDNFUserInOutCounter9IncUserInEii.md
+DIFF	_ZN7MemPoolI14CUdpRecvBufferE4freeEPv	0x8058732	0x2e	0x805795c	0x2c	_ZN7MemPoolI14CUdpRecvBufferE4freeEPv.md
+DIFF	_ZN7MemPoolI14CUdpRecvBufferE4freeEPvj	0x80586ec	0x45	0x8057988	0x43	_ZN7MemPoolI14CUdpRecvBufferE4freeEPvj.md
+DIFF	_ZN7MemPoolI14CUdpRecvBufferE5allocEv	0x805858e	0x15e	0x80577f2	0x169	_ZN7MemPoolI14CUdpRecvBufferE5allocEv.md
+DIFF	_ZNK11CUdpHandler12SendToClientEPcitPKcj	0x804d0f2	0x309	0x8056f12	0x311	_ZNK11CUdpHandler12SendToClientEPcitPKcj.md
+DIFF	_ZNK11CUdpHandler12SendToServerEPcitPKc	0x804d65a	0x27b	0x805747e	0x283	_ZNK11CUdpHandler12SendToServerEPcitPKc.md
+DIFF	_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt	0x804ce7e	0x273	0x8056ca2	0x270	_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt.md
+DIFF	_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt	0x804d3fc	0x25d	0x8057224	0x25a	_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt.md
+DIFF	_ZNK13CDNFException4whatEv	0x804c0a0	0x7a	0x80562e0	0x65	_ZNK13CDNFException4whatEv.md
+DIFF	_ZN11CSystemTimeC2Ev	0x80560d2	0x4f	0x805aa64	0x53	_ZN11CSystemTimeC2Ev.md
+DIFF	_ZN11CGameServer19IsHeartBeatTimeOverEv	0x8056244	0x58	0x80507a2	0x6e	_ZN11CGameServer19IsHeartBeatTimeOverEv.md
+DIFF	_ZN11CGameServer11SetConnFlagEb	0x8056c62	0x18	0x80508a6	0x18	_ZN11CGameServer11SetConnFlagEb.md
+DIFF	_ZN11CSystemTimeC1Ev	0x80560d2	0x4f	0x805aa64	0x49	_ZN11CSystemTimeC1Ev.md
+DIFF	pthread_equal	0x805b5c0	0x11	0x805aac0	0x11	pthread_equal.md
+DIFF	_ZN10CMyFileLogclEPKcS1_z	0x805513c	0xad	0x804f2b2	0xb2	_ZN10CMyFileLogclEPKcS1_z.md

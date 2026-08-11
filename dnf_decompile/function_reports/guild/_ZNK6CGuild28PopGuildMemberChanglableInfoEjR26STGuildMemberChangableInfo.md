@@ -1,0 +1,139 @@
+# _ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo
+
+`CGuild::PopGuildMemberChanglableInfo(unsigned int, STGuildMemberChangableInfo&) const`
+
+| 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
+|---|---|---|---|---|---|
+| guild | DIFF | `0x80915e4` | `0x95` | `0x8057276` | `0xc2` |
+
+## 1. 汇编 diff（完整函数，伪代码化）
+
+归一化口径：直接跳转/调用目标地址归一化为 `<T>`；字符串/全局变量地址替换为其内容或 `&符号名`（地址不同但指向相同内容视为等价，2026-08-11 用户口径）。
+
+```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,45 +1,59 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ mov    0x8(%ebp),%eax
+ add    $0x4d98,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIj26STGuildMemberChangableInfoSt4lessIjESaISt4pairIKjS0_EEE5emptyEv>
+ test   %al,%al
+-je     <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x21>
++je     <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x24>
+ mov    $0x0,%eax
+-jmp    <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x93>
++jmp    <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0xc0>
+ mov    0x8(%ebp),%eax
+ lea    0x4d98(%eax),%ecx
+ lea    -0x10(%ebp),%eax
+ lea    0xc(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ mov    %ecx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIj26STGuildMemberChangableInfoSt4lessIjESaISt4pairIKjS0_EEE4findERS4_>
+ sub    $0x4,%esp
+ mov    0x8(%ebp),%eax
+ lea    0x4d98(%eax),%edx
+ lea    -0xc(%ebp),%eax
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIj26STGuildMemberChangableInfoSt4lessIjESaISt4pairIKjS0_EEE3endEv>
+ sub    $0x4,%esp
++lea    -0xc(%ebp),%eax
++mov    %eax,0x4(%esp)
+ lea    -0x10(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-lea    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+-call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKj26STGuildMemberChangableInfoEEneERKS4_>
++call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKj26STGuildMemberChangableInfoEEeqERKS4_>
+ test   %al,%al
+-je     <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x8e>
++je     <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x7e>
++mov    $0x0,%eax
++jmp    <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0xc0>
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKj26STGuildMemberChangableInfoEEptEv>
+ mov    0x10(%ebp),%edx
+-mov    0x4(%eax),%eax
+-mov    %eax,(%edx)
++mov    0x4(%eax),%ecx
++mov    %ecx,(%edx)
++mov    0x8(%eax),%ecx
++mov    %ecx,0x4(%edx)
++mov    0xc(%eax),%ecx
++mov    %ecx,0x8(%edx)
++mov    0x10(%eax),%ecx
++mov    %ecx,0xc(%edx)
++mov    0x14(%eax),%ecx
++mov    %ecx,0x10(%edx)
++mov    0x18(%eax),%ecx
++mov    %ecx,0x14(%edx)
++mov    0x1c(%eax),%ecx
++mov    %ecx,0x18(%edx)
++mov    0x20(%eax),%eax
++mov    %eax,0x1c(%edx)
+ mov    $0x1,%eax
+-jmp    <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x93>
+-mov    $0x0,%eax
+ leave
+ ret
+```
+## 2. Ghidra 反编译 C
+
+```c
+
+/* CGuild::PopGuildMemberChanglableInfo(unsigned int, STGuildMemberChangableInfo&) const */
+
+undefined4 __thiscall
+CGuild::_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo
+          (CGuild *this,uint param_1,STGuildMemberChangableInfo *param_2)
+
+{
+  char cVar1;
+  undefined4 uVar2;
+  int iVar3;
+  _Rb_tree_const_iterator local_14 [4];
+  map<unsigned_int,STGuildMemberChangableInfo,std::less<unsigned_int>,std::allocator<std::pair<unsigned_int_const,STGuildMemberChangableInfo>>>
+  local_10 [12];
+  
+  cVar1 = std::
+          map<unsigned_int,STGuildMemberChangableInfo,std::less<unsigned_int>,std::allocator<std::pair<unsigned_int_const,STGuildMemberChangableInfo>>>
+          ::empty((map<unsigned_int,STGuildMemberChangableInfo,std::less<unsigned_int>,std::allocator<std::pair<unsigned_int_const,STGuildMemberChangableInfo>>>
+                   *)(this + 0x4d98));
+  if (cVar1 == '\0') {
+    std::
+    map<unsigned_int,STGuildMemberChangableInfo,std::less<unsigned_int>,std::allocator<std::pair<unsigned_int_const,STGuildMemberChangableInfo>>>
+    ::find((uint *)local_14);
+    std::
+    map<unsigned_int,STGuildMemberChangableInfo,std::less<unsigned_int>,std::allocator<std::pair<unsigned_int_const,STGuildMemberChangableInfo>>>
+    ::end(local_10);
+    cVar1 = std::_Rb_tree_const_iterator<std::pair<unsigned_int_const,STGuildMemberChangableInfo>>::
+            operator!=((_Rb_tree_const_iterator<std::pair<unsigned_int_const,STGuildMemberChangableInfo>>
+                        *)local_10,local_14);
+    if (cVar1 == '\0') {
+      uVar2 = 0;
+    }
+    else {
+      iVar3 = std::_Rb_tree_const_iterator<std::pair<unsigned_int_const,STGuildMemberChangableInfo>>
+              ::operator->((_Rb_tree_const_iterator<std::pair<unsigned_int_const,STGuildMemberChangableInfo>>
+                            *)local_14);
+      *(undefined4 *)param_2 = *(undefined4 *)(iVar3 + 4);
+      uVar2 = 1;
+    }
+  }
+  else {
+    uVar2 = 0;
+  }
+  return uVar2;
+}
+```
+
+## 3. 我们的源码函数
+
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/DNFGuild.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 619 个文件*

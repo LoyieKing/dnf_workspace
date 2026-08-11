@@ -1,0 +1,1023 @@
+status	name	orig_addr	orig_size	new_addr	new_size
+NEAR	_Z11ss_vsprintfPcjPKcS_	0x80961f8	0xde	0x80932ac	0xde
+NEAR	_Z12ss_vswprintfPwjPKwPc	0x809630a	0xe7	0x80933be	0xe7
+NEAR	_Z13convertToUtf8PKwiP10CharString	0x809749b	0x1ac	0x80b6473	0x1ac
+NEAR	_Z14NumberToStringji	0x806ba37	0x4d	0x80686f1	0x4d
+NEAR	_Z14NumberToStringyi	0x806ba84	0x62	0x806873e	0x62
+NEAR	_Z15convertFromUtf8PKciP10WideString	0x8097647	0x1fd	0x80b661f	0x1fd
+DIFF	_Z16PrintDnfItemInfoR11DnfItemInfoPc	0x805ba37	0x8b	0x804fe98	0x89
+DIFF	_Z17initAuctionStringPKc	0x8063210	0x6f9	0x805f0ee	0x7ae
+DIFF	_Z19GetRandomOptionNameP11DnfItemInfoPci	0x8051064	0x195	0x8057885	0x1bf
+NEAR	_Z22CFileLogWriterInstancev	0x80696d4	0x93	0x8066fbc	0x93
+NEAR	_Z32findFileWithServerTokenInAuctionPc	0x807cb52	0x24b	0x80804bd	0x24b
+NEAR	_Z6insertRK10CharStringiPKci	0x809887e	0x164	0x80a65e1	0x164
+DIFF	_Z6insertRK10WideStringiPKwi	0x809bbb0	0x180	0x80a7a5e	0x17a
+DIFF	_Z6insertRK10WideStringiw	0x809bdd6	0x15e	0x80a7c7e	0x15a
+NEAR	_Z6removeRK10CharStringii	0x8098bd9	0x175	0x80a693c	0x175
+DIFF	_Z6removeRK10WideStringii	0x809bf34	0x187	0x80a7dd8	0x183
+DIFF	_Z7replaceRK10CharStringPKciS3_i	0x8098ede	0x1b9	0x80a6c41	0x1d7
+DIFF	_Z7replaceRK10WideStringPKwiS3_i	0x809c248	0x1df	0x80a80e8	0x1ff
+DIFF	_Z8trimLeftRK10WideString	0x809c9c5	0x128	0x80a7798	0x126
+NEAR	_Z9ss_strcatPcjPKc	0x80965c5	0xfc	0x8093679	0xfc
+NEAR	_Z9ss_strcpyPcjPKc	0x80963f1	0xe7	0x80934a5	0xe7
+NEAR	_Z9ss_wcscatPwjPKw	0x80966c1	0x102	0x8093775	0x102
+NEAR	_Z9ss_wcscpyPwjPKw	0x80964d8	0xed	0x809358c	0xed
+DIFF	_ZN10CMyFileLogclEPKcS1_z	0x806a23c	0xad	0x8067a94	0xad
+DIFF	_ZN10CharString6concatERKS_c	0x8099b28	0xe7	0x80a393a	0xe9
+DIFF	_ZN10CharString6formatEPKcz	0x8099e74	0xa3	0x80a3ba2	0xa3
+DIFF	_ZN10CharString7vformatEPKcPc	0x8099f18	0x9b	0x80a3c46	0x9d
+DIFF	_ZN10CharStringC1EPKc	0x8097ab2	0x7d	0x80a19aa	0x7b
+DIFF	_ZN10CharStringC2EPKc	0x8097ab2	0x7d	0x80a19aa	0x7b
+DIFF	_ZN10WideString6assignEPKwi	0x809b412	0x68	0x80a2de8	0x66
+DIFF	_ZN10WideString6concatEPKwiS1_i	0x809cc9a	0xaf	0x80a4558	0xab
+DIFF	_ZN10WideString6concatERKS_w	0x809cef2	0xe7	0x80a48ea	0xe5
+DIFF	_ZN10WideString6concatEwRKS_	0x809d0c0	0xd4	0x80a49d0	0xd2
+DIFF	_ZN10WideString6formatEPKwz	0x809d240	0xa3	0x80a4c3a	0xa3
+DIFF	_ZN10WideString7vformatEPKwPc	0x809d2e4	0x9b	0x80a4cde	0x9d
+DIFF	_ZN10WideStringC1EPKw	0x809ade6	0x80	0x80a275c	0x82
+DIFF	_ZN10WideStringC1EPKwi	0x809ae66	0x71	0x80a27de	0x6f
+DIFF	_ZN10WideStringC2EPKw	0x809ade6	0x80	0x80a275c	0x82
+DIFF	_ZN10WideStringC2EPKwi	0x809ae66	0x71	0x80a27de	0x6f
+DIFF	_ZN12CToolFileLogclEPKciS1_z	0x806a2ea	0x149	0x8067bc2	0x149
+DIFF	_ZN12InterHandler13registFuncMapEv	0x808b48c	0x2f	0x8094eee	0x2d
+NEAR	_ZN12InterHandler25onINTER_DESTORY_CHARACTEREPN3nsl8CMsgCellE	0x807af06	0x195	0x807a9e0	0x195
+NEAR	_ZN12InterHandler27onINTER_SERVICE_UNAVAILABLEEPN3nsl8CMsgCellE	0x807ac18	0x2ee	0x807a6f2	0x2ee
+DIFF	_ZN12RandomOption13change_optionE25ENUM_RANDOM_OPTION_NUMBER	0x80563a8	0x3d	0x805c296	0x3f
+DIFF	_ZN13CMyRawFileLogclEPKcS1_z	0x806a434	0x6a	0x8067b42	0x69
+NEAR	_ZN13np_server_xml10CServerXml16getAuctionStringEiRb	0x808ff70	0x108	0x8098da8	0x108
+DIFF	_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE	0x808f8ea	0x265	0x8098724	0x264
+DIFF	_ZN14CFileLogWriter11writeRawLogEPKcS1_z	0x8069e20	0x3ef	0x8067684	0x3f9
+DIFF	_ZN14CFileLogWriter8writeLogEPKcS1_z	0x8069a22	0x3fd	0x806727c	0x407
+DIFF	_ZN14DNFFLibWrapper8Char2HexEhPc	0x806bd14	0x42	0x8069324	0x40
+DIFF	_ZN14DNFFLibWrapper8Hex2CharEPKcRh	0x806bd56	0xe1	0x8069364	0xc8
+NEAR	_ZN14HandlerFor_DB_15DecryptPasswordEPKcPc	0x806e358	0x10a	0x806ca6c	0x10a
+DIFF	_ZN14HandlerFor_DB_24onAUCTION_DB_REGIST_ITEMEPN3nsl8CMsgCellE	0x806fbf6	0x4e3	0x806fe76	0x4e5
+DIFF	_ZN14HandlerFor_DB_25GetAuctionMainFetchResultEPN3nsl12DBConnectionEP31tagAUCTION_DB_GET_REGISTED_ITEM	0x806ea18	0x654	0x806d290	0x657
+DIFF	_ZN14HandlerFor_DB_27onAUCTION_DB_EXPIRE_HISTORYEPN3nsl8CMsgCellE	0x8072110	0x3bc	0x806e484	0x3be
+NEAR	_ZN14HandlerFor_DB_30onAUCTION_DB_GET_AVERAGE_PRICEEPN3nsl8CMsgCellE	0x807038a	0x3ca	0x807060c	0x3ca
+NEAR	_ZN14HandlerFor_DB_30onAUCTION_DB_GET_REGISTED_ITEMEPN3nsl8CMsgCellE	0x806f06c	0xb89	0x806d8e8	0xb9b
+DIFF	_ZN14HandlerFor_GA_13registFuncMapEv	0x808b05c	0x17a	0x8094952	0x16b
+DIFF	_ZN14HandlerFor_GA_20onAUCTION_BIDDING_GAEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x8075006	0x431	0x8073040	0x431
+DIFF	_ZN14HandlerFor_GA_24onAUCTION_REGIST_ITEM_GAEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x80747aa	0x5c2	0x8074856	0x5d3
+DIFF	_ZN14HandlerFor_GA_26onAUCTION_REGIST_CANCEL_GAEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x8074d6c	0x299	0x8072da8	0x297
+DIFF	_ZN14HandlerFor_GA_28onAUCTION_BUY_ITEM_APIECE_GAEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x80764c6	0x390	0x807417e	0x390
+DIFF	_ZN14HandlerFor_GA_28onAUCTION_MY_BIDDING_INFO_GAEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x8075e50	0x36a	0x8073b1a	0x357
+DIFF	_ZN14HandlerFor_GA_30onAUCTION_ASK_AVERAGE_PRICE_GAEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x80741a2	0x39c	0x8072778	0x3c4
+DIFF	_ZN14HandlerFor_GA_30onAUCTION_SEARCH_BY_ITEMKEY_GAEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x8075438	0x35c	0x8073472	0x352
+DIFF	_ZN14HandlerFor_GA_32onAUCTION_SEARCH_BY_NOITEMKEY_GAEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x8075794	0x352	0x807450e	0x348
+DIFF	_ZN14HandlerFor_GA_34onAUCTION_ASK_REGISTED_ITEM_NUM_GAEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x807453e	0x26c	0x8072b3c	0x26c
+DIFF	_ZN14HandlerFor_GA_34onAUCTION_MY_REGISTED_ITEM_INFO_GAEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x8075ae6	0x369	0x80737c4	0x356
+DIFF	_ZN14HandlerFor_GP_13registFuncMapEv	0x808b21a	0x17a	0x8094b6c	0x16b
+DIFF	_ZN14HandlerFor_GP_20onAUCTION_BIDDING_GPEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x807812e	0x3c9	0x8075f10	0x3c9
+DIFF	_ZN14HandlerFor_GP_24onAUCTION_REGIST_ITEM_GPEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x80779e2	0x510	0x807743e	0x510
+DIFF	_ZN14HandlerFor_GP_28onAUCTION_MY_BIDDING_INFO_GPEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x8078d22	0x2c8	0x8076ae4	0x2b5
+NEAR	_ZN14HandlerFor_GP_30onAUCTION_ASK_AVERAGE_PRICE_GPEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x8077664	0x192	0x8075b42	0x192
+DIFF	_ZN14HandlerFor_GP_30onAUCTION_SEARCH_BY_ITEMKEY_GPEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x80784f8	0x2b5	0x80762da	0x2af
+DIFF	_ZN14HandlerFor_GP_32onAUCTION_SEARCH_BY_NOITEMKEY_GPEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x80787ae	0x2ab	0x807658a	0x2a5
+DIFF	_ZN14HandlerFor_GP_34onAUCTION_ASK_REGISTED_ITEM_NUM_GPEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x80777f6	0x1eb	0x8077252	0x1eb
+DIFF	_ZN14HandlerFor_GP_34onAUCTION_MY_REGISTED_ITEM_INFO_GPEPN3nsl8CMsgCellEPNS0_7TCPUserE	0x8078a5a	0x2c7	0x8076830	0x2b4
+NEAR	_ZN14HandlerFor_TE_13initTimeEventEv	0x8079be8	0x4f9	0x807803e	0x4f9
+DIFF	_ZN14HandlerFor_TE_27onTIME_AUCTION_TRY_SHUTDOWNEPN3nsl11InternalMsgE	0x807a29a	0x23a	0x8078784	0x230
+DIFF	_ZN15AvatarVariation11Parse_TableEPciPNS_15AvatarColorInfoE	0x807b49a	0x228	0x807e9e6	0x22f
+DIFF	_ZN15AvatarVariation19getAvatarColorValueEi	0x807b860	0xd4	0x807edb5	0xd4
+NEAR	_ZN15AvatarVariation22getAvatarColorInfoInstEv	0x807b7b1	0xaf	0x807ed06	0xaf
+DIFF	_ZN15AvatarVariation26importAvatarColorVariationEPNS_15AvatarColorInfoE	0x807b6c2	0xef	0x807ec15	0xf1
+DIFF	_ZN16CNRDItemInfoList4LoadEPKcPFbPcS2_E	0x807cd9e	0x4b1	0x80808d2	0x4b3
+NEAR	_ZN17AuctionDictionary12RegistCancelEiy	0x8051bcc	0xa20	0x805b760	0xa1a
+DIFF	_ZN17AuctionDictionary14GetBiddingInfoEiPiP17MyBiddingItemInfo	0x80549b0	0x315	0x805a4e6	0x312
+NEAR	_ZN17AuctionDictionary16getCharacterNameEi	0x8054cc6	0x98	0x8057726	0x98
+DIFF	_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi	0x8052fd8	0x1616	0x8058102	0x15d8
+DIFF	_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo	0x80545ee	0x335	0x8057dce	0x333
+NEAR	_ZN17AuctionDictionary21AuctionDictionaryData8PrintOutEy	0x8054d5e	0xc7	0x80577be	0xc7
+DIFF	_ZN17AuctionDictionary24PutDBSendPackageByExpireEyiPNS_21AuctionDictionaryDataEiiii26AUCTION_HISTORY_EVENT_TYPEb	0x805553a	0x438	0x80598a6	0x435
+DIFF	_ZN17AuctionDictionary7BiddingERKyiPKciPcRi	0x80525ec	0x820	0x8059cdc	0x809
+NEAR	_ZN17AuctionDictionary8PurchaseEyiPNS_21AuctionDictionaryDataEiib	0x8055972	0x4d4	0x805a9f4	0x4d4
+NEAR	_ZN19StatisticsCollector18DataInitializationEb	0x8091a32	0x77	0x80a0800	0x77
+NEAR	_ZN19StatisticsCollector6StData8toStringEPci	0x80923d8	0xe2	0x80a0696	0xe2
+DIFF	_ZN22AveragePriceDictionary18isValidRefineValueEh	0x8065230	0x20	0x8061182	0x22
+NEAR	_ZN22AveragePriceDictionary19GetItemAveragePriceEmhRK14ROI_AverageKeyhPi	0x80645d0	0x1de	0x8060018	0x1de
+DIFF	_ZN3App10prepareRunEPc	0x808b7e0	0x524	0x8093ad4	0x534
+NEAR	_ZN3nsl10RecvBuffer13AvailableSizeEv	0x80ba2ec	0x16b	0x8081ee0	0x16b
+DIFF	_ZN3nsl10RecvBuffer13ClearUsedMsgsEv	0x80ba7a2	0x1c5	0x80823a4	0x1b4
+DIFF	_ZN3nsl10RecvBuffer5ParseEPNS_7TCPUserE	0x80ba458	0x349	0x808204c	0x358
+NEAR	_ZN3nsl10RecvBufferC1Eii	0x80ba194	0xc7	0x8081d88	0xc7
+NEAR	_ZN3nsl10RecvBufferC2Eii	0x80ba194	0xc7	0x8081d88	0xc7
+DIFF	_ZN3nsl10WorkThread14PopTransactionEv	0x80b7012	0xb8	0x80b6bdc	0xb5
+DIFF	_ZN3nsl10WorkThread15PushTransactionEPNS_14IMessageStructE	0x80b6e7c	0x195	0x80b6a34	0x1a7
+DIFF	_ZN3nsl10WorkThread4loopEPv	0x80b70ca	0x4fc	0x80b6ccc	0x53a
+DIFF	_ZN3nsl11NSLDBThread4loopEPv	0x80a5a52	0xa7	0x807e412	0xab
+DIFF	_ZN3nsl11TimerThread4loopEPv	0x80b422e	0x11c	0x80b2e1e	0x11b
+DIFF	_ZN3nsl11TimerThreadC1Ev	0x80b4040	0xbc	0x80b2b88	0xbc
+DIFF	_ZN3nsl11TimerThreadC2Ev	0x80b4040	0xbc	0x80b2b88	0xbc
+DIFF	_ZN3nsl11get_ms_tickEv	0x80adab2	0x77	0x80a9e08	0x6c
+DIFF	_ZN3nsl12DBConnection10exec_queryEv	0x80a2458	0x2fe	0x80668ae	0x317
+DIFF	_ZN3nsl12DBConnection4openEPcS1_S1_S1_j	0x80a1e22	0x197	0x806630c	0x19c
+DIFF	_ZN3nsl12DBDispatcher8dispatchEPNS_7MessageE	0x80b94b8	0x1ec	0x8066c64	0x1fc
+DIFF	_ZN3nsl12EpollReactorINS_7TCPUserEE12handleEventsEjPNS_8DataPoolE	0x80b076e	0x399	0x80aef3c	0x393
+DIFF	_ZN3nsl12EpollReactorINS_7TCPUserEE18registListenHandleEPS1_	0x80b06da	0x94	0x80aeeaa	0x92
+NEAR	_ZN3nsl12LinuxService18processCommandLineEiPPcS1_b	0x80a469a	0x3c6	0x807b2f0	0x3c6
+DIFF	_ZN3nsl13LogSendThread10SendLogMsgEPci	0x80b9d88	0xdc	0x807c780	0xdd
+NEAR	_ZN3nsl13LogSendThread14CheckLogServerEv	0x80b9d46	0x2a	0x807c756	0x2a
+DIFF	_ZN3nsl13LogSendThread4loopEPv	0x80b9e64	0x1ac	0x807c5aa	0x1ac
+DIFF	_ZN3nsl13TCPDispatcher8dispatchEPNS_7TCPUserEPNS_7MessageE	0x80adb88	0x250	0x80ac918	0x24e
+NEAR	_ZN3nsl13TCPSendThread16SendDataPoolFreeEPNS_7MessageEPNS_7TCPUserE	0x80ae27c	0x88	0x80ad042	0x88
+DIFF	_ZN3nsl13TCPSendThread4loopEPv	0x80ae304	0x2fa	0x80ad0ca	0x30f
+NEAR	_ZN3nsl14ActiveNetClose13onActvieCloseERjRPNS_7TCPUserE	0x80afb0a	0x12c	0x804c0a8	0x12c
+NEAR	_ZN3nsl14ActiveNetClose15pushActiveCloseEPNS_7TCPUserE	0x80afa58	0xb2	0x804bff6	0xb2
+NEAR	_ZN3nsl14CommonDataPool13createMessageEi	0x80a0290	0xb8	0x8065902	0xb8
+NEAR	_ZN3nsl14CommonDataPool14getSendMessageEPNS_7TCPUserE	0x80a00ac	0x14a	0x806571e	0x14a
+DIFF	_ZN3nsl14ServiceFactory7startupEv	0x80a98bc	0x780	0x809d2e2	0x789
+DIFF	_ZN3nsl14ServiceFactoryC1EPcS1_	0x80a957e	0x2c4	0x809cf6e	0x2ca
+DIFF	_ZN3nsl14ServiceFactoryC2EPcS1_	0x80a957e	0x2c4	0x809cf6e	0x2ca
+DIFF	_ZN3nsl15InterDispatcher8dispatchEPNS_7MessageE	0x80b9964	0x19b	0x807a260	0x198
+DIFF	_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE	0x80bcf0a	0x22a	0x80aa012	0x23d
+DIFF	_ZN3nsl16ActiveConManager17PopRequestConnectERPNS_7TCPUserE	0x80bd134	0x437	0x80aa250	0x43c
+NEAR	_ZN3nsl16GetMessageBufferEi	0x80b76fa	0x30d	0x80b72d0	0x30d
+NEAR	_ZN3nsl18Neof_SignalHandlerEi	0x80a3a43	0x81	0x807b9d2	0x81
+DIFF	_ZN3nsl5IArea12getBeginIterEv	0x80a28f0	0x42	0x8078f9e	0x28
+NEAR	_ZN3nsl5Token10free_tokenEi	0x80b5858	0x6a	0x80b4288	0x6a
+NEAR	_ZN3nsl5Token11get_contextEi	0x80b5810	0x48	0x80b4240	0x48
+NEAR	_ZN3nsl5Token9get_tokenEPci	0x80b566c	0x1a3	0x80b409c	0x1a3
+NEAR	_ZN3nsl6RBTreeIiPNS_11ITimeEntityELi1024EE10RBIteratorINS_15changes_meaning6RBNodeIiS2_Li1024EEES2_EC1ENS8_25ENUM_RBITERATOR_TRAVERSALE	0x80bfe48	0x1c	0x80b2a82	0x1c
+NEAR	_ZN3nsl6RBTreeIiPNS_11ITimeEntityELi1024EE10RBIteratorINS_15changes_meaning6RBNodeIiS2_Li1024EEES2_EC2ENS8_25ENUM_RBITERATOR_TRAVERSALE	0x80bfe48	0x1c	0x80b2a82	0x1c
+DIFF	_ZN3nsl6RBTreeIiPNS_11ITimeEntityELi1024EE6InsertERKiRKS2_	0x80bf020	0x39b	0x80b1c28	0x392
+DIFF	_ZN3nsl6RBTreeIiPNS_11ITimeEntityELi1024EE6RemoveERKi	0x80bf3bc	0x4ad	0x80b1fba	0x4c0
+NEAR	_ZN3nsl6Script5parseEPc	0x80a704e	0x50	0x8084e40	0x50
+DIFF	_ZN3nsl7TCPUser13onActiveCloseEj	0x80b2732	0x1a8	0x80afd7a	0x1a4
+DIFF	_ZN3nsl7TCPUser14onPassiveCloseEPci	0x80b25ca	0x167	0x80afc12	0x167
+DIFF	_ZN3nsl7TCPUserC1Ev	0x80b2054	0x175	0x80af6c0	0x176
+DIFF	_ZN3nsl7TCPUserC2Ev	0x80b2054	0x175	0x80af6c0	0x176
+NEAR	_ZN3nsl8TMsgCellILi131072EEC1Ev	0x80b7e50	0x50	0x80b7a02	0x50
+NEAR	_ZN3nsl8TMsgCellILi131072EEC2Ev	0x80b7e50	0x50	0x80b7a02	0x50
+NEAR	_ZN3nsl8TMsgCellILi65536EEC1Ev	0x80b7e00	0x50	0x80b79b2	0x50
+NEAR	_ZN3nsl8TMsgCellILi65536EEC2Ev	0x80b7e00	0x50	0x80b79b2	0x50
+DIFF	_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv	0x80b6076	0x5ed	0x80b48c0	0x5e3
+DIFF	_ZN3nsl8TraceLog6sysLogEiPKcz	0x80b6664	0x1dd	0x80b4ea4	0x1da
+DIFF	_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval	0x80ad270	0x230	0x809f5b4	0x23b
+DIFF	_ZN3nsl9TCPSocket4sendEPci	0x80acc16	0x26d	0x809ee94	0x272
+DIFF	_ZN3nsl9TCPThread4loopEPv	0x80afc5c	0x64a	0x80ae606	0x648
+NEAR	_ZN4Cast4exitEv	0x806937c	0x14	0x80633ec	0x14
+NEAR	_ZN4Cast5enterEv	0x806935e	0x1e	0x80633ce	0x1e
+NEAR	_ZN5Stand5enterEv	0x80692c8	0x1e	0x80632e4	0x1e
+NEAR	_ZN6Attack4exitEv	0x806934a	0x14	0x806339e	0x14
+NEAR	_ZN6Attack5enterEv	0x806932c	0x1e	0x8063380	0x1e
+DIFF	_ZN6Search13IsValidRefineEh	0x8082810	0x15	0x80870e6	0x17
+DIFF	_ZN6Search18GetAuctionItemInfoEyRK12ROI_CategoryP15AuctionItemInfo	0x8081760	0x30b	0x808aa10	0x30e
+NEAR	_ZN6Search35InitializeCategoryNextContainerDataEv	0x807e6b0	0x108f	0x808b240	0x108f
+DIFF	_ZN6Search6DeleteEy	0x8083790	0x25a	0x8089476	0x246
+DIFF	_ZN7Auction10RegistItemEiPKcciijiRK12ROI_CategoryPc11DnfItemInfoRyliS1_b	0x805a1ae	0x5b5	0x804e8a0	0x5b5
+NEAR	_ZN7Auction18GetAvatarColorNameEi	0x805b8de	0xfd	0x804f988	0xfd
+NEAR	_ZN7Auction19isValidEmblemAvatarEit	0x805c250	0xb5	0x804fcba	0xb5
+NEAR	_ZN7Auction20GetAuctionServerNameEv	0x8059e0c	0xa	0x804fe06	0xa
+NEAR	_ZN7AuctionC1Ev	0x805b178	0x493	0x804d924	0x493
+NEAR	_ZN7AuctionC2Ev	0x805b178	0x493	0x804d924	0x493
+NEAR	_ZN8CodePage12initCodePageEv	0x806b774	0x44	0x806902e	0x44
+DIFF	_ZNK10CharString7getHashEv	0x8097ce0	0x72	0x80a1bd6	0x73
+DIFF	_ZNK10CharString8endsWithEPKcb	0x8097f66	0xcc	0x80a1e5e	0xb9
+DIFF	_ZNK10WideString7getHashEv	0x809b018	0x70	0x80a2a06	0x71
+DIFF	_ZNK10WideString8endsWithEPKwb	0x809b29e	0xd2	0x80a2c8e	0xc2
+NEAR	_ZNK13np_server_xml10CServerXml14GetEventStringEiNS_12_eStringTypeEPb	0x8090078	0x20a	0x8098eb0	0x20a
+NEAR	_ZNK13np_server_xml10CServerXml15GetServerStringEiPb	0x808fdb6	0x137	0x8098bee	0x137
+DIFF	__deregister_frame	0x81510f0	0x31	0x80ca4e0	0x3e
+DIFF	__deregister_frame_info_bases	0x8150fe0	0xff	0x80ca480	0x24
+DIFF	__register_frame	0x8150750	0x42	0x80ca250	0x9b
+DIFF	__register_frame_info_bases	0x814f600	0x99	0x80ca130	0x8b
+DIFF	__register_frame_info_table_bases	0x814f6d0	0x93	0x80ca2f0	0x73
+DIFF	__register_frame_table	0x8150710	0x33	0x80ca3f0	0x83
+MISSING	_my_thread_var	0x81044e0	0x28		
+MISSING	add_collation	0x80fd720	0x680		
+MISSING	add_compiled_collation	0x80fcf80	0x27		
+MISSING	add_directory	0x80fe550	0x72		
+MISSING	add_init_command	0x80c0960	0xaa		
+MISSING	alloc_dynamic	0x80fcd60	0xbf		
+MISSING	alloc_root	0x8101430	0x138		
+MISSING	alloc_stmt_fields	0x80c6420	0x210		
+MISSING	allocate_dynamic	0x80fcbf0	0xc5		
+MISSING	array_append_string_unique	0x81001b0	0x7c		
+MISSING	atoi_octal	0x8102bc0	0x78		
+MISSING	bchange	0x8105320	0x82		
+MISSING	bmove_upp	0x81053b0	0x2f		
+MISSING	calc_daynr	0x80caf60	0x8f		
+MISSING	calc_days_in_year	0x80cad90	0x47		
+MISSING	check_date	0x80cade0	0xac		
+MISSING	check_scramble	0x80cdf90	0xf4		
+MISSING	check_scramble_323	0x80ce3a0	0x7b7		
+MISSING	check_time_range	0x80cae90	0xab		
+DIFF	classify_object_over_fdes	0x814fcc0	0x169	0x80c9570	0x306
+MISSING	cleanup_dirname	0x8100870	0x3a9		
+MISSING	cli_advanced_command	0x80c4530	0x20e		
+MISSING	cli_fetch_lengths	0x80bff50	0x67		
+MISSING	cli_flush_use_result	0x80c28e0	0x6f		
+MISSING	cli_list_fields	0x80c96f0	0x80		
+MISSING	cli_read_binary_rows	0x80c6b40	0x16d		
+MISSING	cli_read_change_user_result	0x80c9d60	0xd2		
+MISSING	cli_read_prepare_result	0x80c9140	0x15e		
+MISSING	cli_read_query_result	0x80c25a0	0x21b		
+MISSING	cli_read_rows	0x80c2260	0x33a		
+MISSING	cli_read_statistics	0x80c6630	0x69		
+MISSING	cli_safe_read	0x80c1eb0	0x17b		
+MISSING	cli_stmt_execute	0x80ca720	0x66c		
+MISSING	cli_unbuffered_fetch	0x80c6cb0	0x4d		
+MISSING	cli_use_result	0x80c07d0	0x188		
+MISSING	comp_names	0x8102ed0	0x2e		
+MISSING	convert_dirname	0x8100260	0x73		
+MISSING	copy_typelib	0x80fc3c0	0x13a		
+MISSING	create_fromuni	0x8108440	0x26e		
+MISSING	create_random_string	0x80ce280	0x69		
+MISSING	create_tailoring	0x8109690	0xb0e		
+MISSING	cs_alloc	0x80fd5a0	0x2b		
+MISSING	cs_enter	0x81138b0	0x96		
+MISSING	cs_leave	0x8113240	0x92		
+MISSING	cs_value	0x81133e0	0x4c4		
+MISSING	d2b	0x8113bf0	0x3de		
+MISSING	default_local_infile_end	0x80c9890	0x46		
+MISSING	default_local_infile_error	0x80c9680	0x6c		
+MISSING	default_local_infile_init	0x80c9980	0xf4		
+MISSING	default_local_infile_read	0x80c98e0	0xa0		
+MISSING	delete_dynamic	0x80fcb30	0x4d		
+MISSING	delete_dynamic_element	0x80fcad0	0x5b		
+MISSING	directory_file_name	0x8102e80	0x4e		
+MISSING	dirname_length	0x8100230	0x30		
+MISSING	dirname_part	0x81002e0	0x54		
+MISSING	dtoa.clone.0	0x8116980	0x25cb		
+MISSING	end_server	0x80c1e50	0x60		
+MISSING	err_helper	0x80cf4e0	0x51		
+MISSING	escape_quotes_for_mysql	0x80fd280	0x1bc		
+MISSING	escape_string_for_mysql	0x80fcfd0	0x2ab		
+DIFF	execute_stack_op	0x814d100	0xe7d	0x80c4f60	0x87e
+DIFF	fde_mixed_encoding_compare	0x814ffd0	0x8c	0x80c9af0	0x102
+DIFF	fde_single_encoding_compare	0x814ff50	0x7c	0x80c9a40	0xa2
+DIFF	fde_unencoded_compare	0x814f7a0	0x1c	0x80c80f0	0x22
+MISSING	fetch_datetime_with_conversion	0x80c7b70	0x1e3		
+MISSING	fetch_float_with_conversion	0x80c76b0	0x4b3		
+MISSING	fetch_long_with_conversion	0x80c72c0	0x3e3		
+MISSING	fetch_result_bin	0x80c6df0	0x71		
+MISSING	fetch_result_date	0x80ca4f0	0x9d		
+MISSING	fetch_result_datetime	0x80ca660	0xbd		
+MISSING	fetch_result_double	0x80c5320	0x21		
+MISSING	fetch_result_float	0x80c6950	0x20		
+MISSING	fetch_result_int32	0x80c52d0	0x50		
+MISSING	fetch_result_int64	0x80c6970	0x61		
+MISSING	fetch_result_short	0x80c5280	0x4f		
+MISSING	fetch_result_str	0x80c6d70	0x7d		
+MISSING	fetch_result_time	0x80ca590	0xc5		
+MISSING	fetch_result_tinyint	0x80c5230	0x4e		
+MISSING	fetch_result_with_conversion	0x80c7d60	0x3b8		
+MISSING	fetch_string_with_conversion	0x80c6e70	0x44a		
+MISSING	fill_uchar	0x81132e0	0xf2		
+MISSING	find_type	0x80fc560	0x27b		
+MISSING	find_type_or_exit	0x80fc8f0	0x117		
+MISSING	find_typeset	0x80fc7e0	0x105		
+MISSING	finish_client_errs	0x80c4750	0x2c		
+MISSING	flush_one_result	0x80c2870	0x6c		
+MISSING	fn_ext	0x8100340	0x6d		
+MISSING	fn_format	0x8100400	0x3a3		
+DIFF	frame_downheap	0x814f7c0	0xb8	0x80c8120	0x98
+MISSING	free_charsets	0x80fcfb0	0x1a		
+MISSING	free_defaults	0x80fe9a0	0x61		
+MISSING	free_old_query	0x80c17b0	0x8a		
+MISSING	free_root	0x8101320	0x102		
+MISSING	free_rows	0x80c1840	0x43		
+MISSING	free_vio_ssl_acceptor_fd	0x811ccf0	0x36		
+MISSING	freeze_size	0x80fca60	0x68		
+MISSING	get_argument	0x80febf0	0xa4		
+MISSING	get_charset	0x80fe0d0	0xdd		
+MISSING	get_charset_by_csname	0x80fe3e0	0xa9		
+MISSING	get_charset_by_name	0x80fe240	0xa1		
+MISSING	get_charset_name	0x80fe4f0	0x5a		
+MISSING	get_charset_number	0x80fe340	0x9a		
+MISSING	get_charsets_dir	0x80fdda0	0xed		
+DIFF	get_cie_encoding	0x814fba0	0x112	0x80c8c10	0x118
+MISSING	get_collation_number	0x80fe1b0	0x82		
+MISSING	get_defaults_options	0x80fead0	0x119		
+MISSING	get_dynamic	0x80fcb80	0x69		
+MISSING	get_index_dynamic	0x80fca30	0x26		
+MISSING	get_internal_charset	0x80fde90	0x12a		
+MISSING	get_salt_from_password	0x80cdec0	0x86		
+MISSING	get_salt_from_password_323	0x80cdc70	0x1d3		
+MISSING	get_type	0x80fc390	0x30		
+MISSING	handle_default_option	0x80fea10	0xb3		
+MISSING	handle_local_infile	0x80c9a80	0x211		
+MISSING	has_path	0x81027a0	0x30		
+MISSING	hash_password	0x80cdbd0	0xa0		
+MISSING	init_alloc_root	0x81017c0	0xab		
+MISSING	init_available_charsets.clone.0	0x80fdfc0	0x102		
+MISSING	init_client_errs	0x80c4780	0x36		
+MISSING	init_compiled_charsets	0x8131c10	0x7a3		
+MISSING	init_default_directories	0x80fe5d0	0xd3		
+DIFF	init_dwarf_reg_size_table	0x814c580	0x80	0x80c4ba0	0x7f
+MISSING	init_dynamic_array	0x80fcf40	0x40		
+MISSING	init_dynamic_array2	0x80fce90	0xa3		
+MISSING	init_glob_errs	0x80fff30	0x5		
+MISSING	init_state_maps	0x80fd440	0x15b		
+MISSING	insert_dynamic	0x80fce20	0x6d		
+MISSING	int10_to_str	0x8119b90	0xa7		
+MISSING	int2str	0x8119c40	0x12b		
+MISSING	intern_filename	0x81007b0	0x74		
+MISSING	is_prefix	0x8119d70	0x39		
+MISSING	ismbchar_big5	0x8133870	0x3c		
+MISSING	ismbchar_cp932	0x81346c0	0x45		
+MISSING	ismbchar_euc_kr	0x8137e20	0x4f		
+MISSING	ismbchar_eucjpms	0x8135ce0	0xaf		
+MISSING	ismbchar_gb2312	0x81381a0	0x34		
+MISSING	ismbchar_gbk	0x8138b10	0x3c		
+MISSING	ismbchar_sjis	0x813aa40	0x45		
+MISSING	ismbchar_ujis	0x813bf40	0xaf		
+MISSING	lex2str	0x811b010	0x90		
+DIFF	linear_search_fdes	0x8150060	0x143	0x80c9e80	0x2b0
+MISSING	list_add	0x80ffff0	0x34		
+MISSING	list_cons	0x81000f0	0x49		
+MISSING	list_delete	0x8100030	0x2f		
+MISSING	list_free	0x8100140	0x66		
+MISSING	list_length	0x8100090	0x1c		
+MISSING	list_reverse	0x8100060	0x24		
+MISSING	list_walk	0x81000b0	0x37		
+MISSING	ll2str	0x8119db0	0x1e0		
+MISSING	load_defaults	0x80ffee0	0x42		
+MISSING	longlong10_to_str	0x8119f90	0x18b		
+MISSING	lshift	0x8113a40	0x1b0		
+MISSING	make_password_from_salt	0x80cdf50	0x38		
+MISSING	make_password_from_salt_323	0x80ce2f0	0x3d		
+MISSING	make_scrambled_password	0x80ce1c0	0xb6		
+MISSING	make_scrambled_password_323	0x80ce330	0x62		
+MISSING	make_type	0x80fc500	0x58		
+MISSING	mbcharlen_big5	0x81338b0	0x14		
+MISSING	mbcharlen_cp932	0x8134710	0x27		
+MISSING	mbcharlen_euc_kr	0x8137e70	0x14		
+MISSING	mbcharlen_eucjpms	0x8135d90	0x37		
+MISSING	mbcharlen_gb2312	0x81381e0	0x14		
+MISSING	mbcharlen_gbk	0x8138b50	0x14		
+MISSING	mbcharlen_sjis	0x813aa90	0x27		
+MISSING	mbcharlen_ujis	0x813bff0	0x37		
+MISSING	memdup_root	0x8101570	0x54		
+MISSING	multadd	0x8113fd0	0x1b0		
+MISSING	multi_alloc_root	0x8101670	0x79		
+MISSING	my_TIME_to_str	0x80cc000	0x8e		
+MISSING	my_atof	0x8116940	0x3a		
+MISSING	my_case_bin	0x81054f0	0x8		
+MISSING	my_case_str_bin	0x81054e0	0x7		
+MISSING	my_casedn_8bit	0x81063d0	0x2c		
+MISSING	my_casedn_mb	0x81391c0	0x5e		
+MISSING	my_casedn_str_8bit	0x8106360	0x3a		
+MISSING	my_casedn_str_mb	0x81390f0	0x61		
+MISSING	my_casedn_str_mb2_or_mb4	0x810a810	0x7		
+MISSING	my_casedn_str_utf8mb3	0x81108f0	0x189		
+MISSING	my_casedn_str_utf8mb4	0x8111b40	0x242		
+MISSING	my_casedn_ucs2	0x810cfd0	0x9b		
+MISSING	my_casedn_utf16	0x810f010	0x196		
+MISSING	my_casedn_utf32	0x810c480	0xcf		
+MISSING	my_casedn_utf8mb3	0x81120f0	0x1ed		
+MISSING	my_casedn_utf8mb4	0x8111630	0x160		
+MISSING	my_caseup_8bit	0x81063a0	0x2c		
+MISSING	my_caseup_mb	0x8139160	0x5e		
+MISSING	my_caseup_str_8bit	0x8106320	0x3a		
+MISSING	my_caseup_str_mb	0x8139080	0x61		
+MISSING	my_caseup_str_mb2_or_mb4	0x810a800	0x7		
+MISSING	my_caseup_str_utf8mb3	0x81114a0	0x189		
+MISSING	my_caseup_str_utf8mb4	0x81118f0	0x242		
+MISSING	my_caseup_ucs2	0x810ce30	0x9a		
+MISSING	my_caseup_utf16	0x810ecf0	0x18e		
+MISSING	my_caseup_utf32	0x810c1f0	0xdf		
+MISSING	my_caseup_utf8mb3	0x8111d90	0x1ed		
+MISSING	my_caseup_utf8mb4	0x8111790	0x160		
+MISSING	my_charpos_8bit	0x8107600	0x8		
+MISSING	my_charpos_mb	0x8139360	0x7d		
+MISSING	my_charpos_ucs2	0x810d310	0x1b		
+MISSING	my_charpos_utf16	0x810bd60	0x64		
+MISSING	my_charpos_utf32	0x810cb30	0x19		
+MISSING	my_charset_is_8bit_pure_ascii	0x8113110	0x37		
+MISSING	my_charset_is_ascii_based	0x81130c0	0x47		
+MISSING	my_charset_is_ascii_compatible	0x8113150	0x37		
+MISSING	my_charset_repertoire	0x81130a0	0x1b		
+MISSING	my_charset_same	0x80fd6e0	0x3e		
+MISSING	my_close	0x8103860	0x10e		
+MISSING	my_coll_init_8bit_bin	0x81053e0	0x10		
+MISSING	my_coll_init_simple	0x81077d0	0x4a		
+MISSING	my_coll_init_uca	0x810a1a0	0x16		
+MISSING	my_coll_lexem_print_error	0x8109600	0x81		
+MISSING	my_connect	0x80c2950	0x15d		
+MISSING	my_cset_init_8bit	0x81086b0	0x1e		
+MISSING	my_date_to_str	0x80cbf20	0x55		
+MISSING	my_datetime_to_str	0x80cbeb0	0x63		
+MISSING	my_dir	0x8102f50	0x3e1		
+MISSING	my_dirend	0x8102f00	0x4e		
+MISSING	my_end	0x81029c0	0x1fc		
+MISSING	my_error	0x8101ec0	0xbd		
+MISSING	my_error_register	0x8101d30	0xac		
+MISSING	my_error_unregister	0x8101cb0	0x72		
+MISSING	my_error_unregister_all	0x8101c60	0x4d		
+MISSING	my_fclose	0x81020f0	0xee		
+MISSING	my_fcvt	0x8118f50	0x473		
+MISSING	my_fdopen	0x8101f80	0x16f		
+MISSING	my_filename	0x8133160	0x49		
+MISSING	my_fileno	0x81023d0	0x23		
+MISSING	my_fill_8bit	0x8108710	0x31		
+MISSING	my_fill_mb2	0x810bb00	0x35		
+MISSING	my_fill_utf32	0x810dbc0	0x52		
+MISSING	my_fopen	0x81021e0	0x1ef		
+MISSING	my_fread	0x81025d0	0x163		
+MISSING	my_fseek	0x8102430	0x4d		
+MISSING	my_fstat	0x8102e40	0x32		
+MISSING	my_ftell	0x8102400	0x23		
+MISSING	my_fwrite	0x8102480	0x145		
+MISSING	my_gcvt	0x81193d0	0x7bf		
+MISSING	my_getsystime	0x8133290	0x51		
+MISSING	my_getwd	0x81028e0	0xd7		
+MISSING	my_hash_sort_8bit_bin	0x8105560	0xe6		
+MISSING	my_hash_sort_any_uca	0x810a690	0xb6		
+MISSING	my_hash_sort_bin	0x8105650	0x4e		
+MISSING	my_hash_sort_latin1_de	0x8105ed0	0x19b		
+MISSING	my_hash_sort_mb_bin	0x8139670	0xe6		
+MISSING	my_hash_sort_simple	0x8106520	0x13e		
+MISSING	my_hash_sort_ucs2	0x810ced0	0xfc		
+MISSING	my_hash_sort_ucs2_bin	0x810d550	0x6e		
+MISSING	my_hash_sort_ucs2_uca	0x8109230	0xb6		
+MISSING	my_hash_sort_utf16	0x810ee80	0x18e		
+MISSING	my_hash_sort_utf16_bin	0x810be50	0x6e		
+MISSING	my_hash_sort_utf32	0x810c2d0	0x1a6		
+MISSING	my_hash_sort_utf8mb3	0x8111f80	0x170		
+MISSING	my_hash_sort_utf8mb4	0x81104a0	0x184		
+MISSING	my_init	0x8102c40	0x135		
+MISSING	my_init_time	0x80cc3d0	0x8b		
+MISSING	my_instr_bin	0x8105840	0x132		
+MISSING	my_instr_mb	0x8139460	0x127		
+MISSING	my_instr_simple	0x8107630	0x172		
+MISSING	my_is_symlink	0x81041a0	0x4d		
+MISSING	my_ismbchar_ucs2	0x810d2e0	0xa		
+MISSING	my_ismbchar_utf16	0x810bce0	0x54		
+MISSING	my_ismbchar_utf32	0x810c560	0xa		
+MISSING	my_ismbchar_utf8mb3	0x8112d30	0x92		
+MISSING	my_ismbchar_utf8mb4	0x81106a0	0x32		
+MISSING	my_l10tostr_mb2_or_mb4	0x810b300	0x102		
+MISSING	my_lengthsp_8bit	0x8108a50	0xd4		
+MISSING	my_lengthsp_binary	0x81053f0	0x8		
+MISSING	my_lengthsp_mb2	0x810bb40	0x32		
+MISSING	my_lengthsp_utf32	0x810cbd0	0x3e		
+MISSING	my_like_range_big5	0x8133510	0x35e		
+MISSING	my_like_range_cp932	0x8134bc0	0x20e		
+MISSING	my_like_range_czech	0x8135880	0x1d9		
+MISSING	my_like_range_gbk	0x81387c0	0x343		
+MISSING	my_like_range_mb	0x813a150	0x541		
+MISSING	my_like_range_simple	0x81072f0	0x266		
+MISSING	my_like_range_sjis	0x813b030	0x313		
+MISSING	my_like_range_ucs2	0x810d5c0	0x3ba		
+MISSING	my_like_range_utf16	0x810bec0	0x2b0		
+MISSING	my_like_range_utf32	0x810e940	0x3ac		
+MISSING	my_like_range_win1250ch	0x813e6e0	0x1ab		
+MISSING	my_ll10tostr_mb2_or_mb4	0x810b410	0x1ad		
+MISSING	my_load_defaults	0x80ffa50	0x484		
+MISSING	my_load_path	0x81323c0	0x141		
+MISSING	my_long10_to_str_8bit	0x81088e0	0xde		
+MISSING	my_longlong10_to_str_8bit	0x8108750	0x18e		
+MISSING	my_malloc	0x8103370	0xc8		
+MISSING	my_mb_ctype_8bit	0x8107820	0x35		
+MISSING	my_mb_ctype_mb	0x8139820	0xa1		
+MISSING	my_mb_wc_8bit	0x8106470	0x37		
+MISSING	my_mb_wc_big5	0x8133a70	0xa9		
+MISSING	my_mb_wc_bin	0x8105510	0x1f		
+MISSING	my_mb_wc_cp932	0x8134f60	0x158		
+MISSING	my_mb_wc_euc_jp	0x813c140	0x1175		
+MISSING	my_mb_wc_euc_kr	0x8138050	0xa9		
+MISSING	my_mb_wc_filename	0x8110b30	0x166		
+MISSING	my_mb_wc_gb2312	0x81383b0	0xc9		
+MISSING	my_mb_wc_gbk	0x8138d00	0x91		
+MISSING	my_mb_wc_latin1	0x8105b60	0x44		
+MISSING	my_mb_wc_sjis	0x813ac40	0x109		
+MISSING	my_mb_wc_tis620	0x813b4e0	0x42		
+MISSING	my_mb_wc_utf8mb3	0x8110720	0xee		
+MISSING	my_mb_wc_utf8mb4	0x81101e0	0x1a0		
+MISSING	my_mbcharlen_8bit	0x8105500	0xa		
+MISSING	my_mbcharlen_ucs2	0x810d2f0	0xa		
+MISSING	my_mbcharlen_utf16	0x810bd40	0x1d		
+MISSING	my_mbcharlen_utf32	0x810c570	0xa		
+MISSING	my_mbcharlen_utf8mb3	0x8110b00	0x30		
+MISSING	my_mbcharlen_utf8mb4	0x81106e0	0x3a		
+MISSING	my_memdup	0x8103510	0x54		
+MISSING	my_message	0x8101c20	0x34		
+MISSING	my_message_no_curses	0x8103570	0xc5		
+MISSING	my_micro_time	0x8133240	0x48		
+MISSING	my_micro_time_and_time	0x81331f0	0x50		
+MISSING	my_multi_malloc	0x8101240	0x79		
+MISSING	my_net_init	0x80cd970	0xc6		
+MISSING	my_net_local_init	0x80c9380	0x6c		
+MISSING	my_net_read	0x80cd6d0	0x299		
+MISSING	my_net_set_read_timeout	0x80ccb70	0x2c		
+MISSING	my_net_set_write_timeout	0x80ccba0	0x2c		
+MISSING	my_net_write	0x80cd200	0xe3		
+MISSING	my_no_flags_free	0x8103340	0x27		
+MISSING	my_numcells_8bit	0x81075f0	0xb		
+MISSING	my_numcells_cp932	0x81348e0	0x52		
+MISSING	my_numcells_eucjp	0x813c0e0	0x58		
+MISSING	my_numcells_mb	0x8139760	0xb4		
+MISSING	my_numcells_sjis	0x813ad50	0x52		
+MISSING	my_numchars_8bit	0x81075e0	0xb		
+MISSING	my_numchars_mb	0x8139300	0x5b		
+MISSING	my_numchars_ucs2	0x810d300	0xd		
+MISSING	my_numchars_utf16	0x810e340	0x64		
+MISSING	my_numchars_utf32	0x810cb20	0xe		
+MISSING	my_once_alloc	0x8103690	0xf3		
+MISSING	my_once_free	0x8103640	0x46		
+MISSING	my_once_memdup	0x8103790	0x54		
+MISSING	my_once_strdup	0x81037f0	0x62		
+MISSING	my_open	0x8103ad0	0x62		
+MISSING	my_parse_charset_xml	0x8113190	0xae		
+MISSING	my_pipe_sig_handler	0x80ca100	0x2e		
+MISSING	my_print_default_files	0x80fe6b0	0x1fb		
+MISSING	my_printf_error	0x8101e50	0x61		
+MISSING	my_printv_error	0x8101de0	0x61		
+MISSING	my_propagate_complex	0x8107fa0	0x7		
+MISSING	my_propagate_simple	0x8107f90	0xa		
+MISSING	my_qsort	0x8132510	0xc4b		
+MISSING	my_read	0x8103b40	0x3fb		
+MISSING	my_read_charset_file	0x80fd5d0	0x10b		
+MISSING	my_readlink	0x81042a0	0xb5		
+MISSING	my_real_read	0x80cd430	0x29e		
+MISSING	my_realloc	0x8103f40	0xba		
+MISSING	my_realpath	0x81040e0	0xb9		
+MISSING	my_register_filename	0x8103970	0x157		
+MISSING	my_rnd	0x8104080	0x47		
+MISSING	my_rnd_init	0x8104000	0x80		
+MISSING	my_scan_8bit	0x8107560	0x78		
+MISSING	my_scan_mb2	0x810bab0	0x4a		
+MISSING	my_scan_utf32	0x810cd30	0x9e		
+MISSING	my_search_option_files	0x80ff680	0x3c6		
+MISSING	my_setwd	0x81027d0	0x101		
+MISSING	my_snprintf	0x811ac30	0x38		
+MISSING	my_snprintf_8bit	0x8108a10	0x38		
+MISSING	my_snprintf_mb2	0x810de60	0x21d		
+MISSING	my_snprintf_utf32	0x810dc20	0x23b		
+MISSING	my_stat	0x8102d80	0xc0		
+MISSING	my_str_free_default	0x813eb20	0x23		
+MISSING	my_str_malloc_default	0x813eb50	0x33		
+MISSING	my_strcasecmp_8bit	0x8106400	0x6a		
+MISSING	my_strcasecmp_bin	0x8105a40	0x2a		
+MISSING	my_strcasecmp_mb	0x8139220	0xdc		
+MISSING	my_strcasecmp_mb2_or_mb4	0x810a820	0x7		
+MISSING	my_strcasecmp_mb_bin	0x813a6a0	0x2a		
+MISSING	my_strcasecmp_utf8mb3	0x8112dd0	0x23b		
+MISSING	my_strcasecmp_utf8mb4	0x8112990	0x395		
+MISSING	my_strdup	0x81034a0	0x62		
+MISSING	my_string_repertoire	0x8113010	0x83		
+MISSING	my_strndup	0x8103440	0x5b		
+MISSING	my_strnncoll_8bit_bin	0x81059e0	0x51		
+MISSING	my_strnncoll_any_uca	0x810a750	0xaa		
+MISSING	my_strnncoll_big5	0x8133380	0x183		
+MISSING	my_strnncoll_binary	0x8105980	0x51		
+MISSING	my_strnncoll_cp932	0x8134dd0	0x187		
+MISSING	my_strnncoll_czech	0x81350c0	0x29f		
+MISSING	my_strnncoll_gbk	0x81386a0	0x66		
+MISSING	my_strnncoll_gbk_internal	0x81384f0	0x1a7		
+MISSING	my_strnncoll_latin1_de	0x8105c30	0x118		
+MISSING	my_strnncoll_mb_bin	0x8139cd0	0x51		
+MISSING	my_strnncoll_simple	0x8106190	0x9b		
+MISSING	my_strnncoll_sjis	0x813b350	0x187		
+MISSING	my_strnncoll_tis620	0x813b5a0	0x376		
+MISSING	my_strnncoll_ucs2	0x810d070	0x131		
+MISSING	my_strnncoll_ucs2_bin	0x810d360	0xd1		
+MISSING	my_strnncoll_ucs2_uca	0x8109120	0xaa		
+MISSING	my_strnncoll_utf16	0x810f1b0	0x2e8		
+MISSING	my_strnncoll_utf16_bin	0x810f7a0	0x22a		
+MISSING	my_strnncoll_utf32	0x810e770	0x1c4		
+MISSING	my_strnncoll_utf32_bin	0x810e3b0	0x144		
+MISSING	my_strnncoll_utf8mb3	0x8112660	0x32d		
+MISSING	my_strnncoll_utf8mb4	0x8111050	0x1d4		
+MISSING	my_strnncoll_win1250ch	0x813df00	0x301		
+MISSING	my_strnncollsp_8bit_bin	0x8105400	0xd1		
+MISSING	my_strnncollsp_any_uca	0x81090c0	0x53		
+MISSING	my_strnncollsp_big5	0x8134490	0x22b		
+MISSING	my_strnncollsp_binary	0x8105b10	0x43		
+MISSING	my_strnncollsp_cp932	0x81349e0	0x1db		
+MISSING	my_strnncollsp_czech	0x8135360	0x508		
+MISSING	my_strnncollsp_gbk	0x8138710	0xa2		
+MISSING	my_strnncollsp_latin1_de	0x8105d50	0x172		
+MISSING	my_strnncollsp_mb_bin	0x8139590	0xd1		
+MISSING	my_strnncollsp_simple	0x8106230	0xed		
+MISSING	my_strnncollsp_sjis	0x813ae50	0x1db		
+MISSING	my_strnncollsp_tis620	0x813bb10	0x42d		
+MISSING	my_strnncollsp_uca	0x8108fa0	0x113		
+MISSING	my_strnncollsp_ucs2	0x810d1b0	0x129		
+MISSING	my_strnncollsp_ucs2_bin	0x810d440	0x109		
+MISSING	my_strnncollsp_ucs2_uca	0x81091d0	0x53		
+MISSING	my_strnncollsp_utf16	0x810f9d0	0x3be		
+MISSING	my_strnncollsp_utf16_bin	0x810f4a0	0x2f9		
+MISSING	my_strnncollsp_utf32	0x810e500	0x269		
+MISSING	my_strnncollsp_utf32_bin	0x810cc10	0x117		
+MISSING	my_strnncollsp_utf8mb3	0x81122e0	0x375		
+MISSING	my_strnncollsp_utf8mb4	0x8110e30	0x21c		
+MISSING	my_strnncollsp_win1250ch	0x813e210	0x4c2		
+MISSING	my_strntod_8bit	0x81089c0	0x4f		
+MISSING	my_strntod_mb2_or_mb4	0x810e190	0xf3		
+MISSING	my_strntol_8bit	0x8106660	0x1fd		
+MISSING	my_strntol_mb2_or_mb4	0x810a830	0x23d		
+MISSING	my_strntoll_8bit	0x8106a20	0x377		
+MISSING	my_strntoll_mb2_or_mb4	0x810ac70	0x360		
+MISSING	my_strntoul_8bit	0x8106860	0x1bc		
+MISSING	my_strntoul_mb2_or_mb4	0x810aa70	0x1fd		
+MISSING	my_strntoull10rnd_8bit	0x8107860	0x72a		
+MISSING	my_strntoull10rnd_mb2_or_mb4	0x810e080	0x10f		
+MISSING	my_strntoull_8bit	0x8106da0	0x314		
+MISSING	my_strntoull_mb2_or_mb4	0x810afd0	0x32e		
+MISSING	my_strnxfrm_8bit_bin	0x8105a70	0x95		
+MISSING	my_strnxfrm_any_uca	0x8109540	0x58		
+MISSING	my_strnxfrm_big5	0x8133bb0	0x8df		
+MISSING	my_strnxfrm_czech	0x8135a60	0x27a		
+MISSING	my_strnxfrm_gbk	0x8138e30	0x248		
+MISSING	my_strnxfrm_latin1_de	0x8106070	0xf5		
+MISSING	my_strnxfrm_mb	0x813a6d0	0x365		
+MISSING	my_strnxfrm_simple	0x8108360	0xd7		
+MISSING	my_strnxfrm_tis620	0x813b920	0x1ea		
+MISSING	my_strnxfrm_uca	0x81092f0	0x246		
+MISSING	my_strnxfrm_ucs2_uca	0x81095a0	0x58		
+MISSING	my_strnxfrm_unicode	0x8111230	0x264		
+MISSING	my_strnxfrm_win1250ch	0x813e890	0x281		
+MISSING	my_strnxfrmlen_czech	0x8135870	0xf		
+MISSING	my_strnxfrmlen_simple	0x8106170	0x19		
+MISSING	my_strnxfrmlen_utf32	0x810c550	0xa		
+MISSING	my_strnxfrmlen_utf8mb3	0x8110ae0	0x17		
+MISSING	my_strnxfrmlen_utf8mb4	0x8110690	0xf		
+MISSING	my_strtod	0x8114870	0x20cd		
+MISSING	my_strtoll10	0x811a120	0x4c5		
+MISSING	my_strtoll10_8bit	0x81086d0	0x31		
+MISSING	my_strtoll10_mb2	0x810b5c0	0x4ec		
+MISSING	my_strtoll10_utf32	0x810c580	0x596		
+MISSING	my_strxfrm_desc_and_reverse	0x8108140	0x12a		
+MISSING	my_strxfrm_flag_normalize	0x8107fb0	0x18e		
+MISSING	my_strxfrm_pad_desc_and_reverse	0x8108270	0xe1		
+MISSING	my_strxfrm_pad_desc_and_reverse_utf32	0x810e290	0xa3		
+MISSING	my_symlink	0x81041f0	0xab		
+MISSING	my_sync	0x8104380	0xe8		
+MISSING	my_sync_dir	0x8104360	0x7		
+MISSING	my_sync_dir_by_file	0x8104370	0x7		
+MISSING	my_system_gmt_sec	0x80cc090	0x33f		
+MISSING	my_thread_dbug_id	0x8104510	0x20		
+MISSING	my_thread_destroy_mutex	0x8104530	0xa6		
+MISSING	my_thread_end	0x81045e0	0xd8		
+MISSING	my_thread_global_end	0x81048e0	0xa0		
+MISSING	my_thread_global_init	0x8104980	0x1f2		
+MISSING	my_thread_init	0x81046c0	0xfa		
+MISSING	my_thread_name	0x8104480	0x16		
+MISSING	my_thread_var_mutex_in_use	0x81044a0	0x34		
+MISSING	my_threadattr_global_init	0x8104470	0x5		
+MISSING	my_time	0x81332f0	0x7b		
+MISSING	my_time_possible_from_micro	0x81331b0	0x3a		
+MISSING	my_time_to_str	0x80cbf80	0x73		
+MISSING	my_uca_scanner_init_any	0x8108d40	0x41		
+MISSING	my_uca_scanner_init_ucs2	0x8108b30	0x7b		
+MISSING	my_uca_scanner_next_any	0x8108d90	0x202		
+MISSING	my_uca_scanner_next_ucs2	0x8108bb0	0x188		
+MISSING	my_ucs2_uni	0x810cdd0	0x2c		
+MISSING	my_uni_ucs2	0x810ce00	0x29		
+MISSING	my_uni_utf16	0x810bc30	0xa3		
+MISSING	my_uni_utf32	0x810c1b0	0x39		
+MISSING	my_utf16_uni	0x810bb80	0xad		
+MISSING	my_utf32_uni	0x810c170	0x3e		
+MISSING	my_vsnprintf	0x811a5f0	0x637		
+MISSING	my_wait_for_other_threads_to_die	0x81047c0	0x11f		
+MISSING	my_wc_mb_8bit	0x81064b0	0x68		
+MISSING	my_wc_mb_big5	0x81338d0	0x19f		
+MISSING	my_wc_mb_bin	0x8105530	0x23		
+MISSING	my_wc_mb_cp932	0x8134740	0x199		
+MISSING	my_wc_mb_euc_jp	0x813d2c0	0xc3f		
+MISSING	my_wc_mb_euc_kr	0x8137e90	0x1b7		
+MISSING	my_wc_mb_filename	0x8110ca0	0x182		
+MISSING	my_wc_mb_gb2312	0x8138200	0x1a3		
+MISSING	my_wc_mb_gbk	0x8138b70	0x183		
+MISSING	my_wc_mb_latin1	0x8105bb0	0x71		
+MISSING	my_wc_mb_sjis	0x813aac0	0x177		
+MISSING	my_wc_mb_tis620	0x813b530	0x6e		
+MISSING	my_wc_mb_utf8mb3	0x8110810	0xda		
+MISSING	my_wc_mb_utf8mb4	0x8110380	0x11f		
+MISSING	my_well_formed_len_8bit	0x8107610	0x1c		
+MISSING	my_well_formed_len_big5	0x8133b20	0x83		
+MISSING	my_well_formed_len_cp932	0x8134940	0x9d		
+MISSING	my_well_formed_len_eucjpms	0x8135dd0	0xa1		
+MISSING	my_well_formed_len_euckr	0x8138100	0x93		
+MISSING	my_well_formed_len_gb2312	0x8138480	0x68		
+MISSING	my_well_formed_len_gbk	0x8138da0	0x83		
+MISSING	my_well_formed_len_mb	0x81393e0	0x7c		
+MISSING	my_well_formed_len_sjis	0x813adb0	0x9d		
+MISSING	my_well_formed_len_ucs2	0x810d330	0x21		
+MISSING	my_well_formed_len_ujis	0x813c030	0xa1		
+MISSING	my_well_formed_len_utf16	0x810bdd0	0x74		
+MISSING	my_well_formed_len_utf32	0x810cb50	0x7e		
+MISSING	my_wildcmp_8bit	0x81070c0	0x22f		
+MISSING	my_wildcmp_bin	0x81056a0	0x19d		
+MISSING	my_wildcmp_mb	0x8139d30	0x419		
+MISSING	my_wildcmp_mb_bin	0x81398d0	0x3fd		
+MISSING	my_wildcmp_uca	0x810a1c0	0x4c8		
+MISSING	my_wildcmp_ucs2_bin	0x810d980	0x5c		
+MISSING	my_wildcmp_ucs2_ci	0x810d9e0	0x5b		
+MISSING	my_wildcmp_unicode	0x810fd90	0x448		
+MISSING	my_wildcmp_utf16_bin	0x810db00	0x5c		
+MISSING	my_wildcmp_utf16_ci	0x810db60	0x5b		
+MISSING	my_wildcmp_utf32_bin	0x810da40	0x5c		
+MISSING	my_wildcmp_utf32_ci	0x810daa0	0x5b		
+MISSING	my_wildcmp_utf8mb3	0x8110a80	0x5b		
+MISSING	my_wildcmp_utf8mb4	0x8110630	0x5b		
+MISSING	my_xml_error_lineno	0x811b170	0x33		
+MISSING	my_xml_error_pos	0x811b140	0x29		
+MISSING	my_xml_error_string	0x811b130	0xb		
+MISSING	my_xml_leave	0x811b1d0	0x1b7		
+MISSING	my_xml_parse	0x811b760	0x6ca		
+MISSING	my_xml_parser_create	0x811b1b0	0x15		
+MISSING	my_xml_parser_free	0x811b0a0	0x5		
+MISSING	my_xml_scan	0x811b390	0x3d0		
+MISSING	my_xml_set_enter_handler	0x811b0d0	0x11		
+MISSING	my_xml_set_leave_handler	0x811b0f0	0x11		
+MISSING	my_xml_set_user_data	0x811b110	0x11		
+MISSING	my_xml_set_value_handler	0x811b0b0	0x11		
+MISSING	myodbc_remove_escape	0x80c4e90	0x1a1		
+DIFF	mysql_affected_rows	0x80c4cc0	0x14	0x80b92d4	0xf
+MISSING	mysql_autocommit	0x80c6730	0x42		
+MISSING	mysql_change_user	0x80c9e40	0x2b2		
+MISSING	mysql_character_set_name	0x80c4d60	0x11		
+DIFF	mysql_close	0x80c40b0	0x14e	0x80b926b	0x5
+MISSING	mysql_close_free_options	0x80c0c80	0x173		
+MISSING	mysql_commit	0x80c67c0	0x35		
+MISSING	mysql_data_seek	0x80c48a0	0x53		
+MISSING	mysql_debug	0x80c47e0	0x5		
+MISSING	mysql_detach_stmt_list	0x80c0e00	0xb1		
+MISSING	mysql_dump_debug_info	0x80c4ac0	0x52		
+MISSING	mysql_embedded	0x80c4e00	0x7		
+MISSING	mysql_eof	0x80c4c60	0xc		
+DIFF	mysql_errno	0x80c00d0	0x2a	0x80b927a	0xa
+MISSING	mysql_error	0x80c0100	0x28		
+MISSING	mysql_escape_string	0x80c9330	0x45		
+MISSING	mysql_fetch_field	0x80c4880	0x1e		
+MISSING	mysql_fetch_field_direct	0x80c4c70	0xf		
+MISSING	mysql_fetch_fields	0x80c4c80	0xb		
+DIFF	mysql_fetch_lengths	0x80c0070	0x3a	0x80b92b1	0xa
+DIFF	mysql_fetch_row	0x80c2030	0x229	0x80b92a7	0xa
+MISSING	mysql_field_count	0x80c4cb0	0xe		
+MISSING	mysql_field_seek	0x80c4920	0x11		
+MISSING	mysql_field_tell	0x80c4ca0	0xb		
+DIFF	mysql_free_result	0x80c1d70	0xd4	0x80b92a2	0x5
+MISSING	mysql_get_character_set_info	0x80c4d80	0x67		
+MISSING	mysql_get_client_info	0x80c4c30	0x16		
+MISSING	mysql_get_client_version	0x80c4c50	0xa		
+MISSING	mysql_get_host_info	0x80c4c10	0xe		
+MISSING	mysql_get_parameters	0x80c47c0	0x16		
+MISSING	mysql_get_proto_info	0x80c4c20	0xe		
+MISSING	mysql_get_server_info	0x80c4c00	0xe		
+MISSING	mysql_get_server_version	0x80c0270	0x90		
+MISSING	mysql_get_ssl_cipher	0x80c10e0	0x40		
+MISSING	mysql_hex_string	0x80c4e10	0x72		
+MISSING	mysql_info	0x80c4d40	0xe		
+DIFF	mysql_init	0x80c1120	0x108	0x80b9261	0xa
+MISSING	mysql_init_character_set	0x80c0ec0	0x21f		
+MISSING	mysql_insert_id	0x80c4ce0	0x14		
+MISSING	mysql_kill	0x80c4a00	0x57		
+MISSING	mysql_list_dbs	0x80ca320	0xee		
+MISSING	mysql_list_fields	0x80c9510	0x16a		
+MISSING	mysql_list_processes	0x80c93f0	0x11a		
+MISSING	mysql_list_tables	0x80c97b0	0xde		
+MISSING	mysql_more_results	0x80c5ac0	0x14		
+MISSING	mysql_next_result	0x80c66a0	0x8b		
+DIFF	mysql_num_fields	0x80c00c0	0xb	0x80b92ca	0xa
+DIFF	mysql_num_rows	0x80c00b0	0xd	0x80b92bb	0xf
+DIFF	mysql_options	0x80c0a10	0x261	0x80b9284	0xa
+DIFF	mysql_ping	0x80c4ba0	0x52	0x80b92e3	0xa
+MISSING	mysql_query	0x80c9770	0x3f		
+MISSING	mysql_read_default_options	0x80c1230	0x580		
+MISSING	mysql_read_query_result	0x80c5b00	0x16		
+DIFF	mysql_real_connect	0x80c2ab0	0x15fc	0x80b9270	0xa
+DIFF	mysql_real_escape_string	0x80c92a0	0x84	0x80b92ed	0xa
+DIFF	mysql_real_query	0x80c0010	0x53	0x80b928e	0xa
+MISSING	mysql_reconnect	0x80c4200	0x330		
+MISSING	mysql_refresh	0x80c49a0	0x57		
+MISSING	mysql_rollback	0x80c6780	0x35		
+MISSING	mysql_row_seek	0x80c4900	0x18		
+MISSING	mysql_row_tell	0x80c4c90	0xb		
+MISSING	mysql_select_db	0x80c0490	0xa4		
+MISSING	mysql_send_query	0x80bffc0	0x50		
+MISSING	mysql_server_end	0x80ca170	0x6e		
+MISSING	mysql_server_init	0x80ca1e0	0x13d		
+MISSING	mysql_set_character_set	0x80c0300	0x186		
+MISSING	mysql_set_local_infile_default	0x80c4830	0x43		
+MISSING	mysql_set_local_infile_handler	0x80c47f0	0x35		
+MISSING	mysql_set_server_option	0x80c4a60	0x58		
+MISSING	mysql_sha1_input	0x8105100	0x71		
+MISSING	mysql_sha1_reset	0x8104b80	0x5b		
+MISSING	mysql_sha1_result	0x8105180	0x19a		
+MISSING	mysql_shutdown	0x80c4940	0x57		
+MISSING	mysql_sqlstate	0x80c4d00	0x2a		
+MISSING	mysql_ssl_set	0x80c0540	0xc8		
+MISSING	mysql_stat	0x80c4b20	0x72		
+MISSING	mysql_stmt_affected_rows	0x80c51e0	0x11		
+MISSING	mysql_stmt_attr_get	0x80c5180	0x4d		
+MISSING	mysql_stmt_attr_set	0x80c6150	0xa9		
+MISSING	mysql_stmt_bind_param	0x80c8be0	0x34e		
+MISSING	mysql_stmt_bind_result	0x80c8270	0x1ab		
+MISSING	mysql_stmt_close	0x80c6800	0x147		
+MISSING	mysql_stmt_data_seek	0x80c59b0	0xc4		
+MISSING	mysql_stmt_errno	0x80c5a90	0xe		
+MISSING	mysql_stmt_error	0x80c5ab0	0xd		
+MISSING	mysql_stmt_execute	0x80c8890	0x1c5		
+MISSING	mysql_stmt_fetch	0x80c5820	0x152		
+MISSING	mysql_stmt_fetch_column	0x80c8120	0x14d		
+MISSING	mysql_stmt_field_count	0x80c5200	0xe		
+MISSING	mysql_stmt_free_result	0x80c5ef0	0x14		
+MISSING	mysql_stmt_init	0x80c9040	0xfe		
+MISSING	mysql_stmt_insert_id	0x80c5210	0x14		
+MISSING	mysql_stmt_next_result	0x80c8750	0x133		
+MISSING	mysql_stmt_num_rows	0x80c5a80	0xe		
+MISSING	mysql_stmt_param_count	0x80c51d0	0xe		
+MISSING	mysql_stmt_param_metadata	0x80c5040	0x7		
+MISSING	mysql_stmt_prepare	0x80c6200	0x21c		
+MISSING	mysql_stmt_reset	0x80c60f0	0x5f		
+MISSING	mysql_stmt_result_metadata	0x80c8fa0	0x9d		
+MISSING	mysql_stmt_row_seek	0x80c5980	0x11		
+MISSING	mysql_stmt_row_tell	0x80c59a0	0xb		
+MISSING	mysql_stmt_send_long_data	0x80c8a60	0x17b		
+MISSING	mysql_stmt_sqlstate	0x80c5aa0	0xd		
+MISSING	mysql_stmt_store_result	0x80c8420	0x32c		
+DIFF	mysql_store_result	0x80c0610	0x1b2	0x80b9298	0xa
+MISSING	mysql_thread_end	0x80ca130	0x1d		
+MISSING	mysql_thread_id	0x80c4d50	0xe		
+MISSING	mysql_thread_init	0x80ca150	0x1d		
+MISSING	mysql_thread_safe	0x80c4df0	0xa		
+MISSING	mysql_use_result	0x80c5ae0	0x17		
+MISSING	mysql_warning_count	0x80c4d30	0xe		
+MISSING	net_clear	0x80cd2f0	0x8c		
+MISSING	net_clear_error	0x80c0190	0x3f		
+MISSING	net_end	0x80cd1c0	0x36		
+MISSING	net_field_length	0x80cda40	0x6f		
+MISSING	net_field_length_ll	0x80cdab0	0x73		
+MISSING	net_flush	0x80cd010	0x59		
+MISSING	net_real_write	0x80ccbd0	0x2e4		
+MISSING	net_realloc	0x80cd380	0xa2		
+MISSING	net_store_length	0x80cdb30	0x9d		
+MISSING	net_write_buff	0x80ccec0	0x14f		
+MISSING	net_write_command	0x80cd070	0x150		
+MISSING	new_VioSSLAcceptorFd	0x811d020	0x8e		
+MISSING	new_VioSSLConnectorFd	0x811d160	0x83		
+MISSING	new_VioSSLFd	0x811cd80	0x29e		
+MISSING	normalize_dirname	0x8100c20	0x92		
+MISSING	number_to_datetime	0x80cb110	0x3be		
+MISSING	octet2hex	0x80cde50	0x68		
+MISSING	opt_flush_ok_packet	0x80c27c0	0xa2		
+MISSING	pack_dirname	0x8100fb0	0x28c		
+MISSING	packfrm	0x8101b60	0xbd		
+MISSING	pcmp	0x81077b0	0x1b		
+MISSING	pop_dynamic	0x80fca10	0x1f		
+MISSING	pow5mult	0x8114180	0x6e6		
+MISSING	print_defaults	0x80fe8b0	0xf0		
+MISSING	proc_info_dummy	0x81040d0	0x7		
+MISSING	pthread_dummy	0x8133370	0x8		
+DIFF	pthread_equal	0x8149540	0x11	0x8093878	0x11
+MISSING	read_user_name	0x80c9ca0	0xbf		
+MISSING	report_errors	0x811cd30	0x4e		
+MISSING	reset_root_defaults	0x81016f0	0xca		
+MISSING	reset_stmt_handle	0x80c5cf0	0x1f7		
+MISSING	resolve_charset	0x80fe490	0x55		
+MISSING	resolve_collation	0x80fe2f0	0x4d		
+MISSING	scramble	0x80ce090	0x122		
+MISSING	scramble_323	0x80ceb60	0x3fc		
+MISSING	search_default_file_with_ext	0x80feca0	0x9d5		
+MISSING	set_dynamic	0x80fccc0	0x9c		
+MISSING	set_mysql_error	0x80c01d0	0x91		
+MISSING	set_mysql_extended_error	0x80c0130	0x60		
+MISSING	set_prealloc_root	0x81012c0	0x56		
+MISSING	set_stmt_errmsg	0x80c5b20	0x69		
+MISSING	set_stmt_error	0x80c5f10	0x61		
+MISSING	set_zero_time	0x80cb4d0	0x1b		
+MISSING	setup_one_fetch_function	0x80c5360	0x4b5		
+MISSING	skip_result_fixed	0x80c5350	0x10		
+MISSING	skip_result_string	0x80c6d00	0x3f		
+MISSING	skip_result_with_length	0x80c6d40	0x2e		
+MISSING	ssl_do	0x811c9c0	0x160		
+MISSING	sslaccept	0x811cb60	0x31		
+MISSING	sslconnect	0x811cb20	0x31		
+MISSING	stmt_read_row_buffered	0x80c5140	0x2e		
+MISSING	stmt_read_row_from_cursor	0x80c5b90	0x15a		
+MISSING	stmt_read_row_no_data	0x80c5170	0xa		
+MISSING	stmt_read_row_no_result_set	0x80c5f80	0x44		
+MISSING	stmt_read_row_unbuffered	0x80c5fd0	0x120		
+MISSING	store_param_date	0x80c69e0	0x93		
+MISSING	store_param_datetime	0x80ca410	0xdc		
+MISSING	store_param_double	0x80c5110	0x21		
+MISSING	store_param_float	0x80c50f0	0x19		
+MISSING	store_param_int32	0x80c5090	0x19		
+MISSING	store_param_int64	0x80c50b0	0x32		
+MISSING	store_param_short	0x80c5070	0x1b		
+MISSING	store_param_str	0x80c8f30	0x6f		
+MISSING	store_param_time	0x80c6a80	0xb3		
+MISSING	store_param_tinyint	0x80c5050	0x1c		
+MISSING	str2int	0x811ac70	0x2a4		
+MISSING	str_to_datetime	0x80cb4f0	0x9b1		
+MISSING	str_to_time	0x80cc460	0x703		
+MISSING	strcend	0x811af20	0x20		
+MISSING	strdup_root	0x8101630	0x3f		
+MISSING	strend	0x811af40	0x14		
+MISSING	strlength	0x81003b0	0x42		
+MISSING	strmake	0x811af60	0x37		
+MISSING	strmake_root	0x81015d0	0x5b		
+MISSING	strnmov	0x811afa0	0x30		
+MISSING	strxmov	0x811afd0	0x3c		
+MISSING	system_filename	0x8100830	0x3d		
+MISSING	test_if_hard_path	0x8102740	0x5e		
+MISSING	unpack_dirname	0x8100cc0	0x213		
+MISSING	unpack_fields	0x80c1890	0x4db		
+MISSING	unpack_filename	0x8100ee0	0xcb		
+MISSING	unpackfrm	0x8101940	0xc2		
+MISSING	vio_blocking	0x811c770	0x93		
+MISSING	vio_close	0x811c670	0x75		
+MISSING	vio_delete	0x811be50	0x53		
+MISSING	vio_description	0x811c270	0xd		
+MISSING	vio_end	0x811be30	0x1d		
+MISSING	vio_errno	0x811c750	0x1f		
+MISSING	vio_fastsend	0x811c3c0	0xa6		
+MISSING	vio_fd	0x811c290	0xa		
+MISSING	vio_is_blocking	0x811c250	0x14		
+MISSING	vio_keepalive	0x811c360	0x5d		
+MISSING	vio_new	0x811beb0	0x20f		
+MISSING	vio_peek_read	0x811c470	0x57		
+MISSING	vio_peer_addr	0x811c540	0x12d		
+MISSING	vio_pending	0x811c2a0	0x54		
+MISSING	vio_poll_read	0x811c4d0	0x63		
+MISSING	vio_read	0x811c850	0x3e		
+MISSING	vio_read_buff	0x811c890	0x10c		
+MISSING	vio_reset	0x811c0c0	0x183		
+MISSING	vio_should_retry	0x811c720	0x30		
+MISSING	vio_ssl_blocking	0x811c9a0	0x14		
+MISSING	vio_ssl_close	0x811cba0	0x54		
+MISSING	vio_ssl_delete	0x811cc00	0x62		
+MISSING	vio_ssl_read	0x811ccb0	0x37		
+MISSING	vio_ssl_write	0x811cc70	0x37		
+MISSING	vio_timeout	0x811c300	0x56		
+MISSING	vio_type	0x811c280	0xe		
+MISSING	vio_verify_callback	0x811d0b0	0xac		
+MISSING	vio_was_interrupted	0x811c6f0	0x30		
+MISSING	vio_write	0x811c810	0x33		
+MISSING	wait_for_free_space	0x80fff40	0xa6		
+MISSING	yaASN1_STRING_data	0x80cf200	0x11		
+MISSING	yaASN1_STRING_length	0x80cf220	0x11		
+MISSING	yaASN1_STRING_to_UTF8	0x80cf870	0x69		
+MISSING	yaASN1_STRING_type	0x80cf240	0x10		
+MISSING	yaBN_bin2bn	0x80d1ea0	0xb6		
+MISSING	yaDES_ecb_encrypt	0x80cfa50	0xac		
+MISSING	yaDES_ede3_cbc_encrypt	0x80cfb00	0xe5		
+MISSING	yaDES_set_key	0x80cf8e0	0x1a		
+MISSING	yaDES_set_key_unchecked	0x80cf900	0x15		
+MISSING	yaDES_set_odd_parity	0x80cf130	0x5		
+MISSING	yaDH_free	0x80d1f60	0x6e		
+MISSING	yaDH_new	0x80cff40	0x3a		
+MISSING	yaERR_GET_REASON	0x80cf320	0xd		
+MISSING	yaERR_error_string	0x80cfea0	0x52		
+MISSING	yaERR_error_string_n	0x80cff00	0x31		
+MISSING	yaERR_free_strings	0x80cf1a0	0x5		
+MISSING	yaERR_get_error	0x80cf540	0x24		
+MISSING	yaERR_get_error_line_data	0x80cf0a0	0x7		
+MISSING	yaERR_peek_error	0x80cf570	0x24		
+MISSING	yaERR_print_errors_fp	0x80cf0b0	0x5		
+MISSING	yaERR_remove_state	0x80cf5a0	0x25		
+MISSING	yaEVP_BytesToKey	0x80cfbf0	0x2b0		
+MISSING	yaEVP_PKEY_copy_parameters	0x80cf180	0x7		
+MISSING	yaEVP_PKEY_free	0x80cf190	0x5		
+MISSING	yaEVP_cleanup	0x80cf1b0	0x5		
+MISSING	yaEVP_des_ede3_cbc	0x80cf100	0x16		
+MISSING	yaGENERAL_NAMES_free	0x80cf1d0	0x5		
+MISSING	yaMD4_Final	0x80cf2a0	0x1a		
+MISSING	yaMD4_Init	0x80cf820	0x4f		
+MISSING	yaMD4_Update	0x80cf270	0x21		
+MISSING	yaMD5_Final	0x80cf2f0	0x1a		
+MISSING	yaMD5_Init	0x80cf7d0	0x4f		
+MISSING	yaMD5_Update	0x80cf2c0	0x21		
+MISSING	yaOpenSSL_add_all_algorithms	0x80cf080	0x5		
+MISSING	yaRAND_bytes	0x80cf760	0x64		
+MISSING	yaRAND_file_name	0x80cf340	0x7		
+MISSING	yaRAND_load_file	0x80cf360	0x7		
+MISSING	yaRAND_screen	0x80cf330	0x5		
+MISSING	yaRAND_status	0x80cf120	0xa		
+MISSING	yaRAND_write_file	0x80cf350	0x7		
+MISSING	yaRSA_free	0x80cf370	0x5		
+MISSING	yaRSA_generate_key	0x80cf380	0x7		
+MISSING	yaTLSv1_1_client_method	0x80d1340	0x72		
+MISSING	yaTLSv1_1_server_method	0x80d13c0	0x72		
+MISSING	yaTLSv1_client_method	0x80d1440	0x72		
+MISSING	yaTLSv1_server_method	0x80d14c0	0x72		
+MISSING	yaX509_LOOKUP_add_dir	0x80cf390	0xa		
+MISSING	yaX509_LOOKUP_file	0x80cf3c0	0x7		
+MISSING	yaX509_LOOKUP_hash_dir	0x80cf3b0	0x7		
+MISSING	yaX509_LOOKUP_load_file	0x80cf3a0	0xa		
+MISSING	yaX509_NAME_ENTRY_get_data	0x80cf250	0x8		
+MISSING	yaX509_NAME_get_entry	0x80cf920	0x2a		
+MISSING	yaX509_NAME_get_index_by_NID	0x80cf950	0x67		
+MISSING	yaX509_NAME_oneline	0x80d0460	0xae		
+MISSING	yaX509_STORE_CTX_get_current_cert	0x80cefb0	0xb		
+MISSING	yaX509_STORE_CTX_get_error	0x80cefc0	0xa		
+MISSING	yaX509_STORE_CTX_get_error_depth	0x80cefd0	0xb		
+MISSING	yaX509_STORE_add_lookup	0x80cf3d0	0x7		
+MISSING	yaX509_STORE_get_by_subject	0x80cf3e0	0xa		
+MISSING	yaX509_STORE_new	0x80cf3f0	0x7		
+MISSING	yaX509_free	0x80cefa0	0x5		
+MISSING	yaX509_get_ext_d2i	0x80cf260	0x7		
+MISSING	yaX509_get_issuer_name	0x80d0430	0x23		
+MISSING	yaX509_get_notAfter	0x80cf9c0	0x29		
+MISSING	yaX509_get_notBefore	0x80cf9f0	0x29		
+MISSING	yaX509_get_pubkey	0x80cf170	0x7		
+MISSING	yaX509_get_subject_name	0x80d0400	0x23		
+MISSING	yaX509_verify_cert_error_string	0x80cf0c0	0x16		
+MISSING	yask_GENERAL_NAME_num	0x80cf1e0	0x7		
+MISSING	yask_GENERAL_NAME_value	0x80cf1f0	0x7		
+MISSING	year_2000_handling	0x80caf40	0x1c		

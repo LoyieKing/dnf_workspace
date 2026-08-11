@@ -1,0 +1,253 @@
+symbol,demangled,category,reason,diff_excerpt,date
+_ZN17ChannelServiceApp14ChannelService17registerProtocolsEv,ChannelServiceApp::ChannelService::registerProtocols(),caliber_issue,"ORIG 侧 m_pfnMsg[9] 的函数指针立即数 0x80505ce（即 onCS_GET_SCRIPT 地址）被 addr_map 误解析为字符串 ""U됧VS곸걋\""""（按 CP949 读 .text 指令字节）；OURS 侧正确解析为 &onCS_GET_SCRIPT。两侧实际值均为 onCS_GET_SCRIPT 函数地址，语义完全相同，属解析器/口径问题，非源码差异。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,92 +1,92 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x10,%esp
+ movl   $0x0,-0x4(%ebp)
+ jmp    <T> <_ZN17ChannelServiceApp14ChannelService17registerProtocolsEv+0x36>
+ mov    -0x4(%ebp),%eax
+ mov    0x8(%ebp),%edx
+ lea    0x3a04f8(%eax),%ecx",2026-08-11
+_ZN12LinuxServiceC1Ev,LinuxService::LinuxService(),codegen_diff,"与 ORIG 唯一差异是入口栈预留大小 sub $0x18,%esp vs sub $0x4,%esp（其余 16 条指令逐条相同）。ORIG 编译器（4.4.6-3）对此类简单 ctor 预留 0x18 的 outgoing-args 区，我们的 4.4.7 驱动+cc1plus_446 只预留 0x4。语义完全一致；用户已取消栈大小豁免，故按编译差异记录；无法从源码修复（需人工填充 padding 才能对齐帧大小）。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,18 +1,18 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x18,%esp
++sub    $0x4,%esp
+ mov    0x8(%ebp),%eax
+ add    $0x4,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN11ServiceInfoC1Ev>",2026-08-11
+_ZN12LinuxServiceC2Ev,LinuxService::LinuxService(),codegen_diff,"同 C1：唯一差异是 sub $0x18,%esp vs sub $0x4,%esp（C1/C2 符号映射到同一 ORIG 地址）。编译器版本对简单 ctor 的 outgoing-args 预留差异；语义一致；非源码可修复。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,18 +1,18 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x18,%esp
++sub    $0x4,%esp
+ mov    0x8(%ebp),%eax
+ add    $0x4,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN11ServiceInfoC1Ev>",2026-08-11
+_ZN17ChannelServiceApp7UDPUserC1Ev,ChannelServiceApp::UDPUser::UDPUser(),codegen_diff,"唯一差异是入口栈预留 sub $0x18,%esp vs sub $0x4,%esp（其余指令相同）。ORIG 4.4.6-3 编译器对空 ctor（仅调用基类 ctor）预留 0x18，我们工具链预留 0x4；语义一致；非源码可修复（需人工 padding）。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,8 +1,8 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x18,%esp
++sub    $0x4,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN17ChannelServiceApp13UDPUserStatesC1Ev>
+ leave",2026-08-11
+_ZN17ChannelServiceApp7UDPUserC2Ev,ChannelServiceApp::UDPUser::UDPUser(),codegen_diff,同 C1：sub $0x18 vs sub $0x4 栈预留差异，其余相同；编译器版本 codegen 差异。,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,8 +1,8 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x18,%esp
++sub    $0x4,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN17ChannelServiceApp13UDPUserStatesC1Ev>
+ leave",2026-08-11
+_ZN23TextOutputDevice_stdoutC1Ev,TextOutputDevice_stdout::TextOutputDevice_stdout(),codegen_diff,"唯一差异：sub $0x18,%esp vs sub $0x4,%esp（其余 8 条指令相同）。空 ctor 调用基类 ctor 的 outgoing-args 预留差异，编译器版本导致；语义一致。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,10 +1,10 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x18,%esp
++sub    $0x4,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN17ITextOutputDeviceC1Ev>
+ mov    0x8(%ebp),%eax",2026-08-11
+_ZN23TextOutputDevice_stdoutC2Ev,TextOutputDevice_stdout::TextOutputDevice_stdout(),codegen_diff,同 C1：sub $0x18 vs sub $0x4 栈预留差异；编译器版本 codegen 差异。,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,10 +1,10 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x18,%esp
++sub    $0x4,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN17ITextOutputDeviceC1Ev>
+ mov    0x8(%ebp),%eax",2026-08-11
+_ZN8TMsgCellILi128EEC1Ev,TMsgCell<128>::TMsgCell(),codegen_diff,"唯一差异：sub $0x18,%esp vs sub $0x4,%esp（其余 14 条指令逐条相同）。ORIG 编译器对调用基类 ctor 的 ctor 预留 0x18，我们工具链预留 0x4；语义一致；非源码可修复。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,16 +1,16 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x18,%esp
++sub    $0x4,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN8CMsgCellC1Ev>
+ mov    0x8(%ebp),%eax",2026-08-11
+_ZN8TMsgCellILi128EEC2Ev,TMsgCell<128>::TMsgCell(),codegen_diff,同 C1：sub $0x18 vs sub $0x4 栈预留差异；编译器版本 codegen 差异。,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,16 +1,16 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x18,%esp
++sub    $0x4,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN8CMsgCellC1Ev>
+ mov    0x8(%ebp),%eax",2026-08-11
+_ZN17ChannelServiceApp7TCPUser8setACCIDEj,ChannelServiceApp::TCPUser::setACCID(unsigned int),codegen_diff,"整函数仅 4 条指令，唯一差异是指令顺序：ORIG 先 mov 0x8(%%ebp),%%eax（this）再 mov 0xc(%%ebp),%%edx（参数）；OURS 先加载参数再加载 this。这是 -O0 下编译器对同一赋值语句 nAccID_=nAccID 的寄存器加载顺序差异（GCC 4.4.6-3 vs 4.4.7 驱动），语义完全一致；无法从源码控制。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,7 +1,7 @@
+ push   %ebp
+ mov    %esp,%ebp
++mov    0xc(%ebp),%edx
+ mov    0x8(%ebp),%eax
+-mov    0xc(%ebp),%edx
+ mov    %edx,0x38(%eax)
+ pop    %ebp
+ ret",2026-08-11
+_ZN9TCPSocket8shutdownEi,TCPSocket::shutdown(int),codegen_diff,"ORIG 保留死比较 cmp $0xffffffff,%%eax（源语句 sock_==-1 的求值，结果未使用），OURS 的编译器把该纯比较语句 DCE 掉了，只剩加载（该加载来自 return sock_）。函数大小 0xd vs 0xa。属编译器版本对无用表达式语句的处理差异；源码已按 ORIG 语义写了 sock_==-1 语句，无法强制编译器保留裸 cmp（加 volatile/setne 会引入额外指令）。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,7 +1,6 @@
+ push   %ebp
+ mov    %esp,%ebp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+-cmp    $0xffffffff,%eax
+ pop    %ebp
+ ret
+```",2026-08-11
+_ZN17ChannelServiceApp7TCPUser7onCloseEPci,"ChannelServiceApp::TCPUser::onClose(char*, int)",codegen_diff,"唯一差异是寄存器分配：bDisconnected_ 与 getACCID() 的结果在 ORIG 中放 esi/edi，OURS 中互换为 edi/esi（strerror 结果都放 ebx，其余 87 行逐条相同，含 0x6f 行号与 ""TCPUser.cpp"" 字符串）。-O0 寄存器分配器对同一 GLOG 表达式链的伪寄存器分配顺序差异，编译器版本导致；语义一致。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,89 +1,89 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x1c,%esp
+ movl   $&_ZN17ChannelServiceApp12gFileLogInfoE,(%esp)
+ call   <T> <_ZN11TDebugTraceIcE4LockEv>",2026-08-11
+_ZN12EpollReactorIN17ChannelServiceApp7TCPUserEE12handleEventsEjb,"EpollReactor<ChannelServiceApp::TCPUser>::handleEvents(unsigned int, bool)",codegen_diff,两处差异：(1) ORIG 对 map_.begin() 的返回值经 -0x30 临时槽复制到迭代器槽 -0x24（多 2 条 mov，6 字节），OURS 直接写入 -0x24；(2) 分支目标偏移随之整体差 6（0x428/0x422 等）。循环主体、isAboutToDisconnect 韩文串、各 onRead/onWrite/onClose 行号全部相同。属编译器版本对迭代器拷贝的栈槽分配差异；语义一致。,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,287 +1,285 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x3c,%esp
+ mov    0x10(%ebp),%eax
+ mov    %al,-0x2c(%ebp)",2026-08-11
+_ZN17ChannelServiceApp14ChannelService15onCS_GET_SCRIPTEP15tagPacketHeaderPNS_7TCPUserE,"ChannelServiceApp::ChannelService::onCS_GET_SCRIPT(tagPacketHeader*, ChannelServiceApp::TCPUser*)",codegen_diff,"差异均为 codegen：(1) size-0xb 的求值 ORIG 用 sub $0xb,%%eax; mov %%eax,%%ebx，OURS 用 lea -0xb(%%eax),%%esi（同一寄存器组但编码不同）；(2) 相应寄存器 esi/ebx 互换；(3) 循环中 getScriptFileSize()-len：ORIG 先 mov 到 edx 再 sub %%edx,%%eax，OURS 直接 sub -0x18(%%ebp),%%eax；(4) 分支目标偏移差 2-4（函数大小 0x48f vs 0x48b）。其余 290 行（含 TMsgCell 构造/析构、wrapEncrypt、compress2 调用序列）逐条相同；语义一致。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,294 +1,292 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x22c0b0,%esp
+ movl   $&_ZN17ChannelServiceApp12gFileLogInfoE,(%esp)
+ call   <T> <_ZN11TDebugTraceIcE4LockEv>
+ movl   $""In  "",0x4(%esp)",2026-08-11
+_ZN17ChannelServiceApp14ChannelService15onSC_GET_SCRIPTEP15tagPacketHeaderPNS_7TCPUserE,"ChannelServiceApp::ChannelService::onSC_GET_SCRIPT(tagPacketHeader*, ChannelServiceApp::TCPUser*)",codegen_diff,"唯一差异：fwrite 的参数构造。size-0xb：ORIG 用 lea -0xb(%%eax),%%ecx，OURS 用 sub $0xb,%%eax；寄存器分配不同（eax/ecx/edx 互换），但 fwrite(pPCK+1,1,size-0xb,pFile) 的参数值完全相同。其余 74 行逐条相同；编译器版本 codegen 差异，语义一致。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,77 +1,77 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ movl   $&_ZN17ChannelServiceApp12gFileLogInfoE,(%esp)
+ call   <T> <_ZN11TDebugTraceIcE4LockEv>
+ movl   $""In  "",0x4(%esp)
+ movl   $&_ZN17ChannelServiceApp12gFileLogInfoE,(%esp)
+ call   <T> <_ZN11TDebugTraceIcElsEPKc>",2026-08-11
+_ZN17ChannelServiceApp14ChannelService25onCS_CHECK_SCRIPT_VERSIONEP15tagPacketHeaderPNS_7TCPUserE,"ChannelServiceApp::ChannelService::onCS_CHECK_SCRIPT_VERSION(tagPacketHeader*, ChannelServiceApp::TCPUser*)",codegen_diff,字符串已全部对齐（Out 双空格已修）。剩余差异均为 codegen：(1) 虚函数指针 ORIG 存 edi 并用 call *%%edi，OURS 存 -0x23c(%%ebp) 槽并用 call *-0x23c(%%ebp)；(2) size-0xb：ORIG sub+mov、OURS lea，且 esi/ebx 互换；(3) 分支偏移差 2（0x332 vs 0x330）。语义一致。,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,209 +1,208 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x24c,%esp
+ movl   $&_ZN17ChannelServiceApp12gFileLogInfoE,(%esp)
+ call   <T> <_ZN11TDebugTraceIcE4LockEv>",2026-08-11
+_ZN17ChannelServiceApp9UDPThread4loopEPv,ChannelServiceApp::UDPThread::loop(void*),codegen_diff,唯一实质差异：ORIG 在 jmp（recv 成功分支末尾）与 isTerminating 检查之间有一条 6 字节对齐 nop（0x66 0x0f 0x1f 0x44 0x00 0x00），OURS 没有；导致全部函数内分支目标偏移差 3-6（0x1b8/0x1b2、0x17a/0x174、0xf8/0xf5），函数大小 0x1cd vs 0x1c7。其余指令（含全部日志字符串）逐条相同；属编译器对齐填充差异，语义一致。,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,119 +1,117 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x1040,%esp
+ movl   $""Start up UDPThread"",(%esp)
+ call   <T> <puts>
+ lea    -0x34(%ebp),%eax",2026-08-11
+_ZN15TGlobalInstanceI21TextOutputDevice_FILEE6createEv,TGlobalInstance<TextOutputDevice_FILE>::create(),codegen_diff,ORIG 在 _Unwind_Resume 调用后、共享 epilogue 前有一条 nop（1 字节对齐填充），OURS 没有；函数大小 0x8e vs 0x8d，两处函数内分支目标偏移差 1（+0x86 vs +0x85）。其余 50 行逐条相同（operator new、ctor、catch 打印/exit、_Unwind_Resume 序列一致）。属编译器对齐填充差异；语义一致。,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,52 +1,51 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x1c,%esp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax",2026-08-11
+_ZN15TGlobalInstanceI23TextOutputDevice_stdoutE6createEv,TGlobalInstance<TextOutputDevice_stdout>::create(),codegen_diff,"两处差异：(1) OURS 对源码的 new (pvMem) TextOutputDevice_stdout() 发出 operator new(size_t,void*) 调用（_ZnwjPv）+ NULL 检查（test/je），ORIG 的编译器把 placement new 折叠为直接调用 ctor（实验确认本工具链 c6-g++-446r 在 -O0 不折叠，ORIG 4.4.6-3 折叠）；(2) ORIG 在 _Unwind_Resume 后有 1 字节 nop。函数大小 0x93 vs 0xad。语义一致；源码无法绕过 placement new（C++ 无其他显式构造方式）。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,48 +1,51 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x10,%esp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ test   %eax,%eax",2026-08-11
+_ZN17ChannelServiceApp14ChannelService21onCS_ASK_CHANNEL_INFOEP15tagPacketHeaderPNS_7TCPUserE,"ChannelServiceApp::ChannelService::onCS_ASK_CHANNEL_INFO(tagPacketHeader*, ChannelServiceApp::TCPUser*)",codegen_diff,同一源码结构下编译器版本差异：局部栈槽整体偏移 4 字节（-0x200b4 vs -0x200b8、-0x68 vs -0x6c 等，TMsgCell<131072>×4 与 TSerializer/map 迭代器槽全部平移）；寄存器分配互换（esi/ebx、eax/edx/ecx）；GetSize()-0xb 用 lea 或 sub+mov 两种编码；ORIG 在循环 jmp 后多一条 nop；函数大小 0x65d vs 0x65a（差异行虽多，均为上述同类偏移/寄存器/编码差异，调用序列与字符串完全相同）。语义一致；非源码可修复（声明顺序已按 DWARF 对齐）。,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,522 +1,519 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x80120,%esp
+ movl   $&_ZN17ChannelServiceApp12gFileLogInfoE,(%esp)
+ call   <T> <_ZN11TDebugTraceIcE4LockEv>
+ movl   $""In  "",0x4(%esp)",2026-08-11
+_ZN17ChannelServiceApp14ChannelService24onCS_UPDATE_CHANNEL_INFOEP15tagPacketHeaderPNS_7TCPUserE,"ChannelServiceApp::ChannelService::onCS_UPDATE_CHANNEL_INFO(tagPacketHeader*, ChannelServiceApp::TCPUser*)",codegen_diff,同一源码结构下编译器版本差异：局部变量栈槽分配不同（count/_pPCK 在 ORIG 为 -0x24/-0x20，OURS 为 -0x28/-0x24；后半段循环计数槽互换 -0x28/-0x20）；寄存器分配不同（esi/edi/ebx/ecx 互换）；Servers 索引地址计算编码不同（ORIG: imul 0x3804c + lea 0xc(%%ebx)+shl/lea/sub 链；OURS: 先 shl/lea/sub 算 48 倍再 imul 0x3804c，两者计算值相同）；函数大小 0xb13 vs 0xb0b。调用序列/字符串全部相同；语义一致；非源码可修复。,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,718 +1,714 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x4c,%esp
+ movl   $&_ZN17ChannelServiceApp12gFileLogInfoE,(%esp)
+ call   <T> <_ZN11TDebugTraceIcE4LockEv>",2026-08-11

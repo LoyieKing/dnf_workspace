@@ -1,0 +1,88 @@
+status	name	orig_addr	orig_size	new_addr	new_size
+NEAR	_Z14signal_handleri	0x804ed0a	0x7d	0x804ee70	0x7d
+NEAR	_Z22CFileLogWriterInstancev	0x8055e2c	0x93	0x8055e6a	0x93
+DIFF	_Z6Rand_rPj	0x805844a	0xc1	0x8055daa	0xac
+DIFF	_Z8SDC_RandPj	0x805850b	0xa6	0x8057bd9	0x93
+MISSING	_ZL15get_ttype_entryP16lsda_header_infom	0x809ae50	0x8c		
+NEAR	_ZN10ArchiveLogC1EPKcz	0x804aa78	0xe0	0x804aa6a	0xe0
+NEAR	_ZN10ArchiveLogC2EPKcz	0x804aa78	0xe0	0x804aa6a	0xe0
+DIFF	_ZN10CMyFileLogclEPKcS1_z	0x8056994	0xad	0x8056942	0xad
+DIFF	_ZN11CArchiveLog8WriteLogEPKc	0x804ad58	0x11b	0x804ac98	0x121
+DIFF	_ZN12CToolFileLogclEPKciS1_z	0x8056a42	0x149	0x8056a70	0x149
+MISSING	_ZN12_GLOBAL__N_116get_locale_mutexEv	0x805adb0	0xa3		
+MISSING	_ZN12_GLOBAL__N_121system_error_categoryD0Ev	0x805c630	0x15		
+MISSING	_ZN12_GLOBAL__N_121system_error_categoryD1Ev	0x805c600	0xe		
+MISSING	_ZN12_GLOBAL__N_121system_error_categoryD2Ev	0x805c600	0xe		
+MISSING	_ZN12_GLOBAL__N_122generic_error_categoryD0Ev	0x805c650	0x15		
+MISSING	_ZN12_GLOBAL__N_122generic_error_categoryD1Ev	0x805c5f0	0xe		
+MISSING	_ZN12_GLOBAL__N_122generic_error_categoryD2Ev	0x805c5f0	0xe		
+MISSING	_ZN12_GLOBAL__N_1L6xwriteEiPKci	0x80999c0	0x4a		
+DIFF	_ZN12socket_event6CEpollI15CNetworkSessionE12WaitForEventEi	0x804c9d0	0x22b	0x80531e2	0x21d
+DIFF	_ZN13CMyRawFileLogclEPKcS1_z	0x8056b8c	0x6a	0x80569f0	0x69
+DIFF	_ZN14CFileLogWriter11writeRawLogEPKcS1_z	0x8056578	0x3ef	0x8056532	0x3f9
+DIFF	_ZN14CFileLogWriter8writeLogEPKcS1_z	0x805617a	0x3fd	0x805612a	0x407
+DIFF	_ZN15CAbstractSocketILi4096ELi4096EE11recv_packetEv	0x804f9d0	0x15a	0x804faa2	0x156
+DIFF	_ZN15CAbstractSocketILi4096ELi4096EE11send_packetEv	0x804fc54	0x206	0x804fe14	0x201
+DIFF	_ZN15CAbstractSocketILi4096ELi4096EE12AcceptSocketEv	0x804fe5a	0xae	0x804fd22	0xae
+DIFF	_ZN15CNetworkSession7ParsingEPKci	0x804f1fa	0x7c	0x804f5ca	0x83
+DIFF	_ZN15CNetworkSession8dispatchEP12PacketHeader	0x804f186	0x73	0x804f64e	0x79
+DIFF	_ZN17CConfigFileReader4TrimEPc	0x804ce82	0x105	0x804d828	0xf6
+DIFF	_ZN5CUser15send_buddy_listEv	0x8053618	0x307	0x805416e	0x2e9
+DIFF	_ZN5CUser16req_remove_buddyEcPKc	0x8053b94	0x167	0x8053ede	0x167
+DIFF	_ZN5CUser34send_other_channel_chat_hyper_linkEP44Packet_Monitor_Other_Channel_Chat_Hyper_LinkPS_	0x805406a	0x138	0x8054520	0x136
+DIFF	_ZN5CUser41send_other_channel_chat_result_hyper_linkEP44Packet_Monitor_Other_Channel_Chat_Hyper_Link18ENUM_MONITOR_ERROR	0x80541a2	0x134	0x805471a	0x132
+MISSING	_ZNK12_GLOBAL__N_121system_error_category4nameEv	0x805c4e0	0xa		
+MISSING	_ZNK12_GLOBAL__N_121system_error_category7messageEi	0x805c710	0x3a		
+MISSING	_ZNK12_GLOBAL__N_122generic_error_category4nameEv	0x805c4d0	0xa		
+MISSING	_ZNK12_GLOBAL__N_122generic_error_category7messageEi	0x805c6d0	0x3a		
+DIFF	__deregister_frame	0x80b0d30	0x31	0x805df70	0x3e
+DIFF	__deregister_frame_info_bases	0x80b0c20	0xff	0x805df10	0x24
+MISSING	__dynamic_cast	0x809ce70	0x10a		
+MISSING	__gcclibcxx_demangle_callback	0x80ab660	0x3a		
+DIFF	__register_frame	0x80b0390	0x42	0x805dce0	0x9b
+DIFF	__register_frame_info_bases	0x80af240	0x99	0x805dbc0	0x8b
+DIFF	__register_frame_info_table_bases	0x80af310	0x93	0x805dd80	0x73
+DIFF	__register_frame_table	0x80b0350	0x33	0x805de80	0x83
+DIFF	classify_object_over_fdes	0x80af900	0x169	0x805d000	0x306
+MISSING	d_append_buffer	0x80a9550	0xa7		
+MISSING	d_append_char	0x80a7640	0x7c		
+MISSING	d_append_string	0x80a9600	0xc0		
+MISSING	d_bare_function_type	0x80a8d20	0xfa		
+MISSING	d_call_offset	0x80a72a0	0x64		
+MISSING	d_cv_qualifiers	0x80a7310	0xa1		
+MISSING	d_demangle_callback	0x80ab320	0x335		
+MISSING	d_encoding	0x80a7db0	0x5a9		
+MISSING	d_expr_primary	0x80a8360	0x13d		
+MISSING	d_expression	0x80a8fb0	0x3e2		
+MISSING	d_exprlist	0x80a93a0	0xa1		
+MISSING	d_find_pack	0x80a76c0	0xb4		
+MISSING	d_growable_string_callback_adapter	0x80a9450	0xf2		
+MISSING	d_make_comp	0x80a7120	0x8d		
+MISSING	d_make_name	0x80a71b0	0x61		
+MISSING	d_name	0x80a7a40	0x368		
+MISSING	d_number	0x80a7220	0x7f		
+MISSING	d_operator_name	0x80a8e20	0x18a		
+MISSING	d_print_array_type	0x80a96c0	0x32c		
+MISSING	d_print_cast	0x80ab960	0x199		
+MISSING	d_print_comp	0x80a9eb0	0x1464		
+MISSING	d_print_expr_op	0x80abb00	0xc7		
+MISSING	d_print_function_type	0x80a9b50	0x35c		
+MISSING	d_print_mod	0x80ab840	0x11a		
+MISSING	d_print_mod_list	0x80a99f0	0x15b		
+MISSING	d_print_subexpr	0x80abbd0	0x102		
+MISSING	d_source_name	0x80a7780	0xe6		
+MISSING	d_substitution	0x80a7440	0x1fc		
+MISSING	d_template_args	0x80a84a0	0x116		
+MISSING	d_template_param	0x80a73c0	0x71		
+MISSING	d_type	0x80a85c0	0x75f		
+MISSING	d_unqualified_name	0x80a7870	0x1ca		
+DIFF	execute_stack_op	0x80acd40	0xe7d	0x80589f0	0x87e
+DIFF	fde_mixed_encoding_compare	0x80afc10	0x8c	0x805d580	0x102
+DIFF	fde_single_encoding_compare	0x80afb90	0x7c	0x805d4d0	0xa2
+DIFF	fde_unencoded_compare	0x80af3e0	0x1c	0x805bb80	0x22
+DIFF	frame_downheap	0x80af400	0xb8	0x805bbb0	0x98
+DIFF	get_cie_encoding	0x80af7e0	0x112	0x805c6a0	0x118
+DIFF	init_dwarf_reg_size_table	0x80ac1c0	0x80	0x8058630	0x7f
+DIFF	linear_search_fdes	0x80afca0	0x143	0x805d910	0x2b0
+DIFF	main	0x804c2c7	0x537	0x804c8a3	0x553
+DIFF	pthread_equal	0x8058610	0x11	0x805847e	0x11

@@ -1,0 +1,205 @@
+symbol,demangled,category,reason,diff_excerpt,date
+_ZN9TCPSocket8shutdownEi,TCPSocket::shutdown(int),codegen_diff,"仅1行差异: ORIG 保留 cmp $0xffffffff,%eax, OURS 无。源码 sock_ == -1; 是未使用比较表达式, c6root GCC 4.4.6 会折叠该比较(已用小样例验证), 而 ORIG 的 cc1plus 保留了它。尝试 (void)强转/逗号表达式/空if/三元等写法均无法复现 ORIG 的'仅cmp无分支'形态。属编译器差异而非源码语义错误。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,7 +1,6 @@
+ push   %ebp
+ mov    %esp,%ebp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+-cmp    $0xffffffff,%eax
+ pop    %ebp
+ ret
+```",2026-08-11
+_ZNK17ChannelServiceApp7TCPUser6isIdleEv,ChannelServiceApp::TCPUser::isIdle() const,codegen_diff,"12行差异全部是64位有符号比较 gap>0x124f80 的展开布局不同: ORIG 为 je+0x70/js+0x70/jg+0x69/jbe+0x70(先判false后判true), OURS 为 je+0x69/jg+0x70/js+0x69/ja+0x70(先判true后判false)。已逐指令验证两侧真值表完全等价(tickLast==0→false; gap_hi>0→true; gap_hi<0→false; gap_hi==0且gap_lo>0x124f80→true)。GCC -O0 对同一比较的短接顺序不同。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,39 +1,39 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %ebx
+ sub    $0x24,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK8TManagerIN17ChannelServiceApp14ChannelServiceEE10getManagerEv>
+ mov    %eax,(%esp)",2026-08-11
+_ZN17ChannelServiceApp9UDPThread4loopEPv,ChannelServiceApp::UDPThread::loop(void*),codegen_diff,"14行差异: ORIG 循环体底部多一个 nop 对齐填充(函数 0x17f vs 0x17c, 差3字节), 导致全部函数内分支目标偏移差3(0x16a<->0x167, 0x12c<->0x129)。其余指令逐行一致, 语义等价。属 -O0 基本块对齐差异。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,105 +1,103 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x1040,%esp
+ movl   $""Start up UDPThread"",(%esp)
+ call   <T> <puts>
+ lea    -0x34(%ebp),%eax",2026-08-11
+_ZN15TGlobalInstanceI21TextOutputDevice_FILEE6createEv,TGlobalInstance<TextOutputDevice_FILE>::create(),codegen_diff,"5行差异: ORIG 在异常清理块与尾声之间多一个 nop(函数 0x8e vs 0x8d), 两个分支目标偏移差1(+0x86<->+0x85)。其余指令完全一致。属基本块对齐填充差异。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,52 +1,51 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x1c,%esp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax",2026-08-11
+_ZN15TGlobalInstanceI23TextOutputDevice_stdoutE6createEv,TGlobalInstance<TextOutputDevice_stdout>::create(),codegen_diff,"27行差异: 两侧语义相同(operator new + memset + placement new + m_p赋值 + catch/exit), 但 -O0 寄存器分配与求值顺序不同: ORIG 用 eax->esi->ebx 双暂存且先压栈 size 再调 memset, OURS 用 eax->ebx 单暂存且参数顺序不同; 另有函数内分支目标偏移差(+0x8b/+0x8c <-> +0xa6)与 ORIG 尾部 nop。函数大小 0x93 vs 0xad。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,48 +1,51 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x10,%esp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ test   %eax,%eax",2026-08-11
+_ZN12EpollReactorIN17ChannelServiceApp7TCPUserEE12handleEventsEj,EpollReactor<ChannelServiceApp::TCPUser>::handleEvents(unsigned int),codegen_diff,"24行差异: (1) ORIG 循环含2个 nop 对齐填充, 分支目标偏移整体差2-5字节;(2) ORIG 的 map 迭代器后置递增会物化返回值(mov (%eax),%eax; mov %eax,-0x24(%ebp) 再复制回迭代器槽), OURS 的 ++iter 不物化; 尝试改写为 for+iter++ 后 diff 反而 24->80 行, 已还原为 while 形式。语义等价。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,233 +1,225 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %ebx
+ sub    $0x34,%esp
+ mov    0xc(%ebp),%ebx
+ mov    0x8(%ebp),%eax
+ mov    0x1c(%eax),%ecx
+ mov    0x8(%ebp),%eax",2026-08-11
+_ZN17ChannelServiceApp11CheckThread4loopEPv,ChannelServiceApp::CheckThread::loop(void*),codegen_diff,"274行差异, 全部为 -O0 代码生成差异: 局部变量槽位重排(-0x34<->-0x38<->-0x3c<->-0x40, 声明顺序不同)、map 迭代器临时对象布局(-0x58/-0x5c/-0x60)、等价分支极性(setg+test+je 与 jle+mov+test 均计算同条件)、2个 nop 对齐填充、以及少量块重排。其中真实的字符串字节差异已修复(ORIG 韩文串尾部无空格, 已改源码并对齐, data# 哈希已一致)。函数300+行, 需逐行复刻 ORIG 声明顺序与循环结构才能对齐, 非语义错误。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,907 +1,889 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x10c,%esp
+ movl   $""Start up CheckThread"",(%esp)
+ call   <T> <puts>",2026-08-11
+_ZN17ChannelServiceApp12ScriptThread4loopEPv,ChannelServiceApp::ScriptThread::loop(void*),codegen_diff,"671行差异: 栈帧大小不同(ORIG 0x94c vs OURS 0xa7c, 多0x130), 所有本地缓冲槽位偏移不同(query -0x482<->-0x5b0, sub_query -0x882<->-0x9b0), 局部声明顺序/块作用域不同, Mysql_query/Mysql_fetch 返回值检查分支极性与临时变量使用不同(sete+test+je vs 直接 jne; mov /usr/bin/zshx0,%eax+test vs cmpl), 块重排。已核对 ORIG Ghidra 反编译与 OURS 源码语义等价。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,677 +1,654 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+-sub    $0x94c,%esp
++sub    $0xa7c,%esp
+ movl   $""*** Start up ScriptThread"",(%esp)",2026-08-11
+_ZN17ChannelServiceApp7TCPUser7onRead_Ev,ChannelServiceApp::TCPUser::onRead_(),codegen_diff,"478行差异: 栈帧大小差0x68(ORIG 0xa0058 vs OURS 0xa00c0), 局部变量槽位整体重排(-0x2c<->-0x24<->-0x1c 等), 寄存器分配不同(eax/edx 互换, OURS 多一层 mov (%eax),%edx;mov (%edx),%eax 的间接寻址暂存), VLA(char szBuf[nMessageSize])与临时对象布局不同, 分支目标整体偏移。已核对语义等价(recv->push->包头解析->dispatch/pop 流程一致)。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,379 +1,541 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0xa0058,%esp
+-mov    0x8(%ebp),%eax
+-mov    0x44(%eax),%eax
++push   %esi
++push   %ebx
++sub    $0xa00c0,%esp",2026-08-11
+mysql_close,mysql_close,third_party,"MySQL C 客户端(libmysqlclient)第三方库函数: ORIG 为完整 mysqlclient 实现(如 mysql_close 0x14e 字节), 我们侧为 MysqlClient.cpp 手写 API 包装桩(如 mysql_close 仅 free(mysql), 0x13 字节), 两者实现完全不同且第三方库不在 identical 判定范围(用户口径: 第三方库不提取)。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,71 +1,8 @@
+ push   %ebp
+ mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-sub    $0x20,%esp
+-mov    0x8(%ebp),%esi
+-call   <T> <__i686.get_pc_thunk.bx>
+-add    $0x18f300,%ebx",2026-08-11
+mysql_errno,mysql_errno,third_party,"MySQL C 客户端(libmysqlclient)第三方库函数: ORIG 为完整 mysqlclient 实现(如 mysql_close 0x14e 字节), 我们侧为 MysqlClient.cpp 手写 API 包装桩(如 mysql_close 仅 free(mysql), 0x13 字节), 两者实现完全不同且第三方库不在 identical 判定范围(用户口径: 第三方库不提取)。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,15 +1,5 @@
+ push   %ebp
+ mov    %esp,%ebp
+-mov    0x8(%ebp),%eax
+-call   <T> <__i686.get_pc_thunk.cx>
+-add    $0x1932e5,%ecx
+-test   %eax,%eax
+-je     <T> <mysql_errno+0x20>
+-mov    0x58(%eax),%eax",2026-08-11
+mysql_fetch_row,mysql_fetch_row,third_party,"MySQL C 客户端(libmysqlclient)第三方库函数: ORIG 为完整 mysqlclient 实现(如 mysql_close 0x14e 字节), 我们侧为 MysqlClient.cpp 手写 API 包装桩(如 mysql_close 仅 free(mysql), 0x13 字节), 两者实现完全不同且第三方库不在 identical 判定范围(用户口径: 第三方库不提取)。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,160 +1,5 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x78,%esp
+-mov    %esi,-0x8(%ebp)
+-mov    0x8(%ebp),%esi
+-mov    %ebx,-0xc(%ebp)
+-mov    %edi,-0x4(%ebp)
+-call   <T> <__i686.get_pc_thunk.bx>",2026-08-11
+mysql_free_result,mysql_free_result,third_party,"MySQL C 客户端(libmysqlclient)第三方库函数: ORIG 为完整 mysqlclient 实现(如 mysql_close 0x14e 字节), 我们侧为 MysqlClient.cpp 手写 API 包装桩(如 mysql_close 仅 free(mysql), 0x13 字节), 两者实现完全不同且第三方库不在 identical 判定范围(用户口径: 第三方库不提取)。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,58 +1,4 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x28,%esp
+-mov    %esi,-0x8(%ebp)
+-mov    0x8(%ebp),%esi
+-mov    %ebx,-0xc(%ebp)
+-call   <T> <__i686.get_pc_thunk.bx>
+-add    $0x19163c,%ebx",2026-08-11
+mysql_init,mysql_init,third_party,"MySQL C 客户端(libmysqlclient)第三方库函数: ORIG 为完整 mysqlclient 实现(如 mysql_close 0x14e 字节), 我们侧为 MysqlClient.cpp 手写 API 包装桩(如 mysql_close 仅 free(mysql), 0x13 字节), 两者实现完全不同且第三方库不在 identical 判定范围(用户口径: 第三方库不提取)。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,66 +1,12 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x28,%esp
+-mov    %ebx,-0xc(%ebp)
+-call   <T> <__i686.get_pc_thunk.bx>
+-add    $0x192292,%ebx
+-mov    %esi,-0x8(%ebp)
+-mov    0x8(%ebp),%esi",2026-08-11
+mysql_query,mysql_query,third_party,"MySQL C 客户端(libmysqlclient)第三方库函数: ORIG 为完整 mysqlclient 实现(如 mysql_close 0x14e 字节), 我们侧为 MysqlClient.cpp 手写 API 包装桩(如 mysql_close 仅 free(mysql), 0x13 字节), 两者实现完全不同且第三方库不在 identical 判定范围(用户口径: 第三方库不提取)。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,20 +1,5 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x18,%esp
+-mov    %ebx,-0x8(%ebp)
+-call   <T> <__i686.get_pc_thunk.bx>
+-add    $0x189c42,%ebx
+-mov    %esi,-0x4(%ebp)
+-mov    0xc(%ebp),%esi",2026-08-11
+mysql_real_connect,mysql_real_connect,third_party,"MySQL C 客户端(libmysqlclient)第三方库函数: ORIG 为完整 mysqlclient 实现(如 mysql_close 0x14e 字节), 我们侧为 MysqlClient.cpp 手写 API 包装桩(如 mysql_close 仅 free(mysql), 0x13 字节), 两者实现完全不同且第三方库不在 identical 判定范围(用户口径: 第三方库不提取)。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,1238 +1,5 @@
+ push   %ebp
+ mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
+-sub    $0x3ac,%esp
+-mov    0x8(%ebp),%edx
+-call   <T> <__i686.get_pc_thunk.bx>",2026-08-11
+mysql_store_result,mysql_store_result,third_party,"MySQL C 客户端(libmysqlclient)第三方库函数: ORIG 为完整 mysqlclient 实现(如 mysql_close 0x14e 字节), 我们侧为 MysqlClient.cpp 手写 API 包装桩(如 mysql_close 仅 free(mysql), 0x13 字节), 两者实现完全不同且第三方库不在 identical 判定范围(用户口径: 第三方库不提取)。","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,106 +1,5 @@
+ push   %ebp
+ mov    %esp,%ebp
+-push   %edi
+-xor    %edi,%edi
+-push   %esi
+-push   %ebx
+-sub    $0x1c,%esp
+-mov    0x8(%ebp),%esi",2026-08-11

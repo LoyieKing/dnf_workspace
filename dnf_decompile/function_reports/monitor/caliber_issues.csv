@@ -1,0 +1,1117 @@
+symbol,demangled,category,reason,diff_excerpt,date
+_Z12get_rand_inti,get_rand_int(int),codegen_diff,C语义一致（Ghidra反编译与源码逐句对应），但编译器输出不同：栈预留 0x18 vs 0x28；分支布局不同（ORIG 先判 n<0 再 n==0，OURS 先判 n==0）；LCG 计算 ORIG 用 -0x10 内存槽 imul/addl 循环，OURS 用 -0x14/-0x18/-0x1c 多槽且寄存器分配不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,73 +1,78 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x18,%esp
++sub    $0x28,%esp
+ cmpl   $0x0,0x8(%ebp)
+ jns    <T> <_Z12get_rand_inti+0x16>
+ mov    $0x0,%eax
+-jmp    <T> <_Z12get_rand_inti+0xf3>",2026-08-11
+_Z14signal_handleri,signal_handler(int),codegen_diff,C语义一致（源码 getSignal(sig)->handle(sig) 与Ghidra反编译相同），编译器输出不同：栈预留 0x18 vs 0x28；OURS 额外用 -0x14/-0x10/-0xc 栈槽暂存并先取 (eax) 再取 (eax)，ORIG 直接两次解引用后间接调用，指令序列不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,16 +1,23 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x18,%esp
++sub    $0x28,%esp
+ call   <T> <_Z25CSignalTranslatorInstancev>
++mov    %eax,-0x14(%ebp)
++mov    0x8(%ebp),%eax
++mov    %eax,0x4(%esp)",2026-08-11
+_Z15GetNextSchedule2tmiii,"GetNextSchedule(tm, int, int, int)",codegen_diff,"C语义一致（Ghidra反编译与源码相同），编译器输出不同：ORIG 分支内 addl /usr/bin/zshx7,-0x10 与跳转布局，OURS movl /usr/bin/zshx7,-0x10；尾部 ORIG 先 imul 后 add 到 eax，OURS 先存 mktime 结果再 imul/add，指令调度不同","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,42 +1,41 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ mov    0x20(%ebp),%eax
+ mov    0x34(%ebp),%edx
+ mov    %edx,%ecx
+ sub    %eax,%ecx
+ mov    %ecx,%eax",2026-08-11
+_Z15GetPrevSchedule2tmiii,"GetPrevSchedule(tm, int, int, int)",codegen_diff,C语义一致（Ghidra反编译与源码相同），仅尾部指令调度不同：ORIG imul 0xfffeae80 后 add 到 mktime 结果，OURS 先存 -0xc 再 imul/add，寄存器使用不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,24 +1,23 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ mov    0x20(%ebp),%eax
+ sub    0x34(%ebp),%eax
+ mov    %eax,-0x10(%ebp)
+ cmpl   $0x0,-0x10(%ebp)
+ jns    <T> <_Z15GetPrevSchedule2tmiii+0x19>",2026-08-11
+_Z20CApplicationInstancev,CApplicationInstance(),caliber_issue,唯一差异是 __cxa_atexit 第三参数（__dso_handle 模块句柄）：ORIG 解析为 &data#b8e3732b(.rodata)，OURS 为 &data#0c4fb883(.data)，内容相同的模块句柄因区段不同未被归并为同一符号,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,44 +1,44 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x1c,%esp
+ mov    $&_ZGVZ20CApplicationInstancevE8instance,%eax
+ movzbl (%eax),%eax",2026-08-11
+_Z21CPacketTracerInstancev,CPacketTracerInstance(),caliber_issue,唯一差异是 __cxa_atexit 第三参数（__dso_handle）：ORIG &data#b8e3732b(.rodata) vs OURS &data#0c4fb883(.data)，同一模块句柄因区段不同未归并,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,44 +1,44 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x1c,%esp
+ mov    $&_ZGVZ21CPacketTracerInstancevE8instance,%eax
+ movzbl (%eax),%eax",2026-08-11
+_Z22CFileLogWriterInstancev,CFileLogWriterInstance(),caliber_issue,唯一差异是 __cxa_atexit 第三参数（__dso_handle）：ORIG &data#b8e3732b(.rodata) vs OURS &data#0c4fb883(.data)，同一模块句柄因区段不同未归并,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,44 +1,44 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x1c,%esp
+ mov    $&_ZGVZ22CFileLogWriterInstancevE8instance,%eax
+ movzbl (%eax),%eax",2026-08-11
+_Z22CPacketDecoderInstancev,CPacketDecoderInstance(),caliber_issue,静态变量已由 inst 重命名为 instance（与ORIG符号名一致），剩余唯一差异是 __cxa_atexit 第三参数 __dso_handle：ORIG &data#b8e3732b(.rodata) vs OURS &data#0c4fb883(.data)，同一模块句柄因区段不同未归并,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,25 +1,25 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x18,%esp
+ mov    $&_ZGVZ22CPacketDecoderInstancevE8instance,%eax
+ movzbl (%eax),%eax
+ test   %al,%al
+ jne    <T> <_Z22CPacketDecoderInstancev+0x5c>
+ movl   $&_ZGVZ22CPacketDecoderInstancevE8instance,(%esp)",2026-08-11
+_Z25CSignalTranslatorInstancev,CSignalTranslatorInstance(),caliber_issue,静态变量已由 inst 重命名为 instance（与ORIG符号名一致），剩余唯一差异是 __cxa_atexit 第三参数 __dso_handle：ORIG &data#b8e3732b(.rodata) vs OURS &data#0c4fb883(.data)，同一模块句柄因区段不同未归并,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,25 +1,25 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x18,%esp
+ mov    $&_ZGVZ25CSignalTranslatorInstancevE8instance,%eax
+ movzbl (%eax),%eax
+ test   %al,%al
+ jne    <T> <_Z25CSignalTranslatorInstancev+0x5c>
+ movl   $&_ZGVZ25CSignalTranslatorInstancevE8instance,(%esp)",2026-08-11
+_Z26CSystemTimeHandlerInstancev,CSystemTimeHandlerInstance(),caliber_issue,唯一差异是 __cxa_atexit 第三参数 __dso_handle：ORIG &data#b8e3732b(.rodata) vs OURS &data#0c4fb883(.data)，同一模块句柄因区段不同未归并,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,25 +1,25 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x18,%esp
+ mov    $&_ZGVZ26CSystemTimeHandlerInstancevE8instance,%eax
+ movzbl (%eax),%eax
+ test   %al,%al
+ jne    <T> <_Z26CSystemTimeHandlerInstancev+0x5c>
+ movl   $&_ZGVZ26CSystemTimeHandlerInstancevE8instance,(%esp)",2026-08-11
+_Z26CheckDailyScheduleTimeOveril,"CheckDailyScheduleTimeOver(int, long)",codegen_diff,C语义一致（源码与Ghidra反编译逐句对应），编译器输出不同：栈帧 0x78 vs 0x88；ORIG 先把 localtime 结果读到 -0x3c..-0x14 再拷到 tm 结构，OURS 边读边拷到 -0x6c..-0x44，局部变量槽位布局整体不同；尾部 cmp 用的槽位相应不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,70 +1,75 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x78,%esp
+-lea    -0x10(%ebp),%eax
++sub    $0x88,%esp
++lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <time>",2026-08-11
+_Z28CheckDayHourScheduleTimeOveriil,"CheckDayHourScheduleTimeOver(int, int, long)",codegen_diff,"汇编两侧语义相同（都计算 target+(1-day)*86400 并返回 t<result），仅代码生成不同：栈帧 0x78 vs 0x88、局部槽位布局不同、尾部比较 ORIG 用 cmp t,result+setg、OURS 用先累加再 cmp+setl。注意md第3节提取到的是 Guild/Scheduler.cpp 的撞名函数，不可信，以汇编为准","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,73 +1,79 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x78,%esp
+-lea    -0x10(%ebp),%eax
++sub    $0x88,%esp
++lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <time>",2026-08-11
+_ZN10CAppConfig11Parse_TableEPci,"CAppConfig::Parse_Table(char*, int)",caliber_issue,switch跳转表未按函数内偏移归一化：ORIG &data#1492d7d7(.rodata)(%eax) vs OURS &data#d86e476d(.rodata)(%eax) hash不同（表项指向各自函数内不同布局的case地址）；其余差异只是栈帧 0x60 vs 0x50 导致全部局部槽偏移 0x10 以及尾部 sub /usr/bin/zshx4 对齐。注：md第3节提取到 COServer 撞名文件，不可信，以汇编为准,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,227 +1,227 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+-sub    $0x60,%esp
++sub    $0x50,%esp
+ mov    0xc(%ebp),%eax
+ movzbl (%eax),%eax",2026-08-11
+_ZN10CAppConfigC1Ev,CAppConfig::CAppConfig(),caliber_issue,唯一差异：std::string 构造实参空字符串字面量地址未解析——ORIG &data#d3a43ecc(.rodata) vs OURS &data#3500214d(.rodata)，内容均为空串（字符串解析器忽略零长度字符串）；两侧其余指令逐条相同。注：md第3节源码提取错误（COServer撞名），实际Monitor构造即两个空字符串成员,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,93 +1,93 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x20,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CTableBaseC1Ev>",2026-08-11
+_ZN10CAppConfigC2Ev,CAppConfig::CAppConfig(),caliber_issue,同 C1：唯一差异为空字符串字面量地址未解析（ORIG &data#d3a43ecc vs OURS &data#3500214d），两侧其余指令逐条相同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,93 +1,93 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x20,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CTableBaseC1Ev>",2026-08-11
+_ZN10CBlackUser12SetBlackUserEPcj,"CBlackUser::SetBlackUser(char*, unsigned int)",codegen_diff,"C语义一致（memcpy(this,param_1,0x1d) + *(uint*)(this+0x20)=param_2），仅参数装载顺序与寄存器选择不同（ORIG 先 eax 再 edx，OURS 先 movl 常量再 eax；ORIG 用 edx 传参，OURS 用 eax）","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,14 +1,14 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x18,%esp
++movl   $0x1d,0x8(%esp)
++mov    0xc(%ebp),%eax
++mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%eax
+-movl   $0x1d,0x8(%esp)",2026-08-11
+_ZN10CBlackUser14ChangeCharNameEPc,CBlackUser::ChangeCharName(char*),codegen_diff,C语义一致（memset 0x1e + memcpy 0x1d），仅参数装载顺序与寄存器选择不同（memset 的 this 装载 ORIG 在开头 OURS 在最后，memcpy 参数顺序装载不同）,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,16 +1,16 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x18,%esp
+-mov    0x8(%ebp),%eax
+ movl   $0x1e,0x8(%esp)
+ movl   $0x0,0x4(%esp)
++mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)",2026-08-11
+_ZN10CIPCounter11setLoadTermEh,CIPCounter::setLoadTerm(unsigned char),codegen_diff,C语义一致（term*60 上限 0x2a30 下限 0x708），代码生成不同：ORIG 全程寄存器（jle/jae 有符号比较），OURS 用 -0x4 栈槽暂存并改用无符号 jbe/ja（值恒非负故等价）；栈帧 4 vs 0x14,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,27 +1,33 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x4,%esp
++sub    $0x14,%esp
+ mov    0xc(%ebp),%eax
+-mov    %al,-0x4(%ebp)
+-movzbl -0x4(%ebp),%eax
++mov    %al,-0x14(%ebp)",2026-08-11
+_ZN10CIPCounter13setMinIPCountEh,CIPCounter::setMinIPCount(unsigned char),codegen_diff,"C语义一致（min(count,200) 写入 this[0]），代码生成不同：ORIG movzbl+cmp /usr/bin/zshxc8,%al+jbe+mov /usr/bin/zshxffffffc8,%eax，OURS cmpb -0x4 栈槽+jbe+movb /usr/bin/zshxc8；栈帧相同 4 字节","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,13 +1,13 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x4,%esp
+ mov    0xc(%ebp),%eax
+ mov    %al,-0x4(%ebp)
+-movzbl -0x4(%ebp),%eax
+-cmp    $0xc8,%al
+-jbe    <T> <_ZN10CIPCounter13setMinIPCountEh+0x19>",2026-08-11
+_ZN10CIPCounter4ProcEj,CIPCounter::Proc(unsigned int),codegen_diff,C语义一致（三个提前返回条件 + 发送 + 日志 + m_min=tick+0x3c），差异：SendDBMWRequestIPCounter 两参数装载顺序不同（ORIG 先 0x11 再 0x0，OURS 先 0x0 再 0x11），尾部 nop 填充数量不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,53 +1,55 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ mov    0x8(%ebp),%eax
+ mov    0x8(%eax),%eax
+ cmp    0xc(%ebp),%eax
+ jae    <T> <_ZN10CIPCounter4ProcEj+0xae>
+ mov    0x8(%ebp),%eax",2026-08-11
+_ZN10CIPCounter9setOptionEhh,"CIPCounter::setOption(unsigned char, unsigned char)",codegen_diff,C语义一致（switch 0..4 各分支相同），差异：栈槽 -0xc/-0x10 vs -0x4/-0x8、成员写入 ORIG 直接 movb 0x10(%eax) vs OURS add+movb 间接寻址、跳转偏移布局不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,43 +1,48 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x28,%esp
++sub    $0x10,%esp
+ mov    0xc(%ebp),%edx
+ mov    0x10(%ebp),%eax
+-mov    %dl,-0xc(%ebp)
+-mov    %al,-0x10(%ebp)",2026-08-11
+_ZN10CMyFileLogclEPKcS1_z,"CMyFileLog::operator()(char const*, char const*, ...)",codegen_diff,"C语义一致且源码已带注释说明（register size_t 落 ebx 的寄存器分配伪影），剩余差异仅为 memset 参数装载顺序：ORIG 先 lea 后 mov /usr/bin/zshx7000,%edx，OURS 先 mov /usr/bin/zshx7000,%ebx 后 lea","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,45 +1,45 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %ebx
+ sub    $0x7024,%esp
++mov    $0x7000,%ebx
++mov    %ebx,0x8(%esp)
++movl   $0x0,0x4(%esp)
+ lea    -0x700c(%ebp),%eax",2026-08-11
+_ZN10CTableBase19Load_Txt_Table_DataEPKci,"CTableBase::Load_Txt_Table_Data(char const*, int)",codegen_diff,C语义一致（feof/fgets 循环 + '#'跳过 + maxCount 检查 + 虚调用 Parse_Table），差异：分支布局/比较表述不同（ORIG sete+test+je 三段 vs OURS cmpl+jne）、计数与文件句柄槽位互换、尾部 nop。注：md第3节是 COServer 撞名文件，实际 monitor 源码 fopen 模式为 rb,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,63 +1,69 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x428,%esp
+-movl   $0x0,-0x10(%ebp)
+ movl   $""rb"",0x4(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <fopen>",2026-08-11
+_ZN10CTowerRank10registRankEjjjPK30stDeathTowerRecordMemberInfo_t,"CTowerRank::registRank(unsigned int, unsigned int, unsigned int, stDeathTowerRecordMemberInfo_t const*)",codegen_diff,C语义一致（for 循环调 registCharacRank），仅循环比较表述不同：ORIG cmp 上限+setg vs OURS cmp 计数+setb（等价）。源码存在于 DNFTowerRank.cpp:112（extractor 因 typedef 参数未定位）,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,26 +1,26 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x38,%esp
+ movl   $0x0,-0xc(%ebp)
+ jmp    <T> <_ZN10CTowerRank10registRankEjjjPK30stDeathTowerRecordMemberInfo_t+0x40>
+ mov    -0xc(%ebp),%eax
+ imul   $0x17,%eax,%eax
+ add    0x18(%ebp),%eax",2026-08-11
+_ZN10CTowerRank11getRankDataEjPKcjP20stTowerRankElement_t,"CTowerRank::getRankData(unsigned int, char const*, unsigned int, stTowerRankElement_t*)",codegen_diff,C语义一致（lower_bound/upper_bound 区间遍历拷贝），差异：栈槽 -0xc vs -0x10、string 构造与 allocator 初始化位置不同、指令装载顺序不同、尾部分支布局。源码存在于 DNFTowerRank.cpp:84,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,147 +1,141 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x40,%esp
+-movl   $0x0,-0xc(%ebp)
+-lea    -0x19(%ebp),%eax
+-mov    %eax,(%esp)",2026-08-11
+_ZN10CTowerRank16registCharacRankEjPKcjj,"CTowerRank::registCharacRank(unsigned int, char const*, unsigned int, unsigned int)",codegen_diff,"C语义一致（区间扫描：byte==job 时 rank>=score 则返回否则 erase，最后 insert 新元素），差异：局部槽位/指令顺序不同，job 比较 ORIG sete+je vs OURS cmp %al,%dl+sete，rank 比较 ORIG setb+je(返回) vs OURS setae+jne(返回) 等价表述，make_pair/insert 构造顺序不同。源码存在于 DNFTowerRank.cpp:56","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,201 +1,177 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x40,%esp
+-lea    -0x29(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcEC1Ev>",2026-08-11
+_ZN10CTowerRank5resetEv,CTowerRank::reset(),codegen_diff,C语义一致（4 次 clear），仅循环比较表述不同：ORIG cmp /usr/bin/zshx3+setbe vs OURS cmpl /usr/bin/zshx3+setle（循环变量非负等价）,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,21 +1,20 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ movl   $0x0,-0xc(%ebp)
+ jmp    <T> <_ZN10CTowerRank5resetEv+0x2a>
+ mov    -0xc(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax",2026-08-11
+_ZN10CommonTime10SetCurTimeEv,CommonTime::SetCurTime(),codegen_diff,C语义一致，仅 LEA 优化差异：ORIG sub /usr/bin/zshx64+mov / add /usr/bin/zshx1+mov，OURS lea -0x64(%eax) / lea 0x1(%eax)，指令等价,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,44 +1,42 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <time>
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)",2026-08-11
+_ZN11CCashObject11SetLifeTimeEj,CCashObject::SetLifeTime(unsigned int),codegen_diff,C语义一致（this[0]=param），仅参数装载顺序不同：ORIG 先 this 再 param，OURS 先 param 再 this,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,7 +1,7 @@
+ push   %ebp
+ mov    %esp,%ebp
++mov    0xc(%ebp),%edx
+ mov    0x8(%ebp),%eax
+-mov    0xc(%ebp),%edx
+ mov    %edx,(%eax)
+ pop    %ebp
+ ret",2026-08-11
+_ZN11CCashObject15GetBuddysObjectEPP6CBuddy,CCashObject::GetBuddysObject(CBuddy**),codegen_diff,C语义一致（do-while 拷贝+判空+越界置 0x20 后 ClearBuddys），差异：栈槽 -0x4 vs -0xc、分支布局不同（ORIG 先拷贝后检查放循环头，OURS 尾检查）、nop 填充,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,38 +1,31 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x14,%esp
+-movl   $0x0,-0x4(%ebp)
+-mov    -0x4(%ebp),%eax
++sub    $0x28,%esp
++movl   $0x0,-0xc(%ebp)
++jmp    <T> <_ZN11CCashObject15GetBuddysObjectEPP6CBuddy+0x10>",2026-08-11
+_ZN11CCashObject16DeleteBlackUsersEv,CCashObject::DeleteBlackUsers(),codegen_diff,C语义一致（empty 保护 + 遍历 delete + clear），差异：empty 结果取反方式 ORIG test+sete+test+je vs OURS xor /usr/bin/zshx1+je、分支布局与尾部 nop 不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,56 +1,55 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ mov    0x8(%ebp),%eax
+ add    $0x8c,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIjP10CBlackUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
++xor    $0x1,%eax",2026-08-11
+_ZN11CCashObject13IsLifeTimeOutEv,CCashObject::IsLifeTimeOut(),codegen_diff,C语义一致（-1 保护+递减+返回 m_lifeTime==0），仅布尔生成方式不同：ORIG sete 后再 test+je+mov +mov /usr/bin/zsh 分支生成返回值，OURS 直接 sete %al 返回；函数 0x3d vs 0x2d,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,24 +1,19 @@
+ push   %ebp
+ mov    %esp,%ebp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN11CCashObject13IsLifeTimeOutEv+0x14>
+ mov    $0x0,%eax
+-jmp    <T> <_ZN11CCashObject13IsLifeTimeOutEv+0x3b>",2026-08-11
+_ZN11CSystemTimeC1Ev,CSystemTime::CSystemTime(),codegen_diff,"C语义一致（gettimeofday + m_sec=tv_sec + m_msec=tv_usec/1000），差异：ORIG 直接 mov 0x8(%eax),%edx 写 0x10，OURS lea 0x10+重新装载；m_msec ORIG 经 edx 存，OURS 经 ebx；帧构造 sub 0x18 vs push ebx+sub 0x14","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,28 +1,34 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x18,%esp
++push   %ebx
++sub    $0x14,%esp
+ mov    0x8(%ebp),%eax
+ add    $0x8,%eax
+ movl   $0x0,0x4(%esp)",2026-08-11
+_ZN11CSystemTimeC2Ev,CSystemTime::CSystemTime(),codegen_diff,同 C1（完全相同的两个构造符号），仅寄存器分配与帧构造差异,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,28 +1,34 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x18,%esp
++push   %ebx
++sub    $0x14,%esp
+ mov    0x8(%ebp),%eax
+ add    $0x8,%eax
+ movl   $0x0,0x4(%esp)",2026-08-11
+_ZN11CTcpHandler10ResetEpollEi,CTcpHandler::ResetEpoll(int),codegen_diff,C语义一致（m_epoll?->ResetEpoll(flag):-1 虚调用），差异：ORIG 先取 fn 到 ecx 再重取 this，OURS 保持 fn 在 eax；栈帧 0x28 vs 0x18；ORIG 结果暂存 -0xc,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,24 +1,22 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x28,%esp
++sub    $0x18,%esp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ test   %eax,%eax
+ jne    <T> <_ZN11CTcpHandler10ResetEpollEi+0x16>",2026-08-11
+_ZN11CTcpHandler11GetEventPtrEi,CTcpHandler::GetEventPtr(int),codegen_diff,C语义一致（虚调用 GetEventPtr），仅虚函数表取指/传参的寄存器与装载顺序不同（ORIG fn 进 ecx，OURS 留在 eax）,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,22 +1,22 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x18,%esp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ test   %eax,%eax
+ jne    <T> <_ZN11CTcpHandler11GetEventPtrEi+0x16>
+ mov    $0x0,%eax",2026-08-11
+_ZN11CTcpHandler12IsSetInEventEi,CTcpHandler::IsSetInEvent(int),codegen_diff,C语义一致（虚调用 IsSetInEvent），仅虚函数表取指/传参的寄存器与装载顺序不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,22 +1,22 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x18,%esp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ test   %eax,%eax
+ jne    <T> <_ZN11CTcpHandler12IsSetInEventEi+0x16>
+ mov    $0x0,%eax",2026-08-11
+_ZN11CTcpHandler12WaitForEventEv,CTcpHandler::WaitForEvent(),codegen_diff,C语义一致（虚调用 WaitForEvent），仅虚函数表取指/传参的寄存器与装载顺序不同（ORIG fn 进 edx，OURS 留在 eax）,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,20 +1,20 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x18,%esp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ test   %eax,%eax
+ jne    <T> <_ZN11CTcpHandler12WaitForEventEv+0x16>
+ mov    $0xffffffff,%eax",2026-08-11
+_ZN11CTcpHandler13IsSetErrEventEi,CTcpHandler::IsSetErrEvent(int),codegen_diff,C语义一致（虚调用 IsSetErrEvent），仅虚函数表取指/传参的寄存器与装载顺序不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,22 +1,22 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x18,%esp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ test   %eax,%eax
+ jne    <T> <_ZN11CTcpHandler13IsSetErrEventEi+0x16>
+ mov    $0x0,%eax",2026-08-11
+_ZN11CTcpHandler13IsSetOutEventEi,CTcpHandler::IsSetOutEvent(int),codegen_diff,C语义一致（虚调用 IsSetOutEvent），仅虚函数表取指/传参的寄存器与装载顺序不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,22 +1,22 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x18,%esp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ test   %eax,%eax
+ jne    <T> <_ZN11CTcpHandler13IsSetOutEventEi+0x16>
+ mov    $0x0,%eax",2026-08-11
+_ZN11CTcpHandler7SetPeerEPvib,"CTcpHandler::SetPeer(void*, int, bool)",codegen_diff,"C语义一致（m_epoll?->SetEpoll(peer,fd,flag):-1 虚调用），仅虚表取指/参数装载顺序与寄存器不同","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,28 +1,28 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ mov    0x14(%ebp),%eax
+ mov    %al,-0xc(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ test   %eax,%eax",2026-08-11
+_ZN11CTcpHandlerD1Ev,CTcpHandler::~CTcpHandler(),codegen_diff,C语义一致（判空 delete m_epoll 并置 0），仅虚调用取指/装载顺序与寄存器不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,24 +1,24 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x18,%esp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ test   %eax,%eax
+ je     <T> <_ZN11CTcpHandlerD1Ev+0x37>
+ mov    0x8(%ebp),%eax",2026-08-11
+_ZN11CTcpHandlerD2Ev,CTcpHandler::~CTcpHandler(),codegen_diff,同 D1,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,24 +1,24 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x18,%esp
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ test   %eax,%eax
+ je     <T> <_ZN11CTcpHandlerD1Ev+0x37>
+ mov    0x8(%ebp),%eax",2026-08-11
+_ZN11CUdpHandler16InitClientSocketEv,CUdpHandler::InitClientSocket(),codegen_diff,C语义一致（socket→错误处理→日志→返回），差异：socket 结果 ORIG 直接写成员 vs OURS 先存 -0xc 再写；日志参数 ORIG 用 ebx 缓存 vs OURS 现读；帧 push ebx+sub 0x24 vs sub 0x28,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,41 +1,38 @@
+ push   %ebp
+ mov    %esp,%ebp
+-push   %ebx
+-sub    $0x24,%esp
++sub    $0x28,%esp
+ movl   $0x11,0x8(%esp)
+ movl   $0x2,0x4(%esp)
+ movl   $0x2,(%esp)",2026-08-11
+_ZN11CUdpHandler16InitServerSocketEi,CUdpHandler::InitServerSocket(int),codegen_diff,C语义一致（socket/错误分支/bind/errno 0x62 0x63 链/setsockopt/日志），差异：errno 分支 ORIG cmp+je 序列 vs OURS cmpl+jne 链（等价）；局部槽位整体偏移；setsockopt/日志参数装载方式不同；帧 push esi+ebx+sub 0x40 vs sub 0x58,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,112 +1,103 @@
+ push   %ebp
+ mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-sub    $0x40,%esp
++sub    $0x58,%esp
+ movl   $0x11,0x8(%esp)
+ movl   $0x2,0x4(%esp)",2026-08-11
+_ZN11CTcpHandlerC1Ev,CTcpHandler::CTcpHandler(),codegen_diff,"C语义一致（m_epoll=new EpollHandler，分配大小已修至 0x30 一致），剩余差异仅尾部 mov %ebx,%eax+mov %eax,%edx vs mov %ebx,%edx 寄存器移动写法","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,31 +1,30 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x1c,%esp
+ movl   $0x30,(%esp)
+ call   <T> <_Znwj>",2026-08-11
+_ZN11CTcpHandlerC2Ev,CTcpHandler::CTcpHandler(),codegen_diff,同 C1,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,31 +1,30 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x1c,%esp
+ movl   $0x30,(%esp)
+ call   <T> <_Znwj>",2026-08-11
+_ZN12EpollHandlerC1Ev,EpollHandler::EpollHandler(),codegen_diff,C语义一致（CProtocol+CMutex+Init，+0x18 偏移已一致），仅异常清理路径多一条 jmp 的分支布局不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,40 +1,41 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x10,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN9CProtocolC1Ev>",2026-08-11
+_ZN12EpollHandlerC2Ev,EpollHandler::EpollHandler(),codegen_diff,同 C1,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,40 +1,41 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x10,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN9CProtocolC1Ev>",2026-08-11
+_ZN12EpollHandler12WaitForEventEv,EpollHandler::WaitForEvent(),codegen_diff,C语义一致（epoll_wait 返回已修复），差异：ORIG sub 0x28+栈暂存+leave vs OURS push ebx+sub 0x14+ebx 暂存,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,20 +1,20 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x28,%esp
++push   %ebx
++sub    $0x14,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12EpollHandler14GetEpollEventsEv>",2026-08-11
+_ZN12EpollHandler11GetEventPtrEi,EpollHandler::GetEventPtr(int),codegen_diff,"C语义一致（m_events 偏移已一致 +0x10），差异：ORIG mov 0x10(%eax),%ecx 直接入 ecx vs OURS 先 eax 再 mov %eax,%ecx；索引 ORIG idx*12+4 直接 0x4(%eax) vs OURS (idx*3+1)*4 后 (%eax)","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,13 +1,15 @@
+ push   %ebp
+ mov    %esp,%ebp
+ mov    0x8(%ebp),%eax
+-mov    0x10(%eax),%ecx
++mov    0x10(%eax),%eax
++mov    %eax,%ecx
+ mov    0xc(%ebp),%edx
+ mov    %edx,%eax",2026-08-11
+_ZN12EpollHandler12IsSetInEventEi,EpollHandler::IsSetInEvent(int),codegen_diff,C语义一致，仅 m_events 装载 ORIG 直接 ecx vs OURS eax+mov 的寄存器写法,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,14 +1,15 @@
+ push   %ebp
+ mov    %esp,%ebp
+ mov    0x8(%ebp),%eax
+-mov    0x10(%eax),%ecx
++mov    0x10(%eax),%eax
++mov    %eax,%ecx
+ mov    0xc(%ebp),%edx
+ mov    %edx,%eax",2026-08-11
+_ZN12EpollHandler13IsSetErrEventEi,EpollHandler::IsSetErrEvent(int),codegen_diff,C语义一致，仅 m_events 装载寄存器写法不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,16 +1,17 @@
+ push   %ebp
+ mov    %esp,%ebp
+ mov    0x8(%ebp),%eax
+-mov    0x10(%eax),%ecx
++mov    0x10(%eax),%eax
++mov    %eax,%ecx
+ mov    0xc(%ebp),%edx
+ mov    %edx,%eax",2026-08-11
+_ZN12EpollHandler13IsSetOutEventEi,EpollHandler::IsSetOutEvent(int),codegen_diff,C语义一致，仅 m_events 装载寄存器写法不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,16 +1,17 @@
+ push   %ebp
+ mov    %esp,%ebp
+ mov    0x8(%ebp),%eax
+-mov    0x10(%eax),%ecx
++mov    0x10(%eax),%eax
++mov    %eax,%ecx
+ mov    0xc(%ebp),%edx
+ mov    %edx,%eax",2026-08-11
+_ZN12EpollHandler10ResetEpollEi,EpollHandler::ResetEpoll(int),codegen_diff,"C语义一致，差异：m_eventType=1 写入 ORIG movl /usr/bin/zshx1,0x4(%eax) vs OURS add+movl；CGuard 局部槽 -0xc vs -0x10","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,43 +1,46 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %ebx
+ sub    $0x24,%esp
+ mov    0x8(%ebp),%eax
+ add    $0x4,%eax
+ movl   $0xc,0x8(%esp)
+ movl   $0x0,0x4(%esp)",2026-08-11
+_ZN12EpollHandler8SetEpollEPvib,"EpollHandler::SetEpoll(void*, int, bool)",codegen_diff,C语义一致（m_eventType=flag?0x8000001d:0x1d），差异：ORIG 分支内直接写内存 vs OURS 先 mov 常量到 eax 分支后统一存储,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,47 +1,49 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %ebx
+ sub    $0x34,%esp
+ mov    0x14(%ebp),%eax
+ mov    %al,-0x1c(%ebp)
+ cmpb   $0x0,-0x1c(%ebp)
+-je     <T> <_ZN12EpollHandler8SetEpollEPvib+0x1f>",2026-08-11
+_ZN11CollectItmsC1Ev,CollectItms::CollectItms(),codegen_diff,"C语义一致（3 int 清零 + byte 1，已修复），仅 ORIG movl /usr/bin/zsh,0x4/0x8(%eax) 直接寻址 vs OURS add+movl 间接寻址","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,12 +1,14 @@
+ push   %ebp
+ mov    %esp,%ebp
+ mov    0x8(%ebp),%eax
+ movl   $0x0,(%eax)
+ mov    0x8(%ebp),%eax
+-movl   $0x0,0x4(%eax)
++add    $0x4,%eax
++movl   $0x0,(%eax)",2026-08-11
+_ZN11CollectItmsC2Ev,CollectItms::CollectItms(),codegen_diff,同 C1：ORIG 直接寻址 vs OURS add+movl,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,12 +1,14 @@
+ push   %ebp
+ mov    %esp,%ebp
+ mov    0x8(%ebp),%eax
+ movl   $0x0,(%eax)
+ mov    0x8(%ebp),%eax
+-movl   $0x0,0x4(%eax)
++add    $0x4,%eax
++movl   $0x0,(%eax)",2026-08-11
+_ZN12CApplication12Remove_GM_idEj,CApplication::Remove_GM_id(unsigned int),codegen_diff,C语义一致（find/clear/erase，偏移 0x368 已对齐），剩余差异仅为 != 比较时两个迭代器实参的装载顺序不同（ORIG 先 -0xc 后 -0x10，OURS 相反）,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,40 +1,40 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ mov    0x8(%ebp),%eax
+ lea    0x368(%eax),%ecx
+ lea    -0x10(%ebp),%eax
+ lea    0xc(%ebp),%edx
+ mov    %edx,0x8(%esp)",2026-08-11
+_ZN12CApplication15ProcessTimeSyncEv,CApplication::ProcessTimeSync(),codegen_diff,C语义一致（localtime 复制 + 校验 + 发包 + 存 m_timeSyncHour，0x390 偏移已对齐），差异：栈帧 0x58 vs 0x68、tm 拷贝到局部槽的顺序与槽位不同、范围校验 ORIG test/js vs OURS cmpl/js 表述、尾部 nop,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,76 +1,67 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x58,%esp
++sub    $0x68,%esp
+ movl   $0x0,(%esp)
+ call   <T> <time>
+-mov    %eax,-0xc(%ebp)
+-lea    -0xc(%ebp),%eax",2026-08-11
+_ZN12CApplication14SwitchQueueTCPEv,CApplication::SwitchQueueTCP(),codegen_diff,C语义一致，仅 SwitchQueue 结果取反方式不同（ORIG xor /usr/bin/zshx1+test+jne vs OURS test+je）,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,45 +1,45 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x20,%esp
+ mov    0x8(%ebp),%eax
+ add    $0x168,%eax
+ mov    %eax,(%esp)",2026-08-11
+_ZN12CApplication14SwitchQueueUDPEv,CApplication::SwitchQueueUDP(),codegen_diff,C语义一致，仅 empty 结果取反方式不同（ORIG xor /usr/bin/zshx1+test+jne vs OURS test+je）,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,59 +1,60 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x20,%esp
+ mov    0x8(%ebp),%eax
+ add    $0x138,%eax
+ mov    %eax,0x4(%esp)",2026-08-11
+_ZN12CApplication15TranslateSignalEv,CApplication::TranslateSignal(),codegen_diff,C语义一致（Ghidra 确认 case 3=Event_End/case 2=Event_Start/case 4=Load/case 7=截图，与 OURS 相同），差异：switch 分支 ORIG cmp/je 树 vs OURS cmp/jne 链、局部槽整体偏移 4、empty 取反表述、尾部 nop。注：md 第 3 节是 COServer 撞名文件，不可信,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,260 +1,251 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x70,%esp
+ mov    0x8(%ebp),%eax
+ mov    0x9c(%eax),%eax
+ mov    %eax,(%esp)",2026-08-11
+_ZN12CApplication20isAbleUserChatWithGMEjj,"CApplication::isAbleUserChatWithGM(unsigned int, unsigned int)",codegen_diff,C语义一致（std::find 已对齐 ORIG 用法），仅迭代器局部槽偏移不同（-0x1c/-0x18 vs -0x20/-0x1c）,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,75 +1,75 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x38,%esp
+ mov    0x8(%ebp),%eax
+ lea    0x368(%eax),%ecx
+-lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
+ lea    0xc(%ebp),%edx",2026-08-11
+_ZN12CApplication21DisableChatUserWithGMEjj,"CApplication::DisableChatUserWithGM(unsigned int, unsigned int)",codegen_diff,C语义一致（map find + list::remove 已对齐 ORIG），差异：栈帧 0x38 vs 0x28、迭代器局部槽不同、remove 前 ORIG 多一次 find 迭代器保存,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,80 +1,36 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x38,%esp
++sub    $0x28,%esp
+ mov    0x8(%ebp),%eax
+ lea    0x368(%eax),%ecx
+-lea    -0x1c(%ebp),%eax
++lea    -0x10(%ebp),%eax",2026-08-11
+_ZN12CApplication16SendTestPacket_1Ev,CApplication::SendTestPacket_1(),codegen_diff,"C语义一致（+0xa/+0xe/+0x10 偏移已对齐 ORIG），仅寻址形式：ORIG movl ,-0xc(%ebp) 直接位移 vs OURS lea+add+movl 间接","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,21 +1,29 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x38,%esp
+ lea    -0x16(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN24Packet_Monitor_Event_EndC1Ev>
+-movl   $0x9,-0xc(%ebp)
++lea    -0x16(%ebp),%eax",2026-08-11
+_ZN12CApplication18UpdateCollectItemsEv,CApplication::UpdateCollectItems(),codegen_diff,C语义一致，差异：tm 拷贝顺序/槽位不同、m_field388 读取 ORIG 直接 0x388(%eax) vs OURS 先存 -0xc 再间接访问,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,83 +1,85 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x78,%esp
+ movl   $0x0,(%esp)
+ call   <T> <time>
+-mov    %eax,-0xc(%ebp)
+-lea    -0xc(%ebp),%eax
++mov    %eax,-0x10(%ebp)",2026-08-11
+_ZN12CApplication19UpdateMiniCraneSeedEv,CApplication::UpdateMiniCraneSeed(),codegen_diff,C语义一致（tm_hour==6 判断），差异：ORIG 把整个 tm 拷到 -0x38..-0x10 后比较 -0x30，OURS 直接 localtime 结果 +0x8 比较,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,42 +1,22 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x48,%esp
++sub    $0x28,%esp
+ movl   $0x0,(%esp)
+ call   <T> <time>
+-mov    %eax,-0xc(%ebp)
+-lea    -0xc(%ebp),%eax",2026-08-11
+_ZN12CApplication19isGM_regFromChannelEj,CApplication::isGM_regFromChannel(unsigned int),codegen_diff,C语义一致（find!=end），差异：ORIG 先构造 end() 再 find()，OURS 先 find() 再 end()，指令顺序不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,26 +1,26 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ mov    0x8(%ebp),%eax
+-lea    0x368(%eax),%edx
++lea    0x368(%eax),%ecx
+ lea    -0x10(%ebp),%eax
+-mov    %edx,0x4(%esp)",2026-08-11
+_ZN12CApplication21GetOnTimeEventManagerEv,CApplication::GetOnTimeEventManager(),codegen_diff,"C语义一致，仅寻址形式：ORIG mov 0x320(%eax),%eax vs OURS add /usr/bin/zshx320+mov","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,6 +1,7 @@
+ push   %ebp
+ mov    %esp,%ebp
+ mov    0x8(%ebp),%eax
+-mov    0x320(%eax),%eax
++add    $0x320,%eax
++mov    (%eax),%eax
+ pop    %ebp
+ ret",2026-08-11
+_ZN12CApplication22AddChattableUserWithGMEjj,"CApplication::AddChattableUserWithGM(unsigned int, unsigned int)",codegen_diff,C语义一致（std::find+push_back 已对齐 ORIG），仅迭代器局部槽偏移不同（-0x1c/-0x18 vs -0x20/-0x1c）,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,80 +1,80 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x38,%esp
+ mov    0x8(%ebp),%eax
+ lea    0x368(%eax),%ecx
+-lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
+ lea    0xc(%ebp),%edx",2026-08-11
+_ZN12CApplication4FreeEv,CApplication::Free(),codegen_diff,C语义一致（各成员释放顺序与消息均同 ORIG，CServerHandler 0x68 已对齐），差异仅为虚调用取指/传参寄存器写法（ORIG fn 进 edx/ecx，OURS 留 eax）+ 若干偏移已对齐后的布局,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,316 +1,316 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x20,%esp
+ movl   $""Application Free Start!"",(%esp)
+ call   <T> <puts>
+ mov    0x8(%ebp),%eax",2026-08-11
+_ZN12CApplication4InitEiPPc,"CApplication::Init(int, char**)",codegen_diff,C语义一致（两个清零 0x31c/0x320 均已有），剩余差异仅为 m_appInit->Init 虚调用与 catch 中 what() 虚调用的寄存器装载写法,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,87 +1,87 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x20,%esp
+ call   <T> <_Z8ShowLogov>
+ movl   $&g_ServerString_,(%esp)
+ call   <T> <_ZN13np_server_xml10CServerXml10StrLoadingEv>",2026-08-11
+_ZN12CApplication4LoadEiPPc,"CApplication::Load(int, char**)",codegen_diff,C语义一致（字符串已对齐、CServerHandler 0x68 已对齐），差异：栈帧 0x18c vs 0x10c 全部局部槽偏移 0x40、异常清理跳转目标不同、虚调用寄存器写法不同、个别 jmp 布局不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,1110 +1,1136 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+-sub    $0x18c,%esp
++sub    $0x10c,%esp
+ movl   $0x50,(%esp)",2026-08-11
+_ZN12CApplication7ProcessEv,CApplication::Process(),codegen_diff,C语义一致（catch 不 rethrow、日志带\n 已修复），剩余差异：分支目标偏移、虚调用寄存器写法（ORIG fn 进 edx/ecx，OURS 留 eax）、what() 缓存次数,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,218 +1,217 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x30,%esp
+-jmp    <T> <_ZN12CApplication7ProcessEv+0x31f>
++jmp    <T> <_ZN12CApplication7ProcessEv+0x31d>
+ mov    0x8(%ebp),%eax",2026-08-11
+_ZN12CApplication9Add_GM_idEj,CApplication::Add_GM_id(unsigned int),codegen_diff,C语义一致（make_pair 已对齐 ORIG 用法），剩余：ORIG 先 end() 后 find()，OURS 先 find() 后 end()；make_pair 装载顺序不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,95 +1,95 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x40,%esp
+ mov    0x8(%ebp),%eax
+-lea    0x368(%eax),%edx
++lea    0x368(%eax),%ecx",2026-08-11
+_ZN12CApplicationC1Ev,CApplication::CApplication(),codegen_diff,C语义一致，差异：ORIG 用初始化列表（POD 存储与成员构造按声明顺序交错），OURS 函数体赋值（全部成员构造先执行）；且 OURS 多清零 m_itemLimitMgr/m_field388 两个成员（ORIG 构造不写这两处）,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,192 +1,196 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x10,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN8CAppBaseC1Ev>",2026-08-11
+_ZN12CApplicationC2Ev,CApplication::CApplication(),codegen_diff,同 C1（初始化顺序差异）,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,192 +1,196 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x10,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN8CAppBaseC1Ev>",2026-08-11
+_ZN12CApplicationD1Ev,CApplication::~CApplication(),codegen_diff,C语义一致（CFrameCountHandler 平凡析构已修复），剩余：两个 CMutex 析构 ORIG 在单一路径内联调用 vs OURS 独立跳转块,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,169 +1,173 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x10,%esp
+ mov    0x8(%ebp),%eax
+ movl   $&_ZTV12CApplication+0x8,(%eax)
+ movl   $""Application Stop!"",(%esp)",2026-08-11
+_ZN12CApplicationD2Ev,CApplication::~CApplication(),codegen_diff,同 D1,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,169 +1,173 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x10,%esp
+ mov    0x8(%ebp),%eax
+ movl   $&_ZTV12CApplication+0x8,(%eax)
+ movl   $""Application Stop!"",(%esp)",2026-08-11
+_ZN12CBuddyHandle17findBuddyByCharNoEj,CBuddyHandle::findBuddyByCharNo(unsigned int),codegen_diff,C语义一致，差异：ORIG 先构造默认迭代器再 begin，OURS 直接 begin；字段读取 ORIG mov 0x22(%eax) vs OURS add+mov,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,55 +1,50 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
++mov    0x8(%ebp),%edx
+ lea    -0x14(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEC1Ev>
+-mov    0x8(%ebp),%edx",2026-08-11
+_ZN12CBuddyHandle5addDBEP14CServerHandlerPc,"CBuddyHandle::addDB(CServerHandler*, char*)",codegen_diff,C语义一致（user 判空+GetUniqCharNo 判零+日志+insert），差异：OURS 用 -0x9 局部 bool 两次赋值，ORIG 直接分支；日志参数装载顺序不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,150 +1,155 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x60,%esp
++movb   $0x1,-0x9(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0x18(%eax),%eax",2026-08-11
+_ZN12CBuddyHandle5delDBEP14CServerHandlerPc,"CBuddyHandle::delDB(CServerHandler*, char*)",codegen_diff,同 addDB 模式（user 判空+GetUniqCharNo 判零+日志+erase），OURS 多局部 bool 存储,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,135 +1,140 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x60,%esp
++movb   $0x1,-0x9(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0x18(%eax),%eax",2026-08-11
+_ZN12CBuddyHandle5clearEb,CBuddyHandle::clear(bool),codegen_diff,C语义一致，仅 empty 取反表述（xor vs test+jne）与分支偏移不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,62 +1,61 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %ebx
+ sub    $0x34,%esp
+ mov    0xc(%ebp),%eax
+ mov    %al,-0x1c(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)",2026-08-11
+_ZN12CBuddyHandle9getBuddysEPP6CBuddy,CBuddyHandle::getBuddys(CBuddy**),codegen_diff,C语义一致，差异：ORIG 循环内先取 end 再比较，OURS 后取；局部槽偏移不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,66 +1,66 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %ebx
+ sub    $0x44,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE5emptyEv>
+ test   %al,%al",2026-08-11
+_ZN12CBuddyHandle6insertEP6CBuddy,CBuddyHandle::insert(CBuddy*),codegen_diff,C语义一致（size 上限 0x1f 检查+插入），但结构差异较大：ORIG 0xa4 字节直接用 char* 参与 pair 构造，OURS 0x138 字节先构造 std::string；size 检查分支方向相反（jne/je）；建议人工复核,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,56 +1,102 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x30,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE4sizeEv>",2026-08-11
+_ZN12CTcpDBServer10SendLogoutEv,CTcpDBServer::SendLogout(),codegen_diff,C语义一致（makePacketHeader 判空写 0xa 字节后 SendToServer），仅临时槽与 add+movb 寻址差异,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,22 +1,21 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ movl   $0xb,0x8(%esp)
+ movl   $0x1069,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CTcpDBServer16makePacketHeaderEtt>",2026-08-11
+_ZN12CTcpDBServer13SendHeartbeatEv,CTcpDBServer::SendHeartbeat(),codegen_diff,同 SendLogout 模式,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,22 +1,21 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ movl   $0xb,0x8(%esp)
+ movl   $0x106a,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CTcpDBServer16makePacketHeaderEtt>",2026-08-11
+_ZN12CTcpDBServer13IsValidServerEv,CTcpDBServer::IsValidServer(),codegen_diff,C语义一致（sock!=-1 且 net!=0 返回 1，否则日志返回 0），差异：ORIG 用 esi/ebx 缓存两字段 vs OURS 直接读；帧布局不同,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,37 +1,32 @@
+ push   %ebp
+ mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-sub    $0x30,%esp
++sub    $0x38,%esp
+ mov    0x8(%ebp),%eax
+ mov    0x8(%eax),%eax",2026-08-11
+_ZN12CTcpDBServer16makePacketHeaderEtt,"CTcpDBServer::makePacketHeader(unsigned short, unsigned short)",codegen_diff,C语义一致，仅判空分支方向（je vs jne+提前返回）与临时槽差异,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,34 +1,33 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x38,%esp
+ mov    0xc(%ebp),%edx
+ mov    0x10(%ebp),%eax
+ mov    %dx,-0x1c(%ebp)
+ mov    %ax,-0x20(%ebp)
+ mov    0x8(%ebp),%eax",2026-08-11
+_ZN12CTcpDBServer9SendLoginEv,CTcpDBServer::SendLogin(),codegen_diff,同 SendLogout 模式,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,22 +1,21 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ movl   $0xb,0x8(%esp)
+ movl   $0x1068,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CTcpDBServer16makePacketHeaderEtt>",2026-08-11
+_ZN12CToolFileLogclEPKciS1_z,"CToolFileLog::operator()(char const*, int, char const*, ...)",codegen_diff,"C语义一致，仅两处 memset 参数装载顺序/寄存器不同（ORIG lea 先 mov /usr/bin/zshx7000,%edx 后，OURS mov %ebx 先）","```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,82 +1,82 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %ebx
+ sub    $0xe120,%esp
++mov    $0x7000,%ebx
++mov    %ebx,0x8(%esp)
++movl   $0x0,0x4(%esp)",2026-08-11
+_ZN12CUserManager10CreateUserEjjPciP11CGameServer,"CUserManager::CreateUser(unsigned int, unsigned int, char*, int, CGameServer*)",codegen_diff,C语义一致（new CUser + 字段设置 + insert），差异为字段装载顺序/临时槽/分支偏移（diff 143 行全部为等价形态）,"```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,143 +1,143 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x4c,%esp
+ movl   $0xbc,(%esp)
+ call   <T> <_ZN5CUsernwEj>",2026-08-11

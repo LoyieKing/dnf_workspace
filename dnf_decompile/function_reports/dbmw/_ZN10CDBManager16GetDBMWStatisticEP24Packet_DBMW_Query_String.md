@@ -1,0 +1,151 @@
+# _ZN10CDBManager16GetDBMWStatisticEP24Packet_DBMW_Query_String
+
+`CDBManager::GetDBMWStatistic(Packet_DBMW_Query_String*)`
+
+| 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
+|---|---|---|---|---|---|
+| dbmw | DIFF | `0x8082042` | `0xb2` | `0x8052358` | `0xb1` |
+
+## 1. 汇编 diff（完整函数，伪代码化）
+
+归一化口径：直接跳转/调用目标地址归一化为 `<T>`；字符串/全局变量地址替换为其内容或 `&符号名`（地址不同但指向相同内容视为等价，2026-08-11 用户口径）。
+
+```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,55 +1,54 @@
+ push   %ebp
+ mov    %esp,%ebp
+-push   %ebx
+-sub    $0x24,%esp
++sub    $0x28,%esp
+ mov    0x8(%ebp),%eax
+ mov    0x10(%eax),%eax
+-mov    %eax,-0xc(%ebp)
+-mov    -0xc(%ebp),%eax
++mov    %eax,-0x10(%ebp)
++mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x1c,%eax
+-mov    (%eax),%edx
+-mov    0xc(%ebp),%eax
+-lea    0xe(%eax),%ecx
+-mov    0xc(%ebp),%eax
+-mov    0xa(%eax),%eax
++mov    (%eax),%eax
++mov    0xc(%ebp),%edx
++lea    0xe(%edx),%ecx
++mov    0xc(%ebp),%edx
++add    $0xa,%edx
++mov    (%edx),%edx
+ mov    %ecx,0x8(%esp)
+-mov    %eax,0x4(%esp)
+-mov    -0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
+-mov    -0xc(%ebp),%eax
++mov    %edx,0x4(%esp)
++mov    -0x10(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
++mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+-mov    (%eax),%edx
+-mov    0xc(%ebp),%eax
+-mov    0xa(%eax),%eax
+-mov    %eax,0x4(%esp)
+-mov    -0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
+-mov    %al,-0xd(%ebp)
+-movzbl -0xd(%ebp),%eax
++mov    (%eax),%eax
++mov    0xc(%ebp),%edx
++add    $0xa,%edx
++mov    (%edx),%edx
++mov    %edx,0x4(%esp)
++mov    -0x10(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
++mov    %al,-0x9(%ebp)
++movzbl -0x9(%ebp),%eax
+ xor    $0x1,%eax
+ test   %al,%al
+-je     <T> <_ZN10CDBManager16GetDBMWStatisticEP24Packet_DBMW_Query_String+0xa7>
+-mov    0xc(%ebp),%eax
+-lea    0xe(%eax),%ebx
++je     <T> <_ZN10CDBManager16GetDBMWStatisticEP24Packet_DBMW_Query_String+0xaa>
+ movl   $0x1cb8,0x8(%esp)
+ movl   $"GetDBMWStatistic",0x4(%esp)
+ lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %ebx,0xc(%esp)
++mov    0xc(%ebp),%eax
++add    $0xe,%eax
++mov    %eax,0xc(%esp)
+ movl   $"GetDBMWStatistic Query(%s) Error\n",0x8(%esp)
+ movl   $"./log/DBQueryErr",0x4(%esp)
+ lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager16GetDBMWStatisticEP24Packet_DBMW_Query_String+0xac>
++jmp    <T> <_ZN10CDBManager16GetDBMWStatisticEP24Packet_DBMW_Query_String+0xaf>
+ mov    $0x1,%eax
+-add    $0x24,%esp
+-pop    %ebx
+-pop    %ebp
++leave
+ ret
+```
+## 2. Ghidra 反编译 C
+
+```c
+
+/* CDBManager::GetDBMWStatistic(Packet_DBMW_Query_String*) */
+
+bool __thiscall
+CDBManager::_ZN10CDBManager16GetDBMWStatisticEP24Packet_DBMW_Query_String
+          (CDBManager *this,Packet_DBMW_Query_String *param_1)
+
+{
+  bool bVar1;
+  CMyFileLog local_1c [11];
+  char local_11;
+  int *local_10;
+  
+  local_10 = *(int **)(this + 0x10);
+  (**(code **)(*local_10 + 0x1c))(local_10,*(undefined4 *)(param_1 + 10),param_1 + 0xe);
+  local_11 = (**(code **)(*local_10 + 0x20))(local_10,*(undefined4 *)(param_1 + 10));
+  bVar1 = local_11 == '\x01';
+  if (!bVar1) {
+    CMyFileLog::CMyFileLog(local_1c,"GetDBMWStatistic",0x1cb8);
+    CMyFileLog::operator()
+              (local_1c,"./log/DBQueryErr","GetDBMWStatistic Query(%s) Error\n",param_1 + 0xe);
+  }
+  return bVar1;
+}
+```
+
+## 3. 我们的源码函数
+
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1495 行）：
+
+```cpp
+char CDBManager::GetDBMWStatistic(Packet_DBMW_Query_String* packet)
+{
+    CDBHandle* h = m_handles[4];    // log db
+    h->set_query(*(int*)((char*)packet + 0xa), (char*)packet + 0xe);
+    bool ret = h->exec(*(int*)((char*)packet + 0xa));
+    if (!ret)
+    {
+        CMyFileLog log("GetDBMWStatistic", 0x1cb8);
+        log("./log/DBQueryErr", "GetDBMWStatistic Query(%s) Error\n",
+            (char*)packet + 0xe);
+        return 0;
+    }
+    return 1;
+}
+```

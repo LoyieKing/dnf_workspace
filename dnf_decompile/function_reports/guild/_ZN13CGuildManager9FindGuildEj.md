@@ -1,0 +1,139 @@
+# _ZN13CGuildManager9FindGuildEj
+
+`CGuildManager::FindGuild(unsigned int)`
+
+| 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
+|---|---|---|---|---|---|
+| guild | DIFF | `0x80954a0` | `0x94` | `0x805ba60` | `0x83` |
+
+## 1. 汇编 diff（完整函数，伪代码化）
+
+归一化口径：直接跳转/调用目标地址归一化为 `<T>`；字符串/全局变量地址替换为其内容或 `&符号名`（地址不同但指向相同内容视为等价，2026-08-11 用户口径）。
+
+```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,47 +1,42 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x38,%esp
+-lea    -0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP6CGuildEEC1Ev>
++sub    $0x28,%esp
+ mov    0x8(%ebp),%eax
+ add    $0x4,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIjP6CGuildSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
+ test   %al,%al
+-je     <T> <_ZN13CGuildManager9FindGuildEj+0x2a>
++je     <T> <_ZN13CGuildManager9FindGuildEj+0x1f>
+ mov    $0x0,%eax
+-jmp    <T> <_ZN13CGuildManager9FindGuildEj+0x92>
++jmp    <T> <_ZN13CGuildManager9FindGuildEj+0x81>
+ mov    0x8(%ebp),%eax
+ lea    0x4(%eax),%ecx
+-lea    -0x1c(%ebp),%eax
++lea    -0x10(%ebp),%eax
+ lea    0xc(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ mov    %ecx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapIjP6CGuildSt4lessIjESaISt4pairIKjS1_EEE4findERS5_>
+ sub    $0x4,%esp
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,-0x10(%ebp)
+ mov    0x8(%ebp),%eax
+ lea    0x4(%eax),%edx
+ lea    -0xc(%ebp),%eax
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapIjP6CGuildSt4lessIjESaISt4pairIKjS1_EEE3endEv>
+ sub    $0x4,%esp
++lea    -0xc(%ebp),%eax
++mov    %eax,0x4(%esp)
+ lea    -0x10(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-lea    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP6CGuildEEneERKS5_>
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP6CGuildEEeqERKS5_>
+ test   %al,%al
+-je     <T> <_ZN13CGuildManager9FindGuildEj+0x8d>
++je     <T> <_ZN13CGuildManager9FindGuildEj+0x73>
++mov    $0x0,%eax
++jmp    <T> <_ZN13CGuildManager9FindGuildEj+0x81>
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP6CGuildEEptEv>
+ mov    0x4(%eax),%eax
+-jmp    <T> <_ZN13CGuildManager9FindGuildEj+0x92>
+-mov    $0x0,%eax
+ leave
+ ret
+```
+## 2. Ghidra 反编译 C
+
+```c
+
+/* CGuildManager::FindGuild(unsigned int) */
+
+undefined4 CGuildManager::_ZN13CGuildManager9FindGuildEj(uint param_1)
+
+{
+  char cVar1;
+  undefined4 uVar2;
+  int iVar3;
+  uint local_20 [3];
+  uint local_14;
+  map<unsigned_int,CGuild*,std::less<unsigned_int>,std::allocator<std::pair<unsigned_int_const,CGuild*>>>
+  local_10 [12];
+  
+  std::_Rb_tree_iterator<std::pair<unsigned_int_const,CGuild*>>::_Rb_tree_iterator
+            ((_Rb_tree_iterator<std::pair<unsigned_int_const,CGuild*>> *)&local_14);
+  cVar1 = std::
+          map<unsigned_int,CGuild*,std::less<unsigned_int>,std::allocator<std::pair<unsigned_int_const,CGuild*>>>
+          ::empty((map<unsigned_int,CGuild*,std::less<unsigned_int>,std::allocator<std::pair<unsigned_int_const,CGuild*>>>
+                   *)(param_1 + 4));
+  if (cVar1 == '\0') {
+    std::
+    map<unsigned_int,CGuild*,std::less<unsigned_int>,std::allocator<std::pair<unsigned_int_const,CGuild*>>>
+    ::find(local_20);
+    local_14 = local_20[0];
+    std::
+    map<unsigned_int,CGuild*,std::less<unsigned_int>,std::allocator<std::pair<unsigned_int_const,CGuild*>>>
+    ::end(local_10);
+    cVar1 = std::_Rb_tree_iterator<std::pair<unsigned_int_const,CGuild*>>::operator!=
+                      ((_Rb_tree_iterator<std::pair<unsigned_int_const,CGuild*>> *)local_10,
+                       (_Rb_tree_iterator *)&local_14);
+    if (cVar1 == '\0') {
+      uVar2 = 0;
+    }
+    else {
+      iVar3 = std::_Rb_tree_iterator<std::pair<unsigned_int_const,CGuild*>>::operator->
+                        ((_Rb_tree_iterator<std::pair<unsigned_int_const,CGuild*>> *)&local_14);
+      uVar2 = *(undefined4 *)(iVar3 + 4);
+    }
+  }
+  else {
+    uVar2 = 0;
+  }
+  return uVar2;
+}
+```
+
+## 3. 我们的源码函数
+
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 208 行）：
+
+```cpp
+CGuild* CGuildManager::FindGuild(unsigned int guildKey)
+{
+    if (m_guilds.empty())
+    {
+        return 0;
+    }
+    std::map<unsigned int, CGuild*>::iterator it = m_guilds.find(guildKey);
+    return it == m_guilds.end() ? 0 : it->second;
+}
+```

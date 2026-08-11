@@ -1,0 +1,920 @@
+==== _Z10check_argviPPc @ 40290c ====
+
+bool check_argv(int argc,char **argv)
+
+{
+  long lVar1;
+  byte *pbVar2;
+  byte *pbVar3;
+  byte *pbVar4;
+  bool bVar5;
+  bool bVar6;
+  bool bVar7;
+  
+                    /* Unresolved local var: char * order@[???] */
+  if (argc == 2) {
+    bVar5 = (char **)0xfffffffffffffff7 < argv;
+    bVar7 = argv + 1 == (char **)0x0;
+    pbVar3 = (byte *)argv[1];
+    lVar1 = 6;
+    pbVar2 = pbVar3;
+    pbVar4 = (byte *)"start";
+    do {
+      if (lVar1 == 0) break;
+      lVar1 = lVar1 + -1;
+      bVar5 = *pbVar2 < *pbVar4;
+      bVar7 = *pbVar2 == *pbVar4;
+      pbVar2 = pbVar2 + 1;
+      pbVar4 = pbVar4 + 1;
+    } while (bVar7);
+    bVar6 = false;
+    bVar5 = (!bVar5 && !bVar7) == bVar5;
+    if (bVar5) {
+      bVar5 = check_pid_file();
+      if (bVar5) {
+        puts("Process is already operated.");
+        bVar5 = false;
+      }
+      else {
+        daemon_init();
+        bVar5 = true;
+      }
+    }
+    else {
+      lVar1 = 5;
+      pbVar2 = pbVar3;
+      pbVar4 = &DAT_0040342f;
+      do {
+        if (lVar1 == 0) break;
+        lVar1 = lVar1 + -1;
+        bVar6 = *pbVar2 < *pbVar4;
+        bVar5 = *pbVar2 == *pbVar4;
+        pbVar2 = pbVar2 + 1;
+        pbVar4 = pbVar4 + 1;
+      } while (bVar5);
+      bVar7 = false;
+      bVar5 = (!bVar6 && !bVar5) == bVar6;
+      if (bVar5) {
+        send_term_signal();
+        bVar5 = false;
+      }
+      else {
+        lVar1 = 5;
+        pbVar2 = &DAT_00403434;
+        do {
+          if (lVar1 == 0) break;
+          lVar1 = lVar1 + -1;
+          bVar7 = *pbVar3 < *pbVar2;
+          bVar5 = *pbVar3 == *pbVar2;
+          pbVar3 = pbVar3 + 1;
+          pbVar2 = pbVar2 + 1;
+        } while (bVar5);
+        if ((!bVar7 && !bVar5) == bVar7) {
+          bVar5 = true;
+        }
+        else {
+          bVar5 = false;
+        }
+      }
+    }
+  }
+  else {
+    bVar5 = false;
+  }
+  return bVar5;
+}
+
+
+
+==== _Z10getMessageiPcPiPjPt @ 401ac0 ====
+
+bool getMessage(Socket fd,char *buf,int *len,uint *srcIp,ushort *srcPort)
+
+{
+  bool bVar1;
+  uint16_t uVar2;
+  uint32_t uVar3;
+  ssize_t sVar4;
+  char *pcVar5;
+  ostream *poVar6;
+  socklen_t local_3c;
+  sockaddr local_38;
+  int local_20;
+  int local_1c;
+  
+                    /* Unresolved local var: sockaddr_in from@[???]
+                       Unresolved local var: int fromLen@[???]
+                       Unresolved local var: int ret@[???] */
+  if (fd != -1) {
+    local_3c = 0x10;
+    sVar4 = recvfrom(fd,buf,(long)*len,0,&local_38,&local_3c);
+    local_20 = (int)sVar4;
+    if (local_20 == -1) {
+                    /* Unresolved local var: int err@[???] */
+      local_1c = getErrno();
+      if (local_1c == 0x58) {
+        poVar6 = std::operator<<((ostream *)std::cerr,"Error fd not a socket");
+        std::ostream::operator<<(poVar6,std::endl<char,std::char_traits<char>>);
+      }
+      else if (local_1c == 0x68) {
+        poVar6 = std::operator<<((ostream *)std::cerr,"Error connection reset - host not reachable")
+        ;
+        std::ostream::operator<<(poVar6,std::endl<char,std::char_traits<char>>);
+      }
+      else if (local_1c != 0xb) {
+        pcVar5 = strerror(local_1c);
+        poVar6 = std::operator<<((ostream *)std::cerr,"Socket Error=");
+        poVar6 = (ostream *)std::ostream::operator<<(poVar6,local_1c);
+        poVar6 = std::operator<<(poVar6," ");
+        poVar6 = std::operator<<(poVar6,pcVar5);
+        std::ostream::operator<<(poVar6,std::endl<char,std::char_traits<char>>);
+      }
+      bVar1 = false;
+    }
+    else if (local_20 < 1) {
+      poVar6 = std::operator<<((ostream *)std::clog,"socket closed? ");
+      poVar6 = std::operator<<(poVar6,"recv size");
+      poVar6 = (ostream *)std::ostream::operator<<(poVar6,local_20);
+      std::ostream::operator<<(poVar6,std::endl<char,std::char_traits<char>>);
+      bVar1 = false;
+    }
+    else {
+      uVar2 = ntohs(local_38.sa_data._0_2_);
+      *srcPort = uVar2;
+      uVar3 = ntohl(local_38.sa_data._2_4_);
+      *srcIp = uVar3;
+      buf[local_20] = '\0';
+      *len = local_20;
+      bVar1 = true;
+    }
+    return bVar1;
+  }
+  write_log("getMessage() Fail, fd = INVALID_SOCKET",-1);
+                    /* WARNING: Subroutine does not return */
+  __assert_fail("fd != INVALID_SOCKET","udp.cpp",0x71,
+                "bool getMessage(Socket, char*, int*, unsigned int*, short unsigned int*)");
+}
+
+
+
+==== _Z10msgProcessiPciR7Address @ 401584 ====
+
+bool msgProcess(int socket,char *recv,int len,anon_struct_dwarf_5c50 *info)
+
+{
+  char cVar1;
+  bool bVar2;
+  char local_28;
+  uint local_27;
+  ushort local_23;
+  char local_18;
+  uint local_17;
+  ushort local_13;
+  
+  cVar1 = *recv;
+  if (cVar1 == '\x01') {
+                    /* Unresolved local var: MSG_BINDING_RESPONSE pk_send@[???] */
+    local_18 = '\x02';
+    local_17 = info->ip;
+    local_13 = info->port;
+    bVar2 = sendMessage(socket,&local_18,7,info->ip,info->port);
+    if (!bVar2) {
+      return false;
+    }
+  }
+  else if (cVar1 == '\x05') {
+                    /* Unresolved local var: MSG_BINDING_RESPONSE pk_send@[???] */
+    local_28 = '\x02';
+    local_27 = info->ip;
+    local_23 = info->port;
+    bVar2 = sendMessage(::::socketPortResctric_,&local_28,7,info->ip,info->port);
+    if (!bVar2) {
+      return false;
+    }
+  }
+  else if (cVar1 != '\0') {
+    return false;
+  }
+  return true;
+}
+
+
+
+==== _Z11daemon_initv @ 40287c ====
+
+/* WARNING: Unknown calling convention -- yet parameter storage is locked */
+
+int daemon_init(void)
+
+{
+  __pid_t _Var1;
+  int local_1c;
+  
+                    /* Unresolved local var: pid_t pid@[???] */
+  _Var1 = fork();
+  if (_Var1 < 0) {
+    local_1c = -1;
+  }
+  else {
+    if (_Var1 != 0) {
+                    /* WARNING: Subroutine does not return */
+      exit(0);
+    }
+    setsid();
+    chdir("./");
+    umask(0);
+    save_pid();
+    local_1c = 0;
+  }
+  return local_1c;
+}
+
+
+
+==== _Z11sendMessageiPcijt @ 40189a ====
+
+bool sendMessage(Socket fd,char *buf,int l,uint dstIp,ushort dstPort)
+
+{
+  bool bVar1;
+  ssize_t sVar2;
+  char *pcVar3;
+  ostream *poVar4;
+  long lVar5;
+  sockaddr *psVar6;
+  sockaddr local_38;
+  int local_24;
+  socklen_t local_20;
+  int local_1c;
+  
+                    /* Unresolved local var: int s@[???] */
+  if (fd == -1) {
+    write_log("sendMessage() Fail, fd = INVALID_SOCKET",-1);
+                    /* WARNING: Subroutine does not return */
+    __assert_fail("fd != INVALID_SOCKET","udp.cpp",0xa2,
+                  "bool sendMessage(Socket, char*, int, unsigned int, short unsigned int)");
+  }
+  if (dstPort == 0) {
+    bVar1 = false;
+  }
+  else {
+                    /* Unresolved local var: sockaddr_in to@[???]
+                       Unresolved local var: int toLen@[???] */
+    if (dstIp == 0) {
+      bVar1 = false;
+    }
+    else {
+      local_20 = 0x10;
+      psVar6 = &local_38;
+      for (lVar5 = 0x10; lVar5 != 0; lVar5 = lVar5 + -1) {
+        *(undefined1 *)&psVar6->sa_family = 0;
+        psVar6 = (sockaddr *)((long)&psVar6->sa_family + 1);
+      }
+      local_38.sa_family = 2;
+      local_38.sa_data._0_2_ = htons(dstPort);
+      local_38.sa_data._2_4_ = htonl(dstIp);
+      sVar2 = sendto(fd,buf,(long)l,0,&local_38,local_20);
+      local_24 = (int)sVar2;
+      if (local_24 == -1) {
+                    /* Unresolved local var: int e@[???] */
+        local_1c = getErrno();
+        if (local_1c == 0x61) {
+          poVar4 = std::operator<<((ostream *)std::cerr,"err EAFNOSUPPORT in send");
+          std::ostream::operator<<(poVar4,std::endl<char,std::char_traits<char>>);
+        }
+        else if ((local_1c < 0x61) || (2 < local_1c - 0x6fU)) {
+          pcVar3 = strerror(local_1c);
+          poVar4 = std::operator<<((ostream *)std::cerr,"err ");
+          poVar4 = (ostream *)std::ostream::operator<<(poVar4,local_1c);
+          poVar4 = std::operator<<(poVar4," ");
+          poVar4 = std::operator<<(poVar4,pcVar3);
+          poVar4 = std::operator<<(poVar4," in send");
+          std::ostream::operator<<(poVar4,std::endl<char,std::char_traits<char>>);
+        }
+        bVar1 = false;
+      }
+      else if (local_24 == 0) {
+        poVar4 = std::operator<<((ostream *)std::cerr,"no data sent in send");
+        std::ostream::operator<<(poVar4,std::endl<char,std::char_traits<char>>);
+        bVar1 = false;
+      }
+      else if (local_24 == l) {
+        bVar1 = true;
+      }
+      else {
+        poVar4 = std::operator<<((ostream *)std::cerr,"only ");
+        poVar4 = (ostream *)std::ostream::operator<<(poVar4,local_24);
+        poVar4 = std::operator<<(poVar4," out of ");
+        poVar4 = (ostream *)std::ostream::operator<<(poVar4,l);
+        poVar4 = std::operator<<(poVar4," bytes sent");
+        std::ostream::operator<<(poVar4,std::endl<char,std::char_traits<char>>);
+        bVar1 = false;
+      }
+    }
+  }
+  return bVar1;
+}
+
+
+
+==== _Z12stunProcess1Pv @ 4017a4 ====
+
+void * stunProcess1(void *param_1)
+
+{
+  bool bVar1;
+  anon_struct_dwarf_5c50 local_28;
+  int local_1c;
+  char local_18 [16];
+  
+                    /* Unresolved local var: char[8] recv_buf@[???]
+                       Unresolved local var: int recv_byte@[???]
+                       Unresolved local var: anon_struct.dwarf_5c50 source@[???] */
+  printf("Create Thread1 RealIP Socket: %d\n",(ulong)(uint)::::socketRealIp_);
+  do {
+    do {
+      local_1c = 8;
+      local_28.port = 0;
+      local_28._2_2_ = 0;
+      local_28.ip = 0;
+      local_18[0] = '\0';
+      local_18[1] = '\0';
+      local_18[2] = '\0';
+      local_18[3] = '\0';
+      local_18[4] = '\0';
+      local_18[5] = '\0';
+      local_18[6] = '\0';
+      local_18[7] = '\0';
+      bVar1 = getMessage(::::socketRealIp_,local_18,&local_1c,&local_28.ip,&local_28.port);
+    } while (!bVar1);
+    msgProcess(::::socketRealIp_,local_18,local_1c,&local_28);
+  } while( true );
+}
+
+
+
+==== _Z12stunProcess2Pv @ 401722 ====
+
+void * stunProcess2(void *param_1)
+
+{
+  bool bVar1;
+  anon_struct_dwarf_5c50 local_28;
+  int local_1c;
+  char local_18 [16];
+  
+                    /* Unresolved local var: char[8] recv_buf@[???]
+                       Unresolved local var: int recv_byte@[???]
+                       Unresolved local var: anon_struct.dwarf_5c50 source@[???] */
+  printf("Create Thread2 NAT Socket: %d\n",(ulong)(uint)::::socketNat_);
+  do {
+    do {
+      local_1c = 8;
+      local_28.port = 0;
+      local_28._2_2_ = 0;
+      local_28.ip = 0;
+      local_18[0] = '\0';
+      local_18[1] = '\0';
+      local_18[2] = '\0';
+      local_18[3] = '\0';
+      local_18[4] = '\0';
+      local_18[5] = '\0';
+      local_18[6] = '\0';
+      local_18[7] = '\0';
+      bVar1 = getMessage(::::socketNat_,local_18,&local_1c,&local_28.ip,&local_28.port);
+    } while (!bVar1);
+    msgProcess(::::socketNat_,local_18,local_1c,&local_28);
+  } while( true );
+}
+
+
+
+==== _Z12stunProcess3Pv @ 401674 ====
+
+void * stunProcess3(void *param_1)
+
+{
+  bool bVar1;
+  char local_608 [1504];
+  undefined2 local_28 [8];
+  ushort local_18 [2];
+  uint auStack_14 [2];
+  int local_c;
+  
+                    /* Unresolved local var: char[1500] recv_buf@[???]
+                       Unresolved local var: int recv_byte@[???]
+                       Unresolved local var: anon_struct.dwarf_5c50 source@[???] */
+  printf("Create Thread3 MTU_CHECKER Socket: %d\n",(ulong)(uint)::::socketPortResctric_);
+  do {
+    do {
+      local_c = 0x5dc;
+      _local_18 = 0;
+      memset(local_608,0,0x5dc);
+      bVar1 = getMessage(::::socketPortResctric_,local_608,&local_c,(uint *)(local_18 + 2),local_18)
+      ;
+    } while (!bVar1);
+                    /* Unresolved local var: MSG_MTU_ECHO pck@[???] */
+    local_28[0] = (undefined2)local_c;
+    sendMessage(::::socketPortResctric_,(char *)local_28,2,auStack_14[0],local_18[0]);
+  } while( true );
+}
+
+
+
+==== _Z13regist_signaliPFviE @ 402324 ====
+
+bool regist_signal(int sig,handler *func_name)
+
+{
+  int iVar1;
+  sigaction local_148;
+  _union_1457 local_a8;
+  sigset_t local_a0;
+  undefined4 local_20;
+  
+                    /* Unresolved local var: sigaction act@[???]
+                       Unresolved local var: sigaction oact@[???] */
+  local_a8 = (_union_1457)func_name;
+  sigemptyset(&local_a0);
+  if (sig == 0xe) {
+    local_20 = 0x20000000;
+  }
+  else {
+    local_20 = 0x10000000;
+  }
+  iVar1 = sigaction(sig,(sigaction *)&local_a8,&local_148);
+  if (-1 >= iVar1) {
+    printf("fail to regist signal (signal id: %d)\n",(ulong)(uint)sig);
+  }
+  return -1 < iVar1;
+}
+
+
+
+==== _Z14check_pid_filev @ 4028d6 ====
+
+/* WARNING: Unknown calling convention -- yet parameter storage is locked */
+
+bool check_pid_file(void)
+
+{
+  int iVar1;
+  
+  iVar1 = access("./pid/udp_server.pid",0);
+  return iVar1 == 0;
+}
+
+
+
+==== _Z14rdar_terminatei @ 402554 ====
+
+void rdar_terminate(int argv)
+
+{
+  int iVar1;
+  int *piVar2;
+  
+  iVar1 = remove("./pid/udp_server.pid");
+  if (iVar1 == -1) {
+    piVar2 = __errno_location();
+    write_log("FAIL TO DELETE PID FILE ERROR",*piVar2);
+  }
+  if (argv == 0) {
+    write_log("STUN PROCESS IS TERMINATED",0);
+  }
+  else {
+    write_log("STUN PROCESS IS ABNORMALLY TERMINATED",0);
+  }
+                    /* WARNING: Subroutine does not return */
+  exit(argv);
+}
+
+
+
+==== _Z14regist_signalsv @ 4023d6 ====
+
+/* WARNING: Unknown calling convention -- yet parameter storage is locked */
+
+bool regist_signals(void)
+
+{
+  bool bVar1;
+  
+  bVar1 = regist_signal(0xf,signal_handler);
+  if (bVar1) {
+    bVar1 = regist_signal(0xb,signal_handler);
+    if (bVar1) {
+      bVar1 = regist_signal(6,signal_handler);
+      if (bVar1) {
+        bVar1 = regist_signal(8,signal_handler);
+        if (bVar1) {
+          bVar1 = regist_signal(4,signal_handler);
+          if (bVar1) {
+            bVar1 = regist_signal(7,signal_handler);
+            if (bVar1) {
+              bVar1 = regist_signal(0x10,signal_handler);
+              if (bVar1) {
+                bVar1 = regist_signal(0x17,signal_handler);
+                if (bVar1) {
+                  bVar1 = regist_signal(0x18,signal_handler);
+                  if (bVar1) {
+                    bVar1 = regist_signal(0x19,signal_handler);
+                    if (bVar1) {
+                      bVar1 = regist_signal(0x1f,signal_handler);
+                      if (bVar1) {
+                        bVar1 = true;
+                      }
+                      else {
+                        bVar1 = false;
+                      }
+                    }
+                    else {
+                      bVar1 = false;
+                    }
+                  }
+                  else {
+                    bVar1 = false;
+                  }
+                }
+                else {
+                  bVar1 = false;
+                }
+              }
+              else {
+                bVar1 = false;
+              }
+            }
+            else {
+              bVar1 = false;
+            }
+          }
+          else {
+            bVar1 = false;
+          }
+        }
+        else {
+          bVar1 = false;
+        }
+      }
+      else {
+        bVar1 = false;
+      }
+    }
+    else {
+      bVar1 = false;
+    }
+  }
+  else {
+    bVar1 = false;
+  }
+  return bVar1;
+}
+
+
+
+==== _Z14signal_handleri @ 4025b2 ====
+
+void signal_handler(int sig)
+
+{
+  switch(sig) {
+  case 4:
+    write_log("Signal(SIGILL) occured",sig);
+    rdar_terminate(-1);
+    break;
+  case 6:
+    write_log("Signal(SIGABRT) occured",sig);
+    rdar_terminate(-1);
+    break;
+  case 7:
+    write_log("Signal(SIGBUS) occured",sig);
+    rdar_terminate(-1);
+    break;
+  case 8:
+    write_log("Signal(SIGFPE) occured",sig);
+    rdar_terminate(-1);
+    break;
+  case 0xb:
+    write_log("Signal(SIGSEGV) occured",sig);
+    rdar_terminate(-1);
+    break;
+  case 0xf:
+    rdar_terminate(0);
+    break;
+  case 0x10:
+    write_log("Signal(SIGSTKFLT) occured",sig);
+    rdar_terminate(-1);
+    break;
+  case 0x17:
+    write_log("Signal(SIGURG) occured",sig);
+    rdar_terminate(-1);
+    break;
+  case 0x18:
+    write_log("Signal(SIGXCPU) occured",sig);
+    rdar_terminate(-1);
+    break;
+  case 0x19:
+    write_log("Signal(SIGXFSZ) occured",sig);
+    rdar_terminate(-1);
+    break;
+  case 0x1f:
+    write_log("Signal(SIGSYS) occured",sig);
+    rdar_terminate(-1);
+  }
+  return;
+}
+
+
+
+==== _Z16send_term_signalv @ 4026f2 ====
+
+/* WARNING: Unknown calling convention -- yet parameter storage is locked */
+
+void send_term_signal(void)
+
+{
+  uint local_18;
+  int local_14;
+  FILE *local_10;
+  
+                    /* Unresolved local var: int ret@[???]
+                       Unresolved local var: pid_t pid@[???]
+                       Unresolved local var: FILE * fp@[???] */
+  local_10 = fopen("./pid/udp_server.pid","r");
+  if (local_10 == (FILE *)0x0) {
+    puts("process id file open fail");
+  }
+  else {
+    fscanf(local_10,"%d",&local_18);
+    if ((int)local_18 < 1) {
+      fclose(local_10);
+      printf("wrong process id (%d)\n",(ulong)local_18);
+    }
+    else {
+      local_14 = kill(local_18,0xf);
+      if (local_14 < 0) {
+        fclose(local_10);
+        printf("fail to terminate process (process id: %d)\n",(ulong)local_18);
+      }
+      else {
+        fclose(local_10);
+      }
+    }
+  }
+  return;
+}
+
+
+
+==== _Z8openPorttj @ 401c92 ====
+
+Socket openPort(ushort port,uint interfaceIp)
+
+{
+  uint16_t uVar1;
+  uint32_t uVar2;
+  int iVar3;
+  ostream *poVar4;
+  char *pcVar5;
+  Socket local_54;
+  undefined8 local_48;
+  undefined8 local_40;
+  sockaddr local_38;
+  int local_24;
+  int local_20;
+  int local_1c;
+  
+                    /* Unresolved local var: Socket fd@[???]
+                       Unresolved local var: sockaddr_in addr@[???]
+                       Unresolved local var: timeval tv_timeo@[???] */
+  local_24 = socket(2,2,0x11);
+  if (local_24 == -1) {
+                    /* Unresolved local var: int err@[???] */
+    local_20 = getErrno();
+    poVar4 = std::operator<<((ostream *)std::cerr,"Could not create a UDP socket:");
+    poVar4 = (ostream *)std::ostream::operator<<(poVar4,local_20);
+    std::ostream::operator<<(poVar4,std::endl<char,std::char_traits<char>>);
+    local_54 = -1;
+  }
+  else {
+    local_38.sa_data[6] = '\0';
+    local_38.sa_data[7] = '\0';
+    local_38.sa_data[8] = '\0';
+    local_38.sa_data[9] = '\0';
+    local_38.sa_data[10] = '\0';
+    local_38.sa_data[0xb] = '\0';
+    local_38.sa_data[0xc] = '\0';
+    local_38.sa_data[0xd] = '\0';
+    local_38.sa_family = 2;
+    local_38.sa_data[0] = '\0';
+    local_38.sa_data[1] = '\0';
+    local_38.sa_data[2] = '\0';
+    local_38.sa_data[3] = '\0';
+    local_38.sa_data[4] = '\0';
+    local_38.sa_data[5] = '\0';
+    uVar2 = htonl(0);
+    local_38.sa_data._2_4_ = uVar2;
+    uVar1 = htons(port);
+    local_38.sa_data._0_2_ = uVar1;
+    if ((interfaceIp != 0) && (interfaceIp != 0x100007f)) {
+      uVar2 = htonl(interfaceIp);
+      local_38.sa_data._2_4_ = uVar2;
+    }
+    iVar3 = bind(local_24,&local_38,0x10);
+    if (iVar3 == 0) {
+      local_48 = 3;
+      local_40 = 0;
+      setsockopt(local_24,1,0x14,&local_48,0x10);
+      if (local_24 == -1) {
+        write_log("openPort() Fail, fd = INVALID_SOCKET",-1);
+        if (local_24 == -1) {
+                    /* WARNING: Subroutine does not return */
+          __assert_fail("fd != INVALID_SOCKET","udp.cpp",99,
+                        "Socket openPort(short unsigned int, unsigned int)");
+        }
+      }
+      poVar4 = std::operator<<((ostream *)std::clog,"Opened port ");
+      poVar4 = (ostream *)std::ostream::operator<<(poVar4,port);
+      poVar4 = std::operator<<(poVar4," with fd ");
+      poVar4 = (ostream *)std::ostream::operator<<(poVar4,local_24);
+      std::ostream::operator<<(poVar4,std::endl<char,std::char_traits<char>>);
+      local_54 = local_24;
+    }
+    else {
+                    /* Unresolved local var: int e@[???] */
+      local_1c = getErrno();
+      if (local_1c == 0x62) {
+        poVar4 = std::operator<<((ostream *)std::cerr,"Port ");
+        poVar4 = (ostream *)std::ostream::operator<<(poVar4,port);
+        poVar4 = std::operator<<(poVar4," for receiving UDP is in use");
+        std::ostream::operator<<(poVar4,std::endl<char,std::char_traits<char>>);
+        local_54 = -1;
+      }
+      else if (local_1c == 99) {
+        local_54 = -1;
+      }
+      else if (local_1c == 0) {
+        local_54 = -1;
+      }
+      else {
+        pcVar5 = strerror(local_1c);
+        poVar4 = std::operator<<((ostream *)std::cerr,"Could not bind UDP receive port. Error=");
+        poVar4 = (ostream *)std::ostream::operator<<(poVar4,local_1c);
+        poVar4 = std::operator<<(poVar4," ");
+        poVar4 = std::operator<<(poVar4,pcVar5);
+        std::ostream::operator<<(poVar4,std::endl<char,std::char_traits<char>>);
+        local_54 = -1;
+      }
+    }
+  }
+  return local_54;
+}
+
+
+
+==== _Z8save_pidv @ 40279a ====
+
+/* WARNING: Unknown calling convention -- yet parameter storage is locked */
+
+bool save_pid(void)
+
+{
+  char cVar1;
+  bool bVar2;
+  __pid_t _Var3;
+  ulong uVar4;
+  char *pcVar5;
+  char local_218 [512];
+  ssize_t local_18;
+  int local_c;
+  
+                    /* Unresolved local var: char[512] buf@[???]
+                       Unresolved local var: ssize_t write_byte@[???]
+                       Unresolved local var: int fd@[???] */
+  local_c = open("./pid/udp_server.pid",0x42,0x1a4);
+  if (local_c < 0) {
+    bVar2 = false;
+  }
+  else {
+    memset(local_218,0,0x200);
+    _Var3 = getpid();
+    sprintf(local_218,"%ld\n",(long)_Var3);
+    uVar4 = 0xffffffffffffffff;
+    pcVar5 = local_218;
+    do {
+      if (uVar4 == 0) break;
+      uVar4 = uVar4 - 1;
+      cVar1 = *pcVar5;
+      pcVar5 = pcVar5 + 1;
+    } while (cVar1 != '\0');
+    local_18 = write(local_c,local_218,~uVar4 - 1);
+    if (local_18 < 0) {
+      close(local_c);
+      bVar2 = false;
+    }
+    else {
+      bVar2 = true;
+    }
+  }
+  return bVar2;
+}
+
+
+
+==== _Z9write_logPKci @ 40215c ====
+
+void write_log(char *pLog,int argv)
+
+{
+  char local_138 [264];
+  time_t local_30;
+  tm *local_28;
+  FILE *local_20;
+  
+                    /* Unresolved local var: time_t currentTime@[???]
+                       Unresolved local var: tm * currentTm@[???]
+                       Unresolved local var: char[256] logFileName@[???]
+                       Unresolved local var: FILE * pFile@[???] */
+  local_30 = time((time_t *)0x0);
+  local_28 = localtime(&local_30);
+  memset(local_138,0,0x100);
+  sprintf(local_138,"./log/STUN%4d%02d%02d.log",(ulong)(local_28->tm_year + 0x76c),
+          (ulong)(local_28->tm_mon + 1),(ulong)(uint)local_28->tm_mday);
+  local_20 = fopen(local_138,"a+");
+  if (local_20 != (FILE *)0x0) {
+    if (argv == 0) {
+      fprintf(local_20,"[%02d/%02d/%02d %02d:%02d:%02d] %s\n",(ulong)(local_28->tm_year + 0x76c),
+              (ulong)(local_28->tm_mon + 1),(ulong)(uint)local_28->tm_mday,
+              (ulong)(uint)local_28->tm_hour,local_28->tm_min,local_28->tm_sec,pLog);
+    }
+    else {
+      fprintf(local_20,"[%02d/%02d/%02d %02d:%02d:%02d] %s(%d)\n",(ulong)(local_28->tm_year + 0x76c)
+              ,(ulong)(local_28->tm_mon + 1),(ulong)(uint)local_28->tm_mday,
+              (ulong)(uint)local_28->tm_hour,local_28->tm_min,local_28->tm_sec,pLog,argv);
+    }
+    fclose(local_20);
+  }
+  return;
+}
+
+
+
+==== main @ 401f64 ====
+
+int main(int argc,char **argv)
+
+{
+  bool bVar1;
+  pthread_t local_18;
+  int local_c;
+  
+                    /* Unresolved local var: pthread_t thread_id@[???]
+                       Unresolved local var: int ret@[???] */
+  puts("\n*****************************************************");
+  puts("**             STUN Server v1.4.0.0                **");
+  puts("**                                                 **");
+  puts("**                                                 **");
+  puts("**                            CopyRight 2010~2015. **");
+  puts("**                       Young-san, Kim in Neople. **");
+  puts("*****************************************************");
+  make_dir("./pid/");
+  make_dir("./log/");
+  bVar1 = regist_signals();
+  if (bVar1) {
+    bVar1 = check_argv(argc,argv);
+    if (bVar1) {
+      printf("\nRealIP Port: %d, NAT Port: %d\n",0x907,0x908);
+      ::::socketRealIp_ = openPort(0x907,0);
+      if (::::socketRealIp_ == -1) {
+        printf("[ERROR] Fail to Create Socket PORT(%d)\n",0x907);
+      }
+      else {
+        ::::socketNat_ = openPort(0x908,0);
+        if (::::socketNat_ == -1) {
+          printf("[ERROR] Fail to Create Socket PORT(%d)\n",0x908);
+        }
+        else {
+          ::::socketPortResctric_ = openPort(0x909,0);
+          if (::::socketPortResctric_ != -1) {
+            write_log("[[[[[ Start Udp Draft ]]]]]] v1.3.6.0",0);
+            local_c = 0;
+            local_c = pthread_create(&local_18,(pthread_attr_t *)0x0,stunProcess1,(void *)0x0);
+            local_c = pthread_create(&local_18,(pthread_attr_t *)0x0,stunProcess2,(void *)0x0);
+            local_c = pthread_create(&local_18,(pthread_attr_t *)0x0,stunProcess3,(void *)0x0);
+            do {
+              usleep(100000);
+            } while( true );
+          }
+          printf("[ERROR] Fail to Create Socket PORT(%d)\n",0x909);
+        }
+      }
+    }
+  }
+  else {
+    puts("Fail to Regist Signals, Server Process is Terminated.");
+  }
+  return 0;
+}
+
+
+

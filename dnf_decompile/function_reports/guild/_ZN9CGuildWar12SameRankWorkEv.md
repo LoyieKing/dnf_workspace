@@ -1,0 +1,446 @@
+# _ZN9CGuildWar12SameRankWorkEv
+
+`CGuildWar::SameRankWork()`
+
+| 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
+|---|---|---|---|---|---|
+| guild | DIFF | `0x809ad34` | `0x21b` | `0x8062268` | `0x1d8` |
+
+## 1. 汇编 diff（完整函数，伪代码化）
+
+归一化口径：直接跳转/调用目标地址归一化为 `<T>`；字符串/全局变量地址替换为其内容或 `&符号名`（地址不同但指向相同内容视为等价，2026-08-11 用户口径）。
+
+```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,166 +1,147 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %ebx
+-sub    $0x54,%esp
++sub    $0x44,%esp
+ mov    0x8(%ebp),%eax
++mov    %eax,-0x20(%ebp)
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE5emptyEv>
+ test   %al,%al
+-je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x20>
++je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x26>
+ mov    $0x0,%eax
+-jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x216>
+-mov    0x8(%ebp),%edx
+-lea    -0x24(%ebp),%eax
++jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x1d3>
++mov    -0x20(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE5frontEv>
++mov    0x4(%eax),%eax
++mov    %eax,-0x1c(%ebp)
++cmpl   $0x0,-0x1c(%ebp)
++jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x47>
++mov    $0x0,%eax
++jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x1d3>
++mov    -0x1c(%ebp),%eax
++add    $0x4,%eax
++mov    (%eax),%eax
++mov    %eax,-0x18(%ebp)
++movl   $0x0,-0x14(%ebp)
++lea    -0x28(%ebp),%eax
++mov    -0x20(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE5beginEv>
+ sub    $0x4,%esp
+-lea    -0x24(%ebp),%eax
++jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0xb3>
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
+ mov    0x4(%eax),%eax
+-mov    %eax,-0x1c(%ebp)
+-cmpl   $0x0,-0x1c(%ebp)
+-jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x56>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x216>
+-mov    -0x1c(%ebp),%eax
+-mov    0x4(%eax),%eax
+-mov    %eax,-0x18(%ebp)
+-movl   $0x0,-0x14(%ebp)
+-mov    0x8(%ebp),%edx
+-lea    -0x28(%ebp),%eax
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE5beginEv>
+-sub    $0x4,%esp
+-jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0xc3>
++test   %eax,%eax
++setne  %al
++test   %al,%al
++je     <T> <_ZN9CGuildWar12SameRankWorkEv+0xa8>
+ lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+-call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
++call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
+ mov    0x4(%eax),%eax
+-test   %eax,%eax
+-sete   %al
+-test   %al,%al
+-jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0xb7>
+-mov    -0x18(%ebp),%ebx
+-lea    -0x28(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
+-mov    0x4(%eax),%eax
+-mov    0x4(%eax),%eax
+-cmp    %eax,%ebx
++add    $0x4,%eax
++mov    (%eax),%eax
++cmp    -0x18(%ebp),%eax
+ setne  %al
+ test   %al,%al
+-jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0xf0>
++jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0xe0>
+ addl   $0x1,-0x14(%ebp)
+-jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0xb8>
+-nop
+ lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEppEv>
+-mov    0x8(%ebp),%edx
+-lea    -0x20(%ebp),%eax
++lea    -0x24(%ebp),%eax
++mov    -0x20(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE3endEv>
+ sub    $0x4,%esp
+-lea    -0x20(%ebp),%eax
++lea    -0x24(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN9__gnu_cxxneIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEEbRKNS_17__normal_iteratorIT_T0_EESE_>
+ test   %al,%al
+-jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x7d>
+-jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0xf1>
++jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x70>
++jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0xe1>
+ nop
+ cmpl   $0x1,-0x14(%ebp)
+-jle    <T> <_ZN9CGuildWar12SameRankWorkEv+0x211>
++jle    <T> <_ZN9CGuildWar12SameRankWorkEv+0x1ce>
+ lea    -0x2c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEC1Ev>
+-lea    -0x30(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEC1Ev>
+-lea    -0x34(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEC1Ev>
+-mov    0x8(%ebp),%edx
+-lea    -0x3c(%ebp),%eax
++mov    -0x20(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE5beginEv>
+ sub    $0x4,%esp
+-mov    -0x3c(%ebp),%eax
+-mov    %eax,-0x30(%ebp)
+-lea    -0x30(%ebp),%eax
+-mov    (%eax),%eax
+-mov    %eax,-0x2c(%ebp)
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+-call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
++call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
+ mov    0x4(%eax),%eax
+-test   %eax,%eax
+-sete   %al
+-test   %al,%al
+-je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x160>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x216>
+-lea    -0x2c(%ebp),%eax
++add    $0x20,%eax
++mov    (%eax),%eax
++mov    %eax,-0x10(%ebp)
++lea    -0x30(%ebp),%eax
++mov    -0x20(%ebp),%edx
++mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+-call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
+-mov    0x4(%eax),%eax
+-mov    0x20(%eax),%eax
+-mov    %eax,-0x10(%ebp)
++call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE5beginEv>
++sub    $0x4,%esp
+ movl   $0x1,-0xc(%ebp)
+-jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x1c1>
++jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x17c>
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEppEv>
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+-call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
++call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
+ mov    0x4(%eax),%eax
+-mov    0x20(%eax),%eax
++add    $0x20,%eax
++mov    (%eax),%eax
+ cmp    -0x10(%ebp),%eax
+ seta   %al
+ test   %al,%al
+-je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x1bd>
++je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x178>
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+-call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
++call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
+ mov    0x4(%eax),%eax
+-mov    0x20(%eax),%eax
++add    $0x20,%eax
++mov    (%eax),%eax
+ mov    %eax,-0x10(%ebp)
+ mov    -0x30(%ebp),%eax
+-mov    %eax,-0x34(%ebp)
++mov    %eax,-0x2c(%ebp)
+ addl   $0x1,-0xc(%ebp)
+ mov    -0xc(%ebp),%eax
+ cmp    -0x14(%ebp),%eax
+ setl   %al
+ test   %al,%al
+-jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x17d>
+-lea    -0x2c(%ebp),%eax
++jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x134>
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+-call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
++call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE5frontEv>
+ mov    0x4(%eax),%eax
+-mov    0x20(%eax),%eax
++add    $0x20,%eax
++mov    (%eax),%eax
+ cmp    -0x10(%ebp),%eax
+ setne  %al
+ test   %al,%al
+-je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x211>
+-lea    -0x34(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
+-mov    0x4(%eax),%ebx
++je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x1ce>
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+-call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
++call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
++mov    0x4(%eax),%ebx
++mov    -0x20(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE5frontEv>
+ mov    0x4(%eax),%eax
+ mov    %ebx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN7DNFFLib4SwapI14STGuildWarInfoEEvPT_S3_>
+ mov    $0x1,%eax
+ mov    -0x4(%ebp),%ebx
+ leave
+ ret
+```
+## 2. Ghidra 反编译 C
+
+```c
+
+/* CGuildWar::SameRankWork() */
+
+undefined4 CGuildWar::_ZN9CGuildWar12SameRankWorkEv(void)
+
+{
+  STGuildWarInfo *pSVar1;
+  char cVar2;
+  bool bVar3;
+  undefined4 uVar4;
+  int iVar5;
+  int iVar6;
+  undefined4 local_40;
+  undefined4 local_38;
+  undefined4 local_34;
+  __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+  local_30 [4];
+  __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+  local_2c [4];
+  __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+  local_28 [4];
+  __normal_iterator local_24 [4];
+  int local_20;
+  int local_1c;
+  int local_18;
+  uint local_14;
+  int local_10;
+  
+  cVar2 = std::
+          vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>
+          ::empty();
+  if (cVar2 == '\0') {
+    std::
+    vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>
+    ::begin();
+    iVar5 = __gnu_cxx::
+            __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+            ::operator->(local_28);
+    local_20 = *(int *)(iVar5 + 4);
+    if (local_20 == 0) {
+      uVar4 = 0;
+    }
+    else {
+      local_1c = *(int *)(local_20 + 4);
+      local_18 = 0;
+      std::
+      vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>
+      ::begin();
+      while( true ) {
+        std::
+        vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>
+        ::end();
+        bVar3 = __gnu_cxx::operator!=(local_2c,local_24);
+        if (!bVar3) break;
+        iVar6 = __gnu_cxx::
+                __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+                ::operator*(local_2c);
+        iVar5 = local_1c;
+        if (*(int *)(iVar6 + 4) != 0) {
+          iVar6 = __gnu_cxx::
+                  __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+                  ::operator*(local_2c);
+          if (iVar5 != *(int *)(*(int *)(iVar6 + 4) + 4)) break;
+          local_18 = local_18 + 1;
+        }
+        __gnu_cxx::
+        __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+        ::operator++(local_2c);
+      }
+      if (1 < local_18) {
+        __gnu_cxx::
+        __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+        ::__normal_iterator(local_30);
+        __gnu_cxx::
+        __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+        ::__normal_iterator((__normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+                             *)&local_34);
+        __gnu_cxx::
+        __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+        ::__normal_iterator((__normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+                             *)&local_38);
+        std::
+        vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>
+        ::begin();
+        local_34 = local_40;
+        iVar5 = __gnu_cxx::
+                __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+                ::operator*(local_30);
+        if (*(int *)(iVar5 + 4) == 0) {
+          return 0;
+        }
+        iVar5 = __gnu_cxx::
+                __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+                ::operator*(local_30);
+        local_14 = *(uint *)(*(int *)(iVar5 + 4) + 0x20);
+        for (local_10 = 1; local_10 < local_18; local_10 = local_10 + 1) {
+          __gnu_cxx::
+          __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+          ::operator++((__normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+                        *)&local_34);
+          iVar5 = __gnu_cxx::
+                  __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+                  ::operator*((__normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+                               *)&local_34);
+          if (local_14 < *(uint *)(*(int *)(iVar5 + 4) + 0x20)) {
+            iVar5 = __gnu_cxx::
+                    __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+                    ::operator*((__normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+                                 *)&local_34);
+            local_14 = *(uint *)(*(int *)(iVar5 + 4) + 0x20);
+            local_38 = local_34;
+          }
+        }
+        iVar5 = __gnu_cxx::
+                __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+                ::operator*(local_30);
+        if (*(uint *)(*(int *)(iVar5 + 4) + 0x20) != local_14) {
+          iVar5 = __gnu_cxx::
+                  __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+                  ::operator*((__normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+                               *)&local_38);
+          pSVar1 = *(STGuildWarInfo **)(iVar5 + 4);
+          iVar5 = __gnu_cxx::
+                  __normal_iterator<std::pair<unsigned_int,STGuildWarInfo*>*,std::vector<std::pair<unsigned_int,STGuildWarInfo*>,std::allocator<std::pair<unsigned_int,STGuildWarInfo*>>>>
+                  ::operator*(local_30);
+          DNFFLib::_ZN7DNFFLib4SwapI14STGuildWarInfoEEvPT_S3_
+                    (*(STGuildWarInfo **)(iVar5 + 4),pSVar1);
+        }
+      }
+      uVar4 = 1;
+    }
+  }
+  else {
+    uVar4 = 0;
+  }
+  return uVar4;
+}
+```
+
+## 3. 我们的源码函数
+
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 242 行）：
+
+```cpp
+int CGuildWar::SameRankWork()
+{
+    std::vector<std::pair<unsigned int, STGuildWarInfo*> >* vec = &m_vtGuildWarInfo;
+    if (vec->empty())
+    {
+        return 0;
+    }
+    STGuildWarInfo* first = vec->front().second;
+    if (first == 0)
+    {
+        return 0;
+    }
+    int field4 = *(int*)((char*)first + 4);
+    int count = 0;
+    std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator it = vec->begin();
+    for (; it != vec->end(); ++it)
+    {
+        if (it->second != 0)
+        {
+            if (field4 != *(int*)((char*)it->second + 4))
+            {
+                break;
+            }
+            count++;
+        }
+    }
+    if (1 < count)
+    {
+        std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator maxIt = vec->begin();
+        unsigned int maxVal = *(unsigned int*)((char*)maxIt->second + 0x20);
+        std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator it2 = vec->begin();
+        for (int i = 1; i < count; i++)
+        {
+            ++it2;
+            if (maxVal < *(unsigned int*)((char*)it2->second + 0x20))
+            {
+                maxVal = *(unsigned int*)((char*)it2->second + 0x20);
+                maxIt = it2;
+            }
+        }
+        if (*(unsigned int*)((char*)vec->front().second + 0x20) != maxVal)
+        {
+            DNFFLib::Swap<STGuildWarInfo>(vec->front().second, maxIt->second);
+        }
+    }
+    return 1;
+}
+```

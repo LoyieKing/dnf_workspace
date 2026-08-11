@@ -64,7 +64,10 @@ for f in $SOURCES; do
         continue
     fi
     echo "CC  $base.cpp"
-    run_job "$CXX" $COMMON_FLAGS -c "$SRC_DIR/$base.cpp" -o "$OUT_DIR/$base.o"
+    # 2026-08-11：__FILE__ 需与原始一致（仅文件名而非绝对路径）。
+    # GCC 的 __FILE__ 展开为命令行传入的源文件路径，故切到源目录、传 basename 编译。
+    run_job sh -c 'cd "$1" && shift && exec "$@"' _ "$SRC_DIR" \
+        "$CXX" $COMMON_FLAGS -c "$base.cpp" -o "$OUT_DIR/$base.o"
     OBJS="$OBJS $OUT_DIR/$base.o"
 done
 

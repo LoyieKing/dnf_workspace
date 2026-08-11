@@ -1,0 +1,116 @@
+# _ZN13CGuildManager16RewardAttendanceEjji
+
+`CGuildManager::RewardAttendance(unsigned int, unsigned int, int)`
+
+| 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
+|---|---|---|---|---|---|
+| guild | DIFF | `0x80978a6` | `0x83` | `0x805dd7c` | `0x7c` |
+
+## 1. 汇编 diff（完整函数，伪代码化）
+
+归一化口径：直接跳转/调用目标地址归一化为 `<T>`；字符串/全局变量地址替换为其内容或 `&符号名`（地址不同但指向相同内容视为等价，2026-08-11 用户口径）。
+
+```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,40 +1,39 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
+ cmpl   $0xffffffff,0x14(%ebp)
+-je     <T> <_ZN13CGuildManager16RewardAttendanceEjji+0x81>
++je     <T> <_ZN13CGuildManager16RewardAttendanceEjji+0x7a>
+ cmpl   $0x8,0x14(%ebp)
+-jg     <T> <_ZN13CGuildManager16RewardAttendanceEjji+0x81>
++jg     <T> <_ZN13CGuildManager16RewardAttendanceEjji+0x7a>
+ mov    0x14(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN13CGuildManager16GetAttendanceExpEji>
+ mov    %eax,-0x10(%ebp)
+ cmpl   $0x0,-0x10(%ebp)
+-je     <T> <_ZN13CGuildManager16RewardAttendanceEjji+0x81>
++je     <T> <_ZN13CGuildManager16RewardAttendanceEjji+0x7a>
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN13CGuildManager9FindGuildEj>
+ mov    %eax,-0xc(%ebp)
+ cmpl   $0x0,-0xc(%ebp)
+-je     <T> <_ZN13CGuildManager16RewardAttendanceEjji+0x81>
++je     <T> <_ZN13CGuildManager16RewardAttendanceEjji+0x7a>
+ mov    -0x10(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild11AddGuildExpEj>
+-mov    0x14(%ebp),%eax
+-mov    &_ZL15guild_att_phase(,%eax,4),%eax
+-mov    -0x10(%ebp),%edx
+-mov    %edx,0x8(%esp)
++mov    -0x10(%ebp),%eax
++mov    %eax,0x8(%esp)
++mov    0x10(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild26NotifyAllAchieveAttendanceEjj>
+ leave
+ ret
+```
+## 2. Ghidra 反编译 C
+
+```c
+
+/* CGuildManager::RewardAttendance(unsigned int, unsigned int, int) */
+
+void __thiscall
+CGuildManager::_ZN13CGuildManager16RewardAttendanceEjji
+          (CGuildManager *this,uint param_1,uint param_2,int param_3)
+
+{
+  uint uVar1;
+  CGuild *this_00;
+  
+  if ((param_3 != -1) && (param_3 < 9)) {
+    uVar1 = _ZN13CGuildManager16GetAttendanceExpEji(this,param_1,param_3);
+    if (uVar1 != 0) {
+      this_00 = (CGuild *)FindGuild((uint)this);
+      if (this_00 != (CGuild *)0x0) {
+        CGuild::AddGuildExp(this_00,uVar1);
+        CGuild::NotifyAllAchieveAttendance(this_00,*(uint *)(::guild_att_phase + param_3 * 4),uVar1)
+        ;
+      }
+    }
+  }
+  return;
+}
+```
+
+## 3. 我们的源码函数
+
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 786 行）：
+
+```cpp
+void CGuildManager::RewardAttendance(unsigned int guildKey, unsigned int charNo, int flag)
+                                     
+{
+    if ((int)flag != -1 && (int)flag < 9)
+    {
+        int exp = GetAttendanceExp(guildKey, flag);
+        if (exp != 0)
+        {
+            CGuild* guild = FindGuild(guildKey);
+            if (guild != 0)
+            {
+                guild->AddGuildExp((unsigned int)exp);
+                guild->NotifyAllAchieveAttendance(charNo, (unsigned int)exp);
+            }
+        }
+    }
+}
+```

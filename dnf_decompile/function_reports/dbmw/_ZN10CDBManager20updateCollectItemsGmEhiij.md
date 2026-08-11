@@ -1,0 +1,185 @@
+# _ZN10CDBManager20updateCollectItemsGmEhiij
+
+`CDBManager::updateCollectItemsGm(unsigned char, int, int, unsigned int)`
+
+| 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
+|---|---|---|---|---|---|
+| dbmw | DIFF | `0x80871c2` | `0x11b` | `0x8051d40` | `0x114` |
+
+## 1. 汇编 diff（完整函数，伪代码化）
+
+归一化口径：直接跳转/调用目标地址归一化为 `<T>`；字符串/全局变量地址替换为其内容或 `&符号名`（地址不同但指向相同内容视为等价，2026-08-11 用户口径）。
+
+```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,74 +1,72 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x58,%esp
+ mov    0xc(%ebp),%eax
+ mov    %al,-0x2c(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0x24(%eax),%eax
+-mov    %eax,-0xc(%ebp)
+-cmpl   $0x0,-0xc(%ebp)
++mov    %eax,-0x10(%ebp)
++cmpl   $0x0,-0x10(%ebp)
+ jne    <T> <_ZN10CDBManager20updateCollectItemsGmEhiij+0x25>
+ mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager20updateCollectItemsGmEhiij+0x119>
+-mov    -0xc(%ebp),%eax
++jmp    <T> <_ZN10CDBManager20updateCollectItemsGmEhiij+0x112>
++mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x1c,%eax
+-mov    (%eax),%edx
+-movzbl -0x2c(%ebp),%eax
+-mov    %eax,0x18(%esp)
+-mov    0x18(%ebp),%eax
+-mov    %eax,0x14(%esp)
+-mov    0x14(%ebp),%eax
+-mov    %eax,0x10(%esp)
+-mov    0x10(%ebp),%eax
+-mov    %eax,0xc(%esp)
++mov    (%eax),%eax
++movzbl -0x2c(%ebp),%edx
++mov    %edx,0x18(%esp)
++mov    0x18(%ebp),%edx
++mov    %edx,0x14(%esp)
++mov    0x14(%ebp),%edx
++mov    %edx,0x10(%esp)
++mov    0x10(%ebp),%edx
++mov    %edx,0xc(%esp)
+ movl   $"upDate collect_items set cur_count=%u, total_count=%u, change_flag = 1, full_time=from_unixtime(%d) where server_info = %d",0x8(%esp)
+ movl   $0x4f4d,0x4(%esp)
+-mov    -0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
+-mov    %al,-0xd(%ebp)
+-movzbl -0xd(%ebp),%eax
++mov    -0x10(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
+ xor    $0x1,%eax
+ test   %al,%al
+-je     <T> <_ZN10CDBManager20updateCollectItemsGmEhiij+0xaf>
++je     <T> <_ZN10CDBManager20updateCollectItemsGmEhiij+0xa8>
+ movl   $0x29f6,0x8(%esp)
++movl   $"updateCollectItemsGm",0x4(%esp)
++lea    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++movl   $"upDate collect_items set Error",0x8(%esp)
++movl   $"./log/DBQueryErr",0x4(%esp)
++lea    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager20updateCollectItemsGmEhiij+0x112>
++mov    -0x10(%ebp),%eax
++mov    (%eax),%eax
++add    $0x20,%eax
++mov    (%eax),%eax
++movl   $0x4f4d,0x4(%esp)
++mov    -0x10(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
++mov    %al,-0x9(%ebp)
++movzbl -0x9(%ebp),%eax
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager20updateCollectItemsGmEhiij+0x10d>
++movl   $0x29ff,0x8(%esp)
+ movl   $"updateCollectItemsGm",0x4(%esp)
+ lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $"upDate collect_items set Error",0x8(%esp)
++movl   $"updateCollectItems Query(exec) Error",0x8(%esp)
+ movl   $"./log/DBQueryErr",0x4(%esp)
+ lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager20updateCollectItemsGmEhiij+0x119>
+-mov    -0xc(%ebp),%eax
+-mov    (%eax),%eax
+-add    $0x20,%eax
+-mov    (%eax),%edx
+-movl   $0x4f4d,0x4(%esp)
+-mov    -0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
+-mov    %al,-0xd(%ebp)
+-movzbl -0xd(%ebp),%eax
+-xor    $0x1,%eax
+-test   %al,%al
+-je     <T> <_ZN10CDBManager20updateCollectItemsGmEhiij+0x114>
+-movl   $0x29ff,0x8(%esp)
+-movl   $"updateCollectItemsGm",0x4(%esp)
+-lea    -0x18(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $"updateCollectItems Query(exec) Error",0x8(%esp)
+-movl   $"./log/DBQueryErr",0x4(%esp)
+-lea    -0x18(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager20updateCollectItemsGmEhiij+0x119>
++jmp    <T> <_ZN10CDBManager20updateCollectItemsGmEhiij+0x112>
+ mov    $0x1,%eax
+ leave
+ ret
+```
+## 2. Ghidra 反编译 C
+
+```c
+
+/* CDBManager::updateCollectItemsGm(unsigned char, int, int, unsigned int) */
+
+undefined4 __thiscall
+CDBManager::_ZN10CDBManager20updateCollectItemsGmEhiij
+          (CDBManager *this,uchar param_1,int param_2,int param_3,uint param_4)
+
+{
+  undefined4 uVar1;
+  CMyFileLog local_24 [8];
+  CMyFileLog local_1c [11];
+  char local_11;
+  int *local_10;
+  
+  local_10 = *(int **)(this + 0x24);
+  if (local_10 == (int *)0x0) {
+    uVar1 = 0;
+  }
+  else {
+    local_11 = (**(code **)(*local_10 + 0x1c))
+                         (local_10,0x4f4d,
+                          "upDate collect_items set cur_count=%u, total_count=%u, change_flag = 1, full_time=from_unixtime(%d) where server_info = %d"
+                          ,param_2,param_3,param_4,param_1);
+    if (local_11 == '\x01') {
+      local_11 = (**(code **)(*local_10 + 0x20))(local_10,0x4f4d);
+      if (local_11 == '\x01') {
+        uVar1 = 1;
+      }
+      else {
+        CMyFileLog::CMyFileLog(local_1c,"updateCollectItemsGm",0x29ff);
+        CMyFileLog::operator()(local_1c,"./log/DBQueryErr","updateCollectItems Query(exec) Error");
+        uVar1 = 0;
+      }
+    }
+    else {
+      CMyFileLog::CMyFileLog(local_24,"updateCollectItemsGm",0x29f6);
+      CMyFileLog::operator()(local_24,"./log/DBQueryErr","upDate collect_items set Error");
+      uVar1 = 0;
+    }
+  }
+  return uVar1;
+}
+```
+
+## 3. 我们的源码函数
+
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*

@@ -17,7 +17,7 @@ public:
     LogSendThread();
     virtual ~LogSendThread();
     virtual void loop(void* temp);
-    bool CheckLogServer();
+    void CheckLogServer();
     void SendLogMsg(char* buf, int len);
     void SetLogServerIp(char* ip);
     char* GetLogServerIp();

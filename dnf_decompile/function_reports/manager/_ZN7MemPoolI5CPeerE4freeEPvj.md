@@ -1,0 +1,98 @@
+# _ZN7MemPoolI5CPeerE4freeEPvj
+
+`MemPool<CPeer>::free(void*, unsigned int)`
+
+| 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
+|---|---|---|---|---|---|
+| manager | DIFF | `0x80578ea` | `0x45` | `0x8057742` | `0x41` |
+
+## 1. 汇编 diff（完整函数，伪代码化）
+
+归一化口径：直接跳转/调用目标地址归一化为 `<T>`；字符串/全局变量地址替换为其内容或 `&符号名`（地址不同但指向相同内容视为等价，2026-08-11 用户口径）。
+
+```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,24 +1,24 @@
+ push   %ebp
+ mov    %esp,%ebp
+-sub    $0x28,%esp
++sub    $0x18,%esp
+ cmpl   $0x0,0xc(%ebp)
+-je     <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x42>
++je     <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x3f>
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ cmp    0x10(%ebp),%eax
+-je     <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x23>
++jne    <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x34>
++mov    0xc(%ebp),%edx
++mov    0x8(%ebp),%eax
++mov    (%eax),%eax
++sub    $0x4,%eax
++add    %eax,%edx
++mov    &_ZN7MemPoolI5CPeerE15headOfFreeList_E,%eax
++mov    %eax,(%edx)
++mov    0xc(%ebp),%eax
++mov    %eax,&_ZN7MemPoolI5CPeerE15headOfFreeList_E
++jmp    <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x3f>
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZdlPv>
+-jmp    <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x43>
+-mov    0xc(%ebp),%eax
+-mov    %eax,-0xc(%ebp)
+-mov    &_ZN7MemPoolI5CPeerE15headOfFreeList_E,%edx
+-mov    -0xc(%ebp),%eax
+-mov    %edx,0x9783c(%eax)
+-mov    -0xc(%ebp),%eax
+-mov    %eax,&_ZN7MemPoolI5CPeerE15headOfFreeList_E
+-jmp    <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x43>
+-nop
+ leave
+ ret
+```
+## 2. Ghidra 反编译 C
+
+```c
+
+/* MemPool<CPeer>::free(void*, unsigned int) */
+
+void __thiscall
+MemPool<CPeer>::_ZN7MemPoolI5CPeerE4freeEPvj(MemPool<CPeer> *this,void *param_1,uint param_2)
+
+{
+  if (param_1 != (void *)0x0) {
+    if (*(uint *)this == param_2) {
+      *(void **)((int)param_1 + 0x9783c) = headOfFreeList_;
+      headOfFreeList_ = param_1;
+    }
+    else {
+      ::operator_delete(param_1);
+    }
+  }
+  return;
+}
+```
+
+## 3. 我们的源码函数
+
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp)（约第 75 行）：
+
+```cpp
+void MemPool<T>::free(void* ptr, unsigned int size)
+{
+    if (ptr != 0)
+    {
+        if ((unsigned int)m_size == size)
+        {
+            *(void**)((char*)ptr + m_size - 4) = headOfFreeList_;
+            headOfFreeList_ = ptr;
+        }
+        else
+        {
+            ::operator delete(ptr);
+        }
+    }
+}
+```

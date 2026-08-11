@@ -1,0 +1,592 @@
+# _ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler
+
+`StatisticManager::SendDBCirculationStatistic(CServerHandler*)`
+
+| 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
+|---|---|---|---|---|---|
+| statics | DIFF | `0x8073fda` | `0x524` | `0x8073dc4` | `0x5a1` |
+
+## 1. 汇编 diff（完整函数，伪代码化）
+
+归一化口径：直接跳转/调用目标地址归一化为 `<T>`；字符串/全局变量地址替换为其内容或 `&符号名`（地址不同但指向相同内容视为等价，2026-08-11 用户口径）。
+
+```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,292 +1,316 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %edi
+ push   %esi
+ push   %ebx
+-sub    $0x11bc,%esp
++sub    $0x11dc,%esp
+ mov    0x8(%ebp),%eax
+ add    $0x420,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIi24CirculationStatisticDataSt4lessIiESaISt4pairIKiS0_EEE5emptyEv>
++xor    $0x1,%eax
+ test   %al,%al
+-jne    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x518>
++je     <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x596>
+ lea    -0x103b(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN24Packet_DBMW_Query_StringC1Ev>
+-movl   $0x4ef6,-0x1031(%ebp)
+-lea    -0x28(%ebp),%eax
+-mov    %eax,(%esp)
++lea    -0x103b(%ebp),%eax
++add    $0xa,%eax
++movl   $0x4ef6,(%eax)
++movl   $0x0,(%esp)
+ call   <T> <time>
++mov    %eax,-0x24(%ebp)
+ mov    0x8(%ebp),%eax
+ lea    0x420(%eax),%edx
+ lea    -0x2c(%ebp),%eax
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapIi24CirculationStatisticDataSt4lessIiESaISt4pairIKiS0_EEE5beginEv>
+ sub    $0x4,%esp
+-jmp    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x4e1>
++jmp    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x561>
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi24CirculationStatisticDataEEptEv>
+ mov    (%eax),%eax
+ mov    %eax,-0x20(%ebp)
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi24CirculationStatisticDataEEptEv>
+ add    $0x4,%eax
+ mov    %eax,-0x1c(%ebp)
+ movl   $0x1001,0x8(%esp)
+ movl   $0x0,0x4(%esp)
+ lea    -0x103b(%ebp),%eax
+ add    $0xe,%eax
+ mov    %eax,(%esp)
+ call   <T> <memset>
+ mov    -0x1c(%ebp),%eax
+ mov    0xbc(%eax),%eax
++mov    %eax,-0x10f0(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0xb8(%eax),%eax
++mov    %eax,-0x10ec(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0xb4(%eax),%eax
++mov    %eax,-0x10e8(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0xb0(%eax),%eax
++mov    %eax,-0x10e4(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0xac(%eax),%eax
+ mov    %eax,-0x10e0(%ebp)
+ mov    -0x1c(%ebp),%eax
+-mov    0xb8(%eax),%eax
++mov    0xa8(%eax),%eax
+ mov    %eax,-0x10dc(%ebp)
+ mov    -0x1c(%ebp),%eax
+-mov    0xb4(%eax),%eax
++mov    0xa4(%eax),%eax
+ mov    %eax,-0x10d8(%ebp)
+ mov    -0x1c(%ebp),%eax
+-mov    0xb0(%eax),%eax
++mov    0xa0(%eax),%eax
+ mov    %eax,-0x10d4(%ebp)
+ mov    -0x1c(%ebp),%eax
+-mov    0xac(%eax),%eax
++mov    0x9c(%eax),%eax
+ mov    %eax,-0x10d0(%ebp)
+ mov    -0x1c(%ebp),%eax
+-mov    0xa8(%eax),%eax
++mov    0x98(%eax),%eax
+ mov    %eax,-0x10cc(%ebp)
+ mov    -0x1c(%ebp),%eax
+-mov    0xa4(%eax),%eax
++mov    0x94(%eax),%eax
+ mov    %eax,-0x10c8(%ebp)
+ mov    -0x1c(%ebp),%eax
++mov    0x90(%eax),%eax
++mov    %eax,-0x10c4(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x8c(%eax),%eax
++mov    %eax,-0x10c0(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x88(%eax),%eax
++mov    %eax,-0x10bc(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x84(%eax),%eax
++mov    %eax,-0x10b8(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x80(%eax),%eax
++mov    %eax,-0x10b4(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x7c(%eax),%eax
++mov    %eax,-0x10b0(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x78(%eax),%eax
++mov    %eax,-0x10ac(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x74(%eax),%eax
++mov    %eax,-0x10a8(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x70(%eax),%eax
++mov    %eax,-0x10a4(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x6c(%eax),%eax
++mov    %eax,-0x10a0(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x68(%eax),%eax
++mov    %eax,-0x109c(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x64(%eax),%eax
++mov    %eax,-0x1098(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x60(%eax),%eax
++mov    %eax,-0x1094(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x5c(%eax),%eax
++mov    %eax,-0x1090(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x58(%eax),%eax
++mov    %eax,-0x108c(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x54(%eax),%eax
++mov    %eax,-0x1088(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x50(%eax),%eax
++mov    %eax,-0x1084(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x4c(%eax),%eax
++mov    %eax,-0x1080(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x48(%eax),%eax
++mov    %eax,-0x107c(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x44(%eax),%eax
++mov    %eax,-0x1078(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x40(%eax),%eax
++mov    %eax,-0x1074(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x3c(%eax),%eax
++mov    %eax,-0x1070(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x38(%eax),%eax
++mov    %eax,-0x106c(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    0x34(%eax),%eax
++mov    %eax,-0x1068(%ebp)
++mov    -0x1c(%ebp),%eax
+ mov    0x30(%eax),%eax
+-mov    %eax,-0x10c4(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x44(%eax),%eax
+-mov    %eax,-0x10c0(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x40(%eax),%eax
+-mov    %eax,-0x10bc(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0xa0(%eax),%eax
+-mov    %eax,-0x10b8(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x9c(%eax),%eax
+-mov    %eax,-0x10b4(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x90(%eax),%eax
+-mov    %eax,-0x10b0(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x8c(%eax),%eax
+-mov    %eax,-0x10ac(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x98(%eax),%eax
+-mov    %eax,-0x10a8(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x94(%eax),%eax
+-mov    %eax,-0x10a4(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x84(%eax),%eax
+-mov    %eax,-0x10a0(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x80(%eax),%eax
+-mov    %eax,-0x109c(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x7c(%eax),%eax
+-mov    %eax,-0x1098(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x78(%eax),%eax
+-mov    %eax,-0x1094(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x74(%eax),%eax
+-mov    %eax,-0x1090(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x70(%eax),%eax
+-mov    %eax,-0x108c(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x6c(%eax),%eax
+-mov    %eax,-0x1088(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x68(%eax),%eax
+-mov    %eax,-0x1084(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x64(%eax),%eax
+-mov    %eax,-0x1080(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x60(%eax),%eax
+-mov    %eax,-0x107c(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x58(%eax),%eax
+-mov    %eax,-0x1078(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x54(%eax),%eax
+-mov    %eax,-0x1074(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x50(%eax),%eax
+-mov    %eax,-0x1070(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x4c(%eax),%eax
+-mov    %eax,-0x106c(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x48(%eax),%eax
+-mov    %eax,-0x1068(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x3c(%eax),%eax
+ mov    %eax,-0x1064(%ebp)
+ mov    -0x1c(%ebp),%eax
+-mov    0x38(%eax),%eax
++mov    0x2c(%eax),%eax
+ mov    %eax,-0x1060(%ebp)
+ mov    -0x1c(%ebp),%eax
+-mov    0x34(%eax),%eax
++mov    0x28(%eax),%eax
+ mov    %eax,-0x105c(%ebp)
+ mov    -0x1c(%ebp),%eax
+-mov    0x2c(%eax),%eax
++mov    0x24(%eax),%eax
+ mov    %eax,-0x1058(%ebp)
+ mov    -0x1c(%ebp),%eax
++mov    0x20(%eax),%eax
++mov    %eax,-0x1054(%ebp)
++mov    -0x1c(%ebp),%eax
+ mov    0x1c(%eax),%eax
+-mov    %eax,-0x1054(%ebp)
++mov    %eax,-0x1050(%ebp)
+ mov    -0x1c(%ebp),%eax
+ mov    0x18(%eax),%eax
+-mov    %eax,-0x1050(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0x14(%eax),%eax
+ mov    %eax,-0x104c(%ebp)
+ mov    -0x1c(%ebp),%eax
+-mov    0x10(%eax),%edi
+-mov    -0x1c(%ebp),%eax
+-mov    0xc(%eax),%esi
+-mov    -0x1c(%ebp),%eax
+-mov    0x8(%eax),%ebx
+-mov    -0x1c(%ebp),%eax
+-mov    0x4(%eax),%ecx
++mov    0x14(%eax),%edi
++mov    -0x1c(%ebp),%eax
++mov    0x10(%eax),%esi
++mov    -0x1c(%ebp),%eax
++mov    0xc(%eax),%ebx
++mov    -0x1c(%ebp),%eax
++mov    0x8(%eax),%ecx
++mov    -0x1c(%ebp),%eax
++mov    0x4(%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+-mov    %eax,-0x10ec(%ebp)
+-mov    -0x28(%ebp),%edx
++mov    %eax,-0x10fc(%ebp)
++mov    -0x10f0(%ebp),%eax
++mov    %eax,0xd4(%esp)
++mov    -0x10ec(%ebp),%eax
++mov    %eax,0xd0(%esp)
++mov    -0x10e8(%ebp),%eax
++mov    %eax,0xcc(%esp)
++mov    -0x10e4(%ebp),%eax
++mov    %eax,0xc8(%esp)
+ mov    -0x10e0(%ebp),%eax
++mov    %eax,0xc4(%esp)
++mov    -0x10dc(%ebp),%eax
+ mov    %eax,0xc0(%esp)
+-mov    -0x10dc(%ebp),%eax
++mov    -0x10d8(%ebp),%eax
+ mov    %eax,0xbc(%esp)
+-mov    -0x10d8(%ebp),%eax
++mov    -0x10d4(%ebp),%eax
+ mov    %eax,0xb8(%esp)
+-mov    -0x10d4(%ebp),%eax
++mov    -0x10d0(%ebp),%eax
+ mov    %eax,0xb4(%esp)
+-mov    -0x10d0(%ebp),%eax
++mov    -0x10cc(%ebp),%eax
+ mov    %eax,0xb0(%esp)
+-mov    -0x10cc(%ebp),%eax
++mov    -0x10c8(%ebp),%eax
+ mov    %eax,0xac(%esp)
+-mov    -0x10c8(%ebp),%eax
++mov    -0x10c4(%ebp),%eax
+ mov    %eax,0xa8(%esp)
+-mov    -0x10c4(%ebp),%eax
++mov    -0x10c0(%ebp),%eax
+ mov    %eax,0xa4(%esp)
+-mov    -0x10c0(%ebp),%eax
++mov    -0x10bc(%ebp),%eax
+ mov    %eax,0xa0(%esp)
+-mov    -0x10bc(%ebp),%eax
++mov    -0x10b8(%ebp),%eax
+ mov    %eax,0x9c(%esp)
+-mov    -0x10b8(%ebp),%eax
++mov    -0x10b4(%ebp),%eax
+ mov    %eax,0x98(%esp)
+-mov    -0x10b4(%ebp),%eax
++mov    -0x10b0(%ebp),%eax
+ mov    %eax,0x94(%esp)
+-mov    -0x10b0(%ebp),%eax
++mov    -0x10ac(%ebp),%eax
+ mov    %eax,0x90(%esp)
+-mov    -0x10ac(%ebp),%eax
++mov    -0x10a8(%ebp),%eax
+ mov    %eax,0x8c(%esp)
+-mov    -0x10a8(%ebp),%eax
++mov    -0x10a4(%ebp),%eax
+ mov    %eax,0x88(%esp)
+-mov    -0x10a4(%ebp),%eax
++mov    -0x10a0(%ebp),%eax
+ mov    %eax,0x84(%esp)
+-mov    -0x10a0(%ebp),%eax
++mov    -0x109c(%ebp),%eax
+ mov    %eax,0x80(%esp)
+-mov    -0x109c(%ebp),%eax
++mov    -0x1098(%ebp),%eax
+ mov    %eax,0x7c(%esp)
+-mov    -0x1098(%ebp),%eax
++mov    -0x1094(%ebp),%eax
+ mov    %eax,0x78(%esp)
+-mov    -0x1094(%ebp),%eax
++mov    -0x1090(%ebp),%eax
+ mov    %eax,0x74(%esp)
+-mov    -0x1090(%ebp),%eax
++mov    -0x108c(%ebp),%eax
+ mov    %eax,0x70(%esp)
+-mov    -0x108c(%ebp),%eax
++mov    -0x1088(%ebp),%eax
+ mov    %eax,0x6c(%esp)
+-mov    -0x1088(%ebp),%eax
++mov    -0x1084(%ebp),%eax
+ mov    %eax,0x68(%esp)
+-mov    -0x1084(%ebp),%eax
++mov    -0x1080(%ebp),%eax
+ mov    %eax,0x64(%esp)
+-mov    -0x1080(%ebp),%eax
++mov    -0x107c(%ebp),%eax
+ mov    %eax,0x60(%esp)
+-mov    -0x107c(%ebp),%eax
++mov    -0x1078(%ebp),%eax
+ mov    %eax,0x5c(%esp)
+-mov    -0x1078(%ebp),%eax
++mov    -0x1074(%ebp),%eax
+ mov    %eax,0x58(%esp)
+-mov    -0x1074(%ebp),%eax
++mov    -0x1070(%ebp),%eax
+ mov    %eax,0x54(%esp)
+-mov    -0x1070(%ebp),%eax
++mov    -0x106c(%ebp),%eax
+ mov    %eax,0x50(%esp)
+-mov    -0x106c(%ebp),%eax
++mov    -0x1068(%ebp),%eax
+ mov    %eax,0x4c(%esp)
+-mov    -0x1068(%ebp),%eax
++mov    -0x1064(%ebp),%eax
+ mov    %eax,0x48(%esp)
+-mov    -0x1064(%ebp),%eax
++mov    -0x1060(%ebp),%eax
+ mov    %eax,0x44(%esp)
+-mov    -0x1060(%ebp),%eax
++mov    -0x105c(%ebp),%eax
+ mov    %eax,0x40(%esp)
+-mov    -0x105c(%ebp),%eax
++mov    -0x1058(%ebp),%eax
+ mov    %eax,0x3c(%esp)
+-mov    -0x1058(%ebp),%eax
++mov    -0x1054(%ebp),%eax
+ mov    %eax,0x38(%esp)
+-mov    -0x1054(%ebp),%eax
++mov    -0x1050(%ebp),%eax
+ mov    %eax,0x34(%esp)
+-mov    -0x1050(%ebp),%eax
++mov    -0x104c(%ebp),%eax
+ mov    %eax,0x30(%esp)
+-mov    -0x104c(%ebp),%eax
+-mov    %eax,0x2c(%esp)
+-mov    %edi,0x28(%esp)
+-mov    %esi,0x24(%esp)
+-mov    %ebx,0x20(%esp)
+-mov    %ecx,0x1c(%esp)
+-mov    -0x10ec(%ebp),%eax
++mov    %edi,0x2c(%esp)
++mov    %esi,0x28(%esp)
++mov    %ebx,0x24(%esp)
++mov    %ecx,0x20(%esp)
++mov    %edx,0x1c(%esp)
++mov    -0x10fc(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    -0x20(%ebp),%eax
+ mov    %eax,0x14(%esp)
+-mov    %edx,0x10(%esp)
++mov    -0x24(%ebp),%eax
++mov    %eax,0x10(%esp)
+ movl   $0x1,0xc(%esp)
+ movl   $"inSert into log_gold_stat(channel_no,occ_time ,level,dungeon_drop,result_card,sell_store,quest_reward,death_tower_reward,illusion_tower_reward,war_area_drop,member_tax,blood_dungeon_reward,blood_dungeon_lotto,power_dungeon_drop,power_dungeon_result_card,buy_store,stamina_recovery,repair_item,private_store_commission,gold_card,gold_drop,upgrade,quest_use,mail_commission,punish_user,restrict_trade,guild_level_up,guild_skill,guild_mail,item_compound,blood_dungeon_enter,buy_cerashop,war_area_enter,assault_gold,upgrade_guild_agit,upgrade_guild_cargo,break_away_reward,link_charac_bonus,ultimate_dungeon_reward,guild_fund,guild_fund_dungeon,quest_shop_init_cost,unseal, lottery, amplify,roi_regen) values(%d,from_unixtime(%d),%d,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u)",0x8(%esp)
+ movl   $0x1000,0x4(%esp)
+ lea    -0x103b(%ebp),%eax
+ add    $0xe,%eax
+ mov    %eax,(%esp)
+ call   <T> <snprintf>
+ lea    -0x103b(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKi24CirculationStatisticDataEEppEv>
+ mov    0x8(%ebp),%eax
+ lea    0x420(%eax),%edx
+-lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapIi24CirculationStatisticDataSt4lessIiESaISt4pairIKiS0_EEE3endEv>
+ sub    $0x4,%esp
+-lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi24CirculationStatisticDataEEneERKS4_>
+ test   %al,%al
+-jne    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x67>
+-jmp    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x519>
+-nop
++jne    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x73>
+ lea    -0xc(%ebp),%esp
+ add    $0x0,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %edi
+ pop    %ebp
+ ret
+```
+## 2. Ghidra 反编译 C
+
+```c
+
+/* StatisticManager::SendDBCirculationStatistic(CServerHandler*) */
+
+void __thiscall
+StatisticManager::_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler
+          (StatisticManager *this,CServerHandler *param_1)
+
+{
+  char cVar1;
+  undefined4 *puVar2;
+  int iVar3;
+  Packet_DBMW_Query_String local_103f [10];
+  undefined4 local_1035;
+  char acStack_1031 [4097];
+  map<int,CirculationStatisticData,std::less<int>,std::allocator<std::pair<int_const,CirculationStatisticData>>>
+  local_30 [4];
+  time_t local_2c;
+  map<int,CirculationStatisticData,std::less<int>,std::allocator<std::pair<int_const,CirculationStatisticData>>>
+  local_28 [4];
+  undefined4 local_24;
+  undefined4 *local_20;
+  
+  cVar1 = std::
+          map<int,CirculationStatisticData,std::less<int>,std::allocator<std::pair<int_const,CirculationStatisticData>>>
+          ::empty((map<int,CirculationStatisticData,std::less<int>,std::allocator<std::pair<int_const,CirculationStatisticData>>>
+                   *)(this + 0x420));
+  if (cVar1 == '\0') {
+    Packet_DBMW_Query_String::Packet_DBMW_Query_String(local_103f);
+    local_1035 = 0x4ef6;
+    time(&local_2c);
+    std::
+    map<int,CirculationStatisticData,std::less<int>,std::allocator<std::pair<int_const,CirculationStatisticData>>>
+    ::begin(local_30);
+    while( true ) {
+      std::
+      map<int,CirculationStatisticData,std::less<int>,std::allocator<std::pair<int_const,CirculationStatisticData>>>
+      ::end(local_28);
+      cVar1 = std::_Rb_tree_iterator<std::pair<int_const,CirculationStatisticData>>::operator!=
+                        ((_Rb_tree_iterator<std::pair<int_const,CirculationStatisticData>> *)
+                         local_30,(_Rb_tree_iterator *)local_28);
+      if (cVar1 == '\0') break;
+      puVar2 = (undefined4 *)
+               std::_Rb_tree_iterator<std::pair<int_const,CirculationStatisticData>>::operator->
+                         ((_Rb_tree_iterator<std::pair<int_const,CirculationStatisticData>> *)
+                          local_30);
+      local_24 = *puVar2;
+      iVar3 = std::_Rb_tree_iterator<std::pair<int_const,CirculationStatisticData>>::operator->
+                        ((_Rb_tree_iterator<std::pair<int_const,CirculationStatisticData>> *)
+                         local_30);
+      local_20 = (undefined4 *)(iVar3 + 4);
+      memset(acStack_1031,0,0x1001);
+      snprintf(acStack_1031,0x1000,
+               "inSert into log_gold_stat(channel_no,occ_time ,level,dungeon_drop,result_card,sell_store,quest_reward,death_tower_reward,illusion_tower_reward,war_area_drop,member_tax,blood_dungeon_reward,blood_dungeon_lotto,power_dungeon_drop,power_dungeon_result_card,buy_store,stamina_recovery,repair_item,private_store_commission,gold_card,gold_drop,upgrade,quest_use,mail_commission,punish_user,restrict_trade,guild_level_up,guild_skill,guild_mail,item_compound,blood_dungeon_enter,buy_cerashop,war_area_enter,assault_gold,upgrade_guild_agit,upgrade_guild_cargo,break_away_reward,link_charac_bonus,ultimate_dungeon_reward,guild_fund,guild_fund_dungeon,quest_shop_init_cost,unseal, lottery, amplify,roi_regen) values(%d,from_unixtime(%d),%d,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u)"
+               ,1,local_2c,local_24,*local_20,local_20[1],local_20[2],local_20[3],local_20[4],
+               local_20[5],local_20[6],local_20[7],local_20[0xb],local_20[0xd],local_20[0xe],
+               local_20[0xf],local_20[0x12],local_20[0x13],local_20[0x14],local_20[0x15],
+               local_20[0x16],local_20[0x18],local_20[0x19],local_20[0x1a],local_20[0x1b],
+               local_20[0x1c],local_20[0x1d],local_20[0x1e],local_20[0x1f],local_20[0x20],
+               local_20[0x21],local_20[0x25],local_20[0x26],local_20[0x23],local_20[0x24],
+               local_20[0x27],local_20[0x28],local_20[0x10],local_20[0x11],local_20[0xc],
+               local_20[0x29],local_20[0x2a],local_20[0x2b],local_20[0x2c],local_20[0x2d],
+               local_20[0x2e],local_20[0x2f]);
+      CServerHandler::SendToDB(param_1,(PacketHeader *)local_103f);
+      std::_Rb_tree_iterator<std::pair<int_const,CirculationStatisticData>>::operator++
+                ((_Rb_tree_iterator<std::pair<int_const,CirculationStatisticData>> *)local_30);
+    }
+  }
+  return;
+}
+```
+
+## 3. 我们的源码函数
+
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1356 行）：
+
+```cpp
+void StatisticManager::SendDBCirculationStatistic(CServerHandler* handler)
+{
+    if (!m_circ.empty())
+    {
+        Packet_DBMW_Query_String pkt;
+        *(unsigned int*)((char*)&pkt + 0xa) = 0x4ef6;
+        time_t now = time(0);
+        for (std::map<int, CirculationStatisticData>::iterator it = m_circ.begin();
+             it != m_circ.end(); ++it)
+        {
+            int key = it->first;
+            CirculationStatisticData* v = &it->second;
+            memset((char*)&pkt + 0xe, 0, 0x1001);
+            snprintf((char*)&pkt + 0xe, 0x1000,
+                "inSert into log_gold_stat(channel_no,occ_time ,level,dungeon_drop,result_card,sell_store,quest_reward,death_tower_reward,illusion_tower_reward,war_area_drop,member_tax,blood_dungeon_reward,blood_dungeon_lotto,power_dungeon_drop,power_dungeon_result_card,buy_store,stamina_recovery,repair_item,private_store_commission,gold_card,gold_drop,upgrade,quest_use,mail_commission,punish_user,restrict_trade,guild_level_up,guild_skill,guild_mail,item_compound,blood_dungeon_enter,buy_cerashop,war_area_enter,assault_gold,upgrade_guild_agit,upgrade_guild_cargo,break_away_reward,link_charac_bonus,ultimate_dungeon_reward,guild_fund,guild_fund_dungeon,quest_shop_init_cost,unseal, lottery, amplify,roi_regen) values(%d,from_unixtime(%d),%d,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u)",
+                1, now, key,
+                v->m_data[0], v->m_data[1], v->m_data[2], v->m_data[3], v->m_data[4],
+                v->m_data[5], v->m_data[6], v->m_data[7], v->m_data[8], v->m_data[9],
+                v->m_data[10], v->m_data[11], v->m_data[12], v->m_data[13], v->m_data[14],
+                v->m_data[15], v->m_data[16], v->m_data[17], v->m_data[18], v->m_data[19],
+                v->m_data[20], v->m_data[21], v->m_data[22], v->m_data[23], v->m_data[24],
+                v->m_data[25], v->m_data[26], v->m_data[27], v->m_data[28], v->m_data[29],
+                v->m_data[30], v->m_data[31], v->m_data[32], v->m_data[33], v->m_data[34],
+                v->m_data[35], v->m_data[36], v->m_data[37], v->m_data[38], v->m_data[39],
+                v->m_data[40], v->m_data[41], v->m_data[42], v->m_data[43], v->m_data[44],
+                v->m_data[45], v->m_data[46], v->m_data[47]);
+            handler->SendToDB((PacketHeader*)&pkt);
+        }
+    }
+}
+```

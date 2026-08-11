@@ -1,0 +1,163 @@
+# _ZN10CDBManager27OnSavePowerwarLoadingReportEP40Packet_DBMW_Powerwar_Loading_Time_Report
+
+`CDBManager::OnSavePowerwarLoadingReport(Packet_DBMW_Powerwar_Loading_Time_Report*)`
+
+| 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
+|---|---|---|---|---|---|
+| dbmw | DIFF | `0x8080a06` | `0xe9` | `0x80588f6` | `0xe8` |
+
+## 1. 汇编 diff（完整函数，伪代码化）
+
+归一化口径：直接跳转/调用目标地址归一化为 `<T>`；字符串/全局变量地址替换为其内容或 `&符号名`（地址不同但指向相同内容视为等价，2026-08-11 用户口径）。
+
+```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,65 +1,63 @@
+ push   %ebp
+ mov    %esp,%ebp
+-push   %ebx
+-sub    $0x34,%esp
++sub    $0x38,%esp
+ mov    0x8(%ebp),%eax
+ mov    0x3c(%eax),%eax
+-mov    %eax,-0x14(%ebp)
+-cmpl   $0x0,-0x14(%ebp)
+-jne    <T> <_ZN10CDBManager27OnSavePowerwarLoadingReportEP40Packet_DBMW_Powerwar_Loading_Time_Report+0x20>
++mov    %eax,-0x18(%ebp)
++cmpl   $0x0,-0x18(%ebp)
++jne    <T> <_ZN10CDBManager27OnSavePowerwarLoadingReportEP40Packet_DBMW_Powerwar_Loading_Time_Report+0x1f>
+ mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager27OnSavePowerwarLoadingReportEP40Packet_DBMW_Powerwar_Loading_Time_Report+0xe3>
++jmp    <T> <_ZN10CDBManager27OnSavePowerwarLoadingReportEP40Packet_DBMW_Powerwar_Loading_Time_Report+0xe6>
+ mov    0xc(%ebp),%eax
+ mov    0xa(%eax),%eax
+-mov    %eax,-0x10(%ebp)
+-movl   $0x0,-0xc(%ebp)
+-jmp    <T> <_ZN10CDBManager27OnSavePowerwarLoadingReportEP40Packet_DBMW_Powerwar_Loading_Time_Report+0xcd>
+-mov    -0x14(%ebp),%eax
++mov    %eax,-0x14(%ebp)
++movl   $0x0,-0x10(%ebp)
++jmp    <T> <_ZN10CDBManager27OnSavePowerwarLoadingReportEP40Packet_DBMW_Powerwar_Loading_Time_Report+0xd0>
++mov    -0x18(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x1c,%eax
+-mov    (%eax),%edx
+-mov    -0xc(%ebp),%eax
++mov    (%eax),%eax
++mov    -0x10(%ebp),%edx
++shl    $0x8,%edx
++add    0xc(%ebp),%edx
++add    $0xe,%edx
++mov    %edx,0xc(%esp)
++movl   $"%s",0x8(%esp)
++movl   $0x4ec9,0x4(%esp)
++mov    -0x18(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
++mov    -0x18(%ebp),%eax
++mov    (%eax),%eax
++add    $0x20,%eax
++mov    (%eax),%eax
++movl   $0x4ec9,0x4(%esp)
++mov    -0x18(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
++mov    -0x10(%ebp),%eax
+ shl    $0x8,%eax
+ add    0xc(%ebp),%eax
+ add    $0xe,%eax
+-mov    %eax,0xc(%esp)
+-movl   $"%s",0x8(%esp)
+-movl   $0x4ec9,0x4(%esp)
+-mov    -0x14(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
+-mov    -0x14(%ebp),%eax
+-mov    (%eax),%eax
+-add    $0x20,%eax
+-mov    (%eax),%edx
+-movl   $0x4ec9,0x4(%esp)
+-mov    -0x14(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
+-mov    -0xc(%ebp),%eax
+-shl    $0x8,%eax
+-add    0xc(%ebp),%eax
+-add    $0xe,%eax
+-mov    %eax,%ebx
++mov    %eax,-0xc(%ebp)
+ movl   $0x1afc,0x8(%esp)
+ movl   $"OnSavePowerwarLoadingReport",0x4(%esp)
+-lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %ebx,0xc(%esp)
++mov    -0xc(%ebp),%eax
++mov    %eax,0xc(%esp)
+ movl   $"[PowerWar LoadingTime] %s",0x8(%esp)
+ movl   $"./log/Statistics",0x4(%esp)
+-lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-addl   $0x1,-0xc(%ebp)
+-mov    -0xc(%ebp),%eax
+-cmp    -0x10(%ebp),%eax
++addl   $0x1,-0x10(%ebp)
++mov    -0x10(%ebp),%eax
++cmp    -0x14(%ebp),%eax
+ setl   %al
+ test   %al,%al
+-jne    <T> <_ZN10CDBManager27OnSavePowerwarLoadingReportEP40Packet_DBMW_Powerwar_Loading_Time_Report+0x35>
++jne    <T> <_ZN10CDBManager27OnSavePowerwarLoadingReportEP40Packet_DBMW_Powerwar_Loading_Time_Report+0x34>
+ mov    $0x1,%eax
+-add    $0x34,%esp
+-pop    %ebx
+-pop    %ebp
++leave
+ ret
+```
+## 2. Ghidra 反编译 C
+
+```c
+
+/* CDBManager::OnSavePowerwarLoadingReport(Packet_DBMW_Powerwar_Loading_Time_Report*) */
+
+undefined4 __thiscall
+CDBManager::_ZN10CDBManager27OnSavePowerwarLoadingReportEP40Packet_DBMW_Powerwar_Loading_Time_Report
+          (CDBManager *this,Packet_DBMW_Powerwar_Loading_Time_Report *param_1)
+
+{
+  undefined4 uVar1;
+  int iVar2;
+  CMyFileLog local_20 [8];
+  int *local_18;
+  int local_14;
+  int local_10;
+  
+  local_18 = *(int **)(this + 0x3c);
+  if (local_18 == (int *)0x0) {
+    uVar1 = 0;
+  }
+  else {
+    local_14 = *(int *)(param_1 + 10);
+    for (local_10 = 0; local_10 < local_14; local_10 = local_10 + 1) {
+      (**(code **)(*local_18 + 0x1c))
+                (local_18,0x4ec9,&DAT_081ad540,param_1 + local_10 * 0x100 + 0xe);
+      (**(code **)(*local_18 + 0x20))(local_18,0x4ec9);
+      iVar2 = local_10 * 0x100;
+      CMyFileLog::CMyFileLog(local_20,"OnSavePowerwarLoadingReport",0x1afc);
+      CMyFileLog::operator()
+                (local_20,"./log/Statistics","[PowerWar LoadingTime] %s",param_1 + iVar2 + 0xe);
+    }
+    uVar1 = 1;
+  }
+  return uVar1;
+}
+```
+
+## 3. 我们的源码函数
+
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*

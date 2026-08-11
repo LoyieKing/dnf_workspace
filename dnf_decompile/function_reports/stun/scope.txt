@@ -1,0 +1,4 @@
+targets=10
+ours=10
+skip_no_source=0
+skip_vendored=0

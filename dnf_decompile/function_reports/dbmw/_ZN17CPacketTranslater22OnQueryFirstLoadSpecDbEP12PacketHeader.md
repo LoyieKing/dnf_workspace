@@ -1,0 +1,174 @@
+# _ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader
+
+`CPacketTranslater::OnQueryFirstLoadSpecDb(PacketHeader*)`
+
+| 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
+|---|---|---|---|---|---|
+| dbmw | DIFF | `0x8098d76` | `0x12c` | `0x8088f62` | `0x12a` |
+
+## 1. 汇编 diff（完整函数，伪代码化）
+
+归一化口径：直接跳转/调用目标地址归一化为 `<T>`；字符串/全局变量地址替换为其内容或 `&符号名`（地址不同但指向相同内容视为等价，2026-08-11 用户口径）。
+
+```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,84 +1,83 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x30,%esp
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ test   %eax,%eax
+-je     <T> <_ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader+0x124>
+-mov    0x8(%ebp),%eax
+-mov    %eax,-0x10(%ebp)
++je     <T> <_ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader+0x122>
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    0x18(%eax),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CServerHandler22GetStatisticsServerPtrEv>
++mov    %eax,-0x10(%ebp)
++mov    0x8(%ebp),%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+-add    $0x50,%edx
+-mov    %eax,0x8(%esp)
+-mov    -0x10(%ebp),%eax
++lea    0x50(%edx),%ecx
++mov    -0x10(%ebp),%edx
++mov    %edx,0x8(%esp)
+ mov    %eax,0x4(%esp)
+-mov    %edx,(%esp)
++mov    %ecx,(%esp)
+ call   <T> <_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer>
+-jmp    <T> <_ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader+0x125>
++jmp    <T> <_ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader+0x123>
+ cmp    $0x2,%edx
+-jne    <T> <_ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader+0xc8>
++jne    <T> <_ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader+0xc6>
+ mov    %eax,(%esp)
+ call   <T> <__cxa_begin_catch>
+ mov    %eax,-0xc(%ebp)
++movl   $0x7f5,0x8(%esp)
++movl   $"OnQueryFirstLoadSpecDb",0x4(%esp)
++lea    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+-mov    (%eax),%edx
+-mov    -0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
+-mov    %eax,%ebx
+-movl   $0x7f5,0x8(%esp)
+-movl   $"OnQueryFirstLoadSpecDb",0x4(%esp)
+-lea    -0x20(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %ebx,0xc(%esp)
++mov    (%eax),%eax
++mov    -0xc(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
++mov    %eax,0xc(%esp)
+ movl   $"CPacketTranslater::OnQueryFirstLoadSpecDb Exception Break : %s\n",0x8(%esp)
+ movl   $"./log/Except.log",0x4(%esp)
+-lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-jmp    <T> <_ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader+0xc1>
++jmp    <T> <_ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader+0xbf>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ call   <T> <__cxa_end_catch>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
+ call   <T> <__cxa_end_catch>
+-jmp    <T> <_ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader+0x125>
++jmp    <T> <_ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader+0x123>
+ mov    %eax,(%esp)
+ call   <T> <__cxa_begin_catch>
+ movl   $0x7fa,0x8(%esp)
+ movl   $"OnQueryFirstLoadSpecDb",0x4(%esp)
+-lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"CPacketTranslater::OnQueryFirstLoadSpecDb() Exception Break\n",0x8(%esp)
+ movl   $"./log/Except.log",0x4(%esp)
+-lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-jmp    <T> <_ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader+0x11d>
++jmp    <T> <_ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader+0x11b>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ call   <T> <__cxa_end_catch>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
+ call   <T> <__cxa_end_catch>
+-jmp    <T> <_ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader+0x125>
++jmp    <T> <_ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader+0x123>
+ nop
+ add    $0x30,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
+ ret
+```
+## 2. Ghidra 反编译 C
+
+```c
+
+/* CPacketTranslater::OnQueryFirstLoadSpecDb(PacketHeader*) */
+
+void CPacketTranslater::_ZN17CPacketTranslater22OnQueryFirstLoadSpecDbEP12PacketHeader
+               (PacketHeader *param_1)
+
+{
+  CStatisticsServer *pCVar1;
+  
+  if (m_pclApp != 0) {
+    pCVar1 = (CStatisticsServer *)
+             CServerHandler::GetStatisticsServerPtr(*(CServerHandler **)(m_pclApp + 0x18));
+                    /* try { // try from 08098db8 to 08098dbc has its CatchHandler @ 08098dc2 */
+    CDBManager::
+    _ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer
+              ((CDBManager *)(m_pclApp + 0x50),(Packet_Frame_Lag_Statistic_Load_Spec *)param_1,
+               pCVar1);
+  }
+  return;
+}
+```
+
+## 3. 我们的源码函数
+
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2794 行）：
+
+```cpp
+void CPacketTranslater::OnQueryFirstLoadSpecDb(PacketHeader* header)
+{
+    if (!m_pclApp)
+        return;
+    CStatisticsServer* stats =
+        m_pclApp->m_serverHandler->GetStatisticsServerPtr();
+    try
+    {
+        m_pclApp->m_dbManager.QueryFirstLoadSpecDb(
+            (Packet_Frame_Lag_Statistic_Load_Spec*)header, stats);
+    }
+    DNF_CATCH_LOG2("./log/Except.log",
+                   "CPacketTranslater::OnQueryFirstLoadSpecDb Exception Break",
+                   "CPacketTranslater::OnQueryFirstLoadSpecDb() Exception Break",
+                   0x7f5, 0x7fa);
+}
+```

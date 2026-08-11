@@ -1,0 +1,233 @@
+# _ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption
+
+`CGuildCargo::InsertHistory(ENUM_GUILD_CARGO_BEHAVIOR, int, char const*, int, int, RandomOption const*)`
+
+| 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
+|---|---|---|---|---|---|
+| guild | DIFF | `0x80a0140` | `0x11a` | `0x8092426` | `0x16b` |
+
+## 1. 汇编 diff（完整函数，伪代码化）
+
+归一化口径：直接跳转/调用目标地址归一化为 `<T>`；字符串/全局变量地址替换为其内容或 `&符号名`（地址不同但指向相同内容视为等价，2026-08-11 用户口径）。
+
+```diff
+--- ORIG（伪代码化）
++++ OURS（伪代码化）
+@@ -1,80 +1,111 @@
+ push   %ebp
+ mov    %esp,%ebp
+ push   %esi
+ push   %ebx
+ sub    $0x60,%esp
+ lea    -0x44(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN15STGuildCargoLogC1Ev>
++lea    -0x44(%ebp),%eax
++lea    0x4(%eax),%edx
++mov    0xc(%ebp),%eax
++mov    %al,(%edx)
+ movl   $0x14,0x8(%esp)
+ mov    0x14(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x44(%ebp),%eax
+ add    $0x5,%eax
+ mov    %eax,(%esp)
+ call   <T> <strncpy>
+-mov    0x18(%ebp),%eax
+-mov    %eax,-0x2a(%ebp)
+-mov    0xc(%ebp),%eax
+-mov    %al,-0x40(%ebp)
+-mov    0x1c(%ebp),%eax
+-mov    %eax,-0x26(%ebp)
++lea    -0x44(%ebp),%eax
++add    $0x19,%eax
++mov    0x18(%ebp),%edx
++mov    %edx,(%eax)
++lea    -0x44(%ebp),%eax
++add    $0x1d,%eax
++mov    0x10(%ebp),%edx
++mov    %edx,(%eax)
++lea    -0x44(%ebp),%eax
++add    $0x21,%eax
++mov    0x20(%ebp),%edx
++mov    (%edx),%edx
++mov    %edx,(%eax)
++lea    -0x44(%ebp),%eax
++add    $0x25,%eax
++mov    0x20(%ebp),%edx
++add    $0x4,%edx
++mov    (%edx),%edx
++mov    %edx,(%eax)
++lea    -0x44(%ebp),%eax
++add    $0x29,%eax
++mov    0x20(%ebp),%edx
++add    $0x8,%edx
++mov    (%edx),%edx
++mov    %edx,(%eax)
++lea    -0x44(%ebp),%eax
++lea    0x2d(%eax),%edx
+ mov    0x20(%ebp),%eax
+-mov    (%eax),%edx
+-mov    %edx,-0x22(%ebp)
+-mov    0x4(%eax),%edx
+-mov    %edx,-0x1e(%ebp)
+-mov    0x8(%eax),%edx
+-mov    %edx,-0x1a(%ebp)
+-movzwl 0xc(%eax),%eax
+-mov    %ax,-0x16(%ebp)
++add    $0xc,%eax
++movzwl (%eax),%eax
++mov    %ax,(%edx)
++movl   $0x0,(%esp)
++call   <T> <time>
++mov    %eax,-0x44(%ebp)
++mov    0x8(%ebp),%eax
++add    $0x18e8,%eax
++mov    %eax,-0xc(%ebp)
++lea    -0x44(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt5dequeI15STGuildCargoLogSaIS0_EE9push_backERKS0_>
++movl   $0x202,0x8(%esp)
++movl   $"InsertHistory",0x4(%esp)
+ lea    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+-call   <T> <time>
+-mov    -0x14(%ebp),%eax
+-mov    %eax,-0x44(%ebp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    0xc(%ebp),%edx
+ mov    0x8(%ebp),%eax
+-lea    0x18e8(%eax),%edx
+-lea    -0x44(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-mov    %edx,(%esp)
+-call   <T> <_ZNSt5dequeI15STGuildCargoLogSaIS0_EE9push_backERKS0_>
+-mov    0xc(%ebp),%eax
+-movsbl %al,%esi
+-mov    0x8(%ebp),%eax
+-mov    0x18e0(%eax),%ebx
+-movl   $0x202,0x8(%esp)
+-movl   $"InsertHistory",0x4(%esp)
+-lea    -0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    0x1c(%ebp),%eax
+-mov    %eax,0x1c(%esp)
+-mov    %esi,0x18(%esp)
+-mov    0x18(%ebp),%eax
+-mov    %eax,0x14(%esp)
+-mov    0x10(%ebp),%eax
+-mov    %eax,0x10(%esp)
+-mov    %ebx,0xc(%esp)
++add    $0x18e0,%eax
++mov    (%eax),%eax
++mov    0x1c(%ebp),%ecx
++mov    %ecx,0x1c(%esp)
++mov    %edx,0x18(%esp)
++mov    0x18(%ebp),%edx
++mov    %edx,0x14(%esp)
++mov    0x10(%ebp),%edx
++mov    %edx,0x10(%esp)
++mov    %eax,0xc(%esp)
+ movl   $"InsertLog - GUILD:%d, CHARAC:%d, ITEM:%d, BEHAVIOR:%d, ETC:%d",0x8(%esp)
+ movl   $"./log/GuildCargo",0x4(%esp)
+-lea    -0x10(%ebp),%eax
++lea    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    0x8(%ebp),%eax
+-add    $0x18e8,%eax
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt5dequeI15STGuildCargoLogSaIS0_EE4sizeEv>
+ cmp    $0x32,%eax
+ seta   %al
+ test   %al,%al
+-je     <T> <_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption+0x113>
+-mov    0x8(%ebp),%eax
+-add    $0x18e8,%eax
++je     <T> <_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption+0x159>
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt5dequeI15STGuildCargoLogSaIS0_EE9pop_frontEv>
++jmp    <T> <_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption+0x159>
++mov    %edx,%ebx
++mov    %eax,%esi
++lea    -0x44(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN15STGuildCargoLogD1Ev>
++mov    %esi,%eax
++mov    %ebx,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
++lea    -0x44(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN15STGuildCargoLogD1Ev>
+ add    $0x60,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
+ ret
+```
+## 2. Ghidra 反编译 C
+
+```c
+
+/* CGuildCargo::InsertHistory(ENUM_GUILD_CARGO_BEHAVIOR, int, char const*, int, int, RandomOption
+   const*) */
+
+void __thiscall
+CGuildCargo::_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption
+          (CGuildCargo *this,char param_2,undefined4 param_3,char *param_4,undefined4 param_5,
+          undefined4 param_6,undefined4 *param_7)
+
+{
+  undefined4 uVar1;
+  uint uVar2;
+  time_t local_48;
+  char local_44;
+  char acStack_43 [21];
+  undefined4 local_2e;
+  undefined4 local_2a;
+  undefined4 local_26;
+  undefined4 local_22;
+  undefined4 local_1e;
+  undefined2 local_1a;
+  time_t local_18;
+  CMyFileLog local_14 [8];
+  
+  STGuildCargoLog::STGuildCargoLog((STGuildCargoLog *)&local_48);
+  strncpy(acStack_43,param_4,0x14);
+  local_2e = param_5;
+  local_44 = param_2;
+  local_2a = param_6;
+  local_26 = *param_7;
+  local_22 = param_7[1];
+  local_1e = param_7[2];
+  local_1a = *(undefined2 *)(param_7 + 3);
+  time(&local_18);
+  local_48 = local_18;
+  std::deque<STGuildCargoLog,std::allocator<STGuildCargoLog>>::push_back
+            ((deque<STGuildCargoLog,std::allocator<STGuildCargoLog>> *)(this + 0x18e8),
+             (STGuildCargoLog *)&local_48);
+  uVar1 = *(undefined4 *)(this + 0x18e0);
+  CMyFileLog::CMyFileLog(local_14,"InsertHistory",0x202);
+  CMyFileLog::_ZN10CMyFileLogclEPKcS1_z
+            (local_14,"./log/GuildCargo",
+             "InsertLog - GUILD:%d, CHARAC:%d, ITEM:%d, BEHAVIOR:%d, ETC:%d",uVar1,param_3,param_5,
+             (int)param_2,param_6);
+  uVar2 = std::deque<STGuildCargoLog,std::allocator<STGuildCargoLog>>::size
+                    ((deque<STGuildCargoLog,std::allocator<STGuildCargoLog>> *)(this + 0x18e8));
+  if (0x32 < uVar2) {
+    std::deque<STGuildCargoLog,std::allocator<STGuildCargoLog>>::pop_front
+              ((deque<STGuildCargoLog,std::allocator<STGuildCargoLog>> *)(this + 0x18e8));
+  }
+  return;
+}
+```
+
+## 3. 我们的源码函数
+
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/GuildCargo.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 619 个文件*
