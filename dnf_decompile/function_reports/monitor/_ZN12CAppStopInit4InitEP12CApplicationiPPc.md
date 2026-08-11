@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806bbd6` | `0x248` | `0x804fd24` | `0x248` |
+| monitor | DIFF | `0x806bbd6` | `0x248` | `0x804fd2e` | `0x248` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,8 +20,7 @@
  push   %esi
  push   %ebx
  sub    $0x3c,%esp
--movl   $"RECV STOP, 관리자에 의해 강제로 종료 되었습니다.",(%esp)
-+movl   $"RECV STOP, 관리자에 의해 강제로 종료 되었습다.",(%esp)
+ movl   $"RECV STOP, 관리자에 의해 강제로 종료 되었습니다.",(%esp)
  call   <T> <puts>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -85,8 +84,7 @@
  call   <T> <_ZNSaIcEC1Ev>
  lea    -0x21(%ebp),%eax
  mov    %eax,0x8(%esp)
--movl   $"CAppStopInit::Init()에 의해 강제로 종료되었음!",0x4(%esp)
-+movl   $"CAppStopInit::Init() 에 의해 강제로 종료습다!",0x4(%esp)
+ movl   $"CAppStopInit::Init()에 의해 강제로 종료되었음!",0x4(%esp)
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
@@ -166,8 +164,7 @@
 -lea    -0x19(%ebp),%eax
 +lea    -0x1a(%ebp),%eax
  mov    %eax,0x8(%esp)
--movl   $"CAppStopInit::Init()에 의해 강제로 종료되었음!_1",0x4(%esp)
-+movl   $"CAppStopInit::Init() 에 의해 강제로 종료습다!",0x4(%esp)
+ movl   $"CAppStopInit::Init()에 의해 강제로 종료되었음!_1",0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
@@ -288,7 +285,7 @@ CAppStopInit::_ZN12CAppStopInit4InitEP12CApplicationiPPc
 ```cpp
 void CAppStopInit::Init(CApplication* app, int argc, char** argv)
 {
-    puts("RECV STOP, \xb0\xfc\xb8\xae\xc0\xda\xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1 \xb5\xc7\xbe\xfa\xbd\xc0\xb4\xd9.");
+    puts("RECV STOP, \xb0\xfc\xb8\xae\xc0\xda\xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1 \xb5\xc7\xbe\xfa\xbd\xc0\xb4\xcf\xb4\xd9.");
     app->Clear();
     {
         std::string pidFile(argv[1]);
@@ -296,10 +293,10 @@ void CAppStopInit::Init(CApplication* app, int argc, char** argv)
         if (ok != 1)
         {
             throw CDNFException(
-                "CAppStopInit::Init() \xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1\xbd\xc0\xb4\xd9!");
+                "CAppStopInit::Init()\xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1\xb5\xc7\xbe\xfa\xc0\xbd!");
         }
     }
     throw CDNFException(
-        "CAppStopInit::Init() \xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1\xbd\xc0\xb4\xd9!");
+        "CAppStopInit::Init()\xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1\xb5\xc7\xbe\xfa\xc0\xbd!_1");
 }
 ```

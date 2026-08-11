@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| auction | DIFF | `0x8052fd8` | `0x1616` | `0x80580dc` | `0x15d8` |
+| auction | DIFF | `0x8052fd8` | `0x1616` | `0x80580dc` | `0x15cc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,1409 +1,1403 @@
+@@ -1,1409 +1,1402 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -68,7 +68,7 @@
 +cmpl   $0x0,-0x84(%ebp)
 +je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x9a>
 +mov    -0x84(%ebp),%eax
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x15cd>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x15c1>
 +mov    -0x7a0(%ebp),%eax
 +mov    -0x79c(%ebp),%edx
  mov    0x14(%ebp),%ecx
@@ -91,14 +91,14 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x123>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x15c7>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x15bb>
  mov    0x14(%ebp),%eax
  mov    0xc(%eax),%eax
  cmp    $0xffffffff,%eax
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x123>
 -mov    -0x7b0(%ebp),%eax
 -mov    -0x7ac(%ebp),%edx
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x15c7>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x15bb>
 +mov    -0x7a0(%ebp),%eax
 +mov    -0x79c(%ebp),%edx
  mov    0x14(%ebp),%ecx
@@ -113,7 +113,7 @@
 -mov    -0x88(%ebp),%eax
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x160b>
 -lea    -0xa5(%ebp),%eax
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x15c7>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x15bb>
 +lea    -0xa1(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN25tagAUCTION_DB_DELETE_ITEMC1Ev>
@@ -172,7 +172,7 @@
 -mov    0x14(%ebp),%eax
 -mov    0x4(%eax),%eax
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1fa>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xe4d>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xe3b>
 +cmpb   $0x0,-0x7a4(%ebp)
 +je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1f4>
 +mov    0x14(%ebp),%eax
@@ -182,6 +182,7 @@
  mov    (%eax),%eax
 -mov    %eax,-0x6c(%ebp)
 +mov    %eax,-0x68(%ebp)
++movl   $0x0,-0x64(%ebp)
  mov    0x14(%ebp),%eax
  mov    0x8(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -191,13 +192,13 @@
  call   <T> <_ZN7Auction18IsPrivateStoreOpenEi>
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x2c6>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x2c5>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x2cc>
  mov    0x14(%ebp),%eax
  movzbl 0x49(%eax),%eax
  cmp    $0x1,%al
 -jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x277>
 -fildl  -0x6c(%ebp)
-+jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x276>
++jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x27d>
 +fildl  -0x68(%ebp)
  fldl   &data#69d7849f(.rodata)
  fdivrp %st,%st(1)
@@ -224,7 +225,7 @@
 +fldcw  -0x7a8(%ebp)
 +fistpl -0x7c(%ebp)
 +fldcw  -0x7a6(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x601>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x5f6>
 +fildl  -0x68(%ebp)
  fldl   &data#69d7849f(.rodata)
  fdivrp %st,%st(1)
@@ -250,7 +251,7 @@
 +fldcw  -0x7a8(%ebp)
 +fistpl -0x7c(%ebp)
 +fldcw  -0x7a6(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x601>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x5f6>
  call   <T> <_Z9G_Auctionv>
  mov    %eax,(%esp)
  call   <T> <_ZN7Auction10GetPayTypeEv>
@@ -258,7 +259,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x590>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x560>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x555>
  fldl   &data#f86f0aa7(.rodata)
 -fstpl  -0x60(%ebp)
 +fstpl  -0x50(%ebp)
@@ -301,7 +302,7 @@
 +mov    -0xc0(%ebp),%eax
  test   %eax,%eax
 -jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x3cf>
-+jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x3e0>
++jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x3d5>
  mov    0x14(%ebp),%eax
  movzbl 0x49(%eax),%eax
  cmp    $0x1,%al
@@ -309,7 +310,7 @@
 -fldl   -0x58(%ebp)
 -fnstcw -0x7b6(%ebp)
 -movzwl -0x7b6(%ebp),%eax
-+jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x3a7>
++jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x3a8>
 +fldl   -0x48(%ebp)
 +fnstcw -0x7a6(%ebp)
 +movzwl -0x7a6(%ebp),%eax
@@ -324,10 +325,9 @@
 -movzwl -0x7b6(%ebp),%eax
 +mov    %ax,-0x7a8(%ebp)
 +fldcw  -0x7a8(%ebp)
-+fistpl -0x7ac(%ebp)
++fistpl -0x7c(%ebp)
 +fldcw  -0x7a6(%ebp)
-+mov    -0x7ac(%ebp),%eax
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x3d8>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x5f6>
 +fldl   -0x50(%ebp)
 +fnstcw -0x7a6(%ebp)
 +movzwl -0x7a6(%ebp),%eax
@@ -343,11 +343,9 @@
 -fildl  -0x7bc(%ebp)
 +mov    %ax,-0x7a8(%ebp)
 +fldcw  -0x7a8(%ebp)
-+fistpl -0x7ac(%ebp)
++fistpl -0x7c(%ebp)
 +fldcw  -0x7a6(%ebp)
-+mov    -0x7ac(%ebp),%eax
-+mov    %eax,-0x7c(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x601>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x5f6>
 +fildl  -0x68(%ebp)
 +mov    -0xc0(%ebp),%eax
 +mov    %eax,-0x7ac(%ebp)
@@ -364,7 +362,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x465>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x476>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x46b>
  mov    0x14(%ebp),%eax
  movzbl 0x49(%eax),%eax
  cmp    $0x1,%al
@@ -372,7 +370,7 @@
 -fldl   -0x58(%ebp)
 -fnstcw -0x7b6(%ebp)
 -movzwl -0x7b6(%ebp),%eax
-+jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x449>
++jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x43e>
 +fldl   -0x48(%ebp)
 +fnstcw -0x7a6(%ebp)
 +movzwl -0x7a6(%ebp),%eax
@@ -389,7 +387,7 @@
 +fldcw  -0x7a8(%ebp)
 +fistpl -0x7c(%ebp)
 +fldcw  -0x7a6(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x601>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x5f6>
 +fldl   -0x50(%ebp)
 +fnstcw -0x7a6(%ebp)
 +movzwl -0x7a6(%ebp),%eax
@@ -404,7 +402,7 @@
 +fldcw  -0x7a8(%ebp)
 +fistpl -0x7c(%ebp)
 +fldcw  -0x7a6(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x601>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x5f6>
 +fldl   -0x38(%ebp)
  fldl   &data#dd58a0f3(.rodata)
  fxch   %st(1)
@@ -416,7 +414,7 @@
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x4b5>
 -fldl   -0x48(%ebp)
 -fldl   "슇솛솛�?333333�?蠱儆儆�?"
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x601>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x5f6>
 +fldl   -0x38(%ebp)
 +fldl   "슇솛솛�?333333�?蠱儆儆�?蠱儆儆�?"
  fucompp
@@ -433,9 +431,9 @@
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x56c>
 -fldl   -0x48(%ebp)
 -fldl   "슇솛솛�?333333�?蠱儆儆�?"
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x4b1>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x4a6>
 +movl   $0x32,-0x7c(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x526>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x51b>
 +fldl   -0x38(%ebp)
 +fldl   "슇솛솛�?333333�?蠱儆儆�?蠱儆儆�?"
  fxch   %st(1)
@@ -447,7 +445,7 @@
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x502>
 -fldl   -0x48(%ebp)
 -fldl   "333333�?蠱儆儆�?"
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x4e8>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x4dd>
 +fldl   -0x38(%ebp)
 +fldl   "333333�?蠱儆儆�?蠱儆儆�?"
  fucompp
@@ -464,9 +462,9 @@
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x56c>
 -fldl   -0x48(%ebp)
 -fldl   "333333�?蠱儆儆�?"
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x4e8>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x4dd>
 +movl   $0x32,-0x7c(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x526>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x51b>
 +fldl   -0x38(%ebp)
 +fldl   "333333�?蠱儆儆�?蠱儆儆�?"
  fxch   %st(1)
@@ -478,7 +476,7 @@
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x54f>
 -fldl   -0x48(%ebp)
 -fldl   "蠱儆儆�?"
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x51f>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x514>
 +fldl   -0x38(%ebp)
 +fldl   "蠱儆儆�?蠱儆儆�?"
  fucompp
@@ -499,9 +497,9 @@
 -mov    $0xc,%ah
 -mov    %ax,-0x7b8(%ebp)
 -fildl  -0x6c(%ebp)
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x51f>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x514>
 +movl   $0x32,-0x7c(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x526>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x51b>
 +movl   $0x50,-0x7c(%ebp)
 +fildl  -0x68(%ebp)
  fldl   &data#69d7849f(.rodata)
@@ -520,13 +518,13 @@
 +fldcw  -0x7a8(%ebp)
 +fistpl -0x7c(%ebp)
 +fldcw  -0x7a6(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x601>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x5f6>
  mov    0x14(%ebp),%eax
  movzbl 0x49(%eax),%eax
  cmp    $0x1,%al
 -jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x5e7>
 -fildl  -0x6c(%ebp)
-+jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x5b7>
++jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x5ac>
 +fildl  -0x68(%ebp)
  fldl   &data#69d7849f(.rodata)
  fdivrp %st,%st(1)
@@ -553,7 +551,7 @@
 +fldcw  -0x7a8(%ebp)
 +fistpl -0x7c(%ebp)
 +fldcw  -0x7a6(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x601>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x5f6>
 +fildl  -0x68(%ebp)
  fldl   &data#69d7849f(.rodata)
  fdivrp %st,%st(1)
@@ -579,7 +577,6 @@
 +fldcw  -0x7a8(%ebp)
 +fistpl -0x7c(%ebp)
 +fldcw  -0x7a6(%ebp)
-+movl   $0x0,-0x64(%ebp)
  call   <T> <_Z9G_Auctionv>
  mov    %eax,(%esp)
  call   <T> <_ZN7Auction10GetPayTypeEv>
@@ -589,7 +586,7 @@
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x660>
 -mov    -0x80(%ebp),%eax
 -mov    -0x6c(%ebp),%edx
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x630>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x61e>
 +mov    -0x7c(%ebp),%eax
 +mov    -0x68(%ebp),%edx
  mov    %edx,%ecx
@@ -600,7 +597,7 @@
 -mov    -0x80(%ebp),%eax
 -mov    -0x6c(%ebp),%edx
 +mov    %eax,-0x64(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x644>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x632>
 +mov    -0x7c(%ebp),%eax
 +mov    -0x68(%ebp),%edx
  mov    %edx,%ecx
@@ -615,7 +612,7 @@
  or     %edx,%eax
  test   %eax,%eax
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x6a3>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x673>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x661>
  mov    0x14(%ebp),%eax
  lea    0x14(%eax),%edx
  movl   $0x7f,0x8(%esp)
@@ -639,10 +636,10 @@
 +mov    %eax,-0x48b(%ebp)
 +mov    %edx,-0x487(%ebp)
 +cmpb   $0x0,-0x7a4(%ebp)
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x6a9>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x697>
  mov    $0x1,%eax
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x6de>
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x6ae>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x69c>
  mov    $0x0,%eax
 -mov    %al,-0x4a6(%ebp)
 -movb   $0x1,-0x4a5(%ebp)
@@ -711,7 +708,7 @@
  movzwl 0x20(%eax),%eax
  movzwl %ax,%eax
 -mov    %eax,-0x3c(%ebp)
-+mov    %eax,-0x60(%ebp)
++mov    %eax,-0x5c(%ebp)
  call   <T> <_Z9G_Auctionv>
  mov    %eax,(%esp)
  call   <T> <_ZN7Auction10GetPayTypeEv>
@@ -722,8 +719,8 @@
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
 -mov    -0x3c(%ebp),%edx
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x82a>
-+mov    -0x60(%ebp),%edx
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x818>
++mov    -0x5c(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +mov    0x4(%eax),%eax
  mov    %edx,0x4(%esp)
@@ -732,7 +729,7 @@
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x801>
 -mov    -0x311(%ebp),%edx
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x7d1>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x7bf>
 +mov    -0x30d(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
@@ -741,7 +738,7 @@
  call   <T> <_ZN7Auction18GetAvatarColorNameEi>
  mov    %eax,%ebx
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x806>
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x7d6>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x7c4>
  mov    $&LETTER_TEXT+0x6f9,%ebx
 -mov    -0x316(%ebp),%edx
 +mov    0x14(%ebp),%eax
@@ -768,8 +765,8 @@
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
 -mov    -0x3c(%ebp),%edx
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x8ca>
-+mov    -0x60(%ebp),%edx
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x8b8>
++mov    -0x5c(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +mov    0x4(%eax),%eax
  mov    %edx,0x4(%esp)
@@ -778,7 +775,7 @@
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x88f>
 -mov    -0x311(%ebp),%edx
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x85f>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x84d>
 +mov    -0x30d(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
@@ -787,7 +784,7 @@
  call   <T> <_ZN7Auction18GetAvatarColorNameEi>
  mov    %eax,%ebx
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x894>
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x864>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x852>
  mov    $&LETTER_TEXT+0x6f9,%ebx
  mov    0x14(%ebp),%eax
  mov    0x58(%eax),%edx
@@ -798,9 +795,9 @@
 -lea    -0x15c(%ebp),%eax
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x8ce>
 -mov    -0x316(%ebp),%edx
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x87b>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x869>
 +lea    -0x158(%ebp),%eax
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x89e>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x88c>
 +mov    0x14(%ebp),%eax
 +mov    0x15(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -857,7 +854,7 @@
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x973>
 -movl   $0x0,-0x47f(%ebp)
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x943>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x931>
 +movl   $0x0,-0x47b(%ebp)
  call   <T> <_Z9G_Auctionv>
  mov    %eax,(%esp)
@@ -877,11 +874,11 @@
 -movl   $0x0,-0x46f(%ebp)
 -movb   $0x0,-0x46b(%ebp)
 -movw   $0x0,-0x46a(%ebp)
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x96f>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x95d>
 +mov    -0x64(%ebp),%eax
 +mov    %eax,-0x47b(%ebp)
 +movl   $0x28eba2,-0x476(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x979>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x967>
 +movl   $0x0,-0x476(%ebp)
 +movb   $0x0,-0x472(%ebp)
 +movl   $0x0,-0x471(%ebp)
@@ -899,8 +896,8 @@
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
 -mov    -0x3c(%ebp),%edx
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xad8>
-+mov    -0x60(%ebp),%edx
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xac6>
++mov    -0x5c(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +mov    0x4(%eax),%eax
  mov    %edx,0x4(%esp)
@@ -908,7 +905,7 @@
  call   <T> <_ZN7Auction16IsAvatarCategoryEi>
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xa2d>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x9fd>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x9eb>
  mov    0x14(%ebp),%eax
  mov    0x1a(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -918,7 +915,7 @@
  call   <T> <_ZN7Auction18GetAvatarColorNameEi>
  mov    %eax,%esi
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xa32>
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xa02>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x9f0>
  mov    $&LETTER_TEXT+0x6f9,%esi
  mov    0x14(%ebp),%eax
  mov    0x15(%eax),%edx
@@ -934,7 +931,7 @@
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
 -mov    -0x3c(%ebp),%edx
-+mov    -0x60(%ebp),%edx
++mov    -0x5c(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +mov    0x4(%eax),%eax
  mov    %edx,0x4(%esp)
@@ -942,7 +939,7 @@
  call   <T> <_ZN7Auction16IsAvatarCategoryEi>
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xa8c>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xa5c>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xa4a>
  mov    0x14(%ebp),%eax
  mov    0x1a(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -952,7 +949,7 @@
  call   <T> <_ZN7Auction18GetAvatarColorNameEi>
  mov    %eax,%ebx
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xa91>
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xa61>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xa4f>
  mov    $&LETTER_TEXT+0x6f9,%ebx
  mov    0x14(%ebp),%eax
  mov    0x15(%eax),%edx
@@ -993,8 +990,8 @@
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
 -mov    -0x3c(%ebp),%edx
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xc11>
-+mov    -0x60(%ebp),%edx
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xbff>
++mov    -0x5c(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +mov    0x4(%eax),%eax
  mov    %edx,0x4(%esp)
@@ -1002,7 +999,7 @@
  call   <T> <_ZN7Auction16IsAvatarCategoryEi>
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb3d>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb0d>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xafb>
  mov    0x14(%ebp),%eax
  mov    0x1a(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -1012,7 +1009,7 @@
  call   <T> <_ZN7Auction18GetAvatarColorNameEi>
  mov    %eax,%edi
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb42>
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb12>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb00>
  mov    $&LETTER_TEXT+0x6f9,%edi
  mov    0x14(%ebp),%eax
  mov    0x58(%eax),%edx
@@ -1022,9 +1019,9 @@
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb59>
 -lea    -0x15c(%ebp),%esi
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb7e>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb29>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb17>
 +lea    -0x158(%ebp),%esi
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb4e>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb3c>
  mov    0x14(%ebp),%eax
  mov    0x15(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -1039,7 +1036,7 @@
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
 -mov    -0x3c(%ebp),%edx
-+mov    -0x60(%ebp),%edx
++mov    -0x5c(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +mov    0x4(%eax),%eax
  mov    %edx,0x4(%esp)
@@ -1047,7 +1044,7 @@
  call   <T> <_ZN7Auction16IsAvatarCategoryEi>
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xbb3>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb83>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb71>
  mov    0x14(%ebp),%eax
  mov    0x1a(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -1057,7 +1054,7 @@
  call   <T> <_ZN7Auction18GetAvatarColorNameEi>
  mov    %eax,%ebx
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xbb8>
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb88>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb76>
  mov    $&LETTER_TEXT+0x6f9,%ebx
  mov    0x14(%ebp),%eax
  mov    0x58(%eax),%edx
@@ -1067,9 +1064,9 @@
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xbcf>
 -lea    -0x15c(%ebp),%eax
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xbf2>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb9f>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xb8d>
 +lea    -0x158(%ebp),%eax
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xbc2>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xbb0>
  mov    0x14(%ebp),%eax
  mov    0x15(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -1125,18 +1122,18 @@
  call   <T> <_ZN3nsl14CommonDataPool13createMessageEi>
 -mov    %eax,-0x38(%ebp)
 -mov    -0x38(%ebp),%eax
-+mov    %eax,-0x5c(%ebp)
-+mov    -0x5c(%ebp),%eax
++mov    %eax,-0x58(%ebp)
++mov    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7Message18getCellFromMessageEv>
 -mov    %eax,-0x34(%ebp)
 -lea    -0x4bb(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -mov    -0x34(%ebp),%eax
-+mov    %eax,-0x58(%ebp)
++mov    %eax,-0x54(%ebp)
 +lea    -0x4b7(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+mov    -0x58(%ebp),%eax
++mov    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8CMsgCelllsEPNS_11DBTR_HEADERE>
  mov    &_ZN3nsl4pAppE,%eax
@@ -1145,7 +1142,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7Threads11getDBThreadEi>
 -mov    -0x38(%ebp),%edx
-+mov    -0x5c(%ebp),%edx
++mov    -0x58(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11NSLDBThread15PushTransactionEPNS_7MessageE>
@@ -1155,10 +1152,10 @@
 -mov    0x4(%eax),%eax
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xcf5>
 +cmpb   $0x0,-0x7a4(%ebp)
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xcc0>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xcae>
 +mov    0x14(%ebp),%eax
 +mov    0x4(%eax),%eax
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xcc5>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xcb3>
  mov    0x14(%ebp),%eax
  mov    (%eax),%eax
 -mov    %eax,-0x84(%ebp)
@@ -1174,8 +1171,8 @@
  movzwl %ax,%eax
 -mov    %eax,-0x64(%ebp)
 -mov    -0x64(%ebp),%eax
-+mov    %eax,-0x54(%ebp)
-+mov    -0x54(%ebp),%eax
++mov    %eax,-0x60(%ebp)
++mov    -0x60(%ebp),%eax
  movzwl %ax,%edx
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
@@ -1184,12 +1181,12 @@
  call   <T> <_ZNK7Auction19IsStackableCategoryEt>
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xd79>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xd3a>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xd28>
  mov    0x14(%ebp),%eax
  mov    0x1a(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xd66>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xd2d>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xd1b>
  mov    0x14(%ebp),%eax
  mov    0x1a(%eax),%eax
 -mov    %eax,-0x7ec(%ebp)
@@ -1207,7 +1204,7 @@
 +idivl  -0x7dc(%ebp)
 +mov    %eax,-0x80(%ebp)
 +cmpl   $0x0,-0x80(%ebp)
-+jg     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xd3a>
++jg     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xd28>
 +movl   $0x1,-0x80(%ebp)
 +lea    -0xbc(%ebp),%eax
  mov    %eax,(%esp)
@@ -1227,15 +1224,12 @@
 +mov    %edx,-0xb4(%ebp)
  mov    0x5c(%eax),%eax
 -mov    %eax,-0xb4(%ebp)
--movl   $0x0,-0x30(%ebp)
--jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xded>
--mov    -0x30(%ebp),%ecx
--mov    -0x30(%ebp),%edx
 +mov    %eax,-0xb0(%ebp)
-+movl   $0x0,-0x2c(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xdae>
-+mov    -0x2c(%ebp),%ecx
-+mov    -0x2c(%ebp),%edx
+ movl   $0x0,-0x30(%ebp)
+-jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xded>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xd9c>
+ mov    -0x30(%ebp),%ecx
+ mov    -0x30(%ebp),%edx
  mov    0x14(%ebp),%ebx
  mov    %edx,%eax
  add    %eax,%eax
@@ -1246,16 +1240,14 @@
  movzbl %al,%eax
  lea    0x8(%ecx),%edx
 -mov    %ax,-0xc0(%ebp,%edx,2)
--addl   $0x1,-0x30(%ebp)
--cmpl   $0x2,-0x30(%ebp)
 +mov    %ax,-0xbc(%ebp,%edx,2)
-+addl   $0x1,-0x2c(%ebp)
-+cmpl   $0x2,-0x2c(%ebp)
+ addl   $0x1,-0x30(%ebp)
+ cmpl   $0x2,-0x30(%ebp)
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xdc2>
 -lea    -0xc0(%ebp),%eax
-+jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xd83>
++jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xd71>
 +lea    -0xbc(%ebp),%eax
  add    $0x16,%eax
  mov    %eax,0x4(%esp)
@@ -1296,14 +1288,14 @@
 -mov    %eax,-0x88(%ebp)
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1211>
 +mov    %eax,-0x84(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x11cf>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x11bd>
  mov    0x14(%ebp),%eax
  mov    0x58(%eax),%edx
  mov    0x54(%eax),%eax
  or     %edx,%eax
  test   %eax,%eax
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xebe>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xe7c>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xe6a>
  mov    0x14(%ebp),%eax
  lea    0x14(%eax),%edx
  movl   $0x7f,0x8(%esp)
@@ -1391,8 +1383,7 @@
  call   <T> <_ZNK7Auction11GetItemInfoEm>
  movzwl 0x20(%eax),%eax
  movzwl %ax,%eax
--mov    %eax,-0x2c(%ebp)
-+mov    %eax,-0x28(%ebp)
+ mov    %eax,-0x2c(%ebp)
  call   <T> <_Z9G_Auctionv>
  mov    %eax,(%esp)
  call   <T> <_ZN7Auction10GetPayTypeEv>
@@ -1402,9 +1393,8 @@
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x105f>
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
--mov    -0x2c(%ebp),%edx
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x101d>
-+mov    -0x28(%ebp),%edx
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x100b>
+ mov    -0x2c(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +mov    0x4(%eax),%eax
  mov    %edx,0x4(%esp)
@@ -1413,7 +1403,7 @@
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1008>
 -mov    -0x5f0(%ebp),%edx
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xfc6>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xfb4>
 +mov    -0x5ec(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
@@ -1422,7 +1412,7 @@
  call   <T> <_ZN7Auction18GetAvatarColorNameEi>
  mov    %eax,%ebx
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x100d>
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xfcb>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xfb9>
  mov    $&LETTER_TEXT+0x6f9,%ebx
 -mov    -0x759(%ebp),%edx
 +mov    0x14(%ebp),%eax
@@ -1448,9 +1438,8 @@
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x10fd>
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
--mov    -0x2c(%ebp),%edx
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x10bb>
-+mov    -0x28(%ebp),%edx
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x10a9>
+ mov    -0x2c(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +mov    0x4(%eax),%eax
  mov    %edx,0x4(%esp)
@@ -1459,7 +1448,7 @@
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1094>
 -mov    -0x5f0(%ebp),%edx
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1052>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1040>
 +mov    -0x5ec(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
@@ -1468,7 +1457,7 @@
  call   <T> <_ZN7Auction18GetAvatarColorNameEi>
  mov    %eax,%ebx
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1099>
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1057>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1045>
  mov    $&LETTER_TEXT+0x6f9,%ebx
  mov    0x14(%ebp),%eax
  mov    0x58(%eax),%edx
@@ -1479,9 +1468,9 @@
 -lea    -0x15c(%ebp),%eax
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x10d3>
 -mov    -0x759(%ebp),%edx
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x106e>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x105c>
 +lea    -0x158(%ebp),%eax
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1091>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x107f>
 +mov    0x14(%ebp),%eax
 +mov    0x15(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -1521,18 +1510,18 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x115c>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x111a>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1108>
  mov    0x14(%ebp),%eax
  mov    0x15(%eax),%eax
  cmp    $0x28d287,%eax
 -jbe    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x115c>
-+jbe    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x111a>
++jbe    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1108>
  mov    0x14(%ebp),%eax
  mov    0x15(%eax),%eax
  cmp    $0x28d293,%eax
 -ja     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x115c>
 -movl   $0x0,-0x75e(%ebp)
-+ja     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x111a>
++ja     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1108>
 +movl   $0x0,-0x75a(%ebp)
  call   <T> <_Z9G_Auctionv>
  mov    %eax,(%esp)
@@ -1541,18 +1530,18 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1197>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1155>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1143>
  mov    0x14(%ebp),%eax
  mov    0x15(%eax),%eax
  cmp    $0x28d287,%eax
 -jbe    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1197>
-+jbe    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1155>
++jbe    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1143>
  mov    0x14(%ebp),%eax
  mov    0x15(%eax),%eax
  cmp    $0x28d299,%eax
 -ja     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1197>
 -movl   $0x0,-0x75e(%ebp)
-+ja     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1155>
++ja     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1143>
 +movl   $0x0,-0x75a(%ebp)
  mov    $0xfffffffc,%eax
  mov    %gs:(%eax),%eax
@@ -1564,20 +1553,15 @@
  movl   $0x3,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl14CommonDataPool13createMessageEi>
--mov    %eax,-0x28(%ebp)
--mov    -0x28(%ebp),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x24(%ebp),%eax
+ mov    %eax,-0x28(%ebp)
+ mov    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7Message18getCellFromMessageEv>
--mov    %eax,-0x24(%ebp)
+ mov    %eax,-0x24(%ebp)
 -lea    -0x79a(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    -0x24(%ebp),%eax
-+mov    %eax,-0x20(%ebp)
 +lea    -0x796(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x20(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8CMsgCelllsEPNS_11DBTR_HEADERE>
  mov    &_ZN3nsl4pAppE,%eax
@@ -1585,8 +1569,7 @@
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7Threads11getDBThreadEi>
--mov    -0x28(%ebp),%edx
-+mov    -0x24(%ebp),%edx
+ mov    -0x28(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11NSLDBThread15PushTransactionEPNS_7MessageE>
@@ -1609,10 +1592,10 @@
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1253>
 +mov    %eax,-0x1bb(%ebp)
 +cmpb   $0x0,-0x7a4(%ebp)
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1211>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x11ff>
  mov    $0x1,%eax
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1258>
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1216>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1204>
  mov    $0x0,%eax
 -mov    %al,-0x1bb(%ebp)
 +mov    %al,-0x1b7(%ebp)
@@ -1630,10 +1613,10 @@
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x128c>
 +mov    %eax,-0x1b2(%ebp)
 +cmpb   $0x0,-0x7a4(%ebp)
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1245>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1233>
 +mov    0x14(%ebp),%eax
 +mov    0x4(%eax),%eax
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x124a>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1238>
  mov    0x14(%ebp),%eax
  mov    (%eax),%eax
 -mov    %eax,-0x1b2(%ebp)
@@ -1704,7 +1687,7 @@
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x136b>
 -mov    -0x80(%ebp),%eax
 -mov    %eax,-0x161(%ebp)
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1329>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1317>
 +mov    -0x7c(%ebp),%eax
 +mov    %eax,-0x15d(%ebp)
  mov    0x14(%ebp),%eax
@@ -1724,20 +1707,15 @@
  movl   $0x3,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl14CommonDataPool13createMessageEi>
--mov    %eax,-0x20(%ebp)
--mov    -0x20(%ebp),%eax
-+mov    %eax,-0x78(%ebp)
-+mov    -0x78(%ebp),%eax
+ mov    %eax,-0x20(%ebp)
+ mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7Message18getCellFromMessageEv>
--mov    %eax,-0x1c(%ebp)
+ mov    %eax,-0x1c(%ebp)
 -lea    -0x1dc(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    -0x1c(%ebp),%eax
-+mov    %eax,-0x74(%ebp)
 +lea    -0x1d8(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x74(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8CMsgCelllsEPNS_11DBTR_HEADERE>
  mov    &_ZN3nsl4pAppE,%eax
@@ -1745,8 +1723,7 @@
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7Threads11getDBThreadEi>
--mov    -0x20(%ebp),%edx
-+mov    -0x78(%ebp),%edx
+ mov    -0x20(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11NSLDBThread15PushTransactionEPNS_7MessageE>
@@ -1784,7 +1761,7 @@
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x14b1>
 -mov    -0x88(%ebp),%eax
 +cmpl   $0x0,-0x84(%ebp)
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1469>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1457>
 +mov    -0x84(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11GetErrorStrEi>
@@ -1797,7 +1774,7 @@
  call   <T> <_ZN3nsl8TraceLog6sysLogEiPKcz>
 -mov    -0x88(%ebp),%eax
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x160b>
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x15c7>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x15bb>
  mov    0x8(%ebp),%eax
  lea    0x28(%eax),%edx
 -lea    -0x7b0(%ebp),%eax
@@ -1811,9 +1788,9 @@
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x14dc>
 -mov    $0xb,%eax
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x160b>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1499>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1487>
 +movl   $0xb,-0x84(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x15c7>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x15bb>
  mov    0x14(%ebp),%eax
  mov    0x15(%eax),%edi
 -mov    -0x7b0(%ebp),%ebx
@@ -1837,17 +1814,17 @@
  call   <T> <_ZN7Auction13CheckItemTypeEm>
 -mov    %eax,-0x7c(%ebp)
 -mov    -0x7c(%ebp),%eax
-+mov    %eax,-0x1c(%ebp)
-+mov    -0x1c(%ebp),%eax
++mov    %eax,-0x78(%ebp)
++mov    -0x78(%ebp),%eax
  cmp    $0x2,%eax
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1544>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1501>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x14ef>
  cmp    $0x3,%eax
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1566>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1523>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1511>
  cmp    $0x1,%eax
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1586>
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1543>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1531>
  mov    0x14(%ebp),%eax
  mov    0x1a(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -1857,7 +1834,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN7Auction31UnregistChkMapForAvatarCreatureEbi>
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1586>
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1543>
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x1531>
  mov    0x14(%ebp),%eax
  mov    0x1a(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -1874,20 +1851,21 @@
  mov    %eax,(%esp)
  call   <T> <_ZNK7Auction11GetItemInfoEm>
  movzwl 0x20(%eax),%eax
--movzwl %ax,%eax
+ movzwl %ax,%eax
 -mov    %eax,-0x78(%ebp)
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
 -mov    -0x78(%ebp),%edx
-+movzwl %ax,%edx
++mov    %eax,-0x74(%ebp)
 +mov    0x8(%ebp),%eax
 +mov    0x4(%eax),%eax
++mov    -0x74(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN7Auction16IsAvatarCategoryEi>
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x15f1>
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x15a8>
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x159c>
  mov    0x14(%ebp),%eax
  mov    0x1a(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -2598,4 +2576,4 @@ AuctionDictionary::_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDicti
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.cpp, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.cpp, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AveragePriceDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/CharacterDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/ExpireTimeDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/Auction.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/AuctionItem.h 等 590 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.cpp, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.cpp, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AveragePriceDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/CharacterDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/ExpireTimeDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/Auction.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/AuctionItem.h 等 565 个文件*

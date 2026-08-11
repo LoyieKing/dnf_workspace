@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8077bca` | `0x414` | `0x806e2f4` | `0x412` |
+| guild | DIFF | `0x8077bca` | `0x414` | `0x806e1ba` | `0x410` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,311 +1,310 @@
+@@ -1,311 +1,309 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -83,13 +83,18 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x45(%ebp),%eax
-+lea    -0x39(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- mov    %esi,%ecx
- mov    %ebx,%eax
- jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2fc>
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcED1Ev>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
+-jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2fc>
 -lea    -0x45(%ebp),%eax
++lea    -0x39(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSaIcED1Ev>
++mov    %esi,%ecx
++mov    %ebx,%eax
++jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2fa>
 +lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -169,6 +174,12 @@
 -mov    %eax,%ebx
 -mov    %ecx,%esi
 -lea    -0x3d(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcED1Ev>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
+-jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2fc>
+-lea    -0x3d(%ebp),%eax
 +lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
@@ -195,12 +206,11 @@
 +mov    %eax,%ebx
 +mov    %ecx,%esi
 +lea    -0x31(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- mov    %esi,%ecx
- mov    %ebx,%eax
- jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2fc>
--lea    -0x3d(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSaIcED1Ev>
++mov    %esi,%ecx
++mov    %ebx,%eax
++jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2fa>
 +lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -212,23 +222,21 @@
 -mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    -0x24(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
++lea    0x290(%eax),%edx
++mov    -0x24(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x24(%ebp)
 -cmpl   $0x0,-0x24(%ebp)
 -setne  %al
 -test   %al,%al
+-je     <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x222>
+-mov    -0x20(%ebp),%eax
 +mov    %eax,-0x20(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
- je     <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x222>
--mov    -0x20(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x220>
 +mov    -0x28(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,0x4(%esp)
@@ -238,7 +246,7 @@
  call   <T> <_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy>
 -jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x40c>
 -lea    -0x35(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x40a>
++jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x408>
 +lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -259,7 +267,8 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
- jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2a1>
+-jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2a1>
++jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x29f>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -271,40 +280,68 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x3c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x29b>
- mov    %eax,%ecx
- mov    %edx,%eax
- cmp    $0xffffffff,%eax
- jne    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2c0>
- call   <T> <_ZSt9terminatev>
- mov    %esi,%ecx
- mov    %ebx,%eax
- jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2c0>
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
+-jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x29b>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-cmp    $0xffffffff,%eax
+-jne    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2c0>
+-call   <T> <_ZSt9terminatev>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
+-jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2c0>
 -lea    -0x3c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
+-jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2d5>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-cmp    $0xffffffff,%eax
+-jne    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2c0>
+-call   <T> <_ZSt9terminatev>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-mov    %eax,%ebx
+-mov    %ecx,%esi
+-lea    -0x35(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcED1Ev>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
+-jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2fc>
+-lea    -0x35(%ebp),%eax
 +lea    -0x30(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2d5>
- mov    %eax,%ecx
- mov    %edx,%eax
- cmp    $0xffffffff,%eax
- jne    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2c0>
- call   <T> <_ZSt9terminatev>
- mov    %eax,%ecx
- mov    %edx,%eax
- mov    %eax,%ebx
- mov    %ecx,%esi
--lea    -0x35(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x299>
++mov    %eax,%ecx
++mov    %edx,%eax
++cmp    $0xffffffff,%eax
++jne    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2be>
++call   <T> <_ZSt9terminatev>
++mov    %esi,%ecx
++mov    %ebx,%eax
++jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2be>
++lea    -0x30(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2d3>
++mov    %eax,%ecx
++mov    %edx,%eax
++cmp    $0xffffffff,%eax
++jne    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2be>
++call   <T> <_ZSt9terminatev>
++mov    %eax,%ecx
++mov    %edx,%eax
++mov    %eax,%ebx
++mov    %ecx,%esi
 +lea    -0x29(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- mov    %esi,%ecx
- mov    %ebx,%eax
- jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2fc>
--lea    -0x35(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSaIcED1Ev>
++mov    %esi,%ecx
++mov    %ebx,%eax
++jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x2fa>
 +lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -316,17 +353,21 @@
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x3a2>
-+jne    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x3a0>
++jne    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x39e>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnCallGuildMembers() Exception Break : %s\n",(%esp)
  call   <T> <printf>
@@ -338,10 +379,10 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
 -mov    %eax,%ebx
 -movl   $0x8b5,0x8(%esp)
 -movl   $&_ZZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -349,6 +390,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnDBReplyUnconnGuildMember() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -357,7 +402,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x39b>
-+jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x399>
++jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x397>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -369,7 +414,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x40c>
-+jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x40a>
++jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x408>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnCallGuildMembers() Exception Break",(%esp)
@@ -387,7 +432,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x407>
-+jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x405>
++jmp    <T> <_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader+0x403>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -481,7 +526,7 @@ void CPacketTranslater::_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1465 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1466 行）：
 
 ```cpp
 void CPacketTranslater::OnDBReplyUnconnGuildMember(PacketHeader* pkt)
@@ -496,7 +541,7 @@ void CPacketTranslater::OnDBReplyUnconnGuildMember(PacketHeader* pkt)
             throw CDNFException(
                 "CPacketTranslater::OnDBReplyUnconnGuildMember : packet->m_uGuildKey == 0");
         }
-        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+        CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
         if (guild != 0)
         {
             guild->LoadGuildOneMemberProxy(*(STGuildMemberProxy*)(pb + 0x12));

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804f658` | `0x69` | `0x8086b5a` | `0x62` |
+| guild | DIFF | `0x804f658` | `0x69` | `0x8086838` | `0x62` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -74,7 +74,7 @@ bool __thiscall TCPSocket::_ZN9TCPSocket12setOptLingerEb(TCPSocket *this,bool pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 221 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 222 行）：
 
 ```cpp
 bool TCPSocket::setOptLinger(bool flag)

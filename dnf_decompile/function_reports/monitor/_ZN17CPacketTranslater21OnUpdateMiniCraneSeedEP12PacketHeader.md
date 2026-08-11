@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8091bc6` | `0x31b` | `0x807d074` | `0x317` |
+| monitor | DIFF | `0x8091bc6` | `0x31b` | `0x807d0ba` | `0x317` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -277,10 +277,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnUpdateMiniCraneSeed Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
-+movl   $"CPacketTranslater::OnUpdateMiniCraneSeed() Exception Break : %s\n",0x8(%esp)
-+movl   $"%s",0x4(%esp)
+ movl   $"CPacketTranslater::OnUpdateMiniCraneSeed Exception Break : %s\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -306,10 +304,8 @@
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPakcetTranslater::OnUpdateMiniCraneSeed Exception Break\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
-+movl   $"CPacketTranslater::OnUpdateMiniCraneSeed() Exception Break",0x8(%esp)
-+movl   $"%s",0x4(%esp)
+ movl   $"CPakcetTranslater::OnUpdateMiniCraneSeed Exception Break\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -395,7 +391,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5395 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5424 行）：
 
 ```cpp
 void CPacketTranslater::OnUpdateMiniCraneSeed(PacketHeader* pkt)
@@ -418,12 +414,13 @@ void CPacketTranslater::OnUpdateMiniCraneSeed(PacketHeader* pkt)
     }
     catch (CDNFException& e)
     {
-        DNF_LOG_SCOPE_LINE(0x1b82,"%s", "CPacketTranslater::OnUpdateMiniCraneSeed() Exception Break : %s\n",
-            e.what());
+        DNF_LOG_SCOPE_LINE(0x1b82,"./log/Except",
+            "CPacketTranslater::OnUpdateMiniCraneSeed Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        DNF_LOG_SCOPE_LINE(0x1b87, "%s", "CPacketTranslater::OnUpdateMiniCraneSeed() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x1b87, "./log/Except",
+            "CPakcetTranslater::OnUpdateMiniCraneSeed Exception Break\n");
     }
 }
 ```

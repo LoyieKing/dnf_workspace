@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809f3b2` | `0x2c8` | `0x80d9742` | `0x2c5` |
+| dbmw | DIFF | `0x809f3b2` | `0x2c8` | `0x80d9810` | `0x2c8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,190 +1,189 @@
+@@ -1,190 +1,190 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -112,10 +112,9 @@
  call   <T> <_ZN14CServerHandler12GetTcpServerEh>
 -mov    %eax,-0x2c(%ebp)
 -cmpl   $0x0,-0x2c(%ebp)
--je     <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x182>
 +mov    %eax,-0x28(%ebp)
 +cmpl   $0x0,-0x28(%ebp)
-+je     <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x17f>
+ je     <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x182>
  movl   $0x14,0x8(%esp)
  movl   $0x2346,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
@@ -124,6 +123,7 @@
  call   <T> <_ZN10CTcpServer16makePacketHeaderEtt>
 -mov    %eax,-0x28(%ebp)
 -mov    -0x28(%ebp),%eax
++movzwl %ax,%eax
  mov    %eax,-0x24(%ebp)
 -lea    -0x60(%ebp),%eax
 +lea    -0x5c(%ebp),%eax
@@ -140,8 +140,7 @@
 +mov    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CTcpServer12SendToServerEPc>
--jmp    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x2c0>
-+jmp    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x2bd>
+ jmp    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x2c0>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -166,11 +165,9 @@
 +lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x2c0>
-+jmp    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x2bd>
+ jmp    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x2c0>
  cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x266>
-+jne    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x263>
+ jne    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x266>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -195,8 +192,7 @@
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x25f>
-+jmp    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x25c>
+ jmp    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x25f>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -205,8 +201,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x2c0>
-+jmp    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x2bd>
+ jmp    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x2c0>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1122,0x8(%esp)
@@ -221,8 +216,7 @@
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x2bb>
-+jmp    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x2b8>
+ jmp    <T> <_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHeader+0x2bb>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -300,7 +294,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2358 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2357 行）：
 
 ```cpp
 void CPacketTranslater::OnReqOntimeEventItem(PacketHeader* header)
@@ -316,7 +310,7 @@ void CPacketTranslater::OnReqOntimeEventItem(PacketHeader* header)
             m_pclApp->Get_ServerHandler()->GetTcpServer((unsigned char)0xa);
         if (tcp)
         {
-            char* pkt = tcp->makePacketHeader(0x2346, 0x14);
+            char* pkt = (char*)tcp->makePacketHeader(0x2346, 0x14);
             memcpy(pkt + 0xa, (char*)&reply + 0xa, 0xa);
             tcp->SendToServer(pkt);
         }

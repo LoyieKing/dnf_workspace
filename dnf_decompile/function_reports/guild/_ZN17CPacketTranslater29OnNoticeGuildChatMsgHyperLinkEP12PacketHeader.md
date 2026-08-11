@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807401a` | `0x3ce` | `0x806a8b0` | `0x3db` |
+| guild | DIFF | `0x807401a` | `0x3ce` | `0x806a7c6` | `0x3d6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,284 +1,291 @@
+@@ -1,284 +1,289 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -95,7 +95,7 @@
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x2c5>
++jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x2c0>
 +lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -115,7 +115,7 @@
 -je     <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x1dc>
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%eax
-+je     <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x1eb>
++je     <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x1e6>
 +mov    -0x2c(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
@@ -123,7 +123,7 @@
 -je     <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x1dc>
 -mov    -0x20(%ebp),%eax
 -movzbl 0x14b(%eax),%eax
-+je     <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x1eb>
++je     <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x1e6>
 +mov    -0x2c(%ebp),%eax
 +add    $0x14b,%eax
 +movzbl (%eax),%eax
@@ -131,19 +131,14 @@
 -je     <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x1dc>
 -mov    -0x20(%ebp),%eax
 -mov    0xe(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x10,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
-+je     <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x1eb>
++je     <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x1e6>
 +mov    -0x2c(%ebp),%eax
 +add    $0xa,%eax
-+mov    (%eax),%ebx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication15Get_UserManagerEv>
-+mov    %ebx,0x4(%esp)
-+mov    %eax,(%esp)
++mov    (%eax),%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+ add    $0x10,%edx
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
  mov    %eax,-0x28(%ebp)
  cmpl   $0x0,-0x28(%ebp)
@@ -152,26 +147,21 @@
 -je     <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x1d6>
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
-+je     <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x1e5>
++je     <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x1e0>
 +mov    -0x2c(%ebp),%eax
 +add    $0xe,%eax
-+mov    (%eax),%ebx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    %ebx,0x4(%esp)
-+mov    %eax,(%esp)
++mov    (%eax),%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+ add    $0x290,%edx
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
  mov    %eax,-0x24(%ebp)
  cmpl   $0x0,-0x24(%ebp)
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x1d6>
-+je     <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x1e5>
++je     <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x1e0>
  mov    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
@@ -220,7 +210,7 @@
  nop
 -jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x3c6>
 -lea    -0x39(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x3d3>
++jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x3ce>
 +lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -242,7 +232,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x25b>
-+jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x26a>
++jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x265>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -288,23 +278,23 @@
 +lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x264>
++jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x25f>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x289>
++jne    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x284>
 +call   <T> <_ZSt9terminatev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x289>
++jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x284>
 +lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x29e>
++jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x299>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x289>
++jne    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x284>
 +call   <T> <_ZSt9terminatev>
 +mov    %eax,%ecx
 +mov    %edx,%eax
@@ -315,7 +305,7 @@
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x2c5>
++jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x2c0>
 +lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -327,17 +317,21 @@
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x35c>
-+jne    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x369>
++jne    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x364>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildChatMsgHyperLink() Exception Break : %s\n",(%esp)
  call   <T> <printf>
@@ -349,10 +343,10 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
 -mov    %eax,%ebx
 -movl   $0x430,0x8(%esp)
 -movl   $&_ZZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -360,6 +354,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildChatMsgHyperLink() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -368,7 +366,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x355>
-+jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x362>
++jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x35d>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -380,7 +378,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x3c6>
-+jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x3d3>
++jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x3ce>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnNoticeGuildChatMsgHyperLink() Exception Break",(%esp)
@@ -398,7 +396,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x3c1>
-+jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x3ce>
++jmp    <T> <_ZN17CPacketTranslater29OnNoticeGuildChatMsgHyperLinkEP12PacketHeader+0x3c9>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -498,10 +496,10 @@ void CPacketTranslater::OnNoticeGuildChatMsgHyperLink(PacketHeader* pkt)
     char* pb = (char*)pkt;
     if (*(int*)(pb + 0xe) != 0 && *(int*)(pb + 0xa) != 0 && (unsigned char)pb[0x14b] != 0)
     {
-        CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xa));
+        CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(*(unsigned int*)(pb + 0xa));
         if (user != 0)
         {
-            CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xe));
+            CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(*(unsigned int*)(pb + 0xe));
             if (guild != 0)
             {
                 const char* name = user->GetCharName();

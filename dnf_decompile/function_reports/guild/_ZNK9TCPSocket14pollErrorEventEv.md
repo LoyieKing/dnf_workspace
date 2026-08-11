@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804f9ca` | `0x113` | `0x8086ebc` | `0x106` |
+| guild | DIFF | `0x804f9ca` | `0x113` | `0x8086b9a` | `0x106` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -165,7 +165,7 @@ uint __thiscall TCPSocket::_ZNK9TCPSocket14pollErrorEventEv(TCPSocket *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 300 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 301 行）：
 
 ```cpp
 bool TCPSocket::pollErrorEvent() const

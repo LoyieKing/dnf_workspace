@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808753a` | `0x234` | `0x8070378` | `0x234` |
+| monitor | DIFF | `0x808753a` | `0x234` | `0x807038a` | `0x234` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -217,7 +217,7 @@ void CPacketTranslater::_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader(Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1967 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1965 行）：
 
 ```cpp
 void CPacketTranslater::OnForbidChat(PacketHeader* pkt)

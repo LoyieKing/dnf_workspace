@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808fc58` | `0x47` | `0x8055d00` | `0x51` |
+| guild | DIFF | `0x808fc58` | `0x47` | `0x8055cfe` | `0x51` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -17,23 +17,21 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
--lea    -0x1a(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x1a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_DB_Call_Guild_All_MembersC1Ev>
-+lea    -0x1c(%ebp),%eax
++lea    -0x1a(%ebp),%eax
 +lea    0xa(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
 -mov    %eax,-0x10(%ebp)
 +mov    %eax,(%edx)
-+lea    -0x1c(%ebp),%eax
++lea    -0x1a(%ebp),%eax
 +lea    0xe(%eax),%edx
  mov    0x10(%ebp),%eax
 -mov    %eax,-0xc(%ebp)
--lea    -0x1a(%ebp),%eax
 +mov    %eax,(%edx)
-+lea    -0x1c(%ebp),%eax
+ lea    -0x1a(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -73,7 +71,7 @@ CGuild::_ZN6CGuild25QueryGuildAllMembersProxyEP14CServerHandlerj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1321 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1324 行）：
 
 ```cpp
 void CGuild::QueryGuildAllMembersProxy(CServerHandler* handler, unsigned int charNo)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8098fce` | `0x12c` | `0x80dc7ca` | `0x12c` |
+| dbmw | DIFF | `0x8098fce` | `0x12c` | `0x80dc89a` | `0x12c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -132,7 +132,7 @@ void CPacketTranslater::_ZN17CPacketTranslater26OnInsertFrameLagStatisticsEP12Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 3015 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 3014 行）：
 
 ```cpp
 void CPacketTranslater::OnInsertFrameLagStatistics(PacketHeader* header)

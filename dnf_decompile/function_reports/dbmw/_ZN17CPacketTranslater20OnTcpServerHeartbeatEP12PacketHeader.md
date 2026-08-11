@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809c7ae` | `0x18a` | `0x80db110` | `0x190` |
+| dbmw | DIFF | `0x809c7ae` | `0x18a` | `0x80db1e0` | `0x190` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -188,7 +188,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2738 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2737 行）：
 
 ```cpp
 void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)

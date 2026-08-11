@@ -52,15 +52,11 @@
 -jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x13a>
 +jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x137>
  call   <T> <_Z12G_ScriptDatav>
--add    $0x1e,%eax
-+lea    0x1e(%eax),%edx
+ add    $0x1e,%eax
  movl   $0x10,0x8(%esp)
--mov    -0xc(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
+ mov    -0xc(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
  call   <T> <strncpy>
  call   <T> <_Z12G_ScriptDatav>
  movb   $0x0,0x2e(%eax)
@@ -172,11 +168,12 @@ undefined4 __thiscall Script::_ZN6Script20get_aradauth_sectionEv(Script *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Relay/Script.cpp](source/DNFServer/GameServer/Relay/Script.cpp)（约第 201 行）：
+定义于 [source/DNFServer/GameServer/Relay/Script.cpp](source/DNFServer/GameServer/Relay/Script.cpp)（约第 204 行）：
 
 ```cpp
 bool Script::get_aradauth_section()
 {
+    // 语义还原（2026-08-11 用户规矩：不允许硬套 asm）。
     char* v = 0;
     v = data->get_data("[aradauth]", "udp_port_to_monitor");
     if (v == 0)
@@ -189,7 +186,7 @@ bool Script::get_aradauth_section()
     {
         return 0;
     }
-    strncpy((char*)G_ScriptData() + 0x1e, v, 0x10);
+    strncpy(G_ScriptData()->mServerIpB, v, 0x10);
     G_ScriptData()->mServerIpB[16] = 0;
     v = data->get_data("[aradauth]", "monitor_port");
     if (v == 0)

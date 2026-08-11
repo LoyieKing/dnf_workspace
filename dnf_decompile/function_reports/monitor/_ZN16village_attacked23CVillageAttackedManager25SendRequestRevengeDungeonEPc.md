@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a9142` | `0x2b` | `0x80a8790` | `0x34` |
+| monitor | DIFF | `0x80a9142` | `0x2b` | `0x80a8964` | `0x30` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,16 +1,21 @@
+@@ -1,16 +1,19 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x28,%esp
@@ -21,24 +21,22 @@
 +sub    $0x14,%esp
  mov    0xc(%ebp),%eax
 -mov    %eax,-0xc(%ebp)
-+mov    %eax,-0x8(%ebp)
-+mov    -0x8(%ebp),%eax
-+lea    0xa(%eax),%edx
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -mov    0x30(%eax),%edx
 -mov    -0xc(%ebp),%eax
--mov    %edx,0xa(%eax)
-+mov    0x30(%eax),%eax
-+mov    %eax,(%edx)
++mov    %eax,-0x8(%ebp)
 +mov    -0x8(%ebp),%eax
-+lea    0xe(%eax),%ebx
++mov    0x8(%ebp),%edx
++mov    0x30(%edx),%edx
+ mov    %edx,0xa(%eax)
++mov    -0x8(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked23CVillageAttackedManager20GetDungeonRemainTimeEv>
 -mov    -0xc(%ebp),%edx
 -mov    %eax,0xe(%edx)
 -leave
-+mov    %eax,(%ebx)
++mov    %eax,0xe(%ebx)
 +add    $0x14,%esp
 +pop    %ebx
 +pop    %ebp
@@ -67,13 +65,13 @@ _ZN16village_attacked23CVillageAttackedManager25SendRequestRevengeDungeonEPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 715 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 713 行）：
 
 ```cpp
 void CVillageAttackedManager::SendRequestRevengeDungeon(char* pkt)
 {
     char* p = pkt;
-    *(unsigned int*)(p + 0xa) = m_field30;
-    *(unsigned int*)(p + 0xe) = GetDungeonRemainTime();
+    ((RA_UINT<10>*)p)->v = m_field30;
+    ((RA_UINT<14>*)p)->v = GetDungeonRemainTime();
 }
 ```

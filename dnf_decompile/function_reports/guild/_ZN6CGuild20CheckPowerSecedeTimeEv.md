@@ -66,7 +66,7 @@ undefined4 __thiscall CGuild::_ZN6CGuild20CheckPowerSecedeTimeEv(CGuild *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1869 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1872 行）：
 
 ```cpp
 int CGuild::CheckPowerSecedeTime()

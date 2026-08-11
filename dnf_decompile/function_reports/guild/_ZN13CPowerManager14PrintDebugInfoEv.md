@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80a4dba` | `0xa2` | `0x809ac46` | `0xa2` |
+| guild | NEAR | `0x80a4dba` | `0xa2` | `0x809a90e` | `0xa2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -87,11 +87,15 @@ void __thiscall CPowerManager::_ZN13CPowerManager14PrintDebugInfoEv(CPowerManage
 ```cpp
 void CPowerManager::PrintDebugInfo()
 {
-    CMyFileLog logA(__FUNCTION__, 0x3c9);
-    logA("./log/PowerResult", "----- POWER A");
+    {
+        CMyFileLog logA(__FUNCTION__, 0x3c9);
+        logA("./log/PowerResult", "----- POWER A");
+    }
     ((CPower*)((char*)this + 0x74))->GetPowerWarGuildInfo()->PrintDebugInfo();
-    CMyFileLog logB(__FUNCTION__, 0x3cf);
-    logB("./log/PowerResult", "----- POWER B");
+    {
+        CMyFileLog logB(__FUNCTION__, 0x3cf);
+        logB("./log/PowerResult", "----- POWER B");
+    }
     ((CPower*)((char*)this + 0xe0))->GetPowerWarGuildInfo()->PrintDebugInfo();
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8079dc4` | `0x112` | `0x8070676` | `0xf3` |
+| guild | DIFF | `0x8079dc4` | `0x112` | `0x807050e` | `0xee` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,68 +1,61 @@
+@@ -1,68 +1,60 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x168,%esp
@@ -91,19 +91,16 @@
 -mov    %eax,0x4(%esp)
 -lea    -0x139(%ebp),%eax
 -add    $0x113,%eax
+-mov    %eax,(%esp)
+-call   <T> <memcpy>
 +lea    -0x135(%ebp),%eax
 +lea    0x124(%eax),%edx
-+mov    0x1c(%ebp),%eax
-+mov    %eax,(%edx)
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
- mov    %eax,(%esp)
--call   <T> <memcpy>
--mov    0x1c(%ebp),%eax
+ mov    0x1c(%ebp),%eax
 -mov    %eax,-0x15(%ebp)
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0x68(%eax),%eax
++mov    %eax,(%edx)
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    0x68(%eax),%eax
 -lea    -0x139(%ebp),%edx
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 +lea    -0x135(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)

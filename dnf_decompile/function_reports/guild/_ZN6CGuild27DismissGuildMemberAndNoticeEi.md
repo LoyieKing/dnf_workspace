@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808f0fa` | `0x143` | `0x80552c8` | `0x1c1` |
+| guild | DIFF | `0x808f0fa` | `0x143` | `0x80552cc` | `0x1c1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -38,7 +38,7 @@
 +mov    $0x0,%eax
 +test   %al,%al
 +jne    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x1bb>
-+lea    -0x20(%ebp),%eax
++lea    -0x1e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN42Packet_Monitor_Notice_Guild_Dismiss_ToUserC1Ev>
  mov    0x8(%ebp),%edx
@@ -64,7 +64,7 @@
 -jne    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x103>
 -mov    -0xc(%ebp),%eax
 +je     <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x17f>
-+lea    -0x20(%ebp),%eax
++lea    -0x1e(%ebp),%eax
 +lea    0xa(%eax),%ebx
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
@@ -75,7 +75,7 @@
 -mov    %eax,-0x18(%ebp)
 -mov    -0xc(%ebp),%eax
 +mov    %eax,(%ebx)
-+lea    -0x20(%ebp),%eax
++lea    -0x1e(%ebp),%eax
 +lea    0xe(%eax),%ebx
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
@@ -86,7 +86,7 @@
 -mov    %eax,-0x14(%ebp)
 -lea    -0x22(%ebp),%eax
 +mov    %eax,(%ebx)
-+lea    -0x20(%ebp),%ebx
++lea    -0x1e(%ebp),%ebx
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -255,7 +255,7 @@ void __thiscall CGuild::_ZN6CGuild27DismissGuildMemberAndNoticeEi(CGuild *this,i
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1147 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1150 行）：
 
 ```cpp
 void CGuild::DismissGuildMemberAndNotice(int group)

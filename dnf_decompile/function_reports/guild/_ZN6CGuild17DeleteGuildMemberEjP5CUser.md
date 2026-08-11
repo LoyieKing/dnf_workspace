@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808cfd6` | `0x151` | `0x80530ac` | `0x14f` |
+| guild | DIFF | `0x808cfd6` | `0x151` | `0x80530b0` | `0x14f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -196,7 +196,7 @@ CGuild::_ZN6CGuild17DeleteGuildMemberEjP5CUser(CGuild *this,uint param_1,CUser *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 449 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 452 行）：
 
 ```cpp
 int CGuild::DeleteGuildMember(unsigned int charNo, CUser* user)

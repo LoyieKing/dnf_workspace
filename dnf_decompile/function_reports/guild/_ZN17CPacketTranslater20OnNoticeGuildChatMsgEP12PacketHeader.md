@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8073c70` | `0x3a9` | `0x806a4fe` | `0x3b2` |
+| guild | DIFF | `0x8073c70` | `0x3a9` | `0x806a418` | `0x3ad` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,277 +1,280 @@
+@@ -1,277 +1,278 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -94,7 +94,7 @@
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x29c>
++jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x297>
 +lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -103,21 +103,33 @@
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    0x8(%ebp),%eax
+-mov    %eax,-0x20(%ebp)
+-mov    -0x20(%ebp),%eax
+-mov    0xe(%eax),%eax
 +mov    %eax,-0x28(%ebp)
 +mov    -0x28(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%eax
-+test   %eax,%eax
+ test   %eax,%eax
+-je     <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x1b7>
+-mov    -0x20(%ebp),%eax
+-mov    0xa(%eax),%eax
 +je     <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x11e>
 +mov    -0x28(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
-+test   %eax,%eax
+ test   %eax,%eax
+-je     <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x1b7>
+-mov    -0x20(%ebp),%eax
+-movzbl 0x12(%eax),%eax
 +je     <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x11e>
 +mov    -0x28(%ebp),%eax
 +add    $0x12,%eax
 +movzbl (%eax),%eax
-+test   %al,%al
+ test   %al,%al
+-je     <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x1b7>
+-mov    -0x20(%ebp),%eax
+-mov    0xe(%eax),%eax
 +jne    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x1f7>
 +lea    -0x29(%ebp),%eax
 +mov    %eax,(%esp)
@@ -177,7 +189,7 @@
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x29c>
++jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x297>
 +lea    -0x29(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
@@ -187,43 +199,12 @@
 +call   <T> <__cxa_throw>
 +mov    -0x28(%ebp),%eax
 +add    $0xa,%eax
-+mov    (%eax),%ebx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication15Get_UserManagerEv>
-+mov    %ebx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
-+mov    %eax,-0x24(%ebp)
-+mov    -0x28(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%ebx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    %ebx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN13CGuildManager9FindGuildEj>
- mov    %eax,-0x20(%ebp)
--mov    -0x20(%ebp),%eax
--mov    0xe(%eax),%eax
--test   %eax,%eax
--je     <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x1b7>
--mov    -0x20(%ebp),%eax
--mov    0xa(%eax),%eax
--test   %eax,%eax
--je     <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x1b7>
--mov    -0x20(%ebp),%eax
--movzbl 0x12(%eax),%eax
--test   %al,%al
--je     <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x1b7>
--mov    -0x20(%ebp),%eax
--mov    0xe(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x10,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
++mov    (%eax),%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+ add    $0x10,%edx
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 -mov    %eax,-0x28(%ebp)
 -cmpl   $0x0,-0x28(%ebp)
 -setne  %al
@@ -231,20 +212,25 @@
 -je     <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x1b1>
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN13CGuildManager9FindGuildEj>
++mov    %eax,-0x24(%ebp)
++mov    -0x28(%ebp),%eax
++add    $0xe,%eax
++mov    (%eax),%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+ add    $0x290,%edx
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x24(%ebp)
++mov    %eax,-0x20(%ebp)
  cmpl   $0x0,-0x24(%ebp)
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x1b1>
 -mov    -0x28(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x3aa>
++je     <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x3a5>
 +cmpl   $0x0,-0x20(%ebp)
-+je     <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x3aa>
++je     <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x3a5>
 +mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
@@ -338,22 +324,26 @@
 -movl   $&_ZTI13CDNFException,0x4(%esp)
 -mov    %ebx,(%esp)
 -call   <T> <__cxa_throw>
-+jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x3aa>
++jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x3a5>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x337>
-+jne    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x340>
++jne    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x33b>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildChatMsg() Exception Break : %s\n",(%esp)
  call   <T> <printf>
@@ -365,10 +355,10 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
 -mov    %eax,%ebx
 -movl   $0x405,0x8(%esp)
 -movl   $&_ZZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -376,6 +366,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildChatMsg() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -384,7 +378,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x330>
-+jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x339>
++jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x334>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -396,7 +390,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x3a1>
-+jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x3aa>
++jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x3a5>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnNoticeGuildChatMsg() Exception Break",(%esp)
@@ -414,7 +408,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x39c>
-+jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x3a5>
++jmp    <T> <_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader+0x3a0>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -515,8 +509,8 @@ void CPacketTranslater::OnNoticeGuildChatMsg(PacketHeader* pkt)
         throw CDNFException(
             "CPacketTranslater::OnNoticeGuildChatMsg : packet->m_uCharID && packet->m_uGuildKey && packet->m_msgLen");
     }
-    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 10));
-    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xe));
+    CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(*(unsigned int*)(pb + 10));
+    CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(*(unsigned int*)(pb + 0xe));
     if (user != 0 && guild != 0)
     {
         guild->NoticeChatMsgToGuildMembers(*(unsigned int*)(pb + 10), pb + 0x13,

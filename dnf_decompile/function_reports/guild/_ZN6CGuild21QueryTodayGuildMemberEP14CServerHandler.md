@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80926d4` | `0x2e` | `0x8058516` | `0x33` |
+| guild | NEAR | `0x80926d4` | `0x2e` | `0x8058510` | `0x2e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,23 +13,20 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,16 +1,18 @@
+@@ -1,16 +1,16 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x28,%esp
 -lea    -0x16(%ebp),%eax
 +sub    $0x38,%esp
-+lea    -0x1c(%ebp),%eax
++lea    -0x1a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN31Packet_Query_Today_Guild_MemberC1Ev>
-+lea    -0x1c(%ebp),%eax
-+lea    0xa(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
--mov    %eax,-0xc(%ebp)
+ mov    %eax,-0xc(%ebp)
 -lea    -0x16(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x1c(%ebp),%eax
++lea    -0x1a(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -59,13 +56,15 @@ CGuild::_ZN6CGuild21QueryTodayGuildMemberEP14CServerHandler(CGuild *this,CServer
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2249 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2251 行）：
 
 ```cpp
 void CGuild::QueryTodayGuildMember(CServerHandler* handler)
 {
     Packet_Query_Today_Guild_Member pkt;
-    *(unsigned int*)((char*)&pkt + 0xa) = m_guildKey;
+    // ORIG：仅把 m_guildKey 写入局部变量（Ghidra 反编译证实未写包字段）
+    unsigned int guildKey = m_guildKey;
+    (void)guildKey;
     handler->SendToDB(&pkt);
 }
 ```

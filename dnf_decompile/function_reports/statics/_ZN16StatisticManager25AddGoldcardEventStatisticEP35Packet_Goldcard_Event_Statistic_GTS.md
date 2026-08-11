@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x807499a` | `0x96` | `0x8074a34` | `0x8c` |
+| statics | DIFF | `0x807499a` | `0x96` | `0x8074942` | `0x8c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -125,7 +125,7 @@ _ZN16StatisticManager25AddGoldcardEventStatisticEP35Packet_Goldcard_Event_Statis
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1617 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1639 行）：
 
 ```cpp
 void StatisticManager::AddGoldcardEventStatistic(Packet_Goldcard_Event_Statistic_GTS* pkt)

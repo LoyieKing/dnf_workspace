@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808f520` | `0x737` | `0x805579c` | `0x563` |
+| guild | DIFF | `0x808f520` | `0x737` | `0x80557a0` | `0x55e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,38 +13,37 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,523 +1,424 @@
+@@ -1,523 +1,414 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
--sub    $0x2fd4,%esp
-+sub    $0x64,%esp
+ sub    $0x2fd4,%esp
  cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x72e>
-+je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x2d>
++je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x30>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x732>
-+je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x2d>
++je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x30>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x731>
 -lea    -0x2fab(%ebp),%eax
-+je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x34>
++je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x37>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x39>
++jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x3c>
 +mov    $0x0,%eax
 +test   %al,%al
-+jne    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x55d>
-+lea    -0x3e(%ebp),%eax
++jne    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x558>
++lea    -0x2fc3(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN43Packet_Monitor_Call_Guild_Members_ToChannelC1Ev>
-+lea    -0x3e(%ebp),%eax
++lea    -0x2fc3(%ebp),%eax
 +mov    %eax,-0x28(%ebp)
 +mov    -0x28(%ebp),%eax
 +lea    0x12(%eax),%edx
@@ -90,7 +89,7 @@
 +movl   $0x0,-0x24(%ebp)
  mov    0x8(%ebp),%edx
 -lea    -0x2fbc(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
@@ -100,18 +99,16 @@
 -jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x304>
 -mov    -0xc(%ebp),%ebx
 -lea    -0x1c(%ebp),%eax
-+jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x20d>
-+lea    -0x44(%ebp),%eax
++jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x212>
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
  mov    0x4(%eax),%eax
 +mov    %eax,-0x20(%ebp)
-+mov    -0x24(%ebp),%eax
-+mov    %eax,%edx
-+shl    $0x6,%edx
-+mov    %edx,%ecx
-+sub    %eax,%ecx
-+mov    %ecx,%eax
++mov    -0x24(%ebp),%edx
++mov    %edx,%eax
++shl    $0x6,%eax
++sub    %edx,%eax
 +add    $0x34,%eax
 +add    -0x28(%ebp),%eax
 +mov    %eax,-0x1c(%ebp)
@@ -222,7 +219,7 @@
 -je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x224>
 -mov    -0xc(%ebp),%ebx
 -lea    -0x1c(%ebp),%eax
-+je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x18e>
++je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x193>
 +mov    -0x1c(%ebp),%eax
 +lea    0x37(%eax),%ebx
 +mov    -0x20(%ebp),%eax
@@ -258,16 +255,16 @@
 +test   %eax,%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x1f8>
++je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x1fd>
 +mov    -0x1c(%ebp),%eax
 +add    $0x39,%eax
 +movb   $0x1,(%eax)
 +addl   $0x1,-0x24(%ebp)
-+lea    -0x44(%ebp),%eax
++lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEppEv>
 +cmpl   $0x5f,-0x24(%ebp)
-+jg     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x23e>
++jg     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x243>
 +mov    0x8(%ebp),%edx
 +lea    -0x34(%ebp),%eax
 +mov    %edx,0x4(%esp)
@@ -276,27 +273,26 @@
 +sub    $0x4,%esp
 +lea    -0x34(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0x44(%ebp),%eax
++lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
 +test   %al,%al
-+jne    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0xc3>
-+jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x23f>
++jne    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0xcc>
++jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x244>
 +nop
 +mov    -0x28(%ebp),%eax
 +lea    0x2d(%eax),%edx
 +mov    -0x24(%ebp),%eax
 +mov    %al,(%edx)
 +mov    -0x28(%ebp),%eax
-+lea    0x2(%eax),%edx
++lea    0x2(%eax),%ecx
 +mov    -0x24(%ebp),%eax
-+mov    %eax,%ecx
-+shl    $0x6,%ecx
-+mov    %ecx,%ebx
-+sub    %ax,%bx
-+mov    %ebx,%eax
++mov    %eax,%edx
++mov    %edx,%eax
++shl    $0x6,%eax
++sub    %dx,%ax
 +add    $0x34,%eax
-+mov    %ax,(%edx)
++mov    %ax,(%ecx)
 +mov    -0x28(%ebp),%eax
 +lea    0xa(%eax),%ebx
 +mov    0xc(%ebp),%eax
@@ -309,12 +305,10 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
 +mov    %eax,(%ebx)
-+mov    -0x24(%ebp),%eax
-+mov    %eax,%edx
-+shl    $0x6,%edx
-+mov    %edx,%ecx
-+sub    %eax,%ecx
-+mov    %ecx,%eax
++mov    -0x24(%ebp),%edx
++mov    %edx,%eax
++shl    $0x6,%eax
++sub    %edx,%eax
 +add    $0x34,%eax
 +mov    %eax,0x8(%esp)
 +mov    -0x28(%ebp),%eax
@@ -330,15 +324,15 @@
 +sub    $0x4,%esp
 +lea    -0x30(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0x44(%ebp),%eax
++lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
 +test   %al,%al
-+je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x55e>
-+lea    -0x4e(%ebp),%eax
++je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x559>
++lea    -0x17ef(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN48Packet_Monitor_Call_Guild_Members_ToChannel_NextC1Ev>
-+lea    -0x4e(%ebp),%eax
++lea    -0x17ef(%ebp),%eax
 +mov    %eax,-0x18(%ebp)
 +mov    -0x18(%ebp),%eax
 +lea    0x12(%eax),%edx
@@ -346,8 +340,8 @@
 +mov    0x18(%eax),%eax
 +mov    %eax,(%edx)
 +movl   $0x0,-0x14(%ebp)
-+jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x4b3>
-+lea    -0x44(%ebp),%eax
++jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x4b4>
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
  mov    0x4(%eax),%eax
@@ -356,27 +350,13 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN16CServerInterface12GetChannelNoEv>
 -mov    %eax,%edx
-+mov    %eax,-0x10(%ebp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,%edx
-+shl    $0x6,%edx
-+mov    %edx,%ebx
-+sub    %eax,%ebx
- mov    %ebx,%eax
+-mov    %ebx,%eax
 -shl    $0x6,%eax
 -sub    %ebx,%eax
 -lea    -0x8(%ebp),%ecx
 -lea    (%ecx,%eax,1),%eax
 -sub    $0x2f38,%eax
-+add    $0x17,%eax
-+add    -0x18(%ebp),%eax
-+mov    %eax,-0xc(%ebp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser6GetJobEv>
-+mov    %eax,%edx
-+mov    -0xc(%ebp),%eax
- mov    %dl,(%eax)
+-mov    %dl,(%eax)
 -lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -384,38 +364,20 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser17GetGuildMemDBInfoEv>
 -mov    %eax,%ecx
-+mov    -0xc(%ebp),%eax
-+lea    0x1(%eax),%ebx
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetGrowthTypeEv>
-+mov    %al,(%ebx)
-+mov    -0xc(%ebp),%eax
-+lea    0x2(%eax),%ebx
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser8GetLevelEv>
-+movzbl %al,%eax
-+mov    %ax,(%ebx)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser11GetCharNameEv>
- mov    -0xc(%ebp),%edx
+-mov    -0xc(%ebp),%edx
 -lea    -0x2fab(%ebp),%ebx
--mov    %edx,%eax
--shl    $0x6,%eax
--sub    %edx,%eax
++mov    %eax,-0x10(%ebp)
++mov    -0x14(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ sub    %edx,%eax
 -add    $0x50,%eax
 -lea    (%ebx,%eax,1),%eax
 -add    $0x6,%eax
 -movl   $0x14,0x8(%esp)
 -mov    %ecx,0x4(%esp)
 -mov    %eax,(%esp)
-+add    $0x4,%edx
-+movl   $0x1d,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
- call   <T> <memcpy>
+-call   <T> <memcpy>
 -mov    -0xc(%ebp),%ebx
 -lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
@@ -533,23 +495,31 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
 -mov    0x4(%eax),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser6GetJobEv>
--mov    %eax,%edx
++add    $0x17,%eax
++add    -0x18(%ebp),%eax
++mov    %eax,-0xc(%ebp)
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser6GetJobEv>
+ mov    %eax,%edx
 -mov    %ebx,%eax
 -shl    $0x6,%eax
 -sub    %ebx,%eax
 -lea    -0x8(%ebp),%ecx
 -lea    (%ecx,%eax,1),%eax
 -sub    $0x17b8,%eax
--mov    %dl,(%eax)
++mov    -0xc(%ebp),%eax
+ mov    %dl,(%eax)
 -mov    -0xc(%ebp),%ebx
 -lea    -0x20(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
 -mov    0x4(%eax),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetGrowthTypeEv>
++mov    -0xc(%ebp),%eax
++lea    0x1(%eax),%ebx
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser13GetGrowthTypeEv>
 -mov    %eax,%edx
 -mov    %ebx,%eax
 -shl    $0x6,%eax
@@ -563,8 +533,12 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
 -mov    0x4(%eax),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser8GetLevelEv>
++mov    %al,(%ebx)
++mov    -0xc(%ebp),%eax
++lea    0x2(%eax),%ebx
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser8GetLevelEv>
 -mov    %eax,%edx
 -mov    %ebx,%eax
 -shl    $0x6,%eax
@@ -577,10 +551,13 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
 -mov    0x4(%eax),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser11GetCharNameEv>
++movzbl %al,%eax
++mov    %ax,(%ebx)
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser11GetCharNameEv>
 -mov    %eax,%ecx
--mov    -0xc(%ebp),%edx
+ mov    -0xc(%ebp),%edx
 -lea    -0x17d7(%ebp),%ebx
 -mov    %edx,%eax
 -shl    $0x6,%eax
@@ -588,10 +565,13 @@
 -add    $0x10,%eax
 -lea    (%ebx,%eax,1),%eax
 -add    $0xb,%eax
--movl   $0x1d,0x8(%esp)
++add    $0x4,%edx
+ movl   $0x1d,0x8(%esp)
 -mov    %ecx,0x4(%esp)
 -mov    %eax,(%esp)
--call   <T> <memcpy>
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
+ call   <T> <memcpy>
 -mov    -0xc(%ebp),%ebx
 -lea    -0x20(%ebp),%eax
 -mov    %eax,(%esp)
@@ -627,7 +607,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
 -mov    0x4(%eax),%eax
-+je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x3d7>
++je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x3d8>
 +mov    -0xc(%ebp),%eax
 +lea    0x37(%eax),%ebx
 +mov    -0x10(%ebp),%eax
@@ -713,7 +693,7 @@
 +test   %eax,%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x441>
++je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x442>
 +mov    -0xc(%ebp),%eax
 +add    $0x39,%eax
  movb   $0x1,(%eax)
@@ -726,11 +706,11 @@
 -mov    %al,-0x17c1(%ebp)
 -movw   $0x17b7,-0x17d5(%ebp)
 +addl   $0x1,-0x14(%ebp)
-+lea    -0x44(%ebp),%eax
++lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEppEv>
 +cmpl   $0x5f,-0x14(%ebp)
-+jle    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x4b3>
++jle    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x4b4>
 +mov    -0x18(%ebp),%eax
 +lea    0x16(%eax),%edx
 +mov    -0x14(%ebp),%eax
@@ -779,7 +759,7 @@
 -lea    -0x20(%ebp),%eax
 +lea    -0x2c(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0x44(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
  test   %al,%al
@@ -790,27 +770,23 @@
 -mov    %al,-0x17c1(%ebp)
 -movzbl -0x17c1(%ebp),%eax
 -movzbl %al,%edx
--mov    %edx,%eax
--shl    $0x6,%eax
--sub    %dx,%ax
-+jne    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x30c>
++jne    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x311>
 +cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x55e>
++je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x559>
 +mov    -0x18(%ebp),%eax
 +lea    0x16(%eax),%edx
 +mov    -0x14(%ebp),%eax
 +mov    %al,(%edx)
 +mov    -0x18(%ebp),%eax
-+lea    0x2(%eax),%edx
++lea    0x2(%eax),%ecx
 +mov    -0x14(%ebp),%eax
-+mov    %eax,%ecx
-+shl    $0x6,%ecx
-+mov    %ecx,%ebx
-+sub    %ax,%bx
-+mov    %ebx,%eax
++mov    %eax,%edx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ sub    %dx,%ax
  add    $0x17,%eax
 -mov    %ax,-0x17d5(%ebp)
-+mov    %ax,(%edx)
++mov    %ax,(%ecx)
 +mov    -0x18(%ebp),%eax
 +lea    0xa(%eax),%ebx
  mov    0xc(%ebp),%eax
@@ -829,12 +805,10 @@
 -lea    -0x17d7(%ebp),%eax
 -mov    %edx,0x8(%esp)
 +mov    %eax,(%ebx)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,%edx
-+shl    $0x6,%edx
-+mov    %edx,%ecx
-+sub    %eax,%ecx
-+mov    %ecx,%eax
++mov    -0x14(%ebp),%edx
++mov    %edx,%eax
++shl    $0x6,%eax
++sub    %edx,%eax
 +add    $0x17,%eax
 +mov    %eax,0x8(%esp)
 +mov    -0x18(%ebp),%eax
@@ -845,7 +819,7 @@
 -jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x732>
 -nop
 -jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x732>
-+jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x55e>
++jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x559>
  nop
  mov    -0x4(%ebp),%ebx
  leave
@@ -1095,7 +1069,7 @@ void __thiscall CGuild::_ZN6CGuild17ReplyGuildMembersEP5CUser(CGuild *this,CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1228 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1231 行）：
 
 ```cpp
 void CGuild::ReplyGuildMembers(CUser* user)

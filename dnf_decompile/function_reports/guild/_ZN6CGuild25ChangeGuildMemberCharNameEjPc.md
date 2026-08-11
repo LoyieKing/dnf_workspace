@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80917fc` | `0x170` | `0x80575aa` | `0x17f` |
+| guild | DIFF | `0x80917fc` | `0x170` | `0x80575aa` | `0x17c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -24,55 +24,50 @@
  call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
  test   %al,%al
 -je     <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x16a>
-+je     <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x179>
++je     <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x176>
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0xac>
 -mov    -0xc(%ebp),%edx
--mov    0x8(%ebp),%ecx
++jmp    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0xb5>
+ mov    0x8(%ebp),%ecx
 -mov    %edx,%eax
 -shl    $0x6,%eax
 -add    %edx,%eax
-+jmp    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0xb8>
-+mov    0x8(%ebp),%edx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,%ecx
-+shl    $0x6,%ecx
- lea    (%ecx,%eax,1),%eax
- add    $0xd0,%eax
-+lea    (%edx,%eax,1),%eax
- mov    0xd(%eax),%eax
- cmp    0xc(%ebp),%eax
+-lea    (%ecx,%eax,1),%eax
+-add    $0xd0,%eax
+-mov    0xd(%eax),%eax
+-cmp    0xc(%ebp),%eax
 -jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0xa8>
--mov    -0xc(%ebp),%edx
--mov    %edx,%eax
--shl    $0x6,%eax
--add    %edx,%eax
-+jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0xb4>
-+mov    0x8(%ebp),%edx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,%ecx
-+shl    $0x6,%ecx
-+lea    (%ecx,%eax,1),%eax
+ mov    -0xc(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ add    %edx,%eax
  add    $0xd0,%eax
 -add    0x8(%ebp),%eax
-+lea    (%edx,%eax,1),%eax
++lea    (%ecx,%eax,1),%eax
++mov    0xd(%eax),%eax
++cmp    0xc(%ebp),%eax
++jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0xb1>
++mov    0x8(%ebp),%ecx
++mov    -0xc(%ebp),%edx
++mov    %edx,%eax
++shl    $0x6,%eax
++add    %edx,%eax
++add    $0xd0,%eax
++lea    (%ecx,%eax,1),%eax
  add    $0x11,%eax
  movl   $0x1e,0x8(%esp)
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memset>
--mov    -0xc(%ebp),%edx
--mov    %edx,%eax
--shl    $0x6,%eax
--add    %edx,%eax
-+mov    0x8(%ebp),%edx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,%ecx
-+shl    $0x6,%ecx
-+lea    (%ecx,%eax,1),%eax
++mov    0x8(%ebp),%ecx
+ mov    -0xc(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ add    %edx,%eax
  add    $0xd0,%eax
 -add    0x8(%ebp),%eax
-+lea    (%edx,%eax,1),%eax
++lea    (%ecx,%eax,1),%eax
  lea    0x11(%eax),%edx
  movl   $0x1d,0x8(%esp)
  mov    0x10(%ebp),%eax
@@ -92,7 +87,7 @@
 +mov    (%eax),%eax
  cmp    0xc(%ebp),%eax
 -jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x11b>
-+jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x128>
++jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x125>
  mov    0x8(%ebp),%eax
  add    $0x66f0,%eax
  movl   $0x1e,0x8(%esp)
@@ -116,7 +111,7 @@
 +mov    (%eax),%eax
  cmp    0xc(%ebp),%eax
 -jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x16a>
-+jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x179>
++jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x176>
  mov    0x8(%ebp),%eax
  add    $0xc4,%eax
  movl   $0x15,0x8(%esp)
@@ -177,7 +172,7 @@ CGuild::_ZN6CGuild25ChangeGuildMemberCharNameEjPc(CGuild *this,uint param_1,char
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1878 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1881 行）：
 
 ```cpp
 int CGuild::ChangeGuildMemberCharName(unsigned int charNo, char* name)

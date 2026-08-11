@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8050074` | `0x65` | `0x8085f28` | `0x4d` |
+| monitor | NEAR | `0x8050074` | `0x65` | `0x8085f8e` | `0x65` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,27 +1,23 @@
+@@ -1,27 +1,27 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -21,10 +21,10 @@
  test   %eax,%eax
  jg     <T> <_ZN9TCPSocket19setOptResizeSendBufEi+0x14>
  mov    $0x0,%eax
--jmp    <T> <_ZN9TCPSocket19setOptResizeSendBufEi+0x63>
--movl   $0x0,-0x10(%ebp)
+ jmp    <T> <_ZN9TCPSocket19setOptResizeSendBufEi+0x63>
++movl   $0x4,-0x14(%ebp)
+ movl   $0x0,-0x10(%ebp)
 -movl   $0x4,-0x14(%ebp)
-+jmp    <T> <_ZN9TCPSocket19setOptResizeSendBufEi+0x4b>
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  movl   $0x4,0x10(%esp)
@@ -35,14 +35,11 @@
  mov    %eax,(%esp)
  call   <T> <setsockopt>
  mov    %eax,-0xc(%ebp)
--cmpl   $0x0,-0xc(%ebp)
--jns    <T> <_ZN9TCPSocket19setOptResizeSendBufEi+0x5e>
--mov    $0x0,%eax
--jmp    <T> <_ZN9TCPSocket19setOptResizeSendBufEi+0x63>
--mov    $0x1,%eax
-+mov    -0xc(%ebp),%eax
-+not    %eax
-+shr    $0x1f,%eax
+ cmpl   $0x0,-0xc(%ebp)
+ jns    <T> <_ZN9TCPSocket19setOptResizeSendBufEi+0x5e>
+ mov    $0x0,%eax
+ jmp    <T> <_ZN9TCPSocket19setOptResizeSendBufEi+0x63>
+ mov    $0x1,%eax
  leave
  ret
 ```
@@ -76,7 +73,7 @@ undefined4 __thiscall TCPSocket::_ZN9TCPSocket19setOptResizeSendBufEi(TCPSocket 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp](source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp)（约第 359 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp](source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp)（约第 373 行）：
 
 ```cpp
 char TCPSocket::setOptResizeSendBuf(int size)
@@ -85,7 +82,13 @@ char TCPSocket::setOptResizeSendBuf(int size)
     {
         return 0;
     }
+    int optlen = 4;
+    int opt = 0;
     int r = setsockopt(m_fd, 1, 7, &size, 4);
-    return (char)(r >= 0);
+    if (r < 0)
+    {
+        return 0;
+    }
+    return 1;
 }
 ```

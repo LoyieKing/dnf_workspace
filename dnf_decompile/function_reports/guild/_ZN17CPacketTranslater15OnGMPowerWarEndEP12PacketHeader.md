@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8080e24` | `0x278` | `0x8077466` | `0x27c` |
+| guild | DIFF | `0x8080e24` | `0x278` | `0x8077234` | `0x277` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,175 +1,176 @@
+@@ -1,175 +1,174 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -34,7 +34,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x270>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x274>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x26f>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15GetPowerManagerEv>
@@ -45,12 +45,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager12IsPowerWarOnEv>
 -xor    $0x1,%eax
-+cmp    $0x1,%al
-+sete   %al
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x26f>
 -mov    -0x20(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x274>
++je     <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x26f>
 +mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager17SendPowerWarScoreEv>
@@ -75,7 +73,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x180>
-+je     <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x187>
++je     <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x182>
  lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -94,7 +92,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x131>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x138>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x133>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -107,23 +105,23 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x12b>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x132>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x12d>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x148>
-+jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x14f>
++jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x14a>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x148>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x14f>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x14a>
  lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x15d>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x164>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x15f>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x148>
-+jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x14f>
++jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x14a>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
@@ -133,7 +131,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x197>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x19e>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x199>
  lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -148,20 +146,24 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x270>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x274>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x26f>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x213>
-+jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x21a>
++jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x215>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,%ebx
  movl   $0x143d,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -175,7 +177,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x20c>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x213>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x20e>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -185,7 +187,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x270>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x274>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x26f>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1442,0x8(%esp)
@@ -199,7 +201,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x268>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x26f>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x26a>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -277,7 +279,7 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3494 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3495 行）：
 
 ```cpp
 void CPacketTranslater::OnGMPowerWarEnd(PacketHeader* pkt)

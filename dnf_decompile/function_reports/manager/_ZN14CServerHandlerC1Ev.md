@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8067dd0` | `0xd2` | `0x805d9e0` | `0xba` |
+| manager | DIFF | `0x8067dd0` | `0xd2` | `0x805d9dc` | `0xd3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,73 +1,70 @@
+@@ -1,73 +1,74 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -56,55 +56,42 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  mov    0x8(%ebp),%eax
--movl   $0x0,0x7e4(%eax)
--mov    0x8(%ebp),%eax
+ movl   $0x0,0x7e4(%eax)
+ mov    0x8(%ebp),%eax
  add    $0x7e8,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP10CTcpServerSt4lessIjESaISt4pairIKjS1_EEEC1Ev>
-+jmp    <T> <_ZN14CServerHandlerC1Ev+0xb2>
-+mov    %edx,%esi
-+mov    %eax,%edi
  mov    0x8(%ebp),%eax
 -movl   $0x0,0x800(%eax)
-+test   %eax,%eax
-+je     <T> <_ZN14CServerHandlerC1Ev+0xa6>
-+mov    0x8(%ebp),%eax
-+lea    0x7e4(%eax),%ebx
-+mov    0x8(%ebp),%eax
-+cmp    %eax,%ebx
-+je     <T> <_ZN14CServerHandlerC1Ev+0xa6>
-+sub    $0x14,%ebx
-+mov    %ebx,(%esp)
-+call   <T> <_ZN14CMonitorServerD1Ev>
-+jmp    <T> <_ZN14CServerHandlerC1Ev+0x92>
-+mov    %edi,%eax
-+mov    %esi,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
++add    $0x800,%eax
++movl   $0x0,(%eax)
  add    $0x2c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
  pop    %ebp
  ret
--mov    %edx,%esi
--mov    %eax,%edi
--mov    0x8(%ebp),%eax
--test   %eax,%eax
+ mov    %edx,%esi
+ mov    %eax,%edi
+ mov    0x8(%ebp),%eax
+ test   %eax,%eax
 -je     <T> <_ZN14CServerHandlerC1Ev+0xc6>
--mov    0x8(%ebp),%eax
--lea    0x7e4(%eax),%ebx
--mov    0x8(%ebp),%eax
--cmp    %eax,%ebx
++je     <T> <_ZN14CServerHandlerC1Ev+0xc7>
+ mov    0x8(%ebp),%eax
+ lea    0x7e4(%eax),%ebx
+ mov    0x8(%ebp),%eax
+ cmp    %eax,%ebx
 -je     <T> <_ZN14CServerHandlerC1Ev+0xc6>
--sub    $0x14,%ebx
--mov    %ebx,(%esp)
--call   <T> <_ZN14CMonitorServerD1Ev>
++je     <T> <_ZN14CServerHandlerC1Ev+0xc7>
+ sub    $0x14,%ebx
+ mov    %ebx,(%esp)
+ call   <T> <_ZN14CMonitorServerD1Ev>
 -jmp    <T> <_ZN14CServerHandlerC1Ev+0xb2>
--mov    %edi,%eax
--mov    %esi,%edx
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
++jmp    <T> <_ZN14CServerHandlerC1Ev+0xb3>
+ mov    %edi,%eax
+ mov    %esi,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
 ```
 ## 2. Ghidra 反编译 C
 
@@ -140,5 +127,8 @@ void __thiscall CServerHandler::_ZN14CServerHandlerC1Ev(CServerHandler *this)
 定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 14 行）：
 
 ```cpp
-CServerHandler::CServerHandler() {}
+CServerHandler::CServerHandler() : m_app(0)
+{
+    *(unsigned int*)m_pad = 0;
+}
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80836e6` | `0x2c3` | `0x8079552` | `0x1e0` |
+| guild | DIFF | `0x80836e6` | `0x2c3` | `0x80792fc` | `0x1d0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,20 +13,20 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,184 +1,126 @@
+@@ -1,184 +1,120 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
- push   %ebx
+-push   %ebx
 -add    $0xffffff80,%esp
-+sub    $0x74,%esp
++sub    $0x78,%esp
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x18(%ebp)
 +mov    %eax,-0x1c(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x52>
-+jne    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x51>
++jne    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x50>
  movl   $0x17eb,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
@@ -40,27 +40,28 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x2bc>
-+jmp    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x1da>
-+mov    -0x1c(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%ebx
- mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -add    $0x10,%eax
 -mov    %eax,-0x14(%ebp)
 -mov    -0x18(%ebp),%eax
 -mov    0xe(%eax),%eax
--mov    %eax,0x4(%esp)
++jmp    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x1ce>
++mov    -0x1c(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%eax
++mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
++add    $0x10,%edx
+ mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication15Get_UserManagerEv>
-+mov    %ebx,0x4(%esp)
- mov    %eax,(%esp)
+-mov    %eax,(%esp)
++mov    %edx,(%esp)
  call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 -mov    %eax,-0x20(%ebp)
 -cmpl   $0x0,-0x20(%ebp)
+-jne    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0xb6>
 +mov    %eax,-0x18(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
- jne    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0xb6>
++jne    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0xb1>
  movl   $0x17f5,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
@@ -78,19 +79,16 @@
 -mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
-+jmp    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x1da>
++jmp    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x1ce>
 +mov    -0x1c(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x14(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    -0x14(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
++lea    0x290(%eax),%edx
++mov    -0x14(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x1c(%ebp)
 -cmpl   $0x0,-0x1c(%ebp)
@@ -99,7 +97,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x11d>
-+je     <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x126>
++je     <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x11f>
  movl   $0x17fc,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
@@ -114,7 +112,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x2bc>
 -lea    -0x6f(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x1da>
++jmp    <T> <_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12PacketHeader+0x1ce>
 +lea    -0x5b(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN33Packet_DB_Write_Guild_Member_MemoC1Ev>
@@ -167,10 +165,8 @@
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0x68(%eax),%eax
+ mov    0x68(%eax),%eax
 -lea    -0x6f(%ebp),%edx
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 +lea    -0x5b(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -254,10 +250,10 @@
 -call   <T> <_Unwind_Resume>
 -call   <T> <__cxa_end_catch>
 -sub    $0xffffff80,%esp
-+add    $0x74,%esp
- pop    %ebx
+-pop    %ebx
 -pop    %esi
- pop    %ebp
+-pop    %ebp
++leave
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -332,7 +328,7 @@ void CPacketTranslater::_ZN17CPacketTranslater22OnWriteGuildMemberMemoEP12Packet
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4124 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4125 行）：
 
 ```cpp
 void CPacketTranslater::OnWriteGuildMemberMemo(PacketHeader* pkt)
@@ -344,7 +340,7 @@ void CPacketTranslater::OnWriteGuildMemberMemo(PacketHeader* pkt)
             "CPacketTranslater::OnWriteGuildMemberMemo : 0 == m_pclApp");
         return;
     }
-    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xa));
+    CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(*(unsigned int*)(pb + 0xa));
     if (user == 0)
     {
         DNF_LOG_SCOPE_LINE(0x17f5, "./log/GuildMember", "CPacketTranslater::OnWriteGuildMemberMemo : 0 == pclUser");
@@ -352,7 +348,7 @@ void CPacketTranslater::OnWriteGuildMemberMemo(PacketHeader* pkt)
     }
     unsigned int guildKey = *(unsigned int*)(pb + 0xe);
     CGuild* guild;
-    if ((guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey)) == 0)
+    if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) == 0)
     {
         DNF_LOG_SCOPE_LINE(0x17fc, "./log/GuildMember", "CPacketTranslater::OnWriteGuildMemberMemo : 0 == pclGuild");
         return;
@@ -362,7 +358,7 @@ void CPacketTranslater::OnWriteGuildMemberMemo(PacketHeader* pkt)
     *(unsigned int*)((char*)&dbPkt + 0xe) = guildKey;
     size_t len = strlen(pb + 0x12);
     memcpy((char*)&dbPkt + 0x12, pb + 0x12, len < 0x15 ? len : 0x14);
-    m_pclApp->Get_ServerHandler()->SendToDB(&dbPkt);
+    m_pclApp->m_serverHandler->SendToDB(&dbPkt);
     guild->WriteGuildMemberMemo(user, pb + 0x12);
     guild->NotifyMemoToGuildMember(user, pb + 0x12);
 }

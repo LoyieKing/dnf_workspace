@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8060312` | `0x238` | `0x804d6ba` | `0x24e` |
+| manager | DIFF | `0x8060312` | `0x238` | `0x804d5bc` | `0x234` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,176 +1,183 @@
+@@ -1,176 +1,174 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -32,15 +32,6 @@
  call   <T> <_ZN10CAppConfigC1Ev>
 -mov    %ebx,%eax
 -mov    %eax,%edx
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x4f>
-+mov    %edx,%esi
-+mov    %eax,%edi
-+mov    %ebx,(%esp)
-+call   <T> <_ZdlPv>
-+mov    %edi,%eax
-+mov    %esi,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
 +mov    %ebx,%edx
  mov    0xc(%ebp),%eax
  mov    %edx,0x10(%eax)
@@ -63,7 +54,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CAppConfig14Check_FileNameERKSs>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x94>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xac>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x92>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x28(%ebp),%eax
@@ -72,12 +63,12 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xa1>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xb9>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x9f>
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xbc>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xd4>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xba>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x21(%ebp),%eax
@@ -97,7 +88,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CServerConfigC1Ev>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xf9>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x111>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xf7>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -118,7 +109,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CKillUSRConfigC1Ev>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x135>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x14b>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x131>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -141,7 +132,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x230>
-+je     <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x246>
++je     <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x22c>
  lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -160,7 +151,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1db>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1f1>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1d7>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -173,23 +164,23 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1d5>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1eb>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1d1>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1f2>
-+jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x208>
++jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1ee>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1f2>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x208>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1ee>
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x20d>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x223>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x209>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1f2>
-+jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x208>
++jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1ee>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
@@ -277,7 +268,7 @@ CAppStartInit::_ZN13CAppStartInit4InitEP12CApplicationiPPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Manager/DNFAppStartInit.cpp](source/DNFServer/GameServer/Manager/DNFAppStartInit.cpp)（约第 63 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFAppStartInit.cpp](source/DNFServer/GameServer/Manager/DNFAppStartInit.cpp)（约第 70 行）：
 
 ```cpp
 void CAppStartInit::Init(CApplication* app, int argc, char** argv)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80743ea` | `0x199` | `0x80601b8` | `0x126` |
+| dbmw | DIFF | `0x80743ea` | `0x199` | `0x806029a` | `0x120` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,20 +13,22 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,138 +1,82 @@
+@@ -1,138 +1,89 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
--push   %ebx
--sub    $0x270,%esp
-+sub    $0x278,%esp
+ push   %edi
+ push   %ebx
+ sub    $0x270,%esp
  mov    0x8(%ebp),%eax
  mov    0xc(%eax),%eax
  mov    %eax,-0xc(%ebp)
 -lea    -0x246(%ebp),%edx
 -mov    $0x1ff,%ebx
--mov    $0x0,%eax
--mov    %edx,%ecx
++lea    -0x248(%ebp),%ebx
+ mov    $0x0,%eax
++mov    $0x80,%edx
++mov    %ebx,%edi
+ mov    %edx,%ecx
 -and    $0x2,%ecx
 -test   %ecx,%ecx
 -je     <T> <_ZN10CDBManager12InsertLetterEjjPKcS1_Ril+0x36>
@@ -36,7 +38,7 @@
 -mov    %ebx,%ecx
 -shr    $0x2,%ecx
 -mov    %edx,%edi
--rep stos %eax,%es:(%edi)
+ rep stos %eax,%es:(%edi)
 -mov    %edi,%edx
 -mov    %ebx,%ecx
 -and    $0x2,%ecx
@@ -50,11 +52,6 @@
 -je     <T> <_ZN10CDBManager12InsertLetterEjjPKcS1_Ril+0x5e>
 -mov    %al,(%edx)
 -add    $0x1,%edx
-+movl   $0x200,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+lea    -0x248(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <memset>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x78,%eax
@@ -69,8 +66,11 @@
  call   *%edx
 -lea    -0x47(%ebp),%edx
 -mov    $0x3b,%ebx
--mov    $0x0,%eax
--mov    %edx,%ecx
++lea    -0x48(%ebp),%ebx
+ mov    $0x0,%eax
++mov    $0xf,%edx
++mov    %ebx,%edi
+ mov    %edx,%ecx
 -and    $0x1,%ecx
 -test   %ecx,%ecx
 -je     <T> <_ZN10CDBManager12InsertLetterEjjPKcS1_Ril+0x9f>
@@ -87,7 +87,7 @@
 -mov    %ebx,%ecx
 -shr    $0x2,%ecx
 -mov    %edx,%edi
--rep stos %eax,%es:(%edi)
+ rep stos %eax,%es:(%edi)
 -mov    %edi,%edx
 -mov    %ebx,%ecx
 -and    $0x2,%ecx
@@ -101,11 +101,6 @@
 -je     <T> <_ZN10CDBManager12InsertLetterEjjPKcS1_Ril+0xd9>
 -mov    %al,(%edx)
 -add    $0x1,%edx
-+movl   $0x3c,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+lea    -0x48(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <memset>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x78,%eax
@@ -151,10 +146,10 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager12InsertLetterEjjPKcS1_Ril+0x171>
-+je     <T> <_ZN10CDBManager12InsertLetterEjjPKcS1_Ril+0x106>
++je     <T> <_ZN10CDBManager12InsertLetterEjjPKcS1_Ril+0xf8>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager12InsertLetterEjjPKcS1_Ril+0x18f>
-+jmp    <T> <_ZN10CDBManager12InsertLetterEjjPKcS1_Ril+0x124>
++jmp    <T> <_ZN10CDBManager12InsertLetterEjjPKcS1_Ril+0x116>
  mov    -0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -164,11 +159,10 @@
  mov    0x1c(%ebp),%eax
  mov    %edx,(%eax)
  mov    $0x1,%eax
--add    $0x270,%esp
--pop    %ebx
--pop    %edi
--pop    %ebp
-+leave
+ add    $0x270,%esp
+ pop    %ebx
+ pop    %edi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C

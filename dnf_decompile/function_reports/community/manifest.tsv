@@ -1,6 +1,2 @@
-status	name	orig_addr	orig_size	new_addr	new_size
-DIFF	_ZN11CArchiveLog8WriteLogEPKc	0x804ad58	0x11b	0x804ac98	0x121
-DIFF	_ZN5CUser15send_buddy_listEv	0x8053618	0x307	0x80540be	0x300
-DIFF	_ZN5CUser34send_other_channel_chat_hyper_linkEP44Packet_Monitor_Other_Channel_Chat_Hyper_LinkPS_	0x805406a	0x138	0x8054486	0x138
-DIFF	_ZN5CUser41send_other_channel_chat_result_hyper_linkEP44Packet_Monitor_Other_Channel_Chat_Hyper_Link18ENUM_MONITOR_ERROR	0x80541a2	0x134	0x8054682	0x134
-DIFF	main	0x804c2c7	0x537	0x804c85f	0x500
+status	name	orig_addr	orig_size	new_addr	new_size	md_file
+DIFF	_ZN11CArchiveLog8WriteLogEPKc	0x804ad58	0x11b	0x804ac98	0x121	_ZN11CArchiveLog8WriteLogEPKc.md

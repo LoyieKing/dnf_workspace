@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80812aa` | `0x2fb` | `0x804e190` | `0x2dc` |
+| dbmw | DIFF | `0x80812aa` | `0x2fb` | `0x804e190` | `0x2d4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,207 +1,195 @@
+@@ -1,207 +1,196 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -27,8 +27,11 @@
  mov    %eax,-0x1c(%ebp)
 -lea    -0x127(%ebp),%edx
 -mov    $0xff,%ebx
--mov    $0x0,%eax
--mov    %edx,%ecx
++lea    -0x128(%ebp),%ebx
+ mov    $0x0,%eax
++mov    $0x40,%edx
++mov    %ebx,%edi
+ mov    %edx,%ecx
 -and    $0x1,%ecx
 -test   %ecx,%ecx
 -je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x36>
@@ -45,7 +48,7 @@
 -mov    %ebx,%ecx
 -shr    $0x2,%ecx
 -mov    %edx,%edi
--rep stos %eax,%es:(%edi)
+ rep stos %eax,%es:(%edi)
 -mov    %edi,%edx
 -mov    %ebx,%ecx
 -and    $0x2,%ecx
@@ -61,11 +64,6 @@
 -add    $0x1,%edx
 -mov    0xc(%ebp),%eax
 -mov    0xb(%eax),%ecx
-+movl   $0x100,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+lea    -0x128(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <memset>
 +mov    -0x1c(%ebp),%eax
 +add    $0xb,%eax
 +mov    (%eax),%ecx
@@ -150,9 +148,9 @@
 +mov    -0x1c(%ebp),%eax
 +add    $0x36,%eax
 +mov    (%eax),%eax
-+mov    %eax,%edx
-+and    $0x1f,%edx
-+mov    %edx,-0x144(%ebp)
++mov    %eax,%ecx
++and    $0x1f,%ecx
++mov    %ecx,-0x144(%ebp)
 +mov    -0x1c(%ebp),%eax
 +add    $0x3d,%eax
 +mov    (%eax),%eax
@@ -277,7 +275,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2eb>
-+je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2cc>
++je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2c4>
  movl   $0x1bd3,0x8(%esp)
  movl   $&_ZZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_HistoryE12__FUNCTION__,0x4(%esp)
  lea    -0x28(%ebp),%eax
@@ -290,7 +288,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2f0>
-+jmp    <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2d1>
++jmp    <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2c9>
  mov    $0x1,%eax
  add    $0x1cc,%esp
  pop    %ebx

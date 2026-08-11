@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807e8d8` | `0x4ea` | `0x8061aa2` | `0x437` |
+| dbmw | DIFF | `0x807e8d8` | `0x4ea` | `0x8061b6a` | `0x431` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,66 +13,61 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,362 +1,295 @@
+@@ -1,362 +1,298 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
+ push   %edi
  push   %esi
  push   %ebx
 -sub    $0x85c,%esp
-+sub    $0x860,%esp
++sub    $0x86c,%esp
  movl   $0x0,(%esp)
  call   <T> <time>
 -mov    %eax,-0x2c(%ebp)
-+mov    %eax,-0x24(%ebp)
++mov    %eax,-0x34(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x10(%eax),%eax
 -mov    %eax,-0x28(%ebp)
 -cmpl   $0x0,-0x28(%ebp)
--jne    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x34>
-+mov    %eax,-0x20(%ebp)
-+cmpl   $0x0,-0x20(%ebp)
-+jne    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x33>
++mov    %eax,-0x30(%ebp)
++cmpl   $0x0,-0x30(%ebp)
+ jne    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x34>
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x4dd>
 -movl   $0x0,-0x24(%ebp)
-+jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x42b>
++jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x424>
  mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%eax
 -mov    %eax,-0x24(%ebp)
 +add    $0xa,%eax
 +mov    (%eax),%eax
-+mov    %eax,-0x1c(%ebp)
++mov    %eax,-0x2c(%ebp)
  movl   $0x17f7,0x8(%esp)
 -movl   $&_ZZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_PartyE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
 +movl   $"QueryDeathTowerPlayDataPartyStatisticCreate",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x24(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
++mov    -0x2c(%ebp),%eax
  mov    %eax,0xc(%esp)
 -movl   $"Packet_DBMW_DeathTower_Statistic_Playdata_Party : (%d) 개 패킷 수신\n",0x8(%esp)
 +movl   $"Packet_DBMW_DeathTower_Statistic_Playdata_Party : (%d) 째쨀 횈횖횇쨋 쩌철쩍횇\n",0x8(%esp)
  movl   $"./log/statistic",0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -lea    -0x848(%ebp),%ebx
--mov    $0x0,%eax
--mov    $0x200,%edx
--mov    %ebx,%edi
--mov    %edx,%ecx
--rep stos %eax,%es:(%edi)
++lea    -0x850(%ebp),%ebx
+ mov    $0x0,%eax
+ mov    $0x200,%edx
+ mov    %ebx,%edi
+ mov    %edx,%ecx
+ rep stos %eax,%es:(%edi)
 -lea    -0x48(%ebp),%eax
-+movl   $0x800,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+lea    -0x840(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <memset>
-+lea    -0x30(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1Ev>
 -movl   $0x0,-0x20(%ebp)
@@ -85,8 +80,8 @@
 -test   %al,%al
 -je     <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x14d>
 -mov    -0x20(%ebp),%edx
-+movl   $0x0,-0x18(%ebp)
-+jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x190>
++movl   $0x0,-0x28(%ebp)
++jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x189>
  mov    0xc(%ebp),%ecx
 -mov    %edx,%eax
 -shl    $0x2,%eax
@@ -102,7 +97,7 @@
 -mov    0x10(%eax,%ecx,1),%ebx
 -mov    -0x20(%ebp),%edx
 -mov    0xc(%ebp),%ecx
-+mov    -0x18(%ebp),%edx
++mov    -0x28(%ebp),%edx
  mov    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
@@ -111,200 +106,25 @@
 -add    $0xf,%eax
 -movzbl (%eax),%eax
 -movsbl %al,%ecx
--mov    -0x20(%ebp),%edx
--mov    0xc(%ebp),%edi
--mov    %edx,%eax
--shl    $0x2,%eax
--add    %edx,%eax
--add    %eax,%eax
--lea    (%edi,%eax,1),%eax
--add    $0xe,%eax
--movzbl (%eax),%eax
--movsbl %al,%eax
--mov    %esi,0x14(%esp)
--mov    %ebx,0x10(%esp)
--mov    %ecx,0xc(%esp)
-+mov    %eax,-0x14(%ebp)
-+lea    -0x30(%ebp),%eax
++mov    %eax,-0x24(%ebp)
++lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSs4sizeEv>
 +test   %eax,%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x129>
-+mov    -0x14(%ebp),%eax
++je     <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x122>
++mov    -0x24(%ebp),%eax
 +add    $0x14,%eax
 +mov    (%eax),%ebx
-+mov    -0x14(%ebp),%eax
++mov    -0x24(%ebp),%eax
 +add    $0x10,%eax
 +mov    (%eax),%ecx
-+mov    -0x14(%ebp),%eax
++mov    -0x24(%ebp),%eax
 +add    $0xf,%eax
 +movzbl (%eax),%eax
 +movsbl %al,%edx
-+mov    -0x14(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
-+movsbl %al,%eax
-+mov    %ebx,0x14(%esp)
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
- mov    %eax,0x8(%esp)
- movl   $",(now(),%d,%d,%d,%d)",0x4(%esp)
--lea    -0x848(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <sprintf>
--jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x1cf>
--mov    -0x20(%ebp),%edx
-+lea    -0x840(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <sprintf>
-+jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x177>
-+mov    -0x14(%ebp),%eax
-+add    $0x14,%eax
-+mov    (%eax),%ebx
-+mov    -0x14(%ebp),%eax
-+add    $0x10,%eax
-+mov    (%eax),%ecx
-+mov    -0x14(%ebp),%eax
-+add    $0xf,%eax
-+movzbl (%eax),%eax
-+movsbl %al,%edx
-+mov    -0x14(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
-+movsbl %al,%eax
-+mov    %ebx,0x14(%esp)
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
-+mov    %eax,0x8(%esp)
-+movl   $"(now(),%d,%d,%d,%d)",0x4(%esp)
-+lea    -0x840(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <sprintf>
-+lea    -0x840(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSspLEPKc>
-+addl   $0x1,-0x18(%ebp)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,%edx
-+shr    $0x1f,%edx
-+lea    (%edx,%eax,1),%eax
-+sar    $1,%eax
-+cmp    -0x18(%ebp),%eax
-+setg   %al
-+test   %al,%al
-+jne    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0xb0>
-+mov    -0x20(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%ebx
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSs5c_strEv>
-+mov    %eax,0xc(%esp)
-+movl   $"inSert into log_deathtower_playdata_party (occ_time, type, party_count, avg_clear_count, playcount) values%s",0x8(%esp)
-+movl   $0x4ea1,0x4(%esp)
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%ebx
-+mov    -0x20(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%edx
-+movl   $0x4ea1,0x4(%esp)
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x23d>
-+movl   $0x1813,0x8(%esp)
-+movl   $&_ZZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_PartyE12__FUNCTION__,0x4(%esp)
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"\nQueryDeathTowerPlayDataPartyStatisticCreate db1 error!!\n",0x8(%esp)
-+movl   $"./log/statistic",0x4(%esp)
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x420>
-+movl   $0x800,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+lea    -0x840(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <memset>
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSs5clearEv>
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,%edx
-+shr    $0x1f,%edx
-+lea    (%edx,%eax,1),%eax
-+sar    $1,%eax
-+add    $0x1,%eax
-+mov    %eax,-0x10(%ebp)
-+jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x35e>
- mov    0xc(%ebp),%ecx
--mov    %edx,%eax
--shl    $0x2,%eax
--add    %edx,%eax
--add    %eax,%eax
--mov    0x14(%eax,%ecx,1),%esi
--mov    -0x20(%ebp),%edx
--mov    0xc(%ebp),%ecx
--mov    %edx,%eax
--shl    $0x2,%eax
--add    %edx,%eax
--add    %eax,%eax
--mov    0x10(%eax,%ecx,1),%ebx
--mov    -0x20(%ebp),%edx
--mov    0xc(%ebp),%ecx
-+mov    -0x10(%ebp),%edx
- mov    %edx,%eax
- shl    $0x2,%eax
- add    %edx,%eax
- add    %eax,%eax
- lea    (%ecx,%eax,1),%eax
--add    $0xf,%eax
--movzbl (%eax),%eax
--movsbl %al,%ecx
--mov    -0x20(%ebp),%edx
--mov    0xc(%ebp),%edi
--mov    %edx,%eax
--shl    $0x2,%eax
--add    %edx,%eax
--add    %eax,%eax
--lea    (%edi,%eax,1),%eax
--add    $0xe,%eax
--movzbl (%eax),%eax
--movsbl %al,%eax
--mov    %esi,0x14(%esp)
--mov    %ebx,0x10(%esp)
--mov    %ecx,0xc(%esp)
-+mov    %eax,-0xc(%ebp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSs4sizeEv>
-+test   %eax,%eax
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x2f7>
-+mov    -0xc(%ebp),%eax
-+add    $0x14,%eax
-+mov    (%eax),%ebx
-+mov    -0xc(%ebp),%eax
-+add    $0x10,%eax
-+mov    (%eax),%ecx
-+mov    -0xc(%ebp),%eax
-+add    $0xf,%eax
-+movzbl (%eax),%eax
-+movsbl %al,%edx
-+mov    -0xc(%ebp),%eax
++mov    -0x24(%ebp),%eax
 +add    $0xe,%eax
 +movzbl (%eax),%eax
 +movsbl %al,%eax
@@ -313,21 +133,198 @@
 +mov    %edx,0xc(%esp)
 +mov    %eax,0x8(%esp)
 +movl   $",(now(),%d,%d,%d,%d)",0x4(%esp)
-+lea    -0x840(%ebp),%eax
++lea    -0x850(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <sprintf>
-+jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x345>
-+mov    -0xc(%ebp),%eax
++jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x170>
++mov    -0x24(%ebp),%eax
 +add    $0x14,%eax
 +mov    (%eax),%ebx
-+mov    -0xc(%ebp),%eax
++mov    -0x24(%ebp),%eax
 +add    $0x10,%eax
 +mov    (%eax),%ecx
-+mov    -0xc(%ebp),%eax
++mov    -0x24(%ebp),%eax
 +add    $0xf,%eax
 +movzbl (%eax),%eax
 +movsbl %al,%edx
-+mov    -0xc(%ebp),%eax
++mov    -0x24(%ebp),%eax
++add    $0xe,%eax
++movzbl (%eax),%eax
++movsbl %al,%eax
++mov    %ebx,0x14(%esp)
++mov    %ecx,0x10(%esp)
++mov    %edx,0xc(%esp)
++mov    %eax,0x8(%esp)
++movl   $"(now(),%d,%d,%d,%d)",0x4(%esp)
++lea    -0x850(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <sprintf>
++lea    -0x850(%ebp),%eax
++mov    %eax,0x4(%esp)
++lea    -0x40(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSspLEPKc>
++addl   $0x1,-0x28(%ebp)
++mov    -0x2c(%ebp),%eax
++mov    %eax,%edx
++shr    $0x1f,%edx
++lea    (%edx,%eax,1),%eax
++sar    $1,%eax
++cmp    -0x28(%ebp),%eax
++setg   %al
++test   %al,%al
++jne    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0xa9>
++mov    -0x30(%ebp),%eax
++mov    (%eax),%eax
++add    $0x1c,%eax
++mov    (%eax),%ebx
++lea    -0x40(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSs5c_strEv>
++mov    %eax,0xc(%esp)
++movl   $"inSert into log_deathtower_playdata_party (occ_time, type, party_count, avg_clear_count, playcount) values%s",0x8(%esp)
++movl   $0x4ea1,0x4(%esp)
++mov    -0x30(%ebp),%eax
++mov    %eax,(%esp)
++call   *%ebx
++mov    -0x30(%ebp),%eax
++mov    (%eax),%eax
++add    $0x20,%eax
++mov    (%eax),%edx
++movl   $0x4ea1,0x4(%esp)
++mov    -0x30(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x236>
++movl   $0x1813,0x8(%esp)
++movl   $&_ZZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_PartyE12__FUNCTION__,0x4(%esp)
++lea    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++movl   $"\nQueryDeathTowerPlayDataPartyStatisticCreate db1 error!!\n",0x8(%esp)
++movl   $"./log/statistic",0x4(%esp)
++lea    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%ebx
++jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x419>
++movl   $0x800,0x8(%esp)
++movl   $0x0,0x4(%esp)
++lea    -0x850(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <memset>
++lea    -0x40(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSs5clearEv>
++mov    -0x2c(%ebp),%eax
++mov    %eax,%edx
++shr    $0x1f,%edx
++lea    (%edx,%eax,1),%eax
++sar    $1,%eax
++add    $0x1,%eax
++mov    %eax,-0x20(%ebp)
++jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x357>
++mov    0xc(%ebp),%ecx
+ mov    -0x20(%ebp),%edx
+-mov    0xc(%ebp),%edi
+-mov    %edx,%eax
+-shl    $0x2,%eax
+-add    %edx,%eax
+-add    %eax,%eax
+-lea    (%edi,%eax,1),%eax
+-add    $0xe,%eax
+-movzbl (%eax),%eax
+-movsbl %al,%eax
+-mov    %esi,0x14(%esp)
+-mov    %ebx,0x10(%esp)
+-mov    %ecx,0xc(%esp)
+-mov    %eax,0x8(%esp)
+-movl   $",(now(),%d,%d,%d,%d)",0x4(%esp)
+-lea    -0x848(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <sprintf>
+-jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x1cf>
+-mov    -0x20(%ebp),%edx
+-mov    0xc(%ebp),%ecx
+-mov    %edx,%eax
+-shl    $0x2,%eax
+-add    %edx,%eax
+-add    %eax,%eax
+-mov    0x14(%eax,%ecx,1),%esi
+-mov    -0x20(%ebp),%edx
+-mov    0xc(%ebp),%ecx
+-mov    %edx,%eax
+-shl    $0x2,%eax
+-add    %edx,%eax
+-add    %eax,%eax
+-mov    0x10(%eax,%ecx,1),%ebx
+-mov    -0x20(%ebp),%edx
+-mov    0xc(%ebp),%ecx
+ mov    %edx,%eax
+ shl    $0x2,%eax
+ add    %edx,%eax
+ add    %eax,%eax
+ lea    (%ecx,%eax,1),%eax
+-add    $0xf,%eax
+-movzbl (%eax),%eax
+-movsbl %al,%ecx
+-mov    -0x20(%ebp),%edx
+-mov    0xc(%ebp),%edi
+-mov    %edx,%eax
+-shl    $0x2,%eax
+-add    %edx,%eax
+-add    %eax,%eax
+-lea    (%edi,%eax,1),%eax
+-add    $0xe,%eax
+-movzbl (%eax),%eax
+-movsbl %al,%eax
+-mov    %esi,0x14(%esp)
+-mov    %ebx,0x10(%esp)
+-mov    %ecx,0xc(%esp)
++mov    %eax,-0x1c(%ebp)
++lea    -0x40(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSs4sizeEv>
++test   %eax,%eax
++setne  %al
++test   %al,%al
++je     <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x2f0>
++mov    -0x1c(%ebp),%eax
++add    $0x14,%eax
++mov    (%eax),%ebx
++mov    -0x1c(%ebp),%eax
++add    $0x10,%eax
++mov    (%eax),%ecx
++mov    -0x1c(%ebp),%eax
++add    $0xf,%eax
++movzbl (%eax),%eax
++movsbl %al,%edx
++mov    -0x1c(%ebp),%eax
++add    $0xe,%eax
++movzbl (%eax),%eax
++movsbl %al,%eax
++mov    %ebx,0x14(%esp)
++mov    %ecx,0x10(%esp)
++mov    %edx,0xc(%esp)
++mov    %eax,0x8(%esp)
++movl   $",(now(),%d,%d,%d,%d)",0x4(%esp)
++lea    -0x850(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <sprintf>
++jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x33e>
++mov    -0x1c(%ebp),%eax
++add    $0x14,%eax
++mov    (%eax),%ebx
++mov    -0x1c(%ebp),%eax
++add    $0x10,%eax
++mov    (%eax),%ecx
++mov    -0x1c(%ebp),%eax
++add    $0xf,%eax
++movzbl (%eax),%eax
++movsbl %al,%edx
++mov    -0x1c(%ebp),%eax
 +add    $0xe,%eax
 +movzbl (%eax),%eax
 +movsbl %al,%eax
@@ -340,16 +337,16 @@
 -mov    %eax,(%esp)
 -call   <T> <sprintf>
 -lea    -0x848(%ebp),%eax
-+lea    -0x840(%ebp),%eax
++lea    -0x850(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <sprintf>
-+lea    -0x840(%ebp),%eax
++lea    -0x850(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSspLEPKc>
--addl   $0x1,-0x20(%ebp)
+ addl   $0x1,-0x20(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    %eax,%edx
 -shr    $0x1f,%edx
@@ -360,35 +357,34 @@
 -test   %al,%al
 -jne    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0xae>
 -mov    -0x28(%ebp),%eax
-+addl   $0x1,-0x10(%ebp)
-+mov    -0x10(%ebp),%eax
-+cmp    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%eax
++cmp    -0x2c(%ebp),%eax
 +setl   %al
 +test   %al,%al
-+jne    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x27e>
-+mov    -0x20(%ebp),%eax
++jne    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x277>
++mov    -0x30(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%ebx
 -lea    -0x48(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs5c_strEv>
  mov    %eax,0xc(%esp)
  movl   $"inSert into log_deathtower_playdata_party (occ_time, type, party_count, avg_clear_count, playcount) values%s",0x8(%esp)
  movl   $0x4ea1,0x4(%esp)
 -mov    -0x28(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   *%ebx
 -mov    -0x28(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x30(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4ea1,0x4(%esp)
 -mov    -0x28(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
  xor    $0x1,%eax
@@ -549,29 +545,29 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x4b0>
-+je     <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x3fe>
++je     <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x3f7>
  movl   $0x1831,0x8(%esp)
  movl   $&_ZZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_PartyE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"\nQueryDeathTowerPlayDataPartyStatisticCreate db2 error!!\n",0x8(%esp)
  movl   $"./log/statistic",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x4d2>
-+jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x420>
++jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x419>
  mov    $0x1,%ebx
 -jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x4d2>
-+jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x420>
++jmp    <T> <_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party+0x419>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x48(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
@@ -579,15 +575,15 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x48(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %ebx,%eax
 -add    $0x85c,%esp
-+add    $0x860,%esp
++add    $0x86c,%esp
  pop    %ebx
  pop    %esi
--pop    %edi
+ pop    %edi
  pop    %ebp
  ret
 ```

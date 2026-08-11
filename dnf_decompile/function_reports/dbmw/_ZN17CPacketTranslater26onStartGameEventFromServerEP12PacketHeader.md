@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80a0b70` | `0x247` | `0x80d4de4` | `0x245` |
+| dbmw | DIFF | `0x80a0b70` | `0x247` | `0x80d4e60` | `0x248` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,151 +1,152 @@
+@@ -1,151 +1,153 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -63,7 +63,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x240>
-+jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x23e>
++jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x241>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -75,7 +75,7 @@
 -je     <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x138>
 +mov    %eax,-0x14(%ebp)
 +cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x13c>
++je     <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x13f>
  movl   $0x1a,0x8(%esp)
  movl   $0x27fb,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
@@ -83,6 +83,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CTcpServer16makePacketHeaderEtt>
 -mov    %eax,-0x18(%ebp)
++movzwl %ax,%eax
 +mov    %eax,-0x10(%ebp)
 +mov    -0x10(%ebp),%eax
 +lea    0xa(%eax),%edx
@@ -129,7 +130,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CTcpServer12SendToServerEPc>
 -jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x240>
-+jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x23e>
++jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x241>
 +mov    -0x18(%ebp),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
@@ -144,10 +145,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x240>
-+jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x23e>
++jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x241>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1e6>
-+jne    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1e4>
++jne    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1e7>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -173,7 +174,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1df>
-+jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1dd>
++jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1e0>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -183,7 +184,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x240>
-+jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x23e>
++jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x241>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1588,0x8(%esp)
@@ -199,7 +200,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x23b>
-+jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x239>
++jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x23c>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -302,7 +303,7 @@ void CPacketTranslater::onStartGameEventFromServer(PacketHeader* header)
             m_pclApp->Get_ServerHandler()->GetTcpServer((unsigned char)0xa);
         if (tcp)
         {
-            char* buf = tcp->makePacketHeader(0x27fb, 0x1a);
+            char* buf = (char*)tcp->makePacketHeader(0x27fb, 0x1a);
             *(int*)(buf + 0xa) = pkt->m_eventType;
             *(int*)(buf + 0xe) = pkt->m_eventFlag;
             *(int*)(buf + 0x12) = pkt->m_serverId;

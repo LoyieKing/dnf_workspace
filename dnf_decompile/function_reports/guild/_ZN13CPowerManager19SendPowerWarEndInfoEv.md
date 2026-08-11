@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80a50ae` | `0x9a` | `0x809af7e` | `0x9a` |
+| guild | NEAR | `0x80a50ae` | `0x9a` | `0x809ac44` | `0x9a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -77,7 +77,7 @@ void __thiscall CPowerManager::_ZN13CPowerManager19SendPowerWarEndInfoEv(CPowerM
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 598 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 602 行）：
 
 ```cpp
 void CPowerManager::SendPowerWarEndInfo(int time)

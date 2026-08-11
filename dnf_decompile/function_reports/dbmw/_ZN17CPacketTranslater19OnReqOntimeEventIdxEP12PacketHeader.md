@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809f0e6` | `0x2cb` | `0x80d91a8` | `0x2c5` |
+| dbmw | DIFF | `0x809f0e6` | `0x2cb` | `0x80d9270` | `0x2c8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,191 +1,189 @@
+@@ -1,191 +1,190 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -117,7 +117,7 @@
 -je     <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x185>
 +mov    %eax,-0x28(%ebp)
 +cmpl   $0x0,-0x28(%ebp)
-+je     <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x17f>
++je     <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x182>
  movl   $0xf,0x8(%esp)
  movl   $0x2341,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
@@ -126,6 +126,7 @@
  call   <T> <_ZN10CTcpServer16makePacketHeaderEtt>
 -mov    %eax,-0x28(%ebp)
 -mov    -0x28(%ebp),%eax
++movzwl %ax,%eax
  mov    %eax,-0x24(%ebp)
 -lea    -0x5b(%ebp),%eax
 +lea    -0x57(%ebp),%eax
@@ -143,7 +144,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CTcpServer12SendToServerEPc>
 -jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2c3>
-+jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2bd>
++jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2c0>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -169,10 +170,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2c3>
-+jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2bd>
++jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2c0>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x269>
-+jne    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x263>
++jne    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x266>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -198,7 +199,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x262>
-+jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x25c>
++jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x25f>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -208,7 +209,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2c3>
-+jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2bd>
++jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2c0>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x10a2,0x8(%esp)
@@ -224,7 +225,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2be>
-+jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2b8>
++jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2bb>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -304,7 +305,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2296 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2295 行）：
 
 ```cpp
 void CPacketTranslater::OnReqOntimeEventIdx(PacketHeader* header)
@@ -320,7 +321,7 @@ void CPacketTranslater::OnReqOntimeEventIdx(PacketHeader* header)
             m_pclApp->Get_ServerHandler()->GetTcpServer((unsigned char)0xa);
         if (tcp)
         {
-            char* pkt = tcp->makePacketHeader(0x2341, 0xf);
+            char* pkt = (char*)tcp->makePacketHeader(0x2341, 0xf);
             memcpy(pkt + 0xa, (char*)&reply + 0xa, 5);
             tcp->SendToServer(pkt);
         }

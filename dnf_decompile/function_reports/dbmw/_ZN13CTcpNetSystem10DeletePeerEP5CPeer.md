@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805c468` | `0xe7` | `0x80f4e32` | `0xed` |
+| dbmw | DIFF | `0x805c468` | `0xe7` | `0x80f5098` | `0xed` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -155,12 +155,12 @@ CTcpNetSystem::_ZN13CTcpNetSystem10DeletePeerEP5CPeer(CTcpNetSystem *this,CPeer 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 110 行）：
+定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 102 行）：
 
 ```cpp
 void CTcpNetSystem::DeletePeer(CPeer* peer)
 {
-    int fd = peer->GetTcpSocket()->getHandle();
+    unsigned int fd = peer->GetTcpSocket()->getHandle();
     std::map<unsigned int, CPeer*>::iterator it = m_peerMap.find(fd);
     if (it != m_peerMap.end())
         m_peerMap.erase(it);

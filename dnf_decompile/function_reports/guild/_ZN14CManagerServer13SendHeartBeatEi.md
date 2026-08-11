@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806c5f8` | `0x82` | `0x8064cd0` | `0x87` |
+| guild | DIFF | `0x806c5f8` | `0x82` | `0x8064c28` | `0x87` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -19,8 +19,7 @@
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x3c,%esp
-+sub    $0x4c,%esp
+ sub    $0x3c,%esp
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface13GetUdpHandlerEv>
@@ -28,12 +27,11 @@
  setne  %al
  test   %al,%al
 -je     <T> <_ZN14CManagerServer13SendHeartBeatEi+0x7a>
--lea    -0x23(%ebp),%eax
 +je     <T> <_ZN14CManagerServer13SendHeartBeatEi+0x7f>
-+lea    -0x29(%ebp),%eax
+ lea    -0x23(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_Monitor_UDP_HeartBeatC1Ev>
-+lea    -0x29(%ebp),%eax
++lea    -0x23(%ebp),%eax
 +lea    0xa(%eax),%edx
  mov    0xc(%ebp),%eax
 -mov    %al,-0x19(%ebp)
@@ -48,8 +46,7 @@
  call   <T> <_ZN16CServerInterface13GetServerInfoEv>
  movzwl 0x14(%eax),%eax
  movzwl %ax,%esi
--lea    -0x23(%ebp),%ebx
-+lea    -0x29(%ebp),%ebx
+ lea    -0x23(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface13GetUdpHandlerEv>
@@ -59,8 +56,7 @@
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNK11CUdpHandler12SendToServerEPcitPKc>
--add    $0x3c,%esp
-+add    $0x4c,%esp
+ add    $0x3c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8092594` | `0xad` | `0x80ce4a0` | `0xc1` |
+| dbmw | DIFF | `0x8092594` | `0xad` | `0x80ce4c4` | `0xab` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,17 +13,15 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,57 +1,66 @@
+@@ -1,57 +1,56 @@
  push   %ebp
  mov    %esp,%ebp
-+push   %edi
  push   %esi
  push   %ebx
--sub    $0x10,%esp
--mov    0x8(%ebp),%eax
--movl   $0x0,(%eax)
-+sub    $0x1c,%esp
+ sub    $0x10,%esp
  mov    0x8(%ebp),%eax
+-movl   $0x0,(%eax)
+-mov    0x8(%ebp),%eax
  add    $0x4,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1Ev>
@@ -47,14 +45,6 @@
  call   <T> <_ZN10CUnixTimerC1Ev>
 -mov    %ebx,%eax
 -mov    %eax,%edx
-+jmp    <T> <_ZN13CPacketTracerC1Ev+0x6e>
-+mov    %edx,%esi
-+mov    %eax,%edi
-+mov    %ebx,(%esp)
-+call   <T> <_ZdlPv>
-+mov    %edi,%eax
-+mov    %esi,%edx
-+jmp    <T> <_ZN13CPacketTracerC1Ev+0x83>
 +mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x8(%eax)
@@ -62,7 +52,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CPacketTracer21ResetPacketProcessLogEv>
 -jmp    <T> <_ZN13CPacketTracerC1Ev+0xa6>
-+jmp    <T> <_ZN13CPacketTracerC1Ev+0xb9>
++jmp    <T> <_ZN13CPacketTracerC1Ev+0xa4>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -72,7 +62,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN13CPacketTracerC1Ev+0x88>
-+jmp    <T> <_ZN13CPacketTracerC1Ev+0x9b>
++jmp    <T> <_ZN13CPacketTracerC1Ev+0x86>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -83,11 +73,9 @@
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--add    $0x10,%esp
-+add    $0x1c,%esp
+ add    $0x10,%esp
  pop    %ebx
  pop    %esi
-+pop    %edi
  pop    %ebp
  ret
 ```

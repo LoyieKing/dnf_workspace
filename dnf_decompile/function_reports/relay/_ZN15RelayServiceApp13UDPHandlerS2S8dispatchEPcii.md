@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| relay | DIFF | `0x805e406` | `0x90` | `0x805da5c` | `0x95` |
+| relay | DIFF | `0x805e406` | `0x90` | `0x805da50` | `0x8e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,48 +13,48 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,49 +1,53 @@
+@@ -1,49 +1,45 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
  sub    $0x24,%esp
  mov    0xc(%ebp),%eax
- mov    %eax,-0x14(%ebp)
- mov    -0x14(%ebp),%eax
+-mov    %eax,-0x14(%ebp)
+-mov    -0x14(%ebp),%eax
  movzwl (%eax),%eax
- movzwl %ax,%eax
- cmp    $0x1,%eax
+-movzwl %ax,%eax
+-cmp    $0x1,%eax
 -je     <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x89>
-+je     <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8b>
- cmp    $0x9c4,%eax
+-cmp    $0x9c4,%eax
 -je     <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x4e>
-+je     <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x4f>
- test   %eax,%eax
+-test   %eax,%eax
 -jne    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8a>
-+jne    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8e>
-+nop
++mov    %ax,-0x12(%ebp)
++cmpw   $0x1,-0x12(%ebp)
++je     <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x88>
++cmpw   $0x9c4,-0x12(%ebp)
++jne    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x5b>
  mov    0xc(%ebp),%eax
  mov    %eax,-0x10(%ebp)
  mov    -0x10(%ebp),%eax
- mov    0xa(%eax),%ebx
- mov    0x8(%ebp),%eax
- add    $0x4,%eax
- mov    %eax,(%esp)
- call   <T> <_ZN8TManagerIN15RelayServiceApp12RelayServiceEE10getManagerEv>
- mov    %ebx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZN15RelayServiceApp12RelayService16setAuthenticatedEj>
+-mov    0xa(%eax),%ebx
+-mov    0x8(%ebp),%eax
+-add    $0x4,%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN8TManagerIN15RelayServiceApp12RelayServiceEE10getManagerEv>
+-mov    %ebx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN15RelayServiceApp12RelayService16setAuthenticatedEj>
 -jmp    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8a>
-+jmp    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8f>
-+nop
- mov    0xc(%ebp),%eax
- mov    %eax,-0xc(%ebp)
- mov    -0xc(%ebp),%eax
+-mov    0xc(%ebp),%eax
+-mov    %eax,-0xc(%ebp)
+-mov    -0xc(%ebp),%eax
  movzbl 0xe(%eax),%eax
  test   %al,%al
 -jne    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8a>
-+jne    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8f>
- mov    -0xc(%ebp),%eax
+-mov    -0xc(%ebp),%eax
++jne    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x88>
++mov    -0x10(%ebp),%eax
  mov    0xa(%eax),%ebx
  mov    0x8(%ebp),%eax
  add    $0x4,%eax
@@ -65,10 +65,21 @@
  mov    %eax,(%esp)
  call   <T> <_ZN15RelayServiceApp12RelayService27postDisconnectEvent2TCPUserEji>
 -jmp    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8a>
-+jmp    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8f>
-+nop
-+jmp    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8f>
- nop
+-nop
++jmp    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x88>
++cmpw   $0x0,-0x12(%ebp)
++jne    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x88>
++mov    0xc(%ebp),%eax
++mov    %eax,-0xc(%ebp)
++mov    -0xc(%ebp),%eax
++mov    0xa(%eax),%ebx
++mov    0x8(%ebp),%eax
++add    $0x4,%eax
++mov    %eax,(%esp)
++call   <T> <_ZN8TManagerIN15RelayServiceApp12RelayServiceEE10getManagerEv>
++mov    %ebx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZN15RelayServiceApp12RelayService16setAuthenticatedEj>
  add    $0x24,%esp
  pop    %ebx
  pop    %ebp
@@ -116,30 +127,24 @@ void RelayServiceApp::UDPHandlerS2S::_ZN15RelayServiceApp13UDPHandlerS2S8dispatc
 ```cpp
 void UDPHandlerS2S::dispatch(char* buf, int size, int flag)
 {
-    PacketHeaderS2S* pkt = (PacketHeaderS2S*)buf;
-    switch (pkt->m_a)
+    // 语义还原（2026-08-11 用户规矩：不允许硬套 asm）。
+    // ORIG 的 switch 判定链/块序/nop 落地无法用纯 C++ 逐字节复现，
+    // 按规矩归入 caliber_issues.csv（REMAIN）。
+    short type = *(short*)buf;
+    if (type != 1)
     {
-    case 1:
-        return;
-    case 0x9c4:
-        goto L9c4;
-    case 0:
-        goto L0;
-    default:
-        return;
-    }
-L0:
-    {
-        PacketHeaderS2S* q = (PacketHeaderS2S*)buf;
-        getManager()->setAuthenticated(q->m_f);
-    }
-    return;
-L9c4:
-    {
-        PacketHeaderS2S* p = (PacketHeaderS2S*)buf;
-        if (p->m_g == 0)
+        if (type == 0x9c4)
         {
-            getManager()->postDisconnectEvent2TCPUser(p->m_f, 3);
+            PacketHeaderS2S* p = (PacketHeaderS2S*)buf;
+            if (p->m_g == 0)
+            {
+                getManager()->postDisconnectEvent2TCPUser(p->m_f, 3);
+            }
+        }
+        else if (type == 0)
+        {
+            PacketHeaderS2S* q = (PacketHeaderS2S*)buf;
+            getManager()->setAuthenticated(q->m_f);
         }
     }
 }

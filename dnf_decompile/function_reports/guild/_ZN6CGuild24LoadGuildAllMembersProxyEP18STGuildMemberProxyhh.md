@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809078a` | `0xc7` | `0x8056570` | `0xcd` |
+| guild | DIFF | `0x809078a` | `0xc7` | `0x8056580` | `0xcc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -29,25 +29,21 @@
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xc5>
-+je     <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xc7>
++je     <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xc6>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x8,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xc5>
-+je     <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xc7>
++je     <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xc6>
  cmpb   $0x0,-0xc(%ebp)
 -jne    <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0x76>
--movzbl -0x10(%ebp),%edx
--mov    %edx,%eax
--shl    $0x6,%eax
--add    %edx,%eax
-+jne    <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0x78>
-+movzbl -0x10(%ebp),%eax
-+mov    %eax,%edx
-+shl    $0x6,%edx
-+lea    (%edx,%eax,1),%eax
++jne    <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0x77>
+ movzbl -0x10(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ add    %edx,%eax
  mov    0x8(%ebp),%edx
  add    $0xdd,%edx
  mov    %eax,0x8(%esp)
@@ -59,31 +55,23 @@
  mov    0x8(%ebp),%eax
  mov    %dx,0x1e(%eax)
 -jmp    <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xc5>
--movzbl -0x10(%ebp),%edx
--mov    %edx,%eax
--shl    $0x6,%eax
--lea    (%eax,%edx,1),%ecx
-+jmp    <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xc7>
-+movzbl -0x10(%ebp),%eax
-+mov    %eax,%edx
-+shl    $0x6,%edx
-+lea    (%edx,%eax,1),%ecx
-+mov    0x8(%ebp),%edx
++jmp    <T> <_ZN6CGuild24LoadGuildAllMembersProxyEP18STGuildMemberProxyhh+0xc6>
+ movzbl -0x10(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ lea    (%eax,%edx,1),%ecx
++mov    0x8(%ebp),%ebx
  mov    0x8(%ebp),%eax
  movzwl 0x1e(%eax),%eax
--movzwl %ax,%edx
--mov    %edx,%eax
--shl    $0x6,%eax
--add    %edx,%eax
+ movzwl %ax,%edx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ add    %edx,%eax
 -add    $0xd0,%eax
 -add    0x8(%ebp),%eax
 -lea    0xd(%eax),%edx
-+movzwl %ax,%eax
-+mov    %eax,%ebx
-+shl    $0x6,%ebx
-+lea    (%ebx,%eax,1),%eax
 +add    $0xdd,%eax
-+add    %eax,%edx
++lea    (%ebx,%eax,1),%edx
  mov    %ecx,0x8(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)

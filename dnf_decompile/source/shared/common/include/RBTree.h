@@ -21,7 +21,7 @@ struct RBNode
     RBNode<TKey, TData, N>* mParent;
     RBNode<TKey, TData, N>* mLeftChild;
     RBNode<TKey, TData, N>* mRightChild;
-    bool mColor;
+    unsigned char mColor;
     TKey mKey;
     TData mData;
 
@@ -395,6 +395,8 @@ public:
         bool endLoop = false;
         while (!endLoop)
         {
+            RBNodeType* uncle;
+            RBNodeType* grandParent;
             switch (insertCase)
             {
             case RBTREE_INSERT_CASE_NOT_DEFINED:
@@ -420,24 +422,25 @@ public:
                 break;
             case RBTREE_INSERT_CASE_PARENT_RED:
             {
-                RBNodeType* uncle = newNode->getUncle();
-                if (uncle == NULL || uncle->mColor != changes_meaning::RB_RED)
-                {
-                    insertCase = RBTREE_INSERT_CASE_UNCLE_NOT_RED;
-                }
-                else
+                uncle = newNode->getUncle();
+                if (uncle != NULL && uncle->mColor == changes_meaning::RB_RED)
                 {
                     newNode->mParent->SetColorBlack();
                     uncle->SetColorBlack();
-                    newNode = newNode->getGrandParent();
-                    newNode->SetColorRed();
+                    grandParent = newNode->getGrandParent();
+                    grandParent->SetColorRed();
                     insertCase = RBTREE_INSERT_CASE_NOT_DEFINED;
+                    newNode = grandParent;
+                }
+                else
+                {
+                    insertCase = RBTREE_INSERT_CASE_UNCLE_NOT_RED;
                 }
                 break;
             }
             case RBTREE_INSERT_CASE_UNCLE_NOT_RED:
             {
-                RBNodeType* grandParent = newNode->getGrandParent();
+                grandParent = newNode->getGrandParent();
                 if (newNode->mParent->mRightChild == newNode &&
                     newNode->mParent == grandParent->mLeftChild)
                 {
@@ -481,189 +484,195 @@ public:
     bool Remove(const TKey& rKey)
     {
         RBNodeType* target = findNode(rKey);
-        if (target == NULL)
+        if (target != NULL)
         {
-            return false;
-        }
-        if (target->mLeftChild != NULL && target->mRightChild != NULL)
-        {
-            RBNodeType* rightmost = target->mLeftChild;
-            RBNodeType* next = NULL;
-            for (; rightmost != NULL; rightmost = rightmost->mRightChild)
+            if (target->mLeftChild != NULL && target->mRightChild != NULL)
             {
-                next = rightmost;
-            }
-            target->mKey = next->mKey;
-            target->mData = next->mData;
-            target = next;
-        }
-        RBNodeType* child = NULL;
-        if (target->mRightChild == NULL)
-        {
-            child = target->mLeftChild;
-        }
-        else
-        {
-            child = target->mRightChild;
-        }
-        if (target->mParent == NULL)
-        {
-            mpRoot = child;
-        }
-        else if (target->mParent->mLeftChild == target)
-        {
-            target->mParent->mLeftChild = child;
-        }
-        else
-        {
-            target->mParent->mRightChild = child;
-        }
-        if (child != NULL)
-        {
-            child->mParent = target->mParent;
-            ENUM_RBTREE_DELETE_CASE deleteCase = RBTREE_DELETE_CASE_NOT_DEFINED;
-            bool endLoop = false;
-            RBNodeType* pNode = target;
-            RBNodeType* sibling = NULL;
-            while (!endLoop)
-            {
-                switch (deleteCase)
+                RBNodeType* rightmost = target->mLeftChild;
+                RBNodeType* next;
+                for (; rightmost != NULL; rightmost = rightmost->mRightChild)
                 {
-                case RBTREE_DELETE_CASE_NOT_DEFINED:
-                    if (pNode->mColor == changes_meaning::RB_BLACK)
+                    next = rightmost;
+                }
+                target->mKey = next->mKey;
+                target->mData = next->mData;
+                target = next;
+            }
+            RBNodeType* child = NULL;
+            if (target->mRightChild != NULL)
+            {
+                child = target->mRightChild;
+            }
+            else
+            {
+                child = target->mLeftChild;
+            }
+            if (target->mParent != NULL)
+            {
+                if (target->mParent->mLeftChild == target)
+                {
+                    target->mParent->mLeftChild = child;
+                }
+                else
+                {
+                    target->mParent->mRightChild = child;
+                }
+            }
+            else
+            {
+                mpRoot = child;
+            }
+            if (child != NULL)
+            {
+                child->mParent = target->mParent;
+            }
+            if (child != NULL)
+            {
+                ENUM_RBTREE_DELETE_CASE deleteCase = RBTREE_DELETE_CASE_NOT_DEFINED;
+                bool endLoop = false;
+                RBNodeType* pNode = target;
+                RBNodeType* sibling;
+                while (!endLoop)
+                {
+                    switch (deleteCase)
                     {
-                        if (child->mColor == changes_meaning::RB_RED)
+                    case RBTREE_DELETE_CASE_NOT_DEFINED:
+                        if (pNode->mColor == changes_meaning::RB_BLACK)
                         {
-                            child->SetColorBlack();
-                            endLoop = true;
-                        }
-                        else
-                        {
-                            pNode = child;
-                            deleteCase = RBTREE_DELETE_CASE_CHILD_BLACK;
-                        }
-                    }
-                    else
-                    {
-                        endLoop = true;
-                    }
-                    break;
-                case RBTREE_DELETE_CASE_CHILD_BLACK:
-                    if (pNode->mParent == NULL)
-                    {
-                        endLoop = true;
-                    }
-                    else
-                    {
-                        deleteCase = RBTREE_DELETE_CASE_NOT_ROOT;
-                    }
-                    break;
-                case RBTREE_DELETE_CASE_NOT_ROOT:
-                    sibling = pNode->getSibling();
-                    if (sibling == NULL)
-                    {
-                        endLoop = true;
-                    }
-                    else
-                    {
-                        if (sibling->mColor == changes_meaning::RB_RED)
-                        {
-                            pNode->mParent->SetColorRed();
-                            sibling->SetColorBlack();
-                            if (pNode->mParent->mLeftChild == pNode)
+                            if (child->mColor == changes_meaning::RB_RED)
                             {
-                                rotateLeft(pNode->mParent);
+                                child->SetColorBlack();
+                                endLoop = true;
                             }
                             else
                             {
-                                rotateRight(pNode->mParent);
+                                pNode = child;
+                                deleteCase = RBTREE_DELETE_CASE_CHILD_BLACK;
                             }
                         }
-                        deleteCase = RBTREE_DELETE_CASE_SIBLING_BALCK;
-                    }
-                    break;
-                case RBTREE_DELETE_CASE_SIBLING_BALCK:
-                    if (pNode->mParent->mColor == changes_meaning::RB_BLACK &&
-                        sibling->mColor == changes_meaning::RB_BLACK &&
-                        (sibling->mLeftChild == NULL ||
-                         sibling->mLeftChild->mColor == changes_meaning::RB_BLACK) &&
-                        (sibling->mRightChild == NULL ||
-                         sibling->mRightChild->mColor == changes_meaning::RB_BLACK))
-                    {
-                        sibling->SetColorRed();
-                        pNode = pNode->mParent;
-                        deleteCase = RBTREE_DELETE_CASE_CHILD_BLACK;
-                    }
-                    else
-                    {
-                        deleteCase = RBTREE_DELETE_CASE_PARENT_RED;
-                    }
-                    break;
-                case RBTREE_DELETE_CASE_PARENT_RED:
-                    if (pNode->mParent->mColor == changes_meaning::RB_BLACK &&
-                        sibling->mColor == changes_meaning::RB_BLACK &&
-                        (sibling->mLeftChild == NULL ||
-                         sibling->mLeftChild->mColor == changes_meaning::RB_BLACK) &&
-                        (sibling->mRightChild == NULL ||
-                         sibling->mRightChild->mColor == changes_meaning::RB_BLACK))
-                    {
-                        sibling->SetColorRed();
-                        pNode->mParent->SetColorBlack();
-                    }
-                    else
-                    {
-                        if (pNode->mParent->mLeftChild == pNode &&
+                        else
+                        {
+                            endLoop = true;
+                        }
+                        break;
+                    case RBTREE_DELETE_CASE_CHILD_BLACK:
+                        if (pNode->mParent != NULL)
+                        {
+                            deleteCase = RBTREE_DELETE_CASE_NOT_ROOT;
+                        }
+                        else
+                        {
+                            endLoop = true;
+                        }
+                        break;
+                    case RBTREE_DELETE_CASE_NOT_ROOT:
+                        sibling = pNode->getSibling();
+                        if (sibling != NULL)
+                        {
+                            if (sibling->mColor == changes_meaning::RB_RED)
+                            {
+                                pNode->mParent->SetColorRed();
+                                sibling->SetColorBlack();
+                                if (pNode->mParent->mLeftChild == pNode)
+                                {
+                                    rotateLeft(pNode->mParent);
+                                }
+                                else
+                                {
+                                    rotateRight(pNode->mParent);
+                                }
+                            }
+                            deleteCase = RBTREE_DELETE_CASE_SIBLING_BALCK;
+                        }
+                        else
+                        {
+                            endLoop = true;
+                        }
+                        break;
+                    case RBTREE_DELETE_CASE_SIBLING_BALCK:
+                        if (pNode->mParent->mColor == changes_meaning::RB_BLACK &&
                             sibling->mColor == changes_meaning::RB_BLACK &&
-                            sibling->mLeftChild != NULL &&
-                            sibling->mLeftChild->mColor == changes_meaning::RB_RED &&
+                            (sibling->mLeftChild == NULL ||
+                             sibling->mLeftChild->mColor == changes_meaning::RB_BLACK) &&
                             (sibling->mRightChild == NULL ||
                              sibling->mRightChild->mColor == changes_meaning::RB_BLACK))
                         {
                             sibling->SetColorRed();
-                            sibling->mLeftChild->SetColorBlack();
-                            rotateRight(sibling);
-                        }
-                        else if (pNode->mParent->mRightChild == pNode &&
-                                 sibling->mColor == changes_meaning::RB_BLACK &&
-                                 (sibling->mLeftChild == NULL ||
-                                  sibling->mLeftChild->mColor == changes_meaning::RB_BLACK) &&
-                                 sibling->mRightChild != NULL &&
-                                 sibling->mRightChild->mColor == changes_meaning::RB_RED)
-                        {
-                            sibling->SetColorRed();
-                            sibling->mRightChild->SetColorBlack();
-                            rotateLeft(sibling);
-                        }
-                        sibling->mColor = pNode->mParent->mColor;
-                        pNode->mParent->SetColorBlack();
-                        if (pNode->mParent->mLeftChild == pNode)
-                        {
-                            if (sibling->mRightChild != NULL)
-                            {
-                                sibling->mRightChild->SetColorBlack();
-                            }
-                            rotateLeft(pNode->mParent);
+                            pNode = pNode->mParent;
+                            deleteCase = RBTREE_DELETE_CASE_CHILD_BLACK;
                         }
                         else
                         {
-                            if (sibling->mLeftChild != NULL)
-                            {
-                                sibling->mLeftChild->SetColorBlack();
-                            }
-                            rotateRight(pNode->mParent);
+                            deleteCase = RBTREE_DELETE_CASE_PARENT_RED;
                         }
+                        break;
+                    case RBTREE_DELETE_CASE_PARENT_RED:
+                        if (pNode->mParent->mColor == changes_meaning::RB_RED &&
+                            sibling->mColor == changes_meaning::RB_BLACK &&
+                            (sibling->mLeftChild == NULL ||
+                             sibling->mLeftChild->mColor == changes_meaning::RB_BLACK) &&
+                            (sibling->mRightChild == NULL ||
+                             sibling->mRightChild->mColor == changes_meaning::RB_BLACK))
+                        {
+                            sibling->SetColorRed();
+                            pNode->mParent->SetColorBlack();
+                        }
+                        else
+                        {
+                            if (pNode->mParent->mLeftChild == pNode &&
+                                sibling->mColor == changes_meaning::RB_BLACK &&
+                                sibling->mLeftChild != NULL &&
+                                sibling->mLeftChild->mColor == changes_meaning::RB_RED &&
+                                (sibling->mRightChild == NULL ||
+                                 sibling->mRightChild->mColor == changes_meaning::RB_BLACK))
+                            {
+                                sibling->SetColorRed();
+                                sibling->mLeftChild->SetColorBlack();
+                                rotateRight(sibling);
+                            }
+                            else if (pNode->mParent->mRightChild == pNode &&
+                                     sibling->mColor == changes_meaning::RB_BLACK &&
+                                     (sibling->mLeftChild == NULL ||
+                                      sibling->mLeftChild->mColor == changes_meaning::RB_BLACK) &&
+                                     sibling->mRightChild != NULL &&
+                                     sibling->mRightChild->mColor == changes_meaning::RB_RED)
+                            {
+                                sibling->SetColorRed();
+                                sibling->mRightChild->SetColorBlack();
+                                rotateLeft(sibling);
+                            }
+                            sibling->mColor = pNode->mParent->mColor;
+                            pNode->mParent->SetColorBlack();
+                            if (pNode->mParent->mLeftChild == pNode)
+                            {
+                                if (sibling->mRightChild != NULL)
+                                {
+                                    sibling->mRightChild->SetColorBlack();
+                                }
+                                rotateLeft(pNode->mParent);
+                            }
+                            else
+                            {
+                                if (sibling->mLeftChild != NULL)
+                                {
+                                    sibling->mLeftChild->SetColorBlack();
+                                }
+                                rotateRight(pNode->mParent);
+                            }
+                        }
+                        endLoop = true;
+                        break;
+                    default:
+                        G_TraceLog()->sysLog(8, "Remove(), DONT_REACH_HERE");
+                        break;
                     }
-                    endLoop = true;
-                    break;
-                default:
-                    G_TraceLog()->sysLog(8, "Remove(), DONT_REACH_HERE");
-                    break;
                 }
             }
+            mpRBNodePool->free(target);
+            mNumOfRBNode = mNumOfRBNode - 1;
+            return true;
         }
-        mpRBNodePool->free(target);
-        mNumOfRBNode = mNumOfRBNode - 1;
-        return true;
+        return false;
     }
 
     RBNodeType* findNode(const TKey& rKey)

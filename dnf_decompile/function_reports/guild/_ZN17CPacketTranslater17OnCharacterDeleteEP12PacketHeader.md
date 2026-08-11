@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807697a` | `0x320` | `0x806d190` | `0x230` |
+| guild | DIFF | `0x807697a` | `0x320` | `0x806d068` | `0x229` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,210 +1,165 @@
+@@ -1,210 +1,162 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -127,17 +127,14 @@
 -mov    0x12(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
 +add    $0xa,%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x20(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    -0x20(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
++lea    0x290(%eax),%edx
++mov    -0x20(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x28(%ebp)
 -cmpl   $0x0,-0x28(%ebp)
@@ -146,7 +143,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x159>
-+je     <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x174>
++je     <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x172>
  mov    -0x24(%ebp),%eax
 -mov    0xe(%eax),%ebx
 +add    $0xe,%eax
@@ -166,7 +163,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x315>
 -lea    -0x8b(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x228>
++jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x221>
 +lea    -0x77(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22ST_Notice_Guild_SecedeC1Ev>
@@ -203,40 +200,34 @@
  call   <T> <memcpy>
  mov    -0x24(%ebp),%eax
 -mov    0x12(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--lea    0x290(%edx),%ecx
--lea    -0x8b(%ebp),%edx
 +add    $0x12,%eax
-+mov    (%eax),%ebx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
++mov    (%eax),%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+ lea    0x290(%edx),%ecx
+-lea    -0x8b(%ebp),%edx
 +lea    -0x77(%ebp),%edx
  mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    %ecx,(%esp)
-+mov    %ebx,0x4(%esp)
-+mov    %eax,(%esp)
+ mov    %eax,0x4(%esp)
+ mov    %ecx,(%esp)
  call   <T> <_ZN13CGuildManager11GuildSecedeEjR22ST_Notice_Guild_Secede>
  movl   $0x0,0x4(%esp)
 -mov    -0x28(%ebp),%eax
 +mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild22SendGuildInfoToMembersEb>
-+mov    -0x24(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%ebx
- mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -add    $0x10,%eax
 -mov    %eax,-0x20(%ebp)
--mov    -0x24(%ebp),%eax
+ mov    -0x24(%ebp),%eax
 -mov    0xe(%eax),%eax
--mov    %eax,0x4(%esp)
++add    $0xe,%eax
++mov    (%eax),%eax
++mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
++add    $0x10,%edx
+ mov    %eax,0x4(%esp)
 -mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication15Get_UserManagerEv>
-+mov    %ebx,0x4(%esp)
- mov    %eax,(%esp)
+-mov    %eax,(%esp)
++mov    %edx,(%esp)
  call   <T> <_ZN12CUserManager29DeleteBlackUserOnCharacDeleteEj>
 -jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x315>
 -cmp    $0x2,%edx
@@ -391,7 +382,7 @@ void CPacketTranslater::OnCharacterDelete(PacketHeader* pkt)
     char* pb = (char*)pkt;
     unsigned int guildKey = *(unsigned int*)(pb + 0xa);
     CGuild* guild;
-    if ((guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey)) == 0)
+    if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) == 0)
     {
         DNF_LOG_SCOPE_LINE(0x7bb,"./log/GuildModify",
             "CPacketTranslater::OnCharacterDelete : 0 == pclGuild, Char Key = %d (Maybe Requester was logout)",
@@ -404,9 +395,9 @@ void CPacketTranslater::OnCharacterDelete(PacketHeader* pkt)
         *(unsigned int*)((char*)&notice + 8) = *(unsigned int*)(pb + 0xe);
         *(unsigned short*)((char*)&notice + 0xc) = 1;
         memcpy((char*)&notice + 0xe, guild->GetGuildName(), 0x16);
-        m_pclApp->Get_GuildManager()->GuildSecede(*(unsigned int*)(pb + 0x12), notice);
+        (&m_pclApp->m_guildManager)->GuildSecede(*(unsigned int*)(pb + 0x12), notice);
         guild->SendGuildInfoToMembers(false);
-        m_pclApp->Get_UserManager()->DeleteBlackUserOnCharacDelete(*(unsigned int*)(pb + 0xe));
+        (&m_pclApp->m_userManager)->DeleteBlackUserOnCharacDelete(*(unsigned int*)(pb + 0xe));
     }
 }
 ```

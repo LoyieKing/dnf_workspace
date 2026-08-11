@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80921d4` | `0x169` | `0x8057fd2` | `0x161` |
+| guild | DIFF | `0x80921d4` | `0x169` | `0x8057fcc` | `0x161` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -227,7 +227,7 @@ void __thiscall CGuild::_ZN6CGuild12AddGuildFundEj(CGuild *this,uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2131 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2133 行）：
 
 ```cpp
 void CGuild::AddGuildFund(unsigned int fund)

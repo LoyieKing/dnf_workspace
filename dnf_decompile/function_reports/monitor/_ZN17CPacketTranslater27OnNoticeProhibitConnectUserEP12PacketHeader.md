@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80833f4` | `0x6f8` | `0x80705ac` | `0x711` |
+| monitor | DIFF | `0x80833f4` | `0x6f8` | `0x80705be` | `0x711` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -711,14 +711,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnNoticeProhibitConnectUser Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"CPacketTranslater::OnNoticeProhibitConnectUser Exception Break : %s\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeProhibitConnectUserEP12PacketHeader+0x68c>
-+movl   $"CPacketTranslater::OnNoticeProhibitConnectUser() Exception Break : %s\n",0x8(%esp)
-+movl   $"%s",0x4(%esp)
 +lea    -0x5c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -738,19 +736,15 @@
  movl   $0x93e,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater27OnNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnNoticeProhibitConnectUser Exception Break\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
++lea    -0x54(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"CPacketTranslater::OnNoticeProhibitConnectUser Exception Break\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeProhibitConnectUserEP12PacketHeader+0x6e8>
-+lea    -0x54(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"CPacketTranslater::OnNoticeProhibitConnectUser() Exception Break",0x8(%esp)
-+movl   $"%s",0x4(%esp)
 +lea    -0x54(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -959,7 +953,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnNoticeProhibitConnectUserEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1993 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1991 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeProhibitConnectUser(PacketHeader* pkt)
@@ -1057,12 +1051,13 @@ void CPacketTranslater::OnNoticeProhibitConnectUser(PacketHeader* pkt)
     }
     catch (CDNFException& e)
     {
-        DNF_LOG_SCOPE_LINE(0x939,"%s", "CPacketTranslater::OnNoticeProhibitConnectUser() Exception Break : %s\n",
-            e.what());
+        DNF_LOG_SCOPE_LINE(0x939,"./log/Except",
+            "CPacketTranslater::OnNoticeProhibitConnectUser Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        DNF_LOG_SCOPE_LINE(0x93e, "%s", "CPacketTranslater::OnNoticeProhibitConnectUser() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x93e, "./log/Except",
+            "CPacketTranslater::OnNoticeProhibitConnectUser Exception Break\n");
     }
 }
 ```

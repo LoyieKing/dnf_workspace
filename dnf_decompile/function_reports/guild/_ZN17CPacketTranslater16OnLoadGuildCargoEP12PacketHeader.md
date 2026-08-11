@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80839aa` | `0x1b8` | `0x8079732` | `0xe1` |
+| guild | DIFF | `0x80839aa` | `0x1b8` | `0x80794cc` | `0xdf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,113 +1,59 @@
+@@ -1,113 +1,58 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -40,23 +40,19 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnLoadGuildCargoEP12PacketHeader+0x1b1>
--mov    -0x10(%ebp),%eax
--mov    0xa(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
-+jmp    <T> <_ZN17CPacketTranslater16OnLoadGuildCargoEP12PacketHeader+0xdb>
++jmp    <T> <_ZN17CPacketTranslater16OnLoadGuildCargoEP12PacketHeader+0xd9>
 +mov    -0x14(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x10(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    -0x10(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
++lea    0x290(%eax),%edx
+ mov    -0x10(%ebp),%eax
+-mov    0xa(%eax),%eax
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+-add    $0x290,%edx
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x14(%ebp)
 -cmpl   $0x0,-0x14(%ebp)
@@ -65,7 +61,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater16OnLoadGuildCargoEP12PacketHeader+0xb9>
-+je     <T> <_ZN17CPacketTranslater16OnLoadGuildCargoEP12PacketHeader+0xbe>
++je     <T> <_ZN17CPacketTranslater16OnLoadGuildCargoEP12PacketHeader+0xbc>
  movl   $0x1838,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater16OnLoadGuildCargoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
@@ -80,7 +76,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnLoadGuildCargoEP12PacketHeader+0x1b1>
 -mov    -0x10(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater16OnLoadGuildCargoEP12PacketHeader+0xdb>
++jmp    <T> <_ZN17CPacketTranslater16OnLoadGuildCargoEP12PacketHeader+0xd9>
 +mov    -0x14(%ebp),%eax
  lea    0xe(%eax),%ebx
 -mov    -0x14(%ebp),%eax
@@ -196,7 +192,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16OnLoadGuildCargoEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4156 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4157 行）：
 
 ```cpp
 void CPacketTranslater::OnLoadGuildCargo(PacketHeader* pkt)
@@ -209,7 +205,7 @@ void CPacketTranslater::OnLoadGuildCargo(PacketHeader* pkt)
     }
     unsigned int guildKey = *(unsigned int*)(pb + 0xa);
     CGuild* guild;
-    if ((guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey)) == 0)
+    if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1838, "./log/GuildCargo", "CPacketTranslater::OnLoadGuildCargo : 0 == pclGuild");
         return;

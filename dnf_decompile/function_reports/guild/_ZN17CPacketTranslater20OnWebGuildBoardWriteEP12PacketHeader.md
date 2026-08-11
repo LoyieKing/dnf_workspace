@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80875e2` | `0x233` | `0x807cb22` | `0x168` |
+| guild | DIFF | `0x80875e2` | `0x233` | `0x807c830` | `0x166` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,145 +1,94 @@
+@@ -1,145 +1,93 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -84,15 +84,12 @@
 -mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
-+jmp    <T> <_ZN17CPacketTranslater20OnWebGuildBoardWriteEP12PacketHeader+0x166>
++jmp    <T> <_ZN17CPacketTranslater20OnWebGuildBoardWriteEP12PacketHeader+0x164>
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    -0x18(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
++lea    0x290(%eax),%edx
++mov    -0x18(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x24(%ebp)
 -cmpl   $0x0,-0x24(%ebp)
@@ -101,7 +98,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater20OnWebGuildBoardWriteEP12PacketHeader+0x10e>
-+je     <T> <_ZN17CPacketTranslater20OnWebGuildBoardWriteEP12PacketHeader+0x11e>
++je     <T> <_ZN17CPacketTranslater20OnWebGuildBoardWriteEP12PacketHeader+0x11c>
  movl   $0x1dc9,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater20OnWebGuildBoardWriteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
@@ -116,7 +113,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnWebGuildBoardWriteEP12PacketHeader+0x22b>
 -lea    -0x62(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater20OnWebGuildBoardWriteEP12PacketHeader+0x166>
++jmp    <T> <_ZN17CPacketTranslater20OnWebGuildBoardWriteEP12PacketHeader+0x164>
 +lea    -0x4a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN44Packet_DB_Load_Request_Web_Guild_Board_WriteC1Ev>
@@ -277,7 +274,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnWebGuildBoardWriteEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5084 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5085 行）：
 
 ```cpp
 void CPacketTranslater::OnWebGuildBoardWrite(PacketHeader* pkt)
@@ -297,7 +294,7 @@ void CPacketTranslater::OnWebGuildBoardWrite(PacketHeader* pkt)
         return;
     }
     CGuild* guild;
-    if ((guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey)) == 0)
+    if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1dc9, "./log/GuildBoard", "CPacketTranslater::OnWebGuildBoardWrite : 0 == pclGuild");
         return;

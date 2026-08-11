@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808e8ce` | `0x3bd` | `0x8079eb6` | `0x3b0` |
+| monitor | DIFF | `0x808e8ce` | `0x3bd` | `0x8079efc` | `0x3b0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -319,9 +319,8 @@
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnMonitorSecuServiceConnWeb() Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+movl   $"%s",0x4(%esp)
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -350,9 +349,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnMonitorSecuServiceConnWeb() Exception Break\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+movl   $"%s",0x4(%esp)
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -452,7 +450,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4678 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4704 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorSecuServiceConnWeb(PacketHeader* pkt)
@@ -495,13 +493,14 @@ void CPacketTranslater::OnMonitorSecuServiceConnWeb(PacketHeader* pkt)
     {
         printf("CPacketTranslater::OnMonitorSecuServiceConnWeb() Exception Break : %s\n",
                e.what());
-        DNF_LOG_SCOPE_LINE(0x1c4f,"%s", "CPacketTranslater::OnMonitorSecuServiceConnWeb() Exception Break : %s\n",
-            e.what());
+        DNF_LOG_SCOPE_LINE(0x1c4f,"./log/Except",
+            "CPacketTranslater::OnMonitorSecuServiceConnWeb() Exception Break : %s\n", e.what());
     }
     catch (...)
     {
         puts("CPacketTranslater::OnMonitorSecuServiceConnWeb() Exception Break");
-        DNF_LOG_SCOPE_LINE(0x1c55, "%s", "CPacketTranslater::OnMonitorSecuServiceConnWeb() Exception Break\n");
+        DNF_LOG_SCOPE_LINE(0x1c55, "./log/Except",
+            "CPacketTranslater::OnMonitorSecuServiceConnWeb() Exception Break\n");
     }
 }
 ```

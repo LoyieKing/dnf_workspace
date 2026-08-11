@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808fa3e` | `0x85` | `0x80df8de` | `0x83` |
+| dbmw | DIFF | `0x808fa3e` | `0x85` | `0x80dfa8c` | `0x83` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -97,7 +97,7 @@ LAB_0808fa6e:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 96 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 100 行）：
 
 ```cpp
 CGameServer* CServerHandler::GetGameServer(int idx)

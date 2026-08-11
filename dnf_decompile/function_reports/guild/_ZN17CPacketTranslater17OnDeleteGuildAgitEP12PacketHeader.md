@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808252e` | `0x3d3` | `0x8078846` | `0x2f3` |
+| guild | DIFF | `0x808252e` | `0x3d3` | `0x8078600` | `0x2ed` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,242 +1,187 @@
+@@ -1,242 +1,185 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -42,7 +42,7 @@
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x18(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2ea>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2e4>
  mov    -0x18(%ebp),%eax
 -mov    0xa(%eax),%eax
 -test   %eax,%eax
@@ -51,17 +51,14 @@
 -mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
 +add    $0xa,%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x14(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    -0x14(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
++lea    0x290(%eax),%edx
++mov    -0x14(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x1c(%ebp)
 -cmpl   $0x0,-0x1c(%ebp)
@@ -73,9 +70,9 @@
 -je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0xd8>
 +mov    %eax,-0x10(%ebp)
 +cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x8a>
++je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x88>
 +cmpl   $0x0,-0x10(%ebp)
-+jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0xc5>
++jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0xc3>
  movl   $0x164f,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x54(%ebp),%eax
@@ -89,7 +86,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2ea>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2e4>
  mov    -0x18(%ebp),%eax
 -mov    0xe(%eax),%eax
 +add    $0xe,%eax
@@ -120,7 +117,7 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
 -mov    -0x1c(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2a1>
++je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x29b>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild16IsExistGuildAgitEv>
@@ -142,7 +139,7 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
 -mov    -0x1c(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x262>
++je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x25c>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild13GetGuildCargoEv>
@@ -153,7 +150,7 @@
 +sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2be>
-+je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x148>
++je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x146>
  mov    -0x18(%ebp),%eax
 -mov    0xa(%eax),%ebx
 +add    $0xe,%eax
@@ -168,7 +165,7 @@
 +mov    -0x10(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuild15DeleteGuildAgitEP14CServerHandlerjj>
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2ea>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2e4>
  movl   $0x1663,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
@@ -184,27 +181,26 @@
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    -0x18(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%ebx
- mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -add    $0x10,%eax
 -mov    %eax,-0x14(%ebp)
--mov    -0x18(%ebp),%eax
+ mov    -0x18(%ebp),%eax
 -mov    0xe(%eax),%eax
--mov    %eax,0x4(%esp)
++add    $0xe,%eax
++mov    (%eax),%eax
++mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
++add    $0x10,%edx
+ mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication15Get_UserManagerEv>
-+mov    %ebx,0x4(%esp)
- mov    %eax,(%esp)
+-mov    %eax,(%esp)
++mov    %edx,(%esp)
  call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 -mov    %eax,-0x10(%ebp)
 -cmpl   $0x0,-0x10(%ebp)
 -jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x266>
 +mov    %eax,-0xc(%ebp)
 +cmpl   $0x0,-0xc(%ebp)
-+jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x1f6>
++jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x1f0>
  mov    -0x18(%ebp),%eax
 -mov    0xe(%eax),%ebx
 +add    $0xe,%eax
@@ -224,7 +220,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
 -lea    -0x73(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2ea>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2e4>
 +lea    -0x5f(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Channel_Delete_Guild_AgitC1Ev>
@@ -293,7 +289,7 @@
 -call   *%edx
 -mov    %eax,%ebx
 -movl   $0x167d,0x8(%esp)
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2ea>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2e4>
 +movl   $0x165b,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
@@ -324,7 +320,7 @@
 -mov    %eax,(%esp)
 -call   <T> <__cxa_begin_catch>
 -movl   $0x1682,0x8(%esp)
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2ea>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2e4>
 +mov    -0x18(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%ebx
@@ -480,7 +476,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3858 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3859 行）：
 
 ```cpp
 void CPacketTranslater::OnDeleteGuildAgit(PacketHeader* pkt)
@@ -494,7 +490,7 @@ void CPacketTranslater::OnDeleteGuildAgit(PacketHeader* pkt)
     else
     {
         unsigned int guildKey = *(unsigned int*)(pb + 0xa);
-        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+        CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
         if (guildKey == 0 || guild == 0)
         {
             DNF_LOG_SCOPE_LINE(0x164f, "./log/GuildAgit", "CPacketTranslater::OnDeleteGuildAgit : 0 == pclGuild");
@@ -514,7 +510,7 @@ void CPacketTranslater::OnDeleteGuildAgit(PacketHeader* pkt)
                         "CPacketTranslater::OnDeleteGuildAgit : %d guild cargo is not empty",
                         guildKey);
                     CUser* user =
-                        m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe));
+                        (&m_pclApp->m_userManager)->FindUser_CharNo(*(unsigned int*)(pb + 0xe));
                     if (user == 0)
                     {
                         DNF_LOG_SCOPE_LINE(0x166b,"./log/GuildCargo",

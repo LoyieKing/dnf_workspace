@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808e364` | `0x3bf` | `0x8079964` | `0x3a8` |
+| monitor | DIFF | `0x808e364` | `0x3bf` | `0x80799aa` | `0x3a8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -321,9 +321,8 @@
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnMonitorPunishCancel() Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+movl   $"%s",0x4(%esp)
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -352,9 +351,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnMonitorPunishCancel() Exception Break\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+movl   $"%s",0x4(%esp)
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -458,7 +456,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnMonitorPunishCancelEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4602 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4625 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorPunishCancel(PacketHeader* pkt)
@@ -501,13 +499,14 @@ void CPacketTranslater::OnMonitorPunishCancel(PacketHeader* pkt)
     catch (CDNFException& e)
     {
         printf("CPacketTranslater::OnMonitorPunishCancel() Exception Break : %s\n", e.what());
-        DNF_LOG_SCOPE_LINE(0x1bf5,"%s", "CPacketTranslater::OnMonitorPunishCancel() Exception Break : %s\n",
-            e.what());
+        DNF_LOG_SCOPE_LINE(0x1bf5,"./log/Except",
+            "CPacketTranslater::OnMonitorPunishCancel() Exception Break : %s\n", e.what());
     }
     catch (...)
     {
         puts("CPacketTranslater::OnMonitorPunishCancel() Exception Break");
-        DNF_LOG_SCOPE_LINE(0x1bfb, "%s", "CPacketTranslater::OnMonitorPunishCancel() Exception Break\n");
+        DNF_LOG_SCOPE_LINE(0x1bfb, "./log/Except",
+            "CPacketTranslater::OnMonitorPunishCancel() Exception Break\n");
     }
 }
 ```

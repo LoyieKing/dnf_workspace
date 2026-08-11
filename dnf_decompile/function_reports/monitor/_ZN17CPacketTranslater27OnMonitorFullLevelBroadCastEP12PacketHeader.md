@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808ca46` | `0x36` | `0x8078010` | `0x3f` |
+| monitor | DIFF | `0x808ca46` | `0x36` | `0x8078036` | `0x3f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -61,7 +61,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnMonitorFullLevelBroadCastEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4136 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4153 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorFullLevelBroadCast(PacketHeader* pkt)

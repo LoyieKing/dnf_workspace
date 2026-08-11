@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808bc48` | `0x3b0` | `0x8077224` | `0x39d` |
+| monitor | DIFF | `0x808bc48` | `0x3b0` | `0x8077236` | `0x39d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -317,9 +317,8 @@
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnSetCleanPadPoint() Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+movl   $"%s",0x4(%esp)
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -347,11 +346,9 @@
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnSetCleanPadPoint() Exception Break\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"CPacketTranslater::OnSetCleanPadPoint() Exception Break\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+movl   $"CPacketTranslater::OnSetCleanPadPoint() Exception Break",0x8(%esp)
-+movl   $"%s",0x4(%esp)
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -453,7 +450,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3936 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3946 行）：
 
 ```cpp
 void CPacketTranslater::OnSetCleanPadPoint(PacketHeader* pkt)
@@ -495,12 +492,14 @@ void CPacketTranslater::OnSetCleanPadPoint(PacketHeader* pkt)
     catch (CDNFException& e)
     {
         printf("CPacketTranslater::OnNoticeGuildChatMsg() Exception Break : %s\n", e.what());
-        DNF_LOG_SCOPE_LINE(0x1660, "%s", "CPacketTranslater::OnSetCleanPadPoint() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x1660, "./log/Except",
+            "CPacketTranslater::OnSetCleanPadPoint() Exception Break : %s\n", e.what());
     }
     catch (...)
     {
         puts("CPacketTranslater::OnNoticeGuildChatMsg() Exception Break");
-        DNF_LOG_SCOPE_LINE(0x1666, "%s", "CPacketTranslater::OnSetCleanPadPoint() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x1666, "./log/Except",
+            "CPacketTranslater::OnSetCleanPadPoint() Exception Break\n");
     }
 }
 ```

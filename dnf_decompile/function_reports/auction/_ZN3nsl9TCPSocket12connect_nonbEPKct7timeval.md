@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| auction | DIFF | `0x80ad270` | `0x230` | `0x809f50c` | `0x220` |
+| auction | DIFF | `0x80ad270` | `0x230` | `0x809f496` | `0x230` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,155 +1,150 @@
+@@ -1,155 +1,155 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -71,11 +71,9 @@
  cmp    $0xb,%eax
  je     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0xd3>
  mov    $0x0,%eax
--jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x225>
-+jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x215>
+ jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x225>
  cmpl   $0x0,-0x28(%ebp)
--je     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x1f5>
-+je     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x1e5>
+ je     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x1f5>
  lea    -0xc4(%ebp),%eax
  mov    %eax,-0x1c(%ebp)
  movl   $0x0,-0x20(%ebp)
@@ -116,26 +114,20 @@
  call   <T> <select>
  mov    %eax,-0x28(%ebp)
  cmpl   $0x0,-0x28(%ebp)
--jns    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x187>
-+jns    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x18a>
+ jns    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x187>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  cmp    $0x4,%eax
--je     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x187>
--mov    $0x1,%eax
--jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x18c>
-+je     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x18a>
+ je     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x187>
+ mov    $0x1,%eax
+ jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x18c>
  mov    $0x0,%eax
--test   %al,%al
--je     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x19a>
-+jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x215>
-+cmpl   $0x0,-0x28(%ebp)
-+jg     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x197>
+ test   %al,%al
+ je     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x19a>
  mov    $0x0,%eax
--jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x225>
--cmpl   $0x0,-0x28(%ebp)
--jle    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x1ee>
-+jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x215>
+ jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x225>
+ cmpl   $0x0,-0x28(%ebp)
+ jle    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x1ee>
  movl   $0x4,-0x40(%ebp)
 -lea    -0x44(%ebp),%edx
  mov    0x8(%ebp),%eax
@@ -152,20 +144,16 @@
  call   <T> <getsockopt>
  shr    $0x1f,%eax
  test   %al,%al
--je     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x1e0>
-+je     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x1d7>
+ je     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x1e0>
  mov    $0x0,%eax
--jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x225>
-+jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x215>
+ jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x225>
  mov    -0x44(%ebp),%eax
  test   %eax,%eax
--je     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x1f5>
-+je     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x1e5>
+ je     <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x1f5>
  mov    $0x0,%eax
--jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x225>
--mov    $0x0,%eax
--jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x225>
-+jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x215>
+ jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x225>
+ mov    $0x0,%eax
+ jmp    <T> <_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval+0x225>
  mov    0x8(%ebp),%eax
  add    $0x14,%eax
  movl   $0x4,0x8(%esp)
@@ -270,7 +258,7 @@ nsl::TCPSocket::_ZN3nsl9TCPSocket12connect_nonbEPKct7timeval
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/Socket.cpp](source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/Socket.cpp)（约第 300 行）：
+定义于 [source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/Socket.cpp](source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/Socket.cpp)（约第 297 行）：
 
 ```cpp
 bool TCPSocket::connect_nonb(const char* ip, unsigned short port, timeval tval)
@@ -303,23 +291,25 @@ bool TCPSocket::connect_nonb(const char* ip, unsigned short port, timeval tval)
             p->fds_bits[i] = 0;
         }
         FD_SET((unsigned int)sock_, &wset);
-        n = select(sock_ + 1, NULL, &wset, NULL, &tval);
-        // ORIG: && 物化为 0/1（mov $1; jmp; mov $0; test; je）
-        if (n < 0 && errno != EINTR)
+        // ORIG: 赋值在条件内（n<0 && errno!=EINTR 物化为 0/1：mov $1; jmp; mov $0; test; je）
+        if ((n = select(sock_ + 1, NULL, &wset, NULL, &tval)) < 0 && errno != EINTR)
         {
             return false;
         }
-        if (n < 1)
+        if (n >= 1)
         {
-            return false;
+            socklen_t lon = 4;
+            int valopt;
+            if (getsockopt(sock_, 1, 4, &valopt, &lon) < 0)
+            {
+                return false;
+            }
+            if (valopt != 0)
+            {
+                return false;
+            }
         }
-        socklen_t lon = 4;
-        int valopt;
-        if (getsockopt(sock_, 1, 4, &valopt, &lon) < 0)
-        {
-            return false;
-        }
-        if (valopt != 0)
+        else
         {
             return false;
         }

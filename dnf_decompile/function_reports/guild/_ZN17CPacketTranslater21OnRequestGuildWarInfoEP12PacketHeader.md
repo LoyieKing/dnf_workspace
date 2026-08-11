@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8076700` | `0x27a` | `0x806cfd6` | `0x1ba` |
+| guild | DIFF | `0x8076700` | `0x27a` | `0x806ceb4` | `0x1b3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,174 +1,131 @@
+@@ -1,174 +1,129 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -122,9 +122,7 @@
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--add    $0x290,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
+ add    $0x290,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CGuildManager11GetGuildWarEv>
  mov    %eax,-0x24(%ebp)
@@ -132,17 +130,12 @@
  mov    %eax,-0x20(%ebp)
  mov    -0x20(%ebp),%eax
 -mov    0xe(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x10,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
 +add    $0xe,%eax
-+mov    (%eax),%ebx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication15Get_UserManagerEv>
-+mov    %ebx,0x4(%esp)
-+mov    %eax,(%esp)
++mov    (%eax),%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+ add    $0x10,%edx
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 -mov    %eax,-0x28(%ebp)
 -cmpl   $0x0,-0x28(%ebp)
@@ -151,7 +144,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater21OnRequestGuildWarInfoEP12PacketHeader+0x168>
-+je     <T> <_ZN17CPacketTranslater21OnRequestGuildWarInfoEP12PacketHeader+0x183>
++je     <T> <_ZN17CPacketTranslater21OnRequestGuildWarInfoEP12PacketHeader+0x17c>
  mov    -0x20(%ebp),%eax
 -mov    0xe(%eax),%ebx
 +add    $0xe,%eax
@@ -170,7 +163,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnRequestGuildWarInfoEP12PacketHeader+0x272>
-+jmp    <T> <_ZN17CPacketTranslater21OnRequestGuildWarInfoEP12PacketHeader+0x1b2>
++jmp    <T> <_ZN17CPacketTranslater21OnRequestGuildWarInfoEP12PacketHeader+0x1ab>
  mov    -0x20(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,0x4(%esp)
@@ -310,10 +303,10 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnRequestGuildWarInfoEP12PacketH
 void CPacketTranslater::OnRequestGuildWarInfo(PacketHeader* pkt)
 {
     THROW_IF_NO_APP("CPacketTranslater::OnRequestGuildWarInfo : 0 == m_pclApp");
-    CGuildWar* war = m_pclApp->Get_GuildManager()->GetGuildWar();
+    CGuildWar* war = (&m_pclApp->m_guildManager)->GetGuildWar();
     char* pb = (char*)pkt;
     CUser* user;
-    if ((user = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe))) == 0)
+    if ((user = (&m_pclApp->m_userManager)->FindUser_CharNo(*(unsigned int*)(pb + 0xe))) == 0)
     {
         DNF_LOG_SCOPE_LINE(0x78d,"./log/Except",
             "[USER] CPacketTranslater::OnRequestGuildWarInfo : pclUser == 0!\tchar id(%d)",

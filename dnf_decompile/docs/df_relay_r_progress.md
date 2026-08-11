@@ -167,3 +167,29 @@ DIFF 590（编译器/寄存器分配差异）；**real missing 15**（其中 4 �
 - UDPHandlerS2S::dispatch（postDisconnectEvent2TCPUser/setAuthenticated 双分支）、
   ScriptRawData::get、TCPSocket::connect(const char*)、UDPSocket monitor_set
   erase(iterator)、Reactor 空闲清扫的 unlock-先于-onClose + break 语义均已补齐。
+
+## round-11（2026-08-11）：relay 归零 ✅
+
+权威水位：**md 88 → 0**（上一轮 1）。manifest 476 项目符号
+IDENTICAL 366 + IDENTICAL_AE 110，0 NEAR/DIFF/MISSING，1472 豁免。
+
+最后 1 个 `TCPUser::onPacketParse()` 修复（DIFF → IDENTICAL，md 已删除）：
+
+1. 循环从 `for(;;)` 改 `do { ... } while (m_recvQueue.isEmpty() == 0);`
+   ——消除 GCC 4.4 在 while(1) 入口的 `jmp +0xd; nop`（入口 jmp+loop-top
+   nop 是 while 形态伪影；do-while 使回边直指 body，与 ORIG 一致）。
+2. 两处 `size <= 0` 检查改 `if (size > 0) { ... } else { postDisconnected(1);
+   return; }` ——复现 ORIG `cmpl; jle` 延迟块（else 块置于 if-body 之后）。
+3. else 分支 `if (!peekCopy(...))` 改
+   `if (m_recvQueue.peekCopy(0xc, header) != 0) { ... } else { ... }`
+   ——去掉 `xor $1` 物化，复现 ORIG `test %al,%al; je` 延迟块。
+4. else 分支 `if (len < size) return;` 改
+   `if (len >= size) { ... } else { return; }` ——复现 ORIG
+   `setge; test; je` 极性（与首个 `setl; jne` 位置不同）。
+5. header 前加 1 字节布局占位 `char header_pad[1];` ——1 字节标量会被
+   allocator 8 对齐（header 落到 -0x70），1 字节数组保持密集布局，使
+   header 从 -0x68 落到 ORIG 的 -0x69、帧 0x84 → 0x94（仅占位，不参与逻辑）。
+
+共享改动：仅 `source/DNFServer/GameServer/Relay/TCPUser.cpp`（服务内，
+无共享头文件/工具链改动；TCPUser.h 的 round-8 asm 为既有改动，未触碰）。
+工具链维持 c6446r（TCPUser TU = GCC 4.4.6-3 + gnu++0x）。

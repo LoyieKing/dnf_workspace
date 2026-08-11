@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806baea` | `0x5d0` | `0x806ceea` | `0x5d0` |
+| dbmw | DIFF | `0x806baea` | `0x5d0` | `0x806cef2` | `0x5d0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -615,16 +615,18 @@ void CApplication::Load(int argc, char** argv)
         puts("Application App Config Load_Table() Success!");
         m_serverConfig->Load_Table(std::string("./table/server_config.tbl"));
         puts("Application Server Config Load_Table() Success!");
-        m_frameCount.InitFrameCountInfo(this, m_appConfig->Get_FrameCountValue(), 0x3e8);
+        m_frameCount.InitFrameCountInfo(this,
+                                        ((CAppConfig*)m_appConfig)->Get_FrameCountValue(),
+                                        0x3e8);
         puts("Application Init Frame Count() Success!");
         m_udpHandler = new CUdpHandler;
         if (((CUdpHandler*)m_udpHandler)->InitServerSocket(
-                (unsigned short)m_appConfig->Get_ServerUdpPort()) == -1)
+                (unsigned short)((CAppConfig*)m_appConfig)->Get_ServerUdpPort()) == -1)
             throw CDNFException("CApplication::Load() Init Server Socket Exception Break!");
         puts("Application UDP Handler Create() Success!");
         m_serverHandler = new CServerHandler;
         m_serverHandler->Attach(this);
-        m_serverHandler->Load((ST_ServerInfo*)m_serverConfig->GetServerInfo());
+        m_serverHandler->Load((ST_ServerInfo*)((CServerConfig*)m_serverConfig)->GetServerInfo());
         puts("Application Server Handler Create() Success!");
         CPacketTranslater::attach(this);
         puts("Application Packet Translater Attach() Success!");
@@ -642,7 +644,7 @@ void CApplication::Load(int argc, char** argv)
         if (m_networkThread->begin() != 1)
             throw;
         puts("Application Network Thread Begin() Success!");
-        unsigned short port = m_appConfig->Get_ServerTcpPort();
+        unsigned short port = ((CAppConfig*)m_appConfig)->Get_ServerTcpPort();
         if (port != 0)
         {
             m_tcpNetSystem.Init(port);

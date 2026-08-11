@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8087c3e` | `0x234` | `0x8072fb6` | `0x229` |
+| monitor | DIFF | `0x8087c3e` | `0x234` | `0x8072fc2` | `0x229` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -164,11 +164,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnDelBuddy Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"CPacketTranslater::OnDelBuddy Exception Break : %s\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+movl   $"CPacketTranslater::OnDelBuddy() Exception Break : %s\n",0x8(%esp)
-+movl   $"%s",0x4(%esp)
 +lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -192,11 +190,9 @@
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnDelBuddy Exception Break\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"CPacketTranslater::OnDelBuddy Exception Break\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+movl   $"CPacketTranslater::OnDelBuddy() Exception Break",0x8(%esp)
-+movl   $"%s",0x4(%esp)
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -275,7 +271,7 @@ void CPacketTranslater::_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader(Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2804 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2807 行）：
 
 ```cpp
 void CPacketTranslater::OnDelBuddy(PacketHeader* pkt)
@@ -314,11 +310,13 @@ void CPacketTranslater::OnDelBuddy(PacketHeader* pkt)
     }
     catch (CDNFException& e)
     {
-        DNF_LOG_SCOPE_LINE(0x1098, "%s", "CPacketTranslater::OnDelBuddy() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x1098, "./log/Except",
+            "CPacketTranslater::OnDelBuddy Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        DNF_LOG_SCOPE_LINE(0x109d, "%s", "CPacketTranslater::OnDelBuddy() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x109d, "./log/Except",
+            "CPacketTranslater::OnDelBuddy Exception Break\n");
     }
 }
 ```

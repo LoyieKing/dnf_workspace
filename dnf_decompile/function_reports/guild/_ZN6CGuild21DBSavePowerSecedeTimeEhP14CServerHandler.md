@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808d818` | `0x4c` | `0x80538e8` | `0x56` |
+| guild | DIFF | `0x808d818` | `0x4c` | `0x80538ec` | `0x56` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -76,7 +76,7 @@ CGuild::_ZN6CGuild21DBSavePowerSecedeTimeEhP14CServerHandler
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 620 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 623 行）：
 
 ```cpp
 void CGuild::DBSavePowerSecedeTime(unsigned char flag, CServerHandler* handler)

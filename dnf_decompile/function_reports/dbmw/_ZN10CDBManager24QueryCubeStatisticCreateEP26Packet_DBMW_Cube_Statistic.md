@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807f03c` | `0x3db` | `0x805fa54` | `0x34a` |
+| dbmw | DIFF | `0x807f03c` | `0x3db` | `0x805fb3c` | `0x344` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,66 +13,61 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,280 +1,228 @@
+@@ -1,280 +1,231 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
+ push   %edi
  push   %esi
  push   %ebx
 -sub    $0x86c,%esp
-+sub    $0x850,%esp
++sub    $0x85c,%esp
  movl   $0x0,(%esp)
  call   <T> <time>
 -mov    %eax,-0x28(%ebp)
-+mov    %eax,-0x1c(%ebp)
++mov    %eax,-0x2c(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x10(%eax),%eax
 -mov    %eax,-0x24(%ebp)
 -cmpl   $0x0,-0x24(%ebp)
--jne    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x34>
-+mov    %eax,-0x18(%ebp)
-+cmpl   $0x0,-0x18(%ebp)
-+jne    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x33>
++mov    %eax,-0x28(%ebp)
++cmpl   $0x0,-0x28(%ebp)
+ jne    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x34>
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x3ce>
 -movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x33e>
++jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x337>
  mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%eax
 -mov    %eax,-0x20(%ebp)
 +add    $0xa,%eax
 +mov    (%eax),%eax
-+mov    %eax,-0x14(%ebp)
++mov    %eax,-0x24(%ebp)
  movl   $0x1872,0x8(%esp)
 -movl   $&_ZZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_StatisticE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
 +movl   $"QueryCubeStatisticCreate",0x4(%esp)
-+lea    -0x24(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x20(%ebp),%eax
-+mov    -0x14(%ebp),%eax
++mov    -0x24(%ebp),%eax
  mov    %eax,0xc(%esp)
 -movl   $"CDBManager::QueryCubeStatisticCreate : (%d) 개 패킷 수신\n",0x8(%esp)
 +movl   $"CDBManager::QueryCubeStatisticCreate : (%d) 째쨀 횈횖횇쨋 쩌철쩍횇\n",0x8(%esp)
  movl   $"./log/statistic",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -lea    -0x844(%ebp),%ebx
--mov    $0x0,%eax
--mov    $0x200,%edx
--mov    %ebx,%edi
--mov    %edx,%ecx
--rep stos %eax,%es:(%edi)
++lea    -0x848(%ebp),%ebx
+ mov    $0x0,%eax
+ mov    $0x200,%edx
+ mov    %ebx,%edi
+ mov    %edx,%ecx
+ rep stos %eax,%es:(%edi)
 -lea    -0x44(%ebp),%eax
-+movl   $0x800,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+lea    -0x838(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <memset>
-+lea    -0x28(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1Ev>
 -movl   $0x0,-0x1c(%ebp)
@@ -85,8 +80,8 @@
 -test   %al,%al
 -je     <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x178>
 -mov    -0x1c(%ebp),%edx
-+movl   $0x0,-0x10(%ebp)
-+jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x271>
++movl   $0x0,-0x20(%ebp)
++jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x26a>
  mov    0xc(%ebp),%ecx
 -mov    %edx,%eax
 -add    %eax,%eax
@@ -96,25 +91,25 @@
 -mov    0x16(%eax,%ecx,1),%edi
 -mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
-+mov    -0x10(%ebp),%edx
++mov    -0x20(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
  add    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
  lea    (%ecx,%eax,1),%eax
-+mov    %eax,-0xc(%ebp)
-+lea    -0x28(%ebp),%eax
++mov    %eax,-0x1c(%ebp)
++lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSs4sizeEv>
 +test   %eax,%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x139>
-+mov    -0xc(%ebp),%eax
++je     <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x132>
++mov    -0x1c(%ebp),%eax
 +add    $0x16,%eax
 +mov    (%eax),%esi
-+mov    -0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  add    $0x1a,%eax
  movzbl (%eax),%eax
 -movzbl %al,%esi
@@ -146,14 +141,14 @@
 -mov    -0x84c(%ebp),%edx
 -movzwl 0xe(%eax,%edx,1),%eax
 +movzbl %al,%ebx
-+mov    -0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
 +add    $0x12,%eax
 +mov    (%eax),%ecx
-+mov    -0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
 +add    $0x10,%eax
 +movzwl (%eax),%eax
 +movswl %ax,%edx
-+mov    -0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
 +add    $0xe,%eax
 +movzwl (%eax),%eax
  cwtl
@@ -168,7 +163,7 @@
  mov    %eax,0x8(%esp)
  movl   $",(now(),%d,%d,%d,%d,%d)",0x4(%esp)
 -lea    -0x844(%ebp),%eax
-+lea    -0x838(%ebp),%eax
++lea    -0x848(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <sprintf>
 -jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x225>
@@ -188,11 +183,11 @@
 -shl    $0x2,%eax
 -add    %edx,%eax
 -lea    (%ecx,%eax,1),%eax
-+jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x195>
-+mov    -0xc(%ebp),%eax
++jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x18e>
++mov    -0x1c(%ebp),%eax
 +add    $0x16,%eax
 +mov    (%eax),%esi
-+mov    -0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  add    $0x1a,%eax
  movzbl (%eax),%eax
 -movzbl %al,%esi
@@ -224,14 +219,14 @@
 -mov    -0x850(%ebp),%edx
 -movzwl 0xe(%eax,%edx,1),%eax
 +movzbl %al,%ebx
-+mov    -0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
 +add    $0x12,%eax
 +mov    (%eax),%ecx
-+mov    -0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
 +add    $0x10,%eax
 +movzwl (%eax),%eax
 +movswl %ax,%edx
-+mov    -0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
 +add    $0xe,%eax
 +movzwl (%eax),%eax
  cwtl
@@ -246,11 +241,11 @@
  mov    %eax,0x8(%esp)
  movl   $"(now(),%d,%d,%d,%d,%d)",0x4(%esp)
 -lea    -0x844(%ebp),%eax
-+lea    -0x838(%ebp),%eax
++lea    -0x848(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <sprintf>
 -lea    -0x44(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs6lengthEv>
  add    $0x800,%eax
@@ -259,160 +254,128 @@
  test   %al,%al
 -je     <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x2e8>
 -mov    -0x24(%ebp),%eax
-+je     <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x258>
-+mov    -0x18(%ebp),%eax
++je     <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x251>
++mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%ebx
 -lea    -0x44(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs5c_strEv>
  mov    %eax,0xc(%esp)
  movl   $"inSert into log_cube_stat (occ_time, channel_no, level, item_index, type, item_count) values%s",0x8(%esp)
  movl   $0x4ec2,0x4(%esp)
 -mov    -0x24(%ebp),%eax
-+mov    -0x18(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   *%ebx
 -mov    -0x24(%ebp),%eax
-+mov    -0x18(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4ec2,0x4(%esp)
 -mov    -0x24(%ebp),%eax
-+mov    -0x18(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x2d7>
-+je     <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x247>
++je     <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x240>
  movl   $0x1895,0x8(%esp)
-+movl   $&_ZZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_StatisticE12__FUNCTION__,0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"\nQueryCubeStatisticCreate db1 error!!\n",0x8(%esp)
-+movl   $"./log/statistic",0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x333>
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSs5clearEv>
-+subl   $0x1,-0x10(%ebp)
-+jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x26d>
-+lea    -0x838(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSspLEPKc>
-+addl   $0x1,-0x10(%ebp)
-+mov    -0x10(%ebp),%eax
-+cmp    -0x14(%ebp),%eax
-+setl   %al
-+test   %al,%al
-+jne    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0xb0>
-+mov    -0x18(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%ebx
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSs5c_strEv>
-+mov    %eax,0xc(%esp)
-+movl   $"inSert into log_cube_stat (occ_time, channel_no, level, item_index, type, item_count) values%s",0x8(%esp)
-+movl   $0x4ec2,0x4(%esp)
-+mov    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%ebx
-+mov    -0x18(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%edx
-+movl   $0x4ec2,0x4(%esp)
-+mov    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x311>
-+movl   $0x18a2,0x8(%esp)
  movl   $&_ZZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_StatisticE12__FUNCTION__,0x4(%esp)
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"\nQueryCubeStatisticCreate db1 error!!\n",0x8(%esp)
  movl   $"./log/statistic",0x4(%esp)
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x3c3>
 -lea    -0x44(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSs5clearEv>
++jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x32c>
++lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSs5clearEv>
 -subl   $0x1,-0x1c(%ebp)
 -jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x2fd>
 -lea    -0x844(%ebp),%eax
--mov    %eax,0x4(%esp)
++subl   $0x1,-0x20(%ebp)
++jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x266>
++lea    -0x848(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -lea    -0x44(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSspLEPKc>
++lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSspLEPKc>
 -addl   $0x1,-0x1c(%ebp)
 -mov    -0x1c(%ebp),%eax
 -cmp    -0x20(%ebp),%eax
--setl   %al
--test   %al,%al
++addl   $0x1,-0x20(%ebp)
++mov    -0x20(%ebp),%eax
++cmp    -0x24(%ebp),%eax
+ setl   %al
+ test   %al,%al
 -jne    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0xae>
 -mov    -0x24(%ebp),%eax
--mov    (%eax),%eax
--add    $0x1c,%eax
--mov    (%eax),%ebx
++jne    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0xa9>
++mov    -0x28(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x1c,%eax
+ mov    (%eax),%ebx
 -lea    -0x44(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSs5c_strEv>
--mov    %eax,0xc(%esp)
--movl   $"inSert into log_cube_stat (occ_time, channel_no, level, item_index, type, item_count) values%s",0x8(%esp)
--movl   $0x4ec2,0x4(%esp)
++lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSs5c_strEv>
+ mov    %eax,0xc(%esp)
+ movl   $"inSert into log_cube_stat (occ_time, channel_no, level, item_index, type, item_count) values%s",0x8(%esp)
+ movl   $0x4ec2,0x4(%esp)
 -mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ebx
++mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ebx
 -mov    -0x24(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
--movl   $0x4ec2,0x4(%esp)
++mov    -0x28(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
+ movl   $0x4ec2,0x4(%esp)
 -mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
++mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x3a1>
--movl   $0x18a2,0x8(%esp)
--movl   $&_ZZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_StatisticE12__FUNCTION__,0x4(%esp)
++je     <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x30a>
+ movl   $0x18a2,0x8(%esp)
+ movl   $&_ZZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_StatisticE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"\nQueryCubeStatisticCreate db1 error!!\n",0x8(%esp)
--movl   $"./log/statistic",0x4(%esp)
++lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"\nQueryCubeStatisticCreate db1 error!!\n",0x8(%esp)
+ movl   $"./log/statistic",0x4(%esp)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    $0x0,%ebx
++lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x3c3>
-+jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x333>
++jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x32c>
  mov    $0x1,%ebx
 -jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x3c3>
-+jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x333>
++jmp    <T> <_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic+0x32c>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x44(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
@@ -420,15 +383,15 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x44(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %ebx,%eax
 -add    $0x86c,%esp
-+add    $0x850,%esp
++add    $0x85c,%esp
  pop    %ebx
  pop    %esi
--pop    %edi
+ pop    %edi
  pop    %ebp
  ret
 ```
@@ -540,7 +503,7 @@ LAB_0807f3ff:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 5015 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 5013 行）：
 
 ```cpp
 char CDBManager::QueryCubeStatisticCreate(Packet_DBMW_Cube_Statistic* packet)
@@ -553,8 +516,7 @@ char CDBManager::QueryCubeStatisticCreate(Packet_DBMW_Cube_Statistic* packet)
     CMyFileLog slog("QueryCubeStatisticCreate", 0x1872);
     slog("./log/statistic",
          "CDBManager::QueryCubeStatisticCreate : (%d) °³ ÆÐÅ¶ ¼ö½Å\n", count);
-    char buf[0x800];
-    memset(buf, 0, 0x800);
+    char buf[0x800] = {0};
     std::string str;
     for (int i = 0; i < count; i++)
     {

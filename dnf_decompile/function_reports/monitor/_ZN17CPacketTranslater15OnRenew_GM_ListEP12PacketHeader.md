@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808d678` | `0xaa` | `0x8078c54` | `0xb7` |
+| monitor | DIFF | `0x808d678` | `0xaa` | `0x8078c7a` | `0xb7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -120,7 +120,7 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4362 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4379 行）：
 
 ```cpp
 void CPacketTranslater::OnRenew_GM_List(PacketHeader* pkt)

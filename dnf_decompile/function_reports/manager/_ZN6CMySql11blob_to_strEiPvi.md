@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8061b90` | `0xa6` | `0x80550d4` | `0xad` |
+| manager | DIFF | `0x8061b90` | `0xa6` | `0x8055024` | `0xa5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -18,20 +18,17 @@
  mov    %esp,%ebp
  sub    $0x28,%esp
  cmpl   $0x0,0xc(%ebp)
--js     <T> <_ZN6CMySql11blob_to_strEiPvi+0x21>
-+js     <T> <_ZN6CMySql11blob_to_strEiPvi+0xa6>
+ js     <T> <_ZN6CMySql11blob_to_strEiPvi+0x21>
  cmpl   $0x9,0xc(%ebp)
--jg     <T> <_ZN6CMySql11blob_to_strEiPvi+0x21>
-+jg     <T> <_ZN6CMySql11blob_to_strEiPvi+0xa6>
+ jg     <T> <_ZN6CMySql11blob_to_strEiPvi+0x21>
  cmpl   $0x0,0x10(%ebp)
--jne    <T> <_ZN6CMySql11blob_to_strEiPvi+0x28>
-+jne    <T> <_ZN6CMySql11blob_to_strEiPvi+0x29>
+ jne    <T> <_ZN6CMySql11blob_to_strEiPvi+0x28>
  cmpl   $0xfff,0x14(%ebp)
--jle    <T> <_ZN6CMySql11blob_to_strEiPvi+0x28>
--mov    $0x0,%eax
+ jle    <T> <_ZN6CMySql11blob_to_strEiPvi+0x28>
+ mov    $0x0,%eax
 -jmp    <T> <_ZN6CMySql11blob_to_strEiPvi+0xa4>
 -mov    0xc(%ebp),%edx
-+jg     <T> <_ZN6CMySql11blob_to_strEiPvi+0xa6>
++jmp    <T> <_ZN6CMySql11blob_to_strEiPvi+0xa3>
  mov    0x8(%ebp),%ecx
 -mov    %edx,%eax
 -shl    $0xc,%eax
@@ -52,7 +49,7 @@
 +lea    (%ecx,%eax,1),%eax
 +movb   $0x0,(%eax)
 +cmpl   $0x0,0x14(%ebp)
-+jle    <T> <_ZN6CMySql11blob_to_strEiPvi+0x8f>
++jle    <T> <_ZN6CMySql11blob_to_strEiPvi+0x8e>
 +mov    0x8(%ebp),%ecx
 +mov    0xc(%ebp),%edx
 +mov    %edx,%eax
@@ -85,8 +82,6 @@
 -add    $0xd,%eax
 +add    $0x101d,%eax
 +lea    (%ecx,%eax,1),%eax
-+jmp    <T> <_ZN6CMySql11blob_to_strEiPvi+0xab>
-+mov    $0x0,%eax
  leave
  ret
 ```
@@ -122,25 +117,20 @@ CMySql::_ZN6CMySql11blob_to_strEiPvi(CMySql *this,int param_1,void *param_2,int 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Manager/DNFMySql.cpp](source/DNFServer/GameServer/Manager/DNFMySql.cpp)（约第 255 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFMySql.cpp](source/DNFServer/GameServer/Manager/DNFMySql.cpp)（约第 253 行）：
 
 ```cpp
 char* CMySql::blob_to_str(int col, void* buf, int len)
 {
-    if (col >= 0 && col <= 9)
+    if (col < 0 || col > 9 || (buf == 0 && len > 0xfff))
+        return 0;
+    ((char*)this + col * 0x1001 + 0x1010)[0xd] = 0;
+    if (len > 0)
     {
-        if (buf != 0 || len <= 0xfff)
-        {
-            ((char*)this + col * 0x1001 + 0x1010)[0xd] = 0;
-            if (len > 0)
-            {
-                char* dst = (char*)this + col * 0x1001 + 0x1010 + 0xd;
-                dst += mysql_real_escape_string(m_mysql, dst, (const char*)buf, len);
-                *dst++ = 0;
-            }
-            return (char*)this + col * 0x1001 + 0x1010 + 0xd;
-        }
+        char* dst = (char*)this + col * 0x1001 + 0x1010 + 0xd;
+        dst += mysql_real_escape_string(m_mysql, dst, (const char*)buf, len);
+        *dst++ = 0;
     }
-    return 0;
+    return (char*)this + col * 0x1001 + 0x1010 + 0xd;
 }
 ```

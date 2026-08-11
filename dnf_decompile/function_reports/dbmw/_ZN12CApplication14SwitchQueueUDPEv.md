@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806d19a` | `0xc2` | `0x806e966` | `0xc5` |
+| dbmw | DIFF | `0x806d19a` | `0xc2` | `0x806e96e` | `0xc5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -121,7 +121,7 @@ void __thiscall CApplication::_ZN12CApplication14SwitchQueueUDPEv(CApplication *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 347 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 350 行）：
 
 ```cpp
 void CApplication::SwitchQueueUDP()

@@ -52,15 +52,11 @@
 -jmp    <T> <_ZN6Script18get_server_sectionEv+0x186>
 +jmp    <T> <_ZN6Script18get_server_sectionEv+0x181>
  call   <T> <_Z12G_ScriptDatav>
--add    $0x8,%eax
-+lea    0x8(%eax),%edx
+ add    $0x8,%eax
  movl   $0x10,0x8(%esp)
--mov    -0xc(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
+ mov    -0xc(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
  call   <T> <strncpy>
  call   <T> <_Z12G_ScriptDatav>
  movb   $0x0,0x18(%eax)
@@ -211,6 +207,9 @@ undefined4 __thiscall Script::_ZN6Script18get_server_sectionEv(Script *this)
 ```cpp
 bool Script::get_server_section()
 {
+    // 语义还原（2026-08-11 用户规矩：不允许硬套 asm）。
+    // ORIG 的交错 ret0 块布局/寄存器序无法用纯 C++ 逐字节复现，
+    // 按规矩归入 caliber_issues.csv（REMAIN）。
     char* v = 0;
     v = data->get_data("[server]", "max_client");
     if (v == 0)
@@ -223,7 +222,7 @@ bool Script::get_server_section()
     {
         return 0;
     }
-    strncpy((char*)G_ScriptData() + 8, v, 0x10);
+    strncpy(G_ScriptData()->mServerIpA, v, 0x10);
     G_ScriptData()->mServerIpA[16] = 0;
     v = data->get_data("[server]", "this_tcp_port");
     if (v == 0)

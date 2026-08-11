@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808ffb6` | `0x40f` | `0x807b4c2` | `0x428` |
+| monitor | DIFF | `0x808ffb6` | `0x40f` | `0x807b508` | `0x428` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -498,7 +498,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27onSocialEventRewardItemInfoEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4989 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5016 行）：
 
 ```cpp
 void CPacketTranslater::onSocialEventRewardItemInfo(PacketHeader* pkt)

@@ -1,4 +1,4 @@
-targets=5
-ours=5
+targets=1
+ours=1
 skip_no_source=0
 skip_vendored=0

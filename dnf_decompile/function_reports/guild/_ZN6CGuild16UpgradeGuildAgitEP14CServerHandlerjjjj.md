@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809201e` | `0x79` | `0x8057e16` | `0x83` |
+| guild | DIFF | `0x809201e` | `0x79` | `0x8057e10` | `0x83` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -38,22 +38,20 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild22SendGuildInfoToMembersEb>
--lea    -0x1a(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x1a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_DB_Upgrade_Guild_AgitC1Ev>
-+lea    -0x1c(%ebp),%eax
++lea    -0x1a(%ebp),%eax
 +lea    0xa(%eax),%edx
  mov    0x10(%ebp),%eax
 -mov    %eax,-0x10(%ebp)
 +mov    %eax,(%edx)
-+lea    -0x1c(%ebp),%eax
++lea    -0x1a(%ebp),%eax
 +lea    0xe(%eax),%edx
  mov    0x14(%ebp),%eax
 -mov    %eax,-0xc(%ebp)
--lea    -0x1a(%ebp),%eax
 +mov    %eax,(%edx)
-+lea    -0x1c(%ebp),%eax
+ lea    -0x1a(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)

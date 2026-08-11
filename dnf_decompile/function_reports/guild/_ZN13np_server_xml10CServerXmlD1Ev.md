@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x805744a` | `0x118` | `0x80a4be8` | `0x14f` |
+| guild | DIFF | `0x805744a` | `0x118` | `0x80a47e2` | `0x14f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -46,11 +46,11 @@
 +mov    0x8(%ebp),%eax
 +add    $0x5,%eax
 +mov    (%eax),%eax
-+mov    (%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x5,%eax
-+mov    %eax,(%esp)
-+call   *%edx
++mov    (%eax),%eax
++mov    0x8(%ebp),%edx
++add    $0x5,%edx
++mov    %edx,(%esp)
++call   *%eax
 +jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x8e>
  mov    %edx,%ebx
  mov    %eax,%esi

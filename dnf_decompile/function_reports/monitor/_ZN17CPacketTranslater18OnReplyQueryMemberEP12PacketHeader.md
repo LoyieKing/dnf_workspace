@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808039e` | `0x225` | `0x806c390` | `0x21e` |
+| monitor | DIFF | `0x808039e` | `0x225` | `0x806c39e` | `0x21e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -228,7 +228,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 956 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 954 行）：
 
 ```cpp
 void CPacketTranslater::OnReplyQueryMember(PacketHeader* pkt)

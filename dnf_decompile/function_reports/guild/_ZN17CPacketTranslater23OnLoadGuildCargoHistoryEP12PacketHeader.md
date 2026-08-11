@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8083b62` | `0x1c2` | `0x8079814` | `0x1cb` |
+| guild | DIFF | `0x8083b62` | `0x1c2` | `0x80795ac` | `0x1c9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,116 +1,120 @@
+@@ -1,116 +1,119 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -42,19 +42,16 @@
 -mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
-+jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x1c4>
++jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x1c2>
 +mov    -0x18(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x14(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    -0x14(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
++lea    0x290(%eax),%edx
++mov    -0x14(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x14(%ebp)
 -cmpl   $0x0,-0x14(%ebp)
@@ -63,7 +60,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0xb9>
-+je     <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0xc2>
++je     <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0xc0>
  movl   $0x1868,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
@@ -77,7 +74,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x1bb>
-+jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x1c4>
++jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x1c2>
 +mov    -0x18(%ebp),%eax
 +lea    0x12(%eax),%esi
 +mov    -0x18(%ebp),%eax
@@ -95,10 +92,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog>
 -jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x1bb>
-+jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x1c4>
++jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x1c2>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x161>
-+jne    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x16a>
++jne    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x168>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -110,10 +107,10 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
 -mov    %eax,%ebx
 -movl   $0x1875,0x8(%esp)
 -movl   $&_ZZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -121,6 +118,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
++mov    (%eax),%eax
++mov    -0xc(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnLoadGuildCargoHistory Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -129,7 +130,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x15a>
-+jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x163>
++jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x161>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -139,7 +140,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x1bb>
-+jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x1c4>
++jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x1c2>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x187a,0x8(%esp)
@@ -155,7 +156,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x1b6>
-+jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x1bf>
++jmp    <T> <_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12PacketHeader+0x1bd>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -217,7 +218,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4174 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4175 行）：
 
 ```cpp
 void CPacketTranslater::OnLoadGuildCargoHistory(PacketHeader* pkt)
@@ -233,7 +234,7 @@ void CPacketTranslater::OnLoadGuildCargoHistory(PacketHeader* pkt)
         }
         unsigned int guildKey = *(unsigned int*)(pb + 0xa);
         CGuild* guild;
-        if ((guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey)) == 0)
+        if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) == 0)
         {
             DNF_LOG_SCOPE_LINE(0x1868,"./log/GuildCargo",
                 "CPacketTranslater::OnLoadGuildCargoHistory : 0 == pclGuild");

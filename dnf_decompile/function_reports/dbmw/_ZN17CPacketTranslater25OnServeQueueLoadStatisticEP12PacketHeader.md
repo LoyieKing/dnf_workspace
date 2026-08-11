@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809b694` | `0x16c` | `0x80d75b2` | `0x13f` |
+| dbmw | DIFF | `0x809b694` | `0x16c` | `0x80d7632` | `0x13f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -173,7 +173,8 @@ void CPacketTranslater::OnServeQueueLoadStatistic(PacketHeader* header)
     unsigned char fieldA;
     if (pkt->m_fieldA == 0xc8)
     {
-        fieldA = (unsigned char)(pkt->m_fieldA - m_pclApp->m_appConfig->Get_DbmwType());
+        fieldA = (unsigned char)(pkt->m_fieldA -
+                                 ((CAppConfig*)m_pclApp->m_appConfig)->Get_DbmwType());
     }
     else
     {

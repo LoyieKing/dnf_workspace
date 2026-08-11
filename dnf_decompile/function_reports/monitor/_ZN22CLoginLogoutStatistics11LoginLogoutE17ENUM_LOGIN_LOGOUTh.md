@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a642c` | `0x12c` | `0x80965c8` | `0x137` |
+| monitor | DIFF | `0x80a642c` | `0x12c` | `0x809678e` | `0x136` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -51,22 +51,29 @@
  mov    %eax,0x4(%esp)
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKh13stLoginLogoutEEneERKS4_>
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKh13stLoginLogoutEEeqERKS4_>
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKh13stLoginLogoutEEneERKS4_>
  test   %al,%al
 -je     <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x8a>
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKh13stLoginLogoutEEptEv>
++je     <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x98>
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKh13stLoginLogoutEEptEv>
 -mov    0x4(%eax),%edx
 -add    $0x1,%edx
 -mov    %edx,0x4(%eax)
 -jmp    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x12a>
-+je     <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x111>
++mov    %eax,%ebx
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKh13stLoginLogoutEEptEv>
++mov    0x8(%eax),%eax
++add    $0x1,%eax
++mov    %eax,0x8(%ebx)
++jmp    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x131>
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x102>
 -lea    -0x30(%ebp),%eax
-+jmp    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0xe7>
++jmp    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x109>
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13stLoginLogoutC1Ev>
@@ -109,7 +116,7 @@
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x93>
-+jne    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x7f>
++jne    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0xa1>
  movzbl -0x3c(%ebp),%eax
  movzbl %al,%eax
  mov    %eax,0x8(%esp)
@@ -118,17 +125,6 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh>
-+jmp    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x132>
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKh13stLoginLogoutEEptEv>
-+mov    %eax,%ebx
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKh13stLoginLogoutEEptEv>
-+mov    0x8(%eax),%eax
-+add    $0x1,%eax
-+mov    %eax,0x8(%ebx)
 +mov    -0x4(%ebp),%ebx
  leave
  ret
@@ -189,13 +185,17 @@ CLoginLogoutStatistics::_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LO
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/LoginLogoutStatistics.cpp](source/DNFServer/GameServer/Monitor/LoginLogoutStatistics.cpp)（约第 60 行）：
+定义于 [source/DNFServer/GameServer/Monitor/LoginLogoutStatistics.cpp](source/DNFServer/GameServer/Monitor/LoginLogoutStatistics.cpp)（约第 62 行）：
 
 ```cpp
 void CLoginLogoutStatistics::LoginLogout(ENUM_LOGIN_LOGOUT type, unsigned char channel)
 {
     std::map<unsigned char, stLoginLogout>::iterator it = m_maps[(int)type].find(channel);
-    if (it == m_maps[(int)type].end())
+    if (it != m_maps[(int)type].end())
+    {
+        it->second.m_count = it->second.m_count + 1;
+    }
+    else
     {
         for (int i = 0; i < 7; i++)
         {
@@ -206,10 +206,6 @@ void CLoginLogoutStatistics::LoginLogout(ENUM_LOGIN_LOGOUT type, unsigned char c
             m_maps[i].insert(std::pair<const unsigned char, stLoginLogout>(channel, st));
         }
         LoginLogout(type, channel);
-    }
-    else
-    {
-        it->second.m_count = it->second.m_count + 1;
     }
 }
 ```

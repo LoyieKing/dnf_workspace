@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80975a0` | `0xc5` | `0x805d5f2` | `0xab` |
+| guild | DIFF | `0x80975a0` | `0xc5` | `0x805d54c` | `0xab` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -72,10 +72,10 @@
 +je     <T> <_ZN13CGuildManager16GetAttendanceExpEji+0x83>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN13CGuildManager16GetAttendanceExpEji+0xa6>
-+mov    0x10(%ebp),%eax
-+mov    %eax,%edx
-+shl    $0x4,%edx
-+lea    (%edx,%eax,1),%ebx
++mov    0x10(%ebp),%edx
++mov    %edx,%eax
++shl    $0x4,%eax
++lea    (%eax,%edx,1),%ebx
 +mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild13GetGuildLevelEv>

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805bf6a` | `0xe9` | `0x80f564c` | `0xf5` |
+| dbmw | DIFF | `0x805bf6a` | `0xe9` | `0x80f5918` | `0xf5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -157,7 +157,7 @@ CTcpNetSystem::_ZN13CTcpNetSystem18PushTcpSendPacketQEPc(CTcpNetSystem *this,cha
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 217 行）：
+定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 196 行）：
 
 ```cpp
 void CTcpNetSystem::PushTcpSendPacketQ(char* buf)

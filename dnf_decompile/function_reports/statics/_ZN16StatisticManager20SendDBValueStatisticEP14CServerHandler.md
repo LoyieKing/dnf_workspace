@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8073b18` | `0x34e` | `0x8073a94` | `0x396` |
+| statics | DIFF | `0x8073b18` | `0x34e` | `0x80739a4` | `0x393` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,207 +1,221 @@
+@@ -1,207 +1,220 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -25,10 +25,9 @@
  add    $0x408,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIi18ValueStatisticDataSt4lessIiESaISt4pairIKiS0_EEE5emptyEv>
-+xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x342>
-+je     <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x38b>
++jne    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x388>
  lea    -0x103b(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN24Packet_DBMW_Query_StringC1Ev>
@@ -49,7 +48,7 @@
  call   <T> <_ZNSt3mapIi18ValueStatisticDataSt4lessIiESaISt4pairIKiS0_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x30b>
-+jmp    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x356>
++jmp    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x353>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi18ValueStatisticDataEEptEv>
@@ -294,7 +293,7 @@
 -jne    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x67>
 -jmp    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x343>
 -nop
-+jne    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x73>
++jne    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x70>
  lea    -0xc(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -373,12 +372,16 @@ StatisticManager::_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1452 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1470 行）：
 
 ```cpp
 void StatisticManager::SendDBValueStatistic(CServerHandler* handler)
 {
-    if (!m_value.empty())
+    // ORIG：空 if + else 形态（call empty; test; jne），直接写 !empty() 会物化 xor。
+    if (m_value.empty())
+    {
+    }
+    else
     {
         Packet_DBMW_Query_String pkt;
         *(unsigned int*)((char*)&pkt + 0xa) = 0x4ef5;

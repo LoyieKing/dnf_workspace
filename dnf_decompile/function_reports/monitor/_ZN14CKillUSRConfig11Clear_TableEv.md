@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8060d9a` | `0xa4` | `0x805c258` | `0xbe` |
+| monitor | DIFF | `0x8060d9a` | `0xa4` | `0x805c262` | `0xbe` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -141,7 +141,7 @@ void __thiscall CKillUSRConfig::_ZN14CKillUSRConfig11Clear_TableEv(CKillUSRConfi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFKillUserConfig.cpp](source/DNFServer/GameServer/Monitor/DNFKillUserConfig.cpp)（约第 58 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFKillUserConfig.cpp](source/DNFServer/GameServer/Monitor/DNFKillUserConfig.cpp)（约第 65 行）：
 
 ```cpp
 void CKillUSRConfig::Clear_Table()

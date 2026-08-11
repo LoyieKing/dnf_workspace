@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8054e74` | `0xd` | `0x8061dc6` | `0xa` |
+| manager | DIFF | `0x8054e74` | `0xd` | `0x8061df2` | `0xa` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -42,7 +42,9 @@ undefined4 TCPSocket::_ZN9TCPSocket8shutdownEi(int param_1)
 ```cpp
 int TCPSocket::shutdown(int how)
 {
+    // 语义还原（2026-08-11 用户规矩：不允许硬套 asm）。
     (void)how;
-    return m_fd == -1 ? m_fd : m_fd;
+    m_fd == -1;
+    return m_fd;
 }
 ```

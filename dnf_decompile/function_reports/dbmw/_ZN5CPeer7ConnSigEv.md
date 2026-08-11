@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | NEAR | `0x805a9aa` | `0xea` | `0x80ebc96` | `0xea` |
+| dbmw | NEAR | `0x805a9aa` | `0xea` | `0x80ebf32` | `0xea` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -142,7 +142,7 @@ void __thiscall CPeer::_ZN5CPeer7ConnSigEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 51 行）：
+定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 58 行）：
 
 ```cpp
 void CPeer::ConnSig()

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8075b18` | `0x181` | `0x8066412` | `0x169` |
+| statics | DIFF | `0x8075b18` | `0x181` | `0x806635e` | `0x169` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -239,16 +239,16 @@ bool STPartyStatisticKey::operator<(const STPartyStatisticKey& other) const
             if (m_field8 < other.m_field8) return true;
             if (m_field8 == other.m_field8)
             {
-                if ((unsigned char)m_field9 < (unsigned char)other.m_field9) return true;
+                if (m_field9 < other.m_field9) return true;
                 if (m_field9 == other.m_field9)
                 {
-                    if ((unsigned char)m_fielda < (unsigned char)other.m_fielda) return true;
+                    if (m_fielda < other.m_fielda) return true;
                     if (m_fielda == other.m_fielda)
                     {
-                        if ((unsigned char)m_fieldb < (unsigned char)other.m_fieldb) return true;
+                        if (m_fieldb < other.m_fieldb) return true;
                         if (m_fieldb == other.m_fieldb)
                         {
-                            if ((unsigned char)m_fieldc < (unsigned char)other.m_fieldc) return true;
+                            if (m_fieldc < other.m_fieldc) return true;
                             if (m_fieldc == other.m_fieldc &&
                                 m_fieldd < other.m_fieldd) return true;
                         }

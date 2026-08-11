@@ -92,6 +92,7 @@ def main():
     symbols = []
     batch_file = None
     out_dir = None
+    new_bin_override = None
     i = 0
     while i < len(args):
         if args[i] == '--bin' and i + 1 < len(args):
@@ -102,6 +103,9 @@ def main():
             i += 2
         elif args[i] == '--out' and i + 1 < len(args):
             out_dir = args[i + 1]
+            i += 2
+        elif args[i] == '--new-bin' and i + 1 < len(args):
+            new_bin_override = args[i + 1]
             i += 2
         else:
             symbols.append(args[i])
@@ -116,6 +120,8 @@ def main():
         print('unknown bin: {} (use {})'.format(bin_name, ', '.join(sorted(BINS))))
         return
     orig_path, new_path = BINS[bin_name]
+    if new_bin_override:
+        new_path = Path(new_bin_override).resolve()
     o_dis = load_disasm_cached(str(orig_path))
     n_dis = load_disasm_cached(str(new_path))
     if out_dir:

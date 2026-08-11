@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807ef06` | `0x202` | `0x8075514` | `0x133` |
+| guild | DIFF | `0x807ef06` | `0x202` | `0x8075314` | `0x129` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,134 +1,81 @@
+@@ -1,134 +1,79 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -39,20 +39,15 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x1f8>
-+jmp    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x12a>
++jmp    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x120>
  mov    -0x10(%ebp),%eax
 -mov    0xa(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
 +add    $0xa,%eax
-+mov    (%eax),%ebx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    %ebx,0x4(%esp)
-+mov    %eax,(%esp)
++mov    (%eax),%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+ add    $0x290,%edx
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x14(%ebp)
 -cmpl   $0x0,-0x14(%ebp)
@@ -62,14 +57,14 @@
 +setne  %al
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x1f4>
-+je     <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x12a>
++je     <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x120>
  mov    -0x10(%ebp),%eax
 -movzbl 0xe(%eax),%eax
 +add    $0xe,%eax
 +movzbl (%eax),%eax
  cmp    $0x1,%al
 -je     <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0xf7>
-+je     <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x107>
++je     <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0xfd>
  mov    -0x10(%ebp),%eax
 -movzbl 0xe(%eax),%eax
 +add    $0xe,%eax
@@ -77,7 +72,7 @@
  cmp    $0x2,%al
 -jne    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x1f7>
 -lea    -0xa0(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x129>
++jne    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x11f>
 +lea    -0x8c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN34Packet_Web_Notify_Message_To_GuildC1Ev>
@@ -96,10 +91,8 @@
 -mov    %al,-0x92(%ebp)
 +mov    %al,(%ebx)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0x68(%eax),%eax
+ mov    0x68(%eax),%eax
 -lea    -0xa0(%ebp),%edx
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 +lea    -0x8c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -172,7 +165,7 @@
 -call   <T> <_Unwind_Resume>
 -call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x1f8>
-+jmp    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x12a>
++jmp    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x120>
  nop
 -jmp    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x1f8>
 -nop
@@ -229,7 +222,7 @@ void CPacketTranslater::_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12Packet
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3049 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3050 行）：
 
 ```cpp
 void CPacketTranslater::OnNotifyMessageToGuild(PacketHeader* pkt)
@@ -241,7 +234,7 @@ void CPacketTranslater::OnNotifyMessageToGuild(PacketHeader* pkt)
         return;
     }
     CGuild* guild;
-    if ((guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xa))) != 0)
+    if ((guild = (&m_pclApp->m_guildManager)->FindGuild(*(unsigned int*)(pb + 0xa))) != 0)
     {
         if ((unsigned char)pb[0xe] != 1)
         {
@@ -252,7 +245,7 @@ void CPacketTranslater::OnNotifyMessageToGuild(PacketHeader* pkt)
             Packet_Web_Notify_Message_To_Guild notify;
             memcpy(&notify, pb, 0x74);
             *(unsigned char*)((char*)&notify + 0xa) = m_pclApp->Get_ServerGroup();
-            m_pclApp->Get_ServerHandler()->SendToDB(&notify);
+            m_pclApp->m_serverHandler->SendToDB(&notify);
         }
         guild->SetGuildMessage(pb + 0xf);
         guild->NotifyMessageToGuildMember();

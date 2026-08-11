@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807c28a` | `0x61d` | `0x8072baa` | `0x4c1` |
+| guild | DIFF | `0x807c28a` | `0x61d` | `0x80729f4` | `0x4bf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,451 +1,357 @@
+@@ -1,451 +1,356 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -95,7 +95,7 @@
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x3da>
++jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x3d8>
 +lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -209,7 +209,7 @@
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x3da>
++jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x3d8>
 +lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -228,25 +228,22 @@
 -mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
 +lea    -0x644(%ebp),%eax
 +lea    0xa(%eax),%edx
 +mov    -0x30(%ebp),%eax
 +mov    %eax,(%edx)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    -0x30(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
++lea    0x290(%eax),%edx
++mov    -0x30(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x24(%ebp)
 -cmpl   $0x0,-0x24(%ebp)
 -je     <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x23a>
 +mov    %eax,-0x2c(%ebp)
 +cmpl   $0x0,-0x2c(%ebp)
-+je     <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x23b>
++je     <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x239>
  movl   $0x4,0x4(%esp)
 -mov    -0x24(%ebp),%eax
 +mov    -0x2c(%ebp),%eax
@@ -255,17 +252,17 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x241>
-+je     <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x242>
++je     <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x240>
  mov    $0x1,%eax
 -jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x246>
-+jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x247>
++jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x245>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x3ae>
 -movzwl -0x632(%ebp),%edx
-+je     <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x253>
++je     <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x251>
 +movw   $0x0,-0x26(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x26f>
++jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x26d>
 +lea    -0x644(%ebp),%eax
 +add    $0x10,%eax
 +mov    %eax,0x4(%esp)
@@ -322,7 +319,7 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x60e>
 -lea    -0x3d(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x4b6>
++je     <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x4b4>
 +lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -348,7 +345,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x354>
-+jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x37f>
++jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x37d>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -394,23 +391,23 @@
 +lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x379>
++jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x377>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x39e>
++jne    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x39c>
 +call   <T> <_ZSt9terminatev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x39e>
++jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x39c>
 +lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x3b3>
++jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x3b1>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x39e>
++jne    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x39c>
 +call   <T> <_ZSt9terminatev>
 +mov    %eax,%ecx
 +mov    %edx,%eax
@@ -421,7 +418,7 @@
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x3da>
++jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x3d8>
 +lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -539,7 +536,7 @@
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x5ae>
-+jne    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x458>
++jne    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x456>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -551,10 +548,10 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
 -mov    %eax,%ebx
 -movl   $0xd6e,0x8(%esp)
 -movl   $&_ZZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -562,6 +559,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnCheckGuildMemberConnectionFromWeb() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -570,7 +571,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x5a7>
-+jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x451>
++jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x44f>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -582,7 +583,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x612>
-+jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x4b6>
++jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x4b4>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xd73,0x8(%esp)
@@ -598,7 +599,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x607>
-+jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x4b1>
++jmp    <T> <_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader+0x4af>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -755,7 +756,7 @@ void CPacketTranslater::_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFrom
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2443 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2444 行）：
 
 ```cpp
 void CPacketTranslater::OnCheckGuildMemberConnectionFromWeb(PacketHeader* pkt)
@@ -771,7 +772,7 @@ void CPacketTranslater::OnCheckGuildMemberConnectionFromWeb(PacketHeader* pkt)
     }
     Packet_Answer_Guild_Member_Connection_From_Web resp;
     *(unsigned int*)((char*)&resp + 0xa) = guildKey;
-    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+    CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
     short count;
     if (guild == 0 || guild->IsSetGuildDBFlag(4) != 1)
     {

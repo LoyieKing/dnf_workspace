@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808cec6` | `0x10f` | `0x8052fa0` | `0x10c` |
+| guild | DIFF | `0x808cec6` | `0x10f` | `0x8052fa4` | `0x10c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -161,7 +161,7 @@ CGuild::_ZN6CGuild17InsertGuildMemberEjP5CUser(CGuild *this,uint param_1,CUser *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 430 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 433 行）：
 
 ```cpp
 int CGuild::InsertGuildMember(unsigned int charNo, CUser* user)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807d37a` | `0x21c` | `0x8073b90` | `0x159` |
+| guild | DIFF | `0x807d37a` | `0x21c` | `0x80739ca` | `0x154` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,146 +1,100 @@
+@@ -1,146 +1,99 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -122,9 +122,7 @@
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0x68(%eax),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
+ mov    0x68(%eax),%eax
  movl   $0x1,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler21SetManagerConnectFlagEb>
@@ -246,14 +244,14 @@ void CPacketTranslater::_ZN17CPacketTranslater25OnMonitorManagerConnectOKEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2629 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2630 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorManagerConnectOK(PacketHeader* pkt)
 {
     (void)pkt;
     THROW_IF_NO_APP("CPacketTranslater::OnMonitorManagerConnectOK : 0 == m_pclApp");
-    m_pclApp->Get_ServerHandler()->SetManagerConnectFlag(true);
+    m_pclApp->m_serverHandler->SetManagerConnectFlag(true);
     DNF_LOG_SCOPE_LINE(0xe2d, "./log/Manager", "Manager Server Connect Success");
     puts("** Manager Server Connect Success **");
 }

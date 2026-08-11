@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8071b84` | `0xb3` | `0x8071ab0` | `0xcf` |
+| statics | NEAR | `0x8071b84` | `0xb3` | `0x80719f4` | `0xb3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,56 +1,68 @@
+@@ -1,56 +1,56 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -22,68 +22,38 @@
  mov    %eax,(%esp)
  call   <T> <_ZN31Packet_DBMW_Loading_Time_ReportC1Ev>
  movl   $0x0,-0xc(%ebp)
--jmp    <T> <_ZN16StatisticManager23SendDBLoadingTimeReportEP14CServerHandler+0x80>
--mov    -0xc(%ebp),%ebx
-+jmp    <T> <_ZN16StatisticManager23SendDBLoadingTimeReportEP14CServerHandler+0x98>
-+lea    -0x43(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0xa,%edx
-+lea    (%eax,%edx,1),%ebx
+ jmp    <T> <_ZN16StatisticManager23SendDBLoadingTimeReportEP14CServerHandler+0x80>
+ mov    -0xc(%ebp),%ebx
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16GetServerGroupNoEv>
--mov    %al,-0x39(%ebp,%ebx,1)
-+mov    %al,(%ebx)
-+mov    -0xc(%ebp),%eax
-+lea    0x9(%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x50,%edx
-+mov    (%eax,%edx,4),%eax
-+test   %eax,%eax
-+jne    <T> <_ZN16StatisticManager23SendDBLoadingTimeReportEP14CServerHandler+0x5d>
-+lea    -0x43(%ebp),%eax
+ mov    %al,-0x39(%ebp,%ebx,1)
  mov    -0xc(%ebp),%edx
--mov    0x8(%ebp),%eax
--add    $0x58,%edx
--mov    0x4(%eax,%edx,4),%eax
--test   %eax,%eax
--jne    <T> <_ZN16StatisticManager23SendDBLoadingTimeReportEP14CServerHandler+0x4e>
--mov    -0xc(%ebp),%eax
--add    $0x4,%eax
--movl   $0x0,-0x40(%ebp,%eax,4)
--jmp    <T> <_ZN16StatisticManager23SendDBLoadingTimeReportEP14CServerHandler+0x7c>
--mov    -0xc(%ebp),%ecx
-+shl    $0x2,%edx
-+add    $0x13,%edx
-+add    %edx,%eax
-+movl   $0x0,(%eax)
-+jmp    <T> <_ZN16StatisticManager23SendDBLoadingTimeReportEP14CServerHandler+0x94>
-+lea    -0x43(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+shl    $0x2,%edx
-+add    $0x13,%edx
-+lea    (%eax,%edx,1),%ecx
+ mov    0x8(%ebp),%eax
+ add    $0x58,%edx
+ mov    0x4(%eax,%edx,4),%eax
+ test   %eax,%eax
+ jne    <T> <_ZN16StatisticManager23SendDBLoadingTimeReportEP14CServerHandler+0x4e>
+ mov    -0xc(%ebp),%eax
+ add    $0x4,%eax
+ movl   $0x0,-0x40(%ebp,%eax,4)
+ jmp    <T> <_ZN16StatisticManager23SendDBLoadingTimeReportEP14CServerHandler+0x7c>
+ mov    -0xc(%ebp),%ecx
  mov    -0xc(%ebp),%edx
  mov    0x8(%ebp),%eax
  add    $0x50,%edx
  mov    (%eax,%edx,4),%eax
--mov    -0xc(%ebp),%ebx
-+mov    -0xc(%ebp),%edx
-+lea    0x9(%edx),%ebx
+ mov    -0xc(%ebp),%ebx
  mov    0x8(%ebp),%edx
--add    $0x58,%ebx
+ add    $0x58,%ebx
 -mov    0x4(%edx,%ebx,4),%ebx
-+add    $0x50,%ebx
-+mov    (%edx,%ebx,4),%ebx
- mov    %ebx,-0x4c(%ebp)
--mov    $0x0,%edx
--divl   -0x4c(%ebp)
--lea    0x4(%ecx),%edx
--mov    %eax,-0x40(%ebp,%edx,4)
-+mov    %eax,%edx
-+sar    $0x1f,%edx
-+idivl  -0x4c(%ebp)
-+mov    %eax,(%ecx)
+-mov    %ebx,-0x4c(%ebp)
++mov    0x4(%edx,%ebx,4),%edx
++mov    %edx,-0x4c(%ebp)
+ mov    $0x0,%edx
+ divl   -0x4c(%ebp)
+ lea    0x4(%ecx),%edx
+ mov    %eax,-0x40(%ebp,%edx,4)
  addl   $0x1,-0xc(%ebp)
  cmpl   $0x8,-0xc(%ebp)
  setle  %al
@@ -149,15 +119,15 @@ void StatisticManager::SendDBLoadingTimeReport(CServerHandler* handler)
     Packet_DBMW_Loading_Time_Report pkt;
     for (int i = 0; i < 9; i++)
     {
-        *(char*)((char*)&pkt + 0xa + i) = handler->GetServerGroupNo();
-        if (m_loading.m_data[i + 9] == 0)
+        pkt.m_group[i] = handler->GetServerGroupNo();
+        if (m_loading.m_data2[i] == 0)
         {
-            *(unsigned int*)((char*)&pkt + 0x13 + i * 4) = 0;
+            pkt.m_value[i] = 0;
         }
         else
         {
-            *(unsigned int*)((char*)&pkt + 0x13 + i * 4) =
-                m_loading.m_data[i] / m_loading.m_data[i + 9];
+            pkt.m_value[i] =
+                (unsigned int)m_loading.m_data[i] / (unsigned int)m_loading.m_data2[i];
         }
     }
     handler->SendToDB((PacketHeader*)&pkt);

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806b518` | `0xda` | `0x80e251e` | `0xe3` |
+| dbmw | DIFF | `0x806b518` | `0xda` | `0x80e26e0` | `0xdf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,82 +13,61 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,63 +1,66 @@
+@@ -1,63 +1,65 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x428,%esp
--movl   $0x0,-0x10(%ebp)
--movl   $"rb",0x4(%esp)
-+movl   $"r",0x4(%esp)
+ movl   $0x0,-0x10(%ebp)
+ movl   $"rb",0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <fopen>
--mov    %eax,-0xc(%ebp)
--cmpl   $0x0,-0xc(%ebp)
--sete   %al
--test   %al,%al
+ mov    %eax,-0xc(%ebp)
+ cmpl   $0x0,-0xc(%ebp)
+ sete   %al
+ test   %al,%al
 -je     <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x86>
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0x0,-0x10(%ebp)
-+jne    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x2f>
++je     <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x8b>
  mov    $0xffffffff,%eax
 -jmp    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xd8>
-+jmp    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xe1>
-+movl   $0x0,-0xc(%ebp)
-+jmp    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x8f>
++jmp    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xdd>
  movzbl -0x410(%ebp),%eax
  cmp    $0x23,%al
 -je     <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x85>
--mov    -0x10(%ebp),%eax
-+je     <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x8e>
-+mov    -0xc(%ebp),%eax
++je     <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x8a>
+ mov    -0x10(%ebp),%eax
  cmp    0x10(%ebp),%eax
--jl     <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x58>
-+jl     <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x55>
+ jl     <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x58>
  mov    $0xfffffffe,%eax
 -jmp    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xd8>
-+jmp    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xe1>
++jmp    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xdd>
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  add    $0xc,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+lea    -0x410(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    0x8(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+test   %eax,%eax
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x88>
-+mov    $0xffffffff,%eax
-+jmp    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xe1>
-+addl   $0x1,-0xc(%ebp)
-+jmp    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x8f>
-+nop
+ mov    (%eax),%edx
  mov    -0x10(%ebp),%eax
--mov    %eax,0x8(%esp)
--lea    -0x410(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--test   %al,%al
+ mov    %eax,0x8(%esp)
+ lea    -0x410(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
++test   %eax,%eax
++setne  %al
+ test   %al,%al
 -je     <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x86>
--addl   $0x1,-0x10(%ebp)
++je     <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x8b>
+ addl   $0x1,-0x10(%ebp)
 -jmp    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x86>
--nop
--mov    -0xc(%ebp),%eax
++jmp    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x8b>
+ nop
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <feof>
  test   %eax,%eax
 -jne    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xbd>
--mov    -0xc(%ebp),%eax
-+jne    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xc6>
-+mov    -0x10(%ebp),%eax
++jne    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xc2>
+ mov    -0xc(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $0x400,0x4(%esp)
  lea    -0x410(%ebp),%eax
@@ -96,20 +75,17 @@
  call   <T> <fgets>
  test   %eax,%eax
 -je     <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xbd>
-+je     <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xc6>
++je     <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xc2>
  mov    $0x1,%eax
 -jmp    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xc2>
-+jmp    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xcb>
++jmp    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0xc7>
  mov    $0x0,%eax
  test   %al,%al
--jne    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x3b>
--mov    -0xc(%ebp),%eax
-+jne    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x38>
-+mov    -0x10(%ebp),%eax
+ jne    <T> <_ZN10CTableBase19Load_Txt_Table_DataEPKci+0x3b>
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <fclose>
--mov    -0x10(%ebp),%eax
-+mov    -0xc(%ebp),%eax
+ mov    -0x10(%ebp),%eax
  leave
  ret
 ```
@@ -169,20 +145,19 @@ CTableBase::_ZN10CTableBase19Load_Txt_Table_DataEPKci(CTableBase *this,char *par
 ```cpp
 int CTableBase::Load_Txt_Table_Data(const char* fileName, int idx)
 {
-    FILE* f = fopen(fileName, "r");
-    if (!f)
+    int count = 0;
+    FILE* f;
+    if ((f = fopen(fileName, "rb")) == NULL)
         return -1;
     char buf[0x400];
-    int count = 0;
     while (!feof(f) && fgets(buf, 0x400, f))
     {
         if (buf[0] == '#')
             continue;
         if (count >= idx)
             return -2;
-        if (!Parse_Table(buf, count))
-            return -1;
-        count++;
+        if (Parse_Table(buf, count))
+            count++;
     }
     fclose(f);
     return count;

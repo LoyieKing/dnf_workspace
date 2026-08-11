@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x80590f0` | `0x1b1` | `0x806640c` | `0x1b1` |
+| manager | NEAR | `0x80590f0` | `0x1b1` | `0x80664ee` | `0x1b1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -68,16 +68,14 @@
  je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x129>
  movl   $"tcpSock.connect Fail!",(%esp)
  call   <T> <puts>
--movzwl -0x2c(%ebp),%ebx
+ movzwl -0x2c(%ebp),%ebx
  movl   $0x123,0x8(%esp)
  movl   $&_ZZN13CTcpNetSystem14OpenTcpServiceERiPKctE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x10(%esp)
-+movzwl -0x2c(%ebp),%eax
-+mov    %eax,0x10(%esp)
+ mov    %ebx,0x10(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"tcpSock.connect(%s, %d) Fail!",0x8(%esp)
@@ -216,21 +214,25 @@ int CTcpNetSystem::OpenTcpService(int& serverCount, const char* ip, unsigned sho
         DeletePeer(peer);
         return 0;
     }
-    if (!sock->connect(ip, port))
+    else if (!sock->connect(ip, port))  // R10: else-if 结构变体
     {
         // ORIG 实测：puts 文案 "tcpSock.connect Fail!"，日志文案
         // "tcpSock.connect(%s, %d) Fail!"。
         puts("tcpSock.connect Fail!");
+        register int nPort = port;  // R10: register 局部变体（对齐 ORIG ctor 前 ebx 预装载）
         CMyFileLog log(__FUNCTION__, 0x123);
-        log("./log/TcpServer", "tcpSock.connect(%s, %d) Fail!", ip, port);
+        log("./log/TcpServer", "tcpSock.connect(%s, %d) Fail!", ip, nPort);
         DeletePeer(peer);
         return 0;
     }
-    sock->setOptNonBlock();
-    peer->InitPeer(Get_TcpSwapQPacket()->GetRecvQ(), Get_TcpRecvQLock(), Get_TcpRecvBLock());
-    peer->ConnSig();
-    SetEpollConnectedPeer(peer);
-    serverCount = sock->getHandle();
-    return 1;
+    else
+    {
+        sock->setOptNonBlock();
+        peer->InitPeer(Get_TcpSwapQPacket()->GetRecvQ(), Get_TcpRecvQLock(), Get_TcpRecvBLock());
+        peer->ConnSig();
+        SetEpollConnectedPeer(peer);
+        serverCount = sock->getHandle();
+        return 1;
+    }
 }
 ```

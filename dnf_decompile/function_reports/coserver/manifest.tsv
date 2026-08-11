@@ -1,9 +1,4 @@
-status	name	orig_addr	orig_size	new_addr	new_size
-DIFF	_ZN12CApplication4LoadEiPPc	0x804f2fa	0x74d	0x804c98e	0x749
-DIFF	_ZN12CApplicationD1Ev	0x804ef84	0x192	0x804c6d6	0x191
-DIFF	_ZN12CApplicationD2Ev	0x804ef84	0x192	0x804c6d6	0x191
-DIFF	_ZN13CAppStartInit4InitEP12CApplicationiPPc	0x805144e	0x252	0x804b614	0x24e
-DIFF	_ZN13CServerConfig11Parse_TableEPci	0x80539b4	0xd7	0x8053f42	0xd7
-DIFF	_ZN14CNetworkThread8dispatchEPv	0x8059544	0x7b6	0x80518de	0x7c9
-DIFF	_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader	0x8057fb4	0x3c0	0x8053a36	0x3bb
-DIFF	_ZN17CPacketTranslater7OnLoginEP12PacketHeader	0x8057692	0x358	0x8053110	0x35b
+status	name	orig_addr	orig_size	new_addr	new_size	md_file
+DIFF	_ZN12CApplicationD1Ev	0x804ef84	0x192	0x804c6da	0x191	_ZN12CApplicationD1Ev.md
+DIFF	_ZN12CApplicationD2Ev	0x804ef84	0x192	0x804c6da	0x191	_ZN12CApplicationD2Ev.md
+DIFF	_ZN14CNetworkThread8dispatchEPv	0x8059544	0x7b6	0x80518e6	0x7c8	_ZN14CNetworkThread8dispatchEPv.md

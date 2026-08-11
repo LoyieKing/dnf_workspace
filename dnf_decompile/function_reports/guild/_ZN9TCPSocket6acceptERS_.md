@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804fd34` | `0x11d` | `0x80871d8` | `0xd1` |
+| guild | DIFF | `0x804fd34` | `0x11d` | `0x8086eb6` | `0xd1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -156,7 +156,7 @@ undefined4 __thiscall TCPSocket::_ZN9TCPSocket6acceptERS_(TCPSocket *this,TCPSoc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 368 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 369 行）：
 
 ```cpp
 int TCPSocket::accept(TCPSocket& peer)

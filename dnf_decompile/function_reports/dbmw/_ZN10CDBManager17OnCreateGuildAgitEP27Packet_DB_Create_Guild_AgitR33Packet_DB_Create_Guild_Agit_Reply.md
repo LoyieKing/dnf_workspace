@@ -19,10 +19,8 @@
  sub    $0x38,%esp
  mov    0x8(%ebp),%eax
  mov    0x20(%eax),%eax
--mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
-+mov    %eax,-0x10(%ebp)
-+mov    -0x10(%ebp),%eax
+ mov    %eax,-0xc(%ebp)
+ mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%edx
@@ -31,24 +29,19 @@
  mov    %eax,0xc(%esp)
  movl   $"inSert into guild_agit set guild_id=%d, upgrade=1, cargo_capacity=8",0x8(%esp)
  movl   $0x4eae,0x4(%esp)
--mov    -0xc(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    -0xc(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4eae,0x4(%esp)
--mov    -0xc(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0xd(%ebp)
--movzbl -0xd(%ebp),%eax
-+mov    %al,-0x9(%ebp)
-+movzbl -0x9(%ebp),%eax
+ mov    %al,-0xd(%ebp)
+ movzbl -0xd(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager17OnCreateGuildAgitEP27Packet_DB_Create_Guild_AgitR33Packet_DB_Create_Guild_Agit_Reply+0xad>
@@ -68,8 +61,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
  jmp    <T> <_ZN10CDBManager17OnCreateGuildAgitEP27Packet_DB_Create_Guild_AgitR33Packet_DB_Create_Guild_Agit_Reply+0x157>
--mov    -0xc(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%edx
@@ -78,24 +70,19 @@
  mov    %eax,0xc(%esp)
  movl   $"upDate guild_info set guild_agit_flag=1 where guild_id=%d",0x8(%esp)
  movl   $0x4eb4,0x4(%esp)
--mov    -0xc(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    -0xc(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4eb4,0x4(%esp)
--mov    -0xc(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %al,-0xd(%ebp)
--movzbl -0xd(%ebp),%eax
-+mov    %al,-0x9(%ebp)
-+movzbl -0x9(%ebp),%eax
+ mov    %al,-0xd(%ebp)
+ movzbl -0xd(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager17OnCreateGuildAgitEP27Packet_DB_Create_Guild_AgitR33Packet_DB_Create_Guild_Agit_Reply+0x148>

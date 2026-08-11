@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804ff2e` | `0x57` | `0x8087368` | `0x47` |
+| guild | DIFF | `0x804ff2e` | `0x57` | `0x8087046` | `0x47` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -74,7 +74,7 @@ undefined4 __thiscall TCPSocket::_ZN9TCPSocket19setOptResizeRecvBufEi(TCPSocket 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 417 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 418 行）：
 
 ```cpp
 int TCPSocket::setOptResizeRecvBuf(int size)

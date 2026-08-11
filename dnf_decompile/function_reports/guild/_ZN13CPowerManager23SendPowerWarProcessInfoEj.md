@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a4e5c` | `0x252` | `0x809ace8` | `0x28f` |
+| guild | DIFF | `0x80a4e5c` | `0x252` | `0x809a9b0` | `0x28d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,152 +1,174 @@
+@@ -1,152 +1,173 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -50,7 +50,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x24c>
-+jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x286>
++jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x284>
  mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetGuildKeyEv>
@@ -88,7 +88,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x24c>
 -lea    -0x56(%ebp),%eax
-+jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x286>
++jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x284>
 +lea    -0x5a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN37Packet_Channel_Power_War_Process_InfoC1Ev>
@@ -161,7 +161,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x24c>
-+jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x286>
++jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x284>
 +lea    -0x5a(%ebp),%eax
 +lea    0x1a(%eax),%ebx
 +mov    0xc(%ebp),%eax
@@ -178,19 +178,18 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager12IsPowerWarOnEv>
++xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x224>
 -mov    -0x14(%ebp),%edx
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x22a>
++je     <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x228>
 +lea    -0x5a(%ebp),%eax
 +add    $0x1e,%eax
 +movl   $0x0,(%eax)
 +lea    -0x5a(%ebp),%eax
 +add    $0x22,%eax
 +movl   $0x0,(%eax)
-+jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x26c>
++jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x26a>
 +lea    -0x5a(%ebp),%eax
 +lea    0x1e(%eax),%ebx
 +mov    -0x14(%ebp),%eax
@@ -324,7 +323,7 @@ CPowerManager::_ZN13CPowerManager23SendPowerWarProcessInfoEj(CPowerManager *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 542 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 546 行）：
 
 ```cpp
 void CPowerManager::SendPowerWarProcessInfo(unsigned int charNo)

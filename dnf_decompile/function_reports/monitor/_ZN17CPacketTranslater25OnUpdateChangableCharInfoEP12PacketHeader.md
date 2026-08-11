@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808259e` | `0x24c` | `0x806ebe6` | `0x23e` |
+| monitor | DIFF | `0x808259e` | `0x24c` | `0x806ebec` | `0x23e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -251,7 +251,7 @@ void CPacketTranslater::_ZN17CPacketTranslater25OnUpdateChangableCharInfoEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1652 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1650 行）：
 
 ```cpp
 void CPacketTranslater::OnUpdateChangableCharInfo(PacketHeader* pkt)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8082106` | `0x498` | `0x806deac` | `0x48a` |
+| monitor | DIFF | `0x8082106` | `0x498` | `0x806deba` | `0x48a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -503,8 +503,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnCallMemberList() Exception Break : %s\n",0x8(%esp)
-+movl   $"%s",0x8(%esp)
+ movl   $"CPacketTranslater::OnCallMemberList() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
  lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
@@ -674,7 +673,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16OnCallMemberListEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1427 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1425 行）：
 
 ```cpp
 void CPacketTranslater::OnCallMemberList(PacketHeader* pkt)
@@ -764,7 +763,8 @@ void CPacketTranslater::OnCallMemberList(PacketHeader* pkt)
         catch (CDNFException& e)
         {
             printf("CPacketTranslater::OnCallMemberList() Exception Break : %s\n", e.what());
-            DNF_LOG_SCOPE_LINE(0x7cd, "./log/Except", "%s", e.what());
+            DNF_LOG_SCOPE_LINE(0x7cd, "./log/Except",
+                "CPacketTranslater::OnCallMemberList() Exception Break : %s\n", e.what());
         }
         catch (...)
         {

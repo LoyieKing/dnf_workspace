@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807f5a2` | `0x8c3` | `0x806adda` | `0x8b3` |
+| monitor | DIFF | `0x807f5a2` | `0x8c3` | `0x806ade4` | `0x8b3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -809,9 +809,8 @@
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnCharLogin() Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x54(%ebp),%eax
-+movl   $"%s",0x4(%esp)
 +lea    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -837,11 +836,9 @@
 +lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnCharLogin() Exception Break\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"CPacketTranslater::OnCharLogin() Exception Break\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+movl   $"CPacketTranslater::OnCharLogin() Exception Break",0x8(%esp)
-+movl   $"%s",0x4(%esp)
 +lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -1238,12 +1235,12 @@ void CPacketTranslater::OnCharLogin(PacketHeader* pkt)
         catch (CDNFException& e)
         {
             printf("CPacketTranslater::OnCharLogin() Exception Break : %s\n", e.what());
-            DNF_LOG_SCOPE_LINE(0x463, "%s", "CPacketTranslater::OnCharLogin() Exception Break : %s\n", e.what());
+            DNF_LOG_SCOPE_LINE(0x463, "./log/Except", "CPacketTranslater::OnCharLogin() Exception Break : %s\n", e.what());
         }
         catch (...)
         {
             puts("CPacketTranslater::OnCharLogin() Exception Break");
-            DNF_LOG_SCOPE_LINE(0x469, "%s", "CPacketTranslater::OnCharLogin() Exception Break");
+            DNF_LOG_SCOPE_LINE(0x469, "./log/Except", "CPacketTranslater::OnCharLogin() Exception Break\n");
         }
     }
 }

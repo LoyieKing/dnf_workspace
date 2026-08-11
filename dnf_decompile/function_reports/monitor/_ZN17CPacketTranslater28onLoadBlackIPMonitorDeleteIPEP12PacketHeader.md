@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80896e2` | `0x142` | `0x8074d0e` | `0x148` |
+| monitor | DIFF | `0x80896e2` | `0x142` | `0x8074d1a` | `0x148` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -135,7 +135,7 @@ void CPacketTranslater::_ZN17CPacketTranslater28onLoadBlackIPMonitorDeleteIPEP12
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3353 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3362 行）：
 
 ```cpp
 void CPacketTranslater::onLoadBlackIPMonitorDeleteIP(PacketHeader* pkt)

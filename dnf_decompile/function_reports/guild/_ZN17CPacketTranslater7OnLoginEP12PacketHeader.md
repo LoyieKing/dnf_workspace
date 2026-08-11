@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80711a2` | `0x3b2` | `0x80678f0` | `0x3c3` |
+| guild | DIFF | `0x80711a2` | `0x3b2` | `0x8067848` | `0x3be` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,244 +1,250 @@
+@@ -1,244 +1,249 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -29,7 +29,7 @@
 -mov    -0x38(%ebp),%eax
 -movzbl 0x12(%eax),%eax
 -movzbl %al,%edx
-+je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3b8>
++je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3b3>
 +mov    -0x44(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%edx
@@ -86,7 +86,7 @@
 +lea    -0x5c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3b8>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3b3>
 +mov    -0x44(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%edx
@@ -99,19 +99,16 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a6>
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--add    $0x10,%eax
++mov    %eax,-0x38(%ebp)
++cmpl   $0x0,-0x38(%ebp)
++je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3b3>
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ add    $0x10,%eax
 -mov    %eax,-0x24(%ebp)
 -mov    -0x38(%ebp),%eax
 -mov    0xe(%eax),%eax
 -mov    %eax,0x4(%esp)
 -mov    -0x24(%ebp),%eax
-+mov    %eax,-0x38(%ebp)
-+cmpl   $0x0,-0x38(%ebp)
-+je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3b8>
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication15Get_UserManagerEv>
 +mov    %eax,-0x34(%ebp)
 +mov    -0x44(%ebp),%eax
 +add    $0xe,%eax
@@ -173,7 +170,7 @@
 -mov    0xe(%eax),%eax
 -mov    -0x34(%ebp),%ecx
 +cmpl   $0x0,-0x30(%ebp)
-+jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x23a>
++jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x235>
 +mov    -0x44(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%edx
@@ -261,13 +258,13 @@
 +cmp    $0x1,%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3b8>
++je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3b3>
 +mov    -0x44(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj>
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3b8>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3b3>
 +mov    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser7GetDBIDEv>
@@ -335,10 +332,10 @@
 +lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3b8>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3b3>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x34a>
-+jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x35e>
++jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x359>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -350,10 +347,10 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
 -mov    %eax,%ebx
 -movl   $0x85,0x8(%esp)
 -movl   $&_ZZN17CPacketTranslater7OnLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -361,6 +358,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnLogin() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -371,7 +372,7 @@
 +lea    -0x64(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x357>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x352>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -381,7 +382,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a7>
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3b8>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3b3>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x8a,0x8(%esp)
@@ -399,7 +400,7 @@
 +lea    -0x6c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3b3>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ae>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -527,7 +528,7 @@ void CPacketTranslater::OnLogin(PacketHeader* pkt)
             CTcpGameServer* tgs = m_pclApp->FindTcpGameServer(*(unsigned int*)(pb + 0xe));
             if (tgs != 0)
             {
-                CUserManager* um = m_pclApp->Get_UserManager();
+                CUserManager* um = &m_pclApp->m_userManager;
                 CUser* user = um->FindUser(*(unsigned int*)(pb + 0xe));
                 if (user == 0)
                 {

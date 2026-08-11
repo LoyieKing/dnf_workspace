@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807e35e` | `0x57a` | `0x8060c02` | `0x49d` |
+| dbmw | DIFF | `0x807e35e` | `0x57a` | `0x8060cda` | `0x495` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,374 +1,327 @@
+@@ -1,374 +1,328 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -35,63 +35,51 @@
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x56d>
 -movl   $0x0,-0x24(%ebp)
-+jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x490>
++jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x488>
  mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%eax
+-mov    %eax,-0x24(%ebp)
 +add    $0xa,%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x2c(%ebp)
-+movl   $0x17a5,0x8(%esp)
+ movl   $0x17a5,0x8(%esp)
+-movl   $&_ZZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_JobE12__FUNCTION__,0x4(%esp)
+-lea    -0x44(%ebp),%eax
 +movl   $"QueryDeathTowerPlayDataJobStatisticCreate",0x4(%esp)
 +lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    -0x24(%ebp),%eax
 +mov    -0x2c(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %eax,0xc(%esp)
+-movl   $"Packet_DBMW_DeathTower_Statistic_Playdata_Job : (%d) 개 패킷 수신\n",0x8(%esp)
 +movl   $"Packet_DBMW_DeathTower_Statistic_Playdata_Job : (%d) 째쨀 횈횖횇쨋 쩌철쩍횇\n",0x8(%esp)
-+movl   $"./log/statistic",0x4(%esp)
+ movl   $"./log/statistic",0x4(%esp)
+-lea    -0x44(%ebp),%eax
 +lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x800,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+lea    -0x850(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <memset>
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-lea    -0x848(%ebp),%ebx
++lea    -0x850(%ebp),%ebx
+ mov    $0x0,%eax
+ mov    $0x200,%edx
+ mov    %ebx,%edi
+ mov    %edx,%ecx
+ rep stos %eax,%es:(%edi)
+-lea    -0x48(%ebp),%eax
 +lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsC1Ev>
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsC1Ev>
+-movl   $0x0,-0x20(%ebp)
+-jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x230>
+-lea    -0x48(%ebp),%eax
 +movl   $0x0,-0x28(%ebp)
-+jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x1c3>
++jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x1bb>
 +mov    0xc(%ebp),%edx
 +mov    -0x28(%ebp),%eax
 +shl    $0x4,%eax
 +lea    (%edx,%eax,1),%eax
- mov    %eax,-0x24(%ebp)
--movl   $0x17a5,0x8(%esp)
--movl   $&_ZZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_JobE12__FUNCTION__,0x4(%esp)
--lea    -0x44(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0x24(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"Packet_DBMW_DeathTower_Statistic_Playdata_Job : (%d) 개 패킷 수신\n",0x8(%esp)
--movl   $"./log/statistic",0x4(%esp)
--lea    -0x44(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--lea    -0x848(%ebp),%ebx
--mov    $0x0,%eax
--mov    $0x200,%edx
--mov    %ebx,%edi
--mov    %edx,%ecx
--rep stos %eax,%es:(%edi)
--lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsC1Ev>
--movl   $0x0,-0x20(%ebp)
--jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x230>
--lea    -0x48(%ebp),%eax
++mov    %eax,-0x24(%ebp)
 +lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs4sizeEv>
@@ -116,7 +104,7 @@
 -mov    0xc(%ebp),%eax
 -shl    $0x4,%edx
 -add    %edx,%eax
-+je     <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x140>
++je     <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x138>
 +mov    -0x24(%ebp),%eax
 +add    $0x1a,%eax
 +mov    (%eax),%edi
@@ -179,7 +167,7 @@
 -mov    0xc(%ebp),%eax
 -shl    $0x4,%edx
 -add    %edx,%eax
-+jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x1aa>
++jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x1a2>
 +mov    -0x24(%ebp),%eax
 +add    $0x1a,%eax
 +mov    (%eax),%edi
@@ -245,7 +233,7 @@
  test   %al,%al
 -jne    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0xae>
 -mov    -0x28(%ebp),%eax
-+jne    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0xb1>
++jne    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0xa9>
 +mov    -0x30(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -274,7 +262,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x2dd>
-+je     <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x270>
++je     <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x268>
  movl   $0x17c1,0x8(%esp)
  movl   $&_ZZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_JobE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
@@ -289,7 +277,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x562>
-+jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x485>
++jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x47d>
  movl   $0x800,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -lea    -0x848(%ebp),%eax
@@ -308,7 +296,7 @@
  sar    $1,%eax
  add    $0x1,%eax
 +mov    %eax,-0x20(%ebp)
-+jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x3c3>
++jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x3bb>
 +mov    0xc(%ebp),%edx
 +mov    -0x20(%ebp),%eax
 +shl    $0x4,%eax
@@ -340,7 +328,7 @@
 -mov    0xc(%ebp),%eax
 -shl    $0x4,%edx
 -add    %edx,%eax
-+je     <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x340>
++je     <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x338>
 +mov    -0x1c(%ebp),%eax
 +add    $0x1a,%eax
 +mov    (%eax),%edi
@@ -402,7 +390,7 @@
 -mov    0xc(%ebp),%eax
 -shl    $0x4,%edx
 -add    %edx,%eax
-+jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x3aa>
++jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x3a2>
 +mov    -0x1c(%ebp),%eax
 +add    $0x1a,%eax
 +mov    (%eax),%edi
@@ -463,7 +451,7 @@
  test   %al,%al
 -jne    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x31e>
 -mov    -0x28(%ebp),%eax
-+jne    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x2b1>
++jne    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x2a9>
 +mov    -0x30(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -492,7 +480,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x540>
-+je     <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x463>
++je     <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x45b>
  movl   $0x17df,0x8(%esp)
  movl   $&_ZZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_JobE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
@@ -507,10 +495,10 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x562>
-+jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x485>
++jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x47d>
  mov    $0x1,%ebx
 -jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x562>
-+jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x485>
++jmp    <T> <_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job+0x47d>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x48(%ebp),%eax

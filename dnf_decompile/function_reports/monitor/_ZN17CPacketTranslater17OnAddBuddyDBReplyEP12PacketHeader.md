@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808797e` | `0x2c0` | `0x8072cfc` | `0x2ba` |
+| monitor | DIFF | `0x808797e` | `0x2c0` | `0x8072d08` | `0x2ba` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -225,11 +225,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnAddBuddyDBReply Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"CPacketTranslater::OnAddBuddyDBReply Exception Break : %s\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+movl   $"CPacketTranslater::OnAddBuddyDBReply() Exception Break : %s\n",0x8(%esp)
-+movl   $"%s",0x4(%esp)
 +lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -253,11 +251,9 @@
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnAddBuddyDBReply Exception Break\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"CPacketTranslater::OnAddBuddyDBReply Exception Break\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+movl   $"CPacketTranslater::OnAddBuddyDBReply() Exception Break",0x8(%esp)
-+movl   $"%s",0x4(%esp)
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -355,7 +351,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2739 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2740 行）：
 
 ```cpp
 void CPacketTranslater::OnAddBuddyDBReply(PacketHeader* pkt)
@@ -415,11 +411,13 @@ void CPacketTranslater::OnAddBuddyDBReply(PacketHeader* pkt)
     }
     catch (CDNFException& e)
     {
-        DNF_LOG_SCOPE_LINE(0x1065, "%s", "CPacketTranslater::OnAddBuddyDBReply() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x1065, "./log/Except",
+            "CPacketTranslater::OnAddBuddyDBReply Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        DNF_LOG_SCOPE_LINE(0x106a, "%s", "CPacketTranslater::OnAddBuddyDBReply() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x106a, "./log/Except",
+            "CPacketTranslater::OnAddBuddyDBReply Exception Break\n");
     }
 }
 ```

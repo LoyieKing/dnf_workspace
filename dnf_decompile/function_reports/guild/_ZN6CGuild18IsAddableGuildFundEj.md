@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809247e` | `0x67` | `0x805826e` | `0x68` |
+| guild | DIFF | `0x809247e` | `0x67` | `0x8058268` | `0x68` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -98,7 +98,7 @@ undefined4 __thiscall CGuild::_ZN6CGuild18IsAddableGuildFundEj(CGuild *this,uint
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2189 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2191 行）：
 
 ```cpp
 unsigned int CGuild::IsAddableGuildFund(unsigned int fund)

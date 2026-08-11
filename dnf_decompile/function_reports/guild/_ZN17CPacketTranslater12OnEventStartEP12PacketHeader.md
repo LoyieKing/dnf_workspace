@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807d596` | `0x26d` | `0x8073cea` | `0x17e` |
+| guild | DIFF | `0x807d596` | `0x26d` | `0x8073b1e` | `0x179` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,170 +1,115 @@
+@@ -1,170 +1,114 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -157,9 +157,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0x68(%eax),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
+ mov    0x68(%eax),%eax
  mov    0x8(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -289,7 +287,7 @@ void CPacketTranslater::_ZN17CPacketTranslater12OnEventStartEP12PacketHeader(Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2638 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2639 行）：
 
 ```cpp
 void CPacketTranslater::OnEventStart(PacketHeader* pkt)
@@ -300,6 +298,6 @@ void CPacketTranslater::OnEventStart(PacketHeader* pkt)
         "CPacketTranslater::OnEventStart() eventCode(%d), eventParam1(%d), eventParam2(%d)\n",
         *(unsigned int*)(pb + 0xa), (unsigned int)*(unsigned short*)(pb + 0xe),
         (unsigned int)*(unsigned short*)(pb + 0x10));
-    m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(pkt);
+    m_pclApp->m_serverHandler->SendAllTcpGameServer(pkt);
 }
 ```

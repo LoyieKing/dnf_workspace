@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8082840` | `0xb8` | `0x8052282` | `0xb9` |
+| dbmw | DIFF | `0x8082840` | `0xb8` | `0x8052274` | `0xb9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -123,7 +123,7 @@ CDBManager::_ZN10CDBManager8QueryMsgEP21Packet_DBMW_Query_Msg
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1485 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1484 行）：
 
 ```cpp
 char CDBManager::QueryMsg(Packet_DBMW_Query_Msg* packet)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x805e830` | `0x89` | `0x8093984` | `0x89` |
+| monitor | NEAR | `0x805e830` | `0x89` | `0x8093bc6` | `0x89` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -101,7 +101,7 @@ CIPCounter::_ZN10CIPCounter9setOptionEhh(CIPCounter *this,uchar param_1,uchar pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/IPCounter.cpp](source/DNFServer/GameServer/Monitor/IPCounter.cpp)（约第 92 行）：
+定义于 [source/DNFServer/GameServer/Monitor/IPCounter.cpp](source/DNFServer/GameServer/Monitor/IPCounter.cpp)（约第 89 行）：
 
 ```cpp
 void CIPCounter::setOption(unsigned char type, unsigned char opt)

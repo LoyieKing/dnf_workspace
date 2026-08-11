@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8087816` | `0x208` | `0x807cc8a` | `0x12e` |
+| guild | DIFF | `0x8087816` | `0x208` | `0x807c996` | `0x12c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,134 +1,81 @@
+@@ -1,134 +1,80 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -45,19 +45,16 @@
 -mov    0xc(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
-+jmp    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x127>
++jmp    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x125>
 +mov    -0x14(%ebp),%eax
 +add    $0xc,%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x10(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    -0x10(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
++lea    0x290(%eax),%edx
++mov    -0x10(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x24(%ebp)
 -cmpl   $0x0,-0x24(%ebp)
@@ -66,7 +63,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0xba>
-+je     <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0xbf>
++je     <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0xbd>
  movl   $0x1df4,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
@@ -82,7 +79,7 @@
 -jmp    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x200>
 -mov    -0x20(%ebp),%eax
 -movzwl 0xa(%eax),%eax
-+jmp    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x127>
++jmp    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x125>
 +mov    -0x14(%ebp),%eax
 +add    $0xa,%eax
 +movzwl (%eax),%eax
@@ -95,7 +92,7 @@
 -mov    -0x20(%ebp),%eax
 -mov    0xc(%eax),%ebx
 -mov    -0x24(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x127>
++jne    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x125>
 +mov    -0x14(%ebp),%eax
 +lea    0x14(%eax),%esi
 +mov    -0x14(%ebp),%eax
@@ -240,7 +237,7 @@ void CPacketTranslater::_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5113 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5114 行）：
 
 ```cpp
 void CPacketTranslater::OnDBLoadReplyWebGuildBoardWrite(PacketHeader* pkt)
@@ -254,7 +251,7 @@ void CPacketTranslater::OnDBLoadReplyWebGuildBoardWrite(PacketHeader* pkt)
     }
     unsigned int guildKey = *(unsigned int*)(pb + 0xc);
     CGuild* guild;
-    if ((guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey)) == 0)
+    if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1df4,"./log/GuildBoard",
             "CPacketTranslater::OnDBLoadReplyWebGuildBoardWrite : 0 == pclGuild");

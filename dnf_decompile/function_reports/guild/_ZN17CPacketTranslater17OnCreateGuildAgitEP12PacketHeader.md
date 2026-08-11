@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8082206` | `0x327` | `0x8078612` | `0x233` |
+| guild | DIFF | `0x8082206` | `0x327` | `0x80783ce` | `0x231` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,204 +1,144 @@
+@@ -1,204 +1,143 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -42,12 +42,14 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x31c>
 -mov    0x8(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x22b>
++jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x229>
 +mov    -0x24(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
  mov    %eax,-0x20(%ebp)
--mov    -0x20(%ebp),%eax
++mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
++lea    0x290(%eax),%edx
+ mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%eax
 -test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x8e>
@@ -55,14 +57,8 @@
 -mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    -0x20(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x24(%ebp)
 -cmpl   $0x0,-0x24(%ebp)
@@ -74,9 +70,9 @@
 -je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0xd9>
 +mov    %eax,-0x1c(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
-+je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x89>
++je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x87>
 +cmpl   $0x0,-0x1c(%ebp)
-+jne    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0xc4>
++jne    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0xc2>
  movl   $0x1610,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x54(%ebp),%eax
@@ -136,7 +132,7 @@
 -jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x31c>
 -mov    -0x20(%ebp),%eax
 -mov    0x16(%eax),%ebx
-+jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x22b>
++jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x229>
  mov    -0x24(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%eax
@@ -145,13 +141,13 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuild13IsGuildMasterEj>
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x1e2>
++je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x1e0>
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuild16IsExistGuildAgitEv>
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x1a3>
++je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x1a1>
 +mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild12GetGuildFundEv>
@@ -166,7 +162,7 @@
 -je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x1f7>
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%ebx
-+je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x157>
++je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x155>
  movl   $0x1623,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x3c(%ebp),%eax
@@ -190,7 +186,7 @@
 -mov    0xe(%eax),%esi
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%ebx
-+jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x22b>
++jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x229>
 +mov    -0x24(%ebp),%eax
 +add    $0x16,%eax
 +mov    (%eax),%edi
@@ -233,7 +229,7 @@
 -call   *%edx
 -mov    %eax,%ebx
 -movl   $0x1630,0x8(%esp)
-+jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x22b>
++jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x229>
 +movl   $0x161c,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x34(%ebp),%eax
@@ -262,7 +258,7 @@
 -mov    %eax,(%esp)
 -call   <T> <__cxa_begin_catch>
 -movl   $0x1635,0x8(%esp)
-+jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x22b>
++jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x229>
 +mov    -0x24(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%ebx
@@ -395,7 +391,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3808 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3809 行）：
 
 ```cpp
 void CPacketTranslater::OnCreateGuildAgit(PacketHeader* pkt)
@@ -409,7 +405,7 @@ void CPacketTranslater::OnCreateGuildAgit(PacketHeader* pkt)
     else
     {
         unsigned int guildKey = *(unsigned int*)(pb + 0xa);
-        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+        CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
         if (guildKey == 0 || guild == 0)
         {
             DNF_LOG_SCOPE_LINE(0x1610, "./log/GuildAgit", "CPacketTranslater::OnCreateGuildAgit : 0 == pclGuild");

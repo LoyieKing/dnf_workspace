@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805e8ba` | `0x4c` | `0x80938fe` | `0x5e` |
+| monitor | DIFF | `0x805e8ba` | `0x4c` | `0x8093b50` | `0x53` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,27 +1,30 @@
+@@ -1,27 +1,27 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x4,%esp
@@ -33,11 +33,11 @@
 -jle    <T> <_ZN10CIPCounter11setLoadTermEh+0x2a>
 -mov    $0x2a30,%eax
 -mov    %eax,%edx
-+mov    %eax,-0x8(%ebp)
-+cmpl   $0x2a30,-0x8(%ebp)
++mov    %eax,-0x4(%ebp)
++cmpl   $0x2a30,-0x4(%ebp)
 +jle    <T> <_ZN10CIPCounter11setLoadTermEh+0x31>
-+movl   $0x2a30,-0x8(%ebp)
-+mov    -0x8(%ebp),%edx
++movl   $0x2a30,-0x4(%ebp)
++mov    -0x4(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0xc(%eax)
  mov    0x8(%ebp),%eax
@@ -47,13 +47,10 @@
 -mov    $0x708,%eax
 -mov    0x8(%ebp),%edx
 -mov    %eax,0xc(%edx)
-+mov    %eax,-0x4(%ebp)
-+cmpl   $0x707,-0x4(%ebp)
-+ja     <T> <_ZN10CIPCounter11setLoadTermEh+0x53>
-+movl   $0x708,-0x4(%ebp)
++cmp    $0x707,%eax
++ja     <T> <_ZN10CIPCounter11setLoadTermEh+0x51>
 +mov    0x8(%ebp),%eax
-+mov    -0x4(%ebp),%edx
-+mov    %edx,0xc(%eax)
++movl   $0x708,0xc(%eax)
  leave
  ret
 ```
@@ -95,11 +92,9 @@ void CIPCounter::setLoadTerm(unsigned char term)
         v = 0x2a30;
     }
     m_term = v;
-    unsigned int w = m_term;
-    if (w < 0x708)
+    if (m_term < 0x708)
     {
-        w = 0x708;
+        m_term = 0x708;
     }
-    m_term = w;
 }
 ```

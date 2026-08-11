@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808f392` | `0x624` | `0x80df310` | `0x546` |
+| dbmw | DIFF | `0x808f392` | `0x624` | `0x80df3e0` | `0x624` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,496 +1,400 @@
+@@ -1,496 +1,493 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -21,50 +21,45 @@
  push   %ebx
  sub    $0x5c,%esp
 -movl   $0x0,-0x1c(%ebp)
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x60a>
++movl   $0x0,-0x20(%ebp)
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x60a>
 -mov    -0x1c(%ebp),%edx
-+movl   $0x0,-0x24(%ebp)
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x52c>
-+mov    -0x24(%ebp),%edx
++mov    -0x20(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
  add    %edx,%eax
  shl    $0x2,%eax
  add    0xc(%ebp),%eax
-+mov    %eax,-0x20(%ebp)
-+mov    -0x20(%ebp),%eax
  movzbl (%eax),%eax
  cmp    $0x1,%al
--jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x18f>
+ jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x18f>
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
-+jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x165>
-+mov    -0x20(%ebp),%eax
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
  movzbl 0x2(%eax),%eax
 -mov    %al,-0x1d(%ebp)
 -cmpb   $0xff,-0x1d(%ebp)
--jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x12b>
++mov    %al,-0x19(%ebp)
++cmpb   $0xff,-0x19(%ebp)
+ jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x12b>
 -lea    -0x35(%ebp),%eax
-+mov    %al,-0x1c(%ebp)
-+cmpb   $0xff,-0x1c(%ebp)
-+jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x125>
-+lea    -0x3d(%ebp),%eax
++lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x35(%ebp),%eax
-+lea    -0x3d(%ebp),%eax
++lea    -0x39(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CGameServerHandler::Load() Server Table Exception Break!",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x3c(%ebp),%esi
-+lea    -0x44(%ebp),%esi
++lea    -0x40(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -72,8 +67,7 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0xce>
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0xc8>
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0xce>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -85,57 +79,34 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x3c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0xc8>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0xed>
--call   <T> <_ZSt9terminatev>
--mov    %esi,%ecx
--mov    %ebx,%eax
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0xed>
++lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0xc8>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0xed>
+ call   <T> <_ZSt9terminatev>
+ mov    %esi,%ecx
+ mov    %ebx,%eax
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0xed>
 -lea    -0x3c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x108>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0xed>
--call   <T> <_ZSt9terminatev>
--mov    %eax,%ecx
--mov    %edx,%eax
--mov    %eax,%ebx
--mov    %ecx,%esi
++lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x108>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0xed>
+ call   <T> <_ZSt9terminatev>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ mov    %eax,%ebx
+ mov    %ecx,%esi
 -lea    -0x35(%ebp),%eax
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0xc2>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0xe7>
-+call   <T> <_ZSt9terminatev>
-+mov    %esi,%ecx
-+mov    %ebx,%eax
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0xe7>
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x102>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0xe7>
-+call   <T> <_ZSt9terminatev>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+mov    %eax,%ebx
-+mov    %ecx,%esi
-+lea    -0x3d(%ebp),%eax
++lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%ecx
@@ -143,7 +114,7 @@
  mov    %ecx,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x35(%ebp),%eax
-+lea    -0x3d(%ebp),%eax
++lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -152,34 +123,34 @@
  call   <T> <__cxa_throw>
 -movzbl -0x1d(%ebp),%ebx
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
-+movzbl -0x1c(%ebp),%ebx
-+mov    -0x20(%ebp),%eax
++movzbl -0x19(%ebp),%ebx
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
  movzwl 0x8(%eax),%eax
  movzwl %ax,%ecx
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
  lea    0x4(%eax),%esi
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
  movzbl 0x1(%eax),%eax
  movzbl %al,%edx
 -movzbl -0x1d(%ebp),%eax
-+movzbl -0x1c(%ebp),%eax
++movzbl -0x19(%ebp),%eax
  shl    $0x4,%eax
  add    0x8(%ebp),%eax
  mov    %ebx,0x10(%esp)
@@ -189,294 +160,45 @@
  mov    %eax,(%esp)
  call   <T> <_ZN11CGameServer4InitEhRSsth>
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
  movzbl (%eax),%eax
  cmp    $0x3,%al
--jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x30e>
+ jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x30e>
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
-+jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x2a8>
-+mov    -0x20(%ebp),%eax
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
  movzbl 0x2(%eax),%eax
 -mov    %al,-0x1d(%ebp)
 -cmpb   $0xff,-0x1d(%ebp)
--je     <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x1cf>
--cmpb   $0xc9,-0x1d(%ebp)
--je     <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x2ab>
-+mov    %al,-0x1b(%ebp)
-+cmpb   $0xff,-0x1b(%ebp)
-+je     <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x18d>
-+cmpb   $0xc9,-0x1b(%ebp)
-+je     <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x269>
-+lea    -0x35(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcEC1Ev>
-+lea    -0x35(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+movl   $"CServerHandler::Load() Monitor Server Table Exception Break!",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsC1EPKcRKSaIcE>
-+lea    -0x3c(%ebp),%esi
-+movl   $0x8,(%esp)
-+call   <T> <__cxa_allocate_exception>
-+mov    %eax,%ebx
-+mov    %ebx,%eax
-+mov    %esi,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN13CDNFExceptionC1ERKSs>
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x20c>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+mov    %eax,%esi
-+mov    %ecx,%edi
-+mov    %ebx,(%esp)
-+call   <T> <__cxa_free_exception>
-+mov    %edi,%ecx
-+mov    %esi,%eax
-+mov    %eax,%ebx
-+mov    %ecx,%esi
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x206>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x22b>
-+call   <T> <_ZSt9terminatev>
-+mov    %esi,%ecx
-+mov    %ebx,%eax
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x22b>
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x246>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x22b>
-+call   <T> <_ZSt9terminatev>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+mov    %eax,%ebx
-+mov    %ecx,%esi
-+lea    -0x35(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+mov    %esi,%ecx
-+mov    %ebx,%eax
-+mov    %ecx,(%esp)
-+call   <T> <_Unwind_Resume>
-+lea    -0x35(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
-+movl   $&_ZTI13CDNFException,0x4(%esp)
-+mov    %ebx,(%esp)
-+call   <T> <__cxa_throw>
-+mov    -0x20(%ebp),%eax
-+movzwl 0x8(%eax),%eax
-+movzwl %ax,%edx
-+mov    -0x20(%ebp),%eax
-+lea    0x4(%eax),%ebx
-+mov    -0x20(%ebp),%eax
-+movzbl 0x1(%eax),%eax
-+movzbl %al,%eax
-+mov    0x8(%ebp),%ecx
-+add    $0xff0,%ecx
-+movl   $0xc9,0x10(%esp)
-+mov    %edx,0xc(%esp)
-+mov    %ebx,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    %ecx,(%esp)
-+call   <T> <_ZN14CMonitorServer4InitEhRSsth>
-+mov    -0x20(%ebp),%eax
-+movzbl (%eax),%eax
-+cmp    $0x5,%al
-+jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x3eb>
-+mov    -0x20(%ebp),%eax
-+movzbl 0x2(%eax),%eax
-+mov    %al,-0x1a(%ebp)
-+cmpb   $0xff,-0x1a(%ebp)
-+je     <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x2d0>
-+cmpb   $0xcb,-0x1a(%ebp)
-+je     <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x3ac>
- lea    -0x2d(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcEC1Ev>
- lea    -0x2d(%ebp),%eax
- mov    %eax,0x8(%esp)
--movl   $"CServerHandler::Load() Monitor Server Table Exception Break!",0x4(%esp)
-+movl   $"CServerHandler::Load() Guild Server Table Exception Break!",0x4(%esp)
- lea    -0x34(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsC1EPKcRKSaIcE>
- lea    -0x34(%ebp),%esi
- movl   $0x8,(%esp)
- call   <T> <__cxa_allocate_exception>
- mov    %eax,%ebx
- mov    %ebx,%eax
- mov    %esi,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZN13CDNFExceptionC1ERKSs>
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x24e>
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x34f>
- mov    %eax,%ecx
- mov    %edx,%eax
- mov    %eax,%esi
- mov    %ecx,%edi
- mov    %ebx,(%esp)
- call   <T> <__cxa_free_exception>
- mov    %edi,%ecx
- mov    %esi,%eax
- mov    %eax,%ebx
- mov    %ecx,%esi
- lea    -0x34(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x248>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x26d>
--call   <T> <_ZSt9terminatev>
--mov    %esi,%ecx
--mov    %ebx,%eax
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x26d>
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x349>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x36e>
-+call   <T> <_ZSt9terminatev>
-+mov    %esi,%ecx
-+mov    %ebx,%eax
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x36e>
- lea    -0x34(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x288>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x26d>
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x389>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x36e>
- call   <T> <_ZSt9terminatev>
- mov    %eax,%ecx
- mov    %edx,%eax
- mov    %eax,%ebx
- mov    %ecx,%esi
- lea    -0x2d(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- mov    %esi,%ecx
- mov    %ebx,%eax
- mov    %ecx,(%esp)
- call   <T> <_Unwind_Resume>
- lea    -0x2d(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
- movl   $&_ZTI13CDNFException,0x4(%esp)
- mov    %ebx,(%esp)
- call   <T> <__cxa_throw>
--movzbl -0x1d(%ebp),%ebx
--mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
-+mov    -0x20(%ebp),%eax
- movzwl 0x8(%eax),%eax
--movzwl %ax,%ecx
--mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
--lea    0x4(%eax),%esi
--mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
-+movzwl %ax,%edx
-+mov    -0x20(%ebp),%eax
-+lea    0x4(%eax),%ebx
-+mov    -0x20(%ebp),%eax
- movzbl 0x1(%eax),%eax
- movzbl %al,%eax
--mov    0x8(%ebp),%edx
--add    $0xff0,%edx
--mov    %ebx,0x10(%esp)
--mov    %ecx,0xc(%esp)
--mov    %esi,0x8(%esp)
-+mov    0x8(%ebp),%ecx
-+add    $0x1018,%ecx
-+movl   $0xcb,0x10(%esp)
-+mov    %edx,0xc(%esp)
-+mov    %ebx,0x8(%esp)
- mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN14CMonitorServer4InitEhRSsth>
--mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
-+mov    %ecx,(%esp)
-+call   <T> <_ZN12CGuildServer4InitEhRSsth>
-+mov    -0x20(%ebp),%eax
- movzbl (%eax),%eax
--cmp    $0x5,%al
--jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x48d>
--mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
-+cmp    $0x7,%al
-+jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x528>
-+mov    -0x20(%ebp),%eax
- movzbl 0x2(%eax),%eax
--mov    %al,-0x1d(%ebp)
--cmpb   $0xff,-0x1d(%ebp)
--je     <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x34e>
--cmpb   $0xcb,-0x1d(%ebp)
--je     <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x42a>
 +mov    %al,-0x19(%ebp)
-+cmpb   $0xcd,-0x19(%ebp)
-+je     <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x4e9>
- lea    -0x25(%ebp),%eax
++cmpb   $0xff,-0x19(%ebp)
+ je     <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x1cf>
+-cmpb   $0xc9,-0x1d(%ebp)
++cmpb   $0xc9,-0x19(%ebp)
+ je     <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x2ab>
+-lea    -0x2d(%ebp),%eax
++lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
- lea    -0x25(%ebp),%eax
+-lea    -0x2d(%ebp),%eax
++lea    -0x31(%ebp),%eax
  mov    %eax,0x8(%esp)
--movl   $"CServerHandler::Load() Guild Server Table Exception Break!",0x4(%esp)
-+movl   $"CServerHandler::Load() Statistics Server Table Exception Break!",0x4(%esp)
- lea    -0x2c(%ebp),%eax
+ movl   $"CServerHandler::Load() Monitor Server Table Exception Break!",0x4(%esp)
+-lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
- lea    -0x2c(%ebp),%esi
+-lea    -0x34(%ebp),%esi
++lea    -0x38(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -484,8 +206,7 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x3cd>
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x48c>
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x24e>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -496,53 +217,43 @@
  mov    %esi,%eax
  mov    %eax,%ebx
  mov    %ecx,%esi
- lea    -0x2c(%ebp),%eax
+-lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x3c7>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x3ec>
--call   <T> <_ZSt9terminatev>
--mov    %esi,%ecx
--mov    %ebx,%eax
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x3ec>
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x486>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x4ab>
-+call   <T> <_ZSt9terminatev>
-+mov    %esi,%ecx
-+mov    %ebx,%eax
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x4ab>
- lea    -0x2c(%ebp),%eax
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x248>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x26d>
+ call   <T> <_ZSt9terminatev>
+ mov    %esi,%ecx
+ mov    %ebx,%eax
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x26d>
+-lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x407>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x3ec>
-+jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x4c6>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x4ab>
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x288>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x26d>
  call   <T> <_ZSt9terminatev>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
  mov    %ecx,%esi
- lea    -0x25(%ebp),%eax
+-lea    -0x2d(%ebp),%eax
++lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%ecx
  mov    %ebx,%eax
  mov    %ecx,(%esp)
  call   <T> <_Unwind_Resume>
- lea    -0x25(%ebp),%eax
+-lea    -0x2d(%ebp),%eax
++lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -551,14 +262,14 @@
  call   <T> <__cxa_throw>
 -movzbl -0x1d(%ebp),%ebx
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
  movzwl 0x8(%eax),%eax
--movzwl %ax,%ecx
+ movzwl %ax,%ecx
 -mov    -0x1c(%ebp),%edx
 -mov    %edx,%eax
 -add    %eax,%eax
@@ -567,125 +278,283 @@
 -add    0xc(%ebp),%eax
 -lea    0x4(%eax),%esi
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
-+movzwl %ax,%edx
-+mov    -0x20(%ebp),%eax
++mov    -0x20(%ebp),%edx
++mov    %edx,%eax
++add    %eax,%eax
++add    %edx,%eax
++shl    $0x2,%eax
++add    0xc(%ebp),%eax
 +lea    0x4(%eax),%ebx
-+mov    -0x20(%ebp),%eax
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
  movzbl 0x1(%eax),%eax
  movzbl %al,%eax
--mov    0x8(%ebp),%edx
--add    $0x1018,%edx
+ mov    0x8(%ebp),%edx
+ add    $0xff0,%edx
 -mov    %ebx,0x10(%esp)
--mov    %ecx,0xc(%esp)
++movl   $0xc9,0x10(%esp)
+ mov    %ecx,0xc(%esp)
 -mov    %esi,0x8(%esp)
-+mov    0x8(%ebp),%ecx
-+add    $0x1030,%ecx
-+movl   $0xcd,0x10(%esp)
-+mov    %edx,0xc(%esp)
 +mov    %ebx,0x8(%esp)
  mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN12CGuildServer4InitEhRSsth>
+ mov    %edx,(%esp)
+ call   <T> <_ZN14CMonitorServer4InitEhRSsth>
+-mov    -0x1c(%ebp),%edx
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
+ movzbl (%eax),%eax
+ cmp    $0x5,%al
+ jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x48d>
+-mov    -0x1c(%ebp),%edx
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
+ movzbl 0x2(%eax),%eax
+-mov    %al,-0x1d(%ebp)
+-cmpb   $0xff,-0x1d(%ebp)
++mov    %al,-0x19(%ebp)
++cmpb   $0xff,-0x19(%ebp)
+ je     <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x34e>
+-cmpb   $0xcb,-0x1d(%ebp)
++cmpb   $0xcb,-0x19(%ebp)
+ je     <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x42a>
+-lea    -0x25(%ebp),%eax
++lea    -0x29(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcEC1Ev>
+-lea    -0x25(%ebp),%eax
++lea    -0x29(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ movl   $"CServerHandler::Load() Guild Server Table Exception Break!",0x4(%esp)
+-lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsC1EPKcRKSaIcE>
+-lea    -0x2c(%ebp),%esi
++lea    -0x30(%ebp),%esi
+ movl   $0x8,(%esp)
+ call   <T> <__cxa_allocate_exception>
+ mov    %eax,%ebx
+ mov    %ebx,%eax
+ mov    %esi,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN13CDNFExceptionC1ERKSs>
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x3cd>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ mov    %eax,%esi
+ mov    %ecx,%edi
+ mov    %ebx,(%esp)
+ call   <T> <__cxa_free_exception>
+ mov    %edi,%ecx
+ mov    %esi,%eax
+ mov    %eax,%ebx
+ mov    %ecx,%esi
+-lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x3c7>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x3ec>
+ call   <T> <_ZSt9terminatev>
+ mov    %esi,%ecx
+ mov    %ebx,%eax
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x3ec>
+-lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x407>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x3ec>
+ call   <T> <_ZSt9terminatev>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ mov    %eax,%ebx
+ mov    %ecx,%esi
+-lea    -0x25(%ebp),%eax
++lea    -0x29(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ mov    %esi,%ecx
+ mov    %ebx,%eax
+ mov    %ecx,(%esp)
+ call   <T> <_Unwind_Resume>
+-lea    -0x25(%ebp),%eax
++lea    -0x29(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
+ movl   $&_ZTI13CDNFException,0x4(%esp)
+ mov    %ebx,(%esp)
+ call   <T> <__cxa_throw>
+-movzbl -0x1d(%ebp),%ebx
+-mov    -0x1c(%ebp),%edx
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
+ movzwl 0x8(%eax),%eax
+ movzwl %ax,%ecx
 -mov    -0x1c(%ebp),%edx
 -mov    %edx,%eax
 -add    %eax,%eax
 -add    %edx,%eax
 -shl    $0x2,%eax
 -add    0xc(%ebp),%eax
--movzbl (%eax),%eax
--cmp    $0x7,%al
--jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x606>
+-lea    0x4(%eax),%esi
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
--movzbl 0x2(%eax),%eax
++mov    -0x20(%ebp),%edx
++mov    %edx,%eax
++add    %eax,%eax
++add    %edx,%eax
++shl    $0x2,%eax
++add    0xc(%ebp),%eax
++lea    0x4(%eax),%ebx
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
+ movzbl 0x1(%eax),%eax
+ movzbl %al,%eax
+ mov    0x8(%ebp),%edx
+ add    $0x1018,%edx
+-mov    %ebx,0x10(%esp)
++movl   $0xcb,0x10(%esp)
+ mov    %ecx,0xc(%esp)
+-mov    %esi,0x8(%esp)
++mov    %ebx,0x8(%esp)
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZN12CGuildServer4InitEhRSsth>
+-mov    -0x1c(%ebp),%edx
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
+ movzbl (%eax),%eax
+ cmp    $0x7,%al
+ jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x606>
+-mov    -0x1c(%ebp),%edx
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
+ movzbl 0x2(%eax),%eax
 -mov    %al,-0x1d(%ebp)
 -cmpb   $0xcd,-0x1d(%ebp)
--je     <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x5a3>
++mov    %al,-0x19(%ebp)
++cmpb   $0xcd,-0x19(%ebp)
+ je     <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x5a3>
 -lea    -0x1e(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcEC1Ev>
++lea    -0x21(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x1e(%ebp),%eax
--mov    %eax,0x8(%esp)
--movl   $"CServerHandler::Load() Statistics Server Table Exception Break!",0x4(%esp)
++lea    -0x21(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ movl   $"CServerHandler::Load() Statistics Server Table Exception Break!",0x4(%esp)
 -lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsC1EPKcRKSaIcE>
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x24(%ebp),%esi
--movl   $0x8,(%esp)
--call   <T> <__cxa_allocate_exception>
--mov    %eax,%ebx
--mov    %ebx,%eax
--mov    %esi,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN13CDNFExceptionC1ERKSs>
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x546>
--mov    %eax,%ecx
--mov    %edx,%eax
--mov    %eax,%esi
--mov    %ecx,%edi
--mov    %ebx,(%esp)
--call   <T> <__cxa_free_exception>
--mov    %edi,%ecx
--mov    %esi,%eax
--mov    %eax,%ebx
--mov    %ecx,%esi
++lea    -0x28(%ebp),%esi
+ movl   $0x8,(%esp)
+ call   <T> <__cxa_allocate_exception>
+ mov    %eax,%ebx
+ mov    %ebx,%eax
+ mov    %esi,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN13CDNFExceptionC1ERKSs>
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x546>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ mov    %eax,%esi
+ mov    %ecx,%edi
+ mov    %ebx,(%esp)
+ call   <T> <__cxa_free_exception>
+ mov    %edi,%ecx
+ mov    %esi,%eax
+ mov    %eax,%ebx
+ mov    %ecx,%esi
 -lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x540>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x565>
--call   <T> <_ZSt9terminatev>
--mov    %esi,%ecx
--mov    %ebx,%eax
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x565>
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x540>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x565>
+ call   <T> <_ZSt9terminatev>
+ mov    %esi,%ecx
+ mov    %ebx,%eax
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x565>
 -lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x580>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x565>
--call   <T> <_ZSt9terminatev>
--mov    %eax,%ecx
--mov    %edx,%eax
--mov    %eax,%ebx
--mov    %ecx,%esi
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x580>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x565>
+ call   <T> <_ZSt9terminatev>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ mov    %eax,%ebx
+ mov    %ecx,%esi
 -lea    -0x1e(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
--mov    %esi,%ecx
--mov    %ebx,%eax
--mov    %ecx,(%esp)
--call   <T> <_Unwind_Resume>
++lea    -0x21(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ mov    %esi,%ecx
+ mov    %ebx,%eax
+ mov    %ecx,(%esp)
+ call   <T> <_Unwind_Resume>
 -lea    -0x1e(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
--movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
--movl   $&_ZTI13CDNFException,0x4(%esp)
--mov    %ebx,(%esp)
--call   <T> <__cxa_throw>
++lea    -0x21(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
+ movl   $&_ZTI13CDNFException,0x4(%esp)
+ mov    %ebx,(%esp)
+ call   <T> <__cxa_throw>
 -movzbl -0x1d(%ebp),%ebx
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
--movzwl 0x8(%eax),%eax
--movzwl %ax,%ecx
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
+ movzwl 0x8(%eax),%eax
+ movzwl %ax,%ecx
 -mov    -0x1c(%ebp),%edx
 -mov    %edx,%eax
 -add    %eax,%eax
@@ -694,26 +563,35 @@
 -add    0xc(%ebp),%eax
 -lea    0x4(%eax),%esi
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
--movzbl 0x1(%eax),%eax
--movzbl %al,%eax
--mov    0x8(%ebp),%edx
--add    $0x1030,%edx
++mov    -0x20(%ebp),%edx
++mov    %edx,%eax
++add    %eax,%eax
++add    %edx,%eax
++shl    $0x2,%eax
++add    0xc(%ebp),%eax
++lea    0x4(%eax),%ebx
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
+ movzbl 0x1(%eax),%eax
+ movzbl %al,%eax
+ mov    0x8(%ebp),%edx
+ add    $0x1030,%edx
 -mov    %ebx,0x10(%esp)
--mov    %ecx,0xc(%esp)
++movl   $0xcd,0x10(%esp)
+ mov    %ecx,0xc(%esp)
 -mov    %esi,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
-+mov    %ecx,(%esp)
++mov    %ebx,0x8(%esp)
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN17CStatisticsServer4InitEhRSsth>
 -addl   $0x1,-0x1c(%ebp)
 -cmpl   $0xfe,-0x1c(%ebp)
-+addl   $0x1,-0x24(%ebp)
-+cmpl   $0xfe,-0x24(%ebp)
++addl   $0x1,-0x20(%ebp)
++cmpl   $0xfe,-0x20(%ebp)
  setle  %al
  test   %al,%al
  jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x15>
@@ -849,34 +727,38 @@ void CServerHandler::Load(ST_ServerInfo* infos)
 {
     for (int i = 0; i <= 0xfe; i++)
     {
-        ST_ServerInfo& info = infos[i];
-        if (info.m_type == 1)
+        unsigned char idx;
+        if (infos[i].m_type == 1)
         {
-            unsigned char idx = info.m_idx;
+            idx = infos[i].m_idx;
             if (idx == 0xff)
                 throw CDNFException("CGameServerHandler::Load() Server Table Exception Break!");
-            m_gameServers[idx].Init(info.m_flag, info.m_name, info.m_port, idx);
+            m_gameServers[idx].Init(infos[i].m_flag, infos[i].m_name,
+                                    infos[i].m_port, idx);
         }
-        if (info.m_type == 3)
+        if (infos[i].m_type == 3)
         {
-            unsigned char idx = info.m_idx;
+            idx = infos[i].m_idx;
             if (idx == 0xff || idx != 0xc9)
                 throw CDNFException("CServerHandler::Load() Monitor Server Table Exception Break!");
-            m_monitorServer.Init(info.m_flag, info.m_name, info.m_port, 0xc9);
+            m_monitorServer.Init(infos[i].m_flag, infos[i].m_name,
+                                 infos[i].m_port, 0xc9);
         }
-        if (info.m_type == 5)
+        if (infos[i].m_type == 5)
         {
-            unsigned char idx = info.m_idx;
+            idx = infos[i].m_idx;
             if (idx == 0xff || idx != 0xcb)
                 throw CDNFException("CServerHandler::Load() Guild Server Table Exception Break!");
-            m_guildServer.Init(info.m_flag, info.m_name, info.m_port, 0xcb);
+            m_guildServer.Init(infos[i].m_flag, infos[i].m_name,
+                               infos[i].m_port, 0xcb);
         }
-        if (info.m_type == 7)
+        if (infos[i].m_type == 7)
         {
-            unsigned char idx = info.m_idx;
+            idx = infos[i].m_idx;
             if (idx != 0xcd)
                 throw CDNFException("CServerHandler::Load() Statistics Server Table Exception Break!");
-            m_statisticsServer.Init(info.m_flag, info.m_name, info.m_port, 0xcd);
+            m_statisticsServer.Init(infos[i].m_flag, infos[i].m_name,
+                                    infos[i].m_port, 0xcd);
         }
     }
 }

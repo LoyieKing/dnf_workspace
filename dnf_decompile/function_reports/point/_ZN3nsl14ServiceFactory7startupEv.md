@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| point | DIFF | `0x80a98bc` | `0x780` | `0x809d22e` | `0x791` |
+| point | DIFF | `0x80a98bc` | `0x780` | `0x809d1e6` | `0x774` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,494 +1,495 @@
+@@ -1,494 +1,488 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x4c,%esp
-+sub    $0x5c,%esp
+ sub    $0x4c,%esp
  movl   $"서버 라이브러리 구동 시작...",(%esp)
  call   <T> <puts>
  mov    0x8(%ebp),%eax
@@ -30,8 +29,7 @@
  mov    %eax,0x4(%esp)
  movl   $"%d\n",(%esp)
  call   <T> <printf>
--movl   $0x0,-0x24(%ebp)
-+movl   $0x0,-0x30(%ebp)
+ movl   $0x0,-0x24(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x169(%eax),%esi
  mov    0x8(%ebp),%eax
@@ -41,17 +39,14 @@
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TraceLog4initEPcS1_>
--mov    %eax,-0x24(%ebp)
--mov    -0x24(%ebp),%eax
-+mov    %eax,-0x30(%ebp)
-+mov    -0x30(%ebp),%eax
+ mov    %eax,-0x24(%ebp)
+ mov    -0x24(%ebp),%eax
  shr    $0x1f,%eax
  test   %al,%al
  je     <T> <_ZN3nsl14ServiceFactory7startupEv+0x78>
--mov    -0x24(%ebp),%eax
+ mov    -0x24(%ebp),%eax
 -jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x775>
-+mov    -0x30(%ebp),%eax
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x786>
++jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x769>
  movl   $0x2c,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
@@ -229,47 +224,44 @@
  call   <T> <puts>
  movl   $0x8,(%esp)
  call   <T> <_Znwj>
--mov    %eax,%ebx
+ mov    %eax,%ebx
 -mov    %ebx,%eax
-+mov    %eax,-0x2c(%ebp)
-+mov    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
+-mov    %eax,(%esp)
++mov    %ebx,(%esp)
  call   <T> <_ZN3nsl13TCPDispatcherC1Ev>
 -mov    %ebx,%edx
 -mov    0x8(%ebp),%eax
+-mov    %edx,0xc(%eax)
 +mov    0x8(%ebp),%eax
-+mov    -0x2c(%ebp),%edx
- mov    %edx,0xc(%eax)
++mov    %ebx,0xc(%eax)
  movl   $"TCPDispatcher has been created...",(%esp)
  call   <T> <puts>
  movl   $0x1,(%esp)
  call   <T> <_Znwj>
--mov    %eax,%ebx
+ mov    %eax,%ebx
 -mov    %ebx,%eax
-+mov    %eax,-0x28(%ebp)
-+mov    -0x28(%ebp),%eax
- mov    %eax,(%esp)
+-mov    %eax,(%esp)
++mov    %ebx,(%esp)
  call   <T> <_ZN3nsl15InterDispatcherC1Ev>
 -mov    %ebx,%edx
 -mov    0x8(%ebp),%eax
+-mov    %edx,0x10(%eax)
 +mov    0x8(%ebp),%eax
-+mov    -0x28(%ebp),%edx
- mov    %edx,0x10(%eax)
++mov    %ebx,0x10(%eax)
  movl   $"InterDispatcher has been created...",(%esp)
  call   <T> <puts>
  movl   $0x1,(%esp)
  call   <T> <_Znwj>
--mov    %eax,%ebx
+ mov    %eax,%ebx
 -mov    %ebx,%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x24(%ebp),%eax
- mov    %eax,(%esp)
+-mov    %eax,(%esp)
++mov    %ebx,(%esp)
  call   <T> <_ZN3nsl12DBDispatcherC1Ev>
 -mov    %ebx,%edx
 -mov    0x8(%ebp),%eax
+-mov    %edx,0x14(%eax)
 +mov    0x8(%ebp),%eax
-+mov    -0x24(%ebp),%edx
- mov    %edx,0x14(%eax)
++mov    %ebx,0x14(%eax)
  movl   $"DBDispatcher 객체 완료...",(%esp)
  call   <T> <puts>
  movl   $"서비스 쓰레드 구동 시작",(%esp)
@@ -283,7 +275,7 @@
  movl   $0x1,0x58(%eax)
  movl   $0x0,-0x20(%ebp)
 -jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x455>
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x45e>
++jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x449>
  movl   $0xc8,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
@@ -293,7 +285,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl10WorkThreadC1Ei>
 -jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x41a>
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x423>
++jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x40e>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -324,7 +316,7 @@
  setg   %al
  test   %al,%al
 -jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x3e1>
-+jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x3ea>
++jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x3d5>
  movl   $0x7d0,(%esp)
  call   <T> <_ZN3nsl7TSystemINS_11LinuxSystemEE5sleepEi>
  mov    0x8(%ebp),%eax
@@ -365,26 +357,21 @@
  mov    %eax,0x4(%esp)
  movl   $"TimerThread 구동 성공-%p\n",(%esp)
  call   <T> <printf>
--lea    -0x2c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKiPN3nsl15INetWorkHandlerEEEC1Ev>
  mov    0x8(%ebp),%eax
  lea    0xbc(%eax),%edx
--lea    -0x3c(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIiPN3nsl15INetWorkHandlerESt4lessIiESaISt4pairIKiS2_EEE5beginEv>
  sub    $0x4,%esp
--mov    -0x3c(%ebp),%eax
--mov    %eax,-0x2c(%ebp)
+ mov    -0x3c(%ebp),%eax
+ mov    %eax,-0x2c(%ebp)
 -jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x56c>
--lea    -0x2c(%ebp),%eax
-+mov    -0x4c(%ebp),%eax
-+mov    %eax,-0x38(%ebp)
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x575>
-+lea    -0x38(%ebp),%eax
++jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x560>
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiPN3nsl15INetWorkHandlerEEEptEv>
  mov    0x4(%eax),%eax
@@ -393,47 +380,37 @@
  mov    (%edx),%edx
  mov    %eax,(%esp)
  call   *%edx
--lea    -0x2c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKiPN3nsl15INetWorkHandlerEEEppEv>
  mov    0x8(%ebp),%eax
  lea    0xbc(%eax),%edx
--lea    -0x28(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIiPN3nsl15INetWorkHandlerESt4lessIiESaISt4pairIKiS2_EEE3endEv>
  sub    $0x4,%esp
--lea    -0x28(%ebp),%eax
--mov    %eax,0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x38(%ebp),%eax
+ lea    -0x28(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiPN3nsl15INetWorkHandlerEEEneERKS6_>
  test   %al,%al
 -jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x547>
--lea    -0x30(%ebp),%eax
-+jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x550>
-+lea    -0x3c(%ebp),%eax
++jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x53b>
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKiPN3nsl10IDBHandlerEEEC1Ev>
  mov    0x8(%ebp),%eax
  lea    0xec(%eax),%edx
--lea    -0x3c(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIiPN3nsl10IDBHandlerESt4lessIiESaISt4pairIKiS2_EEE5beginEv>
  sub    $0x4,%esp
--mov    -0x3c(%ebp),%eax
--mov    %eax,-0x30(%ebp)
--lea    -0x30(%ebp),%eax
-+mov    -0x4c(%ebp),%eax
-+mov    %eax,-0x3c(%ebp)
-+lea    -0x3c(%ebp),%eax
+ mov    -0x3c(%ebp),%eax
+ mov    %eax,-0x30(%ebp)
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiPN3nsl10IDBHandlerEEEptEv>
  mov    0x4(%eax),%eax
@@ -442,8 +419,7 @@
  mov    (%edx),%edx
  mov    %eax,(%esp)
  call   *%edx
--lea    -0x34(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKiPN3nsl13IInterHandlerEEEC1Ev>
  mov    0x8(%ebp),%eax
@@ -453,21 +429,17 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN3nsl14ServiceFactory7startupEv+0x640>
-+je     <T> <_ZN3nsl14ServiceFactory7startupEv+0x649>
++je     <T> <_ZN3nsl14ServiceFactory7startupEv+0x634>
  mov    0x8(%ebp),%eax
  lea    0xd4(%eax),%edx
--lea    -0x3c(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIiPN3nsl13IInterHandlerESt4lessIiESaISt4pairIKiS2_EEE5beginEv>
  sub    $0x4,%esp
--mov    -0x3c(%ebp),%eax
--mov    %eax,-0x34(%ebp)
--lea    -0x34(%ebp),%eax
-+mov    -0x4c(%ebp),%eax
-+mov    %eax,-0x40(%ebp)
-+lea    -0x40(%ebp),%eax
+ mov    -0x3c(%ebp),%eax
+ mov    %eax,-0x34(%ebp)
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiPN3nsl13IInterHandlerEEEptEv>
  mov    0x4(%eax),%eax
@@ -478,21 +450,18 @@
  call   *%edx
  movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x673>
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x684>
++jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x667>
  mov    -0x1c(%ebp),%edx
  mov    0x8(%ebp),%eax
--add    $0x3c,%edx
-+add    $0x4,%edx
+ add    $0x3c,%edx
  mov    0x14(%eax,%edx,4),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
  mov    (%eax),%edx
  mov    -0x1c(%ebp),%ecx
  mov    0x8(%ebp),%eax
--add    $0x3c,%ecx
-+add    $0x4,%ecx
+ add    $0x3c,%ecx
  mov    0x14(%eax,%ecx,4),%eax
-+movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   *%edx
  addl   $0x1,-0x1c(%ebp)
@@ -502,7 +471,7 @@
  setg   %al
  test   %al,%al
 -jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x649>
-+jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x652>
++jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x63d>
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -538,21 +507,20 @@
  call   <T> <_ZN3nsl8TraceLog14checkLogServerEv>
  test   %al,%al
 -je     <T> <_ZN3nsl14ServiceFactory7startupEv+0x755>
-+je     <T> <_ZN3nsl14ServiceFactory7startupEv+0x766>
++je     <T> <_ZN3nsl14ServiceFactory7startupEv+0x749>
  call   <T> <_ZN3nsl10G_TraceLogEv>
  movl   $"checkLogServer(), write_to_logserver is true",0x8(%esp)
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TraceLog6sysLogEiPKcz>
 -jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x772>
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x783>
++jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x766>
  call   <T> <_ZN3nsl10G_TraceLogEv>
  movl   $"checkLogServer(), write_to_logserver is false",0x8(%esp)
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TraceLog6sysLogEiPKcz>
--mov    -0x24(%ebp),%eax
-+mov    -0x30(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  lea    -0xc(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -829,18 +797,18 @@ int ServiceFactory::startup()
     puts("NSLDBThread \xb0\xb4\xc3\xbc \xbb\xfd\xbc\xba...");
     super_Threads.threadDB_[0] = new NSLDBThread;
     puts("NSLDBThread \xb0\xb4\xc3\xbc \xbf\xcf\xb7\xe1...");
-    /* ORIG: operator new + C1, no EH pads (throw()-spec ctor aliases) */
-    TCPDispatcher* pTCPDispatcher =
+    /* ORIG: operator new + C1（ebx 临时），无 EH pads（throw()-spec ctor aliases）。 */
+    register TCPDispatcher* pTCPDispatcher =
         (TCPDispatcher*)::operator new(sizeof(TCPDispatcher));
     call_TCPDispatcher_ctor(pTCPDispatcher);
     super_Dispatchers.dispatcherTCP = pTCPDispatcher;
     puts("TCPDispatcher has been created...");
-    InterDispatcher* pInterDispatcher =
+    register InterDispatcher* pInterDispatcher =
         (InterDispatcher*)::operator new(sizeof(InterDispatcher));
     call_InterDispatcher_ctor(pInterDispatcher);
     super_Dispatchers.mpInterDispatcher = pInterDispatcher;
     puts("InterDispatcher has been created...");
-    DBDispatcher* pDBDispatcher = (DBDispatcher*)::operator new(sizeof(DBDispatcher));
+    register DBDispatcher* pDBDispatcher = (DBDispatcher*)::operator new(sizeof(DBDispatcher));
     call_DBDispatcher_ctor(pDBDispatcher);
     super_Dispatchers.dispatcherDB = pDBDispatcher;
     puts("DBDispatcher \xb0\xb4\xc3\xbc \xbf\xcf\xb7\xe1...");
@@ -885,9 +853,11 @@ int ServiceFactory::startup()
             iter->second->init();
         }
     }
+    // ORIG：循环遍历 IHandlers::mTimeHandlers[]（@0x104），虚调用 vtable[2]
+    // （init，无参）；不是 threadWork_（@0x24）。
     for (int i = 0; i < super_IHandlers.mTimeHandlerNum; i = i + 1)
     {
-        super_Threads.threadWork_[i]->loop((void*)0);
+        super_IHandlers.mTimeHandlers[i]->init();
     }
     super_Threads.threadTCP_->begin();
     printf("TCPThread \xb1\xb8\xb5\xbf \xbc\xba\xb0\xf8-%p\n", super_Threads.threadTCP_);

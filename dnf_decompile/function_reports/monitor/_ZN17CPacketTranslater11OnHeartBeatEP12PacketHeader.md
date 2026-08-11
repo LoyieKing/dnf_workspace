@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807ec9e` | `0x313` | `0x806aada` | `0x300` |
+| monitor | DIFF | `0x807ec9e` | `0x313` | `0x806aae4` | `0x300` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -196,8 +196,7 @@
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnHeartBeat() Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
-+movl   $"%s",0x4(%esp)
+ movl   $"./log/Except",0x4(%esp)
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -222,10 +221,8 @@
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnHeartBeat() Exception Break\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
-+movl   $"CPacketTranslater::OnHeartBeat() Exception Break",0x8(%esp)
-+movl   $"%s",0x4(%esp)
+ movl   $"CPacketTranslater::OnHeartBeat() Exception Break\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -383,12 +380,12 @@ void CPacketTranslater::OnHeartBeat(PacketHeader* pkt)
             catch (CDNFException& e)
             {
                 printf("CPacketTranslater::OnHeartBeat() Exception Break : %s\n", e.what());
-                DNF_LOG_SCOPE_LINE(0x348, "%s", "CPacketTranslater::OnHeartBeat() Exception Break : %s\n", e.what());
+                DNF_LOG_SCOPE_LINE(0x348, "./log/Except", "CPacketTranslater::OnHeartBeat() Exception Break : %s\n", e.what());
             }
             catch (...)
             {
                 puts("CPacketTranslater::OnHeartBeat() Exception Break");
-                DNF_LOG_SCOPE_LINE(0x34e, "%s", "CPacketTranslater::OnHeartBeat() Exception Break");
+                DNF_LOG_SCOPE_LINE(0x34e, "./log/Except", "CPacketTranslater::OnHeartBeat() Exception Break\n");
             }
         }
     }

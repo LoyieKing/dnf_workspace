@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807f8e2` | `0x1ed` | `0x8075ea0` | `0x201` |
+| guild | DIFF | `0x807f8e2` | `0x1ed` | `0x8075c86` | `0x1ff` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,128 +1,136 @@
+@@ -1,128 +1,135 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -39,7 +39,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x1e6>
-+jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x1fa>
++jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x1f8>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15GetPowerManagerEv>
@@ -52,9 +52,7 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0xac>
 -lea    -0x46(%ebp),%eax
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0xb8>
++je     <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0xb3>
 +lea    -0x4a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN26Packet_Monitor_Event_StartC1Ev>
@@ -81,6 +79,7 @@
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager12IsPowerWarOnEv>
++xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0xc2>
 -mov    $"START!",%ebx
@@ -88,9 +87,9 @@
 -mov    $"END!",%ebx
 -mov    -0x14(%ebp),%eax
 -mov    0xa(%eax),%esi
-+jne    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0xce>
++je     <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0xcc>
 +mov    $"END!",%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0xd3>
++jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0xd1>
 +mov    $"START!",%eax
 +mov    %eax,-0x10(%ebp)
 +mov    -0x18(%ebp),%eax
@@ -114,20 +113,24 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x1e6>
-+jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x1fa>
++jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x1f8>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x18c>
-+jne    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x1a0>
++jne    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x19e>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0xc(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,%ebx
  movl   $0x119e,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -143,7 +146,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x185>
-+jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x199>
++jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x197>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -153,7 +156,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x1e6>
-+jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x1fa>
++jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x1f8>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x11a3,0x8(%esp)
@@ -169,7 +172,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x1e1>
-+jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x1f5>
++jmp    <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0x1f3>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -242,7 +245,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3199 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3200 行）：
 
 ```cpp
 void CPacketTranslater::OnPowerWarStartInfo(PacketHeader* pkt)

@@ -12,6 +12,27 @@
 - 不要“轮询等待”其它 agent；不要把自己当成主 Agent 去协调、汇总或审批。
   你的产出就是完成清单上的工作并把结果/阻塞上报。
 
+### 0.1 类粒度子分解（2026-08-11 用户规范，服务级 SubAgent 适用）
+
+- 服务级 SubAgent 拿到剩余 md 后，可按 **class / 所属类 / 所属 TU** 把函数分组，
+  每组再用 `spawn_agent` 派生一个子 SubAgent 并行处理（“subagent 再启 subagent”）。
+- 子 SubAgent 的工作方式（避免共享 build 目录竞争）：
+  1. 只读上下文：手册 + 服务进度 + 该组函数的 md（`function_reports/<svc>/<mangled>.md`）。
+  2. 在自己的临时目录（如 `/tmp/sub_<svc>_<class>`）做 scratch 构建：
+     从 `build/<svc>/CMakeFiles/<svc>.dir` 复制全部 .o，把本组函数所在 TU 用
+     CMake 相同 flags 重编覆盖，按该目录 `link.txt` 同命令链接出 scratch 二进制；
+     用 `gen_function_md` 的 `classify_one` 对照 ORIG 检查本组函数。
+  3. 每个函数循环：改源码 → 重编 TU → scratch 链接 → classify 复检，直到
+     IDENTICAL / IDENTICAL_AE（等价于“md 已删除”），或穷举合理变体后上报证据。
+  4. **禁止**：修改 `build/<svc>/` 与 `function_reports/<svc>/`（父 agent 负责
+     集成与最终验证）；清空/删除整文件实现；改共享源码（确需改则上报父 agent）。
+  5. 完成后把源码改动清单 + 每函数结论发回父 agent。
+- 父 SubAgent 集成：收齐所有子 SubAgent 改动后，统一重建 → 先
+  `gen_report_manifest.py --services <svc>` 再 `gen_function_md.py --services <svc>`
+  全量重生成，确认各组函数 md 已删除；某组改动造成回归则回退并记录。
+- 分组建议：以 mangled 前缀/所属类/所属 TU 聚簇（可用 `_cached_collect_object_map`
+  或 `function_reports` 的 md 分布），每组分给一个子 SubAgent，组间 TU 尽量不重叠。
+
 ## 1. 什么叫“identical”
 
 本项目逐函数比对 ORIG（原版 ELF，位于
@@ -144,6 +165,20 @@ MySQL/zlib/NCrypto 等第三方基础库 —— 获得 identical 豁免，移出
   行号实参、偏移、魔数等硬编码常量必须以 ORIG 二进制实测值（objdump /
   readelf / 字符串表）为准；**不得**凭 DWARF decl_line 或反编译伪 C 猜测
   （本例猜 0x1d1=465，二进制实测为 0x186=390）。发现猜测值与实测不符必须修正。
+- **禁止硬套内联 asm（2026-08-11 用户规矩，覆盖此前所有轮次的 asm 实验）**：
+  - **唯一允许的 asm 用途**：插入纯 `nop` 做对齐/块布局填充（如
+    `__asm__ __volatile__("nop")` 复现 ORIG 的空块落地/对齐伪影）。
+  - **禁止**用内联 asm 强制其它指令形态：死比较/死存储复现（`cmp`/`test`
+    类）、寄存器钉住（`register int v asm("eax")`）、call 序列复现
+    （`call memset`/`call ctor`）、`asm goto` 控制流/跳转落地、参数装载顺序
+    强控等——一律**不得**硬套。
+  - 若某函数只能靠硬套 asm 才能逐字节对齐：判定该函数**已到头**，把
+    差异证据 + 已尝试变体总结进 `caliber_issues.csv`（REMAIN/到头了），
+    源码保留**语义还原**版本（不写 asm），不再追求该函数的 identical。
+  - 已硬套的 asm 必须回滚为语义还原版本（2026-08-11 已回滚
+    channel/bridge/relay/guild/monitor/manager/auction/point/community 的
+    shutdown 死比较、ChannelService memset/ctor、ScriptThread 死比较、
+    ArchiveLog memcpy、relay UDPHandler/Script asm-goto 等）。
 - **还原优先“二进制证据”**：任何新增的符号/常量/布局都要能指向 ORIG 二进制
   中的直接证据；没有证据的还原属于错误还原，一律按真实差异修复。
 

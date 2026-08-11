@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8086334` | `0x8f` | `0x8066218` | `0x80` |
+| statics | DIFF | `0x8086334` | `0x8f` | `0x8066122` | `0x8e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,37 +1,33 @@
+@@ -1,37 +1,35 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %ebx
@@ -21,9 +21,10 @@
 +sub    $0x48,%esp
  mov    0x10(%ebp),%eax
 -mov    %al,-0x1c(%ebp)
--movl   $0x0,-0x18(%ebp)
--movl   $0x0,-0x14(%ebp)
 +mov    %al,-0x2c(%ebp)
++movl   $0x0,-0x1c(%ebp)
+ movl   $0x0,-0x18(%ebp)
+-movl   $0x0,-0x14(%ebp)
  mov    0xc(%ebp),%eax
 +mov    %eax,-0x1c(%ebp)
 +movsbl -0x2c(%ebp),%eax
@@ -98,7 +99,7 @@ WongWork::CGMAccounts::_ZN8WongWork11CGMAccounts12AppendGM_SysEjc
 ```cpp
 void CGMAccounts::AppendGM_Sys(unsigned int id, char flag)
 {
-    stGMInfo_t info;
+    stGMInfo_t info = {};
     info.m_field0 = id;
     info.m_field1 = flag;
     m_list.push_back(info);

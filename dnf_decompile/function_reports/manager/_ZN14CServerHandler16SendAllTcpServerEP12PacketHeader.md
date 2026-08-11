@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x80687dc` | `0xfb` | `0x805e2a2` | `0xef` |
+| manager | DIFF | `0x80687dc` | `0xfb` | `0x805e2ac` | `0xf6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,72 +1,70 @@
+@@ -1,72 +1,71 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
@@ -27,7 +27,7 @@
  call   <T> <_ZNSt3mapIjP10CTcpServerSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader+0xc3>
-+jmp    <T> <_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader+0xb8>
++jmp    <T> <_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader+0xbf>
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP10CTcpServerEEptEv>
@@ -38,7 +38,8 @@
  call   <T> <_ZN10CTcpServer13IsValidServerEv>
  test   %al,%al
 -je     <T> <_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader+0xb8>
-+je     <T> <_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader+0xad>
++je     <T> <_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader+0xb4>
++movl   $0x0,-0xc(%ebp)
  mov    0xc(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
@@ -151,7 +152,7 @@ CServerHandler::_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 148 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 153 行）：
 
 ```cpp
 void CServerHandler::SendAllTcpServer(PacketHeader* header)
@@ -162,7 +163,8 @@ void CServerHandler::SendAllTcpServer(PacketHeader* header)
         CTcpServer* server = it->second;
         if (server->IsValidServer())
         {
-            char* buf = (char*)server->makePacketHeader(header->packetId, header->packetSize);
+            char* buf = 0;
+            buf = (char*)server->makePacketHeader(header->packetId, header->packetSize);
             memcpy(buf + 0xa, (char*)header + 0xa, header->packetSize - 0xa);
             server->SendToServer(buf);
         }

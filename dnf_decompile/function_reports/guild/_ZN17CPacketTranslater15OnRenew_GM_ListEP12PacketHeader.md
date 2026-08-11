@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8089512` | `0x8c` | `0x807e398` | `0x91` |
+| guild | DIFF | `0x8089512` | `0x8c` | `0x807e05e` | `0x91` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -99,7 +99,7 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5541 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5542 行）：
 
 ```cpp
 void CPacketTranslater::OnRenew_GM_List(PacketHeader* pkt)

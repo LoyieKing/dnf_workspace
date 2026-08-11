@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8064e66` | `0x5da` | `0x805baea` | `0x57e` |
+| manager | DIFF | `0x8064e66` | `0x5da` | `0x805ba8a` | `0x5d9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,31 +13,26 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,400 +1,382 @@
+@@ -1,400 +1,400 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0xac,%esp
-+sub    $0x9c,%esp
+ sub    $0xac,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0xe2>
--lea    -0x59(%ebp),%eax
-+lea    -0x3d(%ebp),%eax
+ lea    -0x59(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x59(%ebp),%eax
-+lea    -0x3d(%ebp),%eax
+ lea    -0x59(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnWebNoticeProhibitConnectUser : 0 == m_pclApp",0x4(%esp)
--lea    -0x60(%ebp),%eax
-+lea    -0x44(%ebp),%eax
+ lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x60(%ebp),%esi
-+lea    -0x44(%ebp),%esi
+ lea    -0x60(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -54,8 +49,7 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x60(%ebp),%eax
-+lea    -0x44(%ebp),%eax
+ lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x8a>
@@ -65,8 +59,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0xa7>
--lea    -0x60(%ebp),%eax
-+lea    -0x44(%ebp),%eax
+ lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0xbf>
@@ -75,191 +68,126 @@
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x59(%ebp),%eax
-+lea    -0x3d(%ebp),%eax
+ lea    -0x59(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4f9>
--lea    -0x59(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x49f>
-+lea    -0x3d(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4f8>
+ lea    -0x59(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
--mov    0x8(%ebp),%eax
--mov    %eax,-0x28(%ebp)
--lea    -0x73(%ebp),%eax
-+lea    -0x57(%ebp),%eax
+ mov    0x8(%ebp),%eax
+ mov    %eax,-0x28(%ebp)
+ lea    -0x73(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Web_Prohibit_User_ConnectC1Ev>
  movl   $0x12,0x8(%esp)
--mov    -0x28(%ebp),%eax
--mov    %eax,0x4(%esp)
--lea    -0x73(%ebp),%eax
-+mov    0x8(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x57(%ebp),%eax
+ mov    -0x28(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x73(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
--movw   $0x13,-0x71(%ebp)
--mov    -0x28(%ebp),%eax
--movzwl 0x4(%eax),%eax
-+lea    -0x57(%ebp),%eax
-+add    $0x2,%eax
-+movw   $0x13,(%eax)
-+mov    -0x4d(%ebp),%eax
-+mov    %eax,-0x34(%ebp)
-+lea    -0x57(%ebp),%eax
-+add    $0x6,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x30(%ebp)
-+lea    -0x57(%ebp),%eax
-+add    $0x4,%eax
-+movzwl (%eax),%eax
+ movw   $0x13,-0x71(%ebp)
+ mov    -0x28(%ebp),%eax
+ movzwl 0x4(%eax),%eax
  movzwl %ax,%eax
--mov    %eax,-0x90(%ebp)
--mov    -0x28(%ebp),%eax
--mov    0x6(%eax),%eax
--mov    %eax,-0x8c(%ebp)
--mov    -0x28(%ebp),%eax
--movzwl 0xf(%eax),%eax
--movswl %ax,%edi
--mov    -0x28(%ebp),%eax
--movzbl 0xe(%eax),%eax
--movsbl %al,%esi
--mov    -0x28(%ebp),%eax
--mov    0xa(%eax),%ebx
-+mov    %eax,-0x2c(%ebp)
-+lea    -0x57(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
-+mov    %al,-0x27(%ebp)
-+lea    -0x57(%ebp),%eax
-+add    $0xf,%eax
-+movzwl (%eax),%eax
-+mov    %ax,-0x26(%ebp)
+ mov    %eax,-0x90(%ebp)
+ mov    -0x28(%ebp),%eax
+ mov    0x6(%eax),%eax
+ mov    %eax,-0x8c(%ebp)
+ mov    -0x28(%ebp),%eax
+ movzwl 0xf(%eax),%eax
+ movswl %ax,%edi
+ mov    -0x28(%ebp),%eax
+ movzbl 0xe(%eax),%eax
+ movsbl %al,%esi
+ mov    -0x28(%ebp),%eax
+ mov    0xa(%eax),%ebx
  movl   $0xdb,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x58(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0x90(%ebp),%eax
--mov    %eax,0x1c(%esp)
--mov    -0x8c(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+lea    -0x60(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movswl -0x26(%ebp),%edx
-+movsbl -0x27(%ebp),%eax
-+mov    -0x2c(%ebp),%ecx
-+mov    %ecx,0x1c(%esp)
-+mov    -0x30(%ebp),%ecx
-+mov    %ecx,0x18(%esp)
-+mov    %edx,0x14(%esp)
-+mov    %eax,0x10(%esp)
-+mov    -0x34(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ lea    -0x58(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0x90(%ebp),%eax
+ mov    %eax,0x1c(%esp)
+ mov    -0x8c(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnWebNoticeProhibitConnectUser m_id : %d, flag( %d ), time( %d ), ip( %d ), port( %d )\n",0x8(%esp)
  movl   $"./log/ProhibitUser",0x4(%esp)
--lea    -0x58(%ebp),%eax
-+lea    -0x60(%ebp),%eax
+ lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  add    $0x4c,%eax
  mov    %eax,-0x24(%ebp)
--mov    -0x28(%ebp),%eax
--movzbl 0xe(%eax),%eax
-+cmpb   $0x0,-0x27(%ebp)
-+je     <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x1d4>
-+mov    -0x34(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CUserManager18DeleteProhibitUserEj>
+ mov    -0x28(%ebp),%eax
+ movzbl 0xe(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x281>
--mov    -0x28(%ebp),%eax
--mov    0xa(%eax),%eax
--mov    %eax,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CUserManager18DeleteProhibitUserEj>
++je     <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x283>
+ mov    -0x28(%ebp),%eax
+ mov    0xa(%eax),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CUserManager18DeleteProhibitUserEj>
 -xor    $0x1,%eax
-+je     <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x1d4>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x1d9>
-+mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x265>
--mov    -0x28(%ebp),%eax
--movzwl 0x4(%eax),%eax
--movzwl %ax,%eax
--mov    %eax,-0x88(%ebp)
--mov    -0x28(%ebp),%eax
--mov    0x6(%eax),%eax
--mov    %eax,-0x84(%ebp)
--mov    -0x28(%ebp),%eax
--movzwl 0xf(%eax),%eax
--movswl %ax,%edi
--mov    -0x28(%ebp),%eax
--movzbl 0xe(%eax),%eax
--movsbl %al,%esi
--mov    -0x28(%ebp),%eax
--mov    0xa(%eax),%ebx
-+je     <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x254>
++sete   %al
++test   %al,%al
++je     <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x267>
+ mov    -0x28(%ebp),%eax
+ movzwl 0x4(%eax),%eax
+ movzwl %ax,%eax
+ mov    %eax,-0x88(%ebp)
+ mov    -0x28(%ebp),%eax
+ mov    0x6(%eax),%eax
+ mov    %eax,-0x84(%ebp)
+ mov    -0x28(%ebp),%eax
+ movzwl 0xf(%eax),%eax
+ movswl %ax,%edi
+ mov    -0x28(%ebp),%eax
+ movzbl 0xe(%eax),%eax
+ movsbl %al,%esi
+ mov    -0x28(%ebp),%eax
+ mov    0xa(%eax),%ebx
  movl   $0xe6,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x50(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0x88(%ebp),%eax
--mov    %eax,0x1c(%esp)
--mov    -0x84(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+lea    -0x68(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movswl -0x26(%ebp),%edx
-+movsbl -0x27(%ebp),%eax
-+mov    -0x2c(%ebp),%ecx
-+mov    %ecx,0x1c(%esp)
-+mov    -0x30(%ebp),%ecx
-+mov    %ecx,0x18(%esp)
-+mov    %edx,0x14(%esp)
-+mov    %eax,0x10(%esp)
-+mov    -0x34(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ lea    -0x50(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0x88(%ebp),%eax
+ mov    %eax,0x1c(%esp)
+ mov    -0x84(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnWebNoticeProhibitConnectUser Delete Err  m_id : %d, flag( %d ), time( %d ), ip( %d ), port( %d )\n",0x8(%esp)
  movl   $"./log/Web",0x4(%esp)
--lea    -0x50(%ebp),%eax
-+lea    -0x68(%ebp),%eax
+ lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
--lea    -0x73(%ebp),%edx
-+lea    -0x57(%ebp),%edx
+ lea    -0x73(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x5cf>
--mov    -0x28(%ebp),%eax
--mov    0xa(%eax),%eax
-+jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x573>
-+mov    -0x34(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x5ce>
+ mov    -0x28(%ebp),%eax
+ mov    0xa(%eax),%eax
  mov    %eax,0x4(%esp)
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -269,7 +197,7 @@
 -sete   %al
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x352>
-+jne    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x310>
++jne    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x34f>
  movl   $0x14,(%esp)
  call   <T> <_ZN16CDNFProhibitUsernwEj>
  mov    %eax,%ebx
@@ -277,7 +205,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN16CDNFProhibitUserC1Ev>
 -jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x2d7>
-+jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x2a2>
++jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x2d4>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -285,31 +213,27 @@
  mov    %edi,%eax
  mov    %esi,%edx
 -jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4f9>
-+jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x49f>
++jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4f8>
  mov    %ebx,-0x20(%ebp)
--mov    -0x28(%ebp),%eax
--mov    0xa(%eax),%eax
-+mov    -0x34(%ebp),%eax
+ mov    -0x28(%ebp),%eax
+ mov    0xa(%eax),%eax
  movl   $0x2,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CDNFProhibitUser18SetMonitorWaitTimeEjs>
--mov    -0x28(%ebp),%eax
--movzwl 0x4(%eax),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x28(%ebp),%eax
+ movzwl 0x4(%eax),%eax
  movzwl %ax,%edx
--mov    -0x28(%ebp),%eax
--mov    0x6(%eax),%eax
-+mov    -0x30(%ebp),%eax
+ mov    -0x28(%ebp),%eax
+ mov    0x6(%eax),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CDNFProhibitUser9SetIpPortEjt>
--mov    -0x28(%ebp),%eax
--mov    0xa(%eax),%eax
-+mov    -0x34(%ebp),%eax
+ mov    -0x28(%ebp),%eax
+ mov    0xa(%eax),%eax
  mov    -0x20(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -318,81 +242,52 @@
  call   <T> <_ZN12CUserManager18InsertProhibitUserEjP16CDNFProhibitUser>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
--lea    -0x73(%ebp),%edx
-+lea    -0x57(%ebp),%edx
+ lea    -0x73(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x5cf>
--mov    -0x28(%ebp),%eax
--movb   $0x2,0x11(%eax)
--mov    -0x28(%ebp),%eax
--movzbl 0xe(%eax),%eax
-+jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x573>
-+mov    0x8(%ebp),%eax
-+add    $0x11,%eax
-+movb   $0x2,(%eax)
-+movl   $0x113,0x8(%esp)
-+movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
-+lea    -0x70(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
-+movsbl %al,%edx
-+mov    0x8(%ebp),%eax
-+add    $0x11,%eax
-+movzbl (%eax),%eax
++jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x5ce>
+ mov    -0x28(%ebp),%eax
+ movb   $0x2,0x11(%eax)
+ mov    -0x28(%ebp),%eax
+ movzbl 0xe(%eax),%eax
  movsbl %al,%eax
--mov    %eax,-0x80(%ebp)
--mov    -0x28(%ebp),%eax
--movzbl 0x11(%eax),%eax
--movsbl %al,%eax
--mov    %eax,-0x7c(%ebp)
--mov    -0x28(%ebp),%eax
--movzwl 0x4(%eax),%eax
--movzwl %ax,%edi
--mov    -0x28(%ebp),%eax
--mov    0x6(%eax),%esi
--mov    -0x28(%ebp),%eax
--mov    0xa(%eax),%ebx
--movl   $0x113,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0x80(%ebp),%eax
--mov    %eax,0x1c(%esp)
--mov    -0x7c(%ebp),%eax
-+mov    %edx,0x1c(%esp)
+ mov    %eax,-0x80(%ebp)
+ mov    -0x28(%ebp),%eax
+ movzbl 0x11(%eax),%eax
+ movsbl %al,%eax
+ mov    %eax,-0x7c(%ebp)
+ mov    -0x28(%ebp),%eax
+ movzwl 0x4(%eax),%eax
+ movzwl %ax,%edi
+ mov    -0x28(%ebp),%eax
+ mov    0x6(%eax),%esi
+ mov    -0x28(%ebp),%eax
+ mov    0xa(%eax),%ebx
+ movl   $0x113,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0x80(%ebp),%eax
+ mov    %eax,0x1c(%esp)
+ mov    -0x7c(%ebp),%eax
  mov    %eax,0x18(%esp)
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    -0x2c(%ebp),%eax
-+mov    %eax,0x14(%esp)
-+mov    -0x30(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    -0x34(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnWebNoticeProhibitConnectUser SendToClient, m_id : %d, ip( %d ), port( %d ), m_bIsConnect(%d), m_bProhibitConnect(%d)\n",0x8(%esp)
  movl   $"./log/ProhibitUser",0x4(%esp)
--lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x28(%ebp),%eax
--mov    0x6(%eax),%edi
--mov    -0x28(%ebp),%eax
--movzwl 0x4(%eax),%eax
-+lea    -0x70(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    -0x30(%ebp),%edi
-+mov    -0x2c(%ebp),%eax
+ lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    -0x28(%ebp),%eax
+ mov    0x6(%eax),%edi
+ mov    -0x28(%ebp),%eax
+ movzwl 0x4(%eax),%eax
  movzwl %ax,%esi
--mov    -0x28(%ebp),%ebx
-+mov    0x8(%ebp),%ebx
+ mov    -0x28(%ebp),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication14Get_UdpHandlerEv>
@@ -408,25 +303,21 @@
 +sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x5cf>
--lea    -0x39(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x573>
-+lea    -0x35(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x5ce>
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  mov    %eax,(%esp)
  call   <T> <strerror>
--lea    -0x39(%ebp),%edx
-+lea    -0x35(%ebp),%edx
+ lea    -0x39(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x40(%ebp),%esi
-+lea    -0x3c(%ebp),%esi
+ lea    -0x40(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -435,7 +326,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4aa>
-+jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x450>
++jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4a9>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -444,42 +335,38 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x40(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4a4>
-+jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x44a>
++jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4a3>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4c1>
-+jne    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x467>
++jne    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4c0>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4c1>
--lea    -0x40(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x467>
-+lea    -0x3c(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4c0>
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4d6>
-+jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x47c>
++jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4d5>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4c1>
-+jne    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x467>
++jne    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4c0>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x39(%ebp),%eax
-+lea    -0x35(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4f9>
--lea    -0x39(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x49f>
-+lea    -0x35(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x4f8>
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -488,15 +375,10 @@
  call   <T> <__cxa_throw>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x575>
-+jne    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x519>
++jne    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x574>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
-+movl   $0x11b,0x8(%esp)
-+movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
@@ -504,24 +386,20 @@
  mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %eax,%ebx
--movl   $0x11b,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %eax,%ebx
+ movl   $0x11b,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnWebNoticeProhibitConnectUser() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x56e>
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x512>
++jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x56d>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -531,25 +409,21 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x5cf>
-+jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x573>
++jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x5ce>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x120,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x80(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnWebNoticeProhibitConnectUser() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x5ca>
-+lea    -0x80(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x56e>
++jmp    <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x5c9>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -558,8 +432,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--add    $0xac,%esp
-+add    $0x9c,%esp
+ add    $0xac,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -708,7 +581,7 @@ void CPacketTranslater::_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp)（约第 404 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp)（约第 485 行）：
 
 ```cpp
 void CPacketTranslater::OnWebNoticeProhibitConnectUser(PacketHeader* header)
@@ -718,62 +591,72 @@ void CPacketTranslater::OnWebNoticeProhibitConnectUser(PacketHeader* header)
         if (!m_pclApp)
             throw CDNFException(
                 "CPacketTranslater::OnWebNoticeProhibitConnectUser : 0 == m_pclApp");
+        // R10: ORIG local_2c@-0x28
+        PacketHeader* hdr = header;
         Packet_Web_Prohibit_User_Connect pkt;
-        memcpy(&pkt, header, 0x12);
-        *(unsigned short*)((char*)&pkt + 2) = 0x13;
-        int m_id = pkt.m_fieldA;
-        int ip = *(int*)((char*)&pkt + 6);
-        int port = *(unsigned short*)((char*)&pkt + 4);
-        char flag = ((char*)&pkt)[0xe];
-        short time = *(short*)((char*)&pkt + 0xf);
-        {
-            CMyFileLog log(__FUNCTION__, 0xdb);
-            log("./log/ProhibitUser",
-                "CPacketTranslater::OnWebNoticeProhibitConnectUser m_id : %d, flag( %d ), time( %d ), ip( %d ), port( %d )\n",
-                m_id, flag, time, ip, port);
-        }
+        memcpy(&pkt, hdr, 0x12);
+        pkt.packetSize = 0x13;
+        // R10: 临时日志形态（前两个实参溢出栈槽 -0x90/-0x8c）
+        DNF_LOG_SCOPE_LINE(0xdb, "./log/ProhibitUser",
+            "CPacketTranslater::OnWebNoticeProhibitConnectUser m_id : %d, flag( %d ), time( %d ), ip( %d ), port( %d )\n",
+            ((ProhibitUserPacket*)hdr)->m_nFieldA,
+            ((ProhibitUserPacket*)hdr)->m_chFieldE,
+            ((ProhibitUserPacket*)hdr)->m_sFieldF,
+            ((ProhibitUserPacket*)hdr)->m_dwReversed2,
+            ((ProhibitUserPacket*)hdr)->m_wReversed1);
         CUserManager* um = &m_pclApp->m_userManager;
-        if (flag && um->DeleteProhibitUser(m_id))
+        // R10: ORIG je 目标为 Find 路径 → if(flag!=0){Delete}else{Find}
+        if (((ProhibitUserPacket*)hdr)->m_chFieldE != 0)
         {
-            CMyFileLog log(__FUNCTION__, 0xe6);
-            log("./log/Web",
-                "CPacketTranslater::OnWebNoticeProhibitConnectUser Delete Err  m_id : %d, flag( %d ), time( %d ), ip( %d ), port( %d )\n",
-                m_id, flag, time, ip, port);
+            if (um->DeleteProhibitUser(((ProhibitUserPacket*)hdr)->m_nFieldA) == 0)
+            {
+                DNF_LOG_SCOPE_LINE(0xe6, "./log/Web",
+                    "CPacketTranslater::OnWebNoticeProhibitConnectUser Delete Err  m_id : %d, flag( %d ), time( %d ), ip( %d ), port( %d )\n",
+                    ((ProhibitUserPacket*)hdr)->m_nFieldA,
+                    ((ProhibitUserPacket*)hdr)->m_chFieldE,
+                    ((ProhibitUserPacket*)hdr)->m_sFieldF,
+                    ((ProhibitUserPacket*)hdr)->m_dwReversed2,
+                    ((ProhibitUserPacket*)hdr)->m_wReversed1);
+            }
             m_pclApp->m_serverHandler->SendAllTcpServer((PacketHeader*)&pkt);
-            return;
         }
-        CDNFProhibitUser* pu = um->FindProhibitUser(m_id);
-        if (!pu)
+        else
         {
-            pu = new CDNFProhibitUser;
-            pu->SetMonitorWaitTime(m_id, 2);
-            pu->SetIpPort(ip, port);
-            um->InsertProhibitUser(m_id, pu);
-            m_pclApp->m_serverHandler->SendAllTcpServer((PacketHeader*)&pkt);
-            return;
-        }
-        ((char*)header)[0x11] = 2;
-        {
-            CMyFileLog log(__FUNCTION__, 0x113);
-            log("./log/ProhibitUser",
+            CDNFProhibitUser* pu = um->FindProhibitUser(((ProhibitUserPacket*)hdr)->m_nFieldA);
+            if (pu == 0)
+            {
+                pu = new CDNFProhibitUser;
+                pu->SetMonitorWaitTime(((ProhibitUserPacket*)hdr)->m_nFieldA, 2);
+                pu->SetIpPort(((ProhibitUserPacket*)hdr)->m_dwReversed2,
+                    ((ProhibitUserPacket*)hdr)->m_wReversed1);
+                um->InsertProhibitUser(((ProhibitUserPacket*)hdr)->m_nFieldA, pu);
+                m_pclApp->m_serverHandler->SendAllTcpServer((PacketHeader*)&pkt);
+                return;
+            }
+            ((ProhibitUserPacket*)hdr)->m_chField11 = 2;
+            DNF_LOG_SCOPE_LINE(0x113, "./log/ProhibitUser",
                 "CPacketTranslater::OnWebNoticeProhibitConnectUser SendToClient, m_id : %d, ip( %d ), port( %d ), m_bIsConnect(%d), m_bProhibitConnect(%d)\n",
-                m_id, ip, port, ((char*)header)[0x11], ((char*)header)[0xe]);
+                ((ProhibitUserPacket*)hdr)->m_nFieldA,
+                ((ProhibitUserPacket*)hdr)->m_dwReversed2,
+                ((ProhibitUserPacket*)hdr)->m_wReversed1,
+                ((ProhibitUserPacket*)hdr)->m_chField11,
+                ((ProhibitUserPacket*)hdr)->m_chFieldE);
+            if (!((CUdpHandler*)m_pclApp->Get_UdpHandler())
+                    ->SendToClient((char*)hdr, 0x13,
+                        ((ProhibitUserPacket*)hdr)->m_wReversed1, 0,
+                        ((ProhibitUserPacket*)hdr)->m_dwReversed2))
+                throw CDNFException(strerror(errno));
         }
-        if (!((CUdpHandler*)m_pclApp->Get_UdpHandler())
-                 ->SendToClient((char*)header, 0x13, port, 0, ip))
-            throw CDNFException(strerror(errno));
     }
     catch (CDNFException& e)
     {
-        CMyFileLog log(__FUNCTION__, 0x11b);
-        log("./log/Except",
+        DNF_LOG_SCOPE_LINE(0x11b, "./log/Except",
             "CPacketTranslater::OnWebNoticeProhibitConnectUser() Exception Break : %s\n",
             e.what());
     }
     catch (...)
     {
-        CMyFileLog log(__FUNCTION__, 0x120);
-        log("./log/Except",
+        DNF_LOG_SCOPE_LINE(0x120, "./log/Except",
             "CPacketTranslater::OnWebNoticeProhibitConnectUser() Exception Break\n");
     }
 }

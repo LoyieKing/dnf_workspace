@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805c054` | `0x2f1` | `0x80f5282` | `0x2c6` |
+| dbmw | DIFF | `0x805c054` | `0x2f1` | `0x80f554e` | `0x2c6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -504,50 +504,31 @@ LAB_0805c201:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 158 行）：
+定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 156 行）：
 
 ```cpp
-void CTcpNetSystem::SendPacket()
+int CTcpNetSystem::SendPacket()
 {
-    CGuard<CMutex> guard(&m_mutexE8);
-    if (m_sendQueue.empty())
-        return;
-    CTcpSendBuffer* buf = m_sendQueue.front();
-    if (!buf)
-        return;
-    int port = *(int*)((char*)buf + 6);
-    std::map<unsigned int, CPeer*>::iterator it = m_peerMap.find(port);
-    if (it == m_peerMap.end())
+    CTcpSendBuffer* buf;
+    register int flag;
+    register int result;
     {
-        CMyFileLog log(__FUNCTION__, 0xba);
-        log("./log/TcpSend", "SEND ERR:no peer(id:%d,size:%d,ip:%d)",
-            *(unsigned short*)((char*)buf),
-            *(unsigned short*)((char*)buf + 2), port);
-        PopDeleteTcpSendPacketQ(buf);
-        return;
+        CGuard<CMutex> guard(&m_mutexE8);
+        if (m_sendQueue.empty())
+        {
+            result = 0;
+            flag = 0;
+        }
+        else
+        {
+            buf = m_sendQueue.front();
+            flag = 1;
+        }
     }
-    CPeer* peer = it->second;
-    if (!peer || peer->GetTcpSocket()->getHandle() != port)
+    if (flag && buf != NULL)
     {
-        CMyFileLog log(__FUNCTION__, 0xc3);
-        log("./log/TcpSend", "SEND ERR:invalid peer(%x)(id:%d)(size:%d)(ip:%d)",
-            peer, *(unsigned short*)((char*)buf),
-            *(unsigned short*)((char*)buf + 2), port);
-        PopDeleteTcpSendPacketQ(buf);
-        return;
+        result = 7;
     }
-    int ret = peer->send_packet((char*)buf, *(unsigned short*)((char*)buf + 2));
-    if (ret > 0)
-    {
-        PopDeleteTcpSendPacketQ(buf);
-    }
-    else
-    {
-        CMyFileLog log(__FUNCTION__, 0xd5);
-        log("./log/TcpSend", "SEND(id:%d,size:%d,ip:%d, cnt:%d)",
-            *(unsigned short*)((char*)buf),
-            *(unsigned short*)((char*)buf + 2), port,
-            (int)m_sendQueue.size());
-    }
+    return result;
 }
 ```

@@ -24,9 +24,13 @@ coserver c6"
 
 build_one() {
     local svc="$1" variant="$2"
-    echo "===== $svc ($variant) ====="
+    local tc="$TC"
+    if [ "$svc" = "guild" ]; then
+        tc="$ROOT/source/toolchain/cmake/dnf_toolchain_guild.cmake"
+    fi
+    echo "===== $svc ($variant, tc=$(basename "$tc")) ====="
     cmake -S "$ROOT/source/cmake/$svc" -B "$ROOT/build/$svc" \
-        -DCMAKE_TOOLCHAIN_FILE="$TC" -DDF_CC_VARIANT="$variant" \
+        -DCMAKE_TOOLCHAIN_FILE="$tc" -DDF_CC_VARIANT="$variant" \
         -DDF_TC_ROOT="${DNF_TC_ROOT:-/tmp}" >/dev/null || return 1
     cmake --build "$ROOT/build/$svc" -j"$JOBS" || return 1
     echo "OK -> $ROOT/build/$svc/df_${svc}_r"

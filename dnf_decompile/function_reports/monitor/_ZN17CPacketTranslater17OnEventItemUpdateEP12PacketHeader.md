@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8080076` | `0x328` | `0x806c06e` | `0x322` |
+| monitor | DIFF | `0x8080076` | `0x328` | `0x806c07c` | `0x322` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -254,8 +254,7 @@
  mov    %eax,(%esp)
  call   *%edx
  mov    %eax,0x4(%esp)
--movl   $"CPacketTranslater::OnCoinUpdate() Exception Break : %s\n",(%esp)
-+movl   $"CPacketTranslater::OnEventItemUpdate() Exception Break : %s\n",(%esp)
+ movl   $"CPacketTranslater::OnCoinUpdate() Exception Break : %s\n",(%esp)
  call   <T> <printf>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
@@ -274,14 +273,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnCoinUpdate() Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"CPacketTranslater::OnCoinUpdate() Exception Break : %s\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x2b0>
-+movl   $"CPacketTranslater::OnEventItemUpdate() Exception Break : %s\n",0x8(%esp)
-+movl   $"%s",0x4(%esp)
 +lea    -0x44(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -298,27 +295,22 @@
 +jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x317>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
--movl   $"CPacketTranslater::OnCoinUpdate() Exception Break",(%esp)
-+movl   $"CPacketTranslater::OnEventItemUpdate() Exception Break",(%esp)
+ movl   $"CPacketTranslater::OnCoinUpdate() Exception Break",(%esp)
  call   <T> <puts>
 -movl   $0x4c9,0x8(%esp)
 -movl   $&_ZZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnCoinUpdate() Exception Break\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
++movl   $0x4e3,0x8(%esp)
++movl   $&_ZZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x3c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"CPacketTranslater::OnCoinUpdate() Exception Break\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x318>
-+movl   $0x4e3,0x8(%esp)
-+movl   $&_ZZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"CPacketTranslater::OnEventItemUpdate() Exception Break",0x8(%esp)
-+movl   $"%s",0x4(%esp)
 +lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -420,7 +412,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 895 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 893 行）：
 
 ```cpp
 void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt)
@@ -474,13 +466,13 @@ void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt)
     }
     catch (CDNFException& e)
     {
-        printf("CPacketTranslater::OnEventItemUpdate() Exception Break : %s\n", e.what());
-        DNF_LOG_SCOPE_LINE(0x4dd, "%s", "CPacketTranslater::OnEventItemUpdate() Exception Break : %s\n", e.what());
+        printf("CPacketTranslater::OnCoinUpdate() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x4dd, "./log/Except", "CPacketTranslater::OnCoinUpdate() Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        puts("CPacketTranslater::OnEventItemUpdate() Exception Break");
-        DNF_LOG_SCOPE_LINE(0x4e3, "%s", "CPacketTranslater::OnEventItemUpdate() Exception Break");
+        puts("CPacketTranslater::OnCoinUpdate() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x4e3, "./log/Except", "CPacketTranslater::OnCoinUpdate() Exception Break\n");
     }
 }
 ```

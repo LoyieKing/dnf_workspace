@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80a144e` | `0x16f` | `0x805aff8` | `0x17d` |
+| dbmw | DIFF | `0x80a144e` | `0x16f` | `0x805b0d6` | `0x17d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -159,7 +159,7 @@ void __thiscall STGuildDBInfoOnly::_ZN17STGuildDBInfoOnlyC2Ev(STGuildDBInfoOnly 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3859 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3857 行）：
 
 ```cpp
 STGuildDBInfoOnly::STGuildDBInfoOnly()

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8088688` | `0x1f8` | `0x8073c86` | `0x1dd` |
+| monitor | DIFF | `0x8088688` | `0x1f8` | `0x8073c92` | `0x1dd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -166,11 +166,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::onReplyLoadTowerFullRank Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"CPacketTranslater::onReplyLoadTowerFullRank Exception Break : %s\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+movl   $"CPacketTranslater::onReplyLoadTowerFullRank() Exception Break : %s\n",0x8(%esp)
-+movl   $"%s",0x4(%esp)
 +lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -194,11 +192,9 @@
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::onReplyLoadTowerFullRank Exception Break\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"CPacketTranslater::onReplyLoadTowerFullRank Exception Break\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+movl   $"CPacketTranslater::onReplyLoadTowerFullRank() Exception Break",0x8(%esp)
-+movl   $"%s",0x4(%esp)
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -266,7 +262,7 @@ void CPacketTranslater::_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3051 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3059 行）：
 
 ```cpp
 void CPacketTranslater::onReplyLoadTowerFullRank(PacketHeader* pkt)
@@ -291,12 +287,13 @@ void CPacketTranslater::onReplyLoadTowerFullRank(PacketHeader* pkt)
     }
     catch (CDNFException& e)
     {
-        DNF_LOG_SCOPE_LINE(0x117e,"%s", "CPacketTranslater::onReplyLoadTowerFullRank() Exception Break : %s\n",
-            e.what());
+        DNF_LOG_SCOPE_LINE(0x117e,"./log/Except",
+            "CPacketTranslater::onReplyLoadTowerFullRank Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        DNF_LOG_SCOPE_LINE(0x1183, "%s", "CPacketTranslater::onReplyLoadTowerFullRank() Exception Break");
+        DNF_LOG_SCOPE_LINE(0x1183, "./log/Except",
+            "CPacketTranslater::onReplyLoadTowerFullRank Exception Break\n");
     }
 }
 ```

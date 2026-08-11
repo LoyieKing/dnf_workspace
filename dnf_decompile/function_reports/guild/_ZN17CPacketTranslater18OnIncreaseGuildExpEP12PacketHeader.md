@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80743e8` | `0x589` | `0x806ac8c` | `0x570` |
+| guild | DIFF | `0x80743e8` | `0x589` | `0x806ab9c` | `0x566` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,398 +1,396 @@
+@@ -1,398 +1,391 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -91,7 +91,7 @@
  mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x46e>
 -lea    -0x6d(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x457>
++jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x44d>
 +lea    -0x55(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -355,7 +355,7 @@
  mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x46e>
 -lea    -0x55(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x457>
++jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x44d>
 +lea    -0x4d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -365,16 +365,15 @@
  call   <T> <__cxa_throw>
 +mov    -0x44(%ebp),%eax
 +add    $0xe,%eax
-+mov    (%eax),%ebx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    %ebx,0x4(%esp)
-+mov    %eax,(%esp)
++mov    (%eax),%eax
++mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
++add    $0x290,%edx
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
 +call   <T> <_ZN13CGuildManager9FindGuildEj>
 +mov    %eax,-0x40(%ebp)
 +cmpl   $0x0,-0x40(%ebp)
-+je     <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x565>
++je     <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x55b>
 +mov    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuild11GetGuildExpEv>
@@ -411,14 +410,12 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
++add    $0x290,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN13CGuildManager15GetMaxGuildExp1Ev>
 +mov    %eax,-0x34(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
++add    $0x290,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN13CGuildManager15GetMaxGuildExp2Ev>
 +mov    %eax,-0x30(%ebp)
@@ -428,36 +425,34 @@
 +movzbl %al,%eax
 +mov    %eax,-0x2c(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    -0x3c(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
++lea    0x290(%eax),%edx
++mov    -0x3c(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
 +call   <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj>
 +mov    %eax,-0x28(%ebp)
 +mov    -0x28(%ebp),%eax
 +cmp    -0x2c(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x3ea>
++jne    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x3e0>
 +mov    -0x44(%ebp),%eax
 +add    $0x17,%eax
 +movzbl (%eax),%eax
 +test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x360>
++jne    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x356>
 +mov    -0x2c(%ebp),%eax
 +add    $0x1,%eax
-+movzbl %al,%ebx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    %ebx,0x4(%esp)
-+mov    %eax,(%esp)
++movzbl %al,%eax
++mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
++add    $0x290,%edx
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
 +call   <T> <_ZN13CGuildManager20GetGuildExpWithLevelEh>
 +mov    %eax,-0x24(%ebp)
 +mov    -0x24(%ebp),%eax
 +cmp    -0x34(%ebp),%eax
-+jae    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x33f>
++jae    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x335>
 +mov    -0x24(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x342>
++jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x338>
 +mov    -0x34(%ebp),%eax
 +mov    %eax,-0x20(%ebp)
 +mov    -0x20(%ebp),%eax
@@ -467,17 +462,17 @@
 +mov    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuild21AddGuildExpUntilLimitEjj>
-+jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x393>
++jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x389>
 +mov    -0x44(%ebp),%eax
 +add    $0x17,%eax
 +movzbl (%eax),%eax
 +cmp    $0x1,%al
-+je     <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x37a>
++je     <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x370>
 +mov    -0x44(%ebp),%eax
 +add    $0x17,%eax
 +movzbl (%eax),%eax
 +cmp    $0x2,%al
-+jne    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x393>
++jne    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x389>
 +mov    -0x30(%ebp),%eax
 +mov    %eax,0x8(%esp)
 +mov    -0x38(%ebp),%eax
@@ -489,7 +484,7 @@
 +add    $0x16,%eax
 +movzbl (%eax),%eax
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x565>
++je     <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x55b>
 +mov    -0x44(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%ebx
@@ -502,12 +497,12 @@
 +test   %eax,%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x565>
++je     <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x55b>
 +movl   $0x0,0x4(%esp)
 +mov    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuild22SendGuildInfoToMembersEb>
-+jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x565>
++jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x55b>
 +movl   $0x462,0x8(%esp)
 +movl   $"OnIncreaseGuildExp",0x4(%esp)
 +lea    -0x64(%ebp),%eax
@@ -532,22 +527,26 @@
 +lea    -0x64(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x565>
++jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x55b>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x514>
-+jne    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x4fb>
++jne    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x4f1>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnIncreaseGuildExp() Exception Break : %s\n",(%esp)
  call   <T> <printf>
@@ -559,10 +558,10 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
 -mov    %eax,%ebx
 -movl   $0x498,0x8(%esp)
 -movl   $&_ZZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -570,6 +569,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnIncreaseGuildExp() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -578,7 +581,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x50d>
-+jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x4f4>
++jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x4ea>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -590,7 +593,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x57e>
-+jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x565>
++jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x55b>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnIncreaseGuildExp() Exception Break",(%esp)
@@ -608,7 +611,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x579>
-+jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x560>
++jmp    <T> <_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader+0x556>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -768,7 +771,7 @@ void CPacketTranslater::OnIncreaseGuildExp(PacketHeader* pkt)
         throw CDNFException(
             "CPacketTranslater::OnIncreaseGuildExp : packet->m_uCharID && packet->m_uGuildKey && packet->m_msgLen");
     }
-    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xe));
+    CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(*(unsigned int*)(pb + 0xe));
     if (guild != 0)
     {
         unsigned int oldExp = guild->GetGuildExp();
@@ -777,15 +780,15 @@ void CPacketTranslater::OnIncreaseGuildExp(PacketHeader* pkt)
             "GUILD EXP : char no(%d) guild key(%d), add exp(%d), guild exp(%d), book(%d)",
             *(unsigned int*)(pb + 10), *(unsigned int*)(pb + 0xe), addExp, oldExp,
             (int)(char)pb[0x17]);
-        unsigned int max1 = m_pclApp->Get_GuildManager()->GetMaxGuildExp1();
-        unsigned int max2 = m_pclApp->Get_GuildManager()->GetMaxGuildExp2();
+        unsigned int max1 = (&m_pclApp->m_guildManager)->GetMaxGuildExp1();
+        unsigned int max2 = (&m_pclApp->m_guildManager)->GetMaxGuildExp2();
         unsigned int level = guild->GetGuildLevel();
-        int expLevel = m_pclApp->Get_GuildManager()->GetGuildLevelWithExp(oldExp);
+        int expLevel = (&m_pclApp->m_guildManager)->GetGuildLevelWithExp(oldExp);
         if (level == (unsigned int)expLevel)
         {
             if (pb[0x17] == 0)
             {
-                unsigned int next = m_pclApp->Get_GuildManager()->GetGuildExpWithLevel(level + 1);
+                unsigned int next = (&m_pclApp->m_guildManager)->GetGuildExpWithLevel(level + 1);
                 unsigned int limit = next < max1 ? next : max1;
                 guild->AddGuildExpUntilLimit(addExp, limit);
             }

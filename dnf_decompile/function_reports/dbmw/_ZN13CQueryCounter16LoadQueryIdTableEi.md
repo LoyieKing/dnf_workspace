@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808e75e` | `0x3c` | `0x80ed47e` | `0x3c` |
+| dbmw | DIFF | `0x808e75e` | `0x3c` | `0x80ed700` | `0x3c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -62,19 +62,16 @@ CQueryCounter::_ZN13CQueryCounter16LoadQueryIdTableEi(CQueryCounter *this,int pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/QueryCounter.cpp](source/DNFServer/GameServer/DBMW/QueryCounter.cpp)（约第 105 行）：
+定义于 [source/DNFServer/GameServer/DBMW/QueryCounter.cpp](source/DNFServer/GameServer/DBMW/QueryCounter.cpp)（约第 104 行）：
 
 ```cpp
 int CQueryCounter::LoadQueryIdTable(int queryId)
 {
-    if (queryId > 0x4e20)
+    if (queryId > 0x4e20 && queryId <= 0x4f60)
     {
-        if (queryId <= 0x4f60)
-        {
-            int i = queryId - 0x4e20;
-            m_used[i] = 1;
-            return 1;
-        }
+        int i = queryId - 0x4e20;
+        m_used[i] = 1;
+        return 1;
     }
     return 0;
 }

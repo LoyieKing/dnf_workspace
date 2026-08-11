@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808e2c4` | `0x64` | `0x80ed35a` | `0x62` |
+| dbmw | DIFF | `0x808e2c4` | `0x64` | `0x80ed5d8` | `0x65` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,33 +1,32 @@
+@@ -1,33 +1,33 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  cmpl   $0x4f60,0xc(%ebp)
 -ja     <T> <_ZN13CQueryCounter15IncreQureyCountEjPKc+0x61>
-+ja     <T> <_ZN13CQueryCounter15IncreQureyCountEjPKc+0x5e>
++ja     <T> <_ZN13CQueryCounter15IncreQureyCountEjPKc+0x63>
  mov    0xc(%ebp),%eax
  sub    $0x4e20,%eax
  mov    %eax,-0xc(%ebp)
@@ -42,13 +42,13 @@
  mov    -0xc(%ebp),%eax
  mov    0x8(%ebp),%edx
  movzbl 0x4(%edx,%eax,1),%eax
--xor    $0x1,%eax
+ xor    $0x1,%eax
 -test   %al,%al
 -jmp    <T> <_ZN13CQueryCounter15IncreQureyCountEjPKc+0x62>
 -nop
-+xor    $0x1,%al
-+jmp    <T> <_ZN13CQueryCounter15IncreQureyCountEjPKc+0x60>
-+mov    $0x0,%al
++mov    %eax,%edx
++mov    %edx,%eax
++jmp    <T> <_ZN13CQueryCounter15IncreQureyCountEjPKc+0x63>
  leave
  ret
 ```
@@ -85,6 +85,5 @@ char CQueryCounter::IncreQureyCount(unsigned int idx, const char* name)
         m_timer->SetLastTime();
         return !m_used[i];
     }
-    return 0;
 }
 ```

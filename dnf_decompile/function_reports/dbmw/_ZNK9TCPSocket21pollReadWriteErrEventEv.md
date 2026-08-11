@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8058882` | `0x255` | `0x80e462a` | `0x2aa` |
+| dbmw | DIFF | `0x8058882` | `0x255` | `0x80e4894` | `0x2aa` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -441,7 +441,7 @@ int __thiscall TCPSocket::_ZNK9TCPSocket21pollReadWriteErrEventEv(TCPSocket *thi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 208 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 215 行）：
 
 ```cpp
 int TCPSocket::pollReadWriteErrEvent() const

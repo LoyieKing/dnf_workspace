@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808fe08` | `0xfa` | `0x80dfcb4` | `0xf1` |
+| dbmw | DIFF | `0x808fe08` | `0xfa` | `0x80dfe62` | `0xef` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,71 +1,71 @@
+@@ -1,71 +1,70 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
@@ -27,7 +27,7 @@
  call   <T> <_ZNSt3mapIhP10CTcpServerSt4lessIhESaISt4pairIKhS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader+0xc3>
-+jmp    <T> <_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader+0xba>
++jmp    <T> <_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader+0xb8>
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKhP10CTcpServerEEptEv>
@@ -38,9 +38,7 @@
  call   <T> <_ZN10CTcpServer13IsValidServerEv>
  test   %al,%al
 -je     <T> <_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader+0xb8>
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader+0xaf>
++je     <T> <_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader+0xad>
  mov    0xc(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
@@ -52,6 +50,7 @@
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CTcpServer16makePacketHeaderEtt>
++movzwl %ax,%eax
  mov    %eax,-0xc(%ebp)
  mov    0xc(%ebp),%eax
  movzwl 0x2(%eax),%eax
@@ -151,7 +150,7 @@ CServerHandler::_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 153 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 157 行）：
 
 ```cpp
 void CServerHandler::SendAllTcpServer(PacketHeader* header)

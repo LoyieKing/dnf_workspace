@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808fc10` | `0xf0` | `0x80dfab0` | `0xfc` |
+| dbmw | DIFF | `0x808fc10` | `0xf0` | `0x80dfc5e` | `0xfc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -155,7 +155,7 @@ CServerHandler::_ZN14CServerHandler15DeleteTcpServerEh(CServerHandler *this,ucha
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 120 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 124 行）：
 
 ```cpp
 bool CServerHandler::DeleteTcpServer(unsigned char idx)

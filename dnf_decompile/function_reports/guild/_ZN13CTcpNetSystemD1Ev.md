@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8052b8c` | `0x28a` | `0x80a7634` | `0x169` |
+| guild | DIFF | `0x8052b8c` | `0x28a` | `0x80a722e` | `0x16a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -47,25 +47,28 @@
 +mov    (%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN13CTcpNetSystemD1Ev+0x9e>
-+je     <T> <_ZN13CTcpNetSystemD1Ev+0x7b>
++je     <T> <_ZN13CTcpNetSystemD1Ev+0x7c>
  mov    0x8(%ebp),%eax
 -mov    0x118(%eax),%eax
 +add    $0x118,%eax
  mov    (%eax),%eax
+-mov    (%eax),%edx
 +test   %eax,%eax
-+je     <T> <_ZN13CTcpNetSystemD1Ev+0x7b>
-+mov    0x8(%ebp),%eax
++je     <T> <_ZN13CTcpNetSystemD1Ev+0x7c>
+ mov    0x8(%ebp),%eax
+-mov    0x118(%eax),%eax
+-mov    %eax,(%esp)
+-call   *%edx
 +add    $0x118,%eax
 +mov    (%eax),%eax
 +mov    (%eax),%eax
 +add    $0x4,%eax
- mov    (%eax),%edx
- mov    0x8(%ebp),%eax
--mov    0x118(%eax),%eax
-+add    $0x118,%eax
 +mov    (%eax),%eax
- mov    %eax,(%esp)
- call   *%edx
++mov    0x8(%ebp),%edx
++add    $0x118,%edx
++mov    (%edx),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    0x8(%ebp),%eax
 -mov    0x118(%eax),%eax
 +add    $0x118,%eax
@@ -75,26 +78,29 @@
 +mov    (%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN13CTcpNetSystemD1Ev+0x91>
-+je     <T> <_ZN13CTcpNetSystemD1Ev+0xbd>
++je     <T> <_ZN13CTcpNetSystemD1Ev+0xbe>
  mov    0x8(%ebp),%eax
 -mov    0x118(%eax),%eax
 +add    $0x4,%eax
  mov    (%eax),%eax
 -add    $0xc,%eax
+-mov    (%eax),%edx
 +test   %eax,%eax
-+je     <T> <_ZN13CTcpNetSystemD1Ev+0xbd>
-+mov    0x8(%ebp),%eax
-+add    $0x4,%eax
-+mov    (%eax),%eax
-+mov    (%eax),%eax
-+add    $0x4,%eax
- mov    (%eax),%edx
++je     <T> <_ZN13CTcpNetSystemD1Ev+0xbe>
  mov    0x8(%ebp),%eax
 -mov    0x118(%eax),%eax
+-mov    %eax,(%esp)
+-call   *%edx
 +add    $0x4,%eax
 +mov    (%eax),%eax
- mov    %eax,(%esp)
- call   *%edx
++mov    (%eax),%eax
++add    $0x4,%eax
++mov    (%eax),%eax
++mov    0x8(%ebp),%edx
++add    $0x4,%edx
++mov    (%edx),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    0x8(%ebp),%eax
 -movl   $0x0,0x118(%eax)
 -mov    0x8(%ebp),%eax

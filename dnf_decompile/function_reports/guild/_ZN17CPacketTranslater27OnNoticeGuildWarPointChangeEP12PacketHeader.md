@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8076014` | `0x23c` | `0x806c8a4` | `0x26f` |
+| guild | DIFF | `0x8076014` | `0x23c` | `0x806c78e` | `0x26c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,165 +1,176 @@
+@@ -1,165 +1,175 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -82,7 +82,7 @@
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x158>
 -lea    -0x35(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x161>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x15e>
 +lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -91,9 +91,7 @@
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--add    $0x290,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
+ add    $0x290,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CGuildManager11GetGuildWarEv>
  mov    %eax,-0x24(%ebp)
@@ -103,7 +101,7 @@
 -xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x230>
-+je     <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x267>
++je     <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x264>
  mov    0x8(%ebp),%eax
  mov    %eax,-0x20(%ebp)
  mov    -0x20(%ebp),%eax
@@ -119,7 +117,7 @@
 +sete   %al
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x233>
-+je     <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x267>
++je     <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x264>
  mov    -0x20(%ebp),%eax
 -movzbl 0xe(%eax),%eax
 +add    $0xe,%eax
@@ -135,21 +133,25 @@
  mov    %eax,(%esp)
  call   <T> <_ZN9CGuildWar16AddGuildWarPointEji>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x234>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x267>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x264>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x1d4>
-+jne    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x201>
++jne    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x1fe>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
 -mov    %eax,%ebx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
 +mov    %eax,0x4(%esp)
 +movl   $"CPacketTranslater::OnNoticeGuildWarEnd Exception Break : %s\n",(%esp)
 +call   <T> <printf>
@@ -162,10 +164,10 @@
 +mov    -0x1c(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x8,%eax
-+mov    (%eax),%edx
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildWarEnd Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -173,7 +175,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x1cd>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x1fa>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x1f7>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -183,7 +185,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x234>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x267>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x264>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
 +movl   $"CPacketTranslater::OnNoticeGuildWarEnd Exception Break",(%esp)
@@ -201,7 +203,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x229>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x262>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x25f>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -278,7 +280,7 @@ void CPacketTranslater::OnNoticeGuildWarPointChange(PacketHeader* pkt)
     {
         throw CDNFException("CPacketTranslater::OnNoticeGuildWarStart : 0 == m_pclApp");
     }
-    CGuildWar* war = m_pclApp->Get_GuildManager()->GetGuildWar();
+    CGuildWar* war = (&m_pclApp->m_guildManager)->GetGuildWar();
     if (war->IsGuildWarEventOn() == 1)
     {
         char* pb = (char*)pkt;

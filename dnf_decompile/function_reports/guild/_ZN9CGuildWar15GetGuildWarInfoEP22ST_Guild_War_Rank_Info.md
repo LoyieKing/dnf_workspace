@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809a95c` | `0x120` | `0x8061528` | `0x118` |
+| guild | DIFF | `0x809a95c` | `0x120` | `0x8061480` | `0x117` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -26,7 +26,7 @@
 -lea    -0x14(%ebp),%eax
 +jne    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0x17>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0x113>
++jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0x112>
 +mov    0x8(%ebp),%eax
 +mov    %eax,-0x14(%ebp)
 +movl   $0x0,-0x10(%ebp)
@@ -38,7 +38,7 @@
  sub    $0x4,%esp
 -jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0xe9>
 -lea    -0x14(%ebp),%eax
-+jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0xdf>
++jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0xde>
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
@@ -48,19 +48,16 @@
  test   %al,%al
 -je     <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0xde>
 -mov    -0xc(%ebp),%edx
--mov    %edx,%eax
--shl    $0x5,%eax
--add    %edx,%eax
++je     <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0xd3>
++mov    0xc(%ebp),%ecx
++mov    -0x10(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x5,%eax
+ add    %edx,%eax
 -mov    %eax,%ebx
 -add    0xc(%ebp),%ebx
 -lea    -0x14(%ebp),%eax
-+je     <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0xd4>
-+mov    0xc(%ebp),%edx
-+mov    -0x10(%ebp),%eax
-+mov    %eax,%ecx
-+shl    $0x5,%ecx
 +lea    (%ecx,%eax,1),%eax
-+lea    (%edx,%eax,1),%eax
 +mov    %eax,-0xc(%ebp)
 +mov    -0xc(%ebp),%ebx
 +lea    -0x1c(%ebp),%eax

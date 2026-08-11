@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805516a` | `0x8f` | `0x80e0e60` | `0x8d` |
+| dbmw | DIFF | `0x805516a` | `0x8f` | `0x80e0ffe` | `0x8d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -57,8 +57,7 @@
 +je     <T> <_ZN17CSignalTranslator13regist_signalEiPFviE+0x86>
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
--movl   $"%d번 signal 등록 실패\n",(%esp)
-+movl   $"%d signal regist fail\n",(%esp)
+ movl   $"%d번 signal 등록 실패\n",(%esp)
  call   <T> <printf>
  mov    $0x0,%eax
 -jmp    <T> <_ZN17CSignalTranslator13regist_signalEiPFviE+0x8d>
@@ -119,9 +118,9 @@ bool CSignalTranslator::regist_signal(int sig, void (*handler)(int))
     struct sigaction old;
     if (sigaction(sig, &act, &old) < 0)
     {
-        printf("%d signal regist fail\n", sig);
-        return 0;
+        printf("%d\xB9\xF8 signal \xB5\xEE\xB7\xCF \xBD\xC7\xC6\xD0\n", sig);
+        return false;
     }
-    return 1;
+    return true;
 }
 ```

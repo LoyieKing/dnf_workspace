@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8063044` | `0x457` | `0x80e30ce` | `0x448` |
+| dbmw | DIFF | `0x8063044` | `0x457` | `0x80e335e` | `0x448` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -303,14 +303,10 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CTcpNetworkThread::dispatch() 예외 발생 : %s\n",(%esp)
  call   <T> <printf>
@@ -571,7 +567,7 @@ void CTcpNetworkThread::_ZN17CTcpNetworkThread8dispatchEPv(void *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpNetworkThread.cpp](source/DNFServer/GameServer/DBMW/DNFTcpNetworkThread.cpp)（约第 41 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTcpNetworkThread.cpp](source/DNFServer/GameServer/DBMW/DNFTcpNetworkThread.cpp)（约第 64 行）：
 
 ```cpp
 void CTcpNetworkThread::dispatch(void* param)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8086836` | `0x2c0` | `0x807c16a` | `0x1c8` |
+| guild | DIFF | `0x8086836` | `0x2c0` | `0x807bea4` | `0x1c1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,181 +1,116 @@
+@@ -1,181 +1,114 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -41,7 +41,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x2b8>
-+jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1c6>
++jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1bf>
 +mov    -0x20(%ebp),%eax
 +add    $0x11,%eax
 +mov    (%eax),%eax
@@ -51,20 +51,19 @@
 -mov    %eax,-0x20(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x11(%eax),%eax
--mov    %eax,0x4(%esp)
++lea    0x10(%eax),%edx
++mov    -0x1c(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication15Get_UserManagerEv>
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
+-mov    %eax,(%esp)
++mov    %edx,(%esp)
  call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 -mov    %eax,-0x2c(%ebp)
 -cmpl   $0x0,-0x2c(%ebp)
 -jne    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0xb7>
 +mov    %eax,-0x18(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
-+jne    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0xbb>
++jne    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0xb6>
  movl   $0x1ca7,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
@@ -82,19 +81,16 @@
 -mov    0xd(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
-+jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1c6>
++jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1bf>
 +mov    -0x20(%ebp),%eax
 +add    $0xd,%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x14(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    -0x14(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
++lea    0x290(%eax),%edx
++mov    -0x14(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x28(%ebp)
 -cmpl   $0x0,-0x28(%ebp)
@@ -103,7 +99,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x11e>
-+je     <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x12b>
++je     <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x124>
  movl   $0x1cae,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
@@ -128,7 +124,7 @@
 -mov    -0x24(%ebp),%eax
 -mov    0xd(%eax),%ebx
 -mov    -0x28(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1c6>
++jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1bf>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild13GetGuildBoardEv>
@@ -172,7 +168,7 @@
 -call   <T> <_ZN6CGuild13GetGuildBoardEv>
 -mov    -0x2c(%ebp),%edx
 -mov    %edx,0x10(%esp)
-+je     <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1c6>
++je     <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1bf>
 +mov    -0x18(%ebp),%eax
 +mov    %eax,0x10(%esp)
  movl   $0x232a,0xc(%esp)
@@ -338,7 +334,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4894 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4895 行）：
 
 ```cpp
 void CPacketTranslater::OnDBLoadReplyGuildBoardOpen(PacketHeader* pkt)
@@ -351,7 +347,7 @@ void CPacketTranslater::OnDBLoadReplyGuildBoardOpen(PacketHeader* pkt)
         return;
     }
     unsigned int charNo = *(unsigned int*)(pb + 0x11);
-    CUser* user = m_pclApp->Get_UserManager()->FindUser_CharNo(charNo);
+    CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(charNo);
     if (user == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1ca7,"./log/GuildBoard",
@@ -360,7 +356,7 @@ void CPacketTranslater::OnDBLoadReplyGuildBoardOpen(PacketHeader* pkt)
     }
     unsigned int guildKey = *(unsigned int*)(pb + 0xd);
     CGuild* guild;
-    if ((guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey)) == 0)
+    if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1cae,"./log/GuildBoard",
             "CPacketTranslater::OnDBLoadReplyGuildBoardOpen : 0 == pclGuild");

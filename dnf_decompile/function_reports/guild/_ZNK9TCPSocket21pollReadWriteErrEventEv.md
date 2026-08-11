@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804fade` | `0x255` | `0x8086fc2` | `0x215` |
+| guild | DIFF | `0x804fade` | `0x255` | `0x8086ca0` | `0x215` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -360,7 +360,7 @@ int __thiscall TCPSocket::_ZNK9TCPSocket21pollReadWriteErrEventEv(TCPSocket *thi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 321 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 322 行）：
 
 ```cpp
 int TCPSocket::pollReadWriteErrEvent() const

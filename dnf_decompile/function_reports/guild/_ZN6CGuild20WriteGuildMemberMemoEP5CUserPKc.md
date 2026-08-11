@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80919d2` | `0x124` | `0x805779a` | `0x125` |
+| guild | DIFF | `0x80919d2` | `0x124` | `0x8057796` | `0x123` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,10 +20,10 @@
  sub    $0x24,%esp
  cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11a>
-+je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11b>
++je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x119>
  cmpl   $0x0,0x10(%ebp)
 -je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11d>
-+je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11e>
++je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11c>
  mov    0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
@@ -46,24 +46,20 @@
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11e>
-+je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11f>
++je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11d>
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x106>
--mov    -0xc(%ebp),%edx
++jmp    <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x105>
++mov    0x8(%ebp),%ecx
+ mov    -0xc(%ebp),%edx
 -mov    0x8(%ebp),%ecx
--mov    %edx,%eax
--shl    $0x6,%eax
--add    %edx,%eax
-+jmp    <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x107>
-+mov    0x8(%ebp),%edx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,%ecx
-+shl    $0x6,%ecx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ add    %edx,%eax
++add    $0xdd,%eax
  lea    (%ecx,%eax,1),%eax
 -add    $0xd0,%eax
 -mov    0xd(%eax),%ebx
-+add    $0xdd,%eax
-+lea    (%edx,%eax,1),%eax
 +mov    (%eax),%ebx
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -72,56 +68,48 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x102>
--mov    -0xc(%ebp),%edx
--mov    %edx,%eax
--shl    $0x6,%eax
--add    %edx,%eax
++je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x101>
++mov    0x8(%ebp),%ecx
+ mov    -0xc(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ add    %edx,%eax
 -add    $0xf0,%eax
 -add    0x8(%ebp),%eax
 -add    $0x19,%eax
-+je     <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x103>
-+mov    0x8(%ebp),%edx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,%ecx
-+shl    $0x6,%ecx
-+lea    (%ecx,%eax,1),%eax
 +add    $0x109,%eax
-+lea    (%edx,%eax,1),%eax
++lea    (%ecx,%eax,1),%eax
  movl   $0x15,0x8(%esp)
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memset>
--mov    -0xc(%ebp),%edx
--mov    %edx,%eax
--shl    $0x6,%eax
--add    %edx,%eax
++mov    0x8(%ebp),%ecx
+ mov    -0xc(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ add    %edx,%eax
 -add    $0xf0,%eax
 -add    0x8(%ebp),%eax
 -lea    0x19(%eax),%edx
-+mov    0x8(%ebp),%edx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,%ecx
-+shl    $0x6,%ecx
-+lea    (%ecx,%eax,1),%eax
 +add    $0x109,%eax
-+add    %eax,%edx
++lea    (%ecx,%eax,1),%edx
  movl   $0x14,0x8(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <memcpy>
 -jmp    <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11e>
-+jmp    <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11f>
++jmp    <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11d>
  addl   $0x1,-0xc(%ebp)
  cmpl   $0x12b,-0xc(%ebp)
  setle  %al
  test   %al,%al
  jne    <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x7b>
 -jmp    <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11e>
-+jmp    <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11f>
++jmp    <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11d>
  nop
 -jmp    <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11e>
-+jmp    <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11f>
++jmp    <T> <_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc+0x11d>
  nop
  add    $0x24,%esp
  pop    %ebx
@@ -171,7 +159,7 @@ CGuild::_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc(CGuild *this,CUser *param_1,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1928 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1931 行）：
 
 ```cpp
 void CGuild::WriteGuildMemberMemo(CUser* user, const char* memo)

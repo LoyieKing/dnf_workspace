@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8054fb6` | `0x1b3` | `0x80e1d3a` | `0x215` |
+| dbmw | DIFF | `0x8054fb6` | `0x1b3` | `0x80e1ed8` | `0x239` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,136 +1,173 @@
+@@ -1,136 +1,185 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -188,18 +188,18 @@
  mov    0x10(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x40(%eax)
--mov    0x8(%ebp),%eax
--mov    0x10(%eax),%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x60(%eax)
--mov    0x8(%ebp),%eax
--mov    0x10(%eax),%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x64(%eax)
--mov    0x8(%ebp),%eax
--mov    0x10(%eax),%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x7c(%eax)
+ mov    0x8(%ebp),%eax
+ mov    0x10(%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x60(%eax)
+ mov    0x8(%ebp),%eax
+ mov    0x10(%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x64(%eax)
+ mov    0x8(%ebp),%eax
+ mov    0x10(%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x7c(%eax)
 -add    $0x24,%esp
 +add    $0x2c,%esp
  pop    %ebx
@@ -287,5 +287,8 @@ void CSignalTranslator::init_handler(CApplication* app)
     m_signals[7] = m_signals[4];
     m_signals[23] = m_signals[4];
     m_signals[16] = m_signals[4];
+    m_signals[24] = m_signals[4];
+    m_signals[25] = m_signals[4];
+    m_signals[31] = m_signals[4];
 }
 ```

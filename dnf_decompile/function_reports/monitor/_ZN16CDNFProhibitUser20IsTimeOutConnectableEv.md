@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806ccfa` | `0x33` | `0x807f178` | `0x2e` |
+| monitor | DIFF | `0x806ccfa` | `0x33` | `0x807f1be` | `0x2e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -30,7 +30,7 @@
 -setle  %al
 -test   %al,%al
 -je     <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x2c>
-+jne    <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x27>
++jg     <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x27>
  mov    $0x1,%eax
 -jmp    <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x31>
 +jmp    <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x2c>
@@ -62,7 +62,7 @@ bool CDNFProhibitUser::IsTimeOutConnectable()
 {
     ((RA_U16<4>*)this)->v =
         (unsigned short)(((RA_U16<4>*)this)->v - 1);
-    if (((RA_U16<4>*)this)->v <= 0)
+    if ((short)(((RA_U16<4>*)this)->v) <= 0)
     {
         return 1;
     }

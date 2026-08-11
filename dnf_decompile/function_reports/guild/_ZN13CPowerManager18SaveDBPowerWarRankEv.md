@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a4250` | `0x68a` | `0x809a062` | `0x6c0` |
+| guild | DIFF | `0x80a4250` | `0x68a` | `0x8099d30` | `0x6c0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -55,7 +55,7 @@
 +add    $0x4,%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x30(%ebp)
-+lea    -0xbd1(%ebp),%eax
++lea    -0xbcd(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN34Packet_DB_Save_Power_War_User_RankC1Ev>
 -mov    0x8(%ebp),%eax
@@ -68,11 +68,11 @@
 -mov    %al,-0x87e(%ebp)
 -lea    -0x1829(%ebp),%eax
 +mov    %al,-0x29(%ebp)
-+lea    -0xbd1(%ebp),%eax
++lea    -0xbcd(%ebp),%eax
 +lea    0xb(%eax),%edx
 +movzbl -0x29(%ebp),%eax
 +mov    %al,(%edx)
-+lea    -0x1b71(%ebp),%eax
++lea    -0x1b6d(%ebp),%eax
  mov    %eax,%ebx
  mov    $0x1f3,%esi
 -jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0xac>
@@ -94,7 +94,7 @@
  movl   $0xfa0,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -lea    -0x1829(%ebp),%eax
-+lea    -0x1b71(%ebp),%eax
++lea    -0x1b6d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memset>
 -mov    -0x24(%ebp),%eax
@@ -103,7 +103,7 @@
 -imul   $0x6c,%eax,%eax
 -add    0x8(%ebp),%eax
 -add    $0x8,%eax
-+lea    -0xbd1(%ebp),%eax
++lea    -0xbcd(%ebp),%eax
 +lea    0xc(%eax),%edx
 +mov    -0x20(%ebp),%eax
 +mov    %al,(%edx)
@@ -117,17 +117,17 @@
 -mov    %eax,-0x20(%ebp)
 -lea    -0x1829(%ebp),%eax
 +mov    %eax,-0x1c(%ebp)
-+movl   $0x0,-0xb8(%ebp)
-+lea    -0x1b71(%ebp),%eax
++movl   $0x0,-0xb4(%ebp)
++lea    -0x1b6d(%ebp),%eax
  mov    %eax,0x8(%esp)
 -lea    -0x68(%ebp),%eax
 -mov    %eax,0x4(%esp)
-+lea    -0xb8(%ebp),%eax
++lea    -0xb4(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN19CPowerWarCharacInfo21GetAllUserRankingInfoERjP10STUserRank>
-+mov    -0xb8(%ebp),%ebx
++mov    -0xb4(%ebp),%ebx
 +movl   $0x1d1,0x8(%esp)
 +movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
 +lea    -0x6c(%ebp),%eax
@@ -155,11 +155,11 @@
 +lea    -0x6c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    -0xb8(%ebp),%eax
++mov    -0xb4(%ebp),%eax
  test   %eax,%eax
 -jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x1b0>
 +jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x1df>
-+mov    -0xb8(%ebp),%ebx
++mov    -0xb4(%ebp),%ebx
  movl   $0x1d6,0x8(%esp)
  movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x54(%ebp),%eax
@@ -183,7 +183,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x336>
-+mov    -0xb8(%ebp),%eax
++mov    -0xb4(%ebp),%eax
  cmp    $0xfa,%eax
 -jbe    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x29b>
 -movl   $0x0,-0x87c(%ebp)
@@ -216,23 +216,23 @@
 -mov    -0x68(%ebp),%eax
 -add    $0x1fffff06,%eax
 +ja     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x253>
-+lea    -0xbd1(%ebp),%eax
++lea    -0xbcd(%ebp),%eax
 +add    $0xa,%eax
 +movb   $0x1,(%eax)
-+lea    -0xbd1(%ebp),%eax
++lea    -0xbcd(%ebp),%eax
 +lea    0x11(%eax),%edx
-+mov    -0xb8(%ebp),%eax
++mov    -0xb4(%ebp),%eax
 +mov    %eax,(%edx)
-+mov    -0xb8(%ebp),%eax
++mov    -0xb4(%ebp),%eax
  shl    $0x3,%eax
  mov    %eax,0x8(%esp)
 -lea    -0x1829(%ebp),%eax
 -add    $0x7d8,%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x889(%ebp),%eax
-+lea    -0x1b71(%ebp),%eax
++lea    -0x1b6d(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0xbd1(%ebp),%eax
++lea    -0xbcd(%ebp),%eax
  add    $0x15,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
@@ -244,7 +244,7 @@
 +mov    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0xbd1(%ebp),%edx
++lea    -0xbcd(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
@@ -260,18 +260,18 @@
 -mov    %eax,0x4(%esp)
 -lea    -0x889(%ebp),%eax
 +jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x336>
-+lea    -0xbd1(%ebp),%eax
++lea    -0xbcd(%ebp),%eax
 +add    $0xa,%eax
 +cmpl   $0x1,-0x20(%ebp)
 +sete   %dl
 +mov    %dl,(%eax)
-+lea    -0xbd1(%ebp),%eax
++lea    -0xbcd(%ebp),%eax
 +add    $0x11,%eax
 +movl   $0xfa,(%eax)
 +movl   $0x7d0,0x8(%esp)
-+lea    -0x1b71(%ebp),%eax
++lea    -0x1b6d(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0xbd1(%ebp),%eax
++lea    -0xbcd(%ebp),%eax
  add    $0x15,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
@@ -283,38 +283,38 @@
 +mov    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0xbd1(%ebp),%edx
++lea    -0xbcd(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -addl   $0x1,-0x24(%ebp)
 -cmpl   $0x2,-0x24(%ebp)
-+lea    -0xbd1(%ebp),%eax
++lea    -0xbcd(%ebp),%eax
 +add    $0xc,%eax
 +movb   $0xfb,(%eax)
-+lea    -0xbd1(%ebp),%eax
++lea    -0xbcd(%ebp),%eax
 +add    $0xa,%eax
 +movb   $0x0,(%eax)
-+lea    -0xbd1(%ebp),%eax
++lea    -0xbcd(%ebp),%eax
 +add    $0x11,%eax
-+mov    -0xb8(%ebp),%edx
++mov    -0xb4(%ebp),%edx
 +sub    $0xfa,%edx
 +mov    %edx,(%eax)
-+mov    -0xb8(%ebp),%eax
++mov    -0xb4(%ebp),%eax
 +add    $0x1fffff06,%eax
 +lea    0x0(,%eax,8),%edx
-+lea    -0x1b71(%ebp),%eax
++lea    -0x1b6d(%ebp),%eax
 +add    $0x7d0,%eax
 +mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
-+lea    -0xbd1(%ebp),%eax
++lea    -0xbcd(%ebp),%eax
 +add    $0x15,%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
 +mov    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0xbd1(%ebp),%edx
++lea    -0xbcd(%ebp),%edx
 +mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
@@ -325,12 +325,12 @@
 -jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0xc2>
 -lea    -0x889(%ebp),%eax
 +jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0xd4>
-+lea    -0x3ec(%ebp),%eax
++lea    -0x3e8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN35Packet_DB_Save_Power_War_Guild_RankC1Ev>
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
-+lea    -0x3ec(%ebp),%eax
++lea    -0x3e8(%ebp),%eax
 +lea    0xa(%eax),%ebx
 +mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
@@ -346,17 +346,17 @@
 +mov    %al,(%ebx)
 +movl   $0x1,-0x18(%ebp)
 +jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x462>
-+lea    -0x3ec(%ebp),%eax
++lea    -0x3e8(%ebp),%eax
 +lea    0xb(%eax),%edx
 +mov    -0x18(%ebp),%eax
 +mov    %al,(%edx)
-+lea    -0x3ec(%ebp),%eax
++lea    -0x3e8(%ebp),%eax
 +add    $0xc,%eax
 +movl   $0x0,(%eax)
  movl   $0x320,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -lea    -0x889(%ebp),%eax
-+lea    -0x3ec(%ebp),%eax
++lea    -0x3e8(%ebp),%eax
  add    $0x10,%eax
  mov    %eax,(%esp)
  call   <T> <memset>
@@ -374,15 +374,15 @@
 -mov    %eax,-0x18(%ebp)
 -lea    -0x889(%ebp),%eax
 +mov    %eax,-0x14(%ebp)
-+movl   $0x0,-0xbc(%ebp)
-+lea    -0x3ec(%ebp),%eax
++movl   $0x0,-0xb8(%ebp)
++lea    -0x3e8(%ebp),%eax
  add    $0x10,%eax
  mov    %eax,0x8(%esp)
 -lea    -0x889(%ebp),%eax
 -add    $0xc,%eax
 -mov    %eax,0x4(%esp)
 -mov    -0x18(%ebp),%eax
-+lea    -0xbc(%ebp),%eax
++lea    -0xb8(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -395,7 +395,7 @@
 +mov    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0x3ec(%ebp),%edx
++lea    -0x3e8(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
@@ -431,7 +431,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN38Packet_DB_Save_Power_War_Statue_RankerC1Ev>
 -lea    -0x95(%ebp),%eax
-+lea    -0xa7(%ebp),%eax
++lea    -0xa1(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_Notice_Power_War_RankC1Ev>
 -mov    0x8(%ebp),%eax
@@ -446,7 +446,7 @@
 -mov    %al,-0x75(%ebp)
 -lea    -0xa4(%ebp),%eax
 +mov    %al,(%ebx)
-+lea    -0xb4(%ebp),%eax
++lea    -0xb0(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EEC1Ev>
  mov    0x8(%ebp),%eax
@@ -464,7 +464,7 @@
 -mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
 +mov    %eax,-0x24(%ebp)
-+lea    -0xb4(%ebp),%eax
++lea    -0xb0(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x28(%ebp),%eax
  mov    %eax,(%esp)
@@ -472,7 +472,7 @@
 -lea    -0xa4(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -mov    -0x10(%ebp),%eax
-+lea    -0xb4(%ebp),%eax
++lea    -0xb0(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -480,7 +480,7 @@
 -lea    -0x44(%ebp),%eax
 -lea    -0xa4(%ebp),%edx
 +lea    -0x54(%ebp),%eax
-+lea    -0xb4(%ebp),%edx
++lea    -0xb0(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EE3endEv>
@@ -488,7 +488,7 @@
 -lea    -0x40(%ebp),%eax
 -lea    -0xa4(%ebp),%edx
 +lea    -0x50(%ebp),%eax
-+lea    -0xb4(%ebp),%edx
++lea    -0xb0(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EE5beginEv>
@@ -507,7 +507,7 @@
 -lea    -0xa4(%ebp),%eax
 +movl   $0x0,-0x10(%ebp)
 +jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x5f0>
-+lea    -0xb4(%ebp),%eax
++lea    -0xb0(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorIP20STPowerWarCharacInfoSaIS1_EE4sizeEv>
 -cmp    -0xc(%ebp),%eax
@@ -524,7 +524,7 @@
 +je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x5ec>
 +mov    -0x10(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0xb4(%ebp),%eax
++lea    -0xb0(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EEixEj>
  mov    (%eax),%eax
@@ -630,7 +630,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0xa4(%ebp),%eax
-+lea    -0xb4(%ebp),%eax
++lea    -0xb0(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EED1Ev>
  mov    %esi,%eax
@@ -638,7 +638,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0xa4(%ebp),%eax
-+lea    -0xb4(%ebp),%eax
++lea    -0xb0(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EED1Ev>
 -movl   $0x27b,0x8(%esp)

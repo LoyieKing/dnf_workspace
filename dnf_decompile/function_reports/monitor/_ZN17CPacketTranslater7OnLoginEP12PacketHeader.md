@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807dd0e` | `0x61c` | `0x80694b4` | `0x684` |
+| monitor | DIFF | `0x807dd0e` | `0x61c` | `0x80694be` | `0x684` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -640,12 +640,11 @@
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnLogin() Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x60(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x5ad>
-+movl   $"%s",0x4(%esp)
 +lea    -0x68(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -665,19 +664,15 @@
  movl   $0x204,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater7OnLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x58(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnLogin() Exception Break\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
++lea    -0x60(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"CPacketTranslater::OnLogin() Exception Break\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x58(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x609>
-+lea    -0x60(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"CPacketTranslater::OnLogin() Exception Break",0x8(%esp)
-+movl   $"%s",0x4(%esp)
 +lea    -0x60(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -1018,11 +1013,11 @@ void CPacketTranslater::OnLogin(PacketHeader* pkt)
         }
         catch (CDNFException& e)
         {
-            DNF_LOG_SCOPE_LINE(0x1ff, "%s", "CPacketTranslater::OnLogin() Exception Break : %s\n", e.what());
+            DNF_LOG_SCOPE_LINE(0x1ff, "./log/Except", "CPacketTranslater::OnLogin() Exception Break : %s\n", e.what());
         }
         catch (...)
         {
-            DNF_LOG_SCOPE_LINE(0x204, "%s", "CPacketTranslater::OnLogin() Exception Break");
+            DNF_LOG_SCOPE_LINE(0x204, "./log/Except", "CPacketTranslater::OnLogin() Exception Break\n");
         }
     }
 }

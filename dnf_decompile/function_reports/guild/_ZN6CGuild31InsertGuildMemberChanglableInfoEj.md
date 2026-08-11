@@ -85,7 +85,7 @@ undefined1 CGuild::_ZN6CGuild31InsertGuildMemberChanglableInfoEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1812 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1815 行）：
 
 ```cpp
 void CGuild::InsertGuildMemberChanglableInfo(unsigned int charNo)

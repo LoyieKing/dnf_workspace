@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | NEAR | `0x80684dc` | `0x107` | `0x805df86` | `0x109` |
+| manager | NEAR | `0x80684dc` | `0x107` | `0x805dfa2` | `0x107` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -85,17 +85,14 @@
 -movzbl -0x2c(%ebp),%eax
 +movzbl -0x30(%ebp),%eax
  test   %al,%al
--je     <T> <_ZN14CServerHandler15CreateTcpServerEhj+0xe0>
+ je     <T> <_ZN14CServerHandler15CreateTcpServerEhj+0xe0>
 -mov    -0x34(%ebp),%eax
--jmp    <T> <_ZN14CServerHandler15CreateTcpServerEhj+0xfc>
++mov    -0x2c(%ebp),%eax
+ jmp    <T> <_ZN14CServerHandler15CreateTcpServerEhj+0xfc>
 -mov    -0x34(%ebp),%ebx
-+je     <T> <_ZN14CServerHandler15CreateTcpServerEhj+0xe2>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN14CServerHandler15CreateTcpServerEhj+0xfe>
 +mov    -0x2c(%ebp),%ebx
  test   %ebx,%ebx
--je     <T> <_ZN14CServerHandler15CreateTcpServerEhj+0xf7>
-+je     <T> <_ZN14CServerHandler15CreateTcpServerEhj+0xf9>
+ je     <T> <_ZN14CServerHandler15CreateTcpServerEhj+0xf7>
  mov    %ebx,(%esp)
  call   <T> <_ZN10CTcpServerD1Ev>
  mov    %ebx,(%esp)
@@ -156,7 +153,7 @@ CServerHandler::_ZN14CServerHandler15CreateTcpServerEhj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 99 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 103 行）：
 
 ```cpp
 char CServerHandler::CreateTcpServer(unsigned char idx, unsigned int port)
@@ -167,7 +164,7 @@ char CServerHandler::CreateTcpServer(unsigned char idx, unsigned int port)
     std::pair<std::map<unsigned int, CTcpServer*>::iterator, bool> pr =
         m_tcpServers.insert(std::make_pair(idx, server));
     if (pr.second)
-        return 1;
+        return (int)server;
     delete server;
     return 0;
 }

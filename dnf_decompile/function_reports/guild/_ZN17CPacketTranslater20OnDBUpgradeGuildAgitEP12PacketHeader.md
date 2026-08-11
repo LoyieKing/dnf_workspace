@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80834ae` | `0x232` | `0x8079400` | `0x14c` |
+| guild | DIFF | `0x80834ae` | `0x232` | `0x80791ac` | `0x14a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,145 +1,90 @@
+@@ -1,145 +1,89 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -42,17 +42,19 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x22a>
 -mov    0x8(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x144>
++jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x142>
 +mov    -0x24(%ebp),%eax
 +add    $0x12,%eax
 +mov    (%eax),%eax
 +test   %eax,%eax
-+jne    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0xea>
++jne    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0xe8>
 +mov    -0x24(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
  mov    %eax,-0x20(%ebp)
--mov    -0x20(%ebp),%eax
++mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
++lea    0x290(%eax),%edx
+ mov    -0x20(%ebp),%eax
 -mov    0x12(%eax),%eax
 -test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0xbd>
@@ -62,18 +64,14 @@
 -mov    0xe(%eax),%esi
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%ebx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    -0x20(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
 +call   <T> <_ZN13CGuildManager9FindGuildEj>
 +mov    %eax,-0x1c(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
-+je     <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x99>
++je     <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x97>
 +cmpl   $0x0,-0x1c(%ebp)
-+jne    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0xd2>
++jne    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0xd0>
 +movl   $0x17b9,0x8(%esp)
 +movl   $&_ZZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x34(%ebp),%eax
@@ -85,14 +83,14 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +nop
-+jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x144>
++jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x142>
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuild19SetGuildAgitLevelUpEv>
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuild26SendGuildAgitInfoToMembersEv>
-+jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x144>
++jmp    <T> <_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader+0x142>
 +mov    -0x24(%ebp),%eax
 +add    $0x12,%eax
 +mov    (%eax),%edi
@@ -281,7 +279,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4090 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4091 行）：
 
 ```cpp
 void CPacketTranslater::OnDBUpgradeGuildAgit(PacketHeader* pkt)
@@ -295,7 +293,7 @@ void CPacketTranslater::OnDBUpgradeGuildAgit(PacketHeader* pkt)
     if (*(int*)(pb + 0x12) == 0)
     {
         unsigned int guildKey = *(unsigned int*)(pb + 0xa);
-        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+        CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
         if (guildKey == 0 || guild == 0)
         {
             DNF_LOG_SCOPE_LINE(0x17b9,"./log/GuildAgit",

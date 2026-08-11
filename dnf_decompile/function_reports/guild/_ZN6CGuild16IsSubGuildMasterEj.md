@@ -72,7 +72,7 @@ undefined4 __thiscall CGuild::_ZN6CGuild16IsSubGuildMasterEj(CGuild *this,uint p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1698 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1701 行）：
 
 ```cpp
 bool CGuild::IsSubGuildMaster(unsigned int dbid)

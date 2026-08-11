@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805185e` | `0x21b` | `0x809b4f8` | `0x215` |
+| monitor | DIFF | `0x805185e` | `0x21b` | `0x809b6e6` | `0x215` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -91,8 +91,7 @@
  mov    %eax,0x14(%esp)
  mov    %esi,0x10(%esp)
  mov    %ebx,0xc(%esp)
--movl   $"!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",0x8(%esp)
-+movl   $"!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",0x8(%esp)
+ movl   $"!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",0x8(%esp)
  movl   $"./log/TcpErr",0x4(%esp)
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -105,93 +104,82 @@
  movl   $0x0,0x1834(%eax)
  mov    $0xffffffff,%eax
 -jmp    <T> <_ZN5CPeer11send_packetEPci+0x214>
--mov    0x8(%ebp),%eax
--mov    0x1838(%eax),%eax
++jmp    <T> <_ZN5CPeer11send_packetEPci+0x20e>
++mov    0x10(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x1838(%eax),%eax
 -mov    0x8(%ebp),%edx
 -add    $0x183c,%edx
 -cmp    %edx,%eax
 -jb     <T> <_ZN5CPeer11send_packetEPci+0x153>
--mov    0x8(%ebp),%eax
++mov    %edx,0x8(%esp)
++mov    0xc(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <memcpy>
+ mov    0x8(%ebp),%eax
 -mov    0x1838(%eax),%eax
 -mov    0x8(%ebp),%edx
 -add    $0x183c,%edx
 -add    $0x96000,%edx
 -cmp    %edx,%eax
 -jb     <T> <_ZN5CPeer11send_packetEPci+0x1d3>
--mov    0x8(%ebp),%eax
--mov    0x1834(%eax),%esi
--mov    0xc(%ebp),%eax
--add    $0x1,%eax
--movzbl (%eax),%eax
--movsbl %al,%ebx
--movl   $0x13b,0x8(%esp)
--movl   $&_ZZN5CPeer11send_packetEPciE12__FUNCTION__,0x4(%esp)
--lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0x10(%ebp),%eax
--mov    %eax,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",0x8(%esp)
--movl   $"./log/TcpErr",0x4(%esp)
--lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    0x8(%ebp),%eax
--lea    0x183c(%eax),%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x1838(%eax)
--mov    0x8(%ebp),%eax
--movl   $0x0,0x1834(%eax)
--mov    $0xffffffff,%eax
--jmp    <T> <_ZN5CPeer11send_packetEPci+0x214>
-+jmp    <T> <_ZN5CPeer11send_packetEPci+0x20e>
- mov    0x10(%ebp),%edx
- mov    0x8(%ebp),%eax
- mov    0x1838(%eax),%eax
- mov    %edx,0x8(%esp)
- mov    0xc(%ebp),%edx
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <memcpy>
- mov    0x8(%ebp),%eax
- mov    0x1838(%eax),%edx
- mov    0x10(%ebp),%eax
- add    %eax,%edx
- mov    0x8(%ebp),%eax
- mov    %edx,0x1838(%eax)
- mov    0x8(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CPeer11send_packetEv>
-+jmp    <T> <_ZN5CPeer11send_packetEPci+0x20e>
-+mov    0x8(%ebp),%eax
-+mov    0x1834(%eax),%esi
-+mov    0xc(%ebp),%eax
-+add    $0x1,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%ebx
-+movl   $0x133,0x8(%esp)
-+movl   $&_ZZN5CPeer11send_packetEPciE12__FUNCTION__,0x4(%esp)
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    0x1838(%eax),%edx
 +mov    0x10(%ebp),%eax
-+mov    %eax,0x14(%esp)
-+mov    %esi,0x10(%esp)
-+mov    %ebx,0xc(%esp)
-+movl   $"!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",0x8(%esp)
-+movl   $"./log/TcpErr",0x4(%esp)
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    0x8(%ebp),%eax
-+lea    0x183c(%eax),%edx
++add    %eax,%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x1838(%eax)
 +mov    0x8(%ebp),%eax
-+movl   $0x0,0x1834(%eax)
-+mov    $0xffffffff,%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CPeer11send_packetEv>
++jmp    <T> <_ZN5CPeer11send_packetEPci+0x20e>
+ mov    0x8(%ebp),%eax
+ mov    0x1834(%eax),%esi
+ mov    0xc(%ebp),%eax
+ add    $0x1,%eax
+ movzbl (%eax),%eax
+-movsbl %al,%ebx
+-movl   $0x13b,0x8(%esp)
++movzbl %al,%ebx
++movl   $0x133,0x8(%esp)
+ movl   $&_ZZN5CPeer11send_packetEPciE12__FUNCTION__,0x4(%esp)
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",0x8(%esp)
+ movl   $"./log/TcpErr",0x4(%esp)
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    0x8(%ebp),%eax
+ lea    0x183c(%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x1838(%eax)
+ mov    0x8(%ebp),%eax
+ movl   $0x0,0x1834(%eax)
+ mov    $0xffffffff,%eax
+-jmp    <T> <_ZN5CPeer11send_packetEPci+0x214>
+-mov    0x10(%ebp),%edx
+-mov    0x8(%ebp),%eax
+-mov    0x1838(%eax),%eax
+-mov    %edx,0x8(%esp)
+-mov    0xc(%ebp),%edx
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <memcpy>
+-mov    0x8(%ebp),%eax
+-mov    0x1838(%eax),%edx
+-mov    0x10(%ebp),%eax
+-add    %eax,%edx
+-mov    0x8(%ebp),%eax
+-mov    %edx,0x1838(%eax)
+-mov    0x8(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CPeer11send_packetEv>
  add    $0x30,%esp
  pop    %ebx
  pop    %esi
@@ -286,7 +274,7 @@ int CPeer::send_packet(char* buf, int len)
         if (m_sendPtr < (char*)this + 0x183c || (char*)this + 0x9783c <= m_sendPtr)
         {
             DNF_LOG_SCOPE_LINE(0x13b,"./log/TcpErr",
-                "!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",
+                "!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",
                 (unsigned char)buf[1], m_sendRemain, len);
             m_sendPtr = (char*)this + 0x183c;
             m_sendRemain = 0;
@@ -296,7 +284,7 @@ int CPeer::send_packet(char* buf, int len)
         m_sendPtr = m_sendPtr + len;
         return send_packet();
     }
-    DNF_LOG_SCOPE_LINE(0x133,"./log/TcpErr", "!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",
+    DNF_LOG_SCOPE_LINE(0x133,"./log/TcpErr", "!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",
         (unsigned char)buf[1], m_sendRemain, len);
     m_sendPtr = (char*)this + 0x183c;
     m_sendRemain = 0;

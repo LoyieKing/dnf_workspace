@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80732b8` | `0x2bb` | `0x8069bba` | `0x23a` |
+| guild | DIFF | `0x80732b8` | `0x2bb` | `0x8069adc` | `0x239` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,187 +1,161 @@
+@@ -1,187 +1,160 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -85,7 +85,7 @@
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x1ab>
 -lea    -0x45(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x12c>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x12b>
 +lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -94,24 +94,8 @@
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    0x8(%ebp),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x24(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%ebx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    %ebx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN13CGuildManager9FindGuildEj>
- mov    %eax,-0x20(%ebp)
-+cmpl   $0x0,-0x20(%ebp)
-+je     <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x232>
-+mov    -0x24(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
-+mov    %eax,0x4(%esp)
- mov    -0x20(%ebp),%eax
+-mov    %eax,-0x20(%ebp)
+-mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%ebx
 -movl   $0x328,0x8(%esp)
 -movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -126,17 +110,28 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN13CGuildManager9FindGuildEj>
++mov    %eax,-0x24(%ebp)
++mov    -0x24(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+ add    $0x290,%edx
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x24(%ebp)
 -cmpl   $0x0,-0x24(%ebp)
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x166>
--mov    -0x20(%ebp),%eax
++mov    %eax,-0x20(%ebp)
++cmpl   $0x0,-0x20(%ebp)
++je     <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x231>
++mov    -0x24(%ebp),%eax
++add    $0xe,%eax
++mov    (%eax),%eax
++mov    %eax,0x4(%esp)
+ mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%eax
 -mov    %eax,0x4(%esp)
 -mov    -0x24(%ebp),%eax
@@ -156,20 +151,24 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x2b3>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x232>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x231>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x24d>
-+jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x1cc>
++jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x1cb>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildMarkChange() Exception Break : %s\n",(%esp)
  call   <T> <printf>
@@ -181,10 +180,10 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
 -mov    %eax,%ebx
 -movl   $0x337,0x8(%esp)
 -movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -192,6 +191,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildMarkChange() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -199,7 +202,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x246>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x1c5>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x1c4>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -209,7 +212,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x2b3>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x232>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x231>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnNoticeGuildMarkChange() Exception Break",(%esp)
@@ -227,7 +230,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x2ae>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x22d>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x22c>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -307,7 +310,7 @@ void CPacketTranslater::OnNoticeGuildMarkChange(PacketHeader* pkt)
     {
     THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildMarkChange : 0 == m_pclApp")
     char* pb = (char*)pkt;
-    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 10));
+    CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(*(unsigned int*)(pb + 10));
     if (guild != 0)
     {
         guild->NoticeMarkChangeToGuildMember(*(unsigned int*)(pb + 0xe));

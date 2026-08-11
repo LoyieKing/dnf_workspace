@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80552f4` | `0x7a` | `0x80e26d8` | `0x5e` |
+| dbmw | DIFF | `0x80552f4` | `0x7a` | `0x80e2896` | `0x65` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,28 +13,22 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,34 +1,24 @@
+@@ -1,34 +1,28 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
--sub    $0x24,%esp
--mov    0x8(%ebp),%eax
--add    $0x4,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSs5c_strEv>
--mov    %eax,%ebx
-+sub    $0x28,%esp
+ push   %ebx
+ sub    $0x24,%esp
+ mov    0x8(%ebp),%eax
+ add    $0x4,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSs5c_strEv>
+ mov    %eax,%ebx
  movl   $0x1a,0x8(%esp)
  movl   $&_ZZNK13CDNFException4whatEvE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0x4,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSs5c_strEv>
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"%s",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
  lea    -0x10(%ebp),%eax
@@ -44,10 +38,9 @@
  add    $0x4,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs5c_strEv>
--add    $0x24,%esp
--pop    %ebx
--pop    %ebp
-+leave
+ add    $0x24,%esp
+ pop    %ebx
+ pop    %ebp
  ret
 -cmp    $0xffffffff,%edx
 -je     <T> <_ZNK13CDNFException4whatEv+0x72>
@@ -79,13 +72,12 @@ void __thiscall CDNFException::_ZNK13CDNFException4whatEv(CDNFException *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTableBase.cpp](source/DNFServer/GameServer/DBMW/DNFTableBase.cpp)（约第 51 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTableBase.cpp](source/DNFServer/GameServer/DBMW/DNFTableBase.cpp)（约第 50 行）：
 
 ```cpp
 const char* CDNFException::what() const throw()
 {
-    CMyFileLog log(__FUNCTION__, 0x1a);
-    log("./log/Except", "%s", m_msg.c_str());
+    DNF_LOG_SCOPE_LINE(0x1a, "./log/Except", "%s", m_msg.c_str());
     return m_msg.c_str();
 }
 ```

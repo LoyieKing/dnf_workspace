@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| auction | DIFF | `0x80b70ca` | `0x4fc` | `0x80b6be0` | `0x51b` |
+| auction | DIFF | `0x80b70ca` | `0x4fc` | `0x80b6b48` | `0x4fe` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,328 +1,338 @@
+@@ -1,328 +1,329 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -69,10 +69,10 @@
  je     <T> <_ZN3nsl10WorkThread4loopEPv+0x190>
  cmp    $0x3,%eax
 -je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4ba>
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4d9>
++je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4bc>
  cmp    $0x1,%eax
 -jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x284>
-+jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x281>
++jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x286>
  mov    -0x44(%ebp),%eax
  mov    %eax,-0x38(%ebp)
  mov    -0x38(%ebp),%eax
@@ -105,7 +105,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl10WorkThread15PushTransactionEPNS_14IMessageStructE>
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c4>
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c6>
  mov    -0xc(%ebp),%eax
  movb   $0x0,0x15(%eax)
  mov    %gs:0xfffffffc,%eax
@@ -119,7 +119,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl14CommonDataPool14destroyMessageEPNS_7MessageE>
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c4>
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c6>
  mov    -0x44(%ebp),%eax
  mov    %eax,-0x40(%ebp)
  mov    -0x40(%ebp),%eax
@@ -128,7 +128,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN3nsl10WorkThread4loopEPv+0x251>
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x24e>
++je     <T> <_ZN3nsl10WorkThread4loopEPv+0x253>
  mov    -0x40(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
@@ -138,10 +138,9 @@
  call   *%edx
  mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x10(%ebp)
--setne  %al
--test   %al,%al
--je     <T> <_ZN3nsl10WorkThread4loopEPv+0x1fa>
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x1f5>
+ setne  %al
+ test   %al,%al
+ je     <T> <_ZN3nsl10WorkThread4loopEPv+0x1fa>
  mov    -0x40(%ebp),%eax
  mov    0x8(%eax),%ebx
  call   <T> <_ZN3nsl10G_TraceLogEv>
@@ -156,7 +155,7 @@
  mov    0x10(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4bd>
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4dc>
++je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4bf>
  mov    -0x40(%ebp),%eax
  mov    0xc(%eax),%eax
  test   %eax,%eax
@@ -165,7 +164,7 @@
 -mov    0x10(%eax),%eax
 -lea    -0x1(%eax),%edx
 -mov    -0x40(%ebp),%eax
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4df>
++je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4c2>
 +mov    -0x40(%ebp),%eax
 +mov    -0x40(%ebp),%edx
 +mov    0x10(%edx),%edx
@@ -177,7 +176,7 @@
 -jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c3>
 -mov    -0x40(%ebp),%eax
 -movb   $0x0,0x14(%eax)
-+jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e2>
++jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c5>
 +mov    -0x40(%ebp),%eax
 +add    $0x14,%eax
 +movb   $0x0,(%eax)
@@ -187,7 +186,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11TimerThread16PushTimeReqEventEPNS_11ITimeEntityE>
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c4>
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c6>
  mov    %gs:0xfffffffc,%eax
  mov    &_ZN3nsl4pAppE,%edx
  add    $0x5c,%edx
@@ -202,7 +201,7 @@
  mov    %eax,(%esp)
  call   *%ecx
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c4>
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c6>
  mov    -0x44(%ebp),%eax
  mov    %eax,-0x3c(%ebp)
  mov    -0x3c(%ebp),%eax
@@ -214,39 +213,29 @@
  call   <T> <_ZNK3nsl7TCPUser19isAboutToDisconnectEv>
  test   %al,%al
 -jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x2b6>
-+jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x2b3>
++jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x2b8>
  mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK3nsl7TCPUser14isDisconnectedEv>
  test   %al,%al
 -je     <T> <_ZN3nsl10WorkThread4loopEPv+0x2bd>
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x2ba>
++je     <T> <_ZN3nsl10WorkThread4loopEPv+0x2bf>
  mov    $0x1,%eax
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x2c2>
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x2bf>
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x2c4>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN3nsl10WorkThread4loopEPv+0x34d>
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x35c>
++je     <T> <_ZN3nsl10WorkThread4loopEPv+0x34f>
  movl   $0x0,0x4(%esp)
  mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7TCPUser10SetWorkingEb>
--mov    &_ZN3nsl7Message5identE,%ebx
--mov    &_ZN3nsl7Message5identE+0x4,%esi
--call   <T> <_ZN3nsl10G_TraceLogEv>
--mov    %ebx,0xc(%esp)
-+mov    &_ZN3nsl7Message5identE,%eax
-+mov    &_ZN3nsl7Message5identE+0x4,%edx
-+mov    %eax,%ebx
-+mov    &_ZN3nsl7Message5identE,%eax
-+mov    &_ZN3nsl7Message5identE+0x4,%edx
-+mov    %edx,%eax
-+xor    %edx,%edx
-+mov    %eax,%esi
-+call   <T> <_ZN3nsl10G_TraceLogEv>
+ mov    &_ZN3nsl7Message5identE,%ebx
+ mov    &_ZN3nsl7Message5identE+0x4,%esi
+ call   <T> <_ZN3nsl10G_TraceLogEv>
+ mov    %ebx,0xc(%esp)
  mov    %esi,0x10(%esp)
-+mov    %ebx,0xc(%esp)
  movl   $"끊긴 유저가 worker로 들어왔다. msg-%d",0x8(%esp)
  movl   $0x7,0x4(%esp)
  mov    %eax,(%esp)
@@ -310,11 +299,10 @@
  mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8CMsgCell9GetPacketEv>
--mov    -0x20(%ebp),%eax
--cmp    $0x4,%eax
+ mov    -0x20(%ebp),%eax
+ cmp    $0x4,%eax
 -jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x46a>
-+cmpl   $0x4,-0x20(%ebp)
-+jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x477>
++jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x46c>
  mov    -0x3c(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    -0x34(%ebp),%eax
@@ -333,7 +321,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN3nsl10WorkThread4loopEPv+0x46a>
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x477>
++je     <T> <_ZN3nsl10WorkThread4loopEPv+0x46c>
  movl   $0x0,0x4(%esp)
  mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
@@ -345,21 +333,11 @@
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8CMsgCell5ClearEv>
  movl   $0x3c00,-0x1c(%ebp)
--mov    &_ZN3nsl7Message5identE,%ebx
--mov    &_ZN3nsl7Message5identE+0x4,%esi
--call   <T> <_ZN3nsl10G_TraceLogEv>
--mov    %ebx,0xc(%esp)
-+mov    &_ZN3nsl7Message5identE,%eax
-+mov    &_ZN3nsl7Message5identE+0x4,%edx
-+mov    %eax,%ebx
-+mov    &_ZN3nsl7Message5identE,%eax
-+mov    &_ZN3nsl7Message5identE+0x4,%edx
-+mov    %edx,%eax
-+xor    %edx,%edx
-+mov    %eax,%esi
-+call   <T> <_ZN3nsl10G_TraceLogEv>
+ mov    &_ZN3nsl7Message5identE,%ebx
+ mov    &_ZN3nsl7Message5identE+0x4,%esi
+ call   <T> <_ZN3nsl10G_TraceLogEv>
+ mov    %ebx,0xc(%esp)
  mov    %esi,0x10(%esp)
-+mov    %ebx,0xc(%esp)
  movl   $"work ended id=%d",0x8(%esp)
  movl   $0x8,0x4(%esp)
  mov    %eax,(%esp)
@@ -371,13 +349,13 @@
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c4>
 -nop
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c4>
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c6>
 +nop
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c6>
 +nop
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c6>
 +nop
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c6>
  nop
  mov    0x8(%ebp),%eax
  mov    0xc4(%eax),%eax
@@ -620,8 +598,9 @@ void WorkThread::loop(void* temp)
             teMsg = (ITimeEntity*)recvMessage;
             if (!teMsg->isTerminated())
             {
-                return_code = teMsg->operator()();
-                if (return_code != 0)
+                // ORIG（二进制实测）：cmpl $0; setne %al; test %al,%al; je
+                // ——条件内赋值形态 if((rc=op())!=0) 触发 bool 物化，无尾随 nop
+                if ((return_code = teMsg->operator()()) != 0)
                 {
                     G_TraceLog()->sysLog(7, "Fail: TIME : failed to handle '%d', error_code('%d').",
                                          teMsg->proc_id, return_code);
@@ -657,9 +636,9 @@ void WorkThread::loop(void* temp)
             if (pUser->isAboutToDisconnect() || pUser->isDisconnected())
             {
                 pUser->SetWorking(false);
-                register unsigned int idLo = (unsigned int)Message::ident;
-                register unsigned int idHi = (unsigned int)(Message::ident >> 32);
-                G_TraceLog()->sysLog(7, "\xb2\xf7\xb1\xe4 \xc0\xaf\xc0\xfa\xb0\xa1 worker\xb7\xce \xb5\xe9\xbe\xee\xbf\xd4\xb4\xd9. msg-%d", (int)idLo, (int)idHi);
+                // ORIG（二进制实测）：ident 一次双字装载进 ebx:esi 作为单个
+                // 64 位 vararg 压 0xc/0x10
+                G_TraceLog()->sysLog(7, "\xb2\xf7\xb1\xe4 \xc0\xaf\xc0\xfa\xb0\xa1 worker\xb7\xce \xb5\xe9\xbe\xee\xbf\xd4\xb4\xd9. msg-%d", Message::ident);
                 pkMsg->setUse(false);
                 pUser->setActiveSyncByWorker(true);
                 G_ActiveNetClose()->pushActiveClose(pUser);
@@ -675,21 +654,25 @@ void WorkThread::loop(void* temp)
                 G_TraceLog()->sysLog(4, "RECV PCK id    =%d", recvMsg->GetPacket()->getPacketID());
                 G_TraceLog()->sysLog(4, "RECV PCK seq   =%u", recvMsg->GetPacket()->sequence);
                 recvMsg->GetPacket();
-                if (DataType == TCPUser::RECV_DATA_NORMAL)
+                // ORIG（二进制实测）：mov -0x20(%ebp),%eax; cmp $0x4,%eax; jne
+                // ——switch 单 case 形态（if 直比会退化成 cmpl 内存操作数）
+                switch (DataType)
                 {
+                case TCPUser::RECV_DATA_NORMAL:
                     handlerTCP->dispatch(pUser, pkMsg);
                     pkMsg->setUse(false);
                     if (pUser->GetPendingWorkNum() == 0)
                     {
                         pUser->SetWorking(false);
                     }
+                    break;
                 }
                 zipMsg->Clear();
                 encMsg->Clear();
                 CompressLen = 0x3c00;
-                register unsigned int idLo = (unsigned int)Message::ident;
-                register unsigned int idHi = (unsigned int)(Message::ident >> 32);
-                G_TraceLog()->sysLog(8, "work ended id=%d", (int)idLo, (int)idHi);
+                // ORIG（二进制实测）：ident 一次双字装载进 ebx:esi 后作为单个
+                // 64 位 vararg 压 0xc/0x10（拆两个 (int) 会产生重复装载+xor 舞步）
+                G_TraceLog()->sysLog(8, "work ended id=%d", Message::ident);
             }
             break;
         }

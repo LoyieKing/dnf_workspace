@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| point | DIFF | `0x80bd134` | `0x437` | `0x80aa142` | `0x43c` |
+| point | DIFF | `0x80bd134` | `0x437` | `0x80aa0da` | `0x43c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -524,4 +524,4 @@ nsl::ActiveConManager::_ZN3nsl16ActiveConManager17PopRequestConnectERPNS_7TCPUse
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/ServerLab/ServerLib/common_source/TActiveConnect.cpp, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DBConnections.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DataPools.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/Dispatchers.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/EncyptTools.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/IActiveConManager.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/IHandler.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/IHandlers.h 等 569 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/ServerLab/ServerLib/common_source/TActiveConnect.cpp, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DBConnections.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DataPools.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/Dispatchers.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/EncyptTools.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/IActiveConManager.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/IHandler.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/IHandlers.h 等 544 个文件*

@@ -643,6 +643,10 @@ def main():
     ap.add_argument('--function', default=None,
                     help='只处理单个函数：相同(IDENTICAL/IDENTICAL_AE)则删除其 md，'
                          '否则生成/更新该函数的 md')
+    ap.add_argument('--new-bin', default=None,
+                    help='单函数模式覆盖 NEW 二进制路径（scratch 构建验证用，绝对/相对路径均可）')
+    ap.add_argument('--check-only', action='store_true',
+                    help='单函数模式只打印分类结果，不写 md / manifest')
     ap.add_argument('--out', default=str(OUT_ROOT))
     args = ap.parse_args()
 
@@ -655,10 +659,12 @@ def main():
         rel_o, rel_n = SERVICES[svc]
         orig_path = INSTALLER / rel_o
         new_path = ROOT / rel_n
+        if args.new_bin:
+            new_path = Path(args.new_bin).resolve()
         svc_dir = out_root / svc
         manifest_path = svc_dir / 'manifest.tsv'
         decomp_path = svc_dir / 'decompiled.txt'
-        if not manifest_path.exists():
+        if not manifest_path.exists() and not args.check_only:
             print('SKIP {} (no manifest)'.format(svc))
             continue
         if args.function is None:
@@ -683,6 +689,9 @@ def main():
                 orig_path, new_path, o_loaded, n_loaded, o_map, n_map, name)
             fname = sanitize_filename(name)
             md_path = svc_dir / fname
+            if args.check_only:
+                print('== {}: {} -> {}'.format(svc, name, status), flush=True)
+                continue
             if status in ('IDENTICAL', 'IDENTICAL_AE'):
                 if md_path.exists():
                     md_path.unlink()

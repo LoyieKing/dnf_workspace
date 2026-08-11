@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807d82a` | `0x7c7` | `0x805707e` | `0x7f0` |
+| dbmw | DIFF | `0x807d82a` | `0x7c7` | `0x8057060` | `0x7e8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,530 +1,544 @@
+@@ -1,530 +1,545 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -32,7 +32,7 @@
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x7ba>
 -movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x7e3>
++jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x7db>
  mov    0xc(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    %eax,-0x20(%ebp)
@@ -51,24 +51,21 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -lea    -0x844(%ebp),%ebx
--mov    $0x0,%eax
++lea    -0x244(%ebp),%ebx
+ mov    $0x0,%eax
 -mov    $0x200,%edx
--mov    %ebx,%edi
--mov    %edx,%ecx
--rep stos %eax,%es:(%edi)
++mov    $0x80,%edx
+ mov    %ebx,%edi
+ mov    %edx,%ecx
+ rep stos %eax,%es:(%edi)
 -lea    -0x44(%ebp),%eax
-+movl   $0x200,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+lea    -0x244(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <memset>
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1Ev>
  movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x6ed>
 -lea    -0x44(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x716>
++jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x70e>
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs4sizeEv>
@@ -89,7 +86,7 @@
 -lea    (%edx,%eax,1),%eax
 -add    $0x1c,%eax
 -movzbl (%eax),%eax
-+je     <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x383>
++je     <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x37b>
 +mov    0xc(%ebp),%eax
 +mov    -0x1c(%ebp),%edx
 +imul   $0x43,%edx,%edx
@@ -431,7 +428,7 @@
 -lea    (%edx,%eax,1),%eax
 -add    $0x1c,%eax
 -movzbl (%eax),%eax
-+jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x63a>
++jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x632>
 +mov    0xc(%ebp),%eax
 +mov    -0x1c(%ebp),%edx
 +imul   $0x43,%edx,%edx
@@ -768,7 +765,7 @@
  seta   %al
  test   %al,%al
 -je     <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x6d4>
-+je     <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x6fd>
++je     <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x6f5>
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -794,7 +791,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x6c3>
-+je     <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x6ec>
++je     <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x6e4>
  movl   $0x16ff,0x8(%esp)
  movl   $&_ZZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_CharacE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
@@ -810,14 +807,14 @@
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x7af>
 -lea    -0x44(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x7d8>
++jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x7d0>
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSs5clearEv>
  subl   $0x1,-0x1c(%ebp)
 -jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x6e9>
 -lea    -0x844(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x712>
++jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x70a>
 +lea    -0x244(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x44(%ebp),%eax
@@ -830,7 +827,7 @@
  setl   %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0xae>
-+jne    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0xaf>
++jne    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0xa7>
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -856,7 +853,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x78d>
-+je     <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x7b6>
++je     <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x7ae>
  movl   $0x170c,0x8(%esp)
  movl   $&_ZZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_CharacE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
@@ -871,10 +868,10 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x7af>
-+jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x7d8>
++jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x7d0>
  mov    $0x1,%ebx
 -jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x7af>
-+jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x7d8>
++jmp    <T> <_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac+0x7d0>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x44(%ebp),%eax

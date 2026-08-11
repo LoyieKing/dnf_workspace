@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808d49e` | `0x271` | `0x80c8652` | `0x288` |
+| dbmw | DIFF | `0x808d49e` | `0x271` | `0x80c8686` | `0x28a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,154 +1,158 @@
+@@ -1,154 +1,159 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -27,9 +27,8 @@
  mov    %eax,(%esp)
  call   *%edx
  mov    0x8(%ebp),%eax
--mov    0x42084(%eax),%eax
--mov    %eax,%edx
-+mov    0x42084(%eax),%edx
+ mov    0x42084(%eax),%eax
+ mov    %eax,%edx
  mov    0x8(%ebp),%eax
  lea    0x78(%eax),%ecx
  mov    0x8(%ebp),%eax
@@ -43,7 +42,7 @@
 -je     <T> <_ZN6CMySql10exec_queryEv+0x265>
 +mov    %eax,-0x18(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
-+je     <T> <_ZN6CMySql10exec_queryEv+0x27c>
++je     <T> <_ZN6CMySql10exec_queryEv+0x27e>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
  mov    %eax,(%esp)
@@ -57,25 +56,27 @@
  mov    0x42088(%eax),%eax
  cmp    $0x7d5,%eax
 -je     <T> <_ZN6CMySql10exec_queryEv+0x9b>
-+je     <T> <_ZN6CMySql10exec_queryEv+0x97>
++je     <T> <_ZN6CMySql10exec_queryEv+0x99>
  mov    0x8(%ebp),%eax
  mov    0x42088(%eax),%eax
  cmp    $0x7dd,%eax
 -je     <T> <_ZN6CMySql10exec_queryEv+0x9b>
-+je     <T> <_ZN6CMySql10exec_queryEv+0x97>
++je     <T> <_ZN6CMySql10exec_queryEv+0x99>
  mov    0x8(%ebp),%eax
  mov    0x42088(%eax),%eax
  cmp    $0x7d6,%eax
- jne    <T> <_ZN6CMySql10exec_queryEv+0x1b7>
+-jne    <T> <_ZN6CMySql10exec_queryEv+0x1b7>
++jne    <T> <_ZN6CMySql10exec_queryEv+0x1b9>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <mysql_ping>
 -mov    %eax,-0xc(%ebp)
 -cmpl   $0x0,-0xc(%ebp)
+-je     <T> <_ZN6CMySql10exec_queryEv+0x1ad>
 +mov    %eax,-0x14(%ebp)
 +cmpl   $0x0,-0x14(%ebp)
- je     <T> <_ZN6CMySql10exec_queryEv+0x1ad>
++je     <T> <_ZN6CMySql10exec_queryEv+0x1af>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
  mov    %eax,(%esp)
@@ -86,7 +87,7 @@
 -je     <T> <_ZN6CMySql10exec_queryEv+0x1ad>
 +mov    %eax,-0x10(%ebp)
 +cmpl   $0x7d6,-0x10(%ebp)
-+jne    <T> <_ZN6CMySql10exec_queryEv+0x1ad>
++jne    <T> <_ZN6CMySql10exec_queryEv+0x1af>
  mov    0x8(%ebp),%eax
  lea    0x54(%eax),%esi
  mov    0x8(%ebp),%eax
@@ -109,7 +110,8 @@
  test   %eax,%eax
  sete   %al
  test   %al,%al
- je     <T> <_ZN6CMySql10exec_queryEv+0x177>
+-je     <T> <_ZN6CMySql10exec_queryEv+0x177>
++je     <T> <_ZN6CMySql10exec_queryEv+0x179>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
  mov    %eax,(%esp)
@@ -131,7 +133,8 @@
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- jmp    <T> <_ZN6CMySql10exec_queryEv+0x1ad>
+-jmp    <T> <_ZN6CMySql10exec_queryEv+0x1ad>
++jmp    <T> <_ZN6CMySql10exec_queryEv+0x1af>
  movl   $0x11c,0x8(%esp)
  movl   $&_ZZN6CMySql10exec_queryEvE12__FUNCTION__,0x4(%esp)
  lea    -0x28(%ebp),%eax
@@ -144,7 +147,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x2,%eax
 -jmp    <T> <_ZN6CMySql10exec_queryEv+0x26a>
-+jmp    <T> <_ZN6CMySql10exec_queryEv+0x281>
++jmp    <T> <_ZN6CMySql10exec_queryEv+0x283>
  mov    0x8(%ebp),%eax
  mov    0x42088(%eax),%eax
  cmp    $0x426,%eax
@@ -153,7 +156,7 @@
 -lea    0x78(%eax),%esi
 -mov    0x8(%ebp),%eax
 -mov    0x42088(%eax),%ebx
-+je     <T> <_ZN6CMySql10exec_queryEv+0x275>
++je     <T> <_ZN6CMySql10exec_queryEv+0x277>
  movl   $0x12a,0x8(%esp)
  movl   $&_ZZN6CMySql10exec_queryEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
@@ -178,7 +181,7 @@
  mov    0x42088(%eax),%eax
  cmp    $0x7d6,%eax
 -jne    <T> <_ZN6CMySql10exec_queryEv+0x25e>
-+jne    <T> <_ZN6CMySql10exec_queryEv+0x275>
++jne    <T> <_ZN6CMySql10exec_queryEv+0x277>
  movl   $0x12c,0x8(%esp)
  movl   $&_ZZN6CMySql10exec_queryEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
@@ -199,7 +202,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x1,%eax
 -jmp    <T> <_ZN6CMySql10exec_queryEv+0x26a>
-+jmp    <T> <_ZN6CMySql10exec_queryEv+0x281>
++jmp    <T> <_ZN6CMySql10exec_queryEv+0x283>
  mov    $0x0,%eax
  add    $0x50,%esp
  pop    %ebx
@@ -283,7 +286,7 @@ undefined4 __thiscall CMySql::_ZN6CMySql10exec_queryEv(CMySql *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 125 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 120 行）：
 
 ```cpp
 int CMySql::exec_query()

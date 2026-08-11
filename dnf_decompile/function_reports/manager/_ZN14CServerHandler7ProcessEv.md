@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x80680b6` | `0xc6` | `0x805deba` | `0xcb` |
+| manager | DIFF | `0x80680b6` | `0xc6` | `0x805ded0` | `0xd2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,17 +13,16 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,56 +1,57 @@
+@@ -1,56 +1,61 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
--sub    $0x24,%esp
-+sub    $0x28,%esp
+ push   %ebx
+ sub    $0x24,%esp
  mov    0x8(%ebp),%eax
  mov    %eax,-0x10(%ebp)
  movl   $0x65,-0xc(%ebp)
 -jmp    <T> <_ZN14CServerHandler7ProcessEv+0xa2>
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0xab>
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0xae>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer20IsValidMonitorServerEv>
@@ -32,10 +31,10 @@
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x31>
 +sete   %al
 +test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x32>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x33>
  addl   $0x14,-0x10(%ebp)
 -jmp    <T> <_ZN14CServerHandler7ProcessEv+0xa2>
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0xab>
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0xae>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer11IsConnectedEv>
@@ -43,7 +42,7 @@
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x9e>
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0xa7>
++je     <T> <_ZN14CServerHandler7ProcessEv+0xaa>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer19IsHeartBeatTimeOverEv>
@@ -51,22 +50,19 @@
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x9e>
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0xa7>
++je     <T> <_ZN14CServerHandler7ProcessEv+0xaa>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12OnDisconnectEv>
--mov    $0x66,%eax
--mov    %eax,%ebx
--sub    -0xc(%ebp),%ebx
+ mov    $0x66,%eax
+ mov    %eax,%ebx
+ sub    -0xc(%ebp),%ebx
  movl   $0x55,0x8(%esp)
  movl   $&_ZZN14CServerHandler7ProcessEvE12__FUNCTION__,0x4(%esp)
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    $0x66,%eax
-+sub    -0xc(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CServerHandler::Process() Index : %d!\n",0x8(%esp)
  movl   $"./log/MonitorDown",0x4(%esp)
  lea    -0x18(%ebp),%eax
@@ -77,15 +73,13 @@
  setne  %al
  subl   $0x1,-0xc(%ebp)
  test   %al,%al
--jne    <T> <_ZN14CServerHandler7ProcessEv+0x19>
-+jne    <T> <_ZN14CServerHandler7ProcessEv+0x18>
+ jne    <T> <_ZN14CServerHandler7ProcessEv+0x19>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler23CheckTcpServerHeartbeatEv>
--add    $0x24,%esp
--pop    %ebx
--pop    %ebp
-+leave
+ add    $0x24,%esp
+ pop    %ebx
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -133,7 +127,7 @@ void __thiscall CServerHandler::_ZN14CServerHandler7ProcessEv(CServerHandler *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 74 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 77 行）：
 
 ```cpp
 void CServerHandler::Process()
@@ -152,8 +146,9 @@ void CServerHandler::Process()
             if (p->IsHeartBeatTimeOver())
             {
                 p->OnDisconnect();
+                register int index = 0x66 - i;
                 CMyFileLog log(__FUNCTION__, 0x55);
-                log("./log/MonitorDown", "CServerHandler::Process() Index : %d!\n", 0x66 - i);
+                log("./log/MonitorDown", "CServerHandler::Process() Index : %d!\n", index);
             }
         }
         p++;

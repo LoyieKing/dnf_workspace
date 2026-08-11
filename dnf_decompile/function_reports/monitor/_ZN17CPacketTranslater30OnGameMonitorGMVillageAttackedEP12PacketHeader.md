@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808e168` | `0x1fc` | `0x807976e` | `0x1f6` |
+| monitor | DIFF | `0x808e168` | `0x1fc` | `0x80797b4` | `0x1f6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -230,7 +230,7 @@ void CPacketTranslater::_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4569 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4592 行）：
 
 ```cpp
 void CPacketTranslater::OnGameMonitorGMVillageAttacked(PacketHeader* pkt)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a6558` | `0xa1` | `0x809650a` | `0xbe` |
+| monitor | NEAR | `0x80a6558` | `0xa1` | `0x80966ec` | `0xa1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,51 +13,39 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,39 +1,42 @@
+@@ -1,39 +1,39 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
--sub    $0x644,%esp
+ sub    $0x644,%esp
 -lea    -0x630(%ebp),%eax
-+sub    $0x634,%esp
-+lea    -0x620(%ebp),%eax
++lea    -0x634(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN34Packet_DBMW_Statistic_Login_LogoutC1Ev>
 -movl   $0x0,-0x10(%ebp)
--mov    0x8(%ebp),%eax
--mov    0xac(%eax),%eax
++movl   $0x0,-0xc(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0xac(%eax),%eax
 -mov    %eax,-0x28(%ebp)
--mov    0x8(%ebp),%eax
--mov    0xb0(%eax),%eax
++mov    %eax,-0x1c(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0xb0(%eax),%eax
 -mov    %eax,-0x24(%ebp)
--mov    0x8(%ebp),%eax
--mov    0xb4(%eax),%eax
++mov    %eax,-0x18(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0xb4(%eax),%eax
 -mov    %eax,-0x20(%ebp)
--mov    0x8(%ebp),%eax
--mov    0xb8(%eax),%eax
++mov    %eax,-0x14(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0xb8(%eax),%eax
 -mov    %eax,-0x1c(%ebp)
-+lea    -0x620(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+mov    0xac(%edx),%edx
-+mov    %edx,0x608(%eax)
-+lea    -0x620(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+mov    0xb0(%edx),%edx
-+mov    %edx,0x60c(%eax)
-+lea    -0x620(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+mov    0xb4(%edx),%edx
-+mov    %edx,0x610(%eax)
-+lea    -0x620(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+mov    0xb8(%edx),%edx
-+mov    %edx,0x614(%eax)
++mov    %eax,-0x10(%ebp)
  mov    0x8(%ebp),%eax
  movl   $0x0,0xb4(%eax)
  mov    0x8(%ebp),%eax
  movl   $0x0,0xb8(%eax)
 -lea    -0x630(%ebp),%ebx
-+lea    -0x620(%ebp),%ebx
++lea    -0x634(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -68,8 +56,7 @@
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12SendToServerEPci>
--add    $0x644,%esp
-+add    $0x634,%esp
+ add    $0x644,%esp
  pop    %ebx
  pop    %ebp
  ret
@@ -116,10 +103,12 @@ CLoginLogoutStatistics::_ZN22CLoginLogoutStatistics15ProcessByMinuteEv(CLoginLog
 void CLoginLogoutStatistics::ProcessByMinute()
 {
     Packet_DBMW_Statistic_Login_Logout pkt;
-    ((RA_UINT<1544>*)&pkt)->v = m_fieldac;
-    ((RA_UINT<1548>*)&pkt)->v = m_fieldb0;
-    ((RA_UINT<1552>*)&pkt)->v = m_fieldb4;
-    ((RA_UINT<1556>*)&pkt)->v = m_fieldb8;
+    int v0, v1, v2, v3;
+    int cnt = 0;
+    v0 = m_fieldac;
+    v1 = m_fieldb0;
+    v2 = m_fieldb4;
+    v3 = m_fieldb8;
     m_fieldb4 = 0;
     m_fieldb8 = 0;
     m_app->Get_ServerHandler()->GetDBServer()->SendToServer((char*)&pkt, 0x618);

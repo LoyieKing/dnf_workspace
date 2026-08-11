@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a3972` | `0x19a` | `0x809976a` | `0x1cb` |
+| guild | DIFF | `0x80a3972` | `0x19a` | `0x8099444` | `0x1cb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -116,10 +116,10 @@
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
 -lea    -0x3e(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x42(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_Reply_Power_War_ScoreC1Ev>
-+lea    -0x44(%ebp),%eax
++lea    -0x42(%ebp),%eax
 +lea    0xa(%eax),%ebx
  movl   $0x1,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -127,7 +127,7 @@
  call   <T> <_ZN13CPowerManager13GetPowerScoreE20ENUM_POWER_SIDE_TYPE>
 -mov    %eax,-0x34(%ebp)
 +mov    %eax,(%ebx)
-+lea    -0x44(%ebp),%eax
++lea    -0x42(%ebp),%eax
 +lea    0xe(%eax),%ebx
  movl   $0x2,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -136,7 +136,7 @@
 -mov    %eax,-0x30(%ebp)
 -lea    -0x3e(%ebp),%eax
 +mov    %eax,(%ebx)
-+lea    -0x44(%ebp),%eax
++lea    -0x42(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)

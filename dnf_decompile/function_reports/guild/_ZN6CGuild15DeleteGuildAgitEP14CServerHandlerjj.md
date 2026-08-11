@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091c90` | `0x42` | `0x8057a50` | `0x4c` |
+| guild | DIFF | `0x8091c90` | `0x42` | `0x8057a4a` | `0x4c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,23 +23,21 @@
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild15DeleteGuildAgitEP14CServerHandlerjj+0x40>
--lea    -0x1a(%ebp),%eax
 +je     <T> <_ZN6CGuild15DeleteGuildAgitEP14CServerHandlerjj+0x4a>
-+lea    -0x1c(%ebp),%eax
+ lea    -0x1a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN27Packet_DB_Delete_Guild_AgitC1Ev>
-+lea    -0x1c(%ebp),%eax
++lea    -0x1a(%ebp),%eax
 +lea    0xa(%eax),%edx
  mov    0x10(%ebp),%eax
 -mov    %eax,-0x10(%ebp)
 +mov    %eax,(%edx)
-+lea    -0x1c(%ebp),%eax
++lea    -0x1a(%ebp),%eax
 +lea    0xe(%eax),%edx
  mov    0x14(%ebp),%eax
 -mov    %eax,-0xc(%ebp)
--lea    -0x1a(%ebp),%eax
 +mov    %eax,(%edx)
-+lea    -0x1c(%ebp),%eax
+ lea    -0x1a(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -74,7 +72,7 @@ CGuild::_ZN6CGuild15DeleteGuildAgitEP14CServerHandlerjj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1989 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1992 行）：
 
 ```cpp
 void CGuild::DeleteGuildAgit(CServerHandler* handler, unsigned int a, unsigned int b)

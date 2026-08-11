@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | NEAR | `0x806d25c` | `0x7ec` | `0x806d5b2` | `0x7ec` |
+| dbmw | NEAR | `0x806d25c` | `0x7ec` | `0x806d5ba` | `0x7ec` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -798,7 +798,7 @@ LAB_0806da2e:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 177 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 179 行）：
 
 ```cpp
 bool CApplication::InitDB()
@@ -821,8 +821,9 @@ bool CApplication::InitDB()
     for (std::map<ENUM_DB_HANDLE_IDX, std::string>::iterator it = dbMap.begin();
          it != dbMap.end(); ++it)
     {
-        if (QueryConnInfo(it->first, (ENUM_SERVER_GROUP)m_appConfig->GetServerGroup(),
-                          *m_appConfig->GetDBConnInfo(it->first)) != 1)
+        if (QueryConnInfo(it->first,
+                          (ENUM_SERVER_GROUP)((CAppConfig*)m_appConfig)->GetServerGroup(),
+                          *((CAppConfig*)m_appConfig)->GetDBConnInfo(it->first)) != 1)
             return 0;
         if (OpenDB(it->first, it->second) != 1)
             return 0;

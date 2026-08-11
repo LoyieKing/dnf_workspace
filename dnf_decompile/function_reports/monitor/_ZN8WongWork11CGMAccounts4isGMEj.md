@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80accc2` | `0xa7` | `0x809308e` | `0x78` |
+| monitor | DIFF | `0x80accc2` | `0xa7` | `0x809311c` | `0x99` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,57 +13,48 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,48 +1,39 @@
+@@ -1,48 +1,46 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x38,%esp
+ sub    $0x38,%esp
 -movl   $0x0,-0x20(%ebp)
 -movl   $0x0,-0x1c(%ebp)
 -movl   $0x3,-0x1c(%ebp)
--mov    0xc(%ebp),%eax
+ mov    0xc(%ebp),%eax
 -mov    %eax,-0x20(%ebp)
-+sub    $0x28,%esp
++mov    %eax,-0x1c(%ebp)
++movl   $0x3,-0x18(%ebp)
  mov    0x8(%ebp),%edx
 -lea    -0x18(%ebp),%eax
-+lea    -0x10(%ebp),%eax
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE5beginEv>
-+sub    $0x4,%esp
-+jmp    <T> <_ZN8WongWork11CGMAccounts4isGMEj+0x46>
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt14_List_iteratorIN8WongWork11CGMAccounts10stGMInfo_tEEptEv>
-+mov    (%eax),%eax
-+cmp    0xc(%ebp),%eax
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN8WongWork11CGMAccounts4isGMEj+0x3b>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN8WongWork11CGMAccounts4isGMEj+0x76>
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt14_List_iteratorIN8WongWork11CGMAccounts10stGMInfo_tEEppEv>
-+mov    0x8(%ebp),%edx
-+lea    -0xc(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE3endEv>
  sub    $0x4,%esp
--mov    0x8(%ebp),%edx
-+lea    -0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%edx
  lea    -0x10(%ebp),%eax
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
 -call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE3endEv>
--sub    $0x4,%esp
--mov    0x8(%ebp),%edx
--lea    -0xc(%ebp),%eax
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
++call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE5beginEv>
++sub    $0x4,%esp
++lea    -0x20(%ebp),%eax
++lea    -0x1c(%ebp),%edx
++mov    %edx,0xc(%esp)
++mov    -0x14(%ebp),%edx
++mov    %edx,0x8(%esp)
++mov    -0x10(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZSt4findISt14_List_iteratorIN8WongWork11CGMAccounts10stGMInfo_tEES3_ET_S5_S5_RKT0_>
+ sub    $0x4,%esp
+ mov    0x8(%ebp),%edx
+ lea    -0xc(%ebp),%eax
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
 -call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE5beginEv>
--sub    $0x4,%esp
++call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE3endEv>
+ sub    $0x4,%esp
 -lea    -0x14(%ebp),%eax
 -lea    -0x20(%ebp),%edx
 -mov    %edx,0xc(%esp)
@@ -75,15 +66,18 @@
 -call   <T> <_ZSt4findISt14_List_iteratorIN8WongWork11CGMAccounts10stGMInfo_tEES3_ET_S5_S5_RKT0_>
 -sub    $0x4,%esp
 -lea    -0x18(%ebp),%eax
--mov    %eax,0x4(%esp)
++lea    -0xc(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -lea    -0x14(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt14_List_iteratorIN8WongWork11CGMAccounts10stGMInfo_tEEneERKS3_>
  test   %al,%al
 -je     <T> <_ZN8WongWork11CGMAccounts4isGMEj+0xa0>
--mov    $0x1,%eax
++je     <T> <_ZN8WongWork11CGMAccounts4isGMEj+0x92>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN8WongWork11CGMAccounts4isGMEj+0xa5>
-+jne    <T> <_ZN8WongWork11CGMAccounts4isGMEj+0x1d>
++jmp    <T> <_ZN8WongWork11CGMAccounts4isGMEj+0x97>
  mov    $0x0,%eax
  leave
  ret
@@ -128,12 +122,13 @@ WongWork::CGMAccounts::_ZN8WongWork11CGMAccounts4isGMEj(CGMAccounts *this,uint p
 ```cpp
 bool CGMAccounts::isGM(unsigned int dbid)
 {
-    for (std::list<stGMInfo_t>::iterator it = m_list.begin(); it != m_list.end(); ++it)
+    stGMInfo_t key;
+    key.m_dbid = dbid;
+    key.m_field4 = 3;
+    std::list<stGMInfo_t>::iterator it = std::find(m_list.begin(), m_list.end(), key);
+    if (it != m_list.end())
     {
-        if (it->m_dbid == dbid)
-        {
-            return true;
-        }
+        return true;
     }
     return false;
 }

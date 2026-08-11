@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80751c8` | `0x190` | `0x8075334` | `0x243` |
+| statics | DIFF | `0x80751c8` | `0x190` | `0x807521e` | `0x243` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -310,7 +310,7 @@ StatisticManager::_ZN16StatisticManager18SendDBP2PStatisticEP14CServerHandler
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1802 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1833 行）：
 
 ```cpp
 void StatisticManager::SendDBP2PStatistic(CServerHandler* handler)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807fe66` | `0x210` | `0x806be64` | `0x20a` |
+| monitor | DIFF | `0x807fe66` | `0x210` | `0x806be6e` | `0x20d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,100 +13,73 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,135 +1,131 @@
+@@ -1,135 +1,133 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x40,%esp
  mov    0x8(%ebp),%eax
--mov    %eax,-0x14(%ebp)
--mov    -0x14(%ebp),%eax
+ mov    %eax,-0x14(%ebp)
+ mov    -0x14(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x10,%edx
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZNK12CUserManager8FindUserEj>
--mov    %eax,-0x10(%ebp)
--cmpl   $0x0,-0x10(%ebp)
+ mov    %eax,-0x10(%ebp)
+ cmpl   $0x0,-0x10(%ebp)
 -je     <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x208>
--mov    -0x14(%ebp),%eax
-+mov    %eax,-0x18(%ebp)
-+cmpl   $0x0,-0x18(%ebp)
-+je     <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x203>
-+mov    0x8(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x206>
+ mov    -0x14(%ebp),%eax
  mov    0xa(%eax),%eax
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_Z14NumberToStringji>
--mov    %eax,%ebx
-+mov    %eax,-0x14(%ebp)
+ mov    %eax,%ebx
  movl   $0x47f,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater12OnCeraUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x34(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Cera Payed User , DB ID : %s\n",0x8(%esp)
  movl   $"./log/User",0x4(%esp)
--lea    -0x34(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x10(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
--test   %eax,%eax
--setne  %al
--test   %al,%al
--je     <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0xc3>
--mov    -0x14(%ebp),%ebx
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0x0,-0x10(%ebp)
-+jne    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0xdc>
-+movl   $0x48a,0x8(%esp)
-+movl   $"OnCeraUpdate",0x4(%esp)
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x14(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CPacketTranslater::OnCeraUpdate : pUser->GetGameServer() == 0",0x8(%esp)
-+movl   $"./log/Except",0x4(%esp)
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x203>
-+mov    0x8(%ebp),%edx
+ test   %eax,%eax
+ setne  %al
+ test   %al,%al
+ je     <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0xc3>
+ mov    -0x14(%ebp),%ebx
  mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetGameServerEv>
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser13GetGameServerEv>
  movl   $0xe,0x8(%esp)
--mov    %ebx,0x4(%esp)
-+mov    %edx,0x4(%esp)
+ mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x209>
--movl   $0x48a,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater12OnCeraUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnCeraUpdate : pUser->GetGameServer() == 0",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x206>
+ movl   $0x48a,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater12OnCeraUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"CPacketTranslater::OnCeraUpdate : pUser->GetGameServer() == 0",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x209>
-+jmp    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x203>
++jmp    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x206>
  cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x1a0>
-+jne    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x19d>
+ jne    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x1a0>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -130,19 +103,16 @@
  mov    %eax,%ebx
  movl   $0x490,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater12OnCeraUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnCeraUpdate() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x199>
-+jmp    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x196>
+ jmp    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x199>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -152,25 +122,22 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x209>
-+jmp    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x203>
++jmp    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x206>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnCeraUpdate() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x496,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater12OnCeraUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnCeraUpdate() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x201>
-+jmp    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x1fe>
+ jmp    <T> <_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader+0x201>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -239,24 +206,22 @@ void CPacketTranslater::OnCeraUpdate(PacketHeader* pkt)
 {try
 {
 
-
+    PacketHeader* pkt2 = pkt;
     CUser* user =
         ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
-            ((RA_UINT<10>*)pkt)->v);
+            ((RA_UINT<10>*)pkt2)->v);
     if (user != 0)
     {
-        char* dbid = NumberToString(((RA_UINT<10>*)pkt)->v, 0);
-        DNF_LOG_SCOPE_LINE(0x47f, "./log/User", "Cera Payed User , DB ID : %s\n", dbid);
-        void* gs = user->GetGameServer();
-        if (gs == 0)
+        DNF_LOG_SCOPE_LINE(0x47f, "./log/User", "Cera Payed User , DB ID : %s\n",
+            NumberToString(((RA_UINT<10>*)pkt2)->v, 0));
+        if (user->GetGameServer() != 0)
         {
-            CMyFileLog log2("OnCeraUpdate", 0x48a);
-            log2("./log/Except", "CPacketTranslater::OnCeraUpdate : pUser->GetGameServer() == 0",
-                 dbid);
+            ((CServerInterface*)user->GetGameServer())->SendToServer((char*)pkt2, 0xe);
         }
         else
         {
-            ((CServerInterface*)gs)->SendToServer((char*)pkt, 0xe);
+            DNF_LOG_SCOPE_LINE(0x48a, "./log/Except",
+                "CPacketTranslater::OnCeraUpdate : pUser->GetGameServer() == 0");
         }
     }
 

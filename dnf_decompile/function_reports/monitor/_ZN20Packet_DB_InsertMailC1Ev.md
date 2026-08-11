@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80aa328` | `0xaa` | `0x807e662` | `0xaf` |
+| monitor | DIFF | `0x80aa328` | `0xaa` | `0x807e6a8` | `0xaf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -94,7 +94,7 @@ void __thiscall Packet_DB_InsertMail::_ZN20Packet_DB_InsertMailC1Ev(Packet_DB_In
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5859 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5889 行）：
 
 ```cpp
 Packet_DB_InsertMail::Packet_DB_InsertMail() : PacketHeader(0x177c, 0x133)

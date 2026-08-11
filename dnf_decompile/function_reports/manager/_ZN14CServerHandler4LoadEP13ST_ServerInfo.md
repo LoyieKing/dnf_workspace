@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | NEAR | `0x8067f1e` | `0x197` | `0x805db80` | `0x197` |
+| manager | NEAR | `0x8067f1e` | `0x197` | `0x805db96` | `0x197` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -216,7 +216,7 @@ CServerHandler::_ZN14CServerHandler4LoadEP13ST_ServerInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 31 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 34 行）：
 
 ```cpp
 void CServerHandler::Load(ST_ServerInfo* infos)

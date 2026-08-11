@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x8089620` | `0x59` | `0x80527a2` | `0x59` |
+| guild | NEAR | `0x8089620` | `0x59` | `0x80527a6` | `0x59` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -17,7 +17,7 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x18,%esp
-+sub    $0x4,%esp
++sub    $0x14,%esp
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17RandomOptionField5resetEv>
@@ -70,6 +70,9 @@ void __thiscall RandomOption::_ZN12RandomOption5resetEv(RandomOption *this)
 ```cpp
 void RandomOption::reset()
 {
+    // ORIG 帧 sub $0x18；本编译器对 ≥0x11 的 char 数组做 32 字节对齐，
+    // 无法精确复现（REMAIN：栈帧形态，语义等价）
+    char pad[0x10];
     ((RandomOptionField*)this)->reset();
     ((RandomOptionField*)((char*)this + 3))->reset();
     ((RandomOptionField*)((char*)this + 6))->reset();

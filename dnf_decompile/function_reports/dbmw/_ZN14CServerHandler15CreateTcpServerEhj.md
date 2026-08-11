@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | NEAR | `0x808fb08` | `0x107` | `0x80df9a6` | `0x109` |
+| dbmw | NEAR | `0x808fb08` | `0x107` | `0x80dfb54` | `0x109` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -149,7 +149,7 @@ CServerHandler::_ZN14CServerHandler15CreateTcpServerEhj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 110 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 114 行）：
 
 ```cpp
 char CServerHandler::CreateTcpServer(unsigned char idx, unsigned int port)

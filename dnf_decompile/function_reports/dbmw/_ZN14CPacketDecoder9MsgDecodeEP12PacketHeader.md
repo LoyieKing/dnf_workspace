@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80915e6` | `0x1e9` | `0x80cddd6` | `0x1e8` |
+| dbmw | DIFF | `0x80915e6` | `0x1e9` | `0x80cddfa` | `0x1e8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -99,14 +99,10 @@
  movzwl %ax,%edx
  mov    0x8(%ebp),%eax
  add    $0x4,%edx
--mov    0xc(%eax,%edx,4),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    0xc(%eax,%edx,4),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    0xc(%eax,%edx,4),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
  movzwl %ax,%ebx

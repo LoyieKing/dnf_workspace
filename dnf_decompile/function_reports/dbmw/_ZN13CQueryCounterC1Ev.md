@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808e1e4` | `0x4a` | `0x80ed06e` | `0x66` |
+| dbmw | DIFF | `0x808e1e4` | `0x4a` | `0x80ed30a` | `0x48` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,23 +1,35 @@
+@@ -1,23 +1,22 @@
  push   %ebp
  mov    %esp,%ebp
-+push   %edi
-+push   %esi
  push   %ebx
--sub    $0x14,%esp
-+sub    $0x1c,%esp
+ sub    $0x14,%esp
  mov    0x8(%ebp),%eax
  movl   $0x1e,0x1054(%eax)
  movl   $0xc,(%esp)
@@ -31,26 +28,14 @@
  call   <T> <_ZN10CUnixTimerC1Ev>
 -mov    %ebx,%eax
 -mov    %eax,%edx
-+jmp    <T> <_ZN13CQueryCounterC1Ev+0x48>
-+mov    %edx,%esi
-+mov    %eax,%edi
-+mov    %ebx,(%esp)
-+call   <T> <_ZdlPv>
-+mov    %edi,%eax
-+mov    %esi,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
 +mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x1058(%eax)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CQueryCounter15ResetQueryCountEv>
--add    $0x14,%esp
-+add    $0x1c,%esp
+ add    $0x14,%esp
  pop    %ebx
-+pop    %esi
-+pop    %edi
  pop    %ebp
  ret
 ```

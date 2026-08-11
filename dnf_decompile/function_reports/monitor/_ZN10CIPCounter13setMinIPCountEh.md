@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805e906` | `0x20` | `0x809395c` | `0x28` |
+| monitor | DIFF | `0x805e906` | `0x20` | `0x8093ba4` | `0x21` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,26 +13,22 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,13 +1,15 @@
+@@ -1,13 +1,13 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x4,%esp
-+sub    $0x14,%esp
+ sub    $0x4,%esp
  mov    0xc(%ebp),%eax
--mov    %al,-0x4(%ebp)
+ mov    %al,-0x4(%ebp)
 -movzbl -0x4(%ebp),%eax
 -cmp    $0xc8,%al
 -jbe    <T> <_ZN10CIPCounter13setMinIPCountEh+0x19>
 -mov    $0xffffffc8,%eax
 -mov    0x8(%ebp),%edx
 -mov    %al,(%edx)
-+mov    %al,-0x14(%ebp)
-+movzbl -0x14(%ebp),%eax
-+mov    %al,-0x1(%ebp)
-+cmpb   $0xc8,-0x1(%ebp)
-+jbe    <T> <_ZN10CIPCounter13setMinIPCountEh+0x1d>
-+movb   $0xc8,-0x1(%ebp)
-+movzbl -0x1(%ebp),%edx
++cmpb   $0xc8,-0x4(%ebp)
++jbe    <T> <_ZN10CIPCounter13setMinIPCountEh+0x16>
++movb   $0xc8,-0x4(%ebp)
++movzbl -0x4(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +mov    %dl,(%eax)
  leave
@@ -57,16 +53,15 @@ void __thiscall CIPCounter::_ZN10CIPCounter13setMinIPCountEh(CIPCounter *this,uc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/IPCounter.cpp](source/DNFServer/GameServer/Monitor/IPCounter.cpp)（约第 82 行）：
+定义于 [source/DNFServer/GameServer/Monitor/IPCounter.cpp](source/DNFServer/GameServer/Monitor/IPCounter.cpp)（约第 80 行）：
 
 ```cpp
 void CIPCounter::setMinIPCount(unsigned char count)
 {
-    unsigned char v = count;
-    if (v > 200)
+    if (count > 200)
     {
-        v = 200;
+        count = 200;
     }
-    m_option = v;
+    m_option = count;
 }
 ```

@@ -215,7 +215,7 @@ void __thiscall CGuild::_ZN6CGuild17SetSubGuildMasterEjb(CGuild *this,uint param
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1710 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1713 行）：
 
 ```cpp
 void CGuild::SetSubGuildMaster(unsigned int charNo, bool flag)

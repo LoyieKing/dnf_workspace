@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090b68` | `0x16e` | `0x8056902` | `0x156` |
+| guild | DIFF | `0x8090b68` | `0x16e` | `0x8056910` | `0x152` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -45,109 +45,100 @@
 +jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x4a>
 +mov    $0x0,%eax
 +test   %al,%al
-+jne    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x14f>
++jne    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x14b>
  mov    0x8(%ebp),%eax
  add    $0x1e,%eax
 -mov    %eax,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
  movzwl (%eax),%eax
 -movzwl %ax,%edx
-+mov    %ax,-0xa(%ebp)
-+mov    0x8(%ebp),%edx
-+movzwl -0xa(%ebp),%eax
-+mov    %eax,%ecx
-+shl    $0x6,%ecx
-+lea    (%ecx,%eax,1),%eax
-+add    $0xdd,%eax
-+add    %eax,%edx
- mov    0xc(%ebp),%eax
+-mov    0xc(%ebp),%eax
 -mov    0x8(%eax),%ecx
 -mov    0x8(%ebp),%ebx
--mov    %edx,%eax
--shl    $0x6,%eax
--add    %edx,%eax
++mov    %ax,-0xa(%ebp)
++mov    0x8(%ebp),%ecx
++movzwl -0xa(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ add    %edx,%eax
+-lea    (%ebx,%eax,1),%eax
+-add    $0xd0,%eax
+-mov    %ecx,0xd(%eax)
++add    $0xdd,%eax
++lea    (%ecx,%eax,1),%edx
++mov    0xc(%ebp),%eax
 +add    $0x8,%eax
 +mov    (%eax),%eax
 +mov    %eax,(%edx)
-+mov    0xc(%ebp),%eax
-+lea    0x23(%eax),%edx
-+mov    0x8(%ebp),%ecx
-+movzwl -0xa(%ebp),%eax
-+mov    %eax,%ebx
-+shl    $0x6,%ebx
- lea    (%ebx,%eax,1),%eax
--add    $0xd0,%eax
--mov    %ecx,0xd(%eax)
--mov    0xc(%ebp),%eax
--lea    0x23(%eax),%ecx
+ mov    0xc(%ebp),%eax
+ lea    0x23(%eax),%ecx
 -mov    -0xc(%ebp),%eax
 -movzwl (%eax),%eax
 -movzwl %ax,%edx
--mov    %edx,%eax
--shl    $0x6,%eax
--add    %edx,%eax
++mov    0x8(%ebp),%ebx
++movzwl -0xa(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ add    %edx,%eax
 -add    $0xd0,%eax
 -add    0x8(%ebp),%eax
 -add    $0x11,%eax
 +add    $0xe1,%eax
-+lea    (%ecx,%eax,1),%eax
++lea    (%ebx,%eax,1),%eax
  movl   $0x1d,0x8(%esp)
--mov    %ecx,0x4(%esp)
-+mov    %edx,0x4(%esp)
+ mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memcpy>
 -mov    -0xc(%ebp),%eax
 -movzwl (%eax),%eax
 -movzwl %ax,%ebx
-+mov    0x8(%ebp),%edx
-+movzwl -0xa(%ebp),%eax
-+mov    %eax,%ecx
-+shl    $0x6,%ecx
-+lea    (%ecx,%eax,1),%eax
++mov    0x8(%ebp),%ecx
++movzwl -0xa(%ebp),%edx
++mov    %edx,%eax
++shl    $0x6,%eax
++add    %edx,%eax
 +add    $0xff,%eax
-+lea    (%edx,%eax,1),%ebx
++lea    (%ecx,%eax,1),%ebx
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser6GetJobEv>
 -mov    %eax,%edx
--mov    0x8(%ebp),%ecx
--mov    %ebx,%eax
--shl    $0x6,%eax
--add    %ebx,%eax
 +mov    %al,(%ebx)
-+mov    0x8(%ebp),%edx
-+movzwl -0xa(%ebp),%eax
-+mov    %eax,%ecx
-+shl    $0x6,%ecx
- lea    (%ecx,%eax,1),%eax
+ mov    0x8(%ebp),%ecx
+-mov    %ebx,%eax
++movzwl -0xa(%ebp),%edx
++mov    %edx,%eax
+ shl    $0x6,%eax
+-add    %ebx,%eax
+-lea    (%ecx,%eax,1),%eax
 -add    $0xf0,%eax
 -mov    %dl,0xf(%eax)
 -mov    -0xc(%ebp),%eax
 -movzwl (%eax),%eax
 -movzwl %ax,%ebx
++add    %edx,%eax
 +add    $0x100,%eax
-+lea    (%edx,%eax,1),%ebx
++lea    (%ecx,%eax,1),%ebx
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGrowthTypeEv>
 -mov    %eax,%edx
--mov    0x8(%ebp),%ecx
--mov    %ebx,%eax
--shl    $0x6,%eax
--add    %ebx,%eax
 +mov    %al,(%ebx)
-+mov    0x8(%ebp),%edx
-+movzwl -0xa(%ebp),%eax
-+mov    %eax,%ecx
-+shl    $0x6,%ecx
- lea    (%ecx,%eax,1),%eax
+ mov    0x8(%ebp),%ecx
+-mov    %ebx,%eax
++movzwl -0xa(%ebp),%edx
++mov    %edx,%eax
+ shl    $0x6,%eax
+-add    %ebx,%eax
+-lea    (%ecx,%eax,1),%eax
 -add    $0xf0,%eax
 -mov    %dl,0x10(%eax)
 -mov    -0xc(%ebp),%eax
 -movzwl (%eax),%eax
 -movzwl %ax,%ebx
++add    %edx,%eax
 +add    $0x101,%eax
-+lea    (%edx,%eax,1),%ebx
++lea    (%ecx,%eax,1),%ebx
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser8GetLevelEv>
@@ -176,7 +167,7 @@
 +mov    %ax,(%ebx)
 +addw   $0x1,-0xa(%ebp)
 +cmpw   $0x12c,-0xa(%ebp)
-+jbe    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x133>
++jbe    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x12f>
 +movw   $0x12c,-0xa(%ebp)
  mov    0x8(%ebp),%eax
 -mov    %dx,0x42(%eax)
@@ -190,7 +181,7 @@
 +lea    0x42(%eax),%edx
 +movzwl -0xa(%ebp),%eax
 +mov    %ax,(%edx)
-+jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x150>
++jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x14c>
  nop
  add    $0x24,%esp
  pop    %ebx
@@ -244,7 +235,7 @@ CGuild::_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1574 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1577 行）：
 
 ```cpp
 void CGuild::AddGuildMember(ST_Notice_Guild_Enter& info, CUser* user)
