@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804f86e` | `0xdc` | `0x8085324` | `0xec` |
+| monitor | DIFF | `0x804f86e` | `0xdc` | `0x80852fc` | `0xe4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,58 +1,67 @@
+@@ -1,58 +1,63 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x48,%esp
@@ -27,15 +27,13 @@
  mov    %eax,(%esp)
  call   <T> <memset>
  movw   $0x2,-0x1c(%ebp)
-+lea    -0x1c(%ebp),%eax
-+lea    0x4(%eax),%ebx
++lea    -0x1c(%ebp),%ebx
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <inet_addr>
 -mov    %eax,-0x18(%ebp)
-+mov    %eax,(%ebx)
++mov    %eax,0x4(%ebx)
 +lea    -0x1c(%ebp),%ebx
-+add    $0x2,%ebx
  movzwl -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <htons>
@@ -43,7 +41,7 @@
 -movl   $0x10,-0xc(%ebp)
 -mov    -0xc(%ebp),%ecx
 -lea    -0x1c(%ebp),%edx
-+mov    %ax,(%ebx)
++mov    %ax,0x2(%ebx)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
 -mov    %ecx,0x8(%esp)
@@ -57,7 +55,7 @@
 -je     <T> <_ZN9TCPSocket7connectEPKct+0xaa>
 +mov    %eax,-0xc(%ebp)
 +cmpl   $0x0,-0xc(%ebp)
-+js     <T> <_ZN9TCPSocket7connectEPKct+0xb0>
++js     <T> <_ZN9TCPSocket7connectEPKct+0xa8>
 +lea    -0x1c(%ebp),%eax
 +add    $0x4,%eax
 +mov    0x8(%ebp),%edx
@@ -67,12 +65,10 @@
 +mov    %edx,(%esp)
 +call   <T> <memcpy>
 +mov    0x8(%ebp),%eax
-+lea    0x18(%eax),%edx
-+lea    -0x1c(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
-+mov    %ax,(%edx)
-+jmp    <T> <_ZN9TCPSocket7connectEPKct+0xde>
++lea    -0x1c(%ebp),%edx
++movzwl 0x2(%edx),%edx
++mov    %dx,0x18(%eax)
++jmp    <T> <_ZN9TCPSocket7connectEPKct+0xd6>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -143,25 +139,27 @@ bool __thiscall TCPSocket::_ZN9TCPSocket7connectEPKct(TCPSocket *this,char *para
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 125 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp](source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp)（约第 54 行）：
 
 ```cpp
 char TCPSocket::connect(const char* ip, unsigned short port)
 {
-    struct sockaddr_in addr;
+    sockaddr addr;
     memset(&addr, 0, 0x10);
-    addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = inet_addr(ip);
-    addr.sin_port = htons(port);
-    int len = 0x10;
-    if (::connect(m_fd, (struct sockaddr*)&addr, len) < 0)
+    addr.sa_family = 2;
+    ((RA_UINT<4>*)&addr)->v = inet_addr(ip);
+    ((RA_U16<2>*)&addr)->v = htons(port);
+    int r = ::connect(m_fd, &addr, 0x10);
+    if (r >= 0)
     {
-        printf("CONNECTION FAIL IP =%s, PORT =%d, reason =%s",
-               ip, port, strerror(errno));
-        return 0;
+        memcpy((char*)this + 0x14, (char*)&addr + 4, 4);
+        ((RA_U16<24>*)this)->v = ((RA_U16<2>*)&addr)->v;
     }
-    memcpy((char*)this + 0x14, (char*)&addr + 4, 4);
-    m_port = *(unsigned short*)((char*)&addr + 2);
-    return 1;
+    else
+    {
+        printf("CONNECTION FAIL IP =%s, PORT =%d, reason =%s", ip, (unsigned int)port,
+               strerror(errno));
+    }
+    return (char)(r >= 0);
 }
 ```

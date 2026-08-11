@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809c0b6` | `0x287` | `0x809fb46` | `0x293` |
+| monitor | DIFF | `0x809c0b6` | `0x287` | `0x809fdc8` | `0x293` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -26,8 +26,8 @@
  call   <T> <time>
 -mov    %eax,-0x20(%ebp)
 -lea    -0x20(%ebp),%eax
-+mov    %eax,-0x4c(%ebp)
-+lea    -0x4c(%ebp),%eax
++mov    %eax,-0x54(%ebp)
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <localtime>
 -mov    (%eax),%edx
@@ -89,7 +89,7 @@
 -mov    -0x20(%ebp),%edx
 -cmp    %edx,%eax
 +mov    %eax,%edx
-+mov    -0x4c(%ebp),%eax
++mov    -0x54(%ebp),%eax
 +cmp    %eax,%edx
  setg   %al
  test   %al,%al
@@ -274,16 +274,16 @@
  call   <T> <mktime>
 -mov    %eax,-0x24(%ebp)
 -lea    -0x24(%ebp),%eax
-+mov    %eax,-0x50(%ebp)
-+lea    -0x50(%ebp),%eax
++mov    %eax,-0x58(%ebp)
++lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <ctime>
 -mov    %eax,%ebx
 +mov    %eax,-0x14(%ebp)
  movl   $0x96,0x8(%esp)
- movl   $"MakeEventStartTick",0x4(%esp)
+ movl   $&_ZZN20CTask_ChristmasEvent18MakeEventStartTickEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
@@ -292,12 +292,12 @@
  movl   $"Next X_Mas Event Time! (%s)",0x8(%esp)
  movl   $"./log/GameServer",0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x24(%ebp),%eax
 -add    $0xb4,%esp
-+mov    -0x50(%ebp),%eax
++mov    -0x58(%ebp),%eax
 +add    $0xc4,%esp
  pop    %ebx
  pop    %ebp
@@ -398,7 +398,7 @@ time_t CTask_ChristmasEvent::_ZN20CTask_ChristmasEvent18MakeEventStartTickEi(int
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TaskImpl.cpp](source/DNFServer/GameServer/Monitor/TaskImpl.cpp)（约第 60 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TaskImpl.cpp](source/DNFServer/GameServer/Monitor/TaskImpl.cpp)（约第 61 行）：
 
 ```cpp
 unsigned int CTask_ChristmasEvent::MakeEventStartTick(int param_1)

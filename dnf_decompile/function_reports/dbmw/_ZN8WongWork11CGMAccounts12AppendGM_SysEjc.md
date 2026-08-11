@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8063ae0` | `0x8f` | `0x8094924` | `0x8e` |
+| dbmw | DIFF | `0x8063ae0` | `0x8f` | `0x80e7f98` | `0x8e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -44,7 +44,7 @@
 -mov    %eax,%ebx
 +mov    %eax,-0xc(%ebp)
  movl   $0xcd,0x8(%esp)
- movl   $"AppendGM_Sys",0x4(%esp)
+ movl   $&_ZZN8WongWork11CGMAccounts12AppendGM_SysEjcE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -94,7 +94,7 @@ WongWork::CGMAccounts::_ZN8WongWork11CGMAccounts12AppendGM_SysEjc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/GMAccounts.cpp](source/DNFServer/GameServer/DBMW/GMAccounts.cpp)（约第 80 行）：
+定义于 [source/DNFServer/GameServer/DBMW/GMAccounts.cpp](source/DNFServer/GameServer/DBMW/GMAccounts.cpp)（约第 82 行）：
 
 ```cpp
 void WongWork::CGMAccounts::AppendGM_Sys(unsigned int id, char flag)
@@ -104,7 +104,7 @@ void WongWork::CGMAccounts::AppendGM_Sys(unsigned int id, char flag)
     info.m_field1 = (int)flag;
     m_list.push_back(info);
     char* mid = NumberToString(id, 0);
-    CMyFileLog log("AppendGM_Sys", 0xcd);
+    CMyFileLog log(__FUNCTION__, 0xcd);
     log("./log/Init", "GM List Add mid:%s", mid);
 }
 ```

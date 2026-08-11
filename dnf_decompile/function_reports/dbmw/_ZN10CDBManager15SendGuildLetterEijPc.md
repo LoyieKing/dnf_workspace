@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80746c2` | `0x2f9` | `0x804d4a4` | `0x309` |
+| dbmw | DIFF | `0x80746c2` | `0x2f9` | `0x804d49e` | `0x309` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -29,16 +29,11 @@
 +mov    -0x2c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    0x10(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect charac_no from guild_member where guild_id = %d and server_id = %d and member_flag = 1",0x8(%esp)
  movl   $0x4e39,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
@@ -47,14 +42,14 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x96>
-+mov    -0x2c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x9a>
  movl   $0x7d3,0x8(%esp)
- movl   $"SendGuildLetter",0x4(%esp)
+ movl   $&_ZZN10CDBManager15SendGuildLetterEijPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
@@ -77,8 +72,7 @@
 +mov    -0x2c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e39,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
@@ -91,9 +85,9 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2ef>
 -mov    -0x1c(%ebp),%eax
-+mov    -0x2c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager15SendGuildLetterEijPc+0xc5>
@@ -102,15 +96,14 @@
 +mov    -0x2c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
 -mov    %eax,-0x18(%ebp)
-+mov    (%eax),%eax
-+mov    -0x2c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +mov    %eax,-0x28(%ebp)
  movl   $0x0,(%esp)
  call   <T> <time>
@@ -149,7 +142,7 @@
 +mov    -0x2c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
@@ -161,10 +154,9 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2ef>
 -mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x2c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x156>
@@ -174,12 +166,10 @@
 +mov    -0x2c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -lea    -0x38(%ebp),%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+lea    -0x3c(%ebp),%edx
-+mov    %edx,0x8(%esp)
++lea    -0x3c(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
@@ -193,9 +183,9 @@
 -jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2ef>
 -lea    -0x5e(%ebp),%eax
 -mov    $0x1e,%ebx
-+mov    -0x2c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x18f>
@@ -290,7 +280,7 @@
 +test   %al,%al
 +je     <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2b1>
 +movl   $0x80d,0x8(%esp)
-+movl   $"SendGuildLetter",0x4(%esp)
++movl   $&_ZZN10CDBManager15SendGuildLetterEijPcE12__FUNCTION__,0x4(%esp)
 +lea    -0x6c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -315,7 +305,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -movl   $0x80d,0x8(%esp)
--movl   $"SendGuildLetter",0x4(%esp)
+-movl   $&_ZZN10CDBManager15SendGuildLetterEijPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -476,7 +466,7 @@ char CDBManager::SendGuildLetter(int serverId, unsigned int guildId, char* msg)
                       "seLect charac_no from guild_member where guild_id = %d and server_id = %d and member_flag = 1",
                       guildId, serverId))
     {
-        CMyFileLog log("SendGuildLetter", 0x7d3);
+        CMyFileLog log(__FUNCTION__, 0x7d3);
         log("./log/DBQueryErr",
             "CDBManager::AwardGuildTitleByMail() select charac_no from guild_member where server_id = %d and guild_id = %d and member_flag = 1\n",
             serverId, guildId);
@@ -504,7 +494,7 @@ char CDBManager::SendGuildLetter(int serverId, unsigned int guildId, char* msg)
         int letterNo = 0;
         if (!InsertLetter(characNo, 0, subject, msg, letterNo, expiry))
         {
-            CMyFileLog log("SendGuildLetter", 0x80d);
+            CMyFileLog log(__FUNCTION__, 0x80d);
             log("./log/Postal", "InsertLetter Err");
             return 0;
         }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x8060e3e` | `0xeb` | `0x805be88` | `0xeb` |
+| monitor | NEAR | `0x8060e3e` | `0xeb` | `0x805c16c` | `0xeb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -153,30 +153,26 @@ undefined4 CKillUSRConfig::_ZN14CKillUSRConfig11Parse_TableEPci(char *param_1,in
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFKillUserConfig.cpp](source/DNFServer/GameServer/COServer/DNFKillUserConfig.cpp)（约第 41 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFKillUserConfig.cpp](source/DNFServer/GameServer/Monitor/DNFKillUserConfig.cpp)（约第 35 行）：
 
 ```cpp
-bool CKillUSRConfig::Parse_Table(char* line, int idx)
+int CKillUSRConfig::Parse_Table(char* line, int idx)
 {
     if (line[0] == '#')
     {
         return 0;
     }
-    char* tok0;
-    char* tok1;
-    char* tok2;
-    char* tok3;
-    int n = DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 4);
-    if (n == 4)
+    char* tokens[4];
+    if (DNFFLib::ExplodeString(line, " \t\r\n\"", tokens, 4) == 4)
     {
-        ST_KillUSRConfig* p = new (std::nothrow) ST_KillUSRConfig;
-        if (p != 0)
+        ST_KillUSRConfig* cfg = new (std::nothrow) ST_KillUSRConfig;
+        if (cfg != 0)
         {
-            p->m_field0 = atoi(tok0);
-            p->m_field1 = atoi(tok1);
-            p->m_field2 = atoi(tok2);
-            p->m_field3 = atoi(tok3);
-            m_infos.push_back(p);
+            cfg->m_type = atoi(tokens[0]);
+            cfg->m_val = atoi(tokens[1]);
+            cfg->m_b = atoi(tokens[2]);
+            cfg->m_c = atoi(tokens[3]);
+            m_vec.push_back(cfg);
             return 1;
         }
     }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8098148` | `0x3c` | `0x80607ba` | `0x47` |
+| monitor | DIFF | `0x8098148` | `0x3c` | `0x8060a0a` | `0x45` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,37 +13,35 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,22 +1,26 @@
+@@ -1,22 +1,25 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x18,%esp
 +sub    $0x4,%esp
  mov    0x8(%ebp),%eax
--movzwl 0x4(%eax),%eax
-+add    $0x4,%eax
-+movzwl (%eax),%eax
+ movzwl 0x4(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZNK7CMember20GetUpperMember_ProxyEv+0x35>
-+je     <T> <_ZNK7CMember20GetUpperMember_ProxyEv+0x2f>
++je     <T> <_ZNK7CMember20GetUpperMember_ProxyEv+0x2d>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK7CMember12IsThereUpperEv>
-+test   %eax,%eax
-+je     <T> <_ZNK7CMember20GetUpperMember_ProxyEv+0x2f>
-+mov    $0x1,%eax
-+jmp    <T> <_ZNK7CMember20GetUpperMember_ProxyEv+0x34>
-+mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZNK7CMember20GetUpperMember_ProxyEv+0x2e>
-+je     <T> <_ZNK7CMember20GetUpperMember_ProxyEv+0x40>
++je     <T> <_ZNK7CMember20GetUpperMember_ProxyEv+0x2d>
++mov    $0x1,%eax
++jmp    <T> <_ZNK7CMember20GetUpperMember_ProxyEv+0x32>
++mov    $0x0,%eax
++test   %al,%al
++je     <T> <_ZNK7CMember20GetUpperMember_ProxyEv+0x3e>
  mov    0x8(%ebp),%eax
  add    $0x6,%eax
 -jmp    <T> <_ZNK7CMember20GetUpperMember_ProxyEv+0x3a>
 -mov    $0x0,%eax
 -jmp    <T> <_ZNK7CMember20GetUpperMember_ProxyEv+0x3a>
-+jmp    <T> <_ZNK7CMember20GetUpperMember_ProxyEv+0x45>
++jmp    <T> <_ZNK7CMember20GetUpperMember_ProxyEv+0x43>
  mov    $0x0,%eax
  leave
  ret
@@ -78,7 +76,7 @@ CMember * __thiscall CMember::_ZNK7CMember20GetUpperMember_ProxyEv(CMember *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 424 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 430 行）：
 
 ```cpp
 unsigned int* CMember::GetUpperMember_Proxy()

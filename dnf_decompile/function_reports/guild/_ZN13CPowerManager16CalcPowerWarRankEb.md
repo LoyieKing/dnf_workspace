@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a3f4c` | `0x10b` | `0x809a21c` | `0x113` |
+| guild | DIFF | `0x80a3f4c` | `0x10b` | `0x8099d9a` | `0x118` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,30 +13,28 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,68 +1,72 @@
+@@ -1,68 +1,75 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
+ push   %ebx
 -sub    $0x34,%esp
-+sub    $0x48,%esp
++sub    $0x44,%esp
  mov    0xc(%ebp),%eax
 -mov    %al,-0x1c(%ebp)
 -cmpb   $0x0,-0x1c(%ebp)
--je     <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x1a>
--mov    $"All",%ebx
--jmp    <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x1f>
--mov    $"Winner",%ebx
 +mov    %al,-0x2c(%ebp)
 +cmpb   $0x0,-0x2c(%ebp)
-+je     <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x19>
+ je     <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x1a>
+-mov    $"All",%ebx
 +mov    $"All",%eax
-+jmp    <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x1e>
+ jmp    <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x1f>
+-mov    $"Winner",%ebx
 +mov    $"Winner",%eax
 +mov    %eax,-0xc(%ebp)
  movl   $0x17c,0x8(%esp)
- movl   $"CalcPowerWarRank",0x4(%esp)
+ movl   $&_ZZN13CPowerManager16CalcPowerWarRankEbE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
@@ -45,13 +43,13 @@
  movl   $"CPowerManager::CalcPowerWarRank(%s)",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -cmpb   $0x0,-0x1c(%ebp)
 -je     <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x82>
 +cmpb   $0x0,-0x2c(%ebp)
-+je     <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x87>
++je     <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x88>
  mov    0x8(%ebp),%eax
  add    $0x74,%eax
  mov    %eax,(%esp)
@@ -61,44 +59,41 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CPower16CalcPowerWarRankEv>
 -jmp    <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x105>
-+jmp    <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x111>
++jmp    <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x112>
  mov    0x8(%ebp),%eax
 -movzbl 0x184(%eax),%eax
 +add    $0x184,%eax
 +movzbl (%eax),%eax
  test   %al,%al
 -je     <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x9e>
-+je     <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0xa5>
++je     <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0xa6>
  mov    0x8(%ebp),%eax
 -movzbl 0x184(%eax),%eax
 +add    $0x184,%eax
 +movzbl (%eax),%eax
  cmp    $0x2,%al
 -jle    <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0xe7>
--mov    0x8(%ebp),%eax
++jle    <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0xf0>
+ mov    0x8(%ebp),%eax
 -movzbl 0x184(%eax),%eax
--movsbl %al,%ebx
-+jle    <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0xef>
- movl   $0x187,0x8(%esp)
- movl   $"CalcPowerWarRank",0x4(%esp)
--lea    -0x10(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
 +add    $0x184,%eax
 +movzbl (%eax),%eax
-+movsbl %al,%eax
-+mov    %eax,0xc(%esp)
+ movsbl %al,%ebx
+ movl   $0x187,0x8(%esp)
+ movl   $&_ZZN13CPowerManager16CalcPowerWarRankEbE12__FUNCTION__,0x4(%esp)
+-lea    -0x10(%ebp),%eax
++lea    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"invalid winner side income(%d)",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x10(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x105>
-+jmp    <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x111>
++jmp    <T> <_ZN13CPowerManager16CalcPowerWarRankEb+0x112>
  mov    0x8(%ebp),%eax
 -movzbl 0x184(%eax),%eax
 -movsbl %al,%eax
@@ -115,9 +110,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CPower16CalcPowerWarRankEv>
 -add    $0x34,%esp
--pop    %ebx
--pop    %ebp
-+leave
++add    $0x44,%esp
+ pop    %ebx
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8065776` | `0x115` | `0x8052bd2` | `0x78` |
+| monitor | DIFF | `0x8065776` | `0x115` | `0x8052bd6` | `0x78` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -165,7 +165,7 @@ void CApplication::_ZN12CApplication21DisableChatUserWithGMEjj(uint param_1,uint
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 828 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 850 行）：
 
 ```cpp
 void CApplication::DisableChatUserWithGM(unsigned int channel, unsigned int charNo)

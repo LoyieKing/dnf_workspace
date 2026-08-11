@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809196c` | `0x65` | `0x805762e` | `0x75` |
+| guild | DIFF | `0x809196c` | `0x65` | `0x805772a` | `0x6f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,30 +1,37 @@
+@@ -1,30 +1,34 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x48,%esp
@@ -21,10 +21,9 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
-+xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN6CGuild32DBSaveGuildMemberUnChangableInfoEP14CServerHandlerjjPc+0x63>
-+jne    <T> <_ZN6CGuild32DBSaveGuildMemberUnChangableInfoEP14CServerHandlerjjPc+0x72>
++je     <T> <_ZN6CGuild32DBSaveGuildMemberUnChangableInfoEP14CServerHandlerjjPc+0x6d>
  lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN33Packet_UnChangable_GuildInfo_SaveC1Ev>
@@ -50,8 +49,6 @@
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
-+jmp    <T> <_ZN6CGuild32DBSaveGuildMemberUnChangableInfoEP14CServerHandlerjjPc+0x73>
-+nop
  leave
  ret
 ```
@@ -86,4 +83,4 @@ CGuild::_ZN6CGuild32DBSaveGuildMemberUnChangableInfoEP14CServerHandlerjjPc
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/DNFGuild.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 619 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/DNFGuild.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 289 个文件*

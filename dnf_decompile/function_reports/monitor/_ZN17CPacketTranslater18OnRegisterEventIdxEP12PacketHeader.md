@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808d9e8` | `0x16a` | `0x8079078` | `0x16c` |
+| monitor | DIFF | `0x808d9e8` | `0x16a` | `0x8078fcc` | `0x168` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,52 +13,43 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,96 +1,98 @@
+@@ -1,96 +1,96 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x40,%esp
  mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++mov    0xa(%eax),%eax
  mov    %eax,-0x10(%ebp)
 -mov    -0x10(%ebp),%eax
 -mov    0xa(%eax),%esi
 -mov    -0x10(%ebp),%eax
--movzbl 0xe(%eax),%eax
--movzbl %al,%ebx
++mov    0x8(%ebp),%eax
+ movzbl 0xe(%eax),%eax
+ movzbl %al,%ebx
  movl   $0x1a15,0x8(%esp)
- movl   $"OnRegisterEventIdx",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    -0x10(%ebp),%eax
++mov    %eax,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"OnRegisterEventIdx:result =%d, Eventidx =%d",0x8(%esp)
  movl   $"./log/OnTimeEvent",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x10(%ebp),%eax
--movzbl 0xe(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
+ movzbl 0xe(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x163>
 -mov    -0x10(%ebp),%eax
 -mov    0xa(%eax),%edx
-+je     <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x165>
++je     <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x161>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -mov    0x320(%eax),%eax
 +add    $0x320,%eax
@@ -68,42 +59,34 @@
  mov    %eax,(%esp)
  call   <T> <_ZN19COnTimeEventManager11SetEventIdxEj>
 -jmp    <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x163>
-+jmp    <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x165>
++jmp    <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x161>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x109>
-+jne    <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x10b>
++jne    <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x107>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
  movl   $0x1a1e,0x8(%esp)
- movl   $"OnRegisterEventIdx",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnResultLoadPeriodicMessage Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x102>
-+jmp    <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x104>
++jmp    <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x100>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -113,23 +96,21 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x163>
-+jmp    <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x165>
++jmp    <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x161>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1a23,0x8(%esp)
- movl   $"OnRegisterEventIdx",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnResultLoadPeriodicMessage Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x15e>
-+jmp    <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x160>
++jmp    <T> <_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader+0x15c>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -177,7 +158,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4416 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4425 行）：
 
 ```cpp
 void CPacketTranslater::OnRegisterEventIdx(PacketHeader* pkt)
@@ -185,10 +166,10 @@ void CPacketTranslater::OnRegisterEventIdx(PacketHeader* pkt)
 {
 
 
-    unsigned int idx = *(unsigned int*)((char*)pkt + 0xa);
+    unsigned int idx = ((RA_UINT<10>*)pkt)->v;
     DNF_LOG_SCOPE_LINE(0x1a15,"./log/OnTimeEvent", "OnRegisterEventIdx:result =%d, Eventidx =%d",
-        (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe), idx);
-    if (*(char*)((char*)pkt + 0xe) != 0)
+        (unsigned int)(unsigned char)((RA_S8<14>*)pkt)->v, idx);
+    if (((RA_S8<14>*)pkt)->v != 0)
     {
         ((COnTimeEventManager*)*(void**)((char*)m_pclApp + 800))->SetEventIdx(idx);
     }

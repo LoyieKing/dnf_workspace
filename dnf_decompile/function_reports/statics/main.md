@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | NEAR | `0x80509e8` | `0x8e` | `0x805cf4e` | `0x8e` |
+| statics | NEAR | `0x80509e8` | `0x8e` | `0x805cf38` | `0x8e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -36,14 +36,10 @@
  mov    0x1c(%esp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    0x1c(%esp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    0x1c(%esp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    0x1c(%esp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    0x1c(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN8CAppBase5ClearEv>

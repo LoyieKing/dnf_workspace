@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8092594` | `0xad` | `0x807ad9c` | `0xc1` |
+| dbmw | DIFF | `0x8092594` | `0xad` | `0x80ce4a0` | `0xc1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -122,11 +122,15 @@ void __thiscall CPacketTracer::_ZN13CPacketTracerC2Ev(CPacketTracer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFPacketTracer.cpp](source/DNFServer/GameServer/COServer/DNFPacketTracer.cpp)（约第 14 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp)（约第 26 行）：
 
 ```cpp
 CPacketTracer::CPacketTracer()
-    : m_count(0)
 {
+    m_field0 = 0;
+    m_timer = 0;
+    m_processCount = 0;
+    m_timer = new CUnixTimer;
+    ResetPacketProcessLog();
 }
 ```

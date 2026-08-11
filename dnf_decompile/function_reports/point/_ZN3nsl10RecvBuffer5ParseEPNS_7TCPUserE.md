@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| point | DIFF | `0x80ba458` | `0x349` | `0x808203a` | `0x358` |
+| point | DIFF | `0x80ba458` | `0x349` | `0x8081fd6` | `0x358` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -263,10 +263,9 @@
  cmp    %eax,%edx
 -je     <T> <_ZN3nsl10RecvBuffer5ParseEPNS_7TCPUserE+0x2f5>
 +je     <T> <_ZN3nsl10RecvBuffer5ParseEPNS_7TCPUserE+0x304>
- movl   $"bool nsl::RecvBuffer::Parse(nsl::TCPUser*)",0xc(%esp)
- movl $L,0x8(%esp)
--movl   $"RecvBuffer.cpp",0x4(%esp)
-+movl   $"/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/RecvBuffer.cpp",0x4(%esp)
+ movl   $&_ZZN3nsl10RecvBuffer5ParseEPNS_7TCPUserEE19__PRETTY_FUNCTION__,0xc(%esp)
+ movl   $0xf9,0x8(%esp)
+ movl   $"RecvBuffer.cpp",0x4(%esp)
  movl   $"mParseIdx == mRearIdx",(%esp)
  call   <T> <__assert_fail>
  mov    0x8(%ebp),%eax
@@ -420,7 +419,7 @@ LAB_080ba78a:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/RecvBuffer.cpp](source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/RecvBuffer.cpp)（约第 44 行）：
+定义于 [source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/RecvBuffer.cpp](source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/RecvBuffer.cpp)（约第 46 行）：
 
 ```cpp
     if ((mFrontIdx == 0 && mParseIdx > mPartialQueueSize) || (mFrontIdx - mRearIdx == 1))

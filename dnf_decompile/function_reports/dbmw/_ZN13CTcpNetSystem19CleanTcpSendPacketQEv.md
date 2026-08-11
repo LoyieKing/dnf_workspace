@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805c916` | `0x11c` | `0x80a206e` | `0x106` |
+| dbmw | DIFF | `0x805c916` | `0x11c` | `0x80f5742` | `0x106` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -94,7 +94,7 @@
 +test   %al,%al
 +jne    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0x21>
  movl   $0x16b,0x8(%esp)
- movl   $"CleanTcpSendPacketQ",0x4(%esp)
+ movl   $&_ZZN13CTcpNetSystem19CleanTcpSendPacketQEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -188,7 +188,7 @@ void CTcpNetSystem::CleanTcpSendPacketQ()
             delete p;
         }
     }
-    CMyFileLog log("CleanTcpSendPacketQ", 0x16b);
+    CMyFileLog log(__FUNCTION__, 0x16b);
     log("./log/TcpSend", "Clean Tcp Send Queue Complete !");
 }
 ```

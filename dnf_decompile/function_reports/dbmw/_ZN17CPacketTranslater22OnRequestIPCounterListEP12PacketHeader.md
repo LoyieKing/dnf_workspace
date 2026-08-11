@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809b958` | `0x599` | `0x8084b4c` | `0x564` |
+| dbmw | DIFF | `0x809b958` | `0x599` | `0x80d8160` | `0x53b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,18 +13,18 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,373 +1,369 @@
+@@ -1,373 +1,354 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0xeb0,%esp
 -lea    -0x68(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x70(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI18st_ip_counter_listSaIS0_EEC1Ev>
 -lea    -0x74(%ebp),%eax
-+lea    -0x54(%ebp),%eax
++lea    -0x7c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI23st_full_ip_counter_listSaIS0_EEC1Ev>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -32,7 +32,7 @@
  jne    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x34>
  mov    $0x0,%ebx
 -jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x55c>
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x525>
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x4fe>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x34(%ebp)
 -mov    -0x34(%ebp),%eax
@@ -43,10 +43,10 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  lea    0x50(%edx),%ecx
 -lea    -0x74(%ebp),%edx
-+lea    -0x54(%ebp),%edx
++lea    -0x7c(%ebp),%edx
  mov    %edx,0xc(%esp)
 -lea    -0x68(%ebp),%edx
-+lea    -0x48(%ebp),%edx
++lea    -0x70(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    %ecx,(%esp)
@@ -59,18 +59,20 @@
 +test   %al,%al
 +je     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0xb0>
  movl   $0xb8a,0x8(%esp)
- movl   $"OnRequestIPCounterList",0x4(%esp)
- lea    -0x5c(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x5c(%ebp),%eax
++lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnRequestIPCounterList insert fail\n",0x8(%esp)
  movl   $"./log/Secu",0x4(%esp)
- lea    -0x5c(%ebp),%eax
+-lea    -0x5c(%ebp),%eax
++lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%ebx
 -jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x55c>
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x525>
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x4fe>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -78,22 +80,22 @@
 -mov    %eax,-0x30(%ebp)
 -lea    -0x68(%ebp),%eax
 +mov    %eax,-0x38(%ebp)
-+lea    -0x48(%ebp),%eax
++lea    -0x70(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorI18st_ip_counter_listSaIS0_EE5emptyEv>
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x24b>
 -lea    -0x68(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x245>
-+lea    -0x48(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x231>
++lea    -0x70(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorI18st_ip_counter_listSaIS0_EE4sizeEv>
 -mov    %eax,-0x2c(%ebp)
 +mov    %eax,-0x34(%ebp)
 +movl   $0x0,-0x30(%ebp)
 +movl   $0x0,-0x2c(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x232>
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x21e>
 +lea    -0xe98(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN29Packet_Response_IPCounterListC1Ev>
@@ -114,7 +116,7 @@
 +jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x152>
 +mov    -0x30(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0x48(%ebp),%eax
++lea    -0x70(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI18st_ip_counter_listSaIS0_EEixEj>
  mov    %eax,%ecx
@@ -168,26 +170,18 @@
 +mov    $0x0,%eax
 +test   %al,%al
 +jne    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x111>
-+lea    -0xe98(%ebp),%eax
-+lea    0xb(%eax),%edx
 +mov    -0x28(%ebp),%eax
-+mov    %al,(%edx)
++mov    %al,-0xe8d(%ebp)
 +cmpl   $0x0,-0x2c(%ebp)
-+jne    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x195>
-+lea    -0xe98(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x0,(%eax)
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x1b7>
++jne    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x18b>
++movb   $0x0,-0xe8e(%ebp)
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x1a3>
 +mov    -0x30(%ebp),%eax
 +cmp    -0x34(%ebp),%eax
-+jl     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x1ab>
-+lea    -0xe98(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x2,(%eax)
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x1b7>
-+lea    -0xe98(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x1,(%eax)
++jl     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x19c>
++movb   $0x2,-0xe8e(%ebp)
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x1a3>
++movb   $0x1,-0xe8e(%ebp)
 +mov    -0x28(%ebp),%eax
  mov    %eax,%edx
  mov    %edx,%eax
@@ -217,13 +211,13 @@
 -movzbl -0xe86(%ebp),%eax
 -movzbl %al,%ebx
  movl   $0xbab,0x8(%esp)
- movl   $"OnRequestIPCounterList",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x54(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+lea    -0x64(%ebp),%eax
++lea    -0x5c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x28(%ebp),%eax
@@ -241,7 +235,7 @@
 -jl     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0xf5>
 -jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x285>
 -lea    -0xe90(%ebp),%eax
-+lea    -0x64(%ebp),%eax
++lea    -0x5c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +addl   $0x1,-0x2c(%ebp)
@@ -250,7 +244,7 @@
 +setl   %al
 +test   %al,%al
 +jne    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0xfa>
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x270>
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x25c>
 +lea    -0xe98(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN29Packet_Response_IPCounterListC1Ev>
@@ -268,35 +262,35 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12SendToServerEPci>
 -lea    -0x74(%ebp),%eax
-+lea    -0x54(%ebp),%eax
++lea    -0x7c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorI23st_full_ip_counter_listSaIS0_EE5emptyEv>
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x2a9>
 -mov    -0x34(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x294>
++je     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x280>
 +mov    -0x3c(%ebp),%eax
  movzbl 0xb(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x2a9>
-+je     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x294>
++je     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x280>
  mov    $0x1,%eax
 -jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x2ae>
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x299>
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x285>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x42b>
 -lea    -0x74(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x40b>
-+lea    -0x54(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x3e3>
++lea    -0x7c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorI23st_full_ip_counter_listSaIS0_EE4sizeEv>
 -mov    %eax,-0x1c(%ebp)
 +mov    %eax,-0x20(%ebp)
 +movl   $0x0,-0x1c(%ebp)
  movl   $0x0,-0x18(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x3f8>
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x3d0>
 +lea    -0xe98(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN31Packet_Response_D_IPCounterListC1Ev>
@@ -313,10 +307,10 @@
 -addl   $0x1,-0x14(%ebp)
 -mov    %eax,0x4(%esp)
 -lea    -0x74(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x319>
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x305>
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0x54(%ebp),%eax
++lea    -0x7c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI23st_full_ip_counter_listSaIS0_EEixEj>
  mov    %eax,%ecx
@@ -340,42 +334,34 @@
 +addl   $0x1,-0x1c(%ebp)
 +addl   $0x1,-0x14(%ebp)
 +cmpl   $0x95,-0x14(%ebp)
-+jg     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x331>
++jg     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x31d>
 +mov    -0x1c(%ebp),%eax
 +cmp    -0x20(%ebp),%eax
-+jge    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x331>
++jge    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x31d>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x336>
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x322>
 +mov    $0x0,%eax
 +test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x2d9>
-+lea    -0xe98(%ebp),%eax
-+lea    0xb(%eax),%edx
++jne    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x2c5>
  mov    -0x14(%ebp),%eax
 -cmp    -0x1c(%ebp),%eax
 -jl     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x2ec>
 -mov    -0x10(%ebp),%eax
 -mov    %al,-0xe85(%ebp)
-+mov    %al,(%edx)
++mov    %al,-0xe8d(%ebp)
  cmpl   $0x0,-0x18(%ebp)
 -jne    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x356>
 -movb   $0x0,-0xe86(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x36e>
-+jne    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x35c>
-+lea    -0xe98(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x0,(%eax)
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x37e>
++jne    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x33e>
++movb   $0x0,-0xe8e(%ebp)
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x356>
 +mov    -0x1c(%ebp),%eax
 +cmp    -0x20(%ebp),%eax
-+jl     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x372>
-+lea    -0xe98(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x2,(%eax)
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x37e>
-+lea    -0xe98(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x1,(%eax)
++jl     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x34f>
++movb   $0x2,-0xe8e(%ebp)
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x356>
++movb   $0x1,-0xe8e(%ebp)
  mov    -0x14(%ebp),%eax
 -cmp    -0x1c(%ebp),%eax
 -jl     <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x367>
@@ -416,13 +402,13 @@
 -movzbl -0xe86(%ebp),%eax
 -movzbl %al,%ebx
  movl   $0xbd8,0x8(%esp)
- movl   $"OnRequestIPCounterList",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+lea    -0x6c(%ebp),%eax
++lea    -0x54(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x14(%ebp),%eax
@@ -432,7 +418,7 @@
  movl   $"[D_IP Counter] Packet Send - Stats : %3d, Cnt : %3d",0x8(%esp)
  movl   $"./log/Secu",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x6c(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  addl   $0x1,-0x18(%ebp)
@@ -445,8 +431,8 @@
 +cmp    -0x20(%ebp),%eax
 +setl   %al
 +test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x2c2>
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x436>
++jne    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x2ae>
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x40e>
 +lea    -0xe98(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN31Packet_Response_D_IPCounterListC1Ev>
@@ -464,66 +450,56 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x540>
-+mov    $0x1,%ebx
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x525>
++mov    $0x0,%ebx
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x4fe>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x4e5>
-+jne    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x4b7>
++jne    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x48e>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0xbe9,0x8(%esp)
-+movl   $"OnRequestIPCounterList",0x4(%esp)
-+lea    -0x74(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0xbe9,0x8(%esp)
--movl   $"OnRequestIPCounterList",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0xbe9,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x4c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnRequestIPCounterList Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x44(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x4d9>
-+lea    -0x74(%ebp),%eax
++lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%ebx
-+call   <T> <__cxa_end_catch>
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x525>
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x487>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x547>
--call   <T> <__cxa_end_catch>
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x4e9>
+ call   <T> <__cxa_end_catch>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x55c>
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x510>
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x4e2>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xbee,0x8(%esp)
- movl   $"OnRequestIPCounterList",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x7c(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnRequestIPCounterList Exception Break\n",0x8(%esp)
@@ -532,68 +508,57 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x534>
-+lea    -0x7c(%ebp),%eax
++lea    -0x44(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%ebx
-+call   <T> <__cxa_end_catch>
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x525>
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x4dd>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x547>
--call   <T> <__cxa_end_catch>
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x4e9>
+ call   <T> <__cxa_end_catch>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x55c>
--mov    $0x1,%ebx
+ mov    $0x1,%ebx
 -jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x55c>
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x510>
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x4fe>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x74(%ebp),%eax
-+lea    -0x54(%ebp),%eax
++lea    -0x7c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI23st_full_ip_counter_listSaIS0_EED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x57e>
 -lea    -0x74(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x532>
-+lea    -0x54(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x520>
++lea    -0x7c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI23st_full_ip_counter_listSaIS0_EED1Ev>
--test   %ebx,%ebx
+ test   %ebx,%ebx
 -lea    -0x68(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader+0x54d>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x48(%ebp),%eax
++lea    -0x70(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI18st_ip_counter_listSaIS0_EED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+lea    -0x48(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt6vectorI18st_ip_counter_listSaIS0_EED1Ev>
-+mov    %ebx,%eax
  add    $0xeb0,%esp
  pop    %ebx
  pop    %esi
  pop    %ebp
  ret
--mov    %edx,%ebx
--mov    %eax,%esi
+ mov    %edx,%ebx
+ mov    %eax,%esi
 -lea    -0x68(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt6vectorI18st_ip_counter_listSaIS0_EED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
++lea    -0x70(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt6vectorI18st_ip_counter_listSaIS0_EED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
 ```
 ## 2. Ghidra 反编译 C
 
@@ -762,15 +727,15 @@ void CPacketTranslater::_ZN17CPacketTranslater22OnRequestIPCounterListEP12Packet
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1903 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1997 行）：
 
 ```cpp
-char CPacketTranslater::OnRequestIPCounterList(PacketHeader* header)
+void CPacketTranslater::OnRequestIPCounterList(PacketHeader* header)
 {
     std::vector<st_ip_counter_list> vec1;
     std::vector<st_full_ip_counter_list> vec2;
     if (!m_pclApp)
-        return 0;
+        return;
     try
     {
         Packet_DBMW_Request_IPCounter_List* pkt =
@@ -778,10 +743,12 @@ char CPacketTranslater::OnRequestIPCounterList(PacketHeader* header)
         if (!m_pclApp->m_dbManager.QueryIPCounter(
                 pkt->m_serverGroup, vec1, vec2))
         {
-            CMyFileLog log("OnRequestIPCounterList", 0xb8a);
-            log("./log/Secu",
-                "CPacketTranslater::OnRequestIPCounterList insert fail\n");
-            return 0;
+            DNF_LOG_SCOPE_LINE(0xb8a,
+                "./log/Secu",
+                "CPacketTranslater::OnRequestIPCounterList insert fail\n"
+            );
+
+            return;
         }
         CMonitorServer* ms = m_pclApp->m_serverHandler->GetMonitorServer();
         if (!vec1.empty())
@@ -800,20 +767,22 @@ char CPacketTranslater::OnRequestIPCounterList(PacketHeader* header)
                     srcIdx++;
                     count++;
                 }
-                *(char*)((char*)&reply + 0xb) = (char)count;
+                reply.m_fieldB = (char)count;
                 if (batch == 0)
-                    *(char*)((char*)&reply + 0xa) = 0;
+                    reply.m_fieldA = 0;
                 else if (srcIdx >= size)
-                    *(char*)((char*)&reply + 0xa) = 2;
+                    reply.m_fieldA = 2;
                 else
-                    *(char*)((char*)&reply + 0xa) = 1;
+                    reply.m_fieldA = 1;
                 unsigned short sendSize =
                     (unsigned short)(0xbc4 - (0x96 - count) * 0x14);
                 ms->SendToServer((char*)&reply, sendSize);
-                CMyFileLog log("OnRequestIPCounterList", 0xbab);
-                log("./log/Secu",
-                    "[IP Counter] Packet Send - Stats : %3d, Cnt : %3d",
-                    batch, count);
+                DNF_LOG_SCOPE_LINE(0xbab,
+                    "./log/Secu",
+                    "[IP Counter] Packet Send - Stats : %3d, Cnt : %3d", batch,
+                    count
+                );
+
                 batch++;
             }
         }
@@ -839,20 +808,22 @@ char CPacketTranslater::OnRequestIPCounterList(PacketHeader* header)
                     srcIdx++;
                     count++;
                 }
-                *(char*)((char*)&reply + 0xb) = (char)count;
+                reply.m_fieldB = (char)count;
                 if (batch == 0)
-                    *(char*)((char*)&reply + 0xa) = 0;
+                    reply.m_fieldA = 0;
                 else if (srcIdx >= size)
-                    *(char*)((char*)&reply + 0xa) = 2;
+                    reply.m_fieldA = 2;
                 else
-                    *(char*)((char*)&reply + 0xa) = 1;
+                    reply.m_fieldA = 1;
                 unsigned short sendSize =
                     (unsigned short)(0xe1c - (0x96 - count) * 0x18);
                 ms->SendToServer((char*)&reply, sendSize);
-                CMyFileLog log("OnRequestIPCounterList", 0xbd8);
-                log("./log/Secu",
-                    "[D_IP Counter] Packet Send - Stats : %3d, Cnt : %3d",
-                    batch, count);
+                DNF_LOG_SCOPE_LINE(0xbd8,
+                    "./log/Secu",
+                    "[D_IP Counter] Packet Send - Stats : %3d, Cnt : %3d", batch,
+                    count
+                );
+
                 batch++;
             }
         }
@@ -861,10 +832,10 @@ char CPacketTranslater::OnRequestIPCounterList(PacketHeader* header)
             Packet_Response_D_IPCounterList reply;
             ms->SendToServer((char*)&reply, 0xc);
         }
-        return 1;
+        return;
     }
-    DNF_CATCH_LOG_RET0("./log/Except",
-                       "CPacketTranslater::OnRequestIPCounterList Exception Break",
-                       0xbe9, 0xbee);
+    DNF_CATCH_LOG("./log/Except",
+                  "CPacketTranslater::OnRequestIPCounterList Exception Break",
+                  0xbe9, 0xbee);
 }
 ```

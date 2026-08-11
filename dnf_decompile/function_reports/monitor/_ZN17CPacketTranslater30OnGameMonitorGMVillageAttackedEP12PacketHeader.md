@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808e168` | `0x1fc` | `0x807983a` | `0x1fc` |
+| monitor | DIFF | `0x808e168` | `0x1fc` | `0x807976e` | `0x1f6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,147 +1,148 @@
+@@ -1,147 +1,145 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,19 +24,19 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0xdc>
 -lea    -0x31(%ebp),%eax
-+lea    -0x1d(%ebp),%eax
++lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x31(%ebp),%eax
-+lea    -0x1d(%ebp),%eax
++lea    -0x2d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnGameMonitorGMVillageAttacked : 0 == m_pclApp",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x38(%ebp),%esi
-+lea    -0x24(%ebp),%esi
++lea    -0x34(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -54,7 +54,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x38(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x87>
@@ -65,7 +65,7 @@
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0xa4>
 -lea    -0x38(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0xb9>
@@ -75,90 +75,76 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x31(%ebp),%eax
-+lea    -0x1d(%ebp),%eax
++lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x11e>
 -lea    -0x31(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x120>
-+lea    -0x1d(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x118>
++lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
--movzbl 0xa(%eax),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
+ movzbl 0xa(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x114>
 -mov    -0x20(%ebp),%eax
--mov    0x13(%eax),%ecx
--mov    -0x20(%ebp),%eax
--mov    0xf(%eax),%edx
--mov    -0x20(%ebp),%eax
--mov    0xb(%eax),%eax
-+jne    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0xf3>
++jne    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0xf1>
 +call   <T> <_ZN16village_attacked13SetRealConfigEv>
-+jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x1f4>
++jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x1ee>
 +mov    0x8(%ebp),%eax
-+add    $0x13,%eax
-+mov    (%eax),%ecx
+ mov    0x13(%eax),%ecx
+-mov    -0x20(%ebp),%eax
 +mov    0x8(%ebp),%eax
-+add    $0xf,%eax
-+mov    (%eax),%edx
+ mov    0xf(%eax),%edx
+-mov    -0x20(%ebp),%eax
 +mov    0x8(%ebp),%eax
-+add    $0xb,%eax
-+mov    (%eax),%eax
+ mov    0xb(%eax),%eax
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked11SetGMConfigEjjj>
 -jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x1f4>
 -call   <T> <_ZN16village_attacked13SetRealConfigEv>
- jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x1f4>
+-jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x1f4>
++jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x1ee>
  cmp    $0x2,%edx
- jne    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x19a>
+-jne    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x19a>
++jne    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x194>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
-+movl   $0x1bbd,0x8(%esp)
-+movl   $"OnGameMonitorGMVillageAttacked",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x1bbd,0x8(%esp)
--movl   $"OnGameMonitorGMVillageAttacked",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x1bbd,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnGameMonitorGMVillageAttacked Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x193>
+-jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x193>
++jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x18d>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -167,22 +153,24 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
- jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x1f4>
+-jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x1f4>
++jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x1ee>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1bc2,0x8(%esp)
- movl   $"OnGameMonitorGMVillageAttacked",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnGameMonitorGMVillageAttacked Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x1ef>
+-jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x1ef>
++jmp    <T> <_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader+0x1e9>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -242,7 +230,7 @@ void CPacketTranslater::_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4561 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4569 行）：
 
 ```cpp
 void CPacketTranslater::OnGameMonitorGMVillageAttacked(PacketHeader* pkt)
@@ -255,15 +243,15 @@ void CPacketTranslater::OnGameMonitorGMVillageAttacked(PacketHeader* pkt)
         throw CDNFException(
             "CPacketTranslater::OnGameMonitorGMVillageAttacked : 0 == m_pclApp");
     }
-    if (*(char*)((char*)pkt + 0xa) == 0)
+    if (((RA_S8<10>*)pkt)->v == 0)
     {
         village_attacked::SetRealConfig();
     }
     else
     {
-        village_attacked::SetGMConfig(*(unsigned int*)((char*)pkt + 0xb),
-                                      *(unsigned int*)((char*)pkt + 0xf),
-                                      *(unsigned int*)((char*)pkt + 0x13));
+        village_attacked::SetGMConfig(((RA_UINT<11>*)pkt)->v,
+                                      ((RA_UINT<15>*)pkt)->v,
+                                      ((RA_UINT<19>*)pkt)->v);
     }
 
 

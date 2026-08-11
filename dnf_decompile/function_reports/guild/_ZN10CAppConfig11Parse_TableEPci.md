@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x805e732` | `0x270` | `0x804bbb8` | `0x282` |
+| guild | DIFF | `0x805e732` | `0x270` | `0x804bc04` | `0x282` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -50,8 +50,8 @@
 +ja     <T> <_ZN10CAppConfig11Parse_TableEPci+0x16a>
  mov    0x10(%ebp),%eax
  shl    $0x2,%eax
--mov    &data#05ed3e65(.rodata)(%eax),%eax
-+mov    &data#698f6426(.rodata)(%eax),%eax
+-mov    &data#3dacc151(.rodata)(%eax),%eax
++mov    &data#c8eb558e(.rodata)(%eax),%eax
  jmp    *%eax
 -mov    -0x24(%ebp),%eax
 +mov    -0x34(%ebp),%eax
@@ -380,34 +380,60 @@ CAppConfig::_ZN10CAppConfig11Parse_TableEPci(CAppConfig *this,char *param_1,int 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFAppConfig.cpp](source/DNFServer/GameServer/COServer/DNFAppConfig.cpp)（约第 34 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFAppConfig.cpp](source/DNFServer/GameServer/Guild/DNFAppConfig.cpp)（约第 77 行）：
 
 ```cpp
-bool CAppConfig::Parse_Table(char* line, int idx)
+int CAppConfig::Parse_Table(char* line, int idx)
 {
     if (line[0] == '#')
     {
         return 0;
     }
-    char* tok0;
-    char* tok1;
-    int n;
-    if (DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 2) == 2)
+    if (idx < 6)
     {
-        if (idx < 0x14)
+        char* tokens[3];
+        int n = DNFFLib::ExplodeString(line, " \t\r\n\"", tokens, 2);
+        if (n == 2)
         {
-            if (idx == 0)
+            switch (idx)
             {
-                m_frameCount = (char)atoi(tok1);
+            case 0:
+                m_frameCount = (unsigned char)atoi(tokens[1]);
+                break;
+            case 1:
+                *(short*)((char*)this + 6) = (short)atoi(tokens[1]);
+                break;
+            case 2:
+                *(char*)((char*)this + 10) = (char)atoi(tokens[1]);
+                break;
+            case 3:
+                *(short*)((char*)this + 8) = (short)atoi(tokens[1]);
+                break;
+            case 4:
+                m_name = std::string(tokens[1]);
+                break;
+            case 5:
+                *(short*)((char*)this + 0x10) = (short)atoi(tokens[1]);
+                break;
+            default:
+                return 0;
             }
-            else
-            {
-                int i = atoi(tok0);
-                if (i < 0x65)
-                {
-                    m_udpPorts[i] = (unsigned int)atoi(tok1);
-                }
-            }
+            return 1;
+        }
+    }
+    else
+    {
+        char* tokens[7];
+        int n = DNFFLib::ExplodeString(line, " \t\r\n\"", tokens, 6);
+        if (n == 6)
+        {
+            stServerInfo* si = (stServerInfo*)operator new(0x16);
+            si->m_field2 = (unsigned char)atoi(tokens[1]);
+            si->m_group = (unsigned char)atoi(tokens[2]);
+            si->m_field1 = (unsigned char)atoi(tokens[3]);
+            strncpy(si->m_name, tokens[4], 0x10);
+            si->m_port = (unsigned short)atoi(tokens[5]);
+            m_serverInfo.insert(std::make_pair(si->m_group, si));
             return 1;
         }
     }

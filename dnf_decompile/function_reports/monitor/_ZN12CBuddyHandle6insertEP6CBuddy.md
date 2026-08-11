@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809ec6a` | `0xa4` | `0x8057e2e` | `0x138` |
+| monitor | DIFF | `0x809ec6a` | `0xa4` | `0x80580d4` | `0x138` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -166,7 +166,7 @@ void __thiscall CBuddyHandle::_ZN12CBuddyHandle6insertEP6CBuddy(CBuddyHandle *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 204 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 208 行）：
 
 ```cpp
 int CBuddyHandle::insert(CBuddy* buddy)

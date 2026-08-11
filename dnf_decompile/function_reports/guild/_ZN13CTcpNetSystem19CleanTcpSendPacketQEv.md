@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8053b72` | `0x11c` | `0x80a8942` | `0x117` |
+| guild | DIFF | `0x8053b72` | `0x11c` | `0x80a8476` | `0x117` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -111,7 +111,7 @@
 +test   %ebx,%ebx
 +jne    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0x15>
  movl   $0x16b,0x8(%esp)
- movl   $"CleanTcpSendPacketQ",0x4(%esp)
+ movl   $&_ZZN13CTcpNetSystem19CleanTcpSendPacketQEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -177,22 +177,27 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystem19CleanTcpSendPacketQEv(CTcpNet
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 231 行）：
+定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 498 行）：
 
 ```cpp
 void CTcpNetSystem::CleanTcpSendPacketQ()
 {
-    CGuard<CMutex> guard(&m_mutexE8);
-    while (!m_sendQueue.empty())
+    std::queue<CTcpSendBuffer*, std::deque<CTcpSendBuffer*> >* q =
+        (std::queue<CTcpSendBuffer*, std::deque<CTcpSendBuffer*> >*)(m_data + 0xc0);
+    for (;;)
     {
-        CTcpSendBuffer* p = m_sendQueue.front();
-        m_sendQueue.pop();
+        CGuard<CMutex> g((CMutex*)(m_data + 0xe8));
+        if (q->empty())
         {
-            CGuard<CMutex> guard(&m_mutex100);
-            delete p;
+            break;
+        }
+        CTcpSendBuffer* buf = q->front();
+        q->pop();
+        {
+            CGuard<CMutex> g2((CMutex*)(m_data + 0x100));
+            delete buf;
         }
     }
-    CMyFileLog log("CleanTcpSendPacketQ", 0x16b);
-    log("./log/TcpSend", "Clean Tcp Send Queue Complete !");
+    DNF_LOG_SCOPE_LINE(0x16b, "./log/TcpSend", "Clean Tcp Send Queue Complete !");
 }
 ```

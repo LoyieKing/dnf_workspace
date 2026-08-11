@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806b4d8` | `0x110` | `0x804fa06` | `0x11c` |
+| monitor | DIFF | `0x806b4d8` | `0x110` | `0x804fa0c` | `0x11c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -191,13 +191,13 @@ CAppStartInit::_ZN13CAppStartInit11Init_DaemonEiPPc(CAppStartInit *this,int para
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFAppStartInit.cpp](source/DNFServer/GameServer/COServer/DNFAppStartInit.cpp)（约第 46 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFAppStartInit.cpp](source/DNFServer/GameServer/Monitor/DNFAppStartInit.cpp)（约第 60 行）：
 
 ```cpp
 int CAppStartInit::Init_Daemon(int argc, char** argv)
 {
-    char* cmd = argv[2];
-    if (strcmp(cmd, "start") == 0)
+    const char* mode = argv[2];
+    if (strcmp(mode, "start") == 0)
     {
         pid_t pid = fork();
         if (pid < 0)
@@ -212,10 +212,10 @@ int CAppStartInit::Init_Daemon(int argc, char** argv)
         chdir("./");
         umask(0);
     }
-    if (Save_pid(argv[1]) != 1)
     {
-        return -1;
+        std::string pidFile(argv[1]);
+        char ok = Save_pid(pidFile);
+        return ok == 1 ? 0 : -1;
     }
-    return 0;
 }
 ```

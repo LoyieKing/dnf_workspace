@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804f658` | `0x69` | `0x8086d3a` | `0x53` |
+| guild | DIFF | `0x804f658` | `0x69` | `0x8086b5a` | `0x62` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,21 +13,23 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,29 +1,23 @@
+@@ -1,29 +1,26 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x48,%esp
  mov    0xc(%ebp),%eax
  mov    %al,-0x1c(%ebp)
--cmpb   $0x0,-0x1c(%ebp)
+ cmpb   $0x0,-0x1c(%ebp)
 -je     <T> <_ZN9TCPSocket12setOptLingerEb+0x19>
 -mov    $0x1,%eax
 -jmp    <T> <_ZN9TCPSocket12setOptLingerEb+0x1e>
 -mov    $0x0,%eax
 -mov    %eax,-0x10(%ebp)
 -movl   $0x0,-0xc(%ebp)
-+movzbl -0x1c(%ebp),%eax
-+mov    %eax,-0x14(%ebp)
++je     <T> <_ZN9TCPSocket12setOptLingerEb+0x1b>
++movl   $0x1,-0x14(%ebp)
++jmp    <T> <_ZN9TCPSocket12setOptLingerEb+0x22>
++movl   $0x0,-0x14(%ebp)
 +movl   $0x0,-0x10(%ebp)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
@@ -72,16 +74,22 @@ bool __thiscall TCPSocket::_ZN9TCPSocket12setOptLingerEb(TCPSocket *this,bool pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 158 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 221 行）：
 
 ```cpp
-char TCPSocket::setOptLinger(bool flag)
+bool TCPSocket::setOptLinger(bool flag)
 {
-    struct linger linger;
-    linger.l_onoff = flag ? 1 : 0;
-    linger.l_linger = 0;
-    if (setsockopt(m_fd, SOL_SOCKET, SO_LINGER, &linger, 8) < 0)
-        return 0;
-    return 1;
+    int v[2];
+    if (flag)
+    {
+        v[0] = 1;
+    }
+    else
+    {
+        v[0] = 0;
+    }
+    v[1] = 0;
+    int r = setsockopt(m_sock, 1, 0xd, v, 8);
+    return -1 < r;
 }
 ```

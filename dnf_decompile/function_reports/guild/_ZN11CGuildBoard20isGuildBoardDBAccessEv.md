@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809d132` | `0x37` | `0x808f978` | `0x2a` |
+| guild | DIFF | `0x809d132` | `0x37` | `0x808f7e6` | `0x28` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,19 +1,16 @@
+@@ -1,19 +1,15 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x28,%esp
@@ -23,10 +23,8 @@
 -mov    %eax,-0xc(%ebp)
 +mov    %eax,%edx
  mov    0x8(%ebp),%eax
--mov    0x24(%eax),%eax
+ mov    0x24(%eax),%eax
 -mov    -0xc(%ebp),%edx
-+add    $0x24,%eax
-+mov    (%eax),%eax
  mov    %edx,%ecx
  sub    %eax,%ecx
  mov    %ecx,%eax
@@ -57,11 +55,11 @@ bool __thiscall CGuildBoard::_ZN11CGuildBoard20isGuildBoardDBAccessEv(CGuildBoar
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 134 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 130 行）：
 
 ```cpp
 bool CGuildBoard::isGuildBoardDBAccess()
 {
-    return 5 < (unsigned int)(time(0) - *(unsigned int*)(m_data + 0x24));
+    return 5 < (unsigned int)(time(0) - m_dbAccessTime);
 }
 ```

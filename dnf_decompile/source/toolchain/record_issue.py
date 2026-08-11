@@ -10,7 +10,7 @@ import sys
 from datetime import date
 from pathlib import Path
 
-ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile')
+ROOT = Path('/home/loyieking/dnf_workspace/dnf_decompile')
 
 
 def main():

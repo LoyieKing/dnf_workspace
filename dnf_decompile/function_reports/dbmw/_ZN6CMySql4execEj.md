@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808d744` | `0x177` | `0x8075246` | `0x16c` |
+| dbmw | DIFF | `0x808d744` | `0x177` | `0x80c88da` | `0x16c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -44,7 +44,7 @@
 -mov    0x8(%ebp),%eax
 -lea    0x78(%eax),%ebx
  movl   $0x14e,0x8(%esp)
- movl   $"exec",0x4(%esp)
+ movl   $&_ZZN6CMySql4execEjE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -129,7 +129,7 @@
 -lea    0x78(%eax),%ebx
 +jmp    <T> <_ZN6CMySql4execEj+0x16a>
  movl   $0x16e,0x8(%esp)
- movl   $"exec",0x4(%esp)
+ movl   $&_ZZN6CMySql4execEjE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -212,7 +212,7 @@ undefined4 __thiscall CMySql::_ZN6CMySql4execEj(CMySql *this,uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 178 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 176 行）：
 
 ```cpp
 bool CMySql::exec(unsigned int q)
@@ -224,7 +224,7 @@ bool CMySql::exec(unsigned int q)
         if (ret == 1)
         {
             CQueryCounterInstance()->SetResponseTime(q);
-            CMyFileLog log("exec", 0x14e);
+            CMyFileLog log(__FUNCTION__, 0x14e);
             log("./log/MysqlErr.log",
                 "Database query error. The last query('%s') has been lost. iret == R_FAIL",
                 m_query);
@@ -249,7 +249,7 @@ bool CMySql::exec(unsigned int q)
         }
         return 1;
     }
-    CMyFileLog log("exec", 0x16e);
+    CMyFileLog log(__FUNCTION__, 0x16e);
     log("./log/MysqlErr.log",
         "Database query error. The last query('%s') has been lost.", m_query);
     return 0;

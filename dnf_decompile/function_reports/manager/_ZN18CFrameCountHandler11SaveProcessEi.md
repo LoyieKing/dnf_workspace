@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x80527fa` | `0x87` | `0x8062e1e` | `0x7b` |
+| manager | DIFF | `0x80527fa` | `0x87` | `0x8062cce` | `0x7b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -37,7 +37,7 @@
 -mov    0x18(%eax),%ebx
 +je     <T> <_ZN18CFrameCountHandler11SaveProcessEi+0x79>
  movl   $0xb8,0x8(%esp)
- movl   $"SaveProcess",0x4(%esp)
+ movl   $&_ZZN18CFrameCountHandler11SaveProcessEiE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -94,16 +94,17 @@ CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEi(CFrameCountHandler *t
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFTickHandler.cpp](source/DNFServer/GameServer/COServer/DNFTickHandler.cpp)（约第 106 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFTickHandler.cpp](source/DNFServer/GameServer/Manager/DNFTickHandler.cpp)（约第 28 行）：
 
 ```cpp
-void CFrameCountHandler::SaveProcess(int interval)
+void CFrameCountHandler::SaveProcess(int n)
 {
-    m_writeTick = (char)(m_writeTick + 1);
-    if (m_writeTick != 0)
+    m_field28++;
+    if (m_field28 != 0)
     {
-        DNF_LOG_SCOPE_LINE(0xb8, "./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", interval, m_fps, m_tick);
-        m_writeTick = 0;
+        CMyFileLog log(__FUNCTION__, 0xb8);
+        log("./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", n, m_field18, m_field4);
+        m_field28 = 0;
     }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807956c` | `0x266` | `0x804d24e` | `0x256` |
+| dbmw | DIFF | `0x807956c` | `0x266` | `0x804d248` | `0x256` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -31,7 +31,7 @@
 -jne    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x78>
 +jne    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x6f>
  movl   $0x10b3,0x8(%esp)
- movl   $"GuildMasterDelegate",0x4(%esp)
+ movl   $&_ZZN10CDBManager19GuildMasterDelegateEijjjjPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 +lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -120,7 +120,7 @@
 -je     <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x1c1>
 +je     <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x1ba>
 +movl   $0x10da,0x8(%esp)
-+movl   $"GuildMasterDelegate",0x4(%esp)
++movl   $&_ZZN10CDBManager19GuildMasterDelegateEijjjjPcE12__FUNCTION__,0x4(%esp)
 +lea    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -149,16 +149,16 @@
 +mov    -0xc(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x20,%eax
-+mov    (%eax),%eax
++mov    (%eax),%edx
 +movl   $0x4e6a,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x24b>
 +movl   $0x10e7,0x8(%esp)
- movl   $"GuildMasterDelegate",0x4(%esp)
+ movl   $&_ZZN10CDBManager19GuildMasterDelegateEijjjjPcE12__FUNCTION__,0x4(%esp)
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -211,7 +211,7 @@
 -call   <T> <_Z14NumberToStringji>
 -mov    %eax,%ebx
 -movl   $0x10e7,0x8(%esp)
--movl   $"GuildMasterDelegate",0x4(%esp)
+-movl   $&_ZZN10CDBManager19GuildMasterDelegateEijjjjPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -321,4 +321,4 @@ CDBManager::_ZN10CDBManager19GuildMasterDelegateEijjjjPc
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

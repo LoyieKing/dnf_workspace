@@ -16,7 +16,7 @@ from compare_common import CALIBER_VERSION, norm_identical
 sys.path.insert(0, '/tmp')
 import monitorlib
 
-ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
+ROOT = Path('/home/loyieking/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/monitor/df_monitor_r'
 NEW = ROOT / 'dnf_decompile/build/monitor/df_monitor_r'
 OUT_MD = ROOT / 'dnf_decompile/docs/df_monitor_r_validation.md'

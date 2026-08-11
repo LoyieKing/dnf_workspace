@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8080846` | `0x76a` | `0x806c46e` | `0x760` |
+| monitor | DIFF | `0x8080846` | `0x76a` | `0x806c5ae` | `0x778` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,21 +13,20 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,496 +1,494 @@
+@@ -1,496 +1,501 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0xdc,%esp
-+sub    $0xcc,%esp
+ sub    $0xdc,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x75b>
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x38(%ebp)
 -movl   $0x0,-0x34(%ebp)
-+je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x751>
++je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x769>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  add    $0x10,%eax
 -mov    %eax,-0x30(%ebp)
@@ -36,14 +35,11 @@
  add    $0x2d0,%eax
 -mov    %eax,-0x2c(%ebp)
 -mov    -0x38(%ebp),%eax
--mov    0xe(%eax),%eax
--mov    %eax,0x4(%esp)
--mov    -0x30(%ebp),%eax
 +mov    %eax,-0x3c(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
-+mov    %eax,0x4(%esp)
+ mov    0xe(%eax),%eax
+ mov    %eax,0x4(%esp)
+-mov    -0x30(%ebp),%eax
 +mov    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
@@ -52,71 +48,62 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x75e>
--lea    -0x79(%ebp),%eax
 +mov    %eax,-0x38(%ebp)
 +cmpl   $0x0,-0x38(%ebp)
-+je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x754>
-+lea    -0x41(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x76c>
+ lea    -0x79(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -mov    -0x38(%ebp),%eax
 +mov    0x8(%ebp),%eax
  lea    0x12(%eax),%edx
--lea    -0x79(%ebp),%eax
-+lea    -0x41(%ebp),%eax
+ lea    -0x79(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    %edx,0x4(%esp)
--lea    -0x80(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x80(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x80(%ebp),%eax
--mov    %eax,0x4(%esp)
+ lea    -0x80(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -mov    -0x30(%ebp),%eax
-+lea    -0x48(%ebp),%eax
-+mov    %eax,0x4(%esp)
 +mov    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK12CUserManager17FindUser_CharNameESs>
 -mov    %eax,-0x40(%ebp)
 -cmpl   $0x0,-0x40(%ebp)
 -sete   %bl
--lea    -0x80(%ebp),%eax
 +mov    %eax,-0x34(%ebp)
-+lea    -0x48(%ebp),%eax
+ lea    -0x80(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0xe2>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0xcb>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0xc9>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x80(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x80(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0xca>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0xb3>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0xb1>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x79(%ebp),%eax
-+lea    -0x41(%ebp),%eax
+ lea    -0x79(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x651>
--lea    -0x79(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x649>
-+lea    -0x41(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x65f>
+ lea    -0x79(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
 -test   %bl,%bl
 -je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x113>
 -mov    -0x38(%ebp),%eax
 +cmpl   $0x0,-0x34(%ebp)
-+jne    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0xfe>
++jne    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0xfc>
 +mov    0x8(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,0x8(%esp)
@@ -124,13 +111,12 @@
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater28SendRequestMemberEnterResultEP5CUserhPKc>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x755>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x76d>
 +mov    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
 +mov    0x8(%ebp),%edx
-+add    $0xe,%edx
-+mov    (%edx),%edx
++mov    0xe(%edx),%edx
 +mov    %eax,0x8(%esp)
 +mov    %edx,0x4(%esp)
  mov    -0x3c(%ebp),%eax
@@ -152,7 +138,7 @@
 -mov    -0x38(%ebp),%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x1a5>
++je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x1a3>
 +mov    0x8(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,0x8(%esp)
@@ -165,67 +151,55 @@
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,%esi
 -mov    -0x3c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,%ebx
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater28SendRequestMemberEnterResultEP5CUserhPKc>
- movl   $0x599,0x8(%esp)
- movl   $"OnRequestMemberEnter",0x4(%esp)
--lea    -0x78(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+lea    -0x50(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %eax,%ebx
++mov    %eax,%esi
 +mov    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser13GetUniqCharNoEv>
+ mov    %eax,%ebx
+ movl   $0x599,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x78(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Err Already Member : requester(%d) responser(%d)",0x8(%esp)
  movl   $"./log/MemberModify",0x4(%esp)
--lea    -0x78(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x78(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x75f>
 -mov    -0x3c(%ebp),%eax
-+lea    -0x50(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x755>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x76d>
 +mov    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser22IsAbleToRegisterMemberEv>
--xor    $0x1,%eax
--test   %al,%al
+ xor    $0x1,%eax
+ test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x1d9>
 -mov    -0x40(%ebp),%eax
-+cmp    $0x1,%al
-+jne    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x1c3>
++jne    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x1c7>
 +mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser22IsAbleToRegisterMemberEv>
--xor    $0x1,%eax
--test   %al,%al
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x1e0>
-+cmp    $0x1,%al
-+je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x1ca>
++je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x1ce>
  mov    $0x1,%eax
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x1e5>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x1cf>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x1d3>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x297>
 -mov    -0x38(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x273>
++je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x285>
 +mov    0x8(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,0x8(%esp)
@@ -237,67 +211,51 @@
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater28SendRequestMemberEnterResultEP5CUserhPKc>
-+movl   $0x5a2,0x8(%esp)
-+movl   $"OnRequestMemberEnter",0x4(%esp)
-+lea    -0x58(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser22IsAbleToRegisterMemberEv>
--movzbl %al,%eax
--mov    %eax,-0xbc(%ebp)
+ movzbl %al,%eax
+ mov    %eax,-0xbc(%ebp)
 -mov    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,%esi
 -mov    -0x3c(%ebp),%eax
-+movsbl %al,%edi
 +mov    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %eax,%ebx
++mov    %eax,%esi
 +mov    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser22IsAbleToRegisterMemberEv>
--movzbl %al,%edi
+ movzbl %al,%edi
 -mov    -0x3c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,%ebx
--movl   $0x5a2,0x8(%esp)
--movl   $"OnRequestMemberEnter",0x4(%esp)
--lea    -0x70(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0xbc(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    %esi,0x14(%esp)
--mov    %edi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+movsbl %al,%esi
 +mov    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %edi,0x18(%esp)
-+mov    %ebx,0x14(%esp)
-+mov    %esi,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser13GetUniqCharNoEv>
+ mov    %eax,%ebx
+ movl   $0x5a2,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x70(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0xbc(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    %esi,0x14(%esp)
+ mov    %edi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Err Member Register Restrict : requester(%d:%d) responser(%d:%d)",0x8(%esp)
  movl   $"./log/MemberModify",0x4(%esp)
--lea    -0x70(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x70(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x75f>
 -mov    -0x3c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,0x4(%esp)
 -mov    -0x40(%ebp),%eax
-+lea    -0x58(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x755>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x76d>
 +mov    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -310,7 +268,7 @@
 -mov    -0x38(%ebp),%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x30e>
++je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x322>
 +mov    0x8(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,0x8(%esp)
@@ -323,89 +281,62 @@
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,%esi
 -mov    -0x3c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,%ebx
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater28SendRequestMemberEnterResultEP5CUserhPKc>
++mov    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser13GetUniqCharNoEv>
++mov    %eax,%esi
++mov    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser13GetUniqCharNoEv>
+ mov    %eax,%ebx
  movl   $0x5a9,0x8(%esp)
- movl   $"OnRequestMemberEnter",0x4(%esp)
--lea    -0x68(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+lea    -0x60(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %eax,%ebx
-+mov    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
- movl   $"Err Member Register Black : requester(%d) responser(%d)",0x8(%esp)
- movl   $"./log/MemberModify",0x4(%esp)
-+lea    -0x60(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x755>
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication13GetGMAccountsEv>
-+mov    %eax,-0x30(%ebp)
-+cmpl   $0x0,-0x30(%ebp)
-+je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x349>
-+mov    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser7GetDBIDEv>
-+mov    %eax,0x4(%esp)
-+mov    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN8WongWork11CGMAccounts4isGMEj>
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x349>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x34e>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x3ca>
-+mov    0x8(%ebp),%eax
-+add    $0x12,%eax
-+mov    %eax,0x8(%esp)
-+movl   $0x5a,0x4(%esp)
-+mov    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN17CPacketTranslater28SendRequestMemberEnterResultEP5CUserhPKc>
-+movl   $0x5b4,0x8(%esp)
-+movl   $"OnRequestMemberEnter",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x68(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"Err Member Register Black : requester(%d) responser(%d)",0x8(%esp)
+ movl   $"./log/MemberModify",0x4(%esp)
+ lea    -0x68(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x75f>
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication13GetGMAccountsEv>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x76d>
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication13GetGMAccountsEv>
 -mov    %eax,-0x28(%ebp)
 -cmpl   $0x0,-0x28(%ebp)
 -je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x3e1>
 -mov    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser7GetDBIDEv>
--mov    %eax,0x4(%esp)
++mov    %eax,-0x30(%ebp)
++cmpl   $0x0,-0x30(%ebp)
++je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x35d>
++mov    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser7GetDBIDEv>
+ mov    %eax,0x4(%esp)
 -mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN8WongWork11CGMAccounts4isGMEj>
--test   %al,%al
++mov    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN8WongWork11CGMAccounts4isGMEj>
+ test   %al,%al
 -je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x3e1>
 -mov    -0x38(%ebp),%eax
--add    $0x12,%eax
--mov    %eax,0x8(%esp)
--movl   $0x5a,0x4(%esp)
++je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x35d>
++mov    $0x1,%eax
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x362>
++mov    $0x0,%eax
++test   %al,%al
++je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x3e0>
++mov    0x8(%ebp),%eax
+ add    $0x12,%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x5a,0x4(%esp)
 -mov    -0x3c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN17CPacketTranslater28SendRequestMemberEnterResultEP5CUserhPKc>
@@ -414,36 +345,31 @@
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,%esi
 -mov    -0x3c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,%ebx
--movl   $0x5b4,0x8(%esp)
--movl   $"OnRequestMemberEnter",0x4(%esp)
--lea    -0x60(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    -0x38(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN17CPacketTranslater28SendRequestMemberEnterResultEP5CUserhPKc>
 +mov    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %eax,%ebx
++mov    %eax,%esi
 +mov    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser13GetUniqCharNoEv>
+ mov    %eax,%ebx
+ movl   $0x5b4,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x60(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Err Member Register GM : requester(%d) responser(%d)",0x8(%esp)
  movl   $"./log/MemberModify",0x4(%esp)
--lea    -0x60(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x60(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x75f>
-+lea    -0x68(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x755>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x76d>
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -480,7 +406,7 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x451>
 -mov    -0x38(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x43a>
++je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x450>
 +mov    0x8(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,0x8(%esp)
@@ -493,14 +419,14 @@
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater28SendRequestMemberEnterResultEP5CUserhPKc>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x755>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x76d>
 +movb   $0x0,-0x21(%ebp)
 +mov    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser22GetMemberEnterCallerIdEv>
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x483>
-+je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x470>
++je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x486>
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser22GetMemberEnterCallerIdEv>
@@ -509,15 +435,15 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
 +cmp    %eax,%ebx
-+jne    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x470>
++jne    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x486>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x475>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x48b>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x47d>
++je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x493>
 +movb   $0x1,-0x21(%ebp)
 +cmpb   $0x0,-0x21(%ebp)
-+je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x4a5>
++je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x4bb>
 +mov    0x8(%ebp),%eax
 +add    $0x12,%eax
 +mov    %eax,0x8(%esp)
@@ -525,7 +451,7 @@
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater28SendRequestMemberEnterResultEP5CUserhPKc>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x755>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x76d>
 +mov    -0x28(%ebp),%eax
 +mov    %eax,0x10(%esp)
 +mov    -0x34(%ebp),%eax
@@ -552,10 +478,9 @@
 +call   <T> <_ZN14CMemberManager16CheckMemberEnterEP5CUserP7CMemberS1_S3_>
 +mov    %eax,-0x20(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
-+jne    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x5c8>
++jne    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x5dc>
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
++mov    0xe(%eax),%eax
 +movl   $0x1,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x34(%ebp),%eax
@@ -564,7 +489,7 @@
 +cmp    $0x1,%al
 +sete   %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x5a6>
++je     <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x5ba>
 +mov    0x8(%ebp),%eax
 +add    $0x12,%eax
 +mov    %eax,0x8(%esp)
@@ -601,7 +526,7 @@
 +mov    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x755>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x76d>
 +mov    0x8(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,0x8(%esp)
@@ -613,7 +538,7 @@
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater28SendRequestMemberEnterResultEP5CUserhPKc>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x755>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x76d>
 +mov    0x8(%ebp),%eax
 +lea    0x12(%eax),%edx
  mov    -0x20(%ebp),%eax
@@ -646,39 +571,32 @@
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,%esi
 -mov    -0x3c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,%ebx
 +mov    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater28SendRequestMemberEnterResultEP5CUserhPKc>
- movl   $0x5d0,0x8(%esp)
- movl   $"OnRequestMemberEnter",0x4(%esp)
--lea    -0x58(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x14(%esp)
--mov    %ebx,0x10(%esp)
--mov    -0x34(%ebp),%eax
-+lea    -0x70(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %eax,%ebx
++mov    %eax,%esi
 +mov    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %ebx,0x14(%esp)
-+mov    %eax,0x10(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser13GetUniqCharNoEv>
+ mov    %eax,%ebx
+ movl   $0x5d0,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x58(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %esi,0x14(%esp)
+ mov    %ebx,0x10(%esp)
+-mov    -0x34(%ebp),%eax
 +mov    -0x20(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"Err(%d) Member Register : requester(%d) responser(%d)",0x8(%esp)
  movl   $"./log/MemberModify",0x4(%esp)
--lea    -0x58(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x58(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x75f>
 -mov    -0x38(%ebp),%eax
 -mov    0xe(%eax),%eax
@@ -735,64 +653,44 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x75f>
-+lea    -0x70(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x755>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x76d>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x6f3>
-+jne    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x6e9>
++jne    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x701>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnRequestMemberEnter() Exception Break : %s\n",(%esp)
  call   <T> <printf>
-+movl   $0x5ee,0x8(%esp)
-+movl   $"OnRequestMemberEnter",0x4(%esp)
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x5ee,0x8(%esp)
--movl   $"OnRequestMemberEnter",0x4(%esp)
--lea    -0x50(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x5ee,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x50(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnRequestMemberEnter() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x50(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x50(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x6ec>
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x6e2>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x6fa>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -802,27 +700,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x75f>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x755>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x76d>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnRequestMemberEnter() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x5f4,0x8(%esp)
- movl   $"OnRequestMemberEnter",0x4(%esp)
--lea    -0x48(%ebp),%eax
-+lea    -0x80(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnRequestMemberEnter() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x754>
-+lea    -0x80(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x74a>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x762>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -832,13 +726,12 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x75f>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x755>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x76d>
  nop
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x75f>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x755>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader+0x76d>
  nop
--add    $0xdc,%esp
-+add    $0xcc,%esp
+ add    $0xdc,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -1031,7 +924,7 @@ LAB_08080cce:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 995 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1001 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestMemberEnter(PacketHeader* pkt)
@@ -1045,7 +938,7 @@ void CPacketTranslater::OnRequestMemberEnter(PacketHeader* pkt)
     }
     CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
     CMemberManager* memberMgr = (CMemberManager*)((char*)m_pclApp + 0x2d0);
-    CUser* requester = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xe));
+    CUser* requester = userMgr->FindUser_CharNo(((RA_UINT<14>*)pkt)->v);
     if (requester == 0)
     {
         return;
@@ -1056,7 +949,7 @@ void CPacketTranslater::OnRequestMemberEnter(PacketHeader* pkt)
         SendRequestMemberEnterResult(requester, '1', (char*)pkt + 0x12);
         return;
     }
-    if (memberMgr->IsAlreadyMemberMember(*(unsigned int*)((char*)pkt + 0xe),
+    if (memberMgr->IsAlreadyMemberMember(((RA_UINT<14>*)pkt)->v,
                                          target->GetUniqCharNo()) != 0)
     {
         SendRequestMemberEnterResult(requester, '2', (char*)pkt + 0x12);
@@ -1110,7 +1003,7 @@ void CPacketTranslater::OnRequestMemberEnter(PacketHeader* pkt)
         int err = memberMgr->CheckMemberEnter(requester, requesterMember, target, targetMember);
         if (err == 0)
         {
-            if (target->RecordCallMemberEnter(*(unsigned int*)((char*)pkt + 0xe), 1) == 1)
+            if (target->RecordCallMemberEnter(((RA_UINT<14>*)pkt)->v, 1) == 1)
             {
                 SendRequestMemberEnterResult(requester, 0, (char*)pkt + 0x12);
                 Packet_Monitor_Request_Member_Enter_To_Responser rpkt;

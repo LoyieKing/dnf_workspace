@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804cc52` | `0x37c` | `0x80864ae` | `0x36c` |
+| monitor | DIFF | `0x804cc52` | `0x37c` | `0x808640e` | `0x36c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -153,7 +153,7 @@
 +lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -268,7 +268,7 @@
 +lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -512,66 +512,55 @@ CFrameCountHandler::_ZN18CFrameCountHandler17GetFrameCountInfoEv(CFrameCountHand
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFTickHandler.cpp](source/DNFServer/GameServer/COServer/DNFTickHandler.cpp)（约第 31 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTickHandler.cpp](source/DNFServer/GameServer/Monitor/DNFTickHandler.cpp)（约第 52 行）：
 
 ```cpp
 CFrameCountHandler* CFrameCountHandler::GetFrameCountInfo()
 {
-    unsigned int l1 = 0;
-    unsigned int l2 = 0;
-    unsigned int l3 = 0;
-    unsigned int l4 = 0;
-    (void)l1;
-    (void)l2;
-    (void)l3;
-    (void)l4;
-    unsigned int now;
-    struct tms t;
-    m_state = 0;
-    if (m_state0 == 0)
+    tms tm = {};
+    m_field24 = 0;
+    if (m_field0 == 0)
     {
-        m_state0 = 1;
-        m_frameCount = 0;
-        now = times(&t);
-        m_startTime = now;
-        if ((int)m_startTime == -1)
+        m_field0 = 1;
+        m_field14 = 0;
+        m_fieldc = times(&tm);
+        if (m_fieldc == -1)
         {
             throw CDNFException("CFrameCountHandler::GetFrameCountInfo() times() Exception Break!");
         }
     }
     else
     {
-        now = times(&t);
-        m_endTime = now;
-        if ((int)m_endTime == -1)
+        m_field10 = times(&tm);
+        if (m_field10 == -1)
         {
             throw CDNFException("CFrameCountHandler::GetFrameCountInfo() times() Exception Break!");
         }
-        if (m_endTime < m_startTime)
+        if ((unsigned int)m_field10 < (unsigned int)m_fieldc)
         {
-            m_startTime = m_endTime;
+            m_fieldc = m_field10;
         }
-        if (m_frameCount < (m_endTime - m_startTime) / m_framePerTick)
+        if (m_field14 < (unsigned int)((int)m_field10 - (int)m_fieldc) / (unsigned int)m_field8)
         {
-            m_frameCount++;
-            m_state = 1;
-            if (99 < m_endTime - m_startTime)
+            m_field14++;
+            m_field24 = 1;
+            if (99 < (unsigned int)((int)m_field10 - (int)m_fieldc))
             {
-                m_fps = m_frameCount;
-                m_state = 2;
-                m_frameCount = 0;
-                m_startTime = m_endTime - (m_endTime - m_startTime) + 100;
-                *(unsigned int*)((char*)this + 0x20) = 0;
-                m_counter1 = (char)(m_counter1 + 1);
-                if (0x3b < (unsigned char)m_counter1)
+                m_field18 = m_field14;
+                m_field24 = 2;
+                m_field14 = 0;
+                m_fieldc = (m_field10 - (m_field10 - m_fieldc)) + 100;
+                m_field20 = 0;
+                m_field25++;
+                if (59 < (unsigned char)m_field25)
                 {
-                    m_state = 3;
-                    m_counter1 = 0;
-                    m_counter2 = (char)(m_counter2 + 1);
-                    if (0x3b < (unsigned char)m_counter2)
+                    m_field24 = 3;
+                    m_field25 = 0;
+                    m_field26++;
+                    if (59 < (unsigned char)m_field26)
                     {
-                        m_state = 4;
-                        m_counter2 = 0;
+                        m_field24 = 4;
+                        m_field26 = 0;
                     }
                 }
             }

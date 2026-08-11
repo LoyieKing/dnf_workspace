@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8089aa6` | `0x6c` | `0x807e55c` | `0xb6` |
+| guild | DIFF | `0x8089aa6` | `0x6c` | `0x807e4b8` | `0xb6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -47,7 +47,7 @@
 +add    $0x13,%edx
 +lea    (%eax,%edx,1),%esi
 +mov    %esi,0x4(%esp)
-+movl   $0x1d,(%esp)
++movl   $0x20,(%esp)
 +call   <T> <_ZnwjPv>
  mov    %eax,%ebx
 -mov    $0x5e,%esi
@@ -116,7 +116,7 @@ Packet_Monitor_Call_Guild_Info_Reply::_ZN36Packet_Monitor_Call_Guild_Info_ReplyC
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5577 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5582 行）：
 
 ```cpp
 Packet_Monitor_Call_Guild_Info_Reply::Packet_Monitor_Call_Guild_Info_Reply()

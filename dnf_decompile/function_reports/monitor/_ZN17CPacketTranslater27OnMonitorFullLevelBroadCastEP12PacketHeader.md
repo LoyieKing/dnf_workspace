@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808ca46` | `0x36` | `0x807808c` | `0x42` |
+| monitor | DIFF | `0x808ca46` | `0x36` | `0x8078010` | `0x3f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,33 +13,31 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,17 +1,22 @@
+@@ -1,17 +1,20 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
+-mov    0x8(%ebp),%eax
+-mov    %eax,-0xc(%ebp)
+-mov    -0xc(%ebp),%eax
+-movzwl 0x2(%eax),%eax
+-movzwl %ax,%ecx
+-mov    0x8(%ebp),%edx
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +test   %eax,%eax
-+je     <T> <_ZN17CPacketTranslater27OnMonitorFullLevelBroadCastEP12PacketHeader+0x40>
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+add    $0xa0,%eax
-+mov    (%eax),%eax
++je     <T> <_ZN17CPacketTranslater27OnMonitorFullLevelBroadCastEP12PacketHeader+0x3d>
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    0xa0(%eax),%eax
+-mov    %ecx,0x8(%esp)
+-mov    %edx,0x4(%esp)
 +mov    %eax,-0xc(%ebp)
- mov    0x8(%ebp),%eax
--mov    %eax,-0xc(%ebp)
-+add    $0x2,%eax
-+movzwl (%eax),%eax
++mov    0x8(%ebp),%eax
++movzwl 0x2(%eax),%eax
 +movzwl %ax,%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
- mov    -0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
--movzwl %ax,%ecx
--mov    0x8(%ebp),%edx
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0xa0(%eax),%eax
--mov    %ecx,0x8(%esp)
--mov    %edx,0x4(%esp)
++mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
  leave
@@ -63,15 +61,15 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnMonitorFullLevelBroadCastEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4127 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4136 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorFullLevelBroadCast(PacketHeader* pkt)
 {
     if (m_pclApp != 0)
     {
-        CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
-        handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+        CServerHandler* handler = m_pclApp->m_serverHandler2;
+        handler->SendAllToGameServer((char*)pkt, ((RA_U16<2>*)pkt)->v);
     }
 }
 ```

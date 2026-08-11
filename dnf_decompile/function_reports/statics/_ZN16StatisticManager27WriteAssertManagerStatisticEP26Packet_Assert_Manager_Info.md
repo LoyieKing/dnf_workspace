@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8070540` | `0x333` | `0x8070132` | `0x33d` |
+| statics | DIFF | `0x8070540` | `0x333` | `0x8070362` | `0x32f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,200 +1,205 @@
+@@ -1,200 +1,197 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,14 +21,12 @@
  sub    $0x650,%esp
  cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x328>
-+je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x332>
++je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x324>
  lea    -0x642(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN18STAssertManagerKeyC1Ev>
  mov    0xc(%ebp),%eax
--mov    0xa(%eax),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  mov    0xc(%ebp),%edx
  add    $0xe,%edx
  mov    %eax,0x8(%esp)
@@ -37,9 +35,7 @@
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    0xc(%ebp),%eax
--mov    0xa(%eax),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  mov    %eax,0x8(%esp)
  lea    -0x642(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -48,29 +44,21 @@
  call   <T> <_ZN16StatisticManager9AMDecryptEPvj>
  mov    0xc(%ebp),%eax
 -movzwl 0x10e(%eax),%eax
-+add    $0x10e,%eax
-+movzwl (%eax),%eax
++movzwl 0x112(%eax),%eax
  mov    %ax,-0x542(%ebp)
  mov    0xc(%ebp),%eax
 -mov    0x110(%eax),%eax
-+add    $0x110,%eax
-+mov    (%eax),%eax
++mov    0x114(%eax),%eax
  test   %eax,%eax
--js     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x139>
--mov    0xc(%ebp),%eax
+ js     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x139>
+ mov    0xc(%ebp),%eax
 -mov    0x110(%eax),%eax
-+js     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x142>
-+mov    0xc(%ebp),%eax
-+add    $0x110,%eax
-+mov    (%eax),%eax
++mov    0x114(%eax),%eax
  cmp    $0x100,%eax
--jg     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x139>
--mov    0xc(%ebp),%eax
+ jg     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x139>
+ mov    0xc(%ebp),%eax
 -mov    0x110(%eax),%eax
-+jg     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x142>
-+mov    0xc(%ebp),%eax
-+add    $0x110,%eax
-+mov    (%eax),%eax
++mov    0x114(%eax),%eax
  mov    0xc(%ebp),%edx
  add    $0x114,%edx
  mov    %eax,0x8(%esp)
@@ -81,8 +69,7 @@
  call   <T> <memcpy>
  mov    0xc(%ebp),%eax
 -mov    0x110(%eax),%eax
-+add    $0x110,%eax
-+mov    (%eax),%eax
++mov    0x114(%eax),%eax
  mov    %eax,0x8(%esp)
  lea    -0x642(%ebp),%eax
  add    $0x102,%eax
@@ -91,9 +78,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZN16StatisticManager9AMDecryptEPvj>
  movl   $0x2b5,0x8(%esp)
- movl   $"WriteAssertManagerStatistic",0x4(%esp)
--lea    -0x43c(%ebp),%eax
-+lea    -0x438(%ebp),%eax
+ movl   $&_ZZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_InfoE12__FUNCTION__,0x4(%esp)
+ lea    -0x43c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  lea    -0x642(%ebp),%eax
@@ -101,8 +87,7 @@
  mov    %eax,0xc(%esp)
  movl   $"[AssertManager] Reason(%s)",0x8(%esp)
  movl   $"./log/Statistic",0x4(%esp)
--lea    -0x43c(%ebp),%eax
-+lea    -0x438(%ebp),%eax
+ lea    -0x43c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
@@ -112,26 +97,22 @@
  cmp    $0x63,%eax
  seta   %al
  test   %al,%al
--je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x194>
-+je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x19d>
+ je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x194>
  movl   $0x2ba,0x8(%esp)
- movl   $"WriteAssertManagerStatistic",0x4(%esp)
--lea    -0x434(%ebp),%eax
-+lea    -0x440(%ebp),%eax
+ movl   $&_ZZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_InfoE12__FUNCTION__,0x4(%esp)
+ lea    -0x434(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"[AssertManager] Map 100 Over!!!",0x8(%esp)
  movl   $"./log/Statistic",0x4(%esp)
--lea    -0x434(%ebp),%eax
-+lea    -0x440(%ebp),%eax
+ lea    -0x434(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x318>
-+jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x322>
++jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x314>
  mov    0x8(%ebp),%eax
  lea    0xe0(%eax),%ecx
--lea    -0x440(%ebp),%eax
-+lea    -0x430(%ebp),%eax
+ lea    -0x440(%ebp),%eax
  lea    -0x642(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
@@ -143,8 +124,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapI18STAssertManagerKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE5emptyEv>
  test   %al,%al
--jne    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x20a>
-+jne    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x213>
+ jne    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x20a>
  mov    0x8(%ebp),%eax
  lea    0xe0(%eax),%edx
  lea    -0x42c(%ebp),%eax
@@ -154,22 +134,17 @@
  sub    $0x4,%esp
  lea    -0x42c(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x440(%ebp),%eax
-+lea    -0x430(%ebp),%eax
+ lea    -0x440(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEeqERKS4_>
  test   %al,%al
--je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x211>
-+je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x21a>
+ je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x211>
  mov    $0x1,%eax
--jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x216>
-+jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x21f>
+ jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x216>
  mov    $0x0,%eax
--test   %al,%al
+ test   %al,%al
 -je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2d5>
-+mov    %al,-0x9(%ebp)
-+cmpb   $0x0,-0x9(%ebp)
-+je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2e5>
++je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2d7>
  movl   $0x1,-0x10(%ebp)
  lea    -0x218(%ebp),%eax
  lea    -0x10(%ebp),%edx
@@ -200,7 +175,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt4pairI18STAssertManagerKeyiED1Ev>
 -jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x318>
-+jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2d5>
++jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2c7>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x420(%ebp),%eax
@@ -208,7 +183,8 @@
  call   <T> <_ZNSt4pairIK18STAssertManagerKeyiED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
- jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2bd>
+-jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2bd>
++jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2af>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x218(%ebp),%eax
@@ -217,13 +193,12 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2fa>
--lea    -0x440(%ebp),%eax
-+jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x304>
++jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2f6>
 +lea    -0x218(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt4pairI18STAssertManagerKeyiED1Ev>
-+jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x322>
-+lea    -0x430(%ebp),%eax
++jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x314>
+ lea    -0x440(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
 -add    $0x204,%eax
@@ -237,7 +212,7 @@
 +mov    0x204(%eax),%edx
 +add    $0x1,%edx
 +mov    %edx,0x204(%eax)
-+jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x322>
++jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x314>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x642(%ebp),%eax
@@ -251,7 +226,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN18STAssertManagerKeyD1Ev>
 -jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x329>
-+jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x333>
++jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x325>
  nop
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
@@ -361,7 +336,7 @@ LAB_08070858:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 489 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 593 行）：
 
 ```cpp
 void StatisticManager::WriteAssertManagerStatistic(Packet_Assert_Manager_Info* pkt)
@@ -370,14 +345,23 @@ void StatisticManager::WriteAssertManagerStatistic(Packet_Assert_Manager_Info* p
     {
         return;
     }
-    STAssertManagerKey key;
-    memcpy(key.m_str0, (char*)pkt + 0xe, *(size_t*)((char*)pkt + 10));
-    AMDecrypt(key.m_str0, *(unsigned int*)((char*)pkt + 10));
-    key.m_field100 = *(unsigned short*)((char*)pkt + 0x10e);
-    if (-1 < *(int*)((char*)pkt + 0x110) && *(int*)((char*)pkt + 0x110) < 0x101)
+    struct __attribute__((packed)) Wire
     {
-        memcpy(key.m_str2, (char*)pkt + 0x114, *(size_t*)((char*)pkt + 0x110));
-        AMDecrypt(key.m_str2, *(unsigned int*)((char*)pkt + 0x110));
+        char m_hdr[0xa];
+        unsigned int m_f0a;
+        char m_pad[0x104];
+        unsigned short m_f10e;
+        int m_f110;
+    };
+    int m_padFrame;
+    STAssertManagerKey key;
+    memcpy(key.m_str0, (char*)pkt + 0xe, ((Wire*)pkt)->m_f0a);
+    AMDecrypt(key.m_str0, ((Wire*)pkt)->m_f0a);
+    key.m_field100 = ((Wire*)pkt)->m_f10e;
+    if (-1 < ((Wire*)pkt)->m_f110 && ((Wire*)pkt)->m_f110 < 0x101)
+    {
+        memcpy(key.m_str2, (char*)pkt + 0x114, ((Wire*)pkt)->m_f110);
+        AMDecrypt(key.m_str2, ((Wire*)pkt)->m_f110);
         DNF_LOG_SCOPE_LINE(0x2b5, "./log/Statistic", "[AssertManager] Reason(%s)", key.m_str2);
     }
     if (99 < m_assertManager.size())
@@ -386,8 +370,7 @@ void StatisticManager::WriteAssertManagerStatistic(Packet_Assert_Manager_Info* p
         return;
     }
     std::map<STAssertManagerKey, int>::iterator it = m_assertManager.find(key);
-    bool isNew = (m_assertManager.empty() || it == m_assertManager.end());
-    if (isNew)
+    if (m_assertManager.empty() || it == m_assertManager.end())
     {
         m_assertManager.insert(std::make_pair(key, 1));
     }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a5e2` | `0x32` | `0x80811fc` | `0x39` |
+| monitor | DIFF | `0x807a5e2` | `0x32` | `0x8081100` | `0x39` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -61,7 +61,7 @@ CServerHandler::_ZN14CServerHandler27SendDBMWRequest_D_IPCounterEh
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 517 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 540 行）：
 
 ```cpp
 void CServerHandler::SendDBMWRequest_D_IPCounter(unsigned char flag)

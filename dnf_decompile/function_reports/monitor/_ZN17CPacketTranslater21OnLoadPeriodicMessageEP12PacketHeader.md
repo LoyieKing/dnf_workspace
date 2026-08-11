@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808d722` | `0x140` | `0x8078db8` | `0x13f` |
+| monitor | NEAR | `0x808d722` | `0x140` | `0x8078d0c` | `0x140` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -19,69 +19,54 @@
  push   %esi
  push   %ebx
  sub    $0x30,%esp
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+add    $0xa0,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x10(%ebp)
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -mov    %eax,-0x10(%ebp)
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0xa0(%eax),%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    0xa0(%eax),%eax
 -mov    0x8(%ebp),%edx
 -mov    %edx,0x4(%esp)
++mov    %eax,-0x10(%ebp)
++mov    0x8(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  movl   $0x19e0,0x8(%esp)
- movl   $"OnLoadPeriodicMessage",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"Web Request is Arrived and Send Request DBMW",0x8(%esp)
  movl   $"./log/PeriodicMessage",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader+0x139>
-+jmp    <T> <_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader+0x138>
+ jmp    <T> <_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader+0x139>
  cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader+0xdf>
-+jne    <T> <_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader+0xde>
+ jne    <T> <_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader+0xdf>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
  movl   $0x19e4,0x8(%esp)
- movl   $"OnLoadPeriodicMessage",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnLoadPeriodicMessage Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader+0xd8>
-+jmp    <T> <_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader+0xd7>
+ jmp    <T> <_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader+0xd8>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -90,24 +75,20 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader+0x139>
-+jmp    <T> <_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader+0x138>
+ jmp    <T> <_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader+0x139>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x19e9,0x8(%esp)
- movl   $"OnLoadPeriodicMessage",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnLoadPeriodicMessage Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader+0x134>
-+jmp    <T> <_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader+0x133>
+ jmp    <T> <_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader+0x134>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -147,24 +128,27 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 884 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4381 行）：
 
 ```cpp
-void CPacketTranslater::OnLoadPeriodicMessage(PacketHeader* header)
+void CPacketTranslater::OnLoadPeriodicMessage(PacketHeader* pkt)
+{try
 {
-    if (!m_pclApp)
-        return;
-    try
-    {
-        Packet_Result_Loading_Periodic_Message reply;
-        if (!m_pclApp->m_dbManager.OnLoadPeriodicMessage(
-                (Packet_Load_Periodic_Message*)header, &reply))
-            return;
-        m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
-            (char*)&reply, 0x212);
+
+
+    CServerHandler* handler = m_pclApp->m_serverHandler2;
+    handler->SendToDB(pkt);
+    DNF_LOG_SCOPE_LINE(0x19e0, "./log/PeriodicMessage", "Web Request is Arrived and Send Request DBMW");
+
+
     }
-    DNF_CATCH_LOG("./log/Except",
-                  "CPacketTranslater::OnLoadPeriodicMessage() Exception Break",
-                  0x104d, 0x1052);
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x19e4, "./log/Except", "CPacketTranslater::OnLoadPeriodicMessage Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x19e9, "./log/Except", "CPacketTranslater::OnLoadPeriodicMessage Exception Break\n");
+    }
 }
 ```

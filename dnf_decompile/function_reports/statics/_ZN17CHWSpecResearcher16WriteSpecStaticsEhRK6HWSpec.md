@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8062ea2` | `0x14d` | `0x80676c0` | `0x170` |
+| statics | DIFF | `0x8062ea2` | `0x14d` | `0x806769a` | `0x174` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,40 +13,35 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,96 +1,110 @@
+@@ -1,96 +1,112 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
--sub    $0x74,%esp
-+sub    $0x78,%esp
+ push   %ebx
+ sub    $0x74,%esp
  mov    0xc(%ebp),%eax
  mov    %al,-0x5c(%ebp)
  cmpb   $0x2,-0x5c(%ebp)
--jbe    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0x56>
--movzbl -0x5c(%ebp),%ebx
-+jbe    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0x55>
+ jbe    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0x56>
+ movzbl -0x5c(%ebp),%ebx
  movl   $0x27,0x8(%esp)
- movl   $"WriteSpecStatics",0x4(%esp)
-+lea    -0x50(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movzbl -0x5c(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CHWSpecResearcher::WriteSpecStatics Over db_type(%d)",0x8(%esp)
-+movl   $"./log/HWSpec.log",0x4(%esp)
-+lea    -0x50(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0x16e>
+ movl   $&_ZZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpecE12__FUNCTION__,0x4(%esp)
+-lea    -0x44(%ebp),%eax
++lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"CHWSpecResearcher::WriteSpecStatics Over db_type(%d)",0x8(%esp)
+ movl   $"./log/HWSpec.log",0x4(%esp)
+-lea    -0x44(%ebp),%eax
++lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-jmp    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0x148>
++jmp    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0x16f>
 +mov    0x10(%ebp),%eax
 +mov    %eax,0x4(%esp)
- lea    -0x44(%ebp),%eax
- mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"CHWSpecResearcher::WriteSpecStatics Over db_type(%d)",0x8(%esp)
--movl   $"./log/HWSpec.log",0x4(%esp)
--lea    -0x44(%ebp),%eax
++lea    -0x4c(%ebp),%eax
++mov    %eax,(%esp)
 +call   <T> <_ZN12STSpecStaticC1ERK6HWSpec>
 +movzbl -0x5c(%ebp),%edx
 +mov    %edx,%eax
@@ -55,13 +50,11 @@
 +shl    $0x3,%eax
 +mov    %eax,%edx
 +add    0x8(%ebp),%edx
-+lea    -0x48(%ebp),%eax
-+lea    -0x44(%ebp),%ecx
++lea    -0x50(%ebp),%eax
++lea    -0x4c(%ebp),%ecx
 +mov    %ecx,0x8(%esp)
 +mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0x148>
++mov    %eax,(%esp)
 +call   <T> <_ZNSt3mapI12STSpecStaticjSt4lessIS0_ESaISt4pairIKS0_jEEE4findERS4_>
 +sub    $0x4,%esp
  movzbl -0x5c(%ebp),%edx
@@ -91,7 +84,7 @@
 -jne    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0xd1>
 -lea    -0x3c(%ebp),%eax
 -mov    -0xc(%ebp),%edx
-+jne    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0xe8>
++jne    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0xe9>
 +movzbl -0x5c(%ebp),%edx
 +mov    %edx,%eax
 +add    %eax,%eax
@@ -108,28 +101,28 @@
 +lea    -0x38(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x54(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK12STSpecStaticjEEeqERKS4_>
  test   %al,%al
 -je     <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0xd8>
-+je     <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0xef>
++je     <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0xf0>
  mov    $0x1,%eax
 -jmp    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0xdd>
-+jmp    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0xf4>
++jmp    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0xf5>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0x134>
 -movl   $0x1,-0x10(%ebp)
 -lea    -0x20(%ebp),%eax
 -lea    -0x10(%ebp),%edx
-+je     <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0x15a>
++je     <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0x15b>
 +movl   $0x1,-0xc(%ebp)
 +lea    -0x1c(%ebp),%eax
 +lea    -0xc(%ebp),%edx
  mov    %edx,0x8(%esp)
 -lea    -0x50(%ebp),%edx
-+lea    -0x44(%ebp),%edx
++lea    -0x4c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZSt9make_pairIR12STSpecStaticiESt4pairINSt17__decay_and_stripIT_E6__typeENS3_IT0_E6__typeEEOS4_OS7_>
@@ -161,14 +154,14 @@
  sub    $0x4,%esp
 -jmp    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0x148>
 -lea    -0x54(%ebp),%eax
-+jmp    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0x16e>
-+lea    -0x48(%ebp),%eax
++jmp    <T> <_ZN17CHWSpecResearcher16WriteSpecStaticsEhRK6HWSpec+0x16f>
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK12STSpecStaticjEEptEv>
  mov    0xc(%eax),%edx
  add    $0x1,%edx
  mov    %edx,0xc(%eax)
--mov    -0x4(%ebp),%ebx
+ mov    -0x4(%ebp),%ebx
  leave
  ret
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| auction | DIFF | `0x80b6076` | `0x5ed` | `0x80b48b0` | `0x5e3` |
+| auction | DIFF | `0x80b6076` | `0x5ed` | `0x80b47c6` | `0x5eb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,393 +1,387 @@
+@@ -1,393 +1,391 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -36,12 +36,11 @@
  call   <T> <stat>
 -mov    %eax,-0x28(%ebp)
 -mov    -0x28(%ebp),%eax
--shr    $0x1f,%eax
--test   %al,%al
--je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x8f>
 +mov    %eax,-0x2c(%ebp)
-+cmpl   $0x0,-0x2c(%ebp)
-+jns    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x8b>
++mov    -0x2c(%ebp),%eax
+ shr    $0x1f,%eax
+ test   %al,%al
+ je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x8f>
  mov    0x8(%ebp),%eax
  lea    0x30(%eax),%esi
  call   <T> <__errno_location>
@@ -67,13 +66,12 @@
  test   %eax,%eax
  setne  %al
  test   %al,%al
--je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x10a>
-+je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x106>
+ je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x10a>
  mov    0x8(%ebp),%eax
  movzbl 0x341(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5d7>
-+je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5cd>
++je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5d5>
  mov    0x8(%ebp),%eax
  lea    0x30(%eax),%esi
  call   <T> <__errno_location>
@@ -93,18 +91,17 @@
  movb   $0x0,0x341(%eax)
 -jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5d7>
 -mov    -0x64(%ebp),%eax
-+jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5cd>
++jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5d5>
 +mov    -0x60(%ebp),%eax
  cmp    $0x1388000,%eax
--jle    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x11b>
-+jle    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x117>
+ jle    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x11b>
  movb   $0x1,&_ZN3nsl18bChangedDataForLogE
  movzbl &_ZN3nsl18bChangedDataForLogE,%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -jne    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5d7>
 +test   %al,%al
-+je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5cd>
++je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5d5>
  movb   $0x0,&_ZN3nsl18bChangedDataForLogE
  call   <T> <_ZN3nsl8G_ScriptEv>
  movl   $0x1,0x8(%esp)
@@ -127,17 +124,17 @@
  call   <T> <stat>
 -mov    %eax,-0x28(%ebp)
 -mov    -0x28(%ebp),%eax
--shr    $0x1f,%eax
--test   %al,%al
--je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x228>
 +mov    %eax,-0x2c(%ebp)
-+cmpl   $0x0,-0x2c(%ebp)
-+jns    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x21d>
++mov    -0x2c(%ebp),%eax
+ shr    $0x1f,%eax
+ test   %al,%al
+-je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x228>
++je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x225>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  cmp    $0x2,%eax
 -je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x1d6>
-+je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x1cb>
++je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x1d3>
  call   <T> <__errno_location>
  mov    (%eax),%ebx
  call   <T> <__errno_location>
@@ -152,7 +149,7 @@
  call   <T> <_ZN3nsl8TraceLog8errorLogEPKcz>
 -jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5d7>
 -lea    -0x1090(%ebp),%eax
-+jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5cd>
++jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5d5>
 +lea    -0x108c(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -161,7 +158,7 @@
  shr    $0x1f,%eax
  test   %al,%al
 -je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x228>
-+je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x21d>
++je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x225>
  call   <T> <__errno_location>
  mov    (%eax),%ebx
  call   <T> <__errno_location>
@@ -175,7 +172,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TraceLog8errorLogEPKcz>
 -jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5d7>
-+jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5cd>
++jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5d5>
  mov    0x8(%ebp),%eax
  mov    0x330(%eax),%eax
  mov    %eax,(%esp)
@@ -185,7 +182,7 @@
 -je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x26e>
 +mov    %eax,-0x28(%ebp)
 +cmpl   $0x0,-0x28(%ebp)
-+je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x263>
++je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x26b>
  mov    0x8(%ebp),%eax
  mov    0x330(%eax),%ebx
  call   <T> <__errno_location>
@@ -205,7 +202,7 @@
 -je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x2b4>
 +mov    %eax,-0x28(%ebp)
 +cmpl   $0x0,-0x28(%ebp)
-+je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x2a9>
++je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x2b1>
  mov    0x8(%ebp),%eax
  mov    0x334(%eax),%ebx
  call   <T> <__errno_location>
@@ -225,7 +222,7 @@
 -je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x2fa>
 +mov    %eax,-0x28(%ebp)
 +cmpl   $0x0,-0x28(%ebp)
-+je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x2ef>
++je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x2f7>
  mov    0x8(%ebp),%eax
  mov    0x338(%eax),%ebx
  call   <T> <__errno_location>
@@ -241,7 +238,7 @@
 -cmpl   $0x0,-0x24(%ebp)
 -jne    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x329>
 +movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x58e>
++jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x596>
  movl   $0x0,(%esp)
  call   <T> <time>
 -mov    %eax,-0x38(%ebp)
@@ -255,7 +252,7 @@
 -jne    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x3db>
 +mov    %eax,-0x1c(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
-+jne    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x3d1>
++jne    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x3d9>
  mov    0x8(%ebp),%eax
  add    $0x30,%eax
 -mov    %eax,-0x30(%ebp)
@@ -313,9 +310,9 @@
 -jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x534>
 -cmpl   $0x1,-0x24(%ebp)
 -jne    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x48f>
-+jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x52a>
++jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x532>
 +cmpl   $0x1,-0x20(%ebp)
-+jne    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x485>
++jne    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x48d>
  mov    0x8(%ebp),%eax
  add    $0x130,%eax
 -mov    %eax,-0x30(%ebp)
@@ -371,7 +368,7 @@
  mov    %eax,(%esp)
  call   <T> <sprintf>
 -jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x534>
-+jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x52a>
++jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x532>
  mov    0x8(%ebp),%eax
  add    $0x230,%eax
 -mov    %eax,-0x30(%ebp)
@@ -437,7 +434,7 @@
  shr    $0x1f,%eax
  test   %al,%al
 -je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x594>
-+je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x58a>
++je     <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x592>
  movl   $0x148,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -461,13 +458,13 @@
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x306>
-+jne    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x302>
++jne    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x30a>
  movl   $0x14e,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TraceLog6set_fdEi>
 -jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5d7>
-+jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5cd>
++jmp    <T> <_ZN3nsl8TraceLog18sysNSL_LOG_date_chEv+0x5d5>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x34(%ebp),%eax
@@ -655,9 +652,9 @@ void TraceLog::sysNSL_LOG_date_ch()
 {
     TScopedLock<TThreadLock<ThreadLock_linux> > slock(lockLog);
     struct stat st;
-    int rst = stat(logfname, &st);
-    // 原始：rst 存局部后 shr $0x1f; test al; je（直接 if (rst < 0)，无 bool 栈变量）
-    if (rst < 0)
+    int rst;
+    // ORIG: 赋值在条件内（mov rst; shr $0x1f; test; je）
+    if ((rst = stat(logfname, &st)) < 0)
     {
         errorLog("sysNSL_LOG_date_ch stat() errmsg[%s(%d)] [%s]", strerror(errno), errno, logfname);
         exit(1);
@@ -684,8 +681,7 @@ void TraceLog::sysNSL_LOG_date_ch()
             char logdname[4096];
             char renfname[4096];
             sprintf(logdname, "%s/old_log", G_Script()->findCharValue(0, 1));
-            rst = stat(logdname, &st);
-            if (rst < 0)
+            if ((rst = stat(logdname, &st)) < 0)
             {
                 if (errno != ENOENT)
                 {

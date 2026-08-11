@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809aa7c` | `0xcb` | `0x8061fb6` | `0xc2` |
+| guild | DIFF | `0x809aa7c` | `0xcb` | `0x8061640` | `0xcc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,58 +13,53 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,55 +1,50 @@
+@@ -1,55 +1,56 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
--push   %ebx
--sub    $0x40,%esp
-+sub    $0x48,%esp
+ push   %esi
+ push   %ebx
+ sub    $0x40,%esp
  mov    0xc(%ebp),%eax
  test   %eax,%eax
 -je     <T> <_ZN9CGuildWar19Insert_GuildWarInfoEP14STGuildWarInfo+0x8b>
--mov    0xc(%ebp),%eax
--mov    0x4(%eax),%esi
--mov    0xc(%ebp),%eax
--mov    (%eax),%ebx
--movl   $0x90,0x8(%esp)
-+jne    <T> <_ZN9CGuildWar19Insert_GuildWarInfoEP14STGuildWarInfo+0x45>
++jne    <T> <_ZN9CGuildWar19Insert_GuildWarInfoEP14STGuildWarInfo+0x47>
 +movl   $0x95,0x8(%esp)
- movl   $"Insert_GuildWarInfo",0x4(%esp)
- lea    -0x20(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"[INSERT]\tGuild Key : %d\tGuild Point : %d\n",0x8(%esp)
-+movl   $"[INSERT_ERR]info == 0\n",0x8(%esp)
- movl   $"./log/GuildWar",0x4(%esp)
- lea    -0x20(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN9CGuildWar19Insert_GuildWarInfoEP14STGuildWarInfo+0xc0>
-+movl   $0x90,0x8(%esp)
-+movl   $"Insert_GuildWarInfo",0x4(%esp)
-+lea    -0x18(%ebp),%eax
++movl   $&_ZZN9CGuildWar19Insert_GuildWarInfoEP14STGuildWarInfoE12__FUNCTION__,0x4(%esp)
++lea    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
++movl   $"[INSERT_ERR]info == 0\n",0x8(%esp)
++movl   $"./log/GuildWar",0x4(%esp)
++lea    -0x20(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN9CGuildWar19Insert_GuildWarInfoEP14STGuildWarInfo+0xc2>
+ mov    0xc(%ebp),%eax
+-mov    0x4(%eax),%esi
++add    $0x4,%eax
++mov    (%eax),%esi
+ mov    0xc(%ebp),%eax
+ mov    (%eax),%ebx
+ movl   $0x90,0x8(%esp)
+ movl   $&_ZZN9CGuildWar19Insert_GuildWarInfoEP14STGuildWarInfoE12__FUNCTION__,0x4(%esp)
+-lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"[INSERT]\tGuild Key : %d\tGuild Point : %d\n",0x8(%esp)
+ movl   $"./log/GuildWar",0x4(%esp)
+-lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0xc(%ebp),%eax
 -lea    0x4(%eax),%ecx
-+add    $0x4,%eax
-+mov    (%eax),%edx
-+mov    0xc(%ebp),%eax
-+mov    (%eax),%eax
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
-+movl   $"[INSERT]\tGuild Key : %d\tGuild Point : %d\n",0x8(%esp)
-+movl   $"./log/GuildWar",0x4(%esp)
- lea    -0x18(%ebp),%eax
+-lea    -0x18(%ebp),%eax
 -lea    0xc(%ebp),%edx
 -mov    %edx,0x8(%esp)
 -mov    %ecx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    0xc(%ebp),%eax
 +mov    %eax,%edx
 +lea    -0x10(%ebp),%eax
 +lea    0xc(%ebp),%ecx
@@ -81,7 +76,7 @@
  call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE9push_backEOS3_>
 -jmp    <T> <_ZN9CGuildWar19Insert_GuildWarInfoEP14STGuildWarInfo+0xc1>
 -movl   $0x95,0x8(%esp)
--movl   $"Insert_GuildWarInfo",0x4(%esp)
+-movl   $&_ZZN9CGuildWar19Insert_GuildWarInfoEP14STGuildWarInfoE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -90,12 +85,11 @@
 -lea    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--lea    -0x8(%ebp),%esp
--add    $0x0,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
-+leave
+ lea    -0x8(%ebp),%esp
+ add    $0x0,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C

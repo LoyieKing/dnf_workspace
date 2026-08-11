@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x805a69c` | `0x9b2` | `0x805512e` | `0x9c7` |
+| statics | DIFF | `0x805a69c` | `0x9b2` | `0x80550ce` | `0x9ef` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,31 +13,31 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,548 +1,582 @@
+@@ -1,548 +1,584 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
- sub    $0x13c,%esp
+-sub    $0x13c,%esp
++sub    $0x14c,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
--jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0xfa>
+ jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0xfa>
 -lea    -0xf1(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0xe2>
-+lea    -0x4d(%ebp),%eax
++lea    -0x105(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0xf1(%ebp),%eax
-+lea    -0x4d(%ebp),%eax
++lea    -0x105(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnFrameLagStatisticsAdd() : 0 == m_pclApp",0x4(%esp)
 -lea    -0xf8(%ebp),%eax
-+lea    -0x54(%ebp),%eax
++lea    -0x10c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0xf8(%ebp),%esi
-+lea    -0x54(%ebp),%esi
++lea    -0x10c(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -45,8 +45,7 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
--jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9f>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x90>
+ jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9f>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -56,44 +55,39 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0xf8(%ebp),%eax
-+lea    -0x54(%ebp),%eax
++lea    -0x10c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x99>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8a>
+ jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x99>
  cmp    $0xffffffff,%edx
--jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0xb9>
-+jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0xa7>
+ jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0xb9>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0xb9>
+ jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0xb9>
 -lea    -0xf8(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0xa7>
-+lea    -0x54(%ebp),%eax
++lea    -0x10c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0xd4>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0xbf>
+ jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0xd4>
  cmp    $0xffffffff,%edx
--jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0xb9>
-+jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0xa7>
+ jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0xb9>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0xf1(%ebp),%eax
-+lea    -0x4d(%ebp),%eax
++lea    -0x105(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8d1>
 -lea    -0xf1(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8da>
-+lea    -0x4d(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x90e>
++lea    -0x105(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -102,208 +96,304 @@
 +call   <T> <_ZN12CApplication21Get_FrameLagCollectorEv>
 +mov    %eax,-0x4c(%ebp)
  mov    0x8(%ebp),%eax
+-mov    %eax,-0x38(%ebp)
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN12CApplication21Get_FrameLagCollectorEv>
+-mov    %eax,-0x30(%ebp)
+-movl   $"./SHOW_PACKET",-0x2c(%ebp)
 +mov    %eax,-0x48(%ebp)
-+movl   $0x0,0x4(%esp)
+ movl   $0x0,0x4(%esp)
+-mov    -0x2c(%ebp),%eax
+-mov    %eax,(%esp)
 +movl   $"./SHOW_PACKET",(%esp)
-+call   <T> <access>
+ call   <T> <access>
+-mov    %eax,-0x34(%ebp)
+-cmpl   $0x0,-0x34(%ebp)
+-jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x894>
+-mov    -0x38(%ebp),%eax
+-movzwl 0x2(%eax),%eax
 +test   %eax,%eax
 +sete   %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8a1>
-+movl   $0x124,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0x5c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++je     <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8d5>
 +mov    -0x48(%ebp),%eax
 +add    $0x2,%eax
 +movzwl (%eax),%eax
-+movzwl %ax,%eax
-+mov    %eax,0xc(%esp)
-+movl   $"packet->m_wSize\t\t: %hu",0x8(%esp)
-+movl   $"./log/FrameLag.log",0x4(%esp)
-+lea    -0x5c(%ebp),%eax
+ movzwl %ax,%ebx
+ movl   $0x124,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0xf0(%ebp),%eax
++lea    -0x104(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"packet->m_wSize\t\t: %hu",0x8(%esp)
+ movl   $"./log/FrameLag.log",0x4(%esp)
+-lea    -0xf0(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    -0x38(%ebp),%eax
+-movzbl 0x1f(%eax),%eax
++lea    -0x104(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x125,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0x64(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x48(%ebp),%eax
 +add    $0x1f,%eax
 +movzbl (%eax),%eax
-+movsbl %al,%eax
-+mov    %eax,0xc(%esp)
-+movl   $"crashCount\t\t\t\t: %hhd",0x8(%esp)
-+movl   $"./log/FrameLag.log",0x4(%esp)
-+lea    -0x64(%ebp),%eax
+ movsbl %al,%ebx
+ movl   $0x125,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0xe8(%ebp),%eax
++lea    -0xfc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"crashCount\t\t\t\t: %hhd",0x8(%esp)
+ movl   $"./log/FrameLag.log",0x4(%esp)
+-lea    -0xe8(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    -0x38(%ebp),%eax
+-mov    0xa(%eax),%ebx
++lea    -0xfc(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x126,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0x6c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x48(%ebp),%eax
 +add    $0x28,%eax
-+mov    (%eax),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"cpuInfo.cpuClock       : %d",0x8(%esp)
-+movl   $"./log/FrameLag.log",0x4(%esp)
-+lea    -0x6c(%ebp),%eax
++mov    (%eax),%ebx
+ movl   $0x126,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0xe0(%ebp),%eax
++lea    -0xf4(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"cpuInfo.cpuClock       : %d",0x8(%esp)
+ movl   $"./log/FrameLag.log",0x4(%esp)
+-lea    -0xe0(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    -0x38(%ebp),%eax
+-movzbl 0xe(%eax),%eax
++lea    -0xf4(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x127,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0x74(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x48(%ebp),%eax
 +add    $0x38,%eax
 +movzbl (%eax),%eax
-+movsbl %al,%eax
-+mov    %eax,0xc(%esp)
-+movl   $"cpuInfo.numOfProcessor : %hhd",0x8(%esp)
-+movl   $"./log/FrameLag.log",0x4(%esp)
-+lea    -0x74(%ebp),%eax
+ movsbl %al,%ebx
+ movl   $0x127,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0xd8(%ebp),%eax
++lea    -0xec(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"cpuInfo.numOfProcessor : %hhd",0x8(%esp)
+ movl   $"./log/FrameLag.log",0x4(%esp)
+-lea    -0xd8(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    -0x38(%ebp),%eax
+-movzbl 0xf(%eax),%eax
++lea    -0xec(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x128,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0x7c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x48(%ebp),%eax
 +add    $0x3c,%eax
 +movzbl (%eax),%eax
-+movsbl %al,%eax
-+mov    %eax,0xc(%esp)
-+movl   $"cpuInfo.cpuVendor      : %hhd",0x8(%esp)
-+movl   $"./log/FrameLag.log",0x4(%esp)
-+lea    -0x7c(%ebp),%eax
+ movsbl %al,%ebx
+ movl   $0x128,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0xd0(%ebp),%eax
++lea    -0xe4(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"cpuInfo.cpuVendor      : %hhd",0x8(%esp)
+ movl   $"./log/FrameLag.log",0x4(%esp)
+-lea    -0xd0(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    -0x38(%ebp),%eax
+-movzwl 0x12(%eax),%eax
++lea    -0xe4(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x129,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0x84(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x48(%ebp),%eax
 +add    $0x48,%eax
 +movzwl (%eax),%eax
-+movzwl %ax,%eax
-+mov    %eax,0xc(%esp)
-+movl   $"videoCardVendorId      : %hu",0x8(%esp)
-+movl   $"./log/FrameLag.log",0x4(%esp)
-+lea    -0x84(%ebp),%eax
+ movzwl %ax,%ebx
+ movl   $0x129,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0xc8(%ebp),%eax
++lea    -0xdc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"videoCardVendorId      : %hu",0x8(%esp)
+ movl   $"./log/FrameLag.log",0x4(%esp)
+-lea    -0xc8(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    -0x38(%ebp),%eax
+-movzwl 0x14(%eax),%eax
++lea    -0xdc(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x12a,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0x8c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x48(%ebp),%eax
 +add    $0x50,%eax
 +movzwl (%eax),%eax
-+movzwl %ax,%eax
-+mov    %eax,0xc(%esp)
-+movl   $"videoCardDeviceId      : %hu",0x8(%esp)
-+movl   $"./log/FrameLag.log",0x4(%esp)
-+lea    -0x8c(%ebp),%eax
+ movzwl %ax,%ebx
+ movl   $0x12a,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0xc0(%ebp),%eax
++lea    -0xd4(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"videoCardDeviceId      : %hu",0x8(%esp)
+ movl   $"./log/FrameLag.log",0x4(%esp)
+-lea    -0xc0(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    -0x38(%ebp),%eax
+-movzwl 0x16(%eax),%eax
++lea    -0xd4(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x12b,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0x94(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x48(%ebp),%eax
 +add    $0x58,%eax
 +movzwl (%eax),%eax
-+cwtl
-+mov    %eax,0xc(%esp)
-+movl   $"availableTextureMemory : %hd",0x8(%esp)
-+movl   $"./log/FrameLag.log",0x4(%esp)
-+lea    -0x94(%ebp),%eax
+ movswl %ax,%ebx
+ movl   $0x12b,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0xb8(%ebp),%eax
++lea    -0xcc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"availableTextureMemory : %hd",0x8(%esp)
+ movl   $"./log/FrameLag.log",0x4(%esp)
+-lea    -0xb8(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    -0x38(%ebp),%eax
+-movzwl 0x18(%eax),%eax
++lea    -0xcc(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x12c,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0x9c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x48(%ebp),%eax
 +add    $0x60,%eax
 +movzwl (%eax),%eax
-+cwtl
-+mov    %eax,0xc(%esp)
-+movl   $"ramMemory              : %hd",0x8(%esp)
-+movl   $"./log/FrameLag.log",0x4(%esp)
-+lea    -0x9c(%ebp),%eax
+ movswl %ax,%ebx
+ movl   $0x12c,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0xb0(%ebp),%eax
++lea    -0xc4(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"ramMemory              : %hd",0x8(%esp)
+ movl   $"./log/FrameLag.log",0x4(%esp)
+-lea    -0xb0(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    -0x38(%ebp),%eax
+-movzbl 0x1a(%eax),%eax
++lea    -0xc4(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x12d,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0xa4(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x48(%ebp),%eax
 +add    $0x68,%eax
 +movzbl (%eax),%eax
-+movsbl %al,%eax
-+mov    %eax,0xc(%esp)
-+movl   $"osVersion              : %hhd",0x8(%esp)
-+movl   $"./log/FrameLag.log",0x4(%esp)
-+lea    -0xa4(%ebp),%eax
+ movsbl %al,%ebx
+ movl   $0x12d,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0xa8(%ebp),%eax
++lea    -0xbc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"osVersion              : %hhd",0x8(%esp)
+ movl   $"./log/FrameLag.log",0x4(%esp)
+-lea    -0xa8(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    -0x38(%ebp),%eax
+-mov    0x1b(%eax),%ebx
++lea    -0xbc(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x12e,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0xac(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x48(%ebp),%eax
 +add    $0x6c,%eax
-+mov    (%eax),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"directxVersion         : %x",0x8(%esp)
-+movl   $"./log/FrameLag.log",0x4(%esp)
++mov    (%eax),%ebx
+ movl   $0x12e,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0xa0(%ebp),%eax
++lea    -0xb4(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"directxVersion         : %x",0x8(%esp)
+ movl   $"./log/FrameLag.log",0x4(%esp)
+-lea    -0xa0(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    -0x38(%ebp),%eax
+-movzbl 0x1f(%eax),%eax
++lea    -0xb4(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    -0x48(%ebp),%eax
++add    $0x7c,%eax
++movzbl (%eax),%eax
+ movsbl %al,%ebx
+ movl   $0x130,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x98(%ebp),%eax
++lea    -0xac(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"crash\t\t\t\t\t: %hhd",0x8(%esp)
+ movl   $"./log/FrameLag.log",0x4(%esp)
+-lea    -0x98(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    -0x38(%ebp),%eax
+-movzbl 0x1f(%eax),%eax
 +lea    -0xac(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x130,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0xb4(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x48(%ebp),%eax
 +add    $0x7c,%eax
 +movzbl (%eax),%eax
-+movsbl %al,%eax
-+mov    %eax,0xc(%esp)
-+movl   $"crash\t\t\t\t\t: %hhd",0x8(%esp)
-+movl   $"./log/FrameLag.log",0x4(%esp)
-+lea    -0xb4(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ test   %al,%al
+-js     <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x4e2>
+-mov    -0x38(%ebp),%eax
+-movzbl 0x1f(%eax),%eax
++js     <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x4ef>
 +mov    -0x48(%ebp),%eax
 +add    $0x7c,%eax
 +movzbl (%eax),%eax
-+test   %al,%al
-+js     <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x4b5>
+ cmp    $0x7,%al
+-jg     <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x4e2>
+-mov    -0x38(%ebp),%eax
+-movzbl 0x1f(%eax),%eax
++jg     <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x4ef>
 +mov    -0x48(%ebp),%eax
 +add    $0x7c,%eax
 +movzbl (%eax),%eax
-+cmp    $0x7,%al
-+jg     <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x4b5>
-+mov    -0x48(%ebp),%eax
-+add    $0x7c,%eax
-+movzbl (%eax),%eax
-+movsbl %al,%eax
+ movsbl %al,%eax
+-mov    -0x38(%ebp),%edx
+-movzbl 0x1f(%edx),%edx
+-movsbl %dl,%edx
+-mov    &_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE8chk_ting(,%edx,4),%edx
 +movzbl &_ZL8chk_ting(%eax),%edx
-+add    $0x1,%edx
+ add    $0x1,%edx
+-mov    %edx,&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE8chk_ting(,%eax,4)
 +mov    %dl,&_ZL8chk_ting(%eax)
 +mov    -0x48(%ebp),%eax
 +add    $0x14c,%eax
@@ -320,10 +410,7 @@
 +mov    -0x48(%ebp),%eax
 +add    $0x140,%eax
 +mov    (%eax),%eax
- mov    %eax,-0x38(%ebp)
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication21Get_FrameLagCollectorEv>
++mov    %eax,-0x38(%ebp)
 +mov    -0x48(%ebp),%eax
 +add    $0x13c,%eax
 +mov    (%eax),%eax
@@ -331,208 +418,12 @@
 +mov    -0x48(%ebp),%eax
 +add    $0x138,%eax
 +mov    (%eax),%eax
- mov    %eax,-0x30(%ebp)
--movl   $"./SHOW_PACKET",-0x2c(%ebp)
--movl   $0x0,0x4(%esp)
--mov    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <access>
--mov    %eax,-0x34(%ebp)
--cmpl   $0x0,-0x34(%ebp)
--jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x894>
--mov    -0x38(%ebp),%eax
--movzwl 0x2(%eax),%eax
--movzwl %ax,%ebx
--movl   $0x124,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0xf0(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"packet->m_wSize\t\t: %hu",0x8(%esp)
--movl   $"./log/FrameLag.log",0x4(%esp)
--lea    -0xf0(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x38(%ebp),%eax
--movzbl 0x1f(%eax),%eax
--movsbl %al,%ebx
--movl   $0x125,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0xe8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"crashCount\t\t\t\t: %hhd",0x8(%esp)
--movl   $"./log/FrameLag.log",0x4(%esp)
--lea    -0xe8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x38(%ebp),%eax
--mov    0xa(%eax),%ebx
--movl   $0x126,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0xe0(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"cpuInfo.cpuClock       : %d",0x8(%esp)
--movl   $"./log/FrameLag.log",0x4(%esp)
--lea    -0xe0(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x38(%ebp),%eax
--movzbl 0xe(%eax),%eax
--movsbl %al,%ebx
--movl   $0x127,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0xd8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"cpuInfo.numOfProcessor : %hhd",0x8(%esp)
--movl   $"./log/FrameLag.log",0x4(%esp)
--lea    -0xd8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x38(%ebp),%eax
--movzbl 0xf(%eax),%eax
--movsbl %al,%ebx
--movl   $0x128,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0xd0(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"cpuInfo.cpuVendor      : %hhd",0x8(%esp)
--movl   $"./log/FrameLag.log",0x4(%esp)
--lea    -0xd0(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x38(%ebp),%eax
--movzwl 0x12(%eax),%eax
--movzwl %ax,%ebx
--movl   $0x129,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0xc8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"videoCardVendorId      : %hu",0x8(%esp)
--movl   $"./log/FrameLag.log",0x4(%esp)
--lea    -0xc8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x38(%ebp),%eax
--movzwl 0x14(%eax),%eax
--movzwl %ax,%ebx
--movl   $0x12a,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0xc0(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"videoCardDeviceId      : %hu",0x8(%esp)
--movl   $"./log/FrameLag.log",0x4(%esp)
--lea    -0xc0(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x38(%ebp),%eax
--movzwl 0x16(%eax),%eax
--movswl %ax,%ebx
--movl   $0x12b,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0xb8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"availableTextureMemory : %hd",0x8(%esp)
--movl   $"./log/FrameLag.log",0x4(%esp)
--lea    -0xb8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x38(%ebp),%eax
--movzwl 0x18(%eax),%eax
--movswl %ax,%ebx
--movl   $0x12c,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0xb0(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"ramMemory              : %hd",0x8(%esp)
--movl   $"./log/FrameLag.log",0x4(%esp)
--lea    -0xb0(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x38(%ebp),%eax
--movzbl 0x1a(%eax),%eax
--movsbl %al,%ebx
--movl   $0x12d,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0xa8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"osVersion              : %hhd",0x8(%esp)
--movl   $"./log/FrameLag.log",0x4(%esp)
--lea    -0xa8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x38(%ebp),%eax
--mov    0x1b(%eax),%ebx
--movl   $0x12e,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0xa0(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"directxVersion         : %x",0x8(%esp)
--movl   $"./log/FrameLag.log",0x4(%esp)
--lea    -0xa0(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x38(%ebp),%eax
--movzbl 0x1f(%eax),%eax
--movsbl %al,%ebx
--movl   $0x130,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0x98(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"crash\t\t\t\t\t: %hhd",0x8(%esp)
--movl   $"./log/FrameLag.log",0x4(%esp)
--lea    -0x98(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x38(%ebp),%eax
--movzbl 0x1f(%eax),%eax
--test   %al,%al
--js     <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x4e2>
--mov    -0x38(%ebp),%eax
--movzbl 0x1f(%eax),%eax
--cmp    $0x7,%al
--jg     <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x4e2>
--mov    -0x38(%ebp),%eax
--movzbl 0x1f(%eax),%eax
--movsbl %al,%eax
--mov    -0x38(%ebp),%edx
--movzbl 0x1f(%edx),%edx
--movsbl %dl,%edx
--mov    &_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE8chk_ting(,%edx,4),%edx
--add    $0x1,%edx
--mov    %edx,&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE8chk_ting(,%eax,4)
++mov    %eax,-0x30(%ebp)
  movl   $0x0,-0x28(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x76b>
 -mov    -0x28(%ebp),%eax
 -mov    -0x38(%ebp),%ecx
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x791>
-+movl   $0x138,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0xd4(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x7d9>
 +mov    -0x28(%ebp),%eax
  shl    $0x3,%eax
  lea    0x0(,%eax,8),%edx
@@ -540,21 +431,20 @@
 -lea    (%ecx,%edx,1),%eax
 -add    $0x20,%eax
 -movzwl 0x4(%eax),%eax
--movswl %ax,%ebx
--movl   $0x138,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0x90(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x10(%esp)
 +mov    %edx,%ecx
 +sub    %eax,%ecx
 +mov    %ecx,%eax
 +add    $0x24,%eax
 +add    -0x48(%ebp),%eax
 +movzwl (%eax),%eax
-+cwtl
-+mov    %eax,0x10(%esp)
+ movswl %ax,%ebx
+ movl   $0x138,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x90(%ebp),%eax
++lea    -0xa4(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0x10(%esp)
  mov    -0x28(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"window_fps fps[%d]             : %hd",0x8(%esp)
@@ -564,14 +454,9 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x28(%ebp),%eax
 -mov    -0x38(%ebp),%ecx
-+lea    -0xd4(%ebp),%eax
++lea    -0xa4(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x139,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0xdc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x28(%ebp),%eax
  shl    $0x3,%eax
  lea    0x0(,%eax,8),%edx
@@ -579,21 +464,20 @@
 -lea    (%ecx,%edx,1),%eax
 -add    $0x20,%eax
 -movzwl 0x6(%eax),%eax
--movswl %ax,%ebx
--movl   $0x139,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0x88(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x10(%esp)
 +mov    %edx,%ecx
 +sub    %eax,%ecx
 +mov    %ecx,%eax
 +add    $0x26,%eax
 +add    -0x48(%ebp),%eax
 +movzwl (%eax),%eax
-+cwtl
-+mov    %eax,0x10(%esp)
+ movswl %ax,%ebx
+ movl   $0x139,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x88(%ebp),%eax
++lea    -0x9c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0x10(%esp)
  mov    -0x28(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"full_fps fps[%d]               : %hd",0x8(%esp)
@@ -603,14 +487,9 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x28(%ebp),%eax
 -mov    -0x38(%ebp),%ecx
-+lea    -0xdc(%ebp),%eax
++lea    -0x9c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x13a,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0xe4(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x28(%ebp),%eax
  shl    $0x3,%eax
  lea    0x0(,%eax,8),%edx
@@ -618,21 +497,20 @@
 -lea    (%ecx,%edx,1),%eax
 -add    $0x20,%eax
 -movzwl 0x8(%eax),%eax
--movswl %ax,%ebx
--movl   $0x13a,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0x80(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x10(%esp)
 +mov    %edx,%ecx
 +sub    %eax,%ecx
 +mov    %ecx,%eax
 +add    $0x28,%eax
 +add    -0x48(%ebp),%eax
 +movzwl (%eax),%eax
-+cwtl
-+mov    %eax,0x10(%esp)
+ movswl %ax,%ebx
+ movl   $0x13a,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x80(%ebp),%eax
++lea    -0x94(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0x10(%esp)
  mov    -0x28(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"full_window_fps fps[%d]        : %hd",0x8(%esp)
@@ -642,14 +520,9 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x28(%ebp),%eax
 -mov    -0x38(%ebp),%ecx
-+lea    -0xe4(%ebp),%eax
++lea    -0x94(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x13b,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0xec(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x28(%ebp),%eax
  shl    $0x3,%eax
  lea    0x0(,%eax,8),%edx
@@ -657,37 +530,31 @@
 -lea    (%ecx,%edx,1),%eax
 -add    $0x20,%eax
 -movzwl 0xa(%eax),%eax
--movswl %ax,%ebx
--movl   $0x13b,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0x78(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x10(%esp)
 +mov    %edx,%ecx
 +sub    %eax,%ecx
 +mov    %ecx,%eax
 +add    $0x2a,%eax
 +add    -0x48(%ebp),%eax
 +movzwl (%eax),%eax
-+cwtl
-+mov    %eax,0x10(%esp)
+ movswl %ax,%ebx
+ movl   $0x13b,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x78(%ebp),%eax
++lea    -0x8c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0x10(%esp)
  mov    -0x28(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"full_window_nosync_fps fps[%d] : %hd",0x8(%esp)
  movl   $"./log/FrameLag.log",0x4(%esp)
 -lea    -0x78(%ebp),%eax
-+lea    -0xec(%ebp),%eax
++lea    -0x8c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x0,-0x24(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x758>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x77e>
-+movl   $0x13e,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0xf4(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x7c6>
  mov    -0x28(%ebp),%edx
 -mov    -0x24(%ebp),%ebx
 -mov    -0x38(%ebp),%ecx
@@ -698,17 +565,17 @@
 +add    -0x24(%ebp),%eax
  add    $0x4,%eax
 -mov    0xc(%ecx,%eax,8),%ebx
--movl   $0x13e,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0x70(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x14(%esp)
 +shl    $0x3,%eax
 +add    $0xc,%eax
 +add    -0x48(%ebp),%eax
-+mov    (%eax),%eax
-+mov    %eax,0x14(%esp)
++mov    (%eax),%ebx
+ movl   $0x13e,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x70(%ebp),%eax
++lea    -0x84(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0x14(%esp)
  mov    -0x24(%ebp),%eax
  mov    %eax,0x10(%esp)
  mov    -0x28(%ebp),%eax
@@ -716,16 +583,9 @@
  movl   $"m_frameLagArray[%d].framelag[%d].frame : %d",0x8(%esp)
  movl   $"./log/FrameLag.log",0x4(%esp)
 -lea    -0x70(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+lea    -0xf4(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x13f,0x8(%esp)
-+movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
-+lea    -0xfc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++lea    -0x84(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    -0x28(%ebp),%edx
 -mov    -0x24(%ebp),%ebx
 -mov    -0x38(%ebp),%ecx
@@ -736,17 +596,22 @@
 -add    $0x4,%eax
 -flds   0x10(%ecx,%eax,8)
 -fstpl  -0x110(%ebp)
--movl   $0x13f,0x8(%esp)
--movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0x68(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--fldl   -0x110(%ebp)
 +add    -0x24(%ebp),%eax
 +add    $0x6,%eax
 +shl    $0x3,%eax
 +add    -0x48(%ebp),%eax
 +flds   (%eax)
++fstpl  -0x120(%ebp)
+ movl   $0x13f,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x68(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-fldl   -0x110(%ebp)
++lea    -0x7c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++fldl   -0x120(%ebp)
  fstpl  0x14(%esp)
  mov    -0x24(%ebp),%eax
  mov    %eax,0x10(%esp)
@@ -755,7 +620,7 @@
  movl   $"m_frameLagArray[%d].framelag[%d].time : %.3f",0x8(%esp)
  movl   $"./log/FrameLag.log",0x4(%esp)
 -lea    -0x68(%ebp),%eax
-+lea    -0xfc(%ebp),%eax
++lea    -0x7c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  addl   $0x1,-0x24(%ebp)
@@ -763,7 +628,7 @@
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x686>
-+jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x6ab>
++jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x6ed>
  addl   $0x1,-0x28(%ebp)
  cmpl   $0x5,-0x28(%ebp)
  setle  %al
@@ -778,14 +643,14 @@
 -mov    &_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE8chk_ting+0x8,%edi
 -mov    &_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE8chk_ting+0x4,%esi
 -mov    &_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE8chk_ting,%ebx
-+jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x50f>
++jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x549>
  movl   $0x142,0x8(%esp)
- movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x60(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x104(%ebp),%eax
-+lea    -0xbc(%ebp),%eax
++lea    -0x74(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x44(%ebp),%eax
@@ -811,7 +676,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x38(%ebp),%eax
-+lea    -0xbc(%ebp),%eax
++lea    -0x74(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    0x8(%ebp),%eax
@@ -820,45 +685,41 @@
 +mov    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17FrameLagCollector25is_valid_statistic_packetEP30Packet_Frame_Lag_Statistic_Add>
--movzbl %al,%ebx
 +mov    %eax,-0x2c(%ebp)
- movl   $0x144,0x8(%esp)
- movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
--lea    -0x58(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+lea    -0xc4(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x2c(%ebp),%eax
-+and    $0xff,%eax
-+mov    %eax,0xc(%esp)
+ movzbl %al,%ebx
+ movl   $0x144,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x58(%ebp),%eax
++lea    -0x6c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"packet validation : %d",0x8(%esp)
  movl   $"./log/FrameLag.log",0x4(%esp)
 -lea    -0x58(%ebp),%eax
-+lea    -0xc4(%ebp),%eax
++lea    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x146,0x8(%esp)
- movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0xcc(%ebp),%eax
++lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
- movl   $&data#77b0a6cf(.rodata),0x8(%esp)
+ movl   $"\n",0x8(%esp)
  movl   $"./log/FrameLag.log",0x4(%esp)
 -lea    -0x50(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8ba>
-+lea    -0xcc(%ebp),%eax
++lea    -0x64(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8c3>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8f7>
  movl   $0x0,-0x20(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8af>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8b8>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8ec>
  mov    -0x20(%ebp),%eax
 -movl   $0x0,&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE8chk_ting(,%eax,4)
 +movb   $0x0,&_ZL8chk_ting(%eax)
@@ -868,7 +729,7 @@
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x89d>
 -mov    -0x38(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8aa>
++jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x8de>
 +mov    0x8(%ebp),%eax
  mov    %eax,0x4(%esp)
 -mov    -0x30(%ebp),%eax
@@ -876,29 +737,25 @@
  mov    %eax,(%esp)
  call   <T> <_ZN17FrameLagCollector19PushOneFrameLagDataEP30Packet_Frame_Lag_Statistic_Add>
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9a7>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9bc>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9e4>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x94d>
-+jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x95c>
++jne    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x98a>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%ebx
  movl   $0x154,0x8(%esp)
- movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x104(%ebp),%eax
++lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
@@ -908,10 +765,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x946>
-+lea    -0x104(%ebp),%eax
++lea    -0x5c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x955>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x983>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -921,13 +778,13 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9a7>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9bc>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9e4>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x159,0x8(%esp)
- movl   $"OnFrameLagStatisticsAdd",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x10c(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnFrameLagStatisticsAdd() Exception Break\n",0x8(%esp)
@@ -936,10 +793,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9a2>
-+lea    -0x10c(%ebp),%eax
++lea    -0x54(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9b7>
++jmp    <T> <_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12PacketHeader+0x9df>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -948,7 +805,8 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
- add    $0x13c,%esp
+-add    $0x13c,%esp
++add    $0x14c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -1141,7 +999,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnFrameLagStatisticsAddEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp)（约第 100 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp)（约第 98 行）：
 
 ```cpp
 void CPacketTranslater::OnFrameLagStatisticsAdd(PacketHeader* pkt)
@@ -1153,30 +1011,18 @@ void CPacketTranslater::OnFrameLagStatisticsAdd(PacketHeader* pkt)
         char* pb = (char*)pkt;
         if (access("./SHOW_PACKET", 0) == 0)
         {
-            CMyFileLog log1("OnFrameLagStatisticsAdd", 0x124);
-            log1("./log/FrameLag.log", "packet->m_wSize\t\t: %hu", *(unsigned short*)(pb + 2));
-            CMyFileLog log2("OnFrameLagStatisticsAdd", 0x125);
-            log2("./log/FrameLag.log", "crashCount\t\t\t\t: %hhd", (int)(char)pb[0x1f]);
-            CMyFileLog log3("OnFrameLagStatisticsAdd", 0x126);
-            log3("./log/FrameLag.log", "cpuInfo.cpuClock       : %d", *(int*)(pb + 0x28));
-            CMyFileLog log4("OnFrameLagStatisticsAdd", 0x127);
-            log4("./log/FrameLag.log", "cpuInfo.numOfProcessor : %hhd", (int)(char)pb[0x38]);
-            CMyFileLog log5("OnFrameLagStatisticsAdd", 0x128);
-            log5("./log/FrameLag.log", "cpuInfo.cpuVendor      : %hhd", (int)(char)pb[0x3c]);
-            CMyFileLog log6("OnFrameLagStatisticsAdd", 0x129);
-            log6("./log/FrameLag.log", "videoCardVendorId      : %hu", (unsigned int)*(unsigned short*)(pb + 0x48));
-            CMyFileLog log7("OnFrameLagStatisticsAdd", 0x12a);
-            log7("./log/FrameLag.log", "videoCardDeviceId      : %hu", (unsigned int)*(unsigned short*)(pb + 0x50));
-            CMyFileLog log8("OnFrameLagStatisticsAdd", 299);
-            log8("./log/FrameLag.log", "availableTextureMemory : %hd", (int)*(short*)(pb + 0x58));
-            CMyFileLog log9("OnFrameLagStatisticsAdd", 300);
-            log9("./log/FrameLag.log", "ramMemory              : %hd", (int)*(short*)(pb + 0x60));
-            CMyFileLog log10("OnFrameLagStatisticsAdd", 0x12d);
-            log10("./log/FrameLag.log", "osVersion              : %hhd", (int)(char)pb[0x68]);
-            CMyFileLog log11("OnFrameLagStatisticsAdd", 0x12e);
-            log11("./log/FrameLag.log", "directxVersion         : %x", *(unsigned int*)(pb + 0x6c));
-            CMyFileLog log12("OnFrameLagStatisticsAdd", 0x130);
-            log12("./log/FrameLag.log", "crash\t\t\t\t\t: %hhd", (int)(char)pb[0x7c]);
+            CMyFileLog(__FUNCTION__, 0x124)("./log/FrameLag.log", "packet->m_wSize\t\t: %hu", *(unsigned short*)(pb + 2));
+            CMyFileLog(__FUNCTION__, 0x125)("./log/FrameLag.log", "crashCount\t\t\t\t: %hhd", (int)(char)pb[0x1f]);
+            CMyFileLog(__FUNCTION__, 0x126)("./log/FrameLag.log", "cpuInfo.cpuClock       : %d", *(int*)(pb + 0x28));
+            CMyFileLog(__FUNCTION__, 0x127)("./log/FrameLag.log", "cpuInfo.numOfProcessor : %hhd", (int)(char)pb[0x38]);
+            CMyFileLog(__FUNCTION__, 0x128)("./log/FrameLag.log", "cpuInfo.cpuVendor      : %hhd", (int)(char)pb[0x3c]);
+            CMyFileLog(__FUNCTION__, 0x129)("./log/FrameLag.log", "videoCardVendorId      : %hu", (unsigned int)*(unsigned short*)(pb + 0x48));
+            CMyFileLog(__FUNCTION__, 0x12a)("./log/FrameLag.log", "videoCardDeviceId      : %hu", (unsigned int)*(unsigned short*)(pb + 0x50));
+            CMyFileLog(__FUNCTION__, 299)("./log/FrameLag.log", "availableTextureMemory : %hd", (int)*(short*)(pb + 0x58));
+            CMyFileLog(__FUNCTION__, 300)("./log/FrameLag.log", "ramMemory              : %hd", (int)*(short*)(pb + 0x60));
+            CMyFileLog(__FUNCTION__, 0x12d)("./log/FrameLag.log", "osVersion              : %hhd", (int)(char)pb[0x68]);
+            CMyFileLog(__FUNCTION__, 0x12e)("./log/FrameLag.log", "directxVersion         : %x", *(unsigned int*)(pb + 0x6c));
+            CMyFileLog(__FUNCTION__, 0x130)("./log/FrameLag.log", "crash\t\t\t\t\t: %hhd", (int)(char)pb[0x7c]);
             if (-1 < (char)pb[0x7c] && (char)pb[0x7c] < 8)
             {
                 chk_ting[(char)pb[0x7c]]++;
@@ -1189,38 +1035,29 @@ void CPacketTranslater::OnFrameLagStatisticsAdd(PacketHeader* pkt)
             unsigned int t0 = *(unsigned int*)(pb + 0x138);
             for (int i = 0; i < 6; i++)
             {
-                CMyFileLog log13("OnFrameLagStatisticsAdd", 0x138);
-                log13("./log/FrameLag.log", "window_fps fps[%d]             : %hd", i,
+                CMyFileLog(__FUNCTION__, 0x138)("./log/FrameLag.log", "window_fps fps[%d]             : %hd", i,
                       (int)*(short*)(pb + i * 0x38 + 0x24));
-                CMyFileLog log14("OnFrameLagStatisticsAdd", 0x139);
-                log14("./log/FrameLag.log", "full_fps fps[%d]               : %hd", i,
+                CMyFileLog(__FUNCTION__, 0x139)("./log/FrameLag.log", "full_fps fps[%d]               : %hd", i,
                       (int)*(short*)(pb + i * 0x38 + 0x26));
-                CMyFileLog log15("OnFrameLagStatisticsAdd", 0x13a);
-                log15("./log/FrameLag.log", "full_window_fps fps[%d]        : %hd", i,
+                CMyFileLog(__FUNCTION__, 0x13a)("./log/FrameLag.log", "full_window_fps fps[%d]        : %hd", i,
                       (int)*(short*)(pb + i * 0x38 + 0x28));
-                CMyFileLog log16("OnFrameLagStatisticsAdd", 0x13b);
-                log16("./log/FrameLag.log", "full_window_nosync_fps fps[%d] : %hd", i,
+                CMyFileLog(__FUNCTION__, 0x13b)("./log/FrameLag.log", "full_window_nosync_fps fps[%d] : %hd", i,
                       (int)*(short*)(pb + i * 0x38 + 0x2a));
                 for (int j = 0; j < 6; j++)
                 {
-                    CMyFileLog log17("OnFrameLagStatisticsAdd", 0x13e);
-                    log17("./log/FrameLag.log",
+                    CMyFileLog(__FUNCTION__, 0x13e)("./log/FrameLag.log",
                           "m_frameLagArray[%d].framelag[%d].frame : %d", i, j,
                           *(int*)(pb + (i * 7 + j + 4) * 8 + 0xc));
-                    CMyFileLog log18("OnFrameLagStatisticsAdd", 0x13f);
-                    log18("./log/FrameLag.log",
+                    CMyFileLog(__FUNCTION__, 0x13f)("./log/FrameLag.log",
                           "m_frameLagArray[%d].framelag[%d].time : %.3f", i, j,
                           (double)*(float*)(pb + (i * 7 + j + 4) * 8 + 0x10));
                 }
             }
-            CMyFileLog log19("OnFrameLagStatisticsAdd", 0x142);
-            log19("./log/FrameLag.log", "TOTAL TING : %u, %u, %u, %u, %u, %u",
+            CMyFileLog(__FUNCTION__, 0x142)("./log/FrameLag.log", "TOTAL TING : %u, %u, %u, %u, %u, %u",
                   t0, t1, t2, t3, t4, t5);
             unsigned int valid = flc->is_valid_statistic_packet((Packet_Frame_Lag_Statistic_Add*)pkt);
-            CMyFileLog log20("OnFrameLagStatisticsAdd", 0x144);
-            log20("./log/FrameLag.log", "packet validation : %d", valid & 0xff);
-            CMyFileLog log21("OnFrameLagStatisticsAdd", 0x146);
-            log21("./log/FrameLag.log", "\n");
+            CMyFileLog(__FUNCTION__, 0x144)("./log/FrameLag.log", "packet validation : %d", valid & 0xff);
+            CMyFileLog(__FUNCTION__, 0x146)("./log/FrameLag.log", "\n");
         }
         else
         {
@@ -1235,13 +1072,11 @@ void CPacketTranslater::OnFrameLagStatisticsAdd(PacketHeader* pkt)
     catch (CDNFException& e)
     {
         register const char* reason = e.what();
-        CMyFileLog log("OnFrameLagStatisticsAdd", 340);
-        log("./log/Except", "CPacketTranslater::OnFrameLagStatisticsAdd() Exception Break : %s\n", reason);
+        CMyFileLog(__FUNCTION__, 340)("./log/Except", "CPacketTranslater::OnFrameLagStatisticsAdd() Exception Break : %s\n", reason);
     }
     catch (...)
     {
-        CMyFileLog log("OnFrameLagStatisticsAdd", 345);
-        log("./log/Except", "CPacketTranslater::OnFrameLagStatisticsAdd() Exception Break\n");
+        CMyFileLog(__FUNCTION__, 345)("./log/Except", "CPacketTranslater::OnFrameLagStatisticsAdd() Exception Break\n");
     }
 }
 ```

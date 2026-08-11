@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80a06c0` | `0x4af` | `0x80845b2` | `0x409` |
+| dbmw | DIFF | `0x80a06c0` | `0x4af` | `0x80d7bc8` | `0x40f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -24,7 +24,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x4a3>
-+je     <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x3fe>
++je     <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x404>
  mov    0x8(%ebp),%eax
  mov    %eax,-0x28(%ebp)
  mov    -0x28(%ebp),%eax
@@ -40,14 +40,14 @@
 +mov    0xf(%eax),%eax
 +mov    %eax,-0x1c(%ebp)
  movl   $0x141b,0x8(%esp)
- movl   $"OnPcRoomPlayTimeReward",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x58(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+lea    -0x30(%ebp),%eax
++lea    -0x50(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +movzbl -0x21(%ebp),%eax
@@ -103,13 +103,13 @@
 -mov    -0x28(%ebp),%eax
 -movzbl 0xa(%eax),%eax
 -movzbl %al,%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x50(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x0,-0x34(%ebp)
++movl   $0x0,-0x54(%ebp)
 +movl   $0x15,0x8(%esp)
 +movl   $0x0,0x4(%esp)
-+lea    -0x49(%ebp),%eax
++lea    -0x69(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <memset>
 +mov    -0x20(%ebp),%edx
@@ -118,10 +118,10 @@
  lea    0x50(%ecx),%ebx
  movl   $0x15,0x14(%esp)
 -lea    -0x71(%ebp),%ecx
-+lea    -0x49(%ebp),%ecx
++lea    -0x69(%ebp),%ecx
  mov    %ecx,0x10(%esp)
 -lea    -0x5c(%ebp),%ecx
-+lea    -0x34(%ebp),%ecx
++lea    -0x54(%ebp),%ecx
  mov    %ecx,0xc(%esp)
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -141,19 +141,19 @@
 +sete   %al
 +test   %al,%al
 +je     <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x138>
++movzbl -0x21(%ebp),%ebx
  movl   $0x1423,0x8(%esp)
- movl   $"OnPcRoomPlayTimeReward",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+lea    -0x78(%ebp),%eax
++lea    -0x48(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
-+movzbl -0x21(%ebp),%eax
-+mov    %eax,0x14(%esp)
++mov    %ebx,0x14(%esp)
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,0x10(%esp)
 +mov    -0x20(%ebp),%eax
@@ -164,16 +164,16 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x4a4>
-+lea    -0x78(%ebp),%eax
++lea    -0x48(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x3ff>
++jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x405>
  movl   $0x0,(%esp)
  call   <T> <time>
 -mov    %eax,-0x78(%ebp)
 -lea    -0x78(%ebp),%eax
-+mov    %eax,-0x50(%ebp)
-+lea    -0x50(%ebp),%eax
++mov    %eax,-0x70(%ebp)
++lea    -0x70(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <localtime>
 -mov    %eax,-0x24(%ebp)
@@ -233,9 +233,9 @@
 +lea    -0x190(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <memset>
-+lea    -0x49(%ebp),%eax
++lea    -0x69(%ebp),%eax
  mov    %eax,0x8(%esp)
- movl   $&data#039d70e4(.rodata),0x4(%esp)
+ movl   $"여름방학 기간에 1시간동안 PC방에서 접속을 유지하신 PC방 유저 여러분께 특별한 선물을 드립니다.\n - 넥슨핀: %s ",0x4(%esp)
 -lea    -0x18e(%ebp),%eax
 +lea    -0x190(%ebp),%eax
  mov    %eax,(%esp)
@@ -246,7 +246,7 @@
 -mov    0xf(%eax),%eax
 +movb   $0x1e,-0x128(%ebp)
 +movb   $0x1f,-0x113(%ebp)
-+movl   $0x0,-0x54(%ebp)
++movl   $0x0,-0x74(%ebp)
 +mov    -0x1c(%ebp),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  lea    0x50(%edx),%ecx
@@ -254,12 +254,12 @@
 +mov    -0x14(%ebp),%edx
  mov    %edx,0x18(%esp)
 -lea    -0x7c(%ebp),%edx
-+lea    -0x54(%ebp),%edx
++lea    -0x74(%ebp),%edx
  mov    %edx,0x14(%esp)
 -lea    -0x18e(%ebp),%edx
 +lea    -0x190(%ebp),%edx
  mov    %edx,0x10(%esp)
- movl   $&data#c95d5a0b(.rodata),0xc(%esp)
+ movl   $"던파PC방 썸머타임",0xc(%esp)
  movl   $0x0,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    %ecx,(%esp)
@@ -280,8 +280,10 @@
 +sete   %al
 +test   %al,%al
 +je     <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x277>
++mov    -0x54(%ebp),%esi
++movzbl -0x21(%ebp),%ebx
  movl   $0x143d,0x8(%esp)
- movl   $"OnPcRoomPlayTimeReward",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -290,13 +292,11 @@
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+lea    -0x80(%ebp),%eax
++lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x34(%ebp),%edx
-+movzbl -0x21(%ebp),%eax
-+mov    %edx,0x18(%esp)
-+mov    %eax,0x14(%esp)
++mov    %esi,0x18(%esp)
++mov    %ebx,0x14(%esp)
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,0x10(%esp)
 +mov    -0x20(%ebp),%eax
@@ -308,11 +308,11 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x4a4>
 -lea    -0x8e(%ebp),%eax
-+lea    -0x80(%ebp),%eax
++lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x3ff>
-+lea    -0x66(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x405>
++lea    -0x86(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN30Packet_Monitor_Notify_New_MailC1Ev>
 -mov    -0x28(%ebp),%eax
@@ -321,10 +321,9 @@
 -movzwl -0x8c(%ebp),%eax
 -movzwl %ax,%esi
 -lea    -0x8e(%ebp),%ebx
-+lea    -0x66(%ebp),%eax
-+lea    0xf(%eax),%edx
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,(%edx)
++lea    -0x86(%ebp),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,0xf(%eax)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -332,9 +331,9 @@
 -mov    %esi,0x8(%esp)
 -mov    %ebx,0x4(%esp)
 +mov    %eax,-0x10(%ebp)
-+movzwl -0x64(%ebp),%eax
++movzwl -0x84(%ebp),%eax
 +movzwl %ax,%edx
-+lea    -0x66(%ebp),%eax
++lea    -0x86(%ebp),%eax
 +mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x10(%ebp),%eax
@@ -352,7 +351,7 @@
 -mov    -0x28(%ebp),%eax
 -mov    0xb(%eax),%ebx
  movl   $0x1447,0x8(%esp)
- movl   $"OnPcRoomPlayTimeReward",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -363,11 +362,11 @@
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+lea    -0x70(%ebp),%eax
++lea    -0x90(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x54(%ebp),%ecx
-+mov    -0x34(%ebp),%edx
++mov    -0x74(%ebp),%ecx
++mov    -0x54(%ebp),%edx
 +movzbl -0x21(%ebp),%eax
 +mov    %ecx,0x1c(%esp)
 +mov    %edx,0x18(%esp)
@@ -382,52 +381,40 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x4a4>
-+lea    -0x70(%ebp),%eax
++lea    -0x90(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x3ff>
++jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x405>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x447>
-+jne    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x39c>
++jne    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x3a8>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
 -mov    %eax,-0x1c(%ebp)
 -mov    -0x1c(%ebp),%eax
 +mov    %eax,-0xc(%ebp)
-+movl   $0x144c,0x8(%esp)
-+movl   $"OnPcRoomPlayTimeReward",0x4(%esp)
-+lea    -0x88(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x144c,0x8(%esp)
--movl   $"OnPcRoomPlayTimeReward",0x4(%esp)
--lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x144c,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnPcRoomPlayTimeReward Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x440>
-+lea    -0x88(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x395>
++jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x3a1>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -437,25 +424,21 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x4a4>
-+jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x3ff>
++jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x405>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1451,0x8(%esp)
- movl   $"OnPcRoomPlayTimeReward",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x90(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnPcRoomPlayTimeReward Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x49c>
-+lea    -0x90(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x3f7>
++jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x3fd>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -465,7 +448,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x4a4>
-+jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x3ff>
++jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x405>
  nop
 -add    $0x1bc,%esp
 +add    $0x1b0,%esp
@@ -642,7 +625,7 @@ void CPacketTranslater::_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12Packet
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1817 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1906 行）：
 
 ```cpp
 void CPacketTranslater::OnPcRoomPlayTimeReward(PacketHeader* header)
@@ -656,7 +639,7 @@ void CPacketTranslater::OnPcRoomPlayTimeReward(PacketHeader* header)
         unsigned char serverInfo = pkt->m_serverInfo;
         int accId = pkt->m_accId;
         int characNo = pkt->m_characNo;
-        CMyFileLog log1("OnPcRoomPlayTimeReward", 0x141b);
+        CMyFileLog log1(__FUNCTION__, 0x141b);
         log1("./log/event",
              "CPacketTranslater::OnPcRoomPlayTimeReward Noti acc_id(%d), charac_no(%d), server_info(%d)",
              accId, characNo, serverInfo);
@@ -666,10 +649,12 @@ void CPacketTranslater::OnPcRoomPlayTimeReward(PacketHeader* header)
         if (!m_pclApp->m_dbManager.updateNexonPinPcRoomPlayTimeEvent(
                 serverInfo, accId, pinNo, pinBuf, 0x15))
         {
-            CMyFileLog log("OnPcRoomPlayTimeReward", 0x1423);
-            log("./log/event",
-                "CPacketTranslater::OnPcRoomPlayTimeReward Error acc_id(%d), charac_no(%d), server_info(%d)",
-                accId, characNo, serverInfo);
+            DNF_LOG_SCOPE_LINE(0x1423,
+                "./log/event",
+                "CPacketTranslater::OnPcRoomPlayTimeReward Error acc_id(%d), charac_no(%d), server_info(%d)", accId, characNo,
+                serverInfo
+            );
+
             return;
         }
         time_t now = time(0);
@@ -691,17 +676,20 @@ void CPacketTranslater::OnPcRoomPlayTimeReward(PacketHeader* header)
                 "\xb4\xf8\xc6\xc4\x50\x43\xb9\xe6\x20\xbd\xe6\xb8\xd3\xc5\xb8\xc0\xd3",
                 str, letterNo, tomorrow))
         {
-            CMyFileLog log("OnPcRoomPlayTimeReward", 0x143d);
-            log("./log/event",
-                "CPacketTranslater::OnPcRoomPlayTimeReward Letter Error acc_id(%d), charac_no(%d), server_info(%d), pin_num(%d)",
-                accId, characNo, serverInfo, pinNo);
+            DNF_LOG_SCOPE_LINE(0x143d,
+                "./log/event",
+                "CPacketTranslater::OnPcRoomPlayTimeReward Letter Error acc_id(%d), charac_no(%d), server_info(%d), pin_num(%d)", accId, characNo,
+                serverInfo,
+                pinNo
+            );
+
             return;
         }
         Packet_Monitor_Notify_New_Mail mail;
-        *(int*)((char*)&mail + 0xf) = characNo;
+        ((FieldViewP<0xf,int>*)&mail)->v = characNo;
         CMonitorServer* ms = m_pclApp->m_serverHandler->GetMonitorServer();
         ms->SendToServer((char*)&mail, mail.packetSize);
-        CMyFileLog log2("OnPcRoomPlayTimeReward", 0x1447);
+        CMyFileLog log2(__FUNCTION__, 0x1447);
         log2("./log/event",
              "CPacketTranslater::OnPcRoomPlayTimeReward reward acc_id(%d), charac_no(%d), server_info(%d), pin_num(%d), letter_id(%d)",
              accId, characNo, serverInfo, pinNo, letterNo);

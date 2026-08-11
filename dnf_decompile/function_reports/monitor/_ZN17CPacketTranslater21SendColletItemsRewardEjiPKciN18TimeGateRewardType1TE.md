@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8090e68` | `0xe0` | `0x8071ef2` | `0xe2` |
+| monitor | DIFF | `0x8090e68` | `0xe0` | `0x8071fee` | `0xe1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,65 +1,66 @@
+@@ -1,65 +1,65 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x88,%esp
@@ -31,7 +31,7 @@
 -lea    -0x3e(%ebp),%eax
 +mov    %eax,-0x10(%ebp)
 +cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN17CPacketTranslater21SendColletItemsRewardEjiPKciN18TimeGateRewardType1TE+0xe0>
++je     <T> <_ZN17CPacketTranslater21SendColletItemsRewardEjiPKciN18TimeGateRewardType1TE+0xdf>
 +lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN25Packet_CollectItemsRewardC1Ev>
@@ -89,11 +89,9 @@
  mov    %eax,(%esp)
  call   <T> <strncpy>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0xa0(%eax),%eax
+ mov    0xa0(%eax),%eax
 -lea    -0x70(%ebp),%edx
 -mov    %edx,0x4(%esp)
-+add    $0xa0,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0xc(%ebp)
 +lea    -0x73(%ebp),%eax
 +mov    %eax,0x4(%esp)
@@ -151,4 +149,4 @@ void CPacketTranslater::_ZN17CPacketTranslater21SendColletItemsRewardEjiPKciN18T
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/COServer/DNFPacketTranslater.cpp, source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp, source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp, source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp, source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp, source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h 等 643 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp, source/DNFServer/GameServer/Monitor/Arad_BirthdayEvent.h, source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.h, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/DNFAppConfig.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFBuddy.h 等 299 个文件*

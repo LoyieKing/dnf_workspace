@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8088d58` | `0x2d2` | `0x807ddf2` | `0x200` |
+| guild | DIFF | `0x8088d58` | `0x2d2` | `0x807dd82` | `0x205` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,186 +1,137 @@
+@@ -1,186 +1,139 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -31,15 +31,15 @@
 -jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x67>
 +jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x51>
  movl   $0x1fd1,0x8(%esp)
- movl   $"OnDBResponseApproveJoinGuild",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnApproveJoinGuild : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/Guild",0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x2cb>
@@ -49,7 +49,7 @@
 -add    $0x290,%edx
 -mov    %eax,0x4(%esp)
 -mov    %edx,(%esp)
-+jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1fa>
++jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1ff>
 +mov    -0x24(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
@@ -63,22 +63,22 @@
  call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x10(%ebp)
 -cmpl   $0x0,-0x10(%ebp)
--sete   %al
--test   %al,%al
--je     <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0xce>
 +mov    %eax,-0x1c(%ebp)
 +cmpl   $0x0,-0x1c(%ebp)
-+jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0xbc>
+ sete   %al
+ test   %al,%al
+-je     <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0xce>
++je     <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0xc1>
  movl   $0x1fd7,0x8(%esp)
- movl   $"OnDBResponseApproveJoinGuild",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnApproveJoinGuild : 0 == pGuild",0x8(%esp)
  movl   $"./log/Guild",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x2cb>
@@ -88,7 +88,7 @@
 -add    $0x10,%edx
 -mov    %eax,0x4(%esp)
 -mov    %edx,(%esp)
-+jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1fa>
++jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1ff>
 +mov    -0x24(%ebp),%eax
 +add    $0x16,%eax
 +mov    (%eax),%eax
@@ -105,17 +105,17 @@
 -sete   %al
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x132>
-+jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x127>
++jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x12c>
  movl   $0x1fdd,0x8(%esp)
- movl   $"OnDBResponseApproveJoinGuild",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnAddGuildFund : 0 == pUser",0x8(%esp)
  movl   $"./log/Guild",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x2cb>
@@ -125,7 +125,7 @@
 -add    $0x10,%edx
 -mov    %eax,0x4(%esp)
 -mov    %edx,(%esp)
-+jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1fa>
++jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1ff>
 +mov    -0x24(%ebp),%eax
 +add    $0x12,%eax
 +mov    (%eax),%eax
@@ -140,20 +140,20 @@
 -mov    %eax,-0x18(%ebp)
 -lea    -0x5e(%ebp),%eax
 +mov    %eax,-0xc(%ebp)
-+lea    -0x3e(%ebp),%eax
++lea    -0x56(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Approve_Join_Guild_ResultC1Ev>
-+lea    -0x3e(%ebp),%eax
++lea    -0x56(%ebp),%eax
 +lea    0xa(%eax),%edx
 +mov    -0x20(%ebp),%eax
 +mov    %eax,(%edx)
-+lea    -0x3e(%ebp),%eax
++lea    -0x56(%ebp),%eax
 +lea    0xe(%eax),%ebx
 +mov    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
 +mov    %eax,(%ebx)
-+lea    -0x3e(%ebp),%eax
++lea    -0x56(%ebp),%eax
 +lea    0x12(%eax),%ebx
  mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -161,16 +161,16 @@
 -mov    %eax,-0x4c(%ebp)
 -mov    -0x14(%ebp),%eax
 +mov    %eax,(%ebx)
-+lea    -0x3e(%ebp),%eax
++lea    -0x56(%ebp),%eax
 +lea    0x16(%eax),%edx
 +mov    -0x24(%ebp),%eax
 +add    $0x16,%eax
 +mov    (%eax),%eax
 +mov    %eax,(%edx)
 +cmpl   $0x0,-0x20(%ebp)
-+jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1e0>
++jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1e5>
 +cmpl   $0x0,-0xc(%ebp)
-+jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1c7>
++jne    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1cc>
 +mov    -0x24(%ebp),%eax
 +lea    0x1a(%eax),%edx
 +mov    -0x10(%ebp),%eax
@@ -181,7 +181,7 @@
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x50(%ebp)
 +call   <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj>
-+jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1e0>
++jmp    <T> <_ZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeader+0x1e5>
 +mov    -0x10(%ebp),%eax
 +mov    %eax,0x8(%esp)
 +mov    -0xc(%ebp),%eax
@@ -217,7 +217,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj>
 -lea    -0x5e(%ebp),%eax
-+lea    -0x3e(%ebp),%eax
++lea    -0x56(%ebp),%eax
  movl   $0x1a,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0x14(%ebp),%eax
@@ -238,7 +238,7 @@
 -call   *%edx
 -mov    %eax,%ebx
 -movl   $0x1ff5,0x8(%esp)
--movl   $"OnDBResponseApproveJoinGuild",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -261,7 +261,7 @@
 -mov    %eax,(%esp)
 -call   <T> <__cxa_begin_catch>
 -movl   $0x1ffa,0x8(%esp)
--movl   $"OnDBResponseApproveJoinGuild",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater28OnDBResponseApproveJoinGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -370,8 +370,8 @@ void CPacketTranslater::OnDBResponseApproveJoinGuild(PacketHeader* pkt)
         return;
     }
     unsigned int guildKey = *(unsigned int*)(pb + 0xa);
-    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
-    if (guild == 0)
+    CGuild* guild;
+    if ((guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey)) == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1fd7, "./log/Guild", "CPacketTranslater::OnApproveJoinGuild : 0 == pGuild");
         return;

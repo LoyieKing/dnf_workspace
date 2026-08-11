@@ -170,8 +170,8 @@ public:
         void init()
         {
             mpRbnode = NULL;
-            mTraversal = -1;
-            mFlow = -1;
+            mTraversal = (ENUM_RBITERATOR_TRAVERSAL)-1;
+            mFlow = (ENUM_RBITERATOR_FLOW)-1;
         }
 
         RBIterator& operator++()
@@ -303,8 +303,8 @@ public:
 
     private:
         RBNodeType* mpRbnode;
-        int mTraversal;
-        int mFlow;
+        ENUM_RBITERATOR_TRAVERSAL mTraversal;
+        ENUM_RBITERATOR_FLOW mFlow;
     };
 
     RBTree(bool bDuplicatePermit = false)
@@ -371,23 +371,24 @@ public:
                 curr = curr->mRightChild;
             }
         }
-        if (preFlow == 1)
+        // ORIG: switch 分发（mov preFlow; cmp $1; je; cmp $2; je; jmp default）。
+        switch (preFlow)
         {
+        case 1:
             pre->mLeftChild = newNode;
             newNode->mParent = pre;
-        }
-        else if (preFlow == 2)
-        {
+            break;
+        case 2:
             pre->mRightChild = newNode;
             newNode->mParent = pre;
-        }
-        else
-        {
+            break;
+        default:
             if (pre != NULL)
             {
                 G_TraceLog()->sysLog(8, "Insert(), ROOT_INSERT_ERROR");
             }
             mpRoot = newNode;
+            break;
         }
 
         ENUM_RBTREE_INSERT_CASE insertCase = RBTREE_INSERT_CASE_NOT_DEFINED;

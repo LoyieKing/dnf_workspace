@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809f0e6` | `0x2cb` | `0x8085c00` | `0x2c3` |
+| dbmw | DIFF | `0x809f0e6` | `0x2cb` | `0x80d91a8` | `0x2c5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,191 +1,188 @@
+@@ -1,191 +1,189 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -26,19 +26,19 @@
 -jne    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0xdf>
 -lea    -0x45(%ebp),%eax
 +jne    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0xe2>
-+lea    -0x29(%ebp),%eax
++lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x45(%ebp),%eax
-+lea    -0x29(%ebp),%eax
++lea    -0x41(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnReqOntimeEventIdx() : 0 == m_pclApp",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x4c(%ebp),%esi
-+lea    -0x30(%ebp),%esi
++lea    -0x48(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -56,7 +56,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x4c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x87>
@@ -67,7 +67,7 @@
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0xa4>
 -lea    -0x4c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0xbc>
@@ -78,7 +78,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x45(%ebp),%eax
-+lea    -0x29(%ebp),%eax
++lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
@@ -87,21 +87,21 @@
 -lea    -0x45(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_Unwind_Resume>
-+lea    -0x29(%ebp),%eax
++lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
 -lea    -0x5b(%ebp),%eax
-+lea    -0x3f(%ebp),%eax
++lea    -0x57(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN29Packet_Result_OnTimeEvent_IdxC1Ev>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  lea    0x50(%eax),%edx
 -lea    -0x5b(%ebp),%eax
-+lea    -0x3f(%ebp),%eax
++lea    -0x57(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN10CDBManager19QueryOnTimeEventIdxER29Packet_Result_OnTimeEvent_Idx>
@@ -128,7 +128,7 @@
 -mov    -0x28(%ebp),%eax
  mov    %eax,-0x24(%ebp)
 -lea    -0x5b(%ebp),%eax
-+lea    -0x3f(%ebp),%eax
++lea    -0x57(%ebp),%eax
  add    $0xa,%eax
  mov    -0x24(%ebp),%edx
  add    $0xa,%edx
@@ -143,71 +143,62 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CTcpServer12SendToServerEPc>
 -jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2c3>
-+jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2bb>
++jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2bd>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16GetMonitorServerEv>
  mov    %eax,-0x20(%ebp)
 -lea    -0x5b(%ebp),%eax
-+lea    -0x3f(%ebp),%eax
++lea    -0x57(%ebp),%eax
  movl   $0xf,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12SendToServerEPci>
  movl   $0x1098,0x8(%esp)
- movl   $"OnReqOntimeEventIdx",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"OnReqOntimeEventIdx:GetTcpServer null",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2c3>
-+jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2bb>
++jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2bd>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x269>
-+jne    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x261>
++jne    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x263>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
-+movl   $0x109d,0x8(%esp)
-+movl   $"OnReqOntimeEventIdx",0x4(%esp)
-+lea    -0x50(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x109d,0x8(%esp)
--movl   $"OnReqOntimeEventIdx",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x109d,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x262>
-+jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x25a>
++jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x25c>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -217,23 +208,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2c3>
-+jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2bb>
++jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2bd>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x10a2,0x8(%esp)
- movl   $"OnReqOntimeEventIdx",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2be>
-+jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2b6>
++jmp    <T> <_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHeader+0x2b8>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -313,7 +304,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnReqOntimeEventIdxEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2173 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2296 行）：
 
 ```cpp
 void CPacketTranslater::OnReqOntimeEventIdx(PacketHeader* header)
@@ -337,8 +328,8 @@ void CPacketTranslater::OnReqOntimeEventIdx(PacketHeader* header)
         {
             CMonitorServer* ms = m_pclApp->m_serverHandler->GetMonitorServer();
             ms->SendToServer((char*)&reply, 0xf);
-            CMyFileLog log("OnReqOntimeEventIdx", 0x1098);
-            log("./log/TcpServer", "OnReqOntimeEventIdx:GetTcpServer null");
+            DNF_LOG_SCOPE_LINE(0x1098, "./log/TcpServer", "OnReqOntimeEventIdx:GetTcpServer null");
+
         }
     }
     DNF_CATCH_LOG("./log/Except.log",

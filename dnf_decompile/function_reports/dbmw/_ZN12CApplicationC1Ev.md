@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806b664` | `0x166` | `0x806cc96` | `0x18f` |
+| dbmw | DIFF | `0x806b664` | `0x166` | `0x806c8b2` | `0x18b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,102 +1,115 @@
+@@ -1,102 +1,113 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -101,7 +101,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN12CApplicationC1Ev+0x110>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -110,7 +109,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN12CApplicationC1Ev+0x12a>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -120,7 +118,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplicationC1Ev+0x133>
-+jmp    <T> <_ZN12CApplicationC1Ev+0x144>
++jmp    <T> <_ZN12CApplicationC1Ev+0x140>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -130,7 +128,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplicationC1Ev+0x14b>
-+jmp    <T> <_ZN12CApplicationC1Ev+0x15c>
++jmp    <T> <_ZN12CApplicationC1Ev+0x158>
 +mov    %edx,%ebx
 +mov    %eax,%esi
 +mov    0x8(%ebp),%eax
@@ -139,7 +137,7 @@
 +call   <T> <_ZN18CFrameCountHandlerD1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN12CApplicationC1Ev+0x174>
++jmp    <T> <_ZN12CApplicationC1Ev+0x170>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -188,17 +186,21 @@ void __thiscall CApplication::_ZN12CApplicationC1Ev(CApplication *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 87 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 53 行）：
 
 ```cpp
 CApplication::CApplication()
-    : m_loaded(0), m_reserved1(0), m_appInit(0), m_appConfig(0), m_serverConfig(0),
-      m_killUsrConfig(0), m_serverHandler(0), m_innerMsg(0)
 {
-    for (int i = 0; i < 0x65; i++)
-    {
-        m_udpHandlers[i] = 0;
-        m_netThreads[i] = 0;
-    }
+    m_loaded = 0;
+    m_field8 = 0;
+    m_appInitor = 0;
+    m_appConfig = 0;
+    m_serverConfig = 0;
+    m_serverHandler = 0;
+    m_killUsrConfig = 0;
+    m_udpHandler = 0;
+    m_networkThread = 0;
+    m_guildManager = 0;
+    m_gmAccounts = 0;
 }
 ```

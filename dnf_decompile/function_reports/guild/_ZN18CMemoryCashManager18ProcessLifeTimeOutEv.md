@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a1dee` | `0xe1` | `0x80969e0` | `0xd2` |
+| guild | DIFF | `0x80a1dee` | `0xe1` | `0x80965d4` | `0xd2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -167,7 +167,7 @@ CMemoryCashManager::_ZN18CMemoryCashManager18ProcessLifeTimeOutEv(CMemoryCashMan
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/MemoryCashManager.cpp](source/DNFServer/GameServer/Guild/MemoryCashManager.cpp)（约第 136 行）：
+定义于 [source/DNFServer/GameServer/Guild/MemoryCashManager.cpp](source/DNFServer/GameServer/Guild/MemoryCashManager.cpp)（约第 140 行）：
 
 ```cpp
 void CMemoryCashManager::ProcessLifeTimeOut()

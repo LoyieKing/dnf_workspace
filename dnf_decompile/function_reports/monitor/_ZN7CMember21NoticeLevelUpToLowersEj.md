@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8099086` | `0xbf` | `0x80606f6` | `0xb8` |
+| monitor | DIFF | `0x8099086` | `0xbf` | `0x8060948` | `0xb6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,22 +13,20 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,58 +1,54 @@
+@@ -1,58 +1,53 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
  mov    0x8(%ebp),%eax
--movzbl 0x2d(%eax),%eax
+ movzbl 0x2d(%eax),%eax
 -movzbl %al,%eax
 -mov    %eax,-0x10(%ebp)
 -cmpl   $0x0,-0x10(%ebp)
 -je     <T> <_ZN7CMember21NoticeLevelUpToLowersEj+0xbc>
 -lea    -0x27(%ebp),%eax
-+add    $0x2d,%eax
-+movzbl (%eax),%eax
 +mov    %al,-0x15(%ebp)
 +cmpb   $0x0,-0x15(%ebp)
-+je     <T> <_ZN7CMember21NoticeLevelUpToLowersEj+0xb6>
++je     <T> <_ZN7CMember21NoticeLevelUpToLowersEj+0xb4>
 +lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN39Packet_Monitor_Notice_MemberExp_LevelUpC1Ev>
@@ -41,7 +39,7 @@
 -add    $0x20,%eax
 -mov    0xe(%eax),%edx
 +movl   $0x0,-0x14(%ebp)
-+jmp    <T> <_ZN7CMember21NoticeLevelUpToLowersEj+0xa4>
++jmp    <T> <_ZN7CMember21NoticeLevelUpToLowersEj+0xa2>
 +mov    0x8(%ebp),%eax
 +mov    -0x14(%ebp),%edx
 +imul   $0x27,%edx,%edx
@@ -63,7 +61,7 @@
 -mov    -0x14(%ebp),%eax
 +mov    %eax,-0xc(%ebp)
 +cmpl   $0x0,-0xc(%ebp)
-+je     <T> <_ZN7CMember21NoticeLevelUpToLowersEj+0xa0>
++je     <T> <_ZN7CMember21NoticeLevelUpToLowersEj+0x9e>
 +mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -100,7 +98,7 @@
 -jne    <T> <_ZN7CMember21NoticeLevelUpToLowersEj+0x31>
 -jmp    <T> <_ZN7CMember21NoticeLevelUpToLowersEj+0xbd>
 -nop
-+jne    <T> <_ZN7CMember21NoticeLevelUpToLowersEj+0x30>
++jne    <T> <_ZN7CMember21NoticeLevelUpToLowersEj+0x2e>
  leave
  ret
 ```
@@ -141,12 +139,12 @@ void __thiscall CMember::_ZN7CMember21NoticeLevelUpToLowersEj(CMember *this,uint
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 403 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 409 行）：
 
 ```cpp
 void CMember::NoticeLevelUpToLowers(unsigned int level)
 {
-    unsigned char lowerCnt = *(unsigned char*)((char*)this + 0x2d);
+    unsigned char lowerCnt = ((RA_U8<45>*)this)->v;
     if (lowerCnt != 0)
     {
         Packet_Monitor_Notice_MemberExp_LevelUp pkt;

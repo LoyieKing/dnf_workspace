@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a7a10` | `0x8a` | `0x809dedc` | `0x8f` |
+| guild | DIFF | `0x80a7a10` | `0x8a` | `0x809da60` | `0x8c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,44 +1,46 @@
+@@ -1,44 +1,45 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  mov    0x8(%ebp),%eax
 -lea    0x1c(%eax),%edx
-+add    $0x4,%eax
-+add    $0x18,%eax
++add    $0x1c,%eax
 +mov    %eax,-0x10(%ebp)
 +movl   $0x1,-0xc(%ebp)
  lea    -0x18(%ebp),%eax
@@ -31,7 +30,7 @@
  sub    $0x4,%esp
 -movl   $0x1,-0x10(%ebp)
 -jmp    <T> <_ZN19CPowerWarCharacInfo14GetUserRankingEj+0x55>
-+jmp    <T> <_ZN19CPowerWarCharacInfo14GetUserRankingEj+0x5d>
++jmp    <T> <_ZN19CPowerWarCharacInfo14GetUserRankingEj+0x5a>
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPP20STPowerWarCharacInfoSt6vectorIS2_SaIS2_EEEdeEv>
@@ -46,9 +45,9 @@
 -addl   $0x1,-0x10(%ebp)
 +sete   %al
 +test   %al,%al
-+je     <T> <_ZN19CPowerWarCharacInfo14GetUserRankingEj+0x4e>
++je     <T> <_ZN19CPowerWarCharacInfo14GetUserRankingEj+0x4b>
 +mov    -0xc(%ebp),%eax
-+jmp    <T> <_ZN19CPowerWarCharacInfo14GetUserRankingEj+0x8d>
++jmp    <T> <_ZN19CPowerWarCharacInfo14GetUserRankingEj+0x8a>
 +addl   $0x1,-0xc(%ebp)
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -68,7 +67,7 @@
  call   <T> <_ZN9__gnu_cxxneIPP20STPowerWarCharacInfoSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
  test   %al,%al
 -jne    <T> <_ZN19CPowerWarCharacInfo14GetUserRankingEj+0x27>
-+jne    <T> <_ZN19CPowerWarCharacInfo14GetUserRankingEj+0x30>
++jne    <T> <_ZN19CPowerWarCharacInfo14GetUserRankingEj+0x2d>
  mov    $0x0,%eax
  leave
  ret
@@ -117,13 +116,12 @@ CPowerWarCharacInfo::_ZN19CPowerWarCharacInfo14GetUserRankingEj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 187 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 180 行）：
 
 ```cpp
 unsigned int CPowerWarCharacInfo::GetUserRanking(unsigned int charNo)
 {
-    std::vector<STPowerWarCharacInfo*>* vec =
-        (std::vector<STPowerWarCharacInfo*>*)(m_data + 0x18);
+    std::vector<STPowerWarCharacInfo*>* vec = &m_vec;
     unsigned int rank = 1;
     for (std::vector<STPowerWarCharacInfo*>::iterator it = vec->begin(); it != vec->end(); ++it)
     {

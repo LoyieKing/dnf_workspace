@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807db72` | `0x86` | `0x8068eca` | `0x97` |
+| monitor | DIFF | `0x807db72` | `0x86` | `0x8069084` | `0x99` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,42 +1,49 @@
+@@ -1,42 +1,50 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -46,24 +46,19 @@
 -sub    %edx,%eax
 -test   %eax,%eax
 -jne    <T> <_ZN13CPacketTracer8WriteLogEv+0x80>
--mov    0x8(%ebp),%eax
--add    $0x4,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSs5c_strEv>
--mov    %eax,%ebx
 +cmp    %eax,%ebx
-+jne    <T> <_ZN13CPacketTracer8WriteLogEv+0x91>
++jne    <T> <_ZN13CPacketTracer8WriteLogEv+0x93>
+ mov    0x8(%ebp),%eax
+ add    $0x4,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSs5c_strEv>
+ mov    %eax,%ebx
  movl   $0x2e,0x8(%esp)
- movl   $"WriteLog",0x4(%esp)
+ movl   $&_ZZN13CPacketTracer8WriteLogEvE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0x4,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSs5c_strEv>
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"[TRACE_PACKET] Packet Code : %s\n",0x8(%esp)
  movl   $"./log/packet_trace",0x4(%esp)
  lea    -0x10(%ebp),%eax
@@ -102,15 +97,14 @@ void __thiscall CPacketTracer::_ZN13CPacketTracer8WriteLogEv(CPacketTracer *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFPacketTracer.cpp](source/DNFServer/GameServer/COServer/DNFPacketTracer.cpp)（约第 43 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTracer.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTracer.cpp)（约第 48 行）：
 
 ```cpp
 void CPacketTracer::WriteLog()
 {
-    if (m_count % 0x1e == 0)
+    if (m_count == (m_count / 0x1e) * 0x1e)
     {
-        register const char* s = m_log.c_str();
-        DNF_LOG_SCOPE_LINE(0x2a, "./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", s);
+        DNF_LOG_SCOPE_LINE(0x2e, "./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_str.c_str());
         ResetLog();
     }
 }

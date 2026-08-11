@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8076258` | `0x228` | `0x804e4f4` | `0x20e` |
+| dbmw | DIFF | `0x8076258` | `0x228` | `0x804e4e2` | `0x20e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -41,7 +41,7 @@
 -je     <T> <_ZN10CDBManager14QueryBlackListEjP17STBlackUserDBType+0xb1>
 +je     <T> <_ZN10CDBManager14QueryBlackListEjP17STBlackUserDBType+0xaf>
 +movl   $0xaac,0x8(%esp)
-+movl   $"QueryBlackList",0x4(%esp)
++movl   $&_ZZN10CDBManager14QueryBlackListEjP17STBlackUserDBTypeE12__FUNCTION__,0x4(%esp)
 +lea    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -51,7 +51,7 @@
  call   <T> <_Z14NumberToStringji>
 -mov    %eax,%ebx
 -movl   $0xaac,0x8(%esp)
--movl   $"QueryBlackList",0x4(%esp)
+-movl   $&_ZZN10CDBManager14QueryBlackListEjP17STBlackUserDBTypeE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -69,17 +69,13 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e44,0x4(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager14QueryBlackListEjP17STBlackUserDBType+0xe3>
@@ -90,14 +86,10 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,-0x10(%ebp)
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN10CDBManager14QueryBlackListEjP17STBlackUserDBType+0x20c>
@@ -105,16 +97,12 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager14QueryBlackListEjP17STBlackUserDBType+0x12e>
@@ -289,7 +277,7 @@ CDBManager::_ZN10CDBManager14QueryBlackListEjP17STBlackUserDBType
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 338 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 340 行）：
 
 ```cpp
 char CDBManager::QueryBlackList(unsigned int m_id, STBlackUserDBType* list)
@@ -299,7 +287,7 @@ char CDBManager::QueryBlackList(unsigned int m_id, STBlackUserDBType* list)
                       "seLect charac_no, charac_name, unix_timestamp(occ_time) from  charac_black_list where m_id = %s limit %d",
                       NumberToString(m_id, 0), 0xa))
     {
-        CMyFileLog log("QueryBlackList", 0xaac);
+        CMyFileLog log(__FUNCTION__, 0xaac);
         log("./log/DBQueryErr",
             "CDBManager::QueryCharacNoByName() seLect charac_no, charac_name, occ_time from  charac_black_list where m_id = %s",
             NumberToString(m_id, 0));

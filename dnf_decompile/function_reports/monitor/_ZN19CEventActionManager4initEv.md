@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a3f4c` | `0xc0` | `0x8092d02` | `0xe0` |
+| monitor | DIFF | `0x80a3f4c` | `0xc0` | `0x8092db2` | `0x114` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,55 +1,68 @@
+@@ -1,55 +1,86 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -24,7 +24,7 @@
 -jmp    <T> <_ZN19CEventActionManager4initEv+0x4d>
 +sub    $0x2c,%esp
 +movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN19CEventActionManager4initEv+0x4f>
++jmp    <T> <_ZN19CEventActionManager4initEv+0x69>
  movl   $0x8,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
@@ -34,6 +34,15 @@
 -mov    %ebx,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -mov    -0x10(%ebp),%edx
++jmp    <T> <_ZN19CEventActionManager4initEv+0x44>
++mov    %edx,%esi
++mov    %eax,%edi
++mov    %ebx,(%esp)
++call   <T> <_ZdlPv>
++mov    %edi,%eax
++mov    %esi,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
 +mov    %ebx,-0x1c(%ebp)
 +mov    -0x1c(%ebp),%eax
 +mov    -0x20(%ebp),%edx
@@ -62,6 +71,15 @@
  call   <T> <_ZN18COnTimeEventActionC1Ev>
 -mov    %ebx,-0x14(%ebp)
 -mov    -0x14(%ebp),%eax
++jmp    <T> <_ZN19CEventActionManager4initEv+0xa9>
++mov    %edx,%esi
++mov    %eax,%edi
++mov    %ebx,(%esp)
++call   <T> <_ZdlPv>
++mov    %edi,%eax
++mov    %esi,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
 +mov    %ebx,-0x28(%ebp)
 +mov    -0x28(%ebp),%eax
  movl   $0x33,0x4(%esp)
@@ -79,7 +97,7 @@
  call   <T> <_ZN12momiji_event11EventActionC1Ev>
 -mov    %ebx,%eax
 -mov    %eax,%edx
-+jmp    <T> <_ZN19CEventActionManager4initEv+0xc9>
++jmp    <T> <_ZN19CEventActionManager4initEv+0xfd>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
@@ -133,7 +151,7 @@ void __thiscall CEventActionManager::_ZN19CEventActionManager4initEv(CEventActio
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 121 行）：
+定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 120 行）：
 
 ```cpp
 void CEventActionManager::init()

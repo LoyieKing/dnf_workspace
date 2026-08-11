@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| relay | DIFF | `0x805d02e` | `0x536` | `0x805c50a` | `0x50b` |
+| relay | DIFF | `0x805d02e` | `0x536` | `0x805c576` | `0x531` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,381 +1,368 @@
+@@ -1,381 +1,383 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -26,59 +26,26 @@
  movl   $0xc,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE13isPopStraightEi>
--test   %al,%al
+ test   %al,%al
 -je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x2dd>
--mov    0x8(%ebp),%eax
--add    $0x20,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7peekPopEv>
--mov    %eax,-0x5c(%ebp)
--mov    -0x5c(%ebp),%eax
--mov    %eax,-0x58(%ebp)
--mov    -0x58(%ebp),%eax
--movzwl 0x2(%eax),%eax
--movzwl %ax,%eax
--mov    %eax,-0x54(%ebp)
--mov    -0x58(%ebp),%eax
--movzwl (%eax),%eax
--test   %ax,%ax
++je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x2dc>
+ mov    0x8(%ebp),%eax
+ add    $0x20,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7peekPopEv>
+ mov    %eax,-0x5c(%ebp)
+ mov    -0x5c(%ebp),%eax
+ mov    %eax,-0x58(%ebp)
+ mov    -0x58(%ebp),%eax
+ movzwl 0x2(%eax),%eax
+ movzwl %ax,%eax
+ mov    %eax,-0x54(%ebp)
+ mov    -0x58(%ebp),%eax
+ movzwl (%eax),%eax
+ test   %ax,%ax
 -je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x7b>
--mov    -0x58(%ebp),%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x235>
-+mov    0x8(%ebp),%eax
-+add    $0x20,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNK26TDoubleCircularQueueBufferILj51200EE15getPushedLengthEv>
-+cmp    $0xb,%eax
-+setbe  %al
-+test   %al,%al
-+jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x4f2>
-+mov    0x8(%ebp),%eax
-+lea    0x20(%eax),%edx
-+lea    -0x5a(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+movl   $0xc,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE8peekCopyEiPc>
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x86>
-+movl   $0x1,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
-+lea    -0x5a(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
-+mov    %ax,-0x4e(%ebp)
-+lea    -0x5a(%ebp),%eax
-+movzwl (%eax),%eax
-+test   %ax,%ax
-+je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0xc2>
-+lea    -0x5a(%ebp),%eax
++je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x7e>
+ mov    -0x58(%ebp),%eax
  movzwl (%eax),%eax
  cmp    $0x1,%ax
 -je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x7b>
@@ -87,69 +54,32 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x52d>
--cmpl   $0x0,-0x54(%ebp)
++je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x7e>
++movl   $0x1,0x4(%esp)
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
+ cmpl   $0x0,-0x54(%ebp)
 -jle    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x2c5>
--mov    0x8(%ebp),%eax
--lea    0x20(%eax),%edx
--mov    -0x54(%ebp),%eax
-+je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0xc2>
++jg     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x9c>
 +movl   $0x1,0x4(%esp)
 +mov    0x8(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
-+cmpw   $0x0,-0x4e(%ebp)
-+jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0xe1>
-+movl   $0x1,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
-+mov    0x8(%ebp),%eax
-+add    $0x20,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNK26TDoubleCircularQueueBufferILj51200EE15getPushedLengthEv>
-+movzwl -0x4e(%ebp),%edx
-+cmp    %edx,%eax
-+setb   %al
-+test   %al,%al
-+jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x4f5>
-+movzwl -0x4e(%ebp),%eax
-+movl   $0x1,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <calloc>
-+mov    %eax,-0x4c(%ebp)
-+cmpl   $0x0,-0x4c(%ebp)
-+je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x4f8>
-+movzwl -0x4e(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+lea    0x20(%edx),%ecx
-+mov    -0x4c(%ebp),%edx
-+mov    %edx,0x8(%esp)
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
+ mov    0x8(%ebp),%eax
+ lea    0x20(%eax),%edx
+ mov    -0x54(%ebp),%eax
  mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE13isPopStraightEi>
--test   %al,%al
+ mov    %edx,(%esp)
+ call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE13isPopStraightEi>
+ test   %al,%al
 -je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x178>
--call   <T> <_Z11get_ms_tickv>
--mov    %eax,-0x50(%ebp)
--mov    %edx,-0x4c(%ebp)
-+mov    %ecx,(%esp)
-+call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7popCopyEiPc>
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x168>
-+mov    -0x4c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <free>
-+movl   $0x1,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
-+call   <T> <_Z11get_ms_tickv>
-+mov    %eax,-0x48(%ebp)
-+mov    %edx,-0x44(%ebp)
++je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x18f>
+ call   <T> <_Z11get_ms_tickv>
+ mov    %eax,-0x50(%ebp)
+ mov    %edx,-0x4c(%ebp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN8TManagerIN15RelayServiceApp12RelayServiceEE10getManagerEv>
@@ -158,67 +88,54 @@
  call   <T> <_ZN15RelayServiceApp8Handlers18getTCPHandlerRelayEv>
  mov    (%eax),%edx
  mov    (%edx),%ecx
--mov    -0x54(%ebp),%edx
-+movzwl -0x4e(%ebp),%edx
+ mov    -0x54(%ebp),%edx
  mov    %edx,0x10(%esp)
  movl   $0x0,0xc(%esp)
--mov    -0x5c(%ebp),%edx
-+mov    -0x4c(%ebp),%edx
+ mov    -0x5c(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    0x8(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   *%ecx
--mov    -0x58(%ebp),%eax
--movzwl (%eax),%eax
--test   %ax,%ax
+ mov    -0x58(%ebp),%eax
+ movzwl (%eax),%eax
+ test   %ax,%ax
 -jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x10a>
-+lea    -0x5a(%ebp),%eax
-+movzwl (%eax),%eax
-+test   %ax,%ax
-+jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x1f2>
++jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x121>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK15RelayServiceApp7TCPUser8getACCIDEv>
  test   %eax,%eax
 -jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x10a>
--mov    $0x1,%eax
++jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x121>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x10f>
--mov    $0x0,%eax
--test   %al,%al
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x126>
+ mov    $0x0,%eax
+ test   %al,%al
 -je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x12b>
 -movl   $0x1,0x4(%esp)
 -mov    0x8(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x52d>
--mov    0x8(%ebp),%eax
--lea    0x20(%eax),%edx
--mov    -0x54(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE3popEi>
--call   <T> <_Z11get_ms_tickv>
--mov    %eax,-0x48(%ebp)
--mov    %edx,-0x44(%ebp)
--mov    -0x48(%ebp),%edx
--mov    -0x50(%ebp),%eax
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x1f2>
-+mov    -0x4c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <free>
++je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x142>
 +movl   $0x1,0x4(%esp)
 +mov    0x8(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
-+call   <T> <_Z11get_ms_tickv>
-+mov    %eax,-0x40(%ebp)
-+mov    %edx,-0x3c(%ebp)
-+mov    -0x40(%ebp),%edx
-+mov    -0x48(%ebp),%eax
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
+ mov    0x8(%ebp),%eax
+ lea    0x20(%eax),%edx
+ mov    -0x54(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE3popEi>
+ call   <T> <_Z11get_ms_tickv>
+ mov    %eax,-0x48(%ebp)
+ mov    %edx,-0x44(%ebp)
+ mov    -0x48(%ebp),%edx
+ mov    -0x50(%ebp),%eax
  mov    %edx,%ecx
  sub    %eax,%ecx
  mov    %ecx,%eax
@@ -231,114 +148,46 @@
  mov    %eax,(%esp)
  call   <T> <_ZN15RelayServiceApp5Users15setDispatchTimeEi>
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x4f1>
--mov    0x8(%ebp),%eax
--add    $0x20,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNK26TDoubleCircularQueueBufferILj51200EE15getPushedLengthEv>
--cmp    -0x54(%ebp),%eax
--setl   %al
--test   %al,%al
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x4ec>
+ mov    0x8(%ebp),%eax
+ add    $0x20,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK26TDoubleCircularQueueBufferILj51200EE15getPushedLengthEv>
+ cmp    -0x54(%ebp),%eax
+ setl   %al
+ test   %al,%al
 -jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x51d>
--mov    -0x54(%ebp),%eax
--movl   $0x1,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <calloc>
--mov    %eax,-0x40(%ebp)
--cmpl   $0x0,-0x40(%ebp)
++jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x518>
+ mov    -0x54(%ebp),%eax
+ movl   $0x1,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <calloc>
+ mov    %eax,-0x40(%ebp)
+ cmpl   $0x0,-0x40(%ebp)
 -je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x520>
--mov    0x8(%ebp),%eax
--lea    0x20(%eax),%edx
--mov    -0x40(%ebp),%eax
--mov    %eax,0x8(%esp)
--mov    -0x54(%ebp),%eax
-+mov    -0x4c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <free>
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x4cb>
-+mov    0x8(%ebp),%eax
-+add    $0x20,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7peekPopEv>
-+mov    %eax,-0x34(%ebp)
-+mov    -0x34(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
-+mov    %ax,-0x2e(%ebp)
-+mov    -0x34(%ebp),%eax
-+movzwl (%eax),%eax
-+test   %ax,%ax
-+je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x282>
-+mov    -0x34(%ebp),%eax
-+movzwl (%eax),%eax
-+cmp    $0x1,%ax
-+je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x282>
-+movl   $0x1,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
-+cmpw   $0x0,-0x2e(%ebp)
-+jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x2a1>
-+movl   $0x1,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
-+movzwl -0x2e(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+add    $0x20,%edx
++je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x51b>
+ mov    0x8(%ebp),%eax
+ lea    0x20(%eax),%edx
+ mov    -0x40(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ mov    -0x54(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
-+call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE13isPopStraightEi>
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x403>
-+mov    0x8(%ebp),%eax
-+add    $0x20,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNK26TDoubleCircularQueueBufferILj51200EE15getPushedLengthEv>
-+movzwl -0x2e(%ebp),%edx
-+cmp    %edx,%eax
-+setb   %al
-+test   %al,%al
-+jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x4fb>
-+movzwl -0x2e(%ebp),%eax
-+movl   $0x1,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <calloc>
-+mov    %eax,-0x2c(%ebp)
-+cmpl   $0x0,-0x2c(%ebp)
-+je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x4fe>
-+movzwl -0x2e(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+lea    0x20(%edx),%ecx
-+mov    -0x2c(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    %ecx,(%esp)
  call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7popCopyEiPc>
--mov    %al,-0x39(%ebp)
--movzbl -0x39(%ebp),%eax
--xor    $0x1,%eax
--test   %al,%al
+ mov    %al,-0x39(%ebp)
+ movzbl -0x39(%ebp),%eax
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x1ee>
--mov    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <free>
++je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x205>
+ mov    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <free>
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x52d>
--call   <T> <_Z11get_ms_tickv>
--mov    %eax,-0x38(%ebp)
--mov    %edx,-0x34(%ebp)
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x336>
-+mov    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <free>
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
-+call   <T> <_Z11get_ms_tickv>
-+mov    %eax,-0x28(%ebp)
-+mov    %edx,-0x24(%ebp)
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
+ call   <T> <_Z11get_ms_tickv>
+ mov    %eax,-0x38(%ebp)
+ mov    %edx,-0x34(%ebp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN8TManagerIN15RelayServiceApp12RelayServiceEE10getManagerEv>
@@ -347,64 +196,47 @@
  call   <T> <_ZN15RelayServiceApp8Handlers18getTCPHandlerRelayEv>
  mov    (%eax),%edx
  mov    (%edx),%ecx
--mov    -0x54(%ebp),%edx
-+movzwl -0x2e(%ebp),%edx
+ mov    -0x54(%ebp),%edx
  mov    %edx,0x10(%esp)
  movl   $0x0,0xc(%esp)
--mov    -0x40(%ebp),%edx
-+mov    -0x2c(%ebp),%edx
+ mov    -0x40(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    0x8(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   *%ecx
--mov    -0x58(%ebp),%eax
--movzwl (%eax),%eax
--test   %ax,%ax
+ mov    -0x58(%ebp),%eax
+ movzwl (%eax),%eax
+ test   %ax,%ax
 -jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x256>
-+mov    -0x34(%ebp),%eax
-+movzwl (%eax),%eax
-+test   %ax,%ax
-+jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x3c0>
++jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x26d>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK15RelayServiceApp7TCPUser8getACCIDEv>
  test   %eax,%eax
 -jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x256>
--mov    $0x1,%eax
++jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x26d>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x25b>
--mov    $0x0,%eax
--test   %al,%al
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x272>
+ mov    $0x0,%eax
+ test   %al,%al
 -je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x282>
--mov    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <free>
--movl   $0x1,0x4(%esp)
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
++je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x299>
+ mov    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <free>
+ movl   $0x1,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x52d>
--call   <T> <_Z11get_ms_tickv>
--mov    %eax,-0x30(%ebp)
--mov    %edx,-0x2c(%ebp)
--mov    -0x30(%ebp),%edx
--mov    -0x38(%ebp),%eax
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x3c0>
-+mov    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <free>
-+movl   $0x1,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
-+call   <T> <_Z11get_ms_tickv>
-+mov    %eax,-0x20(%ebp)
-+mov    %edx,-0x1c(%ebp)
-+mov    -0x20(%ebp),%edx
-+mov    -0x28(%ebp),%eax
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
+ call   <T> <_Z11get_ms_tickv>
+ mov    %eax,-0x30(%ebp)
+ mov    %edx,-0x2c(%ebp)
+ mov    -0x30(%ebp),%edx
+ mov    -0x38(%ebp),%eax
  mov    %edx,%ecx
  sub    %eax,%ecx
  mov    %ecx,%eax
@@ -416,93 +248,122 @@
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN15RelayServiceApp5Users15setDispatchTimeEi>
--mov    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <free>
+ mov    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <free>
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x4f1>
 -movl   $0x1,0x4(%esp)
 -mov    0x8(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x52d>
--mov    0x8(%ebp),%eax
--add    $0x20,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNK26TDoubleCircularQueueBufferILj51200EE15getPushedLengthEv>
--cmp    $0xb,%eax
--setbe  %al
--test   %al,%al
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x4ec>
+ mov    0x8(%ebp),%eax
+ add    $0x20,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK26TDoubleCircularQueueBufferILj51200EE15getPushedLengthEv>
+ cmp    $0xb,%eax
+ setbe  %al
+ test   %al,%al
 -jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x523>
 -mov    0x8(%ebp),%eax
 -lea    0x20(%eax),%edx
 -lea    -0x69(%ebp),%eax
--mov    %eax,0x8(%esp)
--movl   $0xc,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE8peekCopyEiPc>
++jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x51e>
++mov    0x8(%ebp),%eax
++lea    0x20(%eax),%edx
++lea    -0x68(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ movl   $0xc,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE8peekCopyEiPc>
 -test   %al,%al
 -je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x4dc>
 -lea    -0x69(%ebp),%eax
--mov    %eax,-0x28(%ebp)
--mov    -0x28(%ebp),%eax
--movzwl 0x2(%eax),%eax
--movzwl %ax,%eax
--mov    %eax,-0x24(%ebp)
--mov    -0x28(%ebp),%eax
--movzwl (%eax),%eax
--test   %ax,%ax
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x334>
++movl   $0x1,0x4(%esp)
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
++lea    -0x68(%ebp),%eax
+ mov    %eax,-0x28(%ebp)
+ mov    -0x28(%ebp),%eax
+ movzwl 0x2(%eax),%eax
+ movzwl %ax,%eax
+ mov    %eax,-0x24(%ebp)
+ mov    -0x28(%ebp),%eax
+ movzwl (%eax),%eax
+ test   %ax,%ax
 -je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x360>
--mov    -0x28(%ebp),%eax
--movzwl (%eax),%eax
--cmp    $0x1,%ax
++je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x376>
+ mov    -0x28(%ebp),%eax
+ movzwl (%eax),%eax
+ cmp    $0x1,%ax
 -je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x360>
 -movl   $0x1,0x4(%esp)
 -mov    0x8(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x52d>
--cmpl   $0x0,-0x24(%ebp)
++je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x376>
++movl   $0x1,0x4(%esp)
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
+ cmpl   $0x0,-0x24(%ebp)
 -jle    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x4c7>
--mov    0x8(%ebp),%eax
--add    $0x20,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNK26TDoubleCircularQueueBufferILj51200EE15getPushedLengthEv>
--cmp    -0x24(%ebp),%eax
++jg     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x394>
++movl   $0x1,0x4(%esp)
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
+ mov    0x8(%ebp),%eax
+ add    $0x20,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK26TDoubleCircularQueueBufferILj51200EE15getPushedLengthEv>
+ cmp    -0x24(%ebp),%eax
 -setge  %al
 -test   %al,%al
 -je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x526>
--mov    -0x24(%ebp),%eax
--movl   $0x1,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <calloc>
--mov    %eax,-0x20(%ebp)
--cmpl   $0x0,-0x20(%ebp)
++setl   %al
++test   %al,%al
++jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x521>
+ mov    -0x24(%ebp),%eax
+ movl   $0x1,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <calloc>
+ mov    %eax,-0x20(%ebp)
+ cmpl   $0x0,-0x20(%ebp)
 -je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x529>
--mov    0x8(%ebp),%eax
--lea    0x20(%eax),%edx
--mov    -0x20(%ebp),%eax
--mov    %eax,0x8(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7popCopyEiPc>
--mov    %al,-0x19(%ebp)
--movzbl -0x19(%ebp),%eax
--xor    $0x1,%eax
--test   %al,%al
++je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x524>
+ mov    0x8(%ebp),%eax
+ lea    0x20(%eax),%edx
+ mov    -0x20(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ mov    -0x24(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7popCopyEiPc>
+ mov    %al,-0x19(%ebp)
+ movzbl -0x19(%ebp),%eax
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x3f3>
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <free>
--movl   $0x1,0x4(%esp)
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
++je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x41d>
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <free>
+ movl   $0x1,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x52d>
-+mov    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <free>
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x4cb>
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
  call   <T> <_Z11get_ms_tickv>
  mov    %eax,-0x18(%ebp)
  mov    %edx,-0x14(%ebp)
@@ -514,57 +375,42 @@
  call   <T> <_ZN15RelayServiceApp8Handlers18getTCPHandlerRelayEv>
  mov    (%eax),%edx
  mov    (%edx),%ecx
--mov    -0x24(%ebp),%edx
-+movzwl -0x2e(%ebp),%edx
+ mov    -0x24(%ebp),%edx
  mov    %edx,0x10(%esp)
  movl   $0x0,0xc(%esp)
--mov    -0x20(%ebp),%edx
-+mov    -0x34(%ebp),%edx
+ mov    -0x20(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    0x8(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   *%ecx
--mov    -0x28(%ebp),%eax
--movzwl (%eax),%eax
--test   %ax,%ax
+ mov    -0x28(%ebp),%eax
+ movzwl (%eax),%eax
+ test   %ax,%ax
 -jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x45b>
-+mov    -0x34(%ebp),%eax
-+movzwl (%eax),%eax
-+test   %ax,%ax
-+jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x482>
++jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x485>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK15RelayServiceApp7TCPUser8getACCIDEv>
  test   %eax,%eax
 -jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x45b>
--mov    $0x1,%eax
++jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x485>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x460>
--mov    $0x0,%eax
--test   %al,%al
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x48a>
+ mov    $0x0,%eax
+ test   %al,%al
 -je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x487>
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <free>
--movl   $0x1,0x4(%esp)
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
++je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x4ae>
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <free>
+ movl   $0x1,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x52d>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x482>
-+movl   $0x1,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN15RelayServiceApp7TCPUser16postDisconnectedEi>
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
-+movzwl -0x2e(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+add    $0x20,%edx
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <_ZN26TDoubleCircularQueueBufferILj51200EE3popEi>
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
  call   <T> <_Z11get_ms_tickv>
  mov    %eax,-0x10(%ebp)
  mov    %edx,-0xc(%ebp)
@@ -581,9 +427,9 @@
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN15RelayServiceApp5Users15setDispatchTimeEi>
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <free>
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <free>
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x4f1>
 -movl   $0x1,0x4(%esp)
 -mov    0x8(%ebp),%eax
@@ -600,14 +446,14 @@
  call   <T> <_ZNK15RelayServiceApp7TCPUser19isAboutToDisconnectEv>
  test   %al,%al
 -jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x52c>
-+jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x501>
++jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x527>
  mov    0x8(%ebp),%eax
  add    $0x20,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK26TDoubleCircularQueueBufferILj51200EE7isEmptyEv>
--test   %eax,%eax
--sete   %al
--test   %al,%al
+ test   %eax,%eax
+ sete   %al
+ test   %al,%al
 -jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0xa>
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x52d>
 -nop
@@ -622,19 +468,18 @@
 -jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x52d>
 -nop
 -add    $0x94,%esp
-+test   %al,%al
-+je     <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0xc>
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
++jne    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0xc>
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
 +nop
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
 +nop
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
 +nop
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
 +nop
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
 +nop
-+jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x502>
++jmp    <T> <_ZN15RelayServiceApp7TCPUser13onPacketParseEv+0x528>
 +nop
 +add    $0x84,%esp
  pop    %ebx
@@ -850,16 +695,74 @@ LAB_0805d138:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Relay/TCPUser.cpp](source/DNFServer/GameServer/Relay/TCPUser.cpp)（约第 272 行）：
+定义于 [source/DNFServer/GameServer/Relay/TCPUser.cpp](source/DNFServer/GameServer/Relay/TCPUser.cpp)（约第 287 行）：
 
 ```cpp
 void TCPUser::onPacketParse()
 {
-    do
+    for (;;)
     {
-        if (!m_recvQueue.isPopStraight(0xc))
+        if (m_recvQueue.isPopStraight(0xc))
         {
-            if (m_recvQueue.getPushedLength() < 0xc)
+            char* p = m_recvQueue.peekPop();
+            PacketHeader* pkt = (PacketHeader*)p;
+            int size = pkt->m_size;
+            if ((pkt->m_type != 0) && (pkt->m_type != 1))
+            {
+                postDisconnected(1);
+                return;
+            }
+            if (size <= 0)
+            {
+                postDisconnected(1);
+                return;
+            }
+            if (m_recvQueue.isPopStraight(size))
+            {
+                long long t1 = get_ms_tick();
+                getManager()->m_handlers.getTCPHandlerRelay()->dispatch(this, p, 0, size);
+                if (pkt->m_type == 0 && getACCID() == 0)
+                {
+                    postDisconnected(1);
+                    return;
+                }
+                m_recvQueue.pop(size);
+                long long t2 = get_ms_tick();
+                getManager()->m_users.setDispatchTime((int)(t2 - t1));
+            }
+            else
+            {
+                if ((int)m_recvQueue.getPushedLength() < size)
+                {
+                    return;
+                }
+                char* buf = (char*)calloc(size, 1);
+                if (buf == 0)
+                {
+                    return;
+                }
+                bool ok = m_recvQueue.popCopy(size, buf);
+                if (!ok)
+                {
+                    free(buf);
+                    return;
+                }
+                long long t1 = get_ms_tick();
+                getManager()->m_handlers.getTCPHandlerRelay()->dispatch(this, buf, 0, size);
+                if (pkt->m_type == 0 && getACCID() == 0)
+                {
+                    free(buf);
+                    postDisconnected(1);
+                    return;
+                }
+                long long t2 = get_ms_tick();
+                getManager()->m_users.setDispatchTime((int)(t2 - t1));
+                free(buf);
+            }
+        }
+        else
+        {
+            if (m_recvQueue.getPushedLength() <= 0xb)
             {
                 return;
             }
@@ -869,18 +772,19 @@ void TCPUser::onPacketParse()
                 postDisconnected(1);
                 return;
             }
-            unsigned short size = *(unsigned short*)(header + 2);
-            if ((*(short*)header != 0) && (*(short*)header != 1))
+            char* p = header;
+            int size = ((PacketHeader*)p)->m_size;
+            if ((((PacketHeader*)p)->m_type != 0) && (((PacketHeader*)p)->m_type != 1))
             {
                 postDisconnected(1);
                 return;
             }
-            if (size == 0)
+            if (size <= 0)
             {
                 postDisconnected(1);
                 return;
             }
-            if (m_recvQueue.getPushedLength() < size)
+            if ((int)m_recvQueue.getPushedLength() < size)
             {
                 return;
             }
@@ -889,7 +793,8 @@ void TCPUser::onPacketParse()
             {
                 return;
             }
-            if (!m_recvQueue.popCopy(size, buf))
+            bool ok = m_recvQueue.popCopy(size, buf);
+            if (!ok)
             {
                 free(buf);
                 postDisconnected(1);
@@ -897,89 +802,25 @@ void TCPUser::onPacketParse()
             }
             long long t1 = get_ms_tick();
             getManager()->m_handlers.getTCPHandlerRelay()->dispatch(this, buf, 0, size);
-            if (*(short*)header == 0)
+            if (((PacketHeader*)p)->m_type == 0 && getACCID() == 0)
             {
-                if (getACCID() == 0)
-                {
-                    free(buf);
-                    postDisconnected(1);
-                    return;
-                }
+                free(buf);
+                postDisconnected(1);
+                return;
             }
             long long t2 = get_ms_tick();
             getManager()->m_users.setDispatchTime((int)(t2 - t1));
             free(buf);
         }
-        else
-        {
-            char* p = m_recvQueue.peekPop();
-            unsigned short size = *(unsigned short*)(p + 2);
-            if ((*(short*)p != 0) && (*(short*)p != 1))
-            {
-                postDisconnected(1);
-                return;
-            }
-            if (size == 0)
-            {
-                postDisconnected(1);
-                return;
-            }
-            if (!m_recvQueue.isPopStraight(size))
-            {
-                if (m_recvQueue.getPushedLength() < size)
-                {
-                    return;
-                }
-                char* buf = (char*)calloc(size, 1);
-                if (buf == 0)
-                {
-                    return;
-                }
-                if (!m_recvQueue.popCopy(size, buf))
-                {
-                    free(buf);
-                    return;
-                }
-                long long t1 = get_ms_tick();
-                getManager()->m_handlers.getTCPHandlerRelay()->dispatch(this, buf, 0, size);
-                if (*(short*)p == 0)
-                {
-                    if (getACCID() == 0)
-                    {
-                        free(buf);
-                        postDisconnected(1);
-                        return;
-                    }
-                }
-                long long t2 = get_ms_tick();
-                getManager()->m_users.setDispatchTime((int)(t2 - t1));
-                free(buf);
-            }
-            else
-            {
-                long long t1 = get_ms_tick();
-                getManager()->m_handlers.getTCPHandlerRelay()->dispatch(this, p, 0, size);
-                if (*(short*)p == 0)
-                {
-                    if (getACCID() == 0)
-                    {
-                        postDisconnected(1);
-                        return;
-                    }
-                }
-                m_recvQueue.pop(size);
-                long long t2 = get_ms_tick();
-                getManager()->m_users.setDispatchTime((int)(t2 - t1));
-            }
-        }
         if (isAboutToDisconnect())
         {
             return;
         }
-        if (m_recvQueue.isEmpty())
+        if (m_recvQueue.isEmpty() == 0)
         {
-            return;
+            continue;
         }
-    } while (true);
+        return;
+    }
 }
 ```

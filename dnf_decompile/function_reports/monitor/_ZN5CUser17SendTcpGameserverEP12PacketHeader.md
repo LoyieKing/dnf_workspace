@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806d480` | `0x82` | `0x8088ad0` | `0x8d` |
+| monitor | DIFF | `0x806d480` | `0x82` | `0x8088a22` | `0x85` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,26 +13,21 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,42 +1,47 @@
+@@ -1,42 +1,43 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  mov    0x8(%ebp),%eax
--mov    0xc(%eax),%eax
-+add    $0xc,%eax
-+mov    (%eax),%eax
+ mov    0xc(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
-+je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x8b>
++je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x83>
 +mov    0x8(%ebp),%eax
-+add    $0xc,%eax
-+mov    (%eax),%eax
++mov    0xc(%eax),%eax
 +mov    %eax,-0x10(%ebp)
  mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
+ movzwl 0x2(%eax),%eax
 -movzwl %ax,%ecx
-+add    $0x2,%eax
-+movzwl (%eax),%eax
 +movzwl %ax,%edx
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
@@ -50,11 +45,9 @@
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
-+je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x8b>
++je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x83>
  mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
+ movzwl 0x2(%eax),%eax
  movzwl %ax,%eax
 -lea    -0xa(%eax),%ecx
 -mov    0xc(%ebp),%eax
@@ -113,19 +106,20 @@ CUser::_ZN5CUser17SendTcpGameserverEP12PacketHeader(CUser *this,PacketHeader *pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 243 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 138 行）：
 
 ```cpp
 void CUser::SendTcpGameserver(PacketHeader* pkt)
 {
-    if (m_tcpGameServer != 0)
+    if (((RA_INT<12>*)this)->v != 0)
     {
-        char* out = m_tcpGameServer->makePacketHeader(
-            *(unsigned short*)pkt, *(unsigned short*)((char*)pkt + 2));
-        if (out != 0)
+        CTcpGameServer* tcp = (CTcpGameServer*)((RA_INT<12>*)this)->v;
+        char* buf = tcp->makePacketHeader(*(unsigned short*)pkt,
+                                          ((RA_U16<2>*)pkt)->v);
+        if (buf != 0)
         {
-            memcpy(out + 10, (char*)pkt + 10, *(unsigned short*)((char*)pkt + 2) - 10);
-            m_tcpGameServer->SendToGameServer(out);
+            memcpy(buf + 10, (char*)pkt + 10, ((RA_U16<2>*)pkt)->v - 10);
+            tcp->SendToGameServer(buf);
         }
     }
 }

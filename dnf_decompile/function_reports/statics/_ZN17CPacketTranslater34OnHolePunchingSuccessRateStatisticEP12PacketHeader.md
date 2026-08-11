@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x805fc6e` | `0x256` | `0x805a714` | `0x272` |
+| statics | DIFF | `0x805fc6e` | `0x256` | `0x805a6de` | `0x272` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,20 +23,16 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater34OnHolePunchingSuccessRateStatisticEP12PacketHeader+0xdf>
--lea    -0x31(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x31(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x31(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"OnHolePunchingSuccessRateStatistic() : 0 == m_pclApp",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x38(%ebp),%esi
-+lea    -0x28(%ebp),%esi
+ lea    -0x38(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -53,8 +49,7 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x38(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater34OnHolePunchingSuccessRateStatisticEP12PacketHeader+0x87>
@@ -64,8 +59,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater34OnHolePunchingSuccessRateStatisticEP12PacketHeader+0xa4>
--lea    -0x38(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater34OnHolePunchingSuccessRateStatisticEP12PacketHeader+0xbc>
@@ -74,19 +68,17 @@
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x31(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater34OnHolePunchingSuccessRateStatisticEP12PacketHeader+0x178>
--lea    -0x31(%ebp),%eax
 +jmp    <T> <_ZN17CPacketTranslater34OnHolePunchingSuccessRateStatisticEP12PacketHeader+0x194>
-+lea    -0x21(%ebp),%eax
+ lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -161,17 +153,13 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%ebx
  movl   $0x626,0x8(%esp)
- movl   $"OnHolePunchingSuccessRateStatistic",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater34OnHolePunchingSuccessRateStatisticEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -196,15 +184,13 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x62b,0x8(%esp)
- movl   $"OnHolePunchingSuccessRateStatistic",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater34OnHolePunchingSuccessRateStatisticEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"OnHolePunchingSuccessRateStatistic() Exception Break",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater34OnHolePunchingSuccessRateStatisticEP12PacketHeader+0x249>
@@ -277,7 +263,7 @@ void CPacketTranslater::_ZN17CPacketTranslater34OnHolePunchingSuccessRateStatist
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp)（约第 1051 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp)（约第 948 行）：
 
 ```cpp
 void CPacketTranslater::OnHolePunchingSuccessRateStatistic(PacketHeader* pkt)
@@ -299,13 +285,11 @@ void CPacketTranslater::OnHolePunchingSuccessRateStatistic(PacketHeader* pkt)
     catch (CDNFException& e)
     {
         register const char* reason = e.what();
-        CMyFileLog log("OnHolePunchingSuccessRateStatistic", 1574);
-        log("./log/Except", "OnHolePunchingSuccessRateStatistic() Exception Break : %s", reason);
+        CMyFileLog(__FUNCTION__, 1574)("./log/Except", "OnHolePunchingSuccessRateStatistic() Exception Break : %s", reason);
     }
     catch (...)
     {
-        CMyFileLog log("OnHolePunchingSuccessRateStatistic", 1579);
-        log("./log/Except", "OnHolePunchingSuccessRateStatistic() Exception Break");
+        CMyFileLog(__FUNCTION__, 1579)("./log/Except", "OnHolePunchingSuccessRateStatistic() Exception Break");
     }
 }
 ```

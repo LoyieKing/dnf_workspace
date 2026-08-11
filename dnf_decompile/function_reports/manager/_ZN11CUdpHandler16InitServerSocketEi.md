@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8055954` | `0x1b8` | `0x8063346` | `0x1a7` |
+| manager | DIFF | `0x8055954` | `0x1b8` | `0x8063228` | `0x1a7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -125,7 +125,7 @@
 -mov    0x8(%ebp),%eax
 -mov    (%eax),%ebx
  movl   $0x6e,0x8(%esp)
- movl   $"InitServerSocket",0x4(%esp)
+ movl   $&_ZZN11CUdpHandler16InitServerSocketEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
 +lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
@@ -216,43 +216,38 @@ CUdpHandler::_ZN11CUdpHandler16InitServerSocketEi(CUdpHandler *this,int param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFUdpHandler.cpp](source/DNFServer/GameServer/COServer/DNFUdpHandler.cpp)（约第 24 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFUdpHandler.cpp](source/DNFServer/GameServer/Manager/DNFUdpHandler.cpp)（约第 26 行）：
 
 ```cpp
 int CUdpHandler::InitServerSocket(int port)
 {
-    m_sock = socket(2, 2, 0x11);
+    m_sock = socket(AF_INET, SOCK_DGRAM, 0x11);
     if (m_sock == -1)
     {
         printf("Could not create a UDP socket : %d\n", getErrno());
         return -1;
     }
-    sockaddr local;
-    memset(&local, 0, 0x10);
-    local.sa_family = 2;
-    *(unsigned int*)(local.sa_data + 2) = htonl(0);
-    *(unsigned short*)local.sa_data = htons((unsigned short)port);
-    if (bind(m_sock, &local, 0x10) != 0)
+    struct sockaddr_in addr;
+    memset(&addr, 0, 0x10);
+    addr.sin_family = AF_INET;
+    addr.sin_addr.s_addr = htonl(0);
+    addr.sin_port = htons(port);
+    if (::bind(m_sock, (struct sockaddr*)&addr, 0x10) != 0)
     {
-        int err = getErrno();
-        if (err == 0x62)
-        {
+        int e = getErrno();
+        if (e == 0x62)
             printf("Port %d for receiving UDP is in use\n", port);
-        }
-        else if (err == 99)
-        {
+        else if (e == 0x63)
             puts("Cannot assign requested address");
-        }
-        else if (err != 0)
-        {
-            printf("Could not bind UDP receive port. Error= %d , strerror = %s\n", err,
-                   strerror(err));
-        }
+        else if (e != 0)
+            printf("Could not bind UDP receive port. Error= %d , strerror = %s\n",
+                   e, strerror(e));
         m_sock = -1;
     }
-    int bufsize = 1000000;
-    setsockopt(m_clientSock, 1, 8, &bufsize, 4);
-    DNF_LOG_SCOPE_LINE(0x6e, "./log/Udp", "Opened port %d with fd %d, recv buf size %d\n", port, m_sock, bufsize);
+    int bufsize = 0xf4240;
+    setsockopt(m_clientSock, SOL_SOCKET, SO_RCVBUF, &bufsize, 4);
+    CMyFileLog log(__FUNCTION__, 0x6e);
+    log("./log/Udp", "Opened port %d with fd %d, recv buf size %d\n", port, m_sock, bufsize);
     return m_sock;
 }
 ```

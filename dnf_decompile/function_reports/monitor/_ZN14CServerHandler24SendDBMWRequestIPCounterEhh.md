@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a570` | `0x3f` | `0x808076c` | `0x49` |
+| monitor | DIFF | `0x807a570` | `0x3f` | `0x808062c` | `0x45` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,21 +1,25 @@
+@@ -1,21 +1,23 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -24,16 +24,16 @@
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_Request_IPCounterListC1Ev>
-+lea    -0x14(%ebp),%eax
-+lea    0xa(%eax),%edx
- movzbl -0x1c(%ebp),%eax
+-movzbl -0x1c(%ebp),%eax
 -mov    %al,-0xa(%ebp)
-+mov    %al,(%edx)
-+lea    -0x14(%ebp),%eax
-+lea    0xb(%eax),%edx
- movzbl -0x20(%ebp),%eax
+-movzbl -0x20(%ebp),%eax
 -mov    %al,-0x9(%ebp)
-+mov    %al,(%edx)
++lea    -0x14(%ebp),%eax
++movzbl -0x1c(%ebp),%edx
++mov    %dl,0xa(%eax)
++lea    -0x14(%ebp),%eax
++movzbl -0x20(%ebp),%edx
++mov    %dl,0xb(%eax)
  lea    -0x14(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -67,14 +67,14 @@ CServerHandler::_ZN14CServerHandler24SendDBMWRequestIPCounterEhh
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 251 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 262 行）：
 
 ```cpp
 void CServerHandler::SendDBMWRequestIPCounter(unsigned char flag, unsigned char b)
 {
     Packet_Request_IPCounterList pkt;
-    *(char*)((char*)&pkt + 0xa) = (char)flag;
-    *(char*)((char*)&pkt + 0xb) = (char)b;
+    ((RA_S8<10>*)&pkt)->v = (char)flag;
+    ((RA_S8<11>*)&pkt)->v = (char)b;
     SendToDB(&pkt);
 }
 ```

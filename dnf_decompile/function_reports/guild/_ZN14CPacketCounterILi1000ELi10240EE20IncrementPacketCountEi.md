@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80709ac` | `0x5f` | `0x8097ca4` | `0x66` |
+| guild | DIFF | `0x80709ac` | `0x5f` | `0x80977e2` | `0x66` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -90,7 +90,7 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacke
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/PacketCounter.cpp](source/DNFServer/GameServer/DBMW/PacketCounter.cpp)（约第 62 行）：
+定义于 [source/DNFServer/GameServer/Guild/PacketCounter.cpp](source/DNFServer/GameServer/Guild/PacketCounter.cpp)（约第 92 行）：
 
 ```cpp
 void CPacketCounter<Lo, Hi>::IncrementPacketCount(int id)
@@ -99,8 +99,7 @@ void CPacketCounter<Lo, Hi>::IncrementPacketCount(int id)
         (m_data[0x1d640] == 1 ||
          *(unsigned int*)(m_data + 8 + (id - 1000) * 4) < 0xb))
     {
-        *(int*)(m_data + 8 + (id - 1000) * 4) =
-            *(int*)(m_data + 8 + (id - 1000) * 4) + 1;
+        *(unsigned int*)(m_data + 8 + (id - 1000) * 4) += 1;
     }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8082042` | `0xb2` | `0x8052358` | `0xb1` |
+| dbmw | DIFF | `0x8082042` | `0xb2` | `0x805233c` | `0xb1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -27,47 +27,35 @@
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--lea    0xe(%eax),%ecx
--mov    0xc(%ebp),%eax
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ lea    0xe(%eax),%ecx
+ mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%eax
++add    $0xa,%eax
 +mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+lea    0xe(%edx),%ecx
-+mov    0xc(%ebp),%edx
-+add    $0xa,%edx
-+mov    (%edx),%edx
  mov    %ecx,0x8(%esp)
--mov    %eax,0x4(%esp)
+ mov    %eax,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    -0xc(%ebp),%eax
-+mov    %edx,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%eax
--mov    %eax,0x4(%esp)
++add    $0xa,%eax
++mov    (%eax),%eax
+ mov    %eax,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+add    $0xa,%edx
-+mov    (%edx),%edx
-+mov    %edx,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %al,-0x9(%ebp)
 +movzbl -0x9(%ebp),%eax
  xor    $0x1,%eax
@@ -77,7 +65,7 @@
 -lea    0xe(%eax),%ebx
 +je     <T> <_ZN10CDBManager16GetDBMWStatisticEP24Packet_DBMW_Query_String+0xaa>
  movl   $0x1cb8,0x8(%esp)
- movl   $"GetDBMWStatistic",0x4(%esp)
+ movl   $&_ZZN10CDBManager16GetDBMWStatisticEP24Packet_DBMW_Query_StringE12__FUNCTION__,0x4(%esp)
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -131,7 +119,7 @@ CDBManager::_ZN10CDBManager16GetDBMWStatisticEP24Packet_DBMW_Query_String
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1495 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1499 行）：
 
 ```cpp
 char CDBManager::GetDBMWStatistic(Packet_DBMW_Query_String* packet)
@@ -141,7 +129,7 @@ char CDBManager::GetDBMWStatistic(Packet_DBMW_Query_String* packet)
     bool ret = h->exec(*(int*)((char*)packet + 0xa));
     if (!ret)
     {
-        CMyFileLog log("GetDBMWStatistic", 0x1cb8);
+        CMyFileLog log(__FUNCTION__, 0x1cb8);
         log("./log/DBQueryErr", "GetDBMWStatistic Query(%s) Error\n",
             (char*)packet + 0xe);
         return 0;

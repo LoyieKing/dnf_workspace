@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806cd2a` | `0x3da` | `0x806f0bc` | `0x3dc` |
+| dbmw | DIFF | `0x806cd2a` | `0x3da` | `0x806eccc` | `0x3dc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -28,52 +28,44 @@
  mov    (%eax),%eax
  add    $0x8,%eax
  mov    (%eax),%ebx
--lea    -0x45(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
+ lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x45(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
+ lea    -0x45(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"./script/kill_user_config.tbl",0x4(%esp)
--lea    -0x4c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
  mov    0x8(%ebp),%eax
  mov    0x4c(%eax),%eax
--lea    -0x4c(%ebp),%edx
-+lea    -0x34(%ebp),%edx
+ lea    -0x4c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   *%ebx
  jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x74>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x4c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x81>
--lea    -0x4c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x9c>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x45(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
+ lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--lea    -0x45(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
+ lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    0x8(%ebp),%eax
@@ -86,18 +78,16 @@
  call   <T> <_ZNKSt6vectorIP16ST_KillUSRConfigSaIS1_EE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN12CApplication15TranslateSignalEv+0x3cc>
--lea    -0x50(%ebp),%eax
 +jne    <T> <_ZN12CApplication15TranslateSignalEv+0x3ce>
-+lea    -0x38(%ebp),%eax
+ lea    -0x50(%ebp),%eax
  mov    -0x20(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorIP16ST_KillUSRConfigSaIS1_EE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x39b>
--lea    -0x50(%ebp),%eax
 +jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x39d>
-+lea    -0x38(%ebp),%eax
+ lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
  mov    (%eax),%eax
@@ -114,52 +104,44 @@
  mov    (%eax),%eax
  add    $0x8,%eax
  mov    (%eax),%ebx
--lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"./table/server_config.tbl",0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
  mov    0x8(%ebp),%eax
  mov    0x14(%eax),%eax
--lea    -0x40(%ebp),%edx
-+lea    -0x28(%ebp),%edx
+ lea    -0x40(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   *%ebx
  jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x162>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x40(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x16f>
--lea    -0x40(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x18a>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    0x8(%ebp),%eax
@@ -177,9 +159,8 @@
 +mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x390>
--lea    -0x50(%ebp),%eax
 +jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x392>
-+lea    -0x38(%ebp),%eax
+ lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
  mov    (%eax),%eax
@@ -206,15 +187,13 @@
 +test   %al,%al
 +je     <T> <_ZN12CApplication15TranslateSignalEv+0x246>
  movl   $0x454,0x8(%esp)
- movl   $"TranslateSignal",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ movl   $&_ZZN12CApplication15TranslateSignalEvE12__FUNCTION__,0x4(%esp)
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"m_clDBManager::QueryGuildWarPointList Err : return false",0x8(%esp)
  movl   $"./log/GuildWar",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3d0>
@@ -239,21 +218,18 @@
 +cmpl   $0x0,-0x14(%ebp)
 +jns    <T> <_ZN12CApplication15TranslateSignalEv+0x2b6>
  movl   $0x45f,0x8(%esp)
- movl   $"TranslateSignal",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ movl   $&_ZZN12CApplication15TranslateSignalEvE12__FUNCTION__,0x4(%esp)
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"m_clDBManager.OnEndGuildWar Err : get_day_interval() Func return minus value",0x8(%esp)
  movl   $"./log/GuildWar",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3d0>
--lea    -0x50(%ebp),%eax
 +jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3d2>
-+lea    -0x38(%ebp),%eax
+ lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
  mov    (%eax),%eax
@@ -271,7 +247,7 @@
 +mov    0x8(%ebp),%ecx
 +add    $0x50,%ecx
 +mov    %edx,0x14(%esp)
- movl   $&data#134815df(.rodata),0x10(%esp)
+ movl   $"마이어전쟁영웅",0x10(%esp)
  movl   $0x65b2,0xc(%esp)
 -mov    -0x10(%ebp),%eax
  mov    %eax,0x8(%esp)
@@ -288,15 +264,13 @@
 +test   %al,%al
 +je     <T> <_ZN12CApplication15TranslateSignalEv+0x346>
  movl   $0x46a,0x8(%esp)
- movl   $"TranslateSignal",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x50(%ebp),%eax
+ movl   $&_ZZN12CApplication15TranslateSignalEvE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CApplication.AwardGuildTitleByMail Err : return false",0x8(%esp)
  movl   $"./log/GuildWar",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x50(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3d0>
@@ -325,23 +299,18 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12SendToServerEPci>
--lea    -0x50(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEppEv>
--lea    -0x44(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x44(%ebp),%eax
  mov    -0x20(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorIP16ST_KillUSRConfigSaIS1_EE3endEv>
  sub    $0x4,%esp
--lea    -0x44(%ebp),%eax
--mov    %eax,0x4(%esp)
--lea    -0x50(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x38(%ebp),%eax
+ lea    -0x44(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxxneIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESD_>
  test   %al,%al
@@ -493,14 +462,67 @@ void __thiscall CApplication::_ZN12CApplication15TranslateSignalEv(CApplication 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 407 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 413 行）：
 
 ```cpp
 void CApplication::TranslateSignal()
 {
     m_killUsrConfig->Clear_Table();
-    m_killUsrConfig->Load_Table("./script/kill_user_config.tbl");
-    std::vector<ST_KillUSRConfig*>* v = m_killUsrConfig->GetInfo();
-    v->empty();
+    m_killUsrConfig->Load_Table(std::string("./script/kill_user_config.tbl"));
+    const std::vector<ST_KillUSRConfig*>* list =
+        (const std::vector<ST_KillUSRConfig*>*)m_killUsrConfig->GetInfo();
+    if (list->empty())
+        return;
+    for (std::vector<ST_KillUSRConfig*>::const_iterator it = list->begin();
+         it != list->end(); ++it)
+    {
+        switch ((*it)->m_type)
+        {
+        case 1:
+            m_serverConfig->Load_Table(std::string("./table/server_config.tbl"));
+            m_serverHandler->Load((ST_ServerInfo*)m_serverConfig->GetServerInfo());
+            break;
+        case 2:
+        {
+            int guildWarPoint = (*it)->m_field4;
+            m_guildManager->clearGuildWar();
+            if (!m_dbManager.QueryGuildWarPointList(guildWarPoint, m_guildManager))
+            {
+                DNF_LOG_SCOPE_LINE(0x454,"./log/GuildWar",
+                    "m_clDBManager::QueryGuildWarPointList Err : return false");
+                return;
+            }
+            std::vector<std::pair<unsigned int, STGuildWarRankInfo*> >* ranks =
+                m_guildManager->GetVtGuildWarRankInfo();
+            if (ranks->empty())
+                return;
+            int item = get_awardItem_using_interval();
+            if (item < 0)
+            {
+                DNF_LOG_SCOPE_LINE(0x45f,"./log/GuildWar",
+                    "m_clDBManager.OnEndGuildWar Err : get_day_interval() Func return minus value");
+                return;
+            }
+            int guildId = (*it)->m_field8;
+            if (guildId != 0)
+            {
+                if (!m_dbManager.AwardGuildTitleByMail(
+                        guildWarPoint, guildId, 0x65b2,
+                        "\xB8\xB6\xC0\xCC\xBE\xEE\xC0\xFC\xC0\xEF\xBF\xB5\xBF\xF5", item))
+                {
+                    DNF_LOG_SCOPE_LINE(0x46a,"./log/GuildWar",
+                        "CApplication.AwardGuildTitleByMail Err : return false");
+                    return;
+                }
+            }
+            Packet_Notice_Guild_Mail_Arrived pkt;
+            pkt.m_guildId = guildId;
+            pkt.m_fieldA = 1;
+            CMonitorServer* ms = m_serverHandler->GetMonitorServer();
+            ms->SendToServer((char*)&pkt, pkt.packetSize);
+            break;
+        }
+        }
+    }
 }
 ```

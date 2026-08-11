@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80840d6` | `0x25b` | `0x806f294` | `0x250` |
+| monitor | DIFF | `0x80840d6` | `0x25b` | `0x806f400` | `0x24d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,170 +1,166 @@
+@@ -1,170 +1,164 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -25,19 +25,19 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xdf>
 -lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
++lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
++lea    -0x31(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnCharacterDelete : 0 == m_pclApp",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x40(%ebp),%esi
-+lea    -0x28(%ebp),%esi
++lea    -0x38(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -55,7 +55,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x40(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x87>
@@ -66,7 +66,7 @@
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xa4>
 -lea    -0x40(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0xbc>
@@ -76,54 +76,48 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
++lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x148>
 -lea    -0x39(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x142>
-+lea    -0x21(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x13d>
++lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+add    $0xa0,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x20(%ebp)
-+cmpl   $0x0,-0x20(%ebp)
-+je     <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x248>
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -mov    %eax,-0x28(%ebp)
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0xa0(%eax),%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    0xa0(%eax),%eax
 -mov    %eax,-0x24(%ebp)
 -cmpl   $0x0,-0x24(%ebp)
 -je     <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x252>
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -add    $0x10,%eax
--mov    %eax,-0x20(%ebp)
+ mov    %eax,-0x20(%ebp)
 -mov    -0x28(%ebp),%eax
--mov    0xe(%eax),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++cmpl   $0x0,-0x20(%ebp)
++je     <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x245>
++mov    0x8(%ebp),%eax
++mov    0xa(%eax),%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 +add    $0x10,%edx
 +mov    %eax,0x4(%esp)
 +mov    %edx,(%esp)
 +call   <T> <_ZN12CUserManager29DeleteBlackUserOnCharacDeleteEj>
-+lea    -0x36(%ebp),%eax
++lea    -0x46(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN40Packet_DB_Member_Delete_As_Charac_DeleteC1Ev>
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x2c(%ebp)
-+lea    -0x36(%ebp),%eax
+ mov    0xe(%eax),%eax
++mov    %eax,-0x3c(%ebp)
++lea    -0x46(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -140,59 +134,46 @@
 -mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x253>
-+jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x248>
++jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x245>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x1ea>
-+jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x1e2>
++jne    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x1df>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnCharacterDelete Exception Break : %s\n",(%esp)
  call   <T> <printf>
-+movl   $0x9d8,0x8(%esp)
-+movl   $"OnCharacterDelete",0x4(%esp)
-+lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x9d8,0x8(%esp)
--movl   $"OnCharacterDelete",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x9d8,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnCharacterDelete Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x1e3>
-+jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x1db>
++jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x1d8>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -202,25 +183,25 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x253>
-+jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x248>
++jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x245>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnCharacterDelete Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x9de,0x8(%esp)
- movl   $"OnCharacterDelete",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnCharacterDelete Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x24b>
-+jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x243>
++jmp    <T> <_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader+0x240>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -287,31 +268,39 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1309 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1759 行）：
 
 ```cpp
 void CPacketTranslater::OnCharacterDelete(PacketHeader* pkt)
+{try
 {
-    THROW_IF_NO_APP("CPacketTranslater::OnCharacterDelete : 0 == m_pclApp");
-    char* pb = (char*)pkt;
-    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
-    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
-    if (guild == 0)
+
+
+    if (m_pclApp == 0)
     {
-        DNF_LOG_SCOPE_LINE(0x7bb,"./log/GuildModify",
-            "CPacketTranslater::OnCharacterDelete : 0 == pclGuild, Char Key = %d (Maybe Requester was logout)",
-            *(unsigned int*)(pb + 0xe));
+        throw CDNFException("CPacketTranslater::OnCharacterDelete : 0 == m_pclApp");
     }
-    else
+    CServerHandler* handler = m_pclApp->m_serverHandler2;
+    if (handler != 0)
     {
-        ST_Notice_Guild_Secede notice;
-        *(unsigned int*)((char*)&notice + 0) = *(unsigned int*)(pb + 0x12);
-        *(unsigned int*)((char*)&notice + 8) = *(unsigned int*)(pb + 0xe);
-        *(unsigned short*)((char*)&notice + 0xc) = 1;
-        memcpy((char*)&notice + 0xe, guild->GetGuildName(), 0x16);
-        m_pclApp->Get_GuildManager()->GuildSecede(*(unsigned int*)(pb + 0x12), notice);
-        guild->SendGuildInfoToMembers(false);
-        m_pclApp->Get_UserManager()->DeleteBlackUserOnCharacDelete(*(unsigned int*)(pb + 0xe));
+        ((CUserManager*)((char*)m_pclApp + 0x10))
+            ->DeleteBlackUserOnCharacDelete(((RA_UINT<10>*)pkt)->v);
+        Packet_DB_Member_Delete_As_Charac_Delete dbPkt;
+        dbPkt.m_charNo = ((RA_UINT<14>*)pkt)->v;
+        handler->SendToDB(&dbPkt);
+    }
+
+
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnCharacterDelete Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x9d8, "./log/Except", "CPacketTranslater::OnCharacterDelete Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnCharacterDelete Exception Break");
+        DNF_LOG_SCOPE_LINE(0x9de, "./log/Except", "CPacketTranslater::OnCharacterDelete Exception Break\n");
     }
 }
 ```

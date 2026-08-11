@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a3562` | `0x39` | `0x8086e8e` | `0x37` |
+| monitor | DIFF | `0x80a3562` | `0x39` | `0x8086dfc` | `0x37` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -30,9 +30,8 @@
  addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    $0x3,%eax
--setbe  %al
 +cmpl   $0x3,-0xc(%ebp)
-+setle  %al
+ setbe  %al
  test   %al,%al
  jne    <T> <_ZN10CTowerRank5resetEv+0xf>
  leave
@@ -66,7 +65,7 @@ void __thiscall CTowerRank::_ZN10CTowerRank5resetEv(CTowerRank *this)
 ```cpp
 void CTowerRank::reset()
 {
-    for (int i = 0; i < 4; i++)
+    for (unsigned int i = 0; i < 4; i++)
     {
         m_ranks[i].clear();
     }

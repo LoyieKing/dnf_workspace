@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807cfd6` | `0x333` | `0x8067d96` | `0x350` |
+| monitor | DIFF | `0x807cfd6` | `0x333` | `0x8067f9a` | `0x350` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -241,7 +241,7 @@
 +lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -410,7 +410,7 @@
 +lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -552,40 +552,50 @@ void __thiscall CPacketDecoder::_ZN14CPacketDecoder10TcpProcessEv(CPacketDecoder
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp](source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp)（约第 173 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp)（约第 203 行）：
 
 ```cpp
 void CPacketDecoder::TcpProcess()
 {
-    if (!m_tcpQueue || !m_tcpRecvQLock)
-        throw CDNFException("CPacketDecoder is Not Ready!\n");
-    while (!m_tcpQueue->empty())
+    if (*(void**)((char*)this + 0xc) != 0 && *(void**)((char*)this + 0x10) != 0)
     {
-        CTcpRecvBuffer* buf = m_tcpQueue->front();
-        m_tcpQueue->pop();
-        if (!buf)
-            continue;
-        PacketHeader* p = (PacketHeader*)buf;
-        int size = m_tcpQueue->size();
-        if (CAppLoadCheckerInstance()->CheckTcpRecvQ(size))
+        CTcpRecvBuffer* buf = 0;
+        while (true)
         {
-            CAppLoadCheckerInstance()->RequestDB(m_serverHandler, 1, size);
-        }
-        if (!MsgDecode(p))
-        {
+            do
             {
-                CGuard<CMutex> guard(m_tcpRecvBLock);
+                if (((std::queue<CTcpRecvBuffer*>*) * (void**)((char*)this + 0xc))->empty())
+                {
+                    return;
+                }
+                buf = ((std::queue<CTcpRecvBuffer*>*) * (void**)((char*)this + 0xc))->front();
+                ((std::queue<CTcpRecvBuffer*>*) * (void**)((char*)this + 0xc))->pop();
+            } while (buf == 0);
+            CTcpRecvBuffer* pkt = buf;
+            int qsize = ((std::queue<CTcpRecvBuffer*>*) * (void**)((char*)this + 0xc))->size();
+            CAppLoadChecker* checker = CAppLoadCheckerInstance();
+            if (checker->CheckTcpRecvQ(qsize))
+            {
+                checker->RequestDB((CServerHandler*)*(void**)((char*)this + 0x18), 1, qsize);
+            }
+            if (MsgDecode((PacketHeader*)buf) != 1)
+            {
+                break;
+            }
+            {
+                CGuard<CMutex> guard((CMutex*) * (void**)((char*)this + 0x14));
                 delete buf;
             }
-            printf("[false == this->MsgDecode]packetHeader : %x\tpacket id : %d\n",
-                   p, p->packetId);
-            throw CDNFException(
-                "CPacketDecode::MsgDecode() Undefined Packet Arrived Exception Break!");
         }
         {
-            CGuard<CMutex> guard(m_tcpRecvBLock);
+            CGuard<CMutex> guard((CMutex*) * (void**)((char*)this + 0x14));
             delete buf;
         }
+        printf("[false == this->MsgDecode]packetHeader : %x\tpacket id : %d\n", buf,
+               *(unsigned short*)buf);
+        throw CDNFException(
+            "CPacketDecoder::MsgDecode() Undefined Packet Arrived Exception Break!");
     }
+    throw CDNFException("CPacketDecoder is Not Ready!\n");
 }
 ```

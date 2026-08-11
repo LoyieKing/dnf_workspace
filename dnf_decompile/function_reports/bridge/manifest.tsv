@@ -8,7 +8,6 @@ MISSING	_Z12BytesToBlockPKhR6SBlock	0x80718a4	0x133
 MISSING	_Z12DES3_DecryptPvPh	0x807af6c	0x50		
 MISSING	_Z12DES3_EncryptPvPh	0x807af1c	0x50		
 MISSING	_Z4Bytej	0x8071815	0x8		
-DIFF	_Z8Char2HexhPc	0x806558c	0x42	0x805fc20	0x40
 MISSING	_ZL16SHA256_TransformPmS_	0x8089b10	0x6a8		
 MISSING	_ZL16SHA384_TransformPmS_	0x808a4c4	0x2075		
 MISSING	_ZL16SHA512_TransformPmS_	0x808c914	0x2075		
@@ -25,29 +24,6 @@ MISSING	_ZL4FIIImmm	0x8072a9b	0x73
 MISSING	_ZL5setupPmS_S_	0x80822fe	0x158		
 MISSING	_ZL7decryptPmiS_	0x8082519	0xb5		
 MISSING	_ZL7encryptPmiS_	0x8082456	0xc3		
-DIFF	_ZN12EpollReactorIN17ChannelServiceApp7TCPUserEE12handleEventsEj	0x805dd80	0x343	0x8053172	0x32e
-NEAR	_ZN13ScriptRawData10push_childEPS_	0x80620e2	0x50	0x804e10a	0x50
-NEAR	_ZN13ScriptRawDataC1EPcS0_i	0x8061e7c	0x100	0x804de36	0x100
-NEAR	_ZN13ScriptRawDataC2EPcS0_i	0x8061e7c	0x100	0x804de36	0x100
-DIFF	_ZN15TGlobalInstanceI21TextOutputDevice_FILEE6createEv	0x80573ec	0x8e	0x8058298	0x8d
-DIFF	_ZN15TGlobalInstanceI23TextOutputDevice_stdoutE6createEv	0x80574b8	0x93	0x80581ea	0xad
-DIFF	_ZN17ChannelServiceApp11CheckThread4loopEPv	0x806268e	0xf2e	0x805e67a	0xeed
-DIFF	_ZN17ChannelServiceApp12ScriptThread4loopEPv	0x8063936	0xb40	0x804ef74	0xae5
-DIFF	_ZN17ChannelServiceApp7TCPUser7onRead_Ev	0x805f0bc	0x65a	0x8054a20	0x8b0
-DIFF	_ZN17ChannelServiceApp9UDPThread4loopEPv	0x8060eba	0x17f	0x8056896	0x17c
-NEAR	_ZN5Token11get_contextEi	0x8061290	0x48	0x804b2ec	0x48
-NEAR	_ZN5Token9get_tokenEPci	0x80610fe	0x192	0x804b15a	0x192
-NEAR	_ZN6Script13on_keyval_tagEPcS0_	0x80617c8	0xc6	0x804eb08	0xc6
-NEAR	_ZN6Script4loadEPc	0x8061368	0x14d	0x804e6a8	0x14d
-DIFF	_ZN7DNFFLib12get_rand_intEi	0x8065942	0xf5	0x805ffd8	0xfd
-DIFF	_ZN9TCPSocket8shutdownEi	0x8052b3c	0xd	0x804bafc	0xa
-DIFF	_ZNK17ChannelServiceApp7TCPUser6isIdleEv	0x805ee2c	0x7b	0x8054790	0x7b
-DIFF	__deregister_frame	0x8121b20	0x31	0x8065b80	0x3e
-DIFF	__deregister_frame_info_bases	0x8121a10	0xff	0x8065b20	0x24
-DIFF	__register_frame	0x8121180	0x42	0x80658f0	0x9b
-DIFF	__register_frame_info_bases	0x8120030	0x99	0x80657d0	0x8b
-DIFF	__register_frame_info_table_bases	0x8120100	0x93	0x8065990	0x73
-DIFF	__register_frame_table	0x8121140	0x33	0x8065a90	0x83
 MISSING	_my_thread_var	0x80d8790	0x28		
 MISSING	add_collation	0x80d19d0	0x680		
 MISSING	add_compiled_collation	0x80d1230	0x27		
@@ -68,7 +44,6 @@ MISSING	check_date	0x809f090	0xac
 MISSING	check_scramble	0x80a2240	0xf4		
 MISSING	check_scramble_323	0x80a2650	0x7b7		
 MISSING	check_time_range	0x809f140	0xab		
-DIFF	classify_object_over_fdes	0x81206f0	0x169	0x8064c10	0x306
 MISSING	cleanup_dirname	0x80d4b20	0x3a9		
 MISSING	cli_advanced_command	0x80987e0	0x20e		
 MISSING	cli_fetch_lengths	0x8094200	0x67		
@@ -108,13 +83,6 @@ MISSING	dirname_length	0x80d44e0	0x30
 MISSING	dirname_part	0x80d4590	0x54		
 MISSING	dtoa.clone.0	0x80eac30	0x25cb		
 MISSING	end_server	0x8096100	0x60		
-MISSING	err_helper	0x80a3790	0x51		
-MISSING	escape_quotes_for_mysql	0x80d1530	0x1bc		
-MISSING	escape_string_for_mysql	0x80d1280	0x2ab		
-DIFF	execute_stack_op	0x811db30	0xe7d	0x8060600	0x87e
-DIFF	fde_mixed_encoding_compare	0x8120a00	0x8c	0x8065190	0x102
-DIFF	fde_single_encoding_compare	0x8120980	0x7c	0x80650e0	0xa2
-DIFF	fde_unencoded_compare	0x81201d0	0x1c	0x8063790	0x22
 MISSING	fetch_datetime_with_conversion	0x809be20	0x1e3		
 MISSING	fetch_float_with_conversion	0x809b960	0x4b3		
 MISSING	fetch_long_with_conversion	0x809b570	0x3e3		
@@ -139,7 +107,6 @@ MISSING	finish_client_errs	0x8098a00	0x2c
 MISSING	flush_one_result	0x8096b20	0x6c		
 MISSING	fn_ext	0x80d45f0	0x6d		
 MISSING	fn_format	0x80d46b0	0x3a3		
-DIFF	frame_downheap	0x81201f0	0xb8	0x80637c0	0x98
 MISSING	free_charsets	0x80d1260	0x1a		
 MISSING	free_defaults	0x80d2c50	0x61		
 MISSING	free_old_query	0x8095a60	0x8a		
@@ -154,7 +121,6 @@ MISSING	get_charset_by_name	0x80d24f0	0xa1
 MISSING	get_charset_name	0x80d27a0	0x5a		
 MISSING	get_charset_number	0x80d25f0	0x9a		
 MISSING	get_charsets_dir	0x80d2050	0xed		
-DIFF	get_cie_encoding	0x81205d0	0x112	0x80642b0	0x118
 MISSING	get_collation_number	0x80d2460	0x82		
 MISSING	get_defaults_options	0x80d2d80	0x119		
 MISSING	get_dynamic	0x80d0e30	0x69		
@@ -172,7 +138,6 @@ MISSING	init_available_charsets.clone.0	0x80d2270	0x102
 MISSING	init_client_errs	0x8098a30	0x36		
 MISSING	init_compiled_charsets	0x810b550	0x7a3		
 MISSING	init_default_directories	0x80d2880	0xd3		
-DIFF	init_dwarf_reg_size_table	0x811cfb0	0x80	0x8060240	0x7f
 MISSING	init_dynamic_array	0x80d11f0	0x40		
 MISSING	init_dynamic_array2	0x80d1140	0xa3		
 MISSING	init_glob_errs	0x80d41e0	0x5		
@@ -191,7 +156,6 @@ MISSING	ismbchar_gbk	0x8112450	0x3c
 MISSING	ismbchar_sjis	0x8114380	0x45		
 MISSING	ismbchar_ujis	0x8115880	0xaf		
 MISSING	lex2str	0x80ef2c0	0x90		
-DIFF	linear_search_fdes	0x8120a90	0x143	0x8065520	0x2b0
 MISSING	list_add	0x80d42a0	0x34		
 MISSING	list_cons	0x80d43a0	0x49		
 MISSING	list_delete	0x80d42e0	0x2f		
@@ -594,117 +558,6 @@ MISSING	my_xml_set_leave_handler	0x80ef3a0	0x11
 MISSING	my_xml_set_user_data	0x80ef3c0	0x11		
 MISSING	my_xml_set_value_handler	0x80ef360	0x11		
 MISSING	myodbc_remove_escape	0x8099140	0x1a1		
-MISSING	mysql_affected_rows	0x8098f70	0x14		
-MISSING	mysql_autocommit	0x809a9e0	0x42		
-MISSING	mysql_change_user	0x809e0f0	0x2b2		
-MISSING	mysql_character_set_name	0x8099010	0x11		
-DIFF	mysql_close	0x8098360	0x14e	0x8056e76	0x13
-MISSING	mysql_close_free_options	0x8094f30	0x173		
-MISSING	mysql_commit	0x809aa70	0x35		
-MISSING	mysql_data_seek	0x8098b50	0x53		
-MISSING	mysql_debug	0x8098a90	0x5		
-MISSING	mysql_detach_stmt_list	0x80950b0	0xb1		
-MISSING	mysql_dump_debug_info	0x8098d70	0x52		
-MISSING	mysql_embedded	0x80990b0	0x7		
-MISSING	mysql_eof	0x8098f10	0xc		
-DIFF	mysql_errno	0x8094380	0x2a	0x8056e89	0xa
-MISSING	mysql_error	0x80943b0	0x28		
-MISSING	mysql_escape_string	0x809d5e0	0x45		
-MISSING	mysql_fetch_field	0x8098b30	0x1e		
-MISSING	mysql_fetch_field_direct	0x8098f20	0xf		
-MISSING	mysql_fetch_fields	0x8098f30	0xb		
-MISSING	mysql_fetch_lengths	0x8094320	0x3a		
-DIFF	mysql_fetch_row	0x80962e0	0x229	0x8056e67	0xa
-MISSING	mysql_field_count	0x8098f60	0xe		
-MISSING	mysql_field_seek	0x8098bd0	0x11		
-MISSING	mysql_field_tell	0x8098f50	0xb		
-DIFF	mysql_free_result	0x8096020	0xd4	0x8056e71	0x5
-MISSING	mysql_get_character_set_info	0x8099030	0x67		
-MISSING	mysql_get_client_info	0x8098ee0	0x16		
-MISSING	mysql_get_client_version	0x8098f00	0xa		
-MISSING	mysql_get_host_info	0x8098ec0	0xe		
-MISSING	mysql_get_parameters	0x8098a70	0x16		
-MISSING	mysql_get_proto_info	0x8098ed0	0xe		
-MISSING	mysql_get_server_info	0x8098eb0	0xe		
-MISSING	mysql_get_server_version	0x8094520	0x90		
-MISSING	mysql_get_ssl_cipher	0x8095390	0x40		
-MISSING	mysql_hex_string	0x80990c0	0x72		
-MISSING	mysql_info	0x8098ff0	0xe		
-DIFF	mysql_init	0x80953d0	0x108	0x8056e21	0x28
-MISSING	mysql_init_character_set	0x8095170	0x21f		
-MISSING	mysql_insert_id	0x8098f90	0x14		
-MISSING	mysql_kill	0x8098cb0	0x57		
-MISSING	mysql_list_dbs	0x809e5d0	0xee		
-MISSING	mysql_list_fields	0x809d7c0	0x16a		
-MISSING	mysql_list_processes	0x809d6a0	0x11a		
-MISSING	mysql_list_tables	0x809da60	0xde		
-MISSING	mysql_more_results	0x8099d70	0x14		
-MISSING	mysql_next_result	0x809a950	0x8b		
-MISSING	mysql_num_fields	0x8094370	0xb		
-MISSING	mysql_num_rows	0x8094360	0xd		
-MISSING	mysql_options	0x8094cc0	0x261		
-MISSING	mysql_ping	0x8098e50	0x52		
-DIFF	mysql_query	0x809da20	0x3f	0x8056e53	0xa
-MISSING	mysql_read_default_options	0x80954e0	0x580		
-MISSING	mysql_read_query_result	0x8099db0	0x16		
-DIFF	mysql_real_connect	0x8096d60	0x15fc	0x8056e49	0xa
-MISSING	mysql_real_escape_string	0x809d550	0x84		
-MISSING	mysql_real_query	0x80942c0	0x53		
-MISSING	mysql_reconnect	0x80984b0	0x330		
-MISSING	mysql_refresh	0x8098c50	0x57		
-MISSING	mysql_rollback	0x809aa30	0x35		
-MISSING	mysql_row_seek	0x8098bb0	0x18		
-MISSING	mysql_row_tell	0x8098f40	0xb		
-MISSING	mysql_select_db	0x8094740	0xa4		
-MISSING	mysql_send_query	0x8094270	0x50		
-MISSING	mysql_server_end	0x809e420	0x6e		
-MISSING	mysql_server_init	0x809e490	0x13d		
-MISSING	mysql_set_character_set	0x80945b0	0x186		
-MISSING	mysql_set_local_infile_default	0x8098ae0	0x43		
-MISSING	mysql_set_local_infile_handler	0x8098aa0	0x35		
-MISSING	mysql_set_server_option	0x8098d10	0x58		
-MISSING	mysql_sha1_input	0x80d93b0	0x71		
-MISSING	mysql_sha1_reset	0x80d8e30	0x5b		
-MISSING	mysql_sha1_result	0x80d9430	0x19a		
-MISSING	mysql_shutdown	0x8098bf0	0x57		
-MISSING	mysql_sqlstate	0x8098fb0	0x2a		
-MISSING	mysql_ssl_set	0x80947f0	0xc8		
-MISSING	mysql_stat	0x8098dd0	0x72		
-MISSING	mysql_stmt_affected_rows	0x8099490	0x11		
-MISSING	mysql_stmt_attr_get	0x8099430	0x4d		
-MISSING	mysql_stmt_attr_set	0x809a400	0xa9		
-MISSING	mysql_stmt_bind_param	0x809ce90	0x34e		
-MISSING	mysql_stmt_bind_result	0x809c520	0x1ab		
-MISSING	mysql_stmt_close	0x809aab0	0x147		
-MISSING	mysql_stmt_data_seek	0x8099c60	0xc4		
-MISSING	mysql_stmt_errno	0x8099d40	0xe		
-MISSING	mysql_stmt_error	0x8099d60	0xd		
-MISSING	mysql_stmt_execute	0x809cb40	0x1c5		
-MISSING	mysql_stmt_fetch	0x8099ad0	0x152		
-MISSING	mysql_stmt_fetch_column	0x809c3d0	0x14d		
-MISSING	mysql_stmt_field_count	0x80994b0	0xe		
-MISSING	mysql_stmt_free_result	0x809a1a0	0x14		
-MISSING	mysql_stmt_init	0x809d2f0	0xfe		
-MISSING	mysql_stmt_insert_id	0x80994c0	0x14		
-MISSING	mysql_stmt_next_result	0x809ca00	0x133		
-MISSING	mysql_stmt_num_rows	0x8099d30	0xe		
-MISSING	mysql_stmt_param_count	0x8099480	0xe		
-MISSING	mysql_stmt_param_metadata	0x80992f0	0x7		
-MISSING	mysql_stmt_prepare	0x809a4b0	0x21c		
-MISSING	mysql_stmt_reset	0x809a3a0	0x5f		
-MISSING	mysql_stmt_result_metadata	0x809d250	0x9d		
-MISSING	mysql_stmt_row_seek	0x8099c30	0x11		
-MISSING	mysql_stmt_row_tell	0x8099c50	0xb		
-MISSING	mysql_stmt_send_long_data	0x809cd10	0x17b		
-MISSING	mysql_stmt_sqlstate	0x8099d50	0xd		
-MISSING	mysql_stmt_store_result	0x809c6d0	0x32c		
-DIFF	mysql_store_result	0x80948c0	0x1b2	0x8056e5d	0xa
-MISSING	mysql_thread_end	0x809e3e0	0x1d		
-MISSING	mysql_thread_id	0x8099000	0xe		
-MISSING	mysql_thread_init	0x809e400	0x1d		
-MISSING	mysql_thread_safe	0x80990a0	0xa		
-MISSING	mysql_use_result	0x8099d90	0x17		
-MISSING	mysql_warning_count	0x8098fe0	0xe		
 MISSING	net_clear	0x80a15a0	0x8c		
 MISSING	net_clear_error	0x8094440	0x3f		
 MISSING	net_end	0x80a1470	0x36		
@@ -742,8 +595,6 @@ MISSING	scramble_323	0x80a2e10	0x3fc
 MISSING	search_default_file_with_ext	0x80d2f50	0x9d5		
 MISSING	send_tree	0x8108de0	0x64b		
 MISSING	set_dynamic	0x80d0f70	0x9c		
-MISSING	set_mysql_error	0x8094480	0x91		
-MISSING	set_mysql_extended_error	0x80943e0	0x60		
 MISSING	set_prealloc_root	0x80d5570	0x56		
 MISSING	set_stmt_errmsg	0x8099dd0	0x69		
 MISSING	set_stmt_error	0x809a1c0	0x61		
@@ -819,75 +670,5 @@ MISSING	vio_verify_callback	0x80f1360	0xac
 MISSING	vio_was_interrupted	0x80f09a0	0x30		
 MISSING	vio_write	0x80f0ac0	0x33		
 MISSING	wait_for_free_space	0x80d41f0	0xa6		
-MISSING	yaASN1_STRING_data	0x80a34b0	0x11		
-MISSING	yaASN1_STRING_length	0x80a34d0	0x11		
-MISSING	yaASN1_STRING_to_UTF8	0x80a3b20	0x69		
-MISSING	yaASN1_STRING_type	0x80a34f0	0x10		
-MISSING	yaBN_bin2bn	0x80a6150	0xb6		
-MISSING	yaDES_ecb_encrypt	0x80a3d00	0xac		
-MISSING	yaDES_ede3_cbc_encrypt	0x80a3db0	0xe5		
-MISSING	yaDES_set_key	0x80a3b90	0x1a		
-MISSING	yaDES_set_key_unchecked	0x80a3bb0	0x15		
-MISSING	yaDES_set_odd_parity	0x80a33e0	0x5		
-MISSING	yaDH_free	0x80a6210	0x6e		
-MISSING	yaDH_new	0x80a41f0	0x3a		
-MISSING	yaERR_GET_REASON	0x80a35d0	0xd		
-MISSING	yaERR_error_string	0x80a4150	0x52		
-MISSING	yaERR_error_string_n	0x80a41b0	0x31		
-MISSING	yaERR_free_strings	0x80a3450	0x5		
-MISSING	yaERR_get_error	0x80a37f0	0x24		
-MISSING	yaERR_get_error_line_data	0x80a3350	0x7		
-MISSING	yaERR_peek_error	0x80a3820	0x24		
-MISSING	yaERR_print_errors_fp	0x80a3360	0x5		
-MISSING	yaERR_remove_state	0x80a3850	0x25		
-MISSING	yaEVP_BytesToKey	0x80a3ea0	0x2b0		
-MISSING	yaEVP_PKEY_copy_parameters	0x80a3430	0x7		
-MISSING	yaEVP_PKEY_free	0x80a3440	0x5		
-MISSING	yaEVP_cleanup	0x80a3460	0x5		
-MISSING	yaEVP_des_ede3_cbc	0x80a33b0	0x16		
-MISSING	yaGENERAL_NAMES_free	0x80a3480	0x5		
-MISSING	yaMD4_Final	0x80a3550	0x1a		
-MISSING	yaMD4_Init	0x80a3ad0	0x4f		
-MISSING	yaMD4_Update	0x80a3520	0x21		
-MISSING	yaMD5_Final	0x80a35a0	0x1a		
-MISSING	yaMD5_Init	0x80a3a80	0x4f		
-MISSING	yaMD5_Update	0x80a3570	0x21		
-MISSING	yaOpenSSL_add_all_algorithms	0x80a3330	0x5		
-MISSING	yaRAND_bytes	0x80a3a10	0x64		
-MISSING	yaRAND_file_name	0x80a35f0	0x7		
-MISSING	yaRAND_load_file	0x80a3610	0x7		
-MISSING	yaRAND_screen	0x80a35e0	0x5		
-MISSING	yaRAND_status	0x80a33d0	0xa		
-MISSING	yaRAND_write_file	0x80a3600	0x7		
-MISSING	yaRSA_free	0x80a3620	0x5		
-MISSING	yaRSA_generate_key	0x80a3630	0x7		
-MISSING	yaTLSv1_1_client_method	0x80a55f0	0x72		
-MISSING	yaTLSv1_1_server_method	0x80a5670	0x72		
-MISSING	yaTLSv1_client_method	0x80a56f0	0x72		
-MISSING	yaTLSv1_server_method	0x80a5770	0x72		
-MISSING	yaX509_LOOKUP_add_dir	0x80a3640	0xa		
-MISSING	yaX509_LOOKUP_file	0x80a3670	0x7		
-MISSING	yaX509_LOOKUP_hash_dir	0x80a3660	0x7		
-MISSING	yaX509_LOOKUP_load_file	0x80a3650	0xa		
-MISSING	yaX509_NAME_ENTRY_get_data	0x80a3500	0x8		
-MISSING	yaX509_NAME_get_entry	0x80a3bd0	0x2a		
-MISSING	yaX509_NAME_get_index_by_NID	0x80a3c00	0x67		
-MISSING	yaX509_NAME_oneline	0x80a4710	0xae		
-MISSING	yaX509_STORE_CTX_get_current_cert	0x80a3260	0xb		
-MISSING	yaX509_STORE_CTX_get_error	0x80a3270	0xa		
-MISSING	yaX509_STORE_CTX_get_error_depth	0x80a3280	0xb		
-MISSING	yaX509_STORE_add_lookup	0x80a3680	0x7		
-MISSING	yaX509_STORE_get_by_subject	0x80a3690	0xa		
-MISSING	yaX509_STORE_new	0x80a36a0	0x7		
-MISSING	yaX509_free	0x80a3250	0x5		
-MISSING	yaX509_get_ext_d2i	0x80a3510	0x7		
-MISSING	yaX509_get_issuer_name	0x80a46e0	0x23		
-MISSING	yaX509_get_notAfter	0x80a3c70	0x29		
-MISSING	yaX509_get_notBefore	0x80a3ca0	0x29		
-MISSING	yaX509_get_pubkey	0x80a3420	0x7		
-MISSING	yaX509_get_subject_name	0x80a46b0	0x23		
-MISSING	yaX509_verify_cert_error_string	0x80a3370	0x16		
-MISSING	yask_GENERAL_NAME_num	0x80a3490	0x7		
-MISSING	yask_GENERAL_NAME_value	0x80a34a0	0x7		
 MISSING	year_2000_handling	0x809f1f0	0x1c		
 MISSING	zError	0x810b4c0	0x21		

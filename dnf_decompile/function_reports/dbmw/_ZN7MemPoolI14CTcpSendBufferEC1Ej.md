@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | NEAR | `0x8056530` | `0x28` | `0x80770dc` | `0x28` |
+| dbmw | NEAR | `0x8056530` | `0x28` | `0x80ca63c` | `0x28` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -51,7 +51,7 @@ MemPool<CTcpSendBuffer>::_ZN7MemPoolI14CTcpSendBufferEC1Ej
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp)（约第 32 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp)（约第 41 行）：
 
 ```cpp
 MemPool<T>::MemPool(unsigned int count) : m_size((int)sizeof(T)), m_count((int)count) {}

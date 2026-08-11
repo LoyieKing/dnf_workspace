@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8060ef6` | `0x45` | `0x805e85c` | `0x3f` |
+| statics | DIFF | `0x8060ef6` | `0x45` | `0x805e87a` | `0x3f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -78,22 +78,21 @@ MemPool<CUdpRecvBuffer>::_ZN7MemPoolI14CUdpRecvBufferE4freeEPvj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFUdpRecvBuffer.cpp](source/DNFServer/GameServer/COServer/DNFUdpRecvBuffer.cpp)（约第 77 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFUdpRecvBuffer.cpp](source/DNFServer/GameServer/Statics/DNFUdpRecvBuffer.cpp)（约第 70 行）：
 
 ```cpp
 void MemPool<T>::free(void* p, unsigned int size)
 {
     if (p != 0)
     {
-        if (m_classSize != (int)size)
+        if (m_classSize == (int)size)
         {
-            ::operator delete(p);
+            *(void**)((int)p + 0x1800) = headOfFreeList_;
+            headOfFreeList_ = p;
         }
         else
         {
-            void* q = p;
-            *((void**)q + 0x80) = headOfFreeList_;
-            headOfFreeList_ = q;
+            ::operator delete(p);
         }
     }
 }

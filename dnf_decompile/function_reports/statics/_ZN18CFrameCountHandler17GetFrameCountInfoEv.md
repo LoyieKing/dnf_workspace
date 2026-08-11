@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8058f6a` | `0x34a` | `0x805d5fc` | `0x37a` |
+| statics | DIFF | `0x8058f6a` | `0x34a` | `0x805d620` | `0x37a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -130,7 +130,7 @@
  lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -228,7 +228,7 @@
  lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -467,7 +467,7 @@ CFrameCountHandler::_ZN18CFrameCountHandler17GetFrameCountInfoEv(CFrameCountHand
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFTickHandler.cpp](source/DNFServer/GameServer/COServer/DNFTickHandler.cpp)（约第 31 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFTickHandler.cpp](source/DNFServer/GameServer/Statics/DNFTickHandler.cpp)（约第 28 行）：
 
 ```cpp
 CFrameCountHandler* CFrameCountHandler::GetFrameCountInfo()

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808968e` | `0x26` | `0x80527e6` | `0x2f` |
+| guild | DIFF | `0x808968e` | `0x26` | `0x8052810` | `0x35` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,26 +13,29 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,16 +1,19 @@
+@@ -1,16 +1,22 @@
  push   %ebp
  mov    %esp,%ebp
  mov    0x8(%ebp),%eax
 -movzbl (%eax),%edx
-+mov    0x8(%ebp),%edx
-+movzbl (%edx),%edx
++movzbl (%eax),%eax
++mov    %eax,%edx
  and    $0xffffffe0,%edx
++mov    0x8(%ebp),%eax
  mov    %dl,(%eax)
  mov    0x8(%ebp),%eax
 -movzbl (%eax),%edx
-+mov    0x8(%ebp),%edx
-+movzbl (%edx),%edx
++movzbl (%eax),%eax
++mov    %eax,%edx
  and    $0xffffffdf,%edx
++mov    0x8(%ebp),%eax
  mov    %dl,(%eax)
  mov    0x8(%ebp),%eax
 -movzbl (%eax),%edx
-+mov    0x8(%ebp),%edx
-+movzbl (%edx),%edx
++movzbl (%eax),%eax
++mov    %eax,%edx
  and    $0x3f,%edx
++mov    0x8(%ebp),%eax
  mov    %dl,(%eax)
  pop    %ebp
  ret
@@ -55,13 +58,13 @@ void __thiscall UpgradeSeparateInfo::_ZN19UpgradeSeparateInfo5resetEv(UpgradeSep
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 148 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 167 行）：
 
 ```cpp
 void UpgradeSeparateInfo::reset()
 {
-    *(unsigned char*)m_data = (unsigned char)(*(unsigned char*)m_data & 0xe0);
-    *(unsigned char*)m_data = (unsigned char)(*(unsigned char*)m_data & 0xdf);
-    *(unsigned char*)m_data = (unsigned char)(*(unsigned char*)m_data & 0x3f);
+    m_data[0] = (unsigned char)(m_data[0] & 0xe0);
+    m_data[0] = (unsigned char)(m_data[0] & 0xdf);
+    m_data[0] = (unsigned char)(m_data[0] & 0x3f);
 }
 ```

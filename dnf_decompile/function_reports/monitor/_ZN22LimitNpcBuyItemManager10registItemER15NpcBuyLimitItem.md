@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805ada4` | `0x9c` | `0x80953f6` | `0x99` |
+| monitor | DIFF | `0x805ada4` | `0x9c` | `0x8095532` | `0x99` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -106,7 +106,7 @@ LimitNpcBuyItemManager::_ZN22LimitNpcBuyItemManager10registItemER15NpcBuyLimitIt
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp](source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp)（约第 70 行）：
+定义于 [source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp](source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp)（约第 71 行）：
 
 ```cpp
 void LimitNpcBuyItemManager::registItem(NpcBuyLimitItem& item)

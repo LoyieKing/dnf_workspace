@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80535a2` | `0xa8` | `0x80a83ae` | `0xae` |
+| guild | DIFF | `0x80535a2` | `0xa8` | `0x80a7ee2` | `0xae` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -130,17 +130,19 @@ CTcpNetSystem::_ZN13CTcpNetSystem23PopDeleteTcpSendPacketQEP14CTcpSendBuffer
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 201 行）：
+定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 397 行）：
 
 ```cpp
 void CTcpNetSystem::PopDeleteTcpSendPacketQ(CTcpSendBuffer* buf)
 {
+    std::queue<CTcpSendBuffer*, std::deque<CTcpSendBuffer*> >* q =
+        (std::queue<CTcpSendBuffer*, std::deque<CTcpSendBuffer*> >*)(m_data + 0xc0);
     {
-        CGuard<CMutex> guard(&m_mutexE8);
-        m_sendQueue.pop();
+        CGuard<CMutex> g((CMutex*)(m_data + 0xe8));
+        q->pop();
     }
     {
-        CGuard<CMutex> guard(&m_mutex100);
+        CGuard<CMutex> g2((CMutex*)(m_data + 0x100));
         delete buf;
     }
 }

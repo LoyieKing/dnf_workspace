@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a032e` | `0x3d` | `0x804d662` | `0x2d` |
+| monitor | DIFF | `0x80a032e` | `0x3d` | `0x804d660` | `0x2d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -69,12 +69,16 @@ undefined4 __thiscall CCashObject::_ZN11CCashObject13IsLifeTimeOutEv(CCashObject
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/CashObject.cpp](source/DNFServer/GameServer/Guild/CashObject.cpp)（约第 91 行）：
+定义于 [source/DNFServer/GameServer/Monitor/CashObject.cpp](source/DNFServer/GameServer/Monitor/CashObject.cpp)（约第 167 行）：
 
 ```cpp
-bool CCashObject::IsLifeTimeOut()
+char CCashObject::IsLifeTimeOut()
 {
-    m_lifeTime -= 1;
-    return m_lifeTime == 0;
+    if (m_lifeTime == -1)
+    {
+        return 0;
+    }
+    m_lifeTime = m_lifeTime - 1;
+    return (char)(m_lifeTime == 0);
 }
 ```

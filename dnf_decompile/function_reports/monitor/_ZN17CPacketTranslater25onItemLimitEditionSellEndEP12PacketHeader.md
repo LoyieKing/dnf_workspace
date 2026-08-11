@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808b0b2` | `0x3e7` | `0x80766bc` | `0x430` |
+| monitor | DIFF | `0x808b0b2` | `0x3e7` | `0x8076686` | `0x410` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,270 +1,298 @@
+@@ -1,270 +1,274 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -28,8 +28,7 @@
 +mov    0x8(%ebp),%eax
 +mov    %eax,-0x30(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++mov    0xa(%eax),%eax
 +mov    %eax,-0x2c(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
@@ -44,7 +43,7 @@
 -mov    -0x24(%ebp),%eax
 -mov    0xa(%eax),%ebx
 -movl   $0x150a,0x8(%esp)
--movl   $"onItemLimitEditionSellEnd",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -61,9 +60,9 @@
 -mov    -0x24(%ebp),%eax
 -add    $0x4,%edx
 -mov    0x2(%eax,%edx,4),%ebx
-+je     <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x304>
++je     <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x2e4>
 +movl   $0x0,-0x28(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0xa3>
++jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0xa1>
 +mov    0x8(%ebp),%eax
 +mov    -0x28(%ebp),%edx
 +shl    $0x2,%edx
@@ -86,7 +85,7 @@
 -mov    0x2(%eax,%edx,4),%ebx
 +mov    %eax,-0x24(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x9f>
++je     <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x9d>
 +mov    0x8(%ebp),%eax
 +mov    -0x28(%ebp),%edx
 +shl    $0x2,%edx
@@ -103,139 +102,120 @@
 -nop
 -addl   $0x1,-0x20(%ebp)
 -mov    -0x24(%ebp),%eax
--mov    0xe(%eax),%eax
--cmp    -0x20(%ebp),%eax
 +addl   $0x1,-0x28(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
+ mov    0xe(%eax),%eax
+-cmp    -0x20(%ebp),%eax
 +cmp    -0x28(%ebp),%eax
  seta   %al
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x7f>
 -mov    -0x24(%ebp),%eax
--mov    0x6e(%eax),%eax
-+jne    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x44>
-+movl   $0x1519,0x8(%esp)
-+movl   $"onItemLimitEditionSellEnd",0x4(%esp)
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++jne    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x42>
 +mov    0x8(%ebp),%eax
-+add    $0x6e,%eax
-+mov    (%eax),%eax
+ mov    0x6e(%eax),%eax
++mov    %eax,-0xb4(%ebp)
++mov    0x8(%ebp),%eax
++mov    0x6a(%eax),%eax
++mov    %eax,-0xb0(%ebp)
++mov    0x8(%ebp),%eax
++mov    0x66(%eax),%eax
++mov    %eax,-0xac(%ebp)
++mov    0x8(%ebp),%eax
++mov    0x62(%eax),%eax
 +mov    %eax,-0xa8(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0x6a,%eax
-+mov    (%eax),%eax
++mov    0x5e(%eax),%eax
  mov    %eax,-0xa4(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x6a(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x66,%eax
-+mov    (%eax),%eax
++mov    0x5a(%eax),%eax
  mov    %eax,-0xa0(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x66(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x62,%eax
-+mov    (%eax),%eax
++mov    0x56(%eax),%eax
  mov    %eax,-0x9c(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x62(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x5e,%eax
-+mov    (%eax),%eax
++mov    0x52(%eax),%eax
  mov    %eax,-0x98(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x5e(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x5a,%eax
-+mov    (%eax),%eax
++mov    0x4e(%eax),%eax
  mov    %eax,-0x94(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x5a(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x56,%eax
-+mov    (%eax),%eax
++mov    0x4a(%eax),%eax
  mov    %eax,-0x90(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x56(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x52,%eax
-+mov    (%eax),%eax
++mov    0x46(%eax),%eax
  mov    %eax,-0x8c(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x52(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x4e,%eax
-+mov    (%eax),%eax
++mov    0x42(%eax),%eax
  mov    %eax,-0x88(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x4e(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x4a,%eax
-+mov    (%eax),%eax
++mov    0x3e(%eax),%eax
  mov    %eax,-0x84(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x4a(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x46,%eax
-+mov    (%eax),%eax
++mov    0x3a(%eax),%eax
  mov    %eax,-0x80(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x46(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x42,%eax
-+mov    (%eax),%eax
++mov    0x36(%eax),%eax
  mov    %eax,-0x7c(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x42(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x3e,%eax
-+mov    (%eax),%eax
++mov    0x32(%eax),%eax
  mov    %eax,-0x78(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x3e(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x3a,%eax
-+mov    (%eax),%eax
++mov    0x2e(%eax),%eax
  mov    %eax,-0x74(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x3a(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x36,%eax
-+mov    (%eax),%eax
++mov    0x2a(%eax),%eax
  mov    %eax,-0x70(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x36(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x32,%eax
-+mov    (%eax),%eax
++mov    0x26(%eax),%eax
  mov    %eax,-0x6c(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x32(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x2e,%eax
-+mov    (%eax),%eax
++mov    0x22(%eax),%eax
  mov    %eax,-0x68(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x2e(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x2a,%eax
-+mov    (%eax),%eax
++mov    0x1e(%eax),%eax
  mov    %eax,-0x64(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x2a(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x26,%eax
-+mov    (%eax),%eax
++mov    0x1a(%eax),%eax
  mov    %eax,-0x60(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x26(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x22,%eax
-+mov    (%eax),%eax
++mov    0x16(%eax),%eax
  mov    %eax,-0x5c(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0x22(%eax),%eax
@@ -250,115 +230,101 @@
 -mov    0x16(%eax),%eax
 -mov    %eax,-0x4c(%ebp)
 -mov    -0x24(%ebp),%eax
--mov    0x12(%eax),%edi
++mov    0x8(%ebp),%eax
+ mov    0x12(%eax),%edi
 -mov    -0x24(%ebp),%eax
--mov    0xe(%eax),%esi
++mov    0x8(%ebp),%eax
+ mov    0xe(%eax),%esi
 -mov    -0x24(%ebp),%eax
--mov    0xa(%eax),%ebx
--movl   $0x1519,0x8(%esp)
--movl   $"onItemLimitEditionSellEnd",0x4(%esp)
++mov    0x8(%ebp),%eax
+ mov    0xa(%eax),%ebx
+ movl   $0x1519,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0x8(%ebp),%eax
-+add    $0x1e,%eax
-+mov    (%eax),%edi
-+mov    0x8(%ebp),%eax
-+add    $0x1a,%eax
-+mov    (%eax),%esi
-+mov    0x8(%ebp),%eax
-+add    $0x16,%eax
-+mov    (%eax),%ebx
-+mov    0x8(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%ecx
-+mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0xac(%ebp)
-+mov    -0xa8(%ebp),%eax
++lea    -0x50(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    -0xb4(%ebp),%eax
 +mov    %eax,0x70(%esp)
++mov    -0xb0(%ebp),%eax
++mov    %eax,0x6c(%esp)
++mov    -0xac(%ebp),%eax
++mov    %eax,0x68(%esp)
++mov    -0xa8(%ebp),%eax
++mov    %eax,0x64(%esp)
  mov    -0xa4(%ebp),%eax
 -mov    %eax,0x70(%esp)
-+mov    %eax,0x6c(%esp)
++mov    %eax,0x60(%esp)
  mov    -0xa0(%ebp),%eax
 -mov    %eax,0x6c(%esp)
-+mov    %eax,0x68(%esp)
++mov    %eax,0x5c(%esp)
  mov    -0x9c(%ebp),%eax
 -mov    %eax,0x68(%esp)
-+mov    %eax,0x64(%esp)
++mov    %eax,0x58(%esp)
  mov    -0x98(%ebp),%eax
 -mov    %eax,0x64(%esp)
-+mov    %eax,0x60(%esp)
++mov    %eax,0x54(%esp)
  mov    -0x94(%ebp),%eax
 -mov    %eax,0x60(%esp)
-+mov    %eax,0x5c(%esp)
++mov    %eax,0x50(%esp)
  mov    -0x90(%ebp),%eax
 -mov    %eax,0x5c(%esp)
-+mov    %eax,0x58(%esp)
++mov    %eax,0x4c(%esp)
  mov    -0x8c(%ebp),%eax
 -mov    %eax,0x58(%esp)
-+mov    %eax,0x54(%esp)
++mov    %eax,0x48(%esp)
  mov    -0x88(%ebp),%eax
 -mov    %eax,0x54(%esp)
-+mov    %eax,0x50(%esp)
++mov    %eax,0x44(%esp)
  mov    -0x84(%ebp),%eax
 -mov    %eax,0x50(%esp)
-+mov    %eax,0x4c(%esp)
++mov    %eax,0x40(%esp)
  mov    -0x80(%ebp),%eax
 -mov    %eax,0x4c(%esp)
-+mov    %eax,0x48(%esp)
++mov    %eax,0x3c(%esp)
  mov    -0x7c(%ebp),%eax
 -mov    %eax,0x48(%esp)
-+mov    %eax,0x44(%esp)
++mov    %eax,0x38(%esp)
  mov    -0x78(%ebp),%eax
 -mov    %eax,0x44(%esp)
-+mov    %eax,0x40(%esp)
++mov    %eax,0x34(%esp)
  mov    -0x74(%ebp),%eax
 -mov    %eax,0x40(%esp)
-+mov    %eax,0x3c(%esp)
++mov    %eax,0x30(%esp)
  mov    -0x70(%ebp),%eax
 -mov    %eax,0x3c(%esp)
-+mov    %eax,0x38(%esp)
++mov    %eax,0x2c(%esp)
  mov    -0x6c(%ebp),%eax
 -mov    %eax,0x38(%esp)
-+mov    %eax,0x34(%esp)
++mov    %eax,0x28(%esp)
  mov    -0x68(%ebp),%eax
 -mov    %eax,0x34(%esp)
-+mov    %eax,0x30(%esp)
++mov    %eax,0x24(%esp)
  mov    -0x64(%ebp),%eax
 -mov    %eax,0x30(%esp)
-+mov    %eax,0x2c(%esp)
++mov    %eax,0x20(%esp)
  mov    -0x60(%ebp),%eax
 -mov    %eax,0x2c(%esp)
-+mov    %eax,0x28(%esp)
++mov    %eax,0x1c(%esp)
  mov    -0x5c(%ebp),%eax
 -mov    %eax,0x28(%esp)
 -mov    -0x58(%ebp),%eax
- mov    %eax,0x24(%esp)
+-mov    %eax,0x24(%esp)
 -mov    -0x54(%ebp),%eax
 -mov    %eax,0x20(%esp)
 -mov    -0x50(%ebp),%eax
 -mov    %eax,0x1c(%esp)
 -mov    -0x4c(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    %edi,0x20(%esp)
-+mov    %esi,0x1c(%esp)
-+mov    %ebx,0x18(%esp)
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    -0xac(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %eax,0x18(%esp)
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"(ServerType: %d, SellEndNum: %d, IPGNO: %d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d)",0x8(%esp)
  movl   $"./log/ItemLimitEdition",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -369,64 +335,54 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3dc>
-+jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x425>
++jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x405>
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++mov    0xa(%eax),%eax
 +mov    %eax,-0x20(%ebp)
 +movl   $0x150a,0x8(%esp)
-+movl   $"onItemLimitEditionSellEnd",0x4(%esp)
-+lea    -0x40(%ebp),%eax
++movl   $&_ZZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x48(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x20(%ebp),%eax
 +mov    %eax,0xc(%esp)
 +movl   $"(Ignore another server msg: %d)",0x8(%esp)
 +movl   $"./log/ItemLimitEdition",0x4(%esp)
-+lea    -0x40(%ebp),%eax
++lea    -0x48(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x425>
++jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x405>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x382>
-+jne    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3cb>
++jne    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3ab>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
-+movl   $0x153a,0x8(%esp)
-+movl   $"onItemLimitEditionSellEnd",0x4(%esp)
-+lea    -0x48(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x153a,0x8(%esp)
--movl   $"onItemLimitEditionSellEnd",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x153a,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::onItemLimitEditionBuyableRequest Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x37b>
-+lea    -0x48(%ebp),%eax
++lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3c4>
++jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3a4>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -436,13 +392,13 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3dc>
-+jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x425>
++jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x405>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x153f,0x8(%esp)
- movl   $"onItemLimitEditionSellEnd",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::onItemLimitEditionBuyableRequest Exception Break\n",0x8(%esp)
@@ -451,10 +407,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3d7>
-+lea    -0x50(%ebp),%eax
++lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x420>
++jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x400>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -577,7 +533,7 @@ void CPacketTranslater::_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3752 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3755 行）：
 
 ```cpp
 void CPacketTranslater::onItemLimitEditionSellEnd(PacketHeader* pkt)
@@ -585,10 +541,10 @@ void CPacketTranslater::onItemLimitEditionSellEnd(PacketHeader* pkt)
     try
     {
         PacketHeader* rpkt = pkt;
-        unsigned int stype = *(unsigned int*)((char*)pkt + 0xa);
+        unsigned int stype = ((RA_UINT<10>*)pkt)->v;
         if (stype == ((unsigned int)m_pclApp->Get_ServerGroup() & 0xff))
         {
-            for (unsigned int i = 0; i < *(unsigned int*)((char*)pkt + 0xe); i++)
+            for (unsigned int i = 0; i < ((RA_UINT<14>*)pkt)->v; i++)
             {
                 CItemLimitEdition* item = m_pclApp->getItemLimitEditionMgr()->getItemInfo(
                     *(unsigned int*)((char*)pkt + 0x12 + i * 4));
@@ -601,24 +557,24 @@ void CPacketTranslater::onItemLimitEditionSellEnd(PacketHeader* pkt)
             DNF_LOG_SCOPE_LINE(0x1519,"./log/ItemLimitEdition",
                 "(ServerType: %d, SellEndNum: %d, IPGNO: "
                 "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d)",
-                *(unsigned int*)((char*)pkt + 0xa), *(unsigned int*)((char*)pkt + 0xe),
-                *(unsigned int*)((char*)pkt + 0x12), *(unsigned int*)((char*)pkt + 0x16),
-                *(unsigned int*)((char*)pkt + 0x1a), *(unsigned int*)((char*)pkt + 0x1e),
-                *(unsigned int*)((char*)pkt + 0x22), *(unsigned int*)((char*)pkt + 0x26),
-                *(unsigned int*)((char*)pkt + 0x2a), *(unsigned int*)((char*)pkt + 0x2e),
-                *(unsigned int*)((char*)pkt + 0x32), *(unsigned int*)((char*)pkt + 0x36),
-                *(unsigned int*)((char*)pkt + 0x3a), *(unsigned int*)((char*)pkt + 0x3e),
-                *(unsigned int*)((char*)pkt + 0x42), *(unsigned int*)((char*)pkt + 0x46),
-                *(unsigned int*)((char*)pkt + 0x4a), *(unsigned int*)((char*)pkt + 0x4e),
-                *(unsigned int*)((char*)pkt + 0x52), *(unsigned int*)((char*)pkt + 0x56),
-                *(unsigned int*)((char*)pkt + 0x5a), *(unsigned int*)((char*)pkt + 0x5e),
-                *(unsigned int*)((char*)pkt + 0x62), *(unsigned int*)((char*)pkt + 0x66),
-                *(unsigned int*)((char*)pkt + 0x6a), *(unsigned int*)((char*)pkt + 0x6e));
+                ((RA_UINT<10>*)pkt)->v, ((RA_UINT<14>*)pkt)->v,
+                ((RA_UINT<18>*)pkt)->v, ((RA_UINT<22>*)pkt)->v,
+                ((RA_UINT<26>*)pkt)->v, ((RA_UINT<30>*)pkt)->v,
+                ((RA_UINT<34>*)pkt)->v, ((RA_UINT<38>*)pkt)->v,
+                ((RA_UINT<42>*)pkt)->v, ((RA_UINT<46>*)pkt)->v,
+                ((RA_UINT<50>*)pkt)->v, ((RA_UINT<54>*)pkt)->v,
+                ((RA_UINT<58>*)pkt)->v, ((RA_UINT<62>*)pkt)->v,
+                ((RA_UINT<66>*)pkt)->v, ((RA_UINT<70>*)pkt)->v,
+                ((RA_UINT<74>*)pkt)->v, ((RA_UINT<78>*)pkt)->v,
+                ((RA_UINT<82>*)pkt)->v, ((RA_UINT<86>*)pkt)->v,
+                ((RA_UINT<90>*)pkt)->v, ((RA_UINT<94>*)pkt)->v,
+                ((RA_UINT<98>*)pkt)->v, ((RA_UINT<102>*)pkt)->v,
+                ((RA_UINT<106>*)pkt)->v, ((RA_UINT<110>*)pkt)->v);
             m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(pkt);
         }
         else
         {
-            unsigned int v = *(unsigned int*)((char*)pkt + 0xa);
+            unsigned int v = ((RA_UINT<10>*)pkt)->v;
             DNF_LOG_SCOPE_LINE(0x150a, "./log/ItemLimitEdition", "(Ignore another server msg: %d)", v);
         }
     }

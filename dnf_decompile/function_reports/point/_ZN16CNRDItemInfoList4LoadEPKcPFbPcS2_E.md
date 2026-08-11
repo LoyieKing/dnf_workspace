@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| point | DIFF | `0x807cd9e` | `0x4b1` | `0x80808c0` | `0x4b3` |
+| point | DIFF | `0x807cd9e` | `0x4b1` | `0x808085c` | `0x4b3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -654,8 +654,8 @@ LAB_0807d224:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacket.h](source/DNFServer/GameServer/DBMW/DNFPacket.h)（约第 1350 行）：
+定义于 [source/shared/packet/include/Packet_Loading_Time_Report_Statistics.h](source/shared/packet/include/Packet_Loading_Time_Report_Statistics.h)（约第 12 行）：
 
 ```cpp
-    Packet_Item_Limit_Edition_Load_Data_Req() : PacketHeader(0x1008, 0x7ef) {}
+    Packet_Loading_Time_Report_Statistics(): PacketHeader(0xfb0,0x806) {};
 ```

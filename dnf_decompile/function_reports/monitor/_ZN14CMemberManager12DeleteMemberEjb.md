@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8099e1c` | `0x14a` | `0x80618c6` | `0x14a` |
+| monitor | DIFF | `0x8099e1c` | `0x14a` | `0x8061ac0` | `0x14a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -103,7 +103,7 @@
  je     <T> <_ZN14CMemberManager12DeleteMemberEjb+0x140>
 -mov    0xc(%ebp),%ebx
  movl   $0xbb,0x8(%esp)
- movl   $"DeleteMember",0x4(%esp)
+ movl   $&_ZZN14CMemberManager12DeleteMemberEjbE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -222,7 +222,7 @@ int CMemberManager::DeleteMember(unsigned int key, bool cash)
     }
     if (cash)
     {
-        CMyFileLog log("DeleteMember", 0xbb);
+        CMyFileLog log(__FUNCTION__, 0xbb);
         log("./log/Member", "[DELETE_CASH_PROCESS] Member Key : %d", key);
     }
     return 0;

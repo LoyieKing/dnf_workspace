@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x806817c` | `0x9f` | `0x805e6cc` | `0x9a` |
+| manager | DIFF | `0x806817c` | `0x9f` | `0x805e588` | `0x9a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -54,18 +54,15 @@
 -movzbl -0x1c(%ebp),%ebx
 +jmp    <T> <_ZN14CServerHandler14ResetHeartBeatEh+0x98>
  movl   $0x70,0x8(%esp)
--movl   $"ResetHeartBeat",0x4(%esp)
-+movl   $"CServerHandler::ResetHeartBeat",0x4(%esp)
+ movl   $&_ZZN14CServerHandler14ResetHeartBeatEhE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
--movl   $"Server Index Over Index : %d!\n",0x8(%esp)
--movl   $"./log/Server.log",0x4(%esp)
 +movzbl -0x1c(%ebp),%eax
 +mov    %eax,0xc(%esp)
-+movl   $"ResetHeartBeat(%d) fail",0x8(%esp)
-+movl   $"./log/ServerHandler",0x4(%esp)
+ movl   $"Server Index Over Index : %d!\n",0x8(%esp)
+ movl   $"./log/Server.log",0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -112,8 +109,17 @@ LAB_080681b8:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 190 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 198 行）：
 
 ```cpp
-void CServerHandler::ResetHeartBeat(unsigned char idx) {}
+void CServerHandler::ResetHeartBeat(unsigned char idx)
+{
+    if (idx <= 0x64 && m_monitorServers[idx].IsValidMonitorServer())
+    {
+        m_monitorServers[idx].ResetHeartBeat();
+        return;
+    }
+    CMyFileLog log(__FUNCTION__, 0x70);
+    log("./log/Server.log", "Server Index Over Index : %d!\n", idx);
+}
 ```

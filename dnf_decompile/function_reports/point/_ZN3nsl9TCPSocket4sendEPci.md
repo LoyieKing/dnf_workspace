@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| point | DIFF | `0x80acc16` | `0x26d` | `0x809ee80` | `0x272` |
+| point | DIFF | `0x80acc16` | `0x26d` | `0x809ede8` | `0x272` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -291,33 +291,63 @@ int __thiscall nsl::TCPSocket::_ZN3nsl9TCPSocket4sendEPci(TCPSocket *this,char *
 
 ## 3. 我们的源码函数
 
-定义于 [source/ChannelOld/DNFChannelBridge/Socket.cpp](source/ChannelOld/DNFChannelBridge/Socket.cpp)（约第 86 行）：
+定义于 [source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/Socket.cpp](source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/Socket.cpp)（约第 83 行）：
 
 ```cpp
 int TCPSocket::send(char* buf, int size)
 {
-    if (this == NULL)
+    if (buf == NULL || size < 1)
     {
-        return -2;
-    }
-    if ((buf == NULL) || (size < 1))
-    {
-        GLOG(ChannelServiceApp::gFileLogInfo, "!buf or size<1 :");
+        G_TraceLog()->sysLog(0, "buf error or size-%d error", size);
         return -1;
     }
-    int n_bytes = write(sock_, buf, size);
+    int n_bytes = (int)write(sock_, buf, size);
+    int error_number = errno;
+    // ORIG: jg to success at end; error paths fall through first
     if (n_bytes < 1)
     {
-        if ((((*__errno_location() == 0xb) || (*__errno_location() == 4)) ||
-             (*__errno_location() == 0xb)) || (*__errno_location() == 0))
+        if ((error_number == 0xb) || (error_number == 4) || (error_number == 0xb))
         {
-            GLOG(ChannelServiceApp::gFileLogInfo, "tcp send fail= " << n_bytes << " error = " << strerror(*__errno_location()));
+            if (error_number == 0xb)
+            {
+                G_TraceLog()->sysLog(0, "EAGAIN");
+            }
+            else if (error_number == 4)
+            {
+                G_TraceLog()->sysLog(0, "EINTR");
+            }
+            else if (error_number == 0xb)
+            {
+                G_TraceLog()->sysLog(0, "EWOULDBLOCK");
+            }
+            mSendRetryCount = mSendRetryCount + 1;
+            {
+                unsigned char tooMany = (unsigned char)(mSendRetryCount > 0x64);
+                if (tooMany)
+                {
+                    G_TraceLog()->sysLog(7, "So many retry. so disconnect him, %d.%d.%d.%d:%d",
+                                         c_adrs_[0], c_adrs_[1], c_adrs_[2], c_adrs_[3], port_);
+                    mSendRetryCount = 0;
+                    return -100;
+                }
+            }
+            G_TraceLog()->sysLog(0, "tcp send retry='%d', error ='%s(%d)'",
+                                 n_bytes, strerror(error_number), error_number);
             return 0;
         }
-        GLOG(ChannelServiceApp::gFileLogInfo, "tcp send fail= " << n_bytes << " error = " << strerror(*__errno_location()));
-        return -1;
+        else if (error_number == 0)
+        {
+            G_TraceLog()->sysLog(0, "if errno == 0 then Critcal Problem!! YOU MUST CHECK THIS!!!");
+            return 0;
+        }
+        else
+        {
+            G_TraceLog()->sysLog(0, "tcp send fail='%d', error ='%s'", n_bytes, strerror(errno));
+            mSendRetryCount = 0;
+            return -1;
+        }
     }
-    GLOG(ChannelServiceApp::gFileLogInfo, "tcp send = " << n_bytes << " error = " << strerror(*__errno_location()));
+    mSendRetryCount = 0;
     return n_bytes;
 }
 ```

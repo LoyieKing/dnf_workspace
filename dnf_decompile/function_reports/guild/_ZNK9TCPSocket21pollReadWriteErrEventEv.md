@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804fade` | `0x255` | `0x8087194` | `0x215` |
+| guild | DIFF | `0x804fade` | `0x255` | `0x8086fc2` | `0x215` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -360,34 +360,53 @@ int __thiscall TCPSocket::_ZNK9TCPSocket21pollReadWriteErrEventEv(TCPSocket *thi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 217 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 321 行）：
 
 ```cpp
 int TCPSocket::pollReadWriteErrEvent() const
 {
-    fd_set readfds, writefds, exceptfds;
-    FD_ZERO(&readfds);
-    FD_ZERO(&writefds);
-    FD_ZERO(&exceptfds);
-    FD_SET(m_fd, &readfds);
-    FD_SET(m_fd, &writefds);
-    FD_SET(m_fd, &exceptfds);
-    struct timeval tv;
+    fd_set rfds;
+    fd_set wfds;
+    fd_set efds;
+    for (unsigned int i = 0; i < 0x20; i++)
+    {
+        rfds.fds_bits[i] = 0;
+        wfds.fds_bits[i] = 0;
+        efds.fds_bits[i] = 0;
+    }
+    rfds.fds_bits[(unsigned int)m_sock >> 5] =
+        (1 << ((unsigned int)m_sock & 0x1f)) | rfds.fds_bits[(unsigned int)m_sock >> 5];
+    wfds.fds_bits[(unsigned int)m_sock >> 5] =
+        (1 << ((unsigned int)m_sock & 0x1f)) | wfds.fds_bits[(unsigned int)m_sock >> 5];
+    efds.fds_bits[(unsigned int)m_sock >> 5] =
+        (1 << ((unsigned int)m_sock & 0x1f)) | efds.fds_bits[(unsigned int)m_sock >> 5];
+    timeval tv;
     tv.tv_sec = 1;
     tv.tv_usec = 0;
-    int ret = select(2, &readfds, &writefds, &exceptfds, &tv);
-    if (ret < 0)
+    int result = 0;
+    int r = select(2, &rfds, &wfds, &efds, &tv);
+    if (r < 0)
     {
         printf("pollReadWriteErrEvent(%s)", strerror(errno));
-        return ret;
     }
-    int result = 0;
-    if (FD_ISSET(m_fd, &readfds))
+    else if ((rfds.fds_bits[(unsigned int)m_sock >> 5] >> ((unsigned int)m_sock & 0x1f) & 1U) == 0)
+    {
+        if ((wfds.fds_bits[(unsigned int)m_sock >> 5] >> ((unsigned int)m_sock & 0x1f) & 1U) == 0)
+        {
+            if ((efds.fds_bits[(unsigned int)m_sock >> 5] >> ((unsigned int)m_sock & 0x1f) & 1U) != 0)
+            {
+                result = 3;
+            }
+        }
+        else
+        {
+            result = 2;
+        }
+    }
+    else
+    {
         result = 1;
-    else if (FD_ISSET(m_fd, &writefds))
-        result = 2;
-    else if (FD_ISSET(m_fd, &exceptfds))
-        result = 3;
+    }
     return result;
 }
 ```

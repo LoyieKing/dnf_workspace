@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808c4e0` | `0x2c8` | `0x8077b30` | `0x2f3` |
+| monitor | DIFF | `0x808c4e0` | `0x2c8` | `0x8077aaa` | `0x2e2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,196 +1,217 @@
+@@ -1,196 +1,208 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -23,20 +23,16 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0xdf>
--lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnTakeScreenShot : 0 == m_pclApp",0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x40(%ebp),%esi
-+lea    -0x28(%ebp),%esi
+ lea    -0x40(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -53,8 +49,7 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x40(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x87>
@@ -64,8 +59,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0xa4>
--lea    -0x40(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0xbc>
@@ -74,68 +68,49 @@
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x1b8>
--lea    -0x39(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x1e5>
-+lea    -0x21(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x1d2>
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
 -mov    0x8(%ebp),%eax
-+lea    -0x37(%ebp),%eax
++lea    -0x4f(%ebp),%eax
 +mov    0x8(%ebp),%edx
 +mov    (%edx),%edx
 +mov    %edx,(%eax)
-+lea    -0x37(%ebp),%eax
++lea    -0x4f(%ebp),%eax
 +lea    0x4(%eax),%edx
 +mov    0x8(%ebp),%eax
-+add    $0x4,%eax
-+mov    (%eax),%eax
++mov    0x4(%eax),%eax
 +mov    %eax,(%edx)
-+lea    -0x37(%ebp),%eax
++lea    -0x4f(%ebp),%eax
 +lea    0x8(%eax),%edx
 +mov    0x8(%ebp),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
++mov    0x8(%eax),%eax
 +mov    %eax,(%edx)
-+lea    -0x37(%ebp),%eax
++lea    -0x4f(%ebp),%eax
 +lea    0xc(%eax),%edx
 +mov    0x8(%ebp),%eax
-+add    $0xc,%eax
-+movzwl (%eax),%eax
++movzwl 0xc(%eax),%eax
 +mov    %ax,(%edx)
-+lea    -0x37(%ebp),%eax
++lea    -0x4f(%ebp),%eax
 +lea    0xe(%eax),%edx
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
++movzbl 0xe(%eax),%eax
 +mov    %al,(%edx)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+add    $0xa0,%eax
-+mov    (%eax),%eax
++mov    0xa0(%eax),%eax
  mov    %eax,-0x20(%ebp)
-+mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
-+test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x16c>
-+mov    0x8(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%eax
-+mov    %eax,0x8(%esp)
-+lea    -0x37(%ebp),%eax
-+mov    %eax,0x4(%esp)
- mov    -0x20(%ebp),%eax
+-mov    -0x20(%ebp),%eax
 -mov    (%eax),%edx
 -mov    %edx,-0x4f(%ebp)
 -mov    0x4(%eax),%edx
@@ -146,24 +121,25 @@
 -mov    %dx,-0x43(%ebp)
 -movzbl 0xe(%eax),%eax
 -mov    %al,-0x41(%ebp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
-+jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x18e>
-+lea    -0x37(%ebp),%edx
+-mov    -0x20(%ebp),%eax
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%eax
-+mov    %edx,0x8(%esp)
+ movzbl 0xa(%eax),%eax
+ test   %al,%al
+-jne    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x13d>
++jne    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x15f>
++mov    0x8(%ebp),%eax
++movzwl 0x2(%eax),%eax
++movzwl %ax,%eax
++mov    %eax,0x8(%esp)
++lea    -0x4f(%ebp),%eax
 +mov    %eax,0x4(%esp)
  mov    -0x20(%ebp),%eax
--movzbl 0xa(%eax),%eax
--test   %al,%al
--jne    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x13d>
--mov    -0x20(%ebp),%eax
 -movzwl 0x2(%eax),%eax
 -movzwl %ax,%ecx
--lea    -0x4f(%ebp),%edx
++mov    %eax,(%esp)
++call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
++jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x17f>
+ lea    -0x4f(%ebp),%edx
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -mov    0xa0(%eax),%eax
 -mov    %ecx,0x8(%esp)
@@ -171,7 +147,12 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x165>
--mov    -0x20(%ebp),%eax
++mov    0x8(%ebp),%eax
++movzbl 0xa(%eax),%eax
++movzbl %al,%eax
++mov    %edx,0x8(%esp)
++mov    %eax,0x4(%esp)
+ mov    -0x20(%ebp),%eax
 -movzbl 0xa(%eax),%eax
 -movzbl %al,%edx
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -182,88 +163,65 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16SendToGameServerEhP12PacketHeader>
 -mov    -0x20(%ebp),%eax
--mov    0xb(%eax),%esi
++mov    0x8(%ebp),%eax
+ mov    0xb(%eax),%esi
 -mov    -0x20(%ebp),%eax
--movzbl 0xa(%eax),%eax
--movzbl %al,%ebx
++mov    0x8(%ebp),%eax
+ movzbl 0xa(%eax),%eax
+ movzbl %al,%ebx
  movl   $0x1710,0x8(%esp)
- movl   $"OnTakeScreenShot",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0xb,%eax
-+mov    (%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%eax
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Recv TakeScreenShot Command! channel(%d) time(%d)",0x8(%esp)
  movl   $"./log/ScreenShot",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x2c0>
-+jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x2eb>
++jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x2da>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x25a>
-+jne    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x285>
++jne    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x274>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnTakeScreenShot() Exception Break : %s\n",(%esp)
  call   <T> <printf>
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
  movl   $0x1717,0x8(%esp)
- movl   $"OnTakeScreenShot",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
+ mov    %ebx,0xc(%esp)
 -movl   $"CPacketTranslater::OnResponseIPCounterList() Exception Break : %s\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
 +movl   $"CPacketTranslater::OnTakeScreenShot() Exception Break : %s\n",0x8(%esp)
 +movl   $"%s",0x4(%esp)
-+lea    -0x48(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x253>
-+jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x27e>
++jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x26d>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -273,27 +231,25 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x2c0>
-+jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x2eb>
++jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x2da>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnTakeScreenShot() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x171d,0x8(%esp)
- movl   $"OnTakeScreenShot",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x50(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -movl   $"CPacketTranslater::OnResponseIPCounterList() Exception Break\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
--lea    -0x28(%ebp),%eax
 +movl   $"CPacketTranslater::OnTakeScreenShot() Exception Break",0x8(%esp)
 +movl   $"%s",0x4(%esp)
-+lea    -0x50(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x2bb>
-+jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x2e6>
++jmp    <T> <_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader+0x2d5>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -373,7 +329,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4039 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4042 行）：
 
 ```cpp
 void CPacketTranslater::OnTakeScreenShot(PacketHeader* pkt)
@@ -386,23 +342,23 @@ void CPacketTranslater::OnTakeScreenShot(PacketHeader* pkt)
         }
         char buf[15];
         *(unsigned int*)buf = *(unsigned int*)pkt;
-        *(unsigned int*)(buf + 4) = *(unsigned int*)((char*)pkt + 4);
-        *(unsigned int*)(buf + 8) = *(unsigned int*)((char*)pkt + 8);
-        *(unsigned short*)(buf + 0xc) = *(unsigned short*)((char*)pkt + 0xc);
-        *(char*)(buf + 0xe) = *(char*)((char*)pkt + 0xe);
-        CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
-        if (*(char*)((char*)pkt + 0xa) == 0)
+        *(unsigned int*)(buf + 4) = ((RA_UINT<4>*)pkt)->v;
+        *(unsigned int*)(buf + 8) = ((RA_UINT<8>*)pkt)->v;
+        *(unsigned short*)(buf + 0xc) = ((RA_U16<12>*)pkt)->v;
+        *(char*)(buf + 0xe) = ((RA_S8<14>*)pkt)->v;
+        CServerHandler* handler = m_pclApp->m_serverHandler2;
+        if (((RA_S8<10>*)pkt)->v == 0)
         {
-            handler->SendAllToGameServer(buf, *(unsigned short*)((char*)pkt + 2));
+            handler->SendAllToGameServer(buf, ((RA_U16<2>*)pkt)->v);
         }
         else
         {
-            handler->SendToGameServer(*(unsigned char*)((char*)pkt + 0xa),
+            handler->SendToGameServer(((RA_U8<10>*)pkt)->v,
                                       (PacketHeader*)buf);
         }
         DNF_LOG_SCOPE_LINE(0x1710,"./log/ScreenShot", "Recv TakeScreenShot Command! channel(%d) time(%d)",
-            (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xa),
-            *(unsigned int*)((char*)pkt + 0xb));
+            (unsigned int)(unsigned char)((RA_S8<10>*)pkt)->v,
+            ((RA_UINT<11>*)pkt)->v);
     }
     catch (CDNFException& e)
     {

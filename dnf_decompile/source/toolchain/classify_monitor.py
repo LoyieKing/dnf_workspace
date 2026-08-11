@@ -22,8 +22,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import monitorlib
 from compare_common import norm_line, load_disasm_cached
 
-ORIG = '/mnt/d/Docs/my_sources/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople/monitor/df_monitor_r'
-NEW = '/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile/build/monitor/df_monitor_r'
+ORIG = '/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople/monitor/df_monitor_r'
+NEW = '/home/loyieking/dnf_workspace/dnf_decompile/build/monitor/df_monitor_r'
 
 ADDR_RE = re.compile(r'0x[0-9a-f]{7,8}\b')
 

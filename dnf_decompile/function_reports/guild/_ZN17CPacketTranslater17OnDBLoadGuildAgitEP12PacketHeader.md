@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8082fac` | `0x1d7` | `0x807912c` | `0x1c3` |
+| guild | DIFF | `0x8082fac` | `0x1d7` | `0x807900c` | `0x1c3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -27,7 +27,7 @@
 -jne    <T> <_ZN17CPacketTranslater17OnDBLoadGuildAgitEP12PacketHeader+0x53>
 +jne    <T> <_ZN17CPacketTranslater17OnDBLoadGuildAgitEP12PacketHeader+0x52>
  movl   $0x173a,0x8(%esp)
- movl   $"OnDBLoadGuildAgit",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnDBLoadGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -76,7 +76,7 @@
 +cmpl   $0x0,-0x10(%ebp)
 +jne    <T> <_ZN17CPacketTranslater17OnDBLoadGuildAgitEP12PacketHeader+0xc3>
  movl   $0x1743,0x8(%esp)
- movl   $"OnDBLoadGuildAgit",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnDBLoadGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 +lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
@@ -117,21 +117,17 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
 -movl   $0x174f,0x8(%esp)
--movl   $"OnDBLoadGuildAgit",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater17OnDBLoadGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnDBLoadGuildAgit Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -154,7 +150,7 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1754,0x8(%esp)
- movl   $"OnDBLoadGuildAgit",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnDBLoadGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
@@ -240,7 +236,7 @@ void CPacketTranslater::OnDBLoadGuildAgit(PacketHeader* pkt)
     {
         if (m_pclApp == 0)
         {
-            CMyFileLog log("OnDBLoadGuildAgit", 0x173a);
+            CMyFileLog log(__FUNCTION__, 0x173a);
             log("./log/Except", "CPacketTranslater::OnDBLoadGuildAgit : 0 == m_pclApp");
             return;
         }
@@ -248,7 +244,7 @@ void CPacketTranslater::OnDBLoadGuildAgit(PacketHeader* pkt)
         CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
         if (guildKey == 0 || guild == 0)
         {
-            CMyFileLog log("OnDBLoadGuildAgit", 0x1743);
+            CMyFileLog log(__FUNCTION__, 0x1743);
             log("./log/GuildAgit", "CPacketTranslater::OnDBCreateGuildAgit : 0 == pclGuild");
         }
         else
@@ -265,7 +261,7 @@ void CPacketTranslater::OnDBLoadGuildAgit(PacketHeader* pkt)
     }
     catch (...)
     {
-        CMyFileLog log("OnDBLoadGuildAgit", 0x1754);
+        CMyFileLog log(__FUNCTION__, 0x1754);
         log("./log/Except",
             "CPacketTranslater::OnDBLoadGuildAgit Exception Break\n");
     }

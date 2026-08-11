@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809233e` | `0x140` | `0x8058038` | `0x12e` |
+| guild | DIFF | `0x809233e` | `0x140` | `0x8058134` | `0x13a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,139 +13,119 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,89 +1,85 @@
+@@ -1,89 +1,88 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x5c,%esp
-+sub    $0x4c,%esp
+ sub    $0x5c,%esp
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild12SubGuildFundEj+0x5b>
-+jne    <T> <_ZN6CGuild12SubGuildFundEj+0x98>
-+movl   $0xb24,0x8(%esp)
-+movl   $"SubGuildFund",0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE4sizeEv>
-+mov    %eax,%edi
-+mov    0x8(%ebp),%eax
-+movzwl 0x1c(%eax),%eax
-+movzwl %ax,%esi
-+mov    0x8(%ebp),%eax
-+add    $0xc0,%eax
-+mov    (%eax),%ebx
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild11GetGuildKeyEv>
-+mov    %edi,0x1c(%esp)
-+mov    %esi,0x18(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x14(%esp)
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
-+movl   $"CPacketTranslater::SubGuildFund() Error!! : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u), STATE (%d), CONNECTING_GUILD_MEMBER_CNT (%d)\n",0x8(%esp)
-+movl   $"./log/GuildFund",0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN6CGuild12SubGuildFundEj+0x126>
- mov    0x8(%ebp),%eax
- movb   $0x1,0x4d96(%eax)
- mov    0x8(%ebp),%eax
- add    $0xc0,%eax
- mov    %eax,-0x1c(%ebp)
- mov    -0x1c(%ebp),%eax
- mov    (%eax),%eax
- cmp    0xc(%ebp),%eax
+-mov    0x8(%ebp),%eax
+-movb   $0x1,0x4d96(%eax)
+-mov    0x8(%ebp),%eax
+-add    $0xc0,%eax
+-mov    %eax,-0x1c(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    (%eax),%eax
+-cmp    0xc(%ebp),%eax
 -ja     <T> <_ZN6CGuild12SubGuildFundEj+0x47>
 -mov    -0x1c(%ebp),%eax
 -movl   $0x0,(%eax)
 -jmp    <T> <_ZN6CGuild12SubGuildFundEj+0xdd>
-+jbe    <T> <_ZN6CGuild12SubGuildFundEj+0xc8>
- mov    -0x1c(%ebp),%eax
- mov    (%eax),%eax
- mov    %eax,%edx
- sub    0xc(%ebp),%edx
- mov    -0x1c(%ebp),%eax
- mov    %edx,(%eax)
+-mov    -0x1c(%ebp),%eax
+-mov    (%eax),%eax
+-mov    %eax,%edx
+-sub    0xc(%ebp),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %edx,(%eax)
 -jmp    <T> <_ZN6CGuild12SubGuildFundEj+0xdd>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE4sizeEv>
++jne    <T> <_ZN6CGuild12SubGuildFundEj+0xa2>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE4sizeEv>
 -mov    %eax,%esi
--mov    0x8(%ebp),%eax
--movzwl 0x1c(%eax),%eax
++mov    %eax,-0x3c(%ebp)
+ mov    0x8(%ebp),%eax
+ movzwl 0x1c(%eax),%eax
 -movzwl %ax,%eax
 -mov    %eax,-0x3c(%ebp)
--mov    0x8(%ebp),%eax
++movzwl %ax,%edi
+ mov    0x8(%ebp),%eax
 -mov    0xc0(%eax),%edi
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild11GetGuildKeyEv>
--mov    %eax,%ebx
--movl   $0xb24,0x8(%esp)
-+jmp    <T> <_ZN6CGuild12SubGuildFundEj+0xd1>
-+mov    -0x1c(%ebp),%eax
-+movl   $0x0,(%eax)
-+movl   $0xb28,0x8(%esp)
- movl   $"SubGuildFund",0x4(%esp)
++add    $0xc0,%eax
++mov    (%eax),%esi
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild11GetGuildKeyEv>
+ mov    %eax,%ebx
+ movl   $0xb24,0x8(%esp)
+ movl   $&_ZZN6CGuild12SubGuildFundEjE12__FUNCTION__,0x4(%esp)
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x1c(%esp)
--mov    -0x3c(%ebp),%eax
+ mov    -0x3c(%ebp),%eax
 -mov    %eax,0x18(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0x14(%esp)
++mov    %eax,0x1c(%esp)
++mov    %edi,0x18(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x14(%esp)
 -mov    %edi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::SubGuildFund() Error!! : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u), STATE (%d), CONNECTING_GUILD_MEMBER_CNT (%d)\n",0x8(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%ebx
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild11GetGuildKeyEv>
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x14(%esp)
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
-+movl   $"CPacketTranslater::SubGuildFund() : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u)\n",0x8(%esp)
++mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"CPacketTranslater::SubGuildFund() Error!! : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u), STATE (%d), CONNECTING_GUILD_MEMBER_CNT (%d)\n",0x8(%esp)
  movl   $"./log/GuildFund",0x4(%esp)
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN6CGuild12SubGuildFundEj+0x138>
--mov    0x8(%ebp),%eax
++jmp    <T> <_ZN6CGuild12SubGuildFundEj+0x132>
+ mov    0x8(%ebp),%eax
 -mov    0xc0(%eax),%esi
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild11GetGuildKeyEv>
--mov    %eax,%ebx
--movl   $0xb28,0x8(%esp)
--movl   $"SubGuildFund",0x4(%esp)
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0xc(%ebp),%eax
--mov    %eax,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::SubGuildFund() : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u)\n",0x8(%esp)
--movl   $"./log/GuildFund",0x4(%esp)
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--add    $0x5c,%esp
-+add    $0x4c,%esp
++movb   $0x1,0x4d96(%eax)
++mov    0x8(%ebp),%eax
++add    $0xc0,%eax
++mov    %eax,-0x1c(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    (%eax),%eax
++cmp    0xc(%ebp),%eax
++jbe    <T> <_ZN6CGuild12SubGuildFundEj+0xd2>
++mov    -0x1c(%ebp),%eax
++mov    (%eax),%eax
++mov    %eax,%edx
++sub    0xc(%ebp),%edx
++mov    -0x1c(%ebp),%eax
++mov    %edx,(%eax)
++jmp    <T> <_ZN6CGuild12SubGuildFundEj+0xdb>
++mov    -0x1c(%ebp),%eax
++movl   $0x0,(%eax)
++mov    -0x1c(%ebp),%eax
++mov    (%eax),%esi
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild11GetGuildKeyEv>
+ mov    %eax,%ebx
+ movl   $0xb28,0x8(%esp)
+ movl   $&_ZZN6CGuild12SubGuildFundEjE12__FUNCTION__,0x4(%esp)
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"CPacketTranslater::SubGuildFund() : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u)\n",0x8(%esp)
+ movl   $"./log/GuildFund",0x4(%esp)
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ add    $0x5c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -206,7 +186,7 @@ void __thiscall CGuild::_ZN6CGuild12SubGuildFundEj(CGuild *this,uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2105 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2162 行）：
 
 ```cpp
 void CGuild::SubGuildFund(unsigned int fund)

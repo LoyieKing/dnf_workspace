@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809ff46` | `0x158` | `0x807c52e` | `0x153` |
+| dbmw | DIFF | `0x809ff46` | `0x158` | `0x80cfbee` | `0x155` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,92 +1,90 @@
+@@ -1,92 +1,91 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,7 +22,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x150>
-+je     <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14b>
++je     <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14d>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x10(%ebp)
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -38,51 +38,42 @@
 -je     <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x151>
 +sete   %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14c>
++je     <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14e>
  movl   $0x134c,0x8(%esp)
- movl   $"onUpdateLimitNpcBuyItemInfo",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::onUpdateLimitNpcBuyItemInfo data update fail\n",0x8(%esp)
  movl   $"./log/NpcBuyLimitItem",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x151>
-+jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14c>
++jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14e>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0xf4>
-+jne    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0xef>
++jne    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0xf1>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0x1352,0x8(%esp)
-+movl   $"onUpdateLimitNpcBuyItemInfo",0x4(%esp)
-+lea    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x1352,0x8(%esp)
--movl   $"onUpdateLimitNpcBuyItemInfo",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x1352,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::onUpdateLimitNpcBuyItemInfo Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x20(%ebp),%eax
@@ -90,7 +81,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0xed>
-+jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0xe8>
++jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0xea>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -100,23 +91,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x151>
-+jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14c>
++jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14e>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1357,0x8(%esp)
- movl   $"onUpdateLimitNpcBuyItemInfo",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::onUpdateLimitNpcBuyItemInfo Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x149>
-+jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x144>
++jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x146>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -126,7 +117,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x151>
-+jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14c>
++jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14e>
  nop
  add    $0x30,%esp
  pop    %ebx
@@ -166,7 +157,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 122 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 121 行）：
 
 ```cpp
 void CPacketTranslater::onUpdateLimitNpcBuyItemInfo(PacketHeader* header)
@@ -178,9 +169,11 @@ void CPacketTranslater::onUpdateLimitNpcBuyItemInfo(PacketHeader* header)
         if (!m_pclApp->m_dbManager.updateLimitNpcBuyItemInfo(
                 (LimitNpcBuyItemUpdate*)header))
         {
-            CMyFileLog log("onUpdateLimitNpcBuyItemInfo", 0x134c);
-            log("./log/NpcBuyLimitItem",
-                "CPacketTranslater::onUpdateLimitNpcBuyItemInfo data update fail\n");
+            DNF_LOG_SCOPE_LINE(0x134c,
+                "./log/NpcBuyLimitItem",
+                "CPacketTranslater::onUpdateLimitNpcBuyItemInfo data update fail\n"
+            );
+
             return;
         }
     }

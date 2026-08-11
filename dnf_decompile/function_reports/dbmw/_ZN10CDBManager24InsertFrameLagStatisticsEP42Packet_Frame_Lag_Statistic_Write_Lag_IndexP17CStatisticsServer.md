@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807bf9c` | `0x654` | `0x805d4f0` | `0x67a` |
+| dbmw | DIFF | `0x807bf9c` | `0x654` | `0x805d2a0` | `0x676` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,433 +1,483 @@
+@@ -1,433 +1,481 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -32,7 +32,7 @@
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x649>
 -movl   $0x20,-0x28(%ebp)
 -mov    -0x2c(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x66f>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x66b>
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -178,8 +178,8 @@
  mov    %edx,0x10(%esp)
 -mov    -0xbc(%ebp),%eax
 -mov    %eax,0xc(%esp)
-+mov    -0xac(%ebp),%edx
-+mov    %edx,0xc(%esp)
++mov    -0xac(%ebp),%ebx
++mov    %ebx,0xc(%esp)
  movl   $"inSert into common_index(spec_id,occ_time,server_group,share_rate,crash_village,crash_dungeon,crash_challenge,crash_wararea,crash_fight_village,crash_dead_tower,crash_channel,crash_load,village_to_dungeon_lag,dungeon_to_village_lag) values(%d,from_unixtime(%d),%hhd,%u,%hu,%hu,%hu,%hu,%hu,%hu,%hu,%hu,%hd,%hd)",0x8(%esp)
  movl   $0x4e8c,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
@@ -188,39 +188,35 @@
 -mov    -0x2c(%ebp),%eax
 +mov    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
-+mov    -0xa0(%ebp),%ebx
-+call   *%ebx
++call   *-0xa0(%ebp)
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e8c,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x21(%ebp)
 -movzbl -0x21(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x1ad>
-+je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x1b6>
++je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x1b4>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x649>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x66f>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x66b>
  movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x58e>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x5ab>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x5a7>
  cmpl   $0x5,-0x1c(%ebp)
 -ja     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x285>
-+ja     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x28e>
++ja     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x28c>
  mov    -0x1c(%ebp),%eax
  shl    $0x2,%eax
--mov    &data#c458d0bf(.rodata)(%eax),%eax
-+mov    &data#4308a41e(.rodata)(%eax),%eax
+-mov    &data#08ae5495(.rodata)(%eax),%eax
++mov    &data#8bf604cd(.rodata)(%eax),%eax
  jmp    *%eax
  movl   $0x20,0x8(%esp)
  movl   $"village_lag_index",0x4(%esp)
@@ -231,7 +227,7 @@
 +lea    -0x4e(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <strncpy>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a9>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a7>
  movl   $0x20,0x8(%esp)
  movl   $"dungeon_lag_index",0x4(%esp)
 -lea    -0x5a(%ebp),%eax
@@ -241,7 +237,7 @@
 +lea    -0x4e(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <strncpy>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a9>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a7>
  movl   $0x20,0x8(%esp)
  movl   $"challenge_lag_index",0x4(%esp)
 -lea    -0x5a(%ebp),%eax
@@ -251,7 +247,7 @@
 +lea    -0x4e(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <strncpy>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a9>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a7>
  movl   $0x20,0x8(%esp)
  movl   $"wararea_lag_index",0x4(%esp)
 -lea    -0x5a(%ebp),%eax
@@ -261,7 +257,7 @@
 +lea    -0x4e(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <strncpy>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a9>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a7>
  movl   $0x20,0x8(%esp)
  movl   $"fight_village_lag_index",0x4(%esp)
 -lea    -0x5a(%ebp),%eax
@@ -271,7 +267,7 @@
 +lea    -0x4e(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <strncpy>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a9>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a7>
  movl   $0x20,0x8(%esp)
  movl   $"dead_tower_lag_index",0x4(%esp)
 -lea    -0x5a(%ebp),%eax
@@ -281,7 +277,7 @@
 +lea    -0x4e(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <strncpy>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a9>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x2a7>
  movl   $0x20,0x8(%esp)
  movl   $"___MAX_FRAME_LAG_STATISTISCS_KIND over",0x4(%esp)
 -lea    -0x5a(%ebp),%eax
@@ -665,8 +661,8 @@
 -mov    -0xbc(%ebp),%eax
 -mov    %eax,0x10(%esp)
 -lea    -0x5a(%ebp),%eax
-+mov    -0xac(%ebp),%edx
-+mov    %edx,0x10(%esp)
++mov    -0xac(%ebp),%ebx
++mov    %ebx,0x10(%esp)
 +lea    -0x4e(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"inSert into %s(spec_id,occ_time,server_group,share_rate,win_fps,full_fps,full_win_fps,full_win_nosync_fps,frame1,time1,frame2,time2,frame3,time3,frame4,time4,frame5,time5,frame6,time6) values(%d,from_unixtime(%d),%hhd,%u,%hd,%hd,%hd,%hd,%d,%.3f,%d,%.3f,%d,%.3f,%d,%.3f,%d,%.3f,%d,%.3f)",0x8(%esp)
@@ -677,100 +673,85 @@
 -mov    -0x2c(%ebp),%eax
 +mov    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
-+mov    -0x7c(%ebp),%ebx
-+call   *%ebx
++call   *-0x7c(%ebp)
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e8d,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x21(%ebp)
 -movzbl -0x21(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x58a>
-+je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x5a7>
++je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x5a3>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x649>
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x66f>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x66b>
  addl   $0x1,-0x1c(%ebp)
  cmpl   $0x5,-0x1c(%ebp)
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x1b9>
 -mov    -0x2c(%ebp),%eax
-+jne    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x1c2>
++jne    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x1c0>
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
 -mov    0xb(%eax),%eax
--mov    %eax,0xc(%esp)
++add    $0xb,%eax
 +mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+add    $0xb,%edx
-+mov    (%edx),%edx
-+mov    %edx,0xc(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"select unique_id from monitoring_spec where spec_id = %d",0x8(%esp)
  movl   $0x4e8e,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    -0x2c(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e8e,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x21(%ebp)
 -movzbl -0x21(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x5f8>
-+je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x610>
++je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x60c>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x649>
 -mov    -0x2c(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x66f>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x66b>
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,-0x20(%ebp)
 -cmpl   $0x0,-0x20(%ebp)
 -jne    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x644>
 -lea    -0x3a(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +test   %eax,%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x632>
++je     <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x62e>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x66f>
++jmp    <T> <_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer+0x66b>
 +lea    -0x2e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN35Packet_Frame_Lag_Spec_Delete_NotifyC1Ev>
@@ -922,4 +903,4 @@ _ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_La
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

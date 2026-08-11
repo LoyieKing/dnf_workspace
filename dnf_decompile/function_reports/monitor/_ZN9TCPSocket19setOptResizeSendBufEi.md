@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8050074` | `0x65` | `0x808600c` | `0x4d` |
+| monitor | DIFF | `0x8050074` | `0x65` | `0x8085f28` | `0x4d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -76,15 +76,16 @@ undefined4 __thiscall TCPSocket::_ZN9TCPSocket19setOptResizeSendBufEi(TCPSocket 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 167 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp](source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp)（约第 359 行）：
 
 ```cpp
 char TCPSocket::setOptResizeSendBuf(int size)
 {
-    if (size <= 0)
+    if (size < 1)
+    {
         return 0;
-    if (setsockopt(m_fd, SOL_SOCKET, SO_SNDBUF, &size, 4) < 0)
-        return 0;
-    return 1;
+    }
+    int r = setsockopt(m_fd, 1, 7, &size, 4);
+    return (char)(r >= 0);
 }
 ```

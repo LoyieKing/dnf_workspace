@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80582f2` | `0x20a` | `0x809dc6c` | `0x206` |
+| monitor | DIFF | `0x80582f2` | `0x20a` | `0x809defc` | `0x206` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,8 +25,7 @@
  call   <T> <_ZNSaIcEC1Ev>
  lea    -0x11(%ebp),%eax
  mov    %eax,0x8(%esp)
--movl   $&data#c7597315(.rodata),0x4(%esp)
-+movl   $&data#4cb52004(.rodata),0x4(%esp)
+ movl   $"",0x4(%esp)
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
@@ -292,4 +291,4 @@ string * np_server_xml::CServerXml::
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/ServerXml.cpp, source/DNFServer/GameServer/Guild/ServerXml.cpp, source/DNFServer/GameServer/Monitor/ServerXml.cpp, source/DNFServer/ServerCommon/ServerXml.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h 等 641 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/ServerXml.cpp, source/DNFServer/GameServer/Monitor/ServerXml.cpp, source/DNFServer/GameServer/Monitor/ServerXml.h, source/DNFServer/ServerCommon/DNFFileLog.h, source/DNFServer/ServerCommon/DNFFunctionLib.h, source/DNFServer/ServerCommon/Thread.h, source/DNFServer/ServerCommon/tinyxml.h, source/shared/common/include/ReverseEngineerLib.h 等 299 个文件*

@@ -45,8 +45,8 @@ from report_resolve import (
     trim_trailing_nops,
 )
 
-ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile')
-INSTALLER = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople')
+ROOT = Path('/home/loyieking/dnf_workspace/dnf_decompile')
+INSTALLER = Path('/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople')
 OUT_ROOT = ROOT / 'function_reports'
 
 SERVICES = {
@@ -166,8 +166,8 @@ def classify_service(svc, orig_path, new_path, strict_only=False):
         if o_norm == n_norm:
             stats['IDENTICAL'] += 1
         elif not strict_only and trim_trailing_nops(
-                pseudo_lines(o_norm, o_map)) == \
-             trim_trailing_nops(pseudo_lines(n_norm, n_map)):
+                pseudo_lines(o_norm, o_map, fn_base=oaddr)) == \
+             trim_trailing_nops(pseudo_lines(n_norm, n_map, fn_base=naddr)):
             stats['IDENTICAL_AE'] += 1
         elif mnemonic(a) == mnemonic(b):
             stats['NEAR'] += 1

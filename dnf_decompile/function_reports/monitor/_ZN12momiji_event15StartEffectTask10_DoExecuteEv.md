@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805c482` | `0x12f` | `0x804acf6` | `0x138` |
+| monitor | DIFF | `0x805c482` | `0x12f` | `0x804acfe` | `0x138` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -38,13 +38,13 @@
 -mov    %eax,-0x2c(%ebp)
 +mov    -0x28(%ebp),%edx
 +add    %edx,%eax
-+mov    %eax,-0x30(%ebp)
++mov    %eax,-0x38(%ebp)
  movl   $0x14,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
 -mov    -0x2c(%ebp),%eax
 -mov    %eax,%edx
-+mov    -0x30(%ebp),%edx
++mov    -0x38(%ebp),%edx
  mov    %ebx,%eax
  movl   $0x0,0x8(%esp)
  mov    %edx,0x4(%esp)
@@ -69,45 +69,36 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CTaskScheduler7AddTaskEPNS_5CTaskE>
 -lea    -0x2c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <localtime>
  mov    %eax,-0x1c(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%edi
--mov    -0x1c(%ebp),%eax
--mov    0x4(%eax),%esi
--mov    -0x1c(%ebp),%eax
--mov    0x8(%eax),%ebx
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%edi
+ mov    -0x1c(%ebp),%eax
+ mov    0x4(%eax),%esi
+ mov    -0x1c(%ebp),%eax
+ mov    0x8(%eax),%ebx
  movl   $0xb0,0x8(%esp)
- movl   $"_DoExecute",0x4(%esp)
+ movl   $&_ZZN12momiji_event15StartEffectTask10_DoExecuteEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%ecx
-+mov    -0x1c(%ebp),%eax
-+mov    0x4(%eax),%edx
-+mov    -0x1c(%ebp),%eax
-+mov    0x8(%eax),%eax
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"[Momiji] start event. next endEffect %02dh:%02dm:%02ds",0x8(%esp)
  movl   $"./log/AradOnly",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x2c(%ebp),%eax
 -mov    %eax,%ebx
 -call   <T> <_ZN12momiji_event12EventManager3GetEv>
 -mov    %ebx,0x4(%esp)
-+mov    -0x30(%ebp),%eax
++mov    -0x38(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -182,7 +173,7 @@ momiji_event::StartEffectTask::_ZN12momiji_event15StartEffectTask10_DoExecuteEv
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp](source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp)（约第 42 行）：
+定义于 [source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp](source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp)（约第 44 行）：
 
 ```cpp
 void StartEffectTask::_DoExecute()
@@ -195,7 +186,7 @@ void StartEffectTask::_DoExecute()
         EndEffectTask* task = new EndEffectTask(end, 0);
         ((CApplication*)CApplicationInstance())->GetTaskScheduler()->AddTask(task);
         tm* t = localtime((time_t*)&end);
-        DNF_LOG_SCOPE_AT("_DoExecute", 0xb0,"./log/AradOnly", "[Momiji] start event. next endEffect %02dh:%02dm:%02ds",
+        DNF_LOG_SCOPE_AT(__FUNCTION__, 0xb0,"./log/AradOnly", "[Momiji] start event. next endEffect %02dh:%02dm:%02ds",
             t->tm_hour, t->tm_min, t->tm_sec);
         em->sendApplyEffect(end);
     }

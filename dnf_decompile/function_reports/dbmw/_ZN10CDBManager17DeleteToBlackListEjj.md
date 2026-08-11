@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8075ece` | `0x38a` | `0x805ec60` | `0x38e` |
+| dbmw | DIFF | `0x8075ece` | `0x38a` | `0x805ea0c` | `0x38e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -50,8 +50,7 @@
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e40,0x4(%esp)
 -mov    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
@@ -64,9 +63,9 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x384>
 -mov    -0x10(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x8c>
@@ -75,12 +74,9 @@
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0x10(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect black_point,offset_point from charac_black_info where charac_no=%d",0x8(%esp)
  movl   $0x4ed6,0x4(%esp)
 -mov    -0x10(%ebp),%eax
@@ -89,14 +85,14 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0xf9>
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x103>
  movl   $0xa6c,0x8(%esp)
- movl   $"DeleteToBlackList",0x4(%esp)
+ movl   $&_ZZN10CDBManager17DeleteToBlackListEjjE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -120,8 +116,7 @@
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4ed6,0x4(%esp)
 -mov    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
@@ -132,9 +127,9 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x384>
 -mov    -0x10(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x12e>
@@ -143,130 +138,62 @@
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
 -mov    %eax,-0xc(%ebp)
 -cmpl   $0x1,-0xc(%ebp)
 -jle    <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x17c>
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +cmp    $0x1,%eax
 +setg   %al
 +test   %al,%al
 +je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x187>
  movl   $0xa74,0x8(%esp)
- movl   $"DeleteToBlackList",0x4(%esp)
+ movl   $&_ZZN10CDBManager17DeleteToBlackListEjjE12__FUNCTION__,0x4(%esp)
+-lea    -0x3c(%ebp),%eax
 +lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0x10(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CDBManager::seLect_black_point_offset_point_from_charac_black_info() idata > 1 seLect black_point,offset_point from charac_black_info where charac_no=%d",0x8(%esp)
-+movl   $"./log/BlackListModify",0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x24,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x1e7>
-+movl   $0xa7a,0x8(%esp)
-+movl   $"DeleteToBlackList",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0x10(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CDBManager::seLect_black_point_offset_point_from_charac_black_info() !db->fetch() seLect black_point,offset_point from charac_black_info where charac_no=%d",0x8(%esp)
-+movl   $"./log/BlackListModify",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x388>
-+movl   $0x0,-0x10(%ebp)
-+movl   $0x0,-0x14(%ebp)
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x34,%eax
-+mov    (%eax),%eax
-+lea    -0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x264>
-+movl   $0xa82,0x8(%esp)
-+movl   $"DeleteToBlackList",0x4(%esp)
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0x10(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CDBManager::DeleteToBlackList() !db->fetch() seLect black_point,offset_point from charac_black_info where charac_no=%d",0x8(%esp)
-+movl   $"./log/BlackListModify",0x4(%esp)
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x388>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x34,%eax
-+mov    (%eax),%eax
-+lea    -0x14(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+movl   $0x1,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x2d3>
-+movl   $0xa87,0x8(%esp)
-+movl   $"DeleteToBlackList",0x4(%esp)
- lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0x10(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"CDBManager::seLect_black_point_offset_point_from_charac_black_info() idata > 1 seLect black_point,offset_point from charac_black_info where charac_no=%d",0x8(%esp)
-+movl   $"CDBManager::DeleteToBlackList() !db->fetch() seLect black_point,offset_point from charac_black_info where charac_no=%d",0x8(%esp)
+ movl   $"CDBManager::seLect_black_point_offset_point_from_charac_black_info() idata > 1 seLect black_point,offset_point from charac_black_info where charac_no=%d",0x8(%esp)
  movl   $"./log/BlackListModify",0x4(%esp)
- lea    -0x3c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-lea    -0x3c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x24,%eax
--mov    (%eax),%edx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x24,%eax
+ mov    (%eax),%edx
 -mov    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x1dc>
--movl   $0xa7a,0x8(%esp)
--movl   $"DeleteToBlackList",0x4(%esp)
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x1e7>
+ movl   $0xa7a,0x8(%esp)
+ movl   $&_ZZN10CDBManager17DeleteToBlackListEjjE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"CDBManager::seLect_black_point_offset_point_from_charac_black_info() !db->fetch() seLect black_point,offset_point from charac_black_info where charac_no=%d",0x8(%esp)
++lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"CDBManager::seLect_black_point_offset_point_from_charac_black_info() !db->fetch() seLect black_point,offset_point from charac_black_info where charac_no=%d",0x8(%esp)
 -movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
@@ -276,26 +203,43 @@
 -movl   $0x0,-0x48(%ebp)
 -movl   $0x0,-0x4c(%ebp)
 -mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x34,%eax
--mov    (%eax),%edx
++movl   $"./log/BlackListModify",0x4(%esp)
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x388>
++movl   $0x0,-0x10(%ebp)
++movl   $0x0,-0x14(%ebp)
++mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x34,%eax
+ mov    (%eax),%edx
 -lea    -0x48(%ebp),%eax
--mov    %eax,0x8(%esp)
--movl   $0x0,0x4(%esp)
++lea    -0x10(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x0,0x4(%esp)
 -mov    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x259>
--movl   $0xa82,0x8(%esp)
--movl   $"DeleteToBlackList",0x4(%esp)
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x264>
+ movl   $0xa82,0x8(%esp)
+ movl   $&_ZZN10CDBManager17DeleteToBlackListEjjE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"CDBManager::DeleteToBlackList() !db->fetch() seLect black_point,offset_point from charac_black_info where charac_no=%d",0x8(%esp)
++lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"CDBManager::DeleteToBlackList() !db->fetch() seLect black_point,offset_point from charac_black_info where charac_no=%d",0x8(%esp)
 -movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
@@ -303,26 +247,41 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x384>
 -mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x34,%eax
--mov    (%eax),%edx
++movl   $"./log/BlackListModify",0x4(%esp)
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x388>
++mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x34,%eax
+ mov    (%eax),%edx
 -lea    -0x4c(%ebp),%eax
--mov    %eax,0x8(%esp)
--movl   $0x1,0x4(%esp)
++lea    -0x14(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x1,0x4(%esp)
 -mov    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x2c8>
--movl   $0xa87,0x8(%esp)
--movl   $"DeleteToBlackList",0x4(%esp)
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x2d3>
+ movl   $0xa87,0x8(%esp)
+ movl   $&_ZZN10CDBManager17DeleteToBlackListEjjE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"CDBManager::DeleteToBlackList() !db->fetch() seLect black_point,offset_point from charac_black_info where charac_no=%d",0x8(%esp)
++lea    -0x3c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"CDBManager::DeleteToBlackList() !db->fetch() seLect black_point,offset_point from charac_black_info where charac_no=%d",0x8(%esp)
 -movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
@@ -331,6 +290,10 @@
 -jmp    <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x384>
 -mov    -0x48(%ebp),%edx
 -mov    -0x4c(%ebp),%eax
++movl   $"./log/BlackListModify",0x4(%esp)
++lea    -0x3c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x388>
 +mov    -0x10(%ebp),%edx
@@ -345,12 +308,9 @@
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0x10(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"upDate charac_black_info set black_point = black_point - 1 where charac_no = %d",0x8(%esp)
  movl   $0x4e42,0x4(%esp)
 -mov    -0x10(%ebp),%eax
@@ -359,14 +319,14 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x350>
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x35b>
  movl   $0xa91,0x8(%esp)
- movl   $"DeleteToBlackList",0x4(%esp)
+ movl   $&_ZZN10CDBManager17DeleteToBlackListEjjE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
@@ -390,8 +350,7 @@
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e42,0x4(%esp)
 -mov    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
@@ -403,9 +362,9 @@
 -je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x37f>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x384>
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager17DeleteToBlackListEjj+0x383>
@@ -542,7 +501,7 @@ CDBManager::_ZN10CDBManager17DeleteToBlackListEjj(CDBManager *this,uint param_1,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4809 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4728 行）：
 
 ```cpp
 char CDBManager::DeleteToBlackList(unsigned int m_id, unsigned int characNo)
@@ -558,7 +517,7 @@ char CDBManager::DeleteToBlackList(unsigned int m_id, unsigned int characNo)
                       "seLect black_point,offset_point from charac_black_info where charac_no=%d",
                       characNo))
     {
-        CMyFileLog log("DeleteToBlackList", 0xa6c);
+        CMyFileLog log(__FUNCTION__, 0xa6c);
         log("./log/BlackListModify",
             "CDBManager::DeleteToBlackList() seLect black_point,offset_point from charac_black_info where charac_no=%d",
             characNo);
@@ -568,14 +527,14 @@ char CDBManager::DeleteToBlackList(unsigned int m_id, unsigned int characNo)
         return 0;
     if (h->get_n_rows() > 1)
     {
-        CMyFileLog log("DeleteToBlackList", 0xa74);
+        CMyFileLog log(__FUNCTION__, 0xa74);
         log("./log/BlackListModify",
             "CDBManager::seLect_black_point_offset_point_from_charac_black_info() idata > 1 seLect black_point,offset_point from charac_black_info where charac_no=%d",
             characNo);
     }
     if (!h->fetch())
     {
-        CMyFileLog log("DeleteToBlackList", 0xa7a);
+        CMyFileLog log(__FUNCTION__, 0xa7a);
         log("./log/BlackListModify",
             "CDBManager::seLect_black_point_offset_point_from_charac_black_info() !db->fetch() seLect black_point,offset_point from charac_black_info where charac_no=%d",
             characNo);
@@ -585,7 +544,7 @@ char CDBManager::DeleteToBlackList(unsigned int m_id, unsigned int characNo)
     int offsetPoint = 0;
     if (!h->get_int(0, blackPoint))
     {
-        CMyFileLog log("DeleteToBlackList", 0xa82);
+        CMyFileLog log(__FUNCTION__, 0xa82);
         log("./log/BlackListModify",
             "CDBManager::DeleteToBlackList() !db->fetch() seLect black_point,offset_point from charac_black_info where charac_no=%d",
             characNo);
@@ -593,7 +552,7 @@ char CDBManager::DeleteToBlackList(unsigned int m_id, unsigned int characNo)
     }
     if (!h->get_int(1, offsetPoint))
     {
-        CMyFileLog log("DeleteToBlackList", 0xa87);
+        CMyFileLog log(__FUNCTION__, 0xa87);
         log("./log/BlackListModify",
             "CDBManager::DeleteToBlackList() !db->fetch() seLect black_point,offset_point from charac_black_info where charac_no=%d",
             characNo);
@@ -605,7 +564,7 @@ char CDBManager::DeleteToBlackList(unsigned int m_id, unsigned int characNo)
                           "upDate charac_black_info set black_point = black_point - 1 where charac_no = %d",
                           characNo))
         {
-            CMyFileLog log("DeleteToBlackList", 0xa91);
+            CMyFileLog log(__FUNCTION__, 0xa91);
             log("./log/BlackListModify",
                 "CDBManager::DeleteToBlackList() upDate charac_black_info set black_point = black_point - 1 where charac_no = %d",
                 characNo);

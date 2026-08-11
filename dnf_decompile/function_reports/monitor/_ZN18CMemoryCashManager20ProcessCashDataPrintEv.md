@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a0acc` | `0xc4` | `0x80972f0` | `0xa9` |
+| monitor | DIFF | `0x80a0acc` | `0xc4` | `0x8097432` | `0xa9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -49,7 +49,8 @@
 -mov    0x44(%eax),%ebx
 +jne    <T> <_ZN18CMemoryCashManager20ProcessCashDataPrintEv+0xa1>
  movl   $0x4e,0x8(%esp)
- movl   $"ProcessCashDataPrint",0x4(%esp)
+-movl   $&_ZZN18CMemoryCashManager20ProcessCashDataPrintEvE12__FUNCTION__,0x4(%esp)
++movl   $"ProcessCashDataPrint",0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -135,7 +136,7 @@ CMemoryCashManager::_ZN18CMemoryCashManager20ProcessCashDataPrintEv(CMemoryCashM
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 70 行）：
+定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 74 行）：
 
 ```cpp
 void CMemoryCashManager::ProcessCashDataPrint()

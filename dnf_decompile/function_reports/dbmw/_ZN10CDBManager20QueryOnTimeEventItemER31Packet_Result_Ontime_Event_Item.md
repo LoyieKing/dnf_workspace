@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8085b3c` | `0x158` | `0x8062f60` | `0x15a` |
+| dbmw | DIFF | `0x8085b3c` | `0x158` | `0x8062d08` | `0x15a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,21 +23,17 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $"seLect idx, cnt from event_ontime_item",0x8(%esp)
  movl   $0x4f18,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager20QueryOnTimeEventItemER31Packet_Result_Ontime_Event_Item+0x78>
  movl   $0x24b1,0x8(%esp)
- movl   $"QueryOnTimeEventItem",0x4(%esp)
+ movl   $&_ZZN10CDBManager20QueryOnTimeEventItemER31Packet_Result_Ontime_Event_ItemE12__FUNCTION__,0x4(%esp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -52,29 +48,21 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4f18,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  jne    <T> <_ZN10CDBManager20QueryOnTimeEventItemER31Packet_Result_Ontime_Event_Item+0xb2>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager20QueryOnTimeEventItemER31Packet_Result_Ontime_Event_Item+0xb9>
@@ -87,14 +75,10 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  test   %eax,%eax
  sete   %al
  test   %al,%al
@@ -110,21 +94,14 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--add    $0xa,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+add    $0xa,%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ add    $0xa,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager20QueryOnTimeEventItemER31Packet_Result_Ontime_Event_Item+0x11f>
@@ -135,21 +112,14 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--add    $0xe,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+add    $0xe,%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ add    $0xe,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager20QueryOnTimeEventItemER31Packet_Result_Ontime_Event_Item+0x151>
@@ -222,7 +192,7 @@ CDBManager::_ZN10CDBManager20QueryOnTimeEventItemER31Packet_Result_Ontime_Event_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 5950 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 5869 行）：
 
 ```cpp
 char CDBManager::QueryOnTimeEventItem(Packet_Result_Ontime_Event_Item& reply)
@@ -230,7 +200,7 @@ char CDBManager::QueryOnTimeEventItem(Packet_Result_Ontime_Event_Item& reply)
     CDBHandle* h = m_handles[0xd];    // se_event db
     if (!h->set_query(0x4f18, "seLect idx, cnt from event_ontime_item"))
     {
-        CMyFileLog log("QueryOnTimeEventItem", 0x24b1);
+        CMyFileLog log(__FUNCTION__, 0x24b1);
         log("./log/DBQueryErr",
             "set_query(seLect_from_event_ontime_item) Query Error");
         return 0;

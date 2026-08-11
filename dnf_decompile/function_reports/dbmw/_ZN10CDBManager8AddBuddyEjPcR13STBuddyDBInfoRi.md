@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8076778` | `0x441` | `0x8060532` | `0x3df` |
+| dbmw | DIFF | `0x8076778` | `0x441` | `0x80602de` | `0x3df` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,28 +25,15 @@
  mov    0x8(%ebp),%eax
  mov    0x8(%eax),%eax
  mov    %eax,-0x14(%ebp)
-+movl   $0x1d,0x8(%esp)
+-mov    0x14(%ebp),%eax
+ movl   $0x1d,0x8(%esp)
+-mov    0x10(%ebp),%edx
+-mov    %edx,0x4(%esp)
 +mov    0x10(%ebp),%eax
 +mov    %eax,0x4(%esp)
- mov    0x14(%ebp),%eax
--movl   $0x1d,0x8(%esp)
-+mov    %eax,(%esp)
-+call   <T> <memcpy>
-+movl   $0x3c,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+lea    -0x64(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <memset>
-+mov    -0x14(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x78,%eax
-+mov    (%eax),%eax
- mov    0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+lea    -0x64(%ebp),%edx
- mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <memcpy>
++mov    0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <memcpy>
 -lea    -0x67(%ebp),%edx
 -mov    $0x3b,%ebx
 -mov    $0x0,%eax
@@ -81,45 +68,41 @@
 -je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x8c>
 -mov    %al,(%edx)
 -add    $0x1,%edx
--mov    -0x14(%ebp),%eax
--mov    (%eax),%eax
--add    $0x78,%eax
--mov    (%eax),%edx
--mov    0x10(%ebp),%eax
--mov    %eax,0x8(%esp)
++movl   $0x3c,0x8(%esp)
++movl   $0x0,0x4(%esp)
++lea    -0x64(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <memset>
+ mov    -0x14(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x78,%eax
+ mov    (%eax),%edx
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x8(%esp)
 -lea    -0x67(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++lea    -0x64(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -lea    -0x67(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+lea    -0x64(%ebp),%edx
-+mov    %edx,0xc(%esp)
++lea    -0x64(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect charac_no, lev, job, grow_type, sex, m_id, charac_name from charac_info where charac_name = '%s' and delete_flag = 0",0x8(%esp)
  movl   $0x4e50,0x4(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x123>
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0xe7>
  movl   $0xb8a,0x8(%esp)
- movl   $"AddBuddy",0x4(%esp)
+ movl   $&_ZZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRiE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -139,12 +122,11 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e50,0x4(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
 -xor    $0x1,%eax
@@ -152,9 +134,6 @@
 -je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x155>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x43a>
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x112>
@@ -163,14 +142,10 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x10(%ebp)
 -jne    <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x17a>
@@ -183,7 +158,7 @@
 -jle    <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x1bd>
 +jle    <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x17a>
  movl   $0xb9e,0x8(%esp)
- movl   $"AddBuddy",0x4(%esp)
+ movl   $&_ZZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRiE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 +lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
@@ -199,10 +174,10 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
 -xor    $0x1,%eax
@@ -210,10 +185,6 @@
 -je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x1e7>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x43a>
-+mov    (%eax),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x19d>
@@ -222,18 +193,15 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
--mov    0x14(%ebp),%eax
+ mov    (%eax),%edx
+ mov    0x14(%ebp),%eax
 -add    $0x22,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0x14(%ebp),%edx
-+add    $0x24,%edx
-+mov    %edx,0x8(%esp)
++add    $0x24,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
 -xor    $0x1,%eax
@@ -241,9 +209,6 @@
 -je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x223>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x43a>
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x1d2>
@@ -252,18 +217,14 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x40,%eax
--mov    (%eax),%edx
--mov    0x14(%ebp),%eax
--add    $0x1e,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0x14(%ebp),%edx
-+add    $0x1e,%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    0x14(%ebp),%eax
+ add    $0x1e,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
 -xor    $0x1,%eax
@@ -271,9 +232,6 @@
 -je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x25f>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x43a>
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x207>
@@ -282,18 +240,14 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
--mov    (%eax),%edx
--mov    0x14(%ebp),%eax
--add    $0x20,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0x14(%ebp),%edx
-+add    $0x20,%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    0x14(%ebp),%eax
+ add    $0x20,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x2,0x4(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
 -xor    $0x1,%eax
@@ -301,9 +255,6 @@
 -je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x29b>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x43a>
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x23c>
@@ -312,18 +263,14 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
--mov    (%eax),%edx
--mov    0x14(%ebp),%eax
--add    $0x21,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0x14(%ebp),%edx
-+add    $0x21,%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    0x14(%ebp),%eax
+ add    $0x21,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x3,0x4(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
 -xor    $0x1,%eax
@@ -331,9 +278,6 @@
 -je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x2d7>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x43a>
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x271>
@@ -342,18 +286,15 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
--mov    (%eax),%edx
--mov    0x14(%ebp),%eax
+ mov    (%eax),%edx
+ mov    0x14(%ebp),%eax
 -add    $0x26,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0x14(%ebp),%edx
-+add    $0x28,%edx
-+mov    %edx,0x8(%esp)
++add    $0x28,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x4,0x4(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
 -xor    $0x1,%eax
@@ -361,9 +302,6 @@
 -je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x313>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x43a>
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x2a6>
@@ -373,16 +311,14 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -lea    -0x2c(%ebp),%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+lea    -0x18(%ebp),%edx
-+mov    %edx,0x8(%esp)
++lea    -0x18(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x5,0x4(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
 -xor    $0x1,%eax
@@ -390,9 +326,6 @@
 -je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x34c>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x43a>
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x2df>
@@ -430,17 +363,14 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
--mov    (%eax),%edx
--mov    0x14(%ebp),%eax
-+mov    (%eax),%eax
-+mov    0x14(%ebp),%edx
+ mov    (%eax),%edx
+ mov    0x14(%ebp),%eax
  movl   $0x1e,0xc(%esp)
--mov    %eax,0x8(%esp)
-+mov    %edx,0x8(%esp)
+ mov    %eax,0x8(%esp)
  movl   $0x6,0x4(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
 -xor    $0x1,%eax
@@ -448,9 +378,6 @@
 -je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x3ca>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x43a>
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x366>
@@ -459,26 +386,18 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0x14(%ebp),%eax
+ mov    (%eax),%edx
+ mov    0x14(%ebp),%eax
 -mov    0x22(%eax),%eax
--mov    %eax,0x10(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0x14(%ebp),%edx
-+mov    0x24(%edx),%edx
-+mov    %edx,0x10(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
++mov    0x24(%eax),%eax
+ mov    %eax,0x10(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"inSert into charac_friends values (%d, %d)",0x8(%esp)
  movl   $0x4e51,0x4(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x3a7>
@@ -487,12 +406,11 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e51,0x4(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
 -xor    $0x1,%eax
@@ -500,9 +418,6 @@
 -je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x42c>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x43a>
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi+0x3cf>
@@ -678,4 +593,4 @@ CDBManager::_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

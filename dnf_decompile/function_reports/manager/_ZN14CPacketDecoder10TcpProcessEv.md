@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8063a34` | `0x358` | `0x805960e` | `0x369` |
+| manager | DIFF | `0x8063a34` | `0x358` | `0x80594b4` | `0x369` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -117,7 +117,7 @@
 +lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -157,7 +157,7 @@
 +test   %al,%al
 +je     <T> <_ZN14CPacketDecoder10TcpProcessEv+0x1a8>
 +movl   $0xe7,0x8(%esp)
-+movl   $"TcpProcess",0x4(%esp)
++movl   $&_ZZN14CPacketDecoder10TcpProcessEvE12__FUNCTION__,0x4(%esp)
 +lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -173,7 +173,7 @@
  movzwl (%eax),%eax
  movzwl %ax,%ebx
 -movl   $0xe7,0x8(%esp)
--movl   $"TcpProcess",0x4(%esp)
+-movl   $&_ZZN14CPacketDecoder10TcpProcessEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -339,7 +339,7 @@
 +lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -505,12 +505,14 @@ void __thiscall CPacketDecoder::_ZN14CPacketDecoder10TcpProcessEv(CPacketDecoder
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp](source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp)（约第 173 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Manager/DNFPacketDecoder.cpp)（约第 66 行）：
 
 ```cpp
 void CPacketDecoder::TcpProcess()
 {
-    if (!m_tcpQueue || !m_tcpRecvQLock)
+    if (!m_tcpQueue)
+        return;
+    if (!m_tcpRecvQLock)
         throw CDNFException("CPacketDecoder is Not Ready!\n");
     while (!m_tcpQueue->empty())
     {
@@ -519,10 +521,12 @@ void CPacketDecoder::TcpProcess()
         if (!buf)
             continue;
         PacketHeader* p = (PacketHeader*)buf;
-        int size = m_tcpQueue->size();
-        if (CAppLoadCheckerInstance()->CheckTcpRecvQ(size))
+        if (m_tcpQueue->size() > 0xa)
         {
-            CAppLoadCheckerInstance()->RequestDB(m_serverHandler, 1, size);
+            CMyFileLog log(__FUNCTION__, 0xe7);
+            log("./log/TcpRecv", "cnt(%)id(%d)size(%d)ip(%d)",
+                (int)m_tcpQueue->size(), p->packetId, p->packetSize,
+                ((char*)buf)[6]);
         }
         if (!MsgDecode(p))
         {
@@ -532,8 +536,7 @@ void CPacketDecoder::TcpProcess()
             }
             printf("[false == this->MsgDecode]packetHeader : %x\tpacket id : %d\n",
                    p, p->packetId);
-            throw CDNFException(
-                "CPacketDecode::MsgDecode() Undefined Packet Arrived Exception Break!");
+            throw CDNFException("CPacketDecoder::MsgDecode() Undefined Packet Arrived Exception Break!");
         }
         {
             CGuard<CMutex> guard(m_tcpRecvBLock);

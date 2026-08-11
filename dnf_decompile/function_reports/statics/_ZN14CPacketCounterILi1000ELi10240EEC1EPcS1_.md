@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8059d02` | `0x7e` | `0x80547fc` | `0x87` |
+| statics | DIFF | `0x8059d02` | `0x7e` | `0x805479e` | `0x87` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -94,7 +94,7 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EEC1EPcS1_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Statics/DNFPacketDecoder.cpp)（约第 155 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Statics/DNFPacketDecoder.cpp)（约第 154 行）：
 
 ```cpp
 CPacketCounter<Lo, Hi>::CPacketCounter(char* name, char* title)

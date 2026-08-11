@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| auction | NEAR | `0x807e6b0` | `0x108f` | `0x808b230` | `0x108f` |
+| auction | NEAR | `0x807e6b0` | `0x108f` | `0x808b178` | `0x108f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -1516,11 +1516,9 @@ void __thiscall Search::_ZN6Search35InitializeCategoryNextContainerDataEv(Search
 ```cpp
 void Search::InitializeCategoryNextContainerData()
 {
-    static const int NUMBER_OF_AVATAR_TYPE = 6;
-    static const int NUMBER_OF_CLASS = 9;
-    static const int GAP_OF_BEGIN_AND_END_IN_SAME_CLASS = 10;
-    static const int GAP_OF_NEXT_CLASS_AVATAR = 100;
-    static const int AVATAR_CATEGORY_START_INDEXES[NUMBER_OF_AVATAR_TYPE] = {
+    int i;
+    int j;
+    static const int AVATAR_CATEGORY_START_INDEXES[] = {
         CATEGORY_AVATAR_SWORDMAN,
         CATEGORY_CLONE_AVATAR_SWORDMAN,
         CATEGORY_EMBLEM_AVATAR_SWORDMAN,
@@ -1528,6 +1526,10 @@ void Search::InitializeCategoryNextContainerData()
         CATEGORY_NORMAL_EMBLEM_AVATAR_SWORDMAN,
         CATEGORY_CLONE_NORMAL_EMBLEM_AVATAR_SWORDMAN,
     };
+    static const int NUMBER_OF_AVATAR_TYPE = 6;
+    static const int NUMBER_OF_CLASS = 9;
+    static const int GAP_OF_BEGIN_AND_END_IN_SAME_CLASS = 10;
+    static const int GAP_OF_NEXT_CLASS_AVATAR = 100;
 
     mCategoryNextContainer.insert(std::make_pair(CATEGORY_WEAPON, CATEGORY_WEAPON_LAST));
     mCategoryNextContainer.insert(std::make_pair(CATEGORY_SWORD_MAN, CATEGORY_SWORD_MAN_LAST));
@@ -1548,10 +1550,10 @@ void Search::InitializeCategoryNextContainerData()
     mCategoryNextContainer.insert(std::make_pair(CATEGORY_CREATURE, CATEGORY_CREATURE_LAST));
     mCategoryNextContainer.insert(std::make_pair(CATEGORY_AVATAR, CATEGORY_AVATAR_LAST));
 
-    for (int i = 0; i < NUMBER_OF_AVATAR_TYPE; i = i + 1)
+    for (i = 0; i < NUMBER_OF_AVATAR_TYPE; i = i + 1)
     {
         int first_element = AVATAR_CATEGORY_START_INDEXES[i];
-        for (int j = 0; j < NUMBER_OF_CLASS; j = j + 1)
+        for (j = 0; j < NUMBER_OF_CLASS; j = j + 1)
         {
             mCategoryNextContainer.insert(
                 std::make_pair(first_element,

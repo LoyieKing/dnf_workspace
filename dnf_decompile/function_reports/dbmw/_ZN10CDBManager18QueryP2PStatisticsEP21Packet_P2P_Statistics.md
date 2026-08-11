@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8086aa4` | `0x1e6` | `0x8050646` | `0x209` |
+| dbmw | DIFF | `0x8086aa4` | `0x1e6` | `0x8050630` | `0x207` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,146 +1,164 @@
+@@ -1,146 +1,163 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,7 +24,7 @@
  jne    <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1c>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1db>
-+jmp    <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1fe>
++jmp    <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1fc>
  mov    0x8(%ebp),%eax
  mov    0x3c(%eax),%eax
  mov    %eax,-0x20(%ebp)
@@ -32,7 +32,7 @@
  jne    <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x35>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1db>
-+jmp    <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1fe>
++jmp    <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1fc>
 +mov    0xc(%ebp),%eax
 +mov    %eax,-0x1c(%ebp)
  mov    -0x20(%ebp),%eax
@@ -171,25 +171,21 @@
  mov    %ebx,0x18(%esp)
  mov    %ecx,0x14(%esp)
  mov    %edx,0x10(%esp)
--mov    -0x5c(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    -0x5c(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    -0x5c(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"inSert into p2p_statistics ( occ_time, server_group, p2p_user, p2p_min_ping, p2p_max_ping, p2p_avg_ping, p2p_over_ping_100, p2p_over_ping_200, p2p_over_ping_300, p2p_over_ping_400, relay_user, relay_min_ping, relay_max_ping, relay_avg_ping, relay_over_ping_100, relay_over_ping_200, relay_over_ping_300, relay_over_ping_400) values (now(), %d, %d, %d, %d, %d, %u, %u, %u, %u, %d, %d, %d, %d, %u, %u, %u, %u)",0x8(%esp)
  movl   $0x4f26,0x4(%esp)
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
--call   *-0x58(%ebp)
+ call   *-0x58(%ebp)
 -mov    %al,-0x19(%ebp)
 -movzbl -0x19(%ebp),%eax
-+mov    -0x58(%ebp),%edx
-+call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1ae>
-+je     <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1d1>
++je     <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1cf>
  movl   $0x295c,0x8(%esp)
- movl   $"QueryP2PStatistics",0x4(%esp)
+ movl   $&_ZZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_StatisticsE12__FUNCTION__,0x4(%esp)
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -200,26 +196,22 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1db>
-+jmp    <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1fe>
++jmp    <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1fc>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4f26,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1d6>
-+je     <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1f9>
++je     <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1f7>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1db>
-+jmp    <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1fe>
++jmp    <T> <_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics+0x1fc>
  mov    $0x1,%eax
  add    $0xac,%esp
  pop    %ebx
@@ -288,7 +280,7 @@ CDBManager::_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 951 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 953 行）：
 
 ```cpp
 char CDBManager::QueryP2PStatistics(Packet_P2P_Statistics* packet)
@@ -311,7 +303,7 @@ char CDBManager::QueryP2PStatistics(Packet_P2P_Statistics* packet)
             *(int*)(p + 0x2f), *(int*)(p + 0x33), *(int*)(p + 0x37),
             *(int*)(p + 0x3b)))
     {
-        CMyFileLog log("QueryP2PStatistics", 0x295c);
+        CMyFileLog log(__FUNCTION__, 0x295c);
         log("./log/DBQueryErr", "set_query(insert_p2p_statistics)");
         return 0;
     }

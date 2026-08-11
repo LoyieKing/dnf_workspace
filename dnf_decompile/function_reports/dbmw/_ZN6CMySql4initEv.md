@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808cfaa` | `0x17d` | `0x8075cc0` | `0x164` |
+| dbmw | DIFF | `0x808cfaa` | `0x17d` | `0x80c9354` | `0x15a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,94 +1,89 @@
+@@ -1,94 +1,84 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x28,%esp
@@ -23,71 +23,66 @@
  call   <T> <_ZN6CMySql14init_db_handleEv>
 -mov    %al,-0x9(%ebp)
 -movzbl -0x9(%ebp),%eax
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN6CMySql4initEv+0x29>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN6CMySql4initEv+0x24>
++je     <T> <_ZN6CMySql4initEv+0x22>
  mov    $0x0,%eax
 -jmp    <T> <_ZN6CMySql4initEv+0x17b>
-+jmp    <T> <_ZN6CMySql4initEv+0x162>
++jmp    <T> <_ZN6CMySql4initEv+0x158>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CMySql19set_compress_optionEv>
 -mov    %al,-0x9(%ebp)
 -movzbl -0x9(%ebp),%eax
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN6CMySql4initEv+0x4c>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN6CMySql4initEv+0x42>
++je     <T> <_ZN6CMySql4initEv+0x3e>
  mov    $0x0,%eax
 -jmp    <T> <_ZN6CMySql4initEv+0x17b>
-+jmp    <T> <_ZN6CMySql4initEv+0x162>
++jmp    <T> <_ZN6CMySql4initEv+0x158>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CMySql27set_read_default_grp_optionEv>
 -mov    %al,-0x9(%ebp)
 -movzbl -0x9(%ebp),%eax
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN6CMySql4initEv+0x6f>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN6CMySql4initEv+0x60>
++je     <T> <_ZN6CMySql4initEv+0x5a>
  mov    $0x0,%eax
 -jmp    <T> <_ZN6CMySql4initEv+0x17b>
-+jmp    <T> <_ZN6CMySql4initEv+0x162>
++jmp    <T> <_ZN6CMySql4initEv+0x158>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CMySql23set_charset_name_optionEv>
 -mov    %al,-0x9(%ebp)
 -movzbl -0x9(%ebp),%eax
--xor    $0x1,%eax
- test   %al,%al
--je     <T> <_ZN6CMySql4initEv+0x92>
-+sete   %al
++xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN6CMySql4initEv+0x7e>
++je     <T> <_ZN6CMySql4initEv+0x76>
++mov    $0x0,%eax
++jmp    <T> <_ZN6CMySql4initEv+0x158>
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CMySql20set_reconnect_optionEv>
+ xor    $0x1,%eax
+ test   %al,%al
+ je     <T> <_ZN6CMySql4initEv+0x92>
  mov    $0x0,%eax
 -jmp    <T> <_ZN6CMySql4initEv+0x17b>
-+jmp    <T> <_ZN6CMySql4initEv+0x162>
- mov    0x8(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CMySql20set_reconnect_optionEv>
+-mov    0x8(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CMySql20set_reconnect_optionEv>
 -mov    %al,-0x9(%ebp)
 -movzbl -0x9(%ebp),%eax
 -xor    $0x1,%eax
- test   %al,%al
+-test   %al,%al
 -je     <T> <_ZN6CMySql4initEv+0xb5>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN6CMySql4initEv+0x9c>
- mov    $0x0,%eax
+-mov    $0x0,%eax
 -jmp    <T> <_ZN6CMySql4initEv+0x17b>
-+jmp    <T> <_ZN6CMySql4initEv+0x162>
++jmp    <T> <_ZN6CMySql4initEv+0x158>
  mov    0x8(%ebp),%eax
  add    $0x78,%eax
  movl   $0x6001,0x8(%esp)
@@ -188,10 +183,10 @@ undefined4 __thiscall CMySql::_ZN6CMySql4initEv(CMySql *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 47 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 45 行）：
 
 ```cpp
-char CMySql::init_db_handle()
+bool CMySql::init_db_handle()
 {
     if (m_mysql)
         return 0;

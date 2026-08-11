@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8092998` | `0x164` | `0x807b22c` | `0x156` |
+| dbmw | DIFF | `0x8092998` | `0x164` | `0x80ce930` | `0x156` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -61,7 +61,7 @@
 -lea    -0x14(%ebp),%eax
 +je     <T> <_ZN13CPacketTracer21WritePacketProcessLogEv+0x109>
 +movl   $0x6f,0x8(%esp)
-+movl   $"WritePacketProcessLog",0x4(%esp)
++movl   $&_ZZN13CPacketTracer21WritePacketProcessLogEvE12__FUNCTION__,0x4(%esp)
 +lea    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -100,7 +100,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15stPacketProcessEEptEv>
 -mov    (%eax),%ebx
 -movl   $0x6f,0x8(%esp)
--movl   $"WritePacketProcessLog",0x4(%esp)
+-movl   $&_ZZN13CPacketTracer21WritePacketProcessLogEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -247,7 +247,7 @@ void CPacketTracer::WritePacketProcessLog()
         {
             if (it->second.m_count != 0)
             {
-                CMyFileLog log("WritePacketProcessLog", 0x6f);
+                CMyFileLog log(__FUNCTION__, 0x6f);
                 log("./log/PacketProcess",
                     "id(%d), acc count(%d), acc time(%.4f ms), average time(%4.4f ms)",
                     it->first, it->second.m_count, it->second.m_accTime,

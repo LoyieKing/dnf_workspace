@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808c59e` | `0x52` | `0x8065ea0` | `0x4a` |
+| guild | DIFF | `0x808c59e` | `0x52` | `0x8065592` | `0x4a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -75,16 +75,17 @@ CUdpNetworkThread::_ZN17CUdpNetworkThread6attachEP12CApplication
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFNetworkThread.cpp](source/DNFServer/GameServer/DBMW/DNFNetworkThread.cpp)（约第 39 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFNetworkThread.cpp](source/DNFServer/GameServer/Guild/DNFNetworkThread.cpp)（约第 162 行）：
 
 ```cpp
-void CNetworkThread::attach(CApplication* app)
+void CUdpNetworkThread::attach(CApplication* app)
 {
-    if (!app)
-        return;
-    m_udpQueue = app->Get_UdpPacketRecvQ();
-    m_udpHandler = app->Get_UdpHandler();
-    m_udpQLock = app->Get_QLock();
-    m_udpBLock = app->Get_BLock();
+    if (app != 0)
+    {
+        m_app = app;
+        m_queue = app->Get_UdpPacketRecvQ();
+        m_lock = app->Get_UdpQLock();
+        m_bLock = app->Get_UdpBLock();
+    }
 }
 ```

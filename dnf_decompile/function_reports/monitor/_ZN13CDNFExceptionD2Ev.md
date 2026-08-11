@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804c776` | `0x73` | `0x8084206` | `0x33` |
+| monitor | DIFF | `0x804c776` | `0x73` | `0x80840ce` | `0x62` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,41 +1,17 @@
+@@ -1,41 +1,35 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
--push   %ebx
--sub    $0x10,%esp
-+sub    $0x18,%esp
+ push   %esi
+ push   %ebx
+ sub    $0x10,%esp
  mov    0x8(%ebp),%eax
  movl   $&_ZTV13CDNFException+0x8,(%eax)
  mov    0x8(%ebp),%eax
@@ -27,23 +26,26 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN13CDNFExceptionD1Ev+0x3b>
--mov    %edx,%ebx
--mov    %eax,%esi
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt9exceptionD1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
++jmp    <T> <_ZN13CDNFExceptionD1Ev+0x3c>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt9exceptionD1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -cmp    $0xffffffff,%edx
 -je     <T> <_ZN13CDNFExceptionD1Ev+0x64>
 -jmp    <T> <_ZN13CDNFExceptionD1Ev+0x5c>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt9exceptionD1Ev>
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt9exceptionD1Ev>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN13CDNFExceptionD1Ev+0x6c>
-+je     <T> <_ZN13CDNFExceptionD1Ev+0x31>
++je     <T> <_ZN13CDNFExceptionD1Ev+0x5b>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZdlPv>
@@ -52,11 +54,10 @@
 -call   <T> <_Unwind_Resume>
 -mov    %eax,(%esp)
 -call   <T> <__cxa_call_unexpected>
--add    $0x10,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
-+leave
+ add    $0x10,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -79,10 +80,8 @@ void __thiscall CDNFException::_ZN13CDNFExceptionD2Ev(CDNFException *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFTableBase.cpp](source/DNFServer/GameServer/COServer/DNFTableBase.cpp)（约第 51 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTableBase.cpp](source/DNFServer/GameServer/Monitor/DNFTableBase.cpp)（约第 31 行）：
 
 ```cpp
-CDNFException::~CDNFException() throw()
-{
-}
+CDNFException::~CDNFException() throw() {}
 ```

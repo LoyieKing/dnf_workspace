@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806e136` | `0xb8` | `0x80895b4` | `0xc1` |
+| monitor | DIFF | `0x806e136` | `0xb8` | `0x80894e4` | `0xbf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,59 +1,61 @@
+@@ -1,59 +1,60 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -34,7 +34,7 @@
  setne  %al
  test   %al,%al
 -je     <T> <_ZN5CUser20SendNoticeBuddyInOutEhjPchhc+0xb1>
-+je     <T> <_ZN5CUser20SendNoticeBuddyInOutEhjPchhc+0xba>
++je     <T> <_ZN5CUser20SendNoticeBuddyInOutEhjPchhc+0xb8>
  lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN34Packet_Monitor_Notice_Buddy_In_OutC1Ev>
@@ -61,8 +61,7 @@
  mov    %al,-0x9(%ebp)
 -movzwl -0x3a(%ebp),%eax
 +lea    -0x3c(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
++movzwl 0x2(%eax),%eax
  movzwl %ax,%esi
  lea    -0x3c(%ebp),%ebx
  mov    0x8(%ebp),%eax
@@ -123,4 +122,4 @@ CUser::_ZN5CUser20SendNoticeBuddyInOutEhjPchhc
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/COServer/DNFUser.cpp, source/DNFServer/GameServer/Guild/DNFUser.cpp, source/DNFServer/GameServer/Monitor/DNFUser.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h 等 640 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFUser.cpp, source/DNFServer/GameServer/Monitor/Arad_BirthdayEvent.h, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/DNFBuddy.h, source/DNFServer/GameServer/Monitor/DNFBuddyHandle.h, source/DNFServer/GameServer/Monitor/DNFChannelWaitingUser.h, source/DNFServer/GameServer/Monitor/DNFDBServer.h, source/DNFServer/GameServer/Monitor/DNFGameServer.h 等 299 个文件*

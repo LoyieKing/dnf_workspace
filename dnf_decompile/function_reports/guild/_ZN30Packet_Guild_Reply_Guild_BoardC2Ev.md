@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808aaa4` | `0xa6` | `0x809790a` | `0xf6` |
+| guild | DIFF | `0x808aaa4` | `0xa6` | `0x80974ac` | `0xf6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -138,7 +138,7 @@ Packet_Guild_Reply_Guild_Board::_ZN30Packet_Guild_Reply_Guild_BoardC2Ev
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PacketCounter.cpp](source/DNFServer/GameServer/Guild/PacketCounter.cpp)（约第 167 行）：
+定义于 [source/DNFServer/GameServer/Guild/PacketCounter.cpp](source/DNFServer/GameServer/Guild/PacketCounter.cpp)（约第 173 行）：
 
 ```cpp
 Packet_Guild_Reply_Guild_Board::Packet_Guild_Reply_Guild_Board()

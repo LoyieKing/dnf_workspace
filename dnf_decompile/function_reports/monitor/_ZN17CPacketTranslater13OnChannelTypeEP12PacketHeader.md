@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8089fca` | `0x1b6` | `0x8075576` | `0x221` |
+| monitor | DIFF | `0x8089fca` | `0x1b6` | `0x80755d2` | `0x1d0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,53 +13,48 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,129 +1,156 @@
+@@ -1,129 +1,136 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x3c,%esp
--mov    0x8(%ebp),%eax
+ sub    $0x3c,%esp
+ mov    0x8(%ebp),%eax
 -mov    %eax,-0x1c(%ebp)
-+sub    $0x4c,%esp
++mov    %eax,-0x28(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x1ae>
 -mov    -0x1c(%ebp),%eax
--mov    0xa(%eax),%eax
--mov    %eax,%edx
-+je     <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x219>
-+mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x24(%ebp),%edx
++je     <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x1c8>
++mov    -0x28(%ebp),%eax
+ mov    0xa(%eax),%eax
+ mov    %eax,%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication14FindGameServerEi>
--mov    %eax,-0x24(%ebp)
--cmpl   $0x0,-0x24(%ebp)
-+test   %eax,%eax
- sete   %al
- test   %al,%al
+ mov    %eax,-0x24(%ebp)
+ cmpl   $0x0,-0x24(%ebp)
+-sete   %al
+-test   %al,%al
 -je     <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x10d>
 -lea    -0x2d(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x108>
-+lea    -0x25(%ebp),%eax
++jne    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x108>
++lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x2d(%ebp),%eax
-+lea    -0x25(%ebp),%eax
++lea    -0x31(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnChannelType : pclGameServer == 0",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x34(%ebp),%esi
-+lea    -0x2c(%ebp),%esi
++lea    -0x38(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -78,7 +73,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x34(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0xb8>
@@ -92,7 +87,7 @@
 -jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0xd5>
 -lea    -0x34(%ebp),%eax
 +jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0xd0>
-+lea    -0x2c(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0xea>
@@ -104,25 +99,25 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x2d(%ebp),%eax
-+lea    -0x25(%ebp),%eax
++lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x149>
 -lea    -0x2d(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x145>
-+lea    -0x25(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x146>
++lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
 -mov    -0x1c(%ebp),%eax
--mov    0x6(%eax),%edx
++mov    -0x28(%ebp),%eax
+ mov    0x6(%eax),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    -0x24(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17FindTcpGameServerEj>
@@ -132,48 +127,46 @@
 -test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x1ad>
 -mov    -0x1c(%ebp),%eax
--mov    0xe(%eax),%eax
-+je     <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x219>
-+mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
++je     <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x1c8>
++mov    -0x28(%ebp),%eax
+ mov    0xe(%eax),%eax
  mov    %eax,0x4(%esp)
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer14SetChannelTypeEi>
 -jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x1ae>
-+jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x219>
-+cmp    $0x2,%edx
-+jne    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x1bf>
++jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x1c8>
++cmp    $0x1,%edx
++je     <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x153>
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
--movl   $0x13f4,0x8(%esp)
 +mov    %eax,-0x1c(%ebp)
-+movl   $0x1b21,0x8(%esp)
- movl   $"OnChannelType",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"OnChannelType",0xc(%esp)
--movl   $"%s Exception Break\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
--lea    -0x2c(%ebp),%eax
 +mov    -0x1c(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CPacketTranslater::OnChannelType() Exception Break : %s\n",0x8(%esp)
-+movl   $"%s",0x4(%esp)
-+lea    -0x34(%ebp),%eax
++mov    (%eax),%edx
++mov    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++mov    %eax,%ebx
+ movl   $0x13f4,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater13OnChannelTypeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $&_ZZN17CPacketTranslater13OnChannelTypeEP12PacketHeaderE12__FUNCTION__,0xc(%esp)
++mov    %ebx,0xc(%esp)
+ movl   $"%s Exception Break\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
+-lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x1a6>
-+jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x1b8>
++jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x1c3>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -184,30 +177,7 @@
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x1ae>
 -nop
--add    $0x3c,%esp
-+jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x219>
-+mov    %eax,(%esp)
-+call   <T> <__cxa_begin_catch>
-+movl   $0x1b26,0x8(%esp)
-+movl   $"OnChannelType",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"CPacketTranslater::OnChannelType() Exception Break",0x8(%esp)
-+movl   $"%s",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader+0x214>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+call   <T> <__cxa_end_catch>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+call   <T> <__cxa_end_catch>
-+add    $0x4c,%esp
+ add    $0x3c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -260,34 +230,31 @@ void CPacketTranslater::_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader(Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3500 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3506 行）：
 
 ```cpp
 void CPacketTranslater::OnChannelType(PacketHeader* pkt)
 {
+    PacketHeader* p = pkt;
     if (m_pclApp != 0)
     {
         try
         {
-            unsigned int channel = *(unsigned int*)((char*)pkt + 0xe);
-            if (m_pclApp->FindGameServer((int)channel) == 0)
+            CGameServer* gs = (CGameServer*)m_pclApp->FindGameServer((int)((RA_UINT<10>*)p)->v);
+            if (gs == 0)
             {
                 throw CDNFException("CPacketTranslater::OnChannelType : pclGameServer == 0");
             }
             CTcpGameServer* tcpGs =
-                (CTcpGameServer*)m_pclApp->FindTcpGameServer(channel);
+                (CTcpGameServer*)m_pclApp->FindTcpGameServer(((RA_UINT<6>*)p)->v);
             if (tcpGs != 0)
             {
-                tcpGs->SetChannelType(*(int*)((char*)pkt + 0xe));
+                tcpGs->SetChannelType(((RA_INT<14>*)p)->v);
             }
         }
         catch (CDNFException& e)
         {
-            DNF_LOG_SCOPE_LINE(0x1b21, "%s", "CPacketTranslater::OnChannelType() Exception Break : %s\n", e.what());
-        }
-        catch (...)
-        {
-            DNF_LOG_SCOPE_LINE(0x1b26, "%s", "CPacketTranslater::OnChannelType() Exception Break");
+            DNF_LOG_SCOPE_LINE(0x13f4, "./log/Except", "%s Exception Break\n", e.what());
         }
     }
 }

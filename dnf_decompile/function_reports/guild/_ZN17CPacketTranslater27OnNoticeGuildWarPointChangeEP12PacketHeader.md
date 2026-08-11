@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8076014` | `0x23c` | `0x806cb88` | `0x26f` |
+| guild | DIFF | `0x8076014` | `0x23c` | `0x806c8a4` | `0x26f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -86,7 +86,7 @@
 +lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -145,20 +145,16 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0x4(%esp)
 +movl   $"CPacketTranslater::OnNoticeGuildWarEnd Exception Break : %s\n",(%esp)
 +call   <T> <printf>
  movl   $0x705,0x8(%esp)
- movl   $"OnNoticeGuildWarPointChange",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -166,10 +162,10 @@
 +mov    -0x1c(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    (%eax),%edx
++mov    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildWarEnd Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -193,7 +189,7 @@
 +movl   $"CPacketTranslater::OnNoticeGuildWarEnd Exception Break",(%esp)
 +call   <T> <puts>
  movl   $0x70a,0x8(%esp)
- movl   $"OnNoticeGuildWarPointChange",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
@@ -295,13 +291,13 @@ void CPacketTranslater::OnNoticeGuildWarPointChange(PacketHeader* pkt)
     catch (CDNFException& e)
     {
         printf("CPacketTranslater::OnNoticeGuildWarEnd Exception Break : %s\n", e.what());
-        CMyFileLog log("OnNoticeGuildWarPointChange", 0x705);
+        CMyFileLog log(__FUNCTION__, 0x705);
         log("./log/Except", "CPacketTranslater::OnNoticeGuildWarEnd Exception Break : %s\n", e.what());
     }
     catch (...)
     {
         puts("CPacketTranslater::OnNoticeGuildWarEnd Exception Break");
-        CMyFileLog log("OnNoticeGuildWarPointChange", 0x70a);
+        CMyFileLog log(__FUNCTION__, 0x70a);
         log("./log/Except", "CPacketTranslater::OnNoticeGuildWarEnd Exception Break\n");
     }
 }

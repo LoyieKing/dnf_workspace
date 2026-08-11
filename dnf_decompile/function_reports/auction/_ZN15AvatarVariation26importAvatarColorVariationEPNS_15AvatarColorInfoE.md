@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| auction | DIFF | `0x807b6c2` | `0xef` | `0x807ec05` | `0xf1` |
+| auction | DIFF | `0x807b6c2` | `0xef` | `0x807eba1` | `0xf1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -169,4 +169,4 @@ bool AvatarVariation::_ZN15AvatarVariation26importAvatarColorVariationEPNS_15Ava
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile/source/DNFShared/GameScript/RDARScriptAvatarColorInfo.cpp, source/DNFShared/GameScript/RDARScriptAvatarColorInfo.cpp, source/DNFShared/GameScript/RDARScriptAvatarColorInfo.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/stdafx.h, source/DNFServer/ServerCommon/DNFFunctionLib.h, source/DNFServer/ServerCommon/DNFFileLog.h, source/DNFServer/ServerCommon/DNFFunctionLib.h, source/DNFServer/ServerCommon/ServerXml.h 等 220 个文件*
+*未能在以下候选源文件中定位定义：source/DNFShared/GameScript/RDARScriptAvatarColorInfo.cpp, source/DNFShared/GameScript/RDARScriptAvatarColorInfo.cpp, source/DNFShared/GameScript/RDARScriptAvatarColorInfo.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/stdafx.h, source/DNFServer/ServerCommon/DNFFunctionLib.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/StatisticsCollector.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/DNFFunctionLibWrapper.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/Character.h 等 301 个文件*

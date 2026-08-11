@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a78dc` | `0x6a` | `0x809dd8e` | `0x78` |
+| guild | DIFF | `0x80a78dc` | `0x6a` | `0x809d916` | `0x75` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,33 +1,37 @@
+@@ -1,33 +1,36 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -50,9 +50,7 @@
  call   <T> <_ZNSt3mapIjP20STPowerWarCharacInfoSt4lessIjESaISt4pairIKjS1_EEE6insertERKS6_>
  sub    $0x4,%esp
  mov    0x8(%ebp),%eax
--lea    0x1c(%eax),%edx
-+add    $0x4,%eax
-+lea    0x18(%eax),%edx
+ lea    0x1c(%eax),%edx
  lea    0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
@@ -90,15 +88,14 @@ void CPowerWarCharacInfo::_ZN19CPowerWarCharacInfo20InsertPowerwarCharacEjP20STP
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 154 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 149 行）：
 
 ```cpp
 int CPowerWarCharacInfo::InsertPowerwarCharac(unsigned int charNo, STPowerWarCharacInfo* info)
 {
-    std::map<unsigned int, STPowerWarCharacInfo*>* map =
-        (std::map<unsigned int, STPowerWarCharacInfo*>*)(m_data + 0);
+    std::map<unsigned int, STPowerWarCharacInfo*>* map = &m_map;
     map->insert(std::make_pair(charNo, info));
-    ((std::vector<STPowerWarCharacInfo*>*)(m_data + 0x18))->push_back(info);
+    m_vec.push_back(info);
     return 0;
 }
 ```

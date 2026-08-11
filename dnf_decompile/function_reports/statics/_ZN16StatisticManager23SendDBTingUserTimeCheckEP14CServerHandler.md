@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8070dbc` | `0x1a5` | `0x80709b0` | `0x1ba` |
+| statics | DIFF | `0x8070dbc` | `0x1a5` | `0x8070bce` | `0x1ba` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -32,35 +32,32 @@
 +je     <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0x1b5>
  mov    0x8(%ebp),%eax
  lea    0x110(%eax),%edx
--lea    -0x24(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjiSt4lessIjESaISt4pairIKjiEEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0x10a>
 -mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
 +jmp    <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0x11a>
 +lea    -0x1822(%ebp),%eax
 +mov    -0xc(%ebp),%edx
 +shl    $0x3,%edx
 +add    $0xe,%edx
 +lea    (%eax,%edx,1),%ebx
-+lea    -0x14(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjiEEptEv>
  mov    (%eax),%eax
 -mov    %eax,-0x1814(%ebp,%ebx,8)
 -mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
 +mov    %eax,(%ebx)
 +lea    -0x1822(%ebp),%eax
 +mov    -0xc(%ebp),%edx
 +shl    $0x3,%edx
 +add    $0x12,%edx
 +lea    (%eax,%edx,1),%ebx
-+lea    -0x14(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjiEEptEv>
  mov    0x4(%eax),%eax
@@ -83,39 +80,32 @@
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
--movl   $0x327,0x8(%esp)
-+movl   $0x377,0x8(%esp)
- movl   $"SendDBTingUserTimeCheck",0x4(%esp)
+ movl   $0x327,0x8(%esp)
+ movl   $&_ZZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"Packet_DBMW_Ting_User_TimeCheck_Write_Query : (%d) 개 패킷 전송",0x8(%esp)
--movl   $"./log/Statistic",0x4(%esp)
-+movl   $"TingUserTimeCheck DB Sent %d",0x8(%esp)
-+movl   $"./log/statistic",0x4(%esp)
+ movl   $"Packet_DBMW_Ting_User_TimeCheck_Write_Query : (%d) 개 패킷 전송",0x8(%esp)
+ movl   $"./log/Statistic",0x4(%esp)
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x0,-0xc(%ebp)
--lea    -0x24(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjiEEppEv>
  mov    0x8(%ebp),%eax
  lea    0x110(%eax),%edx
--lea    -0x20(%ebp),%eax
-+lea    -0x10(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjiSt4lessIjESaISt4pairIKjiEEE3endEv>
  sub    $0x4,%esp
--lea    -0x20(%ebp),%eax
-+lea    -0x10(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjiEEneERKS3_>
  test   %al,%al
@@ -133,21 +123,16 @@
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
--movl   $0x331,0x8(%esp)
-+movl   $0x381,0x8(%esp)
- movl   $"SendDBTingUserTimeCheck",0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ movl   $0x331,0x8(%esp)
+ movl   $&_ZZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"Packet_DBMW_Ting_User_TimeCheck_Write_Query : (%d) 개 패킷 전송",0x8(%esp)
--movl   $"./log/Statistic",0x4(%esp)
--lea    -0x14(%ebp),%eax
-+movl   $"TingUserTimeCheck DB Sent %d",0x8(%esp)
-+movl   $"./log/statistic",0x4(%esp)
-+lea    -0x24(%ebp),%eax
+ movl   $"Packet_DBMW_Ting_User_TimeCheck_Write_Query : (%d) 개 패킷 전송",0x8(%esp)
+ movl   $"./log/Statistic",0x4(%esp)
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    -0x4(%ebp),%ebx
@@ -233,7 +218,7 @@ StatisticManager::_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandl
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 593 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 710 行）：
 
 ```cpp
 void StatisticManager::SendDBTingUserTimeCheck(CServerHandler* handler)
@@ -252,7 +237,7 @@ void StatisticManager::SendDBTingUserTimeCheck(CServerHandler* handler)
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                DNF_LOG_SCOPE_LINE(0x377, "./log/statistic", "TingUserTimeCheck DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x327, "./log/Statistic", "Packet_DBMW_Ting_User_TimeCheck_Write_Query : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb", idx);
                 idx = 0;
             }
         }
@@ -260,7 +245,7 @@ void StatisticManager::SendDBTingUserTimeCheck(CServerHandler* handler)
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            DNF_LOG_SCOPE_LINE(0x381, "./log/statistic", "TingUserTimeCheck DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x331, "./log/Statistic", "Packet_DBMW_Ting_User_TimeCheck_Write_Query : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb", idx);
         }
     }
 }

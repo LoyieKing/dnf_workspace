@@ -1,7 +1,9 @@
 #!/bin/sh
 # ============================================================
 # df_monitor_r 可复现构建脚本（无 DWARF，Ghidra 逆向）
-# 编译：/tmp/c6root/usr/bin/g++（GCC 4.4.7 头文件）-m32 -O0 -std=gnu++0x
+# 编译：c6444r 变体（c6root 4.4.7 驱动 + Red Hat 4.4.4-13 cc1plus，monitor ORIG
+# .comment 主体编译器；A/B 实测 c6444r 在全部 TU 上 IDENTICAL 数最高）
+# -m32 -O0 -std=gnu++0x；可用 MONITOR_CXX 覆盖编译器。
 # ============================================================
 set -e
 
@@ -30,14 +32,14 @@ MONITOR="$ROOT/DNFServer/GameServer/Monitor"
 COMMON="$ROOT/DNFServer/ServerCommon"
 PACKET="$ROOT/shared/packet"
 
-CXX="/tmp/c6root/usr/bin/g++"
+CXX="${MONITOR_CXX:-/tmp/c6-g++-444r}"
 export LD_LIBRARY_PATH=/tmp/c6root/usr/lib64:/tmp/c6root/usr/lib
-FLAGS="-m32 -O0 -std=gnu++0x -fno-enforce-eh-specs -nostdinc -DTIXML_USE_STL -DBOOST_DISABLE_ASSERTS \
+FLAGS="-m32 -O0 -std=gnu++0x -fno-enforce-eh-specs -nostdinc -DTIXML_USE_STL -DBOOST_DISABLE_ASSERTS -DDNF_SVC_MONITOR \
   -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include \
   -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include-fixed \
-  -isystem /tmp/c6root/usr/include/c++/4.4.7 \
-  -isystem /tmp/c6root/usr/include/c++/4.4.7/x86_64-redhat-linux \
-  -isystem /tmp/c6root/usr/include/c++/4.4.7/backward \
+  -isystem /tmp/lsd44/v4.4.4/usr/include/c++/4.4.4 \
+  -isystem /tmp/lsd44/v4.4.4/usr/include/c++/4.4.4/i686-redhat-linux \
+  -isystem /tmp/lsd44/v4.4.4/usr/include/c++/4.4.4/backward \
   -isystem /tmp/c6root/usr/include \
   -I$COMMON -I$MONITOR -I$PACKET/include \
   -I$ROOT/shared -I$ROOT/shared/common/include"

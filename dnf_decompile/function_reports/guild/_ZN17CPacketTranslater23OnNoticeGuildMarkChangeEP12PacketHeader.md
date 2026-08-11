@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80732b8` | `0x2bb` | `0x8069ec4` | `0x23a` |
+| guild | DIFF | `0x80732b8` | `0x2bb` | `0x8069bba` | `0x23a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -89,7 +89,7 @@
 +lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -114,7 +114,7 @@
  mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%ebx
 -movl   $0x328,0x8(%esp)
--movl   $"OnNoticeGuildMarkChange",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -145,7 +145,7 @@
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%ebx
 -movl   $0x331,0x8(%esp)
--movl   $"OnNoticeGuildMarkChange",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -166,38 +166,32 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildMarkChange() Exception Break : %s\n",(%esp)
  call   <T> <printf>
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
- movl   $0x337,0x8(%esp)
- movl   $"OnNoticeGuildMarkChange",0x4(%esp)
- lea    -0x34(%ebp),%eax
++movl   $0x337,0x8(%esp)
++movl   $"OnNoticeGuildMarkChange",0x4(%esp)
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+ call   *%edx
+-mov    %eax,%ebx
+-movl   $0x337,0x8(%esp)
+-movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x34(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildMarkChange() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -221,7 +215,7 @@
  movl   $"CPacketTranslater::OnNoticeGuildMarkChange() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x33d,0x8(%esp)
- movl   $"OnNoticeGuildMarkChange",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
@@ -328,7 +322,7 @@ void CPacketTranslater::OnNoticeGuildMarkChange(PacketHeader* pkt)
     catch (...)
     {
         puts("CPacketTranslater::OnNoticeGuildMarkChange() Exception Break");
-        CMyFileLog log("OnNoticeGuildMarkChange", 0x33d);
+        CMyFileLog log(__FUNCTION__, 0x33d);
         log("./log/Except", "CPacketTranslater::OnNoticeGuildMarkChange() Exception Break\n");
     }
 }

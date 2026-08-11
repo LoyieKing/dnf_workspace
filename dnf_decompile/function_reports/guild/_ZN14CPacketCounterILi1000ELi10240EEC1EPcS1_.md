@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8070928` | `0x7e` | `0x8097c18` | `0x86` |
+| guild | DIFF | `0x8070928` | `0x7e` | `0x8097756` | `0x86` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -96,20 +96,20 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EEC1EPcS1_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/PacketCounter.cpp](source/DNFServer/GameServer/DBMW/PacketCounter.cpp)（约第 27 行）：
+定义于 [source/DNFServer/GameServer/Guild/PacketCounter.cpp](source/DNFServer/GameServer/Guild/PacketCounter.cpp)（约第 71 行）：
 
 ```cpp
-CPacketCounter<Lo, Hi>::CPacketCounter(char* dir, char* name)
+CPacketCounter<Lo, Hi>::CPacketCounter(char* name, char* title)
 {
     Reset();
     *(time_t*)(m_data + 4) = time(0);
-    if (dir == 0)
+    if (name == 0)
     {
-        sprintf(m_data + 0x1d540, "./log/%s", name);
+        sprintf(m_data + 0x1d540, "./log/%s", title);
     }
     else
     {
-        sprintf(m_data + 0x1d540, "./log/%s/%s", dir, name);
+        sprintf(m_data + 0x1d540, "./log/%s/%s", name, title);
     }
     *(unsigned char*)(m_data + 0x1d640) = 1;
 }

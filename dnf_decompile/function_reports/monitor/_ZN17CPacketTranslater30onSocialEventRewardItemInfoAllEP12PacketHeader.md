@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80903c6` | `0x371` | `0x807ba1a` | `0x37a` |
+| monitor | DIFF | `0x80903c6` | `0x371` | `0x807b8ea` | `0x376` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,255 +1,258 @@
+@@ -1,255 +1,256 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,19 +24,19 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0xef>
 -lea    -0x45(%ebp),%eax
-+lea    -0x35(%ebp),%eax
++lea    -0x4d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x45(%ebp),%eax
-+lea    -0x35(%ebp),%eax
++lea    -0x4d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::onSocialEventRewardItemInfoAll",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x4c(%ebp),%esi
-+lea    -0x3c(%ebp),%esi
++lea    -0x54(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -56,7 +56,7 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x4c(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x8f>
@@ -69,7 +69,7 @@
  mov    %ebx,%eax
  jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0xb4>
 -lea    -0x4c(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0xcc>
@@ -89,46 +89,31 @@
 -mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x28b>
 -lea    -0x45(%ebp),%eax
-+lea    -0x35(%ebp),%eax
++lea    -0x4d(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x296>
-+lea    -0x35(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x290>
++lea    -0x4d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
 -mov    -0x24(%ebp),%eax
--mov    0xe(%eax),%eax
 +mov    %eax,-0x2c(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
+ mov    0xe(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x10,%edx
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZNK12CUserManager8FindUserEj>
-+mov    %eax,-0x28(%ebp)
-+cmpl   $0x0,-0x28(%ebp)
-+jne    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x25f>
-+mov    0x8(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
-+movl   $0x0,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_Z14NumberToStringji>
- mov    %eax,-0x20(%ebp)
+-mov    %eax,-0x20(%ebp)
 -cmpl   $0x0,-0x20(%ebp)
 -sete   %al
 -test   %al,%al
@@ -136,14 +121,23 @@
 -mov    -0x24(%ebp),%eax
 -mov    0x12(%eax),%esi
 -mov    -0x24(%ebp),%eax
--mov    0xe(%eax),%eax
--movl   $0x0,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_Z14NumberToStringji>
++mov    %eax,-0x28(%ebp)
++cmpl   $0x0,-0x28(%ebp)
++jne    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x259>
++mov    0x8(%ebp),%eax
++mov    0x12(%eax),%eax
++mov    %eax,-0x24(%ebp)
++mov    0x8(%ebp),%eax
+ mov    0xe(%eax),%eax
+ movl   $0x0,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_Z14NumberToStringji>
 -mov    %eax,%ebx
++mov    %eax,-0x20(%ebp)
  movl   $0x1e1c,0x8(%esp)
- movl   $"onSocialEventRewardItemInfoAll",0x4(%esp)
- lea    -0x44(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x44(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
@@ -154,23 +148,24 @@
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::onSocialEventRewardItemInfoAll(), buyUser(%s), characNo(%u)",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
- lea    -0x44(%ebp),%eax
+-lea    -0x44(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -lea    -0x35(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x35(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::onSocialEventRewardItemInfoAll : Not Exist User",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x3c(%ebp),%esi
-+lea    -0x34(%ebp),%esi
++lea    -0x44(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -179,7 +174,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x1fd>
-+jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x208>
++jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x202>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -222,41 +217,41 @@
 -mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x28b>
 -lea    -0x35(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x202>
++jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x1fc>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x227>
++jne    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x221>
 +call   <T> <_ZSt9terminatev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x227>
-+lea    -0x34(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x221>
++lea    -0x44(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x23c>
++jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x236>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x227>
++jne    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x221>
 +call   <T> <_ZSt9terminatev>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x296>
-+lea    -0x2d(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x290>
++lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -277,46 +272,38 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x369>
-+jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x372>
++jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x36e>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x30b>
-+jne    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x314>
++jne    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x310>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
  movl   $0x1e28,0x8(%esp)
- movl   $"onSocialEventRewardItemInfoAll",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::onSocialEventRewardItemInfoAll() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x304>
-+jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x30d>
++jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x309>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -328,23 +315,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x369>
-+jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x372>
++jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x36e>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1e2d,0x8(%esp)
- movl   $"onSocialEventRewardItemInfoAll",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x54(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::onSocialEventRewardItemInfoAll() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x54(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x364>
-+jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x36d>
++jmp    <T> <_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader+0x369>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -433,7 +420,7 @@ void CPacketTranslater::_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5034 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5045 行）：
 
 ```cpp
 void CPacketTranslater::onSocialEventRewardItemInfoAll(PacketHeader* pkt)
@@ -447,11 +434,11 @@ void CPacketTranslater::onSocialEventRewardItemInfoAll(PacketHeader* pkt)
         PacketHeader* rpkt = pkt;
         CUser* user =
             ((CUserManager*)((char*)m_pclApp + 0x10))
-                ->FindUser(*(unsigned int*)((char*)pkt + 0xe));
+                ->FindUser(((RA_UINT<14>*)pkt)->v);
         if (user == 0)
         {
-            unsigned int cn = *(unsigned int*)((char*)pkt + 0x12);
-            char* s = NumberToString(*(unsigned int*)((char*)pkt + 0xe), 0);
+            unsigned int cn = ((RA_UINT<18>*)pkt)->v;
+            char* s = NumberToString(((RA_UINT<14>*)pkt)->v, 0);
             DNF_LOG_SCOPE_LINE(0x1e1c,"./log/Except",
                 "CPacketTranslater::onSocialEventRewardItemInfoAll(), buyUser(%s), "
                 "characNo(%u)",

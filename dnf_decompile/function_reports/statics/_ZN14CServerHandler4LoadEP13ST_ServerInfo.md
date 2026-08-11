@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | NEAR | `0x8065818` | `0x4c6` | `0x805b046` | `0x4c6` |
+| statics | NEAR | `0x8065818` | `0x4c6` | `0x805b010` | `0x4c6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -117,7 +117,7 @@
 +lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -264,7 +264,7 @@
 +lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -401,7 +401,7 @@
 +lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -550,29 +550,40 @@ CServerHandler::_ZN14CServerHandler4LoadEP13ST_ServerInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFServerHandler.cpp](source/DNFServer/GameServer/COServer/DNFServerHandler.cpp)（约第 28 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFServerHandler.cpp](source/DNFServer/GameServer/Statics/DNFServerHandler.cpp)（约第 20 行）：
 
 ```cpp
 void CServerHandler::Load(ST_ServerInfo* info)
 {
-    for (int i = 0; i < 0x649b; i++)
+    for (int i = 0; i < 0xff; i++)
     {
         if (info[i].m_field0 == 1)
         {
             unsigned char index = info[i].m_field2;
-            unsigned char group = info[i].m_field1;
             if (index == 0xff)
             {
-                throw CDNFException("CServerHandler::Load() Server Table Exception Break! "
-                                    "bServerIndex >= MAX_CONN_SERVER");
+                throw CDNFException("CServerHandler::Load() Server Table Exception Break!");
             }
-            if (100 < group)
+            m_servers[index].Init(info[i].m_field1, info[i].m_string, info[i].m_ushort, index);
+        }
+        if (info[i].m_field0 == 2)
+        {
+            unsigned char index = info[i].m_field2;
+            if (index == 0xff || index != 0xc8)
             {
-                throw CDNFException("CServerHandler::Load() Server Table Exception Break! "
-                                    "bServerGroup >= SERVER_GROUP_MAX");
+                printf("*******%d", index);
+                throw CDNFException("CServerHandler::Load() DB2 Server Table Exception Break!");
             }
-            m_servers[(int)group * 0xff + (int)index].Init(group, info[i].m_string,
-                                                           info[i].m_ushort, index);
+            m_dbServer.Init(info[i].m_field1, info[i].m_string, info[i].m_ushort, index);
+        }
+        if (info[i].m_field0 == 4)
+        {
+            unsigned char index = info[i].m_field2;
+            if (index == 0xff || index != 0xca)
+            {
+                throw CDNFException("CServerHandler::Load() Manager Server Table Exception Break!");
+            }
+            m_mgrServer.Init(info[i].m_field1, info[i].m_string, info[i].m_ushort, index);
         }
     }
 }

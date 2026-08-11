@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807c778` | `0x114` | `0x804fd7c` | `0x139` |
+| dbmw | DIFF | `0x807c778` | `0x114` | `0x804fd68` | `0x137` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,89 +1,106 @@
+@@ -1,89 +1,105 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -27,7 +27,7 @@
  jne    <T> <_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristic+0x22>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristic+0x10c>
-+jmp    <T> <_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristic+0x131>
++jmp    <T> <_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristic+0x12f>
 +mov    0xc(%ebp),%eax
 +mov    %eax,-0x1c(%ebp)
  mov    -0x20(%ebp),%eax
@@ -126,35 +126,29 @@
  movl   $0x4e92,0x4(%esp)
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
--call   *-0x40(%ebp)
-+mov    -0x40(%ebp),%edx
-+call   *%edx
+ call   *-0x40(%ebp)
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristic+0x104>
++je     <T> <_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristic+0x102>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristic+0x131>
++jmp    <T> <_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristic+0x12f>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e92,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x19(%ebp)
 -movzbl -0x19(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristic+0x107>
-+je     <T> <_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristic+0x12c>
++je     <T> <_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristic+0x12a>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristic+0x10c>
-+jmp    <T> <_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristic+0x131>
++jmp    <T> <_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristic+0x12f>
  mov    $0x1,%eax
  add    $0x7c,%esp
  pop    %ebx
@@ -205,7 +199,7 @@ CDBManager::_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 786 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 788 行）：
 
 ```cpp
 char CDBManager::InsertUdpCharacteristic(Packet_Udp_Characteristic* packet)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| auction | DIFF | `0x80525ec` | `0x820` | `0x8059cdc` | `0x809` |
+| auction | DIFF | `0x80525ec` | `0x820` | `0x8059cb8` | `0x809` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -104,13 +104,12 @@
 -mov    (%eax),%eax
 -mov    %eax,-0x24c(%ebp)
 -fildl  -0x24c(%ebp)
--fldl   &data#b847e907(.rodata)
 +jmp    <T> <_ZN17AuctionDictionary7BiddingERKyiPKciPcRi+0x804>
 +mov    -0x34(%ebp),%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x28c(%ebp)
 +fildl  -0x28c(%ebp)
-+fldl   ""
+ fldl   "蠱儆儆�?"
  fmulp  %st,%st(1)
 -fnstcw -0x24e(%ebp)
 -movzwl -0x24e(%ebp),%eax
@@ -986,4 +985,4 @@ AuctionDictionary::_ZN17AuctionDictionary7BiddingERKyiPKciPcRi
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.cpp, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.cpp, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AveragePriceDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/CharacterDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/ExpireTimeDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/Auction.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/AuctionItem.h 等 512 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.cpp, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.cpp, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AveragePriceDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/CharacterDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/ExpireTimeDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/Auction.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/AuctionItem.h 等 590 个文件*

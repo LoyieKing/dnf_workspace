@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809e5e0` | `0x1fe` | `0x8057530` | `0x210` |
+| monitor | DIFF | `0x809e5e0` | `0x1fe` | `0x80577d6` | `0x210` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -43,7 +43,7 @@
 +cmpb   $0x0,-0x9(%ebp)
 +je     <T> <_ZN12CBuddyHandle5addDBEP14CServerHandlerPc+0x82>
  movl   $0x5a,0x8(%esp)
- movl   $"addDB",0x4(%esp)
+ movl   $&_ZZN12CBuddyHandle5addDBEP14CServerHandlerPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -314,7 +314,7 @@ LAB_0809e610:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 42 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 46 行）：
 
 ```cpp
 int CBuddyHandle::addDB(CServerHandler* handler, char* name)

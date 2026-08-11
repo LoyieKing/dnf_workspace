@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8071b84` | `0xb3` | `0x80718a0` | `0xcf` |
+| statics | DIFF | `0x8071b84` | `0xb3` | `0x8071ab0` | `0xcf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -141,7 +141,7 @@ StatisticManager::_ZN16StatisticManager23SendDBLoadingTimeReportEP14CServerHandl
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 791 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 917 行）：
 
 ```cpp
 void StatisticManager::SendDBLoadingTimeReport(CServerHandler* handler)

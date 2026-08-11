@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8062858` | `0x2e0` | `0x805060e` | `0x2f1` |
+| monitor | DIFF | `0x8062858` | `0x2e0` | `0x8050630` | `0x2ed` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,192 +1,196 @@
+@@ -1,192 +1,194 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -222,7 +222,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN12CApplicationC1Ev+0x28a>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -231,7 +230,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN12CApplicationC1Ev+0x2a4>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -241,7 +239,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplicationC1Ev+0x2ad>
-+jmp    <T> <_ZN12CApplicationC1Ev+0x2be>
++jmp    <T> <_ZN12CApplicationC1Ev+0x2ba>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -251,7 +249,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplicationC1Ev+0x2c5>
-+jmp    <T> <_ZN12CApplicationC1Ev+0x2d6>
++jmp    <T> <_ZN12CApplicationC1Ev+0x2d2>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -331,17 +329,33 @@ void __thiscall CApplication::_ZN12CApplicationC1Ev(CApplication *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 87 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 248 行）：
 
 ```cpp
 CApplication::CApplication()
-    : m_loaded(0), m_reserved1(0), m_appInit(0), m_appConfig(0), m_serverConfig(0),
-      m_killUsrConfig(0), m_serverHandler(0), m_innerMsg(0)
 {
-    for (int i = 0; i < 0x65; i++)
-    {
-        m_udpHandlers[i] = 0;
-        m_netThreads[i] = 0;
-    }
+    m_loaded = false;
+    m_reserved8 = 0;
+    m_appInit = 0;
+    m_appConfig = 0;
+    m_field90 = 0;
+    m_memberConfig = 0;
+    m_memberExpTbl = 0;
+    m_serverHandler = 0;
+    m_serverHandler2 = 0;
+    m_innerMsgHandler = 0;
+    m_udpHandler = 0;
+    m_udpThread = 0;
+    m_taskScheduler = 0;
+    m_field2cc = 0;
+    m_memoryCash = 0;
+    m_towerRank = 0;
+    m_itemLimitMgr = 0;
+    m_ipCounter = 0;
+    m_field330 = 0;
+    m_periodicMsg = 0;
+    m_limitNpc = 0;
+    m_field388 = 0;
+    SetMiniCraneRandomSeed();
 }
 ```

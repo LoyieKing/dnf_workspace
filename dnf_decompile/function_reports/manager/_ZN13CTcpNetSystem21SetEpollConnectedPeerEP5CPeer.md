@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x80592a2` | `0x136` | `0x8066c02` | `0x112` |
+| manager | DIFF | `0x80592a2` | `0x136` | `0x8066b0c` | `0x137` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,91 +1,83 @@
+@@ -1,91 +1,92 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -27,70 +27,54 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
 -movl   $0x0,-0xc(%ebp)
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CPeer12GetTcpSocketEv>
--mov    %eax,(%esp)
--call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    0xc(%ebp),%ecx
--mov    0x8(%ebp),%edx
--mov    (%edx),%edx
--movl   $0x0,0xc(%esp)
--mov    %eax,0x8(%esp)
--mov    %ecx,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN11CTcpHandler7SetPeerEPvib>
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CPeer12GetTcpSocketEv>
+ mov    %eax,(%esp)
+ call   <T> <_ZNK9TCPSocket9getHandleEv>
+ mov    0xc(%ebp),%ecx
+ mov    0x8(%ebp),%edx
+ mov    (%edx),%edx
+ movl   $0x0,0xc(%esp)
+ mov    %eax,0x8(%esp)
+ mov    %ecx,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZN11CTcpHandler7SetPeerEPvib>
 -mov    %eax,-0xc(%ebp)
 -cmpl   $0x0,-0xc(%ebp)
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer+0xa0>
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <strerror>
--mov    %eax,%ebx
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CPeer12GetTcpSocketEv>
--mov    %eax,(%esp)
--call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    %ebx,0xc(%esp)
--mov    -0xc(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--movl   $"G_EpollHandler()->SetPeer(peer->get_socket(%d)) %d(%s)",(%esp)
--call   <T> <printf>
++mov    %eax,-0x10(%ebp)
++cmpl   $0x0,-0x10(%ebp)
++je     <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer+0x99>
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <strerror>
+ mov    %eax,%ebx
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer12GetTcpSocketEv>
  mov    %eax,(%esp)
  call   <T> <_ZNK9TCPSocket9getHandleEv>
- mov    %eax,-0x10(%ebp)
+ mov    %ebx,0xc(%esp)
+-mov    -0xc(%ebp),%edx
++mov    -0x10(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ mov    %eax,0x4(%esp)
+ movl   $"G_EpollHandler()->SetPeer(peer->get_socket(%d)) %d(%s)",(%esp)
+ call   <T> <printf>
++jmp    <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer+0x122>
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CPeer12GetTcpSocketEv>
+ mov    %eax,(%esp)
+ call   <T> <_ZNK9TCPSocket9getHandleEv>
+-mov    %eax,-0x10(%ebp)
 -lea    -0x18(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+movl   $0x0,0xc(%esp)
-+mov    -0x10(%ebp),%ecx
-+mov    %ecx,0x8(%esp)
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN11CTcpHandler7SetPeerEPvib>
 +mov    %eax,-0xc(%ebp)
-+cmpl   $0x0,-0xc(%ebp)
-+je     <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer+0x8a>
 +mov    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <strerror>
-+mov    %eax,0xc(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+movl   $"Epoll SetPeer fail(fd:%d, error:%d, %s)",(%esp)
-+call   <T> <printf>
-+jmp    <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer+0xfd>
-+mov    -0x10(%ebp),%eax
 +mov    %eax,-0x14(%ebp)
 +lea    -0x1c(%ebp),%eax
  lea    0xc(%ebp),%edx
@@ -120,7 +104,7 @@
  call   <T> <_ZNSt3mapIjP5CPeerSt4lessIjESaISt4pairIKjS1_EEE6insertERKS6_>
  sub    $0x4,%esp
 -lea    -0x2c(%ebp),%eax
-+jmp    <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer+0xfd>
++jmp    <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer+0x122>
 +mov    %edx,%ebx
 +mov    %eax,%esi
 +lea    -0x30(%ebp),%eax
@@ -196,18 +180,20 @@ CTcpNetSystem::_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer(CTcpNetSystem *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 130 行）：
+定义于 [source/DNFServer/GameServer/Manager/TcpNetSystem.cpp](source/DNFServer/GameServer/Manager/TcpNetSystem.cpp)（约第 161 行）：
 
 ```cpp
 void CTcpNetSystem::SetEpollConnectedPeer(CPeer* peer)
 {
     CGuard<CMutex> guard(&m_mutex78);
-    int fd = peer->GetTcpSocket()->getHandle();
-    int ret = m_tcpHandler->SetPeer(peer, fd, 0);
+    int ret = m_tcpHandler->SetPeer(peer, peer->GetTcpSocket()->getHandle(), 0);
     if (ret != 0)
     {
-        printf("Epoll SetPeer fail(fd:%d, error:%d, %s)", fd, ret, strerror(ret));
+        printf("G_EpollHandler()->SetPeer(peer->get_socket(%d)) %d(%s)",
+               peer->GetTcpSocket()->getHandle(), ret, strerror(ret));
+        return;
     }
-    m_peerMap.insert(std::make_pair(fd, peer));
+    int fd = peer->GetTcpSocket()->getHandle();
+    m_peerMap.insert(std::make_pair((int)fd, peer));
 }
 ```

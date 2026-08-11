@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| auction | NEAR | `0x8079be8` | `0x4f9` | `0x807802e` | `0x4f9` |
+| auction | NEAR | `0x8079be8` | `0x4f9` | `0x8077fb6` | `0x4f9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -105,7 +105,7 @@
 -mov    %eax,-0x34(%ebp)
 -mov    -0x34(%ebp),%eax
  movl   $0x0,0x82c(%eax)
- movl   $"U됧껋(�E�",-0x68(%ebp)
+ movl   $&_ZN14HandlerFor_TE_35onTIME_AUCTION_STATISTICS_COLLECTOREPN3nsl11InternalMsgE,-0x68(%ebp)
  movl   $0x0,-0x64(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x8(%eax),%eax
@@ -281,7 +281,7 @@
 +mov    %eax,-0x28(%ebp)
 +mov    -0x28(%ebp),%eax
  movl   $0x0,0x82c(%eax)
- movl   $"U됧껋H�E�",-0x58(%ebp)
+ movl   $&_ZN14HandlerFor_TE_22onTIME_AUCTION_DB_PINGEPN3nsl11InternalMsgE,-0x58(%ebp)
  movl   $0x0,-0x54(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x8(%eax),%eax

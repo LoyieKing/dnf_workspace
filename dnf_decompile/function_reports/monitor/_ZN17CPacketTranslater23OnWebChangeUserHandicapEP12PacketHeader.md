@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8088328` | `0xca` | `0x80735ce` | `0xbd` |
+| monitor | DIFF | `0x8088328` | `0xca` | `0x807368c` | `0xb3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,58 +1,55 @@
+@@ -1,58 +1,50 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x48,%esp
@@ -24,7 +24,7 @@
 -jne    <T> <_ZN17CPacketTranslater23OnWebChangeUserHandicapEP12PacketHeader+0x4d>
 +jne    <T> <_ZN17CPacketTranslater23OnWebChangeUserHandicapEP12PacketHeader+0x47>
  movl   $0x1127,0x8(%esp)
- movl   $"OnWebChangeUserHandicap",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnWebChangeUserHandicapEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 +lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -39,10 +39,9 @@
 -movl   $0x0,-0x10(%ebp)
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -add    $0x10,%eax
-+jmp    <T> <_ZN17CPacketTranslater23OnWebChangeUserHandicapEP12PacketHeader+0xbb>
++jmp    <T> <_ZN17CPacketTranslater23OnWebChangeUserHandicapEP12PacketHeader+0xb1>
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++mov    0xa(%eax),%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 +add    $0x10,%edx
 +mov    %eax,0x4(%esp)
@@ -50,27 +49,22 @@
 +call   <T> <_ZNK12CUserManager8FindUserEj>
  mov    %eax,-0xc(%ebp)
 -mov    -0x14(%ebp),%eax
--mov    0xa(%eax),%eax
 +cmpl   $0x0,-0xc(%ebp)
-+je     <T> <_ZN17CPacketTranslater23OnWebChangeUserHandicapEP12PacketHeader+0xbb>
++je     <T> <_ZN17CPacketTranslater23OnWebChangeUserHandicapEP12PacketHeader+0xb1>
 +lea    -0x2a(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN27Packet_Change_User_HandicapC1Ev>
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
 +mov    %eax,-0x20(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
++mov    0xe(%eax),%eax
 +mov    %eax,-0x1c(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%eax
++mov    0x12(%eax),%eax
 +mov    %eax,-0x18(%ebp)
 +lea    -0x2a(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
++movzwl 0x2(%eax),%eax
 +movzwl %ax,%edx
 +lea    -0x2a(%ebp),%eax
 +mov    %edx,0x8(%esp)
@@ -152,7 +146,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnWebChangeUserHandicapEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2942 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2948 行）：
 
 ```cpp
 void CPacketTranslater::OnWebChangeUserHandicap(PacketHeader* pkt)
@@ -165,14 +159,14 @@ void CPacketTranslater::OnWebChangeUserHandicap(PacketHeader* pkt)
     {
         CUser* user =
             ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
-                *(unsigned int*)((char*)pkt + 0xa));
+                ((RA_UINT<10>*)pkt)->v);
         if (user != 0)
         {
             Packet_Change_User_Handicap reply;
-            reply.m_fieldA = *(unsigned int*)((char*)pkt + 0xa);
-            reply.m_fieldE = *(unsigned int*)((char*)pkt + 0xe);
-            reply.m_field12 = *(unsigned int*)((char*)pkt + 0x12);
-            user->SendToGameserver((char*)&reply, *(unsigned short*)((char*)&reply + 2));
+            reply.m_fieldA = ((RA_UINT<10>*)pkt)->v;
+            reply.m_fieldE = ((RA_UINT<14>*)pkt)->v;
+            reply.m_field12 = ((RA_UINT<18>*)pkt)->v;
+            user->SendToGameserver((char*)&reply, ((RA_U16<2>*)&reply)->v);
         }
     }
 }

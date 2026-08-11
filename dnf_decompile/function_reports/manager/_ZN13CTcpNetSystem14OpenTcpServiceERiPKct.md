@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x80590f0` | `0x1b1` | `0x8066506` | `0x1ad` |
+| manager | DIFF | `0x80590f0` | `0x1b1` | `0x806640c` | `0x1b1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,114 +1,115 @@
+@@ -1,114 +1,114 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -32,59 +32,21 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9TCPSocket4openEv>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x9b>
--movl   $"tcpSock.open() Fail!",(%esp)
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x9d>
-+movl   $"Tcp Open Socket Err",(%esp)
+ je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x9b>
+ movl   $"tcpSock.open() Fail!",(%esp)
  call   <T> <puts>
  movl   $0x118,0x8(%esp)
-+movl   $"OpenTcpService",0x4(%esp)
+ movl   $&_ZZN13CTcpNetSystem14OpenTcpServiceERiPKctE12__FUNCTION__,0x4(%esp)
+-lea    -0x20(%ebp),%eax
 +lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"Tcp Open Socket Err",0x8(%esp)
-+movl   $"./log/TcpConnect",0x4(%esp)
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    -0x10(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN13CTcpNetSystem10DeletePeerEP5CPeer>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1a6>
-+movzwl -0x2c(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+mov    0x10(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN9TCPSocket7connectEPKct>
-+test   %al,%al
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x12a>
-+movl   $"Tcp Connect Err",(%esp)
-+call   <T> <puts>
-+movl   $0x123,0x8(%esp)
- movl   $"OpenTcpService",0x4(%esp)
- lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"tcpSock.open() Fail!",0x8(%esp)
--movl   $"./log/TcpServer",0x4(%esp)
-+movzwl -0x2c(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    0x10(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"Tcp Connect Err(ip:%s, port:%d)",0x8(%esp)
-+movl   $"./log/TcpConnect",0x4(%esp)
- lea    -0x20(%ebp),%eax
+ movl   $"tcpSock.open() Fail!",0x8(%esp)
+ movl   $"./log/TcpServer",0x4(%esp)
+-lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    -0x10(%ebp),%eax
@@ -93,41 +55,44 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CTcpNetSystem10DeletePeerEP5CPeer>
  mov    $0x0,%eax
--jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1aa>
--movzwl -0x2c(%ebp),%eax
--mov    %eax,0x8(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN9TCPSocket7connectEPKct>
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x129>
--movl   $"tcpSock.connect Fail!",(%esp)
--call   <T> <puts>
+ jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1aa>
+ movzwl -0x2c(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN9TCPSocket7connectEPKct>
+ xor    $0x1,%eax
+ test   %al,%al
+ je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x129>
+ movl   $"tcpSock.connect Fail!",(%esp)
+ call   <T> <puts>
 -movzwl -0x2c(%ebp),%ebx
--movl   $0x123,0x8(%esp)
--movl   $"OpenTcpService",0x4(%esp)
+ movl   $0x123,0x8(%esp)
+ movl   $&_ZZN13CTcpNetSystem14OpenTcpServiceERiPKctE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0x10(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"tcpSock.connect(%s, %d) Fail!",0x8(%esp)
--movl   $"./log/TcpServer",0x4(%esp)
++movzwl -0x2c(%ebp),%eax
++mov    %eax,0x10(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"tcpSock.connect(%s, %d) Fail!",0x8(%esp)
+ movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x10(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN13CTcpNetSystem10DeletePeerEP5CPeer>
--mov    $0x0,%eax
--jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1aa>
-+jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1a6>
++lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    -0x10(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN13CTcpNetSystem10DeletePeerEP5CPeer>
+ mov    $0x0,%eax
+ jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1aa>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9TCPSocket14setOptNonBlockEv>
@@ -140,9 +105,8 @@
  call   <T> <_ZN13CTcpNetSystem16Get_TcpRecvQLockEv>
  mov    %eax,%ebx
  mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN13CTcpNetSystem18Get_TcpSwapQPacketEv>
-+add    $0x8,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN13CTcpNetSystem18Get_TcpSwapQPacketEv>
  mov    %eax,(%esp)
  call   <T> <_ZN10CSwapQueueISt5queueIP14CTcpRecvBufferSt5dequeIS2_SaIS2_EEELi2EE8GetRecvQEv>
  mov    %esi,0xc(%esp)
@@ -237,7 +201,7 @@ CTcpNetSystem::_ZN13CTcpNetSystem14OpenTcpServiceERiPKct
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 58 行）：
+定义于 [source/DNFServer/GameServer/Manager/TcpNetSystem.cpp](source/DNFServer/GameServer/Manager/TcpNetSystem.cpp)（约第 56 行）：
 
 ```cpp
 int CTcpNetSystem::OpenTcpService(int& serverCount, const char* ip, unsigned short port)
@@ -246,17 +210,19 @@ int CTcpNetSystem::OpenTcpService(int& serverCount, const char* ip, unsigned sho
     TCPSocket* sock = peer->GetTcpSocket();
     if (!sock->open())
     {
-        puts("Tcp Open Socket Err");
-        CMyFileLog log("OpenTcpService", 0x118);
-        log("./log/TcpConnect", "Tcp Open Socket Err");
+        puts("tcpSock.open() Fail!");
+        CMyFileLog log(__FUNCTION__, 0x118);
+        log("./log/TcpServer", "tcpSock.open() Fail!");
         DeletePeer(peer);
         return 0;
     }
     if (!sock->connect(ip, port))
     {
-        puts("Tcp Connect Err");
-        CMyFileLog log("OpenTcpService", 0x123);
-        log("./log/TcpConnect", "Tcp Connect Err(ip:%s, port:%d)", ip, port);
+        // ORIG 实测：puts 文案 "tcpSock.connect Fail!"，日志文案
+        // "tcpSock.connect(%s, %d) Fail!"。
+        puts("tcpSock.connect Fail!");
+        CMyFileLog log(__FUNCTION__, 0x123);
+        log("./log/TcpServer", "tcpSock.connect(%s, %d) Fail!", ip, port);
         DeletePeer(peer);
         return 0;
     }

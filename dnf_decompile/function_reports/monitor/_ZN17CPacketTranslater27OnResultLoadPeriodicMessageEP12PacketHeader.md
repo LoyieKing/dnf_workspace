@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808d862` | `0x185` | `0x8078ef8` | `0x17f` |
+| monitor | DIFF | `0x808d862` | `0x185` | `0x8078e4c` | `0x17f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,103 +1,104 @@
+@@ -1,103 +1,103 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -22,12 +22,10 @@
 -sub    $0x4c,%esp
 +sub    $0x5c,%esp
  mov    0x8(%ebp),%eax
-+add    $0x20e,%eax
-+mov    (%eax),%eax
++mov    0x20e(%eax),%eax
 +mov    %eax,-0x24(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0x20a,%eax
-+mov    (%eax),%eax
++mov    0x20a(%eax),%eax
  mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
 -mov    0x20e(%eax),%esi
@@ -35,26 +33,26 @@
 -mov    0x20a(%eax),%ebx
 -mov    -0x20(%ebp),%eax
 -lea    0xa(%eax),%edi
++mov    0x8(%ebp),%eax
++lea    0xa(%eax),%ebx
  movl   $0x19f7,0x8(%esp)
- movl   $"OnResultLoadPeriodicMessage",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater27OnResultLoadPeriodicMessageEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x14(%esp)
 -mov    %ebx,0x10(%esp)
 -mov    %edi,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+lea    0xa(%eax),%edx
 +mov    -0x24(%ebp),%eax
 +mov    %eax,0x14(%esp)
 +mov    -0x20(%ebp),%eax
 +mov    %eax,0x10(%esp)
-+mov    %edx,0xc(%esp)
++mov    %ebx,0xc(%esp)
  movl   $"DB Load Message : Message(%s), start_hour(%d), end_hour(%d)",0x8(%esp)
  movl   $"./log/PeriodicMessage",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x20(%ebp),%eax
@@ -82,33 +80,24 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
-+movl   $0x1a02,0x8(%esp)
-+movl   $"OnResultLoadPeriodicMessage",0x4(%esp)
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x1a02,0x8(%esp)
--movl   $"OnResultLoadPeriodicMessage",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x1a02,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater27OnResultLoadPeriodicMessageEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
++lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
 -movl   $"CPacketTranslater::OnResultLoadPeriodicMessage Exception Break : %s\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
 +movl   $"CPacketTranslater::OnResultLoadPeriodicMessage() Exception Break : %s\n",0x8(%esp)
 +movl   $"%s",0x4(%esp)
 +lea    -0x34(%ebp),%eax
@@ -129,9 +118,9 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1a07,0x8(%esp)
- movl   $"OnResultLoadPeriodicMessage",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater27OnResultLoadPeriodicMessageEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -movl   $"CPacketTranslater::OnResultLoadPeriodicMessage Exception Break\n",0x8(%esp)
@@ -139,7 +128,7 @@
 -lea    -0x28(%ebp),%eax
 +movl   $"CPacketTranslater::OnResultLoadPeriodicMessage() Exception Break",0x8(%esp)
 +movl   $"%s",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnResultLoadPeriodicMessageEP12PacketHeader+0x178>
@@ -200,15 +189,15 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnResultLoadPeriodicMessageEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4393 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4402 行）：
 
 ```cpp
 void CPacketTranslater::OnResultLoadPeriodicMessage(PacketHeader* pkt)
 {
     try
     {
-        unsigned int endHour = *(unsigned int*)((char*)pkt + 0x20e);
-        unsigned int startHour = *(unsigned int*)((char*)pkt + 0x20a);
+        unsigned int endHour = ((RA_UINT<526>*)pkt)->v;
+        unsigned int startHour = ((RA_UINT<522>*)pkt)->v;
         DNF_LOG_SCOPE_LINE(0x19f7,"./log/PeriodicMessage",
             "DB Load Message : Message(%s), start_hour(%d), end_hour(%d)", (char*)pkt + 0xa,
             startHour, endHour);

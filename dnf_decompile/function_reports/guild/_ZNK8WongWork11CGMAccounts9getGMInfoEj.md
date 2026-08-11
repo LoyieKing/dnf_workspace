@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a2c96` | `0xe0` | `0x808f120` | `0xc1` |
+| guild | DIFF | `0x80a2c96` | `0xe0` | `0x808ef92` | `0xc7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,16 +20,16 @@
  sub    $0x34,%esp
  mov    0x8(%ebp),%ebx
 -movl   $0x0,-0x1c(%ebp)
--movl   $0x3,-0x18(%ebp)
++mov    0x10(%ebp),%eax
++mov    %eax,-0x1c(%ebp)
+ movl   $0x3,-0x18(%ebp)
 -movl   $0x0,-0x24(%ebp)
 -movl   $0x0,-0x20(%ebp)
 -movl   $0x3,-0x20(%ebp)
- mov    0x10(%ebp),%eax
+-mov    0x10(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
-+mov    %eax,-0x1c(%ebp)
-+movb   $0x3,-0x18(%ebp)
 +movl   $0x0,(%ebx)
-+movb   $0x3,0x4(%ebx)
++movl   $0x3,0x4(%ebx)
  mov    0xc(%ebp),%edx
  lea    -0x14(%ebp),%eax
  mov    %edx,0x4(%esp)
@@ -69,7 +69,7 @@
  test   %al,%al
 -je     <T> <_ZNK8WongWork11CGMAccounts9getGMInfoEj+0xcc>
 -lea    -0x28(%ebp),%eax
-+je     <T> <_ZNK8WongWork11CGMAccounts9getGMInfoEj+0xb7>
++je     <T> <_ZNK8WongWork11CGMAccounts9getGMInfoEj+0xbd>
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt20_List_const_iteratorIN8WongWork11CGMAccounts10stGMInfo_tEEdeEv>
@@ -82,7 +82,7 @@
 -mov    -0x18(%ebp),%edx
 -mov    %eax,(%ebx)
 -mov    %edx,0x4(%ebx)
-+jmp    <T> <_ZNK8WongWork11CGMAccounts9getGMInfoEj+0xb8>
++jmp    <T> <_ZNK8WongWork11CGMAccounts9getGMInfoEj+0xbe>
 +nop
  mov    %ebx,%eax
  mov    -0x4(%ebp),%ebx
@@ -138,7 +138,7 @@ uint WongWork::CGMAccounts::_ZNK8WongWork11CGMAccounts9getGMInfoEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GMAccounts.cpp](source/DNFServer/GameServer/Guild/GMAccounts.cpp)（约第 132 行）：
+定义于 [source/DNFServer/GameServer/Guild/GMAccounts.cpp](source/DNFServer/GameServer/Guild/GMAccounts.cpp)（约第 143 行）：
 
 ```cpp
 CGMAccounts::stGMInfo_t CGMAccounts::getGMInfo(unsigned int id) const

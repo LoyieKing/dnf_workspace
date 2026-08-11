@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8053c8e` | `0x70` | `0x80a8a5a` | `0x6f` |
+| guild | DIFF | `0x8053c8e` | `0x70` | `0x80a858e` | `0x6f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -100,8 +100,14 @@ undefined4 CTcpNetSystem::_ZN13CTcpNetSystem7GetPeerEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 119 行）：
+定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 519 行）：
 
 ```cpp
-CPeer* CTcpNetSystem::GetPeer(unsigned int idx) { return 0; }
+CPeer* CTcpNetSystem::GetPeer(unsigned int id)
+{
+    std::map<unsigned int, CPeer*>* peers =
+        (std::map<unsigned int, CPeer*>*)(m_data + 0x144);
+    std::map<unsigned int, CPeer*>::iterator it = peers->find(id);
+    return it == peers->end() ? 0 : it->second;
+}
 ```

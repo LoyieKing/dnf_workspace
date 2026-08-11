@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804f804` | `0x69` | `0x8085f38` | `0x53` |
+| monitor | DIFF | `0x804f804` | `0x69` | `0x8085e5e` | `0x53` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -72,16 +72,15 @@ bool __thiscall TCPSocket::_ZN9TCPSocket12setOptLingerEb(TCPSocket *this,bool pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 158 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp](source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp)（约第 336 行）：
 
 ```cpp
 char TCPSocket::setOptLinger(bool flag)
 {
-    struct linger linger;
-    linger.l_onoff = flag ? 1 : 0;
-    linger.l_linger = 0;
-    if (setsockopt(m_fd, SOL_SOCKET, SO_LINGER, &linger, 8) < 0)
-        return 0;
-    return 1;
+    unsigned int opt[2];
+    opt[0] = (unsigned int)flag;
+    opt[1] = 0;
+    int r = setsockopt(m_fd, 1, 0xd, opt, 8);
+    return (char)(r >= 0);
 }
 ```

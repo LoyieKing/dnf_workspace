@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8064e66` | `0x5da` | `0x805bc22` | `0x57e` |
+| manager | DIFF | `0x8064e66` | `0x5da` | `0x805baea` | `0x57e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -87,7 +87,7 @@
 +lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -144,7 +144,7 @@
 +movzwl (%eax),%eax
 +mov    %ax,-0x26(%ebp)
  movl   $0xdb,0x8(%esp)
- movl   $"OnWebNoticeProhibitConnectUser",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x58(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -218,7 +218,7 @@
 -mov    0xa(%eax),%ebx
 +je     <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader+0x254>
  movl   $0xe6,0x8(%esp)
- movl   $"OnWebNoticeProhibitConnectUser",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -243,9 +243,8 @@
 +mov    -0x34(%ebp),%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnWebNoticeProhibitConnectUser Delete Err  m_id : %d, flag( %d ), time( %d ), ip( %d ), port( %d )\n",0x8(%esp)
--movl   $"./log/Web",0x4(%esp)
+ movl   $"./log/Web",0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+movl   $"./log/ProhibitUser",0x4(%esp)
 +lea    -0x68(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -334,7 +333,7 @@
 +add    $0x11,%eax
 +movb   $0x2,(%eax)
 +movl   $0x113,0x8(%esp)
-+movl   $"OnWebNoticeProhibitConnectUser",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x70(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -359,7 +358,7 @@
 -mov    -0x28(%ebp),%eax
 -mov    0xa(%eax),%ebx
 -movl   $0x113,0x8(%esp)
--movl   $"OnWebNoticeProhibitConnectUser",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -483,7 +482,7 @@
 +lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -494,28 +493,24 @@
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
 +movl   $0x11b,0x8(%esp)
-+movl   $"OnWebNoticeProhibitConnectUser",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x78(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
 -movl   $0x11b,0x8(%esp)
--movl   $"OnWebNoticeProhibitConnectUser",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnWebNoticeProhibitConnectUser() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -540,7 +535,7 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x120,0x8(%esp)
- movl   $"OnWebNoticeProhibitConnectUser",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x80(%ebp),%eax
  mov    %eax,(%esp)
@@ -732,7 +727,7 @@ void CPacketTranslater::OnWebNoticeProhibitConnectUser(PacketHeader* header)
         char flag = ((char*)&pkt)[0xe];
         short time = *(short*)((char*)&pkt + 0xf);
         {
-            CMyFileLog log("OnWebNoticeProhibitConnectUser", 0xdb);
+            CMyFileLog log(__FUNCTION__, 0xdb);
             log("./log/ProhibitUser",
                 "CPacketTranslater::OnWebNoticeProhibitConnectUser m_id : %d, flag( %d ), time( %d ), ip( %d ), port( %d )\n",
                 m_id, flag, time, ip, port);
@@ -740,8 +735,8 @@ void CPacketTranslater::OnWebNoticeProhibitConnectUser(PacketHeader* header)
         CUserManager* um = &m_pclApp->m_userManager;
         if (flag && um->DeleteProhibitUser(m_id))
         {
-            CMyFileLog log("OnWebNoticeProhibitConnectUser", 0xe6);
-            log("./log/ProhibitUser",
+            CMyFileLog log(__FUNCTION__, 0xe6);
+            log("./log/Web",
                 "CPacketTranslater::OnWebNoticeProhibitConnectUser Delete Err  m_id : %d, flag( %d ), time( %d ), ip( %d ), port( %d )\n",
                 m_id, flag, time, ip, port);
             m_pclApp->m_serverHandler->SendAllTcpServer((PacketHeader*)&pkt);
@@ -759,7 +754,7 @@ void CPacketTranslater::OnWebNoticeProhibitConnectUser(PacketHeader* header)
         }
         ((char*)header)[0x11] = 2;
         {
-            CMyFileLog log("OnWebNoticeProhibitConnectUser", 0x113);
+            CMyFileLog log(__FUNCTION__, 0x113);
             log("./log/ProhibitUser",
                 "CPacketTranslater::OnWebNoticeProhibitConnectUser SendToClient, m_id : %d, ip( %d ), port( %d ), m_bIsConnect(%d), m_bProhibitConnect(%d)\n",
                 m_id, ip, port, ((char*)header)[0x11], ((char*)header)[0xe]);
@@ -770,14 +765,14 @@ void CPacketTranslater::OnWebNoticeProhibitConnectUser(PacketHeader* header)
     }
     catch (CDNFException& e)
     {
-        CMyFileLog log("OnWebNoticeProhibitConnectUser", 0x11b);
+        CMyFileLog log(__FUNCTION__, 0x11b);
         log("./log/Except",
             "CPacketTranslater::OnWebNoticeProhibitConnectUser() Exception Break : %s\n",
             e.what());
     }
     catch (...)
     {
-        CMyFileLog log("OnWebNoticeProhibitConnectUser", 0x120);
+        CMyFileLog log(__FUNCTION__, 0x120);
         log("./log/Except",
             "CPacketTranslater::OnWebNoticeProhibitConnectUser() Exception Break\n");
     }

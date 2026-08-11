@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805bed0` | `0xc3` | `0x804b470` | `0xca` |
+| monitor | DIFF | `0x805bed0` | `0xc3` | `0x804b482` | `0xc9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,76 +13,56 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,57 +1,57 @@
+@@ -1,57 +1,59 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
--push   %esi
--push   %ebx
--sub    $0x3c,%esp
-+sub    $0x38,%esp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x3c,%esp
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12momiji_event11EventAction9isRunningEv>
--xor    $0x1,%eax
-+cmp    $0x1,%al
-+setne  %al
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN12momiji_event11EventAction13onStartActionER10EventParam+0xbb>
-+je     <T> <_ZN12momiji_event11EventAction13onStartActionER10EventParam+0xc8>
++je     <T> <_ZN12momiji_event11EventAction13onStartActionER10EventParam+0xc1>
  mov    0x8(%ebp),%eax
  movb   $0x1,0x8(%eax)
-+movl   $0x17,0x8(%esp)
-+movl   $"onStartAction",0x4(%esp)
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
--movzbl 0x2(%eax),%eax
--movzbl %al,%edi
-+add    $0x2,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%ecx
+ movzbl 0x2(%eax),%eax
+ movzbl %al,%edi
  mov    0xc(%ebp),%eax
--movzbl 0x1(%eax),%eax
--movzbl %al,%esi
-+add    $0x1,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%edx
+ movzbl 0x1(%eax),%eax
+ movzbl %al,%esi
  mov    0xc(%ebp),%eax
  movzbl (%eax),%eax
--movzbl %al,%ebx
--movl   $0x17,0x8(%esp)
--movl   $"onStartAction",0x4(%esp)
+ movzbl %al,%ebx
+ movl   $0x17,0x8(%esp)
+-movl   $&_ZZN12momiji_event11EventAction13onStartActionER10EventParamE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+movzbl %al,%eax
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++movl   $"onStartAction",0x4(%esp)
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"[Momiji] onStartAction(%d,%d,%d)",0x8(%esp)
  movl   $"./log/AradOnly",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +call   <T> <_ZN12momiji_event12EventManager3GetEv>
-+mov    %eax,-0xc(%ebp)
++mov    %eax,-0x1c(%ebp)
  mov    0xc(%ebp),%eax
--movzbl 0x2(%eax),%eax
+ movzbl 0x2(%eax),%eax
 -movzbl %al,%edi
-+add    $0x2,%eax
-+movzbl (%eax),%eax
 +movzbl %al,%ecx
  mov    0xc(%ebp),%eax
--movzbl 0x1(%eax),%eax
+ movzbl 0x1(%eax),%eax
 -movzbl %al,%esi
-+add    $0x1,%eax
-+movzbl (%eax),%eax
 +movzbl %al,%edx
  mov    0xc(%ebp),%eax
  movzbl (%eax),%eax
@@ -95,15 +75,14 @@
 +mov    %ecx,0xc(%esp)
 +mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
-+mov    -0xc(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12momiji_event12EventManager10StartEventEhhh>
--add    $0x3c,%esp
--pop    %ebx
--pop    %esi
--pop    %edi
--pop    %ebp
-+leave
+ add    $0x3c,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %edi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -146,7 +125,7 @@ momiji_event::EventAction::_ZN12momiji_event11EventAction13onStartActionER10Even
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp](source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp)（约第 189 行）：
+定义于 [source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp](source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp)（约第 196 行）：
 
 ```cpp
 void EventAction::onStartAction(EventParam& param)
@@ -155,13 +134,13 @@ void EventAction::onStartAction(EventParam& param)
     {
         m_running = 1;
         DNF_LOG_SCOPE_AT("onStartAction", 0x17,"./log/AradOnly", "[Momiji] onStartAction(%d,%d,%d)",
-            (unsigned int)(unsigned char)*(char*)((char*)&param + 0),
-            (unsigned int)(unsigned char)*(char*)((char*)&param + 1),
-            (unsigned int)(unsigned char)*(char*)((char*)&param + 2));
+            (unsigned int)(unsigned char)((RA_S8<0>*)&param)->v,
+            (unsigned int)(unsigned char)((RA_S8<1>*)&param)->v,
+            (unsigned int)(unsigned char)((RA_S8<2>*)&param)->v);
         EventManager* em = EventManager::Get();
-        em->StartEvent(*(unsigned char*)((char*)&param + 0),
-                       *(unsigned char*)((char*)&param + 1),
-                       *(unsigned char*)((char*)&param + 2));
+        em->StartEvent(((RA_U8<0>*)&param)->v,
+                       ((RA_U8<1>*)&param)->v,
+                       ((RA_U8<2>*)&param)->v);
     }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8059fcc` | `0x489` | `0x8098e8c` | `0x41d` |
+| dbmw | DIFF | `0x8059fcc` | `0x489` | `0x80ec448` | `0x41d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -40,7 +40,7 @@
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x181c(%eax)
 +movl   $0xbb,0x8(%esp)
-+movl   $"parsing",0x4(%esp)
++movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
 +lea    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -108,7 +108,7 @@
 -mov    0x8(%ebp),%eax
 -mov    0x181c(%eax),%ebx
 -movl   $0xbb,0x8(%esp)
--movl   $"parsing",0x4(%esp)
+-movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -165,7 +165,7 @@
 +cmpl   $0x1800,-0xc(%ebp)
 +jle    <T> <_ZN5CPeer7parsingEi+0x1cd>
  movl   $0xd0,0x8(%esp)
- movl   $"parsing",0x4(%esp)
+ movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -212,7 +212,7 @@
 +cmp    -0xc(%ebp),%eax
 +jge    <T> <_ZN5CPeer7parsingEi+0x217>
 +movl   $0x100,0x8(%esp)
-+movl   $"parsing",0x4(%esp)
++movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
 +lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -346,7 +346,7 @@
 +cmpl   $0x9,-0x10(%ebp)
 +jg     <T> <_ZN5CPeer7parsingEi+0xba>
  movl   $0xf8,0x8(%esp)
- movl   $"parsing",0x4(%esp)
+ movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -363,7 +363,7 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN5CPeer7parsingEi+0x39f>
 -movl   $0x100,0x8(%esp)
--movl   $"parsing",0x4(%esp)
+-movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -386,7 +386,7 @@
 +cmpl   $0x1800,-0x10(%ebp)
 +jle    <T> <_ZN5CPeer7parsingEi+0x3ce>
  movl   $0x10e,0x8(%esp)
- movl   $"parsing",0x4(%esp)
+ movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -587,14 +587,14 @@ LAB_0805a36b:
 定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 192 行）：
 
 ```cpp
-int CPeer::parsing(int len)
+bool CPeer::parsing(int len)
 {
     int parsinglength = m_recvLen + len;
     if (parsinglength <= 9)
     {
         m_recvLen += len;
         m_sendBuf += len;
-        CMyFileLog log("parsing", 0xbb);
+        CMyFileLog log(__FUNCTION__, 0xbb);
         log("./log/TcpRecv", "(offset:%x - buf:%x) = remainlen:%d, Recv Size[%d] ",
             (char*)this + 0x1c, m_sendBuf, m_recvLen, len);
         return 1;
@@ -608,7 +608,7 @@ int CPeer::parsing(int len)
         int size = hdr.packetSize;
         if (size <= 9 || size > 0x1800)
         {
-            CMyFileLog log("parsing", 0xd0);
+            CMyFileLog log(__FUNCTION__, 0xd0);
             log("./log/TcpRecv",
                 "Recv Size[%d], Parsing Packet Size[%d] is Too Large, offset:%x, buf:%x, alreadyRead:%d",
                 len, size, m_sendBuf, (char*)this + 0x1c, m_sendLen);
@@ -618,7 +618,7 @@ int CPeer::parsing(int len)
         }
         if (parsinglength < size)
         {
-            CMyFileLog log("parsing", 0x100);
+            CMyFileLog log(__FUNCTION__, 0x100);
             log("./log/TcpRecv",
                 "need more data (packetsize > (unsigned int)parsinglength): body=%d !!",
                 parsinglength);
@@ -645,7 +645,7 @@ int CPeer::parsing(int len)
         }
         if (parsinglength <= 9)
         {
-            CMyFileLog log("parsing", 0xf8);
+            CMyFileLog log(__FUNCTION__, 0xf8);
             log("./log/TcpRecv",
                 "need more data (parsinglength < HEADER_SIZE): body=%d !!",
                 parsinglength);
@@ -656,7 +656,7 @@ int CPeer::parsing(int len)
     {
         if (parsinglength > 0x1800)
         {
-            CMyFileLog log("parsing", 0x10e);
+            CMyFileLog log(__FUNCTION__, 0x10e);
             log("./log/TcpRecv",
                 "[PARSING LENGTH EXCEPTION] parsinglength > MAX_RECV_BUF , memmove : parsinglength = %d",
                 parsinglength);

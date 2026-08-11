@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4834` | `0x181` | `0x8099d78` | `0x1ac` |
+| monitor | DIFF | `0x80a4834` | `0x181` | `0x8099ebc` | `0x1ac` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -26,7 +26,7 @@
 -mov    %eax,%ebx
 +mov    %eax,-0x28(%ebp)
  movl   $0x82,0x8(%esp)
- movl   $"OnRewardStart",0x4(%esp)
+ movl   $&_ZZN19COnTimeEventManager13OnRewardStartEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
@@ -129,7 +129,7 @@
 -mov    %eax,%ebx
 +mov    %eax,-0x1c(%ebp)
  movl   $0xa7,0x8(%esp)
- movl   $"OnRewardStart",0x4(%esp)
+ movl   $&_ZZN19COnTimeEventManager13OnRewardStartEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
@@ -206,7 +206,7 @@ COnTimeEventManager::_ZN19COnTimeEventManager13OnRewardStartEv(COnTimeEventManag
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp](source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp)（约第 214 行）：
+定义于 [source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp](source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp)（约第 213 行）：
 
 ```cpp
 void COnTimeEventManager::OnRewardStart()
@@ -228,7 +228,7 @@ void COnTimeEventManager::OnRewardStart()
             new COnTimeEventRewardEndTrigger((unsigned int)(m_field28 * 0x3c + t), 0, this);
         m_app->GetTaskScheduler()->AddTask(task);
         unsigned int idx = GetEvent_Idx();
-        CMyFileLog log2("OnRewardStart", 0xa7);
+        CMyFileLog log2(__FUNCTION__, 0xa7);
         log2("./log/OnTimeEvent",
              "On Time Event : On Reward Start Trigger Process Success curidx(%d)", idx);
     }

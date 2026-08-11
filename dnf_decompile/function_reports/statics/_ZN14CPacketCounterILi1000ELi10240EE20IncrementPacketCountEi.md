@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8059d86` | `0x5f` | `0x805488a` | `0x67` |
+| statics | DIFF | `0x8059d86` | `0x5f` | `0x805482c` | `0x67` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -93,7 +93,7 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacke
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Statics/DNFPacketDecoder.cpp)（约第 175 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Statics/DNFPacketDecoder.cpp)（约第 174 行）：
 
 ```cpp
 void CPacketCounter<Lo, Hi>::IncrementPacketCount(int id)

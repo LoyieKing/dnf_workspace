@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a7ee8` | `0xb3` | `0x809e3a6` | `0xc9` |
+| guild | DIFF | `0x80a7ee8` | `0xb3` | `0x809df2e` | `0xc9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -147,15 +147,13 @@ void __thiscall CPowerWarCharacInfo::_ZN19CPowerWarCharacInfo9CalcBonusEv(CPower
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 283 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 271 行）：
 
 ```cpp
 void CPowerWarCharacInfo::CalcBonus()
 {
-    std::vector<STPowerWarCharacInfo*>* chars =
-        (std::vector<STPowerWarCharacInfo*>*)((char*)this + 0x1c);
-    std::list<STUserPoint>* points =
-        (std::list<STUserPoint>*)((char*)this + 0x28);
+    std::vector<STPowerWarCharacInfo*>* chars = &m_vec;
+    std::list<STUserPoint>* points = &m_list;
     for (std::vector<STPowerWarCharacInfo*>::iterator it = chars->begin();
          it != chars->end(); ++it)
     {

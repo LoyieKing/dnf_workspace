@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80795e6` | `0x205` | `0x8070102` | `0x1fe` |
+| guild | DIFF | `0x80795e6` | `0x205` | `0x806fe8c` | `0x202` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,37 +13,33 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,132 +1,127 @@
+@@ -1,132 +1,130 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
+ push   %esi
  push   %ebx
--sub    $0xb0,%esp
-+sub    $0xb4,%esp
+ sub    $0xb0,%esp
  cmpl   $0x0,0x8(%ebp)
 -je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x1fa>
-+je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x1f5>
++je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x1f8>
  movl   $0x4,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
  test   %al,%al
--jne    <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x43>
-+jne    <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x42>
+ jne    <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x43>
  movl   $0x10,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
  test   %al,%al
--je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x4a>
-+je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x49>
+ je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x4a>
  mov    $0x1,%eax
--jmp    <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x4f>
-+jmp    <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x4e>
+ jmp    <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x4f>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x144>
-+je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x122>
++je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x125>
  lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN18STGuildMemberProxyC1Ev>
@@ -90,30 +86,23 @@
 +setne  %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0xf3>
-+je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0xd3>
++je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0xd4>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild26IncTotalCnt_Of_GuildDBInfoEv>
--mov    0xc(%ebp),%eax
--lea    0x14(%eax),%esi
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild12GetGuildNameEv>
--mov    %eax,%ebx
+ mov    0xc(%ebp),%eax
+ lea    0x14(%eax),%esi
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild12GetGuildNameEv>
+ mov    %eax,%ebx
  movl   $0xa71,0x8(%esp)
- movl   $"GuildJoin",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfojE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    0xc(%ebp),%eax
-+lea    0x14(%eax),%ebx
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild12GetGuildNameEv>
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"GUILD JOIN guild(%s) char(%s)",0x8(%esp)
  movl   $"./log/GuildModify",0x4(%esp)
  lea    -0x10(%ebp),%eax
@@ -182,10 +171,9 @@
  call   <T> <_ZN6CGuild22SendGuildInfoToMembersEb>
 -jmp    <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x1fb>
 -nop
--add    $0xb0,%esp
-+add    $0xb4,%esp
+ add    $0xb0,%esp
  pop    %ebx
--pop    %esi
+ pop    %esi
  pop    %ebp
  ret
 ```

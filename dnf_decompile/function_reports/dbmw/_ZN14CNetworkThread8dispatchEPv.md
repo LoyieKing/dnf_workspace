@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8064210` | `0x6d6` | `0x80760f2` | `0x6d3` |
+| dbmw | DIFF | `0x8064210` | `0x6d6` | `0x80c9652` | `0x6d3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -106,7 +106,7 @@
 +lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -245,7 +245,7 @@
 -movzwl %ax,%ebx
 +je     <T> <_ZN14CNetworkThread8dispatchEPv+0x2d3>
  movl   $0x6c,0x8(%esp)
- movl   $"dispatch",0x4(%esp)
+ movl   $&_ZZN14CNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
 +lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
@@ -324,7 +324,7 @@
 -movzwl %ax,%ebx
 +jbe    <T> <_ZN14CNetworkThread8dispatchEPv+0x38a>
  movl   $0x77,0x8(%esp)
- movl   $"dispatch",0x4(%esp)
+ movl   $&_ZZN14CNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
 +lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
@@ -402,7 +402,7 @@
 -movzwl %ax,%ebx
 +jle    <T> <_ZN14CNetworkThread8dispatchEPv+0x438>
  movl   $0x83,0x8(%esp)
- movl   $"dispatch",0x4(%esp)
+ movl   $&_ZZN14CNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 +lea    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
@@ -614,7 +614,7 @@
 +lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -708,7 +708,7 @@
 +lea    -0x1d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -867,106 +867,90 @@ void CNetworkThread::_ZN14CNetworkThread8dispatchEPv(void *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFNetworkThread.cpp](source/DNFServer/GameServer/COServer/DNFNetworkThread.cpp)（约第 35 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFNetworkThread.cpp](source/DNFServer/GameServer/DBMW/DNFNetworkThread.cpp)（约第 48 行）：
 
 ```cpp
 void CNetworkThread::dispatch(void* param)
 {
+    if (!m_udpQueue || !m_udpHandler || !m_udpQLock)
+        throw CDNFException("NetworkThread is Not Ready!\n");
+    DNFFLib::Sleep_Ext(5, 0);
+    puts("Network Thread Start!");
+    m_stop = 1;
     try
     {
-        if (m_queues != 0 && m_udp != 0 && m_locks != 0)
+        while (m_stop)
         {
-            DNFFLib::Sleep_Ext(5, 0);
-            puts("Network Thread Start!");
-            m_running = 1;
-            while (m_running != 0)
+            CUdpRecvBuffer* buf;
             {
-                CUdpRecvBuffer* buf;
-                {
-                    CGuard<CMutex> g((CMutex*)m_bLock);
-                    buf = (CUdpRecvBuffer*)CUdpRecvBuffer::operator new(0x204);
-                }
-                int len = 0x200;
-                unsigned short port = 0;
-                unsigned int ip = 0;
-                if (((CUdpHandler*)m_udp)->RecvFromClient((char*)buf, &len, &ip, &port) == 1)
-                {
-                    if (*(unsigned short*)((char*)buf + 2) == len)
-                    {
-                        if (*(unsigned short*)((char*)buf + 2) < 0x200)
-                        {
-                            if (len < 0x201)
-                            {
-                                if (*(int*)((char*)buf + 6) == 0)
-                                {
-                                    printf("id(%d), m_id(%d)", *(unsigned short*)buf,
-                                           *(int*)((char*)buf + 6));
-                                }
-                                unsigned int idx = *(unsigned int*)((char*)buf + 6) % 10;
-                                {
-                                    CGuard<CMutex> g((CMutex*)m_locks[idx]);
-                                    ((std::queue<CUdpRecvBuffer*>*)m_queues[idx])->push(buf);
-                                    unsigned int qsize =
-                                        ((std::queue<CUdpRecvBuffer*>*)m_queues[idx])->size();
-                                    if (100 < qsize)
-                                    {
-                                        DNF_LOG_SCOPE_LINE(0xa3,"./log/recv", "idx(%d) cnt(%d)", idx,
-                                            ((std::queue<CUdpRecvBuffer*>*)m_queues[idx])->size());
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                DNF_LOG_SCOPE_LINE(0x86,"./log/recvErr",
-                                    "Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
-                                    *(unsigned short*)((char*)buf + 2), len,
-                                    *(unsigned short*)buf);
-                                {
-                                    CGuard<CMutex> g((CMutex*)m_bLock);
-                                    CUdpRecvBuffer::operator delete(buf);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            DNF_LOG_SCOPE_LINE(0x7a,"./log/recvErr",
-                                "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
-                                *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
-                            {
-                                CGuard<CMutex> g((CMutex*)m_bLock);
-                                CUdpRecvBuffer::operator delete(buf);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        DNF_LOG_SCOPE_LINE(0x6f,"./log/recvErr",
-                            "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
-                            *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
-                        {
-                            CGuard<CMutex> g((CMutex*)m_bLock);
-                            CUdpRecvBuffer::operator delete(buf);
-                        }
-                    }
-                }
-                else
-                {
-                    CGuard<CMutex> g((CMutex*)m_bLock);
-                    CUdpRecvBuffer::operator delete(buf);
-                }
+                CGuard<CMutex> guard(m_udpBLock);
+                buf = new CUdpRecvBuffer;
             }
-            return;
+            int size = 0x1800;
+            unsigned int addr = 0;
+            unsigned short port = 0;
+            if (((CUdpHandler*)m_udpHandler)->RecvFromClient(
+                    (char*)buf, &size, &addr, &port) != 1)
+            {
+                {
+                    CGuard<CMutex> guard(m_udpBLock);
+                    delete buf;
+                }
+                continue;
+            }
+            if (((PacketHeader*)buf)->packetSize != size)
+            {
+                CMyFileLog log(__FUNCTION__, 0x6c);
+                log("./log/recvErr",
+                    "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
+                    ((PacketHeader*)buf)->packetSize, size,
+                    ((PacketHeader*)buf)->packetId);
+                {
+                    CGuard<CMutex> guard(m_udpBLock);
+                    delete buf;
+                }
+                continue;
+            }
+            if (((PacketHeader*)buf)->packetSize > 0x17ff)
+            {
+                CMyFileLog log(__FUNCTION__, 0x77);
+                log("./log/recvErr",
+                    "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
+                    ((PacketHeader*)buf)->packetSize, size,
+                    ((PacketHeader*)buf)->packetId);
+                {
+                    CGuard<CMutex> guard(m_udpBLock);
+                    delete buf;
+                }
+                continue;
+            }
+            if (size > 0x1800)
+            {
+                CMyFileLog log(__FUNCTION__, 0x83);
+                log("./log/recvErr",
+                    "Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
+                    ((PacketHeader*)buf)->packetSize, size,
+                    ((PacketHeader*)buf)->packetId);
+                {
+                    CGuard<CMutex> guard(m_udpBLock);
+                    delete buf;
+                }
+                continue;
+            }
+            {
+                CGuard<CMutex> guard(m_udpQLock);
+                m_udpQueue->push(buf);
+            }
         }
-        throw CDNFException("NetworkThread is Not Ready!\n");
     }
     catch (CDNFException& e)
     {
-        printf("CNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n", e.what());
+        printf("CNetworkThread::dispatch() Exception Break : %s\n", e.what());
         throw CDNFException("CNetworkThread::dispatch() Recv  Socket Exception Break!");
     }
     catch (...)
     {
-        puts("CNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
+        puts("CNetworkThread::dispatch() Exception Break");
         throw CDNFException("CNetworkThread::dispatch() Recv  Socket Exception Break!");
     }
 }

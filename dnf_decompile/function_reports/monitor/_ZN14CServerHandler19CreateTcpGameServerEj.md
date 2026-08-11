@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a2b6` | `0xe5` | `0x808084e` | `0xe8` |
+| monitor | DIFF | `0x807a2b6` | `0xe5` | `0x808071a` | `0xe8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -143,20 +143,20 @@ CServerHandler::_ZN14CServerHandler19CreateTcpGameServerEj(CServerHandler *this,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 382 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 301 行）：
 
 ```cpp
-CTcpGameServer* CServerHandler::CreateTcpGameServer(unsigned int group)
+CTcpGameServer* CServerHandler::CreateTcpGameServer(unsigned int id)
 {
-    CTcpGameServer* server = new CTcpGameServer();
-    server->Init(group, m_app->Get_TcpNetSystem());
-    std::pair<std::map<unsigned int, CTcpGameServer*>::iterator, bool> result =
-        m_tcpGameServers.insert(std::make_pair(group, server));
-    if (!result.second)
+    CTcpGameServer* tcp = new CTcpGameServer;
+    tcp->Init(id, m_app->Get_TcpNetSystem());
+    std::pair<std::map<unsigned int, CTcpGameServer*>::iterator, bool> r =
+        m_tcpGameServers.insert(std::make_pair(id, tcp));
+    if (!r.second)
     {
-        delete server;
-        server = 0;
+        delete tcp;
+        tcp = 0;
     }
-    return server;
+    return tcp;
 }
 ```

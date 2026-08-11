@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80978a6` | `0x83` | `0x805dd7c` | `0x7c` |
+| guild | DIFF | `0x80978a6` | `0x83` | `0x805d8ec` | `0x7c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -93,7 +93,7 @@ CGuildManager::_ZN13CGuildManager16RewardAttendanceEjji
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 786 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 818 行）：
 
 ```cpp
 void CGuildManager::RewardAttendance(unsigned int guildKey, unsigned int charNo, int flag)

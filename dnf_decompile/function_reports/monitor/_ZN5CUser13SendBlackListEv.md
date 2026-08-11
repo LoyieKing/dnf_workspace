@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806e330` | `0x55` | `0x8089b24` | `0x5f` |
+| monitor | DIFF | `0x806e330` | `0x55` | `0x8089a48` | `0x5d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,28 +1,31 @@
+@@ -1,28 +1,30 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x58,%esp
@@ -26,11 +26,9 @@
 -mov    %eax,-0x39(%ebp)
 +mov    %eax,-0x3a(%ebp)
  mov    0x8(%ebp),%eax
--mov    0x20(%eax),%eax
+ mov    0x20(%eax),%eax
 -mov    %eax,-0x35(%ebp)
 -lea    -0x43(%ebp),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x36(%ebp)
 +movb   $0x0,-0x9(%ebp)
 +lea    -0x44(%ebp),%eax
@@ -80,14 +78,14 @@ void __thiscall CUser::_ZN5CUser13SendBlackListEv(CUser *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 517 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 541 行）：
 
 ```cpp
 void CUser::SendBlackList()
 {
     Packet_Monitor_Notice_Black_List pkt;
-    pkt.m_dbid = *(unsigned int*)((char*)this + 0);
-    pkt.m_idByChannel = *(unsigned int*)((char*)this + 0x20);
+    pkt.m_dbid = ((RA_UINT<0>*)this)->v;
+    pkt.m_idByChannel = ((RA_UINT<32>*)this)->v;
     unsigned char count = 0;
     GetBlackList(count, pkt.m_charNos);
     pkt.m_count = count;

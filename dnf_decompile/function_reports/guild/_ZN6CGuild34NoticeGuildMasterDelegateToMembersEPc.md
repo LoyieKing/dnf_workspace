@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808dcb0` | `0x131` | `0x8053d16` | `0x137` |
+| guild | DIFF | `0x808dcb0` | `0x131` | `0x8053dba` | `0x137` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -98,7 +98,7 @@
 -mov    0x8(%ebp),%eax
 -mov    0x18(%eax),%ebx
  movl   $0x2bd,0x8(%esp)
- movl   $"NoticeGuildMasterDelegateToMembers",0x4(%esp)
+ movl   $&_ZZN6CGuild34NoticeGuildMasterDelegateToMembersEPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -182,7 +182,7 @@ CGuild::_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc(CGuild *this,char *par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 688 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 746 行）：
 
 ```cpp
 void CGuild::NoticeGuildMasterDelegateToMembers(char* name)
@@ -205,7 +205,7 @@ void CGuild::NoticeGuildMasterDelegateToMembers(char* name)
         *(unsigned int*)((char*)&pkt + 0xa) = member->GetUniqCharNo();
         member->SendToGameserver((char*)&pkt, 0x30);
     }
-    CMyFileLog log("NoticeGuildMasterDelegateToMembers", 0x2bd);
+    CMyFileLog log(__FUNCTION__, 0x2bd);
     log("./log/GuildErr", "GUILD_INFO : NoticeGuildMasterDelegateToMembers, Guild Key(%d)",
         m_guildKey);
 }

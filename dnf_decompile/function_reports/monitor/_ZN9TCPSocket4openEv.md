@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804f39e` | `0x5c` | `0x80852c8` | `0x5b` |
+| monitor | DIFF | `0x804f39e` | `0x5c` | `0x80852a0` | `0x5b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -74,17 +74,17 @@ bool __thiscall TCPSocket::_ZN9TCPSocket4openEv(TCPSocket *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 37 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp](source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp)（约第 43 行）：
 
 ```cpp
 char TCPSocket::open()
 {
-    m_fd = socket(AF_INET, SOCK_STREAM, 0);
+    int fd = socket(2, 1, 0);
+    m_fd = fd;
     if (m_fd == -1)
     {
-        printf("socket error %d", errno);
-        return 0;
+        printf("Could not create a TDP socket : %d\n", errno);
     }
-    return 1;
+    return (char)(m_fd != -1);
 }
 ```

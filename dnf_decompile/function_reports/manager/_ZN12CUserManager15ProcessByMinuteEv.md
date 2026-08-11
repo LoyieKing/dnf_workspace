@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x806c654` | `0x150` | `0x806a344` | `0x14f` |
+| manager | DIFF | `0x806c654` | `0x150` | `0x806a284` | `0x14f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -59,7 +59,7 @@
 +test   %al,%al
 +je     <T> <_ZN12CUserManager15ProcessByMinuteEv+0x110>
 +movl   $0x43,0x8(%esp)
-+movl   $"ProcessByMinute",0x4(%esp)
++movl   $&_ZZN12CUserManager15ProcessByMinuteEvE12__FUNCTION__,0x4(%esp)
 +lea    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -73,16 +73,15 @@
  call   <T> <_ZN16CDNFProhibitUser7GetDBIDEv>
 -mov    %eax,%ebx
 -movl   $0x43,0x8(%esp)
--movl   $"ProcessByMinute",0x4(%esp)
+-movl   $&_ZZN12CUserManager15ProcessByMinuteEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
--movl   $"[PROHIBIT CONNECT USER TIME_OUT] Prohibit User DB ID : %d\t Remain time(%d)\n",0x8(%esp)
 +mov    %ebx,0x10(%esp)
 +mov    %eax,0xc(%esp)
-+movl   $"[PROHIBIT CONNECT USER TIME_OUT] Prohibit User DB ID : %d. Remain time(%d)\n",0x8(%esp)
+ movl   $"[PROHIBIT CONNECT USER TIME_OUT] Prohibit User DB ID : %d\t Remain time(%d)\n",0x8(%esp)
  movl   $"./log/ProhibitUser",0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x20(%ebp),%eax
@@ -223,7 +222,7 @@ void __thiscall CUserManager::_ZN12CUserManager15ProcessByMinuteEv(CUserManager 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Manager/UserManager.cpp](source/DNFServer/GameServer/Manager/UserManager.cpp)（约第 61 行）：
+定义于 [source/DNFServer/GameServer/Manager/UserManager.cpp](source/DNFServer/GameServer/Manager/UserManager.cpp)（约第 58 行）：
 
 ```cpp
 void CUserManager::ProcessByMinute()
@@ -236,9 +235,9 @@ void CUserManager::ProcessByMinute()
             CDNFProhibitUser* pu = (*it).second;
             if (pu && pu->IsTimeOutWaitMonitor())
             {
-                CMyFileLog log("ProcessByMinute", 0x43);
+                CMyFileLog log(__FUNCTION__, 0x43);
                 log("./log/ProhibitUser",
-                    "[PROHIBIT CONNECT USER TIME_OUT] Prohibit User DB ID : %d. Remain time(%d)\n",
+                    "[PROHIBIT CONNECT USER TIME_OUT] Prohibit User DB ID : %d\t Remain time(%d)\n",
                     pu->GetDBID(), pu->GetProhibitRemainTime());
                 delete pu;
                 m_prohibitUsers.erase(it++);

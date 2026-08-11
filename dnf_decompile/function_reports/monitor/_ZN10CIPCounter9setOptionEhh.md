@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805e830` | `0x89` | `0x80938aa` | `0x93` |
+| monitor | NEAR | `0x805e830` | `0x89` | `0x8093984` | `0x89` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,43 +1,48 @@
+@@ -1,43 +1,43 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x28,%esp
@@ -33,9 +33,8 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CIPCounter11setLoadTermEh>
--jmp    <T> <_ZN10CIPCounter9setOptionEhh+0x87>
+ jmp    <T> <_ZN10CIPCounter9setOptionEhh+0x87>
 -cmpb   $0x1,-0xc(%ebp)
-+jmp    <T> <_ZN10CIPCounter9setOptionEhh+0x91>
 +cmpb   $0x1,-0x4(%ebp)
  jne    <T> <_ZN10CIPCounter9setOptionEhh+0x48>
 -movzbl -0x10(%ebp),%eax
@@ -44,44 +43,28 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CIPCounter13setMinIPCountEh>
--jmp    <T> <_ZN10CIPCounter9setOptionEhh+0x87>
+ jmp    <T> <_ZN10CIPCounter9setOptionEhh+0x87>
 -cmpb   $0x2,-0xc(%ebp)
--jne    <T> <_ZN10CIPCounter9setOptionEhh+0x6b>
-+jmp    <T> <_ZN10CIPCounter9setOptionEhh+0x91>
 +cmpb   $0x2,-0x4(%ebp)
-+jne    <T> <_ZN10CIPCounter9setOptionEhh+0x71>
+ jne    <T> <_ZN10CIPCounter9setOptionEhh+0x6b>
  mov    0x8(%ebp),%eax
--movb   $0x1,0x10(%eax)
-+add    $0x10,%eax
-+movb   $0x1,(%eax)
+ movb   $0x1,0x10(%eax)
  mov    0x8(%ebp),%eax
--movl   $0x0,0x8(%eax)
-+add    $0x8,%eax
-+movl   $0x0,(%eax)
+ movl   $0x0,0x8(%eax)
  mov    0x8(%ebp),%eax
--movl   $0x0,0x4(%eax)
--jmp    <T> <_ZN10CIPCounter9setOptionEhh+0x87>
+ movl   $0x0,0x4(%eax)
+ jmp    <T> <_ZN10CIPCounter9setOptionEhh+0x87>
 -cmpb   $0x3,-0xc(%ebp)
--jne    <T> <_ZN10CIPCounter9setOptionEhh+0x7a>
-+add    $0x4,%eax
-+movl   $0x0,(%eax)
-+jmp    <T> <_ZN10CIPCounter9setOptionEhh+0x91>
 +cmpb   $0x3,-0x4(%ebp)
-+jne    <T> <_ZN10CIPCounter9setOptionEhh+0x82>
+ jne    <T> <_ZN10CIPCounter9setOptionEhh+0x7a>
  mov    0x8(%ebp),%eax
--movb   $0x0,0x10(%eax)
--jmp    <T> <_ZN10CIPCounter9setOptionEhh+0x87>
+ movb   $0x0,0x10(%eax)
+ jmp    <T> <_ZN10CIPCounter9setOptionEhh+0x87>
 -cmpb   $0x4,-0xc(%ebp)
--jne    <T> <_ZN10CIPCounter9setOptionEhh+0x87>
-+add    $0x10,%eax
-+movb   $0x0,(%eax)
-+jmp    <T> <_ZN10CIPCounter9setOptionEhh+0x91>
 +cmpb   $0x4,-0x4(%ebp)
-+jne    <T> <_ZN10CIPCounter9setOptionEhh+0x91>
+ jne    <T> <_ZN10CIPCounter9setOptionEhh+0x87>
  mov    0x8(%ebp),%eax
--movb   $0x0,0x11(%eax)
-+add    $0x11,%eax
-+movb   $0x0,(%eax)
+ movb   $0x0,0x11(%eax)
  leave
  ret
 ```
@@ -118,7 +101,7 @@ CIPCounter::_ZN10CIPCounter9setOptionEhh(CIPCounter *this,uchar param_1,uchar pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/IPCounter.cpp](source/DNFServer/GameServer/Monitor/IPCounter.cpp)（约第 91 行）：
+定义于 [source/DNFServer/GameServer/Monitor/IPCounter.cpp](source/DNFServer/GameServer/Monitor/IPCounter.cpp)（约第 92 行）：
 
 ```cpp
 void CIPCounter::setOption(unsigned char type, unsigned char opt)
@@ -133,17 +116,17 @@ void CIPCounter::setOption(unsigned char type, unsigned char opt)
     }
     else if (type == 2)
     {
-        *(unsigned char*)((char*)this + 0x10) = 1;
-        *(unsigned int*)((char*)this + 8) = 0;
-        *(unsigned int*)((char*)this + 4) = 0;
+        ((RA_U8<16>*)this)->v = 1;
+        ((RA_UINT<8>*)this)->v = 0;
+        ((RA_UINT<4>*)this)->v = 0;
     }
     else if (type == 3)
     {
-        *(unsigned char*)((char*)this + 0x10) = 0;
+        ((RA_U8<16>*)this)->v = 0;
     }
     else if (type == 4)
     {
-        *(unsigned char*)((char*)this + 0x11) = 0;
+        ((RA_U8<17>*)this)->v = 0;
     }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8063b18` | `0xc2` | `0x804f514` | `0xc6` |
+| guild | DIFF | `0x8063b18` | `0xc2` | `0x804f54c` | `0xc6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -135,17 +135,21 @@ void __thiscall CApplication::_ZN12CApplication14SwitchQueueUDPEv(CApplication *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 347 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFApplication.cpp](source/DNFServer/GameServer/Guild/DNFApplication.cpp)（约第 557 行）：
 
 ```cpp
 void CApplication::SwitchQueueUDP()
 {
-    CGuard<CMutex> guard(&m_mutexF8);
-    if (!m_udpSwapQueue.GetRecvQ()->empty())
+    CGuard<CMutex> guard(&m_udpQLock);
+    typedef std::queue<CUdpRecvBuffer*> UdpRecvQueue;
+    CSwapQueue<UdpRecvQueue, 2>* sq = (CSwapQueue<UdpRecvQueue, 2>*)((char*)this + 0xa0);
+    UdpRecvQueue* recvQueue = sq->GetRecvQ();
+    if (!recvQueue->empty())
     {
-        m_udpSwapQueue.SwapQ();
-        m_networkThread->SetUDPQueue(m_udpSwapQueue.GetRecvQ());
-        CPacketDecoderInstance()->SetUdpQueue(m_udpSwapQueue.GetParseQ());
+        sq->SwapQ();
+        m_udpThread->SetUDPQueue(sq->GetRecvQ());
+        CPacketDecoder* dec = CPacketDecoderInstance();
+        dec->SetUdpQueue(sq->GetParseQ());
     }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808a180` | `0x148` | `0x8075798` | `0x147` |
+| monitor | DIFF | `0x808a180` | `0x148` | `0x80757a2` | `0x148` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -22,22 +22,18 @@
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x10(%ebp)
  movl   $0x1402,0x8(%esp)
- movl   $"OnServerMessageInfo",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"Packet_Monitor_Server_Message_Info",0x8(%esp)
  movl   $"./log/ServerEvent",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x10(%ebp),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0xa0(%eax),%eax
-+add    $0xa0,%eax
-+mov    (%eax),%eax
+ mov    0xa0(%eax),%eax
 +mov    %eax,-0x10(%ebp)
 +mov    0x8(%ebp),%eax
  movl   $0x5f,0x8(%esp)
@@ -46,43 +42,32 @@
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
--jmp    <T> <_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader+0x141>
-+jmp    <T> <_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader+0x140>
+ jmp    <T> <_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader+0x141>
  cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader+0xe7>
-+jne    <T> <_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader+0xe6>
+ jne    <T> <_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader+0xe7>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
  movl   $0x1408,0x8(%esp)
- movl   $"OnServerMessageInfo",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnServerMessageInfo Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader+0xe0>
-+jmp    <T> <_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader+0xdf>
+ jmp    <T> <_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader+0xe0>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -91,24 +76,20 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader+0x141>
-+jmp    <T> <_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader+0x140>
+ jmp    <T> <_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader+0x141>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x140d,0x8(%esp)
- movl   $"OnServerMessageInfo",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnServerMessageInfo Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader+0x13c>
-+jmp    <T> <_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader+0x13b>
+ jmp    <T> <_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader+0x13c>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -148,7 +129,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3529 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3532 行）：
 
 ```cpp
 void CPacketTranslater::OnServerMessageInfo(PacketHeader* pkt)
@@ -157,7 +138,7 @@ void CPacketTranslater::OnServerMessageInfo(PacketHeader* pkt)
 
 
     DNF_LOG_SCOPE_LINE(0x1402, "./log/ServerEvent", "Packet_Monitor_Server_Message_Info");
-    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    CServerHandler* handler = m_pclApp->m_serverHandler2;
     handler->SendAllToGameServer((char*)pkt, 0x5f);
 
 

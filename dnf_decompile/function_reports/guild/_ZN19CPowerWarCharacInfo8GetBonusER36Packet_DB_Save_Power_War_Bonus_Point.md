@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a7f9c` | `0xda` | `0x809e470` | `0xf0` |
+| guild | DIFF | `0x80a7f9c` | `0xda` | `0x809dff8` | `0xf0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -174,13 +174,12 @@ CPowerWarCharacInfo::_ZN19CPowerWarCharacInfo8GetBonusER36Packet_DB_Save_Power_W
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 300 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 286 行）：
 
 ```cpp
 int CPowerWarCharacInfo::GetBonus(Packet_DB_Save_Power_War_Bonus_Point& pkt)
 {
-    std::list<STUserPoint>* points =
-        (std::list<STUserPoint>*)((char*)this + 0x28);
+    std::list<STUserPoint>* points = &m_list;
     int i = 0;
     std::list<STUserPoint>::iterator it = points->begin();
     while (it != points->end() && i <= 0xf9)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8084830` | `0x85b` | `0x806b522` | `0x7fc` |
+| monitor | DIFF | `0x8084830` | `0x85b` | `0x806b68e` | `0x7d6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,565 +1,557 @@
+@@ -1,565 +1,538 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,19 +24,19 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0xe2>
 -lea    -0x55(%ebp),%eax
-+lea    -0x41(%ebp),%eax
++lea    -0x59(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x55(%ebp),%eax
-+lea    -0x41(%ebp),%eax
++lea    -0x59(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnNoticeBuddyChatMsg : 0 == m_pclApp",0x4(%esp)
 -lea    -0x5c(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x5c(%ebp),%esi
-+lea    -0x48(%ebp),%esi
++lea    -0x60(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -54,7 +54,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x5c(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x8a>
@@ -65,7 +65,7 @@
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0xa7>
 -lea    -0x5c(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0xbf>
@@ -75,56 +75,51 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x55(%ebp),%eax
-+lea    -0x41(%ebp),%eax
++lea    -0x59(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x777>
 -lea    -0x55(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x71a>
-+lea    -0x41(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x6f2>
++lea    -0x59(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x2c(%ebp)
 -mov    -0x2c(%ebp),%eax
--movzbl 0x1b(%eax),%eax
--test   %al,%al
--je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x1b4>
--mov    -0x2c(%ebp),%eax
--movzbl 0x1b(%eax),%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +add    $0x10,%eax
 +mov    %eax,-0x30(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0x1b,%eax
-+movzbl (%eax),%eax
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x1b0>
+ movzbl 0x1b(%eax),%eax
+ test   %al,%al
+-je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x1b4>
+-mov    -0x2c(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x1aa>
 +mov    0x8(%ebp),%eax
-+add    $0x1b,%eax
-+movzbl (%eax),%eax
+ movzbl 0x1b(%eax),%eax
  cmp    $0x1d,%al
 -ja     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x1b4>
 -lea    -0x4d(%ebp),%eax
-+ja     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x1b0>
-+lea    -0x39(%ebp),%eax
++ja     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x1aa>
++lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -mov    -0x2c(%ebp),%eax
 +mov    0x8(%ebp),%eax
  lea    0x1c(%eax),%edx
 -lea    -0x4d(%ebp),%eax
-+lea    -0x39(%ebp),%eax
++lea    -0x51(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    %edx,0x4(%esp)
 -lea    -0x54(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -132,7 +127,7 @@
 -lea    -0x54(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -mov    %edx,(%esp)
-+lea    -0x40(%ebp),%eax
++lea    -0x58(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
@@ -142,17 +137,17 @@
 -setne  %bl
 -lea    -0x54(%ebp),%eax
 +mov    %eax,-0x20(%ebp)
-+lea    -0x40(%ebp),%eax
++lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x188>
 -mov    %edx,%ebx
 -mov    %eax,%esi
 -lea    -0x54(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x185>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x181>
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x40(%ebp),%eax
++lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
@@ -161,18 +156,18 @@
 -mov    %edx,%ebx
 -mov    %eax,%esi
 -lea    -0x4d(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x16d>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x169>
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x39(%ebp),%eax
++lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x777>
 -lea    -0x4d(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x71a>
-+lea    -0x39(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x6f2>
++lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
 -test   %bl,%bl
@@ -186,33 +181,30 @@
 -mov    -0x2c(%ebp),%eax
 -movl   $0xffffffff,0x17(%eax)
 -mov    -0x2c(%ebp),%eax
--mov    0x13(%eax),%eax
-+mov    0x8(%ebp),%eax
-+lea    0x17(%eax),%ebx
++mov    0x8(%ebp),%ebx
 +cmpl   $0x0,-0x20(%ebp)
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x1a9>
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x1a2>
 +mov    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x1ae>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x1a7>
 +mov    $0xffffffff,%eax
-+mov    %eax,(%ebx)
++mov    %eax,0x17(%ebx)
 +mov    0x8(%ebp),%eax
-+add    $0x13,%eax
-+mov    (%eax),%eax
+ mov    0x13(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x659>
 -mov    -0x2c(%ebp),%eax
--mov    0x17(%eax),%eax
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x1d9>
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x1cd>
 +mov    0x8(%ebp),%eax
-+add    $0x17,%eax
-+mov    (%eax),%eax
+ mov    0x17(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x659>
 -mov    -0x2c(%ebp),%eax
--movzbl 0x3a(%eax),%eax
--test   %al,%al
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x1cd>
++mov    0x8(%ebp),%eax
+ movzbl 0x3a(%eax),%eax
+ test   %al,%al
 -je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x659>
 -lea    -0x193(%ebp),%eax
 -mov    %eax,(%esp)
@@ -497,40 +489,25 @@
 -nop
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x850>
 -mov    -0x2c(%ebp),%eax
--movzbl 0x3a(%eax),%eax
--movzbl %al,%edi
--mov    -0x2c(%ebp),%eax
--mov    0x17(%eax),%esi
--mov    -0x2c(%ebp),%eax
--mov    0x13(%eax),%ebx
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x1d9>
++jne    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x2ee>
 +mov    0x8(%ebp),%eax
-+add    $0x3a,%eax
-+movzbl (%eax),%eax
-+test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x300>
+ movzbl 0x3a(%eax),%eax
+ movzbl %al,%edi
+-mov    -0x2c(%ebp),%eax
++mov    0x8(%ebp),%eax
+ mov    0x17(%eax),%esi
+-mov    -0x2c(%ebp),%eax
++mov    0x8(%ebp),%eax
+ mov    0x13(%eax),%ebx
  movl   $0xb46,0x8(%esp)
- movl   $"OnNoticeOtherChannelChatMsg",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
 +lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0x3a,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%ecx
-+mov    0x8(%ebp),%eax
-+add    $0x17,%eax
-+mov    (%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x13,%eax
-+mov    (%eax),%eax
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeOtherChannelChatMsg, sender(%d), receiver(%d), msglen(%d)",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
@@ -538,19 +515,19 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -lea    -0x3d(%ebp),%eax
-+lea    -0x31(%ebp),%eax
++lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x3d(%ebp),%eax
-+lea    -0x31(%ebp),%eax
++lea    -0x41(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnNoticeOtherChannelChatMsg : packet->m_uSenderCharID &&  packet->m_uRecverCharID && packet->m_msgLen",0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x44(%ebp),%esi
-+lea    -0x38(%ebp),%esi
++lea    -0x48(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -559,7 +536,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x728>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x2ae>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x29c>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -569,44 +546,44 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x44(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x722>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x2a8>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x296>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x73f>
-+jne    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x2c5>
++jne    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x2b3>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x73f>
 -lea    -0x44(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x2c5>
-+lea    -0x38(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x2b3>
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x754>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x2dd>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x2cb>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x73f>
-+jne    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x2c5>
++jne    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x2b3>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x3d(%ebp),%eax
-+lea    -0x31(%ebp),%eax
++lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x777>
 -lea    -0x3d(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x71a>
-+lea    -0x31(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x6f2>
++lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -614,29 +591,26 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN40Packet_Monitor_Other_Channel_Chat_ToUserC1Ev>
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++mov    0xa(%eax),%eax
 +mov    %eax,-0x18d(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0x13,%eax
-+mov    (%eax),%eax
++mov    0x13(%eax),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 +mov    %eax,-0x2c(%ebp)
 +cmpl   $0x0,-0x2c(%ebp)
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7f0>
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7ca>
 +mov    0x8(%ebp),%eax
-+add    $0x17,%eax
-+mov    (%eax),%eax
++mov    0x17(%eax),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 +mov    %eax,-0x28(%ebp)
 +cmpl   $0x0,-0x28(%ebp)
-+jne    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x3dc>
++jne    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x3c2>
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -655,15 +629,14 @@
 +call   <T> <memcpy>
 +movb   $0x1,-0x162(%ebp)
 +lea    -0x197(%ebp),%eax
-+add    $0x2,%eax
-+movw   $0x37,(%eax)
++movw   $0x37,0x2(%eax)
 +lea    -0x197(%ebp),%eax
 +movl   $0x37,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7f1>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7cb>
 +movb   $0x0,-0x22(%ebp)
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
@@ -673,7 +646,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser11IsBlackUserEj>
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x426>
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x40c>
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -682,17 +655,17 @@
 +mov    %edx,(%esp)
 +call   <T> <_ZN12CApplication19isGM_regFromChannelEj>
 +cmp    $0x1,%al
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x426>
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x40c>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x42b>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x411>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x433>
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x419>
 +movb   $0x1,-0x22(%ebp)
 +movzbl -0x22(%ebp),%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x484>
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x46a>
 +mov    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -701,7 +674,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser11IsBlackUserEj>
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x484>
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x46a>
 +mov    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -710,15 +683,15 @@
 +mov    %edx,(%esp)
 +call   <T> <_ZN12CApplication19isGM_regFromChannelEj>
 +cmp    $0x1,%al
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x484>
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x46a>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x489>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x46f>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x491>
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x477>
 +movb   $0x1,-0x22(%ebp)
 +cmpb   $0x0,-0x22(%ebp)
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x513>
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x4f7>
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -737,15 +710,14 @@
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
 +lea    -0x197(%ebp),%eax
-+add    $0x2,%eax
-+movw   $0x37,(%eax)
++movw   $0x37,0x2(%eax)
 +lea    -0x197(%ebp),%eax
 +movl   $0x37,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7f1>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7cb>
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -756,7 +728,7 @@
 +test   %al,%al
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x567>
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x54b>
 +mov    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -780,7 +752,7 @@
 +test   %al,%al
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x5cc>
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x5b0>
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -796,10 +768,10 @@
 +cmp    $0x1,%al
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x5cc>
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x5b0>
 +movb   $0x1,-0x21(%ebp)
 +cmpb   $0x0,-0x21(%ebp)
-+je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x64e>
++je     <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x630>
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -818,15 +790,14 @@
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
 +lea    -0x197(%ebp),%eax
-+add    $0x2,%eax
-+movw   $0x37,(%eax)
++movw   $0x37,0x2(%eax)
 +lea    -0x197(%ebp),%eax
 +movl   $0x37,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7f1>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7cb>
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser11GetCharNameEv>
@@ -845,12 +816,10 @@
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
 +mov    %eax,-0x184(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0x3a,%eax
-+movzbl (%eax),%eax
++movzbl 0x3a(%eax),%eax
 +mov    %al,-0x161(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0x3a,%eax
-+movzbl (%eax),%eax
++movzbl 0x3a(%eax),%eax
 +movzbl %al,%eax
 +mov    0x8(%ebp),%edx
 +add    $0x3b,%edx
@@ -861,16 +830,13 @@
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
 +lea    -0x197(%ebp),%eax
-+add    $0x2,%eax
 +mov    0x8(%ebp),%edx
-+add    $0x3a,%edx
-+movzbl (%edx),%edx
++movzbl 0x3a(%edx),%edx
 +movzbl %dl,%edx
 +add    $0x37,%edx
-+mov    %dx,(%eax)
++mov    %dx,0x2(%eax)
 +lea    -0x197(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
++movzwl 0x2(%eax),%eax
 +movzwl %ax,%edx
 +lea    -0x197(%ebp),%eax
 +mov    %edx,0x8(%esp)
@@ -878,44 +844,36 @@
 +mov    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7f1>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7cb>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7f3>
-+jne    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x794>
++jne    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x76e>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
  movl   $0xb4c,0x8(%esp)
- movl   $"OnNoticeOtherChannelChatMsg",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Exception Break : %s",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7ec>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x78d>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x767>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -925,23 +883,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x850>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7f1>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7cb>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xb51,0x8(%esp)
- movl   $"OnNoticeOtherChannelChatMsg",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x60(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"Exception Break",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x60(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x848>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7e9>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7c3>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -951,7 +909,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x850>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7f1>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader+0x7cb>
  nop
  add    $0x1ac,%esp
  pop    %ebx
@@ -1161,7 +1119,7 @@ LAB_08084d4b:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 733 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 739 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt)
@@ -1174,41 +1132,41 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt)
         throw CDNFException("CPacketTranslater::OnNoticeBuddyChatMsg : 0 == m_pclApp");
     }
     CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
-    if (*(char*)((char*)pkt + 0x1b) != 0 &&
-        (unsigned char)*(char*)((char*)pkt + 0x1b) < 0x1e)
+    if (((RA_S8<27>*)pkt)->v != 0 &&
+        (unsigned char)((RA_S8<27>*)pkt)->v < 0x1e)
     {
         CUser* target = userMgr->FindUser_CharName((char*)pkt + 0x1c);
-        *(unsigned int*)((char*)pkt + 0x17) =
+        ((RA_UINT<23>*)pkt)->v =
             target != 0 ? target->GetUniqCharNo() : 0xffffffff;
     }
-    if (*(unsigned int*)((char*)pkt + 0x13) == 0 ||
-        *(unsigned int*)((char*)pkt + 0x17) == 0 ||
-        *(char*)((char*)pkt + 0x3a) == 0)
+    if (((RA_UINT<19>*)pkt)->v == 0 ||
+        ((RA_UINT<23>*)pkt)->v == 0 ||
+        ((RA_S8<58>*)pkt)->v == 0)
     {
         DNF_LOG_SCOPE_LINE(0xb46,"./log/Except",
             "CPacketTranslater::OnNoticeOtherChannelChatMsg, sender(%d), receiver(%d), "
             "msglen(%d)",
-            *(unsigned int*)((char*)pkt + 0x13), *(unsigned int*)((char*)pkt + 0x17),
-            (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x3a));
+            ((RA_UINT<19>*)pkt)->v, ((RA_UINT<23>*)pkt)->v,
+            (unsigned int)(unsigned char)((RA_S8<58>*)pkt)->v);
         throw CDNFException(
             "CPacketTranslater::OnNoticeOtherChannelChatMsg : packet->m_uSenderCharID &&  "
             "packet->m_uRecverCharID && packet->m_msgLen");
     }
     Packet_Monitor_Other_Channel_Chat_ToUser reply;
-    reply.m_senderCharId = *(unsigned int*)((char*)pkt + 0xa);
-    CUser* sender = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0x13));
+    reply.m_senderCharId = ((RA_UINT<10>*)pkt)->v;
+    CUser* sender = userMgr->FindUser_CharNo(((RA_UINT<19>*)pkt)->v);
     if (sender == 0)
     {
         return;
     }
-    CUser* receiver = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0x17));
+    CUser* receiver = userMgr->FindUser_CharNo(((RA_UINT<23>*)pkt)->v);
     if (receiver == 0)
     {
         reply.m_idByChannel = sender->GetIdByChannel();
         reply.m_uniqCharNo = sender->GetUniqCharNo();
         memcpy(reply.m_name, (char*)pkt + 0x1c, 0x1d);
         reply.m_type = 1;
-        *(unsigned short*)((char*)&reply + 2) = 0x37;
+        ((RA_U16<2>*)&reply)->v = 0x37;
         sender->SendToGameserver((char*)&reply, 0x37);
         return;
     }
@@ -1229,7 +1187,7 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt)
         reply.m_uniqCharNo = sender->GetUniqCharNo();
         reply.m_type = 2;
         memcpy(reply.m_name, (char*)pkt + 0x1c, 0x1d);
-        *(unsigned short*)((char*)&reply + 2) = 0x37;
+        ((RA_U16<2>*)&reply)->v = 0x37;
         sender->SendToGameserver((char*)&reply, 0x37);
         return;
     }
@@ -1252,7 +1210,7 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt)
         reply.m_uniqCharNo = sender->GetUniqCharNo();
         reply.m_type = 3;
         memcpy(reply.m_name, (char*)pkt + 0x1c, 0x1d);
-        *(unsigned short*)((char*)&reply + 2) = 0x37;
+        ((RA_U16<2>*)&reply)->v = 0x37;
         sender->SendToGameserver((char*)&reply, 0x37);
     }
     else
@@ -1260,13 +1218,13 @@ void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt)
         memcpy(reply.m_name, sender->GetCharName(), 0x1d);
         reply.m_idByChannel = receiver->GetIdByChannel();
         reply.m_uniqCharNo = receiver->GetUniqCharNo();
-        reply.m_msgLen = *(unsigned char*)((char*)pkt + 0x3a);
+        reply.m_msgLen = ((RA_U8<58>*)pkt)->v;
         memcpy(reply.m_msg, (char*)pkt + 0x3b,
-               (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x3a));
-        *(unsigned short*)((char*)&reply + 2) =
-            (unsigned short)((unsigned char)*(char*)((char*)pkt + 0x3a) + 0x37);
+               (unsigned int)(unsigned char)((RA_S8<58>*)pkt)->v);
+        ((RA_U16<2>*)&reply)->v =
+            (unsigned short)((unsigned char)((RA_S8<58>*)pkt)->v + 0x37);
         receiver->SendToGameserver((char*)&reply,
-                                   *(unsigned short*)((char*)&reply + 2));
+                                   ((RA_U16<2>*)&reply)->v);
     }
 
 

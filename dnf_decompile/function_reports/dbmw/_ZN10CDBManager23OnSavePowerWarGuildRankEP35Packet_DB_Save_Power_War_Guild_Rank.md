@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807f5f8` | `0x1bc` | `0x804fb9e` | `0x1de` |
+| dbmw | DIFF | `0x807f5f8` | `0x1bc` | `0x804fb8a` | `0x1de` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -40,27 +40,23 @@
 +mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--movzbl -0x19(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+movzbl -0x19(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ movzbl -0x19(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"deLete from power_war_guild_rank where server_id=%d",0x8(%esp)
  movl   $0x4ea9,0x4(%esp)
 -mov    -0x20(%ebp),%eax
-+mov    -0x24(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+-mov    -0x20(%ebp),%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_Rank+0xa3>
 +movl   $0x18f4,0x8(%esp)
-+movl   $"OnSavePowerWarGuildRank",0x4(%esp)
++movl   $&_ZZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_RankE12__FUNCTION__,0x4(%esp)
 +lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
--call   *%edx
--mov    -0x20(%ebp),%eax
++mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +movl   $"deLete_from_power_war_guild_rank Query Error\n",0x8(%esp)
 +movl   $"./log/DBQueryErr",0x4(%esp)
@@ -72,137 +68,118 @@
 +mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4ea9,0x4(%esp)
 -mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x21(%ebp)
 -movzbl -0x21(%ebp),%eax
-+mov    -0x24(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_Rank+0xba>
 -movl   $0x18f4,0x8(%esp)
+-movl   $&_ZZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_RankE12__FUNCTION__,0x4(%esp)
+-lea    -0x34(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $"deLete_from_power_war_guild_rank Query Error\n",0x8(%esp)
+-movl   $"./log/DBQueryErr",0x4(%esp)
+-lea    -0x34(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +je     <T> <_ZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_Rank+0xce>
-+mov    $0x0,%eax
+ mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_Rank+0x1ba>
+-mov    0xc(%ebp),%eax
+-mov    0xc(%eax),%eax
 +jmp    <T> <_ZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_Rank+0x1dc>
 +mov    -0x20(%ebp),%eax
 +add    $0xc,%eax
 +mov    (%eax),%eax
-+mov    %eax,-0x18(%ebp)
-+movl   $0x0,-0x14(%ebp)
+ mov    %eax,-0x18(%ebp)
+ movl   $0x0,-0x14(%ebp)
+-jmp    <T> <_ZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_Rank+0x1a4>
+-mov    -0x14(%ebp),%edx
+-mov    0xc(%ebp),%eax
+-add    $0x2,%edx
+-mov    (%eax,%edx,8),%eax
 +jmp    <T> <_ZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_Rank+0x1c6>
 +mov    -0x14(%ebp),%eax
 +add    $0x2,%eax
 +shl    $0x3,%eax
 +add    -0x20(%ebp),%eax
 +mov    (%eax),%eax
-+mov    %eax,-0x10(%ebp)
+ mov    %eax,-0x10(%ebp)
+-mov    -0x14(%ebp),%edx
+-mov    0xc(%ebp),%eax
+-add    $0x2,%edx
+-mov    0x4(%eax,%edx,8),%eax
 +mov    -0x14(%ebp),%eax
 +shl    $0x3,%eax
 +add    $0x14,%eax
 +add    -0x20(%ebp),%eax
 +mov    (%eax),%eax
-+mov    %eax,-0xc(%ebp)
+ mov    %eax,-0xc(%ebp)
+-mov    -0x20(%ebp),%eax
 +mov    -0x24(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    -0x20(%ebp),%edx
-+add    $0xb,%edx
-+movzbl (%edx),%edx
-+movzbl %dl,%ecx
-+movzbl -0x19(%ebp),%edx
-+mov    %ecx,0x1c(%esp)
-+mov    -0xc(%ebp),%ecx
-+mov    %ecx,0x18(%esp)
-+mov    -0x10(%ebp),%ecx
-+mov    %ecx,0x14(%esp)
-+mov    -0x14(%ebp),%ecx
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
-+movl   $"inSert into power_war_guild_rank set server_id=%d, rank=%d, guild_id=%d, power_war_point=%d, power_side=%d",0x8(%esp)
-+movl   $0x4eaa,0x4(%esp)
-+mov    -0x24(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%eax
+ add    $0x1c,%eax
+ mov    (%eax),%ecx
+-mov    0xc(%ebp),%eax
+-movzbl 0xb(%eax),%eax
++mov    -0x20(%ebp),%eax
++add    $0xb,%eax
++movzbl (%eax),%eax
+ movzbl %al,%edx
+ movzbl -0x19(%ebp),%eax
+ mov    %edx,0x1c(%esp)
+ mov    -0xc(%ebp),%edx
+ mov    %edx,0x18(%esp)
+ mov    -0x10(%ebp),%edx
+ mov    %edx,0x14(%esp)
+ mov    -0x14(%ebp),%edx
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
+ movl   $"inSert into power_war_guild_rank set server_id=%d, rank=%d, guild_id=%d, power_war_point=%d, power_side=%d",0x8(%esp)
+ movl   $0x4eaa,0x4(%esp)
+-mov    -0x20(%ebp),%eax
++mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ecx
+-mov    -0x20(%ebp),%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_Rank+0x19a>
 +movl   $0x190c,0x8(%esp)
- movl   $"OnSavePowerWarGuildRank",0x4(%esp)
- lea    -0x34(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"deLete_from_power_war_guild_rank Query Error\n",0x8(%esp)
++movl   $&_ZZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_RankE12__FUNCTION__,0x4(%esp)
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
 +movl   $"inSert_into_power_war_guild_rank Query Error\n",0x8(%esp)
- movl   $"./log/DBQueryErr",0x4(%esp)
- lea    -0x34(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_Rank+0x1ba>
--mov    0xc(%ebp),%eax
--mov    0xc(%eax),%eax
--mov    %eax,-0x18(%ebp)
--movl   $0x0,-0x14(%ebp)
--jmp    <T> <_ZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_Rank+0x1a4>
--mov    -0x14(%ebp),%edx
--mov    0xc(%ebp),%eax
--add    $0x2,%edx
--mov    (%eax,%edx,8),%eax
--mov    %eax,-0x10(%ebp)
--mov    -0x14(%ebp),%edx
--mov    0xc(%ebp),%eax
--add    $0x2,%edx
--mov    0x4(%eax,%edx,8),%eax
--mov    %eax,-0xc(%ebp)
--mov    -0x20(%ebp),%eax
--mov    (%eax),%eax
--add    $0x1c,%eax
--mov    (%eax),%ecx
--mov    0xc(%ebp),%eax
--movzbl 0xb(%eax),%eax
--movzbl %al,%edx
--movzbl -0x19(%ebp),%eax
--mov    %edx,0x1c(%esp)
--mov    -0xc(%ebp),%edx
--mov    %edx,0x18(%esp)
--mov    -0x10(%ebp),%edx
--mov    %edx,0x14(%esp)
--mov    -0x14(%ebp),%edx
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
--movl   $"inSert into power_war_guild_rank set server_id=%d, rank=%d, guild_id=%d, power_war_point=%d, power_side=%d",0x8(%esp)
--movl   $0x4eaa,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
--mov    -0x20(%ebp),%eax
++movl   $"./log/DBQueryErr",0x4(%esp)
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_Rank+0x1dc>
 +mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4eaa,0x4(%esp)
 -mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x21(%ebp)
 -movzbl -0x21(%ebp),%eax
-+mov    -0x24(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_Rank+0x1a0>
 -movl   $0x190c,0x8(%esp)
--movl   $"OnSavePowerWarGuildRank",0x4(%esp)
+-movl   $&_ZZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_RankE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -286,4 +263,4 @@ CDBManager::_ZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

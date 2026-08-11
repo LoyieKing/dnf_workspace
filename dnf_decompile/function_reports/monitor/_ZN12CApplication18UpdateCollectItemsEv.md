@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8065dcc` | `0x11f` | `0x8053b28` | `0x111` |
+| monitor | DIFF | `0x8065dcc` | `0x11f` | `0x8053b64` | `0x107` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,83 +1,85 @@
+@@ -1,83 +1,80 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x78,%esp
@@ -64,7 +64,7 @@
  test   %eax,%eax
 -jne    <T> <_ZN12CApplication18UpdateCollectItemsEv+0x11d>
 -lea    -0x20(%ebp),%eax
-+jne    <T> <_ZN12CApplication18UpdateCollectItemsEv+0x10f>
++jne    <T> <_ZN12CApplication18UpdateCollectItemsEv+0x105>
 +mov    0x8(%ebp),%eax
 +mov    0x388(%eax),%eax
 +mov    %eax,-0xc(%ebp)
@@ -73,19 +73,15 @@
  call   <T> <_ZN25Packet_CollectItemsUpdateC1Ev>
 -mov    0x8(%ebp),%eax
 -mov    0x388(%eax),%eax
--mov    0x4(%eax),%eax
++mov    -0xc(%ebp),%eax
+ mov    0x4(%eax),%eax
 -mov    %eax,-0x16(%ebp)
 -mov    0x8(%ebp),%eax
 -mov    0x388(%eax),%eax
--mov    0x8(%eax),%eax
--mov    %eax,-0x11(%ebp)
-+mov    -0xc(%ebp),%eax
-+add    $0x4,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x1a(%ebp)
 +mov    -0xc(%ebp),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
+ mov    0x8(%eax),%eax
+-mov    %eax,-0x11(%ebp)
 +mov    %eax,-0x15(%ebp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -93,12 +89,10 @@
 -mov    %al,-0x12(%ebp)
 -mov    0x8(%ebp),%eax
 -mov    0x388(%eax),%eax
--movzbl 0xc(%eax),%eax
--mov    %al,-0xd(%ebp)
 +mov    %al,-0x16(%ebp)
 +mov    -0xc(%ebp),%eax
-+add    $0xc,%eax
-+movzbl (%eax),%eax
+ movzbl 0xc(%eax),%eax
+-mov    %al,-0xd(%ebp)
 +mov    %al,-0x11(%ebp)
  mov    0x8(%ebp),%eax
  mov    0xa0(%eax),%eax
@@ -113,17 +107,14 @@
  call   <T> <_ZN25Packet_CollectItemsResultC1Ev>
 -mov    0x8(%ebp),%eax
 -mov    0x388(%eax),%eax
--mov    0x4(%eax),%eax
 +mov    -0xc(%ebp),%eax
-+add    $0x4,%eax
-+mov    (%eax),%eax
+ mov    0x4(%eax),%eax
 +mov    %eax,-0x2c(%ebp)
 +mov    -0xc(%ebp),%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x30(%ebp)
 +mov    -0xc(%ebp),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
++mov    0x8(%eax),%eax
  mov    %eax,-0x28(%ebp)
  mov    0x8(%ebp),%eax
 -mov    0x388(%eax),%eax
@@ -186,7 +177,7 @@ void __thiscall CApplication::_ZN12CApplication18UpdateCollectItemsEv(CApplicati
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 1120 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 1142 行）：
 
 ```cpp
 void CApplication::UpdateCollectItems()
@@ -197,15 +188,15 @@ void CApplication::UpdateCollectItems()
     {
         CollectItms* items = (CollectItms*)m_field388;
         Packet_CollectItemsUpdate pkt;
-        pkt.m_fieldA = *(unsigned int*)((char*)items + 4);
-        pkt.m_fieldF = *(unsigned int*)((char*)items + 8);
+        pkt.m_fieldA = ((RA_UINT<4>*)items)->v;
+        pkt.m_fieldF = ((RA_UINT<8>*)items)->v;
         pkt.m_fieldE = Get_ServerGroup();
-        pkt.m_field13 = *(unsigned char*)((char*)items + 0xc);
+        pkt.m_field13 = ((RA_U8<12>*)items)->v;
         m_serverHandler2->SendToDB(&pkt);
         Packet_CollectItemsResult pkt2;
-        pkt2.m_fieldE = *(unsigned int*)((char*)items + 4);
-        pkt2.m_fieldA = *(unsigned int*)((char*)items + 0);
-        pkt2.m_field12 = *(unsigned int*)((char*)items + 8);
+        pkt2.m_fieldE = ((RA_UINT<4>*)items)->v;
+        pkt2.m_fieldA = ((RA_UINT<0>*)items)->v;
+        pkt2.m_field12 = ((RA_UINT<8>*)items)->v;
         m_serverHandler2->SendAllTcpGameServer(&pkt2);
     }
 }

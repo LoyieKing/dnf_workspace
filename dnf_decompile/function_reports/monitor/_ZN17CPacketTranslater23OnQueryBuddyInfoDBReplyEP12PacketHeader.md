@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80880d0` | `0x258` | `0x8073372` | `0x25c` |
+| monitor | DIFF | `0x80880d0` | `0x258` | `0x8073438` | `0x254` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,159 +1,163 @@
+@@ -1,159 +1,159 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -27,61 +27,56 @@
 -jne    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x52>
 +jne    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x4c>
  movl   $0x10f0,0x8(%esp)
- movl   $"OnQueryBuddyInfoDBReply",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnQueryBuddyInfoDBReply : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/buddy",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x251>
-+jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x255>
++jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x24d>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  add    $0x10,%eax
+-mov    %eax,-0x14(%ebp)
+-mov    -0x18(%ebp),%eax
 +mov    %eax,-0x18(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
-+cmp    $0x20,%al
-+jbe    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x6d>
-+mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movb   $0x20,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
- mov    %eax,-0x14(%ebp)
--mov    -0x18(%ebp),%eax
--movzbl 0xe(%eax),%eax
--cmp    $0x20,%al
+ movzbl 0xe(%eax),%eax
+ cmp    $0x20,%al
 -jbe    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x6f>
--mov    -0x18(%ebp),%eax
++jbe    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x69>
++mov    0x8(%ebp),%eax
++movb   $0x20,0xe(%eax)
++mov    0x8(%ebp),%eax
++mov    0xa(%eax),%eax
++mov    %eax,0x4(%esp)
+ mov    -0x18(%ebp),%eax
 -movb   $0x20,0xe(%eax)
 -mov    -0x18(%ebp),%eax
 -mov    0xa(%eax),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
++mov    %eax,-0x14(%ebp)
 +cmpl   $0x0,-0x14(%ebp)
-+jne    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0xc8>
++jne    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0xc2>
 +movl   $0x1112,0x8(%esp)
-+movl   $"OnQueryBuddyInfoDBReply",0x4(%esp)
-+lea    -0x28(%ebp),%eax
++movl   $&_ZZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +movl   $"CPacketTranslater::OnQueryBuddyInfoDBReply\t  pclUser is NULL",0x8(%esp)
 +movl   $"./log/buddy",0x4(%esp)
-+lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x255>
++jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x24d>
 +movl   $0x0,-0x10(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x134>
++jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x12e>
 +mov    0x8(%ebp),%eax
 +mov    -0x10(%ebp),%edx
 +imul   $0x27,%edx,%edx
@@ -133,30 +128,25 @@
  call   <T> <_ZN21CBuddyRegisterManager16addBuddyRegisterEjj>
  addl   $0x1,-0x10(%ebp)
 -mov    -0x18(%ebp),%eax
--movzbl 0xe(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
+ movzbl 0xe(%eax),%eax
  movzbl %al,%eax
  cmp    -0x10(%ebp),%eax
  setg   %al
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x9f>
-+jne    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0xd1>
+-mov    -0x18(%ebp),%eax
++jne    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0xcb>
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x169>
-+mov    -0x14(%ebp),%eax
-+mov    %eax,0x4(%esp)
- mov    -0x18(%ebp),%eax
--movzbl 0xe(%eax),%eax
--test   %al,%al
+ movzbl 0xe(%eax),%eax
+ test   %al,%al
 -je     <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x128>
 -mov    -0x1c(%ebp),%eax
--mov    %eax,0x4(%esp)
++je     <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x15f>
++mov    -0x14(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
++mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser>
  movl   $0x4,0x4(%esp)
@@ -166,7 +156,7 @@
  call   <T> <_ZN5CUser14SetBuddyDBFlagEt>
 -jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x251>
 -movl   $0x1112,0x8(%esp)
--movl   $"OnQueryBuddyInfoDBReply",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -176,47 +166,38 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x251>
-+jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x255>
++jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x24d>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x1f7>
-+jne    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x1fb>
++jne    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x1f3>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0x1118,0x8(%esp)
-+movl   $"OnQueryBuddyInfoDBReply",0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x1118,0x8(%esp)
--movl   $"OnQueryBuddyInfoDBReply",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x1118,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
 -movl   $"CPacketTranslater::OnQueryBuddyInfoDBReply Exception Break : %s\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
 +movl   $"CPacketTranslater::OnQueryBuddyInfoDBReply() Exception Break : %s\n",0x8(%esp)
 +movl   $"%s",0x4(%esp)
-+lea    -0x30(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x1f0>
-+jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x1f4>
++jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x1ec>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -226,13 +207,13 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x251>
-+jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x255>
++jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x24d>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x111d,0x8(%esp)
- movl   $"OnQueryBuddyInfoDBReply",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -movl   $"CPacketTranslater::OnQueryBuddyInfoDBReply Exception Break\n",0x8(%esp)
@@ -240,11 +221,11 @@
 -lea    -0x24(%ebp),%eax
 +movl   $"CPacketTranslater::OnQueryBuddyInfoDBReply() Exception Break",0x8(%esp)
 +movl   $"%s",0x4(%esp)
-+lea    -0x38(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x24c>
-+jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x250>
++jmp    <T> <_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader+0x248>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -315,7 +296,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2891 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2897 行）：
 
 ```cpp
 void CPacketTranslater::OnQueryBuddyInfoDBReply(PacketHeader* pkt)
@@ -329,11 +310,11 @@ void CPacketTranslater::OnQueryBuddyInfoDBReply(PacketHeader* pkt)
         else
         {
             CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
-            if (0x20 < (unsigned char)*(char*)((char*)pkt + 0xe))
+            if (0x20 < (unsigned char)((RA_S8<14>*)pkt)->v)
             {
-                *(char*)((char*)pkt + 0xe) = 0x20;
+                ((RA_S8<14>*)pkt)->v = 0x20;
             }
-            CUser* user = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xa));
+            CUser* user = userMgr->FindUser_CharNo(((RA_UINT<10>*)pkt)->v);
             if (user == 0)
             {
                 DNF_LOG_SCOPE_LINE(0x1112,"./log/buddy",
@@ -342,7 +323,7 @@ void CPacketTranslater::OnQueryBuddyInfoDBReply(PacketHeader* pkt)
             else
             {
                 for (int i = 0;
-                     i < (int)(unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe); i++)
+                     i < (int)(unsigned int)(unsigned char)((RA_S8<14>*)pkt)->v; i++)
                 {
                     user->AddBuddy(*(STBuddyDBInfo*)((char*)pkt + i * 0x27 + 0xf));
                     user->GetUniqCharNo();
@@ -350,7 +331,7 @@ void CPacketTranslater::OnQueryBuddyInfoDBReply(PacketHeader* pkt)
                         ->addBuddyRegister(*(unsigned int*)((char*)pkt + i * 0x27 + 0x31),
                                            user->GetUniqCharNo());
                 }
-                if (*(char*)((char*)pkt + 0xe) != 0)
+                if (((RA_S8<14>*)pkt)->v != 0)
                 {
                     userMgr->SendConnectedBuddysList(user);
                 }

@@ -2,8 +2,8 @@
 
 | 项 | 值 |
 |---|---|
-| 原始 ELF | `/mnt/d/Docs/my_sources/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople/bridge/df_bridge_r` |
-| 重建 ELF | `/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile/build/bridge/df_bridge_r` |
+| 原始 ELF | `/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople/bridge/df_bridge_r` |
+| 重建 ELF | `/home/loyieking/dnf_workspace/dnf_decompile/build/bridge/df_bridge_r` |
 | 统计口径 | `compare_common` strict（仅归一化直接跳转/调用目标地址） |
 | 地址等价口径 | 数据地址（字符串/全局变量）伪代码化为内容/`&符号` 后逐条相等者判为 `IDENTICAL_AE`（视为相同，不生成 md） |
 | 豁免 | 第三方基础库（tinyxml/加密哈希/Boost/STL/工具链运行时等，见 `compare_common.is_exempt_symbol`） |
@@ -15,20 +15,20 @@
 | 类别 | 数量 |
 |---|---|
 | IDENTICAL | 0 |
-| NEAR | 12 |
-| DIFF | 35 |
-| MISSING | 851 |
+| NEAR | 0 |
+| DIFF | 0 |
+| MISSING | 673 |
 | EMPTY | 0 |
 | EXEMPT_SKIP | 0 |
 | IDENTICAL_AE（地址等价） | 0 |
-| 已生成 md | 30 |
+| 已生成 md | 0 |
 
 ## 范围过滤（scope.txt）
 
 ```
-targets=47
-ours=30
-skip_no_source=17
+targets=0
+ours=0
+skip_no_source=0
 skip_vendored=0
 ```
 
@@ -41,7 +41,7 @@ skip_vendored=0
 
 ## 缺失函数（原始有、重建无；均为第三方 C 库符号，未生成 md）
 
-共 851 个：
+共 673 个：
 
 ```
 _Z11AES_DecryptPvPh	_Z11AES_DecryptPvPh
@@ -128,9 +128,6 @@ dirname_length	dirname_length
 dirname_part	dirname_part
 dtoa.clone.0	dtoa.clone.0
 end_server	end_server
-err_helper	err_helper
-escape_quotes_for_mysql	escape_quotes_for_mysql
-escape_string_for_mysql	escape_string_for_mysql
 fetch_datetime_with_conversion	fetch_datetime_with_conversion
 fetch_float_with_conversion	fetch_float_with_conversion
 fetch_long_with_conversion	fetch_long_with_conversion
@@ -606,109 +603,6 @@ my_xml_set_leave_handler	my_xml_set_leave_handler
 my_xml_set_user_data	my_xml_set_user_data
 my_xml_set_value_handler	my_xml_set_value_handler
 myodbc_remove_escape	myodbc_remove_escape
-mysql_affected_rows	mysql_affected_rows
-mysql_autocommit	mysql_autocommit
-mysql_change_user	mysql_change_user
-mysql_character_set_name	mysql_character_set_name
-mysql_close_free_options	mysql_close_free_options
-mysql_commit	mysql_commit
-mysql_data_seek	mysql_data_seek
-mysql_debug	mysql_debug
-mysql_detach_stmt_list	mysql_detach_stmt_list
-mysql_dump_debug_info	mysql_dump_debug_info
-mysql_embedded	mysql_embedded
-mysql_eof	mysql_eof
-mysql_error	mysql_error
-mysql_escape_string	mysql_escape_string
-mysql_fetch_field	mysql_fetch_field
-mysql_fetch_field_direct	mysql_fetch_field_direct
-mysql_fetch_fields	mysql_fetch_fields
-mysql_fetch_lengths	mysql_fetch_lengths
-mysql_field_count	mysql_field_count
-mysql_field_seek	mysql_field_seek
-mysql_field_tell	mysql_field_tell
-mysql_get_character_set_info	mysql_get_character_set_info
-mysql_get_client_info	mysql_get_client_info
-mysql_get_client_version	mysql_get_client_version
-mysql_get_host_info	mysql_get_host_info
-mysql_get_parameters	mysql_get_parameters
-mysql_get_proto_info	mysql_get_proto_info
-mysql_get_server_info	mysql_get_server_info
-mysql_get_server_version	mysql_get_server_version
-mysql_get_ssl_cipher	mysql_get_ssl_cipher
-mysql_hex_string	mysql_hex_string
-mysql_info	mysql_info
-mysql_init_character_set	mysql_init_character_set
-mysql_insert_id	mysql_insert_id
-mysql_kill	mysql_kill
-mysql_list_dbs	mysql_list_dbs
-mysql_list_fields	mysql_list_fields
-mysql_list_processes	mysql_list_processes
-mysql_list_tables	mysql_list_tables
-mysql_more_results	mysql_more_results
-mysql_next_result	mysql_next_result
-mysql_num_fields	mysql_num_fields
-mysql_num_rows	mysql_num_rows
-mysql_options	mysql_options
-mysql_ping	mysql_ping
-mysql_read_default_options	mysql_read_default_options
-mysql_read_query_result	mysql_read_query_result
-mysql_real_escape_string	mysql_real_escape_string
-mysql_real_query	mysql_real_query
-mysql_reconnect	mysql_reconnect
-mysql_refresh	mysql_refresh
-mysql_rollback	mysql_rollback
-mysql_row_seek	mysql_row_seek
-mysql_row_tell	mysql_row_tell
-mysql_select_db	mysql_select_db
-mysql_send_query	mysql_send_query
-mysql_server_end	mysql_server_end
-mysql_server_init	mysql_server_init
-mysql_set_character_set	mysql_set_character_set
-mysql_set_local_infile_default	mysql_set_local_infile_default
-mysql_set_local_infile_handler	mysql_set_local_infile_handler
-mysql_set_server_option	mysql_set_server_option
-mysql_sha1_input	mysql_sha1_input
-mysql_sha1_reset	mysql_sha1_reset
-mysql_sha1_result	mysql_sha1_result
-mysql_shutdown	mysql_shutdown
-mysql_sqlstate	mysql_sqlstate
-mysql_ssl_set	mysql_ssl_set
-mysql_stat	mysql_stat
-mysql_stmt_affected_rows	mysql_stmt_affected_rows
-mysql_stmt_attr_get	mysql_stmt_attr_get
-mysql_stmt_attr_set	mysql_stmt_attr_set
-mysql_stmt_bind_param	mysql_stmt_bind_param
-mysql_stmt_bind_result	mysql_stmt_bind_result
-mysql_stmt_close	mysql_stmt_close
-mysql_stmt_data_seek	mysql_stmt_data_seek
-mysql_stmt_errno	mysql_stmt_errno
-mysql_stmt_error	mysql_stmt_error
-mysql_stmt_execute	mysql_stmt_execute
-mysql_stmt_fetch	mysql_stmt_fetch
-mysql_stmt_fetch_column	mysql_stmt_fetch_column
-mysql_stmt_field_count	mysql_stmt_field_count
-mysql_stmt_free_result	mysql_stmt_free_result
-mysql_stmt_init	mysql_stmt_init
-mysql_stmt_insert_id	mysql_stmt_insert_id
-mysql_stmt_next_result	mysql_stmt_next_result
-mysql_stmt_num_rows	mysql_stmt_num_rows
-mysql_stmt_param_count	mysql_stmt_param_count
-mysql_stmt_param_metadata	mysql_stmt_param_metadata
-mysql_stmt_prepare	mysql_stmt_prepare
-mysql_stmt_reset	mysql_stmt_reset
-mysql_stmt_result_metadata	mysql_stmt_result_metadata
-mysql_stmt_row_seek	mysql_stmt_row_seek
-mysql_stmt_row_tell	mysql_stmt_row_tell
-mysql_stmt_send_long_data	mysql_stmt_send_long_data
-mysql_stmt_sqlstate	mysql_stmt_sqlstate
-mysql_stmt_store_result	mysql_stmt_store_result
-mysql_thread_end	mysql_thread_end
-mysql_thread_id	mysql_thread_id
-mysql_thread_init	mysql_thread_init
-mysql_thread_safe	mysql_thread_safe
-mysql_use_result	mysql_use_result
-mysql_warning_count	mysql_warning_count
 net_clear	net_clear
 net_clear_error	net_clear_error
 net_end	net_end
@@ -746,8 +640,6 @@ scramble_323	scramble_323
 search_default_file_with_ext	search_default_file_with_ext
 send_tree	send_tree
 set_dynamic	set_dynamic
-set_mysql_error	set_mysql_error
-set_mysql_extended_error	set_mysql_extended_error
 set_prealloc_root	set_prealloc_root
 set_stmt_errmsg	set_stmt_errmsg
 set_stmt_error	set_stmt_error
@@ -823,76 +715,6 @@ vio_verify_callback	vio_verify_callback
 vio_was_interrupted	vio_was_interrupted
 vio_write	vio_write
 wait_for_free_space	wait_for_free_space
-yaASN1_STRING_data	yaASN1_STRING_data
-yaASN1_STRING_length	yaASN1_STRING_length
-yaASN1_STRING_to_UTF8	yaASN1_STRING_to_UTF8
-yaASN1_STRING_type	yaASN1_STRING_type
-yaBN_bin2bn	yaBN_bin2bn
-yaDES_ecb_encrypt	yaDES_ecb_encrypt
-yaDES_ede3_cbc_encrypt	yaDES_ede3_cbc_encrypt
-yaDES_set_key	yaDES_set_key
-yaDES_set_key_unchecked	yaDES_set_key_unchecked
-yaDES_set_odd_parity	yaDES_set_odd_parity
-yaDH_free	yaDH_free
-yaDH_new	yaDH_new
-yaERR_GET_REASON	yaERR_GET_REASON
-yaERR_error_string	yaERR_error_string
-yaERR_error_string_n	yaERR_error_string_n
-yaERR_free_strings	yaERR_free_strings
-yaERR_get_error	yaERR_get_error
-yaERR_get_error_line_data	yaERR_get_error_line_data
-yaERR_peek_error	yaERR_peek_error
-yaERR_print_errors_fp	yaERR_print_errors_fp
-yaERR_remove_state	yaERR_remove_state
-yaEVP_BytesToKey	yaEVP_BytesToKey
-yaEVP_PKEY_copy_parameters	yaEVP_PKEY_copy_parameters
-yaEVP_PKEY_free	yaEVP_PKEY_free
-yaEVP_cleanup	yaEVP_cleanup
-yaEVP_des_ede3_cbc	yaEVP_des_ede3_cbc
-yaGENERAL_NAMES_free	yaGENERAL_NAMES_free
-yaMD4_Final	yaMD4_Final
-yaMD4_Init	yaMD4_Init
-yaMD4_Update	yaMD4_Update
-yaMD5_Final	yaMD5_Final
-yaMD5_Init	yaMD5_Init
-yaMD5_Update	yaMD5_Update
-yaOpenSSL_add_all_algorithms	yaOpenSSL_add_all_algorithms
-yaRAND_bytes	yaRAND_bytes
-yaRAND_file_name	yaRAND_file_name
-yaRAND_load_file	yaRAND_load_file
-yaRAND_screen	yaRAND_screen
-yaRAND_status	yaRAND_status
-yaRAND_write_file	yaRAND_write_file
-yaRSA_free	yaRSA_free
-yaRSA_generate_key	yaRSA_generate_key
-yaTLSv1_1_client_method	yaTLSv1_1_client_method
-yaTLSv1_1_server_method	yaTLSv1_1_server_method
-yaTLSv1_client_method	yaTLSv1_client_method
-yaTLSv1_server_method	yaTLSv1_server_method
-yaX509_LOOKUP_add_dir	yaX509_LOOKUP_add_dir
-yaX509_LOOKUP_file	yaX509_LOOKUP_file
-yaX509_LOOKUP_hash_dir	yaX509_LOOKUP_hash_dir
-yaX509_LOOKUP_load_file	yaX509_LOOKUP_load_file
-yaX509_NAME_ENTRY_get_data	yaX509_NAME_ENTRY_get_data
-yaX509_NAME_get_entry	yaX509_NAME_get_entry
-yaX509_NAME_get_index_by_NID	yaX509_NAME_get_index_by_NID
-yaX509_NAME_oneline	yaX509_NAME_oneline
-yaX509_STORE_CTX_get_current_cert	yaX509_STORE_CTX_get_current_cert
-yaX509_STORE_CTX_get_error	yaX509_STORE_CTX_get_error
-yaX509_STORE_CTX_get_error_depth	yaX509_STORE_CTX_get_error_depth
-yaX509_STORE_add_lookup	yaX509_STORE_add_lookup
-yaX509_STORE_get_by_subject	yaX509_STORE_get_by_subject
-yaX509_STORE_new	yaX509_STORE_new
-yaX509_free	yaX509_free
-yaX509_get_ext_d2i	yaX509_get_ext_d2i
-yaX509_get_issuer_name	yaX509_get_issuer_name
-yaX509_get_notAfter	yaX509_get_notAfter
-yaX509_get_notBefore	yaX509_get_notBefore
-yaX509_get_pubkey	yaX509_get_pubkey
-yaX509_get_subject_name	yaX509_get_subject_name
-yaX509_verify_cert_error_string	yaX509_verify_cert_error_string
-yask_GENERAL_NAME_num	yask_GENERAL_NAME_num
-yask_GENERAL_NAME_value	yask_GENERAL_NAME_value
 year_2000_handling	year_2000_handling
 zError	zError
 ```

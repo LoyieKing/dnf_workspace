@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808d9f0` | `0x7f` | `0x80758b0` | `0x7c` |
+| dbmw | DIFF | `0x808d9f0` | `0x7f` | `0x80c8f44` | `0x7c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -94,7 +94,7 @@ bool __thiscall CMySql::_ZN6CMySql7get_strEiPci(CMySql *this,int param_1,char *p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 360 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 358 行）：
 
 ```cpp
 bool CMySql::get_str(int col, char* buf, int len)

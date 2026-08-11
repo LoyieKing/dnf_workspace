@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x805d36c` | `0x457` | `0x8061744` | `0x44f` |
+| manager | DIFF | `0x805d36c` | `0x457` | `0x80616c8` | `0x44f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -154,7 +154,7 @@
 -jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x37>
 +jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x6a>
  movl   $0xae,0x8(%esp)
- movl   $"dispatch",0x4(%esp)
+ movl   $&_ZZN17CTcpNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
  lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -305,14 +305,10 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CTcpNetworkThread::dispatch() 예외 발생 : %s\n",(%esp)
  call   <T> <printf>
@@ -385,7 +381,7 @@
  lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -471,7 +467,7 @@
  lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -573,10 +569,10 @@ void CTcpNetworkThread::_ZN17CTcpNetworkThread8dispatchEPv(void *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpNetworkThread.cpp](source/DNFServer/GameServer/DBMW/DNFTcpNetworkThread.cpp)（约第 41 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFTcpNetworkThread.cpp](source/DNFServer/GameServer/Manager/DNFTcpNetworkThread.cpp)（约第 53 行）：
 
 ```cpp
-void CTcpNetworkThread::dispatch(void* param)
+void* CTcpNetworkThread::dispatch(void* param)
 {
     m_runningFlag = 1;
     DNFFLib::Sleep_Ext(5, 0);
@@ -586,7 +582,7 @@ void CTcpNetworkThread::dispatch(void* param)
         {
             if (!m_runningFlag)
             {
-                CMyFileLog log("dispatch", 0xae);
+                CMyFileLog log(__FUNCTION__, 0xae);
                 log("./log/TcpRecv", "RecvThread Terminate");
                 break;
             }
@@ -637,5 +633,6 @@ void CTcpNetworkThread::dispatch(void* param)
         puts("CTcpNetworkThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
         throw CDNFException("CTcpNetworkThread::dispatch() Recv  Socket Exception Break!");
     }
+    return 0;
 }
 ```

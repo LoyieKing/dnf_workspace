@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80806fc` | `0xdd` | `0x80691aa` | `0xd7` |
+| monitor | DIFF | `0x80806fc` | `0xdd` | `0x8069362` | `0xd7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -139,4 +139,4 @@ void CPacketTranslater::_ZN17CPacketTranslater32SendNoticeMemberEnterPacketReply
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/COServer/DNFPacketTranslater.cpp, source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp, source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp, source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp, source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp, source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h 等 643 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp, source/DNFServer/GameServer/Monitor/Arad_BirthdayEvent.h, source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.h, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/DNFAppConfig.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFBuddy.h 等 299 个文件*

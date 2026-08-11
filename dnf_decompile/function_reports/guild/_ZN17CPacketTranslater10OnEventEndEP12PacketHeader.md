@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807d804` | `0x256` | `0x8074064` | `0x25c` |
+| guild | DIFF | `0x807d804` | `0x256` | `0x8073e68` | `0x25c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -24,19 +24,19 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater10OnEventEndEP12PacketHeader+0xdf>
 -lea    -0x39(%ebp),%eax
-+lea    -0x25(%ebp),%eax
++lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x39(%ebp),%eax
-+lea    -0x25(%ebp),%eax
++lea    -0x2d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnEventEnd : 0 == m_pclApp",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x40(%ebp),%esi
-+lea    -0x2c(%ebp),%esi
++lea    -0x34(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -54,7 +54,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x40(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater10OnEventEndEP12PacketHeader+0x87>
@@ -65,7 +65,7 @@
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater10OnEventEndEP12PacketHeader+0xa4>
 -lea    -0x40(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater10OnEventEndEP12PacketHeader+0xbc>
@@ -75,7 +75,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x39(%ebp),%eax
-+lea    -0x25(%ebp),%eax
++lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
@@ -83,10 +83,10 @@
 -jmp    <T> <_ZN17CPacketTranslater10OnEventEndEP12PacketHeader+0x146>
 -lea    -0x39(%ebp),%eax
 +jmp    <T> <_ZN17CPacketTranslater10OnEventEndEP12PacketHeader+0x14e>
-+lea    -0x25(%ebp),%eax
++lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -99,9 +99,9 @@
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%ebx
  movl   $0xe6b,0x8(%esp)
- movl   $"OnEventEnd",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater10OnEventEndEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
@@ -110,7 +110,7 @@
  movl   $"CPacketTranslater::OnEventEnd() eventCode(%d)\n",0x8(%esp)
  movl   $"./log/Web",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -131,43 +131,34 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,0x4(%esp)
+-movl   $"CPacketTranslater::OnEventEnd() 예외 발생 : %s\n",(%esp)
 +movl   $"CPacketTranslater::OnEventEnd() �삁�쇅 諛쒖깮 : %s\n",(%esp)
-+call   <T> <printf>
+ call   <T> <printf>
 +movl   $0xe72,0x8(%esp)
 +movl   $"OnEventEnd",0x4(%esp)
 +lea    -0x3c(%ebp),%eax
- mov    %eax,(%esp)
--call   *%edx
--mov    %eax,0x4(%esp)
--movl   $"CPacketTranslater::OnEventEnd() 예외 발생 : %s\n",(%esp)
--call   <T> <printf>
++mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
 -movl   $0xe72,0x8(%esp)
--movl   $"OnEventEnd",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater10OnEventEndEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
 -movl   $"CPacketTranslater::OnEventEnd() 예외 발생 : %s\n",0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
 +movl   $"CPacketTranslater::OnEventEnd() �삁�쇅 諛쒖깮 : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -193,7 +184,7 @@
 +movl   $"CPacketTranslater::OnEventEnd() �삁�쇅 諛쒖깮",(%esp)
  call   <T> <puts>
  movl   $0xe78,0x8(%esp)
- movl   $"OnEventEnd",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater10OnEventEndEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
@@ -266,20 +257,30 @@ void CPacketTranslater::_ZN17CPacketTranslater10OnEventEndEP12PacketHeader(Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2411 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2649 行）：
 
 ```cpp
-void CPacketTranslater::OnEventEnd(PacketHeader* header)
+void CPacketTranslater::OnEventEnd(PacketHeader* pkt)
 {
     try
     {
-        if (!m_pclApp)
-            throw CDNFException("CPacketTranslater::OnEventEnd : 0 == m_pclApp");
-        m_pclApp->m_serverHandler->SendAllTcpServer(header);
-        CMyFileLog log("OnEventEnd", 0x92);
-        log("./log/Web", "CPacketTranslater::OnEventEnd() eventCode(%d)\n",
-            *(int*)((char*)header + 0xa));
+    THROW_IF_NO_APP("CPacketTranslater::OnEventEnd : 0 == m_pclApp");
+    char* pb = (char*)pkt;
+    unsigned int eventCode = *(unsigned int*)(pb + 10);
+    DNF_LOG_SCOPE_LINE(0xe6b, "./log/Web", "CPacketTranslater::OnEventEnd() eventCode(%d)\n", eventCode);
+    m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(pkt);
     }
-    DNF_CATCH_LOG_THROW("CPacketTranslater::OnEventEnd() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnEventEnd() 예외 발생 : %s\n", e.what());
+        CMyFileLog log("OnEventEnd", 0xe72);
+        log("./log/Except", "CPacketTranslater::OnEventEnd() 예외 발생 : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnEventEnd() 예외 발생");
+        CMyFileLog log(__FUNCTION__, 0xe78);
+        log("./log/Except", "CPacketTranslater::OnEventEnd() 예외 발생\n");
+    }
 }
 ```

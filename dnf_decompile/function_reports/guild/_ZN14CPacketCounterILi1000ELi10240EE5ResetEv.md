@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8070bc2` | `0x79` | `0x8097e36` | `0x23` |
+| guild | DIFF | `0x8070bc2` | `0x79` | `0x8097974` | `0x23` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -77,19 +77,11 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EE5ResetEv
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/PacketCounter.cpp](source/DNFServer/GameServer/DBMW/PacketCounter.cpp)（约第 48 行）：
+定义于 [source/DNFServer/GameServer/Guild/PacketCounter.cpp](source/DNFServer/GameServer/Guild/PacketCounter.cpp)（约第 142 行）：
 
 ```cpp
 void CPacketCounter<Lo, Hi>::Reset()
 {
-    for (int i = 0; i < 0x2418; i++)
-    {
-        *(int*)(m_data + i * 4 + 8) = 0;
-        *(int*)(m_data + (i + 0x5138) * 4) = 0;
-        *(int*)(m_data + (i + 0x2418) * 4 + 8) = 0;
-        m_data[i + 0x120c8] = 0;
-    }
-    *(int*)m_data = 0;
-    m_data[0x1d641] = 0;
+    memset(m_data, 0, sizeof(m_data));
 }
 ```

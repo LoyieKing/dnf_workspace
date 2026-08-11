@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8080e24` | `0x278` | `0x80775ae` | `0x276` |
+| guild | DIFF | `0x8080e24` | `0x278` | `0x8077466` | `0x27c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,175 +1,173 @@
+@@ -1,175 +1,176 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,19 +24,17 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x4d>
  movl   $0x1426,0x8(%esp)
- movl   $"OnGMPowerWarEnd",0x4(%esp)
--lea    -0x44(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnGMPowerWarEnd : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
--lea    -0x44(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x270>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x26e>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x274>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15GetPowerManagerEv>
@@ -47,12 +45,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager12IsPowerWarOnEv>
 -xor    $0x1,%eax
-+cmp    $0x1,%eax
++cmp    $0x1,%al
 +sete   %al
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x26f>
 -mov    -0x20(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x26e>
++je     <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x274>
 +mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager17SendPowerWarScoreEv>
@@ -60,12 +58,11 @@
 +mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager16EndPowerWarEventEv>
--lea    -0x52(%ebp),%eax
-+lea    -0x42(%ebp),%eax
+ lea    -0x52(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN24Packet_Monitor_Event_EndC1Ev>
 -movl   $0x1e,-0x48(%ebp)
-+lea    -0x42(%ebp),%eax
++lea    -0x52(%ebp),%eax
 +add    $0xa,%eax
 +movl   $0x1e,(%eax)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -73,26 +70,22 @@
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -mov    %eax,-0x24(%ebp)
 -cmpl   $0x0,-0x24(%ebp)
--sete   %al
--test   %al,%al
--je     <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x180>
--lea    -0x35(%ebp),%eax
 +mov    %eax,-0x20(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
-+jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x183>
-+lea    -0x25(%ebp),%eax
+ sete   %al
+ test   %al,%al
+-je     <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x180>
++je     <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x187>
+ lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x35(%ebp),%eax
-+lea    -0x25(%ebp),%eax
+ lea    -0x35(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CGuildManager::OnGMPowerWarStart() pclServerHandler == NULL\n",0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x3c(%ebp),%esi
-+lea    -0x2c(%ebp),%esi
+ lea    -0x3c(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -101,7 +94,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x131>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x134>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x138>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -110,95 +103,79 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x3c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x12b>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x12e>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x132>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x148>
-+jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x14b>
++jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x14f>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x148>
--lea    -0x3c(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x14b>
-+lea    -0x2c(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x14f>
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x15d>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x160>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x164>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x148>
-+jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x14b>
++jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x14f>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x35(%ebp),%eax
-+lea    -0x25(%ebp),%eax
+ lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x197>
--lea    -0x35(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x19a>
-+lea    -0x25(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x19e>
+ lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
--lea    -0x52(%ebp),%eax
-+lea    -0x42(%ebp),%eax
+ lea    -0x52(%ebp),%eax
  mov    %eax,0x4(%esp)
 -mov    -0x24(%ebp),%eax
 +mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x270>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x26e>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x274>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x213>
-+jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x214>
++jne    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x21a>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
-+movl   $0x143d,0x8(%esp)
-+movl   $"OnGMPowerWarEnd",0x4(%esp)
-+lea    -0x4c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x143d,0x8(%esp)
--movl   $"OnGMPowerWarEnd",0x4(%esp)
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x143d,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnGMPowerWarEnd Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x34(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x20c>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x20d>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x213>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -208,23 +185,21 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x270>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x26e>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x274>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1442,0x8(%esp)
- movl   $"OnGMPowerWarEnd",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x54(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnGMPowerWarEnd Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x54(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x268>
-+jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x269>
++jmp    <T> <_ZN17CPacketTranslater15OnGMPowerWarEndEP12PacketHeader+0x26f>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -322,8 +297,8 @@ void CPacketTranslater::OnGMPowerWarEnd(PacketHeader* pkt)
             pm->EndPowerWarEvent();
             Packet_Monitor_Event_End end;
             *(unsigned int*)((char*)&end + 0xa) = 0x1e;
-            CServerHandler* handler = m_pclApp->Get_ServerHandler();
-            if (handler == 0)
+            CServerHandler* handler;
+            if ((handler = m_pclApp->Get_ServerHandler()) == 0)
             {
                 throw CDNFException(
                     "CGuildManager::OnGMPowerWarStart() pclServerHandler == NULL\n");

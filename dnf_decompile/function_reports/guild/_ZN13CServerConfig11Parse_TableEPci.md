@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80618a8` | `0xd7` | `0x80809ee` | `0xd7` |
+| guild | NEAR | `0x80618a8` | `0xd7` | `0x80807fe` | `0xd7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -133,30 +133,28 @@ CServerConfig::_ZN13CServerConfig11Parse_TableEPci(CServerConfig *this,char *par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFServerConfig.cpp](source/DNFServer/GameServer/COServer/DNFServerConfig.cpp)（约第 17 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerConfig.cpp](source/DNFServer/GameServer/Guild/DNFServerConfig.cpp)（约第 77 行）：
 
 ```cpp
-bool CServerConfig::Parse_Table(char* line, int idx)
+int CServerConfig::Parse_Table(char* line, int idx)
 {
-    if (line[0] == '#')
+    if (*line == '#')
     {
         return 0;
     }
-    char* tok0;
-    char* tok1;
-    char* tok2;
-    char* tok3;
-    char* tok4;
-    int n = DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 5);
-    if (n == 5 && idx < 0x649b)
+    char* tok[5];
+    if (DNFFLib::ExplodeString(line, " \t\r\n\"", tok, 5) == 5)
     {
-        ST_ServerInfo* s = &m_servers[idx];
-        s->m_field0 = (char)atoi(tok0);
-        s->m_field1 = (char)atoi(tok1);
-        s->m_field2 = (char)atoi(tok2);
-        s->m_string = tok3;
-        s->m_ushort = (unsigned short)atoi(tok4);
-        return 1;
+        if (idx <= 0xfe)
+        {
+            ST_ServerInfo* info = &m_info[idx];
+            info->m_field0 = (char)atoi(tok[0]);
+            info->m_field1 = (char)atoi(tok[1]);
+            info->m_field2 = (char)atoi(tok[2]);
+            info->m_string = tok[3];
+            info->m_ushort = (unsigned short)atoi(tok[4]);
+            return 1;
+        }
     }
     return 0;
 }

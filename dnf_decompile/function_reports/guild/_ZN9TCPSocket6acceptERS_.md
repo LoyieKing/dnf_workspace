@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804fd34` | `0x11d` | `0x80873aa` | `0xd1` |
+| guild | DIFF | `0x804fd34` | `0x11d` | `0x80871d8` | `0xd1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -156,36 +156,27 @@ undefined4 __thiscall TCPSocket::_ZN9TCPSocket6acceptERS_(TCPSocket *this,TCPSoc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 287 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 368 行）：
 
 ```cpp
-char TCPSocket::accept(TCPSocket& sock)
+int TCPSocket::accept(TCPSocket& peer)
 {
-    socklen_t len = 0x10;
-    sock.m_fd = ::accept(m_fd, (struct sockaddr*)((char*)&sock + 4), &len);
-    if (sock.m_fd == 0)
+    socklen_t slen = 0x10;
+    int fd = ::accept(m_sock, (sockaddr*)((char*)&peer + 4), &slen);
+    peer.m_sock = fd;
+    if (fd == 0 || fd == -1)
     {
         FILE* f = fopen("log.txt", "a+");
-        if (f)
+        if (f != 0)
         {
-            fprintf(f, "[TCPSocket::Accept] Accept fail[%d]\n", sock.m_fd);
+            fprintf(f, "[TCPSocket::Accept] Accept fail[%d]\n", peer.m_sock);
             fclose(f);
         }
-    }
-    if (sock.m_fd < 0)
-    {
-        FILE* f = fopen("log.txt", "a+");
-        if (f)
-        {
-            fprintf(f, "[TCPSocket::Accept] Accept fail[%d]\n", sock.m_fd);
-            fclose(f);
-        }
-    }
-    if (sock.m_fd == -1)
         return 0;
-    memcpy((char*)&sock + 0x14, (char*)&sock + 8, 4);
-    sock.m_port = *(unsigned short*)((char*)&sock + 6);
-    sock.setOptNonBlock();
+    }
+    memcpy((char*)&peer + 0x14, (char*)&peer + 8, 4);
+    *(unsigned short*)((char*)&peer + 0x18) = *(unsigned short*)((char*)&peer + 6);
+    peer.setOptNonBlock();
     return 1;
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8066a34` | `0x18a` | `0x805b4f6` | `0x18a` |
+| manager | DIFF | `0x8066a34` | `0x18a` | `0x805b3b0` | `0x18a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -50,7 +50,7 @@
 -movzbl %al,%ebx
 +jne    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x9c>
  movl   $0x28d,0x8(%esp)
- movl   $"OnTcpServerHeartbeat",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -80,28 +80,24 @@
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
 +movl   $0x299,0x8(%esp)
-+movl   $"OnTcpServerHeartbeat",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
 -movl   $0x299,0x8(%esp)
--movl   $"OnTcpServerHeartbeat",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnTcpServerHeartbeat Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -122,7 +118,7 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x29e,0x8(%esp)
- movl   $"OnTcpServerHeartbeat",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
@@ -192,7 +188,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2561 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp)（约第 307 行）：
 
 ```cpp
 void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)
@@ -201,23 +197,28 @@ void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)
     {
         if (!m_pclApp)
             return;
-        Packet_Tcp_Server_Heartbeat* pkt =
-            (Packet_Tcp_Server_Heartbeat*)header;
-        unsigned char idx = pkt->m_idx;
+        unsigned char idx = ((char*)header)[0xa];
         CServerHandler* handler = m_pclApp->Get_ServerHandler();
         CTcpServer* server = handler->GetTcpServer(idx);
         if (!server)
         {
-            CMyFileLog log("OnTcpServerHeartbeat", 0xc98);
+            CMyFileLog log(__FUNCTION__, 0x28d);
             log("./log/TcpServer",
                 "CPacketTranslater::OnTcpServerHeartbeat Invalid Server Instance(TYPE:%d, sock:%d)",
-                idx, (int)pkt->reversed2);
+                idx, *(int*)((char*)header + 6));
             return;
         }
         server->NotifyHeartbeat();
     }
-    DNF_CATCH_LOG("./log/Except",
-                  "CPacketTranslater::OnTcpServerHeartbeat Exception Break",
-                  0xca4, 0xca9);
+    catch (CDNFException& e)
+    {
+        CMyFileLog log(__FUNCTION__, 0x299);
+        log("./log/Except", "CPacketTranslater::OnTcpServerHeartbeat Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log(__FUNCTION__, 0x29e);
+        log("./log/Except", "CPacketTranslater::OnTcpServerHeartbeat Exception Break\n");
+    }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80753bc` | `0x306` | `0x8058e50` | `0x303` |
+| dbmw | DIFF | `0x80753bc` | `0x306` | `0x8058c34` | `0x303` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -36,13 +36,10 @@
 +mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0xa,0x10(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect guild_id, guild_war_point, guild_name, guild_point_prev from guild_info where server_id = %d and expire_flag = 0 and guild_rank <= %d and guild_rank != 0",0x8(%esp)
  movl   $0x4e3b,0x4(%esp)
 -mov    -0x18(%ebp),%eax
@@ -51,14 +48,14 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0xa7>
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0xa9>
  movl   $0x953,0x8(%esp)
- movl   $"QueryGuildWarPointList",0x4(%esp)
+ movl   $&_ZZN10CDBManager22QueryGuildWarPointListEiP13CGuildManagerE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
@@ -79,8 +76,7 @@
 +mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e3b,0x4(%esp)
 -mov    -0x18(%ebp),%eax
 -mov    %eax,(%esp)
@@ -92,9 +88,9 @@
 -je     <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0xd9>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0x301>
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0xd4>
@@ -109,22 +105,21 @@
 +mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x18(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
 -mov    %eax,-0x10(%ebp)
 -cmpl   $0xa,-0x10(%ebp)
 -jle    <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0x14e>
-+mov    (%eax),%eax
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +mov    %eax,-0x20(%ebp)
 +cmpl   $0xa,-0x20(%ebp)
 +jle    <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0x149>
  movl   $0x963,0x8(%esp)
- movl   $"QueryGuildWarPointList",0x4(%esp)
+ movl   $&_ZZN10CDBManager22QueryGuildWarPointListEiP13CGuildManagerE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 +lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
@@ -149,7 +144,7 @@
 +mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x18(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
@@ -160,10 +155,9 @@
 -je     <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0x184>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0x301>
-+mov    (%eax),%eax
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0x178>
@@ -211,12 +205,10 @@
 +mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x38(%ebp),%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0x44(%ebp),%edx
-+mov    %edx,0x8(%esp)
++mov    -0x44(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -mov    -0x18(%ebp),%eax
 -mov    %eax,(%esp)
@@ -229,9 +221,9 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0x301>
 -mov    -0x18(%ebp),%eax
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0x20c>
@@ -240,14 +232,11 @@
 +mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x38(%ebp),%eax
--add    $0x4,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0x44(%ebp),%edx
-+add    $0x4,%edx
-+mov    %edx,0x8(%esp)
++mov    -0x44(%ebp),%eax
+ add    $0x4,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
 -mov    -0x18(%ebp),%eax
 -mov    %eax,(%esp)
@@ -260,9 +249,9 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0x301>
 -mov    -0x18(%ebp),%eax
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0x241>
@@ -271,15 +260,12 @@
 +mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x38(%ebp),%eax
--add    $0xc,%eax
-+mov    (%eax),%eax
-+mov    -0x44(%ebp),%edx
-+add    $0xc,%edx
++mov    -0x44(%ebp),%eax
+ add    $0xc,%eax
  movl   $0x17,0xc(%esp)
--mov    %eax,0x8(%esp)
-+mov    %edx,0x8(%esp)
+ mov    %eax,0x8(%esp)
  movl   $0x2,0x4(%esp)
 -mov    -0x18(%ebp),%eax
 -mov    %eax,(%esp)
@@ -292,9 +278,9 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0x301>
 -mov    -0x18(%ebp),%eax
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0x27b>
@@ -303,14 +289,11 @@
 +mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x38(%ebp),%eax
--add    $0x24,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0x44(%ebp),%edx
-+add    $0x24,%edx
-+mov    %edx,0x8(%esp)
++mov    -0x44(%ebp),%eax
+ add    $0x24,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x3,0x4(%esp)
 -mov    -0x18(%ebp),%eax
 -mov    %eax,(%esp)
@@ -323,9 +306,9 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0x301>
 -mov    -0x38(%ebp),%eax
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager+0x2ad>
@@ -483,7 +466,7 @@ CDBManager::_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3298 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3224 行）：
 
 ```cpp
 char CDBManager::QueryGuildWarPointList(int guildWarPoint, CGuildManager* gm)
@@ -496,7 +479,7 @@ char CDBManager::QueryGuildWarPointList(int guildWarPoint, CGuildManager* gm)
             "seLect guild_id, guild_war_point, guild_name, guild_point_prev from guild_info where server_id = %d and expire_flag = 0 and guild_rank <= %d and guild_rank != 0",
             guildWarPoint, 0xa))
     {
-        CMyFileLog log("QueryGuildWarPointList", 0x953);
+        CMyFileLog log(__FUNCTION__, 0x953);
         log("./log/DBQueryErr",
             "CDBManager::QueryGuildWarPointList() select guild_id, guild_war_point from guild_info where server_id = %d and expire_flag = 0 and guild_rank <= %d and guild_rank != 0\n",
             guildWarPoint, 0xa);
@@ -509,7 +492,7 @@ char CDBManager::QueryGuildWarPointList(int guildWarPoint, CGuildManager* gm)
     int n = h->get_n_rows();
     if (n > 0xa)
     {
-        CMyFileLog log("QueryGuildWarPointList", 0x963);
+        CMyFileLog log(__FUNCTION__, 0x963);
         log("./log/DBQueryErr",
             "CDBManager::QueryGuildWarPointList() : Server Group( %d )\tMAX_GUILD_WAR_ENTERABLE_RANK( %d ) <-> select n_data( %d )\n",
             guildWarPoint, 0xa, n);

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804ee72` | `0x93` | `0x80a1ac8` | `0x9f` |
+| monitor | DIFF | `0x804ee72` | `0x93` | `0x80a1c9e` | `0x92` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,43 +1,46 @@
+@@ -1,43 +1,43 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -25,14 +25,11 @@
  mov    %eax,(%esp)
  call   <T> <memset>
  mov    0x8(%ebp),%eax
--movl   $0x1,0x4(%eax)
-+add    $0x4,%eax
-+movl   $0x1,(%eax)
+ movl   $0x1,0x4(%eax)
  mov    0x8(%ebp),%eax
  add    $0x18,%eax
  mov    %eax,0x4(%esp)
--lea    -0xc(%ebp),%eax
-+lea    -0x10(%ebp),%eax
+ lea    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
  mov    0x8(%ebp),%eax
@@ -48,20 +45,15 @@
 -shr    $0x1f,%eax
 -test   %al,%al
 -je     <T> <_ZN12EpollHandler10ResetEpollEi+0x7b>
-+mov    %eax,-0xc(%ebp)
-+cmpl   $0x0,-0xc(%ebp)
-+jns    <T> <_ZN12EpollHandler10ResetEpollEi+0x82>
++mov    %eax,%ebx
++test   %ebx,%ebx
++jns    <T> <_ZN12EpollHandler10ResetEpollEi+0x7a>
  call   <T> <__errno_location>
--mov    (%eax),%ebx
+ mov    (%eax),%ebx
 -jmp    <T> <_ZN12EpollHandler10ResetEpollEi+0x80>
--mov    $0x0,%ebx
--lea    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+mov    %eax,-0xc(%ebp)
-+jmp    <T> <_ZN12EpollHandler10ResetEpollEi+0x89>
-+movl   $0x0,-0xc(%ebp)
-+mov    -0xc(%ebp),%ebx
-+lea    -0x10(%ebp),%eax
++jmp    <T> <_ZN12EpollHandler10ResetEpollEi+0x7f>
+ mov    $0x0,%ebx
+ lea    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  mov    %ebx,%eax
@@ -101,15 +93,15 @@ int __thiscall EpollHandler::_ZN12EpollHandler10ResetEpollEi(EpollHandler *this,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 88 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 96 行）：
 
 ```cpp
 int EpollHandler::ResetEpoll(int fd)
 {
     memset((char*)this + 4, 0, 0xc);
-    *(int*)((char*)this + 4) = 1;
+    ((RA_INT<4>*)this)->v = 1;
     CGuard<CMutex> guard(&m_mutex);
-    int r = epoll_ctl(m_epollFd, 2, fd, (epoll_event*)((char*)this + 4));
+    register int r = epoll_ctl(m_epollFd, 2, fd, (epoll_event*)((char*)this + 4));
     if (r < 0)
     {
         r = errno;

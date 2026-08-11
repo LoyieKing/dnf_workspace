@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806fb1c` | `0x110` | `0x806c4d6` | `0x10a` |
+| dbmw | DIFF | `0x806fb1c` | `0x110` | `0x806c0f8` | `0x10a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -169,31 +169,24 @@ CAppStartInit::_ZN13CAppStartInit11Init_DaemonEiPPc(CAppStartInit *this,int para
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFAppStartInit.cpp](source/DNFServer/GameServer/COServer/DNFAppStartInit.cpp)（约第 46 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFAppStartInit.cpp](source/DNFServer/GameServer/DBMW/DNFAppStartInit.cpp)（约第 46 行）：
 
 ```cpp
 int CAppStartInit::Init_Daemon(int argc, char** argv)
 {
-    char* cmd = argv[2];
-    if (strcmp(cmd, "start") == 0)
+    if (strcmp(argv[2], "start") == 0)
     {
-        pid_t pid = fork();
+        int pid = fork();
         if (pid < 0)
-        {
             return -1;
-        }
-        if (pid != 0)
-        {
+        if (pid > 0)
             exit(0);
-        }
         setsid();
         chdir("./");
         umask(0);
     }
-    if (Save_pid(argv[1]) != 1)
-    {
+    if (!Save_pid(std::string(argv[1])))
         return -1;
-    }
     return 0;
 }
 ```

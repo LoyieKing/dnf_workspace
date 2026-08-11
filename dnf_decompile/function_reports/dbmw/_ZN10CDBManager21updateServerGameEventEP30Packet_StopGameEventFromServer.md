@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80877c0` | `0x12f` | `0x80500ca` | `0x127` |
+| dbmw | DIFF | `0x80877c0` | `0x12f` | `0x80500b4` | `0x127` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -36,81 +36,73 @@
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%ebx
+ mov    (%eax),%ebx
 -mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%ecx
 -mov    0xc(%ebp),%eax
 -mov    0xe(%eax),%edx
 -mov    0xc(%ebp),%eax
 -mov    0x12(%eax),%eax
--mov    %ecx,0x14(%esp)
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
++mov    -0xc(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%ecx
++mov    -0xc(%ebp),%eax
++add    $0xe,%eax
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0x12,%eax
 +mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0xa,%edx
-+mov    (%edx),%ebx
-+mov    -0xc(%ebp),%edx
-+add    $0xe,%edx
-+mov    (%edx),%ecx
-+mov    -0xc(%ebp),%edx
-+add    $0x12,%edx
-+mov    (%edx),%edx
-+mov    %ebx,0x14(%esp)
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
+ mov    %ecx,0x14(%esp)
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $" upDate dnf_event_log set end_time = %u  where server_id = %d and event_type = %d and end_time = 0 ",0x8(%esp)
  movl   $0x4f5e,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ebx
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ebx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21updateServerGameEventEP30Packet_StopGameEventFromServer+0xbf>
 -mov    -0xc(%ebp),%eax
 +je     <T> <_ZN10CDBManager21updateServerGameEventEP30Packet_StopGameEventFromServer+0xbe>
 +movl   $0x2eb2,0x8(%esp)
-+movl   $"updateServerGameEvent",0x4(%esp)
++movl   $&_ZZN10CDBManager21updateServerGameEventEP30Packet_StopGameEventFromServerE12__FUNCTION__,0x4(%esp)
 +lea    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x7c,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+-mov    %eax,%ebx
+-movl   $0x2eb2,0x8(%esp)
 +mov    %eax,0x8(%esp)
 +movl   $"./log/DBQueryErr",0x4(%esp)
 +lea    -0x18(%ebp),%eax
- mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x2eb2,0x8(%esp)
++mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager21updateServerGameEventEP30Packet_StopGameEventFromServer+0x121>
 +mov    -0x10(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x20,%eax
-+mov    (%eax),%eax
++mov    (%eax),%edx
 +movl   $0x4f5e,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager21updateServerGameEventEP30Packet_StopGameEventFromServer+0x11c>
 +movl   $0x2eb9,0x8(%esp)
- movl   $"updateServerGameEvent",0x4(%esp)
+ movl   $&_ZZN10CDBManager21updateServerGameEventEP30Packet_StopGameEventFromServerE12__FUNCTION__,0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -136,7 +128,7 @@
 -test   %al,%al
 -je     <T> <_ZN10CDBManager21updateServerGameEventEP30Packet_StopGameEventFromServer+0x124>
 -movl   $0x2eb9,0x8(%esp)
--movl   $"updateServerGameEvent",0x4(%esp)
+-movl   $&_ZZN10CDBManager21updateServerGameEventEP30Packet_StopGameEventFromServerE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -208,7 +200,7 @@ CDBManager::_ZN10CDBManager21updateServerGameEventEP30Packet_StopGameEventFromSe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 848 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 850 行）：
 
 ```cpp
 char CDBManager::updateServerGameEvent(Packet_StopGameEventFromServer* packet)
@@ -222,13 +214,13 @@ char CDBManager::updateServerGameEvent(Packet_StopGameEventFromServer* packet)
                       *(unsigned int*)(p + 0x12), *(int*)(p + 0xe),
                       *(int*)(p + 0xa)))
     {
-        CMyFileLog log("updateServerGameEvent", 0x2eb2);
+        CMyFileLog log(__FUNCTION__, 0x2eb2);
         log("./log/DBQueryErr", h->get_quest_str());
         return 0;
     }
     if (!h->exec(0x4f5e))
     {
-        CMyFileLog log("updateServerGameEvent", 0x2eb9);
+        CMyFileLog log(__FUNCTION__, 0x2eb9);
         log("./log/DBQueryErr", "updateServerGameEvent Query(exec) Error");
         return 0;
     }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x805fa36` | `0xeb` | `0x80647d4` | `0x106` |
+| guild | DIFF | `0x805fa36` | `0xeb` | `0x8063e7e` | `0x106` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -153,19 +153,19 @@ undefined4 CKillUSRConfig::_ZN14CKillUSRConfig11Parse_TableEPci(char *param_1,in
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFKillUserConfig.cpp](source/DNFServer/GameServer/COServer/DNFKillUserConfig.cpp)（约第 41 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFKillUserConfig.cpp](source/DNFServer/GameServer/Guild/DNFKillUserConfig.cpp)（约第 91 行）：
 
 ```cpp
-bool CKillUSRConfig::Parse_Table(char* line, int idx)
+int CKillUSRConfig::Parse_Table(char* line, int idx)
 {
     if (line[0] == '#')
     {
         return 0;
     }
-    char* tok0;
-    char* tok1;
-    char* tok2;
-    char* tok3;
+    char* tok0 = 0;
+    char* tok1 = 0;
+    char* tok2 = 0;
+    char* tok3 = 0;
     int n = DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 4);
     if (n == 4)
     {

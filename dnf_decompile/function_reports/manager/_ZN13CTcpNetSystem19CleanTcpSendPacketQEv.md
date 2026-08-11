@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x80594b6` | `0x11c` | `0x80667c0` | `0x11b` |
+| manager | DIFF | `0x80594b6` | `0x11c` | `0x80666ca` | `0x11b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -110,12 +110,11 @@
 -jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0x8>
 +jne    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0xa>
  movl   $0x16b,0x8(%esp)
- movl   $"CleanTcpSendPacketQ",0x4(%esp)
+ movl   $&_ZZN13CTcpNetSystem19CleanTcpSendPacketQEvE12__FUNCTION__,0x4(%esp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"Clean Tcp Send Queue Complete !",0x8(%esp)
-+movl   $"Clean Tcp Send Queue Complete!",0x8(%esp)
+ movl   $"Clean Tcp Send Queue Complete !",0x8(%esp)
  movl   $"./log/TcpSend",0x4(%esp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -175,22 +174,23 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystem19CleanTcpSendPacketQEv(CTcpNet
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 231 行）：
+定义于 [source/DNFServer/GameServer/Manager/TcpNetSystem.cpp](source/DNFServer/GameServer/Manager/TcpNetSystem.cpp)（约第 105 行）：
 
 ```cpp
 void CTcpNetSystem::CleanTcpSendPacketQ()
 {
-    CGuard<CMutex> guard(&m_mutexE8);
-    while (!m_sendQueue.empty())
+    while (true)
     {
+        CGuard<CMutex> guard(&m_mutexE8);
+        if (m_sendQueue.empty())
+            break;
         CTcpSendBuffer* p = m_sendQueue.front();
         m_sendQueue.pop();
-        {
-            CGuard<CMutex> guard(&m_mutex100);
-            delete p;
-        }
+        CGuard<CMutex> guard2(&m_mutex100);
+        delete p;
     }
-    CMyFileLog log("CleanTcpSendPacketQ", 0x16b);
+    CMyFileLog log(__FUNCTION__, 0x16b);
+    // ORIG 实测：字符串含空格 "Complete !"。
     log("./log/TcpSend", "Clean Tcp Send Queue Complete !");
 }
 ```

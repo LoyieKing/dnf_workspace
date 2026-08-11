@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| point | DIFF | `0x80b70ca` | `0x4fc` | `0x80b6cb8` | `0x53a` |
+| point | DIFF | `0x80b70ca` | `0x4fc` | `0x80b6bdc` | `0x51b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,328 +1,346 @@
+@@ -1,328 +1,338 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
--sub    $0x80080,%esp
-+sub    $0x80090,%esp
+ sub    $0x80080,%esp
  call   <T> <_ZN3nsl10G_TraceLogEv>
  movl   $"Start up WorkThread",0x8(%esp)
  movl   $0x8,0x4(%esp)
@@ -33,109 +32,81 @@
  add    $0x8,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11Dispatchers16getTCPDispatcherEv>
--mov    %eax,-0x2c(%ebp)
-+mov    %eax,-0x4c(%ebp)
+ mov    %eax,-0x2c(%ebp)
  mov    &_ZN3nsl4pAppE,%eax
  add    $0x8,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11Dispatchers18GetInterDispatcherEv>
--mov    %eax,-0x28(%ebp)
-+mov    %eax,-0x48(%ebp)
+ mov    %eax,-0x28(%ebp)
  mov    &_ZN3nsl4pAppE,%eax
  add    $0x18,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7Threads14getTimerThreadEv>
--mov    %eax,-0x24(%ebp)
--movl   $0x3c00,-0x1c(%ebp)
--lea    -0x80064(%ebp),%eax
-+mov    %eax,-0x44(%ebp)
-+movl   $0x3c00,-0x40(%ebp)
-+lea    -0x8006c(%ebp),%eax
+ mov    %eax,-0x24(%ebp)
+ movl   $0x3c00,-0x1c(%ebp)
+ lea    -0x80064(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TMsgCellILi524288EEC1Ev>
  movl   $0x80000,(%esp)
  call   <T> <_ZN3nsl16GetMessageBufferEi>
--mov    %eax,-0x18(%ebp)
-+mov    %eax,-0x3c(%ebp)
+ mov    %eax,-0x18(%ebp)
  movl   $0x80000,(%esp)
  call   <T> <_ZN3nsl16GetMessageBufferEi>
--mov    %eax,-0x14(%ebp)
-+mov    %eax,-0x38(%ebp)
+ mov    %eax,-0x14(%ebp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl10WorkThread14PopTransactionEv>
--mov    %eax,-0x44(%ebp)
--cmpl   $0x0,-0x44(%ebp)
--jne    <T> <_ZN3nsl10WorkThread4loopEPv+0xbc>
--nop
--jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0xa5>
--movl   $0x0,-0x10(%ebp)
--mov    -0x44(%ebp),%eax
-+mov    %eax,-0x34(%ebp)
-+cmpl   $0x0,-0x34(%ebp)
-+jne    <T> <_ZN3nsl10WorkThread4loopEPv+0xbe>
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x517>
-+movl   $0x0,-0x30(%ebp)
-+mov    -0x34(%ebp),%eax
+ mov    %eax,-0x44(%ebp)
+ cmpl   $0x0,-0x44(%ebp)
+ jne    <T> <_ZN3nsl10WorkThread4loopEPv+0xbc>
+ nop
+ jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0xa5>
+ movl   $0x0,-0x10(%ebp)
+ mov    -0x44(%ebp),%eax
  movzbl 0x6(%eax),%eax
  movsbl %al,%eax
  cmp    $0x2,%eax
--je     <T> <_ZN3nsl10WorkThread4loopEPv+0x190>
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x192>
+ je     <T> <_ZN3nsl10WorkThread4loopEPv+0x190>
  cmp    $0x3,%eax
 -je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4ba>
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4f3>
++je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4d9>
  cmp    $0x1,%eax
 -jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x284>
--mov    -0x44(%ebp),%eax
--mov    %eax,-0x38(%ebp)
--mov    -0x38(%ebp),%eax
-+jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x289>
-+mov    -0x34(%ebp),%eax
-+mov    %eax,-0x2c(%ebp)
-+mov    -0x2c(%ebp),%eax
++jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x281>
+ mov    -0x44(%ebp),%eax
+ mov    %eax,-0x38(%ebp)
+ mov    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7Message18getCellFromMessageEv>
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8CMsgCell14GetInternalMsgEv>
--mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
-+mov    %eax,-0x28(%ebp)
-+mov    -0x28(%ebp),%eax
+ mov    %eax,-0xc(%ebp)
+ mov    -0xc(%ebp),%eax
  movzbl 0x15(%eax),%eax
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN3nsl10WorkThread4loopEPv+0x15a>
--mov    -0x38(%ebp),%eax
--mov    %eax,0x4(%esp)
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x15c>
-+mov    -0x2c(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x48(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN3nsl15InterDispatcher8dispatchEPNS_7MessageE>
+ je     <T> <_ZN3nsl10WorkThread4loopEPv+0x15a>
+ mov    -0x38(%ebp),%eax
+ mov    %eax,0x4(%esp)
  mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN3nsl15InterDispatcher8dispatchEPNS_7MessageE>
--mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN3nsl15InterDispatcher8dispatchEPNS_7MessageE>
+ mov    -0xc(%ebp),%eax
  movb   $0x1,0x15(%eax)
--mov    -0xc(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    0x16(%eax),%eax
  mov    &_ZN3nsl4pAppE,%edx
  add    $0x18,%edx
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN3nsl7Threads13getWorkThreadEi>
--mov    -0x44(%ebp),%edx
-+mov    -0x34(%ebp),%edx
+ mov    -0x44(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl10WorkThread15PushTransactionEPNS_14IMessageStructE>
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c4>
--mov    -0xc(%ebp),%eax
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4fd>
-+mov    -0x28(%ebp),%eax
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
+ mov    -0xc(%ebp),%eax
  movb   $0x0,0x15(%eax)
  mov    %gs:0xfffffffc,%eax
  mov    &_ZN3nsl4pAppE,%edx
@@ -143,96 +114,80 @@
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN3nsl9DataPools17getCommonDataPoolEi>
--mov    -0x38(%ebp),%edx
-+mov    -0x2c(%ebp),%edx
+ mov    -0x38(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl14CommonDataPool14destroyMessageEPNS_7MessageE>
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c4>
--mov    -0x44(%ebp),%eax
--mov    %eax,-0x40(%ebp)
--mov    -0x40(%ebp),%eax
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4fd>
-+mov    -0x34(%ebp),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x24(%ebp),%eax
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
+ mov    -0x44(%ebp),%eax
+ mov    %eax,-0x40(%ebp)
+ mov    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11ITimeEntity12isTerminatedEv>
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN3nsl10WorkThread4loopEPv+0x251>
--mov    -0x40(%ebp),%eax
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x256>
-+mov    -0x24(%ebp),%eax
++je     <T> <_ZN3nsl10WorkThread4loopEPv+0x24e>
+ mov    -0x40(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
  mov    (%eax),%edx
--mov    -0x40(%ebp),%eax
-+mov    -0x24(%ebp),%eax
+ mov    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %eax,-0x10(%ebp)
--cmpl   $0x0,-0x10(%ebp)
+ mov    %eax,-0x10(%ebp)
+ cmpl   $0x0,-0x10(%ebp)
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN3nsl10WorkThread4loopEPv+0x1fa>
--mov    -0x40(%ebp),%eax
-+mov    %eax,-0x30(%ebp)
-+cmpl   $0x0,-0x30(%ebp)
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x1f7>
-+mov    -0x24(%ebp),%eax
++je     <T> <_ZN3nsl10WorkThread4loopEPv+0x1f5>
+ mov    -0x40(%ebp),%eax
  mov    0x8(%eax),%ebx
  call   <T> <_ZN3nsl10G_TraceLogEv>
--mov    -0x10(%ebp),%edx
-+mov    -0x30(%ebp),%edx
+ mov    -0x10(%ebp),%edx
  mov    %edx,0x10(%esp)
  mov    %ebx,0xc(%esp)
  movl   $"Fail: TIME : failed to handle '%d', error_code('%d').",0x8(%esp)
  movl   $0x7,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TraceLog6sysLogEiPKcz>
--mov    -0x40(%ebp),%eax
-+mov    -0x34(%ebp),%eax
-+mov    %eax,-0x20(%ebp)
-+mov    -0x20(%ebp),%eax
+ mov    -0x40(%ebp),%eax
  mov    0x10(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4bd>
--mov    -0x40(%ebp),%eax
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4f6>
-+mov    -0x20(%ebp),%eax
++je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4dc>
+ mov    -0x40(%ebp),%eax
  mov    0xc(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4c0>
 -mov    -0x40(%ebp),%eax
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4f9>
-+mov    -0x20(%ebp),%eax
- mov    0x10(%eax),%eax
- lea    -0x1(%eax),%edx
+-mov    0x10(%eax),%eax
+-lea    -0x1(%eax),%edx
 -mov    -0x40(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++je     <T> <_ZN3nsl10WorkThread4loopEPv+0x4df>
++mov    -0x40(%ebp),%eax
++mov    -0x40(%ebp),%edx
++mov    0x10(%edx),%edx
++sub    $0x1,%edx
  mov    %edx,0x10(%eax)
--mov    -0x40(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x40(%ebp),%eax
  mov    0x10(%eax),%eax
  test   %eax,%eax
 -jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c3>
 -mov    -0x40(%ebp),%eax
 -movb   $0x0,0x14(%eax)
--mov    -0x40(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    -0x24(%ebp),%eax
-+jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x4fc>
-+mov    -0x20(%ebp),%eax
++jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e2>
++mov    -0x40(%ebp),%eax
 +add    $0x14,%eax
 +movb   $0x0,(%eax)
-+mov    -0x24(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x44(%ebp),%eax
+ mov    -0x40(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11TimerThread16PushTimeReqEventEPNS_11ITimeEntityE>
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c4>
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4fd>
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
  mov    %gs:0xfffffffc,%eax
  mov    &_ZN3nsl4pAppE,%edx
  add    $0x5c,%edx
@@ -242,47 +197,39 @@
  mov    (%eax),%edx
  add    $0x8,%edx
  mov    (%edx),%ecx
--mov    -0x40(%ebp),%edx
-+mov    -0x34(%ebp),%edx
+ mov    -0x40(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   *%ecx
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c4>
--mov    -0x44(%ebp),%eax
--mov    %eax,-0x3c(%ebp)
--mov    -0x3c(%ebp),%eax
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4fd>
-+mov    -0x34(%ebp),%eax
-+mov    %eax,-0x1c(%ebp)
-+mov    -0x1c(%ebp),%eax
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
+ mov    -0x44(%ebp),%eax
+ mov    %eax,-0x3c(%ebp)
+ mov    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7Message18getUserFromMessageEv>
--mov    %eax,-0x34(%ebp)
--mov    -0x34(%ebp),%eax
-+mov    %eax,-0x18(%ebp)
-+mov    -0x18(%ebp),%eax
+ mov    %eax,-0x34(%ebp)
+ mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK3nsl7TCPUser19isAboutToDisconnectEv>
  test   %al,%al
 -jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x2b6>
--mov    -0x34(%ebp),%eax
-+jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x2bb>
-+mov    -0x18(%ebp),%eax
++jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x2b3>
+ mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK3nsl7TCPUser14isDisconnectedEv>
  test   %al,%al
 -je     <T> <_ZN3nsl10WorkThread4loopEPv+0x2bd>
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x2c2>
++je     <T> <_ZN3nsl10WorkThread4loopEPv+0x2ba>
  mov    $0x1,%eax
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x2c2>
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x2c7>
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x2bf>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN3nsl10WorkThread4loopEPv+0x34d>
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x364>
++je     <T> <_ZN3nsl10WorkThread4loopEPv+0x35c>
  movl   $0x0,0x4(%esp)
--mov    -0x34(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7TCPUser10SetWorkingEb>
 -mov    &_ZN3nsl7Message5identE,%ebx
@@ -291,55 +238,44 @@
 -mov    %ebx,0xc(%esp)
 +mov    &_ZN3nsl7Message5identE,%eax
 +mov    &_ZN3nsl7Message5identE+0x4,%edx
++mov    %eax,%ebx
++mov    &_ZN3nsl7Message5identE,%eax
++mov    &_ZN3nsl7Message5identE+0x4,%edx
 +mov    %edx,%eax
 +xor    %edx,%edx
 +mov    %eax,%esi
-+mov    &_ZN3nsl7Message5identE,%eax
-+mov    &_ZN3nsl7Message5identE+0x4,%edx
-+mov    %eax,%ebx
 +call   <T> <_ZN3nsl10G_TraceLogEv>
  mov    %esi,0x10(%esp)
 +mov    %ebx,0xc(%esp)
- movl   $&data#3387daae(.rodata),0x8(%esp)
+ movl   $"끊긴 유저가 worker로 들어왔다. msg-%d",0x8(%esp)
  movl   $0x7,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TraceLog6sysLogEiPKcz>
  movl   $0x0,0x4(%esp)
--mov    -0x3c(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7Message6setUseEb>
  movl   $0x1,0x4(%esp)
--mov    -0x34(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7TCPUser21setActiveSyncByWorkerEb>
  call   <T> <_ZN3nsl16G_ActiveNetCloseEv>
--mov    -0x34(%ebp),%edx
-+mov    -0x18(%ebp),%edx
+ mov    -0x34(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl14ActiveNetClose15pushActiveCloseEPNS_7TCPUserE>
--jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0xa5>
--mov    -0x3c(%ebp),%eax
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x517>
-+mov    -0x1c(%ebp),%eax
+ jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0xa5>
+ mov    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7Message18getCellFromMessageEv>
--mov    %eax,-0x30(%ebp)
--mov    -0x34(%ebp),%eax
-+mov    %eax,-0x14(%ebp)
-+mov    -0x18(%ebp),%eax
+ mov    %eax,-0x30(%ebp)
+ mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7TCPUser15getRecvDataTypeEv>
--mov    %eax,-0x20(%ebp)
--mov    -0x30(%ebp),%eax
-+mov    %eax,-0x10(%ebp)
-+mov    -0x14(%ebp),%eax
+ mov    %eax,-0x20(%ebp)
+ mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8CMsgCell9GetPacketEv>
-+mov    %eax,-0xc(%ebp)
-+mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl13PACKET_HEADER11getCategoryEv>
  mov    %eax,%ebx
@@ -349,12 +285,9 @@
  movl   $0x4,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TraceLog6sysLogEiPKcz>
--mov    -0x30(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8CMsgCell9GetPacketEv>
-+mov    %eax,-0xc(%ebp)
-+mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl13PACKET_HEADER11getPacketIDEv>
  mov    %eax,%ebx
@@ -364,12 +297,9 @@
  movl   $0x4,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TraceLog6sysLogEiPKcz>
--mov    -0x30(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8CMsgCell9GetPacketEv>
-+mov    %eax,-0xc(%ebp)
-+mov    -0xc(%ebp),%eax
  mov    0xa(%eax),%ebx
  call   <T> <_ZN3nsl10G_TraceLogEv>
  mov    %ebx,0xc(%esp)
@@ -377,67 +307,56 @@
  movl   $0x4,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TraceLog6sysLogEiPKcz>
--mov    -0x30(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8CMsgCell9GetPacketEv>
 -mov    -0x20(%ebp),%eax
 -cmp    $0x4,%eax
 -jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x46a>
--mov    -0x3c(%ebp),%eax
-+cmpl   $0x4,-0x10(%ebp)
-+jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x491>
-+mov    -0x1c(%ebp),%eax
++cmpl   $0x4,-0x20(%ebp)
++jne    <T> <_ZN3nsl10WorkThread4loopEPv+0x477>
+ mov    -0x3c(%ebp),%eax
  mov    %eax,0x8(%esp)
--mov    -0x34(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    -0x2c(%ebp),%eax
-+mov    -0x18(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x4c(%ebp),%eax
+ mov    -0x34(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl13TCPDispatcher8dispatchEPNS_7TCPUserEPNS_7MessageE>
  movl   $0x0,0x4(%esp)
--mov    -0x3c(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7Message6setUseEb>
--mov    -0x34(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7TCPUser17GetPendingWorkNumEv>
  test   %eax,%eax
  sete   %al
  test   %al,%al
 -je     <T> <_ZN3nsl10WorkThread4loopEPv+0x46a>
-+je     <T> <_ZN3nsl10WorkThread4loopEPv+0x491>
++je     <T> <_ZN3nsl10WorkThread4loopEPv+0x477>
  movl   $0x0,0x4(%esp)
--mov    -0x34(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7TCPUser10SetWorkingEb>
--mov    -0x14(%ebp),%eax
-+mov    -0x38(%ebp),%eax
+ mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8CMsgCell5ClearEv>
--mov    -0x18(%ebp),%eax
-+mov    -0x3c(%ebp),%eax
+ mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8CMsgCell5ClearEv>
--movl   $0x3c00,-0x1c(%ebp)
+ movl   $0x3c00,-0x1c(%ebp)
 -mov    &_ZN3nsl7Message5identE,%ebx
 -mov    &_ZN3nsl7Message5identE+0x4,%esi
 -call   <T> <_ZN3nsl10G_TraceLogEv>
 -mov    %ebx,0xc(%esp)
-+movl   $0x3c00,-0x40(%ebp)
++mov    &_ZN3nsl7Message5identE,%eax
++mov    &_ZN3nsl7Message5identE+0x4,%edx
++mov    %eax,%ebx
 +mov    &_ZN3nsl7Message5identE,%eax
 +mov    &_ZN3nsl7Message5identE+0x4,%edx
 +mov    %edx,%eax
 +xor    %edx,%edx
 +mov    %eax,%esi
-+mov    &_ZN3nsl7Message5identE,%eax
-+mov    &_ZN3nsl7Message5identE+0x4,%edx
-+mov    %eax,%ebx
 +call   <T> <_ZN3nsl10G_TraceLogEv>
  mov    %esi,0x10(%esp)
 +mov    %ebx,0xc(%esp)
@@ -446,16 +365,19 @@
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TraceLog6sysLogEiPKcz>
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c4>
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4fd>
- nop
+-nop
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c4>
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4fd>
- nop
+-nop
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c4>
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4fd>
- nop
+-nop
 -jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4c4>
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4fd>
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
++nop
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
++nop
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
++nop
++jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0x4e3>
  nop
  mov    0x8(%ebp),%eax
  mov    0xc4(%eax),%eax
@@ -463,11 +385,9 @@
  mov    0x8(%ebp),%eax
  mov    %edx,0xc4(%eax)
  jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0xa5>
-+jmp    <T> <_ZN3nsl10WorkThread4loopEPv+0xa5>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x80064(%ebp),%eax
-+lea    -0x8006c(%ebp),%eax
+ lea    -0x80064(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TMsgCellILi524288EED1Ev>
  mov    %esi,%eax
@@ -641,7 +561,7 @@ LAB_080b758e:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/WorkThread.cpp](source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/WorkThread.cpp)（约第 131 行）：
+定义于 [source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/WorkThread.cpp](source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/WorkThread.cpp)（约第 136 行）：
 
 ```cpp
 void WorkThread::loop(void* temp)
@@ -649,17 +569,26 @@ void WorkThread::loop(void* temp)
     G_TraceLog()->sysLog(8, "Start up WorkThread");
     // proxyLoop passes Thread* as temp (== this); ORIG loads arg@0xc for GetThreadId
     tlsThreadId = ((WorkThread*)temp)->GetThreadId();
+    // ORIG 局部声明序（DWARF decl_line 375/377/378/380/382/383/390/393/398/404/405/411/413/414）
+    IMessageStruct* recvMessage;
+    ITimeEntity* teMsg;
+    Message* pkMsg;
+    Message* pMsg;
+    TCPUser* pUser;
+    CMsgCell* recvMsg;
     TCPDispatcher* handlerTCP = pApp->super_Dispatchers.getTCPDispatcher();
     InterDispatcher* pInterHandler = pApp->super_Dispatchers.GetInterDispatcher();
     TimerThread* timerThread = pApp->super_Threads.getTimerThread();
+    TCPUser::ENUM_DATA_TYPE DataType;
     int CompressLen = 0x3c00;
     TMsgCell<524288> tmpBuffer;
     CMsgCell* encMsg = GetMessageBuffer(0x80000);
     CMsgCell* zipMsg = GetMessageBuffer(0x80000);
-    do
+    while (true)
     {
-        IMessageStruct* recvMessage = PopTransaction();
-        // ORIG: cmpl/jne process; nop; jmp re-pop  (null => continue without increment)
+    RETRY_MSG:
+        recvMessage = PopTransaction();
+        // ORIG: cmpl/jne process; nop; jmp top（while(true)+continue 复现；null 不递增 mTransactionCntPerSec）
         if (recvMessage == NULL)
         {
             continue;
@@ -670,7 +599,7 @@ void WorkThread::loop(void* temp)
         {
         case 1:
         {
-            Message* pMsg = (Message*)recvMessage;
+            pMsg = (Message*)recvMessage;
             INTERNALMSG_HEADER* pInterMsg = pMsg->getCellFromMessage()->GetInternalMsg();
             if (!pInterMsg->bWillDelete)
             {
@@ -688,7 +617,7 @@ void WorkThread::loop(void* temp)
         }
         case 2:
         {
-            ITimeEntity* teMsg = (ITimeEntity*)recvMessage;
+            teMsg = (ITimeEntity*)recvMessage;
             if (!teMsg->isTerminated())
             {
                 return_code = teMsg->operator()();
@@ -697,16 +626,16 @@ void WorkThread::loop(void* temp)
                     G_TraceLog()->sysLog(7, "Fail: TIME : failed to handle '%d', error_code('%d').",
                                          teMsg->proc_id, return_code);
                 }
-                Message* pkMsg = (Message*)recvMessage;
-                if (pkMsg->acUser != NULL)
+                // ORIG：acUser 检查直接复用 teMsg（无独立 pkMsg 槽）
+                if (((Message*)teMsg)->acUser != NULL)
                 {
-                    if (pkMsg->mBufferType != BUFFER_TYPE_NOT_SETTED)
+                    if (((Message*)teMsg)->mBufferType != BUFFER_TYPE_NOT_SETTED)
                     {
                         // acUser is a refcount stored in a pointer-sized field (integer -1, not element ptr arith)
-                        pkMsg->acUser = (TCPUser*)((char*)pkMsg->acUser - 1);
-                        if (pkMsg->acUser == NULL)
+                        ((Message*)teMsg)->acUser = (TCPUser*)((char*)((Message*)teMsg)->acUser - 1);
+                        if (((Message*)teMsg)->acUser == NULL)
                         {
-                            *(char*)&pkMsg->mpSendBuffer = 0;
+                            *(char*)&((Message*)teMsg)->mpSendBuffer = 0;
                             timerThread->PushTimeReqEvent(teMsg);
                         }
                     }
@@ -715,7 +644,7 @@ void WorkThread::loop(void* temp)
             else
             {
                 // virtual destroyTimeEntity — leave as direct call for vtable *%reg form
-                pApp->super_DataPools.getCommonDataPool(tlsThreadId)->destroyTimeEntity(recvMessage);
+                pApp->super_DataPools.getCommonDataPool(tlsThreadId)->destroyTimeEntity(teMsg);
             }
             break;
         }
@@ -723,33 +652,33 @@ void WorkThread::loop(void* temp)
             break;
         default:
         {
-            Message* pMsg = (Message*)recvMessage;
-            TCPUser* pUser = pMsg->getUserFromMessage();
+            pkMsg = (Message*)recvMessage;
+            pUser = pkMsg->getUserFromMessage();
             if (pUser->isAboutToDisconnect() || pUser->isDisconnected())
             {
                 pUser->SetWorking(false);
-                G_TraceLog()->sysLog(7, "\xb2\xf7\xb1\xe4 \xc0\xaf\xc0\xfa\xb0\xa1 worker\xb7\xce \xb5\xe9\xbe\xee\xbf\xd4\xb4\xd9. msg-%d", (int)Message::ident, (int)(Message::ident >> 32));
-                pMsg->setUse(false);
+                register unsigned int idLo = (unsigned int)Message::ident;
+                register unsigned int idHi = (unsigned int)(Message::ident >> 32);
+                G_TraceLog()->sysLog(7, "\xb2\xf7\xb1\xe4 \xc0\xaf\xc0\xfa\xb0\xa1 worker\xb7\xce \xb5\xe9\xbe\xee\xbf\xd4\xb4\xd9. msg-%d", (int)idLo, (int)idHi);
+                pkMsg->setUse(false);
                 pUser->setActiveSyncByWorker(true);
                 G_ActiveNetClose()->pushActiveClose(pUser);
                 // ORIG: disconnect path skips mTransactionCntPerSec++ and re-pops
-                continue;
+                goto RETRY_MSG;
             }
             else
             {
-                CMsgCell* recvMsg = pMsg->getCellFromMessage();
-                TCPUser::ENUM_DATA_TYPE DataType = pUser->getRecvDataType();
-                PACKET_HEADER* pHeader = recvMsg->GetPacket();
-                G_TraceLog()->sysLog(4, "RECV PCK ct    =%d", pHeader->getCategory());
-                pHeader = recvMsg->GetPacket();
-                G_TraceLog()->sysLog(4, "RECV PCK id    =%d", pHeader->getPacketID());
-                pHeader = recvMsg->GetPacket();
-                G_TraceLog()->sysLog(4, "RECV PCK seq   =%u", pHeader->sequence);
+                recvMsg = pkMsg->getCellFromMessage();
+                DataType = pUser->getRecvDataType();
+                // ORIG：GetPacket() 结果直用，无 pHeader 局部（避免多一个栈槽）
+                G_TraceLog()->sysLog(4, "RECV PCK ct    =%d", recvMsg->GetPacket()->getCategory());
+                G_TraceLog()->sysLog(4, "RECV PCK id    =%d", recvMsg->GetPacket()->getPacketID());
+                G_TraceLog()->sysLog(4, "RECV PCK seq   =%u", recvMsg->GetPacket()->sequence);
                 recvMsg->GetPacket();
                 if (DataType == TCPUser::RECV_DATA_NORMAL)
                 {
-                    handlerTCP->dispatch(pUser, pMsg);
-                    pMsg->setUse(false);
+                    handlerTCP->dispatch(pUser, pkMsg);
+                    pkMsg->setUse(false);
                     if (pUser->GetPendingWorkNum() == 0)
                     {
                         pUser->SetWorking(false);
@@ -758,12 +687,14 @@ void WorkThread::loop(void* temp)
                 zipMsg->Clear();
                 encMsg->Clear();
                 CompressLen = 0x3c00;
-                G_TraceLog()->sysLog(8, "work ended id=%d", (int)Message::ident, (int)(Message::ident >> 32));
+                register unsigned int idLo = (unsigned int)Message::ident;
+                register unsigned int idHi = (unsigned int)(Message::ident >> 32);
+                G_TraceLog()->sysLog(8, "work ended id=%d", (int)idLo, (int)idHi);
             }
             break;
         }
         }
         mTransactionCntPerSec = mTransactionCntPerSec + 1;
-    } while (true);
+    }
 }
 ```

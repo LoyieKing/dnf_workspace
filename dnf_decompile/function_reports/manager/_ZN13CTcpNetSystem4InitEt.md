@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x805875a` | `0x13e` | `0x80663c8` | `0x13e` |
+| manager | DIFF | `0x805875a` | `0x13e` | `0x80662d2` | `0x13a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,101 +1,101 @@
+@@ -1,101 +1,99 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -73,11 +73,10 @@
  mov    0x118(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CThreadInterface5beginEv>
--xor    $0x1,%eax
-+test   %al,%al
-+sete   %al
+ xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN13CTcpNetSystem4InitEt+0xcb>
+-je     <T> <_ZN13CTcpNetSystem4InitEt+0xcb>
++je     <T> <_ZN13CTcpNetSystem4InitEt+0xc9>
  call   <T> <__cxa_rethrow>
  movl   $0x30,(%esp)
  call   <T> <_Znwj>
@@ -85,7 +84,8 @@
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CTcpNetworkThreadC1Ev>
- jmp    <T> <_ZN13CTcpNetSystem4InitEt+0xfd>
+-jmp    <T> <_ZN13CTcpNetSystem4InitEt+0xfd>
++jmp    <T> <_ZN13CTcpNetSystem4InitEt+0xfb>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -109,11 +109,10 @@
  mov    0x4(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CThreadInterface5beginEv>
--xor    $0x1,%eax
-+test   %al,%al
-+sete   %al
+ xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN13CTcpNetSystem4InitEt+0x136>
+-je     <T> <_ZN13CTcpNetSystem4InitEt+0x136>
++je     <T> <_ZN13CTcpNetSystem4InitEt+0x132>
  call   <T> <__cxa_rethrow>
  add    $0x2c,%esp
  pop    %ebx
@@ -167,7 +166,7 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystem4InitEt(CTcpNetSystem *this,ush
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 85 行）：
+定义于 [source/DNFServer/GameServer/Manager/TcpNetSystem.cpp](source/DNFServer/GameServer/Manager/TcpNetSystem.cpp)（约第 42 行）：
 
 ```cpp
 void CTcpNetSystem::Init(unsigned short port)
@@ -176,11 +175,11 @@ void CTcpNetSystem::Init(unsigned short port)
     m_tcpHandler = new CTcpHandler;
     m_acceptThread = new CTcpAcceptThread;
     m_acceptThread->attach(this);
-    if (!m_acceptThread->begin())
-        throw;   // ORIG 失败路径 __cxa_rethrow（rethrow 当前异常），非 throw 1
+    if (!m_acceptThread->CThreadInterface::begin())
+        throw;
     m_field4 = new CTcpNetworkThread;
     ((CTcpNetworkThread*)m_field4)->attach(this);
-    if (!((CTcpNetworkThread*)m_field4)->begin())
-        throw;   // ORIG 失败路径 __cxa_rethrow
+    if (!((CTcpNetworkThread*)m_field4)->CThreadInterface::begin())
+        throw;
 }
 ```

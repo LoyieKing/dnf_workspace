@@ -45,8 +45,8 @@ from compare_common import (
     load_disasm_cached, demangle_batch, is_exempt_symbol,
 )
 
-DECOMP = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile')
-NEOPLE = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople')
+DECOMP = Path('/home/loyieking/dnf_workspace/dnf_decompile')
+NEOPLE = Path('/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople')
 
 SVC = {
     'stun':      ('stun/df_stun_r',           'stun/df_stun_r'),

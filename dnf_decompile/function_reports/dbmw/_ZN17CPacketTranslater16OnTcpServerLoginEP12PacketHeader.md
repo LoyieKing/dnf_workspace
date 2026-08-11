@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809c2c6` | `0x27a` | `0x80876bc` | `0x264` |
+| dbmw | DIFF | `0x809c2c6` | `0x27a` | `0x80dac64` | `0x25e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,163 +1,156 @@
+@@ -1,163 +1,154 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,26 +22,27 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x272>
-+je     <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x25c>
++je     <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x256>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x14(%ebp)
 -mov    -0x14(%ebp),%eax
-+mov    %eax,-0x1c(%ebp)
-+mov    -0x1c(%ebp),%eax
-+mov    0x6(%eax),%eax
-+mov    %eax,-0x18(%ebp)
-+mov    -0x1c(%ebp),%eax
- movzbl 0xa(%eax),%eax
+-movzbl 0xa(%eax),%eax
 -movzbl %al,%ebx
-+mov    %al,-0x11(%ebp)
++mov    %eax,-0x18(%ebp)
++mov    -0x18(%ebp),%eax
++movzbl 0xa(%eax),%esi
++mov    -0x18(%ebp),%eax
++mov    0x6(%eax),%eax
++mov    %eax,%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -mov    %ebx,0x4(%esp)
-+mov    %eax,-0x10(%ebp)
-+movzbl -0x11(%ebp),%eax
++mov    %eax,-0x14(%ebp)
++mov    %esi,%edx
++movzbl %dl,%eax
 +mov    %eax,0x4(%esp)
-+mov    -0x10(%ebp),%eax
++mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler12GetTcpServerEh>
  test   %eax,%eax
@@ -53,24 +54,22 @@
 -mov    -0x14(%ebp),%eax
 -movzbl 0xa(%eax),%eax
 -movzbl %al,%ebx
--movl   $0xc44,0x8(%esp)
-+je     <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0xa4>
-+movl   $0x239,0x8(%esp)
- movl   $"OnTcpServerLogin",0x4(%esp)
++je     <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0xa0>
++and    $0xff,%esi
+ movl   $0xc44,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+movzbl -0x11(%ebp),%eax
-+mov    -0x18(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    %ebx,0x10(%esp)
++mov    %esi,0xc(%esp)
  movl   $"CPacketTranslater::OnTcpServerLogin Duplicate Server Instance(TYPE:%d, sock:%d)",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x273>
@@ -79,18 +78,19 @@
 -mov    -0x14(%ebp),%eax
 -movzbl 0xa(%eax),%eax
 -movzbl %al,%ebx
-+jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x25d>
++jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x257>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -mov    %esi,0x8(%esp)
 -mov    %ebx,0x4(%esp)
-+mov    %eax,-0x10(%ebp)
-+mov    -0x18(%ebp),%edx
-+movzbl -0x11(%ebp),%eax
++mov    %eax,-0x14(%ebp)
++mov    %ebx,%edx
++mov    %esi,%ecx
++movzbl %cl,%eax
 +mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
-+mov    -0x10(%ebp),%eax
++mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler15CreateTcpServerEhj>
 -mov    %eax,-0x10(%ebp)
@@ -101,25 +101,24 @@
 -mov    -0x14(%ebp),%eax
 -movzbl 0xa(%eax),%eax
 -movzbl %al,%ebx
--movl   $0xc4d,0x8(%esp)
-+test   %al,%al
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x121>
-+movl   $0x242,0x8(%esp)
- movl   $"OnTcpServerLogin",0x4(%esp)
- lea    -0x34(%ebp),%eax
++mov    %al,-0xd(%ebp)
++cmpb   $0x0,-0xd(%ebp)
++jne    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x11c>
++and    $0xff,%esi
+ movl   $0xc4d,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+movzbl -0x11(%ebp),%eax
-+mov    -0x18(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    %ebx,0x10(%esp)
++mov    %esi,0xc(%esp)
  movl   $"CPacketTranslater::OnTcpServerLogin CreateTcpServer fail(TYPE:%d, sock:%d)\n",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
- lea    -0x34(%ebp),%eax
+-lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x273>
@@ -128,89 +127,67 @@
 -mov    -0x14(%ebp),%eax
 -movzbl 0xa(%eax),%eax
 -movzbl %al,%eax
-+jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x25d>
-+movzbl -0x11(%ebp),%eax
-+mov    -0x18(%ebp),%edx
- mov    %edx,0x8(%esp)
+-mov    %edx,0x8(%esp)
++jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x257>
++mov    %esi,%edx
++movzbl %dl,%eax
++mov    %ebx,0x8(%esp)
  mov    %eax,0x4(%esp)
--movl   $"CPacketTranslater::OnTcpServerLogin(TYPE:%d, sock:%d)\n",(%esp)
-+movl   $"CPacketTranslater::OnTcpServerLogin(TYPE:%d, sock:%d)",(%esp)
+ movl   $"CPacketTranslater::OnTcpServerLogin(TYPE:%d, sock:%d)\n",(%esp)
  call   <T> <printf>
 -mov    -0x14(%ebp),%eax
 -mov    0x6(%eax),%esi
 -mov    -0x14(%ebp),%eax
 -movzbl 0xa(%eax),%eax
 -movzbl %al,%ebx
--movl   $0xc5b,0x8(%esp)
--movl   $"OnTcpServerLogin",0x4(%esp)
++and    $0xff,%esi
+ movl   $0xc5b,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnTcpServerLogin(TYPE:%d, sock:%d)",0x8(%esp)
--movl   $"./log/TcpServer",0x4(%esp)
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x273>
--cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x216>
--mov    %eax,(%esp)
--call   <T> <__cxa_begin_catch>
--mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0xc5f,0x8(%esp)
-+movl   $0x250,0x8(%esp)
- movl   $"OnTcpServerLogin",0x4(%esp)
- lea    -0x24(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnTcpServerLogin Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
-+movzbl -0x11(%ebp),%eax
-+mov    -0x18(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
-+movl   $"CPacketTranslater::OnTcpServerLogin(TYPE:%d, sock:%d)",0x8(%esp)
-+movl   $"./log/TcpServer",0x4(%esp)
- lea    -0x24(%ebp),%eax
++mov    %ebx,0x10(%esp)
++mov    %esi,0xc(%esp)
+ movl   $"CPacketTranslater::OnTcpServerLogin(TYPE:%d, sock:%d)",0x8(%esp)
+ movl   $"./log/TcpServer",0x4(%esp)
+-lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x273>
++jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x257>
+ cmp    $0x2,%edx
+-jne    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x216>
++jne    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x1fa>
+ mov    %eax,(%esp)
+ call   <T> <__cxa_begin_catch>
+ mov    %eax,-0xc(%ebp)
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0xc5f,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"CPacketTranslater::OnTcpServerLogin Exception Break : %s\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
+-lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x20f>
-+jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x25d>
-+cmp    $0x2,%edx
-+jne    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x200>
-+mov    %eax,(%esp)
-+call   <T> <__cxa_begin_catch>
-+mov    %eax,-0xc(%ebp)
-+movl   $0x254,0x8(%esp)
-+movl   $"OnTcpServerLogin",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CPacketTranslater::OnTcpServerLogin Exception Break : %s\n",0x8(%esp)
-+movl   $"./log/Except",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x1f9>
++jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x1f3>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -220,24 +197,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x273>
-+jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x25d>
++jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x257>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
--movl   $0xc64,0x8(%esp)
-+movl   $0x259,0x8(%esp)
- movl   $"OnTcpServerLogin",0x4(%esp)
+ movl   $0xc64,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnTcpServerLogin Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x26b>
-+jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x255>
++jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x24f>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -247,7 +223,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x273>
-+jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x25d>
++jmp    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x257>
  nop
  add    $0x60,%esp
  pop    %ebx
@@ -323,7 +299,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2492 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2651 行）：
 
 ```cpp
 void CPacketTranslater::OnTcpServerLogin(PacketHeader* header)
@@ -333,32 +309,42 @@ void CPacketTranslater::OnTcpServerLogin(PacketHeader* header)
         if (!m_pclApp)
             return;
         Packet_Tcp_Server_Login* pkt = (Packet_Tcp_Server_Login*)header;
-        int port = (int)pkt->reversed2;
-        unsigned char idx = pkt->m_idx;
+        register unsigned char idx = pkt->m_idx;
+        register int port = (int)pkt->reversed2;
         CServerHandler* handler = m_pclApp->Get_ServerHandler();
         if (handler->GetTcpServer(idx))
         {
-            CMyFileLog log("OnTcpServerLogin", 0x239);
-            log("./log/TcpServer",
+            DNF_LOG_SCOPE_LINE(0xc44,
+                "./log/TcpServer",
                 "CPacketTranslater::OnTcpServerLogin Duplicate Server Instance(TYPE:%d, sock:%d)",
-                idx, port);
+                idx, port
+            );
+
             return;
         }
         handler = m_pclApp->Get_ServerHandler();
-        if (!handler->CreateTcpServer(idx, port))
+        char ret = handler->CreateTcpServer(idx, port);
+        if (ret == 0)
         {
-            CMyFileLog log("OnTcpServerLogin", 0x242);
-            log("./log/TcpServer",
+            DNF_LOG_SCOPE_LINE(0xc4d,
+                "./log/TcpServer",
                 "CPacketTranslater::OnTcpServerLogin CreateTcpServer fail(TYPE:%d, sock:%d)\n",
-                idx, port);
+                idx, port
+            );
+
             return;
         }
-        printf("CPacketTranslater::OnTcpServerLogin(TYPE:%d, sock:%d)", idx, port);
-        CMyFileLog log("OnTcpServerLogin", 0x250);
-        log("./log/TcpServer", "CPacketTranslater::OnTcpServerLogin(TYPE:%d, sock:%d)", idx, port);
+        printf("CPacketTranslater::OnTcpServerLogin(TYPE:%d, sock:%d)\n", idx,
+               port);
+        DNF_LOG_SCOPE_LINE(0xc5b,
+            "./log/TcpServer",
+            "CPacketTranslater::OnTcpServerLogin(TYPE:%d, sock:%d)", idx,
+            port
+        );
+
     }
     DNF_CATCH_LOG("./log/Except",
                   "CPacketTranslater::OnTcpServerLogin Exception Break",
-                  0x254, 0x259);
+                  0xc5f, 0xc64);
 }
 ```

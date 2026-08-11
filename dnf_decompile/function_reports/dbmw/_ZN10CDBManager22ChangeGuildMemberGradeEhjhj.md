@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | NEAR | `0x8077ace` | `0x12c` | `0x8064412` | `0x12c` |
+| dbmw | NEAR | `0x8077ace` | `0x12c` | `0x80641a6` | `0x12c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -30,37 +30,26 @@
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%ebx
--movzbl -0x2c(%ebp),%edx
--movzbl -0x30(%ebp),%eax
--mov    0x18(%ebp),%ecx
--mov    %ecx,0x18(%esp)
--mov    %edx,0x14(%esp)
--mov    0x10(%ebp),%edx
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+movzbl -0x2c(%ebp),%ecx
-+movzbl -0x30(%ebp),%edx
-+mov    0x18(%ebp),%ebx
-+mov    %ebx,0x18(%esp)
-+mov    %ecx,0x14(%esp)
-+mov    0x10(%ebp),%ecx
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%ebx
+ movzbl -0x2c(%ebp),%edx
+ movzbl -0x30(%ebp),%eax
+ mov    0x18(%ebp),%ecx
+ mov    %ecx,0x18(%esp)
+ mov    %edx,0x14(%esp)
+ mov    0x10(%ebp),%edx
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"upDate guild_member set grade = %d where guild_id = %d and server_id = %d and  charac_no = %d and member_flag = 1",0x8(%esp)
  movl   $0x4e5b,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ebx
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ebx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager22ChangeGuildMemberGradeEhjhj+0xae>
  movl   $0xe3a,0x8(%esp)
-+movl   $"ChangeGuildMemberGrade",0x4(%esp)
++movl   $&_ZZN10CDBManager22ChangeGuildMemberGradeEhjhjE12__FUNCTION__,0x4(%esp)
 +lea    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -78,18 +67,18 @@
 +mov    -0x10(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x20,%eax
-+mov    (%eax),%eax
++mov    (%eax),%edx
 +movl   $0x4e5b,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +mov    %al,-0x9(%ebp)
 +movzbl -0x9(%ebp),%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager22ChangeGuildMemberGradeEhjhj+0x121>
 +movl   $0xe41,0x8(%esp)
- movl   $"ChangeGuildMemberGrade",0x4(%esp)
+ movl   $&_ZZN10CDBManager22ChangeGuildMemberGradeEhjhjE12__FUNCTION__,0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -119,7 +108,7 @@
 -test   %al,%al
 -je     <T> <_ZN10CDBManager22ChangeGuildMemberGradeEhjhj+0x121>
 -movl   $0xe41,0x8(%esp)
--movl   $"ChangeGuildMemberGrade",0x4(%esp)
+-movl   $&_ZZN10CDBManager22ChangeGuildMemberGradeEhjhjE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -191,4 +180,4 @@ CDBManager::_ZN10CDBManager22ChangeGuildMemberGradeEhjhj
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a7e0` | `0x64` | `0x808056a` | `0x64` |
+| monitor | DIFF | `0x807a7e0` | `0x64` | `0x8080430` | `0x64` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -89,12 +89,16 @@ undefined4 CServerHandler::_ZN14CServerHandler13GetGameServerEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 453 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 207 行）：
 
 ```cpp
-CGameServer* CServerHandler::GetGameServer(unsigned int group)
+CGameServer* CServerHandler::GetGameServer(unsigned int id)
 {
-    std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.find(group);
-    return it == m_gameServers.end() ? 0 : it->second;
+    std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.find(id);
+    if (it != m_gameServers.end())
+    {
+        return it->second;
+    }
+    return 0;
 }
 ```

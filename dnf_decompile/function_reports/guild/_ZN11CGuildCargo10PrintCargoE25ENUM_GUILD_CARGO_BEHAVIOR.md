@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809fe9e` | `0xed` | `0x809215e` | `0xf5` |
+| guild | DIFF | `0x809fe9e` | `0xed` | `0x8091fac` | `0xf5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -27,9 +27,9 @@
 -mov    0x18e0(%eax),%ebx
 +sub    $0x48,%esp
  movl   $0x18d,0x8(%esp)
- movl   $"PrintCargo",0x4(%esp)
+ movl   $&_ZZN11CGuildCargo10PrintCargoE25ENUM_GUILD_CARGO_BEHAVIORE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %edi,0x14(%esp)
@@ -48,7 +48,7 @@
  movl   $"CARGO - g:%d,capa:%d,behavior:%d",0x8(%esp)
  movl   $"./log/GuildCargo",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -movl   $0x0,-0x1c(%ebp)
@@ -77,9 +77,9 @@
 -mov    %eax,%ebx
 +mov    %eax,-0xc(%ebp)
  movl   $0x195,0x8(%esp)
- movl   $"PrintCargo",0x4(%esp)
+ movl   $&_ZZN11CGuildCargo10PrintCargoE25ENUM_GUILD_CARGO_BEHAVIORE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0x10(%esp)
@@ -91,7 +91,7 @@
  movl   $"SLOT - %d,%s",0x8(%esp)
  movl   $"./log/GuildCargo",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -addl   $0x1,-0x1c(%ebp)
@@ -150,12 +150,12 @@ CGuildCargo::_ZN11CGuildCargo10PrintCargoE25ENUM_GUILD_CARGO_BEHAVIOR
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 345 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 353 行）：
 
 ```cpp
 void CGuildCargo::PrintCargo(ENUM_GUILD_CARGO_BEHAVIOR behavior)
 {
-    CMyFileLog log0("PrintCargo", 0x18d);
+    CMyFileLog log0(__FUNCTION__, 0x18d);
     log0("./log/GuildCargo", "CARGO - g:%d,capa:%d,behavior:%d",
          *(int*)((char*)this + 0x18e0), *(int*)((char*)this + 0x18d8),
          (int)behavior);

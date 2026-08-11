@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80812aa` | `0x2fb` | `0x804e1a0` | `0x2de` |
+| dbmw | DIFF | `0x80812aa` | `0x2fb` | `0x804e190` | `0x2dc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,207 +1,196 @@
+@@ -1,207 +1,195 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -102,26 +102,21 @@
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x28,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    0xc(%ebp),%eax
--add    $0x4e,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+add    $0x4e,%edx
++mov    -0x1c(%ebp),%eax
+ add    $0x4e,%eax
  movl   $0xe,0xc(%esp)
--mov    %eax,0x8(%esp)
-+mov    %edx,0x8(%esp)
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,-0x154(%ebp)
- mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,-0x154(%ebp)
+-mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,-0x154(%ebp)
 -mov    0xc(%ebp),%eax
 -movzwl 0x42(%eax),%eax
++mov    -0x1c(%ebp),%eax
 +add    $0x42,%eax
 +movzwl (%eax),%eax
  movzwl %ax,%eax
@@ -266,30 +261,25 @@
 -mov    -0x1c(%ebp),%eax
 +mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
--call   *-0x15c(%ebp)
+ call   *-0x15c(%ebp)
 -mov    -0x1c(%ebp),%eax
-+mov    -0x15c(%ebp),%edx
-+call   *%edx
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4ed9,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x1d(%ebp)
 -movzbl -0x1d(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2eb>
-+je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2ce>
++je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2cc>
  movl   $0x1bd3,0x8(%esp)
- movl   $"OnInsertGuildCargoHistory",0x4(%esp)
+ movl   $&_ZZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_HistoryE12__FUNCTION__,0x4(%esp)
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -300,7 +290,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2f0>
-+jmp    <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2d3>
++jmp    <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2d1>
  mov    $0x1,%eax
  add    $0x1cc,%esp
  pop    %ebx
@@ -387,4 +377,4 @@ CDBManager::_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

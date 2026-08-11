@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8074aac` | `0x9d` | `0x807498c` | `0xdb` |
+| statics | DIFF | `0x8074aac` | `0x9d` | `0x8074b3c` | `0xc9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,83 +13,70 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,51 +1,73 @@
+@@ -1,51 +1,65 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x9b>
-+je     <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xd9>
++je     <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xc7>
  mov    0xc(%ebp),%eax
--mov    0xe(%eax),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
+ mov    0xe(%eax),%eax
  test   %eax,%eax
 -jle    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x97>
-+jle    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xd9>
++jle    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xc7>
  mov    0xc(%ebp),%eax
--mov    0xe(%eax),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
+ mov    0xe(%eax),%eax
  cmp    $0x64,%eax
 -jg     <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x9a>
-+jg     <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xd9>
++jg     <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xc7>
  mov    0xc(%ebp),%eax
--movzbl 0x12(%eax),%eax
-+add    $0x12,%eax
-+movzbl (%eax),%eax
+ movzbl 0x12(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x73>
-+jne    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x79>
-+mov    0x8(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+add    $0xe,%edx
-+mov    (%edx),%edx
-+add    $0x100,%edx
-+shl    $0x3,%edx
-+add    $0x7,%edx
-+add    %edx,%eax
++jne    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0x6e>
 +mov    0x8(%ebp),%edx
-+mov    0xc(%ebp),%ecx
-+add    $0xe,%ecx
-+mov    (%ecx),%ecx
-+add    $0x100,%ecx
-+shl    $0x3,%ecx
-+add    $0x7,%ecx
-+add    %ecx,%edx
-+mov    (%edx),%edx
-+add    $0x1,%edx
-+mov    %edx,(%eax)
-+jmp    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xd9>
-+mov    0x8(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+add    $0xe,%edx
-+mov    (%edx),%edx
-+add    $0x100,%edx
-+shl    $0x3,%edx
-+add    $0xb,%edx
-+add    %edx,%eax
-+mov    0x8(%ebp),%edx
-+mov    0xc(%ebp),%ecx
-+add    $0xe,%ecx
-+mov    (%ecx),%ecx
-+add    $0x100,%ecx
-+shl    $0x3,%ecx
-+add    $0xb,%ecx
-+add    %ecx,%edx
-+mov    (%edx),%edx
-+add    $0x1,%edx
-+mov    %edx,(%eax)
  mov    0xc(%ebp),%eax
--mov    0xe(%eax),%eax
-+add    $0xe,%eax
+ mov    0xe(%eax),%eax
++add    $0x100,%eax
++shl    $0x3,%eax
++add    $0x7,%eax
++add    %eax,%edx
++mov    0x8(%ebp),%ecx
++mov    0xc(%ebp),%eax
++mov    0xe(%eax),%eax
++add    $0x100,%eax
++shl    $0x3,%eax
++add    $0x7,%eax
++lea    (%ecx,%eax,1),%eax
 +mov    (%eax),%eax
-+mov    %eax,-0xc(%ebp)
++add    $0x1,%eax
++mov    %eax,(%edx)
++jmp    <T> <_ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_GTS+0xc7>
  mov    0x8(%ebp),%edx
 -lea    0x100(%eax),%ecx
 -mov    0xb(%edx,%ecx,8),%edx
 -lea    0x1(%edx),%ecx
--mov    0x8(%ebp),%edx
++mov    0xc(%ebp),%eax
++mov    0xe(%eax),%eax
++add    $0x100,%eax
++shl    $0x3,%eax
++add    $0xb,%eax
++add    %eax,%edx
++mov    0x8(%ebp),%ecx
++mov    0xc(%ebp),%eax
++mov    0xe(%eax),%eax
++add    $0x100,%eax
++shl    $0x3,%eax
++add    $0xb,%eax
++lea    (%ecx,%eax,1),%eax
++mov    (%eax),%eax
++add    $0x1,%eax
++mov    %eax,(%edx)
++mov    0xc(%ebp),%eax
++mov    0xe(%eax),%eax
++mov    %eax,-0xc(%ebp)
+ mov    0x8(%ebp),%edx
 -add    $0x100,%eax
 -mov    %ecx,0xb(%edx,%eax,8)
 -mov    0xc(%ebp),%eax
@@ -152,21 +139,27 @@ _ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Stati
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1481 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1643 行）：
 
 ```cpp
 void StatisticManager::AddTowerOfDespairStatistic(Packet_TowerOfDespair_Statistic_GTS* pkt)
 {
-    if (pkt != 0 && 0 < *(int*)((char*)pkt + 0xe) && *(int*)((char*)pkt + 0xe) < 0x65)
+    struct __attribute__((packed)) Wire
     {
-        if (*(char*)((char*)pkt + 0x12) == 0)
+        char m_hdr[0xe];
+        int m_f0e;
+        char m_f12;
+    };
+    if (pkt != 0 && 0 < ((Wire*)pkt)->m_f0e && ((Wire*)pkt)->m_f0e < 0x65)
+    {
+        if (((Wire*)pkt)->m_f12 == 0)
         {
-            *(int*)((char*)this + (*(int*)((char*)pkt + 0xe) + 0x100) * 8 + 7) += 1;
+            *(int*)((char*)this + (((Wire*)pkt)->m_f0e + 0x100) * 8 + 7) += 1;
         }
         else
         {
-            *(int*)((char*)this + (*(int*)((char*)pkt + 0xe) + 0x100) * 8 + 0xb) += 1;
-            m_serverList.insert(*(int*)((char*)pkt + 0xe));
+            *(int*)((char*)this + (((Wire*)pkt)->m_f0e + 0x100) * 8 + 0xb) += 1;
+            m_serverList.insert(((Wire*)pkt)->m_f0e);
         }
     }
 }

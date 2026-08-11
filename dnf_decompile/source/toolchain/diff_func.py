@@ -22,7 +22,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import norm_line, load_disasm_cached
 
-ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
+ROOT = Path('/home/loyieking/dnf_workspace')
 BINS = {
     'monitor': (ROOT / 'dnf_installer/build/dnf_data/home/template/neople/monitor/df_monitor_r',
                 ROOT / 'dnf_decompile/build/monitor/df_monitor_r'),

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091cd2` | `0x3c` | `0x80579a4` | `0x44` |
+| guild | NEAR | `0x8091cd2` | `0x3c` | `0x8057a9c` | `0x3c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,21 +1,25 @@
+@@ -1,21 +1,21 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x28,%esp
@@ -23,25 +23,19 @@
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
--je     <T> <_ZN6CGuild13LoadGuildAgitEP14CServerHandlerj+0x3a>
+ je     <T> <_ZN6CGuild13LoadGuildAgitEP14CServerHandlerj+0x3a>
 -lea    -0x16(%ebp),%eax
-+je     <T> <_ZN6CGuild13LoadGuildAgitEP14CServerHandlerj+0x41>
-+lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN25Packet_DB_Load_Guild_AgitC1Ev>
-+lea    -0x1c(%ebp),%eax
-+lea    0xa(%eax),%edx
  mov    0x10(%ebp),%eax
--mov    %eax,-0xc(%ebp)
+ mov    %eax,-0xc(%ebp)
 -lea    -0x16(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
-+jmp    <T> <_ZN6CGuild13LoadGuildAgitEP14CServerHandlerj+0x42>
-+nop
  leave
  ret
 ```
@@ -70,17 +64,17 @@ CGuild::_ZN6CGuild13LoadGuildAgitEP14CServerHandlerj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1942 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2000 行）：
 
 ```cpp
 void CGuild::LoadGuildAgit(CServerHandler* handler, unsigned int charNo)
 {
-    if ((m_field1c & 4) == 0)
+    if ((m_field1c & 4) != 0)
     {
-        return;
+        Packet_DB_Load_Guild_Agit pkt;
+        unsigned int t = charNo;
+        (void)t;
+        handler->SendToDB(&pkt);
     }
-    Packet_DB_Load_Guild_Agit pkt;
-    *(unsigned int*)((char*)&pkt + 0xa) = charNo;
-    handler->SendToDB(&pkt);
 }
 ```

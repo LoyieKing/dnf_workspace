@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x805deaa` | `0x501` | `0x804e0dc` | `0x4fd` |
+| manager | DIFF | `0x805deaa` | `0x501` | `0x804e1ce` | `0x4fb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,367 +1,366 @@
+@@ -1,367 +1,365 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -64,7 +64,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x487>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x483>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x481>
  lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -111,7 +111,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x487>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x483>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x481>
  lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -147,7 +147,7 @@
  mov    %edi,%eax
  mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x487>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x483>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x481>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0xc4(%eax)
@@ -175,8 +175,7 @@
  call   <T> <_ZNSaIcEC1Ev>
  lea    -0x1d(%ebp),%eax
  mov    %eax,0x8(%esp)
--movl   $"CApplication::Load() Init Server Socket Exception Break!",0x4(%esp)
-+movl   $"Application::Load() Init Server Socket Exception Break!",0x4(%esp)
+ movl   $"CApplication::Load() Init Server Socket Exception Break!",0x4(%esp)
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
@@ -228,11 +227,11 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x487>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x483>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x481>
  lea    -0x1d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -253,7 +252,7 @@
  mov    %edi,%eax
  mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x487>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x483>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x481>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x18(%eax)
@@ -308,7 +307,7 @@
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x487>
 -mov    %ebx,%eax
 -mov    %eax,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x483>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x481>
 +mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0xc8(%eax)
@@ -322,12 +321,10 @@
  mov    0xc8(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CThreadInterface5beginEv>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN12CApplication4LoadEiPPc+0x3dc>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN12CApplication4LoadEiPPc+0x3d8>
++je     <T> <_ZN12CApplication4LoadEiPPc+0x3d6>
  call   <T> <__cxa_rethrow>
  movl   $"Application Network Thread Begin() Success!",(%esp)
  call   <T> <puts>
@@ -385,21 +382,17 @@
  ret
  cmp    $0x2,%edx
 -jne    <T> <_ZN12CApplication4LoadEiPPc+0x4d3>
-+jne    <T> <_ZN12CApplication4LoadEiPPc+0x4cf>
++jne    <T> <_ZN12CApplication4LoadEiPPc+0x4cd>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CApplication::Load() Exception Break : %s\n",(%esp)
  call   <T> <printf>
@@ -557,55 +550,43 @@ CApplication::_ZN12CApplication4LoadEiPPc(CApplication *this,int param_1,char **
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 126 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFApplication.cpp](source/DNFServer/GameServer/Manager/DNFApplication.cpp)（约第 114 行）：
 
 ```cpp
 void CApplication::Load(int argc, char** argv)
 {
     try
     {
-        m_userManager.Init(this);
-        m_appConfig->Load_Table(argv[1]);
-        m_serverConfig->Load_Table("./table/server_config.tbl");
-        m_frame.InitFrameCountInfo(this, m_appConfig->Get_FrameCountValue(), 1000);
+        m_appConfig->Load_Table(std::string(argv[1]));
+        puts("Application App Config Load_Table() Success!");
+        m_serverConfig->Load_Table(std::string("./table/server_config.tbl"));
+        puts("Application Server Config Load_Table() Success!");
+        m_frameCount.InitFrameCountInfo(this, m_appConfig->Get_FrameCountValue(), 0x3e8);
+        puts("Application Init Frame Count() Success!");
+        m_udpHandler = new CUdpHandler;
+        if (((CUdpHandler*)m_udpHandler)->InitServerSocket(m_appConfig->Get_ServerUdpPort()) == -1)
+            throw CDNFException("CApplication::Load() Init Server Socket Exception Break!");
+        puts("Application UDP Handler Create() Success!");
         m_serverHandler = new CServerHandler;
         m_serverHandler->Attach(this);
-        m_serverHandler->Load(m_serverConfig->GetServerInfo());
+        m_serverHandler->Load((ST_ServerInfo*)m_serverConfig->GetServerInfo());
+        puts("Application Server Handler Create() Success!");
         CPacketTranslater::attach(this);
-        m_innerMsg = new CInnerMsgHandler;
+        puts("Application Packet Translater Attach() Success!");
         CPacketDecoderInstance()->Attach(this);
-        for (int i = 0; i < 10; i++)
-        {
-            m_appThreads[i] = new CAppThread;
-            m_appThreads[i]->attach(this, i);
-            if (!m_appThreads[i]->begin())
-            {
-                throw CDNFException(
-                    std::string("CApplication::Load() Init App Thread Exception Break!"));
-            }
-        }
-        for (int i = 0; i <= 100; i++)
-        {
-            unsigned short port = m_appConfig->Get_ServerUdpPort((unsigned char)i);
-            if (port != 0)
-            {
-                m_udpHandlers[i] = new CUdpHandler;
-                if (m_udpHandlers[i]->InitServerSocket((unsigned int)port) == -1)
-                {
-                    throw CDNFException(
-                        std::string("CApplication::Load() Init Server Socket Exception Break!"));
-                }
-                m_netThreads[i] = new CNetworkThread;
-                m_netThreads[i]->attach(this, i);
-                if (!m_netThreads[i]->begin())
-                {
-                    throw CDNFException(
-                        std::string("CApplication::Load() Init Network Thread Exception Break!"));
-                }
-            }
-        }
+        puts("Application Packet Decoder Attach() Success!");
+        m_udpNetworkThread = new CUdpNetworkThread;
+        m_udpNetworkThread->attach(this);
+        if (!m_udpNetworkThread->CThreadInterface::begin())
+            throw;
+        puts("Application Network Thread Begin() Success!");
+        IQueue<TcpRecvQueue>::Get().InitQueue(
+            m_tcpNetSystem.Get_TcpSwapQPacket()->GetParseQ(),
+            m_tcpNetSystem.Get_TcpSwapQPacket()->GetRecvQ());
+        m_tcpNetSystem.Init(m_appConfig->Get_ServerTcpPort());
+        m_userManager.Init(this);
         puts("Application Load() Success!");
-        m_loaded = true;
+        m_loaded = 1;
     }
     catch (CDNFException& e)
     {

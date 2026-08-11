@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8079d7c` | `0xc4` | `0x8081024` | `0xc4` |
+| monitor | DIFF | `0x8079d7c` | `0xc4` | `0x8080f28` | `0xc4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -63,7 +63,7 @@
  jmp    <T> <_ZN14CServerHandler14SetConnectFlagEhb+0xbf>
 -movzbl -0x2c(%ebp),%ebx
  movl   $0x1f8,0x8(%esp)
- movl   $"SetConnectFlag",0x4(%esp)
+ movl   $&_ZZN14CServerHandler14SetConnectFlagEhbE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -127,8 +127,23 @@ CServerHandler::_ZN14CServerHandler14SetConnectFlagEhb
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 192 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 480 行）：
 
 ```cpp
-void CServerHandler::SetConnectFlag(unsigned char idx, bool flag) {}
+void CServerHandler::SetConnectFlag(unsigned char channel, bool flag)
+{
+    std::map<unsigned int, CGameServer*>::iterator it =
+        m_gameServers.find((unsigned int)channel);
+    if (it != m_gameServers.end())
+    {
+        ((CServerInterface*)it->second)->SetConnFlag(flag);
+    }
+    else
+    {
+        CMyFileLog log(__FUNCTION__, 0x1f8);
+        log("./log/GameServer",
+            "CServerHandler::SetConnectFlag\tGame Server Index Over Index : %d!\n",
+            channel);
+    }
+}
 ```

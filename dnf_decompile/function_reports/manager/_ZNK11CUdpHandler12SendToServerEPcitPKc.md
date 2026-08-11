@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x805638a` | `0x27b` | `0x8063586` | `0x265` |
+| manager | DIFF | `0x805638a` | `0x27b` | `0x806346e` | `0x265` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -87,7 +87,7 @@
 +cmpl   $0x61,-0xc(%ebp)
 +jne    <T> <_ZNK11CUdpHandler12SendToServerEPcitPKc+0x127>
 +movl   $0x1b8,0x8(%esp)
-+movl   $"SendToServer",0x4(%esp)
++movl   $&_ZZNK11CUdpHandler12SendToServerEPcitPKcE12__FUNCTION__,0x4(%esp)
 +lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -111,7 +111,7 @@
 +cmpl   $0x71,-0xc(%ebp)
 +jg     <T> <_ZNK11CUdpHandler12SendToServerEPcitPKc+0x172>
  movl   $0x1b2,0x8(%esp)
- movl   $"SendToServer",0x4(%esp)
+ movl   $&_ZZNK11CUdpHandler12SendToServerEPcitPKcE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
@@ -128,7 +128,7 @@
 -movl   $0x1b8,0x8(%esp)
 +jmp    <T> <_ZNK11CUdpHandler12SendToServerEPcitPKc+0x1be>
 +movl   $0x1be,0x8(%esp)
- movl   $"SendToServer",0x4(%esp)
+ movl   $&_ZZNK11CUdpHandler12SendToServerEPcitPKcE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
@@ -146,7 +146,7 @@
  call   <T> <strerror>
 -mov    %eax,%ebx
 -movl   $0x1be,0x8(%esp)
--movl   $"SendToServer",0x4(%esp)
+-movl   $&_ZZNK11CUdpHandler12SendToServerEPcitPKcE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -167,7 +167,7 @@
 -jne    <T> <_ZNK11CUdpHandler12SendToServerEPcitPKc+0x21d>
 +jne    <T> <_ZNK11CUdpHandler12SendToServerEPcitPKc+0x20b>
  movl   $0x1c7,0x8(%esp)
- movl   $"SendToServer",0x4(%esp)
+ movl   $&_ZZNK11CUdpHandler12SendToServerEPcitPKcE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 +lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
@@ -188,16 +188,19 @@
 +cmp    0x10(%ebp),%eax
 +je     <T> <_ZNK11CUdpHandler12SendToServerEPcitPKc+0x25e>
  movl   $0x1ce,0x8(%esp)
- movl   $"SendToServer",0x4(%esp)
+ movl   $&_ZZNK11CUdpHandler12SendToServerEPcitPKcE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    0x10(%ebp),%eax
- mov    %eax,0x10(%esp)
+-mov    0x10(%ebp),%eax
+-mov    %eax,0x10(%esp)
  mov    -0x10(%ebp),%eax
++mov    0x10(%ebp),%edx
++mov    %edx,0x10(%esp)
  mov    %eax,0xc(%esp)
- movl   $"Only %d out of %d bytes sent\n",0x8(%esp)
+-movl   $"Only %d out of %d bytes sent\n",0x8(%esp)
++movl   $"Only %s out of %d bytes sent\n",0x8(%esp)
  movl   $"./log/UdpErr",0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x48(%ebp),%eax
@@ -293,59 +296,60 @@ CUdpHandler::_ZNK11CUdpHandler12SendToServerEPcitPKc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFUdpHandler.cpp](source/DNFServer/GameServer/COServer/DNFUdpHandler.cpp)（约第 241 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFUdpHandler.cpp](source/DNFServer/GameServer/Manager/DNFUdpHandler.cpp)（约第 72 行）：
 
 ```cpp
-int CUdpHandler::SendToServer(char* buf, int len, unsigned short port, char const* ip) const
+int CUdpHandler::SendToServer(char* buf, int len, unsigned short port, const char* ip) const
 {
     if (m_clientSock == -1)
-    {
         return 0;
-    }
     int n;
-    if (port == 0)
+    if (port == 0 && ip == 0)
     {
-        if (ip == 0)
-        {
-            n = send(m_clientSock, buf, len, 0);
-        }
+        n = send(m_clientSock, buf, len, 0);
     }
     else
     {
-        sockaddr to;
-        memset(&to, 0, 0x10);
-        to.sa_family = 2;
-        *(unsigned short*)to.sa_data = htons(port);
-        *(unsigned int*)(to.sa_data + 2) = inet_addr(ip);
-        n = sendto(m_clientSock, buf, len, 0, &to, 0x10);
+        struct sockaddr_in addr;
+        memset(&addr, 0, 0x10);
+        addr.sin_family = AF_INET;
+        addr.sin_port = htons(port);
+        addr.sin_addr.s_addr = inet_addr(ip);
+        n = sendto(m_clientSock, buf, len, 0, (struct sockaddr*)&addr, 0x10);
     }
     if (n == -1)
     {
-        int err = getErrno();
-        if (err == 0x61)
+        int e = getErrno();
+        if (e == 0x61)
         {
-            DNF_LOG_SCOPE_LINE(0x1b8, "./log/UdpErr", "Error( EAFNOSUPPORT ) in send = %d\n", err);
+            CMyFileLog log(__FUNCTION__, 0x1b8);
+            log("./log/UdpErr", "Error( EAFNOSUPPORT ) in send = %d\n", e);
         }
-        else if (err < 0x61 || 2 < err - 0x6fU)
+        else if (e >= 0x6f && e <= 0x71)
         {
-            DNF_LOG_SCOPE_LINE(0x1be, "./log/UdpErr", "err = %d , strerror = %s in send\n", err, strerror(err));
+            CMyFileLog log(__FUNCTION__, 0x1b2);
+            log("./log/UdpErr", "Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", e);
         }
         else
         {
-            DNF_LOG_SCOPE_LINE(0x1b2, "./log/UdpErr", "Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", err);
+            CMyFileLog log(__FUNCTION__, 0x1be);
+            log("./log/UdpErr", "err = %d , strerror = %s in send\n", e, strerror(e));
         }
         return 0;
     }
     if (n == 0)
     {
-        DNF_LOG_SCOPE_LINE(0x1c7, "./log/UdpErr", "no data sent in send\n");
+        CMyFileLog log(__FUNCTION__, 0x1c7);
+        log("./log/UdpErr", "no data sent in send\n");
         return 0;
     }
-    if (len == n)
+    if (n != len)
     {
-        return 1;
+        CMyFileLog log(__FUNCTION__, 0x1ce);
+        // ORIG 实测：日志文案与 printf 一样保留 %s bug（n 按指针打印）。
+        log("./log/UdpErr", "Only %s out of %d bytes sent\n", (const char*)n, len);
+        return 0;
     }
-    DNF_LOG_SCOPE_LINE(0x1ce, "./log/UdpErr", "Only %d out of %d bytes sent\n", n, len);
-    return 0;
+    return 1;
 }
 ```

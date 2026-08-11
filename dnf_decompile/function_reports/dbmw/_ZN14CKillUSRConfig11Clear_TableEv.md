@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806a2e6` | `0xa4` | `0x8073d8c` | `0xa4` |
+| dbmw | DIFF | `0x806a2e6` | `0xa4` | `0x80c7478` | `0xa4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -114,21 +114,20 @@ void __thiscall CKillUSRConfig::_ZN14CKillUSRConfig11Clear_TableEv(CKillUSRConfi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFKillUserConfig.cpp](source/DNFServer/GameServer/COServer/DNFKillUserConfig.cpp)（约第 26 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFKillUserConfig.cpp](source/DNFServer/GameServer/DBMW/DNFKillUserConfig.cpp)（约第 61 行）：
 
 ```cpp
 void CKillUSRConfig::Clear_Table()
 {
-    if (!m_infos.empty())
+    if (m_list.empty())
+        return;
+    for (std::vector<ST_KillUSRConfig*>::iterator it = m_list.begin();
+         it != m_list.end(); ++it)
     {
-        for (std::vector<ST_KillUSRConfig*>::iterator it = m_infos.begin(); it != m_infos.end();
-             ++it)
-        {
-            ST_KillUSRConfig* p = *it;
-            ::operator delete(p);
-            p = 0;
-        }
-        m_infos.clear();
+        ST_KillUSRConfig* p = *it;
+        delete p;
+        p = 0;
     }
+    m_list.clear();
 }
 ```

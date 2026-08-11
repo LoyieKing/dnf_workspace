@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8086230` | `0x120` | `0x80581f4` | `0x10d` |
+| dbmw | DIFF | `0x8086230` | `0x120` | `0x8057fde` | `0x10d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -27,51 +27,35 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--lea    0x817(%eax),%ecx
--mov    0xc(%ebp),%eax
--mov    0x12(%eax),%eax
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+lea    0x817(%edx),%ecx
-+mov    0xc(%ebp),%edx
-+mov    0x12(%edx),%edx
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ lea    0x817(%eax),%ecx
+ mov    0xc(%ebp),%eax
+ mov    0x12(%eax),%eax
  mov    %ecx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    %edx,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    %eax,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    0x12(%eax),%eax
--mov    %eax,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    0x12(%eax),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    0x12(%edx),%edx
-+mov    %edx,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager17QueryInsertUpdateEP18PacketInsertUpdate+0xb3>
 -mov    0xc(%ebp),%eax
 -lea    0x817(%eax),%ebx
 -movl   $0x27f5,0x8(%esp)
--movl   $"QueryInsertUpdate",0x4(%esp)
+-movl   $&_ZZN10CDBManager17QueryInsertUpdateEP18PacketInsertUpdateE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -87,14 +71,10 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  or     %edx,%eax
  test   %eax,%eax
  sete   %al
@@ -104,59 +84,44 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--lea    0x16(%eax),%ecx
--mov    0xc(%ebp),%eax
--mov    0xe(%eax),%eax
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+lea    0x16(%edx),%ecx
-+mov    0xc(%ebp),%edx
-+mov    0xe(%edx),%edx
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ lea    0x16(%eax),%ecx
+ mov    0xc(%ebp),%eax
+ mov    0xe(%eax),%eax
  mov    %ecx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    %edx,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    %eax,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    0xe(%edx),%edx
-+mov    %edx,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    $0x1,%eax
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    0xe(%eax),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+-mov    %al,-0xd(%ebp)
+ mov    $0x1,%eax
+-add    $0x24,%esp
+-pop    %ebx
+-pop    %ebp
 +jmp    <T> <_ZN10CDBManager17QueryInsertUpdateEP18PacketInsertUpdate+0x10b>
 +movl   $0x27f5,0x8(%esp)
-+movl   $"QueryInsertUpdate",0x4(%esp)
++movl   $&_ZZN10CDBManager17QueryInsertUpdateEP18PacketInsertUpdateE12__FUNCTION__,0x4(%esp)
 +lea    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    0xc(%ebp),%eax
--mov    0xe(%eax),%eax
--mov    %eax,0x4(%esp)
--mov    -0xc(%ebp),%eax
++mov    0xc(%ebp),%eax
 +add    $0x817,%eax
 +mov    %eax,0xc(%esp)
 +movl   $"QueryInsertUpdate Query(%s) Error\n",0x8(%esp)
 +movl   $"./log/DBQueryErr",0x4(%esp)
 +lea    -0x14(%ebp),%eax
- mov    %eax,(%esp)
--call   *%edx
--mov    %al,-0xd(%ebp)
--mov    $0x1,%eax
--add    $0x24,%esp
--pop    %ebx
--pop    %ebp
++mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
 +leave
@@ -202,7 +167,7 @@ CDBManager::_ZN10CDBManager17QueryInsertUpdateEP18PacketInsertUpdate
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3040 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 2966 行）：
 
 ```cpp
 char CDBManager::QueryInsertUpdate(PacketInsertUpdate* packet)
@@ -218,7 +183,7 @@ char CDBManager::QueryInsertUpdate(PacketInsertUpdate* packet)
         }
         return 1;
     }
-    CMyFileLog log("QueryInsertUpdate", 0x27f5);
+    CMyFileLog log(__FUNCTION__, 0x27f5);
     log("./log/DBQueryErr", "QueryInsertUpdate Query(%s) Error\n",
         packet->m_insertSql);
     return 0;

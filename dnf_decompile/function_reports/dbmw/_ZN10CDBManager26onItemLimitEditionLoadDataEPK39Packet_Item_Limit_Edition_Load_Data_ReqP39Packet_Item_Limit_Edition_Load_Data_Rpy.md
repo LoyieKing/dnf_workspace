@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808171a` | `0x701` | `0x805b488` | `0x709` |
+| dbmw | DIFF | `0x808171a` | `0x701` | `0x805b23e` | `0x709` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -65,6 +65,13 @@
 -movl   $0xb,-0x14(%ebp)
 -lea    -0x101c(%ebp),%eax
 -add    -0x14(%ebp),%eax
+-mov    0xc(%ebp),%edx
+-lea    0x13(%edx),%ecx
+-mov    0xc(%ebp),%edx
+-mov    0xf(%edx),%edx
+-mov    %eax,0x8(%esp)
+-mov    %ecx,0x4(%esp)
+-mov    %edx,(%esp)
 +mov    0xc(%ebp),%eax
 +lea    0x13(%eax),%edx
 +mov    0xc(%ebp),%eax
@@ -74,49 +81,27 @@
 +mov    %ecx,0x8(%esp)
 +mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
-+call   <T> <_Z15getList2inQueryjPKjPc>
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%eax
- mov    0xc(%ebp),%edx
--lea    0x13(%edx),%ecx
--mov    0xc(%ebp),%edx
--mov    0xf(%edx),%edx
--mov    %eax,0x8(%esp)
--mov    %ecx,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_Z15getList2inQueryjPKjPc>
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x1c,%eax
--mov    (%eax),%ecx
--mov    0xc(%ebp),%eax
--mov    0xb(%eax),%eax
-+mov    0xb(%edx),%edx
+ call   <T> <_Z15getList2inQueryjPKjPc>
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x1c,%eax
+ mov    (%eax),%ecx
+ mov    0xc(%ebp),%eax
+ mov    0xb(%eax),%eax
  movl   $0x1c,0x1c(%esp)
--mov    -0x18(%ebp),%edx
--mov    %edx,0x18(%esp)
--mov    -0x18(%ebp),%edx
--mov    %edx,0x14(%esp)
+ mov    -0x18(%ebp),%edx
+ mov    %edx,0x18(%esp)
+ mov    -0x18(%ebp),%edx
+ mov    %edx,0x14(%esp)
 -lea    -0x101c(%ebp),%edx
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
-+mov    -0x18(%ebp),%ecx
-+mov    %ecx,0x18(%esp)
-+mov    -0x18(%ebp),%ecx
-+mov    %ecx,0x14(%esp)
-+lea    -0x41c(%ebp),%ecx
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
++lea    -0x41c(%ebp),%edx
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"seLect ipg_no,item_no,item_cnt,cera_price,gold_price,avatar_period_type,total_cnt,sell_cnt,restrict_no,start_time,end_time,npc_idx,cond_charac_job,cond_lev_begin,cond_lev_end,cond_acc_create_time_begin,cond_acc_create_time_end,cond_cha_create_time_begin,cond_cha_create_time_end from limited_shop_manager where server_id=%d %s and (start_time<%d and end_time>%d) and status_flag=0 limit %d",0x8(%esp)
  movl   $0x4ec7,0x4(%esp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ecx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x105>
@@ -125,22 +110,16 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4ec7,0x4(%esp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x122>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f7>
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x130>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x700>
@@ -151,14 +130,10 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    0x10(%ebp),%edx
  mov    %eax,0xb(%edx)
 +mov    0x10(%ebp),%eax
@@ -170,21 +145,15 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x176>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f7>
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x18d>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x700>
@@ -1306,4 +1275,4 @@ _ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_D
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

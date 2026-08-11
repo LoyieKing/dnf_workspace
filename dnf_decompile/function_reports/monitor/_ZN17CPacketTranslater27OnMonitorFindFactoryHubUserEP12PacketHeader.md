@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808b754` | `0x4f4` | `0x8076db8` | `0x4e1` |
+| monitor | DIFF | `0x808b754` | `0x4f4` | `0x8076d58` | `0x4cb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,349 +1,349 @@
+@@ -1,349 +1,338 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -23,20 +23,16 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0xe2>
--lea    -0x51(%ebp),%eax
-+lea    -0x41(%ebp),%eax
+ lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x51(%ebp),%eax
-+lea    -0x41(%ebp),%eax
+ lea    -0x51(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnMonitorFindFactoryHubUser : 0 == m_pclApp",0x4(%esp)
--lea    -0x58(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x58(%ebp),%esi
-+lea    -0x48(%ebp),%esi
+ lea    -0x58(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -53,8 +49,7 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x58(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x8a>
@@ -64,8 +59,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0xa7>
--lea    -0x58(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0xbf>
@@ -74,23 +68,17 @@
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x51(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x3de>
--lea    -0x51(%ebp),%eax
-+lea    -0x41(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x3cd>
-+lea    -0x41(%ebp),%eax
+ lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ mov    %esi,%eax
+ mov    %ebx,%edx
+-jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x3de>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x3b5>
+ lea    -0x51(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -98,72 +86,63 @@
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x2c(%ebp)
 -mov    -0x2c(%ebp),%eax
--movzbl 0xe(%eax),%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +add    $0x10,%eax
 +mov    %eax,-0x30(%ebp)
 +movl   $0x0,-0x2c(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
+ movzbl 0xe(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x1b5>
 -mov    -0x2c(%ebp),%eax
--movzbl 0xe(%eax),%eax
-+je     <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x1b2>
++je     <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x1ae>
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
+ movzbl 0xe(%eax),%eax
  cmp    $0x1d,%al
 -ja     <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x1b5>
--lea    -0x49(%ebp),%eax
-+ja     <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x1b2>
-+lea    -0x39(%ebp),%eax
++ja     <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x1ae>
+ lea    -0x49(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -mov    -0x2c(%ebp),%eax
 +mov    0x8(%ebp),%eax
  lea    0xf(%eax),%edx
--lea    -0x49(%ebp),%eax
-+lea    -0x39(%ebp),%eax
+ lea    -0x49(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    %edx,0x4(%esp)
--lea    -0x50(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -lea    0x10(%eax),%edx
--lea    -0x50(%ebp),%eax
--mov    %eax,0x4(%esp)
+ lea    -0x50(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -mov    %edx,(%esp)
-+lea    -0x40(%ebp),%eax
-+mov    %eax,0x4(%esp)
 +mov    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
  call   <T> <_ZNK12CUserManager17FindUser_CharNameESs>
  mov    %eax,-0x28(%ebp)
-+lea    -0x40(%ebp),%eax
++lea    -0x50(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x18c>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x188>
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x40(%ebp),%eax
++lea    -0x50(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x174>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x170>
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x39(%ebp),%eax
++lea    -0x49(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x3cd>
-+lea    -0x39(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x3b5>
++lea    -0x49(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
  cmpl   $0x0,-0x28(%ebp)
@@ -193,7 +172,7 @@
 -call   <T> <_ZNSaIcED1Ev>
 -test   %bl,%bl
 -je     <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x1ae>
-+je     <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x1aa>
++je     <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x1a6>
  mov    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -205,32 +184,29 @@
 -movl   $0x0,-0x24(%ebp)
 -movl   $0x0,-0x20(%ebp)
 -mov    -0x2c(%ebp),%eax
--mov    0xa(%eax),%eax
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x1ab>
++mov    $0xffffffff,%eax
++mov    %eax,-0x2c(%ebp)
++cmpl   $0x0,-0x2c(%ebp)
++je     <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x2ef>
++mov    0x8(%ebp),%eax
+ mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x10,%edx
 -mov    %eax,0x4(%esp)
 -mov    %edx,(%esp)
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x1af>
-+mov    $0xffffffff,%eax
-+mov    %eax,-0x2c(%ebp)
-+cmpl   $0x0,-0x2c(%ebp)
-+je     <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x307>
-+mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 +mov    %eax,-0x24(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4d5>
++je     <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4bf>
 +lea    -0x8c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN35Packet_Notice_Find_Factory_Hub_UserC1Ev>
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++mov    0xa(%eax),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
@@ -254,19 +230,17 @@
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x28b>
-+jne    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x2a6>
++jne    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x294>
  mov    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser14GetIdByChannelEv>
 +mov    %eax,-0x82(%ebp)
 +movb   $0x0,-0x5f(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
++movzbl 0xe(%eax),%eax
 +mov    %al,-0x7e(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
++movzbl 0xe(%eax),%eax
 +movzbl %al,%eax
 +mov    0x8(%ebp),%edx
 +add    $0xf,%edx
@@ -277,23 +251,20 @@
 +mov    %eax,(%esp)
 +call   <T> <strncpy>
 +mov    0x8(%ebp),%eax
-+add    $0x2d,%eax
-+movzwl (%eax),%eax
++movzwl 0x2d(%eax),%eax
 +mov    %ax,-0x5e(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0x2f,%eax
-+mov    (%eax),%eax
++mov    0x2f(%eax),%eax
 +mov    %eax,-0x5c(%ebp)
 +lea    -0x8c(%ebp),%eax
-+add    $0x2,%eax
-+movw   $0x34,(%eax)
++movw   $0x34,0x2(%eax)
 +lea    -0x8c(%ebp),%eax
 +movl   $0x34,0x8(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4d6>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4c0>
 +mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -301,16 +272,12 @@
  movb   $0x1,-0x5f(%ebp)
  movb   $0x0,-0x7e(%ebp)
 -mov    -0x2c(%ebp),%eax
--movzwl 0x2d(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x2d,%eax
-+movzwl (%eax),%eax
+ movzwl 0x2d(%eax),%eax
  mov    %ax,-0x5e(%ebp)
 -mov    -0x2c(%ebp),%eax
--mov    0x2f(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x2f,%eax
-+mov    (%eax),%eax
+ mov    0x2f(%eax),%eax
  mov    %eax,-0x5c(%ebp)
 -movw   $0x34,-0x8a(%ebp)
 -movzwl -0x8a(%ebp),%eax
@@ -320,8 +287,7 @@
 -mov    %eax,0x4(%esp)
 -mov    -0x24(%ebp),%eax
 +lea    -0x8c(%ebp),%eax
-+add    $0x2,%eax
-+movw   $0x34,(%eax)
++movw   $0x34,0x2(%eax)
 +lea    -0x8c(%ebp),%eax
 +movl   $0x34,0x8(%esp)
 +mov    %eax,0x4(%esp)
@@ -364,21 +330,17 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4e9>
--lea    -0x41(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4d6>
-+lea    -0x31(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4c0>
+ lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x41(%ebp),%eax
-+lea    -0x31(%ebp),%eax
+ lea    -0x41(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnMonitorFindFactoryHubUser",0x4(%esp)
--lea    -0x48(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x48(%ebp),%esi
-+lea    -0x38(%ebp),%esi
+ lea    -0x48(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -387,7 +349,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x38f>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x37e>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x366>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -396,107 +358,81 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
+ lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x389>
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x378>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x360>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x3a6>
-+jne    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x395>
++jne    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x37d>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x3a6>
--lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x37d>
+ lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x3bb>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x395>
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x3aa>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x392>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x3a6>
-+jne    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x395>
++jne    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x37d>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x41(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x3de>
--lea    -0x41(%ebp),%eax
-+lea    -0x31(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x3cd>
-+lea    -0x31(%ebp),%eax
+ lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ mov    %esi,%eax
+ mov    %ebx,%edx
+-jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x3de>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x3b5>
+ lea    -0x41(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x480>
-+jne    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x46d>
++jne    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x457>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildChatMsg() Exception Break : %s\n",(%esp)
  call   <T> <printf>
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
  movl   $0x1629,0x8(%esp)
- movl   $"OnMonitorFindFactoryHubUser",0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x50(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnMonitorFindFactoryHubUser() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x50(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x479>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x466>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x450>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -506,25 +442,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4e9>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4d6>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4c0>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnNoticeGuildChatMsg() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x162f,0x8(%esp)
- movl   $"OnMonitorFindFactoryHubUser",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x58(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnMonitorFindFactoryHubUser() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x58(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4e1>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4ce>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4b8>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -534,7 +468,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4e9>
-+jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4d6>
++jmp    <T> <_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader+0x4c0>
  nop
  add    $0x9c,%esp
  pop    %ebx
@@ -656,7 +590,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3868 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3871 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorFindFactoryHubUser(PacketHeader* pkt)
@@ -670,29 +604,29 @@ void CPacketTranslater::OnMonitorFindFactoryHubUser(PacketHeader* pkt)
     }
     CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
     int targetCharNo = 0;
-    if (*(char*)((char*)pkt + 0xe) != 0 &&
-        (unsigned char)*(char*)((char*)pkt + 0xe) < 0x1e)
+    if (((RA_S8<14>*)pkt)->v != 0 &&
+        (unsigned char)((RA_S8<14>*)pkt)->v < 0x1e)
     {
         CUser* target = userMgr->FindUser_CharName((char*)pkt + 0xf);
         targetCharNo = target != 0 ? (int)target->GetUniqCharNo() : -1;
     }
     if (targetCharNo != 0)
     {
-        CUser* userA = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xa));
+        CUser* userA = userMgr->FindUser_CharNo(((RA_UINT<10>*)pkt)->v);
         if (userA != 0)
         {
             Packet_Notice_Find_Factory_Hub_User reply;
-            CUser* userB = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xa));
+            CUser* userB = userMgr->FindUser_CharNo(((RA_UINT<10>*)pkt)->v);
             if (userB == 0)
             {
                 reply.m_idByChannel = userA->GetIdByChannel();
                 reply.m_found = 0;
-                reply.m_nameLen = *(unsigned char*)((char*)pkt + 0xe);
+                reply.m_nameLen = ((RA_U8<14>*)pkt)->v;
                 strncpy(reply.m_name, (char*)pkt + 0xf,
-                        (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe));
-                reply.m_field2e = *(unsigned short*)((char*)pkt + 0x2d);
-                reply.m_field30 = *(unsigned int*)((char*)pkt + 0x2f);
-                *(unsigned short*)((char*)&reply + 2) = 0x34;
+                        (unsigned int)(unsigned char)((RA_S8<14>*)pkt)->v);
+                reply.m_field2e = ((RA_U16<45>*)pkt)->v;
+                reply.m_field30 = ((RA_UINT<47>*)pkt)->v;
+                ((RA_U16<2>*)&reply)->v = 0x34;
                 userA->SendToGameserver((char*)&reply, 0x34);
             }
             else
@@ -700,9 +634,9 @@ void CPacketTranslater::OnMonitorFindFactoryHubUser(PacketHeader* pkt)
                 reply.m_idByChannel = userB->GetIdByChannel();
                 reply.m_found = 1;
                 reply.m_nameLen = 0;
-                reply.m_field2e = *(unsigned short*)((char*)pkt + 0x2d);
-                reply.m_field30 = *(unsigned int*)((char*)pkt + 0x2f);
-                *(unsigned short*)((char*)&reply + 2) = 0x34;
+                reply.m_field2e = ((RA_U16<45>*)pkt)->v;
+                reply.m_field30 = ((RA_UINT<47>*)pkt)->v;
+                ((RA_U16<2>*)&reply)->v = 0x34;
                 userB->SendToGameserver((char*)&reply, 0x34);
             }
         }

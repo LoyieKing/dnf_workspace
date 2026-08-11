@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806d5cc` | `0xa9` | `0x8081b84` | `0x8e` |
+| guild | DIFF | `0x806d5cc` | `0xa9` | `0x8081998` | `0x8e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -119,7 +119,7 @@ CServerHandler::_ZN14CServerHandler20SendAllUdpGameServerEPci
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 299 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 306 行）：
 
 ```cpp
 void CServerHandler::SendAllUdpGameServer(char* buf, int len)

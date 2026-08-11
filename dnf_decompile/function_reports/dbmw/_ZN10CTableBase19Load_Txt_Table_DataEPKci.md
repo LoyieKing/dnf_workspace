@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806b518` | `0xda` | `0x808ee7a` | `0xe3` |
+| dbmw | DIFF | `0x806b518` | `0xda` | `0x80e251e` | `0xe3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -164,31 +164,25 @@ CTableBase::_ZN10CTableBase19Load_Txt_Table_DataEPKci(CTableBase *this,char *par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFTableBase.cpp](source/DNFServer/GameServer/COServer/DNFTableBase.cpp)（约第 19 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTableBase.cpp](source/DNFServer/GameServer/DBMW/DNFTableBase.cpp)（约第 29 行）：
 
 ```cpp
-int CTableBase::Load_Txt_Table_Data(const char* path, int maxCount)
+int CTableBase::Load_Txt_Table_Data(const char* fileName, int idx)
 {
-    int count = 0;
-    FILE* f;
-    if ((f = fopen(path, "r")) == 0)
-    {
+    FILE* f = fopen(fileName, "r");
+    if (!f)
         return -1;
-    }
-    char line[1024];
-    while (feof(f) == 0 && fgets(line, 0x400, f) != 0)
+    char buf[0x400];
+    int count = 0;
+    while (!feof(f) && fgets(buf, 0x400, f))
     {
-        if (line[0] != '#')
-        {
-            if (count >= maxCount)
-            {
-                return -2;
-            }
-            if (Parse_Table(line, count))
-            {
-                count++;
-            }
-        }
+        if (buf[0] == '#')
+            continue;
+        if (count >= idx)
+            return -2;
+        if (!Parse_Table(buf, count))
+            return -1;
+        count++;
     }
     fclose(f);
     return count;

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805b710` | `0x220` | `0x80a0eb6` | `0x22c` |
+| dbmw | DIFF | `0x805b710` | `0x220` | `0x80f45b2` | `0x220` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,168 +1,174 @@
+@@ -1,168 +1,168 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -61,8 +61,7 @@
  call   <T> <_ZNSt5dequeIP14CTcpSendBufferSaIS1_EED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x1a6>
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x1aa>
+ jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x1a6>
  lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt5dequeIP14CTcpSendBufferSaIS1_EED1Ev>
@@ -132,7 +131,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x176>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -141,7 +139,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x190>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -150,8 +147,7 @@
  call   <T> <_ZNSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x1a6>
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x1aa>
+ jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x1a6>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -160,7 +156,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x1c4>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -169,7 +164,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x1de>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -178,7 +172,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x1f6>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -187,7 +180,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x20e>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809f036` | `0x184` | `0x805807c` | `0x165` |
+| monitor | DIFF | `0x809f036` | `0x184` | `0x8058322` | `0x16d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,114 +1,107 @@
+@@ -1,114 +1,110 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -36,9 +36,10 @@
 +jmp    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x31>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN12CBuddyHandle11printBuddysEPc+0x15a>
++je     <T> <_ZN12CBuddyHandle11printBuddysEPc+0x162>
  mov    0x8(%ebp),%edx
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE5beginEv>
@@ -50,118 +51,112 @@
 -call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE3endEv>
 -sub    $0x4,%esp
 -jmp    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x159>
-+jmp    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x12b>
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++jmp    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x133>
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEptEv>
  mov    0x4(%eax),%eax
--mov    %eax,-0x1c(%ebp)
--mov    -0x1c(%ebp),%eax
 +mov    %eax,-0x20(%ebp)
 +mov    -0x20(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
--movzbl 0x26(%eax),%eax
--movsbl %al,%eax
--mov    %eax,-0x48(%ebp)
-+mov    %eax,-0x1c(%ebp)
-+movl   $0x16e,0x8(%esp)
-+movl   $"printBuddys",0x4(%esp)
-+lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
+ mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
--mov    0x22(%eax),%eax
--mov    %eax,-0x44(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
--movzbl 0x21(%eax),%eax
+-movzbl 0x26(%eax),%eax
 +add    $0x26,%eax
 +movzbl (%eax),%eax
  movsbl %al,%eax
+-mov    %eax,-0x48(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
+-mov    0x22(%eax),%eax
+ mov    %eax,-0x44(%ebp)
+ mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
+-movzbl 0x21(%eax),%eax
+-movsbl %al,%eax
++add    $0x22,%eax
++mov    (%eax),%eax
  mov    %eax,-0x40(%ebp)
  mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
 -movzbl 0x20(%eax),%eax
--movsbl %al,%eax
-+add    $0x22,%eax
-+mov    (%eax),%eax
++add    $0x21,%eax
++movzbl (%eax),%eax
+ movsbl %al,%eax
  mov    %eax,-0x3c(%ebp)
  mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
 -movzwl 0x1e(%eax),%eax
 -movswl %ax,%edi
-+add    $0x21,%eax
++add    $0x20,%eax
 +movzbl (%eax),%eax
 +movsbl %al,%edi
  mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
 -mov    %eax,%esi
-+add    $0x20,%eax
-+movzbl (%eax),%eax
-+movsbl %al,%esi
-+mov    -0x1c(%ebp),%eax
 +add    $0x1e,%eax
 +movzwl (%eax),%eax
-+movswl %ax,%ebx
++movswl %ax,%esi
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
--mov    %eax,%ebx
--movl   $0x16e,0x8(%esp)
--movl   $"printBuddys",0x4(%esp)
+ mov    %eax,%ebx
+ movl   $0x16e,0x8(%esp)
+ movl   $&_ZZN12CBuddyHandle11printBuddysEPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x48(%ebp),%eax
--mov    %eax,0x28(%esp)
++mov    -0x44(%ebp),%eax
+ mov    %eax,0x28(%esp)
 -mov    -0x44(%ebp),%eax
--mov    %eax,0x24(%esp)
++mov    -0x40(%ebp),%eax
+ mov    %eax,0x24(%esp)
 -mov    -0x40(%ebp),%eax
--mov    %eax,0x20(%esp)
++mov    -0x3c(%ebp),%eax
+ mov    %eax,0x20(%esp)
 -mov    -0x3c(%ebp),%eax
 -mov    %eax,0x1c(%esp)
 -mov    %edi,0x18(%esp)
 -mov    %esi,0x14(%esp)
--mov    %ebx,0x10(%esp)
-+mov    -0x40(%ebp),%edx
-+mov    %edx,0x28(%esp)
-+mov    -0x3c(%ebp),%edx
-+mov    %edx,0x24(%esp)
-+mov    %edi,0x20(%esp)
-+mov    %esi,0x1c(%esp)
-+mov    %ebx,0x18(%esp)
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,0x14(%esp)
-+mov    %eax,0x10(%esp)
++mov    %edi,0x1c(%esp)
++mov    %esi,0x18(%esp)
++mov    -0x1c(%ebp),%eax
++mov    %eax,0x14(%esp)
+ mov    %ebx,0x10(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"[%s] name(%s) fname(%s) flevel(%d) fjob(%d) fgrowtype(%d) fcharNo(%d) fsex(%d)",0x8(%esp)
  movl   $"./log/buddy",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEppEv>
--lea    -0x2c(%ebp),%eax
 +mov    0x8(%ebp),%edx
-+lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
 +mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE3endEv>
 +sub    $0x4,%esp
-+lea    -0x24(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEneERKS5_>
  test   %al,%al
@@ -247,7 +242,7 @@ void __thiscall CBuddyHandle::_ZN12CBuddyHandle11printBuddysEPc(CBuddyHandle *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 243 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 247 行）：
 
 ```cpp
 void CBuddyHandle::printBuddys(char* out)

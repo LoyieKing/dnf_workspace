@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809a148` | `0xb8` | `0x8062500` | `0xa2` |
+| monitor | DIFF | `0x809a148` | `0xb8` | `0x8062700` | `0xa2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -21,14 +21,12 @@
  mov    %al,-0x2c(%ebp)
  cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh+0xb5>
--lea    -0x24(%ebp),%eax
 +je     <T> <_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh+0xa0>
-+lea    -0x1c(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN26Packet_Monitor_SAVE_MemberC1Ev>
  movzbl -0x2c(%ebp),%eax
--mov    %al,-0x1a(%ebp)
-+mov    %al,-0x12(%ebp)
+ mov    %al,-0x1a(%ebp)
  cmpl   $0x1,0x18(%ebp)
 -jne    <T> <_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh+0x37>
 -movzbl &_ZL12MEMBER_LOWER,%eax
@@ -39,15 +37,13 @@
 -jne    <T> <_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh+0x55>
 +jne    <T> <_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh+0x40>
  mov    0x14(%ebp),%eax
--mov    %eax,-0x19(%ebp)
-+mov    %eax,-0x11(%ebp)
+ mov    %eax,-0x19(%ebp)
  mov    0x10(%ebp),%eax
--mov    %eax,-0x15(%ebp)
+ mov    %eax,-0x15(%ebp)
 -jmp    <T> <_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh+0xa1>
-+mov    %eax,-0xd(%ebp)
-+movb   $0x1,-0x9(%ebp)
++movb   $0x1,-0x11(%ebp)
 +jmp    <T> <_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh+0x8e>
-+movb   $0x2,-0x9(%ebp)
++movb   $0x2,-0x11(%ebp)
  cmpl   $0x2,0x18(%ebp)
 -jne    <T> <_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh+0x69>
 -mov    0x10(%ebp),%eax
@@ -57,25 +53,22 @@
 -jmp    <T> <_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh+0xa1>
 +je     <T> <_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh+0x82>
  movl   $0x137,0x8(%esp)
- movl   $"SaveMemberOnUnConnect",0x4(%esp)
--lea    -0x10(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ movl   $&_ZZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjhE12__FUNCTION__,0x4(%esp)
+ lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CMemberManager::SaveMemberOnUnConnect , isSecederUpperOrLower == 0",0x8(%esp)
  movl   $"./log/Member",0x4(%esp)
--lea    -0x10(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh+0xb6>
--lea    -0x24(%ebp),%eax
 +jmp    <T> <_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh+0xa0>
 +mov    0x10(%ebp),%eax
-+mov    %eax,-0x11(%ebp)
++mov    %eax,-0x19(%ebp)
 +mov    0x14(%ebp),%eax
-+mov    %eax,-0xd(%ebp)
-+lea    -0x1c(%ebp),%eax
++mov    %eax,-0x15(%ebp)
+ lea    -0x24(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -133,4 +126,4 @@ CMemberManager::_ZN14CMemberManager21SaveMemberOnUnConnectEP14CServerHandlerjjjh
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 638 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp, source/DNFServer/GameServer/Monitor/Arad_BirthdayEvent.h, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFBuddyHandle.h, source/DNFServer/GameServer/Monitor/DNFDBServer.h, source/DNFServer/GameServer/Monitor/DNFManagerServer.h 等 299 个文件*

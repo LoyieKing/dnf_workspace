@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80914f2` | `0x1f2` | `0x807caf4` | `0x1f3` |
+| monitor | DIFF | `0x80914f2` | `0x1f2` | `0x807c992` | `0x1f2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,142 +1,143 @@
+@@ -1,142 +1,142 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -23,20 +23,16 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0xdc>
--lea    -0x31(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x31(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x31(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::onCollectItemsGm",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x38(%ebp),%esi
-+lea    -0x28(%ebp),%esi
+ lea    -0x38(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -53,8 +49,7 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x38(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x87>
@@ -64,8 +59,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0xa4>
--lea    -0x38(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0xb9>
@@ -74,80 +68,64 @@
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x31(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x114>
--lea    -0x31(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x117>
-+lea    -0x21(%ebp),%eax
+ jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x114>
+ lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -mov    %eax,-0x20(%ebp)
-+lea    0xa(%eax),%ebx
++mov    0x8(%ebp),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15Get_ServerGroupEv>
 -mov    -0x20(%ebp),%edx
 -mov    %al,0xa(%edx)
 -mov    -0x20(%ebp),%edx
-+mov    %al,(%ebx)
++mov    %al,0xa(%ebx)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0xa0(%eax),%eax
+ mov    0xa0(%eax),%eax
 -mov    %edx,0x4(%esp)
-+add    $0xa0,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x20(%ebp)
 +mov    0x8(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
--jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x1ea>
-+jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x1eb>
+ jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x1ea>
  cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x190>
-+jne    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x191>
+ jne    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x190>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
  movl   $0x1ffe,0x8(%esp)
- movl   $"onCollectItemsGm",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater16onCollectItemsGmEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::onCollectItemsGm Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x189>
-+jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x18a>
+ jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x189>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -156,24 +134,20 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x1ea>
-+jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x1eb>
+ jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x1ea>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x2003,0x8(%esp)
- movl   $"onCollectItemsGm",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater16onCollectItemsGmEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::onCollectItemsGm Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x1e5>
-+jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x1e6>
+ jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x1e5>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -229,29 +203,31 @@ void CPacketTranslater::_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1383 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5300 行）：
 
 ```cpp
-void CPacketTranslater::onCollectItemsGm(PacketHeader* header)
+void CPacketTranslater::onCollectItemsGm(PacketHeader* pkt)
+{try
 {
-    if (!m_pclApp)
-        return;
-    try
+
+
+    if (m_pclApp == 0)
     {
-        Packet_DBMW_Collect_Items_Gm* pkt =
-            (Packet_DBMW_Collect_Items_Gm*)header;
-        m_pclApp->m_dbManager.updateCollectItemsGm(
-            pkt->m_serverInfo, pkt->m_fieldF, pkt->m_fieldB,
-            pkt->m_field13);
-        Packet_CollectItemsResult reply;
-        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_fieldF;
-        *(unsigned int*)((char*)&reply + 0xe) = pkt->m_fieldB;
-        *(int*)((char*)&reply + 0x12) = pkt->m_field13;
-        m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
-            (char*)&reply, reply.packetSize);
+        throw CDNFException("CPacketTranslater::onCollectItemsGm");
     }
-    DNF_CATCH_LOG("./log/Except",
-                  "CPacketTranslater::onCollectItemsGm Exception Break",
-                  0x1406, 0x140b);
+    ((RA_S8<10>*)pkt)->v = (char)m_pclApp->Get_ServerGroup();
+    CServerHandler* handler = m_pclApp->m_serverHandler2;
+    handler->SendToDB(pkt);
+
+
+    }
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1ffe, "./log/Except", "CPacketTranslater::onCollectItemsGm Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x2003, "./log/Except", "CPacketTranslater::onCollectItemsGm Exception Break\n");
+    }
 }
 ```

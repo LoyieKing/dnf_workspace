@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4068` | `0x47` | `0x8092e3e` | `0x4c` |
+| monitor | DIFF | `0x80a4068` | `0x47` | `0x8092f22` | `0x47` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,39 +13,33 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,25 +1,27 @@
+@@ -1,25 +1,25 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  mov    0xc(%ebp),%eax
--mov    0xa(%eax),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  mov    %eax,-0xc(%ebp)
  cmpl   $0xa5,-0xc(%ebp)
--ja     <T> <_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start+0x44>
-+ja     <T> <_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start+0x4a>
+ ja     <T> <_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start+0x44>
  mov    0xc(%ebp),%eax
--mov    0xe(%eax),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
+ mov    0xe(%eax),%eax
  mov    %eax,-0x10(%ebp)
- mov    -0xc(%ebp),%edx
+-mov    -0xc(%ebp),%edx
++lea    -0x10(%ebp),%edx
++mov    -0xc(%ebp),%ecx
  mov    0x8(%ebp),%eax
- mov    (%eax,%edx,4),%eax
- lea    -0x10(%ebp),%edx
+-mov    (%eax,%edx,4),%eax
+-lea    -0x10(%ebp),%edx
++mov    (%eax,%ecx,4),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN16CBaseEventAction12OnStartEventER10EventParam>
  mov    0xc(%ebp),%eax
--mov    -0x10(%ebp),%edx
--mov    %edx,0xe(%eax)
--jmp    <T> <_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start+0x45>
--nop
-+lea    0xe(%eax),%edx
-+lea    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
+ mov    -0x10(%ebp),%edx
+ mov    %edx,0xe(%eax)
+ jmp    <T> <_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start+0x45>
+ nop
  leave
  ret
 ```
@@ -76,17 +70,18 @@ CEventActionManager::_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_E
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 147 行）：
+定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 146 行）：
 
 ```cpp
 void CEventActionManager::OnStartAction(Packet_Monitor_Event_Start* pkt)
 {
-    unsigned int code = *(unsigned int*)((char*)pkt + 0xa);
+    unsigned int code = ((RA_UINT<10>*)pkt)->v;
     if (code < 0xa6)
     {
-        EventParam param = *(EventParam*)((char*)pkt + 0xe);
-        m_actions[code]->OnStartEvent(param);
-        *(unsigned int*)((char*)pkt + 0xe) = *(unsigned int*)&param;
+        unsigned int param = ((RA_UINT<14>*)pkt)->v;
+        m_actions[code]->OnStartEvent(*(EventParam*)&param);
+        ((RA_UINT<14>*)pkt)->v = param;
     }
+    return;
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808e2c4` | `0x64` | `0x8099e5c` | `0x66` |
+| dbmw | DIFF | `0x808e2c4` | `0x64` | `0x80ed35a` | `0x62` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -19,7 +19,7 @@
  sub    $0x28,%esp
  cmpl   $0x4f60,0xc(%ebp)
 -ja     <T> <_ZN13CQueryCounter15IncreQureyCountEjPKc+0x61>
-+ja     <T> <_ZN13CQueryCounter15IncreQureyCountEjPKc+0x5f>
++ja     <T> <_ZN13CQueryCounter15IncreQureyCountEjPKc+0x5e>
  mov    0xc(%ebp),%eax
  sub    $0x4e20,%eax
  mov    %eax,-0xc(%ebp)
@@ -34,25 +34,21 @@
  mov    0x8(%ebp),%eax
  mov    0x1058(%eax),%eax
  mov    (%eax),%eax
--mov    (%eax),%edx
--mov    0x8(%ebp),%eax
--mov    0x1058(%eax),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    0x8(%ebp),%edx
-+mov    0x1058(%edx),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x1058(%eax),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    -0xc(%ebp),%eax
  mov    0x8(%ebp),%edx
  movzbl 0x4(%edx,%eax,1),%eax
- xor    $0x1,%eax
+-xor    $0x1,%eax
 -test   %al,%al
 -jmp    <T> <_ZN13CQueryCounter15IncreQureyCountEjPKc+0x62>
 -nop
-+jmp    <T> <_ZN13CQueryCounter15IncreQureyCountEjPKc+0x64>
-+mov    $0x0,%eax
++xor    $0x1,%al
++jmp    <T> <_ZN13CQueryCounter15IncreQureyCountEjPKc+0x60>
++mov    $0x0,%al
  leave
  ret
 ```
@@ -77,7 +73,7 @@ CQueryCounter::_ZN13CQueryCounter15IncreQureyCountEjPKc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/QueryCounter.cpp](source/DNFServer/GameServer/DBMW/QueryCounter.cpp)（约第 90 行）：
+定义于 [source/DNFServer/GameServer/DBMW/QueryCounter.cpp](source/DNFServer/GameServer/DBMW/QueryCounter.cpp)（约第 81 行）：
 
 ```cpp
 char CQueryCounter::IncreQureyCount(unsigned int idx, const char* name)

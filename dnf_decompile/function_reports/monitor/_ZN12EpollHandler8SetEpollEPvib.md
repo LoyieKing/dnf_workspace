@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804eddc` | `0x96` | `0x80a1a2c` | `0x9c` |
+| monitor | DIFF | `0x804eddc` | `0x96` | `0x80a1bfe` | `0xa0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -21,18 +21,12 @@
  mov    0x14(%ebp),%eax
  mov    %al,-0x1c(%ebp)
  cmpb   $0x0,-0x1c(%ebp)
--je     <T> <_ZN12EpollHandler8SetEpollEPvib+0x1f>
--mov    0x8(%ebp),%eax
--movl   $0x8000001d,0x4(%eax)
--jmp    <T> <_ZN12EpollHandler8SetEpollEPvib+0x29>
--mov    0x8(%ebp),%eax
--movl   $0x1d,0x4(%eax)
-+je     <T> <_ZN12EpollHandler8SetEpollEPvib+0x1a>
-+mov    $0x8000001d,%eax
-+jmp    <T> <_ZN12EpollHandler8SetEpollEPvib+0x1f>
-+mov    $0x1d,%eax
-+mov    0x8(%ebp),%edx
-+mov    %eax,0x4(%edx)
+ je     <T> <_ZN12EpollHandler8SetEpollEPvib+0x1f>
+ mov    0x8(%ebp),%eax
+ movl   $0x8000001d,0x4(%eax)
+ jmp    <T> <_ZN12EpollHandler8SetEpollEPvib+0x29>
+ mov    0x8(%ebp),%eax
+ movl   $0x1d,0x4(%eax)
  mov    0x8(%ebp),%eax
  mov    0xc(%ebp),%edx
  mov    %edx,0x8(%eax)
@@ -58,7 +52,7 @@
 -je     <T> <_ZN12EpollHandler8SetEpollEPvib+0x7e>
 +mov    %eax,-0xc(%ebp)
 +cmpl   $0x0,-0xc(%ebp)
-+jns    <T> <_ZN12EpollHandler8SetEpollEPvib+0x7f>
++jns    <T> <_ZN12EpollHandler8SetEpollEPvib+0x83>
  call   <T> <__errno_location>
 -mov    (%eax),%ebx
 -jmp    <T> <_ZN12EpollHandler8SetEpollEPvib+0x83>
@@ -66,7 +60,7 @@
 -lea    -0xc(%ebp),%eax
 +mov    (%eax),%eax
 +mov    %eax,-0xc(%ebp)
-+jmp    <T> <_ZN12EpollHandler8SetEpollEPvib+0x86>
++jmp    <T> <_ZN12EpollHandler8SetEpollEPvib+0x8a>
 +movl   $0x0,-0xc(%ebp)
 +mov    -0xc(%ebp),%ebx
 +lea    -0x10(%ebp),%eax
@@ -116,12 +110,19 @@ EpollHandler::_ZN12EpollHandler8SetEpollEPvib
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 71 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 72 行）：
 
 ```cpp
 int EpollHandler::SetEpoll(void* peer, int fd, bool flag)
 {
-    m_eventType = flag ? 0x8000001d : 0x1d;
+    if (flag)
+    {
+        m_eventType = 0x8000001d;
+    }
+    else
+    {
+        m_eventType = 0x1d;
+    }
     m_peer = peer;
     CGuard<CMutex> guard(&m_mutex);
     int r = epoll_ctl(m_epollFd, 1, fd, (epoll_event*)((char*)this + 4));

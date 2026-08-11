@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80938a0` | `0x107` | `0x805d5c2` | `0x136` |
+| monitor | DIFF | `0x80938a0` | `0x107` | `0x805d876` | `0x134` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,81 +1,99 @@
+@@ -1,81 +1,98 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x38,%esp
@@ -35,7 +35,7 @@
 -je     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x3f>
 -movzbl -0xd(%ebp),%eax
 -jmp    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x105>
-+jmp    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x10e>
++jmp    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x10c>
  mov    0x8(%ebp),%eax
  add    $0x18,%eax
  mov    %eax,(%esp)
@@ -62,10 +62,10 @@
 +test   %edx,%edx
 +jg     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x6c>
 +test   %edx,%edx
-+js     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x129>
++js     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x127>
  cmp    $0x1d,%eax
 -jle    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x101>
-+jbe    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x12c>
++jbe    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x12a>
 +mov    -0x24(%ebp),%eax
 +mov    %eax,-0x18(%ebp)
  mov    0x8(%ebp),%edx
@@ -94,27 +94,25 @@
  test   %al,%al
 -je     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xee>
 -lea    -0x20(%ebp),%eax
-+je     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xe1>
++je     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xdf>
 +lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjN15exchange_server20CACHE_CHARACTER_TYPEEEEptEv>
--mov    0xc(%eax),%eax
 +add    $0x4,%eax
-+add    $0xc,%eax
-+mov    (%eax),%eax
+ mov    0xc(%eax),%eax
  mov    -0xc(%ebp),%edx
  mov    %edx,%ecx
  sub    %eax,%ecx
  mov    %ecx,%eax
  cmp    $0x1d,%eax
 -setg   %al
-+jle    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xe1>
++jle    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xdf>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xe6>
++jmp    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xe4>
 +mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xee>
-+je     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x100>
++je     <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0xfe>
  mov    0x8(%ebp),%eax
 -mov    -0x20(%ebp),%edx
 +mov    -0x2c(%ebp),%edx
@@ -134,9 +132,9 @@
 +xor    $0x1,%eax
 +test   %al,%al
 +jne    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x2a>
-+jmp    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x12d>
++jmp    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x12b>
 +nop
-+jmp    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x12d>
++jmp    <T> <_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv+0x12b>
 +nop
  movzbl -0xd(%ebp),%eax
 +mov    -0x4(%ebp),%ebx
@@ -214,7 +212,7 @@ exchange_server::CCacheCharacterMgr::_ZN15exchange_server18CCacheCharacterMgr14C
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp](source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp)（约第 302 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp](source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp)（约第 325 行）：
 
 ```cpp
 char CCacheCharacterMgr::CollectGarbage()
@@ -231,7 +229,7 @@ char CCacheCharacterMgr::CollectGarbage()
         }
         std::map<unsigned int, CACHE_CHARACTER_TYPE>::iterator it =
             m_cache.find((unsigned int)top.m_charNo);
-        if (it != m_cache.end() && 0x1d < now - *(int*)((char*)&it->second + 0xc))
+        if (it != m_cache.end() && 0x1d < now - ((RA_INT<12>*)&it->second)->v)
         {
             m_cache.erase(it);
             result = 1;

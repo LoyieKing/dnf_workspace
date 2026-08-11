@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80582d4` | `0xd` | `0x80907e0` | `0x2d` |
+| dbmw | DIFF | `0x80582d4` | `0xd` | `0x80e3e84` | `0x2d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -48,7 +48,7 @@ undefined4 TCPSocket::_ZN9TCPSocket8shutdownEi(int param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 57 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 58 行）：
 
 ```cpp
 int TCPSocket::shutdown(int how)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809d89c` | `0x106` | `0x809007e` | `0x102` |
+| guild | DIFF | `0x809d89c` | `0x106` | `0x808fee2` | `0x106` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,18 +13,17 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,69 +1,67 @@
+@@ -1,69 +1,69 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
--sub    $0x44,%esp
-+sub    $0x48,%esp
+ push   %ebx
+ sub    $0x44,%esp
  mov    0x8(%ebp),%eax
 -lea    0xc(%eax),%ecx
 -lea    -0x20(%ebp),%eax
 +add    $0xc,%eax
 +mov    %eax,-0xc(%ebp)
-+lea    -0x14(%ebp),%eax
++lea    -0x24(%ebp),%eax
  lea    0xc(%ebp),%edx
  mov    %edx,0x8(%esp)
 -mov    %ecx,0x4(%esp)
@@ -36,26 +35,26 @@
 -mov    0x8(%ebp),%eax
 -lea    0xc(%eax),%edx
 -lea    -0x1c(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0x20(%ebp),%eax
 +mov    -0xc(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIj18STGuildBoardDBInfoSt7greaterIjESaISt4pairIKjS0_EEE3endEv>
  sub    $0x4,%esp
-+lea    -0x10(%ebp),%eax
++lea    -0x20(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0x14(%ebp),%eax
++lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEeqERKS4_>
 +test   %al,%al
-+je     <T> <_ZN11CGuildBoard20deleteGuildBoardDataEjjj+0xa3>
++je     <T> <_ZN11CGuildBoard20deleteGuildBoardDataEjjj+0xa4>
++mov    0xc(%ebp),%ebx
 +movl   $0xe3,0x8(%esp)
-+movl   $"deleteGuildBoardData",0x4(%esp)
++movl   $&_ZZN11CGuildBoard20deleteGuildBoardDataEjjjE12__FUNCTION__,0x4(%esp)
  lea    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0xc(%ebp),%eax
-+mov    %eax,0x14(%esp)
++mov    %ebx,0x14(%esp)
 +mov    0x14(%ebp),%eax
 +mov    %eax,0x10(%esp)
 +mov    0x10(%ebp),%eax
@@ -65,8 +64,8 @@
 +lea    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN11CGuildBoard20deleteGuildBoardDataEjjj+0x100>
-+mov    -0x14(%ebp),%eax
++jmp    <T> <_ZN11CGuildBoard20deleteGuildBoardDataEjjj+0x101>
++mov    -0x24(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 +mov    -0xc(%ebp),%eax
@@ -80,17 +79,15 @@
 -mov    %eax,0x4(%esp)
 -mov    %edx,(%esp)
 -call   <T> <_ZNSt3mapIj18STGuildBoardDBInfoSt7greaterIjESaISt4pairIKjS0_EEE5eraseERS4_>
--mov    0xc(%ebp),%ebx
 +call   <T> <_ZNSt3mapIj18STGuildBoardDBInfoSt7greaterIjESaISt4pairIKjS0_EEE5eraseESt17_Rb_tree_iteratorIS5_E>
+ mov    0xc(%ebp),%ebx
  movl   $0xdc,0x8(%esp)
- movl   $"deleteGuildBoardData",0x4(%esp)
+ movl   $&_ZZN11CGuildBoard20deleteGuildBoardDataEjjjE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x14(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,0x14(%esp)
+ mov    %ebx,0x14(%esp)
  mov    0x14(%ebp),%eax
  mov    %eax,0x10(%esp)
  mov    0x10(%ebp),%eax
@@ -98,13 +95,12 @@
  movl   $"DELETE SUCCESS - GUILD:%u, CHARAC:%u, NO:%u",0x8(%esp)
  movl   $"./log/GuildBoard",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN11CGuildBoard20deleteGuildBoardDataEjjj+0x101>
 -mov    0xc(%ebp),%ebx
 -movl   $0xe3,0x8(%esp)
--movl   $"deleteGuildBoardData",0x4(%esp)
+-movl   $&_ZZN11CGuildBoard20deleteGuildBoardDataEjjjE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -116,9 +112,10 @@
 -movl   $"DELETE FAIL - GUILD:%u, CHARAC:%u, NO:%u",0x8(%esp)
 -movl   $"./log/GuildBoard",0x4(%esp)
 -lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x4(%ebp),%ebx
++lea    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    -0x4(%ebp),%ebx
  leave
  ret
 ```
@@ -169,13 +166,12 @@ CGuildBoard::_ZN11CGuildBoard20deleteGuildBoardDataEjjj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 254 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 248 行）：
 
 ```cpp
 void CGuildBoard::deleteGuildBoardData(unsigned int a, unsigned int b, unsigned int c)
 {
-    std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >* map =
-        (std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >*)(m_data + 0xc);
+    std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >* map = &m_board;
     std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >::iterator it =
         map->find(a);
     if (it == map->end())

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808fac4` | `0x43` | `0x808c2a2` | `0x43` |
+| dbmw | DIFF | `0x808fac4` | `0x43` | `0x80df962` | `0x43` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -66,21 +66,13 @@ CServerHandler::_ZN14CServerHandler19SendAllToGameServerEPci
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFServerHandler.cpp](source/DNFServer/GameServer/COServer/DNFServerHandler.cpp)（约第 148 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 104 行）：
 
 ```cpp
 void CServerHandler::SendAllToGameServer(char* buf, int len)
 {
-    CGameServer* p = m_servers;
-    int left = 0x649b;
-    while (left != 0)
-    {
-        if (p->IsValidServer())
-        {
-            p->SendToGameServer(buf, len);
-        }
-        p++;
-        left--;
-    }
+    CGameServer* p = m_gameServers;
+    for (int i = 0xff; i != 0; i--, p++)
+        p->SendToServer(buf, len);
 }
 ```

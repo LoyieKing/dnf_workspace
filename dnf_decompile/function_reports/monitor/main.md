@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805abb0` | `0x53` | `0x80639b2` | `0x5b` |
+| monitor | DIFF | `0x805abb0` | `0x53` | `0x8063b82` | `0x5b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -38,17 +38,14 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN8CAppBase6CreateEiPPc>
 -mov    0x1c(%esp),%eax
-+add    $0x8,%eax
- mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
+-mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
 -mov    0x1c(%esp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    0x18(%esp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    0x1c(%esp),%eax
-+mov    0x18(%esp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    0x18(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN8CAppBase5ClearEv>

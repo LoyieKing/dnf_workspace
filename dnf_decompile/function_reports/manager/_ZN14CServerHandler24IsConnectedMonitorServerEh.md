@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8068232` | `0xa4` | `0x805e62c` | `0x9f` |
+| manager | DIFF | `0x8068232` | `0xa4` | `0x805e4e8` | `0x9f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -54,18 +54,15 @@
 -movzbl -0x1c(%ebp),%ebx
 +jmp    <T> <_ZN14CServerHandler24IsConnectedMonitorServerEh+0x9d>
  movl   $0x91,0x8(%esp)
--movl   $"IsConnectedMonitorServer",0x4(%esp)
-+movl   $"CServerHandler::IsConnectedMonitorServer",0x4(%esp)
+ movl   $&_ZZN14CServerHandler24IsConnectedMonitorServerEhE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
--movl   $"Server Index Over Index : %d!\n",0x8(%esp)
--movl   $"./log/Server.log",0x4(%esp)
 +movzbl -0x1c(%ebp),%eax
 +mov    %eax,0xc(%esp)
-+movl   $"IsConnectedMonitorServer(%d) fail",0x8(%esp)
-+movl   $"./log/ServerHandler",0x4(%esp)
+ movl   $"Server Index Over Index : %d!\n",0x8(%esp)
+ movl   $"./log/Server.log",0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -115,8 +112,15 @@ LAB_0806826e:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 191 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 189 行）：
 
 ```cpp
-char CServerHandler::IsConnectedMonitorServer(unsigned char idx) { return 0; }
+char CServerHandler::IsConnectedMonitorServer(unsigned char idx)
+{
+    if (idx <= 0x64 && m_monitorServers[idx].IsValidMonitorServer())
+        return m_monitorServers[idx].IsConnected();
+    CMyFileLog log(__FUNCTION__, 0x91);
+    log("./log/Server.log", "Server Index Over Index : %d!\n", idx);
+    return 0;
+}
 ```

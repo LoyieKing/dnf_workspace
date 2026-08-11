@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8058ad8` | `0x11d` | `0x8091476` | `0x11d` |
+| dbmw | DIFF | `0x8058ad8` | `0x11d` | `0x80e4afa` | `0x11d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -154,10 +154,10 @@ undefined4 __thiscall TCPSocket::_ZN9TCPSocket6acceptERS_(TCPSocket *this,TCPSoc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 287 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 278 行）：
 
 ```cpp
-char TCPSocket::accept(TCPSocket& sock)
+bool TCPSocket::accept(TCPSocket& sock)
 {
     socklen_t len = 0x10;
     sock.m_fd = ::accept(m_fd, (struct sockaddr*)((char*)&sock + 4), &len);

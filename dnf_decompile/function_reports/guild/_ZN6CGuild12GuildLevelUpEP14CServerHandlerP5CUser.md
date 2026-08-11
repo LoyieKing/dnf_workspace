@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808e73e` | `0x287` | `0x80547c6` | `0x2a2` |
+| guild | DIFF | `0x808e73e` | `0x287` | `0x805486a` | `0x2a2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -80,7 +80,7 @@
 -lea    0x1(%eax),%ebx
 +jle    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0xf1>
  movl   $0x41d,0x8(%esp)
- movl   $"GuildLevelUp",0x4(%esp)
+ movl   $&_ZZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -185,7 +185,7 @@
 -jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x1fd>
 +jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x21e>
  movl   $0x445,0x8(%esp)
- movl   $"GuildLevelUp",0x4(%esp)
+ movl   $&_ZZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -222,7 +222,7 @@
  call   <T> <_ZN6CGuild11GetGuildKeyEv>
 -mov    %eax,%ebx
 -movl   $0x44a,0x8(%esp)
--movl   $"GuildLevelUp",0x4(%esp)
+-movl   $&_ZZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -340,7 +340,7 @@ LAB_0808e7b2:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 902 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 960 行）：
 
 ```cpp
 int CGuild::GuildLevelUp(CServerHandler* handler, CUser* user)
@@ -360,7 +360,7 @@ int CGuild::GuildLevelUp(CServerHandler* handler, CUser* user)
     }
     if (*(unsigned char*)((char*)this + 0x3b) + 1 > 0x10)
     {
-        CMyFileLog log("GuildLevelUp", 0x41d);
+        CMyFileLog log(__FUNCTION__, 0x41d);
         log("./log/GuildModify", "CGuild::GuildLevelUp Err (%d)",
             *(unsigned char*)((char*)this + 0x3b) + 1);
         return 3;
@@ -380,7 +380,7 @@ int CGuild::GuildLevelUp(CServerHandler* handler, CUser* user)
     }
     else
     {
-        CMyFileLog log("GuildLevelUp", 0x445);
+        CMyFileLog log(__FUNCTION__, 0x445);
         log("./log/Except", "CGuild::GuildLevelUp : pclUser->GetGameServer() == 0");
     }
     SendGuildInfoToMembers(false);

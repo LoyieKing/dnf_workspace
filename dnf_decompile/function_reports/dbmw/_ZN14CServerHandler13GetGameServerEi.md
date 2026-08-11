@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808fa3e` | `0x85` | `0x808c21e` | `0x83` |
+| dbmw | DIFF | `0x808fa3e` | `0x85` | `0x80df8de` | `0x83` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -42,7 +42,7 @@
 +add    0x8(%ebp),%eax
 +jmp    <T> <_ZN14CServerHandler13GetGameServerEi+0x81>
  movl   $0xec,0x8(%esp)
- movl   $"GetGameServer",0x4(%esp)
+ movl   $&_ZZN14CServerHandler13GetGameServerEiE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -97,17 +97,15 @@ LAB_0808fa6e:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFServerHandler.cpp](source/DNFServer/GameServer/COServer/DNFServerHandler.cpp)（约第 127 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 96 行）：
 
 ```cpp
 CGameServer* CServerHandler::GetGameServer(int idx)
 {
-    if (idx < 0x649b && m_servers[idx].IsValidServer())
-    {
-        return &m_servers[idx];
-    }
-    DNF_LOG_SCOPE_LINE(0xdc,"./log/GameServer", "CServerHandler::GetGameServer\tGame Server Index Over Index : %d!\n",
-        idx);
+    if (idx <= 0xfe && m_gameServers[idx].IsValidGameServer())
+        return &m_gameServers[idx];
+    CMyFileLog log(__FUNCTION__, 0xec);
+    log("./log/GameServer.log", "Game Server Index Over Index : %d!\n", idx);
     return 0;
 }
 ```

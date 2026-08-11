@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8091ee2` | `0x1f4` | `0x807d4f4` | `0x20a` |
+| monitor | DIFF | `0x8091ee2` | `0x1f4` | `0x807d38c` | `0x1ff` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,28 +13,24 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,122 +1,129 @@
+@@ -1,122 +1,124 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
+ push   %edi
  push   %esi
  push   %ebx
--sub    $0x6c,%esp
-+sub    $0x60,%esp
+ sub    $0x6c,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
--jne    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x74>
-+jne    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x73>
+ jne    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x74>
  movl   $0x22e2,0x8(%esp)
- movl   $"onStartGameEventFromServer",0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"[Server Event] m_pclApp is null.",0x8(%esp)
  movl   $"./log/AradOnly",0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x4,(%esp)
@@ -50,17 +46,15 @@
 -cmpl   $0x0,-0x20(%ebp)
 -jne    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0xe2>
 +cmpl   $0x0,0x8(%ebp)
-+jne    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0xdb>
++jne    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0xdc>
  movl   $0x22e9,0x8(%esp)
- movl   $"onStartGameEventFromServer",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"[Server Event] Packet_StartGameEventFromServer is null.",0x8(%esp)
  movl   $"./log/AradOnly",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x4,(%esp)
@@ -71,107 +65,83 @@
  movl   $&_ZTIi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <__cxa_throw>
--lea    -0x52(%ebp),%eax
-+lea    -0x22(%ebp),%eax
+ lea    -0x52(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN26Packet_Monitor_Event_StartC1Ev>
 -mov    -0x20(%ebp),%eax
--mov    0xa(%eax),%eax
--mov    %eax,-0x48(%ebp)
--mov    -0x20(%ebp),%eax
++mov    0x8(%ebp),%eax
+ mov    0xa(%eax),%eax
+ mov    %eax,-0x48(%ebp)
++mov    0x8(%ebp),%eax
++movzwl 0x16(%eax),%eax
++mov    %ax,-0x44(%ebp)
++mov    0x8(%ebp),%eax
++movzwl 0x18(%eax),%eax
++mov    %ax,-0x42(%ebp)
++mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
++mov    0xa0(%eax),%eax
++mov    %eax,-0x20(%ebp)
++lea    -0x52(%ebp),%eax
++mov    %eax,0x4(%esp)
+ mov    -0x20(%ebp),%eax
 -mov    0x16(%eax),%eax
 -mov    %eax,-0x44(%ebp)
-+mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x18(%ebp)
-+mov    0x8(%ebp),%eax
-+add    $0x16,%eax
-+movzwl (%eax),%eax
-+mov    %ax,-0x14(%ebp)
-+mov    0x8(%ebp),%eax
-+add    $0x18,%eax
-+movzwl (%eax),%eax
-+mov    %ax,-0x12(%ebp)
- mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -lea    -0x52(%ebp),%edx
 -mov    %edx,0x4(%esp)
-+add    $0xa0,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x10(%ebp)
-+lea    -0x22(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -mov    -0x20(%ebp),%eax
--movzwl 0x18(%eax),%eax
--movzwl %ax,%edi
++mov    0x8(%ebp),%eax
+ movzwl 0x18(%eax),%eax
+ movzwl %ax,%edi
 -mov    -0x20(%ebp),%eax
--movzwl 0x16(%eax),%eax
--movzwl %ax,%esi
++mov    0x8(%ebp),%eax
+ movzwl 0x16(%eax),%eax
+ movzwl %ax,%esi
 -mov    -0x20(%ebp),%eax
--mov    0xa(%eax),%ebx
++mov    0x8(%ebp),%eax
+ mov    0xa(%eax),%ebx
  movl   $0x22f2,0x8(%esp)
- movl   $"onStartGameEventFromServer",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0x18,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%ecx
-+mov    0x8(%ebp),%eax
-+add    $0x16,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%edx
-+mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"[Server Event] start event. (event:%d, param:%d,%d)",0x8(%esp)
  movl   $"./log/AradOnly",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1ec>
-+jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x203>
++jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1f7>
  cmp    $0x1,%edx
 -je     <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x186>
-+je     <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x19d>
++je     <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x191>
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    (%eax),%eax
--mov    %eax,-0x1c(%ebp)
-+mov    %eax,-0xc(%ebp)
+ mov    %eax,-0x1c(%ebp)
  movl   $0x22f9,0x8(%esp)
- movl   $"onStartGameEventFromServer",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x44(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0x1c(%ebp),%eax
-+mov    -0xc(%ebp),%eax
+ mov    -0x1c(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"[6ThBirthday] error onStartGameEventFromServer line. (line:%u)",0x8(%esp)
  movl   $"./log/AradOnly",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x44(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1e7>
-+jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1fe>
++jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1f2>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -180,11 +150,10 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--add    $0x6c,%esp
-+add    $0x60,%esp
+ add    $0x6c,%esp
  pop    %ebx
  pop    %esi
--pop    %edi
+ pop    %edi
  pop    %ebp
  ret
 ```
@@ -250,47 +219,39 @@ void CPacketTranslater::_ZN17CPacketTranslater26onStartGameEventFromServerEP12Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1160 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5424 行）：
 
 ```cpp
-void CPacketTranslater::onStartGameEventFromServer(PacketHeader* header)
+void CPacketTranslater::onStartGameEventFromServer(PacketHeader* pkt)
+{try
 {
-    try
+
+
+    if (m_pclApp == 0)
     {
-        Packet_StartGameEventFromServer* pkt =
-            (Packet_StartGameEventFromServer*)header;
-        CMyFileLog log("onStartGameEventFromServer", 0x1567);
-        log("./log/AradOnly",
-            "CPacketTranslater::onStartGameEventFromServer data. (event:%d)\n",
-            pkt->m_eventType);
-        if (!m_pclApp->m_dbManager.insertServerGameEvent(
-                pkt))
-        {
-            CMyFileLog log2("onStartGameEventFromServer", 0x156b);
-            log2("./log/AradOnly",
-                 "CPacketTranslater::onStartGameEventFromServer fail\n");
-            return;
-        }
-        CTcpServer* tcp =
-            m_pclApp->Get_ServerHandler()->GetTcpServer((unsigned char)0xa);
-        if (tcp)
-        {
-            char* buf = tcp->makePacketHeader(0x27fb, 0x1a);
-            *(int*)(buf + 0xa) = pkt->m_eventType;
-            *(int*)(buf + 0xe) = pkt->m_eventFlag;
-            *(int*)(buf + 0x12) = pkt->m_serverId;
-            *(int*)(buf + 0x16) = pkt->m_parameter1;
-            tcp->SendToServer(buf);
-        }
-        else
-        {
-            m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
-                (char*)pkt, 0x1a);
-        }
+        DNF_LOG_SCOPE_LINE(0x22e2, "./log/AradOnly", "[Server Event] m_pclApp is null.");
+        throw 0x22e3;
     }
-    DNF_CATCH_LOG2("./log/AradOnly",
-                   "CPacketTranslater::onStartGameEventFromServer Exception Break",
-                   "CPacketTranslater::onRegistServerEvent Exception Break",
-                   0x1583, 0x1588);
+    if (pkt == 0)
+    {
+        DNF_LOG_SCOPE_LINE(0x22e9, "./log/AradOnly", "[Server Event] Packet_StartGameEventFromServer is null.");
+        throw 0x22ea;
+    }
+    Packet_Monitor_Event_Start epkt;
+    epkt.m_fieldA = ((RA_UINT<10>*)pkt)->v;
+    epkt.m_fieldB = ((RA_U16<22>*)pkt)->v;
+    epkt.m_fieldC = ((RA_U16<24>*)pkt)->v;
+    CServerHandler* handler = m_pclApp->m_serverHandler2;
+    handler->SendAllTcpGameServer(&epkt);
+    DNF_LOG_SCOPE_LINE(0x22f2,"./log/AradOnly", "[Server Event] start event. (event:%d, param:%d,%d)",
+        ((RA_UINT<10>*)pkt)->v, ((RA_U16<22>*)pkt)->v,
+        ((RA_U16<24>*)pkt)->v);
+
+
+    }
+    catch (int line)
+    {
+        DNF_LOG_SCOPE_LINE(0x22f9, "./log/AradOnly", "[6ThBirthday] error onStartGameEventFromServer line. (line:%u)", line);
+    }
 }
 ```

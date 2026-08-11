@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x806c808` | `0x82` | `0x806a2bc` | `0x88` |
+| manager | DIFF | `0x806c808` | `0x82` | `0x806a1fc` | `0x88` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -108,7 +108,7 @@ CUserManager::_ZN12CUserManager18DeleteProhibitUserEj(CUserManager *this,uint pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Manager/UserManager.cpp](source/DNFServer/GameServer/Manager/UserManager.cpp)（约第 48 行）：
+定义于 [source/DNFServer/GameServer/Manager/UserManager.cpp](source/DNFServer/GameServer/Manager/UserManager.cpp)（约第 45 行）：
 
 ```cpp
 char CUserManager::DeleteProhibitUser(unsigned int dbid)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8056558` | `0x150` | `0x807778e` | `0x181` |
+| dbmw | DIFF | `0x8056558` | `0x150` | `0x80cad36` | `0x15f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,93 +1,119 @@
+@@ -1,93 +1,99 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -24,13 +24,14 @@
  mov    (%eax),%eax
  cmp    $0x1804,%eax
 -je     <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x25>
--movl   $0x1804,(%esp)
--call   <T> <_Znwj>
++je     <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x24>
+ movl   $0x1804,(%esp)
+ call   <T> <_Znwj>
 -jmp    <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x149>
-+jne    <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x169>
++jmp    <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x159>
  mov    &_ZN7MemPoolI14CTcpSendBufferE15headOfFreeList_E,%eax
--mov    %eax,-0x14(%ebp)
--cmpl   $0x0,-0x14(%ebp)
+ mov    %eax,-0x14(%ebp)
+ cmpl   $0x0,-0x14(%ebp)
 -je     <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x46>
 -mov    -0x14(%ebp),%eax
 -mov    0x1800(%eax),%eax
@@ -38,48 +39,43 @@
 -jmp    <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x146>
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%edx
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0x0,-0x10(%ebp)
-+jne    <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x14c>
++je     <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x4c>
++mov    -0x14(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
++sub    $0x4,%eax
++lea    (%edx,%eax,1),%eax
++mov    (%eax),%eax
++mov    %eax,&_ZN7MemPoolI14CTcpSendBufferE15headOfFreeList_E
++jmp    <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x156>
++mov    0x8(%ebp),%eax
++mov    (%eax),%eax
 +mov    %eax,%edx
 +mov    0x8(%ebp),%eax
 +mov    0x4(%eax),%eax
  imul   %edx,%eax
  mov    %eax,(%esp)
  call   <T> <_Znwj>
--mov    %eax,-0x10(%ebp)
-+mov    %eax,-0x18(%ebp)
+ mov    %eax,-0x10(%ebp)
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x8d>
-+jmp    <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x84>
-+mov    -0x18(%ebp),%eax
-+mov    %eax,%edx
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+mov    %eax,%ecx
-+imul   -0xc(%ebp),%ecx
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+lea    (%ecx,%eax,1),%eax
-+sub    $0x4,%eax
-+add    %eax,%edx
++jmp    <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x9a>
++mov    -0x10(%ebp),%edx
  mov    -0xc(%ebp),%eax
--imul   $0x1804,%eax,%eax
+ imul   $0x1804,%eax,%eax
 -add    -0x10(%ebp),%eax
 -mov    -0xc(%ebp),%edx
 -add    $0x1,%edx
 -imul   $0x1804,%edx,%edx
 -add    -0x10(%ebp),%edx
 -mov    %edx,0x1800(%eax)
-+lea    0x1(%eax),%ecx
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+imul   %eax,%ecx
-+mov    -0x18(%ebp),%eax
++add    %eax,%edx
++mov    -0xc(%ebp),%eax
++add    $0x1,%eax
++imul   $0x1804,%eax,%ecx
++mov    -0x10(%ebp),%eax
 +lea    (%ecx,%eax,1),%eax
-+mov    %eax,(%edx)
++mov    %eax,0x1800(%edx)
  addl   $0x1,-0xc(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
@@ -88,49 +84,34 @@
  seta   %al
  test   %al,%al
 -jne    <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x68>
-+jne    <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x4d>
-+mov    -0x18(%ebp),%eax
-+mov    %eax,%edx
++jne    <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x70>
++mov    -0x10(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
--sub    $0x1,%eax
--imul   $0x1804,%eax,%eax
+ sub    $0x1,%eax
+ imul   $0x1804,%eax,%eax
 -add    -0x10(%ebp),%eax
--movl   $0x0,0x1800(%eax)
++lea    (%edx,%eax,1),%eax
+ movl   $0x0,0x1800(%eax)
 -mov    -0x10(%ebp),%eax
 -mov    %eax,-0x14(%ebp)
--mov    -0x10(%ebp),%eax
--add    $0x1804,%eax
-+lea    -0x1(%eax),%ecx
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+imul   %eax,%ecx
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+lea    (%ecx,%eax,1),%eax
-+sub    $0x4,%eax
-+lea    (%edx,%eax,1),%eax
-+movl   $0x0,(%eax)
-+mov    -0x18(%ebp),%eax
-+mov    %eax,%edx
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+lea    (%edx,%eax,1),%eax
+ mov    -0x10(%ebp),%eax
+ add    $0x1804,%eax
  mov    %eax,&_ZN7MemPoolI14CTcpSendBufferE15headOfFreeList_E
--mov    -0x10(%ebp),%eax
+ mov    -0x10(%ebp),%eax
 -mov    %eax,-0x20(%ebp)
-+mov    -0x18(%ebp),%eax
-+mov    %eax,-0x10(%ebp)
++mov    %eax,-0x14(%ebp)
++mov    -0x10(%ebp),%eax
++mov    %eax,-0x18(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x8(%eax),%edx
 -lea    -0x20(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
--call   <T> <_ZNSt6vectorIPvSaIS0_EE9push_backEOS0_>
-+call   <T> <_ZNSt6vectorIPvSaIS0_EE9push_backERKS0_>
+ call   <T> <_ZNSt6vectorIPvSaIS0_EE9push_backEOS0_>
 +movl   $0x7d,0x8(%esp)
-+movl   $"alloc",0x4(%esp)
++movl   $&_ZZN7MemPoolI14CTcpSendBufferE5allocEvE12__FUNCTION__,0x4(%esp)
 +lea    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -147,7 +128,7 @@
  mov    0x8(%ebp),%eax
 -mov    (%eax),%ebx
 -movl   $0x7d,0x8(%esp)
--movl   $"alloc",0x4(%esp)
+-movl   $&_ZZN7MemPoolI14CTcpSendBufferE5allocEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -162,20 +143,6 @@
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x161>
-+mov    -0x10(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+sub    $0x4,%eax
-+lea    (%edx,%eax,1),%eax
-+mov    (%eax),%eax
-+mov    %eax,&_ZN7MemPoolI14CTcpSendBufferE15headOfFreeList_E
-+mov    -0x10(%ebp),%eax
-+mov    %eax,-0x14(%ebp)
-+jmp    <T> <_ZN7MemPoolI14CTcpSendBufferE5allocEv+0x178>
-+movl   $0x1804,(%esp)
-+call   <T> <_Znwj>
-+mov    %eax,-0x14(%ebp)
  mov    -0x14(%ebp),%eax
 -add    $0x40,%esp
 +add    $0x44,%esp
@@ -238,41 +205,34 @@ MemPool<CTcpSendBuffer>::_ZN7MemPoolI14CTcpSendBufferE5allocEv(MemPool<CTcpSendB
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp)（约第 40 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp)（约第 53 行）：
 
 ```cpp
 void* MemPool<T>::alloc()
 {
-    void* result;
-    if (m_size == (int)sizeof(T))
+    if (m_size != (int)sizeof(T))
+        return ::operator new(sizeof(T));
+    void* head = headOfFreeList_;
+    if (head != 0)
     {
-        void* head = headOfFreeList_;
-        if (head == 0)
-        {
-            void* block = ::operator new((unsigned int)m_size * (unsigned int)m_count);
-            for (unsigned int i = 0; i < (unsigned int)m_count - 1; i++)
-            {
-                *(void**)((char*)block + i * m_size + m_size - 4) =
-                    (void*)((i + 1) * m_size + (unsigned int)block);
-            }
-            *(void**)((char*)block + ((unsigned int)m_count - 1) * m_size + m_size - 4) = 0;
-            headOfFreeList_ = (void*)((char*)block + m_size);
-            head = block;
-            m_blocks.push_back(block);
-            CMyFileLog log("alloc", 0x7d);
-            log("./log/Mempool", "class size(%d) cnt(%d)", m_size,
-                m_count * (int)m_blocks.size());
-        }
-        else
-        {
-            headOfFreeList_ = *(void**)((char*)head + m_size - 4);
-        }
-        result = head;
+        headOfFreeList_ = *(void**)((char*)head + m_size - 4);
     }
     else
     {
-        result = ::operator new(sizeof(T));
+        T* block = (T*)::operator new((unsigned int)m_size * (unsigned int)m_count);
+        for (unsigned int i = 0; i < (unsigned int)m_count - 1; i++)
+        {
+            ((MemPoolFreeLink<T>*)((char*)block + i * sizeof(T)))->next =
+                (void*)((i + 1) * sizeof(T) + (unsigned int)block);
+        }
+        ((MemPoolFreeLink<T>*)((char*)block + ((unsigned int)m_count - 1) * sizeof(T)))->next = 0;
+        headOfFreeList_ = (void*)((char*)block + sizeof(T));
+        head = block;
+        m_blocks.push_back((void*)block);
+        CMyFileLog log(__FUNCTION__, 0x7d);
+        log("./log/Mempool", "class size(%d) cnt(%d)", m_size,
+            m_count * (int)m_blocks.size());
     }
-    return result;
+    return head;
 }
 ```

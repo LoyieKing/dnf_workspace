@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806ed58` | `0x18c` | `0x806f098` | `0x18d` |
+| statics | DIFF | `0x806ed58` | `0x18c` | `0x806f0a6` | `0x184` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,123 +1,123 @@
+@@ -1,123 +1,120 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -23,14 +23,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN19STPacketOverflowKeyC1Ev>
  mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
+ movzbl 0xa(%eax),%eax
  mov    %al,-0x30(%ebp)
  mov    0xc(%ebp),%eax
--movzwl 0xb(%eax),%eax
-+add    $0xb,%eax
-+movzwl (%eax),%eax
+ movzwl 0xb(%eax),%eax
  mov    %ax,-0x2e(%ebp)
  mov    0x8(%ebp),%eax
  lea    0xc8(%eax),%ecx
@@ -46,8 +42,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapI19STPacketOverflowKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE5emptyEv>
  test   %al,%al
--jne    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x8f>
-+jne    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x93>
+ jne    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x8f>
  mov    0x8(%ebp),%eax
  lea    0xc8(%eax),%edx
  lea    -0x2c(%ebp),%eax
@@ -61,17 +56,13 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPacketOverflowKeyiEEeqERKS4_>
  test   %al,%al
--je     <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x96>
-+je     <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x9a>
+ je     <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x96>
  mov    $0x1,%eax
--jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x9b>
-+jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x9f>
+ jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x9b>
  mov    $0x0,%eax
--test   %al,%al
+ test   %al,%al
 -je     <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x13c>
-+mov    %al,-0x9(%ebp)
-+cmpb   $0x0,-0x9(%ebp)
-+je     <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x147>
++je     <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x13e>
  movl   $0x1,-0x10(%ebp)
  lea    -0x18(%ebp),%eax
  lea    -0x10(%ebp),%edx
@@ -102,7 +93,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt4pairI19STPacketOverflowKeyiED1Ev>
 -jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x177>
-+jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x13a>
++jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x131>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x20(%ebp),%eax
@@ -111,7 +102,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x127>
-+jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x125>
++jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x11c>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x18(%ebp),%eax
@@ -120,11 +111,11 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x15c>
-+jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x15d>
++jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x154>
 +lea    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt4pairI19STPacketOverflowKeyiED1Ev>
-+jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x178>
++jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x16f>
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPacketOverflowKeyiEEptEv>
@@ -139,7 +130,7 @@
 +mov    0x4(%eax),%edx
 +add    $0x1,%edx
 +mov    %edx,0x4(%eax)
-+jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x178>
++jmp    <T> <_ZN16StatisticManager28WritePacketOverflowStatisticEP29Packet_Overflow_Statistic_Add+0x16f>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x30(%ebp),%eax
@@ -235,17 +226,23 @@ LAB_0806edf3:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 234 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 324 行）：
 
 ```cpp
 void StatisticManager::WritePacketOverflowStatistic(Packet_Overflow_Statistic_Add* pkt)
 {
+    struct __attribute__((packed)) Wire
+    {
+        char m_hdr[0xa];
+        char m_f0a;
+        unsigned short m_f0b;
+    };
+    int m_padFrame;
     STPacketOverflowKey key;
-    key.m_field0 = *(char*)((char*)pkt + 10);
-    key.m_field2 = *(unsigned short*)((char*)pkt + 0xb);
+    key.m_field0 = ((Wire*)pkt)->m_f0a;
+    key.m_field2 = ((Wire*)pkt)->m_f0b;
     std::map<STPacketOverflowKey, int>::iterator it = m_packetOverflow.find(key);
-    bool isNew = (m_packetOverflow.empty() || it == m_packetOverflow.end());
-    if (isNew)
+    if (m_packetOverflow.empty() || it == m_packetOverflow.end())
     {
         m_packetOverflow.insert(std::make_pair(key, 1));
     }

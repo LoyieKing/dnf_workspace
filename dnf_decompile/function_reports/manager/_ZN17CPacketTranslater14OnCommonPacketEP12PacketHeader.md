@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8064c18` | `0x24e` | `0x805aa28` | `0x24c` |
+| manager | DIFF | `0x8064c18` | `0x24e` | `0x805a8e2` | `0x24c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -85,7 +85,7 @@
 +lea    -0x1d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -96,7 +96,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader>
 +movl   $0xb5,0x8(%esp)
-+movl   $"OnCommonPacket",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater14OnCommonPacketEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -104,7 +104,7 @@
  movzwl (%eax),%eax
 -movzwl %ax,%ebx
 -movl   $0xb5,0x8(%esp)
--movl   $"OnCommonPacket",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater14OnCommonPacketEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -128,40 +128,32 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnCommonPacket() Exception Break : %s\n",(%esp)
  call   <T> <printf>
 +movl   $0xbb,0x8(%esp)
-+movl   $"OnCommonPacket",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater14OnCommonPacketEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
 -movl   $0xbb,0x8(%esp)
--movl   $"OnCommonPacket",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater14OnCommonPacketEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnEventEnd() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -186,7 +178,7 @@
  movl   $"CPacketTranslater::OnCommonPacket() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0xc1,0x8(%esp)
- movl   $"OnCommonPacket",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater14OnCommonPacketEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
@@ -257,7 +249,7 @@ void CPacketTranslater::_ZN17CPacketTranslater14OnCommonPacketEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2424 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp)（约第 125 行）：
 
 ```cpp
 void CPacketTranslater::OnCommonPacket(PacketHeader* header)
@@ -267,9 +259,23 @@ void CPacketTranslater::OnCommonPacket(PacketHeader* header)
         if (!m_pclApp)
             throw CDNFException("CPacketTranslater::OnCommonPacket : 0 == m_pclApp");
         m_pclApp->m_serverHandler->SendAllTcpServer(header);
-        CMyFileLog log("OnCommonPacket", 0xb5);
+        CMyFileLog log(__FUNCTION__, 0xb5);
         log("./log/Web", "CPacketTranslater::OnCommonPacket() packet_id(%d)\n", header->packetId);
     }
-    DNF_CATCH_LOG_THROW("CPacketTranslater::OnEventEnd() Exception Break");
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnCommonPacket() Exception Break : %s\n", e.what());
+        CMyFileLog log(__FUNCTION__, 0xbb);
+        log("./log/Except",
+            "CPacketTranslater::OnEventEnd() Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnCommonPacket() Exception Break");
+        CMyFileLog log(__FUNCTION__, 0xc1);
+        log("./log/Except",
+            "CPacketTranslater::OnEventEnd() Exception Break\n");
+    }
 }
 ```

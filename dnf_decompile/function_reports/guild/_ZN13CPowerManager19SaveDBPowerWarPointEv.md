@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a48da` | `0xe4` | `0x809abb2` | `0x129` |
+| guild | DIFF | `0x80a48da` | `0xe4` | `0x809a722` | `0x12f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,30 +13,29 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,64 +1,84 @@
+@@ -1,64 +1,86 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x5c,%esp
+ sub    $0x5c,%esp
 -lea    -0x34(%ebp),%eax
-+sub    $0x4c,%esp
 +mov    0x8(%ebp),%eax
 +add    $0x4,%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x1c(%ebp)
-+lea    -0x30(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN30Packet_DB_Save_Power_War_PointC1Ev>
-+lea    -0x30(%ebp),%eax
++lea    -0x38(%ebp),%eax
 +lea    0xb(%eax),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager13GetWinnerSideEv>
 -mov    %al,-0x29(%ebp)
 +mov    %al,(%ebx)
-+lea    -0x30(%ebp),%eax
++lea    -0x38(%ebp),%eax
 +lea    0xc(%eax),%ebx
  movl   $0x1,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -44,7 +43,7 @@
  call   <T> <_ZN13CPowerManager13GetPowerScoreE20ENUM_POWER_SIDE_TYPE>
 -mov    %eax,-0x28(%ebp)
 +mov    %eax,(%ebx)
-+lea    -0x30(%ebp),%eax
++lea    -0x38(%ebp),%eax
 +lea    0x10(%eax),%ebx
  movl   $0x2,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -54,7 +53,7 @@
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
 +mov    %eax,(%ebx)
-+lea    -0x30(%ebp),%eax
++lea    -0x38(%ebp),%eax
 +lea    0xa(%eax),%ebx
 +mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -67,32 +66,20 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -lea    -0x34(%ebp),%edx
-+lea    -0x30(%ebp),%edx
++lea    -0x38(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -movzbl -0x2a(%ebp),%eax
--movzbl %al,%eax
--mov    %eax,-0x3c(%ebp)
++mov    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication15Get_ServerGroupEv>
+ movzbl %al,%eax
+ mov    %eax,-0x3c(%ebp)
 -mov    -0x24(%ebp),%edi
 -mov    -0x28(%ebp),%esi
 -movzbl -0x29(%ebp),%eax
 -movsbl %al,%ebx
- movl   $0x28e,0x8(%esp)
- movl   $"SaveDBPowerWarPoint",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x38(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0x3c(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication15Get_ServerGroupEv>
-+movzbl %al,%edi
 +movl   $0x2,0x4(%esp)
 +mov    0x8(%ebp),%eax
 +mov    %eax,(%esp)
@@ -106,19 +93,28 @@
 +mov    0x8(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN13CPowerManager13GetWinnerSideEv>
-+movsbl %al,%eax
-+mov    %edi,0x18(%esp)
++movsbl %al,%edi
+ movl   $0x28e,0x8(%esp)
+ movl   $&_ZZN13CPowerManager19SaveDBPowerWarPointEvE12__FUNCTION__,0x4(%esp)
+-lea    -0x20(%ebp),%eax
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0x3c(%ebp),%eax
+ mov    %eax,0x18(%esp)
+-mov    %edi,0x14(%esp)
+-mov    %esi,0x10(%esp)
+-mov    %ebx,0xc(%esp)
 +mov    %esi,0x14(%esp)
 +mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    %edi,0xc(%esp)
  movl   $"winner:%d, A:%d, B:%d, svr group:%d",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--add    $0x5c,%esp
-+add    $0x4c,%esp
+ add    $0x5c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804f79e` | `0x117` | `0x8086e7e` | `0x10a` |
+| guild | DIFF | `0x804f79e` | `0x117` | `0x8086cac` | `0x10a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -168,23 +168,27 @@ uint __thiscall TCPSocket::_ZNK9TCPSocket13pollReadEventEv(TCPSocket *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 271 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 258 行）：
 
 ```cpp
-char TCPSocket::pollReadEvent() const
+bool TCPSocket::pollReadEvent() const
 {
-    fd_set readfds;
-    FD_ZERO(&readfds);
-    FD_SET(m_fd, &readfds);
-    struct timeval tv;
+    fd_set fds;
+    for (unsigned int i = 0; i < 0x20; i++)
+    {
+        fds.fds_bits[i] = 0;
+    }
+    fds.fds_bits[(unsigned int)m_sock >> 5] =
+        (1 << ((unsigned int)m_sock & 0x1f)) | fds.fds_bits[(unsigned int)m_sock >> 5];
+    timeval tv;
     tv.tv_sec = 5;
     tv.tv_usec = 0;
-    int ret = select(m_fd + 1, &readfds, 0, 0, &tv);
-    if (ret < 0)
+    int r = select(m_sock + 1, &fds, 0, 0, &tv);
+    if (r < 0)
     {
         printf("pollReadEvent(%s)", strerror(errno));
         return 0;
     }
-    return FD_ISSET(m_fd, &readfds) ? 1 : 0;
+    return (fds.fds_bits[(unsigned int)m_sock >> 5] >> ((unsigned int)m_sock & 0x1f)) & 1;
 }
 ```

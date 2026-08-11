@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80740a2` | `0x151` | `0x805c4d2` | `0x143` |
+| dbmw | DIFF | `0x80740a2` | `0x151` | `0x805c282` | `0x143` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,25 +23,19 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"upDate guild_info set guild_point_acc = guild_point_acc + guild_point, guild_point_prev = guild_point where server_id = %d and expire_flag = 0",0x8(%esp)
  movl   $0x4e35,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager26UpdateAccumulateGuildPointEi+0x7c>
  movl   $0x707,0x8(%esp)
- movl   $"UpdateAccumulateGuildPoint",0x4(%esp)
+ movl   $&_ZZN10CDBManager26UpdateAccumulateGuildPointEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 +lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -57,17 +51,13 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e35,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager26UpdateAccumulateGuildPointEi+0xae>
@@ -78,26 +68,20 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"upDate guild_member set member_point_prev = member_point where server_id = %d",0x8(%esp)
  movl   $0x4e37,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager26UpdateAccumulateGuildPointEi+0x11b>
 +je     <T> <_ZN10CDBManager26UpdateAccumulateGuildPointEi+0x114>
  movl   $0x712,0x8(%esp)
- movl   $"UpdateAccumulateGuildPoint",0x4(%esp)
+ movl   $&_ZZN10CDBManager26UpdateAccumulateGuildPointEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -113,17 +97,13 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e37,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager26UpdateAccumulateGuildPointEi+0x14a>
@@ -194,7 +174,7 @@ CDBManager::_ZN10CDBManager26UpdateAccumulateGuildPointEi(CDBManager *this,int p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4212 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4130 行）：
 
 ```cpp
 char CDBManager::UpdateAccumulateGuildPoint(int serverId)
@@ -204,7 +184,7 @@ char CDBManager::UpdateAccumulateGuildPoint(int serverId)
                       "upDate guild_info set guild_point_acc = guild_point_acc + guild_point, guild_point_prev = guild_point where server_id = %d and expire_flag = 0",
                       serverId))
     {
-        CMyFileLog log("UpdateAccumulateGuildPoint", 0x707);
+        CMyFileLog log(__FUNCTION__, 0x707);
         log("./log/DBQueryErr",
             "CDBManager::UpdateGuildRank() Fatal Error Break : update guild_info set guild_point_acc = guild_point_acc + guild_point, guild_point_prev = guild_point where server_id = %d and expire_flag = 0\n",
             serverId);
@@ -215,7 +195,7 @@ char CDBManager::UpdateAccumulateGuildPoint(int serverId)
                       "upDate guild_member set member_point_prev = member_point where server_id = %d",
                       serverId))
     {
-        CMyFileLog log("UpdateAccumulateGuildPoint", 0x712);
+        CMyFileLog log(__FUNCTION__, 0x712);
         log("./log/DBQueryErr",
             "CDBManager::UpdateGuildRank() Fatal Error Break : update guild_member set member_point_prev = member_point where server_id = %d\n",
             serverId);

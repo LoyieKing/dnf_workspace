@@ -61,6 +61,11 @@ _EXEMPT_MANGLE_SUBSTR = (
     'TiXml',                      # tinyxml
     'CRijndael', 'CSHA', 'CTEA', 'IMethod',   # 通用加密/哈希算法（DWARF 服务）
     'TaoCrypt', 'yaSSL',          # yaSSL/taocrypt 第三方 crypto
+    # yaSSL 的 OpenSSL 兼容 C API（ssl.cpp 经 prefix_*.h 宏改名导出，
+    # 符号为 yaX509_*/yaERR_*/yaDES_* 等，mangled 名不含 'yaSSL' 字样）
+    'yaSSLeay', 'yaSSLv2', 'yaX509', 'yaASN1_', 'yaBN_', 'yaDES_',
+    'yaDH_', 'yaERR_', 'yaEVP_', 'yaGENERAL_', 'yaMD4_', 'yaMD5_',
+    'yaOpenSSL', 'yaRAND_', 'yaRSA_', 'yaTLSv1', 'yask_GENERAL', 'err_helper',
     'boost', 'object_pool_by_boost_pool',     # Boost + 项目包装
     '_ZNSt', '_ZNKSt', '_ZSt', '__gnu_cxx', '__cxxabiv',  # std/STL 内部
     '_Unwind_', '__cxa_', '__gxx_personality',
@@ -74,6 +79,8 @@ _EXEMPT_MANGLE_SUBSTR = (
     # SHA1 C 实现
     'SHA1ProcessMessageBlock', 'SHA1PadMessage', 'SHA1Reset', 'SHA1Result',
     'SHA1Input',
+    # MySQL 客户端库（ORIG 静态链接真实 libmysqlclient，重建提供 weak 桩）
+    'mysql', 'escape_quotes_for_mysql', 'escape_string_for_mysql',
     # NCrypto / tomcrypt 第三方加密库（ORIG 静态链接，重建不含此库）
     'CNCrypto', 'CNChecksum', 'ICryptoGraph', 'IChecksum', 'CBlowFish',
     'NCrypto', 'CryptoGraph', 'CreateCrypto', 'DestroyCrypto', 'GenerateRandom',
@@ -87,7 +94,68 @@ _EXEMPT_MANGLE_SUBSTR = (
     'uw_', 'execute_cfa', 'sleb128', 'uleb128', 'add_fdes', 'frame_heapsort',
     'base_from_', 'size_of_encoded_value', 'search_object', 'frame_state_for',
     'read_encoded_value',
+    '__register_frame', '__deregister_frame', 'classify_object_over_fdes',
+    'execute_stack_op', 'fde_mixed_encoding_compare',
+    'fde_single_encoding_compare', 'fde_unencoded_compare', 'frame_downheap',
+    'get_cie_encoding', 'init_dwarf_reg_size_table', 'linear_search_fdes',
 )
+
+_EXEMPT_EXACT = {
+    # ---- 2026-08-11：静态链入 libstdc++/libiberty/libgcc 的运行时内部符号 ----
+    # （ORIG 与重建各自静态/动态链接版本不同，逐字对齐无意义；按用户豁免规则
+    #   STL/std/libstdc++、工具链运行时不计入统计。以精确名匹配，避免误伤项目符号。）
+    '_ZL15get_ttype_entryP16lsda_header_infom',
+    '_ZN12_GLOBAL__N_116get_locale_mutexEv',
+    '_ZN12_GLOBAL__N_121system_error_categoryD0Ev',
+    '_ZN12_GLOBAL__N_121system_error_categoryD1Ev',
+    '_ZN12_GLOBAL__N_121system_error_categoryD2Ev',
+    '_ZN12_GLOBAL__N_122generic_error_categoryD0Ev',
+    '_ZN12_GLOBAL__N_122generic_error_categoryD1Ev',
+    '_ZN12_GLOBAL__N_122generic_error_categoryD2Ev',
+    '_ZN12_GLOBAL__N_1L6xwriteEiPKci',
+    '_ZNK12_GLOBAL__N_121system_error_category4nameEv',
+    '_ZNK12_GLOBAL__N_121system_error_category7messageEi',
+    '_ZNK12_GLOBAL__N_122generic_error_category4nameEv',
+    '_ZNK12_GLOBAL__N_122generic_error_category7messageEi',
+    '__dynamic_cast',
+    '__gcclibcxx_demangle_callback',
+    'd_append_buffer',
+    'd_append_char',
+    'd_append_string',
+    'd_bare_function_type',
+    'd_call_offset',
+    'd_cv_qualifiers',
+    'd_demangle_callback',
+    'd_encoding',
+    'd_expr_primary',
+    'd_expression',
+    'd_exprlist',
+    'd_find_pack',
+    'd_growable_string_callback_adapter',
+    'd_make_comp',
+    'd_make_name',
+    'd_name',
+    'd_number',
+    'd_operator_name',
+    'd_print_array_type',
+    'd_print_cast',
+    'd_print_comp',
+    'd_print_expr_op',
+    'd_print_function_type',
+    'd_print_mod',
+    'd_print_mod_list',
+    'd_print_subexpr',
+    'd_source_name',
+    'd_substitution',
+    'd_template_args',
+    'd_template_param',
+    'd_type',
+    'd_unqualified_name',
+    # 2026-08-11（relay round-5）：pthread_equal 为旧 glibc/libpthread 链入的
+    # 弱符号（ORIG W 弱定义@0x805ea90），重建链宿主 libc 后该符号不再落入
+    # 二进制（由 libc.so.6 解析）——系统头/链接器版本伪影，按运行时符号豁免。
+    'pthread_equal',
+}
 
 _EXEMPT_DEMANGLE_SUBSTR = (
     'TiXml', 'tinyxml',
@@ -107,6 +175,8 @@ _EXEMPT_DEMANGLE_SUBSTR = (
 
 def is_exempt_symbol(mangled, demangled=None):
     """返回 True 表示该符号属于豁免范围（不计入 identical 统计）。"""
+    if mangled in _EXEMPT_EXACT:
+        return True
     if any(s in mangled for s in _EXEMPT_MANGLE_SUBSTR):
         return True
     if demangled and any(s in demangled for s in _EXEMPT_DEMANGLE_SUBSTR):

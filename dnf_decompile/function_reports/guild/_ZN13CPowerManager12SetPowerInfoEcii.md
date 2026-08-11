@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a38a2` | `0x6d` | `0x8099b04` | `0x72` |
+| guild | DIFF | `0x80a38a2` | `0x6d` | `0x8099680` | `0x71` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -29,11 +29,11 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager12IsPowerWarOnEv>
 -xor    $0x1,%eax
-+cmp    $0x1,%eax
++cmp    $0x1,%al
 +setne  %al
  test   %al,%al
 -je     <T> <_ZN13CPowerManager12SetPowerInfoEcii+0x58>
-+je     <T> <_ZN13CPowerManager12SetPowerInfoEcii+0x5d>
++je     <T> <_ZN13CPowerManager12SetPowerInfoEcii+0x5c>
  mov    0x8(%ebp),%eax
  lea    0x74(%eax),%edx
  mov    0x10(%ebp),%eax

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804f6c2` | `0xdc` | `0x8086d8e` | `0xef` |
+| guild | DIFF | `0x804f6c2` | `0xdc` | `0x8086bbc` | `0xef` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -144,25 +144,27 @@ bool __thiscall TCPSocket::_ZN9TCPSocket7connectEPKct(TCPSocket *this,char *para
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 125 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 237 行）：
 
 ```cpp
-char TCPSocket::connect(const char* ip, unsigned short port)
+bool TCPSocket::connect(const char* ip, unsigned short port)
 {
-    struct sockaddr_in addr;
-    memset(&addr, 0, 0x10);
-    addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = inet_addr(ip);
-    addr.sin_port = htons(port);
-    int len = 0x10;
-    if (::connect(m_fd, (struct sockaddr*)&addr, len) < 0)
+    sockaddr local;
+    memset(&local, 0, 0x10);
+    local.sa_family = 2;
+    *(unsigned int*)(local.sa_data + 2) = inet_addr(ip);
+    *(unsigned short*)local.sa_data = htons(port);
+    int r = ::connect(m_sock, &local, 0x10);
+    if (-1 < r)
     {
-        printf("CONNECTION FAIL IP =%s, PORT =%d, reason =%s",
-               ip, port, strerror(errno));
-        return 0;
+        memcpy((char*)this + 0x14, local.sa_data + 2, 4);
+        *(unsigned short*)((char*)this + 0x18) = *(unsigned short*)local.sa_data;
     }
-    memcpy((char*)this + 0x14, (char*)&addr + 4, 4);
-    m_port = *(unsigned short*)((char*)&addr + 2);
-    return 1;
+    else
+    {
+        printf("CONNECTION FAIL IP =%s, PORT =%d, reason =%s", ip, (unsigned int)port,
+               strerror(errno));
+    }
+    return -1 < r;
 }
 ```

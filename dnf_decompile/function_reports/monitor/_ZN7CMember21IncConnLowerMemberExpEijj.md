@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8098f0c` | `0x110` | `0x80605a4` | `0x151` |
+| monitor | DIFF | `0x8098f0c` | `0x110` | `0x80607f6` | `0x152` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,23 +13,18 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,76 +1,99 @@
+@@ -1,76 +1,100 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
--sub    $0x44,%esp
-+sub    $0x48,%esp
+ push   %ebx
+ sub    $0x44,%esp
  mov    0x8(%ebp),%eax
--movzbl 0x2d(%eax),%eax
-+add    $0x2d,%eax
-+movzbl (%eax),%eax
+ movzbl 0x2d(%eax),%eax
  movzbl %al,%eax
  cmp    0xc(%ebp),%eax
 -jg     <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x6b>
-+jle    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0xfd>
- mov    0x8(%ebp),%eax
--movzbl 0x2d(%eax),%eax
--movzbl %al,%ebx
++jle    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0xfc>
++mov    0x8(%ebp),%eax
 +mov    0xc(%ebp),%edx
 +imul   $0x27,%edx,%edx
 +add    $0x2e,%edx
@@ -38,7 +33,7 @@
 +mov    -0xc(%ebp),%eax
 +mov    (%eax),%eax
 +cmp    0x10(%ebp),%eax
-+jne    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0xb0>
++jne    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0xaf>
 +mov    0x8(%ebp),%eax
 +mov    0xc(%ebp),%edx
 +imul   $0x27,%edx,%edx
@@ -59,7 +54,7 @@
 +add    %edx,%eax
 +mov    (%eax),%eax
 +cmp    0x14(%ebp),%eax
-+jbe    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x9b>
++jbe    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x9a>
 +mov    0x8(%ebp),%eax
 +mov    0xc(%ebp),%edx
 +imul   $0x27,%edx,%edx
@@ -74,50 +69,49 @@
 +sub    $0x1,%edx
 +mov    %edx,(%eax)
 +mov    $0x0,%eax
-+jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x14f>
++jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x14c>
 +mov    0x8(%ebp),%eax
 +mov    0xc(%ebp),%edx
 +imul   $0x27,%edx,%edx
 +add    $0x51,%edx
 +add    %edx,%eax
 +mov    (%eax),%eax
-+jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x14f>
++jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x14c>
++mov    -0xc(%ebp),%eax
++mov    (%eax),%ebx
 +movl   $0x28c,0x8(%esp)
-+movl   $"IncConnLowerMemberExp",0x4(%esp)
-+lea    -0x14(%ebp),%eax
++movl   $&_ZZN7CMember21IncConnLowerMemberExpEijjE12__FUNCTION__,0x4(%esp)
++lea    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+mov    0x10(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    0x10(%ebp),%eax
++mov    %eax,0x10(%esp)
++mov    %ebx,0xc(%esp)
 +movl   $"CMember::IncConnLowerMemberExp  ,  stMemberLowerProxy.m_uCharId(%d) != uCharNo(%d)",0x8(%esp)
 +movl   $"./log/Member2Except",0x4(%esp)
-+lea    -0x14(%ebp),%eax
++lea    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x14f>
++jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x14c>
+ mov    0x8(%ebp),%eax
+ movzbl 0x2d(%eax),%eax
+ movzbl %al,%ebx
  movl   $0x284,0x8(%esp)
- movl   $"IncConnLowerMemberExp",0x4(%esp)
- lea    -0x1c(%ebp),%eax
+ movl   $&_ZZN7CMember21IncConnLowerMemberExpEijjE12__FUNCTION__,0x4(%esp)
+-lea    -0x1c(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x10(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0x2d,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%eax
-+mov    %eax,0x10(%esp)
+ mov    %ebx,0x10(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"CMember::IncConnLowerMemberExp  ,  index(%d) >= m_stMemberDBInfo.m_lowerCnt(%d)",0x8(%esp)
  movl   $"./log/Member2Except",0x4(%esp)
- lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
+-lea    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
 -jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x10a>
 -mov    0xc(%ebp),%eax
 -imul   $0x27,%eax,%eax
@@ -132,7 +126,7 @@
 -mov    -0xc(%ebp),%eax
 -mov    (%eax),%ebx
 -movl   $0x28c,0x8(%esp)
--movl   $"IncConnLowerMemberExp",0x4(%esp)
+-movl   $&_ZZN7CMember21IncConnLowerMemberExpEijjE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -141,10 +135,10 @@
 -mov    %ebx,0xc(%esp)
 -movl   $"CMember::IncConnLowerMemberExp  ,  stMemberLowerProxy.m_uCharId(%d) != uCharNo(%d)",0x8(%esp)
 -movl   $"./log/Member2Except",0x4(%esp)
--lea    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    $0x0,%eax
+ lea    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    $0x0,%eax
 -jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x10a>
 -mov    -0xc(%ebp),%eax
 -mov    0x23(%eax),%eax
@@ -164,10 +158,9 @@
 -jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x10a>
 -mov    -0xc(%ebp),%eax
 -mov    0x23(%eax),%eax
--add    $0x44,%esp
--pop    %ebx
--pop    %ebp
-+leave
+ add    $0x44,%esp
+ pop    %ebx
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -224,12 +217,12 @@ CMember::_ZN7CMember21IncConnLowerMemberExpEijj(CMember *this,int param_1,uint p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 367 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 373 行）：
 
 ```cpp
 int CMember::IncConnLowerMemberExp(int index, unsigned int uCharNo, unsigned int maxExp)
 {
-    if (index < (int)(unsigned int)(unsigned char)*(char*)((char*)this + 0x2d))
+    if (index < (int)(unsigned int)(unsigned char)((RA_S8<45>*)this)->v)
     {
         unsigned int* proxy = (unsigned int*)((char*)this + index * 0x27 + 0x2e);
         if (*proxy == uCharNo)
@@ -258,7 +251,7 @@ int CMember::IncConnLowerMemberExp(int index, unsigned int uCharNo, unsigned int
         DNF_LOG_SCOPE_LINE(0x284,"./log/Member2Except",
             "CMember::IncConnLowerMemberExp  ,  index(%d) >= "
             "m_stMemberDBInfo.m_lowerCnt(%d)",
-            index, (unsigned int)(unsigned char)*(char*)((char*)this + 0x2d));
+            index, (unsigned int)(unsigned char)((RA_S8<45>*)this)->v);
         return 0;
     }
 }

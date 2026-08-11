@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a00fa` | `0x45` | `0x80923d6` | `0x4f` |
+| guild | DIFF | `0x80a00fa` | `0x45` | `0x8092224` | `0x4f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -78,7 +78,7 @@ undefined4 __thiscall CGuildCargo::_ZN11CGuildCargo7IsEmptyEv(CGuildCargo *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 391 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 399 行）：
 
 ```cpp
 int CGuildCargo::IsEmpty()

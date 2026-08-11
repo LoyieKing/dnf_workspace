@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804fee0` | `0x11d` | `0x8085baa` | `0x125` |
+| monitor | DIFF | `0x804fee0` | `0x11d` | `0x8085ac4` | `0x121` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,80 +1,83 @@
+@@ -1,80 +1,81 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
@@ -90,7 +90,7 @@
  call   <T> <fclose>
  mov    $0x0,%eax
 -jmp    <T> <_ZN9TCPSocket6acceptERS_+0x11b>
-+jmp    <T> <_ZN9TCPSocket6acceptERS_+0x123>
++jmp    <T> <_ZN9TCPSocket6acceptERS_+0x11f>
  mov    0xc(%ebp),%eax
  lea    0x8(%eax),%edx
  mov    0xc(%ebp),%eax
@@ -101,12 +101,10 @@
  call   <T> <memcpy>
  mov    0xc(%ebp),%eax
 -movzwl 0x6(%eax),%edx
-+lea    0x18(%eax),%edx
- mov    0xc(%ebp),%eax
--mov    %dx,0x18(%eax)
-+add    $0x6,%eax
-+movzwl (%eax),%eax
-+mov    %ax,(%edx)
+-mov    0xc(%ebp),%eax
++mov    0xc(%ebp),%edx
++movzwl 0x6(%edx),%edx
+ mov    %dx,0x18(%eax)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9TCPSocket14setOptNonBlockEv>
@@ -159,35 +157,35 @@ undefined4 __thiscall TCPSocket::_ZN9TCPSocket6acceptERS_(TCPSocket *this,TCPSoc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 287 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp](source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp)（约第 227 行）：
 
 ```cpp
 char TCPSocket::accept(TCPSocket& sock)
 {
     socklen_t len = 0x10;
-    sock.m_fd = ::accept(m_fd, (struct sockaddr*)((char*)&sock + 4), &len);
+    int fd = ::accept(m_fd, (sockaddr*)((char*)&sock + 4), &len);
+    sock.m_fd = fd;
     if (sock.m_fd == 0)
     {
         FILE* f = fopen("log.txt", "a+");
-        if (f)
+        if (f != 0)
         {
             fprintf(f, "[TCPSocket::Accept] Accept fail[%d]\n", sock.m_fd);
             fclose(f);
         }
     }
-    if (sock.m_fd < 0)
+    if (sock.m_fd < 0 || sock.m_fd == -1)
     {
         FILE* f = fopen("log.txt", "a+");
-        if (f)
+        if (f != 0)
         {
             fprintf(f, "[TCPSocket::Accept] Accept fail[%d]\n", sock.m_fd);
             fclose(f);
         }
-    }
-    if (sock.m_fd == -1)
         return 0;
+    }
     memcpy((char*)&sock + 0x14, (char*)&sock + 8, 4);
-    sock.m_port = *(unsigned short*)((char*)&sock + 6);
+    ((RA_U16<24>*)&sock)->v = ((RA_U16<6>*)&sock)->v;
     sock.setOptNonBlock();
     return 1;
 }

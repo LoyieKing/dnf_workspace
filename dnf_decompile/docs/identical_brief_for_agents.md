@@ -1,4 +1,4 @@
-# identical 判定口径（Agent 必读，2026-08-10）
+# identical 判定口径（Agent 必读，2026-08-11）
 
 ## 0. 角色与独立性（2026-08-11 用户规范，所有 SubAgent 强制）
 
@@ -85,6 +85,8 @@ MySQL/zlib/NCrypto 等第三方基础库 —— 获得 identical 豁免，移出
   `-0x14(%ebp)` vs `-0x10(%ebp)`、先存栈槽再重载 vs 直用、构造与装载顺序不同等）：
   **默认必须当作源码问题修复**——尝试调整变量声明顺序、消除临时变量往返、
   改变表达式/调用结构、拆分或合并语句等，目标让两侧指令逐条一致；
+  若该 TU 的工具链与 ORIG 不一致（见下一条工具链不匹配），**优先按逐文件
+  工具链指定把编译器版本对齐后再复测**，再进入源码变体穷举；
   只有穷举合理源码变体后仍无法消除、且能给出 diff 证据与语义等价理由时，
   才允许按 §4 ARCHIVED 归档。禁止把“可解释为编译器差异”当作不修的借口。
 - 判为“相同/豁免”前，必须核对 md 的完整 diff；任何被跳过或替换的地址/偏移都要
@@ -93,9 +95,43 @@ MySQL/zlib/NCrypto 等第三方基础库 —— 获得 identical 豁免，移出
   ORIG 的编译器版本（`readelf -p .comment <ORIG>`）。若 ORIG 与重建工具链版本不同
   （如 ORIG 为 GCC 4.1.2、重建用 4.4.x），这类寄存器分配/栈布局差异的正确修复是
   **工具链对齐**（参考 stun：4.1.2 还原后 25/26 助记符一致），而不是直接归档。
-  应在 CSV 记录为 `toolchain_mismatch` 并附：ORIG .comment 版本、重建编译器版本、
-  差异证据（虚调用寄存器形态等）；同时向主 Agent 报告，由主 Agent 决定是否切换
-  该服务构建工具链。禁止把“源码无法控制寄存器”当作最终结论而不做工具链核实。
+  **子 Agent 有权自行按 cpp 文件指定不同的 GCC 版本（逐 TU 混合工具链）来对齐，
+  不需要等待主 Agent 逐次批准**；只有逐文件指定仍无法消除差异时，才按 §4.2
+  向主 Agent 报告待决策。CSV 记录为 `toolchain_mismatch` 时须附：ORIG .comment
+  版本、重建编译器版本、差异证据（虚调用寄存器形态等）。禁止把“源码无法控制
+  寄存器”当作最终结论而不做工具链核实。
+
+- **逐文件（TU）工具链指定（2026-08-11 新增授权）**：为让单个或多个 cpp 文件的
+  代码生成与 ORIG 对齐，子 Agent 可直接修改对应服务的 `build-<svc>.sh`，为不同
+  cpp 文件配置不同编译器/头文件/flags。先例：`build-relay.sh` 中
+  `UserPool.cpp`/`DNFRelayServer.cpp` 用 4.4.6-3 + gnu++0x（`C6CXX`/`C6FLAGS`），
+  其余 TU 用 4.1.2（`CXX`/`COMMON_FLAGS`）；coserver 的 `CFrameCountHandler`/
+  `CDNFUserInOutCounter` 等 TU 若 ORIG 为 4.1.2 编译（memset 内联形态不同），
+  同样按此路线处理。
+
+  判定某 TU 原版编译器版本的方法（按可用性优先）：
+  1. DWARF：`readelf --debug-dump=info <ORIG>` 按编译单元查 `DW_AT_name` 与
+     `DW_AT_producer`，可精确到每个 CU 的编译器版本；
+  2. `.comment`：`readelf -p .comment <ORIG>` 只有链接后的整服务条目，可作
+     服务级混合证据（如 coserver = 4.1.2×3 + 4.4.6×1），但不能精确定位 TU；
+  3. A/B 试编译：把该 cpp 分别用候选编译器（`c5-g++` 4.1.2 / `c6-g++` 4.4.7 /
+     `c6-g++-446r` 4.4.6-3）编译并反汇编，与 ORIG 对应函数逐条对比，取助记符
+     序列/寄存器形态最一致者。
+
+  实施要点：
+  - 在 build 脚本中按 basename 分流：保留默认 `CXX`/`FLAGS`，再为指定文件定义
+    专用变量（如 `C6CXX`/`C6FLAGS` 或 `C5CXX`/`C5FLAGS`）并按文件分发；
+    共享 include 路径与链接行尽量不动，避免影响其它 TU。
+  - 头文件必须与所选编译器匹配：4.1.2 TU 用 c5root 头链，4.4.x TU 用
+    c6root/lsd44 头链，禁止跨版本混用头文件造成 ODR/类布局漂移。
+  - 混链顺序沿用既有先例（relay/coserver：4.4.4 libstdc++.a + libgcc_eh.a +
+    4.1.1 libstdc++.a + libgcc.a/e_h.a）；切换个别 TU 编译器一般无需改链接行。
+  - 改完必须闭环：重建该服务 → 单函数 md 复检目标函数
+    （`gen_function_md.py --services <svc> --function <mangled>`，md 删除才算
+    完成）→ 全服务重跑 manifest/全量 md，确认其它已 identical 函数不回归。
+  - 记录证据：CSV/备注写明 TU→编译器版本映射、判定依据（DWARF producer /
+    A/B 试编译对比）、改前/改后分类；重建后 `.comment` 出现多个版本条目属预期
+    （与 ORIG 混合条目一致）。
 - **TLS 布局 / 重复符号（2026-08-11，`NumberToString` 案例）**：TLS 偏移差异
   （如 `lea -0x208(%eax)` vs `-0x210(%eax)`）是真实布局差异，必须修复。还原
   ORIG 中的符号前必须先验证其来源：用 `nm <静态库>`/`readelf` 判断是否为
@@ -121,9 +157,9 @@ MySQL/zlib/NCrypto 等第三方基础库 —— 获得 identical 豁免，移出
   **禁止**“记录 CSV 后宣称完成 / 跳过该函数”。CSV 中已有的
   toolchain_mismatch / caliber_issue / codegen_diff 记录，一律视为未完成，
   必须回头按源码修复路径重做。
-- 修复循环：改源码 → 重建 → 单函数复检；反复尝试合理源码变体
-  （变量/成员声明顺序、表达式与调用结构、宏展开形态、类布局、
-  行号对齐、常量以二进制实测为准等），直到 md 删除。
+- 修复循环：改源码（含按 §4.1 逐文件切换工具链）→ 重建 → 单函数复检；
+  反复尝试合理源码变体（变量/成员声明顺序、表达式与调用结构、宏展开形态、
+  类布局、行号对齐、常量以二进制实测为准、逐 TU 编译器版本等），直到 md 删除。
 - 确认真实无法通过源码修复的（工具链根本差异、第三方库、模板/宏无字面定义等）：
   **不得自行了结**，必须向主 Agent 报告并等待决策；报告需附 diff 证据、
   已尝试的源码变体清单与结论。

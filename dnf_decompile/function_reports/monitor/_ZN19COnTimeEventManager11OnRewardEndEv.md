@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a49b6` | `0x112` | `0x8099f24` | `0x111` |
+| monitor | DIFF | `0x80a49b6` | `0x112` | `0x809a068` | `0x111` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -24,7 +24,7 @@
 -mov    %eax,%ebx
 +mov    %eax,-0xc(%ebp)
  movl   $0xae,0x8(%esp)
- movl   $"OnRewardEnd",0x4(%esp)
+ movl   $&_ZZN19COnTimeEventManager11OnRewardEndEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -78,7 +78,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
  movl   $0xd9,0x8(%esp)
- movl   $"OnRewardEnd",0x4(%esp)
+ movl   $&_ZZN19COnTimeEventManager11OnRewardEndEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 +lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
@@ -143,13 +143,13 @@ COnTimeEventManager::_ZN19COnTimeEventManager11OnRewardEndEv(COnTimeEventManager
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp](source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp)（约第 239 行）：
+定义于 [source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp](source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp)（约第 238 行）：
 
 ```cpp
 void COnTimeEventManager::OnRewardEnd()
 {
     time_t now = time(0);
-    CMyFileLog log("OnRewardEnd", 0xae);
+    CMyFileLog log(__FUNCTION__, 0xae);
     log("./log/OnTimeEvent", "On Time Event : On Reward End Trigger On(%d)\n", now);
     if (IsCurState(ONTIME_EVENT_STATE_REWARD))
     {
@@ -161,7 +161,7 @@ void COnTimeEventManager::OnRewardEnd()
         ChangeState(ONTIME_EVENT_STATE_START);
         Packet_MTG_OntimeEvent_RewardEnd pkt;
         m_app->Get_ServerHandler()->SendAllTcpGameServer(&pkt);
-        CMyFileLog log2("OnRewardEnd", 0xd9);
+        CMyFileLog log2(__FUNCTION__, 0xd9);
         log2("./log/OnTimeEvent", "On Time Event : On Reward End Trigger Process Success");
     }
 }

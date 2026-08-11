@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80518ce` | `0x24d` | `0x80989b6` | `0x239` |
+| guild | DIFF | `0x80518ce` | `0x24d` | `0x80984fe` | `0x239` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -155,7 +155,7 @@
  mov    0x8(%ebp),%eax
 -mov    0x1834(%eax),%ebx
 -movl   $0x17e,0x8(%esp)
--movl   $"send_packet",0x4(%esp)
+-movl   $&_ZZN5CPeer11send_packetEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -335,50 +335,44 @@ ssize_t __thiscall CPeer::_ZN5CPeer11send_packetEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 115 行）：
+定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 279 行）：
 
 ```cpp
-int CPeer::send_packet()
+int CPeer::send_packet(char* buf, int len)
 {
-    if (m_remainSendLen == 0)
-        return 1;
-    int ret = write(getHandle(), (char*)this + 0x183c, m_remainSendLen);
-    if (ret <= 0)
+    if (getHandle() < 0)
     {
-        if (errno == EAGAIN || errno == EINTR)
-            return 1;
-        if (errno != 0)
-        {
-            printf("SEND ERROR DISCONNNECT NOW FD[%d] : %d(%s)",
-                   getHandle(), errno, strerror(errno));
-            return 1;
-        }
-        return ret;
+        return -1;
     }
-    if (m_remainSendLen <= ret)
+    if (len < 1)
     {
-        if (m_remainSendLen < ret)
+        printf("!!!Send Packet[(%d,%d) Size(%d) Error\n", (int)buf[0], (int)buf[1], len);
+        return -1;
+    }
+    errno = 0;
+    *(int*)((char*)this + 0x1834) += len;
+    if (*(unsigned int*)((char*)this + 0x1834) < 0x96001)
+    {
+        if (*(CPeer**)((char*)this + 0x1838) < (CPeer*)((char*)this + 0x183c) ||
+            (CPeer*)((char*)this + 0x9783c) <= *(CPeer**)((char*)this + 0x1838))
         {
-            printf("offset error[Remain_Data: %d Send:%d]", m_remainSendLen, ret);
+            int remain = *(int*)((char*)this + 0x1834);
+            DNF_LOG_SCOPE_LINE(0x13b,"./log/TcpErr",
+                "!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",
+                (int)buf[1], remain, len);
+            *(CPeer**)((char*)this + 0x1838) = (CPeer*)((char*)this + 0x183c);
+            *(int*)((char*)this + 0x1834) = 0;
             return -1;
         }
-        m_recvBuf = (char*)this + 0x183c;
-        m_remainSendLen = 0;
-        return ret;
+        memcpy(*(void**)((char*)this + 0x1838), buf, (size_t)len);
+        *(int*)((char*)this + 0x1838) += len;
+        return send_packet();
     }
-    m_recvBuf = (char*)this + 0x183c + ret;
-    m_remainSendLen -= ret;
-    if (m_remainSendLen > 0x96000)
-    {
-        CMyFileLog log("send_packet", 0x17e);
-        log("./log/TcpErr", "m_remain_sendlen < MAX_PACKET_SIZE_UDP :  m_remain_sendlen:%d]",
-            m_remainSendLen);
-        m_recvBuf = (char*)this + 0x183c;
-        m_remainSendLen = 0;
-        return 1;
-    }
-    memmove((char*)this + 0x183c, m_recvBuf, m_remainSendLen);
-    m_recvBuf = (char*)this + 0x183c + m_remainSendLen;
-    return ret;
+    int remain = *(int*)((char*)this + 0x1834);
+    DNF_LOG_SCOPE_LINE(0x133,"./log/TcpErr", "!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",
+        (int)buf[1], remain, len);
+    *(CPeer**)((char*)this + 0x1838) = (CPeer*)((char*)this + 0x183c);
+    *(int*)((char*)this + 0x1834) = 0;
+    return -1;
 }
 ```

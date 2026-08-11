@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8058c6c` | `0x65` | `0x8090c60` | `0x55` |
+| dbmw | DIFF | `0x8058c6c` | `0x65` | `0x80e42f4` | `0x55` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -78,7 +78,7 @@ undefined4 __thiscall TCPSocket::_ZN9TCPSocket19setOptResizeSendBufEi(TCPSocket 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 167 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 158 行）：
 
 ```cpp
 char TCPSocket::setOptResizeSendBuf(int size)

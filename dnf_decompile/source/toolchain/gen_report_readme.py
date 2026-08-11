@@ -4,7 +4,7 @@ import csv
 import re
 from pathlib import Path
 
-ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile')
+ROOT = Path('/home/loyieking/dnf_workspace/dnf_decompile')
 OUT = ROOT / 'function_reports'
 
 

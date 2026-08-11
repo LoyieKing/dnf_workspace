@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8055b0c` | `0xa2` | `0x80634ee` | `0x97` |
+| manager | DIFF | `0x8055b0c` | `0xa2` | `0x80633d0` | `0x9d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,41 +1,36 @@
+@@ -1,41 +1,38 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %ebx
@@ -29,36 +29,30 @@
  mov    0x4(%eax),%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN11CUdpHandler16InitClientSocketEv+0x56>
-+jne    <T> <_ZN11CUdpHandler16InitClientSocketEv+0x4f>
++jne    <T> <_ZN11CUdpHandler16InitClientSocketEv+0x55>
  call   <T> <_Z8getErrnov>
--mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
+ mov    %eax,-0xc(%ebp)
+ mov    -0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
--movl   $"Could not create a UDP socket : %d\n",(%esp)
-+movl   $"udp client socket error : %d",(%esp)
+ movl   $"Could not create a UDP socket : %d\n",(%esp)
  call   <T> <printf>
  mov    $0xffffffff,%eax
 -jmp    <T> <_ZN11CUdpHandler16InitClientSocketEv+0x9c>
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%ebx
-+jmp    <T> <_ZN11CUdpHandler16InitClientSocketEv+0x95>
++jmp    <T> <_ZN11CUdpHandler16InitClientSocketEv+0x9b>
  movl   $0x8f,0x8(%esp)
--movl   $"InitClientSocket",0x4(%esp)
--lea    -0x14(%ebp),%eax
-+movl   $"CUdpHandler::InitClientSocket",0x4(%esp)
-+lea    -0x10(%ebp),%eax
+ movl   $&_ZZN11CUdpHandler16InitClientSocketEvE12__FUNCTION__,0x4(%esp)
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
--movl   $"Opened port with fd %d\n",0x8(%esp)
--movl   $"./log/Udp",0x4(%esp)
--lea    -0x14(%ebp),%eax
 +mov    0x8(%ebp),%eax
 +mov    0x4(%eax),%eax
 +mov    %eax,0xc(%esp)
-+movl   $"udp client socket = %d",0x8(%esp)
-+movl   $"./log/UdpClient",0x4(%esp)
-+lea    -0x10(%ebp),%eax
+ movl   $"Opened port with fd %d\n",0x8(%esp)
+ movl   $"./log/Udp",0x4(%esp)
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
@@ -102,18 +96,20 @@ undefined4 __thiscall CUdpHandler::_ZN11CUdpHandler16InitClientSocketEv(CUdpHand
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFUdpHandler.cpp](source/DNFServer/GameServer/COServer/DNFUdpHandler.cpp)（约第 61 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFUdpHandler.cpp](source/DNFServer/GameServer/Manager/DNFUdpHandler.cpp)（约第 58 行）：
 
 ```cpp
 int CUdpHandler::InitClientSocket()
 {
-    m_clientSock = socket(2, 2, 0x11);
+    m_clientSock = socket(AF_INET, SOCK_DGRAM, 0x11);
     if (m_clientSock == -1)
     {
-        printf("Could not create a UDP socket : %d\n", getErrno());
+        int e = getErrno();
+        printf("Could not create a UDP socket : %d\n", e);
         return -1;
     }
-    DNF_LOG_SCOPE_LINE(0x8f, "./log/Udp", "Opened port with fd %d\n", m_clientSock);
+    CMyFileLog log(__FUNCTION__, 0x8f);
+    log("./log/Udp", "Opened port with fd %d\n", m_clientSock);
     return m_clientSock;
 }
 ```

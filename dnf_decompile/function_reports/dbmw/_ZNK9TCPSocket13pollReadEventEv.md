@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8058542` | `0x117` | `0x809133a` | `0x13b` |
+| dbmw | DIFF | `0x8058542` | `0x117` | `0x80e49ce` | `0x12b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,82 +1,100 @@
+@@ -1,82 +1,95 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -111,7 +111,7 @@
  call   <T> <printf>
  mov    $0x0,%eax
 -jmp    <T> <_ZNK9TCPSocket13pollReadEventEv+0x10c>
-+jmp    <T> <_ZNK9TCPSocket13pollReadEventEv+0x130>
++jmp    <T> <_ZNK9TCPSocket13pollReadEventEv+0x120>
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
 -shr    $0x5,%eax
@@ -137,11 +137,6 @@
 +sar    %cl,%edi
 +mov    %edi,%eax
  and    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZNK9TCPSocket13pollReadEventEv+0x12b>
-+mov    $0x1,%eax
-+jmp    <T> <_ZNK9TCPSocket13pollReadEventEv+0x130>
-+mov    $0x0,%eax
  add    $0xcc,%esp
  pop    %ebx
  pop    %esi
@@ -192,10 +187,10 @@ uint __thiscall TCPSocket::_ZNK9TCPSocket13pollReadEventEv(TCPSocket *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 271 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 262 行）：
 
 ```cpp
-char TCPSocket::pollReadEvent() const
+bool TCPSocket::pollReadEvent() const
 {
     fd_set readfds;
     FD_ZERO(&readfds);

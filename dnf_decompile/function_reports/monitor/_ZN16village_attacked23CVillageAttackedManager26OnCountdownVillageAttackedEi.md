@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a9574` | `0x63` | `0x80a73c8` | `0x6b` |
+| monitor | DIFF | `0x80a9574` | `0x63` | `0x80a759e` | `0x67` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,34 +1,37 @@
+@@ -1,34 +1,35 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -34,15 +34,14 @@
 +lea    -0x12(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN31Packet_VillageAttackedCountdownC1Ev>
-+lea    -0x12(%ebp),%eax
-+lea    0xa(%eax),%edx
- mov    0xc(%ebp),%eax
+-mov    0xc(%ebp),%eax
 -mov    %eax,-0xc(%ebp)
 -movzwl -0x14(%ebp),%eax
-+mov    %eax,(%edx)
 +lea    -0x12(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
++mov    0xc(%ebp),%edx
++mov    %edx,0xa(%eax)
++lea    -0x12(%ebp),%eax
++movzwl 0x2(%eax),%eax
  movzwl %ax,%esi
 -lea    -0x16(%ebp),%ebx
 +lea    -0x12(%ebp),%ebx
@@ -92,7 +91,7 @@ _ZN16village_attacked23CVillageAttackedManager26OnCountdownVillageAttackedEi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 278 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 279 行）：
 
 ```cpp
 void CVillageAttackedManager::OnCountdownVillageAttacked(int time)
@@ -102,8 +101,8 @@ void CVillageAttackedManager::OnCountdownVillageAttacked(int time)
         m_field20 = GetMaxHuntingPoint();
     }
     Packet_VillageAttackedCountdown pkt;
-    *(int*)((char*)&pkt + 0xa) = time;
+    ((RA_INT<10>*)&pkt)->v = time;
     m_app->Get_ServerHandler()->SendAllToGameServer(
-        (char*)&pkt, (unsigned int)*(unsigned short*)((char*)&pkt + 2));
+        (char*)&pkt, (unsigned int)((RA_U16<2>*)&pkt)->v);
 }
 ```

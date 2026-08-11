@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a03e` | `0x122` | `0x8080c20` | `0x118` |
+| monitor | DIFF | `0x807a03e` | `0x122` | `0x8080aec` | `0x114` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,84 +1,84 @@
+@@ -1,84 +1,82 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -28,7 +28,7 @@
  call   <T> <_ZNSt3mapIjP14CTcpGameServerSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0xeb>
-+jmp    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0xe1>
++jmp    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0xdd>
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP14CTcpGameServerEEptEv>
@@ -52,11 +52,9 @@
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0xe0>
-+je     <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0xd6>
++je     <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0xd2>
  mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
+ movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
@@ -68,9 +66,7 @@
  call   <T> <_ZN14CTcpGameServer16makePacketHeaderEtt>
  mov    %eax,-0xc(%ebp)
  mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
+ movzwl 0x2(%eax),%eax
  movzwl %ax,%eax
 -lea    -0xa(%eax),%ecx
 -mov    0xc(%ebp),%eax
@@ -184,7 +180,7 @@ LAB_0807a0ad:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 354 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 375 行）：
 
 ```cpp
 int CServerHandler::SendAllTcpGameServer(PacketHeader* pkt, int channel)
@@ -197,8 +193,8 @@ int CServerHandler::SendAllTcpGameServer(PacketHeader* pkt, int channel)
         if (tcp->IsValidServer() && tcp->GetChannelType() == channel)
         {
             char* buf = tcp->makePacketHeader(*(unsigned short*)pkt,
-                                              *(unsigned short*)((char*)pkt + 2));
-            memcpy(buf + 10, (char*)pkt + 10, *(unsigned short*)((char*)pkt + 2) - 10);
+                                              ((RA_U16<2>*)pkt)->v);
+            memcpy(buf + 10, (char*)pkt + 10, ((RA_U16<2>*)pkt)->v - 10);
             tcp->SendToGameServer(buf);
             count++;
         }

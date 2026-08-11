@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x805cd90` | `0x405` | `0x8060bea` | `0x428` |
+| manager | DIFF | `0x805cd90` | `0x405` | `0x8060b0c` | `0x426` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,302 +1,313 @@
+@@ -1,302 +1,312 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,18 +24,15 @@
  add    $0x18,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9TCPSocket4openEv>
--xor    $0x1,%eax
--test   %al,%al
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2f>
-+test   %al,%al
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x36>
++je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x34>
  movl   $"Tcp Accept Socket Open Err",(%esp)
  call   <T> <printf>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3fd>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x420>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x41e>
  mov    0x8(%ebp),%eax
  movzwl 0x34(%eax),%eax
  movzwl %ax,%eax
@@ -51,12 +48,12 @@
 +test   %al,%al
 +sete   %al
 +test   %al,%al
-+je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x79>
++je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x77>
  movl   $"Tcp Accept Socket Bind Err",(%esp)
  call   <T> <printf>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3fd>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x420>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x41e>
  mov    0x8(%ebp),%eax
  add    $0x18,%eax
  movl   $0x5,0x4(%esp)
@@ -68,19 +65,19 @@
 +test   %al,%al
 +sete   %al
 +test   %al,%al
-+je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0xae>
++je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0xac>
  movl   $"Tcp Accept Socket Listen Err",(%esp)
  call   <T> <printf>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3fd>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x420>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x41e>
  mov    0x8(%ebp),%eax
  movb   $0x1,0x8(%eax)
  movl   $0x0,0x4(%esp)
  movl   $0x5,(%esp)
  call   <T> <_ZN7DNFFLib9Sleep_ExtEii>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1bd>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1d6>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1d4>
  mov    0x8(%ebp),%eax
  add    $0x18,%eax
  mov    %eax,(%esp)
@@ -91,7 +88,7 @@
 +test   %al,%al
 +sete   %al
 +test   %al,%al
-+jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1d5>
++jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1d3>
  mov    0x8(%ebp),%eax
  mov    0xc(%eax),%eax
  mov    %eax,(%esp)
@@ -115,7 +112,7 @@
 +test   %al,%al
 +sete   %al
 +test   %al,%al
-+je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x143>
++je     <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x141>
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer12GetTcpSocketEv>
@@ -164,7 +161,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CTcpNetSystem18InsertAcceptedPeerEP5CPeer>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1bd>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1d6>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x1d4>
  nop
  mov    0x8(%ebp),%eax
  movzbl 0x8(%eax),%eax
@@ -173,27 +170,23 @@
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3fd>
 +setne  %al
 +test   %al,%al
-+jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0xce>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x41b>
++jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0xcc>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x419>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2fa>
-+jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x318>
++jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x316>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CTcpNetworkThread::dispatch() Except Break : %s\n",(%esp)
  call   <T> <printf>
@@ -215,7 +208,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x28a>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2a8>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2a6>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -230,27 +223,27 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x284>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2a2>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2a0>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2a9>
-+jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2c7>
++jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2c5>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%ecx
  mov    %ebx,%eax
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2a9>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2c7>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2c5>
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2be>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2dc>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2da>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2a9>
-+jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2c7>
++jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2c5>
  call   <T> <_ZSt9terminatev>
  mov    %eax,%ecx
  mov    %edx,%eax
@@ -262,11 +255,11 @@
  mov    %esi,%ecx
  mov    %ebx,%eax
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x2e5>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x303>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x301>
  lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -301,7 +294,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x38d>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3ab>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3a9>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -316,27 +309,27 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x387>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3a5>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3a3>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3ac>
-+jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3ca>
++jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3c8>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%ecx
  mov    %ebx,%eax
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3ac>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3ca>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3c8>
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3c1>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3df>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3dd>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3ac>
-+jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3ca>
++jne    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3c8>
  call   <T> <_ZSt9terminatev>
  mov    %eax,%ecx
  mov    %edx,%eax
@@ -348,11 +341,11 @@
  mov    %esi,%ecx
  mov    %ebx,%eax
 -jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x3e8>
-+jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x406>
++jmp    <T> <_ZN16CTcpAcceptThread8dispatchEPv+0x404>
  lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -447,25 +440,25 @@ void CTcpAcceptThread::_ZN16CTcpAcceptThread8dispatchEPv(void *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpAcceptThread.cpp](source/DNFServer/GameServer/DBMW/DNFTcpAcceptThread.cpp)（约第 37 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFTcpAcceptThread.cpp](source/DNFServer/GameServer/Manager/DNFTcpAcceptThread.cpp)（约第 30 行）：
 
 ```cpp
-void CTcpAcceptThread::dispatch(void* param)
+void* CTcpAcceptThread::dispatch(void* param)
 {
     if (!m_sock.open())
     {
         printf("Tcp Accept Socket Open Err");
-        return;
+        return 0;
     }
     if (!m_sock.bind(m_port, true))
     {
         printf("Tcp Accept Socket Bind Err");
-        return;
+        return 0;
     }
     if (!m_sock.listen(5))
     {
         printf("Tcp Accept Socket Listen Err");
-        return;
+        return 0;
     }
     m_stop = 1;
     DNFFLib::Sleep_Ext(5, 0);
@@ -497,5 +490,6 @@ void CTcpAcceptThread::dispatch(void* param)
         puts("CTcpNetworkThread::dispatch() Except Break");
         throw CDNFException("CTcpNetworkThread::dispatch() Recv  Socket Exception Break!");
     }
+    return 0;
 }
 ```

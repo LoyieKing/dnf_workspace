@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8092898` | `0x48` | `0x8060d40` | `0x48` |
+| monitor | DIFF | `0x8092898` | `0x48` | `0x8060f74` | `0x48` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -75,7 +75,7 @@ void __thiscall STMemberListInfo::_ZN16STMemberListInfoC1Ev(STMemberListInfo *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 595 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 597 行）：
 
 ```cpp
 STMemberListInfo::STMemberListInfo()

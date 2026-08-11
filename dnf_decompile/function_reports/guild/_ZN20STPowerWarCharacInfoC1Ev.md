@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a8154` | `0x18` | `0x809e5b2` | `0x23` |
+| guild | DIFF | `0x80a8154` | `0x18` | `0x809e13a` | `0x23` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -22,7 +22,7 @@
 -mov    0x8(%ebp),%eax
 -movl   $0x0,0x4(%eax)
 -pop    %ebp
-+movl   $0x10,0x8(%esp)
++movl   $0xc,0x8(%esp)
 +movl   $0x0,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <memset>
@@ -46,7 +46,7 @@ void __thiscall STPowerWarCharacInfo::_ZN20STPowerWarCharacInfoC1Ev(STPowerWarCh
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 342 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 327 行）：
 
 ```cpp
 STPowerWarCharacInfo::STPowerWarCharacInfo()

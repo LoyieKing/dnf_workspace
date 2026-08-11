@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8082f12` | `0x45d` | `0x80618ce` | `0x42c` |
+| dbmw | DIFF | `0x8082f12` | `0x45d` | `0x8061676` | `0x42c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -238,7 +238,31 @@
  mov    %edx,%eax
  shl    $0x3,%eax
  add    %edx,%eax
--add    %ebx,%eax
++add    -0x10(%ebp),%eax
++mov    %eax,-0xc(%ebp)
++mov    -0x18(%ebp),%eax
++mov    (%eax),%eax
++add    $0x1c,%eax
++mov    (%eax),%esi
++mov    0xc(%ebp),%eax
++mov    -0xc(%ebp),%edx
++add    $0x34,%edx
++shl    $0x2,%edx
++add    $0x12,%edx
++add    %edx,%eax
++mov    (%eax),%ecx
++mov    0xc(%ebp),%eax
++mov    -0xc(%ebp),%edx
++add    $0x34,%edx
++shl    $0x3,%edx
++add    $0xa,%edx
++add    %edx,%eax
++mov    (%eax),%edx
++mov    0xc(%ebp),%eax
++mov    -0xc(%ebp),%ebx
++shl    $0x3,%ebx
++add    $0xe,%ebx
+ add    %ebx,%eax
 -add    $0x34,%eax
 -mov    0x12(%ecx,%eax,4),%esi
 -mov    -0x20(%ebp),%edx
@@ -265,67 +289,39 @@
 -lea    -0x3c(%ebp),%edx
 -mov    %edx,0x18(%esp)
 -mov    %esi,0x14(%esp)
-+add    -0x10(%ebp),%eax
-+mov    %eax,-0xc(%ebp)
-+mov    -0x18(%ebp),%eax
+-mov    %ecx,0x10(%esp)
 +mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    -0xc(%ebp),%ecx
-+add    $0x34,%ecx
-+shl    $0x2,%ecx
-+add    $0x12,%ecx
-+add    %ecx,%edx
-+mov    (%edx),%ebx
-+mov    0xc(%ebp),%edx
-+mov    -0xc(%ebp),%ecx
-+add    $0x34,%ecx
-+shl    $0x3,%ecx
-+add    $0xa,%ecx
-+add    %ecx,%edx
-+mov    (%edx),%ecx
-+mov    0xc(%ebp),%edx
-+mov    -0xc(%ebp),%esi
-+shl    $0x3,%esi
-+add    $0xe,%esi
-+add    %esi,%edx
-+mov    (%edx),%edx
-+lea    -0x38(%ebp),%esi
-+mov    %esi,0x1c(%esp)
-+lea    -0x28(%ebp),%esi
-+mov    %esi,0x18(%esp)
-+mov    %ebx,0x14(%esp)
- mov    %ecx,0x10(%esp)
--mov    %eax,0xc(%esp)
-+mov    %edx,0xc(%esp)
++lea    -0x38(%ebp),%ebx
++mov    %ebx,0x1c(%esp)
++lea    -0x28(%ebp),%ebx
++mov    %ebx,0x18(%esp)
++mov    %ecx,0x14(%esp)
++mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"upDate log_avatar_grind set avatar_emblem_grind=avatar_emblem_grind+%d, avatar_bindcube_grind=avatar_bindcube_grind+%d, avatar_rechargestone_grind=avatar_rechargestone_grind+%d where cur_date=CURDATE() and grade='%s' and body_part='%s' ",0x8(%esp)
  movl   $0x4f47,0x4(%esp)
 -mov    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edi
 -mov    -0x24(%ebp),%eax
-+mov    -0x18(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   *%esi
 +mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4f47,0x4(%esp)
 -mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x18(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x322>
 +je     <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x313>
  movl   $0x1eb0,0x8(%esp)
- movl   $"UpdateDisjointAvatarStatistic",0x4(%esp)
+ movl   $&_ZZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DBE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 +lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
@@ -340,14 +336,11 @@
 +mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x18(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  or     %edx,%eax
  test   %eax,%eax
  sete   %al
@@ -388,65 +381,60 @@
 -add    $0x1,%eax
 -mov    0xa(%ebx,%eax,4),%eax
 -mov    %esi,0x1c(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    -0xc(%ebp),%ecx
-+add    $0x34,%ecx
-+shl    $0x2,%ecx
-+add    $0x12,%ecx
-+add    %ecx,%edx
-+mov    (%edx),%ebx
-+mov    0xc(%ebp),%edx
-+mov    -0xc(%ebp),%ecx
-+shl    $0x3,%ecx
-+add    $0xa,%ecx
-+add    %ecx,%edx
-+mov    (%edx),%ecx
-+mov    0xc(%ebp),%edx
+-mov    %ecx,0x18(%esp)
++mov    (%eax),%ebx
++mov    0xc(%ebp),%eax
++mov    -0xc(%ebp),%edx
++add    $0x34,%edx
++shl    $0x2,%edx
++add    $0x12,%edx
++add    %edx,%eax
++mov    (%eax),%ecx
++mov    0xc(%ebp),%eax
++mov    -0xc(%ebp),%edx
++shl    $0x3,%edx
++add    $0xa,%edx
++add    %edx,%eax
++mov    (%eax),%edx
++mov    0xc(%ebp),%eax
 +mov    -0xc(%ebp),%esi
 +shl    $0x3,%esi
 +add    $0xe,%esi
-+add    %esi,%edx
-+mov    (%edx),%edx
-+mov    %ebx,0x1c(%esp)
- mov    %ecx,0x18(%esp)
--mov    %eax,0x14(%esp)
++add    %esi,%eax
++mov    (%eax),%eax
++mov    %ecx,0x1c(%esp)
++mov    %edx,0x18(%esp)
+ mov    %eax,0x14(%esp)
 -lea    -0x4c(%ebp),%eax
--mov    %eax,0x10(%esp)
++lea    -0x38(%ebp),%eax
+ mov    %eax,0x10(%esp)
 -lea    -0x3c(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    %edx,0x14(%esp)
-+lea    -0x38(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+lea    -0x28(%ebp),%edx
-+mov    %edx,0xc(%esp)
++lea    -0x28(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"inSert into log_avatar_grind(cur_date, grade, body_part, avatar_emblem_grind, avatar_bindcube_grind, avatar_rechargestone_grind) values(CURDATE(), '%s', '%s', %d, %d, %d)",0x8(%esp)
  movl   $0x4ee8,0x4(%esp)
 -mov    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edi
 -mov    -0x24(%ebp),%eax
-+mov    -0x18(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   *%ebx
 +mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4ee8,0x4(%esp)
 -mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x18(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x427>
 +je     <T> <_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB+0x3fa>
  movl   $0x1ebe,0x8(%esp)
- movl   $"UpdateDisjointAvatarStatistic",0x4(%esp)
+ movl   $&_ZZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DBE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 +lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
@@ -622,4 +610,4 @@ LAB_08083153:
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

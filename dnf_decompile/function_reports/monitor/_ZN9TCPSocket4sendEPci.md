@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804f4f4` | `0x117` | `0x8085cda` | `0xfb` |
+| monitor | DIFF | `0x804f4f4` | `0x117` | `0x8085bf0` | `0xfb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -58,7 +58,7 @@
  mov    (%eax),%eax
  test   %eax,%eax
 -jne    <T> <_ZN9TCPSocket4sendEPci+0xbf>
--movl   $&data#fbafe398(.rodata),(%esp)
+-movl   $"여기 걸리면서 errno 가 0 이면 문제 발생 한다 !!!! 꼭 확인!!!",(%esp)
 +je     <T> <_ZN9TCPSocket4sendEPci+0xa3>
 +call   <T> <__errno_location>
 +mov    (%eax),%eax
@@ -154,35 +154,29 @@ ssize_t __thiscall TCPSocket::_ZN9TCPSocket4sendEPci(TCPSocket *this,char *param
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 63 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp](source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp)（约第 259 行）：
 
 ```cpp
 int TCPSocket::send(char* buf, int len)
 {
-    if (!buf || len <= 0)
+    if (buf == 0 || len < 1)
     {
         printf("buf error or size-%d error", len);
         return -1;
     }
     int n = write(m_fd, buf, len);
-    if (n <= 0)
+    if (n < 1)
     {
-        int e = errno;
-        if (e == 0xb || e == 0x4 || e == 0xb)
+        if (errno != EAGAIN && errno != EINTR && errno != 0)
         {
-            printf("tcp send fail='%d', error ='%s'", n, strerror(e));
+            printf("tcp send fail=\'%d\', error =\'%s\'", n, strerror(errno));
             return -1;
         }
-        if (e != 0)
-        {
-            printf("tcp send retry='%d', error ='%s'", n, strerror(e));
-            return 0;
-        }
-        printf("send error no 0");
-        printf("tcp send retry='%d', error ='%s'", n, strerror(e));
+        printf("");
+        printf("tcp send retry=\'%d\', error =\'%s\'", n, strerror(errno));
         return 0;
     }
-    printf("tcp send='%d', error ='%s'", n, strerror(errno));
+    printf("1.tcp send=\'%d\', error =\'%s\'", n, strerror(errno));
     return n;
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804c954` | `0x16` | `0x808785a` | `0x7c` |
+| guild | DIFF | `0x804c954` | `0x16` | `0x808769e` | `0x7c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -61,12 +61,22 @@ void __thiscall CFrameCountHandler::_ZN18CFrameCountHandlerC1Ev(CFrameCountHandl
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFTickHandler.cpp](source/DNFServer/GameServer/COServer/DNFTickHandler.cpp)（约第 11 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTickHandler.cpp](source/DNFServer/GameServer/Guild/DNFTickHandler.cpp)（约第 74 行）：
 
 ```cpp
 CFrameCountHandler::CFrameCountHandler()
 {
-    m_writeTick = 0;
-    m_value = 0;
+    m_field0 = 0;
+    m_field4 = 0;
+    m_field8 = 0;
+    m_fieldc = 0;
+    m_field10 = 0;
+    m_field14 = 0;
+    m_field18 = 0;
+    m_field1c = 0;
+    m_field20 = 0;
+    m_field24 = 0;
+    m_field28 = 0;
+    m_field2c = 0;
 }
 ```

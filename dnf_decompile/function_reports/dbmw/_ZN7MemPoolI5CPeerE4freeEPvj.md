@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805ad4a` | `0x45` | `0x8077e8c` | `0x41` |
+| dbmw | NEAR | `0x805ad4a` | `0x45` | `0x80cb438` | `0x45` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -16,39 +16,27 @@
 @@ -1,24 +1,24 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x28,%esp
-+sub    $0x18,%esp
+ sub    $0x28,%esp
  cmpl   $0x0,0xc(%ebp)
--je     <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x42>
-+je     <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x3f>
+ je     <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x42>
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  cmp    0x10(%ebp),%eax
--je     <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x23>
-+jne    <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x34>
-+mov    0xc(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+sub    $0x4,%eax
-+add    %eax,%edx
-+mov    &_ZN7MemPoolI5CPeerE15headOfFreeList_E,%eax
-+mov    %eax,(%edx)
-+mov    0xc(%ebp),%eax
-+mov    %eax,&_ZN7MemPoolI5CPeerE15headOfFreeList_E
-+jmp    <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x3f>
+ je     <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x23>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZdlPv>
--jmp    <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x43>
--mov    0xc(%ebp),%eax
--mov    %eax,-0xc(%ebp)
--mov    &_ZN7MemPoolI5CPeerE15headOfFreeList_E,%edx
+ jmp    <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x43>
+ mov    0xc(%ebp),%eax
+ mov    %eax,-0xc(%ebp)
++mov    -0xc(%ebp),%eax
+ mov    &_ZN7MemPoolI5CPeerE15headOfFreeList_E,%edx
 -mov    -0xc(%ebp),%eax
--mov    %edx,0x9783c(%eax)
--mov    -0xc(%ebp),%eax
--mov    %eax,&_ZN7MemPoolI5CPeerE15headOfFreeList_E
--jmp    <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x43>
--nop
+ mov    %edx,0x9783c(%eax)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,&_ZN7MemPoolI5CPeerE15headOfFreeList_E
+ jmp    <T> <_ZN7MemPoolI5CPeerE4freeEPvj+0x43>
+ nop
  leave
  ret
 ```
@@ -77,22 +65,21 @@ MemPool<CPeer>::_ZN7MemPoolI5CPeerE4freeEPvj(MemPool<CPeer> *this,void *param_1,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp)（约第 75 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketBuffer.cpp)（约第 81 行）：
 
 ```cpp
 void MemPool<T>::free(void* ptr, unsigned int size)
 {
-    if (ptr != 0)
+    if (ptr == 0) return;
+    if ((unsigned int)m_size != size)
     {
-        if ((unsigned int)m_size == size)
-        {
-            *(void**)((char*)ptr + m_size - 4) = headOfFreeList_;
-            headOfFreeList_ = ptr;
-        }
-        else
-        {
-            ::operator delete(ptr);
-        }
+        ::operator delete(ptr);
+    }
+    else
+    {
+        void* p = ptr;
+        ((MemPoolFreeLink<T>*)((char*)p))->next = headOfFreeList_;
+        headOfFreeList_ = p;
     }
 }
 ```

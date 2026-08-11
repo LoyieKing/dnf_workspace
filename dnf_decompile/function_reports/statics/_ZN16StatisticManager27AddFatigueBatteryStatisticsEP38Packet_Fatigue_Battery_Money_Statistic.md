@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8072566` | `0x10c` | `0x80722dc` | `0x11f` |
+| statics | DIFF | `0x8072566` | `0x10c` | `0x80724ec` | `0x117` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,80 +1,88 @@
+@@ -1,80 +1,84 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x48,%esp
@@ -23,20 +23,15 @@
  mov    %eax,(%esp)
  call   <T> <_ZN16STFatigueBatteryC1Ev>
  mov    0xc(%ebp),%eax
--mov    0xb(%eax),%eax
-+add    $0xb,%eax
-+mov    (%eax),%eax
+ mov    0xb(%eax),%eax
+-mov    %eax,-0x34(%ebp)
 +mov    %eax,-0x38(%ebp)
-+mov    0xc(%ebp),%eax
-+add    $0xf,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%eax
- mov    %eax,-0x34(%ebp)
  mov    0xc(%ebp),%eax
--movzwl 0xf(%eax),%eax
--movzwl %ax,%eax
+ movzwl 0xf(%eax),%eax
+ movzwl %ax,%eax
 -mov    %eax,-0x30(%ebp)
--mov    0xc(%ebp),%eax
++mov    %eax,-0x34(%ebp)
+ mov    0xc(%ebp),%eax
 -lea    0xa(%eax),%ecx
 +add    $0xa,%eax
 +movzbl (%eax),%eax
@@ -88,7 +83,7 @@
 -lea    (%ecx,%edx,1),%edx
 -mov    %edx,0x8(%eax)
 -jmp    <T> <_ZN16StatisticManager27AddFatigueBatteryStatisticsEP38Packet_Fatigue_Battery_Money_Statistic+0x10a>
-+je     <T> <_ZN16StatisticManager27AddFatigueBatteryStatisticsEP38Packet_Fatigue_Battery_Money_Statistic+0xdf>
++je     <T> <_ZN16StatisticManager27AddFatigueBatteryStatisticsEP38Packet_Fatigue_Battery_Money_Statistic+0xdb>
  mov    0xc(%ebp),%eax
  lea    0xa(%eax),%ecx
  lea    -0x14(%ebp),%eax
@@ -115,14 +110,13 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIh16STFatigueBatterySt4lessIhESaISt4pairIKhS0_EEE6insertERKS5_>
  sub    $0x4,%esp
-+jmp    <T> <_ZN16StatisticManager27AddFatigueBatteryStatisticsEP38Packet_Fatigue_Battery_Money_Statistic+0x11d>
++jmp    <T> <_ZN16StatisticManager27AddFatigueBatteryStatisticsEP38Packet_Fatigue_Battery_Money_Statistic+0x115>
 +lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKh16STFatigueBatteryEEptEv>
 +mov    0x4(%eax),%ecx
 +mov    0xc(%ebp),%edx
-+add    $0xb,%edx
-+mov    (%edx),%edx
++mov    0xb(%edx),%edx
 +lea    (%ecx,%edx,1),%edx
 +mov    %edx,0x4(%eax)
 +lea    -0x3c(%ebp),%eax
@@ -131,8 +125,7 @@
 +mov    0x8(%eax),%edx
 +mov    %edx,%ecx
 +mov    0xc(%ebp),%edx
-+add    $0xf,%edx
-+movzwl (%edx),%edx
++movzwl 0xf(%edx),%edx
 +movzwl %dx,%edx
 +lea    (%ecx,%edx,1),%edx
 +mov    %edx,0x8(%eax)
@@ -195,14 +188,21 @@ _ZN16StatisticManager27AddFatigueBatteryStatisticsEP38Packet_Fatigue_Battery_Mon
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1013 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1139 行）：
 
 ```cpp
 void StatisticManager::AddFatigueBatteryStatistics(Packet_Fatigue_Battery_Money_Statistic* pkt)
 {
+    struct __attribute__((packed)) Wire
+    {
+        char m_hdr[0xa];
+        char m_f0a;
+        int m_f0b;
+        unsigned short m_f0f;
+    };
     STFatigueBattery value;
-    value.m_field0 = *(int*)((char*)pkt + 0xb);
-    value.m_field4 = (unsigned int)*(unsigned short*)((char*)pkt + 0xf);
+    value.m_field0 = ((Wire*)pkt)->m_f0b;
+    value.m_field4 = (unsigned int)((Wire*)pkt)->m_f0f;
     std::map<unsigned char, STFatigueBattery>::iterator it = m_fatigue.find(*(char*)((char*)pkt + 10));
     if (it == m_fatigue.end())
     {
@@ -210,8 +210,8 @@ void StatisticManager::AddFatigueBatteryStatistics(Packet_Fatigue_Battery_Money_
     }
     else
     {
-        it->second.m_field0 += *(int*)((char*)pkt + 0xb);
-        it->second.m_field4 += (unsigned int)*(unsigned short*)((char*)pkt + 0xf);
+        it->second.m_field0 += ((Wire*)pkt)->m_f0b;
+        it->second.m_field4 += (unsigned int)((Wire*)pkt)->m_f0f;
     }
 }
 ```

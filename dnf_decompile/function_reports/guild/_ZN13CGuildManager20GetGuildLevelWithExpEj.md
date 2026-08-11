@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8096f56` | `0x52` | `0x805d4ba` | `0x43` |
+| guild | DIFF | `0x8096f56` | `0x52` | `0x805cfe8` | `0x43` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -79,7 +79,7 @@ CGuildManager::_ZN13CGuildManager20GetGuildLevelWithExpEj(CGuildManager *this,ui
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 582 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 609 行）：
 
 ```cpp
 int CGuildManager::GetGuildLevelWithExp(unsigned int exp)

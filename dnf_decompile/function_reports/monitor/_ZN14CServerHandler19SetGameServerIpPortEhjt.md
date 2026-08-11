@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8079c26` | `0x15` | `0x8081180` | `0x24` |
+| monitor | DIFF | `0x8079c26` | `0x15` | `0x8081084` | `0x24` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -47,7 +47,7 @@ void CServerHandler::_ZN14CServerHandler19SetGameServerIpPortEhjt
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 497 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 520 行）：
 
 ```cpp
 void CServerHandler::SetGameServerIpPort(unsigned char a, unsigned int b, unsigned short c)

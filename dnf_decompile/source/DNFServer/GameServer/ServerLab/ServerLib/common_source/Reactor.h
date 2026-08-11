@@ -76,12 +76,13 @@ public:
         ev.events = EPOLLIN;
         ev.data.fd = ServerSession->getHandle();
         this->m_ServerSession = ServerSession;
-        int iResult = epoll_ctl(this->epoll_fd_, EPOLL_CTL_ADD, ServerSession->getHandle(), &ev);
-        if (iResult < 0)
+        // ORIG: 条件内联（shr $0x1f; test; je），失败提前 return；%s 实参为 __FUNCTION__。
+        if (epoll_ctl(this->epoll_fd_, EPOLL_CTL_ADD, ServerSession->getHandle(), &ev) < 0)
         {
-            printf("In %s : epoll_ctl error\n", "registListenHandle");
+            printf("In %s : epoll_ctl error\n", __FUNCTION__);
+            return 0;
         }
-        return iResult > -1;
+        return 1;
     }
     bool registHandle(T* s, unsigned int event_filter)
     {
@@ -222,6 +223,8 @@ bool EpollReactor<T>::handleEvents(unsigned int milisec, DataPool* pPool)
                 {
                     delConnectedUser(session_id, s);
                 }
+                // ORIG: branch-end continue -> jmp+nop merge stub before loop inc
+                continue;
             }
             else
             {
@@ -231,6 +234,7 @@ bool EpollReactor<T>::handleEvents(unsigned int milisec, DataPool* pPool)
                     {
                         delConnectedUser(session_id, s);
                     }
+                    continue;
                 }
                 else
                 {

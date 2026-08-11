@@ -11,7 +11,7 @@ import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile')
+ROOT = Path('/home/loyieking/dnf_workspace/dnf_decompile')
 MANIFEST_DIR = ROOT / 'build/community'
 OUT_DIR = Path('/tmp/review_all_diffs')
 DIFF_TOOL = ROOT / 'source/toolchain/diff_func.py'

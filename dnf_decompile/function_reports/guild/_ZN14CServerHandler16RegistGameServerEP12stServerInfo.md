@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806dbae` | `0xfc` | `0x8082180` | `0x11b` |
+| guild | DIFF | `0x806dbae` | `0xfc` | `0x8081f6a` | `0x11b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -78,13 +78,15 @@
 +mov    %eax,-0x44(%ebp)
 +mov    -0x44(%ebp),%eax
  mov    (%eax),%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x38(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x44(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    0xc(%ebp),%eax
++mov    -0x44(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    0xc(%ebp),%eax
+-lea    0x1(%eax),%edx
+-lea    -0x38(%ebp),%eax
+-mov    %eax,0x8(%esp)
 +movzbl 0x1(%eax),%eax
 +movzbl %al,%eax
 +mov    %eax,-0x1c(%ebp)
@@ -92,22 +94,16 @@
 +lea    -0x44(%ebp),%edx
 +mov    %edx,0x8(%esp)
 +lea    -0x1c(%ebp),%edx
-+mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
--call   *%edx
--mov    0xc(%ebp),%eax
--lea    0x1(%eax),%edx
--lea    -0x38(%ebp),%eax
--mov    %eax,0x8(%esp)
--mov    %edx,0x4(%esp)
+ mov    %edx,0x4(%esp)
 -lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+-call   <T> <_ZNSt4pairIKjP11CGameServerEC1IRhRS2_EEOT_OT0_>
 +call   <T> <_ZSt9make_pairIjRP11CGameServerESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
 +sub    $0x4,%esp
 +lea    -0x24(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKjP11CGameServerEC1IRhRS2_EEOT_OT0_>
++mov    %eax,(%esp)
 +call   <T> <_ZNSt4pairIKjP11CGameServerEC1IjS2_EEOS_IT_T0_E>
  mov    0x8(%ebp),%edx
 -lea    -0x28(%ebp),%eax
@@ -176,7 +172,7 @@ CServerHandler::_ZN14CServerHandler16RegistGameServerEP12stServerInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 423 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 430 行）：
 
 ```cpp
 bool CServerHandler::RegistGameServer(stServerInfo* info)

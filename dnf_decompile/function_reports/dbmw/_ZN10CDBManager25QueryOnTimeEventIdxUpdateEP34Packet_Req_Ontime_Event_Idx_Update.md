@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8085c94` | `0x1e0` | `0x8062d82` | `0x1de` |
+| dbmw | DIFF | `0x8085c94` | `0x1e0` | `0x8062b2a` | `0x1de` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -29,21 +29,17 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $"seLect ifnull(max(no), 1) from event_1112_ontime_info",0x8(%esp)
  movl   $0x4f14,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x89>
  movl   $0x24d8,0x8(%esp)
- movl   $"QueryOnTimeEventIdxUpdate",0x4(%esp)
+ movl   $&_ZZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_UpdateE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -60,30 +56,22 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4f14,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -xor    $0x1,%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  test   %al,%al
 -jne    <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0xc3>
 +je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0xca>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0xca>
@@ -99,19 +87,14 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -lea    -0x20(%ebp),%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+lea    -0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
++lea    -0x10(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x10f>
@@ -131,43 +114,33 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%ebx
--mov    0xc(%ebp),%eax
+ mov    (%eax),%ebx
+ mov    0xc(%ebp),%eax
 -mov    0xe(%eax),%ecx
--mov    0xc(%ebp),%eax
++add    $0xe,%eax
++mov    (%eax),%ecx
+ mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%edx
--mov    0xc(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
 -mov    0x12(%eax),%eax
--mov    %ecx,0x14(%esp)
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
++add    $0x12,%eax
 +mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+add    $0xe,%edx
-+mov    (%edx),%ebx
-+mov    0xc(%ebp),%edx
-+add    $0xa,%edx
-+mov    (%edx),%ecx
-+mov    0xc(%ebp),%edx
-+add    $0x12,%edx
-+mov    (%edx),%edx
-+mov    %ebx,0x14(%esp)
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
+ mov    %ecx,0x14(%esp)
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"inSert into event_1112_ontime_info(no ,item_index,item_count,time ) values(%u,%u,%u,now())",0x8(%esp)
  movl   $0x4f19,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ebx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ebx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1a4>
 +je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1a0>
  movl   $0x24ec,0x8(%esp)
- movl   $"QueryOnTimeEventIdxUpdate",0x4(%esp)
+ movl   $&_ZZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_UpdateE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -184,15 +157,11 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4f19,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update+0x1d5>
@@ -289,4 +258,4 @@ CDBManager::_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Even
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

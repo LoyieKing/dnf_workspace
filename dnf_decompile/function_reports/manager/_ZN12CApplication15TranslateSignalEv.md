@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x805ede6` | `0x2e8` | `0x804f21a` | `0x2c8` |
+| manager | DIFF | `0x805ede6` | `0x2e8` | `0x804f0f0` | `0x2c8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -126,37 +126,37 @@
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x2a1>
 +je     <T> <_ZN12CApplication15TranslateSignalEv+0x240>
 +jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x281>
-+lea    -0x32(%ebp),%eax
++lea    -0x3a(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN26Packet_Monitor_Event_StartC1Ev>
-+lea    -0x32(%ebp),%eax
++lea    -0x3a(%ebp),%eax
 +lea    0xa(%eax),%edx
 +mov    -0xc(%ebp),%eax
 +mov    0x4(%eax),%eax
 +mov    %eax,(%edx)
-+lea    -0x32(%ebp),%eax
-+add    $0xe,%eax
-+mov    -0xc(%ebp),%edx
-+mov    0x8(%edx),%edx
-+mov    %dx,(%eax)
-+lea    -0x32(%ebp),%eax
-+add    $0x10,%eax
-+mov    -0xc(%ebp),%edx
-+mov    0xc(%edx),%edx
-+mov    %dx,(%eax)
-+lea    -0x32(%ebp),%eax
++lea    -0x3a(%ebp),%eax
++lea    0xe(%eax),%edx
++mov    -0xc(%ebp),%eax
++mov    0x8(%eax),%eax
++mov    %ax,(%edx)
++lea    -0x3a(%ebp),%eax
++lea    0x10(%eax),%edx
++mov    -0xc(%ebp),%eax
++mov    0xc(%eax),%eax
++mov    %ax,(%edx)
++lea    -0x3a(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader>
 +jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x281>
-+lea    -0x3c(%ebp),%eax
++lea    -0x44(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN24Packet_Monitor_Event_EndC1Ev>
-+lea    -0x3c(%ebp),%eax
++lea    -0x44(%ebp),%eax
 +lea    0xa(%eax),%edx
 +mov    -0xc(%ebp),%eax
 +mov    0x4(%eax),%eax
 +mov    %eax,(%edx)
-+lea    -0x3c(%ebp),%eax
++lea    -0x44(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater10OnEventEndEP12PacketHeader>
 +jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x281>
@@ -249,10 +249,10 @@
 -call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
 -mov    (%eax),%eax
 +jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x281>
-+lea    -0x4f(%ebp),%eax
++lea    -0x57(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN32Packet_Web_Prohibit_User_ConnectC1Ev>
-+lea    -0x4f(%ebp),%eax
++lea    -0x57(%ebp),%eax
 +lea    0xa(%eax),%edx
 +mov    -0xc(%ebp),%eax
  mov    0x4(%eax),%eax
@@ -262,7 +262,7 @@
 -call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
 -mov    (%eax),%eax
 +mov    %eax,(%edx)
-+lea    -0x4f(%ebp),%eax
++lea    -0x57(%ebp),%eax
 +lea    0xe(%eax),%edx
 +mov    -0xc(%ebp),%eax
  mov    0x8(%eax),%eax
@@ -272,7 +272,7 @@
 -call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
 -mov    (%eax),%eax
 +mov    %al,(%edx)
-+lea    -0x4f(%ebp),%eax
++lea    -0x57(%ebp),%eax
 +lea    0xf(%eax),%edx
 +mov    -0xc(%ebp),%eax
  mov    0xc(%eax),%eax
@@ -315,9 +315,8 @@
 -mov    (%eax),%eax
 -mov    0xc(%eax),%eax
 -mov    %ax,-0x48(%ebp)
--lea    -0x57(%ebp),%eax
 +mov    %ax,(%edx)
-+lea    -0x4f(%ebp),%eax
+ lea    -0x57(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater30OnWebNoticeProhibitConnectUserEP12PacketHeader>
 -lea    -0x24(%ebp),%eax
@@ -475,14 +474,53 @@ void __thiscall CApplication::_ZN12CApplication15TranslateSignalEv(CApplication 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 407 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFApplication.cpp](source/DNFServer/GameServer/Manager/DNFApplication.cpp)（约第 335 行）：
 
 ```cpp
 void CApplication::TranslateSignal()
 {
     m_killUsrConfig->Clear_Table();
-    m_killUsrConfig->Load_Table("./script/kill_user_config.tbl");
-    std::vector<ST_KillUSRConfig*>* v = m_killUsrConfig->GetInfo();
-    v->empty();
+    m_killUsrConfig->Load_Table(std::string("./script/kill_user_config.tbl"));
+    const std::vector<ST_KillUSRConfig*>* list =
+        (const std::vector<ST_KillUSRConfig*>*)m_killUsrConfig->GetInfo();
+    if (list->empty())
+        return;
+    for (std::vector<ST_KillUSRConfig*>::const_iterator it = list->begin();
+         it != list->end(); ++it)
+    {
+        ST_KillUSRConfig* kc = *it;
+        switch (kc->m_type)
+        {
+        case 2:
+        {
+            Packet_Monitor_Event_Start pkt;
+            *(int*)((char*)&pkt + 0xa) = kc->m_field4;
+            *(unsigned short*)((char*)&pkt + 0xe) = (unsigned short)kc->m_field8;
+            *(unsigned short*)((char*)&pkt + 0x10) = (unsigned short)kc->m_fieldC;
+            CPacketTranslater::OnEventStart(&pkt);
+            break;
+        }
+        case 3:
+        {
+            Packet_Monitor_Event_End pkt;
+            *(int*)((char*)&pkt + 0xa) = kc->m_field4;
+            CPacketTranslater::OnEventEnd(&pkt);
+            break;
+        }
+        case 4:
+            m_serverConfig->Load_Table(std::string("./table/server_config.tbl"));
+            m_serverHandler->Load((ST_ServerInfo*)m_serverConfig->GetServerInfo());
+            break;
+        case 5:
+        {
+            Packet_Web_Prohibit_User_Connect pkt;
+            *(int*)((char*)&pkt + 0xa) = kc->m_field4;
+            *(unsigned char*)((char*)&pkt + 0xe) = (unsigned char)kc->m_field8;
+            *(unsigned short*)((char*)&pkt + 0xf) = (unsigned short)kc->m_fieldC;
+            CPacketTranslater::OnWebNoticeProhibitConnectUser(&pkt);
+            break;
+        }
+        }
+    }
 }
 ```

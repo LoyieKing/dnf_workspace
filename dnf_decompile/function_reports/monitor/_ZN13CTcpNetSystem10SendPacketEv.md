@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805345c` | `0x2f1` | `0x80a266e` | `0x323` |
+| monitor | DIFF | `0x805345c` | `0x2f1` | `0x80a2832` | `0x313` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,48 +13,48 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,207 +1,216 @@
+@@ -1,207 +1,213 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
+ push   %edi
  push   %esi
  push   %ebx
 -sub    $0x6c,%esp
-+sub    $0x70,%esp
-+movl   $0x0,-0x2c(%ebp)
++sub    $0x7c,%esp
++movl   $0x0,-0x3c(%ebp)
  mov    0x8(%ebp),%eax
  add    $0xe8,%eax
  mov    %eax,0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
  mov    0x8(%ebp),%eax
  add    $0xc0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE5emptyEv>
-+mov    %al,-0x25(%ebp)
-+movzbl -0x25(%ebp),%eax
++mov    %al,-0x35(%ebp)
++movzbl -0x35(%ebp),%eax
 +xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x40>
 -mov    $0x0,%ebx
 -mov    $0x0,%esi
 -jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x77>
-+je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x76>
++je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x77>
  mov    0x8(%ebp),%eax
  add    $0xc0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE5frontEv>
  mov    (%eax),%eax
- mov    %eax,-0x2c(%ebp)
+-mov    %eax,-0x2c(%ebp)
 -mov    $0x1,%esi
--jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x77>
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x76>
++mov    %eax,-0x3c(%ebp)
+ jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x77>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x50(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  mov    %esi,%eax
@@ -62,14 +62,12 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x50(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
 -test   %esi,%esi
 -je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
-+cmpb   $0x0,-0x25(%ebp)
-+jne    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x8d>
- cmpl   $0x0,-0x2c(%ebp)
+-cmpl   $0x0,-0x2c(%ebp)
 -jne    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x9a>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
@@ -82,17 +80,19 @@
 -lea    -0x4c(%ebp),%eax
 -mov    %ecx,0x8(%esp)
 -mov    %edx,0x4(%esp)
-+jne    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x97>
++cmpb   $0x0,-0x35(%ebp)
++jne    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x8e>
++cmpl   $0x0,-0x3c(%ebp)
++jne    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x98>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x319>
-+mov    -0x2c(%ebp),%eax
-+add    $0x6,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x34(%ebp)
++jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x308>
++mov    -0x3c(%ebp),%eax
++mov    0x6(%eax),%eax
++mov    %eax,-0x5c(%ebp)
 +mov    0x8(%ebp),%eax
 +lea    0x144(%eax),%ecx
-+lea    -0x38(%ebp),%eax
-+lea    -0x34(%ebp),%edx
++lea    -0x60(%ebp),%eax
++lea    -0x5c(%ebp),%edx
 +mov    %edx,0x8(%esp)
 +mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -101,7 +101,7 @@
  mov    0x8(%ebp),%eax
  lea    0x144(%eax),%edx
 -lea    -0x48(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x58(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP5CPeerSt4lessIjESaISt4pairIKjS1_EEE3endEv>
@@ -109,9 +109,9 @@
 -lea    -0x48(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x58(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0x38(%ebp),%eax
++lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CPeerEEeqERKS5_>
  test   %al,%al
@@ -122,36 +122,34 @@
 -movzwl 0x2(%eax),%eax
 -movzwl %ax,%esi
 -mov    -0x28(%ebp),%eax
--movzwl (%eax),%eax
++je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x172>
++mov    -0x3c(%ebp),%eax
++movzwl 0x2(%eax),%eax
++mov    %ax,-0x28(%ebp)
++mov    -0x3c(%ebp),%eax
+ movzwl (%eax),%eax
 -movzwl %ax,%ebx
-+je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x179>
-+mov    -0x2c(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
-+mov    %ax,-0x18(%ebp)
-+mov    -0x2c(%ebp),%eax
-+movzwl (%eax),%eax
-+mov    %ax,-0x16(%ebp)
++mov    %ax,-0x26(%ebp)
++mov    -0x5c(%ebp),%edi
++movzwl -0x28(%ebp),%esi
++movzwl -0x26(%ebp),%ebx
  movl   $0xba,0x8(%esp)
- movl   $"SendPacket",0x4(%esp)
- lea    -0x44(%ebp),%eax
+ movl   $&_ZZN13CTcpNetSystem10SendPacketEvE12__FUNCTION__,0x4(%esp)
+-lea    -0x44(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    -0x34(%ebp),%ecx
-+movzwl -0x18(%ebp),%edx
-+movzwl -0x16(%ebp),%eax
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"SEND ERR:no peer(id:%d,size:%d,ip:%d)",0x8(%esp)
  movl   $"./log/TcpSend",0x4(%esp)
- lea    -0x44(%ebp),%eax
+-lea    -0x44(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    -0x2c(%ebp),%eax
+-mov    -0x2c(%ebp),%eax
++mov    -0x3c(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -160,31 +158,34 @@
 -jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
 -lea    -0x4c(%ebp),%eax
 +mov    $0x0,%eax
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x319>
-+lea    -0x38(%ebp),%eax
++jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x308>
++lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CPeerEEptEv>
  mov    0x4(%eax),%eax
- mov    %eax,-0x24(%ebp)
-+movb   $0x1,-0x1d(%ebp)
- cmpl   $0x0,-0x24(%ebp)
+-mov    %eax,-0x24(%ebp)
+-cmpl   $0x0,-0x24(%ebp)
 -je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1a1>
 -mov    -0x28(%ebp),%eax
 -mov    0x6(%eax),%ebx
-+je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1b7>
-+mov    -0x34(%ebp),%eax
+-mov    -0x24(%ebp),%eax
++mov    %eax,-0x34(%ebp)
++movb   $0x1,-0x2d(%ebp)
++cmpl   $0x0,-0x34(%ebp)
++je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1b0>
++mov    -0x5c(%ebp),%eax
 +mov    %eax,%ebx
- mov    -0x24(%ebp),%eax
++mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer12GetTcpSocketEv>
  mov    %eax,(%esp)
  call   <T> <_ZNK9TCPSocket9getHandleEv>
  cmp    %eax,%ebx
 -je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1a8>
-+jne    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1b7>
++jne    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1b0>
  mov    $0x1,%eax
 -jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1ad>
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1bc>
++jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1b5>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x22f>
@@ -194,35 +195,31 @@
 -movzwl 0x2(%eax),%eax
 -movzwl %ax,%esi
 -mov    -0x28(%ebp),%eax
--movzwl (%eax),%eax
++je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1bd>
++movb   $0x0,-0x2d(%ebp)
++cmpb   $0x0,-0x2d(%ebp)
++je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x24c>
++mov    -0x3c(%ebp),%eax
++movzwl 0x2(%eax),%eax
++mov    %ax,-0x24(%ebp)
++mov    -0x3c(%ebp),%eax
+ movzwl (%eax),%eax
 -movzwl %ax,%ebx
-+je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1c4>
-+movb   $0x0,-0x1d(%ebp)
-+cmpb   $0x0,-0x1d(%ebp)
-+je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x255>
-+mov    -0x2c(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
-+mov    %ax,-0x14(%ebp)
-+mov    -0x2c(%ebp),%eax
-+movzwl (%eax),%eax
-+mov    %ax,-0x12(%ebp)
++mov    %ax,-0x22(%ebp)
++mov    -0x5c(%ebp),%edi
++movzwl -0x24(%ebp),%esi
++movzwl -0x22(%ebp),%ebx
  movl   $0xc3,0x8(%esp)
- movl   $"SendPacket",0x4(%esp)
+ movl   $&_ZZN13CTcpNetSystem10SendPacketEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x18(%esp)
--mov    %esi,0x14(%esp)
--mov    %ebx,0x10(%esp)
-+mov    -0x34(%ebp),%ecx
-+movzwl -0x14(%ebp),%edx
-+movzwl -0x12(%ebp),%eax
-+mov    %ecx,0x18(%esp)
-+mov    %edx,0x14(%esp)
-+mov    %eax,0x10(%esp)
- mov    -0x24(%ebp),%eax
+ mov    %edi,0x18(%esp)
+ mov    %esi,0x14(%esp)
+ mov    %ebx,0x10(%esp)
+-mov    -0x24(%ebp),%eax
++mov    -0x34(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"SEND ERR:invalid peer(%x)(id:%d)(size:%d)(ip:%d)",0x8(%esp)
  movl   $"./log/TcpSend",0x4(%esp)
@@ -230,7 +227,8 @@
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    -0x2c(%ebp),%eax
+-mov    -0x2c(%ebp),%eax
++mov    -0x3c(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -238,21 +236,27 @@
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
 -mov    -0x28(%ebp),%eax
--movzwl 0x2(%eax),%eax
 +mov    $0x0,%eax
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x319>
-+mov    -0x2c(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
++jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x308>
++mov    -0x3c(%ebp),%eax
+ movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
 -mov    -0x28(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
++mov    -0x3c(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
- mov    -0x24(%ebp),%eax
+-mov    -0x24(%ebp),%eax
++mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer11send_packetEPci>
--mov    %eax,-0x20(%ebp)
++mov    %eax,-0x2c(%ebp)
++cmpl   $0x0,-0x2c(%ebp)
++jg     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2f3>
++mov    0x8(%ebp),%eax
++add    $0xc0,%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE4sizeEv>
+ mov    %eax,-0x20(%ebp)
 -cmpl   $0x0,-0x20(%ebp)
 -jle    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x26c>
 -mov    -0x2c(%ebp),%eax
@@ -261,13 +265,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN13CTcpNetSystem23PopDeleteTcpSendPacketQEP14CTcpSendBuffer>
 -jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e1>
-+mov    %eax,-0x1c(%ebp)
-+cmpl   $0x0,-0x1c(%ebp)
-+jg     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x304>
- mov    0x8(%ebp),%eax
- add    $0xc0,%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE4sizeEv>
+-mov    0x8(%ebp),%eax
+-add    $0xc0,%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE4sizeEv>
 -mov    %eax,-0x1c(%ebp)
 -mov    -0x28(%ebp),%eax
 -mov    0x6(%eax),%edi
@@ -275,56 +276,48 @@
 -movzwl 0x2(%eax),%eax
 -movzwl %ax,%esi
 -mov    -0x28(%ebp),%eax
--movzwl (%eax),%eax
++mov    -0x3c(%ebp),%eax
++movzwl 0x2(%eax),%eax
++mov    %ax,-0x1c(%ebp)
++mov    -0x3c(%ebp),%eax
+ movzwl (%eax),%eax
 -movzwl %ax,%ebx
-+mov    %eax,-0x10(%ebp)
-+mov    -0x2c(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
-+mov    %ax,-0xc(%ebp)
-+mov    -0x2c(%ebp),%eax
-+movzwl (%eax),%eax
-+mov    %ax,-0xa(%ebp)
++mov    %ax,-0x1a(%ebp)
++mov    -0x5c(%ebp),%edi
++movzwl -0x1c(%ebp),%esi
++movzwl -0x1a(%ebp),%ebx
  movl   $0xd5,0x8(%esp)
- movl   $"SendPacket",0x4(%esp)
+ movl   $&_ZZN13CTcpNetSystem10SendPacketEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x54(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x1c(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    -0x34(%ebp),%ecx
-+movzwl -0xc(%ebp),%edx
-+movzwl -0xa(%ebp),%eax
-+mov    -0x10(%ebp),%ebx
-+mov    %ebx,0x18(%esp)
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    -0x20(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"SEND(id:%d,size:%d,ip:%d, cnt:%d)",0x8(%esp)
  movl   $"./log/TcpSend",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x54(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x20(%ebp),%ebx
 -mov    %ebx,%eax
--lea    -0xc(%ebp),%esp
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x316>
-+mov    -0x2c(%ebp),%eax
++jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x305>
++mov    -0x3c(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    0x8(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN13CTcpNetSystem23PopDeleteTcpSendPacketQEP14CTcpSendBuffer>
-+mov    -0x1c(%ebp),%eax
-+lea    -0x8(%ebp),%esp
++mov    -0x2c(%ebp),%eax
+ lea    -0xc(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
  pop    %esi
--pop    %edi
+ pop    %edi
  pop    %ebp
  ret
 ```
@@ -450,50 +443,64 @@ LAB_08053609:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 158 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 267 行）：
 
 ```cpp
-void CTcpNetSystem::SendPacket()
+int CTcpNetSystem::SendPacket()
 {
-    CGuard<CMutex> guard(&m_mutexE8);
-    if (m_sendQueue.empty())
-        return;
-    CTcpSendBuffer* buf = m_sendQueue.front();
-    if (!buf)
-        return;
-    int port = *(int*)((char*)buf + 6);
-    std::map<unsigned int, CPeer*>::iterator it = m_peerMap.find(port);
-    if (it == m_peerMap.end())
+    CTcpSendBuffer* buf = 0;
+    bool empty;
     {
-        CMyFileLog log("CTcpNetSystem::SendPacket", 0xba);
-        log("./log/TcpSend", "SEND ERR:no peer(id:%d,size:%d,ip:%d)",
-            *(unsigned short*)((char*)buf),
-            *(unsigned short*)((char*)buf + 2), port);
+        CGuard<CMutex> guard(&m_mutexe8);
+        empty = m_sendQ.empty();
+        if (!empty)
+        {
+            buf = m_sendQ.front();
+        }
+    }
+    if (empty || buf == 0)
+    {
+        return 0;
+    }
+    unsigned int fd = ((RA_UINT<6>*)buf)->v;
+    std::map<unsigned int, CPeer*>::iterator it = m_peers.find(fd);
+    if (it == m_peers.end())
+    {
+        unsigned short size = ((RA_U16<2>*)buf)->v;
+        unsigned short id = *(unsigned short*)buf;
+        DNF_LOG_SCOPE_LINE(0xba,"./log/TcpSend", "SEND ERR:no peer(id:%d,size:%d,ip:%d)", (unsigned int)id,
+            (unsigned int)size, fd);
         PopDeleteTcpSendPacketQ(buf);
-        return;
+        return 0;
     }
     CPeer* peer = it->second;
-    if (!peer || peer->GetTcpSocket()->getHandle() != port)
+    bool invalid = true;
+    if (peer != 0 && (int)fd == peer->GetTcpSocket()->getHandle())
     {
-        CMyFileLog log("CTcpNetSystem::SendPacket", 0xc3);
-        log("./log/TcpSend", "SEND ERR:invalid peer(%x)(id:%d)(size:%d)(ip:%d)",
-            peer, *(unsigned short*)((char*)buf),
-            *(unsigned short*)((char*)buf + 2), port);
-        PopDeleteTcpSendPacketQ(buf);
-        return;
+        invalid = false;
     }
-    int ret = peer->send_packet((char*)buf, *(unsigned short*)((char*)buf + 2));
-    if (ret > 0)
+    if (invalid)
     {
+        unsigned short size = ((RA_U16<2>*)buf)->v;
+        unsigned short id = *(unsigned short*)buf;
+        DNF_LOG_SCOPE_LINE(0xc3,"./log/TcpSend", "SEND ERR:invalid peer(%x)(id:%d)(size:%d)(ip:%d)", peer,
+            (unsigned int)id, (unsigned int)size, fd);
         PopDeleteTcpSendPacketQ(buf);
+        return 0;
+    }
+    int result = peer->send_packet((char*)buf, (unsigned int)((RA_U16<2>*)buf)->v);
+    if (result < 1)
+    {
+        unsigned int cnt = (unsigned int)m_sendQ.size();
+        unsigned short size = ((RA_U16<2>*)buf)->v;
+        unsigned short id = *(unsigned short*)buf;
+        DNF_LOG_SCOPE_LINE(0xd5,"./log/TcpSend", "SEND(id:%d,size:%d,ip:%d, cnt:%d)", (unsigned int)id,
+            (unsigned int)size, fd, cnt);
     }
     else
     {
-        CMyFileLog log("CTcpNetSystem::SendPacket", 0xd5);
-        log("./log/TcpSend", "SEND(id:%d,size:%d,ip:%d, cnt:%d)",
-            *(unsigned short*)((char*)buf),
-            *(unsigned short*)((char*)buf + 2), port,
-            (int)m_sendQueue.size());
+        PopDeleteTcpSendPacketQ(buf);
     }
+    return result;
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8070e30` | `0x373` | `0x8057ee0` | `0x270` |
+| dbmw | DIFF | `0x8070e30` | `0x373` | `0x8057cca` | `0x270` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -165,7 +165,7 @@
 +lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -174,19 +174,13 @@
  mov    (%eax,%edx,4),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%ecx
--mov    -0x1c(%ebp),%edx
--mov    0x8(%ebp),%eax
--mov    (%eax,%edx,4),%eax
--mov    %eax,(%esp)
--call   *%ecx
+ mov    (%eax),%ecx
+ mov    -0x1c(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ mov    (%eax,%edx,4),%eax
+ mov    %eax,(%esp)
+ call   *%ecx
 -xor    $0x1,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%ecx
-+mov    0x8(%ebp),%edx
-+mov    (%edx,%ecx,4),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager4InitE12ENUM_DB_KINDP12CApplication+0x277>
 -lea    -0x25(%ebp),%eax
@@ -285,7 +279,7 @@
 +lea    -0x1d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -358,7 +352,7 @@
 -lea    -0x1d(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSaIcED1Ev>
--movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+-movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
 -movl   $&_ZTI13CDNFException,0x4(%esp)
 -mov    %ebx,(%esp)
 -call   <T> <__cxa_throw>
@@ -452,7 +446,7 @@ CDBManager::_ZN10CDBManager4InitE12ENUM_DB_KINDP12CApplication
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3013 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 2939 行）：
 
 ```cpp
 void CDBManager::Init(ENUM_DB_KIND kind, CApplication* app)

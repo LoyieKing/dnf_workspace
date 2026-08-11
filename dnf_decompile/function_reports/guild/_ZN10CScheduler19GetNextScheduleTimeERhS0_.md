@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x805d476` | `0x1a7` | `0x80a3f12` | `0x1f7` |
+| guild | DIFF | `0x805d476` | `0x1a7` | `0x80a3b1c` | `0x1f7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -366,4 +366,4 @@ LAB_0805d572:
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/Scheduler.cpp, source/DNFServer/GameServer/Monitor/Scheduler.cpp, source/DNFServer/GameServer/Statics/Scheduler.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h 等 621 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/Scheduler.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 289 个文件*

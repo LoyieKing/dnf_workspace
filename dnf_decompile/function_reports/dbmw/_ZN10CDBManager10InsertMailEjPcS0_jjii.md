@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80826ae` | `0x192` | `0x804f364` | `0x19b` |
+| dbmw | DIFF | `0x80826ae` | `0x192` | `0x804f352` | `0x19b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -72,7 +72,7 @@
 +test   %al,%al
 +je     <T> <_ZN10CDBManager10InsertMailEjPcS0_jjii+0xe8>
  movl   $0x1d9e,0x8(%esp)
- movl   $"InsertMail",0x4(%esp)
+ movl   $&_ZZN10CDBManager10InsertMailEjPcS0_jjiiE12__FUNCTION__,0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -129,7 +129,7 @@
 +test   %al,%al
 +je     <T> <_ZN10CDBManager10InsertMailEjPcS0_jjii+0x190>
  movl   $0x1da4,0x8(%esp)
- movl   $"InsertMail",0x4(%esp)
+ movl   $&_ZZN10CDBManager10InsertMailEjPcS0_jjiiE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
@@ -209,4 +209,4 @@ CDBManager::_ZN10CDBManager10InsertMailEjPcS0_jjii
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

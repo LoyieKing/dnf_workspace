@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| auction | DIFF | `0x80adab2` | `0x77` | `0x80a9df8` | `0x6c` |
+| auction | DIFF | `0x80adab2` | `0x77` | `0x80a9cf0` | `0x79` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,39 +1,36 @@
+@@ -1,39 +1,40 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,29 +21,39 @@
 -sub    $0x30,%esp
 +sub    $0x20,%esp
  movl   $0x0,0x4(%esp)
- lea    -0x10(%ebp),%eax
+-lea    -0x10(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <gettimeofday>
- mov    -0x10(%ebp),%eax
+-mov    -0x10(%ebp),%eax
 -mov    %eax,-0x20(%ebp)
++mov    -0x18(%ebp),%eax
  mov    %eax,%edx
  sar    $0x1f,%edx
 -mov    %edx,-0x1c(%ebp)
 -imul   $0x3e8,-0x1c(%ebp),%ecx
 -imul   $0x0,-0x20(%ebp),%ebx
-+imul   $0x3e8,%edx,%ecx
-+imul   $0x0,%eax,%ebx
- add    %ebx,%ecx
- mov    $0x3e8,%ebx
+-add    %ebx,%ecx
+-mov    $0x3e8,%ebx
 -mov    -0x20(%ebp),%eax
- mul    %ebx
+-mul    %ebx
++mov    %eax,-0x10(%ebp)
++mov    %edx,-0xc(%ebp)
++mov    -0xc(%ebp),%eax
++imul   $0x3e8,%eax,%ecx
++mov    -0x10(%ebp),%eax
++imul   $0x0,%eax,%eax
++add    %eax,%ecx
++mov    $0x3e8,%eax
++mull   -0x10(%ebp)
 +add    %edx,%ecx
 +mov    %ecx,%edx
  mov    %eax,%ebx
  mov    %edx,%esi
 -add    %esi,%ecx
 -mov    %ecx,%esi
- mov    -0xc(%ebp),%eax
+-mov    -0xc(%ebp),%eax
++mov    -0x14(%ebp),%eax
  mov    %eax,%edx
  sar    $0x1f,%edx
  movl   $0x3e8,0x8(%esp)
@@ -88,6 +98,8 @@ long long get_ms_tick()
 {
     timeval tv;
     gettimeofday(&tv, NULL);
-    return (long long)tv.tv_sec * 1000 + (unsigned long long)tv.tv_usec / 1000;
+    long long sec;
+    sec = tv.tv_sec;
+    return sec * 1000 + (unsigned long long)tv.tv_usec / 1000;
 }
 ```

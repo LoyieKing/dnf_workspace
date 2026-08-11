@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a8656` | `0x270` | `0x80a6f8c` | `0x271` |
+| monitor | DIFF | `0x80a8656` | `0x270` | `0x80a7168` | `0x271` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -55,12 +55,11 @@
  mov    %edx,0x24(%esp)
  mov    0x28(%eax),%eax
  mov    %eax,0x28(%esp)
--call   <T> <_Z15GetNextSchedule2tmiii>
+ call   <T> <_Z15GetNextSchedule2tmiii>
 -mov    %eax,-0x14(%ebp)
 -movl   $0x1,-0xc(%ebp)
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager10OnScheduleEv+0x15e>
 -mov    -0xc(%ebp),%edx
-+call   <T> <_ZN16village_attacked15GetNextScheduleE2tmiii>
 +mov    %eax,-0x18(%ebp)
 +movl   $0x1,-0x10(%ebp)
 +jmp    <T> <_ZN16village_attacked23CVillageAttackedManager10OnScheduleEv+0x159>
@@ -115,8 +114,7 @@
  mov    %edx,0x24(%esp)
  mov    0x28(%eax),%eax
  mov    %eax,0x28(%esp)
--call   <T> <_Z15GetNextSchedule2tmiii>
-+call   <T> <_ZN16village_attacked15GetNextScheduleE2tmiii>
+ call   <T> <_Z15GetNextSchedule2tmiii>
 +mov    %eax,-0xc(%ebp)
 +mov    -0xc(%ebp),%eax
 +cmp    -0x18(%ebp),%eax
@@ -195,8 +193,7 @@
  mov    %edx,0x24(%esp)
  mov    0x28(%eax),%eax
  mov    %eax,0x28(%esp)
--call   <T> <_Z15GetNextSchedule2tmiii>
-+call   <T> <_ZN16village_attacked15GetNextScheduleE2tmiii>
+ call   <T> <_Z15GetNextSchedule2tmiii>
  mov    %eax,-0x28(%ebp)
  mov    -0x28(%ebp),%eax
  mov    %eax,0x8(%esp)
@@ -287,7 +284,7 @@ _ZN16village_attacked23CVillageAttackedManager10OnScheduleEv(CVillageAttackedMan
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 192 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 193 行）：
 
 ```cpp
 void CVillageAttackedManager::OnSchedule()
@@ -295,23 +292,23 @@ void CVillageAttackedManager::OnSchedule()
     time_t now = GetNowTime();
     tm* t = localtime(&now);
     int bestIdx = 0;
-    int bestTime = village_attacked::GetNextSchedule(*t, village_attacked_scheduler[0],
-                                                     village_attacked_scheduler[1],
-                                                     village_attacked_scheduler[2]);
+    int bestTime = ::GetNextSchedule(*t, village_attacked_scheduler[0],
+                                     village_attacked_scheduler[1],
+                                     village_attacked_scheduler[2]);
     for (int i = 1; i < MAX_SCHEDULER_COUNT; i++)
     {
-        int s = village_attacked::GetNextSchedule(*t, village_attacked_scheduler[i * 6],
-                                                  village_attacked_scheduler[i * 6 + 1],
-                                                  village_attacked_scheduler[i * 6 + 2]);
+        int s = ::GetNextSchedule(*t, village_attacked_scheduler[i * 6],
+                                  village_attacked_scheduler[i * 6 + 1],
+                                  village_attacked_scheduler[i * 6 + 2]);
         if (s < bestTime)
         {
             bestIdx = i;
             bestTime = s;
         }
     }
-    int end = village_attacked::GetNextSchedule(*t, village_attacked_scheduler[bestIdx * 6 + 3],
-                                                village_attacked_scheduler[bestIdx * 6 + 4],
-                                                village_attacked_scheduler[bestIdx * 6 + 5]);
+    int end = ::GetNextSchedule(*t, village_attacked_scheduler[bestIdx * 6 + 3],
+                                village_attacked_scheduler[bestIdx * 6 + 4],
+                                village_attacked_scheduler[bestIdx * 6 + 5]);
     InsertTimer(bestTime, end);
     tm* t2 = localtime((time_t*)&end);
     t2->tm_sec = 0;

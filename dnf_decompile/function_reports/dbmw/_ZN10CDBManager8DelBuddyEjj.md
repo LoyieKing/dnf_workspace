@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | NEAR | `0x8076bba` | `0xc7` | `0x804feb6` | `0xc7` |
+| dbmw | NEAR | `0x8076bba` | `0xc7` | `0x804fea0` | `0xc7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,29 +25,24 @@
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0x10(%ebp),%eax
+ mov    (%eax),%edx
++mov    0xc(%ebp),%eax
++mov    %eax,0x10(%esp)
+ mov    0x10(%ebp),%eax
 -mov    %eax,0x10(%esp)
 -mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    0x10(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"deLete from charac_friends where charac_no = %d and friend_no = %d",0x8(%esp)
  movl   $0x4e53,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager8DelBuddyEjj+0x91>
  movl   $0xc0a,0x8(%esp)
- movl   $"DelBuddy",0x4(%esp)
+ movl   $&_ZZN10CDBManager8DelBuddyEjjE12__FUNCTION__,0x4(%esp)
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -68,17 +63,14 @@
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e53,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %al,-0x9(%ebp)
 +movzbl -0x9(%ebp),%eax
  xor    $0x1,%eax
@@ -133,7 +125,7 @@ CDBManager::_ZN10CDBManager8DelBuddyEjj(CDBManager *this,uint param_1,uint param
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 804 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 806 行）：
 
 ```cpp
 char CDBManager::DelBuddy(unsigned int m_id, unsigned int characNo)
@@ -143,7 +135,7 @@ char CDBManager::DelBuddy(unsigned int m_id, unsigned int characNo)
                       "deLete from charac_friends where charac_no = %d and friend_no = %d",
                       characNo, m_id))
     {
-        CMyFileLog log("DelBuddy", 0xc0a);
+        CMyFileLog log(__FUNCTION__, 0xc0a);
         log("./log/DBQueryErr",
             "deLete from charac_friends where charac_no = %d and friend_no = %d",
             characNo, m_id);

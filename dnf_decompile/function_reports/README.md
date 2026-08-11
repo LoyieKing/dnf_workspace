@@ -11,7 +11,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 193   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 60   # 每个非 identical 项目函数一份
 ├── bridge/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -19,7 +19,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 30   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 6   # 每个非 identical 项目函数一份
 ├── channel/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -27,7 +27,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 30   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 3   # 每个非 identical 项目函数一份
 ├── community/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -35,7 +35,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 265   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 11   # 每个非 identical 项目函数一份
 ├── coserver/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -43,7 +43,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 86   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 22   # 每个非 identical 项目函数一份
 ├── dbmw/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -51,7 +51,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 624   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 433   # 每个非 identical 项目函数一份
 ├── guild/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -59,7 +59,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 976   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 676   # 每个非 identical 项目函数一份
 ├── manager/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -67,7 +67,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 238   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 142   # 每个非 identical 项目函数一份
 ├── monitor/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -75,7 +75,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 826   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 506   # 每个非 identical 项目函数一份
 ├── point/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -83,7 +83,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 190   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 59   # 每个非 identical 项目函数一份
 ├── relay/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -91,7 +91,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 92   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 16   # 每个非 identical 项目函数一份
 ├── statics/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -99,7 +99,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 256   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 137   # 每个非 identical 项目函数一份
 ├── stun/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -107,7 +107,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 10   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 0   # 每个非 identical 项目函数一份
 └── README.md             # 本文件（总览）
 ```
 
@@ -115,20 +115,20 @@ function_reports/
 
 | 服务 | NEAR | DIFF | MISSING | 已生成 md |
 |---|---:|---:|---:|---:|
-| auction | 64 | 144 | 812 | 193 |
-| bridge | 12 | 35 | 851 | 30 |
-| channel | 20 | 25 | 0 | 30 |
-| community | 2 | 316 | 11 | 265 |
-| coserver | 36 | 104 | 0 | 86 |
-| dbmw | 381 | 868 | 6 | 624 |
-| guild | 37 | 993 | 0 | 976 |
-| manager | 352 | 511 | 6 | 238 |
-| monitor | 131 | 749 | 0 | 826 |
-| point | 64 | 142 | 812 | 190 |
-| relay | 24 | 119 | 3 | 92 |
-| statics | 73 | 237 | 0 | 256 |
-| stun | 9 | 1 | 0 | 10 |
-| **合计** | | | | **3816** |
+| auction | 6 | 54 | 641 | 60 |
+| bridge | 0 | 6 | 673 | 6 |
+| channel | 0 | 3 | 0 | 3 |
+| community | 1 | 10 | 0 | 11 |
+| coserver | 0 | 22 | 0 | 22 |
+| dbmw | 281 | 624 | 6 | 433 |
+| guild | 38 | 652 | 0 | 676 |
+| manager | 266 | 348 | 6 | 142 |
+| monitor | 10 | 496 | 0 | 506 |
+| point | 7 | 52 | 641 | 59 |
+| relay | 1 | 15 | 0 | 16 |
+| statics | 4 | 133 | 0 | 137 |
+| stun | 0 | 0 | 0 | 0 |
+| **合计** | | | | **2071** |
 
 ## 口径与范围
 

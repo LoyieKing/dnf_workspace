@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a4058` | `0x1f8` | `0x809a330` | `0x1ab` |
+| guild | DIFF | `0x80a4058` | `0x1f8` | `0x8099eb2` | `0x1b0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,24 +13,24 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,126 +1,112 @@
+@@ -1,126 +1,115 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
 -push   %esi
--push   %ebx
+ push   %ebx
 -sub    $0x4c,%esp
-+sub    $0x58,%esp
++sub    $0x54,%esp
  movl   $0x198,0x8(%esp)
- movl   $"RewardGuildPowerWarPoint",0x4(%esp)
+ movl   $&_ZZN13CPowerManager24RewardGuildPowerWarPointEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPowerManager::RewardGuildPowerWarPoint",0x8(%esp)
  movl   $"./log/PowerResult",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
@@ -48,26 +48,25 @@
 +movzbl (%eax),%eax
 +mov    %al,-0x21(%ebp)
 +cmpb   $0x0,-0x21(%ebp)
-+je     <T> <_ZN13CPowerManager24RewardGuildPowerWarPointEv+0x56>
++je     <T> <_ZN13CPowerManager24RewardGuildPowerWarPointEv+0x57>
 +cmpb   $0x2,-0x21(%ebp)
-+jle    <T> <_ZN13CPowerManager24RewardGuildPowerWarPointEv+0x99>
++jle    <T> <_ZN13CPowerManager24RewardGuildPowerWarPointEv+0x9a>
++movsbl -0x21(%ebp),%ebx
  movl   $0x19c,0x8(%esp)
- movl   $"RewardGuildPowerWarPoint",0x4(%esp)
+ movl   $&_ZZN13CPowerManager24RewardGuildPowerWarPointEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+movsbl -0x21(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"invalid winner side income(%d)",0x8(%esp)
  movl   $"./log/PowerResult",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN13CPowerManager24RewardGuildPowerWarPointEv+0x1f0>
-+jmp    <T> <_ZN13CPowerManager24RewardGuildPowerWarPointEv+0x1a9>
++jmp    <T> <_ZN13CPowerManager24RewardGuildPowerWarPointEv+0x1aa>
  mov    0x8(%ebp),%eax
 -mov    0x198(%eax),%eax
 -mov    %eax,-0x34(%ebp)
@@ -131,7 +130,7 @@
  mov    %edx,(%esp)
  call   <T> <_ZN6CPower24RewardGuildPowerWarPointER13CGuildManagerbiiii>
 +cmpb   $0x1,-0x21(%ebp)
-+jne    <T> <_ZN13CPowerManager24RewardGuildPowerWarPointEv+0x170>
++jne    <T> <_ZN13CPowerManager24RewardGuildPowerWarPointEv+0x171>
  mov    0x8(%ebp),%eax
 -movzbl 0x184(%eax),%eax
 -cmp    $0x1,%al
@@ -171,7 +170,7 @@
  mov    %edx,(%esp)
  call   <T> <_ZN6CPower24RewardGuildPowerWarPointER13CGuildManagerbiiii>
 -jmp    <T> <_ZN13CPowerManager24RewardGuildPowerWarPointEv+0x1f0>
-+jmp    <T> <_ZN13CPowerManager24RewardGuildPowerWarPointEv+0x1a9>
++jmp    <T> <_ZN13CPowerManager24RewardGuildPowerWarPointEv+0x1aa>
  mov    0x8(%ebp),%eax
 -mov    0x198(%eax),%eax
 -mov    %eax,-0x2c(%ebp)
@@ -207,11 +206,11 @@
  mov    %edx,(%esp)
  call   <T> <_ZN6CPower24RewardGuildPowerWarPointER13CGuildManagerbiiii>
 -add    $0x4c,%esp
--pop    %ebx
++add    $0x54,%esp
+ pop    %ebx
 -pop    %esi
 -pop    %edi
--pop    %ebp
-+leave
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -279,7 +278,7 @@ void __thiscall CPowerManager::_ZN13CPowerManager24RewardGuildPowerWarPointEv(CP
 ```cpp
 void CPowerManager::RewardGuildPowerWarPoint()
 {
-    CMyFileLog logTop("RewardGuildPowerWarPoint", 0x198);
+    CMyFileLog logTop(__FUNCTION__, 0x198);
     logTop("./log/PowerResult", "CPowerManager::RewardGuildPowerWarPoint");
     char winnerSide = *(char*)((char*)this + 0x184);
     if (winnerSide == 0 || winnerSide > 2)

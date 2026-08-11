@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8058b0a` | `0xe9` | `0x80666ca` | `0xf5` |
+| manager | DIFF | `0x8058b0a` | `0xe9` | `0x80665d4` | `0xf5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -57,7 +57,7 @@
 +cmpl   $0xa,-0xc(%ebp)
 +jle    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xe3>
  movl   $0x91,0x8(%esp)
- movl   $"PushTcpSendPacketQ",0x4(%esp)
+ movl   $&_ZZN13CTcpNetSystem18PushTcpSendPacketQEPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -156,18 +156,17 @@ CTcpNetSystem::_ZN13CTcpNetSystem18PushTcpSendPacketQEPc(CTcpNetSystem *this,cha
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 217 行）：
+定义于 [source/DNFServer/GameServer/Manager/TcpNetSystem.cpp](source/DNFServer/GameServer/Manager/TcpNetSystem.cpp)（约第 91 行）：
 
 ```cpp
 void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
 {
     CGuard<CMutex> guard(&m_mutexE8);
-    CTcpSendBuffer* p = (CTcpSendBuffer*)buf;
-    m_sendQueue.push(p);
+    m_sendQueue.push((CTcpSendBuffer*)buf);
     int n = m_sendQueue.size();
     if (n > 0xa)
     {
-        CMyFileLog log("PushTcpSendPacketQ", 0x91);
+        CMyFileLog log(__FUNCTION__, 0x91);
         log("./log/TcpSend", "SEND PUSH(cnt:%d,id:%d,size:%d,ip:%d)", n,
             (unsigned short)buf[0], (unsigned short)((unsigned short*)buf)[1],
             ((char*)buf)[6]);

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809810c` | `0x3c` | `0x8060400` | `0x43` |
+| monitor | DIFF | `0x809810c` | `0x3c` | `0x8060664` | `0x3f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,22 +1,25 @@
+@@ -1,22 +1,23 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x18,%esp
@@ -26,25 +26,22 @@
 -je     <T> <_ZNK7CMember21GetUpperMember_CharIdEv+0x35>
 +jne    <T> <_ZNK7CMember21GetUpperMember_CharIdEv+0x1e>
 +mov    $0x0,%eax
-+jmp    <T> <_ZNK7CMember21GetUpperMember_CharIdEv+0x41>
++jmp    <T> <_ZNK7CMember21GetUpperMember_CharIdEv+0x3d>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK7CMember12IsThereUpperEv>
-+test   %eax,%eax
-+sete   %al
++xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZNK7CMember21GetUpperMember_CharIdEv+0x2e>
-+je     <T> <_ZNK7CMember21GetUpperMember_CharIdEv+0x39>
++je     <T> <_ZNK7CMember21GetUpperMember_CharIdEv+0x37>
 +mov    $0xffffffff,%eax
-+jmp    <T> <_ZNK7CMember21GetUpperMember_CharIdEv+0x41>
++jmp    <T> <_ZNK7CMember21GetUpperMember_CharIdEv+0x3d>
  mov    0x8(%ebp),%eax
--mov    0x6(%eax),%eax
+ mov    0x6(%eax),%eax
 -jmp    <T> <_ZNK7CMember21GetUpperMember_CharIdEv+0x3a>
 -mov    $0xffffffff,%eax
 -jmp    <T> <_ZNK7CMember21GetUpperMember_CharIdEv+0x3a>
 -mov    $0x0,%eax
-+add    $0x6,%eax
-+mov    (%eax),%eax
  leave
  ret
 ```
@@ -78,7 +75,7 @@ undefined4 __thiscall CMember::_ZNK7CMember21GetUpperMember_CharIdEv(CMember *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 294 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 300 行）：
 
 ```cpp
 int CMember::GetUpperMember_CharId() const
@@ -91,6 +88,6 @@ int CMember::GetUpperMember_CharId() const
     {
         return 0xffffffff;
     }
-    return *(int*)((char*)this + 6);
+    return ((RA_INT<6>*)this)->v;
 }
 ```

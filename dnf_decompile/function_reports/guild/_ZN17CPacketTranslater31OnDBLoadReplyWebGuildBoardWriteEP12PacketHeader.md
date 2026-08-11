@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8087816` | `0x208` | `0x807cd1c` | `0x129` |
+| guild | DIFF | `0x8087816` | `0x208` | `0x807cc8a` | `0x12e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,134 +1,79 @@
+@@ -1,134 +1,81 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -29,15 +29,15 @@
 -jne    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x53>
 +jne    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x52>
  movl   $0x1ded,0x8(%esp)
- movl   $"OnDBLoadReplyWebGuildBoardWrite",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDBLoadReplyWebGuildBoardWrite : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/GuildBoard",0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x200>
@@ -47,7 +47,7 @@
 -add    $0x290,%edx
 -mov    %eax,0x4(%esp)
 -mov    %edx,(%esp)
-+jmp    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x122>
++jmp    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x127>
 +mov    -0x14(%ebp),%eax
 +add    $0xc,%eax
 +mov    (%eax),%eax
@@ -61,28 +61,28 @@
  call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x24(%ebp)
 -cmpl   $0x0,-0x24(%ebp)
--sete   %al
--test   %al,%al
--je     <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0xba>
 +mov    %eax,-0xc(%ebp)
 +cmpl   $0x0,-0xc(%ebp)
-+jne    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0xba>
+ sete   %al
+ test   %al,%al
+-je     <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0xba>
++je     <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0xbf>
  movl   $0x1df4,0x8(%esp)
- movl   $"OnDBLoadReplyWebGuildBoardWrite",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDBLoadReplyWebGuildBoardWrite : 0 == pclGuild",0x8(%esp)
  movl   $"./log/GuildBoard",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x200>
 -mov    -0x20(%ebp),%eax
 -movzwl 0xa(%eax),%eax
-+jmp    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x122>
++jmp    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x127>
 +mov    -0x14(%ebp),%eax
 +add    $0xa,%eax
 +movzwl (%eax),%eax
@@ -95,7 +95,7 @@
 -mov    -0x20(%ebp),%eax
 -mov    0xc(%eax),%ebx
 -mov    -0x24(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x122>
++jne    <T> <_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader+0x127>
 +mov    -0x14(%ebp),%eax
 +lea    0x14(%eax),%esi
 +mov    -0x14(%ebp),%eax
@@ -139,7 +139,7 @@
 -call   *%edx
 -mov    %eax,%ebx
 -movl   $0x1e01,0x8(%esp)
--movl   $"OnDBLoadReplyWebGuildBoardWrite",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -162,7 +162,7 @@
 -mov    %eax,(%esp)
 -call   <T> <__cxa_begin_catch>
 -movl   $0x1e06,0x8(%esp)
--movl   $"OnDBLoadReplyWebGuildBoardWrite",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -253,8 +253,8 @@ void CPacketTranslater::OnDBLoadReplyWebGuildBoardWrite(PacketHeader* pkt)
         return;
     }
     unsigned int guildKey = *(unsigned int*)(pb + 0xc);
-    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
-    if (guild == 0)
+    CGuild* guild;
+    if ((guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey)) == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1df4,"./log/GuildBoard",
             "CPacketTranslater::OnDBLoadReplyWebGuildBoardWrite : 0 == pclGuild");

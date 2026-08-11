@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809282e` | `0xc3` | `0x807b0c2` | `0xc3` |
+| dbmw | DIFF | `0x809282e` | `0xc3` | `0x80ce7c6` | `0xc3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,16 +20,11 @@
  mov    0x8(%ebp),%eax
  mov    0x8(%eax),%eax
  mov    (%eax),%eax
--mov    (%eax),%edx
--mov    0x8(%ebp),%eax
--mov    0x8(%eax),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    0x8(%ebp),%edx
-+mov    0x8(%edx),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x8(%eax),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    0x8(%ebp),%eax
  lea    0xc(%eax),%ecx
  lea    -0x38(%ebp),%eax

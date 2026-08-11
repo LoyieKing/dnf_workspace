@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a2db0` | `0x8f` | `0x808f004` | `0x80` |
+| guild | DIFF | `0x80a2db0` | `0x8f` | `0x808ee60` | `0x80` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,14 +25,14 @@
 -movl   $0x0,-0x14(%ebp)
 +mov    %al,-0x2c(%ebp)
  mov    0xc(%ebp),%eax
--mov    %eax,-0x18(%ebp)
++mov    %eax,-0x1c(%ebp)
++movsbl -0x2c(%ebp),%eax
+ mov    %eax,-0x18(%ebp)
 -movsbl -0x1c(%ebp),%eax
- mov    %eax,-0x14(%ebp)
-+movzbl -0x2c(%ebp),%eax
-+mov    %al,-0x10(%ebp)
+-mov    %eax,-0x14(%ebp)
  mov    0x8(%ebp),%eax
 -lea    -0x18(%ebp),%edx
-+lea    -0x14(%ebp),%edx
++lea    -0x1c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE9push_backERKS2_>
@@ -43,9 +43,9 @@
 -mov    %eax,%ebx
 +mov    %eax,-0xc(%ebp)
  movl   $0xcd,0x8(%esp)
- movl   $"AppendGM_Sys",0x4(%esp)
+ movl   $&_ZZN8WongWork11CGMAccounts12AppendGM_SysEjcE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
@@ -54,7 +54,7 @@
  movl   $"GM List Add mid:%s",0x8(%esp)
  movl   $"./log/Init",0x4(%esp)
 -lea    -0x10(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -add    $0x34,%esp
@@ -93,17 +93,16 @@ WongWork::CGMAccounts::_ZN8WongWork11CGMAccounts12AppendGM_SysEjc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/GMAccounts.cpp](source/DNFServer/GameServer/DBMW/GMAccounts.cpp)（约第 80 行）：
+定义于 [source/DNFServer/GameServer/Guild/GMAccounts.cpp](source/DNFServer/GameServer/Guild/GMAccounts.cpp)（约第 101 行）：
 
 ```cpp
-void WongWork::CGMAccounts::AppendGM_Sys(unsigned int id, char flag)
+void CGMAccounts::AppendGM_Sys(unsigned int id, char flag)
 {
-    stGMInfo_t info = {};
-    info.m_field0 = (int)id;
-    info.m_field1 = (int)flag;
+    stGMInfo_t info;
+    info.m_field0 = id;
+    info.m_field1 = (unsigned int)flag;
     m_list.push_back(info);
     char* mid = NumberToString(id, 0);
-    CMyFileLog log("AppendGM_Sys", 0xcd);
-    log("./log/Init", "GM List Add mid:%s", mid);
+    DNF_LOG_SCOPE_AT(__FUNCTION__, 0xcd, "./log/Init", "GM List Add mid:%s", mid);
 }
 ```

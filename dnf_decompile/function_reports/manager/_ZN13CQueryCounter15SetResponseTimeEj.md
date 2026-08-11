@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8062450` | `0x68` | `0x8065bc4` | `0x68` |
+| manager | DIFF | `0x8062450` | `0x68` | `0x8065ac2` | `0x68` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,31 +23,28 @@
  ja     <T> <_ZN13CQueryCounter15SetResponseTimeEj+0x61>
  mov    0xc(%ebp),%eax
  sub    $0x4e20,%eax
- mov    %eax,-0xc(%ebp)
+-mov    %eax,-0xc(%ebp)
 -mov    -0xc(%ebp),%ebx
- mov    -0xc(%ebp),%edx
+-mov    -0xc(%ebp),%edx
++mov    %eax,-0x14(%ebp)
++mov    -0x14(%ebp),%edx
  mov    0x8(%ebp),%eax
  add    $0xa0,%edx
  fldl   0x4(%eax,%edx,8)
 -fstpl  -0x20(%ebp)
-+fstpl  -0x18(%ebp)
-+mov    -0xc(%ebp),%ebx
++fstpl  -0x10(%ebp)
++mov    -0x14(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    0xf10(%eax),%eax
  mov    (%eax),%eax
  add    $0x4,%eax
--mov    (%eax),%edx
--mov    0x8(%ebp),%eax
--mov    0xf10(%eax),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    0xf10(%eax),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -faddl  -0x20(%ebp)
-+mov    (%eax),%eax
-+mov    0x8(%ebp),%edx
-+mov    0xf10(%edx),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+faddl  -0x18(%ebp)
++faddl  -0x10(%ebp)
  mov    0x8(%ebp),%eax
  lea    0xa0(%ebx),%edx
  fstpl  0x4(%eax,%edx,8)
@@ -83,7 +80,7 @@ CQueryCounter::_ZN13CQueryCounter15SetResponseTimeEj(CQueryCounter *this,uint pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/QueryCounter.cpp](source/DNFServer/GameServer/DBMW/QueryCounter.cpp)（约第 101 行）：
+定义于 [source/DNFServer/GameServer/Manager/QueryCounter.cpp](source/DNFServer/GameServer/Manager/QueryCounter.cpp)（约第 71 行）：
 
 ```cpp
 void CQueryCounter::SetResponseTime(unsigned int ms)
@@ -91,12 +88,7 @@ void CQueryCounter::SetResponseTime(unsigned int ms)
     if (ms > 0x4f60)
         return;
     int i = ms - 0x4e20;
-    double interval = m_timer->GetTimeInterval();
-    m_responseTimes[i] = interval + m_responseTimes[i];
-    if (interval > 500.0)
-    {
-        CMyFileLog log("SetResponseTime", 0x5d);
-        log("./log/SlowQuery", "type(%d)interval(%d)", ms, interval);
-    }
+    double cur = m_responseTimes[i];
+    m_responseTimes[i] = cur + m_timer->GetTimeInterval();
 }
 ```

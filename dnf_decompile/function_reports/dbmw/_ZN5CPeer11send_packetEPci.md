@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805a456` | `0x21b` | `0x8098c7e` | `0x20e` |
+| dbmw | DIFF | `0x805a456` | `0x21b` | `0x80ec23a` | `0x20e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -66,7 +66,7 @@
 -jbe    <T> <_ZN5CPeer11send_packetEPci+0x11d>
 +jle    <T> <_ZN5CPeer11send_packetEPci+0x11b>
 +movl   $0x133,0x8(%esp)
-+movl   $"send_packet",0x4(%esp)
++movl   $&_ZZN5CPeer11send_packetEPciE12__FUNCTION__,0x4(%esp)
 +lea    -0x10(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -109,7 +109,7 @@
 +cmp    %edx,%eax
 +jb     <T> <_ZN5CPeer11send_packetEPci+0x1cb>
 +movl   $0x13b,0x8(%esp)
- movl   $"send_packet",0x4(%esp)
+ movl   $&_ZZN5CPeer11send_packetEPciE12__FUNCTION__,0x4(%esp)
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -161,7 +161,7 @@
 -movzbl (%eax),%eax
 -movsbl %al,%ebx
 -movl   $0x13b,0x8(%esp)
--movl   $"send_packet",0x4(%esp)
+-movl   $&_ZZN5CPeer11send_packetEPciE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -290,7 +290,7 @@ int CPeer::send_packet(char* buf, int len)
     m_remainSendLen += len;
     if (m_remainSendLen > 0x96000)
     {
-        CMyFileLog log("send_packet", 0x133);
+        CMyFileLog log(__FUNCTION__, 0x133);
         log("./log/TcpErr", "!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",
             buf[1], m_remainSendLen, len);
         m_recvBuf = (char*)this + 0x183c;
@@ -300,7 +300,7 @@ int CPeer::send_packet(char* buf, int len)
     if (m_recvBuf < (char*)this + 0x183c ||
         m_recvBuf >= (char*)this + 0x183c + 0x96000)
     {
-        CMyFileLog log("send_packet", 0x13b);
+        CMyFileLog log(__FUNCTION__, 0x13b);
         log("./log/TcpErr", "!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",
             buf[1], m_remainSendLen, len);
         m_recvBuf = (char*)this + 0x183c;

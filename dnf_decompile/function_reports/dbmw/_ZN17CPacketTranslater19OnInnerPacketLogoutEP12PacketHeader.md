@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809c066` | `0x260` | `0x808745e` | `0x25e` |
+| dbmw | DIFF | `0x809c066` | `0x260` | `0x80daa06` | `0x25e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -24,15 +24,15 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader+0x4c>
  movl   $0xc14,0x8(%esp)
- movl   $"OnInnerPacketLogout",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnInnerPacketLogout : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader+0x259>
@@ -60,9 +60,9 @@
 -mov    0x6(%eax),%ebx
 +jne    <T> <_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader+0xc2>
  movl   $0xc1f,0x8(%esp)
- movl   $"OnInnerPacketLogout",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
@@ -71,7 +71,7 @@
  movl   $"CPacketTranslater::OnInnerPacketLogout Invalid Server Instance(sock:%d)",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader+0x259>
@@ -92,16 +92,14 @@
 +mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler15DeleteTcpServerEh>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader+0x136>
 -mov    -0x18(%ebp),%eax
 -mov    0x6(%eax),%ebx
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader+0x139>
++je     <T> <_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader+0x137>
  movl   $0xc27,0x8(%esp)
- movl   $"OnInnerPacketLogout",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
@@ -118,24 +116,22 @@
 -jmp    <T> <_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader+0x259>
 -mov    -0x18(%ebp),%eax
 -mov    0x6(%eax),%esi
--movzbl -0xd(%ebp),%ebx
 +jmp    <T> <_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader+0x257>
+ movzbl -0xd(%ebp),%ebx
  movl   $0xc2b,0x8(%esp)
- movl   $"OnInnerPacketLogout",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+movzbl -0xd(%ebp),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    -0x1c(%ebp),%eax
++mov    %eax,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnInnerPacketLogout DeleteTcpServer Success(TYPE:%d, sock:%d)",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader+0x259>
@@ -146,34 +142,25 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0xc2f,0x8(%esp)
-+movl   $"OnInnerPacketLogout",0x4(%esp)
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0xc2f,0x8(%esp)
--movl   $"OnInnerPacketLogout",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0xc2f,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnInnerPacketLogout Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader+0x1f8>
@@ -191,15 +178,15 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xc34,0x8(%esp)
- movl   $"OnInnerPacketLogout",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnInnerPacketLogout Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader+0x254>
@@ -289,7 +276,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2454 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2602 行）：
 
 ```cpp
 void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
@@ -298,8 +285,11 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
     {
         if (!m_pclApp)
         {
-            CMyFileLog log("OnInnerPacketLogout", 0xc14);
-            log("./log/Except", "CPacketTranslater::OnInnerPacketLogout : 0 == m_pclApp");
+            DNF_LOG_SCOPE_LINE(0xc14,
+                "./log/Except",
+                "CPacketTranslater::OnInnerPacketLogout : 0 == m_pclApp"
+            );
+
             return;
         }
         int port = (int)((Packet_InnerPakcet_Logout*)header)->reversed2;
@@ -307,24 +297,32 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
         CTcpServer* server = handler->GetTcpServer((unsigned int)port);
         if (!server)
         {
-            CMyFileLog log("OnInnerPacketLogout", 0xc1f);
-            log("./log/TcpServer", "CPacketTranslater::OnInnerPacketLogout Invalid Server Instance(sock:%d)",
-                port);
+            DNF_LOG_SCOPE_LINE(0xc1f,
+                "./log/TcpServer",
+                "CPacketTranslater::OnInnerPacketLogout Invalid Server Instance(sock:%d)",
+                port
+            );
+
             return;
         }
         unsigned char idx = server->m_index;
         handler = m_pclApp->Get_ServerHandler();
         if (!handler->DeleteTcpServer(idx))
         {
-            CMyFileLog log("OnInnerPacketLogout", 0xc27);
-            log("./log/TcpServer", "CPacketTranslater::OnInnerPacketLogout DeleteTcpServer fail(sock:%d)",
-                port);
+            DNF_LOG_SCOPE_LINE(0xc27,
+                "./log/TcpServer",
+                "CPacketTranslater::OnInnerPacketLogout DeleteTcpServer fail(sock:%d)",
+                port
+            );
+
             return;
         }
-        CMyFileLog log("OnInnerPacketLogout", 0xc2b);
-        log("./log/TcpServer",
-            "CPacketTranslater::OnInnerPacketLogout DeleteTcpServer Success(TYPE:%d, sock:%d)",
-            idx, port);
+        DNF_LOG_SCOPE_LINE(0xc2b,
+            "./log/TcpServer",
+            "CPacketTranslater::OnInnerPacketLogout DeleteTcpServer Success(TYPE:%d, sock:%d)", idx,
+            port
+        );
+
     }
     DNF_CATCH_LOG("./log/Except",
                   "CPacketTranslater::OnInnerPacketLogout Exception Break",

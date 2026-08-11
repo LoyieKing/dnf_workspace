@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a55c4` | `0x79` | `0x809b8f6` | `0x94` |
+| guild | DIFF | `0x80a55c4` | `0x79` | `0x809b476` | `0x94` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -100,7 +100,7 @@ Packet_DB_Save_Power_War_Bonus_Point::_ZN36Packet_DB_Save_Power_War_Bonus_PointC
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 701 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 709 行）：
 
 ```cpp
 Packet_DB_Save_Power_War_Bonus_Point::Packet_DB_Save_Power_War_Bonus_Point()

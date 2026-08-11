@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8076c82` | `0x2c1` | `0x80630ba` | `0x274` |
+| dbmw | DIFF | `0x8076c82` | `0x2c1` | `0x8062e62` | `0x274` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,26 +25,21 @@
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x20,0x10(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect b.charac_no, b.charac_name, b.lev, b.job, b.grow_type, b.sex from charac_friends a, charac_info b where b.charac_no = a.friend_no and a.charac_no = %d and b.delete_flag=0 limit %d",0x8(%esp)
  movl   $0x4e52,0x4(%esp)
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRh+0x96>
  movl   $0xc24,0x8(%esp)
- movl   $"QueryBuddyInfo",0x4(%esp)
+ movl   $&_ZZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRhE12__FUNCTION__,0x4(%esp)
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -63,17 +58,14 @@
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e52,0x4(%esp)
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRh+0xc8>
@@ -85,14 +77,11 @@
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%edx
  mov    0x14(%ebp),%eax
  mov    %dl,(%eax)
@@ -104,16 +93,13 @@
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRh+0x2b9>
@@ -127,25 +113,20 @@
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
 -imul   $0x27,%eax,%eax
 -add    0x10(%ebp),%eax
 -add    $0x22,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x24,%edx
-+mov    %edx,0x8(%esp)
++add    $0x24,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRh+0x153>
@@ -157,24 +138,19 @@
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
 -imul   $0x27,%eax,%eax
 -add    0x10(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
  movl   $0x1e,0xc(%esp)
--mov    %eax,0x8(%esp)
-+mov    %edx,0x8(%esp)
+ mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRh+0x19a>
@@ -186,25 +162,19 @@
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x40,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
 -imul   $0x27,%eax,%eax
 -add    0x10(%ebp),%eax
--add    $0x1e,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x1e,%edx
-+mov    %edx,0x8(%esp)
+ add    $0x1e,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x2,0x4(%esp)
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRh+0x1dc>
@@ -216,25 +186,19 @@
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
 -imul   $0x27,%eax,%eax
 -add    0x10(%ebp),%eax
--add    $0x20,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x20,%edx
-+mov    %edx,0x8(%esp)
+ add    $0x20,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x3,0x4(%esp)
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRh+0x21e>
@@ -246,25 +210,19 @@
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
 -imul   $0x27,%eax,%eax
 -add    0x10(%ebp),%eax
--add    $0x21,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x21,%edx
-+mov    %edx,0x8(%esp)
+ add    $0x21,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x4,0x4(%esp)
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRh+0x25d>
@@ -276,25 +234,20 @@
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
 -imul   $0x27,%eax,%eax
 -add    0x10(%ebp),%eax
 -add    $0x26,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x28,%edx
-+mov    %edx,0x8(%esp)
++add    $0x28,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x5,0x4(%esp)
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRh+0x29c>
@@ -398,4 +351,4 @@ CDBManager::_ZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRh
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

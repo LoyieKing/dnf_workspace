@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8097542` | `0x2cd` | `0x807f2fa` | `0x2b8` |
+| dbmw | DIFF | `0x8097542` | `0x2cd` | `0x80d2956` | `0x2bd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,91 +13,76 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,184 +1,192 @@
+@@ -1,184 +1,183 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
+ push   %edi
  push   %esi
  push   %ebx
--sub    $0xac,%esp
-+sub    $0x90,%esp
+ sub    $0xac,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2c1>
-+je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2aa>
++je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2ae>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
 -mov    -0x24(%ebp),%eax
-+mov    %eax,-0x10(%ebp)
-+mov    -0x10(%ebp),%eax
++mov    %eax,-0x20(%ebp)
++mov    -0x20(%ebp),%eax
  mov    0xa(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2c2>
 -lea    -0x85(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2ad>
-+lea    -0x71(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2b1>
++lea    -0x81(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_DB_Reply_Guild_SecedeC1Ev>
 -mov    -0x24(%ebp),%eax
-+lea    -0x71(%ebp),%eax
-+lea    0xa(%eax),%edx
-+mov    -0x10(%ebp),%eax
++mov    -0x20(%ebp),%eax
  mov    0xa(%eax),%eax
 -mov    %eax,-0x7b(%ebp)
 -mov    -0x24(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x71(%ebp),%eax
-+lea    0xe(%eax),%edx
-+mov    -0x10(%ebp),%eax
++mov    %eax,-0x77(%ebp)
++mov    -0x20(%ebp),%eax
  mov    0xe(%eax),%eax
 -mov    %eax,-0x77(%ebp)
 -mov    -0x24(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x71(%ebp),%eax
-+lea    0x1a(%eax),%edx
-+mov    -0x10(%ebp),%eax
++mov    %eax,-0x73(%ebp)
++mov    -0x20(%ebp),%eax
  movzbl 0x12(%eax),%eax
 -mov    %al,-0x6b(%ebp)
 -mov    -0x24(%ebp),%eax
-+mov    %al,(%edx)
-+lea    -0x71(%ebp),%eax
-+lea    0x1b(%eax),%edx
-+mov    -0x10(%ebp),%eax
++mov    %al,-0x67(%ebp)
++mov    -0x20(%ebp),%eax
  mov    0x13(%eax),%eax
 -mov    %eax,-0x6a(%ebp)
 -mov    -0x24(%ebp),%eax
-+mov    %eax,(%edx)
-+mov    -0x10(%ebp),%eax
++mov    %eax,-0x66(%ebp)
++mov    -0x20(%ebp),%eax
  add    $0x17,%eax
  movl   $0x1d,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0x85(%ebp),%eax
-+lea    -0x71(%ebp),%eax
++lea    -0x81(%ebp),%eax
  add    $0x1f,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--lea    0x50(%eax),%edx
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ lea    0x50(%eax),%edx
 -lea    -0x85(%ebp),%eax
--add    $0x16,%eax
--mov    %eax,0x10(%esp)
++lea    -0x81(%ebp),%eax
+ add    $0x16,%eax
+ mov    %eax,0x10(%esp)
 -lea    -0x85(%ebp),%eax
--add    $0x3d,%eax
--mov    %eax,0xc(%esp)
++lea    -0x81(%ebp),%eax
+ add    $0x3d,%eax
+ mov    %eax,0xc(%esp)
 -lea    -0x85(%ebp),%eax
-+lea    -0x71(%ebp),%eax
-+lea    0x16(%eax),%ebx
-+lea    -0x71(%ebp),%eax
-+lea    0x3d(%eax),%ecx
-+lea    -0x71(%ebp),%eax
++lea    -0x81(%ebp),%eax
  add    $0x12,%eax
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
-+add    $0x50,%edx
-+mov    %ebx,0x10(%esp)
-+mov    %ecx,0xc(%esp)
  mov    %eax,0x8(%esp)
 -mov    -0x24(%ebp),%eax
-+mov    -0x10(%ebp),%eax
++mov    -0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN10CDBManager11GuildSecedeEP30Packet_DB_Request_Guild_SecedeRjS2_S2_>
@@ -105,59 +90,50 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x146>
 -mov    -0x24(%ebp),%eax
--movzbl 0x12(%eax),%eax
--movsbl %al,%eax
++sete   %al
++test   %al,%al
++je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x148>
++mov    -0x20(%ebp),%eax
+ movzbl 0x12(%eax),%eax
+ movsbl %al,%eax
 -mov    %eax,-0x94(%ebp)
 -mov    -0x6f(%ebp),%edi
 -mov    -0x73(%ebp),%esi
 -mov    -0x24(%ebp),%eax
--add    $0x17,%eax
++mov    %eax,-0x90(%ebp)
++mov    -0x6b(%ebp),%edi
++mov    -0x6f(%ebp),%esi
++mov    -0x20(%ebp),%eax
+ add    $0x17,%eax
 -mov    %eax,-0x90(%ebp)
 -mov    -0x24(%ebp),%eax
--mov    0xa(%eax),%ebx
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x13f>
++mov    %eax,-0x8c(%ebp)
++mov    -0x20(%ebp),%eax
+ mov    0xa(%eax),%ebx
  movl   $0x5e1,0x8(%esp)
- movl   $"OnGuildSecede",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater13OnGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x94(%ebp),%eax
--mov    %eax,0x1c(%esp)
--mov    %edi,0x18(%esp)
--mov    %esi,0x14(%esp)
++mov    -0x90(%ebp),%eax
+ mov    %eax,0x1c(%esp)
+ mov    %edi,0x18(%esp)
+ mov    %esi,0x14(%esp)
 -mov    -0x90(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    -0x10(%ebp),%eax
-+movzbl 0x12(%eax),%eax
-+movsbl %al,%ebx
-+lea    -0x71(%ebp),%eax
-+add    $0x16,%eax
-+mov    (%eax),%ecx
-+lea    -0x71(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%edx
-+mov    -0x10(%ebp),%eax
-+lea    0x17(%eax),%esi
-+mov    -0x10(%ebp),%eax
-+mov    0xa(%eax),%eax
-+mov    %ebx,0x1c(%esp)
-+mov    %ecx,0x18(%esp)
-+mov    %edx,0x14(%esp)
-+mov    %esi,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    -0x8c(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"::OnGuildSecede Err g(%d) n(%s) c(%d) r(%d) f(%d)",0x8(%esp)
  movl   $"./log/GuildModify",0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movzwl -0x6f(%ebp),%eax
++movzwl -0x7f(%ebp),%eax
 +movzwl %ax,%esi
-+lea    -0x71(%ebp),%ebx
++lea    -0x81(%ebp),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -182,9 +158,9 @@
 -mov    -0x24(%ebp),%eax
 -mov    0xa(%eax),%ebx
  movl   $0x5ed,0x8(%esp)
- movl   $"OnGuildSecede",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater13OnGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x8c(%ebp),%eax
@@ -192,16 +168,12 @@
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+mov    -0x10(%ebp),%eax
++mov    -0x20(%ebp),%eax
 +movzbl 0x12(%eax),%eax
 +movsbl %al,%ebx
-+lea    -0x71(%ebp),%eax
-+add    $0x16,%eax
-+mov    (%eax),%ecx
-+lea    -0x71(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%edx
-+mov    -0x10(%ebp),%eax
++mov    -0x6b(%ebp),%ecx
++mov    -0x6f(%ebp),%edx
++mov    -0x20(%ebp),%eax
 +mov    0xa(%eax),%eax
 +mov    %ebx,0x18(%esp)
 +mov    %ecx,0x14(%esp)
@@ -210,51 +182,40 @@
  movl   $"::OnGuildSecede g(%d) c(%d) r(%d) f(%d)",0x8(%esp)
  movl   $"./log/GuildModify",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2c2>
-+jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2ae>
++jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2b2>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x265>
-+jne    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x24e>
++jne    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x252>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
--mov    %eax,-0x1c(%ebp)
--mov    -0x1c(%ebp),%eax
-+mov    %eax,-0xc(%ebp)
-+movl   $0x5f6,0x8(%esp)
-+movl   $"OnGuildSecede",0x4(%esp)
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0xc(%ebp),%eax
+ mov    %eax,-0x1c(%ebp)
+ mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x5f6,0x8(%esp)
--movl   $"OnGuildSecede",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x5f6,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater13OnGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnGuildSecede() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x25e>
-+jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x247>
++jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x24b>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -264,23 +225,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2c2>
-+jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2ae>
++jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2b2>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x5fb,0x8(%esp)
- movl   $"OnGuildSecede",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater13OnGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnGuildSecede() Exception Break\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2ba>
-+jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2a3>
++jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2a7>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -290,15 +251,14 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2c2>
-+jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2ae>
- nop
--add    $0xac,%esp
-+jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2ae>
++jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2b2>
 +nop
-+add    $0x90,%esp
++jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2b2>
+ nop
+ add    $0xac,%esp
  pop    %ebx
  pop    %esi
--pop    %edi
+ pop    %edi
  pop    %ebp
  ret
 ```
@@ -370,7 +330,7 @@ void CPacketTranslater::_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader(Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 733 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 777 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildSecede(PacketHeader* header)
@@ -384,10 +344,10 @@ void CPacketTranslater::OnGuildSecede(PacketHeader* header)
         if (pkt->m_guildId == 0)
             return;
         Packet_DB_Reply_Guild_Secede reply;
-        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_guildId;
-        *(unsigned int*)((char*)&reply + 0xe) = pkt->m_characNo;
-        *(char*)((char*)&reply + 0x1a) = pkt->m_grade;
-        *(unsigned int*)((char*)&reply + 0x1b) = pkt->m_secedeType;
+        reply.m_fieldA = pkt->m_guildId;
+        reply.m_fieldE = pkt->m_characNo;
+        reply.m_field1A = pkt->m_grade;
+        reply.m_field1B = pkt->m_secedeType;
         memcpy((char*)&reply + 0x1f, pkt->m_characName, 0x1d);
         if (!m_pclApp->m_dbManager.GuildSecede(
                 pkt,
@@ -395,21 +355,24 @@ void CPacketTranslater::OnGuildSecede(PacketHeader* header)
                 *(unsigned int*)((char*)&reply + 0x3d),
                 *(unsigned int*)((char*)&reply + 0x16)))
         {
-            CMyFileLog log("OnGuildSecede", 0x5e1);
-            log("./log/GuildModify",
+            DNF_LOG_SCOPE_LINE(0x5e1,
+                "./log/GuildModify",
                 "::OnGuildSecede Err g(%d) n(%s) c(%d) r(%d) f(%d)",
-                pkt->m_guildId, pkt->m_characName,
-                *(unsigned int*)((char*)&reply + 0x12),
-                *(unsigned int*)((char*)&reply + 0x16),
-                pkt->m_grade);
+                pkt->m_guildId,
+                pkt->m_characName,
+                reply.m_field12,
+                reply.m_field16,
+                pkt->m_grade
+            );
+
         }
         m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
             (char*)&reply, reply.packetSize);
-        CMyFileLog log2("OnGuildSecede", 0x5ed);
+        CMyFileLog log2(__FUNCTION__, 0x5ed);
         log2("./log/GuildModify", "::OnGuildSecede g(%d) c(%d) r(%d) f(%d)",
              pkt->m_guildId,
-             *(unsigned int*)((char*)&reply + 0x12),
-             *(unsigned int*)((char*)&reply + 0x16),
+             reply.m_field12,
+             reply.m_field16,
              pkt->m_grade);
     }
     DNF_CATCH_LOG("./log/Except.log",

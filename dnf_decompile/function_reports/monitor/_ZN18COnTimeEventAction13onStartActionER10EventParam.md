@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4164` | `0x9f` | `0x8092bd8` | `0x9b` |
+| monitor | DIFF | `0x80a4164` | `0x9f` | `0x8092c82` | `0xa2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,35 +13,26 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,47 +1,42 @@
+@@ -1,47 +1,47 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
--push   %ebx
--sub    $0x30,%esp
-+sub    $0x38,%esp
-+movl   $0xa7,0x8(%esp)
-+movl   $"onStartAction",0x4(%esp)
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
+ push   %esi
+ push   %ebx
+ sub    $0x30,%esp
  mov    0xc(%ebp),%eax
  movzwl 0x2(%eax),%eax
--movzwl %ax,%esi
-+movzwl %ax,%edx
+ movzwl %ax,%esi
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
--movzwl %ax,%ebx
--movl   $0xa7,0x8(%esp)
--movl   $"onStartAction",0x4(%esp)
+ movzwl %ax,%ebx
+ movl   $0xa7,0x8(%esp)
+ movl   $&_ZZN18COnTimeEventAction13onStartActionER10EventParamE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+movzwl %ax,%eax
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Test Event Action : On Start On Time Event Action %d,%d",0x8(%esp)
  movl   $"./log/OnTimeEvent",0x4(%esp)
 -lea    -0x14(%ebp),%eax
@@ -56,7 +47,7 @@
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN18COnTimeEventAction13onStartActionER10EventParam+0x97>
-+je     <T> <_ZN18COnTimeEventAction13onStartActionER10EventParam+0x99>
++je     <T> <_ZN18COnTimeEventAction13onStartActionER10EventParam+0x9b>
  mov    0xc(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
@@ -70,11 +61,10 @@
  call   <T> <_ZN19COnTimeEventManager21GetCurEventItemByDBMWEjj>
 -jmp    <T> <_ZN18COnTimeEventAction13onStartActionER10EventParam+0x98>
 -nop
--add    $0x30,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
-+leave
+ add    $0x30,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -113,7 +103,7 @@ COnTimeEventAction::_ZN18COnTimeEventAction13onStartActionER10EventParam
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 88 行）：
+定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 87 行）：
 
 ```cpp
 void COnTimeEventAction::onStartAction(EventParam& param)

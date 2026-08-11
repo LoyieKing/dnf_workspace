@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8072cee` | `0x85` | `0x8072a7c` | `0xb9` |
+| statics | DIFF | `0x8072cee` | `0x85` | `0x8072c84` | `0xa7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,66 +13,29 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,45 +1,63 @@
+@@ -1,45 +1,55 @@
  push   %ebp
  mov    %esp,%ebp
  mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
+ movzbl 0xa(%eax),%eax
  cmp    $0x4,%al
 -jg     <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x7f>
-+jg     <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0xb7>
++jg     <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0xa5>
  mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
+ movzbl 0xa(%eax),%eax
  test   %al,%al
 -js     <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x82>
-+js     <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0xb7>
++js     <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0xa5>
  mov    0xc(%ebp),%eax
--movzbl 0xb(%eax),%eax
-+add    $0xb,%eax
-+movzbl (%eax),%eax
+ movzbl 0xb(%eax),%eax
  test   %al,%al
 -jne    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x4c>
-+jne    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x6f>
-+mov    0x8(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+add    $0xa,%edx
-+movzbl (%edx),%edx
-+movsbl %dl,%edx
-+add    $0xd2,%edx
-+shl    $0x2,%edx
-+add    %edx,%eax
++jne    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x64>
 +mov    0x8(%ebp),%edx
-+mov    0xc(%ebp),%ecx
-+add    $0xa,%ecx
-+movzbl (%ecx),%ecx
-+movsbl %cl,%ecx
-+add    $0xd2,%ecx
-+shl    $0x2,%ecx
-+add    %ecx,%edx
-+mov    (%edx),%edx
-+add    $0x1,%edx
-+mov    %edx,(%eax)
-+jmp    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0xb7>
  mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
--movsbl %al,%eax
-+add    $0xb,%eax
-+movzbl (%eax),%eax
-+cmp    $0x1,%al
-+jne    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0xb7>
-+mov    0x8(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+add    $0xa,%edx
-+movzbl (%edx),%edx
-+movsbl %dl,%edx
-+add    $0xd7,%edx
-+shl    $0x2,%edx
-+add    %edx,%eax
- mov    0x8(%ebp),%edx
+ movzbl 0xa(%eax),%eax
+ movsbl %al,%eax
+-mov    0x8(%ebp),%edx
 -lea    0xd0(%eax),%ecx
 -mov    0x8(%edx,%ecx,4),%edx
 -lea    0x1(%edx),%ecx
@@ -80,13 +43,29 @@
 -add    $0xd0,%eax
 -mov    %ecx,0x8(%edx,%eax,4)
 -jmp    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x83>
--mov    0xc(%ebp),%eax
--movzbl 0xb(%eax),%eax
--cmp    $0x1,%al
++add    $0xd2,%eax
++shl    $0x2,%eax
++add    %eax,%edx
++mov    0x8(%ebp),%ecx
++mov    0xc(%ebp),%eax
++movzbl 0xa(%eax),%eax
++movsbl %al,%eax
++add    $0xd2,%eax
++shl    $0x2,%eax
++lea    (%ecx,%eax,1),%eax
++mov    (%eax),%eax
++add    $0x1,%eax
++mov    %eax,(%edx)
++jmp    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0xa5>
+ mov    0xc(%ebp),%eax
+ movzbl 0xb(%eax),%eax
+ cmp    $0x1,%al
 -jne    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x83>
--mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
--movsbl %al,%eax
++jne    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0xa5>
++mov    0x8(%ebp),%edx
+ mov    0xc(%ebp),%eax
+ movzbl 0xa(%eax),%eax
+ movsbl %al,%eax
 -mov    0x8(%ebp),%edx
 -lea    0xd4(%eax),%ecx
 -mov    0xc(%edx,%ecx,4),%edx
@@ -98,16 +77,19 @@
 -nop
 -jmp    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x83>
 -nop
-+mov    0xc(%ebp),%ecx
-+add    $0xa,%ecx
-+movzbl (%ecx),%ecx
-+movsbl %cl,%ecx
-+add    $0xd7,%ecx
-+shl    $0x2,%ecx
-+add    %ecx,%edx
-+mov    (%edx),%edx
-+add    $0x1,%edx
-+mov    %edx,(%eax)
++add    $0xd7,%eax
++shl    $0x2,%eax
++add    %eax,%edx
++mov    0x8(%ebp),%ecx
++mov    0xc(%ebp),%eax
++movzbl 0xa(%eax),%eax
++movsbl %al,%eax
++add    $0xd7,%eax
++shl    $0x2,%eax
++lea    (%ecx,%eax,1),%eax
++mov    (%eax),%eax
++add    $0x1,%eax
++mov    %eax,(%edx)
  pop    %ebp
  ret
 ```
@@ -138,20 +120,26 @@ StatisticManager::_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randomb
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1138 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1271 行）：
 
 ```cpp
 void StatisticManager::AddRandomboxStatistic(Packet_Randombox_statistic* pkt)
 {
-    if ((char)*(char*)((char*)pkt + 10) < 5 && -1 < (char)*(char*)((char*)pkt + 10))
+    struct __attribute__((packed)) Wire
     {
-        if (*(char*)((char*)pkt + 0xb) == 0)
+        char m_hdr[0xa];
+        char m_f0a;
+        char m_f0b;
+    };
+    if ((char)((Wire*)pkt)->m_f0a < 5 && -1 < (char)((Wire*)pkt)->m_f0a)
+    {
+        if (((Wire*)pkt)->m_f0b == 0)
         {
-            *(int*)((char*)this + ((char)*(char*)((char*)pkt + 10) + 0xd0) * 4 + 8) += 1;
+            *(int*)((char*)this + ((char)((Wire*)pkt)->m_f0a + 0xd0) * 4 + 8) += 1;
         }
-        else if (*(char*)((char*)pkt + 0xb) == 1)
+        else if (((Wire*)pkt)->m_f0b == 1)
         {
-            *(int*)((char*)this + ((char)*(char*)((char*)pkt + 10) + 0xd4) * 4 + 0xc) += 1;
+            *(int*)((char*)this + ((char)((Wire*)pkt)->m_f0a + 0xd4) * 4 + 0xc) += 1;
         }
     }
 }

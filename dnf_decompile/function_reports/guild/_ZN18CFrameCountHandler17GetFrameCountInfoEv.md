@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804caa6` | `0x37c` | `0x8087a20` | `0x376` |
+| guild | DIFF | `0x804caa6` | `0x37c` | `0x8087864` | `0x376` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -150,7 +150,7 @@
 +lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -266,7 +266,7 @@
 +lea    -0x1d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -544,66 +544,63 @@ CFrameCountHandler::_ZN18CFrameCountHandler17GetFrameCountInfoEv(CFrameCountHand
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFTickHandler.cpp](source/DNFServer/GameServer/COServer/DNFTickHandler.cpp)（约第 31 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTickHandler.cpp](source/DNFServer/GameServer/Guild/DNFTickHandler.cpp)（约第 103 行）：
 
 ```cpp
 CFrameCountHandler* CFrameCountHandler::GetFrameCountInfo()
 {
-    unsigned int l1 = 0;
-    unsigned int l2 = 0;
-    unsigned int l3 = 0;
-    unsigned int l4 = 0;
-    (void)l1;
-    (void)l2;
-    (void)l3;
-    (void)l4;
-    unsigned int now;
     struct tms t;
-    m_state = 0;
-    if (m_state0 == 0)
+    clock_t c;
+    *(unsigned char*)((char*)this + 0x24) = 0;
+    if (*(unsigned char*)this == 0)
     {
-        m_state0 = 1;
-        m_frameCount = 0;
-        now = times(&t);
-        m_startTime = now;
-        if ((int)m_startTime == -1)
+        *(unsigned char*)this = 1;
+        m_field14 = 0;
+        c = times(&t);
+        m_fieldc = (int)c;
+        if (m_fieldc == -1)
         {
-            throw CDNFException("CFrameCountHandler::GetFrameCountInfo() times() Exception Break!");
+            throw CDNFException(
+                "CFrameCountHandler::GetFrameCountInfo() times() Exception Break!");
         }
     }
     else
     {
-        now = times(&t);
-        m_endTime = now;
-        if ((int)m_endTime == -1)
+        c = times(&t);
+        m_field10 = (int)c;
+        if (m_field10 == -1)
         {
-            throw CDNFException("CFrameCountHandler::GetFrameCountInfo() times() Exception Break!");
+            throw CDNFException(
+                "CFrameCountHandler::GetFrameCountInfo() times() Exception Break!");
         }
-        if (m_endTime < m_startTime)
+        if ((unsigned int)m_fieldc > (unsigned int)m_field10)
         {
-            m_startTime = m_endTime;
+            m_fieldc = m_field10;
         }
-        if (m_frameCount < (m_endTime - m_startTime) / m_framePerTick)
+        if ((unsigned int)m_field14 <
+            (unsigned int)(m_field10 - m_fieldc) / (unsigned int)m_field8)
         {
-            m_frameCount++;
-            m_state = 1;
-            if (99 < m_endTime - m_startTime)
+            m_field14 = m_field14 + 1;
+            *(unsigned char*)((char*)this + 0x24) = 1;
+            if (99 < (unsigned int)(m_field10 - m_fieldc))
             {
-                m_fps = m_frameCount;
-                m_state = 2;
-                m_frameCount = 0;
-                m_startTime = m_endTime - (m_endTime - m_startTime) + 100;
-                *(unsigned int*)((char*)this + 0x20) = 0;
-                m_counter1 = (char)(m_counter1 + 1);
-                if (0x3b < (unsigned char)m_counter1)
+                m_field18 = m_field14;
+                *(unsigned char*)((char*)this + 0x24) = 2;
+                m_field14 = 0;
+                m_fieldc = m_field10 - (m_field10 - m_fieldc) + 100;
+                m_field20 = 0;
+                *(unsigned char*)((char*)this + 0x25) =
+                    (unsigned char)(*(unsigned char*)((char*)this + 0x25) + 1);
+                if (0x3b < *(unsigned char*)((char*)this + 0x25))
                 {
-                    m_state = 3;
-                    m_counter1 = 0;
-                    m_counter2 = (char)(m_counter2 + 1);
-                    if (0x3b < (unsigned char)m_counter2)
+                    *(unsigned char*)((char*)this + 0x24) = 3;
+                    *(unsigned char*)((char*)this + 0x25) = 0;
+                    *(unsigned char*)((char*)this + 0x26) =
+                        (unsigned char)(*(unsigned char*)((char*)this + 0x26) + 1);
+                    if (0x3b < *(unsigned char*)((char*)this + 0x26))
                     {
-                        m_state = 4;
-                        m_counter2 = 0;
+                        *(unsigned char*)((char*)this + 0x24) = 4;
+                        *(unsigned char*)((char*)this + 0x26) = 0;
                     }
                 }
             }

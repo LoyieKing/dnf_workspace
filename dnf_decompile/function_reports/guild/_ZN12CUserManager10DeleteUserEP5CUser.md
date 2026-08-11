@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8068bd8` | `0xea` | `0x808b312` | `0xfa` |
+| guild | DIFF | `0x8068bd8` | `0xea` | `0x808b154` | `0xfa` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -51,10 +51,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser7GetDBIDEv>
 -mov    %eax,-0x14(%ebp)
-+mov    %eax,-0x10(%ebp)
++mov    %eax,-0x18(%ebp)
  mov    0x8(%ebp),%eax
 -lea    -0x14(%ebp),%edx
-+lea    -0x10(%ebp),%edx
++lea    -0x18(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5eraseERS0_>
@@ -64,16 +64,16 @@
 -je     <T> <_ZN12CUserManager10DeleteUserEP5CUser+0xdf>
 -mov    -0x14(%ebp),%eax
 +je     <T> <_ZN12CUserManager10DeleteUserEP5CUser+0xef>
-+mov    -0x10(%ebp),%eax
++mov    -0x18(%ebp),%eax
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_Z14NumberToStringji>
 -mov    %eax,%ebx
 +mov    %eax,-0xc(%ebp)
  movl   $0x7d,0x8(%esp)
- movl   $"DeleteUser",0x4(%esp)
+ movl   $&_ZZN12CUserManager10DeleteUserEP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
@@ -82,7 +82,7 @@
  movl   $"[USER LOGOUT] Disconnected User DB ID : %s\n",0x8(%esp)
  movl   $"./log/User",0x4(%esp)
 -lea    -0x10(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0xc(%ebp),%ebx

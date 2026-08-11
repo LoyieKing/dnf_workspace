@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807221e` | `0x172` | `0x8057a82` | `0x17b` |
+| dbmw | DIFF | `0x807221e` | `0x172` | `0x805786e` | `0x179` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,107 +1,111 @@
+@@ -1,107 +1,110 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -31,7 +31,7 @@
  jne    <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x67>
 -movzbl -0x2c(%ebp),%ebx
  movl   $0x2e2,0x8(%esp)
- movl   $"SaveGuildInfo",0x4(%esp)
+ movl   $&_ZZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnlyE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
 +lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -104,35 +104,29 @@
  movl   $0x4e25,0x4(%esp)
  mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
--call   *-0x44(%ebp)
-+mov    -0x44(%ebp),%edx
-+call   *%edx
+ call   *-0x44(%ebp)
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x146>
++je     <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x144>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x173>
++jmp    <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x171>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e25,0x4(%esp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x1d(%ebp)
 -movzbl -0x1d(%ebp),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x165>
-+je     <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x16e>
++je     <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x16c>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x16a>
-+jmp    <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x173>
++jmp    <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x171>
  mov    $0x1,%eax
  add    $0x7c,%esp
  pop    %ebx
@@ -177,4 +171,4 @@ CDBManager::_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

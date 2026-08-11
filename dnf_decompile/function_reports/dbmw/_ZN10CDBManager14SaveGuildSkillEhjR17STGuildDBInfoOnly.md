@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8072390` | `0x198` | `0x804e702` | `0x19c` |
+| dbmw | DIFF | `0x8072390` | `0x198` | `0x804e6f0` | `0x19c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -27,8 +27,7 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%esi
-+mov    (%eax),%ebx
+ mov    (%eax),%esi
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x28,%eax
@@ -64,10 +63,8 @@
 +add    $0x42,%edx
 +movzwl (%edx),%edx
  movzwl %dx,%edx
--mov    0x10(%ebp),%ebx
--mov    %ebx,0x18(%esp)
-+mov    0x10(%ebp),%esi
-+mov    %esi,0x18(%esp)
+ mov    0x10(%ebp),%ebx
+ mov    %ebx,0x18(%esp)
  mov    %eax,0x14(%esp)
  mov    %ecx,0x10(%esp)
  mov    %edx,0xc(%esp)
@@ -75,36 +72,27 @@
  movl   $0x4e55,0x4(%esp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
--call   *%esi
-+call   *%ebx
+ call   *%esi
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e55,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
  jne    <T> <_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly+0xd9>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  or     %edx,%eax
  test   %eax,%eax
  jne    <T> <_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly+0xe0>
@@ -166,16 +154,12 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e59,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  mov    $0x1,%eax
  add    $0x40,%esp
  pop    %ebx
@@ -231,4 +215,4 @@ LAB_08072475:
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

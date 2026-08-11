@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809fd5c` | `0x46` | `0x8092078` | `0x4e` |
+| guild | DIFF | `0x809fd5c` | `0x46` | `0x8091ec6` | `0x4e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -80,7 +80,7 @@ int __thiscall CGuildCargo::_ZN11CGuildCargo19GetSpecificItemSlotEi(CGuildCargo 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 311 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 319 行）：
 
 ```cpp
 int CGuildCargo::GetSpecificItemSlot(int itemId)

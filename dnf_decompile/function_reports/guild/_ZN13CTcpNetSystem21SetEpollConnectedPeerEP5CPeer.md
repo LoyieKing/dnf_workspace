@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x805395e` | `0x136` | `0x80a8778` | `0xf1` |
+| guild | DIFF | `0x805395e` | `0x136` | `0x80a82ac` | `0xf1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -188,18 +188,24 @@ CTcpNetSystem::_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer(CTcpNetSystem *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 130 行）：
+定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 467 行）：
 
 ```cpp
 void CTcpNetSystem::SetEpollConnectedPeer(CPeer* peer)
 {
-    CGuard<CMutex> guard(&m_mutex78);
-    int fd = peer->GetTcpSocket()->getHandle();
-    int ret = m_tcpHandler->SetPeer(peer, fd, 0);
-    if (ret != 0)
+    CGuard<CMutex> g((CMutex*)(m_data + 0x78));
+    TCPSocket* tcp = peer->GetTcpSocket();
+    int fd = tcp->getHandle();
+    int r = 0;
+    CTcpHandler* h = (CTcpHandler*)*(void**)m_data;
+    if (h != 0)
     {
-        printf("Epoll SetPeer fail(fd:%d, error:%d, %s)", fd, ret, strerror(ret));
+        r = h->SetPeer(peer, fd, false);
     }
-    m_peerMap.insert(std::make_pair(fd, peer));
+    if (r != 0)
+    {
+        printf("G_EpollHandler()->SetPeer(peer->get_socket(%d)) %d(%s)", fd, r, strerror(r));
+    }
+    (*(std::map<unsigned int, CPeer*>*)(m_data + 0x144))[(unsigned int)fd] = peer;
 }
 ```

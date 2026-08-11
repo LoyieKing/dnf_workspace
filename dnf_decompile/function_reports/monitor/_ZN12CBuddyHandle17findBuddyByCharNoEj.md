@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809ed88` | `0xaf` | `0x8057fe0` | `0x9b` |
+| monitor | DIFF | `0x809ed88` | `0xaf` | `0x8058286` | `0x9b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -140,7 +140,7 @@ CBuddyHandle::_ZN12CBuddyHandle17findBuddyByCharNoEj(CBuddyHandle *this,uint par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 228 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 232 行）：
 
 ```cpp
 CBuddy* CBuddyHandle::findBuddyByCharNo(unsigned int charNo)

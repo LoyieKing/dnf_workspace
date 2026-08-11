@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805bf6a` | `0xe9` | `0x80a1f78` | `0xf5` |
+| dbmw | DIFF | `0x805bf6a` | `0xe9` | `0x80f564c` | `0xf5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -58,7 +58,7 @@
 +cmpl   $0xa,-0xc(%ebp)
 +jle    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xe3>
  movl   $0x91,0x8(%esp)
- movl   $"PushTcpSendPacketQ",0x4(%esp)
+ movl   $&_ZZN13CTcpNetSystem18PushTcpSendPacketQEPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -168,7 +168,7 @@ void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
     int n = m_sendQueue.size();
     if (n > 0xa)
     {
-        CMyFileLog log("PushTcpSendPacketQ", 0x91);
+        CMyFileLog log(__FUNCTION__, 0x91);
         log("./log/TcpSend", "SEND PUSH(cnt:%d,id:%d,size:%d,ip:%d)", n,
             (unsigned short)buf[0], (unsigned short)((unsigned short*)buf)[1],
             ((char*)buf)[6]);

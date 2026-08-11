@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80811cc` | `0xde` | `0x805c9a6` | `0xe0` |
+| dbmw | DIFF | `0x80811cc` | `0xde` | `0x805c756` | `0xe0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -27,57 +27,45 @@
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
-+mov    (%eax),%ebx
-+mov    0xc(%ebp),%eax
-+add    $0xa,%eax
  mov    (%eax),%esi
--mov    0xc(%ebp),%eax
+ mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%ebx
 -mov    -0xc(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%ebx
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x28,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--add    $0x12,%eax
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+add    $0x12,%edx
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ add    $0x12,%eax
  movl   $0x18d8,0xc(%esp)
--mov    %eax,0x8(%esp)
-+mov    %edx,0x8(%esp)
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %ebx,0x10(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %esi,0x10(%esp)
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %ebx,0x10(%esp)
  mov    %eax,0xc(%esp)
  movl   $"upDate guild_agit set cargo='%s' where guild_id=%d",0x8(%esp)
  movl   $0x4ecb,0x4(%esp)
 -mov    -0xc(%ebp),%eax
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
--call   *%esi
+ call   *%esi
 -mov    -0xc(%ebp),%eax
-+call   *%ebx
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4ecb,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %al,-0x9(%ebp)
 +movzbl -0x9(%ebp),%eax
  xor    $0x1,%eax
@@ -85,7 +73,7 @@
 -je     <T> <_ZN10CDBManager18OnUpdateGuildCargoEP28Packet_DB_Update_Guild_Cargo+0xd2>
 +je     <T> <_ZN10CDBManager18OnUpdateGuildCargoEP28Packet_DB_Update_Guild_Cargo+0xd4>
  movl   $0x1b90,0x8(%esp)
- movl   $"OnUpdateGuildCargo",0x4(%esp)
+ movl   $&_ZZN10CDBManager18OnUpdateGuildCargoEP28Packet_DB_Update_Guild_CargoE12__FUNCTION__,0x4(%esp)
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -140,7 +128,7 @@ CDBManager::_ZN10CDBManager18OnUpdateGuildCargoEP28Packet_DB_Update_Guild_Cargo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4314 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4232 行）：
 
 ```cpp
 char CDBManager::OnUpdateGuildCargo(Packet_DB_Update_Guild_Cargo* packet)
@@ -153,7 +141,7 @@ char CDBManager::OnUpdateGuildCargo(Packet_DB_Update_Guild_Cargo* packet)
     bool ret = h->exec(0x4ecb);
     if (!ret)
     {
-        CMyFileLog log("OnUpdateGuildCargo", 0x1b90);
+        CMyFileLog log(__FUNCTION__, 0x1b90);
         log("./log/DBQueryErr", "OnUpdateGuildCargo Query Error");
         return 0;
     }

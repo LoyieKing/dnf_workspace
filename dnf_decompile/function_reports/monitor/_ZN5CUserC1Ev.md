@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806d126` | `0x180` | `0x8088670` | `0x19c` |
+| monitor | DIFF | `0x806d126` | `0x180` | `0x80885f0` | `0x180` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,105 +13,70 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,103 +1,118 @@
+@@ -1,103 +1,103 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x10,%esp
++mov    0x8(%ebp),%eax
++add    $0x50,%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt3mapIjP10CBlackUserSt4lessIjESaISt4pairIKjS1_EEEC1Ev>
++mov    0x8(%ebp),%eax
++add    $0x6c,%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CBuddyHandleC1Ev>
++mov    0x8(%ebp),%eax
++add    $0x90,%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt3mapIiN5CUser11ChannelInfoESt4lessIiESaISt4pairIKiS1_EEEC1Ev>
  mov    0x8(%ebp),%eax
--movl   $0x0,(%eax)
--mov    0x8(%ebp),%eax
--movl   $0x0,0x4(%eax)
--mov    0x8(%ebp),%eax
--movl   $0x0,0x8(%eax)
--mov    0x8(%ebp),%eax
--movl   $0x0,0xc(%eax)
--mov    0x8(%ebp),%eax
--movb   $0x0,0x10(%eax)
--mov    0x8(%ebp),%eax
--movl   $0x0,0x14(%eax)
--mov    0x8(%ebp),%eax
--movw   $0x0,0x18(%eax)
--mov    0x8(%ebp),%eax
--movb   $0x0,0x1a(%eax)
--mov    0x8(%ebp),%eax
--movl   $0x0,0x1c(%eax)
--mov    0x8(%ebp),%eax
--movl   $0xffffffff,0x20(%eax)
--mov    0x8(%ebp),%eax
--movb   $0xff,0x42(%eax)
--mov    0x8(%ebp),%eax
--movb   $0xff,0x43(%eax)
--mov    0x8(%ebp),%eax
--movw   $0xffff,0x44(%eax)
--mov    0x8(%ebp),%eax
--movb   $0x1,0x46(%eax)
--mov    0x8(%ebp),%eax
- add    $0x50,%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSt3mapIjP10CBlackUserSt4lessIjESaISt4pairIKjS1_EEEC1Ev>
--mov    0x8(%ebp),%eax
--movw   $0x0,0x68(%eax)
+ movl   $0x0,(%eax)
  mov    0x8(%ebp),%eax
- add    $0x6c,%eax
- mov    %eax,(%esp)
- call   <T> <_ZN12CBuddyHandleC1Ev>
+ movl   $0x0,0x4(%eax)
  mov    0x8(%ebp),%eax
- add    $0x90,%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSt3mapIiN5CUser11ChannelInfoESt4lessIiESaISt4pairIKiS1_EEEC1Ev>
+ movl   $0x0,0x8(%eax)
  mov    0x8(%ebp),%eax
--movb   $0x0,0xb0(%eax)
-+movl   $0x0,(%eax)
+ movl   $0x0,0xc(%eax)
  mov    0x8(%ebp),%eax
--movl   $0x0,0xb4(%eax)
-+add    $0x4,%eax
-+movl   $0x0,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0x8,%eax
-+movl   $0x0,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0xc,%eax
-+movl   $0x0,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0x10,%eax
-+movb   $0x0,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0x14,%eax
-+movl   $0x0,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0x18,%eax
-+movw   $0x0,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0x1a,%eax
-+movb   $0x0,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0x1c,%eax
-+movl   $0x0,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0x20,%eax
-+movl   $0xffffffff,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0x42,%eax
-+movb   $0xff,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0x43,%eax
-+movb   $0xff,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0x44,%eax
-+movw   $0xffff,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0x46,%eax
-+movb   $0x1,(%eax)
-+mov    0x8(%ebp),%eax
-+movw   $0x0,0x68(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0xb0,%eax
-+movb   $0x0,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0xb4,%eax
-+movl   $0x0,(%eax)
+ movb   $0x0,0x10(%eax)
+ mov    0x8(%ebp),%eax
+ movl   $0x0,0x14(%eax)
+ mov    0x8(%ebp),%eax
+ movw   $0x0,0x18(%eax)
+ mov    0x8(%ebp),%eax
+ movb   $0x0,0x1a(%eax)
+ mov    0x8(%ebp),%eax
+ movl   $0x0,0x1c(%eax)
+ mov    0x8(%ebp),%eax
+ movl   $0xffffffff,0x20(%eax)
+ mov    0x8(%ebp),%eax
+ movb   $0xff,0x42(%eax)
+ mov    0x8(%ebp),%eax
+ movb   $0xff,0x43(%eax)
+ mov    0x8(%ebp),%eax
+ movw   $0xffff,0x44(%eax)
+ mov    0x8(%ebp),%eax
+ movb   $0x1,0x46(%eax)
+ mov    0x8(%ebp),%eax
+-add    $0x50,%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt3mapIjP10CBlackUserSt4lessIjESaISt4pairIKjS1_EEEC1Ev>
+-mov    0x8(%ebp),%eax
+ movw   $0x0,0x68(%eax)
+-mov    0x8(%ebp),%eax
+-add    $0x6c,%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN12CBuddyHandleC1Ev>
+-mov    0x8(%ebp),%eax
+-add    $0x90,%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt3mapIiN5CUser11ChannelInfoESt4lessIiESaISt4pairIKiS1_EEEC1Ev>
+ mov    0x8(%ebp),%eax
+ movb   $0x0,0xb0(%eax)
+ mov    0x8(%ebp),%eax
+ movl   $0x0,0xb4(%eax)
  mov    0x8(%ebp),%eax
  add    $0x24,%eax
  movl   $0x1e,0x8(%esp)
@@ -130,8 +95,7 @@
  add    $0x90,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIiN5CUser11ChannelInfoESt4lessIiESaISt4pairIKiS1_EEE5clearEv>
--jmp    <T> <_ZN5CUserC1Ev+0x179>
-+jmp    <T> <_ZN5CUserC1Ev+0x195>
+ jmp    <T> <_ZN5CUserC1Ev+0x179>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -140,8 +104,7 @@
  call   <T> <_ZNSt3mapIiN5CUser11ChannelInfoESt4lessIiESaISt4pairIKiS1_EEED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN5CUserC1Ev+0x143>
-+jmp    <T> <_ZN5CUserC1Ev+0x15f>
+ jmp    <T> <_ZN5CUserC1Ev+0x143>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -150,8 +113,7 @@
  call   <T> <_ZN12CBuddyHandleD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN5CUserC1Ev+0x15b>
-+jmp    <T> <_ZN5CUserC1Ev+0x177>
+ jmp    <T> <_ZN5CUserC1Ev+0x15b>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -219,11 +181,31 @@ void __thiscall CUser::_ZN5CUserC1Ev(CUser *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFUser.cpp](source/DNFServer/GameServer/COServer/DNFUser.cpp)（约第 6 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 40 行）：
 
 ```cpp
 CUser::CUser()
 {
-    m_gs = 0;
+    ((RA_UINT<0>*)this)->v = 0;
+    ((RA_UINT<4>*)this)->v = 0;
+    ((RA_UINT<8>*)this)->v = 0;
+    ((RA_UINT<12>*)this)->v = 0;
+    ((RA_S8<16>*)this)->v = 0;
+    ((RA_UINT<20>*)this)->v = 0;
+    ((RA_U16<24>*)this)->v = 0;
+    ((RA_S8<26>*)this)->v = 0;
+    ((RA_UINT<28>*)this)->v = 0;
+    ((RA_UINT<32>*)this)->v = 0xffffffff;
+    ((RA_S8<66>*)this)->v = 0xff;
+    ((RA_S8<67>*)this)->v = 0xff;
+    ((RA_U16<68>*)this)->v = 0xffff;
+    ((RA_S8<70>*)this)->v = 1;
+    m_field68 = 0;
+    ((RA_S8<176>*)this)->v = 0;
+    ((RA_UINT<180>*)this)->v = 0;
+    memset((char*)this + 0x24, 0, 0x1e);
+    memset((char*)this + 0x47, 0, 7);
+    m_channelCount = 0;
+    m_channelInfoMap.clear();
 }
 ```

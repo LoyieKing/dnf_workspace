@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808d750` | `0xc7` | `0x8053790` | `0xbb` |
+| guild | DIFF | `0x808d750` | `0xc7` | `0x805381e` | `0xca` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,47 +13,38 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,55 +1,47 @@
+@@ -1,55 +1,57 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
--push   %ebx
--sub    $0x40,%esp
-+sub    $0x48,%esp
+ push   %esi
+ push   %ebx
+ sub    $0x40,%esp
  mov    0xc(%ebp),%eax
  mov    %al,-0x1c(%ebp)
  mov    0x8(%ebp),%eax
  movzbl 0x4d96(%eax),%eax
  test   %al,%al
--je     <T> <_ZN6CGuild11DBGuildSaveEhP14CServerHandlerj+0xbf>
-+je     <T> <_ZN6CGuild11DBGuildSaveEhP14CServerHandlerj+0xb9>
+ je     <T> <_ZN6CGuild11DBGuildSaveEhP14CServerHandlerj+0xbf>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild11DBGuildSaveEhP14CServerHandlerj+0xc0>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild11GetGuildExpEv>
--mov    %eax,%ebx
--mov    0x8(%ebp),%eax
--mov    0x18(%eax),%esi
-+je     <T> <_ZN6CGuild11DBGuildSaveEhP14CServerHandlerj+0xb9>
++je     <T> <_ZN6CGuild11DBGuildSaveEhP14CServerHandlerj+0xc2>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild11GetGuildExpEv>
+ mov    %eax,%ebx
+ mov    0x8(%ebp),%eax
+ mov    0x18(%eax),%esi
  movl   $0x1ba,0x8(%esp)
- movl   $"DBGuildSave",0x4(%esp)
+ movl   $&_ZZN6CGuild11DBGuildSaveEhP14CServerHandlerjE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x10(%esp)
--mov    %esi,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild11GetGuildExpEv>
-+mov    0x8(%ebp),%edx
-+mov    0x18(%edx),%edx
-+mov    %eax,0x10(%esp)
-+mov    %edx,0xc(%esp)
+ mov    %ebx,0x10(%esp)
+ mov    %esi,0xc(%esp)
  movl   $"GUILD EXP   Guild Key : %d, Guild Exp : %d",0x8(%esp)
  movl   $"./log/Guild",0x4(%esp)
  lea    -0x10(%ebp),%eax
@@ -73,12 +64,14 @@
  mov    0x8(%ebp),%eax
  movb   $0x0,0x4d96(%eax)
 -jmp    <T> <_ZN6CGuild11DBGuildSaveEhP14CServerHandlerj+0xc0>
--nop
--add    $0x40,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
-+leave
++jmp    <T> <_ZN6CGuild11DBGuildSaveEhP14CServerHandlerj+0xc3>
++nop
++jmp    <T> <_ZN6CGuild11DBGuildSaveEhP14CServerHandlerj+0xc3>
+ nop
+ add    $0x40,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -112,7 +105,7 @@ CGuild::_ZN6CGuild11DBGuildSaveEhP14CServerHandlerj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 549 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 607 行）：
 
 ```cpp
 void CGuild::DBGuildSave(unsigned char flag, CServerHandler* handler, unsigned int param)
@@ -125,5 +118,6 @@ void CGuild::DBGuildSave(unsigned char flag, CServerHandler* handler, unsigned i
         m_field4d94 = 0;
         m_field4d96 = 0;
     }
+    return;
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8060aca` | `0x265` | `0x809bbbc` | `0x264` |
+| dbmw | DIFF | `0x8060aca` | `0x265` | `0x80ef1e4` | `0x264` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -280,4 +280,4 @@ np_server_xml::CServerXml::_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eS
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/ServerXml.cpp, source/DNFServer/GameServer/Guild/ServerXml.cpp, source/DNFServer/GameServer/Monitor/ServerXml.cpp, source/DNFServer/ServerCommon/ServerXml.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h 等 627 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/ServerXml.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h, source/DNFServer/GameServer/DBMW/DNFApplication.h 等 293 个文件*

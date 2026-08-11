@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804eef6` | `0x3b` | `0x8086060` | `0x35` |
+| guild | DIFF | `0x804eef6` | `0x3b` | `0x8085e48` | `0x35` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -29,21 +29,15 @@
  mov    (%eax),%eax
  mov    (%eax),%eax
  add    $0x10,%eax
--mov    (%eax),%ecx
--mov    0x8(%ebp),%eax
+ mov    (%eax),%ecx
+ mov    0x8(%ebp),%eax
  mov    (%eax),%eax
--mov    0xc(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   *%ecx
+ mov    0xc(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   *%ecx
 -mov    %eax,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+mov    (%edx),%edx
-+mov    0xc(%ebp),%ecx
-+mov    %ecx,0x4(%esp)
-+mov    %edx,(%esp)
-+call   *%eax
  leave
  ret
 ```
@@ -70,11 +64,15 @@ undefined4 __thiscall CTcpHandler::_ZN11CTcpHandler10ResetEpollEi(CTcpHandler *t
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpHandler.cpp](source/DNFServer/GameServer/DBMW/DNFTcpHandler.cpp)（约第 42 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpHandler.cpp](source/DNFServer/GameServer/Guild/DNFTcpHandler.cpp)（约第 186 行）：
 
 ```cpp
-int CTcpHandler::ResetEpoll(int flag)
+int CTcpHandler::ResetEpoll(int fd)
 {
-    return m_epoll ? m_epoll->ResetEpoll(flag) : -1;
+    if (m_epoll == 0)
+    {
+        return -1;
+    }
+    return m_epoll->ResetEpoll(fd);
 }
 ```

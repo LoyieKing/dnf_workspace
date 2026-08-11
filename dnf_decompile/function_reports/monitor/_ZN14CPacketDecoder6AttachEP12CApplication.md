@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807d328` | `0xa8` | `0x8067cbe` | `0xb9` |
+| monitor | DIFF | `0x807d328` | `0xa8` | `0x8067ec2` | `0xb9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -135,14 +135,23 @@ CPacketDecoder::_ZN14CPacketDecoder6AttachEP12CApplication
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFPacketDecoder.cpp](source/DNFServer/GameServer/COServer/DNFPacketDecoder.cpp)（约第 43 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp)（约第 180 行）：
 
 ```cpp
 void CPacketDecoder::Attach(CApplication* app)
 {
     if (app != 0)
     {
-        m_poolLock = app->Get_BLock();
+        *(std::queue<CUdpRecvBuffer*, std::deque<CUdpRecvBuffer*,
+            std::allocator<CUdpRecvBuffer*> > >**)((char*)this + 0) =
+            app->Get_UdpPacketParseQ();
+        *(void**)((char*)this + 0xc) =
+            app->Get_TcpNetSystem()->Get_TcpSwapQPacket()->GetParseQ();
+        *(void**)((char*)this + 4) = app->Get_UdpQLock();
+        *(void**)((char*)this + 8) = app->Get_UdpBLock();
+        *(void**)((char*)this + 0x10) = app->Get_TcpNetSystem()->Get_TcpRecvQLock();
+        *(void**)((char*)this + 0x14) = app->Get_TcpNetSystem()->Get_TcpRecvBLock();
+        *(void**)((char*)this + 0x18) = app->Get_ServerHandler();
     }
 }
 ```

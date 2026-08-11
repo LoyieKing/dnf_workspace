@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806cd2e` | `0x50` | `0x807f32e` | `0x55` |
+| monitor | DIFF | `0x806cd2e` | `0x50` | `0x807f1be` | `0x4d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,28 +1,31 @@
+@@ -1,28 +1,27 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0xc,%esp
@@ -24,35 +24,24 @@
  mov    %dl,-0x8(%ebp)
  mov    %al,-0xc(%ebp)
  mov    0x8(%ebp),%eax
--movzbl 0x7(%eax),%eax
+ movzbl 0x7(%eax),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN16CDNFProhibitUser22SetUserConnectableTimeEjscb+0x4e>
-+add    $0x7,%eax
-+movzbl (%eax),%eax
 +cmp    $0x1,%al
-+je     <T> <_ZN16CDNFProhibitUser22SetUserConnectableTimeEjscb+0x53>
++je     <T> <_ZN16CDNFProhibitUser22SetUserConnectableTimeEjscb+0x4b>
  mov    0x8(%ebp),%eax
--movzwl -0x4(%ebp),%edx
--mov    %dx,0x4(%eax)
-+lea    0x4(%eax),%edx
-+movzwl -0x4(%ebp),%eax
-+mov    %ax,(%edx)
+ movzwl -0x4(%ebp),%edx
+ mov    %dx,0x4(%eax)
  mov    0x8(%ebp),%eax
  mov    0xc(%ebp),%edx
  mov    %edx,(%eax)
  mov    0x8(%ebp),%eax
--movzbl -0x8(%ebp),%edx
--mov    %dl,0x6(%eax)
-+lea    0x6(%eax),%edx
-+movzbl -0x8(%ebp),%eax
-+mov    %al,(%edx)
+ movzbl -0x8(%ebp),%edx
+ mov    %dl,0x6(%eax)
  mov    0x8(%ebp),%eax
--movzbl -0xc(%ebp),%edx
--mov    %dl,0x7(%eax)
-+lea    0x7(%eax),%edx
-+movzbl -0xc(%ebp),%eax
-+mov    %al,(%edx)
+ movzbl -0xc(%ebp),%edx
+ mov    %dl,0x7(%eax)
  leave
  ret
 ```
@@ -79,4 +68,4 @@ CDNFProhibitUser::_ZN16CDNFProhibitUser22SetUserConnectableTimeEjscb
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DNFProhibitUser.cpp, source/DNFServer/GameServer/Monitor/DNFProhibitUser.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 639 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFProhibitUser.cpp, source/DNFServer/GameServer/Monitor/DNFProhibitUser.cpp, source/DNFServer/GameServer/Monitor/DNFProhibitUser.h, source/DNFServer/GameServer/Monitor/RawAccess.h, source/DNFServer/ServerCommon/DNFFileLog.h, source/DNFServer/ServerCommon/DNFFunctionLib.h, source/DNFServer/ServerCommon/Thread.h, source/DNFServer/ServerCommon/tinyxml.h 等 299 个文件*

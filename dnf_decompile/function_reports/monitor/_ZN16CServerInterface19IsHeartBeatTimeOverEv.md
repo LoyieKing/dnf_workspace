@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807c2a8` | `0x58` | `0x8082a3c` | `0x52` |
+| monitor | DIFF | `0x807c2a8` | `0x58` | `0x808293e` | `0x67` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,23 +13,24 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,31 +1,29 @@
+@@ -1,31 +1,35 @@
  push   %ebp
  mov    %esp,%ebp
++sub    $0x10,%esp
  mov    0x8(%ebp),%eax
  movzbl 0x9(%eax),%eax
--lea    -0x1(%eax),%edx
-+sub    $0x1,%eax
-+mov    %eax,%edx
+ lea    -0x1(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    %dl,0x9(%eax)
  mov    0x8(%ebp),%eax
  movzbl 0x9(%eax),%eax
  test   %al,%al
--sete   %al
+ sete   %al
 -test   %al,%al
 -je     <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x51>
-+jne    <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x4b>
++mov    %al,-0x2(%ebp)
++cmpb   $0x0,-0x2(%ebp)
++je     <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x60>
  mov    0x8(%ebp),%eax
  movzbl 0xa(%eax),%eax
 -lea    0x1(%eax),%edx
@@ -43,14 +44,18 @@
 -seta   %al
 -test   %al,%al
 -je     <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x4a>
-+jle    <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x44>
++setg   %al
++mov    %al,-0x1(%ebp)
++cmpb   $0x0,-0x1(%ebp)
++je     <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x59>
  mov    $0x1,%eax
 -jmp    <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x56>
-+jmp    <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x50>
++jmp    <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x65>
  mov    0x8(%ebp),%eax
  movb   $0x14,0x9(%eax)
  mov    $0x0,%eax
- pop    %ebp
+-pop    %ebp
++leave
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -77,20 +82,22 @@ CServerInterface::_ZN16CServerInterface19IsHeartBeatTimeOverEv(CServerInterface 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerInterface.cpp](source/DNFServer/GameServer/Guild/DNFServerInterface.cpp)（约第 139 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerInterface.cpp](source/DNFServer/GameServer/Monitor/DNFServerInterface.cpp)（约第 91 行）：
 
 ```cpp
-int CServerInterface::IsHeartBeatTimeOver()
+char CServerInterface::IsHeartBeatTimeOver()
 {
-    m_field9 = (char)(m_field9 - 1);
-    if (m_field9 == 0)
+    m_heart = m_heart - 1;
+    bool zero = (m_heart == 0);
+    if (zero)
     {
-        m_fielda = (char)(m_fielda + 1);
-        if (0x14 < (unsigned char)m_fielda)
+        m_padA[0] = m_padA[0] + 1;
+        bool over = (m_padA[0] > 0x14);
+        if (over)
         {
             return 1;
         }
-        m_field9 = 0x14;
+        m_heart = 0x14;
     }
     return 0;
 }

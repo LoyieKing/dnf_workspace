@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090cd6` | `0x151` | `0x805697c` | `0x149` |
+| guild | DIFF | `0x8090cd6` | `0x151` | `0x8056a58` | `0x151` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,110 +1,106 @@
+@@ -1,110 +1,108 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -44,7 +44,7 @@
 +jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x48>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x142>
++je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x14a>
  mov    0x8(%ebp),%eax
  add    $0x1e,%eax
 -mov    %eax,-0x10(%ebp)
@@ -54,20 +54,24 @@
 -ja     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x149>
 +mov    %ax,-0xe(%ebp)
 +cmpw   $0x12c,-0xe(%ebp)
-+ja     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x142>
++ja     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x14a>
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x12d>
-+jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x130>
-+mov    0x8(%ebp),%ecx
- mov    -0xc(%ebp),%edx
+-mov    -0xc(%ebp),%edx
 -mov    0x8(%ebp),%ecx
- mov    %edx,%eax
- shl    $0x6,%eax
- add    %edx,%eax
-+add    $0xdd,%eax
+-mov    %edx,%eax
+-shl    $0x6,%eax
+-add    %edx,%eax
++jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x138>
++mov    0x8(%ebp),%edx
++mov    -0xc(%ebp),%eax
++mov    %eax,%ecx
++shl    $0x6,%ecx
  lea    (%ecx,%eax,1),%eax
 -add    $0xd0,%eax
 -mov    0xd(%eax),%edx
++add    $0xdd,%eax
++lea    (%edx,%eax,1),%eax
 +mov    (%eax),%edx
  mov    0xc(%ebp),%eax
 -mov    0x8(%eax),%eax
@@ -79,7 +83,7 @@
 -movzwl (%eax),%eax
 -movzwl %ax,%eax
 -sub    -0xc(%ebp),%eax
-+jne    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x12c>
++jne    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x134>
 +movzwl -0xe(%ebp),%edx
 +mov    -0xc(%ebp),%eax
 +mov    %edx,%ecx
@@ -92,39 +96,51 @@
 -movzwl %ax,%eax
 -sub    -0xc(%ebp),%eax
 -lea    -0x1(%eax),%edx
-+je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0xfd>
-+movzwl -0xe(%ebp),%edx
-+mov    -0xc(%ebp),%eax
-+sub    %eax,%edx
- mov    %edx,%eax
- shl    $0x6,%eax
- add    %edx,%eax
+-mov    %edx,%eax
+-shl    $0x6,%eax
+-add    %edx,%eax
 -mov    %eax,%ecx
 -mov    0x8(%ebp),%eax
 -lea    0xdd(%eax),%ebx
-+lea    -0x41(%eax),%ebx
++je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x105>
++movzwl -0xe(%ebp),%edx
  mov    -0xc(%ebp),%eax
- lea    0x1(%eax),%edx
- mov    %edx,%eax
- shl    $0x6,%eax
- add    %edx,%eax
+-lea    0x1(%eax),%edx
+-mov    %edx,%eax
+-shl    $0x6,%eax
+-add    %edx,%eax
 -add    %eax,%ebx
 -mov    0x8(%ebp),%eax
 -lea    0xdd(%eax),%esi
+-mov    -0xc(%ebp),%edx
+-mov    %edx,%eax
+-shl    $0x6,%eax
+-add    %edx,%eax
++mov    %edx,%ecx
++sub    %eax,%ecx
++mov    %ecx,%eax
++mov    %eax,%edx
++shl    $0x6,%edx
++lea    (%edx,%eax,1),%eax
++lea    -0x41(%eax),%ecx
++mov    -0xc(%ebp),%eax
++add    $0x1,%eax
++mov    %eax,%edx
++shl    $0x6,%edx
++lea    (%edx,%eax,1),%eax
 +add    $0xdd,%eax
-+mov    %eax,%ecx
-+add    0x8(%ebp),%ecx
-+mov    0x8(%ebp),%esi
- mov    -0xc(%ebp),%edx
- mov    %edx,%eax
- shl    $0x6,%eax
- add    %edx,%eax
-+add    $0xdd,%eax
++mov    %eax,%edx
++add    0x8(%ebp),%edx
++mov    0x8(%ebp),%ebx
++mov    -0xc(%ebp),%eax
++mov    %eax,%esi
++shl    $0x6,%esi
  lea    (%esi,%eax,1),%eax
--mov    %ecx,0x8(%esp)
++add    $0xdd,%eax
++lea    (%ebx,%eax,1),%eax
+ mov    %ecx,0x8(%esp)
 -mov    %ebx,0x4(%esp)
-+mov    %ebx,0x8(%esp)
-+mov    %ecx,0x4(%esp)
++mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memmove>
 -mov    -0x10(%ebp),%eax
@@ -142,11 +158,10 @@
 -movzwl (%eax),%edx
 +subw   $0x1,-0xe(%ebp)
 +cmpw   $0x12c,-0xe(%ebp)
-+jbe    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x110>
++jbe    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x118>
 +movw   $0x0,-0xe(%ebp)
  mov    0x8(%ebp),%eax
 -mov    %dx,0x42(%eax)
--jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x14a>
 +lea    0x1e(%eax),%edx
 +movzwl -0xe(%ebp),%eax
 +mov    %ax,(%edx)
@@ -154,7 +169,7 @@
 +lea    0x42(%eax),%edx
 +movzwl -0xe(%ebp),%eax
 +mov    %ax,(%edx)
-+jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x142>
+ jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x14a>
  addl   $0x1,-0xc(%ebp)
 -mov    -0x10(%ebp),%eax
 -movzwl (%eax),%eax
@@ -217,7 +232,7 @@ CGuild::_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1538 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1596 行）：
 
 ```cpp
 void CGuild::SecedeProxyMember(ST_Notice_Guild_Secede& info)

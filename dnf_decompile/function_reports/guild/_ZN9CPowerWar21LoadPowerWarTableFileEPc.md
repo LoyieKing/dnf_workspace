@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a6f50` | `0x144` | `0x809d316` | `0x180` |
+| guild | DIFF | `0x80a6f50` | `0x144` | `0x809ce86` | `0x180` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -21,7 +21,7 @@
 -sub    $0x30,%esp
 +sub    $0x40,%esp
  movl   $0x9e,0x8(%esp)
- movl   $"LoadPowerWarTableFile",0x4(%esp)
+ movl   $&_ZZN9CPowerWar21LoadPowerWarTableFileEPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 +lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
@@ -202,7 +202,7 @@ void __thiscall CPowerWar::_ZN9CPowerWar21LoadPowerWarTableFileEPc(CPowerWar *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWar.cpp](source/DNFServer/GameServer/Guild/PowerWar.cpp)（约第 182 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWar.cpp](source/DNFServer/GameServer/Guild/PowerWar.cpp)（约第 196 行）：
 
 ```cpp
 void CPowerWar::LoadPowerWarTableFile(char* path)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a3cda` | `0x7a` | `0x8099fa4` | `0x7c` |
+| guild | DIFF | `0x80a3cda` | `0x7a` | `0x8099b22` | `0x7c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -41,7 +41,7 @@
  test   %al,%al
  jne    <T> <_ZN13CPowerManager18StartPowerWarEventEv+0x1f>
  movl   $0xb9,0x8(%esp)
- movl   $"StartPowerWarEvent",0x4(%esp)
+ movl   $&_ZZN13CPowerManager18StartPowerWarEventEvE12__FUNCTION__,0x4(%esp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>

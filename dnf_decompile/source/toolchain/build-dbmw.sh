@@ -25,14 +25,15 @@ wait_jobs() {
 }
 
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
-OUT_DIR="$ROOT/../build/dbmw"
+OUT_DIR="${DBMW_OUT_DIR:-$ROOT/../build/dbmw}"
 DBMW="$ROOT/DNFServer/GameServer/DBMW"
 COMMON="$ROOT/DNFServer/ServerCommon"
 PACKET="$ROOT/shared/packet"
 YASSL="$ROOT/Library3rd/MySQL/extlib/yassl"
 MYSQL="$ROOT/Library3rd/MySQL"
 
-CXX="/tmp/c6root/usr/bin/g++"
+CXX="${DBMW_CXX:-/tmp/c6root/usr/bin/g++}"
+TINYXML_CXX=${TINYXML_CXX:-/tmp/c6-g++-444r}
 export LD_LIBRARY_PATH=/tmp/c6root/usr/lib64:/tmp/c6root/usr/lib
 FLAGS="-m32 -O0 -std=gnu++0x -fno-enforce-eh-specs -nostdinc -DTIXML_USE_STL -DBOOST_DISABLE_ASSERTS \
   -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include \
@@ -63,7 +64,6 @@ YASSL_FLAGS="-m32 -O3 -fPIC -DNDEBUG -std=gnu++98 -fno-enforce-eh-specs \
   -isystem /tmp/c6root/usr/include \
   -I$YASSL/include -I$YASSL/taocrypt/include -I$YASSL/taocrypt/mySTL"
 
-TINYXML_CXX=${TINYXML_CXX:-/tmp/c6-g++-444r}
 TINYXML_FLAGS="-m32 -O3 -std=gnu++98 -fno-enforce-eh-specs -nostdinc -DTIXML_USE_STL -DBOOST_DISABLE_ASSERTS \
   -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include \
   -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include-fixed \

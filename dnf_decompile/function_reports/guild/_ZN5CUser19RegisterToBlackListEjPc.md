@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8066f56` | `0xf9` | `0x80895dc` | `0x11c` |
+| guild | DIFF | `0x8066f56` | `0xf9` | `0x808944c` | `0x11c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -27,25 +27,21 @@
  mov    0xc(%ebp),%eax
  test   %eax,%eax
 -jne    <T> <_ZN5CUser19RegisterToBlackListEjPc+0x62>
--mov    0xc(%ebp),%ebx
 +jne    <T> <_ZN5CUser19RegisterToBlackListEjPc+0x64>
+ mov    0xc(%ebp),%ebx
  movl   $0x1c0,0x8(%esp)
- movl   $"RegisterToBlackList",0x4(%esp)
+ movl   $&_ZZN5CUser19RegisterToBlackListEjPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0x10(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    0xc(%ebp),%eax
-+mov    0x10(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Register Err(%d)(%s)",0x8(%esp)
  movl   $"./log/BlackList",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
@@ -68,12 +64,12 @@
 +call   <T> <_Unwind_Resume>
  mov    %ebx,%eax
 -mov    %eax,-0x2c(%ebp)
-+mov    %eax,-0x34(%ebp)
++mov    %eax,-0x3c(%ebp)
  movl   $0x0,(%esp)
  call   <T> <time>
  mov    %eax,%edx
 -mov    -0x2c(%ebp),%eax
-+mov    -0x34(%ebp),%eax
++mov    -0x3c(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    0x10(%ebp),%edx
  mov    %edx,0x4(%esp)
@@ -82,7 +78,7 @@
 -lea    -0x10(%ebp),%eax
 -lea    -0x2c(%ebp),%edx
 +lea    -0x20(%ebp),%eax
-+lea    -0x34(%ebp),%edx
++lea    -0x3c(%ebp),%edx
  mov    %edx,0x8(%esp)
  lea    0xc(%ebp),%edx
  mov    %edx,0x4(%esp)
@@ -163,7 +159,7 @@ CUser::_ZN5CUser19RegisterToBlackListEjPc(CUser *this,uint param_1,char *param_2
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 333 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 348 行）：
 
 ```cpp
 int CUser::RegisterToBlackList(unsigned int charNo, char* name)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80827ea` | `0x389` | `0x806e198` | `0x38e` |
+| monitor | DIFF | `0x80827ea` | `0x389` | `0x806e336` | `0x386` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,268 +1,269 @@
+@@ -1,268 +1,265 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,19 +24,19 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0xef>
 -lea    -0x41(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x41(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnNoticeMemberChatMsg : 0 == m_pclApp",0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x48(%ebp),%esi
-+lea    -0x34(%ebp),%esi
++lea    -0x44(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -56,7 +56,7 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x48(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x8f>
@@ -69,7 +69,7 @@
  mov    %ebx,%eax
  jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0xb4>
 -lea    -0x48(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0xcc>
@@ -89,41 +89,35 @@
 -mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x271>
 -lea    -0x41(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x272>
-+lea    -0x2d(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x268>
++lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
--mov    0xa(%eax),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x197>
 -mov    -0x20(%ebp),%eax
--movzbl 0xe(%eax),%eax
-+je     <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x198>
++je     <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x18e>
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
+ movzbl 0xe(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x197>
 -mov    -0x20(%ebp),%eax
--mov    0xa(%eax),%eax
-+je     <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x198>
++je     <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x18e>
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x10,%edx
  mov    %eax,0x4(%esp)
@@ -135,13 +129,11 @@
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x191>
 -mov    -0x20(%ebp),%eax
--mov    0xa(%eax),%eax
 +mov    %eax,-0x24(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x382>
++je     <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x37a>
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x2d0,%edx
  mov    %eax,0x4(%esp)
@@ -153,13 +145,11 @@
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x191>
 -mov    -0x20(%ebp),%eax
--movzbl 0xe(%eax),%eax
 +mov    %eax,-0x20(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
-+je     <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x385>
++je     <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x37d>
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
+ movzbl 0xe(%eax),%eax
  movzbl %al,%eax
 -mov    -0x20(%ebp),%edx
 +mov    0x8(%ebp),%edx
@@ -176,20 +166,20 @@
 -nop
 -jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x381>
 -lea    -0x39(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x386>
-+lea    -0x25(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x37e>
++lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x39(%ebp),%eax
-+lea    -0x25(%ebp),%eax
++lea    -0x35(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnNoticeMemberChatMsg : packet->m_uMemberID && packet->m_msgLen",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x40(%ebp),%esi
-+lea    -0x2c(%ebp),%esi
++lea    -0x3c(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -198,7 +188,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x216>
-+jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x217>
++jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x20d>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -241,41 +231,41 @@
 -mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x271>
 -lea    -0x39(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x211>
++jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x207>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x236>
++jne    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x22c>
 +call   <T> <_ZSt9terminatev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x236>
-+lea    -0x2c(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x22c>
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x24b>
++jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x241>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x236>
++jne    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x22c>
 +call   <T> <_ZSt9terminatev>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x25(%ebp),%eax
++lea    -0x35(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x272>
-+lea    -0x25(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x268>
++lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -283,55 +273,43 @@
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x317>
-+jne    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x316>
++jne    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x30e>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnNoticeMemberChatMsg() Exception Break : %s\n",(%esp)
  call   <T> <printf>
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
  movl   $0x822,0x8(%esp)
- movl   $"OnNoticeMemberChatMsg",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeMemberChatMsg() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x310>
-+jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x30f>
++jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x307>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -343,25 +321,25 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x381>
-+jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x386>
++jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x37e>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnNoticeMemberChatMsg() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x828,0x8(%esp)
- movl   $"OnNoticeMemberChatMsg",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnNoticeMemberChatMsg() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x37c>
-+jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x37b>
++jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x373>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -372,9 +350,9 @@
  mov    %ecx,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
-+jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x386>
++jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x37e>
 +nop
-+jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x386>
++jmp    <T> <_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader+0x37e>
 +nop
  add    $0x4c,%esp
  pop    %ebx
@@ -448,7 +426,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1518 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1524 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeMemberChatMsg(PacketHeader* pkt)
@@ -460,20 +438,20 @@ void CPacketTranslater::OnNoticeMemberChatMsg(PacketHeader* pkt)
     {
         throw CDNFException("CPacketTranslater::OnNoticeMemberChatMsg : 0 == m_pclApp");
     }
-    if (*(unsigned int*)((char*)pkt + 0xa) != 0 && *(char*)((char*)pkt + 0xe) != 0)
+    if (((RA_UINT<10>*)pkt)->v != 0 && ((RA_S8<14>*)pkt)->v != 0)
     {
         CUser* user =
             ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
-                *(unsigned int*)((char*)pkt + 0xa));
+                ((RA_UINT<10>*)pkt)->v);
         if (user != 0)
         {
             CMember* member =
                 ((CMemberManager*)((char*)m_pclApp + 0x2d0))->FindMember(
-                    *(unsigned int*)((char*)pkt + 0xa));
+                    ((RA_UINT<10>*)pkt)->v);
             if (member != 0)
             {
                 member->NoticeChatMsgToMemberMembers(
-                    (char*)pkt + 0xf, (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe),
+                    (char*)pkt + 0xf, (unsigned int)(unsigned char)((RA_S8<14>*)pkt)->v,
                     user);
             }
         }

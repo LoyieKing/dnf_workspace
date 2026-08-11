@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x804af6a` | `0xa8` | `0x805bd4a` | `0xa6` |
+| statics | DIFF | `0x804af6a` | `0xa8` | `0x805bd26` | `0xa6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -42,14 +42,10 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CSignalTranslator Exception Break : %s\n",(%esp)
  call   <T> <printf>
@@ -99,7 +95,7 @@ CSignalTranslator::_ZN17CSignalTranslator4initEP12CApplication
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFSignalTranslator.cpp](source/DNFServer/GameServer/COServer/DNFSignalTranslator.cpp)（约第 46 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFSignalTranslator.cpp](source/DNFServer/GameServer/Statics/DNFSignalTranslator.cpp)（约第 54 行）：
 
 ```cpp
 int CSignalTranslator::init(CApplication* app)

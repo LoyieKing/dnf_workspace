@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a150e` | `0x290` | `0x8097626` | `0x276` |
+| monitor | DIFF | `0x80a150e` | `0x290` | `0x8097766` | `0x272` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,181 +1,177 @@
+@@ -1,181 +1,175 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -29,7 +29,7 @@
 -je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x27>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x286>
-+je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x267>
++je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x263>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser7GetDBIDEv>
@@ -64,7 +64,7 @@
  test   %al,%al
 -je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x281>
 -lea    -0x24(%ebp),%eax
-+je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x267>
++je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x263>
 +lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CCashObjectEEptEv>
@@ -90,7 +90,7 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x286>
 -lea    -0xa8(%ebp),%eax
-+je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x255>
++je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x251>
 +lea    -0xac(%ebp),%eax
  mov    %eax,0x4(%esp)
 -mov    -0x18(%ebp),%eax
@@ -104,13 +104,13 @@
 -mov    -0xa8(%ebp,%eax,4),%eax
 +mov    %eax,-0x18(%ebp)
 +movl   $0x0,-0x14(%ebp)
-+jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x1fc>
++jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x1f8>
 +mov    -0x14(%ebp),%eax
 +mov    -0xac(%ebp,%eax,4),%eax
  test   %eax,%eax
 -je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x21d>
 -lea    -0x28(%ebp),%eax
-+je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x1f8>
++je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x1f4>
 +lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1Ev>
@@ -120,12 +120,10 @@
 +mov    -0xac(%ebp,%eax,4),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
--mov    0x22(%eax),%eax
--lea    -0x28(%ebp),%edx
 +mov    %eax,-0x10(%ebp)
 +mov    -0x10(%ebp),%eax
-+add    $0x22,%eax
-+mov    (%eax),%eax
+ mov    0x22(%eax),%eax
+-lea    -0x28(%ebp),%edx
 +lea    -0x2c(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -140,7 +138,7 @@
 -call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x173>
++je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x171>
  movl   $0x1e,0x8(%esp)
  movl   $0x0,0x4(%esp)
 +mov    -0x10(%ebp),%eax
@@ -174,8 +172,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 +mov    -0x10(%ebp),%eax
-+add    $0x22,%eax
-+mov    (%eax),%eax
++mov    0x22(%eax),%eax
 +mov    %eax,-0xc(%ebp)
 +mov    0xc(%ebp),%eax
 +mov    %eax,(%esp)
@@ -197,7 +194,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN21CBuddyRegisterManager16addBuddyRegisterEjj>
 -jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x210>
-+jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x1ed>
++jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x1e9>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x28(%ebp),%eax
@@ -227,7 +224,7 @@
 -je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x25c>
 +jne    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0xdd>
 +cmpl   $0x0,-0x18(%ebp)
-+je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x230>
++je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x22c>
  mov    0x8(%ebp),%eax
  mov    0x30(%eax),%eax
  mov    %eax,(%esp)
@@ -249,12 +246,12 @@
  call   <T> <_ZN18CMemoryCashManager18incBuddyCashHitCntEv>
  mov    $0x1,%eax
 -jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x286>
-+jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x26c>
++jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x268>
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN11CCashObject12DeleteBuddysEv>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x26c>
++jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser+0x268>
  mov    $0x0,%eax
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
@@ -365,7 +362,7 @@ CMemoryCashManager::_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 137 行）：
+定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 141 行）：
 
 ```cpp
 int CMemoryCashManager::QueryCashMemoryBuddyInfo(CUser* user)
@@ -387,14 +384,14 @@ int CMemoryCashManager::QueryCashMemoryBuddyInfo(CUser* user)
                     {
                         std::string name;
                         unsigned int* info = buddies[i]->getBuddyDBInfo();
-                        if (QueryUpdatedCharacName(*(unsigned int*)((char*)info + 0x22), name))
+                        if (QueryUpdatedCharacName(((RA_UINT<34>*)info)->v, name))
                         {
                             memset(info, 0, 0x1e);
                             strncpy((char*)info, name.c_str(), 0x1d);
                         }
                         user->AddBuddyFromCash(buddies[i]);
                         user->GetUniqCharNo();
-                        unsigned int charNo = *(unsigned int*)((char*)info + 0x22);
+                        unsigned int charNo = ((RA_UINT<34>*)info)->v;
                         m_app->Get_BuddyRegisterManager()->addBuddyRegister(charNo,
                                                                             user->GetUniqCharNo());
                     }

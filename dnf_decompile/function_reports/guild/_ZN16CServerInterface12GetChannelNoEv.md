@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806f842` | `0xf` | `0x8083e6e` | `0x22` |
+| guild | DIFF | `0x806f842` | `0xf` | `0x8083c5e` | `0x22` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -46,7 +46,7 @@ CServerInterface::_ZN16CServerInterface12GetChannelNoEv(CServerInterface *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerInterface.cpp](source/DNFServer/GameServer/Guild/DNFServerInterface.cpp)（约第 175 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerInterface.cpp](source/DNFServer/GameServer/Guild/DNFServerInterface.cpp)（约第 178 行）：
 
 ```cpp
 unsigned char CServerInterface::GetChannelNo()

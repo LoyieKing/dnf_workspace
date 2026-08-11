@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a7872` | `0x6a` | `0x809dd20` | `0x6d` |
+| guild | DIFF | `0x80a7872` | `0x6a` | `0x809d8a8` | `0x6d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -101,13 +101,12 @@ undefined4 CPowerWarCharacInfo::_ZN19CPowerWarCharacInfo18FindPowerwarCharacEj(u
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 142 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 138 行）：
 
 ```cpp
 STPowerWarCharacInfo* CPowerWarCharacInfo::FindPowerwarCharac(unsigned int charNo)
 {
-    std::map<unsigned int, STPowerWarCharacInfo*>* map =
-        (std::map<unsigned int, STPowerWarCharacInfo*>*)(m_data + 0);
+    std::map<unsigned int, STPowerWarCharacInfo*>* map = &m_map;
     std::map<unsigned int, STPowerWarCharacInfo*>::iterator it = map->find(charNo);
     if (it == map->end())
     {

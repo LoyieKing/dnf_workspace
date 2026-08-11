@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806232c` | `0xd7` | `0x807f7b4` | `0xe0` |
+| monitor | DIFF | `0x806232c` | `0xd7` | `0x807f62e` | `0xda` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,65 +1,69 @@
+@@ -1,65 +1,66 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x38,%esp
@@ -26,7 +26,7 @@
 +jne    <T> <_ZN13CServerConfig11Parse_TableEPci+0x1b>
  mov    $0x0,%eax
 -jmp    <T> <_ZN13CServerConfig11Parse_TableEPci+0xd5>
-+jmp    <T> <_ZN13CServerConfig11Parse_TableEPci+0xda>
++jmp    <T> <_ZN13CServerConfig11Parse_TableEPci+0xd4>
  movl   $0x5,0xc(%esp)
 -lea    -0x24(%ebp),%eax
 +lea    -0x20(%ebp),%eax
@@ -42,12 +42,12 @@
 -je     <T> <_ZN13CServerConfig11Parse_TableEPci+0xd0>
 +je     <T> <_ZN13CServerConfig11Parse_TableEPci+0x51>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN13CServerConfig11Parse_TableEPci+0xda>
++jmp    <T> <_ZN13CServerConfig11Parse_TableEPci+0xd4>
  cmpl   $0xfe,0x10(%ebp)
 -jg     <T> <_ZN13CServerConfig11Parse_TableEPci+0xd0>
 +jle    <T> <_ZN13CServerConfig11Parse_TableEPci+0x61>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN13CServerConfig11Parse_TableEPci+0xda>
++jmp    <T> <_ZN13CServerConfig11Parse_TableEPci+0xd4>
  mov    0x10(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
@@ -67,22 +67,22 @@
  mov    %eax,(%esp)
  call   <T> <atoi>
 -mov    %eax,%edx
-+mov    %al,(%ebx)
- mov    -0xc(%ebp),%eax
+-mov    -0xc(%ebp),%eax
 -mov    %dl,0x1(%eax)
-+lea    0x1(%eax),%ebx
++mov    %al,(%ebx)
++mov    -0xc(%ebp),%ebx
  mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
 -mov    %eax,%edx
-+mov    %al,(%ebx)
- mov    -0xc(%ebp),%eax
+-mov    -0xc(%ebp),%eax
 -mov    %dl,0x2(%eax)
-+lea    0x2(%eax),%ebx
++mov    %al,0x1(%ebx)
++mov    -0xc(%ebp),%ebx
  mov    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <atoi>
-+mov    %al,(%ebx)
++mov    %al,0x2(%ebx)
 +mov    -0x14(%ebp),%eax
  mov    -0xc(%ebp),%edx
  add    $0x4,%edx
@@ -90,15 +90,14 @@
  mov    %edx,(%esp)
  call   <T> <_ZNSsaSEPKc>
 -mov    -0x14(%ebp),%eax
-+mov    -0xc(%ebp),%eax
-+lea    0x8(%eax),%ebx
++mov    -0xc(%ebp),%ebx
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
 -mov    %eax,%edx
 -mov    -0xc(%ebp),%eax
 -mov    %dx,0x8(%eax)
-+mov    %ax,(%ebx)
++mov    %ax,0x8(%ebx)
  mov    $0x1,%eax
 -jmp    <T> <_ZN13CServerConfig11Parse_TableEPci+0xd5>
 -mov    $0x0,%eax
@@ -155,31 +154,30 @@ CServerConfig::_ZN13CServerConfig11Parse_TableEPci(CServerConfig *this,char *par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFServerConfig.cpp](source/DNFServer/GameServer/COServer/DNFServerConfig.cpp)（约第 17 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerConfig.cpp](source/DNFServer/GameServer/Monitor/DNFServerConfig.cpp)（约第 45 行）：
 
 ```cpp
-bool CServerConfig::Parse_Table(char* line, int idx)
+int CServerConfig::Parse_Table(char* line, int idx)
 {
-    if (line[0] == '#')
+    if (*(char*)line == '#')
     {
         return 0;
     }
-    char* tok0;
-    char* tok1;
-    char* tok2;
-    char* tok3;
-    char* tok4;
-    int n = DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 5);
-    if (n == 5 && idx < 0x649b)
+    char* tokens[5];
+    if (DNFFLib::ExplodeString(line, " \t\r\n\"", tokens, 5) != 5)
     {
-        ST_ServerInfo* s = &m_servers[idx];
-        s->m_field0 = (char)atoi(tok0);
-        s->m_field1 = (char)atoi(tok1);
-        s->m_field2 = (char)atoi(tok2);
-        s->m_string = tok3;
-        s->m_ushort = (unsigned short)atoi(tok4);
-        return 1;
+        return 0;
     }
-    return 0;
+    if (idx > 0xfe)
+    {
+        return 0;
+    }
+    ST_ServerInfo* entry = &m_table[idx];
+    ((RA_S8<0>*)entry)->v = (char)atoi(tokens[0]);
+    ((RA_S8<1>*)entry)->v = (char)atoi(tokens[1]);
+    ((RA_S8<2>*)entry)->v = (char)atoi(tokens[2]);
+    entry->m_str = tokens[3];
+    ((RA_U16<8>*)entry)->v = (unsigned short)atoi(tokens[4]);
+    return 1;
 }
 ```

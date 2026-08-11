@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806b7ca` | `0x130` | `0x806ce26` | `0x160` |
+| dbmw | DIFF | `0x806b7ca` | `0x130` | `0x806ca3e` | `0x158` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,99 +1,117 @@
+@@ -1,99 +1,113 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -37,8 +37,7 @@
  add    $0x128,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CTcpNetSystemD1Ev>
--jmp    <T> <_ZN12CApplicationD1Ev+0x95>
-+jmp    <T> <_ZN12CApplicationD1Ev+0x65>
+ jmp    <T> <_ZN12CApplicationD1Ev+0x95>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -47,12 +46,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN12CApplicationD1Ev+0x77>
-+mov    0x8(%ebp),%eax
-+add    $0x110,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CMutexD1Ev>
-+jmp    <T> <_ZN12CApplicationD1Ev+0x91>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -61,12 +54,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN12CApplicationD1Ev+0xa3>
-+mov    0x8(%ebp),%eax
-+add    $0xf8,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CMutexD1Ev>
-+jmp    <T> <_ZN12CApplicationD1Ev+0xbd>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -75,22 +62,20 @@
  call   <T> <_ZN10CSwapQueueISt5queueIP14CUdpRecvBufferSt5dequeIS2_SaIS2_EEELi2EED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN12CApplicationD1Ev+0xc7>
--mov    0x8(%ebp),%eax
--add    $0x110,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CMutexD1Ev>
--mov    0x8(%ebp),%eax
--add    $0xf8,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CMutexD1Ev>
-+jmp    <T> <_ZN12CApplicationD1Ev+0xcf>
+ jmp    <T> <_ZN12CApplicationD1Ev+0xc7>
+ mov    0x8(%ebp),%eax
+ add    $0x110,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CMutexD1Ev>
+ mov    0x8(%ebp),%eax
+ add    $0xf8,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CMutexD1Ev>
  mov    0x8(%ebp),%eax
  add    $0xa0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CSwapQueueISt5queueIP14CUdpRecvBufferSt5dequeIS2_SaIS2_EEELi2EED1Ev>
--jmp    <T> <_ZN12CApplicationD1Ev+0xdf>
-+jmp    <T> <_ZN12CApplicationD1Ev+0xe7>
+ jmp    <T> <_ZN12CApplicationD1Ev+0xdf>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -99,14 +84,13 @@
  call   <T> <_ZN10CDBManagerD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN12CApplicationD1Ev+0xef>
-+jmp    <T> <_ZN12CApplicationD1Ev+0xf7>
+ jmp    <T> <_ZN12CApplicationD1Ev+0xef>
  mov    0x8(%ebp),%eax
  add    $0x50,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CDBManagerD1Ev>
 -jmp    <T> <_ZN12CApplicationD1Ev+0x10a>
-+jmp    <T> <_ZN12CApplicationD1Ev+0x10f>
++jmp    <T> <_ZN12CApplicationD1Ev+0x107>
 +mov    %edx,%ebx
 +mov    %eax,%esi
 +mov    0x8(%ebp),%eax
@@ -115,12 +99,12 @@
 +call   <T> <_ZN18CFrameCountHandlerD1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN12CApplicationD1Ev+0x11f>
++jmp    <T> <_ZN12CApplicationD1Ev+0x117>
 +mov    0x8(%ebp),%eax
 +add    $0x1c,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN18CFrameCountHandlerD1Ev>
-+jmp    <T> <_ZN12CApplicationD1Ev+0x13a>
++jmp    <T> <_ZN12CApplicationD1Ev+0x132>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -136,7 +120,7 @@
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN12CApplicationD1Ev+0x129>
-+je     <T> <_ZN12CApplicationD1Ev+0x159>
++je     <T> <_ZN12CApplicationD1Ev+0x151>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZdlPv>
@@ -176,7 +160,7 @@ void __thiscall CApplication::_ZN12CApplicationD1Ev(CApplication *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 98 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 67 行）：
 
 ```cpp
 CApplication::~CApplication()

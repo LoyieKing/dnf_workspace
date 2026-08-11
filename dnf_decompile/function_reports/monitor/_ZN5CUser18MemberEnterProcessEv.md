@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806d608` | `0x43` | `0x8088d7c` | `0x47` |
+| monitor | DIFF | `0x806d608` | `0x43` | `0x8088cb4` | `0x41` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,45 +13,38 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,25 +1,27 @@
+@@ -1,25 +1,25 @@
  push   %ebp
  mov    %esp,%ebp
  mov    0x8(%ebp),%eax
--mov    0x1c(%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%eax
+ mov    0x1c(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN5CUser18MemberEnterProcessEv+0x40>
-+je     <T> <_ZN5CUser18MemberEnterProcessEv+0x45>
++je     <T> <_ZN5CUser18MemberEnterProcessEv+0x3b>
  mov    0x8(%ebp),%eax
 -movzbl 0x1a(%eax),%eax
 -lea    -0x1(%eax),%edx
-+lea    0x1a(%eax),%edx
+-mov    0x8(%ebp),%eax
++mov    0x8(%ebp),%edx
++movzbl 0x1a(%edx),%edx
++sub    $0x1,%edx
+ mov    %dl,0x1a(%eax)
  mov    0x8(%ebp),%eax
--mov    %dl,0x1a(%eax)
-+add    $0x1a,%eax
-+movzbl (%eax),%eax
-+sub    $0x1,%eax
-+mov    %al,(%edx)
- mov    0x8(%ebp),%eax
--movzbl 0x1a(%eax),%eax
-+add    $0x1a,%eax
-+movzbl (%eax),%eax
+ movzbl 0x1a(%eax),%eax
  test   %al,%al
 -setle  %al
 -test   %al,%al
 -je     <T> <_ZN5CUser18MemberEnterProcessEv+0x41>
-+jg     <T> <_ZN5CUser18MemberEnterProcessEv+0x45>
++jg     <T> <_ZN5CUser18MemberEnterProcessEv+0x3e>
  mov    0x8(%ebp),%eax
--movl   $0x0,0x1c(%eax)
-+add    $0x1c,%eax
-+movl   $0x0,(%eax)
+ movl   $0x0,0x1c(%eax)
  mov    0x8(%ebp),%eax
--movb   $0x0,0x1a(%eax)
+ movb   $0x0,0x1a(%eax)
 -jmp    <T> <_ZN5CUser18MemberEnterProcessEv+0x41>
--nop
-+add    $0x1a,%eax
-+movb   $0x0,(%eax)
++jmp    <T> <_ZN5CUser18MemberEnterProcessEv+0x3f>
++nop
++jmp    <T> <_ZN5CUser18MemberEnterProcessEv+0x3f>
+ nop
  pop    %ebp
  ret
 ```
@@ -80,14 +73,15 @@ void __thiscall CUser::_ZN5CUser18MemberEnterProcessEv(CUser *this)
 ```cpp
 void CUser::MemberEnterProcess()
 {
-    if (*(int*)((char*)this + 0x1c) != 0)
+    if (((RA_INT<28>*)this)->v != 0)
     {
-        *(char*)((char*)this + 0x1a) = *(char*)((char*)this + 0x1a) - 1;
-        if ((signed char)*(char*)((char*)this + 0x1a) <= 0)
+        ((RA_S8<26>*)this)->v = ((RA_S8<26>*)this)->v - 1;
+        if ((signed char)((RA_S8<26>*)this)->v <= 0)
         {
-            *(int*)((char*)this + 0x1c) = 0;
-            *(char*)((char*)this + 0x1a) = 0;
+            ((RA_INT<28>*)this)->v = 0;
+            ((RA_S8<26>*)this)->v = 0;
         }
     }
+    return;
 }
 ```

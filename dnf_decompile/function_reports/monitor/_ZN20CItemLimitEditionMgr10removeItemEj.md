@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80935dc` | `0x87` | `0x8093d30` | `0x93` |
+| monitor | DIFF | `0x80935dc` | `0x87` | `0x8093dfc` | `0x93` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -116,7 +116,7 @@ void CItemLimitEditionMgr::_ZN20CItemLimitEditionMgr10removeItemEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 90 行）：
+定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 91 行）：
 
 ```cpp
 void CItemLimitEditionMgr::removeItem(unsigned int ipgno)

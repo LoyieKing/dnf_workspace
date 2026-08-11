@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808039e` | `0x225` | `0x806c244` | `0x229` |
+| monitor | DIFF | `0x808039e` | `0x225` | `0x806c390` | `0x21e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,142 +1,144 @@
+@@ -1,142 +1,138 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -21,43 +21,32 @@
  push   %ebx
  sub    $0x5c,%esp
  mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
-+cmp    $0x1,%al
-+jne    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0xd0>
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+add    $0xa0,%eax
-+mov    (%eax),%eax
- mov    %eax,-0x24(%ebp)
+-mov    %eax,-0x24(%ebp)
 -mov    -0x24(%ebp),%eax
--movzbl 0xa(%eax),%eax
--cmp    $0x1,%al
+ movzbl 0xa(%eax),%eax
+ cmp    $0x1,%al
 -jne    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0xc9>
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0xa0(%eax),%eax
++jne    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0xc5>
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    0xa0(%eax),%eax
 -mov    %eax,-0x20(%ebp)
 -cmpl   $0x0,-0x20(%ebp)
 -je     <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x21c>
 -mov    -0x24(%ebp),%eax
--mov    0x13(%eax),%ecx
--mov    -0x24(%ebp),%eax
--mov    0xf(%eax),%edx
--mov    -0x24(%ebp),%eax
++mov    %eax,-0x24(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x221>
++je     <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x216>
 +mov    0x8(%ebp),%eax
-+add    $0x13,%eax
-+mov    (%eax),%ecx
+ mov    0x13(%eax),%ecx
+-mov    -0x24(%ebp),%eax
 +mov    0x8(%ebp),%eax
-+add    $0xf,%eax
-+mov    (%eax),%edx
+ mov    0xf(%eax),%edx
+-mov    -0x24(%ebp),%eax
 +mov    0x8(%ebp),%eax
  lea    0x17(%eax),%edi
 -mov    -0x24(%ebp),%eax
--mov    0xb(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0xb,%eax
-+mov    (%eax),%eax
+ mov    0xb(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%ebx
  lea    0x2d0(%ebx),%esi
 -mov    -0x20(%ebp),%ebx
@@ -73,104 +62,78 @@
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x21d>
 -mov    -0x24(%ebp),%eax
--mov    0xb(%eax),%ebx
 +mov    %al,-0x1d(%ebp)
 +cmpb   $0x1,-0x1d(%ebp)
-+je     <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x221>
++je     <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x216>
++mov    0x8(%ebp),%eax
+ mov    0xb(%eax),%ebx
  movl   $0x4e5,0x8(%esp)
- movl   $"OnReplyQueryMember",0x4(%esp)
--lea    -0x44(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0xb,%eax
-+mov    (%eax),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CHECK MEMBER ID: CPacketTranslater::OnReplyQueryMember()\tm_clMemberManager.LoadMember()\tmember id(%d)",0x8(%esp)
  movl   $"./log/MemberMember",0x4(%esp)
--lea    -0x44(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x21d>
 -mov    -0x24(%ebp),%eax
--movzbl 0xa(%eax),%eax
--movzbl %al,%ebx
-+jmp    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x221>
++jmp    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x216>
++mov    0x8(%ebp),%eax
+ movzbl 0xa(%eax),%eax
+ movzbl %al,%ebx
  movl   $0x4eb,0x8(%esp)
- movl   $"OnReplyQueryMember",0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"[DB ERROR]CPacketTranslater::OnReplyQueryMember() packet->bSuccess : %d\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x21d>
-+jmp    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x221>
++jmp    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x216>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x1b4>
-+jne    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x1bb>
++jne    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x1b0>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnReplyQueryMember() Exception Break : %s\n",(%esp)
  call   <T> <printf>
-+movl   $0x4f1,0x8(%esp)
-+movl   $"OnReplyQueryMember",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x4f1,0x8(%esp)
--movl   $"OnReplyQueryMember",0x4(%esp)
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x4f1,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnReplyQueryMember() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x34(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x1ad>
-+jmp    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x1b4>
++jmp    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x1a9>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -180,25 +143,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x21d>
-+jmp    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x221>
++jmp    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x216>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnReplyQueryMember() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x4f7,0x8(%esp)
- movl   $"OnReplyQueryMember",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x44(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnReplyQueryMember() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x44(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x215>
-+jmp    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x21c>
++jmp    <T> <_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader+0x211>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -267,7 +228,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 950 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 956 行）：
 
 ```cpp
 void CPacketTranslater::OnReplyQueryMember(PacketHeader* pkt)
@@ -275,22 +236,22 @@ void CPacketTranslater::OnReplyQueryMember(PacketHeader* pkt)
 {
 
 
-    if (*(char*)((char*)pkt + 0xa) == 1)
+    if (((RA_S8<10>*)pkt)->v == 1)
     {
-        CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+        CServerHandler* handler = m_pclApp->m_serverHandler2;
         if (handler != 0)
         {
             char ok = ((CMemberManager*)((char*)m_pclApp + 0x2d0))
-                          ->LoadMember(*(unsigned int*)((char*)pkt + 0xb),
+                          ->LoadMember(((RA_UINT<11>*)pkt)->v,
                                        *(STMemberDBInfo*)((char*)pkt + 0x17),
-                                       *(unsigned int*)((char*)pkt + 0xf),
-                                       *(unsigned int*)((char*)pkt + 0x13), handler);
+                                       ((RA_UINT<15>*)pkt)->v,
+                                       ((RA_UINT<19>*)pkt)->v, handler);
             if (ok != 1)
             {
                 DNF_LOG_SCOPE_LINE(0x4e5,"./log/MemberMember",
                     "CHECK MEMBER ID: CPacketTranslater::OnReplyQueryMember()\t"
                     "m_clMemberManager.LoadMember()\tmember id(%d)",
-                    *(unsigned int*)((char*)pkt + 0xb));
+                    ((RA_UINT<11>*)pkt)->v);
             }
         }
     }
@@ -298,7 +259,7 @@ void CPacketTranslater::OnReplyQueryMember(PacketHeader* pkt)
     {
         DNF_LOG_SCOPE_LINE(0x4eb,"./log/Except",
             "[DB ERROR]CPacketTranslater::OnReplyQueryMember() packet->bSuccess : %d\n",
-            (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xa));
+            (unsigned int)(unsigned char)((RA_S8<10>*)pkt)->v);
     }
 
 

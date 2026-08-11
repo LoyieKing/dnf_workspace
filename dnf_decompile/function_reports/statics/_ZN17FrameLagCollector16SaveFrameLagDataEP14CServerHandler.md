@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80675dc` | `0x63e` | `0x80609ee` | `0x5af` |
+| statics | DIFF | `0x80675dc` | `0x63e` | `0x8060a08` | `0x5af` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -206,7 +206,7 @@
 +mov    %edx,-0x1b4(%ebp)
 +fildll -0x1b8(%ebp)
 +fdivrp %st,%st(1)
-+fldl   &data#0bc96a69(.rodata)
++fldl   &data#78e7013f(.rodata)
 +faddp  %st,%st(1)
 +fnstcw -0x1ba(%ebp)
 +movzwl -0x1ba(%ebp),%eax
@@ -300,7 +300,7 @@
 +mov    %edx,-0x1b4(%ebp)
 +fildll -0x1b8(%ebp)
 +fdivrp %st,%st(1)
-+fldl   &data#0bc96a69(.rodata)
++fldl   &data#78e7013f(.rodata)
 +faddp  %st,%st(1)
 +fldcw  -0x1bc(%ebp)
 +fistps -0x1be(%ebp)
@@ -1011,7 +1011,7 @@ FrameLagCollector::_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 357 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 361 行）：
 
 ```cpp
 int FrameLagCollector::SaveFrameLagData(CServerHandler* handler)

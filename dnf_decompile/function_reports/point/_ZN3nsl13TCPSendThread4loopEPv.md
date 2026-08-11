@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| point | DIFF | `0x80ae304` | `0x2fa` | `0x80ad0b6` | `0x30f` |
+| point | DIFF | `0x80ae304` | `0x2fa` | `0x80acfbc` | `0x30f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -159,7 +159,7 @@
 -jne    <T> <_ZN3nsl13TCPSendThread4loopEPv+0x2b7>
 +jne    <T> <_ZN3nsl13TCPSendThread4loopEPv+0x2c6>
  call   <T> <_ZN3nsl10G_TraceLogEv>
--movl   $&data#ebeb7030(.rodata),0x8(%esp)
+-movl   $"여기3",0x8(%esp)
 +mov    -0x10(%ebp),%edx
 +mov    %edx,0xc(%esp)
 +movl   $"size=%d",0x8(%esp)
@@ -352,7 +352,7 @@ LAB_080ae387:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/ServerLab/ServerLib/common_source/TCPSendThread.cpp](source/DNFServer/GameServer/ServerLab/ServerLib/common_source/TCPSendThread.cpp)（约第 94 行）：
+定义于 [source/DNFServer/GameServer/ServerLab/ServerLib/common_source/TCPSendThread.cpp](source/DNFServer/GameServer/ServerLab/ServerLib/common_source/TCPSendThread.cpp)（约第 97 行）：
 
 ```cpp
 void TCPSendThread::loop(void* temp)

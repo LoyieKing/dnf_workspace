@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| point | DIFF | `0x80a98bc` | `0x780` | `0x809d2ce` | `0x789` |
+| point | DIFF | `0x80a98bc` | `0x780` | `0x809d22e` | `0x791` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,494 +1,491 @@
+@@ -1,494 +1,495 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -21,7 +21,7 @@
  push   %ebx
 -sub    $0x4c,%esp
 +sub    $0x5c,%esp
- movl   $&data#5f6abba0(.rodata),(%esp)
+ movl   $"서버 라이브러리 구동 시작...",(%esp)
  call   <T> <puts>
  mov    0x8(%ebp),%eax
  add    $0xd4,%eax
@@ -43,22 +43,22 @@
  call   <T> <_ZN3nsl8TraceLog4initEPcS1_>
 -mov    %eax,-0x24(%ebp)
 -mov    -0x24(%ebp),%eax
--shr    $0x1f,%eax
--test   %al,%al
--je     <T> <_ZN3nsl14ServiceFactory7startupEv+0x78>
++mov    %eax,-0x30(%ebp)
++mov    -0x30(%ebp),%eax
+ shr    $0x1f,%eax
+ test   %al,%al
+ je     <T> <_ZN3nsl14ServiceFactory7startupEv+0x78>
 -mov    -0x24(%ebp),%eax
 -jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x775>
-+mov    %eax,-0x30(%ebp)
-+cmpl   $0x0,-0x30(%ebp)
-+js     <T> <_ZN3nsl14ServiceFactory7startupEv+0x77b>
++mov    -0x30(%ebp),%eax
++jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x786>
  movl   $0x2c,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8DataPoolC1Ev>
--jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0xaa>
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0xa2>
+ jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0xaa>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -115,8 +115,7 @@
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl13TCPSendThreadC1Ev>
--jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x1a6>
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x19e>
+ jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x1a6>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -136,8 +135,7 @@
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl16ActiveConManagerC1Ev>
--jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x1ec>
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x1e4>
+ jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x1ec>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -157,8 +155,7 @@
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11TimerThreadC1Ev>
--jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x235>
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x22d>
+ jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x235>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -186,8 +183,7 @@
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl9TCPThreadC1Ev>
--jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x29e>
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x296>
+ jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x29e>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -217,8 +213,7 @@
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11NSLDBThreadC1Ev>
--jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x30d>
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x305>
+ jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x30d>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -277,10 +272,10 @@
  mov    %edx,0x14(%eax)
  movl   $"DBDispatcher 객체 완료...",(%esp)
  call   <T> <puts>
- movl   $&data#2a39e182(.rodata),(%esp)
+ movl   $"서비스 쓰레드 구동 시작",(%esp)
  call   <T> <puts>
  call   <T> <_ZN3nsl10G_TraceLogEv>
- movl   $&data#2a39e182(.rodata),0x8(%esp)
+ movl   $"서비스 쓰레드 구동 시작",0x8(%esp)
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TraceLog6sysLogEiPKcz>
@@ -288,7 +283,7 @@
  movl   $0x1,0x58(%eax)
  movl   $0x0,-0x20(%ebp)
 -jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x455>
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x456>
++jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x45e>
  movl   $0xc8,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
@@ -298,7 +293,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl10WorkThreadC1Ei>
 -jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x41a>
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x41b>
++jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x423>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -329,7 +324,7 @@
  setg   %al
  test   %al,%al
 -jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x3e1>
-+jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x3e2>
++jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x3ea>
  movl   $0x7d0,(%esp)
  call   <T> <_ZN3nsl7TSystemINS_11LinuxSystemEE5sleepEi>
  mov    0x8(%ebp),%eax
@@ -388,7 +383,7 @@
 -lea    -0x2c(%ebp),%eax
 +mov    -0x4c(%ebp),%eax
 +mov    %eax,-0x38(%ebp)
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x56d>
++jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x575>
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiPN3nsl15INetWorkHandlerEEEptEv>
@@ -421,7 +416,7 @@
  test   %al,%al
 -jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x547>
 -lea    -0x30(%ebp),%eax
-+jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x548>
++jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x550>
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKiPN3nsl10IDBHandlerEEEC1Ev>
@@ -458,7 +453,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN3nsl14ServiceFactory7startupEv+0x640>
-+je     <T> <_ZN3nsl14ServiceFactory7startupEv+0x641>
++je     <T> <_ZN3nsl14ServiceFactory7startupEv+0x649>
  mov    0x8(%ebp),%eax
  lea    0xd4(%eax),%edx
 -lea    -0x3c(%ebp),%eax
@@ -483,7 +478,7 @@
  call   *%edx
  movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x673>
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x67c>
++jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x684>
  mov    -0x1c(%ebp),%edx
  mov    0x8(%ebp),%eax
 -add    $0x3c,%edx
@@ -507,7 +502,7 @@
  setg   %al
  test   %al,%al
 -jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x649>
-+jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x64a>
++jne    <T> <_ZN3nsl14ServiceFactory7startupEv+0x652>
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -543,14 +538,14 @@
  call   <T> <_ZN3nsl8TraceLog14checkLogServerEv>
  test   %al,%al
 -je     <T> <_ZN3nsl14ServiceFactory7startupEv+0x755>
-+je     <T> <_ZN3nsl14ServiceFactory7startupEv+0x75e>
++je     <T> <_ZN3nsl14ServiceFactory7startupEv+0x766>
  call   <T> <_ZN3nsl10G_TraceLogEv>
  movl   $"checkLogServer(), write_to_logserver is true",0x8(%esp)
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TraceLog6sysLogEiPKcz>
 -jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x772>
-+jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x77b>
++jmp    <T> <_ZN3nsl14ServiceFactory7startupEv+0x783>
  call   <T> <_ZN3nsl10G_TraceLogEv>
  movl   $"checkLogServer(), write_to_logserver is false",0x8(%esp)
  movl   $0x0,0x4(%esp)
@@ -800,7 +795,7 @@ int __thiscall nsl::ServiceFactory::_ZN3nsl14ServiceFactory7startupEv(ServiceFac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/ServerLab/ServerLib/common_source/ServiceFactory.cpp](source/DNFServer/GameServer/ServerLab/ServerLib/common_source/ServiceFactory.cpp)（约第 161 行）：
+定义于 [source/DNFServer/GameServer/ServerLab/ServerLib/common_source/ServiceFactory.cpp](source/DNFServer/GameServer/ServerLab/ServerLib/common_source/ServiceFactory.cpp)（约第 164 行）：
 
 ```cpp
 int ServiceFactory::startup()
@@ -809,105 +804,106 @@ int ServiceFactory::startup()
     puts("\xbc\xad\xb9\xf6 \xb6\xf3\xc0\xcc\xba\xea\xb7\xaf\xb8\xae \xb1\xb8\xb5\xbf \xbd\xc3\xc0\xdb...");
     printf("%d\n", (int)super_IHandlers.mInterHandlers.size());
     ret = 0;
-    ret = G_TraceLog()->init(ServiceFactoryName, ServiceConfigName);
-    if (ret > -1)
+    // ORIG: 赋值在条件内（mov n; shr $0x1f; test; je），失败提前 return。
+    if ((ret = G_TraceLog()->init(ServiceFactoryName, ServiceConfigName)) < 0)
     {
-        super_DataPools.dataPool_ = new DataPool;
-        super_PortInfo.setUDPPort(G_Script()->findIntValue(0, 5));
-        super_PortInfo.setTCPPort(G_Script()->findIntValue(0, 4));
-        TCPSocket::SetRecvBufSize(G_Script()->findIntValue(0, 10));
-        TCPSocket::SetSendBufSize(G_Script()->findIntValue(0, 0xb));
-        printf("%d\n", (int)super_IHandlers.mInterHandlers.size());
-        super_Threads.threadTCPSend_[0] = new TCPSendThread;
-        puts("TCPSendThread \xb0\xb4\xc3\xbc \xbf\xcf\xb7\xe1...");
-        super_IActiveConManager.activeConManager_ = new ActiveConManager;
-        puts("TimerThread \xb0\xb4\xc3\xbc \xbb\xfd\xbc\xba...");
-        super_Threads.threadTimer_ = new TimerThread;
-        puts("TimerThread \xb0\xb4\xc3\xbc \xbf\xcf\xb7\xe1...");
-        G_TraceLog()->setLogSendThread(super_Threads.logSendThread_);
-        puts("TCPThread \xb0\xb4\xc3\xbc \xbb\xfd\xbc\xba...");
-        super_Threads.threadTCP_ = new TCPThread;
-        super_Threads.threadTCP_->setPort(super_PortInfo.getTCPPort());
-        puts("TCPThread \xb0\xb4\xc3\xbc \xbf\xcf\xb7\xe1...");
-        puts("NSLDBThread \xb0\xb4\xc3\xbc \xbb\xfd\xbc\xba...");
-        super_Threads.threadDB_[0] = new NSLDBThread;
-        puts("NSLDBThread \xb0\xb4\xc3\xbc \xbf\xcf\xb7\xe1...");
-        /* ORIG: operator new + C1, no EH pads (throw()-spec ctor aliases) */
-        TCPDispatcher* pTCPDispatcher =
-            (TCPDispatcher*)::operator new(sizeof(TCPDispatcher));
-        call_TCPDispatcher_ctor(pTCPDispatcher);
-        super_Dispatchers.dispatcherTCP = pTCPDispatcher;
-        puts("TCPDispatcher has been created...");
-        InterDispatcher* pInterDispatcher =
-            (InterDispatcher*)::operator new(sizeof(InterDispatcher));
-        call_InterDispatcher_ctor(pInterDispatcher);
-        super_Dispatchers.mpInterDispatcher = pInterDispatcher;
-        puts("InterDispatcher has been created...");
-        DBDispatcher* pDBDispatcher = (DBDispatcher*)::operator new(sizeof(DBDispatcher));
-        call_DBDispatcher_ctor(pDBDispatcher);
-        super_Dispatchers.dispatcherDB = pDBDispatcher;
-        puts("DBDispatcher \xb0\xb4\xc3\xbc \xbf\xcf\xb7\xe1...");
-        puts("\xbc\xad\xba\xf1\xbd\xba \xbe\xb2\xb7\xb9\xb5\xe5 \xb1\xb8\xb5\xbf \xbd\xc3\xc0\xdb");
-        G_TraceLog()->sysLog(0, "\xbc\xad\xba\xf1\xbd\xba \xbe\xb2\xb7\xb9\xb5\xe5 \xb1\xb8\xb5\xbf \xbd\xc3\xc0\xdb");
-        super_Threads.mWorkThreadNum = 1;
-        for (int i = 0; i < super_Threads.mWorkThreadNum; i = i + 1)
-        {
+        return ret;
+    }
+    super_DataPools.dataPool_ = new DataPool;
+    super_PortInfo.setUDPPort(G_Script()->findIntValue(0, 5));
+    super_PortInfo.setTCPPort(G_Script()->findIntValue(0, 4));
+    TCPSocket::SetRecvBufSize(G_Script()->findIntValue(0, 10));
+    TCPSocket::SetSendBufSize(G_Script()->findIntValue(0, 0xb));
+    printf("%d\n", (int)super_IHandlers.mInterHandlers.size());
+    super_Threads.threadTCPSend_[0] = new TCPSendThread;
+    puts("TCPSendThread \xb0\xb4\xc3\xbc \xbf\xcf\xb7\xe1...");
+    super_IActiveConManager.activeConManager_ = new ActiveConManager;
+    puts("TimerThread \xb0\xb4\xc3\xbc \xbb\xfd\xbc\xba...");
+    super_Threads.threadTimer_ = new TimerThread;
+    puts("TimerThread \xb0\xb4\xc3\xbc \xbf\xcf\xb7\xe1...");
+    G_TraceLog()->setLogSendThread(super_Threads.logSendThread_);
+    puts("TCPThread \xb0\xb4\xc3\xbc \xbb\xfd\xbc\xba...");
+    super_Threads.threadTCP_ = new TCPThread;
+    super_Threads.threadTCP_->setPort(super_PortInfo.getTCPPort());
+    puts("TCPThread \xb0\xb4\xc3\xbc \xbf\xcf\xb7\xe1...");
+    puts("NSLDBThread \xb0\xb4\xc3\xbc \xbb\xfd\xbc\xba...");
+    super_Threads.threadDB_[0] = new NSLDBThread;
+    puts("NSLDBThread \xb0\xb4\xc3\xbc \xbf\xcf\xb7\xe1...");
+    /* ORIG: operator new + C1, no EH pads (throw()-spec ctor aliases) */
+    TCPDispatcher* pTCPDispatcher =
+        (TCPDispatcher*)::operator new(sizeof(TCPDispatcher));
+    call_TCPDispatcher_ctor(pTCPDispatcher);
+    super_Dispatchers.dispatcherTCP = pTCPDispatcher;
+    puts("TCPDispatcher has been created...");
+    InterDispatcher* pInterDispatcher =
+        (InterDispatcher*)::operator new(sizeof(InterDispatcher));
+    call_InterDispatcher_ctor(pInterDispatcher);
+    super_Dispatchers.mpInterDispatcher = pInterDispatcher;
+    puts("InterDispatcher has been created...");
+    DBDispatcher* pDBDispatcher = (DBDispatcher*)::operator new(sizeof(DBDispatcher));
+    call_DBDispatcher_ctor(pDBDispatcher);
+    super_Dispatchers.dispatcherDB = pDBDispatcher;
+    puts("DBDispatcher \xb0\xb4\xc3\xbc \xbf\xcf\xb7\xe1...");
+    puts("\xbc\xad\xba\xf1\xbd\xba \xbe\xb2\xb7\xb9\xb5\xe5 \xb1\xb8\xb5\xbf \xbd\xc3\xc0\xdb");
+    G_TraceLog()->sysLog(0, "\xbc\xad\xba\xf1\xbd\xba \xbe\xb2\xb7\xb9\xb5\xe5 \xb1\xb8\xb5\xbf \xbd\xc3\xc0\xdb");
+    super_Threads.mWorkThreadNum = 1;
+    for (int i = 0; i < super_Threads.mWorkThreadNum; i = i + 1)
+    {
             super_Threads.threadWork_[i] = new WorkThread(i);
-            super_Threads.threadWork_[i]->begin();
-            printf("%d\xb9\xf8 workThread \xb1\xb8\xb5\xbf \xbc\xba\xb0\xf8\n", i);
-        }
-        TSystem<LinuxSystem>::sleep(2000);
-        printf("NSLDBThread 0 \xb9\xf8 \xb1\xb8\xb5\xbf \xbd\xc3\xc0\xdb-%p\n",
-               super_Threads.threadDB_[0]);
-        super_Threads.threadDB_[0]->begin();
-        G_TraceLog()->sysLog(0, "NSLDBThread 0 \xb9\xf8 \xb1\xb8\xb5\xbf \xbc\xba\xb0\xf8-%p",
-                             super_Threads.threadDB_[0]);
-        super_Threads.threadTCPSend_[0]->begin();
-        G_TraceLog()->sysLog(0, "TCPSendThread 0 \xb9\xf8 \xb1\xb8\xb5\xbf \xbc\xba\xb0\xf8-%p",
-                             super_Threads.threadTCPSend_[0]);
-        super_Threads.threadTimer_->begin();
-        printf("TimerThread \xb1\xb8\xb5\xbf \xbc\xba\xb0\xf8-%p\n", super_Threads.threadTimer_);
+        super_Threads.threadWork_[i]->begin();
+        printf("%d\xb9\xf8 workThread \xb1\xb8\xb5\xbf \xbc\xba\xb0\xf8\n", i);
+    }
+    TSystem<LinuxSystem>::sleep(2000);
+    printf("NSLDBThread 0 \xb9\xf8 \xb1\xb8\xb5\xbf \xbd\xc3\xc0\xdb-%p\n",
+           super_Threads.threadDB_[0]);
+    super_Threads.threadDB_[0]->begin();
+    G_TraceLog()->sysLog(0, "NSLDBThread 0 \xb9\xf8 \xb1\xb8\xb5\xbf \xbc\xba\xb0\xf8-%p",
+                         super_Threads.threadDB_[0]);
+    super_Threads.threadTCPSend_[0]->begin();
+    G_TraceLog()->sysLog(0, "TCPSendThread 0 \xb9\xf8 \xb1\xb8\xb5\xbf \xbc\xba\xb0\xf8-%p",
+                         super_Threads.threadTCPSend_[0]);
+    super_Threads.threadTimer_->begin();
+    printf("TimerThread \xb1\xb8\xb5\xbf \xbc\xba\xb0\xf8-%p\n", super_Threads.threadTimer_);
+    {
+        std::map<int, INetWorkHandler*>::iterator iter;
+        iter = super_IHandlers.mNetWorkHandlers.begin();
+        for (; iter != super_IHandlers.mNetWorkHandlers.end(); ++iter)
         {
-            std::map<int, INetWorkHandler*>::iterator iter;
-            iter = super_IHandlers.mNetWorkHandlers.begin();
-            for (; iter != super_IHandlers.mNetWorkHandlers.end(); ++iter)
-            {
-                iter->second->init();
-            }
-        }
-        {
-            std::map<int, IDBHandler*>::iterator iter;
-            iter = super_IHandlers.mDBHandlers.begin();
             iter->second->init();
         }
+    }
+    {
+        std::map<int, IDBHandler*>::iterator iter;
+        iter = super_IHandlers.mDBHandlers.begin();
+        iter->second->init();
+    }
+    {
+        std::map<int, IInterHandler*>::iterator iter;
+        if (!super_IHandlers.mInterHandlers.empty())
         {
-            std::map<int, IInterHandler*>::iterator iter;
-            if (!super_IHandlers.mInterHandlers.empty())
-            {
-                iter = super_IHandlers.mInterHandlers.begin();
-                iter->second->init();
-            }
+            iter = super_IHandlers.mInterHandlers.begin();
+            iter->second->init();
         }
-        for (int i = 0; i < super_IHandlers.mTimeHandlerNum; i = i + 1)
-        {
-            super_Threads.threadWork_[i]->loop((void*)0);
-        }
-        super_Threads.threadTCP_->begin();
-        printf("TCPThread \xb1\xb8\xb5\xbf \xbc\xba\xb0\xf8-%p\n", super_Threads.threadTCP_);
-        puts("------------------------------------------");
-        puts("-\t\tServer Frame Start Ver1.0       -");
-        puts("------------------------------------------");
-        G_TraceLog()->sysLog(5, "----------------------------------------------------------");
-        G_TraceLog()->sysLog(5, "-\t\tServer Frame Start Ver1.0 \t\t\t\t    -");
-        G_TraceLog()->sysLog(5, "----------------------------------------------------------");
-        if (G_TraceLog()->checkLogServer())
-        {
-            G_TraceLog()->sysLog(0, "checkLogServer(), write_to_logserver is true");
-        }
-        else
-        {
-            G_TraceLog()->sysLog(0, "checkLogServer(), write_to_logserver is false");
-        }
+    }
+    for (int i = 0; i < super_IHandlers.mTimeHandlerNum; i = i + 1)
+    {
+        super_Threads.threadWork_[i]->loop((void*)0);
+    }
+    super_Threads.threadTCP_->begin();
+    printf("TCPThread \xb1\xb8\xb5\xbf \xbc\xba\xb0\xf8-%p\n", super_Threads.threadTCP_);
+    puts("------------------------------------------");
+    puts("-\t\tServer Frame Start Ver1.0       -");
+    puts("------------------------------------------");
+    G_TraceLog()->sysLog(5, "----------------------------------------------------------");
+    G_TraceLog()->sysLog(5, "-\t\tServer Frame Start Ver1.0 \t\t\t\t    -");
+    G_TraceLog()->sysLog(5, "----------------------------------------------------------");
+    if (G_TraceLog()->checkLogServer())
+    {
+        G_TraceLog()->sysLog(0, "checkLogServer(), write_to_logserver is true");
+    }
+    else
+    {
+        G_TraceLog()->sysLog(0, "checkLogServer(), write_to_logserver is false");
     }
     return ret;
 }

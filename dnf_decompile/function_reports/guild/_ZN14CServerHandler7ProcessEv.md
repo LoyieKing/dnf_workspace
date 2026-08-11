@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806cf2c` | `0x325` | `0x80814f8` | `0x316` |
+| guild | DIFF | `0x806cf2c` | `0x325` | `0x8081308` | `0x316` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -63,16 +63,14 @@
  mov    0x8(%ebp),%eax
  movl   $0x0,0x40(%eax)
  mov    0x8(%ebp),%edx
--lea    -0x38(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP11CGameServerSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN14CServerHandler7ProcessEv+0x115>
--lea    -0x38(%ebp),%eax
 +jmp    <T> <_ZN14CServerHandler7ProcessEv+0x10c>
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEptEv>
  mov    0x4(%eax),%eax
@@ -136,21 +134,18 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEppEi>
 -sub    $0x4,%esp
-+lea    -0x28(%ebp),%eax
++lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEppEv>
  mov    0x8(%ebp),%edx
--lea    -0x34(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP11CGameServerSt4lessIjESaISt4pairIKjS1_EEE3endEv>
  sub    $0x4,%esp
--lea    -0x34(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEneERKS5_>
  test   %al,%al
@@ -206,7 +201,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12OnDisconnectEv>
  movl   $0xea,0x8(%esp)
- movl   $"Process",0x4(%esp)
+ movl   $&_ZZN14CServerHandler7ProcessEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
@@ -281,36 +276,32 @@
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct>
--mov    0x8(%ebp),%eax
--add    $0x44,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CTcpDBServer7GetPortEv>
+ mov    0x8(%ebp),%eax
+ add    $0x44,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CTcpDBServer7GetPortEv>
 -movzwl %ax,%esi
 -mov    0x8(%ebp),%eax
 -add    $0x44,%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN12CTcpDBServer5GetIPEv>
 -mov    %eax,%ebx
++movzwl %ax,%ebx
  movl   $0x135,0x8(%esp)
- movl   $"Process",0x4(%esp)
+ movl   $&_ZZN14CServerHandler7ProcessEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0x44,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CTcpDBServer7GetPortEv>
-+movzwl %ax,%eax
-+mov    %eax,0x10(%esp)
++mov    %ebx,0x10(%esp)
 +mov    -0x10(%ebp),%eax
 +mov    %eax,0xc(%esp)
  movl   $"try connect to DBMW(%s, %d)",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
@@ -469,32 +460,62 @@ void __thiscall CServerHandler::_ZN14CServerHandler7ProcessEv(CServerHandler *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFServerHandler.cpp](source/DNFServer/GameServer/COServer/DNFServerHandler.cpp)（约第 52 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 148 行）：
 
 ```cpp
 void CServerHandler::Process()
 {
-    CGameServer* p = m_servers;
-    int left = 0x649b;
-    int counter = 0;
-    while (left != 0)
+    bool doHb = false;
+    if (m_managerServer != 0)
     {
-        left--;
-        counter++;
-        if (p->IsValidServer())
+        int old = m_heartbeat;
+        m_heartbeat = old + 1;
+        doHb = old >= 4;
+    }
+    if (doHb)
+    {
+        m_managerServer->SendHeartBeat(GetServerGroupNo() & 0xff);
+        m_heartbeat = 0;
+    }
+    for (std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.begin();
+         it != m_gameServers.end(); ++it)
+    {
+        CGameServer* gs = it->second;
+        if (gs->IsValidServer() && gs->IsConnected() && gs->IsHeartBeatTimeOver())
         {
-            if (p->IsConnected())
+            if (gs->GetChannelNo() < 0xbe)
             {
-                if (p->IsHeartBeatTimeOver())
-                {
-                    p->OnDisconnect();
-                    DNF_LOG_SCOPE_LINE(0x5e, "./log/GameServer",
-                        "Game Server Disconnect, Index : %d, channel no : %d, group no: %d\n",
-                        counter, p->GetChannelNo() & 0xff, p->GetGroupNo() & 0xff);
-                }
+                m_app->OnGameServerDown(gs);
             }
+            gs->OnDisconnect();
         }
-        p++;
+    }
+    if (m_dbServer != 0 && m_dbServer->IsValidServer())
+    {
+        if (m_dbServer->IsConnected() && m_dbServer->IsHeartBeatTimeOver())
+        {
+            m_dbServer->OnDisconnect();
+            DNF_LOG_SCOPE_LINE(0xea, "./log/DBServerErr", "CServerHandler::Process() DB Server Down!\n");
+        }
+    }
+    if (m_tcpDbServer.IsValidServer() != 1)
+    {
+        const char* ip = m_tcpDbServer.GetIP();
+        if (*ip != '\0' && m_tcpDbServer.GetPort() != 0)
+        {
+            int sockRef = 0;
+            m_app->Get_TcpNetSystem()->OpenTcpService(
+                *m_tcpDbServer.GetSockRef(), ip, m_tcpDbServer.GetPort());
+            DNF_LOG_SCOPE_LINE(0x135,"./log/TcpServer", "try connect to DBMW(%s, %d)", ip,
+                (unsigned int)m_tcpDbServer.GetPort());
+        }
+    }
+    int old = m_field58;
+    m_field58 = old + 1;
+    if (old > 3)
+    {
+        m_tcpDbServer.SendHeartbeat();
+        m_field58 = 0;
     }
 }
 ```

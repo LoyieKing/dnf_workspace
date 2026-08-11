@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805b20e` | `0x85` | `0x80955c8` | `0x84` |
+| monitor | DIFF | `0x805b20e` | `0x85` | `0x8095704` | `0x84` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -108,4 +108,4 @@ _ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeIn
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 638 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp, source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp, source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.h, source/DNFServer/GameServer/Monitor/RawAccess.h, source/DNFServer/ServerCommon/DNFFileLog.h, source/DNFServer/ServerCommon/DNFFunctionLib.h, source/DNFServer/ServerCommon/Thread.h, source/DNFServer/ServerCommon/tinyxml.h 等 299 个文件*

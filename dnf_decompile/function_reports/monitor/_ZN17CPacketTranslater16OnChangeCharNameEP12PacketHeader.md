@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8089824` | `0x3c4` | `0x8074dc2` | `0x3cb` |
+| monitor | DIFF | `0x8089824` | `0x3c4` | `0x8074e56` | `0x3d1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,64 +13,67 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,269 +1,277 @@
+@@ -1,269 +1,271 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
--sub    $0x90,%esp
-+sub    $0x70,%esp
+ sub    $0x90,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
--jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x4f>
-+jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x4c>
+ jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x4f>
  movl   $0x133d,0x8(%esp)
- movl   $"OnChangeCharName",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnChangeCharNameEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnChangeGuildName : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3c1>
+-lea    -0x44(%ebp),%eax
++lea    -0x3c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3ba>
+-mov    0x8(%ebp),%eax
+-mov    %eax,-0x18(%ebp)
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3c7>
 +mov    0x8(%ebp),%eax
 +mov    %eax,-0x1c(%ebp)
-+lea    -0x36(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN28Packet_DBMW_Change_Char_NameC1Ev>
-+lea    -0x36(%ebp),%eax
-+lea    0xa(%eax),%ebx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication15Get_ServerGroupEv>
-+mov    %al,(%ebx)
-+lea    -0x36(%ebp),%eax
-+lea    0xb(%eax),%edx
+ lea    -0x81(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN28Packet_DBMW_Change_Char_NameC1Ev>
++lea    -0x81(%ebp),%ebx
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication15Get_ServerGroupEv>
+-mov    %al,-0x77(%ebp)
+-mov    -0x18(%ebp),%eax
+-mov    0xe(%eax),%eax
+-mov    %eax,-0x76(%ebp)
+-mov    -0x18(%ebp),%eax
++mov    %al,0xa(%ebx)
++lea    -0x81(%ebp),%eax
++mov    0x8(%ebp),%edx
++mov    0xe(%edx),%edx
++mov    %edx,0xb(%eax)
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
+ add    $0x16,%eax
+ movl   $0x1d,0x8(%esp)
+ mov    %eax,0x4(%esp)
+ lea    -0x81(%ebp),%eax
+ add    $0xf,%eax
+ mov    %eax,(%esp)
+ call   <T> <memcpy>
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
+ lea    -0x81(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 +mov    0x8(%ebp),%eax
-+lea    0x16(%eax),%edx
-+lea    -0x36(%ebp),%eax
-+add    $0xf,%eax
-+movl   $0x1d,0x8(%esp)
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <memcpy>
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0x36(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
-+mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
++mov    0xe(%eax),%eax
 +mov    %eax,-0x18(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +mov    %eax,(%esp)
@@ -79,43 +82,7 @@
 +mov    0x8(%ebp),%eax
 +add    $0x16,%eax
 +mov    %eax,0x8(%esp)
-+mov    -0x18(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CUserManager23ChangeBlackListCharNameEjPc>
- lea    -0x44(%ebp),%eax
- mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3ba>
--mov    0x8(%ebp),%eax
--mov    %eax,-0x18(%ebp)
--lea    -0x81(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN28Packet_DBMW_Change_Char_NameC1Ev>
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication15Get_ServerGroupEv>
--mov    %al,-0x77(%ebp)
--mov    -0x18(%ebp),%eax
--mov    0xe(%eax),%eax
--mov    %eax,-0x76(%ebp)
--mov    -0x18(%ebp),%eax
--add    $0x16,%eax
--movl   $0x1d,0x8(%esp)
--mov    %eax,0x4(%esp)
--lea    -0x81(%ebp),%eax
--add    $0xf,%eax
--mov    %eax,(%esp)
--call   <T> <memcpy>
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
--lea    -0x81(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
--mov    -0x18(%ebp),%eax
+ mov    -0x18(%ebp),%eax
 -lea    0x16(%eax),%esi
 -mov    -0x18(%ebp),%eax
 -mov    0xe(%eax),%ebx
@@ -124,39 +91,40 @@
 -call   <T> <_ZN12CApplication15Get_UserManagerEv>
 -mov    %esi,0x8(%esp)
 -mov    %ebx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN12CUserManager23ChangeBlackListCharNameEjPc>
++mov    %eax,0x4(%esp)
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CUserManager23ChangeBlackListCharNameEjPc>
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -add    $0x10,%eax
 -mov    %eax,-0x14(%ebp)
 -lea    -0x50(%ebp),%eax
--mov    %eax,(%esp)
++lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIjSaIjEEC1Ev>
 -mov    -0x18(%ebp),%eax
--mov    0xe(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
+ mov    0xe(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  lea    0x300(%edx),%ecx
 -lea    -0x50(%ebp),%edx
-+lea    -0x44(%ebp),%edx
++lea    -0x48(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    %ecx,(%esp)
  call   <T> <_ZN21CBuddyRegisterManager17findBuddyRegisterEjRSt6vectorIjSaIjEE>
 -lea    -0x54(%ebp),%eax
 -lea    -0x50(%ebp),%edx
-+lea    -0x4c(%ebp),%eax
-+lea    -0x44(%ebp),%edx
++lea    -0x50(%ebp),%eax
++lea    -0x48(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIjSaIjEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x1ff>
 -lea    -0x54(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x204>
-+lea    -0x4c(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x20a>
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPjSt6vectorIjSaIjEEEdeEv>
  mov    (%eax),%eax
@@ -170,40 +138,38 @@
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x1f4>
 -lea    -0x31(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x1f9>
-+lea    -0x1e(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x1ff>
++lea    -0x2e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -mov    -0x18(%ebp),%eax
 +mov    0x8(%ebp),%eax
  lea    0x16(%eax),%edx
 -lea    -0x31(%ebp),%eax
-+lea    -0x1e(%ebp),%eax
++lea    -0x2e(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    %edx,0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -mov    -0x18(%ebp),%eax
--mov    0xe(%eax),%eax
--lea    -0x38(%ebp),%edx
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x1ab>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x1b3>
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x1e(%ebp),%eax
++lea    -0x2e(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2c8>
-+lea    -0x1e(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2cc>
++lea    -0x2e(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
-+lea    -0x50(%ebp),%edx
+ mov    0xe(%eax),%eax
+-lea    -0x38(%ebp),%edx
++lea    -0x54(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0x10(%ebp),%eax
@@ -233,26 +199,25 @@
 -lea    -0x31(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSaIcED1Ev>
--lea    -0x54(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x1ee>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x1f4>
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x50(%ebp),%eax
-+mov    %eax,(%esp)
+ lea    -0x54(%ebp),%eax
+ mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2c8>
-+lea    -0x50(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2cc>
++lea    -0x54(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+lea    -0x4c(%ebp),%eax
- mov    %eax,(%esp)
++lea    -0x50(%ebp),%eax
++mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPjSt6vectorIjSaIjEEEppEv>
 -lea    -0x3c(%ebp),%eax
 -lea    -0x50(%ebp),%edx
-+lea    -0x24(%ebp),%eax
-+lea    -0x44(%ebp),%edx
++lea    -0x34(%ebp),%eax
++lea    -0x48(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIjSaIjEE3endEv>
@@ -260,51 +225,49 @@
 -lea    -0x3c(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x54(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x34(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0x4c(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxxneIPjSt6vectorIjSaIjEEEEbRKNS_17__normal_iteratorIT_T0_EESA_>
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x13c>
 -lea    -0x29(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x141>
-+lea    -0x1d(%ebp),%eax
++jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x149>
++lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -mov    -0x18(%ebp),%eax
 +mov    0x8(%ebp),%eax
  lea    0x16(%eax),%edx
 -lea    -0x29(%ebp),%eax
-+lea    -0x1d(%ebp),%eax
++lea    -0x2d(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    %edx,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -mov    -0x18(%ebp),%eax
--mov    0xe(%eax),%ebx
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x271>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x277>
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x1d(%ebp),%eax
++lea    -0x2d(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2c8>
-+lea    -0x1d(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2cc>
++lea    -0x2d(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%ebx
+ mov    0xe(%eax),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication21Get_MemoryCashManagerEv>
 -lea    -0x30(%ebp),%edx
-+lea    -0x48(%ebp),%edx
++lea    -0x4c(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
@@ -334,22 +297,22 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNSaIcED1Ev>
 -lea    -0x50(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2bb>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2bf>
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x48(%ebp),%eax
++lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2c8>
-+lea    -0x48(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2cc>
++lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2dd>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2e1>
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x44(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIjSaIjEED1Ev>
 -jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3ba>
@@ -358,51 +321,43 @@
 -lea    -0x50(%ebp),%eax
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2ed>
-+lea    -0x44(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2f1>
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIjSaIjEED1Ev>
 -mov    %esi,%eax
 -mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2e4>
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3c1>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3c7>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x360>
-+jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x367>
++jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x36d>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
  movl   $0x1363,0x8(%esp)
- movl   $"OnChangeCharName",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnChangeCharNameEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnChangeCharName Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x359>
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x360>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x366>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -412,23 +367,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3ba>
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3c1>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3c7>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1368,0x8(%esp)
- movl   $"OnChangeCharName",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnChangeCharNameEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x60(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnChangeCharName Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x60(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3b5>
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3bc>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3c2>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -545,70 +500,53 @@ void CPacketTranslater::_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3676 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3374 行）：
 
 ```cpp
 void CPacketTranslater::OnChangeCharName(PacketHeader* pkt)
 {
     try
     {
-    char* pb = (char*)pkt;
-    if (m_pclApp == 0)
-    {
-        DNF_LOG_SCOPE_LINE(0x1544, "./log/Except", "CPacketTranslater::OnChangeGuildName : 0 == m_pclApp");
-        return;
-    }
-    if (*(int*)(pb + 0x12) == 0)
-    {
-        DNF_LOG_SCOPE_LINE(0x154c, "./log/ServerUnify", "CPacketTranslater::OnChangeCharName : packet->m_uGuildKey");
-        return;
-    }
-    Packet_UnChangable_GuildInfo_Save save;
-    *(unsigned int*)((char*)&save + 0xa) = *(unsigned int*)(pb + 0x12);
-    *(unsigned int*)((char*)&save + 0xe) = *(unsigned int*)(pb + 0xe);
-    memcpy((char*)&save + 0x12, pb + 0x16, 0x1d);
-    m_pclApp->Get_ServerHandler()->SendToDB(&save);
-    STTodayGuildMember* today =
-        m_pclApp->Get_GuildManager()->GetTodayMember(*(unsigned int*)(pb + 0x12));
-    if (today != 0 && *(int*)today == *(int*)(pb + 0xe))
-    {
-        memset((char*)today + 4, 0, 0x1e);
-        strncpy((char*)today + 4, pb + 0x16, 0x1d);
-    }
-    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xa));
-    if (guild == 0)
-    {
-        DNF_LOG_SCOPE_LINE(0x1563, "./log/ServerUnify", "CPacketTranslater::OnChangeCharName : 0 == pclGuild");
-        return;
-    }
-    if (guild->ChangeGuildMemberCharName(*(unsigned int*)(pb + 0xe), pb + 0x16) == 1)
-    {
-        CUser* user = m_pclApp->Get_UserManager()->FindUser(*(unsigned int*)(pb + 0xa));
-        if (user == 0)
+        if (m_pclApp == 0)
         {
-            DNF_LOG_SCOPE_LINE(0x1572,"./log/ServerUnify",
-                "CPacketTranslater::OnChangeGuildName : 0 == pclRequestUser");
+            DNF_LOG_SCOPE_LINE(0x133d, "./log/Except", "CPacketTranslater::OnChangeGuildName : 0 == m_pclApp");
         }
         else
         {
-            user->ChangeCharName(pb + 0x16);
+            PacketHeader* rpkt = pkt;
+            Packet_DBMW_Change_Char_Name pkt2;
+            ((RA_S8<10>*)&pkt2)->v = (char)m_pclApp->Get_ServerGroup();
+            ((RA_UINT<11>*)&pkt2)->v = ((RA_UINT<14>*)pkt)->v;
+            memcpy((char*)&pkt2 + 0xf, (char*)pkt + 0x16, 0x1d);
+            m_pclApp->Get_ServerHandler()->SendToDB(&pkt2);
+            unsigned int dbid = ((RA_UINT<14>*)pkt)->v;
+            CUserManager* userMgr = m_pclApp->Get_UserManager();
+            userMgr->ChangeBlackListCharName(dbid, (char*)pkt + 0x16);
+            std::vector<unsigned int> vec;
+            ((CBuddyRegisterManager*)((char*)m_pclApp + 0x300))
+                ->findBuddyRegister(((RA_UINT<14>*)pkt)->v, vec);
+            for (std::vector<unsigned int>::iterator it = vec.begin(); it != vec.end(); ++it)
+            {
+                CUser* user = userMgr->FindUser_CharNo(*it);
+                if (user != 0)
+                {
+                    std::string name((char*)pkt + 0x16);
+                    user->SetBuddyCharName(((RA_INT<14>*)pkt)->v, name);
+                }
+            }
+            std::string name2((char*)pkt + 0x16);
+            ((CMemoryCashManager*)m_pclApp->Get_MemoryCashManager())->InsertUpdatedCharacName(
+                ((RA_UINT<14>*)pkt)->v, name2);
         }
-    }
-    else
-    {
-        DNF_LOG_SCOPE_LINE(0x156b,"./log/ServerUnify",
-            "CPacketTranslater::OnChangeGuildName : false == pclGuild->ChangeGuildMemberCharName()");
-    }
     }
     catch (CDNFException& e)
     {
-        CMyFileLog log("OnChangeCharName", 0x157f);
-        log("./log/Except", "CPacketTranslater::OnChangeCharName Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x1363,"./log/Except", "CPacketTranslater::OnChangeCharName Exception Break : %s\n",
+            e.what());
     }
     catch (...)
     {
-        CMyFileLog log("OnChangeCharName", 0x1584);
-        log("./log/Except", "CPacketTranslater::OnChangeCharName Exception Break\n");
+        DNF_LOG_SCOPE_LINE(0x1368, "./log/Except", "CPacketTranslater::OnChangeCharName Exception Break\n");
     }
 }
 ```

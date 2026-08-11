@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8065d0a` | `0x46d` | `0x805b7de` | `0x443` |
+| manager | DIFF | `0x8065d0a` | `0x46d` | `0x805b698` | `0x452` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,7 +20,7 @@
  push   %esi
  push   %ebx
 -sub    $0x19c,%esp
-+sub    $0x8c,%esp
++sub    $0x18c,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0xe2>
@@ -83,11 +83,11 @@
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x389>
 -lea    -0x45(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x364>
++jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x373>
 +lea    -0x2a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -109,7 +109,7 @@
 +movsbl %al,%eax
 +mov    %eax,-0x24(%ebp)
  movl   $0x1b2,0x8(%esp)
- movl   $"OnWebNoticeBroadcast",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
@@ -141,7 +141,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x462>
-+je     <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x438>
++je     <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x447>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
 -mov    %eax,-0x24(%ebp)
@@ -149,7 +149,7 @@
 -je     <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x461>
 -lea    -0x58(%ebp),%eax
 +test   %eax,%eax
-+je     <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x438>
++je     <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x447>
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorISsSaISsEEC1Ev>
@@ -188,7 +188,7 @@
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x364>
 -lea    -0x39(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x33f>
++jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x34e>
 +lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -213,55 +213,81 @@
  sub    $0x4,%esp
 -lea    -0x68(%ebp),%eax
 -lea    -0x58(%ebp),%edx
-+jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x2ec>
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt6vectorISsSaISsEE3endEv>
+-sub    $0x4,%esp
+-jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x304>
+-lea    -0x64(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x2fb>
 +lea    -0x4c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSsSt6vectorISsSaISsEEEdeEv>
-+mov    %eax,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSsSt6vectorISsSaISsEEEdeEv>
+ mov    %eax,0x4(%esp)
+-lea    -0x60(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsaSERKSs>
+-lea    -0x60(%ebp),%eax
 +lea    -0x50(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsC1ERKSs>
 +lea    -0x50(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSs5c_strEv>
-+mov    %eax,(%esp)
-+call   <T> <atoi>
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSs5c_strEv>
+ mov    %eax,(%esp)
+ call   <T> <atoi>
+-mov    %al,-0x1d(%ebp)
+-cmpb   $0x64,-0x1d(%ebp)
+-ja     <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x2f9>
+-lea    -0x172(%ebp),%eax
 +mov    %eax,-0x20(%ebp)
 +cmpl   $0x64,-0x20(%ebp)
-+jg     <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x2d6>
-+lea    -0x5a(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN24Packet_Web_Notice_SingleC1Ev>
-+lea    -0x5a(%ebp),%eax
++jg     <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x2e5>
++lea    -0x16a(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN24Packet_Web_Notice_SingleC1Ev>
+-mov    -0x28(%ebp),%eax
+-movzbl 0x10a(%eax),%eax
+-mov    %al,-0x168(%ebp)
++lea    -0x16a(%ebp),%eax
 +lea    0xa(%eax),%edx
 +mov    -0x24(%ebp),%eax
 +mov    %al,(%edx)
-+lea    -0x5a(%ebp),%eax
-+add    $0xb,%eax
-+movl   $0xff,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <memset>
+ movl   $0xff,0x8(%esp)
+ movl   $0x0,0x4(%esp)
+-lea    -0x172(%ebp),%eax
++lea    -0x16a(%ebp),%eax
+ add    $0xb,%eax
+ mov    %eax,(%esp)
+ call   <T> <memset>
+-mov    -0x28(%ebp),%eax
+-movzbl 0x10a(%eax),%eax
+-movzbl %al,%eax
+-mov    -0x28(%ebp),%edx
 +mov    -0x24(%ebp),%eax
 +mov    0x8(%ebp),%edx
-+lea    0x10b(%edx),%ecx
-+lea    -0x5a(%ebp),%edx
-+add    $0xb,%edx
-+mov    %eax,0x8(%esp)
-+mov    %ecx,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <strncpy>
+ add    $0x10b,%edx
+ mov    %eax,0x8(%esp)
+ mov    %edx,0x4(%esp)
+-lea    -0x172(%ebp),%eax
++lea    -0x16a(%ebp),%eax
+ add    $0xb,%eax
+ mov    %eax,(%esp)
+ call   <T> <strncpy>
+-movzbl -0x1d(%ebp),%edx
+-lea    -0x172(%ebp),%eax
+-mov    %edx,0xc(%esp)
 +mov    -0x20(%ebp),%eax
 +movzbl %al,%ecx
-+lea    -0x5a(%ebp),%edx
++lea    -0x16a(%ebp),%edx
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +mov    0x18(%eax),%eax
 +mov    %ecx,0xc(%esp)
-+movl   $0x10a,0x8(%esp)
+ movl   $0x10a,0x8(%esp)
 +mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZN14CServerHandler15SendToTcpServerEPcih>
-+jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x2d6>
++jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x2e5>
 +mov    %edx,%ebx
 +mov    %eax,%esi
 +lea    -0x50(%ebp),%eax
@@ -269,7 +295,7 @@
 +call   <T> <_ZNSsD1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x31d>
++jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x32c>
 +lea    -0x50(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
@@ -278,55 +304,12 @@
 +call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSsSt6vectorISsSaISsEEEppEv>
 +lea    -0x28(%ebp),%eax
 +lea    -0x44(%ebp),%edx
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZNSt6vectorISsSaISsEE3endEv>
- sub    $0x4,%esp
--jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x304>
--lea    -0x64(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSsSt6vectorISsSaISsEEEdeEv>
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZNSt6vectorISsSaISsEE3endEv>
++sub    $0x4,%esp
 +lea    -0x28(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x60(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsaSERKSs>
--lea    -0x60(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSs5c_strEv>
--mov    %eax,(%esp)
--call   <T> <atoi>
--mov    %al,-0x1d(%ebp)
--cmpb   $0x64,-0x1d(%ebp)
--ja     <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x2f9>
--lea    -0x172(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN24Packet_Web_Notice_SingleC1Ev>
--mov    -0x28(%ebp),%eax
--movzbl 0x10a(%eax),%eax
--mov    %al,-0x168(%ebp)
--movl   $0xff,0x8(%esp)
--movl   $0x0,0x4(%esp)
--lea    -0x172(%ebp),%eax
--add    $0xb,%eax
--mov    %eax,(%esp)
--call   <T> <memset>
--mov    -0x28(%ebp),%eax
--movzbl 0x10a(%eax),%eax
--movzbl %al,%eax
--mov    -0x28(%ebp),%edx
--add    $0x10b,%edx
--mov    %eax,0x8(%esp)
--mov    %edx,0x4(%esp)
--lea    -0x172(%ebp),%eax
--add    $0xb,%eax
--mov    %eax,(%esp)
--call   <T> <strncpy>
--movzbl -0x1d(%ebp),%edx
--lea    -0x172(%ebp),%eax
--mov    %edx,0xc(%esp)
--movl   $0x10a,0x8(%esp)
--mov    %eax,0x4(%esp)
 -mov    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN14CServerHandler15SendToTcpServerEPcih>
@@ -359,28 +342,9 @@
 -lea    -0x5c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSsD1Ev>
-+jne    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x206>
-+jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x332>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x48(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x33f>
-+lea    -0x48(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x354>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt6vectorISsSaISsEED1Ev>
- mov    %esi,%eax
- mov    %ebx,%edx
- jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x364>
+-mov    %esi,%eax
+-mov    %ebx,%edx
+-jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x364>
 -lea    -0x5c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSsD1Ev>
@@ -388,55 +352,69 @@
 -mov    %edx,%ebx
 -mov    %eax,%esi
 -lea    -0x58(%ebp),%eax
++jne    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x206>
++jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x341>
++mov    %edx,%ebx
++mov    %eax,%esi
++lea    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++mov    %esi,%eax
++mov    %ebx,%edx
++jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x34e>
++lea    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x363>
++mov    %edx,%ebx
++mov    %eax,%esi
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorISsSaISsEED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x389>
 -lea    -0x58(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt6vectorISsSaISsEED1Ev>
++jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x373>
++lea    -0x44(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt6vectorISsSaISsEED1Ev>
 -jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x462>
-+jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x438>
++jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x447>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x405>
-+jne    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x3de>
++jne    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x3ed>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
 +movl   $0x1e0,0x8(%esp)
-+movl   $"OnWebNoticeBroadcast",0x4(%esp)
-+lea    -0x64(%ebp),%eax
++movl   $&_ZZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x58(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
 -movl   $0x1e0,0x8(%esp)
--movl   $"OnWebNoticeBroadcast",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnWebNoticeBroadcast() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x64(%ebp),%eax
++lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x3fe>
-+jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x3d7>
++jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x3e6>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -446,23 +424,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x462>
-+jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x438>
++jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x447>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1e5,0x8(%esp)
- movl   $"OnWebNoticeBroadcast",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x6c(%ebp),%eax
++lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnWebNoticeBroadcast() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x6c(%ebp),%eax
++lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x45a>
-+jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x433>
++jmp    <T> <_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHeader+0x442>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -585,7 +563,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnWebNoticeBroadcastEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2601 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp)（约第 361 行）：
 
 ```cpp
 void CPacketTranslater::OnWebNoticeBroadcast(PacketHeader* header)
@@ -595,7 +573,7 @@ void CPacketTranslater::OnWebNoticeBroadcast(PacketHeader* header)
         if (!m_pclApp)
             throw CDNFException("CPacketTranslater::OnWebNoticeBroadcast : 0 == m_pclApp");
         int len = ((char*)header)[0x10a];
-        CMyFileLog log("OnWebNoticeBroadcast", 0x1b2);
+        CMyFileLog log(__FUNCTION__, 0x1b2);
         log("./log/test", "%d, %s, %d, %s\n",
             ((char*)header)[0xa], (char*)header + 0xb, len, (char*)header + 0x10b);
         if (m_pclApp && m_pclApp->m_serverHandler)
@@ -619,8 +597,15 @@ void CPacketTranslater::OnWebNoticeBroadcast(PacketHeader* header)
             }
         }
     }
-    DNF_CATCH_LOG("./log/Except",
-                  "CPacketTranslater::OnWebNoticeBroadcast() Exception Break",
-                  0x1e0, 0x1e5);
+    catch (CDNFException& e)
+    {
+        CMyFileLog log(__FUNCTION__, 0x1e0);
+        log("./log/Except", "CPacketTranslater::OnWebNoticeBroadcast() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log(__FUNCTION__, 0x1e5);
+        log("./log/Except", "CPacketTranslater::OnWebNoticeBroadcast() Exception Break\n");
+    }
 }
 ```

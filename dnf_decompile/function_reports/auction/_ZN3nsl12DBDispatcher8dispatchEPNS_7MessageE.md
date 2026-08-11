@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| auction | DIFF | `0x80b94b8` | `0x1ec` | `0x8066c64` | `0x1fc` |
+| auction | DIFF | `0x80b94b8` | `0x1ec` | `0x8066b78` | `0x1fc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -300,4 +300,4 @@ nsl::DBDispatcher::_ZN3nsl12DBDispatcher8dispatchEPNS_7MessageE(DBDispatcher *th
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DBDispatcher.cpp, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/CommonDataPool.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DBConnections.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DBDispatcher.cpp, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DBDispatcher.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DataPools.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/Dispatchers.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/EncyptTools.h 等 501 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DBDispatcher.cpp, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/CommonDataPool.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DBConnections.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DBDispatcher.cpp, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DBDispatcher.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DataPools.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/Dispatchers.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/EncyptTools.h 等 570 个文件*

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809633e` | `0x33b` | `0x805c8a4` | `0x34a` |
+| guild | DIFF | `0x809633e` | `0x33b` | `0x805c3c4` | `0x34a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -26,19 +26,19 @@
  test   %eax,%eax
  jne    <T> <_ZN13CGuildManager11GuildSecedeEjR22ST_Notice_Guild_Secede+0xf2>
 -lea    -0x31(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x31(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x35(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CGuildManager::GuildSecede()\t0 == m_pclApp\n",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x38(%ebp),%esi
-+lea    -0x34(%ebp),%esi
++lea    -0x3c(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -58,7 +58,7 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x38(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN13CGuildManager11GuildSecedeEjR22ST_Notice_Guild_Secede+0x8f>
@@ -71,7 +71,7 @@
  mov    %ebx,%eax
  jmp    <T> <_ZN13CGuildManager11GuildSecedeEjR22ST_Notice_Guild_Secede+0xb4>
 -lea    -0x38(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN13CGuildManager11GuildSecedeEjR22ST_Notice_Guild_Secede+0xcf>
@@ -85,7 +85,7 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x31(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%ecx
@@ -93,29 +93,29 @@
  mov    %ecx,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x31(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  cmpl   $0x0,0xc(%ebp)
  jne    <T> <_ZN13CGuildManager11GuildSecedeEjR22ST_Notice_Guild_Secede+0x1d8>
 -lea    -0x29(%ebp),%eax
-+lea    -0x25(%ebp),%eax
++lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x29(%ebp),%eax
-+lea    -0x25(%ebp),%eax
++lea    -0x2d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CGuildManager::GuildSecede()\t0 == dwGuildKey\n",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x30(%ebp),%esi
-+lea    -0x2c(%ebp),%esi
++lea    -0x34(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -135,7 +135,7 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x30(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN13CGuildManager11GuildSecedeEjR22ST_Notice_Guild_Secede+0x175>
@@ -148,7 +148,7 @@
  mov    %ebx,%eax
  jmp    <T> <_ZN13CGuildManager11GuildSecedeEjR22ST_Notice_Guild_Secede+0x19a>
 -lea    -0x30(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN13CGuildManager11GuildSecedeEjR22ST_Notice_Guild_Secede+0x1b5>
@@ -162,7 +162,7 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x29(%ebp),%eax
-+lea    -0x25(%ebp),%eax
++lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%ecx
@@ -170,10 +170,10 @@
  mov    %ecx,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x29(%ebp),%eax
-+lea    -0x25(%ebp),%eax
++lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -270,18 +270,18 @@
 -mov    %eax,(%esp)
 -call   <T> <_Z14NumberToStringji>
 -mov    %eax,%ebx
++mov    0x10(%ebp),%eax
++add    $0x8,%eax
++mov    (%eax),%ebx
  movl   $0x2a1,0x8(%esp)
- movl   $"GuildSecede",0x4(%esp)
+ movl   $&_ZZN13CGuildManager11GuildSecedeEjR22ST_Notice_Guild_SecedeE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x14(%esp)
 -mov    %ebx,0x10(%esp)
-+mov    0x10(%ebp),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    %eax,0x14(%esp)
++mov    %ebx,0x14(%esp)
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,0x10(%esp)
  mov    0xc(%ebp),%eax
@@ -289,7 +289,7 @@
  movl   $"GUILD : CGuildManager::GuildSecede() pclGuild == NULL But pclUser != NULL( Guild Key : %d, Acc Id : %s, Char Id : %d )\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x1c(%ebp),%eax
@@ -439,7 +439,7 @@ CGuildManager::_ZN13CGuildManager11GuildSecedeEjR22ST_Notice_Guild_Secede
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 394 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 417 行）：
 
 ```cpp
 CGuild* CGuildManager::GuildSecede(unsigned int guildKey, ST_Notice_Guild_Secede& info)

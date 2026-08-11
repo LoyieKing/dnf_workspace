@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809dbe6` | `0x2fc` | `0x80903b2` | `0x25b` |
+| guild | DIFF | `0x809dbe6` | `0x2fc` | `0x809021c` | `0x25b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -22,7 +22,7 @@
 -sub    $0x2fc,%esp
 -lea    -0xe8(%ebp),%eax
 +sub    $0x2f0,%esp
-+lea    -0xc(%ebp),%eax
++lea    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsC1Ev>
 +lea    -0xd8(%ebp),%eax
@@ -46,7 +46,7 @@
 -call   <T> <_ZNSsC1Ev>
 -lea    -0x2c(%ebp),%eax
 +mov    %eax,(%ebx)
-+lea    -0x10(%ebp),%eax
++lea    -0x18(%ebp),%eax
  movl   $0x0,0xc(%esp)
  movl   $0x3f0,0x8(%esp)
  movl   $&g_ServerString_,0x4(%esp)
@@ -115,7 +115,7 @@
 -mov    %al,(%edx)
 -add    $0x1,%edx
 -lea    -0x24(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  movl   $0x0,0xc(%esp)
  movl   $0x3e8,0x8(%esp)
  movl   $&g_ServerString_,0x4(%esp)
@@ -123,7 +123,7 @@
  call   <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb>
  sub    $0x4,%esp
 -lea    -0x24(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs5c_strEv>
  mov    %eax,%ebx
@@ -153,7 +153,7 @@
 +lea    -0x1d7(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0xc(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSspLEPKc>
  mov    0x10(%ebp),%eax
@@ -167,18 +167,18 @@
 +lea    -0x2d6(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0xc(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSspLEPKc>
 -lea    -0x2c(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0xc(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSspLERKSs>
 -lea    -0x28(%ebp),%eax
-+lea    -0xc(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs6lengthEv>
  cmp    $0x77,%eax
@@ -190,12 +190,12 @@
 -jmp    <T> <_ZN11CGuildBoard27sendMessageToDBMW_GuildFundEP14CServerHandleriP5CUser+0x2be>
 -lea    -0x28(%ebp),%eax
 +je     <T> <_ZN11CGuildBoard27sendMessageToDBMW_GuildFundEP14CServerHandleriP5CUser+0x1fc>
-+lea    -0xc(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs6lengthEv>
  mov    %eax,%ebx
 -lea    -0x28(%ebp),%eax
-+lea    -0xc(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs5c_strEv>
  mov    %ebx,0x8(%esp)
@@ -213,30 +213,26 @@
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -mov    -0xd5(%ebp),%esi
 -mov    -0xdd(%ebp),%ebx
- movl   $0x15d,0x8(%esp)
- movl   $"sendMessageToDBMW_GuildFund",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0x10(%ebp),%eax
--mov    %eax,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
 +lea    -0xd8(%ebp),%eax
 +add    $0x13,%eax
-+mov    (%eax),%edx
++mov    (%eax),%esi
 +lea    -0xd8(%ebp),%eax
 +add    $0xb,%eax
-+mov    (%eax),%eax
-+mov    0x10(%ebp),%ecx
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    (%eax),%ebx
+ movl   $0x15d,0x8(%esp)
+ movl   $&_ZZN11CGuildBoard27sendMessageToDBMW_GuildFundEP14CServerHandleriP5CUserE12__FUNCTION__,0x4(%esp)
+-lea    -0x20(%ebp),%eax
++lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"SET SUCCESS - GUILD:%u, CHARAC:%u, gold :%d",0x8(%esp)
  movl   $"./log/GuildBoard",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x1,%ebx
@@ -245,7 +241,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x2c(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
@@ -253,7 +249,7 @@
 -jmp    <T> <_ZN11CGuildBoard27sendMessageToDBMW_GuildFundEP14CServerHandleriP5CUser+0x2e1>
 -lea    -0x2c(%ebp),%eax
 +jmp    <T> <_ZN11CGuildBoard27sendMessageToDBMW_GuildFundEP14CServerHandleriP5CUser+0x209>
-+lea    -0x14(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -test   %ebx,%ebx
@@ -261,7 +257,7 @@
 +jmp    <T> <_ZN11CGuildBoard27sendMessageToDBMW_GuildFundEP14CServerHandleriP5CUser+0x21e>
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x10(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -lea    -0xc(%ebp),%esp
@@ -274,21 +270,21 @@
 +mov    %esi,%eax
 +mov    %ebx,%edx
 +jmp    <T> <_ZN11CGuildBoard27sendMessageToDBMW_GuildFundEP14CServerHandleriP5CUser+0x22b>
-+lea    -0x10(%ebp),%eax
++lea    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +jmp    <T> <_ZN11CGuildBoard27sendMessageToDBMW_GuildFundEP14CServerHandleriP5CUser+0x246>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x28(%ebp),%eax
-+lea    -0xc(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
-+lea    -0xc(%ebp),%eax
++lea    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +lea    -0x8(%ebp),%esp
@@ -420,7 +416,7 @@ CGuildBoard::_ZN11CGuildBoard27sendMessageToDBMW_GuildFundEP14CServerHandleriP5C
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 299 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 292 行）：
 
 ```cpp
 void CGuildBoard::sendMessageToDBMW_GuildFund(CServerHandler* handler, int fund, CUser* user)

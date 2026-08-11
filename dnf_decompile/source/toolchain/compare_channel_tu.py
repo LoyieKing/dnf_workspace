@@ -8,7 +8,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import disasm_slice, load_disasm, norm_identical
 
-ORIG='/mnt/d/Docs/my_sources/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople/channel/df_channel_r'
+ORIG='/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople/channel/df_channel_r'
 FN2CU='/tmp/channel_work/fn2cu.json'
 
 def syms(b):

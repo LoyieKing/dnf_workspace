@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805e906` | `0x20` | `0x8093888` | `0x21` |
+| monitor | DIFF | `0x805e906` | `0x20` | `0x809395c` | `0x28` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,23 +13,27 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,13 +1,13 @@
+@@ -1,13 +1,15 @@
  push   %ebp
  mov    %esp,%ebp
- sub    $0x4,%esp
+-sub    $0x4,%esp
++sub    $0x14,%esp
  mov    0xc(%ebp),%eax
- mov    %al,-0x4(%ebp)
+-mov    %al,-0x4(%ebp)
 -movzbl -0x4(%ebp),%eax
 -cmp    $0xc8,%al
 -jbe    <T> <_ZN10CIPCounter13setMinIPCountEh+0x19>
 -mov    $0xffffffc8,%eax
 -mov    0x8(%ebp),%edx
 -mov    %al,(%edx)
-+cmpb   $0xc8,-0x4(%ebp)
-+jbe    <T> <_ZN10CIPCounter13setMinIPCountEh+0x16>
-+movb   $0xc8,-0x4(%ebp)
++mov    %al,-0x14(%ebp)
++movzbl -0x14(%ebp),%eax
++mov    %al,-0x1(%ebp)
++cmpb   $0xc8,-0x1(%ebp)
++jbe    <T> <_ZN10CIPCounter13setMinIPCountEh+0x1d>
++movb   $0xc8,-0x1(%ebp)
++movzbl -0x1(%ebp),%edx
 +mov    0x8(%ebp),%eax
-+movzbl -0x4(%ebp),%edx
 +mov    %dl,(%eax)
  leave
  ret
@@ -58,10 +62,11 @@ void __thiscall CIPCounter::_ZN10CIPCounter13setMinIPCountEh(CIPCounter *this,uc
 ```cpp
 void CIPCounter::setMinIPCount(unsigned char count)
 {
-    if (200 < count)
+    unsigned char v = count;
+    if (v > 200)
     {
-        count = 200;
+        v = 200;
     }
-    *(unsigned char*)this = count;
+    m_option = v;
 }
 ```

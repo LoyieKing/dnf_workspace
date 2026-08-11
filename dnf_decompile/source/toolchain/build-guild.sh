@@ -33,7 +33,7 @@ PACKET="$ROOT/shared/packet"
 
 CXX="/tmp/c6root/usr/bin/g++"
 export LD_LIBRARY_PATH=/tmp/c6root/usr/lib64:/tmp/c6root/usr/lib
-FLAGS="-m32 -O0 -std=gnu++0x -fno-enforce-eh-specs -nostdinc -DTIXML_USE_STL -DBOOST_DISABLE_ASSERTS \
+FLAGS="-m32 -O0 -std=gnu++0x -fno-enforce-eh-specs -nostdinc -DTIXML_USE_STL -DBOOST_DISABLE_ASSERTS -DDNF_SVC_GUILD \
   -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include \
   -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include-fixed \
   -isystem /tmp/c6root/usr/include/c++/4.4.7 \

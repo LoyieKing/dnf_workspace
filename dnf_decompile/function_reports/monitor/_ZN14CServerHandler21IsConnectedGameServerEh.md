@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8079c3c` | `0xbb` | `0x8080faa` | `0x79` |
+| monitor | DIFF | `0x8079c3c` | `0xbb` | `0x8080e70` | `0xb7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,18 +13,16 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,52 +1,38 @@
+@@ -1,52 +1,50 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %ebx
 -sub    $0x44,%esp
-+sub    $0x38,%esp
++sub    $0x48,%esp
  mov    0xc(%ebp),%eax
--mov    %al,-0x2c(%ebp)
--movzbl -0x2c(%ebp),%eax
+ mov    %al,-0x2c(%ebp)
+ movzbl -0x2c(%ebp),%eax
 -mov    %eax,-0x18(%ebp)
-+mov    %al,-0x1c(%ebp)
-+movzbl -0x1c(%ebp),%eax
 +mov    %eax,-0x10(%ebp)
  mov    0x8(%ebp),%edx
 -lea    -0x1c(%ebp),%eax
@@ -49,14 +47,11 @@
 -mov    %eax,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEneERKS5_>
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEeqERKS5_>
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEneERKS5_>
  test   %al,%al
 -je     <T> <_ZN14CServerHandler21IsConnectedGameServerEh+0x73>
 -lea    -0x1c(%ebp),%eax
-+je     <T> <_ZN14CServerHandler21IsConnectedGameServerEh+0x61>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN14CServerHandler21IsConnectedGameServerEh+0x77>
++je     <T> <_ZN14CServerHandler21IsConnectedGameServerEh+0x72>
 +lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEptEv>
@@ -65,18 +60,24 @@
  call   <T> <_ZN16CServerInterface11IsConnectedEv>
 -jmp    <T> <_ZN14CServerHandler21IsConnectedGameServerEh+0xb6>
 -movzbl -0x2c(%ebp),%ebx
--movl   $0x19e,0x8(%esp)
--movl   $"IsConnectedGameServer",0x4(%esp)
++jmp    <T> <_ZN14CServerHandler21IsConnectedGameServerEh+0xb5>
+ movl   $0x19e,0x8(%esp)
+ movl   $&_ZZN14CServerHandler21IsConnectedGameServerEhE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++lea    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
 -movl   $"CServerHandler::IsConnectedGameServer\tGame Server Index Over Index : %d!\n",0x8(%esp)
--movl   $"./log/GameServer",0x4(%esp)
++movzbl -0x2c(%ebp),%eax
++mov    %eax,0xc(%esp)
++movl   $"Game Server Index Over Index : %d!\n",0x8(%esp)
+ movl   $"./log/GameServer",0x4(%esp)
 -lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    $0x0,%eax
++lea    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    $0x0,%eax
 -mov    -0x4(%ebp),%ebx
  leave
  ret
@@ -128,19 +129,19 @@ CServerHandler::_ZN14CServerHandler21IsConnectedGameServerEh(CServerHandler *thi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 236 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 467 行）：
 
 ```cpp
-bool CServerHandler::IsConnectedGameServer(unsigned char group)
+bool CServerHandler::IsConnectedGameServer(unsigned char channel)
 {
-    std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.find(group);
+    unsigned int ch = (unsigned int)channel;
+    std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.find(ch);
     if (it != m_gameServers.end())
     {
-        return it->second->IsConnected();
+        return ((CServerInterface*)it->second)->IsConnected();
     }
-    DNF_LOG_SCOPE_LINE(0x1a1,"./log/GameServer",
-        "CServerHandler::IsConnectedGameServer\tGame Server Index Over Index : %d!\n",
-        (unsigned int)group);
+    CMyFileLog log(__FUNCTION__, 0x19e);
+    log("./log/GameServer", "Game Server Index Over Index : %d!\n", channel);
     return 0;
 }
 ```

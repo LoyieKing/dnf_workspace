@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a7d10` | `0x176` | `0x809e1da` | `0x174` |
+| guild | DIFF | `0x80a7d10` | `0x176` | `0x809dd5a` | `0x17b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,45 +13,44 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,91 +1,88 @@
+@@ -1,91 +1,93 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
--push   %ebx
+ push   %esi
+ push   %ebx
 -sub    $0x50,%esp
-+sub    $0x68,%esp
++sub    $0x60,%esp
  movl   $0xee,0x8(%esp)
- movl   $"PrintDebugInfo",0x4(%esp)
+ movl   $&_ZZN19CPowerWarCharacInfo14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"------ POWER WAR CHARAC DEBUG INFO START --------------------------------------------------------",0x8(%esp)
  movl   $"./log/PowerResult",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0xef,0x8(%esp)
- movl   $"PrintDebugInfo",0x4(%esp)
+ movl   $&_ZZN19CPowerWarCharacInfo14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"------ ALL USER RANKING -------------------------------------------------------------------------",0x8(%esp)
  movl   $"./log/PowerResult",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +movl   $0x1,-0x14(%ebp)
  mov    0x8(%ebp),%eax
 -lea    0x1c(%eax),%edx
 -lea    -0x38(%ebp),%eax
-+add    $0x4,%eax
-+add    $0x18,%eax
++add    $0x1c,%eax
 +mov    %eax,-0x10(%ebp)
-+lea    -0x34(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    -0x10(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -60,83 +59,77 @@
 -movl   $0x1,-0x10(%ebp)
 -jmp    <T> <_ZN19CPowerWarCharacInfo14PrintDebugInfoEv+0x104>
 -lea    -0x38(%ebp),%eax
-+jmp    <T> <_ZN19CPowerWarCharacInfo14PrintDebugInfoEv+0x10d>
-+lea    -0x34(%ebp),%eax
++jmp    <T> <_ZN19CPowerWarCharacInfo14PrintDebugInfoEv+0x10c>
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPP20STPowerWarCharacInfoSt6vectorIS2_SaIS2_EEEdeEv>
  mov    (%eax),%eax
  mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
+ mov    -0xc(%ebp),%eax
 -mov    0x4(%eax),%esi
--mov    -0xc(%ebp),%eax
--mov    (%eax),%ebx
++add    $0x4,%eax
++mov    (%eax),%esi
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%ebx
  movl   $0xf9,0x8(%esp)
- movl   $"PrintDebugInfo",0x4(%esp)
+ movl   $&_ZZN19CPowerWarCharacInfo14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x14(%esp)
--mov    %ebx,0x10(%esp)
+ mov    %esi,0x14(%esp)
+ mov    %ebx,0x10(%esp)
 -mov    -0x10(%ebp),%eax
-+mov    -0xc(%ebp),%eax
-+add    $0x4,%eax
-+mov    (%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+mov    %edx,0x14(%esp)
-+mov    %eax,0x10(%esp)
 +mov    -0x14(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"RANK:%d, USER:%d, POWER WAR POINT:%d",0x8(%esp)
  movl   $"./log/PowerResult",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -addl   $0x1,-0x10(%ebp)
 -lea    -0x38(%ebp),%eax
 +addl   $0x1,-0x14(%ebp)
-+lea    -0x34(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPP20STPowerWarCharacInfoSt6vectorIS2_SaIS2_EEEppEv>
 -mov    0x8(%ebp),%eax
 -lea    0x1c(%eax),%edx
 -lea    -0x24(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
 +mov    -0x10(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EE3endEv>
  sub    $0x4,%esp
 -lea    -0x24(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxxneIPP20STPowerWarCharacInfoSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
  test   %al,%al
 -jne    <T> <_ZN19CPowerWarCharacInfo14PrintDebugInfoEv+0x95>
-+jne    <T> <_ZN19CPowerWarCharacInfo14PrintDebugInfoEv+0x9c>
++jne    <T> <_ZN19CPowerWarCharacInfo14PrintDebugInfoEv+0x9b>
  movl   $0x100,0x8(%esp)
- movl   $"PrintDebugInfo",0x4(%esp)
+ movl   $&_ZZN19CPowerWarCharacInfo14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"------ POWER WAR CHARAC DEBUG INFO END   --------------------------------------------------------",0x8(%esp)
  movl   $"./log/PowerResult",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--lea    -0x8(%ebp),%esp
--add    $0x0,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
-+leave
+ lea    -0x8(%ebp),%esp
+ add    $0x0,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -204,20 +197,19 @@ void CPowerWarCharacInfo::_ZN19CPowerWarCharacInfo14PrintDebugInfoEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 252 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 242 行）：
 
 ```cpp
 void CPowerWarCharacInfo::PrintDebugInfo()
 {
-    CMyFileLog log1("PrintDebugInfo", 0xee);
+    CMyFileLog log1(__FUNCTION__, 0xee);
     log1("./log/PowerResult",
          "------ POWER WAR CHARAC DEBUG INFO START --------------------------------------------------------");
-    CMyFileLog log2("PrintDebugInfo", 0xef);
+    CMyFileLog log2(__FUNCTION__, 0xef);
     log2("./log/PowerResult",
          "------ ALL USER RANKING -------------------------------------------------------------------------");
     int rank = 1;
-    std::vector<STPowerWarCharacInfo*>* vec =
-        (std::vector<STPowerWarCharacInfo*>*)(m_data + 0x18);
+    std::vector<STPowerWarCharacInfo*>* vec = &m_vec;
     for (std::vector<STPowerWarCharacInfo*>::iterator it = vec->begin(); it != vec->end(); ++it)
     {
         STPowerWarCharacInfo* info = *it;
@@ -225,7 +217,7 @@ void CPowerWarCharacInfo::PrintDebugInfo()
             *(unsigned int*)info->m_data, *(unsigned int*)(info->m_data + 4));
         rank++;
     }
-    CMyFileLog log3("PrintDebugInfo", 0x100);
+    CMyFileLog log3(__FUNCTION__, 0x100);
     log3("./log/PowerResult",
          "------ POWER WAR CHARAC DEBUG INFO END   --------------------------------------------------------");
 }

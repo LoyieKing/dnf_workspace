@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8077ce2` | `0x84d` | `0x8054c24` | `0x827` |
+| dbmw | DIFF | `0x8077ce2` | `0x84d` | `0x8054a12` | `0x825` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,560 +1,547 @@
+@@ -1,560 +1,546 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -41,7 +41,7 @@
 -mov    0xc(%ebp),%eax
 -mov    0x10(%eax),%edi
 +movl   $0xe76,0x8(%esp)
-+movl   $"GuildJoin",0x4(%esp)
++movl   $&_ZZN10CDBManager9GuildJoinEP15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 +lea    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -53,7 +53,7 @@
 -mov    0xc(%ebp),%eax
 -mov    0x4(%eax),%ebx
 -movl   $0xe76,0x8(%esp)
--movl   $"GuildJoin",0x4(%esp)
+-movl   $&_ZZN10CDBManager9GuildJoinEP15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x74(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -77,42 +77,29 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%ecx
--mov    0xc(%ebp),%eax
--movzbl (%eax),%eax
--movzbl %al,%edx
--mov    0xc(%ebp),%eax
--mov    0x10(%eax),%eax
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+movzbl (%edx),%edx
-+movzbl %dl,%ecx
-+mov    0xc(%ebp),%edx
-+mov    0x10(%edx),%edx
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%ecx
+ mov    0xc(%ebp),%eax
+ movzbl (%eax),%eax
+ movzbl %al,%edx
+ mov    0xc(%ebp),%eax
+ mov    0x10(%eax),%eax
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"seLect member_flag, unix_timestamp(secede_time) from guild_member where charac_no = %d and  server_id= %d",0x8(%esp)
  movl   $0x4e60,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ecx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x11e>
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x11c>
  movl   $0xe80,0x8(%esp)
- movl   $"GuildJoin",0x4(%esp)
+ movl   $&_ZZN10CDBManager9GuildJoinEP15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x6c(%ebp),%eax
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
@@ -128,16 +115,15 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e60,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x21(%ebp)
 -movzbl -0x21(%ebp),%eax
 -xor    $0x1,%eax
@@ -145,44 +131,35 @@
 -je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x150>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x842>
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x147>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x21(%ebp)
 -cmpb   $0x0,-0x21(%ebp)
 -je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x231>
-+mov    (%eax),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x225>
 +movl   $0x0,-0x38(%ebp)
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -lea    -0x80(%ebp),%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+lea    -0x38(%ebp),%edx
-+mov    %edx,0x8(%esp)
++lea    -0x38(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x21(%ebp)
 -movzbl -0x21(%ebp),%eax
 -xor    $0x1,%eax
@@ -191,14 +168,11 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x842>
 -mov    -0x80(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x19a>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
 +mov    -0x38(%ebp),%eax
  cmp    $0x1,%eax
 -jne    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x1c3>
@@ -208,7 +182,7 @@
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x842>
 -mov    -0x80(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
 +mov    -0x38(%ebp),%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x231>
@@ -217,16 +191,14 @@
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -lea    -0x7c(%ebp),%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+lea    -0x3c(%ebp),%edx
-+mov    %edx,0x8(%esp)
++lea    -0x3c(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x21(%ebp)
 -movzbl -0x21(%ebp),%eax
 -xor    $0x1,%eax
@@ -235,14 +207,11 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x842>
 -mov    -0x7c(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x1f6>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
 +mov    -0x3c(%ebp),%eax
  movl   $0x3,0x4(%esp)
  mov    %eax,(%esp)
@@ -258,36 +227,27 @@
  movl   $0x68,(%eax)
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x842>
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    0x4(%eax),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    0x4(%edx),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    0x4(%eax),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect count(*) from guild_member where guild_id = %d and member_flag = 1",0x8(%esp)
  movl   $0x4e83,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x2ae>
 -mov    0xc(%ebp),%eax
 -mov    0x4(%eax),%ebx
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x2a2>
  movl   $0xeb9,0x8(%esp)
- movl   $"GuildJoin",0x4(%esp)
+ movl   $&_ZZN10CDBManager9GuildJoinEP15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x64(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -309,29 +269,23 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e83,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x319>
 -mov    0xc(%ebp),%eax
 -mov    0x4(%eax),%ebx
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x30d>
  movl   $0xebe,0x8(%esp)
- movl   $"GuildJoin",0x4(%esp)
+ movl   $&_ZZN10CDBManager9GuildJoinEP15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x5c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -353,14 +307,14 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x21(%ebp)
 -movzbl -0x21(%ebp),%eax
 -xor    $0x1,%eax
@@ -368,29 +322,23 @@
 -je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x343>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x842>
-+mov    (%eax),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x330>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
 +movl   $0x0,-0x24(%ebp)
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x34,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -lea    -0x78(%ebp),%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+lea    -0x24(%ebp),%edx
-+mov    %edx,0x8(%esp)
++lea    -0x24(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x21(%ebp)
 -movzbl -0x21(%ebp),%eax
 -xor    $0x1,%eax
@@ -399,14 +347,11 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x842>
 -mov    -0x78(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x369>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
 +mov    -0x24(%ebp),%eax
  add    $0x1,%eax
  cmp    $0x12c,%eax
@@ -416,35 +361,11 @@
  movl   $0x26,(%eax)
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x842>
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%ebx
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+movzbl (%edx),%edx
-+movzbl %dl,%ebx
-+mov    0xc(%ebp),%edx
-+mov    0x10(%edx),%ecx
-+mov    0xc(%ebp),%edx
-+mov    0x4(%edx),%edx
-+mov    %ebx,0x14(%esp)
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
-+movl   $"upDate guild_member set guild_id=%d, member_flag=1, member_time= now(), grade = 0,last_visit_time = 0, secede_type = 0, secede_time = 0, member_point = 0, member_point_prev = 0, last_play_time = 0  where charac_no = %d and server_id= %d",0x8(%esp)
-+movl   $0x4e61,0x4(%esp)
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x434>
-+movl   $0xedb,0x8(%esp)
-+movl   $"GuildJoin",0x4(%esp)
-+lea    -0x54(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    (%eax),%ebx
  mov    0xc(%ebp),%eax
  movzbl (%eax),%eax
  movzbl %al,%ecx
@@ -455,36 +376,41 @@
  mov    %ecx,0x14(%esp)
  mov    %edx,0x10(%esp)
  mov    %eax,0xc(%esp)
--movl   $"upDate guild_member set guild_id=%d, member_flag=1, member_time= now(), grade = 0,last_visit_time = 0, secede_type = 0, secede_time = 0, member_point = 0, member_point_prev = 0, last_play_time = 0  where charac_no = %d and server_id= %d",0x8(%esp)
-+movl   $"CDBManager::GuildJoin() upDate guild_member set guild_id=%d, member_flag=1 where charac_no = %d and server_id= %d",0x8(%esp)
-+movl   $"./log/DBQueryErr",0x4(%esp)
+ movl   $"upDate guild_member set guild_id=%d, member_flag=1, member_time= now(), grade = 0,last_visit_time = 0, secede_type = 0, secede_time = 0, member_point = 0, member_point_prev = 0, last_play_time = 0  where charac_no = %d and server_id= %d",0x8(%esp)
+ movl   $0x4e61,0x4(%esp)
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ebx
+ xor    $0x1,%eax
+ test   %al,%al
+-je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x447>
++je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x434>
++movl   $0xedb,0x8(%esp)
++movl   $&_ZZN10CDBManager9GuildJoinEP15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 +lea    -0x54(%ebp),%eax
 +mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
-+mov    -0x20(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
- movl   $0x4e61,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ebx
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x447>
--mov    0xc(%ebp),%eax
--movzbl (%eax),%eax
++call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0xc(%ebp),%eax
+ movzbl (%eax),%eax
 -movzbl %al,%edi
 -mov    0xc(%ebp),%eax
 -mov    0x10(%eax),%esi
 -mov    0xc(%ebp),%eax
 -mov    0x4(%eax),%ebx
 -movl   $0xedb,0x8(%esp)
--movl   $"GuildJoin",0x4(%esp)
--lea    -0x54(%ebp),%eax
--mov    %eax,(%esp)
+-movl   $&_ZZN10CDBManager9GuildJoinEP15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
++movzbl %al,%ecx
++mov    0xc(%ebp),%eax
++mov    0x10(%eax),%edx
++mov    0xc(%ebp),%eax
++mov    0x4(%eax),%eax
++mov    %ecx,0x14(%esp)
++mov    %edx,0x10(%esp)
++mov    %eax,0xc(%esp)
++movl   $"CDBManager::GuildJoin() upDate guild_member set guild_id=%d, member_flag=1 where charac_no = %d and server_id= %d",0x8(%esp)
++movl   $"./log/DBQueryErr",0x4(%esp)
+ lea    -0x54(%ebp),%eax
+ mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
@@ -496,36 +422,32 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x842>
--mov    -0x20(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
--movl   $0x4e61,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
+ mov    -0x20(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
+ movl   $0x4e61,0x4(%esp)
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x21(%ebp)
 -movzbl -0x21(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -jne    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x487>
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +jne    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x46d>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
--mov    (%eax),%edx
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  or     %edx,%eax
  test   %eax,%eax
 -jne    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x48e>
@@ -538,7 +460,7 @@
 +jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x479>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x5e6>
++je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x5e4>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -607,17 +529,13 @@
  movl   $0x4e5e,0x4(%esp)
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
--call   *-0xa0(%ebp)
--xor    $0x1,%eax
--test   %al,%al
+ call   *-0xa0(%ebp)
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x5d3>
-+mov    -0xa0(%ebp),%edx
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x5bb>
++je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x5b9>
  movl   $0xefd,0x8(%esp)
- movl   $"GuildJoin",0x4(%esp)
+ movl   $&_ZZN10CDBManager9GuildJoinEP15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
 +lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
@@ -633,16 +551,15 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e5e,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x21(%ebp)
 -movzbl -0x21(%ebp),%eax
 -xor    $0x1,%eax
@@ -651,40 +568,33 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x842>
 -mov    -0x78(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x5e6>
++je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x5e4>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
 +mov    -0x24(%ebp),%eax
  test   %eax,%eax
 -je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x72a>
-+je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x70b>
++je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x709>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    0x4(%eax),%eax
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    0x4(%eax),%eax
 -mov    -0x78(%ebp),%ecx
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    0x4(%edx),%edx
 +mov    -0x24(%ebp),%ecx
  add    $0x1,%ecx
--mov    %eax,0x10(%esp)
-+mov    %edx,0x10(%esp)
+ mov    %eax,0x10(%esp)
  mov    %ecx,0xc(%esp)
  movl   $"upDate guild_info set member_count = %d where guild_id = %d",0x8(%esp)
  movl   $0x4e5f,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x6ab>
 -mov    0xc(%ebp),%eax
 -mov    0x10(%eax),%esi
@@ -692,14 +602,9 @@
 -mov    0x4(%eax),%ebx
 -mov    -0x78(%ebp),%eax
 -lea    0x1(%eax),%edi
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x68c>
++je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x68a>
  movl   $0xf0d,0x8(%esp)
- movl   $"GuildJoin",0x4(%esp)
+ movl   $&_ZZN10CDBManager9GuildJoinEP15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -729,18 +634,17 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e5f,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x72a>
 -mov    0xc(%ebp),%eax
 -mov    0x10(%eax),%esi
@@ -748,14 +652,9 @@
 -mov    0x4(%eax),%ebx
 -mov    -0x78(%ebp),%eax
 -lea    0x1(%eax),%edi
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x70b>
++je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x709>
  movl   $0xf12,0x8(%esp)
- movl   $"GuildJoin",0x4(%esp)
+ movl   $&_ZZN10CDBManager9GuildJoinEP15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -785,80 +684,38 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%ecx
--mov    0xc(%ebp),%eax
--mov    0x10(%eax),%edx
--mov    0xc(%ebp),%eax
--mov    0x4(%eax),%eax
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    0x10(%edx),%ecx
-+mov    0xc(%ebp),%edx
-+mov    0x4(%edx),%edx
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%ecx
+ mov    0xc(%ebp),%eax
+ mov    0x10(%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    0x4(%eax),%eax
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"upDate charac_info set guild_id=%d where charac_no = %d",0x8(%esp)
  movl   $0x4e65,0x4(%esp)
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x79c>
-+movl   $0xf1d,0x8(%esp)
-+movl   $"GuildJoin",0x4(%esp)
-+lea    -0x74(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0xc(%ebp),%eax
-+mov    0x10(%eax),%edx
-+mov    0xc(%ebp),%eax
-+mov    0x4(%eax),%eax
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
-+movl   $"CDBManager::GuildJoin() upDate charac_info set guild_id=%d where charac_no = %d",0x8(%esp)
-+movl   $"./log/DBQueryErr",0x4(%esp)
-+lea    -0x74(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
  mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
--xor    $0x1,%eax
--test   %al,%al
+ mov    %eax,(%esp)
+ call   *%ecx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x7bb>
 -mov    0xc(%ebp),%eax
 -mov    0x10(%eax),%esi
 -mov    0xc(%ebp),%eax
 -mov    0x4(%eax),%ebx
--movl   $0xf1d,0x8(%esp)
--movl   $"GuildJoin",0x4(%esp)
++je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x79a>
+ movl   $0xf1d,0x8(%esp)
+ movl   $&_ZZN10CDBManager9GuildJoinEP15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
-+movl   $0x4e65,0x4(%esp)
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x80e>
-+movl   $0xf24,0x8(%esp)
-+movl   $"GuildJoin",0x4(%esp)
-+lea    -0x7c(%ebp),%eax
++lea    -0x74(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    0xc(%ebp),%eax
@@ -874,14 +731,19 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x842>
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
--movl   $0x4e65,0x4(%esp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++lea    -0x74(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
+ movl   $0x4e65,0x4(%esp)
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x21(%ebp)
 -movzbl -0x21(%ebp),%eax
 -xor    $0x1,%eax
@@ -891,15 +753,27 @@
 -mov    0x10(%eax),%esi
 -mov    0xc(%ebp),%eax
 -mov    0x4(%eax),%ebx
--movl   $0xf24,0x8(%esp)
--movl   $"GuildJoin",0x4(%esp)
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x80c>
+ movl   $0xf24,0x8(%esp)
+ movl   $&_ZZN10CDBManager9GuildJoinEP15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
--movl   $"CDBManager::GuildJoin() upDate charac_info set guild_id=%d where charac_no = %d",0x8(%esp)
--movl   $"./log/DBQueryErr",0x4(%esp)
++lea    -0x7c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    0xc(%ebp),%eax
++mov    0x10(%eax),%edx
++mov    0xc(%ebp),%eax
++mov    0x4(%eax),%eax
++mov    %edx,0x10(%esp)
++mov    %eax,0xc(%esp)
+ movl   $"CDBManager::GuildJoin() upDate charac_info set guild_id=%d where charac_no = %d",0x8(%esp)
+ movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -909,7 +783,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81c>
++jmp    <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj+0x81a>
  mov    0x10(%ebp),%eax
  movl   $0x0,(%eax)
  mov    $0x1,%eax
@@ -1162,7 +1036,7 @@ CDBManager::_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 2329 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 2254 行）：
 
 ```cpp
 char CDBManager::GuildJoin(STGuildJoinInfo* info, unsigned int& result)
@@ -1173,7 +1047,7 @@ char CDBManager::GuildJoin(STGuildJoinInfo* info, unsigned int& result)
     if (info->m_characName[0] == 0)
     {
         result = 0x27;
-        CMyFileLog log("GuildJoin", 0xe76);
+        CMyFileLog log(__FUNCTION__, 0xe76);
         log("./log/TraceGuildErr",
             "CDBManager::GuildJoin guild(%d), server_group(%d), charac_no(%d)\n",
             info->m_guildId, info->m_serverId, info->m_characNo);
@@ -1183,7 +1057,7 @@ char CDBManager::GuildJoin(STGuildJoinInfo* info, unsigned int& result)
                       "seLect member_flag, unix_timestamp(secede_time) from guild_member where charac_no = %d and  server_id= %d",
                       info->m_characNo, info->m_serverId))
     {
-        CMyFileLog log("GuildJoin", 0xe80);
+        CMyFileLog log(__FUNCTION__, 0xe80);
         log("./log/DBQueryErr",
             "CDBManager::GuildJoin()select_secede_time_from_guild_member_for_guildjoin Exception Break\n");
         return 0;
@@ -1216,7 +1090,7 @@ char CDBManager::GuildJoin(STGuildJoinInfo* info, unsigned int& result)
                       "seLect count(*) from guild_member where guild_id = %d and member_flag = 1",
                       info->m_guildId))
     {
-        CMyFileLog log("GuildJoin", 0xeb9);
+        CMyFileLog log(__FUNCTION__, 0xeb9);
         log("./log/DBQueryErr",
             "CDBManager::GuildJoin() seLect count(*) from guild_member where guild_id = %d and member_flag = 1",
             info->m_guildId);
@@ -1224,7 +1098,7 @@ char CDBManager::GuildJoin(STGuildJoinInfo* info, unsigned int& result)
     }
     if (!h->exec(0x4e83))
     {
-        CMyFileLog log("GuildJoin", 0xebe);
+        CMyFileLog log(__FUNCTION__, 0xebe);
         log("./log/DBQueryErr",
             "CDBManager::GuildJoin() seLect count(*) from guild_member where guild_id = %d and member_flag = 1",
             info->m_guildId);
@@ -1244,7 +1118,7 @@ char CDBManager::GuildJoin(STGuildJoinInfo* info, unsigned int& result)
                       "upDate guild_member set guild_id=%d, member_flag=1, member_time= now(), grade = 0,last_visit_time = 0, secede_type = 0, secede_time = 0, member_point = 0, member_point_prev = 0, last_play_time = 0  where charac_no = %d and server_id= %d",
                       info->m_guildId, info->m_characNo, info->m_serverId))
     {
-        CMyFileLog log("GuildJoin", 0xedb);
+        CMyFileLog log(__FUNCTION__, 0xedb);
         log("./log/DBQueryErr",
             "CDBManager::GuildJoin() upDate guild_member set guild_id=%d, member_flag=1 where charac_no = %d and server_id= %d",
             info->m_guildId, info->m_characNo, info->m_serverId);
@@ -1259,7 +1133,7 @@ char CDBManager::GuildJoin(STGuildJoinInfo* info, unsigned int& result)
                           info->m_job, info->m_growType, info->m_lev,
                           info->m_bornYear, info->m_sex))
         {
-            CMyFileLog log("GuildJoin", 0xefd);
+            CMyFileLog log(__FUNCTION__, 0xefd);
             log("./log/DBQueryErr",
                 "CDBManager::GuildJoin() Exception Break\n");
             return 0;
@@ -1273,7 +1147,7 @@ char CDBManager::GuildJoin(STGuildJoinInfo* info, unsigned int& result)
                           "upDate guild_info set member_count = %d where guild_id = %d",
                           memberCount + 1, info->m_guildId))
         {
-            CMyFileLog log("GuildJoin", 0xf0d);
+            CMyFileLog log(__FUNCTION__, 0xf0d);
             log("./log/DBQueryErr",
                 "CDBManager::GuildJoin() upDate guild_info set member_count = %d where guild_id = %d joined(%d)",
                 memberCount + 1, info->m_guildId, info->m_characNo);
@@ -1281,7 +1155,7 @@ char CDBManager::GuildJoin(STGuildJoinInfo* info, unsigned int& result)
         }
         if (!h->exec(0x4e5f))
         {
-            CMyFileLog log("GuildJoin", 0xf12);
+            CMyFileLog log(__FUNCTION__, 0xf12);
             log("./log/DBQueryErr",
                 "CDBManager::GuildJoin() upDate guild_info set member_count = %d where guild_id = %d joined(%d)",
                 memberCount + 1, info->m_guildId, info->m_characNo);
@@ -1292,7 +1166,7 @@ char CDBManager::GuildJoin(STGuildJoinInfo* info, unsigned int& result)
                        "upDate charac_info set guild_id=%d where charac_no = %d",
                        info->m_guildId, info->m_characNo))
     {
-        CMyFileLog log("GuildJoin", 0xf1d);
+        CMyFileLog log(__FUNCTION__, 0xf1d);
         log("./log/DBQueryErr",
             "CDBManager::GuildJoin() upDate charac_info set guild_id=%d where charac_no = %d",
             info->m_guildId, info->m_characNo);
@@ -1300,7 +1174,7 @@ char CDBManager::GuildJoin(STGuildJoinInfo* info, unsigned int& result)
     }
     if (!h2->exec(0x4e65))
     {
-        CMyFileLog log("GuildJoin", 0xf24);
+        CMyFileLog log(__FUNCTION__, 0xf24);
         log("./log/DBQueryErr",
             "CDBManager::GuildJoin() upDate charac_info set guild_id=%d where charac_no = %d",
             info->m_guildId, info->m_characNo);

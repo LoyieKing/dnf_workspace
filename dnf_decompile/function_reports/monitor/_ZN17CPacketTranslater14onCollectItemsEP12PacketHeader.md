@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8090f48` | `0x390` | `0x807c54a` | `0x391` |
+| monitor | DIFF | `0x8090f48` | `0x390` | `0x807c3fc` | `0x37b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,262 +1,275 @@
+@@ -1,262 +1,264 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -25,19 +25,19 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0xdf>
 -lea    -0x31(%ebp),%eax
-+lea    -0x3d(%ebp),%eax
++lea    -0x4d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x31(%ebp),%eax
-+lea    -0x3d(%ebp),%eax
++lea    -0x4d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::onCollectItems",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x38(%ebp),%esi
-+lea    -0x44(%ebp),%esi
++lea    -0x54(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -55,7 +55,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x38(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x87>
@@ -66,7 +66,7 @@
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0xa4>
 -lea    -0x38(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0xbc>
@@ -76,18 +76,18 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x31(%ebp),%eax
-+lea    -0x3d(%ebp),%eax
++lea    -0x4d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x2af>
 -lea    -0x31(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x2b5>
-+lea    -0x3d(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x29d>
++lea    -0x4d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -117,7 +117,7 @@
 +mov    -0x3c(%ebp),%eax
 +mov    (%eax),%eax
 +cmp    -0x38(%ebp),%eax
-+jbe    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x389>
++jbe    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x373>
 +mov    -0x3c(%ebp),%eax
 +add    $0x4,%eax
 +mov    (%eax),%eax
@@ -126,11 +126,9 @@
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x167>
 -mov    -0x20(%ebp),%eax
--movzbl 0x1a(%eax),%eax
-+jne    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x159>
++jne    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x153>
 +mov    0x8(%ebp),%eax
-+add    $0x1a,%eax
-+movzbl (%eax),%eax
+ movzbl 0x1a(%eax),%eax
  movzbl %al,%ecx
 -mov    -0x20(%ebp),%eax
 +mov    0x8(%ebp),%eax
@@ -138,14 +136,11 @@
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%edx
 -mov    -0x20(%ebp),%eax
--mov    0xe(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++mov    0xa(%eax),%eax
 +mov    %eax,%edx
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
+ mov    0xe(%eax),%eax
  movl   $0x0,0x10(%esp)
  mov    %ecx,0xc(%esp)
  mov    %ebx,0x8(%esp)
@@ -158,7 +153,13 @@
 -call   <T> <_ZN12CApplication15getCollectItemsEv>
 -mov    0x4(%eax),%edx
 -mov    -0x20(%ebp),%eax
--mov    0x12(%eax),%eax
++jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x26f>
++mov    -0x3c(%ebp),%eax
++add    $0x4,%eax
++mov    (%eax),%eax
++mov    %eax,-0x30(%ebp)
++mov    0x8(%ebp),%eax
+ mov    0x12(%eax),%eax
 -lea    (%edx,%eax,1),%ebx
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -mov    %eax,(%esp)
@@ -199,14 +200,6 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN12CApplication15getCollectItemsEv>
 -mov    0x4(%eax),%ecx
-+jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x285>
-+mov    -0x3c(%ebp),%eax
-+add    $0x4,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x30(%ebp)
-+mov    0x8(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x2c(%ebp)
 +mov    -0x2c(%ebp),%eax
 +mov    -0x30(%ebp),%edx
@@ -215,7 +208,7 @@
 +mov    -0x3c(%ebp),%eax
 +mov    (%eax),%eax
 +cmp    %eax,%edx
-+jae    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x221>
++jae    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x211>
 +mov    -0x3c(%ebp),%eax
 +add    $0x4,%eax
 +mov    (%eax),%eax
@@ -244,26 +237,22 @@
 -call   <T> <_ZN12CApplication15getCollectItemsEv>
 -mov    0x4(%eax),%edx
 -mov    -0x20(%ebp),%eax
--mov    0x12(%eax),%eax
 +lea    0x14(%eax),%ecx
 +mov    -0x3c(%ebp),%eax
 +add    $0x4,%eax
 +mov    (%eax),%edx
 +mov    0x8(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%eax
+ mov    0x12(%eax),%eax
  lea    (%edx,%eax,1),%eax
 -cmp    %eax,%ebx
 -setbe  %al
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x28e>
 -mov    -0x20(%ebp),%eax
--movzbl 0x1a(%eax),%eax
 +cmp    %eax,%ecx
-+ja     <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x285>
++ja     <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x26f>
 +mov    0x8(%ebp),%eax
-+add    $0x1a,%eax
-+movzbl (%eax),%eax
+ movzbl 0x1a(%eax),%eax
  movzbl %al,%ecx
 -mov    -0x20(%ebp),%eax
 +mov    0x8(%ebp),%eax
@@ -271,34 +260,28 @@
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%edx
 -mov    -0x20(%ebp),%eax
--mov    0xe(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++mov    0xa(%eax),%eax
 +mov    %eax,%edx
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
+ mov    0xe(%eax),%eax
  movl   $0x1,0x10(%esp)
  mov    %ecx,0xc(%esp)
  mov    %ebx,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater21SendColletItemsRewardEjiPKciN18TimeGateRewardType1TE>
-+jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x285>
++jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x26f>
 +mov    0x8(%ebp),%eax
-+add    $0x1a,%eax
-+movzbl (%eax),%eax
++movzbl 0x1a(%eax),%eax
 +movzbl %al,%ecx
 +mov    0x8(%ebp),%eax
 +lea    0x1b(%eax),%ebx
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++mov    0xa(%eax),%eax
 +mov    %eax,%edx
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
++mov    0xe(%eax),%eax
 +movl   $0x2,0x10(%esp)
 +mov    %ecx,0xc(%esp)
 +mov    %ebx,0x8(%esp)
@@ -311,6 +294,9 @@
 -mov    0x4(%eax),%ecx
 -mov    -0x20(%ebp),%edx
 -mov    0x12(%edx),%edx
+-lea    (%ecx,%edx,1),%edx
+-mov    %edx,0x4(%eax)
+-jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x388>
 +mov    %eax,-0x20(%ebp)
 +mov    -0x20(%ebp),%eax
 +lea    0x8(%eax),%ebx
@@ -322,57 +308,46 @@
 +call   <T> <_ZN12CApplication15getCollectItemsEv>
 +mov    %eax,-0x34(%ebp)
 +mov    -0x34(%ebp),%eax
++lea    0x4(%eax),%edx
++mov    -0x34(%ebp),%eax
 +add    $0x4,%eax
-+mov    -0x34(%ebp),%edx
-+add    $0x4,%edx
-+mov    (%edx),%ecx
-+mov    0x8(%ebp),%edx
-+add    $0x12,%edx
-+mov    (%edx),%edx
- lea    (%ecx,%edx,1),%edx
--mov    %edx,0x4(%eax)
--jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x388>
-+mov    %edx,(%eax)
-+jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x389>
++mov    (%eax),%ecx
++mov    0x8(%ebp),%eax
++mov    0x12(%eax),%eax
++lea    (%ecx,%eax,1),%eax
++mov    %eax,(%edx)
++jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x373>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x32b>
-+jne    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x32f>
++jne    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x319>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
  movl   $0x1fcb,0x8(%esp)
- movl   $"onCollectItems",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater14onCollectItemsEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
+ mov    %ebx,0xc(%esp)
 -movl   $"CPacketTranslater::onCollectItems Exception Break : %s\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
 +movl   $"CPacketTranslater::onCollectItems() Exception Break : %s\n",0x8(%esp)
 +movl   $"%s",0x4(%esp)
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x324>
-+jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x328>
++jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x312>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -382,13 +357,13 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x388>
-+jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x389>
++jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x373>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1fd0,0x8(%esp)
- movl   $"onCollectItems",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater14onCollectItemsEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x54(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -movl   $"CPacketTranslater::onCollectItems Exception Break\n",0x8(%esp)
@@ -396,11 +371,11 @@
 -lea    -0x28(%ebp),%eax
 +movl   $"CPacketTranslater::onCollectItems() Exception Break",0x8(%esp)
 +movl   $"%s",0x4(%esp)
-+lea    -0x54(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x380>
-+jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x384>
++jmp    <T> <_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader+0x36e>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -500,29 +475,68 @@ void CPacketTranslater::_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1383 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5204 行）：
 
 ```cpp
-void CPacketTranslater::onCollectItemsGm(PacketHeader* header)
+void CPacketTranslater::onCollectItems(PacketHeader* pkt)
 {
-    if (!m_pclApp)
-        return;
     try
     {
-        Packet_DBMW_Collect_Items_Gm* pkt =
-            (Packet_DBMW_Collect_Items_Gm*)header;
-        m_pclApp->m_dbManager.updateCollectItemsGm(
-            pkt->m_serverInfo, pkt->m_fieldF, pkt->m_fieldB,
-            pkt->m_field13);
-        Packet_CollectItemsResult reply;
-        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_fieldF;
-        *(unsigned int*)((char*)&reply + 0xe) = pkt->m_fieldB;
-        *(int*)((char*)&reply + 0x12) = pkt->m_field13;
-        m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
-            (char*)&reply, reply.packetSize);
+        if (m_pclApp == 0)
+        {
+            throw CDNFException("CPacketTranslater::onCollectItems");
+        }
+        char* c = (char*)m_pclApp->getCollectItems();
+        unsigned int cur = *(unsigned int*)(c + 4);
+        if (cur < *(unsigned int*)c)
+        {
+            if (*(int*)(c + 4) == 0)
+            {
+                SendColletItemsReward(((RA_UINT<14>*)pkt)->v,
+                                      ((RA_UINT<10>*)pkt)->v, (char*)pkt + 0x1b,
+                                      (int)(unsigned char)((RA_S8<26>*)pkt)->v,
+                                      TimeGateRewardType::TYPE_0);
+            }
+            else
+            {
+                int cur2 = *(int*)(c + 4);
+                int add = ((RA_INT<18>*)pkt)->v;
+                if ((unsigned int)(cur2 + add) < *(unsigned int*)c)
+                {
+                    int cur3 = *(int*)(c + 4);
+                    unsigned int rem = *(unsigned int*)(c + 4);
+                    if ((cur3 - rem % 0x14) + 0x14 <=
+                        (unsigned int)(*(int*)(c + 4) + ((RA_INT<18>*)pkt)->v))
+                    {
+                        SendColletItemsReward(((RA_UINT<14>*)pkt)->v,
+                                              ((RA_UINT<10>*)pkt)->v,
+                                              (char*)pkt + 0x1b,
+                                              (int)(unsigned char)((RA_S8<26>*)pkt)->v,
+                                              TimeGateRewardType::TYPE_1);
+                    }
+                }
+                else
+                {
+                    SendColletItemsReward(((RA_UINT<14>*)pkt)->v,
+                                          ((RA_UINT<10>*)pkt)->v,
+                                          (char*)pkt + 0x1b,
+                                          (int)(unsigned char)((RA_S8<26>*)pkt)->v,
+                                          TimeGateRewardType::TYPE_2);
+                    char* c2 = (char*)m_pclApp->getCollectItems();
+                    *(long*)(c2 + 8) = (long)time(0);
+                }
+            }
+            char* c3 = (char*)m_pclApp->getCollectItems();
+            *(int*)(c3 + 4) = *(int*)(c3 + 4) + ((RA_INT<18>*)pkt)->v;
+        }
     }
-    DNF_CATCH_LOG("./log/Except",
-                  "CPacketTranslater::onCollectItemsGm Exception Break",
-                  0x1406, 0x140b);
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1fcb, "%s", "CPacketTranslater::onCollectItems() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x1fd0, "%s", "CPacketTranslater::onCollectItems() Exception Break");
+    }
 }
 ```

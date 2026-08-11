@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8082b74` | `0x58b` | `0x806e526` | `0x53c` |
+| monitor | DIFF | `0x8082b74` | `0x58b` | `0x806e6bc` | `0x52a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,355 +1,340 @@
+@@ -1,355 +1,331 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,19 +24,19 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0xe2>
 -lea    -0x6d(%ebp),%eax
-+lea    -0x51(%ebp),%eax
++lea    -0x79(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x6d(%ebp),%eax
-+lea    -0x51(%ebp),%eax
++lea    -0x79(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnPayTaxToUpper : 0 == m_pclApp",0x4(%esp)
 -lea    -0x74(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x80(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x74(%ebp),%esi
-+lea    -0x58(%ebp),%esi
++lea    -0x80(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -54,7 +54,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x74(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x80(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x8a>
@@ -65,7 +65,7 @@
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0xa7>
 -lea    -0x74(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x80(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0xbf>
@@ -75,29 +75,24 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x6d(%ebp),%eax
-+lea    -0x51(%ebp),%eax
++lea    -0x79(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x475>
 -lea    -0x6d(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x423>
-+lea    -0x51(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x40f>
++lea    -0x79(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x38(%ebp)
 -mov    -0x38(%ebp),%eax
--mov    0xa(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x2d0,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +add    $0x2d0,%eax
 +mov    %eax,-0x50(%ebp)
@@ -105,8 +100,11 @@
 +add    $0x10,%eax
 +mov    %eax,-0x4c(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+-add    $0x2d0,%edx
+-mov    %eax,0x4(%esp)
+-mov    %edx,(%esp)
 +mov    %eax,0x4(%esp)
 +mov    -0x50(%ebp),%eax
 +mov    %eax,(%esp)
@@ -117,37 +115,26 @@
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x16d>
 -mov    -0x38(%ebp),%eax
--mov    0x12(%eax),%edi
--mov    -0x38(%ebp),%eax
--mov    0xe(%eax),%esi
--mov    -0x38(%ebp),%eax
--mov    0xa(%eax),%ebx
 +mov    %eax,-0x48(%ebp)
 +cmpl   $0x0,-0x48(%ebp)
-+jne    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x179>
++jne    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x171>
++mov    0x8(%ebp),%eax
+ mov    0x12(%eax),%edi
+-mov    -0x38(%ebp),%eax
++mov    0x8(%ebp),%eax
+ mov    0xe(%eax),%esi
+-mov    -0x38(%ebp),%eax
++mov    0x8(%ebp),%eax
+ mov    0xa(%eax),%ebx
  movl   $0x842,0x8(%esp)
- movl   $"OnPayTaxToUpper",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x6c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+lea    -0x60(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0x8(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%ecx
-+mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++lea    -0x78(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"[MEMBER] CPacketTranslater::OnPayTaxToUpper : pclMember == 0!\tchar id(%d)\tmoney(%d)\tfatigue(%d)",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x6c(%ebp),%eax
@@ -155,10 +142,10 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x580>
 -mov    -0x3c(%ebp),%eax
-+lea    -0x60(%ebp),%eax
++lea    -0x78(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x531>
++jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x51f>
 +mov    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK7CMember21GetUpperMember_CharIdEv>
@@ -177,7 +164,7 @@
 -call   <T> <_ZNK7CMember21GetUpperMember_CharIdEv>
 -mov    %eax,%ebx
 -movl   $0x849,0x8(%esp)
--movl   $"OnPayTaxToUpper",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x64(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -205,58 +192,46 @@
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x269>
 -mov    -0x38(%ebp),%eax
--mov    0x12(%eax),%edi
--mov    -0x38(%ebp),%eax
--mov    0xe(%eax),%esi
--mov    -0x38(%ebp),%eax
--mov    0xa(%eax),%ebx
-+jne    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x1e4>
++jne    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x1dc>
 +movl   $0x849,0x8(%esp)
-+movl   $"OnPayTaxToUpper",0x4(%esp)
-+lea    -0x68(%ebp),%eax
++movl   $&_ZZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x70(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x44(%ebp),%eax
 +mov    %eax,0xc(%esp)
 +movl   $"CPacketTranslater::OnPayTaxToUpper : pclUpperUser == 0!, Maybe, upper Member is not connect!\tupper char id(%d)",0x8(%esp)
 +movl   $"./log/Member",0x4(%esp)
-+lea    -0x68(%ebp),%eax
++lea    -0x70(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x531>
++jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x51f>
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++mov    0xa(%eax),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 +mov    %eax,-0x3c(%ebp)
 +cmpl   $0x0,-0x3c(%ebp)
-+jne    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x263>
++jne    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x253>
++mov    0x8(%ebp),%eax
+ mov    0x12(%eax),%edi
+-mov    -0x38(%ebp),%eax
++mov    0x8(%ebp),%eax
+ mov    0xe(%eax),%esi
+-mov    -0x38(%ebp),%eax
++mov    0x8(%ebp),%eax
+ mov    0xa(%eax),%ebx
  movl   $0x84f,0x8(%esp)
- movl   $"OnPayTaxToUpper",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x5c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+lea    -0x70(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0x8(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%ecx
-+mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++lea    -0x68(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"[MEMBER] CPacketTranslater::OnPayTaxToUpper : pclPayUser == 0!\tchar id(%d)\tmoney(%d)\tfatigue(%d)",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x5c(%ebp),%eax
@@ -264,10 +239,10 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x580>
 -mov    -0x44(%ebp),%eax
-+lea    -0x70(%ebp),%eax
++lea    -0x68(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x531>
++jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x51f>
 +mov    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser21GetConnLowerMemberCntEv>
@@ -296,8 +271,7 @@
 +movzbl -0x29(%ebp),%eax
  mov    %ax,-0xbe(%ebp)
  filds  -0xbe(%ebp)
--fldl   &data#fdb944c7(.rodata)
-+fldl   &data#93726582(.rodata)
+ fldl   &data#f224355d(.rodata)
  fmulp  %st,%st(1)
  fstps  -0xbc(%ebp)
  flds   -0xbc(%ebp)
@@ -322,7 +296,7 @@
 -movzbl %al,%eax
 -mov    %ax,-0xbe(%ebp)
 -filds  -0xbe(%ebp)
--fldl   &data#fdb944c7(.rodata)
+-fldl   &data#f224355d(.rodata)
 -fmulp  %st,%st(1)
 -fstps  -0xbc(%ebp)
 -flds   -0xbc(%ebp)
@@ -330,17 +304,15 @@
 -fildl  -0x30(%ebp)
 -fdivrp %st,%st(1)
 -fldl   "슇솛솛�?"
-+fldl   &data#27b6c30d(.rodata)
++fldl   &data#79b8813d(.rodata)
  fmulp  %st,%st(1)
  fstps  -0xbc(%ebp)
  flds   -0xbc(%ebp)
  faddp  %st,%st(1)
  fstps  -0x28(%ebp)
 -mov    -0x38(%ebp),%eax
--mov    0xe(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
+ mov    0xe(%eax),%eax
  mov    $0x0,%edx
  mov    %eax,-0xc8(%ebp)
  mov    %edx,-0xc4(%ebp)
@@ -360,10 +332,8 @@
 -mov    -0xc4(%ebp),%edx
 -mov    %eax,-0x24(%ebp)
 -mov    -0x38(%ebp),%eax
--mov    0x12(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%eax
+ mov    0x12(%eax),%eax
  mov    $0x0,%edx
  mov    %eax,-0xc8(%ebp)
  mov    %edx,-0xc4(%ebp)
@@ -379,13 +349,13 @@
 -mov    -0xc4(%ebp),%edx
 -mov    %eax,-0x20(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
-+jne    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x397>
++jne    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x383>
  cmpl   $0x0,-0x20(%ebp)
 -jne    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x3e9>
 -cmpl   $0x0,-0x24(%ebp)
 -je     <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x57f>
 -lea    -0xac(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x531>
++je     <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x51f>
 +lea    -0xb8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN37Packet_Monitor_Member_Pay_Tax_ToUpperC1Ev>
@@ -430,61 +400,48 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x580>
-+jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x531>
++jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x51f>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x517>
-+jne    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x4c3>
++jne    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x4b1>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnPayTaxToUpper() Exception Break : %s\n",(%esp)
  call   <T> <printf>
-+movl   $0x880,0x8(%esp)
-+movl   $"OnPayTaxToUpper",0x4(%esp)
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x880,0x8(%esp)
--movl   $"OnPayTaxToUpper",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x880,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x54(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x60(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnPayTaxToUpper() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x54(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x510>
-+lea    -0x78(%ebp),%eax
++lea    -0x60(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x4bc>
++jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x4aa>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -494,18 +451,18 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x580>
-+jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x531>
++jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x51f>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnPayTaxToUpper() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x886,0x8(%esp)
- movl   $"OnPayTaxToUpper",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -movl   $"CPacketTranslater::OnPayTaxToUpper() Exception Break\n",0x8(%esp)
-+lea    -0x80(%ebp),%eax
++lea    -0x58(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +movl   $"CPacketTranslater::OnPayTaxToUpper() Exception Break\n",0xc(%esp)
@@ -515,10 +472,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x578>
-+lea    -0x80(%ebp),%eax
++lea    -0x58(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x52c>
++jmp    <T> <_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader+0x51a>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -666,7 +623,7 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1563 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1569 行）：
 
 ```cpp
 void CPacketTranslater::OnPayTaxToUpper(PacketHeader* pkt)
@@ -679,14 +636,14 @@ void CPacketTranslater::OnPayTaxToUpper(PacketHeader* pkt)
         }
         CMemberManager* memberMgr = (CMemberManager*)((char*)m_pclApp + 0x2d0);
         CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
-        CMember* member = memberMgr->FindMember(*(unsigned int*)((char*)pkt + 0xa));
+        CMember* member = memberMgr->FindMember(((RA_UINT<10>*)pkt)->v);
         if (member == 0)
         {
             DNF_LOG_SCOPE_LINE(0x842,"./log/Except",
                 "[MEMBER] CPacketTranslater::OnPayTaxToUpper : pclMember == 0!\tchar id(%d)\t"
                 "money(%d)\tfatigue(%d)",
-                *(unsigned int*)((char*)pkt + 0xa), *(unsigned int*)((char*)pkt + 0xe),
-                *(unsigned int*)((char*)pkt + 0x12));
+                ((RA_UINT<10>*)pkt)->v, ((RA_UINT<14>*)pkt)->v,
+                ((RA_UINT<18>*)pkt)->v);
         }
         else
         {
@@ -701,14 +658,14 @@ void CPacketTranslater::OnPayTaxToUpper(PacketHeader* pkt)
             }
             else
             {
-                CUser* payUser = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xa));
+                CUser* payUser = userMgr->FindUser_CharNo(((RA_UINT<10>*)pkt)->v);
                 if (payUser == 0)
                 {
                     DNF_LOG_SCOPE_LINE(0x84f,"./log/Except",
                         "[MEMBER] CPacketTranslater::OnPayTaxToUpper : pclPayUser == 0!\tchar "
                         "id(%d)\tmoney(%d)\tfatigue(%d)",
-                        *(unsigned int*)((char*)pkt + 0xa), *(unsigned int*)((char*)pkt + 0xe),
-                        *(unsigned int*)((char*)pkt + 0x12));
+                        ((RA_UINT<10>*)pkt)->v, ((RA_UINT<14>*)pkt)->v,
+                        ((RA_UINT<18>*)pkt)->v);
                 }
                 else
                 {
@@ -721,9 +678,9 @@ void CPacketTranslater::OnPayTaxToUpper(PacketHeader* pkt)
                     float rate = (float)(0.01 * (double)expLevel) +
                                  (float)(0.05 * ((double)lowerCnt / (double)limit));
                     int moneyTax =
-                        (int)((double)*(unsigned int*)((char*)pkt + 0xe) * (double)rate);
+                        (int)((double)((RA_UINT<14>*)pkt)->v * (double)rate);
                     int fatigueTax =
-                        (int)((double)*(unsigned int*)((char*)pkt + 0x12) * (double)rate);
+                        (int)((double)((RA_UINT<18>*)pkt)->v * (double)rate);
                     if (moneyTax != 0 || fatigueTax != 0)
                     {
                         Packet_Monitor_Member_Pay_Tax_ToUpper reply;

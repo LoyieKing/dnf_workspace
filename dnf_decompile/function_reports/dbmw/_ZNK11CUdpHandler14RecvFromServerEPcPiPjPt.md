@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805958c` | `0x25d` | `0x80928ae` | `0x268` |
+| dbmw | DIFF | `0x805958c` | `0x25d` | `0x80e5f40` | `0x268` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -69,7 +69,7 @@
  movl   $"Error fd not a socket",(%esp)
  call   <T> <puts>
  movl   $0x156,0x8(%esp)
- movl   $"RecvFromServer",0x4(%esp)
+ movl   $&_ZZNK11CUdpHandler14RecvFromServerEPcPiPjPtE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
 +lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
@@ -87,7 +87,7 @@
  movl   $"Error connection reset - host not reachable",(%esp)
  call   <T> <puts>
  movl   $0x15d,0x8(%esp)
- movl   $"RecvFromServer",0x4(%esp)
+ movl   $&_ZZNK11CUdpHandler14RecvFromServerEPcPiPjPtE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
@@ -121,7 +121,7 @@
 -mov    0x10(%ebp),%eax
 -mov    (%eax),%ebx
  movl   $0x16d,0x8(%esp)
- movl   $"RecvFromServer",0x4(%esp)
+ movl   $&_ZZNK11CUdpHandler14RecvFromServerEPcPiPjPtE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
@@ -170,7 +170,7 @@
 +cmp    $0x450,%ax
 +jne    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x25c>
 +movl   $0x179,0x8(%esp)
-+movl   $"RecvFromServer",0x4(%esp)
++movl   $&_ZZNK11CUdpHandler14RecvFromServerEPcPiPjPtE12__FUNCTION__,0x4(%esp)
 +lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -202,7 +202,7 @@
 -movzwl (%eax),%eax
 -movzwl %ax,%ebx
 -movl   $0x179,0x8(%esp)
--movl   $"RecvFromServer",0x4(%esp)
+-movl   $&_ZZNK11CUdpHandler14RecvFromServerEPcPiPjPtE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -326,4 +326,4 @@ CUdpHandler::_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/COServer/DNFUdpHandler.cpp, source/DNFServer/GameServer/DBMW/DNFUdpHandler.cpp, source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp, source/DNFServer/GameServer/Manager/DNFUdpHandler.cpp, source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp, source/DNFServer/GameServer/Statics/DNFUdpHandler.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h 等 629 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DNFUdpHandler.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h, source/DNFServer/GameServer/DBMW/DNFApplication.h 等 293 个文件*

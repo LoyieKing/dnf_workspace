@@ -3,11 +3,11 @@
 
 namespace nsl {
 
-// ORIG 的 assert 消息为 "idx0>=0 && idx0<MAX_TOKEN"（宏名未被展开），
-// 说明 ORIG 源码中 MAX_TOKEN 是常量而非宏（旧 glibc assert 的 __STRING
-// 会先展开参数再字符串化）。用 const 常量复刻该行为；数组边界/比较均为
-// 常量表达式，语义与 #define 完全一致。
-const int MAX_TOKEN = 256;
+// ORIG 的 assert 消息为 "idx0>=0 && idx0<MAX_TOKEN"（未展开）：ORIG 用的
+// glibc assert.h 经 __STRING 嵌套宏字符串化，宏实参会被展开，只有非常量宏
+// 的标识符（enum 常量）才能在消息里保留原名；enum 常量也不会像 namespace 级
+// const int 那样在被 odr-use 时生成 `_ZN3nslL9MAX_TOKENE` 数据符号。
+enum { MAX_TOKEN = 256 };
 
 class Token
 {

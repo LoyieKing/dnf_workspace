@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809b1e0` | `0x100` | `0x80626ea` | `0x100` |
+| guild | DIFF | `0x809b1e0` | `0x100` | `0x8061d7e` | `0x108` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,17 +13,16 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,76 +1,71 @@
+@@ -1,76 +1,77 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
--push   %esi
+ push   %edi
+ push   %esi
  push   %ebx
--sub    $0x4c,%esp
-+sub    $0x44,%esp
+ sub    $0x4c,%esp
  mov    0x8(%ebp),%eax
-+mov    %eax,-0x14(%ebp)
-+mov    -0x14(%ebp),%eax
++mov    %eax,-0x24(%ebp)
++mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE5emptyEv>
 +xor    $0x1,%eax
@@ -32,18 +31,18 @@
 -movl   $0x0,-0x1c(%ebp)
 -mov    0x8(%ebp),%edx
 -lea    -0x2c(%ebp),%eax
-+je     <T> <_ZN9CGuildWar17printGuildWarRankEv+0xfb>
-+movl   $0x0,-0x10(%ebp)
-+lea    -0x1c(%ebp),%eax
-+mov    -0x14(%ebp),%edx
++je     <T> <_ZN9CGuildWar17printGuildWarRankEv+0xfd>
++movl   $0x0,-0x20(%ebp)
++lea    -0x34(%ebp),%eax
++mov    -0x24(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN9CGuildWar17printGuildWarRankEv+0xc3>
 -lea    -0x2c(%ebp),%eax
-+jmp    <T> <_ZN9CGuildWar17printGuildWarRankEv+0xcc>
-+lea    -0x1c(%ebp),%eax
++jmp    <T> <_ZN9CGuildWar17printGuildWarRankEv+0xce>
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
 -call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
 -mov    0x4(%eax),%edx
@@ -59,74 +58,69 @@
 -mov    -0x30(%ebp),%eax
 -lea    0x8(%eax),%edi
 -mov    -0x30(%ebp),%eax
--mov    (%eax),%ebx
 +call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
 +mov    0x4(%eax),%eax
-+mov    %eax,-0xc(%ebp)
-+cmpl   $0x0,-0xc(%ebp)
-+je     <T> <_ZN9CGuildWar17printGuildWarRankEv+0xc1>
-+addl   $0x1,-0x10(%ebp)
++mov    %eax,-0x1c(%ebp)
++cmpl   $0x0,-0x1c(%ebp)
++je     <T> <_ZN9CGuildWar17printGuildWarRankEv+0xc3>
++addl   $0x1,-0x20(%ebp)
++mov    -0x1c(%ebp),%eax
++add    $0x8,%eax
++add    $0x4,%eax
++mov    (%eax),%esi
++mov    -0x1c(%ebp),%eax
++lea    0x10(%eax),%edi
++mov    -0x1c(%ebp),%eax
++add    $0x8,%eax
+ mov    (%eax),%ebx
  movl   $0x192,0x8(%esp)
- movl   $"printGuildWarRank",0x4(%esp)
- lea    -0x24(%ebp),%eax
+ movl   $&_ZZN9CGuildWar17printGuildWarRankEvE12__FUNCTION__,0x4(%esp)
+-lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x1c(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    %esi,0x14(%esp)
--mov    %edi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    -0xc(%ebp),%eax
-+add    $0x8,%eax
-+add    $0x4,%eax
-+mov    (%eax),%edx
-+mov    -0xc(%ebp),%eax
-+lea    0x10(%eax),%ebx
-+mov    -0xc(%ebp),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x10(%ebp),%ecx
-+mov    %ecx,0x18(%esp)
-+mov    %edx,0x14(%esp)
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    -0x20(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    %esi,0x14(%esp)
+ mov    %edi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"GuildKey : %d(%s),  GuildWarPoint : %d, GuildWarRank : %d",0x8(%esp)
  movl   $"./log/GuildWar",0x4(%esp)
- lea    -0x24(%ebp),%eax
+-lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -lea    -0x2c(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEppEv>
 -mov    0x8(%ebp),%edx
 -lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
-+mov    -0x14(%ebp),%edx
++lea    -0x30(%ebp),%eax
++mov    -0x24(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE3endEv>
  sub    $0x4,%esp
 -lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxxneIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEEbRKNS_17__normal_iteratorIT_T0_EESE_>
  test   %al,%al
 -jne    <T> <_ZN9CGuildWar17printGuildWarRankEv+0x3d>
 -jmp    <T> <_ZN9CGuildWar17printGuildWarRankEv+0xf5>
 -nop
--lea    -0xc(%ebp),%esp
--add    $0x0,%esp
--pop    %ebx
--pop    %esi
--pop    %edi
--pop    %ebp
-+jne    <T> <_ZN9CGuildWar17printGuildWarRankEv+0x44>
-+mov    -0x4(%ebp),%ebx
-+leave
++jne    <T> <_ZN9CGuildWar17printGuildWarRankEv+0x46>
+ lea    -0xc(%ebp),%esp
+ add    $0x0,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %edi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C

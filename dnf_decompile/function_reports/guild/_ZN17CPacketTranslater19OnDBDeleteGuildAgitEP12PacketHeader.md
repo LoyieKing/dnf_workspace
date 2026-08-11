@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8082be6` | `0x25e` | `0x8078e6a` | `0x16d` |
+| guild | DIFF | `0x8082be6` | `0x25e` | `0x8078d40` | `0x176` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,44 +13,49 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,154 +1,92 @@
+@@ -1,154 +1,99 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
--push   %esi
--push   %ebx
+ push   %edi
+ push   %esi
+ push   %ebx
 -sub    $0x6c,%esp
 -movl   $0x0,-0x28(%ebp)
 -movl   $0x0,-0x24(%ebp)
-+sub    $0x58,%esp
++sub    $0x5c,%esp
 +mov    0x8(%ebp),%eax
-+mov    %eax,-0x14(%ebp)
++mov    %eax,-0x24(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x5b>
-+jne    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x50>
++jne    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x53>
  movl   $0x16dd,0x8(%esp)
- movl   $"OnDBDeleteGuildAgit",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDBDeleteGuildAgit : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x256>
 -mov    0x8(%ebp),%eax
--mov    %eax,-0x20(%ebp)
--mov    -0x20(%ebp),%eax
--mov    0x12(%eax),%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x16b>
-+mov    -0x14(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x16e>
++mov    -0x24(%ebp),%eax
 +add    $0x12,%eax
 +mov    (%eax),%eax
- test   %eax,%eax
++test   %eax,%eax
++jne    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x114>
++mov    -0x24(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%eax
+ mov    %eax,-0x20(%ebp)
+-mov    -0x20(%ebp),%eax
+-mov    0x12(%eax),%eax
+-test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0xc4>
 -mov    -0x20(%ebp),%eax
 -mov    0x12(%eax),%edi
@@ -58,28 +63,70 @@
 -mov    0xe(%eax),%esi
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%ebx
--movl   $0x16e6,0x8(%esp)
--movl   $"OnDBDeleteGuildAgit",0x4(%esp)
--lea    -0x48(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x111>
-+mov    -0x14(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x10(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
- mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnDBDeleteGuildAgit / Failure! Delete Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",0x8(%esp)
--movl   $"./log/GuildAgit",0x4(%esp)
--lea    -0x48(%ebp),%eax
++mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication16Get_GuildManagerEv>
-+mov    -0x10(%ebp),%edx
++mov    -0x20(%ebp),%edx
 +mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZN13CGuildManager9FindGuildEj>
++mov    %eax,-0x1c(%ebp)
++cmpl   $0x0,-0x20(%ebp)
++je     <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x99>
++cmpl   $0x0,-0x1c(%ebp)
++jne    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0xd5>
++movl   $0x16ef,0x8(%esp)
++movl   $&_ZZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++movl   $"CPacketTranslater::OnDBCreateGuildAgit : 0 == pclGuild",0x8(%esp)
++movl   $"./log/GuildAgit",0x4(%esp)
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++nop
++jmp    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x16e>
++movl   $0x0,0x4(%esp)
++mov    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild16SetGuildAgitFlagEb>
++mov    -0x24(%ebp),%eax
++add    $0xe,%eax
++mov    (%eax),%eax
++mov    %eax,0x4(%esp)
++mov    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj>
++movl   $0x0,0x4(%esp)
++mov    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild22SendGuildInfoToMembersEb>
++jmp    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x16e>
++mov    -0x24(%ebp),%eax
++add    $0x12,%eax
++mov    (%eax),%edi
++mov    -0x24(%ebp),%eax
++add    $0xe,%eax
++mov    (%eax),%esi
++mov    -0x24(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%ebx
+ movl   $0x16e6,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x48(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"CPacketTranslater::OnDBDeleteGuildAgit / Failure! Delete Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",0x8(%esp)
+ movl   $"./log/GuildAgit",0x4(%esp)
+-lea    -0x48(%ebp),%eax
++lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x256>
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%eax
@@ -91,7 +138,7 @@
 -add    $0x290,%edx
 -mov    %eax,0x4(%esp)
 -mov    %edx,(%esp)
- call   <T> <_ZN13CGuildManager9FindGuildEj>
+-call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0x24(%ebp)
 -cmpl   $0x0,-0x24(%ebp)
 -jne    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0xfc>
@@ -100,46 +147,31 @@
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x140>
-+mov    %eax,-0xc(%ebp)
-+cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x96>
-+cmpl   $0x0,-0xc(%ebp)
-+jne    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0xd2>
- movl   $0x16ef,0x8(%esp)
- movl   $"OnDBDeleteGuildAgit",0x4(%esp)
+-movl   $0x16ef,0x8(%esp)
+-movl   $&_ZZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
- movl   $"CPacketTranslater::OnDBCreateGuildAgit : 0 == pclGuild",0x8(%esp)
- movl   $"./log/GuildAgit",0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $"CPacketTranslater::OnDBCreateGuildAgit : 0 == pclGuild",0x8(%esp)
+-movl   $"./log/GuildAgit",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x256>
-+nop
-+jmp    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x16b>
- movl   $0x0,0x4(%esp)
+-movl   $0x0,0x4(%esp)
 -mov    -0x24(%ebp),%eax
-+mov    -0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuild16SetGuildAgitFlagEb>
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuild16SetGuildAgitFlagEb>
 -mov    -0x20(%ebp),%eax
 -mov    0xe(%eax),%eax
-+mov    -0x14(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
- mov    %eax,0x4(%esp)
+-mov    %eax,0x4(%esp)
 -mov    -0x24(%ebp),%eax
-+mov    -0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj>
- movl   $0x0,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj>
+-movl   $0x0,0x4(%esp)
 -mov    -0x24(%ebp),%eax
-+mov    -0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuild22SendGuildInfoToMembersEb>
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuild22SendGuildInfoToMembersEb>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x256>
 -cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x1fc>
@@ -155,34 +187,16 @@
 -call   *%edx
 -mov    %eax,%ebx
 -movl   $0x16fe,0x8(%esp)
-+jmp    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x16b>
-+movl   $0x16e6,0x8(%esp)
- movl   $"OnDBDeleteGuildAgit",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
 -movl   $"CPacketTranslater::OnDBDeleteGuildAgit Exception Break : %s\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+mov    -0x14(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%ecx
-+mov    -0x14(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%edx
-+mov    -0x14(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
-+movl   $"CPacketTranslater::OnDBDeleteGuildAgit / Failure! Delete Guild Agit(Guild No : %d, Master No : %d, Reason : %d)",0x8(%esp)
-+movl   $"./log/GuildAgit",0x4(%esp)
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader+0x1f5>
 -mov    %edx,%ebx
 -mov    %eax,%esi
@@ -196,7 +210,7 @@
 -mov    %eax,(%esp)
 -call   <T> <__cxa_begin_catch>
 -movl   $0x1703,0x8(%esp)
--movl   $"OnDBDeleteGuildAgit",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -215,11 +229,11 @@
 -call   <T> <_Unwind_Resume>
 -call   <T> <__cxa_end_catch>
 -add    $0x6c,%esp
--pop    %ebx
--pop    %esi
--pop    %edi
--pop    %ebp
-+leave
++add    $0x5c,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %edi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8087c3e` | `0x234` | `0x8072ee0` | `0x22f` |
+| monitor | DIFF | `0x8087c3e` | `0x234` | `0x8072fb6` | `0x229` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,147 +1,147 @@
+@@ -1,147 +1,144 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -26,15 +26,15 @@
 -jne    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x52>
 +jne    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x4c>
  movl   $0x107e,0x8(%esp)
- movl   $"OnDelBuddy",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater10OnDelBuddyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDelBuddy : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/buddy",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x22d>
@@ -42,11 +42,9 @@
 -add    $0x10,%eax
 -mov    %eax,-0x14(%ebp)
 -mov    -0x18(%ebp),%eax
--mov    0xa(%eax),%eax
-+jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x228>
++jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x222>
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 +add    $0x10,%edx
  mov    %eax,0x4(%esp)
@@ -55,10 +53,10 @@
 +call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 +mov    %eax,-0x18(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
-+jne    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0xad>
++jne    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0xab>
 +movl   $0x1092,0x8(%esp)
-+movl   $"OnDelBuddy",0x4(%esp)
-+lea    -0x28(%ebp),%eax
++movl   $&_ZZN17CPacketTranslater10OnDelBuddyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
 -call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 -mov    %eax,-0x1c(%ebp)
@@ -71,10 +69,10 @@
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +movl   $"CPacketTranslater::OnDelBuddy\t pclUser is NULL",0x8(%esp)
 +movl   $"./log/buddy",0x4(%esp)
-+lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x228>
++jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x222>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -93,23 +91,20 @@
  cmpl   $0x0,-0x10(%ebp)
 -je     <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x22d>
 -lea    -0x6d(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x228>
++je     <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x222>
 +lea    -0x69(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN30Packet_Monitor_Del_Buddy_ReplyC1Ev>
 -mov    -0x18(%ebp),%eax
--mov    0xa(%eax),%eax
++mov    0x8(%ebp),%eax
+ mov    0xa(%eax),%eax
 -mov    %eax,-0x63(%ebp)
 -mov    -0x18(%ebp),%eax
--mov    0xe(%eax),%eax
++mov    %eax,-0x5f(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
- mov    %eax,-0x5f(%ebp)
+ mov    0xe(%eax),%eax
+-mov    %eax,-0x5f(%ebp)
 -mov    -0x18(%ebp),%eax
-+mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x5b(%ebp)
 +mov    0x8(%ebp),%eax
  add    $0x12,%eax
@@ -125,8 +120,7 @@
 -movzwl -0x6b(%ebp),%eax
 +mov    %al,-0x39(%ebp)
 +lea    -0x69(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
++movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
 -lea    -0x6d(%ebp),%eax
 +lea    -0x69(%ebp),%eax
@@ -138,7 +132,7 @@
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x22d>
 -movl   $0x1092,0x8(%esp)
--movl   $"OnDelBuddy",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater10OnDelBuddyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -148,47 +142,38 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x22d>
-+jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x228>
++jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x222>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x1d3>
-+jne    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x1ce>
++jne    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x1c8>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0x1098,0x8(%esp)
-+movl   $"OnDelBuddy",0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x1098,0x8(%esp)
--movl   $"OnDelBuddy",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x1098,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater10OnDelBuddyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
 -movl   $"CPacketTranslater::OnDelBuddy Exception Break : %s\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
 +movl   $"CPacketTranslater::OnDelBuddy() Exception Break : %s\n",0x8(%esp)
 +movl   $"%s",0x4(%esp)
-+lea    -0x30(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x1cc>
-+jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x1c7>
++jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x1c1>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -198,13 +183,13 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x22d>
-+jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x228>
++jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x222>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x109d,0x8(%esp)
- movl   $"OnDelBuddy",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater10OnDelBuddyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -movl   $"CPacketTranslater::OnDelBuddy Exception Break\n",0x8(%esp)
@@ -212,11 +197,11 @@
 -lea    -0x24(%ebp),%eax
 +movl   $"CPacketTranslater::OnDelBuddy() Exception Break",0x8(%esp)
 +movl   $"%s",0x4(%esp)
-+lea    -0x38(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x228>
-+jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x223>
++jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x21d>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -290,26 +275,50 @@ void CPacketTranslater::_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader(Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1121 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2804 行）：
 
 ```cpp
-void CPacketTranslater::OnDelBuddy(PacketHeader* header)
+void CPacketTranslater::OnDelBuddy(PacketHeader* pkt)
 {
-    if (!m_pclApp)
-        return;
     try
     {
-        Packet_DBMW_Del_Buddy* pkt = (Packet_DBMW_Del_Buddy*)header;
-        Packet_DBMW_Del_Buddy_Reply reply;
-        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_mid;
-        *(unsigned int*)((char*)&reply + 0xe) = pkt->m_characNo;
-        memcpy((char*)&reply + 0x12, pkt->m_name, 0x1d);
-        m_pclApp->m_dbManager.DelBuddy(pkt->m_mid, pkt->m_characNo);
-        m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
-            (char*)&reply, reply.packetSize);
+        if (m_pclApp == 0)
+        {
+            DNF_LOG_SCOPE_LINE(0x107e, "./log/buddy", "CPacketTranslater::OnDelBuddy : 0 == m_pclApp");
+        }
+        else
+        {
+            CUser* user =
+                ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
+                    ((RA_UINT<10>*)pkt)->v);
+            if (user == 0)
+            {
+                DNF_LOG_SCOPE_LINE(0x1092, "./log/buddy", "CPacketTranslater::OnDelBuddy\t pclUser is NULL");
+            }
+            else
+            {
+                CServerHandler* handler = m_pclApp->Get_ServerHandler();
+                int r = user->DelBuddyDB(handler, (char*)pkt + 0x12);
+                if (r != 0)
+                {
+                    Packet_Monitor_Del_Buddy_Reply reply;
+                    reply.m_charNo = ((RA_UINT<10>*)pkt)->v;
+                    reply.m_idByChannel = ((RA_UINT<14>*)pkt)->v;
+                    memcpy(reply.m_name, (char*)pkt + 0x12, 0x1d);
+                    reply.m_result = (unsigned char)r;
+                    user->SendToGameserver((char*)&reply,
+                                           ((RA_U16<2>*)&reply)->v);
+                }
+            }
+        }
     }
-    DNF_CATCH_LOG("./log/Except.log",
-                  "CPacketTranslater::OnDelBuddy() Exception Break",
-                  0x319, 0x31e);
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x1098, "%s", "CPacketTranslater::OnDelBuddy() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x109d, "%s", "CPacketTranslater::OnDelBuddy() Exception Break");
+    }
 }
 ```

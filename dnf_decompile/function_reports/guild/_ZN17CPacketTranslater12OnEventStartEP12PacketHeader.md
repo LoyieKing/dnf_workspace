@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807d596` | `0x26d` | `0x8073ee6` | `0x17e` |
+| guild | DIFF | `0x807d596` | `0x26d` | `0x8073cea` | `0x17e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -26,19 +26,19 @@
 -jne    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0xdf>
 -lea    -0x39(%ebp),%eax
 +jne    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0xf2>
-+lea    -0x1d(%ebp),%eax
++lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x39(%ebp),%eax
-+lea    -0x1d(%ebp),%eax
++lea    -0x25(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnEventStart : 0 == m_pclApp",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x40(%ebp),%esi
-+lea    -0x24(%ebp),%esi
++lea    -0x2c(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -65,7 +65,7 @@
 +mov    %esi,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x87>
@@ -84,7 +84,7 @@
 +mov    %esi,%ecx
 +mov    %ebx,%eax
 +jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0xb4>
-+lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0xbc>
@@ -103,7 +103,7 @@
 +mov    %edx,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x1d(%ebp),%eax
++lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
 -mov    %esi,%eax
@@ -114,10 +114,10 @@
 +mov    %ebx,%eax
 +mov    %ecx,(%esp)
 +call   <T> <_Unwind_Resume>
-+lea    -0x1d(%ebp),%eax
++lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -125,40 +125,35 @@
 -mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
 -movzwl 0x10(%eax),%eax
--movzwl %ax,%edi
--mov    -0x20(%ebp),%eax
--movzwl 0xe(%eax),%eax
--movzwl %ax,%esi
--mov    -0x20(%ebp),%eax
--mov    0xa(%eax),%ebx
 +mov    %eax,-0x1c(%ebp)
- movl   $0xe4c,0x8(%esp)
- movl   $"OnEventStart",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
 +mov    -0x1c(%ebp),%eax
 +add    $0x10,%eax
 +movzwl (%eax),%eax
-+movzwl %ax,%ecx
+ movzwl %ax,%edi
+-mov    -0x20(%ebp),%eax
+-movzwl 0xe(%eax),%eax
 +mov    -0x1c(%ebp),%eax
 +add    $0xe,%eax
 +movzwl (%eax),%eax
-+movzwl %ax,%edx
+ movzwl %ax,%esi
+-mov    -0x20(%ebp),%eax
+-mov    0xa(%eax),%ebx
 +mov    -0x1c(%ebp),%eax
 +add    $0xa,%eax
-+mov    (%eax),%eax
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    (%eax),%ebx
+ movl   $0xe4c,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater12OnEventStartEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x38(%ebp),%eax
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnEventStart() eventCode(%d), eventParam1(%d), eventParam2(%d)\n",0x8(%esp)
  movl   $"./log/Web",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -194,7 +189,7 @@
 -call   *%edx
 -mov    %eax,%ebx
 -movl   $0xe53,0x8(%esp)
--movl   $"OnEventStart",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater12OnEventStartEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -219,7 +214,7 @@
 -movl   $"CPacketTranslater::OnEventStart() 예외 발생",(%esp)
 -call   <T> <puts>
 -movl   $0xe59,0x8(%esp)
--movl   $"OnEventStart",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater12OnEventStartEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -294,23 +289,17 @@ void CPacketTranslater::_ZN17CPacketTranslater12OnEventStartEP12PacketHeader(Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2395 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2638 行）：
 
 ```cpp
-void CPacketTranslater::OnEventStart(PacketHeader* header)
+void CPacketTranslater::OnEventStart(PacketHeader* pkt)
 {
-    try
-    {
-        if (!m_pclApp)
-            throw CDNFException("CPacketTranslater::OnEventStart : 0 == m_pclApp");
-        m_pclApp->m_serverHandler->SendAllTcpServer(header);
-        CMyFileLog log("OnEventStart", 0x70);
-        log("./log/Web",
-            "CPacketTranslater::OnEventStart() eventCode(%d), eventParam1(%d), eventParam2(%d)\n",
-            *(int*)((char*)header + 0xa),
-            *(unsigned short*)((char*)header + 0xe),
-            *(unsigned short*)((char*)header + 0x10));
-    }
-    DNF_CATCH_LOG_THROW("CPacketTranslater::OnEventStart() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
+    THROW_IF_NO_APP("CPacketTranslater::OnEventStart : 0 == m_pclApp");
+    char* pb = (char*)pkt;
+    DNF_LOG_SCOPE_LINE(0xe4c,"./log/Web",
+        "CPacketTranslater::OnEventStart() eventCode(%d), eventParam1(%d), eventParam2(%d)\n",
+        *(unsigned int*)(pb + 0xa), (unsigned int)*(unsigned short*)(pb + 0xe),
+        (unsigned int)*(unsigned short*)(pb + 0x10));
+    m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(pkt);
 }
 ```

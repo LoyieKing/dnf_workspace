@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806e102` | `0x33` | `0x8089328` | `0x3d` |
+| monitor | DIFF | `0x806e102` | `0x33` | `0x808926a` | `0x3b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,17 +1,22 @@
+@@ -1,17 +1,21 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x28,%esp
@@ -22,13 +22,12 @@
  lea    -0x16(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_DBMW_Query_Buddy_InfoC1Ev>
-+lea    -0x16(%ebp),%eax
-+lea    0xa(%eax),%ebx
++lea    -0x16(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0xc(%ebp)
-+mov    %eax,(%ebx)
++mov    %eax,0xa(%ebx)
  lea    -0x16(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
@@ -62,13 +61,13 @@ CUser::_ZN5CUser14QueryBuddyInfoEP14CServerHandler(CUser *this,CServerHandler *p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 331 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 344 行）：
 
 ```cpp
 void CUser::QueryBuddyInfo(CServerHandler* handler)
 {
     Packet_DBMW_Query_Buddy_Info pkt;
-    *(unsigned int*)((char*)&pkt + 0xa) = GetUniqCharNo();
+    ((RA_UINT<10>*)&pkt)->v = GetUniqCharNo();
     handler->SendToDB(&pkt);
 }
 ```

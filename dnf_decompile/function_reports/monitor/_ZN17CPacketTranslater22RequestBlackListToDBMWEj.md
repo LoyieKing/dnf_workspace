@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80865ba` | `0x119` | `0x8071dd4` | `0x11e` |
+| monitor | DIFF | `0x80865ba` | `0x119` | `0x8071ece` | `0x11f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,66 +20,55 @@
  push   %ebx
  sub    $0x40,%esp
 -lea    -0x2b(%ebp),%eax
-+lea    -0x1f(%ebp),%eax
++lea    -0x2f(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN29Packet_DBMW_Request_BlackListC1Ev>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x21(%ebp)
 -movb   $0xc9,-0x1d(%ebp)
-+mov    %eax,-0x15(%ebp)
-+movb   $0xc9,-0x11(%ebp)
++mov    %eax,-0x25(%ebp)
++movb   $0xc9,-0x21(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0xa0(%eax),%eax
+ mov    0xa0(%eax),%eax
 -lea    -0x2b(%ebp),%edx
 -mov    %edx,0x4(%esp)
-+add    $0xa0,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x10(%ebp)
-+lea    -0x1f(%ebp),%eax
++lea    -0x2f(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj+0x112>
-+jmp    <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj+0x117>
++jmp    <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj+0x118>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj+0xb8>
-+jne    <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj+0xbd>
++jne    <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj+0xbe>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0xdab,0x8(%esp)
-+movl   $"RequestBlackListToDBMW",0x4(%esp)
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0xdab,0x8(%esp)
--movl   $"RequestBlackListToDBMW",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0xdab,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater22RequestBlackListToDBMWEjE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::RequestBlackListToDBMW Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj+0xb1>
-+jmp    <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj+0xb6>
++jmp    <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj+0xb7>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -89,23 +78,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj+0x112>
-+jmp    <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj+0x117>
++jmp    <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj+0x118>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xdb0,0x8(%esp)
- movl   $"RequestBlackListToDBMW",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater22RequestBlackListToDBMWEjE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::RequestBlackListToDBMW Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj+0x10d>
-+jmp    <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj+0x112>
++jmp    <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj+0x113>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -144,28 +133,29 @@ void CPacketTranslater::_ZN17CPacketTranslater22RequestBlackListToDBMWEj(uint pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2902 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2432 行）：
 
 ```cpp
 void CPacketTranslater::RequestBlackListToDBMW(unsigned int charNo)
+{try
 {
-    try
-    {
-        Packet_DBMW_Request_BlackList pkt;
-        *(unsigned int*)((char*)&pkt + 0xa) = charNo;
-        *(unsigned char*)((char*)&pkt + 0xb) = 0xcb;
-        m_pclApp->Get_ServerHandler()->SendToDB(&pkt);
+
+
+    Packet_DBMW_Request_BlackList pkt;
+    pkt.m_charNo = charNo;
+    pkt.m_flag = 0xc9;
+    CServerHandler* handler = m_pclApp->m_serverHandler2;
+    handler->SendToDB(&pkt);
+
+
     }
     catch (CDNFException& e)
     {
-        CMyFileLog log("RequestBlackListToDBMW", 0xfe7);
-        log("./log/Except",
-            "CPacketTranslater::RequestBlackListToDBMW Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0xdab, "./log/Except", "CPacketTranslater::RequestBlackListToDBMW Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        CMyFileLog log("RequestBlackListToDBMW", 0xfec);
-        log("./log/Except", "CPacketTranslater::RequestBlackListToDBMW Exception Break\n");
+        DNF_LOG_SCOPE_LINE(0xdb0, "./log/Except", "CPacketTranslater::RequestBlackListToDBMW Exception Break\n");
     }
 }
 ```

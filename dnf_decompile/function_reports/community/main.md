@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| community | DIFF | `0x804c2c7` | `0x537` | `0x804c8a3` | `0x553` |
+| community | DIFF | `0x804c2c7` | `0x537` | `0x804c85f` | `0x500` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,15 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,320 +1,323 @@
+@@ -1,320 +1,305 @@
  push   %ebp
  mov    %esp,%ebp
  and    $0xfffffff0,%esp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x1b4,%esp
-+sub    $0x1d4,%esp
+ sub    $0x1b4,%esp
  movl   $"**********************************************************",(%esp)
  call   <T> <puts>
  movl   $"* +---   +-+ +  +----         DUNGEON & FIGHTER          *",(%esp)
@@ -40,131 +39,82 @@
  call   <T> <puts>
  movl   $"**********************************************************",(%esp)
  call   <T> <puts>
--lea    0x168(%esp),%eax
-+lea    0x180(%esp),%eax
+ lea    0x168(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CConfigFileReaderC1Ev>
  movl   $"ip",0x4(%esp)
--lea    0x168(%esp),%eax
-+lea    0x180(%esp),%eax
+ lea    0x168(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CConfigFileReader7add_tagEPKc>
  movl   $"port",0x4(%esp)
--lea    0x168(%esp),%eax
-+lea    0x180(%esp),%eax
+ lea    0x168(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CConfigFileReader7add_tagEPKc>
  movl   $"domain",0x4(%esp)
--lea    0x168(%esp),%eax
-+lea    0x180(%esp),%eax
+ lea    0x168(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CConfigFileReader7add_tagEPKc>
  cmpl   $0x3,0x8(%ebp)
 -je     <T> <main+0x104>
--movl   $"wrong parameter!",(%esp)
--call   <T> <puts>
--movl   $"[execute filename]  [cfg filename]  [command]",(%esp)
--call   <T> <puts>
++je     <T> <main+0xff>
+ movl   $"wrong parameter!",(%esp)
+ call   <T> <puts>
+ movl   $"[execute filename]  [cfg filename]  [command]",(%esp)
+ call   <T> <puts>
 -mov    $0x0,%esi
 -mov    $0x0,%ebx
 -jmp    <T> <main+0x44e>
--lea    0x21(%esp),%edx
--mov    $0xff,%ebx
--mov    $0x0,%eax
--mov    %edx,%ecx
--and    $0x1,%ecx
--test   %ecx,%ecx
-+jne    <T> <main+0x43a>
-+lea    0x39(%esp),%ebx
-+mov    $0xff,%esi
-+mov    %ebx,%eax
-+and    $0x1,%eax
-+mov    %al,0x2f(%esp)
-+cmpb   $0x0,0x2f(%esp)
-+je     <T> <main+0x10b>
-+movb   $0x0,0x39(%esp)
-+lea    0x39(%esp),%eax
-+lea    0x1(%eax),%ebx
-+mov    $0xfe,%esi
-+mov    %ebx,%eax
-+and    $0x2,%eax
-+test   %eax,%eax
- je     <T> <main+0x123>
--mov    %al,(%edx)
--add    $0x1,%edx
--sub    $0x1,%ebx
--mov    %edx,%ecx
--and    $0x2,%ecx
--test   %ecx,%ecx
++mov    $0x0,%ebx
++jmp    <T> <main+0x41f>
+ lea    0x21(%esp),%edx
+ mov    $0xff,%ebx
+ mov    $0x0,%eax
+ mov    %edx,%ecx
+ and    $0x1,%ecx
+ test   %ecx,%ecx
+-je     <T> <main+0x123>
++je     <T> <main+0x11e>
+ mov    %al,(%edx)
+ add    $0x1,%edx
+ sub    $0x1,%ebx
+ mov    %edx,%ecx
+ and    $0x2,%ecx
+ test   %ecx,%ecx
 -je     <T> <main+0x135>
--mov    %ax,(%edx)
--add    $0x2,%edx
--sub    $0x2,%ebx
--mov    %ebx,%ecx
--shr    $0x2,%ecx
--mov    %edx,%edi
--rep stos %eax,%es:(%edi)
--mov    %edi,%edx
--mov    %ebx,%ecx
--and    $0x2,%ecx
--test   %ecx,%ecx
++je     <T> <main+0x130>
+ mov    %ax,(%edx)
+ add    $0x2,%edx
+ sub    $0x2,%ebx
+ mov    %ebx,%ecx
+ shr    $0x2,%ecx
+ mov    %edx,%edi
+ rep stos %eax,%es:(%edi)
+ mov    %edi,%edx
+ mov    %ebx,%ecx
+ and    $0x2,%ecx
+ test   %ecx,%ecx
 -je     <T> <main+0x14f>
--mov    %ax,(%edx)
--add    $0x2,%edx
--mov    %ebx,%ecx
--and    $0x1,%ecx
--test   %ecx,%ecx
++je     <T> <main+0x14a>
+ mov    %ax,(%edx)
+ add    $0x2,%edx
+ mov    %ebx,%ecx
+ and    $0x1,%ecx
+ test   %ecx,%ecx
 -je     <T> <main+0x15d>
--mov    %al,(%edx)
--add    $0x1,%edx
-+movb   $0x0,(%ebx)
-+lea    0x1(%ebx),%eax
-+movb   $0x0,(%eax)
-+add    $0x2,%ebx
-+sub    $0x2,%esi
-+mov    %esi,%edi
-+shr    $0x2,%edi
-+jmp    <T> <main+0x145>
-+movb   $0x0,(%ebx)
-+lea    0x1(%ebx),%eax
-+movb   $0x0,(%eax)
-+lea    0x2(%ebx),%eax
-+movb   $0x0,(%eax)
-+lea    0x3(%ebx),%eax
-+movb   $0x0,(%eax)
-+add    $0x4,%ebx
-+sub    $0x1,%edi
-+test   %edi,%edi
-+setne  %al
-+test   %al,%al
-+jne    <T> <main+0x12a>
-+mov    %esi,%eax
-+and    $0x2,%eax
-+test   %eax,%eax
-+je     <T> <main+0x163>
-+movb   $0x0,(%ebx)
-+lea    0x1(%ebx),%eax
-+movb   $0x0,(%eax)
-+add    $0x2,%ebx
-+movzbl 0x2f(%esp),%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <main+0x172>
-+movb   $0x0,(%ebx)
++je     <T> <main+0x158>
+ mov    %al,(%edx)
+ add    $0x1,%edx
  mov    0xc(%ebp),%eax
  add    $0x4,%eax
  mov    (%eax),%eax
  mov    %eax,0x8(%esp)
  movl   $"./cfg/%s.cfg",0x4(%esp)
--lea    0x21(%esp),%eax
-+lea    0x39(%esp),%eax
+ lea    0x21(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <sprintf>
--lea    0x21(%esp),%eax
-+lea    0x39(%esp),%eax
+ lea    0x21(%esp),%eax
  mov    %eax,0x4(%esp)
--lea    0x168(%esp),%eax
-+lea    0x180(%esp),%eax
+ lea    0x168(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CConfigFileReader14ReadConfigFileEPKc>
  mov    0xc(%ebp),%eax
@@ -182,96 +132,68 @@
 -mov    $0x0,%esi
 -mov    $0x0,%ebx
 -jmp    <T> <main+0x44e>
--lea    0x1aa(%esp),%eax
-+je     <T> <main+0x1d6>
++je     <T> <main+0x1bc>
 +mov    $0x0,%ebx
-+jmp    <T> <main+0x472>
-+lea    0x1c2(%esp),%eax
++jmp    <T> <main+0x41f>
+ lea    0x1aa(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9CCoreDumpC1Ev>
--lea    0x120(%esp),%eax
-+lea    0x138(%esp),%eax
+ lea    0x120(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN15CSessionManagerC1Ev>
  movl   $0x64,0x4(%esp)
--lea    0x120(%esp),%eax
-+lea    0x138(%esp),%eax
+ lea    0x120(%esp),%eax
  add    $0x4,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14network_engine13CSessionProxyI15CNetworkSessionN12socket_event6CEpollEE12CreateEventsEi>
  movl   $"port",0x4(%esp)
--lea    0x168(%esp),%eax
-+lea    0x180(%esp),%eax
+ lea    0x168(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CConfigFileReader9get_valueEPKc>
  mov    %eax,(%esp)
  call   <T> <atoi>
-+mov    %eax,0x1c4(%esp)
-+movl   $"ip",0x4(%esp)
-+lea    0x180(%esp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN17CConfigFileReader9get_valueEPKc>
-+mov    %eax,0x1c8(%esp)
-+mov    0x1c4(%esp),%eax
-+mov    %eax,0x8(%esp)
-+mov    0x1c8(%esp),%eax
-+mov    %eax,0x4(%esp)
-+lea    0x138(%esp),%eax
-+add    $0x4,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN14network_engine13CSessionProxyI15CNetworkSessionN12socket_event6CEpollEE9TryListenEPKci>
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <main+0x28b>
-+mov    $0x0,%ebx
-+jmp    <T> <main+0x3ff>
-+movl   $"port",0x4(%esp)
-+lea    0x180(%esp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN17CConfigFileReader9get_valueEPKc>
  mov    %eax,%ebx
  movl   $"ip",0x4(%esp)
--lea    0x168(%esp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN17CConfigFileReader9get_valueEPKc>
--mov    %ebx,0x8(%esp)
--mov    %eax,0x4(%esp)
--lea    0x120(%esp),%eax
--add    $0x4,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN14network_engine13CSessionProxyI15CNetworkSessionN12socket_event6CEpollEE9TryListenEPKci>
--xor    $0x1,%eax
--test   %al,%al
+ lea    0x168(%esp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN17CConfigFileReader9get_valueEPKc>
+ mov    %ebx,0x8(%esp)
+ mov    %eax,0x4(%esp)
+ lea    0x120(%esp),%eax
+ add    $0x4,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN14network_engine13CSessionProxyI15CNetworkSessionN12socket_event6CEpollEE9TryListenEPKci>
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <main+0x266>
 -mov    $0x0,%esi
 -mov    $0x0,%ebx
 -jmp    <T> <main+0x3da>
--movl   $"port",0x4(%esp)
--lea    0x168(%esp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN17CConfigFileReader9get_valueEPKc>
--mov    %eax,%ebx
--movl   $"ip",0x4(%esp)
--lea    0x168(%esp),%eax
-+lea    0x180(%esp),%eax
++je     <T> <main+0x257>
++mov    $0x0,%ebx
++jmp    <T> <main+0x3cb>
+ movl   $"port",0x4(%esp)
+ lea    0x168(%esp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN17CConfigFileReader9get_valueEPKc>
+ mov    %eax,%ebx
+ movl   $"ip",0x4(%esp)
+ lea    0x168(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CConfigFileReader9get_valueEPKc>
  mov    %ebx,0xc(%esp)
  mov    %eax,0x8(%esp)
  movl   $"Listen Socket IP:%s, PORT:%s",0x4(%esp)
--lea    0x1ab(%esp),%eax
-+lea    0x1c3(%esp),%eax
+ lea    0x1ab(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10ArchiveLogC1EPKcz>
  movl   $"port",0x4(%esp)
--lea    0x168(%esp),%eax
-+lea    0x180(%esp),%eax
+ lea    0x168(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CConfigFileReader9get_valueEPKc>
  mov    %eax,%ebx
  movl   $"ip",0x4(%esp)
--lea    0x168(%esp),%eax
-+lea    0x180(%esp),%eax
+ lea    0x168(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CConfigFileReader9get_valueEPKc>
  mov    %ebx,0x8(%esp)
@@ -279,13 +201,12 @@
  movl   $"Community Server(IP:%s, PORT:%s)\nStart\n",(%esp)
  call   <T> <printf>
 -jmp    <T> <main+0x332>
-+jmp    <T> <main+0x357>
++jmp    <T> <main+0x323>
  movl   $0x0,(%esp)
  call   <T> <time>
  mov    %eax,&_ZN15global_instance12current_timeE
  movl   $0xa,0x4(%esp)
--lea    0x120(%esp),%eax
-+lea    0x138(%esp),%eax
+ lea    0x120(%esp),%eax
  add    $0x4,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14network_engine13CSessionProxyI15CNetworkSessionN12socket_event6CEpollEE19WaitForSessionEventEi>
@@ -295,11 +216,10 @@
  xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <main+0x2fb>
-+jne    <T> <main+0x320>
++jne    <T> <main+0x2ec>
  movl   $0x1e,0x8(%esp)
  movl   $0x0,0x4(%esp)
--lea    0x18c(%esp),%eax
-+lea    0x1a4(%esp),%eax
+ lea    0x18c(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <memset>
  mov    0xc(%ebp),%eax
@@ -307,19 +227,17 @@
  mov    (%eax),%eax
  mov    %eax,0x8(%esp)
  movl   $"./pid/%s.pid",0x4(%esp)
--lea    0x18c(%esp),%eax
-+lea    0x1a4(%esp),%eax
+ lea    0x18c(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <sprintf>
--lea    0x18c(%esp),%eax
-+lea    0x1a4(%esp),%eax
+ lea    0x18c(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <remove>
  cmp    $0xffffffff,%eax
  sete   %al
  test   %al,%al
 -je     <T> <main+0x3ba>
-+je     <T> <main+0x3df>
++je     <T> <main+0x3ab>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -329,22 +247,18 @@
  call   <T> <printf>
 -mov    $0x1,%ebx
 -jmp    <T> <main+0x3da>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    0x120(%esp),%eax
 +mov    $0x0,%ebx
-+jmp    <T> <main+0x3ff>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    0x138(%esp),%eax
++jmp    <T> <main+0x3cb>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    0x120(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN15CSessionManagerD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <main+0x3fb>
--lea    0x120(%esp),%eax
-+jmp    <T> <main+0x410>
-+lea    0x138(%esp),%eax
++jmp    <T> <main+0x3dc>
+ lea    0x120(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN15CSessionManagerD1Ev>
 -test   %ebx,%ebx
@@ -353,21 +267,17 @@
 -jmp    <T> <main+0x414>
 -mov    $0x1,%ebx
 -jmp    <T> <main+0x414>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    0x1aa(%esp),%eax
-+jmp    <T> <main+0x429>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    0x1c2(%esp),%eax
++jmp    <T> <main+0x3f5>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    0x1aa(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9CCoreDumpD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <main+0x435>
--lea    0x1aa(%esp),%eax
-+jmp    <T> <main+0x459>
-+lea    0x1c2(%esp),%eax
++jmp    <T> <main+0x406>
+ lea    0x1aa(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9CCoreDumpD1Ev>
 -test   %ebx,%ebx
@@ -376,47 +286,34 @@
 -jmp    <T> <main+0x44e>
 -mov    $0x1,%ebx
 -jmp    <T> <main+0x44e>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    0x168(%esp),%eax
-+jmp    <T> <main+0x472>
-+movl   $"wrong parameter!",(%esp)
-+call   <T> <puts>
-+movl   $"[execute filename]  [cfg filename]  [command]",(%esp)
-+call   <T> <puts>
-+mov    $0x0,%ebx
-+jmp    <T> <main+0x472>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    0x180(%esp),%eax
++jmp    <T> <main+0x41f>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    0x168(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CConfigFileReaderD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <main+0x46a>
--lea    0x168(%esp),%eax
-+jmp    <T> <main+0x486>
-+lea    0x180(%esp),%eax
++jmp    <T> <main+0x433>
+ lea    0x168(%esp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CConfigFileReaderD1Ev>
 -test   %ebx,%ebx
 -je     <T> <main+0x528>
 -jmp    <T> <main+0x523>
-+jmp    <T> <main+0x544>
++jmp    <T> <main+0x4f1>
  cmp    $0x2,%edx
 -jne    <T> <main+0x4eb>
-+jne    <T> <main+0x507>
++jne    <T> <main+0x4b4>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
--mov    %eax,0x1ac(%esp)
--mov    0x1ac(%esp),%eax
-+mov    %eax,0x1cc(%esp)
-+mov    0x1cc(%esp),%eax
+ mov    %eax,0x1ac(%esp)
+ mov    0x1ac(%esp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
  mov    (%eax),%edx
--mov    0x1ac(%esp),%eax
-+mov    0x1cc(%esp),%eax
+ mov    0x1ac(%esp),%eax
  mov    %eax,(%esp)
  call   *%edx
  mov    %eax,%ebx
@@ -426,15 +323,14 @@
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc>
--movl   $&data#1af97452(.rodata),0x4(%esp)
-+movl   $&data#16b60b2d(.rodata),0x4(%esp)
+ movl   $"\n",0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc>
 -mov    $0x1,%esi
 +mov    $0x1,%ebx
  call   <T> <__cxa_end_catch>
 -jmp    <T> <main+0x528>
-+jmp    <T> <main+0x544>
++jmp    <T> <main+0x4f1>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -452,7 +348,7 @@
 -mov    %eax,%esi
 +mov    $0x0,%ebx
  call   <T> <__cxa_end_catch>
-+jmp    <T> <main+0x544>
++jmp    <T> <main+0x4f1>
 +mov    %edx,%ebx
 +mov    %eax,%esi
 +call   <T> <__cxa_end_catch>
@@ -463,9 +359,8 @@
 -call   <T> <__cxa_end_catch>
 -mov    $0x0,%esi
 -mov    %esi,%eax
--add    $0x1b4,%esp
 +mov    %ebx,%eax
-+add    $0x1d4,%esp
+ add    $0x1b4,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -638,39 +533,17 @@ int main(int argc, char **argv) {
         cfg.add_tag("ip");
         cfg.add_tag("port");
         cfg.add_tag("domain");
-        if (argc == 3) {
-            char buffer[255];
-            // 与原始一致：按地址对齐展开的清 0 循环（非 memset）
-            // 原始：p/size 保持在寄存器（edx/ebx），无栈溢写
-            register char *p = buffer;
-            register unsigned int size = 255;
-            register bool odd = ((unsigned int)p & 1) != 0;
-            if (odd) {
-                buffer[0] = '\0';
-                p = buffer + 1;
-                size = 254;
-            }
-            if (((unsigned int)p & 2) != 0) {
-                p[0] = '\0';
-                p[1] = '\0';
-                p += 2;
-                size -= 2;
-            }
-            for (register unsigned int i = size >> 2; i != 0; i--) {
-                p[0] = '\0';
-                p[1] = '\0';
-                p[2] = '\0';
-                p[3] = '\0';
-                p += 4;
-            }
-            if ((size & 2) != 0) {
-                p[0] = '\0';
-                p[1] = '\0';
-                p += 2;
-            }
-            if (!odd) {
-                *p = '\0';
-            }
+        // 原始：argc != 3 错误分支在前（ORIG cmp; je <main body>，错误路径内联），
+        // if/else 结构而非 if 后直落。
+        if (argc != 3) {
+            puts("wrong parameter!");
+            puts("[execute filename]  [cfg filename]  [command]");
+            return 0;
+        } else {
+            // 原始：char buffer[255] = {0}; 初始化展开为运行时对齐分拆块清 0
+            // （and $0x1 / and $0x2 + rep stosd + 尾 2/1 字节，edx=地址 ebx=0xff），
+            // 与 CreateLogFile 的 char buffer[1024] = {0} 同一编译器形态。
+            char buffer[255] = {0};
             sprintf(buffer, "./cfg/%s.cfg", argv[1]);
             cfg.ReadConfigFile(buffer);
             // 原始：command == false 直接 return 0（xor eax,1; test/je 形态）
@@ -680,10 +553,10 @@ int main(int argc, char **argv) {
             CCoreDump coreDump;
             CSessionManager sessionManager;
             sessionManager.CreateEvents(100);
-            int port = atoi(cfg.get_value("port"));
-            const char* ip = cfg.get_value("ip");
+            // 原始：get_value/atoi 直接内联为 TryListen/ArchiveLog/printf 实参
+            // （ORIG 每次重新求值，无 port/ip 命名局部）。
             // 原始：TryListen == false 直接 return 0
-            if (sessionManager.TryListen(ip, port) == false) {
+            if (sessionManager.TryListen(cfg.get_value("ip"), atoi(cfg.get_value("port"))) == false) {
                 return 0;
             }
             ArchiveLog("Listen Socket IP:%s, PORT:%s", cfg.get_value("ip"), cfg.get_value("port"));
@@ -702,10 +575,6 @@ int main(int argc, char **argv) {
             }
             return 0;
         }
-        // 原始：argc != 3 时直落到 puts（if 后无 else）
-        puts("wrong parameter!");
-        puts("[execute filename]  [cfg filename]  [command]");
-        return 0;
     } catch (std::exception& e) {
         // 原始：std::cerr << "error: " << e.what() << "\n"（_ZStls 三次输出）
         std::cerr << "error: " << e.what() << "\n";

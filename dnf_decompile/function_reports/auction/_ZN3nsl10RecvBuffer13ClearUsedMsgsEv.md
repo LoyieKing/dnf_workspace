@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| auction | DIFF | `0x80ba7a2` | `0x1c5` | `0x8082394` | `0x1b4` |
+| auction | DIFF | `0x80ba7a2` | `0x1c5` | `0x8082330` | `0x1c1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,137 +1,133 @@
+@@ -1,137 +1,136 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -21,7 +21,7 @@
  push   %ebx
  sub    $0x5c,%esp
 -jmp    <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0x183>
-+jmp    <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0x182>
++jmp    <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0x18f>
  mov    0x8(%ebp),%eax
  add    $0x4,%eax
  mov    %eax,(%esp)
@@ -37,14 +37,14 @@
  test   %al,%al
 -je     <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0x19e>
 -mov    -0x28(%ebp),%eax
-+je     <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0x19d>
++je     <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0x1aa>
 +mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7Message6getUseEv>
  test   %al,%al
 -je     <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0x11e>
 -mov    -0x28(%ebp),%eax
-+je     <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0x123>
++je     <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0x130>
 +mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7Message18getUserFromMessageEv>
@@ -91,11 +91,14 @@
 -mov    &_ZN3nsl7Message5identE,%ebx
 -mov    &_ZN3nsl7Message5identE+0x4,%esi
 +mov    %eax,-0x1c(%ebp)
-+mov    $&_ZN3nsl7Message5identE,%eax
-+mov    (%eax),%esi
-+mov    $&_ZN3nsl7Message5identE,%eax
-+add    $0x4,%eax
-+mov    (%eax),%edi
++mov    &_ZN3nsl7Message5identE,%eax
++mov    &_ZN3nsl7Message5identE+0x4,%edx
++mov    %eax,%esi
++mov    &_ZN3nsl7Message5identE,%eax
++mov    &_ZN3nsl7Message5identE+0x4,%edx
++mov    %edx,%eax
++xor    %edx,%edx
++mov    %eax,%edi
  mov    0x8(%ebp),%eax
  add    $0x4,%eax
  mov    %eax,(%esp)
@@ -161,7 +164,7 @@
 +mov    0x2c(%eax),%eax
  cmp    %eax,%edx
 -jl     <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0x183>
-+jg     <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0x182>
++jg     <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0x18f>
  mov    0x8(%ebp),%eax
  movl   $0x0,0x2c(%eax)
  mov    0x8(%ebp),%eax
@@ -172,7 +175,7 @@
  test   %al,%al
  jne    <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0xe>
 -jmp    <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0x19f>
-+jmp    <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0x19e>
++jmp    <T> <_ZN3nsl10RecvBuffer13ClearUsedMsgsEv+0x1ab>
  nop
  mov    0x8(%ebp),%eax
  add    $0x4,%eax
@@ -259,7 +262,7 @@ bool __thiscall nsl::RecvBuffer::_ZN3nsl10RecvBuffer13ClearUsedMsgsEv(RecvBuffer
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/RecvBuffer.cpp](source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/RecvBuffer.cpp)（约第 179 行）：
+定义于 [source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/RecvBuffer.cpp](source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/RecvBuffer.cpp)（约第 185 行）：
 
 ```cpp
 bool RecvBuffer::ClearUsedMsgs()
@@ -276,9 +279,9 @@ bool RecvBuffer::ClearUsedMsgs()
                 unsigned int b2 = (unsigned int)pTcpUserTmp->pSock_->getPeerAdrs()[2];
                 unsigned int b1 = (unsigned int)pTcpUserTmp->pSock_->getPeerAdrs()[1];
                 unsigned int b0 = (unsigned int)pTcpUserTmp->pSock_->getPeerAdrs()[0];
-                // ORIG：idLo/idHi/sz 常驻 ebx/esi/edi（register 局部）
-                register unsigned int idLo = *(unsigned int*)&Message::ident;
-                register unsigned int idHi = *((unsigned int*)&Message::ident + 1);
+                // ORIG：idLo/idHi/sz 常驻 ebx/esi/edi（register 局部，直接双字装载）
+                register unsigned int idLo = (unsigned int)Message::ident;
+                register unsigned int idHi = (unsigned int)(Message::ident >> 32);
                 register unsigned int sz = (unsigned int)mRecvMsgs.size();
                 G_TraceLog()->sysLog(5, "force delete activeclose size(%d) ident(%d) ip(%d.%d.%d.%d)",
                                      sz, idLo, idHi, b0, b1, b2, b3);

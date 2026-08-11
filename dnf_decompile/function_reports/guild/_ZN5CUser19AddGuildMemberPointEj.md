@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80669f2` | `0x49` | `0x808901c` | `0x51` |
+| guild | DIFF | `0x80669f2` | `0x49` | `0x8088e9a` | `0x47` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,43 +13,33 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,25 +1,29 @@
+@@ -1,25 +1,24 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  mov    0x8(%ebp),%eax
--mov    0x60(%eax),%eax
-+add    $0x60,%eax
-+mov    (%eax),%eax
+ mov    0x60(%eax),%eax
  mov    %eax,-0xc(%ebp)
  mov    0x8(%ebp),%eax
 -mov    0x60(%eax),%eax
 -mov    %eax,%edx
--add    0xc(%ebp),%edx
-+lea    0x60(%eax),%edx
- mov    0x8(%ebp),%eax
--mov    %edx,0x60(%eax)
-+add    $0x60,%eax
-+mov    (%eax),%eax
-+add    0xc(%ebp),%eax
-+mov    %eax,(%edx)
++mov    0x8(%ebp),%edx
++mov    0x60(%edx),%edx
+ add    0xc(%ebp),%edx
+-mov    0x8(%ebp),%eax
+ mov    %edx,0x60(%eax)
  movl   $0x10,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser15SetGuildMemFlagEt>
  mov    0x8(%ebp),%eax
--mov    0x60(%eax),%eax
-+add    $0x60,%eax
-+mov    (%eax),%eax
+ mov    0x60(%eax),%eax
  cmp    -0xc(%ebp),%eax
 -jae    <T> <_ZN5CUser19AddGuildMemberPointEj+0x47>
-+jae    <T> <_ZN5CUser19AddGuildMemberPointEj+0x4f>
++jae    <T> <_ZN5CUser19AddGuildMemberPointEj+0x45>
  mov    0x8(%ebp),%eax
--mov    -0xc(%ebp),%edx
--mov    %edx,0x60(%eax)
-+lea    0x60(%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,(%edx)
+ mov    -0xc(%ebp),%edx
+ mov    %edx,0x60(%eax)
  leave
  ret
 ```
@@ -76,17 +66,17 @@ void __thiscall CUser::_ZN5CUser19AddGuildMemberPointEj(CUser *this,uint param_1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 173 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 188 行）：
 
 ```cpp
 void CUser::AddGuildMemberPoint(unsigned int point)
 {
-    unsigned int old = *(unsigned int*)((char*)this + 0x60);
-    *(unsigned int*)((char*)this + 0x60) += point;
+    unsigned int old = ((CUserGuildPointLayout*)this)->m_guildPoint;
+    ((CUserGuildPointLayout*)this)->m_guildPoint += point;
     SetGuildMemFlag(0x10);
-    if (*(unsigned int*)((char*)this + 0x60) < old)
+    if ((unsigned int)((CUserGuildPointLayout*)this)->m_guildPoint < old)
     {
-        *(unsigned int*)((char*)this + 0x60) = old;
+        ((CUserGuildPointLayout*)this)->m_guildPoint = old;
     }
 }
 ```

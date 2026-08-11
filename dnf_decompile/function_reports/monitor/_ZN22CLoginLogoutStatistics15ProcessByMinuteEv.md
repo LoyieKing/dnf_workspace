@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a6558` | `0xa1` | `0x8096476` | `0xc6` |
+| monitor | DIFF | `0x80a6558` | `0xa1` | `0x809650a` | `0xbe` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,39 +1,46 @@
+@@ -1,39 +1,42 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -24,30 +24,34 @@
  mov    %eax,(%esp)
  call   <T> <_ZN34Packet_DBMW_Statistic_Login_LogoutC1Ev>
 -movl   $0x0,-0x10(%ebp)
-+lea    -0x620(%ebp),%eax
-+lea    0x608(%eax),%edx
- mov    0x8(%ebp),%eax
- mov    0xac(%eax),%eax
+-mov    0x8(%ebp),%eax
+-mov    0xac(%eax),%eax
 -mov    %eax,-0x28(%ebp)
-+mov    %eax,(%edx)
-+lea    -0x620(%ebp),%eax
-+lea    0x60c(%eax),%edx
- mov    0x8(%ebp),%eax
- mov    0xb0(%eax),%eax
+-mov    0x8(%ebp),%eax
+-mov    0xb0(%eax),%eax
 -mov    %eax,-0x24(%ebp)
-+mov    %eax,(%edx)
-+lea    -0x620(%ebp),%eax
-+lea    0x610(%eax),%edx
- mov    0x8(%ebp),%eax
- mov    0xb4(%eax),%eax
+-mov    0x8(%ebp),%eax
+-mov    0xb4(%eax),%eax
 -mov    %eax,-0x20(%ebp)
-+mov    %eax,(%edx)
-+lea    -0x620(%ebp),%eax
-+lea    0x614(%eax),%edx
- mov    0x8(%ebp),%eax
- mov    0xb8(%eax),%eax
+-mov    0x8(%ebp),%eax
+-mov    0xb8(%eax),%eax
 -mov    %eax,-0x1c(%ebp)
-+mov    %eax,(%edx)
++lea    -0x620(%ebp),%eax
++mov    0x8(%ebp),%edx
++mov    0xac(%edx),%edx
++mov    %edx,0x608(%eax)
++lea    -0x620(%ebp),%eax
++mov    0x8(%ebp),%edx
++mov    0xb0(%edx),%edx
++mov    %edx,0x60c(%eax)
++lea    -0x620(%ebp),%eax
++mov    0x8(%ebp),%edx
++mov    0xb4(%edx),%edx
++mov    %edx,0x610(%eax)
++lea    -0x620(%ebp),%eax
++mov    0x8(%ebp),%edx
++mov    0xb8(%edx),%edx
++mov    %edx,0x614(%eax)
  mov    0x8(%ebp),%eax
  movl   $0x0,0xb4(%eax)
  mov    0x8(%ebp),%eax
@@ -106,16 +110,16 @@ CLoginLogoutStatistics::_ZN22CLoginLogoutStatistics15ProcessByMinuteEv(CLoginLog
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/LoginLogoutStatistics.cpp](source/DNFServer/GameServer/Monitor/LoginLogoutStatistics.cpp)（约第 51 行）：
+定义于 [source/DNFServer/GameServer/Monitor/LoginLogoutStatistics.cpp](source/DNFServer/GameServer/Monitor/LoginLogoutStatistics.cpp)（约第 48 行）：
 
 ```cpp
 void CLoginLogoutStatistics::ProcessByMinute()
 {
     Packet_DBMW_Statistic_Login_Logout pkt;
-    *(unsigned int*)((char*)&pkt + 0x608) = m_fieldac;
-    *(unsigned int*)((char*)&pkt + 0x60c) = m_fieldb0;
-    *(unsigned int*)((char*)&pkt + 0x610) = m_fieldb4;
-    *(unsigned int*)((char*)&pkt + 0x614) = m_fieldb8;
+    ((RA_UINT<1544>*)&pkt)->v = m_fieldac;
+    ((RA_UINT<1548>*)&pkt)->v = m_fieldb0;
+    ((RA_UINT<1552>*)&pkt)->v = m_fieldb4;
+    ((RA_UINT<1556>*)&pkt)->v = m_fieldb8;
     m_fieldb4 = 0;
     m_fieldb8 = 0;
     m_app->Get_ServerHandler()->GetDBServer()->SendToServer((char*)&pkt, 0x618);

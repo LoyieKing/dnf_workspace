@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x805e60c` | `0x1c3` | `0x804de26` | `0x1ae` |
+| manager | DIFF | `0x805e60c` | `0x1c3` | `0x804df16` | `0x1b0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,124 +1,114 @@
+@@ -1,124 +1,115 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -68,56 +68,41 @@
 +jmp    <T> <_ZN12CApplication7ProcessEv+0x8>
  cmp    $0x2,%edx
 -jne    <T> <_ZN12CApplication7ProcessEv+0x147>
-+jne    <T> <_ZN12CApplication7ProcessEv+0x143>
++jne    <T> <_ZN12CApplication7ProcessEv+0x145>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CApplication::Process() Exception Break : %s\n",(%esp)
  call   <T> <printf>
-+movl   $0x22a,0x8(%esp)
-+movl   $"Process",0x4(%esp)
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x22a,0x8(%esp)
--movl   $"Process",0x4(%esp)
--lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x22a,0x8(%esp)
+ movl   $&_ZZN12CApplication7ProcessEvE12__FUNCTION__,0x4(%esp)
+ lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CApplication::Process() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/process.log",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN12CApplication7ProcessEv+0x140>
-+jmp    <T> <_ZN12CApplication7ProcessEv+0x139>
++jmp    <T> <_ZN12CApplication7ProcessEv+0x13b>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -133,19 +118,17 @@
  movl   $"CApplication::Process() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x22f,0x8(%esp)
- movl   $"Process",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ movl   $&_ZZN12CApplication7ProcessEvE12__FUNCTION__,0x4(%esp)
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CApplication::Process() Exception Break\n",0x8(%esp)
  movl   $"./log/process.log",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN12CApplication7ProcessEv+0x1a8>
-+jmp    <T> <_ZN12CApplication7ProcessEv+0x1a4>
++jmp    <T> <_ZN12CApplication7ProcessEv+0x1a6>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -199,36 +182,39 @@ void __thiscall CApplication::_ZN12CApplication7ProcessEv(CApplication *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 252 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFApplication.cpp](source/DNFServer/GameServer/Manager/DNFApplication.cpp)（约第 58 行）：
 
 ```cpp
 void CApplication::Process()
 {
-    while (m_loaded)
+    while (1)
     {
         try
         {
-            CFrameCountHandler* f = m_frame.GetFrameCountInfo();
-            if (f->m_state != 0 && 1 < (unsigned char)f->m_state)
+            CFrameCountHandler* info = (CFrameCountHandler*)m_frameCount.GetFrameCountInfo();
+            if (info->m_field24 != 0 && info->m_field24 > 1)
             {
                 m_serverHandler->Process();
-                if (f->m_state == 3)
+                if (info->m_field24 == 3)
                 {
-                    m_frame.SaveProcess(9999);
+                    m_frameCount.SaveProcess();
+                    m_userManager.ProcessByMinute();
                 }
             }
+            SwitchQueueTCP();
+            SwitchQueueUDP();
+            CPacketDecoderInstance()->Process();
             DNFFLib::Sleep_Ext(0, 1);
         }
         catch (CDNFException& e)
         {
             printf("CApplication::Process() Exception Break : %s\n", e.what());
-            register const char* msg = e.what();
-            DNF_LOG_SCOPE_LINE(0x1ec, "./log/process", "CApplication::Process() Exception Break : %s\n", msg);
+            DNF_LOG_SCOPE_LINE(0x22a, "./log/process.log", "CApplication::Process() Exception Break : %s\n", e.what());
         }
         catch (...)
         {
             puts("CApplication::Process() Exception Break");
-            DNF_LOG_SCOPE_LINE(0x1f1, "./log/process", "CApplication::Process() Exception Break\n");
+            DNF_LOG_SCOPE_LINE(0x22f, "./log/process.log", "CApplication::Process() Exception Break\n");
         }
     }
 }

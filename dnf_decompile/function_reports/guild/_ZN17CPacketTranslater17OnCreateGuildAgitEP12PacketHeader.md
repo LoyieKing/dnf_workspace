@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8082206` | `0x327` | `0x8078740` | `0x233` |
+| guild | DIFF | `0x8082206` | `0x327` | `0x8078612` | `0x233` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -29,15 +29,15 @@
 -jne    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x57>
 +jne    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x53>
  movl   $0x1608,0x8(%esp)
- movl   $"OnCreateGuildAgit",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x5c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnCreateGuildAgit : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x5c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x31c>
@@ -78,116 +78,42 @@
 +cmpl   $0x0,-0x1c(%ebp)
 +jne    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0xc4>
  movl   $0x1610,0x8(%esp)
- movl   $"OnCreateGuildAgit",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x54(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnCreateGuildAgit : 0 == pclGuild",0x8(%esp)
  movl   $"./log/GuildAgit",0x4(%esp)
 -lea    -0x54(%ebp),%eax
-+lea    -0x34(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x31c>
 -mov    -0x20(%ebp),%eax
 -mov    0xe(%eax),%eax
-+jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x22b>
-+mov    -0x24(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
- mov    %eax,0x4(%esp)
+-mov    %eax,0x4(%esp)
 -mov    -0x24(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuild13IsGuildMasterEj>
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x1e2>
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild16IsExistGuildAgitEv>
- xor    $0x1,%eax
- test   %al,%al
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuild13IsGuildMasterEj>
+-xor    $0x1,%eax
+-test   %al,%al
 -je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x144>
-+je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x1a3>
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild12GetGuildFundEv>
-+mov    -0x24(%ebp),%edx
-+add    $0x16,%edx
-+mov    (%edx),%edx
-+cmp    %edx,%eax
-+setb   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x157>
-+movl   $0x1623,0x8(%esp)
-+movl   $"OnCreateGuildAgit",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    -0x20(%ebp),%eax
+-mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%esi
-+mov    %eax,0xc(%esp)
-+movl   $"CPacketTranslater::OnCreateGuildAgit : %d guild fund shortage",0x8(%esp)
-+movl   $"./log/GuildAgit",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x22b>
-+mov    -0x24(%ebp),%eax
-+add    $0x16,%eax
-+mov    (%eax),%edi
-+mov    -0x24(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%esi
-+mov    -0x24(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%ebx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+mov    %edi,0x14(%esp)
-+mov    %esi,0x10(%esp)
-+mov    %ebx,0xc(%esp)
-+mov    -0x20(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild15CreateGuildAgitEP14CServerHandlerjjjj>
-+jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x22b>
-+movl   $0x161c,0x8(%esp)
-+movl   $"OnCreateGuildAgit",0x4(%esp)
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    -0x20(%ebp),%eax
+-mov    -0x20(%ebp),%eax
 -mov    0xe(%eax),%ebx
-+mov    %eax,0xc(%esp)
-+movl   $"CPacketTranslater::OnCreateGuildAgit : %d guild already have guild agit",0x8(%esp)
-+movl   $"./log/GuildAgit",0x4(%esp)
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x22b>
- movl   $0x1616,0x8(%esp)
- movl   $"OnCreateGuildAgit",0x4(%esp)
- lea    -0x4c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $0x1616,0x8(%esp)
+-movl   $&_ZZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x4c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+mov    -0x24(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
- movl   $"CPacketTranslater::OnCreateGuildAgit : %d is not guild master(g:%d)",0x8(%esp)
- movl   $"./log/GuildAgit",0x4(%esp)
- lea    -0x4c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-movl   $"CPacketTranslater::OnCreateGuildAgit : %d is not guild master(g:%d)",0x8(%esp)
+-movl   $"./log/GuildAgit",0x4(%esp)
+-lea    -0x4c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x31c>
 -mov    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
@@ -197,39 +123,63 @@
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%ebx
 -movl   $0x161c,0x8(%esp)
--movl   $"OnCreateGuildAgit",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
 -movl   $"CPacketTranslater::OnCreateGuildAgit : %d guild already have guild agit",0x8(%esp)
 -movl   $"./log/GuildAgit",0x4(%esp)
--lea    -0x44(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x44(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x31c>
 -mov    -0x20(%ebp),%eax
 -mov    0x16(%eax),%ebx
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild12GetGuildFundEv>
++jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x22b>
+ mov    -0x24(%ebp),%eax
++add    $0xe,%eax
++mov    (%eax),%eax
++mov    %eax,0x4(%esp)
++mov    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild13IsGuildMasterEj>
++test   %al,%al
++je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x1e2>
++mov    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild16IsExistGuildAgitEv>
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x1a3>
++mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild12GetGuildFundEv>
 -cmp    %eax,%ebx
 -seta   %al
--test   %al,%al
++mov    -0x24(%ebp),%edx
++add    $0x16,%edx
++mov    (%edx),%edx
++cmp    %edx,%eax
++setb   %al
+ test   %al,%al
 -je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x1f7>
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%ebx
--movl   $0x1623,0x8(%esp)
--movl   $"OnCreateGuildAgit",0x4(%esp)
--lea    -0x3c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++je     <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x157>
+ movl   $0x1623,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x3c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnCreateGuildAgit : %d guild fund shortage",0x8(%esp)
--movl   $"./log/GuildAgit",0x4(%esp)
--lea    -0x3c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    -0x20(%ebp),%eax
++mov    %eax,0xc(%esp)
+ movl   $"CPacketTranslater::OnCreateGuildAgit : %d guild fund shortage",0x8(%esp)
+ movl   $"./log/GuildAgit",0x4(%esp)
+ lea    -0x3c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x31c>
 -mov    -0x20(%ebp),%eax
 -mov    0x16(%eax),%eax
@@ -240,18 +190,34 @@
 -mov    0xe(%eax),%esi
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%ebx
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
++jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x22b>
++mov    -0x24(%ebp),%eax
++add    $0x16,%eax
++mov    (%eax),%edi
++mov    -0x24(%ebp),%eax
++add    $0x12,%eax
++mov    (%eax),%esi
++mov    -0x24(%ebp),%eax
++add    $0xe,%eax
++mov    (%eax),%ebx
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -mov    -0x6c(%ebp),%edx
 -mov    %edx,0x14(%esp)
 -mov    %edi,0x10(%esp)
 -mov    %esi,0xc(%esp)
 -mov    %ebx,0x8(%esp)
--mov    %eax,0x4(%esp)
++mov    %edi,0x14(%esp)
++mov    %esi,0x10(%esp)
++mov    %ebx,0xc(%esp)
++mov    -0x20(%ebp),%edx
++mov    %edx,0x8(%esp)
+ mov    %eax,0x4(%esp)
 -mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild15CreateGuildAgitEP14CServerHandlerjjjj>
++mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild15CreateGuildAgitEP14CServerHandlerjjjj>
 -jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x31c>
 -cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x2c2>
@@ -267,16 +233,22 @@
 -call   *%edx
 -mov    %eax,%ebx
 -movl   $0x1630,0x8(%esp)
--movl   $"OnCreateGuildAgit",0x4(%esp)
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x22b>
++movl   $0x161c,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
 -movl   $"CPacketTranslater::OnCreateGuildAgit Exception Break : %s\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    -0x20(%ebp),%eax
++mov    %eax,0xc(%esp)
++movl   $"CPacketTranslater::OnCreateGuildAgit : %d guild already have guild agit",0x8(%esp)
++movl   $"./log/GuildAgit",0x4(%esp)
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x2bb>
 -mov    %edx,%ebx
 -mov    %eax,%esi
@@ -290,15 +262,25 @@
 -mov    %eax,(%esp)
 -call   <T> <__cxa_begin_catch>
 -movl   $0x1635,0x8(%esp)
--movl   $"OnCreateGuildAgit",0x4(%esp)
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x22b>
++mov    -0x24(%ebp),%eax
++add    $0xe,%eax
++mov    (%eax),%ebx
++movl   $0x1616,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -movl   $"CPacketTranslater::OnCreateGuildAgit Exception Break\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    -0x20(%ebp),%eax
++mov    %eax,0x10(%esp)
++mov    %ebx,0xc(%esp)
++movl   $"CPacketTranslater::OnCreateGuildAgit : %d is not guild master(g:%d)",0x8(%esp)
++movl   $"./log/GuildAgit",0x4(%esp)
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader+0x317>
 -mov    %edx,%ebx
 -mov    %eax,%esi
@@ -413,34 +395,56 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 486 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3808 行）：
 
 ```cpp
-void CPacketTranslater::OnCreateGuildAgit(PacketHeader* header)
+void CPacketTranslater::OnCreateGuildAgit(PacketHeader* pkt)
 {
-    if (!m_pclApp)
-        throw CDNFException(std::string(
-            "CPacketTranslater::OnCreateGuildAgit() : 0 == m_pclApp"));
-    try
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
     {
-        Packet_DB_Create_Guild_Agit* pkt =
-            (Packet_DB_Create_Guild_Agit*)header;
-        Packet_DB_Create_Guild_Agit_Reply reply;
-        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_guildId;
-        *(unsigned int*)((char*)&reply + 0xe) = pkt->m_fieldE;
-        m_pclApp->m_dbManager.OnCreateGuildAgit(pkt, reply);
-        CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
-        gs->SendToServer((char*)&reply, 0x16);
-        if (*(int*)((char*)&reply + 0x12) == 0)
+        DNF_LOG_SCOPE_LINE(0x1608, "./log/Except", "CPacketTranslater::OnCreateGuildAgit : 0 == m_pclApp");
+        return;
+    }
+    else
+    {
+        unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
+        if (guildKey == 0 || guild == 0)
         {
-            Packet_Guild_Load_Guild_Cargo cargo;
-            *(unsigned int*)((char*)&cargo + 0xa) = pkt->m_guildId;
-            m_pclApp->m_dbManager.OnLoadGuildCargo(pkt->m_guildId, cargo);
-            gs->SendToServer((char*)&cargo, 0x18ea);
+            DNF_LOG_SCOPE_LINE(0x1610, "./log/GuildAgit", "CPacketTranslater::OnCreateGuildAgit : 0 == pclGuild");
+        }
+        else if (guild->IsGuildMaster(*(unsigned int*)(pb + 0xe)) == 1)
+        {
+            if (guild->IsExistGuildAgit() == 0)
+            {
+                if (guild->GetGuildFund() < *(unsigned int*)(pb + 0x16))
+                {
+                    DNF_LOG_SCOPE_LINE(0x1623,"./log/GuildAgit",
+                        "CPacketTranslater::OnCreateGuildAgit : %d guild fund shortage",
+                        guildKey);
+                }
+                else
+                {
+                    guild->CreateGuildAgit(m_pclApp->Get_ServerHandler(), guildKey,
+                                           *(unsigned int*)(pb + 0xe),
+                                           *(unsigned int*)(pb + 0x12),
+                                           *(unsigned int*)(pb + 0x16));
+                }
+            }
+            else
+            {
+                DNF_LOG_SCOPE_LINE(0x161c,"./log/GuildAgit",
+                    "CPacketTranslater::OnCreateGuildAgit : %d guild already have guild agit",
+                    guildKey);
+            }
+        }
+        else
+        {
+            DNF_LOG_SCOPE_LINE(0x1616,"./log/GuildAgit",
+                "CPacketTranslater::OnCreateGuildAgit : %d is not guild master(g:%d)",
+                *(unsigned int*)(pb + 0xe), guildKey);
         }
     }
-    DNF_CATCH_LOG("./log/Except.log",
-                  "CPacketTranslater::OnCreateGuildAgit() Exception Break",
-                  0x911, 0x916);
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8069286` | `0x223` | `0x808b9dc` | `0x238` |
+| guild | DIFF | `0x8069286` | `0x223` | `0x808b81e` | `0x238` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -83,9 +83,9 @@
 -mov    %eax,%ebx
 +mov    %eax,-0x24(%ebp)
  movl   $0x13c,0x8(%esp)
- movl   $"CreateUser",0x4(%esp)
+ movl   $&_ZZN12CUserManager10CreateUserEjjPciP11CGameServerE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0x10(%ebp),%eax
@@ -96,7 +96,7 @@
  movl   $"uDBID(%s) uCharNo(%d) is already exist at m_mapUsers!",0x8(%esp)
  movl   $"./log/LoginErr",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x2,0x4(%esp)
@@ -128,7 +128,7 @@
 -mov    %eax,%ebx
 +mov    %eax,-0x20(%ebp)
  movl   $0x146,0x8(%esp)
- movl   $"CreateUser",0x4(%esp)
+ movl   $&_ZZN12CUserManager10CreateUserEjjPciP11CGameServerE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
@@ -165,9 +165,9 @@
 -mov    %eax,%ebx
 +mov    %eax,-0x1c(%ebp)
  movl   $0x14a,0x8(%esp)
- movl   $"CreateUser",0x4(%esp)
+ movl   $&_ZZN12CUserManager10CreateUserEjjPciP11CGameServerE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0x14(%ebp),%eax
@@ -178,7 +178,7 @@
  movl   $"uDBID(%s) uCharName(%s) is already exist at m_mapCharNameUsers!",0x8(%esp)
  movl   $"./log/LoginErr",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x3,0x4(%esp)
@@ -259,4 +259,4 @@ CUserManager::_ZN12CUserManager10CreateUserEjjPciP11CGameServer
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/COServer/DNFUserManager.cpp, source/DNFServer/GameServer/DBMW/DNFUserManager.cpp, source/DNFServer/GameServer/Guild/DNFUserManager.cpp, source/DNFServer/GameServer/Monitor/DNFUserManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h 等 622 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/DNFUserManager.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 289 个文件*

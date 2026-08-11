@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809a37e` | `0x118` | `0x8061744` | `0x10d` |
+| monitor | DIFF | `0x809a37e` | `0x118` | `0x806193e` | `0x10d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -90,7 +90,7 @@
 -mov    -0xc(%ebp),%eax
 -mov    0x8(%eax),%ebx
  movl   $0x19a,0x8(%esp)
- movl   $"MemberRegisterFlagProcess",0x4(%esp)
+ movl   $&_ZZN14CMemberManager25MemberRegisterFlagProcessEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -192,7 +192,7 @@ void CMemberManager::MemberRegisterFlagProcess()
             CMember* member = it->second;
             member->CheckMemberRegisterFlag();
         }
-        CMyFileLog log("MemberRegisterFlagProcess", 0x19a);
+        CMyFileLog log(__FUNCTION__, 0x19a);
         log("./log/MemberModify", "CMemberManager::MemberRegisterFlagProcess(%d,%d)",
             lt->tm_min, lt->tm_hour);
     }

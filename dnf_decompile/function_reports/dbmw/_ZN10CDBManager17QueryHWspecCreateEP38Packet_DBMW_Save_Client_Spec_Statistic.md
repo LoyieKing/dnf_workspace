@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807a172` | `0x5d8` | `0x805e4ca` | `0x4b9` |
+| dbmw | DIFF | `0x807a172` | `0x5d8` | `0x805e276` | `0x4b9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -77,13 +77,6 @@
 -lea    0x0(,%eax,8),%edx
 -sub    %eax,%edx
 -movzwl 0xf(%edx,%edi,1),%eax
--movzwl %ax,%eax
--mov    %esi,0x1c(%esp)
--mov    %ebx,0x18(%esp)
--mov    %ecx,0x14(%esp)
--mov    -0x2c(%ebp),%edx
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
 +lea    0x0(,%eax,8),%ecx
 +mov    %ecx,%ebx
 +sub    %eax,%ebx
@@ -94,66 +87,54 @@
 +mov    -0x28(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+add    $0xa,%edx
-+mov    (%edx),%esi
-+mov    -0x1c(%ebp),%edx
-+add    $0x6,%edx
-+mov    (%edx),%ebx
-+mov    -0x1c(%ebp),%edx
-+add    $0x2,%edx
-+movzbl (%edx),%edx
-+movzbl %dl,%ecx
-+mov    -0x1c(%ebp),%edx
-+movzwl (%edx),%edx
-+movzwl %dx,%edx
-+mov    %esi,0x1c(%esp)
-+mov    %ebx,0x18(%esp)
-+mov    %ecx,0x14(%esp)
-+mov    -0x2c(%ebp),%ecx
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
++mov    (%eax),%esi
++mov    -0x1c(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%ebx
++mov    -0x1c(%ebp),%eax
++add    $0x6,%eax
++mov    (%eax),%ecx
++mov    -0x1c(%ebp),%eax
++add    $0x2,%eax
++movzbl (%eax),%eax
++movzbl %al,%edx
++mov    -0x1c(%ebp),%eax
++movzwl (%eax),%eax
+ movzwl %ax,%eax
+-mov    %esi,0x1c(%esp)
+-mov    %ebx,0x18(%esp)
+-mov    %ecx,0x14(%esp)
++mov    %ebx,0x1c(%esp)
++mov    %ecx,0x18(%esp)
++mov    %edx,0x14(%esp)
+ mov    -0x2c(%ebp),%edx
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"upDate log_hardware_ting set total=%d where occ_time=from_unixtime(%d) and category1=%d and category2=%d and category3=%d",0x8(%esp)
  movl   $0x4e78,0x4(%esp)
--mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
+ mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
 -call   *-0x44(%ebp)
--mov    -0x28(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    -0x28(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
++call   *%esi
+ mov    -0x28(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
  movl   $0x4e78,0x4(%esp)
--mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -jne    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x112>
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +jne    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0xfd>
  mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
--mov    (%eax),%edx
--mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  or     %edx,%eax
  test   %eax,%eax
 -jne    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x119>
@@ -195,14 +176,6 @@
 -mov    -0x48(%ebp),%eax
 -add    %edx,%eax
 -add    $0x11,%eax
--movzbl (%eax),%eax
--movzbl %al,%eax
--mov    %esi,0x1c(%esp)
--mov    %ebx,0x18(%esp)
--mov    %ecx,0x14(%esp)
--mov    %eax,0x10(%esp)
--mov    -0x2c(%ebp),%eax
--mov    %eax,0xc(%esp)
 +jmp    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x109>
 +mov    $0x0,%eax
 +test   %al,%al
@@ -210,57 +183,49 @@
 +mov    -0x28(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+movzwl (%edx),%edx
-+movzwl %dx,%esi
-+mov    -0x1c(%ebp),%edx
-+add    $0xa,%edx
-+mov    (%edx),%ebx
-+mov    -0x1c(%ebp),%edx
-+add    $0x6,%edx
-+mov    (%edx),%ecx
-+mov    -0x1c(%ebp),%edx
-+add    $0x2,%edx
-+movzbl (%edx),%edx
-+movzbl %dl,%edx
-+mov    %esi,0x1c(%esp)
-+mov    %ebx,0x18(%esp)
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    -0x2c(%ebp),%edx
-+mov    %edx,0xc(%esp)
++mov    (%eax),%esi
++mov    -0x1c(%ebp),%eax
++movzwl (%eax),%eax
++movzwl %ax,%ebx
++mov    -0x1c(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%ecx
++mov    -0x1c(%ebp),%eax
++add    $0x6,%eax
++mov    (%eax),%edx
++mov    -0x1c(%ebp),%eax
++add    $0x2,%eax
+ movzbl (%eax),%eax
+ movzbl %al,%eax
+-mov    %esi,0x1c(%esp)
+-mov    %ebx,0x18(%esp)
+-mov    %ecx,0x14(%esp)
++mov    %ebx,0x1c(%esp)
++mov    %ecx,0x18(%esp)
++mov    %edx,0x14(%esp)
+ mov    %eax,0x10(%esp)
+ mov    -0x2c(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"inSert into log_hardware_ting(occ_time, category1, category2, category3, total) values(from_unixtime(%d), %d, %d, %d, %d)",0x8(%esp)
  movl   $0x4e79,0x4(%esp)
--mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
+ mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
 -call   *%edi
--mov    -0x28(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    -0x28(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
++call   *%esi
+ mov    -0x28(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
  movl   $0x4e79,0x4(%esp)
--mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x1ef>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x5d0>
 -addl   $0x1,-0x24(%ebp)
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x19a>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x4b2>
@@ -323,13 +288,6 @@
 -lea    0x0(,%eax,8),%edx
 -sub    %eax,%edx
 -movzwl 0xf(%edx,%edi,1),%eax
--movzwl %ax,%eax
--mov    %esi,0x1c(%esp)
--mov    %ebx,0x18(%esp)
--mov    %ecx,0x14(%esp)
--mov    -0x2c(%ebp),%edx
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
 +lea    0x0(,%eax,8),%ecx
 +mov    %ecx,%ebx
 +sub    %eax,%ebx
@@ -340,66 +298,54 @@
 +mov    -0x28(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    -0x14(%ebp),%edx
-+add    $0xa,%edx
-+mov    (%edx),%esi
-+mov    -0x14(%ebp),%edx
-+add    $0x6,%edx
-+mov    (%edx),%ebx
-+mov    -0x14(%ebp),%edx
-+add    $0x2,%edx
-+movzbl (%edx),%edx
-+movzbl %dl,%ecx
-+mov    -0x14(%ebp),%edx
-+movzwl (%edx),%edx
-+movzwl %dx,%edx
-+mov    %esi,0x1c(%esp)
-+mov    %ebx,0x18(%esp)
-+mov    %ecx,0x14(%esp)
-+mov    -0x2c(%ebp),%ecx
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
++mov    (%eax),%esi
++mov    -0x14(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%ebx
++mov    -0x14(%ebp),%eax
++add    $0x6,%eax
++mov    (%eax),%ecx
++mov    -0x14(%ebp),%eax
++add    $0x2,%eax
++movzbl (%eax),%eax
++movzbl %al,%edx
++mov    -0x14(%ebp),%eax
++movzwl (%eax),%eax
+ movzwl %ax,%eax
+-mov    %esi,0x1c(%esp)
+-mov    %ebx,0x18(%esp)
+-mov    %ecx,0x14(%esp)
++mov    %ebx,0x1c(%esp)
++mov    %ecx,0x18(%esp)
++mov    %edx,0x14(%esp)
+ mov    -0x2c(%ebp),%edx
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"upDate log_hardware_ting set ting=%d where occ_time=from_unixtime(%d) and category1=%d and category2=%d and category3=%d",0x8(%esp)
  movl   $0x4e7a,0x4(%esp)
--mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
+ mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
 -call   *-0x40(%ebp)
--mov    -0x28(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    -0x28(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
++call   *%esi
+ mov    -0x28(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
  movl   $0x4e7a,0x4(%esp)
--mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -jne    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x2fd>
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +jne    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x286>
  mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
--mov    (%eax),%edx
--mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  or     %edx,%eax
  test   %eax,%eax
 -jne    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x304>
@@ -441,14 +387,6 @@
 -mov    -0x4c(%ebp),%eax
 -add    %edx,%eax
 -add    $0x11,%eax
--movzbl (%eax),%eax
--movzbl %al,%eax
--mov    %esi,0x1c(%esp)
--mov    %ebx,0x18(%esp)
--mov    %ecx,0x14(%esp)
--mov    %eax,0x10(%esp)
--mov    -0x2c(%ebp),%eax
--mov    %eax,0xc(%esp)
 +jmp    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x292>
 +mov    $0x0,%eax
 +test   %al,%al
@@ -456,48 +394,45 @@
 +mov    -0x28(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    -0x14(%ebp),%edx
-+movzwl (%edx),%edx
-+movzwl %dx,%esi
-+mov    -0x14(%ebp),%edx
-+add    $0xa,%edx
-+mov    (%edx),%ebx
-+mov    -0x14(%ebp),%edx
-+add    $0x6,%edx
-+mov    (%edx),%ecx
-+mov    -0x14(%ebp),%edx
-+add    $0x2,%edx
-+movzbl (%edx),%edx
-+movzbl %dl,%edx
-+mov    %esi,0x1c(%esp)
-+mov    %ebx,0x18(%esp)
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    -0x2c(%ebp),%edx
-+mov    %edx,0xc(%esp)
++mov    (%eax),%esi
++mov    -0x14(%ebp),%eax
++movzwl (%eax),%eax
++movzwl %ax,%ebx
++mov    -0x14(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%ecx
++mov    -0x14(%ebp),%eax
++add    $0x6,%eax
++mov    (%eax),%edx
++mov    -0x14(%ebp),%eax
++add    $0x2,%eax
+ movzbl (%eax),%eax
+ movzbl %al,%eax
+-mov    %esi,0x1c(%esp)
+-mov    %ebx,0x18(%esp)
+-mov    %ecx,0x14(%esp)
++mov    %ebx,0x1c(%esp)
++mov    %ecx,0x18(%esp)
++mov    %edx,0x14(%esp)
+ mov    %eax,0x10(%esp)
+ mov    -0x2c(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"inSert into log_hardware_ting(occ_time, category1, category2, category3, ting) values(from_unixtime(%d), %d, %d, %d, %d)",0x8(%esp)
  movl   $0x4e7b,0x4(%esp)
--mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
+ mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
 -call   *%edi
--mov    -0x28(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    -0x28(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
++call   *%esi
+ mov    -0x28(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
  movl   $0x4e7b,0x4(%esp)
--mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x3da>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x5d0>
@@ -518,11 +453,6 @@
 -mov    %eax,-0x3c(%ebp)
 -mov    -0x1c(%ebp),%eax
 -mov    0xc(%ebp),%ecx
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x323>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x4b2>
@@ -562,13 +492,6 @@
 -lea    0x0(,%eax,8),%edx
 -sub    %eax,%edx
 -movzwl 0xf(%edx,%edi,1),%eax
--movzwl %ax,%eax
--mov    %esi,0x1c(%esp)
--mov    %ebx,0x18(%esp)
--mov    %ecx,0x14(%esp)
--mov    -0x2c(%ebp),%edx
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
 +lea    0x0(,%eax,8),%ecx
 +mov    %ecx,%ebx
 +sub    %eax,%ebx
@@ -579,66 +502,54 @@
 +mov    -0x28(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0xa,%edx
-+mov    (%edx),%esi
-+mov    -0xc(%ebp),%edx
-+add    $0x6,%edx
-+mov    (%edx),%ebx
-+mov    -0xc(%ebp),%edx
-+add    $0x2,%edx
-+movzbl (%edx),%edx
-+movzbl %dl,%ecx
-+mov    -0xc(%ebp),%edx
-+movzwl (%edx),%edx
-+movzwl %dx,%edx
-+mov    %esi,0x1c(%esp)
-+mov    %ebx,0x18(%esp)
-+mov    %ecx,0x14(%esp)
-+mov    -0x2c(%ebp),%ecx
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
++mov    (%eax),%esi
++mov    -0xc(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%ebx
++mov    -0xc(%ebp),%eax
++add    $0x6,%eax
++mov    (%eax),%ecx
++mov    -0xc(%ebp),%eax
++add    $0x2,%eax
++movzbl (%eax),%eax
++movzbl %al,%edx
++mov    -0xc(%ebp),%eax
++movzwl (%eax),%eax
+ movzwl %ax,%eax
+-mov    %esi,0x1c(%esp)
+-mov    %ebx,0x18(%esp)
+-mov    %ecx,0x14(%esp)
++mov    %ebx,0x1c(%esp)
++mov    %ecx,0x18(%esp)
++mov    %edx,0x14(%esp)
+ mov    -0x2c(%ebp),%edx
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"upDate log_hardware_ting_low set total=%d where occ_time=from_unixtime(%d) and category1=%d and category2=%d and category3=%d",0x8(%esp)
  movl   $0x4e7c,0x4(%esp)
--mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
+ mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
 -call   *-0x3c(%ebp)
--mov    -0x28(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    -0x28(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
++call   *%esi
+ mov    -0x28(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
  movl   $0x4e7c,0x4(%esp)
--mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -jne    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x4d9>
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +jne    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x3fe>
  mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
--mov    (%eax),%edx
--mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  or     %edx,%eax
  test   %eax,%eax
 -jne    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x4e0>
@@ -680,14 +591,6 @@
 -mov    -0x50(%ebp),%eax
 -add    %edx,%eax
 -add    $0x11,%eax
--movzbl (%eax),%eax
--movzbl %al,%eax
--mov    %esi,0x1c(%esp)
--mov    %ebx,0x18(%esp)
--mov    %ecx,0x14(%esp)
--mov    %eax,0x10(%esp)
--mov    -0x2c(%ebp),%eax
--mov    %eax,0xc(%esp)
 +jmp    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x40a>
 +mov    $0x0,%eax
 +test   %al,%al
@@ -695,48 +598,45 @@
 +mov    -0x28(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+movzwl (%edx),%edx
-+movzwl %dx,%esi
-+mov    -0xc(%ebp),%edx
-+add    $0xa,%edx
-+mov    (%edx),%ebx
-+mov    -0xc(%ebp),%edx
-+add    $0x6,%edx
-+mov    (%edx),%ecx
-+mov    -0xc(%ebp),%edx
-+add    $0x2,%edx
-+movzbl (%edx),%edx
-+movzbl %dl,%edx
-+mov    %esi,0x1c(%esp)
-+mov    %ebx,0x18(%esp)
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    -0x2c(%ebp),%edx
-+mov    %edx,0xc(%esp)
++mov    (%eax),%esi
++mov    -0xc(%ebp),%eax
++movzwl (%eax),%eax
++movzwl %ax,%ebx
++mov    -0xc(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%ecx
++mov    -0xc(%ebp),%eax
++add    $0x6,%eax
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0x2,%eax
+ movzbl (%eax),%eax
+ movzbl %al,%eax
+-mov    %esi,0x1c(%esp)
+-mov    %ebx,0x18(%esp)
+-mov    %ecx,0x14(%esp)
++mov    %ebx,0x1c(%esp)
++mov    %ecx,0x18(%esp)
++mov    %edx,0x14(%esp)
+ mov    %eax,0x10(%esp)
+ mov    -0x2c(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"inSert into log_hardware_ting_low(occ_time, category1, category2, category3, total) values(from_unixtime(%d), %d, %d, %d, %d)",0x8(%esp)
  movl   $0x4e7d,0x4(%esp)
--mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
+ mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
 -call   *%edi
--mov    -0x28(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    -0x28(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
++call   *%esi
+ mov    -0x28(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
  movl   $0x4e7d,0x4(%esp)
--mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x5b3>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x5d0>
@@ -747,11 +647,6 @@
 -setg   %al
 -test   %al,%al
 -jne    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x403>
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x498>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic+0x4b2>
@@ -888,4 +783,4 @@ CDBManager::_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_S
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

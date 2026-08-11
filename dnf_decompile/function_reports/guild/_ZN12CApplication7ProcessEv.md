@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8062d12` | `0x261` | `0x804e80a` | `0x257` |
+| guild | DIFF | `0x8062d12` | `0x261` | `0x804e862` | `0x259` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,156 +1,155 @@
+@@ -1,156 +1,156 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,7 +21,7 @@
 -sub    $0x30,%esp
 -jmp    <T> <_ZN12CApplication7ProcessEv+0x209>
 +sub    $0x40,%esp
-+jmp    <T> <_ZN12CApplication7ProcessEv+0x1ff>
++jmp    <T> <_ZN12CApplication7ProcessEv+0x201>
  mov    0x8(%ebp),%eax
  add    $0x6c,%eax
  mov    %eax,(%esp)
@@ -98,61 +98,49 @@
  movl   $0x0,(%esp)
  call   <T> <_ZN7DNFFLib9Sleep_ExtEii>
 -jmp    <T> <_ZN12CApplication7ProcessEv+0x209>
-+jmp    <T> <_ZN12CApplication7ProcessEv+0x1ff>
++jmp    <T> <_ZN12CApplication7ProcessEv+0x201>
  cmp    $0x2,%edx
 -jne    <T> <_ZN12CApplication7ProcessEv+0x1a3>
-+jne    <T> <_ZN12CApplication7ProcessEv+0x199>
++jne    <T> <_ZN12CApplication7ProcessEv+0x19b>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
--call   *%edx
+ call   *%edx
 -mov    %eax,0x4(%esp)
 -movl   $"CApplication::Process() Exception Break : %s\n",(%esp)
 -call   <T> <printf>
-+call   <T> <puts>
-+movl   $0x248,0x8(%esp)
-+movl   $"Process",0x4(%esp)
-+lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++call   <T> <puts>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x248,0x8(%esp)
--movl   $"Process",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x248,0x8(%esp)
+ movl   $&_ZZN12CApplication7ProcessEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
++lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
 -movl   $"CApplication::Process() Exception Break : %s\n",0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
 +movl   $"%s\n",0x8(%esp)
  movl   $"./log/process",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN12CApplication7ProcessEv+0x19c>
-+jmp    <T> <_ZN12CApplication7ProcessEv+0x192>
++jmp    <T> <_ZN12CApplication7ProcessEv+0x194>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -162,26 +150,26 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN12CApplication7ProcessEv+0x209>
-+jmp    <T> <_ZN12CApplication7ProcessEv+0x1ff>
++jmp    <T> <_ZN12CApplication7ProcessEv+0x201>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CApplication::Process() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x24d,0x8(%esp)
- movl   $"Process",0x4(%esp)
+ movl   $&_ZZN12CApplication7ProcessEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -movl   $"CApplication::Process() Exception Break\n",0x8(%esp)
 +movl   $"CApplication::Process() Exception Break",0x8(%esp)
  movl   $"./log/process",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN12CApplication7ProcessEv+0x204>
-+jmp    <T> <_ZN12CApplication7ProcessEv+0x1fa>
++jmp    <T> <_ZN12CApplication7ProcessEv+0x1fc>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -197,7 +185,7 @@
  movl   $"CApplication::Process() Exit",(%esp)
  call   <T> <puts>
  movl   $0x251,0x8(%esp)
- movl   $"Process",0x4(%esp)
+ movl   $&_ZZN12CApplication7ProcessEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -258,7 +246,7 @@ void __thiscall CApplication::_ZN12CApplication7ProcessEv(CApplication *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 252 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFApplication.cpp](source/DNFServer/GameServer/Guild/DNFApplication.cpp)（约第 296 行）：
 
 ```cpp
 void CApplication::Process()
@@ -267,28 +255,38 @@ void CApplication::Process()
     {
         try
         {
-            CFrameCountHandler* f = m_frame.GetFrameCountInfo();
-            if (f->m_state != 0 && 1 < (unsigned char)f->m_state)
+            CFrameCountHandler* f = m_frameCount.GetFrameCountInfo();
+            if (f->m_field24 != 0 && 1 < (unsigned char)f->m_field24)
             {
                 m_serverHandler->Process();
-                if (f->m_state == 3)
+                if ((unsigned char)f->m_field24 == 3)
                 {
-                    m_frame.SaveProcess(9999);
+                    f->SaveProcess();
+                    m_guildManager.DBGuildProcess(m_serverHandler, false);
+                    m_guildManager.ProcessByMinute();
+                    m_userManager.ProcessByMinute();
+                    m_memoryCash->ProcessLifeTimeOut();
                 }
+                m_guildManager.ProcessBySecond();
             }
+            SwitchQueueTCP();
+            SwitchQueueUDP();
+            CPacketDecoder* dec = CPacketDecoderInstance();
+            dec->Process();
             DNFFLib::Sleep_Ext(0, 1);
         }
         catch (CDNFException& e)
         {
-            printf("CApplication::Process() Exception Break : %s\n", e.what());
-            register const char* msg = e.what();
-            DNF_LOG_SCOPE_LINE(0x1ec, "./log/process", "CApplication::Process() Exception Break : %s\n", msg);
+            printf("%s\n", e.what());
+            DNF_LOG_SCOPE_LINE(0x248, "./log/process", "%s\n", e.what());
         }
         catch (...)
         {
             puts("CApplication::Process() Exception Break");
-            DNF_LOG_SCOPE_LINE(0x1f1, "./log/process", "CApplication::Process() Exception Break\n");
+            DNF_LOG_SCOPE_LINE(0x24d, "./log/process", "CApplication::Process() Exception Break");
         }
     }
+    puts("CApplication::Process() Exit");
+    DNF_LOG_SCOPE_LINE(0x251, "./log/process", "CApplication::Process() Exit\n");
 }
 ```

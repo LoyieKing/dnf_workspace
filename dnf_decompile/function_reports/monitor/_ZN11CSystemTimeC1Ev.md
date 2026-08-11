@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805ed5e` | `0x4f` | `0x809f922` | `0x5a` |
+| monitor | DIFF | `0x805ed5e` | `0x4f` | `0x809fbb2` | `0x52` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,28 +1,34 @@
+@@ -1,28 +1,30 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x18,%esp
@@ -26,18 +26,13 @@
  call   <T> <gettimeofday>
  mov    0x8(%ebp),%eax
 -mov    0x8(%eax),%edx
-+lea    0x10(%eax),%edx
+-mov    0x8(%ebp),%eax
++mov    0x8(%ebp),%edx
++mov    0x8(%edx),%edx
+ mov    %edx,0x10(%eax)
++mov    0x8(%ebp),%ebx
  mov    0x8(%ebp),%eax
--mov    %edx,0x10(%eax)
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
- mov    0x8(%ebp),%eax
--mov    0xc(%eax),%ecx
-+lea    0x4(%eax),%ebx
-+mov    0x8(%ebp),%eax
-+add    $0xc,%eax
-+mov    (%eax),%ecx
+ mov    0xc(%eax),%ecx
  mov    $0x10624dd3,%edx
  mov    %ecx,%eax
  imul   %edx
@@ -51,7 +46,7 @@
 -mov    0x8(%ebp),%eax
 -mov    %edx,0x4(%eax)
 -leave
-+mov    %eax,(%ebx)
++mov    %eax,0x4(%ebx)
 +add    $0x14,%esp
 +pop    %ebx
 +pop    %ebp
@@ -75,13 +70,13 @@ void __thiscall CSystemTime::_ZN11CSystemTimeC1Ev(CSystemTime *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/SystemTimeHandler.cpp](source/DNFServer/GameServer/COServer/SystemTimeHandler.cpp)（约第 23 行）：
+定义于 [source/DNFServer/GameServer/Monitor/SystemTimeHandler.cpp](source/DNFServer/GameServer/Monitor/SystemTimeHandler.cpp)（约第 43 行）：
 
 ```cpp
 CSystemTime::CSystemTime()
 {
-    gettimeofday(&m_tv, 0);
-    m_sec = m_tv.tv_sec;
-    m_msec = m_tv.tv_usec / 1000;
+    gettimeofday((timeval*)((char*)this + 8), 0);
+    ((RA_UINT<16>*)this)->v = ((RA_UINT<8>*)this)->v;
+    ((RA_INT<4>*)this)->v = ((RA_INT<12>*)this)->v / 1000;
 }
 ```

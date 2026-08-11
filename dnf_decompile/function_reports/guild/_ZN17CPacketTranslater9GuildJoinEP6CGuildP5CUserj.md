@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80793b0` | `0x235` | `0x806feb0` | `0x252` |
+| guild | DIFF | `0x80793b0` | `0x235` | `0x806fc3a` | `0x252` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,19 +13,18 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,150 +1,151 @@
+@@ -1,150 +1,155 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
+ push   %esi
  push   %ebx
--add    $0xffffff80,%esp
-+sub    $0x84,%esp
+ add    $0xffffff80,%esp
  cmpl   $0x0,0x8(%ebp)
 -je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x22a>
-+je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x249>
++je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x24b>
  cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x22d>
-+je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x249>
++je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x24b>
  movl   $0x4,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -57,26 +56,19 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0xc9>
 +je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0xcc>
-+movl   $0xa41,0x8(%esp)
-+movl   $"GuildJoin",0x4(%esp)
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,%ebx
--movl   $0xa41,0x8(%esp)
--movl   $"GuildJoin",0x4(%esp)
--lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %eax,%ebx
+ movl   $0xa41,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserjE12__FUNCTION__,0x4(%esp)
+ lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"[INSERT_ERR]\tChar Key : %d\t Insert False\n",0x8(%esp)
  movl   $"./log/GuildMember",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x10(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x4,0x4(%esp)
@@ -85,7 +77,7 @@
  call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x1fb>
-+je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x21c>
++je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x21e>
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -100,33 +92,24 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild26IncTotalCnt_Of_GuildDBInfoEv>
-+movl   $0xa4a,0x8(%esp)
-+movl   $"GuildJoin",0x4(%esp)
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
--mov    %eax,%esi
-+mov    %eax,%ebx
+ mov    %eax,%esi
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild12GetGuildNameEv>
--mov    %eax,%ebx
--movl   $0xa4a,0x8(%esp)
--movl   $"GuildJoin",0x4(%esp)
--lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %eax,%ebx
+ movl   $0xa4a,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserjE12__FUNCTION__,0x4(%esp)
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"GUILD JOIN guild(%s) char(%s)",0x8(%esp)
  movl   $"./log/GuildModify",0x4(%esp)
--lea    -0x10(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -lea    -0x5e(%ebp),%eax
@@ -205,10 +188,9 @@
 -nop
 -jmp    <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x22e>
 -nop
--sub    $0xffffff80,%esp
-+add    $0x84,%esp
+ sub    $0xffffff80,%esp
  pop    %ebx
--pop    %esi
+ pop    %esi
  pop    %ebp
  ret
 ```

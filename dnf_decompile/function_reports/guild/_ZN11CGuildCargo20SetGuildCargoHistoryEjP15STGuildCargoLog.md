@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809fdce` | `0x56` | `0x80920cc` | `0x5` |
+| guild | DIFF | `0x809fdce` | `0x56` | `0x8091f1a` | `0x5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -72,7 +72,7 @@ CGuildCargo::_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 328 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 336 行）：
 
 ```cpp
 void CGuildCargo::SetGuildCargoHistory(unsigned int idx, STGuildCargoLog* log)

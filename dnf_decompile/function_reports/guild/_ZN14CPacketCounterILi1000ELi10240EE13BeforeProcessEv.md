@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8070a0c` | `0x33` | `0x8097d0a` | `0x32` |
+| guild | DIFF | `0x8070a0c` | `0x33` | `0x8097848` | `0x32` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -60,13 +60,15 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EE13BeforeProcessE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/PacketCounter.cpp](source/DNFServer/GameServer/DBMW/PacketCounter.cpp)（约第 74 行）：
+定义于 [source/DNFServer/GameServer/Guild/PacketCounter.cpp](source/DNFServer/GameServer/Guild/PacketCounter.cpp)（约第 103 行）：
 
 ```cpp
 void CPacketCounter<Lo, Hi>::BeforeProcess()
 {
     *(int*)(m_data + 0x9068) = *(int*)m_data;
     if (*(int*)(m_data + 0x9068) == -1)
+    {
         *(int*)(m_data + 0x9068) = 0;
+    }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8086156` | `0xa7` | `0x80662b6` | `0x8c` |
+| statics | DIFF | `0x8086156` | `0xa7` | `0x80662a2` | `0x8c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -116,14 +116,14 @@ WongWork::CGMAccounts::_ZN8WongWork11CGMAccounts4isGMEj(CGMAccounts *this,uint p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/GMAccounts.cpp](source/DNFServer/GameServer/DBMW/GMAccounts.cpp)（约第 35 行）：
+定义于 [source/DNFServer/GameServer/Statics/GMAccounts.cpp](source/DNFServer/GameServer/Statics/GMAccounts.cpp)（约第 558 行）：
 
 ```cpp
-unsigned int WongWork::CGMAccounts::isGM(unsigned int id)
+int CGMAccounts::isGM(unsigned int id)
 {
-    stGMInfo_t key = {};
+    stGMInfo_t key;
+    key.m_field0 = id;
     key.m_field1 = 3;
-    key.m_field0 = (int)id;
     std::list<stGMInfo_t>::iterator it =
         std::find(m_list.begin(), m_list.end(), key);
     return it != m_list.end();

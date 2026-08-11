@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804c422` | `0x8f` | `0x80852ea` | `0x7d` |
+| guild | DIFF | `0x804c422` | `0x8f` | `0x80850f6` | `0x7d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -103,7 +103,7 @@ CSignalTranslator::_ZN17CSignalTranslator13regist_signalEiPFviE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFSignalTranslator.cpp](source/DNFServer/GameServer/COServer/DNFSignalTranslator.cpp)（约第 153 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFSignalTranslator.cpp](source/DNFServer/GameServer/Guild/DNFSignalTranslator.cpp)（约第 221 行）：
 
 ```cpp
 int CSignalTranslator::regist_signal(int sig, void (*handler)(int))

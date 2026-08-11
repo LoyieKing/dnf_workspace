@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80580c4` | `0x81` | `0x80a5ca6` | `0x70` |
+| guild | DIFF | `0x80580c4` | `0x81` | `0x80a58de` | `0x70` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -98,17 +98,16 @@ undefined4 np_server_xml::CServerXml::_ZNK13np_server_xml10CServerXml12GetEventR
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/ServerXml.cpp](source/DNFServer/GameServer/DBMW/ServerXml.cpp)（约第 277 行）：
+定义于 [source/DNFServer/GameServer/Guild/ServerXml.cpp](source/DNFServer/GameServer/Guild/ServerXml.cpp)（约第 323 行）：
 
 ```cpp
-int CServerXml::GetEventRGBA(int nEventID) const
+unsigned int CServerXml::GetEventRGBA(int idx) const
 {
-    std::map<int, int>::const_iterator pIter;
-    pIter = m_map_EventRGBA.find(nEventID);
-    if (pIter != m_map_EventRGBA.end())
+    std::map<int, int>::const_iterator it = m_rgba.find(idx);
+    if (it == m_rgba.end())
     {
-        return pIter->second;
+        return 0;
     }
-    return 0;
+    return (unsigned int)it->second;
 }
 ```

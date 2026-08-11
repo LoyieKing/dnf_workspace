@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808cfd6` | `0x151` | `0x8053072` | `0x149` |
+| guild | DIFF | `0x808cfd6` | `0x151` | `0x80530ac` | `0x14f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,19 +13,18 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,97 +1,94 @@
+@@ -1,97 +1,96 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x4c,%esp
-+sub    $0x3c,%esp
+ sub    $0x4c,%esp
  cmpl   $0x0,0x10(%ebp)
  jne    <T> <_ZN6CGuild17DeleteGuildMemberEjP5CUser+0x19>
  mov    $0x0,%eax
 -jmp    <T> <_ZN6CGuild17DeleteGuildMemberEjP5CUser+0x146>
-+jmp    <T> <_ZN6CGuild17DeleteGuildMemberEjP5CUser+0x13e>
++jmp    <T> <_ZN6CGuild17DeleteGuildMemberEjP5CUser+0x144>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
@@ -33,7 +32,7 @@
  je     <T> <_ZN6CGuild17DeleteGuildMemberEjP5CUser+0x32>
  mov    $0x0,%eax
 -jmp    <T> <_ZN6CGuild17DeleteGuildMemberEjP5CUser+0x146>
-+jmp    <T> <_ZN6CGuild17DeleteGuildMemberEjP5CUser+0x13e>
++jmp    <T> <_ZN6CGuild17DeleteGuildMemberEjP5CUser+0x144>
  mov    0x8(%ebp),%eax
  lea    0xc(%ebp),%edx
  mov    %edx,0x4(%esp)
@@ -56,10 +55,9 @@
  call   <T> <_ZN5CUser15SetGuildMemFlagEt>
  mov    $0x1,%eax
 -jmp    <T> <_ZN6CGuild17DeleteGuildMemberEjP5CUser+0x146>
-+jmp    <T> <_ZN6CGuild17DeleteGuildMemberEjP5CUser+0x13e>
++jmp    <T> <_ZN6CGuild17DeleteGuildMemberEjP5CUser+0x144>
  mov    0x8(%ebp),%edx
--lea    -0x28(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  lea    0xc(%ebp),%ecx
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
@@ -67,61 +65,52 @@
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE4findERS5_>
  sub    $0x4,%esp
  mov    0x8(%ebp),%edx
--lea    -0x24(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE3endEv>
  sub    $0x4,%esp
--lea    -0x24(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,0x4(%esp)
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
-+test   %al,%al
-+je     <T> <_ZN6CGuild17DeleteGuildMemberEjP5CUser+0x139>
-+movl   $0xaf,0x8(%esp)
-+movl   $"DeleteGuildMember",0x4(%esp)
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEeqERKS5_>
--test   %al,%al
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
+ test   %al,%al
 -je     <T> <_ZN6CGuild17DeleteGuildMemberEjP5CUser+0x141>
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++je     <T> <_ZN6CGuild17DeleteGuildMemberEjP5CUser+0x13f>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE4sizeEv>
- mov    %eax,%edi
+-mov    %eax,%edi
++mov    %eax,-0x2c(%ebp)
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
--mov    %eax,%esi
+ mov    %eax,%esi
 -mov    0xc(%ebp),%eax
 -mov    %eax,-0x2c(%ebp)
-+mov    %eax,%ebx
-+mov    0xc(%ebp),%esi
++mov    0xc(%ebp),%edi
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild11GetGuildKeyEv>
--mov    %eax,%ebx
--movl   $0xaf,0x8(%esp)
--movl   $"DeleteGuildMember",0x4(%esp)
--lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    %edi,0x18(%esp)
--mov    %esi,0x14(%esp)
+ mov    %eax,%ebx
+ movl   $0xaf,0x8(%esp)
+ movl   $&_ZZN6CGuild17DeleteGuildMemberEjP5CUserE12__FUNCTION__,0x4(%esp)
+ lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %edi,0x18(%esp)
++mov    -0x2c(%ebp),%eax
++mov    %eax,0x18(%esp)
+ mov    %esi,0x14(%esp)
 -mov    -0x2c(%ebp),%eax
 -mov    %eax,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    %ebx,0x14(%esp)
-+mov    %esi,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    %edi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CGuild::DeleteGuildMember\tException Break Possible! Or Check Using Function FindUser() or FindUser_CharNo()\tGuild Key : %d\tChar Key : %d,\tChar Name : %s\tLogin Mem Cnt : %d\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
@@ -207,7 +196,7 @@ CGuild::_ZN6CGuild17DeleteGuildMemberEjP5CUser(CGuild *this,uint param_1,CUser *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 401 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 449 行）：
 
 ```cpp
 int CGuild::DeleteGuildMember(unsigned int charNo, CUser* user)

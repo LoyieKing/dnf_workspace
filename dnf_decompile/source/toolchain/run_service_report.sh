@@ -6,7 +6,7 @@ set -e
 SVC="$1"
 GHIDRA_ROOT="${2:-/tmp/ghidra_report_proj}"
 
-ROOT="/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile"
+ROOT="/home/loyieking/dnf_workspace/dnf_decompile"
 GHIDRA="/mnt/d/Works/ghidra/support/analyzeHeadless"
 SCRIPT_DIR="$ROOT/source/toolchain"
 

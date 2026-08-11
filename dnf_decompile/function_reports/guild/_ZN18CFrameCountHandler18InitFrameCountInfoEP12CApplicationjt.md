@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804c96a` | `0x13c` | `0x80878d6` | `0x149` |
+| guild | DIFF | `0x804c96a` | `0x13c` | `0x808771a` | `0x149` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -119,7 +119,7 @@
  lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -189,16 +189,4 @@ void CFrameCountHandler::_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplica
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp](source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp)（约第 48 行）：
-
-```cpp
-void CFrameCountHandler::InitFrameCountInfo(CApplication* app, unsigned int a, unsigned short b)
-{
-    if (!a)
-        throw CDNFException("CFrameCountHandler::InitFrameCountInfo() Exception Break!");
-    m_app = app;
-    memset(this, 0, 0x28);
-    m_field4 = a;
-    m_field8 = 100 / a;
-}
-```
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/DNFTickHandler.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 285 个文件*

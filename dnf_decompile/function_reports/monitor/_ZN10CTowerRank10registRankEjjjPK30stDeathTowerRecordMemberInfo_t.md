@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a3512` | `0x4f` | `0x8086ec6` | `0x4f` |
+| monitor | DIFF | `0x80a3512` | `0x4f` | `0x8086e34` | `0x4f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -68,4 +68,4 @@ CTowerRank::_ZN10CTowerRank10registRankEjjjPK30stDeathTowerRecordMemberInfo_t
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFTowerRank.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 638 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFTowerRank.cpp, source/DNFServer/GameServer/Monitor/DNFDBServer.h, source/DNFServer/GameServer/Monitor/DNFManagerServer.h, source/DNFServer/GameServer/Monitor/DNFServerHandler.h, source/DNFServer/GameServer/Monitor/DNFServerInterface.h, source/DNFServer/GameServer/Monitor/DNFTowerRank.cpp, source/DNFServer/GameServer/Monitor/DNFTowerRank.h, source/DNFServer/ServerCommon/DNFFileLog.h 等 299 个文件*

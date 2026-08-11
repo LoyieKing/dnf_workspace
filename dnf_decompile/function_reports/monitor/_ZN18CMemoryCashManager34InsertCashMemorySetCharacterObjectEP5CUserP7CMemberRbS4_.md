@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a0cbc` | `0x1bc` | `0x8097d9e` | `0x1a8` |
+| monitor | DIFF | `0x80a0cbc` | `0x1bc` | `0x8097ede` | `0x1a8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -39,13 +39,12 @@
  call   <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_>
  test   %al,%al
 -je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x1ac>
--movl   $0xa8,(%esp)
 +sete   %al
 +test   %al,%al
 +je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x51>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_+0x19d>
-+movl   $0xa4,(%esp)
+ movl   $0xa8,(%esp)
  call   <T> <_ZN11CCashObjectnwEj>
  mov    %eax,%ebx
  mov    %ebx,%eax
@@ -263,4 +262,4 @@ _ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/MemoryCashManager.cpp, source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 639 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/CashObject.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFBuddy.h, source/DNFServer/GameServer/Monitor/DNFBuddyHandle.h, source/DNFServer/GameServer/Monitor/DNFMember.h 等 299 个文件*

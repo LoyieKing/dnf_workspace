@@ -54,7 +54,11 @@ public:
     InternalMsg* pmMsg;
 };
 
-class TimerThread : public Thread
+// ORIG DWARF/反汇编（point/auction 同源）：TimeManager 为第二基类
+// （偏移 0x14），非成员——ctor 中 vtable 存储在两个基类 ctor 之后、
+// timeReqQueue 成员 ctor 之前；写成成员会使 GCC 在 Thread 基类 ctor 后
+// 立即写 vtable（TimerThreadC1 差异根因）。布局不变（仍位于 0x14）。
+class TimerThread : public Thread, public TimeManager
 {
 public:
     TimerThread();
@@ -63,7 +67,6 @@ public:
     void PushTimeReqEvent(ITimeEntity* pTimeEntity);
     ITimeEntity* PopTimeReqEvent();
 
-    TimeManager super_TimeManager;
     std::queue<ITimeEntity*> timeReqQueue;
     pthread_mutex_t timerLock;
 };

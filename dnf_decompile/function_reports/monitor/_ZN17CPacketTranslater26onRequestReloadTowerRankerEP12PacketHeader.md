@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80889f8` | `0x140` | `0x8073f3a` | `0x143` |
+| monitor | DIFF | `0x80889f8` | `0x140` | `0x8073fd6` | `0x144` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -21,8 +21,7 @@
  sub    $0x30,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -mov    0xa0(%eax),%ebx
-+add    $0xa0,%eax
-+mov    (%eax),%eax
++mov    0xa0(%eax),%eax
 +mov    %eax,-0x14(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
@@ -47,42 +46,36 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x139>
-+jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x13c>
++jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x13d>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0xdf>
-+jne    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0xe2>
++jne    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0xe3>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
  movl   $0x11aa,0x8(%esp)
- movl   $"onRequestReloadTowerRanker",0x4(%esp)
- lea    -0x1c(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x1c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::onRequestReloadTowerRanker Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
- lea    -0x1c(%ebp),%eax
+-lea    -0x1c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0xd8>
-+jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0xdb>
++jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0xdc>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -92,23 +85,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x139>
-+jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x13c>
++jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x13d>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x11af,0x8(%esp)
- movl   $"onRequestReloadTowerRanker",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::onRequestReloadTowerRanker Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x134>
-+jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x137>
++jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x138>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -147,7 +140,7 @@ void CPacketTranslater::_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3106 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3112 行）：
 
 ```cpp
 void CPacketTranslater::onRequestReloadTowerRanker(PacketHeader* pkt)
@@ -155,7 +148,7 @@ void CPacketTranslater::onRequestReloadTowerRanker(PacketHeader* pkt)
 {
 
 
-    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    CServerHandler* handler = m_pclApp->m_serverHandler2;
     CTowerRank* tower = (CTowerRank*)m_pclApp->getTowerRank();
     tower->processReloadRanking(handler, true, 5);
     handler->SendAllToGameServer((char*)pkt, 10);

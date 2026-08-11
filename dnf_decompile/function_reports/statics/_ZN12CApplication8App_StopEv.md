@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80574f2` | `0x28f` | `0x804e654` | `0x296` |
+| statics | DIFF | `0x80574f2` | `0x28f` | `0x804e5fc` | `0x296` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -354,11 +354,50 @@ void __thiscall CApplication::_ZN12CApplication8App_StopEv(CApplication *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 387 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFApplication.cpp](source/DNFServer/GameServer/Statics/DNFApplication.cpp)（约第 351 行）：
 
 ```cpp
 void CApplication::App_Stop()
 {
+    StatisticManager* sm = Get_StatisticManager();
+    sm->SendDBHellPartyStatisticItem(m_serverHandler);
+    sm->ResetHellPartyStatisticItemMap();
+    sm->SendDBPartyStatistic(m_serverHandler);
+    sm->ResetPartyMap();
+    sm->SendDBPartyJobStatistic(m_serverHandler);
+    sm->ResetPartyJobMap();
+    sm->SendDBPartyCharacStatistic(m_serverHandler);
+    sm->ResetPartyCharacMap();
+    sm->SendDBDeathTowerValueStatistic(m_serverHandler);
+    sm->ResetDeathTowerValueMap();
+    sm->SendDBDeathTowerPlayDataJobStatistic(m_serverHandler);
+    sm->ResetDeathTowerPlayDataJobMap();
+    sm->SendDBDeathTowerPlayDataPartyStatistic(m_serverHandler);
+    sm->ResetDeathTowerPlayDataPartyMap();
+    sm->SendDBFatigueBattery(m_serverHandler);
+    sm->ResetFatigueBattery();
+    sm->SendDBBloodDungeonStatistic(m_serverHandler);
+    sm->ResetBloodDungeon();
+    CCubeStatistic* cube = (CCubeStatistic*)sm->getCubeStatisticObject();
+    cube->sendStatisticData(m_serverHandler);
+    cube = (CCubeStatistic*)sm->getCubeStatisticObject();
+    cube->resetStatisticData();
+    sm->SendDBValueStatistic(m_serverHandler);
+    sm->ResetValueStatistic();
+    sm->SendDBCirculationStatistic(m_serverHandler);
+    sm->ResetCirculationStatistic();
+    statistc_proxy::sendDBStatisticProxy();
+    statistc_proxy::resetStatisticProxy();
+    sm->SendDBSecretShopStatistic(m_serverHandler);
+    sm->ResetSecretShopStatistic();
+    sm->SendDBGoldcardEventStatistic(m_serverHandler);
+    sm->ResetGoldcardEventStatistic();
+    sm->SendDBTowerOfDespairStatistic(m_serverHandler);
+    sm->ResetTowerOfDespair();
+    sm->SendDBDisjointAvatarInfoTotal(m_serverHandler);
+    sm->ResetDisjointAvatarInfoTotal();
+    sm->SendDBP2PStatistic(m_serverHandler);
+    sm->ResetP2PStatistic();
     m_loaded = 0;
 }
 ```

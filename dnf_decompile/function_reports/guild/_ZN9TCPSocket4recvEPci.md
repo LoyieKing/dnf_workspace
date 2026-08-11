@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804f460` | `0xc6` | `0x8086ba8` | `0xa4` |
+| guild | DIFF | `0x804f460` | `0xc6` | `0x80869b0` | `0xa4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -121,32 +121,29 @@ ssize_t __thiscall TCPSocket::_ZN9TCPSocket4recvEPci(TCPSocket *this,char *param
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 91 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 161 行）：
 
 ```cpp
 int TCPSocket::recv(char* buf, int len)
 {
-    if (!buf || len <= 0)
+    if (buf == 0 || len < 1)
     {
         printf("In recv : recv buffer is null");
         return -1;
     }
-    int n = read(m_fd, buf, len);
-    if (n < 0)
+    int r = read(m_sock, buf, len);
+    if (r < 0)
     {
-        int e = errno;
-        if (e == 0xb || e == 0x4 || e == 0xb)
+        if (errno == EAGAIN || errno == EINTR || errno == 0)
         {
-            if (n != 0)
-                return n;
-            printf("tcp recv : FIN recv, %s", strerror(e));
-            return -1;
+            return 0;
         }
-        if (e != 0)
-            return n;
-        return 0;
     }
-    printf("tcp recv ='%d'", n);
-    return n;
+    else if (r == 0)
+    {
+        printf("tcp recv : FIN recv, %s", strerror(errno));
+        return -1;
+    }
+    return r;
 }
 ```

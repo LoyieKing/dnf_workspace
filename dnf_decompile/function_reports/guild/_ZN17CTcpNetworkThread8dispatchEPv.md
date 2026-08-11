@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x805a2a0` | `0x457` | `0x808638e` | `0x47e` |
+| guild | DIFF | `0x805a2a0` | `0x457` | `0x8086166` | `0x47e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -237,7 +237,7 @@
 +jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x20f>
 +nop
  movl   $0xae,0x8(%esp)
- movl   $"dispatch",0x4(%esp)
+ movl   $&_ZZN17CTcpNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
@@ -261,14 +261,10 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CTcpNetworkThread::dispatch() 예외 발생 : %s\n",(%esp)
  call   <T> <printf>
@@ -349,7 +345,7 @@
 +lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -443,7 +439,7 @@
 +lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -547,59 +543,57 @@ void CTcpNetworkThread::_ZN17CTcpNetworkThread8dispatchEPv(void *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpNetworkThread.cpp](source/DNFServer/GameServer/DBMW/DNFTcpNetworkThread.cpp)（约第 41 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpNetworkThread.cpp](source/DNFServer/GameServer/Guild/DNFTcpNetworkThread.cpp)（约第 94 行）：
 
 ```cpp
 void CTcpNetworkThread::dispatch(void* param)
 {
+    CPeer* peer = 0;
+    int eventCount = 0;
     m_runningFlag = 1;
     DNFFLib::Sleep_Ext(5, 0);
     try
     {
-        while (1)
+        while (m_runningFlag)
         {
-            if (!m_runningFlag)
-            {
-                CMyFileLog log("dispatch", 0xae);
-                log("./log/TcpRecv", "RecvThread Terminate");
-                break;
-            }
             errno = 0;
-            DNFFLib::Sleep_Ext(5, 0);
-            if (!m_net)
-                break;
+            DNFFLib::Sleep_Ext(0, 5);
+            if (m_net == 0)
+            {
+                continue;
+            }
             m_net->SetEpollAcceptedPeers();
             m_net->SendPacket();
-            int nEvent = m_net->WaitForEvent();
-            if (nEvent == 0)
+            eventCount = m_net->WaitForEvent();
+            if (eventCount == 0)
+            {
                 continue;
-            if (nEvent < 0)
-            {
-                if (errno == 0x4)
-                    continue;
-                if (errno != 0)
-                    break;
             }
-            for (int i = 0; i < nEvent; i++)
+            if (eventCount < 0 && errno != EINTR && errno != 0)
             {
-                CPeer* peer = (CPeer*)m_handler->GetEventPtr(i);
-                if (peer && m_handler->IsSetInEvent(i))
+                break;
+            }
+            for (int i = 0; i < eventCount; i++)
+            {
+                CTcpHandler* handler = (CTcpHandler*)m_handler;
+                CPeer* p = (CPeer*)handler->GetEventPtr(i);
+                bool isIn = p != 0 && handler->IsSetInEvent(i);
+                if (isIn && p->RecvPacket() != 1)
                 {
-                    if (!peer->RecvPacket())
-                    {
-                        peer->DisConnSig();
-                        m_net->DeletePeer(peer);
-                        peer = 0;
-                    }
+                    p->DisConnSig();
+                    m_net->DeletePeer(p);
+                    p = 0;
                 }
-                if (peer && peer->get_remain_sendlen() != 0 &&
-                    m_handler->IsSetOutEvent(i) && peer->get_remain_sendlen() <= 0x1800)
+                bool isOut = p != 0 && p->get_remain_sendlen() != 0 &&
+                             handler->IsSetOutEvent(i);
+                if (isOut && p->get_remain_sendlen() < 0x1801)
                 {
-                    peer->send_packet();
+                    p->send_packet();
                 }
-                m_handler->IsSetErrEvent(i);
+                handler->IsSetErrEvent(i);
             }
         }
+        DNF_LOG_SCOPE_LINE(0xae, "./log/TcpRecv", "RecvThread Terminate");
     }
     catch (CDNFException& e)
     {

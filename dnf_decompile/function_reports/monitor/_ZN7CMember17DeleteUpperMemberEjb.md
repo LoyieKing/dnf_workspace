@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809852c` | `0x50` | `0x8060a88` | `0x4d` |
+| monitor | DIFF | `0x809852c` | `0x50` | `0x8060cbc` | `0x4d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -65,7 +65,7 @@ void __thiscall CMember::_ZN7CMember17DeleteUpperMemberEjb(CMember *this,uint pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 519 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 521 行）：
 
 ```cpp
 void CMember::DeleteUpperMember(unsigned int charNo, bool flag)

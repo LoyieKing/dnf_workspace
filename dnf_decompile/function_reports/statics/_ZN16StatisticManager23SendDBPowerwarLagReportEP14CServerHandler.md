@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8071e1e` | `0x1de` | `0x8071b9c` | `0x213` |
+| statics | DIFF | `0x8071e1e` | `0x1de` | `0x8071dac` | `0x213` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -34,16 +34,13 @@
  test   %al,%al
 -je     <T> <_ZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandler+0x1c4>
 +je     <T> <_ZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandler+0x20e>
- mov    0x8(%ebp),%eax
- lea    0x1a0(%eax),%edx
--lea    -0x24(%ebp),%eax
-+lea    -0x18(%ebp),%eax
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZNSt3mapI21STPowerwarFightLagKey22STPowerwarFightLagDataSt4lessIS0_ESaISt4pairIKS0_S1_EEE5beginEv>
- sub    $0x4,%esp
--jmp    <T> <_ZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandler+0x16b>
--lea    -0x24(%ebp),%eax
++mov    0x8(%ebp),%eax
++lea    0x1a0(%eax),%edx
++lea    -0x28(%ebp),%eax
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZNSt3mapI21STPowerwarFightLagKey22STPowerwarFightLagDataSt4lessIS0_ESaISt4pairIKS0_S1_EEE5beginEv>
++sub    $0x4,%esp
 +jmp    <T> <_ZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandler+0x163>
 +lea    -0x1736(%ebp),%ecx
 +mov    -0x10(%ebp),%edx
@@ -55,19 +52,86 @@
 +lea    (%ecx,%eax,1),%eax
 +mov    %eax,-0xc(%ebp)
 +mov    -0xc(%ebp),%ebx
-+lea    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEptEv>
--add    $0xc,%eax
--mov    %eax,-0x18(%ebp)
--lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEptEv>
 +mov    (%eax),%eax
 +mov    %eax,(%ebx)
 +mov    -0xc(%ebp),%eax
 +lea    0x4(%eax),%ebx
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEptEv>
++movzwl 0x4(%eax),%eax
++mov    %ax,(%ebx)
++mov    -0xc(%ebp),%eax
++lea    0x8(%eax),%ebx
++lea    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEptEv>
++movzbl 0x8(%eax),%eax
++movzbl %al,%eax
++mov    %eax,(%ebx)
++mov    -0xc(%ebp),%eax
++lea    0xc(%eax),%ebx
++lea    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEptEv>
++mov    0xc(%eax),%eax
++mov    %eax,(%ebx)
++mov    -0xc(%ebp),%eax
++lea    0x10(%eax),%ebx
++lea    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEptEv>
++mov    0x10(%eax),%eax
++mov    %eax,(%ebx)
++addl   $0x1,-0x10(%ebp)
++cmpl   $0x63,-0x10(%ebp)
++jle    <T> <_ZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandler+0x158>
++lea    -0x1736(%ebp),%eax
++add    $0xa,%eax
++movl   $0x64,(%eax)
++lea    -0x1736(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
++movl   $0x33b,0x8(%esp)
++movl   $&_ZZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
++lea    -0x20(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    -0x10(%ebp),%eax
++mov    %eax,0xc(%esp)
++movl   $"PowerwarLag DB Sent %d",0x8(%esp)
++movl   $"./log/statistic",0x4(%esp)
++lea    -0x20(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++movl   $0x0,-0x10(%ebp)
++lea    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEppEv>
+ mov    0x8(%ebp),%eax
+ lea    0x1a0(%eax),%edx
+ lea    -0x24(%ebp),%eax
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEptEv>
+-call   <T> <_ZNSt3mapI21STPowerwarFightLagKey22STPowerwarFightLagDataSt4lessIS0_ESaISt4pairIKS0_S1_EEE5beginEv>
++call   <T> <_ZNSt3mapI21STPowerwarFightLagKey22STPowerwarFightLagDataSt4lessIS0_ESaISt4pairIKS0_S1_EEE3endEv>
+ sub    $0x4,%esp
+-jmp    <T> <_ZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandler+0x16b>
+ lea    -0x24(%ebp),%eax
++mov    %eax,0x4(%esp)
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEptEv>
+-add    $0xc,%eax
+-mov    %eax,-0x18(%ebp)
+-lea    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEptEv>
 -add    $0x10,%eax
 -mov    %eax,-0x14(%ebp)
 -mov    -0x18(%ebp),%eax
@@ -81,33 +145,18 @@
 -flds   -0x10(%ebp)
 -fstpl  -0x1740(%ebp)
 -lea    -0x24(%ebp),%eax
-+movzwl 0x4(%eax),%eax
-+mov    %ax,(%ebx)
-+mov    -0xc(%ebp),%eax
-+lea    0x8(%eax),%ebx
-+lea    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEptEv>
- movzbl 0x8(%eax),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEptEv>
+-movzbl 0x8(%eax),%eax
 -movzbl %al,%esi
 -lea    -0x24(%ebp),%eax
-+movzbl %al,%eax
-+mov    %eax,(%ebx)
-+mov    -0xc(%ebp),%eax
-+lea    0xc(%eax),%ebx
-+lea    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEptEv>
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEptEv>
 -movzwl 0x4(%eax),%eax
 -movzwl %ax,%ebx
 -lea    -0x24(%ebp),%eax
-+mov    0xc(%eax),%eax
-+mov    %eax,(%ebx)
-+mov    -0xc(%ebp),%eax
-+lea    0x10(%eax),%ebx
-+lea    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEptEv>
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEptEv>
 -mov    (%eax),%eax
 -movl   $0x0,0x4(%esp)
 -mov    %eax,(%esp)
@@ -132,62 +181,10 @@
 -mov    -0x1c(%ebp),%eax
 -cmp    $0x16,%eax
 -seta   %al
--test   %al,%al
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEneERKS5_>
+ test   %al,%al
 -je     <T> <_ZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandler+0x160>
 -movl   $0x17,-0x1728(%ebp)
--lea    -0x1732(%ebp),%eax
-+mov    0x10(%eax),%eax
-+mov    %eax,(%ebx)
-+addl   $0x1,-0x10(%ebp)
-+cmpl   $0x63,-0x10(%ebp)
-+jle    <T> <_ZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandler+0x158>
-+lea    -0x1736(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x64,(%eax)
-+lea    -0x1736(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
--movl   $0x0,-0x1c(%ebp)
--lea    -0x24(%ebp),%eax
-+movl   $0x33b,0x8(%esp)
-+movl   $"SendDBPowerwarLagReport",0x4(%esp)
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x10(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"PowerwarLag DB Sent %d",0x8(%esp)
-+movl   $"./log/statistic",0x4(%esp)
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x0,-0x10(%ebp)
-+lea    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEppEv>
- mov    0x8(%ebp),%eax
- lea    0x1a0(%eax),%edx
--lea    -0x20(%ebp),%eax
-+lea    -0x14(%ebp),%eax
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZNSt3mapI21STPowerwarFightLagKey22STPowerwarFightLagDataSt4lessIS0_ESaISt4pairIKS0_S1_EEE3endEv>
- sub    $0x4,%esp
--lea    -0x20(%ebp),%eax
-+lea    -0x14(%ebp),%eax
- mov    %eax,0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEneERKS5_>
- test   %al,%al
--jne    <T> <_ZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandler+0x5b>
--cmpl   $0x0,-0x1c(%ebp)
--je     <T> <_ZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandler+0x1c4>
--mov    -0x1c(%ebp),%eax
--mov    %eax,-0x1728(%ebp)
 -lea    -0x1732(%ebp),%eax
 +jne    <T> <_ZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandler+0x5a>
 +cmpl   $0x0,-0x10(%ebp)
@@ -201,17 +198,42 @@
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
+-movl   $0x0,-0x1c(%ebp)
+-lea    -0x24(%ebp),%eax
 +movl   $0x345,0x8(%esp)
-+movl   $"SendDBPowerwarLagReport",0x4(%esp)
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
++movl   $&_ZZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
++lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+-call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEppEv>
+-mov    0x8(%ebp),%eax
+-lea    0x1a0(%eax),%edx
+-lea    -0x20(%ebp),%eax
+-mov    %edx,0x4(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x10(%ebp),%eax
 +mov    %eax,0xc(%esp)
 +movl   $"PowerwarLag DB Sent %d",0x8(%esp)
 +movl   $"./log/statistic",0x4(%esp)
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
++lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+-call   <T> <_ZNSt3mapI21STPowerwarFightLagKey22STPowerwarFightLagDataSt4lessIS0_ESaISt4pairIKS0_S1_EEE3endEv>
+-sub    $0x4,%esp
+-lea    -0x20(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-lea    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK21STPowerwarFightLagKey22STPowerwarFightLagDataEEneERKS5_>
+-test   %al,%al
+-jne    <T> <_ZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandler+0x5b>
+-cmpl   $0x0,-0x1c(%ebp)
+-je     <T> <_ZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandler+0x1c4>
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,-0x1728(%ebp)
+-lea    -0x1732(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-mov    0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
  add    $0x1a0,%eax
@@ -329,7 +351,7 @@ StatisticManager::_ZN16StatisticManager23SendDBPowerwarLagReportEP14CServerHandl
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 844 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 970 行）：
 
 ```cpp
 void StatisticManager::SendDBPowerwarLagReport(CServerHandler* handler)

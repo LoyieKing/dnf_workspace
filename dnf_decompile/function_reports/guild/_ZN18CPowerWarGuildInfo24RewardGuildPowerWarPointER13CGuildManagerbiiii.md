@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80aa1ea` | `0x24a` | `0x80a0400` | `0x260` |
+| guild | DIFF | `0x80aa1ea` | `0x24a` | `0x80a0036` | `0x25e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -17,9 +17,9 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
--push   %ebx
+ push   %ebx
 -sub    $0x70,%esp
-+sub    $0x88,%esp
++sub    $0x84,%esp
  mov    0x10(%ebp),%eax
 -mov    %al,-0x4c(%ebp)
 +mov    %al,-0x5c(%ebp)
@@ -34,68 +34,55 @@
 -mov    0x18(%ebp),%eax
 -mov    %eax,-0x28(%ebp)
 -mov    0x1c(%ebp),%eax
-+movl   $0x0,-0x28(%ebp)
-+mov    0x8(%ebp),%eax
-+add    $0x4,%eax
-+add    $0x18,%eax
- mov    %eax,-0x24(%ebp)
+-mov    %eax,-0x24(%ebp)
 -mov    0x20(%ebp),%eax
 -mov    %eax,-0x20(%ebp)
 -movl   $0x0,-0x1c(%ebp)
 -movl   $0x0,-0x18(%ebp)
--mov    0x8(%ebp),%eax
--add    $0x1c,%eax
++movl   $0x0,-0x28(%ebp)
+ mov    0x8(%ebp),%eax
+ add    $0x1c,%eax
++mov    %eax,-0x24(%ebp)
 +mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorIP19STPowerWarGuildInfoSaIS1_EE4sizeEv>
 -mov    %eax,%ebx
 +mov    %eax,-0x20(%ebp)
  movl   $0xec,0x8(%esp)
- movl   $"RewardGuildPowerWarPoint",0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x44(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x1c(%esp)
- mov    -0x20(%ebp),%eax
+ movl   $&_ZZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiiiE12__FUNCTION__,0x4(%esp)
++lea    -0x4c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    -0x20(%ebp),%eax
 +mov    %eax,0x1c(%esp)
 +mov    -0x2c(%ebp),%eax
- mov    %eax,0x18(%esp)
--mov    -0x24(%ebp),%eax
++mov    %eax,0x18(%esp)
 +mov    -0x30(%ebp),%eax
- mov    %eax,0x14(%esp)
--mov    -0x28(%ebp),%eax
++mov    %eax,0x14(%esp)
 +mov    -0x34(%ebp),%eax
- mov    %eax,0x10(%esp)
--mov    -0x2c(%ebp),%eax
++mov    %eax,0x10(%esp)
 +mov    -0x38(%ebp),%eax
- mov    %eax,0xc(%esp)
- movl   $"Basic:%d, First:%d, Decrease:%d, MaxGrade:%d, DomainCount:%d",0x8(%esp)
- movl   $"./log/PowerResult",0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x44(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    0x8(%ebp),%eax
--lea    0x1c(%eax),%edx
--lea    -0x44(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++mov    %eax,0xc(%esp)
++movl   $"Basic:%d, First:%d, Decrease:%d, MaxGrade:%d, DomainCount:%d",0x8(%esp)
++movl   $"./log/PowerResult",0x4(%esp)
++lea    -0x4c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++lea    -0x50(%ebp),%eax
 +mov    -0x24(%ebp),%edx
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZNSt6vectorIP19STPowerWarGuildInfoSaIS1_EE5beginEv>
- sub    $0x4,%esp
--jmp    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x20e>
--lea    -0x44(%ebp),%eax
-+jmp    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x22f>
-+lea    -0x48(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEdeEv>
- mov    (%eax),%eax
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZNSt6vectorIP19STPowerWarGuildInfoSaIS1_EE5beginEv>
++sub    $0x4,%esp
++jmp    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x22a>
++lea    -0x50(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEdeEv>
++mov    (%eax),%eax
 +mov    %eax,-0x1c(%ebp)
 +movl   $0x0,-0x18(%ebp)
 +cmpb   $0x0,-0x5c(%ebp)
-+je     <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0xde>
++je     <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0xdc>
 +mov    -0x38(%ebp),%eax
 +mov    %eax,-0x18(%ebp)
 +mov    -0x1c(%ebp),%eax
@@ -106,10 +93,10 @@
 +add    $0x4,%eax
 +mov    (%eax),%eax
 +test   %eax,%eax
-+je     <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x139>
++je     <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x137>
 +mov    -0x28(%ebp),%eax
 +cmp    -0x2c(%ebp),%eax
-+jge    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x139>
++jge    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x137>
 +mov    -0x30(%ebp),%eax
 +imul   -0x28(%ebp),%eax
 +mov    -0x34(%ebp),%edx
@@ -134,20 +121,90 @@
 +mov    %eax,(%edx)
 +mov    -0x1c(%ebp),%eax
 +mov    (%eax),%eax
- mov    %eax,-0x14(%ebp)
++mov    %eax,-0x14(%ebp)
++mov    -0x14(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN13CGuildManager9FindGuildEj>
++mov    %eax,-0x10(%ebp)
++cmpl   $0x0,-0x10(%ebp)
++jne    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x1f6>
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN18CPowerWarGuildInfo25CreateDBSavePowerWarPointEv>
++mov    %eax,-0x54(%ebp)
++mov    -0x54(%ebp),%eax
++test   %eax,%eax
++je     <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x21b>
++mov    -0x54(%ebp),%eax
++mov    -0x14(%ebp),%edx
++mov    %edx,(%eax)
++mov    -0x54(%ebp),%eax
++lea    0x4(%eax),%edx
++mov    -0x1c(%ebp),%eax
++add    $0xc,%eax
++mov    (%eax),%eax
++mov    %eax,(%edx)
++mov    0x8(%ebp),%eax
++lea    0x28(%eax),%edx
++lea    -0x54(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
++call   <T> <_ZNSt6vectorIP21STDBSavePowerWarPointSaIS1_EE9push_backERKS1_>
++mov    -0x54(%ebp),%eax
++add    $0x4,%eax
++mov    (%eax),%ebx
++movl   $0x120,0x8(%esp)
++movl   $"RewardGuildPowerWarPoint",0x4(%esp)
+ lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %ebx,0x1c(%esp)
+-mov    -0x20(%ebp),%eax
+-mov    %eax,0x18(%esp)
+-mov    -0x24(%ebp),%eax
+-mov    %eax,0x14(%esp)
++mov    %ebx,0x14(%esp)
++mov    -0x14(%ebp),%eax
++mov    %eax,0x10(%esp)
+ mov    -0x28(%ebp),%eax
+-mov    %eax,0x10(%esp)
+-mov    -0x2c(%ebp),%eax
+ mov    %eax,0xc(%esp)
+-movl   $"Basic:%d, First:%d, Decrease:%d, MaxGrade:%d, DomainCount:%d",0x8(%esp)
++movl   $"Additional Save(GRADE:%d, Guild ID:%d, PowerWarPoint:%d)",0x8(%esp)
+ movl   $"./log/PowerResult",0x4(%esp)
+ lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    0x8(%ebp),%eax
+-lea    0x1c(%eax),%edx
+-lea    -0x44(%ebp),%eax
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt6vectorIP19STPowerWarGuildInfoSaIS1_EE5beginEv>
+-sub    $0x4,%esp
+-jmp    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x20e>
+-lea    -0x44(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEdeEv>
+-mov    (%eax),%eax
+-mov    %eax,-0x14(%ebp)
 -movl   $0x0,-0x1c(%ebp)
 -cmpb   $0x0,-0x4c(%ebp)
 -je     <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0xda>
 -mov    -0x2c(%ebp),%eax
 -add    %eax,-0x1c(%ebp)
- mov    -0x14(%ebp),%eax
+-mov    -0x14(%ebp),%eax
 -mov    0x4(%eax),%eax
 -add    %eax,-0x1c(%ebp)
 -mov    -0x14(%ebp),%eax
 -mov    0x4(%eax),%eax
 -test   %eax,%eax
 -je     <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x124>
--mov    -0x18(%ebp),%eax
++jmp    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x21b>
+ mov    -0x18(%ebp),%eax
 -cmp    -0x20(%ebp),%eax
 -jge    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x124>
 -mov    -0x24(%ebp),%eax
@@ -170,63 +227,18 @@
 -mov    -0x14(%ebp),%eax
 -mov    (%eax),%eax
 -mov    %eax,-0x10(%ebp)
--mov    -0x10(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN13CGuildManager9FindGuildEj>
++mov    %eax,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-mov    0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN13CGuildManager9FindGuildEj>
 -mov    %eax,-0xc(%ebp)
 -cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x171>
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0x0,-0x10(%ebp)
-+jne    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x1fb>
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN18CPowerWarGuildInfo25CreateDBSavePowerWarPointEv>
-+mov    %eax,-0x4c(%ebp)
-+mov    -0x4c(%ebp),%eax
-+test   %eax,%eax
-+je     <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x220>
-+mov    -0x4c(%ebp),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%eax)
-+mov    -0x4c(%ebp),%eax
-+lea    0x4(%eax),%edx
- mov    -0x1c(%ebp),%eax
-+add    $0xc,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
-+mov    0x8(%ebp),%eax
-+add    $0x4,%eax
-+lea    0x24(%eax),%edx
-+lea    -0x4c(%ebp),%eax
- mov    %eax,0x4(%esp)
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,0x4(%esp)
 -mov    -0xc(%ebp),%eax
-+mov    %edx,(%esp)
-+call   <T> <_ZNSt6vectorIP21STDBSavePowerWarPointSaIS1_EE9push_backERKS1_>
-+movl   $0x120,0x8(%esp)
-+movl   $"RewardGuildPowerWarPoint",0x4(%esp)
-+lea    -0x54(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x4c(%ebp),%eax
-+add    $0x4,%eax
-+mov    (%eax),%eax
-+mov    %eax,0x14(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    -0x28(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"Additional Save(GRADE:%d, Guild ID:%d, PowerWarPoint:%d)",0x8(%esp)
-+movl   $"./log/PowerResult",0x4(%esp)
-+lea    -0x54(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0x220>
-+mov    -0x18(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild16AddPowerWarPointEj>
  movl   $0x0,0x4(%esp)
@@ -251,8 +263,7 @@
 -mov    %edx,0x4(%eax)
 -mov    0x8(%ebp),%eax
 -lea    0x28(%eax),%edx
-+addl   $0x1,-0x28(%ebp)
- lea    -0x48(%ebp),%eax
+-lea    -0x48(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -mov    %edx,(%esp)
 -call   <T> <_ZNSt6vectorIP21STDBSavePowerWarPointSaIS1_EE9push_backERKS1_>
@@ -261,7 +272,7 @@
 -mov    -0x48(%ebp),%eax
 -mov    (%eax),%ebx
 -movl   $0x120,0x8(%esp)
--movl   $"RewardGuildPowerWarPoint",0x4(%esp)
+-movl   $&_ZZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiiiE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -276,22 +287,24 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -addl   $0x1,-0x18(%ebp)
 -lea    -0x44(%ebp),%eax
++addl   $0x1,-0x28(%ebp)
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEppEv>
 -mov    0x8(%ebp),%eax
 -lea    0x1c(%eax),%edx
 -lea    -0x38(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x44(%ebp),%eax
 +mov    -0x24(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP19STPowerWarGuildInfoSaIS1_EE3endEv>
  sub    $0x4,%esp
 -lea    -0x38(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxxneIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
  test   %al,%al
@@ -301,7 +314,8 @@
 -pop    %ebx
 -pop    %esi
 -pop    %ebp
-+jne    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0xbb>
++jne    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0xb9>
++mov    -0x4(%ebp),%ebx
 +leave
  ret
 ```
@@ -405,4 +419,4 @@ CPowerWarGuildInfo::_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildM
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 619 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 289 个文件*

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8067594` | `0x71` | `0x8089c08` | `0x58` |
+| guild | DIFF | `0x8067594` | `0x71` | `0x8089a78` | `0x58` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -85,7 +85,7 @@ LAB_080675c4:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 448 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 466 行）：
 
 ```cpp
 void CUser::ChangeCharName(char* name)

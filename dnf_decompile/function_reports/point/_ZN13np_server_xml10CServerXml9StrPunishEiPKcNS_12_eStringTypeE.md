@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| point | DIFF | `0x808f8ea` | `0x265` | `0x8098710` | `0x264` |
+| point | DIFF | `0x808f8ea` | `0x265` | `0x8098676` | `0x264` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -320,4 +320,4 @@ np_server_xml::CServerXml::_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eS
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/ServerXml.cpp, source/DNFServer/GameServer/Guild/ServerXml.cpp, source/DNFServer/GameServer/Monitor/ServerXml.cpp, source/DNFServer/ServerCommon/ServerXml.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h 等 584 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/ServerCommon/ServerXml.cpp, source/DNFServer/ServerCommon/DNFFunctionLib.h, source/DNFServer/ServerCommon/ServerXml.cpp, source/DNFServer/ServerCommon/ServerXml.h, source/DNFServer/ServerCommon/tinyxml.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/AuctionItem.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/StatisticsCollector.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/DNFFunctionLibWrapper.h 等 300 个文件*

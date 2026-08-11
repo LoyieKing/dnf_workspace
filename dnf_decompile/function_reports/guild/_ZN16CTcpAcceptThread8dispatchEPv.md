@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8059cc4` | `0x405` | `0x808596a` | `0x1be` |
+| guild | DIFF | `0x8059cc4` | `0x405` | `0x8085782` | `0x1be` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -249,7 +249,7 @@
 -lea    -0x29(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSaIcED1Ev>
--movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+-movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
 -movl   $&_ZTI13CDNFException,0x4(%esp)
 -mov    %ebx,(%esp)
 -call   <T> <__cxa_throw>
@@ -328,7 +328,7 @@
 -lea    -0x21(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSaIcED1Ev>
--movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+-movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
 -movl   $&_ZTI13CDNFException,0x4(%esp)
 -mov    %ebx,(%esp)
 -call   <T> <__cxa_throw>
@@ -429,55 +429,52 @@ void CTcpAcceptThread::_ZN16CTcpAcceptThread8dispatchEPv(void *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpAcceptThread.cpp](source/DNFServer/GameServer/DBMW/DNFTcpAcceptThread.cpp)（约第 37 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpAcceptThread.cpp](source/DNFServer/GameServer/Guild/DNFTcpAcceptThread.cpp)（约第 88 行）：
 
 ```cpp
 void CTcpAcceptThread::dispatch(void* param)
 {
-    if (!m_sock.open())
+    TCPSocket* sock = (TCPSocket*)m_sock;
+    if (sock->open())
     {
-        printf("Tcp Accept Socket Open Err");
-        return;
-    }
-    if (!m_sock.bind(m_port, true))
-    {
-        printf("Tcp Accept Socket Bind Err");
-        return;
-    }
-    if (!m_sock.listen(5))
-    {
-        printf("Tcp Accept Socket Listen Err");
-        return;
-    }
-    m_stop = 1;
-    DNFFLib::Sleep_Ext(5, 0);
-    try
-    {
-        while (m_stop)
+        if (sock->bind(m_port, true))
         {
-            if (!m_sock.pollReadEvent())
-                continue;
-            CPeer* peer = m_net->CreatePeer();
-            if (!peer->GetTcpSocket()->accept(m_sock))
-                printf("Accept GameServer Fail(Port : %d)\n",
-                       peer->GetTcpSocket()->getHandle());
-            printf("Accept GameServer(Port : %d)\n",
-                   peer->GetTcpSocket()->getHandle());
-            peer->InitPeer(m_net->Get_TcpSwapQPacket()->GetRecvQ(),
-                           m_net->Get_TcpRecvQLock(), m_net->Get_TcpRecvBLock());
-            peer->ConnSig();
-            m_net->InsertAcceptedPeer(peer);
+            if (sock->listen(5))
+            {
+                m_running = true;
+                DNFFLib::Sleep_Ext(5, 0);
+                while (m_running)
+                {
+                    if (sock->pollReadEvent())
+                    {
+                        CPeer* peer = m_net->CreatePeer();
+                        TCPSocket* ps = peer->GetTcpSocket();
+                        if (sock->accept(*ps) != 1)
+                        {
+                            printf("Accept GameServer Fail(Port : %d)\n", ps->getHandle());
+                        }
+                        printf("Accept GameServer(Port : %d)\n", ps->getHandle());
+                        peer->InitPeer(
+                            ((CSwapQueue<std::queue<CTcpRecvBuffer*>, 2>*)m_net->Get_TcpSwapQPacket())->GetRecvQ(),
+                                       m_net->Get_TcpRecvQLock(), m_net->Get_TcpRecvBLock());
+                        peer->ConnSig();
+                        m_net->InsertAcceptedPeer(peer);
+                    }
+                }
+            }
+            else
+            {
+                printf("Tcp Accept Socket Listen Err");
+            }
+        }
+        else
+        {
+            printf("Tcp Accept Socket Bind Err");
         }
     }
-    catch (CDNFException& e)
+    else
     {
-        printf("CTcpNetworkThread::dispatch() Except Break : %s\n", e.what());
-        throw CDNFException("CTcpNetworkThread::dispatch() Recv  Socket Exception Break!");
-    }
-    catch (...)
-    {
-        puts("CTcpNetworkThread::dispatch() Except Break");
-        throw CDNFException("CTcpNetworkThread::dispatch() Recv  Socket Exception Break!");
+        printf("Tcp Accept Socket Open Err");
     }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a931c` | `0x258` | `0x80a7b3e` | `0x184` |
+| monitor | DIFF | `0x80a931c` | `0x258` | `0x80a7d26` | `0x17a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,194 +1,118 @@
+@@ -1,194 +1,113 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -214,25 +214,20 @@
 -mov    0x4(%eax),%eax
 -mov    %eax,-0x2c(%ebp)
 +lea    -0x1b(%ebp),%eax
-+lea    0xa(%eax),%edx
-+movzbl -0x11(%ebp),%eax
-+mov    %al,(%edx)
++movzbl -0x11(%ebp),%edx
++mov    %dl,0xa(%eax)
 +lea    -0x1b(%ebp),%eax
-+lea    0xb(%eax),%edx
-+mov    -0x68(%ebp),%eax
-+mov    %eax,(%edx)
++mov    -0x68(%ebp),%edx
++mov    %edx,0xb(%eax)
 +lea    -0x1b(%ebp),%eax
-+lea    0xf(%eax),%edx
-+mov    -0x68(%ebp),%eax
-+mov    %eax,(%edx)
++mov    -0x68(%ebp),%edx
++mov    %edx,0xf(%eax)
 +lea    -0x1b(%ebp),%eax
-+lea    0x13(%eax),%edx
-+mov    -0x64(%ebp),%eax
-+mov    %eax,(%edx)
++mov    -0x64(%ebp),%edx
++mov    %edx,0x13(%eax)
 +lea    -0x1b(%ebp),%eax
-+lea    0x17(%eax),%edx
-+mov    -0x64(%ebp),%eax
-+mov    %eax,(%edx)
++mov    -0x64(%ebp),%edx
++mov    %edx,0x17(%eax)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -374,7 +369,7 @@ _ZN16village_attacked23CVillageAttackedManager34OnServerGroupRewardVillageAttack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 486 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 487 行）：
 
 ```cpp
 void CVillageAttackedManager::OnServerGroupRewardVillageAttacked()
@@ -391,11 +386,11 @@ void CVillageAttackedManager::OnServerGroupRewardVillageAttacked()
                                    village_attacked_scheduler[i * 6 + 2]);
     }
     std::sort(&times[0], &times[MAX_SCHEDULER_COUNT], compareTime);
-    *(char*)((char*)&pkt + 0xa) = (char)group;
-    *(int*)((char*)&pkt + 0xb) = times[0];
-    *(int*)((char*)&pkt + 0xf) = times[0];
-    *(int*)((char*)&pkt + 0x13) = times[1];
-    *(int*)((char*)&pkt + 0x17) = times[1];
+    ((RA_S8<10>*)&pkt)->v = (char)group;
+    ((RA_INT<11>*)&pkt)->v = times[0];
+    ((RA_INT<15>*)&pkt)->v = times[0];
+    ((RA_INT<19>*)&pkt)->v = times[1];
+    ((RA_INT<23>*)&pkt)->v = times[1];
     m_app->Get_ServerHandler()->SendToDB(&pkt);
 }
 ```

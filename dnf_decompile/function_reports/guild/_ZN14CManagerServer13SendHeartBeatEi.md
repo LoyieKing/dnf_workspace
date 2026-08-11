@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806c5f8` | `0x82` | `0x8065602` | `0x87` |
+| guild | DIFF | `0x806c5f8` | `0x82` | `0x8064cd0` | `0x87` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -100,7 +100,7 @@ CManagerServer::_ZN14CManagerServer13SendHeartBeatEi(CManagerServer *this,int pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFManagerServer.cpp](source/DNFServer/GameServer/Guild/DNFManagerServer.cpp)（约第 93 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFManagerServer.cpp](source/DNFServer/GameServer/Guild/DNFManagerServer.cpp)（约第 101 行）：
 
 ```cpp
 void CManagerServer::SendHeartBeat(int group)

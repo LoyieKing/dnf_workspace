@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807acc2` | `0xc2` | `0x80521da` | `0xc3` |
+| dbmw | DIFF | `0x807acc2` | `0xc2` | `0x80521be` | `0xc3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -30,24 +30,18 @@
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -movzbl -0x1c(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+movzbl -0x2c(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    0x10(%ebp),%edx
-+mov    %edx,0xc(%esp)
++movzbl -0x2c(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"upDate guild_info set power_secede_time = now() where guild_id = %d and server_id = %d",0x8(%esp)
  movl   $0x4ec6,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21UpdatePowerSecedeTimeEhj+0x9a>
@@ -56,7 +50,7 @@
 +movzbl -0x2c(%ebp),%eax
 +mov    %eax,-0xc(%ebp)
  movl   $0x12fa,0x8(%esp)
- movl   $"UpdatePowerSecedeTime",0x4(%esp)
+ movl   $&_ZZN10CDBManager21UpdatePowerSecedeTimeEhjE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -79,15 +73,12 @@
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4ec6,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %al,-0xd(%ebp)
  mov    $0x1,%eax
 -add    $0x44,%esp
@@ -131,4 +122,4 @@ CDBManager::_ZN10CDBManager21UpdatePowerSecedeTimeEhj(CDBManager *this,uchar par
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

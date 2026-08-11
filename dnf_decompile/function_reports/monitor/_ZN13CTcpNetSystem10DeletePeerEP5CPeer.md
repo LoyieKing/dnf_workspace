@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8053870` | `0xe7` | `0x80a29a8` | `0xf3` |
+| monitor | DIFF | `0x8053870` | `0xe7` | `0x80a2b5c` | `0xf3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -157,16 +157,21 @@ CTcpNetSystem::_ZN13CTcpNetSystem10DeletePeerEP5CPeer(CTcpNetSystem *this,CPeer 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 110 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 330 行）：
 
 ```cpp
 void CTcpNetSystem::DeletePeer(CPeer* peer)
 {
     int fd = peer->GetTcpSocket()->getHandle();
-    std::map<unsigned int, CPeer*>::iterator it = m_peerMap.find(fd);
-    if (it != m_peerMap.end())
-        m_peerMap.erase(it);
+    std::map<unsigned int, CPeer*>::iterator it = m_peers.find((unsigned int)fd);
+    if (it != m_peers.end())
+    {
+        m_peers.erase(it);
+    }
     CGuard<CMutex> guard(&m_mutex78);
-    delete peer;
+    if (peer != 0)
+    {
+        delete peer;
+    }
 }
 ```

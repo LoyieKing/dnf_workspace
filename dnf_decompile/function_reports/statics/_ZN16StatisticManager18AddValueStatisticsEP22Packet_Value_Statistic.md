@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80739a4` | `0x15c` | `0x807372a` | `0x169` |
+| statics | NEAR | `0x80739a4` | `0x15c` | `0x8073920` | `0x15c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,92 +1,98 @@
+@@ -1,92 +1,92 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -40,57 +40,45 @@
  mov    %eax,0x4(%esp)
  lea    -0x118(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi18ValueStatisticDataEEneERKS4_>
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi18ValueStatisticDataEEeqERKS4_>
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi18ValueStatisticDataEEneERKS4_>
  test   %al,%al
--je     <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0xb3>
-+je     <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x118>
-+lea    -0x190(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN18ValueStatisticDataC1Ev>
+ je     <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0xb3>
  movl   $0x0,-0x10(%ebp)
--jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0xa3>
--lea    -0x118(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi18ValueStatisticDataEEptEv>
--mov    -0x10(%ebp),%edx
-+jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0xa6>
-+mov    -0x10(%ebp),%eax
-+mov    0xc(%ebp),%edx
+ jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0xa3>
+ lea    -0x118(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi18ValueStatisticDataEEptEv>
+ mov    -0x10(%ebp),%edx
  mov    -0x10(%ebp),%ecx
--mov    0x4(%eax,%ecx,4),%esi
--mov    -0x10(%ebp),%ebx
+ mov    0x4(%eax,%ecx,4),%esi
++mov    0xc(%ebp),%ecx
+ mov    -0x10(%ebp),%ebx
 -mov    0xc(%ebp),%ecx
--mov    0xe(%ecx,%ebx,4),%ecx
--lea    (%esi,%ecx,1),%ecx
--mov    %ecx,0x4(%eax,%edx,4)
-+shl    $0x2,%ecx
-+add    $0xe,%ecx
-+add    %ecx,%edx
-+mov    (%edx),%edx
-+mov    %edx,-0x190(%ebp,%eax,4)
+ mov    0xe(%ecx,%ebx,4),%ecx
+ lea    (%esi,%ecx,1),%ecx
+ mov    %ecx,0x4(%eax,%edx,4)
  addl   $0x1,-0x10(%ebp)
  cmpl   $0x1d,-0x10(%ebp)
  setle  %al
  test   %al,%al
--jne    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x76>
--jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x152>
--lea    -0x190(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN18ValueStatisticDataC1Ev>
--movl   $0x0,-0xc(%ebp)
--jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0xe2>
--mov    -0xc(%ebp),%eax
--mov    -0xc(%ebp),%ecx
+ jne    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x76>
+ jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x152>
+ lea    -0x190(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN18ValueStatisticDataC1Ev>
+ movl   $0x0,-0xc(%ebp)
+ jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0xe2>
+ mov    -0xc(%ebp),%eax
++mov    0xc(%ebp),%edx
+ mov    -0xc(%ebp),%ecx
 -mov    0xc(%ebp),%edx
--mov    0xe(%edx,%ecx,4),%edx
--mov    %edx,-0x190(%ebp,%eax,4)
--addl   $0x1,-0xc(%ebp)
--cmpl   $0x1d,-0xc(%ebp)
--setle  %al
--test   %al,%al
--jne    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0xca>
-+jne    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x88>
+ mov    0xe(%edx,%ecx,4),%edx
+ mov    %edx,-0x190(%ebp,%eax,4)
+ addl   $0x1,-0xc(%ebp)
+ cmpl   $0x1d,-0xc(%ebp)
+ setle  %al
+ test   %al,%al
+ jne    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0xca>
  mov    0xc(%ebp),%eax
  lea    0xa(%eax),%ecx
  lea    -0x8c(%ebp),%eax
@@ -114,28 +102,6 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIi18ValueStatisticDataSt4lessIiESaISt4pairIKiS0_EEE6insertERKS5_>
  sub    $0x4,%esp
-+jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x15f>
-+movl   $0x0,-0xc(%ebp)
-+jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x154>
-+lea    -0x118(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi18ValueStatisticDataEEptEv>
-+mov    -0xc(%ebp),%edx
-+mov    -0xc(%ebp),%ecx
-+mov    0x4(%eax,%ecx,4),%ebx
-+mov    0xc(%ebp),%ecx
-+mov    -0xc(%ebp),%esi
-+shl    $0x2,%esi
-+add    $0xe,%esi
-+add    %esi,%ecx
-+mov    (%ecx),%ecx
-+lea    (%ebx,%ecx,1),%ecx
-+mov    %ecx,0x4(%eax,%edx,4)
-+addl   $0x1,-0xc(%ebp)
-+cmpl   $0x1d,-0xc(%ebp)
-+setle  %al
-+test   %al,%al
-+jne    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x121>
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -200,27 +166,33 @@ StatisticManager::_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Stat
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1283 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1422 行）：
 
 ```cpp
 void StatisticManager::AddValueStatistics(Packet_Value_Statistic* pkt)
 {
+    struct __attribute__((packed)) Wire
+    {
+        char m_hdr[0xa];
+        int m_f0a;
+        int m_data[0x1e];
+    };
     std::map<int, ValueStatisticData>::iterator it = m_value.find(*(int*)((char*)pkt + 10));
-    if (it == m_value.end())
+    if (it != m_value.end())
+    {
+        for (int i = 0; i < 0x1e; i++)
+        {
+            it->second.m_data[i] += ((Wire*)pkt)->m_data[i];
+        }
+    }
+    else
     {
         ValueStatisticData v;
         for (int i = 0; i < 0x1e; i++)
         {
-            v.m_data[i] = *(int*)((char*)pkt + i * 4 + 0xe);
+            v.m_data[i] = ((Wire*)pkt)->m_data[i];
         }
         m_value.insert(std::make_pair(*(int*)((char*)pkt + 10), v));
-    }
-    else
-    {
-        for (int i = 0; i < 0x1e; i++)
-        {
-            it->second.m_data[i] += *(int*)((char*)pkt + i * 4 + 0xe);
-        }
     }
 }
 ```

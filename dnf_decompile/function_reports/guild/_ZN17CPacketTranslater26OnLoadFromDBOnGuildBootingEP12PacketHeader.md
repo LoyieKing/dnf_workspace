@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8080a3e` | `0x17c` | `0x80771c4` | `0x180` |
+| guild | DIFF | `0x8080a3e` | `0x17c` | `0x8077072` | `0x182` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,102 +1,104 @@
+@@ -1,102 +1,105 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -25,19 +25,17 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x52>
  movl   $0x1343,0x8(%esp)
- movl   $"OnLoadFromDBOnGuildBooting",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnLoadFromDBOnGuildBooting : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x175>
-+jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x179>
++jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x17b>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15GetPowerManagerEv>
@@ -65,42 +63,34 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager16SendPowerWarInfoEv>
 -jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x175>
-+jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x179>
++jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x17b>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x11b>
-+jne    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x11f>
++jne    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x121>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
  movl   $0x134f,0x8(%esp)
- movl   $"OnLoadFromDBOnGuildBooting",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnPacketSecedePower Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x114>
-+jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x118>
++jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x11a>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -110,23 +100,21 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x175>
-+jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x179>
++jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x17b>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1354,0x8(%esp)
- movl   $"OnLoadFromDBOnGuildBooting",0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnPacketSecedePower Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x170>
-+jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x174>
++jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x176>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>

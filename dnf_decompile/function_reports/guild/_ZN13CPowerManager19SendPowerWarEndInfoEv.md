@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80a50ae` | `0x9a` | `0x809b408` | `0x9a` |
+| guild | NEAR | `0x80a50ae` | `0x9a` | `0x809af7e` | `0x9a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -18,7 +18,7 @@
  mov    %esp,%ebp
  sub    $0x28,%esp
  movl   $0x419,0x8(%esp)
- movl   $"SendPowerWarEndInfo",0x4(%esp)
+ movl   $&_ZZN13CPowerManager19SendPowerWarEndInfoEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
@@ -38,7 +38,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc>
  movl   $0x41f,0x8(%esp)
- movl   $"SendPowerWarEndInfo",0x4(%esp)
+ movl   $&_ZZN13CPowerManager19SendPowerWarEndInfoEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)

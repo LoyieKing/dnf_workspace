@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80729ee` | `0xe3` | `0x8072776` | `0xe2` |
+| statics | DIFF | `0x80729ee` | `0xe3` | `0x807297e` | `0xe2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -64,7 +64,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  movl   $0x5b8,0x8(%esp)
- movl   $"AddReasonCrashDownData",0x4(%esp)
+ movl   $&_ZZN16StatisticManager22AddReasonCrashDownDataEP29Packet_Reason_Crash_Down_InfoP14CServerHandlerE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -114,4 +114,4 @@ _ZN16StatisticManager22AddReasonCrashDownDataEP29Packet_Reason_Crash_Down_InfoP1
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Statics/Statistics.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 619 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Statics/Statistics.cpp, source/DNFServer/GameServer/Statics/CubeStatistics.h, source/DNFServer/GameServer/Statics/DNFDBServer.h, source/DNFServer/GameServer/Statics/DNFGameServer.h, source/DNFServer/GameServer/Statics/DNFManagerServer.h, source/DNFServer/GameServer/Statics/DNFServerConfig.h, source/DNFServer/GameServer/Statics/DNFServerHandler.h, source/DNFServer/GameServer/Statics/DNFTableBase.h 等 260 个文件*

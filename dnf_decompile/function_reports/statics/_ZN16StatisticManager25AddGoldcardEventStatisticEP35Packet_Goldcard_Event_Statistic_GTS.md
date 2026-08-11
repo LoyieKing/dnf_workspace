@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x807499a` | `0x96` | `0x807487e` | `0x92` |
+| statics | DIFF | `0x807499a` | `0x96` | `0x8074a34` | `0x8c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,22 +13,20 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,54 +1,55 @@
+@@ -1,54 +1,52 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
  sub    $0x10,%esp
  mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
+ movzbl 0xa(%eax),%eax
  movzbl %al,%eax
  mov    %eax,-0x8(%ebp)
 -cmpl   $0x0,-0x8(%ebp)
 -js     <T> <_ZN16StatisticManager25AddGoldcardEventStatisticEP35Packet_Goldcard_Event_Statistic_GTS+0x90>
  cmpl   $0x63,-0x8(%ebp)
 -jg     <T> <_ZN16StatisticManager25AddGoldcardEventStatisticEP35Packet_Goldcard_Event_Statistic_GTS+0x90>
-+ja     <T> <_ZN16StatisticManager25AddGoldcardEventStatisticEP35Packet_Goldcard_Event_Statistic_GTS+0x8c>
++ja     <T> <_ZN16StatisticManager25AddGoldcardEventStatisticEP35Packet_Goldcard_Event_Statistic_GTS+0x86>
 +mov    0x8(%ebp),%ecx
  mov    -0x8(%ebp),%edx
 -mov    -0x8(%ebp),%ecx
@@ -73,8 +71,7 @@
 -mov    %ecx,0x11(%eax)
 +mov    (%eax),%edx
 +mov    0xc(%ebp),%eax
-+add    $0xb,%eax
-+mov    (%eax),%eax
++mov    0xb(%eax),%eax
 +lea    (%edx,%eax,1),%eax
 +mov    %eax,(%ecx)
 +mov    0x8(%ebp),%ecx
@@ -93,8 +90,7 @@
 +lea    (%ebx,%eax,1),%eax
 +mov    (%eax),%edx
 +mov    0xc(%ebp),%eax
-+add    $0xf,%eax
-+mov    (%eax),%eax
++mov    0xf(%eax),%eax
 +lea    (%edx,%eax,1),%eax
 +mov    %eax,(%ecx)
  add    $0x10,%esp
@@ -129,16 +125,23 @@ _ZN16StatisticManager25AddGoldcardEventStatisticEP35Packet_Goldcard_Event_Statis
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1462 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1617 行）：
 
 ```cpp
 void StatisticManager::AddGoldcardEventStatistic(Packet_Goldcard_Event_Statistic_GTS* pkt)
 {
-    unsigned int idx = (unsigned int)(unsigned char)*(char*)((char*)pkt + 10);
+    struct __attribute__((packed)) Wire
+    {
+        char m_hdr[0xa];
+        char m_f0a;
+        int m_f0b;
+        int m_f0f;
+    };
+    unsigned int idx = (unsigned int)(unsigned char)((Wire*)pkt)->m_f0a;
     if (idx < 100)
     {
-        *(int*)((char*)this + idx * 9 + 0x48d) += *(int*)((char*)pkt + 0xb);
-        *(int*)((char*)this + idx * 9 + 0x491) += *(int*)((char*)pkt + 0xf);
+        *(int*)((char*)this + idx * 9 + 0x48d) += ((Wire*)pkt)->m_f0b;
+        *(int*)((char*)this + idx * 9 + 0x491) += ((Wire*)pkt)->m_f0f;
     }
 }
 ```

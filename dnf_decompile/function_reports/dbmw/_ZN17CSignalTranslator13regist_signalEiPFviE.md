@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805516a` | `0x8f` | `0x808d7a0` | `0x8d` |
+| dbmw | DIFF | `0x805516a` | `0x8f` | `0x80e0e60` | `0x8d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -102,21 +102,26 @@ CSignalTranslator::_ZN17CSignalTranslator13regist_signalEiPFviE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFSignalTranslator.cpp](source/DNFServer/GameServer/COServer/DNFSignalTranslator.cpp)（约第 153 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFSignalTranslator.cpp](source/DNFServer/GameServer/DBMW/DNFSignalTranslator.cpp)（约第 37 行）：
 
 ```cpp
-int CSignalTranslator::regist_signal(int sig, void (*handler)(int))
+bool CSignalTranslator::regist_signal(int sig, void (*handler)(int))
 {
-    struct sigaction sa;
+    struct sigaction act;
+    act.sa_handler = handler;
+    sigemptyset(&act.sa_mask);
+    int flags = 0;
+    if (sig == 0xe)
+        flags |= 0x20000000;
+    else
+        flags |= 0x10000000;
+    act.sa_flags = flags;
     struct sigaction old;
-    sa.sa_handler = (__sighandler_t)handler;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = (sig == 0xe) ? 0x20000000 : 0x10000000;
-    int r = sigaction(sig, &sa, &old);
-    if (-1 >= r)
+    if (sigaction(sig, &act, &old) < 0)
     {
-        printf("%d\xb9\xf8 signal \xb5\xee\xb7\xcf \xbd\xc7\xc6\xd0\n", sig);
+        printf("%d signal regist fail\n", sig);
+        return 0;
     }
-    return -1 < r;
+    return 1;
 }
 ```

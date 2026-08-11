@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8051d46` | `0x8f` | `0x805f514` | `0x8d` |
+| manager | DIFF | `0x8051d46` | `0x8f` | `0x805f3d2` | `0x8d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -57,8 +57,7 @@
 +je     <T> <_ZN17CSignalTranslator13regist_signalEiPFviE+0x86>
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
--movl   $"%d번 signal 등록 실패\n",(%esp)
-+movl   $"%d signal regist fail\n",(%esp)
+ movl   $"%d번 signal 등록 실패\n",(%esp)
  call   <T> <printf>
  mov    $0x0,%eax
 -jmp    <T> <_ZN17CSignalTranslator13regist_signalEiPFviE+0x8d>
@@ -102,21 +101,28 @@ CSignalTranslator::_ZN17CSignalTranslator13regist_signalEiPFviE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFSignalTranslator.cpp](source/DNFServer/GameServer/COServer/DNFSignalTranslator.cpp)（约第 153 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFSignalTranslator.cpp](source/DNFServer/GameServer/Manager/DNFSignalTranslator.cpp)（约第 22 行）：
 
 ```cpp
-int CSignalTranslator::regist_signal(int sig, void (*handler)(int))
+bool CSignalTranslator::regist_signal(int sig, void (*handler)(int))
 {
-    struct sigaction sa;
+    struct sigaction act;
+    act.sa_handler = handler;
+    sigemptyset(&act.sa_mask);
+    int flags = 0;
+    if (sig == 0xe)
+        flags |= 0x20000000;
+    else
+        flags |= 0x10000000;
+    act.sa_flags = flags;
     struct sigaction old;
-    sa.sa_handler = (__sighandler_t)handler;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = (sig == 0xe) ? 0x20000000 : 0x10000000;
-    int r = sigaction(sig, &sa, &old);
-    if (-1 >= r)
+    if (sigaction(sig, &act, &old) < 0)
     {
-        printf("%d\xb9\xf8 signal \xb5\xee\xb7\xcf \xbd\xc7\xc6\xd0\n", sig);
+        // ORIG 实测（0x8151c86）：EUC-KR 字节 b9f8/b5eeb7cf/bdc7c6d0
+        // = "%d번 signal 등록 실패\n"（此前误用 UTF-8 字节导致 mojibake）。
+        printf("%d\xB9\xF8 signal \xB5\xEE\xB7\xCF \xBD\xC7\xC6\xD0\n", sig);
+        return false;
     }
-    return -1 < r;
+    return true;
 }
 ```

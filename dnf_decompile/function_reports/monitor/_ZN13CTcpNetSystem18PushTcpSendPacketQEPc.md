@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8053372` | `0xe9` | `0x80a2f3e` | `0xef` |
+| monitor | NEAR | `0x8053372` | `0xe9` | `0x80a30f2` | `0xe9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -16,25 +16,24 @@
 @@ -1,69 +1,69 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
+ push   %edi
  push   %esi
  push   %ebx
--sub    $0x4c,%esp
-+sub    $0x40,%esp
+ sub    $0x4c,%esp
  mov    0x8(%ebp),%eax
  add    $0xe8,%eax
  mov    %eax,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
  mov    0xc(%ebp),%eax
 -mov    %eax,-0x28(%ebp)
-+mov    %eax,-0x14(%ebp)
++mov    %eax,-0x2c(%ebp)
  mov    0x8(%ebp),%eax
  lea    0xc0(%eax),%edx
 -lea    -0x28(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
 -call   <T> <_ZNSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE4pushEOS1_>
@@ -43,57 +42,37 @@
  add    $0xc0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE4sizeEv>
--mov    %eax,-0x1c(%ebp)
--cmpl   $0xa,-0x1c(%ebp)
--jle    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xd6>
-+mov    %eax,-0xc(%ebp)
-+cmpl   $0xa,-0xc(%ebp)
-+jle    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xdd>
-+movl   $0x91,0x8(%esp)
-+movl   $"PushTcpSendPacketQ",0x4(%esp)
-+lea    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %eax,-0x1c(%ebp)
+ cmpl   $0xa,-0x1c(%ebp)
+ jle    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xd6>
  mov    0xc(%ebp),%eax
--mov    0x6(%eax),%edi
-+add    $0x6,%eax
-+mov    (%eax),%ecx
+ mov    0x6(%eax),%edi
  mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
--movzwl %ax,%esi
-+add    $0x2,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%edx
+ movzwl 0x2(%eax),%eax
+ movzwl %ax,%esi
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
--movzwl %ax,%ebx
--movl   $0x91,0x8(%esp)
--movl   $"PushTcpSendPacketQ",0x4(%esp)
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x18(%esp)
--mov    %esi,0x14(%esp)
--mov    %ebx,0x10(%esp)
--mov    -0x1c(%ebp),%eax
-+movzwl %ax,%eax
-+mov    %ecx,0x18(%esp)
-+mov    %edx,0x14(%esp)
-+mov    %eax,0x10(%esp)
-+mov    -0xc(%ebp),%eax
+ movzwl %ax,%ebx
+ movl   $0x91,0x8(%esp)
+ movl   $&_ZZN13CTcpNetSystem18PushTcpSendPacketQEPcE12__FUNCTION__,0x4(%esp)
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %edi,0x18(%esp)
+ mov    %esi,0x14(%esp)
+ mov    %ebx,0x10(%esp)
+ mov    -0x1c(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"SEND PUSH(cnt:%d,id:%d,size:%d,ip:%d)",0x8(%esp)
  movl   $"./log/TcpSend",0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xd6>
-+jmp    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xdd>
+ jmp    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xd6>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x2c(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  mov    %esi,%eax
@@ -101,14 +80,13 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x2c(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
--add    $0x4c,%esp
-+add    $0x40,%esp
+ add    $0x4c,%esp
  pop    %ebx
  pop    %esi
--pop    %edi
+ pop    %edi
  pop    %ebp
  ret
 ```
@@ -155,21 +133,21 @@ CTcpNetSystem::_ZN13CTcpNetSystem18PushTcpSendPacketQEPc(CTcpNetSystem *this,cha
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 217 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 425 行）：
 
 ```cpp
 void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
 {
-    CGuard<CMutex> guard(&m_mutexE8);
+    CGuard<CMutex> guard(&m_mutexe8);
     CTcpSendBuffer* p = (CTcpSendBuffer*)buf;
-    m_sendQueue.push(p);
-    int n = m_sendQueue.size();
-    if (n > 0xa)
+    m_sendQ.push(p);
+    int size = (int)m_sendQ.size();
+    if (10 < size)
     {
-        CMyFileLog log("PushTcpSendPacketQ", 0x91);
-        log("./log/TcpSend", "SEND PUSH(cnt:%d,id:%d,size:%d,ip:%d)", n,
-            (unsigned short)buf[0], (unsigned short)((unsigned short*)buf)[1],
-            ((char*)buf)[6]);
+        DNF_LOG_SCOPE_LINE(0x91,"./log/TcpSend", "SEND PUSH(cnt:%d,id:%d,size:%d,ip:%d)", size,
+            (unsigned int)*(unsigned short*)buf,
+            (unsigned int)((RA_U16<2>*)buf)->v,
+            ((RA_UINT<6>*)buf)->v);
     }
 }
 ```

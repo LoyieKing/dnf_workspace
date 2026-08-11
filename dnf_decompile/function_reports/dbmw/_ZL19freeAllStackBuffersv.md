@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x818c81d` | `0x106` | `0x809dd74` | `0xc6` |
+| dbmw | DIFF | `0x818c81d` | `0x106` | `0x80f13ed` | `0xd5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,24 +13,20 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,76 +1,62 @@
+@@ -1,76 +1,61 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
 -sub    $0x34,%esp
--mov    %gs:0xfffffffc,%eax
--test   %eax,%eax
++sub    $0x24,%esp
+ mov    %gs:0xfffffffc,%eax
+ test   %eax,%eax
 -je     <T> <_ZL19freeAllStackBuffersv+0x100>
 -movb   $0x0,-0xd(%ebp)
 -cmpb   $0x0,-0xd(%ebp)
 -jne    <T> <_ZL19freeAllStackBuffersv+0xd8>
--mov    %gs:0xfffffffc,%eax
-+sub    $0x24,%esp
-+mov    %gs:0xfffffff4,%eax
-+mov    %eax,-0xc(%ebp)
-+cmpl   $0x0,-0xc(%ebp)
-+je     <T> <_ZL19freeAllStackBuffersv+0xc0>
-+mov    -0xc(%ebp),%eax
++je     <T> <_ZL19freeAllStackBuffersv+0xcf>
+ mov    %gs:0xfffffffc,%eax
  lea    0xc(%eax),%edx
 -lea    -0x18(%ebp),%eax
 +lea    -0x14(%ebp),%eax
@@ -38,64 +34,52 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIPhSaIS0_EE5beginEv>
  sub    $0x4,%esp
--mov    %gs:0xfffffffc,%eax
-+jmp    <T> <_ZL19freeAllStackBuffersv+0x6e>
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPPhSt6vectorIS1_SaIS1_EEEdeEv>
-+mov    (%eax),%eax
-+test   %eax,%eax
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZL19freeAllStackBuffersv+0x63>
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPPhSt6vectorIS1_SaIS1_EEEdeEv>
-+mov    (%eax),%eax
-+test   %eax,%eax
-+je     <T> <_ZL19freeAllStackBuffersv+0x63>
-+mov    %eax,(%esp)
-+call   <T> <_ZdaPv>
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPPhSt6vectorIS1_SaIS1_EEEppEv>
-+mov    -0xc(%ebp),%eax
+ mov    %gs:0xfffffffc,%eax
  lea    0xc(%eax),%edx
 -lea    -0x1c(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIPhSaIS0_EE3endEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZL19freeAllStackBuffersv+0xa8>
 -lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPPhSt6vectorIS1_SaIS1_EEEdeEv>
--mov    %eax,-0xc(%ebp)
++jmp    <T> <_ZL19freeAllStackBuffersv+0x91>
++lea    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPPhSt6vectorIS1_SaIS1_EEEdeEv>
++mov    (%eax),%eax
+ mov    %eax,-0xc(%ebp)
 -jmp    <T> <_ZL19freeAllStackBuffersv+0x85>
--mov    -0xc(%ebp),%eax
++cmpl   $0x0,-0xc(%ebp)
++je     <T> <_ZL19freeAllStackBuffersv+0x74>
++cmpl   $0x0,-0xc(%ebp)
++je     <T> <_ZL19freeAllStackBuffersv+0x74>
+ mov    -0xc(%ebp),%eax
 -mov    (%eax),%eax
 -test   %eax,%eax
 -je     <T> <_ZL19freeAllStackBuffersv+0x81>
 -mov    -0xc(%ebp),%eax
 -mov    (%eax),%eax
--mov    %eax,(%esp)
--call   <T> <_ZdaPv>
+ mov    %eax,(%esp)
+ call   <T> <_ZdaPv>
 -movb   $0x0,-0xd(%ebp)
 -cmpb   $0x0,-0xd(%ebp)
 -jne    <T> <_ZL19freeAllStackBuffersv+0x6b>
+-lea    -0x14(%ebp),%eax
 +lea    -0x10(%ebp),%eax
-+mov    %eax,0x4(%esp)
- lea    -0x14(%ebp),%eax
--movl   $0x0,0x8(%esp)
+ movl   $0x0,0x8(%esp)
 -lea    -0x18(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPPhSt6vectorIS1_SaIS1_EEEppEi>
--sub    $0x4,%esp
++lea    -0x14(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPPhSt6vectorIS1_SaIS1_EEEppEi>
+ sub    $0x4,%esp
 -lea    -0x1c(%ebp),%eax
--mov    %eax,0x4(%esp)
++lea    -0x18(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -lea    -0x18(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxxneIPPhSt6vectorIS1_SaIS1_EEEEbRKNS_17__normal_iteratorIT_T0_EESB_>
  test   %al,%al
@@ -108,20 +92,18 @@
 -mov    $0x0,%eax
 -test   %al,%al
 -jne    <T> <_ZL19freeAllStackBuffersv+0x5b>
--mov    %gs:0xfffffffc,%ebx
-+jne    <T> <_ZL19freeAllStackBuffersv+0x34>
-+mov    -0xc(%ebp),%ebx
++jne    <T> <_ZL19freeAllStackBuffersv+0x4d>
+ mov    %gs:0xfffffffc,%ebx
  test   %ebx,%ebx
 -je     <T> <_ZL19freeAllStackBuffersv+0xf3>
-+je     <T> <_ZL19freeAllStackBuffersv+0xb3>
++je     <T> <_ZL19freeAllStackBuffersv+0xc2>
  mov    %ebx,(%esp)
  call   <T> <_ZN18StackBufferContextD1Ev>
  mov    %ebx,(%esp)
  call   <T> <_ZdlPv>
--movl   $0x0,%gs:0xfffffffc
+ movl   $0x0,%gs:0xfffffffc
 -jmp    <T> <_ZL19freeAllStackBuffersv+0x101>
-+movl   $0x0,%gs:0xfffffff4
-+jmp    <T> <_ZL19freeAllStackBuffersv+0xc1>
++jmp    <T> <_ZL19freeAllStackBuffersv+0xd0>
  nop
  mov    -0x4(%ebp),%ebx
  leave
@@ -196,21 +178,24 @@ void freeAllStackBuffers(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/StackBuffer.cpp](source/DNFServer/GameServer/DBMW/StackBuffer.cpp)（约第 94 行）：
+定义于 [source/DNFServer/GameServer/DBMW/StackBuffer.cpp](source/DNFServer/GameServer/DBMW/StackBuffer.cpp)（约第 103 行）：
 
 ```cpp
 static void freeAllStackBuffers()
 {
-    StackBufferContext* ctx = g_stackBufferContext;
-    if (!ctx)
+    if (!g_stackBufferContext)
         return;
-    for (std::vector<unsigned char*>::iterator it = ctx->m_blocks.begin();
-         it != ctx->m_blocks.end(); ++it)
+    std::vector<unsigned char*>::iterator it =
+        g_stackBufferContext->m_blocks.begin();
+    std::vector<unsigned char*>::iterator e =
+        g_stackBufferContext->m_blocks.end();
+    for (; it != e; it++)
     {
-        if (*it)
-            delete[] *it;
+        unsigned char* p = *it;
+        if (p)
+            delete[] p;
     }
-    delete ctx;
+    delete g_stackBufferContext;
     g_stackBufferContext = 0;
 }
 ```

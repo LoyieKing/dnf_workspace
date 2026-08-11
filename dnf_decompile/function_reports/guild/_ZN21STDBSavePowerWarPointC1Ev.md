@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80aa8bc` | `0x18` | `0x80a0a4c` | `0x23` |
+| guild | DIFF | `0x80aa8bc` | `0x18` | `0x80a068c` | `0x23` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -46,7 +46,7 @@ void __thiscall STDBSavePowerWarPoint::_ZN21STDBSavePowerWarPointC1Ev(STDBSavePo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 373 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 358 行）：
 
 ```cpp
 STDBSavePowerWarPoint::STDBSavePowerWarPoint()

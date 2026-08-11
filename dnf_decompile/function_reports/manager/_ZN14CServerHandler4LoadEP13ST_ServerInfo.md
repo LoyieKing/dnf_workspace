@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | NEAR | `0x8067f1e` | `0x197` | `0x805dcbe` | `0x197` |
+| manager | NEAR | `0x8067f1e` | `0x197` | `0x805db80` | `0x197` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,30 +25,22 @@
  jmp    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x180>
 -mov    -0x1c(%ebp),%edx
 +mov    -0x20(%ebp),%edx
-+mov    %edx,%eax
-+add    %eax,%eax
-+add    %edx,%eax
-+shl    $0x2,%eax
-+add    0xc(%ebp),%eax
-+movzbl 0x1(%eax),%eax
-+cmp    $0x3,%al
-+jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x17c>
-+mov    -0x20(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
  add    %edx,%eax
  shl    $0x2,%eax
  add    0xc(%ebp),%eax
  movzbl (%eax),%eax
--cmp    $0x3,%al
--jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x17c>
+ cmp    $0x3,%al
+ jne    <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo+0x17c>
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
--movzbl 0x1(%eax),%eax
++mov    -0x20(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
+ movzbl 0x1(%eax),%eax
 -mov    %al,-0x1d(%ebp)
 -cmpb   $0x64,-0x1d(%ebp)
 +mov    %al,-0x19(%ebp)
@@ -125,7 +117,7 @@
 +lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -224,29 +216,19 @@ CServerHandler::_ZN14CServerHandler4LoadEP13ST_ServerInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFServerHandler.cpp](source/DNFServer/GameServer/COServer/DNFServerHandler.cpp)（约第 28 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 31 行）：
 
 ```cpp
-void CServerHandler::Load(ST_ServerInfo* info)
+void CServerHandler::Load(ST_ServerInfo* infos)
 {
-    for (int i = 0; i < 0x649b; i++)
+    for (int i = 0; i <= 0x64; i++)
     {
-        if (info[i].m_field0 == 1)
+        if (infos[i].m_type == 3)
         {
-            unsigned char index = info[i].m_field2;
-            unsigned char group = info[i].m_field1;
-            if (index == 0xff)
-            {
-                throw CDNFException("CServerHandler::Load() Server Table Exception Break! "
-                                    "bServerIndex >= MAX_CONN_SERVER");
-            }
-            if (100 < group)
-            {
-                throw CDNFException("CServerHandler::Load() Server Table Exception Break! "
-                                    "bServerGroup >= SERVER_GROUP_MAX");
-            }
-            m_servers[(int)group * 0xff + (int)index].Init(group, info[i].m_string,
-                                                           info[i].m_ushort, index);
+            unsigned char idx = infos[i].m_index;
+            if (idx > 0x64)
+                throw CDNFException("CServerHandler::Load() Server Table Exception Break!");
+            m_monitorServers[idx].Init(infos[i].m_name, infos[i].m_port, idx);
         }
     }
 }

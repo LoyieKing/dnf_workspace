@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808db10` | `0x64` | `0x80754b6` | `0x61` |
+| dbmw | DIFF | `0x808db10` | `0x64` | `0x80c8b4a` | `0x61` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -86,7 +86,7 @@ bool __thiscall CMySql::_ZN6CMySql7get_intEiRi(CMySql *this,int param_1,int *par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 96 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 94 行）：
 
 ```cpp
 bool CMySql::get_int(int col, unsigned int& v)

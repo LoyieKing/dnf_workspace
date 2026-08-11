@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8074c62` | `0x104` | `0x8074b82` | `0x137` |
+| statics | DIFF | `0x8074c62` | `0x104` | `0x8074d20` | `0x126` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,63 +1,82 @@
+@@ -1,63 +1,76 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -26,12 +26,8 @@
  call   <T> <_ZN18PacketInsertUpdateC1Ev>
 -movl   $0x4,-0x1016(%ebp)
 -movl   $0x4f2d,-0x1012(%ebp)
-+lea    -0x102c(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x4,(%eax)
-+lea    -0x102c(%ebp),%eax
-+add    $0xe,%eax
-+movl   $0x4f2d,(%eax)
++movl   $0x4,-0x1022(%ebp)
++movl   $0x4f2d,-0x101e(%ebp)
  mov    0xc(%ebp),%eax
 -mov    0x12(%eax),%esi
 +add    $0x12,%eax
@@ -65,8 +61,6 @@
 +mov    0xc(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
-+lea    -0x102c(%ebp),%ecx
-+lea    0x12(%ecx),%ebx
 +mov    -0x14(%ebp),%ecx
 +mov    %ecx,0x1c(%esp)
 +mov    -0x10(%ebp),%ecx
@@ -78,14 +72,12 @@
  movl   $"inSert into log_charac_money(charac_no,occ_date,m_id,money_plus,money_minus) values(%u,cast(from_unixtime(%d) as date),%s,%u,%u)",0x8(%esp)
  movl   $0x800,0x4(%esp)
 -lea    -0x1020(%ebp),%eax
--add    $0x16,%eax
--mov    %eax,(%esp)
-+mov    %ebx,(%esp)
++lea    -0x102c(%ebp),%eax
+ add    $0x16,%eax
+ mov    %eax,(%esp)
  call   <T> <snprintf>
 -movl   $0x4f2e,-0x100e(%ebp)
-+lea    -0x102c(%ebp),%eax
-+add    $0x812,%eax
-+movl   $0x4f2e,(%eax)
++movl   $0x4f2e,-0x101a(%ebp)
  mov    0xc(%ebp),%eax
 -mov    0x1a(%eax),%ebx
 +add    $0x1a,%eax
@@ -109,9 +101,8 @@
  movl   $"update log_charac_money set money_plus=money_plus+%u,money_minus=money_minus+%u where charac_no=%u and occ_date=cast(from_unixtime(%d) as date)",0x8(%esp)
  movl   $0x800,0x4(%esp)
 -lea    -0x1020(%ebp),%eax
--add    $0x817,%eax
 +lea    -0x102c(%ebp),%eax
-+add    $0x816,%eax
+ add    $0x817,%eax
  mov    %eax,(%esp)
  call   <T> <snprintf>
 -lea    -0x1020(%ebp),%eax
@@ -169,22 +160,22 @@ StatisticManager::_ZN16StatisticManager11AddMoneyLogEP14MoneyLogPacketP14CServer
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1512 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1680 行）：
 
 ```cpp
 void StatisticManager::AddMoneyLog(MoneyLogPacket* pkt, CServerHandler* handler)
 {
     PacketInsertUpdate p;
-    *(unsigned int*)((char*)&p + 0xa) = 4;
-    *(unsigned int*)((char*)&p + 0xe) = 0x4f2d;
+    p.m_handleIdx = 4;
+    p.m_updateQueryId = 0x4f2d;
     unsigned int a = *(unsigned int*)((char*)pkt + 0x12);
     unsigned int b = *(unsigned int*)((char*)pkt + 0xe);
     char* uid = NumberToString(*(unsigned int*)((char*)pkt + 0x16), 0);
-    snprintf((char*)&p + 0x12, 0x800,
+    snprintf(p.m_updateSql, 0x800,
         "inSert into log_charac_money(charac_no,occ_date,m_id,money_plus,money_minus) values(%u,cast(from_unixtime(%d) as date),%s,%u,%u)",
         *(unsigned int*)((char*)pkt + 10), *(unsigned int*)((char*)pkt + 0x1a), uid, b, a);
-    *(unsigned int*)((char*)&p + 0x812) = 0x4f2e;
-    snprintf((char*)&p + 0x816, 0x800,
+    p.m_insertQueryId = 0x4f2e;
+    snprintf(p.m_insertSql, 0x800,
         "update log_charac_money set money_plus=money_plus+%u,money_minus=money_minus+%u where charac_no=%u and occ_date=cast(from_unixtime(%d) as date)",
         *(unsigned int*)((char*)pkt + 0xe), *(unsigned int*)((char*)pkt + 0x12),
         *(unsigned int*)((char*)pkt + 10), *(unsigned int*)((char*)pkt + 0x1a));

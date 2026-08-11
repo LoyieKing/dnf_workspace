@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80724c6` | `0x227` | `0x808bbf4` | `0x21f` |
+| monitor | DIFF | `0x80724c6` | `0x227` | `0x808ba8c` | `0x21f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,27 +23,25 @@
 +sub    $0x64,%esp
  mov    0x8(%ebp),%edx
 -lea    -0x48(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x28(%ebp),%eax
  lea    0xc(%ebp),%ecx
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIKjS_IhjSt4lessIhESaISt4pairIKhjEEES1_IS0_ESaIS3_IS0_S7_EEE4findERS0_>
  sub    $0x4,%esp
--mov    0xc(%ebp),%ebx
+ mov    0xc(%ebp),%ebx
  movl   $0x418,0x8(%esp)
- movl   $"GetSchoolCount",0x4(%esp)
+ movl   $&_ZZN12CUserManager14GetSchoolCountEjPjRhE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"GetSchoolCount(%u)",0x8(%esp)
  movl   $"./log/School",0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%edx
@@ -57,7 +55,7 @@
 +lea    -0x1c(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjSt3mapIhjSt4lessIhESaIS0_IKhjEEEEEneERKSA_>
  test   %al,%al
@@ -68,7 +66,7 @@
 +je     <T> <_ZN12CUserManager14GetSchoolCountEjPjRh+0x21a>
 +movl   $0x0,-0x14(%ebp)
 +movl   $0x0,-0x10(%ebp)
-+lea    -0x20(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjSt3mapIhjSt4lessIhESaIS0_IKhjEEEEEptEv>
  add    $0x4,%eax
@@ -113,7 +111,7 @@
 -mov    -0x24(%ebp),%eax
 +addl   $0x1,-0x14(%ebp)
 +movl   $0x423,0x8(%esp)
-+movl   $"GetSchoolCount",0x4(%esp)
++movl   $&_ZZN12CUserManager14GetSchoolCountEjPjRhE12__FUNCTION__,0x4(%esp)
 +lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -131,7 +129,7 @@
 -mov    (%eax),%esi
 -mov    0xc(%ebp),%ebx
 -movl   $0x423,0x8(%esp)
--movl   $"GetSchoolCount",0x4(%esp)
+-movl   $&_ZZN12CUserManager14GetSchoolCountEjPjRhE12__FUNCTION__,0x4(%esp)
 +mov    (%eax),%edx
 +mov    0xc(%ebp),%eax
 +mov    %ecx,0x14(%esp)
@@ -196,7 +194,7 @@
  mov    0x14(%ebp),%eax
  mov    %dl,(%eax)
 +movl   $0x426,0x8(%esp)
-+movl   $"GetSchoolCount",0x4(%esp)
++movl   $&_ZZN12CUserManager14GetSchoolCountEjPjRhE12__FUNCTION__,0x4(%esp)
 +lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -205,7 +203,7 @@
 -movzbl %al,%esi
 -mov    0xc(%ebp),%ebx
 -movl   $0x426,0x8(%esp)
--movl   $"GetSchoolCount",0x4(%esp)
+-movl   $&_ZZN12CUserManager14GetSchoolCountEjPjRhE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -334,7 +332,7 @@ CUserManager::_ZN12CUserManager14GetSchoolCountEjPjRh
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 343 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 352 行）：
 
 ```cpp
 void CUserManager::GetSchoolCount(unsigned int school, unsigned int* out, unsigned char& idx)
@@ -354,13 +352,13 @@ void CUserManager::GetSchoolCount(unsigned int school, unsigned int* out, unsign
             pos++;
             out[pos] = c->second;
             pos++;
-            CMyFileLog log2("GetSchoolCount", 0x423);
+            CMyFileLog log2(__FUNCTION__, 0x423);
             log2("./log/School", "GetSchoolCount(%u) channelNo(%u) Count(%u)", school,
                  out[pos - 2], out[pos - 1]);
             n++;
         }
         idx = (unsigned char)n;
-        CMyFileLog log3("GetSchoolCount", 0x426);
+        CMyFileLog log3(__FUNCTION__, 0x426);
         log3("./log/School", "GetSchoolCount(%u) size(%d)", school, (unsigned int)idx);
     }
 }

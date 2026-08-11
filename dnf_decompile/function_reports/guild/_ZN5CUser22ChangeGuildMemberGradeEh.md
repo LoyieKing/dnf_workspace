@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8066dc0` | `0xb5` | `0x808942a` | `0xb9` |
+| guild | DIFF | `0x8066dc0` | `0xb5` | `0x808929a` | `0xbd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,78 +13,63 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,56 +1,57 @@
+@@ -1,56 +1,60 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
+ push   %edi
  push   %esi
  push   %ebx
--sub    $0x4c,%esp
-+sub    $0x40,%esp
+ sub    $0x4c,%esp
  mov    0xc(%ebp),%eax
--mov    %al,-0x2c(%ebp)
--cmpb   $0x1,-0x2c(%ebp)
+ mov    %al,-0x2c(%ebp)
+ cmpb   $0x1,-0x2c(%ebp)
 -je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x31>
--cmpb   $0x2,-0x2c(%ebp)
++je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x35>
+ cmpb   $0x2,-0x2c(%ebp)
 -je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x31>
-+mov    %al,-0x1c(%ebp)
-+cmpb   $0x1,-0x1c(%ebp)
-+je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x34>
-+cmpb   $0x2,-0x1c(%ebp)
-+je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x34>
++je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x35>
  mov    0x8(%ebp),%eax
 -movzbl 0x5f(%eax),%eax
 +add    $0x5f,%eax
 +movzbl (%eax),%eax
  cmp    $0x1,%al
 -je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x31>
-+je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x34>
++je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x35>
  mov    0x8(%ebp),%eax
 -movzbl 0x5f(%eax),%eax
 +add    $0x5f,%eax
 +movzbl (%eax),%eax
  cmp    $0x2,%al
 -jne    <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x8e>
--movzbl -0x2c(%ebp),%edi
-+jne    <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x91>
-+movl   $0x183,0x8(%esp)
-+movl   $"ChangeGuildMemberGrade",0x4(%esp)
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movzbl -0x1c(%ebp),%esi
++jne    <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x94>
+ movzbl -0x2c(%ebp),%edi
  mov    0x8(%ebp),%eax
 -movzbl 0x5f(%eax),%eax
--movzbl %al,%esi
 +add    $0x5f,%eax
 +movzbl (%eax),%eax
-+movzbl %al,%ebx
+ movzbl %al,%esi
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
--mov    %eax,%ebx
--movl   $0x183,0x8(%esp)
--movl   $"ChangeGuildMemberGrade",0x4(%esp)
--lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    %esi,0x14(%esp)
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %eax,%ebx
+ movl   $0x183,0x8(%esp)
+ movl   $&_ZZN5CUser22ChangeGuildMemberGradeEhE12__FUNCTION__,0x4(%esp)
+ lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"char(%s), old(%d), new(%d)",0x8(%esp)
  movl   $"./log/GuildModify",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x10(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
 -movzbl -0x2c(%ebp),%edx
 -mov    %dl,0x5f(%eax)
 +lea    0x5f(%eax),%edx
-+movzbl -0x1c(%ebp),%eax
++movzbl -0x2c(%ebp),%eax
 +mov    %al,(%edx)
  mov    0x8(%ebp),%eax
  add    $0x4a,%eax
@@ -92,11 +77,10 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser21SendGuildMemberDBInfoER18STGuildMemerDBInfo>
--add    $0x4c,%esp
-+add    $0x40,%esp
+ add    $0x4c,%esp
  pop    %ebx
  pop    %esi
--pop    %edi
+ pop    %edi
  pop    %ebp
  ret
 ```
@@ -130,7 +114,7 @@ void __thiscall CUser::_ZN5CUser22ChangeGuildMemberGradeEh(CUser *this,uchar par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 299 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 314 行）：
 
 ```cpp
 void CUser::ChangeGuildMemberGrade(unsigned char grade)

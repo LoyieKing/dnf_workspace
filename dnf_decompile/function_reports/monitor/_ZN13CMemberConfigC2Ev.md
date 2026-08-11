@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806b946` | `0x4a` | `0x8060f1c` | `0xb3` |
+| monitor | DIFF | `0x806b946` | `0x4a` | `0x8061126` | `0xb3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -104,7 +104,7 @@ void __thiscall CMemberConfig::_ZN13CMemberConfigC2Ev(CMemberConfig *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 30 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 31 行）：
 
 ```cpp
 CMemberConfig::CMemberConfig()

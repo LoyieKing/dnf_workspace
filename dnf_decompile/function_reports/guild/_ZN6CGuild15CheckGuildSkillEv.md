@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091296` | `0x8f` | `0x8056f3c` | `0x8a` |
+| guild | DIFF | `0x8091296` | `0x8f` | `0x8057026` | `0x8e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,44 +1,42 @@
+@@ -1,44 +1,45 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
+ push   %esi
  push   %ebx
--sub    $0x30,%esp
-+sub    $0x34,%esp
+ sub    $0x30,%esp
  mov    0x8(%ebp),%eax
 -add    $0x20,%eax
 -mov    %eax,-0xc(%ebp)
@@ -31,7 +30,7 @@
 -je     <T> <_ZN6CGuild15CheckGuildSkillEv+0x88>
 -mov    -0xc(%ebp),%eax
 -movzwl 0x42(%eax),%eax
-+je     <T> <_ZN6CGuild15CheckGuildSkillEv+0x84>
++je     <T> <_ZN6CGuild15CheckGuildSkillEv+0x87>
 +mov    0x8(%ebp),%eax
 +add    $0x62,%eax
 +movzwl (%eax),%eax
@@ -39,7 +38,7 @@
 -jne    <T> <_ZN6CGuild15CheckGuildSkillEv+0x88>
 -mov    -0xc(%ebp),%eax
 -movzbl 0x44(%eax),%eax
-+jne    <T> <_ZN6CGuild15CheckGuildSkillEv+0x84>
++jne    <T> <_ZN6CGuild15CheckGuildSkillEv+0x87>
 +mov    0x8(%ebp),%eax
 +add    $0x64,%eax
 +movzbl (%eax),%eax
@@ -47,40 +46,32 @@
 -jne    <T> <_ZN6CGuild15CheckGuildSkillEv+0x88>
 -mov    -0xc(%ebp),%eax
 -movzbl 0x1b(%eax),%eax
--movzbl %al,%esi
-+jne    <T> <_ZN6CGuild15CheckGuildSkillEv+0x84>
-+movl   $0x85c,0x8(%esp)
-+movl   $"CheckGuildSkill",0x4(%esp)
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++jne    <T> <_ZN6CGuild15CheckGuildSkillEv+0x87>
 +mov    0x8(%ebp),%eax
 +add    $0x3b,%eax
 +movzbl (%eax),%eax
-+movzbl %al,%ebx
+ movzbl %al,%esi
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild11GetGuildKeyEv>
--mov    %eax,%ebx
--movl   $0x85c,0x8(%esp)
--movl   $"CheckGuildSkill",0x4(%esp)
+ mov    %eax,%ebx
+ movl   $0x85c,0x8(%esp)
+ movl   $&_ZZN6CGuild15CheckGuildSkillEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Err : key(%d), lev(%d), gsp(0), cnt(0)",0x8(%esp)
  movl   $"./log/GuildSkill",0x4(%esp)
 -lea    -0x14(%ebp),%eax
 +lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--add    $0x30,%esp
-+add    $0x34,%esp
+ add    $0x30,%esp
  pop    %ebx
--pop    %esi
+ pop    %esi
  pop    %ebp
  ret
 ```
@@ -114,7 +105,7 @@ void __thiscall CGuild::_ZN6CGuild15CheckGuildSkillEv(CGuild *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1685 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1743 行）：
 
 ```cpp
 void CGuild::CheckGuildSkill()

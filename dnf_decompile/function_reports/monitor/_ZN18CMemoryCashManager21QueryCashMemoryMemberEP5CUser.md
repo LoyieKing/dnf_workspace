@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a127a` | `0x293` | `0x809739a` | `0x28b` |
+| monitor | DIFF | `0x80a127a` | `0x293` | `0x80974dc` | `0x289` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,191 +1,189 @@
+@@ -1,191 +1,188 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -29,7 +29,7 @@
 -je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x24>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x289>
-+je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x27d>
++je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x27b>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser7GetDBIDEv>
@@ -57,7 +57,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CCashObjectEEneERKS5_>
  test   %al,%al
 -je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x284>
-+je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x27d>
++je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x27b>
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CCashObjectEEptEv>
@@ -82,7 +82,7 @@
 -call   <T> <_ZN11CCashObject18DeleteMemberObjectEv>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x289>
-+je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x27d>
++je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x27b>
  mov    0x8(%ebp),%eax
  mov    0x30(%eax),%eax
  mov    %eax,(%esp)
@@ -99,7 +99,7 @@
 -mov    -0x1c(%ebp),%eax
 +mov    %eax,-0x18(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
-+je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x26e>
++je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x26c>
 +mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN7CMember16GetMemberDBInfoWEv>
@@ -186,9 +186,7 @@
 -nop
  addl   $0x1,-0x10(%ebp)
  mov    -0x14(%ebp),%eax
--movzbl 0x27(%eax),%eax
-+add    $0x27,%eax
-+movzbl (%eax),%eax
+ movzbl 0x27(%eax),%eax
  movzbl %al,%eax
  cmp    -0x10(%ebp),%eax
  setg   %al
@@ -205,14 +203,14 @@
 +call   <T> <_ZN14CMemberManager18LoadMemberFromCashEP5CUserP7CMember>
 +mov    %al,-0x21(%ebp)
 +cmpb   $0x0,-0x21(%ebp)
-+je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x239>
++je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x237>
 +mov    0x8(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN18CMemoryCashManager19incMemberCashHitCntEv>
 +mov    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN11CCashObject17ClearMemberObjectEv>
-+jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x261>
++jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x25f>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x34(%ebp),%eax
@@ -231,7 +229,7 @@
 -mov    %eax,0x8(%esp)
 -mov    0xc(%ebp),%eax
 -mov    %eax,0x4(%esp)
-+jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x27d>
++jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x27b>
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
 -call   <T> <_ZN14CMemberManager18LoadMemberFromCashEP5CUserP7CMember>
@@ -360,7 +358,7 @@ CMemoryCashManager::_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 83 行）：
+定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 87 行）：
 
 ```cpp
 char CMemoryCashManager::QueryCashMemoryMember(CUser* user)
@@ -386,7 +384,7 @@ char CMemoryCashManager::QueryCashMemoryMember(CUser* user)
                         memset((char*)dbInfo + 5 * 4, 0, 0x1e);
                         strncpy((char*)dbInfo + 5 * 4, name.c_str(), 0x1d);
                     }
-                    for (int i = 0; i < (int)*(unsigned char*)((char*)dbInfo + 0x27); i++)
+                    for (int i = 0; i < (int)((RA_U8<39>*)dbInfo)->v; i++)
                     {
                         unsigned int* sub =
                             (unsigned int*)((char*)dbInfo + i * 0x27 + 0x28);

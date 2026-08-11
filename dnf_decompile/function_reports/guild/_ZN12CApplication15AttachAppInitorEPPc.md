@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8062f74` | `0x1af` | `0x804ea62` | `0x28f` |
+| guild | DIFF | `0x8062f74` | `0x1af` | `0x804eabc` | `0x28f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -81,7 +81,7 @@
 +lea    -0x21(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
-+movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
++movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
 +movl   $&_ZTI13CDNFException,0x4(%esp)
 +mov    %ebx,(%esp)
 +call   <T> <__cxa_throw>
@@ -229,7 +229,7 @@
 +lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -291,23 +291,25 @@ CApplication::_ZN12CApplication15AttachAppInitorEPPc(CApplication *this,char **p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 292 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFApplication.cpp](source/DNFServer/GameServer/Guild/DNFApplication.cpp)（约第 337 行）：
 
 ```cpp
 void CApplication::AttachAppInitor(char** argv)
 {
-    const char* cmd = argv[2];
-    if (strcmp(cmd, "start") == 0 || strcmp(cmd, "nofork") == 0)
+    if (argv[2] == 0)
+    {
+        throw CDNFException("CApplication::AttachAppInitor() invalid argv[2]!");
+    }
+    if (strcmp(argv[2], "start") == 0 || strcmp(argv[2], "nofork") == 0)
     {
         m_appInit = new CAppStartInit;
         return;
     }
-    if (strcmp(cmd, "stop") == 0)
+    if (strcmp(argv[2], "stop") == 0)
     {
         m_appInit = new CAppStopInit;
         return;
     }
-    throw CDNFException("CApplication::AttachAppInitor() \xbd\xc7\xc7\xe0 "
-                        "\xbe\xc6\xb1\xd4\xb8\xd5\xc6\xae \xbf\xc0\xb7\xf9\n");
+    throw CDNFException("CApplication::AttachAppInitor() invalid mode!");
 }
 ```

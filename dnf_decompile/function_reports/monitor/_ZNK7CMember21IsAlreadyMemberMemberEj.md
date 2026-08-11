@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8098e84` | `0x4b` | `0x8060a4a` | `0x3d` |
+| monitor | DIFF | `0x8098e84` | `0x4b` | `0x8060c7e` | `0x3d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -78,7 +78,7 @@ undefined4 __thiscall CMember::_ZNK7CMember21IsAlreadyMemberMemberEj(CMember *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 510 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 512 行）：
 
 ```cpp
 char CMember::IsAlreadyMemberMember(unsigned int charNo) const

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x806181e` | `0x19f` | `0x8054844` | `0x194` |
+| manager | DIFF | `0x806181e` | `0x19f` | `0x80547ce` | `0x19b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,25 +13,20 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,104 +1,97 @@
+@@ -1,104 +1,102 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
--push   %ebx
--sub    $0x40,%esp
-+sub    $0x48,%esp
+ push   %esi
+ push   %ebx
+ sub    $0x40,%esp
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  add    $0x60,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
-+mov    0x8(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
  mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    0x8(%ebp),%eax
 -mov    0xb028(%eax),%eax
 -mov    %eax,%edx
 +mov    0xb028(%eax),%edx
@@ -46,7 +41,7 @@
  mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x10(%ebp)
 -je     <T> <_ZN6CMySql10exec_queryEv+0x193>
-+je     <T> <_ZN6CMySql10exec_queryEv+0x18d>
++je     <T> <_ZN6CMySql10exec_queryEv+0x18f>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
  mov    %eax,(%esp)
@@ -60,12 +55,12 @@
  mov    0xb02c(%eax),%eax
  cmp    $0x7d5,%eax
 -je     <T> <_ZN6CMySql10exec_queryEv+0x87>
-+je     <T> <_ZN6CMySql10exec_queryEv+0x81>
++je     <T> <_ZN6CMySql10exec_queryEv+0x83>
  mov    0x8(%ebp),%eax
  mov    0xb02c(%eax),%eax
  cmp    $0x7dd,%eax
 -jne    <T> <_ZN6CMySql10exec_queryEv+0xe5>
-+jne    <T> <_ZN6CMySql10exec_queryEv+0xdf>
++jne    <T> <_ZN6CMySql10exec_queryEv+0xe1>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
  mov    %eax,(%esp)
@@ -73,11 +68,11 @@
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN6CMySql10exec_queryEv+0xdb>
-+je     <T> <_ZN6CMySql10exec_queryEv+0xd5>
++je     <T> <_ZN6CMySql10exec_queryEv+0xd7>
  movl   $0xa3,0x8(%esp)
- movl   $"exec_query",0x4(%esp)
+ movl   $&_ZZN6CMySql10exec_queryEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
@@ -85,46 +80,42 @@
  movl   $"DB reconnection fail. %d\n",0x8(%esp)
  movl   $"./log/MysqlErr.log",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x2,%eax
 -jmp    <T> <_ZN6CMySql10exec_queryEv+0x198>
-+jmp    <T> <_ZN6CMySql10exec_queryEv+0x192>
++jmp    <T> <_ZN6CMySql10exec_queryEv+0x194>
  mov    0x8(%ebp),%eax
  mov    0xb02c(%eax),%eax
  cmp    $0x426,%eax
 -je     <T> <_ZN6CMySql10exec_queryEv+0x18c>
--mov    0x8(%ebp),%eax
--lea    0x1c(%eax),%esi
--mov    0x8(%ebp),%eax
--mov    0xb02c(%eax),%ebx
-+je     <T> <_ZN6CMySql10exec_queryEv+0x186>
++je     <T> <_ZN6CMySql10exec_queryEv+0x188>
+ mov    0x8(%ebp),%eax
+ lea    0x1c(%eax),%esi
+ mov    0x8(%ebp),%eax
+ mov    0xb02c(%eax),%ebx
  movl   $0xaa,0x8(%esp)
- movl   $"exec_query",0x4(%esp)
- lea    -0x20(%ebp),%eax
+ movl   $&_ZZN6CMySql10exec_queryEvE12__FUNCTION__,0x4(%esp)
+-lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+lea    0x1c(%eax),%edx
-+mov    0x8(%ebp),%eax
-+mov    0xb02c(%eax),%eax
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"DB error occured (%d) Query('%s')\n",0x8(%esp)
  movl   $"./log/MysqlErr.log",0x4(%esp)
- lea    -0x20(%ebp),%eax
+-lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
  mov    0xb02c(%eax),%eax
  cmp    $0x7d6,%eax
 -jne    <T> <_ZN6CMySql10exec_queryEv+0x18c>
-+jne    <T> <_ZN6CMySql10exec_queryEv+0x186>
++jne    <T> <_ZN6CMySql10exec_queryEv+0x188>
  movl   $0xac,0x8(%esp)
- movl   $"exec_query",0x4(%esp)
+ movl   $&_ZZN6CMySql10exec_queryEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
@@ -137,13 +128,12 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x1,%eax
 -jmp    <T> <_ZN6CMySql10exec_queryEv+0x198>
-+jmp    <T> <_ZN6CMySql10exec_queryEv+0x192>
++jmp    <T> <_ZN6CMySql10exec_queryEv+0x194>
  mov    $0x0,%eax
--add    $0x40,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
-+leave
+ add    $0x40,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -205,7 +195,7 @@ undefined4 __thiscall CMySql::_ZN6CMySql10exec_queryEv(CMySql *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 127 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFMySql.cpp](source/DNFServer/GameServer/Manager/DNFMySql.cpp)（约第 49 行）：
 
 ```cpp
 int CMySql::exec_query()
@@ -215,44 +205,24 @@ int CMySql::exec_query()
     if (ret != 0)
     {
         m_lastErrno = mysql_errno(m_mysql);
-        if (m_lastErrno == 0x7d5 || m_lastErrno == 0x7dd ||
-            m_lastErrno == 0x7d6)
+        if (m_lastErrno == 0x7d5 || m_lastErrno == 0x7dd)
         {
-            int ping = mysql_ping(m_mysql);
-            if (ping != 0)
+            int pingRet = mysql_ping(m_mysql);
+            if (pingRet != 0)
             {
-                int e = mysql_errno(m_mysql);
-                if (e == 0x7d6)
-                {
-                    if (!mysql_real_connect(m_mysql, m_host, m_pass, m_db,
-                                            m_user, 0xcea, 0, 0x400))
-                    {
-                        int e2 = mysql_errno(m_mysql);
-                        CMyFileLog log("exec_query", 0x118);
-                        log("./log/MysqlErr.log",
-                            "DB reconnection fail. err_no(%d)\n", e2);
-                    }
-                    else
-                    {
-                        CMyFileLog log("exec_query", 0x11c);
-                        log("./log/MysqlErr.log",
-                            "DB Reconnect By Server Gone Error\n");
-                    }
-                }
+                CMyFileLog log(__FUNCTION__, 0xa3);
+                log("./log/MysqlErr.log", "DB reconnection fail. %d\n", pingRet);
             }
             return 2;
         }
         if (m_lastErrno != 0x426)
         {
-            CMyFileLog log("exec_query", 0x12a);
-            log("./log/MysqlErr.log",
-                "DB error occured (%d) Query('%s')\n", m_lastErrno, m_query);
+            DNF_LOG_SCOPE_LINE(0xaa, "./log/MysqlErr.log", "DB error occured (%d) Query('%s')\n", m_lastErrno, m_query);
             if (m_lastErrno == 0x7d6)
             {
-                CMyFileLog log2("exec_query", 300);
-                log2("./log/MysqlErr.log",
-                     "CMySql::open() Function Error!\tCheck Connection First, Must Be Not Connected!\n",
-                     m_lastErrno, m_query);
+                CMyFileLog log(__FUNCTION__, 0xac);
+                log("./log/MysqlErr.log",
+                    "CMySql::open() Function Error!\tCheck Connection First, Must Be Not Connected!\n");
             }
         }
         return 1;

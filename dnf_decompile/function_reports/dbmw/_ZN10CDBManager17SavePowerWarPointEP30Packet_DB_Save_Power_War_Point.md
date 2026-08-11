@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807aafe` | `0x1c3` | `0x804ee6a` | `0x1d9` |
+| dbmw | DIFF | `0x807aafe` | `0x1c3` | `0x804ee58` | `0x1d9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -31,41 +31,9 @@
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%esi
+ mov    (%eax),%esi
 -mov    0xc(%ebp),%eax
 -movzbl 0xa(%eax),%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0xa,%edx
-+movzbl (%edx),%edx
-+movzbl %dl,%esi
-+mov    -0xc(%ebp),%edx
-+add    $0xb,%edx
-+movzbl (%edx),%edx
-+movsbl %dl,%ebx
-+mov    -0xc(%ebp),%edx
-+add    $0x10,%edx
-+mov    (%edx),%ecx
-+mov    -0xc(%ebp),%edx
-+add    $0xc,%edx
-+mov    (%edx),%edx
-+mov    %esi,0x18(%esp)
-+mov    %ebx,0x14(%esp)
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
-+movl   $"upDate power_war set a_side_point=%d, b_side_point=%d, winner_side=%d where server_id = %d",0x8(%esp)
-+movl   $0x4e81,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager17SavePowerWarPointEP30Packet_DB_Save_Power_War_Point+0xf0>
-+movl   $0x12ce,0x8(%esp)
-+movl   $"SavePowerWarPoint",0x4(%esp)
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0xc(%ebp),%eax
 +add    $0xa,%eax
 +movzbl (%eax),%eax
@@ -90,13 +58,14 @@
  mov    %ecx,0x14(%esp)
  mov    %edx,0x10(%esp)
  mov    %eax,0xc(%esp)
--movl   $"upDate power_war set a_side_point=%d, b_side_point=%d, winner_side=%d where server_id = %d",0x8(%esp)
--movl   $0x4e81,0x4(%esp)
+ movl   $"upDate power_war set a_side_point=%d, b_side_point=%d, winner_side=%d where server_id = %d",0x8(%esp)
+ movl   $0x4e81,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%esi
--xor    $0x1,%eax
--test   %al,%al
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%esi
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager17SavePowerWarPointEP30Packet_DB_Save_Power_War_Point+0xe1>
 -mov    0xc(%ebp),%eax
 -movzbl 0xa(%eax),%eax
@@ -109,16 +78,36 @@
 -mov    0x10(%eax),%esi
 -mov    0xc(%ebp),%eax
 -mov    0xc(%eax),%ebx
--movl   $0x12ce,0x8(%esp)
--movl   $"SavePowerWarPoint",0x4(%esp)
++je     <T> <_ZN10CDBManager17SavePowerWarPointEP30Packet_DB_Save_Power_War_Point+0xf0>
+ movl   $0x12ce,0x8(%esp)
+ movl   $&_ZZN10CDBManager17SavePowerWarPointEP30Packet_DB_Save_Power_War_PointE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x2c(%ebp),%eax
 -mov    %eax,0x18(%esp)
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
++mov    -0xc(%ebp),%eax
++add    $0xa,%eax
++movzbl (%eax),%eax
++movzbl %al,%ebx
++mov    -0xc(%ebp),%eax
++add    $0xb,%eax
++movzbl (%eax),%eax
++movsbl %al,%ecx
++mov    -0xc(%ebp),%eax
++add    $0x10,%eax
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0xc,%eax
++mov    (%eax),%eax
++mov    %ebx,0x18(%esp)
++mov    %ecx,0x14(%esp)
++mov    %edx,0x10(%esp)
++mov    %eax,0xc(%esp)
  movl   $"CDBManager::SavePowerWarPoint() : upDate power_war set a_side_point=%d, b_side_point=%d, winner_side=%d where server_id = %d",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x28(%ebp),%eax
@@ -132,17 +121,14 @@
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e81,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x1d(%ebp)
 -movzbl -0x1d(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN10CDBManager17SavePowerWarPointEP30Packet_DB_Save_Power_War_Point+0x121>
@@ -151,14 +137,11 @@
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  or     %edx,%eax
  test   %eax,%eax
 -jne    <T> <_ZN10CDBManager17SavePowerWarPointEP30Packet_DB_Save_Power_War_Point+0x128>
@@ -174,49 +157,40 @@
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%esi
+ mov    (%eax),%esi
 -mov    0xc(%ebp),%eax
 -movzbl 0xa(%eax),%eax
--movzbl %al,%ebx
++mov    -0xc(%ebp),%eax
++add    $0xa,%eax
++movzbl (%eax),%eax
+ movzbl %al,%ebx
 -mov    0xc(%ebp),%eax
 -movzbl 0xb(%eax),%eax
--movsbl %al,%ecx
++mov    -0xc(%ebp),%eax
++add    $0xb,%eax
++movzbl (%eax),%eax
+ movsbl %al,%ecx
 -mov    0xc(%ebp),%eax
 -mov    0x10(%eax),%edx
 -mov    0xc(%ebp),%eax
 -mov    0xc(%eax),%eax
--mov    %ebx,0x18(%esp)
--mov    %ecx,0x14(%esp)
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
++mov    -0xc(%ebp),%eax
++add    $0x10,%eax
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0xc,%eax
 +mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0xa,%edx
-+movzbl (%edx),%edx
-+movzbl %dl,%esi
-+mov    -0xc(%ebp),%edx
-+add    $0xb,%edx
-+movzbl (%edx),%edx
-+movsbl %dl,%ebx
-+mov    -0xc(%ebp),%edx
-+add    $0x10,%edx
-+mov    (%edx),%ecx
-+mov    -0xc(%ebp),%edx
-+add    $0xc,%edx
-+mov    (%edx),%edx
-+mov    %esi,0x18(%esp)
-+mov    %ebx,0x14(%esp)
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
+ mov    %ebx,0x18(%esp)
+ mov    %ecx,0x14(%esp)
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"inSert into power_war set a_side_point=%d, b_side_point=%d, winner_side=%d ,server_id = %d",0x8(%esp)
  movl   $0x4e82,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%esi
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%esi
 -mov    -0x1c(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager17SavePowerWarPointEP30Packet_DB_Save_Power_War_Point+0x1a5>
@@ -225,17 +199,14 @@
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e82,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x1d(%ebp)
 -movzbl -0x1d(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager17SavePowerWarPointEP30Packet_DB_Save_Power_War_Point+0x1b6>
@@ -316,7 +287,7 @@ CDBManager::_ZN10CDBManager17SavePowerWarPointEP30Packet_DB_Save_Power_War_Point
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 489 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 491 行）：
 
 ```cpp
 char CDBManager::SavePowerWarPoint(Packet_DB_Save_Power_War_Point* packet)
@@ -328,7 +299,7 @@ char CDBManager::SavePowerWarPoint(Packet_DB_Save_Power_War_Point* packet)
                       *(unsigned int*)(p + 0xc), *(unsigned int*)(p + 0x10),
                       *(signed char*)(p + 0xb), *(unsigned char*)(p + 0xa)))
     {
-        CMyFileLog log("SavePowerWarPoint", 0x12ce);
+        CMyFileLog log(__FUNCTION__, 0x12ce);
         log("./log/DBQueryErr",
             "CDBManager::SavePowerWarPoint() : upDate power_war set a_side_point=%d, b_side_point=%d, winner_side=%d where server_id = %d",
             *(unsigned int*)(p + 0xc), *(unsigned int*)(p + 0x10),

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809a2c6` | `0xb8` | `0x80621fc` | `0xb6` |
+| monitor | DIFF | `0x809a2c6` | `0xb8` | `0x80623f2` | `0xbb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,51 +1,48 @@
+@@ -1,51 +1,51 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
--sub    $0x34,%esp
-+sub    $0x38,%esp
+ push   %ebx
+ sub    $0x34,%esp
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -31,7 +30,7 @@
 -je     <T> <_ZN14CMemberManager21NoticeLevelUpToLowersEjj+0xb2>
 +mov    %eax,-0x10(%ebp)
 +cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN14CMemberManager21NoticeLevelUpToLowersEjj+0xb4>
++je     <T> <_ZN14CMemberManager21NoticeLevelUpToLowersEjj+0xb5>
  mov    0x8(%ebp),%eax
  mov    0x24(%eax),%eax
  mov    0x10(%ebp),%edx
@@ -54,15 +53,14 @@
  call   <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj>
 -movzbl %al,%ebx
 +mov    %al,-0x9(%ebp)
++movzbl -0x9(%ebp),%ebx
  movl   $0x180,0x8(%esp)
- movl   $"NoticeLevelUpToLowers",0x4(%esp)
+ movl   $&_ZZN14CMemberManager21NoticeLevelUpToLowersEjjE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x14(%esp)
-+movzbl -0x9(%ebp),%eax
-+mov    %eax,0x14(%esp)
+ mov    %ebx,0x14(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,0x10(%esp)
  mov    0xc(%ebp),%eax
@@ -73,10 +71,9 @@
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--add    $0x34,%esp
--pop    %ebx
--pop    %ebp
-+leave
+ add    $0x34,%esp
+ pop    %ebx
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C

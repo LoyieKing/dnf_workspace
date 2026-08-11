@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804f1f2` | `0x5c` | `0x808695a` | `0x55` |
+| guild | DIFF | `0x804f1f2` | `0x5c` | `0x8086758` | `0x60` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,25 +1,24 @@
+@@ -1,25 +1,27 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x28,%esp
@@ -36,13 +36,15 @@
  mov    %eax,0x4(%esp)
  movl   $"Could not create a TDP socket : %d\n",(%esp)
  call   <T> <printf>
--mov    $0x0,%eax
--jmp    <T> <_ZN9TCPSocket4openEv+0x5a>
--mov    $0x1,%eax
 +mov    0x8(%ebp),%eax
 +mov    (%eax),%eax
 +cmp    $0xffffffff,%eax
-+setne  %al
++je     <T> <_ZN9TCPSocket4openEv+0x59>
++mov    $0x1,%eax
++jmp    <T> <_ZN9TCPSocket4openEv+0x5e>
+ mov    $0x0,%eax
+-jmp    <T> <_ZN9TCPSocket4openEv+0x5a>
+-mov    $0x1,%eax
  leave
  ret
 ```
@@ -71,17 +73,20 @@ bool __thiscall TCPSocket::_ZN9TCPSocket4openEv(TCPSocket *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 37 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 94 行）：
 
 ```cpp
-char TCPSocket::open()
+bool TCPSocket::open()
 {
-    m_fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (m_fd == -1)
+    m_sock = socket(2, 1, 0);
+    if (m_sock == -1)
     {
-        printf("socket error %d", errno);
-        return 0;
+        printf("Could not create a TDP socket : %d\n", errno);
     }
-    return 1;
+    if (m_sock != -1)
+    {
+        return true;
+    }
+    return false;
 }
 ```

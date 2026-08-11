@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80749bc` | `0x2f6` | `0x8059154` | `0x2e0` |
+| dbmw | DIFF | `0x80749bc` | `0x2f6` | `0x8058f38` | `0x2e0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -28,30 +28,22 @@
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    0x10(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect charac_no from guild_member where guild_id = %d and server_id = %d and member_flag = 1",0x8(%esp)
  movl   $0x4e39,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x24(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0xa1>
 +je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0xa0>
  movl   $0x82b,0x8(%esp)
- movl   $"AwardGuildTitleByMail",0x4(%esp)
+ movl   $&_ZZN10CDBManager21AwardGuildTitleByMailEijjPcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
@@ -72,17 +64,13 @@
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e39,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x25(%ebp)
 -movzbl -0x25(%ebp),%eax
-+mov    -0x24(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0xd3>
@@ -93,14 +81,10 @@
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x24(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,-0x1c(%ebp)
  movl   $0x0,(%esp)
  call   <T> <time>
@@ -130,16 +114,12 @@
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x25(%ebp)
 -movzbl -0x25(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x24(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x16b>
@@ -151,21 +131,16 @@
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -lea    -0x3c(%ebp),%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+lea    -0x34(%ebp),%edx
-+mov    %edx,0x8(%esp)
++lea    -0x34(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x25(%ebp)
 -movzbl -0x25(%ebp),%eax
-+mov    -0x24(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x1a4>
@@ -179,46 +154,15 @@
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%ecx
+ mov    (%eax),%ecx
 -mov    -0x3c(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x34(%ebp),%edx
-+mov    0x18(%ebp),%ecx
-+mov    %ecx,0x30(%esp)
-+movl   $0x0,0x2c(%esp)
-+movl   $0x0,0x28(%esp)
-+mov    0x1c(%ebp),%ecx
-+mov    %ecx,0x24(%esp)
-+mov    -0xc(%ebp),%ecx
-+mov    %ecx,0x20(%esp)
-+mov    0x14(%ebp),%ecx
-+mov    %ecx,0x1c(%esp)
-+movl   $0x0,0x18(%esp)
-+mov    %edx,0x14(%esp)
-+movl   $0x0,0x10(%esp)
-+mov    -0x14(%ebp),%edx
-+mov    %edx,0xc(%esp)
-+movl   $"inSert into postal (occ_time, send_charac_no, receive_charac_no, seal_flag, item_id, add_info, endurance, upgrade, gold, send_charac_name ) values ( from_unixtime( %d ), %d, %d, %d, %d, %d, %d, %d, %d,'%s')",0x8(%esp)
-+movl   $0x4e3a,0x4(%esp)
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2c4>
-+movl   $0x87d,0x8(%esp)
-+movl   $"AwardGuildTitleByMail",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x34(%ebp),%eax
  mov    0x18(%ebp),%edx
  mov    %edx,0x30(%esp)
  movl   $0x0,0x2c(%esp)
  movl   $0x0,0x28(%esp)
--mov    0x1c(%ebp),%edx
--mov    %edx,0x24(%esp)
-+movl   $0x0,0x24(%esp)
+ mov    0x1c(%ebp),%edx
+ mov    %edx,0x24(%esp)
  mov    -0xc(%ebp),%edx
  mov    %edx,0x20(%esp)
  mov    0x14(%ebp),%edx
@@ -228,34 +172,44 @@
  movl   $0x0,0x10(%esp)
  mov    -0x14(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"inSert into postal (occ_time, send_charac_no, receive_charac_no, seal_flag, item_id, add_info, endurance, upgrade, gold, send_charac_name ) values ( from_unixtime( %d ), %d, %d, %d, %d, %d, %d, %d, %d,'%s')",0x8(%esp)
--movl   $0x4e3a,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
--xor    $0x1,%eax
--test   %al,%al
+ movl   $"inSert into postal (occ_time, send_charac_no, receive_charac_no, seal_flag, item_id, add_info, endurance, upgrade, gold, send_charac_name ) values ( from_unixtime( %d ), %d, %d, %d, %d, %d, %d, %d, %d,'%s')",0x8(%esp)
+ movl   $0x4e3a,0x4(%esp)
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ecx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2ab>
 -mov    -0x3c(%ebp),%ebx
--movl   $0x87d,0x8(%esp)
--movl   $"AwardGuildTitleByMail",0x4(%esp)
++je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2c4>
+ movl   $0x87d,0x8(%esp)
+ movl   $&_ZZN10CDBManager21AwardGuildTitleByMailEijjPcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++lea    -0x3c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    0x18(%ebp),%eax
 -mov    %eax,0x30(%esp)
--movl   $0x0,0x2c(%esp)
--movl   $0x0,0x28(%esp)
--movl   $0x0,0x24(%esp)
++mov    -0x34(%ebp),%eax
++mov    0x18(%ebp),%edx
++mov    %edx,0x30(%esp)
+ movl   $0x0,0x2c(%esp)
+ movl   $0x0,0x28(%esp)
+ movl   $0x0,0x24(%esp)
 -mov    -0xc(%ebp),%eax
 -mov    %eax,0x20(%esp)
 -mov    0x14(%ebp),%eax
 -mov    %eax,0x1c(%esp)
--movl   $0x0,0x18(%esp)
++mov    -0xc(%ebp),%edx
++mov    %edx,0x20(%esp)
++mov    0x14(%ebp),%edx
++mov    %edx,0x1c(%esp)
+ movl   $0x0,0x18(%esp)
 -mov    %ebx,0x14(%esp)
--movl   $0x0,0x10(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,0xc(%esp)
++mov    %eax,0x14(%esp)
+ movl   $0x0,0x10(%esp)
+ mov    -0x14(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"CDBManager::AwardGuildTitleByMail() Fatal Error Break : insert into postal (occ_time, send_charac_no, receive_charac_no, seal_flag, item_id, add_info, endurance, upgrade, gold, send_charac_name ) values ( from_unixtime( %d ), %d, %d, %d, %d, %d, %d, %d, %d,'%s')\n",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x30(%ebp),%eax
@@ -265,15 +219,11 @@
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e3a,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj+0x2d3>
@@ -384,4 +334,4 @@ CDBManager::_ZN10CDBManager21AwardGuildTitleByMailEijjPcj
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

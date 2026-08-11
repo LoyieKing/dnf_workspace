@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8067606` | `0x47` | `0x8089c60` | `0x5b` |
+| guild | DIFF | `0x8067606` | `0x47` | `0x8089ad0` | `0x5b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -78,7 +78,7 @@ void __thiscall CUser::_ZN5CUser32MakeGameServerSendUserInfoPacketEj(CUser *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 457 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 475 行）：
 
 ```cpp
 void CUser::MakeGameServerSendUserInfoPacket(unsigned int guildKey)

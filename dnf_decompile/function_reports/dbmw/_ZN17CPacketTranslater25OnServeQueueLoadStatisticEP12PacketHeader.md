@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809b694` | `0x16c` | `0x8083f4a` | `0x13d` |
+| dbmw | DIFF | `0x809b694` | `0x16c` | `0x80d75b2` | `0x13f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,105 +1,89 @@
+@@ -1,105 +1,90 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,7 +22,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x164>
-+je     <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x135>
++je     <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x137>
  mov    0x8(%ebp),%eax
  mov    %eax,-0x14(%ebp)
 -mov    -0x14(%ebp),%eax
@@ -59,45 +59,34 @@
  mov    %ebx,(%esp)
  call   <T> <_ZN10CDBManager28SaveServerQueueLoadStatisticEhii>
 -jmp    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x165>
-+jmp    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x136>
++jmp    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x138>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x108>
-+jne    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0xd9>
++jne    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0xdb>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0xae8,0x8(%esp)
-+movl   $"OnServeQueueLoadStatistic",0x4(%esp)
-+lea    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0xae8,0x8(%esp)
--movl   $"OnServeQueueLoadStatistic",0x4(%esp)
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0xae8,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnServeQueueLoadStatistic() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x101>
-+jmp    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0xd2>
++jmp    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0xd4>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -107,23 +96,21 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x165>
-+jmp    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x136>
++jmp    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x138>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xaed,0x8(%esp)
- movl   $"OnServeQueueLoadStatistic",0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnServeQueueLoadStatistic() Exception Break\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x15d>
-+jmp    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x12e>
++jmp    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x130>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -133,7 +120,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x165>
-+jmp    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x136>
++jmp    <T> <_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12PacketHeader+0x138>
  nop
  add    $0x30,%esp
  pop    %ebx
@@ -174,7 +161,7 @@ void CPacketTranslater::_ZN17CPacketTranslater25OnServeQueueLoadStatisticEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1719 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1806 行）：
 
 ```cpp
 void CPacketTranslater::OnServeQueueLoadStatistic(PacketHeader* header)

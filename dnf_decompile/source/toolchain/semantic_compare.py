@@ -20,7 +20,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
+ROOT = Path('/home/loyieking/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/community/df_community_r'
 NEW = ROOT / 'dnf_decompile/build/community/df_community_r'
 

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x805a90c` | `0x2c` | `0x80877be` | `0x26` |
+| guild | DIFF | `0x805a90c` | `0x2c` | `0x8087602` | `0x26` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -24,17 +24,15 @@
  mov    (%eax),%eax
  add    $0x10,%eax
 -mov    (%eax),%edx
--mov    0x8(%ebp),%eax
++mov    (%eax),%ecx
+ mov    0x8(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
 +mov    0x8(%ebp),%edx
-+mov    0x8(%ebp),%ecx
-+mov    %ecx,0x4(%esp)
-+mov    %edx,(%esp)
-+call   *%eax
++mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+-call   *%edx
++call   *%ecx
  mov    $0x0,%eax
  leave
  ret
@@ -55,13 +53,12 @@ undefined4 CThreadInterface::_ZN16CThreadInterface14dispatch_proxyEPv(void *para
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFThreadInterface.cpp](source/DNFServer/GameServer/COServer/DNFThreadInterface.cpp)（约第 38 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFThreadInterface.cpp](source/DNFServer/GameServer/Guild/DNFThreadInterface.cpp)（约第 101 行）：
 
 ```cpp
 void* CThreadInterface::dispatch_proxy(void* temp)
 {
-    CThreadInterface* th = (CThreadInterface*)temp;
-    th->dispatch(temp);
+    ((CThreadInterface*)temp)->dispatch(temp);
     return 0;
 }
 ```

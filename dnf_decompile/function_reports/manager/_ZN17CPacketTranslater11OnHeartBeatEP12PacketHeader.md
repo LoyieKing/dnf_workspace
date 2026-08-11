@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8064472` | `0x2e6` | `0x805a288` | `0x2e8` |
+| manager | DIFF | `0x8064472` | `0x2e6` | `0x805a142` | `0x2e8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -75,7 +75,7 @@
 -call   <T> <printf>
 -movzbl -0x1d(%ebp),%ebx
 -movl   $0x43,0x8(%esp)
--movl   $"OnHeartBeat",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater11OnHeartBeatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -156,7 +156,7 @@
 +lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -195,7 +195,7 @@
 +movl   $"First Heart Beat Arrived From %d Group Monitor!\n",(%esp)
 +call   <T> <printf>
 +movl   $0x43,0x8(%esp)
-+movl   $"OnHeartBeat",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater11OnHeartBeatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -216,39 +216,32 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnHeartBeat() Exception Break : %s\n",(%esp)
  call   <T> <printf>
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
- movl   $0x52,0x8(%esp)
- movl   $"OnHeartBeat",0x4(%esp)
--lea    -0x38(%ebp),%eax
++movl   $0x52,0x8(%esp)
++movl   $&_ZZN17CPacketTranslater11OnHeartBeatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+ call   *%edx
+-mov    %eax,%ebx
+-movl   $0x52,0x8(%esp)
+-movl   $&_ZZN17CPacketTranslater11OnHeartBeatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x38(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnHeartBeat() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -273,7 +266,7 @@
  movl   $"CPacketTranslater::OnHeartBeat() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x58,0x8(%esp)
- movl   $"OnHeartBeat",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater11OnHeartBeatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
@@ -366,46 +359,44 @@ void CPacketTranslater::_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader(Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFPacketTranslater.cpp](source/DNFServer/GameServer/COServer/DNFPacketTranslater.cpp)（约第 119 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp)（约第 28 行）：
 
 ```cpp
-void CPacketTranslater::OnHeartBeat(PacketHeader* pkt)
+void CPacketTranslater::OnHeartBeat(PacketHeader* header)
 {
-    if (m_pclApp != 0 && m_pclApp->m_serverHandler != 0)
+    try
     {
-        try
+        if (!m_pclApp)
+            return;
+        CServerHandler* handler = m_pclApp->m_serverHandler;
+        if (!handler)
+            return;
+        unsigned char idx = ((char*)header)[0xa];
+        if (idx > 0x64)
+            throw CDNFException(
+                "CPacketTranslater::OnHeartBeat() \xc3\xa4\xb3\xce \xc0\xce\xb5\xa6\xbd\xba \xbf\xc0\xb7\xf9\n");
+        handler->ResetHeartBeat(idx);
+        if (!handler->IsConnectedMonitorServer(idx))
         {
-            unsigned char channel = *(unsigned char*)((char*)pkt + 0xa);
-            unsigned char group = *(unsigned char*)((char*)pkt + 0xb);
-            if (100 < group || channel == 0 || 0xbe < channel)
-            {
-                throw CDNFException("CPacketTranslater::OnHeartBeat() Channel Index Error\n");
-            }
-            m_pclApp->m_serverHandler->ResetHeartBeat(group, channel);
-            if (!m_pclApp->m_serverHandler->IsConnectedGameServer(group, channel))
-            {
-                m_pclApp->m_serverHandler->SetConnectFlag(group, channel, true);
-                CGameServer* gs = m_pclApp->FindGameServer(group, channel);
-                if (gs != 0)
-                {
-                    Packet_CutOff_UDP_Call_UserInfo pkt2;
-                    gs->SendToGameServer((char*)&pkt2, *(unsigned short*)((char*)&pkt2 + 2));
-                }
-            }
-            printf("Server(%dGroup:%dChennel) Heart Beat Arrived.\n", group, channel);
+            handler->SetConnectFlag(idx, 1);
+            Packet_Monitor_Manager_Connect_OK pkt;
+            handler->SendToTcpServer(&pkt, idx);
+            printf("First Heart Beat Arrived From %d Group Monitor!\n", idx);
+            CMyFileLog log(__FUNCTION__, 0x43);
+            log("./log/Monitor", "First Heart Beat Arrived From %d Group Monitor!", idx);
         }
-        catch (CDNFException& e)
-        {
-            printf("CPacketTranslater::OnHeartBeat() Exception Break : %s\n", e.what());
-            register const char* s = e.what();
-            DNF_LOG_SCOPE_LINE(0xea,"./log/Except", "CPacketTranslater::OnHeartBeat() Exception Break : %s\n",
-                s);
-        }
-        catch (...)
-        {
-            puts("CPacketTranslater::OnHeartBeat() Exception Break");
-            DNF_LOG_SCOPE_LINE(0xf0, "./log/Except", "CPacketTranslater::OnHeartBeat() Exception Break\n");
-        }
+    }
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnHeartBeat() Exception Break : %s\n", e.what());
+        CMyFileLog log(__FUNCTION__, 0x52);
+        log("./log/Except", "CPacketTranslater::OnHeartBeat() Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnHeartBeat() Exception Break");
+        CMyFileLog log(__FUNCTION__, 0x58);
+        log("./log/Except", "CPacketTranslater::OnHeartBeat() Exception Break\n");
     }
 }
 ```

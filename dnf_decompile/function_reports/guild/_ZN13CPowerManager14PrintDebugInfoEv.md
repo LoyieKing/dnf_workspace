@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80a4dba` | `0xa2` | `0x809b0d0` | `0xa2` |
+| guild | NEAR | `0x80a4dba` | `0xa2` | `0x809ac46` | `0xa2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -18,7 +18,7 @@
  mov    %esp,%ebp
  sub    $0x28,%esp
  movl   $0x3c9,0x8(%esp)
- movl   $"PrintDebugInfo",0x4(%esp)
+ movl   $&_ZZN13CPowerManager14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
@@ -36,7 +36,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN18CPowerWarGuildInfo14PrintDebugInfoEv>
  movl   $0x3cf,0x8(%esp)
- movl   $"PrintDebugInfo",0x4(%esp)
+ movl   $&_ZZN13CPowerManager14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -87,10 +87,10 @@ void __thiscall CPowerManager::_ZN13CPowerManager14PrintDebugInfoEv(CPowerManage
 ```cpp
 void CPowerManager::PrintDebugInfo()
 {
-    CMyFileLog logA("PrintDebugInfo", 0x3c9);
+    CMyFileLog logA(__FUNCTION__, 0x3c9);
     logA("./log/PowerResult", "----- POWER A");
     ((CPower*)((char*)this + 0x74))->GetPowerWarGuildInfo()->PrintDebugInfo();
-    CMyFileLog logB("PrintDebugInfo", 0x3cf);
+    CMyFileLog logB(__FUNCTION__, 0x3cf);
     logB("./log/PowerResult", "----- POWER B");
     ((CPower*)((char*)this + 0xe0))->GetPowerWarGuildInfo()->PrintDebugInfo();
 }

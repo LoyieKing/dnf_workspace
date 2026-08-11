@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8052fc2` | `0x13e` | `0x80a2102` | `0x13a` |
+| monitor | DIFF | `0x8052fc2` | `0x13e` | `0x80a22c2` | `0x13a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -166,20 +166,24 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystem4InitEt(CTcpNetSystem *this,ush
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 85 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 187 行）：
 
 ```cpp
 void CTcpNetSystem::Init(unsigned short port)
 {
-    m_serverPort = port;
-    m_tcpHandler = new CTcpHandler;
+    m_port = port;
+    m_handler = new CTcpHandler;
     m_acceptThread = new CTcpAcceptThread;
     m_acceptThread->attach(this);
     if (!m_acceptThread->begin())
-        throw;   // ORIG 失败路径 __cxa_rethrow（rethrow 当前异常），非 throw 1
-    m_field4 = new CTcpNetworkThread;
-    ((CTcpNetworkThread*)m_field4)->attach(this);
-    if (!((CTcpNetworkThread*)m_field4)->begin())
-        throw;   // ORIG 失败路径 __cxa_rethrow
+    {
+        throw;
+    }
+    m_networkThread = new CTcpNetworkThread;
+    m_networkThread->attach(this);
+    if (!m_networkThread->begin())
+    {
+        throw;
+    }
 }
 ```

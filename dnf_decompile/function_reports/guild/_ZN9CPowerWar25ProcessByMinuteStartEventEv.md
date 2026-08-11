@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a6e9c` | `0x68` | `0x809d252` | `0x70` |
+| guild | DIFF | `0x80a6e9c` | `0x68` | `0x809cdc2` | `0x70` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -91,7 +91,7 @@ undefined4 __thiscall CPowerWar::_ZN9CPowerWar25ProcessByMinuteStartEventEv(CPow
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWar.cpp](source/DNFServer/GameServer/Guild/PowerWar.cpp)（约第 155 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWar.cpp](source/DNFServer/GameServer/Guild/PowerWar.cpp)（约第 169 行）：
 
 ```cpp
 int CPowerWar::ProcessByMinuteStartEvent()

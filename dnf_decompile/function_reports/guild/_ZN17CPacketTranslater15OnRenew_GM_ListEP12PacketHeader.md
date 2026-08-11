@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8089512` | `0x8c` | `0x807e3f6` | `0x91` |
+| guild | DIFF | `0x8089512` | `0x8c` | `0x807e398` | `0x91` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -99,21 +99,22 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 3015 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5541 行）：
 
 ```cpp
-void CPacketTranslater::OnRenew_GM_List(PacketHeader* header)
+void CPacketTranslater::OnRenew_GM_List(PacketHeader* pkt)
 {
-    WongWork::CGMAccounts* gm =
-        (WongWork::CGMAccounts*)m_pclApp->GetGMAccounts();
-    if (gm && header)
+    char* pb = (char*)pkt;
+    WongWork::CGMAccounts* gm = (WongWork::CGMAccounts*)m_pclApp->GetGMAccounts();
+    if (gm != 0 && pb != 0)
     {
-        Packet_GM_List* pkt = (Packet_GM_List*)header;
-        if (pkt->m_flag == 0)
-            gm->clearGmList();
-        for (int i = 0; i < pkt->m_count; i++)
+        if (((GuildPacketBodyView*)pb)->m_field_a == 0)
         {
-            gm->AppendGM_Sys(pkt->m_ids[i], pkt->m_flags[i]);
+            gm->clearGmList();
+        }
+        for (int i = 0; i < (char)((GuildPacketBodyView*)pb)->m_field_b; i++)
+        {
+            gm->AppendGM_Sys(*(unsigned int*)(pb + i * 4 + 0xc), (char)pb[i + 0x5c]);
         }
     }
 }

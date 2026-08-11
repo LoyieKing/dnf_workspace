@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8072998` | `0x2a4` | `0x806947a` | `0x3ad` |
+| guild | DIFF | `0x8072998` | `0x2a4` | `0x806916a` | `0x3ad` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -24,16 +24,16 @@
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +test   %eax,%eax
 +jne    <T> <_ZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeader+0xef>
-+lea    -0x2d(%ebp),%eax
++lea    -0x35(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcEC1Ev>
-+lea    -0x2d(%ebp),%eax
++lea    -0x35(%ebp),%eax
 +mov    %eax,0x8(%esp)
 +movl   $"CPacketTranslater::OnDBReplyQueryGuildMember()\tpclApp is NULL",0x4(%esp)
-+lea    -0x34(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsC1EPKcRKSaIcE>
-+lea    -0x34(%ebp),%esi
++lea    -0x3c(%ebp),%esi
 +movl   $0x8,(%esp)
 +call   <T> <__cxa_allocate_exception>
 +mov    %eax,%ebx
@@ -52,7 +52,7 @@
 +mov    %esi,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x34(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +jmp    <T> <_ZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeader+0x8f>
@@ -64,7 +64,7 @@
 +mov    %esi,%ecx
 +mov    %ebx,%eax
 +jmp    <T> <_ZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeader+0xb4>
-+lea    -0x34(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +jmp    <T> <_ZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeader+0xcc>
@@ -77,16 +77,16 @@
 +mov    %edx,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x2d(%ebp),%eax
++lea    -0x35(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
 +jmp    <T> <_ZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeader+0x297>
-+lea    -0x2d(%ebp),%eax
++lea    -0x35(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
-+movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
++movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
 +movl   $&_ZTI13CDNFException,0x4(%esp)
 +mov    %ebx,(%esp)
 +call   <T> <__cxa_throw>
@@ -114,16 +114,16 @@
 -mov    0xf(%eax),%eax
 +cmpl   $0x0,-0x20(%ebp)
 +jne    <T> <_ZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeader+0x20d>
-+lea    -0x25(%ebp),%eax
++lea    -0x2d(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcEC1Ev>
-+lea    -0x25(%ebp),%eax
++lea    -0x2d(%ebp),%eax
 +mov    %eax,0x8(%esp)
 +movl   $"CPacketTranslater::OnDBReplyQueryGuildMember()\tpclUser is NULL\n",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
++lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsC1EPKcRKSaIcE>
-+lea    -0x2c(%ebp),%esi
++lea    -0x34(%ebp),%esi
 +movl   $0x8,(%esp)
 +call   <T> <__cxa_allocate_exception>
 +mov    %eax,%ebx
@@ -142,7 +142,7 @@
 +mov    %esi,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x2c(%ebp),%eax
++lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +jmp    <T> <_ZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeader+0x1ad>
@@ -154,7 +154,7 @@
 +mov    %esi,%ecx
 +mov    %ebx,%eax
 +jmp    <T> <_ZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeader+0x1d2>
-+lea    -0x2c(%ebp),%eax
++lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +jmp    <T> <_ZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeader+0x1ea>
@@ -167,16 +167,16 @@
 +mov    %edx,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x25(%ebp),%eax
++lea    -0x2d(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
 +jmp    <T> <_ZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeader+0x297>
-+lea    -0x25(%ebp),%eax
++lea    -0x2d(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
-+movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
++movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
 +movl   $&_ZTI13CDNFException,0x4(%esp)
 +mov    %ebx,(%esp)
 +call   <T> <__cxa_throw>
@@ -266,30 +266,28 @@
 -lea    -0x41(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSaIcED1Ev>
--movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+-movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
 -movl   $&_ZTI13CDNFException,0x4(%esp)
 -mov    %ebx,(%esp)
 -call   <T> <__cxa_throw>
 -mov    -0x24(%ebp),%eax
 -movzbl 0xa(%eax),%eax
--movzbl %al,%ebx
 +jmp    <T> <_ZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeader+0x3a5>
- movl   $0x24b,0x8(%esp)
- movl   $"OnDBReplyQueryGuildMember",0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
 +mov    -0x24(%ebp),%eax
 +add    $0xa,%eax
 +movzbl (%eax),%eax
-+movzbl %al,%eax
-+mov    %eax,0xc(%esp)
+ movzbl %al,%ebx
+ movl   $0x24b,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x40(%ebp),%eax
++lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"[DB ERROR]CPacketTranslater::OnDBReplyQueryGuildMember() packet->bSuccess : %d\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeader+0x29c>
@@ -307,39 +305,32 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnDBReplyQueryGuildMember() Exception Break : %s\n",(%esp)
  call   <T> <printf>
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
- movl   $0x251,0x8(%esp)
- movl   $"OnDBReplyQueryGuildMember",0x4(%esp)
--lea    -0x38(%ebp),%eax
++movl   $0x251,0x8(%esp)
++movl   $"OnDBReplyQueryGuildMember",0x4(%esp)
 +lea    -0x44(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+ call   *%edx
+-mov    %eax,%ebx
+-movl   $0x251,0x8(%esp)
+-movl   $&_ZZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x38(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnDBReplyQueryGuildMember() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -373,7 +364,7 @@
  movl   $"CPacketTranslater::OnDBReplyQueryGuildMember() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x257,0x8(%esp)
- movl   $"OnDBReplyQueryGuildMember",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
@@ -505,7 +496,7 @@ void CPacketTranslater::OnDBReplyQueryGuildMember(PacketHeader* pkt)
     catch (...)
     {
         puts("CPacketTranslater::OnDBReplyQueryGuildMember() Exception Break");
-        CMyFileLog log("OnDBReplyQueryGuildMember", 0x257);
+        CMyFileLog log(__FUNCTION__, 0x257);
         log("./log/Except", "CPacketTranslater::OnDBReplyQueryGuildMember() Exception Break\n");
     }
 }

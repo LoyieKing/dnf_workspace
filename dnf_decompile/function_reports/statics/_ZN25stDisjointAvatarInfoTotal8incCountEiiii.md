@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80756a6` | `0x9e` | `0x806572c` | `0xb2` |
+| statics | DIFF | `0x80756a6` | `0x9e` | `0x8065736` | `0x94` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,63 +1,69 @@
+@@ -1,63 +1,55 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
 -push   %esi
- push   %ebx
+-push   %ebx
 -sub    $0x1c,%esp
 +sub    $0x10,%esp
  mov    0x14(%ebp),%eax
@@ -30,13 +30,9 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN25stDisjointAvatarInfoTotal14checkConditionEiii>
-+test   %eax,%eax
-+setne  %al
  test   %al,%al
 -je     <T> <_ZN25stDisjointAvatarInfoTotal8incCountEiiii+0x96>
-+je     <T> <_ZN25stDisjointAvatarInfoTotal8incCountEiiii+0xac>
-+mov    0x8(%ebp),%eax
-+mov    %eax,%ecx
++je     <T> <_ZN25stDisjointAvatarInfoTotal8incCountEiiii+0x92>
  mov    0xc(%ebp),%edx
 -mov    0x10(%ebp),%ebx
 -mov    0x14(%ebp),%ecx
@@ -51,11 +47,8 @@
 -mov    (%esi,%eax,4),%eax
 -lea    0x1(%eax),%edi
 -mov    0x8(%ebp),%esi
-+add    0x14(%ebp),%eax
-+shl    $0x2,%eax
-+add    %eax,%ecx
-+mov    0x8(%ebp),%eax
-+mov    %eax,%ebx
++mov    %eax,%ecx
++add    0x14(%ebp),%ecx
 +mov    0xc(%ebp),%edx
  mov    %edx,%eax
  shl    $0x3,%eax
@@ -65,14 +58,13 @@
  add    %eax,%eax
 -add    %ecx,%eax
 -mov    %edi,(%esi,%eax,4)
-+add    0x14(%ebp),%eax
-+shl    $0x2,%eax
-+lea    (%ebx,%eax,1),%eax
-+mov    (%eax),%eax
-+add    $0x1,%eax
-+mov    %eax,(%ecx)
++mov    %eax,%edx
++add    0x14(%ebp),%edx
 +mov    0x8(%ebp),%eax
-+mov    %eax,%ecx
++mov    (%eax,%edx,4),%eax
++lea    0x1(%eax),%edx
++mov    0x8(%ebp),%eax
++mov    %edx,(%eax,%ecx,4)
  mov    0xc(%ebp),%edx
 -mov    0x10(%ebp),%esi
 -mov    0xc(%ebp),%ecx
@@ -94,28 +86,25 @@
 -add    $0x34,%eax
 -mov    %ebx,0x8(%ecx,%eax,4)
 -add    $0x1c,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
 +add    0x10(%ebp),%eax
-+add    $0x36,%eax
-+shl    $0x2,%eax
-+add    %eax,%ecx
-+mov    0x8(%ebp),%eax
-+mov    %eax,%ebx
++lea    0x36(%eax),%ecx
 +mov    0xc(%ebp),%edx
 +mov    %edx,%eax
 +shl    $0x3,%eax
 +add    %edx,%eax
 +add    0x10(%ebp),%eax
-+add    $0x36,%eax
-+shl    $0x2,%eax
-+lea    (%ebx,%eax,1),%eax
-+mov    (%eax),%eax
-+add    0x18(%ebp),%eax
-+mov    %eax,(%ecx)
-+add    $0x10,%esp
- pop    %ebx
--pop    %esi
--pop    %edi
- pop    %ebp
++lea    0x36(%eax),%edx
++mov    0x8(%ebp),%eax
++mov    (%eax,%edx,4),%eax
++mov    %eax,%edx
++add    0x18(%ebp),%edx
++mov    0x8(%ebp),%eax
++mov    %edx,(%eax,%ecx,4)
++leave
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -149,10 +138,10 @@ stDisjointAvatarInfoTotal::_ZN25stDisjointAvatarInfoTotal8incCountEiiii
 ```cpp
 void stDisjointAvatarInfoTotal::incCount(int a, int b, int c, int d)
 {
-    if (checkCondition(a, b, c) != 0)
+    if (checkCondition(a, b, c))
     {
-        *(int*)(m_data + ((a * 9 + b) * 2 + c) * 4) += 1;
-        *(int*)(m_data + (a * 9 + b + 0x34) * 4 + 8) += d;
+        m_data[(a * 9 + b) * 2 + c] += 1;
+        m_data[a * 9 + b + 0x34 + 2] += d;
     }
 }
 ```

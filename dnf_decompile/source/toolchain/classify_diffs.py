@@ -17,7 +17,7 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
-ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile')
+ROOT = Path('/home/loyieking/dnf_workspace/dnf_decompile')
 MANIFEST_DIR = ROOT / 'build/community'
 DIFF_DIR = Path('/tmp/review_all_diffs')
 

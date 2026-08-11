@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8070ac6` | `0x2f5` | `0x80706a0` | `0x30f` |
+| statics | DIFF | `0x8070ac6` | `0x2f5` | `0x80708c2` | `0x30c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,20 +13,18 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,223 +1,227 @@
+@@ -1,223 +1,226 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x70,%esp
 -lea    -0x54(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22STUserTingTimeCheckKeyC1Ev>
  mov    0xc(%ebp),%eax
--mov    0xa(%eax),%ecx
-+add    $0xa,%eax
-+mov    (%eax),%ecx
+ mov    0xa(%eax),%ecx
  mov    $0x88888889,%edx
  mov    %ecx,%eax
  imul   %edx
@@ -40,24 +38,19 @@
  mov    %ecx,%eax
 -mov    %eax,-0x54(%ebp)
 -mov    -0x54(%ebp),%eax
-+mov    %eax,-0x50(%ebp)
-+mov    -0x50(%ebp),%eax
++mov    %eax,-0x60(%ebp)
++mov    -0x60(%ebp),%eax
  cmp    $0x59f,%eax
--jle    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x87>
--mov    0xc(%ebp),%eax
--mov    0xa(%eax),%ebx
-+jle    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x8b>
+ jle    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x87>
+ mov    0xc(%ebp),%eax
+ mov    0xa(%eax),%ebx
  movl   $0x2fd,0x8(%esp)
- movl   $"WriteUserTingTImeCheckStatistic",0x4(%esp)
+ movl   $&_ZZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_AddE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
 +lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0xc(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"[User Ting Wrong] %d Sec",0x8(%esp)
  movl   $"./log/Statistic",0x4(%esp)
 -lea    -0x50(%ebp),%eax
@@ -65,13 +58,13 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2e0>
-+jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2fa>
++jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2f7>
  mov    0x8(%ebp),%eax
  lea    0xf8(%eax),%ecx
 -lea    -0x58(%ebp),%eax
 -lea    -0x54(%ebp),%edx
-+lea    -0x54(%ebp),%eax
-+lea    -0x50(%ebp),%edx
++lea    -0x64(%ebp),%eax
++lea    -0x60(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -82,120 +75,99 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapI22STUserTingTimeCheckKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE5emptyEv>
  test   %al,%al
--jne    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0xee>
-+jne    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0xf2>
+ jne    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0xee>
  mov    0x8(%ebp),%eax
  lea    0xf8(%eax),%edx
-+lea    -0x4c(%ebp),%eax
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapI22STUserTingTimeCheckKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE3endEv>
-+sub    $0x4,%esp
-+lea    -0x4c(%ebp),%eax
-+mov    %eax,0x4(%esp)
+-lea    -0x48(%ebp),%eax
 +lea    -0x54(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STUserTingTimeCheckKeyiEEeqERKS4_>
-+test   %al,%al
-+je     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0xf9>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0xfe>
-+mov    $0x0,%eax
-+mov    %al,-0xa(%ebp)
-+cmpb   $0x0,-0xa(%ebp)
-+je     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x1a9>
-+movl   $0x1,-0x30(%ebp)
-+lea    -0x38(%ebp),%eax
-+lea    -0x30(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+lea    -0x50(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZSt9make_pairIR22STUserTingTimeCheckKeyiESt4pairINSt17__decay_and_stripIT_E6__typeENS3_IT0_E6__typeEEOS4_OS7_>
-+sub    $0x4,%esp
-+lea    -0x38(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIK22STUserTingTimeCheckKeyiEC1IS0_iEEOS_IT_T0_E>
-+mov    0x8(%ebp),%eax
-+lea    0xf8(%eax),%ecx
- lea    -0x48(%ebp),%eax
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZNSt3mapI22STUserTingTimeCheckKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE3endEv>
--sub    $0x4,%esp
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapI22STUserTingTimeCheckKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE3endEv>
+ sub    $0x4,%esp
 -lea    -0x48(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x58(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STUserTingTimeCheckKeyiEEeqERKS4_>
--test   %al,%al
--je     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0xf5>
--mov    $0x1,%eax
--jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0xfa>
--mov    $0x0,%eax
--test   %al,%al
++lea    -0x54(%ebp),%eax
++mov    %eax,0x4(%esp)
++lea    -0x64(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STUserTingTimeCheckKeyiEEeqERKS4_>
+ test   %al,%al
+ je     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0xf5>
+ mov    $0x1,%eax
+ jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0xfa>
+ mov    $0x0,%eax
+ test   %al,%al
 -je     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x19e>
 -movl   $0x1,-0x2c(%ebp)
 -lea    -0x34(%ebp),%eax
 -lea    -0x2c(%ebp),%edx
 -mov    %edx,0x8(%esp)
 -lea    -0x54(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZSt9make_pairIR22STUserTingTimeCheckKeyiESt4pairINSt17__decay_and_stripIT_E6__typeENS3_IT0_E6__typeEEOS4_OS7_>
--sub    $0x4,%esp
++je     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x1a0>
++movl   $0x1,-0x38(%ebp)
++lea    -0x40(%ebp),%eax
++lea    -0x38(%ebp),%edx
++mov    %edx,0x8(%esp)
++lea    -0x60(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZSt9make_pairIR22STUserTingTimeCheckKeyiESt4pairINSt17__decay_and_stripIT_E6__typeENS3_IT0_E6__typeEEOS4_OS7_>
+ sub    $0x4,%esp
 -lea    -0x34(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIK22STUserTingTimeCheckKeyiEC1IS0_iEEOS_IT_T0_E>
--mov    0x8(%ebp),%eax
--lea    0xf8(%eax),%ecx
++lea    -0x40(%ebp),%eax
++mov    %eax,0x4(%esp)
++lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIK22STUserTingTimeCheckKeyiEC1IS0_iEEOS_IT_T0_E>
+ mov    0x8(%ebp),%eax
+ lea    0xf8(%eax),%ecx
 -lea    -0x44(%ebp),%eax
 -lea    -0x3c(%ebp),%edx
-+lea    -0x40(%ebp),%edx
++lea    -0x50(%ebp),%eax
++lea    -0x48(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI22STUserTingTimeCheckKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE6insertERKS5_>
  sub    $0x4,%esp
 -lea    -0x3c(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIK22STUserTingTimeCheckKeyiED1Ev>
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt4pairI22STUserTingTimeCheckKeyiED1Ev>
 -jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x1bc>
-+jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x19c>
++jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x193>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x3c(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIK22STUserTingTimeCheckKeyiED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x186>
-+jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x184>
++jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x17b>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x34(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairI22STUserTingTimeCheckKeyiED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2c5>
 -lea    -0x58(%ebp),%eax
-+jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2df>
-+lea    -0x38(%ebp),%eax
++jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2dc>
++lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt4pairI22STUserTingTimeCheckKeyiED1Ev>
-+jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x1bd>
-+lea    -0x54(%ebp),%eax
++jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x1b4>
++lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STUserTingTimeCheckKeyiEEptEv>
 -add    $0x4,%eax
@@ -209,15 +181,15 @@
 +mov    0x4(%eax),%edx
 +add    $0x1,%edx
 +mov    %edx,0x4(%eax)
-+mov    -0x50(%ebp),%eax
++mov    -0x60(%ebp),%eax
  cmp    $0xa,%eax
 -jg     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x1e9>
 -mov    -0x54(%ebp),%eax
-+jg     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2fa>
-+mov    -0x50(%ebp),%eax
++jg     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2f7>
++mov    -0x60(%ebp),%eax
  test   %eax,%eax
 -jle    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x1e9>
-+jle    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2fa>
++jle    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2f7>
  mov    0x8(%ebp),%eax
  add    $0x110,%eax
  mov    %eax,(%esp)
@@ -226,11 +198,13 @@
 -ja     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x1e9>
 +setbe  %al
 +test   %al,%al
-+je     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2fa>
++je     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2f7>
++mov    -0x60(%ebp),%eax
++mov    %eax,-0x34(%ebp)
 +mov    0x8(%ebp),%eax
 +lea    0x110(%eax),%ecx
-+lea    -0x60(%ebp),%eax
-+lea    -0x50(%ebp),%edx
++lea    -0x68(%ebp),%eax
++lea    -0x34(%ebp),%edx
 +mov    %edx,0x8(%esp)
 +mov    %ecx,0x4(%esp)
 +mov    %eax,(%esp)
@@ -241,24 +215,24 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt3mapIjiSt4lessIjESaISt4pairIKjiEEE5emptyEv>
 +test   %al,%al
-+jne    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x25b>
++jne    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x258>
 +mov    0x8(%ebp),%eax
 +lea    0x110(%eax),%edx
-+lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
 +mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt3mapIjiSt4lessIjESaISt4pairIKjiEEE3endEv>
 +sub    $0x4,%esp
-+lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0x60(%ebp),%eax
++lea    -0x68(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjiEEeqERKS3_>
 +test   %al,%al
-+je     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x262>
++je     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x25f>
  mov    $0x1,%eax
 -jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x1ee>
-+jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x267>
++jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x264>
  mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2e0>
@@ -280,26 +254,7 @@
 -jne    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x260>
 -mov    0x8(%ebp),%eax
 -lea    0x110(%eax),%edx
-+mov    %al,-0x9(%ebp)
-+cmpb   $0x0,-0x9(%ebp)
-+je     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2c9>
-+movl   $0x1,-0x10(%ebp)
-+lea    -0x18(%ebp),%eax
-+lea    -0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+lea    -0x50(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZSt9make_pairIRjiESt4pairINSt17__decay_and_stripIT_E6__typeENS2_IT0_E6__typeEEOS3_OS6_>
-+sub    $0x4,%esp
-+lea    -0x18(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIKjiEC1IjiEEOS_IT_T0_E>
-+mov    0x8(%ebp),%eax
-+lea    0x110(%eax),%ecx
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
 -mov    %edx,0x4(%esp)
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt3mapIjiSt4lessIjESaISt4pairIKjiEEE3endEv>
@@ -327,32 +282,49 @@
 -sub    $0x4,%esp
 -lea    -0x14(%ebp),%eax
 -mov    %eax,0x4(%esp)
--lea    -0x1c(%ebp),%eax
++mov    %al,-0x9(%ebp)
++cmpb   $0x0,-0x9(%ebp)
++je     <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2c6>
++movl   $0x1,-0x14(%ebp)
+ lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt4pairIKjiEC1IjiEEOS_IT_T0_E>
--mov    0x8(%ebp),%eax
--lea    0x110(%eax),%ecx
++lea    -0x14(%ebp),%edx
++mov    %edx,0x8(%esp)
++lea    -0x60(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZSt9make_pairIRiiESt4pairINSt17__decay_and_stripIT_E6__typeENS2_IT0_E6__typeEEOS3_OS6_>
++sub    $0x4,%esp
++lea    -0x1c(%ebp),%eax
++mov    %eax,0x4(%esp)
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt4pairIKjiEC1IiiEEOS_IT_T0_E>
+ mov    0x8(%ebp),%eax
+ lea    0x110(%eax),%ecx
 -lea    -0x24(%ebp),%eax
 -lea    -0x1c(%ebp),%edx
-+lea    -0x20(%ebp),%edx
++lea    -0x2c(%ebp),%eax
++lea    -0x24(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjiSt4lessIjESaISt4pairIKjiEEE6insertERKS4_>
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2e0>
-+jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2fa>
-+lea    -0x60(%ebp),%eax
++jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2f7>
++lea    -0x68(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjiEEptEv>
 +mov    0x4(%eax),%edx
 +add    $0x1,%edx
 +mov    %edx,0x4(%eax)
-+jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2fa>
++jmp    <T> <_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add+0x2f7>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x54(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22STUserTingTimeCheckKeyD1Ev>
  mov    %esi,%eax
@@ -360,7 +332,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x54(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22STUserTingTimeCheckKeyD1Ev>
  lea    -0x8(%ebp),%esp
@@ -503,4 +475,4 @@ LAB_08070da6:
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Statics/Statistics.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 619 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Statics/Statistics.cpp, source/DNFServer/GameServer/Statics/CubeStatistics.h, source/DNFServer/GameServer/Statics/DNFDBServer.h, source/DNFServer/GameServer/Statics/DNFGameServer.h, source/DNFServer/GameServer/Statics/DNFManagerServer.h, source/DNFServer/GameServer/Statics/DNFServerConfig.h, source/DNFServer/GameServer/Statics/DNFServerHandler.h, source/DNFServer/GameServer/Statics/DNFTableBase.h 等 260 个文件*

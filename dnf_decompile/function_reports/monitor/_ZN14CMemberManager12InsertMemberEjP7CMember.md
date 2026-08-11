@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8099d2a` | `0xf2` | `0x806235c` | `0xdb` |
+| monitor | DIFF | `0x8099d2a` | `0xf2` | `0x8062558` | `0xdf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,44 +13,42 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,62 +1,55 @@
+@@ -1,62 +1,57 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
+ push   %ebx
 -sub    $0x44,%esp
-+sub    $0x38,%esp
++sub    $0x34,%esp
  mov    0x10(%ebp),%eax
  test   %eax,%eax
 -je     <T> <_ZN14CMemberManager12InsertMemberEjP7CMember+0xab>
--lea    -0x20(%ebp),%eax
++jne    <T> <_ZN14CMemberManager12InsertMemberEjP7CMember+0x55>
++mov    0xc(%ebp),%ebx
++movl   $0x87,0x8(%esp)
++movl   $&_ZZN14CMemberManager12InsertMemberEjP7CMemberE12__FUNCTION__,0x4(%esp)
+ lea    -0x20(%ebp),%eax
 -lea    0x10(%ebp),%edx
 -mov    %edx,0x8(%esp)
 -lea    0xc(%ebp),%edx
 -mov    %edx,0x4(%esp)
-+jne    <T> <_ZN14CMemberManager12InsertMemberEjP7CMember+0x54>
-+movl   $0x87,0x8(%esp)
-+movl   $"InsertMember",0x4(%esp)
-+lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
 -call   <T> <_ZSt9make_pairIRjRP7CMemberESt4pairINSt17__decay_and_stripIT_E6__typeENS5_IT0_E6__typeEEOS6_OS9_>
 -sub    $0x4,%esp
--lea    -0x20(%ebp),%eax
 +call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0xc(%ebp),%eax
-+mov    %eax,0xc(%esp)
++mov    %ebx,0xc(%esp)
 +movl   $"[INSERT_ERR] Member Key : %d\tpclMember == 0",0x8(%esp)
 +movl   $"./log/Member",0x4(%esp)
-+lea    -0x18(%ebp),%eax
+ lea    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN14CMemberManager12InsertMemberEjP7CMember+0xd9>
++jmp    <T> <_ZN14CMemberManager12InsertMemberEjP7CMember+0xda>
 +lea    0x10(%ebp),%eax
 +mov    %eax,0x8(%esp)
 +lea    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
 -call   <T> <_ZNSt4pairIKjP7CMemberEC1IjS2_EEOS_IT_T0_E>
 +call   <T> <_ZNSt4pairIKjP7CMemberEC1IRjRS2_EEOT_OT0_>
@@ -58,40 +56,38 @@
  lea    0x8(%eax),%ecx
 -lea    -0x30(%ebp),%eax
 -lea    -0x28(%ebp),%edx
-+lea    -0x20(%ebp),%eax
-+lea    -0x10(%ebp),%edx
++lea    -0x28(%ebp),%eax
++lea    -0x18(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP7CMemberSt4lessIjESaISt4pairIKjS1_EEE6insertERKS6_>
  sub    $0x4,%esp
 -movzbl -0x2c(%ebp),%eax
-+movzbl -0x1c(%ebp),%eax
++movzbl -0x24(%ebp),%eax
 +xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN14CMemberManager12InsertMemberEjP7CMember+0xa4>
--mov    0xc(%ebp),%ebx
-+je     <T> <_ZN14CMemberManager12InsertMemberEjP7CMember+0xd4>
++je     <T> <_ZN14CMemberManager12InsertMemberEjP7CMember+0xd5>
+ mov    0xc(%ebp),%ebx
  movl   $0x83,0x8(%esp)
- movl   $"InsertMember",0x4(%esp)
+ movl   $&_ZZN14CMemberManager12InsertMemberEjP7CMemberE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"[INSERT_ERR] Member Key : %d\tAlready Member Exist",0x8(%esp)
  movl   $"./log/Member",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x1,%eax
 -jmp    <T> <_ZN14CMemberManager12InsertMemberEjP7CMember+0xed>
 -mov    0xc(%ebp),%ebx
 -movl   $0x87,0x8(%esp)
--movl   $"InsertMember",0x4(%esp)
+-movl   $&_ZZN14CMemberManager12InsertMemberEjP7CMemberE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -102,7 +98,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
--mov    -0x4(%ebp),%ebx
+ mov    -0x4(%ebp),%ebx
  leave
  ret
 ```

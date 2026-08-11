@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809f9de` | `0x18f` | `0x8082128` | `0x188` |
+| dbmw | DIFF | `0x809f9de` | `0x18f` | `0x80d576e` | `0x18a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,106 +1,106 @@
+@@ -1,106 +1,107 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,7 +22,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x187>
-+je     <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x17d>
++je     <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x17f>
  mov    0x8(%ebp),%eax
  mov    %eax,-0x14(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -36,51 +36,49 @@
 -je     <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x188>
 -cmpl   $0x0,-0x14(%ebp)
 -je     <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x188>
--mov    -0x14(%ebp),%eax
--mov    0xe(%eax),%ebx
 +sete   %al
 +test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x180>
++jne    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x182>
+ mov    -0x14(%ebp),%eax
+ mov    0xe(%eax),%ebx
  movl   $0x12e5,0x8(%esp)
- movl   $"OnUpdateTowerOfDespairStatistic",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    0xe(%eax),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"TOD Statistic Error\nTOD uv(%d)",0x8(%esp)
  movl   $"./log/statistic",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x1,-0x10(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0xf3>
--mov    -0x10(%ebp),%edx
--mov    -0x14(%ebp),%eax
--add    $0x2,%edx
++jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0xeb>
++movl   $0x12e7,0x8(%esp)
++movl   $&_ZZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0x10(%ebp),%edx
+ mov    -0x14(%ebp),%eax
+ add    $0x2,%edx
 -mov    0x2(%eax,%edx,8),%esi
 -mov    -0x10(%ebp),%edx
--mov    -0x14(%ebp),%eax
--add    $0x2,%edx
--mov    0x6(%eax,%edx,8),%ebx
-+jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0xeb>
- movl   $0x12e7,0x8(%esp)
- movl   $"OnUpdateTowerOfDespairStatistic",0x4(%esp)
- lea    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x14(%esp)
--mov    %ebx,0x10(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    -0x14(%ebp),%eax
-+add    $0x2,%edx
 +mov    0x6(%eax,%edx,8),%edx
 +mov    -0x10(%ebp),%ecx
-+mov    -0x14(%ebp),%eax
+ mov    -0x14(%ebp),%eax
+-add    $0x2,%edx
+-mov    0x6(%eax,%edx,8),%ebx
+-movl   $0x12e7,0x8(%esp)
+-movl   $&_ZZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %esi,0x14(%esp)
+-mov    %ebx,0x10(%esp)
 +add    $0x2,%ecx
 +mov    0x2(%eax,%ecx,8),%eax
 +mov    %edx,0x14(%esp)
@@ -89,7 +87,8 @@
  mov    %eax,0xc(%esp)
  movl   $"TOD Layer(%d), enter(%d), succ(%d)",0x8(%esp)
  movl   $"./log/statistic",0x4(%esp)
- lea    -0x24(%ebp),%eax
+-lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  addl   $0x1,-0x10(%ebp)
@@ -99,7 +98,7 @@
 -jne    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x90>
 -jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x188>
 +jne    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x88>
-+jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x181>
++jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x183>
  cmp    $0x1,%edx
 -je     <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x110>
 +je     <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x108>
@@ -108,38 +107,27 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0x12ed,0x8(%esp)
-+movl   $"OnUpdateTowerOfDespairStatistic",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x12ed,0x8(%esp)
--movl   $"OnUpdateTowerOfDespairStatistic",0x4(%esp)
--lea    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x12ed,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnUpdateTowerOfDespairStatistic() Exception Break : %s",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x180>
-+jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x176>
++jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x178>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -149,9 +137,9 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x188>
-+jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x181>
++jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x183>
 +nop
-+jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x181>
++jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x183>
  nop
  add    $0x50,%esp
  pop    %ebx
@@ -205,7 +193,7 @@ void CPacketTranslater::_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1304 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1374 行）：
 
 ```cpp
 void CPacketTranslater::OnUpdateTowerOfDespairStatistic(PacketHeader* header)
@@ -219,12 +207,11 @@ void CPacketTranslater::OnUpdateTowerOfDespairStatistic(PacketHeader* header)
         if (!m_pclApp->m_dbManager.QueryTowerOfDespairStatistic(
                 pkt))
             return;
-        CMyFileLog log("OnUpdateTowerOfDespairStatistic", 0x12e5);
-        log("./log/statistic", "TOD Statistic Error\nTOD uv(%d)",
-            pkt->m_uv);
+        DNF_LOG_SCOPE_LINE(0x12e5, "./log/statistic", "TOD Statistic Error\nTOD uv(%d)", pkt->m_uv);
+
         for (int i = 1; i <= 0x64; i++)
         {
-            CMyFileLog log2("OnUpdateTowerOfDespairStatistic", 0x12e7);
+            CMyFileLog log2(__FUNCTION__, 0x12e7);
             log2("./log/statistic", "TOD Layer(%d), enter(%d), succ(%d)", i,
                  pkt->m_entries[i].m_fieldE, pkt->m_entries[i].m_field12);
         }

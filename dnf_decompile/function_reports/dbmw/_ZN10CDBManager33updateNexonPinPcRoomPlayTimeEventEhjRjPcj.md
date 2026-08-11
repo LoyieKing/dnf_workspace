@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80872de` | `0x391` | `0x805f648` | `0x360` |
+| dbmw | DIFF | `0x80872de` | `0x391` | `0x805f3f4` | `0x360` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -30,30 +30,24 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--movzbl -0x5c(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+movzbl -0x5c(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ movzbl -0x5c(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect no, nexon_pin from event_pcroom_time_nexon_cash where server_info = %d and m_id = 0 order by no asc limit 1",0x8(%esp)
  movl   $0x4f4e,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0xa0>
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0x99>
  movl   $0x2a16,0x8(%esp)
- movl   $"updateNexonPinPcRoomPlayTimeEvent",0x4(%esp)
+ movl   $&_ZZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
 +lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -73,25 +67,21 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4f4e,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0x108>
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0xfa>
  movl   $0x2a1e,0x8(%esp)
- movl   $"updateNexonPinPcRoomPlayTimeEvent",0x4(%esp)
+ movl   $&_ZZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -111,21 +101,17 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  test   %eax,%eax
  sete   %al
  test   %al,%al
 -je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0x163>
 +je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0x155>
  movl   $0x2a24,0x8(%esp)
- movl   $"updateNexonPinPcRoomPlayTimeEvent",0x4(%esp)
+ movl   $&_ZZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
 +lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -145,24 +131,20 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0x1c3>
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0x1ae>
  movl   $0x2a2b,0x8(%esp)
- movl   $"updateNexonPinPcRoomPlayTimeEvent",0x4(%esp)
+ movl   $&_ZZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 +lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
@@ -182,29 +164,23 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
--mov    0x14(%ebp),%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0x14(%ebp),%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    0x14(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0x232>
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0x216>
  movl   $0x2a32,0x8(%esp)
- movl   $"updateNexonPinPcRoomPlayTimeEvent",0x4(%esp)
+ movl   $&_ZZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
@@ -224,33 +200,25 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
--mov    (%eax),%edx
--mov    0x1c(%ebp),%eax
--mov    %eax,0xc(%esp)
--mov    0x18(%ebp),%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0x1c(%ebp),%edx
-+mov    %edx,0xc(%esp)
-+mov    0x18(%ebp),%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    0x1c(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ mov    0x18(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0x2a8>
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0x285>
  movl   $0x2a39,0x8(%esp)
- movl   $"updateNexonPinPcRoomPlayTimeEvent",0x4(%esp)
+ movl   $&_ZZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
@@ -270,36 +238,27 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0x14(%ebp),%eax
--mov    (%eax),%eax
--mov    %eax,0x10(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0x14(%ebp),%edx
-+mov    (%edx),%edx
-+mov    %edx,0x10(%esp)
-+mov    0x10(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ mov    0x14(%ebp),%eax
+ mov    (%eax),%eax
+ mov    %eax,0x10(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"upDate event_pcroom_time_nexon_cash set m_id = %d, occ_date = now() where no = %d",0x8(%esp)
  movl   $0x4f4f,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0x325>
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0x2fb>
  movl   $0x2a43,0x8(%esp)
- movl   $"updateNexonPinPcRoomPlayTimeEvent",0x4(%esp)
+ movl   $&_ZZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
@@ -319,25 +278,21 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4f4f,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0x38a>
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj+0x359>
  movl   $0x2a4b,0x8(%esp)
- movl   $"updateNexonPinPcRoomPlayTimeEvent",0x4(%esp)
+ movl   $&_ZZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
@@ -478,4 +433,4 @@ CDBManager::_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

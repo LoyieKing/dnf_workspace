@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808c7a8` | `0x163` | `0x8077e24` | `0x15c` |
+| monitor | DIFF | `0x808c7a8` | `0x163` | `0x8077d8c` | `0x15e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,98 +1,96 @@
+@@ -1,98 +1,97 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,20 +21,18 @@
  sub    $0x40,%esp
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x18(%ebp)
-+movl   $0x0,-0x28(%ebp)
-+movl   $0x0,-0x24(%ebp)
-+movl   $0x0,-0x20(%ebp)
-+movl   $0x0,-0x1c(%ebp)
- mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
- add    $0x10,%eax
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+-add    $0x10,%eax
 -mov    %eax,-0x14(%ebp)
--movl   $0x0,-0x38(%ebp)
--movl   $0x0,-0x34(%ebp)
--movl   $0x0,-0x30(%ebp)
--movl   $0x0,-0x2c(%ebp)
+ movl   $0x0,-0x38(%ebp)
+ movl   $0x0,-0x34(%ebp)
+ movl   $0x0,-0x30(%ebp)
+ movl   $0x0,-0x2c(%ebp)
 -movl   $0x0,-0x10(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x76>
 -mov    -0x10(%ebp),%edx
++mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
++add    $0x10,%eax
 +mov    %eax,-0x18(%ebp)
 +movl   $0x0,-0x14(%ebp)
 +jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x71>
@@ -65,10 +63,9 @@
 -mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
--mov    %eax,-0x38(%ebp,%ebx,4)
+ mov    %eax,-0x38(%ebp,%ebx,4)
 -addl   $0x1,-0x10(%ebp)
 -cmpl   $0x3,-0x10(%ebp)
-+mov    %eax,-0x28(%ebp,%ebx,4)
 +addl   $0x1,-0x14(%ebp)
 +cmpl   $0x3,-0x14(%ebp)
  setle  %al
@@ -76,45 +73,34 @@
 -jne    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x3e>
 -jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x15c>
 +jne    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x38>
-+jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x155>
++jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x157>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x102>
-+jne    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0xfb>
++jne    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0xfd>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0x1736,0x8(%esp)
-+movl   $"OnVillageMonsterFightResult",0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x1736,0x8(%esp)
--movl   $"OnVillageMonsterFightResult",0x4(%esp)
--lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x1736,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnVillageMonsterFightResult() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0xfb>
-+jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0xf4>
++jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0xf6>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -124,23 +110,21 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x15c>
-+jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x155>
++jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x157>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x173b,0x8(%esp)
- movl   $"OnVillageMonsterFightResult",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnVillageMonsterFightResult() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x157>
-+jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x150>
++jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x152>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -191,7 +175,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4079 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4082 行）：
 
 ```cpp
 void CPacketTranslater::OnVillageMonsterFightResult(PacketHeader* pkt)

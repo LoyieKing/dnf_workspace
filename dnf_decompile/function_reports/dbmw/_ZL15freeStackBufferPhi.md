@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x818c732` | `0xeb` | `0x809dc83` | `0xf1` |
+| dbmw | DIFF | `0x818c732` | `0xeb` | `0x80f1304` | `0xe9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,30 +13,23 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,66 +1,73 @@
+@@ -1,66 +1,65 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x28,%esp
-+push   %ebx
-+sub    $0x24,%esp
+ sub    $0x28,%esp
  mov    0xc(%ebp),%eax
  cmp    $0xffffffff,%eax
--jne    <T> <_ZL15freeStackBufferPhi+0x28>
-+jne    <T> <_ZL15freeStackBufferPhi+0x33>
+ jne    <T> <_ZL15freeStackBufferPhi+0x28>
  cmpl   $0x0,0x8(%ebp)
- je     <T> <_ZL15freeStackBufferPhi+0xe8>
-+cmpl   $0x0,0x8(%ebp)
-+je     <T> <_ZL15freeStackBufferPhi+0xeb>
+-je     <T> <_ZL15freeStackBufferPhi+0xe8>
++je     <T> <_ZL15freeStackBufferPhi+0xe6>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZdaPv>
 -jmp    <T> <_ZL15freeStackBufferPhi+0xe9>
--mov    %gs:0xfffffffc,%eax
--mov    %eax,%edx
-+jmp    <T> <_ZL15freeStackBufferPhi+0xec>
-+mov    %gs:0xfffffff4,%eax
-+mov    %eax,-0xc(%ebp)
-+mov    -0xc(%ebp),%edx
++jmp    <T> <_ZL15freeStackBufferPhi+0xe7>
+ mov    %gs:0xfffffffc,%eax
+ mov    %eax,%edx
  lea    -0x10(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -50,9 +43,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPN18StackBufferContext6BufferESt6vectorIS2_SaIS2_EEEplERKi>
  sub    $0x4,%esp
--mov    %gs:0xfffffffc,%eax
--mov    %eax,%edx
-+mov    -0xc(%ebp),%edx
+ mov    %gs:0xfffffffc,%eax
+ mov    %eax,%edx
  lea    -0x18(%ebp),%eax
  mov    -0x14(%ebp),%ecx
  mov    %ecx,0x8(%esp)
@@ -60,56 +52,37 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIN18StackBufferContext6BufferESaIS1_EE5eraseEN9__gnu_cxx17__normal_iteratorIPS1_S3_EE>
  sub    $0x4,%esp
--mov    %gs:0xfffffffc,%eax
-+mov    -0xc(%ebp),%eax
+ mov    %gs:0xfffffffc,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorIN18StackBufferContext6BufferESaIS1_EE5emptyEv>
  test   %al,%al
--je     <T> <_ZL15freeStackBufferPhi+0xad>
--mov    %gs:0xfffffffc,%eax
-+je     <T> <_ZL15freeStackBufferPhi+0xae>
-+mov    -0xc(%ebp),%eax
+ je     <T> <_ZL15freeStackBufferPhi+0xad>
+ mov    %gs:0xfffffffc,%eax
  movl   $0x0,0x18(%eax)
--mov    %gs:0xfffffffc,%eax
-+mov    -0xc(%ebp),%eax
+ mov    %gs:0xfffffffc,%eax
  movl   $0x0,0x1c(%eax)
 -jmp    <T> <_ZL15freeStackBufferPhi+0xe9>
--mov    %gs:0xfffffffc,%eax
-+jmp    <T> <_ZL15freeStackBufferPhi+0xec>
-+mov    -0xc(%ebp),%eax
++jmp    <T> <_ZL15freeStackBufferPhi+0xe7>
+ mov    %gs:0xfffffffc,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIN18StackBufferContext6BufferESaIS1_EE4backEv>
--mov    %eax,-0xc(%ebp)
--mov    %gs:0xfffffffc,%eax
--mov    -0xc(%ebp),%edx
--mov    (%edx),%edx
-+mov    (%eax),%edx
-+mov    -0xc(%ebp),%eax
+ mov    %eax,-0xc(%ebp)
+ mov    %gs:0xfffffffc,%eax
+ mov    -0xc(%ebp),%edx
+ mov    (%edx),%edx
  mov    %edx,0x18(%eax)
--mov    %gs:0xfffffffc,%eax
--mov    -0xc(%ebp),%edx
+ mov    %gs:0xfffffffc,%eax
+ mov    -0xc(%ebp),%edx
 -mov    0x4(%edx),%edx
 -mov    %edx,%ecx
--mov    -0xc(%ebp),%edx
--mov    0x8(%edx),%edx
--lea    (%ecx,%edx,1),%edx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt6vectorIN18StackBufferContext6BufferESaIS1_EE4backEv>
-+mov    0x4(%eax),%ebx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt6vectorIN18StackBufferContext6BufferESaIS1_EE4backEv>
-+mov    0x8(%eax),%eax
-+lea    (%ebx,%eax,1),%edx
-+mov    -0xc(%ebp),%eax
++mov    0x4(%edx),%ecx
+ mov    -0xc(%ebp),%edx
+ mov    0x8(%edx),%edx
+ lea    (%ecx,%edx,1),%edx
  mov    %edx,0x1c(%eax)
 -jmp    <T> <_ZL15freeStackBufferPhi+0xe9>
-+jmp    <T> <_ZL15freeStackBufferPhi+0xec>
++jmp    <T> <_ZL15freeStackBufferPhi+0xe7>
  nop
-+jmp    <T> <_ZL15freeStackBufferPhi+0xec>
-+nop
-+mov    -0x4(%ebp),%ebx
  leave
  ret
 ```
@@ -163,28 +136,29 @@ void freeStackBuffer(byte *buffer,int32 bufferIdx)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/StackBuffer.cpp](source/DNFServer/GameServer/DBMW/StackBuffer.cpp)（约第 73 行）：
+定义于 [source/DNFServer/GameServer/DBMW/StackBuffer.cpp](source/DNFServer/GameServer/DBMW/StackBuffer.cpp)（约第 81 行）：
 
 ```cpp
 static void freeStackBuffer(unsigned char* buf, int end)
 {
     if (end == -1)
     {
-        if (buf)
-            delete[] buf;
+        delete[] buf;
         return;
     }
-    StackBufferContext* ctx = g_stackBufferContext;
-    ctx->m_buffers.erase(ctx->m_buffers.begin() + end);
-    if (ctx->m_buffers.empty())
+    g_stackBufferContext->m_buffers.erase(
+        g_stackBufferContext->m_buffers.begin() + end);
+    if (g_stackBufferContext->m_buffers.empty())
     {
-        ctx->m_blockIndex = 0;
-        ctx->m_offset = 0;
+        g_stackBufferContext->m_blockIndex = 0;
+        g_stackBufferContext->m_offset = 0;
     }
     else
     {
-        ctx->m_blockIndex = ctx->m_buffers.back().m_blockIndex;
-        ctx->m_offset = ctx->m_buffers.back().m_offset + ctx->m_buffers.back().m_size;
+        StackBufferContext::Buffer& b =
+            g_stackBufferContext->m_buffers.back();
+        g_stackBufferContext->m_blockIndex = b.m_blockIndex;
+        g_stackBufferContext->m_offset = b.m_offset + b.m_size;
     }
 }
 ```

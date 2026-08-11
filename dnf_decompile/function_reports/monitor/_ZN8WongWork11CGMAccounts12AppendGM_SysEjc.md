@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80acea0` | `0x8f` | `0x80930e2` | `0x94` |
+| monitor | DIFF | `0x80acea0` | `0x8f` | `0x80931c0` | `0x94` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -72,7 +72,7 @@
 -call   <T> <_Z14NumberToStringji>
 -mov    %eax,%ebx
 -movl   $0xcd,0x8(%esp)
--movl   $"AppendGM_Sys",0x4(%esp)
+-movl   $&_ZZN8WongWork11CGMAccounts12AppendGM_SysEjcE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -120,17 +120,21 @@ WongWork::CGMAccounts::_ZN8WongWork11CGMAccounts12AppendGM_SysEjc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/GMAccounts.cpp](source/DNFServer/GameServer/DBMW/GMAccounts.cpp)（约第 80 行）：
+定义于 [source/DNFServer/GameServer/Monitor/GMAccounts.cpp](source/DNFServer/GameServer/Monitor/GMAccounts.cpp)（约第 68 行）：
 
 ```cpp
-void WongWork::CGMAccounts::AppendGM_Sys(unsigned int id, char flag)
+void CGMAccounts::AppendGM_Sys(unsigned int dbid, char level)
 {
-    stGMInfo_t info = {};
-    info.m_field0 = (int)id;
-    info.m_field1 = (int)flag;
+    for (std::list<stGMInfo_t>::iterator it = m_list.begin(); it != m_list.end(); ++it)
+    {
+        if (it->m_dbid == dbid)
+        {
+            return;
+        }
+    }
+    stGMInfo_t info;
+    info.m_dbid = dbid;
+    info.m_field4 = (unsigned int)level;
     m_list.push_back(info);
-    char* mid = NumberToString(id, 0);
-    CMyFileLog log("AppendGM_Sys", 0xcd);
-    log("./log/Init", "GM List Add mid:%s", mid);
 }
 ```

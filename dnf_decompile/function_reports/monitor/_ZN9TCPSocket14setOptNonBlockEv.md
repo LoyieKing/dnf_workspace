@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804f73c` | `0x5e` | `0x8085410` | `0x54` |
+| monitor | DIFF | `0x804f73c` | `0x5e` | `0x80853e0` | `0x54` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -68,15 +68,13 @@ bool __thiscall TCPSocket::_ZN9TCPSocket14setOptNonBlockEv(TCPSocket *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 143 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp](source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp)（约第 75 行）：
 
 ```cpp
 char TCPSocket::setOptNonBlock()
 {
-    int flags = fcntl(m_fd, F_GETFL, 0);
-    flags |= O_NONBLOCK;
-    if (fcntl(m_fd, F_SETFL, flags) < 0)
-        return 0;
-    return 1;
+    unsigned int flags = fcntl(m_fd, 3, 0);
+    int r = fcntl(m_fd, 4, flags | 0x800);
+    return (char)(r >= 0);
 }
 ```

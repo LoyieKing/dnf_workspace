@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| relay | DIFF | `0x804af5a` | `0x140` | `0x8056f54` | `0x138` |
+| relay | DIFF | `0x804af5a` | `0x140` | `0x8056fac` | `0x13d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -18,7 +18,7 @@
  mov    %esp,%ebp
  push   %ebx
  sub    $0x24,%esp
--movl   $0x0,-0xc(%ebp)
+ movl   $0x0,-0xc(%ebp)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  movl   $"udp_port_to_monitor",0x8(%esp)
@@ -28,17 +28,15 @@
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN6Script20get_aradauth_sectionEv+0x72>
-+jne    <T> <_ZN6Script20get_aradauth_sectionEv+0x37>
++jne    <T> <_ZN6Script20get_aradauth_sectionEv+0x3e>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x132>
++jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x137>
  call   <T> <_Z12G_ScriptDatav>
--mov    %eax,%ebx
-+lea    0x1c(%eax),%ebx
+ mov    %eax,%ebx
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
--mov    %ax,0x1c(%ebx)
-+mov    %ax,(%ebx)
+ mov    %ax,0x1c(%ebx)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  movl   $"monitor_ip",0x8(%esp)
@@ -49,10 +47,10 @@
  cmpl   $0x0,-0xc(%ebp)
 -jne    <T> <_ZN6Script20get_aradauth_sectionEv+0x7c>
 -jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0xcc>
-+jne    <T> <_ZN6Script20get_aradauth_sectionEv+0x7d>
++jne    <T> <_ZN6Script20get_aradauth_sectionEv+0x84>
  mov    $0x0,%eax
 -jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x13a>
-+jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x132>
++jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x137>
  call   <T> <_Z12G_ScriptDatav>
 -add    $0x1e,%eax
 +lea    0x1e(%eax),%edx
@@ -65,9 +63,7 @@
 +mov    %edx,(%esp)
  call   <T> <strncpy>
  call   <T> <_Z12G_ScriptDatav>
--movb   $0x0,0x2e(%eax)
-+add    $0x2e,%eax
-+movb   $0x0,(%eax)
+ movb   $0x0,0x2e(%eax)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  movl   $"monitor_port",0x8(%esp)
@@ -78,18 +74,16 @@
  cmpl   $0x0,-0xc(%ebp)
 -jne    <T> <_ZN6Script20get_aradauth_sectionEv+0xd3>
 -jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x111>
-+jne    <T> <_ZN6Script20get_aradauth_sectionEv+0xd4>
++jne    <T> <_ZN6Script20get_aradauth_sectionEv+0xd9>
  mov    $0x0,%eax
 -jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x13a>
-+jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x132>
++jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x137>
  call   <T> <_Z12G_ScriptDatav>
--mov    %eax,%ebx
-+lea    0x30(%eax),%ebx
+ mov    %eax,%ebx
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
--mov    %ax,0x30(%ebx)
-+mov    %ax,(%ebx)
+ mov    %ax,0x30(%ebx)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  movl   $"relay_index",0x8(%esp)
@@ -100,18 +94,16 @@
  cmpl   $0x0,-0xc(%ebp)
 -jne    <T> <_ZN6Script20get_aradauth_sectionEv+0x118>
 -jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x135>
-+jne    <T> <_ZN6Script20get_aradauth_sectionEv+0x117>
++jne    <T> <_ZN6Script20get_aradauth_sectionEv+0x11c>
  mov    $0x0,%eax
 -jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x13a>
-+jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x132>
++jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x137>
  call   <T> <_Z12G_ScriptDatav>
--mov    %eax,%ebx
-+lea    0x32(%eax),%ebx
+ mov    %eax,%ebx
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
--mov    %ax,0x32(%ebx)
-+mov    %ax,(%ebx)
+ mov    %ax,0x32(%ebx)
  mov    $0x1,%eax
 -jmp    <T> <_ZN6Script20get_aradauth_sectionEv+0x13a>
 -mov    $0x0,%eax
@@ -180,36 +172,37 @@ undefined4 __thiscall Script::_ZN6Script20get_aradauth_sectionEv(Script *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Relay/Script.cpp](source/DNFServer/GameServer/Relay/Script.cpp)（约第 216 行）：
+定义于 [source/DNFServer/GameServer/Relay/Script.cpp](source/DNFServer/GameServer/Relay/Script.cpp)（约第 201 行）：
 
 ```cpp
-int Script::get_aradauth_section()
+bool Script::get_aradauth_section()
 {
-    char* v = data->get_data("[aradauth]", "udp_port_to_monitor");
+    char* v = 0;
+    v = data->get_data("[aradauth]", "udp_port_to_monitor");
     if (v == 0)
     {
         return 0;
     }
-    *(unsigned short*)((char*)G_ScriptData() + 0x1c) = (unsigned short)atoi(v);
+    G_ScriptData()->mReservedB = (unsigned short)atoi(v);
     v = data->get_data("[aradauth]", "monitor_ip");
     if (v == 0)
     {
         return 0;
     }
     strncpy((char*)G_ScriptData() + 0x1e, v, 0x10);
-    *(char*)((char*)G_ScriptData() + 0x2e) = 0;
+    G_ScriptData()->mServerIpB[16] = 0;
     v = data->get_data("[aradauth]", "monitor_port");
     if (v == 0)
     {
         return 0;
     }
-    *(unsigned short*)((char*)G_ScriptData() + 0x30) = (unsigned short)atoi(v);
+    G_ScriptData()->mReservedC = (unsigned short)atoi(v);
     v = data->get_data("[aradauth]", "relay_index");
     if (v == 0)
     {
         return 0;
     }
-    *(unsigned short*)((char*)G_ScriptData() + 0x32) = (unsigned short)atoi(v);
+    G_ScriptData()->mReservedD = (unsigned short)atoi(v);
     return 1;
 }
 ```

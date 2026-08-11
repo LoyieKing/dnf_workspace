@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80705f2` | `0x1ce` | `0x808c4b6` | `0x1c0` |
+| monitor | NEAR | `0x80705f2` | `0x1ce` | `0x808c404` | `0x1ce` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,130 +1,127 @@
+@@ -1,130 +1,130 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x3c,%esp
-+sub    $0x4c,%esp
+ sub    $0x3c,%esp
  mov    0x8(%ebp),%eax
  add    $0x18,%eax
  mov    %eax,(%esp)
@@ -28,41 +27,35 @@
  test   %al,%al
  je     <T> <_ZN12CUserManager10DeleteUserEj+0x25>
  mov    $0x0,%eax
--jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x1c6>
-+jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x1b8>
+ jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x1c6>
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK12CUserManager8FindUserEj>
--mov    %eax,-0x20(%ebp)
--cmpl   $0x0,-0x20(%ebp)
+ mov    %eax,-0x20(%ebp)
+ cmpl   $0x0,-0x20(%ebp)
 -setne  %al
 -test   %al,%al
--je     <T> <_ZN12CUserManager10DeleteUserEj+0x1c1>
--mov    -0x20(%ebp),%eax
-+mov    %eax,-0x24(%ebp)
-+cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN12CUserManager10DeleteUserEj+0x1b3>
-+mov    -0x24(%ebp),%eax
++setne  %bl
++test   %bl,%bl
+ je     <T> <_ZN12CUserManager10DeleteUserEj+0x1c1>
+ mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
  test   %eax,%eax
  sete   %al
  test   %al,%al
--je     <T> <_ZN12CUserManager10DeleteUserEj+0x67>
-+je     <T> <_ZN12CUserManager10DeleteUserEj+0x62>
+ je     <T> <_ZN12CUserManager10DeleteUserEj+0x67>
  mov    $0x0,%eax
--jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x1c6>
-+jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x1b8>
+ jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x1c6>
  movl   $0xc,(%esp)
  call   <T> <_ZN16CDNFProhibitUsernwEj>
  mov    %eax,%ebx
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CDNFProhibitUserC1Ev>
--jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x99>
-+jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x94>
+ jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x99>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -71,78 +64,58 @@
  mov    %esi,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--mov    %ebx,-0x1c(%ebp)
--mov    -0x20(%ebp),%eax
-+mov    %ebx,-0x20(%ebp)
-+mov    -0x24(%ebp),%eax
+ mov    %ebx,-0x1c(%ebp)
+ mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12GetChannelNoEv>
--movsbl %al,%edx
-+mov    %al,-0x19(%ebp)
-+movsbl -0x19(%ebp),%edx
+ movsbl %al,%edx
  mov    0xc(%ebp),%eax
  movl   $0x0,0x10(%esp)
  mov    %edx,0xc(%esp)
  movl   $0xa,0x8(%esp)
  mov    %eax,0x4(%esp)
--mov    -0x1c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CDNFProhibitUser22SetUserConnectableTimeEjscb>
  mov    0xc(%ebp),%eax
--mov    -0x1c(%ebp),%edx
-+mov    -0x20(%ebp),%edx
+ mov    -0x1c(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CUserManager18InsertProhibitUserEjP16CDNFProhibitUser>
--xor    $0x1,%eax
-+cmp    $0x1,%al
-+setne  %al
+ xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN12CUserManager10DeleteUserEj+0x184>
--mov    -0x20(%ebp),%eax
-+je     <T> <_ZN12CUserManager10DeleteUserEj+0x170>
-+movl   $0x8b,0x8(%esp)
-+movl   $"DeleteUser",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
+ je     <T> <_ZN12CUserManager10DeleteUserEj+0x184>
+ mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetGameServerEv>
--mov    %eax,(%esp)
--call   <T> <_ZN16CServerInterface12GetChannelNoEv>
--movzbl %al,%esi
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movsbl -0x19(%ebp),%eax
-+movzbl %al,%ebx
+ call   <T> <_ZN5CUser13GetGameServerEv>
+ mov    %eax,(%esp)
+ call   <T> <_ZN16CServerInterface12GetChannelNoEv>
+ movzbl %al,%esi
  mov    0xc(%ebp),%eax
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_Z14NumberToStringji>
--mov    %eax,%ebx
--movl   $0x8b,0x8(%esp)
--movl   $"DeleteUser",0x4(%esp)
--lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x14(%esp)
-+mov    %ebx,0x14(%esp)
+ mov    %eax,%ebx
+ movl   $0x8b,0x8(%esp)
+ movl   $&_ZZN12CUserManager10DeleteUserEjE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %esi,0x14(%esp)
  movl   $0xa,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"[INSERT_ERR_] CUserManager::DeleteUser() m_id : %s, time( %d ), Channel( %d )\n",0x8(%esp)
  movl   $"./log/ProhibitUser",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x1c(%ebp),%ebx
-+mov    -0x20(%ebp),%ebx
+ mov    -0x1c(%ebp),%ebx
  test   %ebx,%ebx
--je     <T> <_ZN12CUserManager10DeleteUserEj+0x184>
-+je     <T> <_ZN12CUserManager10DeleteUserEj+0x170>
+ je     <T> <_ZN12CUserManager10DeleteUserEj+0x184>
  mov    %ebx,(%esp)
  call   <T> <_ZN16CDNFProhibitUserD1Ev>
  mov    %ebx,(%esp)
@@ -156,25 +129,18 @@
  cmp    $0x1,%eax
  sete   %al
  test   %al,%al
--je     <T> <_ZN12CUserManager10DeleteUserEj+0x1c1>
--mov    -0x20(%ebp),%ebx
-+je     <T> <_ZN12CUserManager10DeleteUserEj+0x1b3>
-+cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN12CUserManager10DeleteUserEj+0x1ac>
-+mov    -0x24(%ebp),%ebx
+ je     <T> <_ZN12CUserManager10DeleteUserEj+0x1c1>
+ mov    -0x20(%ebp),%ebx
  test   %ebx,%ebx
--je     <T> <_ZN12CUserManager10DeleteUserEj+0x1ba>
-+je     <T> <_ZN12CUserManager10DeleteUserEj+0x1ac>
+ je     <T> <_ZN12CUserManager10DeleteUserEj+0x1ba>
  mov    %ebx,(%esp)
  call   <T> <_ZN5CUserD1Ev>
  mov    %ebx,(%esp)
  call   <T> <_ZN5CUserdlEPv>
  mov    $0x1,%eax
--jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x1c6>
-+jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x1b8>
+ jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x1c6>
  mov    $0x0,%eax
--add    $0x3c,%esp
-+add    $0x4c,%esp
+ add    $0x3c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -260,31 +226,40 @@ undefined4 __thiscall CUserManager::_ZN12CUserManager10DeleteUserEj(CUserManager
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 119 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 527 行）：
 
 ```cpp
-void CUserManager::DeleteUser(unsigned int dbid)
+int CUserManager::DeleteUser(unsigned int dbid)
 {
     if (m_users.empty())
     {
-        return;
+        return 0;
     }
-    std::map<unsigned int, CUser*>::iterator it = m_users.find(dbid);
-    if (it != m_users.end())
+    CUser* user = FindUser(dbid);
+    register bool hasUser = user != 0;
+    if (hasUser)
     {
-        CUser* user = it->second;
         if (user->GetGameServer() == 0)
         {
-            return;
+            return 0;
+        }
+        CDNFProhibitUser* pu = new CDNFProhibitUser;
+        pu->SetUserConnectableTime(
+            dbid, 10, ((CServerInterface*)user->GetGameServer())->GetChannelNo(), false);
+        if (InsertProhibitUser(dbid, pu) != 1)
+        {
+            DNF_LOG_SCOPE_LINE(0x8b,"./log/ProhibitUser",
+                "[INSERT_ERR_] CUserManager::DeleteUser() m_id : %s, time( %d ), Channel( %d )\n",
+                NumberToString(dbid, 0), 10,
+                (unsigned int)((CServerInterface*)user->GetGameServer())->GetChannelNo() & 0xff);
+            delete pu;
         }
         if (m_users.erase(dbid) == 1)
         {
-            char* mid = NumberToString(dbid, 0);
-            DNF_LOG_SCOPE_LINE(0x5f,"./log/User",
-                "[USER LOGOUT] Disconnected User DB ID : %s, Char No : %d , char name:%s\n",
-                mid, user->GetUniqCharNo(), user->GetCharName());
             delete user;
+            return 1;
         }
     }
+    return 0;
 }
 ```

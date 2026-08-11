@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8065440` | `0x718` | `0x805c1a0` | `0x6fb` |
+| manager | DIFF | `0x8065440` | `0x718` | `0x805c068` | `0x6fb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -99,7 +99,7 @@
 +lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -133,17 +133,7 @@
 -sete   %al
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater34OnMonitorNoticeProhibitConnectUserEP12PacketHeader+0x187>
-+jne    <T> <_ZN17CPacketTranslater34OnMonitorNoticeProhibitConnectUserEP12PacketHeader+0x18e>
-+movl   $0x138,0x8(%esp)
-+movl   $"OnMonitorNoticeProhibitConnectUser",0x4(%esp)
-+lea    -0x5c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movswl -0x22(%ebp),%edx
-+movsbl -0x23(%ebp),%eax
-+mov    %edx,0x14(%esp)
-+mov    %eax,0x10(%esp)
- mov    -0x28(%ebp),%eax
+-mov    -0x28(%ebp),%eax
 -movzwl 0xf(%eax),%eax
 -movswl %ax,%edi
 -mov    -0x28(%ebp),%eax
@@ -151,14 +141,23 @@
 -movsbl %al,%esi
 -mov    -0x28(%ebp),%eax
 -mov    0xa(%eax),%ebx
--movl   $0x138,0x8(%esp)
--movl   $"OnMonitorNoticeProhibitConnectUser",0x4(%esp)
++jne    <T> <_ZN17CPacketTranslater34OnMonitorNoticeProhibitConnectUserEP12PacketHeader+0x18e>
+ movl   $0x138,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater34OnMonitorNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x68(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
++lea    -0x5c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++movswl -0x22(%ebp),%edx
++movsbl -0x23(%ebp),%eax
++mov    %edx,0x14(%esp)
++mov    %eax,0x10(%esp)
++mov    -0x28(%ebp),%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnMonitorNoticeProhibitConnectUser Time Out, m_id : %d, flag( %d ), time( %d )\n",0x8(%esp)
  movl   $"./log/ProhibitUser",0x4(%esp)
@@ -188,19 +187,51 @@
 +movzwl -0x4a(%ebp),%eax
  test   %ax,%ax
 -je     <T> <_ZN17CPacketTranslater34OnMonitorNoticeProhibitConnectUserEP12PacketHeader+0x709>
+-mov    -0x28(%ebp),%eax
+-movzbl 0xe(%eax),%eax
+-cmp    $0x2,%al
+-jne    <T> <_ZN17CPacketTranslater34OnMonitorNoticeProhibitConnectUserEP12PacketHeader+0x38e>
+-mov    -0x28(%ebp),%eax
 +je     <T> <_ZN17CPacketTranslater34OnMonitorNoticeProhibitConnectUserEP12PacketHeader+0x6ec>
 +cmpb   $0x2,-0x23(%ebp)
 +jne    <T> <_ZN17CPacketTranslater34OnMonitorNoticeProhibitConnectUserEP12PacketHeader+0x37f>
 +mov    0x8(%ebp),%eax
-+movw   $0x4c8,(%eax)
+ movw   $0x4c8,(%eax)
+-mov    -0x28(%ebp),%eax
+-movb   $0x2,0x11(%eax)
+-mov    -0x28(%ebp),%eax
+-movw   $0x12,0x2(%eax)
+-mov    -0x28(%ebp),%eax
+-movzbl 0xe(%eax),%eax
+-movsbl %al,%eax
+-mov    %eax,-0xa8(%ebp)
+-mov    -0x28(%ebp),%eax
+-movzbl 0x11(%eax),%eax
+-movsbl %al,%eax
+-mov    %eax,-0xa4(%ebp)
+-movzwl -0x76(%ebp),%eax
+-movzwl %ax,%edi
+-mov    -0x74(%ebp),%esi
+-mov    -0x28(%ebp),%eax
+-mov    0xa(%eax),%ebx
 +mov    0x8(%ebp),%eax
 +add    $0x11,%eax
 +movb   $0x2,(%eax)
 +mov    0x8(%ebp),%eax
 +add    $0x2,%eax
 +movw   $0x12,(%eax)
-+movl   $0x14a,0x8(%esp)
-+movl   $"OnMonitorNoticeProhibitConnectUser",0x4(%esp)
+ movl   $0x14a,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater34OnMonitorNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x60(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    -0xa8(%ebp),%eax
+-mov    %eax,0x1c(%esp)
+-mov    -0xa4(%ebp),%eax
+-mov    %eax,0x18(%esp)
+-mov    %edi,0x14(%esp)
+-mov    %esi,0x10(%esp)
+-mov    %ebx,0xc(%esp)
 +lea    -0x64(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -219,41 +250,7 @@
 +mov    %ecx,0x18(%esp)
 +mov    %edx,0x14(%esp)
 +mov    %eax,0x10(%esp)
- mov    -0x28(%ebp),%eax
--movzbl 0xe(%eax),%eax
--cmp    $0x2,%al
--jne    <T> <_ZN17CPacketTranslater34OnMonitorNoticeProhibitConnectUserEP12PacketHeader+0x38e>
--mov    -0x28(%ebp),%eax
--movw   $0x4c8,(%eax)
--mov    -0x28(%ebp),%eax
--movb   $0x2,0x11(%eax)
--mov    -0x28(%ebp),%eax
--movw   $0x12,0x2(%eax)
--mov    -0x28(%ebp),%eax
--movzbl 0xe(%eax),%eax
--movsbl %al,%eax
--mov    %eax,-0xa8(%ebp)
--mov    -0x28(%ebp),%eax
--movzbl 0x11(%eax),%eax
--movsbl %al,%eax
--mov    %eax,-0xa4(%ebp)
--movzwl -0x76(%ebp),%eax
--movzwl %ax,%edi
--mov    -0x74(%ebp),%esi
--mov    -0x28(%ebp),%eax
--mov    0xa(%eax),%ebx
--movl   $0x14a,0x8(%esp)
--movl   $"OnMonitorNoticeProhibitConnectUser",0x4(%esp)
--lea    -0x60(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0xa8(%ebp),%eax
--mov    %eax,0x1c(%esp)
--mov    -0xa4(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
++mov    -0x28(%ebp),%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnMonitorNoticeProhibitConnectUser SendToClient, m_id : %d, ip( %d ), port( %d ), m_bIsConnect(%d), m_bProhibitConnect(%d)\n",0x8(%esp)
  movl   $"./log/ProhibitUser",0x4(%esp)
@@ -389,7 +386,7 @@
 +lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -406,8 +403,29 @@
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CDNFProhibitUser19SetProhibitUserInfoEc>
-+movl   $0x157,0x8(%esp)
-+movl   $"OnMonitorNoticeProhibitConnectUser",0x4(%esp)
+-mov    -0x28(%ebp),%eax
+-movzbl 0x11(%eax),%eax
+-movsbl %al,%eax
+-mov    %eax,-0xa0(%ebp)
+-mov    -0x20(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN16CDNFProhibitUser22GetMonitorRetPacketCntEv>
+-movsbl %al,%edi
+-mov    -0x28(%ebp),%eax
+-movzbl 0x12(%eax),%eax
+-movzbl %al,%esi
+-mov    -0x28(%ebp),%eax
+-mov    0xa(%eax),%ebx
+ movl   $0x157,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater34OnMonitorNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x50(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    -0xa0(%ebp),%eax
+-mov    %eax,0x18(%esp)
+-mov    %edi,0x14(%esp)
+-mov    %esi,0x10(%esp)
+-mov    %ebx,0xc(%esp)
 +lea    -0x54(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -426,29 +444,7 @@
 +mov    %ebx,0x18(%esp)
 +mov    %edx,0x14(%esp)
 +mov    %eax,0x10(%esp)
- mov    -0x28(%ebp),%eax
--movzbl 0x11(%eax),%eax
--movsbl %al,%eax
--mov    %eax,-0xa0(%ebp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16CDNFProhibitUser22GetMonitorRetPacketCntEv>
--movsbl %al,%edi
--mov    -0x28(%ebp),%eax
--movzbl 0x12(%eax),%eax
--movzbl %al,%esi
--mov    -0x28(%ebp),%eax
--mov    0xa(%eax),%ebx
--movl   $0x157,0x8(%esp)
--movl   $"OnMonitorNoticeProhibitConnectUser",0x4(%esp)
--lea    -0x50(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0xa0(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
++mov    -0x28(%ebp),%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnMonitorNoticeProhibitConnectUser Check IP Port, m_id : %d, server group(%d), cnt(%d), m_bIsConnect(%d)",0x8(%esp)
  movl   $"./log/ProhibitUser",0x4(%esp)
@@ -513,7 +509,7 @@
  mov    -0x28(%ebp),%eax
 -mov    0xa(%eax),%ebx
 -movl   $0x165,0x8(%esp)
--movl   $"OnMonitorNoticeProhibitConnectUser",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater34OnMonitorNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -660,7 +656,7 @@
 +lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -673,28 +669,24 @@
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
 +movl   $0x180,0x8(%esp)
-+movl   $"OnMonitorNoticeProhibitConnectUser",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater34OnMonitorNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x88(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
 -movl   $0x180,0x8(%esp)
--movl   $"OnMonitorNoticeProhibitConnectUser",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater34OnMonitorNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnMonitorNoticeProhibitConnectUser Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -721,7 +713,7 @@
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x185,0x8(%esp)
- movl   $"OnMonitorNoticeProhibitConnectUser",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater34OnMonitorNoticeProhibitConnectUserEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x90(%ebp),%eax
  mov    %eax,(%esp)
@@ -948,7 +940,7 @@ void CPacketTranslater::OnMonitorNoticeProhibitConnectUser(PacketHeader* header)
         CDNFProhibitUser* pu = um->FindProhibitUser(key);
         if (!pu)
         {
-            CMyFileLog log("OnMonitorNoticeProhibitConnectUser", 0x138);
+            CMyFileLog log(__FUNCTION__, 0x138);
             log("./log/ProhibitUser",
                 "CPacketTranslater::OnMonitorNoticeProhibitConnectUser Time Out, m_id : %d, flag( %d ), time( %d )\n",
                 key, flag, time);
@@ -964,7 +956,7 @@ void CPacketTranslater::OnMonitorNoticeProhibitConnectUser(PacketHeader* header)
             *(unsigned short*)((char*)header) = 0x4c8;
             ((char*)header)[0x11] = 2;
             *(unsigned short*)((char*)header + 2) = 0x12;
-            CMyFileLog log("OnMonitorNoticeProhibitConnectUser", 0x14a);
+            CMyFileLog log(__FUNCTION__, 0x14a);
             log("./log/ProhibitUser",
                 "CPacketTranslater::OnMonitorNoticeProhibitConnectUser SendToClient, m_id : %d, ip( %d ), port( %d ), m_bIsConnect(%d), m_bProhibitConnect(%d)\n",
                 key, uip, uport, ((char*)header)[0x11], ((char*)header)[0xe]);
@@ -975,7 +967,7 @@ void CPacketTranslater::OnMonitorNoticeProhibitConnectUser(PacketHeader* header)
         }
         pu->IncreMonitorRetPacket();
         pu->SetProhibitUserInfo(((char*)header)[0x11]);
-        CMyFileLog log("OnMonitorNoticeProhibitConnectUser", 0x157);
+        CMyFileLog log(__FUNCTION__, 0x157);
         log("./log/ProhibitUser",
             "CPacketTranslater::OnMonitorNoticeProhibitConnectUser Check IP Port, m_id : %d, server group(%d), cnt(%d), m_bIsConnect(%d)",
             key, ((char*)header)[0x12], pu->GetMonitorRetPacketCnt(), ((char*)header)[0x11]);
@@ -996,14 +988,14 @@ void CPacketTranslater::OnMonitorNoticeProhibitConnectUser(PacketHeader* header)
     }
     catch (CDNFException& e)
     {
-        CMyFileLog log("OnMonitorNoticeProhibitConnectUser", 0x180);
+        CMyFileLog log(__FUNCTION__, 0x180);
         log("./log/Except",
             "CPacketTranslater::OnMonitorNoticeProhibitConnectUser Exception Break : %s\n",
             e.what());
     }
     catch (...)
     {
-        CMyFileLog log("OnMonitorNoticeProhibitConnectUser", 0x185);
+        CMyFileLog log(__FUNCTION__, 0x185);
         log("./log/Except",
             "CPacketTranslater::OnMonitorNoticeProhibitConnectUser Exception Break\n");
     }

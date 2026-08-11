@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808ded4` | `0x66` | `0x80757e8` | `0x63` |
+| dbmw | DIFF | `0x808ded4` | `0x66` | `0x80c8e7c` | `0x63` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -87,7 +87,7 @@ bool __thiscall CMySql::_ZN6CMySql9get_ubyteEiRh(CMySql *this,int param_1,uchar 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 338 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 336 行）：
 
 ```cpp
 bool CMySql::get_ubyte(int col, unsigned char& v)

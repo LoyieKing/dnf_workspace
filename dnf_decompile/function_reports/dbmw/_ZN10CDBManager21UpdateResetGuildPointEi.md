@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80741f4` | `0x151` | `0x805c38e` | `0x143` |
+| dbmw | DIFF | `0x80741f4` | `0x151` | `0x805c13e` | `0x143` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,25 +23,19 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"upDate guild_info set guild_point = 0 , guild_war_point = 0 where server_id = %d and expire_flag = 0",0x8(%esp)
  movl   $0x4e36,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager21UpdateResetGuildPointEi+0x7c>
  movl   $0x72b,0x8(%esp)
- movl   $"UpdateResetGuildPoint",0x4(%esp)
+ movl   $&_ZZN10CDBManager21UpdateResetGuildPointEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 +lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -57,17 +51,13 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e36,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21UpdateResetGuildPointEi+0xae>
@@ -78,26 +68,20 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"upDate guild_member set member_point = 0 where server_id = %d",0x8(%esp)
  movl   $0x4e38,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21UpdateResetGuildPointEi+0x11b>
 +je     <T> <_ZN10CDBManager21UpdateResetGuildPointEi+0x114>
  movl   $0x737,0x8(%esp)
- movl   $"UpdateResetGuildPoint",0x4(%esp)
+ movl   $&_ZZN10CDBManager21UpdateResetGuildPointEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -113,17 +97,13 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e38,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21UpdateResetGuildPointEi+0x14a>
@@ -193,7 +173,7 @@ CDBManager::_ZN10CDBManager21UpdateResetGuildPointEi(CDBManager *this,int param_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4185 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4103 行）：
 
 ```cpp
 char CDBManager::UpdateResetGuildPoint(int serverId)
@@ -203,7 +183,7 @@ char CDBManager::UpdateResetGuildPoint(int serverId)
                       "upDate guild_info set guild_point = 0 , guild_war_point = 0 where server_id = %d and expire_flag = 0",
                       serverId))
     {
-        CMyFileLog log("UpdateResetGuildPoint", 0x72b);
+        CMyFileLog log(__FUNCTION__, 0x72b);
         log("./log/DBQueryErr",
             "CDBManager::UpdateResetGuildPoint() Fatal Error Break : update guild_info set guild_point = 0 where server_id = %d and expire_flag = 0\n",
             serverId);
@@ -214,7 +194,7 @@ char CDBManager::UpdateResetGuildPoint(int serverId)
                       "upDate guild_member set member_point = 0 where server_id = %d",
                       serverId))
     {
-        CMyFileLog log("UpdateResetGuildPoint", 0x737);
+        CMyFileLog log(__FUNCTION__, 0x737);
         log("./log/DBQueryErr",
             "CDBManager::UpdateResetGuildPoint() Fatal Error Break : update guild_member set member_point = 0 where server_id = %d\n",
             serverId);

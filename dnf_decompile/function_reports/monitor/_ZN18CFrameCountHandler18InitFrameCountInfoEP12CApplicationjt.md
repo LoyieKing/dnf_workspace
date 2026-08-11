@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804cb16` | `0x13c` | `0x8086368` | `0x146` |
+| monitor | DIFF | `0x804cb16` | `0x13c` | `0x80862c8` | `0x146` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -128,7 +128,7 @@
  lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -172,16 +172,4 @@ void CFrameCountHandler::_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplica
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp](source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp)（约第 48 行）：
-
-```cpp
-void CFrameCountHandler::InitFrameCountInfo(CApplication* app, unsigned int a, unsigned short b)
-{
-    if (!a)
-        throw CDNFException("CFrameCountHandler::InitFrameCountInfo() Exception Break!");
-    m_app = app;
-    memset(this, 0, 0x28);
-    m_field4 = a;
-    m_field8 = 100 / a;
-}
-```
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFTickHandler.cpp, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFMemberManager.h, source/DNFServer/GameServer/Monitor/DNFPacketBuffer.h, source/DNFServer/GameServer/Monitor/DNFTableBase.h, source/DNFServer/GameServer/Monitor/DNFTickHandler.cpp, source/DNFServer/GameServer/Monitor/DNFTickHandler.h 等 299 个文件*

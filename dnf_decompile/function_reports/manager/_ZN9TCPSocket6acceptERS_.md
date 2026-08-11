@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8055678` | `0x11d` | `0x8062a9e` | `0x11d` |
+| manager | DIFF | `0x8055678` | `0x11d` | `0x8062968` | `0x11b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,80 +1,80 @@
+@@ -1,80 +1,79 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
@@ -60,18 +60,19 @@
  mov    (%eax),%eax
  test   %eax,%eax
 -js     <T> <_ZN9TCPSocket6acceptERS_+0x92>
--mov    0xc(%ebp),%eax
--mov    (%eax),%eax
--cmp    $0xffffffff,%eax
++js     <T> <_ZN9TCPSocket6acceptERS_+0x90>
+ mov    0xc(%ebp),%eax
+ mov    (%eax),%eax
+ cmp    $0xffffffff,%eax
 -jne    <T> <_ZN9TCPSocket6acceptERS_+0xdd>
-+jns    <T> <_ZN9TCPSocket6acceptERS_+0xca>
++jne    <T> <_ZN9TCPSocket6acceptERS_+0xdb>
  movl   $"a+",0x4(%esp)
  movl   $"log.txt",(%esp)
  call   <T> <fopen>
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN9TCPSocket6acceptERS_+0xd6>
-+je     <T> <_ZN9TCPSocket6acceptERS_+0xca>
++je     <T> <_ZN9TCPSocket6acceptERS_+0xd4>
  mov    0xc(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,0x8(%esp)
@@ -82,12 +83,9 @@
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <fclose>
-+mov    0xc(%ebp),%eax
-+mov    (%eax),%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN9TCPSocket6acceptERS_+0xdb>
  mov    $0x0,%eax
- jmp    <T> <_ZN9TCPSocket6acceptERS_+0x11b>
+-jmp    <T> <_ZN9TCPSocket6acceptERS_+0x11b>
++jmp    <T> <_ZN9TCPSocket6acceptERS_+0x119>
  mov    0xc(%ebp),%eax
  lea    0x8(%eax),%edx
  mov    0xc(%ebp),%eax
@@ -97,9 +95,7 @@
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    0xc(%ebp),%eax
--movzwl 0x6(%eax),%edx
-+add    $0x6,%eax
-+movzwl (%eax),%edx
+ movzwl 0x6(%eax),%edx
  mov    0xc(%ebp),%eax
  mov    %dx,0x18(%eax)
  mov    0xc(%ebp),%eax
@@ -154,7 +150,7 @@ undefined4 __thiscall TCPSocket::_ZN9TCPSocket6acceptERS_(TCPSocket *this,TCPSoc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 287 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFTcpSocket.cpp](source/DNFServer/GameServer/Manager/DNFTcpSocket.cpp)（约第 311 行）：
 
 ```cpp
 char TCPSocket::accept(TCPSocket& sock)
@@ -170,7 +166,7 @@ char TCPSocket::accept(TCPSocket& sock)
             fclose(f);
         }
     }
-    if (sock.m_fd < 0)
+    if (sock.m_fd < 0 || sock.m_fd == -1)
     {
         FILE* f = fopen("log.txt", "a+");
         if (f)
@@ -178,11 +174,10 @@ char TCPSocket::accept(TCPSocket& sock)
             fprintf(f, "[TCPSocket::Accept] Accept fail[%d]\n", sock.m_fd);
             fclose(f);
         }
-    }
-    if (sock.m_fd == -1)
         return 0;
+    }
     memcpy((char*)&sock + 0x14, (char*)&sock + 8, 4);
-    sock.m_port = *(unsigned short*)((char*)&sock + 6);
+    sock.m_port = sock.m_sock.sin_port;
     sock.setOptNonBlock();
     return 1;
 }

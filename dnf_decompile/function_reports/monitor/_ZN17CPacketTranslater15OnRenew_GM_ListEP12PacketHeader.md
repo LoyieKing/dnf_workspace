@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808d678` | `0xaa` | `0x8078cfc` | `0xbc` |
+| monitor | DIFF | `0x808d678` | `0xaa` | `0x8078c54` | `0xb7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,50 +1,58 @@
+@@ -1,50 +1,55 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
@@ -29,16 +29,15 @@
  cmpl   $0x0,-0x14(%ebp)
 -je     <T> <_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader+0xa8>
 -mov    -0x14(%ebp),%eax
--movzbl 0xa(%eax),%eax
-+je     <T> <_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader+0xba>
++je     <T> <_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader+0xb5>
 +cmpl   $0x0,0x8(%ebp)
-+je     <T> <_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader+0xba>
++je     <T> <_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader+0xb5>
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
+ movzbl 0xa(%eax),%eax
  test   %al,%al
- jne    <T> <_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader+0x42>
+-jne    <T> <_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader+0x42>
 -mov    -0x10(%ebp),%eax
++jne    <T> <_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader+0x40>
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN8WongWork11CGMAccounts11clearGmListEv>
@@ -47,7 +46,7 @@
 -mov    -0xc(%ebp),%eax
 -mov    -0x14(%ebp),%edx
 -movzbl 0x5c(%edx,%eax,1),%eax
-+jmp    <T> <_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader+0x83>
++jmp    <T> <_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader+0x81>
 +mov    0x8(%ebp),%eax
 +mov    -0xc(%ebp),%edx
 +add    $0x5c,%edx
@@ -70,21 +69,18 @@
  call   <T> <_ZN8WongWork11CGMAccounts12AppendGM_SysEjc>
  addl   $0x1,-0xc(%ebp)
 -mov    -0x14(%ebp),%eax
--movzbl 0xb(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0xb,%eax
-+movzbl (%eax),%eax
+ movzbl 0xb(%eax),%eax
  movsbl %al,%eax
  cmp    -0xc(%ebp),%eax
  setg   %al
  test   %al,%al
- jne    <T> <_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader+0x4b>
+-jne    <T> <_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader+0x4b>
 -mov    -0x14(%ebp),%edx
++jne    <T> <_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader+0x49>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0xa0(%eax),%eax
+ mov    0xa0(%eax),%eax
 -mov    %edx,0x4(%esp)
-+add    $0xa0,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x10(%ebp)
 +mov    0x8(%ebp),%eax
 +mov    %eax,0x4(%esp)
@@ -124,22 +120,25 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 3015 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4362 行）：
 
 ```cpp
-void CPacketTranslater::OnRenew_GM_List(PacketHeader* header)
+void CPacketTranslater::OnRenew_GM_List(PacketHeader* pkt)
 {
-    WongWork::CGMAccounts* gm =
-        (WongWork::CGMAccounts*)m_pclApp->GetGMAccounts();
-    if (gm && header)
+    WongWork::CGMAccounts* gm = (WongWork::CGMAccounts*)m_pclApp->GetGMAccounts();
+    if (gm != 0 && pkt != 0)
     {
-        Packet_GM_List* pkt = (Packet_GM_List*)header;
-        if (pkt->m_flag == 0)
-            gm->clearGmList();
-        for (int i = 0; i < pkt->m_count; i++)
+        if (((RA_S8<10>*)pkt)->v == 0)
         {
-            gm->AppendGM_Sys(pkt->m_ids[i], pkt->m_flags[i]);
+            gm->clearGmList();
         }
+        for (int i = 0; i < (int)(char)((RA_S8<11>*)pkt)->v; i++)
+        {
+            gm->AppendGM_Sys(*(unsigned int*)((char*)pkt + i * 4 + 0xc),
+                             *(char*)((char*)pkt + i + 0x5c));
+        }
+        CServerHandler* handler = m_pclApp->m_serverHandler2;
+        handler->SendToDB(pkt);
     }
 }
 ```

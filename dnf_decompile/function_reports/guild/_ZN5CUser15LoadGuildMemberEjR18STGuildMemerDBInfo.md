@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80668b4` | `0x13d` | `0x8088ed4` | `0x148` |
+| guild | DIFF | `0x80668b4` | `0x13d` | `0x8088d52` | `0x148` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -99,28 +99,29 @@
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN5CUser15LoadGuildMemberEjR18STGuildMemerDBInfo+0x136>
--mov    0x8(%ebp),%eax
++je     <T> <_ZN5CUser15LoadGuildMemberEjR18STGuildMemerDBInfo+0x142>
++movl   $0x8d,0x8(%esp)
++movl   $"LoadGuildMember",0x4(%esp)
++lea    -0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0x8(%ebp),%eax
 -movzbl 0x5f(%eax),%eax
 -movzbl %al,%esi
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,%ebx
-+je     <T> <_ZN5CUser15LoadGuildMemberEjR18STGuildMemerDBInfo+0x142>
- movl   $0x8d,0x8(%esp)
- movl   $"LoadGuildMember",0x4(%esp)
- lea    -0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x14(%esp)
--mov    %ebx,0x10(%esp)
-+mov    0x8(%ebp),%eax
 +add    $0x5f,%eax
 +movzbl (%eax),%eax
 +movzbl %al,%ebx
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser13GetUniqCharNoEv>
+-mov    %eax,%ebx
+-movl   $0x8d,0x8(%esp)
+-movl   $&_ZZN5CUser15LoadGuildMemberEjR18STGuildMemerDBInfoE12__FUNCTION__,0x4(%esp)
+-lea    -0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %esi,0x14(%esp)
+-mov    %ebx,0x10(%esp)
 +mov    %ebx,0x14(%esp)
 +mov    %eax,0x10(%esp)
  mov    0xc(%ebp),%eax
@@ -204,7 +205,7 @@ CUser::_ZN5CUser15LoadGuildMemberEjR18STGuildMemerDBInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 148 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 163 行）：
 
 ```cpp
 void CUser::LoadGuildMember(unsigned int guildKey, STGuildMemerDBInfo& info)

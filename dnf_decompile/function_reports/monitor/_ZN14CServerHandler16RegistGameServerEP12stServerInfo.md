@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a614` | `0xfc` | `0x8080452` | `0x118` |
+| monitor | DIFF | `0x807a614` | `0xfc` | `0x8080318` | `0x118` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -80,14 +80,11 @@
 +mov    %eax,-0x3c(%ebp)
 +mov    -0x3c(%ebp),%eax
  mov    (%eax),%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x3c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x3c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    0xc(%ebp),%eax
  lea    0x1(%eax),%edx
 -lea    -0x38(%ebp),%eax
@@ -176,20 +173,19 @@ CServerHandler::_ZN14CServerHandler16RegistGameServerEP12stServerInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 423 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 194 行）：
 
 ```cpp
 bool CServerHandler::RegistGameServer(stServerInfo* info)
 {
-    unsigned int group = (unsigned int)(unsigned char)info->m_field1;
-    std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.find(group);
-    if (it != m_gameServers.end())
+    unsigned int group = (unsigned int)info->m_field1;
+    std::map<unsigned int, CGameServer*>::iterator found = m_gameServers.find(group);
+    if (found == m_gameServers.end())
     {
-        return false;
+        CGameServer* gs = new CGameServer(info);
+        gs->Initialize();
+        m_gameServers.insert(std::pair<const unsigned int, CGameServer*>(info->m_field1, gs));
     }
-    CGameServer* gs = new CGameServer(info);
-    gs->Initialize();
-    m_gameServers.insert(std::make_pair((unsigned int)(unsigned char)info->m_field1, gs));
-    return true;
+    return found == m_gameServers.end();
 }
 ```

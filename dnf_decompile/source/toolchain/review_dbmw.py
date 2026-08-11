@@ -20,7 +20,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, '/tmp')
 
-ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
+ROOT = Path('/home/loyieking/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/dbmw_guild/df_dbmw_r'
 NEW = ROOT / 'dnf_decompile/build/dbmw/df_dbmw_r'
 

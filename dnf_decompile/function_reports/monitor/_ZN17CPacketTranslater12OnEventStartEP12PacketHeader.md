@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8084332` | `0x28a` | `0x806f4e4` | `0x2a0` |
+| monitor | DIFF | `0x8084332` | `0x28a` | `0x806f64e` | `0x29a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,176 +1,184 @@
+@@ -1,176 +1,180 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,19 +24,19 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0xdf>
 -lea    -0x39(%ebp),%eax
-+lea    -0x29(%ebp),%eax
++lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x39(%ebp),%eax
-+lea    -0x29(%ebp),%eax
++lea    -0x41(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnEventStart : 0 == m_pclApp",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x40(%ebp),%esi
-+lea    -0x30(%ebp),%esi
++lea    -0x48(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -54,7 +54,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x40(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x87>
@@ -65,7 +65,7 @@
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0xa4>
 -lea    -0x40(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0xbc>
@@ -75,34 +75,31 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x39(%ebp),%eax
-+lea    -0x29(%ebp),%eax
++lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x17a>
 -lea    -0x39(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x192>
-+lea    -0x29(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x18a>
++lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    0x8(%ebp),%eax
 +mov    %eax,-0x28(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0x10,%eax
-+movzwl (%eax),%eax
++movzwl 0x10(%eax),%eax
 +mov    %ax,-0x24(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzwl (%eax),%eax
++movzwl 0xe(%eax),%eax
 +mov    %ax,-0x22(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++mov    0xa(%eax),%eax
  mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
 -movzwl 0x10(%eax),%eax
@@ -112,99 +109,83 @@
 -movzwl %ax,%esi
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%ebx
++movzwl -0x24(%ebp),%esi
++movzwl -0x22(%ebp),%ebx
  movl   $0x9f4,0x8(%esp)
- movl   $"OnEventStart",0x4(%esp)
- lea    -0x38(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater12OnEventStartEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x38(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+movzwl -0x24(%ebp),%edx
-+movzwl -0x22(%ebp),%eax
-+mov    %edx,0x14(%esp)
-+mov    %eax,0x10(%esp)
++mov    %esi,0x14(%esp)
++mov    %ebx,0x10(%esp)
 +mov    -0x20(%ebp),%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnEventStart() eventCode(%d), eventParam1(%d), eventParam2(%d)\n",0x8(%esp)
  movl   $"./log/Web",0x4(%esp)
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    0x8(%ebp),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0x31c(%eax),%eax
+ mov    0x31c(%eax),%eax
 -mov    -0x20(%ebp),%edx
-+add    $0x31c,%eax
-+mov    (%eax),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0xa0(%eax),%eax
-+add    $0xa0,%eax
-+mov    (%eax),%eax
+ mov    0xa0(%eax),%eax
  mov    0x8(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x282>
-+jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x298>
++jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x292>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x21c>
-+jne    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x232>
++jne    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x22c>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0x4(%esp)
-+movl   $"CPacketTranslater::OnEventStart() �삁�쇅 諛쒖깮 : %s\n",(%esp)
-+call   <T> <printf>
-+movl   $0xa3b,0x8(%esp)
-+movl   $"OnEventStart",0x4(%esp)
-+lea    -0x40(%ebp),%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
--call   *%edx
--mov    %eax,0x4(%esp)
+ call   *%edx
+ mov    %eax,0x4(%esp)
 -movl   $"CPacketTranslater::OnEventStart() 예외 발생 : %s\n",(%esp)
--call   <T> <printf>
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++movl   $"CPacketTranslater::OnEventStart() �삁�쇅 諛쒖깮 : %s\n",(%esp)
+ call   <T> <printf>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0xa3b,0x8(%esp)
--movl   $"OnEventStart",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0xa3b,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater12OnEventStartEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
++lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
 -movl   $"CPacketTranslater::OnEventStart() 예외 발생 : %s\n",0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
 +movl   $"CPacketTranslater::OnEventStart() �삁�쇅 諛쒖깮 : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x215>
-+jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x22b>
++jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x225>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -214,27 +195,27 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x282>
-+jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x298>
++jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x292>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
 -movl   $"CPacketTranslater::OnEventStart() 예외 발생",(%esp)
 +movl   $"CPacketTranslater::OnEventStart() �삁�쇅 諛쒖깮",(%esp)
  call   <T> <puts>
  movl   $0xa41,0x8(%esp)
- movl   $"OnEventStart",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater12OnEventStartEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -movl   $"CPacketTranslater::OnEventStart() 예외 발생\n",0x8(%esp)
 +movl   $"CPacketTranslater::OnEventStart() �삁�쇅 諛쒖깮\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x27d>
-+jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x293>
++jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x28d>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -301,23 +282,39 @@ void CPacketTranslater::_ZN17CPacketTranslater12OnEventStartEP12PacketHeader(Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2395 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1792 行）：
 
 ```cpp
-void CPacketTranslater::OnEventStart(PacketHeader* header)
+void CPacketTranslater::OnEventStart(PacketHeader* pkt)
 {
     try
     {
-        if (!m_pclApp)
+        if (m_pclApp == 0)
+        {
             throw CDNFException("CPacketTranslater::OnEventStart : 0 == m_pclApp");
-        m_pclApp->m_serverHandler->SendAllTcpServer(header);
-        CMyFileLog log("OnEventStart", 0x70);
-        log("./log/Web",
-            "CPacketTranslater::OnEventStart() eventCode(%d), eventParam1(%d), eventParam2(%d)\n",
-            *(int*)((char*)header + 0xa),
-            *(unsigned short*)((char*)header + 0xe),
-            *(unsigned short*)((char*)header + 0x10));
+        }
+        PacketHeader* rpkt = pkt;
+        unsigned short p2 = ((RA_U16<16>*)pkt)->v;
+        unsigned short p1 = ((RA_U16<14>*)pkt)->v;
+        unsigned int code = ((RA_UINT<10>*)pkt)->v;
+        DNF_LOG_SCOPE_LINE(0x9f4,"./log/Web",
+            "CPacketTranslater::OnEventStart() eventCode(%d), eventParam1(%d), "
+            "eventParam2(%d)\n",
+            code, (unsigned int)p1, (unsigned int)p2);
+        ((CEventActionManager*)((RA_INT<796>*)m_pclApp)->v)
+            ->OnStartAction((Packet_Monitor_Event_Start*)pkt);
+        (m_pclApp->m_serverHandler2)
+            ->SendAllTcpGameServer(pkt);
     }
-    DNF_CATCH_LOG_THROW("CPacketTranslater::OnEventStart() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
+    catch (CDNFException& e)
+    {
+        printf("CPacketTranslater::OnEventStart() 예외 발생 : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0xa3b, "./log/Except", "CPacketTranslater::OnEventStart() 예외 발생 : %s\n", e.what());
+    }
+    catch (...)
+    {
+        puts("CPacketTranslater::OnEventStart() 예외 발생");
+        DNF_LOG_SCOPE_LINE(0xa41, "./log/Except", "CPacketTranslater::OnEventStart() 예외 발생\n");
+    }
 }
 ```

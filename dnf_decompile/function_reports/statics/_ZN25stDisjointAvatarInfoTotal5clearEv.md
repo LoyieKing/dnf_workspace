@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8057910` | `0x94` | `0x8065650` | `0x98` |
+| statics | DIFF | `0x8057910` | `0x94` | `0x806566a` | `0x88` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,51 +1,49 @@
+@@ -1,51 +1,44 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -29,13 +29,11 @@
 -mov    -0x10(%ebp),%esi
 -mov    -0xc(%ebp),%ebx
 -mov    0x8(%ebp),%ecx
-+jmp    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x87>
++jmp    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x7b>
 +movl   $0x0,-0x8(%ebp)
-+jmp    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x78>
++jmp    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x6c>
 +movl   $0x0,-0x4(%ebp)
-+jmp    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x48>
-+mov    0x8(%ebp),%eax
-+mov    %eax,%ecx
++jmp    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x43>
 +mov    -0xc(%ebp),%edx
  mov    %edx,%eax
  shl    $0x3,%eax
@@ -47,10 +45,10 @@
 -movl   $0x0,(%ecx,%eax,4)
 -addl   $0x1,-0xc(%ebp)
 -cmpl   $0x1,-0xc(%ebp)
-+add    -0x4(%ebp),%eax
-+shl    $0x2,%eax
-+lea    (%ecx,%eax,1),%eax
-+movl   $0x0,(%eax)
++mov    %eax,%edx
++add    -0x4(%ebp),%edx
++mov    0x8(%ebp),%eax
++movl   $0x0,(%eax,%edx,4)
 +addl   $0x1,-0x4(%ebp)
 +cmpl   $0x1,-0x4(%ebp)
  setle  %al
@@ -60,8 +58,6 @@
 -mov    -0x10(%ebp),%ebx
 -mov    0x8(%ebp),%ecx
 +jne    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x21>
-+mov    0x8(%ebp),%eax
-+mov    %eax,%ecx
 +mov    -0xc(%ebp),%edx
  mov    %edx,%eax
  shl    $0x3,%eax
@@ -72,10 +68,9 @@
 -addl   $0x1,-0x10(%ebp)
 -cmpl   $0x8,-0x10(%ebp)
 +add    -0x8(%ebp),%eax
-+add    $0x36,%eax
-+shl    $0x2,%eax
-+lea    (%ecx,%eax,1),%eax
-+movl   $0x0,(%eax)
++lea    0x36(%eax),%edx
++mov    0x8(%ebp),%eax
++movl   $0x0,(%eax,%edx,4)
 +addl   $0x1,-0x8(%ebp)
 +cmpl   $0x8,-0x8(%ebp)
  setle  %al
@@ -125,11 +120,21 @@ stDisjointAvatarInfoTotal::_ZN25stDisjointAvatarInfoTotal5clearEv(stDisjointAvat
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GMAccounts.cpp](source/DNFServer/GameServer/Guild/GMAccounts.cpp)（约第 96 行）：
+定义于 [source/DNFServer/GameServer/Statics/GMAccounts.cpp](source/DNFServer/GameServer/Statics/GMAccounts.cpp)（约第 78 行）：
 
 ```cpp
-void CGMAccounts::clearGmList()
+void stDisjointAvatarInfoTotal::clear()
 {
-    m_list.clear();
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 9; j++)
+        {
+            for (int k = 0; k < 2; k++)
+            {
+                m_data[(i * 9 + j) * 2 + k] = 0;
+            }
+            m_data[i * 9 + j + 0x34 + 2] = 0;
+        }
+    }
 }
 ```

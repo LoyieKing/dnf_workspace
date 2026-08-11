@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808d49e` | `0x271` | `0x8074fbe` | `0x288` |
+| dbmw | DIFF | `0x808d49e` | `0x271` | `0x80c8652` | `0x288` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -22,15 +22,11 @@
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  add    $0x70,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
-+mov    0x8(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
  mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    0x8(%ebp),%eax
 -mov    0x42084(%eax),%eax
 -mov    %eax,%edx
 +mov    0x42084(%eax),%edx
@@ -121,7 +117,7 @@
 -mov    %eax,%ebx
 +mov    %eax,-0xc(%ebp)
  movl   $0x118,0x8(%esp)
- movl   $"exec_query",0x4(%esp)
+ movl   $&_ZZN6CMySql10exec_queryEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -137,7 +133,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  jmp    <T> <_ZN6CMySql10exec_queryEv+0x1ad>
  movl   $0x11c,0x8(%esp)
- movl   $"exec_query",0x4(%esp)
+ movl   $&_ZZN6CMySql10exec_queryEvE12__FUNCTION__,0x4(%esp)
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -159,7 +155,7 @@
 -mov    0x42088(%eax),%ebx
 +je     <T> <_ZN6CMySql10exec_queryEv+0x275>
  movl   $0x12a,0x8(%esp)
- movl   $"exec_query",0x4(%esp)
+ movl   $&_ZZN6CMySql10exec_queryEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
@@ -184,7 +180,7 @@
 -jne    <T> <_ZN6CMySql10exec_queryEv+0x25e>
 +jne    <T> <_ZN6CMySql10exec_queryEv+0x275>
  movl   $0x12c,0x8(%esp)
- movl   $"exec_query",0x4(%esp)
+ movl   $&_ZZN6CMySql10exec_queryEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
@@ -287,7 +283,7 @@ undefined4 __thiscall CMySql::_ZN6CMySql10exec_queryEv(CMySql *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 127 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 125 行）：
 
 ```cpp
 int CMySql::exec_query()
@@ -310,13 +306,13 @@ int CMySql::exec_query()
                                             m_user, 0xcea, 0, 0x400))
                     {
                         int e2 = mysql_errno(m_mysql);
-                        CMyFileLog log("exec_query", 0x118);
+                        CMyFileLog log(__FUNCTION__, 0x118);
                         log("./log/MysqlErr.log",
                             "DB reconnection fail. err_no(%d)\n", e2);
                     }
                     else
                     {
-                        CMyFileLog log("exec_query", 0x11c);
+                        CMyFileLog log(__FUNCTION__, 0x11c);
                         log("./log/MysqlErr.log",
                             "DB Reconnect By Server Gone Error\n");
                     }
@@ -326,12 +322,12 @@ int CMySql::exec_query()
         }
         if (m_lastErrno != 0x426)
         {
-            CMyFileLog log("exec_query", 0x12a);
+            CMyFileLog log(__FUNCTION__, 0x12a);
             log("./log/MysqlErr.log",
                 "DB error occured (%d) Query('%s')\n", m_lastErrno, m_query);
             if (m_lastErrno == 0x7d6)
             {
-                CMyFileLog log2("exec_query", 300);
+            CMyFileLog log2(__FUNCTION__, 300);
                 log2("./log/MysqlErr.log",
                      "CMySql::open() Function Error!\tCheck Connection First, Must Be Not Connected!\n",
                      m_lastErrno, m_query);

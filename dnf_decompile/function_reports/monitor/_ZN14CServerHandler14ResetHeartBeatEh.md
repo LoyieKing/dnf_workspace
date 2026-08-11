@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8079b24` | `0xe1` | `0x8080efc` | `0xae` |
+| monitor | DIFF | `0x8079b24` | `0xe1` | `0x8080dc2` | `0xae` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -90,7 +90,7 @@
 -jmp    <T> <_ZN14CServerHandler14ResetHeartBeatEh+0xdc>
 -movzbl -0x2c(%ebp),%ebx
 -movl   $0x162,0x8(%esp)
--movl   $"ResetHeartBeat",0x4(%esp)
+-movl   $&_ZZN14CServerHandler14ResetHeartBeatEhE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -158,8 +158,17 @@ CServerHandler::_ZN14CServerHandler14ResetHeartBeatEh(CServerHandler *this,uchar
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 190 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 456 行）：
 
 ```cpp
-void CServerHandler::ResetHeartBeat(unsigned char idx) {}
+void CServerHandler::ResetHeartBeat(unsigned char channel)
+{
+    std::map<unsigned int, CGameServer*>::iterator it =
+        m_gameServers.find((unsigned int)channel);
+    if (it != m_gameServers.end() && it->second != 0 &&
+        ((CServerInterface*)it->second)->IsValidServer() != 0)
+    {
+        ((CServerInterface*)it->second)->ResetHeartBeat();
+    }
+}
 ```

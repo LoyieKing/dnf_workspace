@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| point | DIFF | `0x80b6664` | `0x1dd` | `0x80b4e90` | `0x1da` |
+| point | DIFF | `0x80b6664` | `0x1dd` | `0x80b4dae` | `0x1da` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -213,7 +213,7 @@ void __thiscall nsl::TraceLog::_ZN3nsl8TraceLog6sysLogEiPKcz(TraceLog *this,int 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/TraceLog.cpp](source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/TraceLog.cpp)（约第 170 行）：
+定义于 [source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/TraceLog.cpp](source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/TraceLog.cpp)（约第 169 行）：
 
 ```cpp
 void TraceLog::sysLog(int flag, const char* msg, ...)

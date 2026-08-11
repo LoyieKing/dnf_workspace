@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808c90c` | `0x11a` | `0x8077f80` | `0x105` |
+| monitor | DIFF | `0x808c90c` | `0x11a` | `0x8077eea` | `0x105` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -26,9 +26,7 @@
 -mov    %eax,-0x14(%ebp)
 -movl   $0x0,-0x10(%ebp)
 -mov    -0x18(%ebp),%eax
--mov    0xe(%eax),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
+ mov    0xe(%eax),%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 +add    $0x10,%edx
  mov    %eax,0x4(%esp)
@@ -45,35 +43,26 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0x1764,0x8(%esp)
-+movl   $"OnVillageAttackedGMCommand",0x4(%esp)
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x1764,0x8(%esp)
--movl   $"OnVillageAttackedGMCommand",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x1764,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater26OnVillageAttackedGMCommandEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnVillageAttackedGMCommand() Exception Break : %s\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
 -lea    -0x28(%ebp),%eax
 +movl   $"%s",0x4(%esp)
-+lea    -0x14(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26OnVillageAttackedGMCommandEP12PacketHeader+0xb2>
@@ -91,16 +80,16 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1769,0x8(%esp)
- movl   $"OnVillageAttackedGMCommand",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater26OnVillageAttackedGMCommandEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnVillageAttackedGMCommand() Exception Break\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
 -lea    -0x20(%ebp),%eax
 +movl   $"%s",0x4(%esp)
-+lea    -0x1c(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26OnVillageAttackedGMCommandEP12PacketHeader+0x10e>
@@ -137,7 +126,7 @@ void CPacketTranslater::_ZN17CPacketTranslater26OnVillageAttackedGMCommandEP12Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4107 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4110 行）：
 
 ```cpp
 void CPacketTranslater::OnVillageAttackedGMCommand(PacketHeader* pkt)
@@ -145,7 +134,7 @@ void CPacketTranslater::OnVillageAttackedGMCommand(PacketHeader* pkt)
     try
     {
         ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
-            *(unsigned int*)((char*)pkt + 0xe));
+            ((RA_UINT<14>*)pkt)->v);
     }
     catch (CDNFException& e)
     {

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80aa4bc` | `0x17a` | `0x80a06e0` | `0x17f` |
+| guild | DIFF | `0x80aa4bc` | `0x17a` | `0x80a0314` | `0x186` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,17 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,110 +1,110 @@
+@@ -1,110 +1,115 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
--push   %ebx
--sub    $0x60,%esp
-+sub    $0x68,%esp
+ push   %esi
+ push   %ebx
+ sub    $0x60,%esp
  mov    0x8(%ebp),%eax
--add    $0x28,%eax
-+add    $0x4,%eax
-+add    $0x24,%eax
+ add    $0x28,%eax
 +mov    %eax,-0x20(%ebp)
 +mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -36,7 +33,7 @@
 -mov    0x8(%ebp),%eax
 -lea    0x28(%eax),%edx
 -lea    -0x2c(%ebp),%eax
-+je     <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x17d>
++je     <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x17c>
 +mov    $0xfa,%eax
 +cmpl   $0xfa,-0x1c(%ebp)
 +cmovbe -0x1c(%ebp),%eax
@@ -45,7 +42,7 @@
 +add    $0xf,%eax
 +mov    %eax,-0x14(%ebp)
 +movl   $0x0,-0x10(%ebp)
-+lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
 +mov    -0x20(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -66,8 +63,8 @@
 -cmp    -0x14(%ebp),%eax
 -jl     <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x166>
 -lea    -0x2c(%ebp),%eax
-+jmp    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x12b>
-+lea    -0x28(%ebp),%eax
++jmp    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x12a>
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPP21STDBSavePowerWarPointSt6vectorIS2_SaIS2_EEEdeEv>
  mov    (%eax),%eax
@@ -96,29 +93,24 @@
 -mov    -0xc(%ebp),%edx
 -mov    0x4(%edx),%edx
 -mov    %edx,0x4(%eax)
--mov    -0xc(%ebp),%eax
+ mov    -0xc(%ebp),%eax
 -mov    0x4(%eax),%esi
--mov    -0xc(%ebp),%eax
--mov    (%eax),%ebx
++add    $0x4,%eax
++mov    (%eax),%esi
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%ebx
  movl   $0x16b,0x8(%esp)
- movl   $"MakePacketDBPowerWarPoint",0x4(%esp)
+ movl   $&_ZZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_RewardE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    -0xc(%ebp),%eax
-+add    $0x4,%eax
-+mov    (%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"INTERVAL SAVE - GUILD:%d, POINT:%d",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    -0xc(%ebp),%eax
@@ -130,7 +122,7 @@
 -lea    0x28(%eax),%ecx
  lea    -0x3c(%ebp),%eax
 -mov    -0x2c(%ebp),%edx
-+mov    -0x28(%ebp),%edx
++mov    -0x30(%ebp),%edx
  mov    %edx,0x8(%esp)
 -mov    %ecx,0x4(%esp)
 +mov    -0x20(%ebp),%edx
@@ -144,46 +136,45 @@
 -mov    0x8(%ebp),%eax
 -lea    0x28(%eax),%edx
 -lea    -0x28(%ebp),%eax
-+mov    %eax,-0x28(%ebp)
++mov    %eax,-0x30(%ebp)
 +addl   $0x1,-0x10(%ebp)
-+lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
 +mov    -0x20(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP21STDBSavePowerWarPointSaIS1_EE3endEv>
  sub    $0x4,%esp
-+lea    -0x24(%ebp),%eax
-+mov    %eax,0x4(%esp)
- lea    -0x28(%ebp),%eax
--mov    %eax,0x4(%esp)
+-lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxxneIPP21STDBSavePowerWarPointSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
  test   %al,%al
 -jne    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x70>
 -jmp    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x167>
 -nop
-+je     <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x165>
++je     <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x164>
 +mov    -0x10(%ebp),%eax
 +cmp    -0x18(%ebp),%eax
-+jge    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x165>
++jge    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x164>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x16a>
++jmp    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x169>
 +mov    $0x0,%eax
 +test   %al,%al
-+jne    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x6e>
++jne    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x6d>
  mov    0xc(%ebp),%eax
 -mov    -0x18(%ebp),%edx
 -mov    %edx,0xb(%eax)
--lea    -0x8(%ebp),%esp
--add    $0x0,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
 +lea    0xb(%eax),%edx
 +mov    -0x18(%ebp),%eax
 +mov    %eax,(%edx)
-+leave
+ lea    -0x8(%ebp),%esp
+ add    $0x0,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -256,13 +247,12 @@ _ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 307 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 294 行）：
 
 ```cpp
 void CPowerWarGuildInfo::MakePacketDBPowerWarPoint(Packet_DB_Save_Power_War_Point_Reward* pkt)
 {
-    std::vector<STDBSavePowerWarPoint*>* vec =
-        (std::vector<STDBSavePowerWarPoint*>*)(m_data + 0x24);
+    std::vector<STDBSavePowerWarPoint*>* vec = &m_vec2;
     size_t n = vec->size();
     int count = 0;
     if (n != 0)

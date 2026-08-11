@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80aa89a` | `0x21` | `0x80a0a32` | `0x1a` |
+| guild | DIFF | `0x80aa89a` | `0x21` | `0x80a0672` | `0x1a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -50,7 +50,7 @@ bool STPowerWarGuildInfo::_ZN19STPowerWarGuildInfo7CompareEPKS_S1_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 368 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 353 行）：
 
 ```cpp
 bool STPowerWarGuildInfo::Compare(const STPowerWarGuildInfo* a, const STPowerWarGuildInfo* b)

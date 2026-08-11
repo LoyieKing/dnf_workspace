@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808982e` | `0x40` | `0x8091584` | `0x85` |
+| guild | DIFF | `0x808982e` | `0x40` | `0x80913f0` | `0x85` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -100,7 +100,7 @@ void __thiscall STGuildCargoDBInfo::_ZN18STGuildCargoDBInfoC2Ev(STGuildCargoDBIn
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 86 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 97 行）：
 
 ```cpp
 STGuildCargoDBInfo::STGuildCargoDBInfo()

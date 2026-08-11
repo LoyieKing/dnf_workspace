@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8072f1e` | `0x39a` | `0x8069b0a` | `0x3b9` |
+| guild | DIFF | `0x8072f1e` | `0x39a` | `0x8069800` | `0x3b9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -89,7 +89,7 @@
 +lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -292,28 +292,25 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
- movl   $0x2f9,0x8(%esp)
- movl   $"OnNoticeGuildSecede",0x4(%esp)
--lea    -0x38(%ebp),%eax
++movl   $0x2f9,0x8(%esp)
++movl   $"OnNoticeGuildSecede",0x4(%esp)
 +lea    -0x68(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+ call   *%edx
+-mov    %eax,%ebx
+-movl   $0x2f9,0x8(%esp)
+-movl   $&_ZZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x38(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildSecede() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -336,7 +333,7 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x2ff,0x8(%esp)
- movl   $"OnNoticeGuildSecede",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x70(%ebp),%eax
  mov    %eax,(%esp)
@@ -517,7 +514,7 @@ void CPacketTranslater::OnNoticeGuildSecede(PacketHeader* pkt)
     }
     catch (...)
     {
-        CMyFileLog log("OnNoticeGuildSecede", 0x2ff);
+        CMyFileLog log(__FUNCTION__, 0x2ff);
         log("./log/Except",
             "CPacketTranslater::OnNoticeGuildSecede() Exception Break\n");
     }

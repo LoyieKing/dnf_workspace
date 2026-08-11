@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806e434` | `0x1bb` | `0x806e6dc` | `0x1c6` |
+| statics | DIFF | `0x806e434` | `0x1bb` | `0x806e76a` | `0x1bb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,138 +1,143 @@
+@@ -1,138 +1,139 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -23,22 +23,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZN37STDeathTowerPlayDataPartyStatisticKeyC1Ev>
  mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
+ movzbl 0xa(%eax),%eax
  mov    %al,-0x32(%ebp)
  mov    0xc(%ebp),%eax
--movzbl 0xb(%eax),%eax
-+add    $0xb,%eax
-+movzbl (%eax),%eax
+ movzbl 0xb(%eax),%eax
  mov    %al,-0x31(%ebp)
  lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22PlayDataPartyStatisticC1Ev>
  mov    0xc(%ebp),%eax
--mov    0xc(%eax),%eax
-+add    $0xc,%eax
-+mov    (%eax),%eax
+ mov    0xc(%eax),%eax
  mov    %eax,-0x3c(%ebp)
  mov    0x8(%ebp),%eax
  lea    0xb0(%eax),%ecx
@@ -54,8 +48,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapI37STDeathTowerPlayDataPartyStatisticKey22PlayDataPartyStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE5emptyEv>
  test   %al,%al
--jne    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0xa2>
-+jne    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0xa8>
+ jne    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0xa2>
  mov    0x8(%ebp),%eax
  lea    0xb0(%eax),%edx
  lea    -0x30(%ebp),%eax
@@ -69,17 +62,13 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK37STDeathTowerPlayDataPartyStatisticKey22PlayDataPartyStatisticEEeqERKS5_>
  test   %al,%al
--je     <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0xa9>
-+je     <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0xaf>
+ je     <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0xa9>
  mov    $0x1,%eax
--jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0xae>
-+jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0xb4>
+ jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0xae>
  mov    $0x0,%eax
--test   %al,%al
+ test   %al,%al
 -je     <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x148>
-+mov    %al,-0x9(%ebp)
-+cmpb   $0x0,-0x9(%ebp)
-+je     <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x155>
++je     <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x14a>
  lea    -0x18(%ebp),%eax
  lea    -0x3c(%ebp),%edx
  mov    %edx,0x8(%esp)
@@ -109,7 +98,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt4pairI37STDeathTowerPlayDataPartyStatisticKey22PlayDataPartyStatisticED1Ev>
 -jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x19b>
-+jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x148>
++jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x13d>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x24(%ebp),%eax
@@ -117,7 +106,8 @@
  call   <T> <_ZNSt4pairIK37STDeathTowerPlayDataPartyStatisticKey22PlayDataPartyStatisticED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
- jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x133>
+-jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x133>
++jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x128>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x18(%ebp),%eax
@@ -126,11 +116,11 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x16d>
-+jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x174>
++jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x169>
 +lea    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt4pairI37STDeathTowerPlayDataPartyStatisticKey22PlayDataPartyStatisticED1Ev>
-+jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x189>
++jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x17e>
  lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK37STDeathTowerPlayDataPartyStatisticKey22PlayDataPartyStatisticEEptEv>
@@ -144,7 +134,7 @@
 +mov    %edx,(%esp)
  call   <T> <_ZN22PlayDataPartyStatisticpLERKS_>
 -jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x19b>
-+jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x189>
++jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x17e>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x3c(%ebp),%eax
@@ -152,11 +142,11 @@
  call   <T> <_ZN22PlayDataPartyStatisticD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x196>
++jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x18b>
 +lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN22PlayDataPartyStatisticD1Ev>
-+jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x1b1>
++jmp    <T> <_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party+0x1a6>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x32(%ebp),%eax
@@ -266,4 +256,4 @@ LAB_0806e4e2:
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Statics/Statistics.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 619 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Statics/Statistics.cpp, source/DNFServer/GameServer/Statics/CubeStatistics.h, source/DNFServer/GameServer/Statics/DNFDBServer.h, source/DNFServer/GameServer/Statics/DNFGameServer.h, source/DNFServer/GameServer/Statics/DNFManagerServer.h, source/DNFServer/GameServer/Statics/DNFServerConfig.h, source/DNFServer/GameServer/Statics/DNFServerHandler.h, source/DNFServer/GameServer/Statics/DNFTableBase.h 等 260 个文件*

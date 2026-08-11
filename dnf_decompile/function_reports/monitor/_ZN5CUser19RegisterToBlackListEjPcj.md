@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806d7c8` | `0x93` | `0x80899d2` | `0xb0` |
+| monitor | DIFF | `0x806d7c8` | `0x93` | `0x80898f6` | `0xb0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,9 +20,8 @@
 +push   %esi
  push   %ebx
 -sub    $0x34,%esp
--movl   $0x28,(%esp)
 +sub    $0x3c,%esp
-+movl   $0x24,(%esp)
+ movl   $0x28,(%esp)
  call   <T> <_ZN10CBlackUsernwEj>
  mov    %eax,%ebx
  mov    %ebx,%eax
@@ -125,18 +124,15 @@ CUser::_ZN5CUser19RegisterToBlackListEjPcj(CUser *this,uint param_1,char *param_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 346 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 517 行）：
 
 ```cpp
-int CUser::RegisterToBlackList(unsigned int charNo, char* name, unsigned int param)
+char CUser::RegisterToBlackList(unsigned int charNo, char* name, unsigned int time)
 {
-    if (name == 0 || charNo == 0)
-    {
-        return 0;
-    }
-    CBlackUser* bu = new CBlackUser;
-    bu->SetBlackUser(name, param);
-    m_blackList.insert(std::make_pair(charNo, bu));
-    return 1;
+    CBlackUser* user = new CBlackUser;
+    user->SetBlackUser(name, time);
+    std::pair<std::map<unsigned int, CBlackUser*>::iterator, bool> r =
+        m_blackList.insert(std::pair<const unsigned int, CBlackUser*>(charNo, user));
+    return r.second ? 1 : 0;
 }
 ```

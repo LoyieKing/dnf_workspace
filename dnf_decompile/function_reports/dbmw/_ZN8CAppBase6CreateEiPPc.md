@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8063878` | `0x64` | `0x806cc14` | `0x67` |
+| dbmw | DIFF | `0x8063878` | `0x64` | `0x806c830` | `0x67` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,22 +20,14 @@
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  add    $0xc,%eax
--mov    (%eax),%edx
--mov    0x10(%ebp),%eax
--mov    %eax,0x8(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    0x8(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    0x10(%ebp),%eax
  add    $0x8,%eax
  mov    (%eax),%eax
@@ -48,22 +40,14 @@
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  add    $0x10,%eax
--mov    (%eax),%edx
--mov    0x10(%ebp),%eax
--mov    %eax,0x8(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    0x8(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 +jmp    <T> <_ZN8CAppBase6CreateEiPPc+0x65>
 +nop
  leave
@@ -91,12 +75,14 @@ void __thiscall CAppBase::_ZN8CAppBase6CreateEiPPc(CAppBase *this,int param_1,ch
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 38 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 42 行）：
 
 ```cpp
 void CAppBase::Create(int argc, char** argv)
 {
     Init(argc, argv);
+    if (strcmp(argv[2], "stop") == 0)
+        return;
     Load(argc, argv);
 }
 ```

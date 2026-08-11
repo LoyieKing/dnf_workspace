@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8073c4c` | `0x224` | `0x8050416` | `0x22f` |
+| dbmw | DIFF | `0x8073c4c` | `0x224` | `0x8050400` | `0x22f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -35,26 +35,21 @@
 +mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect guild_id, guild_point from guild_info where server_id = %d and expire_flag = 0",0x8(%esp)
  movl   $0x4e32,0x4(%esp)
 -mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager19QueryGuildPointListEiP13CGuildManager+0x97>
 +je     <T> <_ZN10CDBManager19QueryGuildPointListEiP13CGuildManager+0x99>
  movl   $0x692,0x8(%esp)
- movl   $"QueryGuildPointList",0x4(%esp)
+ movl   $&_ZZN10CDBManager19QueryGuildPointListEiP13CGuildManagerE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
@@ -74,17 +69,14 @@
 +mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e32,0x4(%esp)
 -mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x19(%ebp)
 -movzbl -0x19(%ebp),%eax
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager19QueryGuildPointListEiP13CGuildManager+0xc9>
@@ -101,34 +93,28 @@
 +mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,-0x10(%ebp)
 -movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN10CDBManager19QueryGuildPointListEiP13CGuildManager+0x209>
 -mov    -0x18(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,-0x20(%ebp)
 +movl   $0x0,-0x1c(%ebp)
 +jmp    <T> <_ZN10CDBManager19QueryGuildPointListEiP13CGuildManager+0x20e>
 +mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x19(%ebp)
 -movzbl -0x19(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager19QueryGuildPointListEiP13CGuildManager+0x122>
@@ -175,21 +161,17 @@
 +mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x30(%ebp),%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0x3c(%ebp),%edx
-+mov    %edx,0x8(%esp)
++mov    -0x3c(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x19(%ebp)
 -movzbl -0x19(%ebp),%eax
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager19QueryGuildPointListEiP13CGuildManager+0x19b>
@@ -201,23 +183,18 @@
 +mov    -0x28(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x30(%ebp),%eax
--add    $0x4,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0x3c(%ebp),%edx
-+add    $0x4,%edx
-+mov    %edx,0x8(%esp)
++mov    -0x3c(%ebp),%eax
+ add    $0x4,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
 -mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x19(%ebp)
 -movzbl -0x19(%ebp),%eax
-+mov    -0x28(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager19QueryGuildPointListEiP13CGuildManager+0x1d4>
@@ -357,7 +334,7 @@ CDBManager::_ZN10CDBManager19QueryGuildPointListEiP13CGuildManager
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 915 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 917 行）：
 
 ```cpp
 char CDBManager::QueryGuildPointList(int serverId, CGuildManager* gm)
@@ -369,7 +346,7 @@ char CDBManager::QueryGuildPointList(int serverId, CGuildManager* gm)
                       "seLect guild_id, guild_point from guild_info where server_id = %d and expire_flag = 0",
                       serverId))
     {
-        CMyFileLog log("QueryGuildPointList", 0x692);
+        CMyFileLog log(__FUNCTION__, 0x692);
         log("./log/DBQueryErr",
             "CDBManager::QueryGuild() select guild_id, guild_point from guild_info where server_id = %d and expire_flag = 0\n",
             serverId);

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | NEAR | `0x80684dc` | `0x107` | `0x805e0c2` | `0x109` |
+| manager | NEAR | `0x80684dc` | `0x107` | `0x805df86` | `0x109` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -156,15 +156,17 @@ CServerHandler::_ZN14CServerHandler15CreateTcpServerEhj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 110 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 99 行）：
 
 ```cpp
 char CServerHandler::CreateTcpServer(unsigned char idx, unsigned int port)
 {
     CTcpServer* server = new CTcpServer;
     server->Init(port, m_app->Get_TcpNetSystem());
-    server->SetServerType(idx);
-    if (m_tcpServers.insert(std::make_pair(idx, server)).second)
+    server->SetServerIndex(idx);
+    std::pair<std::map<unsigned int, CTcpServer*>::iterator, bool> pr =
+        m_tcpServers.insert(std::make_pair(idx, server));
+    if (pr.second)
         return 1;
     delete server;
     return 0;

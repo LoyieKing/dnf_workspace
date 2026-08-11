@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807d37a` | `0x21c` | `0x8073d8c` | `0x159` |
+| guild | DIFF | `0x807d37a` | `0x21c` | `0x8073b90` | `0x159` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -26,19 +26,19 @@
 -jne    <T> <_ZN17CPacketTranslater25OnMonitorManagerConnectOKEP12PacketHeader+0xdf>
 -lea    -0x35(%ebp),%eax
 +jne    <T> <_ZN17CPacketTranslater25OnMonitorManagerConnectOKEP12PacketHeader+0xf2>
-+lea    -0x19(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x35(%ebp),%eax
-+lea    -0x19(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnMonitorManagerConnectOK : 0 == m_pclApp",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x3c(%ebp),%esi
-+lea    -0x20(%ebp),%esi
++lea    -0x28(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -65,7 +65,7 @@
 +mov    %esi,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x20(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater25OnMonitorManagerConnectOKEP12PacketHeader+0x87>
@@ -84,7 +84,7 @@
 +mov    %esi,%ecx
 +mov    %ebx,%eax
 +jmp    <T> <_ZN17CPacketTranslater25OnMonitorManagerConnectOKEP12PacketHeader+0xb4>
-+lea    -0x20(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater25OnMonitorManagerConnectOKEP12PacketHeader+0xbc>
@@ -103,7 +103,7 @@
 +mov    %edx,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x19(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
 -mov    %esi,%eax
@@ -114,10 +114,10 @@
 +mov    %ebx,%eax
 +mov    %ecx,(%esp)
 +call   <T> <_Unwind_Resume>
-+lea    -0x19(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -129,15 +129,15 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler21SetManagerConnectFlagEb>
  movl   $0xe2d,0x8(%esp)
- movl   $"OnMonitorManagerConnectOK",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater25OnMonitorManagerConnectOKEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"Manager Server Connect Success",0x8(%esp)
  movl   $"./log/Manager",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $"** Manager Server Connect Success **",(%esp)
@@ -157,7 +157,7 @@
 -call   *%edx
 -mov    %eax,%ebx
 -movl   $0xe32,0x8(%esp)
--movl   $"OnMonitorManagerConnectOK",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater25OnMonitorManagerConnectOKEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -180,7 +180,7 @@
 -mov    %eax,(%esp)
 -call   <T> <__cxa_begin_catch>
 -movl   $0xe37,0x8(%esp)
--movl   $"OnMonitorManagerConnectOK",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater25OnMonitorManagerConnectOKEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>

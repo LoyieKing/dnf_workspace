@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| auction | DIFF | `0x80b6e7c` | `0x195` | `0x80b6a24` | `0x1a7` |
+| auction | DIFF | `0x80b6e7c` | `0x195` | `0x80b6942` | `0x1ab` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,110 +1,116 @@
+@@ -1,110 +1,118 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -37,7 +37,7 @@
  mov    %edx,(%esp)
  call   <T> <_ZNSt5queueIPN3nsl14IMessageStructESt5dequeIS2_SaIS2_EEE4pushERKS2_>
 -jmp    <T> <_ZN3nsl10WorkThread15PushTransactionEPNS_14IMessageStructE+0x15a>
-+jmp    <T> <_ZN3nsl10WorkThread15PushTransactionEPNS_14IMessageStructE+0x16c>
++jmp    <T> <_ZN3nsl10WorkThread15PushTransactionEPNS_14IMessageStructE+0x170>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7Message18getUserFromMessageEv>
@@ -79,7 +79,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl8TraceLog6sysLogEiPKcz>
 -jmp    <T> <_ZN3nsl10WorkThread15PushTransactionEPNS_14IMessageStructE+0x18d>
-+jmp    <T> <_ZN3nsl10WorkThread15PushTransactionEPNS_14IMessageStructE+0x19f>
++jmp    <T> <_ZN3nsl10WorkThread15PushTransactionEPNS_14IMessageStructE+0x1a3>
  mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl7TCPUser17IncPendingWorkNumEv>
@@ -97,12 +97,14 @@
 -mov    &_ZN3nsl7Message5identE+0x4,%esi
 +mov    &_ZN3nsl7Message5identE,%eax
 +mov    &_ZN3nsl7Message5identE+0x4,%edx
-+mov    %edx,%eax
-+xor    %edx,%edx
-+mov    %eax,%edi
++mov    %eax,%ebx
 +mov    &_ZN3nsl7Message5identE,%eax
 +mov    &_ZN3nsl7Message5identE+0x4,%edx
++mov    %edx,%eax
++xor    %edx,%edx
 +mov    %eax,%esi
++mov    %esi,%edi
++mov    %ebx,%esi
  mov    -0x1c(%ebp),%eax
 -mov    0x30(%eax),%edi
 +mov    0x30(%eax),%ebx
@@ -202,4 +204,4 @@ nsl::WorkThread::_ZN3nsl10WorkThread15PushTransactionEPNS_14IMessageStructE
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/WorkThread.cpp, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/GetMessageBuffer.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/GlobalInstance.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/RecvBuffer.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/Script.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/System.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/TCPUser.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/Thread.h 等 514 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/WorkThread.cpp, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/GetMessageBuffer.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/GlobalInstance.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/RecvBuffer.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/Script.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/System.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/TCPUser.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/Thread.h 等 585 个文件*

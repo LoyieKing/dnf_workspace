@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8098ea2` | `0x12c` | `0x808908c` | `0x12a` |
+| dbmw | DIFF | `0x8098ea2` | `0x12c` | `0x80dc69e` | `0x12c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,84 +1,83 @@
+@@ -1,84 +1,84 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,10 +21,9 @@
  sub    $0x30,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
--je     <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0x124>
+ je     <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0x124>
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x10(%ebp)
-+je     <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0x122>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -42,46 +41,32 @@
 -mov    %edx,(%esp)
 +mov    %ecx,(%esp)
  call   <T> <_ZN10CDBManager17QueryReloadSpecDbEP38Packet_Frame_Lag_Statistic_Reload_SpecP17CStatisticsServer>
--jmp    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0x125>
-+jmp    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0x123>
+ jmp    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0x125>
  cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0xc8>
-+jne    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0xc6>
+ jne    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0xc8>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0x80b,0x8(%esp)
-+movl   $"OnQueryReloadSpecDb",0x4(%esp)
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x80b,0x8(%esp)
--movl   $"OnQueryReloadSpecDb",0x4(%esp)
--lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x80b,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnQueryReloadSpecDb Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0xc1>
-+jmp    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0xbf>
+ jmp    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0xc1>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -90,24 +75,20 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0x125>
-+jmp    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0x123>
+ jmp    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0x125>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x810,0x8(%esp)
- movl   $"OnQueryReloadSpecDb",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnQueryReloadSpecDb() Exception Break\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0x11d>
-+jmp    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0x11b>
+ jmp    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0x11d>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -116,8 +97,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0x125>
-+jmp    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0x123>
+ jmp    <T> <_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHeader+0x125>
  nop
  add    $0x30,%esp
  pop    %ebx
@@ -152,7 +132,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnQueryReloadSpecDbEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2810 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2999 行）：
 
 ```cpp
 void CPacketTranslater::OnQueryReloadSpecDb(PacketHeader* header)

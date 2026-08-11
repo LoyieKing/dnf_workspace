@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80698ca` | `0xa1` | `0x808bff4` | `0x88` |
+| guild | DIFF | `0x80698ca` | `0xa1` | `0x808be36` | `0x88` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -142,29 +142,17 @@ void CUserManager::_ZN12CUserManager15ProcessByMinuteEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFUserManager.cpp](source/DNFServer/GameServer/DBMW/DNFUserManager.cpp)（约第 72 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 373 行）：
 
 ```cpp
 void CUserManager::ProcessByMinute()
 {
-    if (m_prohibitUsers.empty())
-        return;
-    for (std::map<unsigned int, CDNFProhibitUser*>::iterator it = m_prohibitUsers.begin();
-         it != m_prohibitUsers.end();)
+    for (std::map<unsigned int, CUser*>::iterator it = m_charNoUsers.begin();
+         it != m_charNoUsers.end(); ++it)
     {
-        CDNFProhibitUser* pu = it->second;
-        if (pu && pu->IsTimeOutWaitMonitor())
+        if (it->second != 0)
         {
-            CMyFileLog log("ProcessByMinute", 0x43);
-            log("./log/ProhibitUser",
-                "[PROHIBIT CONNECT USER TIME_OUT] Prohibit User DB ID : %d. Remain time(%d)\n",
-                pu->GetDBID(), pu->GetProhibitRemainTime());
-            delete pu;
-            m_prohibitUsers.erase(it++);
-        }
-        else
-        {
-            ++it;
+            it->second->GuildInviteProcess();
         }
     }
 }

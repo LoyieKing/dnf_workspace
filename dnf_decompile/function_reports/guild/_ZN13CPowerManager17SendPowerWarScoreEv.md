@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a3972` | `0x19a` | `0x8099bee` | `0x1c9` |
+| guild | DIFF | `0x80a3972` | `0x19a` | `0x809976a` | `0x1cb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,120 +1,132 @@
+@@ -1,120 +1,133 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -35,19 +35,19 @@
 -je     <T> <_ZN13CPowerManager17SendPowerWarScoreEv+0x105>
 -lea    -0x25(%ebp),%eax
 +jne    <T> <_ZN13CPowerManager17SendPowerWarScoreEv+0x108>
-+lea    -0x21(%ebp),%eax
++lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x25(%ebp),%eax
-+lea    -0x21(%ebp),%eax
++lea    -0x29(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CGuildManager::OnChangePowerWarScore() pclServerHandler == NULL\n",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x2c(%ebp),%esi
-+lea    -0x28(%ebp),%esi
++lea    -0x30(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -68,7 +68,7 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN13CPowerManager17SendPowerWarScoreEv+0xa2>
@@ -84,7 +84,7 @@
 -jmp    <T> <_ZN13CPowerManager17SendPowerWarScoreEv+0xc7>
 -lea    -0x2c(%ebp),%eax
 +jmp    <T> <_ZN13CPowerManager17SendPowerWarScoreEv+0xca>
-+lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN13CPowerManager17SendPowerWarScoreEv+0xe2>
@@ -100,7 +100,7 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x25(%ebp),%eax
-+lea    -0x21(%ebp),%eax
++lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%ecx
@@ -108,18 +108,18 @@
  mov    %ecx,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x25(%ebp),%eax
-+lea    -0x21(%ebp),%eax
++lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
 -lea    -0x3e(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_Reply_Power_War_ScoreC1Ev>
-+lea    -0x3c(%ebp),%eax
++lea    -0x44(%ebp),%eax
 +lea    0xa(%eax),%ebx
  movl   $0x1,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -127,7 +127,7 @@
  call   <T> <_ZN13CPowerManager13GetPowerScoreE20ENUM_POWER_SIDE_TYPE>
 -mov    %eax,-0x34(%ebp)
 +mov    %eax,(%ebx)
-+lea    -0x3c(%ebp),%eax
++lea    -0x44(%ebp),%eax
 +lea    0xe(%eax),%ebx
  movl   $0x2,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -136,36 +136,35 @@
 -mov    %eax,-0x30(%ebp)
 -lea    -0x3e(%ebp),%eax
 +mov    %eax,(%ebx)
-+lea    -0x3c(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -mov    -0x30(%ebp),%esi
 -mov    -0x34(%ebp),%ebx
- movl   $0x75,0x8(%esp)
- movl   $"SendPowerWarScore",0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x44(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
 +movl   $0x2,0x4(%esp)
 +mov    0x8(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN13CPowerManager13GetPowerScoreE20ENUM_POWER_SIDE_TYPE>
-+mov    %eax,%ebx
++mov    %eax,%esi
 +movl   $0x1,0x4(%esp)
 +mov    0x8(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN13CPowerManager13GetPowerScoreE20ENUM_POWER_SIDE_TYPE>
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    %eax,%ebx
+ movl   $0x75,0x8(%esp)
+ movl   $&_ZZN13CPowerManager17SendPowerWarScoreEvE12__FUNCTION__,0x4(%esp)
+-lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Power Point : A(%d)  B(%d)",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  add    $0x5c,%esp

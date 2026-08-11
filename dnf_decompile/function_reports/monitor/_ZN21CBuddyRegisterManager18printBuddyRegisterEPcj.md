@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809d57c` | `0xba` | `0x804ba96` | `0xbe` |
+| monitor | DIFF | `0x809d57c` | `0xba` | `0x804ba9e` | `0xc2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,20 +13,20 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,51 +1,52 @@
+@@ -1,51 +1,54 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
+ push   %ebx
 -sub    $0x34,%esp
-+sub    $0x48,%esp
++sub    $0x44,%esp
 +mov    0xc(%ebp),%eax
 +mov    (%eax),%eax
-+mov    %eax,-0x10(%ebp)
++mov    %eax,-0x18(%ebp)
  mov    0x8(%ebp),%edx
 -lea    -0x18(%ebp),%eax
 -lea    0x10(%ebp),%ecx
-+lea    -0x14(%ebp),%eax
-+lea    -0x10(%ebp),%ecx
++lea    -0x1c(%ebp),%eax
++lea    -0x18(%ebp),%ecx
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -34,58 +34,48 @@
  sub    $0x4,%esp
 -jmp    <T> <_ZN21CBuddyRegisterManager18printBuddyRegisterEPcj+0x7f>
 -lea    -0x18(%ebp),%eax
-+jmp    <T> <_ZN21CBuddyRegisterManager18printBuddyRegisterEPcj+0x86>
-+movl   $0x68,0x8(%esp)
-+movl   $"printBuddyRegister",0x4(%esp)
++jmp    <T> <_ZN21CBuddyRegisterManager18printBuddyRegisterEPcj+0x87>
 +lea    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjjEEptEv>
--mov    0x4(%eax),%ebx
--movl   $0x68,0x8(%esp)
--movl   $"printBuddyRegister",0x4(%esp)
--lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x10(%esp)
+ mov    0x4(%eax),%ebx
+ movl   $0x68,0x8(%esp)
+ movl   $&_ZZN21CBuddyRegisterManager18printBuddyRegisterEPcjE12__FUNCTION__,0x4(%esp)
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0x10(%esp)
 -mov    0xc(%ebp),%eax
-+mov    0x4(%eax),%eax
-+mov    %eax,0x10(%esp)
 +mov    0x10(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"[%s] rcharNo(%d)",0x8(%esp)
  movl   $"./log/buddyRegister",0x4(%esp)
--lea    -0x10(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -lea    -0x18(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjjEEppEv>
  mov    0x8(%ebp),%edx
--lea    -0x14(%ebp),%eax
+ lea    -0x14(%ebp),%eax
 -lea    0x10(%ebp),%ecx
-+lea    -0xc(%ebp),%eax
-+lea    -0x10(%ebp),%ecx
++lea    -0x18(%ebp),%ecx
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt8multimapIjjSt4lessIjESaISt4pairIKjjEEE11upper_boundERS3_>
  sub    $0x4,%esp
-+lea    -0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
  lea    -0x14(%ebp),%eax
--mov    %eax,0x4(%esp)
+ mov    %eax,0x4(%esp)
 -lea    -0x18(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjjEEneERKS3_>
  test   %al,%al
 -jne    <T> <_ZN21CBuddyRegisterManager18printBuddyRegisterEPcj+0x25>
--mov    -0x4(%ebp),%ebx
-+jne    <T> <_ZN21CBuddyRegisterManager18printBuddyRegisterEPcj+0x2c>
++jne    <T> <_ZN21CBuddyRegisterManager18printBuddyRegisterEPcj+0x2d>
+ mov    -0x4(%ebp),%ebx
  leave
  ret
 ```

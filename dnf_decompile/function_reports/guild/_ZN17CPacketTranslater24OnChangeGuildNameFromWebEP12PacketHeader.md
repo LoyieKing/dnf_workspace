@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8081d32` | `0x277` | `0x8078452` | `0x180` |
+| guild | DIFF | `0x8081d32` | `0x277` | `0x8078320` | `0x180` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -27,15 +27,15 @@
 -jne    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x4c>
 +jne    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x50>
  movl   $0x159d,0x8(%esp)
- movl   $"OnChangeGuildNameFromWeb",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnChangeGuildNameFromWeb : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x270>
@@ -76,7 +76,7 @@
 +cmpl   $0x0,-0x10(%ebp)
 +jne    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0xc1>
  movl   $0x15a5,0x8(%esp)
- movl   $"OnChangeGuildNameFromWeb",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 +lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
@@ -128,7 +128,7 @@
 -mov    -0x10(%ebp),%eax
 -mov    0xa(%eax),%ebx
 -movl   $0x15ab,0x8(%esp)
--movl   $"OnChangeGuildNameFromWeb",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -172,9 +172,9 @@
 -movl   $0x15b7,0x8(%esp)
 +jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x17e>
 +movl   $0x15ab,0x8(%esp)
- movl   $"OnChangeGuildNameFromWeb",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
@@ -187,7 +187,7 @@
 +mov    %eax,0xc(%esp)
 +movl   $"CPacketTranslater::OnChangeGuildNameFromWeb : %d is not guild master or sub master(g:%d)",0x8(%esp)
 +movl   $"./log/GuildModify",0x4(%esp)
-+lea    -0x30(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader+0x20f>
@@ -203,7 +203,7 @@
 -mov    %eax,(%esp)
 -call   <T> <__cxa_begin_catch>
 -movl   $0x15bc,0x8(%esp)
--movl   $"OnChangeGuildNameFromWeb",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>

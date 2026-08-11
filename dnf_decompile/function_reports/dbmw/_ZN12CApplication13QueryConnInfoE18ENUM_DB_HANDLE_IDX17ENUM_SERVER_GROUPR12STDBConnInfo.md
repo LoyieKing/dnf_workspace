@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806da48` | `0x264` | `0x806e29a` | `0x266` |
+| dbmw | NEAR | `0x806da48` | `0x264` | `0x806deac` | `0x264` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,189 +1,190 @@
+@@ -1,189 +1,189 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -28,195 +28,135 @@
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%ecx
--mov    0xc(%ebp),%edx
--mov    0x10(%ebp),%eax
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%ecx
-+mov    0x10(%ebp),%edx
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%ecx
+ mov    0xc(%ebp),%edx
+ mov    0x10(%ebp),%eax
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"seLect db_name,db_ip,db_port,db_userid,db_passwd from db_connect where db_server_group = %d and db_type = %d",0x8(%esp)
  movl   $0x0,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ecx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x62>
  mov    $0x0,%eax
--jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
-+jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25f>
+ jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x0,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x8d>
  mov    $0x0,%eax
--jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
-+jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25f>
+ jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0xb0>
  mov    $0x0,%eax
--jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
-+jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25f>
+ jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  cmp    $0x1,%eax
  setne  %al
  test   %al,%al
  je     <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0xd6>
  mov    $0x0,%eax
--jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
-+jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25f>
+ jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
  movl   $0x0,-0xc(%ebp)
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
--mov    (%eax),%edx
--mov    0x14(%ebp),%eax
--lea    0x42(%eax),%ecx
--mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+mov    0x14(%ebp),%edx
-+lea    0x42(%edx),%ecx
-+mov    -0xc(%ebp),%edx
+ mov    (%eax),%edx
+ mov    0x14(%ebp),%eax
+ lea    0x42(%eax),%ecx
+ mov    -0xc(%ebp),%eax
  addl   $0x1,-0xc(%ebp)
  movl   $0x1f,0xc(%esp)
  mov    %ecx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    %edx,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    %eax,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x11d>
  mov    $0x0,%eax
--jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
-+jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25f>
+ jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
--mov    (%eax),%ecx
--mov    0x14(%ebp),%edx
--mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+mov    0x14(%ebp),%ecx
-+mov    -0xc(%ebp),%edx
+ mov    (%eax),%ecx
+ mov    0x14(%ebp),%edx
+ mov    -0xc(%ebp),%eax
  addl   $0x1,-0xc(%ebp)
  movl   $0x11,0xc(%esp)
--mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
-+mov    %ecx,0x8(%esp)
-+mov    %edx,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    %edx,0x8(%esp)
+ mov    %eax,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ecx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x15a>
  mov    $0x0,%eax
--jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
-+jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25f>
+ jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x5c,%eax
--mov    (%eax),%edx
--mov    0x14(%ebp),%eax
--lea    0x14(%eax),%ecx
--mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+mov    0x14(%ebp),%edx
-+lea    0x14(%edx),%ecx
-+mov    -0xc(%ebp),%edx
+ mov    (%eax),%edx
+ mov    0x14(%ebp),%eax
+ lea    0x14(%eax),%ecx
+ mov    -0xc(%ebp),%eax
  addl   $0x1,-0xc(%ebp)
  mov    %ecx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    %edx,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    %eax,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x192>
  mov    $0x0,%eax
--jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
-+jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25f>
+ jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
--mov    (%eax),%edx
--mov    0x14(%ebp),%eax
--lea    0x18(%eax),%ecx
--mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+mov    0x14(%ebp),%edx
-+lea    0x18(%edx),%ecx
-+mov    -0xc(%ebp),%edx
+ mov    (%eax),%edx
+ mov    0x14(%ebp),%eax
+ lea    0x18(%eax),%ecx
+ mov    -0xc(%ebp),%eax
  addl   $0x1,-0xc(%ebp)
  movl   $0x15,0xc(%esp)
  mov    %ecx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    %edx,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    %eax,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x1d2>
  mov    $0x0,%eax
--jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
+ jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
 -lea    -0x4c(%ebp),%ebx
-+jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25f>
 +lea    -0x50(%ebp),%ebx
  mov    $0x0,%eax
 -mov    $0xf,%edx
@@ -227,30 +167,22 @@
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
--mov    (%eax),%ecx
--mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
+ mov    (%eax),%ecx
+ mov    -0xc(%ebp),%eax
  addl   $0x1,-0xc(%ebp)
  movl   $0x3c,0xc(%esp)
 -lea    -0x4c(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
-+lea    -0x50(%ebp),%ecx
-+mov    %ecx,0x8(%esp)
-+mov    %edx,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++lea    -0x50(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ mov    %eax,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ecx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x21f>
  mov    $0x0,%eax
--jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
-+jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25f>
+ jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
  mov    0x14(%ebp),%eax
  lea    0x2d(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -261,15 +193,11 @@
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN10CAppConfig12DecryptValueEPKcPc>
--xor    $0x1,%eax
-+test   %eax,%eax
-+sete   %al
+ xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x24c>
-+je     <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x24e>
+ je     <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x24c>
  mov    $0x0,%eax
--jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
-+jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25f>
+ jmp    <T> <_ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBConnInfo+0x25d>
  mov    0x10(%ebp),%edx
  mov    0x14(%ebp),%eax
  mov    %edx,0x164(%eax)
@@ -393,4 +321,4 @@ _ZN12CApplication13QueryConnInfoE18ENUM_DB_HANDLE_IDX17ENUM_SERVER_GROUPR12STDBC
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/COServer/DNFApplication.cpp, source/DNFServer/GameServer/DBMW/DNFApplication.cpp, source/DNFServer/GameServer/Guild/DNFApplication.cpp, source/DNFServer/GameServer/Manager/DNFApplication.cpp, source/DNFServer/GameServer/Monitor/DNFApplication.cpp, source/DNFServer/GameServer/Statics/DNFApplication.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h 等 629 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DNFApplication.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h, source/DNFServer/GameServer/DBMW/DNFApplication.cpp 等 293 个文件*

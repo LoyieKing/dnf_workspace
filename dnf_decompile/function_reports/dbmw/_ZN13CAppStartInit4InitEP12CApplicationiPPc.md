@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806f8ca` | `0x252` | `0x806c5e0` | `0x24d` |
+| dbmw | DIFF | `0x806f8ca` | `0x252` | `0x806c202` | `0x24d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -205,7 +205,7 @@
  lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -280,19 +280,17 @@ CAppStartInit::_ZN13CAppStartInit4InitEP12CApplicationiPPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFAppStartInit.cpp](source/DNFServer/GameServer/COServer/DNFAppStartInit.cpp)（约第 33 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFAppStartInit.cpp](source/DNFServer/GameServer/DBMW/DNFAppStartInit.cpp)（约第 63 行）：
 
 ```cpp
 void CAppStartInit::Init(CApplication* app, int argc, char** argv)
 {
-    srand(time(0));
+    srand((unsigned int)time(0));
     app->m_appConfig = new CAppConfig;
-    app->m_appConfig->Check_FileName(argv[1]);
+    app->m_appConfig->Check_FileName(std::string(argv[1]));
     app->m_serverConfig = new CServerConfig;
     app->m_killUsrConfig = new CKillUSRConfig;
-    if (Init_Daemon(argc, argv) == -1)
-    {
+    if (Init_Daemon(argc, argv) != 0)
         throw CDNFException("CAppStartInit::Init() Demon Init Exception Break!");
-    }
 }
 ```

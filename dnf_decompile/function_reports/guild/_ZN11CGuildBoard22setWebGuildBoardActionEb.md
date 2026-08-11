@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808ae56` | `0x18` | `0x808f858` | `0x28` |
+| guild | DIFF | `0x808ae56` | `0x18` | `0x808f6d0` | `0x26` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,22 +13,22 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,10 +1,15 @@
+@@ -1,10 +1,14 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x4,%esp
  mov    0xc(%ebp),%eax
  mov    %al,-0x4(%ebp)
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -movzbl -0x4(%ebp),%edx
 -mov    %dl,0x4(%eax)
-+lea    0x4(%eax),%edx
 +cmpb   $0x0,-0x4(%ebp)
-+je     <T> <_ZN11CGuildBoard22setWebGuildBoardActionEb+0x1f>
++je     <T> <_ZN11CGuildBoard22setWebGuildBoardActionEb+0x19>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN11CGuildBoard22setWebGuildBoardActionEb+0x24>
++jmp    <T> <_ZN11CGuildBoard22setWebGuildBoardActionEb+0x1e>
 +mov    $0x0,%eax
-+mov    %al,(%edx)
++mov    0x8(%ebp),%edx
++mov    %al,0x4(%edx)
  leave
  ret
 ```
@@ -54,6 +54,6 @@ CGuildBoard::_ZN11CGuildBoard22setWebGuildBoardActionEb(CGuildBoard *this,bool p
 ```cpp
 void CGuildBoard::setWebGuildBoardAction(bool flag)
 {
-    *(unsigned char*)(m_data + 4) = flag ? 1 : 0;
+    m_webAction = flag ? 1 : 0;
 }
 ```

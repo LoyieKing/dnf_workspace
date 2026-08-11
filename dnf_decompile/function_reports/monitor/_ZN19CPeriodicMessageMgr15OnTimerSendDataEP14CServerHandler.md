@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80667c6` | `0x68` | `0x80500fe` | `0x59` |
+| monitor | NEAR | `0x80667c6` | `0x68` | `0x8050104` | `0x68` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,18 +13,15 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,31 +1,29 @@
+@@ -1,31 +1,31 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x228,%esp
-+sub    $0x28,%esp
+ sub    $0x228,%esp
  mov    0x8(%ebp),%eax
  movzbl (%eax),%eax
  test   %al,%al
--je     <T> <_ZN19CPeriodicMessageMgr15OnTimerSendDataEP14CServerHandler+0x65>
--lea    -0x216(%ebp),%eax
-+je     <T> <_ZN19CPeriodicMessageMgr15OnTimerSendDataEP14CServerHandler+0x57>
-+lea    -0x16(%ebp),%eax
+ je     <T> <_ZN19CPeriodicMessageMgr15OnTimerSendDataEP14CServerHandler+0x65>
+ lea    -0x216(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_Send_Periodic_MessageC1Ev>
  mov    0x8(%ebp),%eax
@@ -32,25 +29,21 @@
  call   <T> <strlen>
  mov    %eax,-0xc(%ebp)
 +mov    0x8(%ebp),%eax
-+lea    -0x16(%ebp),%edx
-+lea    0xa(%edx),%ecx
  mov    -0xc(%ebp),%edx
 -mov    0x8(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
--lea    -0x216(%ebp),%eax
--add    $0xa,%eax
--mov    %eax,(%esp)
-+mov    %ecx,(%esp)
+ lea    -0x216(%ebp),%eax
+ add    $0xa,%eax
+ mov    %eax,(%esp)
  call   <T> <strncpy>
--lea    -0x216(%ebp),%eax
-+lea    -0x16(%ebp),%eax
+ lea    -0x216(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
--jmp    <T> <_ZN19CPeriodicMessageMgr15OnTimerSendDataEP14CServerHandler+0x66>
--nop
+ jmp    <T> <_ZN19CPeriodicMessageMgr15OnTimerSendDataEP14CServerHandler+0x66>
+ nop
  leave
  ret
 ```
@@ -82,7 +75,7 @@ CPeriodicMessageMgr::_ZN19CPeriodicMessageMgr15OnTimerSendDataEP14CServerHandler
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 90 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 91 行）：
 
 ```cpp
 void CPeriodicMessageMgr::OnTimerSendData(CServerHandler* handler)
@@ -94,5 +87,6 @@ void CPeriodicMessageMgr::OnTimerSendData(CServerHandler* handler)
         strncpy((char*)&pkt + 0xa, m_msg, len);
         handler->SendAllTcpGameServer(&pkt);
     }
+    return;
 }
 ```

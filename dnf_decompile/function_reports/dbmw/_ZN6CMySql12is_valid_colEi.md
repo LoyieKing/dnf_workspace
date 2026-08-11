@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808d9ce` | `0x22` | `0x8075c96` | `0x29` |
+| dbmw | DIFF | `0x808d9ce` | `0x22` | `0x80c932a` | `0x29` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -57,7 +57,7 @@ undefined4 __thiscall CMySql::_ZN6CMySql12is_valid_colEi(CMySql *this,int param_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 429 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 427 行）：
 
 ```cpp
 char CMySql::is_valid_col(int col)

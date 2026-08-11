@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809d1a0` | `0x1a2` | `0x808f9da` | `0x1ba` |
+| guild | DIFF | `0x809d1a0` | `0x1a2` | `0x808f844` | `0x1b4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -104,12 +104,13 @@
  test   %al,%al
 -je     <T> <_ZN11CGuildBoard17setGuildBoardDataEjjP6CGuildiP18STGuildBoardDBInfo+0xdb>
 -movb   $0x1,-0x193(%ebp)
+-lea    -0xc0(%ebp),%eax
+-lea    -0x219(%ebp),%edx
 +je     <T> <_ZN11CGuildBoard17setGuildBoardDataEjjP6CGuildiP18STGuildBoardDBInfo+0xf3>
 +lea    -0x225(%ebp),%eax
 +add    $0x86,%eax
 +movb   $0x1,(%eax)
- lea    -0xc0(%ebp),%eax
--lea    -0x219(%ebp),%edx
++lea    -0xc8(%ebp),%eax
 +lea    -0x225(%ebp),%edx
  mov    %edx,0x8(%esp)
 -lea    -0x219(%ebp),%edx
@@ -119,15 +120,19 @@
  mov    %eax,(%esp)
  call   <T> <_ZSt9make_pairIRjR18STGuildBoardDBInfoESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
  sub    $0x4,%esp
- lea    -0xc0(%ebp),%eax
+-lea    -0xc0(%ebp),%eax
++lea    -0xc8(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x16c(%ebp),%eax
+-lea    -0x16c(%ebp),%eax
++lea    -0x174(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKj18STGuildBoardDBInfoEC1IjS1_EEOS_IT_T0_E>
 -mov    0x8(%ebp),%eax
 -lea    0xc(%eax),%ecx
- lea    -0x174(%ebp),%eax
- lea    -0x16c(%ebp),%edx
+-lea    -0x174(%ebp),%eax
+-lea    -0x16c(%ebp),%edx
++lea    -0x17c(%ebp),%eax
++lea    -0x174(%ebp),%edx
  mov    %edx,0x8(%esp)
 -mov    %ecx,0x4(%esp)
 +mov    -0x14(%ebp),%edx
@@ -145,9 +150,9 @@
 -jne    <T> <_ZN11CGuildBoard17setGuildBoardDataEjjP6CGuildiP18STGuildBoardDBInfo+0x15>
 +jne    <T> <_ZN11CGuildBoard17setGuildBoardDataEjjP6CGuildiP18STGuildBoardDBInfo+0x1e>
  movl   $0x5f,0x8(%esp)
- movl   $"setGuildBoardData",0x4(%esp)
+ movl   $&_ZZN11CGuildBoard17setGuildBoardDataEjjP6CGuildiP18STGuildBoardDBInfoE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x17c(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0x18(%ebp),%eax
@@ -159,7 +164,7 @@
  movl   $"SET SUCCESS - GUILD:%u, CHARAC:%u, COUNT:%u",0x8(%esp)
  movl   $"./log/GuildBoard",0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x17c(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  leave
@@ -218,4 +223,4 @@ CGuildBoard::_ZN11CGuildBoard17setGuildBoardDataEjjP6CGuildiP18STGuildBoardDBInf
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/GuildBoard.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 619 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/GuildBoard.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 289 个文件*

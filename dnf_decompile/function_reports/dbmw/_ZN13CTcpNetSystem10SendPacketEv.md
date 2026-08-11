@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805c054` | `0x2f1` | `0x80a1bae` | `0x2c6` |
+| dbmw | DIFF | `0x805c054` | `0x2f1` | `0x80f5282` | `0x2c6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -79,7 +79,7 @@
 +test   %al,%al
 +je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x12b>
 +movl   $0xba,0x8(%esp)
-+movl   $"CTcpNetSystem::SendPacket",0x4(%esp)
++movl   $&_ZZN13CTcpNetSystem10SendPacketEvE12__FUNCTION__,0x4(%esp)
 +lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -125,7 +125,7 @@
 +test   %al,%al
 +je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1e2>
 +movl   $0xc3,0x8(%esp)
-+movl   $"CTcpNetSystem::SendPacket",0x4(%esp)
++movl   $&_ZZN13CTcpNetSystem10SendPacketEvE12__FUNCTION__,0x4(%esp)
 +lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -173,7 +173,7 @@
 +call   <T> <_ZN13CTcpNetSystem23PopDeleteTcpSendPacketQEP14CTcpSendBuffer>
 +jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2b1>
 +movl   $0xd5,0x8(%esp)
-+movl   $"CTcpNetSystem::SendPacket",0x4(%esp)
++movl   $&_ZZN13CTcpNetSystem10SendPacketEvE12__FUNCTION__,0x4(%esp)
 +lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -255,7 +255,7 @@
 -movzwl (%eax),%eax
 -movzwl %ax,%ebx
 -movl   $0xba,0x8(%esp)
--movl   $"SendPacket",0x4(%esp)
+-movl   $&_ZZN13CTcpNetSystem10SendPacketEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -304,7 +304,7 @@
 -movzwl (%eax),%eax
 -movzwl %ax,%ebx
 -movl   $0xc3,0x8(%esp)
--movl   $"SendPacket",0x4(%esp)
+-movl   $&_ZZN13CTcpNetSystem10SendPacketEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -357,7 +357,7 @@
 -movzwl (%eax),%eax
 -movzwl %ax,%ebx
 -movl   $0xd5,0x8(%esp)
--movl   $"SendPacket",0x4(%esp)
+-movl   $&_ZZN13CTcpNetSystem10SendPacketEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -519,7 +519,7 @@ void CTcpNetSystem::SendPacket()
     std::map<unsigned int, CPeer*>::iterator it = m_peerMap.find(port);
     if (it == m_peerMap.end())
     {
-        CMyFileLog log("CTcpNetSystem::SendPacket", 0xba);
+        CMyFileLog log(__FUNCTION__, 0xba);
         log("./log/TcpSend", "SEND ERR:no peer(id:%d,size:%d,ip:%d)",
             *(unsigned short*)((char*)buf),
             *(unsigned short*)((char*)buf + 2), port);
@@ -529,7 +529,7 @@ void CTcpNetSystem::SendPacket()
     CPeer* peer = it->second;
     if (!peer || peer->GetTcpSocket()->getHandle() != port)
     {
-        CMyFileLog log("CTcpNetSystem::SendPacket", 0xc3);
+        CMyFileLog log(__FUNCTION__, 0xc3);
         log("./log/TcpSend", "SEND ERR:invalid peer(%x)(id:%d)(size:%d)(ip:%d)",
             peer, *(unsigned short*)((char*)buf),
             *(unsigned short*)((char*)buf + 2), port);
@@ -543,7 +543,7 @@ void CTcpNetSystem::SendPacket()
     }
     else
     {
-        CMyFileLog log("CTcpNetSystem::SendPacket", 0xd5);
+        CMyFileLog log(__FUNCTION__, 0xd5);
         log("./log/TcpSend", "SEND(id:%d,size:%d,ip:%d, cnt:%d)",
             *(unsigned short*)((char*)buf),
             *(unsigned short*)((char*)buf + 2), port,

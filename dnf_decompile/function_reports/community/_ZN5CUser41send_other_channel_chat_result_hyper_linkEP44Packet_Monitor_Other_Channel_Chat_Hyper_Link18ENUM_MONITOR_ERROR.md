@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| community | DIFF | `0x80541a2` | `0x134` | `0x805471a` | `0x132` |
+| community | DIFF | `0x80541a2` | `0x134` | `0x8054682` | `0x134` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -57,26 +57,20 @@
  movzbl 0x3a(%eax),%eax
  mov    %al,-0x246(%ebp)
  movl   $0x0,-0xc(%ebp)
--jmp    <T> <_ZN5CUser41send_other_channel_chat_result_hyper_linkEP44Packet_Monitor_Other_Channel_Chat_Hyper_Link18ENUM_MONITOR_ERROR+0xf9>
-+jmp    <T> <_ZN5CUser41send_other_channel_chat_result_hyper_linkEP44Packet_Monitor_Other_Channel_Chat_Hyper_Link18ENUM_MONITOR_ERROR+0xf7>
-+mov    0xc(%ebp),%eax
-+lea    0x3b(%eax),%edx
+ jmp    <T> <_ZN5CUser41send_other_channel_chat_result_hyper_linkEP44Packet_Monitor_Other_Channel_Chat_Hyper_Link18ENUM_MONITOR_ERROR+0xf9>
  mov    -0xc(%ebp),%eax
  imul   $0x68,%eax,%eax
--add    $0x30,%eax
--add    0xc(%ebp),%eax
--lea    0xb(%eax),%edx
+ add    $0x30,%eax
+ add    0xc(%ebp),%eax
+ lea    0xb(%eax),%edx
 -mov    -0xc(%ebp),%ecx
-+add    %eax,%edx
 +mov    -0xc(%ebp),%eax
-+imul   $0x68,%eax,%eax
-+mov    %eax,%ecx
++imul   $0x68,%eax,%ecx
  lea    -0x27c(%ebp),%eax
 -imul   $0x68,%ecx,%ecx
--add    $0x30,%ecx
-+add    $0x37,%eax
+ add    $0x30,%ecx
  add    %ecx,%eax
--add    $0x7,%eax
+ add    $0x7,%eax
  movl   $0x68,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -148,7 +142,7 @@ _ZN5CUser41send_other_channel_chat_result_hyper_linkEP44Packet_Monitor_Other_Cha
 
 ## 3. 我们的源码函数
 
-定义于 [source/Community/User.cpp](source/Community/User.cpp)（约第 289 行）：
+定义于 [source/Community/User.cpp](source/Community/User.cpp)（约第 299 行）：
 
 ```cpp
 void CUser::send_other_channel_chat_result_hyper_link(Packet_Monitor_Other_Channel_Chat_Hyper_Link *chat, ENUM_MONITOR_ERROR error) {
@@ -162,8 +156,9 @@ void CUser::send_other_channel_chat_result_hyper_link(Packet_Monitor_Other_Chann
     packet.what_0x16f = chat->what_0x173;
     memcpy(packet.what_0x170, chat->what_0x174, chat->what_0x173);
     packet.what_0x36 = chat->what_0x3a;
+    // 原始：同 send_other_channel_chat_hyper_link 的直接成员访问形态
     for (int i = 0; i < chat->what_0x3a; i++) {
-        memcpy(packet.what_0x37 + i * 0x68, chat->what_0x3b + i * 0x68, 0x68);
+        memcpy(&packet.what_0x37[i * 0x68], &chat->what_0x3b[i * 0x68], 0x68);
     }
     networkSession->Send((char *)&packet, packet.packetSize);
 }

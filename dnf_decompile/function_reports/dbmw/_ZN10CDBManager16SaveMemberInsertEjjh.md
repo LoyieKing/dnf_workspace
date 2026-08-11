@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8072890` | `0x647` | `0x805544c` | `0x61b` |
+| dbmw | DIFF | `0x8072890` | `0x647` | `0x8055238` | `0x61b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -24,303 +24,68 @@
  mov    %eax,-0xc(%ebp)
  cmpb   $0x2,-0x5c(%ebp)
 -jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x338>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x1c,%eax
--mov    (%eax),%edx
 +jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x322>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    0x10(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
-+movl   $"upDate charac_members set master_no = %d , create_time = now() where charac_no = %d",0x8(%esp)
-+movl   $0x4e45,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xa7>
-+movl   $0x455,0x8(%esp)
-+movl   $"SaveMemberInsert",0x4(%esp)
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x1c,%eax
+ mov    (%eax),%edx
  mov    0x10(%ebp),%eax
  mov    %eax,0x10(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"upDate charac_members set master_no = %d , create_time = now() where charac_no = %d",0x8(%esp)
-+movl   $"CDBManager::SaveMemberInsert() upDate charac_members set master_no = %d , create_time = now() where charac_no = %d",0x8(%esp)
-+movl   $"./log/DBQueryErr",0x4(%esp)
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
+ movl   $"upDate charac_members set master_no = %d , create_time = now() where charac_no = %d",0x8(%esp)
  movl   $0x4e45,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xa7>
--movl   $0x455,0x8(%esp)
--movl   $"SaveMemberInsert",0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
+ je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xa7>
+ movl   $0x455,0x8(%esp)
+ movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xe0>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x74,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+or     %edx,%eax
-+test   %eax,%eax
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xe7>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xec>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x1a4>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    0x10(%ebp),%edx
-+mov    %edx,0xc(%esp)
-+movl   $"inSert into charac_members set charac_no=%d, master_no=%d, exp = 0, create_time = now()",0x8(%esp)
-+movl   $0x4e46,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x179>
-+movl   $0x466,0x8(%esp)
-+movl   $"SaveMemberInsert",0x4(%esp)
-+lea    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0xc(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    0x10(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CDBManager::SaveMemberInsert() inSert into charac_members set charac_no=%d, master_no=%d, exp = 0, create_time = now()",0x8(%esp)
-+movl   $"./log/DBQueryErr",0x4(%esp)
-+lea    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
-+movl   $0x4e46,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x1a4>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
-+movl   $"upDate charac_members set charac_no = %d, create_time = now() where charac_no = %d",0x8(%esp)
-+movl   $0x4e4b,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x229>
-+movl   $0x47b,0x8(%esp)
-+movl   $"SaveMemberInsert",0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0xc(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CDBManager::SaveMemberInsert() upDate charac_members set charac_no = %d where charac_no = %d",0x8(%esp)
-+movl   $"./log/DBQueryErr",0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
-+movl   $0x4e4b,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x262>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x74,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+or     %edx,%eax
-+test   %eax,%eax
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x269>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x26e>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x318>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
-+movl   $"inSert into charac_members set charac_no=%d, master_no=0, exp = 0, create_time = now()",0x8(%esp)
-+movl   $0x4e47,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x2ed>
-+movl   $0x488,0x8(%esp)
-+movl   $"SaveMemberInsert",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0xc(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CDBManager::SaveMemberInsert() inSert into charac_members set charac_no=%d, master_no=0, exp = 0",0x8(%esp)
-+movl   $"./log/DBQueryErr",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
-+movl   $0x4e47,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x318>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
-+cmpb   $0x1,-0x5c(%ebp)
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x332>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    0x10(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
-+movl   $"upDate charac_members set master_no = %d, create_time = now() where charac_no = %d",0x8(%esp)
-+movl   $0x4e48,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3b7>
-+movl   $0x49d,0x8(%esp)
-+movl   $"SaveMemberInsert",0x4(%esp)
-+lea    -0x34(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0x10(%ebp),%eax
  mov    %eax,0x10(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"CDBManager::SaveMemberInsert() upDate charac_members set master_no = %d , create_time = now() where charac_no = %d",0x8(%esp)
--movl   $"./log/DBQueryErr",0x4(%esp)
+ movl   $"CDBManager::SaveMemberInsert() upDate charac_members set master_no = %d , create_time = now() where charac_no = %d",0x8(%esp)
+ movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x50(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
--movl   $0x4e45,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++lea    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
+ movl   $0x4e45,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xe7>
-+movl   $"CDBManager::SaveMemberInsert() upDate charac_members set master_no = %d where charac_no = %d",0x8(%esp)
-+movl   $"./log/DBQueryErr",0x4(%esp)
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
-+movl   $0x4e48,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3f0>
++jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xe0>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  or     %edx,%eax
  test   %eax,%eax
 -jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xee>
@@ -329,73 +94,59 @@
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x1b2>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x1c,%eax
--mov    (%eax),%edx
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3f7>
++jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xe7>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3fc>
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0xec>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4b4>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    0x10(%ebp),%edx
-+mov    %edx,0xc(%esp)
-+movl   $"inSert into charac_members set charac_no=%d, master_no=%d, exp = 0",0x8(%esp)
-+movl   $0x4e49,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x489>
-+movl   $0x4ae,0x8(%esp)
-+movl   $"SaveMemberInsert",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x1a4>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x1c,%eax
+ mov    (%eax),%edx
  mov    0xc(%ebp),%eax
  mov    %eax,0x10(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"inSert into charac_members set charac_no=%d, master_no=%d, exp = 0, create_time = now()",0x8(%esp)
--movl   $0x4e46,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ movl   $"inSert into charac_members set charac_no=%d, master_no=%d, exp = 0, create_time = now()",0x8(%esp)
+ movl   $0x4e46,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x180>
--movl   $0x466,0x8(%esp)
--movl   $"SaveMemberInsert",0x4(%esp)
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x179>
+ movl   $0x466,0x8(%esp)
+ movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0xc(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"CDBManager::SaveMemberInsert() inSert into charac_members set charac_no=%d, master_no=%d, exp = 0, create_time = now()",0x8(%esp)
--movl   $"./log/DBQueryErr",0x4(%esp)
++lea    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"CDBManager::SaveMemberInsert() inSert into charac_members set charac_no=%d, master_no=%d, exp = 0, create_time = now()",0x8(%esp)
+ movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x48(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
--movl   $0x4e46,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++lea    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
+ movl   $0x4e46,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
@@ -403,121 +154,73 @@
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x1b2>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"upDate charac_members set charac_no = %d, create_time = now() where charac_no = %d",0x8(%esp)
--movl   $0x4e4b,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x1a4>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x1c,%eax
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"upDate charac_members set charac_no = %d, create_time = now() where charac_no = %d",0x8(%esp)
+ movl   $0x4e4b,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x237>
--movl   $0x47b,0x8(%esp)
--movl   $"SaveMemberInsert",0x4(%esp)
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x229>
+ movl   $0x47b,0x8(%esp)
+ movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0xc(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"CDBManager::SaveMemberInsert() upDate charac_members set charac_no = %d where charac_no = %d",0x8(%esp)
--movl   $"./log/DBQueryErr",0x4(%esp)
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"CDBManager::SaveMemberInsert() upDate charac_members set charac_no = %d where charac_no = %d",0x8(%esp)
+ movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
--movl   $0x4e4b,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
+ movl   $0x4e4b,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x277>
-+movl   $"CDBManager::SaveMemberInsert() inSert into charac_members set charac_no=%d, master_no=%d, exp = 0",0x8(%esp)
-+movl   $"./log/DBQueryErr",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
-+movl   $0x4e49,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4b4>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
-+movl   $"upDate charac_members set create_time = now() where charac_no = %d",0x8(%esp)
-+movl   $0x4e4a,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x52b>
-+movl   $0x4c2,0x8(%esp)
-+movl   $"SaveMemberInsert",0x4(%esp)
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0xc(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CDBManager::SaveMemberInsert() upDate charac_members set create_time = now() where charac_no = %d",0x8(%esp)
-+movl   $"./log/DBQueryErr",0x4(%esp)
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
-+movl   $0x4e4a,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x564>
++jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x262>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  or     %edx,%eax
  test   %eax,%eax
 -jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x27e>
@@ -526,42 +229,55 @@
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x640>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"inSert into charac_members set charac_no=%d, master_no=0, exp = 0, create_time = now()",0x8(%esp)
--movl   $0x4e47,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
++jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x269>
++mov    $0x1,%eax
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x26e>
++mov    $0x0,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x318>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x1c,%eax
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"inSert into charac_members set charac_no=%d, master_no=0, exp = 0, create_time = now()",0x8(%esp)
+ movl   $0x4e47,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x302>
--movl   $0x488,0x8(%esp)
--movl   $"SaveMemberInsert",0x4(%esp)
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x2ed>
+ movl   $0x488,0x8(%esp)
+ movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"CDBManager::SaveMemberInsert() inSert into charac_members set charac_no=%d, master_no=0, exp = 0",0x8(%esp)
--movl   $"./log/DBQueryErr",0x4(%esp)
++lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"CDBManager::SaveMemberInsert() inSert into charac_members set charac_no=%d, master_no=0, exp = 0",0x8(%esp)
+ movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x38(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
--movl   $0x4e47,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
+ movl   $0x4e47,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
@@ -569,62 +285,82 @@
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x640>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
--cmpb   $0x1,-0x5c(%ebp)
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x318>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
++mov    $0x1,%eax
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
+ cmpb   $0x1,-0x5c(%ebp)
 -jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x640>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0x10(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"upDate charac_members set master_no = %d, create_time = now() where charac_no = %d",0x8(%esp)
--movl   $0x4e48,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x332>
++mov    $0x1,%eax
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x1c,%eax
+ mov    (%eax),%edx
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"upDate charac_members set master_no = %d, create_time = now() where charac_no = %d",0x8(%esp)
+ movl   $0x4e48,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3c7>
--movl   $0x49d,0x8(%esp)
--movl   $"SaveMemberInsert",0x4(%esp)
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3b7>
+ movl   $0x49d,0x8(%esp)
+ movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0x10(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"CDBManager::SaveMemberInsert() upDate charac_members set master_no = %d where charac_no = %d",0x8(%esp)
--movl   $"./log/DBQueryErr",0x4(%esp)
++lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"CDBManager::SaveMemberInsert() upDate charac_members set master_no = %d where charac_no = %d",0x8(%esp)
+ movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x30(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
--movl   $0x4e48,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
+ movl   $0x4e48,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x407>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x74,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--or     %edx,%eax
--test   %eax,%eax
++xor    $0x1,%eax
++test   %al,%al
++jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3f0>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x74,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ or     %edx,%eax
+ test   %eax,%eax
 -jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x40e>
 -mov    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x413>
@@ -640,37 +376,59 @@
 -mov    0x10(%ebp),%eax
 -mov    %eax,0xc(%esp)
 -movl   $"inSert into charac_members set charac_no=%d, master_no=%d, exp = 0, create_time = now()",0x8(%esp)
--movl   $0x4e49,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
++jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3f7>
++mov    $0x1,%eax
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3fc>
++mov    $0x0,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4b4>
++mov    -0xc(%ebp),%eax
++mov    (%eax),%eax
++add    $0x1c,%eax
++mov    (%eax),%edx
++mov    0xc(%ebp),%eax
++mov    %eax,0x10(%esp)
++mov    0x10(%ebp),%eax
++mov    %eax,0xc(%esp)
++movl   $"inSert into charac_members set charac_no=%d, master_no=%d, exp = 0",0x8(%esp)
+ movl   $0x4e49,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4a0>
--movl   $0x4ae,0x8(%esp)
--movl   $"SaveMemberInsert",0x4(%esp)
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x489>
+ movl   $0x4ae,0x8(%esp)
+ movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0xc(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"CDBManager::SaveMemberInsert() inSert into charac_members set charac_no=%d, master_no=%d, exp = 0",0x8(%esp)
--movl   $"./log/DBQueryErr",0x4(%esp)
++lea    -0x3c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"CDBManager::SaveMemberInsert() inSert into charac_members set charac_no=%d, master_no=%d, exp = 0",0x8(%esp)
+ movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x28(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
--movl   $0x4e49,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++lea    -0x3c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
+ movl   $0x4e49,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
@@ -678,96 +436,100 @@
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4d2>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"upDate charac_members set create_time = now() where charac_no = %d",0x8(%esp)
--movl   $0x4e4a,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4b4>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x1c,%eax
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"upDate charac_members set create_time = now() where charac_no = %d",0x8(%esp)
+ movl   $0x4e4a,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x549>
--movl   $0x4c2,0x8(%esp)
--movl   $"SaveMemberInsert",0x4(%esp)
++je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x52b>
+ movl   $0x4c2,0x8(%esp)
+ movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"CDBManager::SaveMemberInsert() upDate charac_members set create_time = now() where charac_no = %d",0x8(%esp)
--movl   $"./log/DBQueryErr",0x4(%esp)
++lea    -0x44(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"CDBManager::SaveMemberInsert() upDate charac_members set create_time = now() where charac_no = %d",0x8(%esp)
+ movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x20(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
--movl   $0x4e4a,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++lea    -0x44(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
+ movl   $0x4e4a,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x589>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x74,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--or     %edx,%eax
--test   %eax,%eax
++xor    $0x1,%eax
++test   %al,%al
++jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x564>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x74,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ or     %edx,%eax
+ test   %eax,%eax
 -jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x590>
 -mov    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x595>
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x640>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
 +jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x56b>
 +mov    $0x1,%eax
 +jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x570>
 +mov    $0x0,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x614>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x1c,%eax
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"inSert into charac_members set charac_no=%d, master_no=0, exp = 0, create_time=now()",0x8(%esp)
  movl   $0x4e46,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x611>
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x5ec>
  movl   $0x4cf,0x8(%esp)
- movl   $"SaveMemberInsert",0x4(%esp)
+ movl   $&_ZZN10CDBManager16SaveMemberInsertEjjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
@@ -781,23 +543,19 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
 +lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x619>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
  movl   $0x4e46,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
 -xor    $0x1,%eax
@@ -805,9 +563,6 @@
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x640>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x645>
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x614>
@@ -1001,4 +756,4 @@ CDBManager::_ZN10CDBManager16SaveMemberInsertEjjh
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

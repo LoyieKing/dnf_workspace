@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a1034` | `0x245` | `0x809789c` | `0x20c` |
+| monitor | DIFF | `0x80a1034` | `0x245` | `0x80979d8` | `0x20c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -69,14 +69,12 @@
 +jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x184>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP10CBlackUserEEdeEv>
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP10CBlackUserEEptEv>
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP10CBlackUserEEdeEv>
  mov    (%eax),%eax
  mov    %eax,-0x10(%ebp)
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP10CBlackUserEEdeEv>
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP10CBlackUserEEptEv>
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP10CBlackUserEEdeEv>
  mov    0x4(%eax),%eax
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
@@ -330,19 +328,43 @@ CMemoryCashManager::_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/MemoryCashManager.cpp](source/DNFServer/GameServer/Guild/MemoryCashManager.cpp)（约第 160 行）：
+定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 187 行）：
 
 ```cpp
-int CMemoryCashManager::QueryCashMemoryBlackList(CUser* user)
+char CMemoryCashManager::QueryCashMemoryBlackList(CUser* user)
 {
-    std::map<unsigned int, CCashObject*>::iterator it =
-        m_cashObjects.find(user->GetDBID());
+    unsigned int dbid = user->GetDBID();
+    std::map<unsigned int, CCashObject*>::iterator it = m_cashObjects.find(dbid);
     if (it != m_cashObjects.end())
     {
         CCashObject* obj = it->second;
-        user->RegisterToCashBlackList(*obj->GetBlackUsersObject());
-        user->SetBlackListDBFlag(4);
+        if (obj != 0)
+        {
+            std::map<unsigned int, CBlackUser*>* blackMap = obj->GetBlackUsersObject();
+            for (std::map<unsigned int, CBlackUser*>::iterator bi = blackMap->begin();
+                 bi != blackMap->end(); ++bi)
+            {
+                unsigned int key = (*bi).first;
+                CBlackUser* bu = (*bi).second;
+                if (bu != 0)
+                {
+                    std::string name;
+                    if (QueryUpdatedCharacName(key, name))
+                    {
+                        char buf[30];
+                        memset(buf, 0, 30);
+                        strncpy(buf, name.c_str(), 0x1d);
+                        bu->ChangeCharName(buf);
+                    }
+                }
+            }
+            user->RegisterToCashBlackList(*obj->GetBlackUsersObject());
+            obj->ClearMapBlackUsers();
+            user->SetBlackListDBFlag(4);
+            incBlackListCashHitCnt();
+            return 1;
+        }
     }
-    return it != m_cashObjects.end();
+    return 0;
 }
 ```

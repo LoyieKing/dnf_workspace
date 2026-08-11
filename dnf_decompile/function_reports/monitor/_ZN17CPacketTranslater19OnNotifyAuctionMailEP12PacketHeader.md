@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8089be8` | `0xce` | `0x807518e` | `0xca` |
+| monitor | DIFF | `0x8089be8` | `0xce` | `0x8075228` | `0xc6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,57 +1,56 @@
+@@ -1,57 +1,54 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,9 +22,7 @@
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x10(%ebp)
 -mov    -0x10(%ebp),%eax
--mov    0xa(%eax),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x10,%edx
  mov    %eax,0x4(%esp)
@@ -33,9 +31,8 @@
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN17CPacketTranslater19OnNotifyAuctionMailEP12PacketHeader+0xc7>
-+je     <T> <_ZN17CPacketTranslater19OnNotifyAuctionMailEP12PacketHeader+0xc3>
-+mov    0x8(%ebp),%eax
-+lea    0xe(%eax),%ebx
++je     <T> <_ZN17CPacketTranslater19OnNotifyAuctionMailEP12PacketHeader+0xbf>
++mov    0x8(%ebp),%ebx
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
@@ -43,7 +40,7 @@
 -mov    -0x10(%ebp),%eax
 -mov    %edx,0xe(%eax)
 -mov    -0x10(%ebp),%eax
-+mov    %eax,(%ebx)
++mov    %eax,0xe(%ebx)
 +mov    0x8(%ebp),%eax
  movl   $0x26,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -51,26 +48,27 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater19OnNotifyAuctionMailEP12PacketHeader+0xc7>
-+jmp    <T> <_ZN17CPacketTranslater19OnNotifyAuctionMailEP12PacketHeader+0xc3>
++jmp    <T> <_ZN17CPacketTranslater19OnNotifyAuctionMailEP12PacketHeader+0xbf>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x137e,0x8(%esp)
- movl   $"OnNotifyAuctionMail",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnNotifyAuctionMailEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
- movl   $"OnNotifyAuctionMail",0xc(%esp)
+-movl   $&_ZZN17CPacketTranslater19OnNotifyAuctionMailEP12PacketHeaderE12__FUNCTION__,0xc(%esp)
 -movl   $"%s Exception Break\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
 -lea    -0x18(%ebp),%eax
++movl   $"OnNotifyAuctionMail",0xc(%esp)
 +movl   $"%s",0x8(%esp)
 +movl   $"%s",0x4(%esp)
 +lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnNotifyAuctionMailEP12PacketHeader+0xc2>
-+jmp    <T> <_ZN17CPacketTranslater19OnNotifyAuctionMailEP12PacketHeader+0xbe>
++jmp    <T> <_ZN17CPacketTranslater19OnNotifyAuctionMailEP12PacketHeader+0xba>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -111,7 +109,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnNotifyAuctionMailEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3415 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3421 行）：
 
 ```cpp
 void CPacketTranslater::OnNotifyAuctionMail(PacketHeader* pkt)
@@ -120,10 +118,10 @@ void CPacketTranslater::OnNotifyAuctionMail(PacketHeader* pkt)
     {
         CUser* user =
             ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
-                *(unsigned int*)((char*)pkt + 0xa));
+                ((RA_UINT<10>*)pkt)->v);
         if (user != 0)
         {
-            *(unsigned int*)((char*)pkt + 0xe) = user->GetIdByChannel();
+            ((RA_UINT<14>*)pkt)->v = user->GetIdByChannel();
             user->SendToGameserver((char*)pkt, 0x26);
         }
     }

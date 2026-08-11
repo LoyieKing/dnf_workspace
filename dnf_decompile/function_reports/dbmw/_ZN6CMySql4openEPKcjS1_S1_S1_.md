@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808d2ba` | `0x166` | `0x8075b32` | `0x164` |
+| dbmw | DIFF | `0x808d2ba` | `0x166` | `0x80c91c6` | `0x164` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -94,7 +94,7 @@
  movl   $"Can't connect db : ( dbname : %s, ip : %s, id : %s )\n",(%esp)
  call   <T> <printf>
  movl   $0xd2,0x8(%esp)
- movl   $"open",0x4(%esp)
+ movl   $&_ZZN6CMySql4openEPKcjS1_S1_S1_E12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>

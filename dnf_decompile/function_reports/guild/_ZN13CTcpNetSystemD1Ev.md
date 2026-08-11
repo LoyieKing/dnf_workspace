@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8052b8c` | `0x28a` | `0x80a7afa` | `0x16a` |
+| guild | DIFF | `0x8052b8c` | `0x28a` | `0x80a7634` | `0x169` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -47,28 +47,25 @@
 +mov    (%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN13CTcpNetSystemD1Ev+0x9e>
-+je     <T> <_ZN13CTcpNetSystemD1Ev+0x7c>
++je     <T> <_ZN13CTcpNetSystemD1Ev+0x7b>
  mov    0x8(%ebp),%eax
 -mov    0x118(%eax),%eax
 +add    $0x118,%eax
  mov    (%eax),%eax
--mov    (%eax),%edx
 +test   %eax,%eax
-+je     <T> <_ZN13CTcpNetSystemD1Ev+0x7c>
- mov    0x8(%ebp),%eax
--mov    0x118(%eax),%eax
--mov    %eax,(%esp)
--call   *%edx
++je     <T> <_ZN13CTcpNetSystemD1Ev+0x7b>
++mov    0x8(%ebp),%eax
 +add    $0x118,%eax
 +mov    (%eax),%eax
 +mov    (%eax),%eax
 +add    $0x4,%eax
+ mov    (%eax),%edx
+ mov    0x8(%ebp),%eax
+-mov    0x118(%eax),%eax
++add    $0x118,%eax
 +mov    (%eax),%eax
-+mov    0x8(%ebp),%edx
-+add    $0x118,%edx
-+mov    (%edx),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    0x8(%ebp),%eax
 -mov    0x118(%eax),%eax
 +add    $0x118,%eax
@@ -78,29 +75,26 @@
 +mov    (%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN13CTcpNetSystemD1Ev+0x91>
-+je     <T> <_ZN13CTcpNetSystemD1Ev+0xbe>
++je     <T> <_ZN13CTcpNetSystemD1Ev+0xbd>
  mov    0x8(%ebp),%eax
 -mov    0x118(%eax),%eax
 +add    $0x4,%eax
  mov    (%eax),%eax
 -add    $0xc,%eax
--mov    (%eax),%edx
 +test   %eax,%eax
-+je     <T> <_ZN13CTcpNetSystemD1Ev+0xbe>
++je     <T> <_ZN13CTcpNetSystemD1Ev+0xbd>
++mov    0x8(%ebp),%eax
++add    $0x4,%eax
++mov    (%eax),%eax
++mov    (%eax),%eax
++add    $0x4,%eax
+ mov    (%eax),%edx
  mov    0x8(%ebp),%eax
 -mov    0x118(%eax),%eax
--mov    %eax,(%esp)
--call   *%edx
 +add    $0x4,%eax
 +mov    (%eax),%eax
-+mov    (%eax),%eax
-+add    $0x4,%eax
-+mov    (%eax),%eax
-+mov    0x8(%ebp),%edx
-+add    $0x4,%edx
-+mov    (%edx),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    0x8(%ebp),%eax
 -movl   $0x0,0x118(%eax)
 -mov    0x8(%ebp),%eax
@@ -330,32 +324,37 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystemD1Ev(CTcpNetSystem *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 33 行）：
+定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 222 行）：
 
 ```cpp
 CTcpNetSystem::~CTcpNetSystem()
 {
     CleanPeers();
-    if (m_tcpHandler != 0)
+    if (*(void**)m_data != 0)
     {
-        delete m_tcpHandler;
-        m_tcpHandler = 0;
+        delete (CTcpHandler*)*(void**)m_data;
     }
-    if (m_acceptThread != 0)
+    *(void**)m_data = 0;
+    if (*(CTcpAcceptThread**)(m_data + 0x118) != 0)
     {
-        void (**vt)(void*) = *(void(***)(void*))m_acceptThread;
-        vt[0](m_acceptThread);
-        if (m_acceptThread != 0)
-            vt[3](m_acceptThread);
-        m_acceptThread = 0;
+        delete *(CTcpAcceptThread**)(m_data + 0x118);
     }
-    if (m_field4 != 0)
+    *(CTcpAcceptThread**)(m_data + 0x118) = 0;
+    if (*(CTcpNetworkThread**)(m_data + 4) != 0)
     {
-        void (**vt)(void*) = *(void(***)(void*))m_field4;
-        vt[0](m_field4);
-        if (m_field4 != 0)
-            vt[3](m_field4);
-        m_field4 = 0;
+        delete *(CTcpNetworkThread**)(m_data + 4);
     }
+    *(CTcpNetworkThread**)(m_data + 4) = 0;
+    ((std::map<unsigned int, CPeer*>*)(m_data + 0x144))->~map();
+    ((std::queue<CPeer*, std::deque<CPeer*> >*)(m_data + 0x11c))->~queue();
+    ((CMutex*)(m_data + 0x100))->~CMutex();
+    ((CMutex*)(m_data + 0xe8))->~CMutex();
+    ((std::queue<CTcpSendBuffer*, std::deque<CTcpSendBuffer*> >*)(m_data + 0xc0))->~queue();
+    ((CMutex*)(m_data + 0xa8))->~CMutex();
+    ((CMutex*)(m_data + 0x90))->~CMutex();
+    ((CMutex*)(m_data + 0x78))->~CMutex();
+    ((CMutex*)(m_data + 0x60))->~CMutex();
+    ((CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*> >, 2>*)
+        (m_data + 8))->~CSwapQueue();
 }
 ```

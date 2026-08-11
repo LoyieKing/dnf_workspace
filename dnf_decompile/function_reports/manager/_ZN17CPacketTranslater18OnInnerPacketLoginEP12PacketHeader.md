@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8066178` | `0x174` | `0x805ac74` | `0x16e` |
+| manager | DIFF | `0x8066178` | `0x174` | `0x805ab2e` | `0x16e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,7 +23,7 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x4c>
  movl   $0x1f0,0x8(%esp)
- movl   $"OnInnerPacketLogin",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -41,7 +41,7 @@
 -mov    0x6(%eax),%ebx
 +jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x167>
  movl   $0x1f6,0x8(%esp)
- movl   $"OnInnerPacketLogin",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
 +lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -66,28 +66,24 @@
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
 +movl   $0x1fa,0x8(%esp)
-+movl   $"OnInnerPacketLogin",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
 -movl   $0x1fa,0x8(%esp)
--movl   $"OnInnerPacketLogin",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnInnerPacketLogin Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -110,7 +106,7 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1ff,0x8(%esp)
- movl   $"OnInnerPacketLogin",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
@@ -171,7 +167,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2436 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Manager/DNFPacketTranslater.cpp)（约第 152 行）：
 
 ```cpp
 void CPacketTranslater::OnInnerPacketLogin(PacketHeader* header)
@@ -180,16 +176,23 @@ void CPacketTranslater::OnInnerPacketLogin(PacketHeader* header)
     {
         if (!m_pclApp)
         {
-            CMyFileLog log("OnInnerPacketLogin", 0xbfa);
+            CMyFileLog log(__FUNCTION__, 0x1f0);
             log("./log/Except", "CPacketTranslater::OnInnerPacketLogin : 0 == m_pclApp");
             return;
         }
-        CMyFileLog log("OnInnerPacketLogin", 0xc00);
+        CMyFileLog log(__FUNCTION__, 0x1f6);
         log("./log/TcpServer", "CPacketTranslater::OnInnerPacketLogin (sock:%d)",
-            (int)((Packet_InnerPakcet_Login*)header)->reversed2);
+            *(int*)((char*)header + 6));
     }
-    DNF_CATCH_LOG("./log/Except",
-                  "CPacketTranslater::OnInnerPacketLogin Exception Break",
-                  0xc04, 0xc09);
+    catch (CDNFException& e)
+    {
+        CMyFileLog log(__FUNCTION__, 0x1fa);
+        log("./log/Except", "CPacketTranslater::OnInnerPacketLogin Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log(__FUNCTION__, 0x1ff);
+        log("./log/Except", "CPacketTranslater::OnInnerPacketLogin Exception Break\n");
+    }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a6e54` | `0x1f` | `0x809d210` | `0x25` |
+| guild | DIFF | `0x80a6e54` | `0x1f` | `0x809cd74` | `0x25` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -49,7 +49,7 @@ void __thiscall CPowerWar::_ZN9CPowerWar10resetEventEv(CPowerWar *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWar.cpp](source/DNFServer/GameServer/Guild/PowerWar.cpp)（约第 143 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWar.cpp](source/DNFServer/GameServer/Guild/PowerWar.cpp)（约第 154 行）：
 
 ```cpp
 void CPowerWar::resetEvent()

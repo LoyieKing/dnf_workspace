@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80853d4` | `0x65b` | `0x8055b8e` | `0x65d` |
+| dbmw | DIFF | `0x80853d4` | `0x65b` | `0x805597a` | `0x65d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -47,29 +47,21 @@
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0x18(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0x18(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ mov    0x18(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect m_id,born_year from guild_join_list where guild_id=%d and charac_no=%d",0x8(%esp)
  movl   $0x4f0a,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0xd7>
  movl   $0x23d1,0x8(%esp)
- movl   $"OnGuildJoinByListApprove",0x4(%esp)
+ movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x78(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -89,29 +81,21 @@
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4f0a,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  jne    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x111>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x118>
@@ -121,7 +105,7 @@
  test   %al,%al
  je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x161>
  movl   $0x23d7,0x8(%esp)
- movl   $"OnGuildJoinByListApprove",0x4(%esp)
+ movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x70(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -141,26 +125,19 @@
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
--mov    0x1c(%ebp),%eax
--add    $0x8,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0x1c(%ebp),%edx
-+add    $0x8,%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    0x1c(%ebp),%eax
+ add    $0x8,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x1cc>
  movl   $0x23dd,0x8(%esp)
- movl   $"OnGuildJoinByListApprove",0x4(%esp)
+ movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x68(%ebp),%eax
 +lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
@@ -180,27 +157,20 @@
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
--mov    (%eax),%edx
--mov    0x1c(%ebp),%eax
--add    $0x36,%eax
-+mov    (%eax),%eax
-+mov    0x1c(%ebp),%edx
-+add    $0x36,%edx
+ mov    (%eax),%edx
+ mov    0x1c(%ebp),%eax
+ add    $0x36,%eax
  movl   $0x3,0xc(%esp)
--mov    %eax,0x8(%esp)
-+mov    %edx,0x8(%esp)
+ mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x23f>
  movl   $0x23e3,0x8(%esp)
- movl   $"OnGuildJoinByListApprove",0x4(%esp)
+ movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x60(%ebp),%eax
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
@@ -220,25 +190,19 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0x18(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0x18(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ mov    0x18(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect charac_name,job,grow_type,lev,sex from charac_info where charac_no=%d",0x8(%esp)
  movl   $0x4f0b,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x2af>
  movl   $0x23ec,0x8(%esp)
- movl   $"OnGuildJoinByListApprove",0x4(%esp)
+ movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x58(%ebp),%eax
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
@@ -258,29 +222,21 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4f0b,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  jne    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x2e9>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x2f0>
@@ -290,7 +246,7 @@
  test   %al,%al
  je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x339>
  movl   $0x23f2,0x8(%esp)
- movl   $"OnGuildJoinByListApprove",0x4(%esp)
+ movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
 +lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
@@ -310,27 +266,20 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
--mov    (%eax),%edx
--mov    0x1c(%ebp),%eax
--add    $0x14,%eax
-+mov    (%eax),%eax
-+mov    0x1c(%ebp),%edx
-+add    $0x14,%edx
+ mov    (%eax),%edx
+ mov    0x1c(%ebp),%eax
+ add    $0x14,%eax
  movl   $0x1d,0xc(%esp)
--mov    %eax,0x8(%esp)
-+mov    %edx,0x8(%esp)
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x3ac>
  movl   $0x240a,0x8(%esp)
- movl   $"OnGuildJoinByListApprove",0x4(%esp)
+ movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
  lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -345,26 +294,19 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
--mov    (%eax),%edx
--mov    0x1c(%ebp),%eax
--add    $0x32,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0x1c(%ebp),%edx
-+add    $0x32,%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    0x1c(%ebp),%eax
+ add    $0x32,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x417>
  movl   $0x2411,0x8(%esp)
- movl   $"OnGuildJoinByListApprove",0x4(%esp)
+ movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
 +lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
@@ -384,26 +326,19 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
--mov    (%eax),%edx
--mov    0x1c(%ebp),%eax
--add    $0x33,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0x1c(%ebp),%edx
-+add    $0x33,%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    0x1c(%ebp),%eax
+ add    $0x33,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x2,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x482>
  movl   $0x2417,0x8(%esp)
- movl   $"OnGuildJoinByListApprove",0x4(%esp)
+ movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 +lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
@@ -423,26 +358,19 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
--mov    (%eax),%edx
--mov    0x1c(%ebp),%eax
--add    $0x34,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0x1c(%ebp),%edx
-+add    $0x34,%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    0x1c(%ebp),%eax
+ add    $0x34,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x3,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x4ed>
  movl   $0x241d,0x8(%esp)
- movl   $"OnGuildJoinByListApprove",0x4(%esp)
+ movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
@@ -462,26 +390,19 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
--mov    (%eax),%edx
--mov    0x1c(%ebp),%eax
--add    $0x35,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0x1c(%ebp),%edx
-+add    $0x35,%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    0x1c(%ebp),%eax
+ add    $0x35,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x4,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x558>
  movl   $0x2423,0x8(%esp)
- movl   $"OnGuildJoinByListApprove",0x4(%esp)
+ movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
 +lea    -0x68(%ebp),%eax
  mov    %eax,(%esp)
@@ -519,32 +440,22 @@
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0x18(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0x18(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ mov    0x18(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"deLete from guild_join_list where guild_id=%d and charac_no=%d",0x8(%esp)
  movl   $0x4f0c,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x5f6>
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x5f8>
  movl   $0x242f,0x8(%esp)
- movl   $"OnGuildJoinByListApprove",0x4(%esp)
+ movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 +lea    -0x70(%ebp),%eax
  mov    %eax,(%esp)
@@ -564,23 +475,17 @@
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4f0c,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x654>
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x656>
  movl   $0x2435,0x8(%esp)
- movl   $"OnGuildJoinByListApprove",0x4(%esp)
+ movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x78(%ebp),%eax
  mov    %eax,(%esp)
@@ -792,4 +697,4 @@ CDBManager::_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804ef06` | `0x46` | `0x80a1b68` | `0x41` |
+| monitor | DIFF | `0x804ef06` | `0x46` | `0x80a1d30` | `0x46` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -16,30 +16,24 @@
 @@ -1,20 +1,20 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x28,%esp
-+push   %ebx
-+sub    $0x14,%esp
+ sub    $0x28,%esp
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12EpollHandler14GetEpollEventsEv>
--mov    %eax,-0x10(%ebp)
-+mov    %eax,%ebx
+ mov    %eax,-0x10(%ebp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12EpollHandler10GetEpollFDEv>
--mov    %eax,-0xc(%ebp)
+ mov    %eax,-0xc(%ebp)
++mov    -0x10(%ebp),%eax
  movl   $0x64,0xc(%esp)
  movl   $0x3e8,0x8(%esp)
 -mov    -0x10(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    -0xc(%ebp),%eax
-+mov    %ebx,0x4(%esp)
+ mov    %eax,0x4(%esp)
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <epoll_wait>
--leave
-+add    $0x14,%esp
-+pop    %ebx
-+pop    %ebp
+ leave
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -63,11 +57,13 @@ void __thiscall EpollHandler::_ZN12EpollHandler12WaitForEventEv(EpollHandler *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 246 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 113 行）：
 
 ```cpp
-int CTcpNetSystem::WaitForEvent()
+int EpollHandler::WaitForEvent()
 {
-    return m_tcpHandler->WaitForEvent();
+    void* events = GetEpollEvents();
+    int fd = GetEpollFD();
+    return epoll_wait(fd, (epoll_event*)events, 1000, 100);
 }
 ```

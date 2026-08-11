@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8079026` | `0x389` | `0x806fb02` | `0x3ae` |
+| guild | DIFF | `0x8079026` | `0x389` | `0x806f882` | `0x3b8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,241 +1,257 @@
+@@ -1,241 +1,261 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,19 +24,19 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0xe2>
 -lea    -0x51(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x51(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnReplyGuildInvite : 0 == m_pclApp",0x4(%esp)
 -lea    -0x58(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x58(%ebp),%esi
-+lea    -0x34(%ebp),%esi
++lea    -0x44(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -54,7 +54,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x58(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x8a>
@@ -65,7 +65,7 @@
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0xa7>
 -lea    -0x58(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0xbf>
@@ -75,22 +75,30 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x51(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x2a8>
 -lea    -0x51(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x2cf>
-+lea    -0x2d(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x2d9>
++lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    0x8(%ebp),%eax
+-mov    %eax,-0x24(%ebp)
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+-add    $0x10,%eax
+-mov    %eax,-0x20(%ebp)
+-mov    -0x24(%ebp),%eax
+-mov    0x12(%eax),%eax
+-mov    %eax,0x4(%esp)
+-mov    -0x20(%ebp),%eax
 +mov    %eax,-0x2c(%ebp)
 +mov    -0x2c(%ebp),%eax
 +add    $0x12,%eax
@@ -99,13 +107,38 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication15Get_UserManagerEv>
 +mov    %ebx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
-+mov    %eax,-0x28(%ebp)
-+cmpl   $0x0,-0x28(%ebp)
-+jne    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x148>
+ mov    %eax,(%esp)
+ call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
+-mov    %eax,-0x30(%ebp)
+-cmpl   $0x0,-0x30(%ebp)
+-sete   %al
+-test   %al,%al
+-je     <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x14c>
+-movl   $0x9d8,0x8(%esp)
+-movl   $&_ZZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x50(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $"CPacketTranslater::OnDBMWGuildJoin() 0 == pclJoinUser",0x8(%esp)
+-movl   $"./log/GuildModify",0x4(%esp)
+-lea    -0x50(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    -0x24(%ebp),%eax
+-mov    0xa(%eax),%eax
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+-add    $0x290,%edx
+-mov    %eax,0x4(%esp)
+-mov    %edx,(%esp)
+-call   <T> <_ZN13CGuildManager9FindGuildEj>
+ mov    %eax,-0x28(%ebp)
+ cmpl   $0x0,-0x28(%ebp)
+ sete   %al
+ test   %al,%al
+-je     <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x1ae>
++je     <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x14d>
 +movl   $0x9d8,0x8(%esp)
-+movl   $"OnDBMWGuildJoin",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -123,36 +156,43 @@
 +mov    %ebx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZN13CGuildManager9FindGuildEj>
- mov    %eax,-0x24(%ebp)
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--add    $0x10,%eax
++mov    %eax,-0x24(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
-+jne    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x1a8>
-+movl   $0x9dc,0x8(%esp)
-+movl   $"OnDBMWGuildJoin",0x4(%esp)
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"CPacketTranslater::OnDBMWGuildJoin() 0 == pclGuild",0x8(%esp)
-+movl   $"./log/GuildModify",0x4(%esp)
-+lea    -0x44(%ebp),%eax
++jne    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x1ad>
+ movl   $0x9dc,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x48(%ebp),%eax
++lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"CPacketTranslater::OnDBMWGuildJoin() 0 == pclGuild",0x8(%esp)
+ movl   $"./log/GuildModify",0x4(%esp)
+-lea    -0x48(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    -0x2c(%ebp),%eax
 +add    $0x16,%eax
 +mov    (%eax),%eax
 +test   %eax,%eax
-+jne    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x1d7>
++jne    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x1dc>
 +mov    -0x2c(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%eax
 +mov    %eax,0x8(%esp)
 +mov    -0x28(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+mov    -0x24(%ebp),%eax
+ mov    -0x24(%ebp),%eax
+-mov    0x16(%eax),%eax
+-test   %eax,%eax
+-je     <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x287>
+-mov    -0x24(%ebp),%eax
+-mov    0xe(%eax),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj>
-+jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x3a3>
++jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x3ad>
 +mov    -0x2c(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%ebx
@@ -162,11 +202,11 @@
 +mov    %ebx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
- mov    %eax,-0x20(%ebp)
--mov    -0x24(%ebp),%eax
--mov    0x12(%eax),%eax
++mov    %eax,-0x20(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
-+je     <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x268>
++setne  %al
++test   %al,%al
++je     <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x272>
 +lea    -0xa0(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN41Packet_Guild_Reply_Guild_Invite_To_CallerC1Ev>
@@ -194,54 +234,6 @@
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
 -call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
--mov    %eax,-0x30(%ebp)
--cmpl   $0x0,-0x30(%ebp)
--sete   %al
--test   %al,%al
--je     <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x14c>
--movl   $0x9d8,0x8(%esp)
--movl   $"OnDBMWGuildJoin",0x4(%esp)
--lea    -0x50(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnDBMWGuildJoin() 0 == pclJoinUser",0x8(%esp)
--movl   $"./log/GuildModify",0x4(%esp)
--lea    -0x50(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x24(%ebp),%eax
--mov    0xa(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x290,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN13CGuildManager9FindGuildEj>
--mov    %eax,-0x28(%ebp)
-+call   <T> <_ZN5CUser16SendToGameserverEPci>
- cmpl   $0x0,-0x28(%ebp)
--sete   %al
--test   %al,%al
--je     <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x1ae>
--movl   $0x9dc,0x8(%esp)
--movl   $"OnDBMWGuildJoin",0x4(%esp)
--lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnDBMWGuildJoin() 0 == pclGuild",0x8(%esp)
--movl   $"./log/GuildModify",0x4(%esp)
--lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x24(%ebp),%eax
--mov    0x16(%eax),%eax
--test   %eax,%eax
--je     <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x287>
--mov    -0x24(%ebp),%eax
--mov    0xe(%eax),%eax
--mov    %eax,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 -mov    %eax,-0x2c(%ebp)
 -cmpl   $0x0,-0x2c(%ebp)
 -setne  %al
@@ -254,7 +246,9 @@
 -mov    0xe(%eax),%eax
 -mov    %eax,-0x98(%ebp)
 -mov    -0x2c(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x3a3>
++call   <T> <_ZN5CUser16SendToGameserverEPci>
++cmpl   $0x0,-0x28(%ebp)
++je     <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x3ad>
 +lea    -0x5a(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN42Packet_Guild_Reply_Guild_Invite_To_InvitedC1Ev>
@@ -319,10 +313,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj>
 -jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x37e>
-+jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x3a3>
++jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x3ad>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x324>
-+jne    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x349>
++jne    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x353>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -334,21 +328,17 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
 -movl   $0xa2c,0x8(%esp)
--movl   $"OnDBMWGuildJoin",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnReplyGuildInvite() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -359,7 +349,7 @@
 +lea    -0x64(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x342>
++jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x34c>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -369,11 +359,11 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x37e>
-+jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x3a3>
++jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x3ad>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xa31,0x8(%esp)
- movl   $"OnDBMWGuildJoin",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 +lea    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
@@ -387,7 +377,7 @@
 +lea    -0x6c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x39e>
++jmp    <T> <_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader+0x3a8>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -498,8 +488,8 @@ void CPacketTranslater::OnDBMWGuildJoin(PacketHeader* pkt)
     {
         THROW_IF_NO_APP("CPacketTranslater::OnReplyGuildInvite : 0 == m_pclApp");
         char* pb = (char*)pkt;
-        CUser* joinUser = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0x12));
-        if (joinUser == 0)
+        CUser* joinUser;
+        if ((joinUser = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0x12))) == 0)
         {
             DNF_LOG_SCOPE_LINE(0x9d8, "./log/GuildModify", "CPacketTranslater::OnDBMWGuildJoin() 0 == pclJoinUser");
         }
@@ -514,8 +504,8 @@ void CPacketTranslater::OnDBMWGuildJoin(PacketHeader* pkt)
         }
         else
         {
-            CUser* caller = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe));
-            if (caller != 0)
+            CUser* caller;
+            if ((caller = m_pclApp->Get_UserManager()->FindUser_CharNo(*(unsigned int*)(pb + 0xe))) != 0)
             {
                 Packet_Guild_Reply_Guild_Invite_To_Caller callerPkt;
                 *(unsigned int*)((char*)&callerPkt + 0xa) = *(unsigned int*)(pb + 0xe);
@@ -541,7 +531,7 @@ void CPacketTranslater::OnDBMWGuildJoin(PacketHeader* pkt)
     }
     catch (...)
     {
-        CMyFileLog log("OnDBMWGuildJoin", 0xa31);
+        CMyFileLog log(__FUNCTION__, 0xa31);
         log("./log/Except", "CPacketTranslater::OnReplyGuildInvite() Exception Break\n");
     }
 }

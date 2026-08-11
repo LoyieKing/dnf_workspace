@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x8071776` | `0x15c` | `0x808afd0` | `0x15c` |
+| monitor | NEAR | `0x8071776` | `0x15c` | `0x808aeec` | `0x15c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -61,7 +61,7 @@
  call   <T> <_ZN16CDNFProhibitUser7GetDBIDEv>
  mov    %eax,%ebx
  movl   $0x292,0x8(%esp)
- movl   $"ProcessByMinute",0x4(%esp)
+ movl   $&_ZZN12CUserManager15ProcessByMinuteEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -206,29 +206,36 @@ void __thiscall CUserManager::_ZN12CUserManager15ProcessByMinuteEv(CUserManager 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFUserManager.cpp](source/DNFServer/GameServer/DBMW/DNFUserManager.cpp)（约第 72 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 83 行）：
 
 ```cpp
 void CUserManager::ProcessByMinute()
 {
-    if (m_prohibitUsers.empty())
-        return;
-    for (std::map<unsigned int, CDNFProhibitUser*>::iterator it = m_prohibitUsers.begin();
-         it != m_prohibitUsers.end();)
+    if (!m_prohibitUsers.empty())
     {
-        CDNFProhibitUser* pu = it->second;
-        if (pu && pu->IsTimeOutWaitMonitor())
+        for (std::map<const unsigned int, CDNFProhibitUser*>::iterator it = m_prohibitUsers.begin();
+             it != m_prohibitUsers.end(); )
         {
-            CMyFileLog log("ProcessByMinute", 0x43);
-            log("./log/ProhibitUser",
-                "[PROHIBIT CONNECT USER TIME_OUT] Prohibit User DB ID : %d. Remain time(%d)\n",
-                pu->GetDBID(), pu->GetProhibitRemainTime());
-            delete pu;
-            m_prohibitUsers.erase(it++);
-        }
-        else
-        {
-            ++it;
+            CDNFProhibitUser* pu = (*it).second;
+            register bool hasUser = (pu != 0);
+            if (hasUser)
+            {
+                if (pu->IsTimeOutConnectable())
+                {
+                    register int remain = (short)pu->GetProhibitRemainTime();
+                    register unsigned int dbid = pu->GetDBID();
+                    CMyFileLog log(__FUNCTION__, 0x292);
+                    log("./log/User",
+                        "[PROHIBIT CONNECT USER TIME_OUT] Prohibit User DB ID : %d\t Remain time(%d)\n",
+                        dbid, remain);
+                    delete pu;
+                    m_prohibitUsers.erase(it++);
+                }
+                else
+                {
+                    ++it;
+                }
+            }
         }
     }
 }

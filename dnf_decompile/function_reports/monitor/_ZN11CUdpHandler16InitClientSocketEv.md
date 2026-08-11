@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8050374` | `0xa2` | `0x8087bf8` | `0x9d` |
+| monitor | DIFF | `0x8050374` | `0xa2` | `0x8087b66` | `0x9d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -46,7 +46,7 @@
 -mov    0x4(%eax),%ebx
 +jmp    <T> <_ZN11CUdpHandler16InitClientSocketEv+0x9b>
  movl   $0x8f,0x8(%esp)
- movl   $"InitClientSocket",0x4(%esp)
+ movl   $&_ZZN11CUdpHandler16InitClientSocketEvE12__FUNCTION__,0x4(%esp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -100,18 +100,20 @@ undefined4 __thiscall CUdpHandler::_ZN11CUdpHandler16InitClientSocketEv(CUdpHand
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFUdpHandler.cpp](source/DNFServer/GameServer/COServer/DNFUdpHandler.cpp)（约第 61 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp](source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp)（约第 80 行）：
 
 ```cpp
 int CUdpHandler::InitClientSocket()
 {
-    m_clientSock = socket(2, 2, 0x11);
+    int fd = socket(AF_INET, SOCK_DGRAM, 0x11);
+    m_clientSock = fd;
     if (m_clientSock == -1)
     {
         printf("Could not create a UDP socket : %d\n", getErrno());
         return -1;
     }
-    DNF_LOG_SCOPE_LINE(0x8f, "./log/Udp", "Opened port with fd %d\n", m_clientSock);
+    CMyFileLog log(__FUNCTION__, 0x8f);
+    log("./log/Udp", "Opened port with fd %d\n", m_clientSock);
     return m_clientSock;
 }
 ```

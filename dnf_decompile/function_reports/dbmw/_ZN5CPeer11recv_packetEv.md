@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8059e2a` | `0x1a1` | `0x80988ae` | `0x195` |
+| dbmw | DIFF | `0x8059e2a` | `0x1a1` | `0x80ebe6a` | `0x195` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -115,7 +115,7 @@
 -jne    <T> <_ZN5CPeer11recv_packetEv+0x197>
 +jne    <T> <_ZN5CPeer11recv_packetEv+0x18b>
 +movl   $0xa4,0x8(%esp)
-+movl   $"recv_packet",0x4(%esp)
++movl   $&_ZZN5CPeer11recv_packetEvE12__FUNCTION__,0x4(%esp)
 +lea    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -127,7 +127,7 @@
  call   <T> <__errno_location>
 -mov    (%eax),%esi
 -movl   $0xa4,0x8(%esp)
--movl   $"recv_packet",0x4(%esp)
+-movl   $&_ZZN5CPeer11recv_packetEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -259,7 +259,7 @@ int CPeer::recv_packet()
     }
     if (n == 0)
     {
-        CMyFileLog log("recv_packet", 0xa4);
+        CMyFileLog log(__FUNCTION__, 0xa4);
         log("./log/TcpRecv", "Recv ERROR = 0 (%d) : %s, MaxRead(%d) nRead(%d)",
             errno, strerror(errno), remaining, n);
         return -1;

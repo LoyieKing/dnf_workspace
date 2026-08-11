@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804f4ba` | `0x3a` | `0x8085528` | `0x38` |
+| monitor | DIFF | `0x804f4ba` | `0x3a` | `0x80854f6` | `0x38` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -63,16 +63,16 @@ bool __thiscall TCPSocket::_ZN9TCPSocket6listenEi(TCPSocket *this,int param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 262 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp](source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp)（约第 103 行）：
 
 ```cpp
 char TCPSocket::listen(int backlog)
 {
-    if (::listen(m_fd, backlog) < 0)
+    int r = ::listen(m_fd, backlog);
+    if (r < 0)
     {
         close();
-        return 0;
     }
-    return 1;
+    return (char)(r >= 0);
 }
 ```

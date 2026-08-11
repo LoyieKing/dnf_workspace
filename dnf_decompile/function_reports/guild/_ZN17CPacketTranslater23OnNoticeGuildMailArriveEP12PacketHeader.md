@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807d15a` | `0x21f` | `0x8073b36` | `0x256` |
+| guild | DIFF | `0x807d15a` | `0x21f` | `0x807393a` | `0x256` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -86,7 +86,7 @@
 +lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -143,20 +143,16 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0x4(%esp)
 +movl   $"CPacketTranslater::OnNoticeGuildMailArrive() Exception Break : %s\n",(%esp)
 +call   <T> <printf>
  movl   $0xe10,0x8(%esp)
- movl   $"OnNoticeGuildMailArrive",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
@@ -165,10 +161,10 @@
 +mov    -0x1c(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    (%eax),%edx
++mov    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildMailArrive() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -193,7 +189,7 @@
 +movl   $"CPacketTranslater::OnNoticeGuildMailArrive() Exception Break",(%esp)
 +call   <T> <puts>
  movl   $0xe15,0x8(%esp)
- movl   $"OnNoticeGuildMailArrive",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
@@ -288,13 +284,13 @@ void CPacketTranslater::OnNoticeGuildMailArrive(PacketHeader* pkt)
     catch (CDNFException& e)
     {
         printf("CPacketTranslater::OnNoticeGuildMailArrive() Exception Break : %s\n", e.what());
-        CMyFileLog log("OnNoticeGuildMailArrive", 0xe10);
+        CMyFileLog log(__FUNCTION__, 0xe10);
         log("./log/Except", "CPacketTranslater::OnNoticeGuildMailArrive() Exception Break : %s\n", e.what());
     }
     catch (...)
     {
         puts("CPacketTranslater::OnNoticeGuildMailArrive() Exception Break");
-        CMyFileLog log("OnNoticeGuildMailArrive", 0xe15);
+        CMyFileLog log(__FUNCTION__, 0xe15);
         log("./log/Except", "CPacketTranslater::OnNoticeGuildMailArrive() Exception Break\n");
     }
 }

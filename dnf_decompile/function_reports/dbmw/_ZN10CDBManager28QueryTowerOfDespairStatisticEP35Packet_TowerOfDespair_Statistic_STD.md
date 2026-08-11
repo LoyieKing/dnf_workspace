@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8085e74` | `0x1fd` | `0x80515ea` | `0x216` |
+| dbmw | DIFF | `0x8085e74` | `0x1fd` | `0x80515ce` | `0x216` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -71,7 +71,7 @@
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%ebx
+ mov    (%eax),%ebx
 -mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%eax
 -add    $0x2,%edx
@@ -82,46 +82,6 @@
 -mov    0x6(%eax,%edx,8),%edx
 -mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+shl    $0x3,%edx
-+add    $0xe,%edx
-+add    -0x10(%ebp),%edx
-+mov    (%edx),%ebx
-+mov    -0xc(%ebp),%edx
-+shl    $0x3,%edx
-+add    $0x12,%edx
-+add    -0x10(%ebp),%edx
-+mov    (%edx),%ecx
-+mov    -0x10(%ebp),%edx
-+add    $0xa,%edx
-+mov    (%edx),%edx
-+mov    %ebx,0x18(%esp)
-+mov    %ecx,0x14(%esp)
-+mov    -0xc(%ebp),%ecx
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
-+movl   $"inSert into log_tower_despair_layer_stat(occ_date,server_id,layer,enter,success) values(now(),%d,%d,%d,%d)",0x8(%esp)
-+movl   $0x4f27,0x4(%esp)
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    -0x14(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
-+movl   $0x4f27,0x4(%esp)
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD+0x15b>
-+movl   $0x27bc,0x8(%esp)
-+movl   $"QueryTowerOfDespairStatistic",0x4(%esp)
-+lea    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0xc(%ebp),%eax
 +shl    $0x3,%eax
 +add    $0xe,%eax
@@ -141,55 +101,22 @@
 +mov    -0xc(%ebp),%edx
  mov    %edx,0x10(%esp)
  mov    %eax,0xc(%esp)
--movl   $"inSert into log_tower_despair_layer_stat(occ_date,server_id,layer,enter,success) values(now(),%d,%d,%d,%d)",0x8(%esp)
--movl   $0x4f27,0x4(%esp)
+ movl   $"inSert into log_tower_despair_layer_stat(occ_date,server_id,layer,enter,success) values(now(),%d,%d,%d,%d)",0x8(%esp)
+ movl   $0x4f27,0x4(%esp)
 -mov    -0x20(%ebp),%eax
-+movl   $"insert error TOD : group(%d),layer(%d),enter(%d),succ(%d)",0x8(%esp)
-+movl   $"./log/DBQueryErr",0x4(%esp)
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
--call   *%ebx
--mov    -0x20(%ebp),%eax
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD+0x15b>
-+nop
-+jmp    <T> <_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD+0x15b>
-+nop
-+addl   $0x1,-0xc(%ebp)
-+cmpl   $0x64,-0xc(%ebp)
-+setle  %al
-+test   %al,%al
-+jne    <T> <_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD+0x42>
 +mov    -0x14(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    -0x10(%ebp),%edx
-+add    $0xe,%edx
-+mov    (%edx),%ecx
-+mov    -0x10(%ebp),%edx
-+add    $0xa,%edx
-+mov    (%edx),%edx
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
-+movl   $"inSert into log_tower_despair_uv_stat(occ_date,server_id,uv) values(now(),%d,%d)",0x8(%esp)
-+movl   $0x4f28,0x4(%esp)
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    %eax,(%esp)
+ call   *%ebx
+-mov    -0x20(%ebp),%eax
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
--movl   $0x4f27,0x4(%esp)
+ mov    (%eax),%edx
+ movl   $0x4f27,0x4(%esp)
 -mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+movl   $0x4f28,0x4(%esp)
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD+0x146>
@@ -203,12 +130,11 @@
 -mov    0x6(%eax,%edx,8),%esi
 -mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%ebx
--movl   $0x27bc,0x8(%esp)
-+je     <T> <_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD+0x20b>
-+movl   $0x27c8,0x8(%esp)
- movl   $"QueryTowerOfDespairStatistic",0x4(%esp)
++je     <T> <_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD+0x15b>
+ movl   $0x27bc,0x8(%esp)
+ movl   $&_ZZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STDE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %edi,0x18(%esp)
@@ -216,54 +142,93 @@
 -mov    -0x1c(%ebp),%eax
 -mov    %eax,0x10(%esp)
 -mov    %ebx,0xc(%esp)
--movl   $"insert error TOD : group(%d),layer(%d),enter(%d),succ(%d)",0x8(%esp)
--movl   $"./log/DBQueryErr",0x4(%esp)
++mov    -0xc(%ebp),%eax
++shl    $0x3,%eax
++add    $0xe,%eax
++add    -0x10(%ebp),%eax
++mov    (%eax),%ecx
++mov    -0xc(%ebp),%eax
++shl    $0x3,%eax
++add    $0x12,%eax
++add    -0x10(%ebp),%eax
++mov    (%eax),%edx
++mov    -0x10(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%eax
++mov    %ecx,0x18(%esp)
++mov    %edx,0x14(%esp)
++mov    -0xc(%ebp),%edx
++mov    %edx,0x10(%esp)
++mov    %eax,0xc(%esp)
+ movl   $"insert error TOD : group(%d),layer(%d),enter(%d),succ(%d)",0x8(%esp)
+ movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++lea    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD+0x146>
--nop
++jmp    <T> <_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD+0x15b>
+ nop
 -addl   $0x1,-0x1c(%ebp)
 -cmpl   $0x64,-0x1c(%ebp)
--setle  %al
--test   %al,%al
++jmp    <T> <_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD+0x15b>
++nop
++addl   $0x1,-0xc(%ebp)
++cmpl   $0x64,-0xc(%ebp)
+ setle  %al
+ test   %al,%al
 -jne    <T> <_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD+0x3e>
 -mov    -0x20(%ebp),%eax
-+mov    -0x10(%ebp),%eax
-+add    $0xe,%eax
++jne    <T> <_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD+0x42>
++mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
--add    $0x1c,%eax
--mov    (%eax),%ecx
+ add    $0x1c,%eax
+ mov    (%eax),%ecx
 -mov    0xc(%ebp),%eax
 -mov    0xe(%eax),%edx
 -mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%eax
--mov    %edx,0x10(%esp)
++mov    -0x10(%ebp),%eax
++add    $0xe,%eax
++mov    (%eax),%edx
++mov    -0x10(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%eax
+ mov    %edx,0x10(%esp)
  mov    %eax,0xc(%esp)
--movl   $"inSert into log_tower_despair_uv_stat(occ_date,server_id,uv) values(now(),%d,%d)",0x8(%esp)
--movl   $0x4f28,0x4(%esp)
+ movl   $"inSert into log_tower_despair_uv_stat(occ_date,server_id,uv) values(now(),%d,%d)",0x8(%esp)
+ movl   $0x4f28,0x4(%esp)
 -mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ecx
 -mov    -0x20(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
--movl   $0x4f28,0x4(%esp)
++mov    -0x14(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
+ movl   $0x4f28,0x4(%esp)
 -mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD+0x1f0>
 -mov    0xc(%ebp),%eax
 -mov    0xe(%eax),%ebx
--movl   $0x27c8,0x8(%esp)
--movl   $"QueryTowerOfDespairStatistic",0x4(%esp)
++je     <T> <_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD+0x20b>
+ movl   $0x27c8,0x8(%esp)
+ movl   $&_ZZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STDE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
++mov    -0x10(%ebp),%eax
++add    $0xe,%eax
++mov    (%eax),%eax
++mov    %eax,0xc(%esp)
  movl   $"insert error TOD : uv(%d)",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x28(%ebp),%eax
@@ -349,4 +314,4 @@ CDBManager::_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespa
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

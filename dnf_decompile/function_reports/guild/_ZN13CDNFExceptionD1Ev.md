@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804c626` | `0x73` | `0x80855ea` | `0x62` |
+| guild | DIFF | `0x804c626` | `0x73` | `0x8085402` | `0x62` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -80,7 +80,7 @@ void __thiscall CDNFException::_ZN13CDNFExceptionD1Ev(CDNFException *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFTableBase.cpp](source/DNFServer/GameServer/COServer/DNFTableBase.cpp)（约第 51 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTableBase.cpp](source/DNFServer/GameServer/Guild/DNFTableBase.cpp)（约第 83 行）：
 
 ```cpp
 CDNFException::~CDNFException() throw()

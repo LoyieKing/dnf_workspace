@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8077808` | `0x199` | `0x8064170` | `0x176` |
+| dbmw | DIFF | `0x8077808` | `0x199` | `0x8063f04` | `0x176` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,33 +25,23 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%ecx
--movzbl -0x1c(%ebp),%eax
--mov    0x14(%ebp),%edx
--mov    %edx,0x14(%esp)
--mov    %eax,0x10(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+movzbl -0x1c(%ebp),%edx
-+mov    0x14(%ebp),%ecx
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    0x10(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%ecx
+ movzbl -0x1c(%ebp),%eax
+ mov    0x14(%ebp),%edx
+ mov    %edx,0x14(%esp)
+ mov    %eax,0x10(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect charac_no, grade, m_id from guild_member where guild_id = %d and server_id = %d and charac_name =  '%s' and member_flag = 1",0x8(%esp)
  movl   $0x4e5a,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ecx
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN10CDBManager27QueryGuildMemberGradeByNameEhjPcRhRjS2_+0x94>
  movl   $0xddf,0x8(%esp)
- movl   $"QueryGuildMemberGradeByName",0x4(%esp)
+ movl   $&_ZZN10CDBManager27QueryGuildMemberGradeByNameEhjPcRhRjS2_E12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -68,17 +58,13 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e5a,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager27QueryGuildMemberGradeByNameEhjPcRhRjS2_+0xc6>
@@ -89,16 +75,12 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager27QueryGuildMemberGradeByNameEhjPcRhRjS2_+0xf0>
@@ -109,21 +91,15 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
--mov    (%eax),%edx
--mov    0x1c(%ebp),%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0x1c(%ebp),%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    0x1c(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager27QueryGuildMemberGradeByNameEhjPcRhRjS2_+0x126>
@@ -134,21 +110,15 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x58,%eax
--mov    (%eax),%edx
--mov    0x18(%ebp),%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    0x18(%ebp),%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    0x18(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager27QueryGuildMemberGradeByNameEhjPcRhRjS2_+0x15c>
@@ -159,22 +129,16 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
 -add    $0x38,%eax
--mov    (%eax),%edx
--mov    0x20(%ebp),%eax
--mov    %eax,0x8(%esp)
 +add    $0x58,%eax
-+mov    (%eax),%eax
-+mov    0x20(%ebp),%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    0x20(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x2,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager27QueryGuildMemberGradeByNameEhjPcRhRjS2_+0x192>
@@ -256,4 +220,4 @@ CDBManager::_ZN10CDBManager27QueryGuildMemberGradeByNameEhjPcRhRjS2_
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

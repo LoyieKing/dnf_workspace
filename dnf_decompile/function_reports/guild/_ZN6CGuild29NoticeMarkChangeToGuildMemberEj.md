@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808ec7e` | `0x148` | `0x8054d62` | `0x15e` |
+| guild | DIFF | `0x808ec7e` | `0x148` | `0x8054e06` | `0x15e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -94,7 +94,7 @@
 -mov    -0x34(%ebp),%ebx
 +mov    %eax,(%edx)
  movl   $0x4bf,0x8(%esp)
- movl   $"NoticeMarkChangeToGuildMember",0x4(%esp)
+ movl   $&_ZZN6CGuild29NoticeMarkChangeToGuildMemberEjE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
@@ -226,7 +226,7 @@ void __thiscall CGuild::_ZN6CGuild29NoticeMarkChangeToGuildMemberEj(CGuild *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1005 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1063 行）：
 
 ```cpp
 void CGuild::NoticeMarkChangeToGuildMember(unsigned int charNo)
@@ -249,7 +249,7 @@ void CGuild::NoticeMarkChangeToGuildMember(unsigned int charNo)
         *(int*)((char*)&pkt + 0xa) = channel;
         *(unsigned int*)((char*)&pkt + 0xe) = memberNo;
         *(unsigned int*)((char*)&pkt + 0x12) = charNo;
-        CMyFileLog log("NoticeMarkChangeToGuildMember", 0x4bf);
+        CMyFileLog log(__FUNCTION__, 0x4bf);
         log("./log/Web", "[GUILD MARK CHANGE] Send to game server. (channel:%d, character:%u, guildkey:%d)\n",
             channel, memberNo, charNo);
         member->SendToGameserver((char*)&pkt, 0x16);

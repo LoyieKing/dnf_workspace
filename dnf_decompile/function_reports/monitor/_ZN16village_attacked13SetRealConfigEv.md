@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a80f0` | `0xff` | `0x80a6a58` | `0xff` |
+| monitor | DIFF | `0x80a80f0` | `0xff` | `0x80a6c34` | `0xff` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -46,7 +46,7 @@
 -mov    %eax,&_ZN16village_attacked20COUNTDOWN_FIRST_TIMEE
 -mov    &_ZN16village_attackedL11tRealConfigE+0x14,%eax
 -mov    %eax,&_ZN16village_attacked21COUNTDOWN_SECOND_TIMEE
--mov    "<",%eax
+-mov    &_ZN16village_attackedL11tRealConfigE+0x18,%eax
 -mov    %eax,&_ZN16village_attacked20COUNTDOWN_THIRD_TIMEE
 +movl   $0x2,&_ZN16village_attacked19MAX_SCHEDULER_COUNTE
 +movl   $0x4,&_ZN16village_attacked26HUNTING_POINT_WEIGTH_CONSTE
@@ -99,7 +99,7 @@ void village_attacked::_ZN16village_attacked13SetRealConfigEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 76 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 77 行）：
 
 ```cpp
 void SetRealConfig()

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x818c992` | `0x61` | `0x809dea8` | `0x5c` |
+| dbmw | DIFF | `0x818c992` | `0x61` | `0x80f1530` | `0x5c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -75,7 +75,7 @@ StackBuffer * __thiscall StackBuffer::_ZN11StackBufferaSERKS_(StackBuffer *this,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/StackBuffer.cpp](source/DNFServer/GameServer/DBMW/StackBuffer.cpp)（约第 121 行）：
+定义于 [source/DNFServer/GameServer/DBMW/StackBuffer.cpp](source/DNFServer/GameServer/DBMW/StackBuffer.cpp)（约第 133 行）：
 
 ```cpp
 StackBuffer& StackBuffer::operator=(const StackBuffer& other)

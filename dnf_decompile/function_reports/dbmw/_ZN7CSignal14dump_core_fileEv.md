@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8053e92` | `0x4b` | `0x808d632` | `0x45` |
+| dbmw | DIFF | `0x8053e92` | `0x4b` | `0x80e0cf2` | `0x45` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -62,17 +62,16 @@ void CSignal::_ZN7CSignal14dump_core_fileEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFSignal.cpp](source/DNFServer/GameServer/COServer/DNFSignal.cpp)（约第 25 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFSignal.cpp](source/DNFServer/GameServer/DBMW/DNFSignal.cpp)（约第 36 行）：
 
 ```cpp
 void CSignal::dump_core_file()
 {
     CPacketTracerInstance()->AbsoluteWriteLog();
-    volatile int r;  // ORIG keeps getrlimit/setrlimit 的返回值存储（死存储）；GCC4.4.7 会消除普通局部，用 volatile 照抄 ORIG 机器码（§16/§36/§74）
     struct rlimit rl;
-    r = getrlimit(RLIMIT_CORE, &rl);
-    rl.rlim_cur = 0xffffffff;
-    r = setrlimit(RLIMIT_CORE, &rl);
+    getrlimit(RLIMIT_CORE, &rl);
+    rl.rlim_cur = -1;
+    setrlimit(RLIMIT_CORE, &rl);
     abort();
 }
 ```

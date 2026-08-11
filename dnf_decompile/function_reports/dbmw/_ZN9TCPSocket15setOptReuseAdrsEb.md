@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8058392` | `0x6a` | `0x8090b94` | `0x62` |
+| dbmw | DIFF | `0x8058392` | `0x6a` | `0x80e4228` | `0x62` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -70,7 +70,7 @@ bool __thiscall TCPSocket::_ZN9TCPSocket15setOptReuseAdrsEb(TCPSocket *this,bool
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 151 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 142 行）：
 
 ```cpp
 char TCPSocket::setOptReuseAdrs(bool flag)

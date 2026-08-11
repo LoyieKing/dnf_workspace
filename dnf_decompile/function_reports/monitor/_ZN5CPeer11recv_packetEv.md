@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8051232` | `0x1a1` | `0x809aec8` | `0x194` |
+| monitor | DIFF | `0x8051232` | `0x1a1` | `0x809b00c` | `0x194` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -121,35 +121,25 @@
  cmpl   $0x0,-0xc(%ebp)
 -jne    <T> <_ZN5CPeer11recv_packetEv+0x197>
 +jne    <T> <_ZN5CPeer11recv_packetEv+0x18a>
-+movl   $0xa4,0x8(%esp)
-+movl   $"recv_packet",0x4(%esp)
-+lea    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  mov    %eax,(%esp)
  call   <T> <strerror>
  mov    %eax,%ebx
  call   <T> <__errno_location>
--mov    (%eax),%esi
--movl   $0xa4,0x8(%esp)
--movl   $"recv_packet",0x4(%esp)
+ mov    (%eax),%esi
+ movl   $0xa4,0x8(%esp)
+ movl   $&_ZZN5CPeer11recv_packetEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0xc(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,0x14(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,0x18(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,0x14(%esp)
++lea    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0xc(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,0x14(%esp)
  mov    %ebx,0x10(%esp)
--mov    %esi,0xc(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %esi,0xc(%esp)
  movl   $"Recv ERROR = 0 (%d) : %s, MaxRead(%d) nRead(%d)",0x8(%esp)
  movl   $"./log/TcpRecv",0x4(%esp)
 -lea    -0x18(%ebp),%eax
@@ -238,39 +228,39 @@ ssize_t __thiscall CPeer::_ZN5CPeer11recv_packetEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 81 行）：
+定义于 [source/DNFServer/GameServer/Monitor/Peer.cpp](source/DNFServer/GameServer/Monitor/Peer.cpp)（约第 34 行）：
 
 ```cpp
 int CPeer::recv_packet()
 {
-    if (getHandle() < 0)
+    int fd = getHandle();
+    if (fd < 0)
+    {
         return 0;
+    }
     errno = 0;
-    int remaining = ((char*)this + 0x1c + 0x1800) - m_sendBuf;
+    int remaining = (int)((char*)this + 0x181c - m_buf);
     if (remaining == 0)
     {
-        m_sendBuf = (char*)this + 0x1c;
-        m_recvLen = 0;
+        m_buf = (char*)this + 0x1c;
+        m_remainLen = 0;
         remaining = 0x1800;
     }
-    int n = read(getHandle(), m_sendBuf, remaining);
+    int n = read(fd, m_buf, (size_t)(unsigned int)remaining);
     if (n < 0)
     {
-        if (errno == EAGAIN || errno == EINTR)
-            return 0;
-        if (errno != 0)
+        if (errno == EAGAIN || errno == EINTR || errno == EAGAIN || errno == 0)
         {
-            printf("RECV ERROR DISCONNNECT NOW FD[%d] : %d(%s)",
-                   getHandle(), errno, strerror(errno));
-            return -1;
+            return 0;
         }
-        return 0;
+        printf("RECV ERROR DISCONNNECT NOW FD[%d] : %d(%s)", getHandle(), errno,
+               strerror(errno));
+        return -1;
     }
     if (n == 0)
     {
-        CMyFileLog log("recv_packet", 0xa4);
-        log("./log/TcpRecv", "Recv ERROR = 0 (%d) : %s, MaxRead(%d) nRead(%d)",
-            errno, strerror(errno), remaining, n);
+        DNF_LOG_SCOPE_LINE(0xa4,"./log/TcpRecv", "Recv ERROR = 0 (%d) : %s, MaxRead(%d) nRead(%d)", errno,
+            strerror(errno), remaining, n);
         return -1;
     }
     return n;

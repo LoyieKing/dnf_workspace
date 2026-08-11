@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808fc10` | `0xf0` | `0x808c3f0` | `0xfc` |
+| dbmw | DIFF | `0x808fc10` | `0xf0` | `0x80dfab0` | `0xfc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -78,7 +78,7 @@
 -movzbl -0x1c(%ebp),%eax
 -movzbl %al,%ebx
  movl   $0x130,0x8(%esp)
- movl   $"DeleteTcpServer",0x4(%esp)
+ movl   $&_ZZN14CServerHandler15DeleteTcpServerEhE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -158,7 +158,7 @@ CServerHandler::_ZN14CServerHandler15DeleteTcpServerEh(CServerHandler *this,ucha
 定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 120 行）：
 
 ```cpp
-char CServerHandler::DeleteTcpServer(unsigned char idx)
+bool CServerHandler::DeleteTcpServer(unsigned char idx)
 {
     std::map<unsigned char, CTcpServer*>::iterator it = m_tcpServers.find(idx);
     if (it != m_tcpServers.end())
@@ -167,7 +167,7 @@ char CServerHandler::DeleteTcpServer(unsigned char idx)
         if (server)
             delete server;
         m_tcpServers.erase(it);
-        CMyFileLog log("DeleteTcpServer", 0x130);
+        CMyFileLog log(__FUNCTION__, 0x130);
         log("./log/TcpServer", "TcpServer(%d) Deleted", idx);
         return 1;
     }

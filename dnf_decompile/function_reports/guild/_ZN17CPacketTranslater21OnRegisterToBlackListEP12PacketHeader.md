@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807da5a` | `0x2e7` | `0x80742c0` | `0x2e7` |
+| guild | DIFF | `0x807da5a` | `0x2e7` | `0x80740c4` | `0x2e7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -26,9 +26,9 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x52>
  movl   $0xe8f,0x8(%esp)
- movl   $"OnRegisterToBlackList",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnRegisterToBlackList : 0 == m_pclApp",0x8(%esp)
@@ -38,7 +38,7 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x2e0>
 -lea    -0x74(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x2e0>
@@ -77,13 +77,13 @@
 +cmpl   $0x0,-0x18(%ebp)
 +jne    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0xf2>
 +movl   $0xe9f,0x8(%esp)
-+movl   $"OnRegisterToBlackList",0x4(%esp)
-+lea    -0x34(%ebp),%eax
++movl   $&_ZZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +movl   $"CPacketTranslater::OnRegisterToBlackList : 0 == pclUser",0x8(%esp)
 +movl   $"./log/BlackList",0x4(%esp)
-+lea    -0x34(%ebp),%eax
++lea    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +jmp    <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0x2e0>
@@ -173,7 +173,7 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader+0xea>
 -movl   $0xe9f,0x8(%esp)
--movl   $"OnRegisterToBlackList",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -279,21 +279,17 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
 -movl   $0xed1,0x8(%esp)
--movl   $"OnRegisterToBlackList",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnRegisterToBlackList Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -317,7 +313,7 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xed6,0x8(%esp)
- movl   $"OnRegisterToBlackList",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
@@ -430,48 +426,50 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 632 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2673 行）：
 
 ```cpp
-void CPacketTranslater::OnRegisterToBlackList(PacketHeader* header)
+void CPacketTranslater::OnRegisterToBlackList(PacketHeader* pkt)
 {
-    if (!m_pclApp)
-        return;
     try
     {
-        Packet_DBMW_Request_BlackList* pkt =
-            (Packet_DBMW_Request_BlackList*)header;
-        CMonitorServer* ms = m_pclApp->m_serverHandler->GetMonitorServer();
-        pkt->m_result = 0;
-        int characNo = pkt->m_characNo;
-        if (characNo == -1)
+    char* pb = (char*)pkt;
+    if (m_pclApp == 0)
+    {
+        DNF_LOG_SCOPE_LINE(0xe8f, "./log/BlackList", "CPacketTranslater::OnRegisterToBlackList : 0 == m_pclApp");
+        return;
+    }
+    Packet_DBMW_Register_To_BlackList dbPkt;
+    *(unsigned int*)((char*)&dbPkt + 0xa) = *(unsigned int*)(pb + 0xa);
+    memcpy((char*)&dbPkt + 0xe, pb + 0xe, 0x1d);
+    CUser* requester = m_pclApp->Get_UserManager()->FindUser(*(unsigned int*)(pb + 0xa));
+    if (requester == 0)
+    {
+        DNF_LOG_SCOPE_LINE(0xe9f, "./log/BlackList", "CPacketTranslater::OnRegisterToBlackList : 0 == pclUser");
+        return;
+    }
+    char* targetName = pb + 0xe;
+    if (strcmp(requester->GetCharName(), targetName) != 0 && requester->GetBlackListSize() < 10)
+    {
+        CUser* target = m_pclApp->Get_UserManager()->FindUser_CharName(targetName);
+        if (target != 0)
         {
-            if (!m_pclApp->m_dbManager.QueryCharacNoByName(
-                    pkt->m_name, *(unsigned int*)&characNo,
-                    &pkt->m_result))
+            if (requester->RegisterToBlackList(target->GetUniqCharNo(), targetName) == 1)
             {
-                CMyFileLog log("OnRegisterToBlackList", 0x251);
-                log("./log/BlackList",
-                    "m_clDBManager.QueryCharacNoByName Err : return false");
-                ms->SendToServer((char*)pkt, pkt->packetSize);
-                return;
+                target->GetUniqCharNo();
             }
         }
-        if (!m_pclApp->m_dbManager.RegisterToBlackList(
-                pkt->m_mid, characNo, pkt->m_name))
-        {
-            CMyFileLog log("OnRegisterToBlackList", 0x259);
-            log("./log/BlackList",
-                "m_clDBManager.RegisterToBlackList Err : return false");
-            ms->SendToServer((char*)pkt, pkt->packetSize);
-            return;
-        }
-        if (pkt->m_characNo == -1)
-            pkt->m_characNo = characNo;
-        ms->SendToServer((char*)pkt, pkt->packetSize);
     }
-    DNF_CATCH_LOG("./log/Except.log",
-                  "CPacketTranslater::OnRegisterToBlackList() Exception Break",
-                  0x266, 0x26b);
+    }
+    catch (CDNFException& e)
+    {
+        CMyFileLog log("OnRegisterToBlackList", 0xed1);
+        log("./log/Except", "CPacketTranslater::OnRegisterToBlackList Exception Break : %s\n", e.what());
+    }
+    catch (...)
+    {
+        CMyFileLog log(__FUNCTION__, 0xed6);
+        log("./log/Except", "CPacketTranslater::OnRegisterToBlackList Exception Break\n");
+    }
 }
 ```

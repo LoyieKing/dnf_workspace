@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80927ac` | `0x62` | `0x807afbe` | `0x5b` |
+| dbmw | DIFF | `0x80927ac` | `0x62` | `0x80ce6c2` | `0x5b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,7 +25,7 @@
 -mov    %eax,%ebx
 +sub    $0x28,%esp
  movl   $0x3f,0x8(%esp)
- movl   $"AbsoluteWriteLog",0x4(%esp)
+ movl   $&_ZZN13CPacketTracer16AbsoluteWriteLogEvE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -72,13 +72,13 @@ void __thiscall CPacketTracer::_ZN13CPacketTracer16AbsoluteWriteLogEv(CPacketTra
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFPacketTracer.cpp](source/DNFServer/GameServer/COServer/DNFPacketTracer.cpp)（约第 53 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp)（约第 54 行）：
 
 ```cpp
 void CPacketTracer::AbsoluteWriteLog()
 {
-    register const char* s = m_log.c_str();
-    DNF_LOG_SCOPE_LINE(0x32, "./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", s);
+    CMyFileLog log(__FUNCTION__, 0x3f);
+    log("./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
     ResetLog();
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804f24e` | `0xbf` | `0x80869b0` | `0xc4` |
+| guild | DIFF | `0x804f24e` | `0xbf` | `0x80867b8` | `0xc4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -124,25 +124,27 @@ undefined4 __thiscall TCPSocket::_ZN9TCPSocket4bindEtb(TCPSocket *this,ushort pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 244 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 108 行）：
 
 ```cpp
-char TCPSocket::bind(unsigned short port, bool flag)
+int TCPSocket::bind(unsigned short port, bool flag)
 {
     setOptReuseAdrs(true);
-    struct sockaddr_in addr;
-    memset(&addr, 0, 0x10);
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(port);
-    addr.sin_addr.s_addr = 0;
-    if (::bind(m_fd, (struct sockaddr*)&addr, 0x10) < 0)
+    sockaddr local;
+    memset(&local, 0, 0x10);
+    local.sa_family = 2;
+    *(unsigned short*)local.sa_data = htons(port);
+    int r = ::bind(m_sock, &local, 0x10);
+    if (r < 0)
     {
         close();
         return 0;
     }
     if (flag)
+    {
         setOptNonBlock();
-    printf("succeeded in binding TCP socket port #%d\n", port);
+    }
+    printf("succeeded in binding TCP socket port #%d\n", (unsigned int)port);
     return 1;
 }
 ```

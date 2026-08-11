@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805ca94` | `0xd0` | `0x80a673e` | `0xd6` |
+| monitor | DIFF | `0x805ca94` | `0xd0` | `0x80a68ee` | `0xd6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -18,7 +18,7 @@
  mov    %esp,%ebp
  sub    $0x48,%esp
  movl   $0x37,0x8(%esp)
- movl   $"SendRequest_DoRandomSelectUserAPC",0x4(%esp)
+ movl   $&_ZZN28TowerOfDespairReloadAPC_Task33SendRequest_DoRandomSelectUserAPCEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -49,7 +49,7 @@
  call   <T> <_ZN14CServerHandler20getfirstLinkedServerEv>
  mov    %eax,-0xc(%ebp)
  movl   $0x40,0x8(%esp)
- movl   $"SendRequest_DoRandomSelectUserAPC",0x4(%esp)
+ movl   $&_ZZN28TowerOfDespairReloadAPC_Task33SendRequest_DoRandomSelectUserAPCEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
@@ -115,7 +115,7 @@ void TowerOfDespairReloadAPC_Task::
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TowerOfDespairReloadAPC.cpp](source/DNFServer/GameServer/Monitor/TowerOfDespairReloadAPC.cpp)（约第 48 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TowerOfDespairReloadAPC.cpp](source/DNFServer/GameServer/Monitor/TowerOfDespairReloadAPC.cpp)（约第 46 行）：
 
 ```cpp
 void TowerOfDespairReloadAPC_Task::SendRequest_DoRandomSelectUserAPC()
@@ -127,7 +127,7 @@ void TowerOfDespairReloadAPC_Task::SendRequest_DoRandomSelectUserAPC()
         CApplication* app = (CApplication*)CApplicationInstance();
         CServerHandler* handler = app->Get_ServerHandler();
         unsigned int first = handler->getfirstLinkedServer();
-        CMyFileLog log2("SendRequest_DoRandomSelectUserAPC", 0x40);
+        CMyFileLog log2(__FUNCTION__, 0x40);
         log2("./log/GameServer", "TOD : main GameServerChannel %u\n", first);
         handler->SendToGameServer((unsigned char)first, &pkt);
     }

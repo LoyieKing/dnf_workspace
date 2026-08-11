@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806e0a0` | `0x1c3` | `0x806e32e` | `0x1d0` |
+| statics | DIFF | `0x806e0a0` | `0x1c3` | `0x806e3d6` | `0x1c3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,141 +1,147 @@
+@@ -1,141 +1,142 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -23,27 +23,19 @@
  mov    %eax,(%esp)
  call   <T> <_ZN29STDeathTowerValueStatisticKeyC1Ev>
  mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
+ movzbl 0xa(%eax),%eax
  mov    %al,-0x40(%ebp)
  mov    0xc(%ebp),%eax
--movzwl 0xb(%eax),%eax
-+add    $0xb,%eax
-+movzwl (%eax),%eax
+ movzwl 0xb(%eax),%eax
  mov    %ax,-0x3e(%ebp)
  mov    0xc(%ebp),%eax
--mov    0xd(%eax),%eax
-+add    $0xd,%eax
-+mov    (%eax),%eax
+ mov    0xd(%eax),%eax
  mov    %eax,-0x3c(%ebp)
  lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14ValueStatisticC1Ev>
  mov    0xc(%ebp),%eax
--mov    0x11(%eax),%eax
-+add    $0x11,%eax
-+mov    (%eax),%eax
+ mov    0x11(%eax),%eax
  mov    %eax,-0x48(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x80(%eax),%ecx
@@ -59,8 +51,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapI29STDeathTowerValueStatisticKey14ValueStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE5emptyEv>
  test   %al,%al
--jne    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0xaa>
-+jne    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0xb2>
+ jne    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0xaa>
  mov    0x8(%ebp),%eax
  lea    0x80(%eax),%edx
  lea    -0x38(%ebp),%eax
@@ -74,17 +65,13 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK29STDeathTowerValueStatisticKey14ValueStatisticEEeqERKS5_>
  test   %al,%al
--je     <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0xb1>
-+je     <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0xb9>
+ je     <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0xb1>
  mov    $0x1,%eax
--jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0xb6>
-+jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0xbe>
+ jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0xb6>
  mov    $0x0,%eax
--test   %al,%al
+ test   %al,%al
 -je     <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x150>
-+mov    %al,-0x9(%ebp)
-+cmpb   $0x0,-0x9(%ebp)
-+je     <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x15f>
++je     <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x152>
  lea    -0x1c(%ebp),%eax
  lea    -0x48(%ebp),%edx
  mov    %edx,0x8(%esp)
@@ -114,7 +101,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt4pairI29STDeathTowerValueStatisticKey14ValueStatisticED1Ev>
 -jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x1a3>
-+jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x152>
++jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x145>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x2c(%ebp),%eax
@@ -123,7 +110,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x13b>
-+jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x13d>
++jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x130>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x1c(%ebp),%eax
@@ -132,11 +119,11 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x175>
-+jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x17e>
++jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x171>
 +lea    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt4pairI29STDeathTowerValueStatisticKey14ValueStatisticED1Ev>
-+jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x193>
++jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x186>
  lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK29STDeathTowerValueStatisticKey14ValueStatisticEEptEv>
@@ -150,7 +137,7 @@
 +mov    %edx,(%esp)
  call   <T> <_ZN14ValueStatisticpLERKS_>
 -jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x1a3>
-+jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x193>
++jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x186>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x48(%ebp),%eax
@@ -158,11 +145,11 @@
  call   <T> <_ZN14ValueStatisticD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x1a0>
++jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x193>
 +lea    -0x48(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN14ValueStatisticD1Ev>
-+jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x1bb>
++jmp    <T> <_ZN16StatisticManager29WriteDeathTowerValueStatisticEP33Packet_DeathTower_Statistic_Value+0x1ae>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x40(%ebp),%eax
@@ -271,21 +258,29 @@ LAB_0806e156:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 76 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 92 行）：
 
 ```cpp
 void StatisticManager::WriteDeathTowerValueStatistic(Packet_DeathTower_Statistic_Value* pkt)
 {
+    struct __attribute__((packed)) Wire
+    {
+        char m_hdr[0xa];
+        char m_f0a;
+        unsigned short m_f0b;
+        unsigned int m_f0d;
+        int m_f11;
+    };
+    int m_padFrame;
     STDeathTowerValueStatisticKey key;
-    key.m_field0 = *(char*)((char*)pkt + 10);
-    key.m_field2 = *(unsigned short*)((char*)pkt + 0xb);
-    key.m_field4 = *(unsigned int*)((char*)pkt + 0xd);
+    key.m_field0 = ((Wire*)pkt)->m_f0a;
+    key.m_field2 = ((Wire*)pkt)->m_f0b;
+    key.m_field4 = ((Wire*)pkt)->m_f0d;
     ValueStatistic value;
-    value.m_data[0] = *(int*)((char*)pkt + 0x11);
+    value.m_data[0] = ((Wire*)pkt)->m_f11;
     std::map<STDeathTowerValueStatisticKey, ValueStatistic>::iterator it =
         m_deathTowerValue.find(key);
-    bool isNew = (m_deathTowerValue.empty() || it == m_deathTowerValue.end());
-    if (isNew)
+    if (m_deathTowerValue.empty() || it == m_deathTowerValue.end())
     {
         m_deathTowerValue.insert(std::make_pair(key, value));
     }

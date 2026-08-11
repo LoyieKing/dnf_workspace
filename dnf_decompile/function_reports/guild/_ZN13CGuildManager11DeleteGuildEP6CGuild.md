@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8095342` | `0x15e` | `0x805b914` | `0x14b` |
+| guild | DIFF | `0x8095342` | `0x15e` | `0x805b42a` | `0x151` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,42 +13,36 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,98 +1,92 @@
+@@ -1,98 +1,96 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
+ push   %edi
  push   %esi
  push   %ebx
--sub    $0x4c,%esp
-+sub    $0x40,%esp
+ sub    $0x4c,%esp
  mov    0x8(%ebp),%eax
  add    $0x4,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP6CGuildSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
  test   %al,%al
--jne    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x21>
-+jne    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x20>
+ jne    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x21>
  cmpl   $0x0,0xc(%ebp)
--jne    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x28>
-+jne    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x27>
+ jne    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x28>
  mov    $0x1,%eax
--jmp    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x2d>
-+jmp    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x2c>
+ jmp    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x2d>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x3b>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x156>
-+jne    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x143>
++jne    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x148>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild11GetGuildKeyEv>
--mov    %eax,-0x2c(%ebp)
-+mov    %eax,-0xc(%ebp)
+ mov    %eax,-0x2c(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x4(%eax),%edx
--lea    -0x2c(%ebp),%eax
-+lea    -0xc(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZNSt3mapIjP6CGuildSt4lessIjESaISt4pairIKjS1_EEE5eraseERS5_>
@@ -56,43 +50,44 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0xf6>
--mov    0x8(%ebp),%eax
--add    $0x4,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt3mapIjP6CGuildSt4lessIjESaISt4pairIKjS1_EEE4sizeEv>
--mov    %eax,%edi
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild12GetGuildNameEv>
--mov    %eax,%esi
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild11GetGuildKeyEv>
--mov    %eax,%ebx
-+je     <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0xe8>
++je     <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0xeb>
+ mov    0x8(%ebp),%eax
+ add    $0x4,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIjP6CGuildSt4lessIjESaISt4pairIKjS1_EEE4sizeEv>
+ mov    %eax,%edi
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild12GetGuildNameEv>
+ mov    %eax,%esi
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild11GetGuildKeyEv>
+ mov    %eax,%ebx
  movl   $0xe0,0x8(%esp)
- movl   $"DeleteGuild",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ movl   $&_ZZN13CGuildManager11DeleteGuildEP6CGuildE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"[DELETE]  Guild Key : %d\tGuild Name : %s\tCurr Guild Load Cnt : %d\n",0x8(%esp)
--movl   $"./log/Guild",0x4(%esp)
--lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    0xc(%ebp),%ebx
--test   %ebx,%ebx
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"[DELETE]  Guild Key : %d\tGuild Name : %s\tCurr Guild Load Cnt : %d\n",0x8(%esp)
+ movl   $"./log/Guild",0x4(%esp)
+ lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    0xc(%ebp),%ebx
+ test   %ebx,%ebx
 -je     <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0xef>
--mov    %ebx,(%esp)
--call   <T> <_ZN6CGuildD1Ev>
--mov    %ebx,(%esp)
--call   <T> <_ZN6CGuilddlEPv>
++je     <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x149>
+ mov    %ebx,(%esp)
+ call   <T> <_ZN6CGuildD1Ev>
+ mov    %ebx,(%esp)
+ call   <T> <_ZN6CGuilddlEPv>
 -mov    $0x1,%eax
 -jmp    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x156>
++jmp    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x149>
  mov    0x8(%ebp),%eax
  add    $0x4,%eax
  mov    %eax,(%esp)
@@ -100,60 +95,27 @@
  mov    %eax,%esi
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild12GetGuildNameEv>
-+mov    %eax,%ebx
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
  call   <T> <_ZN6CGuild11GetGuildKeyEv>
--mov    %eax,%ebx
-+mov    %esi,0x14(%esp)
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
-+movl   $"[DELETE]  Guild Key : %d\tGuild Name : %s\tCurr Guild Load Cnt : %d\n",0x8(%esp)
-+movl   $"./log/Guild",0x4(%esp)
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    0xc(%ebp),%ebx
-+test   %ebx,%ebx
-+je     <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x144>
-+mov    %ebx,(%esp)
-+call   <T> <_ZN6CGuildD1Ev>
-+mov    %ebx,(%esp)
-+call   <T> <_ZN6CGuilddlEPv>
-+jmp    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x144>
+ mov    %eax,%ebx
  movl   $0xe7,0x8(%esp)
- movl   $"DeleteGuild",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ movl   $&_ZZN13CGuildManager11DeleteGuildEP6CGuildE12__FUNCTION__,0x4(%esp)
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0x4,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt3mapIjP6CGuildSt4lessIjESaISt4pairIKjS1_EEE4sizeEv>
-+mov    %eax,%ebx
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild11GetGuildKeyEv>
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"[DELETE_ERR]  Guild Key : %d\tCurr Guild Load Cnt : %d\n",0x8(%esp)
  movl   $"./log/Guild",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
--add    $0x4c,%esp
-+jmp    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x144>
++jmp    <T> <_ZN13CGuildManager11DeleteGuildEP6CGuild+0x149>
 +nop
-+add    $0x40,%esp
+ add    $0x4c,%esp
  pop    %ebx
  pop    %esi
--pop    %edi
+ pop    %edi
  pop    %ebp
  ret
 ```
@@ -233,7 +195,7 @@ CGuildManager::_ZN13CGuildManager11DeleteGuildEP6CGuild(CGuildManager *this,CGui
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 187 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 210 行）：
 
 ```cpp
 void CGuildManager::DeleteGuild(CGuild* guild)

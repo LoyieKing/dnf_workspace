@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807e712` | `0x116` | `0x8074fba` | `0x123` |
+| guild | DIFF | `0x807e712` | `0x116` | `0x8074dd2` | `0x123` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -57,21 +57,17 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
 -movl   $0xfe7,0x8(%esp)
--movl   $"RequestBlackListToDBMW",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater22RequestBlackListToDBMWEjE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::RequestBlackListToDBMW Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -94,7 +90,7 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xfec,0x8(%esp)
- movl   $"RequestBlackListToDBMW",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater22RequestBlackListToDBMWEjE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
 +lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
@@ -166,7 +162,7 @@ void CPacketTranslater::RequestBlackListToDBMW(unsigned int charNo)
     }
     catch (...)
     {
-        CMyFileLog log("RequestBlackListToDBMW", 0xfec);
+        CMyFileLog log(__FUNCTION__, 0xfec);
         log("./log/Except", "CPacketTranslater::RequestBlackListToDBMW Exception Break\n");
     }
 }

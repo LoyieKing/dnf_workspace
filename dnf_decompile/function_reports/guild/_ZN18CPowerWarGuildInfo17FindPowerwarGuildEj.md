@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a9e98` | `0x6a` | `0x80a0076` | `0x6d` |
+| guild | DIFF | `0x80a9e98` | `0x6a` | `0x809fcb8` | `0x6d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -101,13 +101,12 @@ undefined4 CPowerWarGuildInfo::_ZN18CPowerWarGuildInfo17FindPowerwarGuildEj(uint
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 142 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 136 行）：
 
 ```cpp
 STPowerWarGuildInfo* CPowerWarGuildInfo::FindPowerwarGuild(unsigned int guildKey)
 {
-    std::map<unsigned int, STPowerWarGuildInfo*>* map =
-        (std::map<unsigned int, STPowerWarGuildInfo*>*)(m_data + 0);
+    std::map<unsigned int, STPowerWarGuildInfo*>* map = &m_map;
     std::map<unsigned int, STPowerWarGuildInfo*>::iterator it = map->find(guildKey);
     if (it == map->end())
     {

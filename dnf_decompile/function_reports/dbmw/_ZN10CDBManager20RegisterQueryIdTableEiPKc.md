@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8077090` | `0xb2` | `0x805838e` | `0xb1` |
+| dbmw | DIFF | `0x8077090` | `0xb2` | `0x8058178` | `0xb1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -31,59 +31,37 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x78,%eax
--mov    (%eax),%edx
--mov    0x10(%ebp),%eax
--mov    %eax,0x8(%esp)
--lea    -0x600e(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+lea    -0x600e(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ lea    -0x600e(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--lea    -0x600e(%ebp),%eax
--mov    %eax,0x14(%esp)
--lea    -0x600e(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+lea    -0x600e(%ebp),%edx
-+mov    %edx,0x14(%esp)
-+lea    -0x600e(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ lea    -0x600e(%ebp),%eax
+ mov    %eax,0x14(%esp)
+ lea    -0x600e(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"inSert into log_query_dbmw_ref(q_id,query,query_hash) values(%d,'%s',password('%s'))",0x8(%esp)
  movl   $0x4f61,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4f61,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    $0x1,%eax
  leave
  ret
@@ -115,7 +93,7 @@ CDBManager::_ZN10CDBManager20RegisterQueryIdTableEiPKc(CDBManager *this,int para
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3072 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 2998 行）：
 
 ```cpp
 char CDBManager::RegisterQueryIdTable(int queryId, const char* query)

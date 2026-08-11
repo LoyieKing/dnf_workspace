@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809f30a` | `0x17b` | `0x80917ca` | `0x136` |
+| guild | DIFF | `0x809f30a` | `0x17b` | `0x80915fc` | `0x13f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,103 +1,83 @@
+@@ -1,103 +1,90 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
--push   %esi
--push   %ebx
--sub    $0x3c,%esp
-+sub    $0x38,%esp
+ push   %edi
+ push   %esi
+ push   %ebx
+ sub    $0x3c,%esp
 +mov    0x8(%ebp),%eax
  mov    0x10(%ebp),%edx
 +imul   $0x35,%edx,%edx
@@ -28,7 +27,7 @@
 +add    %edx,%eax
 +mov    (%eax),%eax
 +test   %eax,%eax
-+jne    <T> <_ZN11CGuildCargo7AddItemER11DnfItemInfoii+0xbd>
++jne    <T> <_ZN11CGuildCargo7AddItemER11DnfItemInfoii+0xc0>
 +mov    0x8(%ebp),%edx
 +mov    0x10(%ebp),%eax
 +imul   $0x35,%eax,%eax
@@ -44,7 +43,16 @@
 -test   %eax,%eax
 -jne    <T> <_ZN11CGuildCargo7AddItemER11DnfItemInfoii+0x102>
 -mov    0x10(%ebp),%edx
--mov    0x8(%ebp),%eax
++add    $0x18dc,%eax
++mov    0x8(%ebp),%edx
++add    $0x18dc,%edx
++mov    (%edx),%edx
++add    $0x1,%edx
++mov    %edx,(%eax)
++mov    0xc(%ebp),%eax
++add    $0x1,%eax
++mov    (%eax),%esi
+ mov    0x8(%ebp),%eax
 -imul   $0x35,%edx,%edx
 -mov    0xc(%ebp),%ecx
 -mov    (%ecx),%ebx
@@ -84,98 +92,68 @@
 -mov    0x1(%eax),%esi
 -mov    0x8(%ebp),%eax
 -mov    0x18e0(%eax),%ebx
-+add    $0x18dc,%eax
-+mov    0x8(%ebp),%edx
-+add    $0x18dc,%edx
-+mov    (%edx),%edx
-+add    $0x1,%edx
-+mov    %edx,(%eax)
++add    $0x18e0,%eax
++mov    (%eax),%ebx
  movl   $0x4b,0x8(%esp)
- movl   $"AddItem",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ movl   $&_ZZN11CGuildCargo7AddItemER11DnfItemInfoiiE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0x10(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    %esi,0x14(%esp)
--mov    0x14(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    0xc(%ebp),%eax
-+add    $0x1,%eax
-+mov    (%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x18e0,%eax
-+mov    (%eax),%eax
-+mov    0x10(%ebp),%ecx
-+mov    %ecx,0x18(%esp)
-+mov    %edx,0x14(%esp)
-+mov    0x14(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    %esi,0x14(%esp)
+ mov    0x14(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"AddItem SUCCESS - GUILD:%d, CHARAC:%d, ITEM:%d, SLOT:%d",0x8(%esp)
  movl   $"./log/GuildCargo",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0xc1,%eax
 -jmp    <T> <_ZN11CGuildCargo7AddItemER11DnfItemInfoii+0x173>
--mov    0x10(%ebp),%edx
--mov    0x8(%ebp),%eax
++jmp    <T> <_ZN11CGuildCargo7AddItemER11DnfItemInfoii+0x137>
++mov    0x8(%ebp),%eax
+ mov    0x10(%ebp),%edx
++imul   $0x35,%edx,%edx
++add    $0x1,%edx
++add    %edx,%eax
++mov    (%eax),%edi
++mov    0xc(%ebp),%eax
++add    $0x1,%eax
++mov    (%eax),%esi
+ mov    0x8(%ebp),%eax
 -imul   $0x35,%edx,%edx
 -mov    0x1(%edx,%eax,1),%edi
 -mov    0xc(%ebp),%eax
 -mov    0x1(%eax),%esi
 -mov    0x8(%ebp),%eax
 -mov    0x18e0(%eax),%ebx
-+jmp    <T> <_ZN11CGuildCargo7AddItemER11DnfItemInfoii+0x134>
++add    $0x18e0,%eax
++mov    (%eax),%ebx
  movl   $0x54,0x8(%esp)
- movl   $"AddItem",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x10(%ebp),%eax
+ movl   $&_ZZN11CGuildCargo7AddItemER11DnfItemInfoiiE12__FUNCTION__,0x4(%esp)
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x1c(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    %esi,0x14(%esp)
--mov    0x14(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+mov    0x10(%ebp),%edx
-+imul   $0x35,%edx,%edx
-+add    $0x1,%edx
-+add    %edx,%eax
-+mov    (%eax),%ecx
-+mov    0xc(%ebp),%eax
-+add    $0x1,%eax
-+mov    (%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x18e0,%eax
-+mov    (%eax),%eax
-+mov    %ecx,0x1c(%esp)
-+mov    0x10(%ebp),%ecx
-+mov    %ecx,0x18(%esp)
-+mov    %edx,0x14(%esp)
-+mov    0x14(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %edi,0x1c(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    %esi,0x14(%esp)
+ mov    0x14(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"AddItem ITEM ALREADY EXIST - GUILD:%d, CHARAC:%d, INSERT ITEM:%d, SLOT:%d, AREADY ITEM:%d",0x8(%esp)
  movl   $"./log/GuildCargo",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x10(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0xc9,%eax
--add    $0x3c,%esp
--pop    %ebx
--pop    %esi
--pop    %edi
--pop    %ebp
-+leave
+ add    $0x3c,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %edi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -238,7 +216,7 @@ CGuildCargo::_ZN11CGuildCargo7AddItemER11DnfItemInfoii
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 145 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 153 行）：
 
 ```cpp
 int CGuildCargo::AddItem(DnfItemInfo& info, int slot, int count)

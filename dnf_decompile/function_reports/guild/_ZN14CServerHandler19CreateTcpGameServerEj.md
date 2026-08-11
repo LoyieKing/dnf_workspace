@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806d96e` | `0xe5` | `0x8081f30` | `0xe8` |
+| guild | DIFF | `0x806d96e` | `0xe5` | `0x8081d1a` | `0xe8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -142,7 +142,7 @@ CServerHandler::_ZN14CServerHandler19CreateTcpGameServerEj(CServerHandler *this,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 382 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 389 行）：
 
 ```cpp
 CTcpGameServer* CServerHandler::CreateTcpGameServer(unsigned int group)

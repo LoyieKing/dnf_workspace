@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8058146` | `0x20a` | `0x80a5d16` | `0x10f` |
+| guild | DIFF | `0x8058146` | `0x20a` | `0x80a594e` | `0x10f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -68,10 +68,9 @@
 -lea    -0x11(%ebp),%eax
 +lea    -0xd(%ebp),%eax
  mov    %eax,0x8(%esp)
--movl   $&data#c7597315(.rodata),0x4(%esp)
+ movl   $"",0x4(%esp)
 -lea    -0x18(%ebp),%eax
 -mov    %eax,(%esp)
-+movl   $&data#4fd15c5c(.rodata),0x4(%esp)
 +mov    %esi,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -jmp    <T> <_ZNK13np_server_xml10CServerXml14GetEventStringEiNS_12_eStringTypeEPb+0x4d>
@@ -313,4 +312,4 @@ string * np_server_xml::CServerXml::
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/ServerXml.cpp, source/DNFServer/GameServer/Guild/ServerXml.cpp, source/DNFServer/GameServer/Monitor/ServerXml.cpp, source/DNFServer/ServerCommon/ServerXml.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h 等 622 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/ServerXml.cpp, source/DNFServer/GameServer/Guild/BlackUser.h, source/DNFServer/GameServer/Guild/CashObject.h, source/DNFServer/GameServer/Guild/DNFAppConfig.h, source/DNFServer/GameServer/Guild/DNFAppStartInit.h, source/DNFServer/GameServer/Guild/DNFAppStopInit.h, source/DNFServer/GameServer/Guild/DNFApplication.h, source/DNFServer/GameServer/Guild/DNFDBServer.h 等 289 个文件*

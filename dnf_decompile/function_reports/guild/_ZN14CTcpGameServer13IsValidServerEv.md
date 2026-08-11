@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806c45a` | `0x24` | `0x805258e` | `0xf` |
+| guild | DIFF | `0x806c45a` | `0x24` | `0x80525b2` | `0xf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -54,15 +54,11 @@ undefined4 __thiscall CTcpGameServer::_ZN14CTcpGameServer13IsValidServerEv(CTcpG
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFGameServer.cpp](source/DNFServer/GameServer/COServer/DNFGameServer.cpp)（约第 28 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGameServer.cpp](source/DNFServer/GameServer/Guild/DNFGameServer.cpp)（约第 137 行）：
 
 ```cpp
-bool CGameServer::IsValidServer()
+bool CTcpGameServer::IsValidServer()
 {
-    if (m_group == 0xff)
-    {
-        return false;
-    }
-    return true;
+    return m_group != 0;
 }
 ```

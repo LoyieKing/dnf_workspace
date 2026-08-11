@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808d464` | `0x24a` | `0x80534bc` | `0x23a` |
+| guild | DIFF | `0x808d464` | `0x24a` | `0x805354a` | `0x23a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -62,7 +62,7 @@
 -mov    0x8(%ebp),%eax
 -mov    0x18(%eax),%esi
 -movl   $0x171,0x8(%esp)
--movl   $"DBGuildSaveProcess",0x4(%esp)
+-movl   $&_ZZN6CGuild18DBGuildSaveProcessEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -99,7 +99,7 @@
 -jne    <T> <_ZN6CGuild18DBGuildSaveProcessEP14CServerHandler+0x143>
 +jne    <T> <_ZN6CGuild18DBGuildSaveProcessEP14CServerHandler+0x13a>
  movl   $0x17c,0x8(%esp)
- movl   $"DBGuildSaveProcess",0x4(%esp)
+ movl   $&_ZZN6CGuild18DBGuildSaveProcessEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -134,7 +134,7 @@
 -mov    0x8(%ebp),%eax
 -mov    0x18(%eax),%esi
 -movl   $0x183,0x8(%esp)
--movl   $"DBGuildSaveProcess",0x4(%esp)
+-movl   $&_ZZN6CGuild18DBGuildSaveProcessEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -276,7 +276,7 @@ CGuild::_ZN6CGuild18DBGuildSaveProcessEP14CServerHandler(CGuild *this,CServerHan
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 494 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 552 行）：
 
 ```cpp
 void CGuild::DBGuildSaveProcess(CServerHandler* handler)
@@ -300,7 +300,7 @@ void CGuild::DBGuildSaveProcess(CServerHandler* handler)
             CUser* user = m_members.begin()->second;
             if (user == 0)
             {
-                CMyFileLog log("DBGuildSaveProcess", 0x17c);
+                CMyFileLog log(__FUNCTION__, 0x17c);
                 log("./log/Except", "[SAVE_INTERVAL]  pclUser is NULL!");
                 m_field4d94 = 0;
                 return;

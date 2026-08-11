@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808e42e` | `0x30f` | `0x80544b6` | `0x310` |
+| guild | DIFF | `0x808e42e` | `0x30f` | `0x805455a` | `0x310` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -49,7 +49,7 @@
 -mov    %eax,%ebx
 +jge    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0xaa>
  movl   $0x3d2,0x8(%esp)
- movl   $"BuyGuildSkill",0x4(%esp)
+-movl   $&_ZZN6CGuild13BuyGuildSkillEiisjE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -59,6 +59,7 @@
 -mov    0xc(%ebp),%eax
 -mov    %eax,0x10(%esp)
 -mov    %ebx,0xc(%esp)
++movl   $"BuyGuildSkill",0x4(%esp)
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -102,7 +103,7 @@
 -mov    %eax,%ebx
 +jae    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x124>
  movl   $0x3d9,0x8(%esp)
- movl   $"BuyGuildSkill",0x4(%esp)
+ movl   $&_ZZN6CGuild13BuyGuildSkillEiisjE12__FUNCTION__,0x4(%esp)
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -189,12 +190,13 @@
 -mov    %eax,%ebx
 +jbe    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x1f8>
  movl   $0x3ee,0x8(%esp)
- movl   $"BuyGuildSkill",0x4(%esp)
+-movl   $&_ZZN6CGuild13BuyGuildSkillEiisjE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
++movl   $"BuyGuildSkill",0x4(%esp)
 +lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -322,7 +324,7 @@
 -call   <T> <_ZN6CGuild11GetGuildKeyEv>
 -mov    %eax,%ebx
  movl   $0x403,0x8(%esp)
- movl   $"BuyGuildSkill",0x4(%esp)
+ movl   $&_ZZN6CGuild13BuyGuildSkillEiisjE12__FUNCTION__,0x4(%esp)
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -453,7 +455,7 @@ CGuild::_ZN6CGuild13BuyGuildSkillEiisj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 838 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 896 行）：
 
 ```cpp
 int CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int charNo)
@@ -471,7 +473,7 @@ int CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int charN
     }
     if (*(unsigned int*)((char*)this + 0xc0) < charNo)
     {
-        CMyFileLog log("BuyGuildSkill", 0x3d9);
+        CMyFileLog log(__FUNCTION__, 0x3d9);
         log("./log/GuildSkill", "BUY_SKILL_1, GKey(%d) , Idx(%d), lev(%d), guildfund(%d)",
             GetGuildKey(), skillId, slot, *(unsigned int*)((char*)this + 0xc0));
         return 0;
@@ -514,7 +516,7 @@ int CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int charN
         *(unsigned short*)((char*)this + 0x62) = 0;
     }
     m_field4d96 = 1;
-    CMyFileLog log("BuyGuildSkill", 0x403);
+    CMyFileLog log(__FUNCTION__, 0x403);
     log("./log/GuildSkill", "BUY_SKILL, GKey(%d) , Idx(%d), lev(%d), gsp(%d)", GetGuildKey(),
         skillId, slot, (unsigned int)*(unsigned short*)((char*)this + 0x62));
     return 1;

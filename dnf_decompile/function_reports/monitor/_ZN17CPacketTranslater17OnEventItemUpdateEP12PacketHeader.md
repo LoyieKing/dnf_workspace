@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8080076` | `0x328` | `0x806bf2a` | `0x31a` |
+| monitor | DIFF | `0x8080076` | `0x328` | `0x806c06e` | `0x322` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,213 +1,213 @@
+@@ -1,213 +1,210 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,11 +24,9 @@
 -mov    %eax,-0x2c(%ebp)
 -movl   $0x0,-0x28(%ebp)
 -mov    -0x2c(%ebp),%eax
--mov    0xa(%eax),%eax
-+sub    $0x7c,%esp
++sub    $0x8c,%esp
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x10,%edx
  mov    %eax,0x4(%esp)
@@ -42,9 +40,9 @@
 +mov    %eax,-0x34(%ebp)
 +movl   $0x0,-0x30(%ebp)
 +cmpl   $0x0,-0x34(%ebp)
-+jne    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x12b>
++jne    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x128>
 +movl   $0x0,-0x24(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x83>
++jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x84>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -mov    -0x20(%ebp),%edx
 +mov    -0x24(%ebp),%edx
@@ -57,30 +55,30 @@
 -mov    -0x28(%ebp),%eax
 +mov    %eax,-0x30(%ebp)
 +cmpl   $0x0,-0x30(%ebp)
-+je     <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x76>
++je     <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x77>
 +mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface11IsConnectedEv>
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x7d>
-+je     <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x76>
++je     <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x77>
  mov    $0x1,%eax
 -jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x82>
-+jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x7b>
++jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x7c>
  mov    $0x0,%eax
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x9a>
 -addl   $0x1,-0x20(%ebp)
 -cmpl   $0xfe,-0x20(%ebp)
-+jne    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x93>
++jne    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x94>
 +addl   $0x1,-0x24(%ebp)
 +cmpl   $0xfe,-0x24(%ebp)
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x4a>
 -jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x9b>
-+jne    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x43>
-+jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x94>
++jne    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x44>
++jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x95>
  nop
 -cmpl   $0x0,-0x28(%ebp)
 -jne    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x13e>
@@ -95,48 +93,43 @@
 -mov    -0x2c(%ebp),%eax
 -mov    0x12(%eax),%esi
 -mov    -0x2c(%ebp),%eax
--mov    0xa(%eax),%eax
 +cmpl   $0x0,-0x30(%ebp)
-+jne    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x139>
++jne    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x136>
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_Z14NumberToStringji>
 -mov    %eax,%ebx
 +mov    %eax,-0x20(%ebp)
++mov    0x8(%ebp),%eax
++mov    0x1a(%eax),%eax
++mov    %eax,-0x68(%ebp)
++mov    0x8(%ebp),%eax
++mov    0x16(%eax),%edi
++mov    0x8(%ebp),%eax
++mov    0xe(%eax),%esi
++mov    0x8(%ebp),%eax
++mov    0x12(%eax),%ebx
  movl   $0x4b0,0x8(%esp)
- movl   $"OnEventItemUpdate",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x70(%ebp),%eax
--mov    %eax,0x1c(%esp)
++lea    -0x54(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    -0x68(%ebp),%eax
+ mov    %eax,0x1c(%esp)
 -mov    -0x6c(%ebp),%eax
 -mov    %eax,0x18(%esp)
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0x8(%ebp),%eax
-+add    $0x1a,%eax
-+mov    (%eax),%ebx
-+mov    0x8(%ebp),%eax
-+add    $0x16,%eax
-+mov    (%eax),%ecx
-+mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%eax
-+mov    %ebx,0x1c(%esp)
-+mov    %ecx,0x18(%esp)
-+mov    %edx,0x14(%esp)
-+mov    %eax,0x10(%esp)
++mov    %edi,0x18(%esp)
++mov    %esi,0x14(%esp)
++mov    %ebx,0x10(%esp)
 +mov    -0x20(%ebp),%eax
 +mov    %eax,0xc(%esp)
  movl   $"Fail: Event User DB ID : %s [EventType: %d][CharacNo: %d][ItemID: %d][Stack: %d]\n",0x8(%esp)
@@ -146,55 +139,19 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x31d>
 -mov    -0x24(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x54(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x312>
++jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x317>
 +mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
+-mov    %eax,-0x28(%ebp)
+-mov    -0x28(%ebp),%eax
 +mov    %eax,-0x30(%ebp)
 +mov    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN16CServerInterface12GetChannelNoEv>
-+mov    %al,-0x29(%ebp)
-+mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+movl   $0x0,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_Z14NumberToStringji>
- mov    %eax,-0x28(%ebp)
-+movl   $0x4b7,0x8(%esp)
-+movl   $"OnEventItemUpdate",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movzbl -0x29(%ebp),%edi
-+mov    0x8(%ebp),%eax
-+add    $0x1e,%eax
-+mov    (%eax),%esi
-+mov    0x8(%ebp),%eax
-+add    $0x1a,%eax
-+mov    (%eax),%ebx
-+mov    0x8(%ebp),%eax
-+add    $0x16,%eax
-+mov    (%eax),%ecx
-+mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%eax
-+mov    %edi,0x24(%esp)
-+mov    %esi,0x20(%esp)
-+mov    %ebx,0x1c(%esp)
-+mov    %ecx,0x18(%esp)
-+mov    %edx,0x14(%esp)
-+mov    %eax,0x10(%esp)
- mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16CServerInterface12GetChannelNoEv>
+ mov    %eax,(%esp)
+ call   <T> <_ZN16CServerInterface12GetChannelNoEv>
 -movzbl %al,%eax
 -mov    %eax,-0x68(%ebp)
 -mov    -0x2c(%ebp),%eax
@@ -211,27 +168,54 @@
 -mov    -0x2c(%ebp),%eax
 -mov    0x12(%eax),%esi
 -mov    -0x2c(%ebp),%eax
--mov    0xa(%eax),%eax
--movl   $0x0,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_Z14NumberToStringji>
++mov    %al,-0x29(%ebp)
++mov    0x8(%ebp),%eax
+ mov    0xa(%eax),%eax
+ movl   $0x0,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_Z14NumberToStringji>
 -mov    %eax,%ebx
--movl   $0x4b7,0x8(%esp)
--movl   $"OnEventItemUpdate",0x4(%esp)
++mov    %eax,-0x28(%ebp)
++movzbl -0x29(%ebp),%eax
++mov    %eax,-0x64(%ebp)
++mov    0x8(%ebp),%eax
++mov    0x1e(%eax),%eax
++mov    %eax,-0x60(%ebp)
++mov    0x8(%ebp),%eax
++mov    0x1a(%eax),%eax
++mov    %eax,-0x5c(%ebp)
++mov    0x8(%ebp),%eax
++mov    0x16(%eax),%edi
++mov    0x8(%ebp),%eax
++mov    0xe(%eax),%esi
++mov    0x8(%ebp),%eax
++mov    0x12(%eax),%ebx
+ movl   $0x4b7,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x68(%ebp),%eax
--mov    %eax,0x24(%esp)
++lea    -0x4c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    -0x64(%ebp),%eax
+ mov    %eax,0x24(%esp)
 -mov    -0x64(%ebp),%eax
--mov    %eax,0x20(%esp)
++mov    -0x60(%ebp),%eax
+ mov    %eax,0x20(%esp)
 -mov    -0x60(%ebp),%eax
--mov    %eax,0x1c(%esp)
++mov    -0x5c(%ebp),%eax
+ mov    %eax,0x1c(%esp)
 -mov    -0x5c(%ebp),%eax
 -mov    %eax,0x18(%esp)
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
++mov    %edi,0x18(%esp)
++mov    %esi,0x14(%esp)
++mov    %ebx,0x10(%esp)
++mov    -0x28(%ebp),%eax
 +mov    %eax,0xc(%esp)
  movl   $"Event User DB ID : %s [EventType: %d][CharacNo: %d][ItemID: %d][Stack: %d][TableID: %d][Channel No: %d]\n",0x8(%esp)
  movl   $"./log/User",0x4(%esp)
@@ -242,11 +226,11 @@
 -je     <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x31d>
 -mov    -0x2c(%ebp),%edx
 -mov    -0x28(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +cmpl   $0x0,-0x30(%ebp)
-+je     <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x312>
++je     <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x317>
 +mov    0x8(%ebp),%eax
  movl   $0x22,0x8(%esp)
 -mov    %edx,0x4(%esp)
@@ -255,66 +239,53 @@
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x31d>
-+jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x312>
++jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x317>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x2b7>
-+jne    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x2ac>
++jne    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x2b1>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0x4(%esp)
-+movl   $"CPacketTranslater::OnEventItemUpdate() Exception Break : %s\n",(%esp)
-+call   <T> <printf>
-+movl   $0x4dd,0x8(%esp)
-+movl   $"OnEventItemUpdate",0x4(%esp)
-+lea    -0x4c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    (%eax),%edx
  mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,0x4(%esp)
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,0x4(%esp)
 -movl   $"CPacketTranslater::OnCoinUpdate() Exception Break : %s\n",(%esp)
--call   <T> <printf>
--mov    -0x1c(%ebp),%eax
++movl   $"CPacketTranslater::OnEventItemUpdate() Exception Break : %s\n",(%esp)
+ call   <T> <printf>
+ mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
 -movl   $0x4c3,0x8(%esp)
--movl   $"OnEventItemUpdate",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
++movl   $0x4dd,0x8(%esp)
++movl   $&_ZZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x44(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
 -movl   $"CPacketTranslater::OnCoinUpdate() Exception Break : %s\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x2b0>
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
 +movl   $"CPacketTranslater::OnEventItemUpdate() Exception Break : %s\n",0x8(%esp)
 +movl   $"%s",0x4(%esp)
-+lea    -0x4c(%ebp),%eax
++lea    -0x44(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x2a5>
++jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x2aa>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -324,14 +295,14 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x31d>
-+jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x312>
++jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x317>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
 -movl   $"CPacketTranslater::OnCoinUpdate() Exception Break",(%esp)
 +movl   $"CPacketTranslater::OnEventItemUpdate() Exception Break",(%esp)
  call   <T> <puts>
 -movl   $0x4c9,0x8(%esp)
--movl   $"OnEventItemUpdate",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -342,16 +313,16 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x318>
 +movl   $0x4e3,0x8(%esp)
-+movl   $"OnEventItemUpdate",0x4(%esp)
-+lea    -0x54(%ebp),%eax
++movl   $&_ZZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +movl   $"CPacketTranslater::OnEventItemUpdate() Exception Break",0x8(%esp)
 +movl   $"%s",0x4(%esp)
-+lea    -0x54(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x30d>
++jmp    <T> <_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader+0x312>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -361,7 +332,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -add    $0x9c,%esp
-+add    $0x7c,%esp
++add    $0x8c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -449,7 +420,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 889 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 895 行）：
 
 ```cpp
 void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt)
@@ -458,7 +429,7 @@ void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt)
     {
         CUser* user =
             ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
-                *(unsigned int*)((char*)pkt + 0xa));
+                ((RA_UINT<10>*)pkt)->v);
         CServerInterface* gs = 0;
         if (user == 0)
         {
@@ -472,14 +443,14 @@ void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt)
             }
             if (gs == 0)
             {
-                char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+                char* dbid = NumberToString(((RA_UINT<10>*)pkt)->v, 0);
                 DNF_LOG_SCOPE_LINE(0x4b0,"./log/User",
                     "Fail: Event User DB ID : %s [EventType: %d][CharacNo: %d][ItemID: "
                     "%d][Stack: %d]\n",
-                    dbid, *(unsigned int*)((char*)pkt + 0x12),
-                    *(unsigned int*)((char*)pkt + 0xe),
-                    *(unsigned int*)((char*)pkt + 0x16),
-                    *(unsigned int*)((char*)pkt + 0x1a));
+                    dbid, ((RA_UINT<18>*)pkt)->v,
+                    ((RA_UINT<14>*)pkt)->v,
+                    ((RA_UINT<22>*)pkt)->v,
+                    ((RA_UINT<26>*)pkt)->v);
                 return;
             }
         }
@@ -488,13 +459,13 @@ void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt)
             gs = (CServerInterface*)user->GetGameServer();
         }
         unsigned char channel = gs->GetChannelNo();
-        char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+        char* dbid = NumberToString(((RA_UINT<10>*)pkt)->v, 0);
         DNF_LOG_SCOPE_LINE(0x4b7,"./log/User",
             "Event User DB ID : %s [EventType: %d][CharacNo: %d][ItemID: %d][Stack: "
             "%d][TableID: %d][Channel No: %d]\n",
-            dbid, *(unsigned int*)((char*)pkt + 0x12),
-            *(unsigned int*)((char*)pkt + 0xe), *(unsigned int*)((char*)pkt + 0x16),
-            *(unsigned int*)((char*)pkt + 0x1a), *(unsigned int*)((char*)pkt + 0x1e),
+            dbid, ((RA_UINT<18>*)pkt)->v,
+            ((RA_UINT<14>*)pkt)->v, ((RA_UINT<22>*)pkt)->v,
+            ((RA_UINT<26>*)pkt)->v, ((RA_UINT<30>*)pkt)->v,
             (unsigned int)channel);
         if (gs != 0)
         {

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8093d4a` | `0x205` | `0x805cc70` | `0x236` |
+| monitor | DIFF | `0x8093d4a` | `0x205` | `0x805cf32` | `0x201` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,155 +1,172 @@
+@@ -1,155 +1,153 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -28,37 +28,36 @@
 -mov    0xc(%ebp),%eax
 -mov    %eax,-0x30(%ebp)
  mov    0x8(%ebp),%eax
--mov    0x8(%eax),%eax
+ mov    0x8(%eax),%eax
 -mov    %eax,-0x34(%ebp)
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x20(%ebp)
++mov    %eax,-0x30(%ebp)
  mov    0x18(%ebp),%eax
  movb   $0x0,(%eax)
  mov    0x8(%ebp),%eax
  movzbl (%eax),%eax
  test   %al,%al
 -je     <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x171>
-+jne    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0xd4>
-+movl   $0xe2c,0x8(%esp)
-+movl   $"SetExchageServer",0x4(%esp)
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movswl -0x3c(%ebp),%ebx
++jne    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0xcc>
++movswl -0x3c(%ebp),%esi
 +lea    0xc(%ebp),%eax
 +mov    (%eax),%eax
 +mov    %eax,(%esp)
 +call   <T> <inet_ntoa>
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,0x18(%esp)
-+mov    0x14(%ebp),%edx
-+mov    %edx,0x14(%esp)
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    %eax,%ebx
++movl   $0xe2c,0x8(%esp)
++movl   $&_ZZN15CExchangeServer16SetExchageServerEjsiRbE12__FUNCTION__,0x4(%esp)
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    -0x1c(%ebp),%eax
++mov    %eax,0x18(%esp)
++mov    0x14(%ebp),%eax
++mov    %eax,0x14(%esp)
++mov    %esi,0x10(%esp)
++mov    %ebx,0xc(%esp)
 +movl   $"insert new(%s,%d,%d,%d)",0x8(%esp)
 +movl   $"./log/ExchangeServer",0x4(%esp)
-+lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    0xc(%ebp),%edx
@@ -66,181 +65,124 @@
 -mov    0x8(%eax),%eax
 -cmp    0xc(%ebp),%eax
 -jne    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x8e>
-+mov    %edx,0xc(%eax)
- mov    0x8(%ebp),%eax
--movzwl 0xc(%eax),%eax
++mov    %edx,0x8(%eax)
++mov    0x8(%ebp),%eax
 +movzwl -0x3c(%ebp),%edx
-+mov    %dx,0x10(%eax)
++mov    %dx,0xc(%eax)
 +mov    0x8(%ebp),%eax
 +mov    0x14(%ebp),%edx
-+mov    %edx,0x14(%eax)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,%edx
-+sar    $0x1f,%edx
-+mov    0x8(%ebp),%ecx
-+mov    %eax,0x4(%ecx)
-+mov    %edx,0x8(%ecx)
++mov    %edx,0x10(%eax)
++mov    -0x1c(%ebp),%edx
++mov    0x8(%ebp),%eax
++mov    %edx,0x4(%eax)
 +mov    0x8(%ebp),%eax
 +movb   $0x1,(%eax)
-+jmp    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x22e>
++jmp    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x1f9>
 +mov    0x8(%ebp),%eax
-+mov    0xc(%eax),%edx
++mov    0x8(%eax),%edx
 +mov    0xc(%ebp),%eax
 +cmp    %eax,%edx
-+jne    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x137>
-+mov    0x8(%ebp),%eax
-+movzwl 0x10(%eax),%eax
++jne    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x119>
+ mov    0x8(%ebp),%eax
+ movzwl 0xc(%eax),%eax
  cmp    -0x3c(%ebp),%ax
 -jne    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x8e>
-+jne    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x137>
++jne    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x119>
  mov    0x8(%ebp),%eax
--mov    0x10(%eax),%eax
-+mov    0x14(%eax),%eax
+ mov    0x10(%eax),%eax
  cmp    0x14(%ebp),%eax
 -jne    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x8e>
--mov    0x8(%ebp),%eax
--mov    0x4(%eax),%eax
++jne    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x119>
++mov    -0x1c(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x4(%eax),%eax
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%ecx
--sub    %eax,%ecx
--mov    %ecx,%eax
-+jne    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x137>
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,%edx
-+sar    $0x1f,%edx
-+mov    0x8(%ebp),%ecx
-+mov    0x8(%ecx),%ebx
-+mov    0x4(%ecx),%ecx
-+sub    %ecx,%eax
-+sbb    %ebx,%edx
-+test   %edx,%edx
-+jg     <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x121>
-+test   %edx,%edx
-+js     <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x11b>
+ mov    %edx,%ecx
+ sub    %eax,%ecx
+ mov    %ecx,%eax
  cmp    $0x1e,%eax
 -jg     <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x7f>
-+ja     <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x121>
++ja     <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x10b>
  mov    0x18(%ebp),%eax
  movb   $0x1,(%eax)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,%edx
-+sar    $0x1f,%edx
-+mov    0x8(%ebp),%ecx
-+mov    %eax,0x4(%ecx)
-+mov    %edx,0x8(%ecx)
-+jmp    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x22e>
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,%edx
-+sar    $0x1f,%edx
-+mov    0x8(%ebp),%ecx
-+mov    0x8(%ecx),%ebx
-+mov    0x4(%ecx),%ecx
-+sub    %ecx,%eax
-+sbb    %ebx,%edx
-+test   %edx,%edx
-+js     <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x22e>
-+test   %edx,%edx
-+jg     <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x161>
-+cmp    $0x1e,%eax
-+jbe    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x22e>
-+movl   $0xe21,0x8(%esp)
-+movl   $"SetExchageServer",0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    -0x1c(%ebp),%edx
  mov    0x8(%ebp),%eax
--mov    -0x1c(%ebp),%edx
++mov    %edx,0x4(%eax)
++jmp    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x1f9>
+ mov    -0x1c(%ebp),%edx
 -mov    %edx,0x4(%eax)
 -nop
 -jmp    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x1fd>
--mov    0x8(%ebp),%eax
-+mov    0x8(%eax),%edx
+ mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%ecx
--sub    %eax,%ecx
--mov    %ecx,%eax
--cmp    $0x1e,%eax
+ mov    %edx,%ecx
+ sub    %eax,%ecx
+ mov    %ecx,%eax
+ cmp    $0x1e,%eax
 -jle    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x1fc>
--mov    0x8(%ebp),%eax
--mov    0x4(%eax),%eax
--mov    %eax,-0x48(%ebp)
--mov    0x8(%ebp),%eax
--mov    0x10(%eax),%eax
++jbe    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x1f9>
+ mov    0x8(%ebp),%eax
+ mov    0x4(%eax),%eax
+ mov    %eax,-0x48(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0x10(%eax),%eax
  mov    %eax,-0x44(%ebp)
  mov    0x8(%ebp),%eax
--movzwl 0xc(%eax),%eax
--cwtl
-+mov    0x14(%eax),%eax
+ movzwl 0xc(%eax),%eax
+ cwtl
  mov    %eax,-0x40(%ebp)
 -mov    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <inet_ntoa>
--mov    %eax,%esi
--movswl -0x3c(%ebp),%edi
--mov    -0x30(%ebp),%eax
-+mov    0x8(%ebp),%eax
-+movzwl 0x10(%eax),%eax
-+movswl %ax,%edi
-+mov    -0x20(%ebp),%eax
++mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <inet_ntoa>
- mov    %eax,%ebx
--movl   $0xe21,0x8(%esp)
--movl   $"SetExchageServer",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+movswl -0x3c(%ebp),%esi
+ mov    %eax,%esi
+ movswl -0x3c(%ebp),%edi
+-mov    -0x30(%ebp),%eax
 +lea    0xc(%ebp),%eax
 +mov    (%eax),%eax
  mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0x48(%ebp),%eax
--mov    %eax,0x28(%esp)
--mov    -0x44(%ebp),%ecx
--mov    %ecx,0x24(%esp)
--mov    -0x40(%ebp),%eax
--mov    %eax,0x20(%esp)
--mov    %esi,0x1c(%esp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    0x14(%ebp),%eax
--mov    %eax,0x14(%esp)
--mov    %edi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+call   <T> <inet_ntoa>
-+mov    -0x44(%ebp),%edx
-+mov    %edx,0x28(%esp)
-+mov    -0x40(%ebp),%edx
-+mov    %edx,0x24(%esp)
-+mov    %edi,0x20(%esp)
-+mov    %ebx,0x1c(%esp)
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,0x18(%esp)
-+mov    0x14(%ebp),%edx
-+mov    %edx,0x14(%esp)
-+mov    %esi,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ call   <T> <inet_ntoa>
+ mov    %eax,%ebx
+ movl   $0xe21,0x8(%esp)
+ movl   $&_ZZN15CExchangeServer16SetExchageServerEjsiRbE12__FUNCTION__,0x4(%esp)
+-lea    -0x2c(%ebp),%eax
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0x48(%ebp),%eax
+ mov    %eax,0x28(%esp)
+ mov    -0x44(%ebp),%ecx
+ mov    %ecx,0x24(%esp)
+ mov    -0x40(%ebp),%eax
+ mov    %eax,0x20(%esp)
+ mov    %esi,0x1c(%esp)
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    0x14(%ebp),%eax
+ mov    %eax,0x14(%esp)
+ mov    %edi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"timeout : new(%s,%d,%d,%d) old(%s,%d,%d,%d)",0x8(%esp)
  movl   $"./log/ExchangeServer",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    0xc(%ebp),%edx
  mov    0x8(%ebp),%eax
 -mov    0xc(%ebp),%edx
--mov    %edx,0x8(%eax)
-+mov    %edx,0xc(%eax)
+ mov    %edx,0x8(%eax)
  mov    0x8(%ebp),%eax
  movzwl -0x3c(%ebp),%edx
--mov    %dx,0xc(%eax)
-+mov    %dx,0x10(%eax)
+ mov    %dx,0xc(%eax)
  mov    0x8(%ebp),%eax
  mov    0x14(%ebp),%edx
--mov    %edx,0x10(%eax)
--mov    0x8(%ebp),%eax
+ mov    %edx,0x10(%eax)
++mov    -0x1c(%ebp),%edx
+ mov    0x8(%ebp),%eax
 -mov    -0x1c(%ebp),%edx
--mov    %edx,0x4(%eax)
+ mov    %edx,0x4(%eax)
 -jmp    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x1fd>
 -movswl -0x3c(%ebp),%esi
 -mov    -0x30(%ebp),%eax
@@ -248,12 +190,11 @@
 -call   <T> <inet_ntoa>
 -mov    %eax,%ebx
 -movl   $0xe2c,0x8(%esp)
--movl   $"SetExchageServer",0x4(%esp)
+-movl   $&_ZZN15CExchangeServer16SetExchageServerEjsiRbE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    %edx,0x14(%eax)
- mov    -0x1c(%ebp),%eax
+-mov    -0x1c(%ebp),%eax
 -mov    %eax,0x18(%esp)
 -mov    0x14(%ebp),%eax
 -mov    %eax,0x14(%esp)
@@ -280,11 +221,6 @@
 -movb   $0x1,(%eax)
 -jmp    <T> <_ZN15CExchangeServer16SetExchageServerEjsiRb+0x1fd>
 -nop
-+mov    %eax,%edx
-+sar    $0x1f,%edx
-+mov    0x8(%ebp),%ecx
-+mov    %eax,0x4(%ecx)
-+mov    %edx,0x8(%ecx)
  add    $0x6c,%esp
  pop    %ebx
  pop    %esi
@@ -356,14 +292,14 @@ CExchangeServer::_ZN15CExchangeServer16SetExchageServerEjsiRb
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp](source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp)（约第 58 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp](source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp)（约第 67 行）：
 
 ```cpp
 void CExchangeServer::SetExchageServer(unsigned int ip, short port, int code, bool& result)
 {
     time_t now = time(0);
     in_addr oldIp;
-    oldIp.s_addr = *(unsigned int*)((char*)this + 8);
+    oldIp.s_addr = ((RA_UINT<8>*)this)->v;
     result = false;
     if (m_active == 0)
     {

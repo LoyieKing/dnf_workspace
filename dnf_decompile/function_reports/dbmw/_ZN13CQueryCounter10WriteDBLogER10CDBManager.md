@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808e4a8` | `0x2b6` | `0x8099c6c` | `0x1ef` |
+| dbmw | DIFF | `0x808e4a8` | `0x2b6` | `0x80ed16a` | `0x1f0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -36,9 +36,9 @@
 -jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x28c>
 -mov    -0x1c(%ebp),%eax
 -lea    -0x4e20(%eax),%edx
-+jg     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x1ec>
++jg     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x1ed>
 +movl   $0x4e21,-0x18(%ebp)
-+jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x1cb>
++jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x1cc>
 +mov    -0x18(%ebp),%eax
 +sub    $0x4e20,%eax
 +mov    %eax,-0x14(%ebp)
@@ -46,14 +46,11 @@
  mov    0x8(%ebp),%eax
  add    $0xc8,%edx
  fldl   0xc(%eax,%edx,8)
--fldl   &data#6912e166(.rodata)
-+fldl   &data#301a0a73(.rodata)
+ fldl   &data#a2821b98(.rodata)
  fmulp  %st,%st(1)
 -fnstcw -0x3a(%ebp)
 -movzwl -0x3a(%ebp),%eax
-+fnstcw -0x2a(%ebp)
-+movzwl -0x2a(%ebp),%eax
- mov    $0xc,%ah
+-mov    $0xc,%ah
 -mov    %ax,-0x3c(%ebp)
 -fldcw  -0x3c(%ebp)
 -fistpl -0x40(%ebp)
@@ -61,6 +58,9 @@
 -mov    -0x40(%ebp),%ecx
 -mov    -0x1c(%ebp),%eax
 -lea    -0x4e20(%eax),%edx
++fnstcw -0x2a(%ebp)
++movzwl -0x2a(%ebp),%eax
++or     $0xc00,%ax
 +mov    %ax,-0x2c(%ebp)
 +fldcw  -0x2c(%ebp)
 +fistpl -0x10(%ebp)
@@ -87,7 +87,7 @@
 -lea    -0x4e20(%eax),%edx
 +sete   %al
 +test   %al,%al
-+je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x115>
++je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x117>
 +mov    -0x14(%ebp),%edx
  mov    0x8(%ebp),%eax
  add    $0x50,%edx
@@ -99,7 +99,7 @@
 -mov    0x8(%ebp),%eax
 -add    $0xc8,%edx
 -fldl   0xc(%eax,%edx,8)
--fldl   &data#6912e166(.rodata)
+-fldl   &data#a2821b98(.rodata)
 -fmulp  %st,%st(1)
 -fnstcw -0x3a(%ebp)
 -movzwl -0x3a(%ebp),%eax
@@ -111,9 +111,9 @@
 -mov    -0x40(%ebp),%esi
 -mov    -0x1c(%ebp),%eax
 -lea    -0x4e20(%eax),%edx
-+je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x1c7>
++je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x1c9>
 +movl   $0x76,0x8(%esp)
-+movl   $"WriteDBLog",0x4(%esp)
++movl   $&_ZZN13CQueryCounter10WriteDBLogER10CDBManagerE12__FUNCTION__,0x4(%esp)
 +lea    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -122,7 +122,7 @@
  add    $0x50,%edx
 -mov    0x8(%eax,%edx,4),%ebx
 -movl   $0x76,0x8(%esp)
--movl   $"WriteDBLog",0x4(%esp)
+-movl   $&_ZZN13CQueryCounter10WriteDBLogER10CDBManagerE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -144,7 +144,7 @@
 -jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x288>
 -mov    -0x1c(%ebp),%eax
 -lea    -0x4e20(%eax),%edx
-+jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x1c7>
++jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x1c9>
 +mov    -0x14(%ebp),%edx
  mov    0x8(%ebp),%eax
  add    $0x50,%edx
@@ -156,7 +156,7 @@
 -mov    0x8(%ebp),%eax
 -add    $0xc8,%edx
 -fldl   0xc(%eax,%edx,8)
--fldl   &data#6912e166(.rodata)
+-fldl   &data#a2821b98(.rodata)
 -fmulp  %st,%st(1)
 -fnstcw -0x3a(%ebp)
 -movzwl -0x3a(%ebp),%eax
@@ -168,7 +168,7 @@
 -mov    -0x40(%ebp),%eax
 -mov    -0x1c(%ebp),%edx
 -lea    -0x4e20(%edx),%ecx
-+je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x1c7>
++je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x1c9>
 +mov    -0x10(%ebp),%eax
 +mov    -0x14(%ebp),%ecx
  mov    0x8(%ebp),%edx
@@ -184,7 +184,7 @@
 -mov    0x8(%ebp),%eax
 -add    $0xc8,%edx
 -fldl   0xc(%eax,%edx,8)
--fldl   &data#6912e166(.rodata)
+-fldl   &data#a2821b98(.rodata)
 -fmulp  %st,%st(1)
 -fldcw  -0x3c(%ebp)
 -fistpl -0x40(%ebp)
@@ -197,7 +197,7 @@
 +divl   -0x3c(%ebp)
 +mov    %eax,-0xc(%ebp)
 +movl   $0x7a,0x8(%esp)
-+movl   $"WriteDBLog",0x4(%esp)
++movl   $&_ZZN13CQueryCounter10WriteDBLogER10CDBManagerE12__FUNCTION__,0x4(%esp)
 +lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -206,7 +206,7 @@
  add    $0x50,%edx
 -mov    0x8(%eax,%edx,4),%ebx
 -movl   $0x7a,0x8(%esp)
--movl   $"WriteDBLog",0x4(%esp)
+-movl   $&_ZZN13CQueryCounter10WriteDBLogER10CDBManagerE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -245,7 +245,7 @@
 -nop
 -addl   $0x1,-0x1c(%ebp)
 -cmpl   $0x4f60,-0x1c(%ebp)
-+addl   $0x1,-0x18(%ebp)
++incl   -0x18(%ebp)
 +cmpl   $0x4f60,-0x18(%ebp)
  setle  %al
  test   %al,%al
@@ -254,7 +254,7 @@
  mov    0x8(%ebp),%eax
  movl   $0x1e,0x1054(%eax)
 -jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x2ae>
-+jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x1ed>
++jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x1ee>
  nop
 -add    $0x6c,%esp
 -pop    %ebx
@@ -323,7 +323,7 @@ CQueryCounter::_ZN13CQueryCounter10WriteDBLogER10CDBManager(CQueryCounter *this,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/QueryCounter.cpp](source/DNFServer/GameServer/DBMW/QueryCounter.cpp)（约第 55 行）：
+定义于 [source/DNFServer/GameServer/DBMW/QueryCounter.cpp](source/DNFServer/GameServer/DBMW/QueryCounter.cpp)（约第 46 行）：
 
 ```cpp
 void CQueryCounter::WriteDBLog(CDBManager& db)
@@ -339,7 +339,7 @@ void CQueryCounter::WriteDBLog(CDBManager& db)
         {
             if (m_counts[idx] != 0)
             {
-                CMyFileLog log("WriteDBLog", 0x76);
+                CMyFileLog log(__FUNCTION__, 0x76);
                 log("./log/QueryCount",
                     "Count DB Insert Fail! id(%d), count(%d), time(%d)", q,
                     m_counts[idx], time);
@@ -350,7 +350,7 @@ void CQueryCounter::WriteDBLog(CDBManager& db)
             if (m_counts[idx] != 0)
             {
                 int avg = time / m_counts[idx];
-                CMyFileLog log("WriteDBLog", 0x7a);
+                CMyFileLog log(__FUNCTION__, 0x7a);
                 log("./log/QueryCount",
                     "Count DB Insert Success! id(%d), count(%d), time(%d), compute(%4.2f)",
                     q, m_counts[idx], time, avg);

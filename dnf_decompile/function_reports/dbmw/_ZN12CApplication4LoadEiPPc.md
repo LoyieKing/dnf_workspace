@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806baea` | `0x5d0` | `0x806d2d8` | `0x5d0` |
+| dbmw | DIFF | `0x806baea` | `0x5d0` | `0x806ceea` | `0x5d0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,59 +25,46 @@
  mov    (%eax),%eax
  add    $0x8,%eax
  mov    (%eax),%ebx
--lea    -0x39(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
  mov    0x10(%ebp),%eax
  add    $0x4,%eax
  mov    (%eax),%eax
--lea    -0x39(%ebp),%edx
-+lea    -0x2d(%ebp),%edx
+ lea    -0x39(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
  mov    0x8(%ebp),%eax
  mov    0x10(%eax),%eax
--lea    -0x40(%ebp),%edx
-+lea    -0x34(%ebp),%edx
+ lea    -0x40(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   *%ebx
  jmp    <T> <_ZN12CApplication4LoadEiPPc+0x68>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x40(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN12CApplication4LoadEiPPc+0x75>
--lea    -0x40(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN12CApplication4LoadEiPPc+0x8d>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x39(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x556>
--lea    -0x39(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x556>
-+lea    -0x2d(%ebp),%eax
+ lea    -0x39(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x556>
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $"Application App Config Load_Table() Success!",(%esp)
@@ -87,56 +74,43 @@
  mov    (%eax),%eax
  add    $0x8,%eax
  mov    (%eax),%ebx
--lea    -0x31(%ebp),%eax
-+lea    -0x25(%ebp),%eax
+ lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x31(%ebp),%eax
-+lea    -0x25(%ebp),%eax
+ lea    -0x31(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"./table/server_config.tbl",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
  mov    0x8(%ebp),%eax
  mov    0x14(%eax),%eax
--lea    -0x38(%ebp),%edx
-+lea    -0x2c(%ebp),%edx
+ lea    -0x38(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   *%ebx
  jmp    <T> <_ZN12CApplication4LoadEiPPc+0xff>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x38(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN12CApplication4LoadEiPPc+0x10c>
--lea    -0x38(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN12CApplication4LoadEiPPc+0x124>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x31(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x556>
--lea    -0x31(%ebp),%eax
-+lea    -0x25(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x556>
-+lea    -0x25(%ebp),%eax
+ lea    -0x31(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x556>
+ lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $"Application Server Config Load_Table() Success!",(%esp)
@@ -188,20 +162,16 @@
  sete   %al
  test   %al,%al
  je     <T> <_ZN12CApplication4LoadEiPPc+0x2b0>
--lea    -0x29(%ebp),%eax
-+lea    -0x1f(%ebp),%eax
+ lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x29(%ebp),%eax
-+lea    -0x1f(%ebp),%eax
+ lea    -0x29(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CApplication::Load() Init Server Socket Exception Break!",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x30(%ebp),%esi
-+lea    -0x24(%ebp),%esi
+ lea    -0x30(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -218,8 +188,7 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x30(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN12CApplication4LoadEiPPc+0x258>
@@ -229,8 +198,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN12CApplication4LoadEiPPc+0x275>
--lea    -0x30(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN12CApplication4LoadEiPPc+0x28d>
@@ -239,23 +207,16 @@
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x29(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x556>
--lea    -0x29(%ebp),%eax
-+lea    -0x1f(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x556>
-+lea    -0x1f(%ebp),%eax
+ lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x556>
+ lea    -0x29(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -393,15 +354,13 @@
  movl   $"TCP Server Unused",(%esp)
  call   <T> <puts>
  movl   $0x251,0x8(%esp)
- movl   $"Load",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ movl   $&_ZZN12CApplication4LoadEiPPcE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"TCP Server Unused",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x8,(%esp)
@@ -458,14 +417,10 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CApplication::Load() Exception Break : %s\n",(%esp)
  call   <T> <printf>
@@ -649,65 +604,61 @@ CApplication::_ZN12CApplication4LoadEiPPc(CApplication *this,int param_1,char **
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 126 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 118 行）：
 
 ```cpp
 void CApplication::Load(int argc, char** argv)
 {
     try
     {
-        m_userManager.Init(this);
-        m_appConfig->Load_Table(argv[1]);
-        m_serverConfig->Load_Table("./table/server_config.tbl");
-        m_frame.InitFrameCountInfo(this, m_appConfig->Get_FrameCountValue(), 1000);
+        m_appConfig->Load_Table(std::string(argv[1]));
+        puts("Application App Config Load_Table() Success!");
+        m_serverConfig->Load_Table(std::string("./table/server_config.tbl"));
+        puts("Application Server Config Load_Table() Success!");
+        m_frameCount.InitFrameCountInfo(this, m_appConfig->Get_FrameCountValue(), 0x3e8);
+        puts("Application Init Frame Count() Success!");
+        m_udpHandler = new CUdpHandler;
+        if (((CUdpHandler*)m_udpHandler)->InitServerSocket(
+                (unsigned short)m_appConfig->Get_ServerUdpPort()) == -1)
+            throw CDNFException("CApplication::Load() Init Server Socket Exception Break!");
+        puts("Application UDP Handler Create() Success!");
         m_serverHandler = new CServerHandler;
         m_serverHandler->Attach(this);
-        m_serverHandler->Load(m_serverConfig->GetServerInfo());
+        m_serverHandler->Load((ST_ServerInfo*)m_serverConfig->GetServerInfo());
+        puts("Application Server Handler Create() Success!");
         CPacketTranslater::attach(this);
-        m_innerMsg = new CInnerMsgHandler;
+        puts("Application Packet Translater Attach() Success!");
         CPacketDecoderInstance()->Attach(this);
-        for (int i = 0; i < 10; i++)
+        puts("Application Packet Decoder Attach() Success!");
+        // TODO(dbmw): InitDB() 尚未按原版 0x0806d25c 还原
+        if (InitDB() != 1)
         {
-            m_appThreads[i] = new CAppThread;
-            m_appThreads[i]->attach(this, i);
-            if (!m_appThreads[i]->begin())
-            {
-                throw CDNFException(
-                    std::string("CApplication::Load() Init App Thread Exception Break!"));
-            }
+            puts("DB Open Fail");
+            throw;
         }
-        for (int i = 0; i <= 100; i++)
+        m_guildManager = new CGuildManager;
+        m_networkThread = new CNetworkThread;
+        m_networkThread->attach(this);
+        if (m_networkThread->begin() != 1)
+            throw;
+        puts("Application Network Thread Begin() Success!");
+        unsigned short port = m_appConfig->Get_ServerTcpPort();
+        if (port != 0)
         {
-            unsigned short port = m_appConfig->Get_ServerUdpPort((unsigned char)i);
-            if (port != 0)
-            {
-                m_udpHandlers[i] = new CUdpHandler;
-                if (m_udpHandlers[i]->InitServerSocket((unsigned int)port) == -1)
-                {
-                    throw CDNFException(
-                        std::string("CApplication::Load() Init Server Socket Exception Break!"));
-                }
-                m_netThreads[i] = new CNetworkThread;
-                m_netThreads[i]->attach(this, i);
-                if (!m_netThreads[i]->begin())
-                {
-                    throw CDNFException(
-                        std::string("CApplication::Load() Init Network Thread Exception Break!"));
-                }
-            }
+            m_tcpNetSystem.Init(port);
         }
+        else
+        {
+            puts("TCP Server Unused");
+            DNF_LOG_SCOPE_LINE(0x251, "./log/TcpServer", "TCP Server Unused");
+        }
+        m_gmAccounts = new WongWork::CGMAccounts;
+        IQueue<TcpRecvQueue>::Get().InitQueue(
+            m_tcpNetSystem.Get_TcpSwapQPacket()->GetRecvQ(),
+            m_tcpNetSystem.Get_TcpSwapQPacket()->GetParseQ());
         puts("Application Load() Success!");
-        m_loaded = true;
+        m_loaded = 1;
     }
-    catch (CDNFException& e)
-    {
-        printf("CApplication::Load() Exception Break : %s\n", e.what());
-        throw;
-    }
-    catch (...)
-    {
-        puts("CApplication::Load() Exception Break");
-        throw;
-    }
+    DNF_CATCH_RETHROW("CApplication::Load() Exception Break");
 }
 ```

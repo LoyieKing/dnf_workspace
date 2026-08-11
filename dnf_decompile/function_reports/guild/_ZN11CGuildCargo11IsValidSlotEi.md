@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809f2de` | `0x2b` | `0x809179a` | `0x2f` |
+| guild | DIFF | `0x809f2de` | `0x2b` | `0x80915cc` | `0x2f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -61,7 +61,7 @@ undefined4 __thiscall CGuildCargo::_ZN11CGuildCargo11IsValidSlotEi(CGuildCargo *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 140 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 148 行）：
 
 ```cpp
 int CGuildCargo::IsValidSlot(int slot)

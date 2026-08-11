@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| point | DIFF | `0x80545ee` | `0x335` | `0x8057dce` | `0x333` |
+| point | DIFF | `0x80545ee` | `0x335` | `0x8057da6` | `0x336` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,237 +1,235 @@
+@@ -1,237 +1,237 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -28,7 +28,7 @@
  jne    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x2c>
  mov    $0x29,%eax
 -jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x330>
-+jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x32e>
++jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x331>
  mov    0x8(%ebp),%eax
  lea    0x3114(%eax),%edx
  lea    -0x20(%ebp),%eax
@@ -43,7 +43,7 @@
  mov    0x10(%ebp),%eax
  movl   $0x0,(%eax)
 -jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x32d>
-+jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x32b>
++jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x32e>
  movl   $0x0,&_ZZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfoE9index_cnt
  mov    -0x20(%ebp),%eax
  mov    %eax,%edx
@@ -58,19 +58,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKyPN17AuctionDictionary21AuctionDictionaryDataEEEC1Ev>
 -jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x2f0>
--mov    0x10(%ebp),%eax
--mov    (%eax),%eax
--mov    %eax,%edx
-+jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x2ef>
-+mov    0x10(%ebp),%eax
-+mov    (%eax),%edx
++jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x2f1>
+ mov    0x10(%ebp),%eax
+ mov    (%eax),%eax
+ mov    %eax,%edx
  mov    &_ZZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfoE9index_cnt,%eax
  cmp    %eax,%edx
--jne    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0xb3>
-+jne    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0xb1>
+ jne    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0xb3>
  movl   $0x29,-0x14(%ebp)
 -jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x321>
-+jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x320>
++jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x322>
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPySt6vectorIySaIyEEEdeEv>
@@ -98,7 +95,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKyPN17AuctionDictionary21AuctionDictionaryDataEEEneERKS6_>
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x175>
-+je     <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x2e6>
++je     <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x2e8>
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKyPN17AuctionDictionary21AuctionDictionaryDataEEEptEv>
@@ -134,7 +131,7 @@
 -jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x1bb>
 -movl   $0x24,-0x14(%ebp)
 -jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x321>
-+je     <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x1af>
++je     <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x1b1>
  mov    -0x10(%ebp),%eax
  mov    0xc(%eax),%eax
  mov    %eax,0x4(%esp)
@@ -150,14 +147,13 @@
  mov    %edx,(%esp)
  call   <T> <strncpy>
 -jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x1e1>
-+jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x1d5>
++jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x1d7>
  mov    &_ZZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfoE9index_cnt,%eax
  imul   $0x75,%eax,%eax
  add    0x14(%ebp),%eax
  add    $0x10,%eax
  movl   $0xd,0x8(%esp)
--movl   $&data#6876c099(.rodata),0x4(%esp)
-+movl   $&data#73d5f344(.rodata),0x4(%esp)
+ movl   $"",0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <strncpy>
  mov    &_ZZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfoE9index_cnt,%eax
@@ -240,9 +236,9 @@
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPySt6vectorIySaIyEEEppEv>
-+jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x2ef>
++jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x2f1>
 +movl   $0x24,-0x14(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x320>
++jmp    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x322>
  mov    -0x20(%ebp),%eax
  mov    %eax,%edx
  lea    -0x1c(%ebp),%eax
@@ -257,9 +253,8 @@
  call   <T> <_ZN9__gnu_cxxneIPySt6vectorIySaIyEEEEbRKNS_17__normal_iteratorIT_T0_EESA_>
  test   %al,%al
  jne    <T> <_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfo+0x97>
--mov    &_ZZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfoE9index_cnt,%eax
--mov    %eax,%edx
-+mov    &_ZZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfoE9index_cnt,%edx
+ mov    &_ZZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedItemInfoE9index_cnt,%eax
+ mov    %eax,%edx
  mov    0x10(%ebp),%eax
  mov    %edx,(%eax)
  mov    -0x14(%ebp),%eax
@@ -458,4 +453,4 @@ AuctionDictionary::_ZN17AuctionDictionary19GetRegistedItemInfoEiPiP18MyRegistedI
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 581 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.cpp, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.cpp, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AveragePriceDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/CharacterDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/ExpireTimeDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/Auction.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/AuctionItem.h 等 590 个文件*

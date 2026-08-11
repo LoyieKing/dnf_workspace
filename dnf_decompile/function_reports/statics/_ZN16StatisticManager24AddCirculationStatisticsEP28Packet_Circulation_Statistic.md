@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8073e66` | `0x15c` | `0x8073c42` | `0x169` |
+| statics | NEAR | `0x8073e66` | `0x15c` | `0x8073e2a` | `0x15c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,92 +1,98 @@
+@@ -1,92 +1,92 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -40,57 +40,45 @@
  mov    %eax,0x4(%esp)
  lea    -0x1a8(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi24CirculationStatisticDataEEneERKS4_>
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi24CirculationStatisticDataEEeqERKS4_>
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi24CirculationStatisticDataEEneERKS4_>
  test   %al,%al
--je     <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0xb3>
-+je     <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0x118>
-+lea    -0x268(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN24CirculationStatisticDataC1Ev>
+ je     <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0xb3>
  movl   $0x0,-0x10(%ebp)
--jmp    <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0xa3>
--lea    -0x1a8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi24CirculationStatisticDataEEptEv>
--mov    -0x10(%ebp),%edx
-+jmp    <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0xa6>
-+mov    -0x10(%ebp),%eax
-+mov    0xc(%ebp),%edx
+ jmp    <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0xa3>
+ lea    -0x1a8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi24CirculationStatisticDataEEptEv>
+ mov    -0x10(%ebp),%edx
  mov    -0x10(%ebp),%ecx
--mov    0x4(%eax,%ecx,4),%esi
--mov    -0x10(%ebp),%ebx
+ mov    0x4(%eax,%ecx,4),%esi
++mov    0xc(%ebp),%ecx
+ mov    -0x10(%ebp),%ebx
 -mov    0xc(%ebp),%ecx
--mov    0xe(%ecx,%ebx,4),%ecx
--lea    (%esi,%ecx,1),%ecx
--mov    %ecx,0x4(%eax,%edx,4)
-+shl    $0x2,%ecx
-+add    $0xe,%ecx
-+add    %ecx,%edx
-+mov    (%edx),%edx
-+mov    %edx,-0x268(%ebp,%eax,4)
+ mov    0xe(%ecx,%ebx,4),%ecx
+ lea    (%esi,%ecx,1),%ecx
+ mov    %ecx,0x4(%eax,%edx,4)
  addl   $0x1,-0x10(%ebp)
  cmpl   $0x2f,-0x10(%ebp)
  setle  %al
  test   %al,%al
--jne    <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0x76>
--jmp    <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0x152>
--lea    -0x268(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN24CirculationStatisticDataC1Ev>
--movl   $0x0,-0xc(%ebp)
--jmp    <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0xe2>
--mov    -0xc(%ebp),%eax
--mov    -0xc(%ebp),%ecx
+ jne    <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0x76>
+ jmp    <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0x152>
+ lea    -0x268(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN24CirculationStatisticDataC1Ev>
+ movl   $0x0,-0xc(%ebp)
+ jmp    <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0xe2>
+ mov    -0xc(%ebp),%eax
++mov    0xc(%ebp),%edx
+ mov    -0xc(%ebp),%ecx
 -mov    0xc(%ebp),%edx
--mov    0xe(%edx,%ecx,4),%edx
--mov    %edx,-0x268(%ebp,%eax,4)
--addl   $0x1,-0xc(%ebp)
--cmpl   $0x2f,-0xc(%ebp)
--setle  %al
--test   %al,%al
--jne    <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0xca>
-+jne    <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0x88>
+ mov    0xe(%edx,%ecx,4),%edx
+ mov    %edx,-0x268(%ebp,%eax,4)
+ addl   $0x1,-0xc(%ebp)
+ cmpl   $0x2f,-0xc(%ebp)
+ setle  %al
+ test   %al,%al
+ jne    <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0xca>
  mov    0xc(%ebp),%eax
  lea    0xa(%eax),%ecx
  lea    -0xd4(%ebp),%eax
@@ -114,28 +102,6 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIi24CirculationStatisticDataSt4lessIiESaISt4pairIKiS0_EEE6insertERKS5_>
  sub    $0x4,%esp
-+jmp    <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0x15f>
-+movl   $0x0,-0xc(%ebp)
-+jmp    <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0x154>
-+lea    -0x1a8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi24CirculationStatisticDataEEptEv>
-+mov    -0xc(%ebp),%edx
-+mov    -0xc(%ebp),%ecx
-+mov    0x4(%eax,%ecx,4),%ebx
-+mov    0xc(%ebp),%ecx
-+mov    -0xc(%ebp),%esi
-+shl    $0x2,%esi
-+add    $0xe,%esi
-+add    %esi,%ecx
-+mov    (%ecx),%ecx
-+lea    (%ebx,%ecx,1),%ecx
-+mov    %ecx,0x4(%eax,%edx,4)
-+addl   $0x1,-0xc(%ebp)
-+cmpl   $0x2f,-0xc(%ebp)
-+setle  %al
-+test   %al,%al
-+jne    <T> <_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circulation_Statistic+0x121>
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -201,27 +167,33 @@ StatisticManager::_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circ
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1332 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1477 行）：
 
 ```cpp
 void StatisticManager::AddCirculationStatistics(Packet_Circulation_Statistic* pkt)
 {
+    struct __attribute__((packed)) Wire
+    {
+        char m_hdr[0xa];
+        int m_f0a;
+        int m_data[0x30];
+    };
     std::map<int, CirculationStatisticData>::iterator it = m_circ.find(*(int*)((char*)pkt + 10));
-    if (it == m_circ.end())
+    if (it != m_circ.end())
+    {
+        for (int i = 0; i < 0x30; i++)
+        {
+            it->second.m_data[i] += ((Wire*)pkt)->m_data[i];
+        }
+    }
+    else
     {
         CirculationStatisticData v;
         for (int i = 0; i < 0x30; i++)
         {
-            v.m_data[i] = *(int*)((char*)pkt + i * 4 + 0xe);
+            v.m_data[i] = ((Wire*)pkt)->m_data[i];
         }
         m_circ.insert(std::make_pair(*(int*)((char*)pkt + 10), v));
-    }
-    else
-    {
-        for (int i = 0; i < 0x30; i++)
-        {
-            it->second.m_data[i] += *(int*)((char*)pkt + i * 4 + 0xe);
-        }
     }
 }
 ```

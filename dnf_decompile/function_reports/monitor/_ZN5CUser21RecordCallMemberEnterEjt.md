@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806d5cc` | `0x3b` | `0x8089bde` | `0x3f` |
+| monitor | DIFF | `0x806d5cc` | `0x3b` | `0x8089af6` | `0x39` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,21 +1,23 @@
+@@ -1,21 +1,20 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x4,%esp
@@ -22,30 +22,23 @@
 -mov    %ax,-0x4(%ebp)
 +mov    %ax,-0x14(%ebp)
  mov    0x8(%ebp),%eax
--movzbl 0x1a(%eax),%eax
+ movzbl 0x1a(%eax),%eax
 -test   %al,%al
 -je     <T> <_ZN5CUser21RecordCallMemberEnterEjt+0x1f>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN5CUser21RecordCallMemberEnterEjt+0x39>
-+add    $0x1a,%eax
-+movzbl (%eax),%eax
 +mov    %al,-0x1(%ebp)
 +cmpb   $0x0,-0x1(%ebp)
-+jne    <T> <_ZN5CUser21RecordCallMemberEnterEjt+0x36>
++jne    <T> <_ZN5CUser21RecordCallMemberEnterEjt+0x30>
  mov    0x8(%ebp),%eax
--mov    0xc(%ebp),%edx
--mov    %edx,0x1c(%eax)
+ mov    0xc(%ebp),%edx
+ mov    %edx,0x1c(%eax)
 -movzwl -0x4(%ebp),%eax
 -mov    %eax,%edx
-+lea    0x1c(%eax),%edx
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%edx)
  mov    0x8(%ebp),%eax
--mov    %dl,0x1a(%eax)
++movzwl -0x14(%ebp),%edx
+ mov    %dl,0x1a(%eax)
 -mov    $0x1,%eax
-+lea    0x1a(%eax),%edx
-+movzwl -0x14(%ebp),%eax
-+mov    %al,(%edx)
 +cmpb   $0x0,-0x1(%ebp)
 +sete   %al
  leave
@@ -73,16 +66,16 @@ bool __thiscall CUser::_ZN5CUser21RecordCallMemberEnterEjt(CUser *this,uint para
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 552 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 576 行）：
 
 ```cpp
 char CUser::RecordCallMemberEnter(unsigned int callerId, unsigned short count)
 {
-    char old = *(char*)((char*)this + 0x1a);
+    char old = ((RA_S8<26>*)this)->v;
     if (old == 0)
     {
-        *(unsigned int*)((char*)this + 0x1c) = callerId;
-        *(char*)((char*)this + 0x1a) = (char)count;
+        ((RA_UINT<28>*)this)->v = callerId;
+        ((RA_S8<26>*)this)->v = (char)count;
     }
     return old == 0;
 }

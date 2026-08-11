@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8072324` | `0x1a1` | `0x808cdf4` | `0x18a` |
+| monitor | DIFF | `0x8072324` | `0x1a1` | `0x808cdc0` | `0x194` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,19 +13,19 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,124 +1,112 @@
+@@ -1,124 +1,118 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
--push   %esi
--push   %ebx
+ push   %esi
+ push   %ebx
 -sub    $0x5c,%esp
-+sub    $0x68,%esp
++sub    $0x60,%esp
  mov    0x10(%ebp),%eax
  mov    %al,-0x3c(%ebp)
  mov    0x8(%ebp),%edx
 -lea    -0x30(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x28(%ebp),%eax
  lea    0xc(%ebp),%ecx
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
@@ -34,30 +34,30 @@
  sub    $0x4,%esp
  mov    0x8(%ebp),%edx
 -lea    -0x2c(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIKjS_IhjSt4lessIhESaISt4pairIKhjEEES1_IS0_ESaIS3_IS0_S7_EEE3endEv>
  sub    $0x4,%esp
 -lea    -0x2c(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjSt3mapIhjSt4lessIhESaIS0_IKhjEEEEEneERKSA_>
  test   %al,%al
 -je     <T> <_ZN12CUserManager11DelSchoolNoEjh+0x196>
 -lea    -0x30(%ebp),%eax
-+je     <T> <_ZN12CUserManager11DelSchoolNoEjh+0x188>
-+lea    -0x20(%ebp),%eax
++je     <T> <_ZN12CUserManager11DelSchoolNoEjh+0x18a>
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjSt3mapIhjSt4lessIhESaIS0_IKhjEEEEEptEv>
  add    $0x4,%eax
 -mov    %eax,-0x1c(%ebp)
 -lea    -0x34(%ebp),%eax
 +mov    %eax,-0x14(%ebp)
-+lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  lea    -0x3c(%ebp),%edx
  mov    %edx,0x8(%esp)
 -mov    -0x1c(%ebp),%edx
@@ -68,24 +68,24 @@
  sub    $0x4,%esp
 -lea    -0x28(%ebp),%eax
 -mov    -0x1c(%ebp),%edx
-+lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
 +mov    -0x14(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIhjSt4lessIhESaISt4pairIKhjEEE3endEv>
  sub    $0x4,%esp
 -lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKhjEEneERKS3_>
  test   %al,%al
 -je     <T> <_ZN12CUserManager11DelSchoolNoEjh+0x196>
 -lea    -0x34(%ebp),%eax
-+je     <T> <_ZN12CUserManager11DelSchoolNoEjh+0x188>
-+lea    -0x24(%ebp),%eax
++je     <T> <_ZN12CUserManager11DelSchoolNoEjh+0x18a>
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKhjEEptEv>
 -mov    %eax,%ebx
@@ -99,7 +99,7 @@
 +mov    0x4(%eax),%edx
 +sub    $0x1,%edx
 +mov    %edx,0x4(%eax)
-+lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKhjEEptEv>
  mov    0x4(%eax),%eax
@@ -108,8 +108,8 @@
  test   %al,%al
 -je     <T> <_ZN12CUserManager11DelSchoolNoEjh+0x126>
 -mov    -0x34(%ebp),%eax
-+je     <T> <_ZN12CUserManager11DelSchoolNoEjh+0x116>
-+mov    -0x24(%ebp),%eax
++je     <T> <_ZN12CUserManager11DelSchoolNoEjh+0x118>
++mov    -0x2c(%ebp),%eax
  mov    %eax,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
 +mov    -0x14(%ebp),%eax
@@ -123,10 +123,10 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN12CUserManager11DelSchoolNoEjh+0x126>
-+je     <T> <_ZN12CUserManager11DelSchoolNoEjh+0x116>
++je     <T> <_ZN12CUserManager11DelSchoolNoEjh+0x118>
  mov    0x8(%ebp),%eax
 -mov    -0x30(%ebp),%edx
-+mov    -0x20(%ebp),%edx
++mov    -0x28(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIKjS_IhjSt4lessIhESaISt4pairIKhjEEES1_IS0_ESaIS3_IS0_S7_EEE5eraseESt17_Rb_tree_iteratorIS9_E>
@@ -140,15 +140,17 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIhjSt4lessIhESaISt4pairIKhjEEE4sizeEv>
 -mov    %eax,%ebx
--movzbl -0x3c(%ebp),%eax
++mov    %eax,-0xc(%ebp)
+ movzbl -0x3c(%ebp),%eax
 -movzbl %al,%eax
 -mov    %eax,-0x40(%ebp)
 -mov    0xc(%ebp),%edi
-+mov    %eax,-0xc(%ebp)
++movzbl %al,%esi
++mov    0xc(%ebp),%ebx
  movl   $0x40f,0x8(%esp)
- movl   $"DelSchoolNo",0x4(%esp)
+ movl   $&_ZZN12CUserManager11DelSchoolNoEjhE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x18(%esp)
@@ -156,28 +158,25 @@
 -mov    -0x40(%ebp),%eax
 -mov    %eax,0x10(%esp)
 -mov    %edi,0xc(%esp)
-+movzbl -0x3c(%ebp),%eax
-+movzbl %al,%edx
-+mov    0xc(%ebp),%eax
-+mov    -0x10(%ebp),%ecx
-+mov    %ecx,0x18(%esp)
-+mov    -0xc(%ebp),%ecx
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    -0x10(%ebp),%eax
++mov    %eax,0x18(%esp)
++mov    -0xc(%ebp),%eax
++mov    %eax,0x14(%esp)
++mov    %esi,0x10(%esp)
++mov    %ebx,0xc(%esp)
  movl   $"DelSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",0x8(%esp)
  movl   $"./log/School",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -lea    -0xc(%ebp),%esp
--add    $0x0,%esp
--pop    %ebx
--pop    %esi
++lea    -0x8(%ebp),%esp
+ add    $0x0,%esp
+ pop    %ebx
+ pop    %esi
 -pop    %edi
--pop    %ebp
-+leave
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -276,7 +275,7 @@ CUserManager::_ZN12CUserManager11DelSchoolNoEjh(CUserManager *this,uint param_1,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 685 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 691 行）：
 
 ```cpp
 void CUserManager::DelSchoolNo(unsigned int schoolNo, unsigned char channel)

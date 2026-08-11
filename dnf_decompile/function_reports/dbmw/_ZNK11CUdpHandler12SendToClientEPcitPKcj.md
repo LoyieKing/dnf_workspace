@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8059282` | `0x309` | `0x8092354` | `0x2f3` |
+| dbmw | DIFF | `0x8059282` | `0x309` | `0x80e59e6` | `0x2f3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -105,7 +105,7 @@
 +movl   $"err EAFNOSUPPORT in send",(%esp)
 +call   <T> <puts>
 +movl   $0x119,0x8(%esp)
-+movl   $"SendToClient",0x4(%esp)
++movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
 +lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -133,7 +133,7 @@
  movl   $"Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n",(%esp)
  call   <T> <printf>
  movl   $0x113,0x8(%esp)
- movl   $"SendToClient",0x4(%esp)
+ movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
@@ -149,7 +149,7 @@
 -movl   $"err EAFNOSUPPORT in send",(%esp)
 -call   <T> <puts>
 -movl   $0x119,0x8(%esp)
--movl   $"SendToClient",0x4(%esp)
+-movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -171,7 +171,7 @@
  movl   $"err = %d , strerror = %s in send\n",(%esp)
  call   <T> <printf>
 +movl   $0x11f,0x8(%esp)
-+movl   $"SendToClient",0x4(%esp)
++movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
 +lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -180,7 +180,7 @@
  call   <T> <strerror>
 -mov    %eax,%ebx
 -movl   $0x11f,0x8(%esp)
--movl   $"SendToClient",0x4(%esp)
+-movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -203,7 +203,7 @@
  movl   $"no data sent in send",(%esp)
  call   <T> <puts>
  movl   $0x128,0x8(%esp)
- movl   $"SendToClient",0x4(%esp)
+ movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 +lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
@@ -232,7 +232,7 @@
  movl   $"Only %s out of %d bytes sent\n",(%esp)
  call   <T> <printf>
  movl   $0x133,0x8(%esp)
- movl   $"SendToClient",0x4(%esp)
+ movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
@@ -352,4 +352,4 @@ CUdpHandler::_ZNK11CUdpHandler12SendToClientEPcitPKcj
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/COServer/DNFUdpHandler.cpp, source/DNFServer/GameServer/DBMW/DNFUdpHandler.cpp, source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp, source/DNFServer/GameServer/Manager/DNFUdpHandler.cpp, source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp, source/DNFServer/GameServer/Statics/DNFUdpHandler.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h 等 629 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DNFUdpHandler.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h, source/DNFServer/GameServer/DBMW/DNFApplication.h 等 293 个文件*

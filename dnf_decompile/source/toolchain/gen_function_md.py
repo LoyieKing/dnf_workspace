@@ -31,8 +31,8 @@ from report_resolve import (
     trim_trailing_nops,
 )
 
-ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile')
-INSTALLER = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople')
+ROOT = Path('/home/loyieking/dnf_workspace/dnf_decompile')
+INSTALLER = Path('/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople')
 OUT_ROOT = ROOT / 'function_reports'
 SOURCE_ROOT = ROOT / 'source'
 VENDOR_DIRS = (
@@ -208,6 +208,12 @@ def obj_source_candidates(obj_path):
         src = m.group(1)
         if src.startswith('/'):
             return [Path(src)]
+        # CMake 对绝对源码路径会把前导 '/' 去掉后嵌入对象路径
+        # （如 .../CMakeFiles/foo.dir/home/user/.../src.cpp.o），
+        # 直接 ROOT/src 会拼出重复前缀；先按绝对路径还原，再退回相对 ROOT。
+        abs_guess = Path('/') / src
+        if abs_guess.exists():
+            return [abs_guess]
         return [ROOT / src]
     base = Path(obj_path).stem
     return None  # 交由 basename 搜索
@@ -224,6 +230,9 @@ def _list_build_objects(svc):
         if '/CMakeFiles/' in sp and '.dir/' in sp and sp.endswith('.o'):
             objs.append(p)
         elif p.parent == build_dir:
+            objs.append(p)
+        elif p.parent.parent == build_dir:
+            # 预编译对象子目录（如 relay 的 c5/*.o，非 CMakeFiles 路径）
             objs.append(p)
     return objs
 
@@ -574,8 +583,8 @@ def build_md(svc, row, o_loaded, n_loaded, decomp, src_cache, sym_to_obj,
 
     o_map = src_cache['o_map']
     n_map = src_cache['n_map']
-    o_ps = trim_trailing_nops(pseudo_lines(o_norm, o_map))
-    n_ps = trim_trailing_nops(pseudo_lines(n_norm, n_map))
+    o_ps = trim_trailing_nops(pseudo_lines(o_norm, o_map, fn_base=oaddr))
+    n_ps = trim_trailing_nops(pseudo_lines(n_norm, n_map, fn_base=naddr))
     parts.append('## 1. 汇编 diff（完整函数，伪代码化）\n')
     parts.append('归一化口径：直接跳转/调用目标地址归一化为 `<T>`；'
                  '字符串/全局变量地址替换为其内容或 `&符号名`'
@@ -855,8 +864,8 @@ def classify_one(orig_path, new_path, o_loaded, n_loaded, o_map, n_map, name):
     n_norm = norm_identical(b)
     if o_norm == n_norm:
         return 'IDENTICAL', oaddr, osize, naddr, nsize
-    if trim_trailing_nops(pseudo_lines(o_norm, o_map)) == \
-       trim_trailing_nops(pseudo_lines(n_norm, n_map)):
+    if trim_trailing_nops(pseudo_lines(o_norm, o_map, fn_base=oaddr)) == \
+       trim_trailing_nops(pseudo_lines(n_norm, n_map, fn_base=naddr)):
         return 'IDENTICAL_AE', oaddr, osize, naddr, nsize
     if _mnemonic(a) == _mnemonic(b):
         return 'NEAR', oaddr, osize, naddr, nsize

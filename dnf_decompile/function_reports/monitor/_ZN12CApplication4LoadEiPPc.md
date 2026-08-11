@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8062f4e` | `0x10df` | `0x8050ca6` | `0x10e1` |
+| monitor | DIFF | `0x8062f4e` | `0x10df` | `0x8050c76` | `0x110e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,1110 +1,1136 @@
+@@ -1,1110 +1,1131 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -35,7 +35,7 @@
  mov    %edi,%eax
  mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x318(%eax)
@@ -57,58 +57,51 @@
  add    $0x8,%eax
  mov    (%eax),%ebx
 -lea    -0x9d(%ebp),%eax
-+lea    -0x5d(%ebp),%eax
++lea    -0x95(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x9d(%ebp),%eax
-+lea    -0x5d(%ebp),%eax
++lea    -0x95(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"./script/member_cnt_config.tbl",0x4(%esp)
 -lea    -0xa4(%ebp),%eax
-+lea    -0x64(%ebp),%eax
++lea    -0x9c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
  mov    0x8(%ebp),%eax
  mov    0x94(%eax),%eax
 -lea    -0xa4(%ebp),%edx
-+lea    -0x64(%ebp),%edx
++lea    -0x9c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   *%ebx
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0xe3>
--mov    %edx,%ebx
--mov    %eax,%esi
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0xe3>
+ mov    %edx,%ebx
+ mov    %eax,%esi
 -lea    -0xa4(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xd4>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x64(%ebp),%eax
++lea    -0x9c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0xf3>
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0xf3>
 -lea    -0xa4(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xe1>
-+lea    -0x64(%ebp),%eax
++lea    -0x9c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x10e>
--mov    %edx,%ebx
--mov    %eax,%esi
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x10e>
+ mov    %edx,%ebx
+ mov    %eax,%esi
 -lea    -0x9d(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xf9>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x5d(%ebp),%eax
++lea    -0x95(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
 -lea    -0x9d(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
-+lea    -0x5d(%ebp),%eax
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
++lea    -0x95(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    0x8(%ebp),%eax
@@ -117,58 +110,51 @@
  add    $0x8,%eax
  mov    (%eax),%ebx
 -lea    -0x95(%ebp),%eax
-+lea    -0x55(%ebp),%eax
++lea    -0x8d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x95(%ebp),%eax
-+lea    -0x55(%ebp),%eax
++lea    -0x8d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"./script/member_exp.tbl",0x4(%esp)
 -lea    -0x9c(%ebp),%eax
-+lea    -0x5c(%ebp),%eax
++lea    -0x94(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
  mov    0x8(%ebp),%eax
  mov    0x98(%eax),%eax
 -lea    -0x9c(%ebp),%edx
-+lea    -0x5c(%ebp),%edx
++lea    -0x94(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   *%ebx
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x18c>
--mov    %edx,%ebx
--mov    %eax,%esi
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x18c>
+ mov    %edx,%ebx
+ mov    %eax,%esi
 -lea    -0x9c(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x165>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x5c(%ebp),%eax
++lea    -0x94(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x19c>
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x19c>
 -lea    -0x9c(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x172>
-+lea    -0x5c(%ebp),%eax
++lea    -0x94(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1b7>
--mov    %edx,%ebx
--mov    %eax,%esi
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1b7>
+ mov    %edx,%ebx
+ mov    %eax,%esi
 -lea    -0x95(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x18a>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x55(%ebp),%eax
++lea    -0x8d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
 -lea    -0x95(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
-+lea    -0x55(%ebp),%eax
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
++lea    -0x8d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    0x8(%ebp),%eax
@@ -192,61 +178,54 @@
  add    $0x8,%eax
  mov    (%eax),%ebx
 -lea    -0x8d(%ebp),%eax
-+lea    -0x4d(%ebp),%eax
++lea    -0x85(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
  mov    0x10(%ebp),%eax
  add    $0x4,%eax
  mov    (%eax),%eax
 -lea    -0x8d(%ebp),%edx
-+lea    -0x4d(%ebp),%edx
++lea    -0x85(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0x94(%ebp),%eax
-+lea    -0x54(%ebp),%eax
++lea    -0x8c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
  mov    0x8(%ebp),%eax
  mov    0x8c(%eax),%eax
 -lea    -0x94(%ebp),%edx
-+lea    -0x54(%ebp),%edx
++lea    -0x8c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   *%ebx
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x275>
--mov    %edx,%ebx
--mov    %eax,%esi
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x275>
+ mov    %edx,%ebx
+ mov    %eax,%esi
 -lea    -0x94(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x236>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x54(%ebp),%eax
++lea    -0x8c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x285>
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x285>
 -lea    -0x94(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x243>
-+lea    -0x54(%ebp),%eax
++lea    -0x8c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x2a0>
--mov    %edx,%ebx
--mov    %eax,%esi
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x2a0>
+ mov    %edx,%ebx
+ mov    %eax,%esi
 -lea    -0x8d(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x25b>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x4d(%ebp),%eax
++lea    -0x85(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
 -lea    -0x8d(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
-+lea    -0x4d(%ebp),%eax
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
++lea    -0x85(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    0x8(%ebp),%eax
@@ -268,22 +247,15 @@
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CUdpHandlerC1Ev>
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x315>
--mov    %edx,%esi
--mov    %eax,%edi
--mov    %ebx,(%esp)
--call   <T> <_ZdlPv>
--mov    %edi,%eax
--mov    %esi,%edx
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x315>
+ mov    %edx,%esi
+ mov    %eax,%edi
+ mov    %ebx,(%esp)
+ call   <T> <_ZdlPv>
+ mov    %edi,%eax
+ mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x2cd>
-+mov    %edx,%esi
-+mov    %eax,%edi
-+mov    %ebx,(%esp)
-+call   <T> <_ZdlPv>
-+mov    %edi,%eax
-+mov    %esi,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x130(%eax)
@@ -302,20 +274,20 @@
  test   %al,%al
 -je     <T> <_ZN12CApplication4LoadEiPPc+0x438>
 -lea    -0x85(%ebp),%eax
-+je     <T> <_ZN12CApplication4LoadEiPPc+0x3d8>
-+lea    -0x45(%ebp),%eax
++je     <T> <_ZN12CApplication4LoadEiPPc+0x42c>
++lea    -0x7d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x85(%ebp),%eax
-+lea    -0x45(%ebp),%eax
++lea    -0x7d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CApplication::Load() Init Server Udp Socket Exception Break!",0x4(%esp)
 -lea    -0x8c(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
++lea    -0x84(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x8c(%ebp),%esi
-+lea    -0x4c(%ebp),%esi
++lea    -0x84(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -324,7 +296,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x3dd>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x386>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x3d7>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -334,44 +306,44 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x8c(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
++lea    -0x84(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x3d7>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x380>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x3d1>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN12CApplication4LoadEiPPc+0x3f7>
-+jne    <T> <_ZN12CApplication4LoadEiPPc+0x39d>
++jne    <T> <_ZN12CApplication4LoadEiPPc+0x3f1>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x3f7>
 -lea    -0x8c(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x39d>
-+lea    -0x4c(%ebp),%eax
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x3f1>
++lea    -0x84(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x412>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x3b5>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x409>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN12CApplication4LoadEiPPc+0x3f7>
-+jne    <T> <_ZN12CApplication4LoadEiPPc+0x39d>
++jne    <T> <_ZN12CApplication4LoadEiPPc+0x3f1>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x85(%ebp),%eax
-+lea    -0x45(%ebp),%eax
++lea    -0x7d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
 -lea    -0x85(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
-+lea    -0x45(%ebp),%eax
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
++lea    -0x7d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -389,14 +361,14 @@
 -mov    %edi,%eax
 -mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x407>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x45b>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
 +call   <T> <_ZdlPv>
 +mov    %edi,%eax
 +mov    %esi,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0xa0(%eax)
@@ -424,14 +396,14 @@
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CInnerMsgHandlerC1Ev>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x48a>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x4de>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
 +call   <T> <_ZdlPv>
 +mov    %edi,%eax
 +mov    %esi,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0xd4(%eax)
@@ -456,14 +428,14 @@
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
 -mov    %ebx,%eax
 -mov    %eax,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x4d8>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x52c>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
 +call   <T> <_ZdlPv>
 +mov    %edi,%eax
 +mov    %esi,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
 +mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x134(%eax)
@@ -480,7 +452,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN12CApplication4LoadEiPPc+0x563>
-+je     <T> <_ZN12CApplication4LoadEiPPc+0x518>
++je     <T> <_ZN12CApplication4LoadEiPPc+0x56c>
  call   <T> <__cxa_rethrow>
  mov    0x8(%ebp),%eax
  mov    0x8c(%eax),%eax
@@ -492,22 +464,19 @@
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN13CTcpNetSystem4InitEt>
--mov    0x8(%ebp),%eax
--lea    0x168(%eax),%ebx
+ mov    0x8(%ebp),%eax
+ lea    0x168(%eax),%ebx
  movl   $0x1ba,0x8(%esp)
- movl   $"Load",0x4(%esp)
+ movl   $&_ZZN12CApplication4LoadEiPPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x84(%ebp),%eax
-+lea    -0x6c(%ebp),%eax
++lea    -0x7c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0x168,%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"App Load : Network system (%x)",0x8(%esp)
  movl   $"./log/Tcp",0x4(%esp)
 -lea    -0x84(%ebp),%eax
-+lea    -0x6c(%ebp),%eax
++lea    -0x7c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
@@ -532,12 +501,10 @@
 +mov    -0x34(%ebp),%eax
  movzbl (%eax),%eax
  test   %al,%al
--je     <T> <_ZN12CApplication4LoadEiPPc+0x800>
+ je     <T> <_ZN12CApplication4LoadEiPPc+0x800>
 -cmpw   $0x0,-0x32(%ebp)
--je     <T> <_ZN12CApplication4LoadEiPPc+0x800>
-+je     <T> <_ZN12CApplication4LoadEiPPc+0x7a7>
 +cmpw   $0x0,-0x2e(%ebp)
-+je     <T> <_ZN12CApplication4LoadEiPPc+0x7a7>
+ je     <T> <_ZN12CApplication4LoadEiPPc+0x800>
  mov    0x8(%ebp),%eax
  add    $0x168,%eax
  mov    %eax,0x4(%esp)
@@ -546,24 +513,24 @@
  mov    %eax,(%esp)
  call   <T> <_ZN17CTcpManagerServer4InitEP13CTcpNetSystem>
 -lea    -0x75(%ebp),%eax
-+lea    -0x3d(%ebp),%eax
++lea    -0x6d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x75(%ebp),%eax
-+lea    -0x3d(%ebp),%eax
++lea    -0x6d(%ebp),%eax
  mov    %eax,0x8(%esp)
 -mov    -0x38(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x7c(%ebp),%eax
 +mov    -0x34(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0x44(%ebp),%eax
++lea    -0x74(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x7c(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -mov    -0x30(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x74(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
@@ -572,36 +539,36 @@
 -mov    %edx,%ebx
 -mov    %eax,%esi
 -lea    -0x7c(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x63d>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x692>
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x44(%ebp),%eax
++lea    -0x74(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x69c>
 -lea    -0x7c(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x64a>
-+lea    -0x44(%ebp),%eax
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x69f>
++lea    -0x74(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6b4>
 -mov    %edx,%ebx
 -mov    %eax,%esi
 -lea    -0x75(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x662>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6b7>
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x3d(%ebp),%eax
++lea    -0x6d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
 -lea    -0x75(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
-+lea    -0x3d(%ebp),%eax
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
++lea    -0x6d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
 -movzwl -0x32(%ebp),%eax
@@ -629,9 +596,8 @@
  call   <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct>
 -xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN12CApplication4LoadEiPPc+0x77e>
+ je     <T> <_ZN12CApplication4LoadEiPPc+0x77e>
 -movzwl -0x32(%ebp),%eax
-+je     <T> <_ZN12CApplication4LoadEiPPc+0x727>
 +movzwl -0x2e(%ebp),%eax
  mov    %eax,0x8(%esp)
 -mov    -0x38(%ebp),%eax
@@ -640,60 +606,52 @@
  movl   $"Application OpenTcpService(%s, %d) Fail!\n",(%esp)
  call   <T> <printf>
 -mov    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN17CTcpManagerServer7GetSockEv>
--mov    %eax,%ebx
++mov    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN17CTcpManagerServer7GetSockEv>
+ mov    %eax,%ebx
 -movzwl -0x32(%ebp),%esi
++movzwl -0x2e(%ebp),%esi
  movl   $0x1d3,0x8(%esp)
- movl   $"Load",0x4(%esp)
- lea    -0x74(%ebp),%eax
+ movl   $&_ZZN12CApplication4LoadEiPPcE12__FUNCTION__,0x4(%esp)
+-lea    -0x74(%ebp),%eax
++lea    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x14(%esp)
--mov    %esi,0x10(%esp)
+ mov    %ebx,0x14(%esp)
+ mov    %esi,0x10(%esp)
 -mov    -0x38(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN17CTcpManagerServer7GetSockEv>
-+movzwl -0x2e(%ebp),%edx
-+mov    %eax,0x14(%esp)
-+mov    %edx,0x10(%esp)
 +mov    -0x34(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"Application OpenTcpService(%s, %d, %d) Fail!",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
- lea    -0x74(%ebp),%eax
+-lea    -0x74(%ebp),%eax
++lea    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x842>
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x842>
 -movzwl -0x32(%ebp),%esi
 -mov    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN17CTcpManagerServer7GetSockEv>
--mov    %eax,%ebx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x7ef>
++movzwl -0x2e(%ebp),%esi
++mov    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN17CTcpManagerServer7GetSockEv>
+ mov    %eax,%ebx
  movl   $0x1dc,0x8(%esp)
- movl   $"Load",0x4(%esp)
+ movl   $&_ZZN12CApplication4LoadEiPPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x6c(%ebp),%eax
-+lea    -0x7c(%ebp),%eax
++lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x14(%esp)
+ mov    %esi,0x14(%esp)
 -mov    -0x38(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+movzwl -0x2e(%ebp),%ebx
-+mov    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN17CTcpManagerServer7GetSockEv>
-+mov    %ebx,0x14(%esp)
-+mov    -0x34(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    -0x34(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x6c(%ebp),%eax
-+lea    -0x7c(%ebp),%eax
++lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -movzwl -0x32(%ebp),%ebx
@@ -709,20 +667,19 @@
  mov    %eax,0x4(%esp)
  movl   $"Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!\n",(%esp)
  call   <T> <printf>
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x842>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x7ef>
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x842>
  movl   $"Application TCP cfg empty!",(%esp)
  call   <T> <puts>
  movl   $0x1e4,0x8(%esp)
- movl   $"Load",0x4(%esp)
+ movl   $&_ZZN12CApplication4LoadEiPPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x64(%ebp),%eax
-+lea    -0x84(%ebp),%eax
++lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"Application TCP cfg empty!",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x64(%ebp),%eax
-+lea    -0x84(%ebp),%eax
++lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
@@ -750,9 +707,9 @@
 -je     <T> <_ZN12CApplication4LoadEiPPc+0xa6d>
 -cmpw   $0x0,-0x26(%ebp)
 -je     <T> <_ZN12CApplication4LoadEiPPc+0xa6d>
-+je     <T> <_ZN12CApplication4LoadEiPPc+0xa1f>
++je     <T> <_ZN12CApplication4LoadEiPPc+0xa6a>
 +cmpw   $0x0,-0x22(%ebp)
-+je     <T> <_ZN12CApplication4LoadEiPPc+0xa1f>
++je     <T> <_ZN12CApplication4LoadEiPPc+0xa6a>
  mov    0x8(%ebp),%eax
  add    $0x168,%eax
  mov    %eax,0x4(%esp)
@@ -761,62 +718,55 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CTcpDBServer4InitEP13CTcpNetSystem>
 -lea    -0x55(%ebp),%eax
-+lea    -0x35(%ebp),%eax
++lea    -0x4d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x55(%ebp),%eax
-+lea    -0x35(%ebp),%eax
++lea    -0x4d(%ebp),%eax
  mov    %eax,0x8(%esp)
 -mov    -0x2c(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x5c(%ebp),%eax
 +mov    -0x28(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0x3c(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x5c(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -mov    -0x24(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x54(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CTcpDBServer5SetIPESs>
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x8fc>
--mov    %edx,%ebx
--mov    %eax,%esi
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x8fc>
+ mov    %edx,%ebx
+ mov    %eax,%esi
 -lea    -0x5c(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x8a9>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x3c(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x909>
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x909>
 -lea    -0x5c(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x8b6>
-+lea    -0x3c(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x921>
--mov    %edx,%ebx
--mov    %eax,%esi
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x921>
+ mov    %edx,%ebx
+ mov    %eax,%esi
 -lea    -0x55(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x8ce>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x35(%ebp),%eax
++lea    -0x4d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
 -lea    -0x55(%ebp),%eax
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
-+lea    -0x35(%ebp),%eax
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
++lea    -0x4d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
 -movzwl -0x26(%ebp),%eax
@@ -846,7 +796,7 @@
  test   %al,%al
 -je     <T> <_ZN12CApplication4LoadEiPPc+0x9eb>
 -movzwl -0x26(%ebp),%eax
-+je     <T> <_ZN12CApplication4LoadEiPPc+0x999>
++je     <T> <_ZN12CApplication4LoadEiPPc+0x9e8>
 +movzwl -0x22(%ebp),%eax
  mov    %eax,0x8(%esp)
 -mov    -0x2c(%ebp),%eax
@@ -855,62 +805,53 @@
  movl   $"Application OpenTcpService(%s, %d) Fail!\n",(%esp)
  call   <T> <printf>
 -mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CTcpDBServer7GetSockEv>
--mov    %eax,%ebx
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CTcpDBServer7GetSockEv>
+ mov    %eax,%ebx
 -movzwl -0x26(%ebp),%esi
++movzwl -0x22(%ebp),%esi
  movl   $0x200,0x8(%esp)
- movl   $"Load",0x4(%esp)
+ movl   $&_ZZN12CApplication4LoadEiPPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x54(%ebp),%eax
-+lea    -0x8c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x14(%esp)
--mov    %esi,0x10(%esp)
+ mov    %ebx,0x14(%esp)
+ mov    %esi,0x10(%esp)
 -mov    -0x2c(%ebp),%eax
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CTcpDBServer7GetSockEv>
-+movzwl -0x22(%ebp),%edx
-+mov    %eax,0x14(%esp)
-+mov    %edx,0x10(%esp)
 +mov    -0x28(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"Application OpenTcpService(%s, %d, %d) Fail!",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x54(%ebp),%eax
-+lea    -0x8c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0xaaf>
 -movzwl -0x26(%ebp),%esi
 -mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CTcpDBServer7GetSockEv>
--mov    %eax,%ebx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xa67>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0xaac>
++movzwl -0x22(%ebp),%esi
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CTcpDBServer7GetSockEv>
+ mov    %eax,%ebx
  movl   $0x209,0x8(%esp)
- movl   $"Load",0x4(%esp)
+ movl   $&_ZZN12CApplication4LoadEiPPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x94(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x14(%esp)
+ mov    %esi,0x14(%esp)
 -mov    -0x2c(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+movzwl -0x22(%ebp),%ebx
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CTcpDBServer7GetSockEv>
-+mov    %ebx,0x14(%esp)
-+mov    -0x28(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    -0x28(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x94(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -movzwl -0x26(%ebp),%ebx
@@ -927,19 +868,19 @@
  movl   $"Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!\n",(%esp)
  call   <T> <printf>
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0xaaf>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xa67>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0xaac>
  movl   $"Application TCP cfg empty!",(%esp)
  call   <T> <puts>
  movl   $0x211,0x8(%esp)
- movl   $"Load",0x4(%esp)
+ movl   $&_ZZN12CApplication4LoadEiPPcE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x9c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"Application TCP cfg empty!",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x9c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
@@ -966,37 +907,27 @@
 -mov    %edi,%eax
 -mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xac1>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0xb06>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
 +call   <T> <_ZdlPv>
 +mov    %edi,%eax
 +mov    %esi,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x2c8(%eax)
  call   <T> <_ZN20CTask_ChristmasEvent15getEventEndTimeEv>
  mov    %eax,%ebx
-+mov    %edx,%esi
  movl   $0x0,(%esp)
  call   <T> <time>
-+mov    %eax,%edx
-+sar    $0x1f,%edx
-+mov    $0x1,%ecx
-+cmp    %edx,%esi
-+jg     <T> <_ZN12CApplication4LoadEiPPc+0xafc>
-+cmp    %edx,%esi
-+jl     <T> <_ZN12CApplication4LoadEiPPc+0xaf7>
  cmp    %eax,%ebx
 -setge  %al
--test   %al,%al
++setae  %al
+ test   %al,%al
 -je     <T> <_ZN12CApplication4LoadEiPPc+0xb7b>
-+jae    <T> <_ZN12CApplication4LoadEiPPc+0xafc>
-+mov    $0x0,%ecx
-+test   %cl,%cl
-+je     <T> <_ZN12CApplication4LoadEiPPc+0xb62>
++je     <T> <_ZN12CApplication4LoadEiPPc+0xb8f>
  movl   $0x0,(%esp)
  call   <T> <_ZN20CTask_ChristmasEvent18MakeEventStartTickEi>
  mov    %eax,%esi
@@ -1008,14 +939,14 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN20CTask_ChristmasEventC1Ejj>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xb49>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0xb76>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
 +call   <T> <_ZdlPv>
 +mov    %edi,%eax
 +mov    %esi,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
  mov    %ebx,%eax
  mov    %eax,%edx
  mov    0x8(%ebp),%eax
@@ -1033,14 +964,14 @@
  call   <T> <_ZN28TowerOfDespairReloadAPC_TaskC1Ejj>
 -mov    %ebx,-0x20(%ebp)
 -mov    -0x20(%ebp),%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xba1>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0xbce>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
 +call   <T> <_ZdlPv>
 +mov    %edi,%eax
 +mov    %esi,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
 +mov    %ebx,%eax
 +mov    %eax,%edx
  mov    0x8(%ebp),%eax
@@ -1062,14 +993,14 @@
 -mov    %edi,%eax
 -mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xbe9>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0xc16>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
 +call   <T> <_ZdlPv>
 +mov    %edi,%eax
 +mov    %esi,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x328(%eax)
@@ -1108,14 +1039,14 @@
 -mov    %edi,%eax
 -mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xc71>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0xc9e>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
 +call   <T> <_ZdlPv>
 +mov    %edi,%eax
 +mov    %esi,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x32c(%eax)
@@ -1130,7 +1061,7 @@
  mov    0x31c(%eax),%eax
  test   %eax,%eax
 -jne    <T> <_ZN12CApplication4LoadEiPPc+0xce5>
-+jne    <T> <_ZN12CApplication4LoadEiPPc+0xce1>
++jne    <T> <_ZN12CApplication4LoadEiPPc+0xd0e>
  movl   $0x298,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
@@ -1145,14 +1076,14 @@
 -mov    %edi,%eax
 -mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xcd6>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0xd03>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
 +call   <T> <_ZdlPv>
 +mov    %edi,%eax
 +mov    %esi,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x31c(%eax)
@@ -1160,7 +1091,7 @@
  mov    0x320(%eax),%eax
  test   %eax,%eax
 -jne    <T> <_ZN12CApplication4LoadEiPPc+0xd2c>
-+jne    <T> <_ZN12CApplication4LoadEiPPc+0xd28>
++jne    <T> <_ZN12CApplication4LoadEiPPc+0xd55>
  movl   $0x44,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
@@ -1175,14 +1106,14 @@
 -mov    %edi,%eax
 -mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xd1d>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0xd4a>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
 +call   <T> <_ZdlPv>
 +mov    %edi,%eax
 +mov    %esi,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x320(%eax)
@@ -1206,14 +1137,14 @@
 -mov    %edi,%eax
 -mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xd6f>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0xd9c>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
 +call   <T> <_ZdlPv>
 +mov    %edi,%eax
 +mov    %esi,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x2cc(%eax)
@@ -1251,14 +1182,14 @@
 -mov    %edi,%eax
 -mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xdf5>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0xe22>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
 +call   <T> <_ZdlPv>
 +mov    %edi,%eax
 +mov    %esi,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x384(%eax)
@@ -1345,14 +1276,14 @@
 -mov    %edi,%eax
 -mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xf0f>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0xf3c>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
 +call   <T> <_ZdlPv>
 +mov    %edi,%eax
 +mov    %esi,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x324(%eax)
@@ -1410,14 +1341,14 @@
 -mov    %edi,%eax
 -mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1065>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0xff5>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1022>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
 +call   <T> <_ZdlPv>
 +mov    %edi,%eax
 +mov    %esi,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1067>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x1094>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x330(%eax)
@@ -1453,21 +1384,17 @@
  ret
  cmp    $0x2,%edx
 -jne    <T> <_ZN12CApplication4LoadEiPPc+0x10b1>
-+jne    <T> <_ZN12CApplication4LoadEiPPc+0x10b3>
++jne    <T> <_ZN12CApplication4LoadEiPPc+0x10e0>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CApplication::Load() Exception Break : %s\n",(%esp)
  call   <T> <printf>
@@ -1895,53 +1822,176 @@ CApplication::_ZN12CApplication4LoadEiPPc(CApplication *this,int param_1,char **
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 126 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 306 行）：
 
 ```cpp
 void CApplication::Load(int argc, char** argv)
 {
     try
     {
+        m_memoryCash = new CMemoryCashManager;
+        m_memoryCash->Init(this);
         m_userManager.Init(this);
+
+        m_memberConfig->Load_Table("./script/member_cnt_config.tbl");
+        m_memberExpTbl->Load_Table("./script/member_exp.tbl");
+        m_memberManager.Init(this, &m_userManager, m_memberConfig, m_memberExpTbl);
+
         m_appConfig->Load_Table(argv[1]);
-        m_serverConfig->Load_Table("./table/server_config.tbl");
-        m_frame.InitFrameCountInfo(this, m_appConfig->Get_FrameCountValue(), 1000);
-        m_serverHandler = new CServerHandler;
-        m_serverHandler->Attach(this);
-        m_serverHandler->Load(m_serverConfig->GetServerInfo());
+        m_frameCount.InitFrameCountInfo(this, m_appConfig->Get_FrameCountValue(), 0x3e8);
+
+        m_udpHandler = new CUdpHandler;
+        if (m_udpHandler->InitServerSocket(m_appConfig->Get_ServerUdpPort()) == -1)
+        {
+            throw CDNFException("CApplication::Load() Init Server Udp Socket Exception Break!");
+        }
+
+        m_serverHandler2 = new CServerHandler;
+        m_serverHandler2->Attach(this);
+        m_serverHandler2->Load(m_appConfig->GetServerInfoMap());
         CPacketTranslater::attach(this);
-        m_innerMsg = new CInnerMsgHandler;
+        m_innerMsgHandler = new CInnerMsgHandler;
         CPacketDecoderInstance()->Attach(this);
-        for (int i = 0; i < 10; i++)
+        m_udpThread = new CUdpNetworkThread;
+        m_udpThread->attach(this);
+        if (!m_udpThread->begin())
         {
-            m_appThreads[i] = new CAppThread;
-            m_appThreads[i]->attach(this, i);
-            if (!m_appThreads[i]->begin())
+            throw;
+        }
+
+        m_tcpNetSystem.Init(m_appConfig->Get_ServerTcpPort());
+        {
+            DNF_LOG_SCOPE_LINE(0x1ba, "./log/Tcp", "App Load : Network system (%x)", &m_tcpNetSystem);
+        }
+
+        {
+            const char* mgrIp = m_appConfig->Get_ManagerTcpIP();
+            unsigned short mgrPort = m_appConfig->Get_ManagerTcpPort();
+            CTcpManagerServer* mgr = (CTcpManagerServer*)m_serverHandler2->GetTcpManagerServer();
+            if (*mgrIp != '\0' && mgrPort != 0)
             {
-                throw CDNFException(
-                    std::string("CApplication::Load() Init App Thread Exception Break!"));
+                mgr->Init(&m_tcpNetSystem);
+                mgr->SetIP(mgrIp);
+                mgr->SetPort(mgrPort);
+                if (m_tcpNetSystem.OpenTcpService(*mgr->GetSockRef(), mgrIp, mgrPort) == 1)
+                {
+                    printf("Application OpenTcpService(%s, %d) Fail!\n", mgrIp, mgrPort);
+                    DNF_LOG_SCOPE_LINE(0x1d3,"./log/TcpServer", "Application OpenTcpService(%s, %d, %d) Fail!",
+                        mgrIp, mgrPort, mgr->GetSock());
+                }
+                else
+                {
+                    DNF_LOG_SCOPE_LINE(0x1dc,"./log/TcpServer", "Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!",
+                        mgr->GetSock(), mgrIp, mgrPort);
+                    printf("Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!\n",
+                        mgr->GetSock(), mgrIp, mgrPort);
+                }
+            }
+            else
+            {
+                puts("Application TCP cfg empty!");
+                DNF_LOG_SCOPE_LINE(0x1e4, "./log/TcpServer", "Application TCP cfg empty!");
             }
         }
-        for (int i = 0; i <= 100; i++)
+
         {
-            unsigned short port = m_appConfig->Get_ServerUdpPort((unsigned char)i);
-            if (port != 0)
+            const char* dbIp = m_appConfig->Get_DBMWTcpIP();
+            unsigned short dbPort = m_appConfig->Get_DBMWTcpPort();
+            CTcpDBServer* db = (CTcpDBServer*)m_serverHandler2->GetTcpDBServer();
+            if (*dbIp != '\0' && dbPort != 0)
             {
-                m_udpHandlers[i] = new CUdpHandler;
-                if (m_udpHandlers[i]->InitServerSocket((unsigned int)port) == -1)
+                db->Init(&m_tcpNetSystem);
+                db->SetIP(dbIp);
+                db->SetPort(dbPort);
+                if (m_tcpNetSystem.OpenTcpService(*db->GetSockRef(), dbIp, dbPort) == 1)
                 {
-                    throw CDNFException(
-                        std::string("CApplication::Load() Init Server Socket Exception Break!"));
+                    printf("Application OpenTcpService(%s, %d) Fail!\n", dbIp, dbPort);
+                    DNF_LOG_SCOPE_LINE(0x200,"./log/TcpServer", "Application OpenTcpService(%s, %d, %d) Fail!",
+                        dbIp, dbPort, db->GetSock());
                 }
-                m_netThreads[i] = new CNetworkThread;
-                m_netThreads[i]->attach(this, i);
-                if (!m_netThreads[i]->begin())
+                else
                 {
-                    throw CDNFException(
-                        std::string("CApplication::Load() Init Network Thread Exception Break!"));
+                    DNF_LOG_SCOPE_LINE(0x209,"./log/TcpServer", "Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!",
+                        db->GetSock(), dbIp, dbPort);
+                    printf("Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!\n",
+                        db->GetSock(), dbIp, dbPort);
                 }
             }
+            else
+            {
+                puts("Application TCP cfg empty!");
+                DNF_LOG_SCOPE_LINE(0x211, "./log/TcpServer", "Application TCP cfg empty!");
+            }
         }
+
+        srand((unsigned int)(m_appConfig->Get_ServerUdpPort() + time(0)));
+
+        m_taskScheduler = new CTaskScheduler;
+        if (CTask_ChristmasEvent::getEventEndTime() >= (int)time(0))
+        {
+            m_taskScheduler->AddTask(new CTask_ChristmasEvent(CTask_ChristmasEvent::MakeEventStartTick(0), 0));
+        }
+        m_taskScheduler->AddTask(new TowerOfDespairReloadAPC_Task(0, 0));
+
+        m_itemLimitMgr = new CItemLimitEditionMgr;
+        {
+            Packet_Item_Limit_Edition_Load_Data_Req pkt;
+            pkt.m_fieldA = 1;
+            pkt.m_fieldB = Get_ServerGroup();
+            pkt.m_fieldC = 0;
+            m_serverHandler2->SendToDB(&pkt);
+        }
+
+        m_ipCounter = new CIPCounter;
+        m_ipCounter->Init(m_serverHandler2);
+
+        if (m_field31c == 0)
+        {
+            m_field31c = new CEventActionManager;
+        }
+        if (m_onTimeEventMgr == 0)
+        {
+            m_onTimeEventMgr = new COnTimeEventManager;
+        }
+        m_onTimeEventMgr->AttachApp(this);
+
+        m_field2cc = new WongWork::CGMAccounts;
+        m_periodicMsg = new CPeriodicMessageMgr;
+        {
+            Packet_Load_Periodic_Message pkt;
+            m_serverHandler2->SendToDB(&pkt);
+        }
+        m_limitNpc = new LimitNpcBuyItemManager;
+        {
+            LimitNpcBuyItemRequestInfo pkt;
+            m_serverHandler2->SendToDB(&pkt);
+        }
+
+        m_field388 = new CollectItms;
+        {
+            time_t now = time(0);
+            tm pt = *localtime(&now);
+            m_timeSyncHour = (short)pt.tm_hour;
+        }
+
+        m_towerRank = new CTowerRank;
+        m_towerRank->processReloadRanking(m_serverHandler2, true, 10000);
+        m_towerRank->processReloadRanking(m_serverHandler2, true, 5);
+
+        m_field334 = new init_accusation::CInitAccusationListMgr(*this);
+        {
+            bool schedule = false;
+            ((init_accusation::CInitAccusationListMgr*)m_field334)->setSchedule(schedule);
+        }
+
+        m_field330 = new CLoginLogoutStatistics(*this);
+        {
+            typedef std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > > TcpRecvQueue;
+            IQueue<TcpRecvQueue>::Get()->InitQueue(
+                m_tcpNetSystem.Get_TcpSwapQPacket()->GetRecvQ(),
+                m_tcpNetSystem.Get_TcpSwapQPacket()->GetParseQ());
+        }
+
         puts("Application Load() Success!");
         m_loaded = true;
     }

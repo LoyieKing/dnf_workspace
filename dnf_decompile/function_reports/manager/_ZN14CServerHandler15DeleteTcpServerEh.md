@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x80685e4` | `0xe8` | `0x805e1cc` | `0xf8` |
+| manager | DIFF | `0x80685e4` | `0xe8` | `0x805e090` | `0xf8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -77,8 +77,9 @@
  mov    %edx,(%esp)
  call   <T> <_ZNSt3mapIjP10CTcpServerSt4lessIjESaISt4pairIKjS1_EEE5eraseESt17_Rb_tree_iteratorIS6_E>
  movl   $0x113,0x8(%esp)
- movl   $"DeleteTcpServer",0x4(%esp)
+-movl   $&_ZZN14CServerHandler15DeleteTcpServerEhE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
++movl   $"DeleteTcpServer",0x4(%esp)
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -151,20 +152,20 @@ CServerHandler::_ZN14CServerHandler15DeleteTcpServerEh(CServerHandler *this,ucha
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 120 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 112 行）：
 
 ```cpp
 char CServerHandler::DeleteTcpServer(unsigned char idx)
 {
-    std::map<unsigned char, CTcpServer*>::iterator it = m_tcpServers.find(idx);
+    std::map<unsigned int, CTcpServer*>::iterator it = m_tcpServers.find(idx);
     if (it != m_tcpServers.end())
     {
         CTcpServer* server = it->second;
         if (server)
             delete server;
         m_tcpServers.erase(it);
-        CMyFileLog log("DeleteTcpServer", 0x130);
-        log("./log/TcpServer", "TcpServer(%d) Deleted", idx);
+        CMyFileLog log("DeleteTcpServer", 0x113);
+        log("./log/Tcp", "TcpMonitorServer Delete !");
         return 1;
     }
     return 0;

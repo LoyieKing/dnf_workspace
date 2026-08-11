@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804c26e` | `0x1b3` | `0x80850ac` | `0x23e` |
+| guild | DIFF | `0x804c26e` | `0x1b3` | `0x8084eb8` | `0x23e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -265,7 +265,7 @@ CSignalTranslator::_ZN17CSignalTranslator12init_handlerEP12CApplication
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFSignalTranslator.cpp](source/DNFServer/GameServer/COServer/DNFSignalTranslator.cpp)（约第 125 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFSignalTranslator.cpp](source/DNFServer/GameServer/Guild/DNFSignalTranslator.cpp)（约第 193 行）：
 
 ```cpp
 int CSignalTranslator::init_handler(CApplication* app)
@@ -293,6 +293,6 @@ int CSignalTranslator::init_handler(CApplication* app)
     m_handlers[0x60 / 4] = m_handlers[0x10 / 4];
     m_handlers[100 / 4] = m_handlers[0x10 / 4];
     m_handlers[0x7c / 4] = m_handlers[0x10 / 4];
-    // NOTE: ORIG 无 return 语句直接落底（返回残留 eax），调用方均忽略返回值；照抄 ORIG 以对齐机器码
+    return 0;
 }
 ```

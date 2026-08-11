@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090fe0` | `0x8c` | `0x8056c82` | `0x8a` |
+| guild | DIFF | `0x8090fe0` | `0x8c` | `0x8056d66` | `0x8b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -24,7 +24,7 @@
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji+0x86>
-+je     <T> <_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji+0x88>
++je     <T> <_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji+0x89>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
@@ -34,35 +34,44 @@
 -movl   $0x0,-0x8(%ebp)
 -jmp    <T> <_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji+0x72>
 -mov    -0x8(%ebp),%edx
-+je     <T> <_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji+0x88>
+-mov    0x8(%ebp),%ecx
+-mov    %edx,%eax
+-shl    $0x6,%eax
+-add    %edx,%eax
++je     <T> <_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji+0x89>
 +mov    0x8(%ebp),%eax
 +add    $0x1e,%eax
 +movzwl (%eax),%eax
 +mov    %ax,-0x6(%ebp)
 +movl   $0x0,-0x4(%ebp)
-+jmp    <T> <_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji+0x7a>
- mov    0x8(%ebp),%ecx
-+mov    -0x4(%ebp),%edx
- mov    %edx,%eax
- shl    $0x6,%eax
- add    %edx,%eax
-+add    $0xdd,%eax
++jmp    <T> <_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji+0x7b>
++mov    0x8(%ebp),%edx
++mov    -0x4(%ebp),%eax
++mov    %eax,%ecx
++shl    $0x6,%ecx
  lea    (%ecx,%eax,1),%eax
 -add    $0xd0,%eax
 -mov    0xd(%eax),%eax
++add    $0xdd,%eax
++lea    (%edx,%eax,1),%eax
 +mov    (%eax),%eax
  cmp    0xc(%ebp),%eax
 -jne    <T> <_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji+0x6e>
 -mov    -0x8(%ebp),%edx
--mov    0x10(%ebp),%eax
++jne    <T> <_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji+0x77>
++mov    0x8(%ebp),%edx
++mov    -0x4(%ebp),%eax
++mov    %eax,%ecx
++shl    $0x6,%ecx
++lea    (%ecx,%eax,1),%eax
++add    $0x104,%eax
++add    %eax,%edx
+ mov    0x10(%ebp),%eax
 -mov    %eax,%ecx
 -mov    0x8(%ebp),%ebx
-+jne    <T> <_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji+0x76>
-+mov    0x8(%ebp),%ecx
-+mov    -0x4(%ebp),%edx
- mov    %edx,%eax
- shl    $0x6,%eax
- add    %edx,%eax
+-mov    %edx,%eax
+-shl    $0x6,%eax
+-add    %edx,%eax
 -lea    (%ebx,%eax,1),%eax
 -add    $0xf0,%eax
 -mov    %cl,0x14(%eax)
@@ -72,11 +81,8 @@
 -movzwl 0x1e(%eax),%eax
 -movzwl %ax,%eax
 -cmp    -0x8(%ebp),%eax
-+add    $0x104,%eax
-+lea    (%ecx,%eax,1),%edx
-+mov    0x10(%ebp),%eax
 +mov    %al,(%edx)
-+jmp    <T> <_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji+0x88>
++jmp    <T> <_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji+0x89>
 +addl   $0x1,-0x4(%ebp)
 +movzwl -0x6(%ebp),%eax
 +cmp    -0x4(%ebp),%eax
@@ -116,7 +122,7 @@ CGuild::_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji(CGuild *this,uint param
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1608 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1666 行）：
 
 ```cpp
 void CGuild::ChangeUnconnectedGuildMemberGrade(unsigned int charNo, int grade)

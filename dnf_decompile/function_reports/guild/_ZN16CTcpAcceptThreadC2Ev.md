@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8059bc4` | `0x6c` | `0x808581a` | `0xbc` |
+| guild | DIFF | `0x8059bc4` | `0x6c` | `0x8085632` | `0xbc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -100,8 +100,17 @@ void __thiscall CTcpAcceptThread::_ZN16CTcpAcceptThreadC2Ev(CTcpAcceptThread *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpAcceptThread.cpp](source/DNFServer/GameServer/DBMW/DNFTcpAcceptThread.cpp)（约第 26 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpAcceptThread.cpp](source/DNFServer/GameServer/Guild/DNFTcpAcceptThread.cpp)（约第 70 行）：
 
 ```cpp
-CTcpAcceptThread::CTcpAcceptThread() {}
+CTcpAcceptThread::CTcpAcceptThread()
+{
+    m_thread = 0;
+    m_running = false;
+    m_net = 0;
+    m_recvQLock = 0;
+    m_recvBLock = 0;
+    new (m_sock) TCPSocket;
+    m_port = 0;
+}
 ```

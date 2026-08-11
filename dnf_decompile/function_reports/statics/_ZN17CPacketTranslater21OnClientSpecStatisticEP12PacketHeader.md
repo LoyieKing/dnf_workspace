@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x805a43e` | `0x25d` | `0x8054ec8` | `0x266` |
+| statics | DIFF | `0x805a43e` | `0x25d` | `0x8054e68` | `0x266` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,20 +23,16 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater21OnClientSpecStatisticEP12PacketHeader+0xdf>
--lea    -0x39(%ebp),%eax
-+lea    -0x29(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x39(%ebp),%eax
-+lea    -0x29(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnClientSpecStatistic : 0 == m_pclApp",0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x40(%ebp),%esi
-+lea    -0x30(%ebp),%esi
+ lea    -0x40(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -53,8 +49,7 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x40(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater21OnClientSpecStatisticEP12PacketHeader+0x87>
@@ -64,8 +59,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater21OnClientSpecStatisticEP12PacketHeader+0xa4>
--lea    -0x40(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater21OnClientSpecStatisticEP12PacketHeader+0xbc>
@@ -74,19 +68,17 @@
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x39(%ebp),%eax
-+lea    -0x29(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater21OnClientSpecStatisticEP12PacketHeader+0x17f>
--lea    -0x39(%ebp),%eax
 +jmp    <T> <_ZN17CPacketTranslater21OnClientSpecStatisticEP12PacketHeader+0x188>
-+lea    -0x29(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -161,17 +153,13 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%ebx
  movl   $0xfe,0x8(%esp)
- movl   $"OnClientSpecStatistic",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater21OnClientSpecStatisticEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -196,15 +184,13 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x103,0x8(%esp)
- movl   $"OnClientSpecStatistic",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater21OnClientSpecStatisticEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnClientSpecStatistic() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnClientSpecStatisticEP12PacketHeader+0x250>
@@ -295,13 +281,11 @@ void CPacketTranslater::OnClientSpecStatistic(PacketHeader* pkt)
     catch (CDNFException& e)
     {
         register const char* reason = e.what();
-        CMyFileLog log("OnClientSpecStatistic", 254);
-        log("./log/Except", "CPacketTranslater::OnClientSpecStatistic() Exception Break : %s\n", reason);
+        CMyFileLog(__FUNCTION__, 254)("./log/Except", "CPacketTranslater::OnClientSpecStatistic() Exception Break : %s\n", reason);
     }
     catch (...)
     {
-        CMyFileLog log("OnClientSpecStatistic", 259);
-        log("./log/Except", "CPacketTranslater::OnClientSpecStatistic() Exception Break\n");
+        CMyFileLog(__FUNCTION__, 259)("./log/Except", "CPacketTranslater::OnClientSpecStatistic() Exception Break\n");
     }
 }
 ```

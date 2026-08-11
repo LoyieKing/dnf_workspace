@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8084102` | `0x342` | `0x8079f00` | `0x278` |
+| guild | DIFF | `0x8084102` | `0x342` | `0x8079e00` | `0x27a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,204 +1,153 @@
+@@ -1,204 +1,154 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -29,19 +29,19 @@
 -jne    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x56>
 +jne    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x54>
  movl   $0x18ec,0x8(%esp)
- movl   $"OnGuildCargoHistory",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x68(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnGuildCargoHistory : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/GuildCargo",0x4(%esp)
 -lea    -0x68(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x337>
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x26f>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x271>
 +mov    -0x20(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
@@ -66,15 +66,15 @@
 +cmpl   $0x0,-0x18(%ebp)
 +jne    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0xbf>
  movl   $0x18f6,0x8(%esp)
- movl   $"OnGuildCargoHistory",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x60(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnGuildCargoHistory : 0 == pclUser",0x8(%esp)
  movl   $"./log/GuildCargo",0x4(%esp)
 -lea    -0x60(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x337>
@@ -84,7 +84,7 @@
 -add    $0x290,%edx
 -mov    %eax,0x4(%esp)
 -mov    %edx,(%esp)
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x26f>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x271>
 +mov    -0x20(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%eax
@@ -103,7 +103,7 @@
 +cmpl   $0x0,-0x10(%ebp)
 +jne    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x12a>
  movl   $0x18fe,0x8(%esp)
- movl   $"OnGuildCargoHistory",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x58(%ebp),%eax
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
@@ -115,22 +115,22 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x337>
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x26f>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x271>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -add    $0x290,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication16Get_GuildManagerEv>
  mov    %eax,(%esp)
  call   <T> <_ZN13CGuildManager11IsCargoLockEv>
-+xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x181>
 -mov    -0x30(%ebp),%eax
 -mov    0xa(%eax),%esi
 -mov    -0x30(%ebp),%eax
 -mov    0xe(%eax),%ebx
--movl   $0x1906,0x8(%esp)
-+je     <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x22b>
++sete   %al
++test   %al,%al
++je     <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x22d>
 +mov    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser17GetGuildMemDBInfoEv>
@@ -138,11 +138,11 @@
 +movzbl (%eax),%eax
 +mov    %al,-0x9(%ebp)
 +cmpb   $0x3,-0x9(%ebp)
-+je     <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x170>
++je     <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x172>
 +cmpb   $0x1,-0x9(%ebp)
-+je     <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x170>
++je     <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x172>
 +cmpb   $0x2,-0x9(%ebp)
-+jne    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x1dd>
++jne    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x1df>
 +lea    -0x9ba(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN35Packet_Guild_Cargo_History_ResponseC1Ev>
@@ -170,26 +170,40 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 +nop
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x26f>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x271>
++movzbl -0x9(%ebp),%ebx
 +movl   $0x1910,0x8(%esp)
- movl   $"OnGuildCargoHistory",0x4(%esp)
--lea    -0x50(%ebp),%eax
-+lea    -0x40(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnGuildCargoHistory GUILD CARGO LOCKED!(%d,%d)",0x8(%esp)
-+movzbl -0x9(%ebp),%eax
-+mov    %eax,0x14(%esp)
++movl   $&_ZZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x30(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    %ebx,0x14(%esp)
 +mov    -0x14(%ebp),%eax
 +mov    %eax,0x10(%esp)
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,0xc(%esp)
 +movl   $"CPacketTranslater::OnGuildCargoHistory : Access Deny(%d,%d,%d)",0x8(%esp)
++movl   $"./log/GuildCargo",0x4(%esp)
++lea    -0x30(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x271>
+ movl   $0x1906,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x50(%ebp),%eax
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %esi,0x10(%esp)
+-mov    %ebx,0xc(%esp)
++mov    -0x14(%ebp),%eax
++mov    %eax,0x10(%esp)
++mov    -0x1c(%ebp),%eax
++mov    %eax,0xc(%esp)
+ movl   $"CPacketTranslater::OnGuildCargoHistory GUILD CARGO LOCKED!(%d,%d)",0x8(%esp)
  movl   $"./log/GuildCargo",0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x337>
@@ -210,25 +224,18 @@
 -mov    -0x30(%ebp),%eax
 -mov    0xe(%eax),%ebx
 -movl   $0x1910,0x8(%esp)
-+jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x26f>
-+movl   $0x1906,0x8(%esp)
- movl   $"OnGuildCargoHistory",0x4(%esp)
- lea    -0x48(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $&_ZZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x48(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
 -movl   $"CPacketTranslater::OnGuildCargoHistory : Access Deny(%d,%d,%d)",0x8(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CPacketTranslater::OnGuildCargoHistory GUILD CARGO LOCKED!(%d,%d)",0x8(%esp)
- movl   $"./log/GuildCargo",0x4(%esp)
- lea    -0x48(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-movl   $"./log/GuildCargo",0x4(%esp)
+-lea    -0x48(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader+0x337>
 -lea    -0x9da(%ebp),%eax
 -mov    %eax,(%esp)
@@ -268,7 +275,7 @@
 -call   *%edx
 -mov    %eax,%ebx
 -movl   $0x191e,0x8(%esp)
--movl   $"OnGuildCargoHistory",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -291,7 +298,7 @@
 -mov    %eax,(%esp)
 -call   <T> <__cxa_begin_catch>
 -movl   $0x1923,0x8(%esp)
--movl   $"OnGuildCargoHistory",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8064fb2` | `0x36c` | `0x8052f30` | `0x346` |
+| monitor | DIFF | `0x8064fb2` | `0x36c` | `0x8052ef0` | `0x346` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -502,14 +502,48 @@ void __thiscall CApplication::_ZN12CApplication15TranslateSignalEv(CApplication 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 407 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 936 行）：
 
 ```cpp
 void CApplication::TranslateSignal()
 {
-    m_killUsrConfig->Clear_Table();
-    m_killUsrConfig->Load_Table("./script/kill_user_config.tbl");
-    std::vector<ST_KillUSRConfig*>* v = m_killUsrConfig->GetInfo();
-    v->empty();
+    m_serverHandler->Clear_Table();
+    m_serverHandler->Load_Table("./script/kill_user_config.tbl");
+    const std::vector<ST_KillUSRConfig*>* vec = m_serverHandler->GetInfo();
+    if (!vec->empty())
+    {
+        for (std::vector<ST_KillUSRConfig*>::const_iterator it = vec->begin(); it != vec->end();
+             ++it)
+        {
+            ST_KillUSRConfig* cfg = *it;
+            if (cfg->m_type == 3)
+            {
+                Packet_Monitor_Event_End pkt;
+                pkt.m_fieldA = cfg->m_val;
+                CPacketTranslater::OnEventEnd(&pkt);
+            }
+            else if (cfg->m_type == 2)
+            {
+                Packet_Monitor_Event_Start pkt;
+                pkt.m_fieldA = cfg->m_val;
+                pkt.m_fieldB = (unsigned short)cfg->m_b;
+                pkt.m_fieldC = (unsigned short)cfg->m_c;
+                CPacketTranslater::OnEventStart(&pkt);
+            }
+            else if (cfg->m_type == 4)
+            {
+                m_serverHandler2->Load(m_appConfig->GetServerInfoMap());
+                m_memberConfig->Load_Table("./script/member_cnt_config.tbl");
+                m_memberExpTbl->Load_Table("./script/member_exp.tbl");
+            }
+            else if (cfg->m_type == 7)
+            {
+                Packet_Monitor_Take_Screen_Shot pkt;
+                pkt.m_fieldA = 0xff;
+                pkt.m_fieldB = (unsigned int)time(0);
+                CPacketTranslater::OnTakeScreenShot(&pkt);
+            }
+        }
+    }
 }
 ```

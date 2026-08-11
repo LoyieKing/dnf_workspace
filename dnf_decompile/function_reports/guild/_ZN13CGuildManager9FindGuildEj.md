@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80954a0` | `0x94` | `0x805ba60` | `0x83` |
+| guild | DIFF | `0x80954a0` | `0x94` | `0x805b57c` | `0x83` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -124,7 +124,7 @@ undefined4 CGuildManager::_ZN13CGuildManager9FindGuildEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 208 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 231 行）：
 
 ```cpp
 CGuild* CGuildManager::FindGuild(unsigned int guildKey)

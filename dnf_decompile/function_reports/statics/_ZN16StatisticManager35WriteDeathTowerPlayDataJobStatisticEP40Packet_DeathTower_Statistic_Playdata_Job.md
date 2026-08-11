@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806e264` | `0x1cf` | `0x806e4fe` | `0x1de` |
+| statics | DIFF | `0x806e264` | `0x1cf` | `0x806e59a` | `0x1cf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,144 +1,151 @@
+@@ -1,144 +1,145 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -23,23 +23,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZN35STDeathTowerPlayDataJobStatisticKeyC1Ev>
  mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
+ movzbl 0xa(%eax),%eax
  mov    %al,-0x4c(%ebp)
  mov    0xc(%ebp),%eax
--movzwl 0xb(%eax),%eax
-+add    $0xb,%eax
-+movzwl (%eax),%eax
+ movzwl 0xb(%eax),%eax
  mov    %ax,-0x4a(%ebp)
  mov    0xc(%ebp),%eax
--movzbl 0x11(%eax),%eax
-+add    $0xd,%eax
-+mov    (%eax),%eax
++mov    0xd(%eax),%eax
 +mov    %eax,-0x48(%ebp)
 +mov    0xc(%ebp),%eax
-+add    $0x11,%eax
-+movzbl (%eax),%eax
+ movzbl 0x11(%eax),%eax
  mov    %al,-0x44(%ebp)
 -mov    0xc(%ebp),%eax
 -mov    0xd(%eax),%eax
@@ -48,9 +41,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN20PlayDataJobStatisticC1Ev>
  mov    0xc(%ebp),%eax
--mov    0x12(%eax),%eax
-+add    $0x12,%eax
-+mov    (%eax),%eax
+ mov    0x12(%eax),%eax
  mov    %eax,-0x54(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x98(%eax),%ecx
@@ -66,8 +57,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapI35STDeathTowerPlayDataJobStatisticKey20PlayDataJobStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE5emptyEv>
  test   %al,%al
--jne    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0xb6>
-+jne    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0xc0>
+ jne    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0xb6>
  mov    0x8(%ebp),%eax
  lea    0x98(%eax),%edx
  lea    -0x40(%ebp),%eax
@@ -81,17 +71,13 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK35STDeathTowerPlayDataJobStatisticKey20PlayDataJobStatisticEEeqERKS5_>
  test   %al,%al
--je     <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0xbd>
-+je     <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0xc7>
+ je     <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0xbd>
  mov    $0x1,%eax
--jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0xc2>
-+jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0xcc>
+ jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0xc2>
  mov    $0x0,%eax
--test   %al,%al
+ test   %al,%al
 -je     <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x15c>
-+mov    %al,-0x9(%ebp)
-+cmpb   $0x0,-0x9(%ebp)
-+je     <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x16d>
++je     <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x15e>
  lea    -0x20(%ebp),%eax
  lea    -0x54(%ebp),%edx
  mov    %edx,0x8(%esp)
@@ -121,7 +107,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt4pairI35STDeathTowerPlayDataJobStatisticKey20PlayDataJobStatisticED1Ev>
 -jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x1af>
-+jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x160>
++jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x151>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x34(%ebp),%eax
@@ -130,7 +116,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x147>
-+jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x14b>
++jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x13c>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x20(%ebp),%eax
@@ -139,11 +125,11 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x181>
-+jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x18c>
++jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x17d>
 +lea    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt4pairI35STDeathTowerPlayDataJobStatisticKey20PlayDataJobStatisticED1Ev>
-+jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x1a1>
++jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x192>
  lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK35STDeathTowerPlayDataJobStatisticKey20PlayDataJobStatisticEEptEv>
@@ -157,7 +143,7 @@
 +mov    %edx,(%esp)
  call   <T> <_ZN20PlayDataJobStatisticpLERKS_>
 -jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x1af>
-+jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x1a1>
++jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x192>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x54(%ebp),%eax
@@ -165,11 +151,11 @@
  call   <T> <_ZN20PlayDataJobStatisticD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x1ae>
++jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x19f>
 +lea    -0x54(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN20PlayDataJobStatisticD1Ev>
-+jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x1c9>
++jmp    <T> <_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job+0x1ba>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x4c(%ebp),%eax
@@ -283,4 +269,4 @@ LAB_0806e326:
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Statics/Statistics.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 619 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Statics/Statistics.cpp, source/DNFServer/GameServer/Statics/CubeStatistics.h, source/DNFServer/GameServer/Statics/DNFDBServer.h, source/DNFServer/GameServer/Statics/DNFGameServer.h, source/DNFServer/GameServer/Statics/DNFManagerServer.h, source/DNFServer/GameServer/Statics/DNFServerConfig.h, source/DNFServer/GameServer/Statics/DNFServerHandler.h, source/DNFServer/GameServer/Statics/DNFTableBase.h 等 260 个文件*

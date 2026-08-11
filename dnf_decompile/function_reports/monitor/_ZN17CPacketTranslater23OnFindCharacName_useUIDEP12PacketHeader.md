@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808d566` | `0x112` | `0x8078b9e` | `0x15e` |
+| monitor | DIFF | `0x808d566` | `0x112` | `0x8078afe` | `0x156` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,15 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,80 +1,110 @@
+@@ -1,80 +1,106 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
  sub    $0x34,%esp
  mov    0x8(%ebp),%eax
 -mov    0x6(%eax),%edx
-+add    $0xe,%eax
-+mov    (%eax),%edx
++mov    0xe(%eax),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -31,7 +30,7 @@
 -je     <T> <_ZN17CPacketTranslater23OnFindCharacName_useUIDEP12PacketHeader+0x10c>
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x18(%ebp)
-+je     <T> <_ZN17CPacketTranslater23OnFindCharacName_useUIDEP12PacketHeader+0x158>
++je     <T> <_ZN17CPacketTranslater23OnFindCharacName_useUIDEP12PacketHeader+0x150>
  movl   $0x34,0x8(%esp)
  movl   $0x1f45,0x4(%esp)
  mov    -0x1c(%ebp),%eax
@@ -47,8 +46,7 @@
 -mov    %edx,0xa(%eax)
 +lea    0xa(%eax),%edx
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++mov    0xa(%eax),%eax
 +mov    %eax,(%edx)
  mov    -0x18(%ebp),%eax
 -mov    0xe(%eax),%edx
@@ -58,8 +56,7 @@
 -movl   $0x0,0x12(%eax)
 +lea    0xe(%eax),%edx
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
++mov    0xe(%eax),%eax
 +mov    %eax,(%edx)
  mov    -0x18(%ebp),%eax
 -mov    0xe(%eax),%eax
@@ -75,8 +72,7 @@
 +add    $0x15,%eax
 +movb   $0x0,(%eax)
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++mov    0xa(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x10,%edx
  mov    %eax,0x4(%esp)
@@ -88,7 +84,7 @@
 -mov    -0xc(%ebp),%eax
 +mov    %eax,-0x14(%ebp)
 +cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN17CPacketTranslater23OnFindCharacName_useUIDEP12PacketHeader+0x146>
++je     <T> <_ZN17CPacketTranslater23OnFindCharacName_useUIDEP12PacketHeader+0x13e>
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
@@ -114,7 +110,7 @@
 -movl   $0x0,0x12(%eax)
 -mov    -0x10(%ebp),%eax
 -mov    0x12(%eax),%eax
-+jbe    <T> <_ZN17CPacketTranslater23OnFindCharacName_useUIDEP12PacketHeader+0x111>
++jbe    <T> <_ZN17CPacketTranslater23OnFindCharacName_useUIDEP12PacketHeader+0x109>
 +mov    -0x18(%ebp),%eax
 +add    $0x12,%eax
 +movb   $0x0,(%eax)
@@ -135,7 +131,7 @@
 -mov    -0x10(%ebp),%eax
 -mov    0x12(%eax),%ebx
 -mov    -0xc(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater23OnFindCharacName_useUIDEP12PacketHeader+0x146>
++je     <T> <_ZN17CPacketTranslater23OnFindCharacName_useUIDEP12PacketHeader+0x13e>
 +mov    -0x18(%ebp),%eax
 +add    $0x12,%eax
 +mov    (%eax),%ebx
@@ -210,26 +206,26 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnFindCharacName_useUIDEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4314 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4323 行）：
 
 ```cpp
 void CPacketTranslater::OnFindCharacName_useUID(PacketHeader* pkt)
 {
     CTcpGameServer* tcpGs =
         (CTcpGameServer*)m_pclApp->FindTcpGameServer(
-            *(unsigned int*)((char*)pkt + 0xe));
+            ((RA_UINT<14>*)pkt)->v);
     if (tcpGs != 0)
     {
         char* buf = tcpGs->makePacketHeader(0x1f45, 0x34);
-        *(unsigned int*)(buf + 10) = *(unsigned int*)((char*)pkt + 10);
-        *(unsigned int*)(buf + 0xe) = *(unsigned int*)((char*)pkt + 0xe);
+        *(unsigned int*)(buf + 10) = ((RA_UINT<10>*)pkt)->v;
+        *(unsigned int*)(buf + 0xe) = ((RA_UINT<14>*)pkt)->v;
         buf[0x12] = 0;
         buf[0x13] = 0;
         buf[0x14] = 0;
         buf[0x15] = 0;
         CUser* user =
             ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
-                *(unsigned int*)((char*)pkt + 0xa));
+                ((RA_UINT<10>*)pkt)->v);
         if (user != 0)
         {
             char* name = user->GetCharName();

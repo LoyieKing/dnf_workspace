@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x80680b6` | `0xc6` | `0x805dff4` | `0xce` |
+| manager | DIFF | `0x80680b6` | `0xc6` | `0x805deba` | `0xcb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,56 +1,58 @@
+@@ -1,56 +1,57 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %ebx
@@ -23,35 +23,35 @@
  mov    %eax,-0x10(%ebp)
  movl   $0x65,-0xc(%ebp)
 -jmp    <T> <_ZN14CServerHandler7ProcessEv+0xa2>
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0xb2>
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0xab>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer20IsValidMonitorServerEv>
 -xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x31>
--addl   $0x14,-0x10(%ebp)
--jmp    <T> <_ZN14CServerHandler7ProcessEv+0xa2>
 +sete   %al
 +test   %al,%al
-+jne    <T> <_ZN14CServerHandler7ProcessEv+0xa9>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x32>
+ addl   $0x14,-0x10(%ebp)
+-jmp    <T> <_ZN14CServerHandler7ProcessEv+0xa2>
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0xab>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer11IsConnectedEv>
  test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x9e>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x51>
++setne  %al
++test   %al,%al
++je     <T> <_ZN14CServerHandler7ProcessEv+0xa7>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer19IsHeartBeatTimeOverEv>
  test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x9e>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x51>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x56>
-+mov    $0x0,%eax
++setne  %al
 +test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0xaa>
++je     <T> <_ZN14CServerHandler7ProcessEv+0xa7>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12OnDisconnectEv>
@@ -59,29 +59,23 @@
 -mov    %eax,%ebx
 -sub    -0xc(%ebp),%ebx
  movl   $0x55,0x8(%esp)
--movl   $"Process",0x4(%esp)
-+movl   $"CServerHandler::Process",0x4(%esp)
+ movl   $&_ZZN14CServerHandler7ProcessEvE12__FUNCTION__,0x4(%esp)
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
--movl   $"CServerHandler::Process() Index : %d!\n",0x8(%esp)
--movl   $"./log/MonitorDown",0x4(%esp)
 +mov    $0x66,%eax
 +sub    -0xc(%ebp),%eax
 +mov    %eax,0xc(%esp)
-+movl   $"MonitorServer(%d) disconnect",0x8(%esp)
-+movl   $"./log/ServerHandler",0x4(%esp)
+ movl   $"CServerHandler::Process() Index : %d!\n",0x8(%esp)
+ movl   $"./log/MonitorDown",0x4(%esp)
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0xaa>
-+nop
-+subl   $0x1,-0xc(%ebp)
  addl   $0x14,-0x10(%ebp)
  cmpl   $0x0,-0xc(%ebp)
  setne  %al
--subl   $0x1,-0xc(%ebp)
+ subl   $0x1,-0xc(%ebp)
  test   %al,%al
 -jne    <T> <_ZN14CServerHandler7ProcessEv+0x19>
 +jne    <T> <_ZN14CServerHandler7ProcessEv+0x18>
@@ -139,32 +133,31 @@ void __thiscall CServerHandler::_ZN14CServerHandler7ProcessEv(CServerHandler *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFServerHandler.cpp](source/DNFServer/GameServer/COServer/DNFServerHandler.cpp)（约第 52 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 74 行）：
 
 ```cpp
 void CServerHandler::Process()
 {
-    CGameServer* p = m_servers;
-    int left = 0x649b;
-    int counter = 0;
-    while (left != 0)
+    CMonitorServer* p = m_monitorServers;
+    int i = 0x65;
+    while (i-- != 0)
     {
-        left--;
-        counter++;
-        if (p->IsValidServer())
+        if (!p->IsValidMonitorServer())
         {
-            if (p->IsConnected())
+            p++;
+            continue;
+        }
+        if (p->IsConnected())
+        {
+            if (p->IsHeartBeatTimeOver())
             {
-                if (p->IsHeartBeatTimeOver())
-                {
-                    p->OnDisconnect();
-                    DNF_LOG_SCOPE_LINE(0x5e, "./log/GameServer",
-                        "Game Server Disconnect, Index : %d, channel no : %d, group no: %d\n",
-                        counter, p->GetChannelNo() & 0xff, p->GetGroupNo() & 0xff);
-                }
+                p->OnDisconnect();
+                CMyFileLog log(__FUNCTION__, 0x55);
+                log("./log/MonitorDown", "CServerHandler::Process() Index : %d!\n", 0x66 - i);
             }
         }
         p++;
     }
+    CheckTcpServerHeartbeat();
 }
 ```

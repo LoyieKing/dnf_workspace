@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a79be` | `0x52` | `0x809de84` | `0x58` |
+| guild | DIFF | `0x80a79be` | `0x52` | `0x809da0a` | `0x55` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,15 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,25 +1,27 @@
+@@ -1,25 +1,26 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  mov    0x8(%ebp),%eax
 -lea    0x1c(%eax),%edx
 -lea    -0x10(%ebp),%eax
-+add    $0x4,%eax
-+add    $0x18,%eax
++add    $0x1c,%eax
 +mov    %eax,-0xc(%ebp)
 +lea    -0x14(%ebp),%eax
 +mov    -0xc(%ebp),%edx
@@ -72,13 +71,12 @@ void CPowerWarCharacInfo::_ZN19CPowerWarCharacInfo18CalcAllUserRankingEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 180 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 174 行）：
 
 ```cpp
 void CPowerWarCharacInfo::CalcAllUserRanking()
 {
-    std::vector<STPowerWarCharacInfo*>* vec =
-        (std::vector<STPowerWarCharacInfo*>*)(m_data + 0x18);
+    std::vector<STPowerWarCharacInfo*>* vec = &m_vec;
     std::sort(vec->begin(), vec->end(), STPowerWarCharacInfo::Compare);
 }
 ```

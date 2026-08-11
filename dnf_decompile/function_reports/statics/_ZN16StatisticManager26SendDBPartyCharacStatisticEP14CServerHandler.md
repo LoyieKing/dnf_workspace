@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806f742` | `0x44c` | `0x806f72e` | `0x281` |
+| statics | DIFF | `0x806f742` | `0x44c` | `0x806f95e` | `0x281` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -35,7 +35,7 @@
  mov    0x8(%ebp),%eax
  lea    0x68(%eax),%edx
 -lea    -0x24(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI16STPartyCharacKey20PartyCharacStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE5beginEv>
@@ -55,7 +55,7 @@
 +lea    (%edx,%eax,1),%eax
 +mov    %eax,-0x10(%ebp)
 +mov    -0x10(%ebp),%ebx
-+lea    -0x1c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  movzwl (%eax),%eax
@@ -69,7 +69,7 @@
 +mov    %ax,(%ebx)
 +mov    -0x10(%ebp),%eax
 +lea    0x4(%eax),%ebx
-+lea    -0x1c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  mov    0x4(%eax),%eax
@@ -83,7 +83,7 @@
 +mov    %eax,(%ebx)
 +mov    -0x10(%ebp),%eax
 +lea    0x8(%eax),%ebx
-+lea    -0x1c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  movzbl 0x8(%eax),%eax
@@ -97,7 +97,7 @@
 +mov    %al,(%ebx)
 +mov    -0x10(%ebp),%eax
 +lea    0x9(%eax),%ebx
-+lea    -0x1c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  movzbl 0x9(%eax),%eax
@@ -111,7 +111,7 @@
 +mov    %al,(%ebx)
 +mov    -0x10(%ebp),%eax
 +lea    0xa(%eax),%ebx
-+lea    -0x1c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  movzbl 0xa(%eax),%eax
@@ -125,7 +125,7 @@
 +mov    %al,(%ebx)
 +mov    -0x10(%ebp),%eax
 +lea    0xc(%eax),%ebx
-+lea    -0x1c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  mov    0xc(%eax),%eax
@@ -139,7 +139,7 @@
 +mov    %eax,(%ebx)
 +mov    -0x10(%ebp),%eax
 +lea    0x10(%eax),%ebx
-+lea    -0x1c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  movzbl 0x10(%eax),%eax
@@ -153,7 +153,7 @@
 +mov    %al,(%ebx)
 +mov    -0x10(%ebp),%eax
 +lea    0x11(%eax),%ebx
-+lea    -0x1c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  movzbl 0x11(%eax),%eax
@@ -172,7 +172,7 @@
 +add    $0x12,%eax
 +add    -0x10(%ebp),%eax
 +mov    %eax,%ebx
-+lea    -0x1c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
 -mov    0x14(%eax),%eax
@@ -327,52 +327,84 @@
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
--movl   $0x1f0,0x8(%esp)
-+movl   $0x1b1,0x8(%esp)
- movl   $"SendDBPartyCharacStatistic",0x4(%esp)
--lea    -0x1c(%ebp),%eax
+ movl   $0x1f0,0x8(%esp)
+ movl   $&_ZZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
 +lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    -0x14(%ebp),%eax
++mov    %eax,0xc(%esp)
++movl   $"Packet_DBMW_Dungeon_Statistic_Party_Charac : (%d) 개 패킷 전송\n",0x8(%esp)
++movl   $"./log/statistic",0x4(%esp)
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++movl   $0x0,-0x14(%ebp)
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEppEv>
++mov    0x8(%ebp),%eax
++lea    0x68(%eax),%edx
++lea    -0x28(%ebp),%eax
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZNSt3mapI16STPartyCharacKey20PartyCharacStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE3endEv>
++sub    $0x4,%esp
++lea    -0x28(%ebp),%eax
++mov    %eax,0x4(%esp)
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEneERKS5_>
++test   %al,%al
++jne    <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x55>
++cmpl   $0x0,-0x14(%ebp)
++je     <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x27c>
++lea    -0x1785(%ebp),%eax
++lea    0xa(%eax),%edx
++mov    -0x14(%ebp),%eax
++mov    %eax,(%edx)
++lea    -0x1785(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
++movl   $0x1fa,0x8(%esp)
++movl   $&_ZZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0xc(%ebp),%eax
 +mov    -0x14(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"Packet_DBMW_Dungeon_Statistic_Party_Charac : (%d) 개 패킷 전송\n",0x8(%esp)
-+movl   $"PartyCharac DB Sent %d",0x8(%esp)
+ movl   $"Packet_DBMW_Dungeon_Statistic_Party_Charac : (%d) 개 패킷 전송\n",0x8(%esp)
  movl   $"./log/statistic",0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -movl   $0x0,-0xc(%ebp)
 -lea    -0x24(%ebp),%eax
-+movl   $0x0,-0x14(%ebp)
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEppEv>
- mov    0x8(%ebp),%eax
- lea    0x68(%eax),%edx
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEppEv>
+-mov    0x8(%ebp),%eax
+-lea    0x68(%eax),%edx
 -lea    -0x20(%ebp),%eax
-+lea    -0x18(%ebp),%eax
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZNSt3mapI16STPartyCharacKey20PartyCharacStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE3endEv>
- sub    $0x4,%esp
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt3mapI16STPartyCharacKey20PartyCharacStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE3endEv>
+-sub    $0x4,%esp
 -lea    -0x20(%ebp),%eax
-+lea    -0x18(%ebp),%eax
- mov    %eax,0x4(%esp)
+-mov    %eax,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEneERKS5_>
- test   %al,%al
- jne    <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x55>
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEneERKS5_>
+-test   %al,%al
+-jne    <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x55>
 -cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x447>
 -mov    -0xc(%ebp),%eax
 -mov    %eax,-0x1773(%ebp)
 -movl   $0x1fa,0x8(%esp)
--movl   $"SendDBPartyCharacStatistic",0x4(%esp)
+-movl   $&_ZZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -384,29 +416,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -lea    -0x177d(%ebp),%eax
-+cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x27c>
-+lea    -0x1785(%ebp),%eax
-+lea    0xa(%eax),%edx
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x1785(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
-+movl   $0x1bb,0x8(%esp)
-+movl   $"SendDBPartyCharacStatistic",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x14(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"PartyCharac DB Sent %d",0x8(%esp)
-+movl   $"./log/statistic",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,0x4(%esp)
+-mov    0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  mov    -0x4(%ebp),%ebx
  leave
  ret
@@ -593,7 +606,7 @@ StatisticManager::_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 327 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 430 行）：
 
 ```cpp
 void StatisticManager::SendDBPartyCharacStatistic(CServerHandler* handler)
@@ -623,7 +636,7 @@ void StatisticManager::SendDBPartyCharacStatistic(CServerHandler* handler)
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                DNF_LOG_SCOPE_LINE(0x1b1, "./log/statistic", "PartyCharac DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x1f0, "./log/statistic", "Packet_DBMW_Dungeon_Statistic_Party_Charac : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", idx);
                 idx = 0;
             }
         }
@@ -631,7 +644,7 @@ void StatisticManager::SendDBPartyCharacStatistic(CServerHandler* handler)
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            DNF_LOG_SCOPE_LINE(0x1bb, "./log/statistic", "PartyCharac DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x1fa, "./log/statistic", "Packet_DBMW_Dungeon_Statistic_Party_Charac : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", idx);
         }
     }
 }

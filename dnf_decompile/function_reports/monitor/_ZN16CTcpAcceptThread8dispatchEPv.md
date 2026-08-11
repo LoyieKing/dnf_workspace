@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8059e70` | `0x405` | `0x808458c` | `0x41c` |
+| monitor | DIFF | `0x8059e70` | `0x405` | `0x80844c2` | `0x41c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -230,19 +230,14 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,0x4(%esp)
 -movl   $"CTcpNetworkThread::dispatch() Except Break : %s\n",(%esp)
 -call   <T> <printf>
 -lea    -0x29(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0x4(%esp)
 +movl   $"CTcpAcceptThread::dispatch() 예외 발생 : %s\n",(%esp)
 +call   <T> <printf>
 +lea    -0x39(%ebp),%eax
@@ -322,7 +317,7 @@
 +lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -418,7 +413,7 @@
 +lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -514,55 +509,66 @@ void CTcpAcceptThread::_ZN16CTcpAcceptThread8dispatchEPv(void *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpAcceptThread.cpp](source/DNFServer/GameServer/DBMW/DNFTcpAcceptThread.cpp)（约第 37 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTcpAcceptThread.cpp](source/DNFServer/GameServer/Monitor/DNFTcpAcceptThread.cpp)（约第 55 行）：
 
 ```cpp
 void CTcpAcceptThread::dispatch(void* param)
 {
-    if (!m_sock.open())
-    {
-        printf("Tcp Accept Socket Open Err");
-        return;
-    }
-    if (!m_sock.bind(m_port, true))
-    {
-        printf("Tcp Accept Socket Bind Err");
-        return;
-    }
-    if (!m_sock.listen(5))
-    {
-        printf("Tcp Accept Socket Listen Err");
-        return;
-    }
-    m_stop = 1;
-    DNFFLib::Sleep_Ext(5, 0);
     try
     {
-        while (m_stop)
+        if (m_sock.open())
         {
-            if (!m_sock.pollReadEvent())
-                continue;
-            CPeer* peer = m_net->CreatePeer();
-            if (!peer->GetTcpSocket()->accept(m_sock))
-                printf("Accept GameServer Fail(Port : %d)\n",
-                       peer->GetTcpSocket()->getHandle());
-            printf("Accept GameServer(Port : %d)\n",
-                   peer->GetTcpSocket()->getHandle());
-            peer->InitPeer(m_net->Get_TcpSwapQPacket()->GetRecvQ(),
-                           m_net->Get_TcpRecvQLock(), m_net->Get_TcpRecvBLock());
-            peer->ConnSig();
-            m_net->InsertAcceptedPeer(peer);
+            if (m_sock.bind(m_port, true))
+            {
+                if (m_sock.listen(5))
+                {
+                    m_running = true;
+                    DNFFLib::Sleep_Ext(5, 0);
+                    while (m_running)
+                    {
+                        if (m_sock.pollReadEvent())
+                        {
+                            CPeer* peer = m_net->CreatePeer();
+                            TCPSocket* sock = peer->GetTcpSocket();
+                            if (m_sock.accept(*sock) != 1)
+                            {
+                                printf("Accept GameServer Fail(Port : %d)\n", sock->getHandle());
+                            }
+                            printf("Accept GameServer(Port : %d)\n", sock->getHandle());
+                            CMutex* recvB = m_net->Get_TcpRecvBLock();
+                            CMutex* recvQ = m_net->Get_TcpRecvQLock();
+                            void* q = m_net->Get_TcpSwapQPacket()->GetRecvQ();
+                            peer->InitPeer(
+                                (std::queue<CTcpRecvBuffer*>*)q, recvQ, recvB);
+                            peer->ConnSig();
+                            m_net->InsertAcceptedPeer(peer);
+                        }
+                    }
+                }
+                else
+                {
+                    printf("Tcp Accept Socket Listen Err");
+                }
+            }
+            else
+            {
+                printf("Tcp Accept Socket Bind Err");
+            }
+        }
+        else
+        {
+            printf("Tcp Accept Socket Open Err");
         }
     }
     catch (CDNFException& e)
     {
-        printf("CTcpNetworkThread::dispatch() Except Break : %s\n", e.what());
-        throw CDNFException("CTcpNetworkThread::dispatch() Recv  Socket Exception Break!");
+        printf("CTcpAcceptThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd : %s\n", e.what());
+        throw CDNFException("CTcpAcceptThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd!");
     }
     catch (...)
     {
-        puts("CTcpNetworkThread::dispatch() Except Break");
-        throw CDNFException("CTcpNetworkThread::dispatch() Recv  Socket Exception Break!");
+        puts("CTcpAcceptThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd");
+        throw CDNFException("CTcpAcceptThread::dispatch() \xbf\xb9\xbf\xdc \xb9\xdf\xbb\xfd!");
     }
 }
 ```

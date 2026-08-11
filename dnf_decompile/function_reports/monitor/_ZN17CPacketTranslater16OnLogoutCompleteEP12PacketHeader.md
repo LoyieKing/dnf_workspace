@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8083100` | `0x2f4` | `0x806eca4` | `0x302` |
+| monitor | DIFF | `0x8083100` | `0x2f4` | `0x806ee24` | `0x2f8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,202 +1,207 @@
+@@ -1,202 +1,202 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,19 +24,19 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0xdf>
 -lea    -0x45(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x4d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x45(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x4d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnLogoutComplete : 0 == m_pclApp",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x4c(%ebp),%esi
-+lea    -0x34(%ebp),%esi
++lea    -0x54(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -54,7 +54,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x4c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x87>
@@ -65,7 +65,7 @@
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0xa4>
 -lea    -0x4c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0xbc>
@@ -75,18 +75,18 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x45(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x4d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x1e4>
 -lea    -0x45(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x1f4>
-+lea    -0x2d(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x1e8>
++lea    -0x4d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -96,70 +96,19 @@
  add    $0x10,%eax
 -mov    %eax,-0x20(%ebp)
 -mov    -0x24(%ebp),%eax
--movzbl 0xe(%eax),%eax
 +mov    %eax,-0x2c(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
+ movzbl 0xe(%eax),%eax
  movsbl %al,%edx
 -mov    -0x24(%ebp),%eax
--mov    0xa(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
+-mov    -0x20(%ebp),%eax
 +mov    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CUserManager18DeleteProhibitUserEjc>
-+mov    %al,-0x25(%ebp)
-+cmpb   $0x1,-0x25(%ebp)
-+jne    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x187>
-+mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+movl   $0x0,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_Z14NumberToStringji>
-+mov    %eax,-0x24(%ebp)
-+movl   $0x8a5,0x8(%esp)
-+movl   $"OnLogoutComplete",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%eax
-+mov    %eax,0x10(%esp)
-+mov    -0x24(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"[LOGOUT COMPLETE] m_id : %s\tchannel No : %d\n",0x8(%esp)
-+movl   $"./log/User",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x2fa>
-+mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+movl   $0x0,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_Z14NumberToStringji>
-+mov    %eax,-0x20(%ebp)
-+movl   $0x8a1,0x8(%esp)
-+movl   $"OnLogoutComplete",0x4(%esp)
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%eax
-+mov    %eax,0x10(%esp)
- mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CUserManager18DeleteProhibitUserEjc>
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CUserManager18DeleteProhibitUserEjc>
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x17f>
@@ -167,18 +116,51 @@
 -movzbl 0xe(%eax),%eax
 -movzbl %al,%esi
 -mov    -0x24(%ebp),%eax
--mov    0xa(%eax),%eax
--movl   $0x0,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_Z14NumberToStringji>
++mov    %al,-0x25(%ebp)
++cmpb   $0x1,-0x25(%ebp)
++jne    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x17f>
++mov    0x8(%ebp),%eax
+ mov    0xa(%eax),%eax
+ movl   $0x0,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_Z14NumberToStringji>
 -mov    %eax,%ebx
--movl   $0x8a1,0x8(%esp)
--movl   $"OnLogoutComplete",0x4(%esp)
--lea    -0x44(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    %eax,-0x24(%ebp)
++mov    0x8(%ebp),%eax
++movzbl 0xe(%eax),%eax
++movzbl %al,%ebx
++movl   $0x8a5,0x8(%esp)
++movl   $&_ZZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x4c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    %ebx,0x10(%esp)
++mov    -0x24(%ebp),%eax
++mov    %eax,0xc(%esp)
++movl   $"[LOGOUT COMPLETE] m_id : %s\tchannel No : %d\n",0x8(%esp)
++movl   $"./log/User",0x4(%esp)
++lea    -0x4c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x2f0>
++mov    0x8(%ebp),%eax
++mov    0xa(%eax),%eax
++movl   $0x0,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_Z14NumberToStringji>
++mov    %eax,-0x20(%ebp)
++mov    0x8(%ebp),%eax
++movzbl 0xe(%eax),%eax
++movzbl %al,%ebx
+ movl   $0x8a1,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x44(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
++mov    %ebx,0x10(%esp)
++mov    -0x20(%ebp),%eax
 +mov    %eax,0xc(%esp)
  movl   $"[DELETE_ERR_] CPacketTranslater::OnLogoutComplete m_id : %s\tChannel No : %d\n",0x8(%esp)
  movl   $"./log/User",0x4(%esp)
@@ -196,7 +178,7 @@
 -call   <T> <_Z14NumberToStringji>
 -mov    %eax,%ebx
 -movl   $0x8a5,0x8(%esp)
--movl   $"OnLogoutComplete",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -208,61 +190,48 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x2ec>
-+jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x2fa>
++jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x2f0>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x286>
-+jne    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x294>
++jne    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x28a>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnLogoutComplete() Exception Break : %s\n",(%esp)
  call   <T> <printf>
-+movl   $0x8aa,0x8(%esp)
-+movl   $"OnLogoutComplete",0x4(%esp)
-+lea    -0x4c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x8aa,0x8(%esp)
--movl   $"OnLogoutComplete",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x8aa,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x3c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnLogoutComplete() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x27f>
-+lea    -0x4c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x28d>
++jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x283>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -272,15 +241,15 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x2ec>
-+jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x2fa>
++jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x2f0>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnLogoutComplete() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x8b0,0x8(%esp)
- movl   $"OnLogoutComplete",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x54(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnLogoutComplete() Exception Break\n",0x8(%esp)
@@ -289,10 +258,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x2e7>
-+lea    -0x54(%ebp),%eax
++lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x2f5>
++jmp    <T> <_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader+0x2eb>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -370,7 +339,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1677 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1683 行）：
 
 ```cpp
 void CPacketTranslater::OnLogoutComplete(PacketHeader* pkt)
@@ -383,20 +352,20 @@ void CPacketTranslater::OnLogoutComplete(PacketHeader* pkt)
         throw CDNFException("CPacketTranslater::OnLogoutComplete : 0 == m_pclApp");
     }
     CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
-    char ok = userMgr->DeleteProhibitUser(*(unsigned int*)((char*)pkt + 0xa),
-                                          (char)*(char*)((char*)pkt + 0xe));
+    char ok = userMgr->DeleteProhibitUser(((RA_UINT<10>*)pkt)->v,
+                                          (char)((RA_S8<14>*)pkt)->v);
     if (ok == 1)
     {
-        char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+        char* dbid = NumberToString(((RA_UINT<10>*)pkt)->v, 0);
         DNF_LOG_SCOPE_LINE(0x8a5,"./log/User", "[LOGOUT COMPLETE] m_id : %s\tchannel No : %d\n", dbid,
-            (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe));
+            (unsigned int)(unsigned char)((RA_S8<14>*)pkt)->v);
     }
     else
     {
-        char* dbid = NumberToString(*(unsigned int*)((char*)pkt + 0xa), 0);
+        char* dbid = NumberToString(((RA_UINT<10>*)pkt)->v, 0);
         DNF_LOG_SCOPE_LINE(0x8a1,"./log/User",
             "[DELETE_ERR_] CPacketTranslater::OnLogoutComplete m_id : %s\tChannel No : %d\n",
-            dbid, (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe));
+            dbid, (unsigned int)(unsigned char)((RA_S8<14>*)pkt)->v);
     }
 
 

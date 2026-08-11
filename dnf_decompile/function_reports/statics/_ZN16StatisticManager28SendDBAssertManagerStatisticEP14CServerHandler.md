@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8070874` | `0x239` | `0x8070470` | `0x217` |
+| statics | DIFF | `0x8070874` | `0x239` | `0x8070692` | `0x217` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -36,7 +36,7 @@
  mov    0x8(%ebp),%eax
  lea    0xe0(%eax),%edx
 -lea    -0x24(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI18STAssertManagerKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE5beginEv>
@@ -50,7 +50,7 @@
 +add    $0xe,%edx
 +add    %edx,%eax
 +mov    %eax,-0xc(%ebp)
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
 +movl   $0x100,0x8(%esp)
@@ -60,12 +60,12 @@
 +call   <T> <memcpy>
 +mov    -0xc(%ebp),%eax
 +lea    0x100(%eax),%ebx
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
 +movzwl 0x100(%eax),%eax
 +mov    %ax,(%ebx)
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
 +add    $0x102,%eax
@@ -93,7 +93,7 @@
 -lea    -0x24(%ebp),%eax
 +mov    -0xc(%ebp),%eax
 +lea    0x202(%eax),%ebx
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
  mov    0x204(%eax),%eax
@@ -136,9 +136,8 @@
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
--movl   $0x2e1,0x8(%esp)
-+movl   $0x2a7,0x8(%esp)
- movl   $"SendDBAssertManagerStatistic",0x4(%esp)
+ movl   $0x2e1,0x8(%esp)
+ movl   $&_ZZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -146,33 +145,31 @@
 -mov    -0xc(%ebp),%eax
 +mov    -0x10(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"Packet_DBMW_Assert_Manager_Info_Write_Query : (%d) 개 패킷 전송",0x8(%esp)
--movl   $"./log/Statistic",0x4(%esp)
+ movl   $"Packet_DBMW_Assert_Manager_Info_Write_Query : (%d) 개 패킷 전송",0x8(%esp)
+ movl   $"./log/Statistic",0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+movl   $"AssertManager DB Sent %d",0x8(%esp)
-+movl   $"./log/statistic",0x4(%esp)
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -movl   $0x0,-0xc(%ebp)
 -lea    -0x24(%ebp),%eax
 +movl   $0x0,-0x10(%ebp)
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEppEv>
  mov    0x8(%ebp),%eax
  lea    0xe0(%eax),%edx
 -lea    -0x20(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI18STAssertManagerKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE3endEv>
  sub    $0x4,%esp
 -lea    -0x20(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEneERKS4_>
  test   %al,%al
@@ -193,22 +190,19 @@
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
--movl   $0x2eb,0x8(%esp)
-+movl   $0x2b1,0x8(%esp)
- movl   $"SendDBAssertManagerStatistic",0x4(%esp)
+ movl   $0x2eb,0x8(%esp)
+ movl   $&_ZZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0xc(%ebp),%eax
 +mov    -0x10(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"Packet_DBMW_Assert_Manager_Info_Write_Query : (%d) 개 패킷 전송",0x8(%esp)
--movl   $"./log/Statistic",0x4(%esp)
+ movl   $"Packet_DBMW_Assert_Manager_Info_Write_Query : (%d) 개 패킷 전송",0x8(%esp)
+ movl   $"./log/Statistic",0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+movl   $"AssertManager DB Sent %d",0x8(%esp)
-+movl   $"./log/statistic",0x4(%esp)
-+lea    -0x28(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    -0x4(%ebp),%ebx
@@ -303,7 +297,7 @@ StatisticManager::_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServer
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 521 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 633 行）：
 
 ```cpp
 void StatisticManager::SendDBAssertManagerStatistic(CServerHandler* handler)
@@ -325,7 +319,7 @@ void StatisticManager::SendDBAssertManagerStatistic(CServerHandler* handler)
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                DNF_LOG_SCOPE_LINE(0x2a7, "./log/statistic", "AssertManager DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x2e1, "./log/Statistic", "Packet_DBMW_Assert_Manager_Info_Write_Query : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb", idx);
                 idx = 0;
             }
         }
@@ -333,7 +327,7 @@ void StatisticManager::SendDBAssertManagerStatistic(CServerHandler* handler)
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            DNF_LOG_SCOPE_LINE(0x2b1, "./log/statistic", "AssertManager DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x2eb, "./log/Statistic", "Packet_DBMW_Assert_Manager_Info_Write_Query : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb", idx);
         }
     }
 }

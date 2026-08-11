@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8054fb6` | `0x1b3` | `0x808e696` | `0x215` |
+| dbmw | DIFF | `0x8054fb6` | `0x1b3` | `0x80e1d3a` | `0x215` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -264,34 +264,28 @@ CSignalTranslator::_ZN17CSignalTranslator12init_handlerEP12CApplication
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFSignalTranslator.cpp](source/DNFServer/GameServer/COServer/DNFSignalTranslator.cpp)（约第 125 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFSignalTranslator.cpp](source/DNFServer/GameServer/DBMW/DNFSignalTranslator.cpp)（约第 87 行）：
 
 ```cpp
-int CSignalTranslator::init_handler(CApplication* app)
+void CSignalTranslator::init_handler(CApplication* app)
 {
-    m_handlers[0x3c / 4] = new CTerminateSig;
-    m_handlers[0x3c / 4]->attachApp(app);
-    for (int i = 0; i < 0x1a; i++)
-    {
-        m_handlers[i] = m_handlers[0x3c / 4];
-    }
-    m_handlers[0x18 / 4] = new CSegmentationFaultSig;
-    m_handlers[0x18 / 4]->attachApp(app);
-    m_handlers[0x2c / 4] = m_handlers[0x18 / 4];
-    m_handlers[0x20 / 4] = m_handlers[0x18 / 4];
-    m_handlers[2] = m_handlers[0x18 / 4];
-    m_handlers[0x28 / 4] = new CUser1Sig;
-    m_handlers[0x28 / 4]->attachApp(app);
-    m_handlers[0x30 / 4] = new CUser2Sig;
-    m_handlers[0x30 / 4]->attachApp(app);
-    m_handlers[0x10 / 4] = new CSystemFailSig;
-    m_handlers[0x10 / 4]->attachApp(app);
-    m_handlers[0x1c / 4] = m_handlers[0x10 / 4];
-    m_handlers[0x5c / 4] = m_handlers[0x10 / 4];
-    m_handlers[0x40 / 4] = m_handlers[0x10 / 4];
-    m_handlers[0x60 / 4] = m_handlers[0x10 / 4];
-    m_handlers[100 / 4] = m_handlers[0x10 / 4];
-    m_handlers[0x7c / 4] = m_handlers[0x10 / 4];
-    // NOTE: ORIG 无 return 语句直接落底（返回残留 eax），调用方均忽略返回值；照抄 ORIG 以对齐机器码
+    m_signals[15] = new CTerminateSig;
+    m_signals[15]->attachApp(app);
+    for (int i = 0; i <= 0x19; i++)
+        m_signals[i] = m_signals[15];
+    m_signals[6] = new CSegmentationFaultSig;
+    m_signals[6]->attachApp(app);
+    m_signals[11] = m_signals[6];
+    m_signals[8] = m_signals[6];
+    m_signals[2] = m_signals[6];
+    m_signals[10] = new CUser1Sig;
+    m_signals[10]->attachApp(app);
+    m_signals[12] = new CUser2Sig;
+    m_signals[12]->attachApp(app);
+    m_signals[4] = new CSystemFailSig;
+    m_signals[4]->attachApp(app);
+    m_signals[7] = m_signals[4];
+    m_signals[23] = m_signals[4];
+    m_signals[16] = m_signals[4];
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x80593d8` | `0xde` | `0x80668dc` | `0xea` |
+| manager | DIFF | `0x80593d8` | `0xde` | `0x80667e6` | `0xea` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -158,7 +158,7 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystem10CleanPeersEv(CTcpNetSystem *t
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 98 行）：
+定义于 [source/DNFServer/GameServer/Manager/TcpNetSystem.cpp](source/DNFServer/GameServer/Manager/TcpNetSystem.cpp)（约第 122 行）：
 
 ```cpp
 void CTcpNetSystem::CleanPeers()

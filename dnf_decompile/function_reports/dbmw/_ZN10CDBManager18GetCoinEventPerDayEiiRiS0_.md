@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8082b58` | `0x28a` | `0x806332e` | `0x27b` |
+| dbmw | DIFF | `0x8082b58` | `0x28a` | `0x80630d6` | `0x27b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -28,18 +28,16 @@
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,0x10(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x10(%esp)
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x10(%esp)
  movl   $0x4,0xc(%esp)
  movl   $"seLect log_id, parameter1, parameter2 from dnf_event_log where event_type= %d and end_time = 0 and server_id =%d and now() >= start_time order by start_time",0x8(%esp)
  movl   $0x4ee5,0x4(%esp)
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    -0x10(%ebp),%eax
 -mov    (%eax),%eax
 -add    $0x20,%eax
@@ -50,15 +48,12 @@
 -call   *%edx
 -mov    %al,-0x9(%ebp)
 -movzbl -0x9(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0xad>
 +je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x88>
  movl   $0x1e15,0x8(%esp)
- movl   $"GetCoinEventPerDay",0x4(%esp)
+ movl   $&_ZZN10CDBManager18GetCoinEventPerDayEiiRiS0_E12__FUNCTION__,0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -74,11 +69,11 @@
 +mov    -0xc(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x20,%eax
-+mov    (%eax),%eax
++mov    (%eax),%edx
 +movl   $0x4ee5,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0xb3>
@@ -87,14 +82,11 @@
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  test   %eax,%eax
  sete   %al
  test   %al,%al
@@ -107,16 +99,13 @@
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x9(%ebp)
 -movzbl -0x9(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0xfc>
@@ -127,30 +116,43 @@
 -movl   $0x0,-0x28(%ebp)
 -movl   $0x0,-0x2c(%ebp)
 -mov    -0x10(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x275>
-+movl   $0x0,-0x10(%ebp)
-+mov    -0xc(%ebp),%eax
- mov    (%eax),%eax
+-mov    (%eax),%eax
 -add    $0x38,%eax
 -mov    (%eax),%edx
 -lea    -0x24(%ebp),%eax
 -mov    %eax,0x8(%esp)
-+add    $0x34,%eax
-+mov    (%eax),%eax
-+lea    -0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
- movl   $0x0,0x4(%esp)
+-movl   $0x0,0x4(%esp)
 -mov    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
 -mov    %al,-0x9(%ebp)
 -movzbl -0x9(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+-xor    $0x1,%eax
+-test   %al,%al
+-je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x14a>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x284>
+-mov    -0x10(%ebp),%eax
++jmp    <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x275>
++movl   $0x0,-0x10(%ebp)
++mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x34,%eax
+ mov    (%eax),%edx
+-lea    -0x28(%ebp),%eax
++lea    -0x10(%ebp),%eax
+ mov    %eax,0x8(%esp)
+-movl   $0x1,0x4(%esp)
+-mov    -0x10(%ebp),%eax
++movl   $0x0,0x4(%esp)
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+-mov    %al,-0x9(%ebp)
+-movzbl -0x9(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x14a>
+-je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x183>
 +je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x134>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x284>
@@ -160,48 +162,33 @@
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x34,%eax
--mov    (%eax),%edx
--lea    -0x28(%ebp),%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+lea    -0x14(%ebp),%edx
-+mov    %edx,0x8(%esp)
- movl   $0x1,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %al,-0x9(%ebp)
--movzbl -0x9(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
- xor    $0x1,%eax
- test   %al,%al
--je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x183>
+ mov    (%eax),%edx
+-lea    -0x2c(%ebp),%eax
++lea    -0x14(%ebp),%eax
++mov    %eax,0x8(%esp)
++movl   $0x1,0x4(%esp)
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++xor    $0x1,%eax
++test   %al,%al
 +je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x16d>
- mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x284>
--mov    -0x10(%ebp),%eax
++mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x275>
 +movl   $0x0,-0x18(%ebp)
 +mov    -0xc(%ebp),%eax
- mov    (%eax),%eax
- add    $0x34,%eax
--mov    (%eax),%edx
--lea    -0x2c(%ebp),%eax
--mov    %eax,0x8(%esp)
 +mov    (%eax),%eax
-+lea    -0x18(%ebp),%edx
-+mov    %edx,0x8(%esp)
++add    $0x34,%eax
++mov    (%eax),%edx
++lea    -0x18(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x2,0x4(%esp)
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x9(%ebp)
 -movzbl -0x9(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x1bc>
@@ -233,69 +220,65 @@
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%ebx
+ mov    (%eax),%ebx
 -mov    -0x24(%ebp),%ecx
 -mov    -0x2c(%ebp),%edx
 -mov    -0x28(%ebp),%eax
--mov    %ecx,0x14(%esp)
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x10(%ebp),%ebx
-+mov    -0x18(%ebp),%ecx
-+mov    -0x14(%ebp),%edx
-+mov    %ebx,0x14(%esp)
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
++mov    -0x10(%ebp),%ecx
++mov    -0x18(%ebp),%edx
++mov    -0x14(%ebp),%eax
+ mov    %ecx,0x14(%esp)
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"upDate dnf_event_log set parameter1=%d, parameter2=%d where log_id = %u",0x8(%esp)
  movl   $0x4ee6,0x4(%esp)
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ebx
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ebx
 -mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
--movl   $0x4ee6,0x4(%esp)
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x248>
++movl   $0x1e44,0x8(%esp)
++movl   $&_ZZN10CDBManager18GetCoinEventPerDayEiiRiS0_E12__FUNCTION__,0x4(%esp)
++lea    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++movl   $"GetCoinEventPerDay Error\n",0x8(%esp)
++movl   $"./log/DBQueryErr",0x4(%esp)
++lea    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x275>
++mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
+ movl   $0x4ee6,0x4(%esp)
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x9(%ebp)
 -movzbl -0x9(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x27f>
-+je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x248>
- movl   $0x1e44,0x8(%esp)
- movl   $"GetCoinEventPerDay",0x4(%esp)
+-movl   $0x1e44,0x8(%esp)
+-movl   $&_ZZN10CDBManager18GetCoinEventPerDayEiiRiS0_E12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
- movl   $"GetCoinEventPerDay Error\n",0x8(%esp)
- movl   $"./log/DBQueryErr",0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $"GetCoinEventPerDay Error\n",0x8(%esp)
+-movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x270>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x284>
-+jmp    <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x275>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
-+movl   $0x4ee6,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x270>
-+mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x275>
  mov    $0x1,%eax
 -add    $0x54,%esp
@@ -397,4 +380,4 @@ CDBManager::_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806f39e` | `0x3a3` | `0x806f4a6` | `0x288` |
+| statics | DIFF | `0x806f39e` | `0x3a3` | `0x806f6d6` | `0x288` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -35,7 +35,7 @@
  mov    0x8(%ebp),%eax
  lea    0x50(%eax),%edx
 -lea    -0x24(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI22STPartyJobStatisticKey17PartyJobStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE5beginEv>
@@ -54,7 +54,7 @@
 +mov    %eax,-0xc(%ebp)
  mov    -0xc(%ebp),%ebx
 -lea    -0x24(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEptEv>
 -movzwl (%eax),%edx
@@ -73,7 +73,7 @@
 +mov    %ax,(%ebx)
 +mov    -0xc(%ebp),%eax
 +lea    0x4(%eax),%ebx
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEptEv>
 -mov    0x4(%eax),%edx
@@ -92,7 +92,7 @@
 +mov    %eax,(%ebx)
 +mov    -0xc(%ebp),%eax
 +lea    0x8(%eax),%ebx
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEptEv>
 -movzbl 0x8(%eax),%edx
@@ -111,7 +111,7 @@
 +mov    %al,(%ebx)
 +mov    -0xc(%ebp),%eax
 +lea    0x9(%eax),%ebx
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEptEv>
 -movzbl 0x9(%eax),%edx
@@ -130,7 +130,7 @@
 +mov    %al,(%ebx)
 +mov    -0xc(%ebp),%eax
 +lea    0xa(%eax),%ebx
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEptEv>
 -movzbl 0xa(%eax),%edx
@@ -149,7 +149,7 @@
 +mov    %al,(%ebx)
 +mov    -0xc(%ebp),%eax
 +lea    0xb(%eax),%ebx
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEptEv>
 -movzbl 0xb(%eax),%edx
@@ -168,7 +168,7 @@
 +mov    %al,(%ebx)
 +mov    -0xc(%ebp),%eax
 +lea    0xc(%eax),%ebx
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEptEv>
 -movzbl 0xc(%eax),%edx
@@ -187,7 +187,7 @@
 +mov    %al,(%ebx)
 +mov    -0xc(%ebp),%eax
 +lea    0xd(%eax),%ebx
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEptEv>
 -movzbl 0xd(%eax),%edx
@@ -206,7 +206,7 @@
 +mov    %al,(%ebx)
 +mov    -0xc(%ebp),%eax
 +lea    0x10(%eax),%ebx
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEptEv>
 -mov    0x10(%eax),%edx
@@ -225,7 +225,7 @@
 +mov    %eax,(%ebx)
 +mov    -0xc(%ebp),%eax
 +lea    0x14(%eax),%ebx
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEptEv>
 -movzbl 0x14(%eax),%edx
@@ -244,7 +244,7 @@
 +mov    %al,(%ebx)
 +mov    -0xc(%ebp),%eax
 +lea    0x15(%eax),%ebx
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEptEv>
 -mov    0x18(%eax),%edx
@@ -292,9 +292,8 @@
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
--movl   $0x1b3,0x8(%esp)
-+movl   $0x19a,0x8(%esp)
- movl   $"SendDBPartyJobStatistic",0x4(%esp)
+ movl   $0x1b3,0x8(%esp)
+ movl   $&_ZZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -302,8 +301,7 @@
 -mov    -0xc(%ebp),%eax
 +mov    -0x10(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"Packet_DBMW_Dungeon_Statistic_Party_Job : (%d) 개 패킷 전송\n",0x8(%esp)
-+movl   $"PartyJob DB Sent %d",0x8(%esp)
+ movl   $"Packet_DBMW_Dungeon_Statistic_Party_Job : (%d) 개 패킷 전송\n",0x8(%esp)
  movl   $"./log/statistic",0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 +lea    -0x20(%ebp),%eax
@@ -312,22 +310,22 @@
 -movl   $0x0,-0xc(%ebp)
 -lea    -0x24(%ebp),%eax
 +movl   $0x0,-0x10(%ebp)
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEppEv>
  mov    0x8(%ebp),%eax
  lea    0x50(%eax),%edx
 -lea    -0x20(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI22STPartyJobStatisticKey17PartyJobStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE3endEv>
  sub    $0x4,%esp
 -lea    -0x20(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEneERKS5_>
  test   %al,%al
@@ -337,7 +335,7 @@
 -mov    -0xc(%ebp),%eax
 -mov    %eax,-0x17e3(%ebp)
 -movl   $0x1bd,0x8(%esp)
--movl   $"SendDBPartyJobStatistic",0x4(%esp)
+-movl   $&_ZZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -360,16 +358,16 @@
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
-+movl   $0x1a4,0x8(%esp)
-+movl   $"SendDBPartyJobStatistic",0x4(%esp)
-+lea    -0x28(%ebp),%eax
++movl   $0x1bd,0x8(%esp)
++movl   $&_ZZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
++lea    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x10(%ebp),%eax
 +mov    %eax,0xc(%esp)
-+movl   $"PartyJob DB Sent %d",0x8(%esp)
++movl   $"Packet_DBMW_Dungeon_Statistic_Party_Job : (%d) 개 패킷 전송\n",0x8(%esp)
 +movl   $"./log/statistic",0x4(%esp)
-+lea    -0x28(%ebp),%eax
++lea    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    -0x4(%ebp),%ebx
@@ -512,7 +510,7 @@ StatisticManager::_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandl
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 289 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 392 行）：
 
 ```cpp
 void StatisticManager::SendDBPartyJobStatistic(CServerHandler* handler)
@@ -541,7 +539,7 @@ void StatisticManager::SendDBPartyJobStatistic(CServerHandler* handler)
             {
                 *(unsigned int*)((char*)&pkt + 0xa) = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                DNF_LOG_SCOPE_LINE(0x19a, "./log/statistic", "PartyJob DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x1b3, "./log/statistic", "Packet_DBMW_Dungeon_Statistic_Party_Job : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", idx);
                 idx = 0;
             }
         }
@@ -549,7 +547,7 @@ void StatisticManager::SendDBPartyJobStatistic(CServerHandler* handler)
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            DNF_LOG_SCOPE_LINE(0x1a4, "./log/statistic", "PartyJob DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x1bd, "./log/statistic", "Packet_DBMW_Dungeon_Statistic_Party_Job : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", idx);
         }
     }
 }

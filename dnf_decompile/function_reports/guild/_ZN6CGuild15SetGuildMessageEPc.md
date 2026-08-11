@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091326` | `0x7d` | `0x8056fc6` | `0x7f` |
+| guild | DIFF | `0x8091326` | `0x7d` | `0x80570b4` | `0x7f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -79,7 +79,7 @@ void __thiscall CGuild::_ZN6CGuild15SetGuildMessageEPc(CGuild *this,char *param_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1695 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1753 行）：
 
 ```cpp
 void CGuild::SetGuildMessage(char* msg)

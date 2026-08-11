@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x804c012` | `0x8f` | `0x805ce96` | `0x7d` |
+| statics | DIFF | `0x804c012` | `0x8f` | `0x805ce72` | `0x8b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,22 +13,26 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,38 +1,34 @@
+@@ -1,38 +1,36 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x138,%esp
  mov    0x10(%ebp),%eax
 -mov    %eax,-0x94(%ebp)
 -lea    -0x94(%ebp),%eax
-+mov    %eax,-0x98(%ebp)
-+lea    -0x98(%ebp),%eax
++mov    %eax,-0x9c(%ebp)
++lea    -0x9c(%ebp),%eax
  add    $0x4,%eax
  mov    %eax,(%esp)
  call   <T> <sigemptyset>
--movl   $0x0,-0x10(%ebp)
+ movl   $0x0,-0x10(%ebp)
  cmpl   $0xe,0xc(%ebp)
 -jne    <T> <_ZN17CSignalTranslator13regist_signalEiPFviE+0x3d>
--mov    -0x10(%ebp),%eax
++jne    <T> <_ZN17CSignalTranslator13regist_signalEiPFviE+0x39>
++orl    $0x20000000,-0x10(%ebp)
++jmp    <T> <_ZN17CSignalTranslator13regist_signalEiPFviE+0x40>
++orl    $0x10000000,-0x10(%ebp)
+ mov    -0x10(%ebp),%eax
 -or     $0x20000000,%eax
 -mov    %eax,-0x10(%ebp)
 -jmp    <T> <_ZN17CSignalTranslator13regist_signalEiPFviE+0x48>
@@ -36,15 +40,11 @@
 -or     $0x10000000,%eax
 -mov    %eax,-0x10(%ebp)
 -lea    -0x120(%ebp),%eax
-+jne    <T> <_ZN17CSignalTranslator13regist_signalEiPFviE+0x30>
-+mov    $0x20000000,%eax
-+jmp    <T> <_ZN17CSignalTranslator13regist_signalEiPFviE+0x35>
-+mov    $0x10000000,%eax
-+mov    %eax,-0x14(%ebp)
-+lea    -0x124(%ebp),%eax
++mov    %eax,-0x18(%ebp)
++lea    -0x128(%ebp),%eax
  mov    %eax,0x8(%esp)
 -lea    -0x94(%ebp),%eax
-+lea    -0x98(%ebp),%eax
++lea    -0x9c(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -54,7 +54,7 @@
 -je     <T> <_ZN17CSignalTranslator13regist_signalEiPFviE+0x88>
 +mov    %eax,-0xc(%ebp)
 +cmpl   $0x0,-0xc(%ebp)
-+jns    <T> <_ZN17CSignalTranslator13regist_signalEiPFviE+0x73>
++jns    <T> <_ZN17CSignalTranslator13regist_signalEiPFviE+0x81>
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  movl   $"%d번 signal 등록 실패\n",(%esp)
@@ -103,7 +103,7 @@ CSignalTranslator::_ZN17CSignalTranslator13regist_signalEiPFviE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFSignalTranslator.cpp](source/DNFServer/GameServer/COServer/DNFSignalTranslator.cpp)（约第 153 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFSignalTranslator.cpp](source/DNFServer/GameServer/Statics/DNFSignalTranslator.cpp)（约第 158 行）：
 
 ```cpp
 int CSignalTranslator::regist_signal(int sig, void (*handler)(int))
@@ -112,7 +112,16 @@ int CSignalTranslator::regist_signal(int sig, void (*handler)(int))
     struct sigaction old;
     sa.sa_handler = (__sighandler_t)handler;
     sigemptyset(&sa.sa_mask);
-    sa.sa_flags = (sig == 0xe) ? 0x20000000 : 0x10000000;
+    int flags = 0;
+    if (sig == 0xe)
+    {
+        flags |= 0x20000000;
+    }
+    else
+    {
+        flags |= 0x10000000;
+    }
+    sa.sa_flags = flags;
     int r = sigaction(sig, &sa, &old);
     if (-1 >= r)
     {

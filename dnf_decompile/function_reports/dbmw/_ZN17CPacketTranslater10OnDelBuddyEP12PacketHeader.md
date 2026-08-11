@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8095754` | `0x198` | `0x8081496` | `0x194` |
+| dbmw | DIFF | `0x8095754` | `0x198` | `0x80d4ae6` | `0x18c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,115 +1,114 @@
+@@ -1,115 +1,111 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,7 +22,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x190>
-+je     <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x18c>
++je     <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x184>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x14(%ebp)
 -lea    -0x55(%ebp),%eax
@@ -31,20 +31,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZN27Packet_DBMW_Del_Buddy_ReplyC1Ev>
 -mov    -0x14(%ebp),%eax
-+lea    -0x51(%ebp),%eax
-+lea    0xa(%eax),%edx
 +mov    -0x10(%ebp),%eax
  mov    0xa(%eax),%eax
 -mov    %eax,-0x4b(%ebp)
 -mov    -0x14(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x51(%ebp),%eax
-+lea    0xe(%eax),%edx
++mov    %eax,-0x47(%ebp)
 +mov    -0x10(%ebp),%eax
  mov    0xe(%eax),%eax
 -mov    %eax,-0x47(%ebp)
 -mov    -0x14(%ebp),%eax
-+mov    %eax,(%edx)
++mov    %eax,-0x43(%ebp)
 +mov    -0x10(%ebp),%eax
  add    $0x12,%eax
  movl   $0x1d,0x8(%esp)
@@ -87,45 +83,36 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x191>
-+jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x18d>
++jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x185>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x134>
-+jne    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x130>
++jne    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x128>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0x319,0x8(%esp)
-+movl   $"OnDelBuddy",0x4(%esp)
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x319,0x8(%esp)
--movl   $"OnDelBuddy",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x319,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater10OnDelBuddyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnDelBuddy() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x12d>
-+jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x129>
++jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x121>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -135,23 +122,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x191>
-+jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x18d>
++jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x185>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x31e,0x8(%esp)
- movl   $"OnDelBuddy",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater10OnDelBuddyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDelBuddy() Exception Break\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x189>
-+jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x185>
++jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x17d>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -161,7 +148,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x191>
-+jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x18d>
++jmp    <T> <_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader+0x185>
  nop
  add    $0x60,%esp
  pop    %ebx
@@ -208,7 +195,7 @@ void CPacketTranslater::_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader(Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1121 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1180 行）：
 
 ```cpp
 void CPacketTranslater::OnDelBuddy(PacketHeader* header)
@@ -219,8 +206,8 @@ void CPacketTranslater::OnDelBuddy(PacketHeader* header)
     {
         Packet_DBMW_Del_Buddy* pkt = (Packet_DBMW_Del_Buddy*)header;
         Packet_DBMW_Del_Buddy_Reply reply;
-        *(unsigned int*)((char*)&reply + 0xa) = pkt->m_mid;
-        *(unsigned int*)((char*)&reply + 0xe) = pkt->m_characNo;
+        reply.m_fieldA = pkt->m_mid;
+        reply.m_fieldE = pkt->m_characNo;
         memcpy((char*)&reply + 0x12, pkt->m_name, 0x1d);
         m_pclApp->m_dbManager.DelBuddy(pkt->m_mid, pkt->m_characNo);
         m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807b19c` | `0xda` | `0x805c616` | `0xdf` |
+| dbmw | DIFF | `0x807b19c` | `0xda` | `0x805c3c6` | `0xdf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -28,25 +28,19 @@
 +mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    0xb(%eax),%eax
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    0xb(%edx),%edx
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    0xb(%eax),%eax
  mov    0xc(%ebp),%ecx
  add    $0xf,%ecx
--mov    %eax,0x10(%esp)
-+mov    %edx,0x10(%esp)
+ mov    %eax,0x10(%esp)
  mov    %ecx,0xc(%esp)
  movl   $"upDate charac_black_list set charac_name='%s' where charac_no=%d",0x8(%esp)
  movl   $0x4e85,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x18(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager14ChangeCharNameEP28Packet_DBMW_Change_Char_Name+0x9f>
@@ -60,7 +54,7 @@
 +add    $0xf,%eax
 +mov    %eax,-0xc(%ebp)
  movl   $0x1392,0x8(%esp)
- movl   $"ChangeCharName",0x4(%esp)
+ movl   $&_ZZN10CDBManager14ChangeCharNameEP28Packet_DBMW_Change_Char_NameE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -84,17 +78,14 @@
 +mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e85,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0x18(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %al,-0x11(%ebp)
 +movzbl -0x11(%ebp),%eax
  xor    $0x1,%eax
@@ -157,7 +148,7 @@ CDBManager::_ZN10CDBManager14ChangeCharNameEP28Packet_DBMW_Change_Char_Name
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4239 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4157 行）：
 
 ```cpp
 char CDBManager::ChangeCharName(Packet_DBMW_Change_Char_Name* packet)
@@ -169,7 +160,7 @@ char CDBManager::ChangeCharName(Packet_DBMW_Change_Char_Name* packet)
     {
         unsigned int characNo = packet->m_characNo;
         char* name = packet->m_name;
-        CMyFileLog log("ChangeCharName", 0x1392);
+        CMyFileLog log(__FUNCTION__, 0x1392);
         log("./log/DBQueryErr",
             "CDBManager::ChangeCharName() : upDate charac_black_list set charac_name='%s' where charac_no=%d",
             name, characNo);

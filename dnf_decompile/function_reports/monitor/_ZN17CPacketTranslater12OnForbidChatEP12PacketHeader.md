@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808753a` | `0x234` | `0x807022c` | `0x235` |
+| monitor | DIFF | `0x808753a` | `0x234` | `0x8070378` | `0x234` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,154 +1,155 @@
+@@ -1,154 +1,154 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -23,20 +23,16 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0xdf>
--lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnForbidChat : 0 == m_pclApp",0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x40(%ebp),%esi
-+lea    -0x28(%ebp),%esi
+ lea    -0x40(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -53,8 +49,7 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x40(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x87>
@@ -64,8 +59,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0xa4>
--lea    -0x40(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0xbc>
@@ -74,115 +68,75 @@
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x156>
--lea    -0x39(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x159>
-+lea    -0x21(%ebp),%eax
+ jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x156>
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
-+movl   $0xfdd,0x8(%esp)
-+movl   $"OnForbidChat",0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+mov    0x8(%ebp),%edx
-+add    $0x12,%edx
-+mov    %eax,0x10(%esp)
-+mov    %edx,0xc(%esp)
-+movl   $"CPacketTranslater::OnForbidChat() %s for %d secs\n",0x8(%esp)
-+movl   $"./log/GM_msg",0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+add    $0xa0,%eax
-+mov    (%eax),%eax
- mov    %eax,-0x20(%ebp)
-+mov    0x8(%ebp),%eax
-+movl   $0x30,0x8(%esp)
-+mov    %eax,0x4(%esp)
- mov    -0x20(%ebp),%eax
--mov    0xa(%eax),%ebx
+-mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
--lea    0x12(%eax),%esi
--movl   $0xfdd,0x8(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
-+jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x22d>
-+cmp    $0x2,%edx
-+jne    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x1d3>
-+mov    %eax,(%esp)
-+call   <T> <__cxa_begin_catch>
-+mov    %eax,-0x1c(%ebp)
-+movl   $0xfe3,0x8(%esp)
- movl   $"OnForbidChat",0x4(%esp)
+ mov    0xa(%eax),%ebx
+-mov    -0x20(%ebp),%eax
++mov    0x8(%ebp),%eax
+ lea    0x12(%eax),%esi
+ movl   $0xfdd,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater12OnForbidChatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x10(%esp)
--mov    %esi,0xc(%esp)
--movl   $"CPacketTranslater::OnForbidChat() %s for %d secs\n",0x8(%esp)
--movl   $"./log/GM_msg",0x4(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CPacketTranslater::OnForbidChat() Exception Break : %s\n",0x8(%esp)
-+movl   $"./log/Except",0x4(%esp)
+ mov    %ebx,0x10(%esp)
+ mov    %esi,0xc(%esp)
+ movl   $"CPacketTranslater::OnForbidChat() %s for %d secs\n",0x8(%esp)
+ movl   $"./log/GM_msg",0x4(%esp)
  lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x20(%ebp),%edx
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0xa0(%eax),%eax
--movl   $0x30,0x8(%esp)
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    0xa0(%eax),%eax
++mov    %eax,-0x20(%ebp)
++mov    0x8(%ebp),%eax
+ movl   $0x30,0x8(%esp)
 -mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
--jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x22c>
--cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x1d2>
--mov    %eax,(%esp)
--call   <T> <__cxa_begin_catch>
--mov    %eax,-0x1c(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0xfe3,0x8(%esp)
--movl   $"OnForbidChat",0x4(%esp)
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnForbidChat() Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x1cb>
-+jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x1cc>
++mov    %eax,0x4(%esp)
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
+ jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x22c>
+ cmp    $0x2,%edx
+ jne    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x1d2>
+ mov    %eax,(%esp)
+ call   <T> <__cxa_begin_catch>
+ mov    %eax,-0x1c(%ebp)
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0xfe3,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater12OnForbidChatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"CPacketTranslater::OnForbidChat() Exception Break : %s\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x1cb>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -191,24 +145,20 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x22c>
-+jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x22d>
+ jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x22c>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xfe8,0x8(%esp)
- movl   $"OnForbidChat",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater12OnForbidChatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnForbidChat() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x227>
-+jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x228>
+ jmp    <T> <_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader+0x227>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -267,7 +217,7 @@ void CPacketTranslater::_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader(Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1961 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1967 行）：
 
 ```cpp
 void CPacketTranslater::OnForbidChat(PacketHeader* pkt)
@@ -280,8 +230,8 @@ void CPacketTranslater::OnForbidChat(PacketHeader* pkt)
         throw CDNFException("CPacketTranslater::OnForbidChat : 0 == m_pclApp");
     }
     DNF_LOG_SCOPE_LINE(0xfdd,"./log/GM_msg", "CPacketTranslater::OnForbidChat() %s for %d secs\n", (char*)pkt + 0x12,
-        *(unsigned int*)((char*)pkt + 0xa));
-    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+        ((RA_UINT<10>*)pkt)->v);
+    CServerHandler* handler = m_pclApp->m_serverHandler2;
     handler->SendAllToGameServer((char*)pkt, 0x30);
 
 

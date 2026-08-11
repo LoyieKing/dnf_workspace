@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8058e2e` | `0x13c` | `0x805d4be` | `0x13d` |
+| statics | DIFF | `0x8058e2e` | `0x13c` | `0x805d4e2` | `0x13d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -120,7 +120,7 @@
  lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -164,16 +164,4 @@ void CFrameCountHandler::_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplica
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp](source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp)（约第 48 行）：
-
-```cpp
-void CFrameCountHandler::InitFrameCountInfo(CApplication* app, unsigned int a, unsigned short b)
-{
-    if (!a)
-        throw CDNFException("CFrameCountHandler::InitFrameCountInfo() Exception Break!");
-    m_app = app;
-    memset(this, 0, 0x28);
-    m_field4 = a;
-    m_field8 = 100 / a;
-}
-```
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Statics/DNFTickHandler.cpp, source/DNFServer/GameServer/Statics/CubeStatistics.h, source/DNFServer/GameServer/Statics/DNFApplication.h, source/DNFServer/GameServer/Statics/DNFTableBase.h, source/DNFServer/GameServer/Statics/DNFTickHandler.cpp, source/DNFServer/GameServer/Statics/DNFTickHandler.h, source/DNFServer/GameServer/Statics/FrameLagCollector.h, source/DNFServer/GameServer/Statics/GMAccounts.h 等 257 个文件*

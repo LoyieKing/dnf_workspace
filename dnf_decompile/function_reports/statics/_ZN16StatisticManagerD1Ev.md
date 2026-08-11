@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806dab4` | `0x534` | `0x806ddf6` | `0x47f` |
+| statics | DIFF | `0x806dab4` | `0x534` | `0x806dde4` | `0x53a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,116 +13,107 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,430 +1,379 @@
+@@ -1,430 +1,433 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x2c,%esp
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16StatisticManager13ResetPartyMapEv>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16StatisticManager16ResetPartyJobMapEv>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16StatisticManager19ResetPartyCharacMapEv>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16StatisticManager23ResetDeathTowerValueMapEv>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16StatisticManager29ResetDeathTowerPlayDataJobMapEv>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16StatisticManager31ResetDeathTowerPlayDataPartyMapEv>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16StatisticManager22ResetPacketOverflowMapEv>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16StatisticManager30ResetHellPartyStatisticItemMapEv>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16StatisticManager27ResetReasonCrashDownInfoMapEv>
--movl   $0x0,-0x1c(%ebp)
--jmp    <T> <_ZN16StatisticManagerD1Ev+0x8d>
--mov    -0x1c(%ebp),%eax
--add    $0x37,%eax
--shl    $0x4,%eax
--add    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN21STModuleLagStatistics5ResetEv>
--addl   $0x1,-0x1c(%ebp)
--cmpl   $0x7,-0x1c(%ebp)
--setle  %al
--test   %al,%al
--jne    <T> <_ZN16StatisticManagerD1Ev+0x75>
--mov    0x8(%ebp),%eax
--add    $0x3f0,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt3mapIt22STDungeonLagStatisticsSt4lessItESaISt4pairIKtS0_EEE5clearEv>
--jmp    <T> <_ZN16StatisticManagerD1Ev+0xc4>
--mov    %edx,%ebx
--mov    %eax,%esi
-+sub    $0x1c,%esp
+ sub    $0x2c,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16StatisticManager13ResetPartyMapEv>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16StatisticManager16ResetPartyJobMapEv>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16StatisticManager19ResetPartyCharacMapEv>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16StatisticManager23ResetDeathTowerValueMapEv>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16StatisticManager29ResetDeathTowerPlayDataJobMapEv>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16StatisticManager31ResetDeathTowerPlayDataPartyMapEv>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16StatisticManager22ResetPacketOverflowMapEv>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16StatisticManager30ResetHellPartyStatisticItemMapEv>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16StatisticManager27ResetReasonCrashDownInfoMapEv>
+ movl   $0x0,-0x1c(%ebp)
+ jmp    <T> <_ZN16StatisticManagerD1Ev+0x8d>
+ mov    -0x1c(%ebp),%eax
+ add    $0x37,%eax
+ shl    $0x4,%eax
+ add    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN21STModuleLagStatistics5ResetEv>
+ addl   $0x1,-0x1c(%ebp)
+ cmpl   $0x7,-0x1c(%ebp)
+ setle  %al
+ test   %al,%al
+ jne    <T> <_ZN16StatisticManagerD1Ev+0x75>
+ mov    0x8(%ebp),%eax
+ add    $0x3f0,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapIt22STDungeonLagStatisticsSt4lessItESaISt4pairIKtS0_EEE5clearEv>
+ jmp    <T> <_ZN16StatisticManagerD1Ev+0xc4>
+ mov    %edx,%ebx
+ mov    %eax,%esi
  mov    0x8(%ebp),%eax
  add    $0xb78,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI20STReasonCrashDownKeyjSt4lessIS0_ESaISt4pairIKS0_jEEED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--jmp    <T> <_ZN16StatisticManagerD1Ev+0xd6>
--mov    0x8(%ebp),%eax
--add    $0xb78,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt3mapI20STReasonCrashDownKeyjSt4lessIS0_ESaISt4pairIKS0_jEEED1Ev>
--jmp    <T> <_ZN16StatisticManagerD1Ev+0x110>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x55>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ jmp    <T> <_ZN16StatisticManagerD1Ev+0xd6>
+ mov    0x8(%ebp),%eax
+ add    $0xb78,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapI20STReasonCrashDownKeyjSt4lessIS0_ESaISt4pairIKS0_jEEED1Ev>
+ jmp    <T> <_ZN16StatisticManagerD1Ev+0x110>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    0x8(%ebp),%eax
  add    $0x444,%eax
  test   %eax,%eax
--je     <T> <_ZN16StatisticManagerD1Ev+0x10a>
-+je     <T> <_ZN16StatisticManagerD1Ev+0x4f>
+ je     <T> <_ZN16StatisticManagerD1Ev+0x10a>
  mov    0x8(%ebp),%eax
  add    $0x444,%eax
  lea    0x48(%eax),%ebx
  mov    0x8(%ebp),%eax
  add    $0x444,%eax
  cmp    %eax,%ebx
--je     <T> <_ZN16StatisticManagerD1Ev+0x10a>
-+je     <T> <_ZN16StatisticManagerD1Ev+0x4f>
+ je     <T> <_ZN16StatisticManagerD1Ev+0x10a>
  sub    $0x18,%ebx
  mov    %ebx,(%esp)
  call   <T> <_ZNSt3mapIi26SECRET_SHOP_STATISTIC_DATASt4lessIiESaISt4pairIKiS0_EEED1Ev>
--jmp    <T> <_ZN16StatisticManagerD1Ev+0xf1>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x36>
+ jmp    <T> <_ZN16StatisticManagerD1Ev+0xf1>
  mov    %edi,%eax
  mov    %esi,%edx
--jmp    <T> <_ZN16StatisticManagerD1Ev+0x140>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x85>
+ jmp    <T> <_ZN16StatisticManagerD1Ev+0x140>
  mov    0x8(%ebp),%eax
  add    $0x444,%eax
  test   %eax,%eax
--je     <T> <_ZN16StatisticManagerD1Ev+0x15a>
-+je     <T> <_ZN16StatisticManagerD1Ev+0x9f>
+ je     <T> <_ZN16StatisticManagerD1Ev+0x15a>
  mov    0x8(%ebp),%eax
  add    $0x444,%eax
  lea    0x48(%eax),%ebx
  mov    0x8(%ebp),%eax
  add    $0x444,%eax
  cmp    %eax,%ebx
--je     <T> <_ZN16StatisticManagerD1Ev+0x15a>
-+je     <T> <_ZN16StatisticManagerD1Ev+0x9f>
+ je     <T> <_ZN16StatisticManagerD1Ev+0x15a>
  sub    $0x18,%ebx
  mov    %ebx,(%esp)
  call   <T> <_ZNSt3mapIi26SECRET_SHOP_STATISTIC_DATASt4lessIiESaISt4pairIKiS0_EEED1Ev>
--jmp    <T> <_ZN16StatisticManagerD1Ev+0x127>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x6c>
+ jmp    <T> <_ZN16StatisticManagerD1Ev+0x127>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -131,14 +122,12 @@
  call   <T> <_ZNSt3mapIi24CirculationStatisticDataSt4lessIiESaISt4pairIKiS0_EEED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN16StatisticManagerD1Ev+0x16c>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0xb1>
+ jmp    <T> <_ZN16StatisticManagerD1Ev+0x16c>
  mov    0x8(%ebp),%eax
  add    $0x420,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIi24CirculationStatisticDataSt4lessIiESaISt4pairIKiS0_EEED1Ev>
--jmp    <T> <_ZN16StatisticManagerD1Ev+0x186>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0xcb>
+ jmp    <T> <_ZN16StatisticManagerD1Ev+0x186>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -147,14 +136,12 @@
  call   <T> <_ZNSt3mapIi18ValueStatisticDataSt4lessIiESaISt4pairIKiS0_EEED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN16StatisticManagerD1Ev+0x198>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0xdd>
+ jmp    <T> <_ZN16StatisticManagerD1Ev+0x198>
  mov    0x8(%ebp),%eax
  add    $0x408,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIi18ValueStatisticDataSt4lessIiESaISt4pairIKiS0_EEED1Ev>
--jmp    <T> <_ZN16StatisticManagerD1Ev+0x1b2>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0xf7>
+ jmp    <T> <_ZN16StatisticManagerD1Ev+0x1b2>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -163,34 +150,30 @@
  call   <T> <_ZNSt3mapIt22STDungeonLagStatisticsSt4lessItESaISt4pairIKtS0_EEED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN16StatisticManagerD1Ev+0x1c4>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x109>
+ jmp    <T> <_ZN16StatisticManagerD1Ev+0x1c4>
  mov    0x8(%ebp),%eax
  add    $0x3f0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIt22STDungeonLagStatisticsSt4lessItESaISt4pairIKtS0_EEED1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x219>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x146>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x201>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    0x8(%ebp),%eax
  add    $0x370,%eax
  test   %eax,%eax
--je     <T> <_ZN16StatisticManagerD1Ev+0x1fb>
-+je     <T> <_ZN16StatisticManagerD1Ev+0x140>
+ je     <T> <_ZN16StatisticManagerD1Ev+0x1fb>
  mov    0x8(%ebp),%eax
  add    $0x370,%eax
  lea    0x80(%eax),%ebx
  mov    0x8(%ebp),%eax
  add    $0x370,%eax
  cmp    %eax,%ebx
--je     <T> <_ZN16StatisticManagerD1Ev+0x1fb>
-+je     <T> <_ZN16StatisticManagerD1Ev+0x140>
+ je     <T> <_ZN16StatisticManagerD1Ev+0x1fb>
  sub    $0x10,%ebx
  mov    %ebx,(%esp)
  call   <T> <_ZN21STModuleLagStatisticsD1Ev>
--jmp    <T> <_ZN16StatisticManagerD1Ev+0x1e2>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x127>
+ jmp    <T> <_ZN16StatisticManagerD1Ev+0x1e2>
  mov    %edi,%eax
  mov    %esi,%edx
 -mov    %edx,%ebx
@@ -202,12 +185,12 @@
 -mov    %esi,%eax
 -mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x25e>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x179>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x234>
  mov    0x8(%ebp),%eax
  add    $0x370,%eax
  test   %eax,%eax
 -je     <T> <_ZN16StatisticManagerD1Ev+0x24c>
-+je     <T> <_ZN16StatisticManagerD1Ev+0x193>
++je     <T> <_ZN16StatisticManagerD1Ev+0x24e>
  mov    0x8(%ebp),%eax
  add    $0x370,%eax
  lea    0x80(%eax),%ebx
@@ -215,12 +198,12 @@
  add    $0x370,%eax
  cmp    %eax,%ebx
 -je     <T> <_ZN16StatisticManagerD1Ev+0x24c>
-+je     <T> <_ZN16StatisticManagerD1Ev+0x193>
++je     <T> <_ZN16StatisticManagerD1Ev+0x24e>
  sub    $0x10,%ebx
  mov    %ebx,(%esp)
  call   <T> <_ZN21STModuleLagStatisticsD1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x233>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x160>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x21b>
 +mov    %edx,%ebx
 +mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -230,12 +213,12 @@
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x278>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x1a5>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x260>
 +mov    0x8(%ebp),%eax
 +add    $0x1d0,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt3mapIj23STBloodDungeonStatisticSt4lessIjESaISt4pairIKjS0_EEED1Ev>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x1bf>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x27a>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -245,13 +228,13 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x28a>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x1d1>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x28c>
  mov    0x8(%ebp),%eax
  add    $0x1b8,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIh16STFatigueBatterySt4lessIhESaISt4pairIKhS0_EEED1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x2a4>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x1eb>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x2a6>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -261,13 +244,13 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x2b6>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x1fd>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x2b8>
  mov    0x8(%ebp),%eax
  add    $0x1a0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI21STPowerwarFightLagKey22STPowerwarFightLagDataSt4lessIS0_ESaISt4pairIKS0_S1_EEED1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x2d0>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x217>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x2d2>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -277,13 +260,13 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x2e2>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x229>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x2e4>
  mov    0x8(%ebp),%eax
  add    $0x188,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI25STPowerwarFightLoadingKey26STPowerwarFightLoadingDataSt4lessIS0_ESaISt4pairIKS0_S1_EEED1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x314>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x243>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x2fe>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -292,12 +275,12 @@
  call   <T> <_ZN17LoadingTimeReportD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x255>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x310>
 +mov    0x8(%ebp),%eax
 +add    $0x140,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17LoadingTimeReportD1Ev>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x26f>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x32a>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -311,13 +294,13 @@
 -add    $0x140,%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN17LoadingTimeReportD1Ev>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x281>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x33c>
  mov    0x8(%ebp),%eax
  add    $0x128,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI27STHellPartyStatisticItemKey18HellPartyItenmDataSt4lessIS0_ESaISt4pairIKS0_S1_EEED1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x350>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x29b>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x356>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -327,13 +310,13 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x362>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x2ad>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x368>
  mov    0x8(%ebp),%eax
  add    $0x110,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjiSt4lessIjESaISt4pairIKjiEEED1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x37c>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x2c7>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x382>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -343,13 +326,13 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x38e>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x2d9>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x394>
  mov    0x8(%ebp),%eax
  add    $0xf8,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI22STUserTingTimeCheckKeyiSt4lessIS0_ESaISt4pairIKS0_iEEED1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x3a8>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x2f3>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x3ae>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -359,13 +342,13 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x3ba>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x305>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x3c0>
  mov    0x8(%ebp),%eax
  add    $0xe0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI18STAssertManagerKeyiSt4lessIS0_ESaISt4pairIKS0_iEEED1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x3d4>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x31f>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x3da>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -375,13 +358,13 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x3e6>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x331>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x3ec>
  mov    0x8(%ebp),%eax
  add    $0xc8,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI19STPacketOverflowKeyiSt4lessIS0_ESaISt4pairIKS0_iEEED1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x400>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x34b>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x406>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -391,13 +374,13 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x412>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x35d>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x418>
  mov    0x8(%ebp),%eax
  add    $0xb0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI37STDeathTowerPlayDataPartyStatisticKey22PlayDataPartyStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEED1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x42c>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x377>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x432>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -407,13 +390,13 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x43e>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x389>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x444>
  mov    0x8(%ebp),%eax
  add    $0x98,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI35STDeathTowerPlayDataJobStatisticKey20PlayDataJobStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEED1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x456>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x3a1>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x45c>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -423,13 +406,13 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x466>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x3b1>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x46c>
  mov    0x8(%ebp),%eax
  sub    $0xffffff80,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI29STDeathTowerValueStatisticKey14ValueStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEED1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x47e>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x3c9>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x484>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -439,13 +422,13 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x48e>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x3d9>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x494>
  mov    0x8(%ebp),%eax
  add    $0x68,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI16STPartyCharacKey20PartyCharacStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEED1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x4a6>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x3f1>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x4ac>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -455,13 +438,13 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x4b6>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x401>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x4bc>
  mov    0x8(%ebp),%eax
  add    $0x50,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI22STPartyJobStatisticKey17PartyJobStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEED1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x4ce>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x419>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x4d4>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -471,13 +454,13 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x4de>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x429>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x4e4>
  mov    0x8(%ebp),%eax
  add    $0x38,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI19STPartyStatisticKey14PartyStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEED1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x4f6>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x441>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x4fc>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -487,13 +470,13 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x506>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x451>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x50c>
  mov    0x8(%ebp),%eax
  add    $0x18,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CCubeStatisticD1Ev>
 -jmp    <T> <_ZN16StatisticManagerD1Ev+0x521>
-+jmp    <T> <_ZN16StatisticManagerD1Ev+0x46c>
++jmp    <T> <_ZN16StatisticManagerD1Ev+0x527>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -506,8 +489,7 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3setIjSt4lessIjESaIjEED1Ev>
--add    $0x2c,%esp
-+add    $0x1c,%esp
+ add    $0x2c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -671,10 +653,24 @@ void __thiscall StatisticManager::_ZN16StatisticManagerD1Ev(StatisticManager *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 41 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 43 行）：
 
 ```cpp
 StatisticManager::~StatisticManager()
 {
+    ResetPartyMap();
+    ResetPartyJobMap();
+    ResetPartyCharacMap();
+    ResetDeathTowerValueMap();
+    ResetDeathTowerPlayDataJobMap();
+    ResetDeathTowerPlayDataPartyMap();
+    ResetPacketOverflowMap();
+    ResetHellPartyStatisticItemMap();
+    ResetReasonCrashDownInfoMap();
+    for (int i = 0; i < 8; i++)
+    {
+        m_modules[i].Reset();
+    }
+    m_dungeonLag.clear();
 }
 ```

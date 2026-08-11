@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8093c93` | `0x93` | `0x805d730` | `0x58` |
+| monitor | DIFF | `0x8093c93` | `0x93` | `0x805d9e2` | `0x58` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -42,8 +42,8 @@
  call   <T> <_ZN15exchange_server18CCacheCharacterMgrC1Ev>
 -movl   $&_ZGVZN15exchange_server28GetInstanceCacheCharacterMgrEvE8instance,(%esp)
 -call   <T> <__cxa_guard_release>
--mov    $&_ZN15exchange_server18CCacheCharacterMgrD2Ev,%eax
--movl   $&data#b8e3732b(.rodata),0x8(%esp)
+-mov    $&_ZN15exchange_server18CCacheCharacterMgrD1Ev,%eax
+-movl   $&__dso_handle,0x8(%esp)
 -movl   $&_ZZN15exchange_server28GetInstanceCacheCharacterMgrEvE8instance,0x4(%esp)
 -mov    %eax,(%esp)
 -call   <T> <__cxa_atexit>
@@ -100,7 +100,7 @@ undefined1 * exchange_server::_ZN15exchange_server28GetInstanceCacheCharacterMgr
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp](source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp)（约第 335 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp](source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp)（约第 358 行）：
 
 ```cpp
 CCacheCharacterMgr* GetInstanceCacheCharacterMgr()

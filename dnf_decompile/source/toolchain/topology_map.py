@@ -30,7 +30,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import is_exempt_symbol
 
-DECOMP = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile')
+DECOMP = Path('/home/loyieking/dnf_workspace/dnf_decompile')
 SOURCE = DECOMP / 'source'
 DWARF_TAG = {
     'channel': 'ch', 'bridge': 'br', 'auction': 'auc', 'point': 'pt',

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8080e48` | `0x384` | `0x805e984` | `0x2db` |
+| dbmw | DIFF | `0x8080e48` | `0x384` | `0x805e730` | `0x2db` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -82,47 +82,36 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x32,0x14(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0x10(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x10(%esp)
 -lea    -0x11f(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+lea    -0x11c(%ebp),%edx
-+mov    %edx,0xc(%esp)
++lea    -0x11c(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect occ_time,behavior,charac_name,item_id,add_info,random_option from %s where guild_id=%d order by occ_time desc limit %d",0x8(%esp)
  movl   $0x4ed8,0x4(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4ed8,0x4(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x148>
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x103>
  movl   $0x1b63,0x8(%esp)
- movl   $"OnLoadGuildCargoHistory",0x4(%esp)
+ movl   $&_ZZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_HistoryE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -141,16 +130,12 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    0x10(%ebp),%edx
 -mov    %eax,0xe(%edx)
-+mov    (%eax),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,(%ebx)
  movl   $0x0,-0x10(%ebp)
 -movl   $0x0,-0xc(%ebp)
@@ -159,12 +144,12 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    (%eax),%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x196>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x37a>
@@ -247,12 +232,6 @@
 -add    $0x34,%eax
 -mov    (%eax),%ecx
 -mov    -0xc(%ebp),%edx
-+mov    (%eax),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x14c>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2d2>
@@ -272,13 +251,13 @@
 +mov    -0x14(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x34,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,0x8(%esp)
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++mov    %eax,0x8(%esp)
 +movl   $0x0,0x4(%esp)
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x196>
@@ -287,14 +266,14 @@
 +mov    -0x14(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x50,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x4,%edx
-+mov    %edx,0x8(%esp)
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0x4,%eax
++mov    %eax,0x8(%esp)
 +movl   $0x1,0x4(%esp)
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x1cb>
@@ -303,15 +282,15 @@
 +mov    -0x14(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x2c,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x5,%edx
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0x5,%eax
 +movl   $0x15,0xc(%esp)
-+mov    %edx,0x8(%esp)
++mov    %eax,0x8(%esp)
 +movl   $0x2,0x4(%esp)
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x208>
@@ -320,14 +299,14 @@
 +mov    -0x14(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x34,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x1a,%edx
-+mov    %edx,0x8(%esp)
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0x1a,%eax
++mov    %eax,0x8(%esp)
 +movl   $0x3,0x4(%esp)
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x23d>
@@ -336,14 +315,14 @@
 +mov    -0x14(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x34,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x1e,%edx
-+mov    %edx,0x8(%esp)
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0x1e,%eax
++mov    %eax,0x8(%esp)
 +movl   $0x4,0x4(%esp)
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x26f>
@@ -352,15 +331,15 @@
 +mov    -0x14(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x30,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x22,%edx
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0x22,%eax
 +movl   $0xe,0xc(%esp)
-+mov    %edx,0x8(%esp)
++mov    %eax,0x8(%esp)
 +movl   $0x5,0x4(%esp)
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History+0x2a9>
@@ -430,15 +409,11 @@
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
--mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -cmp    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +cmp    -0x10(%ebp),%eax
  seta   %al
  test   %al,%al
@@ -577,4 +552,4 @@ CDBManager::_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

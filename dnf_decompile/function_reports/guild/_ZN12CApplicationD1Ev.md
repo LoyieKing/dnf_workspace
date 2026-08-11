@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8061f94` | `0x188` | `0x804d9f2` | `0x1b8` |
+| guild | DIFF | `0x8061f94` | `0x188` | `0x804da4e` | `0x1b0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,127 +1,145 @@
+@@ -1,127 +1,141 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -65,8 +65,7 @@
  add    $0x130,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CTcpNetSystemD1Ev>
--jmp    <T> <_ZN12CApplicationD1Ev+0xed>
-+jmp    <T> <_ZN12CApplicationD1Ev+0xbd>
+ jmp    <T> <_ZN12CApplicationD1Ev+0xed>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -75,12 +74,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN12CApplicationD1Ev+0xcf>
-+mov    0x8(%ebp),%eax
-+add    $0x118,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CMutexD1Ev>
-+jmp    <T> <_ZN12CApplicationD1Ev+0xe9>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -89,12 +82,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN12CApplicationD1Ev+0xfb>
-+mov    0x8(%ebp),%eax
-+add    $0x100,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CMutexD1Ev>
-+jmp    <T> <_ZN12CApplicationD1Ev+0x115>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -103,52 +90,50 @@
  call   <T> <_ZN10CSwapQueueISt5queueIP14CUdpRecvBufferSt5dequeIS2_SaIS2_EEELi2EED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN12CApplicationD1Ev+0x11f>
--mov    0x8(%ebp),%eax
--add    $0x118,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CMutexD1Ev>
--mov    0x8(%ebp),%eax
--add    $0x100,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CMutexD1Ev>
-+jmp    <T> <_ZN12CApplicationD1Ev+0x127>
+ jmp    <T> <_ZN12CApplicationD1Ev+0x11f>
+ mov    0x8(%ebp),%eax
+ add    $0x118,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CMutexD1Ev>
+ mov    0x8(%ebp),%eax
+ add    $0x100,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CMutexD1Ev>
  mov    0x8(%ebp),%eax
  add    $0xa0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CSwapQueueISt5queueIP14CUdpRecvBufferSt5dequeIS2_SaIS2_EEELi2EED1Ev>
--jmp    <T> <_ZN12CApplicationD1Ev+0x137>
-+jmp    <T> <_ZN12CApplicationD1Ev+0x13f>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+mov    0x8(%ebp),%eax
+ jmp    <T> <_ZN12CApplicationD1Ev+0x137>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ mov    0x8(%ebp),%eax
 +add    $0x6c,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN18CFrameCountHandlerD1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN12CApplicationD1Ev+0x14f>
++jmp    <T> <_ZN12CApplicationD1Ev+0x147>
 +mov    0x8(%ebp),%eax
 +add    $0x6c,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN18CFrameCountHandlerD1Ev>
-+jmp    <T> <_ZN12CApplicationD1Ev+0x167>
- mov    %edx,%ebx
- mov    %eax,%esi
- mov    0x8(%ebp),%eax
++jmp    <T> <_ZN12CApplicationD1Ev+0x15f>
++mov    %edx,%ebx
++mov    %eax,%esi
++mov    0x8(%ebp),%eax
  add    $0x10,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CUserManagerD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplicationD1Ev+0x147>
-+jmp    <T> <_ZN12CApplicationD1Ev+0x177>
++jmp    <T> <_ZN12CApplicationD1Ev+0x16f>
  mov    0x8(%ebp),%eax
  add    $0x10,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CUserManagerD1Ev>
 -jmp    <T> <_ZN12CApplicationD1Ev+0x162>
-+jmp    <T> <_ZN12CApplicationD1Ev+0x192>
++jmp    <T> <_ZN12CApplicationD1Ev+0x18a>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -164,7 +149,7 @@
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN12CApplicationD1Ev+0x181>
-+je     <T> <_ZN12CApplicationD1Ev+0x1b1>
++je     <T> <_ZN12CApplicationD1Ev+0x1a9>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZdlPv>
@@ -208,7 +193,7 @@ void __thiscall CApplication::_ZN12CApplicationD1Ev(CApplication *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 98 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFApplication.cpp](source/DNFServer/GameServer/Guild/DNFApplication.cpp)（约第 106 行）：
 
 ```cpp
 CApplication::~CApplication()

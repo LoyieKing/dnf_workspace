@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090968` | `0x200` | `0x8056566` | `0x1be` |
+| guild | DIFF | `0x8090968` | `0x200` | `0x805663e` | `0x1be` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -185,7 +185,7 @@
  mov    0x8(%ebp),%eax
 -mov    0x18(%eax),%ebx
 -movl   $0x73d,0x8(%esp)
--movl   $"LoadGuildOneMemberProxy",0x4(%esp)
+-movl   $&_ZZN6CGuild23LoadGuildOneMemberProxyEP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -285,7 +285,7 @@ CGuild::_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser(CGuild *this,CUser *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1460 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1518 行）：
 
 ```cpp
 int CGuild::LoadGuildOneMemberProxy(CUser* user)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8086b34` | `0x3de` | `0x807244e` | `0x40c` |
+| monitor | DIFF | `0x8086b34` | `0x3de` | `0x807253c` | `0x40b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,277 +1,287 @@
+@@ -1,277 +1,286 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -30,32 +30,28 @@
  add    $0x2d0,%eax
 -mov    %eax,-0x30(%ebp)
 -mov    -0x38(%ebp),%eax
--mov    0xa(%eax),%eax
--mov    %eax,0x4(%esp)
--mov    -0x34(%ebp),%eax
 +mov    %eax,-0x6c(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+mov    %eax,0x4(%esp)
+ mov    0xa(%eax),%eax
+ mov    %eax,0x4(%esp)
+-mov    -0x34(%ebp),%eax
 +mov    -0x70(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
 +mov    %eax,-0x68(%ebp)
 +cmpl   $0x0,-0x68(%ebp)
-+je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x402>
++je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x401>
 +mov    -0x68(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser9GetMemberEv>
 +mov    %eax,-0x64(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+add    $0xa0,%eax
-+mov    (%eax),%eax
++mov    0xa0(%eax),%eax
 +mov    %eax,-0x60(%ebp)
 +cmpl   $0x0,-0x64(%ebp)
-+je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x402>
++je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x401>
 +cmpl   $0x0,-0x60(%ebp)
-+je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x402>
++je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x401>
 +mov    -0x64(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNK7CMember21GetUpperMember_CharIdEv>
@@ -66,7 +62,7 @@
 +test   %eax,%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x1d3>
++je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x1d0>
 +mov    -0x6c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN14CMemberManager17GetMemberExpTableEv>
@@ -80,7 +76,7 @@
 +call   <T> <_ZN7CMember21IncConnUpperMemberExpEj>
 +mov    %eax,-0x4c(%ebp)
 +cmpl   $0x0,-0x4c(%ebp)
-+je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x1d3>
++je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x1d0>
 +mov    -0x64(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNK7CMember21GetUpperMember_CharIdEv>
@@ -95,13 +91,13 @@
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x3d7>
-+je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x14e>
++je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x14b>
  mov    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser9GetMemberEv>
 +mov    %eax,-0x38(%ebp)
 +cmpl   $0x0,-0x38(%ebp)
-+je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x14e>
++je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x14b>
 +mov    -0x6c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN14CMemberManager17GetMemberExpTableEv>
@@ -152,7 +148,7 @@
 +test   %al,%al
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x1d3>
++je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x1d0>
 +mov    -0x64(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNK7CMember21GetUpperMember_CharIdEv>
@@ -193,7 +189,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZNK7CMember20GetLowerMember_ProxyEv>
 +mov    %eax,-0x54(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x31a>
++jmp    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x317>
 +subl   $0x1,-0x58(%ebp)
 +mov    -0x54(%ebp),%eax
 +mov    (%eax),%eax
@@ -203,7 +199,7 @@
 +call   <T> <_ZN14CMemberManager10FindMemberEj>
 +mov    %eax,-0x28(%ebp)
 +cmpl   $0x0,-0x28(%ebp)
-+je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x312>
++je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x30f>
 +mov    -0x6c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN14CMemberManager17GetMemberExpTableEv>
@@ -217,7 +213,7 @@
  call   <T> <_ZN7CMember21IncConnUpperMemberExpEj>
 +mov    %eax,-0x20(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
-+je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x312>
++je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x30f>
 +mov    -0x6c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN14CMemberManager17GetMemberExpTableEv>
@@ -317,7 +313,7 @@
 -mov    -0x30(%ebp),%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x312>
++je     <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x30f>
 +mov    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNK7CMember21GetUpperMember_CharIdEv>
@@ -423,45 +419,37 @@
 +cmpl   $0x0,-0x58(%ebp)
 +setne  %al
 +test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x1fb>
-+jmp    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x402>
++jne    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x1f8>
++jmp    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x401>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x377>
-+jne    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x3a8>
++jne    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x3a7>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
  movl   $0xf29,0x8(%esp)
- movl   $"OnNoticeCharLiveOnTenMin",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x54(%ebp),%eax
-+lea    -0x78(%ebp),%eax
++lea    -0x80(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeCharLiveOn10Min Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x54(%ebp),%eax
-+lea    -0x78(%ebp),%eax
++lea    -0x80(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x370>
-+jmp    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x3a1>
++jmp    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x3a0>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -471,23 +459,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x3d7>
-+jmp    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x402>
++jmp    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x401>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xf2e,0x8(%esp)
- movl   $"OnNoticeCharLiveOnTenMin",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x80(%ebp),%eax
++lea    -0x78(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnNoticeCharLiveOn10Min Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x80(%ebp),%eax
++lea    -0x78(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x3cc>
-+jmp    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x3fd>
++jmp    <T> <_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader+0x3fc>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -599,7 +587,7 @@ void CPacketTranslater::_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2565 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2571 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeCharLiveOnTenMin(PacketHeader* pkt)
@@ -608,11 +596,11 @@ void CPacketTranslater::OnNoticeCharLiveOnTenMin(PacketHeader* pkt)
     {
         CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
         CMemberManager* memberMgr = (CMemberManager*)((char*)m_pclApp + 0x2d0);
-        CUser* user = userMgr->FindUser_CharNo(*(unsigned int*)((char*)pkt + 0xa));
+        CUser* user = userMgr->FindUser_CharNo(((RA_UINT<10>*)pkt)->v);
         if (user != 0)
         {
             CMember* member = user->GetMember();
-            CServerHandler* handler = *(CServerHandler**)((char*)m_pclApp + 0xa0);
+            CServerHandler* handler = m_pclApp->m_serverHandler2;
             if (member != 0 && handler != 0)
             {
                 if (memberMgr->FindMemberUser(

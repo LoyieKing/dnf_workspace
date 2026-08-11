@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8058138` | `0x137` | `0x809dac6` | `0x124` |
+| monitor | DIFF | `0x8058138` | `0x137` | `0x809dd56` | `0x124` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -26,8 +26,7 @@
  call   <T> <_ZNSaIcEC1Ev>
  lea    -0xd(%ebp),%eax
  mov    %eax,0x8(%esp)
--movl   $&data#c7597315(.rodata),0x4(%esp)
-+movl   $&data#4cb52004(.rodata),0x4(%esp)
+ movl   $"",0x4(%esp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
@@ -181,29 +180,25 @@ int np_server_xml::CServerXml::_ZNK13np_server_xml10CServerXml15GetServerStringE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/ServerXml.cpp](source/DNFServer/GameServer/DBMW/ServerXml.cpp)（约第 254 行）：
+定义于 [source/DNFServer/GameServer/Monitor/ServerXml.cpp](source/DNFServer/GameServer/Monitor/ServerXml.cpp)（约第 182 行）：
 
 ```cpp
-std::string CServerXml::GetServerString(int nTextID, bool* pbResult) const
+std::string CServerXml::GetServerString(int idx, bool* ok) const
 {
-    std::string ret = "";
-    std::map<int, std::string>::const_iterator pIter;
-    pIter = m_mapServerStr.find(nTextID);
-    if (pIter != m_mapServerStr.end())
+    std::string s("");
+    std::map<int, std::string>::const_iterator it = m_map58.find(idx);
+    if (it == m_map58.end())
     {
-        if (pbResult != (bool*)0)
+        if (ok != 0)
         {
-            *pbResult = true;
+            *ok = 0;
         }
+        return s;
     }
-    else
+    if (ok != 0)
     {
-        if (pbResult != (bool*)0)
-        {
-            *pbResult = false;
-        }
-        return ret;
+        *ok = 1;
     }
-    return pIter->second;
+    return it->second;
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805109c` | `0x196` | `0x809b638` | `0x195` |
+| monitor | DIFF | `0x805109c` | `0x196` | `0x809b788` | `0x199` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,100 +1,97 @@
+@@ -1,100 +1,100 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
+ push   %edi
  push   %esi
  push   %ebx
--sub    $0x4c,%esp
-+sub    $0x40,%esp
+ sub    $0x4c,%esp
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer11recv_packetEv>
@@ -36,17 +35,10 @@
 -test   %al,%al
 -je     <T> <_ZN5CPeer10RecvPacketEv+0x90>
 -movl   $0x4d,0x8(%esp)
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0x0,-0x10(%ebp)
-+jg     <T> <_ZN5CPeer10RecvPacketEv+0x117>
-+cmpl   $0x0,-0x10(%ebp)
-+jns    <T> <_ZN5CPeer10RecvPacketEv+0xce>
-+movl   $0x59,0x8(%esp)
- movl   $"RecvPacket",0x4(%esp)
+-movl   $&_ZZN5CPeer10RecvPacketEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x1c(%ebp),%eax
 -mov    %eax,0xc(%esp)
 -movl   $"CPeer::Recv (false == parsing( size:%d ) )",0x8(%esp)
@@ -64,101 +56,102 @@
 -jmp    <T> <_ZN5CPeer10RecvPacketEv+0x18e>
 -cmpl   $0x0,-0x1c(%ebp)
 -jns    <T> <_ZN5CPeer10RecvPacketEv+0x147>
++mov    %eax,-0x20(%ebp)
++cmpl   $0x0,-0x20(%ebp)
++jg     <T> <_ZN5CPeer10RecvPacketEv+0x11a>
++cmpl   $0x0,-0x20(%ebp)
++jns    <T> <_ZN5CPeer10RecvPacketEv+0xd1>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer12GetTcpSocketEv>
  mov    %eax,(%esp)
  call   <T> <_ZN9TCPSocket11getPeerPortEv>
--movzwl %ax,%edi
-+movzwl %ax,%esi
+ movzwl %ax,%edi
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer12GetTcpSocketEv>
  mov    %eax,(%esp)
  call   <T> <_ZN9TCPSocket11getPeerAdrsEv>
--mov    %eax,%esi
-+mov    %eax,%ebx
+ mov    %eax,%esi
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer12GetTcpSocketEv>
  mov    %eax,(%esp)
  call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    %eax,%ebx
--movl   $0x59,0x8(%esp)
--movl   $"RecvPacket",0x4(%esp)
+ mov    %eax,%ebx
+ movl   $0x59,0x8(%esp)
+ movl   $&_ZZN5CPeer10RecvPacketEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x18(%esp)
--mov    %esi,0x14(%esp)
--mov    %ebx,0x10(%esp)
++lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %edi,0x18(%esp)
+ mov    %esi,0x14(%esp)
+ mov    %ebx,0x10(%esp)
 -mov    -0x1c(%ebp),%eax
-+mov    %esi,0x18(%esp)
-+mov    %ebx,0x14(%esp)
-+mov    %eax,0x10(%esp)
-+mov    -0x10(%ebp),%eax
++mov    -0x20(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"Maybe Peer is disconnect!(%d), socket no(%d), addr(%s), port(%d)",0x8(%esp)
  movl   $"./log/TcpRecv",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x1c(%ebp),%eax
-+mov    -0x10(%ebp),%eax
++mov    -0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
  movl   $"CPeer::Recv (size(%d) < 0)\n",(%esp)
  call   <T> <printf>
  mov    $0x0,%eax
- jmp    <T> <_ZN5CPeer10RecvPacketEv+0x18e>
+-jmp    <T> <_ZN5CPeer10RecvPacketEv+0x18e>
++jmp    <T> <_ZN5CPeer10RecvPacketEv+0x191>
  movl   $0x63,0x8(%esp)
- movl   $"RecvPacket",0x4(%esp)
+ movl   $&_ZZN5CPeer10RecvPacketEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"Maybe Peer is disconnect!(size == 0)",0x8(%esp)
  movl   $"./log/TcpRecv",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $"CPeer::Recv (size == 0)",(%esp)
  call   <T> <puts>
- mov    $0x1,%eax
--add    $0x4c,%esp
-+jmp    <T> <_ZN5CPeer10RecvPacketEv+0x18e>
-+mov    -0x10(%ebp),%eax
++mov    $0x1,%eax
++jmp    <T> <_ZN5CPeer10RecvPacketEv+0x191>
++mov    -0x20(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    0x8(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CPeer7parsingEi>
-+mov    %al,-0x9(%ebp)
-+cmpb   $0x1,-0x9(%ebp)
-+jne    <T> <_ZN5CPeer10RecvPacketEv+0x139>
++mov    %al,-0x19(%ebp)
++cmpb   $0x1,-0x19(%ebp)
++jne    <T> <_ZN5CPeer10RecvPacketEv+0x13c>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN5CPeer10RecvPacketEv+0x18e>
++jmp    <T> <_ZN5CPeer10RecvPacketEv+0x191>
 +movl   $0x4d,0x8(%esp)
-+movl   $"RecvPacket",0x4(%esp)
-+lea    -0x18(%ebp),%eax
++movl   $&_ZZN5CPeer10RecvPacketEvE12__FUNCTION__,0x4(%esp)
++lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x10(%ebp),%eax
++mov    -0x20(%ebp),%eax
 +mov    %eax,0xc(%esp)
 +movl   $"CPeer::Recv (false == parsing( size:%d ) )",0x8(%esp)
 +movl   $"./log/TcpRecv",0x4(%esp)
-+lea    -0x18(%ebp),%eax
++lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    -0x10(%ebp),%eax
++mov    -0x20(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +movl   $"CPeer::Recv (false == parsing( size:%d ) )\n",(%esp)
 +call   <T> <printf>
-+mov    $0x1,%eax
-+add    $0x40,%esp
+ mov    $0x1,%eax
+ add    $0x4c,%esp
  pop    %ebx
  pop    %esi
--pop    %edi
+ pop    %edi
  pop    %ebp
  ret
 ```
@@ -225,35 +218,34 @@ undefined4 __thiscall CPeer::_ZN5CPeer10RecvPacketEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 273 行）：
+定义于 [source/DNFServer/GameServer/Monitor/Peer.cpp](source/DNFServer/GameServer/Monitor/Peer.cpp)（约第 196 行）：
 
 ```cpp
-char CPeer::RecvPacket()
+int CPeer::RecvPacket()
 {
-    int ret = recv_packet();
-    if (ret > 0)
+    int n = recv_packet();
+    if (n < 1)
     {
-        if (!parsing(ret))
+        if (n < 0)
         {
-            CMyFileLog log("RecvPacket", 0x4d);
-            log("./log/TcpRecv", "CPeer::Recv (false == parsing( size:%d ) )\n", ret);
-            printf("CPeer::Recv (false == parsing( size:%d ) )\n", ret);
-            return 1;
+            DNF_LOG_SCOPE_LINE(0x59,"./log/TcpRecv",
+                "Maybe Peer is disconnect!(%d), socket no(%d), addr(%s), port(%d)", n,
+                GetTcpSocket()->getHandle(), GetTcpSocket()->getPeerAdrs(),
+                (unsigned int)GetTcpSocket()->getPeerPort() & 0xffff);
+            printf("CPeer::Recv (size(%d) < 0)\n", n);
+            return 0;
         }
+        DNF_LOG_SCOPE_LINE(99, "./log/TcpRecv", "Maybe Peer is disconnect!(size == 0)");
+        puts("CPeer::Recv (size == 0)");
         return 1;
     }
-    if (ret < 0)
+    char ok = (char)parsing(n);
+    if (ok == 1)
     {
-        CMyFileLog log("RecvPacket", 0x59);
-        log("./log/TcpRecv",
-            "Maybe Peer is disconnect!(%d), socket no(%d), addr(%s), port(%d)",
-            ret, getHandle(), getPeerAdrs(), getPeerPort());
-        printf("CPeer::Recv (size(%d) < 0)\n", ret);
-        return 0;
+        return 1;
     }
-    CMyFileLog log("RecvPacket", 0x63);
-    log("./log/TcpRecv", "Maybe Peer is disconnect!(size == 0)");
-    puts("CPeer::Recv (size == 0)");
+    DNF_LOG_SCOPE_LINE(0x4d, "./log/TcpRecv", "CPeer::Recv (false == parsing( size:%d ) )", n);
+    printf("CPeer::Recv (false == parsing( size:%d ) )\n", n);
     return 1;
 }
 ```

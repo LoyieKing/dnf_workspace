@@ -152,6 +152,11 @@ struct tagAUCTION_DB_REGIST_ITEM : public nsl::DBTR_HEADER
     }
 };
 
+// ORIG：ROI_AverageKey/ROI_Average_Constraint 位于 pack 区之外（自然对齐，
+// long long 成员使 ROI_AverageKey 对齐 8，局部栈槽 8 对齐，如
+// onAUCTION_DB_GET_AVERAGE_PRICE 的 _temp_roi_average@-0x48）；
+// 仅 DBTR 报文结构保持 pack(1)。2026-08-11 复检修正。
+#pragma pack(pop)
 struct ROI_AverageKey
 {
     unsigned long baseItem_index;              // @0
@@ -209,6 +214,7 @@ struct ROI_Average_Constraint
     bool isVaildRange() const;
 };
 
+#pragma pack(push, 1)
 struct tagAUCTION_DB_UPPER_BIDDING : public nsl::DBTR_HEADER
 {
     __int64 auction_id;      // @21

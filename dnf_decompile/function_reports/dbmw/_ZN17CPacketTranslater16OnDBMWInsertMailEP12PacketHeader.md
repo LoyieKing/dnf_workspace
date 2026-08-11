@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809ca50` | `0x28f` | `0x80801a0` | `0x291` |
+| dbmw | DIFF | `0x809ca50` | `0x28f` | `0x80d3818` | `0x28e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,179 +1,182 @@
+@@ -1,179 +1,181 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,7 +24,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x283>
-+je     <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x285>
++je     <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x282>
  mov    0x8(%ebp),%eax
  mov    %eax,-0x30(%ebp)
 -movl   $0x0,-0x2c(%ebp)
@@ -35,10 +35,8 @@
 +je     <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x167>
  movl   $0x0,(%esp)
  call   <T> <time>
--mov    %eax,-0x60(%ebp)
--lea    -0x60(%ebp),%eax
-+mov    %eax,-0x48(%ebp)
-+lea    -0x48(%ebp),%eax
+ mov    %eax,-0x60(%ebp)
+ lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <localtime>
 -mov    %eax,-0x28(%ebp)
@@ -139,44 +137,33 @@
 -xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x168>
--mov    -0x30(%ebp),%eax
--mov    0xa(%eax),%ebx
 +sete   %al
 +test   %al,%al
 +je     <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x167>
+ mov    -0x30(%ebp),%eax
+ mov    0xa(%eax),%ebx
  movl   $0xd1e,0x8(%esp)
- movl   $"OnDBMWInsertMail",0x4(%esp)
--lea    -0x48(%ebp),%eax
-+lea    -0x50(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0x30(%ebp),%eax
-+mov    0xa(%eax),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater.OnDBMWInsertMail Err(%d) : return false",0x8(%esp)
  movl   $"./log/GuildEvent",0x4(%esp)
--lea    -0x48(%ebp),%eax
-+lea    -0x50(%ebp),%eax
+ lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x284>
--lea    -0x5a(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x286>
-+lea    -0x42(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x283>
+ lea    -0x5a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN30Packet_Monitor_Notify_New_MailC1Ev>
-+lea    -0x42(%ebp),%eax
-+lea    0xa(%eax),%edx
  mov    -0x30(%ebp),%eax
  mov    0xa(%eax),%eax
--mov    %eax,-0x50(%ebp)
--movzwl -0x58(%ebp),%eax
-+mov    %eax,(%edx)
-+movzwl -0x40(%ebp),%eax
+ mov    %eax,-0x50(%ebp)
+ movzwl -0x58(%ebp),%eax
  movzwl %ax,%esi
--lea    -0x5a(%ebp),%ebx
-+lea    -0x42(%ebp),%ebx
+ lea    -0x5a(%ebp),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -186,45 +173,34 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x284>
-+jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x286>
++jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x283>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x227>
-+jne    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x229>
++jne    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x226>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
-+movl   $0xd29,0x8(%esp)
-+movl   $"OnDBMWInsertMail",0x4(%esp)
-+lea    -0x58(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0xd29,0x8(%esp)
--movl   $"OnDBMWInsertMail",0x4(%esp)
--lea    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0xd29,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnDBMWInsertMail() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x58(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x220>
-+jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x222>
++jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x21f>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -234,23 +210,21 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x284>
-+jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x286>
++jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x283>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xd2e,0x8(%esp)
- movl   $"OnDBMWInsertMail",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x60(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDBMWInsertMail() Exception Break\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x60(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x27c>
-+jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x27e>
++jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x27b>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -260,7 +234,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x284>
-+jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x286>
++jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x283>
  nop
 -add    $0x9c,%esp
 +add    $0x8c,%esp
@@ -333,7 +307,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 901 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 954 行）：
 
 ```cpp
 void CPacketTranslater::OnDBMWInsertMail(PacketHeader* header)
@@ -357,15 +331,17 @@ void CPacketTranslater::OnDBMWInsertMail(PacketHeader* header)
                     pkt->m_characNo, pkt->m_subject, pkt->m_content,
                     pkt->m_fieldE, letterNo, pkt->m_field12, pkt->m_field16))
             {
-                CMyFileLog log("OnDBMWInsertMail", 0xd1e);
-                log("./log/GuildEvent",
+                DNF_LOG_SCOPE_LINE(0xd1e,
+                    "./log/GuildEvent",
                     "CPacketTranslater.OnDBMWInsertMail Err(%d) : return false",
-                    pkt->m_characNo);
+                    pkt->m_characNo
+                );
+
                 return;
             }
         }
         Packet_Monitor_Notify_New_Mail notice;
-        *(unsigned int*)((char*)&notice + 0xa) = pkt->m_characNo;
+        notice.m_fieldA = pkt->m_characNo;
         m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
             (char*)&notice, notice.packetSize);
     }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8088b38` | `0x10c` | `0x807407e` | `0x111` |
+| monitor | DIFF | `0x8088b38` | `0x10c` | `0x807411a` | `0x112` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -21,9 +21,7 @@
  sub    $0x30,%esp
 -mov    0x8(%ebp),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0xa0(%eax),%eax
-+add    $0xa0,%eax
-+mov    (%eax),%eax
+ mov    0xa0(%eax),%eax
 +mov    %eax,-0x10(%ebp)
 +mov    0x8(%ebp),%eax
  movl   $0xb,0x8(%esp)
@@ -33,45 +31,36 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader+0x105>
-+jmp    <T> <_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader+0x10a>
++jmp    <T> <_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader+0x10b>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader+0xab>
-+jne    <T> <_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader+0xb0>
++jne    <T> <_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader+0xb1>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0x11bc,0x8(%esp)
-+movl   $"onWebReqReloadAutoPunishRule",0x4(%esp)
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x11bc,0x8(%esp)
--movl   $"onWebReqReloadAutoPunishRule",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x11bc,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::onWebReqReloadAutoPunishRule Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader+0xa4>
-+jmp    <T> <_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader+0xa9>
++jmp    <T> <_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader+0xaa>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -81,23 +70,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader+0x105>
-+jmp    <T> <_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader+0x10a>
++jmp    <T> <_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader+0x10b>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x11c1,0x8(%esp)
- movl   $"onWebReqReloadAutoPunishRule",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::onWebReqReloadAutoPunishRule Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader+0x100>
-+jmp    <T> <_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader+0x105>
++jmp    <T> <_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader+0x106>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -130,7 +119,7 @@ void CPacketTranslater::_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3128 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3134 行）：
 
 ```cpp
 void CPacketTranslater::onWebReqReloadAutoPunishRule(PacketHeader* pkt)
@@ -138,7 +127,7 @@ void CPacketTranslater::onWebReqReloadAutoPunishRule(PacketHeader* pkt)
 {
 
 
-    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
+    CServerHandler* handler = m_pclApp->m_serverHandler2;
     handler->SendAllToGameServer((char*)pkt, 0xb);
 
 

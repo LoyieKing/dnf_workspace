@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8078d98` | `0x72` | `0x805d300` | `0x76` |
+| monitor | DIFF | `0x8078d98` | `0x72` | `0x805d5b8` | `0x72` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,36 +1,38 @@
+@@ -1,36 +1,36 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
+ movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
@@ -32,12 +30,9 @@
  call   <T> <_ZN17CTcpManagerServer16makePacketHeaderEtt>
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
--je     <T> <_ZN17CTcpManagerServer13SendTcpPacketEP12PacketHeader+0x70>
-+je     <T> <_ZN17CTcpManagerServer13SendTcpPacketEP12PacketHeader+0x74>
+ je     <T> <_ZN17CTcpManagerServer13SendTcpPacketEP12PacketHeader+0x70>
  mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
+ movzwl 0x2(%eax),%eax
  movzwl %ax,%eax
 -lea    -0xa(%eax),%ecx
 -mov    0xc(%ebp),%eax
@@ -88,15 +83,15 @@ CTcpManagerServer::_ZN17CTcpManagerServer13SendTcpPacketEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp](source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp)（约第 237 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp](source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp)（约第 260 行）：
 
 ```cpp
 void CTcpManagerServer::SendTcpPacket(PacketHeader* pkt)
 {
-    char* buf = makePacketHeader(*(unsigned short*)pkt, *(unsigned short*)((char*)pkt + 2));
+    char* buf = makePacketHeader(*(unsigned short*)pkt, ((RA_U16<2>*)pkt)->v);
     if (buf != 0)
     {
-        memcpy(buf + 10, (char*)pkt + 10, *(unsigned short*)((char*)pkt + 2) - 10);
+        memcpy(buf + 10, (char*)pkt + 10, ((RA_U16<2>*)pkt)->v - 10);
         SendToServer(buf);
     }
 }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809e0aa` | `0xde` | `0x80907de` | `0xdc` |
+| guild | DIFF | `0x809e0aa` | `0xde` | `0x8090648` | `0xde` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,21 +13,20 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,66 +1,64 @@
+@@ -1,66 +1,66 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
+ push   %edi
  push   %esi
  push   %ebx
--sub    $0x4c,%esp
-+sub    $0x40,%esp
+ sub    $0x4c,%esp
  mov    0x8(%ebp),%eax
 -lea    0xc(%eax),%edx
 -lea    -0x24(%ebp),%eax
 +add    $0xc,%eax
-+mov    %eax,-0xc(%ebp)
-+lea    -0x14(%ebp),%eax
-+mov    -0xc(%ebp),%edx
++mov    %eax,-0x1c(%ebp)
++lea    -0x2c(%ebp),%eax
++mov    -0x1c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIj18STGuildBoardDBInfoSt7greaterIjESaISt4pairIKjS0_EEE5beginEv>
@@ -35,91 +34,69 @@
 -mov    0x8(%ebp),%eax
 -lea    0xc(%eax),%edx
 -lea    -0x28(%ebp),%eax
-+jmp    <T> <_ZN11CGuildBoard15printGuildBoardEv+0xa3>
-+movl   $0x188,0x8(%esp)
-+movl   $"printGuildBoard",0x4(%esp)
-+lea    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
-+lea    0x8(%eax),%esi
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
-+add    $0x4,%eax
-+add    $0x7c,%eax
-+mov    (%eax),%ebx
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
-+mov    (%eax),%eax
-+mov    %esi,0x14(%esp)
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
-+movl   $&data#1605aef5(.rodata),0x8(%esp)
-+movl   $"./log/GuildBoard",0x4(%esp)
-+lea    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEppEv>
-+lea    -0x10(%ebp),%eax
-+mov    -0xc(%ebp),%edx
- mov    %edx,0x4(%esp)
+-mov    %edx,0x4(%esp)
++jmp    <T> <_ZN11CGuildBoard15printGuildBoardEv+0xa4>
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
- call   <T> <_ZNSt3mapIj18STGuildBoardDBInfoSt7greaterIjESaISt4pairIKjS0_EEE3endEv>
- sub    $0x4,%esp
+-call   <T> <_ZNSt3mapIj18STGuildBoardDBInfoSt7greaterIjESaISt4pairIKjS0_EEE3endEv>
+-sub    $0x4,%esp
 -mov    -0x24(%ebp),%eax
 -mov    %eax,-0x2c(%ebp)
 -jmp    <T> <_ZN11CGuildBoard15printGuildBoardEv+0xb9>
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
--add    $0x4,%eax
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
++lea    0x8(%eax),%edi
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
+ add    $0x4,%eax
 -mov    %eax,%edi
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
 -mov    0x7c(%eax),%esi
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
--mov    (%eax),%ebx
--movl   $0x188,0x8(%esp)
--movl   $"printGuildBoard",0x4(%esp)
++add    $0x7c,%eax
++mov    (%eax),%esi
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
+ mov    (%eax),%ebx
+ movl   $0x188,0x8(%esp)
+ movl   $&_ZZN11CGuildBoard15printGuildBoardEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $&data#0602a71c(.rodata),0x8(%esp)
--movl   $"./log/GuildBoard",0x4(%esp)
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"\n*%d* %d %s\n",0x8(%esp)
+ movl   $"./log/GuildBoard",0x4(%esp)
 -lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEppEv>
--lea    -0x28(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEppEv>
+ lea    -0x28(%ebp),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZNSt3mapIj18STGuildBoardDBInfoSt7greaterIjESaISt4pairIKjS0_EEE3endEv>
++sub    $0x4,%esp
++lea    -0x28(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEneERKS4_>
  test   %al,%al
 -jne    <T> <_ZN11CGuildBoard15printGuildBoardEv+0x41>
--lea    -0xc(%ebp),%esp
-+jne    <T> <_ZN11CGuildBoard15printGuildBoardEv+0x28>
-+lea    -0x8(%ebp),%esp
++jne    <T> <_ZN11CGuildBoard15printGuildBoardEv+0x29>
+ lea    -0xc(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
  pop    %esi
--pop    %edi
+ pop    %edi
  pop    %ebp
  ret
 ```
@@ -181,13 +158,12 @@ void CGuildBoard::_ZN11CGuildBoard15printGuildBoardEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 341 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 334 行）：
 
 ```cpp
 void CGuildBoard::printGuildBoard()
 {
-    std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >* map =
-        (std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >*)(m_data + 0xc);
+    std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >* map = &m_board;
     for (std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >::iterator it =
              map->begin();
          it != map->end(); ++it)

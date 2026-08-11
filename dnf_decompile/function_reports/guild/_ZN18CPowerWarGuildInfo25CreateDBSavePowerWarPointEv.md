@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80aa434` | `0x67` | `0x80a0660` | `0x60` |
+| guild | DIFF | `0x80aa434` | `0x67` | `0x80a0294` | `0x60` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -72,7 +72,7 @@ CPowerWarGuildInfo::_ZN18CPowerWarGuildInfo25CreateDBSavePowerWarPointEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 288 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 275 行）：
 
 ```cpp
 STDBSavePowerWarPoint* CPowerWarGuildInfo::CreateDBSavePowerWarPoint()

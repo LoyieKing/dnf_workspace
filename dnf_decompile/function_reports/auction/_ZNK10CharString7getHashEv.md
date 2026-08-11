@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| auction | DIFF | `0x8097ce0` | `0x72` | `0x80a1bc6` | `0x73` |
+| auction | DIFF | `0x8097ce0` | `0x72` | `0x80a1b14` | `0x73` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -96,7 +96,7 @@ uint32 __thiscall CharString::_ZNK10CharString7getHashEv(CharString *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/Library/Include/Core/Strings.cpp](source/Library/Include/Core/Strings.cpp)（约第 232 行）：
+定义于 [source/Library/Include/Core/Strings.cpp](source/Library/Include/Core/Strings.cpp)（约第 233 行）：
 
 ```cpp
 uint32 CharString::getHash() const

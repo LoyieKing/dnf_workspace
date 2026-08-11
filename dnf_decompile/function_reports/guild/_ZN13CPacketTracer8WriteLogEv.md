@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8071006` | `0x86` | `0x8067ab2` | `0x8d` |
+| guild | DIFF | `0x8071006` | `0x86` | `0x806774a` | `0x8f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,42 +1,44 @@
+@@ -1,42 +1,45 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -38,27 +38,22 @@
 -sub    %edx,%eax
 -test   %eax,%eax
 -jne    <T> <_ZN13CPacketTracer8WriteLogEv+0x80>
--mov    0x8(%ebp),%eax
--add    $0x4,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSs5c_strEv>
--mov    %eax,%ebx
 +mov    %edx,%ebx
 +sub    %eax,%ebx
 +mov    %ebx,%eax
 +cmp    %eax,%ecx
-+jne    <T> <_ZN13CPacketTracer8WriteLogEv+0x87>
++jne    <T> <_ZN13CPacketTracer8WriteLogEv+0x89>
+ mov    0x8(%ebp),%eax
+ add    $0x4,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSs5c_strEv>
+ mov    %eax,%ebx
  movl   $0x2a,0x8(%esp)
- movl   $"WriteLog",0x4(%esp)
+ movl   $&_ZZN13CPacketTracer8WriteLogEvE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0x4,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSs5c_strEv>
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"[TRACE_PACKET] Packet Code : %s\n",0x8(%esp)
  movl   $"./log/packet_trace",0x4(%esp)
  lea    -0x10(%ebp),%eax
@@ -98,15 +93,15 @@ void __thiscall CPacketTracer::_ZN13CPacketTracer8WriteLogEv(CPacketTracer *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFPacketTracer.cpp](source/DNFServer/GameServer/COServer/DNFPacketTracer.cpp)（约第 43 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTracer.cpp](source/DNFServer/GameServer/Guild/DNFPacketTracer.cpp)（约第 93 行）：
 
 ```cpp
 void CPacketTracer::WriteLog()
 {
-    if (m_count % 0x1e == 0)
+    if (*(unsigned int*)this == (*(unsigned int*)this / 0x1e) * 0x1e)
     {
-        register const char* s = m_log.c_str();
-        DNF_LOG_SCOPE_LINE(0x2a, "./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", s);
+        DNF_LOG_SCOPE_LINE(0x2a,"./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n",
+            ((std::string*)((char*)this + 4))->c_str());
         ResetLog();
     }
 }

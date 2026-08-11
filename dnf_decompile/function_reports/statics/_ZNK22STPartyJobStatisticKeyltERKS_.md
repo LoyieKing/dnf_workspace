@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8075eb8` | `0x1e3` | `0x806668c` | `0x1c9` |
+| statics | DIFF | `0x8075eb8` | `0x1e3` | `0x806666a` | `0x1c9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -277,7 +277,7 @@ STPartyJobStatisticKey::_ZNK22STPartyJobStatisticKeyltERKS_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/GMAccounts.cpp](source/DNFServer/GameServer/Statics/GMAccounts.cpp)（约第 641 行）：
+定义于 [source/DNFServer/GameServer/Statics/GMAccounts.cpp](source/DNFServer/GameServer/Statics/GMAccounts.cpp)（约第 650 行）：
 
 ```cpp
 bool STPartyJobStatisticKey::operator<(const STPartyJobStatisticKey& other) const

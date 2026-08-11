@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| point | DIFF | `0x80bf3bc` | `0x4ad` | `0x80b1fa6` | `0x4c0` |
+| point | DIFF | `0x80bf3bc` | `0x4ad` | `0x80b1ebc` | `0x4c0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -138,9 +138,9 @@
  mov    -0x18(%ebp),%eax
  cmp    $0x4,%eax
 -ja     <T> <_ZN3nsl6RBTreeIiPNS_11ITimeEntityELi1024EE6RemoveERKi+0x44f>
--mov    &data#01de972c(.rodata)(,%eax,4),%eax
+-mov    &data#adc89c33(.rodata)(,%eax,4),%eax
 +ja     <T> <_ZN3nsl6RBTreeIiPNS_11ITimeEntityELi1024EE6RemoveERKi+0x469>
-+mov    &data#1c16585a(.rodata)(,%eax,4),%eax
++mov    &data#734f67c4(.rodata)(,%eax,4),%eax
  jmp    *%eax
  mov    -0x10(%ebp),%eax
  movzbl 0xc(%eax),%eax
@@ -779,4 +779,4 @@ nsl::RBTree<int,_nsl::ITimeEntity*,_1024>::_ZN3nsl6RBTreeIiPNS_11ITimeEntityELi1
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/ServerLab/ServerLib/common_source/TimeManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 581 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/ServerLab/ServerLib/common_source/TimeManager.cpp, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/System.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/Thread.h, source/DNFServer/GameServer/ServerLab/ServerLib/basic_source/ThreadLock.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DBConnections.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DataPools.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/Dispatchers.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/EncyptTools.h 等 574 个文件*

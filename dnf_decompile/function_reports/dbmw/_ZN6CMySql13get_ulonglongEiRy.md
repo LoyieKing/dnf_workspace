@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808e000` | `0x77` | `0x8074f0a` | `0x74` |
+| dbmw | DIFF | `0x808e000` | `0x77` | `0x80c859e` | `0x74` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -89,7 +89,7 @@ bool __thiscall CMySql::_ZN6CMySql13get_ulonglongEiRy(CMySql *this,int param_1,u
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 108 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 106 行）：
 
 ```cpp
 bool CMySql::get_ulonglong(int col, unsigned long long& v)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| point | DIFF | `0x80adb88` | `0x250` | `0x80ac904` | `0x24e` |
+| point | DIFF | `0x80adb88` | `0x250` | `0x80ac80a` | `0x24e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -361,4 +361,4 @@ nsl::TCPDispatcher::_ZN3nsl13TCPDispatcher8dispatchEPNS_7TCPUserEPNS_7MessageE
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/ServerLab/ServerLib/common_source/TCPDispatcher.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 581 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/ServerLab/ServerLib/common_source/TCPDispatcher.cpp, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DBConnections.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/DataPools.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/Dispatchers.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/EncyptTools.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/IActiveConManager.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/IHandler.h, source/DNFServer/GameServer/ServerLab/ServerLib/common_source/IHandlers.h 等 569 个文件*

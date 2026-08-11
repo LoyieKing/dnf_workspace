@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a179e` | `0x90` | `0x809801c` | `0xa7` |
+| monitor | DIFF | `0x80a179e` | `0x90` | `0x809815c` | `0xa7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -117,7 +117,7 @@ void CMemoryCashManager::_ZN18CMemoryCashManager17DeleteCashObjecctEj(uint param
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/MemoryCashManager.cpp](source/DNFServer/GameServer/Guild/MemoryCashManager.cpp)（约第 173 行）：
+定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 360 行）：
 
 ```cpp
 void CMemoryCashManager::DeleteCashObjecct(unsigned int dbid)
@@ -125,7 +125,10 @@ void CMemoryCashManager::DeleteCashObjecct(unsigned int dbid)
     std::map<unsigned int, CCashObject*>::iterator it = m_cashObjects.find(dbid);
     if (it != m_cashObjects.end())
     {
-        delete it->second;
+        if (it->second != 0)
+        {
+            delete it->second;
+        }
         m_cashObjects.erase(it);
     }
 }

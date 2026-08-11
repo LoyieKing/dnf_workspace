@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x806f4a6` | `0x4f` | `0x8065cc0` | `0x49` |
+| manager | DIFF | `0x806f4a6` | `0x4f` | `0x8065bbe` | `0x49` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -62,13 +62,13 @@ void __thiscall CSystemTime::_ZN11CSystemTimeC1Ev(CSystemTime *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/SystemTimeHandler.cpp](source/DNFServer/GameServer/COServer/SystemTimeHandler.cpp)（约第 23 行）：
+定义于 [source/DNFServer/GameServer/Manager/SystemTimeHandler.cpp](source/DNFServer/GameServer/Manager/SystemTimeHandler.cpp)（约第 10 行）：
 
 ```cpp
 CSystemTime::CSystemTime()
 {
     gettimeofday(&m_tv, 0);
-    m_sec = m_tv.tv_sec;
-    m_msec = m_tv.tv_usec / 1000;
+    m_field10 = m_tv.tv_sec;
+    m_field4 = m_tv.tv_usec / 1000;
 }
 ```

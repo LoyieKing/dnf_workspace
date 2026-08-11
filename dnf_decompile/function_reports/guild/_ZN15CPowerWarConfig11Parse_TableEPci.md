@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806094a` | `0x348` | `0x807fa02` | `0x2fe` |
+| guild | DIFF | `0x806094a` | `0x348` | `0x807f7fe` | `0x2fe` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -48,8 +48,8 @@
 +ja     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2d6>
  mov    0x10(%ebp),%eax
  shl    $0x2,%eax
--mov    &data#99e5ff0e(.rodata)(%eax),%eax
-+mov    &data#98dce95d(.rodata)(%eax),%eax
+-mov    &data#a4e9f157(.rodata)(%eax),%eax
++mov    &data#9549dbeb(.rodata)(%eax),%eax
  jmp    *%eax
 -mov    -0x20(%ebp),%eax
 +mov    -0x18(%ebp),%eax

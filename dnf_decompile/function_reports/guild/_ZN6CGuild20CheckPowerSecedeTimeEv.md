@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80917bc` | `0x3f` | `0x805746c` | `0x46` |
+| guild | DIFF | `0x80917bc` | `0x3f` | `0x8057560` | `0x49` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,18 +1,21 @@
+@@ -1,18 +1,22 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x18,%esp
@@ -26,7 +26,7 @@
 -je     <T> <_ZN6CGuild20CheckPowerSecedeTimeEv+0x38>
 +je     <T> <_ZN6CGuild20CheckPowerSecedeTimeEv+0x27>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN6CGuild20CheckPowerSecedeTimeEv+0x44>
++jmp    <T> <_ZN6CGuild20CheckPowerSecedeTimeEv+0x47>
  mov    0x8(%ebp),%eax
 -mov    0xb6(%eax),%eax
 +add    $0xb6,%eax
@@ -37,6 +37,7 @@
  call   <T> <_Z24CheckDayScheduleTimeOveril>
 -jmp    <T> <_ZN6CGuild20CheckPowerSecedeTimeEv+0x3d>
 -mov    $0x0,%eax
++movzbl %al,%eax
  leave
  ret
 ```
@@ -65,7 +66,7 @@ undefined4 __thiscall CGuild::_ZN6CGuild20CheckPowerSecedeTimeEv(CGuild *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1810 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1869 行）：
 
 ```cpp
 int CGuild::CheckPowerSecedeTime()

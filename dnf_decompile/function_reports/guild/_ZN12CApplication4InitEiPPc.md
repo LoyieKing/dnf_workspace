@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80621f8` | `0x114` | `0x804dc86` | `0xa1` |
+| guild | DIFF | `0x80621f8` | `0x114` | `0x804dcda` | `0xa1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -44,35 +44,25 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15AttachAppInitorEPPc>
- mov    0x8(%ebp),%eax
- mov    0xc(%eax),%eax
-+test   %eax,%eax
-+je     <T> <_ZN12CApplication4InitEiPPc+0x93>
 +mov    0x8(%ebp),%eax
 +mov    0xc(%eax),%eax
++test   %eax,%eax
++je     <T> <_ZN12CApplication4InitEiPPc+0x93>
+ mov    0x8(%ebp),%eax
+ mov    0xc(%eax),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%ecx
--mov    0x8(%ebp),%eax
--mov    0xc(%eax),%eax
--mov    0x10(%ebp),%edx
--mov    %edx,0xc(%esp)
--mov    0xc(%ebp),%edx
--mov    %edx,0x8(%esp)
-+mov    (%eax),%eax
+ mov    (%eax),%ecx
+ mov    0x8(%ebp),%eax
+ mov    0xc(%eax),%eax
+ mov    0x10(%ebp),%edx
+ mov    %edx,0xc(%esp)
+ mov    0xc(%ebp),%edx
+ mov    %edx,0x8(%esp)
  mov    0x8(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   *%ecx
-+mov    0xc(%edx),%edx
-+mov    0x10(%ebp),%ecx
-+mov    %ecx,0xc(%esp)
-+mov    0xc(%ebp),%ecx
-+mov    %ecx,0x8(%esp)
-+mov    0x8(%ebp),%ecx
-+mov    %ecx,0x4(%esp)
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   *%ecx
  movl   $"Application Init() Success!",(%esp)
  call   <T> <puts>
 -jmp    <T> <_ZN12CApplication4InitEiPPc+0x10d>
@@ -145,29 +135,21 @@ CApplication::_ZN12CApplication4InitEiPPc(CApplication *this,int param_1,char **
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 103 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFApplication.cpp](source/DNFServer/GameServer/Guild/DNFApplication.cpp)（约第 128 行）：
 
 ```cpp
 void CApplication::Init(int argc, char** argv)
 {
-    try
+    ShowLogo();
+    g_ServerString_.StrLoading();
+    CheckArgv(argc, argv);
+    CSignalTranslator* st = CSignalTranslatorInstance();
+    st->init(this);
+    AttachAppInitor(argv);
+    if (m_appInit != 0)
     {
-        ShowLogo();
-        CheckArgv(argc, argv);
-        CSignalTranslatorInstance()->init(this);
-        AttachAppInitor(argv);
         m_appInit->Init(this, argc, argv);
-        puts("Application Init() Success!");
     }
-    catch (CDNFException& e)
-    {
-        printf("CApplication::Init() Exception Break : %s\n", e.what());
-        throw;
-    }
-    catch (...)
-    {
-        puts("CApplication::Init() Exception Break");
-        throw;
-    }
+    puts("Application Init() Success!");
 }
 ```

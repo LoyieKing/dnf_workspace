@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809602c` | `0x321` | `0x807d1b6` | `0x31c` |
+| dbmw | DIFF | `0x809602c` | `0x321` | `0x80d082a` | `0x31e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,214 +1,213 @@
+@@ -1,214 +1,214 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -23,61 +23,50 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x316>
-+je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x30e>
++je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x310>
  mov    0x8(%ebp),%eax
+-mov    %eax,-0x1c(%ebp)
+-mov    -0x1c(%ebp),%eax
 +mov    %eax,-0x20(%ebp)
 +mov    -0x20(%ebp),%eax
-+mov    0xb(%eax),%eax
-+test   %eax,%eax
-+je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x311>
-+mov    -0x20(%ebp),%eax
-+mov    0xf(%eax),%eax
-+cmp    $0x10,%eax
-+jle    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x7c>
-+movl   $0x3d4,0x8(%esp)
-+movl   $"OnSendMailCoinGuildEvent",0x4(%esp)
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x20(%ebp),%eax
-+mov    0xb(%eax),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CApplication.OnSendMailCoinGuildEvent Err : return false(%d)",0x8(%esp)
-+movl   $"./log/GuildEvent",0x4(%esp)
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x312>
-+mov    -0x20(%ebp),%eax
-+mov    0xf(%eax),%eax
- mov    %eax,-0x1c(%ebp)
- mov    -0x1c(%ebp),%eax
--mov    0xb(%eax),%eax
--test   %eax,%eax
+ mov    0xb(%eax),%eax
+ test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x317>
 -mov    -0x1c(%ebp),%eax
 -mov    0xf(%eax),%eax
 -test   %eax,%eax
 -jle    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x41>
 -mov    -0x1c(%ebp),%eax
--mov    0xf(%eax),%eax
--cmp    $0x10,%eax
++je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x313>
++mov    -0x20(%ebp),%eax
+ mov    0xf(%eax),%eax
+ cmp    $0x10,%eax
 -jle    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x86>
 -mov    -0x1c(%ebp),%eax
--mov    0xb(%eax),%ebx
--movl   $0x3d4,0x8(%esp)
--movl   $"OnSendMailCoinGuildEvent",0x4(%esp)
++jle    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x7c>
++mov    -0x20(%ebp),%eax
+ mov    0xb(%eax),%ebx
+ movl   $0x3d4,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"CApplication.OnSendMailCoinGuildEvent Err : return false(%d)",0x8(%esp)
--movl   $"./log/GuildEvent",0x4(%esp)
++lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"CApplication.OnSendMailCoinGuildEvent Err : return false(%d)",0x8(%esp)
+ movl   $"./log/GuildEvent",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x317>
--mov    -0x1c(%ebp),%eax
++lea    -0x40(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x314>
++mov    -0x20(%ebp),%eax
++mov    0xf(%eax),%eax
++mov    %eax,-0x1c(%ebp)
+ mov    -0x1c(%ebp),%eax
 -mov    0xf(%eax),%edx
 -mov    %edx,%eax
  sar    $0x1f,%eax
@@ -89,11 +78,11 @@
 +xor    -0x1c(%ebp),%edx
 +mov    %edx,-0x18(%ebp)
 +sub    %eax,-0x18(%ebp)
-+lea    -0x2c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIiSaIiEEC1Ev>
 -lea    -0x48(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIiSaIiEE5clearEv>
 -mov    -0x1c(%ebp),%eax
@@ -112,7 +101,7 @@
 -mov    %ecx,0x18(%esp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%ecx
 +lea    0x50(%ecx),%ebx
-+lea    -0x2c(%ebp),%ecx
++lea    -0x4c(%ebp),%ecx
 +mov    %ecx,0x1c(%esp)
 +movl   $0x0,0x18(%esp)
  mov    -0x18(%ebp),%ecx
@@ -128,23 +117,19 @@
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x14b>
 -mov    -0x1c(%ebp),%eax
--mov    0xb(%eax),%ebx
 +test   %al,%al
 +sete   %al
 +test   %al,%al
 +je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x149>
- movl   $0x3f5,0x8(%esp)
- movl   $"OnSendMailCoinGuildEvent",0x4(%esp)
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x20(%ebp),%eax
-+mov    0xb(%eax),%eax
-+mov    %eax,0xc(%esp)
+ mov    0xb(%eax),%ebx
+ movl   $0x3f5,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CApplication.AwardGuildCoinByMail Err(%d) : return false",0x8(%esp)
  movl   $"./log/GuildEvent",0x4(%esp)
 -lea    -0x34(%ebp),%eax
@@ -159,11 +144,11 @@
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x22e>
 -lea    -0x506(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x228>
-+lea    -0x2c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt6vectorIiSaIiEE5emptyEv>
 +xor    $0x1,%eax
@@ -173,14 +158,14 @@
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_Notify_New_Group_MailC1Ev>
 -lea    -0x48(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorIiSaIiEE4sizeEv>
  cmp    $0x12b,%eax
 -jg     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x190>
 -lea    -0x48(%ebp),%eax
 +ja     <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x18c>
-+lea    -0x2c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorIiSaIiEE4sizeEv>
 -jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x195>
@@ -202,7 +187,7 @@
 -lea    -0x48(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt6vectorIiSaIiEE2atEj>
-+lea    -0x2c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt6vectorIiSaIiEEixEj>
  mov    (%eax),%eax
@@ -238,7 +223,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CGuildServer12SendToServerEPci>
 -lea    -0x48(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIiSaIiEE5clearEv>
 -jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x22e>
@@ -246,7 +231,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x48(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIiSaIiEED1Ev>
  mov    %esi,%eax
@@ -254,51 +239,42 @@
 -jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x23e>
 -lea    -0x48(%ebp),%eax
 +jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x238>
-+lea    -0x2c(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIiSaIiEED1Ev>
 -jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x317>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x312>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x314>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x2ba>
-+jne    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x2b2>
++jne    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x2b4>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0x449,0x8(%esp)
-+movl   $"OnSendMailCoinGuildEvent",0x4(%esp)
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x449,0x8(%esp)
--movl   $"OnSendMailCoinGuildEvent",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x449,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnSendMailCoinGuildEvent() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x2b3>
-+lea    -0x44(%ebp),%eax
++lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x2ab>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x2ad>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -308,13 +284,13 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x317>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x312>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x314>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x44e,0x8(%esp)
- movl   $"OnSendMailCoinGuildEvent",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnSendMailCoinGuildEvent() Exception Break\n",0x8(%esp)
@@ -323,10 +299,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x30f>
-+lea    -0x4c(%ebp),%eax
++lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x307>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x309>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -336,10 +312,10 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x317>
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x312>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x314>
  nop
 -add    $0x520,%esp
-+jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x312>
++jmp    <T> <_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader+0x314>
 +nop
 +add    $0x530,%esp
  pop    %ebx
@@ -430,7 +406,7 @@ void CPacketTranslater::_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 313 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 329 行）：
 
 ```cpp
 void CPacketTranslater::OnSendMailCoinGuildEvent(PacketHeader* header)
@@ -445,10 +421,12 @@ void CPacketTranslater::OnSendMailCoinGuildEvent(PacketHeader* header)
             return;
         if (pkt->m_count > 0x10)
         {
-            CMyFileLog log("OnSendMailCoinGuildEvent", 0x3d4);
-            log("./log/GuildEvent",
+            DNF_LOG_SCOPE_LINE(0x3d4,
+                "./log/GuildEvent",
                 "CApplication.OnSendMailCoinGuildEvent Err : return false(%d)",
-                pkt->m_guildId);
+                pkt->m_guildId
+            );
+
             return;
         }
         int count = pkt->m_count;
@@ -459,10 +437,12 @@ void CPacketTranslater::OnSendMailCoinGuildEvent(PacketHeader* header)
                 pkt->m_serverId, pkt->m_guildId, 1, 1,
                 absCount, 0, characNos))
         {
-            CMyFileLog log("OnSendMailCoinGuildEvent", 0x3f5);
-            log("./log/GuildEvent",
+            DNF_LOG_SCOPE_LINE(0x3f5,
+                "./log/GuildEvent",
                 "CApplication.AwardGuildCoinByMail Err(%d) : return false",
-                pkt->m_guildId);
+                pkt->m_guildId
+            );
+
         }
         else if (!characNos.empty())
         {

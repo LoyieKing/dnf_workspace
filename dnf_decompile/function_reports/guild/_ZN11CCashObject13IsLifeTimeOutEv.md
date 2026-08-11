@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a16d6` | `0x2c` | `0x804b0ea` | `0x1c` |
+| guild | DIFF | `0x80a16d6` | `0x2c` | `0x804b128` | `0x27` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,18 +1,13 @@
+@@ -1,18 +1,16 @@
  push   %ebp
  mov    %esp,%ebp
  mov    0x8(%ebp),%eax
@@ -24,12 +24,14 @@
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  test   %eax,%eax
- sete   %al
+-sete   %al
 -test   %al,%al
 -je     <T> <_ZN11CCashObject13IsLifeTimeOutEv+0x25>
--mov    $0x1,%eax
++jne    <T> <_ZN11CCashObject13IsLifeTimeOutEv+0x20>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN11CCashObject13IsLifeTimeOutEv+0x2a>
--mov    $0x0,%eax
++jmp    <T> <_ZN11CCashObject13IsLifeTimeOutEv+0x25>
+ mov    $0x0,%eax
  pop    %ebp
  ret
 ```
@@ -49,12 +51,14 @@ bool __thiscall CCashObject::_ZN11CCashObject13IsLifeTimeOutEv(CCashObject *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/CashObject.cpp](source/DNFServer/GameServer/Guild/CashObject.cpp)（约第 91 行）：
+定义于 [source/DNFServer/GameServer/Guild/CashObject.cpp](source/DNFServer/GameServer/Guild/CashObject.cpp)（约第 93 行）：
 
 ```cpp
 bool CCashObject::IsLifeTimeOut()
 {
     m_lifeTime -= 1;
-    return m_lifeTime == 0;
+    if (m_lifeTime == 0)
+        return true;
+    return false;
 }
 ```

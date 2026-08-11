@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808d440` | `0xf7` | `0x8078aa2` | `0xfb` |
+| monitor | DIFF | `0x808d440` | `0xf7` | `0x8078a04` | `0xf9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,77 +1,79 @@
+@@ -1,77 +1,78 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,10 +21,9 @@
  sub    $0x20,%esp
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +test   %eax,%eax
-+je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf4>
++je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf2>
  mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++mov    0xa(%eax),%eax
  mov    %eax,-0x10(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -test   %eax,%eax
@@ -40,7 +39,7 @@
 -je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf0>
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf4>
++je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf2>
  lea    -0x11(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -64,7 +63,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xb8>
-+jmp    <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xbf>
++jmp    <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xbd>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x18(%ebp),%eax
@@ -73,7 +72,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0x9d>
-+jmp    <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xa4>
++jmp    <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xa2>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x11(%ebp),%eax
@@ -88,7 +87,7 @@
  call   <T> <_ZNSaIcED1Ev>
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf0>
-+je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf4>
++je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf2>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -148,14 +147,14 @@ void CPacketTranslater::_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4297 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4306 行）：
 
 ```cpp
 void CPacketTranslater::OnDisableUserOneToOneChat_GM(PacketHeader* pkt)
 {
     if (m_pclApp != 0)
     {
-        unsigned int channel = *(unsigned int*)((char*)pkt + 0xa);
+        unsigned int channel = ((RA_UINT<10>*)pkt)->v;
         if (m_pclApp->isGM_regFromChannel(channel) != 0)
         {
             CUser* target =

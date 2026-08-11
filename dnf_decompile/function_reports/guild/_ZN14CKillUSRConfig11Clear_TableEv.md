@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x805f992` | `0xa4` | `0x8064740` | `0x93` |
+| guild | DIFF | `0x805f992` | `0xa4` | `0x8063dea` | `0x93` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -130,7 +130,7 @@ void __thiscall CKillUSRConfig::_ZN14CKillUSRConfig11Clear_TableEv(CKillUSRConfi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFKillUserConfig.cpp](source/DNFServer/GameServer/COServer/DNFKillUserConfig.cpp)（约第 26 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFKillUserConfig.cpp](source/DNFServer/GameServer/Guild/DNFKillUserConfig.cpp)（约第 78 行）：
 
 ```cpp
 void CKillUSRConfig::Clear_Table()
@@ -140,9 +140,7 @@ void CKillUSRConfig::Clear_Table()
         for (std::vector<ST_KillUSRConfig*>::iterator it = m_infos.begin(); it != m_infos.end();
              ++it)
         {
-            ST_KillUSRConfig* p = *it;
-            ::operator delete(p);
-            p = 0;
+            ::operator delete(*it);
         }
         m_infos.clear();
     }

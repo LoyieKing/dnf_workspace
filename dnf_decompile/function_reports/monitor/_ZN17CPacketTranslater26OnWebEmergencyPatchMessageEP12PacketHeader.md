@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80918c4` | `0x301` | `0x807cec6` | `0x311` |
+| monitor | DIFF | `0x80918c4` | `0x301` | `0x807cd64` | `0x30f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,208 +1,214 @@
+@@ -1,208 +1,213 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,19 +24,19 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0xdf>
 -lea    -0x49(%ebp),%eax
-+lea    -0x39(%ebp),%eax
++lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x49(%ebp),%eax
-+lea    -0x39(%ebp),%eax
++lea    -0x51(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnWebEmergencyPatchMessage",0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x50(%ebp),%esi
-+lea    -0x40(%ebp),%esi
++lea    -0x58(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -54,7 +54,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x50(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x87>
@@ -65,7 +65,7 @@
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0xa4>
 -lea    -0x50(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0xbc>
@@ -75,18 +75,18 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x49(%ebp),%eax
-+lea    -0x39(%ebp),%eax
++lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x223>
 -lea    -0x49(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x235>
-+lea    -0x39(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x231>
++lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -97,7 +97,7 @@
 -mov    -0x2c(%ebp),%eax
 +mov    %eax,-0x38(%ebp)
 +movl   $0x0,-0x30(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x1d9>
++jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x1d5>
 +mov    0x8(%ebp),%eax
  mov    -0x30(%ebp),%edx
 -movzbl 0xa(%edx,%eax,1),%eax
@@ -107,7 +107,7 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x1c7>
 -mov    -0x2c(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x1d5>
++je     <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x1d1>
 +mov    0x8(%ebp),%eax
  mov    -0x30(%ebp),%edx
 -movzbl 0xa(%edx,%eax,1),%eax
@@ -126,7 +126,7 @@
  mov    %eax,-0x28(%ebp)
  cmpl   $0x0,-0x28(%ebp)
 -je     <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x1c8>
-+je     <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x1d5>
++je     <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x1d1>
  movl   $0x10a,0x8(%esp)
  movl   $0x27f2,0x4(%esp)
  mov    -0x28(%ebp),%eax
@@ -135,12 +135,11 @@
  mov    %eax,-0x24(%ebp)
  cmpl   $0x0,-0x24(%ebp)
 -je     <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x1c8>
-+je     <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x1d5>
++je     <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x1d1>
 +mov    -0x24(%ebp),%eax
 +lea    0xa(%eax),%edx
 +mov    0x8(%ebp),%eax
-+add    $0x3c,%eax
-+movzbl (%eax),%eax
++movzbl 0x3c(%eax),%eax
 +mov    %al,(%edx)
  mov    -0x24(%ebp),%eax
  mov    %eax,-0x20(%ebp)
@@ -156,10 +155,8 @@
  mov    %eax,(%esp)
  call   <T> <memset>
 -mov    -0x30(%ebp),%eax
--movzbl 0x3c(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x3c,%eax
-+movzbl (%eax),%eax
+ movzbl 0x3c(%eax),%eax
  movzbl %al,%eax
 -mov    -0x30(%ebp),%edx
 +mov    0x8(%ebp),%edx
@@ -188,59 +185,51 @@
  movzwl (%eax),%eax
 -movzwl %ax,%ebx
 +mov    %ax,-0x32(%ebp)
++movzwl -0x32(%ebp),%ebx
  movl   $0x204a,0x8(%esp)
- movl   $"OnWebEmergencyPatchMessage",0x4(%esp)
- lea    -0x48(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x48(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+movzwl -0x32(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnWebEmergencyPatchMessage packet_id(%d)",0x8(%esp)
  movl   $"./log/Web",0x4(%esp)
- lea    -0x48(%ebp),%eax
+-lea    -0x48(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x2f9>
-+jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x309>
++jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x307>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x29f>
-+jne    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x2af>
++jne    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x2ad>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
-+movl   $0x204e,0x8(%esp)
-+movl   $"OnWebEmergencyPatchMessage",0x4(%esp)
-+lea    -0x50(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x204e,0x8(%esp)
--movl   $"OnWebEmergencyPatchMessage",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x204e,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnWebEmergencyPatchMessage Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x298>
-+jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x2a8>
++jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x2a6>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -250,23 +239,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x2f9>
-+jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x309>
++jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x307>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x2053,0x8(%esp)
- movl   $"OnWebEmergencyPatchMessage",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnWebEmergencyPatchMessage Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x2f4>
-+jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x304>
++jmp    <T> <_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader+0x302>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -350,7 +339,7 @@ void CPacketTranslater::_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5338 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5349 行）：
 
 ```cpp
 void CPacketTranslater::OnWebEmergencyPatchMessage(PacketHeader* pkt)
@@ -374,11 +363,11 @@ void CPacketTranslater::OnWebEmergencyPatchMessage(PacketHeader* pkt)
                     char* buf = tcp->makePacketHeader(0x27f2, 0x10a);
                     if (buf != 0)
                     {
-                        *(char*)(buf + 10) = *(char*)((char*)pkt + 0x3c);
+                        *(char*)(buf + 10) = ((RA_S8<60>*)pkt)->v;
                         char* out = buf;
                         memset(buf + 0xb, 0, 0xff);
                         memcpy(out + 0xb, (char*)pkt + 0x3d,
-                               (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x3c));
+                               (unsigned int)(unsigned char)((RA_S8<60>*)pkt)->v);
                         tcp->SendToGameServer(out);
                     }
                 }

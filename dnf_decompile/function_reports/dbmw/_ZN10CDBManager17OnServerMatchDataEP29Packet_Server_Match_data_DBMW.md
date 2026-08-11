@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8083de4` | `0x145` | `0x805268a` | `0x14d` |
+| dbmw | DIFF | `0x8083de4` | `0x145` | `0x805266c` | `0x14d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -27,60 +27,50 @@
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%ebx
+ mov    (%eax),%ebx
 -mov    0xc(%ebp),%eax
 -movzbl 0xa(%eax),%eax
--movsbl %al,%ecx
++mov    -0xc(%ebp),%eax
++add    $0xa,%eax
++movzbl (%eax),%eax
+ movsbl %al,%ecx
 -mov    0xc(%ebp),%eax
 -mov    0xf(%eax),%edx
 -mov    0xc(%ebp),%eax
 -mov    0xb(%eax),%eax
--mov    %ecx,0x14(%esp)
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
++mov    -0xc(%ebp),%eax
++add    $0xf,%eax
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0xb,%eax
 +mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0xa,%edx
-+movzbl (%edx),%edx
-+movsbl %dl,%ebx
-+mov    -0xc(%ebp),%edx
-+add    $0xf,%edx
-+mov    (%edx),%ecx
-+mov    -0xc(%ebp),%edx
-+add    $0xb,%edx
-+mov    (%edx),%edx
-+mov    %ebx,0x14(%esp)
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
+ mov    %ecx,0x14(%esp)
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"upDate pvp_score set win_count=win_count+%d,lose_count=lose_count+%d where server_id = %d and occ_date = cast(now() as date)",0x8(%esp)
  movl   $0x4ef8,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ebx
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ebx
 -mov    -0xc(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4ef8,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager17OnServerMatchDataEP29Packet_Server_Match_data_DBMW+0xbc>
 +je     <T> <_ZN10CDBManager17OnServerMatchDataEP29Packet_Server_Match_data_DBMW+0xc1>
  movl   $0x219d,0x8(%esp)
- movl   $"OnServerMatchData",0x4(%esp)
+ movl   $&_ZZN10CDBManager17OnServerMatchDataEP29Packet_Server_Match_data_DBMWE12__FUNCTION__,0x4(%esp)
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -96,14 +86,11 @@
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  or     %edx,%eax
  test   %eax,%eax
  sete   %al
@@ -114,53 +101,43 @@
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%ebx
+ mov    (%eax),%ebx
 -mov    0xc(%ebp),%eax
 -mov    0xf(%eax),%ecx
 -mov    0xc(%ebp),%eax
 -mov    0xb(%eax),%edx
 -mov    0xc(%ebp),%eax
 -movzbl 0xa(%eax),%eax
--movsbl %al,%eax
--mov    %ecx,0x14(%esp)
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0xf,%edx
-+mov    (%edx),%ebx
-+mov    -0xc(%ebp),%edx
-+add    $0xb,%edx
-+mov    (%edx),%ecx
-+mov    -0xc(%ebp),%edx
-+add    $0xa,%edx
-+movzbl (%edx),%edx
-+movsbl %dl,%edx
-+mov    %ebx,0x14(%esp)
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
++mov    -0xc(%ebp),%eax
++add    $0xf,%eax
++mov    (%eax),%ecx
++mov    -0xc(%ebp),%eax
++add    $0xb,%eax
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0xa,%eax
++movzbl (%eax),%eax
+ movsbl %al,%eax
+ mov    %ecx,0x14(%esp)
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"inSert into pvp_score(server_id,occ_date,win_count,lose_count) values(%d,cast(now() as date),%d,%d)",0x8(%esp)
  movl   $0x4ef9,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ebx
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ebx
 -mov    -0xc(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4ef9,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  mov    $0x1,%eax
  add    $0x34,%esp
  pop    %ebx
@@ -213,7 +190,7 @@ CDBManager::_ZN10CDBManager17OnServerMatchDataEP29Packet_Server_Match_data_DBMW
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1555 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1559 行）：
 
 ```cpp
 char CDBManager::OnServerMatchData(Packet_Server_Match_data_DBMW* packet)
@@ -226,7 +203,7 @@ char CDBManager::OnServerMatchData(Packet_Server_Match_data_DBMW* packet)
                  *(signed char*)(p + 0xa));
     if (h->exec(0x4ef8) != 1)
     {
-        CMyFileLog log("OnServerMatchData", 0x219d);
+        CMyFileLog log(__FUNCTION__, 0x219d);
         log("./log/Except", "OnServerMatchData Error db ");
         return 0;
     }

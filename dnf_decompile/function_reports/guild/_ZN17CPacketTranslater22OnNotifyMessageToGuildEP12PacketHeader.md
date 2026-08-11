@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807ef06` | `0x202` | `0x80756c8` | `0x12e` |
+| guild | DIFF | `0x807ef06` | `0x202` | `0x8075514` | `0x133` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,134 +1,79 @@
+@@ -1,134 +1,81 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -27,7 +27,7 @@
 -jne    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x55>
 +jne    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x54>
  movl   $0x109d,0x8(%esp)
- movl   $"OnNotifyMessageToGuild",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -39,7 +39,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x1f8>
-+jmp    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x125>
++jmp    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x12a>
  mov    -0x10(%ebp),%eax
 -mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
@@ -57,18 +57,19 @@
 -mov    %eax,-0x14(%ebp)
 -cmpl   $0x0,-0x14(%ebp)
 -sete   %al
--test   %al,%al
--jne    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x1f4>
 +mov    %eax,-0xc(%ebp)
 +cmpl   $0x0,-0xc(%ebp)
-+je     <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x125>
++setne  %al
+ test   %al,%al
+-jne    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x1f4>
++je     <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x12a>
  mov    -0x10(%ebp),%eax
 -movzbl 0xe(%eax),%eax
 +add    $0xe,%eax
 +movzbl (%eax),%eax
  cmp    $0x1,%al
 -je     <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0xf7>
-+je     <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x102>
++je     <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x107>
  mov    -0x10(%ebp),%eax
 -movzbl 0xe(%eax),%eax
 +add    $0xe,%eax
@@ -76,7 +77,7 @@
  cmp    $0x2,%al
 -jne    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x1f7>
 -lea    -0xa0(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x124>
++jne    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x129>
 +lea    -0x8c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN34Packet_Web_Notify_Message_To_GuildC1Ev>
@@ -129,7 +130,7 @@
 -call   *%edx
 -mov    %eax,%ebx
 -movl   $0x10bf,0x8(%esp)
--movl   $"OnNotifyMessageToGuild",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -152,7 +153,7 @@
 -mov    %eax,(%esp)
 -call   <T> <__cxa_begin_catch>
 -movl   $0x10c4,0x8(%esp)
--movl   $"OnNotifyMessageToGuild",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -171,7 +172,7 @@
 -call   <T> <_Unwind_Resume>
 -call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x1f8>
-+jmp    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x125>
++jmp    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x12a>
  nop
 -jmp    <T> <_ZN17CPacketTranslater22OnNotifyMessageToGuildEP12PacketHeader+0x1f8>
 -nop
@@ -239,8 +240,8 @@ void CPacketTranslater::OnNotifyMessageToGuild(PacketHeader* pkt)
         DNF_LOG_SCOPE_LINE(0x109d, "./log/Except", "CPacketTranslater::OnNotifyMessageToGuild : 0 == m_pclApp");
         return;
     }
-    CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xa));
-    if (guild != 0)
+    CGuild* guild;
+    if ((guild = m_pclApp->Get_GuildManager()->FindGuild(*(unsigned int*)(pb + 0xa))) != 0)
     {
         if ((unsigned char)pb[0xe] != 1)
         {

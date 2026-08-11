@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8075b18` | `0x181` | `0x8066434` | `0x169` |
+| statics | DIFF | `0x8075b18` | `0x181` | `0x8066412` | `0x169` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -225,7 +225,7 @@ STPartyStatisticKey::_ZNK19STPartyStatisticKeyltERKS_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/GMAccounts.cpp](source/DNFServer/GameServer/Statics/GMAccounts.cpp)（约第 595 行）：
+定义于 [source/DNFServer/GameServer/Statics/GMAccounts.cpp](source/DNFServer/GameServer/Statics/GMAccounts.cpp)（约第 604 行）：
 
 ```cpp
 bool STPartyStatisticKey::operator<(const STPartyStatisticKey& other) const

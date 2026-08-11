@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809ee38` | `0x10b` | `0x8057a4c` | `0x10d` |
+| monitor | DIFF | `0x809ee38` | `0x10b` | `0x8057cf2` | `0x10d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -29,21 +29,20 @@
  movl   $0x0,-0x10(%ebp)
  mov    0x8(%ebp),%edx
 -lea    -0x1c(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE5beginEv>
  sub    $0x4,%esp
 -mov    0x8(%ebp),%edx
--lea    -0x20(%ebp),%eax
++jmp    <T> <_ZN12CBuddyHandle15getBuddysCharNoEPj+0xd6>
+ lea    -0x20(%ebp),%eax
 -mov    %edx,0x4(%esp)
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE3endEv>
 -sub    $0x4,%esp
 -jmp    <T> <_ZN12CBuddyHandle15getBuddysCharNoEPj+0xe9>
 -lea    -0x1c(%ebp),%eax
-+jmp    <T> <_ZN12CBuddyHandle15getBuddysCharNoEPj+0xd6>
-+lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEptEv>
  mov    0x4(%eax),%eax
@@ -67,9 +66,8 @@
 -jle    <T> <_ZN12CBuddyHandle15getBuddysCharNoEPj+0xde>
 +jle    <T> <_ZN12CBuddyHandle15getBuddysCharNoEPj+0xcb>
  movl   $0x135,0x8(%esp)
- movl   $"getBuddysCharNo",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ movl   $&_ZZN12CBuddyHandle15getBuddysCharNoEPjE12__FUNCTION__,0x4(%esp)
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $0x20,0x10(%esp)
@@ -77,28 +75,27 @@
  mov    %eax,0xc(%esp)
  movl   $"CBuddyHandle::GetBuddysCharNo iCnt(%d) > MAX_BUDDY_COUNT(%d)",0x8(%esp)
  movl   $"./log/buddy",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x20,%eax
 -jmp    <T> <_ZN12CBuddyHandle15getBuddysCharNoEPj+0x106>
 -lea    -0x1c(%ebp),%eax
 +jmp    <T> <_ZN12CBuddyHandle15getBuddysCharNoEPj+0x108>
-+lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEppEv>
--lea    -0x20(%ebp),%eax
 +mov    0x8(%ebp),%edx
-+lea    -0x14(%ebp),%eax
++lea    -0x1c(%ebp),%eax
 +mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE3endEv>
 +sub    $0x4,%esp
-+lea    -0x14(%ebp),%eax
- mov    %eax,0x4(%esp)
++lea    -0x1c(%ebp),%eax
++mov    %eax,0x4(%esp)
+ lea    -0x20(%ebp),%eax
+-mov    %eax,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEneERKS5_>
  test   %al,%al
@@ -173,7 +170,7 @@ int __thiscall CBuddyHandle::_ZN12CBuddyHandle15getBuddysCharNoEPj(CBuddyHandle 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 131 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 135 行）：
 
 ```cpp
 int CBuddyHandle::getBuddysCharNo(unsigned int* out)

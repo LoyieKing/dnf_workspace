@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8059930` | `0x2f4` | `0x80544ba` | `0x2f3` |
+| statics | DIFF | `0x8059930` | `0x2f4` | `0x8054456` | `0x2f0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,231 +1,230 @@
+@@ -1,231 +1,229 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -83,7 +83,7 @@
  lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -132,7 +132,7 @@
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  cmpl   $0x0,-0x20(%ebp)
 -je     <T> <_ZN14CPacketDecoder7ProcessEv+0x2ec>
-+je     <T> <_ZN14CPacketDecoder7ProcessEv+0x2eb>
++je     <T> <_ZN14CPacketDecoder7ProcessEv+0x2e8>
  mov    -0x20(%ebp),%eax
 -mov    %eax,-0x1c(%ebp)
 -mov    -0x1c(%ebp),%eax
@@ -140,12 +140,10 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader>
--xor    $0x1,%eax
-+cmp    $0x1,%eax
-+setne  %al
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN14CPacketDecoder7ProcessEv+0x2a4>
-+je     <T> <_ZN14CPacketDecoder7ProcessEv+0x2a3>
++je     <T> <_ZN14CPacketDecoder7ProcessEv+0x2a0>
  mov    0x8(%ebp),%eax
  mov    0x8(%eax),%eax
  mov    %eax,0x4(%esp)
@@ -156,7 +154,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CUdpRecvBufferdlEPv>
 -jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x1cd>
-+jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x1cc>
++jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x1c9>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x38(%ebp),%eax
@@ -187,7 +185,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x24f>
-+jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x24e>
++jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x24b>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -206,22 +204,22 @@
 -mov    %esi,%eax
 -mov    %ebx,%edx
 -jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x266>
-+jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x248>
++jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x245>
 +cmp    $0xffffffff,%edx
-+jne    <T> <_ZN14CPacketDecoder7ProcessEv+0x265>
++jne    <T> <_ZN14CPacketDecoder7ProcessEv+0x262>
 +call   <T> <_ZSt9terminatev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x265>
++jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x262>
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x281>
 -cmp    $0xffffffff,%edx
 -jne    <T> <_ZN14CPacketDecoder7ProcessEv+0x266>
-+jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x280>
++jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x27d>
 +cmp    $0xffffffff,%edx
-+jne    <T> <_ZN14CPacketDecoder7ProcessEv+0x265>
++jne    <T> <_ZN14CPacketDecoder7ProcessEv+0x262>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
@@ -235,7 +233,7 @@
  lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -249,7 +247,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CUdpRecvBufferdlEPv>
 -jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x2e1>
-+jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x2e0>
++jmp    <T> <_ZN14CPacketDecoder7ProcessEv+0x2dd>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x3c(%ebp),%eax
@@ -357,40 +355,40 @@ void __thiscall CPacketDecoder::_ZN14CPacketDecoder7ProcessEv(CPacketDecoder *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFPacketDecoder.cpp](source/DNFServer/GameServer/COServer/DNFPacketDecoder.cpp)（约第 76 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Statics/DNFPacketDecoder.cpp)（约第 106 行）：
 
 ```cpp
-void CPacketDecoder::Process(std::queue<CUdpRecvBuffer*>* q, CMutex* lock)
+void CPacketDecoder::Process()
 {
-    if (q != 0 && lock != 0)
+    if (m_queue == 0 || m_lock == 0)
     {
-        PacketHeader* pkt = 0;
+        throw CDNFException("CPacketDecoder is Not Ready!\n");
+    }
+    PacketHeader* pkt = 0;
+    {
+        CGuard<CMutex> g((CMutex*)m_lock);
+        std::queue<CUdpRecvBuffer*>* q = (std::queue<CUdpRecvBuffer*>*)m_queue;
+        if (!q->empty())
         {
-            CGuard<CMutex> g(lock);
-            if (!q->empty())
-            {
-                pkt = (PacketHeader*)q->front();
-                q->pop();
-            }
+            pkt = (PacketHeader*)q->front();
+            q->pop();
         }
-        if (pkt != 0)
+    }
+    if (pkt != 0)
+    {
+        if (MsgDecode(pkt) != 1)
         {
-            if (MsgDecode(pkt) != 1)
-            {
-                {
-                    CGuard<CMutex> g((CMutex*)m_poolLock);
-                    CUdpRecvBuffer::operator delete(pkt);
-                }
-                throw CDNFException(
-                    "CPacketDecoder::MsgDecode() Undefined Packet Arrived Exception Break!");
-            }
             {
                 CGuard<CMutex> g((CMutex*)m_poolLock);
                 CUdpRecvBuffer::operator delete(pkt);
             }
+            throw CDNFException(
+                "CPacketDecoder::MsgDecode() Undefined Packet Arrived Exception Break!");
         }
-        return;
+        {
+            CGuard<CMutex> g((CMutex*)m_poolLock);
+            CUdpRecvBuffer::operator delete(pkt);
+        }
     }
-    throw CDNFException("CPacketDecoder is Not Ready!\n");
 }
 ```

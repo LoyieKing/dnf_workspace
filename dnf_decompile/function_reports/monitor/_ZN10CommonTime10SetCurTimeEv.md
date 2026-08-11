@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8066978` | `0x7a` | `0x809f8ac` | `0x76` |
+| monitor | DIFF | `0x8066978` | `0x7a` | `0x809fb3c` | `0x76` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -87,19 +87,19 @@ void __thiscall CommonTime::_ZN10CommonTime10SetCurTimeEv(CommonTime *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/SystemTimeHandler.cpp](source/DNFServer/GameServer/COServer/SystemTimeHandler.cpp)（约第 10 行）：
+定义于 [source/DNFServer/GameServer/Monitor/SystemTimeHandler.cpp](source/DNFServer/GameServer/Monitor/SystemTimeHandler.cpp)（约第 30 行）：
 
 ```cpp
 void CommonTime::SetCurTime()
 {
     time_t t;
     time(&t);
-    tm* pt = localtime(&t);
-    m_time[0] = (char)((char)pt->tm_year - 100);
-    m_time[1] = (char)((char)pt->tm_mon + 1);
-    m_time[2] = (char)pt->tm_mday;
-    m_time[3] = (char)pt->tm_hour;
-    m_time[4] = (char)pt->tm_min;
-    m_time[5] = (char)pt->tm_wday;
+    tm* p = localtime(&t);
+    m_field0 = (unsigned char)((char)p->tm_year + -100);
+    m_field1 = (unsigned char)((char)p->tm_mon + 1);
+    m_field2 = (unsigned char)((char)p->tm_mday);
+    m_field3 = (unsigned char)((char)p->tm_hour);
+    m_field4 = (unsigned char)((char)p->tm_min);
+    m_field5 = (unsigned char)((char)p->tm_wday);
 }
 ```

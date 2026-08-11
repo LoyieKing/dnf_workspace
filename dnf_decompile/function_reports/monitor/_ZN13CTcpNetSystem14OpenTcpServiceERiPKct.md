@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8053958` | `0x1b1` | `0x80a223c` | `0x1c1` |
+| monitor | DIFF | `0x8053958` | `0x1b1` | `0x80a23fc` | `0x1c6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,114 +1,115 @@
+@@ -1,114 +1,118 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
--push   %ebx
+ push   %ebx
 -sub    $0x50,%esp
-+sub    $0x68,%esp
++sub    $0x64,%esp
  mov    0x14(%ebp),%eax
 -mov    %ax,-0x2c(%ebp)
 +mov    %ax,-0x3c(%ebp)
@@ -39,7 +39,7 @@
 +test   %al,%al
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x166>
++je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x167>
 +movzwl -0x3c(%ebp),%eax
 +mov    %eax,0x8(%esp)
 +mov    0x10(%ebp),%eax
@@ -50,7 +50,7 @@
 +test   %al,%al
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0xfc>
++je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0xfd>
 +mov    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN9TCPSocket14setOptNonBlockEv>
@@ -81,80 +81,62 @@
 -test   %al,%al
 -je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x9b>
 -movl   $"tcpSock.open() Fail!",(%esp)
+-call   <T> <puts>
+-movl   $0x118,0x8(%esp)
+-movl   $&_ZZN13CTcpNetSystem14OpenTcpServiceERiPKctE12__FUNCTION__,0x4(%esp)
+-lea    -0x20(%ebp),%eax
 +call   <T> <_ZN5CPeer8InitPeerEPSt5queueIP14CTcpRecvBufferSt5dequeIS2_SaIS2_EEEP6CMutexS9_>
 +mov    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CPeer7ConnSigEv>
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer>
-+mov    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNK9TCPSocket9getHandleEv>
-+mov    0xc(%ebp),%edx
-+mov    %eax,(%edx)
-+mov    $0x1,%eax
-+jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1bf>
-+movl   $"tcpSock.connect Fail!",(%esp)
- call   <T> <puts>
--movl   $0x118,0x8(%esp)
-+movl   $0x123,0x8(%esp)
- movl   $"OpenTcpService",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -movl   $"tcpSock.open() Fail!",0x8(%esp)
-+movzwl -0x3c(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    0x10(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"tcpSock.connect(%s, %d) Fail!",0x8(%esp)
- movl   $"./log/TcpServer",0x4(%esp)
+-movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x10(%ebp),%eax
++call   <T> <_ZN5CPeer7ConnSigEv>
 +mov    -0x1c(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
- call   <T> <_ZN13CTcpNetSystem10DeletePeerEP5CPeer>
- mov    $0x0,%eax
+-call   <T> <_ZN13CTcpNetSystem10DeletePeerEP5CPeer>
+-mov    $0x0,%eax
 -jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1aa>
 -movzwl -0x2c(%ebp),%eax
 -mov    %eax,0x8(%esp)
 -mov    0x10(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
++call   <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer>
++mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
 -call   <T> <_ZN9TCPSocket7connectEPKct>
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x129>
--movl   $"tcpSock.connect Fail!",(%esp)
-+jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1bf>
-+movl   $"tcpSock.open() Fail!",(%esp)
++call   <T> <_ZNK9TCPSocket9getHandleEv>
++mov    0xc(%ebp),%edx
++mov    %eax,(%edx)
++mov    $0x1,%eax
++jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1c0>
+ movl   $"tcpSock.connect Fail!",(%esp)
  call   <T> <puts>
 -movzwl -0x2c(%ebp),%ebx
--movl   $0x123,0x8(%esp)
-+movl   $0x118,0x8(%esp)
- movl   $"OpenTcpService",0x4(%esp)
++movzwl -0x3c(%ebp),%ebx
+ movl   $0x123,0x8(%esp)
+ movl   $&_ZZN13CTcpNetSystem14OpenTcpServiceERiPKctE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x10(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"tcpSock.connect(%s, %d) Fail!",0x8(%esp)
-+movl   $"tcpSock.open() Fail!",0x8(%esp)
+ mov    %ebx,0x10(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"tcpSock.connect(%s, %d) Fail!",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x10(%ebp),%eax
@@ -166,10 +148,20 @@
  mov    $0x0,%eax
 -jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1aa>
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
++jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1c0>
++movl   $"tcpSock.open() Fail!",(%esp)
++call   <T> <puts>
++movl   $0x118,0x8(%esp)
++movl   $&_ZZN13CTcpNetSystem14OpenTcpServiceERiPKctE12__FUNCTION__,0x4(%esp)
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
 -call   <T> <_ZN9TCPSocket14setOptNonBlockEv>
 -mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++movl   $"tcpSock.open() Fail!",0x8(%esp)
++movl   $"./log/TcpServer",0x4(%esp)
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
 -call   <T> <_ZN13CTcpNetSystem16Get_TcpRecvBLockEv>
 -mov    %eax,%esi
 -mov    0x8(%ebp),%eax
@@ -191,9 +183,11 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CPeer7ConnSigEv>
 -mov    -0x10(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    -0x1c(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
 -call   <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer>
 -mov    -0xc(%ebp),%eax
 -mov    %eax,(%esp)
@@ -202,10 +196,12 @@
 -mov    %eax,(%edx)
 -mov    $0x1,%eax
 -add    $0x50,%esp
--pop    %ebx
++call   <T> <_ZN13CTcpNetSystem10DeletePeerEP5CPeer>
++mov    $0x0,%eax
++add    $0x64,%esp
+ pop    %ebx
 -pop    %esi
--pop    %ebp
-+leave
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -274,34 +270,35 @@ CTcpNetSystem::_ZN13CTcpNetSystem14OpenTcpServiceERiPKct
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 58 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 205 行）：
 
 ```cpp
-int CTcpNetSystem::OpenTcpService(int& serverCount, const char* ip, unsigned short port)
+bool CTcpNetSystem::OpenTcpService(int& sockRef, const char* ip, unsigned short port)
 {
     CPeer* peer = CreatePeer();
     TCPSocket* sock = peer->GetTcpSocket();
-    if (!sock->open())
+    if (sock->open())
     {
-        puts("Tcp Open Socket Err");
-        CMyFileLog log("OpenTcpService", 0x118);
-        log("./log/TcpConnect", "Tcp Open Socket Err");
+        if (sock->connect(ip, port))
+        {
+            sock->setOptNonBlock();
+            CMutex* b = Get_TcpRecvBLock();
+            CMutex* q = Get_TcpRecvQLock();
+            void* recvQ = Get_TcpSwapQPacket()->GetRecvQ();
+            peer->InitPeer((std::queue<CTcpRecvBuffer*>*)recvQ, q, b);
+            peer->ConnSig();
+            SetEpollConnectedPeer(peer);
+            sockRef = sock->getHandle();
+            return 1;
+        }
+        puts("tcpSock.connect Fail!");
+        DNF_LOG_SCOPE_LINE(0x123, "./log/TcpServer", "tcpSock.connect(%s, %d) Fail!", ip, (unsigned int)port);
         DeletePeer(peer);
         return 0;
     }
-    if (!sock->connect(ip, port))
-    {
-        puts("Tcp Connect Err");
-        CMyFileLog log("OpenTcpService", 0x123);
-        log("./log/TcpConnect", "Tcp Connect Err(ip:%s, port:%d)", ip, port);
-        DeletePeer(peer);
-        return 0;
-    }
-    sock->setOptNonBlock();
-    peer->InitPeer(Get_TcpSwapQPacket()->GetRecvQ(), Get_TcpRecvQLock(), Get_TcpRecvBLock());
-    peer->ConnSig();
-    SetEpollConnectedPeer(peer);
-    serverCount = sock->getHandle();
-    return 1;
+    puts("tcpSock.open() Fail!");
+    DNF_LOG_SCOPE_LINE(0x118, "./log/TcpServer", "tcpSock.open() Fail!");
+    DeletePeer(peer);
+    return 0;
 }
 ```

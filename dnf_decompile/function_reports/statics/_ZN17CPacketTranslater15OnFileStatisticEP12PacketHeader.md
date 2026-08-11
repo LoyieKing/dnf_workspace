@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | NEAR | `0x805fab4` | `0x1ba` | `0x805a55a` | `0x1ba` |
+| statics | NEAR | `0x805fab4` | `0x1ba` | `0x805a524` | `0x1ba` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,29 +23,28 @@
  mov    0x8(%ebp),%eax
  mov    %eax,-0x10(%ebp)
 -lea    -0x22(%ebp),%eax
-+lea    -0x11(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x22(%ebp),%eax
-+lea    -0x11(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"./log/",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
  jmp    <T> <_ZN17CPacketTranslater15OnFileStatisticEP12PacketHeader+0x4d>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x22(%ebp),%eax
-+lea    -0x11(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater15OnFileStatisticEP12PacketHeader+0xdd>
 -lea    -0x22(%ebp),%eax
-+lea    -0x11(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    -0x10(%ebp),%eax
@@ -54,42 +53,37 @@
  test   %al,%al
  jne    <T> <_ZN17CPacketTranslater15OnFileStatisticEP12PacketHeader+0x7a>
  movl   $"filestatics",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSs6appendEPKc>
  jmp    <T> <_ZN17CPacketTranslater15OnFileStatisticEP12PacketHeader+0x8f>
  mov    -0x10(%ebp),%eax
  add    $0xa,%eax
  mov    %eax,0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSs6appendEPKc>
  mov    -0x10(%ebp),%eax
  lea    0x10a(%eax),%ebx
--lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs5c_strEv>
  mov    %ebx,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0x21(%ebp),%eax
-+lea    -0x19(%ebp),%eax
++lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CMyRawFileLogclEPKcS1_z>
  jmp    <T> <_ZN17CPacketTranslater15OnFileStatisticEP12PacketHeader+0xcd>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater15OnFileStatisticEP12PacketHeader+0xdd>
--lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater15OnFileStatisticEP12PacketHeader+0x1b3>
@@ -101,26 +95,20 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%ebx
  movl   $0x605,0x8(%esp)
- movl   $"OnFileStatistic",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater15OnFileStatisticEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnFileStatistic() Exception Break : %s",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  jmp    <T> <_ZN17CPacketTranslater15OnFileStatisticEP12PacketHeader+0x152>
@@ -136,15 +124,13 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x60a,0x8(%esp)
- movl   $"OnFileStatistic",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater15OnFileStatisticEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnFileStatistic() Exception Break",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  jmp    <T> <_ZN17CPacketTranslater15OnFileStatisticEP12PacketHeader+0x1ae>
@@ -203,7 +189,7 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnFileStatisticEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp)（约第 1021 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Statics/DNFPacketTranslater.cpp)（约第 920 行）：
 
 ```cpp
 void CPacketTranslater::OnFileStatistic(PacketHeader* pkt)
@@ -227,13 +213,11 @@ void CPacketTranslater::OnFileStatistic(PacketHeader* pkt)
     catch (CDNFException& e)
     {
         register const char* reason = e.what();
-        CMyFileLog log("OnFileStatistic", 1541);
-        log("./log/Except", "CPacketTranslater::OnFileStatistic() Exception Break : %s", reason);
+        CMyFileLog(__FUNCTION__, 1541)("./log/Except", "CPacketTranslater::OnFileStatistic() Exception Break : %s", reason);
     }
     catch (...)
     {
-        CMyFileLog log("OnFileStatistic", 1546);
-        log("./log/Except", "CPacketTranslater::OnFileStatistic() Exception Break");
+        CMyFileLog(__FUNCTION__, 1546)("./log/Except", "CPacketTranslater::OnFileStatistic() Exception Break");
     }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x80636d4` | `0x360` | `0x8059978` | `0x35f` |
+| manager | DIFF | `0x80636d4` | `0x360` | `0x805981e` | `0x35f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -117,7 +117,7 @@
 +lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -165,7 +165,7 @@
 +test   %al,%al
 +je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0x19d>
  movl   $0x91,0x8(%esp)
- movl   $"UdpProcess",0x4(%esp)
+ movl   $&_ZZN14CPacketDecoder10UdpProcessEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
@@ -347,7 +347,7 @@
 +lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -515,12 +515,14 @@ void __thiscall CPacketDecoder::_ZN14CPacketDecoder10UdpProcessEv(CPacketDecoder
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp](source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp)（约第 206 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Manager/DNFPacketDecoder.cpp)（约第 103 行）：
 
 ```cpp
 void CPacketDecoder::UdpProcess()
 {
-    if (!m_udpQueue || !m_udpQLock)
+    if (!m_udpQueue)
+        return;
+    if (!m_udpQLock)
         throw CDNFException("CPacketDecoder is Not Ready!\n");
     while (!m_udpQueue->empty())
     {
@@ -529,10 +531,11 @@ void CPacketDecoder::UdpProcess()
         if (!buf)
             continue;
         PacketHeader* p = (PacketHeader*)buf;
-        int size = m_udpQueue->size();
-        if (CAppLoadCheckerInstance()->CheckUdpRecvQ(size))
+        if (m_udpQueue->size() > 0x64)
         {
-            CAppLoadCheckerInstance()->RequestDB(m_serverHandler, 2, size);
+            CMyFileLog log(__FUNCTION__, 0x91);
+            log("./log/UdpRecv", "cnt(%d)id(%d)size(%d)",
+                (int)m_udpQueue->size(), p->packetId, p->packetSize);
         }
         if (!MsgDecode(p))
         {
@@ -542,8 +545,7 @@ void CPacketDecoder::UdpProcess()
             }
             printf("[false == this->MsgDecode]packetHeader : %x\tpacket id : %d\n",
                    p, p->packetId);
-            throw CDNFException(
-                "CPacketDecoder::MsgDecode() Undefined Packet Arrive Exception Break!");
+            throw CDNFException("CPacketDecoder::MsgDecode() Undefined Packet Arrived Exception Break!");
         }
         {
             CGuard<CMutex> guard(m_udpBLock);

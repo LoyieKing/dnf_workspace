@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | NEAR | `0x8062876` | `0x1c` | `0x8065d7a` | `0x1c` |
+| manager | NEAR | `0x8062876` | `0x1c` | `0x8065c78` | `0x1c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -43,8 +43,8 @@ void __thiscall CUnixTimer::_ZN10CUnixTimerC1Ev(CUnixTimer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/SystemTimeHandler.cpp](source/DNFServer/GameServer/DBMW/SystemTimeHandler.cpp)（约第 41 行）：
+定义于 [source/DNFServer/GameServer/Manager/SystemTimeHandler.cpp](source/DNFServer/GameServer/Manager/SystemTimeHandler.cpp)（约第 25 行）：
 
 ```cpp
-CUnixTimer::CUnixTimer() {}
+CUnixTimer::CUnixTimer() throw() {}
 ```

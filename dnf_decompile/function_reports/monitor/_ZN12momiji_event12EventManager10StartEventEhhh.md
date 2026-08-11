@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805c070` | `0x237` | `0x804b148` | `0x229` |
+| monitor | DIFF | `0x805c070` | `0x237` | `0x804b16c` | `0x229` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -32,7 +32,7 @@
 -movzbl -0x50(%ebp),%esi
 -movzbl -0x54(%ebp),%ebx
 -movl   $0x4b,0x8(%esp)
--movl   $"StartEvent",0x4(%esp)
+-movl   $&_ZZN12momiji_event12EventManager10StartEventEhhhE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -49,7 +49,7 @@
 -jbe    <T> <_ZN12momiji_event12EventManager10StartEventEhhh+0xb8>
 -movzbl -0x4c(%ebp),%ebx
 -movl   $0x51,0x8(%esp)
--movl   $"StartEvent",0x4(%esp)
+-movl   $&_ZZN12momiji_event12EventManager10StartEventEhhhE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -92,8 +92,8 @@
  call   <T> <time>
 -mov    %eax,-0x44(%ebp)
 -lea    -0x44(%ebp),%eax
-+mov    %eax,-0x28(%ebp)
-+lea    -0x28(%ebp),%eax
++mov    %eax,-0x40(%ebp)
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <localtime>
  mov    %eax,-0x24(%ebp)
@@ -109,7 +109,7 @@
  call   <T> <mktime>
 -mov    %eax,-0x48(%ebp)
 -jmp    <T> <_ZN12momiji_event12EventManager10StartEventEhhh+0x15d>
-+mov    %eax,-0x2c(%ebp)
++mov    %eax,-0x44(%ebp)
 +jmp    <T> <_ZN12momiji_event12EventManager10StartEventEhhh+0xc4>
  movzbl -0x50(%ebp),%eax
  shl    $0x2,%eax
@@ -117,14 +117,14 @@
  shl    $0x4,%edx
  sub    %eax,%edx
 -mov    -0x48(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
++mov    -0x44(%ebp),%eax
  lea    (%edx,%eax,1),%eax
 -mov    %eax,-0x48(%ebp)
 -mov    -0x48(%ebp),%edx
 -mov    -0x44(%ebp),%eax
-+mov    %eax,-0x2c(%ebp)
-+mov    -0x2c(%ebp),%edx
-+mov    -0x28(%ebp),%eax
++mov    %eax,-0x44(%ebp)
++mov    -0x44(%ebp),%edx
++mov    -0x40(%ebp),%eax
  cmp    %eax,%edx
  setle  %al
  test   %al,%al
@@ -134,7 +134,7 @@
  call   <T> <_Znwj>
  mov    %eax,%ebx
 -mov    -0x48(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
++mov    -0x44(%ebp),%eax
  mov    %eax,%edx
  mov    %ebx,%eax
  movl   $0x0,0x8(%esp)
@@ -160,66 +160,57 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CTaskScheduler7AddTaskEPNS_5CTaskE>
 -lea    -0x48(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <localtime>
  mov    %eax,-0x1c(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%edi
--mov    -0x1c(%ebp),%eax
--mov    0x4(%eax),%esi
--mov    -0x1c(%ebp),%eax
--mov    0x8(%eax),%ebx
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%edi
+ mov    -0x1c(%ebp),%eax
+ mov    0x4(%eax),%esi
+ mov    -0x1c(%ebp),%eax
+ mov    0x8(%eax),%ebx
  movl   $0x6e,0x8(%esp)
- movl   $"StartEvent",0x4(%esp)
+ movl   $&_ZZN12momiji_event12EventManager10StartEventEhhhE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%ecx
-+mov    -0x1c(%ebp),%eax
-+mov    0x4(%eax),%edx
-+mov    -0x1c(%ebp),%eax
-+mov    0x8(%eax),%eax
-+mov    %ecx,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"[Momiji] start event. first time %02dh:%02dm:%02ds",0x8(%esp)
  movl   $"./log/AradOnly",0x4(%esp)
 -lea    -0x30(%ebp),%eax
++lea    -0x3c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN12momiji_event12EventManager10StartEventEhhh+0x221>
++movzbl -0x4c(%ebp),%ebx
++movl   $0x51,0x8(%esp)
++movl   $&_ZZN12momiji_event12EventManager10StartEventEhhhE12__FUNCTION__,0x4(%esp)
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    %ebx,0xc(%esp)
++movl   $"[Momiji] (startTime(%d) >= 24)",0x8(%esp)
++movl   $"./log/AradOnly",0x4(%esp)
 +lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +jmp    <T> <_ZN12momiji_event12EventManager10StartEventEhhh+0x221>
-+movl   $0x51,0x8(%esp)
-+movl   $"StartEvent",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movzbl -0x4c(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"[Momiji] (startTime(%d) >= 24)",0x8(%esp)
-+movl   $"./log/AradOnly",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN12momiji_event12EventManager10StartEventEhhh+0x221>
++movzbl -0x50(%ebp),%esi
++movzbl -0x54(%ebp),%ebx
 +movl   $0x4b,0x8(%esp)
-+movl   $"StartEvent",0x4(%esp)
-+lea    -0x44(%ebp),%eax
++movl   $&_ZZN12momiji_event12EventManager10StartEventEhhhE12__FUNCTION__,0x4(%esp)
++lea    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
-+movzbl -0x50(%ebp),%edx
-+movzbl -0x54(%ebp),%eax
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    %esi,0x10(%esp)
++mov    %ebx,0xc(%esp)
 +movl   $"[Momiji] (durationTime(%d) >= intervalTime(%d))",0x8(%esp)
 +movl   $"./log/AradOnly",0x4(%esp)
-+lea    -0x44(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  add    $0x6c,%esp
@@ -304,4 +295,4 @@ momiji_event::EventManager::_ZN12momiji_event12EventManager10StartEventEhhh
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h, source/ChannelOld/DNFChannelBridge/DebugLog.h 等 638 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp, source/DNFServer/GameServer/Monitor/Arad_BirthdayEvent.h, source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp, source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.h, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFDBServer.h 等 299 个文件*

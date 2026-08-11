@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8057212` | `0x24d` | `0x806444a` | `0x239` |
+| manager | DIFF | `0x8057212` | `0x24d` | `0x8064340` | `0x239` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -143,7 +143,7 @@
 -mov    0x1834(%eax),%ebx
 +jle    <T> <_ZN5CPeer11send_packetEv+0x1e6>
  movl   $0x17e,0x8(%esp)
- movl   $"send_packet",0x4(%esp)
+ movl   $&_ZZN5CPeer11send_packetEvE12__FUNCTION__,0x4(%esp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -291,7 +291,7 @@ ssize_t __thiscall CPeer::_ZN5CPeer11send_packetEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 115 行）：
+定义于 [source/DNFServer/GameServer/Manager/Peer.cpp](source/DNFServer/GameServer/Manager/Peer.cpp)（约第 75 行）：
 
 ```cpp
 int CPeer::send_packet()
@@ -326,7 +326,7 @@ int CPeer::send_packet()
     m_remainSendLen -= ret;
     if (m_remainSendLen > 0x96000)
     {
-        CMyFileLog log("send_packet", 0x17e);
+        CMyFileLog log(__FUNCTION__, 0x17e);
         log("./log/TcpErr", "m_remain_sendlen < MAX_PACKET_SIZE_UDP :  m_remain_sendlen:%d]",
             m_remainSendLen);
         m_recvBuf = (char*)this + 0x183c;

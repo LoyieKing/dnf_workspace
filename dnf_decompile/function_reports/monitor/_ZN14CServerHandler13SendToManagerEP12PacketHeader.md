@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a27a` | `0x3c` | `0x808072e` | `0x3e` |
+| monitor | DIFF | `0x807a27a` | `0x3c` | `0x80805f0` | `0x3c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,21 +1,22 @@
+@@ -1,21 +1,21 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x18,%esp
@@ -23,11 +23,9 @@
 -je     <T> <_ZN14CServerHandler13SendToManagerEP12PacketHeader+0x35>
 +jne    <T> <_ZN14CServerHandler13SendToManagerEP12PacketHeader+0x17>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN14CServerHandler13SendToManagerEP12PacketHeader+0x3c>
++jmp    <T> <_ZN14CServerHandler13SendToManagerEP12PacketHeader+0x3a>
  mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
+ movzwl 0x2(%eax),%eax
  movzwl %ax,%ecx
  mov    0xc(%ebp),%edx
  mov    0x8(%ebp),%eax
@@ -68,11 +66,16 @@ CServerHandler::_ZN14CServerHandler13SendToManagerEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 365 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 252 行）：
 
 ```cpp
-void CServerHandler::SendToManager(PacketHeader* pkt)
+int CServerHandler::SendToManager(PacketHeader* pkt)
 {
-    m_managerServer->SendToServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+    if (m_managerServer == 0)
+    {
+        return 0;
+    }
+    return m_managerServer->SendToServer((char*)pkt,
+                                         (unsigned int)((RA_U16<2>*)pkt)->v);
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x818c4c0` | `0x272` | `0x809da95` | `0x1ee` |
+| dbmw | DIFF | `0x818c4c0` | `0x272` | `0x80f10c5` | `0x23f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,28 +13,23 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,164 +1,141 @@
+@@ -1,164 +1,150 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
  sub    $0x3c,%esp
--mov    %gs:0xfffffffc,%eax
--test   %eax,%eax
--jne    <T> <_ZL16allocStackBufferjPPhPi+0xc1>
-+mov    %gs:0xfffffff4,%eax
-+mov    %eax,-0x20(%ebp)
-+cmpl   $0x0,-0x20(%ebp)
-+jne    <T> <_ZL16allocStackBufferjPPhPi+0xea>
+ mov    %gs:0xfffffffc,%eax
+ test   %eax,%eax
+ jne    <T> <_ZL16allocStackBufferjPPhPi+0xc1>
  movl   $0x20,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN18StackBufferContextC1Ev>
--jmp    <T> <_ZL16allocStackBufferjPPhPi+0x49>
-+jmp    <T> <_ZL16allocStackBufferjPPhPi+0x4e>
+ jmp    <T> <_ZL16allocStackBufferjPPhPi+0x49>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -43,18 +38,13 @@
  mov    %esi,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--mov    %ebx,%eax
--mov    %eax,%gs:0xfffffffc
--mov    %gs:0xfffffffc,%eax
-+mov    %ebx,-0x20(%ebp)
-+mov    -0x20(%ebp),%eax
-+mov    %eax,%gs:0xfffffff4
-+mov    -0x20(%ebp),%eax
+ mov    %ebx,%eax
+ mov    %eax,%gs:0xfffffffc
+ mov    %gs:0xfffffffc,%eax
  movl   $0x20,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIN18StackBufferContext6BufferESaIS1_EE7reserveEj>
--mov    %gs:0xfffffffc,%eax
-+mov    -0x20(%ebp),%eax
+ mov    %gs:0xfffffffc,%eax
  add    $0xc,%eax
  movl   $0x8,0x4(%esp)
  mov    %eax,(%esp)
@@ -62,50 +52,46 @@
  movl   $0x4000,(%esp)
  call   <T> <_Znaj>
 -mov    %eax,-0x30(%ebp)
--mov    %gs:0xfffffffc,%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x20(%ebp),%eax
++mov    %eax,-0x28(%ebp)
+ mov    %gs:0xfffffffc,%eax
  lea    0xc(%eax),%edx
 -lea    -0x30(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
--call   <T> <_ZNSt6vectorIPhSaIS0_EE9push_backEOS0_>
--mov    %gs:0xfffffffc,%eax
-+call   <T> <_ZNSt6vectorIPhSaIS0_EE9push_backERKS0_>
-+mov    -0x20(%ebp),%eax
+ call   <T> <_ZNSt6vectorIPhSaIS0_EE9push_backEOS0_>
+ mov    %gs:0xfffffffc,%eax
  movl   $0x0,0x18(%eax)
--mov    %gs:0xfffffffc,%eax
-+mov    -0x20(%ebp),%eax
+ mov    %gs:0xfffffffc,%eax
  movl   $0x0,0x1c(%eax)
++movl   $0x0,-0x34(%ebp)
 +movl   $0x0,-0x30(%ebp)
  movl   $0x0,-0x2c(%ebp)
- movl   $0x0,-0x28(%ebp)
+-movl   $0x0,-0x28(%ebp)
 -movl   $0x0,-0x24(%ebp)
--mov    %gs:0xfffffffc,%eax
+ mov    %gs:0xfffffffc,%eax
 -lea    -0x2c(%ebp),%edx
--mov    %edx,0x4(%esp)
-+lea    -0x30(%ebp),%eax
++lea    -0x34(%ebp),%edx
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
-+call   <T> <_ZSt4moveIRN18StackBufferContext6BufferEEONSt16remove_referenceIT_E4typeEOS4_>
-+mov    -0x20(%ebp),%edx
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
  call   <T> <_ZNSt6vectorIN18StackBufferContext6BufferESaIS1_EE9push_backEOS1_>
--mov    %gs:0xfffffffc,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt6vectorIN18StackBufferContext6BufferESaIS1_EE4backEv>
+ mov    %gs:0xfffffffc,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt6vectorIN18StackBufferContext6BufferESaIS1_EE4backEv>
 -mov    %eax,-0x1c(%ebp)
 -mov    -0x1c(%ebp),%eax
--movl   $0x0,(%eax)
++mov    %eax,-0x20(%ebp)
++mov    -0x20(%ebp),%eax
+ movl   $0x0,(%eax)
 -mov    -0x1c(%ebp),%eax
--movl   $0x0,0x4(%eax)
++mov    -0x20(%ebp),%eax
+ movl   $0x0,0x4(%eax)
 -mov    -0x1c(%ebp),%eax
--mov    0x8(%ebp),%edx
--mov    %edx,0x8(%eax)
+ mov    0x8(%ebp),%edx
++mov    -0x20(%ebp),%eax
+ mov    %edx,0x8(%eax)
  cmpl   $0x4000,0x8(%ebp)
--jbe    <T> <_ZL16allocStackBufferjPPhPi+0x14b>
-+jbe    <T> <_ZL16allocStackBufferjPPhPi+0x113>
+ jbe    <T> <_ZL16allocStackBufferjPPhPi+0x14b>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_Znaj>
@@ -114,30 +100,24 @@
  mov    %edx,(%eax)
  mov    0x10(%ebp),%eax
  movl   $0xffffffff,(%eax)
--mov    0xc(%ebp),%eax
--mov    (%eax),%eax
--test   %eax,%eax
--setne  %al
+ mov    0xc(%ebp),%eax
+ mov    (%eax),%eax
+ test   %eax,%eax
+ setne  %al
 -jmp    <T> <_ZL16allocStackBufferjPPhPi+0x26a>
--mov    %gs:0xfffffffc,%eax
--mov    0x1c(%eax),%eax
--add    0x8(%ebp),%eax
-+jmp    <T> <_ZL16allocStackBufferjPPhPi+0x1e6>
-+mov    -0x20(%ebp),%eax
-+mov    0x1c(%eax),%edx
-+mov    0x8(%ebp),%eax
-+lea    (%edx,%eax,1),%eax
++jmp    <T> <_ZL16allocStackBufferjPPhPi+0x237>
+ mov    %gs:0xfffffffc,%eax
+ mov    0x1c(%eax),%eax
+ add    0x8(%ebp),%eax
  cmp    $0x4000,%eax
 -jbe    <T> <_ZL16allocStackBufferjPPhPi+0x1f0>
--mov    %gs:0xfffffffc,%eax
-+jle    <T> <_ZL16allocStackBufferjPPhPi+0x1a3>
-+mov    -0x20(%ebp),%eax
++jbe    <T> <_ZL16allocStackBufferjPPhPi+0x1da>
+ mov    %gs:0xfffffffc,%eax
  mov    0x18(%eax),%eax
  add    $0x1,%eax
 -mov    %eax,%ebx
--mov    %gs:0xfffffffc,%eax
 +mov    %eax,-0x1c(%ebp)
-+mov    -0x20(%ebp),%eax
+ mov    %gs:0xfffffffc,%eax
  add    $0xc,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorIPhSaIS0_EE4sizeEv>
@@ -146,48 +126,35 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZL16allocStackBufferjPPhPi+0x1b1>
-+je     <T> <_ZL16allocStackBufferjPPhPi+0x16e>
++je     <T> <_ZL16allocStackBufferjPPhPi+0x1af>
  movl   $0x4000,(%esp)
  call   <T> <_Znaj>
 -mov    %eax,-0x20(%ebp)
--mov    %gs:0xfffffffc,%eax
-+mov    %eax,-0x34(%ebp)
-+mov    -0x20(%ebp),%eax
++mov    %eax,-0x24(%ebp)
+ mov    %gs:0xfffffffc,%eax
  lea    0xc(%eax),%edx
 -lea    -0x20(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
--call   <T> <_ZNSt6vectorIPhSaIS0_EE9push_backEOS0_>
+ call   <T> <_ZNSt6vectorIPhSaIS0_EE9push_backEOS0_>
 -mov    %gs:0xfffffffc,%eax
-+call   <T> <_ZNSt6vectorIPhSaIS0_EE9push_backERKS0_>
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt6vectorIN18StackBufferContext6BufferESaIS1_EE4backEv>
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%eax)
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt6vectorIN18StackBufferContext6BufferESaIS1_EE4backEv>
-+movl   $0x0,0x4(%eax)
-+mov    -0x20(%ebp),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,0x18(%eax)
-+mov    -0x20(%ebp),%eax
-+movl   $0x0,0x1c(%eax)
-+mov    -0x20(%ebp),%eax
- mov    0x18(%eax),%eax
+-mov    0x18(%eax),%eax
 -lea    0x1(%eax),%edx
 -mov    -0x1c(%ebp),%eax
--mov    %edx,(%eax)
++mov    -0x20(%ebp),%eax
++mov    -0x1c(%ebp),%edx
+ mov    %edx,(%eax)
 -mov    -0x1c(%ebp),%eax
--movl   $0x0,0x4(%eax)
--mov    %gs:0xfffffffc,%eax
++mov    -0x20(%ebp),%eax
+ movl   $0x0,0x4(%eax)
+ mov    %gs:0xfffffffc,%eax
 -mov    %gs:0xfffffffc,%edx
 -mov    0x18(%edx),%edx
 -add    $0x1,%edx
--mov    %edx,0x18(%eax)
--mov    %gs:0xfffffffc,%eax
++mov    -0x1c(%ebp),%edx
+ mov    %edx,0x18(%eax)
+ mov    %gs:0xfffffffc,%eax
 -mov    0x8(%ebp),%edx
 -mov    %edx,0x1c(%eax)
 -jmp    <T> <_ZL16allocStackBufferjPPhPi+0x223>
@@ -205,36 +172,34 @@
 -add    0x8(%ebp),%edx
 -mov    %edx,0x1c(%eax)
 -mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--mov    %gs:0xfffffffc,%edx
-+mov    -0x20(%ebp),%edx
++movl   $0x0,0x1c(%eax)
++mov    -0x20(%ebp),%eax
+ mov    (%eax),%eax
+ mov    %gs:0xfffffffc,%edx
  add    $0xc,%edx
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZNSt6vectorIPhSaIS0_EEixEj>
  mov    (%eax),%edx
 -mov    -0x1c(%ebp),%eax
--mov    0x4(%eax),%eax
 +mov    -0x20(%ebp),%eax
-+mov    0x1c(%eax),%eax
+ mov    0x4(%eax),%eax
  add    %eax,%edx
  mov    0xc(%ebp),%eax
  mov    %edx,(%eax)
--mov    %gs:0xfffffffc,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt6vectorIN18StackBufferContext6BufferESaIS1_EE4sizeEv>
--sub    $0x1,%eax
-+mov    -0x20(%ebp),%eax
-+mov    0x1c(%eax),%eax
-+add    0x8(%ebp),%eax
- mov    %eax,%edx
-+mov    -0x20(%ebp),%eax
++mov    %gs:0xfffffffc,%eax
++mov    %gs:0xfffffffc,%edx
++mov    0x1c(%edx),%edx
++add    0x8(%ebp),%edx
 +mov    %edx,0x1c(%eax)
-+mov    -0x20(%ebp),%eax
-+mov    0x18(%eax),%edx
+ mov    %gs:0xfffffffc,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt6vectorIN18StackBufferContext6BufferESaIS1_EE4sizeEv>
+ sub    $0x1,%eax
+ mov    %eax,%edx
  mov    0x10(%ebp),%eax
  mov    %edx,(%eax)
--mov    $0x1,%eax
+ mov    $0x1,%eax
  add    $0x3c,%esp
  pop    %ebx
  pop    %esi
@@ -337,49 +302,53 @@ bool allocStackBuffer(size_t size,byte **buffer,int32 *bufferIdx)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/StackBuffer.cpp](source/DNFServer/GameServer/DBMW/StackBuffer.cpp)（约第 31 行）：
+定义于 [source/DNFServer/GameServer/DBMW/StackBuffer.cpp](source/DNFServer/GameServer/DBMW/StackBuffer.cpp)（约第 35 行）：
 
 ```cpp
-static void allocStackBuffer(unsigned int size, unsigned char** buf, int* end)
+static bool allocStackBuffer(unsigned int size, unsigned char** buf, int* end)
 {
-    StackBufferContext* ctx = g_stackBufferContext;
-    if (!ctx)
+    if (!g_stackBufferContext)
     {
-        ctx = new StackBufferContext;
-        g_stackBufferContext = ctx;
-        ctx->m_buffers.reserve(0x20);
-        ctx->m_blocks.reserve(8);
-        unsigned char* block = new unsigned char[0x4000];
-        ctx->m_blocks.push_back(block);
-        ctx->m_blockIndex = 0;
-        ctx->m_offset = 0;
-        StackBufferContext::Buffer b;
-        b.m_blockIndex = 0;
-        b.m_offset = 0;
-        b.m_size = 0;
-        ctx->m_buffers.push_back(std::move(b));
+        g_stackBufferContext = new StackBufferContext;
+        g_stackBufferContext->m_buffers.reserve(0x20);
+        g_stackBufferContext->m_blocks.reserve(8);
+        g_stackBufferContext->m_blocks.push_back(
+            new unsigned char[0x4000]);
+        g_stackBufferContext->m_blockIndex = 0;
+        g_stackBufferContext->m_offset = 0;
     }
+    StackBufferContext::Buffer b;
+    b.m_blockIndex = 0;
+    b.m_offset = 0;
+    b.m_size = 0;
+    g_stackBufferContext->m_buffers.push_back(
+        (StackBufferContext::Buffer&&)b);
+    StackBufferContext::Buffer& cur = g_stackBufferContext->m_buffers.back();
+    cur.m_blockIndex = 0;
+    cur.m_offset = 0;
+    cur.m_size = size;
     if (size > 0x4000)
     {
         *buf = new unsigned char[size];
         *end = -1;
-        return;
+        return *buf != 0;
     }
-    if (ctx->m_offset + (int)size > 0x4000)
+    if (g_stackBufferContext->m_offset + size > 0x4000)
     {
-        int idx = ctx->m_blockIndex + 1;
-        if (idx == (int)ctx->m_blocks.size())
+        int idx = g_stackBufferContext->m_blockIndex + 1;
+        if (idx == (int)g_stackBufferContext->m_blocks.size())
         {
-            unsigned char* nb = new unsigned char[0x4000];
-            ctx->m_blocks.push_back(nb);
+            g_stackBufferContext->m_blocks.push_back(
+                new unsigned char[0x4000]);
         }
-        ctx->m_buffers.back().m_blockIndex = idx;
-        ctx->m_buffers.back().m_offset = 0;
-        ctx->m_blockIndex = idx;
-        ctx->m_offset = 0;
+        cur.m_blockIndex = idx;
+        cur.m_offset = 0;
+        g_stackBufferContext->m_blockIndex = idx;
+        g_stackBufferContext->m_offset = 0;
     }
-    *buf = ctx->m_blocks[ctx->m_blockIndex] + ctx->m_offset;
-    ctx->m_offset += size;
-    *end = ctx->m_blockIndex;
+    *buf = g_stackBufferContext->m_blocks[cur.m_blockIndex] + cur.m_offset;
+    g_stackBufferContext->m_offset += size;
+    *end = g_stackBufferContext->m_buffers.size() - 1;
+    return 1;
 }
 ```

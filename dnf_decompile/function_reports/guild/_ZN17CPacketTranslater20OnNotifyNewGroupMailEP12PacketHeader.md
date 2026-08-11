@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8087fd0` | `0x181` | `0x807d32a` | `0x196` |
+| guild | DIFF | `0x8087fd0` | `0x181` | `0x807d2a2` | `0x196` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -105,21 +105,17 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
 -movl   $0x1e9f,0x8(%esp)
--movl   $"OnNotifyNewGroupMail",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater20OnNotifyNewGroupMailEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnNotifyNewGroupMail() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -142,7 +138,7 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1ea4,0x8(%esp)
- movl   $"OnNotifyNewGroupMail",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnNotifyNewGroupMailEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
@@ -235,7 +231,7 @@ void CPacketTranslater::OnNotifyNewGroupMail(PacketHeader* pkt)
     }
     catch (...)
     {
-        CMyFileLog log("OnNotifyNewGroupMail", 0x1ea4);
+        CMyFileLog log(__FUNCTION__, 0x1ea4);
         log("./log/Except", "CPacketTranslater::OnNotifyNewGroupMail() Exception Break\n");
     }
 }

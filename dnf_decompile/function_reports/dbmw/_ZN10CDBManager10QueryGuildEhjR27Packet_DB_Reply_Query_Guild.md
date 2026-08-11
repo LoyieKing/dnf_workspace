@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807128a` | `0x537` | `0x805bd0c` | `0x4f6` |
+| dbmw | DIFF | `0x807128a` | `0x537` | `0x805bac2` | `0x4ef` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,32 +25,22 @@
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--movzbl -0x2c(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+movzbl -0x2c(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    0x10(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ movzbl -0x2c(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect guild_name, master_no, lev, ability, member_count, guild_rank, guild_point, guild_exp, power_side, unix_timestamp(power_secede_time), power_war_point, guild_agit_flag, power_join_count, guild_fund,master_name from guild_info where guild_id = %d and server_id = %d and expire_flag = 0",0x8(%esp)
  movl   $0x4e22,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x9b>
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x9d>
  movl   $0x97,0x8(%esp)
- movl   $"QueryGuild",0x4(%esp)
+ movl   $&_ZZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_GuildE12__FUNCTION__,0x4(%esp)
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -68,16 +58,15 @@
 +add    $0xa,%eax
 +movb   $0x0,(%eax)
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e22,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -87,9 +76,6 @@
 -movb   $0x0,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0xd1>
@@ -97,14 +83,14 @@
 +add    $0xa,%eax
 +movb   $0x0,(%eax)
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -114,10 +100,6 @@
 -movb   $0x2,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
-+mov    (%eax),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0xfd>
@@ -125,135 +107,22 @@
 +add    $0xa,%eax
 +movb   $0x2,(%eax)
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
  mov    0x14(%ebp),%eax
  add    $0x13,%eax
  mov    %eax,-0xc(%ebp)
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
-+movl   $0x17,0xc(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x149>
-+mov    0x14(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x38,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x17,%edx
-+mov    %edx,0x8(%esp)
-+movl   $0x1,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x187>
-+mov    0x14(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x58,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x1b,%edx
-+mov    %edx,0x8(%esp)
-+movl   $0x2,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x1c5>
-+mov    0x14(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x48,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x1c,%edx
-+mov    %edx,0x8(%esp)
-+movl   $0x3,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x203>
-+mov    0x14(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x48,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x22,%edx
-+mov    %edx,0x8(%esp)
-+movl   $0x4,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x241>
-+mov    0x14(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
-+movl   $0x0,-0x14(%ebp)
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x38,%eax
-+mov    (%eax),%eax
-+lea    -0x14(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+movl   $0x5,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x283>
-+mov    0x14(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
-+mov    -0x14(%ebp),%eax
-+cmp    $0x64,%eax
-+jbe    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x296>
- mov    -0xc(%ebp),%eax
--movl   $0x17,0xc(%esp)
--mov    %eax,0x8(%esp)
--movl   $0x0,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+-mov    -0xc(%ebp),%eax
+ movl   $0x17,0xc(%esp)
++mov    -0xc(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x0,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -263,20 +132,25 @@
 -movb   $0x3,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
--mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x38,%eax
--mov    (%eax),%edx
-+add    $0x28,%eax
-+movb   $0x0,(%eax)
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x2a1>
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x149>
++mov    0x14(%ebp),%eax
++add    $0xa,%eax
++movb   $0x3,(%eax)
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
+ mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x38,%eax
+ mov    (%eax),%edx
  mov    -0xc(%ebp),%eax
--add    $0x17,%eax
--mov    %eax,0x8(%esp)
--movl   $0x1,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ add    $0x17,%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x1,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -286,58 +160,25 @@
 -movb   $0x3,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
-+lea    0x28(%eax),%edx
-+mov    -0x14(%ebp),%eax
-+mov    %al,(%edx)
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x38,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x24,%edx
-+mov    %edx,0x8(%esp)
-+movl   $0x6,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x2df>
++je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x187>
 +mov    0x14(%ebp),%eax
 +add    $0xa,%eax
 +movb   $0x3,(%eax)
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x38,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x29,%edx
-+mov    %edx,0x8(%esp)
-+movl   $0x7,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x31d>
-+mov    0x14(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x58,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--add    $0x1b,%eax
--mov    %eax,0x8(%esp)
--movl   $0x2,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ add    $0x1b,%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x2,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -347,17 +188,25 @@
 -movb   $0x3,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
--mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x48,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--add    $0x1c,%eax
--mov    %eax,0x8(%esp)
--movl   $0x3,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x1c5>
++mov    0x14(%ebp),%eax
++add    $0xa,%eax
++movb   $0x3,(%eax)
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
+ mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x48,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ add    $0x1c,%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x3,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -367,17 +216,25 @@
 -movb   $0x3,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
--mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x48,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--add    $0x22,%eax
--mov    %eax,0x8(%esp)
--movl   $0x4,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x203>
++mov    0x14(%ebp),%eax
++add    $0xa,%eax
++movb   $0x3,(%eax)
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
+ mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x48,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ add    $0x22,%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x4,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -392,11 +249,25 @@
 -add    $0x38,%eax
 -mov    (%eax),%edx
 -lea    -0x20(%ebp),%eax
--mov    %eax,0x8(%esp)
--movl   $0x5,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x241>
++mov    0x14(%ebp),%eax
++add    $0xa,%eax
++movb   $0x3,(%eax)
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
++movl   $0x0,-0x14(%ebp)
++mov    -0x10(%ebp),%eax
++mov    (%eax),%eax
++add    $0x38,%eax
++mov    (%eax),%edx
++lea    -0x14(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x5,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -407,7 +278,16 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
 -mov    -0x20(%ebp),%eax
--cmp    $0x64,%eax
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x283>
++mov    0x14(%ebp),%eax
++add    $0xa,%eax
++movb   $0x3,(%eax)
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
++mov    -0x14(%ebp),%eax
+ cmp    $0x64,%eax
 -jbe    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x2b3>
 -mov    -0xc(%ebp),%eax
 -movb   $0x0,0x28(%eax)
@@ -416,17 +296,26 @@
 -mov    %eax,%edx
 -mov    -0xc(%ebp),%eax
 -mov    %dl,0x28(%eax)
--mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x38,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--add    $0x24,%eax
--mov    %eax,0x8(%esp)
--movl   $0x6,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++jbe    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x296>
++mov    -0xc(%ebp),%eax
++add    $0x28,%eax
++movb   $0x0,(%eax)
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x2a1>
++mov    -0xc(%ebp),%eax
++lea    0x28(%eax),%edx
++mov    -0x14(%ebp),%eax
++mov    %al,(%edx)
+ mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x38,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ add    $0x24,%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x6,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -436,17 +325,25 @@
 -movb   $0x3,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
--mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x38,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--add    $0x29,%eax
--mov    %eax,0x8(%esp)
--movl   $0x7,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x2df>
++mov    0x14(%ebp),%eax
++add    $0xa,%eax
++movb   $0x3,(%eax)
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
+ mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x38,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ add    $0x29,%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x7,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -456,71 +353,25 @@
 -movb   $0x3,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x95,%edx
-+mov    %edx,0x8(%esp)
-+movl   $0x8,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x35e>
++je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x31d>
 +mov    0x14(%ebp),%eax
 +add    $0xa,%eax
 +movb   $0x3,(%eax)
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x38,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x96,%edx
-+mov    %edx,0x8(%esp)
-+movl   $0x9,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x39f>
-+mov    0x14(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x38,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x9a,%edx
-+mov    %edx,0x8(%esp)
-+movl   $0xa,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x3e0>
-+mov    0x14(%ebp),%eax
-+add    $0xa,%eax
-+movb   $0x3,(%eax)
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x58,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--add    $0x95,%eax
--mov    %eax,0x8(%esp)
--movl   $0x8,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ add    $0x95,%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x8,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -530,17 +381,25 @@
 -movb   $0x3,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
--mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x38,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--add    $0x96,%eax
--mov    %eax,0x8(%esp)
--movl   $0x9,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x35d>
++mov    0x14(%ebp),%eax
++add    $0xa,%eax
++movb   $0x3,(%eax)
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
+ mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x38,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ add    $0x96,%eax
+ mov    %eax,0x8(%esp)
+ movl   $0x9,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -550,17 +409,25 @@
 -movb   $0x3,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
--mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x38,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--add    $0x9a,%eax
--mov    %eax,0x8(%esp)
--movl   $0xa,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x39d>
++mov    0x14(%ebp),%eax
++add    $0xa,%eax
++movb   $0x3,(%eax)
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
+ mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x38,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ add    $0x9a,%eax
+ mov    %eax,0x8(%esp)
+ movl   $0xa,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -570,33 +437,25 @@
 -movb   $0x3,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x9e,%edx
-+mov    %edx,0x8(%esp)
-+movl   $0xb,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x421>
++je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x3dd>
 +mov    0x14(%ebp),%eax
 +add    $0xa,%eax
 +movb   $0x3,(%eax)
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x58,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--add    $0x9e,%eax
--mov    %eax,0x8(%esp)
--movl   $0xb,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ add    $0x9e,%eax
+ mov    %eax,0x8(%esp)
+ movl   $0xb,0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -606,21 +465,25 @@
 -movb   $0x3,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
--mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x58,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--add    $0x9f,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0x9f,%edx
-+mov    %edx,0x8(%esp)
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x41d>
++mov    0x14(%ebp),%eax
++add    $0xa,%eax
++movb   $0x3,(%eax)
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
+ mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x58,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ add    $0x9f,%eax
+ mov    %eax,0x8(%esp)
  movl   $0xc,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -630,35 +493,25 @@
 -movb   $0x3,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
--mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x38,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--add    $0xa0,%eax
--mov    %eax,0x8(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x462>
++je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x45d>
 +mov    0x14(%ebp),%eax
 +add    $0xa,%eax
 +movb   $0x3,(%eax)
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x38,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0xa0,%edx
-+mov    %edx,0x8(%esp)
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
+ mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x38,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ add    $0xa0,%eax
+ mov    %eax,0x8(%esp)
  movl   $0xd,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -668,33 +521,26 @@
 -movb   $0x3,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4a0>
++je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x49a>
 +mov    0x14(%ebp),%eax
 +add    $0xa,%eax
 +movb   $0x3,(%eax)
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--add    $0xa4,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+add    $0xa4,%edx
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ add    $0xa4,%eax
  movl   $0x15,0xc(%esp)
--mov    %eax,0x8(%esp)
-+mov    %edx,0x8(%esp)
+ mov    %eax,0x8(%esp)
  movl   $0xe,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x11(%ebp)
 -movzbl -0x11(%ebp),%eax
 -xor    $0x1,%eax
@@ -706,17 +552,14 @@
 -jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x535>
 -mov    0x14(%ebp),%eax
 -movb   $0x1,0xa(%eax)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4e6>
++je     <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4df>
 +mov    0x14(%ebp),%eax
 +add    $0xa,%eax
 +movb   $0x3,(%eax)
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4f4>
++jmp    <T> <_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild+0x4ed>
 +mov    0x14(%ebp),%eax
 +add    $0xa,%eax
 +movb   $0x1,(%eax)
@@ -897,4 +740,4 @@ CDBManager::_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

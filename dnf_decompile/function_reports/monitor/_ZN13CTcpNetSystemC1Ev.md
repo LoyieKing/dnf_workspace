@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8052b18` | `0x220` | `0x80a1c18` | `0x220` |
+| monitor | DIFF | `0x8052b18` | `0x220` | `0x80a1dfc` | `0x214` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,168 +1,172 @@
+@@ -1,168 +1,166 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -62,7 +62,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x1a6>
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x19e>
++jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x19a>
  lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt5dequeIP14CTcpSendBufferSaIS1_EED1Ev>
@@ -133,7 +133,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x16a>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -142,7 +141,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x184>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -152,7 +150,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x1a6>
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x19e>
++jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x19a>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -161,7 +159,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x1b8>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -170,7 +167,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x1d2>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -179,7 +175,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x1ea>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -188,7 +183,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemC1Ev+0x202>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -252,14 +246,13 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystemC1Ev(CTcpNetSystem *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 26 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 140 行）：
 
 ```cpp
 CTcpNetSystem::CTcpNetSystem()
 {
-    m_tcpHandler = 0;
-    m_field4 = 0;
+    m_handler = 0;
+    m_networkThread = 0;
     m_acceptThread = 0;
-    m_serverPort = 0;
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8093664` | `0x78` | `0x8093dc4` | `0x78` |
+| monitor | DIFF | `0x8093664` | `0x78` | `0x8093e90` | `0x78` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -92,7 +92,7 @@ CItemLimitEditionMgr::_ZN20CItemLimitEditionMgr10updateItemEjj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 104 行）：
+定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 105 行）：
 
 ```cpp
 bool CItemLimitEditionMgr::updateItem(unsigned int ipgno, unsigned int sellNum)

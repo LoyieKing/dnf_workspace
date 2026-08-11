@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80a3dd6` | `0x10c` | `0x809a0a4` | `0x10c` |
+| guild | NEAR | `0x80a3dd6` | `0x10c` | `0x8099c22` | `0x10c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -18,7 +18,7 @@
  mov    %esp,%ebp
  sub    $0x28,%esp
  movl   $0xd5,0x8(%esp)
- movl   $"EndPowerWarEvent",0x4(%esp)
+ movl   $&_ZZN13CPowerManager16EndPowerWarEventEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
@@ -70,7 +70,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN9CPowerWar10resetEventEv>
  movl   $0xfd,0x8(%esp)
- movl   $"EndPowerWarEvent",0x4(%esp)
+ movl   $&_ZZN13CPowerManager16EndPowerWarEventEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -126,7 +126,7 @@ void __thiscall CPowerManager::_ZN13CPowerManager16EndPowerWarEventEv(CPowerMana
 ```cpp
 void CPowerManager::EndPowerWarEvent()
 {
-    CMyFileLog logTop("EndPowerWarEvent", 0xd5);
+    CMyFileLog logTop(__FUNCTION__, 0xd5);
     logTop("./log/Power", "CPowerManager::EndPowerWarEvent TOP");
     SetWinnerSide(ComputeWinnerSide());
     RewardBonusPoint();
@@ -139,7 +139,7 @@ void CPowerManager::EndPowerWarEvent()
     SendPowerWarEndInfo();
     CleanPowerWar();
     ((CPowerWar*)((char*)this + 0x14c))->CPowerWar::resetEvent();
-    CMyFileLog logBottom("EndPowerWarEvent", 0xfd);
+    CMyFileLog logBottom(__FUNCTION__, 0xfd);
     logBottom("./log/Power", "CPowerManager::EndPowerWarEvent BOTTOM");
 }
 ```

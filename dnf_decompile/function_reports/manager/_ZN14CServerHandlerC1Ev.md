@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8067dd0` | `0xd2` | `0x805db22` | `0xba` |
+| manager | DIFF | `0x8067dd0` | `0xd2` | `0x805d9e0` | `0xba` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -137,12 +137,8 @@ void __thiscall CServerHandler::_ZN14CServerHandlerC1Ev(CServerHandler *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFServerHandler.cpp](source/DNFServer/GameServer/COServer/DNFServerHandler.cpp)（约第 10 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFServerHandler.cpp](source/DNFServer/GameServer/Manager/DNFServerHandler.cpp)（约第 14 行）：
 
 ```cpp
-CServerHandler::CServerHandler()
-{
-    // m_servers 就地构造（与原始显式循环等价）
-    m_app = 0;
-}
+CServerHandler::CServerHandler() {}
 ```

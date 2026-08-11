@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809aa62` | `0x23a` | `0x8061a10` | `0x243` |
+| monitor | DIFF | `0x809aa62` | `0x23a` | `0x8061c0a` | `0x245` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,158 +1,157 @@
+@@ -1,158 +1,158 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,30 +24,31 @@
  mov    %al,-0x4c(%ebp)
  cmpl   $0x0,0x10(%ebp)
 -je     <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x22>
-+je     <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x15e>
++je     <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x160>
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  test   %eax,%eax
 -jne    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0xfe>
 -lea    -0x35(%ebp),%eax
-+je     <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x15e>
++je     <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x160>
 +cmpl   $0x0,0xc(%ebp)
-+jne    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x76>
-+movl   $0x23b,0x8(%esp)
-+movl   $"MemberMemLogout",0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++jne    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x78>
 +mov    0x10(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %eax,0xc(%esp)
++mov    %eax,%ebx
++movl   $0x23b,0x8(%esp)
++movl   $&_ZZN14CMemberManager15MemberMemLogoutEjP5CUserbE12__FUNCTION__,0x4(%esp)
++lea    -0x40(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    %ebx,0xc(%esp)
 +movl   $"CMemberManager::MemberMemLogout()\tMemberKey == 0\tchar id(%d), Maybe after logout, this user connect at character screen, and logout again! check User.log!",0x8(%esp)
 +movl   $"./log/MemberMember",0x4(%esp)
-+lea    -0x30(%ebp),%eax
++lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x23b>
++jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x23d>
 +mov    0xc(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    0x8(%ebp),%eax
@@ -55,9 +56,9 @@
 +call   <T> <_ZN14CMemberManager10FindMemberEj>
 +mov    %eax,-0x20(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
-+jne    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0xd3>
++jne    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0xd5>
 +movl   $0x241,0x8(%esp)
-+movl   $"MemberMemLogout",0x4(%esp)
++movl   $&_ZZN14CMemberManager15MemberMemLogoutEjP5CUserbE12__FUNCTION__,0x4(%esp)
 +lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -68,7 +69,7 @@
 +lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x23b>
++jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x23d>
 +movl   $0x0,0x8(%esp)
 +mov    0x10(%ebp),%eax
 +mov    %eax,0x4(%esp)
@@ -84,22 +85,22 @@
 +call   <T> <_ZN14CMemberManager12DeleteMemberEjb>
 +mov    %al,-0x19(%ebp)
 +cmpb   $0x1,-0x19(%ebp)
-+je     <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x23a>
++je     <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x23c>
++movzbl -0x4c(%ebp),%ebx
 +movl   $0x24b,0x8(%esp)
-+movl   $"MemberMemLogout",0x4(%esp)
-+lea    -0x40(%ebp),%eax
++movl   $&_ZZN14CMemberManager15MemberMemLogoutEjP5CUserbE12__FUNCTION__,0x4(%esp)
++lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
-+movzbl -0x4c(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    0xc(%ebp),%eax
++mov    %eax,0x10(%esp)
++mov    %ebx,0xc(%esp)
 +movl   $"<Delete Member Error> CMemberManager::MemberMemLogout\tdeleteOrCash(%d), Member Key(%d)",0x8(%esp)
 +movl   $"./log/MemberMember",0x4(%esp)
-+lea    -0x40(%ebp),%eax
++lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x23b>
++jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x23d>
 +lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -121,7 +122,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0xa1>
-+jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x1dd>
++jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x1df>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -137,28 +138,28 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x9b>
-+jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x1d7>
++jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x1d9>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0xc0>
-+jne    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x1fc>
++jne    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x1fe>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%ecx
  mov    %ebx,%eax
 -jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0xc0>
 -lea    -0x3c(%ebp),%eax
-+jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x1fc>
++jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x1fe>
 +lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0xdb>
-+jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x217>
++jmp    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x219>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0xc0>
-+jne    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x1fc>
++jne    <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x1fe>
  call   <T> <_ZSt9terminatev>
  mov    %eax,%ecx
  mov    %edx,%eax
@@ -176,7 +177,7 @@
 +lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -187,7 +188,7 @@
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,%ebx
 -movl   $0x23b,0x8(%esp)
--movl   $"MemberMemLogout",0x4(%esp)
+-movl   $&_ZZN14CMemberManager15MemberMemLogoutEjP5CUserbE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -209,7 +210,7 @@
 -test   %al,%al
 -je     <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x1b2>
 -movl   $0x241,0x8(%esp)
--movl   $"MemberMemLogout",0x4(%esp)
+-movl   $&_ZZN14CMemberManager15MemberMemLogoutEjP5CUserbE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -239,7 +240,7 @@
 -je     <T> <_ZN14CMemberManager15MemberMemLogoutEjP5CUserb+0x232>
 -movzbl -0x4c(%ebp),%ebx
 -movl   $0x24b,0x8(%esp)
--movl   $"MemberMemLogout",0x4(%esp)
+-movl   $&_ZZN14CMemberManager15MemberMemLogoutEjP5CUserbE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807cca8` | `0x32e` | `0x80680e6` | `0x341` |
+| monitor | DIFF | `0x807cca8` | `0x32e` | `0x80682ea` | `0x341` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -235,7 +235,7 @@
 +lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -404,7 +404,7 @@
 +lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -546,40 +546,50 @@ void __thiscall CPacketDecoder::_ZN14CPacketDecoder10UdpProcessEv(CPacketDecoder
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp](source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp)（约第 206 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Monitor/DNFPacketDecoder.cpp)（约第 247 行）：
 
 ```cpp
 void CPacketDecoder::UdpProcess()
 {
-    if (!m_udpQueue || !m_udpQLock)
-        throw CDNFException("CPacketDecoder is Not Ready!\n");
-    while (!m_udpQueue->empty())
+    if (*(void**)this != 0 && *(void**)((char*)this + 4) != 0)
     {
-        CUdpRecvBuffer* buf = m_udpQueue->front();
-        m_udpQueue->pop();
-        if (!buf)
-            continue;
-        PacketHeader* p = (PacketHeader*)buf;
-        int size = m_udpQueue->size();
-        if (CAppLoadCheckerInstance()->CheckUdpRecvQ(size))
+        CUdpRecvBuffer* buf = 0;
+        while (true)
         {
-            CAppLoadCheckerInstance()->RequestDB(m_serverHandler, 2, size);
-        }
-        if (!MsgDecode(p))
-        {
+            do
             {
-                CGuard<CMutex> guard(m_udpBLock);
+                if (((std::queue<CUdpRecvBuffer*>*) * (void**)this)->empty())
+                {
+                    return;
+                }
+                buf = ((std::queue<CUdpRecvBuffer*>*) * (void**)this)->front();
+                ((std::queue<CUdpRecvBuffer*>*) * (void**)this)->pop();
+            } while (buf == 0);
+            CUdpRecvBuffer* pkt = buf;
+            int qsize = ((std::queue<CUdpRecvBuffer*>*) * (void**)this)->size();
+            CAppLoadChecker* checker = CAppLoadCheckerInstance();
+            if (checker->CheckUdpRecvQ(qsize))
+            {
+                checker->RequestDB((CServerHandler*)*(void**)((char*)this + 0x18), 2, qsize);
+            }
+            if (MsgDecode((PacketHeader*)pkt) != 1)
+            {
+                break;
+            }
+            {
+                CGuard<CMutex> guard((CMutex*) * (void**)((char*)this + 8));
                 delete buf;
             }
-            printf("[false == this->MsgDecode]packetHeader : %x\tpacket id : %d\n",
-                   p, p->packetId);
-            throw CDNFException(
-                "CPacketDecoder::MsgDecode() Undefined Packet Arrive Exception Break!");
         }
         {
-            CGuard<CMutex> guard(m_udpBLock);
+            CGuard<CMutex> guard((CMutex*) * (void**)((char*)this + 8));
             delete buf;
         }
+        printf("[false == this->MsgDecode]packetHeader : %x\tpacket id : %d\n", buf,
+               *(unsigned short*)buf);
+        throw CDNFException(
+            "CPacketDecoder::MsgDecode() Undefined Packet Arrived Exception Break!");
     }
+    throw CDNFException("CPacketDecoder is Not Ready!\n");
 }
 ```

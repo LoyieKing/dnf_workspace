@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80552f4` | `0x7a` | `0x808f034` | `0x5e` |
+| dbmw | DIFF | `0x80552f4` | `0x7a` | `0x80e26d8` | `0x5e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,7 +25,7 @@
 -mov    %eax,%ebx
 +sub    $0x28,%esp
  movl   $0x1a,0x8(%esp)
- movl   $"what",0x4(%esp)
+ movl   $&_ZZNK13CDNFException4whatEvE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -79,13 +79,13 @@ void __thiscall CDNFException::_ZNK13CDNFException4whatEv(CDNFException *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFTableBase.cpp](source/DNFServer/GameServer/COServer/DNFTableBase.cpp)（约第 55 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTableBase.cpp](source/DNFServer/GameServer/DBMW/DNFTableBase.cpp)（约第 51 行）：
 
 ```cpp
 const char* CDNFException::what() const throw()
 {
-    register const char* msg = m_msg.c_str();
-    DNF_LOG_SCOPE_LINE(0x1a, "./log/Except", "%s", msg);
+    CMyFileLog log(__FUNCTION__, 0x1a);
+    log("./log/Except", "%s", m_msg.c_str());
     return m_msg.c_str();
 }
 ```

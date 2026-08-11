@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808f392` | `0x624` | `0x808bc50` | `0x546` |
+| dbmw | DIFF | `0x808f392` | `0x624` | `0x80df310` | `0x546` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -146,7 +146,7 @@
 +lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -280,7 +280,7 @@
 +lea    -0x35(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
-+movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
++movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
 +movl   $&_ZTI13CDNFException,0x4(%esp)
 +mov    %ebx,(%esp)
 +call   <T> <__cxa_throw>
@@ -390,7 +390,7 @@
  lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -545,7 +545,7 @@
  lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -673,7 +673,7 @@
 -lea    -0x1e(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSaIcED1Ev>
--movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+-movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
 -movl   $&_ZTI13CDNFException,0x4(%esp)
 -mov    %ebx,(%esp)
 -call   <T> <__cxa_throw>
@@ -842,29 +842,41 @@ CServerHandler::_ZN14CServerHandler4LoadEP13ST_ServerInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFServerHandler.cpp](source/DNFServer/GameServer/COServer/DNFServerHandler.cpp)（约第 28 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 45 行）：
 
 ```cpp
-void CServerHandler::Load(ST_ServerInfo* info)
+void CServerHandler::Load(ST_ServerInfo* infos)
 {
-    for (int i = 0; i < 0x649b; i++)
+    for (int i = 0; i <= 0xfe; i++)
     {
-        if (info[i].m_field0 == 1)
+        ST_ServerInfo& info = infos[i];
+        if (info.m_type == 1)
         {
-            unsigned char index = info[i].m_field2;
-            unsigned char group = info[i].m_field1;
-            if (index == 0xff)
-            {
-                throw CDNFException("CServerHandler::Load() Server Table Exception Break! "
-                                    "bServerIndex >= MAX_CONN_SERVER");
-            }
-            if (100 < group)
-            {
-                throw CDNFException("CServerHandler::Load() Server Table Exception Break! "
-                                    "bServerGroup >= SERVER_GROUP_MAX");
-            }
-            m_servers[(int)group * 0xff + (int)index].Init(group, info[i].m_string,
-                                                           info[i].m_ushort, index);
+            unsigned char idx = info.m_idx;
+            if (idx == 0xff)
+                throw CDNFException("CGameServerHandler::Load() Server Table Exception Break!");
+            m_gameServers[idx].Init(info.m_flag, info.m_name, info.m_port, idx);
+        }
+        if (info.m_type == 3)
+        {
+            unsigned char idx = info.m_idx;
+            if (idx == 0xff || idx != 0xc9)
+                throw CDNFException("CServerHandler::Load() Monitor Server Table Exception Break!");
+            m_monitorServer.Init(info.m_flag, info.m_name, info.m_port, 0xc9);
+        }
+        if (info.m_type == 5)
+        {
+            unsigned char idx = info.m_idx;
+            if (idx == 0xff || idx != 0xcb)
+                throw CDNFException("CServerHandler::Load() Guild Server Table Exception Break!");
+            m_guildServer.Init(info.m_flag, info.m_name, info.m_port, 0xcb);
+        }
+        if (info.m_type == 7)
+        {
+            unsigned char idx = info.m_idx;
+            if (idx != 0xcd)
+                throw CDNFException("CServerHandler::Load() Statistics Server Table Exception Break!");
+            m_statisticsServer.Init(info.m_flag, info.m_name, info.m_port, 0xcd);
         }
     }
 }

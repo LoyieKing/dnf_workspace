@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8081942` | `0x3ef` | `0x807809e` | `0x3b3` |
+| guild | DIFF | `0x8081942` | `0x3ef` | `0x8077f64` | `0x3bc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,257 +1,237 @@
+@@ -1,257 +1,239 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -27,9 +27,9 @@
 -jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x4f>
 +jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x55>
  movl   $0x1544,0x8(%esp)
- movl   $"OnChangeCharName",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnChangeCharNameEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x54(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnChangeGuildName : 0 == m_pclApp",0x8(%esp)
@@ -42,10 +42,10 @@
 -mov    %eax,-0x14(%ebp)
 -mov    -0x14(%ebp),%eax
 -mov    0x12(%eax),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x44(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3a9>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3b2>
 +mov    -0x1c(%ebp),%eax
 +add    $0x12,%eax
 +mov    (%eax),%eax
@@ -53,9 +53,9 @@
 -jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x9a>
 +jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x9c>
  movl   $0x154c,0x8(%esp)
- movl   $"OnChangeCharName",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnChangeCharNameEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnChangeCharName : packet->m_uGuildKey",0x8(%esp)
@@ -65,10 +65,10 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3e5>
 -lea    -0xa2(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3a9>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3b2>
 +lea    -0x84(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN33Packet_UnChangable_GuildInfo_SaveC1Ev>
@@ -166,7 +166,7 @@
 +cmpl   $0x0,-0x14(%ebp)
 +jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x1f0>
 +movl   $0x1563,0x8(%esp)
-+movl   $"OnChangeCharName",0x4(%esp)
++movl   $&_ZZN17CPacketTranslater16OnChangeCharNameEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -175,7 +175,7 @@
 +lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3a9>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3b2>
 +mov    -0x1c(%ebp),%eax
 +lea    0x16(%eax),%edx
 +mov    -0x1c(%ebp),%eax
@@ -199,7 +199,7 @@
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x1de>
 -movl   $0x1563,0x8(%esp)
--movl   $"OnChangeCharName",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater16OnChangeCharNameEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -252,7 +252,23 @@
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x291>
 -movl   $0x156b,0x8(%esp)
-+je     <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x29a>
+-movl   $&_ZZN17CPacketTranslater16OnChangeCharNameEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x3c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $"CPacketTranslater::OnChangeGuildName : false == pclGuild->ChangeGuildMemberCharName()",0x8(%esp)
+-movl   $"./log/ServerUnify",0x4(%esp)
+-lea    -0x3c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3e5>
+-mov    -0x14(%ebp),%eax
+-mov    0xa(%eax),%eax
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+-add    $0x10,%edx
+-mov    %eax,0x4(%esp)
+-mov    %edx,(%esp)
++je     <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2a3>
 +mov    -0x1c(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%ebx
@@ -261,47 +277,32 @@
 +call   <T> <_ZN12CApplication15Get_UserManagerEv>
 +mov    %ebx,0x4(%esp)
 +mov    %eax,(%esp)
-+call   <T> <_ZNK12CUserManager8FindUserEj>
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0x0,-0x10(%ebp)
-+jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x280>
-+movl   $0x1572,0x8(%esp)
- movl   $"OnChangeCharName",0x4(%esp)
- lea    -0x3c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnChangeGuildName : false == pclGuild->ChangeGuildMemberCharName()",0x8(%esp)
-+movl   $"CPacketTranslater::OnChangeGuildName : 0 == pclRequestUser",0x8(%esp)
- movl   $"./log/ServerUnify",0x4(%esp)
- lea    -0x3c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3e5>
--mov    -0x14(%ebp),%eax
--mov    0xa(%eax),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x10,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZNK12CUserManager8FindUserEj>
+ call   <T> <_ZNK12CUserManager8FindUserEj>
 -mov    %eax,-0x1c(%ebp)
 -cmpl   $0x0,-0x1c(%ebp)
--sete   %al
--test   %al,%al
++mov    %eax,-0x10(%ebp)
++cmpl   $0x0,-0x10(%ebp)
+ sete   %al
+ test   %al,%al
 -je     <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x2f5>
--movl   $0x1572,0x8(%esp)
--movl   $"OnChangeCharName",0x4(%esp)
++je     <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x289>
+ movl   $0x1572,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnChangeCharNameEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnChangeGuildName : 0 == pclRequestUser",0x8(%esp)
--movl   $"./log/ServerUnify",0x4(%esp)
++lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"CPacketTranslater::OnChangeGuildName : 0 == pclRequestUser",0x8(%esp)
+ movl   $"./log/ServerUnify",0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3e5>
 -mov    -0x14(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3a9>
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3b2>
 +mov    -0x1c(%ebp),%eax
  add    $0x16,%eax
  mov    %eax,0x4(%esp)
@@ -310,21 +311,21 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14ChangeCharNameEPc>
 -jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3e5>
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3a9>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3b2>
 +movl   $0x156b,0x8(%esp)
-+movl   $"OnChangeCharName",0x4(%esp)
-+lea    -0x44(%ebp),%eax
++movl   $&_ZZN17CPacketTranslater16OnChangeCharNameEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +movl   $"CPacketTranslater::OnChangeGuildName : false == pclGuild->ChangeGuildMemberCharName()",0x8(%esp)
 +movl   $"./log/ServerUnify",0x4(%esp)
-+lea    -0x44(%ebp),%eax
++lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3a9>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3b2>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x38b>
-+jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x34f>
++jne    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x358>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -336,21 +337,17 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
 -movl   $0x157f,0x8(%esp)
--movl   $"OnChangeCharName",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater16OnChangeCharNameEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnChangeCharName Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -361,7 +358,7 @@
 +lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x348>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x351>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -371,11 +368,11 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3e5>
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3a9>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3b2>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1584,0x8(%esp)
- movl   $"OnChangeCharName",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater16OnChangeCharNameEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
 +lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
@@ -389,7 +386,7 @@
 +lea    -0x54(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3a4>
++jmp    <T> <_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader+0x3ad>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -557,8 +554,8 @@ void CPacketTranslater::OnChangeCharName(PacketHeader* pkt)
     }
     if (guild->ChangeGuildMemberCharName(*(unsigned int*)(pb + 0xe), pb + 0x16) == 1)
     {
-        CUser* user = m_pclApp->Get_UserManager()->FindUser(*(unsigned int*)(pb + 0xa));
-        if (user == 0)
+        CUser* user;
+        if ((user = m_pclApp->Get_UserManager()->FindUser(*(unsigned int*)(pb + 0xa))) == 0)
         {
             DNF_LOG_SCOPE_LINE(0x1572,"./log/ServerUnify",
                 "CPacketTranslater::OnChangeGuildName : 0 == pclRequestUser");
@@ -581,7 +578,7 @@ void CPacketTranslater::OnChangeCharName(PacketHeader* pkt)
     }
     catch (...)
     {
-        CMyFileLog log("OnChangeCharName", 0x1584);
+        CMyFileLog log(__FUNCTION__, 0x1584);
         log("./log/Except", "CPacketTranslater::OnChangeCharName Exception Break\n");
     }
 }

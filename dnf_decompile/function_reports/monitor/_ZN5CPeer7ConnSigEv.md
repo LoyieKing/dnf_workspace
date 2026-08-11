@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8051db2` | `0xea` | `0x809b7ce` | `0xe7` |
+| monitor | NEAR | `0x8051db2` | `0xea` | `0x809b922` | `0xea` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,62 +13,70 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,71 +1,70 @@
+@@ -1,71 +1,71 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x30,%esp
- lea    -0x12(%ebp),%eax
+-lea    -0x12(%ebp),%eax
++lea    -0x16(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN24Packet_InnerPakcet_LoginC1Ev>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    %eax,-0xc(%ebp)
+ mov    %eax,-0xc(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x182c(%eax),%eax
  mov    %eax,0x4(%esp)
- lea    -0x1c(%ebp),%eax
+-lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
  movl   $0x1804,(%esp)
  call   <T> <_ZN14CTcpRecvBuffernwEj>
- mov    %eax,-0x18(%ebp)
- lea    -0x1c(%ebp),%eax
+-mov    %eax,-0x18(%ebp)
+-lea    -0x1c(%ebp),%eax
++mov    %eax,-0x1c(%ebp)
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
- movzwl -0x10(%ebp),%eax
+-movzwl -0x10(%ebp),%eax
++movzwl -0x14(%ebp),%eax
  movzwl %ax,%edx
- mov    -0x18(%ebp),%eax
+-mov    -0x18(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  mov    %edx,0x8(%esp)
- lea    -0x12(%ebp),%edx
+-lea    -0x12(%ebp),%edx
++lea    -0x16(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    0x8(%ebp),%eax
  mov    0x1830(%eax),%eax
  mov    %eax,0x4(%esp)
- lea    -0x20(%ebp),%eax
+-lea    -0x20(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
  mov    0x8(%ebp),%eax
  mov    0x1828(%eax),%eax
- lea    -0x18(%ebp),%edx
+-lea    -0x18(%ebp),%edx
++lea    -0x1c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt5queueIP14CTcpRecvBufferSt5dequeIS1_SaIS1_EEE4pushERKS1_>
--jmp    <T> <_ZN5CPeer7ConnSigEv+0xd8>
-+jmp    <T> <_ZN5CPeer7ConnSigEv+0xd5>
- mov    %edx,%ebx
- mov    %eax,%esi
- lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuardI6CMutexED1Ev>
- mov    %esi,%eax
- mov    %ebx,%edx
- mov    %eax,(%esp)
- call   <T> <_Unwind_Resume>
+ jmp    <T> <_ZN5CPeer7ConnSigEv+0xd8>
+-mov    %edx,%ebx
+-mov    %eax,%esi
+-lea    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuardI6CMutexED1Ev>
+-mov    %esi,%eax
+-mov    %ebx,%edx
+-mov    %eax,(%esp)
+-call   <T> <_Unwind_Resume>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x20(%ebp),%eax
@@ -78,7 +86,17 @@
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
- lea    -0x20(%ebp),%eax
+-lea    -0x20(%ebp),%eax
++mov    %edx,%ebx
++mov    %eax,%esi
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++mov    %esi,%eax
++mov    %ebx,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  add    $0x30,%esp
@@ -124,22 +142,22 @@ void __thiscall CPeer::_ZN5CPeer7ConnSigEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 51 行）：
+定义于 [source/DNFServer/GameServer/Monitor/Peer.cpp](source/DNFServer/GameServer/Monitor/Peer.cpp)（约第 224 行）：
 
 ```cpp
 void CPeer::ConnSig()
 {
     Packet_InnerPakcet_Login pkt;
-    int fd = getHandle();
+    int fd = getHandle();  // ORIG：结果落 -0xc 局部槽
     CTcpRecvBuffer* buf;
     {
-        CGuard<CMutex> guard(m_sendBLock);
+        CGuard<CMutex> guard((CMutex*)m_bLock);
         buf = new CTcpRecvBuffer;
     }
     memcpy(buf, &pkt, pkt.packetSize);
     {
-        CGuard<CMutex> guard(m_sendQLock);
-        m_recvQ->push(buf);
+        CGuard<CMutex> guard((CMutex*)m_qLock);
+        ((std::queue<CTcpRecvBuffer*>*)m_recvQ)->push(buf);
     }
 }
 ```

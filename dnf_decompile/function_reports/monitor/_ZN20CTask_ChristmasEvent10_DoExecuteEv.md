@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809c33e` | `0x125` | `0x809fdda` | `0x16f` |
+| monitor | DIFF | `0x809c33e` | `0x125` | `0x80a005c` | `0x14b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,70 +1,98 @@
+@@ -1,70 +1,84 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -22,22 +22,19 @@
 -sub    $0x44,%esp
 -lea    -0x32(%ebp),%eax
 +sub    $0x4c,%esp
-+lea    -0x2a(%ebp),%eax
++lea    -0x3a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Monitor_ServerEvent_StartC1Ev>
 -movl   $0x1,-0x28(%ebp)
 -movw   $0x14,-0x24(%ebp)
 -movw   $0xe10,-0x22(%ebp)
-+lea    -0x2a(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x1,(%eax)
-+lea    -0x2a(%ebp),%eax
-+add    $0xe,%eax
-+movw   $0x14,(%eax)
-+lea    -0x2a(%ebp),%eax
-+add    $0x12,%eax
-+movw   $0xe10,(%eax)
-+lea    -0x2a(%ebp),%ebx
++lea    -0x3a(%ebp),%eax
++movl   $0x1,0xa(%eax)
++lea    -0x3a(%ebp),%eax
++movw   $0x14,0xe(%eax)
++lea    -0x3a(%ebp),%eax
++movw   $0xe10,0x12(%eax)
++lea    -0x3a(%ebp),%ebx
  call   <T> <_Z20CApplicationInstancev>
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -56,36 +53,25 @@
  call   <T> <_ZN20CTask_ChristmasEvent15getEventEndTimeEv>
 -cmp    -0xc(%ebp),%eax
 -setl   %al
-+mov    %eax,%ecx
-+mov    %edx,%ebx
-+mov    -0x20(%ebp),%eax
-+mov    $0x0,%edx
-+mov    $0x1,%esi
-+cmp    %edx,%ebx
-+jl     <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0x90>
-+cmp    %edx,%ebx
-+jg     <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0x8b>
-+cmp    %eax,%ecx
-+jb     <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0x90>
-+mov    $0x0,%esi
-+mov    %esi,%eax
++cmp    -0x20(%ebp),%eax
++setb   %al
  test   %al,%al
 -je     <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0xa5>
-+je     <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0xd1>
++je     <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0xad>
  movl   $0xc3,0x8(%esp)
- movl   $"_DoExecute",0x4(%esp)
+ movl   $&_ZZN20CTask_ChristmasEvent10_DoExecuteEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"End X_Mas Event!",0x8(%esp)
  movl   $"./log/GameServer",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0x11f>
-+jmp    <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0x167>
++jmp    <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0x143>
  movl   $0x10,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
@@ -98,7 +84,7 @@
  call   <T> <_ZN20CTask_ChristmasEventC1Ejj>
 -mov    %ebx,%eax
 -mov    %eax,%ebx
-+jmp    <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0x112>
++jmp    <T> <_ZN20CTask_ChristmasEvent10_DoExecuteEv+0xee>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
@@ -116,15 +102,15 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CTaskScheduler7AddTaskEPNS_5CTaskE>
  movl   $0xc8,0x8(%esp)
- movl   $"_DoExecute",0x4(%esp)
+ movl   $&_ZZN20CTask_ChristmasEvent10_DoExecuteEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"Start X_Mas Event!",0x8(%esp)
  movl   $"./log/GameServer",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -add    $0x44,%esp
@@ -185,15 +171,15 @@ void CTask_ChristmasEvent::_ZN20CTask_ChristmasEvent10_DoExecuteEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TaskImpl.cpp](source/DNFServer/GameServer/Monitor/TaskImpl.cpp)（约第 124 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TaskImpl.cpp](source/DNFServer/GameServer/Monitor/TaskImpl.cpp)（约第 125 行）：
 
 ```cpp
 void CTask_ChristmasEvent::_DoExecute()
 {
     Packet_Monitor_ServerEvent_Start pkt;
-    *(int*)((char*)&pkt + 0xa) = 1;
-    *(unsigned short*)((char*)&pkt + 0xe) = 0x14;
-    *(unsigned short*)((char*)&pkt + 0x12) = 0xe10;
+    ((RA_INT<10>*)&pkt)->v = 1;
+    ((RA_U16<14>*)&pkt)->v = 0x14;
+    ((RA_U16<18>*)&pkt)->v = 0xe10;
     ((CApplication*)CApplicationInstance())->Get_ServerHandler()->SendAllToGameServer(
         (char*)&pkt, 0x12);
     unsigned int t = MakeEventStartTick(1);

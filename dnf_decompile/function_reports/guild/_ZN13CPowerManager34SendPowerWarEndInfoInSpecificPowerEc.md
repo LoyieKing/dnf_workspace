@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a5148` | `0x389` | `0x809b4a2` | `0x391` |
+| guild | DIFF | `0x80a5148` | `0x389` | `0x809b018` | `0x395` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,226 +1,233 @@
+@@ -1,226 +1,235 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,31 +21,23 @@
  sub    $0xa0,%esp
  mov    0xc(%ebp),%eax
  mov    %al,-0x6c(%ebp)
--movsbl -0x6c(%ebp),%ebx
+ movsbl -0x6c(%ebp),%ebx
  movl   $0x42a,0x8(%esp)
- movl   $"SendPowerWarEndInfoInSpecificPower",0x4(%esp)
--lea    -0x60(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movsbl -0x6c(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ movl   $&_ZZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEcE12__FUNCTION__,0x4(%esp)
+ lea    -0x60(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"SEND POWER WAR END INFO %d Power START",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
--lea    -0x60(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x0,-0x34(%ebp)
  movl   $0x0,-0x30(%ebp)
  movb   $0x0,-0x29(%ebp)
--movl   $0x0,-0x28(%ebp)
--movl   $0x1,-0x24(%ebp)
-+movl   $0x1,-0x28(%ebp)
-+movl   $0x0,-0x24(%ebp)
+ movl   $0x0,-0x28(%ebp)
+ movl   $0x1,-0x24(%ebp)
  movl   $0x0,-0x20(%ebp)
  movl   $0x0,-0x1c(%ebp)
  movl   $0x0,-0x18(%ebp)
@@ -67,41 +59,31 @@
 -lea    -0x64(%ebp),%eax
 -mov    -0x10(%ebp),%edx
 +mov    %eax,-0x14(%ebp)
-+lea    -0x44(%ebp),%eax
++lea    -0x64(%ebp),%eax
 +mov    -0x14(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EE5beginEv>
  sub    $0x4,%esp
 -mov    -0x10(%ebp),%eax
-+movl   $0x439,0x8(%esp)
-+movl   $"SendPowerWarEndInfoInSpecificPower",0x4(%esp)
-+lea    -0x4c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorIP20STPowerWarCharacInfoSaIS1_EE4sizeEv>
--mov    %eax,%ebx
--movl   $0x439,0x8(%esp)
--movl   $"SendPowerWarEndInfoInSpecificPower",0x4(%esp)
--lea    -0x58(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %eax,%ebx
+ movl   $0x439,0x8(%esp)
+ movl   $&_ZZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEcE12__FUNCTION__,0x4(%esp)
+ lea    -0x58(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"SORT USER RANK COUNT : %d",0x8(%esp)
  movl   $"./log/PowerResult",0x4(%esp)
--lea    -0x58(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x58(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x312>
--lea    -0x64(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x31a>
-+lea    -0x44(%ebp),%eax
++jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x31e>
+ lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPP20STPowerWarCharacInfoSt6vectorIS2_SaIS2_EEEdeEv>
  mov    (%eax),%eax
@@ -111,18 +93,18 @@
 -mov    -0x18(%ebp),%eax
 +mov    %eax,-0x1c(%ebp)
 +cmpl   $0x0,-0x1c(%ebp)
-+jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x156>
++jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x158>
 +movl   $0x463,0x8(%esp)
-+movl   $"SendPowerWarEndInfoInSpecificPower",0x4(%esp)
-+lea    -0x54(%ebp),%eax
++movl   $&_ZZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEcE12__FUNCTION__,0x4(%esp)
++lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +movl   $"CharacInfo is NULL",0x8(%esp)
 +movl   $"./log/PowerResult",0x4(%esp)
-+lea    -0x54(%ebp),%eax
++lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30b>
++jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30f>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%ebx
  mov    0x8(%ebp),%eax
@@ -140,7 +122,7 @@
 -mov    -0xc(%ebp),%eax
 +mov    %eax,-0x10(%ebp)
 +cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30b>
++je     <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30f>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetGuildKeyEv>
@@ -158,7 +140,7 @@
  cmpl   $0x0,-0x30(%ebp)
 -je     <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x303>
 -mov    -0xc(%ebp),%eax
-+je     <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30b>
++je     <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30f>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -180,9 +162,9 @@
  movsbl %al,%eax
  cmp    %eax,%ebx
 -sete   %al
-+jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x1fd>
++jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x1ff>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x202>
++jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x204>
 +mov    $0x0,%eax
  mov    %al,-0x29(%ebp)
 -movsbl -0x6c(%ebp),%eax
@@ -201,7 +183,7 @@
 +mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZN18CPowerWarGuildInfo15GetGuildRankingEj>
-+mov    %eax,-0x24(%ebp)
++mov    %eax,-0x28(%ebp)
 +mov    -0xc(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CPower20GetPowerWarGuildInfoEv>
@@ -211,7 +193,7 @@
 +call   <T> <_ZN18CPowerWarGuildInfo20GetSpecificGuildInfoEj>
 +mov    %eax,-0x18(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
-+je     <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x2ac>
++je     <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x2ae>
 +mov    -0x18(%ebp),%eax
  add    $0x8,%eax
 -mov    %eax,(%esp)
@@ -248,12 +230,11 @@
 +mov    (%eax),%edx
  movzbl -0x29(%ebp),%eax
 -mov    -0x20(%ebp),%esi
-+mov    -0x24(%ebp),%esi
++mov    -0x28(%ebp),%esi
  mov    %esi,0x20(%esp)
  mov    %ebx,0x1c(%esp)
  mov    %ecx,0x18(%esp)
--mov    -0x24(%ebp),%ecx
-+mov    -0x28(%ebp),%ecx
+ mov    -0x24(%ebp),%ecx
  mov    %ecx,0x14(%esp)
  mov    %edx,0x10(%esp)
  mov    %eax,0xc(%esp)
@@ -270,95 +251,72 @@
 -mov    -0x18(%ebp),%eax
 -mov    0x4(%eax),%esi
 -mov    -0xc(%ebp),%eax
-+jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30b>
-+movl   $0x45c,0x8(%esp)
-+movl   $"SendPowerWarEndInfoInSpecificPower",0x4(%esp)
-+lea    -0x5c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
++jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x30f>
 +mov    -0x1c(%ebp),%eax
 +add    $0x4,%eax
-+mov    (%eax),%ebx
++mov    (%eax),%esi
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser7GetDBIDEv>
--mov    %eax,%ebx
--movl   $0x45c,0x8(%esp)
--movl   $"SendPowerWarEndInfoInSpecificPower",0x4(%esp)
+ mov    %eax,%ebx
+ movl   $0x45c,0x8(%esp)
+ movl   $&_ZZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEcE12__FUNCTION__,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0x24(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    %esi,0x14(%esp)
++lea    -0x44(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0x24(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    %esi,0x14(%esp)
 -mov    -0x28(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    -0x28(%ebp),%edx
-+mov    %edx,0x18(%esp)
-+mov    %ebx,0x14(%esp)
-+mov    -0x34(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    -0x34(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"DBID(%d) CharacNo(%d) UserPP(%d) UserRank(%d)",0x8(%esp)
- movl   $"./log/PowerResult",0x4(%esp)
+-movl   $"./log/PowerResult",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x303>
 -movl   $0x463,0x8(%esp)
--movl   $"SendPowerWarEndInfoInSpecificPower",0x4(%esp)
+-movl   $&_ZZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEcE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -movl   $"CharacInfo is NULL",0x8(%esp)
--movl   $"./log/PowerResult",0x4(%esp)
--lea    -0x44(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--addl   $0x1,-0x24(%ebp)
--lea    -0x64(%ebp),%eax
-+lea    -0x5c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+addl   $0x1,-0x28(%ebp)
-+lea    -0x44(%ebp),%eax
+ movl   $"./log/PowerResult",0x4(%esp)
+ lea    -0x44(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ addl   $0x1,-0x24(%ebp)
+ lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPP20STPowerWarCharacInfoSt6vectorIS2_SaIS2_EEEppEv>
--lea    -0x50(%ebp),%eax
+ lea    -0x50(%ebp),%eax
 -mov    -0x10(%ebp),%edx
-+lea    -0x38(%ebp),%eax
 +mov    -0x14(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EE3endEv>
  sub    $0x4,%esp
--lea    -0x50(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x50(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x64(%ebp),%eax
-+lea    -0x44(%ebp),%eax
+ lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxxneIPP20STPowerWarCharacInfoSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
  test   %al,%al
 -jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x10c>
--movsbl -0x6c(%ebp),%ebx
-+jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x105>
++jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x107>
+ movsbl -0x6c(%ebp),%ebx
  movl   $0x46b,0x8(%esp)
- movl   $"SendPowerWarEndInfoInSpecificPower",0x4(%esp)
--lea    -0x3c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+lea    -0x64(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movsbl -0x6c(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ movl   $&_ZZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEcE12__FUNCTION__,0x4(%esp)
+ lea    -0x3c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"SEND POWER WAR END INFO %d Power END",0x8(%esp)
  movl   $"./log/PowerResult",0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x64(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  lea    -0x8(%ebp),%esp
@@ -497,8 +455,8 @@ void CPowerManager::SendPowerWarEndInfoInSpecificPower(char side)
     unsigned int charNo = 0;
     CGuild* guild = 0;
     unsigned char isWinner = 0;
-    unsigned int userRank = 1;
     unsigned int guildRank = 0;
+    unsigned int userRank = 1;
     unsigned int guildKey = 0;
     STPowerWarCharacInfo* characInfo = 0;
     STPowerWarGuildInfo* guildInfo = 0;

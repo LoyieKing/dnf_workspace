@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a2bd2` | `0xa7` | `0x808f08a` | `0x89` |
+| guild | DIFF | `0x80a2bd2` | `0xa7` | `0x808eeea` | `0x8c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,10 +20,10 @@
 -movl   $0x0,-0x20(%ebp)
 -movl   $0x0,-0x1c(%ebp)
 -movl   $0x3,-0x1c(%ebp)
++movl   $0x3,-0x18(%ebp)
  mov    0xc(%ebp),%eax
 -mov    %eax,-0x20(%ebp)
 +mov    %eax,-0x1c(%ebp)
-+movb   $0x3,-0x18(%ebp)
  mov    0x8(%ebp),%edx
 -lea    -0x18(%ebp),%eax
 +lea    -0x14(%ebp),%eax
@@ -116,16 +116,15 @@ WongWork::CGMAccounts::_ZN8WongWork11CGMAccounts4isGMEj(CGMAccounts *this,uint p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/GMAccounts.cpp](source/DNFServer/GameServer/DBMW/GMAccounts.cpp)（约第 35 行）：
+定义于 [source/DNFServer/GameServer/Guild/GMAccounts.cpp](source/DNFServer/GameServer/Guild/GMAccounts.cpp)（约第 116 行）：
 
 ```cpp
-unsigned int WongWork::CGMAccounts::isGM(unsigned int id)
+int CGMAccounts::isGM(unsigned int id)
 {
-    stGMInfo_t key = {};
+    stGMInfo_t key;
     key.m_field1 = 3;
-    key.m_field0 = (int)id;
-    std::list<stGMInfo_t>::iterator it =
-        std::find(m_list.begin(), m_list.end(), key);
+    key.m_field0 = id;
+    std::list<stGMInfo_t>::iterator it = std::find(m_list.begin(), m_list.end(), key);
     return it != m_list.end();
 }
 ```

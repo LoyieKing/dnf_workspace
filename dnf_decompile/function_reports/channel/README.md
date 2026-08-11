@@ -2,8 +2,8 @@
 
 | 项 | 值 |
 |---|---|
-| 原始 ELF | `/mnt/d/Docs/my_sources/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople/channel/df_channel_r` |
-| 重建 ELF | `/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile/build/channel/df_channel_r` |
+| 原始 ELF | `/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople/channel/df_channel_r` |
+| 重建 ELF | `/home/loyieking/dnf_workspace/dnf_decompile/build/channel/df_channel_r` |
 | 统计口径 | `compare_common` strict（仅归一化直接跳转/调用目标地址） |
 | 地址等价口径 | 数据地址（字符串/全局变量）伪代码化为内容/`&符号` 后逐条相等者判为 `IDENTICAL_AE`（视为相同，不生成 md） |
 | 豁免 | 第三方基础库（tinyxml/加密哈希/Boost/STL/工具链运行时等，见 `compare_common.is_exempt_symbol`） |
@@ -15,20 +15,20 @@
 | 类别 | 数量 |
 |---|---|
 | IDENTICAL | 0 |
-| NEAR | 20 |
-| DIFF | 25 |
+| NEAR | 0 |
+| DIFF | 0 |
 | MISSING | 0 |
 | EMPTY | 0 |
 | EXEMPT_SKIP | 0 |
 | IDENTICAL_AE（地址等价） | 0 |
-| 已生成 md | 30 |
+| 已生成 md | 0 |
 
 ## 范围过滤（scope.txt）
 
 ```
-targets=45
-ours=30
-skip_no_source=15
+targets=0
+ours=0
+skip_no_source=0
 skip_vendored=0
 ```
 

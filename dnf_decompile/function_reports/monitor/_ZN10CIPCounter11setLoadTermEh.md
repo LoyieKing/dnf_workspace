@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805e8ba` | `0x4c` | `0x8093824` | `0x64` |
+| monitor | DIFF | `0x805e8ba` | `0x4c` | `0x80938fe` | `0x5e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,27 +1,33 @@
+@@ -1,27 +1,30 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x4,%esp
@@ -33,32 +33,27 @@
 -jle    <T> <_ZN10CIPCounter11setLoadTermEh+0x2a>
 -mov    $0x2a30,%eax
 -mov    %eax,%edx
-+mov    %eax,-0x4(%ebp)
-+cmpl   $0x2a30,-0x4(%ebp)
-+jbe    <T> <_ZN10CIPCounter11setLoadTermEh+0x31>
-+movl   $0x2a30,-0x4(%ebp)
++mov    %eax,-0x8(%ebp)
++cmpl   $0x2a30,-0x8(%ebp)
++jle    <T> <_ZN10CIPCounter11setLoadTermEh+0x31>
++movl   $0x2a30,-0x8(%ebp)
++mov    -0x8(%ebp),%edx
  mov    0x8(%ebp),%eax
--mov    %edx,0xc(%eax)
-+lea    0xc(%eax),%edx
-+mov    -0x4(%ebp),%eax
-+mov    %eax,(%edx)
+ mov    %edx,0xc(%eax)
  mov    0x8(%ebp),%eax
--mov    0xc(%eax),%eax
+ mov    0xc(%eax),%eax
 -cmp    $0x708,%eax
 -jae    <T> <_ZN10CIPCounter11setLoadTermEh+0x44>
 -mov    $0x708,%eax
 -mov    0x8(%ebp),%edx
 -mov    %eax,0xc(%edx)
-+add    $0xc,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x4(%ebp)
 +cmpl   $0x707,-0x4(%ebp)
-+ja     <T> <_ZN10CIPCounter11setLoadTermEh+0x57>
++ja     <T> <_ZN10CIPCounter11setLoadTermEh+0x53>
 +movl   $0x708,-0x4(%ebp)
 +mov    0x8(%ebp),%eax
-+lea    0xc(%eax),%edx
-+mov    -0x4(%ebp),%eax
-+mov    %eax,(%edx)
++mov    -0x4(%ebp),%edx
++mov    %edx,0xc(%eax)
  leave
  ret
 ```
@@ -94,17 +89,17 @@ void __thiscall CIPCounter::_ZN10CIPCounter11setLoadTermEh(CIPCounter *this,ucha
 ```cpp
 void CIPCounter::setLoadTerm(unsigned char term)
 {
-    unsigned int v = (unsigned int)term * 0x3c;
-    if (0x2a30 < v)
+    int v = (int)(unsigned char)term * 0x3c;
+    if (v > 0x2a30)
     {
         v = 0x2a30;
     }
-    *(unsigned int*)((char*)this + 0xc) = v;
-    v = *(unsigned int*)((char*)this + 0xc);
-    if (v < 0x708)
+    m_term = v;
+    unsigned int w = m_term;
+    if (w < 0x708)
     {
-        v = 0x708;
+        w = 0x708;
     }
-    *(unsigned int*)((char*)this + 0xc) = v;
+    m_term = w;
 }
 ```

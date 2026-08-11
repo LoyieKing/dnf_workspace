@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804ed5a` | `0x46` | `0x8085ec0` | `0x41` |
+| guild | DIFF | `0x804ed5a` | `0x46` | `0x8085cb2` | `0x41` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -63,11 +63,11 @@ void __thiscall EpollHandler::_ZN12EpollHandler12WaitForEventEv(EpollHandler *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpHandler.cpp](source/DNFServer/GameServer/DBMW/DNFTcpHandler.cpp)（约第 38 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpHandler.cpp](source/DNFServer/GameServer/Guild/DNFTcpHandler.cpp)（约第 138 行）：
 
 ```cpp
-int CTcpHandler::WaitForEvent()
+int EpollHandler::WaitForEvent()
 {
-    return m_epoll ? m_epoll->WaitForEvent() : -1;
+    return epoll_wait(GetEpollFD(), (epoll_event*)GetEpollEvents(), 1000, 100);
 }
 ```

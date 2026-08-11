@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8096dc4` | `0x51` | `0x805d32e` | `0x54` |
+| guild | DIFF | `0x8096dc4` | `0x51` | `0x805ce4e` | `0x54` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -82,7 +82,7 @@ CGuildManager::_ZN13CGuildManager23IsGuildWarEnterableCharEhj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 534 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 557 行）：
 
 ```cpp
 bool CGuildManager::IsGuildWarEnterableChar(unsigned char group, unsigned int charNo)

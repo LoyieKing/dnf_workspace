@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807da7c` | `0xdf` | `0x8068e0e` | `0xbc` |
+| monitor | DIFF | `0x807da7c` | `0xdf` | `0x8068fc8` | `0xbc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -129,21 +129,17 @@ CPacketTracer::_ZN13CPacketTracer6AddLogEii(CPacketTracer *this,int param_1,int 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFPacketTracer.cpp](source/DNFServer/GameServer/COServer/DNFPacketTracer.cpp)（约第 23 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTracer.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTracer.cpp)（约第 37 行）：
 
 ```cpp
-void CPacketTracer::AddLog(int p1, int p2)
+void CPacketTracer::AddLog(int a, int b)
 {
     time_t t;
     time(&t);
-    tm t2 = *localtime(&t);
+    struct tm st = *localtime(&t);
     char buf[32];
-    for (unsigned int i = 0; i < 0x20; i += 4)
-    {
-        *(unsigned int*)(buf + i) = 0;
-    }
-    sprintf(buf, "(%02d:%02d:%02d/%d/%d)", t2.tm_hour, t2.tm_min, t2.tm_sec, p2, p1);
-    m_log += buf;
-    m_count++;
+    sprintf(buf, "(%02d:%02d:%02d/%d/%d)", st.tm_hour, st.tm_min, st.tm_sec, b, a);
+    m_str += buf;
+    m_count = m_count + 1;
 }
 ```

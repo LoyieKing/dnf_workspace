@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| relay | DIFF | `0x805e406` | `0x90` | `0x805d9f8` | `0x88` |
+| relay | DIFF | `0x805e406` | `0x90` | `0x805da5c` | `0x95` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,53 +13,49 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,49 +1,44 @@
+@@ -1,49 +1,53 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
  sub    $0x24,%esp
  mov    0xc(%ebp),%eax
--mov    %eax,-0x14(%ebp)
--mov    -0x14(%ebp),%eax
+ mov    %eax,-0x14(%ebp)
+ mov    -0x14(%ebp),%eax
  movzwl (%eax),%eax
--movzwl %ax,%eax
--cmp    $0x1,%eax
+ movzwl %ax,%eax
+ cmp    $0x1,%eax
 -je     <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x89>
--cmp    $0x9c4,%eax
++je     <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8b>
+ cmp    $0x9c4,%eax
 -je     <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x4e>
--test   %eax,%eax
++je     <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x4f>
+ test   %eax,%eax
 -jne    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8a>
-+mov    %ax,-0xa(%ebp)
-+cmpw   $0x1,-0xa(%ebp)
-+je     <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x82>
-+cmpw   $0x9c4,-0xa(%ebp)
-+jne    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x59>
++jne    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8e>
++nop
  mov    0xc(%ebp),%eax
--mov    %eax,-0x10(%ebp)
--mov    -0x10(%ebp),%eax
--mov    0xa(%eax),%ebx
--mov    0x8(%ebp),%eax
--add    $0x4,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN8TManagerIN15RelayServiceApp12RelayServiceEE10getManagerEv>
--mov    %ebx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN15RelayServiceApp12RelayService16setAuthenticatedEj>
+ mov    %eax,-0x10(%ebp)
+ mov    -0x10(%ebp),%eax
+ mov    0xa(%eax),%ebx
+ mov    0x8(%ebp),%eax
+ add    $0x4,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN8TManagerIN15RelayServiceApp12RelayServiceEE10getManagerEv>
+ mov    %ebx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN15RelayServiceApp12RelayService16setAuthenticatedEj>
 -jmp    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8a>
-+add    $0xe,%eax
-+movzbl (%eax),%eax
-+test   %al,%al
-+jne    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x82>
++jmp    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8f>
++nop
  mov    0xc(%ebp),%eax
--mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--movzbl 0xe(%eax),%eax
--test   %al,%al
+ mov    %eax,-0xc(%ebp)
+ mov    -0xc(%ebp),%eax
+ movzbl 0xe(%eax),%eax
+ test   %al,%al
 -jne    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8a>
--mov    -0xc(%ebp),%eax
--mov    0xa(%eax),%ebx
-+add    $0xa,%eax
-+mov    (%eax),%ebx
++jne    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8f>
+ mov    -0xc(%ebp),%eax
+ mov    0xa(%eax),%ebx
  mov    0x8(%ebp),%eax
  add    $0x4,%eax
  mov    %eax,(%esp)
@@ -69,20 +65,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN15RelayServiceApp12RelayService27postDisconnectEvent2TCPUserEji>
 -jmp    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8a>
--nop
-+jmp    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x82>
-+cmpw   $0x0,-0xa(%ebp)
-+jne    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x82>
-+mov    0xc(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%ebx
-+mov    0x8(%ebp),%eax
-+add    $0x4,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN8TManagerIN15RelayServiceApp12RelayServiceEE10getManagerEv>
-+mov    %ebx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN15RelayServiceApp12RelayService16setAuthenticatedEj>
++jmp    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8f>
++nop
++jmp    <T> <_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii+0x8f>
+ nop
  add    $0x24,%esp
  pop    %ebx
  pop    %ebp
@@ -125,18 +111,36 @@ void RelayServiceApp::UDPHandlerS2S::_ZN15RelayServiceApp13UDPHandlerS2S8dispatc
 
 ## 3. 我们的源码函数
 
-定义于 [source/ChannelOld/DNFChannelBridge/UDPHandler.cpp](source/ChannelOld/DNFChannelBridge/UDPHandler.cpp)（约第 25 行）：
+定义于 [source/DNFServer/GameServer/Relay/UDPHandler.cpp](source/DNFServer/GameServer/Relay/UDPHandler.cpp)（约第 36 行）：
 
 ```cpp
-void ChannelServiceApp::UDPHandlerRelay::dispatch(char* szBlock, int nSize, int Catagory)
+void UDPHandlerS2S::dispatch(char* buf, int size, int flag)
 {
-    LPPACKET_HEADER pPCK = (LPPACKET_HEADER)szBlock;
-    int nProtoID = pPCK->getPacketID();
-    DWORD ret = 0;
-    ChannelService::FPMessageHandlerExtra Handler = getManager()->GetMessageHandlerExtra(nProtoID);
-    if (Handler != NULL)
+    PacketHeaderS2S* pkt = (PacketHeaderS2S*)buf;
+    switch (pkt->m_a)
     {
-        ret = (getManager()->*Handler)(pPCK);
+    case 1:
+        return;
+    case 0x9c4:
+        goto L9c4;
+    case 0:
+        goto L0;
+    default:
+        return;
+    }
+L0:
+    {
+        PacketHeaderS2S* q = (PacketHeaderS2S*)buf;
+        getManager()->setAuthenticated(q->m_f);
+    }
+    return;
+L9c4:
+    {
+        PacketHeaderS2S* p = (PacketHeaderS2S*)buf;
+        if (p->m_g == 0)
+        {
+            getManager()->postDisconnectEvent2TCPUser(p->m_f, 3);
+        }
     }
 }
 ```

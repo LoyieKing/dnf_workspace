@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8058bf6` | `0x5e` | `0x8090cb6` | `0x6f` |
+| dbmw | DIFF | `0x8058bf6` | `0x5e` | `0x80e434a` | `0x6f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -71,7 +71,7 @@ undefined1 * __thiscall TCPSocket::_ZN9TCPSocket9getPeerIPEv(TCPSocket *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 175 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 166 行）：
 
 ```cpp
 char* TCPSocket::getPeerIP()

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8052d38` | `0x28a` | `0x80a1e38` | `0x2c9` |
+| monitor | DIFF | `0x8052d38` | `0x28a` | `0x80a2010` | `0x2b1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,210 +1,236 @@
+@@ -1,210 +1,224 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -66,10 +66,10 @@
 +mov    (%eax),%eax
 +mov    %eax,-0x1c(%ebp)
 +mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    (%eax),%edx
++mov    -0x20(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +mov    0x8(%ebp),%eax
 +mov    0x118(%eax),%eax
 +test   %eax,%eax
@@ -80,16 +80,11 @@
 +mov    %eax,-0x18(%ebp)
 +mov    -0x18(%ebp),%eax
  add    $0xc,%eax
--mov    (%eax),%edx
--mov    0x8(%ebp),%eax
--mov    0x118(%eax),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    0x8(%ebp),%edx
-+mov    0x118(%edx),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x118(%eax),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    0x8(%ebp),%eax
  movl   $0x0,0x118(%eax)
  mov    0x8(%ebp),%eax
@@ -121,10 +116,10 @@
 +mov    (%eax),%eax
 +mov    %eax,-0x10(%ebp)
 +mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    (%eax),%edx
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +mov    0x8(%ebp),%eax
 +mov    0x4(%eax),%eax
 +test   %eax,%eax
@@ -135,16 +130,11 @@
 +mov    %eax,-0xc(%ebp)
 +mov    -0xc(%ebp),%eax
  add    $0xc,%eax
--mov    (%eax),%edx
--mov    0x8(%ebp),%eax
--mov    0x4(%eax),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    0x8(%ebp),%edx
-+mov    0x4(%edx),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x4(%eax),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    0x8(%ebp),%eax
  movl   $0x0,0x4(%eax)
 -jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x105>
@@ -180,7 +170,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt5queueIP5CPeerSt5dequeIS1_SaIS1_EEED1Ev>
 -jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x18d>
-+jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x184>
++jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x1b4>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -189,12 +179,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x196>
-+mov    0x8(%ebp),%eax
-+add    $0x100,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CMutexD1Ev>
-+jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x1b0>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -203,12 +187,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x1c2>
-+mov    0x8(%ebp),%eax
-+add    $0xe8,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CMutexD1Ev>
-+jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x1dc>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -218,21 +196,21 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x1bf>
--mov    0x8(%ebp),%eax
--add    $0x100,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CMutexD1Ev>
--mov    0x8(%ebp),%eax
--add    $0xe8,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CMutexD1Ev>
-+jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x1ee>
++jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x1e6>
+ mov    0x8(%ebp),%eax
+ add    $0x100,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CMutexD1Ev>
+ mov    0x8(%ebp),%eax
+ add    $0xe8,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CMutexD1Ev>
  mov    0x8(%ebp),%eax
  add    $0xc0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEED1Ev>
 -jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x239>
-+jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x208>
++jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x260>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -241,12 +219,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x21a>
-+mov    0x8(%ebp),%eax
-+add    $0xa8,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CMutexD1Ev>
-+jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x234>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -255,12 +227,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x246>
-+mov    0x8(%ebp),%eax
-+add    $0x90,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CMutexD1Ev>
-+jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x25e>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -269,12 +235,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x26e>
-+mov    0x8(%ebp),%eax
-+add    $0x78,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CMutexD1Ev>
-+jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x286>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -283,12 +243,6 @@
  call   <T> <_ZN6CMutexD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x296>
-+mov    0x8(%ebp),%eax
-+add    $0x60,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CMutexD1Ev>
-+jmp    <T> <_ZN13CTcpNetSystemD1Ev+0x2b4>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -300,22 +254,22 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  mov    0x8(%ebp),%eax
--add    $0xa8,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CMutexD1Ev>
--mov    0x8(%ebp),%eax
--add    $0x90,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CMutexD1Ev>
--mov    0x8(%ebp),%eax
--add    $0x78,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CMutexD1Ev>
--mov    0x8(%ebp),%eax
--add    $0x60,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CMutexD1Ev>
--mov    0x8(%ebp),%eax
+ add    $0xa8,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CMutexD1Ev>
+ mov    0x8(%ebp),%eax
+ add    $0x90,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CMutexD1Ev>
+ mov    0x8(%ebp),%eax
+ add    $0x78,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CMutexD1Ev>
+ mov    0x8(%ebp),%eax
+ add    $0x60,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CMutexD1Ev>
+ mov    0x8(%ebp),%eax
  add    $0x8,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CSwapQueueISt5queueIP14CTcpRecvBufferSt5dequeIS2_SaIS2_EEELi2EED1Ev>
@@ -388,32 +342,46 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystemD1Ev(CTcpNetSystem *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 33 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 147 行）：
 
 ```cpp
 CTcpNetSystem::~CTcpNetSystem()
 {
     CleanPeers();
-    if (m_tcpHandler != 0)
+    if (m_handler != 0)
     {
-        delete m_tcpHandler;
-        m_tcpHandler = 0;
+        delete m_handler;
+        m_handler = 0;
     }
     if (m_acceptThread != 0)
     {
-        void (**vt)(void*) = *(void(***)(void*))m_acceptThread;
-        vt[0](m_acceptThread);
+        void* h = (void*)m_acceptThread;
+        if (h != 0)
+        {
+            void (**vt)(void*) = *(void(***)(void*))h;
+            vt[0](h);
+        }
         if (m_acceptThread != 0)
-            vt[3](m_acceptThread);
+        {
+            void (**vt)(void*) = *(void(***)(void*))(void*)m_acceptThread;
+            vt[3]((void*)m_acceptThread);
+        }
         m_acceptThread = 0;
     }
-    if (m_field4 != 0)
+    if (m_networkThread != 0)
     {
-        void (**vt)(void*) = *(void(***)(void*))m_field4;
-        vt[0](m_field4);
-        if (m_field4 != 0)
-            vt[3](m_field4);
-        m_field4 = 0;
+        void* h = (void*)m_networkThread;
+        if (h != 0)
+        {
+            void (**vt)(void*) = *(void(***)(void*))h;
+            vt[0](h);
+        }
+        if (m_networkThread != 0)
+        {
+            void (**vt)(void*) = *(void(***)(void*))(void*)m_networkThread;
+            vt[3]((void*)m_networkThread);
+        }
+        m_networkThread = 0;
     }
 }
 ```

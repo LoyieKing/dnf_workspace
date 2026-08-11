@@ -6,8 +6,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import demangle_batch, disasm_slice, load_disasm, norm_identical
 
-ORIG = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople/stun/df_stun_r')
-NEW = Path(sys.argv[1] if len(sys.argv) > 1 else "/mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile/build/stun/df_stun_r")
+ORIG = Path('/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople/stun/df_stun_r')
+NEW = Path(sys.argv[1] if len(sys.argv) > 1 else "/home/loyieking/dnf_workspace/dnf_decompile/build/stun/df_stun_r")
 
 def run(cmd):
     return subprocess.check_output(cmd, shell=True, text=True, stderr=subprocess.DEVNULL)

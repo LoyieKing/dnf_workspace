@@ -6,7 +6,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import demangle_batch, disasm_slice, load_disasm, norm_identical
 
-ORIG = Path('/mnt/d/Docs/my_sources/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople/channel/df_channel_r')
+ORIG = Path('/home/loyieking/dnf_workspace/dnf_installer/build/dnf_data/home/template/neople/channel/df_channel_r')
 NEW = Path(sys.argv[1] if len(sys.argv) > 1 else '/tmp/df_channel_r_new')
 
 def run(cmd):

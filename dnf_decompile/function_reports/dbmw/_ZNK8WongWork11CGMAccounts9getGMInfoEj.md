@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80639c6` | `0xe0` | `0x8094802` | `0xd4` |
+| dbmw | DIFF | `0x80639c6` | `0xe0` | `0x80e7e6e` | `0xd4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -137,22 +137,4 @@ uint WongWork::CGMAccounts::_ZNK8WongWork11CGMAccounts9getGMInfoEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GMAccounts.cpp](source/DNFServer/GameServer/Guild/GMAccounts.cpp)（约第 132 行）：
-
-```cpp
-CGMAccounts::stGMInfo_t CGMAccounts::getGMInfo(unsigned int id) const
-{
-    stGMInfo_t key;
-    key.m_field0 = id;
-    key.m_field1 = 3;
-    stGMInfo_t result;
-    result.m_field0 = 0;
-    result.m_field1 = 3;
-    std::list<stGMInfo_t>::const_iterator it = std::find(m_list.begin(), m_list.end(), key);
-    if (it != m_list.end())
-    {
-        result = *it;
-    }
-    return result;
-}
-```
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/GMAccounts.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h, source/DNFServer/GameServer/DBMW/DNFApplication.h 等 293 个文件*

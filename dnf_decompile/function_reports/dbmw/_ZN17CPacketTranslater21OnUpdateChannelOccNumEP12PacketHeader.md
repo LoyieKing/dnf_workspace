@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809fb6e` | `0x122` | `0x808a142` | `0x122` |
+| dbmw | DIFF | `0x809fb6e` | `0x122` | `0x80dd7c0` | `0x124` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,80 +1,79 @@
+@@ -1,80 +1,80 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,7 +21,8 @@
  sub    $0x40,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
- je     <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x11a>
+-je     <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x11a>
++je     <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x11c>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x10(%ebp)
 +mov    %eax,-0x14(%ebp)
@@ -34,37 +35,36 @@
  call   <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic>
 -xor    $0x1,%eax
 -test   %al,%al
+-je     <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x11b>
+-cmpl   $0x0,-0x10(%ebp)
+-je     <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x11b>
+-mov    -0x10(%ebp),%eax
 +mov    %al,-0xd(%ebp)
 +cmpb   $0x1,-0xd(%ebp)
- je     <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x11b>
--cmpl   $0x0,-0x10(%ebp)
++je     <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x11d>
 +cmpl   $0x0,0x8(%ebp)
- je     <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x11b>
++je     <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x11d>
++mov    -0x14(%ebp),%eax
+ mov    0xe(%eax),%esi
 -mov    -0x10(%ebp),%eax
--mov    0xe(%eax),%esi
--mov    -0x10(%ebp),%eax
--mov    0xa(%eax),%ebx
++mov    -0x14(%ebp),%eax
+ mov    0xa(%eax),%ebx
  movl   $0x1300,0x8(%esp)
- movl   $"OnUpdateChannelOccNum",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    0xe(%eax),%edx
-+mov    -0x14(%ebp),%eax
-+mov    0xa(%eax),%eax
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnUpdateChannelOccNum Error ch_no(%d), count(%d)",0x8(%esp)
  movl   $"./log/statistic",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- jmp    <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x11b>
+-jmp    <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x11b>
++jmp    <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x11d>
  cmp    $0x1,%edx
 -je     <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0xa3>
 +je     <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0xa5>
@@ -73,37 +73,29 @@
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0x1305,0x8(%esp)
-+movl   $"OnUpdateChannelOccNum",0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x1305,0x8(%esp)
--movl   $"OnUpdateChannelOccNum",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x1305,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnUpdateChannelOccNum() Exception Break : %s",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- jmp    <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x113>
+-jmp    <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x113>
++jmp    <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x115>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -112,7 +104,8 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
- jmp    <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x11b>
+-jmp    <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x11b>
++jmp    <T> <_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketHeader+0x11d>
  nop
  add    $0x40,%esp
  pop    %ebx
@@ -156,7 +149,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnUpdateChannelOccNumEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 3030 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 3220 行）：
 
 ```cpp
 void CPacketTranslater::OnUpdateChannelOccNum(PacketHeader* header)
@@ -171,10 +164,13 @@ void CPacketTranslater::OnUpdateChannelOccNum(PacketHeader* header)
             pkt);
         if (ok != 1 && header)
         {
-            CMyFileLog log("OnUpdateChannelOccNum", 0x1300);
-            log("./log/statistic",
+            DNF_LOG_SCOPE_LINE(0x1300,
+                "./log/statistic",
                 "CPacketTranslater::OnUpdateChannelOccNum Error ch_no(%d), count(%d)",
-                pkt->m_gcNo, pkt->m_userCount);
+                pkt->m_gcNo,
+                pkt->m_userCount
+            );
+
         }
     }
     DNF_CATCH_LOG_CDNF("./log/Except.log",

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808f070` | `0x14c` | `0x808b940` | `0x147` |
+| dbmw | DIFF | `0x808f070` | `0x14c` | `0x80df000` | `0x147` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -177,12 +177,12 @@ void __thiscall CServerHandler::_ZN14CServerHandlerC1Ev(CServerHandler *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFServerHandler.cpp](source/DNFServer/GameServer/COServer/DNFServerHandler.cpp)（约第 10 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 26 行）：
 
 ```cpp
 CServerHandler::CServerHandler()
 {
-    // m_servers 就地构造（与原始显式循环等价）
     m_app = 0;
+    m_tickCount = 0;
 }
 ```

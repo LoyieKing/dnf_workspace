@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8072e44` | `0x6c5` | `0x8072c24` | `0x6f5` |
+| statics | DIFF | `0x8072e44` | `0x6c5` | `0x8072e1a` | `0x6f5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -80,7 +80,7 @@
  mov    (%edx,%eax,1),%ecx
 -flds   -0x34(%ebp)
 +flds   -0x28(%ebp)
-+fldl   &data#267dc925(.rodata)
++fldl   &data#78e7013f(.rodata)
 +faddp  %st,%st(1)
  fnstcw -0xba(%ebp)
  movzwl -0xba(%ebp),%eax
@@ -110,7 +110,7 @@
  mov    (%eax),%ebx
 -flds   -0x30(%ebp)
 +flds   -0x24(%ebp)
-+fldl   &data#267dc925(.rodata)
++fldl   &data#78e7013f(.rodata)
 +faddp  %st,%st(1)
  fldcw  -0xbc(%ebp)
  fistpll -0xc8(%ebp)
@@ -400,7 +400,7 @@
 -lea    (%ecx,%eax,1),%eax
 -add    $0x50,%eax
 -movzwl 0x17(%eax),%eax
-+fldl   &data#267dc925(.rodata)
++fldl   &data#78e7013f(.rodata)
 +faddp  %st,%st(1)
 +fnstcw -0xba(%ebp)
 +movzwl -0xba(%ebp),%eax
@@ -413,7 +413,7 @@
 +mov    -0xc4(%ebp),%edx
 +mov    %eax,-0xac(%ebp)
 +flds   -0x18(%ebp)
-+fldl   &data#267dc925(.rodata)
++fldl   &data#78e7013f(.rodata)
 +faddp  %st,%st(1)
 +fldcw  -0xbc(%ebp)
 +fistpll -0xc8(%ebp)
@@ -436,7 +436,7 @@
 +mov    %eax,-0xa4(%ebp)
 +movl   $0x1,-0xa0(%ebp)
 +flds   -0x14(%ebp)
-+fldl   &data#267dc925(.rodata)
++fldl   &data#78e7013f(.rodata)
 +faddp  %st,%st(1)
 +fldcw  -0xbc(%ebp)
 +fistpll -0xc8(%ebp)
@@ -467,7 +467,7 @@
 -lea    (%ecx,%eax,1),%eax
 -add    $0x60,%eax
 -movzwl 0x12(%eax),%eax
-+fldl   &data#267dc925(.rodata)
++fldl   &data#78e7013f(.rodata)
 +faddp  %st,%st(1)
 +fldcw  -0xbc(%ebp)
 +fistpll -0xc8(%ebp)
@@ -593,7 +593,7 @@
  mov    0x4(%ecx),%ebx
 -flds   -0x20(%ebp)
 +flds   -0x1c(%ebp)
-+fldl   &data#267dc925(.rodata)
++fldl   &data#78e7013f(.rodata)
 +faddp  %st,%st(1)
  fnstcw -0xba(%ebp)
  movzwl -0xba(%ebp),%eax
@@ -614,7 +614,7 @@
  mov    0x8(%ecx),%ebx
 -flds   -0x1c(%ebp)
 +flds   -0x18(%ebp)
-+fldl   &data#267dc925(.rodata)
++fldl   &data#78e7013f(.rodata)
 +faddp  %st,%st(1)
  fnstcw -0xba(%ebp)
  movzwl -0xba(%ebp),%eax
@@ -665,7 +665,7 @@
  mov    0x14(%ecx),%ebx
 -flds   -0x10(%ebp)
 +flds   -0x14(%ebp)
-+fldl   &data#267dc925(.rodata)
++fldl   &data#78e7013f(.rodata)
 +faddp  %st,%st(1)
  fnstcw -0xba(%ebp)
  movzwl -0xba(%ebp),%eax
@@ -686,7 +686,7 @@
  mov    0x18(%ecx),%ebx
 -flds   -0xc(%ebp)
 +flds   -0x10(%ebp)
-+fldl   &data#267dc925(.rodata)
++fldl   &data#78e7013f(.rodata)
 +faddp  %st,%st(1)
  fnstcw -0xba(%ebp)
  movzwl -0xba(%ebp),%eax
@@ -909,7 +909,7 @@ LAB_080730fa:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1177 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1316 行）：
 
 ```cpp
 void StatisticManager::AddLagStatistics(Packet_Stat_Lag_Statistics* pkt)

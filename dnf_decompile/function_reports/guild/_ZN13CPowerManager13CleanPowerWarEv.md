@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a3ee2` | `0x6a` | `0x809a1b0` | `0x6c` |
+| guild | DIFF | `0x80a3ee2` | `0x6a` | `0x8099d2e` | `0x6c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -37,7 +37,7 @@
  test   %al,%al
  jne    <T> <_ZN13CPowerManager13CleanPowerWarEv+0xf>
  movl   $0x170,0x8(%esp)
- movl   $"CleanPowerWar",0x4(%esp)
+ movl   $&_ZZN13CPowerManager13CleanPowerWarEvE12__FUNCTION__,0x4(%esp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>

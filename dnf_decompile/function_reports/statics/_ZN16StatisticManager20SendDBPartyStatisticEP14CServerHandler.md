@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806eee4` | `0x4ba` | `0x806f226` | `0x27f` |
+| statics | DIFF | `0x806eee4` | `0x4ba` | `0x806f22a` | `0x4ab` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,18 +13,15 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,369 +1,175 @@
+@@ -1,369 +1,362 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
--sub    $0x17b4,%esp
--lea    -0x17a2(%ebp),%eax
-+sub    $0x17c4,%esp
-+lea    -0x17aa(%ebp),%eax
+ sub    $0x17b4,%esp
+ lea    -0x17a2(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN35Packet_DBMW_Dungeon_Statistic_PartyC1Ev>
--movl   $0x0,-0xc(%ebp)
-+movl   $0x0,-0x14(%ebp)
+ movl   $0x0,-0xc(%ebp)
  mov    0x8(%ebp),%eax
  add    $0x38,%eax
  mov    %eax,(%esp)
@@ -32,213 +29,194 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x4b5>
-+je     <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x27a>
++je     <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x4a6>
  mov    0x8(%ebp),%eax
  lea    0x38(%eax),%edx
--lea    -0x24(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI19STPartyStatisticKey14PartyStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x422>
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
-+jmp    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x1e2>
-+lea    -0x17aa(%ebp),%edx
-+mov    -0x14(%ebp),%eax
-+shl    $0x2,%eax
-+mov    %eax,%ecx
-+shl    $0x4,%ecx
-+mov    %ecx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0xe,%eax
-+lea    (%edx,%eax,1),%eax
-+mov    %eax,-0x10(%ebp)
-+mov    -0x10(%ebp),%ebx
-+lea    -0x1c(%ebp),%eax
++jmp    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x413>
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
--movzwl (%eax),%ecx
--mov    %ebx,%eax
--shl    $0x2,%eax
--mov    %eax,%edx
--shl    $0x4,%edx
--sub    %eax,%edx
--lea    -0x8(%ebp),%eax
--add    %edx,%eax
--sub    $0x178c,%eax
--mov    %cx,(%eax)
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
-+movzwl (%eax),%eax
-+mov    %ax,(%ebx)
-+mov    -0x10(%ebp),%eax
-+lea    0x4(%eax),%ebx
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
--mov    0x4(%eax),%ecx
--mov    %ebx,%eax
--shl    $0x2,%eax
--mov    %eax,%edx
--shl    $0x4,%edx
--sub    %eax,%edx
--lea    -0x8(%ebp),%eax
--add    %edx,%eax
--sub    $0x179a,%eax
--mov    %ecx,0x10(%eax)
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
-+mov    0x4(%eax),%eax
-+mov    %eax,(%ebx)
-+mov    -0x10(%ebp),%eax
-+lea    0x8(%eax),%ebx
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
--movzbl 0x8(%eax),%ecx
--mov    %ebx,%eax
--shl    $0x2,%eax
--mov    %eax,%edx
--shl    $0x4,%edx
--sub    %eax,%edx
--lea    -0x8(%ebp),%eax
--add    %edx,%eax
--sub    $0x179a,%eax
--mov    %cl,0x14(%eax)
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
-+movzbl 0x8(%eax),%eax
-+mov    %al,(%ebx)
-+mov    -0x10(%ebp),%eax
-+lea    0x9(%eax),%ebx
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
--movzbl 0x9(%eax),%ecx
--mov    %ebx,%eax
--shl    $0x2,%eax
--mov    %eax,%edx
--shl    $0x4,%edx
--sub    %eax,%edx
--lea    -0x8(%ebp),%eax
--add    %edx,%eax
--sub    $0x179a,%eax
--mov    %cl,0x15(%eax)
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
-+movzbl 0x9(%eax),%eax
-+mov    %al,(%ebx)
-+mov    -0x10(%ebp),%eax
-+lea    0xa(%eax),%ebx
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
--movzbl 0xa(%eax),%ecx
--mov    %ebx,%eax
--shl    $0x2,%eax
--mov    %eax,%edx
--shl    $0x4,%edx
--sub    %eax,%edx
--lea    -0x8(%ebp),%eax
--add    %edx,%eax
--sub    $0x179a,%eax
--mov    %cl,0x16(%eax)
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
-+movzbl 0xa(%eax),%eax
-+mov    %al,(%ebx)
-+mov    -0x10(%ebp),%eax
-+lea    0xb(%eax),%ebx
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
--movzbl 0xb(%eax),%ecx
--mov    %ebx,%eax
--shl    $0x2,%eax
--mov    %eax,%edx
--shl    $0x4,%edx
--sub    %eax,%edx
--lea    -0x8(%ebp),%eax
--add    %edx,%eax
--sub    $0x179a,%eax
--mov    %cl,0x17(%eax)
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
-+movzbl 0xb(%eax),%eax
-+mov    %al,(%ebx)
-+mov    -0x10(%ebp),%eax
-+lea    0xc(%eax),%ebx
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
--movzbl 0xc(%eax),%ecx
--mov    %ebx,%eax
--shl    $0x2,%eax
--mov    %eax,%edx
--shl    $0x4,%edx
--sub    %eax,%edx
--lea    -0x8(%ebp),%eax
--add    %edx,%eax
--sub    $0x179a,%eax
--mov    %cl,0x18(%eax)
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
-+movzbl 0xc(%eax),%eax
-+mov    %al,(%ebx)
-+mov    -0x10(%ebp),%eax
-+lea    0xd(%eax),%ebx
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
--movzbl 0xd(%eax),%ecx
--mov    %ebx,%eax
-+movzbl 0xd(%eax),%eax
-+mov    %al,(%ebx)
-+movl   $0x0,-0xc(%ebp)
-+jmp    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x15a>
-+mov    -0xc(%ebp),%eax
+ movzwl (%eax),%ecx
+ mov    %ebx,%eax
  shl    $0x2,%eax
--mov    %eax,%edx
--shl    $0x4,%edx
--sub    %eax,%edx
--lea    -0x8(%ebp),%eax
--add    %edx,%eax
--sub    $0x179a,%eax
--mov    %cl,0x19(%eax)
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
-+add    $0xe,%eax
-+add    -0x10(%ebp),%eax
-+mov    %eax,%ebx
-+lea    -0x1c(%ebp),%eax
+ mov    %eax,%edx
+ shl    $0x4,%edx
+ sub    %eax,%edx
+ lea    -0x8(%ebp),%eax
+ add    %edx,%eax
+ sub    $0x178c,%eax
+ mov    %cx,(%eax)
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
--mov    0x10(%eax),%ecx
--mov    %ebx,%eax
--shl    $0x2,%eax
--mov    %eax,%edx
--shl    $0x4,%edx
--sub    %eax,%edx
--lea    -0x8(%ebp),%eax
--add    %edx,%eax
--sub    $0x179a,%eax
--mov    %ecx,0x1a(%eax)
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
+ mov    0x4(%eax),%ecx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ mov    %eax,%edx
+ shl    $0x4,%edx
+ sub    %eax,%edx
+ lea    -0x8(%ebp),%eax
+ add    %edx,%eax
+ sub    $0x179a,%eax
+ mov    %ecx,0x10(%eax)
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
+ movzbl 0x8(%eax),%ecx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ mov    %eax,%edx
+ shl    $0x4,%edx
+ sub    %eax,%edx
+ lea    -0x8(%ebp),%eax
+ add    %edx,%eax
+ sub    $0x179a,%eax
+ mov    %cl,0x14(%eax)
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
+ movzbl 0x9(%eax),%ecx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ mov    %eax,%edx
+ shl    $0x4,%edx
+ sub    %eax,%edx
+ lea    -0x8(%ebp),%eax
+ add    %edx,%eax
+ sub    $0x179a,%eax
+ mov    %cl,0x15(%eax)
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
+ movzbl 0xa(%eax),%ecx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ mov    %eax,%edx
+ shl    $0x4,%edx
+ sub    %eax,%edx
+ lea    -0x8(%ebp),%eax
+ add    %edx,%eax
+ sub    $0x179a,%eax
+ mov    %cl,0x16(%eax)
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
+ movzbl 0xb(%eax),%ecx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ mov    %eax,%edx
+ shl    $0x4,%edx
+ sub    %eax,%edx
+ lea    -0x8(%ebp),%eax
+ add    %edx,%eax
+ sub    $0x179a,%eax
+ mov    %cl,0x17(%eax)
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
+ movzbl 0xc(%eax),%ecx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ mov    %eax,%edx
+ shl    $0x4,%edx
+ sub    %eax,%edx
+ lea    -0x8(%ebp),%eax
+ add    %edx,%eax
+ sub    $0x179a,%eax
+ mov    %cl,0x18(%eax)
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
+ movzbl 0xd(%eax),%ecx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ mov    %eax,%edx
+ shl    $0x4,%edx
+ sub    %eax,%edx
+ lea    -0x8(%ebp),%eax
+ add    %edx,%eax
+ sub    $0x179a,%eax
+ mov    %cl,0x19(%eax)
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
+ mov    0x10(%eax),%ecx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ mov    %eax,%edx
+ shl    $0x4,%edx
+ sub    %eax,%edx
+ lea    -0x8(%ebp),%eax
+ add    %edx,%eax
+ sub    $0x179a,%eax
+ mov    %ecx,0x1a(%eax)
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
 -mov    0x14(%eax),%ecx
--mov    %ebx,%eax
--shl    $0x2,%eax
--mov    %eax,%edx
--shl    $0x4,%edx
--sub    %eax,%edx
--lea    -0x8(%ebp),%eax
--add    %edx,%eax
--sub    $0x178a,%eax
++mov    0x14(%eax),%edx
++mov    %ebx,%eax
++shl    $0x4,%eax
++sub    %ebx,%eax
++add    $0x1,%eax
++mov    %edx,-0x1788(%ebp,%eax,4)
++mov    -0xc(%ebp),%ebx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
++mov    0x18(%eax),%ecx
++mov    %ebx,%eax
++shl    $0x2,%eax
++mov    %eax,%edx
++shl    $0x4,%edx
++sub    %eax,%edx
++lea    -0x8(%ebp),%eax
++add    %edx,%eax
++sub    $0x1792,%eax
++mov    %ecx,0x1a(%eax)
++mov    -0xc(%ebp),%ebx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
++mov    0x1c(%eax),%ecx
++mov    %ebx,%eax
++shl    $0x2,%eax
++mov    %eax,%edx
++shl    $0x4,%edx
++sub    %eax,%edx
++lea    -0x8(%ebp),%eax
++add    %edx,%eax
++sub    $0x178e,%eax
++mov    %ecx,0x1a(%eax)
++mov    -0xc(%ebp),%ebx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
++mov    0x20(%eax),%ecx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ mov    %eax,%edx
+ shl    $0x4,%edx
+ sub    %eax,%edx
+ lea    -0x8(%ebp),%eax
+ add    %edx,%eax
+ sub    $0x178a,%eax
 -mov    %ecx,0xe(%eax)
 -mov    -0xc(%ebp),%ebx
 -lea    -0x24(%ebp),%eax
@@ -281,20 +259,62 @@
 -lea    -0x8(%ebp),%eax
 -add    %edx,%eax
 -sub    $0x178a,%eax
--mov    %ecx,0x1a(%eax)
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
--mov    0x24(%eax),%ecx
--mov    %ebx,%eax
--shl    $0x2,%eax
--mov    %eax,%edx
--shl    $0x4,%edx
--sub    %eax,%edx
--lea    -0x8(%ebp),%eax
--add    %edx,%eax
--sub    $0x177a,%eax
+ mov    %ecx,0x1a(%eax)
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
+ mov    0x24(%eax),%ecx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ mov    %eax,%edx
+ shl    $0x4,%edx
+ sub    %eax,%edx
+ lea    -0x8(%ebp),%eax
+ add    %edx,%eax
++sub    $0x1786,%eax
++mov    %ecx,0x1a(%eax)
++mov    -0xc(%ebp),%ebx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
++mov    0x28(%eax),%ecx
++mov    %ebx,%eax
++shl    $0x2,%eax
++mov    %eax,%edx
++shl    $0x4,%edx
++sub    %eax,%edx
++lea    -0x8(%ebp),%eax
++add    %edx,%eax
++sub    $0x1782,%eax
++mov    %ecx,0x1a(%eax)
++mov    -0xc(%ebp),%ebx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
++mov    0x2c(%eax),%ecx
++mov    %ebx,%eax
++shl    $0x2,%eax
++mov    %eax,%edx
++shl    $0x4,%edx
++sub    %eax,%edx
++lea    -0x8(%ebp),%eax
++add    %edx,%eax
++sub    $0x177e,%eax
++mov    %ecx,0x1a(%eax)
++mov    -0xc(%ebp),%ebx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
++mov    0x30(%eax),%ecx
++mov    %ebx,%eax
++shl    $0x2,%eax
++mov    %eax,%edx
++shl    $0x4,%edx
++sub    %eax,%edx
++lea    -0x8(%ebp),%eax
++add    %edx,%eax
+ sub    $0x177a,%eax
 -mov    %ecx,0xe(%eax)
 -mov    -0xc(%ebp),%ebx
 -lea    -0x24(%ebp),%eax
@@ -337,144 +357,119 @@
 -lea    -0x8(%ebp),%eax
 -add    %edx,%eax
 -sub    $0x177a,%eax
--mov    %ecx,0x1a(%eax)
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
--mov    0x34(%eax),%ecx
--mov    %ebx,%eax
--shl    $0x2,%eax
--mov    %eax,%edx
--shl    $0x4,%edx
--sub    %eax,%edx
--lea    -0x8(%ebp),%eax
--add    %edx,%eax
+ mov    %ecx,0x1a(%eax)
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
+ mov    0x34(%eax),%ecx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ mov    %eax,%edx
+ shl    $0x4,%edx
+ sub    %eax,%edx
+ lea    -0x8(%ebp),%eax
+ add    %edx,%eax
 -sub    $0x176a,%eax
 -mov    %ecx,0xe(%eax)
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
--mov    0x38(%eax),%ecx
--mov    %ebx,%eax
--shl    $0x2,%eax
--mov    %eax,%edx
--shl    $0x4,%edx
--sub    %eax,%edx
--lea    -0x8(%ebp),%eax
--add    %edx,%eax
++sub    $0x1776,%eax
++mov    %ecx,0x1a(%eax)
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
+ mov    0x38(%eax),%ecx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ mov    %eax,%edx
+ shl    $0x4,%edx
+ sub    %eax,%edx
+ lea    -0x8(%ebp),%eax
+ add    %edx,%eax
 -sub    $0x176a,%eax
 -mov    %ecx,0x12(%eax)
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
--mov    0x3c(%eax),%ecx
--mov    %ebx,%eax
--shl    $0x2,%eax
--mov    %eax,%edx
--shl    $0x4,%edx
--sub    %eax,%edx
--lea    -0x8(%ebp),%eax
--add    %edx,%eax
++sub    $0x1772,%eax
++mov    %ecx,0x1a(%eax)
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
+ mov    0x3c(%eax),%ecx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ mov    %eax,%edx
+ shl    $0x4,%edx
+ sub    %eax,%edx
+ lea    -0x8(%ebp),%eax
+ add    %edx,%eax
 -sub    $0x176a,%eax
 -mov    %ecx,0x16(%eax)
-+mov    -0xc(%ebp),%edx
-+add    $0x4,%edx
-+mov    (%eax,%edx,4),%eax
-+mov    %eax,(%ebx)
++sub    $0x176e,%eax
++mov    %ecx,0x1a(%eax)
  addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    $0x63,%eax
 -seta   %al
-+cmpl   $0xa,-0xc(%ebp)
-+setle  %al
- test   %al,%al
+-test   %al,%al
 -je     <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x417>
--movl   $0x64,-0x1798(%ebp)
--lea    -0x17a2(%ebp),%eax
-+jne    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x132>
-+addl   $0x1,-0x14(%ebp)
-+cmpl   $0x63,-0x14(%ebp)
-+jle    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x1d7>
-+lea    -0x17aa(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x64,(%eax)
-+lea    -0x17aa(%ebp),%eax
++cmpl   $0x63,-0xc(%ebp)
++jle    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x408>
+ movl   $0x64,-0x1798(%ebp)
+ lea    -0x17a2(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  movl   $0x183,0x8(%esp)
- movl   $"SendDBPartyStatistic",0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ movl   $&_ZZN16StatisticManager20SendDBPartyStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0xc(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"Packet_DBMW_Dungeon_Statistic_Party : (%d) 개 패킷 전송\n",0x8(%esp)
-+movl   $"Party DB Sent %d",0x8(%esp)
+ movl   $"Packet_DBMW_Dungeon_Statistic_Party : (%d) 개 패킷 전송\n",0x8(%esp)
  movl   $"./log/statistic",0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--movl   $0x0,-0xc(%ebp)
--lea    -0x24(%ebp),%eax
-+movl   $0x0,-0x14(%ebp)
-+lea    -0x1c(%ebp),%eax
+ movl   $0x0,-0xc(%ebp)
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEppEv>
  mov    0x8(%ebp),%eax
  lea    0x38(%eax),%edx
--lea    -0x20(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI19STPartyStatisticKey14PartyStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE3endEv>
  sub    $0x4,%esp
--lea    -0x20(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEneERKS5_>
  test   %al,%al
  jne    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x55>
--cmpl   $0x0,-0xc(%ebp)
+ cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x4b5>
--mov    -0xc(%ebp),%eax
--mov    %eax,-0x1798(%ebp)
--lea    -0x17a2(%ebp),%eax
-+cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x27a>
-+lea    -0x17aa(%ebp),%eax
-+lea    0xa(%eax),%edx
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x17aa(%ebp),%eax
++je     <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x4a6>
+ mov    -0xc(%ebp),%eax
+ mov    %eax,-0x1798(%ebp)
+ lea    -0x17a2(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  movl   $0x18d,0x8(%esp)
- movl   $"SendDBPartyStatistic",0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ movl   $&_ZZN16StatisticManager20SendDBPartyStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0xc(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"Packet_DBMW_Dungeon_Statistic_Party : (%d) 개 패킷 전송\n",0x8(%esp)
-+movl   $"Party DB Sent %d",0x8(%esp)
+ movl   $"Packet_DBMW_Dungeon_Statistic_Party : (%d) 개 패킷 전송\n",0x8(%esp)
  movl   $"./log/statistic",0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    -0x4(%ebp),%ebx
@@ -655,7 +650,7 @@ StatisticManager::_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 250 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 346 行）：
 
 ```cpp
 void StatisticManager::SendDBPartyStatistic(CServerHandler* handler)
@@ -667,33 +662,40 @@ void StatisticManager::SendDBPartyStatistic(CServerHandler* handler)
         for (std::map<STPartyStatisticKey, PartyStatistic>::iterator it = m_party.begin();
              it != m_party.end(); ++it)
         {
-            char* slot = (char*)&pkt + 0xe + idx * 0x3c;
-            *(unsigned short*)(slot + 0) = it->first.m_field0;
-            *(unsigned int*)(slot + 4) = it->first.m_field4;
-            slot[8] = it->first.m_field8;
-            slot[9] = it->first.m_field9;
-            slot[10] = it->first.m_fielda;
-            slot[11] = it->first.m_fieldb;
-            slot[12] = it->first.m_fieldc;
-            slot[13] = it->first.m_fieldd;
-            for (int k = 0; k < 11; k++)
-            {
-                *(int*)(slot + 0xe + k * 4) = it->second.m_data[k];
-            }
+            pkt.m_elem[idx].m_field0 = it->first.m_field0;
+            pkt.m_elem[idx].m_field4 = it->first.m_field4;
+            pkt.m_elem[idx].m_field8 = it->first.m_field8;
+            pkt.m_elem[idx].m_field9 = it->first.m_field9;
+            pkt.m_elem[idx].m_fielda = it->first.m_fielda;
+            pkt.m_elem[idx].m_fieldb = it->first.m_fieldb;
+            pkt.m_elem[idx].m_fieldc = it->first.m_fieldc;
+            pkt.m_elem[idx].m_fieldd = it->first.m_fieldd;
+            pkt.m_elem[idx].m_data[0] = it->second.m_data[0];
+            pkt.m_elem[idx].m_data[1] = it->second.m_data[1];
+            pkt.m_elem[idx].m_data[2] = it->second.m_data[2];
+            pkt.m_elem[idx].m_data[3] = it->second.m_data[3];
+            pkt.m_elem[idx].m_data[4] = it->second.m_data[4];
+            pkt.m_elem[idx].m_data[5] = it->second.m_data[5];
+            pkt.m_elem[idx].m_data[6] = it->second.m_data[6];
+            pkt.m_elem[idx].m_data[7] = it->second.m_data[7];
+            pkt.m_elem[idx].m_data[8] = it->second.m_data[8];
+            pkt.m_elem[idx].m_data[9] = it->second.m_data[9];
+            pkt.m_elem[idx].m_data[10] = it->second.m_data[10];
+            pkt.m_elem[idx].m_data[11] = it->second.m_data[11];
             idx++;
             if (99 < idx)
             {
-                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                pkt.m_count = 100;
                 handler->SendToDB((PacketHeader*)&pkt);
-                DNF_LOG_SCOPE_LINE(0x183, "./log/statistic", "Party DB Sent %d", idx);
+                DNF_LOG_SCOPE_LINE(0x183, "./log/statistic", "Packet_DBMW_Dungeon_Statistic_Party : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", idx);
                 idx = 0;
             }
         }
         if (idx != 0)
         {
-            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            pkt.m_count = idx;
             handler->SendToDB((PacketHeader*)&pkt);
-            DNF_LOG_SCOPE_LINE(0x18d, "./log/statistic", "Party DB Sent %d", idx);
+            DNF_LOG_SCOPE_LINE(0x18d, "./log/statistic", "Packet_DBMW_Dungeon_Statistic_Party : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", idx);
         }
     }
 }

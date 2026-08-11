@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806c6aa` | `0x3c` | `0x809c994` | `0x41` |
+| monitor | DIFF | `0x806c6aa` | `0x3c` | `0x809cb2a` | `0x41` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -61,10 +61,10 @@ CAppLoadChecker::_ZN15CAppLoadChecker13CheckUdpRecvQEi(CAppLoadChecker *this,int
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/ServerLoadChecker.cpp](source/DNFServer/GameServer/DBMW/ServerLoadChecker.cpp)（约第 54 行）：
+定义于 [source/DNFServer/GameServer/Monitor/ServerLoadChecker.cpp](source/DNFServer/GameServer/Monitor/ServerLoadChecker.cpp)（约第 41 行）：
 
 ```cpp
-bool CAppLoadChecker::CheckUdpRecvQ(int size)
+char CAppLoadChecker::CheckUdpRecvQ(int size)
 {
     if (checkUdpRecvLoad(size))
     {

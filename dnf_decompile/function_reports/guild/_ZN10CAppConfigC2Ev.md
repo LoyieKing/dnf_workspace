@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8065288` | `0xb7` | `0x804c49e` | `0xb5` |
+| guild | DIFF | `0x8065288` | `0xb7` | `0x804c4e8` | `0xb5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -31,8 +31,7 @@
  lea    0xc(%eax),%edx
  lea    -0x9(%ebp),%eax
  mov    %eax,0x8(%esp)
--movl   $&data#d3a43ecc(.rodata),0x4(%esp)
-+movl   $&data#48d1da9a(.rodata),0x4(%esp)
+ movl   $"",0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
  jmp    <T> <_ZN10CAppConfigC1Ev+0x5b>
@@ -114,11 +113,12 @@ void __thiscall CAppConfig::_ZN10CAppConfigC2Ev(CAppConfig *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFAppConfig.cpp](source/DNFServer/GameServer/COServer/DNFAppConfig.cpp)（约第 11 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFAppConfig.cpp](source/DNFServer/GameServer/Guild/DNFAppConfig.cpp)（约第 210 行）：
 
 ```cpp
 CAppConfig::CAppConfig()
+    : m_name("")
 {
-    memset(m_udpPorts, 0, sizeof(m_udpPorts));
+    m_dbmwTcpPort = 0;
 }
 ```

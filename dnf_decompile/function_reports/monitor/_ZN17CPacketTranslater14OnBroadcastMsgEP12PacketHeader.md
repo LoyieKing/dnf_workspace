@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808e724` | `0x1aa` | `0x8079de8` | `0x1ad` |
+| monitor | DIFF | `0x808e724` | `0x1aa` | `0x8079d0c` | `0x1aa` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,109 +1,111 @@
+@@ -1,109 +1,109 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -23,119 +23,82 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x4c>
  movl   $0x1c0c,0x8(%esp)
- movl   $"OnBroadcastMsg",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnBroadcastMsg : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/WebNotice",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x1a3>
-+jmp    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x1a6>
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+add    $0xa0,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x10(%ebp)
- mov    0x8(%ebp),%eax
+ jmp    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x1a3>
+-mov    0x8(%ebp),%eax
 -mov    %eax,-0x10(%ebp)
-+add    $0x2,%eax
-+movzwl (%eax),%eax
+-mov    -0x10(%ebp),%eax
+-movzwl 0x2(%eax),%eax
+-movzwl %ax,%ecx
+-mov    0x8(%ebp),%edx
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    0xa0(%eax),%eax
+-mov    %ecx,0x8(%esp)
+-mov    %edx,0x4(%esp)
++mov    %eax,-0x10(%ebp)
++mov    0x8(%ebp),%eax
++movzwl 0x2(%eax),%eax
 +movzwl %ax,%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
- mov    -0x10(%ebp),%eax
--movzwl 0x2(%eax),%eax
--movzwl %ax,%ecx
--mov    0x8(%ebp),%edx
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0xa0(%eax),%eax
--mov    %ecx,0x8(%esp)
--mov    %edx,0x4(%esp)
++mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
 -mov    -0x10(%ebp),%eax
--movzbl 0xe(%eax),%eax
--movzbl %al,%ebx
--mov    -0x10(%ebp),%eax
--lea    0xf(%eax),%esi
- movl   $0x1c14,0x8(%esp)
-+movl   $"OnBroadcastMsg",0x4(%esp)
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%eax
-+mov    0x8(%ebp),%edx
-+add    $0xf,%edx
-+mov    %eax,0x10(%esp)
-+mov    %edx,0xc(%esp)
-+movl   $"OnBroadcastMsg : (%s,%d)\n",0x8(%esp)
-+movl   $"./log/WebNotice",0x4(%esp)
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x1a6>
-+cmp    $0x2,%edx
-+jne    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x14c>
-+mov    %eax,(%esp)
-+call   <T> <__cxa_begin_catch>
-+mov    %eax,-0xc(%ebp)
-+movl   $0x1c18,0x8(%esp)
- movl   $"OnBroadcastMsg",0x4(%esp)
+ movzbl 0xe(%eax),%eax
+ movzbl %al,%ebx
+-mov    -0x10(%ebp),%eax
++mov    0x8(%ebp),%eax
+ lea    0xf(%eax),%esi
+ movl   $0x1c14,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x10(%esp)
--mov    %esi,0xc(%esp)
--movl   $"OnBroadcastMsg : (%s,%d)\n",0x8(%esp)
--movl   $"./log/WebNotice",0x4(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CPacketTranslater::OnBroadcastMsg Exception Break : %s\n",0x8(%esp)
-+movl   $"%s",0x4(%esp)
+ mov    %ebx,0x10(%esp)
+ mov    %esi,0xc(%esp)
+ movl   $"OnBroadcastMsg : (%s,%d)\n",0x8(%esp)
+ movl   $"./log/WebNotice",0x4(%esp)
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x1a3>
--cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x149>
--mov    %eax,(%esp)
--call   <T> <__cxa_begin_catch>
--mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x1c18,0x8(%esp)
--movl   $"OnBroadcastMsg",0x4(%esp)
--lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnBroadcastMsg Exception Break : %s\n",0x8(%esp)
+ jmp    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x1a3>
+ cmp    $0x2,%edx
+ jne    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x149>
+ mov    %eax,(%esp)
+ call   <T> <__cxa_begin_catch>
+ mov    %eax,-0xc(%ebp)
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x1c18,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"CPacketTranslater::OnBroadcastMsg Exception Break : %s\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
--lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x142>
-+jmp    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x145>
++movl   $"%s",0x4(%esp)
+ lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ jmp    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x142>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -144,26 +107,22 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x1a3>
-+jmp    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x1a6>
+ jmp    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x1a3>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1c1d,0x8(%esp)
- movl   $"OnBroadcastMsg",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -movl   $"CPacketTranslater::OnBroadcastMsg Exception Break\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
--lea    -0x18(%ebp),%eax
 +movl   $"CPacketTranslater::OnBroadcastMsg Exception Break",0x8(%esp)
 +movl   $"%s",0x4(%esp)
-+lea    -0x30(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x19e>
-+jmp    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x1a1>
+ jmp    <T> <_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader+0x19e>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -217,7 +176,7 @@ void CPacketTranslater::_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4644 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4652 行）：
 
 ```cpp
 void CPacketTranslater::OnBroadcastMsg(PacketHeader* pkt)
@@ -230,10 +189,10 @@ void CPacketTranslater::OnBroadcastMsg(PacketHeader* pkt)
         }
         else
         {
-            CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
-            handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+            CServerHandler* handler = m_pclApp->m_serverHandler2;
+            handler->SendAllToGameServer((char*)pkt, ((RA_U16<2>*)pkt)->v);
             DNF_LOG_SCOPE_LINE(0x1c14,"./log/WebNotice", "OnBroadcastMsg : (%s,%d)\n", (char*)pkt + 0xf,
-                (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xe));
+                (unsigned int)(unsigned char)((RA_S8<14>*)pkt)->v);
         }
     }
     catch (CDNFException& e)

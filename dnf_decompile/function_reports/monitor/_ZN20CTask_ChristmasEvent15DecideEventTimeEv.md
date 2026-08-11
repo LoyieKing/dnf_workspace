@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809c00e` | `0xa8` | `0x809fa90` | `0x9c` |
+| monitor | DIFF | `0x809c00e` | `0xa8` | `0x809fd18` | `0x9c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -24,7 +24,7 @@
 -mov    $&_ZZN20CTask_ChristmasEvent15DecideEventTimeEvE5C.405,%ebx
 +sub    $0xec,%esp
 +lea    -0x84(%ebp),%edx
-+mov    $&_ZZN20CTask_ChristmasEvent15DecideEventTimeEvE5C.165,%ebx
++mov    $&_ZZN20CTask_ChristmasEvent15DecideEventTimeEvE5C.140,%ebx
  mov    $0x19,%eax
  mov    %edx,%edi
  mov    %ebx,%esi
@@ -33,7 +33,7 @@
 -lea    -0xec(%ebp),%edx
 -mov    $&_ZZN20CTask_ChristmasEvent15DecideEventTimeEvE5C.406,%ebx
 +lea    -0xe8(%ebp),%edx
-+mov    $&_ZZN20CTask_ChristmasEvent15DecideEventTimeEvE5C.166,%ebx
++mov    $&_ZZN20CTask_ChristmasEvent15DecideEventTimeEvE5C.141,%ebx
  mov    $0x19,%eax
  mov    %edx,%edi
  mov    %ebx,%esi
@@ -131,7 +131,7 @@ undefined4 CTask_ChristmasEvent::_ZN20CTask_ChristmasEvent15DecideEventTimeEv(vo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TaskImpl.cpp](source/DNFServer/GameServer/Monitor/TaskImpl.cpp)（约第 32 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TaskImpl.cpp](source/DNFServer/GameServer/Monitor/TaskImpl.cpp)（约第 33 行）：
 
 ```cpp
 int CTask_ChristmasEvent::DecideEventTime()

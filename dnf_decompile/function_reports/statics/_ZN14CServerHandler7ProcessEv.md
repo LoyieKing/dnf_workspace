@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8065cde` | `0x19d` | `0x805b50c` | `0x192` |
+| statics | DIFF | `0x8065cde` | `0x19d` | `0x805b4d6` | `0x199` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,110 +1,106 @@
+@@ -1,110 +1,110 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
--sub    $0x34,%esp
-+sub    $0x38,%esp
+ push   %ebx
+ sub    $0x34,%esp
  mov    0x8(%ebp),%eax
  mov    0x1414(%eax),%eax
 -cmp    $0x3,%eax
@@ -33,7 +32,7 @@
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x56>
 +mov    %edx,0x1414(%eax)
 +cmpl   $0x3,-0x14(%ebp)
-+jle    <T> <_ZN14CServerHandler7ProcessEv+0x57>
++jle    <T> <_ZN14CServerHandler7ProcessEv+0x58>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16GetServerGroupNoEv>
@@ -54,7 +53,7 @@
 -mov    -0x14(%ebp),%eax
 +mov    %eax,-0x10(%ebp)
 +movl   $0xff,-0xc(%ebp)
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0xf5>
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0xf8>
 +subl   $0x1,-0xc(%ebp)
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
@@ -65,7 +64,7 @@
 -addl   $0x14,-0x14(%ebp)
 -jmp    <T> <_ZN14CServerHandler7ProcessEv+0xfc>
 -mov    -0x14(%ebp),%eax
-+je     <T> <_ZN14CServerHandler7ProcessEv+0xf1>
++je     <T> <_ZN14CServerHandler7ProcessEv+0xf4>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CGameServer11IsConnectedEv>
@@ -74,7 +73,7 @@
 -mov    -0x14(%ebp),%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0xf1>
++je     <T> <_ZN14CServerHandler7ProcessEv+0xf4>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CGameServer19IsHeartBeatTimeOverEv>
@@ -83,27 +82,23 @@
  test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0xf8>
 -mov    -0x14(%ebp),%eax
-+je     <T> <_ZN14CServerHandler7ProcessEv+0xf1>
++je     <T> <_ZN14CServerHandler7ProcessEv+0xf4>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CGameServer12OnDisconnectEv>
--mov    $0x100,%eax
--mov    %eax,%ebx
+ mov    $0x100,%eax
+ mov    %eax,%ebx
 -sub    -0x10(%ebp),%ebx
++sub    -0xc(%ebp),%ebx
  movl   $0x89,0x8(%esp)
- movl   $"Process",0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ movl   $&_ZZN14CServerHandler7ProcessEvE12__FUNCTION__,0x4(%esp)
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    $0x100,%eax
-+sub    -0xc(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CServerHandler::Process() Index : %d!\tCall User Info!\n",0x8(%esp)
  movl   $"./log/GameServer",0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -addl   $0x14,-0x14(%ebp)
@@ -114,7 +109,7 @@
 -subl   $0x1,-0x10(%ebp)
  test   %al,%al
 -jne    <T> <_ZN14CServerHandler7ProcessEv+0x6f>
-+jne    <T> <_ZN14CServerHandler7ProcessEv+0x69>
++jne    <T> <_ZN14CServerHandler7ProcessEv+0x6a>
  mov    0x8(%ebp),%eax
  add    $0x13ec,%eax
  mov    %eax,(%esp)
@@ -122,7 +117,7 @@
 -xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN14CServerHandler7ProcessEv+0x196>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x190>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x193>
  mov    0x8(%ebp),%eax
  add    $0x13ec,%eax
  mov    %eax,(%esp)
@@ -131,7 +126,7 @@
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x197>
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x190>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x193>
  mov    0x8(%ebp),%eax
  add    $0x13ec,%eax
  mov    %eax,(%esp)
@@ -140,29 +135,26 @@
 +setne  %al
  test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x197>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x190>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x193>
  mov    0x8(%ebp),%eax
  add    $0x13ec,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9CDBServer12OnDisconnectEv>
  movl   $0x9e,0x8(%esp)
- movl   $"Process",0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ movl   $&_ZZN14CServerHandler7ProcessEvE12__FUNCTION__,0x4(%esp)
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CServerHandler::Process() DB Server Down!\n",0x8(%esp)
  movl   $"./log/DBServerErr",0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN14CServerHandler7ProcessEv+0x197>
 -nop
--add    $0x34,%esp
--pop    %ebx
--pop    %ebp
-+leave
+ add    $0x34,%esp
+ pop    %ebx
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -236,18 +228,23 @@ void __thiscall CServerHandler::_ZN14CServerHandler7ProcessEv(CServerHandler *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFServerHandler.cpp](source/DNFServer/GameServer/COServer/DNFServerHandler.cpp)（约第 52 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFServerHandler.cpp](source/DNFServer/GameServer/Statics/DNFServerHandler.cpp)（约第 54 行）：
 
 ```cpp
 void CServerHandler::Process()
 {
+    int tick = m_reserved2;
+    m_reserved2 = tick + 1;
+    if (3 < tick)
+    {
+        m_mgrServer.SendHeartBeat(GetServerGroupNo() & 0xff);
+        m_reserved2 = 0;
+    }
     CGameServer* p = m_servers;
-    int left = 0x649b;
-    int counter = 0;
+    int left = 0xff;
     while (left != 0)
     {
         left--;
-        counter++;
         if (p->IsValidServer())
         {
             if (p->IsConnected())
@@ -255,13 +252,23 @@ void CServerHandler::Process()
                 if (p->IsHeartBeatTimeOver())
                 {
                     p->OnDisconnect();
-                    DNF_LOG_SCOPE_LINE(0x5e, "./log/GameServer",
-                        "Game Server Disconnect, Index : %d, channel no : %d, group no: %d\n",
-                        counter, p->GetChannelNo() & 0xff, p->GetGroupNo() & 0xff);
+                    DNF_LOG_SCOPE_LINE(0x89, "./log/GameServer",
+                        "CServerHandler::Process() Index : %d!\tCall User Info!\n", 0x100 - left);
                 }
             }
         }
         p++;
+    }
+    if (m_dbServer.IsValidServer())
+    {
+        if (m_dbServer.IsConnected())
+        {
+            if (m_dbServer.IsHeartBeatTimeOver())
+            {
+                m_dbServer.OnDisconnect();
+                DNF_LOG_SCOPE_LINE(0x9e, "./log/DBServerErr", "CServerHandler::Process() DB Server Down!\n");
+            }
+        }
     }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8092d3c` | `0x9e` | `0x8059114` | `0xa5` |
+| guild | DIFF | `0x8092d3c` | `0x9e` | `0x8059242` | `0xae` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,44 +1,47 @@
+@@ -1,44 +1,52 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
--push   %ebx
+ push   %ebx
 -sub    $0x10,%esp
-+sub    $0x28,%esp
++sub    $0x24,%esp
  mov    0x8(%ebp),%eax
  movl   $0x17d4,0x8(%esp)
  movl   $0x424,0x4(%esp)
@@ -47,24 +47,26 @@
 +add    $0x33,%eax
 +movb   $0x0,(%eax)
 +movl   $0x0,-0xc(%ebp)
-+jmp    <T> <_ZN47Packet_Monitor_Call_Guild_All_Members_ToChannelC1Ev+0x98>
-+mov    0x8(%ebp),%ecx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
-+shl    $0x6,%eax
-+sub    %edx,%eax
++jmp    <T> <_ZN47Packet_Monitor_Call_Guild_All_Members_ToChannelC1Ev+0x9d>
++mov    0x8(%ebp),%edx
++mov    -0xc(%ebp),%eax
++mov    %eax,%ecx
++shl    $0x6,%ecx
++mov    %ecx,%ebx
++sub    %eax,%ebx
++mov    %ebx,%eax
  add    $0x34,%eax
 -mov    %eax,%ebx
 -mov    $0x5f,%esi
 -jmp    <T> <_ZN47Packet_Monitor_Call_Guild_All_Members_ToChannelC1Ev+0x6f>
 -mov    %ebx,(%esp)
-+lea    (%ecx,%eax,1),%eax
++lea    (%edx,%eax,1),%eax
 +mov    %eax,0x4(%esp)
 +movl   $0x3f,(%esp)
 +call   <T> <_ZnwjPv>
 +mov    %eax,%edx
 +test   %edx,%edx
-+je     <T> <_ZN47Packet_Monitor_Call_Guild_All_Members_ToChannelC1Ev+0x94>
++je     <T> <_ZN47Packet_Monitor_Call_Guild_All_Members_ToChannelC1Ev+0x99>
 +mov    %eax,(%esp)
  call   <T> <_ZN17ST_Guild_Mem_InfoC1Ev>
 -add    $0x3f,%ebx
@@ -83,11 +85,11 @@
 -mov    %eax,(%esp)
 -call   <T> <memset>
 -add    $0x10,%esp
--pop    %ebx
++jne    <T> <_ZN47Packet_Monitor_Call_Guild_All_Members_ToChannelC1Ev+0x64>
++add    $0x24,%esp
+ pop    %ebx
 -pop    %esi
--pop    %ebp
-+jne    <T> <_ZN47Packet_Monitor_Call_Guild_All_Members_ToChannelC1Ev+0x63>
-+leave
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C

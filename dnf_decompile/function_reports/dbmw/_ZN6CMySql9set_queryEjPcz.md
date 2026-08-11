@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808d420` | `0x7d` | `0x807543e` | `0x77` |
+| dbmw | DIFF | `0x808d420` | `0x7d` | `0x80c8ad2` | `0x77` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -87,7 +87,7 @@ bool __thiscall CMySql::_ZN6CMySql9set_queryEjPcz(CMySql *this,uint param_1,char
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 236 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 234 行）：
 
 ```cpp
 bool CMySql::set_query(unsigned int q, char* fmt, ...)

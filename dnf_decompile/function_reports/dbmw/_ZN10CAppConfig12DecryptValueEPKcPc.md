@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8069f70` | `0xaf` | `0x806a55a` | `0xb1` |
+| dbmw | DIFF | `0x8069f70` | `0xaf` | `0x806a1e4` | `0xaf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,49 +1,50 @@
+@@ -1,49 +1,49 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -38,15 +38,11 @@
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN7DNFFLib10Hex2BinaryEPKcPhi>
--xor    $0x1,%eax
-+test   %eax,%eax
-+sete   %al
+ xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CAppConfig12DecryptValueEPKcPc+0x5f>
-+je     <T> <_ZN10CAppConfig12DecryptValueEPKcPc+0x61>
+ je     <T> <_ZN10CAppConfig12DecryptValueEPKcPc+0x5f>
  mov    $0x0,%eax
--jmp    <T> <_ZN10CAppConfig12DecryptValueEPKcPc+0xa5>
-+jmp    <T> <_ZN10CAppConfig12DecryptValueEPKcPc+0xa7>
+ jmp    <T> <_ZN10CAppConfig12DecryptValueEPKcPc+0xa5>
 +mov    0x8(%ebp),%eax
 +lea    0x4(%eax),%edx
 +movl   $0x18,0xc(%esp)
@@ -122,7 +118,7 @@ CAppConfig::_ZN10CAppConfig12DecryptValueEPKcPc(CAppConfig *this,char *param_1,c
 定义于 [source/DNFServer/GameServer/DBMW/DNFAppConfig.cpp](source/DNFServer/GameServer/DBMW/DNFAppConfig.cpp)（约第 66 行）：
 
 ```cpp
-int CAppConfig::DecryptValue(const char* value, char* dst)
+bool CAppConfig::DecryptValue(const char* value, char* dst)
 {
     char buf1[0x40] = {0};
     char buf2[0x40] = {0};

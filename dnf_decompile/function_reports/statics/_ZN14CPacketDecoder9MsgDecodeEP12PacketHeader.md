@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x805973e` | `0x1f2` | `0x80542c8` | `0x1f1` |
+| statics | DIFF | `0x805973e` | `0x1f2` | `0x8054264` | `0x1f1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -52,9 +52,8 @@
  call   <T> <_ZN14CPacketCounterILi1000ELi10240EEC1EPcS1_>
  movl   $&_ZGVZN14CPacketDecoder9MsgDecodeEP12PacketHeaderE14packet_counter,(%esp)
  call   <T> <__cxa_guard_release>
- mov    $&_ZN14CPacketCounterILi1000ELi10240EED2Ev,%eax
--movl   $&data#b8e3732b(.rodata),0x8(%esp)
-+movl   $&data#509bacd4(.data),0x8(%esp)
+ mov    $&_ZN14CPacketCounterILi1000ELi10240EED1Ev,%eax
+ movl   $&__dso_handle,0x8(%esp)
  movl   $&_ZZN14CPacketDecoder9MsgDecodeEP12PacketHeaderE14packet_counter,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <__cxa_atexit>
@@ -82,19 +81,15 @@
  mov    0xc(%eax,%edx,4),%eax
  test   %eax,%eax
  jne    <T> <_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader+0x144>
--mov    0xc(%ebp),%eax
--movzwl (%eax),%eax
--movzwl %ax,%ebx
+ mov    0xc(%ebp),%eax
+ movzwl (%eax),%eax
+ movzwl %ax,%ebx
  movl   $0xca,0x8(%esp)
- movl   $"MsgDecode",0x4(%esp)
+ movl   $&_ZZN14CPacketDecoder9MsgDecodeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0xc(%ebp),%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketDecoder::MsgDecode() Game Message with identifier %d has arrived.\n",0x8(%esp)
  movl   $"./log/Decoder",0x4(%esp)
  lea    -0x28(%ebp),%eax
@@ -109,14 +104,10 @@
  movzwl (%eax),%eax
  movzwl %ax,%edx
  mov    0x8(%ebp),%eax
--mov    0xc(%eax,%edx,4),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    0xc(%eax,%edx,4),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    0xc(%eax,%edx,4),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
  movzwl %ax,%eax
@@ -133,19 +124,15 @@
  mov    %eax,0x4(%esp)
  movl   $"Game Message with identifier %d has arrived.\n",(%esp)
  call   <T> <printf>
--mov    0xc(%ebp),%eax
--movzwl (%eax),%eax
--movzwl %ax,%ebx
+ mov    0xc(%ebp),%eax
+ movzwl (%eax),%eax
+ movzwl %ax,%ebx
  movl   $0xea,0x8(%esp)
- movl   $"MsgDecode",0x4(%esp)
+ movl   $&_ZZN14CPacketDecoder9MsgDecodeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0xc(%ebp),%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketDecoder::MsgDecode() Game Message with identifier %d has arrived.\n",0x8(%esp)
  movl   $"./log/Decoder",0x4(%esp)
  lea    -0x20(%ebp),%eax
@@ -230,29 +217,33 @@ CPacketDecoder::_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFPacketDecoder.cpp](source/DNFServer/GameServer/COServer/DNFPacketDecoder.cpp)（约第 51 行）：
+定义于 [source/DNFServer/GameServer/Statics/DNFPacketDecoder.cpp](source/DNFServer/GameServer/Statics/DNFPacketDecoder.cpp)（约第 78 行）：
 
 ```cpp
-int CPacketDecoder::MsgDecode(PacketHeader* pkt)
+bool CPacketDecoder::MsgDecode(PacketHeader* pkt)
 {
     if (pkt == 0)
     {
         return 0;
     }
-    if (*(unsigned short*)pkt < 0x27fd && 999 < *(unsigned short*)pkt)
+    if (*(unsigned short*)pkt < 0x2800 && 999 < *(unsigned short*)pkt)
     {
+        static CPacketCounter<1000, 10240> packet_counter((char*)0, "PacketDispatcher");
+        packet_counter.IncrementPacketCount(*(unsigned short*)pkt);
         if (m_handlers[*(unsigned short*)pkt] == 0)
         {
-            DNF_LOG_SCOPE_LINE(0x44, "./log/Decoder",
+            DNF_LOG_SCOPE_LINE(0xca, "./log/Decoder",
                 "CPacketDecoder::MsgDecode() Game Message with identifier %d has arrived.\n",
                 *(unsigned short*)pkt);
             return 0;
         }
-        ((void (*)(PacketHeader*))m_handlers[*(unsigned short*)pkt])(pkt);
+        packet_counter.BeforeProcess();
+        m_handlers[*(unsigned short*)pkt](pkt);
+        packet_counter.AfterProcess(*(unsigned short*)pkt);
         return 1;
     }
     printf("Game Message with identifier %d has arrived.\n", *(unsigned short*)pkt);
-    DNF_LOG_SCOPE_LINE(0x5a,"./log/Decoder",
+    DNF_LOG_SCOPE_LINE(0xea,"./log/Decoder",
         "CPacketDecoder::MsgDecode() Game Message with identifier %d has arrived.\n",
         *(unsigned short*)pkt);
     return 0;

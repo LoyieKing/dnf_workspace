@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8081e1c` | `0x164` | `0x805bb92` | `0x17a` |
+| dbmw | DIFF | `0x8081e1c` | `0x164` | `0x805b948` | `0x17a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -50,23 +50,20 @@
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%esi
-+mov    (%eax),%ecx
+ mov    (%eax),%esi
  mov    0xc(%ebp),%eax
--mov    0xa(%eax),%ebx
-+mov    0xa(%eax),%esi
-+mov    0xc(%ebp),%ebx
+ mov    0xa(%eax),%ebx
++mov    0xc(%ebp),%ecx
  mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x3,%eax
  add    %edx,%eax
--lea    (%ecx,%eax,1),%eax
++add    $0x12,%eax
+ lea    (%ecx,%eax,1),%eax
 -add    $0x10,%eax
 -mov    0x2(%eax),%ecx
-+add    $0x12,%eax
-+lea    (%ebx,%eax,1),%eax
-+mov    (%eax),%ebx
++mov    (%eax),%ecx
 +mov    0xc(%ebp),%edi
  mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%edi
@@ -77,11 +74,9 @@
  lea    (%edi,%eax,1),%eax
 -add    $0x10,%eax
 -mov    0x6(%eax),%eax
--mov    %ebx,0x18(%esp)
--mov    %ecx,0x14(%esp)
 +mov    (%eax),%eax
-+mov    %esi,0x18(%esp)
-+mov    %ebx,0x14(%esp)
+ mov    %ebx,0x18(%esp)
+ mov    %ecx,0x14(%esp)
  mov    -0x20(%ebp),%edx
  mov    %edx,0x10(%esp)
  mov    %eax,0xc(%esp)
@@ -89,9 +84,8 @@
  movl   $0x4ec8,0x4(%esp)
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
--call   *%esi
+ call   *%esi
 -jmp    <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x120>
-+call   *%ecx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x139>
@@ -100,23 +94,20 @@
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%esi
-+mov    (%eax),%ecx
+ mov    (%eax),%esi
  mov    0xc(%ebp),%eax
--mov    0xa(%eax),%ebx
-+mov    0xa(%eax),%esi
-+mov    0xc(%ebp),%ebx
+ mov    0xa(%eax),%ebx
++mov    0xc(%ebp),%ecx
  mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x3,%eax
  add    %edx,%eax
--lea    (%ecx,%eax,1),%eax
++add    $0x12,%eax
+ lea    (%ecx,%eax,1),%eax
 -add    $0x10,%eax
 -mov    0x2(%eax),%ecx
-+add    $0x12,%eax
-+lea    (%ebx,%eax,1),%eax
-+mov    (%eax),%ebx
++mov    (%eax),%ecx
 +mov    0xc(%ebp),%edi
  mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%edi
@@ -127,18 +118,15 @@
  lea    (%edi,%eax,1),%eax
 -add    $0x10,%eax
 -mov    0x6(%eax),%eax
--mov    %ebx,0x14(%esp)
--mov    %ecx,0x10(%esp)
 +mov    (%eax),%eax
-+mov    %esi,0x14(%esp)
-+mov    %ebx,0x10(%esp)
+ mov    %ebx,0x14(%esp)
+ mov    %ecx,0x10(%esp)
  mov    %eax,0xc(%esp)
  movl   $"upDate limited_shop_manager set sell_cnt=%d where ipg_no=%d and server_id=%d",0x8(%esp)
  movl   $0x4ec8,0x4(%esp)
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
--call   *%esi
-+call   *%ecx
+ call   *%esi
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update+0x139>
@@ -147,17 +135,13 @@
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4ec8,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -xor    $0x1,%eax
 -test   %al,%al
-+mov    -0x24(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  addl   $0x1,-0x1c(%ebp)
 +mov    -0x1c(%ebp),%edx
  mov    0xc(%ebp),%eax
@@ -223,4 +207,4 @@ CDBManager::_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| coserver | DIFF | `0x80539b4` | `0xd7` | `0x8053f38` | `0xde` |
+| coserver | DIFF | `0x80539b4` | `0xd7` | `0x8053f42` | `0xd7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,65 +1,68 @@
+@@ -1,65 +1,65 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -22,29 +22,20 @@
  cmp    $0x23,%al
  jne    <T> <_ZN13CServerConfig11Parse_TableEPci+0x1a>
  mov    $0x0,%eax
--jmp    <T> <_ZN13CServerConfig11Parse_TableEPci+0xd5>
-+jmp    <T> <_ZN13CServerConfig11Parse_TableEPci+0xdc>
+ jmp    <T> <_ZN13CServerConfig11Parse_TableEPci+0xd5>
  movl   $0x5,0xc(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $" \t\r\n\"",0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN7DNFFLib13ExplodeStringEPcS0_PS0_i>
  cmp    $0x5,%eax
--sete   %al
-+jne    <T> <_ZN13CServerConfig11Parse_TableEPci+0x51>
-+cmpl   $0x649a,0x10(%ebp)
-+jg     <T> <_ZN13CServerConfig11Parse_TableEPci+0x51>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN13CServerConfig11Parse_TableEPci+0x56>
-+mov    $0x0,%eax
+ sete   %al
  test   %al,%al
--je     <T> <_ZN13CServerConfig11Parse_TableEPci+0xd0>
--cmpl   $0x649a,0x10(%ebp)
--jg     <T> <_ZN13CServerConfig11Parse_TableEPci+0xd0>
-+je     <T> <_ZN13CServerConfig11Parse_TableEPci+0xd7>
+ je     <T> <_ZN13CServerConfig11Parse_TableEPci+0xd0>
+ cmpl   $0x649a,0x10(%ebp)
+ jg     <T> <_ZN13CServerConfig11Parse_TableEPci+0xd0>
  mov    0x10(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
@@ -53,46 +44,40 @@
  add    0x8(%ebp),%eax
  add    $0x4,%eax
  mov    %eax,-0xc(%ebp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,%edx
  mov    -0xc(%ebp),%eax
  mov    %dl,(%eax)
--mov    -0x20(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,%edx
  mov    -0xc(%ebp),%eax
  mov    %dl,0x1(%eax)
--mov    -0x1c(%ebp),%eax
-+mov    -0x18(%ebp),%eax
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,%edx
  mov    -0xc(%ebp),%eax
  mov    %dl,0x2(%eax)
--mov    -0x18(%ebp),%eax
--mov    -0xc(%ebp),%edx
--add    $0x4,%edx
 +mov    -0xc(%ebp),%eax
 +lea    0x4(%eax),%edx
-+mov    -0x14(%ebp),%eax
+ mov    -0x18(%ebp),%eax
+-mov    -0xc(%ebp),%edx
+-add    $0x4,%edx
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZNSsaSEPKc>
--mov    -0x14(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,%edx
  mov    -0xc(%ebp),%eax
  mov    %dx,0x8(%eax)
  mov    $0x1,%eax
--jmp    <T> <_ZN13CServerConfig11Parse_TableEPci+0xd5>
-+jmp    <T> <_ZN13CServerConfig11Parse_TableEPci+0xdc>
+ jmp    <T> <_ZN13CServerConfig11Parse_TableEPci+0xd5>
  mov    $0x0,%eax
  leave
  ret
@@ -158,15 +143,20 @@ bool CServerConfig::Parse_Table(char* line, int idx)
     char* tok2;
     char* tok3;
     char* tok4;
-    if (DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 5) == 5 && idx < 0x649b)
+    char* tok5;
+    (void)tok5;
+    if (DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 5) == 5)
     {
-        ST_ServerInfo* s = &m_servers[idx];
-        s->m_field0 = (char)atoi(tok0);
-        s->m_field1 = (char)atoi(tok1);
-        s->m_field2 = (char)atoi(tok2);
-        s->m_string = tok3;
-        s->m_ushort = (unsigned short)atoi(tok4);
-        return 1;
+        if (idx < 0x649b)
+        {
+            ST_ServerInfo* s = &m_servers[idx];
+            s->m_field0 = (char)atoi(tok0);
+            s->m_field1 = (char)atoi(tok1);
+            s->m_field2 = (char)atoi(tok2);
+            s->m_string = tok3;
+            s->m_ushort = (unsigned short)atoi(tok4);
+            return 1;
+        }
     }
     return 0;
 }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807d5ac` | `0x11d` | `0x8068864` | `0x10f` |
+| monitor | DIFF | `0x807d5ac` | `0x11d` | `0x8068a68` | `0x10f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -158,29 +158,31 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/PacketCounter.cpp](source/DNFServer/GameServer/DBMW/PacketCounter.cpp)（约第 82 行）：
+定义于 [source/DNFServer/GameServer/Monitor/PacketCounter.h](source/DNFServer/GameServer/Monitor/PacketCounter.h)（约第 310 行）：
 
 ```cpp
-void CPacketCounter<Lo, Hi>::AfterProcess(int id)
+void CPacketCounter<A, B>::AfterProcess(int id)
 {
-    if (id < 0x2800 && 999 < id &&
-        (m_data[0x1d640] == 1 ||
-         *(unsigned int*)(m_data + 8 + (id - 1000) * 4) < 0xb) &&
-        *(int*)m_data != -1)
+    if (id > 0x27ff) return;
+    if (id < 0x3e8) return;
+    if (!m_flagInit && m_packetCount[id - 0x3e8] > 10) return;
+    int v = m_totalCount;
+    if (v == -1)
     {
-        int prev;
-        if (m_data[0x1d640] == 0)
-        {
-            prev = *(int*)(m_data + 0x9068 + (id - 1000) * 4);
-            *(int*)(m_data + 8 + (id - 1000) * 4) += 1;
-            m_data[0x11ce0 + id] = 0;
-        }
-        else
-        {
-            prev = *(int*)(m_data + 0x9068);
-        }
-        int diff = *(int*)m_data - prev;
-        *(int*)(m_data + (id + 0x4d50) * 4) += diff;
+        v = 0;
+        return;
     }
+    int diff;
+    if (m_flagInit)
+    {
+        diff = v - m_packetTime[0];
+    }
+    else
+    {
+        diff = v - m_packetTime[id - 0x3e8];
+        m_packetCount[id - 0x3e8]++;
+        m_packetFlag[id - 0x3e8] = 0;
+    }
+    m_packetTotal[id - 0x3e8] += diff;
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80768b8` | `0x109` | `0x8066d96` | `0x105` |
+| statics | DIFF | `0x80768b8` | `0x109` | `0x8066d6e` | `0x127` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,85 +1,84 @@
+@@ -1,85 +1,93 @@
  push   %ebp
  mov    %esp,%ebp
 -mov    0x8(%ebp),%eax
@@ -34,98 +34,100 @@
 -jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x102>
 +jae    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x1d>
 +mov    $0x1,%eax
-+jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x103>
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x125>
 +mov    0x8(%ebp),%eax
 +movzbl (%eax),%edx
 +mov    0xc(%ebp),%eax
 +movzbl (%eax),%eax
 +cmp    %al,%dl
-+jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xfe>
++je     <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x37>
++mov    $0x0,%eax
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x125>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%edx
  mov    0xc(%ebp),%eax
  mov    0x4(%eax),%eax
  cmp    %eax,%edx
--jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x51>
-+jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x4b>
+ jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x51>
  mov    $0x1,%eax
 -jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x107>
-+jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x103>
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x125>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%edx
  mov    0xc(%ebp),%eax
  mov    0x4(%eax),%eax
  cmp    %eax,%edx
 -jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x102>
-+jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xfe>
++je     <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x6b>
++mov    $0x0,%eax
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x125>
  mov    0x8(%ebp),%eax
  movzbl 0x8(%eax),%edx
  mov    0xc(%ebp),%eax
  movzbl 0x8(%eax),%eax
  cmp    %al,%dl
 -jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x81>
-+jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x7b>
++jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x87>
  mov    $0x1,%eax
 -jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x107>
-+jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x103>
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x125>
  mov    0x8(%ebp),%eax
  movzbl 0x8(%eax),%edx
  mov    0xc(%ebp),%eax
  movzbl 0x8(%eax),%eax
  cmp    %al,%dl
 -jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x102>
-+jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xfe>
++je     <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xa3>
++mov    $0x0,%eax
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x125>
  mov    0x8(%ebp),%eax
  movzbl 0x9(%eax),%edx
  mov    0xc(%ebp),%eax
  movzbl 0x9(%eax),%eax
  cmp    %al,%dl
 -jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xac>
-+jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xa6>
++jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xbc>
  mov    $0x1,%eax
 -jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x107>
-+jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x103>
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x125>
  mov    0x8(%ebp),%eax
  movzbl 0x9(%eax),%edx
  mov    0xc(%ebp),%eax
  movzbl 0x9(%eax),%eax
  cmp    %al,%dl
 -jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x102>
--mov    0x8(%ebp),%eax
--movzbl 0x9(%eax),%edx
--mov    0xc(%ebp),%eax
--movzbl 0x9(%eax),%eax
--cmp    %al,%dl
++je     <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xd5>
++mov    $0x0,%eax
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x125>
+ mov    0x8(%ebp),%eax
+ movzbl 0x9(%eax),%edx
+ mov    0xc(%ebp),%eax
+ movzbl 0x9(%eax),%eax
+ cmp    %al,%dl
 -jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xd7>
--mov    $0x1,%eax
++jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xee>
+ mov    $0x1,%eax
 -jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x107>
-+jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xfe>
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x125>
  mov    0x8(%ebp),%eax
  movzbl 0xa(%eax),%edx
  mov    0xc(%ebp),%eax
  movzbl 0xa(%eax),%eax
  cmp    %al,%dl
 -jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x102>
-+jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xd1>
-+mov    $0x1,%eax
-+jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x103>
++je     <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x107>
++mov    $0x0,%eax
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x125>
  mov    0x8(%ebp),%eax
  movzbl 0xa(%eax),%edx
  mov    0xc(%ebp),%eax
  movzbl 0xa(%eax),%eax
  cmp    %al,%dl
 -jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x102>
-+jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xfe>
-+mov    0x8(%ebp),%eax
-+movzbl 0xa(%eax),%eax
-+mov    %eax,%edx
-+mov    0xc(%ebp),%eax
-+movzbl 0xa(%eax),%eax
-+cmp    %al,%dl
-+jae    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xfe>
++jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x120>
  mov    $0x1,%eax
 -jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x107>
-+jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x103>
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x125>
  mov    $0x0,%eax
  pop    %ebp
  ret
@@ -179,25 +181,19 @@ STHellPartyStatisticItemKey::_ZNK27STHellPartyStatisticItemKeyltERKS_
 ```cpp
 bool STHellPartyStatisticItemKey::operator<(const STHellPartyStatisticItemKey& other) const
 {
-    if ((unsigned char)m_field0 < (unsigned char)other.m_field0) return true;
-    if (m_field0 == other.m_field0)
-    {
-        if (m_field4 < other.m_field4) return true;
-        if (m_field4 == other.m_field4)
-        {
-            if (m_field8 < other.m_field8) return true;
-            if (m_field8 == other.m_field8)
-            {
-                if (m_field9 < other.m_field9) return true;
-                if (m_field9 == other.m_field9)
-                {
-                    if (m_fielda < other.m_fielda) return true;
-                    if (m_fielda == other.m_fielda &&
-                        (unsigned char)m_fielda < (unsigned char)other.m_fielda) return true;
-                }
-            }
-        }
-    }
+    // ORIG 0x80768b8 实测：m_field0 / m_field4 / m_field8 / m_field9 / m_field9
+    // / m_fielda 比较链（m_field9 在 ORIG 中被比较两次）。
+    if (m_field0 < other.m_field0) return true;
+    if (m_field0 != other.m_field0) return false;
+    if (m_field4 < other.m_field4) return true;
+    if (m_field4 != other.m_field4) return false;
+    if (m_field8 < other.m_field8) return true;
+    if (m_field8 != other.m_field8) return false;
+    if (m_field9 < other.m_field9) return true;
+    if (m_field9 != other.m_field9) return false;
+    if (m_field9 < other.m_field9) return true;
+    if (m_fielda != other.m_fielda) return false;
+    if (m_fielda < other.m_fielda) return true;
     return false;
 }
 ```

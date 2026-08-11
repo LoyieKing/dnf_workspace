@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a710` | `0xd0` | `0x8080a14` | `0xdf` |
+| monitor | DIFF | `0x807a710` | `0xd0` | `0x80808e0` | `0xdf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -21,7 +21,7 @@
 +sub    $0x34,%esp
  mov    0x8(%ebp),%edx
 -lea    -0x18(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  lea    0xc(%ebp),%ecx
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
@@ -30,16 +30,16 @@
  sub    $0x4,%esp
  mov    0x8(%ebp),%edx
 -lea    -0x14(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP11CGameServerSt4lessIjESaISt4pairIKjS1_EEE3endEv>
  sub    $0x4,%esp
-+lea    -0x10(%ebp),%eax
-+mov    %eax,0x4(%esp)
- lea    -0x14(%ebp),%eax
--mov    %eax,0x4(%esp)
+-lea    -0x14(%ebp),%eax
++lea    -0x18(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -lea    -0x18(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEeqERKS5_>
  test   %al,%al
@@ -49,7 +49,7 @@
 -jmp    <T> <_ZN14CServerHandler18UnregistGameServerEj+0xcb>
 -lea    -0x18(%ebp),%eax
 +jmp    <T> <_ZN14CServerHandler18UnregistGameServerEj+0xda>
-+lea    -0x14(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEptEv>
 -mov    0x4(%eax),%ebx
@@ -67,24 +67,22 @@
  call   <T> <_ZdlPv>
  mov    0x8(%ebp),%eax
 -mov    -0x18(%ebp),%edx
-+mov    -0x14(%ebp),%edx
++mov    -0x1c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP11CGameServerSt4lessIjESaISt4pairIKjS1_EEE5eraseESt17_Rb_tree_iteratorIS6_E>
--mov    0xc(%ebp),%ebx
+ mov    0xc(%ebp),%ebx
  movl   $0x412,0x8(%esp)
- movl   $"UnregistGameServer",0x4(%esp)
+ movl   $&_ZZN14CServerHandler18UnregistGameServerEjE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Game server unregist. Channel: %d",0x8(%esp)
  movl   $"./log/GameServer",0x4(%esp)
 -lea    -0x10(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x1,%eax
@@ -146,15 +144,15 @@ CServerHandler::_ZN14CServerHandler18UnregistGameServerEj(CServerHandler *this,u
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 437 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 332 行）：
 
 ```cpp
-void CServerHandler::UnregistGameServer(unsigned int group)
+int CServerHandler::UnregistGameServer(unsigned int channel)
 {
-    std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.find(group);
+    std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.find(channel);
     if (it == m_gameServers.end())
     {
-        return;
+        return 0;
     }
     CGameServer* gs = it->second;
     if (gs != 0)
@@ -162,6 +160,7 @@ void CServerHandler::UnregistGameServer(unsigned int group)
         delete gs;
     }
     m_gameServers.erase(it);
-    DNF_LOG_SCOPE_LINE(0x387, "./log/GameServer", "Game server unregist. Channel: %d", group);
+    DNF_LOG_SCOPE_LINE(0x412, "./log/GameServer", "Game server unregist. Channel: %d", channel);
+    return 1;
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8088c44` | `0x38f` | `0x8074190` | `0x3ad` |
+| monitor | DIFF | `0x8088c44` | `0x38f` | `0x807422c` | `0x3a9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,234 +1,242 @@
+@@ -1,234 +1,240 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -24,9 +24,9 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x4c>
  movl   $0x11d2,0x8(%esp)
- movl   $"OnInnerPacketLogin",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnInnerPacketLogin : 0 == m_pclApp",0x8(%esp)
@@ -40,10 +40,10 @@
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0x40(%ebp),%eax
++lea    -0x58(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a6>
++jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a2>
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -58,8 +58,7 @@
 -mov    0x6(%eax),%eax
 -cmp    %eax,%edx
 +mov    0x8(%ebp),%edx
-+add    $0x6,%edx
-+mov    (%edx),%edx
++mov    0x6(%edx),%edx
 +cmp    %edx,%eax
  sete   %al
  test   %al,%al
@@ -67,7 +66,7 @@
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0xa8>
++je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0xa6>
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -81,7 +80,7 @@
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a6>
++jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a2>
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -96,13 +95,12 @@
 -mov    0x6(%eax),%eax
 -cmp    %eax,%edx
 +mov    0x8(%ebp),%edx
-+add    $0x6,%edx
-+mov    (%edx),%edx
++mov    0x6(%edx),%edx
 +cmp    %edx,%eax
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x106>
-+je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x11c>
++je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x118>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15Get_ServerGroupEv>
@@ -129,10 +127,9 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -mov    %ebx,0x4(%esp)
-+jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a6>
++jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a2>
 +mov    0x8(%ebp),%eax
-+add    $0x6,%eax
-+mov    (%eax),%eax
++mov    0x6(%eax),%eax
 +mov    %eax,-0x30(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +mov    %eax,(%esp)
@@ -145,7 +142,7 @@
  call   <T> <_ZN14CServerHandler19CreateTcpGameServerEj>
 +mov    %eax,-0x2c(%ebp)
 +cmpl   $0x0,-0x2c(%ebp)
-+je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a6>
++je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a2>
 +movl   $0xc,0x8(%esp)
 +movl   $0x1f40,0x4(%esp)
 +mov    -0x2c(%ebp),%eax
@@ -156,7 +153,7 @@
 -je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x381>
 -movl   $0xc,0x8(%esp)
 -movl   $0x1f40,0x4(%esp)
-+je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a6>
++je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a2>
  mov    -0x28(%ebp),%eax
 +add    $0xa,%eax
 +movb   $0x0,(%eax)
@@ -182,7 +179,7 @@
 +movl   $0x0,-0x1c(%ebp)
  cmpl   $0x0,-0x20(%ebp)
 -je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x384>
-+je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x1e5>
++je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x1df>
  mov    -0x20(%ebp),%eax
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
@@ -213,8 +210,8 @@
 -cmpl   $0x0,-0x18(%ebp)
 -je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x1bd>
 +movl   $0x123e,0x8(%esp)
-+movl   $"OnInnerPacketLogin",0x4(%esp)
-+lea    -0x48(%ebp),%eax
++movl   $&_ZZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x50(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x18(%ebp),%eax
@@ -231,7 +228,7 @@
 -call   <T> <_ZN12CApplication16Get_TcpNetSystemEv>
 -mov    %eax,%ebx
 -movl   $0x123e,0x8(%esp)
--movl   $"OnInnerPacketLogin",0x4(%esp)
+-movl   $&_ZZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -240,7 +237,7 @@
  movl   $"OnInnerPacketLogin : Network system (%x)",0x8(%esp)
  movl   $"./log/Tcp",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x7ef,0x8(%esp)
@@ -257,7 +254,7 @@
 +call   <T> <_ZN14CTcpGameServer16makePacketHeaderEtt>
 +mov    %eax,-0x14(%ebp)
 +cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a6>
++je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a2>
 +mov    -0x14(%ebp),%eax
 +add    $0xa,%eax
 +movb   $0x1,(%eax)
@@ -291,47 +288,38 @@
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN14CTcpGameServer16makePacketHeaderEtt>
-+jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a6>
++jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a2>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x325>
-+jne    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x34c>
++jne    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x348>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0x126d,0x8(%esp)
-+movl   $"OnInnerPacketLogin",0x4(%esp)
-+lea    -0x50(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x126d,0x8(%esp)
--movl   $"OnInnerPacketLogin",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x126d,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnInnerPacketLogin Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x38(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x31e>
-+lea    -0x50(%ebp),%eax
++lea    -0x48(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x345>
++jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x341>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -341,13 +329,13 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x388>
-+jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a6>
++jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a2>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1272,0x8(%esp)
- movl   $"OnInnerPacketLogin",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnInnerPacketLogin Exception Break\n",0x8(%esp)
@@ -356,10 +344,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x37a>
-+lea    -0x58(%ebp),%eax
++lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x3a1>
++jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x39d>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -485,25 +473,83 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2436 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3154 行）：
 
 ```cpp
-void CPacketTranslater::OnInnerPacketLogin(PacketHeader* header)
+void CPacketTranslater::OnInnerPacketLogin(PacketHeader* pkt)
 {
     try
     {
-        if (!m_pclApp)
+        if (m_pclApp == 0)
         {
-            CMyFileLog log("OnInnerPacketLogin", 0xbfa);
-            log("./log/Except", "CPacketTranslater::OnInnerPacketLogin : 0 == m_pclApp");
-            return;
+            DNF_LOG_SCOPE_LINE(0x11d2, "./log/Except", "CPacketTranslater::OnInnerPacketLogin : 0 == m_pclApp");
         }
-        CMyFileLog log("OnInnerPacketLogin", 0xc00);
-        log("./log/TcpServer", "CPacketTranslater::OnInnerPacketLogin (sock:%d)",
-            (int)((Packet_InnerPakcet_Login*)header)->reversed2);
+        else
+        {
+            CServerHandler* handler = m_pclApp->Get_ServerHandler();
+            if (handler->GetTcpDBServer()->GetSock() == ((RA_INT<6>*)pkt)->v)
+            {
+                handler = m_pclApp->Get_ServerHandler();
+                handler->GetTcpDBServer()->Connected();
+            }
+            else
+            {
+                handler = m_pclApp->Get_ServerHandler();
+                if (handler->GetTcpManagerServer()->GetSock() == ((RA_INT<6>*)pkt)->v)
+                {
+                    unsigned char group = m_pclApp->Get_ServerGroup();
+                    handler = m_pclApp->Get_ServerHandler();
+                    handler->GetTcpManagerServer()->Connected(group);
+                }
+                else
+                {
+                    unsigned int sock = ((RA_UINT<6>*)pkt)->v;
+                    handler = m_pclApp->Get_ServerHandler();
+                    CTcpGameServer* tcp = handler->CreateTcpGameServer(sock);
+                    if (tcp != 0)
+                    {
+                        char* buf = tcp->makePacketHeader(8000, 0xc);
+                        if (buf != 0)
+                        {
+                            buf[10] = 0;
+                            char* out = buf;
+                            out[0xb] = (char)m_pclApp->Get_ServerGroup();
+                            tcp->SendToGameServer(out);
+                            char* out2 = tcp->makePacketHeader(0x3ea, 0xb);
+                            char* out3 = 0;
+                            if (out2 != 0)
+                            {
+                                out3 = out2;
+                            }
+                            out3[10] = -0x37;
+                            tcp->SendToGameServer(out3);
+                            void* net = m_pclApp->Get_TcpNetSystem();
+                            DNF_LOG_SCOPE_LINE(0x123e, "./log/Tcp", "OnInnerPacketLogin : Network system (%x)", net);
+                            char* out4 = tcp->makePacketHeader(0x1004, 0x7ef);
+                            if (out4 != 0)
+                            {
+                                out4[10] = 1;
+                                char* out5 = out4;
+                                m_pclApp->getItemLimitEditionMgr()
+                                    ->makeItemLimitEditionSellStartPacket(
+                                        *(Packet_Item_Limit_Edition_Sell_Start*)out5);
+                                tcp->SendToGameServer(out5);
+                                tcp->makePacketHeader(0x1b6a, 0x12);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-    DNF_CATCH_LOG("./log/Except",
-                  "CPacketTranslater::OnInnerPacketLogin Exception Break",
-                  0xc04, 0xc09);
+    catch (CDNFException& e)
+    {
+        DNF_LOG_SCOPE_LINE(0x126d,"./log/Except", "CPacketTranslater::OnInnerPacketLogin Exception Break : %s\n",
+            e.what());
+    }
+    catch (...)
+    {
+        DNF_LOG_SCOPE_LINE(0x1272, "./log/Except", "CPacketTranslater::OnInnerPacketLogin Exception Break\n");
+    }
 }
 ```

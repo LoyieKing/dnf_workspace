@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808f1bc` | `0x1d6` | `0x808ba88` | `0x1c7` |
+| dbmw | DIFF | `0x808f1bc` | `0x1d6` | `0x80df148` | `0x1c7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -269,10 +269,21 @@ void __thiscall CServerHandler::_ZN14CServerHandlerD2Ev(CServerHandler *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFServerHandler.cpp](source/DNFServer/GameServer/COServer/DNFServerHandler.cpp)（约第 16 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 31 行）：
 
 ```cpp
 CServerHandler::~CServerHandler()
 {
+    for (std::map<unsigned char, CTcpServer*>::iterator it = m_tcpServers.begin();
+         it != m_tcpServers.end(); ++it)
+    {
+        CTcpServer* server = it->second;
+        if (server)
+        {
+            delete server;
+            it->second = 0;
+        }
+    }
+    m_tcpServers.clear();
 }
 ```

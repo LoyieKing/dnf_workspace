@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a0b90` | `0x12c` | `0x8097c6e` | `0x130` |
+| monitor | DIFF | `0x80a0b90` | `0x12c` | `0x8097daa` | `0x133` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,97 +1,97 @@
+@@ -1,97 +1,98 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
@@ -55,7 +55,7 @@
 -je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x81>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x12a>
-+je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x129>
++je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x12c>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetBuddyDBFlagEv>
@@ -89,42 +89,37 @@
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x126>
-+je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0xeb>
++je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0xee>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser15GetMemberDBFlagEv>
--movzwl %ax,%eax
+ movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -setne  %al
-+je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0xeb>
++je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0xee>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0xf0>
++jmp    <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0xf3>
 +mov    $0x0,%eax
  test   %al,%al
--je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x126>
-+je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x123>
+ je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x126>
  cmpl   $0x0,0x10(%ebp)
--je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x113>
-+je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x110>
+ je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x113>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN7CMember22IsAbleToRegisterMemberEv>
  test   %al,%al
--je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x113>
-+je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x110>
+ je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x113>
  mov    $0x1,%eax
--jmp    <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x118>
-+jmp    <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x115>
+ jmp    <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x118>
  mov    $0x0,%eax
  test   %al,%al
--je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x126>
-+je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x123>
+ je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x126>
  mov    0x18(%ebp),%eax
  movb   $0x1,(%eax)
  movb   $0x1,-0x9(%ebp)
  movzbl -0x9(%ebp),%eax
-+jmp    <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x12e>
++jmp    <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_S4_+0x131>
 +mov    $0x0,%eax
  leave
  ret
@@ -199,4 +194,4 @@ CMemoryCashManager::_ZN18CMemoryCashManager13IsRightObjectEP5CUserP7CMemberRbS4_
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Guild/MemoryCashManager.cpp, source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 639 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/CashObject.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFBuddy.h, source/DNFServer/GameServer/Monitor/DNFBuddyHandle.h, source/DNFServer/GameServer/Monitor/DNFMember.h 等 299 个文件*

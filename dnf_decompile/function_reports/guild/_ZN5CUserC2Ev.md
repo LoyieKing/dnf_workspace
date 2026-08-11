@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80666ce` | `0xf3` | `0x8088cc0` | `0x111` |
+| guild | DIFF | `0x80666ce` | `0xf3` | `0x8088b3e` | `0x111` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -133,11 +133,29 @@ void __thiscall CUser::_ZN5CUserC2Ev(CUser *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFUser.cpp](source/DNFServer/GameServer/COServer/DNFUser.cpp)（约第 6 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 117 行）：
 
 ```cpp
 CUser::CUser()
 {
-    m_gs = 0;
+    m_dbid = 0;
+    m_charNo = 0;
+    m_gameServer = 0;
+    m_tcpGameServer = 0;
+    m_posState = 0;
+    m_channel = -1;
+    memset(m_charInfo, 0, sizeof(m_charInfo));
+    m_job = 0xff;
+    m_growthType = 0xff;
+    m_guildMemFlag = 0xffff;
+    m_field3a = 1;
+    memset(m_field3b, 0, sizeof(m_field3b));
+    m_guild = 0;
+    m_field48 = 0;
+    memset((void*)&m_guildDBInfo, 0, sizeof(m_guildDBInfo));
+    m_field7c = 0;
+    m_field7e = 0x7f;
+    m_field80 = 0;
+    m_field84 = 0;
 }
 ```

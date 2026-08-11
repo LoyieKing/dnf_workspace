@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80677ae` | `0x30` | `0x8089d88` | `0x36` |
+| guild | DIFF | `0x80677ae` | `0x30` | `0x8089c00` | `0x36` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -59,7 +59,7 @@ CUser::_ZN5CUser18SetGuildInviteFactEjjh(CUser *this,uint param_1,uint param_2,u
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 508 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 526 行）：
 
 ```cpp
 void CUser::SetGuildInviteFact(unsigned int guildId, unsigned int callerId, unsigned char fact)

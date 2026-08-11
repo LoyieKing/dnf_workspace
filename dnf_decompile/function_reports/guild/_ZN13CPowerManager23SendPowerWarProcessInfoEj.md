@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a4e5c` | `0x252` | `0x809b172` | `0x28f` |
+| guild | DIFF | `0x80a4e5c` | `0x252` | `0x809ace8` | `0x28f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -36,9 +36,9 @@
 -jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x6f>
 +jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x7a>
  movl   $0x3e2,0x8(%esp)
- movl   $"SendPowerWarProcessInfo",0x4(%esp)
+ movl   $&_ZZN13CPowerManager23SendPowerWarProcessInfoEjE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
@@ -46,7 +46,7 @@
  movl   $"CPacketTranslater::SendPowerWarProcessInfo : 0 == pclUser(%d)",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x24c>
@@ -71,7 +71,7 @@
 -jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0xec>
 +jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0xf4>
  movl   $0x3ea,0x8(%esp)
- movl   $"SendPowerWarProcessInfo",0x4(%esp)
+ movl   $&_ZZN13CPowerManager23SendPowerWarProcessInfoEjE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
 +lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
@@ -143,27 +143,21 @@
  cmpl   $0x4,-0xc(%ebp)
 -jle    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x1bf>
 +jbe    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x1db>
-+movl   $0x3fd,0x8(%esp)
-+movl   $"SendPowerWarProcessInfo",0x4(%esp)
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild12GetPowerSideEv>
--movzbl %al,%ebx
--movl   $0x3fd,0x8(%esp)
--movl   $"SendPowerWarProcessInfo",0x4(%esp)
+ movzbl %al,%ebx
+ movl   $0x3fd,0x8(%esp)
+ movl   $&_ZZN13CPowerManager23SendPowerWarProcessInfoEjE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+movzbl %al,%eax
-+mov    %eax,0xc(%esp)
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::SendPowerWarProcessInfo : Invalid Power Side(%d)",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x24c>
@@ -184,11 +178,11 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager12IsPowerWarOnEv>
-+test   %eax,%eax
-+sete   %al
  test   %al,%al
 -je     <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x224>
 -mov    -0x14(%ebp),%edx
++sete   %al
++test   %al,%al
 +je     <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x22a>
 +lea    -0x5a(%ebp),%eax
 +add    $0x1e,%eax

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8092098` | `0xb4` | `0x8057dae` | `0xb9` |
+| guild | DIFF | `0x8092098` | `0xb4` | `0x8057e9a` | `0xbd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,20 +13,19 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,48 +1,52 @@
+@@ -1,48 +1,55 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
+ push   %esi
  push   %ebx
--sub    $0x30,%esp
-+sub    $0x34,%esp
+ sub    $0x30,%esp
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild17IncPowerJoinCountEv+0xad>
-+je     <T> <_ZN6CGuild17IncPowerJoinCountEv+0xb2>
++je     <T> <_ZN6CGuild17IncPowerJoinCountEv+0xb5>
  mov    0x8(%ebp),%eax
  movb   $0x1,0x4d96(%eax)
  mov    0x8(%ebp),%eax
@@ -45,45 +44,37 @@
 +movzbl (%eax),%eax
  cmp    $0x80,%al
 -jbe    <T> <_ZN6CGuild17IncPowerJoinCountEv+0x55>
-+jbe    <T> <_ZN6CGuild17IncPowerJoinCountEv+0x59>
++jbe    <T> <_ZN6CGuild17IncPowerJoinCountEv+0x5a>
  mov    0x8(%ebp),%eax
 -movb   $0x80,0xbf(%eax)
--mov    0x8(%ebp),%eax
--movzbl 0xbf(%eax),%eax
--movzbl %al,%esi
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild11GetGuildKeyEv>
--mov    %eax,%ebx
 +add    $0xbf,%eax
 +movb   $0x80,(%eax)
+ mov    0x8(%ebp),%eax
+-movzbl 0xbf(%eax),%eax
++add    $0xbf,%eax
++movzbl (%eax),%eax
+ movzbl %al,%esi
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild11GetGuildKeyEv>
+ mov    %eax,%ebx
  movl   $0xacf,0x8(%esp)
- movl   $"IncPowerJoinCount",0x4(%esp)
+ movl   $&_ZZN6CGuild17IncPowerJoinCountEvE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0xbf,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%ebx
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild11GetGuildKeyEv>
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"IncPowerJoinCount Guild(%d), JoinCount(%d)",0x8(%esp)
  movl   $"./log/Guild",0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--add    $0x30,%esp
-+jmp    <T> <_ZN6CGuild17IncPowerJoinCountEv+0xb3>
++jmp    <T> <_ZN6CGuild17IncPowerJoinCountEv+0xb6>
 +nop
-+add    $0x34,%esp
+ add    $0x30,%esp
  pop    %ebx
--pop    %esi
+ pop    %esi
  pop    %ebp
  ret
 ```
@@ -119,7 +110,7 @@ void __thiscall CGuild::_ZN6CGuild17IncPowerJoinCountEv(CGuild *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2036 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2093 行）：
 
 ```cpp
 void CGuild::IncPowerJoinCount()

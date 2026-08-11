@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809eec0` | `0x225` | `0x808083a` | `0x220` |
+| dbmw | DIFF | `0x809eec0` | `0x225` | `0x80d3ea6` | `0x222` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,156 +1,154 @@
+@@ -1,156 +1,155 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -25,19 +25,19 @@
 -jne    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0xdf>
 -lea    -0x35(%ebp),%eax
 +jne    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0xe2>
-+lea    -0x21(%ebp),%eax
++lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x35(%ebp),%eax
-+lea    -0x21(%ebp),%eax
++lea    -0x31(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnQueryTodayGuildMemeber() : 0 == m_pclApp",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x3c(%ebp),%esi
-+lea    -0x28(%ebp),%esi
++lea    -0x38(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -55,7 +55,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x3c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x87>
@@ -66,7 +66,7 @@
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0xa4>
 -lea    -0x3c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0xbc>
@@ -77,7 +77,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x35(%ebp),%eax
-+lea    -0x21(%ebp),%eax
++lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
@@ -86,10 +86,10 @@
 -lea    -0x35(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_Unwind_Resume>
-+lea    -0x21(%ebp),%eax
++lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -130,37 +130,28 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CGuildServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x21d>
-+jmp    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x218>
++jmp    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x21a>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x1c3>
-+jne    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x1be>
++jne    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x1c0>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
-+movl   $0x106a,0x8(%esp)
-+movl   $"OnQueryTodayGuildMemeber",0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x106a,0x8(%esp)
--movl   $"OnQueryTodayGuildMemeber",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x106a,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
 -lea    -0x34(%ebp),%eax
@@ -168,7 +159,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x1bc>
-+jmp    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x1b7>
++jmp    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x1b9>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -178,23 +169,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x21d>
-+jmp    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x218>
++jmp    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x21a>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x106f,0x8(%esp)
- movl   $"OnQueryTodayGuildMemeber",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x218>
-+jmp    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x213>
++jmp    <T> <_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader+0x215>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -255,7 +246,7 @@ void CPacketTranslater::_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 995 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1051 行）：
 
 ```cpp
 void CPacketTranslater::OnQueryTodayGuildMemeber(PacketHeader* header)

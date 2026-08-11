@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8095e54` | `0x1d8` | `0x80865fe` | `0x1ce` |
+| dbmw | DIFF | `0x8095e54` | `0x1d8` | `0x80d9ba4` | `0x1d0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,128 +1,125 @@
+@@ -1,128 +1,126 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -24,7 +24,7 @@
 -je     <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1cd>
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x14(%ebp)
-+je     <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1c3>
++je     <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1c5>
  lea    -0x7f(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN35Packet_DB_Reply_Unconn_Guild_MemberC1Ev>
@@ -62,26 +62,22 @@
 +sete   %al
 +test   %al,%al
 +je     <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0xb8>
++mov    -0x71(%ebp),%esi
++mov    -0x75(%ebp),%ebx
  movl   $0x3ae,0x8(%esp)
- movl   $"OnQueryUnconnGuildMemberProxy",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    -0x71(%ebp),%edx
-+mov    -0x75(%ebp),%eax
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Query Guild Member List Error g(%d), c(%d)\n",0x8(%esp)
  movl   $"./log/GuildMemberErr",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1ce>
-+jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1c4>
++jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1c6>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -96,42 +92,34 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CGuildServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1ce>
-+jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1c4>
++jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1c6>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x171>
-+jne    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x167>
++jne    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x169>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
  movl   $0x3b7,0x8(%esp)
- movl   $"OnQueryUnconnGuildMemberProxy",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnQueryGuildAllMembersProxy() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x16a>
-+jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x160>
++jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x162>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -141,23 +129,21 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1ce>
-+jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1c4>
++jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1c6>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x3bc,0x8(%esp)
- movl   $"OnQueryUnconnGuildMemberProxy",0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnQueryGuildAllMembersProxy() Exception Break\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1c6>
-+jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1bc>
++jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1be>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -167,7 +153,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1ce>
-+jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1c4>
++jmp    <T> <_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP12PacketHeader+0x1c6>
  nop
  add    $0xa0,%esp
  pop    %ebx
@@ -226,7 +212,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2285 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2408 行）：
 
 ```cpp
 void CPacketTranslater::OnQueryUnconnGuildMemberProxy(PacketHeader* header)
@@ -243,10 +229,12 @@ void CPacketTranslater::OnQueryUnconnGuildMemberProxy(PacketHeader* header)
         if (!m_pclApp->m_dbManager.QueryGuildMemberProxy(
                 reply.m_fieldA, reply.m_fieldE, reply.m_proxy))
         {
-            CMyFileLog log("OnQueryUnconnGuildMemberProxy", 0x3ae);
-            log("./log/GuildMemberErr",
-                "Query Guild Member List Error g(%d), c(%d)\n",
-                reply.m_fieldA, reply.m_fieldE);
+            DNF_LOG_SCOPE_LINE(0x3ae,
+                "./log/GuildMemberErr",
+                "Query Guild Member List Error g(%d), c(%d)\n", reply.m_fieldA,
+                reply.m_fieldE
+            );
+
             return;
         }
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8070206` | `0x179` | `0x806c90e` | `0x23d` |
+| dbmw | DIFF | `0x8070206` | `0x179` | `0x806c52a` | `0x23d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -139,7 +139,7 @@
 +lea    -0x21(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
-+movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
++movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
 +movl   $&_ZTI13CDNFException,0x4(%esp)
 +mov    %ebx,(%esp)
 +call   <T> <__cxa_throw>
@@ -198,7 +198,7 @@
  lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -255,20 +255,14 @@ CAppStopInit::_ZN12CAppStopInit4InitEP12CApplicationiPPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFAppStopInit.cpp](source/DNFServer/GameServer/COServer/DNFAppStopInit.cpp)（约第 16 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFAppStopInit.cpp](source/DNFServer/GameServer/DBMW/DNFAppStopInit.cpp)（约第 29 行）：
 
 ```cpp
 void CAppStopInit::Init(CApplication* app, int argc, char** argv)
 {
-    puts("RECV STOP, \xb0\xfc\xb8\xae\xc0\xda\xbf\xa1 \xc0\xc7\xc7\xd8 "
-         "\xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1 \xb5\xc7\xbe\xfa\xbd\xc0\xb4\xcf\xb4\xd9.");
-    app->Clear();
-    if (app->Send_Term_Signal(argv[1]) != 1)
-    {
-        throw CDNFException("CAppStopInit::Init()\xbf\xa1 \xc0\xc7\xc7\xd8 "
-                            "\xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1\xb5\xc7\xbe\xfa\xc0\xbd!");
-    }
-    throw CDNFException("CAppStopInit::Init()\xbf\xa1 \xc0\xc7\xc7\xd8 "
-                        "\xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1\xb5\xc7\xbe\xfa\xc0\xbd!_1");
+    puts("RECV STOP, Manager had stoped this program.");
+    if (app->Send_Term_Signal(std::string(argv[1])))
+        throw CDNFException("By CAppStopInit::Init(), this app had stoped!");
+    throw CDNFException("By CAppStopInit::Init(), this app had stoped!_1");
 }
 ```

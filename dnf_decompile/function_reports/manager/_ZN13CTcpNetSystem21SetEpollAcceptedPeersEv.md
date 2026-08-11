@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x80588fc` | `0x19c` | `0x8066d14` | `0x177` |
+| manager | DIFF | `0x80588fc` | `0x19c` | `0x8066c44` | `0x177` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -220,7 +220,7 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv(CTcpN
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 141 行）：
+定义于 [source/DNFServer/GameServer/Manager/TcpNetSystem.cpp](source/DNFServer/GameServer/Manager/TcpNetSystem.cpp)（约第 174 行）：
 
 ```cpp
 void CTcpNetSystem::SetEpollAcceptedPeers()
@@ -236,7 +236,7 @@ void CTcpNetSystem::SetEpollAcceptedPeers()
                    peer->GetTcpSocket()->getHandle(), ret, strerror(ret));
         }
         int fd = peer->GetTcpSocket()->getHandle();
-        m_peerMap.insert(std::make_pair(fd, peer));
+        m_peerMap.insert(std::make_pair((int)fd, peer));
         m_peerQueue.pop();
     }
 }

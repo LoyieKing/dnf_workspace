@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806ccfa` | `0x33` | `0x807f2e2` | `0x34` |
+| monitor | DIFF | `0x806ccfa` | `0x33` | `0x807f178` | `0x2e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,32 +13,27 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,18 +1,19 @@
+@@ -1,18 +1,16 @@
  push   %ebp
  mov    %esp,%ebp
  mov    0x8(%ebp),%eax
 -movzwl 0x4(%eax),%eax
 -lea    -0x1(%eax),%edx
-+add    $0x4,%eax
-+mov    0x8(%ebp),%edx
-+add    $0x4,%edx
-+movzwl (%edx),%edx
-+sub    $0x1,%edx
-+mov    %dx,(%eax)
- mov    0x8(%ebp),%eax
--mov    %dx,0x4(%eax)
 -mov    0x8(%ebp),%eax
--movzwl 0x4(%eax),%eax
-+add    $0x4,%eax
-+movzwl (%eax),%eax
++mov    0x8(%ebp),%edx
++movzwl 0x4(%edx),%edx
++sub    $0x1,%edx
+ mov    %dx,0x4(%eax)
+ mov    0x8(%ebp),%eax
+ movzwl 0x4(%eax),%eax
  test   %ax,%ax
 -setle  %al
 -test   %al,%al
 -je     <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x2c>
-+jne    <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x2d>
++jne    <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x27>
  mov    $0x1,%eax
 -jmp    <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x31>
-+jmp    <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x32>
++jmp    <T> <_ZN16CDNFProhibitUser20IsTimeOutConnectableEv+0x2c>
  mov    $0x0,%eax
  pop    %ebp
  ret
@@ -60,14 +55,14 @@ CDNFProhibitUser::_ZN16CDNFProhibitUser20IsTimeOutConnectableEv(CDNFProhibitUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFProhibitUser.cpp](source/DNFServer/GameServer/Monitor/DNFProhibitUser.cpp)（约第 57 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFProhibitUser.cpp](source/DNFServer/GameServer/Monitor/DNFProhibitUser.cpp)（约第 58 行）：
 
 ```cpp
 bool CDNFProhibitUser::IsTimeOutConnectable()
 {
-    *(unsigned short*)((char*)this + 4) =
-        (unsigned short)(*(unsigned short*)((char*)this + 4) - 1);
-    if (*(unsigned short*)((char*)this + 4) <= 0)
+    ((RA_U16<4>*)this)->v =
+        (unsigned short)(((RA_U16<4>*)this)->v - 1);
+    if (((RA_U16<4>*)this)->v <= 0)
     {
         return 1;
     }

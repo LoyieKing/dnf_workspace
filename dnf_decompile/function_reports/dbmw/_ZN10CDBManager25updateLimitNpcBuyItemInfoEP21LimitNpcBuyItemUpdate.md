@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80866d4` | `0x127` | `0x806405e` | `0x112` |
+| dbmw | DIFF | `0x80866d4` | `0x127` | `0x8063df2` | `0x112` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -32,27 +32,7 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%ecx
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    0x12(%edx),%ecx
-+mov    0xc(%ebp),%edx
-+mov    0xa(%edx),%edx
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
-+movl   $"upDate limit_npc_item set sell_count=sell_count+%u where item_index=%u",0x8(%esp)
-+movl   $0x4f46,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager25updateLimitNpcBuyItemInfoEP21LimitNpcBuyItemUpdate+0xad>
-+movl   $0x2857,0x8(%esp)
-+movl   $"updateLimitNpcBuyItemInfo",0x4(%esp)
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    (%eax),%ecx
  mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%edx
 +mov    0x12(%eax),%edx
@@ -61,27 +41,35 @@
 +mov    0xa(%eax),%eax
  mov    %edx,0x10(%esp)
  mov    %eax,0xc(%esp)
--movl   $"upDate limit_npc_item set sell_count=sell_count+%u where item_index=%u",0x8(%esp)
--movl   $0x4f46,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
+ movl   $"upDate limit_npc_item set sell_count=sell_count+%u where item_index=%u",0x8(%esp)
+ movl   $0x4f46,0x4(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ecx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
--xor    $0x1,%eax
--test   %al,%al
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager25updateLimitNpcBuyItemInfoEP21LimitNpcBuyItemUpdate+0xb6>
 -mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%esi
 -mov    0xc(%ebp),%eax
 -mov    0x12(%eax),%ebx
--movl   $0x2857,0x8(%esp)
--movl   $"updateLimitNpcBuyItemInfo",0x4(%esp)
++je     <T> <_ZN10CDBManager25updateLimitNpcBuyItemInfoEP21LimitNpcBuyItemUpdate+0xad>
+ movl   $0x2857,0x8(%esp)
+ movl   $&_ZZN10CDBManager25updateLimitNpcBuyItemInfoEP21LimitNpcBuyItemUpdateE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++lea    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
++mov    0xc(%ebp),%eax
++mov    0x12(%eax),%edx
++mov    0xc(%ebp),%eax
++mov    0xa(%eax),%eax
++mov    %edx,0x10(%esp)
++mov    %eax,0xc(%esp)
  movl   $"upDate limit_npc_item set sell_count=%u where item_index=%u Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x20(%ebp),%eax
@@ -94,23 +82,19 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4f46,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager25updateLimitNpcBuyItemInfoEP21LimitNpcBuyItemUpdate+0x11b>
 +je     <T> <_ZN10CDBManager25updateLimitNpcBuyItemInfoEP21LimitNpcBuyItemUpdate+0x10b>
  movl   $0x2861,0x8(%esp)
- movl   $"updateLimitNpcBuyItemInfo",0x4(%esp)
+ movl   $&_ZZN10CDBManager25updateLimitNpcBuyItemInfoEP21LimitNpcBuyItemUpdateE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -187,7 +171,7 @@ CDBManager::_ZN10CDBManager25updateLimitNpcBuyItemInfoEP21LimitNpcBuyItemUpdate
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 6250 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 6169 行）：
 
 ```cpp
 char CDBManager::updateLimitNpcBuyItemInfo(LimitNpcBuyItemUpdate* update)
@@ -199,7 +183,7 @@ char CDBManager::updateLimitNpcBuyItemInfo(LimitNpcBuyItemUpdate* update)
                       "upDate limit_npc_item set sell_count=sell_count+%u where item_index=%u",
                       update->m_fieldA, update->m_field12))
     {
-        CMyFileLog log("updateLimitNpcBuyItemInfo", 0x2857);
+        CMyFileLog log(__FUNCTION__, 0x2857);
         log("./log/DBQueryErr",
             "upDate limit_npc_item set sell_count=%u where item_index=%u Error",
             update->m_fieldA, update->m_field12);
@@ -207,7 +191,7 @@ char CDBManager::updateLimitNpcBuyItemInfo(LimitNpcBuyItemUpdate* update)
     }
     if (!h->exec(0x4f46))
     {
-        CMyFileLog log("updateLimitNpcBuyItemInfo", 0x2861);
+        CMyFileLog log(__FUNCTION__, 0x2861);
         log("./log/DBQueryErr", "updateLimitNpcBuyItemInfo Query(exec) Error");
         return 0;
     }

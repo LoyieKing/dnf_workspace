@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a847c` | `0xb3` | `0x80a7296` | `0xb3` |
+| monitor | DIFF | `0x80a847c` | `0xb3` | `0x80a7472` | `0xb3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -53,7 +53,7 @@
  imul   %edx,%eax
  jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18GetMaxHuntingPointEv+0xb1>
  movl   $0xfe,0x8(%esp)
- movl   $"GetMaxHuntingPoint",0x4(%esp)
+ movl   $&_ZZN16village_attacked23CVillageAttackedManager18GetMaxHuntingPointEvE12__FUNCTION__,0x4(%esp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -110,7 +110,7 @@ _ZN16village_attacked23CVillageAttackedManager18GetMaxHuntingPointEv(CVillageAtt
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 252 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 253 行）：
 
 ```cpp
 int CVillageAttackedManager::GetMaxHuntingPoint()
@@ -124,7 +124,7 @@ int CVillageAttackedManager::GetMaxHuntingPoint()
     {
         return m_app->Get_UserManager()->Size() * HUNTING_POINT_WEIGTH_CONST;
     }
-    DNF_LOG_SCOPE_AT("GetMaxHuntingPoint", 0xfe, "./log/village", "ServerGroup is over REAL_GROUP_MAX : %d", group);
+    DNF_LOG_SCOPE_AT(__FUNCTION__, 0xfe, "./log/village", "ServerGroup is over REAL_GROUP_MAX : %d", group);
     return 0;
 }
 ```

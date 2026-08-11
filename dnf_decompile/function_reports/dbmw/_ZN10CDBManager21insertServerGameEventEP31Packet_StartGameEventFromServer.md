@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8087670` | `0x14f` | `0x804ff7e` | `0x14b` |
+| dbmw | DIFF | `0x8087670` | `0x14f` | `0x804ff68` | `0x14b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -38,99 +38,87 @@
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edi
+ mov    (%eax),%edi
 -mov    0xc(%ebp),%eax
 -mov    0x12(%eax),%esi
 -mov    0xc(%ebp),%eax
 -movzwl 0x18(%eax),%eax
--movzwl %ax,%ebx
++mov    -0x1c(%ebp),%eax
++add    $0x12,%eax
++mov    (%eax),%esi
++mov    -0x1c(%ebp),%eax
++add    $0x18,%eax
++movzwl (%eax),%eax
+ movzwl %ax,%ebx
 -mov    0xc(%ebp),%eax
 -movzwl 0x16(%eax),%eax
--movzwl %ax,%ecx
++mov    -0x1c(%ebp),%eax
++add    $0x16,%eax
++movzwl (%eax),%eax
+ movzwl %ax,%ecx
 -mov    0xc(%ebp),%eax
 -mov    0xe(%eax),%edx
 -mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%eax
--mov    %esi,0x1c(%esp)
--mov    %ebx,0x18(%esp)
--mov    %ecx,0x14(%esp)
--mov    %edx,0x10(%esp)
--mov    %eax,0xc(%esp)
++mov    -0x1c(%ebp),%eax
++add    $0xe,%eax
++mov    (%eax),%edx
++mov    -0x1c(%ebp),%eax
++add    $0xa,%eax
 +mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+add    $0x12,%edx
-+mov    (%edx),%edi
-+mov    -0x1c(%ebp),%edx
-+add    $0x18,%edx
-+movzwl (%edx),%edx
-+movzwl %dx,%esi
-+mov    -0x1c(%ebp),%edx
-+add    $0x16,%edx
-+movzwl (%edx),%edx
-+movzwl %dx,%ebx
-+mov    -0x1c(%ebp),%edx
-+add    $0xe,%edx
-+mov    (%edx),%ecx
-+mov    -0x1c(%ebp),%edx
-+add    $0xa,%edx
-+mov    (%edx),%edx
-+mov    %edi,0x1c(%esp)
-+mov    %esi,0x18(%esp)
-+mov    %ebx,0x14(%esp)
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
+ mov    %esi,0x1c(%esp)
+ mov    %ebx,0x18(%esp)
+ mov    %ecx,0x14(%esp)
+ mov    %edx,0x10(%esp)
+ mov    %eax,0xc(%esp)
  movl   $" inSert into dnf_event_log (occ_time, event_type, event_flag, parameter1, parameter2,  server_id, start_time, end_time, m_id, expl, etc)  values (unix_timestamp(now()), %d, %d, %d, %d, %d, unix_timestamp(now()), 0, 1, 'event from monitor server', '6th birthday') ",0x8(%esp)
  movl   $0x4f5d,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edi
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edi
 -mov    %al,-0x1d(%ebp)
 -movzbl -0x1d(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager21insertServerGameEventEP31Packet_StartGameEventFromServer+0xdd>
 -mov    -0x1c(%ebp),%eax
 +je     <T> <_ZN10CDBManager21insertServerGameEventEP31Packet_StartGameEventFromServer+0xe0>
 +movl   $0x2e96,0x8(%esp)
-+movl   $"insertServerGameEvent",0x4(%esp)
++movl   $&_ZZN10CDBManager21insertServerGameEventEP31Packet_StartGameEventFromServerE12__FUNCTION__,0x4(%esp)
 +lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x7c,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+-mov    %eax,%ebx
+-movl   $0x2e96,0x8(%esp)
 +mov    %eax,0x8(%esp)
 +movl   $"./log/DBQueryErr",0x4(%esp)
 +lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x2e96,0x8(%esp)
++mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager21insertServerGameEventEP31Packet_StartGameEventFromServer+0x143>
 +mov    -0x20(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x20,%eax
-+mov    (%eax),%eax
++mov    (%eax),%edx
 +movl   $0x4f5d,0x4(%esp)
-+mov    -0x20(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x20(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager21insertServerGameEventEP31Packet_StartGameEventFromServer+0x13e>
 +movl   $0x2e9d,0x8(%esp)
- movl   $"insertServerGameEvent",0x4(%esp)
+ movl   $&_ZZN10CDBManager21insertServerGameEventEP31Packet_StartGameEventFromServerE12__FUNCTION__,0x4(%esp)
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -156,7 +144,7 @@
 -test   %al,%al
 -je     <T> <_ZN10CDBManager21insertServerGameEventEP31Packet_StartGameEventFromServer+0x142>
 -movl   $0x2e9d,0x8(%esp)
--movl   $"insertServerGameEvent",0x4(%esp)
+-movl   $&_ZZN10CDBManager21insertServerGameEventEP31Packet_StartGameEventFromServerE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -231,4 +219,4 @@ CDBManager::_ZN10CDBManager21insertServerGameEventEP31Packet_StartGameEventFromS
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*

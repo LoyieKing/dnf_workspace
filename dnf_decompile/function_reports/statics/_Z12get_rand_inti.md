@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8062b28` | `0xf5` | `0x8084cea` | `0x105` |
+| statics | DIFF | `0x8062b28` | `0xf5` | `0x8084e60` | `0x105` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -177,21 +177,22 @@ unsigned int get_rand_int(int range)
     int r = rand();
     if (r > range)
     {
-        r = rand();
-        return (unsigned int)(r % range);
+        return (unsigned int)(rand() % range);
     }
     r *= 0x41c64e6d;
     r += 0x3039;
     unsigned int v = (r / 65536) & 0x7ff;
     r *= 0x41c64e6d;
     r += 0x3039;
-    v = (v << 10) ^ ((r / 65536) & 0x3ff);
+    v <<= 10;
+    v ^= (r / 65536) & 0x3ff;
     r *= 0x41c64e6d;
     r += 0x3039;
-    v = (v << 10) ^ ((r / 65536) & 0x3ff);
+    v <<= 10;
+    v ^= (r / 65536) & 0x3ff;
     if ((unsigned int)range < v)
     {
-        v = v % (unsigned int)range;
+        return v % (unsigned int)range;
     }
     return v;
 }

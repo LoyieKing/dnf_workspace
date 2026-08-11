@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| auction | DIFF | `0x8052fd8` | `0x1616` | `0x8058102` | `0x15d8` |
+| auction | DIFF | `0x8052fd8` | `0x1616` | `0x80580dc` | `0x15d8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -197,10 +197,9 @@
  cmp    $0x1,%al
 -jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x277>
 -fildl  -0x6c(%ebp)
--fldl   &data#30cd9092(.rodata)
 +jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x276>
 +fildl  -0x68(%ebp)
-+fldl   &data#721b04ed(.rodata)
+ fldl   &data#69d7849f(.rodata)
  fdivrp %st,%st(1)
 -fstpl  -0x7e0(%ebp)
 +fstpl  -0x7d0(%ebp)
@@ -221,14 +220,13 @@
 -fldcw  -0x7b6(%ebp)
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x631>
 -fildl  -0x6c(%ebp)
--fldl   &data#30cd9092(.rodata)
 +mov    %ax,-0x7a8(%ebp)
 +fldcw  -0x7a8(%ebp)
 +fistpl -0x7c(%ebp)
 +fldcw  -0x7a6(%ebp)
 +jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x601>
 +fildl  -0x68(%ebp)
-+fldl   &data#721b04ed(.rodata)
+ fldl   &data#69d7849f(.rodata)
  fdivrp %st,%st(1)
 -fstpl  -0x7d8(%ebp)
 +fstpl  -0x7c8(%ebp)
@@ -260,16 +258,14 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x590>
--fldl   &data#a37ac696(.rodata)
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x560>
+ fldl   &data#f86f0aa7(.rodata)
 -fstpl  -0x60(%ebp)
--fldl   &data#2c558245(.rodata)
++fstpl  -0x50(%ebp)
+ fldl   &data#8f688ce4(.rodata)
 -fstpl  -0x58(%ebp)
 -movl   $0x0,-0xc4(%ebp)
 -lea    -0xdc(%ebp),%eax
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x560>
-+fldl   &data#b5d8b4ca(.rodata)
-+fstpl  -0x50(%ebp)
-+fldl   &data#38031033(.rodata)
 +fstpl  -0x48(%ebp)
 +movl   $0x0,-0xc0(%ebp)
 +lea    -0xd8(%ebp),%eax
@@ -359,10 +355,9 @@
  fdivrp %st,%st(1)
 -fstpl  -0x48(%ebp)
 -fldl   -0x48(%ebp)
--fldl   &data#21c2334f(.rodata)
 +fstpl  -0x38(%ebp)
 +fldl   -0x38(%ebp)
-+fldl   &data#4dbaeb2e(.rodata)
+ fldl   &data#dd58a0f3(.rodata)
  fucompp
  fnstsw %ax
  test   $0x45,%ah
@@ -405,14 +400,13 @@
 -fldcw  -0x7b6(%ebp)
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x56c>
 -fldl   -0x48(%ebp)
--fldl   &data#21c2334f(.rodata)
 +mov    %ax,-0x7a8(%ebp)
 +fldcw  -0x7a8(%ebp)
 +fistpl -0x7c(%ebp)
 +fldcw  -0x7a6(%ebp)
 +jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x601>
 +fldl   -0x38(%ebp)
-+fldl   &data#4dbaeb2e(.rodata)
+ fldl   &data#dd58a0f3(.rodata)
  fxch   %st(1)
  fucompp
  fnstsw %ax
@@ -452,10 +446,10 @@
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x502>
 -fldl   -0x48(%ebp)
--fldl   "333�?蠱儆儆�?"
+-fldl   "333333�?蠱儆儆�?"
 +je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x4e8>
 +fldl   -0x38(%ebp)
-+fldl   "333�?蠱儆儆�?蠱儆儆�?"
++fldl   "333333�?蠱儆儆�?蠱儆儆�?"
  fucompp
  fnstsw %ax
  test   $0x45,%ah
@@ -469,12 +463,12 @@
 -mov    %ax,-0x7b8(%ebp)
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x56c>
 -fldl   -0x48(%ebp)
--fldl   "333�?蠱儆儆�?"
+-fldl   "333333�?蠱儆儆�?"
 +je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x4e8>
 +movl   $0x32,-0x7c(%ebp)
 +jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x526>
 +fldl   -0x38(%ebp)
-+fldl   "333�?蠱儆儆�?蠱儆儆�?"
++fldl   "333333�?蠱儆儆�?蠱儆儆�?"
  fxch   %st(1)
  fucompp
  fnstsw %ax
@@ -483,10 +477,10 @@
  test   %al,%al
 -je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x54f>
 -fldl   -0x48(%ebp)
--fldl   "�?"
+-fldl   "蠱儆儆�?"
 +je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x51f>
 +fldl   -0x38(%ebp)
-+fldl   "�?蠱儆儆�?"
++fldl   "蠱儆儆�?蠱儆儆�?"
  fucompp
  fnstsw %ax
  test   $0x45,%ah
@@ -496,18 +490,7 @@
 -movl   $0x32,-0x80(%ebp)
 -fnstcw -0x7b6(%ebp)
 -movzwl -0x7b6(%ebp),%eax
-+je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x51f>
-+movl   $0x32,-0x7c(%ebp)
-+jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x526>
-+movl   $0x50,-0x7c(%ebp)
-+fildl  -0x68(%ebp)
-+fldl   &data#721b04ed(.rodata)
-+fdivrp %st,%st(1)
-+fildl  -0x7c(%ebp)
-+fmulp  %st,%st(1)
-+fnstcw -0x7a6(%ebp)
-+movzwl -0x7a6(%ebp),%eax
- mov    $0xc,%ah
+-mov    $0xc,%ah
 -mov    %ax,-0x7b8(%ebp)
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x56c>
 -movl   $0x50,-0x80(%ebp)
@@ -516,14 +499,23 @@
 -mov    $0xc,%ah
 -mov    %ax,-0x7b8(%ebp)
 -fildl  -0x6c(%ebp)
--fldl   &data#30cd9092(.rodata)
--fdivrp %st,%st(1)
++je     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x51f>
++movl   $0x32,-0x7c(%ebp)
++jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x526>
++movl   $0x50,-0x7c(%ebp)
++fildl  -0x68(%ebp)
+ fldl   &data#69d7849f(.rodata)
+ fdivrp %st,%st(1)
 -fildl  -0x80(%ebp)
--fmulp  %st,%st(1)
++fildl  -0x7c(%ebp)
+ fmulp  %st,%st(1)
 -fldcw  -0x7b8(%ebp)
 -fistpl -0x80(%ebp)
 -fldcw  -0x7b6(%ebp)
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x631>
++fnstcw -0x7a6(%ebp)
++movzwl -0x7a6(%ebp),%eax
++mov    $0xc,%ah
 +mov    %ax,-0x7a8(%ebp)
 +fldcw  -0x7a8(%ebp)
 +fistpl -0x7c(%ebp)
@@ -534,10 +526,9 @@
  cmp    $0x1,%al
 -jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x5e7>
 -fildl  -0x6c(%ebp)
--fldl   &data#30cd9092(.rodata)
 +jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x5b7>
 +fildl  -0x68(%ebp)
-+fldl   &data#721b04ed(.rodata)
+ fldl   &data#69d7849f(.rodata)
  fdivrp %st,%st(1)
 -fstpl  -0x7d0(%ebp)
 +fstpl  -0x7c0(%ebp)
@@ -558,14 +549,13 @@
 -fldcw  -0x7b6(%ebp)
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x631>
 -fildl  -0x6c(%ebp)
--fldl   &data#30cd9092(.rodata)
 +mov    %ax,-0x7a8(%ebp)
 +fldcw  -0x7a8(%ebp)
 +fistpl -0x7c(%ebp)
 +fldcw  -0x7a6(%ebp)
 +jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0x601>
 +fildl  -0x68(%ebp)
-+fldl   &data#721b04ed(.rodata)
+ fldl   &data#69d7849f(.rodata)
  fdivrp %st,%st(1)
 -fstpl  -0x7c8(%ebp)
 +fstpl  -0x7b8(%ebp)
@@ -1219,7 +1209,7 @@
 +cmpl   $0x0,-0x80(%ebp)
 +jg     <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xd3a>
 +movl   $0x1,-0x80(%ebp)
-+lea    -0xb9(%ebp),%eax
++lea    -0xbc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14ROI_AverageKeyC1Ev>
  mov    0x14(%ebp),%eax
@@ -1227,21 +1217,21 @@
  mov    %eax,(%esp)
  call   <T> <_ZNK11DnfItemInfo9GetItemIdEv>
 -mov    %eax,-0xc0(%ebp)
-+mov    %eax,-0xb9(%ebp)
++mov    %eax,-0xbc(%ebp)
  mov    0x14(%ebp),%eax
  mov    0x54(%eax),%edx
 -mov    %edx,-0xbc(%ebp)
-+mov    %edx,-0xb5(%ebp)
++mov    %edx,-0xb8(%ebp)
  mov    0x58(%eax),%edx
 -mov    %edx,-0xb8(%ebp)
-+mov    %edx,-0xb1(%ebp)
++mov    %edx,-0xb4(%ebp)
  mov    0x5c(%eax),%eax
 -mov    %eax,-0xb4(%ebp)
 -movl   $0x0,-0x30(%ebp)
 -jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xded>
 -mov    -0x30(%ebp),%ecx
 -mov    -0x30(%ebp),%edx
-+mov    %eax,-0xad(%ebp)
++mov    %eax,-0xb0(%ebp)
 +movl   $0x0,-0x2c(%ebp)
 +jmp    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xdae>
 +mov    -0x2c(%ebp),%ecx
@@ -1258,7 +1248,7 @@
 -mov    %ax,-0xc0(%ebp,%edx,2)
 -addl   $0x1,-0x30(%ebp)
 -cmpl   $0x2,-0x30(%ebp)
-+mov    %ax,-0xb9(%ebp,%edx,2)
++mov    %ax,-0xbc(%ebp,%edx,2)
 +addl   $0x1,-0x2c(%ebp)
 +cmpl   $0x2,-0x2c(%ebp)
  setle  %al
@@ -1266,11 +1256,11 @@
 -jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xdc2>
 -lea    -0xc0(%ebp),%eax
 +jne    <T> <_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDictionaryDataEbRi+0xd83>
-+lea    -0xb9(%ebp),%eax
++lea    -0xbc(%ebp),%eax
  add    $0x16,%eax
  mov    %eax,0x4(%esp)
 -lea    -0xc0(%ebp),%eax
-+lea    -0xb9(%ebp),%eax
++lea    -0xbc(%ebp),%eax
  add    $0x10,%eax
  mov    %eax,(%esp)
  call   <T> <_ZSt4sortIPsEvT_S1_>
@@ -1293,7 +1283,7 @@
  movl   $0x0,0x1c(%esp)
  mov    %esi,0x18(%esp)
 -lea    -0xc0(%ebp),%ecx
-+lea    -0xb9(%ebp),%ecx
++lea    -0xbc(%ebp),%ecx
  mov    %ecx,0x14(%esp)
  movl   $0x0,0x10(%esp)
 -mov    -0x84(%ebp),%ecx
@@ -2608,4 +2598,4 @@ AuctionDictionary::_ZN17AuctionDictionary17makeSuccessfulBidEyPNS_21AuctionDicti
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：mnt/d/Docs/my_sources/dnf_workspace/dnf_decompile/source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.cpp, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.cpp, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AveragePriceDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/CharacterDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/ExpireTimeDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/Auction.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/AuctionItem.h 等 512 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.cpp, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.cpp, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AuctionDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/AveragePriceDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/CharacterDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/dictionary/ExpireTimeDictionary.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/Auction.h, source/DNFServer/GameServer/ServerLab/Auction/AuctionServer/GameData/auction/AuctionItem.h 等 590 个文件*

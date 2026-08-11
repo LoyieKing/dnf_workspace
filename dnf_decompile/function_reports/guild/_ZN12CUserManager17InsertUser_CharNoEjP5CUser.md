@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80694aa` | `0xdf` | `0x808bc14` | `0x68` |
+| guild | DIFF | `0x80694aa` | `0xdf` | `0x808ba56` | `0x68` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -70,7 +70,7 @@
 -mov    %eax,%ebx
 -mov    0xc(%ebp),%edi
 -movl   $0x163,0x8(%esp)
--movl   $"InsertUser_CharNo",0x4(%esp)
+-movl   $&_ZZN12CUserManager17InsertUser_CharNoEjP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>

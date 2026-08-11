@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8073c70` | `0x3a9` | `0x806a802` | `0x3b2` |
+| guild | DIFF | `0x8073c70` | `0x3a9` | `0x806a4fe` | `0x3b2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -98,7 +98,7 @@
 +lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
@@ -181,7 +181,7 @@
 +lea    -0x29(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
-+movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
++movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
 +movl   $&_ZTI13CDNFException,0x4(%esp)
 +mov    %ebx,(%esp)
 +call   <T> <__cxa_throw>
@@ -334,7 +334,7 @@
 -lea    -0x39(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSaIcED1Ev>
--movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+-movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
 -movl   $&_ZTI13CDNFException,0x4(%esp)
 -mov    %ebx,(%esp)
 -call   <T> <__cxa_throw>
@@ -350,39 +350,32 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildChatMsg() Exception Break : %s\n",(%esp)
  call   <T> <printf>
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
- movl   $0x405,0x8(%esp)
- movl   $"OnNoticeGuildChatMsg",0x4(%esp)
--lea    -0x38(%ebp),%eax
++movl   $0x405,0x8(%esp)
++movl   $"OnNoticeGuildChatMsg",0x4(%esp)
 +lea    -0x40(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+ call   *%edx
+-mov    %eax,%ebx
+-movl   $0x405,0x8(%esp)
+-movl   $&_ZZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x38(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildChatMsg() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -409,7 +402,7 @@
  movl   $"CPacketTranslater::OnNoticeGuildChatMsg() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x40b,0x8(%esp)
- movl   $"OnNoticeGuildChatMsg",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
@@ -540,7 +533,7 @@ void CPacketTranslater::OnNoticeGuildChatMsg(PacketHeader* pkt)
     catch (...)
     {
         puts("CPacketTranslater::OnNoticeGuildChatMsg() Exception Break");
-        CMyFileLog log("OnNoticeGuildChatMsg", 0x40b);
+        CMyFileLog log(__FUNCTION__, 0x40b);
         log("./log/Except", "CPacketTranslater::OnNoticeGuildChatMsg() Exception Break\n");
     }
 }

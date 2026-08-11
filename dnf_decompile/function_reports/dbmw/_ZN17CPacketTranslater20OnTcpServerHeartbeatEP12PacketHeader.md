@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809c7ae` | `0x18a` | `0x8087b6e` | `0x18e` |
+| dbmw | DIFF | `0x809c7ae` | `0x18a` | `0x80db110` | `0x190` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,106 +1,107 @@
+@@ -1,106 +1,108 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,7 +22,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x182>
-+je     <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x186>
++je     <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x188>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x14(%ebp)
 -mov    -0x14(%ebp),%eax
@@ -50,85 +50,60 @@
 -movzbl 0xa(%eax),%eax
 -movzbl %al,%ebx
 +jne    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0xa0>
- movl   $0xc98,0x8(%esp)
-+movl   $"OnTcpServerHeartbeat",0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
 +mov    -0x1c(%ebp),%eax
 +mov    0x6(%eax),%eax
-+mov    %eax,%edx
-+movzbl -0x15(%ebp),%eax
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
-+movl   $"CPacketTranslater::OnTcpServerHeartbeat Invalid Server Instance(TYPE:%d, sock:%d)",0x8(%esp)
-+movl   $"./log/TcpServer",0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x187>
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CTcpServer15NotifyHeartbeatEv>
-+jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x187>
-+cmp    $0x2,%edx
-+jne    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x12a>
-+mov    %eax,(%esp)
-+call   <T> <__cxa_begin_catch>
-+mov    %eax,-0xc(%ebp)
-+movl   $0xca4,0x8(%esp)
- movl   $"OnTcpServerHeartbeat",0x4(%esp)
- lea    -0x2c(%ebp),%eax
++mov    %eax,%esi
++movzbl -0x15(%ebp),%ebx
+ movl   $0xc98,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x2c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnTcpServerHeartbeat Invalid Server Instance(TYPE:%d, sock:%d)",0x8(%esp)
--movl   $"./log/TcpServer",0x4(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
-+movl   $"CPacketTranslater::OnTcpServerHeartbeat Exception Break : %s\n",0x8(%esp)
-+movl   $"./log/Except",0x4(%esp)
- lea    -0x2c(%ebp),%eax
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"CPacketTranslater::OnTcpServerHeartbeat Invalid Server Instance(TYPE:%d, sock:%d)",0x8(%esp)
+ movl   $"./log/TcpServer",0x4(%esp)
+-lea    -0x2c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x183>
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CTcpServer15NotifyHeartbeatEv>
++jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x189>
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CTcpServer15NotifyHeartbeatEv>
 -jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x183>
--cmp    $0x2,%edx
++jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x189>
+ cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x126>
--mov    %eax,(%esp)
--call   <T> <__cxa_begin_catch>
--mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0xca4,0x8(%esp)
--movl   $"OnTcpServerHeartbeat",0x4(%esp)
++jne    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x12c>
+ mov    %eax,(%esp)
+ call   <T> <__cxa_begin_catch>
+ mov    %eax,-0xc(%ebp)
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0xca4,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnTcpServerHeartbeat Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
++lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"CPacketTranslater::OnTcpServerHeartbeat Exception Break : %s\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x11f>
-+jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x123>
++jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x125>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -138,23 +113,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x183>
-+jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x187>
++jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x189>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xca9,0x8(%esp)
- movl   $"OnTcpServerHeartbeat",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnTcpServerHeartbeat Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x17b>
-+jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x17f>
++jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x181>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -164,7 +139,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x183>
-+jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x187>
++jmp    <T> <_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHeader+0x189>
  nop
  add    $0x50,%esp
  pop    %ebx
@@ -213,7 +188,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2561 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2738 行）：
 
 ```cpp
 void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)
@@ -229,10 +204,12 @@ void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)
         CTcpServer* server = handler->GetTcpServer(idx);
         if (!server)
         {
-            CMyFileLog log("OnTcpServerHeartbeat", 0xc98);
-            log("./log/TcpServer",
-                "CPacketTranslater::OnTcpServerHeartbeat Invalid Server Instance(TYPE:%d, sock:%d)",
-                idx, (int)pkt->reversed2);
+            DNF_LOG_SCOPE_LINE(0xc98,
+                "./log/TcpServer",
+                "CPacketTranslater::OnTcpServerHeartbeat Invalid Server Instance(TYPE:%d, sock:%d)", idx,
+                (int)pkt->reversed2
+            );
+
             return;
         }
         server->NotifyHeartbeat();

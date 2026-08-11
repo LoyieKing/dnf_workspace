@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809f268` | `0x64` | `0x809171e` | `0x68` |
+| guild | DIFF | `0x809f268` | `0x64` | `0x8091552` | `0x68` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -67,7 +67,7 @@ void __thiscall CGuildCargo::_ZN11CGuildCargo5ResetEv(CGuildCargo *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 125 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 133 行）：
 
 ```cpp
 void CGuildCargo::Reset()
@@ -76,7 +76,7 @@ void CGuildCargo::Reset()
     *(int*)((char*)this + 0x18dc) = 0;
     *(int*)((char*)this + 0x18e0) = 0;
     *(char*)((char*)this + 0x18e4) = 0;
-    ((std::deque<STGuildCargoLog>*)(m_data + 0x18e8))->clear();
-    memset(m_data, 0, 0x18d8);
+    m_history.clear();
+    memset(&m_info, 0, 0x18d8);
 }
 ```

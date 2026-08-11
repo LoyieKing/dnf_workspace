@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8050e22` | `0x5b` | `0x8097f90` | `0x13` |
+| guild | DIFF | `0x8050e22` | `0x5b` | `0x8097ace` | `0x13` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -58,15 +58,10 @@ void __thiscall CPeer::_ZN5CPeerD2Ev(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 32 行）：
+定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 120 行）：
 
 ```cpp
 CPeer::~CPeer()
 {
-    m_sendBuf = (char*)this + 0x1c;
-    m_sendLen = 0;
-    m_recvLen = 0;
-    m_recvBuf = (char*)this + 0x183c;
-    m_remainSendLen = 0;
 }
 ```

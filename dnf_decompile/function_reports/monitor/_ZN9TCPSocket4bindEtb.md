@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804f3fa` | `0xbf` | `0x8085464` | `0xc4` |
+| monitor | DIFF | `0x804f3fa` | `0xbf` | `0x8085434` | `0xc2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,49 +1,53 @@
+@@ -1,49 +1,52 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x38,%esp
@@ -39,14 +39,13 @@
 -movzwl -0x1c(%ebp),%eax
 +movw   $0x2,-0x1c(%ebp)
 +lea    -0x1c(%ebp),%ebx
-+add    $0x2,%ebx
 +movzwl -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <htons>
 -mov    %ax,-0x16(%ebp)
 -movl   $0x0,-0x14(%ebp)
 -lea    -0x18(%ebp),%edx
-+mov    %ax,(%ebx)
++mov    %ax,0x2(%ebx)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  movl   $0x10,0x8(%esp)
@@ -59,7 +58,7 @@
 -je     <T> <_ZN9TCPSocket4bindEtb+0x93>
 +mov    %eax,-0xc(%ebp)
 +cmpl   $0x0,-0xc(%ebp)
-+jns    <T> <_ZN9TCPSocket4bindEtb+0x94>
++jns    <T> <_ZN9TCPSocket4bindEtb+0x92>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9TCPSocket5closeEv>
@@ -67,9 +66,9 @@
 -jmp    <T> <_ZN9TCPSocket4bindEtb+0xbd>
 -cmpb   $0x0,-0x20(%ebp)
 -je     <T> <_ZN9TCPSocket4bindEtb+0xa4>
-+jmp    <T> <_ZN9TCPSocket4bindEtb+0xbe>
++jmp    <T> <_ZN9TCPSocket4bindEtb+0xbc>
 +cmpb   $0x0,-0x30(%ebp)
-+je     <T> <_ZN9TCPSocket4bindEtb+0xa5>
++je     <T> <_ZN9TCPSocket4bindEtb+0xa3>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9TCPSocket14setOptNonBlockEv>
@@ -124,25 +123,27 @@ undefined4 __thiscall TCPSocket::_ZN9TCPSocket4bindEtb(TCPSocket *this,ushort pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp](source/DNFServer/GameServer/DBMW/DNFTcpSocket.cpp)（约第 244 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp](source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp)（约第 82 行）：
 
 ```cpp
 char TCPSocket::bind(unsigned short port, bool flag)
 {
     setOptReuseAdrs(true);
-    struct sockaddr_in addr;
+    sockaddr addr;
     memset(&addr, 0, 0x10);
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(port);
-    addr.sin_addr.s_addr = 0;
-    if (::bind(m_fd, (struct sockaddr*)&addr, 0x10) < 0)
+    addr.sa_family = 2;
+    ((RA_U16<2>*)&addr)->v = htons(port);
+    int r = ::bind(m_fd, &addr, 0x10);
+    if (r < 0)
     {
         close();
         return 0;
     }
     if (flag)
+    {
         setOptNonBlock();
-    printf("succeeded in binding TCP socket port #%d\n", port);
+    }
+    printf("succeeded in binding TCP socket port #%d\n", (unsigned int)port);
     return 1;
 }
 ```

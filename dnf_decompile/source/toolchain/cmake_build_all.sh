@@ -15,10 +15,10 @@ bridge c6446r
 auction c6446r
 point c6446r
 manager c6
-dbmw c6
-monitor c6
+dbmw c6444r
+monitor c6444r
 guild c6
-statics c6
+statics c6446r
 relay c6446r
 coserver c6"
 

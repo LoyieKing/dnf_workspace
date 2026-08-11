@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| point | DIFF | `0x809b018` | `0x70` | `0x80a29f2` | `0x71` |
+| point | DIFF | `0x809b018` | `0x70` | `0x80a2952` | `0x71` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -96,7 +96,7 @@ uint32 __thiscall WideString::_ZNK10WideString7getHashEv(WideString *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/Library/Include/Core/Strings.cpp](source/Library/Include/Core/Strings.cpp)（约第 700 行）：
+定义于 [source/Library/Include/Core/Strings.cpp](source/Library/Include/Core/Strings.cpp)（约第 704 行）：
 
 ```cpp
 uint32 WideString::getHash() const

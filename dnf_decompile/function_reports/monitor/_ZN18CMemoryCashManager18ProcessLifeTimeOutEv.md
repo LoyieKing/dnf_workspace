@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a0f30` | `0x103` | `0x80971ea` | `0x105` |
+| monitor | DIFF | `0x80a0f30` | `0x103` | `0x809732c` | `0x105` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -169,12 +169,12 @@ CMemoryCashManager::_ZN18CMemoryCashManager18ProcessLifeTimeOutEv(CMemoryCashMan
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/MemoryCashManager.cpp](source/DNFServer/GameServer/Guild/MemoryCashManager.cpp)（约第 136 行）：
+定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 50 行）：
 
 ```cpp
 void CMemoryCashManager::ProcessLifeTimeOut()
 {
-    if (m_app != 0)
+    if (m_app)
     {
         for (std::map<unsigned int, CCashObject*>::iterator it = m_cashObjects.begin();
              it != m_cashObjects.end(); )
@@ -182,10 +182,10 @@ void CMemoryCashManager::ProcessLifeTimeOut()
             CCashObject* obj = it->second;
             if (obj->IsLifeTimeOut())
             {
-                obj->ClearBlackUsers();
-                std::map<unsigned int, CCashObject*>::iterator cur = it;
-                ++it;
-                m_cashObjects.erase(cur);
+                obj->DeleteMemberObject();
+                obj->DeleteBuddys();
+                obj->DeleteBlackUsers();
+                m_cashObjects.erase(it++);
                 delete obj;
             }
             else

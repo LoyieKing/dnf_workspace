@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8073048` | `0xb7a` | `0x8053b94` | `0xaee` |
+| dbmw | DIFF | `0x8073048` | `0xb7a` | `0x8053982` | `0xaee` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -31,16 +31,11 @@
 +mov    -0x48(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect 1 as type, master_no, exp, unix_timestamp(create_time), unix_timestamp(delete_time) as charac from charac_members where charac_no = %d union all select 2, charac_no, exp, unix_timestamp(create_time), unix_timestamp(delete_time) from charac_members where master_no = %d",0x8(%esp)
  movl   $0x4e29,0x4(%esp)
 -mov    -0x40(%ebp),%eax
@@ -49,14 +44,14 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xa7>
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xaa>
  movl   $0x52d,0x8(%esp)
- movl   $"QueryMember",0x4(%esp)
+ movl   $&_ZZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_MemberE12__FUNCTION__,0x4(%esp)
 -lea    -0x88(%ebp),%eax
 +lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
@@ -80,8 +75,7 @@
 +mov    -0x48(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e29,0x4(%esp)
 -mov    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
@@ -91,16 +85,16 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x11d>
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x119>
  mov    0x10(%ebp),%eax
  movb   $0x0,0xa(%eax)
  movl   $0x537,0x8(%esp)
- movl   $"QueryMember",0x4(%esp)
+ movl   $&_ZZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_MemberE12__FUNCTION__,0x4(%esp)
 -lea    -0x80(%ebp),%eax
 +lea    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
@@ -129,7 +123,7 @@
 +mov    -0x48(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
@@ -142,10 +136,9 @@
 -jne    <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x17c>
 -mov    0x10(%ebp),%eax
 -movb   $0x0,0x3e(%eax)
-+mov    (%eax),%eax
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +mov    %eax,-0x40(%ebp)
 +cmpl   $0xb,-0x40(%ebp)
 +jle    <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x158>
@@ -164,7 +157,7 @@
 +mov    -0x48(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
@@ -173,17 +166,16 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x1f1>
-+mov    (%eax),%eax
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x1e6>
  mov    0x10(%ebp),%eax
  movb   $0x0,0xa(%eax)
  movl   $0x54f,0x8(%esp)
- movl   $"QueryMember",0x4(%esp)
+ movl   $&_ZZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_MemberE12__FUNCTION__,0x4(%esp)
 -lea    -0x78(%ebp),%eax
 +lea    -0x74(%ebp),%eax
  mov    %eax,(%esp)
@@ -195,24 +187,22 @@
  mov    %eax,0xc(%esp)
  movl   $"CDBManager::QueryMember() First db->fetch(), Lower, Query ID : %d, n_data : %d\n",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
--lea    -0x78(%ebp),%eax
 +lea    -0x74(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xb6f>
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xae3>
 +movl   $0x0,-0x5c(%ebp)
 +mov    -0x48(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x34,%eax
-+mov    (%eax),%eax
-+lea    -0x5c(%ebp),%edx
-+mov    %edx,0x8(%esp)
++mov    (%eax),%edx
++lea    -0x5c(%ebp),%eax
++mov    %eax,0x8(%esp)
 +movl   $0x0,0x4(%esp)
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x226>
@@ -232,13 +222,17 @@
 +mov    -0x48(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x38,%eax
-+mov    (%eax),%eax
-+lea    -0x78(%ebp),%edx
-+mov    %edx,0x8(%esp)
++mov    (%eax),%edx
+ lea    -0x78(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xb6f>
++mov    %eax,0x8(%esp)
 +movl   $0x1,0x4(%esp)
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x289>
@@ -255,14 +249,14 @@
 +mov    -0x48(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x38,%eax
-+mov    (%eax),%eax
-+mov    -0x44(%ebp),%edx
-+add    $0x23,%edx
-+mov    %edx,0x8(%esp)
++mov    (%eax),%edx
++mov    -0x44(%ebp),%eax
++add    $0x23,%eax
++mov    %eax,0x8(%esp)
 +movl   $0x2,0x4(%esp)
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x2d4>
@@ -274,13 +268,13 @@
 +mov    -0x48(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x38,%eax
-+mov    (%eax),%eax
-+lea    -0x7c(%ebp),%edx
-+mov    %edx,0x8(%esp)
++mov    (%eax),%edx
++lea    -0x7c(%ebp),%eax
++mov    %eax,0x8(%esp)
 +movl   $0x3,0x4(%esp)
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x314>
@@ -296,13 +290,13 @@
 +mov    -0x48(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x38,%eax
-+mov    (%eax),%eax
-+lea    -0x7c(%ebp),%edx
-+mov    %edx,0x8(%esp)
++mov    (%eax),%edx
++lea    -0x7c(%ebp),%eax
++mov    %eax,0x8(%esp)
 +movl   $0x4,0x4(%esp)
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x35b>
@@ -465,7 +459,7 @@
 +mov    -0x48(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
@@ -474,17 +468,16 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x45b>
-+mov    (%eax),%eax
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x420>
  mov    0x10(%ebp),%eax
  movb   $0x0,0xa(%eax)
  movl   $0x58e,0x8(%esp)
- movl   $"QueryMember",0x4(%esp)
+ movl   $&_ZZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_MemberE12__FUNCTION__,0x4(%esp)
 -lea    -0x70(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -635,7 +628,7 @@
 -mov    0x10(%ebp),%eax
 -movb   $0x0,0xa(%eax)
 -movl   $0x5cb,0x8(%esp)
--movl   $"QueryMember",0x4(%esp)
+-movl   $&_ZZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_MemberE12__FUNCTION__,0x4(%esp)
 -lea    -0x68(%ebp),%eax
 +lea    -0x84(%ebp),%eax
  mov    %eax,(%esp)
@@ -661,17 +654,7 @@
 -imul   $0x27,%eax,%eax
 -add    -0x38(%ebp),%eax
 -mov    %eax,0x8(%esp)
-+jmp    <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xae3>
-+mov    -0x48(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x38,%eax
-+mov    (%eax),%eax
-+mov    -0x24(%ebp),%edx
-+sub    $0x1,%edx
-+imul   $0x27,%edx,%edx
-+add    -0x3c(%ebp),%edx
-+mov    %edx,0x8(%esp)
- movl   $0x1,0x4(%esp)
+-movl   $0x1,0x4(%esp)
 -mov    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
@@ -696,12 +679,21 @@
 -mov    %eax,(%esp)
 -call   <T> <sprintf>
 -mov    -0x40(%ebp),%eax
--mov    (%eax),%eax
--add    $0x38,%eax
--mov    (%eax),%edx
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++jmp    <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xae3>
++mov    -0x48(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x38,%eax
+ mov    (%eax),%edx
+ mov    -0x24(%ebp),%eax
+ sub    $0x1,%eax
+ imul   $0x27,%eax,%eax
+-add    -0x38(%ebp),%eax
++add    -0x3c(%ebp),%eax
++mov    %eax,0x8(%esp)
++movl   $0x1,0x4(%esp)
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x462>
@@ -709,16 +701,14 @@
 +movb   $0x3,0xa(%eax)
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xae3>
- mov    -0x24(%ebp),%eax
- sub    $0x1,%eax
- imul   $0x27,%eax,%eax
--add    -0x38(%ebp),%eax
--add    $0x23,%eax
++mov    -0x24(%ebp),%eax
++sub    $0x1,%eax
++imul   $0x27,%eax,%eax
 +add    -0x3c(%ebp),%eax
 +mov    (%eax),%eax
 +mov    %eax,0xc(%esp)
 +lea    -0x1a0(%ebp),%eax
- mov    %eax,0x8(%esp)
++mov    %eax,0x8(%esp)
 +movl   $"%s%d,",0x4(%esp)
 +lea    -0x1a0(%ebp),%eax
 +mov    %eax,(%esp)
@@ -726,13 +716,13 @@
 +mov    -0x48(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x38,%eax
-+mov    (%eax),%eax
-+mov    -0x24(%ebp),%edx
-+sub    $0x1,%edx
-+imul   $0x27,%edx,%edx
-+add    -0x3c(%ebp),%edx
-+add    $0x23,%edx
-+mov    %edx,0x8(%esp)
++mov    (%eax),%edx
++mov    -0x24(%ebp),%eax
++sub    $0x1,%eax
++imul   $0x27,%eax,%eax
++add    -0x3c(%ebp),%eax
+ add    $0x23,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x2,0x4(%esp)
 -mov    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
@@ -746,9 +736,9 @@
 -movb   $0x3,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xb6f>
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x4d9>
@@ -772,13 +762,13 @@
 +mov    -0x48(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x38,%eax
-+mov    (%eax),%eax
-+mov    -0x3c(%ebp),%edx
-+mov    %edx,0x8(%esp)
++mov    (%eax),%edx
++mov    -0x3c(%ebp),%eax
++mov    %eax,0x8(%esp)
 +movl   $0x1,0x4(%esp)
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x538>
@@ -789,14 +779,14 @@
 +mov    -0x48(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x38,%eax
-+mov    (%eax),%eax
-+mov    -0x3c(%ebp),%edx
-+add    $0x23,%edx
-+mov    %edx,0x8(%esp)
++mov    (%eax),%edx
++mov    -0x3c(%ebp),%eax
++add    $0x23,%eax
++mov    %eax,0x8(%esp)
 +movl   $0x2,0x4(%esp)
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x574>
@@ -822,10 +812,10 @@
 +mov    -0x48(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x24,%eax
-+mov    (%eax),%eax
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    (%eax),%edx
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x628>
@@ -833,7 +823,7 @@
  movb   $0x0,0xa(%eax)
 -mov    -0x8c(%ebp),%ebx
 +movl   $0x5cb,0x8(%esp)
-+movl   $"QueryMember",0x4(%esp)
++movl   $&_ZZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_MemberE12__FUNCTION__,0x4(%esp)
 +lea    -0x8c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -851,15 +841,15 @@
 +mov    -0x48(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x38,%eax
-+mov    (%eax),%eax
-+mov    -0x20(%ebp),%edx
-+imul   $0x27,%edx,%edx
-+add    -0x3c(%ebp),%edx
-+mov    %edx,0x8(%esp)
++mov    (%eax),%edx
++mov    -0x20(%ebp),%eax
++imul   $0x27,%eax,%eax
++add    -0x3c(%ebp),%eax
++mov    %eax,0x8(%esp)
 +movl   $0x1,0x4(%esp)
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x667>
@@ -881,17 +871,17 @@
 +mov    -0x48(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x38,%eax
-+mov    (%eax),%eax
-+mov    -0x20(%ebp),%edx
-+sub    $0x1,%edx
-+imul   $0x27,%edx,%edx
-+add    -0x3c(%ebp),%edx
-+add    $0x23,%edx
-+mov    %edx,0x8(%esp)
++mov    (%eax),%edx
++mov    -0x20(%ebp),%eax
++sub    $0x1,%eax
++imul   $0x27,%eax,%eax
++add    -0x3c(%ebp),%eax
++add    $0x23,%eax
++mov    %eax,0x8(%esp)
 +movl   $0x2,0x4(%esp)
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x6db>
@@ -909,7 +899,7 @@
 +mov    0x10(%ebp),%eax
 +movb   $0x0,0xa(%eax)
  movl   $0x5e3,0x8(%esp)
- movl   $"QueryMember",0x4(%esp)
+ movl   $&_ZZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_MemberE12__FUNCTION__,0x4(%esp)
 -lea    -0x60(%ebp),%eax
 +lea    -0x94(%ebp),%eax
  mov    %eax,(%esp)
@@ -957,12 +947,10 @@
 +mov    -0x48(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -lea    -0x19c(%ebp),%eax
--mov    %eax,0xc(%esp)
-+mov    (%eax),%eax
-+lea    -0x1a0(%ebp),%edx
-+mov    %edx,0xc(%esp)
++lea    -0x1a0(%ebp),%eax
+ mov    %eax,0xc(%esp)
  movl   $"seLect charac_no, lev, charac_name from charac_info where charac_no in %s",0x8(%esp)
  movl   $0x4e2b,0x4(%esp)
 -mov    -0x40(%ebp),%eax
@@ -971,14 +959,14 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x87b>
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x821>
  movl   $0x5f5,0x8(%esp)
- movl   $"QueryMember",0x4(%esp)
+ movl   $&_ZZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_MemberE12__FUNCTION__,0x4(%esp)
 -lea    -0x58(%ebp),%eax
 +lea    -0x9c(%ebp),%eax
  mov    %eax,(%esp)
@@ -1001,8 +989,7 @@
 +mov    -0x48(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4e2b,0x4(%esp)
 -mov    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
@@ -1012,9 +999,9 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x8b4>
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x853>
@@ -1027,17 +1014,16 @@
 +mov    -0x48(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
 -mov    %eax,-0x3c(%ebp)
 -mov    0x10(%ebp),%eax
 -add    $0x17,%eax
-+mov    (%eax),%eax
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +mov    %eax,-0x40(%ebp)
 +mov    -0x44(%ebp),%eax
  mov    %eax,-0x2c(%ebp)
@@ -1049,7 +1035,7 @@
 +mov    -0x48(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   *%edx
@@ -1058,10 +1044,9 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x90f>
-+mov    (%eax),%eax
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x8a4>
@@ -1074,15 +1059,14 @@
 -add    $0x38,%eax
 -mov    (%eax),%edx
 -lea    -0x9c(%ebp),%eax
--mov    %eax,0x8(%esp)
 +jmp    <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xae3>
 +movl   $0x0,-0xa0(%ebp)
 +mov    -0x48(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x38,%eax
-+mov    (%eax),%eax
-+lea    -0xa0(%ebp),%edx
-+mov    %edx,0x8(%esp)
++mov    (%eax),%edx
++lea    -0xa0(%ebp),%eax
+ mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -mov    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
@@ -1096,9 +1080,9 @@
 -movb   $0x3,0xa(%eax)
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xb6f>
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x8ea>
@@ -1117,14 +1101,10 @@
 +mov    -0x48(%ebp),%eax
  mov    (%eax),%eax
  add    $0x58,%eax
--mov    (%eax),%edx
--mov    -0x2c(%ebp),%eax
--add    $0x4,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0x2c(%ebp),%edx
-+add    $0x4,%edx
-+mov    %edx,0x8(%esp)
+ mov    (%eax),%edx
+ mov    -0x2c(%ebp),%eax
+ add    $0x4,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
 -mov    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
@@ -1139,9 +1119,9 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xb6f>
 -mov    -0x40(%ebp),%eax
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0x939>
@@ -1152,15 +1132,11 @@
 +mov    -0x48(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
--mov    (%eax),%edx
--mov    -0x2c(%ebp),%eax
--add    $0x5,%eax
-+mov    (%eax),%eax
-+mov    -0x2c(%ebp),%edx
-+add    $0x5,%edx
+ mov    (%eax),%edx
+ mov    -0x2c(%ebp),%eax
+ add    $0x5,%eax
  movl   $0x1d,0xc(%esp)
--mov    %eax,0x8(%esp)
-+mov    %edx,0x8(%esp)
+ mov    %eax,0x8(%esp)
  movl   $0x2,0x4(%esp)
 -mov    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
@@ -1175,9 +1151,9 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xb6f>
 -mov    -0x9c(%ebp),%eax
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xac2>
@@ -1261,18 +1237,13 @@
 +mov    -0x48(%ebp),%eax
  mov    (%eax),%eax
  add    $0x58,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--imul   $0x27,%eax,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ imul   $0x27,%eax,%eax
 -add    -0x38(%ebp),%eax
--add    $0x4,%eax
--mov    %eax,0x8(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+imul   $0x27,%edx,%edx
-+add    -0x3c(%ebp),%edx
-+add    $0x4,%edx
-+mov    %edx,0x8(%esp)
++add    -0x3c(%ebp),%eax
+ add    $0x4,%eax
+ mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
 -mov    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
@@ -1287,9 +1258,9 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xb6f>
 -mov    -0x40(%ebp),%eax
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xa7b>
@@ -1300,19 +1271,14 @@
 +mov    -0x48(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--imul   $0x27,%eax,%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ imul   $0x27,%eax,%eax
 -add    -0x38(%ebp),%eax
--add    $0x5,%eax
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+imul   $0x27,%edx,%edx
-+add    -0x3c(%ebp),%edx
-+add    $0x5,%edx
++add    -0x3c(%ebp),%eax
+ add    $0x5,%eax
  movl   $0x1d,0xc(%esp)
--mov    %eax,0x8(%esp)
-+mov    %edx,0x8(%esp)
+ mov    %eax,0x8(%esp)
  movl   $0x2,0x4(%esp)
 -mov    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
@@ -1330,9 +1296,9 @@
 -addl   $0x1,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
 -cmp    -0x3c(%ebp),%eax
-+mov    -0x48(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
++mov    -0x48(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member+0xac2>
@@ -1675,7 +1641,7 @@ CDBManager::_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 2024 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1949 行）：
 
 ```cpp
 char CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member& reply)
@@ -1687,7 +1653,7 @@ char CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member
             "seLect 1 as type, master_no, exp, unix_timestamp(create_time), unix_timestamp(delete_time) as charac from charac_members where charac_no = %d union all select 2, charac_no, exp, unix_timestamp(create_time), unix_timestamp(delete_time) from charac_members where master_no = %d",
             characNo, characNo))
     {
-        CMyFileLog log("QueryMember", 0x52d);
+        CMyFileLog log(__FUNCTION__, 0x52d);
         log("./log/DBQueryErr",
             "CDBManager::QueryGuildMember() select 1 as type, master_no as charac from charac_members where charac_no = %d union all select 2, charac_no from charac_members where master_no = %d\n",
             characNo, characNo);
@@ -1697,7 +1663,7 @@ char CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member
     if (!h->exec(0x4e29))
     {
         reply.m_flag = 0;
-        CMyFileLog log("QueryMember", 0x537);
+        CMyFileLog log(__FUNCTION__, 0x537);
         log("./log/DBQueryErr",
             "CDBManager::QueryMember() db->exec(select_from_charac_members_for_lower_member_query, Query ID : %d\n",
             characNo);
@@ -1717,7 +1683,7 @@ char CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member
     if (!h->fetch())
     {
         reply.m_flag = 0;
-        CMyFileLog log("QueryMember", 0x54f);
+        CMyFileLog log(__FUNCTION__, 0x54f);
         log("./log/DBQueryErr",
             "CDBManager::QueryMember() First db->fetch(), Lower, Query ID : %d, n_data : %d\n",
             characNo, n);
@@ -1771,7 +1737,7 @@ char CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member
             if (!h->fetch())
             {
                 reply.m_flag = 0;
-                CMyFileLog log("QueryMember", 0x58e);
+                CMyFileLog log(__FUNCTION__, 0x58e);
                 log("./log/DBQueryErr",
                     "CDBManager::QueryMember() 1 == type and find lower db->fetch() loop : %d, Lower, Query ID : %d\n",
                     i, characNo);
@@ -1809,7 +1775,7 @@ char CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member
             if (!h->fetch())
             {
                 reply.m_flag = 0;
-                CMyFileLog log("QueryMember", 0x5cb);
+                CMyFileLog log(__FUNCTION__, 0x5cb);
                 log("./log/DBQueryErr",
                     "CDBManager::QueryMember() 1 != type and find lower db->fetch() loop, Lower Query ID : %d\n",
                     i, characNo);
@@ -1831,7 +1797,7 @@ char CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member
     else
     {
         reply.m_flag = 0;
-        CMyFileLog log("QueryMember", 0x5e3);
+        CMyFileLog log(__FUNCTION__, 0x5e3);
         log("./log/DBQueryErr",
             "CDBManager::QueryMember() 1 != type and 2 != type, type(%d)\n", type);
         return 0;
@@ -1845,7 +1811,7 @@ char CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member
                       "seLect charac_no, lev, charac_name from charac_info where charac_no in %s",
                       str))
     {
-        CMyFileLog log("QueryMember", 0x5f5);
+        CMyFileLog log(__FUNCTION__, 0x5f5);
         log("./log/DBQueryErr",
             "CDBManager::QueryGuildMember() select lev, charac_name from charac_info where charac_no in %s\n",
             str);

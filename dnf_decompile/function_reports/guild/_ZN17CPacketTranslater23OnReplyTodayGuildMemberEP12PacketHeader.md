@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80888fa` | `0x1eb` | `0x807daa2` | `0x1e3` |
+| guild | DIFF | `0x80888fa` | `0x1eb` | `0x807da26` | `0x1ea` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,126 +1,125 @@
+@@ -1,126 +1,128 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -28,15 +28,15 @@
 -jne    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x59>
 +jne    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x52>
  movl   $0x1f75,0x8(%esp)
- movl   $"OnReplyTodayGuildMember",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnReplyTodayGuildMember : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/Guild",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x1e4>
@@ -46,7 +46,7 @@
 -add    $0x290,%edx
 -mov    %eax,0x4(%esp)
 -mov    %edx,(%esp)
-+jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x1dc>
++jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x1e3>
 +mov    -0x18(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
@@ -60,20 +60,20 @@
  call   <T> <_ZN13CGuildManager9FindGuildEj>
  mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x10(%ebp)
--sete   %al
--test   %al,%al
+ sete   %al
+ test   %al,%al
 -je     <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0xc0>
-+jne    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0xbd>
++je     <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0xc2>
  movl   $0x1f7b,0x8(%esp)
- movl   $"OnReplyTodayGuildMember",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnReplyTodayGuildMember : 0 == pGuild",0x8(%esp)
  movl   $"./log/Guild",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x1e4>
@@ -81,7 +81,7 @@
 -lea    0xe(%eax),%esi
 -mov    -0x14(%ebp),%eax
 -mov    0xa(%eax),%ebx
-+jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x1dc>
++jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x1e3>
 +mov    -0x18(%ebp),%eax
 +lea    0xe(%eax),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -105,45 +105,36 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild25NotifyAllTodayGuildMemberEv>
 -jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x1e4>
-+jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x1dc>
++jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x1e3>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x18a>
-+jne    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x182>
++jne    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x189>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
-+movl   $0x1f8a,0x8(%esp)
-+movl   $"OnReplyTodayGuildMember",0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x1f8a,0x8(%esp)
--movl   $"OnReplyTodayGuildMember",0x4(%esp)
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x1f8a,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnReplyTodayGuildMember Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x183>
-+jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x17b>
++jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x182>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -153,23 +144,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x1e4>
-+jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x1dc>
++jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x1e3>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1f8f,0x8(%esp)
- movl   $"OnReplyTodayGuildMember",0x4(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnReplyTodayGuildMember Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x1df>
-+jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x1d7>
++jmp    <T> <_ZN17CPacketTranslater23OnReplyTodayGuildMemberEP12PacketHeader+0x1de>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -247,8 +238,8 @@ void CPacketTranslater::OnReplyTodayGuildMember(PacketHeader* pkt)
     try
     {
         unsigned int guildKey = *(unsigned int*)(pb + 0xa);
-        CGuild* guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey);
-        if (guild == 0)
+        CGuild* guild;
+        if ((guild = m_pclApp->Get_GuildManager()->FindGuild(guildKey)) == 0)
         {
             DNF_LOG_SCOPE_LINE(0x1f7b, "./log/Guild", "CPacketTranslater::OnReplyTodayGuildMember : 0 == pGuild");
             return;

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806031e` | `0x1b3` | `0x805dce8` | `0x1a8` |
+| statics | DIFF | `0x806031e` | `0x1b3` | `0x805dd06` | `0x1a8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -29,14 +29,14 @@
 -lea    -0x38(%ebp),%ebx
 -lea    -0x34(%ebp),%ecx
 +jmp    <T> <_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt+0x1a2>
-+movl   $0x10,-0x14(%ebp)
-+lea    -0x24(%ebp),%ecx
++movl   $0x10,-0x2c(%ebp)
++lea    -0x3c(%ebp),%ecx
  mov    0x10(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
-+lea    -0x14(%ebp),%ebx
++lea    -0x2c(%ebp),%ebx
  mov    %ebx,0x14(%esp)
  mov    %ecx,0x10(%esp)
  movl   $0x0,0xc(%esp)
@@ -69,15 +69,15 @@
  movl   $"Error fd not a socket",(%esp)
  call   <T> <puts>
  movl   $0xc6,0x8(%esp)
- movl   $"RecvFromClient",0x4(%esp)
+ movl   $&_ZZNK11CUdpHandler14RecvFromClientEPcPiPjPtE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"Error fd not a socket\n",0x8(%esp)
  movl   $"./log/UdpErr",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt+0x10a>
@@ -87,15 +87,15 @@
  movl   $"Error connection reset - host not reachable",(%esp)
  call   <T> <puts>
  movl   $0xcd,0x8(%esp)
- movl   $"RecvFromClient",0x4(%esp)
+ movl   $&_ZZNK11CUdpHandler14RecvFromClientEPcPiPjPtE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"Error connection reset - host not reachable\n",0x8(%esp)
  movl   $"./log/UdpErr",0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
@@ -116,9 +116,9 @@
 -mov    0x10(%ebp),%eax
 -mov    (%eax),%ebx
  movl   $0xdd,0x8(%esp)
- movl   $"RecvFromClient",0x4(%esp)
+ movl   $&_ZZNK11CUdpHandler14RecvFromClientEPcPiPjPtE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
@@ -127,21 +127,21 @@
  movl   $"Socket closed? Recv size = %d\n",0x8(%esp)
  movl   $"./log/UdpErr",0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt+0x1ad>
 -movzwl -0x32(%ebp),%eax
 +jmp    <T> <_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt+0x1a2>
-+movzwl -0x22(%ebp),%eax
++movzwl -0x3a(%ebp),%eax
  movzwl %ax,%eax
  mov    %eax,(%esp)
  call   <T> <ntohs>
  mov    0x18(%ebp),%edx
  mov    %ax,(%edx)
 -mov    -0x30(%ebp),%eax
-+mov    -0x20(%ebp),%eax
++mov    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <ntohl>
  mov    0x14(%ebp),%edx
@@ -225,4 +225,4 @@ CUdpHandler::_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/COServer/DNFUdpHandler.cpp, source/DNFServer/GameServer/DBMW/DNFUdpHandler.cpp, source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp, source/DNFServer/GameServer/Manager/DNFUdpHandler.cpp, source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp, source/DNFServer/GameServer/Statics/DNFUdpHandler.cpp, source/DNFServer/GameServer/COServer/DNFAppConfig.h, source/DNFServer/GameServer/COServer/DNFApplication.h 等 503 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Statics/DNFUdpHandler.cpp, source/DNFServer/GameServer/Statics/DNFUdpHandler.cpp, source/DNFServer/GameServer/Statics/DNFUdpHandler.h, source/DNFServer/ServerCommon/DNFFileLog.h, source/DNFServer/ServerCommon/Thread.h, source/DNFServer/GameServer/Statics/DNFGameServer.h, source/DNFServer/GameServer/Statics/DNFSignal.h, source/DNFServer/GameServer/Statics/DNFAppStartInit.h 等 255 个文件*

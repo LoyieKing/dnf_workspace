@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| relay | DIFF | `0x805dee4` | `0x19f` | `0x805d1dc` | `0x19a` |
+| relay | DIFF | `0x805dee4` | `0x19f` | `0x805d10c` | `0x1a6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,116 +1,114 @@
+@@ -1,116 +1,120 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x28,%esp
@@ -37,7 +37,7 @@
 +je     <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7popCopyEiPc+0x37>
  mov    $0x0,%eax
 -jmp    <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7popCopyEiPc+0x19d>
-+jmp    <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7popCopyEiPc+0x194>
++jmp    <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7popCopyEiPc+0x1a0>
  mov    0x8(%ebp),%eax
  mov    0x19000(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -63,7 +63,7 @@
  mov    %edx,0x19004(%eax)
  mov    $0x1,%eax
 -jmp    <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7popCopyEiPc+0x19d>
-+jmp    <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7popCopyEiPc+0x194>
++jmp    <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7popCopyEiPc+0x1a0>
  mov    0x8(%ebp),%eax
  mov    0x19008(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -105,7 +105,7 @@
  movl   $0x0,0x19004(%eax)
  mov    $0x1,%eax
 -jmp    <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7popCopyEiPc+0x19d>
-+jmp    <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7popCopyEiPc+0x194>
++jmp    <T> <_ZN26TDoubleCircularQueueBufferILj51200EE7popCopyEiPc+0x1a0>
 +mov    0x8(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +mov    0x19004(%eax),%eax
@@ -120,11 +120,11 @@
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
--mov    -0xc(%ebp),%eax
--mov    0xc(%ebp),%edx
--mov    %edx,%ecx
--sub    %eax,%ecx
--mov    %ecx,%eax
+ mov    -0xc(%ebp),%eax
+ mov    0xc(%ebp),%edx
+ mov    %edx,%ecx
+ sub    %eax,%ecx
+ mov    %ecx,%eax
 -mov    %eax,%ecx
 -mov    0x8(%ebp),%edx
 -mov    -0xc(%ebp),%eax
@@ -132,9 +132,7 @@
 -mov    %ecx,0x8(%esp)
 -mov    %edx,0x4(%esp)
 -mov    %eax,(%esp)
-+mov    0xc(%ebp),%eax
 +mov    %eax,%edx
-+sub    -0xc(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +mov    -0xc(%ebp),%ecx
 +mov    0x10(%ebp),%ebx
@@ -145,14 +143,12 @@
  call   <T> <memcpy>
  mov    0x8(%ebp),%eax
  movl   $0xc800,0x19008(%eax)
--mov    -0xc(%ebp),%eax
--mov    0xc(%ebp),%edx
--mov    %edx,%ecx
--sub    %eax,%ecx
--mov    %ecx,%eax
-+mov    0xc(%ebp),%eax
+ mov    -0xc(%ebp),%eax
+ mov    0xc(%ebp),%edx
+ mov    %edx,%ecx
+ sub    %eax,%ecx
+ mov    %ecx,%eax
  mov    %eax,%edx
-+sub    -0xc(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x19004(%eax)
  mov    $0x1,%eax
@@ -220,49 +216,37 @@ LAB_0805df0c:
 
 ## 3. 我们的源码函数
 
-定义于 [source/ChannelOld/DNFChannelBridge/TCPUser.cpp](source/ChannelOld/DNFChannelBridge/TCPUser.cpp)（约第 540 行）：
+定义于 [source/DNFServer/GameServer/Relay/TCPUser.h](source/DNFServer/GameServer/Relay/TCPUser.h)（约第 150 行）：
 
 ```cpp
-bool TCircularQueueBuffer<Size>::popCopy(int in_nSize, char* pCopyee)
-{
-    if (in_nSize < 1)
+    bool popCopy(int n, char* out)
     {
-        return false;
-    }
-    if (m_nPushIndex >= m_nPopIndex)
-    {
-        int nLength = (int)(m_nPushIndex - m_nPopIndex);
-        if (nLength >= in_nSize)
+        if (!(n > 0 && (int)getPushedLength() >= n))
         {
-            memcpy(pCopyee, m_buffer + m_nPopIndex, in_nSize);
-            m_nPopIndex = m_nPopIndex + in_nSize;
+            return false;
+        }
+        if (m_nPushIndex >= m_nPopIndex)
+        {
+            memcpy(out, m_buffer + m_nPopIndex, n);
+            m_nPopIndex += n;
             return true;
         }
-        return false;
-    }
-    else
-    {
-        int nFirstCut = 0xa0000 - m_nPopIndex;
-        if (nFirstCut >= in_nSize)
+        unsigned int len = m_nEndIndex - m_nPopIndex;
+        if ((int)len >= n)
         {
-            memcpy(pCopyee, m_buffer + m_nPopIndex, in_nSize);
-            m_nPopIndex = m_nPopIndex + in_nSize;
-            if (m_nPopIndex == 0xa0000)
+            memcpy(out, m_buffer + m_nPopIndex, n);
+            m_nPopIndex += n;
+            if (m_nPopIndex == m_nEndIndex)
             {
+                m_nEndIndex = N;
                 m_nPopIndex = 0;
             }
             return true;
         }
-        int nSecondCut = m_nPushIndex;
-        if (nSecondCut + nFirstCut >= in_nSize)
-        {
-            memcpy(pCopyee, m_buffer + m_nPopIndex, nFirstCut);
-            memcpy(pCopyee + nFirstCut, m_buffer, in_nSize - nFirstCut);
-            m_nPopIndex = m_nPopIndex + in_nSize;
-            m_nPopIndex = in_nSize - nFirstCut;
-            return true;
-        }
-        return false;
+        memcpy(out, m_buffer + m_nPopIndex, len);
+        memcpy(out + len, m_buffer, n - (int)len);
+        m_nEndIndex = N;
+        m_nPopIndex = n - (int)len;
+        return true;
     }
-}
 ```

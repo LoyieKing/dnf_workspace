@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | NEAR | `0x80617a8` | `0x76` | `0x8054b92` | `0x76` |
+| manager | NEAR | `0x80617a8` | `0x76` | `0x8054b28` | `0x76` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -76,7 +76,7 @@ bool __thiscall CMySql::_ZN6CMySql9set_queryEjPcz(CMySql *this,uint param_1,char
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 236 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFMySql.cpp](source/DNFServer/GameServer/Manager/DNFMySql.cpp)（约第 138 行）：
 
 ```cpp
 bool CMySql::set_query(unsigned int q, char* fmt, ...)
@@ -86,10 +86,11 @@ bool CMySql::set_query(unsigned int q, char* fmt, ...)
     vsprintf(m_query, fmt, ap);
     va_end(ap);
     int len = strlen(m_query);
-    if (len >= 0x6000)
+    if (len > 0xfff)
         return 0;
     m_queryLen = len;
-    CQueryCounterInstance()->IncreQureyCount(q, fmt);
+    CQueryCounter* pCounter = CQueryCounterInstance();
+    pCounter->IncreQureyCount(q);
     return 1;
 }
 ```

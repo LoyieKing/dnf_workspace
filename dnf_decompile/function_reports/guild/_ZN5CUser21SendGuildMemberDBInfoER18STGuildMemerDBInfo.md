@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8066e76` | `0xb5` | `0x80894e4` | `0xc9` |
+| guild | DIFF | `0x8066e76` | `0xb5` | `0x8089358` | `0xc9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -28,7 +28,7 @@
 -je     <T> <_ZN5CUser21SendGuildMemberDBInfoER18STGuildMemerDBInfo+0x52>
 +je     <T> <_ZN5CUser21SendGuildMemberDBInfoER18STGuildMemerDBInfo+0x53>
  movl   $0x193,0x8(%esp)
- movl   $"SendGuildMemberDBInfo",0x4(%esp)
+ movl   $&_ZZN5CUser21SendGuildMemberDBInfoER18STGuildMemerDBInfoE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -120,7 +120,7 @@ CUser::_ZN5CUser21SendGuildMemberDBInfoER18STGuildMemerDBInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 311 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 326 行）：
 
 ```cpp
 void CUser::SendGuildMemberDBInfo(STGuildMemerDBInfo& info)

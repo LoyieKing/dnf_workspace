@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808d9fe` | `0xd6` | `0x8053a62` | `0xe0` |
+| guild | DIFF | `0x808d9fe` | `0xd6` | `0x8053afa` | `0xe4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,20 +13,19 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,65 +1,69 @@
+@@ -1,65 +1,72 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
+ push   %esi
  push   %ebx
--sub    $0x30,%esp
-+sub    $0x34,%esp
+ sub    $0x30,%esp
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild21AddGuildExpUntilLimitEjj+0xcf>
-+je     <T> <_ZN6CGuild21AddGuildExpUntilLimitEjj+0xda>
++je     <T> <_ZN6CGuild21AddGuildExpUntilLimitEjj+0xdd>
  mov    0x8(%ebp),%eax
  movb   $0x1,0x4d96(%eax)
  mov    0x8(%ebp),%eax
@@ -51,7 +50,7 @@
 +mov    (%eax),%eax
  cmp    0x10(%ebp),%eax
 -jbe    <T> <_ZN6CGuild21AddGuildExpUntilLimitEjj+0x55>
-+jbe    <T> <_ZN6CGuild21AddGuildExpUntilLimitEjj+0x5c>
++jbe    <T> <_ZN6CGuild21AddGuildExpUntilLimitEjj+0x5d>
  mov    0x8(%ebp),%eax
 -mov    0x10(%ebp),%edx
 -mov    %edx,0x49(%eax)
@@ -64,55 +63,42 @@
 +mov    (%eax),%eax
  cmp    -0xc(%ebp),%eax
 -jae    <T> <_ZN6CGuild21AddGuildExpUntilLimitEjj+0x69>
-+jae    <T> <_ZN6CGuild21AddGuildExpUntilLimitEjj+0x74>
++jae    <T> <_ZN6CGuild21AddGuildExpUntilLimitEjj+0x75>
  mov    0x8(%ebp),%eax
 -mov    -0xc(%ebp),%edx
 -mov    %edx,0x49(%eax)
--mov    0x8(%ebp),%eax
--mov    0x49(%eax),%esi
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild11GetGuildKeyEv>
--mov    %eax,%ebx
 +lea    0x49(%eax),%edx
 +mov    -0xc(%ebp),%eax
 +mov    %eax,(%edx)
+ mov    0x8(%ebp),%eax
+-mov    0x49(%eax),%esi
++add    $0x49,%eax
++mov    (%eax),%esi
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild11GetGuildKeyEv>
+ mov    %eax,%ebx
  movl   $0x246,0x8(%esp)
- movl   $"AddGuildExpUntilLimit",0x4(%esp)
+ movl   $&_ZZN6CGuild21AddGuildExpUntilLimitEjjE12__FUNCTION__,0x4(%esp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0x10(%ebp),%eax
--mov    %eax,0x1c(%esp)
--mov    %esi,0x18(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0x14(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0x49,%eax
-+mov    (%eax),%ebx
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild11GetGuildKeyEv>
-+mov    0x10(%ebp),%edx
-+mov    %edx,0x1c(%esp)
-+mov    %ebx,0x18(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x14(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x1c(%esp)
+ mov    %esi,0x18(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x14(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"GUILD EXP UNTIL LIMIT : guild key(%d), old exp(%d), add exp(%d), guild exp(%d), exp_limit(%d)",0x8(%esp)
  movl   $"./log/Guild",0x4(%esp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--add    $0x30,%esp
-+add    $0x34,%esp
+ add    $0x30,%esp
  pop    %ebx
--pop    %esi
+ pop    %esi
  pop    %ebp
  ret
 ```
@@ -154,7 +140,7 @@ void __thiscall CGuild::_ZN6CGuild21AddGuildExpUntilLimitEjj(CGuild *this,uint p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 613 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 671 行）：
 
 ```cpp
 void CGuild::AddGuildExpUntilLimit(unsigned int exp, unsigned int limit)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80815a6` | `0xd8` | `0x805c8cc` | `0xd9` |
+| dbmw | DIFF | `0x80815a6` | `0xd8` | `0x805c67c` | `0xd9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -29,69 +29,39 @@
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
-+mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+add    $0xa,%edx
-+mov    (%edx),%ecx
-+mov    0xc(%ebp),%edx
-+add    $0x12,%edx
-+mov    (%edx),%edx
-+mov    %ecx,0x10(%esp)
-+mov    %edx,0xc(%esp)
-+movl   $"upDate guild_agit set cargo_capacity=%d where guild_id=%d",0x8(%esp)
-+movl   $0x4edc,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x20,%eax
-+mov    (%eax),%eax
-+movl   $0x4edc,0x4(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %al,-0x9(%ebp)
-+movzbl -0x9(%ebp),%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager19OnUpgradeGuildCargoEP29Packet_DB_Guild_Cargo_Upgrade+0xd2>
-+movl   $0x1bec,0x8(%esp)
-+movl   $"OnUpgradeGuildCargo",0x4(%esp)
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0xc(%ebp),%eax
-+add    $0x12,%eax
  mov    (%eax),%ecx
  mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%edx
-+add    $0xe,%eax
++add    $0xa,%eax
 +mov    (%eax),%edx
  mov    0xc(%ebp),%eax
 -mov    0x12(%eax),%eax
-+add    $0xa,%eax
++add    $0x12,%eax
 +mov    (%eax),%eax
-+mov    %ecx,0x14(%esp)
  mov    %edx,0x10(%esp)
  mov    %eax,0xc(%esp)
--movl   $"upDate guild_agit set cargo_capacity=%d where guild_id=%d",0x8(%esp)
--movl   $0x4edc,0x4(%esp)
+ movl   $"upDate guild_agit set cargo_capacity=%d where guild_id=%d",0x8(%esp)
+ movl   $0x4edc,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%ecx
 -mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x20,%eax
--mov    (%eax),%edx
--movl   $0x4edc,0x4(%esp)
++mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x20,%eax
+ mov    (%eax),%edx
+ movl   $0x4edc,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0x1d(%ebp)
 -movzbl -0x1d(%ebp),%eax
--xor    $0x1,%eax
--test   %al,%al
++mov    %al,-0x9(%ebp)
++movzbl -0x9(%ebp),%eax
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager19OnUpgradeGuildCargoEP29Packet_DB_Guild_Cargo_Upgrade+0xcb>
 -mov    0xc(%ebp),%eax
 -mov    0x12(%eax),%edi
@@ -99,14 +69,28 @@
 -mov    0xe(%eax),%esi
 -mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%ebx
--movl   $0x1bec,0x8(%esp)
--movl   $"OnUpgradeGuildCargo",0x4(%esp)
++je     <T> <_ZN10CDBManager19OnUpgradeGuildCargoEP29Packet_DB_Guild_Cargo_Upgrade+0xd2>
+ movl   $0x1bec,0x8(%esp)
+ movl   $&_ZZN10CDBManager19OnUpgradeGuildCargoEP29Packet_DB_Guild_Cargo_UpgradeE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
++mov    0xc(%ebp),%eax
++add    $0x12,%eax
++mov    (%eax),%ecx
++mov    0xc(%ebp),%eax
++add    $0xe,%eax
++mov    (%eax),%edx
++mov    0xc(%ebp),%eax
++add    $0xa,%eax
++mov    (%eax),%eax
++mov    %ecx,0x14(%esp)
++mov    %edx,0x10(%esp)
++mov    %eax,0xc(%esp)
  movl   $"OnUpgradeGuildCargo Query Error(G:%d,U:%d,Capa:%d)",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x28(%ebp),%eax
@@ -165,7 +149,7 @@ CDBManager::_ZN10CDBManager19OnUpgradeGuildCargoEP29Packet_DB_Guild_Cargo_Upgrad
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4296 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4214 行）：
 
 ```cpp
 char CDBManager::OnUpgradeGuildCargo(Packet_DB_Guild_Cargo_Upgrade* packet)
@@ -177,7 +161,7 @@ char CDBManager::OnUpgradeGuildCargo(Packet_DB_Guild_Cargo_Upgrade* packet)
     bool ret = h->exec(0x4edc);
     if (!ret)
     {
-        CMyFileLog log("OnUpgradeGuildCargo", 0x1bec);
+        CMyFileLog log(__FUNCTION__, 0x1bec);
         log("./log/DBQueryErr",
             "OnUpgradeGuildCargo Query Error(G:%d,U:%d,Capa:%d)",
             *(int*)((char*)packet + 0xa), *(int*)((char*)packet + 0xe),

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8089e6a` | `0x51` | `0x807e98c` | `0x9c` |
+| guild | DIFF | `0x8089e6a` | `0x51` | `0x807e8c6` | `0x9c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -104,7 +104,7 @@ Packet_Request_Result_BlackList::_ZN31Packet_Request_Result_BlackListC2Ev
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5680 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5745 行）：
 
 ```cpp
 Packet_Request_Result_BlackList::Packet_Request_Result_BlackList()

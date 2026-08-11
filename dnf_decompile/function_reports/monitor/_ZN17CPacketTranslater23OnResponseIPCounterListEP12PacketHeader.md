@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808bff8` | `0x274` | `0x807763c` | `0x279` |
+| monitor | DIFF | `0x808bff8` | `0x274` | `0x80775c2` | `0x274` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,171 +1,174 @@
+@@ -1,171 +1,171 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -23,20 +23,16 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0xdf>
--lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnResponseIPCounterList : 0 == m_pclApp",0x4(%esp)
--lea    -0x40(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x40(%ebp),%esi
-+lea    -0x28(%ebp),%esi
+ lea    -0x40(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -53,8 +49,7 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x40(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x87>
@@ -64,8 +59,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0xa4>
--lea    -0x40(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0xbc>
@@ -74,129 +68,94 @@
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x39(%ebp),%eax
-+lea    -0x21(%ebp),%eax
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x164>
--lea    -0x39(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x16b>
-+lea    -0x21(%ebp),%eax
+ jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x164>
+ lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD2Ev,0x8(%esp)
+ movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
--mov    0x8(%ebp),%eax
+ mov    0x8(%ebp),%eax
 -mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
--movzbl 0xb(%eax),%eax
--movzbl %al,%esi
+ movzbl 0xb(%eax),%eax
+ movzbl %al,%esi
 -mov    -0x20(%ebp),%eax
--movzbl 0xa(%eax),%eax
--movzbl %al,%ebx
++mov    0x8(%ebp),%eax
+ movzbl 0xa(%eax),%eax
+ movzbl %al,%ebx
  movl   $0x16c8,0x8(%esp)
- movl   $"OnResponseIPCounterList",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0xb,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%edx
-+mov    0x8(%ebp),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%eax
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"[IP Counter] DataStats : %d, DataSize : %d ",0x8(%esp)
  movl   $"./log/Secu",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+add    $0xa0,%eax
-+mov    (%eax),%eax
+-mov    -0x20(%ebp),%eax
+-movzwl 0x2(%eax),%eax
+-movzwl %ax,%ecx
+-mov    -0x20(%ebp),%edx
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    0xa0(%eax),%eax
+-mov    %ecx,0x8(%esp)
+-mov    %edx,0x4(%esp)
 +mov    %eax,-0x20(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
++movzwl 0x2(%eax),%eax
 +movzwl %ax,%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x8(%esp)
 +mov    %eax,0x4(%esp)
- mov    -0x20(%ebp),%eax
--movzwl 0x2(%eax),%eax
--movzwl %ax,%ecx
--mov    -0x20(%ebp),%edx
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    0xa0(%eax),%eax
--mov    %ecx,0x8(%esp)
--mov    %edx,0x4(%esp)
++mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
--jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x26c>
-+jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x271>
+ jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x26c>
  cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x206>
-+jne    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x20b>
+ jne    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x206>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnResponseIPCounterList() Exception Break : %s\n",(%esp)
  call   <T> <printf>
-+movl   $0x16d1,0x8(%esp)
-+movl   $"OnResponseIPCounterList",0x4(%esp)
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x16d1,0x8(%esp)
--movl   $"OnResponseIPCounterList",0x4(%esp)
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+mov    %eax,0xc(%esp)
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x16d1,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnResponseIPCounterList() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x1ff>
-+jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x204>
+ jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x1ff>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -205,26 +164,22 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x26c>
-+jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x271>
+ jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x26c>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnResponseIPCounterList() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x16d7,0x8(%esp)
- movl   $"OnResponseIPCounterList",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ movl   $&_ZZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnResponseIPCounterList() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x267>
-+jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x26c>
+ jmp    <T> <_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader+0x267>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -289,7 +244,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnResponseIPCounterListEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3981 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3984 行）：
 
 ```cpp
 void CPacketTranslater::OnResponseIPCounterList(PacketHeader* pkt)
@@ -302,10 +257,10 @@ void CPacketTranslater::OnResponseIPCounterList(PacketHeader* pkt)
         throw CDNFException("CPacketTranslater::OnResponseIPCounterList : 0 == m_pclApp");
     }
     DNF_LOG_SCOPE_LINE(0x16c8,"./log/Secu", "[IP Counter] DataStats : %d, DataSize : %d ",
-        (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xa),
-        (unsigned int)(unsigned char)*(char*)((char*)pkt + 0xb));
-    CServerHandler* handler = (CServerHandler*)*(void**)((char*)m_pclApp + 0xa0);
-    handler->SendAllToGameServer((char*)pkt, *(unsigned short*)((char*)pkt + 2));
+        (unsigned int)(unsigned char)((RA_S8<10>*)pkt)->v,
+        (unsigned int)(unsigned char)((RA_S8<11>*)pkt)->v);
+    CServerHandler* handler = m_pclApp->m_serverHandler2;
+    handler->SendAllToGameServer((char*)pkt, ((RA_U16<2>*)pkt)->v);
 
 
     }

@@ -2,7 +2,7 @@
 # ============================================================
 # df_stun_r 可复现构建脚本
 #
-# 原始二进制: /mnt/d/Docs/my_sources/dnf_workspace/dnf_installer/build/
+# 原始二进制: /home/loyieking/dnf_workspace/dnf_installer/build/
 #             dnf_data/home/template/neople/stun/df_stun_r
 #   ELF 64-bit x86-64 EXEC, GCC (Red Hat 4.1.2-52), O0, 动态链接
 #   NEEDED: libpthread/libcrypt/libz/libstdc++.so.6/libm/libgcc_s/libc

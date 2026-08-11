@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8063640` | `0x44d` | `0x804f050` | `0x433` |
+| guild | DIFF | `0x8063640` | `0x44d` | `0x804f088` | `0x433` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -161,7 +161,7 @@
 +mov    0x8(%eax),%eax
 +mov    %eax,(%edx)
 +movl   $0x17,0x8(%esp)
-+movl   $&data#77a523b4(.rodata),0x4(%esp)
++movl   $"태스트 길드메일입니다.",0x4(%esp)
 +lea    -0x169(%ebp),%eax
 +add    $0x12,%eax
 +mov    %eax,(%esp)
@@ -196,93 +196,20 @@
 -mov    0x8(%eax),%eax
 -mov    %eax,-0x157(%ebp)
 -movl   $0x17,0x8(%esp)
--movl   $&data#2140350f(.rodata),0x4(%esp)
+-movl   $"태스트 길드메일입니다.",0x4(%esp)
 -lea    -0x165(%ebp),%eax
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3ef>
-+lea    -0x169(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN33Packet_Monitor_Notice_Guild_EnterC1Ev>
-+lea    -0x169(%ebp),%eax
-+lea    0xa(%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    0x4(%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x169(%ebp),%eax
-+lea    0xe(%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    0x8(%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x169(%ebp),%eax
-+lea    0x12(%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    0xc(%eax),%eax
-+mov    %eax,(%edx)
-+movl   $0x16,0x8(%esp)
-+movl   $&data#722c870f(.rodata),0x4(%esp)
-+lea    -0x169(%ebp),%eax
-+add    $0x16,%eax
-+mov    %eax,(%esp)
-+call   <T> <memcpy>
-+lea    -0x169(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN17CPacketTranslater18OnNoticeGuildEnterEP12PacketHeader>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3ef>
-+lea    -0x37(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN44Packet_Monitor_Set_GuildMember_Grade_FromWebC1Ev>
-+lea    -0x37(%ebp),%eax
- add    $0x12,%eax
-+movl   $0x2,(%eax)
-+lea    -0x37(%ebp),%eax
-+lea    0xa(%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    0x4(%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x37(%ebp),%eax
-+lea    0xe(%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    0x8(%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x37(%ebp),%eax
-+lea    0x16(%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    0xc(%eax),%eax
-+mov    %al,(%edx)
-+lea    -0x37(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN17CPacketTranslater28OnSetGuildMemberGradeFromWebEP12PacketHeader>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3ef>
-+lea    -0x169(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN36Packet_Guild_Master_Delegate_FromWebC1Ev>
-+lea    -0x169(%ebp),%eax
-+lea    0xa(%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    0x4(%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x169(%ebp),%eax
-+lea    0xe(%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    0x8(%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x169(%ebp),%eax
-+lea    0x12(%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    0xc(%eax),%eax
-+mov    %eax,(%edx)
-+movl   $0x4,0x8(%esp)
-+movl   $&data#e3f060d6(.rodata),0x4(%esp)
-+lea    -0x169(%ebp),%eax
-+add    $0x16,%eax
- mov    %eax,(%esp)
- call   <T> <memcpy>
+-add    $0x12,%eax
+-mov    %eax,(%esp)
+-call   <T> <memcpy>
 -lea    -0x165(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN17CPacketTranslater24OnMonitorSendGuildLetterEP12PacketHeader>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
 -lea    -0x165(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN33Packet_Monitor_Notice_Guild_EnterC1Ev>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3ef>
++lea    -0x169(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN33Packet_Monitor_Notice_Guild_EnterC1Ev>
 -lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
@@ -299,21 +226,39 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
 -mov    (%eax),%eax
--mov    0xc(%eax),%eax
++lea    -0x169(%ebp),%eax
++lea    0xa(%eax),%edx
++mov    -0xc(%ebp),%eax
++mov    0x4(%eax),%eax
++mov    %eax,(%edx)
++lea    -0x169(%ebp),%eax
++lea    0xe(%eax),%edx
++mov    -0xc(%ebp),%eax
++mov    0x8(%eax),%eax
++mov    %eax,(%edx)
++lea    -0x169(%ebp),%eax
++lea    0x12(%eax),%edx
++mov    -0xc(%ebp),%eax
+ mov    0xc(%eax),%eax
 -mov    %eax,-0x153(%ebp)
--movl   $0x16,0x8(%esp)
--movl   $&data#bcdc977a(.rodata),0x4(%esp)
++mov    %eax,(%edx)
+ movl   $0x16,0x8(%esp)
+ movl   $"눈사람",0x4(%esp)
 -lea    -0x165(%ebp),%eax
--add    $0x16,%eax
--mov    %eax,(%esp)
--call   <T> <memcpy>
++lea    -0x169(%ebp),%eax
+ add    $0x16,%eax
+ mov    %eax,(%esp)
+ call   <T> <memcpy>
 -lea    -0x165(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN17CPacketTranslater18OnNoticeGuildEnterEP12PacketHeader>
++lea    -0x169(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN17CPacketTranslater18OnNoticeGuildEnterEP12PacketHeader>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
 -lea    -0x33(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN44Packet_Monitor_Set_GuildMember_Grade_FromWebC1Ev>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3ef>
++lea    -0x37(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN44Packet_Monitor_Set_GuildMember_Grade_FromWebC1Ev>
 -movl   $0x2,-0x25(%ebp)
 -lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
@@ -331,15 +276,35 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
 -mov    (%eax),%eax
--mov    0xc(%eax),%eax
++lea    -0x37(%ebp),%eax
++add    $0x12,%eax
++movl   $0x2,(%eax)
++lea    -0x37(%ebp),%eax
++lea    0xa(%eax),%edx
++mov    -0xc(%ebp),%eax
++mov    0x4(%eax),%eax
++mov    %eax,(%edx)
++lea    -0x37(%ebp),%eax
++lea    0xe(%eax),%edx
++mov    -0xc(%ebp),%eax
++mov    0x8(%eax),%eax
++mov    %eax,(%edx)
++lea    -0x37(%ebp),%eax
++lea    0x16(%eax),%edx
++mov    -0xc(%ebp),%eax
+ mov    0xc(%eax),%eax
 -mov    %al,-0x21(%ebp)
 -lea    -0x33(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN17CPacketTranslater28OnSetGuildMemberGradeFromWebEP12PacketHeader>
++mov    %al,(%edx)
++lea    -0x37(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN17CPacketTranslater28OnSetGuildMemberGradeFromWebEP12PacketHeader>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
 -lea    -0x165(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN36Packet_Guild_Master_Delegate_FromWebC1Ev>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3ef>
++lea    -0x169(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN36Packet_Guild_Master_Delegate_FromWebC1Ev>
 -lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
@@ -356,14 +321,30 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
 -mov    (%eax),%eax
--mov    0xc(%eax),%eax
++lea    -0x169(%ebp),%eax
++lea    0xa(%eax),%edx
++mov    -0xc(%ebp),%eax
++mov    0x4(%eax),%eax
++mov    %eax,(%edx)
++lea    -0x169(%ebp),%eax
++lea    0xe(%eax),%edx
++mov    -0xc(%ebp),%eax
++mov    0x8(%eax),%eax
++mov    %eax,(%edx)
++lea    -0x169(%ebp),%eax
++lea    0x12(%eax),%edx
++mov    -0xc(%ebp),%eax
+ mov    0xc(%eax),%eax
 -mov    %eax,-0x153(%ebp)
--movl   $0x4,0x8(%esp)
--movl   $&data#fc911c56(.rodata),0x4(%esp)
++mov    %eax,(%edx)
+ movl   $0x4,0x8(%esp)
+-movl   $"야메",0x4(%esp)
 -lea    -0x165(%ebp),%eax
--add    $0x16,%eax
--mov    %eax,(%esp)
--call   <T> <memcpy>
++movl   $"겪蔘",0x4(%esp)
++lea    -0x169(%ebp),%eax
+ add    $0x16,%eax
+ mov    %eax,(%esp)
+ call   <T> <memcpy>
 -lea    -0x165(%ebp),%eax
 +lea    -0x169(%ebp),%eax
  mov    %eax,(%esp)
@@ -656,14 +637,103 @@ void __thiscall CApplication::_ZN12CApplication15TranslateSignalEv(CApplication 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/COServer/DNFApplication.cpp](source/DNFServer/GameServer/COServer/DNFApplication.cpp)（约第 407 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFApplication.cpp](source/DNFServer/GameServer/Guild/DNFApplication.cpp)（约第 448 行）：
 
 ```cpp
 void CApplication::TranslateSignal()
 {
-    m_killUsrConfig->Clear_Table();
-    m_killUsrConfig->Load_Table("./script/kill_user_config.tbl");
-    std::vector<ST_KillUSRConfig*>* v = m_killUsrConfig->GetInfo();
-    v->empty();
+    m_killConfig->Clear_Table();
+    m_killConfig->Load_Table("./script/kill_user_config.tbl");
+    std::vector<ST_KillUSRConfig*>* vec = m_killConfig->GetInfo();
+    if (!vec->empty())
+    {
+        for (std::vector<ST_KillUSRConfig*>::iterator it = vec->begin(); it != vec->end(); ++it)
+        {
+            ST_KillUSRConfig* cfg = *it;
+            switch (cfg->m_field0)
+            {
+            case 1:
+                m_guildManager.DBGuildProcess(Get_ServerHandler(), (bool)Get_ServerHandler());
+                break;
+            case 3:
+            {
+                Packet_Monitor_Send_Guild_Mail mail;
+                *(unsigned int*)((char*)&mail + 0xa) = (unsigned int)cfg->m_field1;
+                *(unsigned int*)((char*)&mail + 0xe) = (unsigned int)cfg->m_field2;
+                memcpy((char*)&mail + 0x12,
+                       "\xc5\xc2\xbd\xba\xc6\xae \xb1\xe6\xb5\xe5\xb8\xde\xc0\xcf\xc0\xd4\xb4\xcf\xb4\xd9.",
+                       0x17);
+                CPacketTranslater::OnMonitorSendGuildLetter(&mail);
+                break;
+            }
+            case 4:
+                m_serverHandler->Load(m_appConfig->GetServerInfoMap());
+                break;
+            case 7:
+            {
+                Packet_Monitor_Notice_Guild_Enter enter;
+                *(unsigned int*)((char*)&enter + 0xa) = (unsigned int)cfg->m_field1;
+                *(unsigned int*)((char*)&enter + 0xe) = (unsigned int)cfg->m_field2;
+                *(unsigned int*)((char*)&enter + 0x12) = (unsigned int)cfg->m_field3;
+                memcpy((char*)&enter + 0x16,
+                       "\xb4\xab\xbb\xe7\xb6\xf7\x00\xb0\xde\xdf\xb8\xde\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00",
+                       0x16);
+                CPacketTranslater::OnNoticeGuildEnter(&enter);
+                break;
+            }
+            case 8:
+            {
+                Packet_Monitor_Set_GuildMember_Grade_FromWeb grade;
+                *(unsigned int*)((char*)&grade + 0x12) = 2;
+                *(unsigned int*)((char*)&grade + 0xa) = (unsigned int)cfg->m_field1;
+                *(unsigned int*)((char*)&grade + 0xe) = (unsigned int)cfg->m_field2;
+                *(unsigned char*)((char*)&grade + 0x16) = (unsigned char)cfg->m_field3;
+                CPacketTranslater::OnSetGuildMemberGradeFromWeb(&grade);
+                break;
+            }
+            case 9:
+            {
+                Packet_Guild_Master_Delegate_FromWeb delegate;
+                *(unsigned int*)((char*)&delegate + 0xa) = (unsigned int)cfg->m_field1;
+                *(unsigned int*)((char*)&delegate + 0xe) = (unsigned int)cfg->m_field2;
+                *(unsigned int*)((char*)&delegate + 0x12) = (unsigned int)cfg->m_field3;
+                memcpy((char*)&delegate + 0x16, "\xb0\xde\xdf\xb8", 4);
+                CPacketTranslater::OnGuildMasterDelegateFromWeb(&delegate);
+                break;
+            }
+            case 0xb:
+                m_powerManager.LoadPowerWarCfg("./script/power_war_event.tbl");
+                break;
+            case 0xc:
+                m_powerManager.StartPowerWarEvent();
+                {
+                    Packet_Monitor_Event_Start start;
+                    *(unsigned int*)((char*)&start + 0xa) = 0x1e;
+                    m_serverHandler->SendAllTcpGameServer(&start);
+                }
+                break;
+            case 0xd:
+                m_powerManager.SendPowerWarScore();
+                m_powerManager.EndPowerWarEvent();
+                {
+                    Packet_Monitor_Event_End end;
+                    *(unsigned int*)((char*)&end + 0xa) = 0x1e;
+                    m_serverHandler->SendAllTcpGameServer(&end);
+                }
+                break;
+            case 0xe:
+                m_tcpNetSystem.CleanTcpSendPacketQ();
+                break;
+            case 0xf:
+                m_guildManager.CargoLock();
+                break;
+            case 0x10:
+                m_guildManager.CargoUnlock();
+                break;
+            default:
+                break;
+            }
+        }
+    }
 }
 ```

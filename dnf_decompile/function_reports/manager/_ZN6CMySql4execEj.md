@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x80619f2` | `0x130` | `0x80549d8` | `0x12d` |
+| manager | DIFF | `0x80619f2` | `0x130` | `0x805496a` | `0x132` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,22 +13,19 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,87 +1,85 @@
+@@ -1,87 +1,88 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
--sub    $0x34,%esp
-+sub    $0x38,%esp
+ push   %ebx
+ sub    $0x34,%esp
  movl   $0x0,-0x10(%ebp)
--jmp    <T> <_ZN6CMySql4execEj+0x52>
-+jmp    <T> <_ZN6CMySql4execEj+0x51>
+ jmp    <T> <_ZN6CMySql4execEj+0x52>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CMySql10exec_queryEv>
  mov    %eax,-0x18(%ebp)
  cmpl   $0x1,-0x18(%ebp)
--jne    <T> <_ZN6CMySql4execEj+0x48>
-+jne    <T> <_ZN6CMySql4execEj+0x47>
+ jne    <T> <_ZN6CMySql4execEj+0x48>
  call   <T> <_Z21CQueryCounterInstancev>
  mov    %eax,-0xc(%ebp)
  mov    0xc(%ebp),%eax
@@ -38,18 +35,15 @@
  call   <T> <_ZN13CQueryCounter15SetResponseTimeEj>
  mov    $0x0,%eax
 -jmp    <T> <_ZN6CMySql4execEj+0x12a>
-+jmp    <T> <_ZN6CMySql4execEj+0x12b>
++jmp    <T> <_ZN6CMySql4execEj+0x12c>
  cmpl   $0x0,-0x18(%ebp)
--je     <T> <_ZN6CMySql4execEj+0x5f>
-+je     <T> <_ZN6CMySql4execEj+0x5e>
+ je     <T> <_ZN6CMySql4execEj+0x5f>
  addl   $0x1,-0x10(%ebp)
  cmpl   $0x4,-0x10(%ebp)
  setle  %al
  test   %al,%al
--jne    <T> <_ZN6CMySql4execEj+0x10>
--jmp    <T> <_ZN6CMySql4execEj+0x60>
-+jne    <T> <_ZN6CMySql4execEj+0xf>
-+jmp    <T> <_ZN6CMySql4execEj+0x5f>
+ jne    <T> <_ZN6CMySql4execEj+0x10>
+ jmp    <T> <_ZN6CMySql4execEj+0x60>
  nop
  call   <T> <_Z21CQueryCounterInstancev>
  mov    %eax,-0x14(%ebp)
@@ -60,7 +54,7 @@
  call   <T> <_ZN13CQueryCounter15SetResponseTimeEj>
  cmpl   $0x0,-0x18(%ebp)
 -jne    <T> <_ZN6CMySql4execEj+0xe5>
-+jne    <T> <_ZN6CMySql4execEj+0xe6>
++jne    <T> <_ZN6CMySql4execEj+0xe7>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
  mov    %eax,(%esp)
@@ -71,7 +65,7 @@
  mov    0x8(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN6CMySql4execEj+0xca>
-+je     <T> <_ZN6CMySql4execEj+0xcb>
++je     <T> <_ZN6CMySql4execEj+0xcc>
  mov    0x8(%ebp),%eax
  mov    0x8(%eax),%eax
  mov    %eax,(%esp)
@@ -89,35 +83,31 @@
 +mov    %eax,%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x18(%eax)
-+jmp    <T> <_ZN6CMySql4execEj+0xdf>
++jmp    <T> <_ZN6CMySql4execEj+0xe0>
  mov    0x8(%ebp),%eax
  movl   $0x0,0x14(%eax)
  mov    0x8(%ebp),%eax
  movl   $0x0,0x18(%eax)
  mov    $0x1,%eax
 -jmp    <T> <_ZN6CMySql4execEj+0x12a>
--mov    0x8(%ebp),%eax
--lea    0x1c(%eax),%ebx
-+jmp    <T> <_ZN6CMySql4execEj+0x12b>
++jmp    <T> <_ZN6CMySql4execEj+0x12c>
+ mov    0x8(%ebp),%eax
+ lea    0x1c(%eax),%ebx
  movl   $0xed,0x8(%esp)
- movl   $"exec",0x4(%esp)
+ movl   $&_ZZN6CMySql4execEjE12__FUNCTION__,0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0x1c,%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Database query error. The last query('%s') has been lost.",0x8(%esp)
  movl   $"./log/MysqlErr.log",0x4(%esp)
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
--add    $0x34,%esp
--pop    %ebx
--pop    %ebp
-+leave
+ add    $0x34,%esp
+ pop    %ebx
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -175,28 +165,26 @@ undefined4 __thiscall CMySql::_ZN6CMySql4execEj(CMySql *this,uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 178 行）：
+定义于 [source/DNFServer/GameServer/Manager/DNFMySql.cpp](source/DNFServer/GameServer/Manager/DNFMySql.cpp)（约第 81 行）：
 
 ```cpp
 bool CMySql::exec(unsigned int q)
 {
-    int ret = 0;
+    int ret;
     for (int i = 0; i <= 4; i++)
     {
         ret = exec_query();
         if (ret == 1)
         {
-            CQueryCounterInstance()->SetResponseTime(q);
-            CMyFileLog log("exec", 0x14e);
-            log("./log/MysqlErr.log",
-                "Database query error. The last query('%s') has been lost. iret == R_FAIL",
-                m_query);
+            CQueryCounter* p1 = CQueryCounterInstance();
+            p1->SetResponseTime(q);
             return 0;
         }
         if (ret == 0)
             break;
     }
-    CQueryCounterInstance()->SetResponseTime(q);
+    CQueryCounter* p2 = CQueryCounterInstance();
+    p2->SetResponseTime(q);
     if (ret == 0)
     {
         m_result = mysql_store_result(m_mysql);
@@ -212,9 +200,7 @@ bool CMySql::exec(unsigned int q)
         }
         return 1;
     }
-    CMyFileLog log("exec", 0x16e);
-    log("./log/MysqlErr.log",
-        "Database query error. The last query('%s') has been lost.", m_query);
+    DNF_LOG_SCOPE_LINE(0xed, "./log/MysqlErr.log", "Database query error. The last query('%s') has been lost.", m_query);
     return 0;
 }
 ```

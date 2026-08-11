@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806958a` | `0xbb` | `0x808bc7c` | `0xb2` |
+| guild | DIFF | `0x806958a` | `0xbb` | `0x808babe` | `0xb2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -54,24 +54,25 @@
 +je     <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0x5c>
  mov    $0x1,%eax
 -jmp    <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0xb4>
--mov    0x8(%ebp),%eax
--add    $0x18,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE4sizeEv>
++jmp    <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0xb0>
++movl   $0x17e,0x8(%esp)
++movl   $"DeleteUser_CharNo",0x4(%esp)
++lea    -0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0x8(%ebp),%eax
+ add    $0x18,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE4sizeEv>
 -mov    %eax,%ebx
 -mov    0xc(%ebp),%esi
-+jmp    <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0xb0>
- movl   $0x17e,0x8(%esp)
- movl   $"DeleteUser_CharNo",0x4(%esp)
- lea    -0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $0x17e,0x8(%esp)
+-movl   $&_ZZN12CUserManager17DeleteUser_CharNoEjE12__FUNCTION__,0x4(%esp)
+-lea    -0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0x10(%esp)
 -mov    %esi,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0x18,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE4sizeEv>
 +mov    0xc(%ebp),%edx
 +mov    %eax,0x10(%esp)
 +mov    %edx,0xc(%esp)

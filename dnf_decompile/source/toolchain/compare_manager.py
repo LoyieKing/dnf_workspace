@@ -16,7 +16,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from compare_common import CALIBER_VERSION, norm_identical, is_exempt_symbol, demangle_batch
 
-ROOT = Path('/mnt/d/Docs/my_sources/dnf_workspace')
+ROOT = Path('/home/loyieking/dnf_workspace')
 ORIG = ROOT / 'dnf_installer/build/dnf_data/home/template/neople/manager/df_manager_r'
 NEW = ROOT / 'dnf_decompile/build/manager/df_manager_r'
 SIG_CACHE = '/tmp/manager_sig_cache.pkl'

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807fee2` | `0xbb` | `0x8058d9a` | `0xb6` |
+| dbmw | DIFF | `0x807fee2` | `0xbb` | `0x8058b7e` | `0xb6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,37 +23,27 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%eax
--mov    %eax,0xc(%esp)
++add    $0xa,%eax
 +mov    (%eax),%eax
-+mov    0xc(%ebp),%edx
-+add    $0xa,%edx
-+mov    (%edx),%edx
-+mov    %edx,0xc(%esp)
+ mov    %eax,0xc(%esp)
  movl   $"UpDate guild_agit set upgrade = upgrade + 1 where guild_id = %d",0x8(%esp)
  movl   $0x4eb6,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
--mov    (%eax),%edx
-+mov    (%eax),%eax
+ mov    (%eax),%edx
  movl   $0x4eb6,0x4(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %al,-0xd(%ebp)
 -movzbl -0xd(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager18OnUpgradeGuildAgitEP28Packet_DB_Upgrade_Guild_AgitR34Packet_DB_Upgrade_Guild_Agit_Reply+0xaa>
@@ -61,7 +51,7 @@
  mov    0x10(%ebp),%eax
  movl   $0x2,0x12(%eax)
  movl   $0x19ea,0x8(%esp)
- movl   $"OnUpgradeGuildAgit",0x4(%esp)
+ movl   $&_ZZN10CDBManager18OnUpgradeGuildAgitEP28Packet_DB_Upgrade_Guild_AgitR34Packet_DB_Upgrade_Guild_Agit_ReplyE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
 +lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -120,4 +110,4 @@ _ZN10CDBManager18OnUpgradeGuildAgitEP28Packet_DB_Upgrade_Guild_AgitR34Packet_DB_
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/Manager/DBManager.cpp, source/ChannelOld/DNFChannelBridge/Authenticator.h, source/ChannelOld/DNFChannelBridge/ChannelService.h, source/ChannelOld/DNFChannelBridge/ChannelServiceApp.h, source/ChannelOld/DNFChannelBridge/CheckThread.h, source/ChannelOld/DNFChannelBridge/CommandLineParser.h, source/ChannelOld/DNFChannelBridge/DBMgr.h 等 625 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBMWCommon.h, source/DNFServer/GameServer/DBMW/DBMWTypes.h, source/DNFServer/GameServer/DBMW/DBManager.cpp, source/DNFServer/GameServer/DBMW/DBManager.h, source/DNFServer/GameServer/DBMW/DNFAppConfig.h, source/DNFServer/GameServer/DBMW/DNFAppStartInit.h, source/DNFServer/GameServer/DBMW/DNFAppStopInit.h 等 293 个文件*
