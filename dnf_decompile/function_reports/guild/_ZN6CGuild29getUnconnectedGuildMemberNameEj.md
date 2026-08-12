@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809106c` | `0x84` | `0x8056c22` | `0x83` |
+| guild | DIFF | `0x809106c` | `0x84` | `0x8056c10` | `0x87` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,46 +1,46 @@
+@@ -1,46 +1,47 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x10,%esp
@@ -23,18 +23,18 @@
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x7d>
-+je     <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x7c>
++je     <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x80>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x10,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x7d>
-+je     <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x7c>
++je     <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x80>
  movl   $0x0,-0x4(%ebp)
 -jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x69>
 -mov    -0x4(%ebp),%edx
-+jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x68>
++jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x6c>
  mov    0x8(%ebp),%ecx
 -mov    %edx,%eax
 -shl    $0x6,%eax
@@ -48,23 +48,22 @@
  mov    %edx,%eax
  shl    $0x6,%eax
  add    %edx,%eax
--add    $0xd0,%eax
+ add    $0xd0,%eax
 -add    0x8(%ebp),%eax
--add    $0x11,%eax
--jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x82>
-+add    $0xdd,%eax
 +lea    (%ecx,%eax,1),%eax
-+mov    (%eax),%eax
++mov    0xd(%eax),%eax
 +cmp    0xc(%ebp),%eax
-+jne    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x64>
++jne    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x68>
 +mov    0x8(%ebp),%ecx
 +mov    -0x4(%ebp),%edx
 +mov    %edx,%eax
 +shl    $0x6,%eax
 +add    %edx,%eax
-+add    $0xe1,%eax
++add    $0xd0,%eax
 +lea    (%ecx,%eax,1),%eax
-+jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x81>
+ add    $0x11,%eax
+-jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x82>
++jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x85>
  addl   $0x1,-0x4(%ebp)
  mov    0x8(%ebp),%eax
  movzwl 0x1e(%eax),%eax

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a9142` | `0x2b` | `0x80a89b4` | `0x30` |
+| monitor | DIFF | `0x80a9142` | `0x2b` | `0x80a8a66` | `0x33` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -17,29 +17,26 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x28,%esp
-+push   %ebx
 +sub    $0x14,%esp
  mov    0xc(%ebp),%eax
 -mov    %eax,-0xc(%ebp)
--mov    0x8(%ebp),%eax
++mov    %eax,-0x8(%ebp)
+ mov    0x8(%ebp),%eax
 -mov    0x30(%eax),%edx
 -mov    -0xc(%ebp),%eax
-+mov    %eax,-0x8(%ebp)
++mov    0x30(%eax),%eax
++mov    %eax,%edx
 +mov    -0x8(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+mov    0x30(%edx),%edx
  mov    %edx,0xa(%eax)
-+mov    -0x8(%ebp),%ebx
++mov    0xc(%ebp),%eax
++mov    %eax,-0x4(%ebp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked23CVillageAttackedManager20GetDungeonRemainTimeEv>
 -mov    -0xc(%ebp),%edx
--mov    %eax,0xe(%edx)
--leave
-+mov    %eax,0xe(%ebx)
-+add    $0x14,%esp
-+pop    %ebx
-+pop    %ebp
++mov    -0x4(%ebp),%edx
+ mov    %eax,0xe(%edx)
+ leave
  ret
 ```
 ## 2. Ghidra 反编译 C

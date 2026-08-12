@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8067050` | `0x93` | `0x80895f0` | `0xcc` |
+| guild | DIFF | `0x8067050` | `0x93` | `0x80895de` | `0xcc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -131,10 +131,6 @@ CUser::_ZN5CUser19RegisterToBlackListEjPcj(CUser *this,uint param_1,char *param_
 ```cpp
 bool CUser::RegisterToBlackList(unsigned int charNo, char* name, unsigned int param)
 {
-    if (name == 0 || charNo == 0)
-    {
-        return 0;
-    }
     CBlackUser* bu = new CBlackUser;
     bu->SetBlackUser(name, param);
     return m_blackList.insert(std::make_pair(charNo, bu)).second;

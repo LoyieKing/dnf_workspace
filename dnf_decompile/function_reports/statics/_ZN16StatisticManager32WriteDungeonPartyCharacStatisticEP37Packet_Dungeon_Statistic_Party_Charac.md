@@ -385,7 +385,7 @@ void StatisticManager::WriteDungeonPartyCharacStatistic(Packet_Dungeon_Statistic
     key.m_field8 = ((Wire*)pkt)->m_f10;
     key.m_field9 = ((Wire*)pkt)->m_f11;
     key.m_fielda = ((Wire*)pkt)->m_f12;
-    key.m_fieldc = ((Wire*)pkt)->m_f13;
+    key.m_fieldc = (STPartyCharacKeyFieldC)((Wire*)pkt)->m_f13;
     key.m_field10 = ((Wire*)pkt)->m_f17;
     key.m_field11 = ((Wire*)pkt)->m_f18;
     PartyCharacStatistic value;

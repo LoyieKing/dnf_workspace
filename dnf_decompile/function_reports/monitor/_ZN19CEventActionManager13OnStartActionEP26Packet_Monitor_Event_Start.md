@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4068` | `0x47` | `0x8092fca` | `0x4d` |
+| monitor | DIFF | `0x80a4068` | `0x47` | `0x8093084` | `0x47` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,40 +13,32 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,25 +1,27 @@
+@@ -1,25 +1,25 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  mov    0xc(%ebp),%eax
  mov    0xa(%eax),%eax
--mov    %eax,-0xc(%ebp)
--cmpl   $0xa5,-0xc(%ebp)
--ja     <T> <_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start+0x44>
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0xa5,-0x10(%ebp)
-+ja     <T> <_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start+0x4a>
+ mov    %eax,-0xc(%ebp)
+ cmpl   $0xa5,-0xc(%ebp)
+ ja     <T> <_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start+0x44>
  mov    0xc(%ebp),%eax
  mov    0xe(%eax),%eax
--mov    %eax,-0x10(%ebp)
+ mov    %eax,-0x10(%ebp)
 -mov    -0xc(%ebp),%edx
-+mov    %eax,-0x14(%ebp)
-+mov    -0x10(%ebp),%edx
++lea    -0x10(%ebp),%edx
++mov    -0xc(%ebp),%ecx
  mov    0x8(%ebp),%eax
- mov    (%eax,%edx,4),%eax
+-mov    (%eax,%edx,4),%eax
 -lea    -0x10(%ebp),%edx
--mov    %edx,0x4(%esp)
-+mov    %eax,-0xc(%ebp)
-+lea    -0x14(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0xc(%ebp),%eax
++mov    (%eax,%ecx,4),%eax
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN16CBaseEventAction12OnStartEventER10EventParam>
  mov    0xc(%ebp),%eax
--mov    -0x10(%ebp),%edx
-+mov    -0x14(%ebp),%edx
+ mov    -0x10(%ebp),%edx
  mov    %edx,0xe(%eax)
--jmp    <T> <_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start+0x45>
-+jmp    <T> <_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start+0x4b>
+ jmp    <T> <_ZN19CEventActionManager13OnStartActionEP26Packet_Monitor_Event_Start+0x45>
  nop
  leave
  ret

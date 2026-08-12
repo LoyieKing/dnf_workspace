@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a7d10` | `0x176` | `0x809dbc6` | `0x176` |
+| guild | DIFF | `0x80a7d10` | `0x176` | `0x809db86` | `0x176` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -191,8 +191,9 @@ void CPowerWarCharacInfo::PrintDebugInfo()
     CMyFileLog log2(__FUNCTION__, 0xef);
     log2("./log/PowerResult",
          "------ ALL USER RANKING -------------------------------------------------------------------------");
+    std::vector<STPowerWarCharacInfo*>::iterator it = m_vec.begin();
     int rank = 1;
-    for (std::vector<STPowerWarCharacInfo*>::iterator it = m_vec.begin(); it != m_vec.end(); ++it)
+    for (; it != m_vec.end(); ++it)
     {
         STPowerWarCharacInfo* info = *it;
         DNF_LOG_SCOPE_LINE(0xf9,"./log/PowerResult", "RANK:%d, USER:%d, POWER WAR POINT:%d", rank,

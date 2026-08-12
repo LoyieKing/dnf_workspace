@@ -231,11 +231,11 @@ bool STPartyCharacKey::operator<(const STPartyCharacKey& other) const
             if (m_field8 < other.m_field8) return true;
             if (m_field8 == other.m_field8)
             {
-                if ((int)(unsigned char)m_field9 < (int)(unsigned char)other.m_field9)
+                if (m_field9 < other.m_field9)
                     return true;
                 if (m_field9 == other.m_field9)
                 {
-                    if ((int)(unsigned char)m_fielda < (int)(unsigned char)other.m_fielda)
+                    if (m_fielda < other.m_fielda)
                         return true;
                     if (m_fielda == other.m_fielda)
                     {

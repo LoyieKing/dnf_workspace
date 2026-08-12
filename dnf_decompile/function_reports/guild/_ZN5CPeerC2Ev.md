@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8050da6` | `0x7b` | `0x8097aa4` | `0x83` |
+| guild | DIFF | `0x8050da6` | `0x7b` | `0x8097a64` | `0x83` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -84,13 +84,13 @@ void __thiscall CPeer::_ZN5CPeerC2Ev(CPeer *this)
 ```cpp
 CPeer::CPeer()
 {
-    *(void**)((char*)this + 0x181c) = 0;
-    *(int*)((char*)this + 0x1820) = 0;
-    *(int*)((char*)this + 0x1824) = 0;
-    *(void**)((char*)this + 0x1828) = 0;
-    *(void**)((char*)this + 0x182c) = 0;
-    *(void**)((char*)this + 0x1830) = 0;
-    *(int*)((char*)this + 0x1834) = 0;
-    *(void**)((char*)this + 0x1838) = 0;
+    m_buf = 0;
+    m_remainLen = 0;
+    m_alreadyRead = 0;
+    m_recvQ = 0;
+    m_bLock = 0;
+    m_qLock = 0;
+    m_sendRemain = 0;
+    m_sendPtr = 0;
 }
 ```

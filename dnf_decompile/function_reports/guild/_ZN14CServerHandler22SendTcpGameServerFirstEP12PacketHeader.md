@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806d76c` | `0xce` | `0x8081922` | `0xc1` |
+| guild | DIFF | `0x806d76c` | `0xce` | `0x8081942` | `0xcb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -24,9 +24,9 @@
 +xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader+0xc8>
--movl   $0x0,-0x10(%ebp)
--movl   $0x0,-0xc(%ebp)
-+je     <T> <_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader+0xbf>
++je     <T> <_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader+0xc9>
+ movl   $0x0,-0x10(%ebp)
+ movl   $0x0,-0xc(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x24(%eax),%edx
  lea    -0x14(%ebp),%eax
@@ -44,11 +44,9 @@
  call   <T> <_ZN14CTcpGameServer13IsValidServerEv>
  test   %al,%al
 -je     <T> <_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader+0xcb>
-+je     <T> <_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader+0xbf>
++je     <T> <_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader+0xc9>
  mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
+ movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
@@ -60,9 +58,7 @@
  call   <T> <_ZN14CTcpGameServer16makePacketHeaderEtt>
  mov    %eax,-0xc(%ebp)
  mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
+ movzwl 0x2(%eax),%eax
  movzwl %ax,%eax
 -lea    -0xa(%eax),%ecx
 -mov    0xc(%ebp),%eax
@@ -144,17 +140,19 @@ CServerHandler::_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader
 ```cpp
 void CServerHandler::SendTcpGameServerFirst(PacketHeader* pkt)
 {
-    if (m_tcpGameServers.empty() == 0)
+    if (m_tcpGameServers.empty())
     {
-        CTcpGameServer* tgs = 0;
-        char* buf = 0;
-        tgs = m_tcpGameServers.begin()->second;
-        if (tgs->IsValidServer())
-        {
-            buf = tgs->makePacketHeader(pkt->packetId, pkt->packetSize);
-            memcpy(buf + 10, (char*)pkt + 10, pkt->packetSize - 10);
-            tgs->SendToGameServer(buf);
-        }
+        return;
+    }
+    CTcpGameServer* tgs = 0;
+    char* buf = 0;
+    tgs = m_tcpGameServers.begin()->second;
+    if (tgs->IsValidServer())
+    {
+        buf = tgs->makePacketHeader(pkt->packetId, pkt->packetSize);
+        memcpy(buf + 10, (char*)pkt + 10, pkt->packetSize - 10);
+        tgs->SendToGameServer(buf);
+        return;
     }
 }
 ```

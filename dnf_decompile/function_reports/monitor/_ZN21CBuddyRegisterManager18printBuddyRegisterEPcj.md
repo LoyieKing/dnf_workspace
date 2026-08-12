@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809d57c` | `0xba` | `0x804ba9e` | `0xc2` |
+| monitor | DIFF | `0x809d57c` | `0xba` | `0x804baae` | `0xc2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 

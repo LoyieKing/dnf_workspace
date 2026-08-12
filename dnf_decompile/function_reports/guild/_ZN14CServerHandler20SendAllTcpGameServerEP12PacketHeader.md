@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806d676` | `0xf5` | `0x8081838` | `0xea` |
+| guild | DIFF | `0x806d676` | `0xf5` | `0x808184e` | `0xf4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -17,8 +17,8 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
--movl   $0x0,-0x10(%ebp)
--movl   $0x0,-0xc(%ebp)
+ movl   $0x0,-0x10(%ebp)
+ movl   $0x0,-0xc(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x24(%eax),%edx
  lea    -0x18(%ebp),%eax
@@ -26,8 +26,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP14CTcpGameServerSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
--jmp    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0xc0>
-+jmp    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0xb6>
+ jmp    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0xc0>
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP14CTcpGameServerEEptEv>
@@ -37,12 +36,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer13IsValidServerEv>
  test   %al,%al
--je     <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0xb5>
-+je     <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0xab>
+ je     <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0xb5>
  mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
+ movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
@@ -54,9 +50,7 @@
  call   <T> <_ZN14CTcpGameServer16makePacketHeaderEtt>
  mov    %eax,-0xc(%ebp)
  mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
+ movzwl 0x2(%eax),%eax
  movzwl %ax,%eax
 -lea    -0xa(%eax),%ecx
 -mov    0xc(%ebp),%eax
@@ -96,9 +90,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP14CTcpGameServerEEneERKS5_>
  test   %al,%al
--jne    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0x31>
+ jne    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0x31>
 -nop
-+jne    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0x23>
  leave
  ret
 ```

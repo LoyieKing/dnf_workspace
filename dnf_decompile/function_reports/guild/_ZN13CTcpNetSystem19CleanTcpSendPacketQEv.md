@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8053b72` | `0x11c` | `0x80a8332` | `0x124` |
+| guild | DIFF | `0x8053b72` | `0x11c` | `0x80a82f2` | `0x124` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -183,33 +183,27 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystem19CleanTcpSendPacketQEv(CTcpNet
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 464 行）：
+定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 469 行）：
 
 ```cpp
 void CTcpNetSystem::CleanTcpSendPacketQ()
 {
-    CTcpSendBuffer* buf = 0;
-    for (;;)
+    while (true)
     {
-        bool empty;
+        CTcpSendBuffer* p;
         {
             CGuard<CMutex> g(&m_mutexe8);
-            empty = m_sendQ.empty();
-            if (!empty)
-            {
-                buf = m_sendQ.front();
-                m_sendQ.pop();
-            }
-        }
-        if (empty)
-        {
-            break;
+            if (m_sendQ.empty())
+                break;
+            p = m_sendQ.front();
+            m_sendQ.pop();
         }
         {
             CGuard<CMutex> g2(&m_mutex100);
-            delete buf;
+            delete p;
         }
     }
-    DNF_LOG_SCOPE_LINE(0x16b, "./log/TcpSend", "Clean Tcp Send Queue Complete !");
+    CMyFileLog log(__FUNCTION__, 0x16b);
+    log("./log/TcpSend", "Clean Tcp Send Queue Complete !");
 }
 ```

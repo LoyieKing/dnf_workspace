@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8084332` | `0x28a` | `0x806f6ce` | `0x29a` |
+| monitor | DIFF | `0x8084332` | `0x28a` | `0x806f7aa` | `0x29a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -159,8 +159,7 @@
  mov    %eax,(%esp)
  call   *%edx
  mov    %eax,0x4(%esp)
--movl   $"CPacketTranslater::OnEventStart() 예외 발생 : %s\n",(%esp)
-+movl   $"CPacketTranslater::OnEventStart() �삁�쇅 諛쒖깮 : %s\n",(%esp)
+ movl   $"CPacketTranslater::OnEventStart() 예외 발생 : %s\n",(%esp)
  call   <T> <printf>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
@@ -177,8 +176,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnEventStart() 예외 발생 : %s\n",0x8(%esp)
-+movl   $"CPacketTranslater::OnEventStart() �삁�쇅 諛쒖깮 : %s\n",0x8(%esp)
+ movl   $"CPacketTranslater::OnEventStart() 예외 발생 : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x38(%ebp),%eax
@@ -198,8 +196,7 @@
 +jmp    <T> <_ZN17CPacketTranslater12OnEventStartEP12PacketHeader+0x292>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
--movl   $"CPacketTranslater::OnEventStart() 예외 발생",(%esp)
-+movl   $"CPacketTranslater::OnEventStart() �삁�쇅 諛쒖깮",(%esp)
+ movl   $"CPacketTranslater::OnEventStart() 예외 발생",(%esp)
  call   <T> <puts>
  movl   $0xa41,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater12OnEventStartEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -207,8 +204,7 @@
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnEventStart() 예외 발생\n",0x8(%esp)
-+movl   $"CPacketTranslater::OnEventStart() �삁�쇅 諛쒖깮\n",0x8(%esp)
+ movl   $"CPacketTranslater::OnEventStart() 예외 발생\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x28(%ebp),%eax
 +lea    -0x30(%ebp),%eax

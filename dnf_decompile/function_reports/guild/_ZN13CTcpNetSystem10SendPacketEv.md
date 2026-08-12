@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80532b0` | `0x2f1` | `0x80a7a28` | `0x32d` |
+| guild | DIFF | `0x80532b0` | `0x2f1` | `0x80a79e8` | `0x32d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -454,71 +454,83 @@ LAB_0805345d:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 307 行）：
+定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 320 行）：
 
 ```cpp
 int CTcpNetSystem::SendPacket()
 {
-    CTcpSendBuffer* buf = 0;
-    bool have = false;
-    int result = 0;
+    // R14：ORIG 形态——queue 访问在 guard 内层作用域，flag(esi)/ret(ebx) 寄存器变量，
+    // buf(-0x2c) 用于 PopDelete、b2(-0x28) 副本用于字段访问。
     {
-        CGuard<CMutex> g(&m_mutexe8);
-        if (!m_sendQ.empty())
+        register int ret;
+        register int flag;
+        CTcpSendBuffer* buf;
+        CTcpSendBuffer* b2;
+        CPeer* peer;
+        int result;
+        int cnt;
         {
-            buf = m_sendQ.front();
-            have = true;
+            CGuard<CMutex> g(&m_mutexe8);
+            if (m_sendQ.empty())
+            {
+                ret = 0;
+                flag = 0;
+            }
+            else
+            {
+                buf = m_sendQ.front();
+                flag = 1;
+            }
         }
-        else
+        std::map<unsigned int, CPeer*>::iterator it;
+        if (flag)
         {
-            have = false;
-            result = 0;
+            if (!buf)
+            {
+                ret = 0;
+                goto done;
+            }
+            b2 = buf;
+            it = m_peers.find(*(unsigned int*)((char*)b2 + 6));
+            if (it == m_peers.end())
+            {
+                DNF_LOG_SCOPE_LINE(0xba, "./log/TcpSend", "SEND ERR:no peer(id:%d,size:%d,ip:%d)",
+                    ((TcpPacketFields*)b2)->m_id, ((TcpPacketFields*)b2)->m_size,
+                    ((TcpPacketFields*)b2)->m_ip);
+                PopDeleteTcpSendPacketQ(buf);
+                ret = 0;
+            }
+            else
+            {
+                peer = it->second;
+                if (peer == 0 || ((TcpPacketFields*)b2)->m_ip != peer->GetTcpSocket()->getHandle())
+                {
+                    DNF_LOG_SCOPE_LINE(0xc3, "./log/TcpSend", "SEND ERR:invalid peer(%x)(id:%d)(size:%d)(ip:%d)",
+                        peer, ((TcpPacketFields*)b2)->m_id, ((TcpPacketFields*)b2)->m_size,
+                        ((TcpPacketFields*)b2)->m_ip);
+                    PopDeleteTcpSendPacketQ(buf);
+                    ret = 0;
+                }
+                else
+                {
+                    result = peer->send_packet((char*)b2, ((TcpPacketFields*)b2)->m_size);
+                    if (result > 0)
+                    {
+                        PopDeleteTcpSendPacketQ(buf);
+                    }
+                    else
+                    {
+                        cnt = (int)m_sendQ.size();
+                        DNF_LOG_SCOPE_LINE(0xd5, "./log/TcpSend", "SEND(id:%d,size:%d,ip:%d, cnt:%d)",
+                            ((TcpPacketFields*)b2)->m_id, ((TcpPacketFields*)b2)->m_size,
+                            ((TcpPacketFields*)b2)->m_ip, cnt);
+                    }
+                    ret = result;
+                }
+            }
         }
+    done:
+        return ret;
     }
-    if (!have)
-    {
-        return result;
-    }
-    if (buf == 0)
-    {
-        return 0;
-    }
-    std::map<unsigned int, CPeer*>::iterator it =
-        m_peers.find(*(unsigned int*)((char*)buf + 6));
-    if (it == m_peers.end())
-    {
-        DNF_LOG_SCOPE_LINE(0xba,"./log/TcpSend", "SEND ERR:no peer(id:%d,size:%d,ip:%d)",
-            (unsigned int)*(unsigned short*)buf, (unsigned int)*(unsigned short*)((char*)buf + 2),
-            *(unsigned int*)((char*)buf + 6));
-        PopDeleteTcpSendPacketQ(buf);
-        return 0;
-    }
-    CPeer* peer = it->second;
-    bool invalid = true;
-    if (peer != 0 &&
-        *(int*)((char*)buf + 6) == peer->GetTcpSocket()->getHandle())
-    {
-        invalid = false;
-    }
-    if (invalid)
-    {
-        DNF_LOG_SCOPE_LINE(0xc3,"./log/TcpSend", "SEND ERR:invalid peer(%x)(id:%d)(size:%d)(ip:%d)", peer,
-            (unsigned int)*(unsigned short*)buf, (unsigned int)*(unsigned short*)((char*)buf + 2),
-            *(unsigned int*)((char*)buf + 6));
-        PopDeleteTcpSendPacketQ(buf);
-        return 0;
-    }
-    int r = peer->send_packet((char*)buf, (int)*(unsigned short*)((char*)buf + 2));
-    if (r < 1)
-    {
-        DNF_LOG_SCOPE_LINE(0xd5,"./log/TcpSend", "SEND(id:%d,size:%d,ip:%d, cnt:%d)",
-            (unsigned int)*(unsigned short*)buf, (unsigned int)*(unsigned short*)((char*)buf + 2),
-            *(unsigned int*)((char*)buf + 6), (unsigned int)m_sendQ.size());
-    }
-    else
-    {
-        PopDeleteTcpSendPacketQ(buf);
-    }
-    return r;
 }
 ```

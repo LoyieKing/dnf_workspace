@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809ff8c` | `0xea` | `0x809228c` | `0xef` |
+| guild | DIFF | `0x809ff8c` | `0xea` | `0x8092260` | `0xef` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -133,7 +133,7 @@ undefined1 * CGuildCargo::_ZN11CGuildCargo16PrintDnfItemInfoER11DnfItemInfo(DnfI
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 404 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 397 行）：
 
 ```cpp
 const char* CGuildCargo::PrintDnfItemInfo(DnfItemInfo& info)

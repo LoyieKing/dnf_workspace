@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x806c94c` | `0x113` | `0x8080af0` | `0x113` |
+| guild | NEAR | `0x806c94c` | `0x113` | `0x8080aea` | `0x113` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -177,13 +177,13 @@ CServerHandler::~CServerHandler()
 {
     if (m_dbServer != 0)
     {
-        ((CServerInterface*)m_dbServer)->Destroy();
+        m_dbServer->Destroy();
         delete m_dbServer;
         m_dbServer = 0;
     }
     if (m_managerServer != 0)
     {
-        ((CServerInterface*)m_managerServer)->Destroy();
+        m_managerServer->Destroy();
         delete m_managerServer;
         m_managerServer = 0;
     }

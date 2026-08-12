@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a7b08` | `0x120` | `0x809d9ca` | `0x12e` |
+| guild | DIFF | `0x80a7b08` | `0x120` | `0x809d98a` | `0x12e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -193,8 +193,8 @@ void CPowerWarCharacInfo::GetAllUserRankingInfo(unsigned int& count, STUserRank*
         STPowerWarCharacInfo* info = *it;
         if (info != 0)
         {
-            *(unsigned int*)((char*)rank + n * 8) = info->m_field[0];
-            *(unsigned int*)((char*)rank + n * 8 + 4) = info->m_field[1];
+            rank[n].m0 = info->m_field[0];
+            rank[n].m4 = info->m_field[1];
             n++;
             DNF_LOG_SCOPE_LINE(0xcc, "./log/Power", "Rank:%7d, Charac No:%d, PowerWarPoint:%d", n,
                 info->m_field[0], info->m_field[1]);

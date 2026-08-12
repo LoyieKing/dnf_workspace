@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809a86c` | `0xef` | `0x8061178` | `0xe6` |
+| guild | DIFF | `0x809a86c` | `0xef` | `0x8061164` | `0xf2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,20 +13,20 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,77 +1,71 @@
+@@ -1,77 +1,78 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
  sub    $0x24,%esp
  cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xe3>
-+je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xe1>
++je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xe6>
  cmpl   $0x0,0x10(%ebp)
 -je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xe6>
-+je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xe1>
++je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xe9>
  cmpl   $0x0,0x14(%ebp)
 -je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xe9>
-+je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xe1>
++je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xec>
  movl   $0x0,-0xc(%ebp)
  mov    0x8(%ebp),%edx
  lea    -0x14(%ebp),%eax
@@ -34,7 +34,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE5beginEv>
  sub    $0x4,%esp
- jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xb2>
+-jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xb2>
++jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xb5>
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
@@ -42,7 +43,8 @@
  test   %eax,%eax
  setne  %al
  test   %al,%al
- je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xa7>
+-je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xa7>
++je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xaa>
  mov    -0xc(%ebp),%eax
  shl    $0x2,%eax
  mov    %eax,%ebx
@@ -66,10 +68,12 @@
  mov    -0xc(%ebp),%eax
  add    %eax,%eax
  add    0x14(%ebp),%eax
--addl   $0x1,-0xc(%ebp)
- mov    -0xc(%ebp),%edx
- mov    %dx,(%eax)
-+addl   $0x1,-0xc(%ebp)
++mov    -0xc(%ebp),%edx
++add    $0x1,%edx
++mov    %dx,(%eax)
+ addl   $0x1,-0xc(%ebp)
+-mov    -0xc(%ebp),%edx
+-mov    %dx,(%eax)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEppEv>
@@ -87,11 +91,14 @@
  test   %al,%al
  jne    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0x43>
 -jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xea>
--nop
++jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xed>
+ nop
 -jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xea>
--nop
++jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xed>
+ nop
 -jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xea>
--nop
++jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xed>
+ nop
  mov    -0x4(%ebp),%ebx
  leave
  ret

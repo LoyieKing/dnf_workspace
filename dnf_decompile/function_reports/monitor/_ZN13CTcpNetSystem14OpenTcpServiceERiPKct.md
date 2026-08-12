@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8053958` | `0x1b1` | `0x80a25f2` | `0x1c6` |
+| monitor | DIFF | `0x8053958` | `0x1b1` | `0x80a26c4` | `0x1c1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -32,110 +32,29 @@
 +mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer12GetTcpSocketEv>
+-mov    %eax,-0xc(%ebp)
+-mov    -0xc(%ebp),%eax
 +mov    %eax,-0x18(%ebp)
 +mov    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN9TCPSocket4openEv>
-+test   %al,%al
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x167>
-+movzwl -0x3c(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+mov    0x10(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN9TCPSocket7connectEPKct>
-+test   %al,%al
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0xfd>
-+mov    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN9TCPSocket14setOptNonBlockEv>
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN13CTcpNetSystem16Get_TcpRecvBLockEv>
-+mov    %eax,-0x14(%ebp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN13CTcpNetSystem16Get_TcpRecvQLockEv>
-+mov    %eax,-0x10(%ebp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN13CTcpNetSystem18Get_TcpSwapQPacketEv>
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CSwapQueueISt5queueIP14CTcpRecvBufferSt5dequeIS2_SaIS2_EEELi2EE8GetRecvQEv>
- mov    %eax,-0xc(%ebp)
- mov    -0xc(%ebp),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,0xc(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZN9TCPSocket4openEv>
+ call   <T> <_ZN9TCPSocket4openEv>
 -xor    $0x1,%eax
--test   %al,%al
+ test   %al,%al
 -je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x9b>
--movl   $"tcpSock.open() Fail!",(%esp)
--call   <T> <puts>
--movl   $0x118,0x8(%esp)
--movl   $&_ZZN13CTcpNetSystem14OpenTcpServiceERiPKctE12__FUNCTION__,0x4(%esp)
--lea    -0x20(%ebp),%eax
-+call   <T> <_ZN5CPeer8InitPeerEPSt5queueIP14CTcpRecvBufferSt5dequeIS2_SaIS2_EEEP6CMutexS9_>
-+mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"tcpSock.open() Fail!",0x8(%esp)
--movl   $"./log/TcpServer",0x4(%esp)
--lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x10(%ebp),%eax
-+call   <T> <_ZN5CPeer7ConnSigEv>
-+mov    -0x1c(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    0x8(%ebp),%eax
- mov    %eax,(%esp)
--call   <T> <_ZN13CTcpNetSystem10DeletePeerEP5CPeer>
--mov    $0x0,%eax
--jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1aa>
--movzwl -0x2c(%ebp),%eax
--mov    %eax,0x8(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    -0xc(%ebp),%eax
-+call   <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer>
-+mov    -0x18(%ebp),%eax
- mov    %eax,(%esp)
--call   <T> <_ZN9TCPSocket7connectEPKct>
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x129>
-+call   <T> <_ZNK9TCPSocket9getHandleEv>
-+mov    0xc(%ebp),%edx
-+mov    %eax,(%edx)
-+mov    $0x1,%eax
-+jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1c0>
- movl   $"tcpSock.connect Fail!",(%esp)
++sete   %al
++test   %al,%al
++je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x9c>
+ movl   $"tcpSock.open() Fail!",(%esp)
  call   <T> <puts>
--movzwl -0x2c(%ebp),%ebx
-+movzwl -0x3c(%ebp),%ebx
- movl   $0x123,0x8(%esp)
+ movl   $0x118,0x8(%esp)
  movl   $&_ZZN13CTcpNetSystem14OpenTcpServiceERiPKctE12__FUNCTION__,0x4(%esp)
--lea    -0x18(%ebp),%eax
+-lea    -0x20(%ebp),%eax
 +lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    %ebx,0x10(%esp)
- mov    0x10(%ebp),%eax
- mov    %eax,0xc(%esp)
- movl   $"tcpSock.connect(%s, %d) Fail!",0x8(%esp)
+ movl   $"tcpSock.open() Fail!",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
--lea    -0x18(%ebp),%eax
+-lea    -0x20(%ebp),%eax
 +lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -147,57 +66,100 @@
  call   <T> <_ZN13CTcpNetSystem10DeletePeerEP5CPeer>
  mov    $0x0,%eax
 -jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1aa>
+-movzwl -0x2c(%ebp),%eax
++jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1bb>
++movzwl -0x3c(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -mov    -0xc(%ebp),%eax
-+jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1c0>
-+movl   $"tcpSock.open() Fail!",(%esp)
-+call   <T> <puts>
-+movl   $0x118,0x8(%esp)
-+movl   $&_ZZN13CTcpNetSystem14OpenTcpServiceERiPKctE12__FUNCTION__,0x4(%esp)
++mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN9TCPSocket7connectEPKct>
+-xor    $0x1,%eax
+ test   %al,%al
+-je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x129>
++sete   %al
++test   %al,%al
++je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x12c>
+ movl   $"tcpSock.connect Fail!",(%esp)
+ call   <T> <puts>
+-movzwl -0x2c(%ebp),%ebx
++movzwl -0x3c(%ebp),%ebx
+ movl   $0x123,0x8(%esp)
+ movl   $&_ZZN13CTcpNetSystem14OpenTcpServiceERiPKctE12__FUNCTION__,0x4(%esp)
+-lea    -0x18(%ebp),%eax
 +lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZN9TCPSocket14setOptNonBlockEv>
--mov    0x8(%ebp),%eax
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"tcpSock.open() Fail!",0x8(%esp)
-+movl   $"./log/TcpServer",0x4(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0x10(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"tcpSock.connect(%s, %d) Fail!",0x8(%esp)
+ movl   $"./log/TcpServer",0x4(%esp)
+-lea    -0x18(%ebp),%eax
 +lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZN13CTcpNetSystem16Get_TcpRecvBLockEv>
--mov    %eax,%esi
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN13CTcpNetSystem16Get_TcpRecvQLockEv>
--mov    %eax,%ebx
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN13CTcpNetSystem18Get_TcpSwapQPacketEv>
--mov    %eax,(%esp)
--call   <T> <_ZN10CSwapQueueISt5queueIP14CTcpRecvBufferSt5dequeIS2_SaIS2_EEELi2EE8GetRecvQEv>
--mov    %esi,0xc(%esp)
--mov    %ebx,0x8(%esp)
--mov    %eax,0x4(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CPeer8InitPeerEPSt5queueIP14CTcpRecvBufferSt5dequeIS2_SaIS2_EEEP6CMutexS9_>
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CPeer7ConnSigEv>
--mov    -0x10(%ebp),%eax
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    -0x1c(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer>
+ call   <T> <_ZN13CTcpNetSystem10DeletePeerEP5CPeer>
+ mov    $0x0,%eax
+-jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1aa>
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    0xc(%ebp),%edx
--mov    %eax,(%edx)
--mov    $0x1,%eax
++jmp    <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x1bb>
++mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN9TCPSocket14setOptNonBlockEv>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN13CTcpNetSystem16Get_TcpRecvBLockEv>
+-mov    %eax,%esi
++mov    %eax,-0x14(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN13CTcpNetSystem16Get_TcpRecvQLockEv>
+-mov    %eax,%ebx
++mov    %eax,-0x10(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN13CTcpNetSystem18Get_TcpSwapQPacketEv>
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CSwapQueueISt5queueIP14CTcpRecvBufferSt5dequeIS2_SaIS2_EEELi2EE8GetRecvQEv>
+-mov    %esi,0xc(%esp)
+-mov    %ebx,0x8(%esp)
++mov    %eax,-0xc(%ebp)
++mov    -0xc(%ebp),%eax
++mov    -0x14(%ebp),%edx
++mov    %edx,0xc(%esp)
++mov    -0x10(%ebp),%edx
++mov    %edx,0x8(%esp)
+ mov    %eax,0x4(%esp)
+-mov    -0x10(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CPeer8InitPeerEPSt5queueIP14CTcpRecvBufferSt5dequeIS2_SaIS2_EEEP6CMutexS9_>
+-mov    -0x10(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CPeer7ConnSigEv>
+-mov    -0x10(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer>
+-mov    -0xc(%ebp),%eax
++mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK9TCPSocket9getHandleEv>
+ mov    0xc(%ebp),%edx
+ mov    %eax,(%edx)
+ mov    $0x1,%eax
 -add    $0x50,%esp
-+call   <T> <_ZN13CTcpNetSystem10DeletePeerEP5CPeer>
-+mov    $0x0,%eax
 +add    $0x64,%esp
  pop    %ebx
 -pop    %esi

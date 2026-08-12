@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8051086` | `0x1a1` | `0x8097d50` | `0x199` |
+| guild | DIFF | `0x8051086` | `0x1a1` | `0x8097d10` | `0x199` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -227,7 +227,7 @@ ssize_t __thiscall CPeer::_ZN5CPeer11recv_packetEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 164 行）：
+定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 169 行）：
 
 ```cpp
 int CPeer::recv_packet()
@@ -235,25 +235,27 @@ int CPeer::recv_packet()
     if (getHandle() < 0)
         return 0;
     errno = 0;
-    int remaining = ((char*)this + 0x1c + 0x1800) - *(char**)((char*)this + 0x181c);
+    int remaining = ((char*)this + 0x1c) - m_buf + 0x1800;
     if (remaining == 0)
     {
-        *(char**)((char*)this + 0x181c) = (char*)this + 0x1c;
-        *(int*)((char*)this + 0x1820) = 0;
+        m_buf = (char*)this + 0x1c;
+        m_remainLen = 0;
         remaining = 0x1800;
     }
-    int n = read(getHandle(), *(void**)((char*)this + 0x181c), remaining);
+    int n = read(getHandle(), m_buf, remaining);
     if (n < 0)
     {
-        if (errno == EAGAIN || errno == EINTR)
+        if (errno == EAGAIN)
             return 0;
-        if (errno != 0)
-        {
-            printf("RECV ERROR DISCONNNECT NOW FD[%d] : %d(%s)",
-                   getHandle(), errno, strerror(errno));
-            return -1;
-        }
-        return 0;
+        if (errno == EINTR)
+            return 0;
+        if (errno == EAGAIN)
+            return 0;
+        if (errno == 0)
+            return 0;
+        printf("RECV ERROR DISCONNNECT NOW FD[%d] : %d(%s)",
+               getHandle(), errno, strerror(errno));
+        return -1;
     }
     if (n == 0)
     {

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a916e` | `0x147` | `0x80a79c8` | `0x182` |
+| monitor | DIFF | `0x80a916e` | `0x147` | `0x80a7a6c` | `0x180` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,95 +1,117 @@
+@@ -1,95 +1,116 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -26,19 +26,17 @@
 -xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x140>
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x179>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x177>
  call   <T> <_Z10GetNowTimev>
 -mov    %eax,-0xc(%ebp)
 +mov    %eax,-0x24(%ebp)
  mov    0x8(%ebp),%eax
--mov    0x1c(%eax),%edx
-+mov    0x1c(%eax),%eax
-+mov    %eax,%edx
+ mov    0x1c(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    0x20(%eax),%eax
  cmp    %eax,%edx
 -jb     <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x8f>
-+jb     <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0xac>
++jb     <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0xaa>
  mov    0x8(%ebp),%eax
  movl   $0x1,0x30(%eax)
  movl   $0x14,(%esp)
@@ -57,7 +55,7 @@
  call   <T> <_ZN16village_attacked22CVillageAttackedRewardC1EjjPNS_23CVillageAttackedManagerE>
 -mov    %ebx,%eax
 -mov    %eax,%ebx
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x8b>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x89>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
@@ -76,7 +74,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CTaskScheduler7AddTaskEPNS_5CTaskE>
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0xeb>
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x124>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x122>
  mov    0x8(%ebp),%eax
  movl   $0x2,0x30(%eax)
  movl   $0x14,(%esp)
@@ -95,7 +93,7 @@
  call   <T> <_ZN16village_attacked22CVillageAttackedRewardC1EjjPNS_23CVillageAttackedManagerE>
 -mov    %ebx,%eax
 -mov    %eax,%ebx
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x105>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x103>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
@@ -137,7 +135,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked23CVillageAttackedManager10OnScheduleEv>
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x141>
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x17a>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x178>
  nop
 -add    $0x24,%esp
 +add    $0x2c,%esp

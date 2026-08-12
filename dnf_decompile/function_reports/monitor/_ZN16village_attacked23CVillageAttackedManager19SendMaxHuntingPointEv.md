@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a8b10` | `0x98` | `0x80a78e4` | `0x97` |
+| monitor | DIFF | `0x80a8b10` | `0x98` | `0x80a7988` | `0x95` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,40 +1,40 @@
+@@ -1,40 +1,39 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -29,9 +29,7 @@
 +movl   $0x6,-0x200e(%ebp)
 +movl   $0x4ee2,-0x2012(%ebp)
  mov    0x8(%ebp),%eax
--mov    0x1c(%eax),%esi
-+mov    0x1c(%eax),%eax
-+mov    %eax,%esi
+ mov    0x1c(%eax),%esi
  call   <T> <_Z10GetNowTimev>
  mov    %eax,%ebx
  mov    0x8(%ebp),%eax

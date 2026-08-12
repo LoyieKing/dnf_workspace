@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4204` | `0x62` | `0x8092dcc` | `0x65` |
+| monitor | DIFF | `0x80a4204` | `0x62` | `0x8092e8c` | `0x5f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,31 +13,27 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,26 +1,26 @@
+@@ -1,26 +1,24 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  movl   $0xc2,0x8(%esp)
  movl   $&_ZZN18COnTimeEventAction11onEndActionEvE12__FUNCTION__,0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"Test Event Action : On End On Time Event Action",0x8(%esp)
  movl   $"./log/OnTimeEvent",0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  call   <T> <_Z20CApplicationInstancev>
-+mov    %eax,-0x10(%ebp)
-+mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication21GetOnTimeEventManagerEv>
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN18COnTimeEventAction11onEndActionEv+0x5f>
-+je     <T> <_ZN18COnTimeEventAction11onEndActionEv+0x63>
++je     <T> <_ZN18COnTimeEventAction11onEndActionEv+0x5d>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN19COnTimeEventManager8EndEventEv>

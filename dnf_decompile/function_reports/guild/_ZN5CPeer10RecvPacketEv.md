@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8050ef0` | `0x196` | `0x8097bb8` | `0x198` |
+| guild | DIFF | `0x8050ef0` | `0x196` | `0x8097b78` | `0x198` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -187,7 +187,7 @@ undefined4 __thiscall CPeer::_ZN5CPeer10RecvPacketEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 136 行）：
+定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 141 行）：
 
 ```cpp
 bool CPeer::RecvPacket()
@@ -198,7 +198,7 @@ bool CPeer::RecvPacket()
         if (!parsing(ret))
         {
             DNF_LOG_SCOPE_LINE(0x4d, "./log/TcpRecv",
-                "CPeer::Recv (false == parsing( size:%d ) )\n", ret);
+                "CPeer::Recv (false == parsing( size:%d ) )", ret);
             printf("CPeer::Recv (false == parsing( size:%d ) )\n", ret);
             return 1;
         }

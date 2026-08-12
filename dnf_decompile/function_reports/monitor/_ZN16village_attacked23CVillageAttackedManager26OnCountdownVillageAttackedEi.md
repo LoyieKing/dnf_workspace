@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a9574` | `0x63` | `0x80a77cc` | `0x67` |
+| monitor | DIFF | `0x80a9574` | `0x63` | `0x80a786e` | `0x69` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,24 +13,21 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,34 +1,35 @@
+@@ -1,34 +1,36 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x20,%esp
  cmpl   $0x258,0xc(%ebp)
--jne    <T> <_ZN16village_attacked23CVillageAttackedManager26OnCountdownVillageAttackedEi+0x24>
-+jne    <T> <_ZN16village_attacked23CVillageAttackedManager26OnCountdownVillageAttackedEi+0x22>
+ jne    <T> <_ZN16village_attacked23CVillageAttackedManager26OnCountdownVillageAttackedEi+0x24>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked23CVillageAttackedManager18GetMaxHuntingPointEv>
--mov    %eax,%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x20(%eax)
+ mov    %eax,%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x20(%eax)
 -lea    -0x16(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+mov    %eax,0x20(%edx)
 +lea    -0x12(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN31Packet_VillageAttackedCountdownC1Ev>

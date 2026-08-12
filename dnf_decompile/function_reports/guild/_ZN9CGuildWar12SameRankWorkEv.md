@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809ad34` | `0x21b` | `0x8061646` | `0x216` |
+| guild | DIFF | `0x809ad34` | `0x21b` | `0x806163e` | `0x219` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,166 +1,163 @@
+@@ -1,166 +1,165 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -25,7 +25,7 @@
  je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x20>
  mov    $0x0,%eax
 -jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x216>
-+jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x211>
++jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x214>
  mov    0x8(%ebp),%edx
  lea    -0x24(%ebp),%eax
  mov    %edx,0x4(%esp)
@@ -41,7 +41,7 @@
  jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x56>
  mov    $0x0,%eax
 -jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x216>
-+jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x211>
++jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x214>
  mov    -0x1c(%ebp),%eax
  mov    0x4(%eax),%eax
  mov    %eax,-0x18(%ebp)
@@ -52,34 +52,28 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE5beginEv>
  sub    $0x4,%esp
--jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0xc3>
-+jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0xc0>
+ jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0xc3>
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
-+call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
+ call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
  mov    0x4(%eax),%eax
  test   %eax,%eax
--sete   %al
-+setne  %al
+ sete   %al
  test   %al,%al
--jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0xb7>
-+je     <T> <_ZN9CGuildWar12SameRankWorkEv+0xb5>
+ jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0xb7>
  mov    -0x18(%ebp),%ebx
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
-+call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
+ call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
  mov    0x4(%eax),%eax
  mov    0x4(%eax),%eax
  cmp    %eax,%ebx
  setne  %al
  test   %al,%al
--jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0xf0>
-+jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0xed>
+ jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0xf0>
  addl   $0x1,-0x14(%ebp)
--jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0xb8>
--nop
+ jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0xb8>
+ nop
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEppEv>
@@ -96,12 +90,11 @@
  call   <T> <_ZN9__gnu_cxxneIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEEbRKNS_17__normal_iteratorIT_T0_EESE_>
  test   %al,%al
  jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x7d>
--jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0xf1>
-+jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0xee>
+ jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0xf1>
  nop
  cmpl   $0x1,-0x14(%ebp)
 -jle    <T> <_ZN9CGuildWar12SameRankWorkEv+0x211>
-+jle    <T> <_ZN9CGuildWar12SameRankWorkEv+0x20c>
++jle    <T> <_ZN9CGuildWar12SameRankWorkEv+0x20f>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEC1Ev>
@@ -132,10 +125,10 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x160>
-+je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x15b>
++je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x15e>
  mov    $0x0,%eax
 -jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x216>
-+jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x211>
++jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x214>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
 -call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
@@ -145,7 +138,7 @@
  mov    %eax,-0x10(%ebp)
  movl   $0x1,-0xc(%ebp)
 -jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x1c1>
-+jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x1bc>
++jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x1bf>
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEppEv>
@@ -159,7 +152,7 @@
  seta   %al
  test   %al,%al
 -je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x1bd>
-+je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x1b8>
++je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x1bb>
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
 -call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
@@ -175,7 +168,7 @@
  setl   %al
  test   %al,%al
 -jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x17d>
-+jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x178>
++jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x17b>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
 -call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
@@ -186,7 +179,7 @@
  setne  %al
  test   %al,%al
 -je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x211>
-+je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x20c>
++je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x20f>
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
 -call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
@@ -388,23 +381,23 @@ int CGuildWar::SameRankWork()
         std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator maxItTmp;
         it2 = m_vtGuildWarInfo.begin();
         maxIt = it2;
-        if (maxIt->second == 0)
+        if ((*maxIt).second == 0)
         {
             return 0;
         }
-        unsigned int maxVal = maxIt->second->m_field[6];
+        unsigned int maxVal = (*maxIt).second->m_field[6];
         for (int i = 1; i < count; i++)
         {
             ++it2;
-            if (maxVal < it2->second->m_field[6])
+            if (maxVal < (*it2).second->m_field[6])
             {
-                maxVal = it2->second->m_field[6];
+                maxVal = (*it2).second->m_field[6];
                 maxItTmp = it2;
             }
         }
-        if (maxIt->second->m_field[6] != maxVal)
+        if ((*maxIt).second->m_field[6] != maxVal)
         {
-            DNFFLib::Swap<STGuildWarInfo>(maxIt->second, maxItTmp->second);
+            DNFFLib::Swap<STGuildWarInfo>((*maxIt).second, (*maxItTmp).second);
         }
     }
     return 1;

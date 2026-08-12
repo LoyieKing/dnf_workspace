@@ -6,9 +6,9 @@ ROOT=/home/loyieking/dnf_workspace/dnf_decompile
 SCRATCH="$1"
 TU="$2"
 OBJROOT="$ROOT/build/guild/CMakeFiles/guild.dir"
-TUO="$(find "$OBJROOT" -name "${TU}.o" | head -1)"
+TUO="$(find "$OBJROOT" -path "*GameServer/Guild/${TU}.o" -o -path "*GameServer/Guild/*/${TU}.o" | head -1)"
 [ -n "$TUO" ] || { echo "no object for $TU" >&2; exit 1; }
-SRC="$(find "$ROOT/source" -name "$TU" | head -1)"
+SRC="$ROOT/source/DNFServer/GameServer/Guild/$TU"
 [ -n "$SRC" ] || { echo "no source for $TU" >&2; exit 1; }
 rm -rf "$SCRATCH"
 mkdir -p "$SCRATCH"

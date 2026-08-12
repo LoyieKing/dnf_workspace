@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a8d40` | `0x3a5` | `0x80a82de` | `0x368` |
+| monitor | DIFF | `0x80a8d40` | `0x3a5` | `0x80a8392` | `0x366` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,271 +1,239 @@
+@@ -1,271 +1,238 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -31,7 +31,7 @@
 -lea    -0x48(%ebp),%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x35e>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x35c>
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI18stUserHuntingPointSaIS0_EEC1Ev>
@@ -174,10 +174,11 @@
 -mov    %eax,-0x28(%ebp)
 -mov    0x8(%ebp),%eax
 -mov    0x1c(%eax),%edx
+-mov    0x8(%ebp),%eax
+-mov    0x20(%eax),%eax
 +mov    %eax,-0x18(%ebp)
- mov    0x8(%ebp),%eax
- mov    0x20(%eax),%eax
-+mov    %eax,%edx
++mov    0x8(%ebp),%eax
++mov    0x20(%eax),%edx
 +mov    0x8(%ebp),%eax
 +mov    0x1c(%eax),%eax
  cmp    %eax,%edx
@@ -186,10 +187,10 @@
 -movl   $0x0,-0x20(%ebp)
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x2cb>
 -lea    -0x58(%ebp),%eax
-+ja     <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x2ae>
++ja     <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x2ac>
 +movl   $0x0,-0x14(%ebp)
 +movl   $0x0,-0x10(%ebp)
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x295>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x293>
 +lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt14priority_queueI18stUserHuntingPointSt6vectorIS0_SaIS0_EESt4lessIS0_EE3topEv>
@@ -214,7 +215,7 @@
 -lea    -0x58(%ebp),%eax
 +mov    %eax,-0xc(%ebp)
 +cmpl   $0x0,-0xc(%ebp)
-+jne    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x1ed>
++jne    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x1eb>
 +lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt14priority_queueI18stUserHuntingPointSt6vectorIS0_SaIS0_EESt4lessIS0_EE3popEv>
@@ -238,7 +239,7 @@
 -mov    -0x24(%ebp),%eax
 -mov    %eax,0x8(%esp)
 -mov    -0x1c(%ebp),%eax
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x291>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x28f>
 +addl   $0x1,-0x14(%ebp)
 +mov    -0x14(%ebp),%eax
 +mov    %eax,0x8(%esp)
@@ -279,7 +280,7 @@
  setne  %al
  test   %al,%al
 -je     <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x2a1>
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x26b>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x269>
  movl   $",",0x4(%esp)
 -lea    -0x5c(%ebp),%eax
 +lea    -0x4c(%ebp),%eax
@@ -302,7 +303,7 @@
 -addl   $0x1,-0x20(%ebp)
 -lea    -0x58(%ebp),%eax
 +cmpl   $0x2,-0x14(%ebp)
-+jg     <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x2ad>
++jg     <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x2ab>
 +addl   $0x1,-0x10(%ebp)
 +lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
@@ -311,8 +312,8 @@
  test   %al,%al
 -jne    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x19c>
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x2e4>
-+jne    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x165>
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x2ae>
++jne    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x163>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x2ac>
  nop
 -lea    -0x1182(%ebp),%eax
 +lea    -0x2074(%ebp),%eax
@@ -343,7 +344,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x364>
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x32b>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x329>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x5c(%ebp),%eax
@@ -354,12 +355,12 @@
  mov    %ebx,%edx
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x371>
 -lea    -0x5c(%ebp),%eax
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x338>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x336>
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x38c>
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x353>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x351>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x58(%ebp),%eax

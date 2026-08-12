@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8064f60` | `0x110` | `0x804d202` | `0x11d` |
+| guild | DIFF | `0x8064f60` | `0x110` | `0x804d200` | `0x112` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,83 +1,88 @@
+@@ -1,83 +1,84 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,31 +22,22 @@
  mov    0x10(%ebp),%eax
  add    $0x8,%eax
  mov    (%eax),%eax
--mov    %eax,-0x10(%ebp)
-+test   %eax,%eax
-+je     <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x77>
-+mov    0x10(%ebp),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
+ mov    %eax,-0x10(%ebp)
  movl   $"start",0x4(%esp)
--mov    -0x10(%ebp),%eax
+ mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <strcmp>
  test   %eax,%eax
--jne    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x71>
-+jne    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x77>
+ jne    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x71>
  call   <T> <fork>
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
--jns    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x42>
+ jns    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x42>
 -mov    $0xffffffff,%eax
--jmp    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x109>
-+jns    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x48>
 +mov    $0xffffffff,%ebx
-+jmp    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x114>
+ jmp    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x109>
  cmpl   $0x0,-0xc(%ebp)
--je     <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x54>
-+je     <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x5a>
+ je     <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x54>
  movl   $0x0,(%esp)
  call   <T> <exit>
  call   <T> <setsid>
@@ -54,83 +45,66 @@
  call   <T> <chdir>
  movl   $0x0,(%esp)
  call   <T> <umask>
--lea    -0x11(%ebp),%eax
-+lea    -0xd(%ebp),%eax
+ lea    -0x11(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
  mov    0x10(%ebp),%eax
  add    $0x4,%eax
  mov    (%eax),%eax
--lea    -0x11(%ebp),%edx
-+lea    -0xd(%ebp),%edx
+ lea    -0x11(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x18(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN13CAppStartInit8Save_pidERKSs>
+ lea    -0x18(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN13CAppStartInit8Save_pidERKSs>
 -mov    %eax,%ebx
 -xor    $0x1,%ebx
 -lea    -0x18(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0xee>
-+jmp    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0xbd>
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0xba>
++mov    $0xffffffff,%ebx
++jmp    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0xd6>
++mov    $0x0,%ebx
++jmp    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0xd6>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
+ lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -jmp    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0xd3>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x11(%ebp),%eax
-+lea    -0xd(%ebp),%eax
++jmp    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0xe3>
++lea    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0xfe>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x11(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--lea    -0x11(%ebp),%eax
-+lea    -0xd(%ebp),%eax
+ lea    -0x11(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
 -test   %bl,%bl
 -je     <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x104>
-+lea    -0x14(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN13CAppStartInit8Save_pidERKSs>
-+test   %al,%al
-+je     <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0xe5>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0xea>
- mov    $0xffffffff,%eax
+-mov    $0xffffffff,%eax
 -jmp    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x109>
 -mov    $0x0,%eax
-+mov    %eax,%ebx
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN13CAppStartInit11Init_DaemonEiPPc+0x114>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
 +mov    %ebx,%eax
  add    $0x20,%esp
  pop    %ebx

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091138` | `0x15d` | `0x8056cf4` | `0x168` |
+| guild | DIFF | `0x8091138` | `0x15d` | `0x8056ce0` | `0x168` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -222,24 +222,24 @@ void CGuild::SetSubGuildMaster(unsigned int charNo, bool flag)
 {
     if (flag)
     {
-        unsigned char cnt = *(unsigned char*)((char*)this + 0x4d);
-        if (cnt + 1 < 6)
+        if (m_dbInfo.m_info.m_subMasterCnt + 1 < 6)
         {
-            *(unsigned int*)((char*)this + ((unsigned int)cnt + 0x10) * 4 + 0xe) = charNo;
-            *(unsigned char*)((char*)this + 0x4d) = cnt + 1;
+            m_dbInfo.m_info.m_subGuildMaster[m_dbInfo.m_info.m_subMasterCnt++] = charNo;
         }
     }
     else
     {
-        unsigned char* cnt = (unsigned char*)((char*)this + 0x4d);
-        for (unsigned int i = 0; i < (unsigned int)*cnt; i++)
+        unsigned char* cnt = &m_dbInfo.m_info.m_subMasterCnt;
+        for (int i = 0; i < (int)*cnt; i++)
         {
-            if (*(unsigned int*)((char*)this + (i + 0x10) * 4 + 0xe) == charNo)
+            if (m_dbInfo.m_info.m_subGuildMaster[i] == charNo)
             {
-                memcpy((char*)this + i * 4 + 0x4e, (char*)this + (i + 1) * 4 + 0x4e,
+                memcpy(m_dbInfo.m_info.m_subGuildMaster + i,
+                       m_dbInfo.m_info.m_subGuildMaster + i + 1,
                        ((unsigned int)*cnt + ~i) * 4);
                 *cnt = (unsigned char)((int)*cnt - 1);
-                if (5 < (unsigned char)*cnt)
+                register bool over = 5 < (unsigned char)*cnt;
+                if (over)
                 {
                     *cnt = 0;
                 }

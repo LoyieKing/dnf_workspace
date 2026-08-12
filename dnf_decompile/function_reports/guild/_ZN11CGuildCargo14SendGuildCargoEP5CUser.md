@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809fe24` | `0x79` | `0x8092124` | `0x79` |
+| guild | DIFF | `0x809fe24` | `0x79` | `0x80920f8` | `0x79` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -30,16 +30,13 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
  mov    %eax,-0x18e8(%ebp)
-+lea    -0x18f6(%ebp),%eax
-+lea    0x12(%eax),%edx
 +movl   $0x18dc,0x8(%esp)
  mov    0x8(%ebp),%eax
 -movl   $0x18dc,0x8(%esp)
  mov    %eax,0x4(%esp)
--lea    -0x18f6(%ebp),%eax
--add    $0x12,%eax
--mov    %eax,(%esp)
-+mov    %edx,(%esp)
+ lea    -0x18f6(%ebp),%eax
+ add    $0x12,%eax
+ mov    %eax,(%esp)
  call   <T> <memcpy>
  lea    -0x18f6(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -79,7 +76,7 @@ CGuildCargo::_ZN11CGuildCargo14SendGuildCargoEP5CUser(CGuildCargo *this,CUser *p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 375 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 370 行）：
 
 ```cpp
 void CGuildCargo::SendGuildCargo(CUser* user)

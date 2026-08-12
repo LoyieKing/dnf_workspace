@@ -291,16 +291,16 @@ bool STPartyJobStatisticKey::operator<(const STPartyJobStatisticKey& other) cons
             if (m_field8 < other.m_field8) return true;
             if (m_field8 == other.m_field8)
             {
-                if ((unsigned char)m_field9 < (unsigned char)other.m_field9) return true;
+                if (m_field9 < other.m_field9) return true;
                 if (m_field9 == other.m_field9)
                 {
-                    if ((unsigned char)m_fielda < (unsigned char)other.m_fielda) return true;
+                    if (m_fielda < other.m_fielda) return true;
                     if (m_fielda == other.m_fielda)
                     {
-                        if ((unsigned char)m_fieldb < (unsigned char)other.m_fieldb) return true;
+                        if (m_fieldb < other.m_fieldb) return true;
                         if (m_fieldb == other.m_fieldb)
                         {
-                            if ((unsigned char)m_fieldc < (unsigned char)other.m_fieldc) return true;
+                            if (m_fieldc < other.m_fieldc) return true;
                             if (m_fieldc == other.m_fieldc)
                             {
                             if (m_fieldd < other.m_fieldd)

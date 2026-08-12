@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8052b8c` | `0x28a` | `0x80a7320` | `0x258` |
+| guild | DIFF | `0x8052b8c` | `0x28a` | `0x80a72e0` | `0x258` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -312,26 +312,28 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystemD1Ev(CTcpNetSystem *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 208 行）：
+定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 221 行）：
 
 ```cpp
 CTcpNetSystem::~CTcpNetSystem()
 {
     CleanPeers();
-    if (m_tcpHandler != 0)
+    if (m_tcpHandler)
     {
         delete m_tcpHandler;
+        m_tcpHandler = 0;
     }
-    m_tcpHandler = 0;
-    if (m_acceptThread != 0)
+    if (m_acceptThread)
     {
+        m_acceptThread->stop();
         delete m_acceptThread;
+        m_acceptThread = 0;
     }
-    m_acceptThread = 0;
-    if (m_tcpNetworkThread != 0)
+    if (m_tcpNetworkThread)
     {
+        m_tcpNetworkThread->stop();
         delete m_tcpNetworkThread;
+        m_tcpNetworkThread = 0;
     }
-    m_tcpNetworkThread = 0;
 }
 ```

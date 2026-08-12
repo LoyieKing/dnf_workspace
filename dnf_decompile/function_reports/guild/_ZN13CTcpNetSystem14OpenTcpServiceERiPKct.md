@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80537ac` | `0x1b1` | `0x80a7f6c` | `0x1b0` |
+| guild | DIFF | `0x80537ac` | `0x1b1` | `0x80a7f2c` | `0x1b0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -239,38 +239,36 @@ CTcpNetSystem::_ZN13CTcpNetSystem14OpenTcpServiceERiPKct
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 406 行）：
+定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 427 行）：
 
 ```cpp
 bool CTcpNetSystem::OpenTcpService(int& sock, const char* ip, unsigned short port)
 {
     CPeer* peer = CreatePeer();
     TCPSocket* tcp = peer->GetTcpSocket();
-    if (tcp->open())
-    {
-        if (tcp->connect(ip, port))
-        {
-            tcp->setOptNonBlock();
-            peer->InitPeer(
-                ((CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*> >, 2>*)
-                    Get_TcpSwapQPacket())->GetRecvQ(),
-                           Get_TcpRecvQLock(), Get_TcpRecvBLock());
-            peer->ConnSig();
-            SetEpollConnectedPeer(peer);
-            sock = tcp->getHandle();
-            return true;
-        }
-        puts("tcpSock.connect Fail!");
-        DNF_LOG_SCOPE_LINE(0x123, "./log/TcpServer", "tcpSock.connect(%s, %d) Fail!", ip, (unsigned int)port);
-        DeletePeer(peer);
-        return false;
-    }
-    else
+    if (!tcp->open())
     {
         puts("tcpSock.open() Fail!");
         DNF_LOG_SCOPE_LINE(0x118, "./log/TcpServer", "tcpSock.open() Fail!");
         DeletePeer(peer);
         return false;
     }
+    else if (!tcp->connect(ip, port))
+    {
+        puts("tcpSock.connect Fail!");
+        register int nPort = port;  // R10: register 局部变体（对齐 ORIG ctor 前 ebx 预装载）
+        DNF_LOG_SCOPE_LINE(0x123, "./log/TcpServer", "tcpSock.connect(%s, %d) Fail!", ip, nPort);
+        DeletePeer(peer);
+        return false;
+    }
+    tcp->setOptNonBlock();
+    peer->InitPeer(
+        ((CSwapQueue<std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*> >, 2>*)
+            Get_TcpSwapQPacket())->GetRecvQ(),
+        Get_TcpRecvQLock(), Get_TcpRecvBLock());
+    peer->ConnSig();
+    SetEpollConnectedPeer(peer);
+    sock = tcp->getHandle();
+    return true;
 }
 ```

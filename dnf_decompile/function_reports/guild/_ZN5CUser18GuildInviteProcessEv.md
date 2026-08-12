@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8067524` | `0x6f` | `0x8089aa0` | `0x5e` |
+| guild | DIFF | `0x8067524` | `0x6f` | `0x8089a8e` | `0x5e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -84,7 +84,7 @@ void __thiscall CUser::_ZN5CUser18GuildInviteProcessEv(CUser *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 482 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 478 行）：
 
 ```cpp
 void CUser::GuildInviteProcess()
@@ -92,7 +92,8 @@ void CUser::GuildInviteProcess()
     if (m_field7e < 2)
     {
         m_field7e = (char)(m_field7e - 1);
-        if (m_field7e == 0 || m_field7e > 1)
+        bool bVar = (m_field7e == 0 || m_field7e > 1);
+        if (bVar)
         {
             SetGuildInviteFact(0, 0, 0xff);
         }

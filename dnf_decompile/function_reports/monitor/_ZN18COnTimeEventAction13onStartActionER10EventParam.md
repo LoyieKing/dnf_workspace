@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4164` | `0x9f` | `0x8092d2a` | `0xa2` |
+| monitor | DIFF | `0x80a4164` | `0x9f` | `0x8092df0` | `0x9c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,47 +1,47 @@
+@@ -1,47 +1,45 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -27,27 +27,23 @@
  movzwl %ax,%ebx
  movl   $0xa7,0x8(%esp)
  movl   $&_ZZN18COnTimeEventAction13onStartActionER10EventParamE12__FUNCTION__,0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %esi,0x10(%esp)
  mov    %ebx,0xc(%esp)
  movl   $"Test Event Action : On Start On Time Event Action %d,%d",0x8(%esp)
  movl   $"./log/OnTimeEvent",0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  call   <T> <_Z20CApplicationInstancev>
-+mov    %eax,-0x10(%ebp)
-+mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication21GetOnTimeEventManagerEv>
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN18COnTimeEventAction13onStartActionER10EventParam+0x97>
-+je     <T> <_ZN18COnTimeEventAction13onStartActionER10EventParam+0x9b>
++je     <T> <_ZN18COnTimeEventAction13onStartActionER10EventParam+0x95>
  mov    0xc(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%edx

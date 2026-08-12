@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80910f0` | `0x47` | `0x8056ca6` | `0x4d` |
+| guild | NEAR | `0x80910f0` | `0x47` | `0x8056c98` | `0x47` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,28 +13,21 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,24 +1,27 @@
+@@ -1,24 +1,24 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x10,%esp
  movl   $0x0,-0x4(%ebp)
--jmp    <T> <_ZN6CGuild16IsSubGuildMasterEj+0x2c>
-+jmp    <T> <_ZN6CGuild16IsSubGuildMasterEj+0x32>
+ jmp    <T> <_ZN6CGuild16IsSubGuildMasterEj+0x2c>
 +mov    0x8(%ebp),%eax
  mov    -0x4(%ebp),%edx
 -mov    0x8(%ebp),%eax
  add    $0x10,%edx
--mov    0xe(%eax,%edx,4),%eax
-+shl    $0x2,%edx
-+add    $0xe,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
+ mov    0xe(%eax,%edx,4),%eax
  cmp    0xc(%ebp),%eax
--jne    <T> <_ZN6CGuild16IsSubGuildMasterEj+0x28>
-+jne    <T> <_ZN6CGuild16IsSubGuildMasterEj+0x2e>
+ jne    <T> <_ZN6CGuild16IsSubGuildMasterEj+0x28>
  mov    $0x1,%eax
--jmp    <T> <_ZN6CGuild16IsSubGuildMasterEj+0x45>
-+jmp    <T> <_ZN6CGuild16IsSubGuildMasterEj+0x4b>
+ jmp    <T> <_ZN6CGuild16IsSubGuildMasterEj+0x45>
  addl   $0x1,-0x4(%ebp)
  mov    0x8(%ebp),%eax
  movzbl 0x4d(%eax),%eax
@@ -79,7 +72,7 @@ bool CGuild::IsSubGuildMaster(unsigned int dbid)
 {
     for (int i = 0; i < m_dbInfo.m_info.m_subMasterCnt; i++)
     {
-        if (((CGuildSubMasterView*)this)->m_subGuildMaster[i] == dbid)
+        if (m_dbInfo.m_info.m_subGuildMaster[i] == dbid)
         {
             return true;
         }

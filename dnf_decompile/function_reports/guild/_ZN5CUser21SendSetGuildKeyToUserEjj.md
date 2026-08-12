@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8066d10` | `0x3a` | `0x8089274` | `0x43` |
+| guild | DIFF | `0x8066d10` | `0x3a` | `0x8089262` | `0x43` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -76,9 +76,9 @@ void __thiscall CUser::_ZN5CUser21SendSetGuildKeyToUserEjj(CUser *this,uint para
 void CUser::SendSetGuildKeyToUser(unsigned int guildKey, unsigned int grade)
 {
     Packet_Monitor_Set_Guild_Key pkt;
-    ((PktSetGuildKeyLayout*)&pkt)->m_channel = m_channel;
-    ((PktSetGuildKeyLayout*)&pkt)->m_grade = grade;
-    ((PktSetGuildKeyLayout*)&pkt)->m_guildKey = guildKey;
+    pkt.m_channel = m_channel;
+    pkt.m_grade = grade;
+    pkt.m_guildKey = guildKey;
     SendTcpGameserver(&pkt);
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8099e1c` | `0x14a` | `0x8061b88` | `0x14a` |
+| monitor | NEAR | `0x8099e1c` | `0x14a` | `0x8061c3c` | `0x14a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -101,16 +101,14 @@
  jmp    <T> <_ZN14CMemberManager12DeleteMemberEjb+0x145>
  cmpb   $0x0,-0x1c(%ebp)
  je     <T> <_ZN14CMemberManager12DeleteMemberEjb+0x140>
--mov    0xc(%ebp),%ebx
+ mov    0xc(%ebp),%ebx
  movl   $0xbb,0x8(%esp)
  movl   $&_ZZN14CMemberManager12DeleteMemberEjbE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"[DELETE_CASH_PROCESS] Member Key : %d",0x8(%esp)
  movl   $"./log/Member",0x4(%esp)
 -lea    -0x10(%ebp),%eax

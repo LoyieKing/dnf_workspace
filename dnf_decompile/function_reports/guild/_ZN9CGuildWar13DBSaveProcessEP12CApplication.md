@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809b142` | `0x9d` | `0x8061a4c` | `0xab` |
+| guild | DIFF | `0x809b142` | `0x9d` | `0x8061a4a` | `0xa2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,53 +1,58 @@
+@@ -1,53 +1,56 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x78,%esp
@@ -25,7 +25,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x97>
-+jne    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0xa1>
++jne    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x98>
  mov    0x8(%ebp),%eax
  movzbl 0xe(%eax),%eax
  lea    0x1(%eax),%edx
@@ -37,7 +37,9 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x9a>
-+je     <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0xa4>
++sete   %bl
++test   %bl,%bl
++jne    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x9b>
  lea    -0x63(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN37Packet_Notice_DB_Save_Guild_War_PointC1Ev>
@@ -52,18 +54,13 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9CGuildWar21GetGuildWarInfoDBSaveEPjS0_>
-+test   %eax,%eax
-+setne  %al
  test   %al,%al
 -je     <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x8e>
-+je     <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x98>
-+lea    -0x63(%ebp),%eax
-+lea    0xa(%eax),%ebx
++je     <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x8f>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15Get_ServerGroupEv>
--mov    %al,-0x59(%ebp)
-+mov    %al,(%ebx)
+ mov    %al,-0x59(%ebp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -74,10 +71,10 @@
  mov    0x8(%ebp),%eax
  movb   $0x0,0xe(%eax)
 -jmp    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x9b>
-+jmp    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0xa5>
++jmp    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x9c>
  nop
 -jmp    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x9b>
-+jmp    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0xa5>
++jmp    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x9c>
  nop
 -leave
 +add    $0x74,%esp

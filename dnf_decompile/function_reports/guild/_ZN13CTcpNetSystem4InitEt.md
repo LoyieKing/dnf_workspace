@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8052e16` | `0x13e` | `0x80a7578` | `0x13e` |
+| guild | DIFF | `0x8052e16` | `0x13e` | `0x80a7538` | `0x13e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -167,22 +167,22 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystem4InitEt(CTcpNetSystem *this,ush
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 228 行）：
+定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 243 行）：
 
 ```cpp
 void CTcpNetSystem::Init(unsigned short port)
 {
     m_tcpServerPort = port;
     m_tcpHandler = new CTcpHandler;
-    m_acceptThread = new CTcpAcceptThread;
-    m_acceptThread->attach(this);
-    if (!((CThreadInterface*)m_acceptThread)->begin())
+    m_acceptThread = new CTcpAcceptThread;  // 成员为基类指针，隐式转换复现 ORIG 双 mov
+    ((CTcpAcceptThread*)m_acceptThread)->attach(this);
+    if (!((CTcpAcceptThread*)m_acceptThread)->CThreadInterface::begin())
     {
         throw;
     }
-    m_tcpNetworkThread = new CTcpNetworkThread;
-    m_tcpNetworkThread->attach(this);
-    if (!((CThreadInterface*)m_tcpNetworkThread)->begin())
+    m_tcpNetworkThread = new CTcpNetworkThread;  // 双 mov
+    ((CTcpNetworkThread*)m_tcpNetworkThread)->attach(this);
+    if (!((CTcpNetworkThread*)m_tcpNetworkThread)->CThreadInterface::begin())
     {
         throw;
     }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8080a3e` | `0x17c` | `0x8076d32` | `0x180` |
+| guild | DIFF | `0x8080a3e` | `0x17c` | `0x8076d24` | `0x180` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -176,7 +176,7 @@ void CPacketTranslater::OnLoadFromDBOnGuildBooting(PacketHeader* pkt)
     try
     {
         CPowerManager* pm = m_pclApp->GetPowerManager();
-        pm->SetPowerInfo((char)pb->m_12, (int)pb->m_a, (int)pb->m_e);
+        pm->SetPowerInfo(pb->m_12, pb->m_a, pb->m_e);
         pm->SendPowerWarInfo();
     }
     DNF_CATCH_LOG("./log/Except", "CPacketTranslater::OnPacketSecedePower Exception Break", 0x134f, 0x1354);

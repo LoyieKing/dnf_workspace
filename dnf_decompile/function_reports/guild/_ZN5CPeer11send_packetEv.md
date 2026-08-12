@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80518ce` | `0x24d` | `0x8098558` | `0x239` |
+| guild | DIFF | `0x80518ce` | `0x24d` | `0x8098518` | `0x239` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -335,7 +335,7 @@ ssize_t __thiscall CPeer::_ZN5CPeer11send_packetEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 279 行）：
+定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 293 行）：
 
 ```cpp
 int CPeer::send_packet(char* buf, int len)
@@ -350,29 +350,27 @@ int CPeer::send_packet(char* buf, int len)
         return -1;
     }
     errno = 0;
-    *(int*)((char*)this + 0x1834) += len;
-    if (*(unsigned int*)((char*)this + 0x1834) < 0x96001)
+    m_sendRemain += len;
+    if ((unsigned int)m_sendRemain > 0x96000)
     {
-        if (*(CPeer**)((char*)this + 0x1838) < (CPeer*)((char*)this + 0x183c) ||
-            (CPeer*)((char*)this + 0x9783c) <= *(CPeer**)((char*)this + 0x1838))
-        {
-            int remain = *(int*)((char*)this + 0x1834);
-            DNF_LOG_SCOPE_LINE(0x13b,"./log/TcpErr",
-                "!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",
-                (int)buf[1], remain, len);
-            *(CPeer**)((char*)this + 0x1838) = (CPeer*)((char*)this + 0x183c);
-            *(int*)((char*)this + 0x1834) = 0;
-            return -1;
-        }
-        memcpy(*(void**)((char*)this + 0x1838), buf, (size_t)len);
-        *(int*)((char*)this + 0x1838) += len;
-        return send_packet();
+        DNF_LOG_SCOPE_LINE(0x133, "./log/TcpErr",
+            "!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",
+            (int)buf[1], m_sendRemain, len);
+        m_sendPtr = (char*)this + 0x183c;
+        m_sendRemain = 0;
+        return -1;
     }
-    int remain = *(int*)((char*)this + 0x1834);
-    DNF_LOG_SCOPE_LINE(0x133,"./log/TcpErr", "!!!Send Packet Overflow P_TYPE[%d] Size:Remain[%d] Last[%d]",
-        (int)buf[1], remain, len);
-    *(CPeer**)((char*)this + 0x1838) = (CPeer*)((char*)this + 0x183c);
-    *(int*)((char*)this + 0x1834) = 0;
-    return -1;
+    if (m_sendPtr < m_sendBuf || m_sendPtr >= m_sendBuf + 0x96000)
+    {
+        DNF_LOG_SCOPE_LINE(0x13b, "./log/TcpErr",
+            "!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",
+            (int)buf[1], m_sendRemain, len);
+        m_sendPtr = (char*)this + 0x183c;
+        m_sendRemain = 0;
+        return -1;
+    }
+    memcpy(m_sendPtr, buf, (size_t)len);
+    m_sendPtr += len;
+    return send_packet();
 }
 ```

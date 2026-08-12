@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8066d4a` | `0x75` | `0x80892b8` | `0x77` |
+| guild | DIFF | `0x8066d4a` | `0x75` | `0x80892a6` | `0x77` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -85,8 +85,8 @@ void __thiscall CUser::_ZN5CUser18SetGuildMemberMemoEPKc(CUser *this,char *param
 void CUser::SetGuildMemberMemo(const char* memo)
 {
     memset((char*)this + 0x4a, 0, 0x15);
-    size_t n = strlen(memo);
-    if ((int)n < 0x15)
+    int n = (int)strlen(memo);
+    if (n <= 0x14)
     {
         memcpy((char*)this + 0x4a, memo, n);
     }

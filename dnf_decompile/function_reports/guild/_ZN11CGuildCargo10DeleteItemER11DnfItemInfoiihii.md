@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809f75e` | `0x239` | `0x8091a60` | `0x236` |
+| guild | DIFF | `0x809f75e` | `0x239` | `0x8091a36` | `0x236` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -275,7 +275,7 @@ CGuildCargo::_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 268 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 269 行）：
 
 ```cpp
 int CGuildCargo::DeleteItem(DnfItemInfo& info, int slot, int count, unsigned char a, int b, int c)
@@ -285,14 +285,14 @@ int CGuildCargo::DeleteItem(DnfItemInfo& info, int slot, int count, unsigned cha
         return 0xc4;
     }
     if (m_info.m_items[slot].m_itemId == 0 ||
-        m_info.m_items[slot].m_itemId != b)
+        m_info.m_items[slot].m_itemId != count)
     {
         return 0xca;
     }
     info = m_info.m_items[slot];
     if (a == 1)
     {
-        info.m_addInfo = count;
+        info.m_addInfo = b;
         int oldCount = m_info.m_items[slot].m_addInfo;
         int subCount = info.m_addInfo;
         if (oldCount < subCount)
@@ -300,7 +300,7 @@ int CGuildCargo::DeleteItem(DnfItemInfo& info, int slot, int count, unsigned cha
             return 199;
         }
         m_info.m_items[slot].m_addInfo =
-            m_info.m_items[slot].m_addInfo - subCount;
+            m_info.m_items[slot].m_addInfo - info.m_addInfo;
         if (m_info.m_items[slot].m_addInfo == 0)
         {
             m_info.m_items[slot].reset();

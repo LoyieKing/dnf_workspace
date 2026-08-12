@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806588c` | `0x104` | `0x80529cc` | `0x104` |
+| monitor | NEAR | `0x806588c` | `0x104` | `0x8052a72` | `0x104` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -48,8 +48,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjSt4listIjSaIjEEEEptEv>
  lea    0x4(%eax),%edx
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt4listIjSaIjEE3endEv>
@@ -62,44 +61,33 @@
  lea    -0x10(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZNSt4listIjSaIjEE5beginEv>
-+call   <T> <_ZNSt4listIjSaIjEE3endEv>
+ call   <T> <_ZNSt4listIjSaIjEE5beginEv>
  sub    $0x4,%esp
- lea    -0x20(%ebp),%eax
--lea    0x10(%ebp),%edx
--mov    %edx,0xc(%esp)
--mov    -0x14(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    -0x10(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZSt4findISt14_List_iteratorIjEjET_S2_S2_RKT0_>
--sub    $0x4,%esp
+-lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%eax
+ lea    0x10(%ebp),%edx
+ mov    %edx,0xc(%esp)
+ mov    -0x14(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ mov    -0x10(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZSt4findISt14_List_iteratorIjEjET_S2_S2_RKT0_>
+ sub    $0x4,%esp
 -lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjSt4listIjSaIjEEEEptEv>
  lea    0x4(%eax),%edx
  lea    -0xc(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZNSt4listIjSaIjEE3endEv>
-+call   <T> <_ZNSt4listIjSaIjEE5beginEv>
+ call   <T> <_ZNSt4listIjSaIjEE3endEv>
  sub    $0x4,%esp
 -lea    -0x20(%ebp),%eax
-+lea    -0x14(%ebp),%eax
-+lea    0x10(%ebp),%edx
-+mov    %edx,0xc(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZSt4findISt14_List_iteratorIjEjET_S2_S2_RKT0_>
-+sub    $0x4,%esp
 +lea    -0x18(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0xc(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ lea    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt14_List_iteratorIjEneERKS0_>
  test   %al,%al

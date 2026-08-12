@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806dbae` | `0xfc` | `0x8081d7c` | `0x11b` |
+| guild | DIFF | `0x806dbae` | `0xfc` | `0x8081d90` | `0x11b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -181,7 +181,7 @@ CServerHandler::_ZN14CServerHandler16RegistGameServerEP12stServerInfo
 ```cpp
 bool CServerHandler::RegistGameServer(stServerInfo* info)
 {
-    unsigned int group = (unsigned int)(unsigned char)info->m_field1;
+    unsigned int group = info->m_field1;
     std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.find(group);
     if (it != m_gameServers.end())
     {
@@ -189,7 +189,7 @@ bool CServerHandler::RegistGameServer(stServerInfo* info)
     }
     CGameServer* gs = new CGameServer(info);
     gs->Initialize();
-    m_gameServers.insert(std::make_pair((unsigned int)(unsigned char)info->m_field1, gs));
+    m_gameServers.insert(std::pair<const unsigned int, CGameServer*>(info->m_field1, gs));
     return true;
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806cf2c` | `0x325` | `0x80810ac` | `0x383` |
+| guild | DIFF | `0x806cf2c` | `0x325` | `0x80810a6` | `0x383` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -476,7 +476,7 @@ void __thiscall CServerHandler::_ZN14CServerHandler7ProcessEv(CServerHandler *th
 void CServerHandler::Process()
 {
     register bool doHb;
-    int old = 0;
+    register int old;
     if (m_managerServer == 0 || (old = m_heartbeat, m_heartbeat = old + 1, old < 4))
     {
         doHb = false;
@@ -498,11 +498,11 @@ void CServerHandler::Process()
         {
             continue;
         }
-        if (!gs->IsConnected())
+        if (gs->IsConnected() == 0)
         {
             continue;
         }
-        if (!gs->IsHeartBeatTimeOver())
+        if (gs->IsHeartBeatTimeOver() == 0)
         {
             continue;
         }
@@ -550,7 +550,7 @@ void CServerHandler::Process()
                 (unsigned int)m_tcpDbServer.GetPort());
         }
     }
-    int hbOld = m_field58;
+    register int hbOld = m_field58;
     register bool hb = hbOld > 3;
     m_field58 = hbOld + 1;
     if (hb)

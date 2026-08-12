@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809fdce` | `0x56` | `0x80920ca` | `0x59` |
+| guild | DIFF | `0x809fdce` | `0x56` | `0x809209e` | `0x59` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -17,14 +17,14 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
++cmpl   $0x32,0xc(%ebp)
++jbe    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x13>
++movl   $0x32,0xc(%ebp)
  mov    0xc(%ebp),%eax
 -cmp    $0x32,%eax
 -jbe    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x13>
 -mov    $0x32,%eax
  mov    %eax,-0x10(%ebp)
-+cmpl   $0x32,-0x10(%ebp)
-+jbe    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x19>
-+movl   $0x32,-0x10(%ebp)
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x47>
 +jmp    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x4a>
@@ -42,8 +42,7 @@
  addl   $0x1,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
  cmp    -0x10(%ebp),%eax
--setl   %al
-+setb   %al
+ setl   %al
  test   %al,%al
 -jne    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x1f>
 +jne    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x22>
@@ -77,16 +76,16 @@ CGuildCargo::_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 362 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 357 行）：
 
 ```cpp
 void CGuildCargo::SetGuildCargoHistory(unsigned int idx, STGuildCargoLog* log)
 {
-    if (idx > 0x32)
-    {
-        idx = 0x32;
-    }
     int c = (int)idx;
+    if (c > 0x32)
+    {
+        c = 0x32;
+    }
     for (int i = 0; i < c; i++)
     {
         m_history.push_front(log[i]);

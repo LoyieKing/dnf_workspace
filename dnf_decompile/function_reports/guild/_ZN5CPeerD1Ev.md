@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8050e22` | `0x5b` | `0x8097b28` | `0x13` |
+| guild | DIFF | `0x8050e22` | `0x5b` | `0x8097ae8` | `0x13` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -63,5 +63,10 @@ void __thiscall CPeer::_ZN5CPeerD1Ev(CPeer *this)
 ```cpp
 CPeer::~CPeer()
 {
+    m_buf = (char*)this + 0x1c;
+    m_alreadyRead = 0;
+    m_remainLen = 0;
+    m_sendPtr = (char*)this + 0x183c;
+    m_sendRemain = 0;
 }
 ```

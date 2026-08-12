@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8051228` | `0x489` | `0x8097eea` | `0x43f` |
+| guild | DIFF | `0x8051228` | `0x489` | `0x8097eaa` | `0x43f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -615,40 +615,39 @@ LAB_080515c7:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 199 行）：
+定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 206 行）：
 
 ```cpp
-int CPeer::parsing(int len)
+bool CPeer::parsing(int len)
 {
-    int parsinglength = *(int*)((char*)this + 0x1820) + len;
+    PacketHeader hdr(0, 0);
+    int parsinglength = m_remainLen + len;
+    int size = 10;
     if (parsinglength <= 9)
     {
-        *(int*)((char*)this + 0x1820) += len;
-        *(char**)((char*)this + 0x181c) += len;
+        m_remainLen += len;
+        m_buf += len;
         DNF_LOG_SCOPE_LINE(0xbb, "./log/TcpRecv",
             "(offset:%x - buf:%x) = remainlen:%d, Recv Size[%d] ",
-            (char*)this + 0x1c, *(char**)((char*)this + 0x181c),
-            *(int*)((char*)this + 0x1820), len);
+            m_buf, (char*)this + 0x1c, m_remainLen, len);
         return 1;
     }
-    for (;;)
+    do
     {
-        if (*(int*)((char*)this + 0x1820) != 0)
-            *(char**)((char*)this + 0x181c) -= *(int*)((char*)this + 0x1820);
-        PacketHeader hdr(0, 0);
-        memcpy(&hdr, *(void**)((char*)this + 0x181c), 10);
-        int size = hdr.packetSize;
-        if (size <= 9 || size > 0x1800)
+        if (m_remainLen != 0)
+            m_buf -= m_remainLen;
+        memcpy(&hdr, m_buf, 10);
+        unsigned int packetSize = hdr.packetSize;
+        if (packetSize <= 9 || packetSize > 0x1800)
         {
             DNF_LOG_SCOPE_LINE(0xd0, "./log/TcpRecv",
                 "Recv Size[%d], Parsing Packet Size[%d] is Too Large, offset:%x, buf:%x, alreadyRead:%d",
-                len, size, *(char**)((char*)this + 0x181c), (char*)this + 0x1c,
-                *(int*)((char*)this + 0x1824));
-            *(char**)((char*)this + 0x181c) = (char*)this + 0x1c;
-            *(int*)((char*)this + 0x1820) = 0;
+                len, packetSize, m_buf, (char*)this + 0x1c, m_alreadyRead);
+            m_buf = (char*)this + 0x1c;
+            m_remainLen = 0;
             return 0;
         }
-        if (parsinglength < size)
+        if ((unsigned int)parsinglength < packetSize)
         {
             DNF_LOG_SCOPE_LINE(0x100, "./log/TcpRecv",
                 "need more data (packetsize > (unsigned int)parsinglength): body=%d !!",
@@ -657,43 +656,51 @@ int CPeer::parsing(int len)
         }
         CTcpRecvBuffer* buf;
         {
-            CGuard<CMutex> guard(*(CMutex**)((char*)this + 0x182c));
+            CGuard<CMutex> guard(*(CMutex**)&m_bLock);
             buf = new CTcpRecvBuffer;
         }
-        memcpy(buf, *(void**)((char*)this + 0x181c), size);
+        memcpy(buf, m_buf, packetSize);
         *(int*)((char*)buf + 6) = getHandle();
         {
-            CGuard<CMutex> guard(*(CMutex**)((char*)this + 0x1830));
-            (*(std::queue<CTcpRecvBuffer*>**)((char*)this + 0x1828))->push(buf);
+            CGuard<CMutex> guard(*(CMutex**)&m_qLock);
+            ((std::queue<CTcpRecvBuffer*>*)m_recvQ)->push(buf);
+            int qsize = (int)((std::queue<CTcpRecvBuffer*>*)m_recvQ)->size();
         }
-        parsinglength -= size;
-        *(char**)((char*)this + 0x181c) += size;
-        *(int*)((char*)this + 0x1820) = 0;
+        parsinglength -= packetSize;
+        m_buf += packetSize;
+        m_remainLen = 0;
         if (parsinglength == 0)
         {
-            *(char**)((char*)this + 0x181c) = (char*)this + 0x1c;
+            m_buf = (char*)this + 0x1c;
             break;
         }
-        if (parsinglength <= 9)
-        {
-            DNF_LOG_SCOPE_LINE(0xf8, "./log/TcpRecv",
-                "need more data (parsinglength < HEADER_SIZE): body=%d !!",
-                parsinglength);
-            break;
-        }
+    } while (parsinglength > 9);
+    if (parsinglength <= 9)
+    {
+        DNF_LOG_SCOPE_LINE(0xf8, "./log/TcpRecv",
+            "need more data (parsinglength < HEADER_SIZE): body=%d !!",
+            parsinglength);
     }
     if (parsinglength > 0)
     {
-        if (parsinglength > 0x1800)
+        if ((unsigned int)parsinglength > 0x1800)
         {
             DNF_LOG_SCOPE_LINE(0x10e, "./log/TcpRecv",
                 "[PARSING LENGTH EXCEPTION] parsinglength > MAX_RECV_BUF , memmove : parsinglength = %d",
                 parsinglength);
             return 0;
         }
-        memmove((char*)this + 0x1c, *(void**)((char*)this + 0x181c), parsinglength);
-        *(int*)((char*)this + 0x1820) = parsinglength;
-        *(char**)((char*)this + 0x181c) = (char*)this + 0x1c + parsinglength;
+        try
+        {
+            memmove((char*)this + 0x1c, m_buf, parsinglength);
+            m_remainLen = parsinglength;
+            m_buf = (char*)this + 0x1c + parsinglength;
+        }
+        catch (...)
+        {
+            printf("[PARSING EXCEPTION] memmove : parsinglength = %d", parsinglength);
+            return 0;
+        }
     }
     return 1;
 }

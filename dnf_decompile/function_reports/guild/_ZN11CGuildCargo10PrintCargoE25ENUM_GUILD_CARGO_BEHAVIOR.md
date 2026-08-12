@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809fe9e` | `0xed` | `0x809219e` | `0xee` |
+| guild | DIFF | `0x809fe9e` | `0xed` | `0x8092172` | `0xee` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -143,21 +143,19 @@ CGuildCargo::_ZN11CGuildCargo10PrintCargoE25ENUM_GUILD_CARGO_BEHAVIOR
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 388 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 383 行）：
 
 ```cpp
 void CGuildCargo::PrintCargo(ENUM_GUILD_CARGO_BEHAVIOR behavior)
 {
-    CMyFileLog log0(__FUNCTION__, 0x18d);
-    log0("./log/GuildCargo", "CARGO - g:%d,capa:%d,behavior:%d",
-         m_guildKey, m_info.m_capacity,
-         (int)behavior);
-    for (int i = 0; i < m_info.m_capacity; i++)
+    DNF_LOG_SCOPE_LINE(0x18d, "./log/GuildCargo", "CARGO - g:%d,capa:%d,behavior:%d",
+         m_guildKey, m_info.m_capacity, (int)behavior);
+    for (int i = 0; (int)m_info.m_capacity > i; i++)
     {
         if (m_info.m_items[i].m_itemId != 0)
         {
-            const char* itemDesc = PrintDnfItemInfo(m_info.m_items[i]);
-            DNF_LOG_SCOPE_LINE(0x195, "./log/GuildCargo", "SLOT - %d,%s", i, itemDesc);
+            DNF_LOG_SCOPE_LINE(0x195, "./log/GuildCargo", "SLOT - %d,%s",
+                i, PrintDnfItemInfo(m_info.m_items[i]));
         }
     }
 }

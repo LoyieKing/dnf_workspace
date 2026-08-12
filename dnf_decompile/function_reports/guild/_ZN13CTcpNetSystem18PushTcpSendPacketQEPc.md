@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80531c6` | `0xe9` | `0x80a7936` | `0xf1` |
+| guild | DIFF | `0x80531c6` | `0xe9` | `0x80a78f6` | `0xf1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -133,19 +133,19 @@ CTcpNetSystem::_ZN13CTcpNetSystem18PushTcpSendPacketQEPc(CTcpNetSystem *this,cha
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 294 行）：
+定义于 [source/DNFServer/GameServer/Guild/TcpNetSystem.cpp](source/DNFServer/GameServer/Guild/TcpNetSystem.cpp)（约第 307 行）：
 
 ```cpp
 void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
 {
     CGuard<CMutex> g(&m_mutexe8);
     m_sendQ.push((CTcpSendBuffer*)buf);
-    int cnt = (int)m_sendQ.size();
-    if (cnt > 10)
+    int n = (int)m_sendQ.size();
+    if (n > 0xa)
     {
         DNF_LOG_SCOPE_LINE(0x91, "./log/TcpSend", "SEND PUSH(cnt:%d,id:%d,size:%d,ip:%d)",
-            cnt, (int)*(unsigned short*)buf, (int)*(unsigned short*)((char*)buf + 2),
-            *(unsigned int*)((char*)buf + 6));
+            n, ((TcpPacketFields*)buf)->m_id, ((TcpPacketFields*)buf)->m_size,
+            ((TcpPacketFields*)buf)->m_ip);
     }
 }
 ```

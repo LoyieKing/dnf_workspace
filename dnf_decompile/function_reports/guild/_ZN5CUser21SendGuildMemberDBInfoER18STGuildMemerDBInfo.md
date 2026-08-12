@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8066e76` | `0xb5` | `0x80893e6` | `0xc3` |
+| guild | DIFF | `0x8066e76` | `0xb5` | `0x80893d4` | `0xc3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -132,10 +132,10 @@ void CUser::SendGuildMemberDBInfo(STGuildMemerDBInfo& info)
     else
     {
         Packet_Monitor_Notice_Guild_Member_Info pkt;
-        memcpy((char*)&pkt + 0x12, &info, 0x1a);
-        ((NoticeGuildMemberInfoLayout*)&pkt)->m_channel = GetIdByChannel();
-        ((NoticeGuildMemberInfoLayout*)&pkt)->m_charNo = GetUniqCharNo();
-        SendToGameserver((char*)&pkt, ((NoticeGuildMemberInfoLayout*)&pkt)->m_packetSize);
+        memcpy(&pkt.m_info, &info, 0x1a);
+        pkt.m_channel = GetIdByChannel();
+        pkt.m_charNo = GetUniqCharNo();
+        SendToGameserver((char*)&pkt, pkt.packetSize);
     }
 }
 ```

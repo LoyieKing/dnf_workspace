@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809f4e2` | `0x1ec` | `0x80917e8` | `0x1e3` |
+| guild | DIFF | `0x809f4e2` | `0x1ec` | `0x80917c2` | `0x1e3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -247,7 +247,7 @@ int CGuildCargo::InsertItem(DnfItemInfo& info, int& slot, int count, unsigned ch
             if (oldCount + addCount <= count)
             {
                 m_info.m_items[existingSlot].m_addInfo =
-                    m_info.m_items[existingSlot].m_addInfo + addCount;
+                    m_info.m_items[existingSlot].m_addInfo + info.m_addInfo;
                 DNF_LOG_SCOPE_LINE(0x89,"./log/GuildCargo",
                     "InsertItem STACKABLE ADD SUCCESS - GUILD:%d, CHARAC:%d, ITEM:%d, OLD:%d, ADD:%d, CURR:%d",
                     m_guildKey, b, info.m_itemId,
@@ -263,6 +263,7 @@ int CGuildCargo::InsertItem(DnfItemInfo& info, int& slot, int count, unsigned ch
             return 200;
         }
     }
-    return AddItem(info, slot, b);
+    int ret = AddItem(info, slot, b);
+    return ret;
 }
 ```

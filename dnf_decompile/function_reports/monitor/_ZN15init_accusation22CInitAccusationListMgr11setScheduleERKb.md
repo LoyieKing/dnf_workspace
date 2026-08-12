@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a9bac` | `0xb3` | `0x80503d6` | `0xd0` |
+| monitor | DIFF | `0x80a9bac` | `0xb3` | `0x8050454` | `0xf7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,38 +13,38 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,52 +1,63 @@
+@@ -1,52 +1,75 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
 +push   %esi
  push   %ebx
 -sub    $0x24,%esp
-+sub    $0x2c,%esp
++sub    $0x4c,%esp
  call   <T> <_Z10GetNowTimev>
 -mov    %eax,-0x14(%ebp)
 -lea    -0x14(%ebp),%eax
-+mov    %eax,-0x28(%ebp)
-+lea    -0x28(%ebp),%eax
++mov    %eax,-0x2c(%ebp)
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <localtime>
 -mov    %eax,-0x10(%ebp)
 -mov    -0x10(%ebp),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x24(%ebp),%eax
++mov    %eax,-0x28(%ebp)
++mov    -0x28(%ebp),%eax
  movl   $0x6,0x8(%eax)
 -mov    -0x10(%ebp),%eax
-+mov    -0x24(%ebp),%eax
++mov    -0x28(%ebp),%eax
  movl   $0x0,0x4(%eax)
 -mov    -0x10(%ebp),%eax
-+mov    -0x24(%ebp),%eax
++mov    -0x28(%ebp),%eax
  movl   $0x0,(%eax)
 -mov    -0x10(%ebp),%eax
-+mov    -0x24(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <mktime>
 -mov    %eax,-0xc(%ebp)
-+mov    %eax,-0x20(%ebp)
++mov    %eax,-0x24(%ebp)
  mov    0xc(%ebp),%eax
  movzbl (%eax),%eax
  test   %al,%al
@@ -53,12 +53,20 @@
 -add    $0x15180,%eax
 -mov    %eax,-0xc(%ebp)
 +je     <T> <_ZN15init_accusation22CInitAccusationListMgr11setScheduleERKb+0x5b>
-+addl   $0x15180,-0x20(%ebp)
++addl   $0x15180,-0x24(%ebp)
  movl   $0x14,(%esp)
  call   <T> <_Znwj>
++mov    %eax,-0x20(%ebp)
++mov    -0x20(%ebp),%esi
++mov    %esi,0x4(%esp)
++movl   $0x14,(%esp)
++call   <T> <_ZnwjPv>
  mov    %eax,%ebx
 -mov    -0xc(%ebp),%edx
-+mov    -0x20(%ebp),%edx
++mov    %ebx,%eax
++test   %eax,%eax
++je     <T> <_ZN15init_accusation22CInitAccusationListMgr11setScheduleERKb+0xc9>
++mov    -0x24(%ebp),%edx
  mov    %ebx,%eax
  mov    0x8(%ebp),%ecx
  mov    %ecx,0xc(%esp)
@@ -66,31 +74,32 @@
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN15init_accusation19CInitAccusationListC1EjjPNS_22CInitAccusationListMgrE>
--mov    %ebx,%eax
--mov    %eax,%ebx
-+jmp    <T> <_ZN15init_accusation22CInitAccusationListMgr11setScheduleERKb+0xa3>
-+mov    %edx,%esi
-+mov    %eax,%edi
++jmp    <T> <_ZN15init_accusation22CInitAccusationListMgr11setScheduleERKb+0xc5>
++mov    %edx,%edi
++mov    %eax,-0x3c(%ebp)
++mov    %esi,0x4(%esp)
 +mov    %ebx,(%esp)
-+call   <T> <_ZdlPv>
-+mov    %edi,%eax
-+mov    %esi,%edx
++call   <T> <_ZdlPvS_>
++mov    -0x3c(%ebp),%eax
++mov    %edi,%edx
 +mov    %eax,(%esp)
 +call   <T> <_Unwind_Resume>
-+mov    %ebx,-0x1c(%ebp)
+ mov    %ebx,%eax
+-mov    %eax,%ebx
++jmp    <T> <_ZN15init_accusation22CInitAccusationListMgr11setScheduleERKb+0xcb>
++mov    %ebx,%eax
++mov    %eax,-0x1c(%ebp)
 +mov    -0x1c(%ebp),%ebx
  mov    0x8(%ebp),%eax
--mov    (%eax),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNK15init_accusation22CInitAccusationListMgr6getAppEv>
+ mov    (%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication16GetTaskSchedulerEv>
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CTaskScheduler7AddTaskEPNS_5CTaskE>
--mov    $0x1,%eax
+ mov    $0x1,%eax
 -add    $0x24,%esp
-+add    $0x2c,%esp
++add    $0x4c,%esp
  pop    %ebx
 +pop    %esi
 +pop    %edi

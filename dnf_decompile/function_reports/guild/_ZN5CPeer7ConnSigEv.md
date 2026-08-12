@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8051c06` | `0xea` | `0x8098880` | `0xed` |
+| guild | DIFF | `0x8051c06` | `0xea` | `0x8098840` | `0xed` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -149,22 +149,22 @@ void __thiscall CPeer::_ZN5CPeer7ConnSigEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 395 行）：
+定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 394 行）：
 
 ```cpp
 void CPeer::ConnSig()
 {
-    Packet_InnerPakcet_Login pkt;
     int fd = getHandle();
+    Packet_InnerPakcet_Login pkt;
     CTcpRecvBuffer* buf;
     {
-        CGuard<CMutex> guard(*(CMutex**)((char*)this + 0x182c));
+        CGuard<CMutex> guard(*(CMutex**)&m_bLock);
         buf = new CTcpRecvBuffer;
     }
     memcpy(buf, &pkt, pkt.packetSize);
     {
-        CGuard<CMutex> guard(*(CMutex**)((char*)this + 0x1830));
-        (*(std::queue<CTcpRecvBuffer*>**)((char*)this + 0x1828))->push(buf);
+        CGuard<CMutex> guard(*(CMutex**)&m_qLock);
+        ((std::queue<CTcpRecvBuffer*>*)m_recvQ)->push(buf);
     }
 }
 ```

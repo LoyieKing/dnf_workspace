@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a1b8` | `0x4b` | `0x8080600` | `0x4f` |
+| monitor | DIFF | `0x807a1b8` | `0x4b` | `0x80806ce` | `0x49` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,30 +13,20 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,25 +1,26 @@
+@@ -1,25 +1,24 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x38,%esp
-+sub    $0x28,%esp
+ sub    $0x38,%esp
  movl   $0x0,-0xc(%ebp)
--jmp    <T> <_ZN14CServerHandler20queryReloadTowerRankEj+0x3c>
--lea    -0x1e(%ebp),%eax
-+jmp    <T> <_ZN14CServerHandler20queryReloadTowerRankEj+0x42>
-+lea    -0x16(%ebp),%eax
+ jmp    <T> <_ZN14CServerHandler20queryReloadTowerRankEj+0x3c>
+ lea    -0x1e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN35Packet_Request_Load_Tower_Full_RankC1Ev>
--mov    -0xc(%ebp),%eax
--mov    %eax,-0x14(%ebp)
--mov    0xc(%ebp),%eax
--mov    %eax,-0x10(%ebp)
--lea    -0x1e(%ebp),%eax
-+lea    -0x16(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,0xa(%eax)
-+lea    -0x16(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0xe(%eax)
-+lea    -0x16(%ebp),%eax
+ mov    -0xc(%ebp),%eax
+ mov    %eax,-0x14(%ebp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,-0x10(%ebp)
+ lea    -0x1e(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -44,9 +34,8 @@
  addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    $0x4,%eax
--setbe  %al
 +cmpl   $0x4,-0xc(%ebp)
-+setle  %al
+ setbe  %al
  test   %al,%al
  jne    <T> <_ZN14CServerHandler20queryReloadTowerRankEj+0xf>
  leave

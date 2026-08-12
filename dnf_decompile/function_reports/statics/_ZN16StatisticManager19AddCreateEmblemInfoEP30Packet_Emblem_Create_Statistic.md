@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | NEAR | `0x8072c3e` | `0x68` | `0x8072cbc` | `0x68` |
+| statics | DIFF | `0x8072c3e` | `0x68` | `0x8072cfa` | `0x6a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,18 +13,22 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,33 +1,33 @@
+@@ -1,33 +1,34 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  movl   $0x0,-0x10(%ebp)
- jmp    <T> <_ZN16StatisticManager19AddCreateEmblemInfoEP30Packet_Emblem_Create_Statistic+0x56>
+-jmp    <T> <_ZN16StatisticManager19AddCreateEmblemInfoEP30Packet_Emblem_Create_Statistic+0x56>
++jmp    <T> <_ZN16StatisticManager19AddCreateEmblemInfoEP30Packet_Emblem_Create_Statistic+0x58>
  movl   $0x0,-0xc(%ebp)
- jmp    <T> <_ZN16StatisticManager19AddCreateEmblemInfoEP30Packet_Emblem_Create_Statistic+0x3b>
+-jmp    <T> <_ZN16StatisticManager19AddCreateEmblemInfoEP30Packet_Emblem_Create_Statistic+0x3b>
++jmp    <T> <_ZN16StatisticManager19AddCreateEmblemInfoEP30Packet_Emblem_Create_Statistic+0x3d>
 +mov    0xc(%ebp),%eax
  mov    -0x10(%ebp),%edx
 -mov    0xc(%ebp),%eax
- mov    0xe(%eax,%edx,4),%eax
+-mov    0xe(%eax,%edx,4),%eax
++add    $0x4,%edx
++mov    (%eax,%edx,4),%eax
  mov    0x8(%ebp),%edx
  add    $0x32c,%edx
  mov    %eax,0x4(%esp)
@@ -35,14 +39,16 @@
  mov    -0x10(%ebp),%edx
 -mov    0xc(%ebp),%eax
  add    $0x8,%edx
- mov    0x2(%eax,%edx,4),%eax
+-mov    0x2(%eax,%edx,4),%eax
++mov    0x4(%eax,%edx,4),%eax
  cmp    -0xc(%ebp),%eax
  setg   %al
  test   %al,%al
  jne    <T> <_ZN16StatisticManager19AddCreateEmblemInfoEP30Packet_Emblem_Create_Statistic+0x18>
  addl   $0x1,-0x10(%ebp)
  mov    0xc(%ebp),%eax
- mov    0xa(%eax),%eax
+-mov    0xa(%eax),%eax
++mov    0xc(%eax),%eax
  cmp    -0x10(%ebp),%eax
  setg   %al
  test   %al,%al

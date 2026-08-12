@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806d87e` | `0x4a` | `0x8081a28` | `0x5e` |
+| guild | DIFF | `0x806d87e` | `0x4a` | `0x8081a52` | `0x5a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,29 +13,26 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,23 +1,32 @@
+@@ -1,23 +1,29 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x38,%esp
-+push   %ebx
-+sub    $0x34,%esp
+ sub    $0x38,%esp
  lea    -0x1b(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN21Packet_DB_Query_GuildC1Ev>
-+lea    -0x1b(%ebp),%eax
-+lea    0xa(%eax),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16GetServerGroupNoEv>
--mov    %al,-0x11(%ebp)
-+mov    %al,(%ebx)
+ mov    %al,-0x11(%ebp)
 +lea    -0x1b(%ebp),%eax
-+lea    0xb(%eax),%edx
++add    $0xa,%eax
++lea    0x1(%eax),%edx
  mov    0xc(%ebp),%eax
 -mov    %eax,-0x10(%ebp)
 +mov    %eax,(%edx)
 +lea    -0x1b(%ebp),%eax
-+lea    0xf(%eax),%edx
++add    $0xa,%eax
++lea    0x5(%eax),%edx
  mov    0x10(%ebp),%eax
 -mov    %eax,-0xc(%ebp)
 +mov    %eax,(%edx)
@@ -46,10 +43,7 @@
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12SendToServerEPci>
--leave
-+add    $0x34,%esp
-+pop    %ebx
-+pop    %ebp
+ leave
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -78,15 +72,15 @@ CServerHandler::_ZN14CServerHandler10QueryGuildEjj(CServerHandler *this,uint par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 392 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 394 行）：
 
 ```cpp
 void CServerHandler::QueryGuild(unsigned int group, unsigned int guildId)
 {
     Packet_DB_Query_Guild pkt;
-    pkt.m_data[0] = GetServerGroupNo();
-    *(unsigned int*)(pkt.m_data + 1) = group;
-    *(unsigned int*)(pkt.m_data + 5) = guildId;
+    pkt.m_data = GetServerGroupNo();
+    pkt.m_group = group;
+    pkt.m_guildId = guildId;
     m_dbServer->SendToServer((char*)&pkt, 0x13);
 }
 ```
