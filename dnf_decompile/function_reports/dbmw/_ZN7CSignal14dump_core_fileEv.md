@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8053e92` | `0x4b` | `0x80e0ea0` | `0x45` |
+| dbmw | DIFF | `0x8053e92` | `0x4b` | `0x80e0fa8` | `0x45` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -69,9 +69,9 @@ void CSignal::dump_core_file()
 {
     CPacketTracerInstance()->AbsoluteWriteLog();
     struct rlimit rl;
-    getrlimit(RLIMIT_CORE, &rl);
+    (void)getrlimit(RLIMIT_CORE, &rl);
     rl.rlim_cur = -1;
-    setrlimit(RLIMIT_CORE, &rl);
+    (void)setrlimit(RLIMIT_CORE, &rl);
     abort();
 }
 ```

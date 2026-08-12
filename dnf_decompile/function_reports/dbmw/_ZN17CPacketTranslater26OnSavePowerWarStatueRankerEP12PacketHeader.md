@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8099ab4` | `0x1dc` | `0x80d3366` | `0x1e2` |
+| dbmw | DIFF | `0x8099ab4` | `0x1dc` | `0x80d3428` | `0x1e2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -205,11 +205,11 @@ void CPacketTranslater::_ZN17CPacketTranslater26OnSavePowerWarStatueRankerEP12Pa
 ```cpp
 void CPacketTranslater::OnSavePowerWarStatueRanker(PacketHeader* header)
 {
-    if (!m_pclApp)
-        throw CDNFException(std::string(
-            "CPacketTranslater::OnSavePowerWarStatueRanker() : 0 == m_pclApp"));
     try
     {
+        if (!m_pclApp)
+            throw CDNFException(std::string(
+                "CPacketTranslater::OnSavePowerWarStatueRanker() : 0 == m_pclApp"));
         Packet_DB_Save_Power_War_Statue_Ranker* pkt = (Packet_DB_Save_Power_War_Statue_Ranker*)header;
         m_pclApp->m_dbManager.OnSavePowerWarStatueRanker(pkt);
     }

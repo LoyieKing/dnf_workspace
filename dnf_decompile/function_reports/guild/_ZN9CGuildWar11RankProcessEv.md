@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809afde` | `0x163` | `0x8061aba` | `0x16d` |
+| guild | DIFF | `0x809afde` | `0x163` | `0x80618ea` | `0x161` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,116 +1,119 @@
+@@ -1,116 +1,115 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -23,42 +23,27 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9CGuildWar17IsGuildWarEventOnEv>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN9CGuildWar11RankProcessEv+0x154>
-+je     <T> <_ZN9CGuildWar11RankProcessEv+0x2c>
++jne    <T> <_ZN9CGuildWar11RankProcessEv+0x152>
  mov    0x8(%ebp),%eax
--movzbl 0x10(%eax),%eax
-+add    $0x10,%eax
-+movzbl (%eax),%eax
+ movzbl 0x10(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN9CGuildWar11RankProcessEv+0x157>
-+je     <T> <_ZN9CGuildWar11RankProcessEv+0x2c>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN9CGuildWar11RankProcessEv+0x31>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN9CGuildWar11RankProcessEv+0x165>
++je     <T> <_ZN9CGuildWar11RankProcessEv+0x155>
  mov    0x8(%ebp),%eax
--movzbl 0xd(%eax),%eax
--lea    0x1(%eax),%edx
-+add    $0xd,%eax
-+mov    0x8(%ebp),%edx
-+add    $0xd,%edx
-+movzbl (%edx),%edx
-+add    $0x1,%edx
-+mov    %dl,(%eax)
+ movzbl 0xd(%eax),%eax
+ lea    0x1(%eax),%edx
  mov    0x8(%ebp),%eax
--mov    %dl,0xd(%eax)
--mov    0x8(%ebp),%eax
--movzbl 0xd(%eax),%eax
-+add    $0xd,%eax
-+movzbl (%eax),%eax
+ mov    %dl,0xd(%eax)
+ mov    0x8(%ebp),%eax
+ movzbl 0xd(%eax),%eax
  cmp    $0x1,%al
 -setbe  %al
 -test   %al,%al
 -jne    <T> <_ZN9CGuildWar11RankProcessEv+0x15a>
-+jbe    <T> <_ZN9CGuildWar11RankProcessEv+0x165>
++jle    <T> <_ZN9CGuildWar11RankProcessEv+0x158>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9CGuildWar4RankEv>
@@ -67,7 +52,7 @@
 +setne  %al
  test   %al,%al
 -je     <T> <_ZN9CGuildWar11RankProcessEv+0x144>
-+je     <T> <_ZN9CGuildWar11RankProcessEv+0x153>
++je     <T> <_ZN9CGuildWar11RankProcessEv+0x142>
  lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -86,7 +71,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN9CGuildWar11RankProcessEv+0xe7>
-+jmp    <T> <_ZN9CGuildWar11RankProcessEv+0xf6>
++jmp    <T> <_ZN9CGuildWar11RankProcessEv+0xe5>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -101,27 +86,27 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN9CGuildWar11RankProcessEv+0xe1>
-+jmp    <T> <_ZN9CGuildWar11RankProcessEv+0xf0>
++jmp    <T> <_ZN9CGuildWar11RankProcessEv+0xdf>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN9CGuildWar11RankProcessEv+0x106>
-+jne    <T> <_ZN9CGuildWar11RankProcessEv+0x115>
++jne    <T> <_ZN9CGuildWar11RankProcessEv+0x104>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%ecx
  mov    %ebx,%eax
 -jmp    <T> <_ZN9CGuildWar11RankProcessEv+0x106>
-+jmp    <T> <_ZN9CGuildWar11RankProcessEv+0x115>
++jmp    <T> <_ZN9CGuildWar11RankProcessEv+0x104>
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN9CGuildWar11RankProcessEv+0x121>
-+jmp    <T> <_ZN9CGuildWar11RankProcessEv+0x130>
++jmp    <T> <_ZN9CGuildWar11RankProcessEv+0x11f>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN9CGuildWar11RankProcessEv+0x106>
-+jne    <T> <_ZN9CGuildWar11RankProcessEv+0x115>
++jne    <T> <_ZN9CGuildWar11RankProcessEv+0x104>
  call   <T> <_ZSt9terminatev>
  mov    %eax,%ecx
  mov    %edx,%eax
@@ -142,19 +127,18 @@
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    0x8(%ebp),%eax
--movb   $0x0,0xd(%eax)
-+add    $0xd,%eax
-+movb   $0x0,(%eax)
+ movb   $0x0,0xd(%eax)
  mov    0x8(%ebp),%eax
--movb   $0x0,0x10(%eax)
+ movb   $0x0,0x10(%eax)
 -jmp    <T> <_ZN9CGuildWar11RankProcessEv+0x15b>
--nop
++jmp    <T> <_ZN9CGuildWar11RankProcessEv+0x159>
+ nop
 -jmp    <T> <_ZN9CGuildWar11RankProcessEv+0x15b>
--nop
++jmp    <T> <_ZN9CGuildWar11RankProcessEv+0x159>
+ nop
 -jmp    <T> <_ZN9CGuildWar11RankProcessEv+0x15b>
--nop
-+add    $0x10,%eax
-+movb   $0x0,(%eax)
++jmp    <T> <_ZN9CGuildWar11RankProcessEv+0x159>
+ nop
  add    $0x2c,%esp
  pop    %ebx
  pop    %esi
@@ -204,24 +188,30 @@ void __thiscall CGuildWar::_ZN9CGuildWar11RankProcessEv(CGuildWar *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 319 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 325 行）：
 
 ```cpp
 void CGuildWar::RankProcess()
 {
-    if (IsGuildWarEventOn() == 1 && *(unsigned char*)((char*)this + 0x10) != 0)
+    if (!IsGuildWarEventOn())
     {
-        *(unsigned char*)((char*)this + 0xd) += 1;
-        if (1 < *(unsigned char*)((char*)this + 0xd))
-        {
-            if (Rank() != 1)
-            {
-                throw CDNFException(
-                    "CGuildWar::RankProcess : false == Rank() : May be m_vtGuildWarInfo is empty!");
-            }
-            *(unsigned char*)((char*)this + 0xd) = 0;
-            *(unsigned char*)((char*)this + 0x10) = 0;
-        }
+        return;
     }
+    if (m_bRankWorked == 0)
+    {
+        return;
+    }
+    m_bRankCnt++;
+    if (m_bRankCnt <= 1)
+    {
+        return;
+    }
+    if (Rank() != 1)
+    {
+        throw CDNFException(
+            "CGuildWar::RankProcess : false == Rank() : May be m_vtGuildWarInfo is empty!");
+    }
+    m_bRankCnt = 0;
+    m_bRankWorked = 0;
 }
 ```

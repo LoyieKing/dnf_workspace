@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8091bc6` | `0x31b` | `0x807d0ba` | `0x317` |
+| monitor | DIFF | `0x8091bc6` | `0x31b` | `0x807d168` | `0x317` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -391,35 +391,35 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5424 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5431 行）：
 
 ```cpp
 void CPacketTranslater::OnUpdateMiniCraneSeed(PacketHeader* pkt)
 {
     try
     {
+        PacketHeader* local_pkt = pkt;
         m_pclApp->SetMiniCraneRandomSeed();
-        ((RA_UINT<10>*)pkt)->v = (unsigned int)m_pclApp->getMiniCraneSeed();
-        if (pkt == 0)
+        ((RA_UINT<10>*)local_pkt)->v = (unsigned int)m_pclApp->getMiniCraneSeed();
+        if (local_pkt == 0)
         {
             throw CDNFException("CPacketTranslater::OnUpdateMiniCraneSeed, packet is null");
         }
         if (m_pclApp != 0 && ((RA_INT<160>*)m_pclApp)->v != 0)
         {
-            CServerHandler* handler = m_pclApp->m_serverHandler2;
-            handler->SendAllToGameServer((char*)pkt, ((RA_U16<2>*)pkt)->v);
+            m_pclApp->m_serverHandler2->SendAllToGameServer((char*)local_pkt, ((RA_U16<2>*)local_pkt)->v);
             return;
         }
-        throw CDNFException("CPacketTranslater::OnUpdateMiniCraneSeed, m_pclApp == 0");
+        throw CDNFException("CPacketTranslater::OnUpdateMiniCraneSeed m_pclApp or m_pclServerHandler is null");
     }
     catch (CDNFException& e)
     {
-        DNF_LOG_SCOPE_LINE(0x1b82,"./log/Except",
+        DNF_LOG_SCOPE_LINE(0x222b,"./log/Except",
             "CPacketTranslater::OnUpdateMiniCraneSeed Exception Break : %s\n", e.what());
     }
     catch (...)
     {
-        DNF_LOG_SCOPE_LINE(0x1b87, "./log/Except",
+        DNF_LOG_SCOPE_LINE(0x2230, "./log/Except",
             "CPakcetTranslater::OnUpdateMiniCraneSeed Exception Break\n");
     }
 }

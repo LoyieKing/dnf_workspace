@@ -121,8 +121,7 @@
  mov    %ebx,%edx
  mov    0xc(%ebp),%eax
  mov    %edx,0x94(%eax)
--movl   $0x34,(%esp)
-+movl   $0x30,(%esp)
+ movl   $0x34,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
  mov    %ebx,%eax

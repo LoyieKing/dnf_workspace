@@ -1,0 +1,12 @@
+DIFF   _ZN5CUser17SendTcpGameserverEP12PacketHeader
+DIFF   _ZN5CUser18GuildInviteProcessEv
+DIFF   _ZN5CUser18SetGuildMemberMemoEPKc
+DIFF   _ZN5CUser19AddGuildMemberPointEj
+DIFF   _ZN5CUser19RegisterToBlackListEjPc
+DIFF   _ZN5CUser19RegisterToBlackListEjPcj
+DIFF   _ZN5CUser21SendGuildMemberDBInfoER18STGuildMemerDBInfo
+DIFF   _ZN5CUser21SendSetGuildKeyToUserEjj
+DIFF   _ZN5CUser22ChangeGuildMemberGradeEh
+DIFF   _ZN5CUser32MakeGameServerSendUserInfoPacketEj
+DIFF   _ZN5CUserD1Ev
+DIFF   _ZN5CUserD2Ev

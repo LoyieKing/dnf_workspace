@@ -726,3 +726,11 @@ DIFF 因包类 packed 修正/签名修正升为 ID，抵消了新增 DIFF）。
   结论维持，无回归）；冒烟构建通过。
 - 按 decompile_order.md 将 monitor 标记完成，更新队列状态，开始 **manager**
   （3.2MB/5948 函数/无 DWARF，策略同 monitor）。
+
+## 第十四批（2026-08-12 第 14 轮进行中，父 Agent 直修）
+- TCPSocket::setOptResizeSendBuf：optlen/opt 声明+赋值顺序对齐栈槽与写入序（NEAR→IDENTICAL）
+- CPeriodicMessageMgr::OnTimerSendData：size_t len → int len 对齐参数装载顺序（NEAR→IDENTICAL）
+- momiji_event::EventManager::sendDeleteEffect：+stack_pad[8] 对齐 pkt 栈槽 -0x22（NEAR→IDENTICAL_AE）
+- COnTimeEventManager::SendContinueTimeToGS：成员赋值顺序按 ORIG 实测重排（m_field38→m_field12 等，NEAR→IDENTICAL）
+- CLoginLogoutStatistics::ProcessByMinute：v0..v3 死局部 → 直接写 pkt.m_field608..614（真实语义修复）；+pad/dummy 对齐栈槽（NEAR→IDENTICAL）
+- CIPCounter 三函数（setLoadTerm/setMinIPCount/setOption）：已穷举源码变体（局部 char/int、register、三元、if/else 分支、pad 栈槽、c5r52/c6444r A/B）无法复现 ORIG 的寄存器常驻形态（ORIG `movzbl; cmp $0xc8,%al` vs 各编译器 `cmpb -0x4(%ebp)` 内存比较；ORIG 帧 0x4 参数槽 -0x4 vs 我们 0x14/-0x14）；源码保留语义还原版，交 misc2 组继续/到头上报。

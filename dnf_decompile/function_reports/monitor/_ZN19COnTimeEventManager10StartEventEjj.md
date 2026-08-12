@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4708` | `0xa4` | `0x8099d6e` | `0xc1` |
+| monitor | DIFF | `0x80a4708` | `0xa4` | `0x8099e2a` | `0xc1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -29,13 +29,11 @@
  call   <T> <time>
 -mov    %eax,-0xc(%ebp)
 +mov    %eax,-0x20(%ebp)
-+mov    0xc(%ebp),%edx
  mov    0x8(%ebp),%eax
--mov    0xc(%ebp),%edx
+ mov    0xc(%ebp),%edx
  mov    %edx,0x24(%eax)
-+mov    0x10(%ebp),%edx
  mov    0x8(%ebp),%eax
--mov    0x10(%ebp),%edx
+ mov    0x10(%ebp),%edx
  mov    %edx,0x28(%eax)
 -mov    -0xc(%ebp),%edx
 +mov    -0x20(%ebp),%edx

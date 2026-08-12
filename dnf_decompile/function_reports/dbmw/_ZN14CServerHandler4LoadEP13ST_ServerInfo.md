@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808f392` | `0x624` | `0x80df3e0` | `0x624` |
+| dbmw | NEAR | `0x808f392` | `0x624` | `0x80df4ec` | `0x624` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,496 +1,493 @@
+@@ -1,496 +1,496 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -262,6 +262,7 @@
  call   <T> <__cxa_throw>
 -movzbl -0x1d(%ebp),%ebx
 -mov    -0x1c(%ebp),%edx
++movzbl -0x19(%ebp),%ebx
 +mov    -0x20(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
@@ -271,20 +272,14 @@
  movzwl 0x8(%eax),%eax
  movzwl %ax,%ecx
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
--lea    0x4(%eax),%esi
--mov    -0x1c(%ebp),%edx
 +mov    -0x20(%ebp),%edx
-+mov    %edx,%eax
-+add    %eax,%eax
-+add    %edx,%eax
-+shl    $0x2,%eax
-+add    0xc(%ebp),%eax
-+lea    0x4(%eax),%ebx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
+ lea    0x4(%eax),%esi
+-mov    -0x1c(%ebp),%edx
 +mov    -0x20(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
@@ -295,11 +290,9 @@
  movzbl %al,%eax
  mov    0x8(%ebp),%edx
  add    $0xff0,%edx
--mov    %ebx,0x10(%esp)
-+movl   $0xc9,0x10(%esp)
+ mov    %ebx,0x10(%esp)
  mov    %ecx,0xc(%esp)
--mov    %esi,0x8(%esp)
-+mov    %ebx,0x8(%esp)
+ mov    %esi,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN14CMonitorServer4InitEhRSsth>
@@ -406,6 +399,7 @@
  call   <T> <__cxa_throw>
 -movzbl -0x1d(%ebp),%ebx
 -mov    -0x1c(%ebp),%edx
++movzbl -0x19(%ebp),%ebx
 +mov    -0x20(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
@@ -415,20 +409,14 @@
  movzwl 0x8(%eax),%eax
  movzwl %ax,%ecx
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
--lea    0x4(%eax),%esi
--mov    -0x1c(%ebp),%edx
 +mov    -0x20(%ebp),%edx
-+mov    %edx,%eax
-+add    %eax,%eax
-+add    %edx,%eax
-+shl    $0x2,%eax
-+add    0xc(%ebp),%eax
-+lea    0x4(%eax),%ebx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
+ lea    0x4(%eax),%esi
+-mov    -0x1c(%ebp),%edx
 +mov    -0x20(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
@@ -439,11 +427,9 @@
  movzbl %al,%eax
  mov    0x8(%ebp),%edx
  add    $0x1018,%edx
--mov    %ebx,0x10(%esp)
-+movl   $0xcb,0x10(%esp)
+ mov    %ebx,0x10(%esp)
  mov    %ecx,0xc(%esp)
--mov    %esi,0x8(%esp)
-+mov    %ebx,0x8(%esp)
+ mov    %esi,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN12CGuildServer4InitEhRSsth>
@@ -547,6 +533,7 @@
  call   <T> <__cxa_throw>
 -movzbl -0x1d(%ebp),%ebx
 -mov    -0x1c(%ebp),%edx
++movzbl -0x19(%ebp),%ebx
 +mov    -0x20(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
@@ -556,20 +543,14 @@
  movzwl 0x8(%eax),%eax
  movzwl %ax,%ecx
 -mov    -0x1c(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
--lea    0x4(%eax),%esi
--mov    -0x1c(%ebp),%edx
 +mov    -0x20(%ebp),%edx
-+mov    %edx,%eax
-+add    %eax,%eax
-+add    %edx,%eax
-+shl    $0x2,%eax
-+add    0xc(%ebp),%eax
-+lea    0x4(%eax),%ebx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
+ lea    0x4(%eax),%esi
+-mov    -0x1c(%ebp),%edx
 +mov    -0x20(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
@@ -580,11 +561,9 @@
  movzbl %al,%eax
  mov    0x8(%ebp),%edx
  add    $0x1030,%edx
--mov    %ebx,0x10(%esp)
-+movl   $0xcd,0x10(%esp)
+ mov    %ebx,0x10(%esp)
  mov    %ecx,0xc(%esp)
--mov    %esi,0x8(%esp)
-+mov    %ebx,0x8(%esp)
+ mov    %esi,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN17CStatisticsServer4InitEhRSsth>
@@ -720,7 +699,7 @@ CServerHandler::_ZN14CServerHandler4LoadEP13ST_ServerInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 45 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp](source/DNFServer/GameServer/DBMW/DNFServerHandler.cpp)（约第 44 行）：
 
 ```cpp
 void CServerHandler::Load(ST_ServerInfo* infos)
@@ -742,7 +721,7 @@ void CServerHandler::Load(ST_ServerInfo* infos)
             if (idx == 0xff || idx != 0xc9)
                 throw CDNFException("CServerHandler::Load() Monitor Server Table Exception Break!");
             m_monitorServer.Init(infos[i].m_flag, infos[i].m_name,
-                                 infos[i].m_port, 0xc9);
+                                 infos[i].m_port, idx);
         }
         if (infos[i].m_type == 5)
         {
@@ -750,7 +729,7 @@ void CServerHandler::Load(ST_ServerInfo* infos)
             if (idx == 0xff || idx != 0xcb)
                 throw CDNFException("CServerHandler::Load() Guild Server Table Exception Break!");
             m_guildServer.Init(infos[i].m_flag, infos[i].m_name,
-                               infos[i].m_port, 0xcb);
+                               infos[i].m_port, idx);
         }
         if (infos[i].m_type == 7)
         {
@@ -758,7 +737,7 @@ void CServerHandler::Load(ST_ServerInfo* infos)
             if (idx != 0xcd)
                 throw CDNFException("CServerHandler::Load() Statistics Server Table Exception Break!");
             m_statisticsServer.Init(infos[i].m_flag, infos[i].m_name,
-                                    infos[i].m_port, 0xcd);
+                                    infos[i].m_port, idx);
         }
     }
 }

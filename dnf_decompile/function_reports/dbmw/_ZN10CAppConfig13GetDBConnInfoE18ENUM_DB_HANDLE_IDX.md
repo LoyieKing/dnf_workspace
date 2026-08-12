@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806deea` | `0x14` | `0x806a284` | `0x16` |
+| dbmw | DIFF | `0x806deea` | `0x14` | `0x806a3be` | `0x16` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -49,6 +49,6 @@ CAppConfig::_ZN10CAppConfig13GetDBConnInfoE18ENUM_DB_HANDLE_IDX(CAppConfig *this
 ```cpp
 STDBConnInfo* CAppConfig::GetDBConnInfo(ENUM_DB_HANDLE_IDX idx)
 {
-    return (STDBConnInfo*)((char*)this + ((int)idx * 0x168 + 0x60));
+    return &m_dbConnInfo[idx];
 }
 ```

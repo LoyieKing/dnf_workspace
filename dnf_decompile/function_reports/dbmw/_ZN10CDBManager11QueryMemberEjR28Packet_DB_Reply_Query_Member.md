@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8073048` | `0xb7a` | `0x8053974` | `0xaee` |
+| dbmw | DIFF | `0x8073048` | `0xb7a` | `0x80539a6` | `0xaee` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -1641,10 +1641,10 @@ CDBManager::_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1948 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 2001 行）：
 
 ```cpp
-char CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member& reply)
+bool CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member& reply)
 {
     CDBHandle* h = m_handles[2];    // game db
     char* mbase = (char*)&reply + 0x17;  // m_master（STMemberDBInfo，紧打包）

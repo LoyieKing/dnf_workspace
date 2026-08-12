@@ -1,0 +1,4 @@
+DIFF   _ZN19CPowerWarCharacInfo14PrintDebugInfoEv
+DIFF   _ZN19CPowerWarCharacInfo20InsertPowerwarCharacEjP20STPowerWarCharacInfo
+DIFF   _ZN19CPowerWarCharacInfo21GetAllUserRankingInfoERjP10STUserRank
+DIFF   _ZN19CPowerWarCharacInfo8GetBonusER36Packet_DB_Save_Power_War_Bonus_Point

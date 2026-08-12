@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a78dc` | `0x6a` | `0x809d5d0` | `0x75` |
+| guild | DIFF | `0x80a78dc` | `0x6a` | `0x809d8b0` | `0x6f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,15 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,33 +1,36 @@
+@@ -1,33 +1,34 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
--lea    -0x10(%ebp),%eax
-+mov    0x8(%ebp),%eax
-+add    $0x4,%eax
-+mov    %eax,-0xc(%ebp)
-+lea    -0x14(%ebp),%eax
+ lea    -0x10(%ebp),%eax
  lea    0x10(%ebp),%edx
  mov    %edx,0x8(%esp)
  lea    0xc(%ebp),%edx
@@ -29,23 +25,17 @@
  mov    %eax,(%esp)
  call   <T> <_ZSt9make_pairIRjRP20STPowerWarCharacInfoESt4pairINSt17__decay_and_stripIT_E6__typeENS5_IT0_E6__typeEEOS6_OS9_>
  sub    $0x4,%esp
--lea    -0x10(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ lea    -0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKjP20STPowerWarCharacInfoEC1IjS2_EEOS_IT_T0_E>
--mov    0x8(%ebp),%eax
--lea    0x4(%eax),%ecx
--lea    -0x20(%ebp),%eax
--lea    -0x18(%ebp),%edx
-+lea    -0x24(%ebp),%eax
-+lea    -0x1c(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ lea    0x4(%eax),%ecx
+ lea    -0x20(%ebp),%eax
+ lea    -0x18(%ebp),%edx
  mov    %edx,0x8(%esp)
--mov    %ecx,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,0x4(%esp)
+ mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP20STPowerWarCharacInfoSt4lessIjESaISt4pairIKjS1_EEE6insertERKS6_>
  sub    $0x4,%esp
@@ -93,8 +83,7 @@ void CPowerWarCharacInfo::_ZN19CPowerWarCharacInfo20InsertPowerwarCharacEjP20STP
 ```cpp
 int CPowerWarCharacInfo::InsertPowerwarCharac(unsigned int charNo, STPowerWarCharacInfo* info)
 {
-    std::map<unsigned int, STPowerWarCharacInfo*>* map = &m_map;
-    map->insert(std::make_pair(charNo, info));
+    m_map.insert(std::make_pair(charNo, info));
     m_vec.push_back(info);
     return 0;
 }

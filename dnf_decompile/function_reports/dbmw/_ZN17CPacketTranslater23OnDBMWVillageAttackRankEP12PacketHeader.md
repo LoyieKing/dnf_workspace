@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809ce38` | `0x1d6` | `0x80d5978` | `0x1d3` |
+| dbmw | DIFF | `0x809ce38` | `0x1d6` | `0x80d5a24` | `0x1d1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,124 +1,123 @@
+@@ -1,124 +1,122 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -23,7 +23,7 @@
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1ce>
 -movb   $0x0,-0x29(%ebp)
-+je     <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1cb>
++je     <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1c9>
 +movb   $0x0,-0x25(%ebp)
 +movl   $0x0,-0x2c(%ebp)
  movl   $0x0,-0x30(%ebp)
@@ -51,12 +51,10 @@
 -mov    %edx,(%esp)
 +mov    %ecx,(%esp)
  call   <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x9b>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x98>
++je     <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x96>
  movl   $0xd5a,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
@@ -71,12 +69,12 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1cf>
 -movzbl -0x29(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1cc>
++jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1ca>
 +movzbl -0x25(%ebp),%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1cf>
 -lea    -0x46(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1cc>
++je     <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1ca>
 +lea    -0x42(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN26Packet_Monitor_Event_StartC1Ev>
@@ -103,10 +101,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1cf>
-+jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1cc>
++jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1ca>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x172>
-+jne    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x16f>
++jne    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x16d>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -132,7 +130,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x16b>
-+jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x168>
++jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x166>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -142,7 +140,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1cf>
-+jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1cc>
++jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1ca>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xd6e,0x8(%esp)
@@ -158,7 +156,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1c7>
-+jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1c4>
++jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1c2>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -168,7 +166,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1cf>
-+jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1cc>
++jmp    <T> <_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader+0x1ca>
  nop
  add    $0x60,%esp
  pop    %ebx

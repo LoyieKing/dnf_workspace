@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808e1e4` | `0x4a` | `0x80ed30a` | `0x48` |
+| dbmw | DIFF | `0x808e1e4` | `0x4a` | `0x80ed36c` | `0x48` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -67,7 +67,7 @@ void __thiscall CQueryCounter::_ZN13CQueryCounterC2Ev(CQueryCounter *this)
 CQueryCounter::CQueryCounter()
 {
     m_interval = 0x1e;
-    m_timer = new CUnixTimer;
+    m_timer = new CUnixTimer();
     ResetQueryCount();
 }
 ```

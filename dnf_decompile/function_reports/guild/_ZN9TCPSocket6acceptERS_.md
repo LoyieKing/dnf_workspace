@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804fd34` | `0x11d` | `0x8086eb6` | `0xd1` |
+| guild | DIFF | `0x804fd34` | `0x11d` | `0x808708e` | `0x11f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,68 +13,57 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,80 +1,59 @@
+@@ -1,80 +1,81 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  movl   $0x10,-0x14(%ebp)
  mov    0xc(%ebp),%eax
--add    $0x4,%eax
--mov    %eax,%edx
-+lea    0x4(%eax),%ecx
+ add    $0x4,%eax
+ mov    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
--lea    -0x14(%ebp),%ecx
--mov    %ecx,0x8(%esp)
--mov    %edx,0x4(%esp)
-+lea    -0x14(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    %ecx,0x4(%esp)
+ lea    -0x14(%ebp),%ecx
+ mov    %ecx,0x8(%esp)
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <accept>
--mov    0xc(%ebp),%edx
--mov    %eax,(%edx)
-+mov    %eax,-0x10(%ebp)
+ mov    0xc(%ebp),%edx
+ mov    %eax,(%edx)
  mov    0xc(%ebp),%eax
--mov    (%eax),%eax
--test   %eax,%eax
--jne    <T> <_ZN9TCPSocket6acceptERS_+0x7f>
--movl   $"a+",0x4(%esp)
--movl   $"log.txt",(%esp)
--call   <T> <fopen>
--mov    %eax,-0x10(%ebp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%eax)
+ mov    (%eax),%eax
+ test   %eax,%eax
+ jne    <T> <_ZN9TCPSocket6acceptERS_+0x7f>
+ movl   $"a+",0x4(%esp)
+ movl   $"log.txt",(%esp)
+ call   <T> <fopen>
+ mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x10(%ebp)
--je     <T> <_ZN9TCPSocket6acceptERS_+0x7f>
--mov    0xc(%ebp),%eax
--mov    (%eax),%eax
--mov    %eax,0x8(%esp)
--movl   $"[TCPSocket::Accept] Accept fail[%d]\n",0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <fprintf>
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <fclose>
--mov    0xc(%ebp),%eax
--mov    (%eax),%eax
--test   %eax,%eax
--js     <T> <_ZN9TCPSocket6acceptERS_+0x92>
--mov    0xc(%ebp),%eax
--mov    (%eax),%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN9TCPSocket6acceptERS_+0xdd>
-+je     <T> <_ZN9TCPSocket6acceptERS_+0x42>
-+cmpl   $0xffffffff,-0x10(%ebp)
-+jne    <T> <_ZN9TCPSocket6acceptERS_+0x8d>
+ je     <T> <_ZN9TCPSocket6acceptERS_+0x7f>
+ mov    0xc(%ebp),%eax
+ mov    (%eax),%eax
+ mov    %eax,0x8(%esp)
+ movl   $"[TCPSocket::Accept] Accept fail[%d]\n",0x4(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <fprintf>
+ mov    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <fclose>
+ mov    0xc(%ebp),%eax
+ mov    (%eax),%eax
+ test   %eax,%eax
+ js     <T> <_ZN9TCPSocket6acceptERS_+0x92>
+ mov    0xc(%ebp),%eax
+ mov    (%eax),%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN9TCPSocket6acceptERS_+0xdd>
  movl   $"a+",0x4(%esp)
  movl   $"log.txt",(%esp)
  call   <T> <fopen>
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
--je     <T> <_ZN9TCPSocket6acceptERS_+0xd6>
-+je     <T> <_ZN9TCPSocket6acceptERS_+0x86>
+ je     <T> <_ZN9TCPSocket6acceptERS_+0xd6>
  mov    0xc(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,0x8(%esp)
@@ -87,7 +76,7 @@
  call   <T> <fclose>
  mov    $0x0,%eax
 -jmp    <T> <_ZN9TCPSocket6acceptERS_+0x11b>
-+jmp    <T> <_ZN9TCPSocket6acceptERS_+0xcf>
++jmp    <T> <_ZN9TCPSocket6acceptERS_+0x11d>
  mov    0xc(%ebp),%eax
  lea    0x8(%eax),%edx
  mov    0xc(%ebp),%eax
@@ -98,12 +87,10 @@
  call   <T> <memcpy>
  mov    0xc(%ebp),%eax
 -movzwl 0x6(%eax),%edx
-+lea    0x18(%eax),%edx
- mov    0xc(%ebp),%eax
--mov    %dx,0x18(%eax)
 +add    $0x6,%eax
-+movzwl (%eax),%eax
-+mov    %ax,(%edx)
++movzwl (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    %dx,0x18(%eax)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9TCPSocket14setOptNonBlockEv>
@@ -156,15 +143,23 @@ undefined4 __thiscall TCPSocket::_ZN9TCPSocket6acceptERS_(TCPSocket *this,TCPSoc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 369 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp](source/DNFServer/GameServer/Guild/DNFTcpSocket.cpp)（约第 323 行）：
 
 ```cpp
-int TCPSocket::accept(TCPSocket& peer)
+bool TCPSocket::accept(TCPSocket& peer)
 {
     socklen_t slen = 0x10;
-    int fd = ::accept(m_sock, (sockaddr*)((char*)&peer + 4), &slen);
-    peer.m_sock = fd;
-    if (fd == 0 || fd == -1)
+    peer.m_sock = ::accept(m_sock, (sockaddr*)peer.m_sockaddr, &slen);
+    if (peer.m_sock == 0)
+    {
+        FILE* f = fopen("log.txt", "a+");
+        if (f != 0)
+        {
+            fprintf(f, "[TCPSocket::Accept] Accept fail[%d]\n", peer.m_sock);
+            fclose(f);
+        }
+    }
+    if (peer.m_sock < 0 || peer.m_sock == -1)
     {
         FILE* f = fopen("log.txt", "a+");
         if (f != 0)
@@ -174,8 +169,8 @@ int TCPSocket::accept(TCPSocket& peer)
         }
         return 0;
     }
-    memcpy((char*)&peer + 0x14, (char*)&peer + 8, 4);
-    *(unsigned short*)((char*)&peer + 0x18) = *(unsigned short*)((char*)&peer + 6);
+    memcpy(peer.m_peerAdrs, (char*)&peer + 8, 4);
+    peer.m_peerPort = *(unsigned short*)((char*)&peer + 6);
     peer.setOptNonBlock();
     return 1;
 }

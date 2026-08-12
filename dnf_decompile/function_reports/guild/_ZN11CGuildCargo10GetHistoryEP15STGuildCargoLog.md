@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a025a` | `0xa5` | `0x80920be` | `0xbc` |
+| guild | DIFF | `0x80a025a` | `0xa5` | `0x8092582` | `0xbd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,29 +13,24 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,50 +1,57 @@
+@@ -1,50 +1,56 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x48,%esp
 +push   %ebx
 +sub    $0x44,%esp
- mov    0x8(%ebp),%eax
--lea    0x18e8(%eax),%edx
--lea    -0x2c(%ebp),%eax
-+add    $0x18e8,%eax
-+mov    %eax,-0x10(%ebp)
 +movl   $0x0,-0xc(%ebp)
-+lea    -0x30(%ebp),%eax
-+mov    -0x10(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ lea    0x18e8(%eax),%edx
+ lea    -0x2c(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt5dequeI15STGuildCargoLogSaIS0_EE5beginEv>
  sub    $0x4,%esp
 -movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog+0x6f>
--lea    -0x2c(%ebp),%eax
-+jmp    <T> <_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog+0x72>
-+lea    -0x30(%ebp),%eax
++jmp    <T> <_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog+0x6d>
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt15_Deque_iteratorI15STGuildCargoLogRS0_PS0_EdeEv>
  mov    %eax,%ecx
@@ -51,41 +46,36 @@
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memcpy>
--lea    -0x2c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt15_Deque_iteratorI15STGuildCargoLogRS0_PS0_EppEv>
  addl   $0x1,-0xc(%ebp)
 -cmpl   $0x32,-0xc(%ebp)
 -jg     <T> <_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog+0xa2>
--mov    0x8(%ebp),%eax
--lea    0x18e8(%eax),%edx
--lea    -0x1c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
-+mov    -0x10(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ lea    0x18e8(%eax),%edx
+ lea    -0x1c(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt5dequeI15STGuildCargoLogSaIS0_EE3endEv>
  sub    $0x4,%esp
--lea    -0x1c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZStneI15STGuildCargoLogRS0_PS0_EbRKSt15_Deque_iteratorIT_T0_T1_ES9_>
  test   %al,%al
 -jne    <T> <_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog+0x2a>
 -jmp    <T> <_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog+0xa3>
 -nop
-+je     <T> <_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog+0xaa>
++je     <T> <_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog+0xab>
 +cmpl   $0x32,-0xc(%ebp)
-+jg     <T> <_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog+0xaa>
++jg     <T> <_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog+0xab>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog+0xaf>
++jmp    <T> <_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog+0xb0>
 +mov    $0x0,%eax
 +test   %al,%al
-+jne    <T> <_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog+0x30>
++jne    <T> <_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog+0x2b>
 +mov    -0x4(%ebp),%ebx
  leave
  ret
@@ -127,16 +117,14 @@ CGuildCargo::_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 438 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 471 行）：
 
 ```cpp
 void CGuildCargo::GetHistory(STGuildCargoLog* out)
 {
-    std::deque<STGuildCargoLog>* hist =
-        (std::deque<STGuildCargoLog>*)((char*)this + 0x18e8);
     int i = 0;
-    for (std::deque<STGuildCargoLog>::iterator it = hist->begin();
-         it != hist->end() && i < 0x33; ++it, ++i)
+    for (std::deque<STGuildCargoLog>::iterator it = m_history.begin();
+         it != m_history.end() && i < 0x33; ++it, ++i)
     {
         memcpy((char*)out + i * 0x30, &(*it), 0x30);
     }

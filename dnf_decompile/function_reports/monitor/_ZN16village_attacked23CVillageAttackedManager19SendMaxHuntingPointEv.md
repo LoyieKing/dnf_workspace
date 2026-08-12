@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a8b10` | `0x98` | `0x80a7892` | `0x9e` |
+| monitor | DIFF | `0x80a8b10` | `0x98` | `0x80a7984` | `0x97` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -16,45 +16,36 @@
 @@ -1,40 +1,40 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
--push   %ebx
+ push   %esi
+ push   %ebx
 -sub    $0x1040,%esp
 -lea    -0x101b(%ebp),%eax
-+sub    $0x2048,%esp
-+lea    -0x2028(%ebp),%eax
++sub    $0x2040,%esp
++lea    -0x201c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN21Packet_DBMW_Query_MsgC1Ev>
 -movl   $0x6,-0x100d(%ebp)
 -movl   $0x4ee2,-0x1011(%ebp)
-+movl   $0x6,-0x201a(%ebp)
-+movl   $0x4ee2,-0x201e(%ebp)
++movl   $0x6,-0x200e(%ebp)
++movl   $0x4ee2,-0x2012(%ebp)
  mov    0x8(%ebp),%eax
 -mov    0x1c(%eax),%esi
 +mov    0x1c(%eax),%eax
-+mov    %eax,-0x14(%ebp)
++mov    %eax,%esi
  call   <T> <_Z10GetNowTimev>
--mov    %eax,%ebx
-+mov    %eax,-0x10(%ebp)
+ mov    %eax,%ebx
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15Get_ServerGroupEv>
  movzbl %al,%eax
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--mov    %eax,0x8(%esp)
-+mov    %eax,-0xc(%ebp)
-+mov    -0xc(%ebp),%eax
-+movzbl %al,%edx
-+mov    -0x14(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+mov    %edx,0x8(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ mov    %eax,0x8(%esp)
  movl   $"inSert into village_attacked_server_point_rank(server_info, occ_date, hunting_point) values(%d,cast(from_unixtime(%d) as date),%u)",0x4(%esp)
 -lea    -0x101b(%ebp),%eax
 -add    $0x12,%eax
-+lea    -0x1015(%ebp),%eax
++lea    -0x1009(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <sprintf>
  mov    0x8(%ebp),%eax
@@ -62,15 +53,15 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -lea    -0x101b(%ebp),%edx
-+lea    -0x2028(%ebp),%edx
++lea    -0x201c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -add    $0x1040,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
-+leave
++add    $0x2040,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -116,15 +107,14 @@ _ZN16village_attacked23CVillageAttackedManager19SendMaxHuntingPointEv(CVillageAt
 void CVillageAttackedManager::SendMaxHuntingPoint()
 {
     Packet_DBMW_Query_Msg pkt;
+    char sql[0x1001];
     pkt.m_fieldB = 6;
     pkt.m_fieldA = 0x4ee2;
-    unsigned int hp = (unsigned int)m_field1c;
-    unsigned int now = GetNowTime();
-    unsigned int group = (unsigned int)m_app->Get_ServerGroup();
-    char sql[0x1001];
+    register unsigned int hp = (unsigned int)m_field1c;
+    register unsigned int now = GetNowTime();
     sprintf(sql,
             "inSert into village_attacked_server_point_rank(server_info, occ_date, hunting_point) values(%d,cast(from_unixtime(%d) as date),%u)",
-            group & 0xff, now, hp);
+            (unsigned int)m_app->Get_ServerGroup() & 0xff, now, hp);
     m_app->Get_ServerHandler()->SendToDB(&pkt);
 }
 ```

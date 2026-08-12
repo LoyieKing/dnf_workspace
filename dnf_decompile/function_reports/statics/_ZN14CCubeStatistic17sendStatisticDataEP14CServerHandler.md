@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806c588` | `0x257` | `0x804aed6` | `0x25e` |
+| statics | DIFF | `0x806c588` | `0x257` | `0x804aed6` | `0x257` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,166 +1,168 @@
+@@ -1,166 +1,166 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -27,8 +27,7 @@
  call   <T> <_ZNKSt3mapI18STCubeStatisticKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE5emptyEv>
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN14CCubeStatistic17sendStatisticDataEP14CServerHandler+0x252>
-+je     <T> <_ZN14CCubeStatistic17sendStatisticDataEP14CServerHandler+0x259>
+ je     <T> <_ZN14CCubeStatistic17sendStatisticDataEP14CServerHandler+0x252>
  mov    0x8(%ebp),%edx
  lea    -0x24(%ebp),%eax
  mov    %edx,0x4(%esp)
@@ -36,134 +35,88 @@
  call   <T> <_ZNSt3mapI18STCubeStatisticKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN14CCubeStatistic17sendStatisticDataEP14CServerHandler+0x1a8>
--mov    -0xc(%ebp),%ebx
-+jmp    <T> <_ZN14CCubeStatistic17sendStatisticDataEP14CServerHandler+0x1a4>
-+lea    -0x1810(%ebp),%ecx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
-+add    %eax,%eax
-+add    %edx,%eax
-+shl    $0x2,%eax
-+add    %edx,%eax
-+add    $0xe,%eax
-+lea    (%ecx,%eax,1),%ebx
++jmp    <T> <_ZN14CCubeStatistic17sendStatisticDataEP14CServerHandler+0x1a7>
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STCubeStatisticKeyiEEptEv>
  mov    (%eax),%eax
--mov    %eax,%edx
--mov    %ebx,%eax
-+mov    %ax,(%ebx)
-+lea    -0x1810(%ebp),%ecx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
+ mov    %eax,%edx
+ mov    %ebx,%eax
  add    %eax,%eax
--add    %ebx,%eax
-+add    %edx,%eax
+ add    %ebx,%eax
  shl    $0x2,%eax
--add    %ebx,%eax
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%eax,1),%eax
--sub    $0x1808,%eax
--mov    %dx,0xe(%eax)
--mov    -0xc(%ebp),%ebx
-+add    %edx,%eax
-+add    $0x12,%eax
-+lea    (%ecx,%eax,1),%ebx
+ add    %ebx,%eax
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%eax,1),%eax
+ sub    $0x1808,%eax
+ mov    %dx,0xe(%eax)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STCubeStatisticKeyiEEptEv>
  mov    0x4(%eax),%eax
--mov    %eax,%edx
--mov    %ebx,%eax
-+mov    %eax,(%ebx)
-+lea    -0x1810(%ebp),%ecx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
+ mov    %eax,%edx
+ mov    %ebx,%eax
  add    %eax,%eax
--add    %ebx,%eax
-+add    %edx,%eax
+ add    %ebx,%eax
  shl    $0x2,%eax
--add    %ebx,%eax
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%eax,1),%eax
--sub    $0x1808,%eax
--mov    %edx,0x12(%eax)
--mov    -0xc(%ebp),%ebx
-+add    %edx,%eax
-+add    $0x10,%eax
-+lea    (%ecx,%eax,1),%ebx
+ add    %ebx,%eax
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%eax,1),%eax
+ sub    $0x1808,%eax
+ mov    %edx,0x12(%eax)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STCubeStatisticKeyiEEptEv>
  mov    0x8(%eax),%eax
--mov    %eax,%edx
--mov    %ebx,%eax
-+mov    %ax,(%ebx)
-+lea    -0x1810(%ebp),%ecx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
+ mov    %eax,%edx
+ mov    %ebx,%eax
  add    %eax,%eax
--add    %ebx,%eax
-+add    %edx,%eax
+ add    %ebx,%eax
  shl    $0x2,%eax
--add    %ebx,%eax
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%eax,1),%eax
--sub    $0x1808,%eax
--mov    %dx,0x10(%eax)
--mov    -0xc(%ebp),%ebx
-+add    %edx,%eax
-+add    $0x1a,%eax
-+lea    (%ecx,%eax,1),%ebx
+ add    %ebx,%eax
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%eax,1),%eax
+ sub    $0x1808,%eax
+ mov    %dx,0x10(%eax)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STCubeStatisticKeyiEEptEv>
--movzbl 0xc(%eax),%edx
--mov    %ebx,%eax
-+movzbl 0xc(%eax),%eax
-+mov    %al,(%ebx)
-+lea    -0x1810(%ebp),%ecx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
+ movzbl 0xc(%eax),%edx
+ mov    %ebx,%eax
  add    %eax,%eax
--add    %ebx,%eax
-+add    %edx,%eax
+ add    %ebx,%eax
  shl    $0x2,%eax
--add    %ebx,%eax
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%eax,1),%eax
--sub    $0x1808,%eax
--mov    %dl,0x1a(%eax)
--mov    -0xc(%ebp),%ebx
-+add    %edx,%eax
-+add    $0x16,%eax
-+lea    (%ecx,%eax,1),%ebx
+ add    %ebx,%eax
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%eax,1),%eax
+ sub    $0x1808,%eax
+ mov    %dl,0x1a(%eax)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STCubeStatisticKeyiEEptEv>
  mov    0x10(%eax),%eax
--mov    %eax,%edx
--mov    %ebx,%eax
--add    %eax,%eax
--add    %ebx,%eax
--shl    $0x2,%eax
--add    %ebx,%eax
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%eax,1),%eax
--sub    $0x1808,%eax
--mov    %edx,0x16(%eax)
-+mov    %eax,(%ebx)
+ mov    %eax,%edx
+ mov    %ebx,%eax
+ add    %eax,%eax
+ add    %ebx,%eax
+ shl    $0x2,%eax
+ add    %ebx,%eax
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%eax,1),%eax
+ sub    $0x1808,%eax
+ mov    %edx,0x16(%eax)
  addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    $0x1d5,%eax
 -jbe    <T> <_ZN14CCubeStatistic17sendStatisticDataEP14CServerHandler+0x19d>
--movl   $0x1d6,-0x1806(%ebp)
 +cmpl   $0x1d5,-0xc(%ebp)
-+jbe    <T> <_ZN14CCubeStatistic17sendStatisticDataEP14CServerHandler+0x199>
-+lea    -0x1810(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x1d6,(%eax)
++jbe    <T> <_ZN14CCubeStatistic17sendStatisticDataEP14CServerHandler+0x19c>
+ movl   $0x1d6,-0x1806(%ebp)
  lea    -0x1810(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
@@ -198,17 +151,11 @@
  test   %al,%al
  jne    <T> <_ZN14CCubeStatistic17sendStatisticDataEP14CServerHandler+0x4f>
 -cmpl   $0x0,-0xc(%ebp)
--jle    <T> <_ZN14CCubeStatistic17sendStatisticDataEP14CServerHandler+0x252>
- mov    -0xc(%ebp),%eax
--mov    %eax,-0x1806(%ebp)
-+test   %eax,%eax
-+jle    <T> <_ZN14CCubeStatistic17sendStatisticDataEP14CServerHandler+0x259>
-+lea    -0x1810(%ebp),%eax
-+lea    0xa(%eax),%edx
 +mov    -0xc(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x1810(%ebp),%eax
-+lea    0x2(%eax),%ecx
++test   %eax,%eax
+ jle    <T> <_ZN14CCubeStatistic17sendStatisticDataEP14CServerHandler+0x252>
+ mov    -0xc(%ebp),%eax
+ mov    %eax,-0x1806(%ebp)
  mov    -0xc(%ebp),%eax
  mov    %eax,%edx
  mov    %edx,%eax
@@ -217,8 +164,7 @@
  shl    $0x2,%eax
  add    %edx,%eax
  add    $0xe,%eax
--mov    %ax,-0x180e(%ebp)
-+mov    %ax,(%ecx)
+ mov    %ax,-0x180e(%ebp)
  lea    -0x1810(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
@@ -346,24 +292,24 @@ void CCubeStatistic::sendStatisticData(CServerHandler* handler)
         for (std::map<STCubeStatisticKey, int>::iterator it = m_data.begin();
              it != m_data.end(); ++it)
         {
-            *(short*)((char*)&pkt + count * 0xd + 0xe) = (short)it->first.m_field0;
-            *(int*)((char*)&pkt + count * 0xd + 0x12) = (int)it->first.m_field4;
-            *(short*)((char*)&pkt + count * 0xd + 0x10) = (short)it->first.m_field8;
-            *(char*)((char*)&pkt + count * 0xd + 0x1a) = it->first.m_fieldc;
-            *(int*)((char*)&pkt + count * 0xd + 0x16) = it->second;
-            count++;
-            if (0x1d5 < count)
+            pkt.m_items[count].m_field0 = it->first.m_field0;
+            pkt.m_items[count].m_field4 = (int)it->first.m_field4;
+            pkt.m_items[count].m_field8 = it->first.m_field8;
+            pkt.m_items[count].m_fieldc = it->first.m_fieldc;
+            pkt.m_items[count].m_value = (int)it->second;
+            count = count + 1;
+            if (0x1d5U < count)
             {
-                *(unsigned int*)((char*)&pkt + 10) = 0x1d6;
+                pkt.m_count = 0x1d6;
                 handler->SendToDB((PacketHeader*)&pkt);
                 count = 0;
                 DNF_LOG_SCOPE_LINE(0x40, "./log/statistic", "CCubeStatistic::sendStatisticData : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", 0x1d6);
             }
         }
-        if (0 < (int)count)
+        if ((int)count > 0)
         {
-            *(unsigned int*)((char*)&pkt + 10) = count;
-            *(unsigned short*)((char*)&pkt + 2) = (unsigned short)(count * 0xd + 0xe);
+            pkt.m_count = count;
+            pkt.packetSize = (unsigned short)(count * 0xd + 0xe);
             handler->SendToDB((PacketHeader*)&pkt);
             DNF_LOG_SCOPE_LINE(0x49, "./log/statistic", "CCubeStatistic::sendStatisticData : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", count);
         }

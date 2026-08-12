@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8092998` | `0x164` | `0x80ce94a` | `0x156` |
+| dbmw | DIFF | `0x8092998` | `0x164` | `0x80cea2c` | `0x156` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -239,22 +239,27 @@ void __thiscall CPacketTracer::_ZN13CPacketTracer21WritePacketProcessLogEv(CPack
 void CPacketTracer::WritePacketProcessLog()
 {
     m_processCount -= 1;
-    if (m_processCount < 1)
+    for (; m_processCount > 0;)
+        return;
+    std::map<unsigned int, stPacketProcess>::iterator it =
+        m_processMap.begin();
+    std::map<unsigned int, stPacketProcess>::iterator end =
+        m_processMap.end();
+    for (; it != end; ++it)
     {
-        for (std::map<unsigned int, stPacketProcess>::iterator it =
-                 m_processMap.begin();
-             it != m_processMap.end(); ++it)
+        if (it->second.m_count != 0)
         {
-            if (it->second.m_count != 0)
-            {
-                CMyFileLog log(__FUNCTION__, 0x6f);
-                log("./log/PacketProcess",
-                    "id(%d), acc count(%d), acc time(%.4f ms), average time(%4.4f ms)",
-                    it->first, it->second.m_count, it->second.m_accTime,
-                    it->second.m_accTime / (double)it->second.m_count);
-            }
+            double avg =
+                it->second.m_accTime / (double)it->second.m_count;
+            double acc = it->second.m_accTime;
+            register unsigned int cnt = it->second.m_count;
+            register unsigned int id = it->first;
+            CMyFileLog(__FUNCTION__, 0x6f).operator()(
+                "./log/PacketProcess",
+                "id(%d), acc count(%d), acc time(%.4f ms), average time(%4.4f ms)",
+                id, cnt, acc, avg);
         }
-        ResetPacketProcessLog();
     }
+    ResetPacketProcessLog();
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a4c3a` | `0xc5` | `0x809a790` | `0xbc` |
+| guild | DIFF | `0x80a4c3a` | `0xc5` | `0x809ab7a` | `0xbc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -145,7 +145,7 @@ CPowerManager::_ZN13CPowerManager18UpdatePowerWarInfoEb20ENUM_POWER_SIDE_TYPEiPj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 484 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 474 行）：
 
 ```cpp
 void CPowerManager::UpdatePowerWarInfo(bool flag, ENUM_POWER_SIDE_TYPE side, int score, unsigned int* p)

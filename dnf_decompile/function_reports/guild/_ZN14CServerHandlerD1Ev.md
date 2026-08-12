@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806c94c` | `0x113` | `0x8080a42` | `0xe3` |
+| guild | NEAR | `0x806c94c` | `0x113` | `0x8080af0` | `0x113` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,97 +1,79 @@
+@@ -1,97 +1,97 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,22 +22,25 @@
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  test   %eax,%eax
--je     <T> <_ZN14CServerHandlerD1Ev+0x4e>
--mov    0x8(%ebp),%eax
--mov    0x18(%eax),%eax
--mov    (%eax),%eax
--add    $0x4,%eax
+ je     <T> <_ZN14CServerHandlerD1Ev+0x4e>
+ mov    0x8(%ebp),%eax
+ mov    0x18(%eax),%eax
+ mov    (%eax),%eax
+ add    $0x4,%eax
 -mov    (%eax),%edx
 -mov    0x8(%ebp),%eax
 -mov    0x18(%eax),%eax
 -mov    %eax,(%esp)
 -call   *%edx
-+je     <T> <_ZN14CServerHandlerD1Ev+0x36>
++mov    (%eax),%eax
++mov    0x8(%ebp),%edx
++mov    0x18(%edx),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%ebx
  test   %ebx,%ebx
--je     <T> <_ZN14CServerHandlerD1Ev+0x44>
-+je     <T> <_ZN14CServerHandlerD1Ev+0x2c>
+ je     <T> <_ZN14CServerHandlerD1Ev+0x44>
  mov    %ebx,(%esp)
  call   <T> <_ZN9CDBServerD1Ev>
  mov    %ebx,(%esp)
@@ -47,30 +50,32 @@
  mov    0x8(%ebp),%eax
  mov    0x1c(%eax),%eax
  test   %eax,%eax
--je     <T> <_ZN14CServerHandlerD1Ev+0xae>
--mov    0x8(%ebp),%eax
--mov    0x1c(%eax),%eax
--mov    (%eax),%eax
--add    $0x4,%eax
+ je     <T> <_ZN14CServerHandlerD1Ev+0xae>
+ mov    0x8(%ebp),%eax
+ mov    0x1c(%eax),%eax
+ mov    (%eax),%eax
+ add    $0x4,%eax
 -mov    (%eax),%edx
 -mov    0x8(%ebp),%eax
 -mov    0x1c(%eax),%eax
 -mov    %eax,(%esp)
 -call   *%edx
-+je     <T> <_ZN14CServerHandlerD1Ev+0x7e>
++mov    (%eax),%eax
++mov    0x8(%ebp),%edx
++mov    0x1c(%edx),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    0x8(%ebp),%eax
  mov    0x1c(%eax),%ebx
  test   %ebx,%ebx
--je     <T> <_ZN14CServerHandlerD1Ev+0x8a>
-+je     <T> <_ZN14CServerHandlerD1Ev+0x5a>
+ je     <T> <_ZN14CServerHandlerD1Ev+0x8a>
  mov    %ebx,(%esp)
  call   <T> <_ZN14CManagerServerD1Ev>
  mov    %ebx,(%esp)
  call   <T> <_ZdlPv>
  mov    0x8(%ebp),%eax
  movl   $0x0,0x1c(%eax)
--jmp    <T> <_ZN14CServerHandlerD1Ev+0xae>
-+jmp    <T> <_ZN14CServerHandlerD1Ev+0x7e>
+ jmp    <T> <_ZN14CServerHandlerD1Ev+0xae>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -79,14 +84,12 @@
  call   <T> <_ZN12CTcpDBServerD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN14CServerHandlerD1Ev+0xbe>
-+jmp    <T> <_ZN14CServerHandlerD1Ev+0x8e>
+ jmp    <T> <_ZN14CServerHandlerD1Ev+0xbe>
  mov    0x8(%ebp),%eax
  add    $0x44,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CTcpDBServerD1Ev>
--jmp    <T> <_ZN14CServerHandlerD1Ev+0xd6>
-+jmp    <T> <_ZN14CServerHandlerD1Ev+0xa6>
+ jmp    <T> <_ZN14CServerHandlerD1Ev+0xd6>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -95,14 +98,12 @@
  call   <T> <_ZNSt3mapIjP14CTcpGameServerSt4lessIjESaISt4pairIKjS1_EEED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN14CServerHandlerD1Ev+0xe6>
-+jmp    <T> <_ZN14CServerHandlerD1Ev+0xb6>
+ jmp    <T> <_ZN14CServerHandlerD1Ev+0xe6>
  mov    0x8(%ebp),%eax
  add    $0x24,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP14CTcpGameServerSt4lessIjESaISt4pairIKjS1_EEED1Ev>
--jmp    <T> <_ZN14CServerHandlerD1Ev+0x101>
-+jmp    <T> <_ZN14CServerHandlerD1Ev+0xd1>
+ jmp    <T> <_ZN14CServerHandlerD1Ev+0x101>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -176,11 +177,13 @@ CServerHandler::~CServerHandler()
 {
     if (m_dbServer != 0)
     {
+        ((CServerInterface*)m_dbServer)->Destroy();
         delete m_dbServer;
         m_dbServer = 0;
     }
     if (m_managerServer != 0)
     {
+        ((CServerInterface*)m_managerServer)->Destroy();
         delete m_managerServer;
         m_managerServer = 0;
     }

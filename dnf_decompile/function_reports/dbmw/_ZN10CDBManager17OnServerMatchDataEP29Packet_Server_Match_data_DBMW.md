@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8083de4` | `0x145` | `0x805265e` | `0x14d` |
+| dbmw | DIFF | `0x8083de4` | `0x145` | `0x8052690` | `0x14d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -190,7 +190,7 @@ CDBManager::_ZN10CDBManager17OnServerMatchDataEP29Packet_Server_Match_data_DBMW
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1558 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1610 行）：
 
 ```cpp
 char CDBManager::OnServerMatchData(Packet_Server_Match_data_DBMW* packet)

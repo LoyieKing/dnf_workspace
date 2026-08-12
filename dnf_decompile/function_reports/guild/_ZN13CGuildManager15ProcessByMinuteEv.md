@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8096e16` | `0xde` | `0x805cdfc` | `0xde` |
+| guild | DIFF | `0x8096e16` | `0xde` | `0x805cbba` | `0xdb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,67 +1,66 @@
+@@ -1,67 +1,65 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
@@ -28,10 +28,9 @@
  add    $0x4,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP6CGuildSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
-+xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN13CGuildManager15ProcessByMinuteEv+0xdb>
-+je     <T> <_ZN13CGuildManager15ProcessByMinuteEv+0xdc>
++jne    <T> <_ZN13CGuildManager15ProcessByMinuteEv+0xd9>
  mov    0x8(%ebp),%eax
  lea    0x4(%eax),%edx
  lea    -0x10(%ebp),%eax
@@ -39,8 +38,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP6CGuildSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
--jmp    <T> <_ZN13CGuildManager15ProcessByMinuteEv+0x85>
-+jmp    <T> <_ZN13CGuildManager15ProcessByMinuteEv+0x88>
+ jmp    <T> <_ZN13CGuildManager15ProcessByMinuteEv+0x85>
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP6CGuildEEptEv>
@@ -48,8 +46,7 @@
  test   %eax,%eax
  setne  %al
  test   %al,%al
--je     <T> <_ZN13CGuildManager15ProcessByMinuteEv+0x7a>
-+je     <T> <_ZN13CGuildManager15ProcessByMinuteEv+0x7d>
+ je     <T> <_ZN13CGuildManager15ProcessByMinuteEv+0x7a>
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP6CGuildEEptEv>
@@ -72,8 +69,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP6CGuildEEneERKS5_>
  test   %al,%al
--jne    <T> <_ZN13CGuildManager15ProcessByMinuteEv+0x4d>
-+jne    <T> <_ZN13CGuildManager15ProcessByMinuteEv+0x50>
+ jne    <T> <_ZN13CGuildManager15ProcessByMinuteEv+0x4d>
  movl   $0x0,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -139,13 +135,16 @@ void __thiscall CGuildManager::_ZN13CGuildManager15ProcessByMinuteEv(CGuildManag
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 570 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 622 行）：
 
 ```cpp
 void CGuildManager::ProcessByMinute()
 {
     m_guildWar.DBSaveProcess(m_app);
-    if (!m_guilds.empty())
+    if (m_guilds.empty())
+    {
+    }
+    else
     {
         for (std::map<unsigned int, CGuild*>::iterator it = m_guilds.begin();
              it != m_guilds.end(); ++it)

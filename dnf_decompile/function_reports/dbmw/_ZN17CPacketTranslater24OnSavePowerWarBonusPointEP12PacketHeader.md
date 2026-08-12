@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809d8e0` | `0x280` | `0x80d2f82` | `0x282` |
+| dbmw | DIFF | `0x809d8e0` | `0x280` | `0x80d3044` | `0x282` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -286,11 +286,11 @@ void CPacketTranslater::_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12Pack
 ```cpp
 void CPacketTranslater::OnSavePowerWarBonusPoint(PacketHeader* header)
 {
-    if (!m_pclApp)
-        throw CDNFException(std::string(
-            "CPacketTranslater::OnSavePowerWarBonusPoint() : 0 == m_pclApp"));
     try
     {
+        if (!m_pclApp)
+            throw CDNFException(std::string(
+                "CPacketTranslater::OnSavePowerWarBonusPoint() : 0 == m_pclApp"));
         Packet_DB_Save_Power_War_Bonus_Point* pkt =
             (Packet_DB_Save_Power_War_Bonus_Point*)header;
         m_pclApp->m_dbManager.OnSavePowerWarBonusPoint(

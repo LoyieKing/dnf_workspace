@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8086230` | `0x120` | `0x80580bc` | `0x10d` |
+| dbmw | DIFF | `0x8086230` | `0x120` | `0x80580ec` | `0x10d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -167,10 +167,10 @@ CDBManager::_ZN10CDBManager17QueryInsertUpdateEP18PacketInsertUpdate
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 2964 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3017 行）：
 
 ```cpp
-char CDBManager::QueryInsertUpdate(PacketInsertUpdate* packet)
+bool CDBManager::QueryInsertUpdate(PacketInsertUpdate* packet)
 {
     CDBHandle* h = m_handles[packet->m_handleIdx];
     h->set_query(packet->m_insertQueryId, packet->m_insertSql);

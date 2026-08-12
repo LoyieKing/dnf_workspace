@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8092642` | `0x59` | `0x80ce570` | `0x65` |
+| dbmw | DIFF | `0x8092642` | `0x59` | `0x80ce652` | `0x65` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -61,11 +61,11 @@
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp)（约第 34 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp)（约第 32 行）：
 
 ```cpp
 CPacketTracer::~CPacketTracer()
 {
-    delete m_timer;
+    ::operator delete(m_timer);
 }
 ```

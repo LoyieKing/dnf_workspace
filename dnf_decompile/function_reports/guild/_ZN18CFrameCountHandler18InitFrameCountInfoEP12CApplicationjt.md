@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804c96a` | `0x13c` | `0x80873f8` | `0x149` |
+| guild | DIFF | `0x804c96a` | `0x13c` | `0x80877fc` | `0x144` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,47 +13,52 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,100 +1,103 @@
+@@ -1,100 +1,102 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x3c,%esp
-+sub    $0x4c,%esp
+ sub    $0x3c,%esp
  mov    0x14(%ebp),%eax
  mov    %ax,-0x2c(%ebp)
--cmpl   $0x0,0x10(%ebp)
++movzwl -0x2c(%ebp),%eax
++mov    %ax,-0x1a(%ebp)
+ cmpl   $0x0,0x10(%ebp)
 -je     <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0x60>
--mov    0x8(%ebp),%eax
++je     <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0x68>
++mov    0xc(%ebp),%edx
+ mov    0x8(%ebp),%eax
 -mov    0xc(%ebp),%edx
--mov    %edx,0x2c(%eax)
+ mov    %edx,0x2c(%eax)
 -mov    0x8(%ebp),%eax
--movl   $0x28,0x8(%esp)
--movl   $0x0,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <memset>
--mov    0x8(%ebp),%eax
+ movl   $0x28,0x8(%esp)
+ movl   $0x0,0x4(%esp)
++mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <memset>
++mov    0x10(%ebp),%edx
+ mov    0x8(%ebp),%eax
 -mov    0x10(%ebp),%edx
--mov    %edx,0x4(%eax)
--mov    $0x64,%eax
--mov    $0x0,%edx
--divl   0x10(%ebp)
--mov    %eax,%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x8(%eax)
--add    $0x3c,%esp
--pop    %ebx
--pop    %esi
--pop    %edi
--pop    %ebp
--ret
-+cmpw   $0x0,-0x2c(%ebp)
-+jne    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xf7>
- lea    -0x19(%ebp),%eax
+ mov    %edx,0x4(%eax)
+ mov    $0x64,%eax
+ mov    $0x0,%edx
+ divl   0x10(%ebp)
+ mov    %eax,%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x8(%eax)
+ add    $0x3c,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %edi
+ pop    %ebp
+ ret
+-lea    -0x19(%ebp),%eax
++lea    -0x1b(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
- lea    -0x19(%ebp),%eax
+-lea    -0x19(%ebp),%eax
++lea    -0x1b(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CFrameCountHandler::InitFrameCountInfo() Exception Break!",0x4(%esp)
  lea    -0x20(%ebp),%eax
@@ -68,7 +73,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xdf>
-+jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0x9a>
++jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xe7>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -83,72 +88,48 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xd9>
-+jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0x94>
++jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xe1>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xfe>
-+jne    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xb9>
++jne    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0x106>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%ecx
  mov    %ebx,%eax
 -jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xfe>
-+jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xb9>
++jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0x106>
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0x119>
-+jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xd4>
++jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0x121>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xfe>
-+jne    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xb9>
++jne    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0x106>
  call   <T> <_ZSt9terminatev>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
  mov    %ecx,%esi
- lea    -0x19(%ebp),%eax
+-lea    -0x19(%ebp),%eax
++lea    -0x1b(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%ecx
  mov    %ebx,%eax
  mov    %ecx,(%esp)
  call   <T> <_Unwind_Resume>
- lea    -0x19(%ebp),%eax
+-lea    -0x19(%ebp),%eax
++lea    -0x1b(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
-+mov    0x10(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+mov    %edx,0x2c(%eax)
-+movl   $0x28,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <memset>
-+movzwl -0x2c(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+mov    %edx,0x4(%eax)
-+movzwl -0x2c(%ebp),%eax
-+mov    %eax,-0x3c(%ebp)
-+mov    $0x64,%eax
-+mov    %eax,%edx
-+sar    $0x1f,%edx
-+idivl  -0x3c(%ebp)
-+mov    %eax,%edx
-+mov    0x8(%ebp),%eax
-+mov    %edx,0x8(%eax)
-+add    $0x4c,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %edi
-+pop    %ebp
-+ret
 ```
 ## 2. Ghidra 反编译 C
 

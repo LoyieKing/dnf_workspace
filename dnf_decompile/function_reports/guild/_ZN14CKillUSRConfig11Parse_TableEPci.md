@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x805fa36` | `0xeb` | `0x8063dd6` | `0x106` |
+| guild | NEAR | `0x805fa36` | `0xeb` | `0x8063be6` | `0xeb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,71 +1,74 @@
+@@ -1,71 +1,71 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -23,75 +23,75 @@
  cmp    $0x23,%al
  jne    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0x1b>
  mov    $0x0,%eax
--jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe5>
-+jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0x100>
-+movl   $0x0,-0x1c(%ebp)
-+movl   $0x0,-0x18(%ebp)
-+movl   $0x0,-0x14(%ebp)
-+movl   $0x0,-0x10(%ebp)
+ jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe5>
  movl   $0x4,0xc(%esp)
- lea    -0x1c(%ebp),%eax
+-lea    -0x1c(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $" \t\r\n\"",0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN7DNFFLib13ExplodeStringEPcS0_PS0_i>
--cmp    $0x4,%eax
--sete   %al
--test   %al,%al
--je     <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe0>
-+mov    %eax,-0xc(%ebp)
-+cmpl   $0x4,-0xc(%ebp)
-+jne    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xfb>
+ cmp    $0x4,%eax
+ sete   %al
+ test   %al,%al
+ je     <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe0>
  movl   $&_ZSt7nothrow,0x4(%esp)
  movl   $0x10,(%esp)
  call   <T> <_ZnwjRKSt9nothrow_t>
  mov    %eax,%ebx
  mov    %ebx,%eax
  test   %eax,%eax
--je     <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0x75>
-+je     <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0x90>
+ je     <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0x75>
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16ST_KillUSRConfigC1Ev>
  mov    %ebx,%eax
--jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0x77>
-+jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0x92>
+ jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0x77>
  mov    %ebx,%eax
- mov    %eax,-0x20(%ebp)
- mov    -0x20(%ebp),%eax
+-mov    %eax,-0x20(%ebp)
+-mov    -0x20(%ebp),%eax
++mov    %eax,-0x1c(%ebp)
++mov    -0x1c(%ebp),%eax
  test   %eax,%eax
--je     <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe0>
-+je     <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xfb>
- mov    -0x20(%ebp),%ebx
- mov    -0x1c(%ebp),%eax
+ je     <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe0>
+-mov    -0x20(%ebp),%ebx
+-mov    -0x1c(%ebp),%eax
++mov    -0x1c(%ebp),%ebx
++mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,(%ebx)
- mov    -0x20(%ebp),%ebx
- mov    -0x18(%ebp),%eax
+-mov    -0x20(%ebp),%ebx
+-mov    -0x18(%ebp),%eax
++mov    -0x1c(%ebp),%ebx
++mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,0x4(%ebx)
- mov    -0x20(%ebp),%ebx
- mov    -0x14(%ebp),%eax
+-mov    -0x20(%ebp),%ebx
+-mov    -0x14(%ebp),%eax
++mov    -0x1c(%ebp),%ebx
++mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,0x8(%ebx)
- mov    -0x20(%ebp),%ebx
- mov    -0x10(%ebp),%eax
+-mov    -0x20(%ebp),%ebx
+-mov    -0x10(%ebp),%eax
++mov    -0x1c(%ebp),%ebx
++mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,0xc(%ebx)
  mov    0x8(%ebp),%eax
  lea    0x4(%eax),%edx
- lea    -0x20(%ebp),%eax
+-lea    -0x20(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZNSt6vectorIP16ST_KillUSRConfigSaIS1_EE9push_backERKS1_>
  mov    $0x1,%eax
--jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe5>
-+jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0x100>
+ jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe5>
  mov    $0x0,%eax
  add    $0x34,%esp
  pop    %ebx
@@ -153,7 +153,7 @@ undefined4 CKillUSRConfig::_ZN14CKillUSRConfig11Parse_TableEPci(char *param_1,in
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFKillUserConfig.cpp](source/DNFServer/GameServer/Guild/DNFKillUserConfig.cpp)（约第 91 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFKillUserConfig.cpp](source/DNFServer/GameServer/Guild/DNFKillUserConfig.cpp)（约第 93 行）：
 
 ```cpp
 int CKillUSRConfig::Parse_Table(char* line, int idx)
@@ -162,20 +162,18 @@ int CKillUSRConfig::Parse_Table(char* line, int idx)
     {
         return 0;
     }
-    char* tok0 = 0;
-    char* tok1 = 0;
-    char* tok2 = 0;
-    char* tok3 = 0;
-    int n = DNFFLib::ExplodeString(line, " \t\r\n\"", &tok0, 4);
-    if (n == 4)
+    char* tok[4];
+    ST_KillUSRConfig* p;
+    int x;  // ORIG 帧布局对齐（第 22 轮回归）
+    if (DNFFLib::ExplodeString(line, " \t\r\n\"", tok, 4) == 4)
     {
-        ST_KillUSRConfig* p = new (std::nothrow) ST_KillUSRConfig;
+        p = new (std::nothrow) ST_KillUSRConfig;
         if (p != 0)
         {
-            p->m_field0 = atoi(tok0);
-            p->m_field1 = atoi(tok1);
-            p->m_field2 = atoi(tok2);
-            p->m_field3 = atoi(tok3);
+            p->m_field0 = atoi(tok[0]);
+            p->m_field1 = atoi(tok[1]);
+            p->m_field2 = atoi(tok[2]);
+            p->m_field3 = atoi(tok[3]);
             m_infos.push_back(p);
             return 1;
         }

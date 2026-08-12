@@ -1,0 +1,5 @@
+DIFF  _ZN14CPacketDecoder10TcpProcessEv
+DIFF  _ZN14CPacketDecoder10UdpProcessEv
+DIFF  _ZN14CPacketDecoder9MsgDecodeEP12PacketHeader
+DIFF  _ZN14CPacketDecoderC1Ev
+DIFF  _ZN14CPacketDecoderC2Ev

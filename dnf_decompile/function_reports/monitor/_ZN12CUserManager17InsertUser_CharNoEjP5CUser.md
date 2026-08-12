@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8071204` | `0xdf` | `0x808c046` | `0xdf` |
+| monitor | DIFF | `0x8071204` | `0xdf` | `0x808c0fe` | `0xdf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -139,7 +139,7 @@ CUserManager::_ZN12CUserManager17InsertUser_CharNoEjP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 443 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 441 行）：
 
 ```cpp
 bool CUserManager::InsertUser_CharNo(const unsigned int charNo, CUser* user)

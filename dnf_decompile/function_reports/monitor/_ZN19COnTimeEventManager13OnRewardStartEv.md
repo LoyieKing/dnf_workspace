@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4834` | `0x181` | `0x809a0aa` | `0x1ac` |
+| monitor | DIFF | `0x80a4834` | `0x181` | `0x809a166` | `0x1a9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,97 +1,113 @@
+@@ -1,97 +1,111 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -53,7 +53,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN19COnTimeEventManager5ClearEv>
 -jmp    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x17b>
-+jmp    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x1a4>
++jmp    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x1a1>
  movl   $0x0,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -61,7 +61,7 @@
 +xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x17a>
-+je     <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x1a4>
++je     <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x1a1>
  movl   $0x0,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -85,27 +85,20 @@
  shl    $0x2,%eax
  mov    %eax,%edx
  shl    $0x4,%edx
--sub    %eax,%edx
+ sub    %eax,%edx
 -mov    -0xc(%ebp),%eax
--lea    (%edx,%eax,1),%ecx
-+mov    %edx,%ecx
-+sub    %eax,%ecx
-+mov    %ecx,%eax
-+add    -0x24(%ebp),%eax
-+mov    %eax,%edx
++mov    -0x24(%ebp),%eax
+ lea    (%edx,%eax,1),%ecx
  mov    %ebx,%eax
--mov    0x8(%ebp),%edx
--mov    %edx,0xc(%esp)
-+mov    0x8(%ebp),%ecx
-+mov    %ecx,0xc(%esp)
+ mov    0x8(%ebp),%edx
+ mov    %edx,0xc(%esp)
  movl   $0x0,0x8(%esp)
--mov    %ecx,0x4(%esp)
-+mov    %edx,0x4(%esp)
+ mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN28COnTimeEventRewardEndTriggerC1EjjP19COnTimeEventManager>
 -mov    %ebx,%eax
 -mov    %eax,%ebx
-+jmp    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x13a>
++jmp    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x137>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)

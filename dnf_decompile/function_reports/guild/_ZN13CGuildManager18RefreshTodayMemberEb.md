@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80970b8` | `0x151` | `0x805d096` | `0x148` |
+| guild | DIFF | `0x80970b8` | `0x151` | `0x805ce5a` | `0x140` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,28 +13,23 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,101 +1,107 @@
+@@ -1,101 +1,103 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
  sub    $0x34,%esp
  mov    0xc(%ebp),%eax
  mov    %al,-0x1c(%ebp)
--lea    -0x14(%ebp),%eax
--mov    %eax,(%esp)
-+movl   $0x0,(%esp)
+ lea    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
  call   <T> <time>
-+mov    %eax,-0x14(%ebp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <localtime>
  mov    %eax,-0xc(%ebp)
--cmpb   $0x0,-0x1c(%ebp)
+ cmpb   $0x0,-0x1c(%ebp)
 -jne    <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0x4f>
-+movzbl -0x1c(%ebp),%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0x56>
++jne    <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0x51>
  mov    0x8(%ebp),%eax
 -mov    0x7c(%eax),%edx
 +add    $0x7c,%eax
@@ -43,12 +38,12 @@
  mov    0xc(%eax),%eax
  cmp    %eax,%edx
 -je     <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0x14c>
-+jne    <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0x56>
++je     <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0x13b>
  mov    -0xc(%ebp),%eax
  mov    0x8(%eax),%eax
  cmp    $0x6,%eax
 -jne    <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0x14c>
-+jne    <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0x142>
++jne    <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0x13b>
  mov    0x8(%ebp),%eax
  add    $0x58,%eax
  mov    %eax,(%esp)
@@ -61,7 +56,7 @@
  call   <T> <_ZNSt3mapIjP6CGuildSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0xc2>
-+jmp    <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0xc9>
++jmp    <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0xc4>
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP6CGuildEEptEv>
@@ -70,7 +65,7 @@
  setne  %al
  test   %al,%al
 -je     <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0xb7>
-+je     <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0xbe>
++je     <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0xb9>
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -100,7 +95,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP6CGuildEEneERKS5_>
  test   %al,%al
 -jne    <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0x77>
-+jne    <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0x7e>
++jne    <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0x79>
  mov    0x8(%ebp),%eax
 -mov    -0xc(%ebp),%edx
 -mov    (%edx),%ecx
@@ -149,8 +144,6 @@
 +mov    %ecx,0x24(%edx)
 +mov    0x28(%eax),%eax
 +mov    %eax,0x28(%edx)
-+jmp    <T> <_ZN13CGuildManager18RefreshTodayMemberEb+0x143>
-+nop
  mov    -0x4(%ebp),%ebx
  leave
  ret
@@ -222,27 +215,28 @@ CGuildManager::_ZN13CGuildManager18RefreshTodayMemberEb(CGuildManager *this,bool
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 652 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 706 行）：
 
 ```cpp
 void CGuildManager::RefreshTodayMember(bool flag)
 {
-    time_t now = time(0);
-    tm* t = localtime(&now);
-    if (!flag && *(unsigned int*)((char*)this + 0x7c) == (unsigned int)t->tm_mday &&
-        t->tm_hour != 6)
+    time_t now;
+    tm* t;
+    time(&now);
+    t = localtime(&now);
+    if (flag || *(unsigned int*)((char*)this + 0x7c) != (unsigned int)t->tm_mday &&
+        t->tm_hour == 6)
     {
-        return;
-    }
-    m_todayMembers.clear();
-    for (std::map<unsigned int, CGuild*>::iterator it = m_guilds.begin();
-         it != m_guilds.end(); ++it)
-    {
-        if (it->second != 0)
+        m_todayMembers.clear();
+        for (std::map<unsigned int, CGuild*>::iterator it = m_guilds.begin();
+             it != m_guilds.end(); ++it)
         {
-            it->second->QueryTodayGuildMember(m_app->Get_ServerHandler());
+            if (it->second != 0)
+            {
+                it->second->QueryTodayGuildMember(m_app->Get_ServerHandler());
+            }
         }
+        *(tm*)((char*)this + 0x70) = *t;
     }
-    *(tm*)((char*)this + 0x70) = *t;
 }
 ```

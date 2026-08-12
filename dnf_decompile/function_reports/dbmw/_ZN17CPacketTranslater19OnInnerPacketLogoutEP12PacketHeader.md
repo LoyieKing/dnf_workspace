@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809c066` | `0x260` | `0x80daad6` | `0x25e` |
+| dbmw | DIFF | `0x809c066` | `0x260` | `0x80dab9c` | `0x25e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -276,7 +276,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2601 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2610 行）：
 
 ```cpp
 void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
@@ -292,27 +292,26 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
 
             return;
         }
-        int port = (int)((Packet_InnerPakcet_Logout*)header)->reversed2;
-        CServerHandler* handler = m_pclApp->Get_ServerHandler();
-        CTcpServer* server = handler->GetTcpServer((unsigned int)port);
+        Packet_InnerPakcet_Logout* pkt = (Packet_InnerPakcet_Logout*)header;
+        CTcpServer* server =
+            m_pclApp->Get_ServerHandler()->GetTcpServer(pkt->reversed2);
         if (!server)
         {
             DNF_LOG_SCOPE_LINE(0xc1f,
                 "./log/TcpServer",
                 "CPacketTranslater::OnInnerPacketLogout Invalid Server Instance(sock:%d)",
-                port
+                pkt->reversed2
             );
 
             return;
         }
-        unsigned char idx = server->m_index;
-        handler = m_pclApp->Get_ServerHandler();
-        if (!handler->DeleteTcpServer(idx))
+        unsigned char idx = server->GetServerType();
+        if (!m_pclApp->Get_ServerHandler()->DeleteTcpServer(idx))
         {
             DNF_LOG_SCOPE_LINE(0xc27,
                 "./log/TcpServer",
                 "CPacketTranslater::OnInnerPacketLogout DeleteTcpServer fail(sock:%d)",
-                port
+                pkt->reversed2
             );
 
             return;
@@ -320,7 +319,7 @@ void CPacketTranslater::OnInnerPacketLogout(PacketHeader* header)
         DNF_LOG_SCOPE_LINE(0xc2b,
             "./log/TcpServer",
             "CPacketTranslater::OnInnerPacketLogout DeleteTcpServer Success(TYPE:%d, sock:%d)", idx,
-            port
+            pkt->reversed2
         );
 
     }

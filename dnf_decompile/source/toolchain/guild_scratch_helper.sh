@@ -1,5 +1,5 @@
 #!/bin/bash
-# guild scratch-build helper (round 13, class-granular subagents)
+# guild scratch-build helper (round 15, class-granular subagents)
 #
 # Usage: source this file, then:
 #   scratch_setup <group>                 # copy all .o into /tmp/sub_guild_<group>
@@ -7,13 +7,10 @@
 #                                          # recompile one TU into the scratch tree
 #   scratch_link <group>                   # link scratch binary (same link.txt)
 #   scratch_classify <group> <mangled>     # classify one function vs ORIG (check-only)
-#   scratch_classify_all <group> <listfile># classify all functions in a list file
 #
-# Design: the scratch dir mirrors build/guild's CMakeFiles/guild.dir layout, so
+# Design: the scratch dir mirrors build/guild/CMakeFiles/guild.dir layout, so
 # link.txt's relative object paths resolve verbatim from the scratch root. Only
-# the group's own TUs are recompiled; everything else is reused from the current
-# build. Per-TU compiler dispatch (c6 default / c6444r for 4 TUs) is preserved
-# through dnf_guild_cxx.sh.
+# the group's own TUs are recompiled; everything else is reused from the build.
 set -u
 
 REPO=/home/loyieking/dnf_workspace/dnf_decompile
@@ -55,12 +52,4 @@ scratch_classify() {
     (cd "$REPO" && python3 source/toolchain/gen_function_md.py \
         --services guild --function "$name" \
         --new-bin "$scr/df_guild_r" --check-only)
-}
-
-scratch_classify_all() {
-    local g=$1 list=$2
-    local scr; scr=$(scratch_dir "$g")
-    (cd "$REPO" && python3 source/toolchain/gen_function_md.py \
-        --services guild --new-bin "$scr/df_guild_r" --check-only \
-        $(while read -r n; do echo --function "$n"; done < "$list"))
 }

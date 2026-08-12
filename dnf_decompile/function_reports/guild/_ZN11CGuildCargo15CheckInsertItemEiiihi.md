@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809f6ce` | `0x8f` | `0x809167c` | `0x98` |
+| guild | DIFF | `0x809f6ce` | `0x8f` | `0x80919c8` | `0x94` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,47 +1,52 @@
+@@ -1,47 +1,49 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -24,18 +24,15 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CGuildCargo11IsValidSlotEi>
--xor    $0x1,%eax
-+cmp    $0x1,%eax
-+setne  %al
+ xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x2c>
-+je     <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x2f>
+ je     <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x2c>
  mov    $0xc4,%eax
 -jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x8d>
-+jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x96>
++jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x92>
  cmpb   $0x1,-0x1c(%ebp)
 -jne    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x70>
-+jne    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x76>
++jne    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x75>
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -44,41 +41,37 @@
  mov    %eax,-0xc(%ebp)
  cmpl   $0xffffffff,-0xc(%ebp)
 -je     <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x70>
-+je     <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x76>
-+mov    0x8(%ebp),%eax
++je     <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x75>
++mov    0x1c(%ebp),%ecx
  mov    -0xc(%ebp),%edx
--mov    0x8(%ebp),%eax
+ mov    0x8(%ebp),%eax
  imul   $0x35,%edx,%edx
 -mov    0x6(%edx,%eax,1),%eax
-+add    $0x6,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
- add    0x10(%ebp),%eax
- cmp    0x1c(%ebp),%eax
+-add    0x10(%ebp),%eax
+-cmp    0x1c(%ebp),%eax
 -jle    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x69>
-+jle    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x6f>
++mov    0x6(%edx,%eax,1),%edx
++mov    0x10(%ebp),%eax
++lea    (%edx,%eax,1),%eax
++cmp    %eax,%ecx
++jae    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x6e>
  mov    $0xc8,%eax
 -jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x8d>
-+jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x96>
++jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x92>
  mov    $0xc1,%eax
 -jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x8d>
-+jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x96>
-+mov    0x8(%ebp),%eax
++jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x92>
  mov    0x14(%ebp),%edx
--mov    0x8(%ebp),%eax
+ mov    0x8(%ebp),%eax
  imul   $0x35,%edx,%edx
--mov    0x1(%edx,%eax,1),%eax
-+add    $0x1,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
+ mov    0x1(%edx,%eax,1),%eax
  test   %eax,%eax
 -je     <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x88>
-+jne    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x91>
-+mov    $0xc1,%eax
-+jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x96>
++je     <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x8d>
  mov    $0xc9,%eax
 -jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x8d>
--mov    $0xc1,%eax
++jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x92>
+ mov    $0xc1,%eax
  leave
  ret
 ```

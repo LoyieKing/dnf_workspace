@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8073e70` | `0x231` | `0x80501d4` | `0x223` |
+| dbmw | DIFF | `0x8073e70` | `0x231` | `0x8050200` | `0x223` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -312,7 +312,7 @@ CDBManager::_ZN10CDBManager15UpdateGuildRankEiP13CGuildManager
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 873 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 914 行）：
 
 ```cpp
 char CDBManager::UpdateGuildRank(int serverId, CGuildManager* gm)

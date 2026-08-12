@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8091e50` | `0xa8` | `0x80cdfe2` | `0xab` |
+| dbmw | DIFF | `0x8091e50` | `0xa8` | `0x80ce0c4` | `0xab` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -112,19 +112,20 @@ CPacketDecoder::_ZN14CPacketDecoder6AttachEP12CApplication
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp](source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp)（约第 262 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp](source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp)（约第 265 行）：
 
 ```cpp
 void CPacketDecoder::Attach(CApplication* app)
 {
-    if (!app)
-        return;
-    m_udpQueue = app->Get_UdpPacketParseQ();
-    m_tcpQueue = app->Get_TcpNetSystem()->Get_TcpSwapQPacket()->GetParseQ();
-    m_udpQLock = app->Get_QLock();
-    m_udpBLock = app->Get_BLock();
-    m_tcpRecvQLock = app->Get_TcpNetSystem()->Get_TcpRecvQLock();
-    m_tcpRecvBLock = app->Get_TcpNetSystem()->Get_TcpRecvBLock();
-    m_serverHandler = app->Get_ServerHandler();
+    if (app)
+    {
+        m_udpQueue = app->Get_UdpPacketParseQ();
+        m_tcpQueue = app->Get_TcpNetSystem()->Get_TcpSwapQPacket()->GetParseQ();
+        m_udpQLock = app->Get_QLock();
+        m_udpBLock = app->Get_BLock();
+        m_tcpRecvQLock = app->Get_TcpNetSystem()->Get_TcpRecvQLock();
+        m_tcpRecvBLock = app->Get_TcpNetSystem()->Get_TcpRecvBLock();
+        m_serverHandler = app->Get_ServerHandler();
+    }
 }
 ```

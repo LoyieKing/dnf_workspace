@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808d8c8` | `0xdb` | `0x80539a6` | `0xfd` |
+| guild | DIFF | `0x808d8c8` | `0xdb` | `0x80537fa` | `0xfd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -181,7 +181,7 @@ CGuild::_ZN6CGuild18DBSaveGuildMembersEhP14CServerHandlerh
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 644 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 671 行）：
 
 ```cpp
 void CGuild::DBSaveGuildMembers(unsigned char flag, CServerHandler* handler, unsigned char param)

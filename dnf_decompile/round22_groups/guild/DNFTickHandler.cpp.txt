@@ -1,0 +1,4 @@
+DIFF  _ZN18CFrameCountHandler11SaveProcessEi
+DIFF  _ZN18CFrameCountHandler11SaveProcessEv
+DIFF  _ZN18CFrameCountHandler17GetFrameCountInfoEv
+DIFF  _ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt

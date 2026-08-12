@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8093c9c` | `0x2bc` | `0x80d270e` | `0x2c3` |
+| dbmw | DIFF | `0x8093c9c` | `0x2bc` | `0x80d27d4` | `0x2c3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -276,7 +276,7 @@ void CPacketTranslater::_ZN17CPacketTranslater11OnSaveGuildEP12PacketHeader(Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 739 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 740 行）：
 
 ```cpp
 void CPacketTranslater::OnSaveGuild(PacketHeader* header)
@@ -295,23 +295,22 @@ void CPacketTranslater::OnSaveGuild(PacketHeader* header)
         {
             m_pclApp->m_dbManager.SaveGuildSkill(
                 pkt->m_serverId, pkt->m_guildId, pkt->m_info);
-            DNF_LOG_SCOPE_LINE(0xca,
-                "./log/GuildModify",
-                "::OnSaveGuild s(%d) g(%d) k(%d) g_level(%d) g_cnt(%d) g_exp(%d) g_sub_cnt(%d) power_side(%d) power_war_p(%d) agit(%d) power_join_cnt(%d)",
-                pkt->m_serverId,
-                pkt->m_guildId,
-                pkt->m_fieldCC,
-                pkt->m_info.m_lev,
-                pkt->m_info.m_memberCount,
-                pkt->m_info.m_guildExp,
-                pkt->m_info.m_field2D,
-                pkt->m_info.m_powerSide,
-                pkt->m_info.m_powerWarPoint,
-                pkt->m_info.m_guildAgitFlag,
-                pkt->m_info.m_powerJoinCount
-            );
-
         }
+        DNF_LOG_SCOPE_LINE(0xca,
+            "./log/GuildModify",
+            "::OnSaveGuild s(%d) g(%d) k(%d) g_level(%d) g_cnt(%d) g_exp(%d) g_sub_cnt(%d) power_side(%d) power_war_p(%d) agit(%d) power_join_cnt(%d)",
+            pkt->m_serverId,
+            pkt->m_guildId,
+            pkt->m_fieldCC,
+            pkt->m_info.m_lev,
+            pkt->m_info.m_memberCount,
+            pkt->m_info.m_guildExp,
+            (unsigned char)pkt->m_info.m_field2D,
+            pkt->m_info.m_powerSide,
+            pkt->m_info.m_powerWarPoint,
+            pkt->m_info.m_guildAgitFlag,
+            pkt->m_info.m_powerJoinCount
+        );
     }
     DNF_CATCH_LOG_PRINTF("./log/Except",
                          "CPacketTranslater::OnSaveGuild() Exception Break",

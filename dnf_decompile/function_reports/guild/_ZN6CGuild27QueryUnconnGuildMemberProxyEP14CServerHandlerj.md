@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808fca0` | `0x34` | `0x8055d50` | `0x3e` |
+| guild | DIFF | `0x808fca0` | `0x34` | `0x8055b82` | `0x3e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -64,7 +64,7 @@ CGuild::_ZN6CGuild27QueryUnconnGuildMemberProxyEP14CServerHandlerj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1333 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1359 行）：
 
 ```cpp
 void CGuild::QueryUnconnGuildMemberProxy(CServerHandler* handler, unsigned int charNo)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8085112` | `0x798` | `0x807a9ea` | `0x67d` |
+| guild | DIFF | `0x8085112` | `0x798` | `0x807a9f0` | `0x67d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -556,15 +556,13 @@
 +mov    %al,(%edx)
 +cmpl   $0xc1,-0x14(%ebp)
 +jne    <T> <_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader+0x579>
++lea    -0x115(%ebp),%eax
++lea    0x16(%eax),%edx
 +movl   $0x35,0x8(%esp)
 +lea    -0xc5(%ebp),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0x115(%ebp),%eax
-+add    $0x16,%eax
-+mov    %eax,(%esp)
++mov    %edx,(%esp)
 +call   <T> <memcpy>
-+lea    -0xc5(%ebp),%eax
-+lea    0x1d(%eax),%ebx
 +mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
@@ -584,7 +582,9 @@
 -mov    %ebx,0xc(%esp)
 -mov    %esi,0x8(%esp)
 +mov    -0x3c(%ebp),%edx
-+mov    %ebx,0x18(%esp)
++lea    -0xc5(%ebp),%ecx
++add    $0x1d,%ecx
++mov    %ecx,0x18(%esp)
 +mov    -0x34(%ebp),%ecx
 +mov    %ecx,0x14(%esp)
 +mov    -0x30(%ebp),%ecx
@@ -688,10 +688,11 @@
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
+ mov    (%eax),%edx
 -mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -mov    %eax,%ebx
 -movl   $0x1af8,0x8(%esp)
 -movl   $&_ZZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -699,10 +700,6 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnGuildCargoPopItem Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
@@ -996,7 +993,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4530 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4700 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildCargoPopItem(PacketHeader* pkt)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8086072` | `0x1be` | `0x8050a1a` | `0x1c3` |
+| dbmw | DIFF | `0x8086072` | `0x1be` | `0x8050a46` | `0x1ca` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,123 +1,127 @@
+@@ -1,123 +1,130 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -25,14 +25,14 @@
 +jne    <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0x17>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0x1b7>
-+jmp    <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0x1bd>
++jmp    <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0x1c4>
  mov    0x8(%ebp),%eax
  mov    0x8(%eax),%eax
 +mov    %eax,-0x14(%ebp)
 +cmpl   $0x0,-0x14(%ebp)
 +jne    <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0x30>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0x1bd>
++jmp    <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0x1c4>
 +mov    0xc(%ebp),%eax
  mov    %eax,-0x10(%ebp)
 -cmpl   $0x0,-0x10(%ebp)
@@ -72,13 +72,14 @@
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0xd2>
 -mov    0xc(%ebp),%eax
 -mov    0xe(%eax),%esi
 -mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%ebx
++je     <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0xdf>
  movl   $0x27dc,0x8(%esp)
  movl   $&_ZZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_StatisticE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
@@ -104,7 +105,7 @@
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0x1a1>
 -mov    -0x10(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0x1a9>
++jmp    <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0x1b0>
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -155,7 +156,7 @@
 -movswl %ax,%esi
 -mov    0xc(%ebp),%eax
 -mov    0xa(%eax),%ebx
-+je     <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0x1a5>
++je     <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0x1ac>
  movl   $0x27e4,0x8(%esp)
  movl   $&_ZZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_StatisticE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
@@ -189,7 +190,7 @@
 +setle  %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0xde>
-+jne    <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0xe4>
++jne    <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0xeb>
  mov    $0x1,%eax
 -add    $0x40,%esp
 +add    $0x44,%esp
@@ -265,10 +266,10 @@ CDBManager::_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Stati
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1018 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1059 行）：
 
 ```cpp
-char CDBManager::QueryUpdateChannelOccNum(Packet_User_Count_Statistic* packet)
+bool CDBManager::QueryUpdateChannelOccNum(Packet_User_Count_Statistic* packet)
 {
     if (!packet)
         return 0;
@@ -279,11 +280,13 @@ char CDBManager::QueryUpdateChannelOccNum(Packet_User_Count_Statistic* packet)
     h->set_query(0x4eed,
                  "upDate game_channel set gc_now=%d,gc_up_time=now() where gc_no=%d",
                  *(int*)(p + 0xe), *(int*)(p + 0xa));
-    h->exec(0x4eed);
-    CMyFileLog log(__FUNCTION__, 0x27dc);
-    log("./log/DBQueryErr",
-        "upDate game_channel Error : channel_no(%d), user_count(%d)",
-        *(int*)(p + 0xe), *(int*)(p + 0xa));
+    if (!h->exec(0x4eed))
+    {
+        CMyFileLog log(__FUNCTION__, 0x27dc);
+        log("./log/DBQueryErr",
+            "upDate game_channel Error : channel_no(%d), user_count(%d)",
+            *(int*)(p + 0xe), *(int*)(p + 0xa));
+    }
     for (int i = 0; i <= 0x63; i++)
     {
         h->set_query(0x4f29,

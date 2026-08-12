@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806cf2c` | `0x325` | `0x8080fce` | `0x316` |
+| guild | DIFF | `0x806cf2c` | `0x325` | `0x80810ac` | `0x383` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,15 +13,15 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,238 +1,230 @@
+@@ -1,238 +1,268 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
+ push   %edi
  push   %esi
  push   %ebx
 -sub    $0x4c,%esp
-+sub    $0x50,%esp
-+movb   $0x0,-0x1d(%ebp)
++sub    $0x5c,%esp
++movl   $0x0,-0x24(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x1c(%eax),%eax
  test   %eax,%eax
@@ -41,16 +41,23 @@
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x66>
-+mov    %eax,-0x18(%ebp)
-+mov    -0x18(%ebp),%eax
++mov    %eax,-0x24(%ebp)
++mov    -0x24(%ebp),%eax
 +lea    0x1(%eax),%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x40(%eax)
-+cmpl   $0x3,-0x18(%ebp)
-+setg   %al
-+mov    %al,-0x1d(%ebp)
-+cmpb   $0x0,-0x1d(%ebp)
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x65>
++cmpl   $0x3,-0x24(%ebp)
++jg     <T> <_ZN14CServerHandler7ProcessEv+0x3c>
++mov    $0x1,%eax
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x41>
++mov    $0x0,%eax
++test   %al,%al
++je     <T> <_ZN14CServerHandler7ProcessEv+0x4c>
++mov    $0x0,%ebx
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x51>
++mov    $0x1,%ebx
++test   %bl,%bl
++je     <T> <_ZN14CServerHandler7ProcessEv+0x7f>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16GetServerGroupNoEv>
@@ -63,89 +70,90 @@
  mov    0x8(%ebp),%eax
  movl   $0x0,0x40(%eax)
  mov    0x8(%ebp),%edx
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP11CGameServerSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN14CServerHandler7ProcessEv+0x115>
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x10c>
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x13c>
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEptEv>
  mov    0x4(%eax),%eax
--mov    %eax,-0x1c(%ebp)
--mov    -0x1c(%ebp),%eax
-+mov    %eax,-0x14(%ebp)
-+mov    -0x14(%ebp),%eax
+ mov    %eax,-0x1c(%ebp)
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface13IsValidServerEv>
--xor    $0x1,%eax
--test   %al,%al
+ xor    $0x1,%eax
+ test   %al,%al
 -jne    <T> <_ZN14CServerHandler7ProcessEv+0xf7>
--mov    -0x1c(%ebp),%eax
-+test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0xc4>
-+mov    -0x14(%ebp),%eax
++jne    <T> <_ZN14CServerHandler7ProcessEv+0x118>
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface11IsConnectedEv>
- test   %al,%al
+-test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0xf8>
--mov    -0x1c(%ebp),%eax
-+je     <T> <_ZN14CServerHandler7ProcessEv+0xc4>
-+mov    -0x14(%ebp),%eax
++xor    $0x1,%eax
++test   %al,%al
++jne    <T> <_ZN14CServerHandler7ProcessEv+0x11b>
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv>
 -test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0xf8>
--mov    -0x1c(%ebp),%eax
 +test   %eax,%eax
-+je     <T> <_ZN14CServerHandler7ProcessEv+0xc4>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0xc9>
-+mov    $0x0,%eax
++sete   %al
 +test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x101>
-+mov    -0x14(%ebp),%eax
++jne    <T> <_ZN14CServerHandler7ProcessEv+0x11e>
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12GetChannelNoEv>
  cmp    $0xbd,%al
  setbe  %al
  test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0xea>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0xf6>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x10b>
  mov    0x8(%ebp),%eax
  mov    0x3c(%eax),%eax
--mov    -0x1c(%ebp),%edx
-+mov    -0x14(%ebp),%edx
+ mov    -0x1c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication16OnGameServerDownEP11CGameServer>
--mov    -0x1c(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12OnDisconnectEv>
 -jmp    <T> <_ZN14CServerHandler7ProcessEv+0xf8>
 -nop
 -lea    -0x30(%ebp),%eax
--movl   $0x0,0x8(%esp)
--lea    -0x38(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEppEi>
--sub    $0x4,%esp
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x11f>
++nop
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x11f>
++nop
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x11f>
++nop
 +lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEppEv>
+ movl   $0x0,0x8(%esp)
+-lea    -0x38(%ebp),%edx
++lea    -0x40(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEppEi>
+ sub    $0x4,%esp
  mov    0x8(%ebp),%edx
- lea    -0x34(%ebp),%eax
+-lea    -0x34(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP11CGameServerSt4lessIjESaISt4pairIKjS1_EEE3endEv>
  sub    $0x4,%esp
- lea    -0x34(%ebp),%eax
+-lea    -0x34(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEneERKS5_>
  test   %al,%al
@@ -154,48 +162,54 @@
 -mov    0x18(%eax),%eax
 -test   %eax,%eax
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x163>
-+jne    <T> <_ZN14CServerHandler7ProcessEv+0x7f>
++jne    <T> <_ZN14CServerHandler7ProcessEv+0x99>
 +mov    0x8(%ebp),%eax
 +mov    0x18(%eax),%eax
 +test   %eax,%eax
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x15e>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x18a>
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface13IsValidServerEv>
--xor    $0x1,%eax
--test   %al,%al
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x16a>
 -mov    $0x1,%eax
 -jmp    <T> <_ZN14CServerHandler7ProcessEv+0x16f>
 -mov    $0x0,%eax
 -test   %al,%al
 -jne    <T> <_ZN14CServerHandler7ProcessEv+0x319>
-+test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x15e>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x191>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x163>
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x196>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x1df>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x1a1>
++mov    $0x1,%ebx
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x1a6>
++mov    $0x0,%ebx
++test   %bl,%bl
++jne    <T> <_ZN14CServerHandler7ProcessEv+0x377>
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface11IsConnectedEv>
  test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x1df>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x192>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x1d9>
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv>
+-test   %al,%al
+-je     <T> <_ZN14CServerHandler7ProcessEv+0x1df>
 +test   %eax,%eax
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x192>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x1d9>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x197>
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x1de>
 +mov    $0x0,%eax
- test   %al,%al
- je     <T> <_ZN14CServerHandler7ProcessEv+0x1df>
++test   %al,%al
++je     <T> <_ZN14CServerHandler7ProcessEv+0x226>
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -203,13 +217,13 @@
  movl   $0xea,0x8(%esp)
  movl   $&_ZZN14CServerHandler7ProcessEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CServerHandler::Process() DB Server Down!\n",0x8(%esp)
  movl   $"./log/DBServerErr",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
@@ -219,17 +233,15 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x2e6>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x2d9>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x33d>
  mov    0x8(%ebp),%eax
  add    $0x44,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CTcpDBServer5GetIPEv>
-+mov    %eax,-0x10(%ebp)
-+mov    -0x10(%ebp),%eax
  movzbl (%eax),%eax
  test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x227>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x22d>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x26e>
  mov    0x8(%ebp),%eax
  add    $0x44,%eax
  mov    %eax,(%esp)
@@ -241,24 +253,27 @@
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x2e6>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x22d>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x26e>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x232>
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x273>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x2d9>
-+movl   $0x0,-0xc(%ebp)
++je     <T> <_ZN14CServerHandler7ProcessEv+0x27e>
++mov    $0x1,%ebx
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x283>
++mov    $0x0,%ebx
++test   %bl,%bl
++je     <T> <_ZN14CServerHandler7ProcessEv+0x33d>
  mov    0x8(%ebp),%eax
  add    $0x44,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CTcpDBServer7GetPortEv>
--movzwl %ax,%edi
--mov    0x8(%ebp),%eax
--add    $0x44,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CTcpDBServer5GetIPEv>
--mov    %eax,%esi
-+movzwl %ax,%esi
+ movzwl %ax,%edi
+ mov    0x8(%ebp),%eax
+ add    $0x44,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CTcpDBServer5GetIPEv>
+ mov    %eax,%esi
  mov    0x8(%ebp),%eax
  add    $0x44,%eax
  mov    %eax,(%esp)
@@ -268,11 +283,8 @@
  mov    0x3c(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication16Get_TcpNetSystemEv>
--mov    %edi,0xc(%esp)
--mov    %esi,0x8(%esp)
-+mov    %esi,0xc(%esp)
-+mov    -0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
+ mov    %edi,0xc(%esp)
+ mov    %esi,0x8(%esp)
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct>
@@ -280,28 +292,24 @@
  add    $0x44,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CTcpDBServer7GetPortEv>
--movzwl %ax,%esi
--mov    0x8(%ebp),%eax
--add    $0x44,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CTcpDBServer5GetIPEv>
--mov    %eax,%ebx
-+movzwl %ax,%ebx
+ movzwl %ax,%esi
+ mov    0x8(%ebp),%eax
+ add    $0x44,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CTcpDBServer5GetIPEv>
+ mov    %eax,%ebx
  movl   $0x135,0x8(%esp)
  movl   $&_ZZN14CServerHandler7ProcessEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    %ebx,0x10(%esp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"try connect to DBMW(%s, %d)",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
@@ -313,13 +321,15 @@
 -mov    %ecx,0x58(%eax)
 -test   %dl,%dl
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x31a>
-+mov    %eax,-0x1c(%ebp)
-+mov    -0x1c(%ebp),%eax
++mov    %eax,-0x20(%ebp)
++cmpl   $0x3,-0x20(%ebp)
++setg   %bl
++mov    -0x20(%ebp),%eax
 +lea    0x1(%eax),%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x58(%eax)
-+cmpl   $0x3,-0x1c(%ebp)
-+jle    <T> <_ZN14CServerHandler7ProcessEv+0x30c>
++test   %bl,%bl
++je     <T> <_ZN14CServerHandler7ProcessEv+0x378>
  mov    0x8(%ebp),%eax
  add    $0x44,%eax
  mov    %eax,(%esp)
@@ -327,13 +337,13 @@
  mov    0x8(%ebp),%eax
  movl   $0x0,0x58(%eax)
 -jmp    <T> <_ZN14CServerHandler7ProcessEv+0x31a>
--nop
--lea    -0xc(%ebp),%esp
-+lea    -0x8(%ebp),%esp
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x378>
+ nop
+ lea    -0xc(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
  pop    %esi
--pop    %edi
+ pop    %edi
  pop    %ebp
  ret
 ```
@@ -460,17 +470,20 @@ void __thiscall CServerHandler::_ZN14CServerHandler7ProcessEv(CServerHandler *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 148 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 150 行）：
 
 ```cpp
 void CServerHandler::Process()
 {
-    bool doHb = false;
-    if (m_managerServer != 0)
+    register bool doHb;
+    int old = 0;
+    if (m_managerServer == 0 || (old = m_heartbeat, m_heartbeat = old + 1, old < 4))
     {
-        int old = m_heartbeat;
-        m_heartbeat = old + 1;
-        doHb = old >= 4;
+        doHb = false;
+    }
+    else
+    {
+        doHb = true;
     }
     if (doHb)
     {
@@ -478,41 +491,69 @@ void CServerHandler::Process()
         m_heartbeat = 0;
     }
     for (std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.begin();
-         it != m_gameServers.end(); ++it)
+         it != m_gameServers.end(); it++)
     {
         CGameServer* gs = it->second;
-        if (gs->IsValidServer() && gs->IsConnected() && gs->IsHeartBeatTimeOver())
+        if (!gs->IsValidServer())
         {
-            if (gs->GetChannelNo() < 0xbe)
-            {
-                m_app->OnGameServerDown(gs);
-            }
-            gs->OnDisconnect();
+            continue;
         }
-    }
-    if (m_dbServer != 0 && m_dbServer->IsValidServer())
-    {
-        if (m_dbServer->IsConnected() && m_dbServer->IsHeartBeatTimeOver())
+        if (!gs->IsConnected())
         {
-            m_dbServer->OnDisconnect();
-            DNF_LOG_SCOPE_LINE(0xea, "./log/DBServerErr", "CServerHandler::Process() DB Server Down!\n");
+            continue;
         }
-    }
-    if (m_tcpDbServer.IsValidServer() != 1)
-    {
-        const char* ip = m_tcpDbServer.GetIP();
-        if (*ip != '\0' && m_tcpDbServer.GetPort() != 0)
+        if (!gs->IsHeartBeatTimeOver())
         {
-            int sockRef = 0;
+            continue;
+        }
+        if (gs->GetChannelNo() < 0xbe)
+        {
+            m_app->OnGameServerDown(gs);
+        }
+        gs->OnDisconnect();
+    }
+    register bool dbOk;
+    if (m_dbServer == 0 || !m_dbServer->IsValidServer())
+    {
+        dbOk = true;
+    }
+    else
+    {
+        dbOk = false;
+    }
+    if (dbOk)
+    {
+        return;
+    }
+    if (m_dbServer->IsConnected() && m_dbServer->IsHeartBeatTimeOver())
+    {
+        m_dbServer->OnDisconnect();
+        DNF_LOG_SCOPE_LINE(0xea, "./log/DBServerErr", "CServerHandler::Process() DB Server Down!\n");
+    }
+    if (!m_tcpDbServer.IsValidServer())
+    {
+        register bool canConnect;
+        if (*m_tcpDbServer.GetIP() != '\0' && m_tcpDbServer.GetPort() != 0)
+        {
+            canConnect = true;
+        }
+        else
+        {
+            canConnect = false;
+        }
+        if (canConnect)
+        {
             m_app->Get_TcpNetSystem()->OpenTcpService(
-                *m_tcpDbServer.GetSockRef(), ip, m_tcpDbServer.GetPort());
-            DNF_LOG_SCOPE_LINE(0x135,"./log/TcpServer", "try connect to DBMW(%s, %d)", ip,
+                m_tcpDbServer.GetSockRef(), m_tcpDbServer.GetIP(), m_tcpDbServer.GetPort());
+            DNF_LOG_SCOPE_LINE(0x135, "./log/TcpServer", "try connect to DBMW(%s, %d)",
+                m_tcpDbServer.GetIP(),
                 (unsigned int)m_tcpDbServer.GetPort());
         }
     }
-    int old = m_field58;
-    m_field58 = old + 1;
-    if (old > 3)
+    int hbOld = m_field58;
+    register bool hb = hbOld > 3;
+    m_field58 = hbOld + 1;
+    if (hb)
     {
         m_tcpDbServer.SendHeartbeat();
         m_field58 = 0;

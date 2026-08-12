@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8082106` | `0x498` | `0x806deba` | `0x48a` |
+| monitor | DIFF | `0x8082106` | `0x498` | `0x806df78` | `0x48a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -698,36 +698,36 @@ void CPacketTranslater::OnCallMemberList(PacketHeader* pkt)
                     CUser* upperUser = userMgr->FindUser_CharNo(*(unsigned int*)db);
                     if (upperUser == 0)
                     {
-                        rpkt.m_upperChannel = 0xff;
+                        rpkt.m_memberList.m_info.m_field0 = 0xff;
                     }
                     else if (upperUser->GetGameServer() == 0)
                     {
-                        rpkt.m_upperChannel = 0xff;
+                        rpkt.m_memberList.m_info.m_field0 = 0xff;
                     }
                     else
                     {
                         if (upperUser->IsBlackUser(user->GetUniqCharNo()) != 0)
                         {
-                            rpkt.m_upperBlack = 1;
+                            rpkt.m_memberList.m_info.m_field20 = 1;
                         }
-                        rpkt.m_upperChannel =
+                        rpkt.m_memberList.m_info.m_field0 =
                             ((CServerInterface*)upperUser->GetGameServer())->GetChannelNo();
                     }
-                    rpkt.m_upperLevel = *(unsigned char*)(db + 4);
-                    memcpy(rpkt.m_upperName, db + 5, 0x1d);
-                    rpkt.m_upperExp = *(unsigned int*)(db + 0x23);
-                    unsigned int upperExp = rpkt.m_upperExp;
-                    unsigned int upperExpNext = rpkt.m_upperExpNext;
-                    unsigned char upperExpLevel = rpkt.m_upperExpLevel;
+                    rpkt.m_memberList.m_info.m_field1 = *(unsigned char*)(db + 4);
+                    memcpy(rpkt.m_memberList.m_info.m_name, db + 5, 0x1d);
+                    rpkt.m_memberList.m_info.m_field22 = *(unsigned int*)(db + 0x23);
+                    unsigned int upperExp = rpkt.m_memberList.m_info.m_field22;
+                    unsigned int upperExpNext = rpkt.m_memberList.m_info.m_field26;
+                    unsigned char upperExpLevel = rpkt.m_memberList.m_info.m_field21;
                     memberMgr->GetMemberExpNextLevelNeedExpLevel(
                         upperExp, upperExpNext, upperExpLevel);
-                    rpkt.m_upperExp = upperExp;
-                    rpkt.m_upperExpNext = upperExpNext;
-                    rpkt.m_upperExpLevel = upperExpLevel;
-                    rpkt.m_lowerCount = *(unsigned char*)(db + 0x27);
+                    rpkt.m_memberList.m_info.m_field22 = upperExp;
+                    rpkt.m_memberList.m_info.m_field26 = upperExpNext;
+                    rpkt.m_memberList.m_info.m_field21 = upperExpLevel;
+                    rpkt.m_memberList.m_count = *(unsigned char*)(db + 0x27);
                     for (int i = 0; i < (int)(unsigned int)*(unsigned char*)(db + 0x27); i++)
                     {
-                        char* entry = rpkt.m_lowers[i];
+                        char* entry = (char*)&rpkt.m_memberList.m_members[i];
                         unsigned int lowerCharNo = *(unsigned int*)(db + i * 0x27 + 0x28);
                         CUser* lowerUser = userMgr->FindUser_CharNo(lowerCharNo);
                         if (lowerUser == 0)

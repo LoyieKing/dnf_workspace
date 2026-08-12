@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a916e` | `0x147` | `0x80a797c` | `0x17f` |
+| monitor | DIFF | `0x80a916e` | `0x147` | `0x80a7a68` | `0x182` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,95 +1,115 @@
+@@ -1,95 +1,117 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -24,10 +24,9 @@
  mov    0x8(%ebp),%eax
  movzbl 0x24(%eax),%eax
 -xor    $0x1,%eax
--test   %al,%al
+ test   %al,%al
 -jne    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x140>
-+cmp    $0x1,%al
-+jne    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x177>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x179>
  call   <T> <_Z10GetNowTimev>
 -mov    %eax,-0xc(%ebp)
 +mov    %eax,-0x24(%ebp)
@@ -39,16 +38,14 @@
  mov    0x20(%eax),%eax
  cmp    %eax,%edx
 -jb     <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x8f>
-+jae    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0xac>
++jb     <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0xac>
  mov    0x8(%ebp),%eax
--movl   $0x1,0x30(%eax)
-+movl   $0x2,0x30(%eax)
+ movl   $0x1,0x30(%eax)
  movl   $0x14,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
--mov    &_ZN16village_attacked16REWARD_BUFF_TIMEE,%eax
+ mov    &_ZN16village_attacked16REWARD_BUFF_TIMEE,%eax
 -add    -0xc(%ebp),%eax
-+mov    &_ZN16village_attacked19REWARD_PENALTY_TIMEE,%eax
 +add    -0x24(%ebp),%eax
  mov    %eax,%edx
  mov    %ebx,%eax
@@ -81,14 +78,12 @@
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0xeb>
 +jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x124>
  mov    0x8(%ebp),%eax
--movl   $0x2,0x30(%eax)
-+movl   $0x1,0x30(%eax)
+ movl   $0x2,0x30(%eax)
  movl   $0x14,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
--mov    &_ZN16village_attacked19REWARD_PENALTY_TIMEE,%eax
+ mov    &_ZN16village_attacked19REWARD_PENALTY_TIMEE,%eax
 -add    -0xc(%ebp),%eax
-+mov    &_ZN16village_attacked16REWARD_BUFF_TIMEE,%eax
 +add    -0x24(%ebp),%eax
  mov    %eax,%edx
  mov    %ebx,%eax
@@ -142,7 +137,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked23CVillageAttackedManager10OnScheduleEv>
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x141>
--nop
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x17a>
+ nop
 -add    $0x24,%esp
 +add    $0x2c,%esp
  pop    %ebx
@@ -202,35 +198,36 @@ _ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 343 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 342 行）：
 
 ```cpp
 void CVillageAttackedManager::OnEndVillageAttacked()
 {
-    if (m_state24 == 1)
+    if (!m_state24)
     {
-        int now = (int)GetNowTime();
-        if ((unsigned int)m_field1c < (unsigned int)m_field20)
-        {
-            m_field30 = 2;
-            CVillageAttackedReward* task =
-                new CVillageAttackedReward(REWARD_PENALTY_TIME + now, 0, this);
-            m_app->GetTaskScheduler()->AddTask(task);
-        }
-        else
-        {
-            m_field30 = 1;
-            CVillageAttackedReward* task =
-                new CVillageAttackedReward(REWARD_BUFF_TIME + now, 0, this);
-            m_app->GetTaskScheduler()->AddTask(task);
-        }
-        m_state24 = 0;
-        SetRewardCloseTime((ENUM_VILLAGE_ATTACKED_REWARD)m_field30);
-        SendVillageAttackedEnd();
-        SendCharacRank();
-        SendMaxHuntingPoint();
-        Reset();
-        OnSchedule();
+        return;
     }
+    int now = (int)GetNowTime();
+    if ((unsigned int)m_field1c >= (unsigned int)m_field20)
+    {
+        m_field30 = 1;
+        CVillageAttackedReward* task =
+            new CVillageAttackedReward(REWARD_BUFF_TIME + now, 0, this);
+        m_app->GetTaskScheduler()->AddTask(task);
+    }
+    else
+    {
+        m_field30 = 2;
+        CVillageAttackedReward* task =
+            new CVillageAttackedReward(REWARD_PENALTY_TIME + now, 0, this);
+        m_app->GetTaskScheduler()->AddTask(task);
+    }
+    m_state24 = 0;
+    SetRewardCloseTime((ENUM_VILLAGE_ATTACKED_REWARD)m_field30);
+    SendVillageAttackedEnd();
+    SendCharacRank();
+    SendMaxHuntingPoint();
+    Reset();
+    OnSchedule();
 }
 ```

@@ -11,7 +11,7 @@ class NullSessionHandler;
 class TCPDispatcher
 {
 public:
-    TCPDispatcher();
+    TCPDispatcher() throw();
     void SetMaxCategory(int Category);
     void SetNullSessionHandler(NullSessionHandler* handler);
     bool dispatch(TCPUser* u, Message* msg);

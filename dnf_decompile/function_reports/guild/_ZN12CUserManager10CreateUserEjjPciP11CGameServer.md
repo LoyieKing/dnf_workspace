@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8069286` | `0x223` | `0x808b4fc` | `0x238` |
+| guild | DIFF | `0x8069286` | `0x223` | `0x808b844` | `0x22f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,143 +1,149 @@
+@@ -1,143 +1,146 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -70,12 +70,10 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CUserManager10InsertUserEjP5CUser>
--xor    $0x1,%eax
-+cmp    $0x1,%eax
-+setne  %al
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN12CUserManager10CreateUserEjjPciP11CGameServer+0xfc>
-+je     <T> <_ZN12CUserManager10CreateUserEjjPciP11CGameServer+0x103>
++je     <T> <_ZN12CUserManager10CreateUserEjjPciP11CGameServer+0x100>
  movl   $0x0,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -107,7 +105,7 @@
  cmpl   $0x0,0x10(%ebp)
 -je     <T> <_ZN12CUserManager10CreateUserEjjPciP11CGameServer+0x218>
 -mov    -0x1c(%ebp),%eax
-+je     <T> <_ZN12CUserManager10CreateUserEjjPciP11CGameServer+0x22d>
++je     <T> <_ZN12CUserManager10CreateUserEjjPciP11CGameServer+0x224>
 +mov    -0x28(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    0x10(%ebp),%eax
@@ -115,12 +113,10 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser>
--xor    $0x1,%eax
-+cmp    $0x1,%eax
-+setne  %al
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN12CUserManager10CreateUserEjjPciP11CGameServer+0x18f>
-+je     <T> <_ZN12CUserManager10CreateUserEjjPciP11CGameServer+0x19d>
++je     <T> <_ZN12CUserManager10CreateUserEjjPciP11CGameServer+0x197>
  movl   $0x0,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -152,12 +148,10 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser>
--xor    $0x1,%eax
-+cmp    $0x1,%eax
-+setne  %al
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN12CUserManager10CreateUserEjjPciP11CGameServer+0x205>
-+je     <T> <_ZN12CUserManager10CreateUserEjjPciP11CGameServer+0x21a>
++je     <T> <_ZN12CUserManager10CreateUserEjjPciP11CGameServer+0x211>
  movl   $0x0,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8092594` | `0xad` | `0x80ce4c4` | `0xab` |
+| dbmw | DIFF | `0x8092594` | `0xad` | `0x80ce5a6` | `0xab` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -114,10 +114,8 @@ void __thiscall CPacketTracer::_ZN13CPacketTracerC1Ev(CPacketTracer *this)
 
 ```cpp
 CPacketTracer::CPacketTracer()
+    : m_field0(0), m_timer(0), m_processCount(0)
 {
-    m_field0 = 0;
-    m_timer = 0;
-    m_processCount = 0;
     m_timer = new CUnixTimer;
     ResetPacketProcessLog();
 }

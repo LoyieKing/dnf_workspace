@@ -1,0 +1,2 @@
+_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh
+_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler

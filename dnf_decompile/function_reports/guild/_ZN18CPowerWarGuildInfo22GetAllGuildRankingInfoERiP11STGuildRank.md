@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80aa12a` | `0xc0` | `0x809fc24` | `0xcc` |
+| guild | DIFF | `0x80aa12a` | `0xc0` | `0x809fea6` | `0xca` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,28 +13,21 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,61 +1,66 @@
+@@ -1,61 +1,65 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x28,%esp
--movl   $0x0,-0x10(%ebp)
-+sub    $0x38,%esp
-+movl   $0x0,-0x14(%ebp)
+ sub    $0x28,%esp
+ movl   $0x0,-0x10(%ebp)
  mov    0x8(%ebp),%eax
--lea    0x1c(%eax),%edx
--lea    -0x18(%ebp),%eax
-+add    $0x1c,%eax
-+mov    %eax,-0x10(%ebp)
-+lea    -0x1c(%ebp),%eax
-+mov    -0x10(%ebp),%edx
+ lea    0x1c(%eax),%edx
+ lea    -0x18(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP19STPowerWarGuildInfoSaIS1_EE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0x6e>
--lea    -0x18(%ebp),%eax
-+jmp    <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0x7d>
-+lea    -0x1c(%ebp),%eax
++jmp    <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0x78>
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEdeEv>
  mov    (%eax),%eax
@@ -43,67 +36,62 @@
 -je     <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0x63>
 -mov    -0x10(%ebp),%eax
 -shl    $0x3,%eax
-+je     <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0x72>
-+mov    0x10(%ebp),%eax
-+mov    -0x14(%ebp),%edx
-+shl    $0x6,%edx
-+lea    (%eax,%edx,1),%edx
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
-+mov    -0x14(%ebp),%eax
-+add    %eax,%eax
-+add    $0x1,%eax
-+shl    $0x5,%eax
- add    0x10(%ebp),%eax
- mov    -0xc(%ebp),%edx
-+add    $0xc,%edx
- mov    (%edx),%edx
- mov    %edx,(%eax)
+-add    0x10(%ebp),%eax
+-mov    -0xc(%ebp),%edx
+-mov    (%edx),%edx
+-mov    %edx,(%eax)
 -mov    -0x10(%ebp),%eax
 -shl    $0x3,%eax
 -add    0x10(%ebp),%eax
 -mov    -0xc(%ebp),%edx
 -mov    0xc(%edx),%edx
 -mov    %edx,0x4(%eax)
--addl   $0x1,-0x10(%ebp)
--lea    -0x18(%ebp),%eax
-+addl   $0x1,-0x14(%ebp)
-+lea    -0x1c(%ebp),%eax
++je     <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0x6d>
++mov    0x10(%ebp),%eax
++mov    -0x10(%ebp),%edx
++shl    $0x3,%edx
++lea    (%eax,%edx,1),%edx
++mov    -0xc(%ebp),%eax
++mov    (%eax),%eax
++mov    %eax,(%edx)
++mov    0x10(%ebp),%eax
++mov    -0x10(%ebp),%edx
++add    %edx,%edx
++add    $0x1,%edx
++shl    $0x2,%edx
++lea    (%eax,%edx,1),%edx
++mov    -0xc(%ebp),%eax
++mov    0xc(%eax),%eax
++mov    %eax,(%edx)
+ addl   $0x1,-0x10(%ebp)
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEppEv>
--mov    0x8(%ebp),%eax
--lea    0x1c(%eax),%edx
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
-+mov    -0x10(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ lea    0x1c(%eax),%edx
+ lea    -0x14(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP19STPowerWarGuildInfoSaIS1_EE3endEv>
  sub    $0x4,%esp
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxxneIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
  test   %al,%al
 -je     <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0xa9>
--cmpl   $0x63,-0x10(%ebp)
++je     <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0xb3>
+ cmpl   $0x63,-0x10(%ebp)
 -ja     <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0xa9>
-+je     <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0xb5>
-+cmpl   $0x63,-0x14(%ebp)
-+ja     <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0xb5>
++ja     <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0xb3>
  mov    $0x1,%eax
 -jmp    <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0xae>
-+jmp    <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0xba>
++jmp    <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0xb8>
  mov    $0x0,%eax
  test   %al,%al
--jne    <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0x27>
--mov    -0x10(%ebp),%edx
-+jne    <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0x2d>
-+mov    -0x14(%ebp),%edx
+ jne    <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0x27>
+ mov    -0x10(%ebp),%edx
  mov    0xc(%ebp),%eax
  mov    %edx,(%eax)
  leave
@@ -160,21 +148,20 @@ CPowerWarGuildInfo::_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuild
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 204 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 199 行）：
 
 ```cpp
 void CPowerWarGuildInfo::GetAllGuildRankingInfo(int& count, STGuildRank* rank)
 {
     unsigned int n = 0;
-    std::vector<STPowerWarGuildInfo*>* vec = &m_vec;
-    for (std::vector<STPowerWarGuildInfo*>::iterator it = vec->begin();
-         it != vec->end() && n < 100; ++it)
+    for (std::vector<STPowerWarGuildInfo*>::iterator it = m_vec.begin();
+         it != m_vec.end() && n < 100; ++it)
     {
         STPowerWarGuildInfo* info = *it;
         if (info != 0)
         {
-            *(unsigned int*)(rank + n * 8) = *(unsigned int*)info->m_data;
-            *(unsigned int*)(rank + n * 8 + 4) = *(unsigned int*)(info->m_data + 0xc);
+            *(unsigned int*)((char*)rank + n * 8) = info->m_field[0];
+            *(unsigned int*)((char*)rank + n * 8 + 4) = info->m_field[3];
             n++;
         }
     }

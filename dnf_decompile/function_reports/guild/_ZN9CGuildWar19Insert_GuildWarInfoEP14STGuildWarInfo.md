@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809aa7c` | `0xcb` | `0x8061598` | `0xcc` |
+| guild | DIFF | `0x809aa7c` | `0xcb` | `0x806138a` | `0xcb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,55 +1,56 @@
+@@ -1,55 +1,55 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -33,11 +33,9 @@
 +lea    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN9CGuildWar19Insert_GuildWarInfoEP14STGuildWarInfo+0xc2>
++jmp    <T> <_ZN9CGuildWar19Insert_GuildWarInfoEP14STGuildWarInfo+0xc1>
  mov    0xc(%ebp),%eax
--mov    0x4(%eax),%esi
-+add    $0x4,%eax
-+mov    (%eax),%esi
+ mov    0x4(%eax),%esi
  mov    0xc(%ebp),%eax
  mov    (%eax),%ebx
  movl   $0x90,0x8(%esp)
@@ -55,16 +53,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0xc(%ebp),%eax
--lea    0x4(%eax),%ecx
+ lea    0x4(%eax),%ecx
 -lea    -0x18(%ebp),%eax
--lea    0xc(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    %ecx,0x4(%esp)
-+mov    %eax,%edx
 +lea    -0x10(%ebp),%eax
-+lea    0xc(%ebp),%ecx
-+mov    %ecx,0x8(%esp)
-+mov    %edx,0x4(%esp)
+ lea    0xc(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZSt9make_pairIRjRP14STGuildWarInfoESt4pairINSt17__decay_and_stripIT_E6__typeENS5_IT0_E6__typeEEOS6_OS9_>
  sub    $0x4,%esp
@@ -132,7 +126,7 @@ CGuildWar::_ZN9CGuildWar19Insert_GuildWarInfoEP14STGuildWarInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 177 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 172 行）：
 
 ```cpp
 void CGuildWar::Insert_GuildWarInfo(STGuildWarInfo* info)
@@ -140,10 +134,12 @@ void CGuildWar::Insert_GuildWarInfo(STGuildWarInfo* info)
     if (info == 0)
     {
         DNF_LOG_SCOPE_LINE(0x95, "./log/GuildWar", "[INSERT_ERR]info == 0\n");
-        return;
     }
-    DNF_LOG_SCOPE_LINE(0x90,"./log/GuildWar", "[INSERT]\tGuild Key : %d\tGuild Point : %d\n",
-        *(unsigned int*)info, *(unsigned int*)((char*)info + 4));
-    m_vtGuildWarInfo.push_back(std::make_pair(*(unsigned int*)info, info));
+    else
+    {
+        DNF_LOG_SCOPE_LINE(0x90,"./log/GuildWar", "[INSERT]\tGuild Key : %d\tGuild Point : %d\n",
+            info->m_guildKey, info->m_point);
+        m_vtGuildWarInfo.push_back(std::make_pair(info->m_point, info));
+    }
 }
 ```

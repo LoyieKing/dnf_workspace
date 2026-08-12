@@ -1,0 +1,6 @@
+DIFF  _ZN9CGuildWar11RankProcessEv
+DIFF  _ZN9CGuildWar12SameRankWorkEv
+DIFF  _ZN9CGuildWar13DBSaveProcessEP12CApplication
+DIFF  _ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info
+DIFF  _ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt
+DIFF  _ZN9CGuildWar19Insert_GuildWarInfoEP14STGuildWarInfo

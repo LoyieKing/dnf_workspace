@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809f67a` | `0x2d7` | `0x80d9538` | `0x2d7` |
+| dbmw | DIFF | `0x809f67a` | `0x2d7` | `0x80d9602` | `0x2d4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,195 +1,195 @@
+@@ -1,195 +1,194 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -120,9 +120,10 @@
  call   <T> <_ZN14CServerHandler12GetTcpServerEh>
 -mov    %eax,-0x2c(%ebp)
 -cmpl   $0x0,-0x2c(%ebp)
+-je     <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x191>
 +mov    %eax,-0x28(%ebp)
 +cmpl   $0x0,-0x28(%ebp)
- je     <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x191>
++je     <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x18e>
  movl   $0xe,0x8(%esp)
  movl   $0x2348,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
@@ -131,7 +132,6 @@
  call   <T> <_ZN10CTcpServer16makePacketHeaderEtt>
 -mov    %eax,-0x28(%ebp)
 -mov    -0x28(%ebp),%eax
-+movzwl %ax,%eax
  mov    %eax,-0x24(%ebp)
 -lea    -0x5e(%ebp),%eax
 +lea    -0x62(%ebp),%eax
@@ -148,7 +148,8 @@
 +mov    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CTcpServer12SendToServerEPc>
- jmp    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x2cf>
+-jmp    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x2cf>
++jmp    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x2cc>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -173,9 +174,11 @@
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- jmp    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x2cf>
+-jmp    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x2cf>
++jmp    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x2cc>
  cmp    $0x2,%edx
- jne    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x275>
+-jne    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x275>
++jne    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x272>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -200,7 +203,8 @@
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- jmp    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x26e>
+-jmp    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x26e>
++jmp    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x26b>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -209,7 +213,8 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
- jmp    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x2cf>
+-jmp    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x2cf>
++jmp    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x2cc>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1156,0x8(%esp)
@@ -224,7 +229,8 @@
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- jmp    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x2ca>
+-jmp    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x2ca>
++jmp    <T> <_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12PacketHeader+0x2c7>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -305,7 +311,7 @@ void CPacketTranslater::_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2324 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2331 行）：
 
 ```cpp
 void CPacketTranslater::OnReqOntimeEventIdxUpdate(PacketHeader* header)

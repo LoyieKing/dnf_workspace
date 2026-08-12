@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809f75e` | `0x239` | `0x8091714` | `0x20c` |
+| guild | DIFF | `0x809f75e` | `0x239` | `0x8091a5c` | `0x236` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,164 +1,159 @@
+@@ -1,164 +1,163 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -27,177 +27,115 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CGuildCargo11IsValidSlotEi>
--xor    $0x1,%eax
-+cmp    $0x1,%eax
-+setne  %al
+ xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x32>
-+je     <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x35>
+ je     <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x32>
  mov    $0xc4,%eax
 -jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x231>
-+jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x204>
-+mov    0x8(%ebp),%eax
++jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x22e>
  mov    0x10(%ebp),%edx
-+imul   $0x35,%edx,%edx
-+add    $0x1,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
-+test   %eax,%eax
-+je     <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x5e>
  mov    0x8(%ebp),%eax
-+mov    0x10(%ebp),%edx
  imul   $0x35,%edx,%edx
--mov    0x1(%edx,%eax,1),%eax
--test   %eax,%eax
--je     <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x57>
-+add    $0x1,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
-+cmp    0x1c(%ebp),%eax
-+je     <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x68>
-+mov    $0xca,%eax
-+jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x204>
-+mov    0x10(%ebp),%eax
-+imul   $0x35,%eax,%eax
-+add    0x8(%ebp),%eax
-+movl   $0x35,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <memcpy>
-+cmpb   $0x1,-0x3c(%ebp)
-+jne    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x194>
-+mov    0xc(%ebp),%eax
-+lea    0x6(%eax),%edx
-+mov    0x14(%ebp),%eax
-+mov    %eax,(%edx)
-+mov    0x8(%ebp),%eax
+ mov    0x1(%edx,%eax,1),%eax
+ test   %eax,%eax
+ je     <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x57>
  mov    0x10(%ebp),%edx
--mov    0x8(%ebp),%eax
+ mov    0x8(%ebp),%eax
  imul   $0x35,%edx,%edx
--mov    0x1(%edx,%eax,1),%edx
+ mov    0x1(%edx,%eax,1),%edx
 -mov    0x14(%ebp),%eax
--cmp    %eax,%edx
--je     <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x61>
--mov    $0xca,%eax
++mov    0x1c(%ebp),%eax
+ cmp    %eax,%edx
+ je     <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x61>
+ mov    $0xca,%eax
 -jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x231>
--mov    0x10(%ebp),%ecx
--mov    0xc(%ebp),%eax
--mov    0x8(%ebp),%edx
--imul   $0x35,%ecx,%ecx
--mov    (%ecx,%edx,1),%ebx
--mov    %ebx,(%eax)
--mov    0x4(%ecx,%edx,1),%ebx
--mov    %ebx,0x4(%eax)
--mov    0x8(%ecx,%edx,1),%ebx
--mov    %ebx,0x8(%eax)
--mov    0xc(%ecx,%edx,1),%ebx
--mov    %ebx,0xc(%eax)
--mov    0x10(%ecx,%edx,1),%ebx
--mov    %ebx,0x10(%eax)
--mov    0x14(%ecx,%edx,1),%ebx
--mov    %ebx,0x14(%eax)
--mov    0x18(%ecx,%edx,1),%ebx
--mov    %ebx,0x18(%eax)
--mov    0x1c(%ecx,%edx,1),%ebx
--mov    %ebx,0x1c(%eax)
--mov    0x20(%ecx,%edx,1),%ebx
--mov    %ebx,0x20(%eax)
--mov    0x24(%ecx,%edx,1),%ebx
--mov    %ebx,0x24(%eax)
--mov    0x28(%ecx,%edx,1),%ebx
--mov    %ebx,0x28(%eax)
--mov    0x2c(%ecx,%edx,1),%ebx
--mov    %ebx,0x2c(%eax)
--mov    0x30(%ecx,%edx,1),%ebx
--mov    %ebx,0x30(%eax)
--movzbl 0x34(%ecx,%edx,1),%edx
--mov    %dl,0x34(%eax)
--cmpb   $0x1,-0x3c(%ebp)
++jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x22e>
+ mov    0x10(%ebp),%ecx
+ mov    0xc(%ebp),%eax
+ mov    0x8(%ebp),%edx
+ imul   $0x35,%ecx,%ecx
+ mov    (%ecx,%edx,1),%ebx
+ mov    %ebx,(%eax)
+ mov    0x4(%ecx,%edx,1),%ebx
+ mov    %ebx,0x4(%eax)
+ mov    0x8(%ecx,%edx,1),%ebx
+ mov    %ebx,0x8(%eax)
+ mov    0xc(%ecx,%edx,1),%ebx
+ mov    %ebx,0xc(%eax)
+ mov    0x10(%ecx,%edx,1),%ebx
+ mov    %ebx,0x10(%eax)
+ mov    0x14(%ecx,%edx,1),%ebx
+ mov    %ebx,0x14(%eax)
+ mov    0x18(%ecx,%edx,1),%ebx
+ mov    %ebx,0x18(%eax)
+ mov    0x1c(%ecx,%edx,1),%ebx
+ mov    %ebx,0x1c(%eax)
+ mov    0x20(%ecx,%edx,1),%ebx
+ mov    %ebx,0x20(%eax)
+ mov    0x24(%ecx,%edx,1),%ebx
+ mov    %ebx,0x24(%eax)
+ mov    0x28(%ecx,%edx,1),%ebx
+ mov    %ebx,0x28(%eax)
+ mov    0x2c(%ecx,%edx,1),%ebx
+ mov    %ebx,0x2c(%eax)
+ mov    0x30(%ecx,%edx,1),%ebx
+ mov    %ebx,0x30(%eax)
+ movzbl 0x34(%ecx,%edx,1),%edx
+ mov    %dl,0x34(%eax)
+ cmpb   $0x1,-0x3c(%ebp)
 -jne    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x1c7>
--mov    0xc(%ebp),%eax
++jne    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x1c4>
++mov    0x14(%ebp),%edx
+ mov    0xc(%ebp),%eax
 -mov    0x1c(%ebp),%edx
--mov    %edx,0x6(%eax)
--mov    0x10(%ebp),%edx
--mov    0x8(%ebp),%eax
--imul   $0x35,%edx,%edx
--mov    0x6(%edx,%eax,1),%eax
-+add    $0x6,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
+ mov    %edx,0x6(%eax)
+ mov    0x10(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ imul   $0x35,%edx,%edx
+ mov    0x6(%edx,%eax,1),%eax
  mov    %eax,-0x20(%ebp)
  mov    0xc(%ebp),%eax
--mov    0x6(%eax),%eax
-+add    $0x6,%eax
-+mov    (%eax),%eax
+ mov    0x6(%eax),%eax
  mov    %eax,-0x1c(%ebp)
  mov    -0x20(%ebp),%eax
  cmp    -0x1c(%ebp),%eax
--jge    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x10c>
-+jge    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0xcd>
+ jge    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x10c>
  mov    $0xc7,%eax
 -jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x231>
--mov    0x10(%ebp),%ebx
-+jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x204>
-+mov    0x8(%ebp),%eax
++jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x22e>
+ mov    0x10(%ebp),%ebx
  mov    0x10(%ebp),%edx
-+imul   $0x35,%edx,%edx
-+add    $0x6,%edx
-+lea    (%eax,%edx,1),%edx
  mov    0x8(%ebp),%eax
-+mov    0x10(%ebp),%ecx
-+imul   $0x35,%ecx,%ecx
-+add    $0x6,%ecx
-+add    %ecx,%eax
-+mov    (%eax),%eax
-+sub    -0x1c(%ebp),%eax
-+mov    %eax,(%edx)
-+mov    0x8(%ebp),%eax
-+mov    0x10(%ebp),%edx
  imul   $0x35,%edx,%edx
--mov    0x6(%edx,%eax,1),%edx
+ mov    0x6(%edx,%eax,1),%edx
 -mov    0xc(%ebp),%eax
 -mov    0x6(%eax),%eax
--mov    %edx,%ecx
--sub    %eax,%ecx
--mov    0x8(%ebp),%eax
--imul   $0x35,%ebx,%edx
--mov    %ecx,0x6(%edx,%eax,1)
--mov    0x10(%ebp),%edx
--mov    0x8(%ebp),%eax
--imul   $0x35,%edx,%edx
--mov    0x6(%edx,%eax,1),%eax
-+add    $0x6,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
++mov    -0x1c(%ebp),%eax
+ mov    %edx,%ecx
+ sub    %eax,%ecx
+ mov    0x8(%ebp),%eax
+ imul   $0x35,%ebx,%edx
+ mov    %ecx,0x6(%edx,%eax,1)
+ mov    0x10(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ imul   $0x35,%edx,%edx
+ mov    0x6(%edx,%eax,1),%eax
  test   %eax,%eax
 -jne    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x152>
-+jne    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x119>
-+mov    0x8(%ebp),%edx
++jne    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x14f>
  mov    0x10(%ebp),%eax
  imul   $0x35,%eax,%eax
--add    0x8(%ebp),%eax
-+lea    (%edx,%eax,1),%eax
+ add    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11DnfItemInfo5resetEv>
-+mov    0x8(%ebp),%eax
  mov    0x10(%ebp),%edx
-+imul   $0x35,%edx,%edx
-+add    $0x6,%edx
-+add    %edx,%eax
-+mov    (%eax),%edi
-+mov    0xc(%ebp),%eax
-+add    $0x1,%eax
-+mov    (%eax),%esi
  mov    0x8(%ebp),%eax
--imul   $0x35,%edx,%edx
--mov    0x6(%edx,%eax,1),%edi
--mov    0xc(%ebp),%eax
--mov    0x1(%eax),%esi
--mov    0x8(%ebp),%eax
--mov    0x18e0(%eax),%ebx
-+add    $0x18e0,%eax
-+mov    (%eax),%ebx
+ imul   $0x35,%edx,%edx
+ mov    0x6(%edx,%eax,1),%edi
+ mov    0xc(%ebp),%eax
+ mov    0x1(%eax),%esi
+ mov    0x8(%ebp),%eax
+ mov    0x18e0(%eax),%ebx
  movl   $0xee,0x8(%esp)
  movl   $&_ZZN11CGuildCargo10DeleteItemER11DnfItemInfoiihiiE12__FUNCTION__,0x4(%esp)
  lea    -0x30(%ebp),%eax
@@ -218,22 +156,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x22c>
-+jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x1ff>
-+mov    0x8(%ebp),%edx
++jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x229>
  mov    0x10(%ebp),%eax
  imul   $0x35,%eax,%eax
--add    0x8(%ebp),%eax
-+lea    (%edx,%eax,1),%eax
+ add    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11DnfItemInfo5resetEv>
  mov    0xc(%ebp),%eax
--mov    0x1(%eax),%esi
-+add    $0x1,%eax
-+mov    (%eax),%esi
+ mov    0x1(%eax),%esi
  mov    0x8(%ebp),%eax
--mov    0x18e0(%eax),%ebx
-+add    $0x18e0,%eax
-+mov    (%eax),%ebx
+ mov    0x18e0(%eax),%ebx
  movl   $0xfa,0x8(%esp)
  movl   $&_ZZN11CGuildCargo10DeleteItemER11DnfItemInfoiihiiE12__FUNCTION__,0x4(%esp)
  lea    -0x28(%ebp),%eax
@@ -343,46 +275,47 @@ CGuildCargo::_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 244 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 268 行）：
 
 ```cpp
 int CGuildCargo::DeleteItem(DnfItemInfo& info, int slot, int count, unsigned char a, int b, int c)
 {
-    if (IsValidSlot(slot) != 1)
+    if (!IsValidSlot(slot))
     {
         return 0xc4;
     }
-    if (*(int*)((char*)this + slot * 0x35 + 1) == 0 ||
-        *(int*)((char*)this + slot * 0x35 + 1) != b)
+    if (m_info.m_items[slot].m_itemId == 0 ||
+        m_info.m_items[slot].m_itemId != b)
     {
         return 0xca;
     }
-    memcpy(&info, (char*)this + slot * 0x35, 0x35);
+    info = m_info.m_items[slot];
     if (a == 1)
     {
-        *(int*)((char*)&info + 6) = count;
-        int oldCount = *(int*)((char*)this + slot * 0x35 + 6);
-        int subCount = *(int*)((char*)&info + 6);
+        info.m_addInfo = count;
+        int oldCount = m_info.m_items[slot].m_addInfo;
+        int subCount = info.m_addInfo;
         if (oldCount < subCount)
         {
             return 199;
         }
-        *(int*)((char*)this + slot * 0x35 + 6) -= subCount;
-        if (*(int*)((char*)this + slot * 0x35 + 6) == 0)
+        m_info.m_items[slot].m_addInfo =
+            m_info.m_items[slot].m_addInfo - subCount;
+        if (m_info.m_items[slot].m_addInfo == 0)
         {
-            ((DnfItemInfo*)((char*)this + slot * 0x35))->reset();
+            m_info.m_items[slot].reset();
         }
         DNF_LOG_SCOPE_LINE(0xee,"./log/GuildCargo",
             "DeleteItem STACKABLE DELETE SUCCESS(Stackable) - GUILD:%d, CHARAC:%d, ITEM:%d, OLD:%d, SUB:%d, CURR:%d",
-            *(int*)((char*)this + 0x18e0), c, *(int*)((char*)&info + 1),
-            oldCount, subCount, *(int*)((char*)this + slot * 0x35 + 6));
+            m_guildKey, c, info.m_itemId,
+            oldCount, subCount, m_info.m_items[slot].m_addInfo);
     }
     else
     {
-        ((DnfItemInfo*)((char*)this + slot * 0x35))->reset();
+        m_info.m_items[slot].reset();
         DNF_LOG_SCOPE_LINE(0xfa,"./log/GuildCargo",
             "DeleteItem STACKABLE DELETE SUCCESS(Equip) - GUILD:%d, CHARAC:%d, ITEM:%d",
-            *(int*)((char*)this + 0x18e0), c, *(int*)((char*)&info + 1));
+            m_guildKey, c, info.m_itemId);
     }
     return 0xc1;
 }

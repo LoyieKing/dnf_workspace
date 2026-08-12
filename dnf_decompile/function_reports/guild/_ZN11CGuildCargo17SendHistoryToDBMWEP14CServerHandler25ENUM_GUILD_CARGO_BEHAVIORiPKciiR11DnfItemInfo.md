@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a0300` | `0x94` | `0x809217a` | `0xbb` |
+| guild | DIFF | `0x80a0300` | `0x94` | `0x8092640` | `0xce` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,43 +13,28 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,42 +1,58 @@
+@@ -1,42 +1,64 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x88,%esp
-+push   %ebx
-+sub    $0x84,%esp
+ sub    $0x88,%esp
  lea    -0x6e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN36Packet_DB_Insert_Guild_Cargo_HistoryC1Ev>
--mov    0x8(%ebp),%eax
--mov    0x18e0(%eax),%eax
--mov    %eax,-0x63(%ebp)
--mov    0x14(%ebp),%eax
--mov    %eax,-0x5f(%ebp)
--mov    0x10(%ebp),%eax
--mov    %al,-0x46(%ebp)
--mov    0x1c(%ebp),%eax
--mov    %eax,-0x45(%ebp)
--mov    0x20(%ebp),%eax
--mov    %eax,-0x41(%ebp)
-+lea    -0x6e(%ebp),%eax
-+lea    0xa(%eax),%ebx
+ mov    0x8(%ebp),%eax
+ mov    0x18e0(%eax),%eax
+ mov    %eax,-0x63(%ebp)
+ mov    0x14(%ebp),%eax
+ mov    %eax,-0x5f(%ebp)
+ mov    0x10(%ebp),%eax
+ mov    %al,-0x46(%ebp)
+ mov    0x1c(%ebp),%eax
+ mov    %eax,-0x45(%ebp)
+ mov    0x20(%ebp),%eax
+ mov    %eax,-0x41(%ebp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16GetServerGroupNoEv>
--mov    %al,-0x64(%ebp)
-+mov    %al,(%ebx)
-+lea    -0x6e(%ebp),%eax
-+lea    0xb(%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x18e0,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x6e(%ebp),%eax
-+lea    0xf(%eax),%edx
-+mov    0x14(%ebp),%eax
-+mov    %eax,(%edx)
+ mov    %al,-0x64(%ebp)
  movl   $0x14,0x8(%esp)
  mov    0x18(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -57,37 +42,47 @@
  add    $0x13,%eax
  mov    %eax,(%esp)
  call   <T> <strncpy>
-+lea    -0x6e(%ebp),%eax
-+lea    0x27(%eax),%edx
-+mov    0x10(%ebp),%eax
-+mov    %al,(%edx)
-+lea    -0x6e(%ebp),%eax
-+lea    0x28(%eax),%edx
-+mov    0x1c(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x6e(%ebp),%eax
-+lea    0x2c(%eax),%edx
-+mov    0x20(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x6e(%ebp),%eax
-+lea    0x30(%eax),%edx
- movl   $0x35,0x8(%esp)
+-movl   $0x35,0x8(%esp)
  mov    0x24(%ebp),%eax
- mov    %eax,0x4(%esp)
+-mov    %eax,0x4(%esp)
 -lea    -0x6e(%ebp),%eax
 -add    $0x31,%eax
 -mov    %eax,(%esp)
-+mov    %edx,(%esp)
- call   <T> <memcpy>
+-call   <T> <memcpy>
++mov    (%eax),%edx
++mov    %edx,-0x3d(%ebp)
++mov    0x4(%eax),%edx
++mov    %edx,-0x39(%ebp)
++mov    0x8(%eax),%edx
++mov    %edx,-0x35(%ebp)
++mov    0xc(%eax),%edx
++mov    %edx,-0x31(%ebp)
++mov    0x10(%eax),%edx
++mov    %edx,-0x2d(%ebp)
++mov    0x14(%eax),%edx
++mov    %edx,-0x29(%ebp)
++mov    0x18(%eax),%edx
++mov    %edx,-0x25(%ebp)
++mov    0x1c(%eax),%edx
++mov    %edx,-0x21(%ebp)
++mov    0x20(%eax),%edx
++mov    %edx,-0x1d(%ebp)
++mov    0x24(%eax),%edx
++mov    %edx,-0x19(%ebp)
++mov    0x28(%eax),%edx
++mov    %edx,-0x15(%ebp)
++mov    0x2c(%eax),%edx
++mov    %edx,-0x11(%ebp)
++mov    0x30(%eax),%edx
++mov    %edx,-0xd(%ebp)
++movzbl 0x34(%eax),%eax
++mov    %al,-0x9(%ebp)
  lea    -0x6e(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
--leave
-+add    $0x84,%esp
-+pop    %ebx
-+pop    %ebp
+ leave
  ret
 ```
 ## 2. Ghidra 反编译 C

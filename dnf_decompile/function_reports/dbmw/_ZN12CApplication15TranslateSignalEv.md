@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806cd2a` | `0x3da` | `0x806ecd4` | `0x3dc` |
+| dbmw | DIFF | `0x806cd2a` | `0x3da` | `0x806edb2` | `0x3dc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -462,7 +462,7 @@ void __thiscall CApplication::_ZN12CApplication15TranslateSignalEv(CApplication 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 416 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 409 行）：
 
 ```cpp
 void CApplication::TranslateSignal()

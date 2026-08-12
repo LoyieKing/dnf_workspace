@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809ff46` | `0x158` | `0x80cfc6a` | `0x155` |
+| dbmw | DIFF | `0x809ff46` | `0x158` | `0x80cfd4a` | `0x153` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,92 +1,91 @@
+@@ -1,92 +1,90 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,7 +22,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x150>
-+je     <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14d>
++je     <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14b>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x10(%ebp)
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -33,12 +33,10 @@
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN10CDBManager25updateLimitNpcBuyItemInfoEP21LimitNpcBuyItemUpdate>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x151>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14e>
++je     <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14c>
  movl   $0x134c,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
@@ -52,10 +50,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x151>
-+jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14e>
++jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14c>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0xf4>
-+jne    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0xf1>
++jne    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0xef>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -81,7 +79,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0xed>
-+jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0xea>
++jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0xe8>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -91,7 +89,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x151>
-+jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14e>
++jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14c>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1357,0x8(%esp)
@@ -107,7 +105,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x149>
-+jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x146>
++jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x144>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -117,7 +115,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x151>
-+jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14e>
++jmp    <T> <_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12PacketHeader+0x14c>
  nop
  add    $0x30,%esp
  pop    %ebx

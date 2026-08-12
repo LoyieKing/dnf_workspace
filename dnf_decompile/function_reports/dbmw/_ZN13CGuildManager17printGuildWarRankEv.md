@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80a3780` | `0xed` | `0x80e9018` | `0xf3` |
+| dbmw | DIFF | `0x80a3780` | `0xed` | `0x80e9068` | `0xf3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -173,7 +173,7 @@ void CGuildManager::_ZN13CGuildManager17printGuildWarRankEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/GuildManager.cpp](source/DNFServer/GameServer/DBMW/GuildManager.cpp)（约第 178 行）：
+定义于 [source/DNFServer/GameServer/DBMW/GuildManager.cpp](source/DNFServer/GameServer/DBMW/GuildManager.cpp)（约第 179 行）：
 
 ```cpp
 void CGuildManager::printGuildWarRank()
@@ -184,9 +184,10 @@ void CGuildManager::printGuildWarRank()
              m_warRankList.begin();
          it != m_warRankList.end(); ++it)
     {
-        CMyFileLog log(__FUNCTION__, 0x10a);
-        log("./log/GuildWar", "GuildKey : %d,  GuildWarPoint : %d, Guild Rank : %d",
-            it->first, it->second->m_field4, it->second->m_field8);
+        std::pair<unsigned int, STGuildWarRankInfo*> p = *it;
+        CMyFileLog(__FUNCTION__, 0x10a)("./log/GuildWar",
+            "GuildKey : %d,  GuildWarPoint : %d, Guild Rank : %d",
+            p.second->m_field0, p.second->m_field4, p.second->m_field8);
     }
 }
 ```

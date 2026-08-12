@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8065dcc` | `0x11f` | `0x8053b6e` | `0x107` |
+| monitor | DIFF | `0x8065dcc` | `0x11f` | `0x8053c4e` | `0x107` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -177,7 +177,7 @@ void __thiscall CApplication::_ZN12CApplication18UpdateCollectItemsEv(CApplicati
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 1142 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 1149 行）：
 
 ```cpp
 void CApplication::UpdateCollectItems()

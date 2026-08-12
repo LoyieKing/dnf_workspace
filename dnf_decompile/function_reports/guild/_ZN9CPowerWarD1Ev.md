@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a6d12` | `0xbe` | `0x809c90c` | `0x8d` |
+| guild | NEAR | `0x80a6d12` | `0xbe` | `0x809cc20` | `0xbe` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,92 +13,77 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,66 +1,47 @@
+@@ -1,66 +1,66 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
--push   %ebx
--sub    $0x10,%esp
-+sub    $0x18,%esp
+ push   %esi
+ push   %ebx
+ sub    $0x10,%esp
  mov    0x8(%ebp),%eax
  movl   $&_ZTV9CPowerWar+0x8,(%eax)
  mov    0x8(%ebp),%eax
--mov    0x10(%eax),%eax
-+add    $0x10,%eax
-+mov    (%eax),%eax
+ mov    0x10(%eax),%eax
  test   %eax,%eax
--je     <T> <_ZN9CPowerWarD1Ev+0x47>
-+je     <T> <_ZN9CPowerWarD1Ev+0x4f>
+ je     <T> <_ZN9CPowerWarD1Ev+0x47>
  mov    0x8(%ebp),%eax
--mov    0x10(%eax),%eax
-+add    $0x10,%eax
-+mov    (%eax),%eax
+ mov    0x10(%eax),%eax
  test   %eax,%eax
--je     <T> <_ZN9CPowerWarD1Ev+0x3d>
-+je     <T> <_ZN9CPowerWarD1Ev+0x43>
+ je     <T> <_ZN9CPowerWarD1Ev+0x3d>
  mov    0x8(%ebp),%eax
--mov    0x10(%eax),%eax
-+add    $0x10,%eax
-+mov    (%eax),%eax
+ mov    0x10(%eax),%eax
  mov    (%eax),%eax
  add    $0x4,%eax
 -mov    (%eax),%edx
-+mov    (%eax),%eax
-+mov    0x8(%ebp),%edx
-+add    $0x10,%edx
-+mov    (%edx),%edx
-+mov    %edx,(%esp)
-+call   *%eax
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -mov    0x10(%eax),%eax
 -mov    %eax,(%esp)
 -call   *%edx
--mov    0x8(%ebp),%eax
--movl   $0x0,0x10(%eax)
-+add    $0x10,%eax
-+movl   $0x0,(%eax)
++mov    (%eax),%eax
++mov    0x8(%ebp),%edx
++mov    0x10(%edx),%edx
++mov    %edx,(%esp)
++call   *%eax
+ mov    0x8(%ebp),%eax
+ movl   $0x0,0x10(%eax)
  movl   $"Power War Config Free Success!",(%esp)
  call   <T> <puts>
--jmp    <T> <_ZN9CPowerWarD1Ev+0x6d>
--mov    %edx,%ebx
--mov    %eax,%esi
+ jmp    <T> <_ZN9CPowerWarD1Ev+0x6d>
+ mov    %edx,%ebx
+ mov    %eax,%esi
  mov    0x8(%ebp),%eax
  add    $0x14,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CSchedulerD1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--jmp    <T> <_ZN9CPowerWarD1Ev+0x7d>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ jmp    <T> <_ZN9CPowerWarD1Ev+0x7d>
  mov    0x8(%ebp),%eax
--add    $0x14,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CSchedulerD1Ev>
--jmp    <T> <_ZN9CPowerWarD1Ev+0x98>
--mov    %edx,%ebx
--mov    %eax,%esi
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CEventD1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
--mov    0x8(%ebp),%eax
-+add    $0x4,%eax
+ add    $0x14,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CSchedulerD1Ev>
+ jmp    <T> <_ZN9CPowerWarD1Ev+0x98>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CEventD1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
+ mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CEventD1Ev>
  mov    $0x0,%eax
  test   %al,%al
--je     <T> <_ZN9CPowerWarD1Ev+0xb7>
-+je     <T> <_ZN9CPowerWarD1Ev+0x8b>
+ je     <T> <_ZN9CPowerWarD1Ev+0xb7>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZdlPv>
--add    $0x10,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
-+leave
+ add    $0x10,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -129,18 +114,16 @@ void __thiscall CPowerWar::_ZN9CPowerWarD1Ev(CPowerWar *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWar.cpp](source/DNFServer/GameServer/Guild/PowerWar.cpp)（约第 122 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWar.cpp](source/DNFServer/GameServer/Guild/PowerWar.cpp)（约第 107 行）：
 
 ```cpp
 CPowerWar::~CPowerWar()
 {
-    if (*(CPowerWarConfig**)((char*)this + 0x10) != 0)
+    if (m_config != 0)
     {
-        delete *(CPowerWarConfig**)((char*)this + 0x10);
-        *(CPowerWarConfig**)((char*)this + 0x10) = 0;
+        delete m_config;
+        m_config = 0;
     }
     puts("Power War Config Free Success!");
-    ((CScheduler*)((char*)this + 0x14))->~CScheduler();
-    ((CEvent*)m_data)->CEvent::~CEvent();
 }
 ```

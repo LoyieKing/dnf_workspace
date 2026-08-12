@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8070c7c` | `0x2f9` | `0x808b2f6` | `0x305` |
+| monitor | DIFF | `0x8070c7c` | `0x2f9` | `0x808b3ae` | `0x305` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -455,7 +455,7 @@ CUserManager::_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 174 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 173 行）：
 
 ```cpp
 int CUserManager::DeleteUsersOnGameServerDown(CGameServer* gameServer)

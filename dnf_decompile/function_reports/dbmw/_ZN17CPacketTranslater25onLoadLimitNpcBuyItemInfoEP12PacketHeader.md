@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809fd9e` | `0x1a7` | `0x80cfacc` | `0x19e` |
+| dbmw | DIFF | `0x809fd9e` | `0x1a7` | `0x80cfbae` | `0x19c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,109 +1,106 @@
+@@ -1,109 +1,105 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -23,7 +23,7 @@
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x19c>
 -lea    -0x1a2(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x193>
++je     <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x191>
 +lea    -0x19a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN25LimitNpcBuyItemResultInfoC1Ev>
@@ -42,12 +42,10 @@
 -mov    %edx,(%esp)
 +mov    %ecx,(%esp)
  call   <T> <_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x8f>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x8c>
++je     <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x8a>
  movl   $0x132e,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
@@ -61,7 +59,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x19d>
-+jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x194>
++jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x192>
 +lea    -0x19a(%ebp),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
@@ -76,10 +74,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x19d>
-+jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x194>
++jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x192>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x140>
-+jne    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x137>
++jne    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x135>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -105,7 +103,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x139>
-+jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x130>
++jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x12e>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -115,7 +113,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x19d>
-+jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x194>
++jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x192>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x133d,0x8(%esp)
@@ -131,7 +129,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x195>
-+jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x18c>
++jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x18a>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -141,7 +139,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x19d>
-+jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x194>
++jmp    <T> <_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12PacketHeader+0x192>
  nop
  add    $0x1b0,%esp
  pop    %ebx

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8061c80` | `0xa1` | `0x8061392` | `0xac` |
+| monitor | DIFF | `0x8061c80` | `0xa1` | `0x8061472` | `0xac` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -124,7 +124,7 @@ CMemberConfig::_ZN13CMemberConfig11Parse_TableEPci(CMemberConfig *this,char *par
 定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 54 行）：
 
 ```cpp
-int CMemberConfig::Parse_Table(char* line, int idx)
+bool CMemberConfig::Parse_Table(char* line, int idx)
 {
     if (line[0] == '#')
     {

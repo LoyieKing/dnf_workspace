@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8082042` | `0xb2` | `0x805232e` | `0xb1` |
+| dbmw | DIFF | `0x8082042` | `0xb2` | `0x8052360` | `0xb1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -119,19 +119,22 @@ CDBManager::_ZN10CDBManager16GetDBMWStatisticEP24Packet_DBMW_Query_String
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1498 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1547 行）：
 
 ```cpp
-char CDBManager::GetDBMWStatistic(Packet_DBMW_Query_String* packet)
+bool CDBManager::GetDBMWStatistic(Packet_DBMW_Query_String* packet)
 {
+    bool ret;
     CDBHandle* h = m_handles[4];    // log db
-    h->set_query(*(int*)((char*)packet + 0xa), (char*)packet + 0xe);
-    bool ret = h->exec(*(int*)((char*)packet + 0xa));
+    h->set_query(((QueryStringView*)packet)->m_queryId,
+                 ((QueryStringView*)packet)->m_data);
+    ret = h->exec(((QueryStringView*)packet)->m_queryId);
     if (!ret)
     {
+        register char* str = ((QueryStringView*)packet)->m_data;
         CMyFileLog log(__FUNCTION__, 0x1cb8);
         log("./log/DBQueryErr", "GetDBMWStatistic Query(%s) Error\n",
-            (char*)packet + 0xe);
+            str);
         return 0;
     }
     return 1;

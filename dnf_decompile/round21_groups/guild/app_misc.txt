@@ -1,0 +1,13 @@
+DIFF   _ZN12CApplication15TranslateSignalEv
+DIFF   _ZN12CApplication4LoadEiPPc
+DIFF   _ZN12CApplication7ProcessEv
+DIFF   _ZN13CAppStartInit11Init_DaemonEiPPc
+DIFF   _ZN13CAppStartInit4InitEP12CApplicationiPPc
+DIFF   _ZN12CAppStopInit4InitEP12CApplicationiPPc
+DIFF   _ZN13CServerConfigC1Ev
+DIFF   _ZN13CServerConfigC2Ev
+DIFF   _ZN14CKillUSRConfig11Clear_TableEv
+DIFF   _ZN14CKillUSRConfig11Parse_TableEPci
+DIFF   _ZN10CAppConfig11Parse_TableEPci
+DIFF   _ZN10CAppConfigC1Ev
+DIFF   _ZN10CAppConfigC2Ev

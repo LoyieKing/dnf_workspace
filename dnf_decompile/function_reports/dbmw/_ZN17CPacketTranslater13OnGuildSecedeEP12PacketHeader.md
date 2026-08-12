@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8097542` | `0x2cd` | `0x80d29d2` | `0x2bd` |
+| dbmw | DIFF | `0x8097542` | `0x2cd` | `0x80d2a98` | `0x2bb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,184 +1,183 @@
+@@ -1,184 +1,182 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -23,7 +23,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2c1>
-+je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2ae>
++je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2ac>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
 -mov    -0x24(%ebp),%eax
@@ -33,7 +33,7 @@
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2c2>
 -lea    -0x85(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2b1>
++je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2af>
 +lea    -0x81(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_DB_Reply_Guild_SecedeC1Ev>
@@ -86,13 +86,10 @@
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN10CDBManager11GuildSecedeEP30Packet_DB_Request_Guild_SecedeRjS2_S2_>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x146>
+ je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x146>
 -mov    -0x24(%ebp),%eax
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x148>
 +mov    -0x20(%ebp),%eax
  movzbl 0x12(%eax),%eax
  movsbl %al,%eax
@@ -186,10 +183,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2c2>
-+jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2b2>
++jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2b0>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x265>
-+jne    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x252>
++jne    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x250>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -215,7 +212,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x25e>
-+jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x24b>
++jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x249>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -225,7 +222,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2c2>
-+jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2b2>
++jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2b0>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x5fb,0x8(%esp)
@@ -241,7 +238,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2ba>
-+jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2a7>
++jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2a5>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -251,9 +248,9 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2c2>
-+jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2b2>
++jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2b0>
 +nop
-+jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2b2>
++jmp    <T> <_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader+0x2b0>
  nop
  add    $0xac,%esp
  pop    %ebx

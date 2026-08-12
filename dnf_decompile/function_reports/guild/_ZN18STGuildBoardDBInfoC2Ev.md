@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80898a8` | `0x54` | `0x808f312` | `0x9b` |
+| guild | DIFF | `0x80898a8` | `0x54` | `0x808f682` | `0xab` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,20 +1,48 @@
+@@ -1,20 +1,52 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x18,%esp
@@ -22,7 +22,11 @@
 +push   %ebx
 +sub    $0x2c,%esp
  mov    0x8(%ebp),%eax
--add    $0x84,%eax
+ add    $0x84,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN23STGuildMemberCharacDataC1Ev>
+ mov    0x8(%ebp),%eax
+-movl   $0x0,0x78(%eax)
 +lea    0x84(%eax),%esi
 +mov    %esi,0x4(%esp)
 +movl   $0x21,(%esp)
@@ -30,11 +34,11 @@
 +mov    %eax,%ebx
 +mov    %ebx,%eax
 +test   %eax,%eax
-+je     <T> <_ZN18STGuildBoardDBInfoC1Ev+0x54>
++je     <T> <_ZN18STGuildBoardDBInfoC1Ev+0x64>
 +mov    %ebx,%eax
- mov    %eax,(%esp)
- call   <T> <_ZN23STGuildMemberCharacDataC1Ev>
-+jmp    <T> <_ZN18STGuildBoardDBInfoC1Ev+0x54>
++mov    %eax,(%esp)
++call   <T> <_ZN23STGuildMemberCharacDataC1Ev>
++jmp    <T> <_ZN18STGuildBoardDBInfoC1Ev+0x64>
 +mov    %edx,%edi
 +mov    %eax,-0x1c(%ebp)
 +mov    %esi,0x4(%esp)
@@ -45,15 +49,14 @@
 +mov    %eax,(%esp)
 +call   <T> <_Unwind_Resume>
  mov    0x8(%ebp),%eax
--movl   $0x0,0x78(%eax)
+-movl   $0x0,0x7c(%eax)
 +add    $0x78,%eax
 +movl   $0x0,(%eax)
  mov    0x8(%ebp),%eax
--movl   $0x0,0x7c(%eax)
+-movl   $0x0,0x80(%eax)
 +add    $0x7c,%eax
 +movl   $0x0,(%eax)
- mov    0x8(%ebp),%eax
--movl   $0x0,0x80(%eax)
++mov    0x8(%ebp),%eax
 +sub    $0xffffff80,%eax
 +movl   $0x0,(%eax)
  mov    0x8(%ebp),%eax

@@ -125,7 +125,7 @@ momiji_event::EventAction::_ZN12momiji_event11EventAction13onStartActionER10Even
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp](source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp)（约第 196 行）：
+定义于 [source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp](source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp)（约第 198 行）：
 
 ```cpp
 void EventAction::onStartAction(EventParam& param)

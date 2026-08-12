@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809e0aa` | `0xde` | `0x8090326` | `0xde` |
+| guild | DIFF | `0x809e0aa` | `0xde` | `0x80906a8` | `0xdb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,66 +1,66 @@
+@@ -1,66 +1,65 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -35,26 +35,24 @@
 -lea    0xc(%eax),%edx
 -lea    -0x28(%ebp),%eax
 -mov    %edx,0x4(%esp)
-+jmp    <T> <_ZN11CGuildBoard15printGuildBoardEv+0xa4>
-+lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
+-mov    %eax,(%esp)
 -call   <T> <_ZNSt3mapIj18STGuildBoardDBInfoSt7greaterIjESaISt4pairIKjS0_EEE3endEv>
 -sub    $0x4,%esp
 -mov    -0x24(%ebp),%eax
 -mov    %eax,-0x2c(%ebp)
 -jmp    <T> <_ZN11CGuildBoard15printGuildBoardEv+0xb9>
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
++jmp    <T> <_ZN11CGuildBoard15printGuildBoardEv+0xa1>
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
+-add    $0x4,%eax
+-mov    %eax,%edi
 +lea    0x8(%eax),%edi
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
- add    $0x4,%eax
--mov    %eax,%edi
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEptEv>
 -mov    0x7c(%eax),%esi
-+add    $0x7c,%eax
++sub    $0xffffff80,%eax
 +mov    (%eax),%esi
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
@@ -158,7 +156,7 @@ void CGuildBoard::_ZN11CGuildBoard15printGuildBoardEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 334 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 339 行）：
 
 ```cpp
 void CGuildBoard::printGuildBoard()

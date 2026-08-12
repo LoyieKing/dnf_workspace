@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a4a7a` | `0x9b` | `0x809a5ca` | `0x9f` |
+| guild | DIFF | `0x80a4a7a` | `0x9b` | `0x809a9b4` | `0x9f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -119,7 +119,7 @@ void __thiscall CPowerManager::_ZN13CPowerManager24SaveDBPowerWarBonusPointEv(CP
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 441 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 431 行）：
 
 ```cpp
 void CPowerManager::SaveDBPowerWarBonusPoint()

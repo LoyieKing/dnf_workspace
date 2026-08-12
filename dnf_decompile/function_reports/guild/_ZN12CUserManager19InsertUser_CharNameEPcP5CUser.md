@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80696b0` | `0xdf` | `0x808b8b8` | `0x125` |
+| guild | DIFF | `0x80696b0` | `0xdf` | `0x808bc7e` | `0xee` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,51 +13,32 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,66 +1,97 @@
+@@ -1,66 +1,71 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
--sub    $0x40,%esp
-+sub    $0x30,%esp
+ sub    $0x40,%esp
  mov    0x10(%ebp),%eax
  test   %eax,%eax
 -je     <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xd0>
--lea    0x10(%ebp),%eax
 +jne    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x19>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x11b>
-+lea    -0x9(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcEC1Ev>
-+lea    -0x9(%ebp),%eax
++jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xe4>
+ lea    0x10(%ebp),%eax
  mov    %eax,0x8(%esp)
--lea    0xc(%ebp),%eax
-+mov    0xc(%ebp),%eax
+ lea    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsC1EPKcRKSaIcE>
- lea    -0x18(%ebp),%eax
-+lea    0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+lea    -0x10(%ebp),%edx
-+mov    %edx,0x4(%esp)
+-lea    -0x18(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKSsP5CUserEC1IRPcRS2_EEOT_OT0_>
-+call   <T> <_ZSt9make_pairISsRP5CUserESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
-+sub    $0x4,%esp
-+lea    -0x18(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIKSsP5CUserEC1ISsS2_EEOS_IT_T0_E>
+ call   <T> <_ZNSt4pairIKSsP5CUserEC1IRPcRS2_EEOT_OT0_>
  mov    0x8(%ebp),%eax
  lea    0x30(%eax),%ecx
 -lea    -0x20(%ebp),%eax
 -lea    -0x18(%ebp),%edx
-+lea    -0x28(%ebp),%eax
-+lea    -0x20(%ebp),%edx
++lea    -0x1c(%ebp),%eax
++lea    -0x14(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -65,78 +46,56 @@
  sub    $0x4,%esp
 -movzbl -0x1c(%ebp),%ebx
 -lea    -0x18(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++movzbl -0x18(%ebp),%eax
++mov    %eax,%ebx
++xor    $0x1,%ebx
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKSsP5CUserED1Ev>
--test   %bl,%bl
+ test   %bl,%bl
 -jne    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x7b>
 -jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x82>
-+jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xc1>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIKSsP5CUserED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xac>
++jne    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x86>
++jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xdf>
  mov    %edx,%ebx
  mov    %eax,%esi
- lea    -0x18(%ebp),%eax
+-lea    -0x18(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKSsP5CUserED1Ev>
-+call   <T> <_ZNSt4pairISsP5CUserED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xce>
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairISsP5CUserED1Ev>
-+jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xe3>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xf0>
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x10b>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x9(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
+ call   <T> <_ZNSt4pairIKSsP5CUserED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
-+lea    -0x9(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
- mov    $0x1,%eax
+-mov    $0x1,%eax
 -jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xd5>
--mov    0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser7GetDBIDEv>
+ mov    0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser7GetDBIDEv>
 -mov    %eax,%ebx
 -mov    0xc(%ebp),%esi
--movl   $0x1a6,0x8(%esp)
--movl   $&_ZZN12CUserManager19InsertUser_CharNameEPcP5CUserE12__FUNCTION__,0x4(%esp)
++mov    %eax,-0xc(%ebp)
+ movl   $0x1a6,0x8(%esp)
+ movl   $&_ZZN12CUserManager19InsertUser_CharNameEPcP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0x10(%esp)
 -mov    %esi,0xc(%esp)
--movl   $"[INSERT_ERR]Already Exist!\tChar Name : %s\tDB No : %d\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
++mov    0xc(%ebp),%eax
++mov    -0xc(%ebp),%edx
++mov    %edx,0x10(%esp)
++mov    %eax,0xc(%esp)
+ movl   $"[INSERT_ERR]Already Exist!\tChar Name : %s\tDB No : %d\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    $0x0,%eax
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    $0x0,%eax
++jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xe4>
++mov    $0x1,%eax
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -185,16 +144,23 @@ CUserManager::_ZN12CUserManager19InsertUser_CharNameEPcP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 340 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 361 行）：
 
 ```cpp
-int CUserManager::InsertUser_CharName(char* name, CUser* user)
+bool CUserManager::InsertUser_CharName(char* name, CUser* user)
 {
     if (user == 0)
     {
         return 0;
     }
-    m_charNameUsers.insert(std::make_pair(std::string(name), user));
+    if (!m_charNameUsers.insert(std::pair<const std::string, CUser*>(name, user)).second)
+    {
+        unsigned int dbid = user->GetDBID();
+        CMyFileLog log(__FUNCTION__, 0x1a6);
+        log("./log/Except", "[INSERT_ERR]Already Exist!\tChar Name : %s\tDB No : %d\n",
+            name, dbid);
+        return 0;
+    }
     return 1;
 }
 ```

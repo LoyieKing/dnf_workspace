@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809c7ae` | `0x18a` | `0x80db1e0` | `0x190` |
+| dbmw | DIFF | `0x809c7ae` | `0x18a` | `0x80db2a6` | `0x190` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -188,7 +188,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnTcpServerHeartbeatEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2737 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2745 行）：
 
 ```cpp
 void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)
@@ -199,15 +199,14 @@ void CPacketTranslater::OnTcpServerHeartbeat(PacketHeader* header)
             return;
         Packet_Tcp_Server_Heartbeat* pkt =
             (Packet_Tcp_Server_Heartbeat*)header;
-        unsigned char idx = pkt->m_idx;
-        CServerHandler* handler = m_pclApp->Get_ServerHandler();
-        CTcpServer* server = handler->GetTcpServer(idx);
+        CTcpServer* server =
+            m_pclApp->Get_ServerHandler()->GetTcpServer(pkt->m_idx);
         if (!server)
         {
             DNF_LOG_SCOPE_LINE(0xc98,
                 "./log/TcpServer",
-                "CPacketTranslater::OnTcpServerHeartbeat Invalid Server Instance(TYPE:%d, sock:%d)", idx,
-                (int)pkt->reversed2
+                "CPacketTranslater::OnTcpServerHeartbeat Invalid Server Instance(TYPE:%d, sock:%d)", pkt->m_idx,
+                pkt->reversed2
             );
 
             return;

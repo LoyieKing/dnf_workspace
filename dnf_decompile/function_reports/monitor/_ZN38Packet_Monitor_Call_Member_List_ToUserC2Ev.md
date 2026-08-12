@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80928e0` | `0x31` | `0x807e806` | `0x74` |
+| monitor | DIFF | `0x80928e0` | `0x31` | `0x807e8b4` | `0x74` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -30,7 +30,7 @@
 -add    $0x12,%eax
 +lea    0x12(%eax),%esi
 +mov    %esi,0x4(%esp)
-+movl   $0xb,(%esp)
++movl   $0x1cf,(%esp)
 +call   <T> <_ZnwjPv>
 +mov    %eax,%ebx
 +mov    %ebx,%eax
@@ -76,14 +76,11 @@ Packet_Monitor_Call_Member_List_ToUser::_ZN38Packet_Monitor_Call_Member_List_ToU
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5919 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5925 行）：
 
 ```cpp
 Packet_Monitor_Call_Member_List_ToUser::Packet_Monitor_Call_Member_List_ToUser()
-    : PacketHeader(0x4be, 0x1e1)
+    : PacketHeader(0x4be, 0x1e1), m_memberList()
 {
-    // ORIG：lea 0x12(%eax) + call STMemberListInfo::STMemberListInfo()
-    // （GCC 4.4.x 不接受 ->Type::Type() 形式，用 placement new 等价展开）
-    new ((void*)((char*)this + 0x12)) STMemberListInfo;
 }
 ```

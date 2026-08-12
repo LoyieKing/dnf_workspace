@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| point | DIFF | `0x80bcf0a` | `0x22a` | `0x80a9e9c` | `0x23d` |
+| point | DIFF | `0x80bcf0a` | `0x22a` | `0x80a9efa` | `0x22d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -18,13 +18,11 @@
  mov    %esp,%ebp
  push   %esi
  push   %ebx
--sub    $0x30,%esp
-+sub    $0x40,%esp
+ sub    $0x30,%esp
  mov    0x8(%ebp),%eax
  add    $0x4,%eax
  mov    %eax,0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11TScopedLockINS_11TThreadLockINS_16ThreadLock_linuxEEEEC1ERS3_>
  mov    0x8(%ebp),%eax
@@ -35,51 +33,37 @@
  call   <T> <_ZNSt5queueIPN3nsl12ConInterfaceESt5dequeIS2_SaIS2_EEE4pushERKS2_>
  mov    0x8(%ebp),%eax
  movb   $0x1,(%eax)
--lea    -0x18(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11TScopedLockINS_11TThreadLockINS_16ThreadLock_linuxEEEED1Ev>
--jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x61>
-+jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x81>
+ jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x61>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x18(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11TScopedLockINS_11TThreadLockINS_16ThreadLock_linuxEEEED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--nop
-+mov    0xc(%ebp),%eax
-+movzbl 0x2c(%eax),%eax
-+test   %al,%al
-+je     <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x75>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x233>
-+movl   $0xa,(%esp)
-+call   <T> <_ZN3nsl7TSystemINS_11LinuxSystemEE5sleepEi>
+ nop
  mov    0x8(%ebp),%eax
  movzbl 0x1(%eax),%eax
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x8d>
--mov    0xc(%ebp),%eax
--movzbl 0x2c(%eax),%eax
--test   %al,%al
--jne    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x218>
--movl   $0xa,(%esp)
--call   <T> <_ZN3nsl7TSystemINS_11LinuxSystemEE5sleepEi>
--nop
--jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x61>
-+jne    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x60>
-+movl   $0x0,-0x14(%ebp)
+ je     <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x8d>
+ mov    0xc(%ebp),%eax
+ movzbl 0x2c(%eax),%eax
+ test   %al,%al
+ jne    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x218>
+ movl   $0xa,(%esp)
+ call   <T> <_ZN3nsl7TSystemINS_11LinuxSystemEE5sleepEi>
+ nop
+ jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x61>
  mov    0x8(%ebp),%eax
  add    $0x1c,%eax
  mov    %eax,0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11TScopedLockINS_11TThreadLockINS_16ThreadLock_linuxEEEEC1ERS3_>
  mov    0x8(%ebp),%eax
@@ -87,145 +71,110 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIiPN3nsl12ConInterfaceESt4lessIiESaISt4pairIKiS2_EEE5emptyEv>
  test   %al,%al
--je     <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0xd1>
-+je     <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0xdc>
+ je     <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0xd1>
  mov    0x8(%ebp),%eax
  movb   $0x0,0x1(%eax)
  movl   $0xa,(%esp)
  call   <T> <_ZN3nsl7TSystemINS_11LinuxSystemEE5sleepEi>
--mov    $0x0,%ebx
--jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x1ef>
-+movl   $0x0,-0x18(%ebp)
-+jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x205>
+ mov    $0x0,%ebx
+ jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x1ef>
  mov    0x8(%ebp),%eax
  lea    0x34(%eax),%edx
--lea    -0x20(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIiPN3nsl12ConInterfaceESt4lessIiESaISt4pairIKiS2_EEE5beginEv>
  sub    $0x4,%esp
--jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x19b>
--lea    -0x20(%ebp),%eax
-+jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x1af>
-+lea    -0x2c(%ebp),%eax
+ jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x19b>
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiPN3nsl12ConInterfaceEEEptEv>
  mov    0x4(%eax),%eax
--mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
-+mov    %eax,-0x10(%ebp)
-+mov    -0x10(%ebp),%eax
+ mov    %eax,-0xc(%ebp)
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl12ConInterface5getIdEv>
  mov    %eax,0x4(%esp)
  movl   $"rConInfo->getId-%d\n",(%esp)
  call   <T> <printf>
--mov    0xc(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl12ConInterface5getIdEv>
  mov    %eax,%ebx
--mov    -0xc(%ebp),%eax
-+mov    0xc(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl12ConInterface5getIdEv>
  cmp    %eax,%ebx
  sete   %al
  test   %al,%al
--je     <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x17e>
--mov    -0xc(%ebp),%eax
-+je     <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x192>
-+mov    -0x10(%ebp),%eax
+ je     <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x17e>
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl12ConInterface10getTCPUserEv>
--mov    0xc(%ebp),%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
-+mov    %eax,-0xc(%ebp)
-+mov    0xc(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
+ mov    0xc(%ebp),%edx
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN3nsl12ConInterface10setTCPUserEPNS_7TCPUserE>
  mov    0x8(%ebp),%eax
  lea    0x34(%eax),%edx
--mov    -0x20(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZNSt3mapIiPN3nsl12ConInterfaceESt4lessIiESaISt4pairIKiS2_EEE5eraseESt17_Rb_tree_iteratorIS7_E>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl12ConInterface10getTCPUserEv>
--mov    %eax,%esi
--mov    $0x1,%ebx
--jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x1ef>
--lea    -0x10(%ebp),%eax
-+mov    %eax,-0x14(%ebp)
-+movl   $0x1,-0x18(%ebp)
-+jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x205>
-+lea    -0x1c(%ebp),%eax
+ mov    %eax,%esi
+ mov    $0x1,%ebx
+ jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x1ef>
+ lea    -0x10(%ebp),%eax
  movl   $0x0,0x8(%esp)
--lea    -0x20(%ebp),%edx
-+lea    -0x2c(%ebp),%edx
+ lea    -0x20(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKiPN3nsl12ConInterfaceEEEppEi>
  sub    $0x4,%esp
  mov    0x8(%ebp),%eax
  lea    0x34(%eax),%edx
--lea    -0x14(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIiPN3nsl12ConInterfaceESt4lessIiESaISt4pairIKiS2_EEE3endEv>
  sub    $0x4,%esp
--lea    -0x14(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiPN3nsl12ConInterfaceEEEneERKS6_>
  test   %al,%al
--jne    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0xee>
--mov    $0x2,%ebx
--jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x1ef>
-+jne    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0xf9>
-+movl   $0x2,-0x18(%ebp)
-+jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x205>
+ jne    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0xee>
+ mov    $0x2,%ebx
+ jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x1ef>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x1c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11TScopedLockINS_11TThreadLockINS_16ThreadLock_linuxEEEED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--lea    -0x1c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN3nsl11TScopedLockINS_11TThreadLockINS_16ThreadLock_linuxEEEED1Ev>
--test   %ebx,%ebx
--je     <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x60>
--cmp    $0x1,%ebx
+ test   %ebx,%ebx
+ je     <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x60>
+ cmp    $0x1,%ebx
 -je     <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x21e>
-+cmpl   $0x0,-0x18(%ebp)
-+je     <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x22d>
-+cmpl   $0x1,-0x18(%ebp)
-+jne    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x221>
-+mov    -0x14(%ebp),%eax
-+jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x233>
++je     <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x220>
  movl   $0x64,(%esp)
  call   <T> <_ZN3nsl7TSystemINS_11LinuxSystemEE5sleepEi>
--jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x61>
+ jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x61>
  nop
--mov    $0x0,%esi
--mov    %esi,%eax
-+jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x81>
+ mov    $0x0,%esi
++jmp    <T> <_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE+0x221>
++nop
+ mov    %esi,%eax
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx

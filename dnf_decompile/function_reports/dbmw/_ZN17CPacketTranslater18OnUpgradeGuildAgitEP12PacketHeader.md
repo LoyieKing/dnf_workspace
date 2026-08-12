@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809a444` | `0x230` | `0x80d1a62` | `0x233` |
+| dbmw | DIFF | `0x809a444` | `0x230` | `0x80d1b32` | `0x233` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -232,16 +232,16 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 559 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 560 行）：
 
 ```cpp
 void CPacketTranslater::OnUpgradeGuildAgit(PacketHeader* header)
 {
-    if (!m_pclApp)
-        throw CDNFException(std::string(
-            "CPacketTranslater::OnUpgradeGuildAgit() : 0 == m_pclApp"));
     try
     {
+        if (!m_pclApp)
+            throw CDNFException(std::string(
+                "CPacketTranslater::OnUpgradeGuildAgit() : 0 == m_pclApp"));
         Packet_DB_Upgrade_Guild_Agit* pkt =
             (Packet_DB_Upgrade_Guild_Agit*)header;
         Packet_DB_Upgrade_Guild_Agit_Reply reply;

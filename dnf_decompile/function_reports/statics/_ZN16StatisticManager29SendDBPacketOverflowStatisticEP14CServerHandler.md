@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80703c6` | `0x11a` | `0x807011c` | `0x12d` |
+| statics | DIFF | `0x80703c6` | `0x11a` | `0x807007a` | `0x12d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -171,7 +171,7 @@ StatisticManager::_ZN16StatisticManager29SendDBPacketOverflowStatisticEP14CServe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 565 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 573 行）：
 
 ```cpp
 void StatisticManager::SendDBPacketOverflowStatistic(CServerHandler* handler)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8067606` | `0x47` | `0x80897ae` | `0x5b` |
+| guild | DIFF | `0x8067606` | `0x47` | `0x8089b6c` | `0x55` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,23 +1,32 @@
+@@ -1,23 +1,29 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x38,%esp
@@ -22,25 +22,23 @@
  lea    -0x1e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN50Packet_Send_All_User_Info_Minimum_For_Guild_SystemC1Ev>
-+lea    -0x1e(%ebp),%eax
-+lea    0xa(%eax),%edx
- mov    0xc(%ebp),%eax
+-mov    0xc(%ebp),%eax
 -mov    %eax,-0x14(%ebp)
-+mov    %eax,(%edx)
 +lea    -0x1e(%ebp),%eax
-+lea    0xe(%eax),%ebx
++mov    0xc(%ebp),%edx
++mov    %edx,0xa(%eax)
++lea    -0x1e(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x10(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x1e(%ebp),%eax
-+lea    0x12(%eax),%ebx
++mov    %eax,0xe(%ebx)
++lea    -0x1e(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0xc(%ebp)
-+mov    %eax,(%ebx)
++mov    %eax,0x12(%ebx)
  lea    -0x1e(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -78,15 +76,15 @@ void __thiscall CUser::_ZN5CUser32MakeGameServerSendUserInfoPacketEj(CUser *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 475 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 503 行）：
 
 ```cpp
 void CUser::MakeGameServerSendUserInfoPacket(unsigned int guildKey)
 {
     Packet_Send_All_User_Info_Minimum_For_Guild_System pkt;
-    *(unsigned int*)((char*)&pkt + 0xa) = guildKey;
-    *(unsigned int*)((char*)&pkt + 0xe) = GetUniqCharNo();
-    *(int*)((char*)&pkt + 0x12) = GetIdByChannel();
+    ((PktSendAllUserInfoLayout*)&pkt)->m_guildKey = guildKey;
+    ((PktSendAllUserInfoLayout*)&pkt)->m_charNo = GetUniqCharNo();
+    ((PktSendAllUserInfoLayout*)&pkt)->m_channel = GetIdByChannel();
     SendTcpGameserver(&pkt);
 }
 ```

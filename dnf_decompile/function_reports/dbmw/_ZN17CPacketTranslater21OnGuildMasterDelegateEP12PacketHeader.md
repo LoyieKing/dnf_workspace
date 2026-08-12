@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8097810` | `0x336` | `0x80cfef4` | `0x340` |
+| dbmw | DIFF | `0x8097810` | `0x336` | `0x80cffd2` | `0x33e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,212 +1,224 @@
+@@ -1,212 +1,223 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -23,7 +23,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x32a>
-+je     <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x331>
++je     <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x32f>
  mov    0x8(%ebp),%eax
  mov    %eax,-0x24(%ebp)
  mov    -0x24(%ebp),%eax
@@ -33,7 +33,7 @@
 +add    $0xa,%eax
 +mov    (%eax),%eax
 +test   %eax,%eax
-+je     <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x334>
++je     <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x332>
  lea    -0x84(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN37Packet_DB_Reply_Guild_Master_DelegateC1Ev>
@@ -89,7 +89,7 @@
 -je     <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0xdd>
 -movl   $0x56,-0x50(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x1b0>
-+jne    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x1bb>
++jne    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x1b9>
  mov    -0x72(%ebp),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0xeb>
@@ -102,7 +102,7 @@
 +jne    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x101>
 +movl   $0x22,-0x20(%ebp)
 +nop
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x1c5>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x1c3>
  mov    -0x24(%ebp),%eax
  add    $0x13,%eax
 -mov    %eax,-0x90(%ebp)
@@ -139,14 +139,12 @@
  mov    -0x9c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x1a9>
 -mov    -0x24(%ebp),%eax
 -mov    0xa(%eax),%ebx
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x1c4>
++je     <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x1c2>
 +mov    -0x24(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%ebx
@@ -165,9 +163,9 @@
 -jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x1b0>
 -movl   $0x0,-0x50(%ebp)
 +movl   $0x2,-0x20(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x1c5>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x1c3>
 +movl   $0x56,-0x20(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x1c5>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x1c3>
 +nop
 +movzwl -0x82(%ebp),%eax
 +movzwl %ax,%esi
@@ -228,10 +226,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x32b>
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x335>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x333>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x2ce>
-+jne    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x2d5>
++jne    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x2d3>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -255,7 +253,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x2c7>
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x2ce>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x2cc>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -265,7 +263,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x32b>
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x335>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x333>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x640,0x8(%esp)
@@ -279,7 +277,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x323>
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x32a>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x328>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -289,9 +287,9 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x32b>
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x335>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x333>
 +nop
-+jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x335>
++jmp    <T> <_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader+0x333>
  nop
  add    $0xbc,%esp
  pop    %ebx
@@ -384,7 +382,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 157 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 158 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildMasterDelegate(PacketHeader* header)

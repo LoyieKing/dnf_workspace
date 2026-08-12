@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809a86c` | `0xef` | `0x806138e` | `0xf1` |
+| guild | DIFF | `0x809a86c` | `0xef` | `0x8061178` | `0xe6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,49 +13,41 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,77 +1,75 @@
+@@ -1,77 +1,71 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
  sub    $0x24,%esp
  cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xe3>
-+je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xec>
++je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xe1>
  cmpl   $0x0,0x10(%ebp)
 -je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xe6>
-+je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xec>
++je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xe1>
  cmpl   $0x0,0x14(%ebp)
 -je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xe9>
-+je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xec>
-+mov    0x8(%ebp),%eax
-+mov    %eax,-0x10(%ebp)
++je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xe1>
  movl   $0x0,-0xc(%ebp)
--mov    0x8(%ebp),%edx
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
-+mov    -0x10(%ebp),%edx
+ mov    0x8(%ebp),%edx
+ lea    -0x14(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE5beginEv>
  sub    $0x4,%esp
--jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xb2>
--lea    -0x14(%ebp),%eax
-+jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xbd>
-+lea    -0x18(%ebp),%eax
+ jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xb2>
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
  mov    0x4(%eax),%eax
  test   %eax,%eax
  setne  %al
  test   %al,%al
--je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xa7>
-+je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xb2>
+ je     <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xa7>
  mov    -0xc(%ebp),%eax
  shl    $0x2,%eax
  mov    %eax,%ebx
  add    0xc(%ebp),%ebx
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
  mov    0x4(%eax),%eax
@@ -65,51 +57,41 @@
  shl    $0x2,%eax
  mov    %eax,%ebx
  add    0x10(%ebp),%ebx
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
  mov    0x4(%eax),%eax
--mov    0x4(%eax),%eax
-+add    $0x4,%eax
-+mov    (%eax),%eax
+ mov    0x4(%eax),%eax
  mov    %eax,(%ebx)
-+addl   $0x1,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
-+sub    $0x1,%eax
  add    %eax,%eax
  add    0x14(%ebp),%eax
 -addl   $0x1,-0xc(%ebp)
  mov    -0xc(%ebp),%edx
  mov    %dx,(%eax)
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++addl   $0x1,-0xc(%ebp)
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEppEv>
--mov    0x8(%ebp),%edx
--lea    -0x10(%ebp),%eax
-+lea    -0x14(%ebp),%eax
-+mov    -0x10(%ebp),%edx
+ mov    0x8(%ebp),%edx
+ lea    -0x10(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE3endEv>
  sub    $0x4,%esp
--lea    -0x10(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ lea    -0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxxneIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEEbRKNS_17__normal_iteratorIT_T0_EESE_>
  test   %al,%al
--jne    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0x43>
+ jne    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0x43>
 -jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xea>
 -nop
 -jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xea>
 -nop
 -jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0xea>
 -nop
-+jne    <T> <_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt+0x49>
  mov    -0x4(%ebp),%ebx
  leave
  ret
@@ -181,17 +163,15 @@ void CGuildWar::GetGuildWarInfo(unsigned int* a, unsigned int* b, unsigned short
 {
     if (a != 0 && b != 0 && c != 0)
     {
-        std::vector<std::pair<unsigned int, STGuildWarInfo*> >* vec = &m_vtGuildWarInfo;
         int idx = 0;
-        for (std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator it = vec->begin();
-             it != vec->end(); ++it)
+        for (std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator it =
+                 m_vtGuildWarInfo.begin(); it != m_vtGuildWarInfo.end(); ++it)
         {
             if (it->second != 0)
             {
-                a[idx] = *(unsigned int*)it->second;
-                b[idx] = *(unsigned int*)((char*)it->second + 4);
-                idx++;
-                c[idx - 1] = (unsigned short)idx;
+                a[idx] = it->second->m_guildKey;
+                b[idx] = it->second->m_point;
+                c[idx++] = (unsigned short)idx;
             }
         }
     }

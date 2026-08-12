@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a642c` | `0x12c` | `0x809678e` | `0x136` |
+| monitor | DIFF | `0x80a642c` | `0x12c` | `0x809684c` | `0x136` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -185,7 +185,7 @@ CLoginLogoutStatistics::_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LO
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/LoginLogoutStatistics.cpp](source/DNFServer/GameServer/Monitor/LoginLogoutStatistics.cpp)（约第 62 行）：
+定义于 [source/DNFServer/GameServer/Monitor/LoginLogoutStatistics.cpp](source/DNFServer/GameServer/Monitor/LoginLogoutStatistics.cpp)（约第 65 行）：
 
 ```cpp
 void CLoginLogoutStatistics::LoginLogout(ENUM_LOGIN_LOGOUT type, unsigned char channel)

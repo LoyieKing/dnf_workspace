@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8061e82` | `0x85` | `0x80614e0` | `0xa8` |
+| monitor | DIFF | `0x8061e82` | `0x85` | `0x80615c0` | `0x85` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,43 +1,50 @@
+@@ -1,43 +1,43 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -21,60 +21,41 @@
  mov    0xc(%ebp),%eax
  movzbl (%eax),%eax
  cmp    $0x23,%al
--jne    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x18>
-+jne    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x1b>
+ jne    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x18>
  mov    $0x0,%eax
--jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7f>
-+jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0xa2>
-+movl   $0x0,-0x14(%ebp)
-+movb   $0x0,-0xd(%ebp)
-+movl   $0x0,-0xc(%ebp)
+ jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7f>
  movl   $0x1,0xc(%esp)
--lea    -0x10(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ lea    -0x10(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"\t\"",0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN7DNFFLib13ExplodeStringEPcS0_PS0_i>
  cmp    $0x1,%eax
--jne    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x4d>
--mov    -0xc(%ebp),%eax
--test   %eax,%eax
--jne    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x4d>
-+jne    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x61>
-+cmpl   $0x0,-0xc(%ebp)
-+jne    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x61>
+ jne    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x4d>
+ mov    -0xc(%ebp),%eax
+ test   %eax,%eax
+ jne    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x4d>
  mov    $0x1,%eax
--jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x52>
-+jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x66>
+ jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x52>
  mov    $0x0,%eax
- test   %al,%al
--je     <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7a>
-+je     <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x6e>
-+movb   $0x1,-0xd(%ebp)
-+cmpb   $0x0,-0xd(%ebp)
-+je     <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x9d>
+-test   %al,%al
++mov    %eax,%ebx
++test   %bl,%bl
+ je     <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7a>
  cmpl   $0xa,0x10(%ebp)
--jg     <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7a>
--mov    0x10(%ebp),%ebx
--mov    -0x10(%ebp),%eax
-+jg     <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x9d>
-+mov    0x8(%ebp),%eax
-+mov    0x10(%ebp),%edx
-+add    $0x2,%edx
-+shl    $0x2,%edx
-+lea    (%eax,%edx,1),%ebx
-+mov    -0x14(%ebp),%eax
+ jg     <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7a>
+ mov    0x10(%ebp),%ebx
+ mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
 -mov    %eax,%edx
 -mov    0x8(%ebp),%eax
 -mov    %edx,0x8(%eax,%ebx,4)
-+mov    %eax,(%ebx)
++mov    0x8(%ebp),%edx
++mov    %eax,0x8(%edx,%ebx,4)
  mov    $0x1,%eax
--jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7f>
-+jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0xa2>
+ jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7f>
  mov    $0x0,%eax
  add    $0x24,%esp
  pop    %ebx
@@ -126,22 +107,17 @@ CMemberExpTbl::_ZN13CMemberExpTbl11Parse_TableEPci(CMemberExpTbl *this,char *par
 定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 87 行）：
 
 ```cpp
-int CMemberExpTbl::Parse_Table(char* line, int idx)
+bool CMemberExpTbl::Parse_Table(char* line, int idx)
 {
     if (line[0] == '#')
     {
         return 0;
     }
-    char* token = 0;
-    bool ok = false;
-    int tmp = 0;
-    if (DNFFLib::ExplodeString(line, "\t\"", &token, 1) == 1 && tmp == 0)
-    {
-        ok = true;
-    }
+    char* tokens[2];
+    register bool ok = DNFFLib::ExplodeString(line, "\t\"", tokens, 1) == 1 && tokens[1] == 0;
     if (ok && idx < 0xb)
     {
-        *(int*)((char*)this + idx * 4 + 8) = atoi(token);
+        m_table[idx] = atoi(tokens[0]);
         return 1;
     }
     return 0;

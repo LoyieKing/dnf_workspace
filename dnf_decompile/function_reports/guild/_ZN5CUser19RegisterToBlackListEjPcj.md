@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8067050` | `0x93` | `0x8089246` | `0xcd` |
+| guild | DIFF | `0x8067050` | `0x93` | `0x80895ec` | `0xcc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -27,7 +27,7 @@
 +test   %eax,%eax
 +jne    <T> <_ZN5CUser19RegisterToBlackListEjPcj+0x20>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN5CUser19RegisterToBlackListEjPcj+0xc2>
++jmp    <T> <_ZN5CUser19RegisterToBlackListEjPcj+0xc1>
  movl   $0x28,(%esp)
  call   <T> <_ZN10CBlackUsernwEj>
  mov    %eax,%ebx
@@ -85,7 +85,7 @@
 -movzbl -0x1c(%ebp),%eax
 -mov    -0x4(%ebp),%ebx
 -leave
-+mov    $0x1,%eax
++movzbl -0x2c(%ebp),%eax
 +lea    -0xc(%ebp),%esp
 +add    $0x0,%esp
 +pop    %ebx
@@ -126,10 +126,10 @@ CUser::_ZN5CUser19RegisterToBlackListEjPcj(CUser *this,uint param_1,char *param_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 361 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 380 行）：
 
 ```cpp
-int CUser::RegisterToBlackList(unsigned int charNo, char* name, unsigned int param)
+bool CUser::RegisterToBlackList(unsigned int charNo, char* name, unsigned int param)
 {
     if (name == 0 || charNo == 0)
     {
@@ -137,7 +137,6 @@ int CUser::RegisterToBlackList(unsigned int charNo, char* name, unsigned int par
     }
     CBlackUser* bu = new CBlackUser;
     bu->SetBlackUser(name, param);
-    m_blackList.insert(std::make_pair(charNo, bu));
-    return 1;
+    return m_blackList.insert(std::make_pair(charNo, bu)).second;
 }
 ```

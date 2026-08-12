@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8055bc6` | `0x80` | `0x80e51ae` | `0x74` |
+| dbmw | DIFF | `0x8055bc6` | `0x80` | `0x80e5204` | `0x74` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -91,7 +91,7 @@ void __thiscall CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEv(CFram
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp](source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp)（约第 32 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp](source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp)（约第 31 行）：
 
 ```cpp
 void CFrameCountHandler::SaveProcess()

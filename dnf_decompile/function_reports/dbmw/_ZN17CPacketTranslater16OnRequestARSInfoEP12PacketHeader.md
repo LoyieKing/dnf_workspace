@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809d53a` | `0x3a5` | `0x80d8b46` | `0x375` |
+| dbmw | DIFF | `0x809d53a` | `0x3a5` | `0x80d8c1c` | `0x373` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,236 +1,226 @@
+@@ -1,236 +1,225 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -27,20 +27,17 @@
 -je     <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x390>
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
-+je     <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x360>
++je     <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x35e>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  lea    0x50(%eax),%edx
  lea    -0x58(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN10CDBManager16QueryLoadARSInfoERSt6vectorI16st_ars_info_listSaIS1_EE>
--xor    $0x1,%eax
--test   %al,%al
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x82>
-+test   %al,%al
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x7e>
++je     <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x7c>
  movl   $0xdf6,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x4c(%ebp),%eax
@@ -52,7 +49,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x390>
-+jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x360>
++jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x35e>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -65,7 +62,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x215>
-+je     <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x1fd>
++je     <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x1fb>
  lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorI16st_ars_info_listSaIS0_EE4sizeEv>
@@ -73,7 +70,7 @@
 +mov    %eax,-0x20(%ebp)
 +movl   $0x0,-0x1c(%ebp)
  movl   $0x0,-0x18(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x1e7>
++jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x1e5>
 +lea    -0x517(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN19Packet_Set_ARS_InfoC1Ev>
@@ -88,7 +85,7 @@
 -nop
 -mov    -0x14(%ebp),%eax
 -addl   $0x1,-0x14(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x11f>
++jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x11d>
 +mov    -0x1c(%ebp),%eax
  mov    %eax,0x4(%esp)
  lea    -0x58(%ebp),%eax
@@ -114,15 +111,15 @@
 +addl   $0x1,-0x1c(%ebp)
 +addl   $0x1,-0x14(%ebp)
 +cmpl   $0x63,-0x14(%ebp)
-+jg     <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x134>
++jg     <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x132>
 +mov    -0x1c(%ebp),%eax
 +cmp    -0x20(%ebp),%eax
-+jge    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x134>
++jge    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x132>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x139>
++jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x137>
 +mov    $0x0,%eax
 +test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0xdf>
++jne    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0xdd>
  mov    -0x14(%ebp),%eax
 -cmp    -0x1c(%ebp),%eax
 -jl     <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0xe1>
@@ -131,15 +128,15 @@
 +mov    %al,-0x50d(%ebp)
  cmpl   $0x0,-0x18(%ebp)
 -jne    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x148>
-+jne    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x155>
++jne    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x153>
  movb   $0x0,-0x509(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x160>
-+jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x16d>
++jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x16b>
 +mov    -0x1c(%ebp),%eax
 +cmp    -0x20(%ebp),%eax
-+jl     <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x166>
++jl     <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x164>
 +movb   $0x2,-0x509(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x16d>
++jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x16b>
 +movb   $0x1,-0x509(%ebp)
  mov    -0x14(%ebp),%eax
 -cmp    -0x1c(%ebp),%eax
@@ -202,8 +199,8 @@
 +cmp    -0x20(%ebp),%eax
 +setl   %al
 +test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0xc8>
-+jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x360>
++jne    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0xc6>
++jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x35e>
  lea    -0x517(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN19Packet_Set_ARS_InfoC1Ev>
@@ -238,10 +235,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x390>
-+jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x360>
++jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x35e>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x31f>
-+jne    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x2ef>
++jne    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x2ed>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -265,7 +262,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x318>
-+jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x2e8>
++jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x2e6>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -274,9 +271,9 @@
 -jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x375>
 -call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x390>
-+jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x345>
++jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x343>
 +call   <T> <__cxa_end_catch>
-+jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x360>
++jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x35e>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xe37,0x8(%esp)
@@ -290,7 +287,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x36e>
-+jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x33e>
++jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x33c>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -299,9 +296,9 @@
 -jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x375>
 -call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x390>
-+jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x345>
++jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x343>
 +call   <T> <__cxa_end_catch>
-+jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x360>
++jmp    <T> <_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader+0x35e>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x58(%ebp),%eax
@@ -424,7 +421,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2165 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2172 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestARSInfo(PacketHeader* header)

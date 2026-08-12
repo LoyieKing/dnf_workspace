@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80a36d6` | `0xaa` | `0x80e8d6e` | `0xa5` |
+| dbmw | DIFF | `0x80a36d6` | `0xaa` | `0x80e8dbe` | `0xa5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -137,8 +137,7 @@ char CGuildManager::InitGuildWarPointList()
          it != m_warRankList.end(); ++it)
     {
         it->second->m_field4 = 0x3e8;
-        count++;
-        if (count > 0xa)
+        if (++count > 0xa)
             break;
     }
     return 1;

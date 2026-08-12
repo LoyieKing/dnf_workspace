@@ -1,3 +1,1 @@
-status	name	orig_addr	orig_size	new_addr	new_size	md_file
-DIFF	_ZN15TGlobalInstanceI23TextOutputDevice_stdoutE6createEv	0x8052782	0x93	0x805f44a	0xae	_ZN15TGlobalInstanceI23TextOutputDevice_stdoutE6createEv.md
-DIFF	_ZN9TCPSocket8shutdownEi	0x804c8c0	0xd	0x80534f4	0xa	_ZN9TCPSocket8shutdownEi.md
+status	name	orig_addr	orig_size	new_addr	new_size

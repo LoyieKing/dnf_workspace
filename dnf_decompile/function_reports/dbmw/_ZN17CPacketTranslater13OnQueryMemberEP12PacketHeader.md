@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80940b4` | `0x21b` | `0x80d3b22` | `0x203` |
+| dbmw | DIFF | `0x80940b4` | `0x21b` | `0x80d3be2` | `0x201` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,140 +1,132 @@
+@@ -1,140 +1,131 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -25,7 +25,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x210>
-+je     <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x1f9>
++je     <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x1f7>
  mov    0x8(%ebp),%eax
  mov    %eax,-0x18(%ebp)
  mov    -0x18(%ebp),%eax
@@ -40,12 +40,10 @@
  mov    %eax,0x4(%esp)
  mov    %ecx,(%esp)
  call   <T> <_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0xa4>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x1f9>
++je     <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x1f7>
  mov    -0x18(%ebp),%eax
  mov    0xa(%eax),%ebx
  movl   $0x117,0x8(%esp)
@@ -86,10 +84,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x211>
-+jmp    <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x1f9>
++jmp    <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x1f7>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x1a8>
-+jne    <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x193>
++jne    <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x191>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -123,7 +121,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x1a1>
-+jmp    <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x18c>
++jmp    <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x18a>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -133,7 +131,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x211>
-+jmp    <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x1f9>
++jmp    <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x1f7>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnQueryMember() Exception Break",(%esp)
@@ -149,7 +147,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x209>
-+jmp    <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x1f4>
++jmp    <T> <_ZN17CPacketTranslater13OnQueryMemberEP12PacketHeader+0x1f2>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -220,25 +218,24 @@ void CPacketTranslater::OnQueryMember(PacketHeader* header)
     try
     {
         Packet_DB_Reply_Query_Member reply;
-        if (m_pclApp)
+        if (!m_pclApp)
+            return;
+        Packet_DBMW_Query_Member* pkt = (Packet_DBMW_Query_Member*)header;
+        reply.m_fieldB = pkt->m_characNo;
+        if (!m_pclApp->m_dbManager.QueryMember(
+                pkt->m_characNo, reply))
         {
-            Packet_DBMW_Query_Member* pkt = (Packet_DBMW_Query_Member*)header;
-            reply.m_fieldB = pkt->m_characNo;
-            if (!m_pclApp->m_dbManager.QueryMember(
-                    pkt->m_characNo, reply))
-            {
-                DNF_LOG_SCOPE_LINE(0x117,
-                    "./log/QueryErr",
-                    "CPacketTranslater::OnQueryMember() Error, member_id(%d)", pkt->m_characNo
-                );
-
-                CMonitorServer* ms =
-                    m_pclApp->m_serverHandler->GetMonitorServer();
-                int size =
-                    reply.m_master.m_count * 0x27 + 0x3f;
-                ms->SendToServer((char*)&reply, size);
-            }
+            DNF_LOG_SCOPE_LINE(0x117,
+                "./log/QueryErr",
+                "CPacketTranslater::OnQueryMember() Error, member_id(%d)", pkt->m_characNo
+            );
         }
+        CMonitorServer* ms =
+            m_pclApp->m_serverHandler->GetMonitorServer();
+        reply.packetSize =
+            (unsigned short)((unsigned char)reply.m_master.m_count * 0x27) + 0x3f;
+        int size = reply.packetSize;
+        ms->SendToServer((char*)&reply, size);
     }
     DNF_CATCH_LOG_PRINTF("./log/Except",
                          "CPacketTranslater::OnQueryMember() Exception Break",

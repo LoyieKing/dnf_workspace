@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8059fcc` | `0x489` | `0x80ec6e4` | `0x41d` |
+| dbmw | DIFF | `0x8059fcc` | `0x489` | `0x80ec746` | `0x41d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -584,32 +584,32 @@ LAB_0805a36b:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 199 行）：
+定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 237 行）：
 
 ```cpp
 bool CPeer::parsing(int len)
 {
+    PacketHeader hdr(0, 0);
     int parsinglength = m_recvLen + len;
+    int headerSize = 10;
     if (parsinglength <= 9)
     {
         m_recvLen += len;
         m_sendBuf += len;
-        CMyFileLog log(__FUNCTION__, 0xbb);
-        log("./log/TcpRecv", "(offset:%x - buf:%x) = remainlen:%d, Recv Size[%d] ",
-            (char*)this + 0x1c, m_sendBuf, m_recvLen, len);
+        DNF_LOG_SCOPE_LINE(0xbb, "./log/TcpRecv",
+            "(offset:%x - buf:%x) = remainlen:%d, Recv Size[%d] ",
+            m_sendBuf, (char*)this + 0x1c, m_recvLen, len);
         return 1;
     }
-    for (;;)
+    do
     {
         if (m_recvLen != 0)
             m_sendBuf -= m_recvLen;
-        PacketHeader hdr(0, 0);
         memcpy(&hdr, m_sendBuf, 10);
-        int size = hdr.packetSize;
+        unsigned int size = hdr.packetSize;
         if (size <= 9 || size > 0x1800)
         {
-            CMyFileLog log(__FUNCTION__, 0xd0);
-            log("./log/TcpRecv",
+            DNF_LOG_SCOPE_LINE(0xd0, "./log/TcpRecv",
                 "Recv Size[%d], Parsing Packet Size[%d] is Too Large, offset:%x, buf:%x, alreadyRead:%d",
                 len, size, m_sendBuf, (char*)this + 0x1c, m_sendLen);
             m_sendBuf = (char*)this + 0x1c;
@@ -618,11 +618,10 @@ bool CPeer::parsing(int len)
         }
         if (parsinglength < size)
         {
-            CMyFileLog log(__FUNCTION__, 0x100);
-            log("./log/TcpRecv",
+            DNF_LOG_SCOPE_LINE(0x100, "./log/TcpRecv",
                 "need more data (packetsize > (unsigned int)parsinglength): body=%d !!",
                 parsinglength);
-            break;
+            goto out;
         }
         CTcpRecvBuffer* buf;
         {
@@ -634,6 +633,7 @@ bool CPeer::parsing(int len)
         {
             CGuard<CMutex> guard(m_sendQLock);
             m_recvQ->push(buf);
+            int qsize = m_recvQ->size();
         }
         parsinglength -= size;
         m_sendBuf += size;
@@ -641,30 +641,33 @@ bool CPeer::parsing(int len)
         if (parsinglength == 0)
         {
             m_sendBuf = (char*)this + 0x1c;
-            break;
+            goto out;
         }
-        if (parsinglength <= 9)
-        {
-            CMyFileLog log(__FUNCTION__, 0xf8);
-            log("./log/TcpRecv",
-                "need more data (parsinglength < HEADER_SIZE): body=%d !!",
-                parsinglength);
-            break;
-        }
-    }
+    } while (parsinglength > 9);
+    DNF_LOG_SCOPE_LINE(0xf8, "./log/TcpRecv",
+        "need more data (parsinglength < HEADER_SIZE): body=%d !!",
+        parsinglength);
+out:
     if (parsinglength > 0)
     {
-        if (parsinglength > 0x1800)
+        if ((unsigned int)parsinglength > 0x1800)
         {
-            CMyFileLog log(__FUNCTION__, 0x10e);
-            log("./log/TcpRecv",
+            DNF_LOG_SCOPE_LINE(0x10e, "./log/TcpRecv",
                 "[PARSING LENGTH EXCEPTION] parsinglength > MAX_RECV_BUF , memmove : parsinglength = %d",
                 parsinglength);
             return 0;
         }
-        memmove((char*)this + 0x1c, m_sendBuf, parsinglength);
-        m_recvLen = parsinglength;
-        m_sendBuf = (char*)this + 0x1c + parsinglength;
+        try
+        {
+            memmove((char*)this + 0x1c, m_sendBuf, parsinglength);
+            m_recvLen = parsinglength;
+            m_sendBuf = (char*)this + 0x1c + parsinglength;
+        }
+        catch (...)
+        {
+            printf("[PARSING EXCEPTION] memmove : parsinglength = %d", parsinglength);
+            return 0;
+        }
     }
     return 1;
 }

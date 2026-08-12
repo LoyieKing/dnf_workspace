@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809b142` | `0x9d` | `0x8061c28` | `0xad` |
+| guild | DIFF | `0x809b142` | `0x9d` | `0x8061a4c` | `0xab` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,53 +1,59 @@
+@@ -1,53 +1,58 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x78,%esp
@@ -25,12 +25,10 @@
  xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x97>
-+jne    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0xa3>
++jne    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0xa1>
  mov    0x8(%ebp),%eax
  movzbl 0xe(%eax),%eax
--lea    0x1(%eax),%edx
-+add    $0x1,%eax
-+mov    %eax,%edx
+ lea    0x1(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    %dl,0xe(%eax)
  mov    0x8(%ebp),%eax
@@ -39,7 +37,7 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x9a>
-+je     <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0xa6>
++je     <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0xa4>
  lea    -0x63(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN37Packet_Notice_DB_Save_Guild_War_PointC1Ev>
@@ -58,7 +56,7 @@
 +setne  %al
  test   %al,%al
 -je     <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x8e>
-+je     <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x9a>
++je     <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x98>
 +lea    -0x63(%ebp),%eax
 +lea    0xa(%eax),%ebx
  mov    0xc(%ebp),%eax
@@ -76,10 +74,10 @@
  mov    0x8(%ebp),%eax
  movb   $0x0,0xe(%eax)
 -jmp    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x9b>
-+jmp    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0xa7>
++jmp    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0xa5>
  nop
 -jmp    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0x9b>
-+jmp    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0xa7>
++jmp    <T> <_ZN9CGuildWar13DBSaveProcessEP12CApplication+0xa5>
  nop
 -leave
 +add    $0x74,%esp
@@ -123,16 +121,16 @@ CGuildWar::_ZN9CGuildWar13DBSaveProcessEP12CApplication(CGuildWar *this,CApplica
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 337 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 349 行）：
 
 ```cpp
 void CGuildWar::DBSaveProcess(CApplication* app)
 {
-    if (!IsGuildWarEventOn())
+    if (IsGuildWarEventOn() == 0)
     {
         return;
     }
-    m_bSaveCnt = (char)(m_bSaveCnt + 1);
+    m_bSaveCnt++;
     if (m_bSaveCnt == 0)
     {
         return;

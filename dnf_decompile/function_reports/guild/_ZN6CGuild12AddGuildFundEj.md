@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80921d4` | `0x169` | `0x8057fcc` | `0x161` |
+| guild | NEAR | `0x80921d4` | `0x169` | `0x8057da2` | `0x169` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,90 +25,40 @@
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
--je     <T> <_ZN6CGuild12AddGuildFundEj+0xe1>
-+jne    <T> <_ZN6CGuild12AddGuildFundEj+0xa2>
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE4sizeEv>
-+mov    %eax,-0x3c(%ebp)
-+mov    0x8(%ebp),%eax
-+movzwl 0x1c(%eax),%eax
-+movzwl %ax,%edi
-+mov    0x8(%ebp),%eax
-+add    $0xc0,%eax
-+mov    (%eax),%esi
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild11GetGuildKeyEv>
-+mov    %eax,%ebx
-+movl   $0xb06,0x8(%esp)
-+movl   $&_ZZN6CGuild12AddGuildFundEjE12__FUNCTION__,0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x3c(%ebp),%eax
-+mov    %eax,0x1c(%esp)
-+mov    %edi,0x18(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,0x14(%esp)
-+mov    %esi,0x10(%esp)
-+mov    %ebx,0xc(%esp)
-+movl   $"CPacketTranslater::AddGuildFund() Error!! : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u), STATE (%d), CONNECTING_GUILD_MEMBER_CNT (%d)\n",0x8(%esp)
-+movl   $"./log/GuildFund",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN6CGuild12AddGuildFundEj+0x159>
+ je     <T> <_ZN6CGuild12AddGuildFundEj+0xe1>
  mov    0x8(%ebp),%eax
  movb   $0x1,0x4d96(%eax)
  mov    0x8(%ebp),%eax
  add    $0xc0,%eax
--mov    %eax,-0x20(%ebp)
--mov    0x8(%ebp),%eax
--add    $0x3b,%eax
+ mov    %eax,-0x20(%ebp)
+ mov    0x8(%ebp),%eax
+ add    $0x3b,%eax
  mov    %eax,-0x1c(%ebp)
--mov    -0x20(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,%edx
  add    0xc(%ebp),%edx
--mov    -0x20(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    %edx,(%eax)
--mov    -0x1c(%ebp),%eax
-+mov    0x8(%ebp),%eax
-+add    $0x3b,%eax
+ mov    -0x1c(%ebp),%eax
  movzbl (%eax),%eax
  cmp    $0xf,%al
--jbe    <T> <_ZN6CGuild12AddGuildFundEj+0x6c>
--mov    -0x20(%ebp),%eax
-+jbe    <T> <_ZN6CGuild12AddGuildFundEj+0xdf>
-+mov    -0x1c(%ebp),%eax
+ jbe    <T> <_ZN6CGuild12AddGuildFundEj+0x6c>
+ mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  cmp    $0x989680,%eax
--jbe    <T> <_ZN6CGuild12AddGuildFundEj+0x6c>
--mov    -0x20(%ebp),%eax
--movl   $0x989680,(%eax)
--jmp    <T> <_ZN6CGuild12AddGuildFundEj+0x81>
--mov    -0x20(%ebp),%eax
-+ja     <T> <_ZN6CGuild12AddGuildFundEj+0xf6>
-+mov    -0x1c(%ebp),%eax
+ jbe    <T> <_ZN6CGuild12AddGuildFundEj+0x6c>
+ mov    -0x20(%ebp),%eax
+ movl   $0x989680,(%eax)
+ jmp    <T> <_ZN6CGuild12AddGuildFundEj+0x81>
+ mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  cmp    $0x1312d00,%eax
--jbe    <T> <_ZN6CGuild12AddGuildFundEj+0x81>
--mov    -0x20(%ebp),%eax
-+jbe    <T> <_ZN6CGuild12AddGuildFundEj+0x101>
-+mov    -0x1c(%ebp),%eax
+ jbe    <T> <_ZN6CGuild12AddGuildFundEj+0x81>
+ mov    -0x20(%ebp),%eax
  movl   $0x1312d00,(%eax)
--mov    0x8(%ebp),%eax
--mov    0xc0(%eax),%esi
-+jmp    <T> <_ZN6CGuild12AddGuildFundEj+0x102>
-+mov    -0x1c(%ebp),%eax
-+movl   $0x989680,(%eax)
-+jmp    <T> <_ZN6CGuild12AddGuildFundEj+0x102>
-+nop
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%esi
+ mov    0x8(%ebp),%eax
+ mov    0xc0(%eax),%esi
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild11GetGuildKeyEv>
@@ -116,7 +66,7 @@
  movl   $0xb0a,0x8(%esp)
  movl   $&_ZZN6CGuild12AddGuildFundEjE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
@@ -126,39 +76,41 @@
  movl   $"CPacketTranslater::AddGuildFund() : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u)\n",0x8(%esp)
  movl   $"./log/GuildFund",0x4(%esp)
 -lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN6CGuild12AddGuildFundEj+0x161>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE4sizeEv>
--mov    %eax,%esi
--mov    0x8(%ebp),%eax
--movzwl 0x1c(%eax),%eax
--movzwl %ax,%eax
--mov    %eax,-0x3c(%ebp)
--mov    0x8(%ebp),%eax
--mov    0xc0(%eax),%edi
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild11GetGuildKeyEv>
--mov    %eax,%ebx
--movl   $0xb06,0x8(%esp)
--movl   $&_ZZN6CGuild12AddGuildFundEjE12__FUNCTION__,0x4(%esp)
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ jmp    <T> <_ZN6CGuild12AddGuildFundEj+0x161>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE4sizeEv>
+ mov    %eax,%esi
+ mov    0x8(%ebp),%eax
+ movzwl 0x1c(%eax),%eax
+ movzwl %ax,%eax
+ mov    %eax,-0x3c(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0xc0(%eax),%edi
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild11GetGuildKeyEv>
+ mov    %eax,%ebx
+ movl   $0xb06,0x8(%esp)
+ movl   $&_ZZN6CGuild12AddGuildFundEjE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x1c(%esp)
--mov    -0x3c(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0x14(%esp)
--mov    %edi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::AddGuildFund() Error!! : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u), STATE (%d), CONNECTING_GUILD_MEMBER_CNT (%d)\n",0x8(%esp)
--movl   $"./log/GuildFund",0x4(%esp)
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %esi,0x1c(%esp)
+ mov    -0x3c(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x14(%esp)
+ mov    %edi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"CPacketTranslater::AddGuildFund() Error!! : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u), STATE (%d), CONNECTING_GUILD_MEMBER_CNT (%d)\n",0x8(%esp)
+ movl   $"./log/GuildFund",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  add    $0x5c,%esp
@@ -227,37 +179,38 @@ void __thiscall CGuild::_ZN6CGuild12AddGuildFundEj(CGuild *this,uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2133 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2153 行）：
 
 ```cpp
 void CGuild::AddGuildFund(unsigned int fund)
 {
-    if ((m_field1c & 4) == 0)
-    {
-        DNF_LOG_SCOPE_LINE(0xb06,"./log/GuildFund",
-            "CPacketTranslater::AddGuildFund() Error!! : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u), STATE (%d), CONNECTING_GUILD_MEMBER_CNT (%d)\n",
-            GetGuildKey(), *(unsigned int*)((char*)this + 0xc0), fund,
-            (unsigned int)m_field1c, (int)m_members.size());
-    }
-    else
+    if ((m_field1c & 4) != 0)
     {
         m_field4d96 = 1;
-        unsigned int* fundPtr = (unsigned int*)((char*)this + 0xc0);
+        unsigned int* fundPtr = &m_dbInfo.m_info.m_guildFund;
+        unsigned char* levelPtr = &m_dbInfo.m_info.m_guildLevel;
         *fundPtr += fund;
-        if ((unsigned char)*(char*)((char*)this + 0x3b) < 0x10 || *fundPtr < 0x989681)
+        if (*levelPtr > 0xf && *fundPtr > 0x989680)
         {
-            if (20000000 < *fundPtr)
-            {
-                *fundPtr = 20000000;
-            }
+            *fundPtr = 0x989680;
         }
         else
         {
-            *fundPtr = 10000000;
+            if (*fundPtr > 0x1312d00)
+            {
+                *fundPtr = 0x1312d00;
+            }
         }
         DNF_LOG_SCOPE_LINE(0xb0a,"./log/GuildFund",
             "CPacketTranslater::AddGuildFund() : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u)\n",
-            GetGuildKey(), *fundPtr, fund);
+            GetGuildKey(), m_dbInfo.m_info.m_guildFund, fund);
+    }
+    else
+    {
+        DNF_LOG_SCOPE_LINE(0xb06,"./log/GuildFund",
+            "CPacketTranslater::AddGuildFund() Error!! : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u), STATE (%d), CONNECTING_GUILD_MEMBER_CNT (%d)\n",
+            GetGuildKey(), m_dbInfo.m_info.m_guildFund, fund,
+            m_field1c, m_members.size());
     }
 }
 ```

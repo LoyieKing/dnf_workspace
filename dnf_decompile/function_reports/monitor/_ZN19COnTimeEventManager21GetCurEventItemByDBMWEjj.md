@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4bc0` | `0x85` | `0x8099e82` | `0x82` |
+| monitor | DIFF | `0x80a4bc0` | `0x85` | `0x8099f3e` | `0x82` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -17,13 +17,11 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
-+mov    0xc(%ebp),%edx
  mov    0x8(%ebp),%eax
--mov    0xc(%ebp),%edx
+ mov    0xc(%ebp),%edx
  mov    %edx,0x24(%eax)
-+mov    0x10(%ebp),%edx
  mov    0x8(%ebp),%eax
--mov    0x10(%ebp),%edx
+ mov    0x10(%ebp),%edx
  mov    %edx,0x28(%eax)
  lea    -0x1e(%ebp),%eax
  mov    %eax,(%esp)

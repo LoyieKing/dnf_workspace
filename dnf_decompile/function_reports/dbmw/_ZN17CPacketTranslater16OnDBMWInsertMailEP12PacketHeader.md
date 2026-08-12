@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809ca50` | `0x28f` | `0x80d3894` | `0x28e` |
+| dbmw | DIFF | `0x809ca50` | `0x28f` | `0x80d3956` | `0x28c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,179 +1,181 @@
+@@ -1,179 +1,180 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,7 +24,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x283>
-+je     <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x282>
++je     <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x280>
  mov    0x8(%ebp),%eax
  mov    %eax,-0x30(%ebp)
 -movl   $0x0,-0x2c(%ebp)
@@ -32,7 +32,7 @@
  mov    0x12f(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0xb9>
-+je     <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x167>
++je     <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x165>
  movl   $0x0,(%esp)
  call   <T> <time>
  mov    %eax,-0x60(%ebp)
@@ -134,12 +134,10 @@
 +mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
  call   <T> <_ZN10CDBManager10InsertMailEjPcS0_jjii>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x168>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x167>
++je     <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x165>
  mov    -0x30(%ebp),%eax
  mov    0xa(%eax),%ebx
  movl   $0xd1e,0x8(%esp)
@@ -154,7 +152,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x284>
-+jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x283>
++jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x281>
  lea    -0x5a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN30Packet_Monitor_Notify_New_MailC1Ev>
@@ -173,10 +171,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x284>
-+jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x283>
++jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x281>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x227>
-+jne    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x226>
++jne    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x224>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -200,7 +198,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x220>
-+jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x21f>
++jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x21d>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -210,7 +208,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x284>
-+jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x283>
++jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x281>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xd2e,0x8(%esp)
@@ -224,7 +222,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x27c>
-+jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x27b>
++jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x279>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -234,7 +232,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x284>
-+jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x283>
++jmp    <T> <_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader+0x281>
  nop
 -add    $0x9c,%esp
 +add    $0x8c,%esp

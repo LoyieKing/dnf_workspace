@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80915e6` | `0x1e9` | `0x80cddfa` | `0x1e8` |
+| dbmw | DIFF | `0x80915e6` | `0x1e9` | `0x80cdedc` | `0x1e8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -223,7 +223,7 @@ CPacketDecoder::_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp](source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp)（约第 238 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp](source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp)（约第 240 行）：
 
 ```cpp
 bool CPacketDecoder::MsgDecode(PacketHeader* header)
@@ -244,10 +244,11 @@ bool CPacketDecoder::MsgDecode(PacketHeader* header)
         return 1;
     }
     printf("Game Message with identifier %i has arrived.\n", header->packetId);
+    register unsigned int id = header->packetId;
     CMyFileLog log(__FUNCTION__, 0x1da);
     log("./log/Decoder.log",
         "CPacketDecoder::MsgDecode() Game Message with identifier %i has arrived.\n",
-        header->packetId);
+        id);
     return 0;
 }
 ```

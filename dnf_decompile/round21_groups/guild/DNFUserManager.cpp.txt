@@ -1,0 +1,8 @@
+DIFF   _ZN12CUserManager10CreateUserEjjPciP11CGameServer
+DIFF   _ZN12CUserManager10DeleteUserEP5CUser
+DIFF   _ZN12CUserManager10DeleteUserEj
+DIFF   _ZN12CUserManager17DeleteUser_CharNoEj
+DIFF   _ZN12CUserManager17InsertUser_CharNoEjP5CUser
+DIFF   _ZN12CUserManager19InsertUser_CharNameEPcP5CUser
+DIFF   _ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer
+DIFF   _ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer

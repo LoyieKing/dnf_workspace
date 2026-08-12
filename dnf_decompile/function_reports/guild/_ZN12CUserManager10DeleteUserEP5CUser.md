@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8068bd8` | `0xea` | `0x808ae32` | `0xfa` |
+| guild | DIFF | `0x8068bd8` | `0xea` | `0x808b1a2` | `0xfa` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,65 +1,71 @@
+@@ -1,65 +1,70 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -22,18 +22,13 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5emptyEv>
  test   %al,%al
--je     <T> <_ZN12CUserManager10DeleteUserEP5CUser+0x20>
-+jne    <T> <_ZN12CUserManager10DeleteUserEP5CUser+0x1c>
-+cmpl   $0x0,0xc(%ebp)
-+jne    <T> <_ZN12CUserManager10DeleteUserEP5CUser+0x23>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN12CUserManager10DeleteUserEP5CUser+0x28>
+ je     <T> <_ZN12CUserManager10DeleteUserEP5CUser+0x20>
  mov    $0x0,%eax
 -jmp    <T> <_ZN12CUserManager10DeleteUserEP5CUser+0xe4>
--cmpl   $0x0,0xc(%ebp)
++jmp    <T> <_ZN12CUserManager10DeleteUserEP5CUser+0xf4>
+ cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN12CUserManager10DeleteUserEP5CUser+0xdf>
-+test   %al,%al
-+je     <T> <_ZN12CUserManager10DeleteUserEP5CUser+0x36>
++jne    <T> <_ZN12CUserManager10DeleteUserEP5CUser+0x30>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN12CUserManager10DeleteUserEP5CUser+0xf4>
  mov    0xc(%ebp),%eax
@@ -43,7 +38,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN12CUserManager10DeleteUserEP5CUser+0x48>
-+je     <T> <_ZN12CUserManager10DeleteUserEP5CUser+0x54>
++je     <T> <_ZN12CUserManager10DeleteUserEP5CUser+0x4e>
  mov    $0x0,%eax
 -jmp    <T> <_ZN12CUserManager10DeleteUserEP5CUser+0xe4>
 +jmp    <T> <_ZN12CUserManager10DeleteUserEP5CUser+0xf4>
@@ -85,6 +80,8 @@
 +lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++cmpl   $0x0,0xc(%ebp)
++je     <T> <_ZN12CUserManager10DeleteUserEP5CUser+0xef>
  mov    0xc(%ebp),%ebx
  test   %ebx,%ebx
 -je     <T> <_ZN12CUserManager10DeleteUserEP5CUser+0xd8>
@@ -154,12 +151,16 @@ CUserManager::_ZN12CUserManager10DeleteUserEP5CUser(CUserManager *this,CUser *pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 144 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 142 行）：
 
 ```cpp
 int CUserManager::DeleteUser(CUser* user)
 {
-    if (m_users.empty() || user == 0)
+    if (m_users.empty())
+    {
+        return 0;
+    }
+    if (user == 0)
     {
         return 0;
     }
@@ -172,8 +173,11 @@ int CUserManager::DeleteUser(CUser* user)
     {
         char* mid = NumberToString(dbid, 0);
         DNF_LOG_SCOPE_LINE(0x7d, "./log/User", "[USER LOGOUT] Disconnected User DB ID : %s\n", mid);
-        delete user;
-        return 1;
+        if (user != 0)
+        {
+            delete user;
+            return 1;
+        }
     }
     return 0;
 }

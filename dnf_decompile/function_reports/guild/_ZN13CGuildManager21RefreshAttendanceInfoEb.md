@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80977c6` | `0xe0` | `0x805d77a` | `0xc9` |
+| guild | DIFF | `0x80977c6` | `0xe0` | `0x805d55a` | `0xbd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,27 +13,22 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,60 +1,66 @@
+@@ -1,60 +1,62 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
  mov    0xc(%ebp),%eax
  mov    %al,-0x1c(%ebp)
--lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
-+movl   $0x0,(%esp)
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
  call   <T> <time>
-+mov    %eax,-0x10(%ebp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <localtime>
  mov    %eax,-0xc(%ebp)
--cmpb   $0x0,-0x1c(%ebp)
+ cmpb   $0x0,-0x1c(%ebp)
 -jne    <T> <_ZN13CGuildManager21RefreshAttendanceInfoEb+0x51>
-+movzbl -0x1c(%ebp),%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN13CGuildManager21RefreshAttendanceInfoEb+0x53>
++jne    <T> <_ZN13CGuildManager21RefreshAttendanceInfoEb+0x4a>
  mov    0x8(%ebp),%eax
 -mov    0xc0(%eax),%edx
 +add    $0xc0,%eax
@@ -42,12 +37,12 @@
  mov    0xc(%eax),%eax
  cmp    %eax,%edx
 -je     <T> <_ZN13CGuildManager21RefreshAttendanceInfoEb+0xde>
-+jne    <T> <_ZN13CGuildManager21RefreshAttendanceInfoEb+0x53>
++je     <T> <_ZN13CGuildManager21RefreshAttendanceInfoEb+0xbb>
  mov    -0xc(%ebp),%eax
  mov    0x8(%eax),%eax
  cmp    $0x6,%eax
 -jne    <T> <_ZN13CGuildManager21RefreshAttendanceInfoEb+0xde>
-+jne    <T> <_ZN13CGuildManager21RefreshAttendanceInfoEb+0xc6>
++jne    <T> <_ZN13CGuildManager21RefreshAttendanceInfoEb+0xbb>
  mov    0x8(%ebp),%eax
  add    $0x9c,%eax
  mov    %eax,(%esp)
@@ -106,8 +101,6 @@
 +mov    %ecx,0x24(%edx)
 +mov    0x28(%eax),%eax
 +mov    %eax,0x28(%edx)
-+jmp    <T> <_ZN13CGuildManager21RefreshAttendanceInfoEb+0xc7>
-+nop
  leave
  ret
 ```
@@ -152,20 +145,21 @@ CGuildManager::_ZN13CGuildManager21RefreshAttendanceInfoEb(CGuildManager *this,b
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 804 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 842 行）：
 
 ```cpp
 void CGuildManager::RefreshAttendanceInfo(bool flag)
 {
-    time_t now = time(0);
-    tm* t = localtime(&now);
-    if (!flag && *(unsigned int*)((char*)this + 0xc0) == (unsigned int)t->tm_mday &&
-        t->tm_hour != 6)
+    time_t now;
+    tm* t;
+    time(&now);
+    t = localtime(&now);
+    if (flag || *(unsigned int*)((char*)this + 0xc0) != (unsigned int)t->tm_mday &&
+        t->tm_hour == 6)
     {
-        return;
+        m_attendance.clear();
+        m_app->Get_UserManager()->RefreshGuildAttendanceInfo();
+        *(tm*)((char*)this + 0xb4) = *t;
     }
-    m_attendance.clear();
-    m_app->Get_UserManager()->RefreshGuildAttendanceInfo();
-    *(tm*)((char*)this + 0xb4) = *t;
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8071b74` | `0x216` | `0x808b902` | `0x217` |
+| monitor | DIFF | `0x8071b74` | `0x216` | `0x808b9ba` | `0x217` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -314,7 +314,7 @@ CUserManager::_ZN12CUserManager23SendConnectedBuddysListEP5CUser(CUserManager *t
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 302 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 301 行）：
 
 ```cpp
 void CUserManager::SendConnectedBuddysList(CUser* user)

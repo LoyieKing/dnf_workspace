@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8076258` | `0x228` | `0x804e4da` | `0x20e` |
+| dbmw | DIFF | `0x8076258` | `0x228` | `0x804e508` | `0x20e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -277,10 +277,10 @@ CDBManager::_ZN10CDBManager14QueryBlackListEjP17STBlackUserDBType
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 340 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 380 行）：
 
 ```cpp
-char CDBManager::QueryBlackList(unsigned int m_id, STBlackUserDBType* list)
+bool CDBManager::QueryBlackList(unsigned int m_id, STBlackUserDBType* list)
 {
     CDBHandle* h = m_handles[3];    // game db
     if (!h->set_query(0x4e44,

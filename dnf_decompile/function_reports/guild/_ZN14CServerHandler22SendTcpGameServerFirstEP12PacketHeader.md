@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806d76c` | `0xce` | `0x80817d6` | `0xc1` |
+| guild | DIFF | `0x806d76c` | `0xce` | `0x8081922` | `0xc1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -139,7 +139,7 @@ CServerHandler::_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 335 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 368 行）：
 
 ```cpp
 void CServerHandler::SendTcpGameServerFirst(PacketHeader* pkt)

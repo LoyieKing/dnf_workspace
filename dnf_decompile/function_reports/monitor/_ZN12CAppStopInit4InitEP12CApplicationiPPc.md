@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806bbd6` | `0x248` | `0x804fd2e` | `0x248` |
+| monitor | DIFF | `0x806bbd6` | `0x248` | `0x804fd2e` | `0x24d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,174 +1,173 @@
+@@ -1,174 +1,175 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -76,9 +76,11 @@
 +mov    0xc(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication16Send_Term_SignalERKSs>
++test   %al,%al
++sete   %al
 +mov    %al,-0x19(%ebp)
-+cmpb   $0x1,-0x19(%ebp)
-+je     <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x171>
++cmpb   $0x0,-0x19(%ebp)
++je     <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x176>
  lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -97,7 +99,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x127>
-+jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x107>
++jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x10c>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -110,23 +112,23 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x121>
-+jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x101>
++jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x106>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x13e>
-+jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x11e>
++jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x123>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x13e>
-+jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x11e>
++jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x123>
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x159>
-+jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x133>
++jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x138>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x13e>
-+jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x11e>
++jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x123>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
@@ -137,7 +139,7 @@
  mov    %ebx,%edx
 -mov    %eax,(%esp)
 -call   <T> <_Unwind_Resume>
-+jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x156>
++jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x15b>
  lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -176,7 +178,8 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
- jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x1f3>
+-jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x1f3>
++jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x1f8>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -188,19 +191,24 @@
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x1ed>
+-jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x1ed>
++jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x1f2>
  cmp    $0xffffffff,%edx
- jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20a>
+-jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20a>
++jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20f>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
- jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20a>
+-jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20a>
++jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20f>
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x225>
+-jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x225>
++jmp    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x22a>
  cmp    $0xffffffff,%edx
- jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20a>
+-jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20a>
++jne    <T> <_ZN12CAppStopInit4InitEP12CApplicationiPPc+0x20f>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
@@ -289,8 +297,8 @@ void CAppStopInit::Init(CApplication* app, int argc, char** argv)
     app->Clear();
     {
         std::string pidFile(argv[1]);
-        char ok = app->Send_Term_Signal(pidFile);
-        if (ok != 1)
+        bool fail = !app->Send_Term_Signal(pidFile);
+        if (fail)
         {
             throw CDNFException(
                 "CAppStopInit::Init()\xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1\xb5\xc7\xbe\xfa\xc0\xbd!");

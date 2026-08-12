@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805374e` | `0xa8` | `0x80a2f7a` | `0xa2` |
+| monitor | DIFF | `0x805374e` | `0xa8` | `0x80a3034` | `0xa0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,55 +1,54 @@
+@@ -1,55 +1,53 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -47,11 +47,18 @@
 +call   <T> <_ZN6CGuardI6CMutexED1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN13CTcpNetSystem23PopDeleteTcpSendPacketQEP14CTcpSendBuffer+0x75>
++jmp    <T> <_ZN13CTcpNetSystem23PopDeleteTcpSendPacketQEP14CTcpSendBuffer+0x85>
 +lea    -0x10(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+jmp    <T> <_ZN13CTcpNetSystem23PopDeleteTcpSendPacketQEP14CTcpSendBuffer+0x90>
++lea    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++add    $0x20,%esp
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0xc(%ebp),%eax
@@ -61,9 +68,9 @@
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
- lea    -0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuardI6CMutexED1Ev>
+-lea    -0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuardI6CMutexED1Ev>
 -mov    0x8(%ebp),%eax
 -add    $0x100,%eax
 -mov    %eax,0x4(%esp)
@@ -86,11 +93,11 @@
 -lea    -0x10(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CGuardI6CMutexED1Ev>
- add    $0x20,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-add    $0x20,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

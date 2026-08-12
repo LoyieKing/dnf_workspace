@@ -251,3 +251,5 @@ _ZN17ChannelServiceApp14ChannelService24onCS_UPDATE_CHANNEL_INFOEP15tagPacketHea
  sub    $0x4c,%esp
  movl   $&_ZN17ChannelServiceApp12gFileLogInfoE,(%esp)
  call   <T> <_ZN11TDebugTraceIcE4LockEv>",2026-08-11
+_ZN9TCPSocket8shutdownEi,TCPSocket::shutdown(int),fixed,"第 14 轮源码修复完成：改为 void 返回 + 函数尾部 `if (sock_ == -1) { return; }`。GCC 4.4 -O0 对普通死比较语句整体消除，但尾部 if-return 两路径同汇尾声时分支被折叠、比较被保留，逐条复现 ORIG 的 push/mov/mov/cmp/pop/ret（0xd=0xd，IDENTICAL）。","",2026-08-12
+_ZN15TGlobalInstanceI23TextOutputDevice_stdoutE6createEv,TGlobalInstance<TextOutputDevice_stdout>::create(),fixed,"第 14 轮源码修复完成：删除 ChannelService.cpp 显式特化与 TextOutputDevice_stdout 用户空构造，恢复 DebugLog.h 头模板 `m_p = new T()`（value-init）。stdout 无用户构造函数 -> operator new + memset + 隐式 C1（置 vptr），与 ORIG 逐条一致（0x93=0x93，无 _ZnwjPv/null check）；FILE 有用户构造不受影响。","",2026-08-12

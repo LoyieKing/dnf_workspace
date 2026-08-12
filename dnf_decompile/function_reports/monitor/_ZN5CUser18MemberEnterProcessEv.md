@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806d608` | `0x43` | `0x8088d34` | `0x41` |
+| monitor | DIFF | `0x806d608` | `0x43` | `0x8088de6` | `0x4e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,15 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,25 +1,25 @@
+@@ -1,25 +1,29 @@
  push   %ebp
  mov    %esp,%ebp
++sub    $0x10,%esp
  mov    0x8(%ebp),%eax
  mov    0x1c(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN5CUser18MemberEnterProcessEv+0x40>
-+je     <T> <_ZN5CUser18MemberEnterProcessEv+0x3b>
++je     <T> <_ZN5CUser18MemberEnterProcessEv+0x48>
  mov    0x8(%ebp),%eax
 -movzbl 0x1a(%eax),%eax
 -lea    -0x1(%eax),%edx
@@ -32,20 +33,23 @@
  mov    0x8(%ebp),%eax
  movzbl 0x1a(%eax),%eax
  test   %al,%al
--setle  %al
+ setle  %al
 -test   %al,%al
 -je     <T> <_ZN5CUser18MemberEnterProcessEv+0x41>
-+jg     <T> <_ZN5CUser18MemberEnterProcessEv+0x3e>
++mov    %al,-0x1(%ebp)
++cmpb   $0x0,-0x1(%ebp)
++je     <T> <_ZN5CUser18MemberEnterProcessEv+0x4b>
  mov    0x8(%ebp),%eax
  movl   $0x0,0x1c(%eax)
  mov    0x8(%ebp),%eax
  movb   $0x0,0x1a(%eax)
 -jmp    <T> <_ZN5CUser18MemberEnterProcessEv+0x41>
-+jmp    <T> <_ZN5CUser18MemberEnterProcessEv+0x3f>
-+nop
-+jmp    <T> <_ZN5CUser18MemberEnterProcessEv+0x3f>
++jmp    <T> <_ZN5CUser18MemberEnterProcessEv+0x4c>
  nop
- pop    %ebp
+-pop    %ebp
++jmp    <T> <_ZN5CUser18MemberEnterProcessEv+0x4c>
++nop
++leave
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -76,7 +80,8 @@ void CUser::MemberEnterProcess()
     if (((RA_INT<28>*)this)->v != 0)
     {
         ((RA_S8<26>*)this)->v = ((RA_S8<26>*)this)->v - 1;
-        if ((signed char)((RA_S8<26>*)this)->v <= 0)
+        bool done = (signed char)((RA_S8<26>*)this)->v <= 0;
+        if (done)
         {
             ((RA_INT<28>*)this)->v = 0;
             ((RA_S8<26>*)this)->v = 0;

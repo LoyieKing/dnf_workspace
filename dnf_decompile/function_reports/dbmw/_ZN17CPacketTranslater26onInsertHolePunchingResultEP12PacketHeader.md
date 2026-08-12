@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80a0ff4` | `0x17e` | `0x80d5e7c` | `0x17b` |
+| dbmw | DIFF | `0x80a0ff4` | `0x17e` | `0x80d5f24` | `0x179` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,97 +1,96 @@
+@@ -1,97 +1,95 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -42,12 +42,10 @@
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x177>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x174>
++je     <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x172>
  movl   $0x15c0,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
@@ -61,10 +59,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x177>
-+jmp    <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x174>
++jmp    <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x172>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x11d>
-+jne    <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x11a>
++jne    <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x118>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -90,7 +88,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x116>
-+jmp    <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x113>
++jmp    <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x111>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -100,7 +98,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x177>
-+jmp    <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x174>
++jmp    <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x172>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x15cb,0x8(%esp)
@@ -116,7 +114,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x172>
-+jmp    <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x16f>
++jmp    <T> <_ZN17CPacketTranslater26onInsertHolePunchingResultEP12PacketHeader+0x16d>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>

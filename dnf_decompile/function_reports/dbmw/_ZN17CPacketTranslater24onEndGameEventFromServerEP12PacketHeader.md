@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80a0db8` | `0x23b` | `0x80d50a8` | `0x23a` |
+| dbmw | DIFF | `0x80a0db8` | `0x23b` | `0x80d515c` | `0x235` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,147 +1,148 @@
+@@ -1,147 +1,146 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -46,12 +46,9 @@
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN10CDBManager21updateServerGameEventEP30Packet_StopGameEventFromServer>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0xa7>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0xa9>
+ je     <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0xa7>
  movl   $0x1596,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x38(%ebp),%eax
@@ -63,7 +60,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x234>
-+jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x233>
++jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x22e>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -72,10 +69,9 @@
  call   <T> <_ZN14CServerHandler12GetTcpServerEh>
 -mov    %eax,-0x1c(%ebp)
 -cmpl   $0x0,-0x1c(%ebp)
--je     <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x12c>
 +mov    %eax,-0x14(%ebp)
 +cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x131>
+ je     <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x12c>
  movl   $0x16,0x8(%esp)
  movl   $0x27fc,0x4(%esp)
 -mov    -0x1c(%ebp),%eax
@@ -83,7 +79,6 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CTcpServer16makePacketHeaderEtt>
 -mov    %eax,-0x18(%ebp)
-+movzwl %ax,%eax
 +mov    %eax,-0x10(%ebp)
 +mov    -0x10(%ebp),%eax
 +lea    0xa(%eax),%edx
@@ -121,7 +116,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CTcpServer12SendToServerEPc>
 -jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x234>
-+jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x233>
++jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x22e>
 +mov    -0x18(%ebp),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
@@ -136,10 +131,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x234>
-+jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x233>
++jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x22e>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x1da>
-+jne    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x1d9>
++jne    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x1d4>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -165,7 +160,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x1d3>
-+jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x1d2>
++jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x1cd>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -175,7 +170,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x234>
-+jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x233>
++jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x22e>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x15b1,0x8(%esp)
@@ -191,7 +186,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x22f>
-+jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x22e>
++jmp    <T> <_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader+0x229>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809a95c` | `0x120` | `0x8061480` | `0x117` |
+| guild | DIFF | `0x809a95c` | `0x120` | `0x806125e` | `0x12c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,33 +13,24 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,90 +1,85 @@
+@@ -1,90 +1,94 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
--sub    $0x24,%esp
-+sub    $0x34,%esp
+ sub    $0x24,%esp
  cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0x11a>
--movl   $0x0,-0xc(%ebp)
--mov    0x8(%ebp),%edx
--lea    -0x14(%ebp),%eax
-+jne    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0x17>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0x112>
-+mov    0x8(%ebp),%eax
-+mov    %eax,-0x14(%ebp)
-+movl   $0x0,-0x10(%ebp)
-+lea    -0x1c(%ebp),%eax
-+mov    -0x14(%ebp),%edx
++je     <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0x126>
+ movl   $0x0,-0xc(%ebp)
+ mov    0x8(%ebp),%edx
+ lea    -0x14(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0xe9>
--lea    -0x14(%ebp),%eax
-+jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0xde>
-+lea    -0x1c(%ebp),%eax
++jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0xf5>
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
  mov    0x4(%eax),%eax
@@ -47,100 +38,87 @@
  setne  %al
  test   %al,%al
 -je     <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0xde>
--mov    -0xc(%ebp),%edx
-+je     <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0xd3>
++je     <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0xea>
 +mov    0xc(%ebp),%ecx
-+mov    -0x10(%ebp),%edx
+ mov    -0xc(%ebp),%edx
  mov    %edx,%eax
  shl    $0x5,%eax
  add    %edx,%eax
 -mov    %eax,%ebx
 -add    0xc(%ebp),%ebx
--lea    -0x14(%ebp),%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    %eax,-0xc(%ebp)
-+mov    -0xc(%ebp),%ebx
-+lea    -0x1c(%ebp),%eax
++lea    (%ecx,%eax,1),%ebx
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
  mov    0x4(%eax),%eax
  mov    (%eax),%eax
  mov    %eax,(%ebx)
--mov    -0xc(%ebp),%edx
--mov    %edx,%eax
--shl    $0x5,%eax
--add    %edx,%eax
++mov    0xc(%ebp),%ecx
+ mov    -0xc(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x5,%eax
+ add    %edx,%eax
 -mov    %eax,%ebx
 -add    0xc(%ebp),%ebx
--lea    -0x14(%ebp),%eax
-+mov    -0xc(%ebp),%eax
-+lea    0x4(%eax),%ebx
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
- mov    0x4(%eax),%eax
--mov    0x4(%eax),%eax
--mov    %eax,0x4(%ebx)
--lea    -0x14(%ebp),%eax
 +add    $0x4,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%ebx)
-+lea    -0x1c(%ebp),%eax
++lea    (%ecx,%eax,1),%ebx
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
  mov    0x4(%eax),%eax
--lea    0x8(%eax),%ecx
--mov    -0xc(%ebp),%edx
--mov    %edx,%eax
--shl    $0x5,%eax
--add    %edx,%eax
+ mov    0x4(%eax),%eax
+-mov    %eax,0x4(%ebx)
++mov    %eax,(%ebx)
+ lea    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
+ mov    0x4(%eax),%eax
+ lea    0x8(%eax),%ecx
++mov    0xc(%ebp),%ebx
+ mov    -0xc(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x5,%eax
+ add    %edx,%eax
 -add    0xc(%ebp),%eax
-+lea    0x8(%eax),%edx
-+mov    -0xc(%ebp),%eax
  add    $0xa,%eax
++lea    (%ebx,%eax,1),%eax
  movl   $0x16,0x8(%esp)
--mov    %ecx,0x4(%esp)
-+mov    %edx,0x4(%esp)
+ mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memcpy>
--mov    -0xc(%ebp),%edx
--mov    %edx,%eax
--shl    $0x5,%eax
--add    %edx,%eax
++addl   $0x1,-0xc(%ebp)
++mov    0xc(%ebp),%ecx
+ mov    -0xc(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x5,%eax
+ add    %edx,%eax
 -add    0xc(%ebp),%eax
 -addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%edx
 -mov    %dx,0x8(%eax)
--lea    -0x14(%ebp),%eax
-+addl   $0x1,-0x10(%ebp)
++add    $0x8,%eax
++lea    (%ecx,%eax,1),%edx
 +mov    -0xc(%ebp),%eax
-+lea    0x8(%eax),%edx
-+mov    -0x10(%ebp),%eax
 +mov    %ax,(%edx)
-+lea    -0x1c(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEppEv>
--mov    0x8(%ebp),%edx
--lea    -0x10(%ebp),%eax
-+lea    -0x18(%ebp),%eax
-+mov    -0x14(%ebp),%edx
+ mov    0x8(%ebp),%edx
+ lea    -0x10(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorISt4pairIjP14STGuildWarInfoESaIS3_EE3endEv>
  sub    $0x4,%esp
--lea    -0x10(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxxneIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEEbRKNS_17__normal_iteratorIT_T0_EESE_>
  test   %al,%al
--jne    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0x32>
+ jne    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0x32>
 -jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0x11b>
--nop
-+jne    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0x3e>
-+mov    $0x0,%eax
++jmp    <T> <_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info+0x127>
+ nop
  mov    -0x4(%ebp),%ebx
  leave
  ret
@@ -208,30 +186,27 @@ CGuildWar::_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 153 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 151 行）：
 
 ```cpp
-int CGuildWar::GetGuildWarInfo(ST_Guild_War_Rank_Info* info)
+void CGuildWar::GetGuildWarInfo(ST_Guild_War_Rank_Info* info)
 {
     if (info == 0)
     {
-        return 0;
+        return;
     }
-    std::vector<std::pair<unsigned int, STGuildWarInfo*> >* vec = &m_vtGuildWarInfo;
     int count = 0;
-    for (std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator it = vec->begin();
-         it != vec->end(); ++it)
+    for (std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator it =
+             m_vtGuildWarInfo.begin(); it != m_vtGuildWarInfo.end(); ++it)
     {
         if (it->second != 0)
         {
-            char* out = (char*)info + count * 0x21;
-            *(unsigned int*)(out + 0) = *(unsigned int*)((char*)it->second + 0);
-            *(unsigned int*)(out + 4) = *(unsigned int*)((char*)it->second + 4);
-            memcpy(out + 10, (char*)it->second + 8, 0x16);
+            *(unsigned int*)((char*)info + count * 0x21 + 0) = it->second->m_guildKey;
+            *(unsigned int*)((char*)info + count * 0x21 + 4) = it->second->m_point;
+            memcpy((char*)info + count * 0x21 + 10, it->second->m_data, 0x16);
             count++;
-            *(short*)(out + 8) = (short)count;
+            *(short*)((char*)info + count * 0x21 + 8) = (short)count;
         }
     }
-    return 0;
 }
 ```

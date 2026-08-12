@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807f8e2` | `0x1ed` | `0x8075c86` | `0x1ff` |
+| guild | DIFF | `0x807f8e2` | `0x1ed` | `0x8075b8a` | `0x1ff` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -53,13 +53,13 @@
 -je     <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0xac>
 -lea    -0x46(%ebp),%eax
 +je     <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0xb3>
-+lea    -0x4a(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN26Packet_Monitor_Event_StartC1Ev>
 -movl   $0x1e,-0x3c(%ebp)
 -mov    -0x14(%ebp),%eax
 -mov    0xa(%eax),%eax
-+lea    -0x4a(%ebp),%eax
++lea    -0x4c(%ebp),%eax
 +add    $0xa,%eax
 +movl   $0x1e,(%eax)
 +mov    -0x18(%ebp),%eax
@@ -70,7 +70,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -lea    -0x46(%ebp),%edx
-+lea    -0x4a(%ebp),%edx
++lea    -0x4c(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
@@ -123,14 +123,10 @@
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%ebx
  movl   $0x119e,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -245,7 +241,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3200 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3352 行）：
 
 ```cpp
 void CPacketTranslater::OnPowerWarStartInfo(PacketHeader* pkt)

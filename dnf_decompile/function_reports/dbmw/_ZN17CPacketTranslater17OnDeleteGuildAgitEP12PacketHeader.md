@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8099f2e` | `0x230` | `0x80d182e` | `0x233` |
+| dbmw | DIFF | `0x8099f2e` | `0x230` | `0x80d18fe` | `0x233` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -236,27 +236,27 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 539 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 540 行）：
 
 ```cpp
 void CPacketTranslater::OnDeleteGuildAgit(PacketHeader* header)
 {
-    if (!m_pclApp)
-        throw CDNFException(std::string(
-            "CPacketTranslater::OnDeleteGuildAgit() : 0 == m_pclApp"));
     try
     {
+        if (!m_pclApp)
+            throw CDNFException(std::string(
+                "CPacketTranslater::OnDeleteGuildAgit() : 0 == m_pclApp"));
         Packet_DB_Delete_Guild_Agit* pkt =
             (Packet_DB_Delete_Guild_Agit*)header;
         Packet_DB_Delete_Guild_Agit_Reply reply;
-        reply.m_fieldA = pkt->m_guildId;
         reply.m_fieldE = pkt->m_fieldE;
+        reply.m_fieldA = pkt->m_guildId;
         m_pclApp->m_dbManager.OnDeleteGuildAgit(pkt, reply);
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         gs->SendToServer((char*)&reply, 0x16);
     }
     DNF_CATCH_LOG("./log/Except.log",
-                  "CPacketTranslater::OnLoadGuildAgit() Exception Break",
+                  "CPacketTranslater::OnDeleteGuildAgit() Exception Break",
                   0x932, 0x937);
 }
 ```

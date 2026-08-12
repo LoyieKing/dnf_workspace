@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80866d4` | `0x127` | `0x8063eb4` | `0x112` |
+| dbmw | DIFF | `0x80866d4` | `0x127` | `0x8063ee2` | `0x112` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -171,10 +171,10 @@ CDBManager::_ZN10CDBManager25updateLimitNpcBuyItemInfoEP21LimitNpcBuyItemUpdate
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 6160 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 6224 行）：
 
 ```cpp
-char CDBManager::updateLimitNpcBuyItemInfo(LimitNpcBuyItemUpdate* update)
+bool CDBManager::updateLimitNpcBuyItemInfo(LimitNpcBuyItemUpdate* update)
 {
     CDBHandle* h = m_handles[2];    // game db
     if (!h)

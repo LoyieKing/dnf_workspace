@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80972a4` | `0x6fe` | `0x8063d68` | `0x744` |
+| monitor | DIFF | `0x80972a4` | `0x6fe` | `0x8063e26` | `0x744` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -142,17 +142,6 @@
 +lea    -0x78(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x183>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+mov    %eax,%ebx
-+mov    %ecx,%esi
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+mov    %esi,%ecx
-+mov    %ebx,%eax
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x511>
 +movl   $0x1800,-0x6c(%ebp)
 +movw   $0x0,-0x6e(%ebp)
 +movl   $0x0,-0x74(%ebp)
@@ -217,6 +206,17 @@
 +mov    %eax,-0x30(%ebp)
 +cmpb   $0x1,-0x31(%ebp)
 +jne    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x4aa>
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x1d4>
++mov    %eax,%ecx
++mov    %edx,%eax
++mov    %eax,%ebx
++mov    %ecx,%esi
++lea    -0x78(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++mov    %esi,%ecx
++mov    %ebx,%eax
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x511>
 +mov    -0x38(%ebp),%eax
 +mov    %eax,-0x7c(%ebp)
 +mov    -0x38(%ebp),%eax

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80815a6` | `0xd8` | `0x805c754` | `0xd9` |
+| dbmw | DIFF | `0x80815a6` | `0xd8` | `0x805c784` | `0xd9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -149,7 +149,7 @@ CDBManager::_ZN10CDBManager19OnUpgradeGuildCargoEP29Packet_DB_Guild_Cargo_Upgrad
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4211 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4269 行）：
 
 ```cpp
 char CDBManager::OnUpgradeGuildCargo(Packet_DB_Guild_Cargo_Upgrade* packet)
@@ -157,15 +157,21 @@ char CDBManager::OnUpgradeGuildCargo(Packet_DB_Guild_Cargo_Upgrade* packet)
     CDBHandle* h = m_handles[8];    // guild db
     h->set_query(0x4edc,
                  "upDate guild_agit set cargo_capacity=%d where guild_id=%d",
-                 *(int*)((char*)packet + 0x12), *(int*)((char*)packet + 0xa));
+                 ((GuildCargoUpgradeView*)packet)->m_field12,
+                 ((GuildCargoUpgradeView*)packet)->m_fieldA);
     bool ret = h->exec(0x4edc);
     if (!ret)
     {
+        register unsigned int c =
+            ((GuildCargoUpgradeView*)packet)->m_field12;
+        register unsigned int u =
+            ((GuildCargoUpgradeView*)packet)->m_fieldE;
+        register unsigned int g =
+            ((GuildCargoUpgradeView*)packet)->m_fieldA;
         CMyFileLog log(__FUNCTION__, 0x1bec);
         log("./log/DBQueryErr",
             "OnUpgradeGuildCargo Query Error(G:%d,U:%d,Capa:%d)",
-            *(int*)((char*)packet + 0xa), *(int*)((char*)packet + 0xe),
-            *(int*)((char*)packet + 0x12));
+            g, u, c);
         return 0;
     }
     return 1;

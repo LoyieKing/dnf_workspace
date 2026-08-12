@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8062120` | `0x82` | `0x8061588` | `0x9c` |
+| monitor | DIFF | `0x8062120` | `0x82` | `0x8061646` | `0x9c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -142,7 +142,7 @@ CMemberExpTbl::_ZN13CMemberExpTbl17GetMemberExpLevelEj(CMemberExpTbl *this,uint 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 108 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 103 行）：
 
 ```cpp
 int CMemberExpTbl::GetMemberExpLevel(unsigned int exp)

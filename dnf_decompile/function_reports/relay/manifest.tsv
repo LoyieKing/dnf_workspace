@@ -1,5 +1,4 @@
-status	name	orig_addr	orig_size	new_addr	new_size	md_file
-DIFF	_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii	0x805e406	0x90	0x805da50	0x8e	_ZN15RelayServiceApp13UDPHandlerS2S8dispatchEPcii.md
-DIFF	_ZN6Script18get_server_sectionEv	0x804adce	0x18c	0x8056e24	0x187	_ZN6Script18get_server_sectionEv.md
-DIFF	_ZN6Script20get_aradauth_sectionEv	0x804af5a	0x140	0x8056fac	0x13d	_ZN6Script20get_aradauth_sectionEv.md
-DIFF	_ZN9TCPSocket8shutdownEi	0x804e33e	0xd	0x8058414	0xa	_ZN9TCPSocket8shutdownEi.md
+status	name	orig_addr	orig_size	new_addr	new_size
+NEAR	_ZN6Script4loadEPc	0x804a852	0x120	0x805691a	0x120
+NEAR	_ZN6ThreadD1Ev	0x804bb8c	0xda	0x805d408	0xda
+NEAR	_ZN6ThreadD2Ev	0x804bb8c	0xda	0x805d408	0xda

@@ -1,0 +1,2 @@
+DIFF   _ZN11CTcpHandlerC1Ev
+DIFF   _ZN11CTcpHandlerC2Ev

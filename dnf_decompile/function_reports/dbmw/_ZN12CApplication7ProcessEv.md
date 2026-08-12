@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806c35c` | `0x1df` | `0x806cc00` | `0x1de` |
+| dbmw | DIFF | `0x806c35c` | `0x1df` | `0x806cce8` | `0x1de` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -207,7 +207,7 @@ void __thiscall CApplication::_ZN12CApplication7ProcessEv(CApplication *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 79 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 70 行）：
 
 ```cpp
 void CApplication::Process()

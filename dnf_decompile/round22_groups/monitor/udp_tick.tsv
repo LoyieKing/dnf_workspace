@@ -1,0 +1,13 @@
+status	name	orig_addr	orig_size	new_addr	new_size
+DIFF	_ZN11CUdpHandler16InitClientSocketEv	0x8050374	0xa2	0x8087c98	0x9d
+DIFF	_ZN11CUdpHandler16InitServerSocketEi	0x80501bc	0x1b8	0x8087aea	0x1ad
+DIFF	_ZN13CPacketTracer6AddLogEii	0x807da7c	0xdf	0x8069090	0xbc
+DIFF	_ZN13CPacketTracer8WriteLogEv	0x807db72	0x86	0x806914c	0x99
+DIFF	_ZN18CFrameCountHandler11SaveProcessEi	0x804d04e	0x87	0x8086928	0x82
+DIFF	_ZN18CFrameCountHandler11SaveProcessEv	0x804cfce	0x80	0x80868ac	0x7b
+DIFF	_ZN18CFrameCountHandler17GetFrameCountInfoEv	0x804cc52	0x37c	0x8086540	0x36c
+DIFF	_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt	0x804cb16	0x13c	0x8086402	0x13d
+DIFF	_ZNK11CUdpHandler12SendToClientEPcitPKcj	0x805068a	0x309	0x8087fa4	0x2b1
+DIFF	_ZNK11CUdpHandler12SendToServerEPcitPKc	0x8050bf2	0x27b	0x8088256	0x27e
+DIFF	_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt	0x8050416	0x273	0x8087d36	0x26d
+DIFF	_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt	0x8050994	0x25d	0x80884d4	0x1ca

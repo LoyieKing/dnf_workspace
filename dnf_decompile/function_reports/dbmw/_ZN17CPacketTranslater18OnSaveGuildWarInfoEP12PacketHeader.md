@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8094ba2` | `0x17a` | `0x80d2e10` | `0x172` |
+| dbmw | DIFF | `0x8094ba2` | `0x17a` | `0x80d2ed4` | `0x170` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,102 +1,100 @@
+@@ -1,102 +1,99 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -23,7 +23,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x172>
-+je     <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x16a>
++je     <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x168>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x14(%ebp)
 -mov    -0x14(%ebp),%eax
@@ -50,12 +50,10 @@
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN10CDBManager21SaveGuildWarPointListEiPjS0_>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x173>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x16b>
++je     <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x169>
  movl   $0x201,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
@@ -69,10 +67,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x173>
-+jmp    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x16b>
++jmp    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x169>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x116>
-+jne    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x10e>
++jne    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x10c>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -98,7 +96,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x10f>
-+jmp    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x107>
++jmp    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x105>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -108,7 +106,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x173>
-+jmp    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x16b>
++jmp    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x169>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x20c,0x8(%esp)
@@ -124,7 +122,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x16b>
-+jmp    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x163>
++jmp    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x161>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -134,7 +132,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x173>
-+jmp    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x16b>
++jmp    <T> <_ZN17CPacketTranslater18OnSaveGuildWarInfoEP12PacketHeader+0x169>
  nop
 -add    $0x40,%esp
 +add    $0x30,%esp

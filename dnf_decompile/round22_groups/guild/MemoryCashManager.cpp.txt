@@ -1,0 +1,6 @@
+DIFF  _ZN18CMemoryCashManager13SetUserObjectEP5CUser
+DIFF  _ZN18CMemoryCashManager18ProcessLifeTimeOutEv
+DIFF  _ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser
+DIFF  _ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser
+DIFF  _ZN18CMemoryCashManagerD1Ev
+DIFF  _ZN18CMemoryCashManagerD2Ev

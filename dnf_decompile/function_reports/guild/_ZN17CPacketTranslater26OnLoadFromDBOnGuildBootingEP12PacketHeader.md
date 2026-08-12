@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8080a3e` | `0x17c` | `0x8076e42` | `0x182` |
+| guild | DIFF | `0x8080a3e` | `0x17c` | `0x8076d32` | `0x180` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,102 +1,105 @@
+@@ -1,102 +1,104 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -35,23 +35,21 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x175>
-+jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x17b>
++jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x179>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15GetPowerManagerEv>
  mov    %eax,-0x10(%ebp)
  mov    -0x14(%ebp),%eax
 -mov    0xe(%eax),%ecx
-+add    $0xe,%eax
-+mov    (%eax),%ecx
++mov    0xe(%eax),%eax
++mov    %eax,%ecx
  mov    -0x14(%ebp),%eax
 -mov    0xa(%eax),%edx
-+add    $0xa,%eax
-+mov    (%eax),%edx
++mov    0xa(%eax),%eax
++mov    %eax,%edx
  mov    -0x14(%ebp),%eax
--movzbl 0x12(%eax),%eax
-+add    $0x12,%eax
-+movzbl (%eax),%eax
+ movzbl 0x12(%eax),%eax
  movsbl %al,%eax
  mov    %ecx,0xc(%esp)
  mov    %edx,0x8(%esp)
@@ -63,24 +61,20 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager16SendPowerWarInfoEv>
 -jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x175>
-+jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x17b>
++jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x179>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x11b>
-+jne    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x121>
++jne    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x11f>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%ebx
  movl   $0x134f,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -94,7 +88,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x114>
-+jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x11a>
++jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x118>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -104,7 +98,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x175>
-+jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x17b>
++jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x179>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1354,0x8(%esp)
@@ -118,7 +112,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x170>
-+jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x176>
++jmp    <T> <_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12PacketHeader+0x174>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -167,12 +161,12 @@ void CPacketTranslater::_ZN17CPacketTranslater26OnLoadFromDBOnGuildBootingEP12Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3449 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3601 行）：
 
 ```cpp
 void CPacketTranslater::OnLoadFromDBOnGuildBooting(PacketHeader* pkt)
 {
-    char* pb = (char*)pkt;
+    PTL_GuildBootingPkt* pb = (PTL_GuildBootingPkt*)pkt;
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1343,"./log/Power",
@@ -182,7 +176,7 @@ void CPacketTranslater::OnLoadFromDBOnGuildBooting(PacketHeader* pkt)
     try
     {
         CPowerManager* pm = m_pclApp->GetPowerManager();
-        pm->SetPowerInfo((char)pb[0x12], *(int*)(pb + 0xa), *(int*)(pb + 0xe));
+        pm->SetPowerInfo((char)pb->m_12, (int)pb->m_a, (int)pb->m_e);
         pm->SendPowerWarInfo();
     }
     DNF_CATCH_LOG("./log/Except", "CPacketTranslater::OnPacketSecedePower Exception Break", 0x134f, 0x1354);

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809282e` | `0xc3` | `0x80ce7e0` | `0xc3` |
+| dbmw | DIFF | `0x809282e` | `0xc3` | `0x80ce8c2` | `0xc3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -128,8 +128,8 @@ void CPacketTracer::StartPacketProcessLog(unsigned int id)
     if (it == m_processMap.end())
     {
         stPacketProcess p;
-        p.m_accTime = 0.0;
         p.m_count = 0;
+        p.m_accTime = 0.0;
         m_processMap.insert(std::make_pair(id, p));
     }
 }

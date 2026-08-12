@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809a15e` | `0x2e5` | `0x80d1272` | `0x31c` |
+| dbmw | DIFF | `0x809a15e` | `0x2e5` | `0x80d1342` | `0x31c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -308,16 +308,16 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnLoadGuildAgitEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 485 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 486 行）：
 
 ```cpp
 void CPacketTranslater::OnLoadGuildAgit(PacketHeader* header)
 {
-    if (!m_pclApp)
-        throw CDNFException(std::string(
-            "CPacketTranslater::OnLoadGuildAgit() : 0 == m_pclApp"));
     try
     {
+        if (!m_pclApp)
+            throw CDNFException(std::string(
+                "CPacketTranslater::OnLoadGuildAgit() : 0 == m_pclApp"));
         Packet_DB_Load_Guild_Agit* pkt = (Packet_DB_Load_Guild_Agit*)header;
         Packet_Guild_Load_Guild_Agit reply;
         reply.m_fieldA = pkt->m_guildId;

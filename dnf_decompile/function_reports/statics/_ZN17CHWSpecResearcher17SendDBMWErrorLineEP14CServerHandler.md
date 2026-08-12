@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8063362` | `0x186` | `0x8067ae6` | `0x18a` |
+| statics | DIFF | `0x8063362` | `0x186` | `0x8067a4e` | `0x180` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,113 +1,113 @@
+@@ -1,113 +1,109 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -29,7 +29,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x181>
-+je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x185>
++je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x17b>
  mov    0x8(%ebp),%eax
  lea    0x50(%eax),%edx
  lea    -0x14(%ebp),%eax
@@ -38,84 +38,57 @@
  call   <T> <_ZNSt3mapI13STErrorStaticjSt4lessIS0_ESaISt4pairIKS0_jEEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x113>
--mov    -0xc(%ebp),%ebx
 +jmp    <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x110>
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
-+shl    $0x2,%eax
-+add    %edx,%eax
-+add    %eax,%eax
-+add    $0xe,%eax
-+lea    -0x180a(%ebp),%ebx
-+add    %eax,%ebx
+ mov    -0xc(%ebp),%ebx
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK13STErrorStaticjEEptEv>
--movzwl (%eax),%edx
--mov    %ebx,%eax
-+movzwl (%eax),%eax
-+mov    %ax,(%ebx)
-+lea    -0x180a(%ebp),%ecx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
+ movzwl (%eax),%edx
+ mov    %ebx,%eax
  shl    $0x2,%eax
--add    %ebx,%eax
-+add    %edx,%eax
+ add    %ebx,%eax
  add    %eax,%eax
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%eax,1),%eax
--sub    $0x17f0,%eax
--mov    %dx,(%eax)
--mov    -0xc(%ebp),%ebx
-+add    $0x12,%eax
-+lea    (%ecx,%eax,1),%ebx
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%eax,1),%eax
+ sub    $0x17f0,%eax
+ mov    %dx,(%eax)
+ mov    -0xc(%ebp),%ebx
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK13STErrorStaticjEEptEv>
- mov    0x4(%eax),%eax
+-mov    0x4(%eax),%eax
 -mov    %eax,%edx
--mov    %ebx,%eax
-+mov    %eax,(%ebx)
-+lea    -0x180a(%ebp),%ecx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
++mov    0x4(%eax),%edx
+ mov    %ebx,%eax
  shl    $0x2,%eax
--add    %ebx,%eax
-+add    %edx,%eax
+ add    %ebx,%eax
  add    %eax,%eax
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%eax,1),%eax
--sub    $0x1802,%eax
--mov    %edx,0xe(%eax)
--mov    -0xc(%ebp),%ebx
-+add    $0x16,%eax
-+lea    (%ecx,%eax,1),%ebx
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%eax,1),%eax
+ sub    $0x1802,%eax
+ mov    %edx,0xe(%eax)
+ mov    -0xc(%ebp),%ebx
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK13STErrorStaticjEEptEv>
--mov    0x8(%eax),%edx
--mov    %ebx,%eax
--shl    $0x2,%eax
--add    %ebx,%eax
--add    %eax,%eax
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%eax,1),%eax
--sub    $0x1802,%eax
--mov    %edx,0x14(%eax)
-+mov    0x8(%eax),%eax
-+mov    %eax,(%ebx)
+ mov    0x8(%eax),%edx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ add    %ebx,%eax
+ add    %eax,%eax
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%eax,1),%eax
+ sub    $0x1802,%eax
+ mov    %edx,0x14(%eax)
  addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    $0x263,%eax
--seta   %al
--test   %al,%al
--je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x108>
--movl   $0x264,-0x1800(%ebp)
 +cmpl   $0x263,-0xc(%ebp)
-+jbe    <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x105>
-+lea    -0x180a(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x264,(%eax)
+ seta   %al
+ test   %al,%al
+-je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x108>
++je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x105>
+ movl   $0x264,-0x1800(%ebp)
  lea    -0x180a(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
@@ -141,14 +114,9 @@
  jne    <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x55>
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x181>
-+je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x185>
-+lea    -0x180a(%ebp),%eax
-+lea    0xa(%eax),%edx
++je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x17b>
  mov    -0xc(%ebp),%eax
--mov    %eax,-0x1800(%ebp)
-+mov    %eax,(%edx)
-+lea    -0x180a(%ebp),%eax
-+lea    0x8(%eax),%edx
+ mov    %eax,-0x1800(%ebp)
  mov    -0xc(%ebp),%eax
 -mov    %eax,%edx
 -mov    %edx,%eax
@@ -158,8 +126,7 @@
 +add    $0x7,%eax
  add    %eax,%eax
 -add    $0xe,%eax
--mov    %ax,-0x1808(%ebp)
-+mov    %ax,(%edx)
+ mov    %ax,-0x1808(%ebp)
  lea    -0x180a(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
@@ -264,21 +231,20 @@ void CHWSpecResearcher::SendDBMWErrorLine(CServerHandler* handler)
         for (std::map<STErrorStatic, unsigned int>::iterator it = m_errorSpec.begin();
              it != m_errorSpec.end(); ++it)
         {
-            *(unsigned short*)((char*)&pkt + 0xe + count * 10) = it->first.m_field0;
-            *(int*)((char*)&pkt + 0xe + count * 10 + 4) = it->first.m_field4;
-            *(int*)((char*)&pkt + 0xe + count * 10 + 8) = (int)it->second;
-            count++;
-            if (0x263 < count)
+            pkt.m_items[count].m_field4 = it->first.m_field0;
+            pkt.m_items[count].m_field0 = it->first.m_field4;
+            pkt.m_items[count].m_field6 = (int)it->second;
+            if (0x263 < (++count))
             {
-                *(int*)((char*)&pkt + 0xa) = 0x264;
+                pkt.m_count = 0x264;
                 handler->SendToDB((PacketHeader*)&pkt);
                 count = 0;
             }
         }
         if (count != 0)
         {
-            *(int*)((char*)&pkt + 0xa) = count;
-            *(short*)((char*)&pkt + 8) = (short)(((count << 2) + count) * 2 + 0xe);
+            pkt.m_count = count;
+            pkt.packetSize = (unsigned short)(((count << 2) + count) * 2 + 0xe);
             handler->SendToDB((PacketHeader*)&pkt);
         }
     }

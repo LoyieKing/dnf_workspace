@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80966b6` | `0x138` | `0x80cfdc0` | `0x133` |
+| dbmw | DIFF | `0x80966b6` | `0x138` | `0x80cfe9e` | `0x133` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -28,13 +28,10 @@
  mov    -0x10(%ebp),%eax
  lea    0xf(%eax),%ebx
  mov    -0x10(%ebp),%eax
--mov    0xa(%eax),%edx
-+movzbl 0xe(%eax),%eax
-+movzbl %al,%edx
+ mov    0xa(%eax),%edx
  mov    -0x10(%ebp),%eax
--movzbl 0xe(%eax),%eax
--movzbl %al,%eax
-+mov    0xa(%eax),%eax
+ movzbl 0xe(%eax),%eax
+ movzbl %al,%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%ecx
  add    $0x50,%ecx
  mov    %ebx,0xc(%esp)
@@ -151,8 +148,9 @@ void CPacketTranslater::OnChangeGuildNotifyMessage(PacketHeader* header)
     {
         Packet_DBMW_Request_Guild_Notify_Message* pkt =
             (Packet_DBMW_Request_Guild_Notify_Message*)header;
-        m_pclApp->m_dbManager.ChangeGuildNotifyMessage(
-            pkt->m_guildId, pkt->m_id, pkt->m_msg);
+        if (!m_pclApp->m_dbManager.ChangeGuildNotifyMessage(
+                pkt->m_guildId, pkt->m_id, pkt->m_msg))
+            return;
     }
     DNF_CATCH_LOG("./log/Except.log",
                   "CPacketTranslater::OnChangeGuildNotifyMessage() Exception Break",

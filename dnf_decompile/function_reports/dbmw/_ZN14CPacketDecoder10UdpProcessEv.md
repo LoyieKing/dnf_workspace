@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80917d0` | `0x32e` | `0x80cdad4` | `0x325` |
+| dbmw | DIFF | `0x80917d0` | `0x32e` | `0x80cdbb6` | `0x325` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -378,16 +378,17 @@ void __thiscall CPacketDecoder::_ZN14CPacketDecoder10UdpProcessEv(CPacketDecoder
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp](source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp)（约第 205 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp](source/DNFServer/GameServer/DBMW/DNFPacketDecoder.cpp)（约第 206 行）：
 
 ```cpp
 void CPacketDecoder::UdpProcess()
 {
     if (!m_udpQueue || !m_udpQLock)
         throw CDNFException("CPacketDecoder is Not Ready!\n");
+    CUdpRecvBuffer* buf = 0;
     while (!m_udpQueue->empty())
     {
-        CUdpRecvBuffer* buf = m_udpQueue->front();
+        buf = m_udpQueue->front();
         m_udpQueue->pop();
         if (!buf)
             continue;

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x805a2a0` | `0x457` | `0x8085e32` | `0x47e` |
+| guild | DIFF | `0x805a2a0` | `0x457` | `0x80861a6` | `0x48b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,25 +13,37 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,327 +1,338 @@
+@@ -1,327 +1,344 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x4c,%esp
--movl   $0x0,-0x28(%ebp)
+ sub    $0x4c,%esp
++movl   $0x0,-0x2c(%ebp)
+ movl   $0x0,-0x28(%ebp)
 -movl   $0x0,-0x24(%ebp)
-+sub    $0x5c,%esp
-+movl   $0x0,-0x34(%ebp)
-+movl   $0x0,-0x30(%ebp)
  mov    0x8(%ebp),%eax
  movb   $0x1,0x2c(%eax)
  movl   $0x0,0x4(%esp)
  movl   $0x5,(%esp)
  call   <T> <_ZN7DNFFLib9Sleep_ExtEii>
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1d8>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1f8>
++mov    0x8(%ebp),%eax
++movzbl 0x2c(%eax),%eax
++test   %al,%al
++jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x78>
++movl   $0xae,0x8(%esp)
++movl   $&_ZZN17CTcpNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
++lea    -0x44(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++movl   $"RecvThread Terminate",0x8(%esp)
++movl   $"./log/TcpRecv",0x4(%esp)
++lea    -0x44(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x483>
  call   <T> <__errno_location>
  movl   $0x0,(%eax)
  movl   $0x5,0x4(%esp)
@@ -41,7 +53,9 @@
  mov    0xc(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1d4>
-+je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1f4>
++sete   %al
++test   %al,%al
++jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x32>
  mov    0x8(%ebp),%eax
  mov    0xc(%eax),%eax
  mov    %eax,(%esp)
@@ -58,203 +72,183 @@
 -cmpl   $0x0,-0x24(%ebp)
 -je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1d7>
 -cmpl   $0x0,-0x24(%ebp)
-+mov    %eax,-0x30(%ebp)
-+cmpl   $0x0,-0x30(%ebp)
-+je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1f7>
-+cmpl   $0x0,-0x30(%ebp)
- jns    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0xbc>
+-jns    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0xbc>
++mov    %eax,-0x28(%ebp)
++cmpl   $0x0,-0x28(%ebp)
++sete   %al
++test   %al,%al
++jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x32>
++cmpl   $0x0,-0x28(%ebp)
++jns    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x105>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  cmp    $0x4,%eax
- je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0xbc>
+-je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0xbc>
++je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x105>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x44e>
 -movl   $0x0,-0x20(%ebp)
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1c1>
-+jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x20e>
-+movl   $0x0,-0x2c(%ebp)
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1e1>
++je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x105>
++nop
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x483>
++movl   $0x0,-0x24(%ebp)
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x241>
  mov    0x8(%ebp),%eax
  mov    0x14(%eax),%eax
 -mov    -0x20(%ebp),%edx
-+mov    %eax,-0x28(%ebp)
-+mov    -0x2c(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN11CTcpHandler11GetEventPtrEi>
-+mov    %eax,-0x24(%ebp)
-+cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x109>
-+mov    -0x2c(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN11CTcpHandler12IsSetInEventEi>
-+test   %eax,%eax
-+je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x109>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x10e>
-+mov    $0x0,%eax
-+mov    %al,-0x1e(%ebp)
-+cmpb   $0x0,-0x1e(%ebp)
-+je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x12e>
-+mov    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CPeer10RecvPacketEv>
-+cmp    $0x1,%eax
-+je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x12e>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x133>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x15e>
-+mov    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CPeer10DisConnSigEv>
-+mov    0x8(%ebp),%eax
-+mov    0xc(%eax),%eax
 +mov    -0x24(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZN11CTcpHandler11GetEventPtrEi>
+ call   <T> <_ZN11CTcpHandler11GetEventPtrEi>
 -mov    %eax,-0x28(%ebp)
 -cmpl   $0x0,-0x28(%ebp)
 -je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x106>
--mov    0x8(%ebp),%eax
--mov    0x14(%eax),%eax
++mov    %eax,-0x2c(%ebp)
++movb   $0x0,-0x1e(%ebp)
++cmpl   $0x0,-0x2c(%ebp)
++je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x153>
+ mov    0x8(%ebp),%eax
+ mov    0x14(%eax),%eax
 -mov    -0x20(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN11CTcpHandler12IsSetInEventEi>
++mov    -0x24(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN11CTcpHandler12IsSetInEventEi>
 -test   %al,%al
 -je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x106>
--mov    $0x1,%eax
++test   %eax,%eax
++je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x153>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x10b>
--mov    $0x0,%eax
--test   %al,%al
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x158>
+ mov    $0x0,%eax
+ test   %al,%al
 -je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x148>
 -mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CPeer10RecvPacketEv>
--xor    $0x1,%eax
--test   %al,%al
++je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x160>
++movb   $0x1,-0x1e(%ebp)
++cmpb   $0x0,-0x1e(%ebp)
++je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x17f>
++mov    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CPeer10RecvPacketEv>
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x148>
 -mov    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CPeer10DisConnSigEv>
--mov    0x8(%ebp),%eax
--mov    0xc(%eax),%eax
++je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x17f>
++mov    $0x1,%eax
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x184>
++mov    $0x0,%eax
++test   %al,%al
++je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1af>
++mov    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CPeer10DisConnSigEv>
+ mov    0x8(%ebp),%eax
+ mov    0xc(%eax),%eax
 -mov    -0x28(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
++mov    -0x2c(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
  call   <T> <_ZN13CTcpNetSystem10DeletePeerEP5CPeer>
 -movl   $0x0,-0x28(%ebp)
 -cmpl   $0x0,-0x28(%ebp)
 -je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x17d>
 -mov    -0x28(%ebp),%eax
-+movl   $0x0,-0x24(%ebp)
-+cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x190>
-+mov    -0x24(%ebp),%eax
++movl   $0x0,-0x2c(%ebp)
++movb   $0x0,-0x1d(%ebp)
++cmpl   $0x0,-0x2c(%ebp)
++je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1e8>
++mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer18get_remain_sendlenEv>
  test   %eax,%eax
 -je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x17d>
--mov    0x8(%ebp),%eax
--mov    0x14(%eax),%eax
++je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1e8>
+ mov    0x8(%ebp),%eax
+ mov    0x14(%eax),%eax
 -mov    -0x20(%ebp),%edx
--mov    %edx,0x4(%esp)
-+je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x190>
-+mov    -0x2c(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x28(%ebp),%eax
++mov    -0x24(%ebp),%edx
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN11CTcpHandler13IsSetOutEventEi>
  test   %al,%al
 -je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x17d>
-+je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x190>
++je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1e8>
  mov    $0x1,%eax
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x182>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x195>
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1ed>
  mov    $0x0,%eax
--test   %al,%al
+ test   %al,%al
 -je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1a8>
 -mov    -0x28(%ebp),%eax
-+mov    %al,-0x1d(%ebp)
++je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1f5>
++movb   $0x1,-0x1d(%ebp)
 +cmpb   $0x0,-0x1d(%ebp)
-+je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1b7>
-+mov    -0x24(%ebp),%eax
++je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x214>
++mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer18get_remain_sendlenEv>
  cmp    $0x1800,%eax
 -seta   %al
 -test   %al,%al
 -jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1a8>
-+jg     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1b7>
+-mov    -0x28(%ebp),%eax
++ja     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x214>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1bc>
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x219>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1cb>
-+mov    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CPeer11send_packetEv>
++je     <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x228>
 +mov    -0x2c(%ebp),%eax
-+mov    %eax,0x4(%esp)
- mov    -0x28(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZN5CPeer11send_packetEv>
--mov    0x8(%ebp),%eax
--mov    0x14(%eax),%eax
+ call   <T> <_ZN5CPeer11send_packetEv>
+ mov    0x8(%ebp),%eax
+ mov    0x14(%eax),%eax
 -mov    -0x20(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
++mov    -0x24(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
  call   <T> <_ZN11CTcpHandler13IsSetErrEventEi>
 -addl   $0x1,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
 -cmp    -0x24(%ebp),%eax
-+addl   $0x1,-0x2c(%ebp)
-+mov    -0x2c(%ebp),%eax
-+cmp    -0x30(%ebp),%eax
++addl   $0x1,-0x24(%ebp)
++mov    -0x24(%ebp),%eax
++cmp    -0x28(%ebp),%eax
  setl   %al
  test   %al,%al
- jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0xc8>
+-jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0xc8>
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1d8>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1f8>
- nop
+-nop
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1d8>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x1f8>
- nop
- mov    0x8(%ebp),%eax
- movzbl 0x2c(%eax),%eax
- test   %al,%al
-+setne  %al
-+test   %al,%al
- jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x37>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x20f>
-+nop
- movl   $0xae,0x8(%esp)
- movl   $&_ZZN17CTcpNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
+-nop
+-mov    0x8(%ebp),%eax
+-movzbl 0x2c(%eax),%eax
+-test   %al,%al
+-jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x37>
+-movl   $0xae,0x8(%esp)
+-movl   $&_ZZN17CTcpNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
- movl   $"RecvThread Terminate",0x8(%esp)
- movl   $"./log/TcpRecv",0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $"RecvThread Terminate",0x8(%esp)
+-movl   $"./log/TcpRecv",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x44f>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x476>
++jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x111>
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x32>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x34b>
-+jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x373>
++jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x380>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -273,19 +267,19 @@
  movl   $"CTcpNetworkThread::dispatch() 예외 발생 : %s\n",(%esp)
  call   <T> <printf>
 -lea    -0x31(%ebp),%eax
-+lea    -0x3d(%ebp),%eax
++lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x31(%ebp),%eax
-+lea    -0x3d(%ebp),%eax
++lea    -0x35(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CTcpNetworkThread::dispatch() Recv  Socket Exception Break!",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x38(%ebp),%esi
-+lea    -0x44(%ebp),%esi
++lea    -0x3c(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -294,7 +288,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x2db>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x303>
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x310>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -306,47 +300,47 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x38(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x2d5>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x2fd>
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x30a>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x2fa>
-+jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x322>
++jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x32f>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%ecx
  mov    %ebx,%eax
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x2fa>
 -lea    -0x38(%ebp),%eax
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x322>
-+lea    -0x44(%ebp),%eax
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x32f>
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x30f>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x337>
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x344>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x2fa>
-+jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x322>
++jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x32f>
  call   <T> <_ZSt9terminatev>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x31(%ebp),%eax
-+lea    -0x3d(%ebp),%eax
++lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%ecx
  mov    %ebx,%eax
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x336>
 -lea    -0x31(%ebp),%eax
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x35e>
-+lea    -0x3d(%ebp),%eax
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x36b>
++lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -367,19 +361,19 @@
  movl   $"CTcpNetworkThread::dispatch() 예외 발생",(%esp)
  call   <T> <puts>
 -lea    -0x29(%ebp),%eax
-+lea    -0x35(%ebp),%eax
++lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x29(%ebp),%eax
-+lea    -0x35(%ebp),%eax
++lea    -0x2d(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CTcpNetworkThread::dispatch() Recv  Socket Exception Break!",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x30(%ebp),%esi
-+lea    -0x3c(%ebp),%esi
++lea    -0x34(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -388,7 +382,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x3de>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x406>
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x413>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -400,47 +394,47 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x30(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x3d8>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x400>
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x40d>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x3fd>
-+jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x425>
++jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x432>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%ecx
  mov    %ebx,%eax
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x3fd>
 -lea    -0x30(%ebp),%eax
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x425>
-+lea    -0x3c(%ebp),%eax
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x432>
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x412>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x43a>
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x447>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x3fd>
-+jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x425>
++jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x432>
  call   <T> <_ZSt9terminatev>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x29(%ebp),%eax
-+lea    -0x35(%ebp),%eax
++lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%ecx
  mov    %ebx,%eax
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x439>
 -lea    -0x29(%ebp),%eax
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x461>
-+lea    -0x35(%ebp),%eax
++jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x46e>
++lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -457,8 +451,7 @@
  mov    %ecx,(%esp)
  call   <T> <_Unwind_Resume>
 -nop
--add    $0x4c,%esp
-+add    $0x5c,%esp
+ add    $0x4c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -558,46 +551,55 @@ void CTcpNetworkThread::dispatch(void* param)
     DNFFLib::Sleep_Ext(5, 0);
     try
     {
-        while (m_runningFlag)
+        for (;;)
         {
-            errno = 0;
-            DNFFLib::Sleep_Ext(0, 5);
-            if (m_net == 0)
+            do
             {
-                continue;
-            }
-            m_net->SetEpollAcceptedPeers();
-            m_net->SendPacket();
-            eventCount = m_net->WaitForEvent();
-            if (eventCount == 0)
-            {
-                continue;
-            }
+                do
+                {
+                    if (m_runningFlag == 0)
+                    {
+                        DNF_LOG_SCOPE_LINE(0xae, "./log/TcpRecv", "RecvThread Terminate");
+                        return;
+                    }
+                    errno = 0;
+                    DNFFLib::Sleep_Ext(0, 5);
+                } while (m_net == 0);
+                m_net->SetEpollAcceptedPeers();
+                m_net->SendPacket();
+                eventCount = m_net->WaitForEvent();
+            } while (eventCount == 0);
             if (eventCount < 0 && errno != EINTR && errno != 0)
             {
                 break;
             }
             for (int i = 0; i < eventCount; i++)
             {
-                CTcpHandler* handler = (CTcpHandler*)m_handler;
-                CPeer* p = (CPeer*)handler->GetEventPtr(i);
-                bool isIn = p != 0 && handler->IsSetInEvent(i);
-                if (isIn && p->RecvPacket() != 1)
+                peer = (CPeer*)((CTcpHandler*)m_handler)->GetEventPtr(i);
+                bool isIn = false;
+                if (peer != 0 && ((CTcpHandler*)m_handler)->IsSetInEvent(i))
                 {
-                    p->DisConnSig();
-                    m_net->DeletePeer(p);
-                    p = 0;
+                    isIn = true;
                 }
-                bool isOut = p != 0 && p->get_remain_sendlen() != 0 &&
-                             handler->IsSetOutEvent(i);
-                if (isOut && p->get_remain_sendlen() < 0x1801)
+                if (isIn && peer->RecvPacket() != 1)
                 {
-                    p->send_packet();
+                    peer->DisConnSig();
+                    m_net->DeletePeer(peer);
+                    peer = 0;
                 }
-                handler->IsSetErrEvent(i);
+                bool isOut = false;
+                if (peer != 0 && peer->get_remain_sendlen() != 0 &&
+                    ((CTcpHandler*)m_handler)->IsSetOutEvent(i))
+                {
+                    isOut = true;
+                }
+                if (isOut && (unsigned int)peer->get_remain_sendlen() < 0x1801)
+                {
+                    peer->send_packet();
+                }
+                ((CTcpHandler*)m_handler)->IsSetErrEvent(i);
             }
         }
-        DNF_LOG_SCOPE_LINE(0xae, "./log/TcpRecv", "RecvThread Terminate");
     }
     catch (CDNFException& e)
     {

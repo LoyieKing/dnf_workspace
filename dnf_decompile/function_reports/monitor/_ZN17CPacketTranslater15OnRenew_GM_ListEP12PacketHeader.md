@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808d678` | `0xaa` | `0x8078c7a` | `0xb7` |
+| monitor | DIFF | `0x808d678` | `0xaa` | `0x8078d28` | `0xb7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -125,20 +125,27 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnRenew_GM_ListEP12PacketHeader
 ```cpp
 void CPacketTranslater::OnRenew_GM_List(PacketHeader* pkt)
 {
-    WongWork::CGMAccounts* gm = (WongWork::CGMAccounts*)m_pclApp->GetGMAccounts();
-    if (gm != 0 && pkt != 0)
+    struct RenewGMListPkt
     {
-        if (((RA_S8<10>*)pkt)->v == 0)
+        char pad_a[10];
+        char m_flag;
+        char m_count;
+        unsigned int m_ids[20];
+        char m_levels[0x14];
+    } __attribute__((packed));
+    RenewGMListPkt* p = (RenewGMListPkt*)pkt;
+    WongWork::CGMAccounts* gm = (WongWork::CGMAccounts*)m_pclApp->GetGMAccounts();
+    if (gm != 0 && p != 0)
+    {
+        if (p->m_flag == 0)
         {
             gm->clearGmList();
         }
-        for (int i = 0; i < (int)(char)((RA_S8<11>*)pkt)->v; i++)
+        for (int i = 0; i < (int)(char)p->m_count; i++)
         {
-            gm->AppendGM_Sys(*(unsigned int*)((char*)pkt + i * 4 + 0xc),
-                             *(char*)((char*)pkt + i + 0x5c));
+            gm->AppendGM_Sys(p->m_ids[i], p->m_levels[i]);
         }
-        CServerHandler* handler = m_pclApp->m_serverHandler2;
-        handler->SendToDB(pkt);
+        m_pclApp->m_serverHandler2->SendToDB((PacketHeader*)p);
     }
 }
 ```

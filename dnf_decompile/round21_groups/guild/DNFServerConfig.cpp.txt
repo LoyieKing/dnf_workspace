@@ -1,0 +1,2 @@
+DIFF   _ZN13CServerConfigC1Ev
+DIFF   _ZN13CServerConfigC2Ev

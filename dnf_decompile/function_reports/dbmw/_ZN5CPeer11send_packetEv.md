@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805a672` | `0x24d` | `0x80ec29c` | `0x239` |
+| dbmw | DIFF | `0x805a672` | `0x24d` | `0x80ec2fe` | `0x239` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -291,50 +291,55 @@ ssize_t __thiscall CPeer::_ZN5CPeer11send_packetEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 122 行）：
+定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 155 行）：
 
 ```cpp
 int CPeer::send_packet()
 {
+    int ret = 0;
     if (m_remainSendLen == 0)
         return 1;
-    int ret = write(getHandle(), (char*)this + 0x183c, m_remainSendLen);
-    if (ret <= 0)
+    register int n = m_remainSendLen;
+    if ((ret = write(getHandle(), (char*)this + 0x183c, n)) <= 0)
     {
-        if (errno == EAGAIN || errno == EINTR)
+        if (errno == EAGAIN || errno == EINTR || errno == EAGAIN || errno == 0)
             return 1;
-        if (errno != 0)
+        else
         {
             printf("SEND ERROR DISCONNNECT NOW FD[%d] : %d(%s)",
                    getHandle(), errno, strerror(errno));
             return 1;
         }
-        return ret;
     }
-    if (m_remainSendLen <= ret)
+    if (ret > 0)
     {
-        if (m_remainSendLen < ret)
+        if (m_remainSendLen > ret)
+        {
+            m_recvBuf = (char*)this + 0x183c + ret;
+            m_remainSendLen -= ret;
+            if (m_remainSendLen > 0x96000u)
+            {
+                DNF_LOG_SCOPE_LINE(0x17e, "./log/TcpErr",
+                    "m_remain_sendlen < MAX_PACKET_SIZE_UDP :  m_remain_sendlen:%d]",
+                    m_remainSendLen);
+                m_recvBuf = (char*)this + 0x183c;
+                m_remainSendLen = 0;
+                return 1;
+            }
+            memmove((char*)this + 0x183c, m_recvBuf, m_remainSendLen);
+            m_recvBuf = (char*)this + 0x183c + m_remainSendLen;
+        }
+        else if (m_remainSendLen < ret)
         {
             printf("offset error[Remain_Data: %d Send:%d]", m_remainSendLen, ret);
             return -1;
         }
-        m_recvBuf = (char*)this + 0x183c;
-        m_remainSendLen = 0;
-        return ret;
+        else
+        {
+            m_recvBuf = (char*)this + 0x183c;
+            m_remainSendLen = 0;
+        }
     }
-    m_recvBuf = (char*)this + 0x183c + ret;
-    m_remainSendLen -= ret;
-    if (m_remainSendLen > 0x96000)
-    {
-        CMyFileLog log(__FUNCTION__, 0x17e);
-        log("./log/TcpErr", "m_remain_sendlen < MAX_PACKET_SIZE_UDP :  m_remain_sendlen:%d]",
-            m_remainSendLen);
-        m_recvBuf = (char*)this + 0x183c;
-        m_remainSendLen = 0;
-        return 1;
-    }
-    memmove((char*)this + 0x183c, m_recvBuf, m_remainSendLen);
-    m_recvBuf = (char*)this + 0x183c + m_remainSendLen;
     return ret;
 }
 ```

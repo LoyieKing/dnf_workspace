@@ -11,7 +11,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 18   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 7   # 每个非 identical 项目函数一份
 ├── bridge/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -35,7 +35,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 0   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 1   # 每个非 identical 项目函数一份
 ├── coserver/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -43,7 +43,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 5   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 3   # 每个非 identical 项目函数一份
 ├── dbmw/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -51,7 +51,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 337   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 326   # 每个非 identical 项目函数一份
 ├── guild/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -59,7 +59,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 536   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 535   # 每个非 identical 项目函数一份
 ├── manager/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -67,7 +67,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 47   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 38   # 每个非 identical 项目函数一份
 ├── monitor/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -75,7 +75,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 417   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 407   # 每个非 identical 项目函数一份
 ├── point/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -83,7 +83,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 18   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 7   # 每个非 identical 项目函数一份
 ├── relay/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -91,7 +91,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 0   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 4   # 每个非 identical 项目函数一份
 ├── statics/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -99,7 +99,7 @@ function_reports/
 │   ├── targets.txt        # 反编译地址清单
 │   ├── scope.txt          # md 范围过滤统计
 │   ├── import.log / decompile.log
-│   └── <函数>.md × 106   # 每个非 identical 项目函数一份
+│   └── <函数>.md × 94   # 每个非 identical 项目函数一份
 ├── stun/
 │   ├── README.md          # 服务级统计与口径
 │   ├── manifest.tsv       # 全函数分类清单（含 md_file）
@@ -115,20 +115,20 @@ function_reports/
 
 | 服务 | NEAR | DIFF | MISSING | 已生成 md |
 |---|---:|---:|---:|---:|
-| auction | 0 | 18 | 641 | 18 |
+| auction | 0 | 7 | 641 | 7 |
 | bridge | 0 | 0 | 673 | 0 |
 | channel | 0 | 0 | 0 | 0 |
-| community | 0 | 0 | 0 | 0 |
-| coserver | 1 | 4 | 0 | 5 |
-| dbmw | 269 | 540 | 6 | 337 |
-| guild | 7 | 529 | 0 | 536 |
-| manager | 255 | 264 | 6 | 47 |
-| monitor | 16 | 401 | 0 | 417 |
-| point | 0 | 18 | 641 | 18 |
-| relay | 0 | 0 | 0 | 0 |
-| statics | 6 | 100 | 0 | 106 |
+| community | 0 | 1 | 0 | 1 |
+| coserver | 0 | 3 | 0 | 3 |
+| dbmw | 258 | 540 | 6 | 326 |
+| guild | 7 | 528 | 0 | 535 |
+| manager | 255 | 255 | 6 | 38 |
+| monitor | 14 | 393 | 0 | 407 |
+| point | 0 | 7 | 641 | 7 |
+| relay | 0 | 4 | 0 | 4 |
+| statics | 5 | 89 | 0 | 94 |
 | stun | 0 | 0 | 0 | 0 |
-| **合计** | | | | **1484** |
+| **合计** | | | | **1422** |
 
 ## 口径与范围
 

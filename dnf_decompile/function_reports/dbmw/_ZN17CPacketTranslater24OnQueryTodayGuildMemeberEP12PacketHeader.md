@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809eec0` | `0x225` | `0x80d3f22` | `0x222` |
+| dbmw | DIFF | `0x809eec0` | `0x225` | `0x80d3fde` | `0x222` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -246,23 +246,24 @@ void CPacketTranslater::_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1051 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1050 行）：
 
 ```cpp
 void CPacketTranslater::OnQueryTodayGuildMemeber(PacketHeader* header)
 {
-    if (!m_pclApp)
-        throw CDNFException(std::string(
-            "CPacketTranslater::OnQueryTodayGuildMemeber() : 0 == m_pclApp"));
     try
     {
+        if (!m_pclApp)
+            throw CDNFException(std::string(
+                "CPacketTranslater::OnQueryTodayGuildMemeber() : 0 == m_pclApp"));
         Packet_DBMW_Request_Today_Guild_Member* pkt =
             (Packet_DBMW_Request_Today_Guild_Member*)header;
+        CGuildServer* gs;
         Packet_Reply_Today_Guild_Member reply;
         m_pclApp->m_dbManager.QueryTodayGuildMember(
             pkt->m_guildId, reply);
-        m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
-            (char*)&reply, reply.packetSize);
+        gs = m_pclApp->m_serverHandler->GetGuildServer();
+        gs->SendToServer((char*)&reply, reply.packetSize);
     }
     DNF_CATCH_LOG("./log/Except.log",
                   "CPacketTranslater::OnQueryTodayGuildMemeber() Exception Break",

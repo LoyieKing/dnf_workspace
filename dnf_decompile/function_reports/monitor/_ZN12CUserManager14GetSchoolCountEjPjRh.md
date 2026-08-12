@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80724c6` | `0x227` | `0x808bb1a` | `0x21f` |
+| monitor | DIFF | `0x80724c6` | `0x227` | `0x808bbd2` | `0x21f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -332,7 +332,7 @@ CUserManager::_ZN12CUserManager14GetSchoolCountEjPjRh
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 352 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 351 行）：
 
 ```cpp
 void CUserManager::GetSchoolCount(unsigned int school, unsigned int* out, unsigned char& idx)

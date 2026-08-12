@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8066dc0` | `0xb5` | `0x8088f78` | `0xbd` |
+| guild | DIFF | `0x8066dc0` | `0xb5` | `0x808932c` | `0xb5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,56 +1,60 @@
+@@ -1,56 +1,56 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -23,30 +23,20 @@
  mov    0xc(%ebp),%eax
  mov    %al,-0x2c(%ebp)
  cmpb   $0x1,-0x2c(%ebp)
--je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x31>
-+je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x35>
+ je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x31>
  cmpb   $0x2,-0x2c(%ebp)
--je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x31>
-+je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x35>
+ je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x31>
  mov    0x8(%ebp),%eax
--movzbl 0x5f(%eax),%eax
-+add    $0x5f,%eax
-+movzbl (%eax),%eax
+ movzbl 0x5f(%eax),%eax
  cmp    $0x1,%al
--je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x31>
-+je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x35>
+ je     <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x31>
  mov    0x8(%ebp),%eax
--movzbl 0x5f(%eax),%eax
-+add    $0x5f,%eax
-+movzbl (%eax),%eax
+ movzbl 0x5f(%eax),%eax
  cmp    $0x2,%al
--jne    <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x8e>
-+jne    <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x94>
+ jne    <T> <_ZN5CUser22ChangeGuildMemberGradeEh+0x8e>
  movzbl -0x2c(%ebp),%edi
  mov    0x8(%ebp),%eax
--movzbl 0x5f(%eax),%eax
-+add    $0x5f,%eax
-+movzbl (%eax),%eax
+ movzbl 0x5f(%eax),%eax
  movzbl %al,%esi
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -65,12 +55,10 @@
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++movzbl -0x2c(%ebp),%edx
  mov    0x8(%ebp),%eax
 -movzbl -0x2c(%ebp),%edx
--mov    %dl,0x5f(%eax)
-+lea    0x5f(%eax),%edx
-+movzbl -0x2c(%ebp),%eax
-+mov    %al,(%edx)
+ mov    %dl,0x5f(%eax)
  mov    0x8(%ebp),%eax
  add    $0x4a,%eax
  mov    %eax,0x4(%esp)
@@ -114,18 +102,18 @@ void __thiscall CUser::_ZN5CUser22ChangeGuildMemberGradeEh(CUser *this,uchar par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 314 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 334 行）：
 
 ```cpp
 void CUser::ChangeGuildMemberGrade(unsigned char grade)
 {
-    if (grade == 1 || grade == 2 || *(unsigned char*)((char*)this + 0x5f) == 1 ||
-        *(unsigned char*)((char*)this + 0x5f) == 2)
+    if (grade == 1 || grade == 2 || (unsigned char)m_guildDBInfo.m_data[0x15] == 1 ||
+        (unsigned char)m_guildDBInfo.m_data[0x15] == 2)
     {
         DNF_LOG_SCOPE_LINE(0x183, "./log/GuildModify", "char(%s), old(%d), new(%d)", GetCharName(),
-            (unsigned int)*(unsigned char*)((char*)this + 0x5f), (unsigned int)grade);
+            (unsigned int)(unsigned char)m_guildDBInfo.m_data[0x15], (unsigned int)grade);
     }
-    *(unsigned char*)((char*)this + 0x5f) = grade;
+    m_guildDBInfo.m_data[0x15] = (char)grade;
     SendGuildMemberDBInfo(*(STGuildMemerDBInfo*)((char*)this + 0x4a));
 }
 ```

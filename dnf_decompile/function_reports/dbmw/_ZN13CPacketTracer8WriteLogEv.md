@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8092726` | `0x86` | `0x80ce5d6` | `0x92` |
+| dbmw | DIFF | `0x8092726` | `0x86` | `0x80ce6b8` | `0x92` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -97,15 +97,16 @@ void __thiscall CPacketTracer::_ZN13CPacketTracer8WriteLogEv(CPacketTracer *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp)（约第 38 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp)（约第 36 行）：
 
 ```cpp
 void CPacketTracer::WriteLog()
 {
-    if (m_field0 % 30 == 0)
+    if (*(unsigned int*)&m_field0 % 30 == 0)
     {
+        register const char* p = m_log.c_str();
         CMyFileLog log(__FUNCTION__, 0x37);
-        log("./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_log.c_str());
+        log("./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", p);
         ResetLog();
     }
 }

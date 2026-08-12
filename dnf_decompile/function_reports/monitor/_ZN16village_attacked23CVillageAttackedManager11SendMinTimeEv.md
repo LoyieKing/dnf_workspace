@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a8ba8` | `0x9f` | `0x80a7e56` | `0xa3` |
+| monitor | DIFF | `0x80a8ba8` | `0x9f` | `0x80a7f44` | `0xa5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,49 +13,43 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,42 +1,41 @@
+@@ -1,42 +1,45 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
--push   %ebx
++push   %edi
+ push   %esi
+ push   %ebx
 -sub    $0x1040,%esp
 -lea    -0x101b(%ebp),%eax
-+sub    $0x2048,%esp
-+lea    -0x2028(%ebp),%eax
++sub    $0x204c,%esp
++lea    -0x202c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN21Packet_DBMW_Query_MsgC1Ev>
 -movl   $0x6,-0x100d(%ebp)
 -movl   $0x4ee3,-0x1011(%ebp)
-+movl   $0x6,-0x201a(%ebp)
-+movl   $0x4ee3,-0x201e(%ebp)
++movl   $0x6,-0x201e(%ebp)
++movl   $0x4ee3,-0x2022(%ebp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked23CVillageAttackedManager13GetElapseTimeEv>
--mov    %eax,%esi
-+mov    %eax,-0x14(%ebp)
+ mov    %eax,%esi
  call   <T> <_Z10GetNowTimev>
--mov    %eax,%ebx
-+mov    %eax,-0x10(%ebp)
+ mov    %eax,%ebx
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15Get_ServerGroupEv>
- movzbl %al,%eax
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--mov    %eax,0x8(%esp)
-+mov    %eax,-0xc(%ebp)
-+mov    -0xc(%ebp),%eax
-+movzbl %al,%edx
-+mov    -0x14(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+mov    %edx,0x8(%esp)
+-movzbl %al,%eax
++movzbl %al,%edi
++mov    %edi,%eax
++and    $0xff,%eax
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ mov    %eax,0x8(%esp)
  movl   $"inSert into village_attacked_server_time_rank(server_info, occ_date, clear_time) values(%d,cast(from_unixtime(%d) as date),%u)",0x4(%esp)
 -lea    -0x101b(%ebp),%eax
 -add    $0x12,%eax
-+lea    -0x1015(%ebp),%eax
++lea    -0x1019(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <sprintf>
  mov    0x8(%ebp),%eax
@@ -63,15 +57,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -lea    -0x101b(%ebp),%edx
-+lea    -0x2028(%ebp),%edx
++lea    -0x202c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -add    $0x1040,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
-+leave
++add    $0x204c,%esp
+ pop    %ebx
+ pop    %esi
++pop    %edi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -119,9 +114,9 @@ void CVillageAttackedManager::SendMinTime()
     Packet_DBMW_Query_Msg pkt;
     pkt.m_fieldB = 6;
     pkt.m_fieldA = 0x4ee3;
-    unsigned int elapse = GetElapseTime();
-    unsigned int now = GetNowTime();
-    unsigned int group = (unsigned int)m_app->Get_ServerGroup();
+    register unsigned int elapse = GetElapseTime();
+    register unsigned int now = GetNowTime();
+    register unsigned int group = (unsigned int)m_app->Get_ServerGroup();
     char sql[0x1001];
     sprintf(sql,
             "inSert into village_attacked_server_time_rank(server_info, occ_date, clear_time) values(%d,cast(from_unixtime(%d) as date),%u)",

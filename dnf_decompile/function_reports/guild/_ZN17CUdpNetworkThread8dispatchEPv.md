@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808bea0` | `0x6fe` | `0x8064f9a` | `0x550` |
+| guild | DIFF | `0x808bea0` | `0x6fe` | `0x8064e32` | `0x4cd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,27 +13,24 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,524 +1,370 @@
+@@ -1,524 +1,345 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
 -sub    $0x9c,%esp
-+sub    $0x8c,%esp
-+mov    0x8(%ebp),%eax
-+mov    0x10(%eax),%eax
-+test   %eax,%eax
-+je     <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x479>
++sub    $0x7c,%esp
  mov    0x8(%ebp),%eax
  mov    0xc(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x2e>
--mov    0x8(%ebp),%eax
--mov    0x10(%eax),%eax
--test   %eax,%eax
++je     <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x3f9>
+ mov    0x8(%ebp),%eax
+ mov    0x10(%eax),%eax
+ test   %eax,%eax
 -je     <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x2e>
-+je     <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x479>
++je     <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x3f9>
  mov    0x8(%ebp),%eax
  mov    0x14(%eax),%eax
  test   %eax,%eax
@@ -104,7 +101,7 @@
 -movl   $&_ZTI13CDNFException,0x4(%esp)
 -mov    %ebx,(%esp)
 -call   <T> <__cxa_throw>
-+je     <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x479>
++je     <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x3f9>
  movl   $0x0,0x4(%esp)
  movl   $0x5,(%esp)
  call   <T> <_ZN7DNFFLib9Sleep_ExtEii>
@@ -117,11 +114,11 @@
 -mov    0x18(%eax),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x68(%ebp),%eax
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x465>
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x3e5>
 +mov    0x8(%ebp),%eax
 +mov    0x18(%eax),%eax
 +mov    %eax,0x4(%esp)
-+lea    -0x58(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
  movl   $0x1804,(%esp)
@@ -135,33 +132,106 @@
 -movl   $0x0,-0x64(%ebp)
 -mov    -0x58(%ebp),%eax
 -mov    %eax,%edx
-+mov    %eax,-0x48(%ebp)
-+lea    -0x58(%ebp),%eax
++mov    %eax,-0x20(%ebp)
++lea    -0x50(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+movl   $0x1800,-0x4c(%ebp)
-+movw   $0x0,-0x4e(%ebp)
-+movl   $0x0,-0x54(%ebp)
-+mov    -0x48(%ebp),%eax
-+mov    %eax,%ebx
++movl   $0x1800,-0x44(%ebp)
++movw   $0x0,-0x46(%ebp)
++movl   $0x0,-0x4c(%ebp)
++mov    -0x20(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x10(%eax),%eax
+-lea    -0x5e(%ebp),%ecx
++lea    -0x46(%ebp),%ecx
+ mov    %ecx,0x10(%esp)
+-lea    -0x64(%ebp),%ecx
++lea    -0x4c(%ebp),%ecx
+ mov    %ecx,0xc(%esp)
+-lea    -0x5c(%ebp),%ecx
++lea    -0x44(%ebp),%ecx
+ mov    %ecx,0x8(%esp)
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt>
+-jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x1c0>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-mov    %eax,%ebx
+-mov    %ecx,%esi
+-lea    -0x68(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuardI6CMutexED1Ev>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
+-jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x4cb>
+ xor    $0x1,%eax
+ test   %al,%al
+-je     <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x215>
+-mov    0x8(%ebp),%eax
+-mov    0x18(%eax),%eax
+-mov    %eax,0x4(%esp)
+-lea    -0x6c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
+-mov    -0x58(%ebp),%eax
++jne    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0xf3>
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x39d>
++mov    %edx,%ebx
++mov    %eax,%esi
++lea    -0x50(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++mov    %esi,%eax
++mov    %ebx,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
++mov    -0x20(%ebp),%eax
++mov    %eax,-0x54(%ebp)
++mov    -0x54(%ebp),%eax
++add    $0x2,%eax
++movzwl (%eax),%eax
++movzwl %ax,%edx
++mov    -0x44(%ebp),%eax
++cmp    %eax,%edx
++jne    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x2f9>
++mov    -0x54(%ebp),%eax
++add    $0x2,%eax
++movzwl (%eax),%eax
++cmp    $0x17ff,%ax
++ja     <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x252>
++mov    -0x44(%ebp),%eax
++cmp    $0x1800,%eax
++jg     <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x1ab>
++mov    -0x54(%ebp),%eax
++lea    0x6(%eax),%edx
++mov    -0x4c(%ebp),%eax
++mov    %eax,(%edx)
++mov    -0x54(%ebp),%eax
++lea    0x4(%eax),%edx
++movzwl -0x46(%ebp),%eax
++mov    %ax,(%edx)
++mov    0x8(%ebp),%eax
++mov    0x14(%eax),%eax
++mov    %eax,0x4(%esp)
++lea    -0x58(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
++mov    0x8(%ebp),%eax
++mov    0xc(%eax),%eax
++lea    -0x54(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZNSt5queueIP14CUdpRecvBufferSt5dequeIS1_SaIS1_EEE4pushERKS1_>
 +mov    0x8(%ebp),%eax
 +mov    0xc(%eax),%eax
 +mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication14Get_UdpHandlerEv>
-+lea    -0x4e(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+lea    -0x54(%ebp),%edx
-+mov    %edx,0xc(%esp)
-+lea    -0x4c(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    %ebx,0x4(%esp)
++call   <T> <_ZNKSt5queueIP14CUdpRecvBufferSt5dequeIS1_SaIS1_EEE4sizeEv>
++mov    %eax,-0x1c(%ebp)
++lea    -0x58(%ebp),%eax
 +mov    %eax,(%esp)
-+call   <T> <_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt>
-+cmp    $0x1,%eax
-+sete   %al
-+test   %al,%al
-+jne    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x103>
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x415>
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x3e5>
 +mov    %edx,%ebx
 +mov    %eax,%esi
 +lea    -0x58(%ebp),%eax
@@ -171,82 +241,36 @@
 +mov    %ebx,%edx
 +mov    %eax,(%esp)
 +call   <T> <_Unwind_Resume>
-+mov    -0x48(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%edx
-+mov    -0x4c(%ebp),%eax
-+cmp    %eax,%edx
-+jne    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x369>
-+mov    -0x48(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
-+cmp    $0x17ff,%ax
-+ja     <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x2ba>
-+mov    -0x4c(%ebp),%eax
-+cmp    $0x1800,%eax
-+jg     <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x20b>
-+mov    -0x48(%ebp),%eax
-+lea    0x6(%eax),%edx
 +mov    -0x54(%ebp),%eax
-+mov    %eax,(%edx)
-+mov    -0x48(%ebp),%eax
-+lea    0x4(%eax),%edx
-+movzwl -0x4e(%ebp),%eax
-+mov    %ax,(%edx)
++movzwl (%eax),%eax
++movzwl %ax,%edi
++mov    -0x44(%ebp),%esi
++mov    -0x54(%ebp),%eax
++add    $0x2,%eax
++movzwl (%eax),%eax
++movzwl %ax,%ebx
++movl   $0x7d,0x8(%esp)
++movl   $&_ZZN17CUdpNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
++lea    -0x40(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    %edi,0x14(%esp)
++mov    %esi,0x10(%esp)
++mov    %ebx,0xc(%esp)
++movl   $"Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",0x8(%esp)
++movl   $"./log/recvErr",0x4(%esp)
++lea    -0x40(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    0x8(%ebp),%eax
-+mov    0x14(%eax),%eax
++mov    0x18(%eax),%eax
 +mov    %eax,0x4(%esp)
 +lea    -0x5c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
- mov    0x8(%ebp),%eax
- mov    0x10(%eax),%eax
--lea    -0x5e(%ebp),%ecx
--mov    %ecx,0x10(%esp)
--lea    -0x64(%ebp),%ecx
--mov    %ecx,0xc(%esp)
--lea    -0x5c(%ebp),%ecx
--mov    %ecx,0x8(%esp)
-+lea    -0x48(%ebp),%edx
- mov    %edx,0x4(%esp)
++mov    -0x54(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt>
--jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x1c0>
--mov    %eax,%ecx
--mov    %edx,%eax
-+call   <T> <_ZNSt5queueIP14CUdpRecvBufferSt5dequeIS1_SaIS1_EEE4pushERKS1_>
-+mov    0x8(%ebp),%eax
-+mov    0x10(%eax),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt5queueIP14CUdpRecvBufferSt5dequeIS1_SaIS1_EEE4sizeEv>
-+mov    %eax,-0x1c(%ebp)
-+cmpl   $0x64,-0x1c(%ebp)
-+jbe    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x1fb>
-+mov    0x8(%ebp),%eax
-+mov    0x10(%eax),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt5queueIP14CUdpRecvBufferSt5dequeIS1_SaIS1_EEE4sizeEv>
- mov    %eax,%ebx
--mov    %ecx,%esi
--lea    -0x68(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuardI6CMutexED1Ev>
--mov    %esi,%ecx
--mov    %ebx,%eax
--jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x4cb>
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x215>
--mov    0x8(%ebp),%eax
--mov    0x18(%eax),%eax
--mov    %eax,0x4(%esp)
--lea    -0x6c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
--mov    -0x58(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN14CUdpRecvBufferdlEPv>
+ call   <T> <_ZN14CUdpRecvBufferdlEPv>
 -jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x205>
 -mov    %eax,%ecx
 -mov    %edx,%eax
@@ -271,34 +295,103 @@
 -cmp    %eax,%edx
 -je     <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x2d6>
 -mov    -0x20(%ebp),%eax
--movzwl (%eax),%eax
--movzwl %ax,%edi
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x242>
++mov    %edx,%ebx
++mov    %eax,%esi
++lea    -0x5c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++mov    %esi,%eax
++mov    %ebx,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
++lea    -0x5c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x3e5>
++mov    -0x54(%ebp),%eax
+ movzwl (%eax),%eax
+ movzwl %ax,%edi
 -mov    -0x5c(%ebp),%esi
 -mov    -0x20(%ebp),%eax
 -movzwl 0x2(%eax),%eax
--movzwl %ax,%ebx
--movl   $0x66,0x8(%esp)
--movl   $&_ZZN17CUdpNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
++mov    -0x44(%ebp),%esi
++mov    -0x54(%ebp),%eax
++add    $0x2,%eax
++movzwl (%eax),%eax
++movzwl %ax,%ebx
++movl   $0x71,0x8(%esp)
++movl   $&_ZZN17CUdpNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
++lea    -0x38(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    %edi,0x14(%esp)
++mov    %esi,0x10(%esp)
++mov    %ebx,0xc(%esp)
++movl   $"Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",0x8(%esp)
++movl   $"./log/recvErr",0x4(%esp)
++lea    -0x38(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    0x8(%ebp),%eax
++mov    0x18(%eax),%eax
++mov    %eax,0x4(%esp)
++lea    -0x60(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
++mov    -0x54(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN14CUdpRecvBufferdlEPv>
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x2e9>
++mov    %edx,%ebx
++mov    %eax,%esi
++lea    -0x60(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++mov    %esi,%eax
++mov    %ebx,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
++lea    -0x60(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x3e5>
++mov    -0x54(%ebp),%eax
++movzwl (%eax),%eax
++movzwl %ax,%edi
++mov    -0x44(%ebp),%esi
++mov    -0x54(%ebp),%eax
++add    $0x2,%eax
++movzwl (%eax),%eax
+ movzwl %ax,%ebx
+ movl   $0x66,0x8(%esp)
+ movl   $&_ZZN17CUdpNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",0x8(%esp)
--movl   $"./log/recvErr",0x4(%esp)
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %edi,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",0x8(%esp)
+ movl   $"./log/recvErr",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    0x8(%ebp),%eax
--mov    0x18(%eax),%eax
--mov    %eax,0x4(%esp)
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    0x8(%ebp),%eax
+ mov    0x18(%eax),%eax
+ mov    %eax,0x4(%esp)
 -lea    -0x70(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
 -mov    -0x58(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN14CUdpRecvBufferdlEPv>
++lea    -0x64(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
++mov    -0x54(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CUdpRecvBufferdlEPv>
 -jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x2c6>
 -mov    %eax,%ecx
 -mov    %edx,%eax
@@ -314,7 +407,27 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CGuardI6CMutexED1Ev>
 -jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x4b3>
--mov    -0x20(%ebp),%eax
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x390>
++mov    %edx,%ebx
++mov    %eax,%esi
++lea    -0x64(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++mov    %esi,%eax
++mov    %ebx,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
++lea    -0x64(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x3e5>
++mov    0x8(%ebp),%eax
++mov    0x18(%eax),%eax
++mov    %eax,0x4(%esp)
++lea    -0x68(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
+ mov    -0x20(%ebp),%eax
 -movzwl 0x2(%eax),%eax
 -cmp    $0x17ff,%ax
 -jbe    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x38d>
@@ -326,21 +439,18 @@
 -movzwl 0x2(%eax),%eax
 -movzwl %ax,%ebx
 -movl   $0x71,0x8(%esp)
-+movl   $0xb2,0x8(%esp)
- movl   $&_ZZN17CUdpNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
- lea    -0x44(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $&_ZZN17CUdpNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
+-lea    -0x44(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
- mov    %ebx,0xc(%esp)
+-mov    %ebx,0xc(%esp)
 -movl   $"Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",0x8(%esp)
 -movl   $"./log/recvErr",0x4(%esp)
-+movl   $"cnt(%d)\n",0x8(%esp)
-+movl   $"./log/recv",0x4(%esp)
- lea    -0x44(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-lea    -0x44(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    0x8(%ebp),%eax
 -mov    0x18(%eax),%eax
 -mov    %eax,0x4(%esp)
@@ -348,8 +458,8 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
 -mov    -0x58(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN14CUdpRecvBufferdlEPv>
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CUdpRecvBufferdlEPv>
 -jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x37d>
 -mov    %eax,%ecx
 -mov    %edx,%eax
@@ -369,47 +479,28 @@
 -cmp    $0x1800,%eax
 -jbe    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x43e>
 -mov    -0x20(%ebp),%eax
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x1fb>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x5c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+lea    -0x5c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x465>
-+mov    -0x48(%ebp),%eax
- movzwl (%eax),%eax
- movzwl %ax,%edi
+-movzwl (%eax),%eax
+-movzwl %ax,%edi
 -mov    -0x5c(%ebp),%esi
 -mov    -0x20(%ebp),%eax
 -movzwl 0x2(%eax),%eax
-+mov    -0x4c(%ebp),%esi
-+mov    -0x48(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
- movzwl %ax,%ebx
- movl   $0x7d,0x8(%esp)
- movl   $&_ZZN17CUdpNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
- lea    -0x3c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    %edi,0x14(%esp)
- mov    %esi,0x10(%esp)
- mov    %ebx,0xc(%esp)
- movl   $"Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",0x8(%esp)
- movl   $"./log/recvErr",0x4(%esp)
- lea    -0x3c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    0x8(%ebp),%eax
- mov    0x18(%eax),%eax
- mov    %eax,0x4(%esp)
+-movzwl %ax,%ebx
+-movl   $0x7d,0x8(%esp)
+-movl   $&_ZZN17CUdpNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
+-lea    -0x3c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %edi,0x14(%esp)
+-mov    %esi,0x10(%esp)
+-mov    %ebx,0xc(%esp)
+-movl   $"Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",0x8(%esp)
+-movl   $"./log/recvErr",0x4(%esp)
+-lea    -0x3c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    0x8(%ebp),%eax
+-mov    0x18(%eax),%eax
+-mov    %eax,0x4(%esp)
 -lea    -0x78(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
@@ -468,104 +559,7 @@
 -mov    %esi,%ecx
 -mov    %ebx,%eax
 -jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x4cb>
-+lea    -0x60(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
-+mov    -0x48(%ebp),%eax
-+movl   $0x1804,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CUdpRecvBufferdlEPvj>
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x2aa>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x60(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+lea    -0x60(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x465>
-+mov    -0x48(%ebp),%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%edi
-+mov    -0x4c(%ebp),%esi
-+mov    -0x48(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%ebx
-+movl   $0x71,0x8(%esp)
-+movl   $&_ZZN17CUdpNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    %edi,0x14(%esp)
-+mov    %esi,0x10(%esp)
-+mov    %ebx,0xc(%esp)
-+movl   $"Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",0x8(%esp)
-+movl   $"./log/recvErr",0x4(%esp)
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    0x8(%ebp),%eax
-+mov    0x18(%eax),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x64(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
-+mov    -0x48(%ebp),%eax
-+movl   $0x1804,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CUdpRecvBufferdlEPvj>
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x359>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x64(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+lea    -0x64(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x465>
-+mov    -0x48(%ebp),%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%edi
-+mov    -0x4c(%ebp),%esi
-+mov    -0x48(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%ebx
-+movl   $0x66,0x8(%esp)
-+movl   $&_ZZN17CUdpNetworkThread8dispatchEPvE12__FUNCTION__,0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    %edi,0x14(%esp)
-+mov    %esi,0x10(%esp)
-+mov    %ebx,0xc(%esp)
-+movl   $"Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",0x8(%esp)
-+movl   $"./log/recvErr",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    0x8(%ebp),%eax
-+mov    0x18(%eax),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x68(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
-+mov    -0x48(%ebp),%eax
-+movl   $0x1804,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CUdpRecvBufferdlEPvj>
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x408>
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x3da>
 +mov    %edx,%ebx
 +mov    %eax,%esi
 +lea    -0x68(%ebp),%eax
@@ -576,30 +570,6 @@
 +mov    %eax,(%esp)
 +call   <T> <_Unwind_Resume>
 +lea    -0x68(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x465>
-+mov    0x8(%ebp),%eax
-+mov    0x18(%eax),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x6c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
-+mov    -0x48(%ebp),%eax
-+movl   $0x1804,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CUdpRecvBufferdlEPvj>
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x45a>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x6c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+lea    -0x6c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuardI6CMutexED1Ev>
  mov    0x8(%ebp),%eax
@@ -625,22 +595,22 @@
 -movl   $"CUdpNetworkThread::dispatch() 예외 발생 : %s\n",(%esp)
 -call   <T> <printf>
 -lea    -0x2d(%ebp),%eax
-+jne    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x62>
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x545>
-+lea    -0x1d(%ebp),%eax
++jne    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x5f>
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x4c5>
++lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x2d(%ebp),%eax
-+lea    -0x1d(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,0x8(%esp)
 -movl   $"CNetworkThread::dispatch() Recv  Socket Exception Break!",0x4(%esp)
 -lea    -0x34(%ebp),%eax
 +movl   $"NetworkThread is Not Ready!\n",0x4(%esp)
-+lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x34(%ebp),%esi
-+lea    -0x24(%ebp),%esi
++lea    -0x28(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -653,7 +623,7 @@
 -mov    %edx,%eax
 -mov    %eax,%esi
 -mov    %ecx,%edi
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x4f0>
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x470>
 +mov    %edx,%esi
 +mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -667,7 +637,7 @@
 +mov    %esi,%edx
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x57a>
@@ -675,9 +645,9 @@
 -mov    %edx,%eax
 -cmp    $0xffffffff,%eax
 -jne    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x59f>
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x4ea>
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x46a>
 +cmp    $0xffffffff,%edx
-+jne    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x507>
++jne    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x487>
  call   <T> <_ZSt9terminatev>
 -mov    %esi,%ecx
 -mov    %ebx,%eax
@@ -685,8 +655,8 @@
 -lea    -0x34(%ebp),%eax
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x507>
-+lea    -0x24(%ebp),%eax
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x487>
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x5b4>
@@ -694,9 +664,9 @@
 -mov    %edx,%eax
 -cmp    $0xffffffff,%eax
 -jne    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x59f>
-+jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x522>
++jmp    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x4a2>
 +cmp    $0xffffffff,%edx
-+jne    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x507>
++jne    <T> <_ZN17CUdpNetworkThread8dispatchEPv+0x487>
  call   <T> <_ZSt9terminatev>
 -mov    %eax,%ecx
 -mov    %edx,%eax
@@ -705,7 +675,7 @@
 -lea    -0x2d(%ebp),%eax
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x1d(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
 -mov    %esi,%ecx
@@ -716,7 +686,7 @@
 +mov    %ebx,%edx
 +mov    %eax,(%esp)
 +call   <T> <_Unwind_Resume>
-+lea    -0x1d(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -812,7 +782,7 @@
 -mov    %ecx,(%esp)
 -call   <T> <_Unwind_Resume>
 -add    $0x9c,%esp
-+add    $0x8c,%esp
++add    $0x7c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -970,7 +940,7 @@ void CUdpNetworkThread::_ZN17CUdpNetworkThread8dispatchEPv(void *param_1)
 ```cpp
 void CUdpNetworkThread::dispatch(void* param)
 {
-    if (m_queue != 0 && m_app != 0 && m_lock != 0)
+    if (m_queue != 0 && m_handler != 0 && m_lock != 0)
     {
         DNFFLib::Sleep_Ext(5, 0);
         puts("Network Thread Start!");
@@ -985,59 +955,55 @@ void CUdpNetworkThread::dispatch(void* param)
             int len = 0x1800;
             unsigned short port = 0;
             unsigned int ip = 0;
-            if (m_app->Get_UdpHandler()->RecvFromClient((char*)buf, &len, &ip, &port) == 1)
+            if (((CUdpHandler*)m_handler)->RecvFromClient((char*)buf, &len, &ip, &port) != 1)
             {
-                if (*(unsigned short*)((char*)buf + 2) == len)
+                CUdpRecvBuffer* buf2 = buf;
+                if (*(unsigned short*)((char*)buf2 + 2) == len)
                 {
-                    if (*(unsigned short*)((char*)buf + 2) < 0x1800)
+                    if (*(unsigned short*)((char*)buf2 + 2) < 0x1800)
                     {
                         if (len < 0x1801)
                         {
-                            *(unsigned int*)((char*)buf + 6) = ip;
-                            *(unsigned short*)((char*)buf + 4) = port;
+                            *(unsigned int*)((char*)buf2 + 6) = ip;
+                            *(unsigned short*)((char*)buf2 + 4) = port;
                             {
                                 CGuard<CMutex> g((CMutex*)m_lock);
-                                ((std::queue<CUdpRecvBuffer*>*)m_queue)->push(buf);
+                                ((std::queue<CUdpRecvBuffer*>*)m_queue)->push(buf2);
                                 unsigned int qsize =
                                     ((std::queue<CUdpRecvBuffer*>*)m_queue)->size();
-                                if (100 < qsize)
-                                {
-                                    DNF_LOG_SCOPE_LINE(0xb2,"./log/recv", "cnt(%d)\n",
-                                        ((std::queue<CUdpRecvBuffer*>*)m_queue)->size());
-                                }
                             }
                         }
                         else
                         {
                             DNF_LOG_SCOPE_LINE(0x7d,"./log/recvErr",
                                 "Recv Byte is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
-                                *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
+                                *(unsigned short*)((char*)buf2 + 2), len, *(unsigned short*)buf2);
                             CGuard<CMutex> g((CMutex*)m_bLock);
-                            CUdpRecvBuffer::operator delete(buf, 0x1804);
+                            CUdpRecvBuffer::operator delete(buf2);
                         }
                     }
                     else
                     {
                         DNF_LOG_SCOPE_LINE(0x71,"./log/recvErr",
                             "Packet Size is Over! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
-                            *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
+                            *(unsigned short*)((char*)buf2 + 2), len, *(unsigned short*)buf2);
                         CGuard<CMutex> g((CMutex*)m_bLock);
-                        CUdpRecvBuffer::operator delete(buf, 0x1804);
+                        CUdpRecvBuffer::operator delete(buf2);
                     }
                 }
                 else
                 {
                     DNF_LOG_SCOPE_LINE(0x66,"./log/recvErr",
                         "Packet Size is Incorrect! Packet Size( %d ), Recv Byte( %d ) Code( %d )\n",
-                        *(unsigned short*)((char*)buf + 2), len, *(unsigned short*)buf);
+                        *(unsigned short*)((char*)buf2 + 2), len, *(unsigned short*)buf2);
                     CGuard<CMutex> g((CMutex*)m_bLock);
-                    CUdpRecvBuffer::operator delete(buf, 0x1804);
+                    CUdpRecvBuffer::operator delete(buf2);
                 }
             }
             else
             {
                 CGuard<CMutex> g((CMutex*)m_bLock);
-                CUdpRecvBuffer::operator delete(buf, 0x1804);
+                CUdpRecvBuffer::operator delete(buf);
             }
         }
         return;

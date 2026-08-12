@@ -1,0 +1,2 @@
+NEAR   _ZN9CPowerWarD1Ev
+NEAR   _ZN9CPowerWarD2Ev

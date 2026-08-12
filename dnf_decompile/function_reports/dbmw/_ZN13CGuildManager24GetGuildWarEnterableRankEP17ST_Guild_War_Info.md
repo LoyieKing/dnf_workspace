@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80a35a6` | `0x12f` | `0x80e910c` | `0x11f` |
+| dbmw | DIFF | `0x80a35a6` | `0x12f` | `0x80e915c` | `0x11f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -202,7 +202,7 @@ CGuildManager::_ZN13CGuildManager24GetGuildWarEnterableRankEP17ST_Guild_War_Info
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/GuildManager.cpp](source/DNFServer/GameServer/DBMW/GuildManager.cpp)（约第 191 行）：
+定义于 [source/DNFServer/GameServer/DBMW/GuildManager.cpp](source/DNFServer/GameServer/DBMW/GuildManager.cpp)（约第 202 行）：
 
 ```cpp
 void CGuildManager::GetGuildWarEnterableRank(ST_Guild_War_Info* info)
@@ -214,13 +214,11 @@ void CGuildManager::GetGuildWarEnterableRank(ST_Guild_War_Info* info)
              m_warRankList.begin();
          it != m_warRankList.end(); ++it)
     {
-        char* dst = (char*)info + i * 0x23;
-        *(unsigned int*)(dst + 0) = it->second->m_field0;
-        *(unsigned int*)(dst + 0x4) = it->second->m_field4;
-        memcpy(dst + 0x8, (char*)it->second + 0xc, 0x16);
-        *(unsigned int*)(dst + 0x1f) = it->second->m_field24;
-        i++;
-        if (i > 9)
+        info[i].m_field0 = it->second->m_field0;
+        info[i].m_field4 = it->second->m_field4;
+        memcpy(info[i].m_field8, (char*)it->second + 0xc, 0x16);
+        info[i].m_field1f = it->second->m_field24;
+        if (++i > 9)
             break;
     }
     printGuildWarRank();

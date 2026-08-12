@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80679ca` | `0x4f` | `0x80f3b18` | `0x49` |
+| dbmw | DIFF | `0x80679ca` | `0x4f` | `0x80f3b7a` | `0x49` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -62,7 +62,7 @@ void __thiscall CSystemTime::_ZN11CSystemTimeC1Ev(CSystemTime *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/SystemTimeHandler.cpp](source/DNFServer/GameServer/DBMW/SystemTimeHandler.cpp)（约第 29 行）：
+定义于 [source/DNFServer/GameServer/DBMW/SystemTimeHandler.cpp](source/DNFServer/GameServer/DBMW/SystemTimeHandler.cpp)（约第 28 行）：
 
 ```cpp
 CSystemTime::CSystemTime()

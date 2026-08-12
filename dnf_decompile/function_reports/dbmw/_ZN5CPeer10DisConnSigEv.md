@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | NEAR | `0x805a8c0` | `0xea` | `0x80ec01c` | `0xea` |
+| dbmw | NEAR | `0x805a8c0` | `0xea` | `0x80ec07e` | `0xea` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -142,12 +142,18 @@ void __thiscall CPeer::_ZN5CPeer10DisConnSigEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 73 行）：
+定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 105 行）：
 
 ```cpp
 void CPeer::DisConnSig()
 {
-    Packet_InnerPakcet_Logout pkt;
+    struct PktLocal {
+        unsigned short packetId;
+        unsigned short packetSize;
+        unsigned short reversed1;
+    } __attribute__((packed));
+    PktLocal pkt;
+    _ZN25Packet_InnerPakcet_LogoutC1Ev(&pkt);
     int fd = getHandle();
     CTcpRecvBuffer* buf;
     {

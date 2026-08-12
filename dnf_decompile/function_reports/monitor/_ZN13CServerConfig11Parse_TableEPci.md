@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806232c` | `0xd7` | `0x807f674` | `0xda` |
+| monitor | DIFF | `0x806232c` | `0xd7` | `0x807f722` | `0xda` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -157,7 +157,7 @@ CServerConfig::_ZN13CServerConfig11Parse_TableEPci(CServerConfig *this,char *par
 定义于 [source/DNFServer/GameServer/Monitor/DNFServerConfig.cpp](source/DNFServer/GameServer/Monitor/DNFServerConfig.cpp)（约第 45 行）：
 
 ```cpp
-int CServerConfig::Parse_Table(char* line, int idx)
+bool CServerConfig::Parse_Table(char* line, int idx)
 {
     if (*(char*)line == '#')
     {

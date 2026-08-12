@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8065990` | `0x12e` | `0x805351c` | `0x12e` |
+| monitor | DIFF | `0x8065990` | `0x12e` | `0x80535c0` | `0x12e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -174,7 +174,7 @@ void CApplication::_ZN12CApplication9Add_GM_idEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 1024 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 1031 行）：
 
 ```cpp
 void CApplication::Add_GM_id(unsigned int id)

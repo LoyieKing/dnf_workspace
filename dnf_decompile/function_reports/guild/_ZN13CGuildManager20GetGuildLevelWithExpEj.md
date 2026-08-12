@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8096f56` | `0x52` | `0x805cf42` | `0x43` |
+| guild | DIFF | `0x8096f56` | `0x52` | `0x805ccf8` | `0x52` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,38 +13,37 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,26 +1,22 @@
+@@ -1,26 +1,26 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x10,%esp
--mov    &_ZN13CGuildManager10m_ExpTableE+0x40,%eax
-+mov    &_ZZN13CGuildManager20GetGuildLevelWithExpEjE20g_guildExpLevelTable+0x40,%eax
+ mov    &_ZN13CGuildManager10m_ExpTableE+0x40,%eax
  cmp    0xc(%ebp),%eax
 -ja     <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x17>
 -mov    $0x10,%eax
 -jmp    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x50>
--movl   $0x0,-0x8(%ebp)
-+jbe    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x3c>
++jbe    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x4b>
+ movl   $0x0,-0x8(%ebp)
  movl   $0x0,-0x4(%ebp)
 -jmp    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x42>
-+jmp    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x31>
++jmp    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x3b>
  mov    -0x4(%ebp),%eax
--mov    &_ZN13CGuildManager10m_ExpTableE(,%eax,4),%eax
-+mov    &_ZZN13CGuildManager20GetGuildLevelWithExpEjE20g_guildExpLevelTable(,%eax,4),%eax
+ mov    &_ZN13CGuildManager10m_ExpTableE(,%eax,4),%eax
  cmp    0xc(%ebp),%eax
 -jbe    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x3e>
-+jbe    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x2d>
++jbe    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x37>
  mov    -0x4(%ebp),%eax
--mov    %eax,-0x8(%ebp)
+ mov    %eax,-0x8(%ebp)
 -jmp    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x4d>
-+jmp    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x41>
++jmp    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x46>
  addl   $0x1,-0x4(%ebp)
  cmpl   $0x10,-0x4(%ebp)
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x27>
--mov    -0x8(%ebp),%eax
-+jne    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x19>
++jne    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x20>
+ mov    -0x8(%ebp),%eax
++jmp    <T> <_ZN13CGuildManager20GetGuildLevelWithExpEj+0x50>
 +mov    $0x10,%eax
  leave
  ret
@@ -79,25 +78,24 @@ CGuildManager::_ZN13CGuildManager20GetGuildLevelWithExpEj(CGuildManager *this,ui
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 609 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 664 行）：
 
 ```cpp
 int CGuildManager::GetGuildLevelWithExp(unsigned int exp)
 {
-    static const unsigned int g_guildExpLevelTable[17] = {
-        0x546, 0x131e, 0x2f76, 0x6257, 0xb692, 0x13aa3, 0x201d9, 0x325db,
-        0x4c89a, 0x716e2, 0xa4794, 0xe7e87, 0x140087, 0x1b00b6, 0x231a87,
-        0x2c3b06, 0x3513a1,
-    };
-    if (exp < g_guildExpLevelTable[0x10])
+    int level;
+    if (exp < m_ExpTable[0x10])
     {
+        level = 0;
         for (int i = 0; i <= 0x10; i++)
         {
-            if (g_guildExpLevelTable[i] > exp)
+            if (m_ExpTable[i] > exp)
             {
-                return i;
+                level = i;
+                break;
             }
         }
+        return level;
     }
     return 0x10;
 }

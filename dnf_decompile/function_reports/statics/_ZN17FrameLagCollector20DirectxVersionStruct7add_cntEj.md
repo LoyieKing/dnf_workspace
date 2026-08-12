@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8068776` | `0x11d` | `0x8061a0c` | `0x114` |
+| statics | DIFF | `0x8068776` | `0x11d` | `0x80619ce` | `0x114` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -164,7 +164,7 @@ FrameLagCollector::DirectxVersionStruct::_ZN17FrameLagCollector20DirectxVersionS
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 612 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 603 行）：
 
 ```cpp
 void FrameLagCollector::DirectxVersionStruct::add_cnt(unsigned int version)

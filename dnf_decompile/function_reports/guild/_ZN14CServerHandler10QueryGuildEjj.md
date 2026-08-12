@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806d87e` | `0x4a` | `0x80818dc` | `0x5e` |
+| guild | DIFF | `0x806d87e` | `0x4a` | `0x8081a28` | `0x5e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -78,7 +78,7 @@ CServerHandler::_ZN14CServerHandler10QueryGuildEjj(CServerHandler *this,uint par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 358 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 391 行）：
 
 ```cpp
 void CServerHandler::QueryGuild(unsigned int group, unsigned int guildId)

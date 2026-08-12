@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8066e0c` | `0xe4` | `0x805ffb2` | `0xe1` |
+| statics | DIFF | `0x8066e0c` | `0xe4` | `0x805ff74` | `0xe1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -172,7 +172,7 @@ _ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_No
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 203 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 194 行）：
 
 ```cpp
 int FrameLagCollector::PopMonitoringSpecData(Packet_Frame_Lag_Spec_Delete_Notify* pkt)

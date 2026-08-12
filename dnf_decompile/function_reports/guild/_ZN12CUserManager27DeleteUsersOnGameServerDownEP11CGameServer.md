@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8068f72` | `0x2af` | `0x808b1e2` | `0x2b5` |
+| guild | DIFF | `0x8068f72` | `0x2af` | `0x808b53e` | `0x2a2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,202 +1,204 @@
+@@ -1,202 +1,199 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -25,7 +25,7 @@
 -je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x20>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x2aa>
-+jne    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x2af>
++jne    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x29c>
  mov    0x8(%ebp),%eax
  lea    0x18(%eax),%edx
  lea    -0x2c(%ebp),%eax
@@ -33,16 +33,17 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5beginEv>
  sub    $0x4,%esp
- jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0xb0>
+-jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0xb0>
++jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0xaa>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
  mov    0x4(%eax),%eax
  test   %eax,%eax
--setne  %al
--test   %al,%al
+ setne  %al
+ test   %al,%al
 -je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0xb0>
-+je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x68>
++je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x9f>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -50,13 +51,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
  cmp    0xc(%ebp),%eax
--sete   %al
-+jne    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x68>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x6d>
-+mov    $0x0,%eax
+ sete   %al
  test   %al,%al
- je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0xa5>
+-je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0xa5>
++je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x9f>
  lea    -0x24(%ebp),%eax
  movl   $0x0,0x8(%esp)
  lea    -0x2c(%ebp),%edx
@@ -70,7 +68,8 @@
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5eraseESt17_Rb_tree_iteratorIS6_E>
- jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0xb0>
+-jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0xb0>
++jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0xaa>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEppEv>
@@ -97,16 +96,16 @@
  call   <T> <_ZNSt3mapIKSsP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x172>
-+jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x178>
++jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x16c>
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP5CUserEEptEv>
  mov    0x4(%eax),%eax
  test   %eax,%eax
--setne  %al
--test   %al,%al
+ setne  %al
+ test   %al,%al
 -je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x172>
-+je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x130>
++je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x161>
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP5CUserEEptEv>
@@ -114,15 +113,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
  cmp    0xc(%ebp),%eax
--sete   %al
--test   %al,%al
+ sete   %al
+ test   %al,%al
 -je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x167>
-+jne    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x130>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x135>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x16d>
++je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x161>
  lea    -0x1c(%ebp),%eax
  movl   $0x0,0x8(%esp)
  lea    -0x30(%ebp),%edx
@@ -137,7 +131,7 @@
  mov    %edx,(%esp)
  call   <T> <_ZNSt3mapIKSsP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5eraseESt17_Rb_tree_iteratorIS6_E>
 -jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x172>
-+jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x178>
++jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x16c>
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKSsP5CUserEEppEv>
@@ -154,7 +148,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP5CUserEEneERKS5_>
  test   %al,%al
- jne    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0xfc>
+-jne    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0xfc>
++jne    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0xf6>
  mov    0x8(%ebp),%edx
  lea    -0x34(%ebp),%eax
  mov    %edx,0x4(%esp)
@@ -162,7 +157,7 @@
  call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x276>
-+jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x27e>
++jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x26b>
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -170,20 +165,15 @@
  mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x10(%ebp)
 -je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x276>
-+je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x1f2>
++je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x260>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
  cmp    0xc(%ebp),%eax
--sete   %al
--test   %al,%al
+ sete   %al
+ test   %al,%al
 -je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x26b>
-+jne    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x1f2>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x1f7>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x273>
++je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x260>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetGuildKeyEv>
@@ -192,7 +182,7 @@
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x223>
-+je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x22b>
++je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x218>
  mov    0x8(%ebp),%eax
  mov    0x48(%eax),%eax
  mov    -0x10(%ebp),%edx
@@ -204,7 +194,7 @@
  mov    -0x10(%ebp),%ebx
  test   %ebx,%ebx
 -je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x23a>
-+je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x242>
++je     <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x22f>
  mov    %ebx,(%esp)
  call   <T> <_ZN5CUserD1Ev>
  mov    %ebx,(%esp)
@@ -222,7 +212,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5eraseESt17_Rb_tree_iteratorIS6_E>
 -jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x276>
-+jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x27e>
++jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x26b>
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEppEv>
@@ -240,8 +230,8 @@
  test   %al,%al
 -jne    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x1be>
 -mov    $0x0,%eax
-+jne    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x1c4>
-+jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x2b0>
++jne    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x1b8>
++jmp    <T> <_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer+0x29d>
 +nop
  mov    -0x4(%ebp),%ebx
  leave
@@ -406,7 +396,7 @@ CUserManager::_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 216 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 224 行）：
 
 ```cpp
 void CUserManager::DeleteUsersOnGameServerDown(CGameServer* server)
@@ -418,45 +408,48 @@ void CUserManager::DeleteUsersOnGameServerDown(CGameServer* server)
     for (std::map<unsigned int, CUser*>::iterator it = m_charNoUsers.begin();
          it != m_charNoUsers.end();)
     {
-        if (it->second != 0 && it->second->GetGameServer() == server)
+        if (it->second != 0)
         {
-            m_charNoUsers.erase(it++);
+            if (it->second->GetGameServer() == server)
+            {
+                m_charNoUsers.erase(it++);
+                continue;
+            }
         }
-        else
-        {
-            ++it;
-        }
+        ++it;
     }
     for (std::map<std::string, CUser*>::iterator it = m_charNameUsers.begin();
          it != m_charNameUsers.end();)
     {
-        if (it->second != 0 && it->second->GetGameServer() == server)
+        if (it->second != 0)
         {
-            m_charNameUsers.erase(it++);
+            if (it->second->GetGameServer() == server)
+            {
+                m_charNameUsers.erase(it++);
+                continue;
+            }
         }
-        else
-        {
-            ++it;
-        }
+        ++it;
     }
     for (std::map<unsigned int, CUser*>::iterator it = m_users.begin();
          it != m_users.end();)
     {
         CUser* user = it->second;
-        if (user != 0 && user->GetGameServer() == server)
+        if (user != 0)
         {
-            unsigned int guildKey = user->GetGuildKey();
-            if (guildKey != 0)
+            if (user->GetGameServer() == server)
             {
-                m_app->Call_DeleteGuildMember(guildKey, user);
+                unsigned int guildKey = user->GetGuildKey();
+                if (guildKey != 0)
+                {
+                    m_app->Call_DeleteGuildMember(guildKey, user);
+                }
+                delete user;
+                m_users.erase(it++);
+                continue;
             }
-            delete user;
-            m_users.erase(it++);
         }
-        else
-        {
-            ++it;
-        }
+        ++it;
     }
 }
 ```

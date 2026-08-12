@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8099c90` | `0x29d` | `0x80d158e` | `0x2a0` |
+| dbmw | DIFF | `0x8099c90` | `0x29d` | `0x80d165e` | `0x2a0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -269,21 +269,21 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 512 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 513 行）：
 
 ```cpp
 void CPacketTranslater::OnCreateGuildAgit(PacketHeader* header)
 {
-    if (!m_pclApp)
-        throw CDNFException(std::string(
-            "CPacketTranslater::OnCreateGuildAgit() : 0 == m_pclApp"));
     try
     {
+        if (!m_pclApp)
+            throw CDNFException(std::string(
+                "CPacketTranslater::OnCreateGuildAgit() : 0 == m_pclApp"));
         Packet_DB_Create_Guild_Agit* pkt =
             (Packet_DB_Create_Guild_Agit*)header;
         Packet_DB_Create_Guild_Agit_Reply reply;
-        reply.m_fieldA = pkt->m_guildId;
         reply.m_fieldE = pkt->m_fieldE;
+        reply.m_fieldA = pkt->m_guildId;
         m_pclApp->m_dbManager.OnCreateGuildAgit(pkt, reply);
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         gs->SendToServer((char*)&reply, 0x16);

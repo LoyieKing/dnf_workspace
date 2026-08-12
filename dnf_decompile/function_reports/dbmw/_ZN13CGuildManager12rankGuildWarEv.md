@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80a3472` | `0xeb` | `0x80e8eea` | `0xe5` |
+| dbmw | DIFF | `0x80a3472` | `0xeb` | `0x80e8f3a` | `0xe5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -180,7 +180,8 @@ char CGuildManager::rankGuildWar()
              m_warRankList.begin();
          it != m_warRankList.end(); ++it)
     {
-        (*it).second->m_field8 = ++r;
+        STGuildWarRankInfo* p = (*it).second;
+        p->m_field8 = ++r;
     }
     return 1;
 }

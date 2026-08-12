@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807196a` | `0x310` | `0x8068058` | `0x305` |
+| guild | DIFF | `0x807196a` | `0x310` | `0x8067e98` | `0x310` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,199 +1,195 @@
+@@ -1,199 +1,199 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -23,14 +23,12 @@
  mov    %eax,-0x1c(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
--je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2ff>
-+je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2f4>
+ je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2ff>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x68(%eax),%eax
  mov    %eax,-0x18(%ebp)
  cmpl   $0x0,-0x18(%ebp)
--je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x302>
-+je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2f7>
+ je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x302>
  mov    -0x1c(%ebp),%eax
  movzbl 0xa(%eax),%eax
  mov    %al,-0x11(%ebp)
@@ -44,8 +42,7 @@
  call   <T> <_ZN14CServerHandler19IsConnectedDBServerEv>
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x305>
-+je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2fa>
+ je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x305>
  movl   $0x1,0x4(%esp)
  mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -63,14 +60,11 @@
  lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
-+jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2fe>
+ jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
  cmpb   $0x0,-0x11(%ebp)
--je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x1ac>
-+je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x1a7>
+ je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x1ac>
  cmpb   $0xbe,-0x11(%ebp)
--ja     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x1ac>
-+ja     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x1a7>
+ ja     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x1ac>
  movzbl -0x11(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    -0x18(%ebp),%eax
@@ -83,8 +77,7 @@
  call   <T> <_ZN14CServerHandler21IsConnectedGameServerEh>
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x308>
-+je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2fd>
+ je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x308>
  movzbl -0x11(%ebp),%eax
  movl   $0x1,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -102,11 +95,10 @@
  call   <T> <_ZN14CServerHandler13GetGameServerEj>
  mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x10(%ebp)
--setne  %al
--test   %al,%al
--je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x169>
+ setne  %al
+ test   %al,%al
+ je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x169>
 -lea    -0x4f(%ebp),%edx
-+je     <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x164>
 +lea    -0x4f(%ebp),%eax
 +movl   $0xb,0x8(%esp)
 +mov    %eax,0x4(%esp)
@@ -115,8 +107,7 @@
 -mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12SendToServerEPci>
--jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
-+jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2fe>
+ jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
  movzbl -0x11(%ebp),%ebx
  movl   $0x129,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater11OnHeartBeatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -129,12 +120,10 @@
  lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
--mov    -0x1c(%ebp),%eax
--movzbl 0xa(%eax),%eax
--movzbl %al,%ebx
-+jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2fe>
-+movzbl -0x11(%ebp),%ebx
+ jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
+ mov    -0x1c(%ebp),%eax
+ movzbl 0xa(%eax),%eax
+ movzbl %al,%ebx
  movl   $0x130,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater11OnHeartBeatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x34(%ebp),%eax
@@ -146,39 +135,29 @@
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
-+jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2fe>
+ jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
  cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x297>
-+jne    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x28c>
+ jne    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x297>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnHeartBeat() Exception Break : %s\n",(%esp)
  call   <T> <printf>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%ebx
  movl   $0x137,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater11OnHeartBeatEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -191,8 +170,7 @@
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x290>
-+jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x285>
+ jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x290>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -201,8 +179,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
-+jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2fe>
+ jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnHeartBeat() Exception Break",(%esp)
@@ -217,8 +194,7 @@
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2f8>
-+jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2ed>
+ jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2f8>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -227,17 +203,13 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
-+jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2fe>
+ jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
  nop
--jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
-+jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2fe>
+ jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
  nop
--jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
-+jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2fe>
+ jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
  nop
--jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
-+jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x2fe>
+ jmp    <T> <_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader+0x309>
  nop
  add    $0x60,%esp
  pop    %ebx
@@ -318,7 +290,7 @@ void CPacketTranslater::_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader(Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 221 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 351 行）：
 
 ```cpp
 void CPacketTranslater::OnHeartBeat(PacketHeader* pkt)
@@ -350,8 +322,8 @@ void CPacketTranslater::OnHeartBeat(PacketHeader* pkt)
                         handler->SetConnectFlag(idx, true);
                         Packet_Tcp_Server_Connect connectPkt;
                         connectPkt.m_field_a = 0xcb;
-                        CServerInterface* gs = handler->GetGameServer((unsigned int)idx);
-                        if (gs != 0)
+                        CServerInterface* gs;
+                        if ((gs = handler->GetGameServer((unsigned int)idx)) != 0)
                         {
                             gs->SendToServer((char*)&connectPkt, 0xb);
                         }
@@ -366,7 +338,7 @@ void CPacketTranslater::OnHeartBeat(PacketHeader* pkt)
                 else
                 {
                     DNF_LOG_SCOPE_LINE(0x130,"./log/Except", "[ERROR - HEART BEAT] Channel Index(%d) Over.",
-                        (unsigned int)idx);
+                        (unsigned int)((GuildPacketBodyView*)pb)->m_field_a);
                 }
             }
         }

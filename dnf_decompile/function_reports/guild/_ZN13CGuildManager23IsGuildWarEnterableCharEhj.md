@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8096dc4` | `0x51` | `0x805cda8` | `0x54` |
+| guild | DIFF | `0x8096dc4` | `0x51` | `0x805cb64` | `0x56` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,40 +13,36 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,27 +1,28 @@
+@@ -1,27 +1,29 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  mov    0xc(%ebp),%eax
  mov    %al,-0xc(%ebp)
  cmpb   $0x6,-0xc(%ebp)
--je     <T> <_ZN13CGuildManager23IsGuildWarEnterableCharEhj+0x19>
--mov    $0x1,%eax
+ je     <T> <_ZN13CGuildManager23IsGuildWarEnterableCharEhj+0x19>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN13CGuildManager23IsGuildWarEnterableCharEhj+0x4f>
-+jne    <T> <_ZN13CGuildManager23IsGuildWarEnterableCharEhj+0x4d>
++jmp    <T> <_ZN13CGuildManager23IsGuildWarEnterableCharEhj+0x54>
  movzbl -0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CGuildManager17IsGuildWarEventOnEh>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN13CGuildManager23IsGuildWarEnterableCharEhj+0x3a>
--mov    $0x0,%eax
+ je     <T> <_ZN13CGuildManager23IsGuildWarEnterableCharEhj+0x3a>
+ mov    $0x0,%eax
 -jmp    <T> <_ZN13CGuildManager23IsGuildWarEnterableCharEhj+0x4f>
-+je     <T> <_ZN13CGuildManager23IsGuildWarEnterableCharEhj+0x46>
++jmp    <T> <_ZN13CGuildManager23IsGuildWarEnterableCharEhj+0x54>
  mov    0x8(%ebp),%eax
  lea    0x44(%eax),%edx
  mov    0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN9CGuildWar24IsGuildWarEnterableGuildEj>
-+cmp    $0x1,%eax
-+sete   %al
-+jmp    <T> <_ZN13CGuildManager23IsGuildWarEnterableCharEhj+0x52>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN13CGuildManager23IsGuildWarEnterableCharEhj+0x52>
-+mov    $0x1,%eax
++test   %eax,%eax
++setne  %al
  leave
  ret
 ```
@@ -82,19 +78,25 @@ CGuildManager::_ZN13CGuildManager23IsGuildWarEnterableCharEhj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 557 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 603 行）：
 
 ```cpp
 bool CGuildManager::IsGuildWarEnterableChar(unsigned char group, unsigned int charNo)
 {
-    if (group == 6)
+    if (group != 6)
     {
-        if (IsGuildWarEventOn(group) == 1)
-        {
-            return m_guildWar.IsGuildWarEnterableGuild(charNo) == 1;
-        }
-        return 0;
+        return 1;
     }
-    return 1;
+    else
+    {
+        if (!IsGuildWarEventOn(group))
+        {
+            return 0;
+        }
+        else
+        {
+            return m_guildWar.IsGuildWarEnterableGuild(charNo);
+        }
+    }
 }
 ```

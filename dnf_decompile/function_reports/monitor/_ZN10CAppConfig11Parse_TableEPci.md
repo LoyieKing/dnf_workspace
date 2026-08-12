@@ -18,8 +18,7 @@
  mov    %esp,%ebp
  push   %esi
  push   %ebx
--sub    $0x60,%esp
-+sub    $0x50,%esp
+ sub    $0x60,%esp
  mov    0xc(%ebp),%eax
  movzbl (%eax),%eax
  cmp    $0x23,%al
@@ -29,8 +28,7 @@
  cmpl   $0x7,0x10(%ebp)
  jg     <T> <_ZN10CAppConfig11Parse_TableEPci+0x220>
  movl   $0x2,0xc(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $" \t\r\n\"",0x4(%esp)
  mov    0xc(%ebp),%eax
@@ -46,32 +44,28 @@
  shl    $0x2,%eax
  mov    &data#390c5276(.rodata)(%eax),%eax
  jmp    *%eax
--mov    -0x2c(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    %dl,0x4(%eax)
  jmp    <T> <_ZN10CAppConfig11Parse_TableEPci+0x216>
--mov    -0x2c(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    %dx,0x6(%eax)
  jmp    <T> <_ZN10CAppConfig11Parse_TableEPci+0x216>
--mov    -0x2c(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    %dl,0xa(%eax)
  jmp    <T> <_ZN10CAppConfig11Parse_TableEPci+0x216>
--mov    -0x2c(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,%edx
@@ -81,8 +75,7 @@
  lea    -0x1d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--mov    -0x2c(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x2c(%ebp),%eax
  lea    -0x1d(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -121,8 +114,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  jmp    <T> <_ZN10CAppConfig11Parse_TableEPci+0x216>
--mov    -0x2c(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,%edx
@@ -132,8 +124,7 @@
  lea    -0x15(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--mov    -0x2c(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x2c(%ebp),%eax
  lea    -0x15(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -172,8 +163,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  jmp    <T> <_ZN10CAppConfig11Parse_TableEPci+0x216>
--mov    -0x2c(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,%edx
@@ -185,8 +175,7 @@
  mov    $0x1,%eax
  jmp    <T> <_ZN10CAppConfig11Parse_TableEPci+0x307>
  movl   $0x6,0xc(%esp)
--lea    -0x4c(%ebp),%eax
-+lea    -0x44(%ebp),%eax
+ lea    -0x4c(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $" \t\r\n\"",0x4(%esp)
  mov    0xc(%ebp),%eax
@@ -198,66 +187,42 @@
  je     <T> <_ZN10CAppConfig11Parse_TableEPci+0x302>
  movl   $0x16,(%esp)
  call   <T> <_Znwj>
--mov    %eax,-0x50(%ebp)
--mov    -0x50(%ebp),%ebx
-+mov    %eax,-0x48(%ebp)
-+mov    -0x48(%ebp),%ebx
-+mov    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+mov    %al,0x2(%ebx)
-+mov    -0x48(%ebp),%ebx
-+mov    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+mov    %al,(%ebx)
-+mov    -0x48(%ebp),%ebx
-+mov    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+mov    %al,0x1(%ebx)
-+mov    -0x34(%ebp),%eax
-+mov    -0x48(%ebp),%edx
-+add    $0x3,%edx
-+movl   $0x10,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <strncpy>
-+mov    -0x48(%ebp),%ebx
-+mov    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+mov    %ax,0x14(%ebx)
+ mov    %eax,-0x50(%ebp)
+ mov    -0x50(%ebp),%ebx
  mov    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <atoi>
--mov    %al,0x2(%ebx)
--mov    -0x50(%ebp),%ebx
--mov    -0x44(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <atoi>
--mov    %al,(%ebx)
--mov    -0x50(%ebp),%ebx
--mov    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <atoi>
--mov    %al,0x1(%ebx)
+ mov    %eax,(%esp)
+ call   <T> <atoi>
+ mov    %al,0x2(%ebx)
+ mov    -0x50(%ebp),%ebx
+ mov    -0x44(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <atoi>
+ mov    %al,(%ebx)
+ mov    -0x50(%ebp),%ebx
+ mov    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <atoi>
+ mov    %al,0x1(%ebx)
 -mov    -0x3c(%ebp),%edx
 -mov    -0x50(%ebp),%eax
 -add    $0x3,%eax
--movl   $0x10,0x8(%esp)
++mov    -0x3c(%ebp),%eax
++mov    -0x50(%ebp),%edx
++add    $0x3,%edx
+ movl   $0x10,0x8(%esp)
 -mov    %edx,0x4(%esp)
 -mov    %eax,(%esp)
--call   <T> <strncpy>
--mov    -0x50(%ebp),%ebx
--mov    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <atoi>
--mov    %ax,0x14(%ebx)
--mov    -0x50(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
+ call   <T> <strncpy>
+ mov    -0x50(%ebp),%ebx
+ mov    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <atoi>
+ mov    %ax,0x14(%ebx)
+ mov    -0x50(%ebp),%eax
  lea    0x2(%eax),%edx
--lea    -0x50(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x50(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    %edx,0x4(%esp)
  lea    -0x10(%ebp),%eax
@@ -401,7 +366,7 @@ CAppConfig::_ZN10CAppConfig11Parse_TableEPci(CAppConfig *this,char *param_1,int 
 定义于 [source/DNFServer/GameServer/Monitor/DNFAppConfig.cpp](source/DNFServer/GameServer/Monitor/DNFAppConfig.cpp)（约第 64 行）：
 
 ```cpp
-int CAppConfig::Parse_Table(char* line, int idx)
+bool CAppConfig::Parse_Table(char* line, int idx)
 {
     if (line[0] == '#')
     {
@@ -409,6 +374,7 @@ int CAppConfig::Parse_Table(char* line, int idx)
     }
     if (idx < 8)
     {
+        char pad_if[4];
         char* tokens[2];
         if (DNFFLib::ExplodeString(line, " \t\r\n\"", tokens, 2) == 2)
         {
@@ -446,6 +412,7 @@ int CAppConfig::Parse_Table(char* line, int idx)
     }
     else
     {
+        char pad_else[4];
         char* tokens[6];
         if (DNFFLib::ExplodeString(line, " \t\r\n\"", tokens, 6) == 6)
         {

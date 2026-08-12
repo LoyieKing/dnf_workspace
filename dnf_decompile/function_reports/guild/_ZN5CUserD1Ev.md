@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80667c2` | `0x9e` | `0x808892e` | `0xac` |
+| guild | DIFF | `0x80667c2` | `0x9e` | `0x8088cfe` | `0xc3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,40 +1,49 @@
+@@ -1,40 +1,55 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x18,%esp
@@ -46,27 +46,27 @@
  mov    %eax,(%esp)
  call   <T> <memset>
  mov    0x8(%ebp),%eax
--movb   $0x0,0x10(%eax)
--mov    0x8(%ebp),%eax
--movw   $0x0,0x7c(%eax)
--mov    0x8(%ebp),%eax
--movb   $0x1,0x3a(%eax)
-+add    $0x64,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIjP10CBlackUserSt4lessIjESaISt4pairIKjS1_EEED1Ev>
-+add    $0x10,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %ebp
-+ret
-+mov    %edx,%ebx
-+mov    %eax,%esi
+ movb   $0x0,0x10(%eax)
+ mov    0x8(%ebp),%eax
+ movw   $0x0,0x7c(%eax)
+ mov    0x8(%ebp),%eax
+ movb   $0x1,0x3a(%eax)
  mov    0x8(%ebp),%eax
  add    $0x64,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP10CBlackUserSt4lessIjESaISt4pairIKjS1_EEED1Ev>
 -leave
--ret
++add    $0x10,%esp
++pop    %ebx
++pop    %esi
++pop    %ebp
+ ret
++mov    %edx,%ebx
++mov    %eax,%esi
++mov    0x8(%ebp),%eax
++add    $0x64,%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt3mapIjP10CBlackUserSt4lessIjESaISt4pairIKjS1_EEED1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
 +mov    %eax,(%esp)
@@ -104,7 +104,7 @@ void __thiscall CUser::_ZN5CUserD1Ev(CUser *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 140 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 156 行）：
 
 ```cpp
 CUser::~CUser()
@@ -119,5 +119,8 @@ CUser::~CUser()
     m_growthType = 0xff;
     m_guildMemFlag = 0xffff;
     memset(m_charInfo, 0, sizeof(m_charInfo));
+    m_posState = 0;
+    m_field7c = 0;
+    m_field3a = 1;
 }
 ```

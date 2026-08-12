@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806094a` | `0x348` | `0x807f4c4` | `0x2fe` |
+| guild | NEAR | `0x806094a` | `0x348` | `0x807f5cc` | `0x348` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,243 +1,221 @@
+@@ -1,243 +1,243 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x38,%esp
@@ -23,160 +23,101 @@
  cmp    $0x23,%al
  jne    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x1a>
  mov    $0x0,%eax
--jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x346>
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2fc>
+ jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x346>
  movl   $0x4,0xc(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $" \t\r\n\"",0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN7DNFFLib13ExplodeStringEPcS0_PS0_i>
--mov    %eax,-0x10(%ebp)
--cmpl   $0x4,-0x10(%ebp)
-+mov    %eax,-0xc(%ebp)
-+cmpl   $0x4,-0xc(%ebp)
+ mov    %eax,-0x10(%ebp)
+ cmpl   $0x4,-0x10(%ebp)
  je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x4f>
--cmpl   $0x2,-0x10(%ebp)
--jne    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x341>
--movb   $0x0,-0x9(%ebp)
-+cmpl   $0x2,-0xc(%ebp)
-+jne    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f7>
+ cmpl   $0x2,-0x10(%ebp)
+ jne    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x341>
+ movb   $0x0,-0x9(%ebp)
  cmpl   $0xa,0x10(%ebp)
--ja     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x320>
-+ja     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2d6>
+ ja     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x320>
  mov    0x10(%ebp),%eax
  shl    $0x2,%eax
--mov    &data#a4e9f157(.rodata)(%eax),%eax
-+mov    &data#9549dbeb(.rodata)(%eax),%eax
+ mov    &data#a4e9f157(.rodata)(%eax),%eax
  jmp    *%eax
 -mov    -0x20(%ebp),%eax
-+mov    -0x18(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    %dl,0x4(%eax)
--jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
+ jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
 -mov    -0x20(%ebp),%eax
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
-+mov    -0x18(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    %dl,0x5(%eax)
--jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
+ jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
 -mov    -0x20(%ebp),%eax
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
-+mov    -0x18(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    %dl,0x6(%eax)
--jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
+ jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
 -mov    -0x20(%ebp),%eax
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
-+mov    -0x18(%ebp),%eax
++mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
  mov    0x8(%ebp),%edx
  mov    %eax,0x8(%edx)
--jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
+ jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
 -mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <atoi>
--test   %eax,%eax
--setne  %al
--mov    %al,-0x9(%ebp)
--cmpb   $0x0,-0x9(%ebp)
--je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x327>
++mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <atoi>
+ test   %eax,%eax
+ setne  %al
+ mov    %al,-0x9(%ebp)
+ cmpb   $0x0,-0x9(%ebp)
+ je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x327>
 -movb   $0x0,-0x27(%ebp)
 -mov    -0x1c(%ebp),%eax
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
+-mov    %eax,(%esp)
+-call   <T> <atoi>
+-mov    %al,-0x26(%ebp)
++movb   $0x0,-0x23(%ebp)
 +mov    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <atoi>
-+test   %eax,%eax
-+je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2dd>
-+movb   $0x0,-0x1f(%ebp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+mov    %al,-0x1e(%ebp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+mov    %al,-0x1d(%ebp)
-+mov    0x8(%ebp),%eax
-+lea    0xc(%eax),%edx
-+lea    -0x1f(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
-+mov    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+test   %eax,%eax
-+je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2e0>
-+movb   $0x1,-0x22(%ebp)
++mov    %al,-0x22(%ebp)
 +mov    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <atoi>
 +mov    %al,-0x21(%ebp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+mov    %al,-0x20(%ebp)
 +mov    0x8(%ebp),%eax
 +lea    0xc(%eax),%edx
-+lea    -0x22(%ebp),%eax
++lea    -0x23(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    %edx,(%esp)
 +call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
-+mov    -0x18(%ebp),%eax
++jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
++mov    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <atoi>
 +test   %eax,%eax
-+je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2e3>
-+movb   $0x2,-0x25(%ebp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+mov    %al,-0x24(%ebp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+mov    %al,-0x23(%ebp)
-+mov    0x8(%ebp),%eax
-+lea    0xc(%eax),%edx
-+lea    -0x25(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
-+mov    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+test   %eax,%eax
-+je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2e6>
-+movb   $0x3,-0x28(%ebp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+mov    %al,-0x27(%ebp)
-+mov    -0x10(%ebp),%eax
++setne  %al
++mov    %al,-0x9(%ebp)
++cmpb   $0x0,-0x9(%ebp)
++je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x32a>
++movb   $0x1,-0x26(%ebp)
+ mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
- mov    %al,-0x26(%ebp)
--mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <atoi>
--mov    %al,-0x25(%ebp)
+ mov    %al,-0x25(%ebp)
 -mov    0x8(%ebp),%eax
 -lea    0xc(%eax),%edx
 -lea    -0x27(%ebp),%eax
@@ -209,13 +150,25 @@
 -call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
 -jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
 -mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <atoi>
--test   %eax,%eax
--setne  %al
--mov    %al,-0x9(%ebp)
--cmpb   $0x0,-0x9(%ebp)
--je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x32d>
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <atoi>
++mov    %al,-0x24(%ebp)
++mov    0x8(%ebp),%eax
++lea    0xc(%eax),%edx
++lea    -0x26(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
++call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
++jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
++mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <atoi>
+ test   %eax,%eax
+ setne  %al
+ mov    %al,-0x9(%ebp)
+ cmpb   $0x0,-0x9(%ebp)
+ je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x32d>
 -movb   $0x2,-0x27(%ebp)
 -mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
@@ -233,13 +186,30 @@
 -call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
 -jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
 -mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <atoi>
--test   %eax,%eax
--setne  %al
--mov    %al,-0x9(%ebp)
--cmpb   $0x0,-0x9(%ebp)
--je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x330>
++movb   $0x2,-0x29(%ebp)
++mov    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <atoi>
++mov    %al,-0x28(%ebp)
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <atoi>
++mov    %al,-0x27(%ebp)
++mov    0x8(%ebp),%eax
++lea    0xc(%eax),%edx
++lea    -0x29(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
++call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
++jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
++mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <atoi>
+ test   %eax,%eax
+ setne  %al
+ mov    %al,-0x9(%ebp)
+ cmpb   $0x0,-0x9(%ebp)
+ je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x330>
 -movb   $0x3,-0x27(%ebp)
 -mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
@@ -257,13 +227,30 @@
 -call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
 -jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
 -mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <atoi>
--test   %eax,%eax
--setne  %al
--mov    %al,-0x9(%ebp)
--cmpb   $0x0,-0x9(%ebp)
--je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x333>
++movb   $0x3,-0x2c(%ebp)
++mov    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <atoi>
++mov    %al,-0x2b(%ebp)
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <atoi>
++mov    %al,-0x2a(%ebp)
++mov    0x8(%ebp),%eax
++lea    0xc(%eax),%edx
++lea    -0x2c(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
++call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
++jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
++mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <atoi>
+ test   %eax,%eax
+ setne  %al
+ mov    %al,-0x9(%ebp)
+ cmpb   $0x0,-0x9(%ebp)
+ je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x333>
 -movb   $0x4,-0x27(%ebp)
 -mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
@@ -281,13 +268,30 @@
 -call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
 -jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
 -mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <atoi>
--test   %eax,%eax
--setne  %al
--mov    %al,-0x9(%ebp)
--cmpb   $0x0,-0x9(%ebp)
--je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x336>
++movb   $0x4,-0x2f(%ebp)
++mov    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <atoi>
++mov    %al,-0x2e(%ebp)
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <atoi>
++mov    %al,-0x2d(%ebp)
++mov    0x8(%ebp),%eax
++lea    0xc(%eax),%edx
++lea    -0x2f(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
++call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
++jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
++mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <atoi>
+ test   %eax,%eax
+ setne  %al
+ mov    %al,-0x9(%ebp)
+ cmpb   $0x0,-0x9(%ebp)
+ je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x336>
 -movb   $0x5,-0x27(%ebp)
 -mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
@@ -305,13 +309,30 @@
 -call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
 -jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
 -mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <atoi>
--test   %eax,%eax
--setne  %al
--mov    %al,-0x9(%ebp)
--cmpb   $0x0,-0x9(%ebp)
--je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x339>
++movb   $0x5,-0x32(%ebp)
++mov    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <atoi>
++mov    %al,-0x31(%ebp)
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <atoi>
++mov    %al,-0x30(%ebp)
++mov    0x8(%ebp),%eax
++lea    0xc(%eax),%edx
++lea    -0x32(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
++call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
++jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
++mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <atoi>
+ test   %eax,%eax
+ setne  %al
+ mov    %al,-0x9(%ebp)
+ cmpb   $0x0,-0x9(%ebp)
+ je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x339>
 -movb   $0x6,-0x27(%ebp)
 -mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
@@ -324,111 +345,39 @@
 -mov    0x8(%ebp),%eax
 -lea    0xc(%eax),%edx
 -lea    -0x27(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
--jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
-+mov    0x8(%ebp),%eax
-+lea    0xc(%eax),%edx
-+lea    -0x28(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
++movb   $0x6,-0x35(%ebp)
 +mov    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <atoi>
-+test   %eax,%eax
-+je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2e9>
-+movb   $0x4,-0x2b(%ebp)
++mov    %al,-0x34(%ebp)
 +mov    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <atoi>
-+mov    %al,-0x2a(%ebp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+mov    %al,-0x29(%ebp)
++mov    %al,-0x33(%ebp)
 +mov    0x8(%ebp),%eax
 +lea    0xc(%eax),%edx
-+lea    -0x2b(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
-+mov    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+test   %eax,%eax
-+je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2ec>
-+movb   $0x5,-0x2e(%ebp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+mov    %al,-0x2d(%ebp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+mov    %al,-0x2c(%ebp)
-+mov    0x8(%ebp),%eax
-+lea    0xc(%eax),%edx
-+lea    -0x2e(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
-+mov    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+test   %eax,%eax
-+je     <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2ef>
-+movb   $0x6,-0x31(%ebp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+mov    %al,-0x30(%ebp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <atoi>
-+mov    %al,-0x2f(%ebp)
-+mov    0x8(%ebp),%eax
-+lea    0xc(%eax),%edx
-+lea    -0x31(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
++lea    -0x35(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZNSt6vectorI22STPowerWarScheduleTimeSaIS0_EE9push_backERKS0_>
+ jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
  mov    $0x0,%eax
--jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x346>
--nop
--jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
--nop
--jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
--nop
--jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
--nop
--jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
--nop
--jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
--nop
--jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2fc>
-+nop
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
-+nop
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
-+nop
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
-+nop
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
-+nop
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
-+nop
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2f0>
+ jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x346>
+ nop
+ jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
+ nop
+ jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
+ nop
+ jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
+ nop
+ jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
+ nop
+ jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
+ nop
+ jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x33a>
  nop
  mov    $0x1,%eax
--jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x346>
-+jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x2fc>
+ jmp    <T> <_ZN15CPowerWarConfig11Parse_TableEPci+0x346>
  mov    $0x0,%eax
  leave
  ret
@@ -593,7 +542,7 @@ CPowerWarConfig::_ZN15CPowerWarConfig11Parse_TableEPci
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPowerWarConfig.cpp](source/DNFServer/GameServer/Guild/DNFPowerWarConfig.cpp)（约第 95 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPowerWarConfig.cpp](source/DNFServer/GameServer/Guild/DNFPowerWarConfig.cpp)（约第 94 行）：
 
 ```cpp
 int CPowerWarConfig::Parse_Table(char* line, int idx)
@@ -602,10 +551,13 @@ int CPowerWarConfig::Parse_Table(char* line, int idx)
     {
         return 0;
     }
+    int x;  // ORIG 帧布局对齐（第 22 轮回归）
     char* tokens[4];
     int n = DNFFLib::ExplodeString(line, " \t\r\n\"", tokens, 4);
     if (n == 4 || n == 2)
     {
+        bool bFlag = 0;
+        STPowerWarScheduleTime st;
         switch (idx)
         {
         case 0:
@@ -621,9 +573,9 @@ int CPowerWarConfig::Parse_Table(char* line, int idx)
             m_info.m_field4 = atoi(tokens[1]);
             break;
         case 4:
-            if (atoi(tokens[1]) != 0)
+            bFlag = atoi(tokens[1]) != 0;
+            if (bFlag)
             {
-                STPowerWarScheduleTime st;
                 st.m_data[0] = 0;
                 st.m_data[1] = (char)atoi(tokens[2]);
                 st.m_data[2] = (char)atoi(tokens[3]);
@@ -631,9 +583,9 @@ int CPowerWarConfig::Parse_Table(char* line, int idx)
             }
             break;
         case 5:
-            if (atoi(tokens[1]) != 0)
+            bFlag = atoi(tokens[1]) != 0;
+            if (bFlag)
             {
-                STPowerWarScheduleTime st;
                 st.m_data[0] = 1;
                 st.m_data[1] = (char)atoi(tokens[2]);
                 st.m_data[2] = (char)atoi(tokens[3]);
@@ -641,9 +593,9 @@ int CPowerWarConfig::Parse_Table(char* line, int idx)
             }
             break;
         case 6:
-            if (atoi(tokens[1]) != 0)
+            bFlag = atoi(tokens[1]) != 0;
+            if (bFlag)
             {
-                STPowerWarScheduleTime st;
                 st.m_data[0] = 2;
                 st.m_data[1] = (char)atoi(tokens[2]);
                 st.m_data[2] = (char)atoi(tokens[3]);
@@ -651,9 +603,9 @@ int CPowerWarConfig::Parse_Table(char* line, int idx)
             }
             break;
         case 7:
-            if (atoi(tokens[1]) != 0)
+            bFlag = atoi(tokens[1]) != 0;
+            if (bFlag)
             {
-                STPowerWarScheduleTime st;
                 st.m_data[0] = 3;
                 st.m_data[1] = (char)atoi(tokens[2]);
                 st.m_data[2] = (char)atoi(tokens[3]);
@@ -661,9 +613,9 @@ int CPowerWarConfig::Parse_Table(char* line, int idx)
             }
             break;
         case 8:
-            if (atoi(tokens[1]) != 0)
+            bFlag = atoi(tokens[1]) != 0;
+            if (bFlag)
             {
-                STPowerWarScheduleTime st;
                 st.m_data[0] = 4;
                 st.m_data[1] = (char)atoi(tokens[2]);
                 st.m_data[2] = (char)atoi(tokens[3]);
@@ -671,9 +623,9 @@ int CPowerWarConfig::Parse_Table(char* line, int idx)
             }
             break;
         case 9:
-            if (atoi(tokens[1]) != 0)
+            bFlag = atoi(tokens[1]) != 0;
+            if (bFlag)
             {
-                STPowerWarScheduleTime st;
                 st.m_data[0] = 5;
                 st.m_data[1] = (char)atoi(tokens[2]);
                 st.m_data[2] = (char)atoi(tokens[3]);
@@ -681,9 +633,9 @@ int CPowerWarConfig::Parse_Table(char* line, int idx)
             }
             break;
         case 10:
-            if (atoi(tokens[1]) != 0)
+            bFlag = atoi(tokens[1]) != 0;
+            if (bFlag)
             {
-                STPowerWarScheduleTime st;
                 st.m_data[0] = 6;
                 st.m_data[1] = (char)atoi(tokens[2]);
                 st.m_data[2] = (char)atoi(tokens[3]);

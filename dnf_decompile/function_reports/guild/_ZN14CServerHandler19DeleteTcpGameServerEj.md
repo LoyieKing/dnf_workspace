@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806da54` | `0xd2` | `0x8081ac8` | `0xe0` |
+| guild | DIFF | `0x806da54` | `0xd2` | `0x8081c14` | `0xe0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -149,7 +149,7 @@ undefined4 CServerHandler::_ZN14CServerHandler19DeleteTcpGameServerEj(uint param
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 403 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 436 行）：
 
 ```cpp
 void CServerHandler::DeleteTcpGameServer(unsigned int group)

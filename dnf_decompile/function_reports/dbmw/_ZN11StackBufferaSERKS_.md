@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x818c992` | `0x61` | `0x80f17b2` | `0x5c` |
+| dbmw | DIFF | `0x818c992` | `0x61` | `0x80f1814` | `0x5c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -75,20 +75,19 @@ StackBuffer * __thiscall StackBuffer::_ZN11StackBufferaSERKS_(StackBuffer *this,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/StackBuffer.cpp](source/DNFServer/GameServer/DBMW/StackBuffer.cpp)（约第 133 行）：
+定义于 [source/DNFServer/GameServer/DBMW/StackBuffer.cpp](source/DNFServer/GameServer/DBMW/StackBuffer.cpp)（约第 139 行）：
 
 ```cpp
 StackBuffer& StackBuffer::operator=(const StackBuffer& other)
 {
-    if (this != &other)
-    {
-        if (m_buf)
-            freeStackBuffer((unsigned char*)m_buf, m_end);
-        m_buf = other.m_buf;
-        m_end = other.m_end;
-        const_cast<StackBuffer&>(other).m_buf = 0;
-        const_cast<StackBuffer&>(other).m_end = 0;
-    }
+    if (this == &other)
+        return *this;
+    if (m_buf)
+        freeStackBuffer((unsigned char*)m_buf, m_end);
+    m_buf = other.m_buf;
+    m_end = other.m_end;
+    const_cast<StackBuffer&>(other).m_buf = 0;
+    const_cast<StackBuffer&>(other).m_end = 0;
     return *this;
 }
 ```

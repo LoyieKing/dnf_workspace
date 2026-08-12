@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8086aa4` | `0x1e6` | `0x8050628` | `0x207` |
+| dbmw | DIFF | `0x8086aa4` | `0x1e6` | `0x8050654` | `0x207` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -280,10 +280,10 @@ CDBManager::_ZN10CDBManager18QueryP2PStatisticsEP21Packet_P2P_Statistics
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 953 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 994 行）：
 
 ```cpp
-char CDBManager::QueryP2PStatistics(Packet_P2P_Statistics* packet)
+bool CDBManager::QueryP2PStatistics(Packet_P2P_Statistics* packet)
 {
     if (!packet)
         return 0;

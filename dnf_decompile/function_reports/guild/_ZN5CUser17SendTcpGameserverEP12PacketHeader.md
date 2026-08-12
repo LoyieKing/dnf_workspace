@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8066bfa` | `0x82` | `0x8088d9c` | `0x86` |
+| guild | DIFF | `0x8066bfa` | `0x82` | `0x808915a` | `0x82` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,19 +13,16 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,42 +1,44 @@
+@@ -1,42 +1,42 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  mov    0x8(%ebp),%eax
  mov    0xc(%eax),%eax
  test   %eax,%eax
--je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
-+je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x84>
+ je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
  mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
+ movzwl 0x2(%eax),%eax
  movzwl %ax,%ecx
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
@@ -38,12 +35,9 @@
  call   <T> <_ZN14CTcpGameServer16makePacketHeaderEtt>
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
--je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
-+je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x84>
+ je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
  mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
+ movzwl 0x2(%eax),%eax
  movzwl %ax,%eax
 -lea    -0xa(%eax),%ecx
 -mov    0xc(%ebp),%eax
@@ -99,7 +93,7 @@ CUser::_ZN5CUser17SendTcpGameserverEP12PacketHeader(CUser *this,PacketHeader *pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 258 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 278 行）：
 
 ```cpp
 void CUser::SendTcpGameserver(PacketHeader* pkt)
@@ -107,10 +101,10 @@ void CUser::SendTcpGameserver(PacketHeader* pkt)
     if (m_tcpGameServer != 0)
     {
         char* out = m_tcpGameServer->makePacketHeader(
-            *(unsigned short*)pkt, *(unsigned short*)((char*)pkt + 2));
+            pkt->packetId, pkt->packetSize);
         if (out != 0)
         {
-            memcpy(out + 10, (char*)pkt + 10, *(unsigned short*)((char*)pkt + 2) - 10);
+            memcpy(out + 10, (char*)pkt + 10, pkt->packetSize - 10);
             m_tcpGameServer->SendToGameServer(out);
         }
     }

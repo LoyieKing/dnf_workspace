@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8059c94` | `0x196` | `0x80ecb02` | `0x17a` |
+| dbmw | DIFF | `0x8059c94` | `0x196` | `0x80ecb64` | `0x17a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -210,7 +210,7 @@ undefined4 __thiscall CPeer::_ZN5CPeer10RecvPacketEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 280 行）：
+定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 321 行）：
 
 ```cpp
 bool CPeer::RecvPacket()
@@ -220,8 +220,8 @@ bool CPeer::RecvPacket()
     {
         if (!parsing(ret))
         {
-            CMyFileLog log(__FUNCTION__, 0x4d);
-            log("./log/TcpRecv", "CPeer::Recv (false == parsing( size:%d ) )\n", ret);
+            // ORIG 实测：日志文案无结尾 \n（printf 有 \n）。
+            DNF_LOG_SCOPE_LINE(0x4d, "./log/TcpRecv", "CPeer::Recv (false == parsing( size:%d ) )", ret);
             printf("CPeer::Recv (false == parsing( size:%d ) )\n", ret);
             return 1;
         }
@@ -229,15 +229,18 @@ bool CPeer::RecvPacket()
     }
     if (ret < 0)
     {
-        CMyFileLog log(__FUNCTION__, 0x59);
-        log("./log/TcpRecv",
+        // ORIG：三个 getter 在 CMyFileLog 构造前求值（callee-saved 预装载），
+        // 求值顺序 port -> adrs -> handle；port 以 int 形式入栈槽。
+        register int p = GetTcpSocket()->getPeerPort();
+        register char* a = GetTcpSocket()->getPeerAdrs();
+        register int h = GetTcpSocket()->getHandle();
+        DNF_LOG_SCOPE_LINE(0x59, "./log/TcpRecv",
             "Maybe Peer is disconnect!(%d), socket no(%d), addr(%s), port(%d)",
-            ret, getHandle(), getPeerAdrs(), getPeerPort());
+            ret, h, a, p);
         printf("CPeer::Recv (size(%d) < 0)\n", ret);
         return 0;
     }
-    CMyFileLog log(__FUNCTION__, 0x63);
-    log("./log/TcpRecv", "Maybe Peer is disconnect!(size == 0)");
+    DNF_LOG_SCOPE_LINE(0x63, "./log/TcpRecv", "Maybe Peer is disconnect!(size == 0)");
     puts("CPeer::Recv (size == 0)");
     return 1;
 }

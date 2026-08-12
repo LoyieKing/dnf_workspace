@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8092030` | `0x5f` | `0x80ebc00` | `0x66` |
+| dbmw | DIFF | `0x8092030` | `0x5f` | `0x80ebc40` | `0x63` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,41 +13,30 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,32 +1,33 @@
+@@ -1,32 +1,30 @@
  push   %ebp
  mov    %esp,%ebp
  cmpl   $0x27ff,0xc(%ebp)
 -jg     <T> <_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacketCountEi+0x56>
-+jg     <T> <_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacketCountEi+0x64>
++jg     <T> <_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacketCountEi+0x61>
  cmpl   $0x3e7,0xc(%ebp)
 -jle    <T> <_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacketCountEi+0x59>
-+jle    <T> <_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacketCountEi+0x64>
++jle    <T> <_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacketCountEi+0x61>
  mov    0x8(%ebp),%eax
  movzbl 0x1d640(%eax),%eax
--xor    $0x1,%eax
--test   %al,%al
-+cmp    $0x1,%al
+ xor    $0x1,%eax
+ test   %al,%al
  je     <T> <_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacketCountEi+0x3b>
--mov    0xc(%ebp),%eax
--lea    -0x3e8(%eax),%edx
+ mov    0xc(%ebp),%eax
+ lea    -0x3e8(%eax),%edx
  mov    0x8(%ebp),%eax
--mov    0x8(%eax,%edx,4),%eax
-+mov    0xc(%ebp),%edx
-+sub    $0x3e6,%edx
-+shl    $0x2,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
+ mov    0x8(%eax,%edx,4),%eax
  cmp    $0xa,%eax
 -ja     <T> <_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacketCountEi+0x5c>
--mov    0xc(%ebp),%eax
++ja     <T> <_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacketCountEi+0x60>
+ mov    0xc(%ebp),%eax
 -sub    $0x3e8,%eax
-+ja     <T> <_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacketCountEi+0x64>
-+mov    0x8(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+sub    $0x3e6,%edx
-+shl    $0x2,%edx
-+add    %edx,%eax
- mov    0x8(%ebp),%edx
+-mov    0x8(%ebp),%edx
 -mov    0x8(%edx,%eax,4),%edx
 -lea    0x1(%edx),%ecx
 -mov    0x8(%ebp),%edx
@@ -57,14 +46,16 @@
 -jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacketCountEi+0x5d>
 -nop
 -jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacketCountEi+0x5d>
--nop
-+mov    0xc(%ebp),%ecx
-+sub    $0x3e6,%ecx
-+shl    $0x2,%ecx
-+add    %ecx,%edx
-+mov    (%edx),%edx
-+add    $0x1,%edx
-+mov    %edx,(%eax)
++lea    -0x3e8(%eax),%edx
++mov    0xc(%ebp),%eax
++lea    -0x3e8(%eax),%ecx
++mov    0x8(%ebp),%eax
++mov    0x8(%eax,%ecx,4),%eax
++lea    0x1(%eax),%ecx
++mov    0x8(%ebp),%eax
++mov    %ecx,0x8(%eax,%edx,4)
++jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacketCountEi+0x61>
+ nop
  pop    %ebp
  ret
 ```
@@ -95,12 +86,14 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacke
 ```cpp
 void CPacketCounter<Lo, Hi>::IncrementPacketCount(int id)
 {
-    if (id < 0x2800 && 999 < id &&
-        (m_data[0x1d640] == 1 ||
-         *(unsigned int*)(m_data + 8 + (id - 1000) * 4) < 0xb))
+    if (id < 0x2800 && 999 < id)
     {
-        *(int*)(m_data + 8 + (id - 1000) * 4) =
-            *(int*)(m_data + 8 + (id - 1000) * 4) + 1;
+        if (!m_flag)
+        {
+            if ((unsigned int)m_a1[id - 1000] >= 0xb)
+                return;
+        }
+        m_a1[id - 1000] = m_a1[id - 1000] + 1;
     }
 }
 ```

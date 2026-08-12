@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a0140` | `0x11a` | `0x8091f52` | `0x16b` |
+| guild | DIFF | `0x80a0140` | `0x11a` | `0x8092440` | `0x142` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,19 +13,16 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,80 +1,111 @@
+@@ -1,80 +1,94 @@
  push   %ebp
  mov    %esp,%ebp
- push   %esi
- push   %ebx
- sub    $0x60,%esp
+-push   %esi
+-push   %ebx
+-sub    $0x60,%esp
++sub    $0x68,%esp
  lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN15STGuildCargoLogC1Ev>
-+lea    -0x44(%ebp),%eax
-+lea    0x4(%eax),%edx
-+mov    0xc(%ebp),%eax
-+mov    %al,(%edx)
  movl   $0x14,0x8(%esp)
  mov    0x14(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -35,37 +32,40 @@
  call   <T> <strncpy>
 -mov    0x18(%ebp),%eax
 -mov    %eax,-0x2a(%ebp)
--mov    0xc(%ebp),%eax
--mov    %al,-0x40(%ebp)
--mov    0x1c(%ebp),%eax
--mov    %eax,-0x26(%ebp)
 +lea    -0x44(%ebp),%eax
-+add    $0x19,%eax
++add    $0x1a,%eax
 +mov    0x18(%ebp),%edx
 +mov    %edx,(%eax)
 +lea    -0x44(%ebp),%eax
-+add    $0x1d,%eax
-+mov    0x10(%ebp),%edx
++lea    0x4(%eax),%edx
+ mov    0xc(%ebp),%eax
+-mov    %al,-0x40(%ebp)
+-mov    0x1c(%ebp),%eax
+-mov    %eax,-0x26(%ebp)
++mov    %al,(%edx)
++lea    -0x44(%ebp),%eax
++add    $0x1e,%eax
++mov    0x1c(%ebp),%edx
 +mov    %edx,(%eax)
 +lea    -0x44(%ebp),%eax
-+add    $0x21,%eax
++add    $0x22,%eax
 +mov    0x20(%ebp),%edx
 +mov    (%edx),%edx
 +mov    %edx,(%eax)
 +lea    -0x44(%ebp),%eax
-+add    $0x25,%eax
++add    $0x26,%eax
 +mov    0x20(%ebp),%edx
 +add    $0x4,%edx
 +mov    (%edx),%edx
 +mov    %edx,(%eax)
 +lea    -0x44(%ebp),%eax
-+add    $0x29,%eax
++add    $0x2a,%eax
 +mov    0x20(%ebp),%edx
 +add    $0x8,%edx
 +mov    (%edx),%edx
 +mov    %edx,(%eax)
 +lea    -0x44(%ebp),%eax
-+lea    0x2d(%eax),%edx
++lea    0x2e(%eax),%edx
  mov    0x20(%ebp),%eax
 -mov    (%eax),%edx
 -mov    %edx,-0x22(%ebp)
@@ -75,44 +75,32 @@
 -mov    %edx,-0x1a(%ebp)
 -movzwl 0xc(%eax),%eax
 -mov    %ax,-0x16(%ebp)
+-lea    -0x14(%ebp),%eax
 +add    $0xc,%eax
 +movzwl (%eax),%eax
 +mov    %ax,(%edx)
-+movl   $0x0,(%esp)
-+call   <T> <time>
-+mov    %eax,-0x44(%ebp)
-+mov    0x8(%ebp),%eax
-+add    $0x18e8,%eax
-+mov    %eax,-0xc(%ebp)
-+lea    -0x44(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt5dequeI15STGuildCargoLogSaIS0_EE9push_backERKS0_>
-+movl   $0x202,0x8(%esp)
-+movl   $"InsertHistory",0x4(%esp)
- lea    -0x14(%ebp),%eax
++lea    -0xc(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <time>
+ call   <T> <time>
 -mov    -0x14(%ebp),%eax
--mov    %eax,-0x44(%ebp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0xc(%ebp),%edx
++mov    -0xc(%ebp),%eax
+ mov    %eax,-0x44(%ebp)
  mov    0x8(%ebp),%eax
--lea    0x18e8(%eax),%edx
--lea    -0x44(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZNSt5dequeI15STGuildCargoLogSaIS0_EE9push_backERKS0_>
+ lea    0x18e8(%eax),%edx
+ lea    -0x44(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZNSt5dequeI15STGuildCargoLogSaIS0_EE9push_backERKS0_>
 -mov    0xc(%ebp),%eax
 -movsbl %al,%esi
 -mov    0x8(%ebp),%eax
 -mov    0x18e0(%eax),%ebx
--movl   $0x202,0x8(%esp)
--movl   $&_ZZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOptionE12__FUNCTION__,0x4(%esp)
+ movl   $0x202,0x8(%esp)
+ movl   $&_ZZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOptionE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++lea    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    0x1c(%ebp),%eax
 -mov    %eax,0x1c(%esp)
 -mov    %esi,0x18(%esp)
@@ -121,8 +109,9 @@
 -mov    0x10(%ebp),%eax
 -mov    %eax,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+add    $0x18e0,%eax
-+mov    (%eax),%eax
++mov    0xc(%ebp),%edx
++mov    0x8(%ebp),%eax
++mov    0x18e0(%eax),%eax
 +mov    0x1c(%ebp),%ecx
 +mov    %ecx,0x1c(%esp)
 +mov    %edx,0x18(%esp)
@@ -137,38 +126,24 @@
 +lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    0x8(%ebp),%eax
--add    $0x18e8,%eax
-+mov    -0xc(%ebp),%eax
+ mov    0x8(%ebp),%eax
+ add    $0x18e8,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt5dequeI15STGuildCargoLogSaIS0_EE4sizeEv>
  cmp    $0x32,%eax
  seta   %al
  test   %al,%al
 -je     <T> <_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption+0x113>
--mov    0x8(%ebp),%eax
--add    $0x18e8,%eax
-+je     <T> <_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption+0x159>
-+mov    -0xc(%ebp),%eax
++je     <T> <_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption+0x140>
+ mov    0x8(%ebp),%eax
+ add    $0x18e8,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt5dequeI15STGuildCargoLogSaIS0_EE9pop_frontEv>
-+jmp    <T> <_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption+0x159>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN15STGuildCargoLogD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN15STGuildCargoLogD1Ev>
- add    $0x60,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
+-add    $0x60,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
++leave
  ret
 ```
 ## 2. Ghidra 反编译 C

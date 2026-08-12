@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809f9de` | `0x18f` | `0x80d57ee` | `0x18a` |
+| dbmw | DIFF | `0x809f9de` | `0x18f` | `0x80d589c` | `0x188` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,106 +1,107 @@
+@@ -1,106 +1,106 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,7 +22,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x187>
-+je     <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x17f>
++je     <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x17d>
  mov    0x8(%ebp),%eax
  mov    %eax,-0x14(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -31,14 +31,12 @@
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x188>
 -cmpl   $0x0,-0x14(%ebp)
 -je     <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x188>
-+sete   %al
-+test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x182>
++jne    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x180>
  mov    -0x14(%ebp),%eax
  mov    0xe(%eax),%ebx
  movl   $0x12e5,0x8(%esp)
@@ -56,7 +54,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x1,-0x10(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0xf3>
-+jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0xeb>
++jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0xe9>
 +movl   $0x12e7,0x8(%esp)
 +movl   $&_ZZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x2c(%ebp),%eax
@@ -97,11 +95,11 @@
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x90>
 -jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x188>
-+jne    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x88>
-+jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x183>
++jne    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x86>
++jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x181>
  cmp    $0x1,%edx
 -je     <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x110>
-+je     <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x108>
++je     <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x106>
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  mov    %eax,(%esp)
@@ -127,7 +125,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x180>
-+jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x178>
++jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x176>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -137,9 +135,9 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x188>
-+jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x183>
++jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x181>
 +nop
-+jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x183>
++jmp    <T> <_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader+0x181>
  nop
  add    $0x50,%esp
  pop    %ebx

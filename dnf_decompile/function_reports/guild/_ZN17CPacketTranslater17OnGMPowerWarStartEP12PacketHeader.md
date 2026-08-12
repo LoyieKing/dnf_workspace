@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8080bba` | `0x26a` | `0x8076fc4` | `0x26f` |
+| guild | NEAR | `0x8080bba` | `0x26a` | `0x8076eb2` | `0x26a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,171 +1,172 @@
+@@ -1,171 +1,171 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -33,43 +33,32 @@
  lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x262>
-+jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x267>
+ jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x262>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15GetPowerManagerEv>
--mov    %eax,-0x20(%ebp)
--mov    -0x20(%ebp),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x24(%ebp),%eax
+ mov    %eax,-0x20(%ebp)
+ mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager12IsPowerWarOnEv>
-+xor    $0x1,%eax
  test   %al,%al
--jne    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x261>
--mov    -0x20(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x267>
-+mov    -0x24(%ebp),%eax
+ jne    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x261>
+ mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager18StartPowerWarEventEv>
- lea    -0x56(%ebp),%eax
+-lea    -0x56(%ebp),%eax
++lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN26Packet_Monitor_Event_StartC1Ev>
--movl   $0x1e,-0x4c(%ebp)
-+lea    -0x56(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x1e,(%eax)
+ movl   $0x1e,-0x4c(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
--mov    %eax,-0x24(%ebp)
--cmpl   $0x0,-0x24(%ebp)
-+mov    %eax,-0x20(%ebp)
-+cmpl   $0x0,-0x20(%ebp)
+ mov    %eax,-0x24(%ebp)
+ cmpl   $0x0,-0x24(%ebp)
  sete   %al
  test   %al,%al
--je     <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x172>
-+je     <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x17a>
+ je     <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x172>
  lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -87,8 +76,7 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
--jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x123>
-+jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x12b>
+ jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x123>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -100,24 +88,19 @@
  lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x11d>
-+jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x125>
+ jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x11d>
  cmp    $0xffffffff,%edx
--jne    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x13a>
-+jne    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x142>
+ jne    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x13a>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x13a>
-+jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x142>
+ jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x13a>
  lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x14f>
-+jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x157>
+ jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x14f>
  cmp    $0xffffffff,%edx
--jne    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x13a>
-+jne    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x142>
+ jne    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x13a>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
@@ -126,8 +109,7 @@
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x189>
-+jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x191>
+ jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x189>
  lea    -0x35(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -135,31 +117,25 @@
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
- lea    -0x56(%ebp),%eax
+-lea    -0x56(%ebp),%eax
++lea    -0x58(%ebp),%eax
  mov    %eax,0x4(%esp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
--jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x262>
-+jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x267>
+ jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x262>
  cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x205>
-+jne    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x20d>
+ jne    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x205>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%ebx
  movl   $0x140e,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -172,8 +148,7 @@
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x1fe>
-+jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x206>
+ jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x1fe>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -182,8 +157,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x262>
-+jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x267>
+ jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x262>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1413,0x8(%esp)
@@ -196,8 +170,7 @@
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x25a>
-+jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x262>
+ jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x25a>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -206,8 +179,8 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x262>
--nop
+ jmp    <T> <_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeader+0x262>
+ nop
  add    $0x5c,%esp
  pop    %ebx
  pop    %esi
@@ -274,12 +247,11 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnGMPowerWarStartEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3467 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3619 行）：
 
 ```cpp
 void CPacketTranslater::OnGMPowerWarStart(PacketHeader* pkt)
 {
-    (void)pkt;
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x13f9, "./log/Power", "CPacketTranslater::OnGMPowerWarStart : 0 == m_pclApp");
@@ -287,20 +259,21 @@ void CPacketTranslater::OnGMPowerWarStart(PacketHeader* pkt)
     }
     try
     {
+        CServerHandler* handler;
         CPowerManager* pm = m_pclApp->GetPowerManager();
-        if (pm->IsPowerWarOn() == 0)
+        if (pm->IsPowerWarOn())
         {
-            pm->StartPowerWarEvent();
-            Packet_Monitor_Event_Start start;
-            *(unsigned int*)((char*)&start + 0xa) = 0x1e;
-            CServerHandler* handler;
-            if ((handler = m_pclApp->Get_ServerHandler()) == 0)
-            {
-                throw CDNFException(
-                    "CGuildManager::OnGMPowerWarStart() pclServerHandler == NULL\n");
-            }
-            handler->SendAllTcpGameServer(&start);
+            return;
         }
+        pm->StartPowerWarEvent();
+        Packet_Monitor_Event_Start start;
+        start.m_fieldA = 0x1e;
+        if ((handler = m_pclApp->Get_ServerHandler()) == 0)
+        {
+            throw CDNFException(
+                "CGuildManager::OnGMPowerWarStart() pclServerHandler == NULL\n");
+        }
+        handler->SendAllTcpGameServer(&start);
     }
     DNF_CATCH_LOG("./log/Except", "CPacketTranslater::OnGMPowerWarStart Exception Break", 0x140e, 0x1413);
 }

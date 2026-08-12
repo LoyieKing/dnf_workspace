@@ -88,15 +88,23 @@ def link_txt():
 
 def compile_tu(scratch, cxx, cxx_flags, per_file, per_file_inc, tu):
     obj_rel = find_tu_obj(tu)
-    src = find_src(tu)
+    # Private-source override: if the agent placed a private copy under
+    # <scratch>/src/<basename>, compile from it instead of the shared source.
+    # This lets several agents work on the same TU in parallel without
+    # corrupting each other's builds (round-15 dbmw split groups).
+    private = scratch / 'src' / Path(tu).name
+    if private.exists():
+        src = private
+    else:
+        src = find_src(tu)
     opts = per_file.get(str(obj_rel), '')
     incs = per_file_inc.get(str(obj_rel), '')
     inc_args = ' '.join('-I' + d for d in incs.split(';') if d)
     out_obj = scratch / obj_rel
     out_obj.parent.mkdir(parents=True, exist_ok=True)
+    print('compile:', tu, '(src: %s)' % src, flush=True)
     cmd = '%s %s %s %s -c %s -o %s' % (
         cxx, cxx_flags, opts, inc_args, src, out_obj)
-    print('compile:', tu, flush=True)
     subprocess.check_call(cmd, shell=True, cwd=str(scratch))
 
 

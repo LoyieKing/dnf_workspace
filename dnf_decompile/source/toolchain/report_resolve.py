@@ -292,6 +292,27 @@ def build_addr_map(bin_path):
     return m, ranges, secs, blob, (nz_sym, nz_str)
 
 
+def _finite_double_at(a, secs, blob):
+    """a 是否指向 8 字节对齐、内容为正常有限 double 的常量（fldl 常量池）。
+
+    两侧 rodata 布局不同导致同一个 double 常量落在不同地址，且一侧被字符串
+    解析吞并（如 1.05 常量字节 >=0x80 被按 EUC-KR 字符串登记）时，按 8 字节
+    值哈希归一化（2026-08-12 point Bidding；与 2026-08-11 空串 / 2026-08-12
+    可打印字节串兜底的 8 字节对齐门槛同源）。调用方负责已排除 is_imm 指针值。
+    """
+    j = bisect.bisect_right(secs, (a, 1 << 62, '')) - 1
+    if j < 0:
+        return False
+    _st, _sz, _nm, _fo, _ty = secs[j]
+    if _ty == 'NOBITS' or a % 8 != 0 or not (_st <= a and a + 8 <= _st + _sz):
+        return False
+    raw = blob[_fo + (a - _st):_fo + (a - _st) + 8]
+    if len(raw) != 8:
+        return False
+    u = int.from_bytes(raw, 'little')
+    return 0 < ((u >> 52) & 0x7ff) < 0x7ff
+
+
 def pseudo_lines(insns, addr_info, fn_base=None):
     """指令序列伪代码化：数据地址 -> 字符串内容 / &符号名。
 
@@ -340,6 +361,13 @@ def pseudo_lines(insns, addr_info, fn_base=None):
                             if 0 < exp < 0x7ff:
                                 hit = None
             if hit is not None:
+                # 2026-08-12 point Bidding：非空串命中（double 常量被字符串解析
+                # 吞并成 "蠱儆儆�?" 等）同样按 8 字节值哈希，避免两侧一侧命中
+                # 字符串、另一侧命中常量池 → 伪 NEAR。is_imm 指针值除外。
+                if hit[0] == 'str' and not is_imm \
+                        and _finite_double_at(a, secs, blob):
+                    hit = None
+            if hit is not None:
                 return '"{}"'.format(hit[1]) if hit[0] == 'str' else '&{}'.format(hit[1])
         # 引用地址本身是「可打印 NUL 结尾字符串」起点但未登记（如紧跟数据符号
         # 结尾的字符串：relay 的 Thread 串紧邻 __stl_prime_list 之后，串起点
@@ -355,7 +383,18 @@ def pseudo_lines(insns, addr_info, fn_base=None):
                         0x20 <= run[k] <= 0x7e or 0x80 <= run[k] <= 0xff
                         or run[k] in (0x09, 0x0a, 0x0d)):
                     k += 1
-                if k >= 2 and k < len(run) and run[k] == 0:
+                # 2026-08-12 auction makeSuccessfulBid：8 字节对齐且内容为有限
+                # double 的 rodata 地址不得按可打印字节串兜底——fldl 常量池
+                # 1.6/1.7/1.8 等首字节 >=0x80 时，字符串窗口会卷进相邻常量池
+                # （两侧合并布局不同 → 字符串长度不同 → 伪 DIFF），实际 8 字节
+                # double 值一致。跳过字符串解释后落到下方按 8 字节值哈希。
+                # （与上方 addr_map 空串分支的 8 字节对齐门槛同源。）
+                is_finite_double = (
+                    a % 8 == 0 and len(run) >= 8
+                    and 0 < ((int.from_bytes(run[:8], 'little') >> 52) & 0x7ff)
+                    < 0x7ff)
+                if (not is_finite_double and k >= 2 and k < len(run)
+                        and run[k] == 0):
                     # 两类防误判（2026-08-11 signal_handler 跳转表回归）：
                     # 1) 代码段（.text 等）内的地址不按字符串兜底——跳转表项指向
                     #    本函数代码时，指令字节（如 8b 75 fc ...）可能恰好构成
@@ -390,6 +429,8 @@ def pseudo_lines(insns, addr_info, fn_base=None):
                 if size > 0 and start <= a < start + size:
                     off = a - start
                     if kind == 'str':
+                        if not is_imm and _finite_double_at(a, secs, blob):
+                            break  # 落到区段兜底按 8 字节 double 值哈希
                         return '"{}"'.format(val[off:] if off else val)
                     return '&{}+0x{:x}'.format(val, off)
                 if size == 0 and start == a:

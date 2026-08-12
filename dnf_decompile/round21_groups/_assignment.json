@@ -1,0 +1,74 @@
+{
+ "packet_translater": [
+  "DNFPacketTranslater.cpp"
+ ],
+ "guild": [
+  "DNFGuild.cpp"
+ ],
+ "cargo": [
+  "GuildCargo.cpp"
+ ],
+ "guild_manager": [
+  "DNFGuildManager.cpp"
+ ],
+ "server_handler": [
+  "DNFServerHandler.cpp"
+ ],
+ "user": [
+  "DNFUser.cpp"
+ ],
+ "user_manager": [
+  "DNFUserManager.cpp"
+ ],
+ "peer": [
+  "Peer.cpp"
+ ],
+ "mempool": [
+  "MemPool.cpp",
+  "PacketCounter.cpp"
+ ],
+ "board_xml": [
+  "GuildBoard.cpp",
+  "ServerXml.cpp",
+  "GMAccounts.cpp"
+ ],
+ "tcpnet": [
+  "TcpNetSystem.cpp",
+  "DNFTcpSocket.cpp",
+  "DNFTcpHandler.cpp",
+  "DNFTcpAcceptThread.cpp",
+  "DNFTcpNetworkThread.cpp",
+  "DNFNetworkThread.cpp"
+ ],
+ "power": [
+  "PowerManager.cpp",
+  "PowerWarGuildInfo.cpp",
+  "PowerWarCharacInfo.cpp",
+  "PowerWar.cpp",
+  "DNFPowerWarConfig.cpp"
+ ],
+ "cash": [
+  "MemoryCashManager.cpp",
+  "CashObject.cpp",
+  "DNFGuildWar.cpp",
+  "DNFTableBase.cpp"
+ ],
+ "udp_decode": [
+  "DNFUdpHandler.cpp",
+  "DNFPacketDecoder.cpp",
+  "DNFSignalTranslator.cpp",
+  "DNFTickHandler.cpp"
+ ],
+ "app_misc": [
+  "DNFApplication.cpp",
+  "DNFAppStartInit.cpp",
+  "DNFAppStopInit.cpp",
+  "DNFServerConfig.cpp",
+  "DNFKillUserConfig.cpp",
+  "DNFAppConfig.cpp",
+  "DNFDBServer.cpp",
+  "DNFManagerServer.cpp",
+  "DNFMonitorServer.cpp",
+  "DNFGameServer.cpp"
+ ]
+}

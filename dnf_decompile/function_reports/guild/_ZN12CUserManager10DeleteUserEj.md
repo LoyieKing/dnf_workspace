@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8068ab8` | `0x120` | `0x808ace6` | `0x14b` |
+| guild | DIFF | `0x8068ab8` | `0x120` | `0x808b096` | `0x10b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,83 +1,96 @@
+@@ -1,83 +1,77 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
  push   %esi
  push   %ebx
 -sub    $0x3c,%esp
-+sub    $0x40,%esp
++sub    $0x30,%esp
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5emptyEv>
@@ -28,41 +28,21 @@
 -je     <T> <_ZN12CUserManager10DeleteUserEj+0x22>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x118>
--mov    0xc(%ebp),%eax
-+jne    <T> <_ZN12CUserManager10DeleteUserEj+0x13d>
-+mov    0x8(%ebp),%edx
-+lea    -0x20(%ebp),%eax
-+lea    0xc(%ebp),%ecx
-+mov    %ecx,0x8(%esp)
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE4findERS0_>
-+sub    $0x4,%esp
-+mov    0x8(%ebp),%edx
-+lea    -0x1c(%ebp),%eax
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE3endEv>
-+sub    $0x4,%esp
-+lea    -0x1c(%ebp),%eax
++jne    <T> <_ZN12CUserManager10DeleteUserEj+0x100>
+ mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
--mov    0x8(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNK12CUserManager8FindUserEj>
+ call   <T> <_ZNK12CUserManager8FindUserEj>
 -mov    %eax,-0x1c(%ebp)
 -cmpl   $0x0,-0x1c(%ebp)
 -setne  %al
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
- test   %al,%al
+-test   %al,%al
 -je     <T> <_ZN12CUserManager10DeleteUserEj+0x113>
 -mov    -0x1c(%ebp),%eax
-+je     <T> <_ZN12CUserManager10DeleteUserEj+0x141>
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
-+mov    0x4(%eax),%eax
 +mov    %eax,-0x10(%ebp)
++cmpl   $0x0,-0x10(%ebp)
++je     <T> <_ZN12CUserManager10DeleteUserEj+0x104>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
@@ -72,7 +52,7 @@
 -je     <T> <_ZN12CUserManager10DeleteUserEj+0x64>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x118>
-+jne    <T> <_ZN12CUserManager10DeleteUserEj+0x140>
++jne    <T> <_ZN12CUserManager10DeleteUserEj+0x103>
  mov    0x8(%ebp),%eax
  lea    0xc(%ebp),%edx
  mov    %edx,0x4(%esp)
@@ -90,7 +70,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,%esi
-+je     <T> <_ZN12CUserManager10DeleteUserEj+0x141>
++je     <T> <_ZN12CUserManager10DeleteUserEj+0x104>
  mov    0xc(%ebp),%eax
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
@@ -127,7 +107,7 @@
 +mov    -0x10(%ebp),%ebx
  test   %ebx,%ebx
 -je     <T> <_ZN12CUserManager10DeleteUserEj+0x10c>
-+je     <T> <_ZN12CUserManager10DeleteUserEj+0x141>
++je     <T> <_ZN12CUserManager10DeleteUserEj+0x104>
  mov    %ebx,(%esp)
  call   <T> <_ZN5CUserD1Ev>
  mov    %ebx,(%esp)
@@ -136,12 +116,11 @@
 -jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x118>
 -mov    $0x0,%eax
 -add    $0x3c,%esp
-+jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x141>
++jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x104>
 +nop
-+jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x141>
++jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x104>
 +nop
-+lea    -0x8(%ebp),%esp
-+add    $0x0,%esp
++add    $0x30,%esp
  pop    %ebx
  pop    %esi
 -pop    %edi
@@ -207,7 +186,7 @@ undefined4 __thiscall CUserManager::_ZN12CUserManager10DeleteUserEj(CUserManager
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 119 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 118 行）：
 
 ```cpp
 void CUserManager::DeleteUser(unsigned int dbid)
@@ -216,10 +195,9 @@ void CUserManager::DeleteUser(unsigned int dbid)
     {
         return;
     }
-    std::map<unsigned int, CUser*>::iterator it = m_users.find(dbid);
-    if (it != m_users.end())
+    CUser* user = FindUser(dbid);
+    if (user != 0)
     {
-        CUser* user = it->second;
         if (user->GetGameServer() == 0)
         {
             return;

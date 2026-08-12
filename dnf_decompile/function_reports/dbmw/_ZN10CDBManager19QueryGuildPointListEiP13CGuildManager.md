@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8073c4c` | `0x224` | `0x80503f8` | `0x22f` |
+| dbmw | DIFF | `0x8073c4c` | `0x224` | `0x8050424` | `0x22f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -334,7 +334,7 @@ CDBManager::_ZN10CDBManager19QueryGuildPointListEiP13CGuildManager
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 917 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 958 行）：
 
 ```cpp
 char CDBManager::QueryGuildPointList(int serverId, CGuildManager* gm)

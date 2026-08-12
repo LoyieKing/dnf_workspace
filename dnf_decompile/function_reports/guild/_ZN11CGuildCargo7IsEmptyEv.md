@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a00fa` | `0x45` | `0x8091f02` | `0x4f` |
+| guild | DIFF | `0x80a00fa` | `0x45` | `0x80923f8` | `0x47` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,42 +13,31 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,23 +1,28 @@
+@@ -1,23 +1,24 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x10,%esp
-+mov    0x8(%ebp),%eax
-+add    $0x18d8,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x8(%ebp)
  movl   $0x0,-0x4(%ebp)
--jmp    <T> <_ZN11CGuildCargo7IsEmptyEv+0x2b>
-+jmp    <T> <_ZN11CGuildCargo7IsEmptyEv+0x3b>
-+mov    0x8(%ebp),%eax
+ jmp    <T> <_ZN11CGuildCargo7IsEmptyEv+0x2b>
  mov    -0x4(%ebp),%edx
--mov    0x8(%ebp),%eax
+ mov    0x8(%ebp),%eax
  imul   $0x35,%edx,%edx
--mov    0x1(%edx,%eax,1),%eax
-+add    $0x1,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
+ mov    0x1(%edx,%eax,1),%eax
  test   %eax,%eax
--je     <T> <_ZN11CGuildCargo7IsEmptyEv+0x27>
-+je     <T> <_ZN11CGuildCargo7IsEmptyEv+0x37>
+ je     <T> <_ZN11CGuildCargo7IsEmptyEv+0x27>
  mov    $0x0,%eax
 -jmp    <T> <_ZN11CGuildCargo7IsEmptyEv+0x43>
-+jmp    <T> <_ZN11CGuildCargo7IsEmptyEv+0x4d>
++jmp    <T> <_ZN11CGuildCargo7IsEmptyEv+0x45>
  addl   $0x1,-0x4(%ebp)
--mov    0x8(%ebp),%eax
--mov    0x18d8(%eax),%eax
++mov    -0x4(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x18d8(%eax),%eax
 -cmp    -0x4(%ebp),%eax
 -setg   %al
-+mov    -0x4(%ebp),%eax
-+cmp    -0x8(%ebp),%eax
-+setl   %al
++cmp    %eax,%edx
++setb   %al
  test   %al,%al
--jne    <T> <_ZN11CGuildCargo7IsEmptyEv+0xf>
-+jne    <T> <_ZN11CGuildCargo7IsEmptyEv+0x1c>
+ jne    <T> <_ZN11CGuildCargo7IsEmptyEv+0xf>
  mov    $0x1,%eax
  leave
  ret
@@ -78,15 +67,14 @@ undefined4 __thiscall CGuildCargo::_ZN11CGuildCargo7IsEmptyEv(CGuildCargo *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 399 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 433 行）：
 
 ```cpp
 int CGuildCargo::IsEmpty()
 {
-    int cap = *(int*)((char*)this + 0x18d8);
-    for (int i = 0; i < cap; i++)
+    for (int i = 0; i < m_info.m_capacity; i++)
     {
-        if (*(int*)((char*)this + i * 0x35 + 1) != 0)
+        if (m_info.m_items[i].m_itemId != 0)
         {
             return 0;
         }

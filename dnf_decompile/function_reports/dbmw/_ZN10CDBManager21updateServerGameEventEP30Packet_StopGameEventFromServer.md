@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80877c0` | `0x12f` | `0x80500ac` | `0x127` |
+| dbmw | DIFF | `0x80877c0` | `0x12f` | `0x80500d8` | `0x127` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -200,10 +200,10 @@ CDBManager::_ZN10CDBManager21updateServerGameEventEP30Packet_StopGameEventFromSe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 850 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 891 行）：
 
 ```cpp
-char CDBManager::updateServerGameEvent(Packet_StopGameEventFromServer* packet)
+bool CDBManager::updateServerGameEvent(Packet_StopGameEventFromServer* packet)
 {
     CDBHandle* h = m_handles[1];    // account db
     if (!h)

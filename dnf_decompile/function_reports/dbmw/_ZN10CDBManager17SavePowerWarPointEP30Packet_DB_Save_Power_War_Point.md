@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807aafe` | `0x1c3` | `0x804ee50` | `0x1d9` |
+| dbmw | DIFF | `0x807aafe` | `0x1c3` | `0x804ee7e` | `0x1d9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -287,7 +287,7 @@ CDBManager::_ZN10CDBManager17SavePowerWarPointEP30Packet_DB_Save_Power_War_Point
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 491 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 531 行）：
 
 ```cpp
 char CDBManager::SavePowerWarPoint(Packet_DB_Save_Power_War_Point* packet)

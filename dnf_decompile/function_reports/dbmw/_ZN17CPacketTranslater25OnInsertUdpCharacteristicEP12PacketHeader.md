@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8099344` | `0x1dc` | `0x80d4980` | `0x1e2` |
+| dbmw | DIFF | `0x8099344` | `0x1dc` | `0x80d4a3a` | `0x1e2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -205,11 +205,11 @@ void CPacketTranslater::_ZN17CPacketTranslater25OnInsertUdpCharacteristicEP12Pac
 ```cpp
 void CPacketTranslater::OnInsertUdpCharacteristic(PacketHeader* header)
 {
-    if (!m_pclApp)
-        throw CDNFException(std::string(
-            "CPacketTranslater::OnInsertUdpCharacteristic() : 0 == m_pclApp"));
     try
     {
+        if (!m_pclApp)
+            throw CDNFException(std::string(
+                "CPacketTranslater::OnInsertUdpCharacteristic() : 0 == m_pclApp"));
         Packet_Udp_Characteristic* pkt = (Packet_Udp_Characteristic*)header;
         m_pclApp->m_dbManager.InsertUdpCharacteristic(pkt);
     }

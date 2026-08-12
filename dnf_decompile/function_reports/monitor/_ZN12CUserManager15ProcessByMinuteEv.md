@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x8071776` | `0x15c` | `0x808af7a` | `0x15c` |
+| monitor | NEAR | `0x8071776` | `0x15c` | `0x808b032` | `0x15c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -42,10 +42,8 @@
  mov    0x4(%eax),%eax
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
--setne  %al
--test   %al,%al
-+setne  %bl
-+test   %bl,%bl
+ setne  %al
+ test   %al,%al
  je     <T> <_ZN12CUserManager15ProcessByMinuteEv+0x120>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -213,12 +211,11 @@ void CUserManager::ProcessByMinute()
 {
     if (!m_prohibitUsers.empty())
     {
-        for (std::map<const unsigned int, CDNFProhibitUser*>::iterator it = m_prohibitUsers.begin();
-             it != m_prohibitUsers.end(); )
+        std::map<const unsigned int, CDNFProhibitUser*>::iterator it = m_prohibitUsers.begin();
+        while (it != m_prohibitUsers.end())
         {
-            CDNFProhibitUser* pu = (*it).second;
-            register bool hasUser = (pu != 0);
-            if (hasUser)
+            CDNFProhibitUser* pu;
+            if ((pu = (*it).second) != 0)
             {
                 if (pu->IsTimeOutConnectable())
                 {

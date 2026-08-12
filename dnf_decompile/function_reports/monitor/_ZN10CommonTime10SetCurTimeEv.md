@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8066978` | `0x7a` | `0x809fd18` | `0x76` |
+| monitor | DIFF | `0x8066978` | `0x7a` | `0x809fdd2` | `0x76` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -95,11 +95,11 @@ void CommonTime::SetCurTime()
     time_t t;
     time(&t);
     tm* p = localtime(&t);
-    m_field0 = (unsigned char)((char)p->tm_year + -100);
-    m_field1 = (unsigned char)((char)p->tm_mon + 1);
-    m_field2 = (unsigned char)((char)p->tm_mday);
-    m_field3 = (unsigned char)((char)p->tm_hour);
-    m_field4 = (unsigned char)((char)p->tm_min);
-    m_field5 = (unsigned char)((char)p->tm_wday);
+    m_field0 = (unsigned char)(p->tm_year - 100);
+    m_field1 = (unsigned char)(p->tm_mon + 1);
+    m_field2 = (unsigned char)(p->tm_mday);
+    m_field3 = (unsigned char)(p->tm_hour);
+    m_field4 = (unsigned char)(p->tm_min);
+    m_field5 = (unsigned char)(p->tm_wday);
 }
 ```

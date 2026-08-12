@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805ed5e` | `0x4f` | `0x809fd8e` | `0x52` |
+| monitor | DIFF | `0x805ed5e` | `0x4f` | `0x809fe48` | `0x52` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -75,8 +75,8 @@ void __thiscall CSystemTime::_ZN11CSystemTimeC1Ev(CSystemTime *this)
 ```cpp
 CSystemTime::CSystemTime()
 {
-    gettimeofday((timeval*)((char*)this + 8), 0);
-    ((RA_UINT<16>*)this)->v = ((RA_UINT<8>*)this)->v;
-    ((RA_INT<4>*)this)->v = ((RA_INT<12>*)this)->v / 1000;
+    gettimeofday((timeval*)&m_tv_sec, 0);
+    m_field16 = m_tv_sec;
+    m_field4 = m_tv_usec / 1000;
 }
 ```

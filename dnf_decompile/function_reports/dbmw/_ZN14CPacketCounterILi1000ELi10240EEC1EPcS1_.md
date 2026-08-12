@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8091fac` | `0x7e` | `0x80ebaea` | `0x86` |
+| dbmw | DIFF | `0x8091fac` | `0x7e` | `0x80ebb3a` | `0x85` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,33 +1,38 @@
+@@ -1,33 +1,37 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x18,%esp
@@ -50,18 +50,16 @@
  mov    %edx,(%esp)
  call   <T> <sprintf>
 -jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EEC1EPcS1_+0x72>
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -lea    0x1d540(%eax),%edx
 -mov    0x10(%ebp),%eax
 -mov    %eax,0x8(%esp)
 -movl   $"./log/%s",0x4(%esp)
 -mov    %edx,(%esp)
 -call   <T> <sprintf>
--mov    0x8(%ebp),%eax
--movb   $0x1,0x1d640(%eax)
+ mov    0x8(%ebp),%eax
+ movb   $0x1,0x1d640(%eax)
 -leave
-+add    $0x1d640,%eax
-+movb   $0x1,(%eax)
 +add    $0x14,%esp
 +pop    %ebx
 +pop    %ebp
@@ -105,12 +103,12 @@ CPacketCounter<Lo, Hi>::CPacketCounter(char* dir, char* name)
     *(time_t*)(m_data + 4) = time(0);
     if (dir == 0)
     {
-        sprintf(m_data + 0x1d540, "./log/%s", name);
+        sprintf(m_name, "./log/%s", name);
     }
     else
     {
-        sprintf(m_data + 0x1d540, "./log/%s/%s", dir, name);
+        sprintf(m_name, "./log/%s/%s", dir, name);
     }
-    *(unsigned char*)(m_data + 0x1d640) = 1;
+    m_flag = true;
 }
 ```

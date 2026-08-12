@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80aa64c` | `0x195` | `0x80a016a` | `0x19e` |
+| guild | DIFF | `0x80aa64c` | `0x195` | `0x80a03f2` | `0x195` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,132 +13,108 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,101 +1,105 @@
+@@ -1,101 +1,101 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x6c,%esp
-+sub    $0x7c,%esp
+ sub    $0x6c,%esp
  movl   $0x187,0x8(%esp)
  movl   $&_ZZN18CPowerWarGuildInfo14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"------ POWER WAR GUILD DEBUG INFO START ----------------------------------------------------------",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x188,0x8(%esp)
--movl   $&_ZZN18CPowerWarGuildInfo14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+movl   $"PrintDebugInfo",0x4(%esp)
-+lea    -0x40(%ebp),%eax
+ movl   $&_ZZN18CPowerWarGuildInfo14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"------ ALL GUILD RANKING -------------------------------------------------------------------------",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x1,-0x24(%ebp)
++movl   $0x1,-0x20(%ebp)
  mov    0x8(%ebp),%eax
--lea    0x1c(%eax),%edx
--lea    -0x48(%ebp),%eax
-+add    $0x1c,%eax
-+mov    %eax,-0x20(%ebp)
-+lea    -0x4c(%ebp),%eax
-+mov    -0x20(%ebp),%edx
+ lea    0x1c(%eax),%edx
+ lea    -0x48(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP19STPowerWarGuildInfoSaIS1_EE5beginEv>
  sub    $0x4,%esp
 -movl   $0x1,-0x20(%ebp)
--jmp    <T> <_ZN18CPowerWarGuildInfo14PrintDebugInfoEv+0x122>
--lea    -0x48(%ebp),%eax
-+jmp    <T> <_ZN18CPowerWarGuildInfo14PrintDebugInfoEv+0x12e>
-+lea    -0x4c(%ebp),%eax
+ jmp    <T> <_ZN18CPowerWarGuildInfo14PrintDebugInfoEv+0x122>
+ lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEdeEv>
  mov    (%eax),%eax
  mov    %eax,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
--mov    0x8(%eax),%eax
--mov    %eax,-0x4c(%ebp)
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x5c(%ebp)
+ mov    0x8(%eax),%eax
+ mov    %eax,-0x4c(%ebp)
  mov    -0x1c(%ebp),%eax
--mov    0xc(%eax),%edi
-+add    $0xc,%eax
-+mov    (%eax),%edi
+ mov    0xc(%eax),%edi
  mov    -0x1c(%ebp),%eax
--mov    0x4(%eax),%esi
-+add    $0x4,%eax
-+mov    (%eax),%esi
+ mov    0x4(%eax),%esi
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%ebx
  movl   $0x192,0x8(%esp)
  movl   $&_ZZN18CPowerWarGuildInfo14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0x4c(%ebp),%eax
-+mov    -0x5c(%ebp),%eax
+ mov    -0x4c(%ebp),%eax
  mov    %eax,0x1c(%esp)
  mov    %edi,0x18(%esp)
  mov    %esi,0x14(%esp)
  mov    %ebx,0x10(%esp)
--mov    -0x20(%ebp),%eax
-+mov    -0x24(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"RANK:%d, GUILD:%d, POINT:%d, TOTOAL:%d, BONUS:%d",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--addl   $0x1,-0x20(%ebp)
--lea    -0x48(%ebp),%eax
-+addl   $0x1,-0x24(%ebp)
-+lea    -0x4c(%ebp),%eax
+ addl   $0x1,-0x20(%ebp)
+ lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEppEv>
--mov    0x8(%ebp),%eax
--lea    0x1c(%eax),%edx
+ mov    0x8(%ebp),%eax
+ lea    0x1c(%eax),%edx
 -lea    -0x34(%ebp),%eax
-+lea    -0x30(%ebp),%eax
-+mov    -0x20(%ebp),%edx
++lea    -0x2c(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP19STPowerWarGuildInfoSaIS1_EE3endEv>
  sub    $0x4,%esp
 -lea    -0x34(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x48(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
+ lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxxneIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
  test   %al,%al
--jne    <T> <_ZN18CPowerWarGuildInfo14PrintDebugInfoEv+0x99>
-+jne    <T> <_ZN18CPowerWarGuildInfo14PrintDebugInfoEv+0x9f>
+ jne    <T> <_ZN18CPowerWarGuildInfo14PrintDebugInfoEv+0x99>
  movl   $0x199,0x8(%esp)
  movl   $&_ZZN18CPowerWarGuildInfo14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"------ POWER WAR GUILD DEBUG INFO END   ----------------------------------------------------------",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  lea    -0xc(%ebp),%esp
@@ -218,7 +194,7 @@ void CPowerWarGuildInfo::_ZN18CPowerWarGuildInfo14PrintDebugInfoEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 325 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 326 行）：
 
 ```cpp
 void CPowerWarGuildInfo::PrintDebugInfo()
@@ -226,17 +202,16 @@ void CPowerWarGuildInfo::PrintDebugInfo()
     CMyFileLog log1(__FUNCTION__, 0x187);
     log1("./log/Power",
          "------ POWER WAR GUILD DEBUG INFO START ----------------------------------------------------------");
-    CMyFileLog log2("PrintDebugInfo", 0x188);
+    CMyFileLog log2(__FUNCTION__, 0x188);
     log2("./log/Power",
          "------ ALL GUILD RANKING -------------------------------------------------------------------------");
     int rank = 1;
-    std::vector<STPowerWarGuildInfo*>* vec = &m_vec;
-    for (std::vector<STPowerWarGuildInfo*>::iterator it = vec->begin(); it != vec->end(); ++it)
+    for (std::vector<STPowerWarGuildInfo*>::iterator it = m_vec.begin(); it != m_vec.end(); ++it)
     {
         STPowerWarGuildInfo* info = *it;
         DNF_LOG_SCOPE_LINE(0x192,"./log/Power", "RANK:%d, GUILD:%d, POINT:%d, TOTOAL:%d, BONUS:%d", rank,
-            *(unsigned int*)info->m_data, *(unsigned int*)(info->m_data + 4),
-            *(unsigned int*)(info->m_data + 0xc), *(unsigned int*)(info->m_data + 8));
+            info->m_field[0], info->m_field[1],
+            info->m_field[3], info->m_field[2]);
         rank++;
     }
     CMyFileLog log3(__FUNCTION__, 0x199);

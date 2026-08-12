@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8085b3c` | `0x158` | `0x8062dca` | `0x15a` |
+| dbmw | DIFF | `0x8085b3c` | `0x158` | `0x8062df8` | `0x15a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -192,7 +192,7 @@ CDBManager::_ZN10CDBManager20QueryOnTimeEventItemER31Packet_Result_Ontime_Event_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 5860 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 5924 行）：
 
 ```cpp
 char CDBManager::QueryOnTimeEventItem(Packet_Result_Ontime_Event_Item& reply)
@@ -208,7 +208,7 @@ char CDBManager::QueryOnTimeEventItem(Packet_Result_Ontime_Event_Item& reply)
     if (!h->exec(0x4f18) || !h->fetch())
     {
         if (h->get_n_rows() == 0)
-            *(unsigned short*)((char*)&reply + 0x12) = 2;
+            reply.m_field12 = 2;
         return 0;
     }
     if (!h->get_uint(0, *(unsigned int*)((char*)&reply + 0xa)))

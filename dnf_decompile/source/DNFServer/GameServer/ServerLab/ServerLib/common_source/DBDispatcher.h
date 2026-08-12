@@ -8,7 +8,7 @@ class Message;
 class DBDispatcher
 {
 public:
-    DBDispatcher();
+    DBDispatcher() throw();
     void dispatch(Message* pMsg);
 };
 

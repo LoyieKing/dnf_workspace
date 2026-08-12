@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80914f2` | `0x1f2` | `0x807c9d8` | `0x1f2` |
+| monitor | DIFF | `0x80914f2` | `0x1f2` | `0x807ca86` | `0x1f2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -203,7 +203,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5329 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5336 行）：
 
 ```cpp
 void CPacketTranslater::onCollectItemsGm(PacketHeader* pkt)
@@ -216,8 +216,8 @@ void CPacketTranslater::onCollectItemsGm(PacketHeader* pkt)
         throw CDNFException("CPacketTranslater::onCollectItemsGm");
     }
     ((RA_S8<10>*)pkt)->v = (char)m_pclApp->Get_ServerGroup();
-    CServerHandler* handler = m_pclApp->m_serverHandler2;
-    handler->SendToDB(pkt);
+    PacketHeader* local_pkt = pkt;
+    m_pclApp->m_serverHandler2->SendToDB(local_pkt);
 
 
     }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809fe9e` | `0xed` | `0x8091c8a` | `0xf5` |
+| guild | DIFF | `0x809fe9e` | `0xed` | `0x809219a` | `0xee` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,64 +1,64 @@
+@@ -1,64 +1,59 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -37,11 +37,9 @@
 -mov    %ebx,0xc(%esp)
 +mov    0xc(%ebp),%ecx
 +mov    0x8(%ebp),%eax
-+add    $0x18d8,%eax
-+mov    (%eax),%edx
++mov    0x18d8(%eax),%edx
 +mov    0x8(%ebp),%eax
-+add    $0x18e0,%eax
-+mov    (%eax),%eax
++mov    0x18e0(%eax),%eax
 +mov    %ecx,0x14(%esp)
 +mov    %edx,0x10(%esp)
 +mov    %eax,0xc(%esp)
@@ -55,23 +53,18 @@
 -jmp    <T> <_ZN11CGuildCargo10PrintCargoE25ENUM_GUILD_CARGO_BEHAVIOR+0xd2>
 -mov    -0x1c(%ebp),%edx
 +movl   $0x0,-0x10(%ebp)
-+jmp    <T> <_ZN11CGuildCargo10PrintCargoE25ENUM_GUILD_CARGO_BEHAVIOR+0xdb>
- mov    0x8(%ebp),%eax
++jmp    <T> <_ZN11CGuildCargo10PrintCargoE25ENUM_GUILD_CARGO_BEHAVIOR+0xd3>
 +mov    -0x10(%ebp),%edx
+ mov    0x8(%ebp),%eax
  imul   $0x35,%edx,%edx
--mov    0x1(%edx,%eax,1),%eax
-+add    $0x1,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
+ mov    0x1(%edx,%eax,1),%eax
  test   %eax,%eax
 -je     <T> <_ZN11CGuildCargo10PrintCargoE25ENUM_GUILD_CARGO_BEHAVIOR+0xce>
 -mov    -0x1c(%ebp),%eax
-+je     <T> <_ZN11CGuildCargo10PrintCargoE25ENUM_GUILD_CARGO_BEHAVIOR+0xd7>
-+mov    0x8(%ebp),%edx
++je     <T> <_ZN11CGuildCargo10PrintCargoE25ENUM_GUILD_CARGO_BEHAVIOR+0xcf>
 +mov    -0x10(%ebp),%eax
  imul   $0x35,%eax,%eax
--add    0x8(%ebp),%eax
-+lea    (%edx,%eax,1),%eax
+ add    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CGuildCargo16PrintDnfItemInfoER11DnfItemInfo>
 -mov    %eax,%ebx
@@ -96,13 +89,13 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -addl   $0x1,-0x1c(%ebp)
 +addl   $0x1,-0x10(%ebp)
++mov    -0x10(%ebp),%edx
  mov    0x8(%ebp),%eax
--mov    0x18d8(%eax),%eax
+ mov    0x18d8(%eax),%eax
 -cmp    -0x1c(%ebp),%eax
-+add    $0x18d8,%eax
-+mov    (%eax),%eax
-+cmp    -0x10(%ebp),%eax
- setg   %al
+-setg   %al
++cmp    %eax,%edx
++setb   %al
  test   %al,%al
 -jne    <T> <_ZN11CGuildCargo10PrintCargoE25ENUM_GUILD_CARGO_BEHAVIOR+0x69>
 -add    $0x4c,%esp
@@ -110,7 +103,7 @@
 -pop    %esi
 -pop    %edi
 -pop    %ebp
-+jne    <T> <_ZN11CGuildCargo10PrintCargoE25ENUM_GUILD_CARGO_BEHAVIOR+0x68>
++jne    <T> <_ZN11CGuildCargo10PrintCargoE25ENUM_GUILD_CARGO_BEHAVIOR+0x66>
 +leave
  ret
 ```
@@ -150,20 +143,20 @@ CGuildCargo::_ZN11CGuildCargo10PrintCargoE25ENUM_GUILD_CARGO_BEHAVIOR
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 353 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 388 行）：
 
 ```cpp
 void CGuildCargo::PrintCargo(ENUM_GUILD_CARGO_BEHAVIOR behavior)
 {
     CMyFileLog log0(__FUNCTION__, 0x18d);
     log0("./log/GuildCargo", "CARGO - g:%d,capa:%d,behavior:%d",
-         *(int*)((char*)this + 0x18e0), *(int*)((char*)this + 0x18d8),
+         m_guildKey, m_info.m_capacity,
          (int)behavior);
-    for (int i = 0; i < *(int*)((char*)this + 0x18d8); i++)
+    for (int i = 0; i < m_info.m_capacity; i++)
     {
-        if (*(int*)((char*)this + i * 0x35 + 1) != 0)
+        if (m_info.m_items[i].m_itemId != 0)
         {
-            const char* itemDesc = PrintDnfItemInfo(*(DnfItemInfo*)((char*)this + i * 0x35));
+            const char* itemDesc = PrintDnfItemInfo(m_info.m_items[i]);
             DNF_LOG_SCOPE_LINE(0x195, "./log/GuildCargo", "SLOT - %d,%s", i, itemDesc);
         }
     }

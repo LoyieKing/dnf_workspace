@@ -1,5 +1,5 @@
 #!/bin/bash
-# monitor scratch-build helper (round 12, class-granular subagents)
+# monitor scratch-build helper (round 18, class-granular subagents)
 #
 # Usage: source this file, then:
 #   scratch_setup <group>                 # copy all .o into /tmp/sub_monitor_<group>
@@ -36,9 +36,7 @@ scratch_compile() {
     local out="$scr/CMakeFiles/monitor.dir/$rel"
     mkdir -p "$(dirname "$out")"
     echo "CC  $src"
-    # 统一用 bash 做单词拆分（zsh 下裸 $FLAGS 不会按 IFS 拆分）
-    bash -c 'cd "$0" || exit 1; cxx=$1; flags=$2; src=$3; out=$4; shift 4; exec "$cxx" $flags "$@" -c "$src" -o "$out"' \
-        "$REPO" "$CXX" "$FLAGS" "$src" "$out" "$@" || return 1
+    (cd "$REPO" && "$CXX" $FLAGS "$@" -c "$src" -o "$out") || return 1
 }
 
 scratch_link() {

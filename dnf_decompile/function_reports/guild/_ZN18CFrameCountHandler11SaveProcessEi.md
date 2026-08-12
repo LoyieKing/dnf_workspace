@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804cea2` | `0x87` | `0x8087938` | `0x86` |
+| guild | DIFF | `0x804cea2` | `0x87` | `0x8087d28` | `0x84` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,23 +20,19 @@
  push   %ebx
  sub    $0x30,%esp
  mov    0x8(%ebp),%eax
--movzbl 0x28(%eax),%eax
+ movzbl 0x28(%eax),%eax
 -lea    0x1(%eax),%edx
-+mov    0x28(%eax),%eax
 +add    $0x1,%eax
-+movsbl %al,%edx
++mov    %eax,%edx
  mov    0x8(%ebp),%eax
--mov    %dl,0x28(%eax)
-+mov    %edx,0x28(%eax)
+ mov    %dl,0x28(%eax)
  mov    0x8(%ebp),%eax
--movzbl 0x28(%eax),%eax
--test   %al,%al
+ movzbl 0x28(%eax),%eax
+ test   %al,%al
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN18CFrameCountHandler11SaveProcessEi+0x80>
-+mov    0x28(%eax),%eax
-+test   %eax,%eax
-+je     <T> <_ZN18CFrameCountHandler11SaveProcessEi+0x7f>
++je     <T> <_ZN18CFrameCountHandler11SaveProcessEi+0x7d>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%esi
  mov    0x8(%ebp),%eax
@@ -56,8 +52,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
--movb   $0x0,0x28(%eax)
-+movl   $0x0,0x28(%eax)
+ movb   $0x0,0x28(%eax)
  add    $0x30,%esp
  pop    %ebx
  pop    %esi
@@ -93,7 +88,7 @@ CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEi(CFrameCountHandler *t
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFTickHandler.cpp](source/DNFServer/GameServer/Guild/DNFTickHandler.cpp)（约第 175 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTickHandler.cpp](source/DNFServer/GameServer/Guild/DNFTickHandler.cpp)（约第 162 行）：
 
 ```cpp
 void CFrameCountHandler::SaveProcess(int interval)

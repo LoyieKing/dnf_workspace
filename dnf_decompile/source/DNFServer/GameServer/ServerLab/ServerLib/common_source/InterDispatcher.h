@@ -9,7 +9,7 @@ class IInterHandler;
 class InterDispatcher
 {
 public:
-    InterDispatcher();
+    InterDispatcher() throw();
     bool dispatch(Message* msg);
 };
 

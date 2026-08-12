@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806f742` | `0x44c` | `0x806f8a6` | `0x281` |
+| statics | DIFF | `0x806f742` | `0x44c` | `0x806f804` | `0x281` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -618,23 +618,31 @@ void StatisticManager::SendDBPartyCharacStatistic(CServerHandler* handler)
         for (std::map<STPartyCharacKey, PartyCharacStatistic>::iterator it = m_partyCharac.begin();
              it != m_partyCharac.end(); ++it)
         {
-            char* slot = (char*)&pkt + 0xe + idx * 0x38;
-            *(unsigned short*)(slot + 0) = it->first.m_field0;
-            *(unsigned int*)(slot + 4) = it->first.m_field4;
-            slot[8] = it->first.m_field8;
-            slot[9] = it->first.m_field9;
-            slot[10] = it->first.m_fielda;
-            *(unsigned int*)(slot + 0xc) = it->first.m_fieldc;
-            slot[0x10] = it->first.m_field10;
-            slot[0x11] = it->first.m_field11;
-            for (int k = 0; k < 12; k++)
-            {
-                *(int*)(slot + 0x12 + k * 4) = it->second.m_data[k];
-            }
+            *(unsigned short*)((char*)&pkt + 0xe + idx * 0x43 + 0) = it->first.m_field0;
+            *(unsigned int*)((char*)&pkt + 0xe + idx * 0x43 + 2) = it->first.m_field4;
+            *((char*)&pkt + 0xe + idx * 0x43 + 6) = it->first.m_field8;
+            *((char*)&pkt + 0xe + idx * 0x43 + 7) = it->first.m_field9;
+            *((char*)&pkt + 0xe + idx * 0x43 + 8) = it->first.m_fielda;
+            *(unsigned int*)((char*)&pkt + 0xe + idx * 0x43 + 9) = it->first.m_fieldc;
+            *((char*)&pkt + 0xe + idx * 0x43 + 0xd) = it->first.m_field10;
+            *((char*)&pkt + 0xe + idx * 0x43 + 0xe) = it->first.m_field11;
+            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 0 * 4) = it->second.m_data[0];
+            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 1 * 4) = it->second.m_data[1];
+            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 2 * 4) = it->second.m_data[2];
+            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 3 * 4) = it->second.m_data[3];
+            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 4 * 4) = it->second.m_data[4];
+            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 5 * 4) = it->second.m_data[5];
+            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 6 * 4) = it->second.m_data[6];
+            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 7 * 4) = it->second.m_data[7];
+            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 8 * 4) = it->second.m_data[8];
+            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 9 * 4) = it->second.m_data[9];
+            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 10 * 4) = it->second.m_data[10];
+            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 11 * 4) = it->second.m_data[11];
+            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 12 * 4) = it->second.m_data[12];
             idx++;
-            if (99 < idx)
+            if (0x58 < idx)
             {
-                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                *(unsigned int*)((char*)&pkt + 0xa) = 0x59;
                 handler->SendToDB((PacketHeader*)&pkt);
                 DNF_LOG_SCOPE_LINE(0x1f0, "./log/statistic", "Packet_DBMW_Dungeon_Statistic_Party_Charac : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", idx);
                 idx = 0;

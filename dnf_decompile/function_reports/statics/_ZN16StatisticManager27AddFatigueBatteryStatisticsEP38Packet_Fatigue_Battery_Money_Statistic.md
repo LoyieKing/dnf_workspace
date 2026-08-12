@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8072566` | `0x10c` | `0x8072414` | `0x117` |
+| statics | DIFF | `0x8072566` | `0x10c` | `0x8072372` | `0x117` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -188,7 +188,7 @@ _ZN16StatisticManager27AddFatigueBatteryStatisticsEP38Packet_Fatigue_Battery_Mon
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1139 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1147 行）：
 
 ```cpp
 void StatisticManager::AddFatigueBatteryStatistics(Packet_Fatigue_Battery_Money_Statistic* pkt)

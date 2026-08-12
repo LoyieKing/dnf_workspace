@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8082b74` | `0x58b` | `0x806e6ca` | `0x522` |
+| monitor | DIFF | `0x8082b74` | `0x58b` | `0x806e788` | `0x522` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -277,14 +277,8 @@
  flds   -0xbc(%ebp)
 -fildl  -0x34(%ebp)
 -fildl  -0x30(%ebp)
-+fildl  -0x38(%ebp)
-+mov    -0x30(%ebp),%eax
-+mov    $0x0,%edx
-+mov    %eax,-0xc8(%ebp)
-+mov    %edx,-0xc4(%ebp)
-+fildll -0xc8(%ebp)
- fdivrp %st,%st(1)
--fldl   "슇솛솛�?"
+-fdivrp %st,%st(1)
+-fldl   &data#79b8813d(.rodata)
 -fmulp  %st,%st(1)
 -fstps  -0xbc(%ebp)
 -flds   -0xbc(%ebp)
@@ -302,9 +296,14 @@
 -flds   -0xbc(%ebp)
 -fildl  -0x34(%ebp)
 -fildl  -0x30(%ebp)
--fdivrp %st,%st(1)
--fldl   "슇솛솛�?"
-+fldl   &data#79b8813d(.rodata)
++fildl  -0x38(%ebp)
++mov    -0x30(%ebp),%eax
++mov    $0x0,%edx
++mov    %eax,-0xc8(%ebp)
++mov    %edx,-0xc4(%ebp)
++fildll -0xc8(%ebp)
+ fdivrp %st,%st(1)
+ fldl   &data#79b8813d(.rodata)
  fmulp  %st,%st(1)
  fstps  -0xbc(%ebp)
  flds   -0xbc(%ebp)

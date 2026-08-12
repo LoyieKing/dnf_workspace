@@ -1,0 +1,1 @@
+DIFF  _ZN12CAppStopInit4InitEP12CApplicationiPPc

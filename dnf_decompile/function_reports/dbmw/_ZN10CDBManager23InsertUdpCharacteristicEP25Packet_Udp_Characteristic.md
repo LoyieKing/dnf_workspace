@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807c778` | `0x114` | `0x804fd60` | `0x137` |
+| dbmw | DIFF | `0x807c778` | `0x114` | `0x804fd8c` | `0x137` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -199,10 +199,10 @@ CDBManager::_ZN10CDBManager23InsertUdpCharacteristicEP25Packet_Udp_Characteristi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 788 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 828 行）：
 
 ```cpp
-char CDBManager::InsertUdpCharacteristic(Packet_Udp_Characteristic* packet)
+bool CDBManager::InsertUdpCharacteristic(Packet_Udp_Characteristic* packet)
 {
     CDBHandle* h = m_handles[0xf];  // frame_lag db
     if (!h)

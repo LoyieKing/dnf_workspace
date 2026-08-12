@@ -92,6 +92,13 @@ def cmd_link(svc, scratch):
     scratch = Path(scratch)
     link_txt = scratch / 'CMakeFiles' / ('%s.dir' % svc) / 'link.txt'
     link_cmd = link_txt.read_text(encoding='utf-8').strip()
+    # link.txt 中的 mysqlclient/trees.o 是相对路径（build/<svc> 相对）；
+    # 在 scratch 下补一个副本，保证链接原命令可直接执行。
+    if 'mysqlclient/trees.o' in link_cmd:
+        trees_src = ROOT / 'build' / svc / 'mysqlclient' / 'trees.o'
+        if trees_src.exists():
+            (scratch / 'mysqlclient').mkdir(parents=True, exist_ok=True)
+            shutil.copy2(trees_src, scratch / 'mysqlclient' / 'trees.o')
     subprocess.run(['bash', '-c', 'exec ' + link_cmd], cwd=str(scratch),
                    check=True)
     out = scratch / ('df_%s_r' % svc)

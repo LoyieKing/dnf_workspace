@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8066e76` | `0xb5` | `0x8089036` | `0xc9` |
+| guild | DIFF | `0x8066e76` | `0xb5` | `0x80893e2` | `0xc3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,49 +1,58 @@
+@@ -1,49 +1,55 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x58,%esp
@@ -38,7 +38,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN5CUser21SendGuildMemberDBInfoER18STGuildMemerDBInfo+0xb3>
-+jmp    <T> <_ZN5CUser21SendGuildMemberDBInfoER18STGuildMemerDBInfo+0xc3>
++jmp    <T> <_ZN5CUser21SendGuildMemberDBInfoER18STGuildMemerDBInfo+0xbd>
  lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN39Packet_Monitor_Notice_Guild_Member_InfoC1Ev>
@@ -49,24 +49,21 @@
  add    $0x12,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
-+lea    -0x3c(%ebp),%eax
-+lea    0xa(%eax),%ebx
++lea    -0x3c(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x32(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x3c(%ebp),%eax
-+lea    0xe(%eax),%ebx
++mov    %eax,0xa(%ebx)
++lea    -0x3c(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x2e(%ebp)
 -movzwl -0x3a(%ebp),%eax
-+mov    %eax,(%ebx)
++mov    %eax,0xe(%ebx)
 +lea    -0x3c(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
++movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
  lea    -0x3c(%ebp),%eax
  mov    %edx,0x8(%esp)
@@ -120,7 +117,7 @@ CUser::_ZN5CUser21SendGuildMemberDBInfoER18STGuildMemerDBInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 326 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUser.cpp](source/DNFServer/GameServer/Guild/DNFUser.cpp)（约第 346 行）：
 
 ```cpp
 void CUser::SendGuildMemberDBInfo(STGuildMemerDBInfo& info)
@@ -133,9 +130,9 @@ void CUser::SendGuildMemberDBInfo(STGuildMemerDBInfo& info)
     {
         Packet_Monitor_Notice_Guild_Member_Info pkt;
         memcpy((char*)&pkt + 0x12, &info, 0x1a);
-        *(int*)((char*)&pkt + 0xa) = GetIdByChannel();
-        *(unsigned int*)((char*)&pkt + 0xe) = GetUniqCharNo();
-        SendToGameserver((char*)&pkt, *(unsigned short*)((char*)&pkt + 2));
+        ((NoticeGuildMemberInfoLayout*)&pkt)->m_channel = GetIdByChannel();
+        ((NoticeGuildMemberInfoLayout*)&pkt)->m_charNo = GetUniqCharNo();
+        SendToGameserver((char*)&pkt, ((NoticeGuildMemberInfoLayout*)&pkt)->m_packetSize);
     }
 }
 ```

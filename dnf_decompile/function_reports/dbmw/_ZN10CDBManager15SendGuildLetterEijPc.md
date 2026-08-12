@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80746c2` | `0x2f9` | `0x804d49e` | `0x309` |
+| dbmw | DIFF | `0x80746c2` | `0x2f9` | `0x804d4ce` | `0x307` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,216 +1,220 @@
+@@ -1,216 +1,219 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -68,7 +68,7 @@
 -jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2ef>
 -mov    -0x1c(%ebp),%eax
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2fc>
++jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2fa>
 +mov    -0x2c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -92,7 +92,7 @@
 +test   %al,%al
 +je     <T> <_ZN10CDBManager15SendGuildLetterEijPc+0xc5>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2fc>
++jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2fa>
 +mov    -0x2c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
@@ -138,7 +138,7 @@
 -mov    -0x1c(%ebp),%eax
 +mov    %eax,-0x20(%ebp)
 +movl   $0x0,-0x1c(%ebp)
-+jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2e6>
++jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2e4>
 +mov    -0x2c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
@@ -161,7 +161,7 @@
 +test   %al,%al
 +je     <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x156>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2fc>
++jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2fa>
 +movl   $0x0,-0x3c(%ebp)
 +mov    -0x2c(%ebp),%eax
  mov    (%eax),%eax
@@ -190,7 +190,7 @@
 +test   %al,%al
 +je     <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x18f>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2fc>
++jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2fa>
 +lea    -0x5a(%ebp),%eax
 +mov    $0x1e,%esi
  mov    $0x0,%edx
@@ -271,14 +271,11 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CDBManager12InsertLetterEjjPKcS1_Ril>
--xor    $0x1,%eax
--test   %al,%al
+ xor    $0x1,%eax
+ test   %al,%al
 -jne    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x298>
 -jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2d5>
-+test   %al,%al
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2b1>
++je     <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2af>
 +movl   $0x80d,0x8(%esp)
 +movl   $&_ZZN10CDBManager15SendGuildLetterEijPcE12__FUNCTION__,0x4(%esp)
 +lea    -0x6c(%ebp),%eax
@@ -291,9 +288,9 @@
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%ebx
 +mov    $0x0,%esi
-+jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2d3>
++jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2d1>
 +mov    $0x1,%esi
-+jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2d3>
++jmp    <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2d1>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x2c(%ebp),%eax
@@ -323,7 +320,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +test   %esi,%esi
-+je     <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2fc>
++je     <T> <_ZN10CDBManager15SendGuildLetterEijPc+0x2fa>
 +addl   $0x1,-0x1c(%ebp)
 +mov    -0x1c(%ebp),%eax
 +cmp    -0x28(%ebp),%eax
@@ -456,10 +453,10 @@ CDBManager::_ZN10CDBManager15SendGuildLetterEijPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 81 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 124 行）：
 
 ```cpp
-char CDBManager::SendGuildLetter(int serverId, unsigned int guildId, char* msg)
+bool CDBManager::SendGuildLetter(int serverId, unsigned int guildId, char* msg)
 {
     CDBHandle* h = m_handles[8];    // guild db
     if (!h->set_query(0x4e39,

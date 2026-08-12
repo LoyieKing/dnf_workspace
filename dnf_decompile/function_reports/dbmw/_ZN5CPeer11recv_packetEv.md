@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8059e2a` | `0x1a1` | `0x80ec106` | `0x195` |
+| dbmw | DIFF | `0x8059e2a` | `0x1a1` | `0x80ec168` | `0x195` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -229,7 +229,7 @@ ssize_t __thiscall CPeer::_ZN5CPeer11recv_packetEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 88 行）：
+定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 126 行）：
 
 ```cpp
 int CPeer::recv_packet()
@@ -237,30 +237,25 @@ int CPeer::recv_packet()
     if (getHandle() < 0)
         return 0;
     errno = 0;
-    int remaining = ((char*)this + 0x1c + 0x1800) - m_sendBuf;
+    int remaining = (char*)this + 0x1c - m_sendBuf + 0x1800;
     if (remaining == 0)
     {
         m_sendBuf = (char*)this + 0x1c;
         m_recvLen = 0;
         remaining = 0x1800;
     }
-    int n = read(getHandle(), m_sendBuf, remaining);
-    if (n < 0)
+    int n;
+    if ((n = read(getHandle(), m_sendBuf, remaining)) < 0)
     {
-        if (errno == EAGAIN || errno == EINTR)
+        if (errno == EAGAIN || errno == EINTR || errno == EAGAIN || errno == 0)
             return 0;
-        if (errno != 0)
-        {
-            printf("RECV ERROR DISCONNNECT NOW FD[%d] : %d(%s)",
-                   getHandle(), errno, strerror(errno));
-            return -1;
-        }
-        return 0;
+        printf("RECV ERROR DISCONNNECT NOW FD[%d] : %d(%s)",
+               getHandle(), errno, strerror(errno));
+        return -1;
     }
     if (n == 0)
     {
-        CMyFileLog log(__FUNCTION__, 0xa4);
-        log("./log/TcpRecv", "Recv ERROR = 0 (%d) : %s, MaxRead(%d) nRead(%d)",
+        DNF_LOG_SCOPE_LINE(0xa4, "./log/TcpRecv", "Recv ERROR = 0 (%d) : %s, MaxRead(%d) nRead(%d)",
             errno, strerror(errno), remaining, n);
         return -1;
     }

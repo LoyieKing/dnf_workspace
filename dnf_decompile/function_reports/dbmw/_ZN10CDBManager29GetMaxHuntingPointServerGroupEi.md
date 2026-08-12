@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80828f8` | `0x12f` | `0x8051a4e` | `0x124` |
+| dbmw | DIFF | `0x80828f8` | `0x12f` | `0x8051a80` | `0x124` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -185,7 +185,7 @@ CDBManager::_ZN10CDBManager29GetMaxHuntingPointServerGroupEi(CDBManager *this,in
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1304 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 1348 行）：
 
 ```cpp
 int CDBManager::GetMaxHuntingPointServerGroup(int serverId)

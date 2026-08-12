@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80621a2` | `0x90` | `0x806163e` | `0x84` |
+| monitor | DIFF | `0x80621a2` | `0x90` | `0x80616fc` | `0x84` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -131,7 +131,7 @@ CMemberExpTbl::_ZN13CMemberExpTbl18IsMemberExpLevelUpEj(CMemberExpTbl *this,uint
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 146 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 141 行）：
 
 ```cpp
 unsigned char CMemberExpTbl::IsMemberExpLevelUp(unsigned int exp)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809c2c6` | `0x27a` | `0x80dad34` | `0x25e` |
+| dbmw | DIFF | `0x809c2c6` | `0x27a` | `0x80dadfa` | `0x25e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -93,16 +93,14 @@
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler15CreateTcpServerEhj>
--mov    %eax,-0x10(%ebp)
--cmpl   $0x0,-0x10(%ebp)
+ mov    %eax,-0x10(%ebp)
+ cmpl   $0x0,-0x10(%ebp)
 -jne    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x123>
 -mov    -0x14(%ebp),%eax
 -mov    0x6(%eax),%esi
 -mov    -0x14(%ebp),%eax
 -movzbl 0xa(%eax),%eax
 -movzbl %al,%ebx
-+mov    %al,-0xd(%ebp)
-+cmpb   $0x0,-0xd(%ebp)
 +jne    <T> <_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader+0x11c>
 +and    $0xff,%esi
  movl   $0xc4d,0x8(%esp)
@@ -299,7 +297,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2650 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2658 行）：
 
 ```cpp
 void CPacketTranslater::OnTcpServerLogin(PacketHeader* header)
@@ -323,7 +321,7 @@ void CPacketTranslater::OnTcpServerLogin(PacketHeader* header)
             return;
         }
         handler = m_pclApp->Get_ServerHandler();
-        char ret = handler->CreateTcpServer(idx, port);
+        CTcpServer* ret = handler->CreateTcpServer(idx, port);
         if (ret == 0)
         {
             DNF_LOG_SCOPE_LINE(0xc4d,

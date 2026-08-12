@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804caa6` | `0x37c` | `0x8087542` | `0x376` |
+| guild | DIFF | `0x804caa6` | `0x37c` | `0x8087940` | `0x36a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,277 +1,285 @@
+@@ -1,277 +1,281 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -26,7 +26,7 @@
 -movl   $0x0,-0x1c(%ebp)
 -mov    0x8(%ebp),%eax
 -movb   $0x0,0x24(%eax)
-+sub    $0x5c,%esp
++sub    $0x4c,%esp
 +mov    0x8(%ebp),%eax
 +add    $0x24,%eax
 +movb   $0x0,(%eax)
@@ -34,42 +34,44 @@
  movzbl (%eax),%eax
  test   %al,%al
 -jne    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x14d>
-+jne    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x132>
++jne    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x12c>
  mov    0x8(%ebp),%eax
  movb   $0x1,(%eax)
  mov    0x8(%ebp),%eax
  movl   $0x0,0x14(%eax)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <times>
 -mov    %eax,%edx
 -mov    0x8(%ebp),%eax
-+mov    %eax,-0x1c(%ebp)
-+mov    0x8(%ebp),%eax
-+mov    -0x1c(%ebp),%edx
- mov    %edx,0xc(%eax)
- mov    0x8(%ebp),%eax
- mov    0xc(%eax),%eax
- cmp    $0xffffffff,%eax
+-mov    %edx,0xc(%eax)
+-mov    0x8(%ebp),%eax
+-mov    0xc(%eax),%eax
+-cmp    $0xffffffff,%eax
 -sete   %al
 -test   %al,%al
 -je     <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x371>
 -lea    -0x35(%ebp),%eax
-+jne    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x36b>
-+lea    -0x25(%ebp),%eax
++mov    0x8(%ebp),%edx
++mov    %eax,0xc(%edx)
++mov    0x8(%ebp),%eax
++mov    0xc(%eax),%eax
++cmp    $0xffffffff,%eax
++jne    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x35f>
++lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x35(%ebp),%eax
-+lea    -0x25(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CFrameCountHandler::GetFrameCountInfo() times() Exception Break!",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x3c(%ebp),%esi
-+lea    -0x2c(%ebp),%esi
++lea    -0x28(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -78,7 +80,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0xf0>
-+jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0xd5>
++jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0xcf>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -100,22 +102,7 @@
 -call   <T> <_ZSt9terminatev>
 -mov    %esi,%ecx
 -mov    %ebx,%eax
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0xcf>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0xf4>
-+call   <T> <_ZSt9terminatev>
-+mov    %esi,%ecx
-+mov    %ebx,%eax
-+jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0xf4>
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x10f>
+-jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x10f>
 -lea    -0x3c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSsD1Ev>
@@ -130,16 +117,32 @@
 -mov    %eax,%ebx
 -mov    %ecx,%esi
 -lea    -0x35(%ebp),%eax
++lea    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0xc9>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +cmp    $0xffffffff,%eax
-+jne    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0xf4>
++jne    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0xee>
++call   <T> <_ZSt9terminatev>
++mov    %esi,%ecx
++mov    %ebx,%eax
++jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0xee>
++lea    -0x28(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x109>
++mov    %eax,%ecx
++mov    %edx,%eax
++cmp    $0xffffffff,%eax
++jne    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0xee>
 +call   <T> <_ZSt9terminatev>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x25(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%ecx
@@ -147,7 +150,7 @@
  mov    %ecx,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x35(%ebp),%eax
-+lea    -0x25(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -155,15 +158,14 @@
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
 -lea    -0x4c(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <times>
 -mov    %eax,%edx
 -mov    0x8(%ebp),%eax
-+mov    %eax,-0x1c(%ebp)
-+mov    0x8(%ebp),%eax
-+mov    -0x1c(%ebp),%edx
- mov    %edx,0x10(%eax)
+-mov    %edx,0x10(%eax)
++mov    0x8(%ebp),%edx
++mov    %eax,0x10(%edx)
  mov    0x8(%ebp),%eax
  mov    0x10(%eax),%eax
  cmp    $0xffffffff,%eax
@@ -171,20 +173,20 @@
 -test   %al,%al
 -je     <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x250>
 -lea    -0x2d(%ebp),%eax
-+jne    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x234>
-+lea    -0x1d(%ebp),%eax
++jne    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x228>
++lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x2d(%ebp),%eax
-+lea    -0x1d(%ebp),%eax
++lea    -0x19(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CFrameCountHandler::GetFrameCountInfo() times() Exception Break!",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x34(%ebp),%esi
-+lea    -0x24(%ebp),%esi
++lea    -0x20(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -193,7 +195,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x1f3>
-+jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x1d7>
++jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x1cb>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -230,32 +232,32 @@
 -mov    %eax,%ebx
 -mov    %ecx,%esi
 -lea    -0x2d(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x1d1>
++jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x1c5>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +cmp    $0xffffffff,%eax
-+jne    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x1f6>
++jne    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x1ea>
 +call   <T> <_ZSt9terminatev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x1f6>
-+lea    -0x24(%ebp),%eax
++jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x1ea>
++lea    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x211>
++jmp    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x205>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +cmp    $0xffffffff,%eax
-+jne    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x1f6>
++jne    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x1ea>
 +call   <T> <_ZSt9terminatev>
 +mov    %eax,%ecx
 +mov    %edx,%eax
 +mov    %eax,%ebx
 +mov    %ecx,%esi
-+lea    -0x1d(%ebp),%eax
++lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%ecx
@@ -263,7 +265,7 @@
  mov    %ecx,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x2d(%ebp),%eax
-+lea    -0x1d(%ebp),%eax
++lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -278,7 +280,7 @@
  mov    0x10(%eax),%eax
  cmp    %eax,%edx
 -jbe    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x26c>
-+jbe    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x252>
++jbe    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x246>
  mov    0x8(%ebp),%eax
  mov    0x10(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -295,11 +297,11 @@
 +mov    %ebx,%eax
 +mov    0x8(%ebp),%edx
 +mov    0x8(%edx),%edx
-+mov    %edx,-0x4c(%ebp)
++mov    %edx,-0x3c(%ebp)
 +mov    $0x0,%edx
-+divl   -0x4c(%ebp)
++divl   -0x3c(%ebp)
 +cmp    %eax,%ecx
-+jae    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x36b>
++jae    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x35f>
 +mov    0x8(%ebp),%eax
 +mov    0x14(%eax),%eax
 +lea    0x1(%eax),%edx
@@ -345,7 +347,7 @@
 -cmpl   $0x63,-0x28(%ebp)
 -jbe    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x371>
 +cmp    $0x63,%eax
-+jbe    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x36b>
++jbe    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x35f>
  mov    0x8(%ebp),%eax
  mov    0x14(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -403,7 +405,7 @@
 -mov    %dl,0x26(%eax)
 -mov    0x8(%ebp),%eax
 -movzbl 0x26(%eax),%eax
-+jbe    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x36b>
++jbe    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x35f>
 +mov    0x8(%ebp),%eax
 +add    $0x24,%eax
 +movb   $0x3,(%eax)
@@ -430,7 +432,7 @@
 -movb   $0x0,0x26(%eax)
 -mov    0x8(%ebp),%eax
 -add    $0x6c,%esp
-+jbe    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x36b>
++jbe    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x35f>
 +mov    0x8(%ebp),%eax
 +add    $0x24,%eax
 +movb   $0x4,(%eax)
@@ -438,7 +440,7 @@
 +add    $0x26,%eax
 +movb   $0x0,(%eax)
 +mov    0x8(%ebp),%eax
-+add    $0x5c,%esp
++add    $0x4c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -544,20 +546,18 @@ CFrameCountHandler::_ZN18CFrameCountHandler17GetFrameCountInfoEv(CFrameCountHand
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFTickHandler.cpp](source/DNFServer/GameServer/Guild/DNFTickHandler.cpp)（约第 103 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTickHandler.cpp](source/DNFServer/GameServer/Guild/DNFTickHandler.cpp)（约第 93 行）：
 
 ```cpp
 CFrameCountHandler* CFrameCountHandler::GetFrameCountInfo()
 {
     struct tms t;
-    clock_t c;
     *(unsigned char*)((char*)this + 0x24) = 0;
     if (*(unsigned char*)this == 0)
     {
         *(unsigned char*)this = 1;
         m_field14 = 0;
-        c = times(&t);
-        m_fieldc = (int)c;
+        m_fieldc = (int)times(&t);
         if (m_fieldc == -1)
         {
             throw CDNFException(
@@ -566,8 +566,7 @@ CFrameCountHandler* CFrameCountHandler::GetFrameCountInfo()
     }
     else
     {
-        c = times(&t);
-        m_field10 = (int)c;
+        m_field10 = (int)times(&t);
         if (m_field10 == -1)
         {
             throw CDNFException(
