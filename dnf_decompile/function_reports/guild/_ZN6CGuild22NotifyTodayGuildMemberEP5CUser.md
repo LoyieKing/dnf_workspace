@@ -189,7 +189,7 @@ void __thiscall CGuild::_ZN6CGuild22NotifyTodayGuildMemberEP5CUser(CGuild *this,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2257 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2285 行）：
 
 ```cpp
 void CGuild::NotifyTodayGuildMember(CUser* user)

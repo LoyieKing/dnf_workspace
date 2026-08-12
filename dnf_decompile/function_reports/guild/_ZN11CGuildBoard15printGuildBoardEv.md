@@ -156,7 +156,7 @@ void CGuildBoard::_ZN11CGuildBoard15printGuildBoardEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 339 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 338 行）：
 
 ```cpp
 void CGuildBoard::printGuildBoard()

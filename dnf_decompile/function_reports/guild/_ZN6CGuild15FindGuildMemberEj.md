@@ -121,7 +121,7 @@ undefined4 CGuild::_ZN6CGuild15FindGuildMemberEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 503 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 525 行）：
 
 ```cpp
 CUser* CGuild::FindGuildMember(unsigned int charNo)

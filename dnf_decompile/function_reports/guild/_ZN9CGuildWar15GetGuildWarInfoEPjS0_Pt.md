@@ -161,18 +161,28 @@ CGuildWar::_ZN9CGuildWar15GetGuildWarInfoEPjS0_Pt
 ```cpp
 void CGuildWar::GetGuildWarInfo(unsigned int* a, unsigned int* b, unsigned short* c)
 {
-    if (a != 0 && b != 0 && c != 0)
+    if (a == 0)
     {
-        int idx = 0;
-        for (std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator it =
-                 m_vtGuildWarInfo.begin(); it != m_vtGuildWarInfo.end(); ++it)
+        return;
+    }
+    if (b == 0)
+    {
+        return;
+    }
+    if (c == 0)
+    {
+        return;
+    }
+    int idx = 0;
+    for (std::vector<std::pair<unsigned int, STGuildWarInfo*> >::iterator it =
+             m_vtGuildWarInfo.begin(); it != m_vtGuildWarInfo.end(); ++it)
+    {
+        if (it->second != 0)
         {
-            if (it->second != 0)
-            {
-                a[idx] = it->second->m_guildKey;
-                b[idx] = it->second->m_point;
-                c[idx++] = (unsigned short)idx;
-            }
+            a[idx] = it->second->m_guildKey;
+            b[idx] = it->second->m_point;
+            c[idx] = (unsigned short)(idx + 1);
+            idx++;
         }
     }
 }

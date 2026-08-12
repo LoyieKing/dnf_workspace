@@ -340,7 +340,7 @@ LAB_0808e7b2:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 990 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1012 行）：
 
 ```cpp
 int CGuild::GuildLevelUp(CServerHandler* handler, CUser* user)

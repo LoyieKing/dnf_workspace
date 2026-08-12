@@ -217,7 +217,7 @@ CGuild::_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1625 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1647 行）：
 
 ```cpp
 void CGuild::SecedeProxyMember(ST_Notice_Guild_Secede& info)

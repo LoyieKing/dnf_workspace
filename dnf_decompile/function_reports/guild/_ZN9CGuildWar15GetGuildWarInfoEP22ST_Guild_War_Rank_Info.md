@@ -186,7 +186,7 @@ CGuildWar::_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 151 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 161 行）：
 
 ```cpp
 void CGuildWar::GetGuildWarInfo(ST_Guild_War_Rank_Info* info)

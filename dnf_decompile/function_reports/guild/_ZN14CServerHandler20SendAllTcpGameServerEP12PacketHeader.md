@@ -155,20 +155,21 @@ CServerHandler::_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 352 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 351 行）：
 
 ```cpp
 void CServerHandler::SendAllTcpGameServer(PacketHeader* pkt)
 {
+    CTcpGameServer* tgs = 0;
+    char* buf = 0;
     for (std::map<unsigned int, CTcpGameServer*>::iterator it = m_tcpGameServers.begin();
          it != m_tcpGameServers.end(); ++it)
     {
-        CTcpGameServer* tgs = it->second;
+        tgs = it->second;
         if (tgs->IsValidServer())
         {
-            char* buf = tgs->makePacketHeader(*(unsigned short*)pkt,
-                                              *(unsigned short*)((char*)pkt + 2));
-            memcpy(buf + 10, (char*)pkt + 10, *(unsigned short*)((char*)pkt + 2) - 10);
+            buf = tgs->makePacketHeader(pkt->packetId, pkt->packetSize);
+            memcpy(buf + 10, (char*)pkt + 10, pkt->packetSize - 10);
             tgs->SendToGameServer(buf);
         }
     }

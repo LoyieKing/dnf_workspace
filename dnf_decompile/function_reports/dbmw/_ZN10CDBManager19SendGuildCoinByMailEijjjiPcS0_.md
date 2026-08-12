@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8074cb2` | `0x2e1` | `0x80622e4` | `0x2dd` |
+| dbmw | DIFF | `0x8074cb2` | `0x2e1` | `0x80622b2` | `0x2db` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,195 +1,192 @@
+@@ -1,195 +1,191 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x78,%esp
@@ -59,7 +59,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2df>
-+jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2db>
++jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2d9>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -76,7 +76,7 @@
 +je     <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0xc8>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2df>
-+jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2db>
++jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2d9>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
@@ -113,7 +113,7 @@
  mov    %eax,-0x10(%ebp)
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2c9>
-+jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2c5>
++jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2c3>
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
@@ -129,7 +129,7 @@
 +je     <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x15a>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2df>
-+jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2db>
++jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2d9>
 +movl   $0x0,-0x30(%ebp)
  mov    -0x20(%ebp),%eax
  mov    (%eax),%eax
@@ -151,7 +151,7 @@
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2df>
 -mov    -0x44(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2db>
++jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2d9>
 +movl   $0x0,-0x34(%ebp)
 +mov    -0x30(%ebp),%eax
  mov    -0x10(%ebp),%edx
@@ -191,7 +191,7 @@
 -jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2c5>
 -mov    -0x48(%ebp),%edx
 -mov    -0x44(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2c1>
++jmp    <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2bf>
 +mov    -0x34(%ebp),%edx
 +mov    -0x30(%ebp),%eax
  mov    %edx,0x28(%esp)
@@ -212,12 +212,10 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CDBManager12InsertPostalEjjijijiPcli>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2c5>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2c1>
++je     <T> <_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_+0x2bf>
  movl   $0x8c6,0x8(%esp)
  movl   $&_ZZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_E12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax

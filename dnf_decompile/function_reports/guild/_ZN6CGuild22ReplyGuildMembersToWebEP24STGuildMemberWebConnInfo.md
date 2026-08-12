@@ -235,7 +235,7 @@ CGuild::_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1234 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1256 行）：
 
 ```cpp
 int CGuild::ReplyGuildMembersToWeb(STGuildMemberWebConnInfo* info)

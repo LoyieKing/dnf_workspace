@@ -144,14 +144,15 @@ CServerHandler::_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader
 ```cpp
 void CServerHandler::SendTcpGameServerFirst(PacketHeader* pkt)
 {
-    if (!m_tcpGameServers.empty())
+    if (m_tcpGameServers.empty() == 0)
     {
-        CTcpGameServer* tgs = m_tcpGameServers.begin()->second;
+        CTcpGameServer* tgs = 0;
+        char* buf = 0;
+        tgs = m_tcpGameServers.begin()->second;
         if (tgs->IsValidServer())
         {
-            char* buf = tgs->makePacketHeader(*(unsigned short*)pkt,
-                                              *(unsigned short*)((char*)pkt + 2));
-            memcpy(buf + 10, (char*)pkt + 10, *(unsigned short*)((char*)pkt + 2) - 10);
+            buf = tgs->makePacketHeader(pkt->packetId, pkt->packetSize);
+            memcpy(buf + 10, (char*)pkt + 10, pkt->packetSize - 10);
             tgs->SendToGameServer(buf);
         }
     }

@@ -67,12 +67,12 @@ undefined4 __thiscall CGuildCargo::_ZN11CGuildCargo7IsEmptyEv(CGuildCargo *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 433 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 434 行）：
 
 ```cpp
 int CGuildCargo::IsEmpty()
 {
-    for (int i = 0; i < m_info.m_capacity; i++)
+    for (int i = 0; (int)m_info.m_capacity > i; i++)
     {
         if (m_info.m_items[i].m_itemId != 0)
         {

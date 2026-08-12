@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8063362` | `0x186` | `0x8067a1c` | `0x180` |
+| statics | DIFF | `0x8063362` | `0x186` | `0x8067a1c` | `0x184` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,113 +1,109 @@
+@@ -1,113 +1,112 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -29,7 +29,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x181>
-+je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x17b>
++je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x17f>
  mov    0x8(%ebp),%eax
  lea    0x50(%eax),%edx
  lea    -0x14(%ebp),%eax
@@ -38,7 +38,7 @@
  call   <T> <_ZNSt3mapI13STErrorStaticjSt4lessIS0_ESaISt4pairIKS0_jEEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x113>
-+jmp    <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x110>
++jmp    <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x111>
  mov    -0xc(%ebp),%ebx
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -81,13 +81,12 @@
  sub    $0x1802,%eax
  mov    %edx,0x14(%eax)
  addl   $0x1,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--cmp    $0x263,%eax
-+cmpl   $0x263,-0xc(%ebp)
+ mov    -0xc(%ebp),%eax
+ cmp    $0x263,%eax
  seta   %al
  test   %al,%al
 -je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x108>
-+je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x105>
++je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x106>
  movl   $0x264,-0x1800(%ebp)
  lea    -0x180a(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -114,18 +113,16 @@
  jne    <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x55>
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x181>
-+je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x17b>
++je     <T> <_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler+0x17f>
  mov    -0xc(%ebp),%eax
  mov    %eax,-0x1800(%ebp)
  mov    -0xc(%ebp),%eax
--mov    %eax,%edx
--mov    %edx,%eax
+ mov    %eax,%edx
+ mov    %edx,%eax
  shl    $0x2,%eax
--add    %edx,%eax
-+add    -0xc(%ebp),%eax
-+add    $0x7,%eax
+ add    %edx,%eax
  add    %eax,%eax
--add    $0xe,%eax
+ add    $0xe,%eax
  mov    %ax,-0x1808(%ebp)
  lea    -0x180a(%ebp),%eax
  mov    %eax,0x4(%esp)

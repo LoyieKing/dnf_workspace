@@ -149,7 +149,7 @@ undefined4 CServerHandler::_ZN14CServerHandler19DeleteTcpGameServerEj(uint param
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 436 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 437 行）：
 
 ```cpp
 void CServerHandler::DeleteTcpGameServer(unsigned int group)
@@ -159,12 +159,12 @@ void CServerHandler::DeleteTcpGameServer(unsigned int group)
     {
         return;
     }
-    CTcpGameServer* tgs = it->second;
+    register CTcpGameServer* tgs = it->second;
     if (tgs != 0)
     {
         delete tgs;
     }
     m_tcpGameServers.erase(it);
-    DNF_LOG_SCOPE_LINE(0x33e, "./log/Tcp", "TcpGameServer unregist. Channel: %d", group);
+    DNF_LOG_SCOPE_LINE(0x33e, "./log/Tcp", "TcpGameServer Delete !");
 }
 ```

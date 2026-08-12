@@ -126,7 +126,7 @@ CGuildWar::_ZN9CGuildWar19Insert_GuildWarInfoEP14STGuildWarInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 172 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 182 行）：
 
 ```cpp
 void CGuildWar::Insert_GuildWarInfo(STGuildWarInfo* info)

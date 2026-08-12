@@ -177,7 +177,7 @@ void __thiscall CApplication::_ZN12CApplication18UpdateCollectItemsEv(CApplicati
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 1149 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 1148 行）：
 
 ```cpp
 void CApplication::UpdateCollectItems()

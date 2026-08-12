@@ -140,7 +140,7 @@ void __thiscall CGuild::_ZN6CGuild21AddGuildExpUntilLimitEjj(CGuild *this,uint p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 701 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 723 行）：
 
 ```cpp
 void CGuild::AddGuildExpUntilLimit(unsigned int exp, unsigned int limit)

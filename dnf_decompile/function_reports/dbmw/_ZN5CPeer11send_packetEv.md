@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805a672` | `0x24d` | `0x80ec314` | `0x24f` |
+| dbmw | DIFF | `0x805a672` | `0x24d` | `0x80ec1f2` | `0x24f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -263,7 +263,7 @@ ssize_t __thiscall CPeer::_ZN5CPeer11send_packetEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 154 行）：
+定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 146 行）：
 
 ```cpp
 int CPeer::send_packet()

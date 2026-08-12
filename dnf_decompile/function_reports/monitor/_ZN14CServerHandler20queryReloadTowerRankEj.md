@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a1b8` | `0x4b` | `0x808060a` | `0x4f` |
+| monitor | DIFF | `0x807a1b8` | `0x4b` | `0x8080600` | `0x4f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -84,11 +84,11 @@ CServerHandler::_ZN14CServerHandler20queryReloadTowerRankEj(CServerHandler *this
 ```cpp
 void CServerHandler::queryReloadTowerRank(unsigned int channel)
 {
-    for (int i = 0; i <= 4; i++)
+    for (unsigned int i = 0; i <= 4; i++)
     {
         Packet_Request_Load_Tower_Full_Rank pkt;
-        ((RA_INT<10>*)&pkt)->v = i;
-        ((RA_UINT<14>*)&pkt)->v = channel;
+        pkt.m_rankNo = i;
+        pkt.m_channel = channel;
         SendToDB(&pkt);
     }
 }

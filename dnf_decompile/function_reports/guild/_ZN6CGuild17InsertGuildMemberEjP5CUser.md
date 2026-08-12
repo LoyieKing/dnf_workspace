@@ -161,7 +161,7 @@ CGuild::_ZN6CGuild17InsertGuildMemberEjP5CUser(CGuild *this,uint param_1,CUser *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 455 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 477 行）：
 
 ```cpp
 int CGuild::InsertGuildMember(unsigned int charNo, CUser* user)

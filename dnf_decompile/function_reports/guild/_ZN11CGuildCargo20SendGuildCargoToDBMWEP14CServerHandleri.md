@@ -98,9 +98,10 @@ void CGuildCargo::SendGuildCargoToDBMW(CServerHandler* handler, int slot)
 {
     CTcpDBServer* db = handler->GetTcpDBServer();
     char* pkt = db->makePacketHeader(0x710, 0x18ea);
-    *(unsigned int*)(pkt + 0xa) = *(unsigned int*)((char*)this + 0x18e0);
-    *(int*)(pkt + 0xe) = slot;
-    memcpy(pkt + 0x12, this, 0x18d8);
-    db->SendToServer(pkt);
+    char* p = pkt;
+    *(unsigned int*)(p + 0xa) = m_guildKey;
+    *(int*)(p + 0xe) = slot;
+    memcpy(p + 0x12, this, 0x18d8);
+    db->SendToServer(p);
 }
 ```

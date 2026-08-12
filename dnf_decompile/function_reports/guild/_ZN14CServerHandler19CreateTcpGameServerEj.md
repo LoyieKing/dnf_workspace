@@ -142,7 +142,7 @@ CServerHandler::_ZN14CServerHandler19CreateTcpGameServerEj(CServerHandler *this,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 422 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 423 行）：
 
 ```cpp
 CTcpGameServer* CServerHandler::CreateTcpGameServer(unsigned int group)
@@ -151,10 +151,10 @@ CTcpGameServer* CServerHandler::CreateTcpGameServer(unsigned int group)
     server->Init(group, m_app->Get_TcpNetSystem());
     std::pair<std::map<unsigned int, CTcpGameServer*>::iterator, bool> result =
         m_tcpGameServers.insert(std::make_pair(group, server));
-    if (!result.second)
+    if (result.second == 0)
     {
         delete server;
-        server = 0;
+        return 0;
     }
     return server;
 }

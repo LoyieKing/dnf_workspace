@@ -84,7 +84,7 @@ int CMember::GetUpperMember_CharId() const
     {
         return 0;
     }
-    if (IsThereUpper() == 0)
+    if (!IsThereUpper())
     {
         return 0xffffffff;
     }

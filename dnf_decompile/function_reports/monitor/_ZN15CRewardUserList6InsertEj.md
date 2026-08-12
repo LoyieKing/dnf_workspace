@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a44b8` | `0x7e` | `0x8099c76` | `0x80` |
+| monitor | DIFF | `0x80a44b8` | `0x7e` | `0x8099c6c` | `0x80` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -99,11 +99,11 @@ CRewardUserList::_ZN15CRewardUserList6InsertEj(CRewardUserList *this,uint param_
 ```cpp
 int CRewardUserList::Insert(unsigned int key)
 {
-    if (isExist(key) == 1)
+    if (!isExist(key))
     {
-        return -1;
+        m_map.insert(std::make_pair(key, 0));
+        return 1;
     }
-    m_map.insert(std::make_pair(key, 0));
-    return 1;
+    return -1;
 }
 ```

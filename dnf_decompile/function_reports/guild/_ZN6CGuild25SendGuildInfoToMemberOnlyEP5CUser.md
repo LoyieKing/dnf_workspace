@@ -142,7 +142,7 @@ void __thiscall CGuild::_ZN6CGuild25SendGuildInfoToMemberOnlyEP5CUser(CGuild *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 846 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 868 行）：
 
 ```cpp
 void CGuild::SendGuildInfoToMemberOnly(CUser* user)

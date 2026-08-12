@@ -172,7 +172,7 @@ CGuild::_ZN6CGuild26NotifyAllAchieveAttendanceEjj(CGuild *this,uint param_1,uint
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2284 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2312 行）：
 
 ```cpp
 void CGuild::NotifyAllAchieveAttendance(unsigned int charNo, unsigned int phase)

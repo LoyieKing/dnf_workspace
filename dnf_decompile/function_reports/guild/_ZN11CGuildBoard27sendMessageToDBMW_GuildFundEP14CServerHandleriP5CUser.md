@@ -416,7 +416,7 @@ CGuildBoard::_ZN11CGuildBoard27sendMessageToDBMW_GuildFundEP14CServerHandleriP5C
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 297 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 296 行）：
 
 ```cpp
 void CGuildBoard::sendMessageToDBMW_GuildFund(CServerHandler* handler, int fund, CUser* user)

@@ -105,7 +105,7 @@ void __thiscall CGuild::_ZN6CGuild15CheckGuildSkillEv(CGuild *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1774 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1798 行）：
 
 ```cpp
 void CGuild::CheckGuildSkill()

@@ -152,7 +152,7 @@ void __thiscall CGuild::_ZN6CGuild28SendGuildNameChangeToMembersEv(CGuild *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 828 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 850 行）：
 
 ```cpp
 void CGuild::SendGuildNameChangeToMembers()

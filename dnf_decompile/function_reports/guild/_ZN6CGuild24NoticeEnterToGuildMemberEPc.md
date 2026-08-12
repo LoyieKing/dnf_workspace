@@ -191,7 +191,7 @@ void __thiscall CGuild::_ZN6CGuild24NoticeEnterToGuildMemberEPc(CGuild *this,cha
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1048 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1070 行）：
 
 ```cpp
 void CGuild::NoticeEnterToGuildMember(char* info)

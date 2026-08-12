@@ -116,19 +116,20 @@ CGuild::_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji(CGuild *this,uint param
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1695 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1717 行）：
 
 ```cpp
 void CGuild::ChangeUnconnectedGuildMemberGrade(unsigned int charNo, int grade)
 {
     if ((m_field1c & 4) != 0 && (m_field1c & 0x10) != 0)
     {
-        unsigned short cnt = *(unsigned short*)((char*)this + 0x1e);
-        for (int i = 0; i < (int)cnt; i++)
+        for (int i = 0; i < m_field1e; i++)
         {
-            if (*(unsigned int*)((char*)this + i * 0x41 + 0xdd) == charNo)
+            if (((CGuildMemberNameView*)((char*)this + i * 0x41 + 0xd0))->m_charNo ==
+                charNo)
             {
-                *(unsigned char*)((char*)this + i * 0x41 + 0x104) = (unsigned char)grade;
+                ((CGuildMemberGradeView*)((char*)this + i * 0x41 + 0xf0))->m_grade =
+                    (unsigned char)grade;
                 return;
             }
         }

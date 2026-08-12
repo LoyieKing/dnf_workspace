@@ -249,7 +249,7 @@ CGuild::_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc(CGuild *this,CUser *para
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1202 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1224 行）：
 
 ```cpp
 void CGuild::NoticeGuildMemberLogin_Out(CUser* user, char flag)

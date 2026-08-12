@@ -64,7 +64,7 @@ CGuild::_ZN6CGuild27QueryUnconnGuildMemberProxyEP14CServerHandlerj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1359 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1381 行）：
 
 ```cpp
 void CGuild::QueryUnconnGuildMemberProxy(CServerHandler* handler, unsigned int charNo)

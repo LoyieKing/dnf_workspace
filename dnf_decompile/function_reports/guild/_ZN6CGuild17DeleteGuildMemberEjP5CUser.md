@@ -196,7 +196,7 @@ CGuild::_ZN6CGuild17DeleteGuildMemberEjP5CUser(CGuild *this,uint param_1,CUser *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 474 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 496 行）：
 
 ```cpp
 int CGuild::DeleteGuildMember(unsigned int charNo, CUser* user)

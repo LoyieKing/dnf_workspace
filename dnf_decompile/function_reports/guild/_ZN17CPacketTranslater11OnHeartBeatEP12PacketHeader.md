@@ -322,7 +322,7 @@ void CPacketTranslater::OnHeartBeat(PacketHeader* pkt)
                         handler->SetConnectFlag(idx, true);
                         Packet_Tcp_Server_Connect connectPkt;
                         connectPkt.m_field_a = 0xcb;
-                        CServerInterface* gs;
+                        CGameServer* gs;
                         if ((gs = handler->GetGameServer((unsigned int)idx)) != 0)
                         {
                             gs->SendToServer((char*)&connectPkt, 0xb);

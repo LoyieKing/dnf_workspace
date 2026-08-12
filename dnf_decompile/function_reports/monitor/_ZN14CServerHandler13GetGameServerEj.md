@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a7e0` | `0x64` | `0x808049a` | `0x64` |
+| monitor | DIFF | `0x807a7e0` | `0x64` | `0x8080490` | `0x64` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -95,10 +95,10 @@ undefined4 CServerHandler::_ZN14CServerHandler13GetGameServerEj(uint param_1)
 CGameServer* CServerHandler::GetGameServer(unsigned int id)
 {
     std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.find(id);
-    if (it != m_gameServers.end())
+    if (it == m_gameServers.end())
     {
-        return it->second;
+        return 0;
     }
-    return 0;
+    return it->second;
 }
 ```

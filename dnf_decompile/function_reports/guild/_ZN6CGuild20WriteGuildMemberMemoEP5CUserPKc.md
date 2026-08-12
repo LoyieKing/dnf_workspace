@@ -159,7 +159,7 @@ CGuild::_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc(CGuild *this,CUser *param_1,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1950 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1974 行）：
 
 ```cpp
 void CGuild::WriteGuildMemberMemo(CUser* user, const char* memo)

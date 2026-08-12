@@ -220,7 +220,7 @@ CGuild::_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 533 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 555 行）：
 
 ```cpp
 void CGuild::LoadGuild(STGuildDBInfoOnly& info, char* name)

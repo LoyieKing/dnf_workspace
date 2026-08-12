@@ -117,16 +117,22 @@ CGuildCargo::_ZN11CGuildCargo10GetHistoryEP15STGuildCargoLog
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 471 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 472 行）：
 
 ```cpp
 void CGuildCargo::GetHistory(STGuildCargoLog* out)
 {
+    std::deque<STGuildCargoLog>::iterator it = m_history.begin();
     int i = 0;
-    for (std::deque<STGuildCargoLog>::iterator it = m_history.begin();
-         it != m_history.end() && i < 0x33; ++it, ++i)
+    while (it != m_history.end())
     {
-        memcpy((char*)out + i * 0x30, &(*it), 0x30);
+        memcpy(out + i, &(*it), 0x30);
+        ++it;
+        ++i;
+        if (i > 0x32)
+        {
+            break;
+        }
     }
 }
 ```

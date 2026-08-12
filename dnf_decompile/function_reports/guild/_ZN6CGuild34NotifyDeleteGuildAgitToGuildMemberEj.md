@@ -171,7 +171,7 @@ void __thiscall CGuild::_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj(CGuild 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2079 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2103 行）：
 
 ```cpp
 void CGuild::NotifyDeleteGuildAgitToGuildMember(unsigned int charNo)

@@ -1069,7 +1069,7 @@ void __thiscall CGuild::_ZN6CGuild17ReplyGuildMembersEP5CUser(CGuild *this,CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1257 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1279 行）：
 
 ```cpp
 void CGuild::ReplyGuildMembers(CUser* user)

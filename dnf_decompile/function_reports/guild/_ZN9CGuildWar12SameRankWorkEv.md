@@ -349,7 +349,7 @@ undefined4 CGuildWar::_ZN9CGuildWar12SameRankWorkEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 239 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 249 行）：
 
 ```cpp
 int CGuildWar::SameRankWork()
@@ -371,14 +371,15 @@ int CGuildWar::SameRankWork()
         m_vtGuildWarInfo.begin();
     for (; it != m_vtGuildWarInfo.end(); ++it)
     {
-        if (it->second != 0)
+        if ((*it).second == 0)
         {
-            if (field4 != it->second->m_point)
-            {
-                break;
-            }
-            count++;
+            continue;
         }
+        if (field4 != (*it).second->m_point)
+        {
+            break;
+        }
+        count++;
     }
     if (1 < count)
     {

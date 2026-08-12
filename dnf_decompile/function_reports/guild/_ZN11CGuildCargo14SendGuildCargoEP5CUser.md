@@ -91,7 +91,7 @@ void CGuildCargo::SendGuildCargo(CUser* user)
     Packet_Notice_Guild_Cargo pkt;
     pkt.m_a = user->GetIdByChannel();
     pkt.m_b = user->GetUniqCharNo();
-    memcpy((char*)&pkt + 0x12, this, 0x18dc);
+    memcpy(&pkt.m_cargo, this, 0x18dc);
     user->SendTcpGameserver(&pkt);
 }
 ```

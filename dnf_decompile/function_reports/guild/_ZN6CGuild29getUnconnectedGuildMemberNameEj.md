@@ -101,7 +101,7 @@ CGuild * __thiscall CGuild::_ZN6CGuild29getUnconnectedGuildMemberNameEj(CGuild *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1711 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1734 行）：
 
 ```cpp
 char* CGuild::getUnconnectedGuildMemberName(unsigned int charNo)
@@ -112,9 +112,10 @@ char* CGuild::getUnconnectedGuildMemberName(unsigned int charNo)
         {
             for (int i = 0; i < m_field1e; i++)
             {
-                if (*(unsigned int*)((char*)this + i * 0x41 + 0xdd) == charNo)
+                if (((CGuildMemberNameView*)((char*)this + i * 0x41 + 0xd0))->m_charNo ==
+                    charNo)
                 {
-                    return (char*)this + i * 0x41 + 0xe1;
+                    return ((CGuildMemberNameView*)((char*)this + i * 0x41 + 0xd0))->m_name;
                 }
             }
         }

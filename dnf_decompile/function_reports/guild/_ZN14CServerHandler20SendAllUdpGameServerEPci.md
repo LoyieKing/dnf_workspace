@@ -125,12 +125,11 @@ CServerHandler::_ZN14CServerHandler20SendAllUdpGameServerEPci
 void CServerHandler::SendAllUdpGameServer(char* buf, int len)
 {
     for (std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.begin();
-         it != m_gameServers.end(); ++it)
+         it != m_gameServers.end(); it++)
     {
-        CGameServer* gs = it->second;
-        if (gs->IsValidServer())
+        if (it->second->IsValidServer())
         {
-            gs->SendToServer(buf, len);
+            it->second->SendToServer(buf, len);
         }
     }
 }

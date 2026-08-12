@@ -165,7 +165,7 @@ void __thiscall CGuild::_ZN6CGuildC2Ej(CGuild *this,uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 426 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 448 行）：
 
 ```cpp
 CGuild::CGuild(unsigned int guildKey)

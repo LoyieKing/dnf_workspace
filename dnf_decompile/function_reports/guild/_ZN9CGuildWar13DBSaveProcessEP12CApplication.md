@@ -121,17 +121,18 @@ CGuildWar::_ZN9CGuildWar13DBSaveProcessEP12CApplication(CGuildWar *this,CApplica
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 349 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 361 行）：
 
 ```cpp
 void CGuildWar::DBSaveProcess(CApplication* app)
 {
-    if (IsGuildWarEventOn() == 0)
+    if (!IsGuildWarEventOn())
     {
         return;
     }
     m_bSaveCnt++;
-    if (m_bSaveCnt == 0)
+    register bool bZero = (m_bSaveCnt == 0);
+    if (bZero)
     {
         return;
     }
@@ -139,7 +140,7 @@ void CGuildWar::DBSaveProcess(CApplication* app)
     if (GetGuildWarInfoDBSave((unsigned int*)((char*)&pkt + 0xb),
                               (unsigned int*)((char*)&pkt + 0x33)))
     {
-        *(unsigned char*)((char*)&pkt + 0xa) = app->Get_ServerGroup();
+        pkt.m_data[0] = app->Get_ServerGroup();
         app->Get_ServerHandler()->SendToDB(&pkt);
     }
     m_bSaveCnt = 0;

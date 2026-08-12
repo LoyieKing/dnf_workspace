@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80768b8` | `0x109` | `0x8066c4c` | `0x10a` |
+| statics | DIFF | `0x80768b8` | `0x109` | `0x8066c52` | `0x103` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,85 +1,85 @@
+@@ -1,85 +1,83 @@
  push   %ebp
  mov    %esp,%ebp
 -mov    0x8(%ebp),%eax
@@ -34,13 +34,13 @@
 -jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x102>
 +jae    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x1d>
 +mov    $0x1,%eax
-+jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x108>
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x101>
 +mov    0x8(%ebp),%eax
 +movzbl (%eax),%edx
 +mov    0xc(%ebp),%eax
 +movzbl (%eax),%eax
 +cmp    %al,%dl
-+jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x103>
++jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xfc>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%edx
  mov    0xc(%ebp),%eax
@@ -50,14 +50,14 @@
 +jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x4b>
  mov    $0x1,%eax
 -jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x107>
-+jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x108>
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x101>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%edx
  mov    0xc(%ebp),%eax
  mov    0x4(%eax),%eax
  cmp    %eax,%edx
 -jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x102>
-+jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x103>
++jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xfc>
  mov    0x8(%ebp),%eax
  movzbl 0x8(%eax),%edx
  mov    0xc(%ebp),%eax
@@ -67,14 +67,14 @@
 +jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x7b>
  mov    $0x1,%eax
 -jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x107>
-+jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x108>
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x101>
  mov    0x8(%ebp),%eax
  movzbl 0x8(%eax),%edx
  mov    0xc(%ebp),%eax
  movzbl 0x8(%eax),%eax
  cmp    %al,%dl
 -jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x102>
-+jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x103>
++jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xfc>
  mov    0x8(%ebp),%eax
  movzbl 0x9(%eax),%edx
  mov    0xc(%ebp),%eax
@@ -84,14 +84,14 @@
 +jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xa6>
  mov    $0x1,%eax
 -jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x107>
-+jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x108>
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x101>
  mov    0x8(%ebp),%eax
  movzbl 0x9(%eax),%edx
  mov    0xc(%ebp),%eax
  movzbl 0x9(%eax),%eax
  cmp    %al,%dl
 -jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x102>
-+jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x103>
++jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xfc>
  mov    0x8(%ebp),%eax
  movzbl 0x9(%eax),%edx
  mov    0xc(%ebp),%eax
@@ -101,26 +101,24 @@
 +jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xd1>
  mov    $0x1,%eax
 -jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x107>
-+jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x108>
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x101>
  mov    0x8(%ebp),%eax
  movzbl 0xa(%eax),%edx
  mov    0xc(%ebp),%eax
  movzbl 0xa(%eax),%eax
  cmp    %al,%dl
 -jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x102>
-+je     <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xea>
-+mov    $0x0,%eax
-+jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x108>
++jne    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xfc>
  mov    0x8(%ebp),%eax
  movzbl 0xa(%eax),%edx
  mov    0xc(%ebp),%eax
  movzbl 0xa(%eax),%eax
  cmp    %al,%dl
 -jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x102>
-+jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x103>
++jge    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0xfc>
  mov    $0x1,%eax
 -jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x107>
-+jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x108>
++jmp    <T> <_ZNK27STHellPartyStatisticItemKeyltERKS_+0x101>
  mov    $0x0,%eax
  pop    %ebp
  ret

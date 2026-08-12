@@ -78,15 +78,15 @@ CServerHandler::_ZN14CServerHandler10QueryGuildEjj(CServerHandler *this,uint par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 391 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 392 行）：
 
 ```cpp
 void CServerHandler::QueryGuild(unsigned int group, unsigned int guildId)
 {
     Packet_DB_Query_Guild pkt;
-    *(unsigned char*)((char*)&pkt + 0xa) = GetServerGroupNo();
-    *(unsigned int*)((char*)&pkt + 0xb) = group;
-    *(unsigned int*)((char*)&pkt + 0xf) = guildId;
+    pkt.m_data[0] = GetServerGroupNo();
+    *(unsigned int*)(pkt.m_data + 1) = group;
+    *(unsigned int*)(pkt.m_data + 5) = guildId;
     m_dbServer->SendToServer((char*)&pkt, 0x13);
 }
 ```

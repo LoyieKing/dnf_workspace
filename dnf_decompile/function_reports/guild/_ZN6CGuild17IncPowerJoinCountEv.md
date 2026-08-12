@@ -110,7 +110,7 @@ void __thiscall CGuild::_ZN6CGuild17IncPowerJoinCountEv(CGuild *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2114 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2138 行）：
 
 ```cpp
 void CGuild::IncPowerJoinCount()

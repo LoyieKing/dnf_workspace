@@ -73,7 +73,7 @@ int __thiscall CGuildCargo::_ZN11CGuildCargo19GetSpecificItemSlotEi(CGuildCargo 
 ```cpp
 int CGuildCargo::GetSpecificItemSlot(int itemId)
 {
-    for (int i = 0; i < m_info.m_capacity; i++)
+    for (int i = 0; (int)m_info.m_capacity > i; i++)
     {
         if (m_info.m_items[i].m_itemId == itemId)
         {

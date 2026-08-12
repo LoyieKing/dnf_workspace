@@ -173,7 +173,7 @@ CGuild::_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc(CGuild *this,CUser *param
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1971 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1995 行）：
 
 ```cpp
 void CGuild::NotifyMemoToGuildMember(CUser* user, const char* memo)

@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,111 +1,112 @@
+@@ -1,111 +1,113 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -73,34 +73,23 @@
 +mov    %eax,0x4(%esp)
 +mov    %edx,(%esp)
  call   <T> <memcpy>
--mov    -0x10(%ebp),%ebx
-+lea    -0x1803(%ebp),%edx
-+mov    -0x10(%ebp),%eax
-+add    %eax,%eax
-+lea    0x0(,%eax,8),%ecx
-+mov    %ecx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
-+add    $0xf,%eax
-+lea    (%edx,%eax,1),%ebx
+ mov    -0x10(%ebp),%ebx
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK12STSpecStaticjEEptEv>
  mov    0xc(%eax),%eax
--mov    %eax,%ecx
--mov    %ebx,%eax
--add    %eax,%eax
--lea    0x0(,%eax,8),%edx
--sub    %eax,%edx
--lea    -0x8(%ebp),%eax
--add    %edx,%eax
--sub    $0x17fb,%eax
--mov    %cx,0xf(%eax)
-+mov    %ax,(%ebx)
+ mov    %eax,%ecx
+ mov    %ebx,%eax
+ add    %eax,%eax
+ lea    0x0(,%eax,8),%edx
+ sub    %eax,%edx
+ lea    -0x8(%ebp),%eax
+ add    %edx,%eax
+ sub    $0x17fb,%eax
+ mov    %cx,0xf(%eax)
  addl   $0x1,-0x10(%ebp)
--mov    -0x10(%ebp),%eax
--cmp    $0x1b3,%eax
-+cmpl   $0x1b3,-0x10(%ebp)
+ mov    -0x10(%ebp),%eax
+ cmp    $0x1b3,%eax
  seta   %al
  test   %al,%al
 -je     <T> <_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh+0x121>

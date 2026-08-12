@@ -176,7 +176,7 @@ CServerHandler::_ZN14CServerHandler16RegistGameServerEP12stServerInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 463 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 468 行）：
 
 ```cpp
 bool CServerHandler::RegistGameServer(stServerInfo* info)

@@ -91,12 +91,16 @@ undefined4 CServerHandler::_ZN14CServerHandler16GetTcpGameServerEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 452 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 453 行）：
 
 ```cpp
 CTcpGameServer* CServerHandler::GetTcpGameServer(unsigned int group)
 {
     std::map<unsigned int, CTcpGameServer*>::iterator it = m_tcpGameServers.find(group);
-    return it == m_tcpGameServers.end() ? 0 : it->second;
+    if (it != m_tcpGameServers.end())
+    {
+        return it->second;
+    }
+    return 0;
 }
 ```

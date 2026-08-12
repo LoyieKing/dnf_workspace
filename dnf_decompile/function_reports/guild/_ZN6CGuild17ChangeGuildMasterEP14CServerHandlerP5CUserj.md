@@ -213,7 +213,7 @@ CGuild::_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1656 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1678 行）：
 
 ```cpp
 int CGuild::ChangeGuildMaster(CServerHandler* handler, CUser* user, unsigned int charNo)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4536` | `0x7f` | `0x8099cf6` | `0x4b` |
+| monitor | DIFF | `0x80a4536` | `0x7f` | `0x8099cec` | `0x4b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -100,8 +100,13 @@ bool CRewardUserList::_ZN15CRewardUserList7isExistEj(uint param_1)
 定义于 [source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp](source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp)（约第 114 行）：
 
 ```cpp
-char CRewardUserList::isExist(unsigned int key)
+bool CRewardUserList::isExist(unsigned int key)
 {
-    return (char)(m_map.find(key) != m_map.end());
+    std::map<unsigned int, int>::const_iterator it = m_map.find(key);
+    if (it == m_map.end())
+    {
+        return 0;
+    }
+    return 1;
 }
 ```

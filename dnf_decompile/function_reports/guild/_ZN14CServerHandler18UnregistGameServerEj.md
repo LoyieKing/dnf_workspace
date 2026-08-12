@@ -145,7 +145,7 @@ CServerHandler::_ZN14CServerHandler18UnregistGameServerEj(CServerHandler *this,u
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 477 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 482 行）：
 
 ```cpp
 void CServerHandler::UnregistGameServer(unsigned int group)
@@ -155,7 +155,7 @@ void CServerHandler::UnregistGameServer(unsigned int group)
     {
         return;
     }
-    CGameServer* gs = it->second;
+    register CGameServer* gs = it->second;
     if (gs != 0)
     {
         delete gs;

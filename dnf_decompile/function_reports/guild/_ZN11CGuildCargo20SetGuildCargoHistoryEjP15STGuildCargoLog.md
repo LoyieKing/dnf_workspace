@@ -82,12 +82,12 @@ CGuildCargo::_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog
 ```cpp
 void CGuildCargo::SetGuildCargoHistory(unsigned int idx, STGuildCargoLog* log)
 {
-    unsigned int c = idx;
-    if (0x32 < c)
+    if (idx > 0x32)
     {
-        c = 0x32;
+        idx = 0x32;
     }
-    for (unsigned int i = 0; i < c; i++)
+    int c = (int)idx;
+    for (int i = 0; i < c; i++)
     {
         m_history.push_front(log[i]);
     }

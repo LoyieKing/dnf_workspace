@@ -85,7 +85,6 @@ void CApplication::_ZN12CApplication19isGM_regFromChannelEj(uint param_1)
 ```cpp
 char CApplication::isGM_regFromChannel(unsigned int channel)
 {
-    std::map<unsigned int, std::list<unsigned int> >::iterator it = m_map368.find(channel);
-    return it != m_map368.end();
+    return m_map368.find(channel) != m_map368.end();
 }
 ```

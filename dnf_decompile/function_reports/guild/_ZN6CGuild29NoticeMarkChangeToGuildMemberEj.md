@@ -226,7 +226,7 @@ void __thiscall CGuild::_ZN6CGuild29NoticeMarkChangeToGuildMemberEj(CGuild *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1092 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1114 行）：
 
 ```cpp
 void CGuild::NoticeMarkChangeToGuildMember(unsigned int charNo)

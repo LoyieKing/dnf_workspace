@@ -98,26 +98,30 @@ undefined4 __thiscall CGuild::_ZN6CGuild18IsAddableGuildFundEj(CGuild *this,uint
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2217 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2241 行）：
 
 ```cpp
 unsigned int CGuild::IsAddableGuildFund(unsigned int fund)
 {
     if ((m_field1c & 4) != 0)
     {
-        int* p = (int*)((char*)this + 0xc0);
-        if ((unsigned char)*(char*)((char*)this + 0x3b) < 0x10)
+        unsigned int* p = &m_dbInfo.m_info.m_guildFund;
+        if (m_dbInfo.m_info.m_guildLevel > 0xf)
         {
-            if (20000000 < *p + (int)fund)
+            if (*p + fund > 0x989680)
             {
                 return 0x5f;
             }
         }
-        else if (10000000 < *p + (int)fund)
+        else
         {
-            return 0x5f;
+            if (*p + fund > 0x1312d00)
+            {
+                return 0x5f;
+            }
         }
+        return 0;
     }
-    return 0;
+    return 0x5f;
 }
 ```

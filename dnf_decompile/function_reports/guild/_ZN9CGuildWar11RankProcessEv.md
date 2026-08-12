@@ -188,7 +188,7 @@ void __thiscall CGuildWar::_ZN9CGuildWar11RankProcessEv(CGuildWar *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 325 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 336 行）：
 
 ```cpp
 void CGuildWar::RankProcess()
@@ -202,11 +202,12 @@ void CGuildWar::RankProcess()
         return;
     }
     m_bRankCnt++;
-    if (m_bRankCnt <= 1)
+    register bool bRanked = ((unsigned char)m_bRankCnt <= 1);
+    if (bRanked)
     {
         return;
     }
-    if (Rank() != 1)
+    if (!Rank())
     {
         throw CDNFException(
             "CGuildWar::RankProcess : false == Rank() : May be m_vtGuildWarInfo is empty!");

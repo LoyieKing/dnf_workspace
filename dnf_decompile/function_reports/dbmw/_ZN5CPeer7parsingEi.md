@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8059fcc` | `0x489` | `0x80ec780` | `0x443` |
+| dbmw | DIFF | `0x8059fcc` | `0x489` | `0x80ec65e` | `0x443` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -496,7 +496,7 @@ LAB_0805a36b:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 236 行）：
+定义于 [source/DNFServer/GameServer/DBMW/Peer.cpp](source/DNFServer/GameServer/DBMW/Peer.cpp)（约第 228 行）：
 
 ```cpp
 bool CPeer::parsing(int len)

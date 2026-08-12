@@ -160,7 +160,7 @@ CGuild::_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1578 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1600 行）：
 
 ```cpp
 int CGuild::LoadGuildOneMemberProxy(STGuildMemberProxy& proxy)

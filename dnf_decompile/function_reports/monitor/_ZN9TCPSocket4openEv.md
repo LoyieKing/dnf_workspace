@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804f39e` | `0x5c` | `0x80852dc` | `0x5b` |
+| monitor | DIFF | `0x804f39e` | `0x5c` | `0x80852d2` | `0x5b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -79,12 +79,13 @@ bool __thiscall TCPSocket::_ZN9TCPSocket4openEv(TCPSocket *this)
 ```cpp
 char TCPSocket::open()
 {
-    int fd = socket(2, 1, 0);
-    m_fd = fd;
+    m_fd = socket(2, 1, 0);
     if (m_fd == -1)
     {
-        printf("Could not create a TDP socket : %d\n", errno);
+        int err = errno;
+        printf("Could not create a TDP socket : %d\n", err);
+        return 0;
     }
-    return (char)(m_fd != -1);
+    return 1;
 }
 ```

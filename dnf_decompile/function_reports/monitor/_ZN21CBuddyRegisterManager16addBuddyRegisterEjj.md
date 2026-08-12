@@ -80,6 +80,6 @@ void CBuddyRegisterManager::_ZN21CBuddyRegisterManager16addBuddyRegisterEjj
 ```cpp
 void CBuddyRegisterManager::addBuddyRegister(unsigned int key, unsigned int value)
 {
-    m_map.insert(std::pair<const unsigned int, unsigned int>(key, value));
+    m_map.insert(std::make_pair(key, value));
 }
 ```
