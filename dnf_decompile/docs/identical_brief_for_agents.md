@@ -208,6 +208,41 @@ MySQL/zlib/NCrypto 等第三方基础库 —— 获得 identical 豁免，移出
 --function <mangled>` 重测该函数（相同则 md 自动删除）→ 记录改前/改后分类**。
 禁止盲改；禁止“改了但分类没变”却报 FIXED。
 
+## 5.1 尝试日志（2026-08-12 用户要求，所有 SubAgent 强制）
+
+跨轮 agent 之间没有记忆，是剩余函数“被反复轮询却长期不消失”的根因
+（根 agent 核实：760 个剩余 md 中 759 个在第 8 轮快照就已存在，但多数函数
+实际被有效尝试的次数只有 1-2 次——每轮新 agent 从零开始，重复相同变体或
+无人认领）。为此：
+
+1. **每个你处理过、但未达到 IDENTICAL/IDENTICAL_AE 的函数，必须把
+   已尝试变体写进 `function_reports/<svc>/attempts/<mangled>.tsv`**：
+   - 每行一个变体：`source_excerpt<TAB>result<TAB>date`
+     - `source_excerpt`：你改动的关键源码形态（如 `if (x==-1) return;`、
+       `switch(cond){case 0:break;case 1:break;}`、`register int n`、
+       `m_remainSendLen > ret` vs `(int)m_remainSendLen > ret`、`&pkt+0x11+count*0xe`
+       运算顺序等），一两句话说明即可，不用贴整段；
+     - `result`：`NEAR(同)/DIFF(更差)/NEAR(更近)`——以单函数重测分类为准；
+     - `date`：`YYYY-MM-DD`。
+   - 该函数若从未有过 attempts 文件，先建目录和文件；已有文件则在末尾追加。
+2. **开工前必读尝试日志**：处理任何函数前，先 `cat
+   function_reports/<svc>/attempts/<mangled>.tsv`（不存在则跳过），
+   **不得重复尝试日志里已记录的变体**；尝试新变体必须与日志中所有条目
+   不同，否则换方向。
+3. **每轮“真实尝试清单”**：最终报告必须逐函数给出：本轮是否实际尝试
+   （Y/N）、尝试了几个新变体、每个的结果。禁止只写“已读 diff / 已分析”
+   冒充尝试；未实际尝试的函数如实标 N。
+4. attempts 文件纳入 git（根 agent 每轮统一提交），跨轮累积。
+
+## 5.2 近端函数优先（2026-08-12 根 agent 分工）
+
+- diff 行数 ≤20 的“近端函数”由专项 agent 集中快速清理（每函数目标
+  1-3 个变体内解决）；服务 agent 拿到的组应优先覆盖剩余的大 diff 函数。
+- 判断近端：md 的 diff 段 `sed -n '/```diff/,/```/p' <md>` 中
+  `^[+-]` 行数 ≤20。
+- 近端函数通常只差寄存器分配/栈槽/求值顺序，解法见 §4.1 纯 C++ 形态
+  技巧；试 2-3 个变体仍不中就记入 attempts 并转给下一轮，不恋战。
+
 ## 6. 参考资料
 
 - `docs/compare_caliber.md`（口径文档）

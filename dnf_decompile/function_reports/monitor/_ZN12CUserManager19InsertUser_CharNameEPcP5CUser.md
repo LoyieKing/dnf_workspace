@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807140a` | `0xdf` | `0x808c1ee` | `0xdf` |
+| monitor | NEAR | `0x807140a` | `0xdf` | `0x808c1b6` | `0xdf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -27,15 +27,15 @@
  lea    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKSsP5CUserEC1IRPcRS2_EEOT_OT0_>
  mov    0x8(%ebp),%eax
  lea    0x48(%eax),%ecx
 -lea    -0x20(%ebp),%eax
 -lea    -0x18(%ebp),%edx
-+lea    -0x10(%ebp),%eax
-+lea    -0x20(%ebp),%edx
++lea    -0x18(%ebp),%eax
++lea    -0x10(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -43,8 +43,8 @@
  sub    $0x4,%esp
 -movzbl -0x1c(%ebp),%ebx
 -lea    -0x18(%ebp),%eax
-+movzbl -0xc(%ebp),%ebx
-+lea    -0x20(%ebp),%eax
++movzbl -0x14(%ebp),%ebx
++lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKSsP5CUserED1Ev>
  test   %bl,%bl
@@ -53,7 +53,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x18(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKSsP5CUserED1Ev>
  mov    %esi,%eax
@@ -62,17 +62,17 @@
  call   <T> <_Unwind_Resume>
  mov    $0x1,%eax
  jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xd5>
-+mov    0xc(%ebp),%ebx
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser7GetDBIDEv>
 -mov    %eax,%ebx
 -mov    0xc(%ebp),%esi
 +mov    %eax,%esi
++mov    0xc(%ebp),%ebx
  movl   $0x211,0x8(%esp)
  movl   $&_ZZN12CUserManager19InsertUser_CharNameEPcP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0x10(%esp)
@@ -82,7 +82,7 @@
  movl   $"[INSERT_ERR]Already Exist!\tChar Name : %s\tDB No : %d\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x10(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
@@ -141,17 +141,14 @@ bool CUserManager::InsertUser_CharName(char* name, CUser* user)
 {
     if (user != 0)
     {
-        register bool ok;
-        {
-            std::pair<const std::string, CUser*> p(name, user);
-            ok = m_charNameUsers.insert(p).second;
-        }
+        register bool ok =
+            m_charNameUsers.insert(std::pair<const std::string, CUser*>(name, user)).second;
         if (ok)
         {
             return 1;
         }
-        register char* nm = name;
         register unsigned int dbid = user->GetDBID();
+        register char* nm = name;
         CMyFileLog log(__FUNCTION__, 0x211);
         log("./log/Except", "[INSERT_ERR]Already Exist!\tChar Name : %s\tDB No : %d\n",
             nm, dbid);

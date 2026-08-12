@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8072324` | `0x1a1` | `0x808cf16` | `0x194` |
+| monitor | DIFF | `0x8072324` | `0x1a1` | `0x808cede` | `0x194` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -275,7 +275,7 @@ CUserManager::_ZN12CUserManager11DelSchoolNoEjh(CUserManager *this,uint param_1,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 689 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 686 行）：
 
 ```cpp
 void CUserManager::DelSchoolNo(unsigned int schoolNo, unsigned char channel)

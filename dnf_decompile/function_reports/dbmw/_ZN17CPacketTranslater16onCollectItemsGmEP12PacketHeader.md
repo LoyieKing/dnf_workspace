@@ -50,13 +50,14 @@
  mov    %eax,(%esp)
  call   <T> <_ZN25Packet_CollectItemsResultC1Ev>
  mov    -0x10(%ebp),%eax
- mov    0xf(%eax),%eax
--mov    %eax,-0x28(%ebp)
++mov    0xb(%eax),%eax
 +mov    %eax,-0x2c(%ebp)
- mov    -0x10(%ebp),%eax
- mov    0xb(%eax),%eax
++mov    -0x10(%ebp),%eax
+ mov    0xf(%eax),%eax
+ mov    %eax,-0x28(%ebp)
+-mov    -0x10(%ebp),%eax
+-mov    0xb(%eax),%eax
 -mov    %eax,-0x2c(%ebp)
-+mov    %eax,-0x28(%ebp)
  mov    -0x10(%ebp),%eax
  mov    0x13(%eax),%eax
  mov    %eax,-0x24(%ebp)
@@ -191,11 +192,11 @@ void CPacketTranslater::onCollectItemsGm(PacketHeader* header)
         Packet_DBMW_Collect_Items_Gm* pkt =
             (Packet_DBMW_Collect_Items_Gm*)header;
         m_pclApp->m_dbManager.updateCollectItemsGm(
-            pkt->m_serverInfo, pkt->m_fieldF, pkt->m_fieldB,
-            pkt->m_field13);
+            (unsigned char)pkt->m_serverInfo, (unsigned int)pkt->m_fieldF,
+            (int)pkt->m_fieldB, (int)pkt->m_field13);
         Packet_CollectItemsResult reply;
-        reply.m_fieldA = pkt->m_fieldF;
-        reply.m_fieldE = pkt->m_fieldB;
+        reply.m_fieldA = pkt->m_fieldB;
+        reply.m_fieldE = pkt->m_fieldF;
         reply.m_field12 = pkt->m_field13;
         m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
             (char*)&reply, reply.packetSize);

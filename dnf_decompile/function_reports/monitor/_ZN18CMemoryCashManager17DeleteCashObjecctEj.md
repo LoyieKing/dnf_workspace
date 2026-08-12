@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a179e` | `0x90` | `0x8098548` | `0xa7` |
+| monitor | DIFF | `0x80a179e` | `0x90` | `0x8098508` | `0xa7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -117,7 +117,7 @@ void CMemoryCashManager::_ZN18CMemoryCashManager17DeleteCashObjecctEj(uint param
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 360 行）：
+定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 363 行）：
 
 ```cpp
 void CMemoryCashManager::DeleteCashObjecct(unsigned int dbid)

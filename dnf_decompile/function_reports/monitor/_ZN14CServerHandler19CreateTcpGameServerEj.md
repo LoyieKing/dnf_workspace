@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a2b6` | `0xe5` | `0x8080750` | `0xe8` |
+| monitor | NEAR | `0x807a2b6` | `0xe5` | `0x8080718` | `0xe5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -75,24 +75,20 @@
  sub    $0x4,%esp
 -movzbl -0x2c(%ebp),%eax
 +movzbl -0x30(%ebp),%eax
-+xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xbe>
+ je     <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xbe>
 -mov    -0x34(%ebp),%eax
--jmp    <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xda>
++mov    -0x2c(%ebp),%eax
+ jmp    <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xda>
 -mov    -0x34(%ebp),%ebx
-+je     <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xda>
 +mov    -0x2c(%ebp),%ebx
  test   %ebx,%ebx
--je     <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xd5>
-+je     <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xd3>
+ je     <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xd5>
  mov    %ebx,(%esp)
  call   <T> <_ZN14CTcpGameServerD1Ev>
  mov    %ebx,(%esp)
  call   <T> <_ZdlPv>
--mov    $0x0,%eax
-+movl   $0x0,-0x2c(%ebp)
-+mov    -0x2c(%ebp),%eax
+ mov    $0x0,%eax
  lea    -0xc(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -151,11 +147,11 @@ CTcpGameServer* CServerHandler::CreateTcpGameServer(unsigned int id)
     tcp->Init(id, m_app->Get_TcpNetSystem());
     std::pair<std::map<unsigned int, CTcpGameServer*>::iterator, bool> r =
         m_tcpGameServers.insert(std::make_pair(id, tcp));
-    if (!r.second)
+    if (r.second)
     {
-        delete tcp;
-        tcp = 0;
+        return tcp;
     }
-    return tcp;
+    delete tcp;
+    return 0;
 }
 ```

@@ -1,0 +1,15 @@
+source_excerpt	result	date
+memset(&to,0,0x10) 原形态（4.4.4/4.4.6/4.4.7 x86_64+i686 RH 全部 constants-first）	DIFF(同)	2026-08-12
+sockaddr_in* pto=&to; memset(pto,0,0x10)	DIFF(同)	2026-08-12
+memset((void*)&to,0,0x10)	DIFF(同)	2026-08-12
+memset((char*)&to,0,sizeof(to))	DIFF(同)	2026-08-12
+memset((void*)&to,0,sizeof(to))	DIFF(同)	2026-08-12
+memset(&to,0,sizeof(to))	DIFF(同)	2026-08-12
+__builtin_memset(&to,0,0x10)	DIFF(同)	2026-08-12
+-fno-builtin 标志	DIFF(同)	2026-08-12
+register sockaddr_in* pto=&to; memset(pto,0,0x10)	DIFF(同)	2026-08-12
+void* pto=&to; memset(pto,0,0x10)	DIFF(同)	2026-08-12
+sockaddr* pto=(sockaddr*)&to; memset(pto,0,0x10)	DIFF(同)	2026-08-12
+-g 标志（x86_64 444/446/447）	DIFF(同)	2026-08-12
+c5-g++ 4.1.2：memset 内联为 4 条 movl，整体结构不同	DIFF(更差)	2026-08-12
+RH i686 4.4.6-3（cc1plus446i386bin）	DIFF(同)	2026-08-12

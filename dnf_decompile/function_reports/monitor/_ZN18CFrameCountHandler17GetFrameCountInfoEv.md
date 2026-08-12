@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804cc52` | `0x37c` | `0x80864aa` | `0x36c` |
+| monitor | DIFF | `0x804cc52` | `0x37c` | `0x808646e` | `0x36c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -512,7 +512,7 @@ CFrameCountHandler::_ZN18CFrameCountHandler17GetFrameCountInfoEv(CFrameCountHand
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFTickHandler.cpp](source/DNFServer/GameServer/Monitor/DNFTickHandler.cpp)（约第 52 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTickHandler.cpp](source/DNFServer/GameServer/Monitor/DNFTickHandler.cpp)（约第 54 行）：
 
 ```cpp
 CFrameCountHandler* CFrameCountHandler::GetFrameCountInfo()

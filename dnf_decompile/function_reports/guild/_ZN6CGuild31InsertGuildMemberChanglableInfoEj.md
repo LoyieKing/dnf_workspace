@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091578` | `0x6b` | `0x80571ce` | `0x70` |
+| guild | DIFF | `0x8091578` | `0x6b` | `0x80571ce` | `0x74` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,31 +1,33 @@
+@@ -1,31 +1,34 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x38,%esp
@@ -53,6 +53,7 @@
  call   <T> <_ZNSt3mapIj26STGuildMemberChangableInfoSt4lessIjESaISt4pairIKjS0_EEE6insertERKS5_>
  sub    $0x4,%esp
 -movzbl -0x1c(%ebp),%eax
++movzbl -0x54(%ebp),%eax
 +mov    -0x4(%ebp),%ebx
  leave
  ret
@@ -88,11 +89,11 @@ undefined1 CGuild::_ZN6CGuild31InsertGuildMemberChanglableInfoEj(uint param_1)
 定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1921 行）：
 
 ```cpp
-void CGuild::InsertGuildMemberChanglableInfo(unsigned int charNo)
+bool CGuild::InsertGuildMemberChanglableInfo(unsigned int charNo)
 {
     STGuildMemberChangableInfo info;
     // ORIG：仅写首 dword = time(0)，其余字段保持未初始化；insert 不覆盖已存在项
     *(unsigned int*)((char*)&info + 0) = time(0);
-    m_changable.insert(std::make_pair(charNo, info));
+    return m_changable.insert(std::make_pair(charNo, info)).second;
 }
 ```
