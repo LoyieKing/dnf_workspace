@@ -202,8 +202,8 @@ void CPacketTranslater::onSocialEventRewardItemRequest(PacketHeader* pkt)
     {
         throw CDNFException("CPacketTranslater::onSocialEventRewardItemRequest");
     }
-    PacketHeader* local_pkt = pkt;
-    m_pclApp->m_serverHandler2->SendToDB(local_pkt);
+    char* local_pkt = (char*)pkt;
+    m_pclApp->m_serverHandler2->SendToDB((PacketHeader*)local_pkt);
 
 
     }

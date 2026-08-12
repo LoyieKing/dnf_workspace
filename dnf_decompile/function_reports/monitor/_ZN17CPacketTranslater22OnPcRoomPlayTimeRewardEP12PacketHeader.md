@@ -202,8 +202,8 @@ void CPacketTranslater::OnPcRoomPlayTimeReward(PacketHeader* pkt)
     {
         throw CDNFException("CPacketTranslater::OnPcRoomPlayTimeReward");
     }
-    PacketHeader* rpkt = pkt;
-    m_pclApp->m_serverHandler2->SendToDB(rpkt);
+    char* rpkt = (char*)pkt;
+    m_pclApp->m_serverHandler2->SendToDB((PacketHeader*)rpkt);
 
 
     }

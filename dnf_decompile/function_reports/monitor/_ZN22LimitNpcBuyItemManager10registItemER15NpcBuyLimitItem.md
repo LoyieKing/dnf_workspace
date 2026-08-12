@@ -106,7 +106,7 @@ LimitNpcBuyItemManager::_ZN22LimitNpcBuyItemManager10registItemER15NpcBuyLimitIt
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp](source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp)（约第 71 行）：
+定义于 [source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp](source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp)（约第 76 行）：
 
 ```cpp
 void LimitNpcBuyItemManager::registItem(NpcBuyLimitItem& item)

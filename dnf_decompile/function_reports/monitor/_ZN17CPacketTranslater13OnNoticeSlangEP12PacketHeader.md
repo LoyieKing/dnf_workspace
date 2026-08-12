@@ -205,8 +205,8 @@ void CPacketTranslater::OnNoticeSlang(PacketHeader* pkt)
     {
         throw CDNFException("CPacketTranslater::OnNoticeSlang : 0 == m_pclApp");
     }
-    CServerHandler* handler = m_pclApp->m_serverHandler2;
-    handler->SendAllToGameServer((char*)pkt, 0x3d);
+    PacketHeader* lpkt = pkt;
+    m_pclApp->m_serverHandler2->SendAllToGameServer((char*)lpkt, 0x3d);
 
 
     }

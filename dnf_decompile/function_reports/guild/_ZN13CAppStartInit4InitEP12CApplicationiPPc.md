@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x8064d0e` | `0x252` | `0x804cfb2` | `0x256` |
+| guild | NEAR | `0x8064d0e` | `0x252` | `0x804cfc4` | `0x256` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -304,11 +304,9 @@ CAppStartInit::_ZN13CAppStartInit4InitEP12CApplicationiPPc
 void CAppStartInit::Init(CApplication* app, int argc, char** argv)
 {
     srand((unsigned int)time(0));
-    CAppConfig* pConfig = new CAppConfig;
-    app->m_appConfig = pConfig;
+    app->m_appConfig = new CAppConfig;
     app->m_appConfig->Check_FileName(std::string(argv[1]));
-    CServerConfig* pServer = new CServerConfig;
-    app->m_serverConfig = pServer;
+    app->m_serverConfig = new CServerConfig;
     app->m_killConfig = new CKillUSRConfig;
     if (Init_Daemon(argc, argv) == -1)
     {

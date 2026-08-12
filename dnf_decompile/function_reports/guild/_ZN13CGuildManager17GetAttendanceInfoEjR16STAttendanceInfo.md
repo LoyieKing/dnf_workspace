@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8097666` | `0x160` | `0x805d3cc` | `0x167` |
+| guild | DIFF | `0x8097666` | `0x160` | `0x805d42e` | `0x161` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,11 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,106 +1,108 @@
+@@ -1,106 +1,106 @@
  push   %ebp
  mov    %esp,%ebp
++push   %esi
  push   %ebx
- sub    $0x24,%esp
+-sub    $0x24,%esp
++sub    $0x20,%esp
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -26,9 +28,8 @@
  mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x10(%ebp)
 -je     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x15a>
-+je     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x162>
-+mov    0x10(%ebp),%eax
-+lea    0x4(%eax),%ebx
++je     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x157>
++mov    0x10(%ebp),%ebx
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild26GetTotalCnt_Of_GuildDBInfoEv>
@@ -36,7 +37,7 @@
 -mov    0x10(%ebp),%eax
 -mov    %edx,0x4(%eax)
 +movzwl %ax,%eax
-+mov    %eax,(%ebx)
++mov    %eax,0x4(%ebx)
  mov    0x8(%ebp),%eax
  lea    0x9c(%eax),%ecx
  lea    -0x18(%ebp),%eax
@@ -60,7 +61,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjSt6vectorIjSaIjEEEEneERKS6_>
  test   %al,%al
 -je     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x15b>
-+je     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x162>
++je     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x157>
 +mov    0x10(%ebp),%ebx
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -78,82 +79,74 @@
  call   <T> <_ZN13CGuildManager18GetAttendancePhaseEj>
  mov    %eax,-0xc(%ebp)
  mov    0x10(%ebp),%eax
--mov    -0xc(%ebp),%edx
--mov    %edx,0x18(%eax)
-+lea    0x18(%eax),%edx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,(%edx)
+ mov    -0xc(%ebp),%edx
+ mov    %edx,0x18(%eax)
  cmpl   $0x0,-0xc(%ebp)
--js     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x10f>
-+js     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x116>
+ js     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x10f>
  cmpl   $0x8,-0xc(%ebp)
--jg     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x10f>
-+jg     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x116>
-+mov    0x10(%ebp),%eax
-+lea    0x10(%eax),%edx
- mov    -0xc(%ebp),%eax
- mov    &_ZL15guild_att_phase(,%eax,4),%eax
+ jg     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x10f>
+-mov    -0xc(%ebp),%eax
+-mov    &_ZL15guild_att_phase(,%eax,4),%eax
 -mov    %eax,%edx
-+mov    %eax,(%edx)
  mov    0x10(%ebp),%eax
--mov    %edx,0x10(%eax)
--mov    -0xc(%ebp),%ebx
-+lea    0x14(%eax),%ebx
++mov    -0xc(%ebp),%edx
++mov    &_ZL15guild_att_phase(,%edx,4),%edx
+ mov    %edx,0x10(%eax)
+ mov    -0xc(%ebp),%ebx
++mov    0x10(%ebp),%esi
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild13GetGuildLevelEv>
--movzbl %al,%edx
--mov    %ebx,%eax
-+movzbl %al,%ecx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
+ movzbl %al,%edx
+ mov    %ebx,%eax
  shl    $0x4,%eax
--add    %ebx,%eax
- add    %edx,%eax
+ add    %ebx,%eax
+-add    %edx,%eax
 -mov    &_ZL13guild_att_exp(,%eax,4),%edx
 -mov    0x10(%ebp),%eax
 -mov    %edx,0x14(%eax)
-+lea    (%ecx,%eax,1),%eax
++lea    (%edx,%eax,1),%eax
 +mov    &_ZL13guild_att_exp(,%eax,4),%eax
-+mov    %eax,(%ebx)
++mov    %eax,0x14(%esi)
  addl   $0x1,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
 -js     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x15b>
-+js     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x162>
++js     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x157>
  cmpl   $0x8,-0xc(%ebp)
 -jg     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x15b>
-+jg     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x162>
-+mov    0x10(%ebp),%eax
-+lea    0x8(%eax),%edx
- mov    -0xc(%ebp),%eax
- mov    &_ZL15guild_att_phase(,%eax,4),%eax
+-mov    -0xc(%ebp),%eax
+-mov    &_ZL15guild_att_phase(,%eax,4),%eax
 -mov    %eax,%edx
-+mov    %eax,(%edx)
++jg     <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x157>
  mov    0x10(%ebp),%eax
--mov    %edx,0x8(%eax)
--mov    -0xc(%ebp),%ebx
-+lea    0xc(%eax),%ebx
++mov    -0xc(%ebp),%edx
++mov    &_ZL15guild_att_phase(,%edx,4),%edx
+ mov    %edx,0x8(%eax)
+ mov    -0xc(%ebp),%ebx
++mov    0x10(%ebp),%esi
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild13GetGuildLevelEv>
--movzbl %al,%edx
--mov    %ebx,%eax
-+movzbl %al,%ecx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
+ movzbl %al,%edx
+ mov    %ebx,%eax
  shl    $0x4,%eax
--add    %ebx,%eax
- add    %edx,%eax
+ add    %ebx,%eax
+-add    %edx,%eax
 -mov    &_ZL13guild_att_exp(,%eax,4),%edx
 -mov    0x10(%ebp),%eax
 -mov    %edx,0xc(%eax)
 -jmp    <T> <_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo+0x15b>
 -nop
-+lea    (%ecx,%eax,1),%eax
+-mov    -0x4(%ebp),%ebx
+-leave
++lea    (%edx,%eax,1),%eax
 +mov    &_ZL13guild_att_exp(,%eax,4),%eax
-+mov    %eax,(%ebx)
- mov    -0x4(%ebp),%ebx
- leave
++mov    %eax,0xc(%esi)
++lea    -0x8(%ebp),%esp
++add    $0x0,%esp
++pop    %ebx
++pop    %esi
++pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C

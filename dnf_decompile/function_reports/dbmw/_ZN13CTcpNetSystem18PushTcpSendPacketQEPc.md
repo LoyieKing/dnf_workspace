@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805bf6a` | `0xe9` | `0x80f5670` | `0xf5` |
+| dbmw | DIFF | `0x805bf6a` | `0xe9` | `0x80f5852` | `0xf5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,20 +25,19 @@
  add    $0xe8,%eax
  mov    %eax,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
  mov    0xc(%ebp),%eax
 -mov    %eax,-0x28(%ebp)
-+mov    %eax,-0x14(%ebp)
++mov    %eax,-0x10(%ebp)
  mov    0x8(%ebp),%eax
  lea    0xc0(%eax),%edx
 -lea    -0x28(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
--call   <T> <_ZNSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE4pushEOS1_>
-+call   <T> <_ZNSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE4pushERKS1_>
+ call   <T> <_ZNSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE4pushEOS1_>
  mov    0x8(%ebp),%eax
  add    $0xc0,%eax
  mov    %eax,(%esp)
@@ -95,7 +94,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x2c(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  mov    %esi,%eax
@@ -103,7 +102,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x2c(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
 -add    $0x4c,%esp

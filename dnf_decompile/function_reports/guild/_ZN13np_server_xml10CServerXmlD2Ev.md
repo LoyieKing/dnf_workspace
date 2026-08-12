@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x805744a` | `0x118` | `0x80a4bfc` | `0x14f` |
+| guild | DIFF | `0x805744a` | `0x118` | `0x80a4c4e` | `0xf0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,98 +1,112 @@
+@@ -1,98 +1,84 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,36 +22,7 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13np_server_xml10CServerXml10InitStringEv>
--jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x2f>
-+mov    0x8(%ebp),%eax
-+add    $0xa0,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIiiSt4lessIiESaISt4pairIKiiEEED1Ev>
-+mov    0x8(%ebp),%eax
-+add    $0x88,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEED1Ev>
-+mov    0x8(%ebp),%eax
-+add    $0x70,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEED1Ev>
-+mov    0x8(%ebp),%eax
-+add    $0x58,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEED1Ev>
-+mov    0x8(%ebp),%eax
-+add    $0x54,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+mov    0x8(%ebp),%eax
-+add    $0x5,%eax
-+mov    (%eax),%eax
-+mov    (%eax),%eax
-+mov    0x8(%ebp),%edx
-+add    $0x5,%edx
-+mov    %edx,(%esp)
-+call   *%eax
-+jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x8e>
+ jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x2f>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -60,14 +31,12 @@
  call   <T> <_ZNSt3mapIiiSt4lessIiESaISt4pairIKiiEEED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x41>
-+jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0xa0>
+ jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x41>
  mov    0x8(%ebp),%eax
  add    $0xa0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIiiSt4lessIiESaISt4pairIKiiEEED1Ev>
--jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x5b>
-+jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0xba>
+ jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x5b>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -76,14 +45,12 @@
  call   <T> <_ZNSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x6d>
-+jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0xcc>
+ jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x6d>
  mov    0x8(%ebp),%eax
  add    $0x88,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEED1Ev>
--jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x85>
-+jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0xe4>
+ jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x85>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -92,14 +59,12 @@
  call   <T> <_ZNSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x95>
-+jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0xf4>
+ jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x95>
  mov    0x8(%ebp),%eax
  add    $0x70,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEED1Ev>
--jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0xad>
-+jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x10c>
+ jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0xad>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax
@@ -108,14 +73,13 @@
  call   <T> <_ZNSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0xbd>
-+jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x11c>
+ jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0xbd>
  mov    0x8(%ebp),%eax
  add    $0x58,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEED1Ev>
 -jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0xd5>
-+jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0x13a>
++jmp    <T> <_ZN13np_server_xml10CServerXmlD1Ev+0xdb>
  mov    %edx,%ebx
  mov    %eax,%esi
  mov    0x8(%ebp),%eax

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8076c82` | `0x2c1` | `0x8062ecc` | `0x274` |
+| dbmw | DIFF | `0x8076c82` | `0x2c1` | `0x8062f40` | `0x274` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -107,7 +107,7 @@
 +mov    $0x1,%eax
 +jmp    <T> <_ZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRh+0x272>
  mov    -0x10(%ebp),%eax
-+imul   $0x2c,%eax,%eax
++imul   $0x27,%eax,%eax
 +add    0x10(%ebp),%eax
 +mov    %eax,-0xc(%ebp)
 +mov    -0x14(%ebp),%eax
@@ -117,8 +117,7 @@
  mov    -0xc(%ebp),%eax
 -imul   $0x27,%eax,%eax
 -add    0x10(%ebp),%eax
--add    $0x22,%eax
-+add    $0x24,%eax
+ add    $0x22,%eax
  mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -mov    -0x10(%ebp),%eax
@@ -238,8 +237,7 @@
  mov    -0xc(%ebp),%eax
 -imul   $0x27,%eax,%eax
 -add    0x10(%ebp),%eax
--add    $0x26,%eax
-+add    $0x28,%eax
+ add    $0x26,%eax
  mov    %eax,0x8(%esp)
  movl   $0x5,0x4(%esp)
 -mov    -0x10(%ebp),%eax

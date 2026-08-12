@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8054fb6` | `0x1b3` | `0x80e1e24` | `0x239` |
+| dbmw | DIFF | `0x8054fb6` | `0x1b3` | `0x80e1ecc` | `0x239` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -264,7 +264,7 @@ CSignalTranslator::_ZN17CSignalTranslator12init_handlerEP12CApplication
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFSignalTranslator.cpp](source/DNFServer/GameServer/DBMW/DNFSignalTranslator.cpp)（约第 87 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFSignalTranslator.cpp](source/DNFServer/GameServer/DBMW/DNFSignalTranslator.cpp)（约第 86 行）：
 
 ```cpp
 void CSignalTranslator::init_handler(CApplication* app)

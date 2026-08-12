@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805c702` | `0x136` | `0x80f5258` | `0x108` |
+| dbmw | DIFF | `0x805c702` | `0x136` | `0x80f5412` | `0x130` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,91 +1,79 @@
+@@ -1,91 +1,90 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -23,7 +23,7 @@
  add    $0x78,%eax
  mov    %eax,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
 -movl   $0x0,-0xc(%ebp)
@@ -35,8 +35,7 @@
 -mov    0xc(%ebp),%ecx
 -mov    0x8(%ebp),%edx
 -mov    (%edx),%edx
-+mov    %eax,-0x2c(%ebp)
-+mov    -0x2c(%ebp),%ecx
++mov    %eax,-0x10(%ebp)
 +mov    0xc(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +mov    (%eax),%eax
@@ -44,6 +43,7 @@
 -mov    %eax,0x8(%esp)
 -mov    %ecx,0x4(%esp)
 -mov    %edx,(%esp)
++mov    -0x10(%ebp),%ecx
 +mov    %ecx,0x8(%esp)
 +mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
@@ -53,65 +53,59 @@
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer+0xa0>
-+je     <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer+0x88>
++je     <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer+0x9a>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <strerror>
--mov    %eax,%ebx
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CPeer12GetTcpSocketEv>
--mov    %eax,(%esp)
--call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    %ebx,0xc(%esp)
--mov    -0xc(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--movl   $"G_EpollHandler()->SetPeer(peer->get_socket(%d)) %d(%s)",(%esp)
-+mov    -0x2c(%ebp),%edx
-+mov    %eax,0xc(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+mov    %edx,0x4(%esp)
-+movl   $"Epoll SetPeer fail(fd:%d, error:%d, %s)",(%esp)
+ mov    %eax,%ebx
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CPeer12GetTcpSocketEv>
+ mov    %eax,(%esp)
+ call   <T> <_ZNK9TCPSocket9getHandleEv>
+ mov    %ebx,0xc(%esp)
+ mov    -0xc(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ mov    %eax,0x4(%esp)
+ movl   $"G_EpollHandler()->SetPeer(peer->get_socket(%d)) %d(%s)",(%esp)
  call   <T> <printf>
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CPeer12GetTcpSocketEv>
--mov    %eax,(%esp)
--call   <T> <_ZNK9TCPSocket9getHandleEv>
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CPeer12GetTcpSocketEv>
+ mov    %eax,(%esp)
+ call   <T> <_ZNK9TCPSocket9getHandleEv>
 -mov    %eax,-0x10(%ebp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++mov    %eax,-0x14(%ebp)
++lea    -0x1c(%ebp),%eax
  lea    0xc(%ebp),%edx
  mov    %edx,0x8(%esp)
 -lea    -0x10(%ebp),%edx
-+lea    -0x2c(%ebp),%edx
++lea    -0x14(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZSt9make_pairIiRP5CPeerESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
-+call   <T> <_ZSt9make_pairIRiRP5CPeerESt4pairINSt17__decay_and_stripIT_E6__typeENS5_IT0_E6__typeEEOS6_OS9_>
+ call   <T> <_ZSt9make_pairIiRP5CPeerESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
  sub    $0x4,%esp
 -lea    -0x18(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKjP5CPeerEC1IiS2_EEOS_IT_T0_E>
  mov    0x8(%ebp),%eax
  lea    0x144(%eax),%ecx
 -lea    -0x28(%ebp),%eax
 -lea    -0x20(%ebp),%edx
-+lea    -0x24(%ebp),%eax
-+lea    -0x1c(%ebp),%edx
++lea    -0x2c(%ebp),%eax
++lea    -0x24(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP5CPeerSt4lessIjESaISt4pairIKjS1_EEE6insertERKS6_>
  sub    $0x4,%esp
 -lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  lea    -0x8(%ebp),%esp
@@ -123,7 +117,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  mov    %esi,%eax

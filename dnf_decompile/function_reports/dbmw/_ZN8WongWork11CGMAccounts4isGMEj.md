@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8063902` | `0xa7` | `0x80e7efa` | `0x9a` |
+| dbmw | DIFF | `0x8063902` | `0xa7` | `0x80e7fe4` | `0x97` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,48 +1,44 @@
+@@ -1,48 +1,43 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -78,7 +78,6 @@
 -mov    $0x1,%eax
 -jmp    <T> <_ZN8WongWork11CGMAccounts4isGMEj+0xa5>
 -mov    $0x0,%eax
-+movzbl %al,%eax
  leave
  ret
 ```

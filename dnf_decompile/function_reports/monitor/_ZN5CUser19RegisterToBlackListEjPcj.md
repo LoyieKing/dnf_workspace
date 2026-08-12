@@ -119,7 +119,7 @@ CUser::_ZN5CUser19RegisterToBlackListEjPcj(CUser *this,uint param_1,char *param_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 516 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 517 行）：
 
 ```cpp
 char CUser::RegisterToBlackList(unsigned int charNo, char* name, unsigned int time)

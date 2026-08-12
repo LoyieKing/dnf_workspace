@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8059282` | `0x309` | `0x80e5b22` | `0x2f3` |
+| dbmw | DIFF | `0x8059282` | `0x309` | `0x80e5bf6` | `0x305` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,26 +13,22 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,183 +1,177 @@
+@@ -1,183 +1,183 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
--sub    $0x74,%esp
-+sub    $0x78,%esp
+ push   %ebx
+ sub    $0x74,%esp
  mov    0x14(%ebp),%eax
  mov    %ax,-0x4c(%ebp)
  cmpl   $0x0,0x18(%ebp)
--jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x24>
-+jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x23>
+ jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x24>
  cmpl   $0x0,0x1c(%ebp)
--jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x24>
-+jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x23>
+ jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x24>
  mov    $0x0,%eax
 -jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x303>
-+jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x2f1>
++jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x2ff>
  cmpl   $0x0,0x18(%ebp)
--je     <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x38>
-+je     <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x37>
+ je     <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x38>
  mov    0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <inet_addr>
@@ -40,17 +36,16 @@
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  cmp    $0xffffffff,%eax
--jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x4c>
-+jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x4b>
+ jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x4c>
  mov    $0x0,%eax
 -jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x303>
-+jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x2f1>
++jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x2ff>
  cmpw   $0x0,-0x4c(%ebp)
 -jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x85>
-+jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x80>
++jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x81>
  cmpl   $0x0,0x1c(%ebp)
 -jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0xf9>
-+jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x80>
++jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x81>
  mov    0x10(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
@@ -62,27 +57,22 @@
  call   <T> <send>
  mov    %eax,-0x10(%ebp)
 -jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0xf9>
-+jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0xf4>
++jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0xf5>
  movl   $0x10,0x8(%esp)
  movl   $0x0,0x4(%esp)
--lea    -0x48(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memset>
--movw   $0x2,-0x48(%ebp)
-+movw   $0x2,-0x20(%ebp)
+ movw   $0x2,-0x48(%ebp)
  movzwl -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <htons>
--mov    %ax,-0x46(%ebp)
-+mov    %ax,-0x1e(%ebp)
+ mov    %ax,-0x46(%ebp)
  mov    0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <ntohl>
--mov    %eax,-0x44(%ebp)
--lea    -0x48(%ebp),%ecx
-+mov    %eax,-0x1c(%ebp)
-+lea    -0x20(%ebp),%ecx
+ mov    %eax,-0x44(%ebp)
+ lea    -0x48(%ebp),%ecx
  mov    0x10(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
@@ -97,71 +87,54 @@
  mov    %eax,-0x10(%ebp)
  cmpl   $0xffffffff,-0x10(%ebp)
 -jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x242>
-+jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x230>
++jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x23e>
  call   <T> <_Z8getErrnov>
  mov    %eax,-0xc(%ebp)
-+cmpl   $0x61,-0xc(%ebp)
-+jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x15a>
-+movl   $"err EAFNOSUPPORT in send",(%esp)
-+call   <T> <puts>
-+movl   $0x119,0x8(%esp)
-+movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
--cmp    $0x61,%eax
+ cmp    $0x61,%eax
 -je     <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x17d>
--cmp    $0x61,%eax
++je     <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x179>
+ cmp    $0x61,%eax
 -jl     <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x1c8>
--sub    $0x6f,%eax
--cmp    $0x2,%eax
++jl     <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x1c4>
+ sub    $0x6f,%eax
+ cmp    $0x2,%eax
 -ja     <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x1c8>
-+mov    %eax,0xc(%esp)
-+movl   $"Error( EAFNOSUPPORT ) in send = %d\n",0x8(%esp)
-+movl   $"./log/UdpErr",0x4(%esp)
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x226>
-+cmpl   $0x6e,-0xc(%ebp)
-+jle    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x1b8>
-+cmpl   $0x71,-0xc(%ebp)
-+jg     <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x1b8>
++ja     <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x1c4>
  mov    -0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  movl   $"Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n",(%esp)
  call   <T> <printf>
  movl   $0x113,0x8(%esp)
  movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n",0x8(%esp)
  movl   $"./log/UdpErr",0x4(%esp)
--lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x238>
--movl   $"err EAFNOSUPPORT in send",(%esp)
--call   <T> <puts>
--movl   $0x119,0x8(%esp)
--movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"Error( EAFNOSUPPORT ) in send = %d\n",0x8(%esp)
--movl   $"./log/UdpErr",0x4(%esp)
++jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x234>
+ movl   $"err EAFNOSUPPORT in send",(%esp)
+ call   <T> <puts>
+ movl   $0x119,0x8(%esp)
+ movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"Error( EAFNOSUPPORT ) in send = %d\n",0x8(%esp)
+ movl   $"./log/UdpErr",0x4(%esp)
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x238>
-+jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x226>
++jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x234>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <strerror>
@@ -170,92 +143,79 @@
  mov    %eax,0x4(%esp)
  movl   $"err = %d , strerror = %s in send\n",(%esp)
  call   <T> <printf>
-+movl   $0x11f,0x8(%esp)
-+movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <strerror>
--mov    %eax,%ebx
--movl   $0x11f,0x8(%esp)
--movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
--lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0x10(%esp)
-+mov    %eax,0x10(%esp)
+ mov    %eax,%ebx
+ movl   $0x11f,0x8(%esp)
+ movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0x10(%esp)
  mov    -0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"err = %d , strerror = %s in send\n",0x8(%esp)
  movl   $"./log/UdpErr",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x303>
-+jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x2f1>
++jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x2ff>
  cmpl   $0x0,-0x10(%ebp)
 -jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x291>
-+jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x27f>
++jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x28d>
  movl   $"no data sent in send",(%esp)
  call   <T> <puts>
  movl   $0x128,0x8(%esp)
  movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"no data sent in send\n",0x8(%esp)
  movl   $"./log/UdpErr",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x303>
--mov    0x10(%ebp),%eax
--cmp    -0x10(%ebp),%eax
++jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x2ff>
+ mov    0x10(%ebp),%eax
+ cmp    -0x10(%ebp),%eax
 -je     <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x2fe>
 -mov    0x10(%ebp),%eax
 -mov    %eax,0x8(%esp)
-+jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x2f1>
++je     <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x2fa>
  mov    -0x10(%ebp),%eax
-+cmp    0x10(%ebp),%eax
-+je     <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x2ec>
-+mov    -0x10(%ebp),%eax
 +mov    0x10(%ebp),%edx
 +mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  movl   $"Only %s out of %d bytes sent\n",(%esp)
  call   <T> <printf>
++mov    -0x10(%ebp),%ebx
  movl   $0x133,0x8(%esp)
  movl   $&_ZZNK11CUdpHandler12SendToClientEPcitPKcjE12__FUNCTION__,0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0x10(%ebp),%eax
  mov    %eax,0x10(%esp)
- mov    -0x10(%ebp),%eax
- mov    %eax,0xc(%esp)
--movl   $"Only %s out of %d bytes sent\n",0x8(%esp)
-+movl   $"Only %d out of %d bytes sent\n",0x8(%esp)
+-mov    -0x10(%ebp),%eax
+-mov    %eax,0xc(%esp)
++mov    %ebx,0xc(%esp)
+ movl   $"Only %s out of %d bytes sent\n",0x8(%esp)
  movl   $"./log/UdpErr",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x303>
-+jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x2f1>
++jmp    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x2ff>
  mov    $0x1,%eax
--add    $0x74,%esp
--pop    %ebx
--pop    %ebp
-+leave
+ add    $0x74,%esp
+ pop    %ebx
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C

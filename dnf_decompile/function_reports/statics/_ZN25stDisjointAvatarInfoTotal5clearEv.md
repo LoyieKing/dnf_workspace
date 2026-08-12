@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8057910` | `0x94` | `0x8065500` | `0x88` |
+| statics | DIFF | `0x8057910` | `0x94` | `0x8065500` | `0x75` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,83 +13,84 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,51 +1,44 @@
+@@ -1,51 +1,46 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
--push   %ebx
- sub    $0x10,%esp
++push   %edi
+ push   %esi
+ push   %ebx
+-sub    $0x10,%esp
 -movl   $0x0,-0x14(%ebp)
 -jmp    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x82>
 -movl   $0x0,-0x10(%ebp)
 -jmp    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x73>
- movl   $0x0,-0xc(%ebp)
+-movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x47>
 -mov    -0x14(%ebp),%edx
 -mov    -0x10(%ebp),%esi
 -mov    -0xc(%ebp),%ebx
 -mov    0x8(%ebp),%ecx
-+jmp    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x7b>
-+movl   $0x0,-0x8(%ebp)
-+jmp    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x6c>
-+movl   $0x0,-0x4(%ebp)
-+jmp    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x43>
-+mov    -0xc(%ebp),%edx
- mov    %edx,%eax
+-mov    %edx,%eax
++mov    $0x0,%ebx
++jmp    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x66>
++mov    $0x0,%esi
++jmp    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x59>
++mov    $0x0,%edi
++jmp    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x36>
++mov    %ebx,%eax
  shl    $0x3,%eax
- add    %edx,%eax
--add    %esi,%eax
-+add    -0x8(%ebp),%eax
+-add    %edx,%eax
++add    %ebx,%eax
+ add    %esi,%eax
  add    %eax,%eax
 -add    %ebx,%eax
 -movl   $0x0,(%ecx,%eax,4)
 -addl   $0x1,-0xc(%ebp)
 -cmpl   $0x1,-0xc(%ebp)
-+mov    %eax,%edx
-+add    -0x4(%ebp),%edx
++lea    (%eax,%edi,1),%edx
 +mov    0x8(%ebp),%eax
 +movl   $0x0,(%eax,%edx,4)
-+addl   $0x1,-0x4(%ebp)
-+cmpl   $0x1,-0x4(%ebp)
++add    $0x1,%edi
++cmp    $0x1,%edi
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x23>
 -mov    -0x14(%ebp),%edx
 -mov    -0x10(%ebp),%ebx
 -mov    0x8(%ebp),%ecx
-+jne    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x21>
-+mov    -0xc(%ebp),%edx
- mov    %edx,%eax
+-mov    %edx,%eax
++jne    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x1b>
++mov    %ebx,%eax
  shl    $0x3,%eax
- add    %edx,%eax
--add    %ebx,%eax
+-add    %edx,%eax
+ add    %ebx,%eax
 -add    $0x34,%eax
 -movl   $0x0,0x8(%ecx,%eax,4)
 -addl   $0x1,-0x10(%ebp)
 -cmpl   $0x8,-0x10(%ebp)
-+add    -0x8(%ebp),%eax
++add    %esi,%eax
 +lea    0x36(%eax),%edx
 +mov    0x8(%ebp),%eax
 +movl   $0x0,(%eax,%edx,4)
-+addl   $0x1,-0x8(%ebp)
-+cmpl   $0x8,-0x8(%ebp)
++add    $0x1,%esi
++cmp    $0x8,%esi
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x1a>
 -addl   $0x1,-0x14(%ebp)
 -cmpl   $0x2,-0x14(%ebp)
-+jne    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x18>
-+addl   $0x1,-0xc(%ebp)
-+cmpl   $0x2,-0xc(%ebp)
++jne    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x14>
++add    $0x1,%ebx
++cmp    $0x2,%ebx
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0x11>
 -add    $0x10,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
-+jne    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0xf>
-+leave
++jne    <T> <_ZN25stDisjointAvatarInfoTotal5clearEv+0xd>
+ pop    %ebx
+ pop    %esi
++pop    %edi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C

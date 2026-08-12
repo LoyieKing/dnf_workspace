@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80913a4` | `0x158` | `0x8056f50` | `0x149` |
+| guild | DIFF | `0x80913a4` | `0x158` | `0x8056f7c` | `0x163` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,33 +13,25 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,94 +1,92 @@
+@@ -1,94 +1,98 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0xa8,%esp
 +push   %ebx
 +sub    $0xa4,%esp
  mov    0x8(%ebp),%eax
--movzwl 0x1c(%eax),%eax
-+add    $0x1c,%eax
-+movzwl (%eax),%eax
+ movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x156>
-+je     <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x36>
++je     <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x15e>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
-+xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x155>
-+je     <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x36>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x3b>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x144>
++jne    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x15e>
  lea    -0x8f(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN40Packet_Guild_Notify_Message_To_Guild_MemC1Ev>
@@ -52,22 +44,23 @@
 -jg     <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x7f>
 -mov    -0xc(%ebp),%eax
 +mov    %eax,-0x10(%ebp)
-+mov    $0x64,%eax
 +cmpl   $0x64,-0x10(%ebp)
-+cmovbe -0x10(%ebp),%eax
++jg     <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x80>
++mov    -0x10(%ebp),%eax
  mov    0x8(%ebp),%edx
  add    $0x4d0a,%edx
  mov    %eax,0x8(%esp)
  mov    %edx,0x4(%esp)
--lea    -0x8f(%ebp),%eax
--add    $0x12,%eax
--mov    %eax,(%esp)
--call   <T> <memcpy>
+ lea    -0x8f(%ebp),%eax
+ add    $0x12,%eax
+ mov    %eax,(%esp)
+ call   <T> <memcpy>
 -jmp    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0xa4>
--mov    0x8(%ebp),%eax
--add    $0x4d0a,%eax
--movl   $0x64,0x8(%esp)
--mov    %eax,0x4(%esp)
++jmp    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0xa5>
+ mov    0x8(%ebp),%eax
+ add    $0x4d0a,%eax
+ movl   $0x64,0x8(%esp)
+ mov    %eax,0x4(%esp)
  lea    -0x8f(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,(%esp)
@@ -79,20 +72,20 @@
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x124>
-+jmp    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x115>
++jmp    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x12f>
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
  mov    0x4(%eax),%eax
 -mov    %eax,-0x10(%ebp)
 -cmpl   $0x0,-0x10(%ebp)
--sete   %al
--test   %al,%al
--jne    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x118>
--mov    -0x10(%ebp),%eax
 +mov    %eax,-0xc(%ebp)
 +cmpl   $0x0,-0xc(%ebp)
-+je     <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x10a>
+ sete   %al
+ test   %al,%al
+-jne    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x118>
+-mov    -0x10(%ebp),%eax
++jne    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x123>
 +lea    -0x8f(%ebp),%eax
 +lea    0xa(%eax),%ebx
 +mov    -0xc(%ebp),%eax
@@ -116,7 +109,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x119>
--nop
++jmp    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x124>
+ nop
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEppEv>
@@ -135,7 +129,7 @@
 -jne    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0xbb>
 -jmp    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0x156>
 -nop
-+jne    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0xaa>
++jne    <T> <_ZN6CGuild26NotifyMessageToGuildMemberEv+0xbc>
 +mov    -0x4(%ebp),%ebx
  leave
  ret

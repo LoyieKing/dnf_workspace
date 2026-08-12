@@ -195,7 +195,7 @@ CMemberManager::_ZN14CMemberManager12DeleteMemberEjb(CMemberManager *this,uint p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 98 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 91 行）：
 
 ```cpp
 int CMemberManager::DeleteMember(unsigned int key, bool cash)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8065616` | `0x248` | `0x804d556` | `0x184` |
+| guild | DIFF | `0x8065616` | `0x248` | `0x804d568` | `0x184` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -293,12 +293,18 @@ CAppStopInit::_ZN12CAppStopInit4InitEP12CApplicationiPPc
 ```cpp
 void CAppStopInit::Init(CApplication* app, int argc, char** argv)
 {
-    puts("RECV STOP, ...");
+    puts("RECV STOP, \xb0\xfc\xb8\xae\xc0\xda\xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1 \xb5\xc7\xbe\xfa\xbd\xc0\xb4\xcf\xb4\xd9.");
     app->Clear();
-    std::string fn(argv[1]);
-    if (app->Send_Term_Signal(fn) != 0)
+    register bool r;
     {
-        throw CDNFException("CAppStopInit::Init() ...");
+        std::allocator<char> alloc;
+        std::string fn(argv[1], alloc);
+        r = !app->Send_Term_Signal(fn);
     }
+    if (r)
+    {
+        throw CDNFException("CAppStopInit::Init()\xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1\xb5\xc7\xbe\xfa\xc0\xbd!");
+    }
+    throw CDNFException("CAppStopInit::Init()\xbf\xa1 \xc0\xc7\xc7\xd8 \xb0\xad\xc1\xa6\xb7\xce \xc1\xbe\xb7\xe1\xb5\xc7\xbe\xfa\xc0\xbd!_1");
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806cf2c` | `0x325` | `0x8081094` | `0x372` |
+| guild | DIFF | `0x806cf2c` | `0x325` | `0x8081112` | `0x37d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,19 +13,21 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,238 +1,265 @@
+@@ -1,238 +1,263 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
- sub    $0x4c,%esp
+-sub    $0x4c,%esp
++sub    $0x6c,%esp
  mov    0x8(%ebp),%eax
  mov    0x1c(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x33>
--mov    0x8(%ebp),%eax
--mov    0x40(%eax),%eax
++je     <T> <_ZN14CServerHandler7ProcessEv+0x2e>
+ mov    0x8(%ebp),%eax
+ mov    0x40(%eax),%eax
 -cmp    $0x3,%eax
 -setg   %dl
 -lea    0x1(%eax),%ecx
@@ -38,24 +40,23 @@
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x66>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x27>
-+mov    0x8(%ebp),%eax
-+mov    0x40(%eax),%ebx
-+lea    0x1(%ebx),%edx
++mov    %eax,-0x30(%ebp)
++mov    -0x30(%ebp),%eax
++lea    0x1(%eax),%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x40(%eax)
-+cmp    $0x3,%ebx
-+jg     <T> <_ZN14CServerHandler7ProcessEv+0x2e>
++cmpl   $0x3,-0x30(%ebp)
++jg     <T> <_ZN14CServerHandler7ProcessEv+0x35>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x33>
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x3a>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x3e>
-+mov    $0x0,%ebx
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x43>
-+mov    $0x1,%ebx
-+test   %bl,%bl
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x71>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x44>
++movb   $0x0,-0x31(%ebp)
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x48>
++movb   $0x1,-0x31(%ebp)
++cmpb   $0x0,-0x31(%ebp)
++je     <T> <_ZN14CServerHandler7ProcessEv+0x78>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16GetServerGroupNoEv>
@@ -68,82 +69,93 @@
  mov    0x8(%ebp),%eax
  movl   $0x0,0x40(%eax)
  mov    0x8(%ebp),%edx
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP11CGameServerSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN14CServerHandler7ProcessEv+0x115>
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x12e>
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x131>
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEptEv>
  mov    0x4(%eax),%eax
- mov    %eax,-0x1c(%ebp)
- mov    -0x1c(%ebp),%eax
+-mov    %eax,-0x1c(%ebp)
+-mov    -0x1c(%ebp),%eax
++mov    %eax,-0x20(%ebp)
++mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface13IsValidServerEv>
- xor    $0x1,%eax
- test   %al,%al
+-xor    $0x1,%eax
+-test   %al,%al
 -jne    <T> <_ZN14CServerHandler7ProcessEv+0xf7>
-+jne    <T> <_ZN14CServerHandler7ProcessEv+0x10a>
- mov    -0x1c(%ebp),%eax
+-mov    -0x1c(%ebp),%eax
++test   %al,%al
++je     <T> <_ZN14CServerHandler7ProcessEv+0xd7>
++mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface11IsConnectedEv>
--test   %al,%al
+ test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0xf8>
-+xor    $0x1,%eax
-+test   %al,%al
-+jne    <T> <_ZN14CServerHandler7ProcessEv+0x10d>
- mov    -0x1c(%ebp),%eax
+-mov    -0x1c(%ebp),%eax
++je     <T> <_ZN14CServerHandler7ProcessEv+0xd7>
++mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv>
 -test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0xf8>
+-mov    -0x1c(%ebp),%eax
 +test   %eax,%eax
-+sete   %al
++je     <T> <_ZN14CServerHandler7ProcessEv+0xd7>
++mov    $0x1,%eax
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0xdc>
++mov    $0x0,%eax
 +test   %al,%al
-+jne    <T> <_ZN14CServerHandler7ProcessEv+0x110>
- mov    -0x1c(%ebp),%eax
++je     <T> <_ZN14CServerHandler7ProcessEv+0x114>
++mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12GetChannelNoEv>
  cmp    $0xbd,%al
  setbe  %al
  test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0xea>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0xfd>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x109>
  mov    0x8(%ebp),%eax
  mov    0x3c(%eax),%eax
- mov    -0x1c(%ebp),%edx
+-mov    -0x1c(%ebp),%edx
++mov    -0x20(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication16OnGameServerDownEP11CGameServer>
- mov    -0x1c(%ebp),%eax
+-mov    -0x1c(%ebp),%eax
++mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12OnDisconnectEv>
 -jmp    <T> <_ZN14CServerHandler7ProcessEv+0xf8>
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x111>
-+nop
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x111>
-+nop
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x111>
- nop
- lea    -0x30(%ebp),%eax
+-nop
+-lea    -0x30(%ebp),%eax
++lea    -0x48(%ebp),%eax
  movl   $0x0,0x8(%esp)
- lea    -0x38(%ebp),%edx
+-lea    -0x38(%ebp),%edx
++lea    -0x50(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEppEi>
  sub    $0x4,%esp
  mov    0x8(%ebp),%edx
- lea    -0x34(%ebp),%eax
+-lea    -0x34(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP11CGameServerSt4lessIjESaISt4pairIKjS1_EEE3endEv>
  sub    $0x4,%esp
- lea    -0x34(%ebp),%eax
+-lea    -0x34(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CGameServerEEneERKS5_>
  test   %al,%al
@@ -152,11 +164,11 @@
 -mov    0x18(%eax),%eax
 -test   %eax,%eax
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x163>
-+jne    <T> <_ZN14CServerHandler7ProcessEv+0x8b>
++jne    <T> <_ZN14CServerHandler7ProcessEv+0x92>
 +mov    0x8(%ebp),%eax
 +mov    0x18(%eax),%eax
 +test   %eax,%eax
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x17c>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x17f>
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -169,24 +181,24 @@
 -mov    $0x0,%eax
 -test   %al,%al
 -jne    <T> <_ZN14CServerHandler7ProcessEv+0x319>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x183>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x186>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x188>
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x18b>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x193>
-+mov    $0x1,%ebx
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x198>
-+mov    $0x0,%ebx
-+test   %bl,%bl
-+jne    <T> <_ZN14CServerHandler7ProcessEv+0x366>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x195>
++movb   $0x1,-0x29(%ebp)
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x199>
++movb   $0x0,-0x29(%ebp)
++cmpb   $0x0,-0x29(%ebp)
++jne    <T> <_ZN14CServerHandler7ProcessEv+0x371>
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface11IsConnectedEv>
  test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x1df>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x1cb>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x1ce>
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -194,24 +206,26 @@
 -test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x1df>
 +test   %eax,%eax
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x1cb>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x1ce>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x1d0>
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x1d3>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x218>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x21b>
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12OnDisconnectEv>
  movl   $0xea,0x8(%esp)
  movl   $&_ZZN14CServerHandler7ProcessEvE12__FUNCTION__,0x4(%esp)
- lea    -0x2c(%ebp),%eax
+-lea    -0x2c(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CServerHandler::Process() DB Server Down!\n",0x8(%esp)
  movl   $"./log/DBServerErr",0x4(%esp)
- lea    -0x2c(%ebp),%eax
+-lea    -0x2c(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
@@ -221,7 +235,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x2e6>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x32f>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x332>
  mov    0x8(%ebp),%eax
  add    $0x44,%eax
  mov    %eax,(%esp)
@@ -229,7 +243,7 @@
  movzbl (%eax),%eax
  test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x227>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x260>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x263>
  mov    0x8(%ebp),%eax
  add    $0x44,%eax
  mov    %eax,(%esp)
@@ -241,17 +255,17 @@
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x2e6>
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x260>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x263>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x265>
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x268>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x270>
-+mov    $0x1,%ebx
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x275>
-+mov    $0x0,%ebx
-+test   %bl,%bl
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x32f>
++je     <T> <_ZN14CServerHandler7ProcessEv+0x272>
++movb   $0x1,-0x19(%ebp)
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x276>
++movb   $0x0,-0x19(%ebp)
++cmpb   $0x0,-0x19(%ebp)
++je     <T> <_ZN14CServerHandler7ProcessEv+0x332>
  mov    0x8(%ebp),%eax
  add    $0x44,%eax
  mov    %eax,(%esp)
@@ -288,18 +302,20 @@
  mov    %eax,%ebx
  movl   $0x135,0x8(%esp)
  movl   $&_ZZN14CServerHandler7ProcessEvE12__FUNCTION__,0x4(%esp)
- lea    -0x24(%ebp),%eax
+-lea    -0x24(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %esi,0x10(%esp)
  mov    %ebx,0xc(%esp)
  movl   $"try connect to DBMW(%s, %d)",0x8(%esp)
  movl   $"./log/TcpServer",0x4(%esp)
- lea    -0x24(%ebp),%eax
+-lea    -0x24(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
--mov    0x58(%eax),%eax
+ mov    0x58(%eax),%eax
 -cmp    $0x3,%eax
 -setg   %dl
 -lea    0x1(%eax),%ecx
@@ -307,16 +323,16 @@
 -mov    %ecx,0x58(%eax)
 -test   %dl,%dl
 -je     <T> <_ZN14CServerHandler7ProcessEv+0x31a>
-+mov    0x58(%eax),%ebx
-+cmp    $0x3,%ebx
++mov    %eax,-0x28(%ebp)
++cmpl   $0x3,-0x28(%ebp)
 +setg   %al
-+mov    %eax,%esi
-+lea    0x1(%ebx),%edx
++mov    %al,-0x21(%ebp)
++mov    -0x28(%ebp),%eax
++lea    0x1(%eax),%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x58(%eax)
-+mov    %esi,%eax
-+test   %al,%al
-+je     <T> <_ZN14CServerHandler7ProcessEv+0x367>
++cmpb   $0x0,-0x21(%ebp)
++je     <T> <_ZN14CServerHandler7ProcessEv+0x372>
  mov    0x8(%ebp),%eax
  add    $0x44,%eax
  mov    %eax,(%esp)
@@ -324,7 +340,7 @@
  mov    0x8(%ebp),%eax
  movl   $0x0,0x58(%eax)
 -jmp    <T> <_ZN14CServerHandler7ProcessEv+0x31a>
-+jmp    <T> <_ZN14CServerHandler7ProcessEv+0x367>
++jmp    <T> <_ZN14CServerHandler7ProcessEv+0x372>
  nop
  lea    -0xc(%ebp),%esp
  add    $0x0,%esp

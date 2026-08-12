@@ -420,7 +420,7 @@ CMemberManager::_ZN14CMemberManager13MemerMemLoginEjP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 536 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 526 行）：
 
 ```cpp
 int CMemberManager::MemerMemLogin(unsigned int key, CUser* user)

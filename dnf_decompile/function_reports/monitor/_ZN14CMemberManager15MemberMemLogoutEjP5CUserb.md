@@ -329,7 +329,7 @@ CMemberManager::_ZN14CMemberManager15MemberMemLogoutEjP5CUserb
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 129 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 122 行）：
 
 ```cpp
 void CMemberManager::MemberMemLogout(unsigned int key, CUser* user, bool cash)

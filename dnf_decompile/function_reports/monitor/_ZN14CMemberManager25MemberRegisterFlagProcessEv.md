@@ -177,7 +177,7 @@ CMemberManager::_ZN14CMemberManager25MemberRegisterFlagProcessEv(CMemberManager 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 64 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 61 行）：
 
 ```cpp
 void CMemberManager::MemberRegisterFlagProcess()

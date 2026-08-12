@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80958ec` | `0x193` | `0x80d99cc` | `0x19b` |
+| dbmw | DIFF | `0x80958ec` | `0x193` | `0x80d9a26` | `0x193` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,107 +1,111 @@
+@@ -1,107 +1,107 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,8 +21,7 @@
  sub    $0x520,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
--je     <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x188>
-+je     <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x18d>
+ je     <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x188>
  mov    0x8(%ebp),%eax
  mov    %eax,-0x14(%ebp)
  lea    -0x513(%ebp),%eax
@@ -50,10 +49,7 @@
  mov    %edx,(%esp)
  call   <T> <_ZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRh>
  test   %al,%al
--je     <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x189>
-+sete   %al
-+test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x190>
+ je     <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x189>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -67,11 +63,9 @@
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12SendToServerEPci>
--jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x189>
-+jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x191>
+ jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x189>
  cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x12c>
-+jne    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x131>
+ jne    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x12c>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -94,8 +88,7 @@
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x125>
-+jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x12a>
+ jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x125>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -104,8 +97,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x189>
-+jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x191>
+ jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x189>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x341,0x8(%esp)
@@ -118,8 +110,7 @@
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x181>
-+jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x186>
+ jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x181>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -128,10 +119,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x189>
-+jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x191>
-+nop
-+jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x191>
+ jmp    <T> <_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader+0x189>
  nop
  add    $0x520,%esp
  pop    %ebx

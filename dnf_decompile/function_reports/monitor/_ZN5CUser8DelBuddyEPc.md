@@ -102,7 +102,7 @@ undefined1 __thiscall CUser::_ZN5CUser8DelBuddyEPc(CUser *this,char *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 255 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 256 行）：
 
 ```cpp
 char CUser::DelBuddy(char* name)

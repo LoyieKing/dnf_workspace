@@ -233,7 +233,7 @@ _ZN22LimitNpcBuyItemManager25getNpcLimitBuyItemInfoAllEP22LimitNpcBuyItemInfoAll
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp](source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp)（约第 85 行）：
+定义于 [source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp](source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp)（约第 90 行）：
 
 ```cpp
 void LimitNpcBuyItemManager::getNpcLimitBuyItemInfoAll(LimitNpcBuyItemInfoAll* out)

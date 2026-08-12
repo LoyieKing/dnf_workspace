@@ -105,11 +105,8 @@ void __thiscall CMemberManager::_ZN14CMemberManagerC1Ev(CMemberManager *this)
 
 ```cpp
 CMemberManager::CMemberManager()
+    : m_app(0), m_userMgr(0), m_memberConfig(0), m_memberExpTbl(0)
 {
-    m_app = 0;
-    m_userMgr = 0;
-    m_memberConfig = 0;
-    m_memberExpTbl = 0;
     m_scheduler.SetSpecialHour(6);
 }
 ```

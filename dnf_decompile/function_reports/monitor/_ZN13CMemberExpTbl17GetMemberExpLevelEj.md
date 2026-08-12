@@ -122,7 +122,7 @@ CMemberExpTbl::_ZN13CMemberExpTbl17GetMemberExpLevelEj(CMemberExpTbl *this,uint 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 97 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 102 行）：
 
 ```cpp
 int CMemberExpTbl::GetMemberExpLevel(unsigned int exp)

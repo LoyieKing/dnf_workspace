@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80975a0` | `0xc5` | `0x805d30a` | `0xc2` |
+| guild | NEAR | `0x80975a0` | `0xc5` | `0x805d368` | `0xc5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,59 +1,57 @@
+@@ -1,59 +1,59 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
--sub    $0x24,%esp
-+sub    $0x28,%esp
+ push   %ebx
+ sub    $0x24,%esp
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -26,8 +25,7 @@
  call   <T> <_ZN13CGuildManager9FindGuildEj>
  mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x10(%ebp)
--jne    <T> <_ZN13CGuildManager16GetAttendanceExpEji+0x2c>
-+jne    <T> <_ZN13CGuildManager16GetAttendanceExpEji+0x2b>
+ jne    <T> <_ZN13CGuildManager16GetAttendanceExpEji+0x2c>
  mov    $0x0,%eax
  jmp    <T> <_ZN13CGuildManager16GetAttendanceExpEji+0xc0>
  mov    0x8(%ebp),%eax
@@ -60,23 +58,23 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorIjSaIjEE4sizeEv>
  mov    %eax,-0xc(%ebp)
--mov    0x10(%ebp),%ebx
+ mov    0x10(%ebp),%ebx
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild13GetGuildLevelEv>
 -movzbl %al,%edx
 -mov    %ebx,%eax
-+movzbl %al,%ecx
-+mov    0x10(%ebp),%edx
-+mov    %edx,%eax
- shl    $0x4,%eax
+-shl    $0x4,%eax
 -add    %ebx,%eax
++movzbl %al,%eax
++mov    %ebx,%edx
++shl    $0x4,%edx
++add    %ebx,%edx
  add    %edx,%eax
-+lea    (%ecx,%eax,1),%eax
  mov    &_ZL13guild_att_exp(,%eax,4),%eax
  jmp    <T> <_ZN13CGuildManager16GetAttendanceExpEji+0xc0>
  mov    $0x0,%eax
--mov    -0x4(%ebp),%ebx
+ mov    -0x4(%ebp),%ebx
  leave
  ret
 ```

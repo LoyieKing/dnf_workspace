@@ -126,18 +126,21 @@ CMemberConfig::_ZN13CMemberConfig11Parse_TableEPci(CMemberConfig *this,char *par
 ```cpp
 bool CMemberConfig::Parse_Table(char* line, int idx)
 {
+    char* tokens[4];
     if (line[0] == '#')
     {
         return 0;
     }
-    char* tokens[3];
-    if (DNFFLib::ExplodeString(line, " \t\r\n\"", tokens, 3) == 3 && idx < 10)
+    if (DNFFLib::ExplodeString(line, " \t\r\n\"", tokens, 3) == 3)
     {
-        ST_MemberConfig* info = &m_table[idx];
-        info->m_a = atoi(tokens[0]);
-        info->m_b = atoi(tokens[1]);
-        info->m_c = atoi(tokens[2]);
-        return 1;
+        if (idx < 10)
+        {
+            ST_MemberConfig* info = &m_table[idx];
+            info->m_a = atoi(tokens[0]);
+            info->m_b = atoi(tokens[1]);
+            info->m_c = atoi(tokens[2]);
+            return 1;
+        }
     }
     return 0;
 }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808d744` | `0x177` | `0x80c8850` | `0x16c` |
+| dbmw | DIFF | `0x808d744` | `0x177` | `0x80c8896` | `0x180` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,83 +13,67 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,100 +1,95 @@
+@@ -1,100 +1,102 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
--sub    $0x34,%esp
-+sub    $0x38,%esp
+ push   %ebx
+ sub    $0x34,%esp
++movl   $0x0,-0x18(%ebp)
  movl   $0x0,-0x10(%ebp)
 -jmp    <T> <_ZN6CMySql4execEj+0x95>
-+movl   $0x0,-0xc(%ebp)
-+jmp    <T> <_ZN6CMySql4execEj+0x92>
++jmp    <T> <_ZN6CMySql4execEj+0x9c>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CMySql10exec_queryEv>
--mov    %eax,-0x18(%ebp)
--cmpl   $0x1,-0x18(%ebp)
+ mov    %eax,-0x18(%ebp)
+ cmpl   $0x1,-0x18(%ebp)
 -jne    <T> <_ZN6CMySql4execEj+0x8b>
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0x1,-0x10(%ebp)
-+jne    <T> <_ZN6CMySql4execEj+0x88>
++jne    <T> <_ZN6CMySql4execEj+0x92>
  call   <T> <_Z21CQueryCounterInstancev>
--mov    %eax,-0xc(%ebp)
--mov    0xc(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    -0xc(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x4(%esp)
+ mov    %eax,-0xc(%ebp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CQueryCounter15SetResponseTimeEj>
--mov    0x8(%ebp),%eax
--lea    0x78(%eax),%ebx
+ mov    0x8(%ebp),%eax
+ lea    0x78(%eax),%ebx
  movl   $0x14e,0x8(%esp)
  movl   $&_ZZN6CMySql4execEjE12__FUNCTION__,0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0x78,%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Database query error. The last query('%s') has been lost. iret == R_FAIL",0x8(%esp)
  movl   $"./log/MysqlErr.log",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN6CMySql4execEj+0x171>
--cmpl   $0x0,-0x18(%ebp)
++jmp    <T> <_ZN6CMySql4execEj+0x17a>
+ cmpl   $0x0,-0x18(%ebp)
 -je     <T> <_ZN6CMySql4execEj+0xa6>
--addl   $0x1,-0x10(%ebp)
--cmpl   $0x4,-0x10(%ebp)
-+jmp    <T> <_ZN6CMySql4execEj+0x16a>
-+cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN6CMySql4execEj+0xa3>
-+addl   $0x1,-0xc(%ebp)
-+cmpl   $0x4,-0xc(%ebp)
++je     <T> <_ZN6CMySql4execEj+0xad>
+ addl   $0x1,-0x10(%ebp)
+ cmpl   $0x4,-0x10(%ebp)
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN6CMySql4execEj+0x13>
 -jmp    <T> <_ZN6CMySql4execEj+0xa7>
-+jne    <T> <_ZN6CMySql4execEj+0x16>
-+jmp    <T> <_ZN6CMySql4execEj+0xa4>
++jne    <T> <_ZN6CMySql4execEj+0x1a>
++jmp    <T> <_ZN6CMySql4execEj+0xae>
  nop
  call   <T> <_Z21CQueryCounterInstancev>
--mov    %eax,-0x14(%ebp)
--mov    0xc(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    -0x14(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x4(%esp)
+ mov    %eax,-0x14(%ebp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CQueryCounter15SetResponseTimeEj>
--cmpl   $0x0,-0x18(%ebp)
+ cmpl   $0x0,-0x18(%ebp)
 -jne    <T> <_ZN6CMySql4execEj+0x12c>
-+cmpl   $0x0,-0x10(%ebp)
-+jne    <T> <_ZN6CMySql4execEj+0x125>
++jne    <T> <_ZN6CMySql4execEj+0x135>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
  mov    %eax,(%esp)
@@ -100,7 +84,7 @@
  mov    0x8(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN6CMySql4execEj+0x111>
-+je     <T> <_ZN6CMySql4execEj+0x10a>
++je     <T> <_ZN6CMySql4execEj+0x11a>
  mov    0x8(%ebp),%eax
  mov    0x8(%eax),%eax
  mov    %eax,(%esp)
@@ -118,37 +102,31 @@
 +mov    %eax,%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x18(%eax)
-+jmp    <T> <_ZN6CMySql4execEj+0x11e>
++jmp    <T> <_ZN6CMySql4execEj+0x12e>
  mov    0x8(%ebp),%eax
  movl   $0x0,0x14(%eax)
  mov    0x8(%ebp),%eax
  movl   $0x0,0x18(%eax)
  mov    $0x1,%eax
 -jmp    <T> <_ZN6CMySql4execEj+0x171>
--mov    0x8(%ebp),%eax
--lea    0x78(%eax),%ebx
-+jmp    <T> <_ZN6CMySql4execEj+0x16a>
++jmp    <T> <_ZN6CMySql4execEj+0x17a>
+ mov    0x8(%ebp),%eax
+ lea    0x78(%eax),%ebx
  movl   $0x16e,0x8(%esp)
  movl   $&_ZZN6CMySql4execEjE12__FUNCTION__,0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0x78,%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"Database query error. The last query('%s') has been lost.",0x8(%esp)
  movl   $"./log/MysqlErr.log",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
--add    $0x34,%esp
--pop    %ebx
--pop    %ebp
-+leave
+ add    $0x34,%esp
+ pop    %ebx
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C

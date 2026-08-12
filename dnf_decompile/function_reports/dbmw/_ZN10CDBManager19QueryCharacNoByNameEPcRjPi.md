@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80764f6` | `0x281` | `0x80633bc` | `0x283` |
+| dbmw | DIFF | `0x80764f6` | `0x281` | `0x8063430` | `0x283` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -233,13 +233,13 @@
 +mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN8WongWork11CGMAccounts4isGMEj>
-+test   %eax,%eax
+ test   %al,%al
+-je     <T> <_ZN10CDBManager19QueryCharacNoByNameEPcRjPi+0x27a>
 +je     <T> <_ZN10CDBManager19QueryCharacNoByNameEPcRjPi+0x263>
 +mov    $0x1,%eax
 +jmp    <T> <_ZN10CDBManager19QueryCharacNoByNameEPcRjPi+0x268>
 +mov    $0x0,%eax
- test   %al,%al
--je     <T> <_ZN10CDBManager19QueryCharacNoByNameEPcRjPi+0x27a>
++test   %al,%al
 +je     <T> <_ZN10CDBManager19QueryCharacNoByNameEPcRjPi+0x27c>
  mov    0x14(%ebp),%eax
  movl   $0x5a,(%eax)

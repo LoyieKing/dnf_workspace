@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806a38a` | `0xeb` | `0x80c72d6` | `0xf2` |
+| dbmw | NEAR | `0x806a38a` | `0xeb` | `0x80c7356` | `0xeb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,71 +1,73 @@
+@@ -1,71 +1,71 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -23,8 +23,7 @@
  cmp    $0x23,%al
  jne    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0x1b>
  mov    $0x0,%eax
--jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe5>
-+jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xec>
+ jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe5>
  movl   $0x4,0xc(%esp)
 -lea    -0x1c(%ebp),%eax
 +lea    -0x18(%ebp),%eax
@@ -36,8 +35,7 @@
  cmp    $0x4,%eax
  sete   %al
  test   %al,%al
--je     <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe0>
-+je     <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe7>
+ je     <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe0>
  movl   $&_ZSt7nothrow,0x4(%esp)
  movl   $0x10,(%esp)
  call   <T> <_ZnwjRKSt9nothrow_t>
@@ -56,12 +54,9 @@
 +mov    %eax,-0x1c(%ebp)
 +mov    -0x1c(%ebp),%eax
  test   %eax,%eax
--je     <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe0>
+ je     <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe0>
 -mov    -0x20(%ebp),%ebx
 -mov    -0x1c(%ebp),%eax
-+jne    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0x88>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xec>
 +mov    -0x1c(%ebp),%ebx
 +mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -96,8 +91,7 @@
  mov    %edx,(%esp)
  call   <T> <_ZNSt6vectorIP16ST_KillUSRConfigSaIS1_EE9push_backERKS1_>
  mov    $0x1,%eax
--jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe5>
-+jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xec>
+ jmp    <T> <_ZN14CKillUSRConfig11Parse_TableEPci+0xe5>
  mov    $0x0,%eax
  add    $0x34,%esp
  pop    %ebx
@@ -166,10 +160,12 @@ bool CKillUSRConfig::Parse_Table(char* data, int size)
 {
     if (data[0] == '#')
         return 0;
+    int dummy;
     char* fields[4];
+    ST_KillUSRConfig* kc;
     if (DNFFLib::ExplodeString(data, " \t\r\n\"", fields, 4) == 4)
     {
-        ST_KillUSRConfig* kc = new (std::nothrow) ST_KillUSRConfig;
+        kc = new (std::nothrow) ST_KillUSRConfig;
         if (kc)
         {
             kc->m_type = atoi(fields[0]);

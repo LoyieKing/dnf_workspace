@@ -65,7 +65,7 @@ void __thiscall CTowerRank::_ZN10CTowerRank5resetEv(CTowerRank *this)
 ```cpp
 void CTowerRank::reset()
 {
-    for (unsigned int i = 0; i < 4; i++)
+    for (unsigned int i = 0; i <= 3; i++)
     {
         m_ranks[i].clear();
     }

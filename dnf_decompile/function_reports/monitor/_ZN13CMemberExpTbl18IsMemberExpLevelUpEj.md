@@ -114,7 +114,7 @@ CMemberExpTbl::_ZN13CMemberExpTbl18IsMemberExpLevelUpEj(CMemberExpTbl *this,uint
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 130 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 135 行）：
 
 ```cpp
 unsigned char CMemberExpTbl::IsMemberExpLevelUp(unsigned int exp)
@@ -125,12 +125,13 @@ unsigned char CMemberExpTbl::IsMemberExpLevelUp(unsigned int exp)
     {
         return 0;
     }
-    if (exp >= (unsigned int)m_table[count - 1])
+    if (exp >= (unsigned int)m_table[((unsigned int)(unsigned char)((RA_S8<4>*)this)->v) - 1])
     {
         return 1;
     }
+    count = count - 1;
     p = p + 4;
-    while (count = count - 1, count != 0)
+    while (count-- != 0)
     {
         if (exp - 1 == *(unsigned int*)p)
         {

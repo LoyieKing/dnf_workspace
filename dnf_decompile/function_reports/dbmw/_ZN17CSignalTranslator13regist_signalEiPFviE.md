@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805516a` | `0x8f` | `0x80e0f4a` | `0x8d` |
+| dbmw | DIFF | `0x805516a` | `0x8f` | `0x80e0ff2` | `0x8d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -109,12 +109,11 @@ bool CSignalTranslator::regist_signal(int sig, void (*handler)(int))
     struct sigaction act;
     act.sa_handler = handler;
     sigemptyset(&act.sa_mask);
-    int flags = 0;
+    act.sa_flags = 0;
     if (sig == 0xe)
-        flags |= 0x20000000;
+        act.sa_flags |= 0x20000000;
     else
-        flags |= 0x10000000;
-    act.sa_flags = flags;
+        act.sa_flags |= 0x10000000;
     struct sigaction old;
     if (sigaction(sig, &act, &old) < 0)
     {

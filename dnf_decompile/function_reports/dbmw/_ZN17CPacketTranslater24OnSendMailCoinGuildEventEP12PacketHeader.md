@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809602c` | `0x321` | `0x80d07be` | `0x31c` |
+| dbmw | DIFF | `0x809602c` | `0x321` | `0x80d0818` | `0x31c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -181,11 +181,9 @@
  mov    -0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt6vectorIiSaIiEE2atEj>
 +lea    -0x4c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt6vectorIiSaIiEEixEj>
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt6vectorIiSaIiEE2atEj>
  mov    (%eax),%eax
 -mov    %eax,-0x4f8(%ebp,%ebx,4)
 +mov    %eax,(%ebx)

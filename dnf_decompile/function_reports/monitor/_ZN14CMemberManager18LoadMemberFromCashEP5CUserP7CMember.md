@@ -83,22 +83,18 @@ CMemberManager::_ZN14CMemberManager18LoadMemberFromCashEP5CUserP7CMember
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 82 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 79 行）：
 
 ```cpp
 char CMemberManager::LoadMemberFromCash(CUser* user, CMember* member)
 {
-    if (member == 0)
+    if (member == 0 || user == 0)
     {
         return 0;
     }
-    if (user != 0)
-    {
-        InsertMember(member->GetMemberKey(), member);
-        user->AttachMember(member);
-        member->NoticeMemberLogin_Out(user, 1);
-        return 1;
-    }
-    return 0;
+    InsertMember(member->GetMemberKey(), member);
+    user->AttachMember(member);
+    member->NoticeMemberLogin_Out(user, 1);
+    return 1;
 }
 ```

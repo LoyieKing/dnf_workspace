@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x818c4c0` | `0x272` | `0x80f129f` | `0x270` |
+| dbmw | NEAR | `0x818c4c0` | `0x272` | `0x80f1455` | `0x272` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,164 +1,163 @@
+@@ -1,164 +1,164 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -51,12 +51,10 @@
  call   <T> <_ZNSt6vectorIPhSaIS0_EE7reserveEj>
  movl   $0x4000,(%esp)
  call   <T> <_Znaj>
--mov    %eax,-0x30(%ebp)
-+mov    %eax,-0x24(%ebp)
+ mov    %eax,-0x30(%ebp)
  mov    %gs:0xfffffffc,%eax
  lea    0xc(%eax),%edx
--lea    -0x30(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZNSt6vectorIPhSaIS0_EE9push_backEOS0_>
@@ -64,13 +62,11 @@
  movl   $0x0,0x18(%eax)
  mov    %gs:0xfffffffc,%eax
  movl   $0x0,0x1c(%eax)
-+movl   $0x0,-0x30(%ebp)
  movl   $0x0,-0x2c(%ebp)
  movl   $0x0,-0x28(%ebp)
--movl   $0x0,-0x24(%ebp)
+ movl   $0x0,-0x24(%ebp)
  mov    %gs:0xfffffffc,%eax
--lea    -0x2c(%ebp),%edx
-+lea    -0x30(%ebp),%edx
+ lea    -0x2c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIN18StackBufferContext6BufferESaIS1_EE9push_backEOS1_>
@@ -100,29 +96,24 @@
  mov    (%eax),%eax
  test   %eax,%eax
  setne  %al
--jmp    <T> <_ZL16allocStackBufferjPPhPi+0x26a>
-+jmp    <T> <_ZL16allocStackBufferjPPhPi+0x268>
+ jmp    <T> <_ZL16allocStackBufferjPPhPi+0x26a>
  mov    %gs:0xfffffffc,%eax
  mov    0x1c(%eax),%eax
  add    0x8(%ebp),%eax
  cmp    $0x4000,%eax
--jbe    <T> <_ZL16allocStackBufferjPPhPi+0x1f0>
-+jbe    <T> <_ZL16allocStackBufferjPPhPi+0x1ee>
+ jbe    <T> <_ZL16allocStackBufferjPPhPi+0x1f0>
  mov    %gs:0xfffffffc,%eax
  mov    0x18(%eax),%eax
--add    $0x1,%eax
--mov    %eax,%ebx
-+lea    0x1(%eax),%ebx
+ add    $0x1,%eax
+ mov    %eax,%ebx
  mov    %gs:0xfffffffc,%eax
  add    $0xc,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorIPhSaIS0_EE4sizeEv>
--cmp    %eax,%ebx
-+cmp    %ebx,%eax
+ cmp    %eax,%ebx
  sete   %al
  test   %al,%al
--je     <T> <_ZL16allocStackBufferjPPhPi+0x1b1>
-+je     <T> <_ZL16allocStackBufferjPPhPi+0x1af>
+ je     <T> <_ZL16allocStackBufferjPPhPi+0x1b1>
  movl   $0x4000,(%esp)
  call   <T> <_Znaj>
  mov    %eax,-0x20(%ebp)
@@ -147,8 +138,7 @@
  mov    %gs:0xfffffffc,%eax
  mov    0x8(%ebp),%edx
  mov    %edx,0x1c(%eax)
--jmp    <T> <_ZL16allocStackBufferjPPhPi+0x223>
-+jmp    <T> <_ZL16allocStackBufferjPPhPi+0x221>
+ jmp    <T> <_ZL16allocStackBufferjPPhPi+0x223>
  mov    %gs:0xfffffffc,%eax
  mov    0x18(%eax),%edx
  mov    -0x1c(%ebp),%eax

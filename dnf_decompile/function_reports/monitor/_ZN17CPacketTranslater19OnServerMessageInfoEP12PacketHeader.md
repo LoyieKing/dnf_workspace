@@ -137,9 +137,9 @@ void CPacketTranslater::OnServerMessageInfo(PacketHeader* pkt)
 {
 
 
+    PacketHeader* lpkt = pkt;
     DNF_LOG_SCOPE_LINE(0x1402, "./log/ServerEvent", "Packet_Monitor_Server_Message_Info");
-    CServerHandler* handler = m_pclApp->m_serverHandler2;
-    handler->SendAllToGameServer((char*)pkt, 0x5f);
+    m_pclApp->m_serverHandler2->SendAllToGameServer((char*)lpkt, 0x5f);
 
 
     }
