@@ -379,7 +379,7 @@ StatisticManager::_ZN16StatisticManager22AddSecretShopStatisticEP28Packet_Secret
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1592 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1604 行）：
 
 ```cpp
 void StatisticManager::AddSecretShopStatistic(Packet_Secret_Shop_Statistic* pkt)

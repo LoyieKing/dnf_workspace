@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80621a2` | `0x90` | `0x80617b0` | `0x84` |
+| monitor | DIFF | `0x80621a2` | `0x90` | `0x8061778` | `0x85` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,83 +13,66 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,50 +1,48 @@
+@@ -1,50 +1,47 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x10,%esp
  mov    0x8(%ebp),%eax
--add    $0x8,%eax
--mov    %eax,-0x8(%ebp)
--mov    0x8(%ebp),%eax
+ add    $0x8,%eax
+ mov    %eax,-0x8(%ebp)
+ mov    0x8(%ebp),%eax
  movzbl 0x4(%eax),%eax
  movzbl %al,%eax
-+mov    %eax,-0x8(%ebp)
-+cmpl   $0x1,0xc(%ebp)
-+jne    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x20>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x82>
-+mov    0x8(%ebp),%eax
-+mov    -0x8(%ebp),%edx
-+add    $0x1,%edx
-+shl    $0x2,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
-+cmp    0xc(%ebp),%eax
-+jbe    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x7d>
-+mov    0x8(%ebp),%eax
-+add    $0xc,%eax
  mov    %eax,-0x4(%ebp)
--cmpl   $0x1,0xc(%ebp)
--jne    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x29>
--mov    $0x0,%eax
+ cmpl   $0x1,0xc(%ebp)
+ jne    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x29>
+ mov    $0x0,%eax
 -jmp    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x8e>
 -mov    0x8(%ebp),%eax
 -movzbl 0x4(%eax),%eax
 -movzbl %al,%eax
--lea    -0x1(%eax),%edx
--mov    0x8(%ebp),%eax
--mov    0x8(%eax,%edx,4),%eax
--cmp    0xc(%ebp),%eax
++jmp    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x83>
++mov    -0x4(%ebp),%eax
+ lea    -0x1(%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x8(%eax,%edx,4),%eax
+ cmp    0xc(%ebp),%eax
 -ja     <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x49>
--mov    $0x1,%eax
++ja     <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x42>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x8e>
 -subl   $0x1,-0x4(%ebp)
--addl   $0x4,-0x8(%ebp)
++jmp    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x83>
+ addl   $0x4,-0x8(%ebp)
 -jmp    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x77>
-+jmp    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x64>
++jmp    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x6c>
  mov    0xc(%ebp),%eax
  lea    -0x1(%eax),%edx
--mov    -0x8(%ebp),%eax
-+mov    -0x4(%ebp),%eax
+ mov    -0x8(%ebp),%eax
  mov    (%eax),%eax
  cmp    %eax,%edx
 -jne    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x69>
-+jne    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x56>
++jne    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x5e>
  mov    $0x1,%eax
 -jmp    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x8e>
--mov    -0x8(%ebp),%eax
-+jmp    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x82>
-+mov    -0x4(%ebp),%eax
++jmp    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x83>
+ mov    -0x8(%ebp),%eax
  mov    (%eax),%eax
  cmp    0xc(%ebp),%eax
 -ja     <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x88>
--addl   $0x4,-0x8(%ebp)
--cmpl   $0x0,-0x4(%ebp)
-+ja     <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x75>
-+addl   $0x4,-0x4(%ebp)
-+subl   $0x1,-0x8(%ebp)
-+cmpl   $0x0,-0x8(%ebp)
++ja     <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x7d>
+ addl   $0x4,-0x8(%ebp)
++subl   $0x1,-0x4(%ebp)
+ cmpl   $0x0,-0x4(%ebp)
  setne  %al
 -subl   $0x1,-0x4(%ebp)
  test   %al,%al
 -jne    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x53>
 -jmp    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x89>
-+jne    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x40>
-+jmp    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x76>
++jne    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x48>
++jmp    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x7e>
  nop
  mov    $0x0,%eax
-+jmp    <T> <_ZN13CMemberExpTbl18IsMemberExpLevelUpEj+0x82>
-+mov    $0x1,%eax
  leave
  ret
 ```

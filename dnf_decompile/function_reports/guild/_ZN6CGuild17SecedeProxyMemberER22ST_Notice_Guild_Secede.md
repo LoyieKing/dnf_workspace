@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090cd6` | `0x151` | `0x805688c` | `0x149` |
+| guild | DIFF | `0x8090cd6` | `0x151` | `0x805688a` | `0x149` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -217,7 +217,7 @@ CGuild::_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1647 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1655 行）：
 
 ```cpp
 void CGuild::SecedeProxyMember(ST_Notice_Guild_Secede& info)

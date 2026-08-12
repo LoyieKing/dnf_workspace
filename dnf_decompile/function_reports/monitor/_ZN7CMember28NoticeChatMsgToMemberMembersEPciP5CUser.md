@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80986be` | `0x21c` | `0x8060548` | `0x1e2` |
+| monitor | DIFF | `0x80986be` | `0x21c` | `0x80605e2` | `0x20b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,141 +1,127 @@
+@@ -1,141 +1,134 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x158,%esp
@@ -39,8 +39,8 @@
 +jmp    <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x3e>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x1e0>
-+lea    -0x14b(%ebp),%eax
++je     <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x209>
++lea    -0x149(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN33Packet_Monitor_Member_Chat_ToUserC1Ev>
  mov    0x14(%ebp),%eax
@@ -49,26 +49,26 @@
  movl   $0x1d,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0x145(%ebp),%eax
-+lea    -0x14b(%ebp),%eax
++lea    -0x149(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    0x10(%ebp),%eax
 -mov    %al,-0x115(%ebp)
-+mov    %al,-0x11b(%ebp)
++mov    %al,-0x119(%ebp)
  mov    0x10(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x145(%ebp),%eax
-+lea    -0x14b(%ebp),%eax
++lea    -0x149(%ebp),%eax
  add    $0x31,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    0x10(%ebp),%eax
  add    $0x31,%eax
 -mov    %ax,-0x143(%ebp)
-+mov    %ax,-0x1a(%ebp)
++mov    %ax,-0x147(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x6(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -84,23 +84,23 @@
 -mov    -0x14(%ebp),%eax
 +mov    %eax,-0x18(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
-+je     <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x111>
++je     <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x11a>
 +mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x13b(%ebp)
 -mov    -0x14(%ebp),%eax
-+mov    %eax,-0x141(%ebp)
++mov    %eax,-0x13f(%ebp)
 +mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x137(%ebp)
 -movzwl -0x143(%ebp),%eax
--movzwl %ax,%edx
++mov    %eax,-0x13b(%ebp)
++movzwl -0x147(%ebp),%eax
+ movzwl %ax,%edx
 -lea    -0x145(%ebp),%eax
-+mov    %eax,-0x13d(%ebp)
-+movzwl -0x1a(%ebp),%edx
-+lea    -0x14b(%ebp),%eax
++lea    -0x149(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
@@ -111,17 +111,17 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x13b(%ebp)
-+mov    %eax,-0x141(%ebp)
++mov    %eax,-0x13f(%ebp)
  mov    0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x137(%ebp)
 -movzwl -0x143(%ebp),%eax
--movzwl %ax,%edx
++mov    %eax,-0x13b(%ebp)
++movzwl -0x147(%ebp),%eax
+ movzwl %ax,%edx
 -lea    -0x145(%ebp),%eax
-+mov    %eax,-0x13d(%ebp)
-+movzwl -0x1a(%ebp),%edx
-+lea    -0x14b(%ebp),%eax
++lea    -0x149(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    0x14(%ebp),%eax
@@ -136,18 +136,17 @@
 -movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x200>
 -mov    -0xc(%ebp),%eax
--mov    0x8(%ebp),%edx
--imul   $0x27,%eax,%eax
--lea    (%edx,%eax,1),%eax
--add    $0x20,%eax
--mov    0xe(%eax),%edx
 +mov    %eax,-0x14(%ebp)
 +cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x1e0>
++jle    <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x209>
 +movl   $0x0,-0x10(%ebp)
-+jmp    <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x1d3>
-+mov    0x8(%ebp),%eax
-+mov    0x6(%eax),%edx
++jmp    <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x1f8>
++mov    -0x10(%ebp),%eax
+ mov    0x8(%ebp),%edx
+ imul   $0x27,%eax,%eax
+ lea    (%edx,%eax,1),%eax
+ add    $0x20,%eax
+ mov    0xe(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    0x1b4(%eax),%eax
  mov    %edx,0x4(%esp)
@@ -161,23 +160,23 @@
 -mov    -0x14(%ebp),%eax
 +mov    %eax,-0xc(%ebp)
 +cmpl   $0x0,-0xc(%ebp)
-+je     <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x1cf>
++je     <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x1f4>
 +mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x13b(%ebp)
 -mov    -0x14(%ebp),%eax
-+mov    %eax,-0x141(%ebp)
++mov    %eax,-0x13f(%ebp)
 +mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x137(%ebp)
 -movzwl -0x143(%ebp),%eax
--movzwl %ax,%edx
++mov    %eax,-0x13b(%ebp)
++movzwl -0x147(%ebp),%eax
+ movzwl %ax,%edx
 -lea    -0x145(%ebp),%eax
-+mov    %eax,-0x13d(%ebp)
-+movzwl -0x1a(%ebp),%edx
-+lea    -0x14b(%ebp),%eax
++lea    -0x149(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
@@ -189,20 +188,18 @@
 -addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    -0x10(%ebp),%eax
--setl   %al
 +addl   $0x1,-0x10(%ebp)
 +mov    -0x10(%ebp),%eax
 +cmp    -0x14(%ebp),%eax
-+setb   %al
+ setl   %al
  test   %al,%al
--jne    <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x17f>
+ jne    <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x17f>
 -jmp    <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x21a>
 -nop
 -jmp    <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x21a>
 -nop
 -jmp    <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x21a>
 -nop
-+jne    <T> <_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser+0x16c>
  leave
  ret
 ```

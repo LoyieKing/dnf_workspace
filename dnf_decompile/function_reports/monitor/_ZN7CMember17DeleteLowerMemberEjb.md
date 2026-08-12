@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8098464` | `0xc8` | `0x8060e98` | `0xc4` |
+| monitor | DIFF | `0x8098464` | `0xc8` | `0x8060eda` | `0xc6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,62 +1,59 @@
+@@ -1,62 +1,60 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -25,17 +25,18 @@
  mov    %eax,-0x14(%ebp)
  cmpl   $0x0,-0x14(%ebp)
 -jle    <T> <_ZN7CMember17DeleteLowerMemberEjb+0xc5>
-+jle    <T> <_ZN7CMember17DeleteLowerMemberEjb+0xc2>
++jle    <T> <_ZN7CMember17DeleteLowerMemberEjb+0xc4>
  mov    0x8(%ebp),%eax
  add    $0x2e,%eax
  mov    %eax,-0x10(%ebp)
  movb   $0x0,-0x9(%ebp)
 -jmp    <T> <_ZN7CMember17DeleteLowerMemberEjb+0x9e>
++jmp    <T> <_ZN7CMember17DeleteLowerMemberEjb+0x9f>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  cmp    0xc(%ebp),%eax
 -jne    <T> <_ZN7CMember17DeleteLowerMemberEjb+0x96>
-+jne    <T> <_ZN7CMember17DeleteLowerMemberEjb+0x95>
++jne    <T> <_ZN7CMember17DeleteLowerMemberEjb+0x97>
  movzbl -0x9(%ebp),%eax
  not    %eax
  imul   $0x27,%eax,%eax
@@ -59,7 +60,7 @@
  mov    %dl,0x2d(%eax)
  cmpb   $0x0,-0x1c(%ebp)
 -je     <T> <_ZN7CMember17DeleteLowerMemberEjb+0xaf>
-+je     <T> <_ZN7CMember17DeleteLowerMemberEjb+0xae>
++je     <T> <_ZN7CMember17DeleteLowerMemberEjb+0xb0>
  movl   $0x0,(%esp)
  call   <T> <time>
  mov    %eax,0x4(%esp)
@@ -67,17 +68,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZN7CMember19SetMemberDeleteTimeEj>
 -jmp    <T> <_ZN7CMember17DeleteLowerMemberEjb+0xb0>
-+jmp    <T> <_ZN7CMember17DeleteLowerMemberEjb+0xaf>
++jmp    <T> <_ZN7CMember17DeleteLowerMemberEjb+0xb1>
  addl   $0x27,-0x10(%ebp)
  addb   $0x1,-0x9(%ebp)
  cmpl   $0x0,-0x14(%ebp)
  setne  %al
  subl   $0x1,-0x14(%ebp)
  test   %al,%al
--jne    <T> <_ZN7CMember17DeleteLowerMemberEjb+0x32>
+ jne    <T> <_ZN7CMember17DeleteLowerMemberEjb+0x32>
 -jmp    <T> <_ZN7CMember17DeleteLowerMemberEjb+0xb0>
-+jne    <T> <_ZN7CMember17DeleteLowerMemberEjb+0x30>
-+jmp    <T> <_ZN7CMember17DeleteLowerMemberEjb+0xaf>
++jmp    <T> <_ZN7CMember17DeleteLowerMemberEjb+0xb1>
  nop
  movl   $"DELETE_LOWER_MEMBER",0x4(%esp)
  mov    0x8(%ebp),%eax

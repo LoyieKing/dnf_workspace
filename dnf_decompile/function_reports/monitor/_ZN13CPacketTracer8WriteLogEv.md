@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807db72` | `0x86` | `0x80691e4` | `0x99` |
+| monitor | DIFF | `0x807db72` | `0x86` | `0x806915a` | `0x89` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,41 +13,33 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,42 +1,50 @@
+@@ -1,42 +1,43 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
  sub    $0x24,%esp
  mov    0x8(%ebp),%eax
-+mov    (%eax),%ebx
-+mov    0x8(%ebp),%eax
  mov    (%eax),%ecx
  mov    $0x88888889,%edx
  mov    %ecx,%eax
--mul    %edx
--mov    %edx,%eax
--shr    $0x4,%eax
-+imul   %edx
-+lea    (%edx,%ecx,1),%eax
-+mov    %eax,%edx
-+sar    $0x4,%edx
-+mov    %ecx,%eax
-+sar    $0x1f,%eax
-+mov    %edx,%ecx
-+sub    %eax,%ecx
-+mov    %ecx,%eax
- add    %eax,%eax
- mov    %eax,%edx
- shl    $0x4,%edx
--sub    %eax,%edx
-+mov    %edx,%ecx
-+sub    %eax,%ecx
- mov    %ecx,%eax
+ mul    %edx
+ mov    %edx,%eax
+ shr    $0x4,%eax
+-add    %eax,%eax
+-mov    %eax,%edx
+-shl    $0x4,%edx
++lea    (%eax,%eax,1),%edx
++mov    %edx,%eax
++shl    $0x4,%eax
++sub    %edx,%eax
++mov    %ecx,%edx
+ sub    %eax,%edx
+-mov    %ecx,%eax
 -sub    %edx,%eax
--test   %eax,%eax
++mov    %edx,%eax
+ test   %eax,%eax
 -jne    <T> <_ZN13CPacketTracer8WriteLogEv+0x80>
-+cmp    %eax,%ebx
-+jne    <T> <_ZN13CPacketTracer8WriteLogEv+0x93>
++jne    <T> <_ZN13CPacketTracer8WriteLogEv+0x83>
  mov    0x8(%ebp),%eax
  add    $0x4,%eax
  mov    %eax,(%esp)

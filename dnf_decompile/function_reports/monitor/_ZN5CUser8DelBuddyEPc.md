@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806e002` | `0x97` | `0x8089076` | `0xce` |
+| monitor | DIFF | `0x806e002` | `0x97` | `0x8088fc0` | `0x94` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,49 +13,50 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,52 +1,70 @@
+@@ -1,52 +1,52 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x20,%esp
 -lea    -0xa(%ebp),%eax
-+lea    -0xd(%ebp),%eax
++lea    -0x9(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0xa(%ebp),%eax
-+lea    -0xd(%ebp),%eax
++lea    -0x9(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x10(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--mov    0x8(%ebp),%eax
--lea    0x6c(%eax),%edx
--lea    -0x10(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN12CBuddyHandle3delESs>
+ mov    0x8(%ebp),%eax
+ lea    0x6c(%eax),%edx
+ lea    -0x10(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZN12CBuddyHandle3delESs>
 -mov    %al,-0x9(%ebp)
--lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
++mov    %eax,%ebx
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN5CUser8DelBuddyEPc+0x81>
-+jmp    <T> <_ZN5CUser8DelBuddyEPc+0x49>
++jmp    <T> <_ZN5CUser8DelBuddyEPc+0x80>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -jmp    <T> <_ZN5CUser8DelBuddyEPc+0x66>
--mov    %edx,%ebx
--mov    %eax,%esi
++jmp    <T> <_ZN5CUser8DelBuddyEPc+0x65>
+ mov    %edx,%ebx
+ mov    %eax,%esi
 -lea    -0xa(%ebp),%eax
-+lea    -0xd(%ebp),%eax
++lea    -0x9(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
@@ -63,46 +64,10 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0xa(%ebp),%eax
-+lea    -0xd(%ebp),%eax
++lea    -0x9(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
 -movzbl -0x9(%ebp),%eax
-+lea    -0x14(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsC1ERKSs>
-+mov    0x8(%ebp),%eax
-+lea    0x6c(%eax),%edx
-+lea    -0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
-+call   <T> <_ZN12CBuddyHandle3delESs>
-+mov    %eax,%ebx
-+lea    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN5CUser8DelBuddyEPc+0xba>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN5CUser8DelBuddyEPc+0x9f>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
 +mov    %ebx,%eax
  add    $0x20,%esp
  pop    %ebx

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809821a` | `0xcb` | `0x806072a` | `0xc5` |
+| monitor | DIFF | `0x809821a` | `0xcb` | `0x80607ee` | `0xcd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,62 +1,60 @@
+@@ -1,62 +1,63 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -25,24 +25,24 @@
  and    $0x2,%eax
  test   %eax,%eax
 -je     <T> <_ZN7CMember10LoadMemberER14STMemberDBInfosjj+0xc9>
-+je     <T> <_ZN7CMember10LoadMemberER14STMemberDBInfosjj+0xc3>
++je     <T> <_ZN7CMember10LoadMemberER14STMemberDBInfosjj+0xcb>
  movswl -0x1c(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    0x1b4(%eax),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CMemberManager24GetLowerMemberEnterLimitEj>
--mov    %eax,-0x10(%ebp)
-+mov    %eax,-0xc(%ebp)
+ mov    %eax,-0x10(%ebp)
  mov    0xc(%ebp),%eax
  movzbl 0x27(%eax),%eax
- movzbl %al,%eax
+-movzbl %al,%eax
 -cmp    -0x10(%ebp),%eax
 -jle    <T> <_ZN7CMember10LoadMemberER14STMemberDBInfosjj+0x58>
--mov    -0x10(%ebp),%eax
-+cmp    -0xc(%ebp),%eax
-+jbe    <T> <_ZN7CMember10LoadMemberER14STMemberDBInfosjj+0x58>
-+mov    -0xc(%ebp),%eax
++movzbl %al,%edx
++mov    -0x10(%ebp),%eax
++cmp    %eax,%edx
++jle    <T> <_ZN7CMember10LoadMemberER14STMemberDBInfosjj+0x5a>
+ mov    -0x10(%ebp),%eax
  mov    %eax,%edx
  mov    0xc(%ebp),%eax
  mov    %dl,0x27(%eax)
@@ -51,10 +51,12 @@
  movzbl %al,%eax
  imul   $0x27,%eax,%eax
  add    $0x28,%eax
--mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
- mov    0x8(%ebp),%edx
- add    $0x6,%edx
+ mov    %eax,-0xc(%ebp)
++mov    0x8(%ebp),%eax
++lea    0x6(%eax),%edx
+ mov    -0xc(%ebp),%eax
+-mov    0x8(%ebp),%edx
+-add    $0x6,%edx
  mov    %eax,0x8(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)

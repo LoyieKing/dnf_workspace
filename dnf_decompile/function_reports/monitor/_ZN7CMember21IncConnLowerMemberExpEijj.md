@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8098f0c` | `0x110` | `0x8060982` | `0x152` |
+| monitor | DIFF | `0x8098f0c` | `0x110` | `0x8060a0e` | `0x116` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,76 +1,100 @@
+@@ -1,76 +1,76 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -23,60 +23,78 @@
  movzbl %al,%eax
  cmp    0xc(%ebp),%eax
 -jg     <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x6b>
-+jle    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0xfc>
-+mov    0x8(%ebp),%eax
++jle    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0xc0>
+ mov    0x8(%ebp),%eax
+-movzbl 0x2d(%eax),%eax
+-movzbl %al,%ebx
+-movl   $0x284,0x8(%esp)
+-movl   $&_ZZN7CMember21IncConnLowerMemberExpEijjE12__FUNCTION__,0x4(%esp)
+-lea    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %ebx,0x10(%esp)
+-mov    0xc(%ebp),%eax
+-mov    %eax,0xc(%esp)
+-movl   $"CMember::IncConnLowerMemberExp  ,  index(%d) >= m_stMemberDBInfo.m_lowerCnt(%d)",0x8(%esp)
+-movl   $"./log/Member2Except",0x4(%esp)
+-lea    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x10a>
+-mov    0xc(%ebp),%eax
+-imul   $0x27,%eax,%eax
+-add    $0x20,%eax
+-add    0x8(%ebp),%eax
+-add    $0xe,%eax
 +mov    0xc(%ebp),%edx
 +imul   $0x27,%edx,%edx
 +add    $0x2e,%edx
 +add    %edx,%eax
-+mov    %eax,-0xc(%ebp)
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+cmp    0x10(%ebp),%eax
-+jne    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0xaf>
-+mov    0x8(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+imul   $0x27,%edx,%edx
-+add    $0x51,%edx
-+add    %edx,%eax
-+mov    0x8(%ebp),%edx
-+mov    0xc(%ebp),%ecx
-+imul   $0x27,%ecx,%ecx
-+add    $0x51,%ecx
-+add    %ecx,%edx
-+mov    (%edx),%edx
-+add    $0x1,%edx
-+mov    %edx,(%eax)
-+mov    0x8(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+imul   $0x27,%edx,%edx
-+add    $0x51,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
-+cmp    0x14(%ebp),%eax
-+jbe    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x9a>
-+mov    0x8(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+imul   $0x27,%edx,%edx
-+add    $0x51,%edx
-+add    %edx,%eax
-+mov    0x8(%ebp),%edx
-+mov    0xc(%ebp),%ecx
-+imul   $0x27,%ecx,%ecx
-+add    $0x51,%ecx
-+add    %ecx,%edx
-+mov    (%edx),%edx
-+sub    $0x1,%edx
-+mov    %edx,(%eax)
-+mov    $0x0,%eax
-+jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x14c>
-+mov    0x8(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+imul   $0x27,%edx,%edx
-+add    $0x51,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
-+jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x14c>
+ mov    %eax,-0xc(%ebp)
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ cmp    0x10(%ebp),%eax
+-je     <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0xd4>
+-mov    -0xc(%ebp),%eax
+-mov    (%eax),%ebx
+-movl   $0x28c,0x8(%esp)
+-movl   $&_ZZN7CMember21IncConnLowerMemberExpEijjE12__FUNCTION__,0x4(%esp)
+-lea    -0x14(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    0x10(%ebp),%eax
+-mov    %eax,0x10(%esp)
+-mov    %ebx,0xc(%esp)
+-movl   $"CMember::IncConnLowerMemberExp  ,  stMemberLowerProxy.m_uCharId(%d) != uCharNo(%d)",0x8(%esp)
+-movl   $"./log/Member2Except",0x4(%esp)
+-lea    -0x14(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x10a>
++jne    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x73>
+ mov    -0xc(%ebp),%eax
+ mov    0x23(%eax),%eax
+ lea    0x1(%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %edx,0x23(%eax)
+ mov    -0xc(%ebp),%eax
+ mov    0x23(%eax),%eax
+ cmp    0x14(%ebp),%eax
+-jbe    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x104>
++jbe    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x68>
+ mov    -0xc(%ebp),%eax
+ mov    0x23(%eax),%eax
+ lea    -0x1(%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %edx,0x23(%eax)
+ mov    $0x0,%eax
+-jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x10a>
++jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x110>
+ mov    -0xc(%ebp),%eax
+ mov    0x23(%eax),%eax
++jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x110>
 +mov    -0xc(%ebp),%eax
 +mov    (%eax),%ebx
 +movl   $0x28c,0x8(%esp)
@@ -93,71 +111,24 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x14c>
- mov    0x8(%ebp),%eax
- movzbl 0x2d(%eax),%eax
- movzbl %al,%ebx
- movl   $0x284,0x8(%esp)
- movl   $&_ZZN7CMember21IncConnLowerMemberExpEijjE12__FUNCTION__,0x4(%esp)
--lea    -0x1c(%ebp),%eax
++jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x110>
++mov    0x8(%ebp),%eax
++movzbl 0x2d(%eax),%eax
++movzbl %al,%ebx
++movl   $0x284,0x8(%esp)
++movl   $&_ZZN7CMember21IncConnLowerMemberExpEijjE12__FUNCTION__,0x4(%esp)
 +lea    -0x14(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    %ebx,0x10(%esp)
- mov    0xc(%ebp),%eax
- mov    %eax,0xc(%esp)
- movl   $"CMember::IncConnLowerMemberExp  ,  index(%d) >= m_stMemberDBInfo.m_lowerCnt(%d)",0x8(%esp)
- movl   $"./log/Member2Except",0x4(%esp)
--lea    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    $0x0,%eax
--jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x10a>
--mov    0xc(%ebp),%eax
--imul   $0x27,%eax,%eax
--add    $0x20,%eax
--add    0x8(%ebp),%eax
--add    $0xe,%eax
--mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--cmp    0x10(%ebp),%eax
--je     <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0xd4>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%ebx
--movl   $0x28c,0x8(%esp)
--movl   $&_ZZN7CMember21IncConnLowerMemberExpEijjE12__FUNCTION__,0x4(%esp)
--lea    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0x10(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"CMember::IncConnLowerMemberExp  ,  stMemberLowerProxy.m_uCharId(%d) != uCharNo(%d)",0x8(%esp)
--movl   $"./log/Member2Except",0x4(%esp)
- lea    -0x14(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
--jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x10a>
--mov    -0xc(%ebp),%eax
--mov    0x23(%eax),%eax
--lea    0x1(%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %edx,0x23(%eax)
--mov    -0xc(%ebp),%eax
--mov    0x23(%eax),%eax
--cmp    0x14(%ebp),%eax
--jbe    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x104>
--mov    -0xc(%ebp),%eax
--mov    0x23(%eax),%eax
--lea    -0x1(%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %edx,0x23(%eax)
--mov    $0x0,%eax
--jmp    <T> <_ZN7CMember21IncConnLowerMemberExpEijj+0x10a>
--mov    -0xc(%ebp),%eax
--mov    0x23(%eax),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    %ebx,0x10(%esp)
++mov    0xc(%ebp),%eax
++mov    %eax,0xc(%esp)
++movl   $"CMember::IncConnLowerMemberExp  ,  index(%d) >= m_stMemberDBInfo.m_lowerCnt(%d)",0x8(%esp)
++movl   $"./log/Member2Except",0x4(%esp)
++lea    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
  add    $0x44,%esp
  pop    %ebx
  pop    %ebp

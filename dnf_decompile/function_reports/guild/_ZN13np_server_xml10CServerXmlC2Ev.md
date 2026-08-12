@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8057338` | `0x111` | `0x80a4614` | `0x19a` |
+| guild | DIFF | `0x8057338` | `0x111` | `0x80a4a62` | `0x19a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -208,10 +208,7 @@ void __thiscall np_server_xml::CServerXml::_ZN13np_server_xml10CServerXmlC2Ev(CS
 ```cpp
 CServerXml::CServerXml()
 {
-    memset(m_data, 0, sizeof(m_data));
     new (m_doc) TiXmlDocument;
-    m_field50 = 0;
-    m_path = std::string();
     InitString();
 }
 ```

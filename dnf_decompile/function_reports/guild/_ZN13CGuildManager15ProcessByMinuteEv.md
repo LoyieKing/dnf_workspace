@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8096e16` | `0xde` | `0x805cba2` | `0xdb` |
+| guild | DIFF | `0x8096e16` | `0xde` | `0x805cb94` | `0xdb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -143,19 +143,17 @@ void CGuildManager::ProcessByMinute()
     m_guildWar.DBSaveProcess(m_app);
     if (m_guilds.empty())
     {
+        return;
     }
-    else
+    for (std::map<unsigned int, CGuild*>::iterator it = m_guilds.begin();
+         it != m_guilds.end(); ++it)
     {
-        for (std::map<unsigned int, CGuild*>::iterator it = m_guilds.begin();
-             it != m_guilds.end(); ++it)
+        if (it->second != 0)
         {
-            if (it->second != 0)
-            {
-                it->second->UpdateChangableInfoProcess();
-            }
+            it->second->UpdateChangableInfoProcess();
         }
-        RefreshTodayMember(false);
-        RefreshAttendanceInfo(false);
     }
+    RefreshTodayMember(false);
+    RefreshAttendanceInfo(false);
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x805744a` | `0x118` | `0x80a47ae` | `0x14f` |
+| guild | DIFF | `0x805744a` | `0x118` | `0x80a4bfc` | `0x14f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -187,17 +187,11 @@ void __thiscall np_server_xml::CServerXml::_ZN13np_server_xml10CServerXmlD1Ev(CS
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/ServerXml.cpp](source/DNFServer/GameServer/Guild/ServerXml.cpp)（约第 96 行）：
+定义于 [source/DNFServer/GameServer/Guild/ServerXml.cpp](source/DNFServer/GameServer/Guild/ServerXml.cpp)（约第 93 行）：
 
 ```cpp
 CServerXml::~CServerXml()
 {
     InitString();
-    m_rgba.~map();
-    m_str3.~map();
-    m_str2.~map();
-    m_str1.~map();
-    m_path.~basic_string();
-    ((TiXmlDocument*)m_doc)->~TiXmlDocument();
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8090e68` | `0xe0` | `0x8072152` | `0xe1` |
+| monitor | NEAR | `0x8090e68` | `0xe0` | `0x80720b0` | `0xe0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,79 +23,71 @@
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZNK12CUserManager8FindUserEj>
--mov    %eax,-0xc(%ebp)
--cmpl   $0x0,-0xc(%ebp)
--setne  %al
--test   %al,%al
--je     <T> <_ZN17CPacketTranslater21SendColletItemsRewardEjiPKciN18TimeGateRewardType1TE+0xde>
+ mov    %eax,-0xc(%ebp)
+ cmpl   $0x0,-0xc(%ebp)
+ setne  %al
+ test   %al,%al
+ je     <T> <_ZN17CPacketTranslater21SendColletItemsRewardEjiPKciN18TimeGateRewardType1TE+0xde>
 -lea    -0x3e(%ebp),%eax
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN17CPacketTranslater21SendColletItemsRewardEjiPKciN18TimeGateRewardType1TE+0xdf>
-+lea    -0x41(%ebp),%eax
++lea    -0x3d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN25Packet_CollectItemsRewardC1Ev>
--mov    -0xc(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x34(%ebp)
-+mov    %eax,-0x37(%ebp)
++mov    %eax,-0x33(%ebp)
  mov    0xc(%ebp),%eax
 -mov    %eax,-0x30(%ebp)
-+mov    %eax,-0x33(%ebp)
++mov    %eax,-0x2f(%ebp)
  mov    0x18(%ebp),%eax
 -mov    %al,-0x2c(%ebp)
-+mov    %al,-0x2f(%ebp)
++mov    %al,-0x2b(%ebp)
  mov    0x14(%ebp),%eax
 -mov    %al,-0x2b(%ebp)
-+mov    %al,-0x2e(%ebp)
++mov    %al,-0x2a(%ebp)
  mov    0x14(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x3e(%ebp),%eax
-+lea    -0x41(%ebp),%eax
++lea    -0x3d(%ebp),%eax
  add    $0x14,%eax
  mov    %eax,(%esp)
  call   <T> <strncpy>
 -lea    -0x3e(%ebp),%eax
-+lea    -0x41(%ebp),%eax
++lea    -0x3d(%ebp),%eax
  mov    %eax,0x4(%esp)
--mov    -0xc(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 -lea    -0x70(%ebp),%eax
-+lea    -0x73(%ebp),%eax
++lea    -0x6f(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN34Packet_CollectItemsRewardBroadcastC1Ev>
  mov    0xc(%ebp),%eax
 -mov    %eax,-0x62(%ebp)
-+mov    %eax,-0x65(%ebp)
++mov    %eax,-0x61(%ebp)
  mov    0x18(%ebp),%eax
 -mov    %al,-0x5e(%ebp)
-+mov    %al,-0x61(%ebp)
++mov    %al,-0x5d(%ebp)
  mov    0x14(%ebp),%eax
 -mov    %al,-0x5d(%ebp)
-+mov    %al,-0x60(%ebp)
++mov    %al,-0x5c(%ebp)
  mov    0x14(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x70(%ebp),%eax
-+lea    -0x73(%ebp),%eax
++lea    -0x6f(%ebp),%eax
  add    $0x14,%eax
  mov    %eax,(%esp)
  call   <T> <strncpy>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0xa0(%eax),%eax
 -lea    -0x70(%ebp),%edx
--mov    %edx,0x4(%esp)
-+mov    %eax,-0xc(%ebp)
-+lea    -0x73(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0xc(%ebp),%eax
++lea    -0x6f(%ebp),%edx
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
  leave
@@ -149,4 +141,4 @@ void CPacketTranslater::_ZN17CPacketTranslater21SendColletItemsRewardEjiPKciN18T
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp, source/DNFServer/GameServer/Monitor/Arad_BirthdayEvent.h, source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.h, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/DNFAppConfig.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFBuddy.h 等 299 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp, source/DNFServer/GameServer/Monitor/Arad_BirthdayEvent.h, source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.h, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/DNFAppConfig.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFBuddy.h 等 298 个文件*

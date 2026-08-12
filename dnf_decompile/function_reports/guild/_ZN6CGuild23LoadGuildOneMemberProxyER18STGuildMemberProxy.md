@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090852` | `0x115` | `0x8056634` | `0x106` |
+| guild | DIFF | `0x8090852` | `0x115` | `0x8056632` | `0x106` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -160,7 +160,7 @@ CGuild::_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1600 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1608 行）：
 
 ```cpp
 int CGuild::LoadGuildOneMemberProxy(STGuildMemberProxy& proxy)

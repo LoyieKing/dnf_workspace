@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809916a` | `0x82` | `0x8060c50` | `0x81` |
+| monitor | DIFF | `0x809916a` | `0x82` | `0x8060c9a` | `0x7a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,42 +1,39 @@
+@@ -1,42 +1,38 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
@@ -22,18 +22,17 @@
  movzbl %al,%eax
 -mov    %eax,-0x14(%ebp)
 -cmpl   $0x0,-0x14(%ebp)
--jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x20>
--mov    $0x0,%eax
--jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x80>
 +mov    %eax,-0x18(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
-+je     <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x7a>
+ jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x20>
+ mov    $0x0,%eax
+-jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x80>
++jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x78>
 +movl   $0x0,-0x14(%ebp)
  movl   $0x0,-0x10(%ebp)
 -movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x70>
 -mov    -0xc(%ebp),%eax
-+movl   $0x0,-0x10(%ebp)
 +jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x68>
 +mov    -0x10(%ebp),%eax
  mov    0x8(%ebp),%edx
@@ -68,8 +67,6 @@
  jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x30>
 -mov    -0x10(%ebp),%eax
 +mov    -0x14(%ebp),%eax
-+jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x7f>
-+mov    $0x0,%eax
  leave
  ret
 ```

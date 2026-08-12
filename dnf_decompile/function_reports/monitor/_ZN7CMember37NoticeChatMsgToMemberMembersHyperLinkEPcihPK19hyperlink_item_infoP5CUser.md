@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80988da` | `0x284` | `0x80602fc` | `0x24b` |
+| monitor | DIFF | `0x80988da` | `0x284` | `0x806036e` | `0x274` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,166 +1,153 @@
+@@ -1,166 +1,160 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x2a8,%esp
@@ -40,8 +40,8 @@
 +jmp    <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x47>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x249>
-+lea    -0x288(%ebp),%eax
++je     <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x272>
++lea    -0x286(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN44Packet_Monitor_Member_Chat_ToUser_Hyper_LinkC1Ev>
  mov    0x1c(%ebp),%eax
@@ -50,19 +50,19 @@
  movl   $0x1d,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0x282(%ebp),%eax
-+lea    -0x288(%ebp),%eax
++lea    -0x286(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    0x10(%ebp),%eax
 -mov    %al,-0x119(%ebp)
-+mov    %al,-0x11f(%ebp)
++mov    %al,-0x11d(%ebp)
  mov    0x10(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x282(%ebp),%eax
-+lea    -0x288(%ebp),%eax
++lea    -0x286(%ebp),%eax
  add    $0x16a,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
@@ -71,7 +71,7 @@
 -movl   $0x0,-0x10(%ebp)
 -jmp    <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0xf2>
 -mov    -0x10(%ebp),%eax
-+mov    %al,-0x258(%ebp)
++mov    %al,-0x256(%ebp)
 +movl   $0x0,-0x14(%ebp)
 +jmp    <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0xfb>
 +mov    -0x14(%ebp),%eax
@@ -88,7 +88,7 @@
 +mov    -0x14(%ebp),%eax
 +imul   $0x68,%eax,%eax
 +mov    %eax,%ecx
-+lea    -0x288(%ebp),%eax
++lea    -0x286(%ebp),%eax
 +add    $0x31,%eax
 +add    %ecx,%eax
  movl   $0x68,0x8(%esp)
@@ -109,7 +109,7 @@
  mov    0x10(%ebp),%eax
  add    $0x16a,%ax
 -mov    %ax,-0x280(%ebp)
-+mov    %ax,-0x1e(%ebp)
++mov    %ax,-0x284(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x6(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -125,23 +125,23 @@
 -mov    -0x18(%ebp),%eax
 +mov    %eax,-0x1c(%ebp)
 +cmpl   $0x0,-0x1c(%ebp)
-+je     <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x17a>
++je     <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x183>
 +mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x278(%ebp)
 -mov    -0x18(%ebp),%eax
-+mov    %eax,-0x27e(%ebp)
++mov    %eax,-0x27c(%ebp)
 +mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x274(%ebp)
 -movzwl -0x280(%ebp),%eax
--movzwl %ax,%edx
++mov    %eax,-0x278(%ebp)
++movzwl -0x284(%ebp),%eax
+ movzwl %ax,%edx
 -lea    -0x282(%ebp),%eax
-+mov    %eax,-0x27a(%ebp)
-+movzwl -0x1e(%ebp),%edx
-+lea    -0x288(%ebp),%eax
++lea    -0x286(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
 -mov    -0x18(%ebp),%eax
@@ -152,17 +152,17 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x278(%ebp)
-+mov    %eax,-0x27e(%ebp)
++mov    %eax,-0x27c(%ebp)
  mov    0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x274(%ebp)
 -movzwl -0x280(%ebp),%eax
--movzwl %ax,%edx
++mov    %eax,-0x278(%ebp)
++movzwl -0x284(%ebp),%eax
+ movzwl %ax,%edx
 -lea    -0x282(%ebp),%eax
-+mov    %eax,-0x27a(%ebp)
-+movzwl -0x1e(%ebp),%edx
-+lea    -0x288(%ebp),%eax
++lea    -0x286(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    0x1c(%ebp),%eax
@@ -177,18 +177,17 @@
 -movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x268>
 -mov    -0xc(%ebp),%eax
--mov    0x8(%ebp),%edx
--imul   $0x27,%eax,%eax
--lea    (%edx,%eax,1),%eax
--add    $0x20,%eax
--mov    0xe(%eax),%edx
 +mov    %eax,-0x18(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
-+je     <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x249>
++jle    <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x272>
 +movl   $0x0,-0x10(%ebp)
-+jmp    <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x23c>
-+mov    0x8(%ebp),%eax
-+mov    0x6(%eax),%edx
++jmp    <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x261>
++mov    -0x10(%ebp),%eax
+ mov    0x8(%ebp),%edx
+ imul   $0x27,%eax,%eax
+ lea    (%edx,%eax,1),%eax
+ add    $0x20,%eax
+ mov    0xe(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    0x1b4(%eax),%eax
  mov    %edx,0x4(%esp)
@@ -202,23 +201,23 @@
 -mov    -0x18(%ebp),%eax
 +mov    %eax,-0xc(%ebp)
 +cmpl   $0x0,-0xc(%ebp)
-+je     <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x238>
++je     <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x25d>
 +mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x278(%ebp)
 -mov    -0x18(%ebp),%eax
-+mov    %eax,-0x27e(%ebp)
++mov    %eax,-0x27c(%ebp)
 +mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x274(%ebp)
 -movzwl -0x280(%ebp),%eax
--movzwl %ax,%edx
++mov    %eax,-0x278(%ebp)
++movzwl -0x284(%ebp),%eax
+ movzwl %ax,%edx
 -lea    -0x282(%ebp),%eax
-+mov    %eax,-0x27a(%ebp)
-+movzwl -0x1e(%ebp),%edx
-+lea    -0x288(%ebp),%eax
++lea    -0x286(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
 -mov    -0x18(%ebp),%eax
@@ -230,11 +229,10 @@
 -addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    -0x14(%ebp),%eax
--setl   %al
 +addl   $0x1,-0x10(%ebp)
 +mov    -0x10(%ebp),%eax
 +cmp    -0x18(%ebp),%eax
-+setb   %al
+ setl   %al
  test   %al,%al
 -jne    <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x1e7>
 -jmp    <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x282>
@@ -243,7 +241,7 @@
 -nop
 -jmp    <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x282>
 -nop
-+jne    <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x1d5>
++jne    <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x1e8>
  leave
  ret
 ```

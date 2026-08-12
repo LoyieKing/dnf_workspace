@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8095e46` | `0x4f8` | `0x805bbc0` | `0x500` |
+| guild | DIFF | `0x8095e46` | `0x4f8` | `0x805bbc4` | `0x4fa` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,377 +1,383 @@
+@@ -1,377 +1,378 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -166,10 +166,9 @@
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
  mov    %eax,-0x24(%ebp)
  cmpl   $0x0,-0x24(%ebp)
--sete   %al
--test   %al,%al
--je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x2d3>
-+jne    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x2ce>
+ sete   %al
+ test   %al,%al
+ je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x2d3>
  lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -187,8 +186,7 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
--jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x276>
-+jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x271>
+ jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x276>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -202,37 +200,23 @@
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x270>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x295>
--call   <T> <_ZSt9terminatev>
--mov    %esi,%ecx
--mov    %ebx,%eax
--jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x295>
-+jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x26b>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x290>
-+call   <T> <_ZSt9terminatev>
-+mov    %esi,%ecx
-+mov    %ebx,%eax
-+jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x290>
+ jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x270>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x295>
+ call   <T> <_ZSt9terminatev>
+ mov    %esi,%ecx
+ mov    %ebx,%eax
+ jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x295>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x2b0>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x295>
-+jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x2ab>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x290>
+ jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x2b0>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x295>
  call   <T> <_ZSt9terminatev>
  mov    %eax,%ecx
  mov    %edx,%eax
@@ -253,9 +237,7 @@
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    0x10(%ebp),%eax
--mov    0x8(%eax),%ebx
-+add    $0x8,%eax
-+mov    (%eax),%ebx
+ mov    0x8(%eax),%ebx
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -265,12 +247,9 @@
  call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
  mov    %eax,-0x20(%ebp)
  cmpl   $0x0,-0x20(%ebp)
--je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x317>
-+je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x316>
+ je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x317>
  mov    0x10(%ebp),%eax
--mov    0x8(%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
+ mov    0x8(%eax),%eax
  mov    %eax,0x8(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -288,35 +267,7 @@
 +je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x426>
  cmpl   $0x0,-0x20(%ebp)
 -je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x3c1>
-+jne    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x39f>
-+movl   $0x4,0x4(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
-+test   %al,%al
-+je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x370>
-+movl   $0x10,0x4(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
-+test   %al,%al
-+je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x370>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x375>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x397>
-+mov    0x10(%ebp),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
-+mov    %eax,0x8(%esp)
-+mov    -0x24(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild27QueryUnconnGuildMemberProxyEP14CServerHandlerj>
-+mov    -0x1c(%ebp),%eax
-+jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x4f8>
++je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x3c3>
  mov    -0x24(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    -0x20(%ebp),%eax
@@ -337,11 +288,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser>
 -xor    $0x1,%eax
-+cmp    $0x1,%eax
-+setne  %al
- test   %al,%al
+-test   %al,%al
 -je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x397>
-+je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x3f9>
++test   %eax,%eax
++sete   %al
++test   %al,%al
++je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x399>
  mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild26IncTotalCnt_Of_GuildDBInfoEv>
@@ -355,39 +307,41 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser32MakeGameServerSendUserInfoPacketEj>
 -jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x4ed>
--movl   $0x4,0x4(%esp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
--test   %al,%al
++jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x4ef>
+ movl   $0x4,0x4(%esp)
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
+ test   %al,%al
 -je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x3f6>
--movl   $0x10,0x4(%esp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
--test   %al,%al
++je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x3f8>
+ movl   $0x10,0x4(%esp)
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
+ test   %al,%al
 -je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x3f6>
--mov    $0x1,%eax
++je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x3f8>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x3fb>
-+mov    -0x1c(%ebp),%eax
-+jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x4f8>
-+cmpl   $0x0,-0x20(%ebp)
-+jne    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x436>
++jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x3fd>
  mov    $0x0,%eax
--test   %al,%al
+ test   %al,%al
 -je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x4ed>
--mov    0x10(%ebp),%eax
--mov    0x8(%eax),%eax
--mov    %eax,0x8(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuild27QueryUnconnGuildMemberProxyEP14CServerHandlerj>
++je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x4ef>
+ mov    0x10(%ebp),%eax
+ mov    0x8(%eax),%eax
+ mov    %eax,0x8(%esp)
+ mov    -0x24(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuild27QueryUnconnGuildMemberProxyEP14CServerHandlerj>
 -jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x4ed>
--cmpl   $0x0,-0x20(%ebp)
++jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x4ef>
+ cmpl   $0x0,-0x20(%ebp)
 -je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x4ed>
-+jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x4f8>
++je     <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x4ef>
  movl   $0x6718,(%esp)
  call   <T> <_ZN6CGuildnwEj>
  mov    %eax,%ebx
@@ -397,7 +351,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuildC1Ej>
 -jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x46b>
-+jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x473>
++jmp    <T> <_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter+0x46d>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi

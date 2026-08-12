@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8092098` | `0xb4` | `0x8057c44` | `0xbd` |
+| guild | DIFF | `0x8092098` | `0xb4` | `0x8057c42` | `0xbd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -110,22 +110,21 @@ void __thiscall CGuild::_ZN6CGuild17IncPowerJoinCountEv(CGuild *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2138 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2157 行）：
 
 ```cpp
 void CGuild::IncPowerJoinCount()
 {
-    if ((m_field1c & 4) == 0)
+    if ((m_field1c & 4) != 0)
     {
-        return;
+        m_field4d96 = 1;
+        m_dbInfo.m_info.m_field9f = (char)(m_dbInfo.m_info.m_field9f + 1);
+        if (0x80 < (unsigned char)m_dbInfo.m_info.m_field9f)
+        {
+            m_dbInfo.m_info.m_field9f = (char)0x80;
+        }
+        DNF_LOG_SCOPE_LINE(0xacf,"./log/Guild", "IncPowerJoinCount Guild(%d), JoinCount(%d)",
+            GetGuildKey(), (unsigned int)(unsigned char)m_dbInfo.m_info.m_field9f);
     }
-    m_field4d96 = 1;
-    *(char*)((char*)this + 0xbf) = (char)(*(char*)((char*)this + 0xbf) + 1);
-    if (0x80 < (unsigned char)*(char*)((char*)this + 0xbf))
-    {
-        *(char*)((char*)this + 0xbf) = (char)0x80;
-    }
-    DNF_LOG_SCOPE_LINE(0xacf,"./log/Guild", "IncPowerJoinCount Guild(%d), JoinCount(%d)",
-        GetGuildKey(), (unsigned int)(unsigned char)*(char*)((char*)this + 0xbf));
 }
 ```

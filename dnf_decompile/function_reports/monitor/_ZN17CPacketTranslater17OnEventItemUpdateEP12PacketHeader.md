@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8080076` | `0x328` | `0x806c1d2` | `0x322` |
+| monitor | DIFF | `0x8080076` | `0x328` | `0x806c130` | `0x322` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -412,7 +412,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 917 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 931 行）：
 
 ```cpp
 void CPacketTranslater::OnEventItemUpdate(PacketHeader* pkt)

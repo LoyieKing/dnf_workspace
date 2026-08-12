@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808d9e8` | `0x16a` | `0x807912a` | `0x168` |
+| monitor | DIFF | `0x808d9e8` | `0x16a` | `0x8079086` | `0x168` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -158,7 +158,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4474 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4489 行）：
 
 ```cpp
 void CPacketTranslater::OnRegisterEventIdx(PacketHeader* pkt)

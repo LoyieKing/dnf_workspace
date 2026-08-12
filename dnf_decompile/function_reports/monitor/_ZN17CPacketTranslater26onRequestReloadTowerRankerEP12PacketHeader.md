@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80889f8` | `0x140` | `0x807414a` | `0x144` |
+| monitor | DIFF | `0x80889f8` | `0x140` | `0x80740a6` | `0x144` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -140,7 +140,7 @@ void CPacketTranslater::_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3143 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3156 行）：
 
 ```cpp
 void CPacketTranslater::onRequestReloadTowerRanker(PacketHeader* pkt)

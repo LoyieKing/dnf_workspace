@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808d6ae` | `0xa2` | `0x80535e0` | `0x99` |
+| guild | DIFF | `0x808d6ae` | `0xa2` | `0x80535de` | `0x99` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -138,20 +138,23 @@ void __thiscall CGuild::_ZN6CGuild19ResetGuildPointRankEv(CGuild *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 639 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 644 行）：
 
 ```cpp
 void CGuild::ResetGuildPointRank()
 {
-    *(unsigned short*)((char*)this + 0x48) = 0;
-    *(unsigned int*)((char*)this + 0x44) = 0;
+    m_dbInfo.m_info.m_guildRank = 0;
+    m_dbInfo.m_info.m_guildPoint = 0;
+    if (m_members.empty())
+    {
+        return;
+    }
     for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
          it != m_members.end(); ++it)
     {
-        if (it->second != 0)
-        {
-            it->second->ResetGuildPoint();
-        }
+        CUser* user;
+        if ((user = it->second) == 0) { continue; }
+        user->ResetGuildPoint();
     }
 }
 ```

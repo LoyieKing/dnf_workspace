@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807e32a` | `0x973` | `0x8069c98` | `0x9a5` |
+| monitor | DIFF | `0x807e32a` | `0x973` | `0x8069bf6` | `0x9a5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -1167,7 +1167,7 @@ LAB_0807e9e4:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 312 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 326 行）：
 
 ```cpp
 void CPacketTranslater::OnLogout(PacketHeader* pkt)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808e42e` | `0x30f` | `0x80543a2` | `0x310` |
+| guild | DIFF | `0x808e42e` | `0x30f` | `0x80543a0` | `0x310` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -455,7 +455,7 @@ CGuild::_ZN6CGuild13BuyGuildSkillEiisj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 948 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 956 行）：
 
 ```cpp
 int CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int charNo)

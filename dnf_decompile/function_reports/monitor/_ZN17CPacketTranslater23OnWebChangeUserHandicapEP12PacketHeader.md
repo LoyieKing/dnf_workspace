@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8088328` | `0xca` | `0x8073800` | `0xb3` |
+| monitor | DIFF | `0x8088328` | `0xca` | `0x807375c` | `0xb3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -146,28 +146,29 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnWebChangeUserHandicapEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2978 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2990 行）：
 
 ```cpp
 void CPacketTranslater::OnWebChangeUserHandicap(PacketHeader* pkt)
 {
+    PacketHeader* pktLocal = pkt;
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1127, "./log/hack", "CPacketTranslater::OnWebChangeUserHandicap : 0 == m_pclApp");
     }
     else
     {
-        CUser* user =
-            ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser(
-                ((RA_UINT<10>*)pkt)->v);
-        if (user != 0)
+        CUser* user = 0;
+        CUserManager* mgr = (CUserManager*)((char*)m_pclApp + 0x10);
+        if ((user = mgr->FindUser(((RA_UINT<10>*)pktLocal)->v)) == 0)
         {
-            Packet_Change_User_Handicap reply;
-            reply.m_fieldA = ((RA_UINT<10>*)pkt)->v;
-            reply.m_fieldE = ((RA_UINT<14>*)pkt)->v;
-            reply.m_field12 = ((RA_UINT<18>*)pkt)->v;
-            user->SendToGameserver((char*)&reply, ((RA_U16<2>*)&reply)->v);
+            return;
         }
+        Packet_Change_User_Handicap reply;
+        reply.m_fieldA = ((RA_UINT<10>*)pktLocal)->v;
+        reply.m_fieldE = ((RA_UINT<14>*)pktLocal)->v;
+        reply.m_field12 = ((RA_UINT<18>*)pktLocal)->v;
+        user->SendToGameserver((char*)&reply, reply.packetSize);
     }
 }
 ```

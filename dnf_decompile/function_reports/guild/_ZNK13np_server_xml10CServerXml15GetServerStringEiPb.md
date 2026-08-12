@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8057f8c` | `0x137` | `0x80a5380` | `0x124` |
+| guild | DIFF | `0x8057f8c` | `0x137` | `0x80a57ce` | `0x124` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -185,25 +185,29 @@ int np_server_xml::CServerXml::_ZNK13np_server_xml10CServerXml15GetServerStringE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/ServerXml.cpp](source/DNFServer/GameServer/Guild/ServerXml.cpp)（约第 304 行）：
+定义于 [source/DNFServer/GameServer/Guild/ServerXml.cpp](source/DNFServer/GameServer/Guild/ServerXml.cpp)（约第 298 行）：
 
 ```cpp
 std::string CServerXml::GetServerString(int idx, bool* ok) const
 {
     std::string ret("");
-    std::map<int, std::string>::const_iterator it = m_str1.find(idx);
+    std::map<int, std::string>::const_iterator it;
+    it = m_str1.find(idx);
     if (it != m_str1.end())
     {
         if (ok != 0)
         {
             *ok = 1;
         }
-        return it->second;
     }
-    if (ok != 0)
+    else
     {
-        *ok = 0;
+        if (ok != 0)
+        {
+            *ok = 0;
+        }
+        return ret;
     }
-    return ret;
+    return it->second;
 }
 ```

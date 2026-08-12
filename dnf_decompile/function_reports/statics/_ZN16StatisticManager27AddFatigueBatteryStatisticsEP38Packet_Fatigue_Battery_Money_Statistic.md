@@ -202,16 +202,17 @@ void StatisticManager::AddFatigueBatteryStatistics(Packet_Fatigue_Battery_Money_
     };
     STFatigueBattery value;
     value.m_field0 = ((Wire*)pkt)->m_f0b;
-    value.m_field4 = (unsigned int)((Wire*)pkt)->m_f0f;
-    std::map<unsigned char, STFatigueBattery>::iterator it = m_fatigue.find(*(char*)((char*)pkt + 10));
-    if (it == m_fatigue.end())
+    value.m_field4 = ((Wire*)pkt)->m_f0f;
+    std::map<unsigned char, STFatigueBattery>::iterator it =
+        m_fatigue.find(*(unsigned char*)((char*)pkt + 10));
+    if (it != m_fatigue.end())
     {
-        m_fatigue.insert(std::make_pair(*(char*)((char*)pkt + 10), value));
+        it->second.m_field0 += ((Wire*)pkt)->m_f0b;
+        it->second.m_field4 += ((Wire*)pkt)->m_f0f;
     }
     else
     {
-        it->second.m_field0 += ((Wire*)pkt)->m_f0b;
-        it->second.m_field4 += (unsigned int)((Wire*)pkt)->m_f0f;
+        m_fatigue.insert(std::make_pair(*(unsigned char*)((char*)pkt + 10), value));
     }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8098b5e` | `0x325` | `0x805fd32` | `0x31e` |
+| monitor | DIFF | `0x8098b5e` | `0x325` | `0x805fd32` | `0x325` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,227 +1,217 @@
+@@ -1,227 +1,225 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x78,%esp
@@ -35,15 +35,14 @@
 +movzbl -0x19(%ebp),%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x31c>
++je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x323>
  mov    0x8(%ebp),%eax
  movzwl 0x4(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
--je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x323>
+ je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x323>
 -lea    -0x4c(%ebp),%eax
-+je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x31c>
 +lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN45Packet_Monitor_Notice_Member_Member_Login_outC1Ev>
@@ -56,18 +55,18 @@
  call   <T> <_ZN14CMemberManager14FindMemberUserEj>
 +mov    %eax,-0x18(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
-+je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x201>
++je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x1fd>
 +mov    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+movl   $0x0,0x4(%esp)
++mov    %eax,0x4(%esp)
 +mov    0xc(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser11IsBlackUserEj>
 +cmp    $0x1,%al
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x126>
++je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x122>
 +movzbl -0x5c(%ebp),%eax
 +mov    %al,-0x47(%ebp)
 +mov    -0x18(%ebp),%eax
@@ -101,18 +100,18 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 +cmpb   $0x1,-0x5c(%ebp)
-+jne    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x201>
++jne    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x1fd>
 +mov    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+movl   $0x0,0x4(%esp)
++mov    %eax,0x4(%esp)
 +mov    0xc(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser11IsBlackUserEj>
 +cmp    $0x1,%al
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x201>
++je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x1fd>
 +movzbl -0x5c(%ebp),%eax
 +mov    %al,-0x47(%ebp)
 +mov    0xc(%ebp),%eax
@@ -127,15 +126,17 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetGameServerEv>
 +test   %eax,%eax
++setne  %al
++test   %al,%al
 +je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x1a2>
 +mov    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetGameServerEv>
 +mov    %eax,(%esp)
 +call   <T> <_ZN16CServerInterface12GetChannelNoEv>
-+jmp    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x1a7>
-+mov    $0xffffffff,%eax
 +mov    %al,-0x3e(%ebp)
++jmp    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x1a6>
++movb   $0xff,-0x3e(%ebp)
 +movb   $0x1,-0x3d(%ebp)
 +mov    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
@@ -164,29 +165,8 @@
 +movzbl %al,%eax
  mov    %eax,-0x14(%ebp)
  cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x31c>
-+movl   $0x0,-0x10(%ebp)
-+jmp    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x30b>
-+mov    0x8(%ebp),%eax
-+mov    0x6(%eax),%edx
-+mov    0x8(%ebp),%eax
-+mov    0x1b4(%eax),%eax
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CMemberManager14FindMemberUserEj>
-+mov    %eax,-0xc(%ebp)
-+cmpl   $0x0,-0xc(%ebp)
-+je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x307>
-+mov    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+movl   $0x0,0x4(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser11IsBlackUserEj>
-+cmp    $0x1,%al
- setne  %al
- test   %al,%al
+-setne  %al
+-test   %al,%al
 -je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x1f4>
 -mov    -0x14(%ebp),%eax
 -mov    %eax,(%esp)
@@ -198,60 +178,38 @@
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x11b>
-+je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x307>
- movzbl -0x5c(%ebp),%eax
+-movzbl -0x5c(%ebp),%eax
 -mov    %al,-0x42(%ebp)
 -mov    -0x14(%ebp),%eax
-+mov    %al,-0x47(%ebp)
-+mov    -0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser14GetIdByChannelEv>
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x41(%ebp)
 -mov    -0x14(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x3d(%ebp)
-+mov    %eax,-0x46(%ebp)
-+mov    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %eax,-0x42(%ebp)
- mov    0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser13GetGameServerEv>
- mov    %eax,(%esp)
- call   <T> <_ZN16CServerInterface12GetChannelNoEv>
+-mov    0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser13GetGameServerEv>
+-mov    %eax,(%esp)
+-call   <T> <_ZN16CServerInterface12GetChannelNoEv>
 -mov    %al,-0x39(%ebp)
 -movb   $0x2,-0x38(%ebp)
-+mov    %al,-0x3e(%ebp)
-+movb   $0x1,-0x3d(%ebp)
- mov    0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser11GetCharNameEv>
- movl   $0x1d,0x8(%esp)
- mov    %eax,0x4(%esp)
+-mov    0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser11GetCharNameEv>
+-movl   $0x1d,0x8(%esp)
+-mov    %eax,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x51(%ebp),%eax
- add    $0x15,%eax
- mov    %eax,(%esp)
- call   <T> <memcpy>
+-add    $0x15,%eax
+-mov    %eax,(%esp)
+-call   <T> <memcpy>
 -movb   $0x0,-0x19(%ebp)
 -lea    -0x4c(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
-+mov    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser22GetUpperMemberExpLevelEv>
-+mov    %al,-0x1e(%ebp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %eax,-0x1d(%ebp)
-+lea    -0x51(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 -cmpb   $0x1,-0x5c(%ebp)
 -jne    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x1f4>
 -mov    -0x14(%ebp),%eax
@@ -321,60 +279,83 @@
 -movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x30c>
 -mov    -0xc(%ebp),%eax
--mov    0x8(%ebp),%edx
--imul   $0x27,%eax,%eax
--lea    (%edx,%eax,1),%eax
--add    $0x20,%eax
--mov    0xe(%eax),%edx
--mov    0x8(%ebp),%eax
--mov    0x1b4(%eax),%eax
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN14CMemberManager14FindMemberUserEj>
++je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x323>
++movl   $0x0,-0x10(%ebp)
++jmp    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x312>
++mov    -0x10(%ebp),%eax
+ mov    0x8(%ebp),%edx
+ imul   $0x27,%eax,%eax
+ lea    (%edx,%eax,1),%eax
+ add    $0x20,%eax
+ mov    0xe(%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x1b4(%eax),%eax
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CMemberManager14FindMemberUserEj>
 -mov    %eax,-0x14(%ebp)
 -cmpl   $0x0,-0x14(%ebp)
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x307>
 -mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,0x4(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser11IsBlackUserEj>
++mov    %eax,-0xc(%ebp)
++cmpl   $0x0,-0xc(%ebp)
++je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x30d>
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser13GetUniqCharNoEv>
+ mov    %eax,0x4(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser11IsBlackUserEj>
 -xor    $0x1,%eax
 -test   %al,%al
 -je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x308>
--movzbl -0x5c(%ebp),%eax
++cmp    $0x1,%al
++setne  %al
++test   %al,%al
++je     <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x30e>
+ movzbl -0x5c(%ebp),%eax
 -mov    %al,-0x42(%ebp)
 -mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser14GetIdByChannelEv>
++mov    %al,-0x47(%ebp)
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x41(%ebp)
 -mov    -0x14(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x3d(%ebp)
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetGameServerEv>
--mov    %eax,(%esp)
--call   <T> <_ZN16CServerInterface12GetChannelNoEv>
++mov    %eax,-0x46(%ebp)
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser13GetUniqCharNoEv>
++mov    %eax,-0x42(%ebp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser13GetGameServerEv>
+ mov    %eax,(%esp)
+ call   <T> <_ZN16CServerInterface12GetChannelNoEv>
 -mov    %al,-0x39(%ebp)
 -movb   $0x1,-0x38(%ebp)
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser11GetCharNameEv>
--movl   $0x1d,0x8(%esp)
--mov    %eax,0x4(%esp)
++mov    %al,-0x3e(%ebp)
++movb   $0x1,-0x3d(%ebp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser11GetCharNameEv>
+ movl   $0x1d,0x8(%esp)
+ mov    %eax,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
--add    $0x15,%eax
--mov    %eax,(%esp)
--call   <T> <memcpy>
++lea    -0x51(%ebp),%eax
+ add    $0x15,%eax
+ mov    %eax,(%esp)
+ call   <T> <memcpy>
 -mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser22GetUpperMemberExpLevelEv>
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser22GetUpperMemberExpLevelEv>
 -mov    %al,-0x19(%ebp)
 -mov    0xc(%ebp),%eax
 -mov    %eax,(%esp)
@@ -383,26 +364,33 @@
 -lea    -0x4c(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
++mov    %al,-0x1e(%ebp)
++mov    0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser13GetUniqCharNoEv>
++mov    %eax,-0x1d(%ebp)
++lea    -0x51(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 -jmp    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x308>
--nop
++jmp    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x30e>
+ nop
 -addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    -0x10(%ebp),%eax
--setl   %al
--test   %al,%al
++addl   $0x1,-0x10(%ebp)
++mov    -0x10(%ebp),%eax
++cmp    -0x14(%ebp),%eax
+ setl   %al
+ test   %al,%al
 -jne    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x217>
 -jmp    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x323>
 -nop
 -jmp    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x323>
 -nop
-+addl   $0x1,-0x10(%ebp)
-+mov    -0x10(%ebp),%eax
-+cmp    -0x14(%ebp),%eax
-+setb   %al
-+test   %al,%al
-+jne    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x224>
++jne    <T> <_ZN7CMember21NoticeMemberLogin_OutEP5CUserc+0x220>
  leave
  ret
 ```

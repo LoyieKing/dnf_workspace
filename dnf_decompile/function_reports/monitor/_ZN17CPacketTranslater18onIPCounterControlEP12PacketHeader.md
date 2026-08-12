@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808a552` | `0x24b` | `0x8075cd6` | `0x24b` |
+| monitor | DIFF | `0x808a552` | `0x24b` | `0x8075c32` | `0x24b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -238,7 +238,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18onIPCounterControlEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3626 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3639 行）：
 
 ```cpp
 void CPacketTranslater::onIPCounterControl(PacketHeader* pkt)

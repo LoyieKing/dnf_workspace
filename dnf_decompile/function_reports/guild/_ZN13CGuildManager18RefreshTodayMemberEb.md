@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80970b8` | `0x151` | `0x805ce42` | `0x140` |
+| guild | DIFF | `0x80970b8` | `0x151` | `0x805ce34` | `0x140` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -215,16 +215,17 @@ CGuildManager::_ZN13CGuildManager18RefreshTodayMemberEb(CGuildManager *this,bool
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 715 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 713 行）：
 
 ```cpp
 void CGuildManager::RefreshTodayMember(bool flag)
 {
+    struct CGM_Time1 { char pad[0x70]; tm t; };
     time_t now;
     tm* t;
     time(&now);
     t = localtime(&now);
-    if (flag || *(unsigned int*)((char*)this + 0x7c) != (unsigned int)t->tm_mday &&
+    if (flag || (unsigned int)((CGM_Time1*)this)->t.tm_mday != (unsigned int)t->tm_mday &&
         t->tm_hour == 6)
     {
         m_todayMembers.clear();
@@ -236,7 +237,7 @@ void CGuildManager::RefreshTodayMember(bool flag)
                 it->second->QueryTodayGuildMember(m_app->Get_ServerHandler());
             }
         }
-        *(tm*)((char*)this + 0x70) = *t;
+        ((CGM_Time1*)this)->t = *t;
     }
 }
 ```

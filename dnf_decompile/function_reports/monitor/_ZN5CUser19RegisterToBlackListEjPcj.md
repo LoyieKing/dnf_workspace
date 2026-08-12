@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806d7c8` | `0x93` | `0x8089a54` | `0xb0` |
+| monitor | DIFF | `0x806d7c8` | `0x93` | `0x8089962` | `0xb5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,45 +1,59 @@
+@@ -1,45 +1,60 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -37,8 +37,10 @@
 +mov    %eax,(%esp)
 +call   <T> <_Unwind_Resume>
  mov    %ebx,%eax
- mov    %eax,-0x24(%ebp)
- mov    -0x24(%ebp),%eax
+-mov    %eax,-0x24(%ebp)
+-mov    -0x24(%ebp),%eax
++mov    %eax,-0x2c(%ebp)
++mov    -0x2c(%ebp),%eax
  mov    0x14(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    0x10(%ebp),%edx
@@ -47,29 +49,27 @@
  call   <T> <_ZN10CBlackUser12SetBlackUserEPcj>
 -lea    -0x10(%ebp),%eax
 -lea    -0x24(%ebp),%edx
--mov    %edx,0x8(%esp)
--lea    0xc(%ebp),%edx
--mov    %edx,0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+lea    0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
 +lea    -0x20(%ebp),%eax
++lea    -0x2c(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ lea    0xc(%ebp),%edx
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZSt9make_pairIRjRP10CBlackUserESt4pairINSt17__decay_and_stripIT_E6__typeENS5_IT0_E6__typeEEOS6_OS9_>
--sub    $0x4,%esp
+ call   <T> <_ZSt9make_pairIRjRP10CBlackUserESt4pairINSt17__decay_and_stripIT_E6__typeENS5_IT0_E6__typeEEOS6_OS9_>
+ sub    $0x4,%esp
 -lea    -0x10(%ebp),%eax
--mov    %eax,0x4(%esp)
++lea    -0x20(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKjP10CBlackUserEC1IjS2_EEOS_IT_T0_E>
-+call   <T> <_ZNSt4pairIKjP10CBlackUserEC1IRjRS2_EEOT_OT0_>
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIKjP10CBlackUserEC1IjS2_EEOS_IT_T0_E>
  mov    0x8(%ebp),%eax
  lea    0x50(%eax),%ecx
 -lea    -0x20(%ebp),%eax
 -lea    -0x18(%ebp),%edx
-+lea    -0x2c(%ebp),%eax
-+lea    -0x20(%ebp),%edx
++lea    -0x34(%ebp),%eax
++lea    -0x28(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -78,12 +78,7 @@
 -movzbl -0x1c(%ebp),%eax
 -mov    -0x4(%ebp),%ebx
 -leave
-+movzbl -0x28(%ebp),%eax
-+test   %al,%al
-+je     <T> <_ZN5CUser19RegisterToBlackListEjPcj+0xa0>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN5CUser19RegisterToBlackListEjPcj+0xa5>
-+mov    $0x0,%eax
++movzbl -0x30(%ebp),%eax
 +lea    -0xc(%ebp),%esp
 +add    $0x0,%esp
 +pop    %ebx

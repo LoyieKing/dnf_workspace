@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8091ee2` | `0x1f4` | `0x807d502` | `0x1ff` |
+| monitor | DIFF | `0x8091ee2` | `0x1f4` | `0x807d45e` | `0x1f9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -41,12 +41,10 @@
  movl   $&_ZTIi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <__cxa_throw>
--mov    0x8(%ebp),%eax
--mov    %eax,-0x20(%ebp)
--cmpl   $0x0,-0x20(%ebp)
--jne    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0xe2>
-+cmpl   $0x0,0x8(%ebp)
-+jne    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0xdc>
+ mov    0x8(%ebp),%eax
+ mov    %eax,-0x20(%ebp)
+ cmpl   $0x0,-0x20(%ebp)
+ jne    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0xe2>
  movl   $0x22e9,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x38(%ebp),%eax
@@ -68,41 +66,29 @@
  lea    -0x52(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN26Packet_Monitor_Event_StartC1Ev>
--mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    %eax,-0x48(%ebp)
-+mov    0x8(%ebp),%eax
-+movzwl 0x16(%eax),%eax
-+mov    %ax,-0x44(%ebp)
-+mov    0x8(%ebp),%eax
-+movzwl 0x18(%eax),%eax
-+mov    %ax,-0x42(%ebp)
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    0xa0(%eax),%eax
-+mov    %eax,-0x20(%ebp)
 +lea    -0x52(%ebp),%eax
-+mov    %eax,0x4(%esp)
++lea    0xe(%eax),%edx
  mov    -0x20(%ebp),%eax
--mov    0x16(%eax),%eax
+ mov    0x16(%eax),%eax
 -mov    %eax,-0x44(%ebp)
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
--lea    -0x52(%ebp),%edx
--mov    %edx,0x4(%esp)
++mov    %eax,(%edx)
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
+ lea    -0x52(%ebp),%edx
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
--mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  movzwl 0x18(%eax),%eax
  movzwl %ax,%edi
--mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  movzwl 0x16(%eax),%eax
  movzwl %ax,%esi
--mov    -0x20(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    0xa(%eax),%ebx
  movl   $0x22f2,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -118,10 +104,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1ec>
-+jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1f7>
++jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1f1>
  cmp    $0x1,%edx
 -je     <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x186>
-+je     <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x191>
++je     <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x18b>
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  mov    %eax,(%esp)
@@ -141,7 +127,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1e7>
-+jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1f2>
++jmp    <T> <_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader+0x1ec>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -219,7 +205,7 @@ void CPacketTranslater::_ZN17CPacketTranslater26onStartGameEventFromServerEP12Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5479 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5494 行）：
 
 ```cpp
 void CPacketTranslater::onStartGameEventFromServer(PacketHeader* pkt)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091296` | `0x8f` | `0x8056e44` | `0x8e` |
+| guild | DIFF | `0x8091296` | `0x8f` | `0x8056e42` | `0x8e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -105,16 +105,16 @@ void __thiscall CGuild::_ZN6CGuild15CheckGuildSkillEv(CGuild *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1798 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1806 行）：
 
 ```cpp
 void CGuild::CheckGuildSkill()
 {
-    if (*(unsigned char*)((char*)this + 0x3b) != 0 &&
-        *(short*)((char*)this + 0x62) == 0 && *(char*)((char*)this + 100) == 0)
+    STGuildDBInfo* p = &m_dbInfo;
+    if (p->m_info.m_guildLevel != 0 && p->m_info.m_field42 == 0 && p->m_info.m_field44 == 0)
     {
         DNF_LOG_SCOPE_LINE(0x85c,"./log/GuildSkill", "Err : key(%d), lev(%d), gsp(0), cnt(0)",
-            GetGuildKey(), (unsigned int)*(unsigned char*)((char*)this + 0x3b));
+            GetGuildKey(), (unsigned int)p->m_info.m_guildLevel);
     }
 }
 ```

@@ -120,7 +120,7 @@ StatisticManager::_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randomb
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1294 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1304 行）：
 
 ```cpp
 void StatisticManager::AddRandomboxStatistic(Packet_Randombox_statistic* pkt)
@@ -131,15 +131,17 @@ void StatisticManager::AddRandomboxStatistic(Packet_Randombox_statistic* pkt)
         char m_f0a;
         char m_f0b;
     };
+    struct RBoxView1 { int m_pad[2]; int m_b[0xd8]; };
+    struct RBoxView2 { int m_pad[3]; int m_b[0xd8]; };
     if ((char)((Wire*)pkt)->m_f0a < 5 && -1 < (char)((Wire*)pkt)->m_f0a)
     {
         if (((Wire*)pkt)->m_f0b == 0)
         {
-            *(int*)((char*)this + ((char)((Wire*)pkt)->m_f0a + 0xd0) * 4 + 8) += 1;
+            ((RBoxView1*)this)->m_b[0xd0 + (char)((Wire*)pkt)->m_f0a] += 1;
         }
         else if (((Wire*)pkt)->m_f0b == 1)
         {
-            *(int*)((char*)this + ((char)((Wire*)pkt)->m_f0a + 0xd4) * 4 + 0xc) += 1;
+            ((RBoxView2*)this)->m_b[0xd4 + (char)((Wire*)pkt)->m_f0a] += 1;
         }
     }
 }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80696b0` | `0xdf` | `0x808bb80` | `0xee` |
+| guild | DIFF | `0x80696b0` | `0xdf` | `0x808bb4e` | `0xe5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,66 +1,71 @@
+@@ -1,66 +1,68 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -24,21 +24,21 @@
 -je     <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xd0>
 +jne    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x19>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xe4>
++jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xdb>
  lea    0x10(%ebp),%eax
  mov    %eax,0x8(%esp)
  lea    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKSsP5CUserEC1IRPcRS2_EEOT_OT0_>
  mov    0x8(%ebp),%eax
  lea    0x30(%eax),%ecx
 -lea    -0x20(%ebp),%eax
 -lea    -0x18(%ebp),%edx
-+lea    -0x1c(%ebp),%eax
-+lea    -0x14(%ebp),%edx
++lea    -0x18(%ebp),%eax
++lea    -0x10(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -46,56 +46,52 @@
  sub    $0x4,%esp
 -movzbl -0x1c(%ebp),%ebx
 -lea    -0x18(%ebp),%eax
-+movzbl -0x18(%ebp),%eax
-+mov    %eax,%ebx
-+xor    $0x1,%ebx
-+lea    -0x14(%ebp),%eax
++movzbl -0x14(%ebp),%ebx
++lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKSsP5CUserED1Ev>
  test   %bl,%bl
 -jne    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x7b>
 -jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x82>
-+jne    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x86>
-+jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xdf>
++jne    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x81>
++jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0x88>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x18(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKSsP5CUserED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--mov    $0x1,%eax
+ mov    $0x1,%eax
 -jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xd5>
++jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xdb>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser7GetDBIDEv>
 -mov    %eax,%ebx
 -mov    0xc(%ebp),%esi
-+mov    %eax,-0xc(%ebp)
++mov    %eax,%esi
++mov    0xc(%ebp),%ebx
  movl   $0x1a6,0x8(%esp)
  movl   $&_ZZN12CUserManager19InsertUser_CharNameEPcP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0x10(%esp)
 -mov    %esi,0xc(%esp)
-+mov    0xc(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,0x10(%esp)
-+mov    %eax,0xc(%esp)
++mov    %esi,0x10(%esp)
++mov    %ebx,0xc(%esp)
  movl   $"[INSERT_ERR]Already Exist!\tChar Name : %s\tDB No : %d\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x10(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
-+jmp    <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xe4>
-+mov    $0x1,%eax
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx

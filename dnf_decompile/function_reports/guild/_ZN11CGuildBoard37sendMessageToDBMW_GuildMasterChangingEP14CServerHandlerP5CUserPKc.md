@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809dee2` | `0x1c7` | `0x80903c6` | `0x1d0` |
+| guild | DIFF | `0x809dee2` | `0x1c7` | `0x809049e` | `0x1b0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,66 +13,73 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,124 +1,129 @@
+@@ -1,124 +1,121 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
- sub    $0xf0,%esp
- lea    -0xd8(%ebp),%eax
+-sub    $0xf0,%esp
+-lea    -0xd8(%ebp),%eax
++sub    $0x100,%esp
++lea    -0xe0(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN40Packet_DB_Load_Request_Guild_Board_WriteC1Ev>
-+lea    -0xd8(%ebp),%eax
-+lea    0xb(%eax),%ebx
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetGuildKeyEv>
 -mov    %eax,-0xcd(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0xd8(%ebp),%eax
-+lea    0x13(%eax),%ebx
++mov    %eax,-0x10(%ebp)
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0xc5(%ebp)
-+mov    %eax,(%ebx)
- lea    -0x11(%ebp),%eax
+-lea    -0x11(%ebp),%eax
++mov    %eax,-0xc(%ebp)
++lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
- lea    -0x11(%ebp),%eax
+-lea    -0x11(%ebp),%eax
++lea    -0x19(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    0x14(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x18(%ebp),%eax
+-lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -jmp    <T> <_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc+0x7c>
-+jmp    <T> <_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc+0x86>
++jmp    <T> <_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc+0x76>
  mov    %edx,%ebx
  mov    %eax,%esi
- lea    -0x11(%ebp),%eax
+-lea    -0x11(%ebp),%eax
++lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
- lea    -0x11(%ebp),%eax
+-lea    -0x11(%ebp),%eax
++lea    -0x19(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- lea    -0x1c(%ebp),%eax
+-lea    -0x1c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  movl   $0x0,0xc(%esp)
  movl   $0x3f1,0x8(%esp)
  movl   $&g_ServerString_,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb>
  sub    $0x4,%esp
- lea    -0x1c(%ebp),%eax
+-lea    -0x1c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x18(%ebp),%eax
+-lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSspLERKSs>
- lea    -0x18(%ebp),%eax
+-lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs6lengthEv>
  cmp    $0x77,%eax
@@ -82,72 +89,79 @@
 -je     <T> <_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc+0xde>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc+0x18a>
-+je     <T> <_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc+0x193>
- lea    -0x18(%ebp),%eax
+-lea    -0x18(%ebp),%eax
++je     <T> <_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc+0x173>
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs6lengthEv>
  mov    %eax,%ebx
- lea    -0x18(%ebp),%eax
+-lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs5c_strEv>
  mov    %ebx,0x8(%esp)
  mov    %eax,0x4(%esp)
- lea    -0xd8(%ebp),%eax
+-lea    -0xd8(%ebp),%eax
++lea    -0xe0(%ebp),%eax
  add    $0x17,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
- lea    -0xd8(%ebp),%eax
+-lea    -0xd8(%ebp),%eax
++lea    -0xe0(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -mov    -0xc5(%ebp),%esi
 -mov    -0xcd(%ebp),%ebx
-+lea    -0xd8(%ebp),%eax
-+add    $0x13,%eax
-+mov    (%eax),%esi
-+lea    -0xd8(%ebp),%eax
-+add    $0xb,%eax
-+mov    (%eax),%ebx
  movl   $0x17b,0x8(%esp)
  movl   $&_ZZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKcE12__FUNCTION__,0x4(%esp)
- lea    -0x10(%ebp),%eax
+-lea    -0x10(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    %esi,0x10(%esp)
- mov    %ebx,0xc(%esp)
+-mov    %esi,0x10(%esp)
+-mov    %ebx,0xc(%esp)
++mov    -0xc(%ebp),%eax
++mov    %eax,0x10(%esp)
++mov    -0x10(%ebp),%eax
++mov    %eax,0xc(%esp)
  movl   $"SET SUCCESS - GUILD:%u, CHARAC:%u",0x8(%esp)
  movl   $"./log/GuildBoard",0x4(%esp)
- lea    -0x10(%ebp),%eax
+-lea    -0x10(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x1,%ebx
 -jmp    <T> <_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc+0x18a>
-+jmp    <T> <_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc+0x193>
++jmp    <T> <_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc+0x173>
  mov    %edx,%ebx
  mov    %eax,%esi
- lea    -0x1c(%ebp),%eax
+-lea    -0x1c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc+0x1ac>
-+jmp    <T> <_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc+0x1a0>
- lea    -0x1c(%ebp),%eax
+-lea    -0x1c(%ebp),%eax
++jmp    <T> <_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc+0x180>
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -test   %ebx,%ebx
-+jmp    <T> <_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc+0x1bb>
+-lea    -0x18(%ebp),%eax
++jmp    <T> <_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc+0x19b>
 +mov    %edx,%ebx
 +mov    %eax,%esi
-+lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
 +mov    %eax,(%esp)
 +call   <T> <_Unwind_Resume>
- lea    -0x18(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  lea    -0x8(%ebp),%esp

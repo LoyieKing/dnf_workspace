@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806d480` | `0x82` | `0x8088b7c` | `0x85` |
+| monitor | DIFF | `0x806d480` | `0x82` | `0x8088b12` | `0x82` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,45 +13,40 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,42 +1,43 @@
+@@ -1,42 +1,42 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  mov    0x8(%ebp),%eax
  mov    0xc(%eax),%eax
  test   %eax,%eax
--je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
-+je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x83>
-+mov    0x8(%ebp),%eax
-+mov    0xc(%eax),%eax
-+mov    %eax,-0x10(%ebp)
+ je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
  mov    0xc(%ebp),%eax
  movzwl 0x2(%eax),%eax
--movzwl %ax,%ecx
-+movzwl %ax,%edx
+ movzwl %ax,%ecx
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
--movzwl %ax,%edx
--mov    0x8(%ebp),%eax
--mov    0xc(%eax),%eax
--mov    %ecx,0x8(%esp)
--mov    %edx,0x4(%esp)
-+movzwl %ax,%eax
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    -0x10(%ebp),%eax
+ movzwl %ax,%edx
+ mov    0x8(%ebp),%eax
+ mov    0xc(%eax),%eax
+ mov    %ecx,0x8(%esp)
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer16makePacketHeaderEtt>
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
--je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
-+je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x83>
+ je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
  mov    0xc(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%eax
 -lea    -0xa(%eax),%ecx
 -mov    0xc(%ebp),%eax
 -lea    0xa(%eax),%edx
+-mov    -0xc(%ebp),%eax
+-add    $0xa,%eax
+-mov    %ecx,0x8(%esp)
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
 +sub    $0xa,%eax
 +mov    0xc(%ebp),%edx
 +lea    0xa(%edx),%ecx
@@ -60,19 +55,11 @@
 +mov    %eax,0x8(%esp)
 +mov    %ecx,0x4(%esp)
 +mov    %edx,(%esp)
-+call   <T> <memcpy>
- mov    -0xc(%ebp),%eax
--add    $0xa,%eax
--mov    %ecx,0x8(%esp)
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <memcpy>
--mov    0x8(%ebp),%eax
--mov    0xc(%eax),%eax
--mov    -0xc(%ebp),%edx
--mov    %edx,0x4(%esp)
-+mov    %eax,0x4(%esp)
-+mov    -0x10(%ebp),%eax
+ call   <T> <memcpy>
+ mov    0x8(%ebp),%eax
+ mov    0xc(%eax),%eax
+ mov    -0xc(%ebp),%edx
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer16SendToGameServerEPc>
  leave

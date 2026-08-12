@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808ec7e` | `0x148` | `0x8054c3e` | `0x15e` |
+| guild | DIFF | `0x808ec7e` | `0x148` | `0x8054c3c` | `0x15e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -226,7 +226,7 @@ void __thiscall CGuild::_ZN6CGuild29NoticeMarkChangeToGuildMemberEj(CGuild *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1114 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1122 行）：
 
 ```cpp
 void CGuild::NoticeMarkChangeToGuildMember(unsigned int charNo)

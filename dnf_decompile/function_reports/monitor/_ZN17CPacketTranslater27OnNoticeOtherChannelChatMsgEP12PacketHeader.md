@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8084830` | `0x85b` | `0x806b7ee` | `0x7d6` |
+| monitor | DIFF | `0x8084830` | `0x85b` | `0x806b74c` | `0x7d6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -1119,7 +1119,7 @@ LAB_08084d4b:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 763 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 777 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt)

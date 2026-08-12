@@ -183,22 +183,31 @@ StatisticManager::_ZN16StatisticManager25AddBloodDungeonStatisticsEP30Packet_Blo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1184 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1185 行）：
 
 ```cpp
 void StatisticManager::AddBloodDungeonStatistics(Packet_Blood_dungeon_statistic* pkt)
 {
-    std::map<unsigned int, STBloodDungeonStatistic>::iterator it =
-        m_blood.find(*(unsigned int*)((char*)pkt + 10));
-    if (it == m_blood.end())
+    struct __attribute__((packed)) Wire
     {
-        m_blood.insert(std::make_pair(*(unsigned int*)((char*)pkt + 10),
-                                      *(STBloodDungeonStatistic*)((char*)pkt + 0xe)));
+        char m_hdr[0xe];
+        unsigned int m_key;
+        unsigned char m_f0;
+        unsigned char m_f1;
+    };
+    STBloodDungeonStatistic v;
+    std::map<unsigned int, STBloodDungeonStatistic>::iterator it =
+        m_blood.find(*(unsigned int*)((char*)pkt + 0xe));
+    if (it != m_blood.end())
+    {
+        it->second.m_field0 += ((Wire*)pkt)->m_f0;
+        it->second.m_field4 += ((Wire*)pkt)->m_f1;
     }
     else
     {
-        it->second.m_field0 += (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x12);
-        it->second.m_field4 += (unsigned int)(unsigned char)*(char*)((char*)pkt + 0x13);
+        v.m_field0 = ((Wire*)pkt)->m_f0;
+        v.m_field4 = ((Wire*)pkt)->m_f1;
+        m_blood.insert(std::make_pair(*(unsigned int*)((char*)pkt + 0xe), v));
     }
 }
 ```

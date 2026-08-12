@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x806dbae` | `0xfc` | `0x8081d6c` | `0xfc` |
+| guild | NEAR | `0x806dbae` | `0xfc` | `0x8081d5e` | `0xfc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 

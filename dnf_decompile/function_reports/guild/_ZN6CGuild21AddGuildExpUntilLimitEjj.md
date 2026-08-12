@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808d9fe` | `0xd6` | `0x805394a` | `0xe4` |
+| guild | DIFF | `0x808d9fe` | `0xd6` | `0x8053948` | `0xe4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -140,7 +140,7 @@ void __thiscall CGuild::_ZN6CGuild21AddGuildExpUntilLimitEjj(CGuild *this,uint p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 723 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 731 行）：
 
 ```cpp
 void CGuild::AddGuildExpUntilLimit(unsigned int exp, unsigned int limit)

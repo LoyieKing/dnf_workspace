@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a2b6` | `0xe5` | `0x808083c` | `0xe8` |
+| monitor | DIFF | `0x807a2b6` | `0xe5` | `0x8080794` | `0xe8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,8 +20,7 @@
  push   %esi
  push   %ebx
  sub    $0x3c,%esp
--movl   $0x10,(%esp)
-+movl   $0x1c,(%esp)
+ movl   $0x10,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
  mov    %ebx,%eax

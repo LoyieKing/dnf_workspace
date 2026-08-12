@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80913a4` | `0x158` | `0x8056f52` | `0x149` |
+| guild | DIFF | `0x80913a4` | `0x158` | `0x8056f50` | `0x149` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -204,24 +204,35 @@ void __thiscall CGuild::_ZN6CGuild26NotifyMessageToGuildMemberEv(CGuild *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1822 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1830 行）：
 
 ```cpp
 void CGuild::NotifyMessageToGuildMember()
 {
-    if ((*(unsigned short*)((char*)this + 0x1c) & 4) != 0 && !m_members.empty())
+    if ((m_field1c & 4) != 0)
     {
-        Packet_Guild_Notify_Message_To_Guild_Mem pkt;
-        size_t len = strlen((char*)this + 0x4d0a);
-        memcpy((char*)&pkt + 0x12, (char*)this + 0x4d0a, len < 0x65 ? len : 100);
-        for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
-             it != m_members.end(); ++it)
+        if (m_members.empty())
         {
-            CUser* u = it->second;
-            if (u != 0)
+        }
+        else
+        {
+            Packet_Guild_Notify_Message_To_Guild_Mem pkt;
+            int len = strlen((char*)this + 0x4d0a);
+            if (len <= 100)
             {
-                *(unsigned int*)((char*)&pkt + 0xa) = u->GetIdByChannel();
-                *(unsigned int*)((char*)&pkt + 0xe) = u->GetUniqCharNo();
+                memcpy((char*)&pkt + 0x12, (char*)this + 0x4d0a, len);
+            }
+            else
+            {
+                memcpy((char*)&pkt + 0x12, (char*)this + 0x4d0a, 100);
+            }
+            for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
+                 it != m_members.end(); ++it)
+            {
+                CUser* u;
+                if ((u = it->second) == 0) { continue; }
+                *(unsigned int*)&pkt.m_data[0] = u->GetIdByChannel();
+                *(unsigned int*)&pkt.m_data[4] = u->GetUniqCharNo();
                 u->SendToGameserver((char*)&pkt, 0x77);
             }
         }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8061e82` | `0x85` | `0x8061674` | `0x85` |
+| monitor | DIFF | `0x8061e82` | `0x85` | `0x806163c` | `0x88` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -23,9 +23,11 @@
  cmp    $0x23,%al
  jne    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x18>
  mov    $0x0,%eax
- jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7f>
+-jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7f>
++jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x82>
  movl   $0x1,0xc(%esp)
- lea    -0x10(%ebp),%eax
+-lea    -0x10(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"\t\"",0x4(%esp)
  mov    0xc(%ebp),%eax
@@ -33,20 +35,24 @@
  call   <T> <_ZN7DNFFLib13ExplodeStringEPcS0_PS0_i>
  cmp    $0x1,%eax
  jne    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x4d>
- mov    -0xc(%ebp),%eax
+-mov    -0xc(%ebp),%eax
++mov    -0x10(%ebp),%eax
  test   %eax,%eax
  jne    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x4d>
  mov    $0x1,%eax
  jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x52>
  mov    $0x0,%eax
 -test   %al,%al
-+mov    %eax,%ebx
-+test   %bl,%bl
- je     <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7a>
+-je     <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7a>
++mov    %al,-0x9(%ebp)
++cmpb   $0x0,-0x9(%ebp)
++je     <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7d>
  cmpl   $0xa,0x10(%ebp)
- jg     <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7a>
+-jg     <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7a>
++jg     <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7d>
  mov    0x10(%ebp),%ebx
- mov    -0x10(%ebp),%eax
+-mov    -0x10(%ebp),%eax
++mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <atoi>
 -mov    %eax,%edx
@@ -55,7 +61,8 @@
 +mov    0x8(%ebp),%edx
 +mov    %eax,0x8(%edx,%ebx,4)
  mov    $0x1,%eax
- jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7f>
+-jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x7f>
++jmp    <T> <_ZN13CMemberExpTbl11Parse_TableEPci+0x82>
  mov    $0x0,%eax
  add    $0x24,%esp
  pop    %ebx

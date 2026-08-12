@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808d440` | `0xf7` | `0x8078b6a` | `0xf9` |
+| monitor | DIFF | `0x808d440` | `0xf7` | `0x8078ac6` | `0xf9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -147,21 +147,23 @@ void CPacketTranslater::_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4341 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4354 行）：
 
 ```cpp
 void CPacketTranslater::OnDisableUserOneToOneChat_GM(PacketHeader* pkt)
 {
+    PacketHeader* pktLocal = pkt;
     if (m_pclApp != 0)
     {
-        unsigned int channel = ((RA_UINT<10>*)pkt)->v;
-        if (m_pclApp->isGM_regFromChannel(channel) != 0)
+        if (m_pclApp->isGM_regFromChannel(((RA_UINT<10>*)pktLocal)->v))
         {
             CUser* target =
-                ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharName((char*)pkt + 0x12);
+                ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharName(
+                    (char*)pktLocal + 0x12);
             if (target != 0)
             {
-                m_pclApp->DisableChatUserWithGM(channel, target->GetUniqCharNo());
+                m_pclApp->DisableChatUserWithGM(
+                    ((RA_UINT<10>*)pktLocal)->v, target->GetUniqCharNo());
             }
         }
     }

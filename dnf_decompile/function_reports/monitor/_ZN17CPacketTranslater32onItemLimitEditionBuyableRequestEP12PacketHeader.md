@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808b49a` | `0x2b9` | `0x8076bf2` | `0x2c1` |
+| monitor | DIFF | `0x808b49a` | `0x2b9` | `0x8076b4e` | `0x2c1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -353,7 +353,7 @@ void CPacketTranslater::_ZN17CPacketTranslater32onItemLimitEditionBuyableRequest
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3841 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3854 行）：
 
 ```cpp
 void CPacketTranslater::onItemLimitEditionBuyableRequest(PacketHeader* pkt)

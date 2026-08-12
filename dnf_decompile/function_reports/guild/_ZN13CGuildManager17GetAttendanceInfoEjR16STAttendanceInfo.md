@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8097666` | `0x160` | `0x805d3da` | `0x167` |
+| guild | DIFF | `0x8097666` | `0x160` | `0x805d3cc` | `0x167` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -228,30 +228,41 @@ CGuildManager::_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo
 ```cpp
 void CGuildManager::GetAttendanceInfo(unsigned int guildKey, STAttendanceInfo& info)
 {
+    struct GAI_Layout {
+        unsigned int m0;  // +0
+        unsigned int m1;  // +4
+        unsigned int m2;  // +8
+        unsigned int m3;  // +0xc
+        unsigned int m4;  // +0x10
+        unsigned int m5;  // +0x14
+        int m6;           // +0x18
+    };
     CGuild* guild = FindGuild(guildKey);
     if (guild != 0)
     {
-        ((unsigned int*)&info)[1] =
+        ((GAI_Layout&)info).m1 =
             (unsigned int)guild->GetTotalCnt_Of_GuildDBInfo() & 0xffff;
         std::map<unsigned int, std::vector<unsigned int> >::iterator it =
             m_attendance.find(guildKey);
         if (it != m_attendance.end())
         {
-            ((unsigned int*)&info)[0] = (unsigned int)it->second.size();
+            ((GAI_Layout&)info).m0 = (unsigned int)it->second.size();
             int phase = GetAttendancePhase(guildKey);
-            ((int*)&info)[6] = phase;
+            ((GAI_Layout&)info).m6 = phase;
             if (phase >= 0 && phase < 9)
             {
-                ((unsigned int*)&info)[4] = guild_att_phase[phase];
-                ((unsigned int*)&info)[5] =
-                    guild_att_exp[(guild->GetGuildLevel() & 0xff) + phase * 0x11];
+                ((GAI_Layout&)info).m4 = guild_att_phase[phase];
+                register int p = phase;
+                ((GAI_Layout&)info).m5 =
+                    guild_att_exp[(guild->GetGuildLevel() & 0xff) + p * 0x11];
             }
             phase++;
             if (phase >= 0 && phase < 9)
             {
-                ((unsigned int*)&info)[2] = guild_att_phase[phase];
-                ((unsigned int*)&info)[3] =
-                    guild_att_exp[(guild->GetGuildLevel() & 0xff) + phase * 0x11];
+                ((GAI_Layout&)info).m2 = guild_att_phase[phase];
+                register int p = phase;
+                ((GAI_Layout&)info).m3 =
+                    guild_att_exp[(guild->GetGuildLevel() & 0xff) + p * 0x11];
             }
         }
     }

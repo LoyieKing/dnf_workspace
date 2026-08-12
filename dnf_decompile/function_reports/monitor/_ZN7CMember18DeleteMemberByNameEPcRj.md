@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8098582` | `0x13c` | `0x8060f68` | `0x152` |
+| monitor | DIFF | `0x8098582` | `0x13c` | `0x8060fac` | `0x13f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,18 +13,16 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,91 +1,94 @@
+@@ -1,91 +1,92 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNK7CMember20GetUpperMember_ProxyEv>
-+call   <T> <_ZN7CMember20GetUpperMember_ProxyEv>
+ call   <T> <_ZNK7CMember20GetUpperMember_ProxyEv>
  mov    %eax,-0x18(%ebp)
  cmpl   $0x0,-0x18(%ebp)
--je     <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x70>
-+je     <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x80>
+ je     <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x70>
  mov    -0x18(%ebp),%eax
  lea    0x5(%eax),%edx
  mov    0xc(%ebp),%eax
@@ -32,19 +30,15 @@
  mov    %edx,(%esp)
  call   <T> <strcmp>
  test   %eax,%eax
--jne    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x70>
-+jne    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x80>
+ jne    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x70>
  mov    -0x18(%ebp),%eax
  mov    (%eax),%edx
  mov    0x10(%ebp),%eax
  mov    %edx,(%eax)
  mov    0x8(%ebp),%eax
  add    $0x6,%eax
-+movl   $0x27,0x8(%esp)
-+movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZN14ST_MemberProxy5ResetEv>
-+call   <T> <memset>
+ call   <T> <_ZN14ST_MemberProxy5ResetEv>
  movl   $0x0,(%esp)
  call   <T> <time>
  mov    %eax,0x4(%esp)
@@ -53,23 +47,21 @@
  call   <T> <_ZN7CMember19SetMemberDeleteTimeEj>
  mov    $0x1,%eax
 -jmp    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x13a>
-+jmp    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x150>
++jmp    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x13d>
  mov    0x8(%ebp),%eax
  add    $0x2e,%eax
  mov    %eax,-0x14(%ebp)
--movb   $0x0,-0xd(%ebp)
-+movl   $0x0,-0x10(%ebp)
+ movb   $0x0,-0xd(%ebp)
  mov    0x8(%ebp),%eax
  movzbl 0x2d(%eax),%eax
  movzbl %al,%eax
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
 -jg     <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x122>
-+jne    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x13c>
- mov    $0x0,%eax
+-mov    $0x0,%eax
 -jmp    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x13a>
-+jmp    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x150>
-+subl   $0x1,-0xc(%ebp)
++jle    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x138>
++jmp    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x11e>
  mov    -0x14(%ebp),%eax
  lea    0x5(%eax),%edx
  mov    0xc(%ebp),%eax
@@ -78,14 +70,12 @@
  call   <T> <strcmp>
  test   %eax,%eax
 -jne    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x11a>
-+jne    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x134>
++jne    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x116>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%edx
  mov    0x10(%ebp),%eax
  mov    %edx,(%eax)
--movzbl -0xd(%ebp),%eax
-+mov    -0x10(%ebp),%eax
-+movzbl %al,%eax
+ movzbl -0xd(%ebp),%eax
  not    %eax
  imul   $0x27,%eax,%eax
 -add    $0x186,%eax
@@ -114,17 +104,18 @@
  call   <T> <_ZN7CMember19SetMemberDeleteTimeEj>
  mov    $0x2,%eax
 -jmp    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x13a>
-+jmp    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x150>
++jmp    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x13d>
  addl   $0x27,-0x14(%ebp)
--addb   $0x1,-0xd(%ebp)
-+addl   $0x1,-0x10(%ebp)
+ addb   $0x1,-0xd(%ebp)
  cmpl   $0x0,-0xc(%ebp)
  setne  %al
--subl   $0x1,-0xc(%ebp)
+ subl   $0x1,-0xc(%ebp)
  test   %al,%al
 -jne    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x9e>
-+jne    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0xb1>
++jne    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x99>
  mov    $0x3,%eax
++jmp    <T> <_ZN7CMember18DeleteMemberByNameEPcRj+0x13d>
++mov    $0x0,%eax
  leave
  ret
 ```

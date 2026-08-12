@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809d9a2` | `0x23d` | `0x808ff36` | `0x22d` |
+| guild | DIFF | `0x809d9a2` | `0x23d` | `0x808ff8c` | `0x226` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,59 +13,38 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,159 +1,150 @@
+@@ -1,159 +1,156 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
- sub    $0x1fc,%esp
+-sub    $0x1fc,%esp
 -lea    -0xe4(%ebp),%eax
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsC1Ev>
-+lea    -0xe8(%ebp),%eax
++sub    $0x20c,%esp
++lea    -0xec(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN40Packet_DB_Load_Request_Guild_Board_WriteC1Ev>
-+lea    -0xe8(%ebp),%eax
-+lea    0xb(%eax),%ebx
  mov    0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetGuildKeyEv>
 -mov    %eax,-0xd9(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0xe8(%ebp),%eax
-+lea    0x13(%eax),%ebx
++mov    %eax,-0x20(%ebp)
  mov    0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0xd1(%ebp)
-+mov    %eax,(%ebx)
- lea    -0x24(%ebp),%eax
+-lea    -0x24(%ebp),%eax
++mov    %eax,-0x1c(%ebp)
++lea    -0x2c(%ebp),%eax
  movl   $0x0,0xc(%esp)
  movl   $0x3ee,0x8(%esp)
  movl   $&g_ServerString_,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb>
  sub    $0x4,%esp
-+lea    -0x24(%ebp),%eax
-+mov    %eax,0x4(%esp)
- lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsaSERKSs>
-+jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0xa3>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x1fc>
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+lea    -0x2c(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  movl   $0x0,0xc(%esp)
  movl   $0x3ef,0x8(%esp)
  movl   $&g_ServerString_,0x4(%esp)
@@ -73,63 +52,68 @@
  call   <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb>
  sub    $0x4,%esp
 -lea    -0x1e3(%ebp),%edx
--mov    $0xff,%ebx
--mov    $0x0,%eax
--mov    %edx,%ecx
--and    $0x1,%ecx
--test   %ecx,%ecx
++lea    -0x1eb(%ebp),%edx
+ mov    $0xff,%ebx
+ mov    $0x0,%eax
+ mov    %edx,%ecx
+ and    $0x1,%ecx
+ test   %ecx,%ecx
 -je     <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0xa9>
--mov    %al,(%edx)
--add    $0x1,%edx
--sub    $0x1,%ebx
--mov    %edx,%ecx
--and    $0x2,%ecx
--test   %ecx,%ecx
++je     <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0xa3>
+ mov    %al,(%edx)
+ add    $0x1,%edx
+ sub    $0x1,%ebx
+ mov    %edx,%ecx
+ and    $0x2,%ecx
+ test   %ecx,%ecx
 -je     <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0xbb>
--mov    %ax,(%edx)
--add    $0x2,%edx
--sub    $0x2,%ebx
--mov    %ebx,%ecx
--shr    $0x2,%ecx
--mov    %edx,%edi
--rep stos %eax,%es:(%edi)
--mov    %edi,%edx
--mov    %ebx,%ecx
--and    $0x2,%ecx
--test   %ecx,%ecx
++je     <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0xb5>
+ mov    %ax,(%edx)
+ add    $0x2,%edx
+ sub    $0x2,%ebx
+ mov    %ebx,%ecx
+ shr    $0x2,%ecx
+ mov    %edx,%edi
+ rep stos %eax,%es:(%edi)
+ mov    %edi,%edx
+ mov    %ebx,%ecx
+ and    $0x2,%ecx
+ test   %ecx,%ecx
 -je     <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0xd5>
--mov    %ax,(%edx)
--add    $0x2,%edx
--mov    %ebx,%ecx
--and    $0x1,%ecx
--test   %ecx,%ecx
++je     <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0xcf>
+ mov    %ax,(%edx)
+ add    $0x2,%edx
+ mov    %ebx,%ecx
+ and    $0x1,%ecx
+ test   %ecx,%ecx
 -je     <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0xe3>
--mov    %al,(%edx)
--add    $0x1,%edx
++je     <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0xdd>
+ mov    %al,(%edx)
+ add    $0x1,%edx
  mov    0x10(%ebp),%eax
  add    $0x1,%eax
  mov    %eax,0x8(%esp)
  movl   $"%d",0x4(%esp)
 -lea    -0x1e3(%ebp),%eax
-+lea    -0x1e7(%ebp),%eax
++lea    -0x1eb(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <sprintf>
 -lea    -0x1e3(%ebp),%eax
-+lea    -0x1e7(%ebp),%eax
++lea    -0x1eb(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSspLEPKc>
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,0x4(%esp)
- lea    -0x28(%ebp),%eax
--mov    %eax,0x4(%esp)
+-lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSspLERKSs>
 -lea    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs6lengthEv>
  cmp    $0x77,%eax
@@ -140,54 +124,73 @@
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x1ff>
 -lea    -0x24(%ebp),%eax
-+je     <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x1ef>
-+lea    -0x28(%ebp),%eax
++je     <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x1e8>
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs6lengthEv>
  mov    %eax,%ebx
 -lea    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSs5c_strEv>
  mov    %ebx,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0xe4(%ebp),%eax
-+lea    -0xe8(%ebp),%eax
++lea    -0xec(%ebp),%eax
  add    $0x17,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
 -lea    -0xe4(%ebp),%eax
-+lea    -0xe8(%ebp),%eax
++lea    -0xec(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  mov    0x10(%ebp),%eax
- lea    0x1(%eax),%edi
+-lea    0x1(%eax),%edi
 -mov    -0xd1(%ebp),%esi
 -mov    -0xd9(%ebp),%ebx
-+lea    -0xe8(%ebp),%eax
-+add    $0x13,%eax
-+mov    (%eax),%esi
-+lea    -0xe8(%ebp),%eax
-+add    $0xb,%eax
-+mov    (%eax),%ebx
++lea    0x1(%eax),%ebx
  movl   $0x107,0x8(%esp)
  movl   $&_ZZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUserE12__FUNCTION__,0x4(%esp)
- lea    -0x20(%ebp),%eax
+-lea    -0x20(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    %edi,0x14(%esp)
- mov    %esi,0x10(%esp)
- mov    %ebx,0xc(%esp)
+-mov    %edi,0x14(%esp)
+-mov    %esi,0x10(%esp)
+-mov    %ebx,0xc(%esp)
++mov    %ebx,0x14(%esp)
++mov    -0x1c(%ebp),%eax
++mov    %eax,0x10(%esp)
++mov    -0x20(%ebp),%eax
++mov    %eax,0xc(%esp)
  movl   $"SET SUCCESS - GUILD:%u, CHARAC:%u, LEVEL:%u",0x8(%esp)
  movl   $"./log/GuildBoard",0x4(%esp)
- lea    -0x20(%ebp),%eax
+-lea    -0x20(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x1,%ebx
 -jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x1ff>
-+jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x1ef>
++jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x1e8>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+-lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+-jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x222>
+-lea    -0x28(%ebp),%eax
++jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x1f5>
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+-test   %ebx,%ebx
+-lea    -0x24(%ebp),%eax
++jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x210>
 +mov    %edx,%ebx
 +mov    %eax,%esi
 +lea    -0x2c(%ebp),%eax
@@ -195,26 +198,9 @@
 +call   <T> <_ZNSsD1Ev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x1fc>
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x217>
- mov    %edx,%ebx
- mov    %eax,%esi
- lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- mov    %esi,%eax
- mov    %ebx,%edx
--jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x222>
 +mov    %eax,(%esp)
 +call   <T> <_Unwind_Resume>
- lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--test   %ebx,%ebx
--lea    -0x24(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  lea    -0xc(%ebp),%esp

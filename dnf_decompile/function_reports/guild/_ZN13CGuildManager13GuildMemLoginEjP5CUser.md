@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80955e4` | `0x43d` | `0x805b394` | `0x416` |
+| guild | DIFF | `0x80955e4` | `0x43d` | `0x805b392` | `0x41b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,331 +1,318 @@
+@@ -1,331 +1,320 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -168,12 +168,11 @@
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -mov    %eax,-0x20(%ebp)
 -cmpl   $0x0,-0x20(%ebp)
--sete   %al
--test   %al,%al
--je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x2d9>
 +mov    %eax,-0x24(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
-+jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x2d4>
+ sete   %al
+ test   %al,%al
+ je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x2d9>
  lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -191,8 +190,7 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
--jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x27c>
-+jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x277>
+ jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x27c>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -206,37 +204,23 @@
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x276>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x29b>
--call   <T> <_ZSt9terminatev>
--mov    %esi,%ecx
--mov    %ebx,%eax
--jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x29b>
-+jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x271>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x296>
-+call   <T> <_ZSt9terminatev>
-+mov    %esi,%ecx
-+mov    %ebx,%eax
-+jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x296>
+ jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x276>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x29b>
+ call   <T> <_ZSt9terminatev>
+ mov    %esi,%ecx
+ mov    %ebx,%eax
+ jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x29b>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x2b6>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x29b>
-+jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x2b1>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x296>
+ jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x2b6>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x29b>
  call   <T> <_ZSt9terminatev>
  mov    %eax,%ecx
  mov    %edx,%eax
@@ -268,7 +252,7 @@
 -je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x326>
 +mov    %eax,-0x20(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
-+jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x31c>
++jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x321>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -284,7 +268,7 @@
 -mov    %eax,-0x24(%ebp)
 -jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x391>
 +mov    %eax,-0x20(%ebp)
-+jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x37b>
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x380>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -342,14 +326,14 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -mov    %eax,0x4(%esp)
-+jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x3aa>
++jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x3af>
  mov    -0x24(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild21QueryTodayGuildMemberEP14CServerHandler>
 -jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x3f8>
-+jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x3ce>
++jmp    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x3d3>
  mov    -0x1c(%ebp),%eax
  mov    %eax,0x4(%esp)
 -mov    -0x24(%ebp),%eax
@@ -374,7 +358,7 @@
 +cmp    $0x1,%eax
 +sete   %al
 +test   %al,%al
-+je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x40b>
++je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x410>
  mov    -0x24(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser>

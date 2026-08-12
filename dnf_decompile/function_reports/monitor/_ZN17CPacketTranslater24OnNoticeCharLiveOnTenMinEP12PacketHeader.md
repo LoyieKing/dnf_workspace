@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8086b34` | `0x3de` | `0x80726a0` | `0x40b` |
+| monitor | DIFF | `0x8086b34` | `0x3de` | `0x80725fc` | `0x40b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -587,7 +587,7 @@ void CPacketTranslater::_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2594 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2606 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeCharLiveOnTenMin(PacketHeader* pkt)

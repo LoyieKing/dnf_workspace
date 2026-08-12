@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808d566` | `0x112` | `0x8078c64` | `0x156` |
+| monitor | DIFF | `0x808d566` | `0x112` | `0x8078bc0` | `0x156` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -206,7 +206,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnFindCharacName_useUIDEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4358 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4373 行）：
 
 ```cpp
 void CPacketTranslater::OnFindCharacName_useUID(PacketHeader* pkt)

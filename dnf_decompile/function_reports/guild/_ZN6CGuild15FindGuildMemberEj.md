@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808d128` | `0x8b` | `0x805306e` | `0x7a` |
+| guild | DIFF | `0x808d128` | `0x8b` | `0x805306c` | `0x7a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -126,11 +126,16 @@ undefined4 CGuild::_ZN6CGuild15FindGuildMemberEj(uint param_1)
 ```cpp
 CUser* CGuild::FindGuildMember(unsigned int charNo)
 {
+    std::map<unsigned int, CUser*>::iterator it;
     if (m_members.empty())
     {
         return 0;
     }
-    std::map<unsigned int, CUser*>::iterator it = m_members.find(charNo);
-    return it == m_members.end() ? 0 : it->second;
+    it = m_members.find(charNo);
+    if (m_members.end() != it)
+    {
+        return it->second;
+    }
+    return 0;
 }
 ```
