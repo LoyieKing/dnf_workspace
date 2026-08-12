@@ -1,0 +1,2 @@
+PTL_LoginPkt::m_guildKey unsigned int -> int（消除 uint->int 参数转换临时寄存器 mov %eax,%edx）	NEAR(更近)	2026-08-12
+QueryCashMemoryBlackList 调用点形态：int 返回只能产生 test/sete，需被调函数返回 bool（跨 TU MemoryCashManager.h/cpp）才能产生 ORIG xor $0x1 形态	REMAIN(跨TU)	2026-08-12

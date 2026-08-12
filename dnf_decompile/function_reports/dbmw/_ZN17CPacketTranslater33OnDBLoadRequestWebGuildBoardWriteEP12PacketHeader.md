@@ -278,7 +278,7 @@ void CPacketTranslater::_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWrit
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 416 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 426 行）：
 
 ```cpp
 void CPacketTranslater::OnDBLoadRequestWebGuildBoardWrite(PacketHeader* header)

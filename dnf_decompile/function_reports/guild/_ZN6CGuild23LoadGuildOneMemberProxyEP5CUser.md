@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090968` | `0x200` | `0x8056526` | `0x1be` |
+| guild | DIFF | `0x8090968` | `0x200` | `0x8056536` | `0x1e5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,156 +13,148 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,152 +1,125 @@
+@@ -1,152 +1,145 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
+ push   %esi
  push   %ebx
--sub    $0x30,%esp
-+sub    $0x34,%esp
+ sub    $0x30,%esp
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1f4>
-+je     <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x29>
++je     <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x2a>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x8,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1f4>
-+jne    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x33>
++jne    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x34>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1b8>
++jmp    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1de>
  mov    0x8(%ebp),%eax
  movzwl 0x1e(%eax),%eax
  cmp    $0x12b,%ax
 -ja     <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x16e>
-+ja     <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x132>
++ja     <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x158>
  mov    0x8(%ebp),%eax
  movzwl 0x1e(%eax),%eax
 -movzwl %ax,%ebx
 +mov    %ax,-0xa(%ebp)
-+mov    0x8(%ebp),%eax
-+movzwl -0xa(%ebp),%edx
-+shl    $0x6,%edx
-+add    $0xdd,%edx
-+lea    (%eax,%edx,1),%ebx
++mov    0x8(%ebp),%esi
++movzwl -0xa(%ebp),%ebx
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,%edx
+ mov    %eax,%edx
 -mov    0x8(%ebp),%ecx
--mov    %ebx,%eax
--shl    $0x6,%eax
--add    %ebx,%eax
+ mov    %ebx,%eax
+ shl    $0x6,%eax
+ add    %ebx,%eax
 -lea    (%ecx,%eax,1),%eax
--add    $0xd0,%eax
--mov    %edx,0xd(%eax)
-+mov    %eax,(%ebx)
++lea    (%esi,%eax,1),%eax
+ add    $0xd0,%eax
+ mov    %edx,0xd(%eax)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
--mov    %eax,%ecx
+ mov    %eax,%ecx
 -mov    0x8(%ebp),%eax
 -movzwl 0x1e(%eax),%eax
 -movzwl %ax,%edx
--mov    %edx,%eax
--shl    $0x6,%eax
--add    %edx,%eax
--add    $0xd0,%eax
++mov    0x8(%ebp),%ebx
++movzwl -0xa(%ebp),%edx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ add    %edx,%eax
+ add    $0xd0,%eax
 -add    0x8(%ebp),%eax
--add    $0x11,%eax
-+mov    0x8(%ebp),%edx
-+movzwl -0xa(%ebp),%ecx
-+shl    $0x6,%ecx
-+add    $0xe1,%ecx
-+add    %ecx,%edx
++lea    (%ebx,%eax,1),%eax
+ add    $0x11,%eax
  movl   $0x1d,0x8(%esp)
--mov    %ecx,0x4(%esp)
--mov    %eax,(%esp)
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
+ mov    %ecx,0x4(%esp)
+ mov    %eax,(%esp)
  call   <T> <memcpy>
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -movzwl 0x1e(%eax),%eax
 -movzwl %ax,%ebx
-+movzwl -0xa(%ebp),%edx
-+shl    $0x6,%edx
-+add    $0xff,%edx
-+lea    (%eax,%edx,1),%ebx
++mov    0x8(%ebp),%esi
++movzwl -0xa(%ebp),%ebx
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser6GetJobEv>
--mov    %eax,%edx
+ mov    %eax,%edx
 -mov    0x8(%ebp),%ecx
--mov    %ebx,%eax
--shl    $0x6,%eax
--add    %ebx,%eax
+ mov    %ebx,%eax
+ shl    $0x6,%eax
+ add    %ebx,%eax
 -lea    (%ecx,%eax,1),%eax
 -add    $0xf0,%eax
 -mov    %dl,0xf(%eax)
-+mov    %al,(%ebx)
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -movzwl 0x1e(%eax),%eax
 -movzwl %ax,%ebx
-+movzwl -0xa(%ebp),%edx
-+add    $0x4,%edx
-+shl    $0x6,%edx
-+lea    (%eax,%edx,1),%ebx
++lea    (%esi,%eax,1),%eax
++add    $0xff,%eax
++mov    %dl,(%eax)
++mov    0x8(%ebp),%esi
++movzwl -0xa(%ebp),%ebx
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGrowthTypeEv>
--mov    %eax,%edx
+ mov    %eax,%edx
 -mov    0x8(%ebp),%ecx
--mov    %ebx,%eax
--shl    $0x6,%eax
--add    %ebx,%eax
+ mov    %ebx,%eax
+ shl    $0x6,%eax
+ add    %ebx,%eax
 -lea    (%ecx,%eax,1),%eax
 -add    $0xf0,%eax
 -mov    %dl,0x10(%eax)
-+mov    %al,(%ebx)
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -movzwl 0x1e(%eax),%eax
 -movzwl %ax,%ebx
-+movzwl -0xa(%ebp),%edx
-+shl    $0x6,%edx
-+add    $0x103,%edx
-+lea    (%eax,%edx,1),%ebx
++lea    (%esi,%eax,1),%eax
++add    $0x100,%eax
++mov    %dl,(%eax)
++mov    0x8(%ebp),%esi
++movzwl -0xa(%ebp),%ebx
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser6GetSexEv>
--mov    %eax,%edx
+ mov    %eax,%edx
 -mov    0x8(%ebp),%ecx
--mov    %ebx,%eax
--shl    $0x6,%eax
--add    %ebx,%eax
+ mov    %ebx,%eax
+ shl    $0x6,%eax
+ add    %ebx,%eax
 -lea    (%ecx,%eax,1),%eax
 -add    $0xf0,%eax
 -mov    %dl,0x13(%eax)
-+mov    %al,(%ebx)
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -movzwl 0x1e(%eax),%eax
 -movzwl %ax,%ebx
-+movzwl -0xa(%ebp),%edx
-+shl    $0x6,%edx
-+add    $0x101,%edx
-+lea    (%eax,%edx,1),%ebx
++lea    (%esi,%eax,1),%eax
++add    $0x103,%eax
++mov    %dl,(%eax)
++mov    0x8(%ebp),%esi
++movzwl -0xa(%ebp),%ebx
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser8GetLevelEv>
 -mov    %eax,%edx
 -mov    0x8(%ebp),%ecx
--mov    %ebx,%eax
--shl    $0x6,%eax
--add    %ebx,%eax
++movzbl %al,%edx
+ mov    %ebx,%eax
+ shl    $0x6,%eax
+ add    %ebx,%eax
 -lea    (%ecx,%eax,1),%eax
 -add    $0xf0,%eax
 -mov    %dx,0x11(%eax)
-+movzbl %al,%eax
-+mov    %ax,(%ebx)
++lea    (%esi,%eax,1),%eax
++add    $0x100,%eax
++mov    %dx,0x1(%eax)
  mov    0x8(%ebp),%eax
  movzwl 0x1e(%eax),%eax
  lea    0x1(%eax),%edx
@@ -172,7 +164,7 @@
  movzwl 0x1e(%eax),%eax
  cmp    $0x12b,%ax
 -jbe    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1df>
-+jbe    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1a3>
++jbe    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1c9>
 +movl   $0x73d,0x8(%esp)
 +movl   $"LoadGuildOneMemberProxy",0x4(%esp)
 +lea    -0x14(%ebp),%eax
@@ -204,7 +196,7 @@
  movzwl 0x1e(%eax),%eax
  cmp    $0x12c,%ax
 -jbe    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1df>
-+jbe    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1a3>
++jbe    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1c9>
  mov    0x8(%ebp),%eax
  movw   $0x12c,0x1e(%eax)
  mov    0x8(%ebp),%eax
@@ -217,10 +209,9 @@
  mov    $0x1,%eax
 -jmp    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1f9>
 -mov    $0x0,%eax
--add    $0x30,%esp
-+add    $0x34,%esp
+ add    $0x30,%esp
  pop    %ebx
--pop    %esi
+ pop    %esi
  pop    %ebp
  ret
 ```
@@ -285,7 +276,7 @@ CGuild::_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser(CGuild *this,CUser *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1612 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1647 行）：
 
 ```cpp
 int CGuild::LoadGuildOneMemberProxy(CUser* user)
@@ -297,12 +288,14 @@ int CGuild::LoadGuildOneMemberProxy(CUser* user)
     if (m_field1e <= 0x12b)
     {
         unsigned short idx = m_field1e;
-        *(unsigned int*)((char*)this + idx * 0x40 + 0xdd) = user->GetUniqCharNo();
-        memcpy((char*)this + idx * 0x40 + 0xe1, user->GetCharName(), 0x1d);
-        *(char*)((char*)this + idx * 0x40 + 0xff) = (char)user->GetJob();
-        *(char*)((char*)this + idx * 0x40 + 0x100) = (char)user->GetGrowthType();
-        *(char*)((char*)this + idx * 0x40 + 0x103) = (char)user->GetSex();
-        *(unsigned short*)((char*)this + idx * 0x40 + 0x101) = (unsigned short)user->GetLevel();
+        ((CGuildMemberMainArray*)this)->m_members[idx].m_charNo = user->GetUniqCharNo();
+        memcpy((char*)&((CGuildMemberMainArray*)this)->m_members[idx] + 0x11,
+               user->GetCharName(), 0x1d);
+        ((CGuildMemberExtraArray*)this)->m_members[idx].m_job = (char)user->GetJob();
+        ((CGuildMemberExtraArray*)this)->m_members[idx].m_growth = (char)user->GetGrowthType();
+        ((CGuildMemberExtraArray*)this)->m_members[idx].m_sex = (char)user->GetSex();
+        ((CGuildMemberExtraArray*)this)->m_members[idx].m_level =
+            (unsigned short)user->GetLevel();
         m_field1e++;
     }
     if (m_field1e > 0x12b)

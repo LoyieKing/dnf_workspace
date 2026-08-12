@@ -1,0 +1,11 @@
+register bool bVar (c6): DIFF (bool->ebx: mov %eax,%ebx;test %bl,%bl)	DIFF(同)	2026-08-12
+plain bool bVar (c6): DIFF (bool溢出栈 -0x9(%ebp) cmpb)	DIFF(同)	2026-08-12
+register bool c6444r: DIFF (仍ebx)	DIFF(同)	2026-08-12
+register bool c6446r: DIFF (仍ebx)	DIFF(同)	2026-08-12
+直接 if(c->f==0||c->f>1): DIFF (短接到call体,无物化)	DIFF(更差)	2026-08-12
+if/else-if 赋值 register bool: DIFF (ebx)	DIFF(同)	2026-08-12
+switch(bool){case 1}: DIFF (movzbl+cmp $1,无 test%al)	DIFF(同)	2026-08-12
+int b=...: DIFF (溢出 cmpl)	DIFF(同)	2026-08-12
+三元 cond?1:(cond2?1:0) in if: DIFF (优化为短接)	DIFF(同)	2026-08-12
+!!(...): DIFF (短接)	DIFF(同)	2026-08-12
+A/B全部编译器(4.1.2-52/55,4.4.4,4.4.5,4.4.6,4.4.7-1(C),4.4.7-3,4.4.7-23)均无法复现 ORIG 的 mov $1,%eax;jmp;mov $0,%eax;test %al,%al;je 形态（bool 留 eax 直测）	DIFF(同)	2026-08-12

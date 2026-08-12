@@ -230,7 +230,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1398 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1408 行）：
 
 ```cpp
 void CPacketTranslater::OnDBMWVillageAttackRank(PacketHeader* header)

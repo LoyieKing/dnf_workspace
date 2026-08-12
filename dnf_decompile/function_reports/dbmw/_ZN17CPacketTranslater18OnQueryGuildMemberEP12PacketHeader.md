@@ -227,7 +227,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnQueryGuildMemberEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1021 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1031 行）：
 
 ```cpp
 void CPacketTranslater::OnQueryGuildMember(PacketHeader* header)

@@ -1,0 +1,4 @@
+strncpy(si->m_name, tokens[4], 0x10) 原始形态	NEAR(src→eax/dst→edx；ORIG src→edx/dst→eax 寄存器互换)	2026-08-12
+char* src=tokens[4]; strncpy(si->m_name, src, 0x10)	DIFF(更差：新增栈槽 lea -0x30→-0x34 漂移)	2026-08-12
+strncpy((char*)si+3, tokens[4], 0x10) Ghidra 形态	NEAR(同：仍是寄存器互换)	2026-08-12
+char* dst=(char*)si+3; strncpy(dst, tokens[4], 0x10)	DIFF(更差：栈槽漂移)	2026-08-12

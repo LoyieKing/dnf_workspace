@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x804ce22` | `0x80` | `0x8087d08` | `0x80` |
+| guild | NEAR | `0x804ce22` | `0x80` | `0x8087d54` | `0x80` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -84,7 +84,7 @@ void __thiscall CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEv(CFram
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFTickHandler.cpp](source/DNFServer/GameServer/Guild/DNFTickHandler.cpp)（约第 152 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTickHandler.cpp](source/DNFServer/GameServer/Guild/DNFTickHandler.cpp)（约第 151 行）：
 
 ```cpp
 void CFrameCountHandler::SaveProcess()

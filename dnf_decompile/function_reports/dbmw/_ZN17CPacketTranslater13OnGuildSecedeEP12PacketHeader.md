@@ -327,7 +327,7 @@ void CPacketTranslater::_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader(Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 777 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 787 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildSecede(PacketHeader* header)

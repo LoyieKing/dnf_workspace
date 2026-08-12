@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806230c` | `0x77a` | `0x804de58` | `0x778` |
+| guild | DIFF | `0x806230c` | `0x77a` | `0x804de58` | `0x77b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,527 +1,526 @@
+@@ -1,527 +1,527 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -34,7 +34,7 @@
  mov    %edi,%eax
  mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x700>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6fe>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x701>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x510(%eax)
@@ -100,7 +100,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x700>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6fe>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x701>
  lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -115,7 +115,7 @@
  mov    0x5c(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CAppConfig19Get_FrameCountValueEv>
--movzwl %ax,%eax
+ movzwl %ax,%eax
  mov    0x8(%ebp),%edx
  add    $0x6c,%edx
  movl   $0x3e8,0xc(%esp)
@@ -130,8 +130,7 @@
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CUdpHandlerC1Ev>
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x198>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x195>
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x198>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -139,7 +138,7 @@
  mov    %edi,%eax
  mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x700>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6fe>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x701>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0xf8(%eax)
@@ -156,8 +155,7 @@
  cmp    $0xffffffff,%eax
  sete   %al
  test   %al,%al
--je     <T> <_ZN12CApplication4LoadEiPPc+0x2a0>
-+je     <T> <_ZN12CApplication4LoadEiPPc+0x29d>
+ je     <T> <_ZN12CApplication4LoadEiPPc+0x2a0>
  lea    -0x49(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -175,8 +173,7 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x24e>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x24b>
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x24e>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -188,24 +185,19 @@
  lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x248>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x245>
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x248>
  cmp    $0xffffffff,%edx
--jne    <T> <_ZN12CApplication4LoadEiPPc+0x265>
-+jne    <T> <_ZN12CApplication4LoadEiPPc+0x262>
+ jne    <T> <_ZN12CApplication4LoadEiPPc+0x265>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x265>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x262>
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x265>
  lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x27d>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x27a>
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x27d>
  cmp    $0xffffffff,%edx
--jne    <T> <_ZN12CApplication4LoadEiPPc+0x265>
-+jne    <T> <_ZN12CApplication4LoadEiPPc+0x262>
+ jne    <T> <_ZN12CApplication4LoadEiPPc+0x265>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
@@ -215,7 +207,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x700>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6fe>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x701>
  lea    -0x49(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -229,8 +221,7 @@
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandlerC1Ev>
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x2cf>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x2cc>
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x2cf>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -238,7 +229,7 @@
  mov    %edi,%eax
  mov    %esi,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x700>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6fe>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x701>
  mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x68(%eax)
@@ -280,8 +271,7 @@
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CUdpNetworkThreadC1Ev>
--jmp    <T> <_ZN12CApplication4LoadEiPPc+0x37d>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x37a>
+ jmp    <T> <_ZN12CApplication4LoadEiPPc+0x37d>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -291,7 +281,7 @@
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x700>
 -mov    %ebx,%eax
 -mov    %eax,%edx
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6fe>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x701>
 +mov    %ebx,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0xfc(%eax)
@@ -308,7 +298,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN12CApplication4LoadEiPPc+0x3bf>
-+je     <T> <_ZN12CApplication4LoadEiPPc+0x3ba>
++je     <T> <_ZN12CApplication4LoadEiPPc+0x3bd>
  call   <T> <__cxa_rethrow>
  mov    0x8(%ebp),%eax
  mov    0x5c(%eax),%eax
@@ -339,10 +329,10 @@
  movzbl (%eax),%eax
  test   %al,%al
 -je     <T> <_ZN12CApplication4LoadEiPPc+0x614>
-+je     <T> <_ZN12CApplication4LoadEiPPc+0x60f>
++je     <T> <_ZN12CApplication4LoadEiPPc+0x612>
  cmpw   $0x0,-0x22(%ebp)
 -je     <T> <_ZN12CApplication4LoadEiPPc+0x614>
-+je     <T> <_ZN12CApplication4LoadEiPPc+0x60f>
++je     <T> <_ZN12CApplication4LoadEiPPc+0x612>
  mov    0x8(%ebp),%eax
  lea    0x290(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -368,7 +358,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CTcpDBServer5SetIPESs>
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x4a3>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x49e>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x4a1>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x48(%ebp),%eax
@@ -377,12 +367,12 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x4b0>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x4ab>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x4ae>
  lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x4c8>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x4c3>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x4c6>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x41(%ebp),%eax
@@ -391,7 +381,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x700>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x6fe>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x701>
  lea    -0x41(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -415,7 +405,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN12CApplication4LoadEiPPc+0x592>
-+je     <T> <_ZN12CApplication4LoadEiPPc+0x58d>
++je     <T> <_ZN12CApplication4LoadEiPPc+0x590>
  movzwl -0x22(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    -0x28(%ebp),%eax
@@ -442,7 +432,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x656>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x651>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x654>
  movzwl -0x22(%ebp),%esi
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -473,7 +463,7 @@
  movl   $"Application OpenTcpService(fd:%d,ip:%s,port:%d) Success!\n",(%esp)
  call   <T> <printf>
 -jmp    <T> <_ZN12CApplication4LoadEiPPc+0x656>
-+jmp    <T> <_ZN12CApplication4LoadEiPPc+0x651>
++jmp    <T> <_ZN12CApplication4LoadEiPPc+0x654>
  movl   $"Application TCP cfg empty!",(%esp)
  call   <T> <puts>
  movl   $0x180,0x8(%esp)
@@ -537,7 +527,7 @@
  ret
  cmp    $0x2,%edx
 -jne    <T> <_ZN12CApplication4LoadEiPPc+0x74c>
-+jne    <T> <_ZN12CApplication4LoadEiPPc+0x74a>
++jne    <T> <_ZN12CApplication4LoadEiPPc+0x74d>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80936ea` | `0x3ae` | `0x80d8e96` | `0x3ac` |
+| dbmw | DIFF | `0x80936ea` | `0x3ae` | `0x80d8e92` | `0x3ac` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -449,7 +449,7 @@ void CPacketTranslater::_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader(Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1021 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1031 行）：
 
 ```cpp
 void CPacketTranslater::OnQueryGuildMember(PacketHeader* header)

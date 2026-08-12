@@ -382,7 +382,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 158 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 168 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildMasterDelegate(PacketHeader* header)

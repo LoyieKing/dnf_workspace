@@ -222,7 +222,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnRequestGuildCreateEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1070 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1080 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestGuildCreate(PacketHeader* header)

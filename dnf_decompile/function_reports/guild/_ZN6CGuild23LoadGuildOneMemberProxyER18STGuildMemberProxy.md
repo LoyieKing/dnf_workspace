@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090852` | `0x115` | `0x80566e4` | `0x106` |
+| guild | DIFF | `0x8090852` | `0x115` | `0x805671c` | `0x10e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,79 +1,73 @@
+@@ -1,79 +1,76 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -35,25 +35,23 @@
 -je     <T> <_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy+0x109>
 +jne    <T> <_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy+0x32>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy+0x104>
++jmp    <T> <_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy+0x10c>
  mov    0x8(%ebp),%eax
  movzwl 0x1e(%eax),%eax
  cmp    $0x12b,%ax
 -ja     <T> <_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy+0x83>
-+ja     <T> <_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy+0x7e>
-+mov    0x8(%ebp),%edx
++ja     <T> <_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy+0x86>
++mov    0x8(%ebp),%ecx
  mov    0x8(%ebp),%eax
  movzwl 0x1e(%eax),%eax
--movzwl %ax,%edx
--mov    %edx,%eax
-+movzwl %ax,%eax
+ movzwl %ax,%edx
+ mov    %edx,%eax
  shl    $0x6,%eax
--add    %edx,%eax
--add    $0xd0,%eax
+ add    %edx,%eax
+ add    $0xd0,%eax
 -add    0x8(%ebp),%eax
--lea    0xd(%eax),%edx
-+add    $0xdd,%eax
-+add    %eax,%edx
++lea    (%ecx,%eax,1),%eax
+ lea    0xd(%eax),%edx
  movl   $0x41,0x8(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -73,7 +71,7 @@
 -movzwl %ax,%esi
 -mov    0x8(%ebp),%eax
 -mov    0x18(%eax),%ebx
-+jbe    <T> <_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy+0xef>
++jbe    <T> <_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy+0xf7>
  movl   $0x719,0x8(%esp)
  movl   $&_ZZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxyE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
@@ -97,7 +95,7 @@
  movzwl 0x1e(%eax),%eax
  cmp    $0x12c,%ax
 -jbe    <T> <_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy+0xf4>
-+jbe    <T> <_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy+0xef>
++jbe    <T> <_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy+0xf7>
  mov    0x8(%ebp),%eax
  movw   $0x12c,0x1e(%eax)
  mov    0x8(%ebp),%eax
@@ -160,7 +158,7 @@ CGuild::_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1643 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1680 行）：
 
 ```cpp
 int CGuild::LoadGuildOneMemberProxy(STGuildMemberProxy& proxy)
@@ -171,7 +169,7 @@ int CGuild::LoadGuildOneMemberProxy(STGuildMemberProxy& proxy)
     }
     if (m_field1e <= 0x12b)
     {
-        memcpy((char*)this + (unsigned int)m_field1e * 0x40 + 0xdd, &proxy, 0x41);
+        memcpy(&((CGuildMemberMainArray*)this)->m_members[m_field1e].m_charNo, &proxy, 0x41);
         m_field1e++;
     }
     if (m_field1e > 0x12b)

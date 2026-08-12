@@ -327,7 +327,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnSendGuildLetterEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 218 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 228 行）：
 
 ```cpp
 void CPacketTranslater::OnSendGuildLetter(PacketHeader* header)

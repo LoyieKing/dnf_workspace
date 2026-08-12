@@ -400,7 +400,7 @@ void CPacketTranslater::_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader(Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 279 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 289 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildJoin(PacketHeader* header)

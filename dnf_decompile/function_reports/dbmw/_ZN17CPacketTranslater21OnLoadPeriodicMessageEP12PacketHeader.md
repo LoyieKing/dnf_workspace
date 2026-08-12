@@ -184,7 +184,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 937 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 947 行）：
 
 ```cpp
 void CPacketTranslater::OnLoadPeriodicMessage(PacketHeader* header)

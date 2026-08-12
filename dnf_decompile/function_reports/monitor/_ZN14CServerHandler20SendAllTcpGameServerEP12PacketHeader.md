@@ -148,7 +148,7 @@ CServerHandler::_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 354 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 352 行）：
 
 ```cpp
 void CServerHandler::SendAllTcpGameServer(PacketHeader* pkt)

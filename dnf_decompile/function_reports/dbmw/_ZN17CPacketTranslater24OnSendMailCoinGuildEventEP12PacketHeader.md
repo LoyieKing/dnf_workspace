@@ -399,7 +399,7 @@ void CPacketTranslater::_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 330 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 340 行）：
 
 ```cpp
 void CPacketTranslater::OnSendMailCoinGuildEvent(PacketHeader* header)

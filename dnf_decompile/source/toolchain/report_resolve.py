@@ -18,6 +18,7 @@ import subprocess
 
 _CACHE_DIR = '/tmp/df_report_resolve'
 _VERSION = 27
+_LOCAL_TMP_RE = re.compile(r'E5C\.[0-9]+$')
 _SECTION_RE = re.compile(
     r'^\s*\[\s*\d+\]\s+(\S+)\s+(\S+)\s+([0-9a-fA-F]+)\s+([0-9a-fA-F]+)\s+'
     r'([0-9a-fA-F]+)')
@@ -27,6 +28,30 @@ _MIN_IMAGE_ADDR = 0x10000  # ELF 映像地址下限，避免替换栈偏移/小�
 STRING_SECTIONS = ('.rodata', '.rodata.str1.1', '.rodata.str1.2',
                    '.rodata.str1.4', '.rodata.str1.8', '.data.rel.ro',
                    '.data', '.rdata')
+
+
+def _local_tmp_content_hash(start, size, secs, blob):
+    """GCC 局部静态临时符号（_ZZN<fn>E5C.NNN）按内容哈希等价。
+
+    两侧编译器对同一函数内局部静态数组的内部编号不同（C.405 vs C.140），
+    但内容逐字节一致（2026-08-12 monitor CTask_ChristmasEvent::
+    DecideEventTime）。这类符号不是全局标识，名字只是 TU 内编号产物，
+    按用户口径「地址不同但指向内容相同视为等价」应比较内容而非名字。
+    仅对 E5C.<digits> 形态生效（GCC 局部静态临时），其它符号不受影响。
+    """
+    import hashlib
+    if size <= 0:
+        return None
+    j = bisect.bisect_right(secs, (start, 1 << 62, '')) - 1
+    if j < 0:
+        return None
+    _st, _sz, _nm, _fo, _ty = secs[j]
+    if _ty == 'NOBITS' or not (_st <= start and start + size <= _st + _sz):
+        return None
+    raw = blob[_fo + (start - _st):_fo + (start - _st) + size]
+    if len(raw) != size:
+        return None
+    return hashlib.sha1(raw).hexdigest()[:12]
 
 
 def _decode_run(raw):
@@ -416,6 +441,16 @@ def pseudo_lines(insns, addr_info, fn_base=None):
                         if sz0 > 0 and st0 < a < st0 + sz0:
                             hit = None
             if hit is not None:
+                if hit[0] == 'sym' and _LOCAL_TMP_RE.search(hit[1]):
+                    # GCC 局部静态临时符号：按内容哈希而非名字（见
+                    # _local_tmp_content_hash），exact 命中同样适用。
+                    jj = bisect.bisect_right([r[0] for r in nz_sym], a) - 1
+                    if jj >= 0:
+                        st0, sz0, _v0, _k0 = nz_sym[jj][:4]
+                        if st0 == a and sz0 > 0:
+                            h = _local_tmp_content_hash(st0, sz0, secs, blob)
+                            if h:
+                                return '&local#{}'.format(h)
                 return '"{}"'.format(hit[1]) if hit[0] == 'str' else '&{}'.format(hit[1])
         # 引用地址本身是「可打印 NUL 结尾字符串」起点但未登记（如紧跟数据符号
         # 结尾的字符串：relay 的 Thread 串紧邻 __stl_prime_list 之后，串起点
@@ -481,8 +516,16 @@ def pseudo_lines(insns, addr_info, fn_base=None):
                                 return '"{}"'.format(_decode_run(raw))
                             return '"{}"'.format(val)
                         return '"{}"'.format(val[off:] if off else val)
+                    if _LOCAL_TMP_RE.search(val):
+                        h = _local_tmp_content_hash(start, size, secs, blob)
+                        if h:
+                            return '&local#{}(+0x{:x})'.format(h, off)
                     return '&{}+0x{:x}'.format(val, off)
                 if size == 0 and start == a:
+                    if _LOCAL_TMP_RE.search(val):
+                        h = _local_tmp_content_hash(start, size, secs, blob)
+                        if h:
+                            return '&local#{}'.format(h)
                     return '&{}'.format(val)
                 j -= 1
                 guard += 1

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80743e8` | `0x589` | `0x806aaf0` | `0x566` |
+| guild | DIFF | `0x80743e8` | `0x589` | `0x806ab4e` | `0x566` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -749,7 +749,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 917 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 925 行）：
 
 ```cpp
 void CPacketTranslater::OnIncreaseGuildExp(PacketHeader* pkt)

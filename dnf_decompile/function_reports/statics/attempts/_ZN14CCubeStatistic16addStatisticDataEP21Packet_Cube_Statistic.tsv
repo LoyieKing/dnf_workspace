@@ -9,3 +9,4 @@ per-TU 4.1.2-52 编译 CubeStatistics.cpp	DIFF(整函数栈布局/参数顺序�
 std::pair<STCubeStatisticKey,int>(key,value) 直接构造弃 make_pair	DIFF(同,EH 清理仍共享)	2026-08-12
 命名局部 std::pair<STCubeStatisticKey,int> tmp(key,value) 直接构造+insert(tmp)	DIFF(同,EH 清理仍共享 jmp+0x126)	2026-08-12
 结论：ORIG 正常路径内联销毁 make_pair 临时,OURS 用共享清理块；5 编译器×7 变体均共享	REMAIN(到头,编译器 EH 布局)	2026-08-12
+else 分支 const 命名 pair + insert(pr)	DIFF(更差,命名 pair 占栈槽致整体布局偏移 -0x4c->-0x38)	2026-08-12

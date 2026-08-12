@@ -189,7 +189,7 @@ void CPacketTranslater::_ZN17CPacketTranslater25onLoadLimitNpcBuyItemInfoEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 97 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 107 行）：
 
 ```cpp
 void CPacketTranslater::onLoadLimitNpcBuyItemInfo(PacketHeader* header)

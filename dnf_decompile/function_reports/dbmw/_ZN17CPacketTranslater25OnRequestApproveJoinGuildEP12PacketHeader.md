@@ -314,7 +314,7 @@ void CPacketTranslater::_ZN17CPacketTranslater25OnRequestApproveJoinGuildEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1128 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1138 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestApproveJoinGuild(PacketHeader* header)

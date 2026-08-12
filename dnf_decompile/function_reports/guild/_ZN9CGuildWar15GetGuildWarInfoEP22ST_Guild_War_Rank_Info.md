@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809a95c` | `0x120` | `0x8061328` | `0x12c` |
+| guild | DIFF | `0x809a95c` | `0x120` | `0x8061370` | `0x12c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -86,18 +86,17 @@
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memcpy>
-+addl   $0x1,-0xc(%ebp)
 +mov    0xc(%ebp),%ecx
  mov    -0xc(%ebp),%edx
  mov    %edx,%eax
  shl    $0x5,%eax
  add    %edx,%eax
 -add    0xc(%ebp),%eax
--addl   $0x1,-0xc(%ebp)
--mov    -0xc(%ebp),%edx
--mov    %dx,0x8(%eax)
 +add    $0x8,%eax
 +lea    (%ecx,%eax,1),%edx
+ addl   $0x1,-0xc(%ebp)
+-mov    -0xc(%ebp),%edx
+-mov    %dx,0x8(%eax)
 +mov    -0xc(%ebp),%eax
 +mov    %ax,(%edx)
  lea    -0x14(%ebp),%eax
@@ -186,7 +185,7 @@ CGuildWar::_ZN9CGuildWar15GetGuildWarInfoEP22ST_Guild_War_Rank_Info
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 161 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildWar.cpp](source/DNFServer/GameServer/Guild/DNFGuildWar.cpp)（约第 160 行）：
 
 ```cpp
 void CGuildWar::GetGuildWarInfo(ST_Guild_War_Rank_Info* info)
@@ -201,11 +200,11 @@ void CGuildWar::GetGuildWarInfo(ST_Guild_War_Rank_Info* info)
     {
         if (it->second != 0)
         {
-            *(unsigned int*)((char*)info + count * 0x21 + 0) = it->second->m_guildKey;
-            *(unsigned int*)((char*)info + count * 0x21 + 4) = it->second->m_point;
-            memcpy((char*)info + count * 0x21 + 10, it->second->m_data, 0x16);
-            count++;
-            *(short*)((char*)info + count * 0x21 + 8) = (short)count;
+            *(unsigned int*)(count * 0x21 + (char*)info) = it->second->m_guildKey;
+            *(unsigned int*)(count * 0x21 + (char*)info + 4) = it->second->m_point;
+            memcpy(count * 0x21 + (char*)info + 10, it->second->m_data, 0x16);
+            // ORIG: count 字段写在“本条目”（旧 count 索引），值是 ++count
+            *(short*)(count * 0x21 + (char*)info + 8) = (short)++count;
         }
     }
 }

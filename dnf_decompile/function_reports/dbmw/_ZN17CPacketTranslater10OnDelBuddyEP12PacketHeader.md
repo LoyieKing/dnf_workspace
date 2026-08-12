@@ -195,7 +195,7 @@ void CPacketTranslater::_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader(Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1180 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1190 行）：
 
 ```cpp
 void CPacketTranslater::OnDelBuddy(PacketHeader* header)

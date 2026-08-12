@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809106c` | `0x84` | `0x8056cc6` | `0x87` |
+| guild | DIFF | `0x809106c` | `0x84` | `0x8056d0c` | `0x87` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -33,33 +33,26 @@
 +je     <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x80>
  movl   $0x0,-0x4(%ebp)
 -jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x69>
--mov    -0x4(%ebp),%edx
 +jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x6c>
- mov    0x8(%ebp),%ecx
--mov    %edx,%eax
--shl    $0x6,%eax
--add    %edx,%eax
--lea    (%ecx,%eax,1),%eax
--add    $0xd0,%eax
--mov    0xd(%eax),%eax
--cmp    0xc(%ebp),%eax
++mov    0x8(%ebp),%ecx
+ mov    -0x4(%ebp),%edx
+-mov    0x8(%ebp),%ecx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ add    %edx,%eax
+ lea    (%ecx,%eax,1),%eax
+ add    $0xd0,%eax
+ mov    0xd(%eax),%eax
+ cmp    0xc(%ebp),%eax
 -jne    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x65>
++jne    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x68>
++mov    0x8(%ebp),%ecx
  mov    -0x4(%ebp),%edx
  mov    %edx,%eax
  shl    $0x6,%eax
  add    %edx,%eax
  add    $0xd0,%eax
 -add    0x8(%ebp),%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    0xd(%eax),%eax
-+cmp    0xc(%ebp),%eax
-+jne    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x68>
-+mov    0x8(%ebp),%ecx
-+mov    -0x4(%ebp),%edx
-+mov    %edx,%eax
-+shl    $0x6,%eax
-+add    %edx,%eax
-+add    $0xd0,%eax
 +lea    (%ecx,%eax,1),%eax
  add    $0x11,%eax
 -jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x82>
@@ -100,7 +93,7 @@ CGuild * __thiscall CGuild::_ZN6CGuild29getUnconnectedGuildMemberNameEj(CGuild *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1777 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1813 行）：
 
 ```cpp
 char* CGuild::getUnconnectedGuildMemberName(unsigned int charNo)
@@ -111,10 +104,9 @@ char* CGuild::getUnconnectedGuildMemberName(unsigned int charNo)
         {
             for (int i = 0; i < m_field1e; i++)
             {
-                if (((CGuildMemberNameView*)((char*)this + i * 0x41 + 0xd0))->m_charNo ==
-                    charNo)
+                if (((CGuildMemberMainArray*)this)->m_members[i].m_charNo == charNo)
                 {
-                    return ((CGuildMemberNameView*)((char*)this + i * 0x41 + 0xd0))->m_name;
+                    return (char*)&((CGuildMemberMainArray*)this)->m_members[i] + 0x11;
                 }
             }
         }

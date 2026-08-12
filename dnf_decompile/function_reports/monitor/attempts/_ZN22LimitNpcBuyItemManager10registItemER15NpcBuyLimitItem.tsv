@@ -1,0 +1,2 @@
+if 体内插 return;	DIFF(同：尾仍直接 leave；ORIG 有 jmp +1; nop; leave)	2026-08-12
+A/B 编译器 c6444r/c6446r/c6447r/c5r52	均不复现 ORIG 尾部 jmp +1; nop（epilogue 前 nop 模式）	2026-08-12

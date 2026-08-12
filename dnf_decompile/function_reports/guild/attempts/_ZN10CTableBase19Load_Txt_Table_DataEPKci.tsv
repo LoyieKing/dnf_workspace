@@ -1,0 +1,2 @@
+Parse_Table 全族 int->bool（ORIG 调用点 test %al 直接消费）	NEAR(调用点 setne 消失，剩 fopen 判断形态)	2026-08-12
+(f=fopen(path,"rb"))==0 直接比较形态	IDENTICAL_AE	2026-08-12

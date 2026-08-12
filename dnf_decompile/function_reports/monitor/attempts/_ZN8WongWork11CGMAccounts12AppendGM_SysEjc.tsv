@@ -1,0 +1,2 @@
+stGMInfo_t info={}; 原始声明顺序	NEAR(OURS log@-0x18/info@-0x10；ORIG info@-0x18/log@-0x10 槽位互换)	2026-08-12
+A/B 编译器 c6444r/c6446r/c6447r/c5-4.1.2	ALL 均 info/log 槽位与 ORIG 相反(4.4.x: log@-0x18; c5: info@-0xc/log@-0x14)	2026-08-12

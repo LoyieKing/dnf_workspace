@@ -1,0 +1,4 @@
+原始 sprintf 参数形态 (c6)	DIFF(寄存器分配: ORIG up→esi/attr→ebx vs OURS up→ebx; sar vs shr)	2026-08-12
+(unsigned char)info.m_attr >> 5 显式无符号	DIFF(无改善)	2026-08-12
+工具链 A/B: c6444r/c6446r	DIFF(同形态)	2026-08-12
+工具链 A/B: c5r52(4.1.2-52)+c5root	DIFF(仍 sar+寄存器交换)	2026-08-12

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80711a2` | `0x3b2` | `0x806775c` | `0x3b6` |
+| guild | DIFF | `0x80711a2` | `0x3b2` | `0x80677bc` | `0x3b4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,244 +1,246 @@
+@@ -1,244 +1,245 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -25,7 +25,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a7>
-+je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ab>
++je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a9>
  mov    -0x38(%ebp),%eax
  movzbl 0x12(%eax),%eax
  movzbl %al,%edx
@@ -60,7 +60,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a7>
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ab>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a9>
  mov    -0x38(%ebp),%eax
  mov    0x6(%eax),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -72,7 +72,7 @@
  sete   %al
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a6>
-+jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3aa>
++jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a8>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  add    $0x10,%eax
  mov    %eax,-0x24(%ebp)
@@ -129,12 +129,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a7>
--mov    -0x38(%ebp),%eax
--mov    0xa(%eax),%edx
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ab>
-+mov    -0x38(%ebp),%eax
-+mov    0xa(%eax),%eax
-+mov    %eax,%edx
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a9>
+ mov    -0x38(%ebp),%eax
+ mov    0xa(%eax),%edx
  mov    -0x38(%ebp),%eax
  mov    0xe(%eax),%eax
  mov    -0x34(%ebp),%ecx
@@ -200,16 +197,16 @@
 +test   %eax,%eax
 +sete   %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ab>
++je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a9>
  mov    -0x38(%ebp),%eax
  mov    0xe(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj>
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a7>
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ab>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a9>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x34a>
-+jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x34e>
++jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x34c>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -233,7 +230,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x343>
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x347>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x345>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -243,7 +240,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a7>
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ab>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a9>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x8a,0x8(%esp)
@@ -257,7 +254,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x39f>
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a3>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a1>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -267,7 +264,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a7>
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ab>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a9>
  nop
  add    $0x8c,%esp
  pop    %ebx
@@ -364,7 +361,7 @@ void CPacketTranslater::_ZN17CPacketTranslater7OnLoginEP12PacketHeader(PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 223 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 231 行）：
 
 ```cpp
 void CPacketTranslater::OnLogin(PacketHeader* pkt)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809f67a` | `0x2d7` | `0x80d9508` | `0x2d4` |
+| dbmw | DIFF | `0x809f67a` | `0x2d7` | `0x80d9504` | `0x2d4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -311,7 +311,7 @@ void CPacketTranslater::_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2330 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2340 行）：
 
 ```cpp
 void CPacketTranslater::OnReqOntimeEventIdxUpdate(PacketHeader* header)

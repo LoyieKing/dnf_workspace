@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4bc0` | `0x85` | `0x809a11e` | `0x88` |
+| monitor | DIFF | `0x80a4bc0` | `0x85` | `0x809a124` | `0x82` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,42 +1,44 @@
+@@ -1,42 +1,40 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -29,7 +29,8 @@
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  test   %eax,%eax
- je     <T> <_ZN19COnTimeEventManager21GetCurEventItemByDBMWEjj+0x82>
+-je     <T> <_ZN19COnTimeEventManager21GetCurEventItemByDBMWEjj+0x82>
++je     <T> <_ZN19COnTimeEventManager21GetCurEventItemByDBMWEjj+0x80>
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -39,7 +40,7 @@
  mov    %eax,-0x14(%ebp)
  cmpl   $0x0,-0x14(%ebp)
 -je     <T> <_ZN19COnTimeEventManager21GetCurEventItemByDBMWEjj+0x83>
-+je     <T> <_ZN19COnTimeEventManager21GetCurEventItemByDBMWEjj+0x85>
++je     <T> <_ZN19COnTimeEventManager21GetCurEventItemByDBMWEjj+0x80>
  movl   $0xa,0x8(%esp)
  movl   $0x2345,0x4(%esp)
  mov    -0x14(%ebp),%eax
@@ -54,10 +55,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CTcpDBServer12SendToServerEPc>
 -jmp    <T> <_ZN19COnTimeEventManager21GetCurEventItemByDBMWEjj+0x83>
-+jmp    <T> <_ZN19COnTimeEventManager21GetCurEventItemByDBMWEjj+0x86>
-+nop
-+jmp    <T> <_ZN19COnTimeEventManager21GetCurEventItemByDBMWEjj+0x86>
- nop
+-nop
  leave
  ret
 ```
@@ -104,17 +102,15 @@ void COnTimeEventManager::GetCurEventItemByDBMW(unsigned int a, unsigned int b)
     m_field24 = (int)a;
     m_field28 = (int)b;
     Packet_Req_Ontime_Event_Item pkt;
-    if (m_app == 0)
+    if (m_app != 0)
     {
-        return;
+        CTcpDBServer* db = m_app->Get_ServerHandler()->GetTcpDBServer();
+        if (db != 0)
+        {
+            char* buf = db->makePacketHeader(0x2345, 10);
+            char* buf2 = buf;
+            db->SendToServer(buf2);
+        }
     }
-    CTcpDBServer* db = m_app->Get_ServerHandler()->GetTcpDBServer();
-    if (db == 0)
-    {
-        return;
-    }
-    char* buf = db->makePacketHeader(0x2345, 10);
-    char* buf2 = buf;
-    db->SendToServer(buf2);
 }
 ```

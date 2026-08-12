@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809b53c` | `0x158` | `0x80d6262` | `0x153` |
+| dbmw | DIFF | `0x809b53c` | `0x158` | `0x80d625e` | `0x153` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -156,7 +156,7 @@ void CPacketTranslater::_ZN17CPacketTranslater28onItemLimitEditionUpdateDataEP12
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1530 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1540 行）：
 
 ```cpp
 void CPacketTranslater::onItemLimitEditionUpdateData(PacketHeader* header)

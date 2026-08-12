@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8062d12` | `0x261` | `0x804e85c` | `0x260` |
+| guild | DIFF | `0x8062d12` | `0x261` | `0x804e860` | `0x267` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,156 +1,156 @@
+@@ -1,156 +1,159 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x30,%esp
 -jmp    <T> <_ZN12CApplication7ProcessEv+0x209>
-+jmp    <T> <_ZN12CApplication7ProcessEv+0x208>
++jmp    <T> <_ZN12CApplication7ProcessEv+0x20f>
  mov    0x8(%ebp),%eax
  add    $0x6c,%eax
  mov    %eax,(%esp)
@@ -28,29 +28,29 @@
  mov    %eax,-0x10(%ebp)
  mov    -0x10(%ebp),%eax
 -movzbl 0x24(%eax),%eax
--test   %al,%al
++add    $0x24,%eax
++movzbl (%eax),%eax
+ test   %al,%al
 -je     <T> <_ZN12CApplication7ProcessEv+0xc5>
-+mov    0x24(%eax),%eax
-+test   %eax,%eax
-+je     <T> <_ZN12CApplication7ProcessEv+0xc4>
++je     <T> <_ZN12CApplication7ProcessEv+0xcb>
  mov    -0x10(%ebp),%eax
 -movzbl 0x24(%eax),%eax
--cmp    $0x1,%al
++add    $0x24,%eax
++movzbl (%eax),%eax
+ cmp    $0x1,%al
 -jbe    <T> <_ZN12CApplication7ProcessEv+0xc5>
-+mov    0x24(%eax),%eax
-+cmp    $0x1,%eax
-+jle    <T> <_ZN12CApplication7ProcessEv+0xc4>
++jbe    <T> <_ZN12CApplication7ProcessEv+0xcb>
  mov    0x8(%ebp),%eax
  mov    0x68(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler7ProcessEv>
  mov    -0x10(%ebp),%eax
 -movzbl 0x24(%eax),%eax
--cmp    $0x3,%al
++add    $0x24,%eax
++movzbl (%eax),%eax
+ cmp    $0x3,%al
 -jne    <T> <_ZN12CApplication7ProcessEv+0xb5>
-+mov    0x24(%eax),%eax
-+cmp    $0x3,%eax
-+jne    <T> <_ZN12CApplication7ProcessEv+0xb4>
++jne    <T> <_ZN12CApplication7ProcessEv+0xbb>
  mov    0x8(%ebp),%eax
  add    $0x6c,%eax
  mov    %eax,(%esp)
@@ -92,10 +92,10 @@
  movl   $0x0,(%esp)
  call   <T> <_ZN7DNFFLib9Sleep_ExtEii>
 -jmp    <T> <_ZN12CApplication7ProcessEv+0x209>
-+jmp    <T> <_ZN12CApplication7ProcessEv+0x208>
++jmp    <T> <_ZN12CApplication7ProcessEv+0x20f>
  cmp    $0x2,%edx
 -jne    <T> <_ZN12CApplication7ProcessEv+0x1a3>
-+jne    <T> <_ZN12CApplication7ProcessEv+0x1a2>
++jne    <T> <_ZN12CApplication7ProcessEv+0x1a9>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -129,7 +129,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN12CApplication7ProcessEv+0x19c>
-+jmp    <T> <_ZN12CApplication7ProcessEv+0x19b>
++jmp    <T> <_ZN12CApplication7ProcessEv+0x1a2>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -139,7 +139,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN12CApplication7ProcessEv+0x209>
-+jmp    <T> <_ZN12CApplication7ProcessEv+0x208>
++jmp    <T> <_ZN12CApplication7ProcessEv+0x20f>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CApplication::Process() Exception Break",(%esp)
@@ -155,7 +155,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN12CApplication7ProcessEv+0x204>
-+jmp    <T> <_ZN12CApplication7ProcessEv+0x203>
++jmp    <T> <_ZN12CApplication7ProcessEv+0x20a>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -239,10 +239,10 @@ void CApplication::Process()
         try
         {
             CFrameCountHandler* f = m_frameCount.GetFrameCountInfo();
-            if (f->m_field24 != 0 && 1 < f->m_field24)
+            if (((unsigned char*)f)[0x24] != 0 && 1 < ((unsigned char*)f)[0x24])
             {
                 m_serverHandler->Process();
-                if (f->m_field24 == 3)
+                if (((unsigned char*)f)[0x24] == 3)
                 {
                     m_frameCount.SaveProcess();
                     m_guildManager.DBGuildProcess(m_serverHandler, false);

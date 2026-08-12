@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80915e4` | `0x95` | `0x8057256` | `0xc2` |
+| guild | DIFF | `0x80915e4` | `0x95` | `0x805729c` | `0x9b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,20 +13,22 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,45 +1,59 @@
+@@ -1,45 +1,48 @@
  push   %ebp
  mov    %esp,%ebp
- sub    $0x28,%esp
+-sub    $0x28,%esp
++push   %ebx
++sub    $0x24,%esp
  mov    0x8(%ebp),%eax
  add    $0x4d98,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIj26STGuildMemberChangableInfoSt4lessIjESaISt4pairIKjS0_EEE5emptyEv>
  test   %al,%al
 -je     <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x21>
-+je     <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x24>
++je     <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x22>
  mov    $0x0,%eax
 -jmp    <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x93>
-+jmp    <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0xc0>
++jmp    <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x96>
  mov    0x8(%ebp),%eax
  lea    0x4d98(%eax),%ecx
  lea    -0x10(%ebp),%eax
@@ -49,38 +51,25 @@
 -mov    %eax,0x4(%esp)
 -lea    -0xc(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKj26STGuildMemberChangableInfoEEneERKS4_>
-+call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKj26STGuildMemberChangableInfoEEeqERKS4_>
+ call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKj26STGuildMemberChangableInfoEEneERKS4_>
  test   %al,%al
 -je     <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x8e>
-+je     <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x7e>
-+mov    $0x0,%eax
-+jmp    <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0xc0>
++je     <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x91>
++mov    0x10(%ebp),%ebx
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKj26STGuildMemberChangableInfoEEptEv>
- mov    0x10(%ebp),%edx
+-mov    0x10(%ebp),%edx
 -mov    0x4(%eax),%eax
 -mov    %eax,(%edx)
-+mov    0x4(%eax),%ecx
-+mov    %ecx,(%edx)
-+mov    0x8(%eax),%ecx
-+mov    %ecx,0x4(%edx)
-+mov    0xc(%eax),%ecx
-+mov    %ecx,0x8(%edx)
-+mov    0x10(%eax),%ecx
-+mov    %ecx,0xc(%edx)
-+mov    0x14(%eax),%ecx
-+mov    %ecx,0x10(%edx)
-+mov    0x18(%eax),%ecx
-+mov    %ecx,0x14(%edx)
-+mov    0x1c(%eax),%ecx
-+mov    %ecx,0x18(%edx)
-+mov    0x20(%eax),%eax
-+mov    %eax,0x1c(%edx)
++add    $0x4,%eax
++mov    (%eax),%eax
++mov    %eax,(%ebx)
  mov    $0x1,%eax
 -jmp    <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x93>
--mov    $0x0,%eax
++jmp    <T> <_ZNK6CGuild28PopGuildMemberChanglableInfoEjR26STGuildMemberChangableInfo+0x96>
+ mov    $0x0,%eax
++mov    -0x4(%ebp),%ebx
  leave
  ret
 ```

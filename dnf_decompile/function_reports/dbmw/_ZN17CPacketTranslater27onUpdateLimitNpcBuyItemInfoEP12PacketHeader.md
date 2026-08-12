@@ -155,7 +155,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27onUpdateLimitNpcBuyItemInfoEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 121 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 131 行）：
 
 ```cpp
 void CPacketTranslater::onUpdateLimitNpcBuyItemInfo(PacketHeader* header)

@@ -174,7 +174,7 @@ LAB_0807a0ad:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 371 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 369 行）：
 
 ```cpp
 int CServerHandler::SendAllTcpGameServer(PacketHeader* pkt, int channel)

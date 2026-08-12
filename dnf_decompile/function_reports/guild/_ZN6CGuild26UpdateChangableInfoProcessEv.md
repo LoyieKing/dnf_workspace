@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809167a` | `0x106` | `0x8057318` | `0xf8` |
+| guild | DIFF | `0x809167a` | `0x106` | `0x8057338` | `0x106` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,33 +13,29 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,78 +1,71 @@
+@@ -1,78 +1,78 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
+ push   %ebx
 -sub    $0x24,%esp
-+sub    $0x48,%esp
++sub    $0x44,%esp
  movl   $0x4,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
  test   %al,%al
--je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x3c>
-+je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x3b>
+ je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x3c>
  movl   $0x10,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
  test   %al,%al
--je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x3c>
-+je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x3b>
+ je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x3c>
  mov    $0x1,%eax
--jmp    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x41>
-+jmp    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x40>
+ jmp    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x41>
  mov    $0x0,%eax
  test   %al,%al
--je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x100>
-+je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xf6>
+ je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x100>
  mov    0x8(%ebp),%eax
  movzbl 0x4db0(%eax),%eax
  lea    0x1(%eax),%edx
@@ -51,23 +47,19 @@
 -seta   %al
 -test   %al,%al
 -je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x100>
-+jbe    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xf6>
++jbe    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x100>
  movl   $0x0,-0xc(%ebp)
--jmp    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xd2>
-+jmp    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xc8>
-+mov    0x8(%ebp),%eax
+ jmp    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xd2>
++mov    0x8(%ebp),%ecx
  mov    -0xc(%ebp),%edx
 -mov    0x8(%ebp),%ecx
--mov    %edx,%eax
--shl    $0x6,%eax
-+shl    $0x6,%edx
-+add    $0xdd,%edx
+ mov    %edx,%eax
+ shl    $0x6,%eax
  add    %edx,%eax
--lea    (%ecx,%eax,1),%eax
--add    $0xd0,%eax
--mov    0xd(%eax),%eax
+ lea    (%ecx,%eax,1),%eax
+ add    $0xd0,%eax
+ mov    0xd(%eax),%eax
 -lea    -0x10(%ebp),%edx
-+mov    (%eax),%eax
 +lea    -0x2c(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -77,25 +69,22 @@
 +test   %eax,%eax
 +setne  %al
  test   %al,%al
--je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xce>
-+je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xc4>
-+mov    0x8(%ebp),%eax
+ je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xce>
++mov    0x8(%ebp),%ebx
  mov    -0xc(%ebp),%edx
 -mov    -0x10(%ebp),%eax
 -mov    %eax,%ecx
 -mov    0x8(%ebp),%ebx
--mov    %edx,%eax
--shl    $0x6,%eax
--add    %edx,%eax
--lea    (%ebx,%eax,1),%eax
++lea    -0x2c(%ebp),%eax
++mov    (%eax),%ecx
+ mov    %edx,%eax
+ shl    $0x6,%eax
+ add    %edx,%eax
+ lea    (%ebx,%eax,1),%eax
 -add    $0xf0,%eax
 -mov    %ecx,0x15(%eax)
-+shl    $0x6,%edx
-+add    $0x105,%edx
-+lea    (%eax,%edx,1),%edx
-+lea    -0x2c(%ebp),%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
++add    $0x100,%eax
++mov    %ecx,0x5(%eax)
  addl   $0x1,-0xc(%ebp)
  mov    0x8(%ebp),%eax
  movzwl 0x1e(%eax),%eax
@@ -104,7 +93,7 @@
  setg   %al
  test   %al,%al
 -jne    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x7f>
-+jne    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x79>
++jne    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x7a>
  mov    0x8(%ebp),%eax
  add    $0x4d98,%eax
  mov    %eax,(%esp)
@@ -112,9 +101,9 @@
  mov    0x8(%ebp),%eax
  movb   $0x0,0x4db0(%eax)
 -add    $0x24,%esp
--pop    %ebx
--pop    %ebp
-+leave
++add    $0x44,%esp
+ pop    %ebx
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -162,7 +151,7 @@ LAB_080916bb:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1946 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1982 行）：
 
 ```cpp
 void CGuild::UpdateChangableInfoProcess()
@@ -176,9 +165,10 @@ void CGuild::UpdateChangableInfoProcess()
             {
                 STGuildMemberChangableInfo info;
                 if (PopGuildMemberChanglableInfo(
-                        *(unsigned int*)((char*)this + i * 0x40 + 0xdd), info) != 0)
+                        ((CGuildMemberMainArray*)this)->m_members[i].m_charNo,
+                        info) != 0)
                 {
-                    *(unsigned int*)((char*)this + i * 0x40 + 0x105) =
+                    ((CGuildMemberExtraArray*)this)->m_members[i].m_changableTime =
                         *(unsigned int*)info.m_data;
                 }
             }

@@ -1,0 +1,3 @@
+if (size > 0x1f) return 0; 早退	DIFF(seta 对但 je-continue + jmp-return；ORIG jne-skip + body-jmp)	2026-08-12
+if (size <= 0x1f) {body} return 0;	DIFF(setbe+je 又回反极性)	2026-08-12
+ORIG 极性 seta+jne 且尾 jmp+1; nop；4.4.4-13 所有比较形态均为 setbe+je 或缺尾 jmp/nop	NEAR(同)	2026-08-12

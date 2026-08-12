@@ -305,7 +305,7 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnLoadGuildAgitEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 486 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 496 行）：
 
 ```cpp
 void CPacketTranslater::OnLoadGuildAgit(PacketHeader* header)

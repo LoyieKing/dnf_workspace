@@ -1,0 +1,3 @@
+char* buf=(char*)&pkt2; gs->SendToServer(buf,0xb)	DIFF(更差：栈槽整体 -0x1c→-0x20 漂移)	2026-08-12
+CServerInterface* gs=GetGameServer(...); if(gs!=0)	DIFF(更差：setne/test/je 折叠为 je，破坏 ORIG 形态)	2026-08-12
+gs->SendToServer((char*)&pkt2,0xb) 原始形态	A/B c6444r/c6446r/c6447r 三编译器一致；剩余差异=SendToServer 装载顺序(lea edx先 vs lea eax先)+EH 尾部 4 jmp+nop vs 2 jmp+nop 跳板布局	2026-08-12

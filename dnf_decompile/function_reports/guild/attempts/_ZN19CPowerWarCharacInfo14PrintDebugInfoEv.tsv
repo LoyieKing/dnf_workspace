@@ -3,3 +3,4 @@ rank 提到 it 前	DIFF(同前)	2026-08-12
 for(int rank=1;...) for-init	NEAR(助记符全同，槽序不变: log3-0x38 vs ORIG -0x18 反转)	2026-08-12
 log3 包嵌套块	NEAR(槽序不变)	2026-08-12
 工具链 A/B: c6444r/c6446r 槽序相同	NEAR(不变)	2026-08-12
+GUILD_SCRATCH_VARIANT=c5(4.1.2-52f) 直接编译	FAIL(gnu++0x 语法不兼容，无法 A/B)	2026-08-12

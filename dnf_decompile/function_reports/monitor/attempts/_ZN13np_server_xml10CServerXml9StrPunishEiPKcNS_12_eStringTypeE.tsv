@@ -1,0 +1,4 @@
+删 asm nop（源末）	DIFF(缺 epilogue 前 nop，jmp 已对 lea)	2026-08-12
+-falign-labels=4（无 asm）	DIFF(其它 label 多插 nop，如 66 90)	2026-08-12
+A/B 编译器 c6444r/c6446r/c6446i386/c6444r+falign-jumps4/8/16/labels8/16	均不复现 ORIG「call _Unwind_Resume; nop; lea」内函数形态	2026-08-12
+保留 asm nop 为最优（NEAR，仅尾 jmp 目标 +0x25a vs +0x25b 差 1）	NEAR(同)	2026-08-12

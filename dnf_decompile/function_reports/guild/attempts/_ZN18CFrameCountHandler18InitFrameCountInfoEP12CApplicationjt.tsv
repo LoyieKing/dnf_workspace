@@ -1,0 +1,5 @@
+unsigned short t 未使用变量删除	NEAR(少 2 条指令，剩 3 处 this/参数装载顺序)	2026-08-12
+this-> 显式	DIFF(不变)	2026-08-12
+CFrameCountHandler* h 指针局部	DIFF(更差: this 落栈槽)	2026-08-12
+c6444r/c6446r	DIFF(更差: t 重新物化)	2026-08-12
+c5r52(4.1.2-52)	DIFF(127 行更差)	2026-08-12

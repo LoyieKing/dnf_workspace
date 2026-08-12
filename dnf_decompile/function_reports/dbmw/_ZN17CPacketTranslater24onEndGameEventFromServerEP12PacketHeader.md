@@ -261,7 +261,7 @@ void CPacketTranslater::_ZN17CPacketTranslater24onEndGameEventFromServerEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1263 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1273 行）：
 
 ```cpp
 void CPacketTranslater::onEndGameEventFromServer(PacketHeader* header)

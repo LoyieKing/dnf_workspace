@@ -136,7 +136,7 @@ COnTimeEventManager::_ZN19COnTimeEventManager11OnRewardEndEv(COnTimeEventManager
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp](source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp)（约第 261 行）：
+定义于 [source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp](source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp)（约第 259 行）：
 
 ```cpp
 void COnTimeEventManager::OnRewardEnd()

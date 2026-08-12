@@ -1,0 +1,4 @@
+CBaseEventAction* action=m_actions[code]; action->OnStartEvent(...)	DIFF(action 栈往返 -0xc)	2026-08-12
+EventParam& ep=(EventParam&)param; m_actions[code]->OnStartEvent(ep)	DIFF(ep 地址栈往返)	2026-08-12
+(*(m_actions+code))->OnStartEvent(...)	DIFF(shl+add 替代 scale-index，更差)	2026-08-12
+(*m_actions[code]).OnStartEvent(...)	DIFF(同：仍先装 &param 后装对象；ORIG 相反)	2026-08-12

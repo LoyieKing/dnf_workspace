@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8095e54` | `0x1d8` | `0x80d9c36` | `0x1ce` |
+| dbmw | DIFF | `0x8095e54` | `0x1d8` | `0x80d9c32` | `0x1ce` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -210,7 +210,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29OnQueryUnconnGuildMemberProxyEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2414 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2424 行）：
 
 ```cpp
 void CPacketTranslater::OnQueryUnconnGuildMemberProxy(PacketHeader* header)

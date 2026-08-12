@@ -8,3 +8,4 @@ LHS 显式取址：*(unsigned int*)&pkt.m_items[count].m_field0 = it->first.Erro
 per-TU 4.1.2-52 编译 HWSpecResearcher.cpp	DIFF(整函数栈布局/-0x1806 与 map begin 中间拷贝均差)	2026-08-12
 memcpy(&pkt.m_items[count].m_field0,&it->first.ErrorValue::m_field4,4)	DIFF(更差,lea 地址+memcpy 实参展开)	2026-08-12
 结论：ORIG 中段 mov 0x4(%eax),%eax; mov %eax,%edx 冗余拷贝在 4.1.2-52/-55/4.4.4/4.4.6-3/4.4.7 五编译器与 7 变体下均不可复现(其余赋值无此拷贝)	REMAIN(到头)	2026-08-12
+const unsigned int& v 引用别名中间值	DIFF(更差,引用占栈槽致整体布局偏移 -0x180a->-0x180e)	2026-08-12

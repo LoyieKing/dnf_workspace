@@ -1,0 +1,3 @@
+早退式（m_app==0 return; db==0 return;）	DIFF(双 jmp+nop：je→nop→jmp→leave 与 db je→nop→leave 并存)	2026-08-12
+嵌套 if（m_app!=0 { db!=0 { ... } }）	DIFF(分支全直通 leave，缺 ORIG 尾 jmp+1; nop)	2026-08-12
+A/B 编译器 c6444r/c6446r/c6447r	均不复现 ORIG「main 路径 jmp+1; nop; leave」形态	2026-08-12
