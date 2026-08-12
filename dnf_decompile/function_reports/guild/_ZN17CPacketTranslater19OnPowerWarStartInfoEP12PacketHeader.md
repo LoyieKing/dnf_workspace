@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807f8e2` | `0x1ed` | `0x8075be8` | `0x1ff` |
+| guild | DIFF | `0x807f8e2` | `0x1ed` | `0x8075c1c` | `0x1ff` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -241,7 +241,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3352 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3358 行）：
 
 ```cpp
 void CPacketTranslater::OnPowerWarStartInfo(PacketHeader* pkt)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80870bc` | `0x22a` | `0x806ff8e` | `0x22a` |
+| monitor | NEAR | `0x80870bc` | `0x22a` | `0x806ff92` | `0x22a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -82,8 +82,9 @@
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    0x8(%ebp),%eax
--mov    %eax,-0x20(%ebp)
+ mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
++mov    0x8(%ebp),%eax
  lea    0xb(%eax),%ebx
  movl   $0xf8e,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater15OnNoticeMessageEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -96,8 +97,6 @@
  lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    0x8(%ebp),%eax
-+mov    %eax,-0x20(%ebp)
  mov    -0x20(%ebp),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0xa0(%eax),%eax
@@ -221,8 +220,8 @@ void CPacketTranslater::OnNoticeMessage(PacketHeader* pkt)
     {
         throw CDNFException("CPacketTranslater::OnNoticeMessage : 0 == m_pclApp");
     }
-    DNF_LOG_SCOPE_LINE(0xf8e, "./log/GM_msg", "CPacketTranslater::OnNoticeMessage()%s\n", (char*)pkt + 0xb);
     PacketHeader* lpkt = pkt;
+    DNF_LOG_SCOPE_LINE(0xf8e, "./log/GM_msg", "CPacketTranslater::OnNoticeMessage()%s\n", (char*)pkt + 0xb);
     m_pclApp->m_serverHandler2->SendAllToGameServer((char*)lpkt, 0x10b);
 
 

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807ea8a` | `0x47c` | `0x8074ec4` | `0x3b1` |
+| guild | DIFF | `0x807ea8a` | `0x47c` | `0x8074ef8` | `0x3b1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -575,7 +575,7 @@ void CPacketTranslater::
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3120 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3126 行）：
 
 ```cpp
 void CPacketTranslater::OnDBMWChangeUnconnectedGuildMemberGrade(PacketHeader* pkt)

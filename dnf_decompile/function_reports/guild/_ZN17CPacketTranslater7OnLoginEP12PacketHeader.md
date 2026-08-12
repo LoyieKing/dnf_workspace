@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80711a2` | `0x3b2` | `0x80676f6` | `0x3af` |
+| guild | DIFF | `0x80711a2` | `0x3b2` | `0x8067726` | `0x3b7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,244 +1,242 @@
+@@ -1,244 +1,246 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -25,7 +25,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a7>
-+je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a4>
++je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ac>
  mov    -0x38(%ebp),%eax
  movzbl 0x12(%eax),%eax
  movzbl %al,%edx
@@ -60,51 +60,37 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a7>
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a4>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ac>
  mov    -0x38(%ebp),%eax
  mov    0x6(%eax),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17FindTcpGameServerEj>
-+mov    %eax,-0x30(%ebp)
-+cmpl   $0x0,-0x30(%ebp)
-+je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a4>
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+add    $0x10,%eax
-+mov    %eax,-0x2c(%ebp)
-+mov    -0x38(%ebp),%eax
-+mov    0xe(%eax),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNK12CUserManager8FindUserEj>
  mov    %eax,-0x28(%ebp)
  cmpl   $0x0,-0x28(%ebp)
--sete   %al
--test   %al,%al
+ sete   %al
+ test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a6>
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--add    $0x10,%eax
--mov    %eax,-0x24(%ebp)
--mov    -0x38(%ebp),%eax
--mov    0xe(%eax),%eax
--mov    %eax,0x4(%esp)
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNK12CUserManager8FindUserEj>
--mov    %eax,-0x2c(%ebp)
--cmpl   $0x0,-0x2c(%ebp)
++jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ab>
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ add    $0x10,%eax
+ mov    %eax,-0x24(%ebp)
+ mov    -0x38(%ebp),%eax
+ mov    0xe(%eax),%eax
+ mov    %eax,0x4(%esp)
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK12CUserManager8FindUserEj>
+ mov    %eax,-0x2c(%ebp)
+ cmpl   $0x0,-0x2c(%ebp)
  setne  %al
  test   %al,%al
--je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x1b8>
--mov    -0x2c(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x1b3>
-+mov    -0x28(%ebp),%eax
+ je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x1b8>
+ mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
--mov    %eax,-0x30(%ebp)
-+mov    %eax,-0x24(%ebp)
+ mov    %eax,-0x30(%ebp)
  mov    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12GetChannelNoEv>
@@ -116,13 +102,11 @@
  mov    %eax,(%esp)
  call   <T> <_Z14NumberToStringji>
  mov    %eax,%esi
--mov    -0x30(%ebp),%eax
-+mov    -0x24(%ebp),%eax
+ mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12GetChannelNoEv>
  movzbl %al,%edi
--mov    -0x2c(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser7GetDBIDEv>
  movl   $0x0,0x4(%esp)
@@ -147,7 +131,7 @@
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a7>
 -mov    -0x38(%ebp),%eax
 -mov    0xa(%eax),%edx
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a4>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ac>
 +mov    -0x38(%ebp),%eax
 +mov    0xa(%eax),%eax
 +mov    %eax,%edx
@@ -159,8 +143,7 @@
  movl   $"",0xc(%esp)
  movl   $0x0,0x8(%esp)
  mov    %eax,0x4(%esp)
--mov    -0x24(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CUserManager10CreateUserEjjPciP11CGameServer>
  mov    %eax,-0x20(%ebp)
@@ -170,8 +153,7 @@
  mov    %eax,(%esp)
  call   <T> <_Z14NumberToStringji>
  mov    %eax,%esi
--mov    -0x24(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CUserManager4SizeEv>
  mov    %eax,%ebx
@@ -200,8 +182,7 @@
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser6SetSsnEPc>
--mov    -0x28(%ebp),%eax
-+mov    -0x30(%ebp),%eax
+ mov    -0x28(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
@@ -214,19 +195,21 @@
  mov    %eax,(%esp)
  call   <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser>
 -xor    $0x1,%eax
+-test   %al,%al
+-je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a7>
 +cmp    $0x1,%eax
 +setne  %al
- test   %al,%al
--je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a7>
-+je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a4>
++test   %al,%al
++je     <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ac>
  mov    -0x38(%ebp),%eax
  mov    0xe(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater22RequestBlackListToDBMWEj>
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a7>
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a4>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ac>
  cmp    $0x2,%edx
- jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x34a>
+-jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x34a>
++jne    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x34f>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -249,7 +232,8 @@
  lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x343>
+-jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x343>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x348>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -259,7 +243,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a7>
-+jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a4>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ac>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x8a,0x8(%esp)
@@ -272,7 +256,8 @@
  lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x39f>
+-jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x39f>
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a4>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -282,7 +267,8 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3a7>
--nop
++jmp    <T> <_ZN17CPacketTranslater7OnLoginEP12PacketHeader+0x3ac>
+ nop
  add    $0x8c,%esp
  pop    %ebx
  pop    %esi
@@ -398,14 +384,21 @@ void CPacketTranslater::OnLogin(PacketHeader* pkt)
             }
             else
             {
-                CTcpGameServer* tgs = m_pclApp->FindTcpGameServer(pb->m_connNo);
-                if (tgs != 0)
+                CServerInterface* cs;
+                CUser* user;
+                CTcpGameServer* tgs;
+                CUserManager* um;
+                CUser* nu;
+                if ((tgs = m_pclApp->FindTcpGameServer(pb->m_connNo)) == 0)
                 {
-                    CUserManager* um = &m_pclApp->m_userManager;
-                    CUser* user;
+                    return;
+                }
+                else
+                {
+                    um = &m_pclApp->m_userManager;
                     if ((user = um->FindUser(pb->m_serverNo)) != 0)
                     {
-                        CServerInterface* cs = user->GetGameServer();
+                        cs = user->GetGameServer();
                         DNF_LOG_SCOPE_LINE(0x70, "./log/User",
                             "DOUBLE CONNECTED : Already User DB ID(%s)\tChannel(%d)\tCurrent Connect User DB ID(%s)\tChannel(%d)\n",
                             NumberToString(user->GetDBID(), 0),
@@ -415,8 +408,8 @@ void CPacketTranslater::OnLogin(PacketHeader* pkt)
                     }
                     else
                     {
-                        CUser* nu = um->CreateUser(pb->m_serverNo, 0, "",
-                                                   pb->m_guildKey, gs);
+                        nu = um->CreateUser(pb->m_serverNo, 0, "",
+                                            pb->m_guildKey, gs);
                         DNF_LOG_SCOPE_LINE(0x76, "./log/User",
                             "Current user count : %d\tConnected User DB ID : %s\n",
                             um->Size(), NumberToString(pb->m_serverNo, 0));

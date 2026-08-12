@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80906fe` | `0x8b` | `0x8056346` | `0x8e` |
+| guild | DIFF | `0x80906fe` | `0x8b` | `0x8056376` | `0x8e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -107,7 +107,7 @@ CGuild::_ZN6CGuild24CallGuildAllMembersProxyEP5CUserP14CServerHandler
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1533 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1547 行）：
 
 ```cpp
 void CGuild::CallGuildAllMembersProxy(CUser* user, CServerHandler* handler)

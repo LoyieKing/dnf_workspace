@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808e04a` | `0x105` | `0x8053fdc` | `0xf9` |
+| guild | DIFF | `0x808e04a` | `0x105` | `0x8054016` | `0xf9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -142,7 +142,7 @@ void __thiscall CGuild::_ZN6CGuild25SendGuildInfoToMemberOnlyEP5CUser(CGuild *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 876 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 890 行）：
 
 ```cpp
 void CGuild::SendGuildInfoToMemberOnly(CUser* user)

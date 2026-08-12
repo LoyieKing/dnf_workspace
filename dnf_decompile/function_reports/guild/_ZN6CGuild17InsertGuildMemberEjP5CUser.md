@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808cec6` | `0x10f` | `0x8052e22` | `0x10c` |
+| guild | DIFF | `0x808cec6` | `0x10f` | `0x8052e5a` | `0x10b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,7 +25,7 @@
 -je     <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser+0xff>
 +jne    <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser+0x1a>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser+0x101>
++jmp    <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser+0x100>
  mov    0x10(%ebp),%eax
  mov    0x8(%ebp),%edx
  mov    %edx,0x4(%esp)
@@ -53,24 +53,22 @@
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE6insertERKS6_>
  sub    $0x4,%esp
  movzbl -0x34(%ebp),%eax
-+xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser+0x82>
--mov    $0x1,%eax
++je     <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser+0x85>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser+0x104>
-+je     <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser+0xfc>
++jmp    <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser+0x100>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE4sizeEv>
--mov    %eax,%edi
-+mov    %eax,-0x3c(%ebp)
+ mov    %eax,%edi
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
  mov    %eax,%esi
--mov    0xc(%ebp),%eax
--mov    %eax,-0x3c(%ebp)
-+mov    0xc(%ebp),%edi
+ mov    0xc(%ebp),%eax
+ mov    %eax,-0x3c(%ebp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild11GetGuildKeyEv>
@@ -80,13 +78,10 @@
  lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x18(%esp)
-+mov    -0x3c(%ebp),%eax
-+mov    %eax,0x18(%esp)
+ mov    %edi,0x18(%esp)
  mov    %esi,0x14(%esp)
--mov    -0x3c(%ebp),%eax
--mov    %eax,0x10(%esp)
-+mov    %edi,0x10(%esp)
+ mov    -0x3c(%ebp),%eax
+ mov    %eax,0x10(%esp)
  mov    %ebx,0xc(%esp)
  movl   $"[INSERT_ERR]\tAlready Exist : Guild Key : %d\tChar Key : %d,\tChar Name : %s\tLogin Mem Cnt : %d\n",0x8(%esp)
  movl   $"./log/GuildMember",0x4(%esp)
@@ -96,8 +91,6 @@
  mov    $0x0,%eax
 -jmp    <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser+0x104>
 -mov    $0x0,%eax
-+jmp    <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser+0x101>
-+mov    $0x1,%eax
  lea    -0xc(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -161,7 +154,7 @@ CGuild::_ZN6CGuild17InsertGuildMemberEjP5CUser(CGuild *this,uint param_1,CUser *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 477 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 491 行）：
 
 ```cpp
 int CGuild::InsertGuildMember(unsigned int charNo, CUser* user)
@@ -173,13 +166,13 @@ int CGuild::InsertGuildMember(unsigned int charNo, CUser* user)
     user->AttachGuild(this);
     std::pair<std::map<unsigned int, CUser*>::iterator, bool> r =
         m_members.insert(std::make_pair(charNo, user));
-    if (!r.second)
+    if (r.second != 0)
     {
-        DNF_LOG_SCOPE_LINE(0x7b,"./log/GuildMember",
-            "[INSERT_ERR]\tAlready Exist : Guild Key : %d\tChar Key : %d,\tChar Name : %s\tLogin Mem Cnt : %d\n",
-            GetGuildKey(), charNo, user->GetCharName(), (int)m_members.size());
-        return 0;
+        return 1;
     }
-    return 1;
+    DNF_LOG_SCOPE_LINE(0x7b,"./log/GuildMember",
+        "[INSERT_ERR]\tAlready Exist : Guild Key : %d\tChar Key : %d,\tChar Name : %s\tLogin Mem Cnt : %d\n",
+        GetGuildKey(), charNo, user->GetCharName(), m_members.size());
+    return 0;
 }
 ```

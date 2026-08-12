@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8075dc0` | `0x24c` | `0x806c39a` | `0x24b` |
+| guild | DIFF | `0x8075dc0` | `0x24c` | `0x806c3ce` | `0x24b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -259,7 +259,7 @@ void CPacketTranslater::_ZN17CPacketTranslater25OnUpdateChangableCharInfoEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1301 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1307 行）：
 
 ```cpp
 void CPacketTranslater::OnUpdateChangableCharInfo(PacketHeader* pkt)

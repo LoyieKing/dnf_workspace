@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8087c5c` | `0x374` | `0x807cd6a` | `0x29c` |
+| guild | DIFF | `0x8087c5c` | `0x374` | `0x807cd9e` | `0x29c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -436,7 +436,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5350 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5356 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildApplyOriginalPowerSide(PacketHeader* pkt)

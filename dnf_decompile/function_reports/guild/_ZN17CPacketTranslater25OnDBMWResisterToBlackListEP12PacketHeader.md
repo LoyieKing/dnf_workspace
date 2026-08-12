@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807e1e2` | `0x2c5` | `0x80745e0` | `0x2e9` |
+| guild | DIFF | `0x807e1e2` | `0x2c5` | `0x8074614` | `0x2e9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -394,7 +394,7 @@ void CPacketTranslater::_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2948 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2954 行）：
 
 ```cpp
 void CPacketTranslater::OnDBMWResisterToBlackList(PacketHeader* pkt)

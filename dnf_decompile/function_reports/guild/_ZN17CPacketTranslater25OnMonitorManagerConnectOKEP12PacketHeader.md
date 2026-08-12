@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807d37a` | `0x21c` | `0x807384c` | `0x154` |
+| guild | DIFF | `0x807d37a` | `0x21c` | `0x8073880` | `0x154` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -244,7 +244,7 @@ void CPacketTranslater::_ZN17CPacketTranslater25OnMonitorManagerConnectOKEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2771 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2777 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorManagerConnectOK(PacketHeader* pkt)

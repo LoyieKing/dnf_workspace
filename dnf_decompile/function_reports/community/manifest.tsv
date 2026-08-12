@@ -1,2 +1,1 @@
-status	name	orig_addr	orig_size	new_addr	new_size
-DIFF	_ZN11CArchiveLog8WriteLogEPKc	0x804ad58	0x11b	0x804ac98	0x121
+status	name	orig_addr	orig_size	new_addr	new_size	md_file

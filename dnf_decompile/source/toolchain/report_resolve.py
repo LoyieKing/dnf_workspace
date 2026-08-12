@@ -17,7 +17,7 @@ import re
 import subprocess
 
 _CACHE_DIR = '/tmp/df_report_resolve'
-_VERSION = 21
+_VERSION = 26
 _SECTION_RE = re.compile(
     r'^\s*\[\s*\d+\]\s+(\S+)\s+(\S+)\s+([0-9a-fA-F]+)\s+([0-9a-fA-F]+)\s+'
     r'([0-9a-fA-F]+)')
@@ -27,6 +27,14 @@ _MIN_IMAGE_ADDR = 0x10000  # ELF 映像地址下限，避免替换栈偏移/小�
 STRING_SECTIONS = ('.rodata', '.rodata.str1.1', '.rodata.str1.2',
                    '.rodata.str1.4', '.rodata.str1.8', '.data.rel.ro',
                    '.data', '.rdata')
+
+
+def _decode_run(raw):
+    """原始字符串运行字节 → 显示文本（cp949 + 转义，与登记口径一致）。"""
+    return raw.decode('cp949', errors='replace') \
+        .replace('\\', '\\\\') \
+        .replace('\t', '\\t').replace('\n', '\\n') \
+        .replace('\r', '\\r').replace('"', '\\"')
 
 
 def _run(cmd):
@@ -74,6 +82,13 @@ def _strings(bin_path):
     for sec, (base, off, size, stype) in secs.items():
         if stype == 'NOBITS':
             continue  # .bss 等无文件字节，不能按字节解析字符串
+        # 代码段绝不登记字符串：指令字节可能恰好构成「可打印 NUL 结尾」片段
+        # （如 stun signal_handler 跳转表项 0x402608 处的 8b 75 fc bf ...），
+        # 之前靠 in_sym_range 遮蔽，2026-08-12 relay 放宽符号遮蔽后 .text 内
+        # 片段被登记 → 跳转表项解析成字符串而非 &fn+off → 伪 NEAR。
+        if (sec == '.text' or sec.startswith('.text')
+                or sec in ('.init', '.fini', '.plt')):
+            continue
         blob = data[off:off + size]
         i = 0
         n = len(blob)
@@ -100,18 +115,15 @@ def _strings(bin_path):
                     if _looks_like_pointer(run, lo, hi):
                         i = j + 1
                         continue
-                    text = run.decode('cp949', errors='replace') \
-                        .replace('\\', '\\\\') \
-                        .replace('\t', '\\t').replace('\n', '\\n') \
-                        .replace('\r', '\\r').replace('"', '\\"')
-                    out[base + i] = (text, len(run))
+                    text = _decode_run(run)
+                    out[base + i] = (text, len(run), bytes(run))
                 i = j + 1 if j < n else j
             elif b == 0x00:
                 # NUL 字节登记为空字符串 ""（仅精确命中时解析）。空串字面量
                 # （如 CServerXml::getAuctionString 的 std::string("")）在二进制
                 # 中落在前一字符串末尾的 NUL/填充处，两侧地址不同但内容同为 ""；
                 # 此前落入匿名数据窗口哈希 → 相邻布局不同导致误判。
-                out[base + i] = ('', 0)
+                out[base + i] = ('', 0, b'')
                 i += 1
             else:
                 i += 1
@@ -253,19 +265,36 @@ def build_addr_map(bin_path):
     sym_starts = [a for a, _ in sym_ranges]
 
     def in_sym_range(a):
-        """a 是否落在任一非零尺寸数据符号区间内（二分，避免 O(n*m)）。"""
+        """a 是否落在任一非零尺寸数据符号区间内部（不含起点本身）。"""
         i = bisect.bisect_right(sym_starts, a) - 1
-        return i >= 0 and sym_ranges[i][0] <= a < sym_ranges[i][0] + sym_ranges[i][1]
+        return i >= 0 and sym_ranges[i][0] < a < sym_ranges[i][0] + sym_ranges[i][1]
 
-    for a, (t, raw_len) in strs.items():
+    for a, (t, raw_len, raw_run) in strs.items():
         # 命名数据符号优先于字符串：同一地址若已是符号（如 __dso_handle 恰在
         # .rodata 起始处、其后紧跟文本），应解析为 &符号名，不得被字符串遮蔽
         # （2026-08-11：全局变量地址一律伪代码化为 &符号名）。
-        if a in m or in_sym_range(a):
+        # 注意：符号只遮蔽「精确起始地址」（a in m）；落在符号区间内部
+        # （如 __stl_prime_list 尾部紧邻的字符串池，2026-08-12 relay：
+        # "title" 与 Thread 析构消息因合并运行起点落入 __stl_prime_list
+        # 区间被整条遮蔽 → 引用落入匿名数据哈希 → 同内容字符串误判 NEAR）
+        # 的字符串必须登记：符号区间覆盖的是表数据本身，内部偏移引用
+        # 应按字符串内容解析；同址时 ranges 排序保证 sym 优先于 str。
+        if a in m:
+            continue
+        # NUL 空串兜底（raw_len==0）不得遮蔽符号区间内部地址：vtable 等数据
+        # 符号内部的 0x00 字节会被 _strings 登记为空串，使 vtable+8 之类引用
+        # 解析成 "" 而非 &符号+0x8（2026-08-12 bridge TMsgCell 回归）。
+        # 非空字符串（relay title/Thread 消息等合并运行）仍允许登记——
+        # 解析“引用落在区间内部”时 nz_str 会按原始字节切片命中。
+        if raw_len == 0 and in_sym_range(a):
             continue
         m[a] = ('str', t)
         if raw_len >= 2:
-            ranges.append((a, raw_len, t, 'str'))
+            # 保存原始字节（第 5 元）：解码文本是字符序列，多字节字符（EUC-KR
+            # 韩文）下字符数 != 字节数，解析「区间内部偏移」必须按字节切片原始
+            # 运行再解码（2026-08-12 relay："title"/Thread 析构消息前紧邻韩文，
+            # 合并运行的偏移按 val[off:] 错位 1 个字符 → 伪 NEAR）。
+            ranges.append((a, raw_len, t, 'str', raw_run))
     # 排序：start 升序；同 start 时 sym 优先于 str（bisect 取最后命中）
     ranges.sort(key=lambda r: (r[0], {'sec': 0, 'sym': 1, 'str': 2}[r[3]], r[1]))
     # 非零尺寸区间索引（按 kind 分组，start 升序）：解析“引用落在区间内部”
@@ -367,6 +396,20 @@ def pseudo_lines(insns, addr_info, fn_base=None):
                 if hit[0] == 'str' and not is_imm \
                         and _finite_double_at(a, secs, blob):
                     hit = None
+            if hit is not None and hit[0] == 'str' and not is_imm:
+                # 符号区间内部的数据读取优先按符号解析：_strings 会把表数据中
+                # 恰好可打印的字节（如 tRealConfigE+0x18 的值 0x3c='<'）登记成
+                # 字符串，而相邻布局不同导致两侧一侧命中字符串、另一侧被
+                # double 检测吞掉走符号 → 伪 NEAR（2026-08-12 monitor
+                # village_attacked::SetRealConfig）。数据表成员的读取指令是
+                # 非立即数内存引用，应解析为 &符号+off；字符串字面量作参数
+                # 是立即数（is_imm=True，如 relay title），不受影响。
+                if nz_sym is not None:
+                    jj = bisect.bisect_right([r[0] for r in nz_sym], a) - 1
+                    if jj >= 0:
+                        st0, sz0, _val0, _k0 = nz_sym[jj][:4]
+                        if sz0 > 0 and st0 < a < st0 + sz0:
+                            hit = None
             if hit is not None:
                 return '"{}"'.format(hit[1]) if hit[0] == 'str' else '&{}'.format(hit[1])
         # 引用地址本身是「可打印 NUL 结尾字符串」起点但未登记（如紧跟数据符号
@@ -408,11 +451,7 @@ def pseudo_lines(insns, addr_info, fn_base=None):
                     code_sec = (_nm == '.text' or _nm.startswith('.text')
                                 or _nm in ('.init', '.fini', '.plt'))
                     if not code_sec and not _looks_like_pointer(run, img_lo, img_hi):
-                        return '"{}"'.format(
-                            run[:k].decode('cp949', errors='replace')
-                            .replace('\\', '\\\\')
-                            .replace('\t', '\\t').replace('\n', '\\n')
-                            .replace('\r', '\\r').replace('"', '\\"'))
+                        return '"{}"'.format(_decode_run(run[:k]))
         # 符号优先于字符串（2026-08-11：全局变量一律解析为 &符号名；字符串
         # 只兜底匿名地址）。两趟扫描：先符号，后字符串。
         for nz, kinds in ((nz_sym, ('sym',)), (nz_str, ('str',))):
@@ -421,7 +460,7 @@ def pseudo_lines(insns, addr_info, fn_base=None):
             j = bisect.bisect_right([r[0] for r in nz], a) - 1
             guard = 0
             while j >= 0 and guard < 1024:
-                start, size, val, kind = nz[j]
+                start, size, val, kind = nz[j][:4]
                 if kind not in kinds:
                     j -= 1
                     guard += 1
@@ -431,6 +470,11 @@ def pseudo_lines(insns, addr_info, fn_base=None):
                     if kind == 'str':
                         if not is_imm and _finite_double_at(a, secs, blob):
                             break  # 落到区段兜底按 8 字节 double 值哈希
+                        if len(nz[j]) >= 5:
+                            raw = nz[j][4][off:]
+                            if raw:
+                                return '"{}"'.format(_decode_run(raw))
+                            return '"{}"'.format(val)
                         return '"{}"'.format(val[off:] if off else val)
                     return '&{}+0x{:x}'.format(val, off)
                 if size == 0 and start == a:

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a4e5c` | `0x252` | `0x809afe8` | `0x28d` |
+| guild | DIFF | `0x80a4e5c` | `0x252` | `0x809af60` | `0x252` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,18 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,152 +1,173 @@
+@@ -1,152 +1,152 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
--sub    $0x74,%esp
-+sub    $0x84,%esp
+ sub    $0x74,%esp
  mov    0x8(%ebp),%eax
--mov    0x4(%eax),%eax
-+add    $0x4,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x1c(%ebp)
-+mov    -0x1c(%ebp),%eax
+ mov    0x4(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication15Get_UserManagerEv>
  mov    0xc(%ebp),%edx
@@ -33,32 +28,27 @@
  call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
  mov    %eax,-0x18(%ebp)
  cmpl   $0x0,-0x18(%ebp)
--jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x6f>
-+jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x7a>
+ jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x6f>
  movl   $0x3e2,0x8(%esp)
  movl   $&_ZZN13CPowerManager23SendPowerWarProcessInfoEjE12__FUNCTION__,0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::SendPowerWarProcessInfo : 0 == pclUser(%d)",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x24c>
-+jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x284>
+ jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x24c>
  mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetGuildKeyEv>
  mov    %eax,-0x14(%ebp)
 -mov    -0x14(%ebp),%ebx
--mov    0x8(%ebp),%eax
--mov    0x4(%eax),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    0x8(%ebp),%eax
+ mov    0x4(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication16Get_GuildManagerEv>
 -mov    %ebx,0x4(%esp)
@@ -68,12 +58,10 @@
  call   <T> <_ZN13CGuildManager9FindGuildEj>
  mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x10(%ebp)
--jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0xec>
-+jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0xf4>
+ jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0xec>
  movl   $0x3ea,0x8(%esp)
  movl   $&_ZZN13CPowerManager23SendPowerWarProcessInfoEjE12__FUNCTION__,0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
@@ -82,151 +70,102 @@
  mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::SendPowerWarProcessInfo : 0 == pclGuild(%d), pclUser(%d)",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x24c>
--lea    -0x56(%ebp),%eax
-+jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x284>
-+lea    -0x5a(%ebp),%eax
+ jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x24c>
+ lea    -0x56(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN37Packet_Channel_Power_War_Process_InfoC1Ev>
-+lea    -0x5a(%ebp),%eax
-+lea    0xa(%eax),%ebx
  mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x4c(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x5a(%ebp),%eax
-+lea    0xe(%eax),%edx
+ mov    %eax,-0x4c(%ebp)
  mov    0xc(%ebp),%eax
--mov    %eax,-0x48(%ebp)
-+mov    %eax,(%edx)
-+lea    -0x5a(%ebp),%eax
-+lea    0x12(%eax),%ebx
+ mov    %eax,-0x48(%ebp)
  movl   $0x1,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager13GetPowerScoreE20ENUM_POWER_SIDE_TYPE>
--mov    %eax,-0x44(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x5a(%ebp),%eax
-+lea    0x16(%eax),%ebx
+ mov    %eax,-0x44(%ebp)
  movl   $0x2,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager13GetPowerScoreE20ENUM_POWER_SIDE_TYPE>
--mov    %eax,-0x40(%ebp)
-+mov    %eax,(%ebx)
+ mov    %eax,-0x40(%ebp)
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild12GetPowerSideEv>
  movzbl %al,%eax
  mov    %eax,-0xc(%ebp)
  cmpl   $0x3,-0xc(%ebp)
--jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x157>
-+jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x173>
+ jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x157>
  movl   $0x1,-0xc(%ebp)
--jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x1bf>
-+jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x1db>
+ jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x1bf>
  cmpl   $0x4,-0xc(%ebp)
--jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x166>
-+jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x182>
+ jne    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x166>
  movl   $0x2,-0xc(%ebp)
--jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x1bf>
-+jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x1db>
+ jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x1bf>
  cmpl   $0x0,-0xc(%ebp)
--je     <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x172>
-+je     <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x18e>
+ je     <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x172>
  cmpl   $0x4,-0xc(%ebp)
--jle    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x1bf>
-+jbe    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x1db>
+ jle    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x1bf>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild12GetPowerSideEv>
  movzbl %al,%ebx
  movl   $0x3fd,0x8(%esp)
  movl   $&_ZZN13CPowerManager23SendPowerWarProcessInfoEjE12__FUNCTION__,0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::SendPowerWarProcessInfo : Invalid Power Side(%d)",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x24c>
-+jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x284>
-+lea    -0x5a(%ebp),%eax
-+lea    0x1a(%eax),%ebx
-+mov    0xc(%ebp),%eax
-+mov    %eax,0x8(%esp)
+ jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x24c>
  mov    -0xc(%ebp),%eax
--mov    0xc(%ebp),%edx
--mov    %edx,0x8(%esp)
+ mov    0xc(%ebp),%edx
+ mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager20GetUserPowerWarPointE20ENUM_POWER_SIDE_TYPEj>
--mov    %eax,-0x3c(%ebp)
-+mov    %eax,(%ebx)
+ mov    %eax,-0x3c(%ebp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager12IsPowerWarOnEv>
-+xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x224>
--mov    -0x14(%ebp),%edx
-+je     <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x228>
-+lea    -0x5a(%ebp),%eax
-+add    $0x1e,%eax
-+movl   $0x0,(%eax)
-+lea    -0x5a(%ebp),%eax
-+add    $0x22,%eax
-+movl   $0x0,(%eax)
-+jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x26a>
-+lea    -0x5a(%ebp),%eax
-+lea    0x1e(%eax),%ebx
-+mov    -0x14(%ebp),%eax
-+mov    %eax,0x8(%esp)
- mov    -0xc(%ebp),%eax
--mov    %edx,0x8(%esp)
+ je     <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x224>
++mov    -0xc(%ebp),%eax
+ mov    -0x14(%ebp),%edx
+-mov    -0xc(%ebp),%eax
+ mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager22GetGuildRankingInPowerE20ENUM_POWER_SIDE_TYPEj>
--mov    %eax,-0x38(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x5a(%ebp),%eax
-+lea    0x22(%eax),%ebx
-+mov    0xc(%ebp),%eax
-+mov    %eax,0x8(%esp)
+ mov    %eax,-0x38(%ebp)
  mov    -0xc(%ebp),%eax
--mov    0xc(%ebp),%edx
--mov    %edx,0x8(%esp)
+ mov    0xc(%ebp),%edx
+ mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager21GetUserRankingInPowerE20ENUM_POWER_SIDE_TYPEj>
--mov    %eax,-0x34(%ebp)
--jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x232>
--movl   $0x0,-0x38(%ebp)
--movl   $0x0,-0x34(%ebp)
--lea    -0x56(%ebp),%eax
-+mov    %eax,(%ebx)
-+lea    -0x5a(%ebp),%eax
+ mov    %eax,-0x34(%ebp)
+ jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x232>
+ movl   $0x0,-0x38(%ebp)
+ movl   $0x0,-0x34(%ebp)
+ lea    -0x56(%ebp),%eax
  movl   $0x26,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
--add    $0x74,%esp
-+add    $0x84,%esp
+ add    $0x74,%esp
  pop    %ebx
  pop    %ebp
  ret
@@ -323,13 +262,13 @@ CPowerManager::_ZN13CPowerManager23SendPowerWarProcessInfoEj(CPowerManager *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 534 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 527 行）：
 
 ```cpp
 void CPowerManager::SendPowerWarProcessInfo(unsigned int charNo)
 {
-    CApplication* app = *(CApplication**)((char*)this + 4);
-    CUser* user = app->Get_UserManager()->FindUser_CharNo(charNo);
+    CUser* user =
+        ((CApplication*)m_field4)->Get_UserManager()->FindUser_CharNo(charNo);
     if (user == 0)
     {
         DNF_LOG_SCOPE_LINE(0x3e2,"./log/Power", "CPacketTranslater::SendPowerWarProcessInfo : 0 == pclUser(%d)",
@@ -337,7 +276,7 @@ void CPowerManager::SendPowerWarProcessInfo(unsigned int charNo)
         return;
     }
     unsigned int guildKey = user->GetGuildKey();
-    CGuild* guild = app->Get_GuildManager()->FindGuild(guildKey);
+    CGuild* guild = ((CApplication*)m_field4)->Get_GuildManager()->FindGuild(guildKey);
     if (guild == 0)
     {
         DNF_LOG_SCOPE_LINE(0x3ea,"./log/Power",
@@ -346,11 +285,11 @@ void CPowerManager::SendPowerWarProcessInfo(unsigned int charNo)
         return;
     }
     Packet_Channel_Power_War_Process_Info pkt;
-    *(unsigned int*)((char*)&pkt + 0xa) = user->GetIdByChannel();
-    *(unsigned int*)((char*)&pkt + 0xe) = charNo;
-    *(unsigned int*)((char*)&pkt + 0x12) = (unsigned int)GetPowerScore((ENUM_POWER_SIDE_TYPE)1);
-    *(unsigned int*)((char*)&pkt + 0x16) = (unsigned int)GetPowerScore((ENUM_POWER_SIDE_TYPE)2);
-    unsigned int side = (unsigned int)guild->GetPowerSide() & 0xff;
+    pkt.m_idByChannel = user->GetIdByChannel();
+    pkt.m_charNo = charNo;
+    pkt.m_scoreA = GetPowerScore((ENUM_POWER_SIDE_TYPE)1);
+    pkt.m_scoreB = GetPowerScore((ENUM_POWER_SIDE_TYPE)2);
+    int side = (int)(unsigned char)guild->GetPowerSide();
     if (side == 3)
     {
         side = 1;
@@ -362,22 +301,19 @@ void CPowerManager::SendPowerWarProcessInfo(unsigned int charNo)
     else if (side == 0 || 4 < side)
     {
         DNF_LOG_SCOPE_LINE(0x3fd,"./log/Power", "CPacketTranslater::SendPowerWarProcessInfo : Invalid Power Side(%d)",
-            (unsigned int)guild->GetPowerSide() & 0xff);
+            (int)(unsigned char)guild->GetPowerSide());
         return;
     }
-    *(unsigned int*)((char*)&pkt + 0x1a) =
-        GetUserPowerWarPoint((ENUM_POWER_SIDE_TYPE)side, charNo);
-    if (IsPowerWarOn() == 0)
+    pkt.m_userPoint = GetUserPowerWarPoint((ENUM_POWER_SIDE_TYPE)side, charNo);
+    if (IsPowerWarOn())
     {
-        *(unsigned int*)((char*)&pkt + 0x1e) = 0;
-        *(unsigned int*)((char*)&pkt + 0x22) = 0;
+        pkt.m_guildRank = GetGuildRankingInPower((ENUM_POWER_SIDE_TYPE)side, guildKey);
+        pkt.m_userRank = GetUserRankingInPower((ENUM_POWER_SIDE_TYPE)side, charNo);
     }
     else
     {
-        *(unsigned int*)((char*)&pkt + 0x1e) =
-            GetGuildRankingInPower((ENUM_POWER_SIDE_TYPE)side, guildKey);
-        *(unsigned int*)((char*)&pkt + 0x22) =
-            GetUserRankingInPower((ENUM_POWER_SIDE_TYPE)side, charNo);
+        pkt.m_guildRank = 0;
+        pkt.m_userRank = 0;
     }
     user->SendToGameserver((char*)&pkt, 0x26);
 }
