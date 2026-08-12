@@ -1,0 +1,3 @@
+_ZN10CIPCounter11setLoadTermEh
+_ZN10CIPCounter13setMinIPCountEh
+_ZN10CIPCounter9setOptionEhh

@@ -1,5 +1,4 @@
 status	name	orig_addr	orig_size	new_addr	new_size	md_file
-DIFF	_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE	0x80bcf0a	0x22a	0x80a9efa	0x22d	_ZN3nsl16ActiveConManager14RequestConnectEPNS_12ConInterfaceE.md
 MISSING	_my_thread_var	0x81044e0	0x28			
 MISSING	add_collation	0x80fd720	0x680			
 MISSING	add_compiled_collation	0x80fcf80	0x27			

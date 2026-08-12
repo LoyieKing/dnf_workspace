@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8089fca` | `0x1b6` | `0x80756a2` | `0x1d0` |
+| monitor | DIFF | `0x8089fca` | `0x1b6` | `0x807565e` | `0x1d0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -230,31 +230,31 @@ void CPacketTranslater::_ZN17CPacketTranslater13OnChannelTypeEP12PacketHeader(Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3516 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3514 行）：
 
 ```cpp
 void CPacketTranslater::OnChannelType(PacketHeader* pkt)
 {
+    CGameServer* gs;
+    CTcpGameServer* tcpGs;
     PacketHeader* p = pkt;
     if (m_pclApp != 0)
     {
         try
         {
-            CGameServer* gs = (CGameServer*)m_pclApp->FindGameServer((int)((RA_UINT<10>*)p)->v);
-            if (gs == 0)
+            if ((gs = (CGameServer*)m_pclApp->FindGameServer((int)((RA_UINT<10>*)p)->v)) == 0)
             {
                 throw CDNFException("CPacketTranslater::OnChannelType : pclGameServer == 0");
             }
-            CTcpGameServer* tcpGs =
-                (CTcpGameServer*)m_pclApp->FindTcpGameServer(((RA_UINT<6>*)p)->v);
-            if (tcpGs != 0)
+            if ((tcpGs = (CTcpGameServer*)m_pclApp->FindTcpGameServer(((RA_UINT<6>*)p)->v)) == 0)
             {
-                tcpGs->SetChannelType(((RA_INT<14>*)p)->v);
+                return;
             }
+            tcpGs->SetChannelType(((RA_INT<14>*)p)->v);
         }
-        catch (CDNFException& e)
+        catch (...)
         {
-            DNF_LOG_SCOPE_LINE(0x13f4, "./log/Except", "%s Exception Break\n", e.what());
+            DNF_LOG_SCOPE_LINE(0x13f4, "./log/Except", "%s Exception Break\n", __FUNCTION__);
         }
     }
 }

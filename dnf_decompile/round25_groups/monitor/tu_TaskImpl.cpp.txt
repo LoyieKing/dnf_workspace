@@ -1,0 +1,3 @@
+_ZN20CTask_ChristmasEvent10_DoExecuteEv
+_ZN20CTask_ChristmasEvent15DecideEventTimeEv
+_ZN20CTask_ChristmasEvent18MakeEventStartTickEi

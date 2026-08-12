@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80685da` | `0x177` | `0x8061812` | `0x198` |
+| statics | DIFF | `0x80685da` | `0x177` | `0x8061812` | `0x16d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,104 +1,120 @@
+@@ -1,104 +1,97 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %ebx
@@ -24,17 +24,13 @@
 -jmp    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x2d>
 -mov    -0x10(%ebp),%edx
 +movl   $0x0,-0xc(%ebp)
-+jmp    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x2e>
++jmp    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x2c>
  mov    0x8(%ebp),%eax
--add    $0x8,%edx
--movw   $0x0,0xc(%eax,%edx,2)
++mov    -0xc(%ebp),%edx
+ add    $0x8,%edx
+ movw   $0x0,0xc(%eax,%edx,2)
 -addl   $0x1,-0x10(%ebp)
 -cmpl   $0x7,-0x10(%ebp)
-+mov    -0xc(%ebp),%edx
-+add    $0xe,%edx
-+add    %edx,%edx
-+add    %edx,%eax
-+movw   $0x0,(%eax)
 +addl   $0x1,-0xc(%ebp)
 +cmpl   $0x7,-0xc(%ebp)
  setle  %al
@@ -42,129 +38,86 @@
 -jne    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x19>
 +jne    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x18>
  mov    0x8(%ebp),%eax
--movl   $0x0,0x2c(%eax)
-+add    $0x2c,%eax
-+movl   $0x0,(%eax)
+ movl   $0x0,0x2c(%eax)
  mov    0x8(%ebp),%eax
--movl   $0x0,0x30(%eax)
-+add    $0x30,%eax
-+movl   $0x0,(%eax)
+ movl   $0x0,0x30(%eax)
  mov    0x8(%ebp),%eax
--movl   $0x0,0x34(%eax)
+ movl   $0x0,0x34(%eax)
 -movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x162>
 -mov    -0xc(%ebp),%edx
-+add    $0x34,%eax
-+movl   $0x0,(%eax)
 +movl   $0x0,-0x8(%ebp)
-+jmp    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x187>
++jmp    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x15c>
  mov    0x8(%ebp),%eax
--movl   $0x0,0x4(%eax,%edx,4)
++mov    -0x8(%ebp),%edx
+ movl   $0x0,0x4(%eax,%edx,4)
 -mov    -0xc(%ebp),%edx
-+mov    -0x8(%ebp),%edx
-+add    $0x1,%edx
-+shl    $0x2,%edx
-+add    %edx,%eax
-+movl   $0x0,(%eax)
  mov    0x8(%ebp),%eax
--add    $0xc,%edx
--movl   $0x0,0x8(%eax,%edx,4)
++mov    -0x8(%ebp),%edx
+ add    $0xc,%edx
+ movl   $0x0,0x8(%eax,%edx,4)
 -mov    -0xc(%ebp),%edx
-+mov    -0x8(%ebp),%edx
-+add    $0xe,%edx
-+shl    $0x2,%edx
-+add    %edx,%eax
-+movl   $0x0,(%eax)
-+mov    0x8(%ebp),%edx
-+mov    -0x8(%ebp),%eax
-+add    $0x14,%eax
-+shl    $0x2,%eax
-+lea    (%edx,%eax,1),%eax
-+movl   $0x0,(%eax)
  mov    0x8(%ebp),%eax
--add    $0x14,%edx
--movl   $0x0,(%eax,%edx,4)
++mov    -0x8(%ebp),%edx
+ add    $0x14,%edx
+ movl   $0x0,(%eax,%edx,4)
 -mov    -0xc(%ebp),%edx
-+mov    -0x8(%ebp),%edx
-+add    $0x1a,%edx
-+shl    $0x2,%edx
-+add    %edx,%eax
-+movl   $0x0,(%eax)
-+mov    0x8(%ebp),%edx
-+mov    -0x8(%ebp),%eax
-+add    $0x20,%eax
-+shl    $0x2,%eax
-+lea    (%edx,%eax,1),%eax
-+movl   $0x0,(%eax)
  mov    0x8(%ebp),%eax
--add    $0x18,%edx
--movl   $0x0,0x8(%eax,%edx,4)
++mov    -0x8(%ebp),%edx
+ add    $0x18,%edx
+ movl   $0x0,0x8(%eax,%edx,4)
 -mov    -0xc(%ebp),%edx
-+mov    -0x8(%ebp),%edx
-+add    $0x9,%edx
-+add    %edx,%edx
-+add    $0x1,%edx
-+shl    $0x3,%edx
-+add    %edx,%eax
-+movl   $0x0,(%eax)
  mov    0x8(%ebp),%eax
--add    $0x20,%edx
--movl   $0x0,(%eax,%edx,4)
++mov    -0x8(%ebp),%edx
+ add    $0x20,%edx
+ movl   $0x0,(%eax,%edx,4)
 -mov    -0xc(%ebp),%edx
-+mov    -0x8(%ebp),%edx
-+shl    $0x4,%edx
-+add    $0x9c,%edx
-+add    %edx,%eax
-+movl   $0x0,(%eax)
  mov    0x8(%ebp),%eax
--add    $0x9,%edx
 +mov    -0x8(%ebp),%edx
-+add    $0xa,%edx
+ add    $0x9,%edx
  shl    $0x4,%edx
  add    %edx,%eax
--add    $0x8,%eax
+ add    $0x8,%eax
  movl   $0x0,(%eax)
 -mov    -0xc(%ebp),%edx
  mov    0x8(%ebp),%eax
 +mov    -0x8(%ebp),%edx
  shl    $0x4,%edx
-+add    $0xa4,%edx
  add    %edx,%eax
--add    $0x9c,%eax
+ add    $0x9c,%eax
  movl   $0x0,(%eax)
 -mov    -0xc(%ebp),%edx
--mov    0x8(%ebp),%eax
--shl    $0x4,%edx
--add    %edx,%eax
--add    $0xa0,%eax
--movl   $0x0,(%eax)
+ mov    0x8(%ebp),%eax
++mov    -0x8(%ebp),%edx
+ shl    $0x4,%edx
+ add    %edx,%eax
+ add    $0xa0,%eax
+ movl   $0x0,(%eax)
 -mov    -0xc(%ebp),%edx
--mov    0x8(%ebp),%eax
--shl    $0x4,%edx
--add    %edx,%eax
--add    $0xa4,%eax
--movl   $0x0,(%eax)
+ mov    0x8(%ebp),%eax
++mov    -0x8(%ebp),%edx
+ shl    $0x4,%edx
+ add    %edx,%eax
+ add    $0xa4,%eax
+ movl   $0x0,(%eax)
 -movl   $0x0,-0x8(%ebp)
 -jmp    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x153>
 -mov    -0xc(%ebp),%edx
 -mov    -0x8(%ebp),%ebx
 +movl   $0x0,-0x4(%ebp)
-+jmp    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x178>
++jmp    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x14d>
  mov    0x8(%ebp),%ecx
 +mov    -0x8(%ebp),%edx
  mov    %edx,%eax
  shl    $0x3,%eax
  sub    %edx,%eax
 -add    %ebx,%eax
--add    $0x1e,%eax
++add    -0x4(%ebp),%eax
+ add    $0x1e,%eax
 -movl   $0x0,0x10(%ecx,%eax,8)
 -mov    -0xc(%ebp),%edx
 -mov    -0x8(%ebp),%ebx
-+add    -0x4(%ebp),%eax
-+add    $0x20,%eax
-+shl    $0x3,%eax
-+lea    (%ecx,%eax,1),%eax
-+movl   $0x0,(%eax)
++movl   $0x0,0x8(%ecx,%eax,8)
  mov    0x8(%ebp),%ecx
 +mov    -0x8(%ebp),%edx
  mov    %edx,%eax
@@ -175,16 +128,12 @@
 -mov    $0x0,%eax
 -mov    %eax,0x14(%ecx,%edx,8)
 +add    -0x4(%ebp),%eax
-+add    $0x1e,%eax
-+shl    $0x3,%eax
-+add    $0x14,%eax
-+lea    (%ecx,%eax,1),%eax
-+movl   $0x0,(%eax)
++movl   $0x0,0xfc(%ecx,%eax,8)
 +addl   $0x1,-0x4(%ebp)
 +cmpl   $0x5,-0x4(%ebp)
 +setle  %al
 +test   %al,%al
-+jne    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x133>
++jne    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x113>
  addl   $0x1,-0x8(%ebp)
  cmpl   $0x5,-0x8(%ebp)
  setle  %al
@@ -198,7 +147,7 @@
 -add    $0x10,%esp
 -pop    %ebx
 -pop    %ebp
-+jne    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x69>
++jne    <T> <_ZN17FrameLagCollector18FrameLagDataStruct4initEv+0x61>
 +leave
  ret
 ```
@@ -245,7 +194,7 @@ FrameLagCollector::FrameLagDataStruct::_ZN17FrameLagCollector18FrameLagDataStruc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 585 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 587 行）：
 
 ```cpp
 void FrameLagCollector::FrameLagDataStruct::init()

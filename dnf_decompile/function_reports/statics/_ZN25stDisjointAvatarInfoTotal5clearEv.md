@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8057910` | `0x94` | `0x8065536` | `0x88` |
+| statics | DIFF | `0x8057910` | `0x94` | `0x8065504` | `0x88` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -131,7 +131,9 @@ void stDisjointAvatarInfoTotal::clear()
         {
             for (int k = 0; k < 2; k++)
             {
-                m_data[(i * 9 + j) * 2 + k] = 0;
+                register int jr = j;
+                register int kr = k;
+                m_data[(i * 9 + jr) * 2 + kr] = 0;
             }
             m_data[i * 9 + j + 0x34 + 2] = 0;
         }

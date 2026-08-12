@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804cfce` | `0x80` | `0x8086854` | `0x7b` |
+| monitor | NEAR | `0x804cfce` | `0x80` | `0x8086810` | `0x80` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,39 +1,37 @@
+@@ -1,39 +1,39 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -29,8 +29,9 @@
  test   %al,%al
 -setne  %al
 -test   %al,%al
--je     <T> <_ZN18CFrameCountHandler11SaveProcessEv+0x79>
-+je     <T> <_ZN18CFrameCountHandler11SaveProcessEv+0x74>
++setne  %bl
++test   %bl,%bl
+ je     <T> <_ZN18CFrameCountHandler11SaveProcessEv+0x79>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%esi
  mov    0x8(%ebp),%eax

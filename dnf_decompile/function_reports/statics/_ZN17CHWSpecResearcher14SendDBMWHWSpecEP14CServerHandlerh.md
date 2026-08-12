@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8062ff0` | `0x1a1` | `0x80676da` | `0x1a4` |
+| statics | DIFF | `0x8062ff0` | `0x1a1` | `0x80676a8` | `0x1a4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -236,16 +236,16 @@ void CHWSpecResearcher::SendDBMWHWSpec(CServerHandler* handler, unsigned char pa
     Packet_DBMW_Save_Client_Spec_Statistic pkt;
     std::map<STSpecStatic, unsigned int>* pMap = &m_spec[param];
     pkt.m_fieldA = (char)param;
-    unsigned int count = 0;
+    int count = 0;
     if (!pMap->empty())
     {
         for (std::map<STSpecStatic, unsigned int>::iterator it = pMap->begin();
              it != pMap->end(); ++it)
         {
             const STSpecStatic* pSpec = &it->first;
-            memcpy((char*)&pkt + 0xf + count * 0xe + 2, pSpec, 0xc);
-            *(short*)((char*)&pkt + 0xf + count * 0xe) = (short)it->second;
-            if (0x1b3 < (++count))
+            memcpy((char*)&pkt + 0x11 + count * 0xe, (const void*)pSpec, 0xc);
+            pkt.m_items[count].m_field0 = (short)it->second;
+            if (0x1b3U < (++count))
             {
                 pkt.m_fieldB = 0x1b4;
                 handler->SendToDB((PacketHeader*)&pkt);

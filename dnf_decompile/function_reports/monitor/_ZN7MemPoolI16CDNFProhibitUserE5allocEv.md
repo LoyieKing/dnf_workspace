@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806ce34` | `0x14e` | `0x8066b0a` | `0x15f` |
+| monitor | DIFF | `0x806ce34` | `0x14e` | `0x8066ac8` | `0x15d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,103 +1,110 @@
+@@ -1,103 +1,109 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -26,20 +26,16 @@
  movl   $0xc,(%esp)
  call   <T> <_Znwj>
 -jmp    <T> <_ZN7MemPoolI16CDNFProhibitUserE5allocEv+0x147>
-+jmp    <T> <_ZN7MemPoolI16CDNFProhibitUserE5allocEv+0x158>
++jmp    <T> <_ZN7MemPoolI16CDNFProhibitUserE5allocEv+0x156>
  mov    &_ZN7MemPoolI16CDNFProhibitUserE15headOfFreeList_E,%eax
  mov    %eax,-0x14(%ebp)
  cmpl   $0x0,-0x14(%ebp)
--je     <T> <_ZN7MemPoolI16CDNFProhibitUserE5allocEv+0x41>
-+je     <T> <_ZN7MemPoolI16CDNFProhibitUserE5allocEv+0x46>
+ je     <T> <_ZN7MemPoolI16CDNFProhibitUserE5allocEv+0x41>
  mov    -0x14(%ebp),%eax
--mov    0x8(%eax),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
+ mov    0x8(%eax),%eax
  mov    %eax,&_ZN7MemPoolI16CDNFProhibitUserE15headOfFreeList_E
 -jmp    <T> <_ZN7MemPoolI16CDNFProhibitUserE5allocEv+0x144>
-+mov    -0x14(%ebp),%eax
-+jmp    <T> <_ZN7MemPoolI16CDNFProhibitUserE5allocEv+0x158>
++jmp    <T> <_ZN7MemPoolI16CDNFProhibitUserE5allocEv+0x153>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -50,19 +46,17 @@
  mov    %eax,-0x10(%ebp)
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN7MemPoolI16CDNFProhibitUserE5allocEv+0x8d>
--mov    -0xc(%ebp),%edx
-+jmp    <T> <_ZN7MemPoolI16CDNFProhibitUserE5allocEv+0x9c>
-+mov    -0x10(%ebp),%ecx
-+mov    -0xc(%ebp),%eax
-+lea    0x1(%eax),%edx
++jmp    <T> <_ZN7MemPoolI16CDNFProhibitUserE5allocEv+0x97>
+ mov    -0xc(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
  add    %edx,%eax
-+sub    $0x1,%eax
  shl    $0x2,%eax
--mov    %eax,%ecx
++mov    %eax,%edx
++mov    -0x10(%ebp),%eax
++lea    (%edx,%eax,1),%eax
+ mov    %eax,%ecx
 -add    -0x10(%ebp),%ecx
-+add    %eax,%ecx
  mov    -0xc(%ebp),%eax
  lea    0x1(%eax),%edx
  mov    %edx,%eax
@@ -70,11 +64,10 @@
  add    %edx,%eax
  shl    $0x2,%eax
 -add    -0x10(%ebp),%eax
--mov    %eax,0x8(%ecx)
 +mov    %eax,%edx
 +mov    -0x10(%ebp),%eax
 +lea    (%edx,%eax,1),%eax
-+mov    %eax,(%ecx)
+ mov    %eax,0x8(%ecx)
  addl   $0x1,-0xc(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
@@ -82,9 +75,7 @@
  cmp    -0xc(%ebp),%eax
  seta   %al
  test   %al,%al
--jne    <T> <_ZN7MemPoolI16CDNFProhibitUserE5allocEv+0x63>
-+jne    <T> <_ZN7MemPoolI16CDNFProhibitUserE5allocEv+0x68>
-+mov    -0x10(%ebp),%ecx
+ jne    <T> <_ZN7MemPoolI16CDNFProhibitUserE5allocEv+0x63>
  mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
 -lea    -0x1(%eax),%edx
@@ -92,12 +83,13 @@
  mov    %edx,%eax
  add    %eax,%eax
  add    %edx,%eax
-+sub    $0x1,%eax
  shl    $0x2,%eax
 -add    -0x10(%ebp),%eax
--movl   $0x0,0x8(%eax)
-+lea    (%ecx,%eax,1),%eax
-+movl   $0x0,(%eax)
++mov    %eax,%edx
++mov    -0x10(%ebp),%eax
++lea    (%edx,%eax,1),%eax
++sub    $0xc,%eax
+ movl   $0x0,0x8(%eax)
  mov    -0x10(%ebp),%eax
  mov    %eax,-0x14(%ebp)
  mov    -0x10(%ebp),%eax

@@ -1,0 +1,3 @@
+_ZN13CDNFExceptionD1Ev
+_ZN13CDNFExceptionD2Ev
+_ZNK13CDNFException4whatEv

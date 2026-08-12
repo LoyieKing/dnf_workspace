@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808776e` | `0x210` | `0x8072bbc` | `0x209` |
+| monitor | DIFF | `0x808776e` | `0x210` | `0x8072b78` | `0x209` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -264,6 +264,9 @@ void CPacketTranslater::_ZN17CPacketTranslater10OnAddBuddyEP12PacketHeader(Packe
 ```cpp
 void CPacketTranslater::OnAddBuddy(PacketHeader* pkt)
 {
+    CUser* user;
+    PacketHeader* p = pkt;
+    CUserManager* userMgr;
     try
     {
         if (m_pclApp == 0)
@@ -272,26 +275,22 @@ void CPacketTranslater::OnAddBuddy(PacketHeader* pkt)
         }
         else
         {
-            CUser* user =
-                ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
-                    ((RA_UINT<10>*)pkt)->v);
-            if (user == 0)
+            userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+            if ((user = userMgr->FindUser_CharNo(((RA_UINT<10>*)p)->v)) != 0)
             {
-                DNF_LOG_SCOPE_LINE(0x1012, "./log/buddy", "CPacketTranslater::OnAddBuddy\t pclUser is NULL");
-            }
-            else
-            {
-                CServerHandler* handler = m_pclApp->Get_ServerHandler();
-                int r = user->AddBuddyDB(handler, (char*)pkt + 0x12);
+                int r = user->AddBuddyDB(m_pclApp->Get_ServerHandler(), (char*)p + 0x12);
                 if (r != 0)
                 {
                     Packet_Monitor_Add_Buddy_Reply reply;
-                    reply.m_charNo = ((RA_UINT<10>*)pkt)->v;
-                    reply.m_idByChannel = ((RA_UINT<14>*)pkt)->v;
+                    reply.m_charNo = ((RA_UINT<10>*)p)->v;
+                    reply.m_idByChannel = ((RA_UINT<14>*)p)->v;
                     reply.m_result = (unsigned char)r;
-                    user->SendToGameserver((char*)&reply,
-                                           ((RA_U16<2>*)&reply)->v);
+                    user->SendToGameserver((char*)&reply, reply.packetSize);
                 }
+            }
+            else
+            {
+                DNF_LOG_SCOPE_LINE(0x1012, "./log/buddy", "CPacketTranslater::OnAddBuddy\t pclUser is NULL");
             }
         }
     }

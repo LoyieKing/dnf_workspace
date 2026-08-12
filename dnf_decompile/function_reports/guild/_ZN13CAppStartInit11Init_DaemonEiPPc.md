@@ -191,12 +191,13 @@ CAppStartInit::_ZN13CAppStartInit11Init_DaemonEiPPc(CAppStartInit *this,int para
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFAppStartInit.cpp](source/DNFServer/GameServer/Guild/DNFAppStartInit.cpp)（约第 109 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFAppStartInit.cpp](source/DNFServer/GameServer/Guild/DNFAppStartInit.cpp)（约第 105 行）：
 
 ```cpp
 int CAppStartInit::Init_Daemon(int argc, char** argv)
 {
-    if (argv[2] != 0 && strcmp(argv[2], "start") == 0)
+    char* arg2 = argv[2];
+    if (strcmp(arg2, "start") == 0)
     {
         pid_t pid = fork();
         if (pid < 0)
@@ -211,7 +212,9 @@ int CAppStartInit::Init_Daemon(int argc, char** argv)
         chdir("./");
         umask(0);
     }
-    std::string fn(argv[1]);
-    return Save_pid(fn) ? 0 : -1;
+    std::allocator<char> alloc;
+    std::string fn(argv[1], alloc);
+    if (Save_pid(fn) == false) return -1;
+    return 0;
 }
 ```

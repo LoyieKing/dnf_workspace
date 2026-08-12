@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | NEAR | `0x80739a4` | `0x15c` | `0x807394a` | `0x15c` |
+| statics | DIFF | `0x80739a4` | `0x15c` | `0x8073918` | `0x159` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,92 +1,92 @@
+@@ -1,92 +1,91 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x1a0,%esp
++mov    0xc(%ebp),%ebx
  mov    0xc(%ebp),%eax
  lea    0xa(%eax),%ecx
  mov    0x8(%ebp),%eax
@@ -51,28 +52,33 @@
  mov    -0x10(%ebp),%edx
  mov    -0x10(%ebp),%ecx
  mov    0x4(%eax,%ecx,4),%esi
-+mov    0xc(%ebp),%ecx
- mov    -0x10(%ebp),%ebx
+-mov    -0x10(%ebp),%ebx
 -mov    0xc(%ebp),%ecx
- mov    0xe(%ecx,%ebx,4),%ecx
+-mov    0xe(%ecx,%ebx,4),%ecx
++mov    -0x10(%ebp),%ecx
++mov    0xe(%ebx,%ecx,4),%ecx
  lea    (%esi,%ecx,1),%ecx
  mov    %ecx,0x4(%eax,%edx,4)
  addl   $0x1,-0x10(%ebp)
  cmpl   $0x1d,-0x10(%ebp)
  setle  %al
  test   %al,%al
- jne    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x76>
- jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x152>
+-jne    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x76>
+-jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x152>
++jne    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x79>
++jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x14f>
  lea    -0x190(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN18ValueStatisticDataC1Ev>
  movl   $0x0,-0xc(%ebp)
- jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0xe2>
+-jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0xe2>
++jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0xdf>
  mov    -0xc(%ebp),%eax
-+mov    0xc(%ebp),%edx
- mov    -0xc(%ebp),%ecx
+-mov    -0xc(%ebp),%ecx
 -mov    0xc(%ebp),%edx
- mov    0xe(%edx,%ecx,4),%edx
+-mov    0xe(%edx,%ecx,4),%edx
++mov    -0xc(%ebp),%edx
++mov    0xe(%ebx,%edx,4),%edx
  mov    %edx,-0x190(%ebp,%eax,4)
  addl   $0x1,-0xc(%ebp)
  cmpl   $0x1d,-0xc(%ebp)

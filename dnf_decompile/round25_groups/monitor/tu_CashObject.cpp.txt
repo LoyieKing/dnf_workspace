@@ -1,0 +1,2 @@
+_ZN11CCashObject13IsLifeTimeOutEv
+_ZN11CCashObject15GetBuddysObjectEPP6CBuddy

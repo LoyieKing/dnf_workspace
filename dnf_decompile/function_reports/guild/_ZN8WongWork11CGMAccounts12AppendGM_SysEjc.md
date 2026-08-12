@@ -98,11 +98,10 @@ WongWork::CGMAccounts::_ZN8WongWork11CGMAccounts12AppendGM_SysEjc
 ```cpp
 void CGMAccounts::AppendGM_Sys(unsigned int id, char flag)
 {
-    stGMInfo_t info;
+    stGMInfo_t info = {};
     info.m_field0 = id;
     info.m_field1 = (unsigned int)flag;
     m_list.push_back(info);
-    char* mid = NumberToString(id, 0);
-    DNF_LOG_SCOPE_AT(__FUNCTION__, 0xcd, "./log/Init", "GM List Add mid:%s", mid);
+    DNF_LOG_SCOPE_AT(__FUNCTION__, 0xcd, "./log/Init", "GM List Add mid:%s", NumberToString(id, 0));
 }
 ```

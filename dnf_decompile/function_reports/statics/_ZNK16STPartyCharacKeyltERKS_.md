@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80760f4` | `0x173` | `0x8066770` | `0x165` |
+| statics | DIFF | `0x80760f4` | `0x173` | `0x806673e` | `0x165` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -217,7 +217,7 @@ STPartyCharacKey::_ZNK16STPartyCharacKeyltERKS_(STPartyCharacKey *this,STPartyCh
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/GMAccounts.cpp](source/DNFServer/GameServer/Statics/GMAccounts.cpp)（约第 698 行）：
+定义于 [source/DNFServer/GameServer/Statics/GMAccounts.cpp](source/DNFServer/GameServer/Statics/GMAccounts.cpp)（约第 700 行）：
 
 ```cpp
 bool STPartyCharacKey::operator<(const STPartyCharacKey& other) const

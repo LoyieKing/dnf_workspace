@@ -135,38 +135,38 @@ FrameLagCollector::_ZN17FrameLagCollector8LoadSpecEP14CServerHandler
 定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 75 行）：
 
 ```cpp
-void FrameLagCollector::LoadSpec(CServerHandler* handler)
+int FrameLagCollector::LoadSpec(CServerHandler* handler)
 {
-    if (m_field4 == 2)
+    if (m_field4 != 2)
     {
-        return;
-    }
-    char needLoad = 0;
-    if (m_field4 == 0)
-    {
-        needLoad = 1;
-    }
-    else if (m_field4 == 1)
-    {
-        m_field8++;
-        if (m_field8 == 0x3c)
+        char needLoad = 0;
+        if (m_field4 == 0)
         {
-            m_field8 = 0;
             needLoad = 1;
         }
-    }
-    if (needLoad != 0)
-    {
-        m_field4 = 1;
-        m_field18++;
-        if (m_field18 == 0x7f)
+        else if (m_field4 == 1)
         {
-            m_field18 = 1;
+            m_field8++;
+            if (m_field8 == 0x3c)
+            {
+                m_field8 = 0;
+                needLoad = 1;
+            }
         }
-        Packet_Frame_Lag_Statistic_Load_Spec pkt;
-        *(char*)((char*)&pkt + 10) = m_field18;
-        m_map1c.clear();
-        handler->SendToDB((PacketHeader*)&pkt);
+        if (needLoad != 0)
+        {
+            m_field4 = 1;
+            m_field18++;
+            if (m_field18 == 0x7f)
+            {
+                m_field18 = 1;
+            }
+            Packet_Frame_Lag_Statistic_Load_Spec pkt;
+            pkt.m_fieldA = m_field18;
+            m_map1c.clear();
+            handler->SendToDB((PacketHeader*)&pkt);
+        }
     }
+    return 0;
 }
 ```

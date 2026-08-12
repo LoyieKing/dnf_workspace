@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8087c3e` | `0x234` | `0x8073080` | `0x229` |
+| monitor | DIFF | `0x8087c3e` | `0x234` | `0x807303c` | `0x229` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -271,11 +271,14 @@ void CPacketTranslater::_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader(Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2807 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2806 行）：
 
 ```cpp
 void CPacketTranslater::OnDelBuddy(PacketHeader* pkt)
 {
+    CUser* user;
+    PacketHeader* p = pkt;
+    CUserManager* userMgr;
     try
     {
         if (m_pclApp == 0)
@@ -284,27 +287,23 @@ void CPacketTranslater::OnDelBuddy(PacketHeader* pkt)
         }
         else
         {
-            CUser* user =
-                ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
-                    ((RA_UINT<10>*)pkt)->v);
-            if (user == 0)
+            userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
+            if ((user = userMgr->FindUser_CharNo(((RA_UINT<10>*)p)->v)) != 0)
             {
-                DNF_LOG_SCOPE_LINE(0x1092, "./log/buddy", "CPacketTranslater::OnDelBuddy\t pclUser is NULL");
-            }
-            else
-            {
-                CServerHandler* handler = m_pclApp->Get_ServerHandler();
-                int r = user->DelBuddyDB(handler, (char*)pkt + 0x12);
+                int r = user->DelBuddyDB(m_pclApp->Get_ServerHandler(), (char*)p + 0x12);
                 if (r != 0)
                 {
                     Packet_Monitor_Del_Buddy_Reply reply;
-                    reply.m_charNo = ((RA_UINT<10>*)pkt)->v;
-                    reply.m_idByChannel = ((RA_UINT<14>*)pkt)->v;
-                    memcpy(reply.m_name, (char*)pkt + 0x12, 0x1d);
+                    reply.m_charNo = ((RA_UINT<10>*)p)->v;
+                    reply.m_idByChannel = ((RA_UINT<14>*)p)->v;
+                    memcpy(reply.m_name, (char*)p + 0x12, 0x1d);
                     reply.m_result = (unsigned char)r;
-                    user->SendToGameserver((char*)&reply,
-                                           ((RA_U16<2>*)&reply)->v);
+                    user->SendToGameserver((char*)&reply, reply.packetSize);
                 }
+            }
+            else
+            {
+                DNF_LOG_SCOPE_LINE(0x1092, "./log/buddy", "CPacketTranslater::OnDelBuddy\t pclUser is NULL");
             }
         }
     }

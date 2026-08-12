@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8063362` | `0x186` | `0x8067a4e` | `0x180` |
+| statics | DIFF | `0x8063362` | `0x186` | `0x8067a1c` | `0x180` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -225,16 +225,16 @@ CHWSpecResearcher::_ZN17CHWSpecResearcher17SendDBMWErrorLineEP14CServerHandler
 void CHWSpecResearcher::SendDBMWErrorLine(CServerHandler* handler)
 {
     Packet_DBMW_Save_Error_Line_Statistic pkt;
-    unsigned int count = 0;
+    int count = 0;
     if (!m_errorSpec.empty())
     {
         for (std::map<STErrorStatic, unsigned int>::iterator it = m_errorSpec.begin();
              it != m_errorSpec.end(); ++it)
         {
             pkt.m_items[count].m_field4 = it->first.m_field0;
-            pkt.m_items[count].m_field0 = it->first.m_field4;
+            pkt.m_items[count].m_field0 = (unsigned int)it->first.m_field4;
             pkt.m_items[count].m_field6 = (int)it->second;
-            if (0x263 < (++count))
+            if (0x263U < (++count))
             {
                 pkt.m_count = 0x264;
                 handler->SendToDB((PacketHeader*)&pkt);
@@ -244,7 +244,7 @@ void CHWSpecResearcher::SendDBMWErrorLine(CServerHandler* handler)
         if (count != 0)
         {
             pkt.m_count = count;
-            pkt.packetSize = (unsigned short)(((count << 2) + count) * 2 + 0xe);
+            pkt.packetSize = (unsigned short)(count * 10 + 0xe);
             handler->SendToDB((PacketHeader*)&pkt);
         }
     }

@@ -1,0 +1,3 @@
+_ZN10CTowerRank11getRankDataEjPKcjP20stTowerRankElement_t
+_ZN10CTowerRank16registCharacRankEjPKcjj
+_ZN10CTowerRank5resetEv

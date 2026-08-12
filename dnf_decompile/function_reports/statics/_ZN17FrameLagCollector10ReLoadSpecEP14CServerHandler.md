@@ -125,25 +125,27 @@ FrameLagCollector::_ZN17FrameLagCollector10ReLoadSpecEP14CServerHandler
 定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 109 行）：
 
 ```cpp
-void FrameLagCollector::ReLoadSpec(CServerHandler* handler)
+int FrameLagCollector::ReLoadSpec(CServerHandler* handler)
 {
-    if (m_field4 == 2)
+    if (m_field4 != 2)
     {
-        m_field14++;
-        if (m_field14 == 5)
-        {
-            m_field14 = 0;
-            m_field19++;
-            if (m_field19 == 0x7f)
-            {
-                m_field19 = 1;
-            }
-            m_map34.clear();
-            Packet_Frame_Lag_Statistic_Reload_Spec pkt;
-            *(char*)((char*)&pkt + 10) = m_field19;
-            *(int*)((char*)&pkt + 0xc) = m_field50;
-            handler->SendToDB((PacketHeader*)&pkt);
-        }
+        return 2;
     }
+    m_field14++;
+    if (m_field14 == 5)
+    {
+        m_field14 = 0;
+        m_field19++;
+        if (m_field19 == 0x7f)
+        {
+            m_field19 = 1;
+        }
+        m_map34.clear();
+        Packet_Frame_Lag_Statistic_Reload_Spec pkt;
+        pkt.m_fieldA = m_field19;
+        pkt.m_fieldB = m_field4c;
+        handler->SendToDB((PacketHeader*)&pkt);
+    }
+    return 0;
 }
 ```

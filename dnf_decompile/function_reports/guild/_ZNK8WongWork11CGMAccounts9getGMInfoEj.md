@@ -138,21 +138,21 @@ uint WongWork::CGMAccounts::_ZNK8WongWork11CGMAccounts9getGMInfoEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GMAccounts.cpp](source/DNFServer/GameServer/Guild/GMAccounts.cpp)（约第 143 行）：
+定义于 [source/DNFServer/GameServer/Guild/GMAccounts.cpp](source/DNFServer/GameServer/Guild/GMAccounts.cpp)（约第 144 行）：
 
 ```cpp
 CGMAccounts::stGMInfo_t CGMAccounts::getGMInfo(unsigned int id) const
 {
-    stGMInfo_t key;
-    key.m_field0 = id;
-    key.m_field1 = 3;
     stGMInfo_t result;
     result.m_field0 = 0;
     result.m_field1 = 3;
+    stGMInfo_t key = {};
+    key.m_field1 = 3;
+    key.m_field0 = id;
     std::list<stGMInfo_t>::const_iterator it = std::find(m_list.begin(), m_list.end(), key);
     if (it != m_list.end())
     {
-        result = *it;
+        return *it;
     }
     return result;
 }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804db4c` | `0x150` | `0x80656e8` | `0x161` |
+| monitor | DIFF | `0x804db4c` | `0x150` | `0x80656d6` | `0x15b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,93 +1,102 @@
+@@ -1,93 +1,96 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -26,20 +26,16 @@
  movl   $0x1804,(%esp)
  call   <T> <_Znwj>
 -jmp    <T> <_ZN7MemPoolI13CPacketBufferE5allocEv+0x149>
-+jmp    <T> <_ZN7MemPoolI13CPacketBufferE5allocEv+0x15a>
++jmp    <T> <_ZN7MemPoolI13CPacketBufferE5allocEv+0x154>
  mov    &_ZN7MemPoolI13CPacketBufferE15headOfFreeList_E,%eax
  mov    %eax,-0x14(%ebp)
  cmpl   $0x0,-0x14(%ebp)
--je     <T> <_ZN7MemPoolI13CPacketBufferE5allocEv+0x46>
-+je     <T> <_ZN7MemPoolI13CPacketBufferE5allocEv+0x4a>
+ je     <T> <_ZN7MemPoolI13CPacketBufferE5allocEv+0x46>
  mov    -0x14(%ebp),%eax
--mov    0x1800(%eax),%eax
-+add    $0x1800,%eax
-+mov    (%eax),%eax
+ mov    0x1800(%eax),%eax
  mov    %eax,&_ZN7MemPoolI13CPacketBufferE15headOfFreeList_E
 -jmp    <T> <_ZN7MemPoolI13CPacketBufferE5allocEv+0x146>
-+mov    -0x14(%ebp),%eax
-+jmp    <T> <_ZN7MemPoolI13CPacketBufferE5allocEv+0x15a>
++jmp    <T> <_ZN7MemPoolI13CPacketBufferE5allocEv+0x151>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -50,26 +46,21 @@
  mov    %eax,-0x10(%ebp)
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN7MemPoolI13CPacketBufferE5allocEv+0x8d>
--mov    -0xc(%ebp),%eax
++jmp    <T> <_ZN7MemPoolI13CPacketBufferE5allocEv+0x93>
+ mov    -0xc(%ebp),%eax
 -imul   $0x1804,%eax,%eax
 -add    -0x10(%ebp),%eax
-+jmp    <T> <_ZN7MemPoolI13CPacketBufferE5allocEv+0x9c>
++imul   $0x1804,%eax,%edx
 +mov    -0x10(%ebp),%eax
++lea    (%edx,%eax,1),%eax
  mov    -0xc(%ebp),%edx
  add    $0x1,%edx
 -imul   $0x1804,%edx,%edx
 -add    -0x10(%ebp),%edx
--mov    %edx,0x1800(%eax)
-+imul   $0x601,%edx,%edx
-+sub    $0x1,%edx
-+shl    $0x2,%edx
-+lea    (%eax,%edx,1),%edx
-+mov    -0xc(%ebp),%eax
-+add    $0x1,%eax
-+imul   $0x1804,%eax,%ecx
-+mov    -0x10(%ebp),%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    %eax,(%edx)
++imul   $0x1804,%edx,%ecx
++mov    -0x10(%ebp),%edx
++lea    (%ecx,%edx,1),%edx
+ mov    %edx,0x1800(%eax)
  addl   $0x1,-0xc(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
@@ -77,19 +68,17 @@
  cmp    -0xc(%ebp),%eax
  seta   %al
  test   %al,%al
--jne    <T> <_ZN7MemPoolI13CPacketBufferE5allocEv+0x68>
-+jne    <T> <_ZN7MemPoolI13CPacketBufferE5allocEv+0x6c>
-+mov    -0x10(%ebp),%edx
+ jne    <T> <_ZN7MemPoolI13CPacketBufferE5allocEv+0x68>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
-+imul   $0x601,%eax,%eax
- sub    $0x1,%eax
+-sub    $0x1,%eax
 -imul   $0x1804,%eax,%eax
 -add    -0x10(%ebp),%eax
--movl   $0x0,0x1800(%eax)
-+shl    $0x2,%eax
++imul   $0x1804,%eax,%edx
++mov    -0x10(%ebp),%eax
 +lea    (%edx,%eax,1),%eax
-+movl   $0x0,(%eax)
++sub    $0x1804,%eax
+ movl   $0x0,0x1800(%eax)
  mov    -0x10(%ebp),%eax
  mov    %eax,-0x14(%ebp)
  mov    -0x10(%ebp),%eax

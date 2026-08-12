@@ -116,15 +116,17 @@ WongWork::CGMAccounts::_ZN8WongWork11CGMAccounts4isGMEj(CGMAccounts *this,uint p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GMAccounts.cpp](source/DNFServer/GameServer/Guild/GMAccounts.cpp)（约第 116 行）：
+定义于 [source/DNFServer/GameServer/Guild/GMAccounts.cpp](source/DNFServer/GameServer/Guild/GMAccounts.cpp)（约第 115 行）：
 
 ```cpp
 int CGMAccounts::isGM(unsigned int id)
 {
-    stGMInfo_t key;
+    stGMInfo_t key = {};
     key.m_field1 = 3;
     key.m_field0 = id;
+    const std::list<stGMInfo_t>::iterator end = m_list.end();
     std::list<stGMInfo_t>::iterator it = std::find(m_list.begin(), m_list.end(), key);
-    return it != m_list.end();
+    if (it != end) return 1;
+    return 0;
 }
 ```

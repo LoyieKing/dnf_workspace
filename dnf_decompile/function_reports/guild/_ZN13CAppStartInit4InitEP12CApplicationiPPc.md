@@ -321,14 +321,10 @@ CAppStartInit::_ZN13CAppStartInit4InitEP12CApplicationiPPc
 void CAppStartInit::Init(CApplication* app, int argc, char** argv)
 {
     srand((unsigned int)time(0));
-    CAppConfig* config = new CAppConfig;
-    app->m_appConfig = config;
-    std::string fn(argv[1]);
-    config->Check_FileName(fn);
-    CServerConfig* serverConfig = new CServerConfig;
-    app->m_serverConfig = serverConfig;
-    CKillUSRConfig* killConfig = new CKillUSRConfig;
-    app->m_killConfig = killConfig;
+    app->m_appConfig = new CAppConfig;
+    app->m_appConfig->Check_FileName(std::string(argv[1]));
+    app->m_serverConfig = new CServerConfig;
+    app->m_killConfig = new CKillUSRConfig;
     if (Init_Daemon(argc, argv) == -1)
     {
         throw CDNFException("CAppStartInit::Init() Demon Init Exception Break!");

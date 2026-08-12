@@ -1,0 +1,2 @@
+_ZN13CPacketTracer6AddLogEii
+_ZN13CPacketTracer8WriteLogEv
