@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80977c6` | `0xe0` | `0x805d53c` | `0xbd` |
+| guild | DIFF | `0x80977c6` | `0xe0` | `0x805d542` | `0xbd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -145,7 +145,7 @@ CGuildManager::_ZN13CGuildManager21RefreshAttendanceInfoEb(CGuildManager *this,b
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 842 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 851 行）：
 
 ```cpp
 void CGuildManager::RefreshAttendanceInfo(bool flag)

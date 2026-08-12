@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8095e46` | `0x4f8` | `0x805bbba` | `0x500` |
+| guild | DIFF | `0x8095e46` | `0x4f8` | `0x805bbc0` | `0x500` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -571,7 +571,7 @@ CGuildManager::_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 403 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 417 行）：
 
 ```cpp
 CGuild* CGuildManager::GuildEnter(unsigned int guildKey, ST_Notice_Guild_Enter& info)
@@ -584,47 +584,44 @@ CGuild* CGuildManager::GuildEnter(unsigned int guildKey, ST_Notice_Guild_Enter& 
     {
         throw CDNFException("CGuildManager::GuildEnter()\t0 == dwGuildKey\n");
     }
-    CServerHandler* handler = m_app->Get_ServerHandler();
-    if (handler == 0)
+    CServerHandler* handler;
+    if (!(handler = m_app->Get_ServerHandler()))
     {
         throw CDNFException("CGuildManager::GuildEnter() pclServerHandler == NULL\n");
     }
-    CUser* user = m_app->Get_UserManager()->FindUser_CharNo(*(unsigned int*)((char*)&info + 8));
+    CUser* user = m_app->Get_UserManager()->FindUser_CharNo(((ST_Notice_Guild_Enter_Layout*)&info)->m8);
     if (user != 0)
     {
-        user->SendSetGuildKeyToUser(guildKey, *(unsigned int*)((char*)&info + 8));
+        user->SendSetGuildKeyToUser(guildKey, ((ST_Notice_Guild_Enter_Layout*)&info)->m8);
     }
     CGuild* guild = FindGuild(guildKey);
     if (guild != 0)
     {
-        if (user == 0)
+        if (user != 0)
         {
-            if (guild->IsSetGuildDBFlag(4) && guild->IsSetGuildDBFlag(0x10))
+            user->QueryGuildMember(handler);
+            guild->InsertGuildMember(user->GetUniqCharNo(), user);
+            if (!guild->LoadGuildOneMemberProxy(user))
             {
-                guild->QueryUnconnGuildMemberProxy(handler, *(unsigned int*)((char*)&info + 8));
+                guild->IncTotalCnt_Of_GuildDBInfo();
             }
-            return guild;
+            guild->SendGuildInfoToMembers(false);
+            user->MakeGameServerSendUserInfoPacket(guildKey);
         }
+        else if (guild->IsSetGuildDBFlag(4) && guild->IsSetGuildDBFlag(0x10))
+        {
+            guild->QueryUnconnGuildMemberProxy(handler, ((ST_Notice_Guild_Enter_Layout*)&info)->m8);
+        }
+    }
+    else if (user != 0)
+    {
+        guild = new CGuild(guildKey);
+        guild->QueryGuild(handler, user->GetUniqCharNo());
+        InsertGuild(guildKey, guild);
         user->QueryGuildMember(handler);
         guild->InsertGuildMember(user->GetUniqCharNo(), user);
-        if (guild->LoadGuildOneMemberProxy(user) != 1)
-        {
-            guild->IncTotalCnt_Of_GuildDBInfo();
-        }
-        guild->SendGuildInfoToMembers(false);
         user->MakeGameServerSendUserInfoPacket(guildKey);
-        return guild;
     }
-    if (user == 0)
-    {
-        return 0;
-    }
-    guild = new CGuild(guildKey);
-    guild->QueryGuild(handler, user->GetUniqCharNo());
-    InsertGuild(guildKey, guild);
-    user->QueryGuildMember(handler);
-    guild->InsertGuildMember(user->GetUniqCharNo(), user);
-    user->MakeGameServerSendUserInfoPacket(guildKey);
     return guild;
 }
 ```

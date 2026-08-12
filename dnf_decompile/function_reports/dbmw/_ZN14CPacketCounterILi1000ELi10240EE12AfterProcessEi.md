@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80920c4` | `0x11d` | `0x80ebb78` | `0x120` |
+| dbmw | DIFF | `0x80920c4` | `0x11d` | `0x80ebb68` | `0x112` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,17 +13,17 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,83 +1,79 @@
+@@ -1,83 +1,78 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %ebx
  sub    $0x10,%esp
  cmpl   $0x27ff,0xc(%ebp)
 -jg     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x110>
-+jg     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x11e>
++jg     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x109>
  cmpl   $0x3e7,0xc(%ebp)
 -jle    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x113>
-+jle    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x11e>
++jle    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x10c>
  mov    0x8(%ebp),%eax
  movzbl 0x1d640(%eax),%eax
  xor    $0x1,%eax
@@ -36,61 +36,56 @@
  mov    0x8(%eax,%edx,4),%eax
  cmp    $0xa,%eax
 -ja     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x116>
-+ja     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x11d>
++ja     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x10f>
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
- mov    %eax,-0xc(%ebp)
- cmpl   $0xffffffff,-0xc(%ebp)
- sete   %al
+-mov    %eax,-0xc(%ebp)
+-cmpl   $0xffffffff,-0xc(%ebp)
+-sete   %al
 -test   %al,%al
 -je     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x6a>
-+mov    %al,-0x5(%ebp)
-+cmpb   $0x0,-0x5(%ebp)
-+je     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x6e>
- movl   $0x0,-0xc(%ebp)
+-movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x117>
-+jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x11e>
++mov    %eax,-0x8(%ebp)
++cmpl   $0xffffffff,-0x8(%ebp)
++jne    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x64>
++movl   $0x0,-0x8(%ebp)
++jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x110>
  mov    0x8(%ebp),%eax
  movzbl 0x1d640(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x8f>
-+je     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x93>
++je     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x89>
  mov    0x8(%ebp),%eax
  mov    0x9068(%eax),%eax
- mov    -0xc(%ebp),%edx
+-mov    -0xc(%ebp),%edx
++mov    -0x8(%ebp),%edx
  mov    %edx,%ecx
  sub    %eax,%ecx
  mov    %ecx,%eax
 -mov    %eax,-0x8(%ebp)
 -jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0xde>
 +mov    %eax,-0x4(%ebp)
-+jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0xec>
++jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0xd8>
  mov    0xc(%ebp),%eax
  lea    -0x3e8(%eax),%edx
  mov    0x8(%ebp),%eax
  add    $0x2418,%edx
  mov    0x8(%eax,%edx,4),%eax
- mov    -0xc(%ebp),%edx
+-mov    -0xc(%ebp),%edx
++mov    -0x8(%ebp),%edx
  mov    %edx,%ecx
  sub    %eax,%ecx
  mov    %ecx,%eax
 -mov    %eax,-0x8(%ebp)
 +mov    %eax,-0x4(%ebp)
  mov    0xc(%ebp),%eax
--sub    $0x3e8,%eax
--mov    0x8(%ebp),%edx
--mov    0x8(%edx,%eax,4),%edx
--lea    0x1(%edx),%ecx
--mov    0x8(%ebp),%edx
--mov    %ecx,0x8(%edx,%eax,4)
-+lea    -0x3e8(%eax),%edx
-+mov    0xc(%ebp),%eax
-+lea    -0x3e8(%eax),%ecx
-+mov    0x8(%ebp),%eax
-+mov    0x8(%eax,%ecx,4),%eax
-+lea    0x1(%eax),%ecx
-+mov    0x8(%ebp),%eax
-+mov    %ecx,0x8(%eax,%edx,4)
+ sub    $0x3e8,%eax
+ mov    0x8(%ebp),%edx
+ mov    0x8(%edx,%eax,4),%edx
+ lea    0x1(%edx),%ecx
+ mov    0x8(%ebp),%edx
+ mov    %ecx,0x8(%edx,%eax,4)
  mov    0xc(%ebp),%eax
  lea    -0x3e8(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -114,12 +109,14 @@
 -jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x117>
 +add    $0x5138,%ecx
 +mov    %edx,(%eax,%ecx,4)
-+jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x11e>
++jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x110>
  nop
 -jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x117>
--nop
++jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x110>
+ nop
 -jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x117>
--nop
++jmp    <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x110>
+ nop
 -add    $0x10,%esp
 -pop    %ebx
 -pop    %ebp

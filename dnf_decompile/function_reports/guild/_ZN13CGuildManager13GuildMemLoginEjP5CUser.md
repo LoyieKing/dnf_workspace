@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80955e4` | `0x43d` | `0x805b38e` | `0x416` |
+| guild | DIFF | `0x80955e4` | `0x43d` | `0x805b394` | `0x416` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -498,7 +498,7 @@ CGuildManager::_ZN13CGuildManager13GuildMemLoginEjP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 299 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 313 行）：
 
 ```cpp
 CGuild* CGuildManager::GuildMemLogin(unsigned int guildKey, CUser* user)
@@ -511,8 +511,8 @@ CGuild* CGuildManager::GuildMemLogin(unsigned int guildKey, CUser* user)
     {
         throw CDNFException("CGuildManager::GuildMemLogin() : dwGuildKey == 0\n");
     }
-    CServerHandler* handler = m_app->Get_ServerHandler();
-    if (handler == 0)
+    CServerHandler* handler;
+    if (!(handler = m_app->Get_ServerHandler()))
     {
         throw CDNFException("CGuildManager::GuildMemLogin() pclServerHandler == NULL\n");
     }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809dbe6` | `0x2fc` | `0x8090110` | `0x25b` |
+| guild | DIFF | `0x809dbe6` | `0x2fc` | `0x809016a` | `0x25b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -416,20 +416,20 @@ CGuildBoard::_ZN11CGuildBoard27sendMessageToDBMW_GuildFundEP14CServerHandleriP5C
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 296 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 292 行）：
 
 ```cpp
 void CGuildBoard::sendMessageToDBMW_GuildFund(CServerHandler* handler, int fund, CUser* user)
 {
-    char buf[255];
-    char buf2[255];
-    std::string msg;
     Packet_DB_Load_Request_Guild_Board_Write pkt;
-    *(unsigned int*)((char*)&pkt + 0xb) = user->GetGuildKey();
-    *(unsigned int*)((char*)&pkt + 0x13) = user->GetUniqCharNo();
+    unsigned int guildKey = user->GetGuildKey();
+    unsigned int characNo = user->GetUniqCharNo();
+    std::string msg;
     std::string str1 = g_ServerString_.GetServerString(0x3f0, 0);
-    std::string str2 = g_ServerString_.GetServerString(0x3e8, 0);
-    sprintf(buf, "%s %s ", user->GetCharName(), str2.c_str());
+    char buf[255] = {0};
+    char buf2[255] = {0};
+    sprintf(buf, "%s %s ", user->GetCharName(),
+            g_ServerString_.GetServerString(0x3e8, 0).c_str());
     msg += buf;
     sprintf(buf2, "%d ", fund);
     msg += buf2;
@@ -439,7 +439,7 @@ void CGuildBoard::sendMessageToDBMW_GuildFund(CServerHandler* handler, int fund,
         memcpy((char*)&pkt + 0x17, msg.c_str(), msg.length());
         handler->SendToDB(&pkt);
         DNF_LOG_SCOPE_LINE(0x15d,"./log/GuildBoard", "SET SUCCESS - GUILD:%u, CHARAC:%u, gold :%d",
-            *(unsigned int*)((char*)&pkt + 0xb), *(unsigned int*)((char*)&pkt + 0x13), fund);
+            guildKey, characNo, fund);
     }
 }
 ```

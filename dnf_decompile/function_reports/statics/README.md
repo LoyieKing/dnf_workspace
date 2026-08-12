@@ -16,18 +16,18 @@
 |---|---|
 | IDENTICAL | 0 |
 | NEAR | 2 |
-| DIFF | 65 |
+| DIFF | 64 |
 | MISSING | 0 |
 | EMPTY | 0 |
 | EXEMPT_SKIP | 0 |
 | IDENTICAL_AE（地址等价） | 0 |
-| 已生成 md | 67 |
+| 已生成 md | 66 |
 
 ## 范围过滤（scope.txt）
 
 ```
-targets=67
-ours=67
+targets=66
+ours=66
 skip_no_source=0
 skip_vendored=0
 ```

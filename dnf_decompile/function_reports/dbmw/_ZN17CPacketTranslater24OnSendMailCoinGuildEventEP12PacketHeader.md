@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809602c` | `0x321` | `0x80d07c2` | `0x31c` |
+| dbmw | DIFF | `0x809602c` | `0x321` | `0x80d07be` | `0x31c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -444,7 +444,7 @@ void CPacketTranslater::OnSendMailCoinGuildEvent(PacketHeader* header)
             Packet_Notify_New_Group_Mail notice;
             int n = characNos.size() > 0x12b ? 0x12c : characNos.size();
             for (int i = 0; i < n; i++)
-                *(int*)((char*)&notice + 0xe + i * 4) = characNos[i];
+                *(int*)((char*)&notice + 0xe + i * 4) = characNos.at(i);
             m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
                 (char*)&notice, notice.packetSize);
             characNos.clear();

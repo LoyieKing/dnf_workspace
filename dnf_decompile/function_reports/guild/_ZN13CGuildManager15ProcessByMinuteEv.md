@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8096e16` | `0xde` | `0x805cb9c` | `0xdb` |
+| guild | DIFF | `0x8096e16` | `0xde` | `0x805cba2` | `0xdb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -135,7 +135,7 @@ void __thiscall CGuildManager::_ZN13CGuildManager15ProcessByMinuteEv(CGuildManag
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 622 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 631 行）：
 
 ```cpp
 void CGuildManager::ProcessByMinute()

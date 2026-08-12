@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805c702` | `0x136` | `0x80f5276` | `0x108` |
+| dbmw | DIFF | `0x805c702` | `0x136` | `0x80f5258` | `0x108` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -188,8 +188,9 @@ void CTcpNetSystem::SetEpollConnectedPeer(CPeer* peer)
     int ret = m_tcpHandler->SetPeer(peer, fd, 0);
     if (ret != 0)
     {
-        printf("Epoll SetPeer fail(fd:%d, error:%d, %s)", fd, ret, strerror(ret));
+        printf("G_EpollHandler()->SetPeer(peer->get_socket(%d)) %d(%s)",
+               peer->GetTcpSocket()->getHandle(), ret, strerror(ret));
     }
-    m_peerMap.insert(std::make_pair(fd, peer));
+    m_peerMap.insert(std::make_pair(peer->GetTcpSocket()->getHandle(), peer));
 }
 ```

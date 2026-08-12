@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805c054` | `0x2f1` | `0x80f54f0` | `0x99` |
+| dbmw | DIFF | `0x805c054` | `0x2f1` | `0x80f54d2` | `0x99` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -361,7 +361,7 @@ LAB_0805c201:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 156 行）：
+定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 157 行）：
 
 ```cpp
 int CTcpNetSystem::SendPacket()

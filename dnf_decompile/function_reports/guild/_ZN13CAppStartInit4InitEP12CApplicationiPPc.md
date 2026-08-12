@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8064d0e` | `0x252` | `0x804cfb2` | `0x24e` |
+| guild | NEAR | `0x8064d0e` | `0x252` | `0x804cfb2` | `0x256` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,185 +1,183 @@
+@@ -1,185 +1,185 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
- sub    $0x2c,%esp
+-sub    $0x2c,%esp
++sub    $0x3c,%esp
  movl   $0x0,(%esp)
  call   <T> <time>
  mov    %eax,(%esp)
@@ -41,53 +42,62 @@
  call   <T> <_Unwind_Resume>
 -mov    %ebx,%eax
 -mov    %eax,%edx
-+mov    %ebx,%edx
++mov    %ebx,-0x20(%ebp)
  mov    0xc(%ebp),%eax
++mov    -0x20(%ebp),%edx
  mov    %edx,0x5c(%eax)
- lea    -0x21(%ebp),%eax
+-lea    -0x21(%ebp),%eax
++lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
  mov    0x14(%ebp),%eax
  add    $0x4,%eax
  mov    (%eax),%eax
- lea    -0x21(%ebp),%edx
+-lea    -0x21(%ebp),%edx
++lea    -0x29(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
  mov    0xc(%ebp),%eax
  mov    0x5c(%eax),%eax
- lea    -0x28(%ebp),%edx
+-lea    -0x28(%ebp),%edx
++lea    -0x30(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN10CAppConfig14Check_FileNameERKSs>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xae>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xac>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xb0>
  mov    %edx,%ebx
  mov    %eax,%esi
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xbb>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xb9>
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xbd>
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xd6>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xd4>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0xd8>
  mov    %edx,%ebx
  mov    %eax,%esi
- lea    -0x21(%ebp),%eax
+-lea    -0x21(%ebp),%eax
++lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
- lea    -0x21(%ebp),%eax
+-lea    -0x21(%ebp),%eax
++lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $0xbf8,(%esp)
@@ -97,7 +107,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CServerConfigC1Ev>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x113>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x111>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x115>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -108,8 +118,9 @@
  call   <T> <_Unwind_Resume>
 -mov    %ebx,%eax
 -mov    %eax,%edx
-+mov    %ebx,%edx
++mov    %ebx,-0x1c(%ebp)
  mov    0xc(%ebp),%eax
++mov    -0x1c(%ebp),%edx
  mov    %edx,0x60(%eax)
  movl   $0x10,(%esp)
  call   <T> <_Znwj>
@@ -118,7 +129,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CKillUSRConfigC1Ev>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x14f>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x14b>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x153>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -141,17 +152,21 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x24a>
-+je     <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x246>
- lea    -0x19(%ebp),%eax
+-lea    -0x19(%ebp),%eax
++je     <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x24e>
++lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
- lea    -0x19(%ebp),%eax
+-lea    -0x19(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CAppStartInit::Init() Demon Init Exception Break!",0x4(%esp)
- lea    -0x20(%ebp),%eax
+-lea    -0x20(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
- lea    -0x20(%ebp),%esi
+-lea    -0x20(%ebp),%esi
++lea    -0x28(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -160,7 +175,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1f5>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1f1>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1f9>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -169,45 +184,50 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
- lea    -0x20(%ebp),%eax
+-lea    -0x20(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1ef>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1eb>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x1f3>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x20c>
-+jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x208>
++jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x210>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x20c>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x208>
- lea    -0x20(%ebp),%eax
+-lea    -0x20(%ebp),%eax
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x210>
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x227>
-+jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x223>
++jmp    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x22b>
  cmp    $0xffffffff,%edx
 -jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x20c>
-+jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x208>
++jne    <T> <_ZN13CAppStartInit4InitEP12CApplicationiPPc+0x210>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
- lea    -0x19(%ebp),%eax
+-lea    -0x19(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
- lea    -0x19(%ebp),%eax
+-lea    -0x19(%ebp),%eax
++lea    -0x21(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
- add    $0x2c,%esp
+-add    $0x2c,%esp
++add    $0x3c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi

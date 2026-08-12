@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8068bd8` | `0xea` | `0x808b04a` | `0xfa` |
+| guild | DIFF | `0x8068bd8` | `0xea` | `0x808b0a4` | `0xfa` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -160,21 +160,17 @@ int CUserManager::DeleteUser(CUser* user)
     {
         return 0;
     }
-    if (user == 0)
+    if (user != 0)
     {
-        return 0;
-    }
-    if (user->GetGameServer() == 0)
-    {
-        return 0;
-    }
-    unsigned int dbid = user->GetDBID();
-    if (m_users.erase(dbid) == 1)
-    {
-        char* mid = NumberToString(dbid, 0);
-        DNF_LOG_SCOPE_LINE(0x7d, "./log/User", "[USER LOGOUT] Disconnected User DB ID : %s\n", mid);
-        if (user != 0)
+        if (user->GetGameServer() == 0)
         {
+            return 0;
+        }
+        unsigned int dbid = user->GetDBID();
+        if (m_users.erase(dbid) == 1)
+        {
+            register char* mid = NumberToString(dbid, 0);
+            DNF_LOG_SCOPE_LINE(0x7d, "./log/User", "[USER LOGOUT] Disconnected User DB ID : %s\n", mid);
             delete user;
             return 1;
         }

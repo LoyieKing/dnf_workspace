@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8096a74` | `0x159` | `0x805c7fe` | `0x151` |
+| guild | DIFF | `0x8096a74` | `0x159` | `0x805c804` | `0x151` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -209,7 +209,7 @@ void CGuildManager::_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 530 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 539 行）：
 
 ```cpp
 void CGuildManager::DBGuildProcess(CServerHandler* handler, bool flag)

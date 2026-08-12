@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80694aa` | `0xdf` | `0x808b91c` | `0xe4` |
+| guild | DIFF | `0x80694aa` | `0xdf` | `0x808b976` | `0xe4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -151,7 +151,7 @@ CUserManager::_ZN12CUserManager17InsertUser_CharNoEjP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 318 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 314 行）：
 
 ```cpp
 bool CUserManager::InsertUser_CharNo(unsigned int charNo, CUser* user)
@@ -160,16 +160,17 @@ bool CUserManager::InsertUser_CharNo(unsigned int charNo, CUser* user)
     {
         return 0;
     }
-    if (!m_charNoUsers.insert(std::make_pair(charNo, user)).second)
+    if (m_charNoUsers.insert(std::make_pair(charNo, user)).second)
     {
-        char* name = user->GetCharName();
-        unsigned int dbid = user->GetDBID();
-        CMyFileLog log(__FUNCTION__, 0x163);
-        log("./log/Except",
-            "[INSERT_ERR]Already Exist!\tChar No : %d\tDB No : %d\tChar_Name : %s\n",
-            charNo, dbid, name);
-        return 0;
+        return 1;
     }
-    return 1;
+    register char* name = user->GetCharName();
+    register unsigned int dbid = user->GetDBID();
+    register unsigned int nCharNo = charNo;
+    CMyFileLog log(__FUNCTION__, 0x163);
+    log("./log/Except",
+        "[INSERT_ERR]Already Exist!\tChar No : %d\tDB No : %d\tChar_Name : %s\n",
+        nCharNo, dbid, name);
+    return 0;
 }
 ```

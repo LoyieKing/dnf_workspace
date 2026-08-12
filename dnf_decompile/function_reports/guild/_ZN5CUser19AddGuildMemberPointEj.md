@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80669f2` | `0x49` | `0x8088e60` | `0x4f` |
+| guild | DIFF | `0x80669f2` | `0x49` | `0x8088eba` | `0x4f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -81,12 +81,13 @@ void __thiscall CUser::_ZN5CUser19AddGuildMemberPointEj(CUser *this,uint param_1
 ```cpp
 void CUser::AddGuildMemberPoint(unsigned int point)
 {
-    unsigned int old = *(unsigned int*)((char*)this + 0x60);
-    *(unsigned int*)((char*)this + 0x60) = old + point;
+    unsigned int old = ((CUserGuildPointLayout*)this)->m_guildPoint;
+    ((CUserGuildPointLayout*)this)->m_guildPoint =
+        ((CUserGuildPointLayout*)this)->m_guildPoint + point;
     SetGuildMemFlag(0x10);
-    if (*(unsigned int*)((char*)this + 0x60) < old)
+    if (((CUserGuildPointLayout*)this)->m_guildPoint < old)
     {
-        *(unsigned int*)((char*)this + 0x60) = old;
+        ((CUserGuildPointLayout*)this)->m_guildPoint = old;
     }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804fade` | `0x255` | `0x8087198` | `0x215` |
+| guild | DIFF | `0x804fade` | `0x255` | `0x808719e` | `0x26a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,11 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,178 +1,149 @@
+@@ -1,178 +1,183 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
- push   %esi
+-push   %esi
  push   %ebx
 -sub    $0x1dc,%esp
 -lea    -0xc0(%ebp),%eax
@@ -26,20 +26,18 @@
 -jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x2f>
 -mov    -0x30(%ebp),%edx
 -mov    -0x2c(%ebp),%eax
--movl   $0x0,(%eax,%edx,4)
++sub    $0x1e4,%esp
++lea    -0xc8(%ebp),%eax
++mov    %eax,-0x40(%ebp)
++movl   $0x0,-0x14(%ebp)
++jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x2d>
++mov    -0x14(%ebp),%edx
++mov    -0x40(%ebp),%eax
+ movl   $0x0,(%eax,%edx,4)
 -addl   $0x1,-0x30(%ebp)
 -cmpl   $0x1f,-0x30(%ebp)
-+sub    $0x1d0,%esp
-+movl   $0x0,-0xc(%ebp)
-+jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x42>
-+mov    -0xc(%ebp),%eax
-+movl   $0x0,-0x9c(%ebp,%eax,4)
-+mov    -0xc(%ebp),%eax
-+movl   $0x0,-0x11c(%ebp,%eax,4)
-+mov    -0xc(%ebp),%eax
-+movl   $0x0,-0x19c(%ebp,%eax,4)
-+addl   $0x1,-0xc(%ebp)
-+cmpl   $0x1f,-0xc(%ebp)
++addl   $0x1,-0x14(%ebp)
++cmpl   $0x1f,-0x14(%ebp)
  setbe  %al
  test   %al,%al
 -jne    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x1e>
@@ -49,11 +47,20 @@
 -jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x5d>
 -mov    -0x28(%ebp),%edx
 -mov    -0x24(%ebp),%eax
--movl   $0x0,(%eax,%edx,4)
++jne    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x1c>
++lea    -0x148(%ebp),%eax
++mov    %eax,-0x3c(%ebp)
++movl   $0x0,-0x10(%ebp)
++jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x5b>
++mov    -0x10(%ebp),%edx
++mov    -0x3c(%ebp),%eax
+ movl   $0x0,(%eax,%edx,4)
 -addl   $0x1,-0x28(%ebp)
 -cmpl   $0x1f,-0x28(%ebp)
--setbe  %al
--test   %al,%al
++addl   $0x1,-0x10(%ebp)
++cmpl   $0x1f,-0x10(%ebp)
+ setbe  %al
+ test   %al,%al
 -jne    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x4c>
 -lea    -0x1c0(%ebp),%eax
 -mov    %eax,-0x1c(%ebp)
@@ -61,85 +68,104 @@
 -jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x8b>
 -mov    -0x20(%ebp),%edx
 -mov    -0x1c(%ebp),%eax
--movl   $0x0,(%eax,%edx,4)
++jne    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x4a>
++lea    -0x1c8(%ebp),%eax
++mov    %eax,-0x38(%ebp)
++movl   $0x0,-0xc(%ebp)
++jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x89>
++mov    -0xc(%ebp),%edx
++mov    -0x38(%ebp),%eax
+ movl   $0x0,(%eax,%edx,4)
 -addl   $0x1,-0x20(%ebp)
 -cmpl   $0x1f,-0x20(%ebp)
--setbe  %al
--test   %al,%al
++addl   $0x1,-0xc(%ebp)
++cmpl   $0x1f,-0xc(%ebp)
+ setbe  %al
+ test   %al,%al
 -jne    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x7a>
-+jne    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x14>
++jne    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x78>
++mov    0x8(%ebp),%eax
++mov    (%eax),%eax
++shr    $0x5,%eax
++mov    -0xc8(%ebp,%eax,4),%eax
++mov    %eax,-0x34(%ebp)
++mov    0x8(%ebp),%eax
++mov    (%eax),%eax
++and    $0x1f,%eax
++mov    $0x1,%edx
++mov    %edx,%ebx
++mov    %eax,%ecx
++shl    %cl,%ebx
++mov    %ebx,%eax
++mov    %eax,-0x30(%ebp)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,%edx
  shr    $0x5,%edx
++mov    -0x34(%ebp),%eax
++mov    -0x30(%ebp),%ecx
++or     %ecx,%eax
++mov    %eax,-0xc8(%ebp,%edx,4)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
--shr    $0x5,%eax
+ shr    $0x5,%eax
 -mov    -0xc0(%ebp,%eax,4),%ebx
-+and    $0x1f,%eax
-+mov    $0x1,%ebx
-+mov    %ebx,%esi
-+mov    %eax,%ecx
-+shl    %cl,%esi
-+mov    %esi,-0x1ac(%ebp)
++mov    -0x148(%ebp,%eax,4),%eax
++mov    %eax,-0x2c(%ebp)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
--and    $0x1f,%eax
+ and    $0x1f,%eax
 -mov    $0x1,%esi
 -mov    %esi,%edi
--mov    %eax,%ecx
++mov    $0x1,%edx
++mov    %edx,%ebx
+ mov    %eax,%ecx
 -shl    %cl,%edi
 -mov    %edi,%eax
 -or     %ebx,%eax
 -mov    %eax,-0xc0(%ebp,%edx,4)
-+shr    $0x5,%eax
-+mov    -0x9c(%ebp,%eax,4),%eax
-+or     -0x1ac(%ebp),%eax
-+mov    %eax,-0x9c(%ebp,%edx,4)
++shl    %cl,%ebx
++mov    %ebx,%eax
++mov    %eax,-0x28(%ebp)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,%edx
  shr    $0x5,%edx
++mov    -0x2c(%ebp),%eax
++mov    -0x28(%ebp),%ecx
++or     %ecx,%eax
++mov    %eax,-0x148(%ebp,%edx,4)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
--shr    $0x5,%eax
+ shr    $0x5,%eax
 -mov    -0x140(%ebp,%eax,4),%ebx
-+and    $0x1f,%eax
-+mov    $0x1,%ebx
-+mov    %ebx,%esi
-+mov    %eax,%ecx
-+shl    %cl,%esi
-+mov    %esi,-0x1ac(%ebp)
++mov    -0x1c8(%ebp,%eax,4),%eax
++mov    %eax,-0x24(%ebp)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
--and    $0x1f,%eax
+ and    $0x1f,%eax
 -mov    $0x1,%esi
 -mov    %esi,%edi
--mov    %eax,%ecx
++mov    $0x1,%edx
++mov    %edx,%ebx
+ mov    %eax,%ecx
 -shl    %cl,%edi
 -mov    %edi,%eax
 -or     %ebx,%eax
 -mov    %eax,-0x140(%ebp,%edx,4)
-+shr    $0x5,%eax
-+mov    -0x11c(%ebp,%eax,4),%eax
-+or     -0x1ac(%ebp),%eax
-+mov    %eax,-0x11c(%ebp,%edx,4)
++shl    %cl,%ebx
++mov    %ebx,%eax
++mov    %eax,-0x20(%ebp)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,%edx
  shr    $0x5,%edx
- mov    0x8(%ebp),%eax
- mov    (%eax),%eax
+-mov    0x8(%ebp),%eax
+-mov    (%eax),%eax
 -shr    $0x5,%eax
 -mov    -0x1c0(%ebp,%eax,4),%ebx
-+and    $0x1f,%eax
-+mov    $0x1,%ebx
-+mov    %ebx,%esi
-+mov    %eax,%ecx
-+shl    %cl,%esi
-+mov    %esi,-0x1ac(%ebp)
- mov    0x8(%ebp),%eax
- mov    (%eax),%eax
+-mov    0x8(%ebp),%eax
+-mov    (%eax),%eax
 -and    $0x1f,%eax
 -mov    $0x1,%esi
 -mov    %esi,%edi
@@ -153,23 +179,22 @@
 -movl   $0x0,-0x38(%ebp)
 -movl   $0x0,-0x34(%ebp)
 -lea    -0x40(%ebp),%eax
-+shr    $0x5,%eax
-+mov    -0x19c(%ebp,%eax,4),%eax
-+or     -0x1ac(%ebp),%eax
-+mov    %eax,-0x19c(%ebp,%edx,4)
-+movl   $0x1,-0x1c(%ebp)
-+movl   $0x0,-0x18(%ebp)
-+movl   $0x0,-0x14(%ebp)
-+lea    -0x1c(%ebp),%eax
++mov    -0x24(%ebp),%eax
++mov    -0x20(%ebp),%ecx
++or     %ecx,%eax
++mov    %eax,-0x1c8(%ebp,%edx,4)
++movl   $0x1,-0x48(%ebp)
++movl   $0x0,-0x44(%ebp)
++lea    -0x48(%ebp),%eax
  mov    %eax,0x10(%esp)
 -lea    -0x1c0(%ebp),%eax
-+lea    -0x19c(%ebp),%eax
++lea    -0x1c8(%ebp),%eax
  mov    %eax,0xc(%esp)
 -lea    -0x140(%ebp),%eax
-+lea    -0x11c(%ebp),%eax
++lea    -0x148(%ebp),%eax
  mov    %eax,0x8(%esp)
 -lea    -0xc0(%ebp),%eax
-+lea    -0x9c(%ebp),%eax
++lea    -0xc8(%ebp),%eax
  mov    %eax,0x4(%esp)
  movl   $0x2,(%esp)
  call   <T> <select>
@@ -178,9 +203,9 @@
 -shr    $0x1f,%eax
 -test   %al,%al
 -je     <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x1bc>
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0x0,-0x10(%ebp)
-+jns    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x17d>
++mov    %eax,-0x1c(%ebp)
++cmpl   $0x0,-0x1c(%ebp)
++jns    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x1cc>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -190,40 +215,14 @@
  call   <T> <printf>
 -mov    -0x38(%ebp),%eax
 -jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x24a>
-+jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x208>
++mov    -0x1c(%ebp),%eax
++jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x261>
++movl   $0x0,-0x18(%ebp)
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  shr    $0x5,%eax
 -mov    -0xc0(%ebp,%eax,4),%edx
-+mov    -0x9c(%ebp,%eax,4),%edx
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+and    $0x1f,%eax
-+mov    %edx,%ebx
-+mov    %eax,%ecx
-+sar    %cl,%ebx
-+mov    %ebx,%eax
-+and    $0x1,%eax
-+test   %eax,%eax
-+jne    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x201>
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+shr    $0x5,%eax
-+mov    -0x11c(%ebp,%eax,4),%edx
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+and    $0x1f,%eax
-+mov    %edx,%ebx
-+mov    %eax,%ecx
-+sar    %cl,%ebx
-+mov    %ebx,%eax
-+and    $0x1,%eax
-+test   %eax,%eax
-+jne    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x1f8>
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+shr    $0x5,%eax
-+mov    -0x19c(%ebp,%eax,4),%edx
++mov    -0xc8(%ebp,%eax,4),%edx
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  and    $0x1f,%eax
@@ -236,49 +235,53 @@
 -je     <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x1eb>
 -movl   $0x1,-0x34(%ebp)
 -jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x247>
--mov    0x8(%ebp),%eax
--mov    (%eax),%eax
--shr    $0x5,%eax
++je     <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x202>
++movl   $0x1,-0x18(%ebp)
++jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x25e>
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ shr    $0x5,%eax
 -mov    -0x140(%ebp,%eax,4),%edx
--mov    0x8(%ebp),%eax
--mov    (%eax),%eax
--and    $0x1f,%eax
--mov    %edx,%ebx
--mov    %eax,%ecx
--sar    %cl,%ebx
--mov    %ebx,%eax
--and    $0x1,%eax
--test   %al,%al
++mov    -0x148(%ebp,%eax,4),%edx
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ and    $0x1f,%eax
+ mov    %edx,%ebx
+ mov    %eax,%ecx
+ sar    %cl,%ebx
+ mov    %ebx,%eax
+ and    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x21a>
 -movl   $0x2,-0x34(%ebp)
 -jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x247>
--mov    0x8(%ebp),%eax
--mov    (%eax),%eax
--shr    $0x5,%eax
++je     <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x231>
++movl   $0x2,-0x18(%ebp)
++jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x25e>
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ shr    $0x5,%eax
 -mov    -0x1c0(%ebp,%eax,4),%edx
--mov    0x8(%ebp),%eax
--mov    (%eax),%eax
--and    $0x1f,%eax
--mov    %edx,%ebx
--mov    %eax,%ecx
--sar    %cl,%ebx
--mov    %ebx,%eax
--and    $0x1,%eax
--test   %al,%al
++mov    -0x1c8(%ebp,%eax,4),%edx
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ and    $0x1f,%eax
+ mov    %edx,%ebx
+ mov    %eax,%ecx
+ sar    %cl,%ebx
+ mov    %ebx,%eax
+ and    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x247>
 -movl   $0x3,-0x34(%ebp)
 -mov    -0x34(%ebp),%eax
 -add    $0x1dc,%esp
-+je     <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x208>
-+movl   $0x3,-0x14(%ebp)
-+jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x208>
-+movl   $0x2,-0x14(%ebp)
-+jmp    <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x208>
-+movl   $0x1,-0x14(%ebp)
-+mov    -0x14(%ebp),%eax
-+add    $0x1d0,%esp
++je     <T> <_ZNK9TCPSocket21pollReadWriteErrEventEv+0x25e>
++movl   $0x3,-0x18(%ebp)
++mov    -0x18(%ebp),%eax
++add    $0x1e4,%esp
  pop    %ebx
- pop    %esi
+-pop    %esi
 -pop    %edi
  pop    %ebp
  ret

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8064210` | `0x6d6` | `0x80c961e` | `0x6d6` |
+| dbmw | DIFF | `0x8064210` | `0x6d6` | `0x80c961a` | `0x6d6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -678,7 +678,7 @@ void CNetworkThread::_ZN14CNetworkThread8dispatchEPv(void *param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFNetworkThread.cpp](source/DNFServer/GameServer/DBMW/DNFNetworkThread.cpp)（约第 48 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFNetworkThread.cpp](source/DNFServer/GameServer/DBMW/DNFNetworkThread.cpp)（约第 49 行）：
 
 ```cpp
 void CNetworkThread::dispatch(void* param)

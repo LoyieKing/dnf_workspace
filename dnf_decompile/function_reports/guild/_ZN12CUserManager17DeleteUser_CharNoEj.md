@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806958a` | `0xbb` | `0x808ba00` | `0xbb` |
+| guild | DIFF | `0x806958a` | `0xbb` | `0x808ba5a` | `0xbb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -143,7 +143,7 @@ CUserManager::_ZN12CUserManager17DeleteUser_CharNoEj(CUserManager *this,uint par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 337 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 334 行）：
 
 ```cpp
 int CUserManager::DeleteUser_CharNo(unsigned int charNo)
@@ -156,7 +156,7 @@ int CUserManager::DeleteUser_CharNo(unsigned int charNo)
     {
         return 1;
     }
-    int nSize = m_charNoUsers.size();
+    register int nSize = m_charNoUsers.size();
     CMyFileLog log(__FUNCTION__, 0x17e);
     log("./log/User",
         "[EXCEPT]CUserManager::DeleteUser_CharNo() : Erase Fail!\tChar No : %d\tChar_No Map Count : %d\n",

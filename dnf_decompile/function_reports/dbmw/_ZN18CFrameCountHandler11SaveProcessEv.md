@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | NEAR | `0x8055bc6` | `0x80` | `0x80e5074` | `0x80` |
+| dbmw | NEAR | `0x8055bc6` | `0x80` | `0x80e5070` | `0x80` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -89,9 +89,8 @@ void __thiscall CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEv(CFram
 ```cpp
 void CFrameCountHandler::SaveProcess()
 {
-    register bool b;
     ++m_field28;
-    b = m_field28 != 0;
+    register bool b = m_field28 != 0;
     if (b)
     {
         DNF_LOG_SCOPE_LINE(0xa8, "./log/frame", "FPS(%02d) / DFC(%02d)\n", m_field18, m_field4);

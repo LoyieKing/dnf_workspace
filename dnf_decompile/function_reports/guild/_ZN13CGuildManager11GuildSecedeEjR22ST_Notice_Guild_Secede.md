@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809633e` | `0x33b` | `0x805c0ba` | `0x34a` |
+| guild | DIFF | `0x809633e` | `0x33b` | `0x805c0c0` | `0x34a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -439,7 +439,7 @@ CGuildManager::_ZN13CGuildManager11GuildSecedeEjR22ST_Notice_Guild_Secede
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 457 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuildManager.cpp](source/DNFServer/GameServer/Guild/DNFGuildManager.cpp)（约第 468 行）：
 
 ```cpp
 CGuild* CGuildManager::GuildSecede(unsigned int guildKey, ST_Notice_Guild_Secede& info)
@@ -452,19 +452,9 @@ CGuild* CGuildManager::GuildSecede(unsigned int guildKey, ST_Notice_Guild_Secede
     {
         throw CDNFException("CGuildManager::GuildSecede()\t0 == dwGuildKey\n");
     }
-    CUser* user = m_app->Get_UserManager()->FindUser_CharNo(*(unsigned int*)((char*)&info + 8));
+    CUser* user = m_app->Get_UserManager()->FindUser_CharNo(((ST_Notice_Guild_Secede_Layout*)&info)->m8);
     CGuild* guild = FindGuild(guildKey);
-    if (guild == 0)
-    {
-        if (user != 0)
-        {
-            char* accId = NumberToString(*(unsigned int*)((char*)&info + 4), 0);
-            DNF_LOG_SCOPE_LINE(0x2a1,"./log/Except",
-                "GUILD : CGuildManager::GuildSecede() pclGuild == NULL But pclUser != NULL( Guild Key : %d, Acc Id : %s, Char Id : %d )\n",
-                guildKey, accId, *(unsigned int*)((char*)&info + 8));
-        }
-    }
-    else
+    if (guild != 0)
     {
         if (user != 0)
         {
@@ -472,14 +462,22 @@ CGuild* CGuildManager::GuildSecede(unsigned int guildKey, ST_Notice_Guild_Secede
             {
                 return 0;
             }
-            user->SendSetGuildKeyToUser(0, *(unsigned int*)((char*)&info + 8));
+            user->SendSetGuildKeyToUser(0, ((ST_Notice_Guild_Secede_Layout*)&info)->m8);
             user->ResetGuild();
         }
         guild->SecedeProxyMember(info);
-        if (guild->IsSubGuildMaster(*(unsigned int*)((char*)&info + 8)) != 0)
+        if (guild->IsSubGuildMaster(((ST_Notice_Guild_Secede_Layout*)&info)->m8) != 0)
         {
-            guild->SetSubGuildMaster(*(unsigned int*)((char*)&info + 8), false);
+            guild->SetSubGuildMaster(((ST_Notice_Guild_Secede_Layout*)&info)->m8, false);
         }
+    }
+    else if (user != 0)
+    {
+        register unsigned int charId = ((ST_Notice_Guild_Secede_Layout*)&info)->m8;
+        register char* accId = NumberToString(((ST_Notice_Guild_Secede_Layout*)&info)->m4, 0);
+        DNF_LOG_SCOPE_LINE(0x2a1,"./log/Except",
+            "GUILD : CGuildManager::GuildSecede() pclGuild == NULL But pclUser != NULL( Guild Key : %d, Acc Id : %s, Char Id : %d )\n",
+            guildKey, accId, charId);
     }
     return guild;
 }

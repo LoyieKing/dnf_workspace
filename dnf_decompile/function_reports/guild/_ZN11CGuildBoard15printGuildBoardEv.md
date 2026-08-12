@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809e0aa` | `0xde` | `0x809053c` | `0xdb` |
+| guild | DIFF | `0x809e0aa` | `0xde` | `0x8090596` | `0xdb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -156,19 +156,22 @@ void CGuildBoard::_ZN11CGuildBoard15printGuildBoardEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 338 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildBoard.cpp](source/DNFServer/GameServer/Guild/GuildBoard.cpp)（约第 334 行）：
 
 ```cpp
 void CGuildBoard::printGuildBoard()
 {
-    std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >* map = &m_board;
-    for (std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >::iterator it =
-             map->begin();
-         it != map->end(); ++it)
+    std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >::iterator it =
+        m_board.begin();
+    std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >::iterator endit =
+        m_board.end();
+    std::map<unsigned int, STGuildBoardDBInfo, std::greater<unsigned int> >::iterator cur = it;
+    while (cur != endit)
     {
         DNF_LOG_SCOPE_LINE(0x188,"./log/GuildBoard", "\n*%d* %d %s\n",
-            it->first, *(unsigned int*)((char*)&it->second + 0x7c),
-            (char*)&it->second + 4);
+            cur->first, cur->second.m_field78,
+            cur->second.m_data);
+        ++cur;
     }
 }
 ```

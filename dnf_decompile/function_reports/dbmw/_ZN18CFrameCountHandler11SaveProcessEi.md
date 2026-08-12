@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | NEAR | `0x8055c46` | `0x87` | `0x80e50f4` | `0x87` |
+| dbmw | NEAR | `0x8055c46` | `0x87` | `0x80e50f0` | `0x87` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -87,14 +87,13 @@ CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEi(CFrameCountHandler *t
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp](source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp)（约第 42 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp](source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp)（约第 41 行）：
 
 ```cpp
 void CFrameCountHandler::SaveProcess(int n)
 {
-    register bool b;
     ++m_field28;
-    b = m_field28 != 0;
+    register bool b = m_field28 != 0;
     if (b)
     {
         DNF_LOG_SCOPE_LINE(0xb8, "./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", n, m_field18, m_field4);

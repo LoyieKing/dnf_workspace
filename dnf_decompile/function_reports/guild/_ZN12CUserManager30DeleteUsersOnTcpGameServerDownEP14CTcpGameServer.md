@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8068cc2` | `0x2af` | `0x808b144` | `0x2a2` |
+| guild | DIFF | `0x8068cc2` | `0x2af` | `0x808b19e` | `0x2a2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -396,7 +396,7 @@ CUserManager::_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 170 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUserManager.cpp](source/DNFServer/GameServer/Guild/DNFUserManager.cpp)（约第 166 行）：
 
 ```cpp
 void CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer* server)

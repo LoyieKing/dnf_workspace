@@ -107,9 +107,6 @@
  mov    0x8(%ebp),%eax
  movb   $0x1,0x8(%eax)
  jmp    <T> <_ZN14CNetworkThread8dispatchEPv+0x507>
-+movl   $0x1800,-0x60(%ebp)
-+movw   $0x0,-0x62(%ebp)
-+movl   $0x0,-0x68(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
  mov    %eax,0x4(%esp)
@@ -122,9 +119,9 @@
  lea    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
--movl   $0x1800,-0x60(%ebp)
--movw   $0x0,-0x62(%ebp)
--movl   $0x0,-0x68(%ebp)
+ movl   $0x1800,-0x60(%ebp)
+ movw   $0x0,-0x62(%ebp)
+ movl   $0x0,-0x68(%ebp)
  mov    -0x5c(%ebp),%eax
  mov    %eax,%edx
  mov    0x8(%ebp),%eax
@@ -291,7 +288,7 @@
 +jmp    <T> <_ZN14CNetworkThread8dispatchEPv+0x507>
 +mov    -0x60(%ebp),%eax
 +cmp    $0x1800,%eax
-+jle    <T> <_ZN14CNetworkThread8dispatchEPv+0x441>
++jbe    <T> <_ZN14CNetworkThread8dispatchEPv+0x441>
 +mov    -0x20(%ebp),%eax
 +movzwl (%eax),%eax
 +movzwl %ax,%edi
