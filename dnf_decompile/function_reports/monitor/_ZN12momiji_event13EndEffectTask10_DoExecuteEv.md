@@ -170,18 +170,17 @@ momiji_event::EndEffectTask::_ZN12momiji_event13EndEffectTask10_DoExecuteEv(EndE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp](source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp)（约第 71 行）：
+定义于 [source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp](source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp)（约第 68 行）：
 
 ```cpp
 void EndEffectTask::_DoExecute()
 {
     if (((RA_S8<16>*)this)->v != 0)
     {
-        time_t now = time(0);
-        EventManager* em = EventManager::Get();
-        unsigned int next = (unsigned int)now +
-                            (em->GetIntervalTime() - em->GetDurationTime());
-        StartEffectTask* task = new StartEffectTask(next, 0);
+        time_t next = time(0) +
+                      (EventManager::Get()->GetIntervalTime() -
+                       EventManager::Get()->GetDurationTime());
+        StartEffectTask* task = new StartEffectTask((unsigned int)next, 0);
         ((CApplication*)CApplicationInstance())->GetTaskScheduler()->AddTask(task);
         tm* t = localtime((time_t*)&next);
         DNF_LOG_SCOPE_AT(__FUNCTION__, 200,"./log/AradOnly", "[Momiji] start event. next startEffect %02dh:%02dm:%02ds",

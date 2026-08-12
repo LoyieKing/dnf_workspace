@@ -109,7 +109,7 @@ CMemberManager::_ZN14CMemberManager21NoticeLevelUpToLowersEjj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 321 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 330 行）：
 
 ```cpp
 void CMemberManager::NoticeLevelUpToLowers(unsigned int upperCharId, unsigned int exp)

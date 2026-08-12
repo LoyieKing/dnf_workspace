@@ -165,7 +165,7 @@ CMemberManager::_ZN14CMemberManager14RegisterMemberEP7CMembersP5CUserb
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 424 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 433 行）：
 
 ```cpp
 int CMemberManager::RegisterMember(CMember* member, short level, CUser* user, bool flag)

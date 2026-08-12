@@ -101,8 +101,8 @@ int EpollHandler::ResetEpoll(int fd)
     memset((char*)this + 4, 0, 0xc);
     ((RA_INT<4>*)this)->v = 1;
     CGuard<CMutex> guard(&m_mutex);
-    register int r = epoll_ctl(m_epollFd, 2, fd, (epoll_event*)((char*)this + 4));
-    if (r < 0)
+    register int r;
+    if (epoll_ctl(m_epollFd, 2, fd, (epoll_event*)((char*)this + 4)) < 0)
     {
         r = errno;
     }

@@ -93,7 +93,7 @@ CDBManager::_ZN10CDBManager20RegisterQueryIdTableEiPKc(CDBManager *this,int para
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3049 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3055 行）：
 
 ```cpp
 char CDBManager::RegisterQueryIdTable(int queryId, const char* query)

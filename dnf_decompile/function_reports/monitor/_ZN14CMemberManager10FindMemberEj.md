@@ -122,18 +122,20 @@ undefined4 CMemberManager::_ZN14CMemberManager10FindMemberEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 265 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 268 行）：
 
 ```cpp
 CMember* CMemberManager::FindMember(unsigned int key)
 {
-    if (!m_members.empty())
+    std::map<unsigned int, CMember*>::iterator it;
+    if (m_members.empty())
     {
-        std::map<unsigned int, CMember*>::iterator it = m_members.find(key);
-        if (it != m_members.end())
-        {
-            return it->second;
-        }
+        return 0;
+    }
+    it = m_members.find(key);
+    if (m_members.end() != it)
+    {
+        return it->second;
     }
     return 0;
 }

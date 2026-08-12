@@ -183,7 +183,7 @@ CMember::_ZN7CMember18DeleteMemberByNameEPcRj(CMember *this,char *param_1,uint *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 562 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 576 行）：
 
 ```cpp
 int CMember::DeleteMemberByName(char* name, unsigned int& outKey)

@@ -342,7 +342,7 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystemD2Ev(CTcpNetSystem *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 147 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 145 行）：
 
 ```cpp
 CTcpNetSystem::~CTcpNetSystem()
@@ -355,32 +355,14 @@ CTcpNetSystem::~CTcpNetSystem()
     }
     if (m_acceptThread != 0)
     {
-        void* h = (void*)m_acceptThread;
-        if (h != 0)
-        {
-            void (**vt)(void*) = *(void(***)(void*))h;
-            vt[0](h);
-        }
-        if (m_acceptThread != 0)
-        {
-            void (**vt)(void*) = *(void(***)(void*))(void*)m_acceptThread;
-            vt[3]((void*)m_acceptThread);
-        }
+        m_acceptThread->stop();
+        delete m_acceptThread;
         m_acceptThread = 0;
     }
     if (m_networkThread != 0)
     {
-        void* h = (void*)m_networkThread;
-        if (h != 0)
-        {
-            void (**vt)(void*) = *(void(***)(void*))h;
-            vt[0](h);
-        }
-        if (m_networkThread != 0)
-        {
-            void (**vt)(void*) = *(void(***)(void*))(void*)m_networkThread;
-            vt[3]((void*)m_networkThread);
-        }
+        m_networkThread->stop();
+        delete m_networkThread;
         m_networkThread = 0;
     }
 }

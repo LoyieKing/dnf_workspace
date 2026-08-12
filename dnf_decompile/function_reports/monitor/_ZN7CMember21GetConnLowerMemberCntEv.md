@@ -109,23 +109,30 @@ int __thiscall CMember::_ZN7CMember21GetConnLowerMemberCntEv(CMember *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 459 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 461 行）：
 
 ```cpp
 int CMember::GetConnLowerMemberCnt()
 {
-    int cnt = 0;
-    if (m_dbInfo.m_count27 != 0)
+    int count = (int)m_dbInfo.m_count27;
+    if (count != 0)
     {
-        for (int i = 0; i < (int)(unsigned int)m_dbInfo.m_count27; i++)
+        int cnt = 0;
+        int i = 0;
+        for (i = 0; i < count; i++)
         {
-            if (m_memberManager->FindMemberUser(
-                    *(unsigned int*)((char*)this + 0x2e + i * 0x27)) != 0)
+            CUser* user = m_memberManager->FindMemberUser(m_dbInfo.m_lowers[i].m_field0);
+            if (user == 0)
+            {
+                ;
+            }
+            else
             {
                 cnt++;
             }
         }
+        return cnt;
     }
-    return cnt;
+    return 0;
 }
 ```

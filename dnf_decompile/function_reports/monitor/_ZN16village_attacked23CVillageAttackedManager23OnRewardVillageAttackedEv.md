@@ -73,13 +73,15 @@ _ZN16village_attacked23CVillageAttackedManager23OnRewardVillageAttackedEv
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 372 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 373 行）：
 
 ```cpp
 void CVillageAttackedManager::OnRewardVillageAttacked()
 {
     Packet_VillageAttackedRewardServer pkt;
-    m_app->Get_ServerHandler()->SendAllToGameServer((char*)&pkt, 0xe);
+    pkt.m_fieldA = 0;
+    m_app->Get_ServerHandler()->SendAllToGameServer(
+        (char*)&pkt, (unsigned int)pkt.packetSize);
     m_field30 = 0;
 }
 ```

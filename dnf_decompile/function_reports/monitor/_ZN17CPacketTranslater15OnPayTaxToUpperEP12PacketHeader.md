@@ -618,7 +618,7 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1568 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1592 行）：
 
 ```cpp
 void CPacketTranslater::OnPayTaxToUpper(PacketHeader* pkt)

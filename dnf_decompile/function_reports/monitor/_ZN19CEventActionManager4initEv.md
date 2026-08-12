@@ -151,7 +151,7 @@ void __thiscall CEventActionManager::_ZN19CEventActionManager4initEv(CEventActio
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 120 行）：
+定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 117 行）：
 
 ```cpp
 void CEventActionManager::init()

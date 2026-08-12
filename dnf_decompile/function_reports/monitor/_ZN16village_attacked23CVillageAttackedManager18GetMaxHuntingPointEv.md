@@ -110,12 +110,12 @@ _ZN16village_attacked23CVillageAttackedManager18GetMaxHuntingPointEv(CVillageAtt
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 253 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 254 行）：
 
 ```cpp
 int CVillageAttackedManager::GetMaxHuntingPoint()
 {
-    unsigned int group = (unsigned int)m_app->Get_ServerGroup() & 0xff;
+    int group = (unsigned char)m_app->Get_ServerGroup();
     if (0 < group && group <= 0x11)
     {
         return m_app->Get_UserManager()->Size() * HuntingPointMultiplier[group];

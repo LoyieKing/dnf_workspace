@@ -217,7 +217,7 @@ CMember::_ZN7CMember21IncConnLowerMemberExpEijj(CMember *this,int param_1,uint p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 373 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 371 行）：
 
 ```cpp
 int CMember::IncConnLowerMemberExp(int index, unsigned int uCharNo, unsigned int maxExp)

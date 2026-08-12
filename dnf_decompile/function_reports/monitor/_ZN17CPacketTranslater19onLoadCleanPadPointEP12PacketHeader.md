@@ -135,7 +135,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19onLoadCleanPadPointEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3316 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3339 行）：
 
 ```cpp
 void CPacketTranslater::onLoadCleanPadPoint(PacketHeader* pkt)

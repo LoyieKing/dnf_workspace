@@ -503,7 +503,7 @@ LAB_0807f3ff:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 5077 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 5090 行）：
 
 ```cpp
 char CDBManager::QueryCubeStatisticCreate(Packet_DBMW_Cube_Statistic* packet)

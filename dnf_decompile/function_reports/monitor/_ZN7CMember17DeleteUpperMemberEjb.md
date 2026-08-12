@@ -65,7 +65,7 @@ void __thiscall CMember::_ZN7CMember17DeleteUpperMemberEjb(CMember *this,uint pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 521 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 535 行）：
 
 ```cpp
 void CMember::DeleteUpperMember(unsigned int charNo, bool flag)

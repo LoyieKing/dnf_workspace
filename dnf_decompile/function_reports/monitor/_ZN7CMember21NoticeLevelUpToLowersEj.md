@@ -139,7 +139,7 @@ void __thiscall CMember::_ZN7CMember21NoticeLevelUpToLowersEj(CMember *this,uint
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 409 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 407 行）：
 
 ```cpp
 void CMember::NoticeLevelUpToLowers(unsigned int level)

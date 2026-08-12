@@ -96,7 +96,7 @@ int village_attacked::CVillageAttackedManager::
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 450 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 453 行）：
 
 ```cpp
 int* CVillageAttackedManager::GetHuntingPoint(unsigned int charNo)

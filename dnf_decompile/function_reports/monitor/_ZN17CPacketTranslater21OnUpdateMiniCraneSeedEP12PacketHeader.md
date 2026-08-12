@@ -359,7 +359,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5429 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5449 行）：
 
 ```cpp
 void CPacketTranslater::OnUpdateMiniCraneSeed(PacketHeader* pkt)

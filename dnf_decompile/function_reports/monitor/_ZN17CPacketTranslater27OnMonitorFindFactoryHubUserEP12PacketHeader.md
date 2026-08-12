@@ -590,7 +590,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3879 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3902 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorFindFactoryHubUser(PacketHeader* pkt)

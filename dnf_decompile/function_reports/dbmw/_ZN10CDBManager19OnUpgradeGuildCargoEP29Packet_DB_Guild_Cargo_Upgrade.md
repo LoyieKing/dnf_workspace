@@ -127,17 +127,18 @@ CDBManager::_ZN10CDBManager19OnUpgradeGuildCargoEP29Packet_DB_Guild_Cargo_Upgrad
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4269 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4281 行）：
 
 ```cpp
 char CDBManager::OnUpgradeGuildCargo(Packet_DB_Guild_Cargo_Upgrade* packet)
 {
+    bool ret;
     CDBHandle* h = m_handles[8];    // guild db
     h->set_query(0x4edc,
                  "upDate guild_agit set cargo_capacity=%d where guild_id=%d",
                  ((GuildCargoUpgradeView*)packet)->m_field12,
                  ((GuildCargoUpgradeView*)packet)->m_fieldA);
-    bool ret = h->exec(0x4edc);
+    ret = h->exec(0x4edc);
     if (!ret)
     {
         register unsigned int c =

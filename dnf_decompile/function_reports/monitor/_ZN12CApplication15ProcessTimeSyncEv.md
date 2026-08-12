@@ -163,22 +163,28 @@ void __thiscall CApplication::_ZN12CApplication15ProcessTimeSyncEv(CApplication 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 1132 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 1138 行）：
 
 ```cpp
 void CApplication::ProcessTimeSync()
 {
     time_t now = time(0);
     tm t = *localtime(&now);
-    int hour = t.tm_hour;
-    int min = t.tm_min;
-    if (hour != m_timeSyncHour && hour >= 0 && hour < 0x18 && min >= 0 && min < 0x3c)
+    // ORIG：无独立 hour/min 局部变量（栈槽复用 struct tm 字段），
+    // 且各范围检查为 goto 形态（ORIG 尾部为 4×`nop; jmp` 汇合 stub）
+    if (t.tm_hour != m_timeSyncHour)
     {
+        if (t.tm_hour < 0) goto end;
+        if (t.tm_hour > 0x17) goto end;
+        if (t.tm_min < 0) goto end;
+        if (t.tm_min > 0x3b) goto end;
         Packet_Send_Time_Sync pkt;
-        pkt.m_fieldA = (unsigned short)hour;
-        pkt.m_fieldC = (unsigned short)min;
+        pkt.m_fieldA = (unsigned short)t.tm_hour;
+        pkt.m_fieldC = (unsigned short)t.tm_min;
         m_serverHandler2->SendAllTcpGameServer(&pkt);
-        m_timeSyncHour = (short)hour;
+        m_timeSyncHour = (short)t.tm_hour;
     }
+end:
+    ;
 }
 ```

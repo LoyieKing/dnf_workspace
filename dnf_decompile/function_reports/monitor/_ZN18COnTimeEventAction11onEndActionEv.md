@@ -73,14 +73,13 @@ void COnTimeEventAction::_ZN18COnTimeEventAction11onEndActionEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 99 行）：
+定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 97 行）：
 
 ```cpp
 void COnTimeEventAction::onEndAction()
 {
     DNF_LOG_SCOPE_LINE(0xc2, "./log/OnTimeEvent", "Test Event Action : On End On Time Event Action");
-    CApplication* app = (CApplication*)CApplicationInstance();
-    COnTimeEventManager* mgr = app->GetOnTimeEventManager();
+    COnTimeEventManager* mgr = ((CApplication*)CApplicationInstance())->GetOnTimeEventManager();
     if (mgr != 0)
     {
         mgr->EndEvent();

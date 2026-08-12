@@ -1822,7 +1822,7 @@ CApplication::_ZN12CApplication4LoadEiPPc(CApplication *this,int param_1,char **
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 306 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 309 行）：
 
 ```cpp
 void CApplication::Load(int argc, char** argv)

@@ -76,7 +76,7 @@ _ZN16village_attacked23CVillageAttackedManager28SendVillageAttackedRewardJpnEP5C
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 460 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 463 行）：
 
 ```cpp
 void CVillageAttackedManager::SendVillageAttackedRewardJpn(CUser* user, int count)
@@ -84,8 +84,8 @@ void CVillageAttackedManager::SendVillageAttackedRewardJpn(CUser* user, int coun
     Packet_VillageAttackedReward pkt;
     pkt.m_idByChannel = user->GetIdByChannel();
     pkt.m_uniqCharNo = user->GetUniqCharNo();
-    pkt.m_rewardType = 5;
-    pkt.m_count = count;
-    user->SendToGameserver((char*)&pkt, 0x1a);
+    pkt.m_count = 5;
+    pkt.m_rewardType = count;
+    user->SendToGameserver((char*)&pkt, (unsigned int)pkt.packetSize);
 }
 ```

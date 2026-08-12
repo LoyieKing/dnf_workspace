@@ -80,7 +80,7 @@ void CApplication::_ZN12CApplication19isGM_regFromChannelEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 819 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 822 行）：
 
 ```cpp
 char CApplication::isGM_regFromChannel(unsigned int channel)

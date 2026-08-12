@@ -238,7 +238,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18onIPCounterControlEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3603 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3626 行）：
 
 ```cpp
 void CPacketTranslater::onIPCounterControl(PacketHeader* pkt)

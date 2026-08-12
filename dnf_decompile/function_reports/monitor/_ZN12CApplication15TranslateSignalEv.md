@@ -502,7 +502,7 @@ void __thiscall CApplication::_ZN12CApplication15TranslateSignalEv(CApplication 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 942 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 947 行）：
 
 ```cpp
 void CApplication::TranslateSignal()

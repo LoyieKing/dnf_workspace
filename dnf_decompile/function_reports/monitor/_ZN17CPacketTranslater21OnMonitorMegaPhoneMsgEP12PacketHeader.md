@@ -75,13 +75,13 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnMonitorMegaPhoneMsgEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2120 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2144 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorMegaPhoneMsg(PacketHeader* pkt)
 {
-    ((RA_S8<10>*)pkt)->v = (char)m_pclApp->Get_ServerGroup();
-    CServerHandler* handler = m_pclApp->m_serverHandler2;
-    handler->SendAllToGameServer((char*)pkt, ((RA_U16<2>*)pkt)->v);
+    MonitorMegaPhonePkt* pkt2 = (MonitorMegaPhonePkt*)pkt;
+    pkt2->m_sg = m_pclApp->Get_ServerGroup();
+    m_pclApp->m_serverHandler2->SendAllToGameServer((char*)pkt, pkt2->m_sz);
 }
 ```

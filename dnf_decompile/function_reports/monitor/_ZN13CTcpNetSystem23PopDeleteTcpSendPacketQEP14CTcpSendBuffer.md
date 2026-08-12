@@ -131,14 +131,18 @@ CTcpNetSystem::_ZN13CTcpNetSystem23PopDeleteTcpSendPacketQEP14CTcpSendBuffer
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 367 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 342 行）：
 
 ```cpp
 void CTcpNetSystem::PopDeleteTcpSendPacketQ(CTcpSendBuffer* buf)
 {
-    CGuard<CMutex> guard1(&m_mutexe8);
-    m_sendQ.pop();
-    CGuard<CMutex> guard2(&m_mutex100);
-    delete buf;
+    {
+        CGuard<CMutex> guard1(&m_mutexe8);
+        m_sendQ.pop();
+    }
+    {
+        CGuard<CMutex> guard2(&m_mutex100);
+        delete buf;
+    }
 }
 ```

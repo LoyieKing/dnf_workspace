@@ -466,7 +466,7 @@ CDBManager::_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3280 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3292 行）：
 
 ```cpp
 char CDBManager::QueryGuildWarPointList(int guildWarPoint, CGuildManager* gm)

@@ -103,20 +103,20 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnNotifyAuctionMailEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3428 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3451 行）：
 
 ```cpp
 void CPacketTranslater::OnNotifyAuctionMail(PacketHeader* pkt)
 {
     try
     {
-        PacketHeader* pkt2 = pkt;
+        MonitorMailPkt* pkt2 = (MonitorMailPkt*)pkt;
         CUser* user =
             ((CUserManager*)((char*)m_pclApp + 0x10))->FindUser_CharNo(
-                ((RA_UINT<10>*)pkt2)->v);
+                pkt2->m_charNo);
         if (user != 0)
         {
-            ((RA_UINT<14>*)pkt2)->v = user->GetIdByChannel();
+            pkt2->m_idByChannel = user->GetIdByChannel();
             user->SendToGameserver((char*)pkt2, 0x26);
         }
     }

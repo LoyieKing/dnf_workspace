@@ -119,7 +119,7 @@ void CPacketTranslater::_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3141 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3165 行）：
 
 ```cpp
 void CPacketTranslater::onWebReqReloadAutoPunishRule(PacketHeader* pkt)
@@ -127,8 +127,7 @@ void CPacketTranslater::onWebReqReloadAutoPunishRule(PacketHeader* pkt)
 {
 
 
-    CServerHandler* handler = m_pclApp->m_serverHandler2;
-    handler->SendAllToGameServer((char*)pkt, 0xb);
+    m_pclApp->m_serverHandler2->SendAllToGameServer((char*)pkt, 0xb);
 
 
     }

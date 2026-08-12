@@ -1119,7 +1119,7 @@ LAB_08084d4b:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 739 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 763 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeOtherChannelChatMsg(PacketHeader* pkt)

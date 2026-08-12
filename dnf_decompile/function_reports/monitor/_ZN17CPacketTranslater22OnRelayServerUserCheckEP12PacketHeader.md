@@ -282,7 +282,7 @@ void CPacketTranslater::_ZN17CPacketTranslater22OnRelayServerUserCheckEP12Packet
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1930 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1954 行）：
 
 ```cpp
 void CPacketTranslater::OnRelayServerUserCheck(PacketHeader* pkt)

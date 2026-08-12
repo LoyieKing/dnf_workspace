@@ -207,7 +207,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3484 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3507 行）：
 
 ```cpp
 void CPacketTranslater::OnPvPChannelUserCount(PacketHeader* pkt)

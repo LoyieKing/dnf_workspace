@@ -471,7 +471,7 @@ void CPacketTranslater::_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5236 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5256 行）：
 
 ```cpp
 void CPacketTranslater::onCollectItems(PacketHeader* pkt)

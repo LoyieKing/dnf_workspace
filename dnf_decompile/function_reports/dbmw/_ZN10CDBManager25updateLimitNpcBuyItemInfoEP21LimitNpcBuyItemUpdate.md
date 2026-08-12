@@ -171,7 +171,7 @@ CDBManager::_ZN10CDBManager25updateLimitNpcBuyItemInfoEP21LimitNpcBuyItemUpdate
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 6224 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 6237 行）：
 
 ```cpp
 bool CDBManager::updateLimitNpcBuyItemInfo(LimitNpcBuyItemUpdate* update)

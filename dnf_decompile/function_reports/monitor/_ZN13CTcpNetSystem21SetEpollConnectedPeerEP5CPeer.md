@@ -179,7 +179,7 @@ CTcpNetSystem::_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer(CTcpNetSystem *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 400 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 385 行）：
 
 ```cpp
 void CTcpNetSystem::SetEpollConnectedPeer(CPeer* peer)

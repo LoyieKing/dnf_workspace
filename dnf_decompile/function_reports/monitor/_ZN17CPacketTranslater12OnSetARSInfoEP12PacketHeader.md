@@ -219,7 +219,7 @@ void CPacketTranslater::_ZN17CPacketTranslater12OnSetARSInfoEP12PacketHeader(Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4160 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4180 行）：
 
 ```cpp
 void CPacketTranslater::OnSetARSInfo(PacketHeader* pkt)
@@ -231,9 +231,9 @@ void CPacketTranslater::OnSetARSInfo(PacketHeader* pkt)
     {
         throw CDNFException("CPacketTranslater::OnSetARSInfo : 0 == m_pclApp");
     }
+    PacketHeader* pkt2 = pkt;
     DNF_LOG_SCOPE_LINE(0x183d, "./log/Secu", "[ARS_INFO] DBMW -> Monitor -> GameSvr");
-    CServerHandler* handler = m_pclApp->m_serverHandler2;
-    handler->SendAllToGameServer((char*)pkt, 0x4bf);
+    m_pclApp->m_serverHandler2->SendAllToGameServer((char*)pkt, 0x4bf);
 
 
     }

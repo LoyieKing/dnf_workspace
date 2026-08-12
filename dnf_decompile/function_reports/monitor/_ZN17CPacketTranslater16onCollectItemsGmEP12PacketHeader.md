@@ -203,7 +203,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5334 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5354 行）：
 
 ```cpp
 void CPacketTranslater::onCollectItemsGm(PacketHeader* pkt)
@@ -215,9 +215,9 @@ void CPacketTranslater::onCollectItemsGm(PacketHeader* pkt)
     {
         throw CDNFException("CPacketTranslater::onCollectItemsGm");
     }
-    ((RA_S8<10>*)pkt)->v = (char)m_pclApp->Get_ServerGroup();
-    PacketHeader* local_pkt = pkt;
-    m_pclApp->m_serverHandler2->SendToDB(local_pkt);
+    MonitorCollectGmPkt* local_pkt = (MonitorCollectGmPkt*)pkt;
+    local_pkt->m_sg = m_pclApp->Get_ServerGroup();
+    m_pclApp->m_serverHandler2->SendToDB((PacketHeader*)local_pkt);
 
 
     }

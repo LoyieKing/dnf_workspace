@@ -180,17 +180,14 @@ void StartEffectTask::_DoExecute()
 {
     if (m_flag != 0)
     {
-        time_t now = time(0);
-        EventManager* em = EventManager::Get();
-        unsigned int end = (unsigned int)now + em->GetDurationTime();
-        EndEffectTask* task = new EndEffectTask(end, 0);
+        time_t end = time(0) + (time_t)EventManager::Get()->GetDurationTime();
+        EndEffectTask* task = new EndEffectTask((unsigned int)end, 0);
         ((CApplication*)CApplicationInstance())->GetTaskScheduler()->AddTask(task);
         tm* t = localtime((time_t*)&end);
         DNF_LOG_SCOPE_AT(__FUNCTION__, 0xb0,"./log/AradOnly", "[Momiji] start event. next endEffect %02dh:%02dm:%02ds",
             t->tm_hour, t->tm_min, t->tm_sec);
-        em->sendApplyEffect(end);
+        EventManager::Get()->sendApplyEffect((unsigned int)end);
     }
-    EventManager* em = EventManager::Get();
-    em->SetStartEffectTask(0);
+    EventManager::Get()->SetStartEffectTask(0);
 }
 ```

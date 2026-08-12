@@ -146,7 +146,7 @@ _ZN16village_attacked23CVillageAttackedManager24SendVillageAttackedScoreEP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 407 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 410 行）：
 
 ```cpp
 void CVillageAttackedManager::SendVillageAttackedScore(CUser* user)

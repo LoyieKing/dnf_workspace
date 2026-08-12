@@ -183,7 +183,7 @@ StatisticManager::_ZN16StatisticManager25AddBloodDungeonStatisticsEP30Packet_Blo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1188 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1184 行）：
 
 ```cpp
 void StatisticManager::AddBloodDungeonStatistics(Packet_Blood_dungeon_statistic* pkt)

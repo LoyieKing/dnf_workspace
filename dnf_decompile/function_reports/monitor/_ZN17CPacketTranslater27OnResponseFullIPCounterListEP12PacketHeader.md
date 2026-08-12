@@ -244,7 +244,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnResponseFullIPCounterListEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4023 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4046 行）：
 
 ```cpp
 void CPacketTranslater::OnResponseFullIPCounterList(PacketHeader* pkt)

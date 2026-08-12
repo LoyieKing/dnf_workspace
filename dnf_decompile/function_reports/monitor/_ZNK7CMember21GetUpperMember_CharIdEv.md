@@ -75,19 +75,19 @@ undefined4 __thiscall CMember::_ZNK7CMember21GetUpperMember_CharIdEv(CMember *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 300 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 298 行）：
 
 ```cpp
 int CMember::GetUpperMember_CharId() const
 {
-    if ((m_flag & 4) == 0)
+    if ((m_flag & 4) != 0)
     {
-        return 0;
-    }
-    if (!IsThereUpper())
-    {
+        if (IsThereUpper() != 0)
+        {
+            return ((RA_INT<6>*)this)->v;
+        }
         return 0xffffffff;
     }
-    return ((RA_INT<6>*)this)->v;
+    return 0;
 }
 ```

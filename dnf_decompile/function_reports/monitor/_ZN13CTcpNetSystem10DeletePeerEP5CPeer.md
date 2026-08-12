@@ -157,21 +157,18 @@ CTcpNetSystem::_ZN13CTcpNetSystem10DeletePeerEP5CPeer(CTcpNetSystem *this,CPeer 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 330 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 308 行）：
 
 ```cpp
 void CTcpNetSystem::DeletePeer(CPeer* peer)
 {
-    int fd = peer->GetTcpSocket()->getHandle();
-    std::map<unsigned int, CPeer*>::iterator it = m_peers.find((unsigned int)fd);
+    unsigned int fd = peer->GetTcpSocket()->getHandle();
+    std::map<unsigned int, CPeer*>::iterator it = m_peers.find(fd);
     if (it != m_peers.end())
     {
         m_peers.erase(it);
     }
     CGuard<CMutex> guard(&m_mutex78);
-    if (peer != 0)
-    {
-        delete peer;
-    }
+    delete peer;
 }
 ```

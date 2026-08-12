@@ -114,19 +114,19 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnNotifyNewMailEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1849 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1873 行）：
 
 ```cpp
 void CPacketTranslater::OnNotifyNewMail(PacketHeader* pkt)
 {
     try
     {
-        PacketHeader* pkt2 = pkt;
+        MonitorMailPkt* pkt2 = (MonitorMailPkt*)pkt;
+        CUser* user;
         CUserManager* mgr = (CUserManager*)((char*)m_pclApp + 0x10);
-        CUser* user = mgr->FindUser_CharNo(((RA_UINT<10>*)pkt2)->v);
-        if (user != 0)
+        if ((user = mgr->FindUser_CharNo(pkt2->m_charNo)) != 0)
         {
-            ((RA_UINT<14>*)pkt2)->v = user->GetIdByChannel();
+            pkt2->m_idByChannel = user->GetIdByChannel();
             user->SendToGameserver((char*)pkt2, 0x12);
         }
     }

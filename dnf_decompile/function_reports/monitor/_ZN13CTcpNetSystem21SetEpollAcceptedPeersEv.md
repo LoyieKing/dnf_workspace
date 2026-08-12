@@ -222,7 +222,7 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv(CTcpN
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 249 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 227 行）：
 
 ```cpp
 void CTcpNetSystem::SetEpollAcceptedPeers()

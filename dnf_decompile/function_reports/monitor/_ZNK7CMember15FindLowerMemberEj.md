@@ -81,24 +81,24 @@ CMember * __thiscall CMember::_ZNK7CMember15FindLowerMemberEj(CMember *this,uint
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 313 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 311 行）：
 
 ```cpp
 int CMember::FindLowerMember(unsigned int charNo) const
 {
     unsigned int count = (unsigned int)m_dbInfo.m_count27;
-    if (count != 0)
+    if (count == 0)
     {
-        const char* p = (const char*)this + 0x2e;
-        while (count != 0)
+        return 0;
+    }
+    const char* p = (const char*)this + 0x2e;
+    while (count-- != 0)
+    {
+        if (*(unsigned int*)p == charNo)
         {
-            count--;
-            if (*(unsigned int*)p == charNo)
-            {
-                return 1;
-            }
-            p += 0x27;
+            return (int)p;
         }
+        p += 0x27;
     }
     return 0;
 }

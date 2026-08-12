@@ -438,7 +438,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3630 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3653 行）：
 
 ```cpp
 void CPacketTranslater::onItemLimitEditionLoadDataReq(PacketHeader* pkt)

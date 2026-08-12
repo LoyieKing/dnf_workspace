@@ -587,7 +587,7 @@ void CPacketTranslater::_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2570 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2594 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeCharLiveOnTenMin(PacketHeader* pkt)

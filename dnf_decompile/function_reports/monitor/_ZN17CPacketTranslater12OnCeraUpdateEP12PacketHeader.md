@@ -199,7 +199,7 @@ void CPacketTranslater::_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader(Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 856 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 880 行）：
 
 ```cpp
 void CPacketTranslater::OnCeraUpdate(PacketHeader* pkt)

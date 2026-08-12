@@ -69,14 +69,14 @@ village_attacked::CVillageAttackedManager::_ZN16village_attacked23CVillageAttack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 332 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 333 行）：
 
 ```cpp
 void CVillageAttackedManager::Reset()
 {
     m_huntingPoints.clear();
     m_field1c = 0;
-    m_field20 = GetMaxHuntingPoint();
+    this->m_field20 = GetMaxHuntingPoint();
     m_state24 = 0;
     m_field28 = 0;
     m_field2c = 0;

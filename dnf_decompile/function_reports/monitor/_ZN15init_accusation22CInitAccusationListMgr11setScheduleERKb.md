@@ -138,7 +138,7 @@ _ZN15init_accusation22CInitAccusationListMgr11setScheduleERKb
 定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 181 行）：
 
 ```cpp
-void CInitAccusationListMgr::setSchedule(bool const& flag)
+bool CInitAccusationListMgr::setSchedule(bool const& flag)
 {
     time_t t = GetNowTime();
     struct tm* lt = localtime(&t);
@@ -150,7 +150,10 @@ void CInitAccusationListMgr::setSchedule(bool const& flag)
     {
         next += 0x15180;
     }
-    CInitAccusationList* list = new CInitAccusationList(next, 0, this);
-    getApp()->GetTaskScheduler()->AddTask(list);
+    // ORIG：无 EH 清理（placement new 形态），GetTaskScheduler 直接读 *this
+    void* mem = operator new(0x14);
+    CInitAccusationList* list = new (mem) CInitAccusationList(next, 0, this);
+    (*(CApplication**)this)->GetTaskScheduler()->AddTask(list);
+    return true;
 }
 ```

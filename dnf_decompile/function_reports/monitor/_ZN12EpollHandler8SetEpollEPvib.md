@@ -125,8 +125,8 @@ int EpollHandler::SetEpoll(void* peer, int fd, bool flag)
     }
     m_peer = peer;
     CGuard<CMutex> guard(&m_mutex);
-    int r = epoll_ctl(m_epollFd, 1, fd, (epoll_event*)((char*)this + 4));
-    if (r < 0)
+    register int r;
+    if (epoll_ctl(m_epollFd, 1, fd, (epoll_event*)((char*)this + 4)) < 0)
     {
         r = errno;
     }

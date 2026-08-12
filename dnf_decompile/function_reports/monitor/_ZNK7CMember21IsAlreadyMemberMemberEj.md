@@ -78,15 +78,19 @@ undefined4 __thiscall CMember::_ZNK7CMember21IsAlreadyMemberMemberEj(CMember *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 512 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 522 行）：
 
 ```cpp
 char CMember::IsAlreadyMemberMember(unsigned int charNo) const
 {
-    if (GetUpperMember_CharId() == (int)charNo)
+    if ((unsigned int)GetUpperMember_CharId() == charNo)
     {
         return 1;
     }
-    return FindLowerMember(charNo) != 0;
+    if (FindLowerMember(charNo) != 0)
+    {
+        return 1;
+    }
+    return 0;
 }
 ```

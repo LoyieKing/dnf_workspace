@@ -173,7 +173,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnWebNoticeSingleEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2668 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2692 行）：
 
 ```cpp
 void CPacketTranslater::OnWebNoticeSingle(PacketHeader* pkt)
@@ -186,10 +186,10 @@ void CPacketTranslater::OnWebNoticeSingle(PacketHeader* pkt)
         }
         else
         {
-            CServerHandler* handler = m_pclApp->m_serverHandler2;
-            handler->SendAllToGameServer((char*)pkt, ((RA_U16<2>*)pkt)->v);
-            DNF_LOG_SCOPE_LINE(0xf6f,"./log/WebNotice", "OnWebNoticeSingle : (%s,%d)\n", (char*)pkt + 0xb,
-                (unsigned int)(unsigned char)((RA_S8<10>*)pkt)->v);
+            PacketHeader* pkt2 = pkt;
+            m_pclApp->m_serverHandler2->SendAllToGameServer((char*)pkt, ((RA_U16<2>*)pkt2)->v);
+            DNF_LOG_SCOPE_LINE(0xf6f,"./log/WebNotice", "OnWebNoticeSingle : (%s,%d)\n", (char*)pkt2 + 0xb,
+                (unsigned int)(unsigned char)((RA_S8<10>*)pkt2)->v);
         }
     }
     catch (CDNFException& e)

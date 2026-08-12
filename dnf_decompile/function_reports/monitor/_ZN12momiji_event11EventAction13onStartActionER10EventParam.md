@@ -125,7 +125,7 @@ momiji_event::EventAction::_ZN12momiji_event11EventAction13onStartActionER10Even
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp](source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp)（约第 198 行）：
+定义于 [source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp](source/DNFServer/GameServer/Monitor/Arad_MomijiEvent.cpp)（约第 191 行）：
 
 ```cpp
 void EventAction::onStartAction(EventParam& param)
@@ -133,14 +133,13 @@ void EventAction::onStartAction(EventParam& param)
     if (isRunning() != 1)
     {
         m_running = 1;
-        DNF_LOG_SCOPE_AT("onStartAction", 0x17,"./log/AradOnly", "[Momiji] onStartAction(%d,%d,%d)",
+        DNF_LOG_SCOPE_AT(__FUNCTION__, 0x17,"./log/AradOnly", "[Momiji] onStartAction(%d,%d,%d)",
             (unsigned int)(unsigned char)((RA_S8<0>*)&param)->v,
             (unsigned int)(unsigned char)((RA_S8<1>*)&param)->v,
             (unsigned int)(unsigned char)((RA_S8<2>*)&param)->v);
-        EventManager* em = EventManager::Get();
-        em->StartEvent(((RA_U8<0>*)&param)->v,
-                       ((RA_U8<1>*)&param)->v,
-                       ((RA_U8<2>*)&param)->v);
+        EventManager::Get()->StartEvent(((RA_U8<0>*)&param)->v,
+                                        ((RA_U8<1>*)&param)->v,
+                                        ((RA_U8<2>*)&param)->v);
     }
 }
 ```

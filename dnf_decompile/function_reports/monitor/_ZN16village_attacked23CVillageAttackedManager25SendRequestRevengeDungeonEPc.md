@@ -65,13 +65,14 @@ _ZN16village_attacked23CVillageAttackedManager25SendRequestRevengeDungeonEPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 713 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 716 行）：
 
 ```cpp
 void CVillageAttackedManager::SendRequestRevengeDungeon(char* pkt)
 {
-    char* p = pkt;
-    ((RA_UINT<10>*)p)->v = m_field30;
-    ((RA_UINT<14>*)p)->v = GetDungeonRemainTime();
+    RA_UINT<10>* p10 = (RA_UINT<10>*)pkt;
+    p10->v = m_field30;
+    RA_UINT<14>* p14 = (RA_UINT<14>*)pkt;
+    p14->v = GetDungeonRemainTime();
 }
 ```

@@ -103,15 +103,14 @@ COnTimeEventAction::_ZN18COnTimeEventAction13onStartActionER10EventParam
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 87 行）：
+定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 86 行）：
 
 ```cpp
 void COnTimeEventAction::onStartAction(EventParam& param)
 {
     DNF_LOG_SCOPE_LINE(0xa7,"./log/OnTimeEvent", "Test Event Action : On Start On Time Event Action %d,%d",
         (unsigned int)param.m_a, (unsigned int)param.m_b);
-    CApplication* app = (CApplication*)CApplicationInstance();
-    COnTimeEventManager* mgr = app->GetOnTimeEventManager();
+    COnTimeEventManager* mgr = ((CApplication*)CApplicationInstance())->GetOnTimeEventManager();
     if (mgr != 0)
     {
         mgr->GetCurEventItemByDBMW((unsigned int)param.m_a, (unsigned int)param.m_b);

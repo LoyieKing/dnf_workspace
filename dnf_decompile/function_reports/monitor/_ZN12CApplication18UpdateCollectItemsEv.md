@@ -177,7 +177,7 @@ void __thiscall CApplication::_ZN12CApplication18UpdateCollectItemsEv(CApplicati
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 1148 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 1160 行）：
 
 ```cpp
 void CApplication::UpdateCollectItems()
@@ -186,17 +186,17 @@ void CApplication::UpdateCollectItems()
     tm t = *localtime(&now);
     if ((t.tm_min & 1U) == 0)
     {
-        CollectItms* items = (CollectItms*)m_field388;
+        // ORIG：不设局部指针，每次直接读成员 m_field388
         Packet_CollectItemsUpdate pkt;
-        pkt.m_fieldA = ((RA_UINT<4>*)items)->v;
-        pkt.m_fieldF = ((RA_UINT<8>*)items)->v;
+        pkt.m_fieldA = ((RA_UINT<4>*)(CollectItms*)m_field388)->v;
+        pkt.m_fieldF = ((RA_UINT<8>*)(CollectItms*)m_field388)->v;
         pkt.m_fieldE = Get_ServerGroup();
-        pkt.m_field13 = ((RA_U8<12>*)items)->v;
+        pkt.m_field13 = ((RA_U8<12>*)(CollectItms*)m_field388)->v;
         m_serverHandler2->SendToDB(&pkt);
         Packet_CollectItemsResult pkt2;
-        pkt2.m_fieldE = ((RA_UINT<4>*)items)->v;
-        pkt2.m_fieldA = ((RA_UINT<0>*)items)->v;
-        pkt2.m_field12 = ((RA_UINT<8>*)items)->v;
+        pkt2.m_fieldE = ((RA_UINT<4>*)(CollectItms*)m_field388)->v;
+        pkt2.m_fieldA = ((RA_UINT<0>*)(CollectItms*)m_field388)->v;
+        pkt2.m_field12 = ((RA_UINT<8>*)(CollectItms*)m_field388)->v;
         m_serverHandler2->SendAllTcpGameServer(&pkt2);
     }
 }

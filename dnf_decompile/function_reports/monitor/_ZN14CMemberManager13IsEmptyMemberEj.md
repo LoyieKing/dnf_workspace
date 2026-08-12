@@ -139,19 +139,23 @@ undefined4 CMemberManager::_ZN14CMemberManager13IsEmptyMemberEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 287 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 292 行）：
 
 ```cpp
 char CMemberManager::IsEmptyMember(unsigned int key)
 {
+    std::map<unsigned int, CMember*>::iterator it;
     if (m_members.empty())
     {
         return 1;
     }
-    std::map<unsigned int, CMember*>::iterator it = m_members.find(key);
-    if (it != m_members.end() && it->second != 0)
+    it = m_members.find(key);
+    if (m_members.end() != it)
     {
-        return it->second->IsEmpty();
+        if (it->second != 0)
+        {
+            return it->second->IsEmpty();
+        }
     }
     return 0;
 }

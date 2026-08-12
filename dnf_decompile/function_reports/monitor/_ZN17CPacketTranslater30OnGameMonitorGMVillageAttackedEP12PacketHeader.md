@@ -230,7 +230,7 @@ void CPacketTranslater::_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4597 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4617 行）：
 
 ```cpp
 void CPacketTranslater::OnGameMonitorGMVillageAttacked(PacketHeader* pkt)

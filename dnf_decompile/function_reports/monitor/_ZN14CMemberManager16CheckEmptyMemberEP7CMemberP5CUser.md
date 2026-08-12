@@ -113,7 +113,7 @@ CMemberManager::_ZN14CMemberManager16CheckEmptyMemberEP7CMemberP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 483 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 492 行）：
 
 ```cpp
 char CMemberManager::CheckEmptyMember(CMember* member, CUser* user)

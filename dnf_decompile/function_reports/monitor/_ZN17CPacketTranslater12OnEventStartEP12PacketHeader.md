@@ -282,7 +282,7 @@ void CPacketTranslater::_ZN17CPacketTranslater12OnEventStartEP12PacketHeader(Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1790 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1814 行）：
 
 ```cpp
 void CPacketTranslater::OnEventStart(PacketHeader* pkt)
@@ -308,13 +308,13 @@ void CPacketTranslater::OnEventStart(PacketHeader* pkt)
     }
     catch (CDNFException& e)
     {
-        printf("CPacketTranslater::OnEventStart() 예외 발생 : %s\n", e.what());
-        DNF_LOG_SCOPE_LINE(0xa3b, "./log/Except", "CPacketTranslater::OnEventStart() 예외 발생 : %s\n", e.what());
+        printf("CPacketTranslater::OnEventStart() \xbf\xb9\xbf\xdc\x20\xb9\xdf\xbb\xfd : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0xa3b, "./log/Except", "CPacketTranslater::OnEventStart() \xbf\xb9\xbf\xdc\x20\xb9\xdf\xbb\xfd : %s\n", e.what());
     }
     catch (...)
     {
-        puts("CPacketTranslater::OnEventStart() 예외 발생");
-        DNF_LOG_SCOPE_LINE(0xa41, "./log/Except", "CPacketTranslater::OnEventStart() 예외 발생\n");
+        puts("CPacketTranslater::OnEventStart() \xbf\xb9\xbf\xdc\x20\xb9\xdf\xbb\xfd");
+        DNF_LOG_SCOPE_LINE(0xa41, "./log/Except", "CPacketTranslater::OnEventStart() \xbf\xb9\xbf\xdc\x20\xb9\xdf\xbb\xfd\n");
     }
 }
 ```

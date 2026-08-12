@@ -261,7 +261,7 @@ void CPacketTranslater::_ZN17CPacketTranslater10OnEventEndEP12PacketHeader(Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1823 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1847 行）：
 
 ```cpp
 void CPacketTranslater::OnEventEnd(PacketHeader* pkt)
@@ -273,20 +273,20 @@ void CPacketTranslater::OnEventEnd(PacketHeader* pkt)
             throw CDNFException("CPacketTranslater::OnEventEnd : 0 == m_pclApp");
         }
         PacketHeader* rpkt = pkt;
-        unsigned int code = ((RA_UINT<10>*)pkt)->v;
-        DNF_LOG_SCOPE_LINE(0xa66, "./log/Web", "CPacketTranslater::OnEventEnd() eventCode(%d)\n", code);
-        ((CEventActionManager*)((RA_INT<796>*)m_pclApp)->v)->OnEndAction(code);
+        DNF_LOG_SCOPE_LINE(0xa66, "./log/Web", "CPacketTranslater::OnEventEnd() eventCode(%d)\n",
+            ((RA_UINT<10>*)rpkt)->v);
+        ((CEventActionManager*)((RA_INT<796>*)m_pclApp)->v)->OnEndAction(((RA_UINT<10>*)rpkt)->v);
         m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(pkt);
     }
     catch (CDNFException& e)
     {
-        printf("CPacketTranslater::OnEventEnd() 예외 발생 : %s\n", e.what());
-        DNF_LOG_SCOPE_LINE(0xa73, "./log/Except", "CPacketTranslater::OnEventEnd() 예외 발생 : %s\n", e.what());
+        printf("CPacketTranslater::OnEventEnd() \xbf\xb9\xbf\xdc\x20\xb9\xdf\xbb\xfd : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0xa73, "./log/Except", "CPacketTranslater::OnEventEnd() \xbf\xb9\xbf\xdc\x20\xb9\xdf\xbb\xfd : %s\n", e.what());
     }
     catch (...)
     {
-        puts("CPacketTranslater::OnEventEnd() 예외 발생");
-        DNF_LOG_SCOPE_LINE(0xa79, "./log/Except", "CPacketTranslater::OnEventEnd() 예외 발생\n");
+        puts("CPacketTranslater::OnEventEnd() \xbf\xb9\xbf\xdc\x20\xb9\xdf\xbb\xfd");
+        DNF_LOG_SCOPE_LINE(0xa79, "./log/Except", "CPacketTranslater::OnEventEnd() \xbf\xb9\xbf\xdc\x20\xb9\xdf\xbb\xfd\n");
     }
 }
 ```

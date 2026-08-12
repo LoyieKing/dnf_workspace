@@ -1641,7 +1641,7 @@ CDBManager::_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 2001 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 2007 行）：
 
 ```cpp
 bool CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member& reply)

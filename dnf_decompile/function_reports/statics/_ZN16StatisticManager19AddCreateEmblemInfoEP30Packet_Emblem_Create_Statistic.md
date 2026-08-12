@@ -77,30 +77,16 @@ StatisticManager::_ZN16StatisticManager19AddCreateEmblemInfoEP30Packet_Emblem_Cr
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1265 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1278 行）：
 
 ```cpp
 void StatisticManager::AddCreateEmblemInfo(Packet_Emblem_Create_Statistic* pkt)
 {
-    union __attribute__((packed)) Wire
+    for (int i = 0; i < ((EmblemCreateWire*)pkt)->b.m_count; i++)
     {
-        struct __attribute__((packed))
+        for (int j = 0; j < ((EmblemCreateWire*)pkt)->a.m_arrA[i + 8]; j++)
         {
-            char m_hdr[2];
-            int m_arrA[0x100];
-        } a;
-        struct __attribute__((packed))
-        {
-            char m_hdr2[0xa];
-            int m_count;
-            int m_arrB[0x100];
-        } b;
-    };
-    for (int i = 0; i < ((Wire*)pkt)->b.m_count; i++)
-    {
-        for (int j = 0; j < ((Wire*)pkt)->a.m_arrA[i + 8]; j++)
-        {
-            m_createEmblem.increaseCount(((Wire*)pkt)->b.m_arrB[i]);
+            m_createEmblem.increaseCount(((EmblemCreateWire*)pkt)->b.m_arrB[i]);
         }
     }
 }

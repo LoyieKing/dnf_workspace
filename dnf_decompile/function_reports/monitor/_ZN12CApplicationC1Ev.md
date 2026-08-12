@@ -329,7 +329,7 @@ void __thiscall CApplication::_ZN12CApplicationC1Ev(CApplication *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 248 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 251 行）：
 
 ```cpp
 CApplication::CApplication()

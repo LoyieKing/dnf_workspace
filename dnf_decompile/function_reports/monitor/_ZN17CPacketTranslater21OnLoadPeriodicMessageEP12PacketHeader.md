@@ -128,7 +128,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4403 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4423 行）：
 
 ```cpp
 void CPacketTranslater::OnLoadPeriodicMessage(PacketHeader* pkt)
@@ -136,8 +136,8 @@ void CPacketTranslater::OnLoadPeriodicMessage(PacketHeader* pkt)
 {
 
 
-    CServerHandler* handler = m_pclApp->m_serverHandler2;
-    handler->SendToDB(pkt);
+    PacketHeader* pkt2 = pkt;
+    m_pclApp->m_serverHandler2->SendToDB(pkt);
     DNF_LOG_SCOPE_LINE(0x19e0, "./log/PeriodicMessage", "Web Request is Arrived and Send Request DBMW");
 
 

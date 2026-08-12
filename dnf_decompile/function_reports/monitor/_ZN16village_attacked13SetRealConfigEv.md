@@ -99,7 +99,7 @@ void village_attacked::_ZN16village_attacked13SetRealConfigEv(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 77 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 78 行）：
 
 ```cpp
 void SetRealConfig()
@@ -122,12 +122,12 @@ void SetRealConfig()
     village_attacked_scheduler[15] = -1;
     village_attacked_scheduler[16] = -1;
     village_attacked_scheduler[17] = -1;
-    MAX_SCHEDULER_COUNT = 2;
-    HUNTING_POINT_WEIGTH_CONST = 4;
-    REWARD_BUFF_TIME = 3600;
-    REWARD_PENALTY_TIME = 600;
-    COUNTDOWN_FIRST_TIME = 600;
-    COUNTDOWN_SECOND_TIME = 300;
-    COUNTDOWN_THIRD_TIME = 60;
+    MAX_SCHEDULER_COUNT = tRealConfig[0];
+    HUNTING_POINT_WEIGTH_CONST = tRealConfig[1];
+    REWARD_BUFF_TIME = tRealConfig[2];
+    REWARD_PENALTY_TIME = tRealConfig[3];
+    COUNTDOWN_FIRST_TIME = tRealConfig[4];
+    COUNTDOWN_SECOND_TIME = tRealConfig[5];
+    COUNTDOWN_THIRD_TIME = tRealConfig[6];
 }
 ```

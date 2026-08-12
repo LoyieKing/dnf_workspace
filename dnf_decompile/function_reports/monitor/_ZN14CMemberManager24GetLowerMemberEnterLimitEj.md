@@ -77,7 +77,7 @@ CMemberManager::_ZN14CMemberManager24GetLowerMemberEnterLimitEj(CMemberManager *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 173 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 176 行）：
 
 ```cpp
 unsigned int CMemberManager::GetLowerMemberEnterLimit(unsigned int level)

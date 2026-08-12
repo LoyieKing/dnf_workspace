@@ -673,7 +673,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16OnCallMemberListEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1425 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1449 行）：
 
 ```cpp
 void CPacketTranslater::OnCallMemberList(PacketHeader* pkt)

@@ -576,7 +576,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2136 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2160 行）：
 
 ```cpp
 void CPacketTranslater::OnRegisterToBlackList(PacketHeader* pkt)

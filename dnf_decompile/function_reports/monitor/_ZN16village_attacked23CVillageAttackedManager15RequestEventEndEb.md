@@ -73,16 +73,16 @@ _ZN16village_attacked23CVillageAttackedManager15RequestEventEndEb
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 240 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 241 行）：
 
 ```cpp
 void CVillageAttackedManager::RequestEventEnd(bool flag)
 {
     if (flag)
     {
-        m_field1c = m_field20;
+        m_field1c = (int)m_field20;
     }
-    else if ((unsigned int)m_field20 <= (unsigned int)m_field1c)
+    else if ((unsigned int)m_field1c >= (unsigned int)m_field20)
     {
         m_field1c = m_field1c - 1;
     }

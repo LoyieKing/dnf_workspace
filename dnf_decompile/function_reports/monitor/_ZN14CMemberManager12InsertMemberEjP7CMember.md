@@ -150,7 +150,7 @@ CMemberManager::_ZN14CMemberManager12InsertMemberEjP7CMember
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 347 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 356 行）：
 
 ```cpp
 int CMemberManager::InsertMember(unsigned int key, CMember* member)

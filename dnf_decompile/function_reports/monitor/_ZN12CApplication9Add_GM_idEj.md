@@ -174,16 +174,17 @@ void CApplication::_ZN12CApplication9Add_GM_idEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 1030 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 1035 行）：
 
 ```cpp
 void CApplication::Add_GM_id(unsigned int id)
 {
-    std::map<unsigned int, std::list<unsigned int> >::iterator it = m_map368.find(id);
-    if (it == m_map368.end())
+    // ORIG：单表达式 find(id)==end()（右先求值：end() 在前），make_pair 走 rvalue 形态
+    if (m_map368.find(id) == m_map368.end())
     {
         std::list<unsigned int> l;
-        m_map368.insert(std::make_pair(id, l));
+        // ORIG：make_pair 显式模板实参 <uint,list>（直接取 id/l 地址，无 move 调用）
+        m_map368.insert(std::make_pair<unsigned int, std::list<unsigned int> >(id, l));
     }
 }
 ```

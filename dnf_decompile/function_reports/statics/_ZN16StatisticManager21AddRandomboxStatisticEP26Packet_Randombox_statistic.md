@@ -120,7 +120,7 @@ StatisticManager::_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randomb
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1295 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1294 行）：
 
 ```cpp
 void StatisticManager::AddRandomboxStatistic(Packet_Randombox_statistic* pkt)

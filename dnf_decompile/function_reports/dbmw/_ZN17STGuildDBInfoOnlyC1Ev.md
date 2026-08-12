@@ -159,7 +159,7 @@ void __thiscall STGuildDBInfoOnly::_ZN17STGuildDBInfoOnlyC1Ev(STGuildDBInfoOnly 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3915 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3927 行）：
 
 ```cpp
 STGuildDBInfoOnly::STGuildDBInfoOnly()

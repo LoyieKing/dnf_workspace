@@ -172,7 +172,7 @@ StatisticManager::_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Stat
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1446 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1445 行）：
 
 ```cpp
 void StatisticManager::AddValueStatistics(Packet_Value_Statistic* pkt)

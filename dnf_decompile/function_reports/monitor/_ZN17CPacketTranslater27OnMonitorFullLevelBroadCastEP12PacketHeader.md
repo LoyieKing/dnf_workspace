@@ -61,15 +61,12 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnMonitorFullLevelBroadCastEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4151 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4174 行）：
 
 ```cpp
 void CPacketTranslater::OnMonitorFullLevelBroadCast(PacketHeader* pkt)
 {
-    if (m_pclApp != 0)
-    {
-        CServerHandler* handler = m_pclApp->m_serverHandler2;
-        handler->SendAllToGameServer((char*)pkt, ((RA_U16<2>*)pkt)->v);
-    }
+    PacketHeader* pkt2 = pkt;
+    m_pclApp->m_serverHandler2->SendAllToGameServer((char*)pkt, ((RA_U16<2>*)pkt2)->v);
 }
 ```

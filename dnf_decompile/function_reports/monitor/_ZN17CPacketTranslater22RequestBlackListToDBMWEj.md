@@ -133,7 +133,7 @@ void CPacketTranslater::_ZN17CPacketTranslater22RequestBlackListToDBMWEj(uint pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2431 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2455 行）：
 
 ```cpp
 void CPacketTranslater::RequestBlackListToDBMW(unsigned int charNo)

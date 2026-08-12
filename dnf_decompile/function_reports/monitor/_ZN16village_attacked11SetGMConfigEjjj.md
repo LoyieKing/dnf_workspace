@@ -173,7 +173,7 @@ void village_attacked::_ZN16village_attacked11SetGMConfigEjjj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 106 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 107 行）：
 
 ```cpp
 void SetGMConfig(unsigned int a, unsigned int b, unsigned int c)

@@ -270,35 +270,35 @@ CTcpNetSystem::_ZN13CTcpNetSystem14OpenTcpServiceERiPKct
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 205 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 185 行）：
 
 ```cpp
 bool CTcpNetSystem::OpenTcpService(int& sockRef, const char* ip, unsigned short port)
 {
     CPeer* peer = CreatePeer();
     TCPSocket* sock = peer->GetTcpSocket();
-    if (sock->open())
+    if (!sock->open())
     {
-        if (sock->connect(ip, port))
-        {
-            sock->setOptNonBlock();
-            CMutex* b = Get_TcpRecvBLock();
-            CMutex* q = Get_TcpRecvQLock();
-            void* recvQ = Get_TcpSwapQPacket()->GetRecvQ();
-            peer->InitPeer((std::queue<CTcpRecvBuffer*>*)recvQ, q, b);
-            peer->ConnSig();
-            SetEpollConnectedPeer(peer);
-            sockRef = sock->getHandle();
-            return 1;
-        }
+        puts("tcpSock.open() Fail!");
+        DNF_LOG_SCOPE_LINE(0x118, "./log/TcpServer", "tcpSock.open() Fail!");
+        DeletePeer(peer);
+        return 0;
+    }
+    if (!sock->connect(ip, port))
+    {
         puts("tcpSock.connect Fail!");
         DNF_LOG_SCOPE_LINE(0x123, "./log/TcpServer", "tcpSock.connect(%s, %d) Fail!", ip, (unsigned int)port);
         DeletePeer(peer);
         return 0;
     }
-    puts("tcpSock.open() Fail!");
-    DNF_LOG_SCOPE_LINE(0x118, "./log/TcpServer", "tcpSock.open() Fail!");
-    DeletePeer(peer);
-    return 0;
+    sock->setOptNonBlock();
+    CMutex* b = Get_TcpRecvBLock();
+    CMutex* q = Get_TcpRecvQLock();
+    void* recvQ = Get_TcpSwapQPacket()->GetRecvQ();
+    peer->InitPeer((std::queue<CTcpRecvBuffer*>*)recvQ, q, b);
+    peer->ConnSig();
+    SetEpollConnectedPeer(peer);
+    sockRef = sock->getHandle();
+    return 1;
 }
 ```

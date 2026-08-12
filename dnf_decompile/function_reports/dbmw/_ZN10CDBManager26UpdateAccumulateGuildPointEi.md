@@ -174,7 +174,7 @@ CDBManager::_ZN10CDBManager26UpdateAccumulateGuildPointEi(CDBManager *this,int p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4185 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4197 行）：
 
 ```cpp
 char CDBManager::UpdateAccumulateGuildPoint(int serverId)

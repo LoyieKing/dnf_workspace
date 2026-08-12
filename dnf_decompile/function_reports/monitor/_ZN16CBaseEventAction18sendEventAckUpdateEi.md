@@ -94,9 +94,8 @@ void CBaseEventAction::sendEventAckUpdate(int flag)
     Packet_Manager_Event_Trigger_Ack pkt;
     pkt.m_eventId = (unsigned int)m_eventId;
     pkt.m_flag = (unsigned int)flag;
-    CApplication* app = (CApplication*)CApplicationInstance();
-    CServerHandler* handler = app->Get_ServerHandler();
-    pkt.m_group = (unsigned int)handler->GetServerGroupNo() & 0xff;
-    handler->SendToDB(&pkt);
+    pkt.m_group =
+        (unsigned int)((CApplication*)CApplicationInstance())->Get_ServerHandler()->GetServerGroupNo() & 0xff;
+    ((CApplication*)CApplicationInstance())->Get_ServerHandler()->SendToDB(&pkt);
 }
 ```

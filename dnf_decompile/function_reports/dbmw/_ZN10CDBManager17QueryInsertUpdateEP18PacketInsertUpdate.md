@@ -167,7 +167,7 @@ CDBManager::_ZN10CDBManager17QueryInsertUpdateEP18PacketInsertUpdate
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3017 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3023 行）：
 
 ```cpp
 bool CDBManager::QueryInsertUpdate(PacketInsertUpdate* packet)

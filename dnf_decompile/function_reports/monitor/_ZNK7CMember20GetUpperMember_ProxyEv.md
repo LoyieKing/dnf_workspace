@@ -76,7 +76,7 @@ CMember * __thiscall CMember::_ZNK7CMember20GetUpperMember_ProxyEv(CMember *this
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 430 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 428 行）：
 
 ```cpp
 unsigned int* CMember::GetUpperMember_Proxy()

@@ -356,7 +356,7 @@ void CPacketTranslater::_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5161 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5181 行）：
 
 ```cpp
 void CPacketTranslater::onRequestCharacInfoByCharacName(PacketHeader* pkt)

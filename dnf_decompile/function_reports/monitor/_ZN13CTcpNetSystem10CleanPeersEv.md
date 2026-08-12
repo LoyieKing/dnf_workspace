@@ -153,20 +153,18 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystem10CleanPeersEv(CTcpNetSystem *t
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 234 行）：
+定义于 [source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp](source/DNFServer/GameServer/Monitor/TcpNetSystem.cpp)（约第 214 行）：
 
 ```cpp
 void CTcpNetSystem::CleanPeers()
 {
-    for (std::map<unsigned int, CPeer*>::iterator it = m_peers.begin(); it != m_peers.end(); ++it)
+    std::map<unsigned int, CPeer*>::iterator it = m_peers.begin();
+    while (it != m_peers.end())
     {
-        {
-            CGuard<CMutex> guard(&m_mutex78);
-            if (it->second != 0)
-            {
-                delete it->second;
-            }
-        }
+        CGuard<CMutex> guard(&m_mutex78);
+        register CPeer* p = it->second;
+        delete p;
+        ++it;
     }
     m_peers.clear();
 }

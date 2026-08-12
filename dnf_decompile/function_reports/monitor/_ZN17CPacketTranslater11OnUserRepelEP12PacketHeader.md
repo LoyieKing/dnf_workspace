@@ -313,7 +313,7 @@ void CPacketTranslater::_ZN17CPacketTranslater11OnUserRepelEP12PacketHeader(Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1721 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1745 行）：
 
 ```cpp
 void CPacketTranslater::OnUserRepel(PacketHeader* pkt)

@@ -250,9 +250,7 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystemC1Ev(CTcpNetSystem *this)
 
 ```cpp
 CTcpNetSystem::CTcpNetSystem()
+    : m_handler(0), m_networkThread(0), m_acceptThread(0), m_port(0)
 {
-    m_handler = 0;
-    m_networkThread = 0;
-    m_acceptThread = 0;
 }
 ```

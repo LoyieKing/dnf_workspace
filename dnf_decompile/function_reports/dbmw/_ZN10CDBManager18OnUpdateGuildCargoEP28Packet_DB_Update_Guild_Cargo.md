@@ -128,7 +128,7 @@ CDBManager::_ZN10CDBManager18OnUpdateGuildCargoEP28Packet_DB_Update_Guild_Cargo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4293 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4306 行）：
 
 ```cpp
 char CDBManager::OnUpdateGuildCargo(Packet_DB_Update_Guild_Cargo* packet)

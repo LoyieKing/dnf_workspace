@@ -109,8 +109,15 @@ def build_tus(tag, tus, cc_extra=''):
             print('ERROR: cannot find source for', o, file=sys.stderr)
             sys.exit(1)
         key = str(o).replace(str(OBJROOT) + '/', '')
-        per_opts = opts.get(key, '')
-        per_incs = incs.get(key, '')
+        # flags.make 的自定义选项键 = 'CMakeFiles/<svc>.dir/<rel 源路径>'（无 .o 后缀、
+        # 带前缀），而这里计算出的 key 是去掉前缀且带 .o 后缀的相对路径；
+        # 归一化后再查。
+        key_noext = key[:-2] if key.endswith('.o') else key
+        prefixed = 'CMakeFiles/dbmw.dir/' + key_noext
+        per_opts = opts.get(key, '') or opts.get(key_noext, '') or \
+            opts.get(prefixed, '')
+        per_incs = incs.get(key, '') or incs.get(key_noext, '') or \
+            incs.get(prefixed, '')
         cmd = [cxx] + base.split() + per_opts.split() + per_incs.split()
         if priv_inc:
             # 私有 src 目录优先：quoted include 已按文件所在目录优先，
