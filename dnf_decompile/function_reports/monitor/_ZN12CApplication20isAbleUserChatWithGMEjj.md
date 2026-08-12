@@ -155,10 +155,10 @@ undefined4 CApplication::_ZN12CApplication20isAbleUserChatWithGMEjj(uint param_1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 824 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFApplication.cpp](source/DNFServer/GameServer/Monitor/DNFApplication.cpp)（约第 828 行）：
 
 ```cpp
-char CApplication::isAbleUserChatWithGM(unsigned int channel, unsigned int charNo)
+bool CApplication::isAbleUserChatWithGM(unsigned int channel, unsigned int charNo)
 {
     std::map<unsigned int, std::list<unsigned int> >::iterator it = m_map368.find(channel);
     if (it != m_map368.end())

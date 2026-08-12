@@ -67,7 +67,7 @@ StatisticManager::_ZN16StatisticManager23ResetRandomboxStatisticEv(StatisticMana
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1340 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1356 行）：
 
 ```cpp
 void StatisticManager::ResetRandomboxStatistic()
