@@ -167,7 +167,7 @@ StatisticManager::_ZN16StatisticManager24AddCirculationStatisticsEP28Packet_Circ
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1527 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1531 行）：
 
 ```cpp
 void StatisticManager::AddCirculationStatistics(Packet_Circulation_Statistic* pkt)

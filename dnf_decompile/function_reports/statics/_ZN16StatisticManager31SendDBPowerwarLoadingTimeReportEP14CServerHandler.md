@@ -361,7 +361,7 @@ StatisticManager::_ZN16StatisticManager31SendDBPowerwarLoadingTimeReportEP14CSer
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 943 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 942 行）：
 
 ```cpp
 void StatisticManager::SendDBPowerwarLoadingTimeReport(CServerHandler* handler)

@@ -218,7 +218,7 @@ StatisticManager::_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandl
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 717 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 716 行）：
 
 ```cpp
 void StatisticManager::SendDBTingUserTimeCheck(CServerHandler* handler)

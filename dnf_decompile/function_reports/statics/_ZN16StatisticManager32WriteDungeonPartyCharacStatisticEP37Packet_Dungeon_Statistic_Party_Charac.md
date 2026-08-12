@@ -43,64 +43,50 @@
  mov    0x13(%eax),%eax
  mov    %eax,-0xb0(%ebp)
  mov    0xc(%ebp),%eax
--movzbl 0x17(%eax),%eax
-+movzbl 0x1a(%eax),%eax
+ movzbl 0x17(%eax),%eax
  mov    %al,-0xac(%ebp)
  mov    0xc(%ebp),%eax
--movzbl 0x18(%eax),%eax
-+movzbl 0x1b(%eax),%eax
+ movzbl 0x18(%eax),%eax
  mov    %al,-0xab(%ebp)
  lea    -0xf4(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN20PartyCharacStatisticC1Ev>
  mov    0xc(%ebp),%eax
--mov    0x19(%eax),%eax
-+mov    0x1c(%eax),%eax
+ mov    0x19(%eax),%eax
  mov    %eax,-0xf4(%ebp)
  mov    0xc(%ebp),%eax
--mov    0x1d(%eax),%eax
-+mov    0x20(%eax),%eax
+ mov    0x1d(%eax),%eax
  mov    %eax,-0xf0(%ebp)
  mov    0xc(%ebp),%eax
--mov    0x21(%eax),%eax
-+mov    0x24(%eax),%eax
+ mov    0x21(%eax),%eax
  mov    %eax,-0xec(%ebp)
  mov    0xc(%ebp),%eax
--mov    0x25(%eax),%eax
-+mov    0x28(%eax),%eax
+ mov    0x25(%eax),%eax
  mov    %eax,-0xe8(%ebp)
  mov    0xc(%ebp),%eax
--mov    0x29(%eax),%eax
-+mov    0x2c(%eax),%eax
+ mov    0x29(%eax),%eax
  mov    %eax,-0xe4(%ebp)
  mov    0xc(%ebp),%eax
--mov    0x2d(%eax),%eax
-+mov    0x30(%eax),%eax
+ mov    0x2d(%eax),%eax
  mov    %eax,-0xe0(%ebp)
  mov    0xc(%ebp),%eax
--mov    0x31(%eax),%eax
-+mov    0x34(%eax),%eax
+ mov    0x31(%eax),%eax
  mov    %eax,-0xdc(%ebp)
  mov    0xc(%ebp),%eax
--mov    0x35(%eax),%eax
-+mov    0x38(%eax),%eax
+ mov    0x35(%eax),%eax
  mov    %eax,-0xd8(%ebp)
  mov    0xc(%ebp),%eax
--mov    0x39(%eax),%eax
-+mov    0x3c(%eax),%eax
+ mov    0x39(%eax),%eax
  mov    %eax,-0xd4(%ebp)
  mov    0xc(%ebp),%eax
--mov    0x3d(%eax),%eax
-+mov    0x40(%eax),%eax
+ mov    0x3d(%eax),%eax
  mov    %eax,-0xd0(%ebp)
  mov    0xc(%ebp),%eax
--movzwl 0x41(%eax),%eax
-+movzwl 0x44(%eax),%eax
+ movzwl 0x41(%eax),%eax
  cwtl
  mov    %eax,-0xcc(%ebp)
  mov    0xc(%ebp),%eax
--mov    0x43(%eax),%eax
-+mov    0x46(%eax),%eax
+ mov    0x43(%eax),%eax
  mov    %eax,-0xc4(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x68(%eax),%ecx
@@ -369,7 +355,6 @@ void StatisticManager::WriteDungeonPartyCharacStatistic(Packet_Dungeon_Statistic
         char m_f11;
         char m_f12;
         unsigned int m_f13;
-        char m_pad[3];
         char m_f17;
         char m_f18;
         int m_f19;

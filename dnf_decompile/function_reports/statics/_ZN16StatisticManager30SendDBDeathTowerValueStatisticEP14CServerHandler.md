@@ -313,7 +313,7 @@ StatisticManager::_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServ
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 476 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 475 行）：
 
 ```cpp
 void StatisticManager::SendDBDeathTowerValueStatistic(CServerHandler* handler)

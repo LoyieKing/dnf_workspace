@@ -51,7 +51,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKh16STFatigueBatteryEEptEv>
  mov    0x4(%eax),%eax
 -mov    %eax,-0x338(%ebp,%ebx,8)
-+mov    %eax,0xc(%ebx,%esi,8)
++mov    %eax,0xa(%ebx,%esi,8)
 +lea    -0x342(%ebp),%ebx
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
@@ -64,7 +64,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKh16STFatigueBatteryEEptEv>
  mov    0x8(%eax),%eax
 -mov    %eax,-0x334(%ebp,%ebx,8)
-+mov    %eax,0x10(%ebx,%esi,8)
++mov    %eax,0xe(%ebx,%esi,8)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKh16STFatigueBatteryEEppEv>
@@ -167,7 +167,7 @@ StatisticManager::_ZN16StatisticManager20SendDBFatigueBatteryEP14CServerHandler
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1170 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1169 行）：
 
 ```cpp
 void StatisticManager::SendDBFatigueBattery(CServerHandler* handler)
@@ -177,10 +177,15 @@ void StatisticManager::SendDBFatigueBattery(CServerHandler* handler)
         return;
     }
     Packet_DBMW_Fatigue_Battery_Money_Statistic pkt;
+    struct FatigueBatteryWire
+    {
+        int m_field0;
+        int m_field4;
+    };
     struct __attribute__((packed)) Wire
     {
         char m_hdr[0xa];
-        STFatigueBattery m_items[0x65];
+        FatigueBatteryWire m_items[0x65];  // POD 镜像，packed 生效：m_items@+0xa，元素 8 字节
     };
     for (std::map<unsigned char, STFatigueBattery>::iterator it = m_fatigue.begin();
          it != m_fatigue.end(); ++it)

@@ -171,7 +171,7 @@ StatisticManager::_ZN16StatisticManager29SendDBPacketOverflowStatisticEP14CServe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 572 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 571 行）：
 
 ```cpp
 void StatisticManager::SendDBPacketOverflowStatistic(CServerHandler* handler)

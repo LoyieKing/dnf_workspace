@@ -43,22 +43,18 @@
  mov    %eax,(%esp)
  call   <T> <_ZN16StatisticManager9AMDecryptEPvj>
  mov    0xc(%ebp),%eax
--movzwl 0x10e(%eax),%eax
-+movzwl 0x112(%eax),%eax
+ movzwl 0x10e(%eax),%eax
  mov    %ax,-0x542(%ebp)
  mov    0xc(%ebp),%eax
--mov    0x110(%eax),%eax
-+mov    0x114(%eax),%eax
+ mov    0x110(%eax),%eax
  test   %eax,%eax
  js     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x139>
  mov    0xc(%ebp),%eax
--mov    0x110(%eax),%eax
-+mov    0x114(%eax),%eax
+ mov    0x110(%eax),%eax
  cmp    $0x100,%eax
  jg     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x139>
  mov    0xc(%ebp),%eax
--mov    0x110(%eax),%eax
-+mov    0x114(%eax),%eax
+ mov    0x110(%eax),%eax
  mov    0xc(%ebp),%edx
  add    $0x114,%edx
  mov    %eax,0x8(%esp)
@@ -68,8 +64,7 @@
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    0xc(%ebp),%eax
--mov    0x110(%eax),%eax
-+mov    0x114(%eax),%eax
+ mov    0x110(%eax),%eax
  mov    %eax,0x8(%esp)
  lea    -0x642(%ebp),%eax
  add    $0x102,%eax
@@ -336,7 +331,7 @@ LAB_08070858:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 600 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 599 行）：
 
 ```cpp
 void StatisticManager::WriteAssertManagerStatistic(Packet_Assert_Manager_Info* pkt)
@@ -349,7 +344,7 @@ void StatisticManager::WriteAssertManagerStatistic(Packet_Assert_Manager_Info* p
     {
         char m_hdr[0xa];
         unsigned int m_f0a;
-        char m_pad[0x104];
+        char m_pad[0x100];
         unsigned short m_f10e;
         int m_f110;
     };

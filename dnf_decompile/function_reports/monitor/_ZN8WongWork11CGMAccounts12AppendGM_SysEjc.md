@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80acea0` | `0x8f` | `0x8093384` | `0x8f` |
+| monitor | NEAR | `0x80acea0` | `0x8f` | `0x8093384` | `0x8f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -36,21 +36,17 @@
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE9push_backERKS2_>
-+movl   $0xcd,0x8(%esp)
-+movl   $&_ZZN8WongWork11CGMAccounts12AppendGM_SysEjcE12__FUNCTION__,0x4(%esp)
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $0x0,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_Z14NumberToStringji>
  mov    %eax,%ebx
--movl   $0xcd,0x8(%esp)
--movl   $&_ZZN8WongWork11CGMAccounts12AppendGM_SysEjcE12__FUNCTION__,0x4(%esp)
+ movl   $0xcd,0x8(%esp)
+ movl   $&_ZZN8WongWork11CGMAccounts12AppendGM_SysEjcE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"GM List Add mid:%s",0x8(%esp)
  movl   $"./log/Init",0x4(%esp)
@@ -102,8 +98,8 @@ void CGMAccounts::AppendGM_Sys(unsigned int dbid, char level)
     info.m_dbid = dbid;
     info.m_field4 = (int)level;
     m_list.push_back(info);
-    CMyFileLog log(__FUNCTION__, 0xcd);
     register char* mid = NumberToString(dbid, 0);
+    CMyFileLog log(__FUNCTION__, 0xcd);
     log("./log/Init", "GM List Add mid:%s", mid);
 }
 ```

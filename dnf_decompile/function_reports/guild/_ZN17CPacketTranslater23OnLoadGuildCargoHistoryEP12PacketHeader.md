@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8083b62` | `0x1c2` | `0x80795f8` | `0x1c9` |
+| guild | DIFF | `0x8083b62` | `0x1c2` | `0x807968e` | `0x1c9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -214,7 +214,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnLoadGuildCargoHistoryEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4351 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4356 行）：
 
 ```cpp
 void CPacketTranslater::OnLoadGuildCargoHistory(PacketHeader* pkt)

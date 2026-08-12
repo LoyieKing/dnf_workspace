@@ -231,7 +231,7 @@ LAB_0806edf3:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 324 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 323 行）：
 
 ```cpp
 void StatisticManager::WritePacketOverflowStatistic(Packet_Overflow_Statistic_Add* pkt)

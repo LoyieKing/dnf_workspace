@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8050a46` | `0x27b` | `0x80887ee` | `0x27b` |
+| guild | NEAR | `0x8050a46` | `0x27b` | `0x8088884` | `0x27b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -42,10 +42,11 @@
  mov    %eax,-0x10(%ebp)
  jmp    <T> <_ZNK11CUdpHandler12SendToServerEPcitPKc+0xd2>
 -lea    -0x48(%ebp),%eax
++lea    -0x48(%ebp),%ebx
  movl   $0x10,0x8(%esp)
  movl   $0x0,0x4(%esp)
-+lea    -0x48(%ebp),%eax
- mov    %eax,(%esp)
+-mov    %eax,(%esp)
++mov    %ebx,(%esp)
  call   <T> <memset>
  movw   $0x2,-0x48(%ebp)
  movzwl -0x4c(%ebp),%eax
@@ -140,21 +141,17 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
  jmp    <T> <_ZNK11CUdpHandler12SendToServerEPcitPKc+0x275>
--mov    0x10(%ebp),%eax
--cmp    -0x10(%ebp),%eax
-+mov    -0x10(%ebp),%eax
-+cmp    0x10(%ebp),%eax
+ mov    0x10(%ebp),%eax
+ cmp    -0x10(%ebp),%eax
  je     <T> <_ZNK11CUdpHandler12SendToServerEPcitPKc+0x270>
  movl   $0x1ce,0x8(%esp)
  movl   $&_ZZNK11CUdpHandler12SendToServerEPcitPKcE12__FUNCTION__,0x4(%esp)
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x10(%ebp),%eax
-+mov    %eax,0x10(%esp)
  mov    0x10(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    -0x10(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    -0x10(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"Only %d out of %d bytes sent\n",0x8(%esp)
  movl   $"./log/UdpErr",0x4(%esp)
@@ -249,7 +246,7 @@ CUdpHandler::_ZNK11CUdpHandler12SendToServerEPcitPKc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp](source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp)（约第 303 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp](source/DNFServer/GameServer/Guild/DNFUdpHandler.cpp)（约第 305 行）：
 
 ```cpp
 int CUdpHandler::SendToServer(char* buf, int len, unsigned short port, char const* ip) const
@@ -269,7 +266,8 @@ int CUdpHandler::SendToServer(char* buf, int len, unsigned short port, char cons
     else
     {
         sockaddr_in to;
-        memset(&to, 0, 0x10);
+        register void* pto = &to;
+        memset(pto, 0, 0x10);
         to.sin_family = 2;
         to.sin_port = htons(port);
         to.sin_addr.s_addr = inet_addr(ip);
@@ -307,9 +305,9 @@ int CUdpHandler::SendToServer(char* buf, int len, unsigned short port, char cons
         DNF_LOG_SCOPE_LINE(0x1c7, "./log/UdpErr", "no data sent in send\n");
         return 0;
     }
-    if (sent != len)
+    if (len != sent)
     {
-        DNF_LOG_SCOPE_LINE(0x1ce, "./log/UdpErr", "Only %d out of %d bytes sent\n", len, sent);
+        DNF_LOG_SCOPE_LINE(0x1ce, "./log/UdpErr", "Only %d out of %d bytes sent\n", sent, len);
         return 0;
     }
     return 1;

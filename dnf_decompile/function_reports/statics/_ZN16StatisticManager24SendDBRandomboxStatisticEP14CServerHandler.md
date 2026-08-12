@@ -98,7 +98,7 @@ StatisticManager::_ZN16StatisticManager24SendDBRandomboxStatisticEP14CServerHand
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1344 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1348 行）：
 
 ```cpp
 void StatisticManager::SendDBRandomboxStatistic(CServerHandler* handler)

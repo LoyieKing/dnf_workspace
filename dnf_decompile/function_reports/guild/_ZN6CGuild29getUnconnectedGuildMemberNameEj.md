@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809106c` | `0x84` | `0x8056c58` | `0x87` |
+| guild | DIFF | `0x809106c` | `0x84` | `0x8056cb2` | `0x87` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -100,7 +100,7 @@ CGuild * __thiscall CGuild::_ZN6CGuild29getUnconnectedGuildMemberNameEj(CGuild *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1756 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1777 行）：
 
 ```cpp
 char* CGuild::getUnconnectedGuildMemberName(unsigned int charNo)
