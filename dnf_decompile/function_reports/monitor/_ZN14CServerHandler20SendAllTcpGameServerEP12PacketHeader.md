@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8079f48` | `0xf5` | `0x8080912` | `0xeb` |
+| monitor | DIFF | `0x8079f48` | `0xf5` | `0x8080aae` | `0xf4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -17,8 +17,8 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
--movl   $0x0,-0x10(%ebp)
--movl   $0x0,-0xc(%ebp)
+ movl   $0x0,-0x10(%ebp)
+ movl   $0x0,-0xc(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x28(%eax),%edx
  lea    -0x18(%ebp),%eax
@@ -26,8 +26,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP14CTcpGameServerSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
--jmp    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0xc0>
-+jmp    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0xb7>
+ jmp    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0xc0>
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP14CTcpGameServerEEptEv>
@@ -37,10 +36,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer13IsValidServerEv>
  test   %al,%al
--je     <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0xb5>
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0xac>
+ je     <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0xb5>
  mov    0xc(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
@@ -94,9 +90,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP14CTcpGameServerEEneERKS5_>
  test   %al,%al
--jne    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0x31>
+ jne    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0x31>
 -nop
-+jne    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader+0x23>
  leave
  ret
 ```
@@ -158,15 +153,16 @@ CServerHandler::_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader
 ```cpp
 void CServerHandler::SendAllTcpGameServer(PacketHeader* pkt)
 {
+    CTcpGameServer* tcp = 0;
+    char* buf = 0;
     for (std::map<unsigned int, CTcpGameServer*>::iterator it = m_tcpGameServers.begin();
          it != m_tcpGameServers.end(); ++it)
     {
-        CTcpGameServer* tcp = it->second;
-        if (tcp->IsValidServer())
+        tcp = it->second;
+        if (tcp->IsValidServer() != 0)
         {
-            char* buf = tcp->makePacketHeader(*(unsigned short*)pkt,
-                                              ((RA_U16<2>*)pkt)->v);
-            memcpy(buf + 10, (char*)pkt + 10, ((RA_U16<2>*)pkt)->v - 10);
+            buf = tcp->makePacketHeader(pkt->packetId, pkt->packetSize);
+            memcpy(buf + 10, (char*)pkt + 10, pkt->packetSize - 10);
             tcp->SendToGameServer(buf);
         }
     }

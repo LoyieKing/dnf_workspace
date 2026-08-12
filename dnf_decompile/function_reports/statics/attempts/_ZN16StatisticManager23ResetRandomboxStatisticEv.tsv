@@ -4,3 +4,4 @@ RBoxView1/RBoxView2 struct view（m_b[0xd0+i]）替换裸指针 (i+0xd0)*4+8	DIF
 编译器 A/B：c6444r/c6446r NEAR（this/i 装载顺序），c5 DIFF	NEAR(同)	2026-08-12
 ((int*)this)[0xd2+i] 与 ((int*)((char*)this+8))[i+0xd0]：寻址变 shl/add+mov，非 ORIG 折叠 add $0xd0+0x8(%eax,%edx,4) 形态	DIFF(更差)	2026-08-12
 结论：RBoxView 折叠寻址形态正确，但 i-first 装载顺序在 c5/c6444r/c6446r/c6 四编译器下均不可达（强转迫使 base-first）；typed 成员若折叠成 0x348(%eax,i*4) 也非 ORIG 形态	NEAR(同)	2026-08-12
+真实成员 m_randomboxA[i]/m_randomboxB[i] 直访（弃 RBoxView 强转）：GCC 分解 0x348=8+0xd0*4 为 add $0xd0 + disp 8，且真实成员=index-first 装载顺序	IDENTICAL(FIXED)	2026-08-12

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809916a` | `0x82` | `0x8060ba6` | `0x7a` |
+| monitor | DIFF | `0x809916a` | `0x82` | `0x8060cb0` | `0x84` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,23 +13,26 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,42 +1,38 @@
+@@ -1,42 +1,43 @@
  push   %ebp
  mov    %esp,%ebp
- sub    $0x28,%esp
+-sub    $0x28,%esp
++push   %ebx
++sub    $0x24,%esp
  mov    0x8(%ebp),%eax
  movzbl 0x2d(%eax),%eax
  movzbl %al,%eax
  mov    %eax,-0x14(%ebp)
  cmpl   $0x0,-0x14(%ebp)
- jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x20>
+-jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x20>
++jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x21>
  mov    $0x0,%eax
 -jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x80>
-+jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x78>
++jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x7e>
  movl   $0x0,-0x10(%ebp)
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x70>
-+jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x68>
++jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x6e>
  mov    -0xc(%ebp),%eax
  mov    0x8(%ebp),%edx
  imul   $0x27,%eax,%eax
@@ -46,7 +49,9 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x6b>
-+je     <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x64>
++setne  %bl
++test   %bl,%bl
++je     <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x6a>
  addl   $0x1,-0x10(%ebp)
 -jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x6c>
 -nop
@@ -55,9 +60,13 @@
  cmp    -0x14(%ebp),%eax
  setl   %al
  test   %al,%al
- jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x30>
+-jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x30>
++jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x31>
  mov    -0x10(%ebp),%eax
- leave
+-leave
++add    $0x24,%esp
++pop    %ebx
++pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -109,7 +118,8 @@ int CMember::GetConnLowerMemberCnt()
     while (i < count)
     {
         user = m_memberManager->FindMemberUser(m_dbInfo.m_lowers[i].m_field0);
-        if (user != 0)
+        register bool b = user != 0;
+        if (b)
         {
             cnt++;
         }

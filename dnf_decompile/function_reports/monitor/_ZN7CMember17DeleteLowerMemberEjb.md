@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8098464` | `0xc8` | `0x8060de6` | `0xc6` |
+| monitor | DIFF | `0x8098464` | `0xc8` | `0x8060efa` | `0xc9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,62 +1,60 @@
+@@ -1,62 +1,62 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -25,7 +25,7 @@
  mov    %eax,-0x14(%ebp)
  cmpl   $0x0,-0x14(%ebp)
 -jle    <T> <_ZN7CMember17DeleteLowerMemberEjb+0xc5>
-+jle    <T> <_ZN7CMember17DeleteLowerMemberEjb+0xc4>
++jle    <T> <_ZN7CMember17DeleteLowerMemberEjb+0xc6>
  mov    0x8(%ebp),%eax
  add    $0x2e,%eax
  mov    %eax,-0x10(%ebp)
@@ -84,7 +84,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZN7CMember22DebugPrintMemberMemberEPc>
 -jmp    <T> <_ZN7CMember17DeleteLowerMemberEjb+0xc6>
--nop
++jmp    <T> <_ZN7CMember17DeleteLowerMemberEjb+0xc7>
+ nop
  leave
  ret
 ```
@@ -128,32 +129,33 @@ void __thiscall CMember::_ZN7CMember17DeleteLowerMemberEjb(CMember *this,uint pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 536 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 537 行）：
 
 ```cpp
 void CMember::DeleteLowerMember(unsigned int charNo, bool flag)
 {
     int count = (int)m_dbInfo.m_count27;
-    if (count > 0)
+    if (count <= 0)
     {
-        char* p = (char*)this + 0x2e;
-        unsigned char idx = 0;
-        while (count-- != 0)
-        {
-            if (*(unsigned int*)p == charNo)
-            {
-                memcpy(p, p + 0x27, (unsigned int)(~(unsigned char)idx) * 0x27 + 0x186);
-                m_dbInfo.m_count27--;
-                if (flag)
-                {
-                    SetMemberDeleteTime(time(0));
-                }
-                break;
-            }
-            p += 0x27;
-            idx++;
-        }
-        DebugPrintMemberMember("DELETE_LOWER_MEMBER");
+        return;
     }
+    char* p = (char*)this + 0x2e;
+    unsigned char idx = 0;
+    while (count-- != 0)
+    {
+        if (*(unsigned int*)p == charNo)
+        {
+            memcpy(p, p + 0x27, (unsigned int)(~(unsigned char)idx) * 0x27 + 0x186);
+            m_dbInfo.m_count27--;
+            if (flag)
+            {
+                SetMemberDeleteTime(time(0));
+            }
+            break;
+        }
+        p += 0x27;
+        idx++;
+    }
+    DebugPrintMemberMember("DELETE_LOWER_MEMBER");
 }
 ```

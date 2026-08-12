@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808ab4c` | `0x566` | `0x80760f0` | `0x509` |
+| monitor | DIFF | `0x808ab4c` | `0x566` | `0x807628c` | `0x509` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -634,7 +634,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3710 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3715 行）：
 
 ```cpp
 void CPacketTranslater::onItemLimitEditionLoadDataRpy(PacketHeader* pkt)

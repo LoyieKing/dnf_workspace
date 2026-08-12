@@ -1,0 +1,1 @@
+4编译器(c6444r/c6446r/c6/c5r52)下均 frame 0x10 vs ORIG 0x28, 槽 -0x4/-0x8 vs -0xc/-0x10; 源码形态未变仍 NEAR; ORIG 多 0x18 帧(疑额外局部)	NEAR	2026-08-12

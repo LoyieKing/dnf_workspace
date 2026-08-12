@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a03e` | `0x122` | `0x80809fe` | `0x114` |
+| monitor | DIFF | `0x807a03e` | `0x122` | `0x8080ba2` | `0x122` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,84 +1,82 @@
+@@ -1,84 +1,84 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
  movl   $0x0,-0x14(%ebp)
--movl   $0x0,-0x10(%ebp)
--movl   $0x0,-0xc(%ebp)
+ movl   $0x0,-0x10(%ebp)
+ movl   $0x0,-0xc(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x28(%eax),%edx
  lea    -0x1c(%ebp),%eax
@@ -27,8 +27,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP14CTcpGameServerSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
--jmp    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0xeb>
-+jmp    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0xdd>
+ jmp    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0xeb>
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP14CTcpGameServerEEptEv>
@@ -38,21 +37,17 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer13IsValidServerEv>
  test   %al,%al
--je     <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0x6f>
-+je     <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0x61>
+ je     <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0x6f>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer14GetChannelTypeEv>
  cmp    0x10(%ebp),%eax
--jne    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0x6f>
-+jne    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0x61>
+ jne    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0x6f>
  mov    $0x1,%eax
--jmp    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0x74>
-+jmp    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0x66>
+ jmp    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0x74>
  mov    $0x0,%eax
  test   %al,%al
--je     <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0xe0>
-+je     <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0xd2>
+ je     <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0xe0>
  mov    0xc(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
@@ -107,8 +102,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP14CTcpGameServerEEneERKS5_>
  test   %al,%al
--jne    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0x38>
-+jne    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0x2a>
+ jne    <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi+0x38>
  mov    -0x14(%ebp),%eax
  leave
  ret
@@ -180,21 +174,22 @@ LAB_0807a0ad:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 370 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 371 行）：
 
 ```cpp
 int CServerHandler::SendAllTcpGameServer(PacketHeader* pkt, int channel)
 {
     int count = 0;
+    CTcpGameServer* tcp = 0;
+    char* buf = 0;
     for (std::map<unsigned int, CTcpGameServer*>::iterator it = m_tcpGameServers.begin();
          it != m_tcpGameServers.end(); ++it)
     {
-        CTcpGameServer* tcp = it->second;
+        tcp = it->second;
         if (tcp->IsValidServer() && tcp->GetChannelType() == channel)
         {
-            char* buf = tcp->makePacketHeader(*(unsigned short*)pkt,
-                                              ((RA_U16<2>*)pkt)->v);
-            memcpy(buf + 10, (char*)pkt + 10, ((RA_U16<2>*)pkt)->v - 10);
+            buf = tcp->makePacketHeader(pkt->packetId, pkt->packetSize);
+            memcpy(buf + 10, (char*)pkt + 10, pkt->packetSize - 10);
             tcp->SendToGameServer(buf);
             count++;
         }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8088c44` | `0x38f` | `0x80741ca` | `0x3a9` |
+| monitor | DIFF | `0x8088c44` | `0x38f` | `0x8074366` | `0x3a9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -473,7 +473,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3193 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3198 行）：
 
 ```cpp
 void CPacketTranslater::OnInnerPacketLogin(PacketHeader* pkt)

@@ -1,0 +1,3 @@
+ctor加throw()异常规格	修好(EH pad消失, frame 0x24, push ebx对齐)	2026-08-12
+new内联到AddTask参数	修好(task栈槽消失, t槽对齐-0xc)	2026-08-12
+剩余: t+0x3c lea vs add+mov (A/B c6444r/c6446r/c5/c5r52均无法复现ORIG add+mov)	REMAIN(仅1条指令差)	2026-08-12

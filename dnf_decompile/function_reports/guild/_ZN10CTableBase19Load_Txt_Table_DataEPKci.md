@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8061bf4` | `0xda` | `0x808535c` | `0xda` |
+| guild | DIFF | `0x8061bf4` | `0xda` | `0x8085370` | `0xda` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -42,22 +42,14 @@
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  add    $0xc,%eax
--mov    (%eax),%edx
--mov    -0x10(%ebp),%eax
--mov    %eax,0x8(%esp)
--lea    -0x410(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+lea    -0x410(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    0x8(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0x10(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ lea    -0x410(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 +test   %eax,%eax
 +setne  %al
  test   %al,%al

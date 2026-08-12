@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8066e0c` | `0xe4` | `0x805ff70` | `0xe1` |
+| statics | DIFF | `0x8066e0c` | `0xe4` | `0x805ff84` | `0xe9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,59 +13,45 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,69 +1,70 @@
+@@ -1,69 +1,71 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x38,%esp
--lea    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18MonitoringSpecCaseEEEC1Ev>
--movb   $0x1,-0xa(%ebp)
-+sub    $0x28,%esp
-+movb   $0x0,-0xa(%ebp)
-+movb   $0x1,-0x9(%ebp)
-+jmp    <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0xad>
+ sub    $0x38,%esp
+ lea    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18MonitoringSpecCaseEEEC1Ev>
+ movb   $0x1,-0xa(%ebp)
  movb   $0x0,-0x9(%ebp)
--jmp    <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0xb5>
--movb   $0x0,-0xa(%ebp)
+ jmp    <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0xb5>
+ movb   $0x0,-0xa(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x54(%eax),%edx
--lea    -0x1c(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIiN17FrameLagCollector18MonitoringSpecCaseESt4lessIiESaISt4pairIKiS1_EEE5beginEv>
  sub    $0x4,%esp
--mov    -0x1c(%ebp),%eax
--mov    %eax,-0x14(%ebp)
--jmp    <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0x87>
-+jmp    <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0x7f>
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,-0x14(%ebp)
+ jmp    <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0x87>
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18MonitoringSpecCaseEEEptEv>
--mov    0x4(%eax),%edx
-+add    $0x4,%eax
-+add    $0x8,%eax
-+mov    (%eax),%edx
+ mov    0x4(%eax),%edx
  mov    0xc(%ebp),%eax
--mov    0xa(%eax),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  cmp    %eax,%edx
  sete   %al
  test   %al,%al
--je     <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0x7c>
-+je     <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0x74>
+ je     <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0x7c>
  mov    0x8(%ebp),%eax
  lea    0x54(%eax),%edx
  mov    -0x14(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZNSt3mapIiN17FrameLagCollector18MonitoringSpecCaseESt4lessIiESaISt4pairIKiS1_EEE5eraseESt17_Rb_tree_iteratorIS6_E>
-+movb   $0x1,-0x9(%ebp)
  movb   $0x1,-0xa(%ebp)
--movb   $0x1,-0x9(%ebp)
-+jmp    <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0xad>
+ movb   $0x1,-0x9(%ebp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18MonitoringSpecCaseEEEppEv>
@@ -82,17 +68,14 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18MonitoringSpecCaseEEEneERKS5_>
  test   %al,%al
--jne    <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0x42>
-+jne    <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0x31>
-+cmpb   $0x0,-0x9(%ebp)
+ jne    <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0x42>
+ cmpb   $0x0,-0xa(%ebp)
 +setne  %al
 +test   %al,%al
-+jne    <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0x13>
- cmpb   $0x0,-0xa(%ebp)
--jne    <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0x1e>
--cmpb   $0x0,-0x9(%ebp)
+ jne    <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0x1e>
+ cmpb   $0x0,-0x9(%ebp)
 -je     <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0xdd>
-+je     <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0xda>
++je     <T> <_ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_Notify+0xe2>
  mov    0xc(%ebp),%eax
  lea    0xa(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -172,25 +155,25 @@ _ZN17FrameLagCollector21PopMonitoringSpecDataEP35Packet_Frame_Lag_Spec_Delete_No
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 196 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 199 行）：
 
 ```cpp
 int FrameLagCollector::PopMonitoringSpecData(Packet_Frame_Lag_Spec_Delete_Notify* pkt)
 {
-    char erased = 0;
+    std::map<int, MonitoringSpecCase>::iterator it;
     char again = 1;
-    while (again != 0)
+    char erased = 0;
+    while (again)
     {
         again = 0;
-        for (std::map<int, MonitoringSpecCase>::iterator it = m_monitor.begin();
-             it != m_monitor.end(); ++it)
+        it = m_monitor.begin();
+        for (; it != m_monitor.end(); ++it)
         {
-            if (*(int*)((char*)&it->second + 0x8) == *(int*)((char*)pkt + 10))
+            if (((PairView*)it.operator->())->m_f0 == ((PktView*)pkt)->m_a)
             {
                 m_monitor.erase(it);
                 again = 1;
                 erased = 1;
-                break;
             }
         }
     }

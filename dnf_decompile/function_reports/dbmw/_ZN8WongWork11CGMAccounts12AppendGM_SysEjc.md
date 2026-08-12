@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8063ae0` | `0x8f` | `0x80e813a` | `0x8e` |
+| dbmw | NEAR | `0x8063ae0` | `0x8f` | `0x80e814a` | `0x8f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,27 +13,26 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,37 +1,35 @@
+@@ -1,37 +1,37 @@
  push   %ebp
  mov    %esp,%ebp
--push   %ebx
--sub    $0x34,%esp
-+sub    $0x48,%esp
+ push   %ebx
+ sub    $0x34,%esp
  mov    0x10(%ebp),%eax
--mov    %al,-0x1c(%ebp)
+ mov    %al,-0x1c(%ebp)
 -movl   $0x0,-0x18(%ebp)
-+mov    %al,-0x2c(%ebp)
- movl   $0x0,-0x14(%ebp)
+-movl   $0x0,-0x14(%ebp)
 +movl   $0x0,-0x10(%ebp)
++movl   $0x0,-0xc(%ebp)
  mov    0xc(%ebp),%eax
 -mov    %eax,-0x18(%ebp)
--movsbl -0x1c(%ebp),%eax
- mov    %eax,-0x14(%ebp)
-+movsbl -0x2c(%ebp),%eax
 +mov    %eax,-0x10(%ebp)
+ movsbl -0x1c(%ebp),%eax
+-mov    %eax,-0x14(%ebp)
++mov    %eax,-0xc(%ebp)
  mov    0x8(%ebp),%eax
 -lea    -0x18(%ebp),%edx
-+lea    -0x14(%ebp),%edx
++lea    -0x10(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE9push_backERKS2_>
@@ -41,27 +40,23 @@
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_Z14NumberToStringji>
--mov    %eax,%ebx
-+mov    %eax,-0xc(%ebp)
+ mov    %eax,%ebx
  movl   $0xcd,0x8(%esp)
  movl   $&_ZZN8WongWork11CGMAccounts12AppendGM_SysEjcE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    %eax,0xc(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"GM List Add mid:%s",0x8(%esp)
  movl   $"./log/Init",0x4(%esp)
 -lea    -0x10(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--add    $0x34,%esp
--pop    %ebx
--pop    %ebp
-+leave
+ add    $0x34,%esp
+ pop    %ebx
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -103,7 +98,7 @@ void WongWork::CGMAccounts::AppendGM_Sys(unsigned int id, char flag)
     info.m_field0 = (int)id;
     info.m_field1 = (int)flag;
     m_list.push_back(info);
-    char* mid = NumberToString(id, 0);
+    register char* mid = NumberToString(id, 0);
     CMyFileLog log(__FUNCTION__, 0xcd);
     log("./log/Init", "GM List Add mid:%s", mid);
 }

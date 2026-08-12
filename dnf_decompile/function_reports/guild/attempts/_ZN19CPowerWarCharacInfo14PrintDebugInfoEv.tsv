@@ -1,0 +1,5 @@
+it 声明提前到 log1 前 (原: log1,log2,it)	DIFF(槽序 log3-0x38/begin-0x30/log1-0x24/log2-0x2c/end-0x1c/scope-0x18)	2026-08-12
+rank 提到 it 前	DIFF(同前)	2026-08-12
+for(int rank=1;...) for-init	NEAR(助记符全同，槽序不变: log3-0x38 vs ORIG -0x18 反转)	2026-08-12
+log3 包嵌套块	NEAR(槽序不变)	2026-08-12
+工具链 A/B: c6444r/c6446r 槽序相同	NEAR(不变)	2026-08-12

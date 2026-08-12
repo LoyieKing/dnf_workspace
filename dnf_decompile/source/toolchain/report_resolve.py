@@ -17,7 +17,7 @@ import re
 import subprocess
 
 _CACHE_DIR = '/tmp/df_report_resolve'
-_VERSION = 26
+_VERSION = 27
 _SECTION_RE = re.compile(
     r'^\s*\[\s*\d+\]\s+(\S+)\s+(\S+)\s+([0-9a-fA-F]+)\s+([0-9a-fA-F]+)\s+'
     r'([0-9a-fA-F]+)')
@@ -396,7 +396,7 @@ def pseudo_lines(insns, addr_info, fn_base=None):
                 if hit[0] == 'str' and not is_imm \
                         and _finite_double_at(a, secs, blob):
                     hit = None
-            if hit is not None and hit[0] == 'str' and not is_imm:
+            if hit is not None and hit[0] == 'str':
                 # 符号区间内部的数据读取优先按符号解析：_strings 会把表数据中
                 # 恰好可打印的字节（如 tRealConfigE+0x18 的值 0x3c='<'）登记成
                 # 字符串，而相邻布局不同导致两侧一侧命中字符串、另一侧被
@@ -404,6 +404,11 @@ def pseudo_lines(insns, addr_info, fn_base=None):
                 # village_attacked::SetRealConfig）。数据表成员的读取指令是
                 # 非立即数内存引用，应解析为 &符号+off；字符串字面量作参数
                 # 是立即数（is_imm=True，如 relay title），不受影响。
+                # 2026-08-12 guild CFLog D1/D2：vtable 写入 `movl
+                # $&_ZTV+0x8,(%eax)` 也是立即数，但指向 vtable 符号区间内部，
+                # 被 _strings 登记成 "("（0x28 字节）→ 伪 NEAR；符号区间
+                # 内部一律优先符号（含 imm），字符串内容引用（relay title）
+                # 靠下方 nz_str 区间按原始字节切片兜底，不受影响。
                 if nz_sym is not None:
                     jj = bisect.bisect_right([r[0] for r in nz_sym], a) - 1
                     if jj >= 0:

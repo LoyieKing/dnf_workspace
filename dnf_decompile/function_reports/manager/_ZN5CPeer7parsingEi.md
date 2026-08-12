@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8056b6c` | `0x489` | `0x8064916` | `0x485` |
+| manager | DIFF | `0x8056b6c` | `0x489` | `0x806492a` | `0x489` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,289 +1,287 @@
+@@ -1,289 +1,289 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -30,17 +30,16 @@
 -mov    0xc(%ebp),%eax
 -lea    (%edx,%eax,1),%eax
 +mov    0x1820(%eax),%eax
-+add    0xc(%ebp),%eax
  mov    %eax,-0x24(%ebp)
++mov    0xc(%ebp),%eax
++add    %eax,-0x24(%ebp)
  movl   $0xa,-0x1c(%ebp)
  cmpl   $0x9,-0x24(%ebp)
--jg     <T> <_ZN5CPeer7parsingEi+0xe1>
--mov    0x8(%ebp),%eax
+ jg     <T> <_ZN5CPeer7parsingEi+0xe1>
+ mov    0x8(%ebp),%eax
 -mov    0x1820(%eax),%edx
 -mov    0xc(%ebp),%eax
 -add    %eax,%edx
-+jg     <T> <_ZN5CPeer7parsingEi+0xde>
-+mov    0x8(%ebp),%eax
 +mov    0x1820(%eax),%eax
 +mov    %eax,%edx
 +add    0xc(%ebp),%edx
@@ -74,14 +73,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x1,%ebx
--jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x47b>
+ jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
  nop
  mov    0x8(%ebp),%eax
  mov    0x1820(%eax),%eax
  test   %eax,%eax
--je     <T> <_ZN5CPeer7parsingEi+0x10d>
-+je     <T> <_ZN5CPeer7parsingEi+0x10a>
+ je     <T> <_ZN5CPeer7parsingEi+0x10d>
  mov    0x8(%ebp),%eax
  mov    0x181c(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -101,11 +98,9 @@
  movzwl %ax,%eax
  mov    %eax,-0x20(%ebp)
  cmpl   $0x9,-0x20(%ebp)
--jbe    <T> <_ZN5CPeer7parsingEi+0x14a>
-+jbe    <T> <_ZN5CPeer7parsingEi+0x147>
+ jbe    <T> <_ZN5CPeer7parsingEi+0x14a>
  cmpl   $0x1800,-0x20(%ebp)
--jbe    <T> <_ZN5CPeer7parsingEi+0x1d8>
-+jbe    <T> <_ZN5CPeer7parsingEi+0x1d5>
+ jbe    <T> <_ZN5CPeer7parsingEi+0x1d8>
  mov    0x8(%ebp),%eax
  mov    0x1824(%eax),%esi
  mov    0x8(%ebp),%eax
@@ -136,12 +131,11 @@
  mov    0x8(%ebp),%eax
  movl   $0x0,0x1820(%eax)
  mov    $0x0,%ebx
--jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x47b>
+ jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
  mov    -0x24(%ebp),%eax
  cmp    -0x20(%ebp),%eax
 -jb     <T> <_ZN5CPeer7parsingEi+0x361>
-+jb     <T> <_ZN5CPeer7parsingEi+0x35d>
++jb     <T> <_ZN5CPeer7parsingEi+0x360>
  mov    0x8(%ebp),%eax
  mov    0x182c(%eax),%eax
  mov    %eax,0x4(%esp)
@@ -182,7 +176,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt5queueIP14CTcpRecvBufferSt5dequeIS1_SaIS1_EEE4pushERKS1_>
 -jmp    <T> <_ZN5CPeer7parsingEi+0x295>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x290>
++jmp    <T> <_ZN5CPeer7parsingEi+0x293>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x64(%ebp),%eax
@@ -214,8 +208,8 @@
  cmpl   $0x0,-0x24(%ebp)
 -je     <T> <_ZN5CPeer7parsingEi+0x304>
 -jmp    <T> <_ZN5CPeer7parsingEi+0x318>
-+je     <T> <_ZN5CPeer7parsingEi+0x2ff>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x313>
++je     <T> <_ZN5CPeer7parsingEi+0x302>
++jmp    <T> <_ZN5CPeer7parsingEi+0x316>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x68(%ebp),%eax
@@ -230,10 +224,9 @@
  mov    0x8(%ebp),%eax
  mov    %edx,0x181c(%eax)
 -jmp    <T> <_ZN5CPeer7parsingEi+0x39f>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x39b>
++jmp    <T> <_ZN5CPeer7parsingEi+0x39e>
  cmpl   $0x9,-0x24(%ebp)
--jg     <T> <_ZN5CPeer7parsingEi+0xe0>
-+jg     <T> <_ZN5CPeer7parsingEi+0xdd>
+ jg     <T> <_ZN5CPeer7parsingEi+0xe0>
 +nop
  movl   $0xf8,0x8(%esp)
  movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
@@ -248,7 +241,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN5CPeer7parsingEi+0x39f>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x39b>
++jmp    <T> <_ZN5CPeer7parsingEi+0x39e>
 +nop
  movl   $0x100,0x8(%esp)
  movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
@@ -264,13 +257,11 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -nop
  cmpl   $0x0,-0x24(%ebp)
--jle    <T> <_ZN5CPeer7parsingEi+0x47a>
--mov    -0x24(%ebp),%eax
--cmp    $0x1800,%eax
+ jle    <T> <_ZN5CPeer7parsingEi+0x47a>
+ mov    -0x24(%ebp),%eax
+ cmp    $0x1800,%eax
 -jbe    <T> <_ZN5CPeer7parsingEi+0x3fa>
-+jle    <T> <_ZN5CPeer7parsingEi+0x476>
-+cmpl   $0x1800,-0x24(%ebp)
-+jle    <T> <_ZN5CPeer7parsingEi+0x3f5>
++jbe    <T> <_ZN5CPeer7parsingEi+0x3f9>
  movl   $0x10e,0x8(%esp)
  movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
  lea    -0x30(%ebp),%eax
@@ -284,8 +275,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%ebx
--jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x47b>
+ jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
  mov    -0x24(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    0x181c(%eax),%eax
@@ -303,15 +293,12 @@
 -lea    0x1c(%eax),%edx
 -mov    -0x24(%ebp),%eax
 -add    %eax,%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x181c(%eax)
--jmp    <T> <_ZN5CPeer7parsingEi+0x47a>
 +mov    -0x24(%ebp),%edx
 +add    $0x1c,%edx
 +lea    (%eax,%edx,1),%edx
-+mov    0x8(%ebp),%eax
-+mov    %edx,0x181c(%eax)
-+jmp    <T> <_ZN5CPeer7parsingEi+0x476>
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x181c(%eax)
+ jmp    <T> <_ZN5CPeer7parsingEi+0x47a>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    -0x24(%ebp),%eax
@@ -320,8 +307,7 @@
  call   <T> <printf>
  mov    $0x0,%ebx
  call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x47b>
+ jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -469,12 +455,13 @@ bool CPeer::parsing(int len)
     // GCC 4.4 按反声明序分配简单局部，hdr 为带 ctor 的 12 字节对象独立落在 -0x5a）。
     PacketHeader hdr(0, 0);
     int qsize;
-    int parsinglength = m_recvLen + len;
+    int parsinglength = m_recvLen;
+    parsinglength += len;
     unsigned int size;
     int headerSize = 10;
     if (parsinglength <= 9)
     {
-        m_recvLen += len;
+        m_recvLen = m_recvLen + len;
         m_sendBuf += len;
         DNF_LOG_SCOPE_LINE(0xbb, "./log/TcpRecv",
             "(offset:%x - buf:%x) = remainlen:%d, Recv Size[%d] ",
@@ -536,7 +523,7 @@ out:
     {
         try
         {
-            if (parsinglength > 0x1800)
+            if ((unsigned int)parsinglength > 0x1800)
             {
                 DNF_LOG_SCOPE_LINE(0x10e, "./log/TcpRecv",
                     "[PARSING LENGTH EXCEPTION] parsinglength > MAX_RECV_BUF , memmove : parsinglength = %d",

@@ -1,0 +1,2 @@
+tcp/buf移到循环外+IsValidServer bool	修好(开头init与&&条件对齐)	2026-08-12
+memcpy参数装载寄存器轮换+lea/sub 同 plain 版	REMAIN	2026-08-12

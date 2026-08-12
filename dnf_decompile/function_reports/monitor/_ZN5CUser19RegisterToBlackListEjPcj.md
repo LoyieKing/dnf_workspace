@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806d7c8` | `0x93` | `0x80898fa` | `0xb5` |
+| monitor | DIFF | `0x806d7c8` | `0x93` | `0x8089ab8` | `0xb5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -119,7 +119,7 @@ CUser::_ZN5CUser19RegisterToBlackListEjPcj(CUser *this,uint param_1,char *param_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 505 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 507 行）：
 
 ```cpp
 char CUser::RegisterToBlackList(unsigned int charNo, char* name, unsigned int time)
