@@ -1,2 +1,3 @@
 TCPSocket* sock = peer->GetTcpSocket(); sock->accept(m_sock)	DIFF(更差,多mov链)	2026-08-12
 TCPSocket& sockRef=m_sock; accept(sockRef)	DIFF(更差,引用占栈槽+偏移全变)	2026-08-12
+m_sock.accept(*peer->GetTcpSocket()) 修正反传参数序(ORIG语义:监听socket为this,peer socket为参数)	IDENTICAL_AE(FIXED,真实语义bug)	2026-08-12

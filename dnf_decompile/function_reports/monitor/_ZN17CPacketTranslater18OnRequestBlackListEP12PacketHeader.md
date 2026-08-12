@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8085e52` | `0x207` | `0x807180c` | `0x205` |
+| monitor | DIFF | `0x8085e52` | `0x207` | `0x8071826` | `0x205` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -222,7 +222,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2309 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2314 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestBlackList(PacketHeader* pkt)

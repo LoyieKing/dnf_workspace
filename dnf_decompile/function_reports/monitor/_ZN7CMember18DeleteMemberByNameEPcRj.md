@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8098582` | `0x13c` | `0x8060fd0` | `0x13f` |
+| monitor | DIFF | `0x8098582` | `0x13c` | `0x8060fec` | `0x13f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -174,7 +174,7 @@ CMember::_ZN7CMember18DeleteMemberByNameEPcRj(CMember *this,char *param_1,uint *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 569 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 568 行）：
 
 ```cpp
 int CMember::DeleteMemberByName(char* name, unsigned int& outKey)

@@ -1,0 +1,5 @@
+原始 info.m_addInfo=b (c6)	DIFF(b 先装 edx vs ORIG info 先装 eax)	2026-08-12
+register int bb=b; info.m_addInfo=bb	DIFF(多 mov ebx,edx 中转)	2026-08-12
+c6444r 原始形态	NEAR(装载序仍反但助记符同; 余字符串地址差异)	2026-08-12
+DnfItemInfo& ref=info; ref.m_addInfo=b	DIFF(ref 落栈槽 -0x24)	2026-08-12
+*(int*)((char*)&info+6)=b	DIFF(lea 0x6 形态)	2026-08-12

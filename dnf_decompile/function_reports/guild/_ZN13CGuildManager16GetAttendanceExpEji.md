@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80975a0` | `0xc5` | `0x805d436` | `0xc7` |
+| guild | NEAR | `0x80975a0` | `0xc5` | `0x805d432` | `0xc5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -27,8 +27,7 @@
  cmpl   $0x0,-0x10(%ebp)
  jne    <T> <_ZN13CGuildManager16GetAttendanceExpEji+0x2c>
  mov    $0x0,%eax
--jmp    <T> <_ZN13CGuildManager16GetAttendanceExpEji+0xc0>
-+jmp    <T> <_ZN13CGuildManager16GetAttendanceExpEji+0xc2>
+ jmp    <T> <_ZN13CGuildManager16GetAttendanceExpEji+0xc0>
  mov    0x8(%ebp),%eax
  lea    0x9c(%eax),%ecx
  lea    -0x18(%ebp),%eax
@@ -51,8 +50,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjSt6vectorIjSaIjEEEEneERKS6_>
  test   %al,%al
--je     <T> <_ZN13CGuildManager16GetAttendanceExpEji+0xbb>
-+je     <T> <_ZN13CGuildManager16GetAttendanceExpEji+0xbd>
+ je     <T> <_ZN13CGuildManager16GetAttendanceExpEji+0xbb>
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjSt6vectorIjSaIjEEEEptEv>
@@ -61,9 +59,6 @@
  call   <T> <_ZNKSt6vectorIjSaIjEE4sizeEv>
  mov    %eax,-0xc(%ebp)
  mov    0x10(%ebp),%ebx
-+mov    %ebx,%eax
-+shl    $0x4,%eax
-+lea    (%eax,%ebx,1),%ebx
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild13GetGuildLevelEv>
@@ -71,12 +66,13 @@
 -mov    %ebx,%eax
 -shl    $0x4,%eax
 -add    %ebx,%eax
--add    %edx,%eax
 +movzbl %al,%eax
-+lea    (%ebx,%eax,1),%eax
++mov    %ebx,%edx
++shl    $0x4,%edx
++add    %ebx,%edx
+ add    %edx,%eax
  mov    &_ZL13guild_att_exp(,%eax,4),%eax
--jmp    <T> <_ZN13CGuildManager16GetAttendanceExpEji+0xc0>
-+jmp    <T> <_ZN13CGuildManager16GetAttendanceExpEji+0xc2>
+ jmp    <T> <_ZN13CGuildManager16GetAttendanceExpEji+0xc0>
  mov    $0x0,%eax
  mov    -0x4(%ebp),%ebx
  leave
@@ -152,7 +148,7 @@ int CGuildManager::GetAttendanceExp(unsigned int guildKey, int phase)
     {
         unsigned int cnt = it->second.size();
         register int p = phase;
-        return guild_att_exp[(p + (p << 4)) + (guild->GetGuildLevel() & 0xff)];
+        return guild_att_exp[(guild->GetGuildLevel() & 0xff) + (p + (p << 4))];
     }
     return 0;
 }

@@ -155,7 +155,7 @@ CDBManager::_ZN10CDBManager18ChangePvPBuddyNameEP28Packet_DBMW_Change_Char_Name
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4247 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4246 行）：
 
 ```cpp
 char CDBManager::ChangePvPBuddyName(Packet_DBMW_Change_Char_Name* packet)

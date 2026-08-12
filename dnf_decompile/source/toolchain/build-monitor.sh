@@ -44,6 +44,20 @@ FLAGS="-m32 -O0 -std=gnu++0x -fno-enforce-eh-specs -nostdinc -DTIXML_USE_STL -DB
   -I$COMMON -I$MONITOR -I$PACKET/include \
   -I$ROOT/shared -I$ROOT/shared/common/include"
 
+# 逐 TU 工具链：DNFProhibitUser.cpp / MemoryCashManager.cpp 原版由 4.1.2-52 编译
+# （ORIG .comment 中 4.1.2 x2；A/B 实测 4.1.2 的 register bool 比较产生
+#  ORIG 的 setle %al + test %al,%al 形态，4.4.x 为 setle %bl 或 jg）
+C5CXX=/tmp/c5root/usr/bin/g++
+C5FLAGS="-m32 -O0 -fno-enforce-eh-specs -nostdinc -DTIXML_USE_STL -DBOOST_DISABLE_ASSERTS -DDNF_SVC_MONITOR \
+  -isystem /tmp/c5r52tool/usr/lib/gcc/x86_64-redhat-linux/4.1.2/include \
+  -isystem /tmp/c5r52tool/usr/lib/gcc/x86_64-redhat-linux/4.1.2/include-fixed \
+  -isystem /tmp/c5r52tool/usr/include/c++/4.1.2 \
+  -isystem /tmp/c5r52tool/usr/include/c++/4.1.2/x86_64-redhat-linux \
+  -isystem /tmp/c5r52tool/usr/include/c++/4.1.2/backward \
+  -isystem /tmp/c5r52tool/usr/include \
+  -I$COMMON -I$MONITOR -I$PACKET/include \
+  -I$ROOT/shared -I$ROOT/shared/common/include"
+
 TINYXML_CXX=${TINYXML_CXX:-/tmp/c6-g++-444r}
 TINYXML_FLAGS="-m32 -O3 -std=gnu++98 -fno-enforce-eh-specs -nostdinc -DTIXML_USE_STL -DBOOST_DISABLE_ASSERTS \
   -isystem /tmp/c6root/usr/lib/gcc/x86_64-redhat-linux/4.4.7/include \
@@ -77,7 +91,12 @@ compile() {
     fi
     if [ "$need" -eq 1 ]; then
         echo "CC  $base.cpp"
-        run_job "$CXX" $FLAGS -c "$src" -o "$OUT_DIR/$base.o"
+        if [ "$base" = "DNFProhibitUserC5" ] || [ "$base" = "MemoryCashManagerC5" ]; then
+            LD_LIBRARY_PATH=/tmp/c5root/usr/lib:/tmp/c5root/usr/lib64:/tmp/c6root/usr/lib64 \
+                run_job "$C5CXX" $C5FLAGS -c "$src" -o "$OUT_DIR/$base.o"
+        else
+            run_job "$CXX" $FLAGS -c "$src" -o "$OUT_DIR/$base.o"
+        fi
     else
         echo "SKIP $base.cpp"
     fi

@@ -1,0 +1,8 @@
+原始 c=idx; if(c>0x32)c=0x32; i<(int)c (c6)	DIFF(钳制段 cmpl 栈槽+movl vs ORIG cmp 参数寄存器+mov eax; 循环 setg vs setl)	2026-08-12
+三元 c=idx>0x32?0x32:idx	DIFF(cmov 形态更远)	2026-08-12
+if(idx<=0x32)c=idx;else c=0x32	DIFF(ja 两分支)	2026-08-12
+i<c 无符号	DIFF(setb vs setl)	2026-08-12
+int c	DIFF(循环 setl 对但钳制 jle vs jbe)	2026-08-12
+register unsigned int c	DIFF(push ebx + c 留 ebx)	2026-08-12
+if(idx>0x32)c=0x32	DIFF(cmp 参数对但 movl 栈槽 vs ORIG mov eax)	2026-08-12
+c6444r/c6446r 同 cmpl 栈槽; c5(4.1.2-55) 栈帧 0x18/-0x8 且循环 jg 无 setl 物化	DIFF	2026-08-12

@@ -1,0 +1,5 @@
+RA_UINT<2>@idx*9+0x10 / RA_UINT<6>@idx*9+0x10 / char@idx*9+0x1a	DIFF(地址预计算入ebx 在 RHS call 前; ORIG idx入ebx+地址后算)	2026-08-12
+plain cast uint@+0x12/+0x16 char@+0x1a	DIFF(同上形态)	2026-08-12
+pkt.m_items[idx*9..]（monitor 包类无 m_items，编译失败）	DIFF(失败)	2026-08-12
+去掉 -std=gnu++0x 重编	DIFF(同形态)	2026-08-12
+A/B c6446r/c6/c6444r 均同形态; c5(4.1.2) 形态完全不同	DIFF	2026-08-12

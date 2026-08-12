@@ -501,7 +501,7 @@ CDBManager::_ZN10CDBManager17DeleteToBlackListEjj(CDBManager *this,uint param_1,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4806 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4805 行）：
 
 ```cpp
 bool CDBManager::DeleteToBlackList(unsigned int m_id, unsigned int characNo)

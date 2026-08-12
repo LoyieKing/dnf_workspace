@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8088fd4` | `0x29b` | `0x8074710` | `0x2b9` |
+| monitor | DIFF | `0x8088fd4` | `0x29b` | `0x807472e` | `0x2b9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -315,7 +315,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3275 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3280 行）：
 
 ```cpp
 void CPacketTranslater::OnInnerPacketLogout(PacketHeader* pkt)

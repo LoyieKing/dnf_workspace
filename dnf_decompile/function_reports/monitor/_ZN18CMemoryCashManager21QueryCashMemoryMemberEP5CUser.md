@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a127a` | `0x293` | `0x8097978` | `0x289` |
+| monitor | DIFF | `0x80a127a` | `0x293` | `0x8097b7a` | `0x289` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -358,7 +358,7 @@ CMemoryCashManager::_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 87 行）：
+定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 74 行）：
 
 ```cpp
 char CMemoryCashManager::QueryCashMemoryMember(CUser* user)

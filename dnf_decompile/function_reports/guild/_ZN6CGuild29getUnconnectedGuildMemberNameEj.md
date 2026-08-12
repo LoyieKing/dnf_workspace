@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809106c` | `0x84` | `0x8056d0c` | `0x87` |
+| guild | DIFF | `0x809106c` | `0x84` | `0x8056d0c` | `0x84` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,46 +1,47 @@
+@@ -1,46 +1,46 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x10,%esp
@@ -22,18 +22,15 @@
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
--je     <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x7d>
-+je     <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x80>
+ je     <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x7d>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x10,%eax
  test   %eax,%eax
--je     <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x7d>
-+je     <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x80>
+ je     <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x7d>
  movl   $0x0,-0x4(%ebp)
--jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x69>
-+jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x6c>
+ jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x69>
 +mov    0x8(%ebp),%ecx
  mov    -0x4(%ebp),%edx
 -mov    0x8(%ebp),%ecx
@@ -44,19 +41,18 @@
  add    $0xd0,%eax
  mov    0xd(%eax),%eax
  cmp    0xc(%ebp),%eax
--jne    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x65>
-+jne    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x68>
+ jne    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x65>
 +mov    0x8(%ebp),%ecx
  mov    -0x4(%ebp),%edx
  mov    %edx,%eax
  shl    $0x6,%eax
  add    %edx,%eax
- add    $0xd0,%eax
+-add    $0xd0,%eax
 -add    0x8(%ebp),%eax
+-add    $0x11,%eax
++add    $0xe1,%eax
 +lea    (%ecx,%eax,1),%eax
- add    $0x11,%eax
--jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x82>
-+jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x85>
+ jmp    <T> <_ZN6CGuild29getUnconnectedGuildMemberNameEj+0x82>
  addl   $0x1,-0x4(%ebp)
  mov    0x8(%ebp),%eax
  movzwl 0x1e(%eax),%eax
@@ -106,7 +102,7 @@ char* CGuild::getUnconnectedGuildMemberName(unsigned int charNo)
             {
                 if (((CGuildMemberMainArray*)this)->m_members[i].m_charNo == charNo)
                 {
-                    return (char*)&((CGuildMemberMainArray*)this)->m_members[i] + 0x11;
+                    return (char*)(i * 0x41 + 0xd0 + (char*)this + 0x11);
                 }
             }
         }

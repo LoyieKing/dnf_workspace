@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a9904` | `0x211` | `0x80a8420` | `0x1f3` |
+| monitor | DIFF | `0x80a9904` | `0x211` | `0x80a875c` | `0x1f3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -24,10 +24,9 @@
  mov    0x8(%ebp),%eax
  movzbl 0x24(%eax),%eax
 -xor    $0x1,%eax
--test   %al,%al
+ test   %al,%al
 -jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x206>
-+cmp    $0x1,%al
-+jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1e9>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1e9>
  movl   $0x0,-0x18(%ebp)
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1c5>
 +jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1aa>

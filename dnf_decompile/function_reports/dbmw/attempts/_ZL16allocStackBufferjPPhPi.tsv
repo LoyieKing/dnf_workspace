@@ -1,2 +1,4 @@
 m_size赋值顺序交换	DIFF(同,load顺序仍反)	2026-08-12
 unsigned int sz=size; cur->m_size=sz;	DIFF(更差,其它栈槽漂移-0x30→-0x34)	2026-08-12
+volatile unsigned int size 参数	DIFF(更差,装载形态变化)	2026-08-12
+volatile lvalue *(volatile uint*)&cur->m_size = size	DIFF(更差)	2026-08-12

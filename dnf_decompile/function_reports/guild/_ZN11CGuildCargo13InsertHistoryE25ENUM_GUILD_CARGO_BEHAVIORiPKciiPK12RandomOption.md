@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a0140` | `0x11a` | `0x8092878` | `0x123` |
+| guild | NEAR | `0x80a0140` | `0x11a` | `0x809286c` | `0x11a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,80 +1,83 @@
+@@ -1,80 +1,80 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -35,23 +35,22 @@
  mov    %al,-0x40(%ebp)
  mov    0x1c(%ebp),%eax
  mov    %eax,-0x26(%ebp)
- mov    0x20(%ebp),%eax
+-mov    0x20(%ebp),%eax
 -mov    (%eax),%edx
 -mov    %edx,-0x22(%ebp)
 -mov    0x4(%eax),%edx
 -mov    %edx,-0x1e(%ebp)
 -mov    0x8(%eax),%edx
 -mov    %edx,-0x1a(%ebp)
-+mov    (%eax),%eax
+-movzwl 0xc(%eax),%eax
++mov    0x20(%ebp),%ebx
++mov    (%ebx),%eax
 +mov    %eax,-0x22(%ebp)
-+mov    0x20(%ebp),%eax
-+mov    0x4(%eax),%eax
++mov    0x4(%ebx),%eax
 +mov    %eax,-0x1e(%ebp)
-+mov    0x20(%ebp),%eax
-+mov    0x8(%eax),%eax
++mov    0x8(%ebx),%eax
 +mov    %eax,-0x1a(%ebp)
-+mov    0x20(%ebp),%eax
- movzwl 0xc(%eax),%eax
++movzwl 0xc(%ebx),%eax
  mov    %ax,-0x16(%ebp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -93,8 +92,7 @@
  cmp    $0x32,%eax
  seta   %al
  test   %al,%al
--je     <T> <_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption+0x113>
-+je     <T> <_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption+0x11c>
+ je     <T> <_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption+0x113>
  mov    0x8(%ebp),%eax
  add    $0x18e8,%eax
  mov    %eax,(%esp)

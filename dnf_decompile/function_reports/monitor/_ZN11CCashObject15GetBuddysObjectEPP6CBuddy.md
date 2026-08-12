@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a0642` | `0x70` | `0x804d53c` | `0x58` |
+| monitor | NEAR | `0x80a0642` | `0x70` | `0x804d53c` | `0x70` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,38 +1,31 @@
+@@ -1,38 +1,38 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x14,%esp
@@ -21,8 +21,6 @@
 -mov    -0x4(%ebp),%eax
 +sub    $0x28,%esp
 +movl   $0x0,-0xc(%ebp)
-+jmp    <T> <_ZN11CCashObject15GetBuddysObjectEPP6CBuddy+0x10>
-+nop
 +mov    -0xc(%ebp),%eax
  shl    $0x2,%eax
  add    0xc(%ebp),%eax
@@ -31,35 +29,33 @@
  mov    0x8(%ebp),%edx
  mov    0xc(%edx,%ecx,4),%edx
  mov    %edx,(%eax)
--jmp    <T> <_ZN11CCashObject15GetBuddysObjectEPP6CBuddy+0x4c>
+ jmp    <T> <_ZN11CCashObject15GetBuddysObjectEPP6CBuddy+0x4c>
 -addl   $0x1,-0x4(%ebp)
 -cmpl   $0x1f,-0x4(%ebp)
--jle    <T> <_ZN11CCashObject15GetBuddysObjectEPP6CBuddy+0x37>
++addl   $0x1,-0xc(%ebp)
++cmpl   $0x1f,-0xc(%ebp)
+ jle    <T> <_ZN11CCashObject15GetBuddysObjectEPP6CBuddy+0x37>
 -movl   $0x20,-0x4(%ebp)
--jmp    <T> <_ZN11CCashObject15GetBuddysObjectEPP6CBuddy+0x60>
++movl   $0x20,-0xc(%ebp)
+ jmp    <T> <_ZN11CCashObject15GetBuddysObjectEPP6CBuddy+0x60>
 -mov    -0x4(%ebp),%eax
--shl    $0x2,%eax
--add    0xc(%ebp),%eax
++mov    -0xc(%ebp),%eax
+ shl    $0x2,%eax
+ add    0xc(%ebp),%eax
 -mov    -0x4(%ebp),%ecx
--mov    0x8(%ebp),%edx
--mov    0xc(%edx,%ecx,4),%edx
--mov    %edx,(%eax)
++mov    -0xc(%ebp),%ecx
+ mov    0x8(%ebp),%edx
+ mov    0xc(%edx,%ecx,4),%edx
+ mov    %edx,(%eax)
 -mov    -0x4(%ebp),%eax
 +mov    -0xc(%ebp),%eax
  shl    $0x2,%eax
  add    0xc(%ebp),%eax
  mov    (%eax),%eax
  test   %eax,%eax
--setne  %al
--test   %al,%al
--jne    <T> <_ZN11CCashObject15GetBuddysObjectEPP6CBuddy+0x24>
-+je     <T> <_ZN11CCashObject15GetBuddysObjectEPP6CBuddy+0x47>
-+addl   $0x1,-0xc(%ebp)
-+cmpl   $0x1f,-0xc(%ebp)
-+jle    <T> <_ZN11CCashObject15GetBuddysObjectEPP6CBuddy+0xf>
-+movl   $0x20,-0xc(%ebp)
-+jmp    <T> <_ZN11CCashObject15GetBuddysObjectEPP6CBuddy+0x48>
-+nop
+ setne  %al
+ test   %al,%al
+ jne    <T> <_ZN11CCashObject15GetBuddysObjectEPP6CBuddy+0x24>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CCashObject11ClearBuddysEv>
@@ -106,19 +102,16 @@ LAB_080a06a2:
 int CCashObject::GetBuddysObject(CBuddy** buddies)
 {
     int i = 0;
-    for (;;)
+    buddies[i] = m_buddys[i];
+    while (buddies[i] != 0)
     {
-        buddies[i] = m_buddys[i];
-        if (buddies[i] != 0)
+        i++;
+        if (i > 0x1f)
         {
-            i++;
-            if (i <= 0x1f)
-            {
-                continue;
-            }
             i = 0x20;
+            break;
         }
-        break;
+        buddies[i] = m_buddys[i];
     }
     ClearBuddys();
     return i;

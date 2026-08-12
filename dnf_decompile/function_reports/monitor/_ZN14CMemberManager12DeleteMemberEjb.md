@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8099e1c` | `0x14a` | `0x8061c1c` | `0x14a` |
+| monitor | DIFF | `0x8099e1c` | `0x14a` | `0x8061c38` | `0x14a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -31,7 +31,7 @@
  mov    0x8(%ebp),%eax
  lea    0x8(%eax),%ecx
 -lea    -0x18(%ebp),%eax
-+lea    -0xc(%ebp),%eax
++lea    -0x10(%ebp),%eax
  lea    0xc(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
@@ -41,16 +41,16 @@
  mov    0x8(%ebp),%eax
  lea    0x8(%eax),%edx
 -lea    -0x14(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0xc(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP7CMemberSt4lessIjESaISt4pairIKjS1_EEE3endEv>
  sub    $0x4,%esp
 -lea    -0x14(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0xc(%ebp),%eax
++lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP7CMemberEEneERKS5_>
  test   %al,%al
@@ -58,7 +58,7 @@
  cmpb   $0x0,-0x1c(%ebp)
  je     <T> <_ZN14CMemberManager12DeleteMemberEjb+0x99>
 -lea    -0x18(%ebp),%eax
-+lea    -0xc(%ebp),%eax
++lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP7CMemberEEptEv>
  mov    0x4(%eax),%eax
@@ -70,7 +70,7 @@
  test   %al,%al
  je     <T> <_ZN14CMemberManager12DeleteMemberEjb+0xc4>
 -lea    -0x18(%ebp),%eax
-+lea    -0xc(%ebp),%eax
++lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP7CMemberEEptEv>
  mov    0x4(%eax),%ebx
@@ -93,7 +93,7 @@
  mov    0x8(%ebp),%eax
  lea    0x8(%eax),%edx
 -mov    -0x18(%ebp),%eax
-+mov    -0xc(%ebp),%eax
++mov    -0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZNSt3mapIjP7CMemberSt4lessIjESaISt4pairIKjS1_EEE5eraseESt17_Rb_tree_iteratorIS6_E>
@@ -207,8 +207,7 @@ int CMemberManager::DeleteMember(unsigned int key, bool cash)
         return 0;
     }
     std::map<unsigned int, CMember*>::iterator it = m_members.find(key);
-    std::map<unsigned int, CMember*>::iterator end = m_members.end();
-    if (it != end)
+    if (it != m_members.end())
     {
         if (cash && it->second != 0)
         {

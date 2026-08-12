@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a9758` | `0x4f` | `0x80a7926` | `0x4a` |
+| monitor | DIFF | `0x80a9758` | `0x4f` | `0x80a7c4e` | `0x4d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,18 +13,18 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,27 +1,25 @@
+@@ -1,27 +1,27 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x8,%esp
--mov    0xc(%ebp),%eax
--cmp    $0x1,%eax
--je     <T> <_ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAGE_ATTACKED_REWARD+0x15>
--cmp    $0x2,%eax
+ mov    0xc(%ebp),%eax
+ cmp    $0x1,%eax
+ je     <T> <_ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAGE_ATTACKED_REWARD+0x15>
+ cmp    $0x2,%eax
 -je     <T> <_ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAGE_ATTACKED_REWARD+0x2c>
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAGE_ATTACKED_REWARD+0x43>
-+cmpl   $0x1,0xc(%ebp)
-+jne    <T> <_ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAGE_ATTACKED_REWARD+0x22>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAGE_ATTACKED_REWARD+0x2b>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAGE_ATTACKED_REWARD+0x41>
  call   <T> <_Z10GetNowTimev>
 -mov    &_ZN16village_attacked16REWARD_BUFF_TIMEE,%edx
 -add    %edx,%eax
@@ -34,9 +34,7 @@
  mov    0x8(%ebp),%eax
  mov    %edx,0x34(%eax)
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAGE_ATTACKED_REWARD+0x4d>
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAGE_ATTACKED_REWARD+0x48>
-+cmpl   $0x2,0xc(%ebp)
-+jne    <T> <_ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAGE_ATTACKED_REWARD+0x3e>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAGE_ATTACKED_REWARD+0x4b>
  call   <T> <_Z10GetNowTimev>
 -mov    &_ZN16village_attacked19REWARD_PENALTY_TIMEE,%edx
 -add    %edx,%eax
@@ -46,7 +44,7 @@
  mov    0x8(%ebp),%eax
  mov    %edx,0x34(%eax)
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAGE_ATTACKED_REWARD+0x4d>
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAGE_ATTACKED_REWARD+0x48>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAGE_ATTACKED_REWARD+0x4b>
  mov    0x8(%ebp),%eax
  movl   $0x0,0x34(%eax)
  leave
@@ -83,22 +81,22 @@ _ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAG
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 225 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 226 行）：
 
 ```cpp
 void CVillageAttackedManager::SetRewardCloseTime(ENUM_VILLAGE_ATTACKED_REWARD rewardType)
 {
-    if (rewardType == ENUM_VILLAGE_ATTACKED_REWARD_BUFF)
+    switch (rewardType)
     {
+    case ENUM_VILLAGE_ATTACKED_REWARD_BUFF:
         m_field34 = (int)GetNowTime() + REWARD_BUFF_TIME;
-    }
-    else if (rewardType == ENUM_VILLAGE_ATTACKED_REWARD_PENALTY)
-    {
+        break;
+    case ENUM_VILLAGE_ATTACKED_REWARD_PENALTY:
         m_field34 = (int)GetNowTime() + REWARD_PENALTY_TIME;
-    }
-    else
-    {
+        break;
+    default:
         m_field34 = 0;
+        break;
     }
 }
 ```

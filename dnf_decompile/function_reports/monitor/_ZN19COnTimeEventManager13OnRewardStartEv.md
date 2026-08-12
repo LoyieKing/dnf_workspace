@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4834` | `0x181` | `0x809a346` | `0x19c` |
+| monitor | DIFF | `0x80a4834` | `0x181` | `0x809a67e` | `0x197` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,28 +13,28 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,97 +1,108 @@
+@@ -1,97 +1,107 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
 +push   %esi
  push   %ebx
 -sub    $0x34,%esp
-+sub    $0x3c,%esp
++sub    $0x2c,%esp
  movl   $0x0,(%esp)
  call   <T> <time>
  mov    %eax,%ebx
  movl   $0x82,0x8(%esp)
  movl   $&_ZZN19COnTimeEventManager13OnRewardStartEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"On Time Event : On Reward Start Trigger On(%d)",0x8(%esp)
  movl   $"./log/OnTimeEvent",0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x2,0x4(%esp)
@@ -50,14 +50,14 @@
  mov    %eax,(%esp)
  call   <T> <_ZN19COnTimeEventManager5ClearEv>
 -jmp    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x17b>
-+jmp    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x194>
++jmp    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x18f>
  movl   $0x0,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN19COnTimeEventManager10IsCurStateE23ENUM_ONTIME_EVENT_STATE>
  test   %al,%al
 -jne    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x17a>
-+jne    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x194>
++jne    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x18f>
  movl   $0x0,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -69,10 +69,10 @@
  call   <T> <time>
 -mov    %eax,-0xc(%ebp)
 -mov    -0xc(%ebp),%edx
-+mov    %eax,-0x1c(%ebp)
++mov    %eax,%esi
  mov    0x8(%ebp),%eax
-+mov    -0x1c(%ebp),%edx
- mov    %edx,0x20(%eax)
+-mov    %edx,0x20(%eax)
++mov    %esi,0x20(%eax)
  movl   $0x14,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
@@ -83,7 +83,7 @@
  shl    $0x4,%edx
  sub    %eax,%edx
 -mov    -0xc(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
++mov    %esi,%eax
  lea    (%edx,%eax,1),%ecx
  mov    %ebx,%eax
  mov    0x8(%ebp),%edx
@@ -92,7 +92,7 @@
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN28COnTimeEventRewardEndTriggerC1EjjP19COnTimeEventManager>
-+jmp    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x130>
++jmp    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x12b>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
@@ -117,20 +117,20 @@
  movl   $0xa7,0x8(%esp)
  movl   $&_ZZN19COnTimeEventManager13OnRewardStartEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"On Time Event : On Reward Start Trigger Process Success curidx(%d)",0x8(%esp)
  movl   $"./log/OnTimeEvent",0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN19COnTimeEventManager13OnRewardStartEv+0x17b>
 -nop
 -add    $0x34,%esp
-+add    $0x3c,%esp
++add    $0x2c,%esp
  pop    %ebx
 +pop    %esi
 +pop    %edi
@@ -212,7 +212,7 @@ void COnTimeEventManager::OnRewardStart()
         {
             ChangeState(ONTIME_EVENT_STATE_NONE);
             UpdateEventIdx();
-            int t = (int)time(0);
+            register int t = (int)time(0);
             m_field20 = t;
             register CTaskScheduler::CTask* task =
                 new COnTimeEventRewardEndTrigger((unsigned int)(m_field28 * 0x3c + t), 0, this);

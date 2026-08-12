@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809fe24` | `0x79` | `0x809255c` | `0x79` |
+| guild | DIFF | `0x809fe24` | `0x79` | `0x8092550` | `0x79` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -76,7 +76,7 @@ CGuildCargo::_ZN11CGuildCargo14SendGuildCargoEP5CUser(CGuildCargo *this,CUser *p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 370 行）：
+定义于 [source/DNFServer/GameServer/Guild/GuildCargo.cpp](source/DNFServer/GameServer/Guild/GuildCargo.cpp)（约第 373 行）：
 
 ```cpp
 void CGuildCargo::SendGuildCargo(CUser* user)

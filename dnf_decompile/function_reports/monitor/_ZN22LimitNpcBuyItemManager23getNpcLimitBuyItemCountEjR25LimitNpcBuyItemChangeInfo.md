@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805b20e` | `0x85` | `0x8095b32` | `0x87` |
+| monitor | DIFF | `0x805b20e` | `0x85` | `0x8095dee` | `0x8f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,11 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,45 +1,46 @@
+@@ -1,45 +1,51 @@
  push   %ebp
  mov    %esp,%ebp
++push   %esi
  push   %ebx
- sub    $0x24,%esp
+-sub    $0x24,%esp
++sub    $0x20,%esp
  mov    0x8(%ebp),%edx
  lea    -0x10(%ebp),%eax
  lea    0xc(%ebp),%ecx
@@ -39,7 +41,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15NpcBuyLimitItemEEeqERKS4_>
  test   %al,%al
 -jne    <T> <_ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeInfo+0x7f>
-+jne    <T> <_ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeInfo+0x81>
++jne    <T> <_ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeInfo+0x84>
  mov    0xc(%ebp),%edx
  mov    0x10(%ebp),%eax
  mov    %edx,0xa(%eax)
@@ -48,20 +50,28 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15NpcBuyLimitItemEEptEv>
 -mov    0x8(%eax),%ebx
 +mov    0x8(%eax),%eax
-+mov    %eax,%ebx
++mov    %eax,%esi
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15NpcBuyLimitItemEEptEv>
  mov    0xc(%eax),%eax
- mov    %ebx,%edx
- sub    %eax,%edx
+-mov    %ebx,%edx
+-sub    %eax,%edx
++mov    %eax,%ebx
++mov    %esi,%edx
++sub    %ebx,%edx
  mov    0x10(%ebp),%eax
  mov    %edx,0xe(%eax)
 -jmp    <T> <_ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeInfo+0x80>
-+jmp    <T> <_ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeInfo+0x82>
++jmp    <T> <_ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeInfo+0x85>
  nop
- mov    -0x4(%ebp),%ebx
- leave
+-mov    -0x4(%ebp),%ebx
+-leave
++lea    -0x8(%ebp),%esp
++add    $0x0,%esp
++pop    %ebx
++pop    %esi
++pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C

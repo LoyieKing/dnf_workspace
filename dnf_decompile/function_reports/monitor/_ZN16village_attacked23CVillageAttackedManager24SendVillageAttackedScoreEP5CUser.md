@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a9690` | `0xb8` | `0x80a7fa2` | `0xcc` |
+| monitor | DIFF | `0x80a9690` | `0xb8` | `0x80a82e4` | `0xc5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,41 +13,31 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,56 +1,61 @@
+@@ -1,56 +1,60 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x48,%esp
--lea    -0x32(%ebp),%eax
-+sub    $0x58,%esp
-+lea    -0x3a(%ebp),%eax
+ sub    $0x48,%esp
+ lea    -0x32(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN27Packet_VillageAttackedScoreC1Ev>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x28(%ebp)
-+mov    %eax,-0x30(%ebp)
+ mov    %eax,-0x28(%ebp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x24(%ebp)
-+mov    %eax,-0x2c(%ebp)
+ mov    %eax,-0x24(%ebp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked23CVillageAttackedManager13GetRemainTimeEv>
--mov    %eax,-0x20(%ebp)
-+mov    %eax,-0x28(%ebp)
+ mov    %eax,-0x20(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x1c(%eax),%eax
--mov    %eax,-0x1c(%ebp)
-+mov    %eax,-0x24(%ebp)
+ mov    %eax,-0x1c(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x20(%eax),%eax
--mov    %eax,-0x18(%ebp)
-+mov    %eax,-0x20(%ebp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
+ mov    %eax,-0x18(%ebp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -55,44 +45,32 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked23CVillageAttackedManager15GetHuntingPointEj>
-+mov    %eax,-0x14(%ebp)
-+movl   $0x0,-0x10(%ebp)
-+movl   $0x0,-0xc(%ebp)
-+cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager24SendVillageAttackedScoreEP5CUser+0xa4>
-+mov    -0x14(%ebp),%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x10(%ebp)
-+mov    -0x14(%ebp),%eax
-+mov    (%eax),%edx
-+mov    -0x14(%ebp),%eax
+ mov    %eax,-0xc(%ebp)
++mov    0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser13GetUniqCharNoEv>
+ cmpl   $0x0,-0xc(%ebp)
+-je     <T> <_ZN16village_attacked23CVillageAttackedManager24SendVillageAttackedScoreEP5CUser+0x8b>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager24SendVillageAttackedScoreEP5CUser+0x98>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ mov    %eax,-0x14(%ebp)
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+-mov    0x4(%eax),%eax
 +add    $0x4,%eax
 +mov    (%eax),%eax
-+lea    (%edx,%eax,1),%eax
- mov    %eax,-0xc(%ebp)
--cmpl   $0x0,-0xc(%ebp)
--je     <T> <_ZN16village_attacked23CVillageAttackedManager24SendVillageAttackedScoreEP5CUser+0x8b>
-+mov    -0x10(%ebp),%eax
-+mov    %eax,-0x1c(%ebp)
- mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--mov    %eax,-0x14(%ebp)
--mov    -0xc(%ebp),%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    0x4(%eax),%eax
--lea    (%edx,%eax,1),%eax
--mov    %eax,-0x10(%ebp)
+ lea    (%edx,%eax,1),%eax
+ mov    %eax,-0x10(%ebp)
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager24SendVillageAttackedScoreEP5CUser+0x99>
--movl   $0x0,-0x14(%ebp)
--movl   $0x0,-0x10(%ebp)
--movzwl -0x30(%ebp),%eax
--movzwl %ax,%edx
--lea    -0x32(%ebp),%eax
--mov    %edx,0x8(%esp)
-+mov    %eax,-0x18(%ebp)
-+lea    -0x3a(%ebp),%eax
-+movl   $0x26,0x8(%esp)
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager24SendVillageAttackedScoreEP5CUser+0xa6>
+ movl   $0x0,-0x14(%ebp)
+ movl   $0x0,-0x10(%ebp)
+ movzwl -0x30(%ebp),%eax
+ movzwl %ax,%edx
+ lea    -0x32(%ebp),%eax
+ mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -146,28 +124,29 @@ _ZN16village_attacked23CVillageAttackedManager24SendVillageAttackedScoreEP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 409 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 413 行）：
 
 ```cpp
 void CVillageAttackedManager::SendVillageAttackedScore(CUser* user)
 {
     Packet_VillageAttackedScore pkt;
-    pkt.m_idByChannel = user->GetIdByChannel();
-    pkt.m_uniqCharNo = user->GetUniqCharNo();
+    pkt.m_idByChannel = (unsigned int)user->GetIdByChannel();
+    pkt.m_uniqCharNo = (unsigned int)user->GetUniqCharNo();
     pkt.m_remainTime = (unsigned int)GetRemainTime();
     pkt.m_field16 = (unsigned int)m_field1c;
     pkt.m_field1a = (unsigned int)m_field20;
-    user->GetUniqCharNo();
     int* hp = GetHuntingPoint(user->GetUniqCharNo());
-    int cur = 0;
-    int max = 0;
+    user->GetUniqCharNo();
     if (hp != 0)
     {
-        cur = *hp;
-        max = *hp + hp[1];
+        pkt.m_cur = *hp;
+        pkt.m_max = *hp + hp[1];
     }
-    pkt.m_cur = cur;
-    pkt.m_max = max;
-    user->SendToGameserver((char*)&pkt, 0x26);
+    else
+    {
+        pkt.m_cur = 0;
+        pkt.m_max = 0;
+    }
+    user->SendToGameserver((char*)&pkt, pkt.packetSize);
 }
 ```

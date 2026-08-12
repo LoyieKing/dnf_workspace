@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809aa62` | `0x23a` | `0x8061d66` | `0x245` |
+| monitor | DIFF | `0x809aa62` | `0x23a` | `0x8061d82` | `0x245` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -329,7 +329,7 @@ CMemberManager::_ZN14CMemberManager15MemberMemLogoutEjP5CUserb
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 120 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 119 行）：
 
 ```cpp
 void CMemberManager::MemberMemLogout(unsigned int key, CUser* user, bool cash)

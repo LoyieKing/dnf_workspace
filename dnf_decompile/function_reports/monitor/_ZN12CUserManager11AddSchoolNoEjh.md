@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8071f08` | `0x41b` | `0x808c9b2` | `0x3b8` |
+| monitor | NEAR | `0x8071f08` | `0x41b` | `0x808c9e8` | `0x41b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,20 +13,17 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,259 +1,236 @@
+@@ -1,259 +1,259 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0xfc,%esp
-+sub    $0xdc,%esp
+ sub    $0xfc,%esp
  mov    0x10(%ebp),%eax
--mov    %al,-0xdc(%ebp)
-+mov    %al,-0xbc(%ebp)
+ mov    %al,-0xdc(%ebp)
  mov    0x8(%ebp),%edx
--lea    -0xb8(%ebp),%eax
-+lea    -0x9c(%ebp),%eax
+ lea    -0xb8(%ebp),%eax
  lea    0xc(%ebp),%ecx
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
@@ -34,273 +31,123 @@
  call   <T> <_ZNSt3mapIKjS_IhjSt4lessIhESaISt4pairIKhjEEES1_IS0_ESaIS3_IS0_S7_EEE4findERS0_>
  sub    $0x4,%esp
  mov    0x8(%ebp),%edx
--lea    -0xb4(%ebp),%eax
-+lea    -0x98(%ebp),%eax
+ lea    -0xb4(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIKjS_IhjSt4lessIhESaISt4pairIKhjEEES1_IS0_ESaIS3_IS0_S7_EEE3endEv>
  sub    $0x4,%esp
--lea    -0xb4(%ebp),%eax
--mov    %eax,0x4(%esp)
--lea    -0xb8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjSt3mapIhjSt4lessIhESaIS0_IKhjEEEEEeqERKSA_>
-+lea    -0x98(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x9c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjSt3mapIhjSt4lessIhESaIS0_IKhjEEEEEneERKSA_>
+ lea    -0xb4(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0xb8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjSt3mapIhjSt4lessIhESaIS0_IKhjEEEEEeqERKSA_>
  test   %al,%al
--je     <T> <_ZN12CUserManager11AddSchoolNoEjh+0x236>
+ je     <T> <_ZN12CUserManager11AddSchoolNoEjh+0x236>
 -lea    -0xd4(%ebp),%eax
-+je     <T> <_ZN12CUserManager11AddSchoolNoEjh+0x247>
-+lea    -0x9c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjSt3mapIhjSt4lessIhESaIS0_IKhjEEEEEptEv>
-+add    $0x4,%eax
-+mov    %eax,-0x1c(%ebp)
-+lea    -0xa0(%ebp),%eax
-+lea    -0xbc(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIhjSt4lessIhESaISt4pairIKhjEEE4findERS3_>
-+sub    $0x4,%esp
-+lea    -0x94(%ebp),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIhjSt4lessIhESaISt4pairIKhjEEE3endEv>
-+sub    $0x4,%esp
-+lea    -0x94(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0xa0(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKhjEEneERKS3_>
-+test   %al,%al
-+je     <T> <_ZN12CUserManager11AddSchoolNoEjh+0x175>
-+lea    -0xa0(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKhjEEptEv>
-+mov    0x4(%eax),%edx
-+add    $0x1,%edx
-+mov    %edx,0x4(%eax)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt3mapIKjS_IhjSt4lessIhESaISt4pairIKhjEEES1_IS0_ESaIS3_IS0_S7_EEE4sizeEv>
-+mov    %eax,%esi
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt3mapIhjSt4lessIhESaISt4pairIKhjEEE4sizeEv>
-+mov    %eax,%ebx
-+movzbl -0xbc(%ebp),%eax
-+movzbl %al,%eax
-+mov    %eax,-0xc8(%ebp)
-+mov    0xc(%ebp),%edi
-+movl   $0x3f9,0x8(%esp)
-+movl   $&_ZZN12CUserManager11AddSchoolNoEjhE12__FUNCTION__,0x4(%esp)
-+lea    -0x90(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    %esi,0x18(%esp)
-+mov    %ebx,0x14(%esp)
-+mov    -0xc8(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    %edi,0xc(%esp)
-+movl   $"3) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",0x8(%esp)
-+movl   $"./log/School",0x4(%esp)
-+lea    -0x90(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x3ad>
-+movl   $0x1,-0x70(%ebp)
-+lea    -0x70(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+lea    -0xbc(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIhjEC1IRhiEEOT_OT0_>
-+lea    -0x78(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x80(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIKhjEC1IhjEEOS_IT_T0_E>
-+lea    -0x88(%ebp),%eax
-+lea    -0x80(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIhjSt4lessIhESaISt4pairIKhjEEE6insertERKS4_>
-+sub    $0x4,%esp
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt3mapIKjS_IhjSt4lessIhESaISt4pairIKhjEEES1_IS0_ESaIS3_IS0_S7_EEE4sizeEv>
-+mov    %eax,%esi
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt3mapIhjSt4lessIhESaISt4pairIKhjEEE4sizeEv>
-+mov    %eax,%ebx
-+movzbl -0xbc(%ebp),%eax
-+movzbl %al,%eax
-+mov    %eax,-0xc4(%ebp)
-+mov    0xc(%ebp),%edi
-+movl   $0x3f3,0x8(%esp)
-+movl   $&_ZZN12CUserManager11AddSchoolNoEjhE12__FUNCTION__,0x4(%esp)
-+lea    -0x6c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    %esi,0x18(%esp)
-+mov    %ebx,0x14(%esp)
-+mov    -0xc4(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    %edi,0xc(%esp)
-+movl   $"2) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",0x8(%esp)
-+movl   $"./log/School",0x4(%esp)
-+lea    -0x6c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x3ad>
-+lea    -0xb8(%ebp),%eax
++lea    -0xd0(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIhjSt4lessIhESaISt4pairIKhjEEEC1Ev>
--movl   $0x1,-0x98(%ebp)
--lea    -0xa0(%ebp),%eax
--lea    -0x98(%ebp),%edx
-+movl   $0x1,-0x4c(%ebp)
-+lea    -0x4c(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+lea    -0xbc(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x54(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIhjEC1IRhiEEOT_OT0_>
-+lea    -0x54(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x5c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIKhjEC1IhjEEOS_IT_T0_E>
-+lea    -0x64(%ebp),%eax
-+lea    -0x5c(%ebp),%edx
+ movl   $0x1,-0x98(%ebp)
+ lea    -0xa0(%ebp),%eax
+ lea    -0x98(%ebp),%edx
  mov    %edx,0x8(%esp)
--lea    -0xdc(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZSt9make_pairIRhiESt4pairINSt17__decay_and_stripIT_E6__typeENS2_IT0_E6__typeEEOS3_OS6_>
--sub    $0x4,%esp
--lea    -0xa0(%ebp),%eax
--mov    %eax,0x4(%esp)
--lea    -0xa8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKhjEC1IhiEEOS_IT_T0_E>
--lea    -0xb0(%ebp),%eax
--lea    -0xa8(%ebp),%edx
--mov    %edx,0x8(%esp)
+ lea    -0xdc(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZSt9make_pairIRhiESt4pairINSt17__decay_and_stripIT_E6__typeENS2_IT0_E6__typeEEOS3_OS6_>
+ sub    $0x4,%esp
+ lea    -0xa0(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0xa8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIKhjEC1IhiEEOS_IT_T0_E>
+ lea    -0xb0(%ebp),%eax
+ lea    -0xa8(%ebp),%edx
+ mov    %edx,0x8(%esp)
 -lea    -0xd4(%ebp),%edx
-+lea    -0xb8(%ebp),%edx
++lea    -0xd0(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIhjSt4lessIhESaISt4pairIKhjEEE6insertERKS4_>
  sub    $0x4,%esp
--lea    -0x70(%ebp),%eax
+ lea    -0x70(%ebp),%eax
 -lea    -0xd4(%ebp),%edx
--mov    %edx,0x8(%esp)
--lea    0xc(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZSt9make_pairIRjRSt3mapIhjSt4lessIhESaISt4pairIKhjEEEES4_INSt17__decay_and_stripIT_E6__typeENSA_IT0_E6__typeEEOSB_OSE_>
--sub    $0x4,%esp
--lea    -0x70(%ebp),%eax
--mov    %eax,0x4(%esp)
--lea    -0x8c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKjSt3mapIhjSt4lessIhESaIS_IKhjEEEEC1IjS7_EEOS_IT_T0_E>
-+lea    -0xb8(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+lea    0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIKjSt3mapIhjSt4lessIhESaIS_IKhjEEEEC1IRjRS7_EEOT_OT0_>
++lea    -0xd0(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ lea    0xc(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZSt9make_pairIRjRSt3mapIhjSt4lessIhESaISt4pairIKhjEEEES4_INSt17__decay_and_stripIT_E6__typeENSA_IT0_E6__typeEEOSB_OSE_>
+ sub    $0x4,%esp
+ lea    -0x70(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x8c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIKjSt3mapIhjSt4lessIhESaIS_IKhjEEEEC1IjS7_EEOS_IT_T0_E>
  mov    0x8(%ebp),%edx
--lea    -0x94(%ebp),%eax
--lea    -0x8c(%ebp),%ecx
-+lea    -0x48(%ebp),%eax
-+lea    -0x40(%ebp),%ecx
+ lea    -0x94(%ebp),%eax
+ lea    -0x8c(%ebp),%ecx
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIKjS_IhjSt4lessIhESaISt4pairIKhjEEES1_IS0_ESaIS3_IS0_S7_EEE6insertERKS9_>
  sub    $0x4,%esp
--lea    -0x8c(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x8c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKjSt3mapIhjSt4lessIhESaIS_IKhjEEEED1Ev>
--jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x17c>
-+jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x303>
+ jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x17c>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x8c(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x8c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKjSt3mapIhjSt4lessIhESaIS_IKhjEEEED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x164>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x70(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIjSt3mapIhjSt4lessIhESaIS_IKhjEEEED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x205>
--lea    -0x70(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIjSt3mapIhjSt4lessIhESaIS_IKhjEEEED1Ev>
-+jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x381>
+ jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x164>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x70(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIjSt3mapIhjSt4lessIhESaIS_IKhjEEEED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x205>
+ lea    -0x70(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIjSt3mapIhjSt4lessIhESaIS_IKhjEEEED1Ev>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIKjS_IhjSt4lessIhESaISt4pairIKhjEEES1_IS0_ESaIS3_IS0_S7_EEE4sizeEv>
  mov    %eax,%esi
 -lea    -0xd4(%ebp),%eax
-+lea    -0xb8(%ebp),%eax
++lea    -0xd0(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIhjSt4lessIhESaISt4pairIKhjEEE4sizeEv>
  mov    %eax,%ebx
--movzbl -0xdc(%ebp),%eax
-+movzbl -0xbc(%ebp),%eax
+ movzbl -0xdc(%ebp),%eax
  movzbl %al,%eax
--mov    %eax,-0xe8(%ebp)
-+mov    %eax,-0xc0(%ebp)
+ mov    %eax,-0xe8(%ebp)
  mov    0xc(%ebp),%edi
--movl   $0x3e9,0x8(%esp)
-+movl   $0x3ed,0x8(%esp)
+ movl   $0x3e9,0x8(%esp)
  movl   $&_ZZN12CUserManager11AddSchoolNoEjhE12__FUNCTION__,0x4(%esp)
--lea    -0x54(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %esi,0x18(%esp)
  mov    %ebx,0x14(%esp)
--mov    -0xe8(%ebp),%eax
-+mov    -0xc0(%ebp),%eax
+ mov    -0xe8(%ebp),%eax
  mov    %eax,0x10(%esp)
  mov    %edi,0xc(%esp)
  movl   $"1) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",0x8(%esp)
  movl   $"./log/School",0x4(%esp)
--lea    -0x54(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x223>
-+jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x39f>
+ jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x223>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0xd4(%ebp),%eax
-+lea    -0xb8(%ebp),%eax
++lea    -0xd0(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIhjSt4lessIhESaISt4pairIKhjEEED1Ev>
  mov    %esi,%eax
@@ -308,123 +155,127 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0xd4(%ebp),%eax
-+lea    -0xb8(%ebp),%eax
++lea    -0xd0(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIhjSt4lessIhESaISt4pairIKhjEEED1Ev>
--jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x410>
--lea    -0xb8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjSt3mapIhjSt4lessIhESaIS0_IKhjEEEEEptEv>
--add    $0x4,%eax
--mov    %eax,-0x1c(%ebp)
+ jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x410>
+ lea    -0xb8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjSt3mapIhjSt4lessIhESaIS0_IKhjEEEEEptEv>
+ add    $0x4,%eax
+ mov    %eax,-0x1c(%ebp)
 -lea    -0xbc(%ebp),%eax
--lea    -0xdc(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    -0x1c(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZNSt3mapIhjSt4lessIhESaISt4pairIKhjEEE4findERS3_>
--sub    $0x4,%esp
--lea    -0x4c(%ebp),%eax
--mov    -0x1c(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZNSt3mapIhjSt4lessIhESaISt4pairIKhjEEE3endEv>
--sub    $0x4,%esp
--lea    -0x4c(%ebp),%eax
--mov    %eax,0x4(%esp)
++lea    -0xd4(%ebp),%eax
+ lea    -0xdc(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ mov    -0x1c(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapIhjSt4lessIhESaISt4pairIKhjEEE4findERS3_>
+ sub    $0x4,%esp
+ lea    -0x4c(%ebp),%eax
+ mov    -0x1c(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapIhjSt4lessIhESaISt4pairIKhjEEE3endEv>
+ sub    $0x4,%esp
+ lea    -0x4c(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -lea    -0xbc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKhjEEeqERKS3_>
--test   %al,%al
--je     <T> <_ZN12CUserManager11AddSchoolNoEjh+0x370>
--movl   $0x1,-0x30(%ebp)
--lea    -0x38(%ebp),%eax
--lea    -0x30(%ebp),%edx
--mov    %edx,0x8(%esp)
--lea    -0xdc(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZSt9make_pairIRhiESt4pairINSt17__decay_and_stripIT_E6__typeENS2_IT0_E6__typeEEOS3_OS6_>
--sub    $0x4,%esp
--lea    -0x38(%ebp),%eax
--mov    %eax,0x4(%esp)
--lea    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKhjEC1IhiEEOS_IT_T0_E>
--lea    -0x48(%ebp),%eax
--lea    -0x40(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    -0x1c(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZNSt3mapIhjSt4lessIhESaISt4pairIKhjEEE6insertERKS4_>
--sub    $0x4,%esp
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt3mapIKjS_IhjSt4lessIhESaISt4pairIKhjEEES1_IS0_ESaIS3_IS0_S7_EEE4sizeEv>
--mov    %eax,%esi
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt3mapIhjSt4lessIhESaISt4pairIKhjEEE4sizeEv>
--mov    %eax,%ebx
--movzbl -0xdc(%ebp),%eax
--movzbl %al,%eax
--mov    %eax,-0xe4(%ebp)
--mov    0xc(%ebp),%edi
--movl   $0x3f3,0x8(%esp)
--movl   $&_ZZN12CUserManager11AddSchoolNoEjhE12__FUNCTION__,0x4(%esp)
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x18(%esp)
--mov    %ebx,0x14(%esp)
--mov    -0xe4(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    %edi,0xc(%esp)
--movl   $"2) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",0x8(%esp)
--movl   $"./log/School",0x4(%esp)
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x410>
++lea    -0xd4(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKhjEEeqERKS3_>
+ test   %al,%al
+ je     <T> <_ZN12CUserManager11AddSchoolNoEjh+0x370>
+ movl   $0x1,-0x30(%ebp)
+ lea    -0x38(%ebp),%eax
+ lea    -0x30(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ lea    -0xdc(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZSt9make_pairIRhiESt4pairINSt17__decay_and_stripIT_E6__typeENS2_IT0_E6__typeEEOS3_OS6_>
+ sub    $0x4,%esp
+ lea    -0x38(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIKhjEC1IhiEEOS_IT_T0_E>
+ lea    -0x48(%ebp),%eax
+ lea    -0x40(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ mov    -0x1c(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapIhjSt4lessIhESaISt4pairIKhjEEE6insertERKS4_>
+ sub    $0x4,%esp
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIKjS_IhjSt4lessIhESaISt4pairIKhjEEES1_IS0_ESaIS3_IS0_S7_EEE4sizeEv>
+ mov    %eax,%esi
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIhjSt4lessIhESaISt4pairIKhjEEE4sizeEv>
+ mov    %eax,%ebx
+ movzbl -0xdc(%ebp),%eax
+ movzbl %al,%eax
+ mov    %eax,-0xe4(%ebp)
+ mov    0xc(%ebp),%edi
+ movl   $0x3f3,0x8(%esp)
+ movl   $&_ZZN12CUserManager11AddSchoolNoEjhE12__FUNCTION__,0x4(%esp)
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %esi,0x18(%esp)
+ mov    %ebx,0x14(%esp)
+ mov    -0xe4(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    %edi,0xc(%esp)
+ movl   $"2) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",0x8(%esp)
+ movl   $"./log/School",0x4(%esp)
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ jmp    <T> <_ZN12CUserManager11AddSchoolNoEjh+0x410>
 -lea    -0xbc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKhjEEptEv>
--mov    %eax,%ebx
++lea    -0xd4(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKhjEEptEv>
+ mov    %eax,%ebx
 -lea    -0xbc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKhjEEptEv>
--mov    0x4(%eax),%eax
--add    $0x1,%eax
--mov    %eax,0x4(%ebx)
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt3mapIKjS_IhjSt4lessIhESaISt4pairIKhjEEES1_IS0_ESaIS3_IS0_S7_EEE4sizeEv>
--mov    %eax,%esi
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt3mapIhjSt4lessIhESaISt4pairIKhjEEE4sizeEv>
--mov    %eax,%ebx
--movzbl -0xdc(%ebp),%eax
--movzbl %al,%eax
--mov    %eax,-0xe0(%ebp)
--mov    0xc(%ebp),%edi
--movl   $0x3f9,0x8(%esp)
--movl   $&_ZZN12CUserManager11AddSchoolNoEjhE12__FUNCTION__,0x4(%esp)
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x18(%esp)
--mov    %ebx,0x14(%esp)
--mov    -0xe0(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    %edi,0xc(%esp)
--movl   $"3) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",0x8(%esp)
--movl   $"./log/School",0x4(%esp)
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++lea    -0xd4(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKhjEEptEv>
+ mov    0x4(%eax),%eax
+ add    $0x1,%eax
+ mov    %eax,0x4(%ebx)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIKjS_IhjSt4lessIhESaISt4pairIKhjEEES1_IS0_ESaIS3_IS0_S7_EEE4sizeEv>
+ mov    %eax,%esi
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIhjSt4lessIhESaISt4pairIKhjEEE4sizeEv>
+ mov    %eax,%ebx
+ movzbl -0xdc(%ebp),%eax
+ movzbl %al,%eax
+ mov    %eax,-0xe0(%ebp)
+ mov    0xc(%ebp),%edi
+ movl   $0x3f9,0x8(%esp)
+ movl   $&_ZZN12CUserManager11AddSchoolNoEjhE12__FUNCTION__,0x4(%esp)
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %esi,0x18(%esp)
+ mov    %ebx,0x14(%esp)
+ mov    -0xe0(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    %edi,0xc(%esp)
+ movl   $"3) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",0x8(%esp)
+ movl   $"./log/School",0x4(%esp)
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  lea    -0xc(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -611,35 +462,33 @@ void CUserManager::AddSchoolNo(unsigned int schoolNo, unsigned char channel)
 {
     std::map<const unsigned int, std::map<unsigned char, unsigned int> >::iterator it =
         m_mapSchools.find(schoolNo);
-    if (it != m_mapSchools.end())
+    if (it == m_mapSchools.end())
+    {
+        std::map<unsigned char, unsigned int> newInner;
+        newInner.insert(std::make_pair(channel, 1));
+        m_mapSchools.insert(std::make_pair(schoolNo, newInner));
+        DNF_LOG_SCOPE_LINE(0x3e9, "./log/School",
+            "1) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",
+            schoolNo, channel, newInner.size(), m_mapSchools.size());
+    }
+    else
     {
         std::map<unsigned char, unsigned int>* inner = &it->second;
         std::map<unsigned char, unsigned int>::iterator c = inner->find(channel);
-        if (c != inner->end())
+        if (c == inner->end())
         {
-            c->second++;
-            DNF_LOG_SCOPE_LINE(0x3f9,"./log/School",
-                "3) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",
-                schoolNo, channel, inner->size(), m_mapSchools.size());
-        }
-        else
-        {
-            inner->insert(std::pair<unsigned char, unsigned int>(channel, 1));
+            inner->insert(std::make_pair(channel, 1));
             DNF_LOG_SCOPE_LINE(0x3f3, "./log/School",
                 "2) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",
                 schoolNo, channel, inner->size(), m_mapSchools.size());
         }
-    }
-    else
-    {
-        std::map<unsigned char, unsigned int> newInner;
-        newInner.insert(std::pair<unsigned char, unsigned int>(channel, 1));
-        m_mapSchools.insert(
-            std::pair<const unsigned int, std::map<unsigned char, unsigned int> >(schoolNo,
-                                                                                 newInner));
-        DNF_LOG_SCOPE_LINE(0x3ed, "./log/School",
-            "1) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",
-            schoolNo, channel, newInner.size(), m_mapSchools.size());
+        else
+        {
+            c->second = c->second + 1;
+            DNF_LOG_SCOPE_LINE(0x3f9,"./log/School",
+                "3) AddSchoolNo(%d, %d), mapSchoolChannel.size(%u), m_mapSchools.size(%u)",
+                schoolNo, channel, inner->size(), m_mapSchools.size());
+        }
     }
 }
 ```

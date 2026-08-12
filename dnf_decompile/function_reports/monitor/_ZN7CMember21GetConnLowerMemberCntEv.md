@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809916a` | `0x82` | `0x8060cb0` | `0x84` |
+| monitor | DIFF | `0x809916a` | `0x82` | `0x8060cc8` | `0x87` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,42 +1,43 @@
+@@ -1,42 +1,45 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x28,%esp
@@ -28,11 +28,11 @@
 +jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x21>
  mov    $0x0,%eax
 -jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x80>
-+jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x7e>
++jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x81>
  movl   $0x0,-0x10(%ebp)
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x70>
-+jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x6e>
++jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x71>
  mov    -0xc(%ebp),%eax
  mov    0x8(%ebp),%edx
  imul   $0x27,%eax,%eax
@@ -49,12 +49,13 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x6b>
-+setne  %bl
++sete   %bl
 +test   %bl,%bl
-+je     <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x6a>
++jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x6c>
  addl   $0x1,-0x10(%ebp)
 -jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x6c>
--nop
++jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x6d>
+ nop
  addl   $0x1,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
  cmp    -0x14(%ebp),%eax
@@ -114,16 +115,15 @@ int CMember::GetConnLowerMemberCnt()
         return 0;
     }
     int cnt = 0;
-    int i = 0;
-    while (i < count)
+    for (int i = 0; i < count; i++)
     {
         user = m_memberManager->FindMemberUser(m_dbInfo.m_lowers[i].m_field0);
-        register bool b = user != 0;
+        register bool b = (user == 0);
         if (b)
         {
-            cnt++;
+            continue;
         }
-        i++;
+        cnt++;
     }
     return cnt;
 }

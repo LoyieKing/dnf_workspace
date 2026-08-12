@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a8aa2` | `0x6e` | `0x80a7a70` | `0x77` |
+| monitor | DIFF | `0x80a8aa2` | `0x6e` | `0x80a7d9c` | `0x89` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,43 +13,39 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,35 +1,38 @@
+@@ -1,35 +1,44 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
--sub    $0x34,%esp
-+sub    $0x24,%esp
+ sub    $0x34,%esp
  mov    0x8(%ebp),%eax
  movb   $0x1,0x24(%eax)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked23CVillageAttackedManager21ClearDungeonCloseTimeEv>
--lea    -0x1e(%ebp),%eax
-+lea    -0x12(%ebp),%eax
+ lea    -0x1e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN27Packet_VillageAttackedStartC1Ev>
-+lea    -0x12(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked23CVillageAttackedManager13GetRemainTimeEv>
--mov    %eax,-0x14(%ebp)
--mov    0x8(%ebp),%eax
--mov    0x1c(%eax),%eax
--mov    %eax,-0x10(%ebp)
--mov    0x8(%ebp),%eax
--mov    0x20(%eax),%eax
--mov    %eax,-0xc(%ebp)
--lea    -0x1e(%ebp),%ebx
-+mov    %eax,0xa(%ebx)
-+lea    -0x12(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+mov    0x1c(%edx),%edx
+ mov    %eax,-0x14(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0x1c(%eax),%eax
+ mov    %eax,-0x10(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0x20(%eax),%eax
+ mov    %eax,-0xc(%ebp)
++lea    -0x1e(%ebp),%eax
++mov    -0x14(%ebp),%edx
++mov    %edx,0xa(%eax)
++lea    -0x1e(%ebp),%eax
++mov    -0x10(%ebp),%edx
 +mov    %edx,0xe(%eax)
-+lea    -0x12(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+mov    0x20(%edx),%edx
++lea    -0x1e(%ebp),%eax
++mov    -0xc(%ebp),%edx
 +mov    %edx,0x12(%eax)
-+lea    -0x12(%ebp),%ebx
+ lea    -0x1e(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -58,8 +54,7 @@
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
--add    $0x34,%esp
-+add    $0x24,%esp
+ add    $0x34,%esp
  pop    %ebx
  pop    %ebp
  ret
@@ -96,7 +91,7 @@ _ZN16village_attacked23CVillageAttackedManager22OnStartVillageAttackedEv
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 269 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 270 行）：
 
 ```cpp
 void CVillageAttackedManager::OnStartVillageAttacked()
@@ -104,9 +99,12 @@ void CVillageAttackedManager::OnStartVillageAttacked()
     m_state24 = 1;
     ClearDungeonCloseTime();
     Packet_VillageAttackedStart pkt;
-    ((RA_UINT<10>*)&pkt)->v = (unsigned int)GetRemainTime();
-    ((RA_UINT<14>*)&pkt)->v = (unsigned int)m_field1c;
-    ((RA_UINT<18>*)&pkt)->v = (unsigned int)m_field20;
+    unsigned int remain = (unsigned int)GetRemainTime();
+    unsigned int f1c = (unsigned int)m_field1c;
+    unsigned int f20 = (unsigned int)m_field20;
+    ((RA_UINT<10>*)&pkt)->v = remain;
+    ((RA_UINT<14>*)&pkt)->v = f1c;
+    ((RA_UINT<18>*)&pkt)->v = f20;
     m_app->Get_ServerHandler()->SendAllToGameServer((char*)&pkt, 0x16);
 }
 ```
