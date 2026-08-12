@@ -35,8 +35,7 @@
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x9b>
--movl   $"tcpSock.open() Fail!",(%esp)
-+movl   $"Tcp Open Socket Err",(%esp)
+ movl   $"tcpSock.open() Fail!",(%esp)
  call   <T> <puts>
  movl   $0x118,0x8(%esp)
  movl   $&_ZZN13CTcpNetSystem14OpenTcpServiceERiPKctE12__FUNCTION__,0x4(%esp)
@@ -44,11 +43,9 @@
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"tcpSock.open() Fail!",0x8(%esp)
--movl   $"./log/TcpServer",0x4(%esp)
+ movl   $"tcpSock.open() Fail!",0x8(%esp)
+ movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+movl   $"Tcp Open Socket Err",0x8(%esp)
-+movl   $"./log/TcpConnect",0x4(%esp)
 +lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -69,8 +66,7 @@
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN13CTcpNetSystem14OpenTcpServiceERiPKct+0x129>
--movl   $"tcpSock.connect Fail!",(%esp)
-+movl   $"Tcp Connect Err",(%esp)
+ movl   $"tcpSock.connect Fail!",(%esp)
  call   <T> <puts>
 -movzwl -0x2c(%ebp),%ebx
  movl   $0x123,0x8(%esp)
@@ -84,11 +80,9 @@
 +mov    %eax,0x10(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"tcpSock.connect(%s, %d) Fail!",0x8(%esp)
--movl   $"./log/TcpServer",0x4(%esp)
+ movl   $"tcpSock.connect(%s, %d) Fail!",0x8(%esp)
+ movl   $"./log/TcpServer",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+movl   $"Tcp Connect Err(ip:%s, port:%d)",0x8(%esp)
-+movl   $"./log/TcpConnect",0x4(%esp)
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -216,17 +210,17 @@ int CTcpNetSystem::OpenTcpService(int& serverCount, const char* ip, unsigned sho
     TCPSocket* sock = peer->GetTcpSocket();
     if (!sock->open())
     {
-        puts("Tcp Open Socket Err");
+        puts("tcpSock.open() Fail!");
         CMyFileLog log(__FUNCTION__, 0x118);
-        log("./log/TcpConnect", "Tcp Open Socket Err");
+        log("./log/TcpServer", "tcpSock.open() Fail!");
         DeletePeer(peer);
         return 0;
     }
     if (!sock->connect(ip, port))
     {
-        puts("Tcp Connect Err");
+        puts("tcpSock.connect Fail!");
         CMyFileLog log(__FUNCTION__, 0x123);
-        log("./log/TcpConnect", "Tcp Connect Err(ip:%s, port:%d)", ip, port);
+        log("./log/TcpServer", "tcpSock.connect(%s, %d) Fail!", ip, port);
         DeletePeer(peer);
         return 0;
     }

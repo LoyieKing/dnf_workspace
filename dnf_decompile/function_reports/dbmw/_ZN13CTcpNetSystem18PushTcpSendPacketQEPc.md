@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805bf6a` | `0xe9` | `0x80f5a22` | `0xf5` |
+| dbmw | DIFF | `0x805bf6a` | `0xe9` | `0x80f5a48` | `0xef` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,69 +1,71 @@
+@@ -1,69 +1,69 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -45,38 +45,36 @@
 -mov    %eax,-0x1c(%ebp)
 -cmpl   $0xa,-0x1c(%ebp)
 -jle    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xd6>
--mov    0xc(%ebp),%eax
--mov    0x6(%eax),%edi
--mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
--movzwl %ax,%esi
--mov    0xc(%ebp),%eax
--movzwl (%eax),%eax
--movzwl %ax,%ebx
 +mov    %eax,-0xc(%ebp)
 +cmpl   $0xa,-0xc(%ebp)
-+jle    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xe3>
- movl   $0x91,0x8(%esp)
- movl   $&_ZZN13CTcpNetSystem18PushTcpSendPacketQEPcE12__FUNCTION__,0x4(%esp)
--lea    -0x24(%ebp),%eax
++jle    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xdd>
++movl   $0x91,0x8(%esp)
++movl   $&_ZZN13CTcpNetSystem18PushTcpSendPacketQEPcE12__FUNCTION__,0x4(%esp)
 +lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0xc(%ebp),%eax
+-mov    0x6(%eax),%edi
++add    $0x6,%eax
++mov    (%eax),%ecx
+ mov    0xc(%ebp),%eax
+-movzwl 0x2(%eax),%eax
+-movzwl %ax,%esi
++add    $0x2,%eax
++movzwl (%eax),%eax
++movzwl %ax,%edx
+ mov    0xc(%ebp),%eax
+ movzwl (%eax),%eax
+-movzwl %ax,%ebx
+-movl   $0x91,0x8(%esp)
+-movl   $&_ZZN13CTcpNetSystem18PushTcpSendPacketQEPcE12__FUNCTION__,0x4(%esp)
+-lea    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %edi,0x18(%esp)
 -mov    %esi,0x14(%esp)
 -mov    %ebx,0x10(%esp)
 -mov    -0x1c(%ebp),%eax
-+mov    0xc(%ebp),%eax
-+add    $0x6,%eax
-+movzbl (%eax),%eax
-+movsbl %al,%ecx
-+mov    0xc(%ebp),%eax
-+add    $0x2,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%edx
-+mov    0xc(%ebp),%eax
-+movzbl (%eax),%eax
-+cbtw
 +movzwl %ax,%eax
 +mov    %ecx,0x18(%esp)
 +mov    %edx,0x14(%esp)
@@ -90,7 +88,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xd6>
-+jmp    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xe3>
++jmp    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xdd>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x2c(%ebp),%eax
@@ -156,7 +154,7 @@ CTcpNetSystem::_ZN13CTcpNetSystem18PushTcpSendPacketQEPc(CTcpNetSystem *this,cha
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 243 行）：
+定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 252 行）：
 
 ```cpp
 void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
@@ -168,8 +166,8 @@ void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
     {
         CMyFileLog log(__FUNCTION__, 0x91);
         log("./log/TcpSend", "SEND PUSH(cnt:%d,id:%d,size:%d,ip:%d)", n,
-            (unsigned short)buf[0], (unsigned short)((unsigned short*)buf)[1],
-            ((char*)buf)[6]);
+            *(unsigned short*)buf, ((unsigned short*)buf)[1],
+            *(unsigned int*)((char*)buf + 6));
     }
 }
 ```

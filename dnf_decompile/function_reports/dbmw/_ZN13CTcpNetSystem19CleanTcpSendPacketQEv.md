@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805c916` | `0x11c` | `0x80f5b18` | `0x106` |
+| dbmw | DIFF | `0x805c916` | `0x11c` | `0x80f5b38` | `0x11b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,28 +13,30 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,83 +1,78 @@
+@@ -1,83 +1,83 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x30,%esp
++jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0xb>
++nop
  mov    0x8(%ebp),%eax
  add    $0xe8,%eax
  mov    %eax,0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x10(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
--mov    0x8(%ebp),%eax
--add    $0xc0,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE5emptyEv>
--test   %al,%al
+ mov    0x8(%ebp),%eax
+ add    $0xc0,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE5emptyEv>
+ test   %al,%al
 -je     <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0x3a>
--mov    $0x0,%ebx
++je     <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0x40>
+ mov    $0x0,%ebx
 -jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0x81>
-+jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0x8a>
++jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0xcb>
  mov    0x8(%ebp),%eax
  add    $0xc0,%eax
  mov    %eax,(%esp)
@@ -45,79 +47,78 @@
  add    $0xc0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE3popEv>
--mov    $0x1,%ebx
++mov    0x8(%ebp),%eax
++add    $0x100,%eax
++mov    %eax,0x4(%esp)
++lea    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN14CTcpSendBufferdlEPv>
++jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0x9e>
++mov    %edx,%ebx
++mov    %eax,%esi
++lea    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++mov    %esi,%eax
++mov    %ebx,%edx
++jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0xb0>
++lea    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
+ mov    $0x1,%ebx
 -jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0x81>
++jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0xcb>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuardI6CMutexED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
+ lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuardI6CMutexED1Ev>
+ test   %ebx,%ebx
+-je     <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0xdf>
+-mov    0x8(%ebp),%eax
+-add    $0x100,%eax
+-mov    %eax,0x4(%esp)
+-lea    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
+-mov    -0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN14CTcpSendBufferdlEPv>
+-jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0xcf>
 -mov    %edx,%ebx
 -mov    %eax,%esi
--lea    -0x18(%ebp),%eax
+-lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CGuardI6CMutexED1Ev>
 -mov    %esi,%eax
 -mov    %ebx,%edx
 -mov    %eax,(%esp)
 -call   <T> <_Unwind_Resume>
--lea    -0x18(%ebp),%eax
+-lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CGuardI6CMutexED1Ev>
--test   %ebx,%ebx
--je     <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0xdf>
- mov    0x8(%ebp),%eax
- add    $0x100,%eax
- mov    %eax,0x4(%esp)
- lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
- mov    -0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN14CTcpSendBufferdlEPv>
--jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0xcf>
-+jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0x7f>
- mov    %edx,%ebx
- mov    %eax,%esi
- lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuardI6CMutexED1Ev>
- mov    %esi,%eax
- mov    %ebx,%edx
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
-+jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0xd9>
- lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuardI6CMutexED1Ev>
 -jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0x8>
-+mov    0x8(%ebp),%eax
-+add    $0xc0,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE5emptyEv>
-+xor    $0x1,%eax
-+test   %al,%al
-+jne    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0x21>
++jne    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0xa>
  movl   $0x16b,0x8(%esp)
  movl   $&_ZZN13CTcpNetSystem19CleanTcpSendPacketQEvE12__FUNCTION__,0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"Clean Tcp Send Queue Complete !",0x8(%esp)
  movl   $"./log/TcpSend",0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0xf4>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexED1Ev>
  add    $0x30,%esp
  pop    %ebx
  pop    %esi
@@ -173,14 +174,16 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystem19CleanTcpSendPacketQEv(CTcpNet
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 256 行）：
+定义于 [source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp](source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp)（约第 265 行）：
 
 ```cpp
 void CTcpNetSystem::CleanTcpSendPacketQ()
 {
-    CGuard<CMutex> guard(&m_mutexE8);
-    while (!m_sendQueue.empty())
+    while (true)
     {
+        CGuard<CMutex> guard(&m_mutexE8);
+        if (m_sendQueue.empty())
+            break;
         CTcpSendBuffer* p = m_sendQueue.front();
         m_sendQueue.pop();
         {

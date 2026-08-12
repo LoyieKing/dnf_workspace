@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a3562` | `0x39` | `0x8086f12` | `0x37` |
+| monitor | DIFF | `0x80a3562` | `0x39` | `0x8086f0e` | `0x37` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -60,7 +60,7 @@ void __thiscall CTowerRank::_ZN10CTowerRank5resetEv(CTowerRank *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFTowerRank.cpp](source/DNFServer/GameServer/Monitor/DNFTowerRank.cpp)（约第 102 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTowerRank.cpp](source/DNFServer/GameServer/Monitor/DNFTowerRank.cpp)（约第 104 行）：
 
 ```cpp
 void CTowerRank::reset()

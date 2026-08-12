@@ -216,12 +216,8 @@ void CCubeStatistic::addStatisticData(Packet_Cube_Statistic* pkt)
     int value = ((const CubePkt*)pkt)->m_d;
     std::map<STCubeStatisticKey, int>::iterator it = m_data.find(key);
     if (it != m_data.end())
-    {
         it->second += value;
-    }
     else
-    {
         m_data.insert(std::make_pair(key, value));
-    }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805bd5c` | `0x19c` | `0x80f54b2` | `0x171` |
+| dbmw | DIFF | `0x805bd5c` | `0x19c` | `0x80f54b8` | `0x192` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,117 +1,107 @@
+@@ -1,117 +1,116 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,35 +22,33 @@
  mov    0x8(%ebp),%eax
  add    $0x60,%eax
  mov    %eax,0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
--mov    0x8(%ebp),%eax
--add    $0x11c,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt5queueIP5CPeerSt5dequeIS1_SaIS1_EEE5emptyEv>
--test   %al,%al
+ mov    0x8(%ebp),%eax
+ add    $0x11c,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt5queueIP5CPeerSt5dequeIS1_SaIS1_EEE5emptyEv>
+ test   %al,%al
 -jne    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x187>
--movl   $0x0,-0x30(%ebp)
++jne    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x161>
+ movl   $0x0,-0x30(%ebp)
 -jmp    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x14f>
-+jmp    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x124>
++jmp    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x144>
++nop
  mov    0x8(%ebp),%eax
  add    $0x11c,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt5queueIP5CPeerSt5dequeIS1_SaIS1_EEE5frontEv>
  mov    (%eax),%eax
--mov    %eax,-0x30(%ebp)
+ mov    %eax,-0x30(%ebp)
 -movl   $0x0,-0xc(%ebp)
--mov    -0x30(%ebp),%eax
-+mov    %eax,-0x2c(%ebp)
-+mov    -0x2c(%ebp),%eax
+ mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer12GetTcpSocketEv>
  mov    %eax,(%esp)
  call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    -0x30(%ebp),%ecx
-+mov    -0x2c(%ebp),%ecx
+ mov    -0x30(%ebp),%ecx
  mov    0x8(%ebp),%edx
  mov    (%edx),%edx
  movl   $0x0,0xc(%esp)
@@ -63,13 +61,12 @@
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0xd9>
-+je     <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0xae>
++je     <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0xce>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <strerror>
  mov    %eax,%ebx
--mov    -0x30(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer12GetTcpSocketEv>
  mov    %eax,(%esp)
@@ -80,39 +77,29 @@
  mov    %eax,0x4(%esp)
  movl   $"G_EpollHandler()->SetPeer(peer->get_socket(%d)) %d(%s)",(%esp)
  call   <T> <printf>
--mov    -0x30(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer12GetTcpSocketEv>
  mov    %eax,(%esp)
  call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    %eax,-0x10(%ebp)
--lea    -0x18(%ebp),%eax
-+mov    %eax,-0x30(%ebp)
-+lea    -0x14(%ebp),%eax
-+lea    -0x2c(%ebp),%edx
-+mov    %edx,0x8(%esp)
+ mov    %eax,-0x10(%ebp)
+ lea    -0x18(%ebp),%eax
  lea    -0x30(%ebp),%edx
--mov    %edx,0x8(%esp)
--lea    -0x10(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ lea    -0x10(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZSt9make_pairIiRP5CPeerESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
-+call   <T> <_ZSt9make_pairIRiRP5CPeerESt4pairINSt17__decay_and_stripIT_E6__typeENS5_IT0_E6__typeEEOS6_OS9_>
+ call   <T> <_ZSt9make_pairIiRP5CPeerESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
  sub    $0x4,%esp
--lea    -0x18(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKjP5CPeerEC1IiS2_EEOS_IT_T0_E>
  mov    0x8(%ebp),%eax
  lea    0x144(%eax),%ecx
--lea    -0x28(%ebp),%eax
--lea    -0x20(%ebp),%edx
-+lea    -0x24(%ebp),%eax
-+lea    -0x1c(%ebp),%edx
+ lea    -0x28(%ebp),%eax
+ lea    -0x20(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -128,14 +115,22 @@
  call   <T> <_ZNKSt5queueIP5CPeerSt5dequeIS1_SaIS1_EEE5emptyEv>
  xor    $0x1,%eax
  test   %al,%al
--jne    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x41>
+ jne    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x41>
 -jmp    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x187>
-+jne    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x22>
-+jmp    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x15c>
++jmp    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x162>
++nop
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++lea    -0x8(%ebp),%esp
++add    $0x0,%esp
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  mov    %esi,%eax
@@ -143,15 +138,14 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuardI6CMutexED1Ev>
- lea    -0x8(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuardI6CMutexED1Ev>
+-lea    -0x8(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -221,18 +215,27 @@ void __thiscall CTcpNetSystem::_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv(CTcpN
 void CTcpNetSystem::SetEpollAcceptedPeers()
 {
     CGuard<CMutex> guard(&m_mutex60);
-    while (!m_peerQueue.empty())
+    if (m_peerQueue.empty())
+        goto done;
     {
-        CPeer* peer = m_peerQueue.front();
-        int ret = m_tcpHandler->SetPeer(peer, peer->GetTcpSocket()->getHandle(), false);
+        CPeer* peer = 0;
+        int ret;
+        goto check;
+    body:
+        peer = m_peerQueue.front();
+        ret = m_tcpHandler->SetPeer(peer, peer->GetTcpSocket()->getHandle(), false);
         if (ret != 0)
         {
             printf("G_EpollHandler()->SetPeer(peer->get_socket(%d)) %d(%s)",
                    peer->GetTcpSocket()->getHandle(), ret, strerror(ret));
         }
-        int fd = peer->GetTcpSocket()->getHandle();
-        m_peerMap.insert(std::make_pair(fd, peer));
+        m_peerMap.insert(std::make_pair(peer->GetTcpSocket()->getHandle(), peer));
         m_peerQueue.pop();
+    check:
+        if (!m_peerQueue.empty())
+            goto body;
     }
+done:
+    ;
 }
 ```

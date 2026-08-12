@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805c702` | `0x136` | `0x80f5382` | `0x130` |
+| dbmw | DIFF | `0x805c702` | `0x136` | `0x80f5386` | `0x131` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,91 +1,90 @@
+@@ -1,91 +1,89 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,38 +22,29 @@
  mov    0x8(%ebp),%eax
  add    $0x78,%eax
  mov    %eax,0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
--movl   $0x0,-0xc(%ebp)
+ movl   $0x0,-0xc(%ebp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer12GetTcpSocketEv>
  mov    %eax,(%esp)
  call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    0xc(%ebp),%ecx
--mov    0x8(%ebp),%edx
--mov    (%edx),%edx
-+mov    %eax,-0x10(%ebp)
-+mov    0xc(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
+ mov    0xc(%ebp),%ecx
+ mov    0x8(%ebp),%edx
+ mov    (%edx),%edx
  movl   $0x0,0xc(%esp)
--mov    %eax,0x8(%esp)
--mov    %ecx,0x4(%esp)
--mov    %edx,(%esp)
-+mov    -0x10(%ebp),%ecx
-+mov    %ecx,0x8(%esp)
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
+ mov    %eax,0x8(%esp)
+ mov    %ecx,0x4(%esp)
+ mov    %edx,(%esp)
  call   <T> <_ZN11CTcpHandler7SetPeerEPvib>
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
 -setne  %al
 -test   %al,%al
 -je     <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer+0xa0>
-+je     <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer+0x9a>
++je     <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer+0x9b>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <strerror>
@@ -74,38 +65,30 @@
  call   <T> <_ZN5CPeer12GetTcpSocketEv>
  mov    %eax,(%esp)
  call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    %eax,-0x10(%ebp)
--lea    -0x18(%ebp),%eax
-+mov    %eax,-0x14(%ebp)
-+lea    -0x1c(%ebp),%eax
+ mov    %eax,-0x10(%ebp)
+ lea    -0x18(%ebp),%eax
  lea    0xc(%ebp),%edx
  mov    %edx,0x8(%esp)
--lea    -0x10(%ebp),%edx
-+lea    -0x14(%ebp),%edx
+ lea    -0x10(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZSt9make_pairIiRP5CPeerESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
  sub    $0x4,%esp
--lea    -0x18(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x20(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKjP5CPeerEC1IiS2_EEOS_IT_T0_E>
  mov    0x8(%ebp),%eax
  lea    0x144(%eax),%ecx
--lea    -0x28(%ebp),%eax
--lea    -0x20(%ebp),%edx
-+lea    -0x2c(%ebp),%eax
-+lea    -0x24(%ebp),%edx
+ lea    -0x28(%ebp),%eax
+ lea    -0x20(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP5CPeerSt4lessIjESaISt4pairIKjS1_EEE6insertERKS6_>
  sub    $0x4,%esp
--lea    -0x2c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  lea    -0x8(%ebp),%esp
@@ -116,8 +99,7 @@
  ret
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x2c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  mov    %esi,%eax
@@ -178,8 +160,8 @@ CTcpNetSystem::_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer(CTcpNetSystem *
 void CTcpNetSystem::SetEpollConnectedPeer(CPeer* peer)
 {
     CGuard<CMutex> guard(&m_mutex78);
-    int fd = peer->GetTcpSocket()->getHandle();
-    int ret = m_tcpHandler->SetPeer(peer, fd, 0);
+    int ret = 0;
+    ret = m_tcpHandler->SetPeer(peer, peer->GetTcpSocket()->getHandle(), 0);
     if (ret != 0)
     {
         printf("G_EpollHandler()->SetPeer(peer->get_socket(%d)) %d(%s)",

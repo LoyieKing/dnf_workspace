@@ -124,6 +124,11 @@ def build_tus(tag, tus, cc_extra=''):
             # 这里保证 <...> 形式也能命中私有头文件副本。
             cmd.insert(1, priv_inc)
         if cc_extra:
+            # cc-extra 指定了工具链覆盖时，去掉 per-file 的 -B<dir>，避免旧
+            # -B 优先导致 A/B 失效。
+            per_opts = ' '.join(
+                t for t in per_opts.split()
+                if not t.startswith('-B'))
             cmd += cc_extra.split()
         src = src_for_tu(tag, tu)
         cmd += ['-o', str(dest), '-c', str(src)]
@@ -156,6 +161,14 @@ def link(tag):
 
 
 def main():
+    # argparse 无法直接接收以 '-' 开头的 --cc-extra 值（如 -B/tmp/...），
+    # 这里在 parse 前手动提取。
+    cc_extra_arg = ''
+    if '--cc-extra' in sys.argv:
+        i = sys.argv.index('--cc-extra')
+        if i + 1 < len(sys.argv):
+            cc_extra_arg = sys.argv.pop(i + 1)
+        sys.argv.pop(i)
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest='cmd', required=True)
     p = sub.add_parser('setup')
@@ -165,7 +178,7 @@ def main():
     p = sub.add_parser('build')
     p.add_argument('--tag', required=True)
     p.add_argument('--tus', required=True)
-    p.add_argument('--cc-extra', default='',
+    p.add_argument('--cc-extra', default='', nargs='?', const='',
                    help='额外编译参数（A/B 工具链实验，如 -B/tmp/cc1plus446bin）')
     p = sub.add_parser('check')
     p.add_argument('--tag', required=True)
@@ -193,7 +206,7 @@ def main():
     if args.cmd == 'build':
         build_tus(args.tag,
                   [t.strip() for t in args.tus.split(',') if t.strip()],
-                  args.cc_extra)
+                  args.cc_extra or cc_extra_arg)
         link(args.tag)
         return
 

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x805abb0` | `0x53` | `0x8063cd0` | `0x53` |
+| monitor | DIFF | `0x805abb0` | `0x53` | `0x8063cd0` | `0x48` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -17,32 +17,45 @@
  push   %ebp
  mov    %esp,%ebp
  and    $0xfffffff0,%esp
- sub    $0x20,%esp
+-sub    $0x20,%esp
++push   %ebx
++sub    $0x1c,%esp
  call   <T> <_Z20CApplicationInstancev>
- mov    %eax,0x1c(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,0x4(%esp)
- mov    0x1c(%esp),%eax
+-mov    %eax,0x1c(%esp)
+-mov    0x1c(%esp),%eax
 -mov    0xc(%ebp),%edx
 -mov    %edx,0x8(%esp)
 -mov    0x8(%ebp),%edx
 -mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
+-mov    %eax,(%esp)
++mov    %eax,%ebx
++mov    0xc(%ebp),%eax
++mov    %eax,0x8(%esp)
++mov    0x8(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    %ebx,(%esp)
  call   <T> <_ZN8CAppBase6CreateEiPPc>
- mov    0x1c(%esp),%eax
+-mov    0x1c(%esp),%eax
++mov    (%ebx),%eax
++add    $0x8,%eax
  mov    (%eax),%eax
- add    $0x8,%eax
- mov    (%eax),%edx
- mov    0x1c(%esp),%eax
- mov    %eax,(%esp)
- call   *%edx
- mov    0x1c(%esp),%eax
- mov    %eax,(%esp)
+-add    $0x8,%eax
+-mov    (%eax),%edx
+-mov    0x1c(%esp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
+-mov    0x1c(%esp),%eax
+-mov    %eax,(%esp)
++mov    %ebx,(%esp)
++call   *%eax
++mov    %ebx,(%esp)
  call   <T> <_ZN8CAppBase5ClearEv>
  mov    $0x1,%eax
- leave
+-leave
++add    $0x1c,%esp
++pop    %ebx
++mov    %ebp,%esp
++pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -69,7 +82,7 @@ undefined4 main(int param_1,char **param_2)
 ```cpp
 int main(int argc, char** argv)
 {
-    CAppBase* app = CApplicationInstance();
+    register CAppBase* app = CApplicationInstance();
     app->Create(argc, argv);
     app->Process();
     app->Clear();
