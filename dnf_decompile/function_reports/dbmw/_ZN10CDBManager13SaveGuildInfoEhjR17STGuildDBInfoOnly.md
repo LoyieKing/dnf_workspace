@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807221e` | `0x172` | `0x8057878` | `0x179` |
+| dbmw | DIFF | `0x807221e` | `0x172` | `0x8057832` | `0x16e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,107 +1,110 @@
+@@ -1,107 +1,106 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -28,8 +28,9 @@
  mov    0x14(%ebp),%eax
  movzbl (%eax),%eax
  test   %al,%al
- jne    <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x67>
--movzbl -0x2c(%ebp),%ebx
+-jne    <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x67>
++jne    <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x6a>
+ movzbl -0x2c(%ebp),%ebx
  movl   $0x2e2,0x8(%esp)
  movl   $&_ZZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnlyE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
@@ -39,7 +40,7 @@
 -mov    0x10(%ebp),%eax
 -mov    %eax,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+movzbl -0x2c(%ebp),%eax
++movzbl %bl,%eax
 +mov    0x10(%ebp),%edx
 +mov    %edx,0x10(%esp)
 +mov    %eax,0xc(%esp)
@@ -105,11 +106,6 @@
  mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   *-0x44(%ebp)
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x144>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x171>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -123,10 +119,10 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x165>
-+je     <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x16c>
++je     <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x161>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x16a>
-+jmp    <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x171>
++jmp    <T> <_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly+0x166>
  mov    $0x1,%eax
  add    $0x7c,%esp
  pop    %ebx

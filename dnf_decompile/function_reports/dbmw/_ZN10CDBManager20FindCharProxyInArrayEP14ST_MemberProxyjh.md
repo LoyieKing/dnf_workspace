@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8072ff4` | `0x53` | `0x8053954` | `0x52` |
+| dbmw | NEAR | `0x8072ff4` | `0x53` | `0x805390c` | `0x53` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,15 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,31 +1,30 @@
+@@ -1,31 +1,31 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x14,%esp
  mov    0x14(%ebp),%eax
  mov    %al,-0x14(%ebp)
  movl   $0x0,-0x4(%ebp)
--jmp    <T> <_ZN10CDBManager20FindCharProxyInArrayEP14ST_MemberProxyjh+0x3e>
-+jmp    <T> <_ZN10CDBManager20FindCharProxyInArrayEP14ST_MemberProxyjh+0x3d>
+ jmp    <T> <_ZN10CDBManager20FindCharProxyInArrayEP14ST_MemberProxyjh+0x3e>
  mov    -0x4(%ebp),%eax
  imul   $0x27,%eax,%eax
  add    0xc(%ebp),%eax
@@ -36,9 +35,8 @@
 -jne    <T> <_ZN10CDBManager20FindCharProxyInArrayEP14ST_MemberProxyjh+0x3a>
 +jne    <T> <_ZN10CDBManager20FindCharProxyInArrayEP14ST_MemberProxyjh+0x39>
  mov    -0x4(%ebp),%eax
--jmp    <T> <_ZN10CDBManager20FindCharProxyInArrayEP14ST_MemberProxyjh+0x51>
--nop
-+jmp    <T> <_ZN10CDBManager20FindCharProxyInArrayEP14ST_MemberProxyjh+0x50>
+ jmp    <T> <_ZN10CDBManager20FindCharProxyInArrayEP14ST_MemberProxyjh+0x51>
+ nop
  addl   $0x1,-0x4(%ebp)
  movzbl -0x14(%ebp),%eax
  cmp    -0x4(%ebp),%eax

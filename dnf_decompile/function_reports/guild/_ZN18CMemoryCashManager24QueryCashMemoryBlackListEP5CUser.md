@@ -128,7 +128,7 @@ CMemoryCashManager::_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/MemoryCashManager.cpp](source/DNFServer/GameServer/Guild/MemoryCashManager.cpp)（约第 164 行）：
+定义于 [source/DNFServer/GameServer/Guild/MemoryCashManager.cpp](source/DNFServer/GameServer/Guild/MemoryCashManager.cpp)（约第 159 行）：
 
 ```cpp
 int CMemoryCashManager::QueryCashMemoryBlackList(CUser* user)
@@ -140,7 +140,8 @@ int CMemoryCashManager::QueryCashMemoryBlackList(CUser* user)
         CCashObject* obj = it->second;
         user->RegisterToCashBlackList(*obj->GetBlackUsersObject());
         user->SetBlackListDBFlag(4);
+        return true;
     }
-    return it != m_cashObjects.end();
+    return false;
 }
 ```

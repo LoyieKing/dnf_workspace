@@ -138,20 +138,18 @@ Packet_Guild_Reply_Guild_Board::_ZN30Packet_Guild_Reply_Guild_BoardC2Ev
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PacketCounter.cpp](source/DNFServer/GameServer/Guild/PacketCounter.cpp)（约第 173 行）：
+定义于 [source/DNFServer/GameServer/Guild/PacketCounter.cpp](source/DNFServer/GameServer/Guild/PacketCounter.cpp)（约第 182 行）：
 
 ```cpp
 Packet_Guild_Reply_Guild_Board::Packet_Guild_Reply_Guild_Board()
     : PacketHeader(0x2328, 0x68a)
 {
-    for (int i = 0; i < 9; ++i)
-        new ((char*)this + 0x18 + i * 0xa5) STGuildBoardDBInfo;
-    *(unsigned short*)((char*)this + 0xa) = 0;
-    *(unsigned short*)((char*)this + 0xc) = 0;
-    *(unsigned char*)((char*)this + 0xe) = 0x0;
-    *(unsigned int*)((char*)this + 0xf) = 0;
-    *(unsigned int*)((char*)this + 0x13) = 0;
-    *(unsigned char*)((char*)this + 0x17) = 0x0;
-    memset((char*)this + 0x18, 0, 0x672);
+    m_a = 0;
+    m_c = 0;
+    m_e = 0x0;
+    m_f = 0;
+    m_13 = 0;
+    m_17 = 0x0;
+    memset(m_boards, 0, 0x672);
 }
 ```

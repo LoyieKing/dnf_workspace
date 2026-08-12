@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8091bc6` | `0x31b` | `0x807d168` | `0x317` |
+| monitor | DIFF | `0x8091bc6` | `0x31b` | `0x807d16a` | `0x317` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,22 +20,20 @@
  push   %esi
  push   %ebx
  sub    $0x4c,%esp
--mov    0x8(%ebp),%eax
--mov    %eax,-0x20(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,-0x20(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication22SetMiniCraneRandomSeedEv>
-+mov    0x8(%ebp),%ebx
++mov    -0x20(%ebp),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK12CApplication16getMiniCraneSeedEv>
 -mov    -0x20(%ebp),%edx
 -mov    %eax,0xa(%edx)
--cmpl   $0x0,-0x20(%ebp)
--jne    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0x112>
 +mov    %eax,0xa(%ebx)
-+cmpl   $0x0,0x8(%ebp)
-+jne    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0x10c>
+ cmpl   $0x0,-0x20(%ebp)
+ jne    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0x112>
  lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -53,8 +51,7 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
--jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xb8>
-+jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xb2>
+ jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xb8>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -68,58 +65,34 @@
  lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xb2>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xd7>
--call   <T> <_ZSt9terminatev>
--mov    %esi,%ecx
--mov    %ebx,%eax
--jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xd7>
-+jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xac>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xd1>
-+call   <T> <_ZSt9terminatev>
-+mov    %esi,%ecx
-+mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xd1>
+ jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xb2>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xd7>
+ call   <T> <_ZSt9terminatev>
+ mov    %esi,%ecx
+ mov    %ebx,%eax
+ jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xd7>
  lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xef>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xd7>
--call   <T> <_ZSt9terminatev>
--mov    %eax,%ecx
--mov    %edx,%eax
--mov    %eax,%ebx
--mov    %ecx,%esi
--lea    -0x39(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
--mov    %esi,%ecx
--mov    %ebx,%eax
+ jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xef>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xd7>
+ call   <T> <_ZSt9terminatev>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ mov    %eax,%ebx
+ mov    %ecx,%esi
+ lea    -0x39(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ mov    %esi,%ecx
+ mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0x235>
-+jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xe9>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0xd1>
-+call   <T> <_ZSt9terminatev>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+mov    %eax,%ebx
-+mov    %ecx,%esi
-+lea    -0x39(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+mov    %esi,%ecx
-+mov    %ebx,%eax
 +jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0x231>
  lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
@@ -137,16 +110,14 @@
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0x204>
 +je     <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0x157>
++mov    -0x20(%ebp),%eax
++movzwl 0x2(%eax),%eax
++movzwl %ax,%ecx
++mov    -0x20(%ebp),%edx
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +mov    0xa0(%eax),%eax
-+mov    %eax,-0x20(%ebp)
-+mov    0x8(%ebp),%eax
-+movzwl 0x2(%eax),%eax
-+movzwl %ax,%edx
-+mov    0x8(%ebp),%eax
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    -0x20(%ebp),%eax
++mov    %ecx,0x8(%esp)
++mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
 +jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0x30f>
@@ -155,8 +126,7 @@
  call   <T> <_ZNSaIcEC1Ev>
  lea    -0x31(%ebp),%eax
  mov    %eax,0x8(%esp)
--movl   $"CPacketTranslater::OnUpdateMiniCraneSeed m_pclApp or m_pclServerHandler is null",0x4(%esp)
-+movl   $"CPacketTranslater::OnUpdateMiniCraneSeed, m_pclApp == 0",0x4(%esp)
+ movl   $"CPacketTranslater::OnUpdateMiniCraneSeed m_pclApp or m_pclServerHandler is null",0x4(%esp)
  lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
@@ -270,8 +240,7 @@
  mov    %eax,(%esp)
  call   *%edx
  mov    %eax,%ebx
--movl   $0x222b,0x8(%esp)
-+movl   $0x1b82,0x8(%esp)
+ movl   $0x222b,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
@@ -298,8 +267,7 @@
 +jmp    <T> <_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader+0x30f>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
--movl   $0x2230,0x8(%esp)
-+movl   $0x1b87,0x8(%esp)
+ movl   $0x2230,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)

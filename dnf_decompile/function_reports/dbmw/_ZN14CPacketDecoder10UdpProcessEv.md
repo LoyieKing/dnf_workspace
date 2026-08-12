@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80917d0` | `0x32e` | `0x80cdbb6` | `0x325` |
+| dbmw | DIFF | `0x80917d0` | `0x32e` | `0x80cdb62` | `0x331` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,242 +1,242 @@
+@@ -1,242 +1,244 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -27,8 +27,7 @@
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
  test   %eax,%eax
--jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0xec>
-+jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x305>
+ jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0xec>
  lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -88,8 +87,9 @@
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
--movl   $0x0,-0x24(%ebp)
+ movl   $0x0,-0x24(%ebp)
 -jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x30e>
++jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x311>
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -102,7 +102,7 @@
  call   <T> <_ZNSt5queueIP14CUdpRecvBufferSt5dequeIS1_SaIS1_EEE3popEv>
  cmpl   $0x0,-0x24(%ebp)
 -je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0x30e>
-+je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0x304>
++je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0x310>
  mov    -0x24(%ebp),%eax
  mov    %eax,-0x20(%ebp)
  mov    0x8(%ebp),%eax
@@ -116,8 +116,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN15CAppLoadChecker13CheckUdpRecvQEi>
  test   %al,%al
--je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0x175>
-+je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0x169>
+ je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0x175>
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%ebx
  call   <T> <_Z23CAppLoadCheckerInstancev>
@@ -134,8 +133,7 @@
  call   <T> <_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader>
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2c6>
-+je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2ba>
+ je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2c6>
  mov    0x8(%ebp),%eax
  mov    0x8(%eax),%eax
  mov    %eax,0x4(%esp)
@@ -145,8 +143,7 @@
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CUdpRecvBufferdlEPv>
--jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x1cf>
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x1c3>
+ jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x1cf>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x38(%ebp),%eax
@@ -184,8 +181,7 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
--jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x271>
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x265>
+ jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x271>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -197,29 +193,19 @@
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x26b>
--cmp    $0xffffffff,%edx
--jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x288>
--call   <T> <_ZSt9terminatev>
--mov    %esi,%eax
--mov    %ebx,%edx
--jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x288>
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x25f>
-+cmp    $0xffffffff,%edx
-+jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x27c>
-+call   <T> <_ZSt9terminatev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x27c>
+ jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x26b>
+ cmp    $0xffffffff,%edx
+ jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x288>
+ call   <T> <_ZSt9terminatev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x288>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2a3>
--cmp    $0xffffffff,%edx
--jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x288>
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x297>
-+cmp    $0xffffffff,%edx
-+jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x27c>
+ jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2a3>
+ cmp    $0xffffffff,%edx
+ jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x288>
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
@@ -246,8 +232,7 @@
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CUdpRecvBufferdlEPv>
--jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x303>
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2f7>
+ jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x303>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x3c(%ebp),%eax
@@ -260,7 +245,7 @@
  lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x305>
++jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x311>
 +nop
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
@@ -268,8 +253,7 @@
  call   <T> <_ZNKSt5queueIP14CUdpRecvBufferSt5dequeIS1_SaIS1_EEE5emptyEv>
  xor    $0x1,%eax
  test   %al,%al
--jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0xf8>
-+jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0xec>
+ jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0xf8>
  add    $0x4c,%esp
  pop    %ebx
  pop    %esi

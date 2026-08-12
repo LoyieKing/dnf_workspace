@@ -102,15 +102,15 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EEC1EPcS1_
 CPacketCounter<Lo, Hi>::CPacketCounter(char* name, char* title)
 {
     Reset();
-    *(time_t*)(m_data + 4) = time(0);
-    if (name == 0)
+    m_t = time(0);
+    if (name != 0)
     {
-        sprintf(m_data + 0x1d540, "./log/%s", title);
+        sprintf(m_path, "./log/%s/%s", name, title);
     }
     else
     {
-        sprintf(m_data + 0x1d540, "./log/%s/%s", name, title);
+        sprintf(m_path, "./log/%s", title);
     }
-    *(unsigned char*)(m_data + 0x1d640) = 1;
+    m_bProcess = 1;
 }
 ```

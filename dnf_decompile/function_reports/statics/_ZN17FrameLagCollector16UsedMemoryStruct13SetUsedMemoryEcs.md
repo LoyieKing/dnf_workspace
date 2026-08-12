@@ -88,15 +88,16 @@ FrameLagCollector::UsedMemoryStruct::_ZN17FrameLagCollector16UsedMemoryStruct13S
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 650 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 664 行）：
 
 ```cpp
 void FrameLagCollector::UsedMemoryStruct::SetUsedMemory(char idx, short value)
 {
-    if (idx < 6)
+    if (idx >= 6)
     {
-        *(int*)((char*)this + (idx + 4) * 4 + 8) += (int)value;
-        *(int*)((char*)this + idx * 4) += 1;
+        return;
     }
+    m_sums[idx] += value;
+    m_counts[idx]++;
 }
 ```

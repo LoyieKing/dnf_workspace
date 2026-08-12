@@ -122,7 +122,7 @@ CMemoryCashManager::_ZN18CMemoryCashManager13SetUserObjectEP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/MemoryCashManager.cpp](source/DNFServer/GameServer/Guild/MemoryCashManager.cpp)（约第 128 行）：
+定义于 [source/DNFServer/GameServer/Guild/MemoryCashManager.cpp](source/DNFServer/GameServer/Guild/MemoryCashManager.cpp)（约第 123 行）：
 
 ```cpp
 bool CMemoryCashManager::SetUserObject(CUser* user)
@@ -133,7 +133,8 @@ bool CMemoryCashManager::SetUserObject(CUser* user)
     {
         CCashObject* obj = it->second;
         obj->SetBlackUsersObject(*(std::map<unsigned int, CBlackUser*>*)user->GetMapBlackList());
+        return true;
     }
-    return it != m_cashObjects.end();
+    return false;
 }
 ```

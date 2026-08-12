@@ -1,0 +1,6 @@
+_ZN16StatisticManager13DBSaveProcessEP14CServerHandler.md
+_ZN16StatisticManager23ResetRandomboxStatisticEv.md
+_ZN16StatisticManagerC1Ev.md
+_ZN16StatisticManagerC2Ev.md
+_ZN16StatisticManagerD1Ev.md
+_ZN16StatisticManagerD2Ev.md

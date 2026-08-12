@@ -185,29 +185,31 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PacketCounter.cpp](source/DNFServer/GameServer/Guild/PacketCounter.cpp)（约第 113 行）：
+定义于 [source/DNFServer/GameServer/Guild/PacketCounter.cpp](source/DNFServer/GameServer/Guild/PacketCounter.cpp)（约第 112 行）：
 
 ```cpp
 void CPacketCounter<Lo, Hi>::AfterProcess(int id)
 {
-    if (id < 0x2800 && 999 < id &&
-        (m_data[0x1d640] == 1 ||
-         *(unsigned int*)(m_data + 8 + (id - 1000) * 4) < 0xb) &&
-        *(int*)m_data != -1)
+    if (id >= 0x2800) return;
+    if (id <= 999) return;
+    if (!m_bProcess && m_counts[id - 1000] >= 0xb) return;
+    int diff = (int)m_count;
+    while (diff == -1)
     {
-        int prev;
-        if (m_data[0x1d640] == 0)
-        {
-            prev = *(int*)(m_data + 0x9068);
-            *(int*)(m_data + 8 + (id - 1000) * 4) += 1;
-            m_data[0x11ce0 + id] = 0;
-        }
-        else
-        {
-            prev = *(int*)(m_data + 0x9068);
-        }
-        int diff = *(int*)m_data - prev;
-        *(int*)(m_data + (id + 0x4d50) * 4) += diff;
+        diff = 0;
+        return;
     }
+    int diff2;
+    if (m_bProcess)
+    {
+        diff2 = diff - (int)m_snapshot[0];
+    }
+    else
+    {
+        diff2 = diff - (int)m_snapshot[id - 1000];
+        ++m_counts[id - 1000];
+        m_pending[id - 1000] = 0;
+    }
+    m_diffs[id - 1000] += diff2;
 }
 ```

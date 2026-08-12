@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8080bda` | `0x127` | `0x8052a68` | `0x129` |
+| dbmw | DIFF | `0x8080bda` | `0x127` | `0x8052a46` | `0x114` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,37 +13,29 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,84 +1,84 @@
+@@ -1,84 +1,75 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
--push   %ebx
+ push   %ebx
 -sub    $0x30,%esp
-+sub    $0x48,%esp
++sub    $0x34,%esp
  mov    0x8(%ebp),%eax
  mov    0x10(%eax),%eax
-+mov    %eax,-0x14(%ebp)
-+cmpl   $0x0,-0x14(%ebp)
-+jne    <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0x1f>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0x127>
-+mov    0xc(%ebp),%eax
  mov    %eax,-0x10(%ebp)
--cmpl   $0x0,-0x10(%ebp)
+ cmpl   $0x0,-0x10(%ebp)
 -jne    <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0x21>
--mov    $0x0,%eax
++jne    <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0x20>
+ mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0x120>
++jmp    <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0x10e>
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0x10c>
--mov    -0xc(%ebp),%edx
++jmp    <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0xfa>
++mov    0xc(%ebp),%eax
+ mov    -0xc(%ebp),%edx
 -mov    0xc(%ebp),%eax
--mov    0xa(%eax,%edx,8),%eax
-+jmp    <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0x113>
-+mov    -0xc(%ebp),%eax
-+shl    $0x3,%eax
-+add    $0xa,%eax
-+add    -0x10(%ebp),%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax,%edx,8),%eax
  test   %eax,%eax
 -jne    <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0x4d>
 -mov    -0xc(%ebp),%edx
@@ -51,48 +43,34 @@
 -mov    0xa(%eax,%edx,8),%eax
 -test   %eax,%eax
 -je     <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0x107>
--mov    -0x10(%ebp),%eax
-+je     <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0x10f>
-+mov    -0x14(%ebp),%eax
++je     <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0xf6>
+ mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
--mov    (%eax),%ebx
--mov    -0xc(%ebp),%edx
--mov    0xc(%ebp),%eax
+ mov    (%eax),%ebx
++mov    0xc(%ebp),%eax
+ mov    -0xc(%ebp),%edx
++mov    0xe(%eax,%edx,8),%edx
+ mov    0xc(%ebp),%eax
 -mov    0xe(%eax,%edx,8),%edx
--mov    -0xc(%ebp),%ecx
+ mov    -0xc(%ebp),%ecx
 -mov    0xc(%ebp),%eax
--mov    0xa(%eax,%ecx,8),%eax
-+mov    (%eax),%ecx
-+mov    -0xc(%ebp),%eax
-+shl    $0x3,%eax
-+add    $0xe,%eax
-+add    -0x10(%ebp),%eax
-+mov    (%eax),%edx
-+mov    -0xc(%ebp),%eax
-+shl    $0x3,%eax
-+add    $0xa,%eax
-+add    -0x10(%ebp),%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax,%ecx,8),%eax
  mov    %edx,0x14(%esp)
  mov    %eax,0x10(%esp)
  mov    -0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"inSert into log_fatigue_battery set occ_date = now(), server_id = %d, money = %d, buff = %d",0x8(%esp)
  movl   $0x4ec5,0x4(%esp)
--mov    -0x10(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
--call   *%ebx
--mov    -0x10(%ebp),%eax
-+call   *%ecx
-+mov    -0x14(%ebp),%eax
+ call   *%ebx
+ mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4ec5,0x4(%esp)
--mov    -0x10(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
 -mov    -0xc(%ebp),%edx
@@ -103,30 +81,24 @@
 -mov    0xa(%eax,%edx,8),%ebx
  movl   $0x1b23,0x8(%esp)
  movl   $&_ZZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_StatisticE12__FUNCTION__,0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x14(%esp)
 -mov    %ebx,0x10(%esp)
-+mov    -0xc(%ebp),%eax
-+shl    $0x3,%eax
-+add    $0xe,%eax
-+add    -0x10(%ebp),%eax
-+mov    (%eax),%edx
-+mov    -0xc(%ebp),%eax
-+shl    $0x3,%eax
-+add    $0xa,%eax
-+add    -0x10(%ebp),%eax
-+mov    (%eax),%eax
++mov    0xc(%ebp),%eax
++mov    -0xc(%ebp),%edx
++mov    0xe(%eax,%edx,8),%edx
++mov    0xc(%ebp),%eax
++mov    -0xc(%ebp),%ecx
++mov    0xa(%eax,%ecx,8),%eax
 +mov    %edx,0x14(%esp)
 +mov    %eax,0x10(%esp)
  mov    -0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"[Fatigue Battery] inSert into log_fatigue_battery set occ_time = now(), server_id = %d, money = %d, buff = %d",0x8(%esp)
  movl   $"./log/Statistic",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0x108>
@@ -136,13 +108,13 @@
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0x2d>
-+jne    <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0x31>
++jne    <T> <_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic+0x2c>
  mov    $0x1,%eax
 -add    $0x30,%esp
--pop    %ebx
++add    $0x34,%esp
+ pop    %ebx
 -pop    %esi
--pop    %ebp
-+leave
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C

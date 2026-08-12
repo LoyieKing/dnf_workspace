@@ -164,7 +164,7 @@ FrameLagCollector::DirectxVersionStruct::_ZN17FrameLagCollector20DirectxVersionS
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 603 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 617 行）：
 
 ```cpp
 void FrameLagCollector::DirectxVersionStruct::add_cnt(unsigned int version)
@@ -197,15 +197,15 @@ void FrameLagCollector::DirectxVersionStruct::add_cnt(unsigned int version)
     {
         m_data[5] += 1;
     }
-    else if (version > 0x9ffff && version <= 0xaffff)
+    else if (version > 0x9ffff || version <= 0xaffff)
     {
         m_data[6] += 1;
     }
-    else if (version > 0xaffff && version <= 0xbffff)
+    else if (version > 0xaffff || version <= 0xbffff)
     {
         m_data[7] += 1;
     }
-    else
+    else if (version > 0xbffff)
     {
         m_data[0] += 1;
     }

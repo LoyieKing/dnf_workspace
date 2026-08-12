@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8092594` | `0xad` | `0x80ce5a6` | `0xab` |
+| dbmw | DIFF | `0x8092594` | `0xad` | `0x80ce55a` | `0xab` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,21 +20,17 @@
  push   %ebx
  sub    $0x10,%esp
  mov    0x8(%ebp),%eax
--movl   $0x0,(%eax)
--mov    0x8(%ebp),%eax
+ movl   $0x0,(%eax)
+ mov    0x8(%ebp),%eax
  add    $0x4,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1Ev>
  mov    0x8(%ebp),%eax
--movl   $0x0,0x8(%eax)
--mov    0x8(%ebp),%eax
+ movl   $0x0,0x8(%eax)
+ mov    0x8(%ebp),%eax
  add    $0xc,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIj15stPacketProcessSt4lessIjESaISt4pairIKjS0_EEEC1Ev>
-+mov    0x8(%ebp),%eax
-+movl   $0x0,(%eax)
-+mov    0x8(%ebp),%eax
-+movl   $0x0,0x8(%eax)
  mov    0x8(%ebp),%eax
  movl   $0x0,0x24(%eax)
  movl   $0xc,(%esp)

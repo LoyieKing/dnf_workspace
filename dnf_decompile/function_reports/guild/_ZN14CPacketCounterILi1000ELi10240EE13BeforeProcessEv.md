@@ -60,15 +60,16 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EE13BeforeProcessE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PacketCounter.cpp](source/DNFServer/GameServer/Guild/PacketCounter.cpp)（约第 103 行）：
+定义于 [source/DNFServer/GameServer/Guild/PacketCounter.cpp](source/DNFServer/GameServer/Guild/PacketCounter.cpp)（约第 101 行）：
 
 ```cpp
 void CPacketCounter<Lo, Hi>::BeforeProcess()
 {
-    *(int*)(m_data + 0x9068) = *(int*)m_data;
-    if (*(int*)(m_data + 0x9068) == -1)
+    m_snapshot[0] = m_count;
+    while ((int)m_snapshot[0] == -1)
     {
-        *(int*)(m_data + 0x9068) = 0;
+        m_snapshot[0] = 0;
+        break;
     }
 }
 ```

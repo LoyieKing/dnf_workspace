@@ -172,24 +172,25 @@ CMemoryCashManager::_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/MemoryCashManager.cpp](source/DNFServer/GameServer/Guild/MemoryCashManager.cpp)（约第 110 行）：
+定义于 [source/DNFServer/GameServer/Guild/MemoryCashManager.cpp](source/DNFServer/GameServer/Guild/MemoryCashManager.cpp)（约第 104 行）：
 
 ```cpp
 int CMemoryCashManager::InsertCashMemorySetCharacterObject(CUser* user)
 {
-    if (!IsRightObject(user))
+    CCashObject* obj;
+    if (IsRightObject(user))
     {
-        return 0;
-    }
-    CCashObject* obj = new CCashObject;
-    obj->SetCharacNo(user->GetUniqCharNo());
-    std::pair<std::map<unsigned int, CCashObject*>::iterator, bool> r =
-        m_cashObjects.insert(std::make_pair(user->GetDBID(), obj));
-    if (r.second)
-    {
+        obj = new CCashObject;
+        obj->SetCharacNo(user->GetUniqCharNo());
+        std::pair<std::map<unsigned int, CCashObject*>::iterator, bool> r =
+            m_cashObjects.insert(std::make_pair(user->GetDBID(), obj));
+        if (!r.second)
+        {
+            delete obj;
+            return 0;
+        }
         return 1;
     }
-    delete obj;
     return 0;
 }
 ```

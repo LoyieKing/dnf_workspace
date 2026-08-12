@@ -197,4 +197,4 @@ _ZN15exchange_server18CCacheCharacterMgr14CacheCharacterEjPNS_20CACHE_CHARACTER_
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp, source/DNFServer/GameServer/Monitor/Arad_BirthdayEvent.h, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/DNFAppConfig.h, source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp, source/DNFServer/GameServer/Monitor/DNFManagerServer.h, source/DNFServer/GameServer/Monitor/DNFPacketBuffer.h, source/DNFServer/GameServer/Monitor/DNFPacketTranslater.h 等 299 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp, source/DNFServer/GameServer/Monitor/Arad_BirthdayEvent.h, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/DNFAppConfig.h, source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp, source/DNFServer/GameServer/Monitor/DNFManagerServer.h, source/DNFServer/GameServer/Monitor/DNFMember.h, source/DNFServer/GameServer/Monitor/DNFPacketBuffer.h 等 299 个文件*

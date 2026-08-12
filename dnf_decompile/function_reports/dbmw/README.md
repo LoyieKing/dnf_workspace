@@ -15,19 +15,19 @@
 | 类别 | 数量 |
 |---|---|
 | IDENTICAL | 0 |
-| NEAR | 254 |
-| DIFF | 498 |
-| MISSING | 6 |
+| NEAR | 256 |
+| DIFF | 454 |
+| MISSING | 8 |
 | EMPTY | 0 |
 | EXEMPT_SKIP | 0 |
 | IDENTICAL_AE（地址等价） | 0 |
-| 已生成 md | 280 |
+| 已生成 md | 238 |
 
 ## 范围过滤（scope.txt）
 
 ```
-targets=752
-ours=280
+targets=710
+ours=238
 skip_no_source=472
 skip_vendored=0
 ```
@@ -41,9 +41,11 @@ skip_vendored=0
 
 ## 缺失函数（原始有、重建无；均为第三方 C 库符号，未生成 md）
 
-共 6 个：
+共 8 个：
 
 ```
+_ZN24Packet_InnerPakcet_LoginC2Ev	_ZN24Packet_InnerPakcet_LoginC2Ev
+_ZN25Packet_InnerPakcet_LogoutC2Ev	_ZN25Packet_InnerPakcet_LogoutC2Ev
 compress	compress
 dtoa.clone.0	dtoa.clone.0
 packfrm	packfrm

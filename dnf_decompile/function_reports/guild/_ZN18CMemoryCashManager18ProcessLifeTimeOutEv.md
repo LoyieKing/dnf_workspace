@@ -167,29 +167,28 @@ CMemoryCashManager::_ZN18CMemoryCashManager18ProcessLifeTimeOutEv(CMemoryCashMan
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/MemoryCashManager.cpp](source/DNFServer/GameServer/Guild/MemoryCashManager.cpp)（约第 140 行）：
+定义于 [source/DNFServer/GameServer/Guild/MemoryCashManager.cpp](source/DNFServer/GameServer/Guild/MemoryCashManager.cpp)（约第 136 行）：
 
 ```cpp
 void CMemoryCashManager::ProcessLifeTimeOut()
 {
-    if (m_app != 0)
+    if (m_app == 0)
     {
-        for (std::map<unsigned int, CCashObject*>::iterator it = m_cashObjects.begin();
-             it != m_cashObjects.end(); )
+        return;
+    }
+    for (std::map<unsigned int, CCashObject*>::iterator it = m_cashObjects.begin();
+         it != m_cashObjects.end(); )
+    {
+        CCashObject* obj = it->second;
+        if (obj->IsLifeTimeOut())
         {
-            CCashObject* obj = it->second;
-            if (obj->IsLifeTimeOut())
-            {
-                obj->ClearBlackUsers();
-                std::map<unsigned int, CCashObject*>::iterator cur = it;
-                ++it;
-                m_cashObjects.erase(cur);
-                delete obj;
-            }
-            else
-            {
-                ++it;
-            }
+            obj->ClearBlackUsers();
+            m_cashObjects.erase(it++);
+            delete obj;
+        }
+        else
+        {
+            ++it;
         }
     }
 }

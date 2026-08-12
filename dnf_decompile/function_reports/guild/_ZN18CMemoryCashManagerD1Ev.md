@@ -101,11 +101,5 @@ void __thiscall CMemoryCashManager::_ZN18CMemoryCashManagerD1Ev(CMemoryCashManag
 ```cpp
 CMemoryCashManager::~CMemoryCashManager()
 {
-    for (std::map<unsigned int, CCashObject*>::iterator it = m_cashObjects.begin();
-         it != m_cashObjects.end(); ++it)
-    {
-        delete it->second;
-    }
-    m_cashObjects.clear();
 }
 ```

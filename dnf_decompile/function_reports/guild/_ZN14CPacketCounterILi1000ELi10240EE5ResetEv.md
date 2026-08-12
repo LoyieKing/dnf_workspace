@@ -77,11 +77,19 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EE5ResetEv
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PacketCounter.cpp](source/DNFServer/GameServer/Guild/PacketCounter.cpp)（约第 142 行）：
+定义于 [source/DNFServer/GameServer/Guild/PacketCounter.cpp](source/DNFServer/GameServer/Guild/PacketCounter.cpp)（约第 143 行）：
 
 ```cpp
 void CPacketCounter<Lo, Hi>::Reset()
 {
-    memset(m_data, 0, sizeof(m_data));
+    for (int i = 0; i < 0x2418; i++)
+    {
+        m_counts[i] = 0;
+        m_diffs[i] = 0;
+        m_snapshot[i] = 0;
+        m_pending[i] = 0;
+    }
+    m_count = 0;
+    m_bInit = 0;
 }
 ```

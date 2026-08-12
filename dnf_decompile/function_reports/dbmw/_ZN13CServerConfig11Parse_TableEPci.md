@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | NEAR | `0x806b1cc` | `0xd7` | `0x80df02c` | `0xd7` |
+| dbmw | NEAR | `0x806b1cc` | `0xd7` | `0x80def9a` | `0xd7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -140,7 +140,7 @@ int CServerConfig::Parse_Table(char* data, int size)
 {
     if (data[0] == '#')
         return 0;
-    char* fields[5];
+    char* fields[6];
     if (DNFFLib::ExplodeString(data, " \t\r\n\"", fields, 5) == 5)
     {
         if (size <= 0xfe)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807fd6c` | `0x176` | `0x804dda0` | `0x174` |
+| dbmw | DIFF | `0x807fd6c` | `0x176` | `0x804dda0` | `0x161` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,98 +1,98 @@
+@@ -1,98 +1,92 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x38,%esp
@@ -25,30 +25,13 @@
  add    $0x1c,%eax
  mov    (%eax),%edx
  mov    0xc(%ebp),%eax
--mov    0xa(%eax),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  mov    %eax,0xc(%esp)
  movl   $"seLect upgrade from guild_agit where guild_id=%d",0x8(%esp)
  movl   $0x4eb5,0x4(%esp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x84>
-+movl   $0x19c3,0x8(%esp)
-+movl   $&_ZZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_AgitE12__FUNCTION__,0x4(%esp)
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"OnLoadGuildAgit Query Error\n",0x8(%esp)
-+movl   $"./log/DBQueryErr",0x4(%esp)
-+lea    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x172>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -62,24 +45,22 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0xa3>
--movl   $0x19c3,0x8(%esp)
-+je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0xe5>
-+movl   $0x19cb,0x8(%esp)
++je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x9c>
+ movl   $0x19c3,0x8(%esp)
  movl   $&_ZZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_AgitE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"OnLoadGuildAgit Query Error\n",0x8(%esp)
-+movl   $"OnLoadGuildAgit Fetch Error\n",0x8(%esp)
+ movl   $"OnLoadGuildAgit Query Error\n",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x174>
-+jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x172>
++jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x15f>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
@@ -92,24 +73,22 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x100>
--movl   $0x19cb,0x8(%esp)
-+je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x13b>
-+movl   $0x19d3,0x8(%esp)
++je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0xf2>
+ movl   $0x19cb,0x8(%esp)
  movl   $&_ZZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_AgitE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"OnLoadGuildAgit Fetch Error\n",0x8(%esp)
-+movl   $"OnLoadGuildAgit get_ubyte(0, reply.m_stGuildAgitInfo.m_ucUpgrade) Error\n",0x8(%esp)
+ movl   $"OnLoadGuildAgit Fetch Error\n",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x174>
-+jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x172>
++jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x15f>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x58,%eax
@@ -126,20 +105,22 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x16f>
--movl   $0x19d3,0x8(%esp)
--movl   $&_ZZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_AgitE12__FUNCTION__,0x4(%esp)
++je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x15a>
+ movl   $0x19d3,0x8(%esp)
+ movl   $&_ZZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_AgitE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"OnLoadGuildAgit get_ubyte(0, reply.m_stGuildAgitInfo.m_ucUpgrade) Error\n",0x8(%esp)
--movl   $"./log/DBQueryErr",0x4(%esp)
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"OnLoadGuildAgit get_ubyte(0, reply.m_stGuildAgitInfo.m_ucUpgrade) Error\n",0x8(%esp)
+ movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+je     <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x16d>
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x174>
-+jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x172>
++jmp    <T> <_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit+0x15f>
  mov    $0x1,%eax
  leave
  ret

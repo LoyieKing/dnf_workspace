@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x80916e4` | `0x1df` | `0x807cc78` | `0x1df` |
+| monitor | NEAR | `0x80916e4` | `0x1df` | `0x807cc7a` | `0x1df` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -81,13 +81,16 @@
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
- mov    0x8(%ebp),%eax
- mov    %eax,-0x20(%ebp)
+-mov    0x8(%ebp),%eax
+-mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0xa0(%eax),%eax
-+mov    -0x20(%ebp),%edx
- mov    %edx,0x4(%esp)
+-mov    %edx,0x4(%esp)
++mov    %eax,-0x20(%ebp)
++mov    0x8(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  jmp    <T> <_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader+0x1d7>
@@ -202,8 +205,8 @@ void CPacketTranslater::OnPcRoomPlayTimeReward(PacketHeader* pkt)
     {
         throw CDNFException("CPacketTranslater::OnPcRoomPlayTimeReward");
     }
-    CServerHandler* handler = m_pclApp->m_serverHandler2;
-    handler->SendToDB(pkt);
+    PacketHeader* rpkt = pkt;
+    m_pclApp->m_serverHandler2->SendToDB(rpkt);
 
 
     }

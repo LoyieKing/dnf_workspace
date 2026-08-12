@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809d8e0` | `0x280` | `0x80d3044` | `0x282` |
+| dbmw | DIFF | `0x809d8e0` | `0x280` | `0x80d2fba` | `0x27f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,176 +1,179 @@
+@@ -1,176 +1,178 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -22,8 +22,7 @@
  sub    $0x50c,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
--jne    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0xe2>
-+jne    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0xe5>
+ jne    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0xe2>
  lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -63,8 +62,7 @@
  lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0xbf>
-+jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0xc2>
+ jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0xbf>
  cmp    $0xffffffff,%edx
  jne    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0xa7>
  call   <T> <_ZSt9terminatev>
@@ -76,8 +74,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x19f>
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
++jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x19e>
  lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -97,7 +94,7 @@
  mov    0xa(%eax),%eax
  test   %eax,%eax
 -jle    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x275>
-+jle    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x277>
++jle    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x274>
  lea    -0x4fe(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_Notify_New_Group_MailC1Ev>
@@ -112,7 +109,7 @@
 +mov    %eax,-0x24(%ebp)
  movl   $0x0,-0x20(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x154>
-+jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x15f>
++jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x15c>
 +lea    -0x4fe(%ebp),%eax
 +mov    -0x20(%ebp),%edx
 +shl    $0x2,%edx
@@ -136,7 +133,7 @@
 +setl   %al
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x13c>
-+jne    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x13d>
++jne    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x13a>
 +movzwl -0x4fc(%ebp),%eax
 +movzwl %ax,%esi
 +lea    -0x4fe(%ebp),%ebx
@@ -156,10 +153,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CGuildServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x275>
-+jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x277>
++jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x274>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x21b>
-+jne    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x21d>
++jne    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x21a>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -183,7 +180,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x214>
-+jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x216>
++jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x213>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -193,7 +190,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x275>
-+jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x277>
++jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x274>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xeaa,0x8(%esp)
@@ -207,7 +204,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x270>
-+jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x272>
++jmp    <T> <_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader+0x26f>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>

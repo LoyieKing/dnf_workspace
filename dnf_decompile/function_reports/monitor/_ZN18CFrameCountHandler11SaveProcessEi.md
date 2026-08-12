@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804d04e` | `0x87` | `0x8086928` | `0x82` |
+| monitor | DIFF | `0x804d04e` | `0x87` | `0x80868d0` | `0x82` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -86,13 +86,14 @@ CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEi(CFrameCountHandler *t
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFTickHandler.cpp](source/DNFServer/GameServer/Monitor/DNFTickHandler.cpp)（约第 116 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTickHandler.cpp](source/DNFServer/GameServer/Monitor/DNFTickHandler.cpp)（约第 117 行）：
 
 ```cpp
 void CFrameCountHandler::SaveProcess(int threadNo)
 {
     m_field28++;
-    if (m_field28 != 0)
+    register bool isPrint = m_field28 != 0;
+    if (isPrint)
     {
         DNF_LOG_SCOPE_LINE(0xb8,"./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", threadNo, m_field18,
             m_field4);

@@ -245,34 +245,34 @@ FrameLagCollector::FrameLagDataStruct::_ZN17FrameLagCollector18FrameLagDataStruc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 571 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 585 行）：
 
 ```cpp
 void FrameLagCollector::FrameLagDataStruct::init()
 {
-    *(int*)((char*)this + 0) = 0;
+    ((FrameLagDataLayout*)this)->m0 = 0;
     for (int i = 0; i < 8; i++)
     {
-        *(short*)((char*)this + 0xc + (i + 8) * 2) = 0;
+        ((FrameLagDataLayout*)this)->m_b[i + 8] = 0;
     }
-    *(int*)((char*)this + 0x2c) = 0;
-    *(int*)((char*)this + 0x30) = 0;
-    *(int*)((char*)this + 0x34) = 0;
+    ((FrameLagDataLayout*)this)->m_c[0] = 0;
+    ((FrameLagDataLayout*)this)->m_c[1] = 0;
+    ((FrameLagDataLayout*)this)->m_c[2] = 0;
     for (int i = 0; i < 6; i++)
     {
-        *(int*)((char*)this + i * 4 + 4) = 0;
-        *(int*)((char*)this + (i + 0xc) * 4 + 8) = 0;
-        *(int*)((char*)this + (i + 0x14) * 4) = 0;
-        *(int*)((char*)this + (i + 0x18) * 4 + 8) = 0;
-        *(int*)((char*)this + (i + 0x20) * 4) = 0;
-        *(int*)((char*)this + (i + 9) * 0x10 + 8) = 0;
-        *(int*)((char*)this + i * 0x10 + 0x9c) = 0;
-        *(int*)((char*)this + i * 0x10 + 0xa0) = 0;
-        *(int*)((char*)this + i * 0x10 + 0xa4) = 0;
+        ((FrameLagDataLayout*)this)->m_a[i] = 0;
+        ((FrameLagDataLayout*)this)->m_d[i] = 0;
+        ((FrameLagDataLayout*)this)->m_e[i] = 0;
+        ((FrameLagDataLayout*)this)->m_f[i] = 0;
+        ((FrameLagDataLayout*)this)->m_g[i] = 0;
+        ((FrameLagDataLayout*)this)->m_h[i][0] = 0;
+        ((FrameLagDataLayout*)this)->m_h[i][1] = 0;
+        ((FrameLagDataLayout*)this)->m_h[i][2] = 0;
+        ((FrameLagDataLayout*)this)->m_h[i][3] = 0;
         for (int j = 0; j < 6; j++)
         {
-            *(int*)((char*)this + (i * 7 + j + 0x1e) * 8 + 0x10) = 0;
-            *(int*)((char*)this + (i * 7 + j + 0x1e) * 8 + 0x14) = 0;
+            ((FrameLagDataLayout*)this)->m_i[i * 7 + j][0] = 0;
+            ((FrameLagDataLayout*)this)->m_i[i * 7 + j][1] = 0;
         }
     }
 }

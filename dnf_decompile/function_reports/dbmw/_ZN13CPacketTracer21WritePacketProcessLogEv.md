@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8092998` | `0x164` | `0x80cea2c` | `0x156` |
+| dbmw | DIFF | `0x8092998` | `0x164` | `0x80ce9d0` | `0x162` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,105 +1,97 @@
+@@ -1,105 +1,104 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
+ push   %esi
  push   %ebx
--sub    $0x60,%esp
-+sub    $0x64,%esp
+ sub    $0x60,%esp
  mov    0x8(%ebp),%eax
  mov    0x24(%eax),%eax
  lea    -0x1(%eax),%edx
@@ -28,29 +27,30 @@
  mov    0x8(%ebp),%eax
  mov    0x24(%eax),%eax
  test   %eax,%eax
--setg   %al
--test   %al,%al
+ setg   %al
+ test   %al,%al
 -jne    <T> <_ZN13CPacketTracer21WritePacketProcessLogEv+0x159>
-+jg     <T> <_ZN13CPacketTracer21WritePacketProcessLogEv+0x151>
++jne    <T> <_ZN13CPacketTracer21WritePacketProcessLogEv+0x157>
  mov    0x8(%ebp),%eax
  lea    0xc(%eax),%edx
 -lea    -0x14(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIj15stPacketProcessSt4lessIjESaISt4pairIKjS0_EEE5beginEv>
  sub    $0x4,%esp
--mov    0x8(%ebp),%eax
--lea    0xc(%eax),%edx
+ mov    0x8(%ebp),%eax
+ lea    0xc(%eax),%edx
 -lea    -0x18(%ebp),%eax
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZNSt3mapIj15stPacketProcessSt4lessIjESaISt4pairIKjS0_EEE3endEv>
--sub    $0x4,%esp
++lea    -0x28(%ebp),%eax
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapIj15stPacketProcessSt4lessIjESaISt4pairIKjS0_EEE3endEv>
+ sub    $0x4,%esp
 -jmp    <T> <_ZN13CPacketTracer21WritePacketProcessLogEv+0x132>
 -lea    -0x14(%ebp),%eax
-+jmp    <T> <_ZN13CPacketTracer21WritePacketProcessLogEv+0x114>
-+lea    -0x10(%ebp),%eax
++jmp    <T> <_ZN13CPacketTracer21WritePacketProcessLogEv+0x130>
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15stPacketProcessEEptEv>
  mov    0xc(%eax),%eax
@@ -59,100 +59,90 @@
  test   %al,%al
 -je     <T> <_ZN13CPacketTracer21WritePacketProcessLogEv+0x127>
 -lea    -0x14(%ebp),%eax
-+je     <T> <_ZN13CPacketTracer21WritePacketProcessLogEv+0x109>
-+movl   $0x6f,0x8(%esp)
-+movl   $&_ZZN13CPacketTracer21WritePacketProcessLogEvE12__FUNCTION__,0x4(%esp)
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+lea    -0x10(%ebp),%eax
++je     <T> <_ZN13CPacketTracer21WritePacketProcessLogEv+0x125>
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15stPacketProcessEEptEv>
  fldl   0x4(%eax)
  fstpl  -0x38(%ebp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15stPacketProcessEEptEv>
  mov    0xc(%eax),%eax
  mov    $0x0,%edx
- mov    %eax,-0x20(%ebp)
- mov    %edx,-0x1c(%ebp)
- fildll -0x20(%ebp)
- fldl   -0x38(%ebp)
- fdivp  %st,%st(1)
- fstpl  -0x30(%ebp)
+-mov    %eax,-0x20(%ebp)
+-mov    %edx,-0x1c(%ebp)
+-fildll -0x20(%ebp)
+-fldl   -0x38(%ebp)
+-fdivp  %st,%st(1)
+-fstpl  -0x30(%ebp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++mov    %eax,-0x30(%ebp)
++mov    %edx,-0x2c(%ebp)
++fildll -0x30(%ebp)
++fdivrl -0x38(%ebp)
++fstpl  -0x18(%ebp)
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15stPacketProcessEEptEv>
  fldl   0x4(%eax)
- fstpl  -0x28(%ebp)
+-fstpl  -0x28(%ebp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++fstpl  -0x10(%ebp)
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15stPacketProcessEEptEv>
--mov    0xc(%eax),%esi
+ mov    0xc(%eax),%esi
 -lea    -0x14(%ebp),%eax
-+mov    0xc(%eax),%ebx
-+lea    -0x10(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15stPacketProcessEEptEv>
--mov    (%eax),%ebx
--movl   $0x6f,0x8(%esp)
--movl   $&_ZZN13CPacketTracer21WritePacketProcessLogEvE12__FUNCTION__,0x4(%esp)
+ mov    (%eax),%ebx
+ movl   $0x6f,0x8(%esp)
+ movl   $&_ZZN13CPacketTracer21WritePacketProcessLogEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    (%eax),%eax
- fldl   -0x30(%ebp)
++lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+-fldl   -0x30(%ebp)
++fldl   -0x18(%ebp)
  fstpl  0x1c(%esp)
- fldl   -0x28(%ebp)
+-fldl   -0x28(%ebp)
++fldl   -0x10(%ebp)
  fstpl  0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    %ebx,0x10(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"id(%d), acc count(%d), acc time(%.4f ms), average time(%4.4f ms)",0x8(%esp)
  movl   $"./log/PacketProcess",0x4(%esp)
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- lea    -0x10(%ebp),%eax
+-lea    -0x10(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -lea    -0x14(%ebp),%eax
-+call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKj15stPacketProcessEEppEv>
-+mov    0x8(%ebp),%eax
-+lea    0xc(%eax),%edx
-+lea    -0xc(%ebp),%eax
-+mov    %edx,0x4(%esp)
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKj15stPacketProcessEEppEv>
+ call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKj15stPacketProcessEEppEv>
 -lea    -0x18(%ebp),%eax
-+call   <T> <_ZNSt3mapIj15stPacketProcessSt4lessIjESaISt4pairIKjS0_EEE3endEv>
-+sub    $0x4,%esp
-+lea    -0xc(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x10(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15stPacketProcessEEneERKS4_>
  test   %al,%al
--jne    <T> <_ZN13CPacketTracer21WritePacketProcessLogEv+0x5f>
-+jne    <T> <_ZN13CPacketTracer21WritePacketProcessLogEv+0x41>
+ jne    <T> <_ZN13CPacketTracer21WritePacketProcessLogEv+0x5f>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPacketTracer21ResetPacketProcessLogEv>
 -jmp    <T> <_ZN13CPacketTracer21WritePacketProcessLogEv+0x15a>
--nop
--lea    -0x8(%ebp),%esp
--add    $0x0,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
-+mov    -0x4(%ebp),%ebx
-+leave
++jmp    <T> <_ZN13CPacketTracer21WritePacketProcessLogEv+0x158>
+ nop
+ lea    -0x8(%ebp),%esp
+ add    $0x0,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C

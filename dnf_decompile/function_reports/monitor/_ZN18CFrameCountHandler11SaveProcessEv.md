@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804cfce` | `0x80` | `0x80868ac` | `0x7b` |
+| monitor | DIFF | `0x804cfce` | `0x80` | `0x8086854` | `0x7b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -89,7 +89,8 @@ void __thiscall CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEv(CFram
 void CFrameCountHandler::SaveProcess()
 {
     m_field28++;
-    if (m_field28 != 0)
+    register bool isPrint = m_field28 != 0;
+    if (isPrint)
     {
         DNF_LOG_SCOPE_LINE(0xa8, "./log/frame", "FPS(%02d) / DFC(%02d)\n", m_field18, m_field4);
         m_field28 = 0;

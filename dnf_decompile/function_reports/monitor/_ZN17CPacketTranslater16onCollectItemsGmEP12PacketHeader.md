@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80914f2` | `0x1f2` | `0x807ca86` | `0x1f2` |
+| monitor | DIFF | `0x80914f2` | `0x1f2` | `0x807ca88` | `0x1f2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -81,23 +81,23 @@
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
--mov    0x8(%ebp),%eax
--mov    %eax,-0x20(%ebp)
 +mov    0x8(%ebp),%ebx
++mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication15Get_ServerGroupEv>
++mov    %al,0xa(%ebx)
+ mov    0x8(%ebp),%eax
+ mov    %eax,-0x20(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
- mov    %eax,(%esp)
- call   <T> <_ZN12CApplication15Get_ServerGroupEv>
--mov    -0x20(%ebp),%edx
+-mov    %eax,(%esp)
+-call   <T> <_ZN12CApplication15Get_ServerGroupEv>
++mov    0xa0(%eax),%eax
+ mov    -0x20(%ebp),%edx
 -mov    %al,0xa(%edx)
 -mov    -0x20(%ebp),%edx
-+mov    %al,0xa(%ebx)
- mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
- mov    0xa0(%eax),%eax
--mov    %edx,0x4(%esp)
-+mov    %eax,-0x20(%ebp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x20(%ebp),%eax
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+-mov    0xa0(%eax),%eax
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  jmp    <T> <_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader+0x1ea>
