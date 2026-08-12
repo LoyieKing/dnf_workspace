@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809f75e` | `0x239` | `0x8091a36` | `0x236` |
+| guild | NEAR | `0x809f75e` | `0x239` | `0x80918f4` | `0x239` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,164 +1,163 @@
+@@ -1,164 +1,164 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -31,8 +31,7 @@
  test   %al,%al
  je     <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x32>
  mov    $0xc4,%eax
--jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x231>
-+jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x22e>
+ jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x231>
  mov    0x10(%ebp),%edx
  mov    0x8(%ebp),%eax
  imul   $0x35,%edx,%edx
@@ -43,13 +42,11 @@
  mov    0x8(%ebp),%eax
  imul   $0x35,%edx,%edx
  mov    0x1(%edx,%eax,1),%edx
--mov    0x14(%ebp),%eax
-+mov    0x1c(%ebp),%eax
+ mov    0x14(%ebp),%eax
  cmp    %eax,%edx
  je     <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x61>
  mov    $0xca,%eax
--jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x231>
-+jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x22e>
+ jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x231>
  mov    0x10(%ebp),%ecx
  mov    0xc(%ebp),%eax
  mov    0x8(%ebp),%edx
@@ -83,9 +80,8 @@
  movzbl 0x34(%ecx,%edx,1),%edx
  mov    %dl,0x34(%eax)
  cmpb   $0x1,-0x3c(%ebp)
--jne    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x1c7>
-+jne    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x1c4>
-+mov    0x14(%ebp),%edx
+ jne    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x1c7>
++mov    0x1c(%ebp),%edx
  mov    0xc(%ebp),%eax
 -mov    0x1c(%ebp),%edx
  mov    %edx,0x6(%eax)
@@ -101,16 +97,14 @@
  cmp    -0x1c(%ebp),%eax
  jge    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x10c>
  mov    $0xc7,%eax
--jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x231>
-+jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x22e>
+ jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x231>
  mov    0x10(%ebp),%ebx
  mov    0x10(%ebp),%edx
  mov    0x8(%ebp),%eax
  imul   $0x35,%edx,%edx
  mov    0x6(%edx,%eax,1),%edx
--mov    0xc(%ebp),%eax
--mov    0x6(%eax),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    0xc(%ebp),%eax
+ mov    0x6(%eax),%eax
  mov    %edx,%ecx
  sub    %eax,%ecx
  mov    0x8(%ebp),%eax
@@ -121,8 +115,7 @@
  imul   $0x35,%edx,%edx
  mov    0x6(%edx,%eax,1),%eax
  test   %eax,%eax
--jne    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x152>
-+jne    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x14f>
+ jne    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x152>
  mov    0x10(%ebp),%eax
  imul   $0x35,%eax,%eax
  add    0x8(%ebp),%eax
@@ -155,8 +148,7 @@
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x22c>
-+jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x229>
+ jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x22c>
  mov    0x10(%ebp),%eax
  imul   $0x35,%eax,%eax
  add    0x8(%ebp),%eax

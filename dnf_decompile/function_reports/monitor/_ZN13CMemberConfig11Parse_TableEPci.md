@@ -121,7 +121,7 @@ CMemberConfig::_ZN13CMemberConfig11Parse_TableEPci(CMemberConfig *this,char *par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 54 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 48 行）：
 
 ```cpp
 bool CMemberConfig::Parse_Table(char* line, int idx)

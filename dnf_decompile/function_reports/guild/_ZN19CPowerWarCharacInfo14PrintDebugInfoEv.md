@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a7d10` | `0x176` | `0x809db86` | `0x176` |
+| guild | NEAR | `0x80a7d10` | `0x176` | `0x809d9c0` | `0x176` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -41,17 +41,18 @@
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x1,-0x10(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x1c(%eax),%edx
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EE5beginEv>
  sub    $0x4,%esp
--movl   $0x1,-0x10(%ebp)
+ movl   $0x1,-0x10(%ebp)
  jmp    <T> <_ZN19CPowerWarCharacInfo14PrintDebugInfoEv+0x104>
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPP20STPowerWarCharacInfoSt6vectorIS2_SaIS2_EEEdeEv>
  mov    (%eax),%eax
@@ -77,7 +78,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  addl   $0x1,-0x10(%ebp)
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPP20STPowerWarCharacInfoSt6vectorIS2_SaIS2_EEEppEv>
  mov    0x8(%ebp),%eax
@@ -91,7 +93,8 @@
 -lea    -0x24(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x38(%ebp),%eax
+-lea    -0x38(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9__gnu_cxxneIPP20STPowerWarCharacInfoSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
  test   %al,%al
@@ -99,13 +102,13 @@
  movl   $0x100,0x8(%esp)
  movl   $&_ZZN19CPowerWarCharacInfo14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"------ POWER WAR CHARAC DEBUG INFO END   --------------------------------------------------------",0x8(%esp)
  movl   $"./log/PowerResult",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  lea    -0x8(%ebp),%esp

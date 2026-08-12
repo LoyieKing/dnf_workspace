@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806e234` | `0xfc` | `0x8088d0c` | `0x104` |
+| monitor | DIFF | `0x806e234` | `0xfc` | `0x8088d0a` | `0x104` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -217,24 +217,22 @@ CUser::_ZN5CUser19GetChannelUserCountEP16STPvPChannelInfoRh
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 177 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 176 行）：
 
 ```cpp
 void CUser::GetChannelUserCount(STPvPChannelInfo* out, unsigned char& count)
 {
     int idx = 0;
-    for (std::map<int, ChannelInfo>::iterator it = m_channelInfoMap.begin();
-         it != m_channelInfoMap.end(); ++it)
+    std::map<int, ChannelInfo>::iterator it = m_channelInfoMap.begin();
+    while (it != m_channelInfoMap.end() && (int)(unsigned char)count > idx)
     {
-        if ((int)(unsigned char)count <= idx)
-        {
-            break;
-        }
         out[idx].m_channel = it->first;
-        out[idx].m_countA = it->second.m_a;
-        out[idx].m_countB = it->second.m_b;
-        out[idx].m_countC = it->second.m_c;
-        idx++;
+        ChannelInfo& info = it->second;
+        out[idx].m_countA = info.m_a;
+        out[idx].m_countB = info.m_b;
+        out[idx].m_countC = info.m_c;
+        ++it;
+        ++idx;
     }
     count = (unsigned char)idx;
 }

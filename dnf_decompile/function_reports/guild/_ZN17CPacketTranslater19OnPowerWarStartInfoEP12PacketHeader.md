@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807f8e2` | `0x1ed` | `0x8075b7c` | `0x1ff` |
+| guild | DIFF | `0x807f8e2` | `0x1ed` | `0x8075b72` | `0x1ff` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -53,13 +53,13 @@
 -je     <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0xac>
 -lea    -0x46(%ebp),%eax
 +je     <T> <_ZN17CPacketTranslater19OnPowerWarStartInfoEP12PacketHeader+0xb3>
-+lea    -0x4c(%ebp),%eax
++lea    -0x4a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN26Packet_Monitor_Event_StartC1Ev>
 -movl   $0x1e,-0x3c(%ebp)
 -mov    -0x14(%ebp),%eax
 -mov    0xa(%eax),%eax
-+lea    -0x4c(%ebp),%eax
++lea    -0x4a(%ebp),%eax
 +add    $0xa,%eax
 +movl   $0x1e,(%eax)
 +mov    -0x18(%ebp),%eax
@@ -70,7 +70,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -lea    -0x46(%ebp),%edx
-+lea    -0x4c(%ebp),%edx
++lea    -0x4a(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)

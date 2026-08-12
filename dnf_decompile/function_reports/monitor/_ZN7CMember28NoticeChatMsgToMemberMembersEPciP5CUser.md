@@ -265,39 +265,39 @@ CMember::_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 245 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 243 行）：
 
 ```cpp
 void CMember::NoticeChatMsgToMemberMembers(char* msg, int len, CUser* user)
 {
-    if (len < 0x100 && (m_flag & 4) != 0 && !IsEmpty())
+    if (len < 0x100 && (m_flag & 4) != 0 && IsEmpty() == 0)
     {
         Packet_Monitor_Member_Chat_ToUser pkt;
         memcpy(pkt.m_charName, user->GetCharName(), 0x1d);
         pkt.m_msgLen = (unsigned char)len;
         memcpy(pkt.m_msg, msg, len);
-        unsigned short totalSize = (unsigned short)len + 0x31;
+        pkt.packetSize = (unsigned short)len + 0x31;
         CUser* member = m_memberManager->FindMemberUser(m_dbInfo.m_member.m_field0);
         if (member != 0)
         {
             pkt.m_idByChannel = member->GetIdByChannel();
             pkt.m_uniqCharNo = member->GetUniqCharNo();
-            member->SendToGameserver((char*)&pkt, totalSize);
+            member->SendToGameserver((char*)&pkt, pkt.packetSize);
         }
         pkt.m_idByChannel = user->GetIdByChannel();
         pkt.m_uniqCharNo = user->GetUniqCharNo();
-        user->SendToGameserver((char*)&pkt, totalSize);
-        unsigned int count = (unsigned int)m_dbInfo.m_count27;
-        if (count != 0)
+        user->SendToGameserver((char*)&pkt, pkt.packetSize);
+        int count = (int)m_dbInfo.m_count27;
+        if (count > 0)
         {
-            for (unsigned int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
-                CUser* m = m_memberManager->FindMemberUser(m_dbInfo.m_member.m_field0);
+                CUser* m = m_memberManager->FindMemberUser(m_dbInfo.m_lowers[i].m_field0);
                 if (m != 0)
                 {
                     pkt.m_idByChannel = m->GetIdByChannel();
                     pkt.m_uniqCharNo = m->GetUniqCharNo();
-                    m->SendToGameserver((char*)&pkt, totalSize);
+                    m->SendToGameserver((char*)&pkt, pkt.packetSize);
                 }
             }
         }

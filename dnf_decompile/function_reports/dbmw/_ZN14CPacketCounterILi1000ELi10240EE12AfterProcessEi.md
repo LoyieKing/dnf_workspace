@@ -161,39 +161,39 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/PacketCounter.cpp](source/DNFServer/GameServer/DBMW/PacketCounter.cpp)（约第 87 行）：
+定义于 [source/DNFServer/GameServer/DBMW/PacketCounter.cpp](source/DNFServer/GameServer/DBMW/PacketCounter.cpp)（约第 88 行）：
 
 ```cpp
 void CPacketCounter<Lo, Hi>::AfterProcess(int id)
 {
-    if (id <= 0x27ff && 999 < id)
+    if (id > 0x27ff)
+        return;
+    if (id <= 0x3e7)
+        return;
+    if (!m_flag)
     {
-        if (!m_flag)
+        if ((unsigned int)m_a1[id - 1000] >= 0xb)
+            return;
+    }
+    int prev = m0;
+    if (prev == -1)
+    {
+        prev = 0;
+    }
+    else
+    {
+        int delta;
+        if (m_flag != 0)
         {
-            if ((unsigned int)m_a1[id - 1000] >= 0xb)
-                return;
-        }
-        int prev = m0;
-        bool neg = (prev == -1);
-        if (neg)
-        {
-            prev = 0;
+            delta = prev - m_a3[0];
         }
         else
         {
-            int delta;
-            if (m_flag != 0)
-            {
-                delta = prev - m_a3[0];
-            }
-            else
-            {
-                delta = prev - m_a3[id - 1000];
-                m_a1[id - 1000] += 1;
-                m_b[id - 1000] = 0;
-            }
-            m_a2[id - 1000] += delta;
+            delta = prev - m_a3[id - 1000];
+            m_a1[id - 1000]++;
+            m_b[id - 1000] = 0;
         }
+        m_a2[id - 1000] = m_a2[id - 1000] + delta;
     }
 }
 ```

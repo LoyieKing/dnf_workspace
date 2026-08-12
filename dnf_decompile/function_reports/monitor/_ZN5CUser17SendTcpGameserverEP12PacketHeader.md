@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806d480` | `0x82` | `0x8088b7e` | `0x85` |
+| monitor | DIFF | `0x806d480` | `0x82` | `0x8088b7c` | `0x85` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -113,13 +113,12 @@ void CUser::SendTcpGameserver(PacketHeader* pkt)
 {
     if (((RA_INT<12>*)this)->v != 0)
     {
-        CTcpGameServer* tcp = (CTcpGameServer*)((RA_INT<12>*)this)->v;
-        char* buf = tcp->makePacketHeader(*(unsigned short*)pkt,
-                                          ((RA_U16<2>*)pkt)->v);
+        char* buf = ((CTcpGameServer*)((RA_INT<12>*)this)->v)->makePacketHeader(
+            *(unsigned short*)pkt, ((RA_U16<2>*)pkt)->v);
         if (buf != 0)
         {
             memcpy(buf + 10, (char*)pkt + 10, ((RA_U16<2>*)pkt)->v - 10);
-            tcp->SendToGameServer(buf);
+            ((CTcpGameServer*)((RA_INT<12>*)this)->v)->SendToGameServer(buf);
         }
     }
 }

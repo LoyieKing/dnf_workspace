@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8051b1c` | `0xea` | `0x8098752` | `0xed` |
+| guild | DIFF | `0x8051b1c` | `0xea` | `0x809859e` | `0xec` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,20 +13,22 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,71 +1,74 @@
+@@ -1,71 +1,73 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x30,%esp
 -lea    -0x12(%ebp),%eax
-+lea    -0x16(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN25Packet_InnerPakcet_LogoutC1Ev>
+-mov    %eax,(%esp)
+-call   <T> <_ZN25Packet_InnerPakcet_LogoutC1Ev>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9TCPSocket9getHandleEv>
  mov    %eax,-0xc(%ebp)
++lea    -0x16(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN25Packet_InnerPakcet_LogoutC1Ev>
  mov    0x8(%ebp),%eax
 -mov    0x182c(%eax),%eax
 +add    $0x182c,%eax
@@ -65,10 +67,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
  mov    0x8(%ebp),%eax
--mov    0x1828(%eax),%eax
+ mov    0x1828(%eax),%eax
 -lea    -0x18(%ebp),%edx
-+add    $0x1828,%eax
-+mov    (%eax),%eax
 +lea    -0x1c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -83,7 +83,7 @@
 -mov    %ebx,%edx
 -mov    %eax,(%esp)
 -call   <T> <_Unwind_Resume>
-+jmp    <T> <_ZN5CPeer10DisConnSigEv+0xdb>
++jmp    <T> <_ZN5CPeer10DisConnSigEv+0xda>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x20(%ebp),%eax

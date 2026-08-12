@@ -144,7 +144,7 @@ CServerHandler::_ZN14CServerHandler18UnregistGameServerEj(CServerHandler *this,u
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 332 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 328 行）：
 
 ```cpp
 int CServerHandler::UnregistGameServer(unsigned int channel)
@@ -154,13 +154,10 @@ int CServerHandler::UnregistGameServer(unsigned int channel)
     {
         return 0;
     }
-    CGameServer* gs = it->second;
-    if (gs != 0)
-    {
-        delete gs;
-    }
+    delete it->second;
     m_gameServers.erase(it);
-    DNF_LOG_SCOPE_LINE(0x412, "./log/GameServer", "Game server unregist. Channel: %d", channel);
+    DNF_LOG_SCOPE_LINE(0x412, "./log/GameServer",
+        "Game server unregist. Channel: %d", channel);
     return 1;
 }
 ```

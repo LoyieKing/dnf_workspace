@@ -158,17 +158,23 @@ CServerHandler::_ZN14CServerHandler14ResetHeartBeatEh(CServerHandler *this,uchar
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 456 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 449 行）：
 
 ```cpp
 void CServerHandler::ResetHeartBeat(unsigned char channel)
 {
     std::map<unsigned int, CGameServer*>::iterator it =
         m_gameServers.find((unsigned int)channel);
-    if (it != m_gameServers.end() && it->second != 0 &&
-        ((CServerInterface*)it->second)->IsValidServer() != 0)
+    if (it != m_gameServers.end())
     {
-        ((CServerInterface*)it->second)->ResetHeartBeat();
+        CServerInterface* gs = (CServerInterface*)it->second;
+        if (channel != 0xff && gs->IsValidServer() != 0)
+        {
+            gs->ResetHeartBeat();
+            return;
+        }
     }
+    DNF_LOG_SCOPE_LINE(0x162, "./log/GameServer",
+        "CServerHandler::ResetHeartBeat\tGame Server Index Over Index : %d!\n", channel);
 }
 ```

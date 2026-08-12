@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806de26` | `0x5e` | `0x8089cba` | `0x68` |
+| monitor | DIFF | `0x806de26` | `0x5e` | `0x8089cb8` | `0x68` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -99,15 +99,14 @@ undefined4 __thiscall CUser::_ZN5CUser21GetConnLowerMemberCntEv(CUser *this)
 ```cpp
 int CUser::GetConnLowerMemberCnt()
 {
-    if (((RA_INT<20>*)this)->v == 0)
+    if (((RA_INT<20>*)this)->v != 0)
     {
-        return 0;
+        if (((CMember*)((RA_INT<20>*)this)->v)->GetMemberKey() != 0 &&
+            (GetMemberDBFlag() & 4) != 0)
+        {
+            return ((CMember*)((RA_INT<20>*)this)->v)->GetConnLowerMemberCnt();
+        }
     }
-    CMember* member = (CMember*)((RA_INT<20>*)this)->v;
-    if (member->GetMemberKey() == 0 || (GetMemberDBFlag() & 4) == 0)
-    {
-        return 0;
-    }
-    return member->GetConnLowerMemberCnt();
+    return 0;
 }
 ```

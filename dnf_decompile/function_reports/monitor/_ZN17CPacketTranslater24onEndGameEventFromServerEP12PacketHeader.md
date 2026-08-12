@@ -191,30 +191,28 @@ void CPacketTranslater::_ZN17CPacketTranslater24onEndGameEventFromServerEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5512 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5509 行）：
 
 ```cpp
 void CPacketTranslater::onEndGameEventFromServer(PacketHeader* pkt)
 {try
 {
-
-
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x2304, "./log/AradOnly", "[Server Event] m_pclApp is null.");
         throw 0x2305;
     }
-    if (pkt == 0)
+    PacketHeader* p = pkt;
+    if (p == 0)
     {
         DNF_LOG_SCOPE_LINE(0x230b, "./log/AradOnly", "[Server Event] Packet_StopGameEventFromServer is null.");
         throw 0x230c;
     }
     Packet_Monitor_Event_End epkt;
-    epkt.m_fieldA = ((RA_UINT<10>*)pkt)->v;
-    CServerHandler* handler = m_pclApp->m_serverHandler2;
-    handler->SendAllTcpGameServer(&epkt);
+    epkt.m_fieldA = ((RA_UINT<10>*)p)->v;
+    m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(&epkt);
     DNF_LOG_SCOPE_LINE(0x2312,"./log/AradOnly", "[Server Event] end event. (event:%d)",
-        ((RA_UINT<10>*)pkt)->v);
+        ((RA_UINT<10>*)p)->v);
 
 
     }

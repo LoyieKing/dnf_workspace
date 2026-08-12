@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806eee4` | `0x4ba` | `0x806f0a2` | `0x4ab` |
+| statics | DIFF | `0x806eee4` | `0x4ba` | `0x806f11a` | `0x4b3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,369 +1,362 @@
+@@ -1,369 +1,366 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -29,7 +29,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x4b5>
-+je     <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x4a6>
++je     <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x4ae>
  mov    0x8(%ebp),%eax
  lea    0x38(%eax),%edx
  lea    -0x24(%ebp),%eax
@@ -38,7 +38,7 @@
  call   <T> <_ZNSt3mapI19STPartyStatisticKey14PartyStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x422>
-+jmp    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x413>
++jmp    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x41b>
  mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -85,7 +85,9 @@
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
- movzbl 0x9(%eax),%ecx
+-movzbl 0x9(%eax),%ecx
++movzbl 0x9(%eax),%eax
++mov    %eax,%ecx
  mov    %ebx,%eax
  shl    $0x2,%eax
  mov    %eax,%edx
@@ -99,7 +101,9 @@
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
- movzbl 0xa(%eax),%ecx
+-movzbl 0xa(%eax),%ecx
++movzbl 0xa(%eax),%eax
++mov    %eax,%ecx
  mov    %ebx,%eax
  shl    $0x2,%eax
  mov    %eax,%edx
@@ -113,7 +117,9 @@
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
- movzbl 0xb(%eax),%ecx
+-movzbl 0xb(%eax),%ecx
++movzbl 0xb(%eax),%eax
++mov    %eax,%ecx
  mov    %ebx,%eax
  shl    $0x2,%eax
  mov    %eax,%edx
@@ -127,7 +133,9 @@
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
- movzbl 0xc(%eax),%ecx
+-movzbl 0xc(%eax),%ecx
++movzbl 0xc(%eax),%eax
++mov    %eax,%ecx
  mov    %ebx,%eax
  shl    $0x2,%eax
  mov    %eax,%edx
@@ -413,7 +421,7 @@
 -test   %al,%al
 -je     <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x417>
 +cmpl   $0x63,-0xc(%ebp)
-+jle    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x408>
++jle    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x410>
  movl   $0x64,-0x1798(%ebp)
  lea    -0x17a2(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -452,7 +460,7 @@
  jne    <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x55>
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x4b5>
-+je     <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x4a6>
++je     <T> <_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler+0x4ae>
  mov    -0xc(%ebp),%eax
  mov    %eax,-0x1798(%ebp)
  lea    -0x17a2(%ebp),%eax

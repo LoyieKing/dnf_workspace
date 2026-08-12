@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806d76c` | `0xce` | `0x8081942` | `0xcb` |
+| guild | DIFF | `0x806d76c` | `0xce` | `0x8081926` | `0xcb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,63 +1,60 @@
+@@ -1,63 +1,61 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
@@ -21,10 +21,8 @@
  add    $0x24,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP14CTcpGameServerSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
-+xor    $0x1,%eax
  test   %al,%al
--jne    <T> <_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader+0xc8>
-+je     <T> <_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader+0xc9>
+ jne    <T> <_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader+0xc8>
  movl   $0x0,-0x10(%ebp)
  movl   $0x0,-0xc(%ebp)
  mov    0x8(%ebp),%eax
@@ -85,7 +83,8 @@
 -jmp    <T> <_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader+0xcc>
 -nop
 -jmp    <T> <_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader+0xcc>
--nop
++jmp    <T> <_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader+0xc9>
+ nop
  leave
  ret
 ```

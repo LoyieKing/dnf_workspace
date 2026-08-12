@@ -152,17 +152,13 @@ undefined4 CServerHandler::_ZN14CServerHandler19DeleteTcpGameServerEj(uint param
 int CServerHandler::DeleteTcpGameServer(unsigned int id)
 {
     std::map<unsigned int, CTcpGameServer*>::iterator it = m_tcpGameServers.find(id);
-    if (it == m_tcpGameServers.end())
+    if (it != m_tcpGameServers.end())
     {
-        return 0;
+        delete it->second;
+        m_tcpGameServers.erase(it);
+        DNF_LOG_SCOPE_LINE(0x35f, "./log/Tcp", "TcpGameServer Delete !");
+        return 1;
     }
-    CTcpGameServer* tcp = it->second;
-    if (tcp != 0)
-    {
-        delete tcp;
-    }
-    m_tcpGameServers.erase(it);
-    DNF_LOG_SCOPE_LINE(0x35f, "./log/Tcp", "TcpGameServer Delete !");
-    return 1;
+    return 0;
 }
 ```

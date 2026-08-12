@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8051086` | `0x1a1` | `0x8097d10` | `0x199` |
+| guild | DIFF | `0x8051086` | `0x1a1` | `0x8097b2a` | `0x1bf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,117 +1,116 @@
+@@ -1,117 +1,121 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -27,42 +27,31 @@
  je     <T> <_ZN5CPeer11recv_packetEv+0x24>
  mov    $0x0,%eax
 -jmp    <T> <_ZN5CPeer11recv_packetEv+0x19a>
-+jmp    <T> <_ZN5CPeer11recv_packetEv+0x192>
++jmp    <T> <_ZN5CPeer11recv_packetEv+0x1b8>
  call   <T> <__errno_location>
  movl   $0x0,(%eax)
  mov    0x8(%ebp),%eax
--add    $0x1c,%eax
-+add    $0x181c,%eax
+ add    $0x1c,%eax
  mov    %eax,%edx
  mov    0x8(%ebp),%eax
--mov    0x181c(%eax),%eax
-+add    $0x181c,%eax
-+mov    (%eax),%eax
+ mov    0x181c(%eax),%eax
  mov    %edx,%ecx
  sub    %eax,%ecx
  mov    %ecx,%eax
--add    $0x1800,%eax
+ add    $0x1800,%eax
  mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x10(%ebp)
  jne    <T> <_ZN5CPeer11recv_packetEv+0x77>
  mov    0x8(%ebp),%eax
--lea    0x1c(%eax),%edx
-+add    $0x181c,%eax
-+mov    0x8(%ebp),%edx
-+add    $0x1c,%edx
-+mov    %edx,(%eax)
+ lea    0x1c(%eax),%edx
  mov    0x8(%ebp),%eax
--mov    %edx,0x181c(%eax)
--mov    0x8(%ebp),%eax
--movl   $0x0,0x1820(%eax)
-+add    $0x1820,%eax
-+movl   $0x0,(%eax)
+ mov    %edx,0x181c(%eax)
+ mov    0x8(%ebp),%eax
+ movl   $0x0,0x1820(%eax)
  movl   $0x1800,-0x10(%ebp)
  mov    -0x10(%ebp),%esi
  mov    0x8(%ebp),%eax
--mov    0x181c(%eax),%ebx
-+add    $0x181c,%eax
-+mov    (%eax),%ebx
+ mov    0x181c(%eax),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9TCPSocket9getHandleEv>
@@ -76,30 +65,36 @@
 -test   %al,%al
 -je     <T> <_ZN5CPeer11recv_packetEv+0x126>
 +cmpl   $0x0,-0xc(%ebp)
-+jns    <T> <_ZN5CPeer11recv_packetEv+0x11e>
++jns    <T> <_ZN5CPeer11recv_packetEv+0x144>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  cmp    $0xb,%eax
 -je     <T> <_ZN5CPeer11recv_packetEv+0xda>
-+je     <T> <_ZN5CPeer11recv_packetEv+0xc0>
++jne    <T> <_ZN5CPeer11recv_packetEv+0xc1>
++mov    $0x0,%eax
++jmp    <T> <_ZN5CPeer11recv_packetEv+0x1b8>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  cmp    $0x4,%eax
 -je     <T> <_ZN5CPeer11recv_packetEv+0xda>
--call   <T> <__errno_location>
--mov    (%eax),%eax
--cmp    $0xb,%eax
--je     <T> <_ZN5CPeer11recv_packetEv+0xda>
-+jne    <T> <_ZN5CPeer11recv_packetEv+0xca>
++jne    <T> <_ZN5CPeer11recv_packetEv+0xd7>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN5CPeer11recv_packetEv+0x192>
++jmp    <T> <_ZN5CPeer11recv_packetEv+0x1b8>
+ call   <T> <__errno_location>
+ mov    (%eax),%eax
+ cmp    $0xb,%eax
+-je     <T> <_ZN5CPeer11recv_packetEv+0xda>
++jne    <T> <_ZN5CPeer11recv_packetEv+0xed>
++mov    $0x0,%eax
++jmp    <T> <_ZN5CPeer11recv_packetEv+0x1b8>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  test   %eax,%eax
 -jne    <T> <_ZN5CPeer11recv_packetEv+0xe4>
--mov    $0x0,%eax
++jne    <T> <_ZN5CPeer11recv_packetEv+0x102>
+ mov    $0x0,%eax
 -jmp    <T> <_ZN5CPeer11recv_packetEv+0x19a>
-+je     <T> <_ZN5CPeer11recv_packetEv+0x117>
++jmp    <T> <_ZN5CPeer11recv_packetEv+0x1b8>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -117,12 +112,10 @@
  call   <T> <printf>
  mov    $0xffffffff,%eax
 -jmp    <T> <_ZN5CPeer11recv_packetEv+0x19a>
-+jmp    <T> <_ZN5CPeer11recv_packetEv+0x192>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN5CPeer11recv_packetEv+0x192>
++jmp    <T> <_ZN5CPeer11recv_packetEv+0x1b8>
  cmpl   $0x0,-0xc(%ebp)
 -jne    <T> <_ZN5CPeer11recv_packetEv+0x197>
-+jne    <T> <_ZN5CPeer11recv_packetEv+0x18f>
++jne    <T> <_ZN5CPeer11recv_packetEv+0x1b5>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -148,7 +141,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0xffffffff,%eax
 -jmp    <T> <_ZN5CPeer11recv_packetEv+0x19a>
-+jmp    <T> <_ZN5CPeer11recv_packetEv+0x192>
++jmp    <T> <_ZN5CPeer11recv_packetEv+0x1b8>
  mov    -0xc(%ebp),%eax
  add    $0x30,%esp
  pop    %ebx

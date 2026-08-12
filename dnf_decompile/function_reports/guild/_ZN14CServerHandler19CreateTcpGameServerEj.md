@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x806d96e` | `0xe5` | `0x8081b52` | `0xe8` |
+| guild | NEAR | `0x806d96e` | `0xe5` | `0x8081b26` | `0xe5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,75 +1,76 @@
+@@ -1,75 +1,75 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -75,24 +75,20 @@
  sub    $0x4,%esp
 -movzbl -0x2c(%ebp),%eax
 +movzbl -0x30(%ebp),%eax
-+xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xbe>
+ je     <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xbe>
 -mov    -0x34(%ebp),%eax
--jmp    <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xda>
++mov    -0x2c(%ebp),%eax
+ jmp    <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xda>
 -mov    -0x34(%ebp),%ebx
-+je     <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xda>
 +mov    -0x2c(%ebp),%ebx
  test   %ebx,%ebx
--je     <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xd5>
-+je     <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xd3>
+ je     <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xd5>
  mov    %ebx,(%esp)
  call   <T> <_ZN14CTcpGameServerD1Ev>
  mov    %ebx,(%esp)
  call   <T> <_ZdlPv>
  mov    $0x0,%eax
-+jmp    <T> <_ZN14CServerHandler19CreateTcpGameServerEj+0xdd>
-+mov    -0x2c(%ebp),%eax
  lea    -0xc(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx

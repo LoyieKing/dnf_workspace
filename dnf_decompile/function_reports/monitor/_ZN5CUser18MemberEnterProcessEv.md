@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806d608` | `0x43` | `0x8088e10` | `0x4e` |
+| monitor | DIFF | `0x806d608` | `0x43` | `0x8088e0e` | `0x4e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -72,21 +72,19 @@ void __thiscall CUser::_ZN5CUser18MemberEnterProcessEv(CUser *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 196 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 193 行）：
 
 ```cpp
 void CUser::MemberEnterProcess()
 {
-    if (((RA_INT<28>*)this)->v != 0)
+    if (m_memberEnterCallerId != 0)
     {
-        ((RA_S8<26>*)this)->v = ((RA_S8<26>*)this)->v - 1;
-        bool done = (signed char)((RA_S8<26>*)this)->v <= 0;
-        if (done)
+        m_field1a = m_field1a - 1;
+        if (m_field1a <= 0)
         {
-            ((RA_INT<28>*)this)->v = 0;
-            ((RA_S8<26>*)this)->v = 0;
+            m_memberEnterCallerId = 0;
+            m_field1a = 0;
         }
     }
-    return;
 }
 ```

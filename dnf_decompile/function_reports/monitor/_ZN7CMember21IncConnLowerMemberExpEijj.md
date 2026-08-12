@@ -217,32 +217,30 @@ CMember::_ZN7CMember21IncConnLowerMemberExpEijj(CMember *this,int param_1,uint p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 371 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 367 行）：
 
 ```cpp
 int CMember::IncConnLowerMemberExp(int index, unsigned int uCharNo, unsigned int maxExp)
 {
     if (index < (int)(unsigned int)(unsigned char)((RA_S8<45>*)this)->v)
     {
-        unsigned int* proxy = (unsigned int*)((char*)this + index * 0x27 + 0x2e);
-        if (*proxy == uCharNo)
+        ST_MemberProxy* proxy = (ST_MemberProxy*)((char*)this + index * 0x27 + 0x2e);
+        if (proxy->m_field0 == uCharNo)
         {
-            *(int*)((char*)this + index * 0x27 + 0x51) =
-                *(int*)((char*)this + index * 0x27 + 0x51) + 1;
-            if (maxExp < *(unsigned int*)((char*)this + index * 0x27 + 0x51))
+            proxy->m_field23 = proxy->m_field23 + 1;
+            if (maxExp < proxy->m_field23)
             {
-                *(int*)((char*)this + index * 0x27 + 0x51) =
-                    *(int*)((char*)this + index * 0x27 + 0x51) - 1;
+                proxy->m_field23 = proxy->m_field23 - 1;
                 return 0;
             }
-            return *(int*)((char*)this + index * 0x27 + 0x51);
+            return proxy->m_field23;
         }
         else
         {
             DNF_LOG_SCOPE_LINE(0x28c,"./log/Member2Except",
                 "CMember::IncConnLowerMemberExp  ,  stMemberLowerProxy.m_uCharId(%d) != "
                 "uCharNo(%d)",
-                *proxy, uCharNo);
+                proxy->m_field0, uCharNo);
             return 0;
         }
     }

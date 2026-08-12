@@ -229,7 +229,7 @@ undefined4 __thiscall CPeer::_ZN5CPeer11send_packetEPci(CPeer *this,char *param_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Manager/Peer.cpp](source/DNFServer/GameServer/Manager/Peer.cpp)（约第 145 行）：
+定义于 [source/DNFServer/GameServer/Manager/Peer.cpp](source/DNFServer/GameServer/Manager/Peer.cpp)（约第 144 行）：
 
 ```cpp
 int CPeer::send_packet(char* buf, int len)

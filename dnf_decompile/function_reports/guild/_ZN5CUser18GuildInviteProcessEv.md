@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8067524` | `0x6f` | `0x8089a8e` | `0x5e` |
+| guild | DIFF | `0x8067524` | `0x6f` | `0x808993c` | `0x73` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,15 +13,16 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,35 +1,29 @@
+@@ -1,35 +1,35 @@
  push   %ebp
  mov    %esp,%ebp
- sub    $0x18,%esp
+-sub    $0x18,%esp
++sub    $0x28,%esp
  mov    0x8(%ebp),%eax
  movzbl 0x7e(%eax),%eax
  cmp    $0x1,%al
 -jg     <T> <_ZN5CUser18GuildInviteProcessEv+0x6c>
-+jg     <T> <_ZN5CUser18GuildInviteProcessEv+0x5c>
++jg     <T> <_ZN5CUser18GuildInviteProcessEv+0x71>
  mov    0x8(%ebp),%eax
  movzbl 0x7e(%eax),%eax
 -lea    -0x1(%eax),%edx
@@ -38,12 +39,16 @@
  movzbl 0x7e(%eax),%eax
  cmp    $0x1,%al
 -jle    <T> <_ZN5CUser18GuildInviteProcessEv+0x3e>
--mov    $0x1,%eax
++jle    <T> <_ZN5CUser18GuildInviteProcessEv+0x40>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN5CUser18GuildInviteProcessEv+0x43>
--mov    $0x0,%eax
++jmp    <T> <_ZN5CUser18GuildInviteProcessEv+0x45>
+ mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN5CUser18GuildInviteProcessEv+0x6d>
-+jle    <T> <_ZN5CUser18GuildInviteProcessEv+0x5c>
++mov    %al,-0x9(%ebp)
++cmpb   $0x0,-0x9(%ebp)
++je     <T> <_ZN5CUser18GuildInviteProcessEv+0x71>
  movl   $0xff,0xc(%esp)
  movl   $0x0,0x8(%esp)
  movl   $0x0,0x4(%esp)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806ddc8` | `0x5e` | `0x8088b1c` | `0x61` |
+| monitor | DIFF | `0x806ddc8` | `0x5e` | `0x8088b1a` | `0x61` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -98,10 +98,10 @@ unsigned char CUser::GetUpperMemberExpLevel()
 {
     if (((RA_INT<20>*)this)->v != 0)
     {
-        CMember* member = (CMember*)((RA_INT<20>*)this)->v;
-        if (member->GetMemberKey() != 0 && (GetMemberDBFlag() & 4) != 0)
+        if (((CMember*)((RA_INT<20>*)this)->v)->GetMemberKey() != 0 &&
+            (GetMemberDBFlag() & 4) != 0)
         {
-            return (unsigned char)member->GetUpperMemberExpLevel();
+            return (unsigned char)((CMember*)((RA_INT<20>*)this)->v)->GetUpperMemberExpLevel();
         }
     }
     return 0;

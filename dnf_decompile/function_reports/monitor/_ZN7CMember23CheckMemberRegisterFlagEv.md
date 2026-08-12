@@ -306,30 +306,25 @@ void __thiscall CMember::_ZN7CMember23CheckMemberRegisterFlagEv(CMember *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 170 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 173 行）：
 
 ```cpp
 void CMember::CheckMemberRegisterFlag()
 {
-    bool flag = ::CheckDailyScheduleTimeOver(6, m_registerTime);
-    SetMemberRegisterFlag(flag);
+    SetMemberRegisterFlag(::CheckDailyScheduleTimeOver(6, m_registerTime));
     if (IsAbleToRegisterMember())
     {
-        flag = ::CheckDayHourScheduleTimeOver(3, 6, m_dayHourTime);
-        SetMemberRegisterFlag(flag);
+        SetMemberRegisterFlag(::CheckDayHourScheduleTimeOver(3, 6, m_dayHourTime));
     }
     if (!IsAbleToRegisterMember())
     {
-        tm* t1 = localtime((time_t*)&m_registerTime);
-        int sec1 = t1->tm_sec, min1 = t1->tm_min, hour1 = t1->tm_hour;
-        int mday1 = t1->tm_mday, mon1 = t1->tm_mon, year1 = t1->tm_year;
-        tm* t2 = localtime((time_t*)&m_dayHourTime);
-        int sec2 = t2->tm_sec, min2 = t2->tm_min, hour2 = t2->tm_hour;
-        int mday2 = t2->tm_mday, mon2 = t2->tm_mon, year2 = t2->tm_year;
+        tm t1 = *localtime((time_t*)&m_registerTime);
+        tm t2 = *localtime((time_t*)&m_dayHourTime);
         DNF_LOG_SCOPE_LINE(0x336,"./log/MemberModify",
             "MKey(%d)\tRF(0)\tRT(%04d.%02d.%02d %02d:%02d:%02d)\tDT(%04d.%02d.%02d %02d:%02d:%02d)",
-            GetMemberKey(), year1 + 0x76c, mon1 + 1, mday1, hour1, min1, sec1, year2 + 0x76c,
-            mon2 + 1, mday2, hour2, min2, sec2);
+            GetMemberKey(), t1.tm_year + 0x76c, t1.tm_mon + 1, t1.tm_mday, t1.tm_hour,
+            t1.tm_min, t1.tm_sec, t2.tm_year + 0x76c, t2.tm_mon + 1, t2.tm_mday,
+            t2.tm_hour, t2.tm_min, t2.tm_sec);
     }
 }
 ```

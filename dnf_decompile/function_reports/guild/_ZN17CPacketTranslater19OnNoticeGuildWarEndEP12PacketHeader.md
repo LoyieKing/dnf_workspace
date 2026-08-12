@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8076258` | `0x4a8` | `0x806c7f6` | `0x4af` |
+| guild | DIFF | `0x8076258` | `0x4a8` | `0x806c7ec` | `0x4af` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -477,15 +477,15 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -lea    -0x5e(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x4e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN24Packet_Monitor_Event_EndC1Ev>
 -movl   $0x9,-0x54(%ebp)
 -lea    -0x5e(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x4e(%ebp),%eax
 +add    $0xa,%eax
 +movl   $0x9,(%eax)
-+lea    -0x50(%ebp),%eax
++lea    -0x4e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater10OnEventEndEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader+0x49d>

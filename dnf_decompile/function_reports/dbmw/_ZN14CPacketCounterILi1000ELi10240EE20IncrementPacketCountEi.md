@@ -86,14 +86,15 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacke
 ```cpp
 void CPacketCounter<Lo, Hi>::IncrementPacketCount(int id)
 {
-    if (id < 0x2800 && 999 < id)
+    if (id > 0x27ff)
+        return;
+    if (id <= 0x3e7)
+        return;
+    if (!m_flag)
     {
-        if (!m_flag)
-        {
-            if ((unsigned int)m_a1[id - 1000] >= 0xb)
-                return;
-        }
-        m_a1[id - 1000] = m_a1[id - 1000] + 1;
+        if ((unsigned int)m_a1[id - 1000] >= 0xb)
+            return;
     }
+    m_a1[id - 1000]++;
 }
 ```

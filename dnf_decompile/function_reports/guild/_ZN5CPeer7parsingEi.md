@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8051228` | `0x489` | `0x8097eaa` | `0x43f` |
+| guild | DIFF | `0x8051228` | `0x489` | `0x8097cea` | `0x44b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,19 +13,19 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,289 +1,287 @@
+@@ -1,289 +1,274 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
  sub    $0x7c,%esp
--movl   $0x0,0x8(%esp)
--movl   $0x0,0x4(%esp)
--lea    -0x5a(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12PacketHeaderC1Ett>
--mov    0x8(%ebp),%eax
+ movl   $0x0,0x8(%esp)
+ movl   $0x0,0x4(%esp)
+ lea    -0x5a(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12PacketHeaderC1Ett>
+ mov    0x8(%ebp),%eax
 -mov    0x1820(%eax),%edx
 -mov    0xc(%ebp),%eax
 -lea    (%edx,%eax,1),%eax
@@ -37,236 +37,155 @@
 -mov    0x1820(%eax),%edx
 -mov    0xc(%ebp),%eax
 -add    %eax,%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x1820(%eax)
--mov    0x8(%ebp),%eax
--mov    0x181c(%eax),%edx
--mov    0xc(%ebp),%eax
--add    %eax,%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x181c(%eax)
--mov    0x8(%ebp),%eax
--mov    0x1820(%eax),%esi
-+mov    0x8(%ebp),%eax
-+add    $0x1820,%eax
-+mov    (%eax),%eax
++mov    0x1820(%eax),%eax
 +add    0xc(%ebp),%eax
-+mov    %eax,-0x20(%ebp)
-+cmpl   $0x9,-0x20(%ebp)
-+jg     <T> <_ZN5CPeer7parsingEi+0xc4>
++mov    %eax,-0x28(%ebp)
++movl   $0xa,-0x24(%ebp)
++cmpl   $0x9,-0x28(%ebp)
++jg     <T> <_ZN5CPeer7parsingEi+0xdd>
 +mov    0x8(%ebp),%eax
-+lea    0x1820(%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x1820,%eax
-+mov    (%eax),%eax
-+add    0xc(%ebp),%eax
-+mov    %eax,(%edx)
-+mov    0x8(%ebp),%eax
-+add    $0x181c,%eax
-+mov    0x8(%ebp),%edx
-+add    $0x181c,%edx
-+mov    (%edx),%ecx
-+mov    0xc(%ebp),%edx
-+lea    (%ecx,%edx,1),%edx
-+mov    %edx,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0x1820,%eax
-+mov    (%eax),%esi
-+mov    0x8(%ebp),%eax
-+add    $0x181c,%eax
-+mov    (%eax),%ebx
++mov    0x1820(%eax),%eax
++mov    %eax,%edx
++add    0xc(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x1820(%eax)
+ mov    0x8(%ebp),%eax
+ mov    0x181c(%eax),%edx
+ mov    0xc(%ebp),%eax
+ add    %eax,%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x181c(%eax)
+ mov    0x8(%ebp),%eax
+ mov    0x1820(%eax),%esi
  mov    0x8(%ebp),%eax
  lea    0x1c(%eax),%edi
--mov    0x8(%ebp),%eax
--mov    0x181c(%eax),%ebx
+ mov    0x8(%ebp),%eax
+ mov    0x181c(%eax),%ebx
  movl   $0xbb,0x8(%esp)
  movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
--lea    -0x50(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
  mov    %eax,0x18(%esp)
  mov    %esi,0x14(%esp)
--mov    %edi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+mov    %ebx,0x10(%esp)
-+mov    %edi,0xc(%esp)
+ mov    %edi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
  movl   $"(offset:%x - buf:%x) = remainlen:%d, Recv Size[%d] ",0x8(%esp)
  movl   $"./log/TcpRecv",0x4(%esp)
--lea    -0x50(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x50(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x1,%ebx
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
-+lea    -0x48(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-nop
 +mov    $0x1,%eax
-+jmp    <T> <_ZN5CPeer7parsingEi+0x437>
- nop
++jmp    <T> <_ZN5CPeer7parsingEi+0x443>
  mov    0x8(%ebp),%eax
--mov    0x1820(%eax),%eax
-+add    $0x1820,%eax
-+mov    (%eax),%eax
+ mov    0x1820(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN5CPeer7parsingEi+0x10d>
--mov    0x8(%ebp),%eax
--mov    0x181c(%eax),%edx
--mov    0x8(%ebp),%eax
--mov    0x1820(%eax),%eax
--neg    %eax
--add    %eax,%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x181c(%eax)
--mov    0x8(%ebp),%eax
--mov    0x181c(%eax),%eax
-+je     <T> <_ZN5CPeer7parsingEi+0xf6>
-+mov    0x8(%ebp),%eax
-+add    $0x181c,%eax
-+mov    0x8(%ebp),%edx
-+add    $0x181c,%edx
-+mov    (%edx),%edx
-+mov    0x8(%ebp),%ecx
-+add    $0x1820,%ecx
-+mov    (%ecx),%ecx
-+neg    %ecx
-+add    %ecx,%edx
-+mov    %edx,(%eax)
-+movl   $0x0,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+lea    -0x52(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12PacketHeaderC1Ett>
-+mov    0x8(%ebp),%eax
-+add    $0x181c,%eax
-+mov    (%eax),%eax
++je     <T> <_ZN5CPeer7parsingEi+0x109>
+ mov    0x8(%ebp),%eax
+ mov    0x181c(%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x1820(%eax),%eax
+ neg    %eax
+ add    %eax,%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x181c(%eax)
+ mov    0x8(%ebp),%eax
+ mov    0x181c(%eax),%eax
  movl   $0xa,0x8(%esp)
  mov    %eax,0x4(%esp)
--lea    -0x5a(%ebp),%eax
-+lea    -0x52(%ebp),%eax
+ lea    -0x5a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
--movzwl -0x58(%ebp),%eax
-+movzwl -0x50(%ebp),%eax
+ movzwl -0x58(%ebp),%eax
  movzwl %ax,%eax
--mov    %eax,-0x20(%ebp)
--cmpl   $0x9,-0x20(%ebp)
+ mov    %eax,-0x20(%ebp)
+ cmpl   $0x9,-0x20(%ebp)
 -jbe    <T> <_ZN5CPeer7parsingEi+0x14a>
--cmpl   $0x1800,-0x20(%ebp)
++jbe    <T> <_ZN5CPeer7parsingEi+0x146>
+ cmpl   $0x1800,-0x20(%ebp)
 -jbe    <T> <_ZN5CPeer7parsingEi+0x1d8>
--mov    0x8(%ebp),%eax
--mov    0x1824(%eax),%esi
-+mov    %eax,-0x1c(%ebp)
-+cmpl   $0x9,-0x1c(%ebp)
-+jle    <T> <_ZN5CPeer7parsingEi+0x14f>
-+cmpl   $0x1800,-0x1c(%ebp)
-+jle    <T> <_ZN5CPeer7parsingEi+0x1e1>
-+mov    0x8(%ebp),%eax
-+add    $0x1824,%eax
-+mov    (%eax),%esi
++jbe    <T> <_ZN5CPeer7parsingEi+0x1d4>
+ mov    0x8(%ebp),%eax
+ mov    0x1824(%eax),%esi
  mov    0x8(%ebp),%eax
  lea    0x1c(%eax),%edi
  mov    0x8(%ebp),%eax
--mov    0x181c(%eax),%ebx
-+add    $0x181c,%eax
-+mov    (%eax),%ebx
+ mov    0x181c(%eax),%ebx
  movl   $0xd0,0x8(%esp)
  movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
--lea    -0x48(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %esi,0x1c(%esp)
  mov    %edi,0x18(%esp)
  mov    %ebx,0x14(%esp)
--mov    -0x20(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    -0x20(%ebp),%eax
  mov    %eax,0x10(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"Recv Size[%d], Parsing Packet Size[%d] is Too Large, offset:%x, buf:%x, alreadyRead:%d",0x8(%esp)
  movl   $"./log/TcpRecv",0x4(%esp)
--lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    0x8(%ebp),%eax
--lea    0x1c(%eax),%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x181c(%eax)
--mov    0x8(%ebp),%eax
--movl   $0x0,0x1820(%eax)
+ lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    0x8(%ebp),%eax
+ lea    0x1c(%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x181c(%eax)
+ mov    0x8(%ebp),%eax
+ movl   $0x0,0x1820(%eax)
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
 -mov    -0x24(%ebp),%eax
--cmp    -0x20(%ebp),%eax
++mov    $0x0,%eax
++jmp    <T> <_ZN5CPeer7parsingEi+0x443>
++mov    -0x28(%ebp),%eax
+ cmp    -0x20(%ebp),%eax
 -jb     <T> <_ZN5CPeer7parsingEi+0x361>
 -mov    0x8(%ebp),%eax
 -mov    0x182c(%eax),%eax
--mov    %eax,0x4(%esp)
--lea    -0x64(%ebp),%eax
-+lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    0x8(%ebp),%eax
-+add    $0x181c,%eax
-+mov    0x8(%ebp),%edx
-+add    $0x1c,%edx
-+mov    %edx,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0x1820,%eax
-+movl   $0x0,(%eax)
-+mov    $0x0,%eax
-+jmp    <T> <_ZN5CPeer7parsingEi+0x437>
-+mov    -0x20(%ebp),%eax
-+cmp    -0x1c(%ebp),%eax
-+jge    <T> <_ZN5CPeer7parsingEi+0x22b>
++jae    <T> <_ZN5CPeer7parsingEi+0x21e>
 +movl   $0x100,0x8(%esp)
 +movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
-+lea    -0x38(%ebp),%eax
++lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x20(%ebp),%eax
++mov    -0x28(%ebp),%eax
 +mov    %eax,0xc(%esp)
 +movl   $"need more data (packetsize > (unsigned int)parsinglength): body=%d !!",0x8(%esp)
 +movl   $"./log/TcpRecv",0x4(%esp)
-+lea    -0x38(%ebp),%eax
++lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x395>
++jmp    <T> <_ZN5CPeer7parsingEi+0x360>
 +mov    0x8(%ebp),%eax
 +add    $0x182c,%eax
 +mov    (%eax),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x5c(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
  movl   $0x1804,(%esp)
  call   <T> <_ZN14CTcpRecvBuffernwEj>
--mov    %eax,-0x60(%ebp)
--lea    -0x64(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuardI6CMutexED1Ev>
--mov    0x8(%ebp),%eax
--mov    0x181c(%eax),%edx
--mov    -0x60(%ebp),%eax
--mov    -0x20(%ebp),%ecx
-+mov    %eax,-0x58(%ebp)
-+lea    -0x5c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+mov    -0x1c(%ebp),%ecx
-+mov    0x8(%ebp),%eax
-+add    $0x181c,%eax
-+mov    (%eax),%edx
-+mov    -0x58(%ebp),%eax
+ mov    %eax,-0x60(%ebp)
+ lea    -0x64(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuardI6CMutexED1Ev>
+ mov    0x8(%ebp),%eax
+ mov    0x181c(%eax),%edx
+ mov    -0x60(%ebp),%eax
+ mov    -0x20(%ebp),%ecx
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memcpy>
--mov    -0x60(%ebp),%eax
+ mov    -0x60(%ebp),%eax
 -mov    %eax,%ebx
-+mov    -0x58(%ebp),%eax
 +lea    0x6(%eax),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -274,112 +193,95 @@
 -mov    %eax,0x6(%ebx)
 -mov    0x8(%ebp),%eax
 -mov    0x1830(%eax),%eax
--mov    %eax,0x4(%esp)
--lea    -0x68(%ebp),%eax
 +mov    %eax,(%ebx)
 +mov    0x8(%ebp),%eax
 +add    $0x1830,%eax
 +mov    (%eax),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x60(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x68(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
  mov    0x8(%ebp),%eax
--mov    0x1828(%eax),%eax
--lea    -0x60(%ebp),%edx
-+add    $0x1828,%eax
-+mov    (%eax),%eax
-+lea    -0x58(%ebp),%edx
+ mov    0x1828(%eax),%eax
+ lea    -0x60(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt5queueIP14CTcpRecvBufferSt5dequeIS1_SaIS1_EEE4pushERKS1_>
 -jmp    <T> <_ZN5CPeer7parsingEi+0x295>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x2fb>
++jmp    <T> <_ZN5CPeer7parsingEi+0x2d1>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x64(%ebp),%eax
-+lea    -0x5c(%ebp),%eax
+ lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--mov    0x8(%ebp),%eax
--mov    0x1828(%eax),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt5queueIP14CTcpRecvBufferSt5dequeIS1_SaIS1_EEE4sizeEv>
--mov    %eax,-0x28(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0x1828(%eax),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt5queueIP14CTcpRecvBufferSt5dequeIS1_SaIS1_EEE4sizeEv>
++mov    %eax,-0x1c(%ebp)
++lea    -0x68(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++mov    -0x28(%ebp),%eax
++sub    -0x20(%ebp),%eax
+ mov    %eax,-0x28(%ebp)
 -lea    -0x68(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CGuardI6CMutexED1Ev>
 -mov    -0x24(%ebp),%eax
 -sub    -0x20(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
--mov    0x8(%ebp),%eax
--mov    0x181c(%eax),%eax
--mov    %eax,%edx
--add    -0x20(%ebp),%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x181c(%eax)
--mov    0x8(%ebp),%eax
--movl   $0x0,0x1820(%eax)
+ mov    0x8(%ebp),%eax
+ mov    0x181c(%eax),%eax
+ mov    %eax,%edx
+ add    -0x20(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x181c(%eax)
+ mov    0x8(%ebp),%eax
+ movl   $0x0,0x1820(%eax)
 -cmpl   $0x0,-0x24(%ebp)
 -je     <T> <_ZN5CPeer7parsingEi+0x304>
 -jmp    <T> <_ZN5CPeer7parsingEi+0x318>
++cmpl   $0x0,-0x28(%ebp)
++je     <T> <_ZN5CPeer7parsingEi+0x340>
++jmp    <T> <_ZN5CPeer7parsingEi+0x351>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x68(%ebp),%eax
-+lea    -0x60(%ebp),%eax
+ lea    -0x68(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--mov    0x8(%ebp),%eax
--lea    0x1c(%eax),%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x181c(%eax)
+ mov    0x8(%ebp),%eax
+ lea    0x1c(%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x181c(%eax)
 -jmp    <T> <_ZN5CPeer7parsingEi+0x39f>
 -cmpl   $0x9,-0x24(%ebp)
 -jg     <T> <_ZN5CPeer7parsingEi+0xe0>
-+lea    -0x60(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+mov    -0x1c(%ebp),%eax
-+sub    %eax,-0x20(%ebp)
-+mov    0x8(%ebp),%eax
-+add    $0x181c,%eax
-+mov    0x8(%ebp),%edx
-+add    $0x181c,%edx
-+mov    (%edx),%ecx
-+mov    -0x1c(%ebp),%edx
-+lea    (%ecx,%edx,1),%edx
-+mov    %edx,(%eax)
-+mov    0x8(%ebp),%eax
-+add    $0x1820,%eax
-+movl   $0x0,(%eax)
-+cmpl   $0x0,-0x20(%ebp)
-+jne    <T> <_ZN5CPeer7parsingEi+0x34d>
-+mov    0x8(%ebp),%eax
-+add    $0x181c,%eax
-+mov    0x8(%ebp),%edx
-+add    $0x1c,%edx
-+mov    %edx,(%eax)
-+jmp    <T> <_ZN5CPeer7parsingEi+0x395>
-+cmpl   $0x9,-0x20(%ebp)
-+jg     <T> <_ZN5CPeer7parsingEi+0xc3>
++jmp    <T> <_ZN5CPeer7parsingEi+0x360>
++cmpl   $0x9,-0x28(%ebp)
++setg   %al
++test   %al,%al
++jne    <T> <_ZN5CPeer7parsingEi+0xdd>
++cmpl   $0x9,-0x28(%ebp)
++jg     <T> <_ZN5CPeer7parsingEi+0x3a3>
  movl   $0xf8,0x8(%esp)
  movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x24(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x20(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"need more data (parsinglength < HEADER_SIZE): body=%d !!",0x8(%esp)
  movl   $"./log/TcpRecv",0x4(%esp)
@@ -389,57 +291,48 @@
 -jmp    <T> <_ZN5CPeer7parsingEi+0x39f>
 -movl   $0x100,0x8(%esp)
 -movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
--lea    -0x38(%ebp),%eax
--mov    %eax,(%esp)
+ lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x24(%ebp),%eax
 -mov    %eax,0xc(%esp)
 -movl   $"need more data (packetsize > (unsigned int)parsinglength): body=%d !!",0x8(%esp)
 -movl   $"./log/TcpRecv",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x30(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- nop
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-nop
 -cmpl   $0x0,-0x24(%ebp)
 -jle    <T> <_ZN5CPeer7parsingEi+0x47a>
 -mov    -0x24(%ebp),%eax
--cmp    $0x1800,%eax
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++cmpl   $0x0,-0x28(%ebp)
++jle    <T> <_ZN5CPeer7parsingEi+0x43e>
++mov    -0x28(%ebp),%eax
+ cmp    $0x1800,%eax
 -jbe    <T> <_ZN5CPeer7parsingEi+0x3fa>
-+cmpl   $0x0,-0x20(%ebp)
-+jle    <T> <_ZN5CPeer7parsingEi+0x432>
-+cmpl   $0x1800,-0x20(%ebp)
-+jle    <T> <_ZN5CPeer7parsingEi+0x3ec>
++jbe    <T> <_ZN5CPeer7parsingEi+0x3fb>
  movl   $0x10e,0x8(%esp)
  movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x24(%ebp),%eax
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x20(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"[PARSING LENGTH EXCEPTION] parsinglength > MAX_RECV_BUF , memmove : parsinglength = %d",0x8(%esp)
  movl   $"./log/TcpRecv",0x4(%esp)
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
 -mov    -0x24(%ebp),%edx
--mov    0x8(%ebp),%eax
--mov    0x181c(%eax),%eax
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN5CPeer7parsingEi+0x437>
-+mov    -0x20(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x181c,%eax
-+mov    (%eax),%eax
++jmp    <T> <_ZN5CPeer7parsingEi+0x443>
++mov    -0x28(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x181c(%eax),%eax
  mov    0x8(%ebp),%ecx
  add    $0x1c,%ecx
  mov    %edx,0x8(%esp)
@@ -448,8 +341,10 @@
  call   <T> <memmove>
 -mov    -0x24(%ebp),%edx
 -mov    0x8(%ebp),%eax
--mov    %edx,0x1820(%eax)
--mov    0x8(%ebp),%eax
++mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%edx
+ mov    %edx,0x1820(%eax)
+ mov    0x8(%ebp),%eax
 -lea    0x1c(%eax),%edx
 -mov    -0x24(%ebp),%eax
 -add    %eax,%edx
@@ -474,17 +369,11 @@
 -call   <T> <_Unwind_Resume>
 -mov    $0x1,%ebx
 -mov    %ebx,%eax
++mov    -0x28(%ebp),%edx
++add    $0x1c,%edx
++lea    (%eax,%edx,1),%edx
 +mov    0x8(%ebp),%eax
-+lea    0x1820(%eax),%edx
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%edx)
-+mov    0x8(%ebp),%eax
-+add    $0x181c,%eax
-+mov    0x8(%ebp),%edx
-+mov    -0x20(%ebp),%ecx
-+add    $0x1c,%ecx
-+add    %ecx,%edx
-+mov    %edx,(%eax)
++mov    %edx,0x181c(%eax)
 +mov    $0x1,%eax
  add    $0x7c,%esp
  pop    %ebx

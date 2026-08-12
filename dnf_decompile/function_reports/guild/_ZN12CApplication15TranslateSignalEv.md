@@ -18,8 +18,7 @@
  mov    %esp,%ebp
  push   %esi
  push   %ebx
--sub    $0x170,%esp
-+sub    $0x180,%esp
+ sub    $0x170,%esp
  mov    0x8(%ebp),%eax
  mov    0x64(%eax),%eax
  mov    %eax,(%esp)
@@ -116,10 +115,10 @@
  call   <T> <_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
 +jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x445>
-+lea    -0x16a(%ebp),%eax
++lea    -0x165(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN30Packet_Monitor_Send_Guild_MailC1Ev>
-+lea    -0x16a(%ebp),%eax
++lea    -0x165(%ebp),%eax
 +lea    0xa(%eax),%ebx
 +lea    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
@@ -127,7 +126,7 @@
 +mov    (%eax),%eax
 +mov    0x4(%eax),%eax
 +mov    %eax,(%ebx)
-+lea    -0x16a(%ebp),%eax
++lea    -0x165(%ebp),%eax
 +lea    0xe(%eax),%ebx
 +lea    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
@@ -137,11 +136,11 @@
 +mov    %eax,(%ebx)
 +movl   $0x17,0x8(%esp)
 +movl   $"태스트 길드메일입니다.",0x4(%esp)
-+lea    -0x16a(%ebp),%eax
++lea    -0x165(%ebp),%eax
 +add    $0x12,%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+lea    -0x16a(%ebp),%eax
++lea    -0x165(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17CPacketTranslater24OnMonitorSendGuildLetterEP12PacketHeader>
 +jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x445>
@@ -159,10 +158,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN30Packet_Monitor_Send_Guild_MailC1Ev>
 +jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x445>
-+lea    -0x16a(%ebp),%eax
++lea    -0x165(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN33Packet_Monitor_Notice_Guild_EnterC1Ev>
-+lea    -0x16a(%ebp),%eax
++lea    -0x165(%ebp),%eax
 +lea    0xa(%eax),%ebx
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -171,7 +170,7 @@
  mov    0x4(%eax),%eax
 -mov    %eax,-0x15b(%ebp)
 +mov    %eax,(%ebx)
-+lea    -0x16a(%ebp),%eax
++lea    -0x165(%ebp),%eax
 +lea    0xe(%eax),%ebx
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -205,7 +204,7 @@
 -mov    0x8(%eax),%eax
 -mov    %eax,-0x157(%ebp)
 +mov    %eax,(%ebx)
-+lea    -0x16a(%ebp),%eax
++lea    -0x165(%ebp),%eax
 +lea    0x12(%eax),%ebx
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -216,13 +215,11 @@
 +mov    %eax,(%ebx)
  movl   $0x16,0x8(%esp)
  movl   $"눈사람",0x4(%esp)
--lea    -0x165(%ebp),%eax
-+lea    -0x16a(%ebp),%eax
+ lea    -0x165(%ebp),%eax
  add    $0x16,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
--lea    -0x165(%ebp),%eax
-+lea    -0x16a(%ebp),%eax
+ lea    -0x165(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater18OnNoticeGuildEnterEP12PacketHeader>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
@@ -265,12 +262,11 @@
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater28OnSetGuildMemberGradeFromWebEP12PacketHeader>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
--lea    -0x165(%ebp),%eax
 +jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x445>
-+lea    -0x16a(%ebp),%eax
+ lea    -0x165(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN36Packet_Guild_Master_Delegate_FromWebC1Ev>
-+lea    -0x16a(%ebp),%eax
++lea    -0x165(%ebp),%eax
 +lea    0xa(%eax),%ebx
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -279,7 +275,7 @@
  mov    0x4(%eax),%eax
 -mov    %eax,-0x15b(%ebp)
 +mov    %eax,(%ebx)
-+lea    -0x16a(%ebp),%eax
++lea    -0x165(%ebp),%eax
 +lea    0xe(%eax),%ebx
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -288,7 +284,7 @@
  mov    0x8(%eax),%eax
 -mov    %eax,-0x157(%ebp)
 +mov    %eax,(%ebx)
-+lea    -0x16a(%ebp),%eax
++lea    -0x165(%ebp),%eax
 +lea    0x12(%eax),%ebx
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
@@ -299,14 +295,12 @@
 +mov    %eax,(%ebx)
  movl   $0x4,0x8(%esp)
 -movl   $"야메",0x4(%esp)
--lea    -0x165(%ebp),%eax
 +movl   $"겪蔘",0x4(%esp)
-+lea    -0x16a(%ebp),%eax
+ lea    -0x165(%ebp),%eax
  add    $0x16,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
--lea    -0x165(%ebp),%eax
-+lea    -0x16a(%ebp),%eax
+ lea    -0x165(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CPacketTranslater28OnGuildMasterDelegateFromWebEP12PacketHeader>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x406>
@@ -322,18 +316,16 @@
  add    $0x370,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager18StartPowerWarEventEv>
--lea    -0x45(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN26Packet_Monitor_Event_StartC1Ev>
 -movl   $0x1e,-0x3b(%ebp)
-+lea    -0x48(%ebp),%eax
++lea    -0x45(%ebp),%eax
 +add    $0xa,%eax
 +movl   $0x1e,(%eax)
  mov    0x8(%ebp),%eax
  mov    0x68(%eax),%eax
--lea    -0x45(%ebp),%edx
-+lea    -0x48(%ebp),%edx
+ lea    -0x45(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
@@ -347,18 +339,16 @@
  add    $0x370,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CPowerManager16EndPowerWarEventEv>
--lea    -0x53(%ebp),%eax
-+lea    -0x58(%ebp),%eax
+ lea    -0x53(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN24Packet_Monitor_Event_EndC1Ev>
 -movl   $0x1e,-0x49(%ebp)
-+lea    -0x58(%ebp),%eax
++lea    -0x53(%ebp),%eax
 +add    $0xa,%eax
 +movl   $0x1e,(%eax)
  mov    0x8(%ebp),%eax
  mov    0x68(%eax),%eax
--lea    -0x53(%ebp),%edx
-+lea    -0x58(%ebp),%edx
+ lea    -0x53(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>

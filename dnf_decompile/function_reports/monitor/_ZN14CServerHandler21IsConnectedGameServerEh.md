@@ -129,19 +129,20 @@ CServerHandler::_ZN14CServerHandler21IsConnectedGameServerEh(CServerHandler *thi
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 467 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 466 行）：
 
 ```cpp
 bool CServerHandler::IsConnectedGameServer(unsigned char channel)
 {
-    unsigned int ch = (unsigned int)channel;
-    std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.find(ch);
+    std::map<unsigned int, CGameServer*>::iterator it =
+        m_gameServers.find((unsigned int)channel);
     if (it != m_gameServers.end())
     {
         return ((CServerInterface*)it->second)->IsConnected();
     }
-    CMyFileLog log(__FUNCTION__, 0x19e);
-    log("./log/GameServer", "Game Server Index Over Index : %d!\n", channel);
+    DNF_LOG_SCOPE_LINE(0x19e, "./log/GameServer",
+        "CServerHandler::IsConnectedGameServer\tGame Server Index Over Index : %d!\n",
+        channel);
     return 0;
 }
 ```

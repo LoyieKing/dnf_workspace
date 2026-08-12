@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806defe` | `0x9b` | `0x8088fa2` | `0xd5` |
+| monitor | DIFF | `0x806defe` | `0x9b` | `0x8088fa0` | `0xd5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -145,7 +145,6 @@ undefined4 __thiscall CUser::_ZN5CUser8AddBuddyER13STBuddyDBInfo(CUser *this,STB
 ```cpp
 int CUser::AddBuddy(STBuddyDBInfo& info)
 {
-    std::string name((char*)&info);
-    return ((CBuddyHandle*)((char*)this + 0x6c))->add(name, info);
+    return ((CBuddyHandle*)((char*)this + 0x6c))->add(std::string((char*)&info), info);
 }
 ```

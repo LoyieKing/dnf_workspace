@@ -102,7 +102,7 @@ void __thiscall CPacketTracer::_ZN13CPacketTracer8WriteLogEv(CPacketTracer *this
 ```cpp
 void CPacketTracer::WriteLog()
 {
-    if (m_count == (m_count / 0x1e) * 0x1e)
+    if (m_count % 0x1e == 0)
     {
         DNF_LOG_SCOPE_LINE(0x2e, "./log/packet_trace", "[TRACE_PACKET] Packet Code : %s\n", m_str.c_str());
         ResetLog();

@@ -137,7 +137,7 @@ void CPacketTracer::AddLog(int a, int b)
     time_t t;
     time(&t);
     struct tm st = *localtime(&t);
-    char buf[32];
+    char buf[32] = {0};
     sprintf(buf, "(%02d:%02d:%02d/%d/%d)", st.tm_hour, st.tm_min, st.tm_sec, b, a);
     m_str += buf;
     m_count = m_count + 1;

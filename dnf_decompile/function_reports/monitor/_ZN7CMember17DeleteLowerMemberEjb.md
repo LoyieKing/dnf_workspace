@@ -128,7 +128,7 @@ void __thiscall CMember::_ZN7CMember17DeleteLowerMemberEjb(CMember *this,uint pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 545 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 539 行）：
 
 ```cpp
 void CMember::DeleteLowerMember(unsigned int charNo, bool flag)
@@ -138,7 +138,7 @@ void CMember::DeleteLowerMember(unsigned int charNo, bool flag)
     {
         char* p = (char*)this + 0x2e;
         unsigned char idx = 0;
-        do
+        while (count-- != 0)
         {
             if (*(unsigned int*)p == charNo)
             {
@@ -152,7 +152,7 @@ void CMember::DeleteLowerMember(unsigned int charNo, bool flag)
             }
             p += 0x27;
             idx++;
-        } while (count-- != 0);
+        }
         DebugPrintMemberMember("DELETE_LOWER_MEMBER");
     }
 }

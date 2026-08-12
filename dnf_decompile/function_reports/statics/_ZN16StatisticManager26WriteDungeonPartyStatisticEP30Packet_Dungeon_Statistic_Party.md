@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806e5f0` | `0x2be` | `0x806e79e` | `0x2bb` |
+| statics | DIFF | `0x806e5f0` | `0x2be` | `0x806e7de` | `0x2cf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,185 +1,186 @@
+@@ -1,185 +1,194 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -31,15 +31,23 @@
  mov    %al,-0xa0(%ebp)
  mov    0xc(%ebp),%eax
  movzbl 0x11(%eax),%eax
++test   %al,%al
++setne  %al
  mov    %al,-0x9f(%ebp)
  mov    0xc(%ebp),%eax
  movzbl 0x12(%eax),%eax
++test   %al,%al
++setne  %al
  mov    %al,-0x9e(%ebp)
  mov    0xc(%ebp),%eax
  movzbl 0x13(%eax),%eax
++test   %al,%al
++setne  %al
  mov    %al,-0x9d(%ebp)
  mov    0xc(%ebp),%eax
  movzbl 0x14(%eax),%eax
++test   %al,%al
++setne  %al
  mov    %al,-0x9c(%ebp)
  mov    0xc(%ebp),%eax
  movzbl 0x15(%eax),%eax
@@ -96,7 +104,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapI19STPartyStatisticKey14PartyStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE5emptyEv>
  test   %al,%al
- jne    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x17e>
+-jne    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x17e>
++jne    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x192>
  mov    0x8(%ebp),%eax
  lea    0x38(%eax),%edx
  lea    -0x98(%ebp),%eax
@@ -110,13 +119,15 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEeqERKS5_>
  test   %al,%al
- je     <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x185>
+-je     <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x185>
++je     <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x199>
  mov    $0x1,%eax
- jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x18a>
+-jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x18a>
++jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x19e>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x239>
-+je     <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x238>
++je     <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x24c>
  lea    -0x4c(%ebp),%eax
  lea    -0xdc(%ebp),%edx
  mov    %edx,0x8(%esp)
@@ -146,7 +157,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt4pairI19STPartyStatisticKey14PartyStatisticED1Ev>
 -jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x298>
-+jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x22b>
++jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x23f>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x8c(%ebp),%eax
@@ -155,7 +166,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x224>
-+jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x216>
++jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x22a>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x4c(%ebp),%eax
@@ -164,11 +175,11 @@
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x264>
-+jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x25d>
++jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x271>
 +lea    -0x4c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt4pairI19STPartyStatisticKey14PartyStatisticED1Ev>
-+jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x275>
++jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x289>
  lea    -0xac(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK19STPartyStatisticKey14PartyStatisticEEptEv>
@@ -182,7 +193,7 @@
 +mov    %edx,(%esp)
  call   <T> <_ZN14PartyStatisticpLERKS_>
 -jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x298>
-+jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x275>
++jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x289>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0xdc(%ebp),%eax
@@ -190,11 +201,11 @@
  call   <T> <_ZN14PartyStatisticD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
-+jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x285>
++jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x299>
 +lea    -0xdc(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN14PartyStatisticD1Ev>
-+jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x2a3>
++jmp    <T> <_ZN16StatisticManager26WriteDungeonPartyStatisticEP30Packet_Dungeon_Statistic_Party+0x2b7>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0xa8(%ebp),%eax

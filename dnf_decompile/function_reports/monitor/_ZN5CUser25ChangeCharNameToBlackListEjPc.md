@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806d904` | `0x9d` | `0x8088e82` | `0x93` |
+| monitor | DIFF | `0x806d904` | `0x9d` | `0x8088e80` | `0x93` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -126,20 +126,25 @@ CUser::_ZN5CUser25ChangeCharNameToBlackListEjPc(CUser *this,uint param_1,char *p
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 216 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 211 行）：
 
 ```cpp
 int CUser::ChangeCharNameToBlackList(unsigned int dbid, char* name)
 {
-    if (!m_blackList.empty())
+    if (m_blackList.empty())
+    {
+        return 0;
+    }
+    else
     {
         std::map<unsigned int, CBlackUser*>::iterator it = m_blackList.find(dbid);
         if (it != m_blackList.end())
         {
-            it->second->ChangeCharName(name);
+            CBlackUser* user = it->second;
+            user->ChangeCharName(name);
             return 1;
         }
+        return 0;
     }
-    return 0;
 }
 ```

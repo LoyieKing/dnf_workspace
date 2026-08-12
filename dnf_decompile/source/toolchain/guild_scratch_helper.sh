@@ -42,6 +42,8 @@ scratch_compile() {
     local rel=${src#/}.o
     local out="$scr/CMakeFiles/guild.dir/$rel"
     local cxx="$CXX"
+    local -a fl
+    eval "fl=($FLAGS)"
     case "${GUILD_SCRATCH_VARIANT:-}" in
         c6)       cxx="$REPO/source/toolchain/cmake/dnf_c6_gxx.sh" ;;
         c6444r)   cxx="$REPO/source/toolchain/cmake/dnf_c6444r_gxx.sh" ;;
@@ -50,7 +52,7 @@ scratch_compile() {
     esac
     mkdir -p "$(dirname "$out")"
     echo "CC  $src (src=$(basename "$use_src")${GUILD_SCRATCH_VARIANT:+ variant=$GUILD_SCRATCH_VARIANT})"
-    (cd "$REPO" && "$cxx" $FLAGS "$@" -c "$use_src" -o "$out") || return 1
+    (cd "$REPO" && "$cxx" "${fl[@]}" "$@" -c "$use_src" -o "$out") || return 1
 }
 
 scratch_link() {

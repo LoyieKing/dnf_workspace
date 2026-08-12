@@ -1,0 +1,44 @@
+demangled	mangled	status	orig_size	tu
+CAppConfig::Parse_Table(char*, int)	_ZN10CAppConfig11Parse_TableEPci	DIFF	5162	mixed
+CServerHandler::Load(ST_ServerInfo*)	_ZN14CServerHandler4LoadEP13ST_ServerInfo	NEAR	1572	mixed
+CApplication::Load(int, char**)	_ZN12CApplication4LoadEiPPc	DIFF	1488	mixed
+CApplication::TranslateSignal()	_ZN12CApplication15TranslateSignalEv	DIFF	986	mixed
+CFrameCountHandler::GetFrameCountInfo()	_ZN18CFrameCountHandler17GetFrameCountInfoEv	DIFF	892	mixed
+CPacketDecoder::TcpProcess()	_ZN14CPacketDecoder10TcpProcessEv	DIFF	819	mixed
+CPacketDecoder::UdpProcess()	_ZN14CPacketDecoder10UdpProcessEv	DIFF	814	mixed
+CQueryCounter::WriteDBLog(CDBManager&)	_ZN13CQueryCounter10WriteDBLogER10CDBManager	DIFF	694	mixed
+CApplication::Free()	_ZN12CApplication4FreeEv	DIFF	674	mixed
+allocStackBuffer(unsigned int, unsigned char**, int*)	_ZL16allocStackBufferjPPhPi	DIFF	626	mixed
+CMySql::exec_query()	_ZN6CMySql10exec_queryEv	DIFF	625	mixed
+np_server_xml::CServerXml::StrPunish(int, char const*, np_server_xml::_eStringType)	_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE	DIFF	613	mixed
+CPacketDecoder::MsgDecode(PacketHeader*)	_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader	DIFF	489	mixed
+CApplication::Process()	_ZN12CApplication7ProcessEv	DIFF	479	mixed
+CSignalTranslator::init_handler(CApplication*)	_ZN17CSignalTranslator12init_handlerEP12CApplication	DIFF	435	mixed
+CMySql::exec(unsigned int)	_ZN6CMySql4execEj	DIFF	375	mixed
+CMySql::open(char const*, char const*, char const*, char const*)	_ZN6CMySql4openEPKcS1_S1_S1_	DIFF	360	mixed
+CMySql::open(char const*, unsigned int, char const*, char const*, char const*)	_ZN6CMySql4openEPKcjS1_S1_S1_	DIFF	358	mixed
+CPacketTracer::WritePacketProcessLog()	_ZN13CPacketTracer21WritePacketProcessLogEv	DIFF	356	mixed
+CFrameCountHandler::InitFrameCountInfo(CApplication*, unsigned int, unsigned short)	_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt	DIFF	316	mixed
+CPacketCounter<1000, 10240>::AfterProcess(int)	_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi	DIFF	285	mixed
+freeAllStackBuffers()	_ZL19freeAllStackBuffersv	DIFF	262	mixed
+CServerHandler::SendAllTcpServer(PacketHeader*)	_ZN14CServerHandler16SendAllTcpServerEP12PacketHeader	DIFF	250	mixed
+freeStackBuffer(unsigned char*, int)	_ZL15freeStackBufferPhi	DIFF	235	mixed
+CKillUSRConfig::Parse_Table(char*, int)	_ZN14CKillUSRConfig11Parse_TableEPci	DIFF	235	mixed
+WongWork::CGMAccounts::getGMInfo(unsigned int) const	_ZNK8WongWork11CGMAccounts9getGMInfoEj	DIFF	224	mixed
+CTableBase::Load_Txt_Table_Data(char const*, int)	_ZN10CTableBase19Load_Txt_Table_DataEPKci	DIFF	218	mixed
+CQueryCounter::SetResponseTime(unsigned int)	_ZN13CQueryCounter15SetResponseTimeEj	DIFF	194	mixed
+STDBConnInfo::STDBConnInfo()	_ZN12STDBConnInfoC1Ev	DIFF	178	mixed
+STDBConnInfo::STDBConnInfo()	_ZN12STDBConnInfoC2Ev	DIFF	178	mixed
+CAppConfig::DecryptValue(char const*, char*)	_ZN10CAppConfig12DecryptValueEPKcPc	DIFF	175	mixed
+CPacketTracer::CPacketTracer()	_ZN13CPacketTracerC1Ev	DIFF	173	mixed
+CPacketTracer::CPacketTracer()	_ZN13CPacketTracerC2Ev	DIFF	173	mixed
+WongWork::CGMAccounts::isGM(unsigned int)	_ZN8WongWork11CGMAccounts4isGMEj	DIFF	167	mixed
+CMySql::blob_to_str(int, void*, int)	_ZN6CMySql11blob_to_strEiPvi	DIFF	163	mixed
+CSignalTranslator::regist_signal(int, void (*)(int))	_ZN17CSignalTranslator13regist_signalEiPFviE	DIFF	143	mixed
+WongWork::CGMAccounts::AppendGM_Sys(unsigned int, char)	_ZN8WongWork11CGMAccounts12AppendGM_SysEjc	DIFF	143	mixed
+CFrameCountHandler::SaveProcess(int)	_ZN18CFrameCountHandler11SaveProcessEi	NEAR	135	mixed
+CFrameCountHandler::SaveProcess()	_ZN18CFrameCountHandler11SaveProcessEv	NEAR	128	mixed
+CPacketCounter<1000, 10240>::CPacketCounter(char*, char*)	_ZN14CPacketCounterILi1000ELi10240EEC1EPcS1_	DIFF	126	mixed
+CPacketCounter<1000, 10240>::CPacketCounter(char*, char*)	_ZN14CPacketCounterILi1000ELi10240EEC2EPcS1_	DIFF	126	mixed
+CQueryCounter::IncreQureyCount(unsigned int, char const*)	_ZN13CQueryCounter15IncreQureyCountEjPKc	DIFF	100	mixed
+CPacketCounter<1000, 10240>::IncrementPacketCount(int)	_ZN14CPacketCounterILi1000ELi10240EE20IncrementPacketCountEi	DIFF	95	mixed

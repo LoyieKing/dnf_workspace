@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091138` | `0x15d` | `0x8056ce0` | `0x168` |
+| guild | DIFF | `0x8091138` | `0x15d` | `0x8056ce0` | `0x15e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,102 +13,73 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,107 +1,112 @@
+@@ -1,107 +1,107 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
--sub    $0x40,%esp
-+sub    $0x50,%esp
+ sub    $0x40,%esp
  mov    0x10(%ebp),%eax
--mov    %al,-0x1c(%ebp)
--cmpb   $0x0,-0x1c(%ebp)
--je     <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x4f>
-+mov    %al,-0x2c(%ebp)
-+cmpb   $0x0,-0x2c(%ebp)
-+je     <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x5c>
+ mov    %al,-0x1c(%ebp)
+ cmpb   $0x0,-0x1c(%ebp)
+ je     <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x4f>
  mov    0x8(%ebp),%eax
--movzbl 0x4d(%eax),%eax
--movzbl %al,%eax
-+add    $0x4d,%eax
-+movzbl (%eax),%eax
-+mov    %al,-0x11(%ebp)
-+movzbl -0x11(%ebp),%eax
+ movzbl 0x4d(%eax),%eax
+ movzbl %al,%eax
  add    $0x1,%eax
  cmp    $0x5,%eax
 -jg     <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x100>
-+jg     <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x10b>
++jg     <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x101>
  mov    0x8(%ebp),%eax
--movzbl 0x4d(%eax),%eax
--movzbl %al,%ecx
--mov    0x8(%ebp),%edx
--lea    0x10(%ecx),%ebx
--mov    0xc(%ebp),%ecx
--mov    %ecx,0xe(%edx,%ebx,4)
--lea    0x1(%eax),%edx
-+movzbl -0x11(%ebp),%edx
-+add    $0x10,%edx
-+shl    $0x2,%edx
-+add    $0xe,%edx
-+lea    (%eax,%edx,1),%edx
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%edx)
+ movzbl 0x4d(%eax),%eax
+ movzbl %al,%ecx
+ mov    0x8(%ebp),%edx
+ lea    0x10(%ecx),%ebx
+ mov    0xc(%ebp),%ecx
+ mov    %ecx,0xe(%edx,%ebx,4)
+ lea    0x1(%eax),%edx
  mov    0x8(%ebp),%eax
--mov    %dl,0x4d(%eax)
+ mov    %dl,0x4d(%eax)
 -jmp    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x100>
-+add    $0x4d,%eax
-+movzbl -0x11(%ebp),%edx
-+add    $0x1,%edx
-+mov    %dl,(%eax)
-+jmp    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x10b>
++jmp    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x101>
  mov    0x8(%ebp),%eax
  add    $0x4d,%eax
  mov    %eax,-0x10(%ebp)
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0xe6>
-+jmp    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0xf1>
-+mov    0x8(%ebp),%eax
++jmp    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0xe7>
  mov    -0xc(%ebp),%edx
--mov    0x8(%ebp),%eax
+ mov    0x8(%ebp),%eax
  add    $0x10,%edx
--mov    0xe(%eax,%edx,4),%eax
-+shl    $0x2,%edx
-+add    $0xe,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
+ mov    0xe(%eax,%edx,4),%eax
  cmp    0xc(%ebp),%eax
 -jne    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0xe2>
-+jne    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0xed>
++jne    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0xe3>
  mov    -0x10(%ebp),%eax
  movzbl (%eax),%eax
- movzbl %al,%eax
- mov    -0xc(%ebp),%edx
- not    %edx
- add    %edx,%eax
+-movzbl %al,%eax
+-mov    -0xc(%ebp),%edx
+-not    %edx
+-add    %edx,%eax
++movzbl %al,%edx
++mov    -0xc(%ebp),%eax
++not    %eax
++lea    (%edx,%eax,1),%eax
  lea    0x0(,%eax,4),%ecx
--mov    0x8(%ebp),%eax
--lea    0x4e(%eax),%edx
+ mov    0x8(%ebp),%eax
+ lea    0x4e(%eax),%edx
  mov    -0xc(%ebp),%eax
  add    $0x1,%eax
  shl    $0x2,%eax
--add    %eax,%edx
--mov    0x8(%ebp),%eax
--lea    0x4e(%eax),%ebx
--mov    -0xc(%ebp),%eax
--shl    $0x2,%eax
--lea    (%ebx,%eax,1),%eax
-+add    $0x4e,%eax
-+add    0x8(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+mov    -0xc(%ebp),%ebx
-+shl    $0x2,%ebx
-+add    $0x4e,%ebx
-+add    %ebx,%edx
+ add    %eax,%edx
+ mov    0x8(%ebp),%eax
+ lea    0x4e(%eax),%ebx
+ mov    -0xc(%ebp),%eax
+ shl    $0x2,%eax
+ lea    (%ebx,%eax,1),%eax
  mov    %ecx,0x8(%esp)
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    -0x10(%ebp),%eax
  movzbl (%eax),%eax
@@ -121,34 +92,32 @@
 -seta   %al
 -test   %al,%al
 -je     <T> <_ZN6CGuild17SetSubGuildMasterEjb+0xff>
-+jbe    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x10a>
++seta   %bl
++test   %bl,%bl
++je     <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x100>
  mov    -0x10(%ebp),%eax
  movb   $0x0,(%eax)
 -jmp    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x100>
-+jmp    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x10b>
++jmp    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x101>
  addl   $0x1,-0xc(%ebp)
  mov    -0x10(%ebp),%eax
  movzbl (%eax),%eax
  movzbl %al,%eax
  cmp    -0xc(%ebp),%eax
--setg   %al
-+seta   %al
+ setg   %al
  test   %al,%al
--jne    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x64>
+ jne    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x64>
 -jmp    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x100>
-+jne    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x71>
-+jmp    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x10b>
++jmp    <T> <_ZN6CGuild17SetSubGuildMasterEjb+0x101>
  nop
--movzbl -0x1c(%ebp),%esi
-+movzbl -0x2c(%ebp),%esi
+ movzbl -0x1c(%ebp),%esi
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild11GetGuildKeyEv>
  mov    %eax,%ebx
  movl   $0x84e,0x8(%esp)
  movl   $&_ZZN6CGuild17SetSubGuildMasterEjbE12__FUNCTION__,0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %esi,0x14(%esp)
@@ -157,12 +126,10 @@
  mov    %ebx,0xc(%esp)
  movl   $"Set Sub Guild Master guild(%d) CharNo(%d) flag(%d)",0x8(%esp)
  movl   $"./log/GuildModify",0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--add    $0x40,%esp
-+add    $0x50,%esp
+ add    $0x40,%esp
  pop    %ebx
  pop    %esi
  pop    %ebp

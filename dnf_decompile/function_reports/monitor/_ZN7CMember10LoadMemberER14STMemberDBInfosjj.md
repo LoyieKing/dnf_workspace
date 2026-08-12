@@ -113,7 +113,7 @@ CMember::_ZN7CMember10LoadMemberER14STMemberDBInfosjj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 281 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 279 行）：
 
 ```cpp
 void CMember::LoadMember(STMemberDBInfo& info, short level, unsigned int a, unsigned int b)
@@ -121,11 +121,12 @@ void CMember::LoadMember(STMemberDBInfo& info, short level, unsigned int a, unsi
     if ((m_flag & 2) != 0)
     {
         unsigned int limit = m_memberManager->GetLowerMemberEnterLimit(level);
-        if ((unsigned int)info.m_count27 > limit)
+        if ((int)(unsigned int)info.m_count27 > (int)limit)
         {
             info.m_count27 = (unsigned char)limit;
         }
-        memcpy((char*)this + 6, &info, (unsigned int)info.m_count27 * 0x27 + 0x28);
+        unsigned int size = (unsigned int)info.m_count27 * 0x27 + 0x28;
+        memcpy((char*)this + 6, &info, size);
         m_flag |= 4;
         SetMemberRegisterTime(a);
         SetMemberDeleteTime(b);

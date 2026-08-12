@@ -1,4 +1,4 @@
-targets=70
-ours=70
+targets=67
+ours=67
 skip_no_source=0
 skip_vendored=0

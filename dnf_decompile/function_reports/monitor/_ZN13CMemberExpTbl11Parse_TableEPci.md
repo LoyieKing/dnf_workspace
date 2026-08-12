@@ -104,7 +104,7 @@ CMemberExpTbl::_ZN13CMemberExpTbl11Parse_TableEPci(CMemberExpTbl *this,char *par
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 87 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 81 行）：
 
 ```cpp
 bool CMemberExpTbl::Parse_Table(char* line, int idx)
@@ -114,7 +114,7 @@ bool CMemberExpTbl::Parse_Table(char* line, int idx)
         return 0;
     }
     char* tokens[2];
-    register bool ok = DNFFLib::ExplodeString(line, "\t\"", tokens, 1) == 1 && tokens[1] == 0;
+    bool ok = DNFFLib::ExplodeString(line, "\t\"", tokens, 1) == 1 && tokens[1] == 0;
     if (ok && idx < 0xb)
     {
         m_table[idx] = atoi(tokens[0]);

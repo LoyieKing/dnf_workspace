@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8052e16` | `0x13e` | `0x80a7538` | `0x13e` |
+| guild | DIFF | `0x8052e16` | `0x13e` | `0x80a73a0` | `0x142` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,101 +1,101 @@
+@@ -1,101 +1,103 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -58,9 +58,8 @@
  mov    %esi,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--mov    %ebx,%eax
--mov    %eax,%edx
-+mov    %ebx,%edx
+ mov    %ebx,%eax
+ mov    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x118(%eax)
  mov    0x8(%ebp),%eax
@@ -77,7 +76,8 @@
 +test   %eax,%eax
 +sete   %al
  test   %al,%al
- je     <T> <_ZN13CTcpNetSystem4InitEt+0xcb>
+-je     <T> <_ZN13CTcpNetSystem4InitEt+0xcb>
++je     <T> <_ZN13CTcpNetSystem4InitEt+0xcd>
  call   <T> <__cxa_rethrow>
  movl   $0x30,(%esp)
  call   <T> <_Znwj>
@@ -85,7 +85,8 @@
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN17CTcpNetworkThreadC1Ev>
- jmp    <T> <_ZN13CTcpNetSystem4InitEt+0xfd>
+-jmp    <T> <_ZN13CTcpNetSystem4InitEt+0xfd>
++jmp    <T> <_ZN13CTcpNetSystem4InitEt+0xff>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -94,9 +95,8 @@
  mov    %esi,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--mov    %ebx,%eax
--mov    %eax,%edx
-+mov    %ebx,%edx
+ mov    %ebx,%eax
+ mov    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x4(%eax)
  mov    0x8(%ebp),%eax
@@ -113,7 +113,8 @@
 +test   %eax,%eax
 +sete   %al
  test   %al,%al
- je     <T> <_ZN13CTcpNetSystem4InitEt+0x136>
+-je     <T> <_ZN13CTcpNetSystem4InitEt+0x136>
++je     <T> <_ZN13CTcpNetSystem4InitEt+0x13a>
  call   <T> <__cxa_rethrow>
  add    $0x2c,%esp
  pop    %ebx

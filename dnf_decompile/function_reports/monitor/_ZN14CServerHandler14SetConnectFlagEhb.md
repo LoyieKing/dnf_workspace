@@ -140,8 +140,7 @@ void CServerHandler::SetConnectFlag(unsigned char channel, bool flag)
     }
     else
     {
-        CMyFileLog log(__FUNCTION__, 0x1f8);
-        log("./log/GameServer",
+        DNF_LOG_SCOPE_LINE(0x1f8, "./log/GameServer",
             "CServerHandler::SetConnectFlag\tGame Server Index Over Index : %d!\n",
             channel);
     }

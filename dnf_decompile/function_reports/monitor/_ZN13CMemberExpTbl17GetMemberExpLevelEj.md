@@ -142,14 +142,19 @@ CMemberExpTbl::_ZN13CMemberExpTbl17GetMemberExpLevelEj(CMemberExpTbl *this,uint 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 103 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp](source/DNFServer/GameServer/Monitor/DNFMemberConfig.cpp)（约第 97 行）：
 
 ```cpp
 int CMemberExpTbl::GetMemberExpLevel(unsigned int exp)
 {
+    char* p = (char*)this + 8;
     int local_c = (int)(unsigned char)((RA_S8<4>*)this)->v - 1;
     int local_8 = 1;
-    if (exp < *(unsigned int*)((char*)this + local_c * 4 + 8))
+    if (exp >= (unsigned int)m_table[local_c])
+    {
+        local_8 = (int)(unsigned char)((RA_S8<4>*)this)->v - 1;
+    }
+    else
     {
         if (exp == 0)
         {
@@ -157,23 +162,13 @@ int CMemberExpTbl::GetMemberExpLevel(unsigned int exp)
         }
         else
         {
-            char* p = (char*)this + 8;
-            while (true)
+            while (local_c-- != 0 &&
+                   (exp <= *(unsigned int*)p || *(unsigned int*)(p + 4) < exp))
             {
-                bool b = local_c != 0;
-                local_c = local_c - 1;
-                if (!b || !(exp <= *(unsigned int*)p || *(unsigned int*)(p + 4) < exp))
-                {
-                    break;
-                }
                 local_8 = local_8 + 1;
                 p = p + 4;
             }
         }
-    }
-    else
-    {
-        local_8 = (int)(unsigned char)((RA_S8<4>*)this)->v - 1;
     }
     return local_8;
 }

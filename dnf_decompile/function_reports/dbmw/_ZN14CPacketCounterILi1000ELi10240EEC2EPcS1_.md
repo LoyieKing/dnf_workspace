@@ -100,14 +100,14 @@ CPacketCounter<1000,10240>::_ZN14CPacketCounterILi1000ELi10240EEC2EPcS1_
 CPacketCounter<Lo, Hi>::CPacketCounter(char* dir, char* name)
 {
     Reset();
-    *(time_t*)(m_data + 4) = time(0);
-    if (dir == 0)
+    m_time = time(0);
+    if (dir != 0)
     {
-        sprintf(m_name, "./log/%s", name);
+        sprintf(m_name, "./log/%s/%s", dir, name);
     }
     else
     {
-        sprintf(m_name, "./log/%s/%s", dir, name);
+        sprintf(m_name, "./log/%s", name);
     }
     m_flag = true;
 }

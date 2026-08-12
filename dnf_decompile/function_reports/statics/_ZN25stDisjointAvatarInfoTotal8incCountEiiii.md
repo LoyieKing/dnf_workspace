@@ -133,7 +133,7 @@ stDisjointAvatarInfoTotal::_ZN25stDisjointAvatarInfoTotal8incCountEiiii
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/GMAccounts.cpp](source/DNFServer/GameServer/Statics/GMAccounts.cpp)（约第 101 行）：
+定义于 [source/DNFServer/GameServer/Statics/GMAccounts.cpp](source/DNFServer/GameServer/Statics/GMAccounts.cpp)（约第 99 行）：
 
 ```cpp
 void stDisjointAvatarInfoTotal::incCount(int a, int b, int c, int d)

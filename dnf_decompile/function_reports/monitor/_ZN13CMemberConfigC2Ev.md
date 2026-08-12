@@ -109,11 +109,5 @@ void __thiscall CMemberConfig::_ZN13CMemberConfigC2Ev(CMemberConfig *this)
 ```cpp
 CMemberConfig::CMemberConfig()
 {
-    for (int i = 0; i < 10; i++)
-    {
-        m_table[i].m_a = 0;
-        m_table[i].m_b = 0;
-        m_table[i].m_c = 0;
-    }
 }
 ```

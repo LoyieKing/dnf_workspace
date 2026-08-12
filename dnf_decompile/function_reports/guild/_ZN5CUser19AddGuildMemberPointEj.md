@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80669f2` | `0x49` | `0x8088f46` | `0x47` |
+| guild | DIFF | `0x80669f2` | `0x49` | `0x8088e60` | `0x4f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,33 +13,43 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,25 +1,24 @@
+@@ -1,25 +1,28 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  mov    0x8(%ebp),%eax
- mov    0x60(%eax),%eax
+-mov    0x60(%eax),%eax
++add    $0x60,%eax
++mov    (%eax),%eax
  mov    %eax,-0xc(%ebp)
  mov    0x8(%ebp),%eax
 -mov    0x60(%eax),%eax
 -mov    %eax,%edx
-+mov    0x8(%ebp),%edx
-+mov    0x60(%edx),%edx
- add    0xc(%ebp),%edx
+-add    0xc(%ebp),%edx
 -mov    0x8(%ebp),%eax
- mov    %edx,0x60(%eax)
+-mov    %edx,0x60(%eax)
++add    $0x60,%eax
++mov    0xc(%ebp),%edx
++mov    -0xc(%ebp),%ecx
++lea    (%ecx,%edx,1),%edx
++mov    %edx,(%eax)
  movl   $0x10,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser15SetGuildMemFlagEt>
  mov    0x8(%ebp),%eax
- mov    0x60(%eax),%eax
+-mov    0x60(%eax),%eax
++add    $0x60,%eax
++mov    (%eax),%eax
  cmp    -0xc(%ebp),%eax
 -jae    <T> <_ZN5CUser19AddGuildMemberPointEj+0x47>
-+jae    <T> <_ZN5CUser19AddGuildMemberPointEj+0x45>
++jae    <T> <_ZN5CUser19AddGuildMemberPointEj+0x4d>
  mov    0x8(%ebp),%eax
- mov    -0xc(%ebp),%edx
- mov    %edx,0x60(%eax)
+-mov    -0xc(%ebp),%edx
+-mov    %edx,0x60(%eax)
++lea    0x60(%eax),%edx
++mov    -0xc(%ebp),%eax
++mov    %eax,(%edx)
  leave
  ret
 ```

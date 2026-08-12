@@ -520,14 +520,13 @@ CMember::_ZN7CMember21NoticeMemberLogin_OutEP5CUserc(CMember *this,CUser *param_
 void CMember::NoticeMemberLogin_Out(CUser* user, char flag)
 {
     bool invalid = (user == 0 || user->GetGameServer() == 0);
-    if (!invalid && (m_flag & 4) != 0)
+    if (invalid == 0 && (m_flag & 4) != 0)
     {
         Packet_Monitor_Notice_Member_Member_Login_out pkt;
         CUser* member = m_memberManager->FindMemberUser(m_dbInfo.m_member.m_field0);
         if (member != 0)
         {
-            member->GetUniqCharNo();
-            if (user->IsBlackUser(0) != 1)
+            if (user->IsBlackUser(member->GetUniqCharNo()) != 1)
             {
                 pkt.m_flag = flag;
                 pkt.m_idByChannel = member->GetIdByChannel();
@@ -541,16 +540,20 @@ void CMember::NoticeMemberLogin_Out(CUser* user, char flag)
             }
             if (flag == 1)
             {
-                member->GetUniqCharNo();
-                if (user->IsBlackUser(0) != 1)
+                if (user->IsBlackUser(member->GetUniqCharNo()) != 1)
                 {
                     pkt.m_flag = flag;
                     pkt.m_idByChannel = user->GetIdByChannel();
                     pkt.m_uniqCharNo = user->GetUniqCharNo();
-                    pkt.m_channelNo =
-                        (member->GetGameServer() != 0)
-                            ? ((CServerInterface*)member->GetGameServer())->GetChannelNo()
-                            : 0xff;
+                    if (member->GetGameServer() != 0)
+                    {
+                        pkt.m_channelNo =
+                            ((CServerInterface*)member->GetGameServer())->GetChannelNo();
+                    }
+                    else
+                    {
+                        pkt.m_channelNo = 0xff;
+                    }
                     pkt.m_type = 1;
                     memcpy(pkt.m_charName, member->GetCharName(), 0x1d);
                     pkt.m_expLevel = user->GetUpperMemberExpLevel();
@@ -559,28 +562,28 @@ void CMember::NoticeMemberLogin_Out(CUser* user, char flag)
                 }
             }
         }
-        unsigned int count = (unsigned int)m_dbInfo.m_count27;
+        int count = (int)m_dbInfo.m_count27;
         if (count != 0)
         {
-            for (unsigned int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
-                CUser* m = m_memberManager->FindMemberUser(m_dbInfo.m_member.m_field0);
-                if (m != 0)
+                CUser* m = m_memberManager->FindMemberUser(m_dbInfo.m_lowers[i].m_field0);
+                if (m == 0)
                 {
-                    m->GetUniqCharNo();
-                    if (user->IsBlackUser(0) != 1)
-                    {
-                        pkt.m_flag = flag;
-                        pkt.m_idByChannel = m->GetIdByChannel();
-                        pkt.m_uniqCharNo = m->GetUniqCharNo();
-                        pkt.m_channelNo =
-                            ((CServerInterface*)user->GetGameServer())->GetChannelNo();
-                        pkt.m_type = 1;
-                        memcpy(pkt.m_charName, user->GetCharName(), 0x1d);
-                        pkt.m_expLevel = m->GetUpperMemberExpLevel();
-                        pkt.m_uniqCharNo2 = user->GetUniqCharNo();
-                        m->SendTcpGameserver(&pkt);
-                    }
+                    continue;
+                }
+                if (user->IsBlackUser(m->GetUniqCharNo()) != 1)
+                {
+                    pkt.m_flag = flag;
+                    pkt.m_idByChannel = m->GetIdByChannel();
+                    pkt.m_uniqCharNo = m->GetUniqCharNo();
+                    pkt.m_channelNo =
+                        ((CServerInterface*)user->GetGameServer())->GetChannelNo();
+                    pkt.m_type = 1;
+                    memcpy(pkt.m_charName, user->GetCharName(), 0x1d);
+                    pkt.m_expLevel = m->GetUpperMemberExpLevel();
+                    pkt.m_uniqCharNo2 = user->GetUniqCharNo();
+                    m->SendTcpGameserver(&pkt);
                 }
             }
         }

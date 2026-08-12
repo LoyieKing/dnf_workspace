@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806d7c8` | `0x93` | `0x8089a56` | `0xb0` |
+| monitor | DIFF | `0x806d7c8` | `0x93` | `0x8089a54` | `0xb0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -124,7 +124,7 @@ CUser::_ZN5CUser19RegisterToBlackListEjPcj(CUser *this,uint param_1,char *param_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 518 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUser.cpp](source/DNFServer/GameServer/Monitor/DNFUser.cpp)（约第 516 行）：
 
 ```cpp
 char CUser::RegisterToBlackList(unsigned int charNo, char* name, unsigned int time)
@@ -132,7 +132,7 @@ char CUser::RegisterToBlackList(unsigned int charNo, char* name, unsigned int ti
     CBlackUser* user = new CBlackUser;
     user->SetBlackUser(name, time);
     std::pair<std::map<unsigned int, CBlackUser*>::iterator, bool> r =
-        m_blackList.insert(std::pair<const unsigned int, CBlackUser*>(charNo, user));
-    return r.second ? 1 : 0;
+        m_blackList.insert(std::make_pair(charNo, user));
+    return r.second;
 }
 ```

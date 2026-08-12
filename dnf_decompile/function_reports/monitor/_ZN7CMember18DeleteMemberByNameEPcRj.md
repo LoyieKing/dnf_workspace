@@ -183,40 +183,39 @@ CMember::_ZN7CMember18DeleteMemberByNameEPcRj(CMember *this,char *param_1,uint *
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 576 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 570 行）：
 
 ```cpp
 int CMember::DeleteMemberByName(char* name, unsigned int& outKey)
 {
-    unsigned int* proxy = GetUpperMember_Proxy();
+    unsigned int* proxy = ((const CMember*)this)->GetUpperMember_Proxy();
     if (proxy != 0 && strcmp((char*)proxy + 5, name) == 0)
     {
         outKey = *proxy;
-        memset((char*)this + 6, 0, 0x27);
+        m_dbInfo.m_member.Reset();
         SetMemberDeleteTime(time(0));
         return 1;
     }
     char* p = (char*)this + 0x2e;
-    int idx = 0;
-    unsigned int count = (unsigned int)m_dbInfo.m_count27;
-    if (count == 0)
+    unsigned char idx = 0;
+    int count = (int)m_dbInfo.m_count27;
+    if (count > 0)
     {
-        return 0;
-    }
-    while (count != 0)
-    {
-        count--;
-        if (strcmp(p + 5, name) == 0)
+        while (count-- != 0)
         {
-            outKey = *(unsigned int*)p;
-            memcpy(p, p + 0x27, (unsigned int)(~(unsigned char)idx) * 0x27 + 0x186);
-            m_dbInfo.m_count27--;
-            SetMemberDeleteTime(time(0));
-            return 2;
+            if (strcmp(p + 5, name) == 0)
+            {
+                outKey = *(unsigned int*)p;
+                memcpy(p, p + 0x27, (unsigned int)(~(unsigned char)idx) * 0x27 + 0x186);
+                m_dbInfo.m_count27--;
+                SetMemberDeleteTime(time(0));
+                return 2;
+            }
+            p += 0x27;
+            idx++;
         }
-        p += 0x27;
-        idx++;
+        return 3;
     }
-    return 3;
+    return 0;
 }
 ```

@@ -225,27 +225,24 @@ void CPacketTranslater::_ZN17CPacketTranslater26onStartGameEventFromServerEP12Pa
 void CPacketTranslater::onStartGameEventFromServer(PacketHeader* pkt)
 {try
 {
-
-
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x22e2, "./log/AradOnly", "[Server Event] m_pclApp is null.");
         throw 0x22e3;
     }
-    if (pkt == 0)
+    PacketHeader* p = pkt;
+    if (p == 0)
     {
         DNF_LOG_SCOPE_LINE(0x22e9, "./log/AradOnly", "[Server Event] Packet_StartGameEventFromServer is null.");
         throw 0x22ea;
     }
     Packet_Monitor_Event_Start epkt;
-    epkt.m_fieldA = ((RA_UINT<10>*)pkt)->v;
-    epkt.m_fieldB = ((RA_U16<22>*)pkt)->v;
-    epkt.m_fieldC = ((RA_U16<24>*)pkt)->v;
-    CServerHandler* handler = m_pclApp->m_serverHandler2;
-    handler->SendAllTcpGameServer(&epkt);
+    epkt.m_fieldA = ((RA_UINT<10>*)p)->v;
+    *(unsigned int*)((char*)&epkt + 14) = ((RA_UINT<22>*)p)->v;
+    m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(&epkt);
     DNF_LOG_SCOPE_LINE(0x22f2,"./log/AradOnly", "[Server Event] start event. (event:%d, param:%d,%d)",
-        ((RA_UINT<10>*)pkt)->v, ((RA_U16<22>*)pkt)->v,
-        ((RA_U16<24>*)pkt)->v);
+        ((RA_UINT<10>*)p)->v, ((RA_U16<22>*)p)->v,
+        ((RA_U16<24>*)p)->v);
 
 
     }

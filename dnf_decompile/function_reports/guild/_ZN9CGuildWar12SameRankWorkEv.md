@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809ad34` | `0x21b` | `0x806163e` | `0x219` |
+| guild | DIFF | `0x809ad34` | `0x21b` | `0x8061634` | `0x219` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -118,8 +118,7 @@
  mov    %eax,-0x2c(%ebp)
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
-+call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
+ call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
  mov    0x4(%eax),%eax
  test   %eax,%eax
  sete   %al
@@ -131,8 +130,7 @@
 +jmp    <T> <_ZN9CGuildWar12SameRankWorkEv+0x214>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
-+call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
+ call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
  mov    0x4(%eax),%eax
  mov    0x20(%eax),%eax
  mov    %eax,-0x10(%ebp)
@@ -144,8 +142,7 @@
  call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEppEv>
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
-+call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
+ call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
  mov    0x4(%eax),%eax
  mov    0x20(%eax),%eax
  cmp    -0x10(%ebp),%eax
@@ -155,8 +152,7 @@
 +je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x1bb>
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
-+call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
+ call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
  mov    0x4(%eax),%eax
  mov    0x20(%eax),%eax
  mov    %eax,-0x10(%ebp)
@@ -171,8 +167,7 @@
 +jne    <T> <_ZN9CGuildWar12SameRankWorkEv+0x17b>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
-+call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
+ call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
  mov    0x4(%eax),%eax
  mov    0x20(%eax),%eax
  cmp    -0x10(%ebp),%eax
@@ -182,13 +177,11 @@
 +je     <T> <_ZN9CGuildWar12SameRankWorkEv+0x20f>
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
-+call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
+ call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
  mov    0x4(%eax),%ebx
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
-+call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEptEv>
+ call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPSt4pairIjP14STGuildWarInfoESt6vectorIS4_SaIS4_EEEdeEv>
  mov    0x4(%eax),%eax
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)

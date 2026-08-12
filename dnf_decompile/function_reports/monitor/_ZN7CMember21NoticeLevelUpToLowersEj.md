@@ -139,19 +139,18 @@ void __thiscall CMember::_ZN7CMember21NoticeLevelUpToLowersEj(CMember *this,uint
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 407 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMember.cpp](source/DNFServer/GameServer/Monitor/DNFMember.cpp)（约第 401 行）：
 
 ```cpp
 void CMember::NoticeLevelUpToLowers(unsigned int level)
 {
-    unsigned char lowerCnt = ((RA_U8<45>*)this)->v;
-    if (lowerCnt != 0)
+    int count = (int)m_dbInfo.m_count27;
+    if (count != 0)
     {
         Packet_Monitor_Notice_MemberExp_LevelUp pkt;
-        for (int i = 0; i < lowerCnt; i++)
+        for (int i = 0; i < count; i++)
         {
-            unsigned int charId = *(unsigned int*)((char*)this + i * 0x27 + 0x2e);
-            CUser* user = m_memberManager->FindMemberUser(charId);
+            CUser* user = m_memberManager->FindMemberUser(m_dbInfo.m_lowers[i].m_field0);
             if (user != 0)
             {
                 pkt.m_idByChannel = user->GetIdByChannel();
