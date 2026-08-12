@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8074aac` | `0x9d` | `0x8074d16` | `0xc9` |
+| statics | DIFF | `0x8074aac` | `0x9d` | `0x8074cd2` | `0xc9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -139,7 +139,7 @@ _ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Stati
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1708 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1690 行）：
 
 ```cpp
 void StatisticManager::AddTowerOfDespairStatistic(Packet_TowerOfDespair_Statistic_GTS* pkt)

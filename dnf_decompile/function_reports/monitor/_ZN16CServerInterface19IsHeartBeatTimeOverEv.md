@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807c2a8` | `0x58` | `0x808286a` | `0x4e` |
+| monitor | DIFF | `0x807c2a8` | `0x58` | `0x8082872` | `0x5a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,9 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,31 +1,27 @@
+@@ -1,31 +1,33 @@
  push   %ebp
  mov    %esp,%ebp
++push   %ebx
  mov    0x8(%ebp),%eax
  movzbl 0x9(%eax),%eax
  lea    -0x1(%eax),%edx
@@ -27,7 +28,9 @@
 -sete   %al
 -test   %al,%al
 -je     <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x51>
-+jne    <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x47>
++sete   %bl
++test   %bl,%bl
++je     <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x52>
  mov    0x8(%ebp),%eax
  movzbl 0xa(%eax),%eax
  lea    0x1(%eax),%edx
@@ -39,13 +42,16 @@
 -seta   %al
 -test   %al,%al
 -je     <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x4a>
-+jbe    <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x40>
++seta   %bl
++test   %bl,%bl
++je     <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x4b>
  mov    $0x1,%eax
 -jmp    <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x56>
-+jmp    <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x4c>
++jmp    <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x57>
  mov    0x8(%ebp),%eax
  movb   $0x14,0x9(%eax)
  mov    $0x0,%eax
++pop    %ebx
  pop    %ebp
  ret
 ```
@@ -79,10 +85,12 @@ CServerInterface::_ZN16CServerInterface19IsHeartBeatTimeOverEv(CServerInterface 
 char CServerInterface::IsHeartBeatTimeOver()
 {
     m_heart = m_heart - 1;
-    if (m_heart == 0)
+    register bool b = (m_heart == 0);
+    if (b)
     {
         ++m_padA[0];
-        if (m_padA[0] > 0x14)
+        register bool b2 = (m_padA[0] > 0x14);
+        if (b2)
         {
             return 1;
         }

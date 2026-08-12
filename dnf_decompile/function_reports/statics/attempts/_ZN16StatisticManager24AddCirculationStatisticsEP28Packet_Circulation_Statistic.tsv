@@ -1,3 +1,4 @@
 source_excerpt	result	date
 编译器 A/B：c5/c6444r/c6446r/c6 均 NEAR（两处 pkt/循环计数装载顺序差）	NEAR(同)	2026-08-12
 本地 `Wire* w` 指针会加栈槽装载（隔离测试 f2c 证明），与 ORIG 直接 0xc(%ebp) 不符，未采用	NEAR(同)	2026-08-12
+同 AddValueStatistics 根因：((Wire*)pkt) 强转=base-first(pkt先)，ORIG index-first(i先)；修复需共享 packet 头加真实成员（待主 agent 决策）	NEAR(同)	2026-08-12

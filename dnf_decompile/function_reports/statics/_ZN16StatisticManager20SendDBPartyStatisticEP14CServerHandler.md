@@ -658,7 +658,7 @@ StatisticManager::_ZN16StatisticManager20SendDBPartyStatisticEP14CServerHandler
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 345 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 348 行）：
 
 ```cpp
 void StatisticManager::SendDBPartyStatistic(CServerHandler* handler)

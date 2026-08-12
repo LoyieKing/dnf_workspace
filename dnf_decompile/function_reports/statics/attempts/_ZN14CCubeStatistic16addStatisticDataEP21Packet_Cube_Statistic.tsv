@@ -3,3 +3,5 @@ source_excerpt	result	date
 去掉 -fno-enforce-eh-specs 重编	DIFF(同)	2026-08-12
 编译器 A/B：c5/c6444r/c6446r/c6 均 DIFF（EH 清理块布局：ORIG 内联销毁 make_pair 临时，OURS 用共享块）	DIFF(同)	2026-08-12
 else 分支加花括号	DIFF(同)	2026-08-12
+const int value = ...（其余不动）	DIFF(同)	2026-08-12
+分析：ORIG 正常路径内联销毁 make_pair 临时(local_20)，OURS 跳共享清理块；分支极性已与 ORIG 一致（je→insert、fall-through +=），翻转会更差；四编译器 A/B 均同态	DIFF(同)	2026-08-12

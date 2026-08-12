@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805570e` | `0x13c` | `0x80e51e4` | `0x13e` |
+| dbmw | DIFF | `0x805570e` | `0x13c` | `0x80e51de` | `0x13e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -28,10 +28,9 @@
  mov    0x8(%ebp),%eax
  mov    0xc(%ebp),%edx
  mov    %edx,0x2c(%eax)
--mov    0x8(%ebp),%eax
+ mov    0x8(%ebp),%eax
  movl   $0x28,0x8(%esp)
  movl   $0x0,0x4(%esp)
-+mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memset>
  mov    0x8(%ebp),%eax
@@ -172,7 +171,7 @@ void CFrameCountHandler::InitFrameCountInfo(CApplication* app, unsigned int a, u
     if (a == 0)
         goto InitFrameCountInfo_throw;
     m_app = app;
-    memset(this, 0, 0x28);
+    memset((char*)this, 0, 0x28);
     m_field4 = a;
     m_field8 = 100 / a;
     return;

@@ -1,1 +1,2 @@
 4.1.2-52 整TU	DIFF(更差,C1 32行)	2026-08-12
+CUnixTimer* timer = new CUnixTimer; m_timer = timer;	DIFF(更差,栈帧0x20+栈槽往返)	2026-08-12

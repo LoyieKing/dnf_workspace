@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80a1c4e` | `0x10c` | `0x80967ce` | `0x10c` |
+| guild | DIFF | `0x80a1c4e` | `0x10c` | `0x80967bc` | `0x129` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,27 +13,33 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,85 +1,85 @@
+@@ -1,85 +1,93 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
- sub    $0x3c,%esp
+-sub    $0x3c,%esp
++sub    $0x4c,%esp
++lea    -0x3c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt4pairISt17_Rb_tree_iteratorIS_IKjP11CCashObjectEEbEC1Ev>
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUser>
  test   %al,%al
- je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xfc>
+-je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xfc>
++je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x119>
  movl   $0x24,(%esp)
  call   <T> <_ZN11CCashObjectnwEj>
  mov    %eax,%ebx
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CCashObjectC1Ev>
- jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x55>
+-jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x55>
++jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x60>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -44,12 +50,12 @@
  call   <T> <_Unwind_Resume>
  mov    %ebx,%eax
 -mov    %eax,-0x38(%ebp)
-+mov    %eax,-0x30(%ebp)
++mov    %eax,-0x40(%ebp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    -0x38(%ebp),%edx
-+mov    -0x30(%ebp),%edx
++mov    -0x40(%ebp),%edx
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN11CCashObject11SetCharacNoEj>
@@ -59,7 +65,7 @@
  mov    %eax,-0x1c(%ebp)
  lea    -0x24(%ebp),%eax
 -lea    -0x38(%ebp),%edx
-+lea    -0x30(%ebp),%edx
++lea    -0x40(%ebp),%edx
  mov    %edx,0x8(%esp)
  lea    -0x1c(%ebp),%edx
  mov    %edx,0x4(%esp)
@@ -72,8 +78,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKjP11CCashObjectEC1IjS2_EEOS_IT_T0_E>
  mov    0x8(%ebp),%edx
--lea    -0x34(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  lea    -0x2c(%ebp),%ecx
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
@@ -81,22 +86,31 @@
  call   <T> <_ZNSt3mapIjP11CCashObjectSt4lessIjESaISt4pairIKjS1_EEE6insertERKS6_>
  sub    $0x4,%esp
 -movzbl -0x30(%ebp),%eax
-+movzbl -0x34(%ebp),%eax
++lea    -0x34(%ebp),%eax
++mov    %eax,0x4(%esp)
++lea    -0x3c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt4pairISt17_Rb_tree_iteratorIS_IKjP11CCashObjectEEbEaSEOS6_>
++movzbl -0x38(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xf5>
+-je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xf5>
 -mov    -0x38(%ebp),%ebx
-+mov    -0x30(%ebp),%ebx
++je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x112>
++mov    -0x40(%ebp),%ebx
  test   %ebx,%ebx
- je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xee>
+-je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xee>
++je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x10b>
  mov    %ebx,(%esp)
  call   <T> <_ZN11CCashObjectD1Ev>
  mov    %ebx,(%esp)
  call   <T> <_ZN11CCashObjectdlEPv>
  mov    $0x0,%eax
- jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x101>
+-jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x101>
++jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x11e>
  mov    $0x1,%eax
- jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x101>
+-jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x101>
++jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x11e>
  mov    $0x0,%eax
  lea    -0xc(%ebp),%esp
  add    $0x0,%esp
@@ -168,13 +182,13 @@ CMemoryCashManager::_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectE
 ```cpp
 int CMemoryCashManager::InsertCashMemorySetCharacterObject(CUser* user)
 {
+    std::pair<std::map<unsigned int, CCashObject*>::iterator, bool> r;
     CCashObject* obj;
     if (IsRightObject(user))
     {
         obj = new CCashObject;
         obj->SetCharacNo(user->GetUniqCharNo());
-        std::pair<std::map<unsigned int, CCashObject*>::iterator, bool> r =
-            m_cashObjects.insert(std::make_pair(user->GetDBID(), obj));
+        r = m_cashObjects.insert(std::make_pair(user->GetDBID(), obj));
         if (!r.second)
         {
             delete obj;

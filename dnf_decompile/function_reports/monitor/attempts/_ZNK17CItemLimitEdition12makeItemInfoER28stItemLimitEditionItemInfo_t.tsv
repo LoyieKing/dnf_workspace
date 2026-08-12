@@ -1,0 +1,5 @@
+memcpy(&info,this,0x48)	DIFF(memcpy 外调，不再 rep movsl)	2026-08-12
+unsigned int sell=getSellNum(); 局部先算	DIFF(尾部 mov %eax,-0x1c(%ebp) 栈槽往返；ORIG 直接写)	2026-08-12
+stItemLimitEditionItemInfo_t* dst=&info; *dst=*this; RA_UINT 写	DIFF(mov 0xc,%eax 先存 -0x1c 再 rep movsl；尾部 mov 0xc,%edx;mov %edx,%edi 后 mov 0xc,%edx)	2026-08-12
+((unsigned int*)&info)[6]=getSellNum() 数组索引	DIFF(lea 0x18(%eax),%ebx 提前缓存 ebx)	2026-08-12
+const n* src=(const n*)this; info=*src;	DIFF(this 先装 -0x1c；ORIG info 先装 edx，且尾部调用后重装 0xc(%ebp))	2026-08-12

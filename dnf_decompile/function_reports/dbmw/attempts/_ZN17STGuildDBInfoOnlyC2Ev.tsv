@@ -1,0 +1,3 @@
+b0 |= 0x1; b0 &= ~0x2;	DIFF(同,movzx eax+中转+重载this)	2026-08-12
+unsigned char tmp=b0; tmp|=1; b0=tmp; tmp=b0; tmp&=~2; b0=tmp;	DIFF(更差,栈帧0x20)	2026-08-12
+A/B: DBManager.cpp 用 4.1.2-55 整TU	DIFF(同,movzx eax+mov edx+重载this)	2026-08-12

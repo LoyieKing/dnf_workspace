@@ -2,3 +2,6 @@ source_excerpt	result	date
 `unsigned int v = it->first.ErrorValue::m_field4` 中间变量	DIFF(更差)	2026-08-12
 编译器 A/B：c5/c6444r/c6446r/c6 均 DIFF（ORIG 多一条 mov %eax,%edx 冗余拷贝，OURS 直接装入 edx）	DIFF(同)	2026-08-12
 `register unsigned int v` 中间变量	DIFF(更差)	2026-08-12
+(int) 显式强转：pkt.m_items[count].m_field0 = (int)it->first.ErrorValue::m_field4	DIFF(同)	2026-08-12
+非限定成员：pkt.m_items[count].m_field0 = it->first.m_field4	DIFF(同)	2026-08-12
+LHS 显式取址：*(unsigned int*)&pkt.m_items[count].m_field0 = it->first.ErrorValue::m_field4	DIFF(同)	2026-08-12

@@ -653,7 +653,7 @@ void __thiscall StatisticManager::_ZN16StatisticManagerD2Ev(StatisticManager *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 43 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 46 行）：
 
 ```cpp
 StatisticManager::~StatisticManager()

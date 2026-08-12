@@ -1,1 +1,3 @@
 4.1.2-52 整TU编译	DIFF(更差,lea形态反)	2026-08-12
+register int err = mysql_errno(); m_lastErrno=err;	DIFF(更差,push ebx+栈帧变)	2026-08-12
+int err = mysql_errno(); m_lastErrno=err;	DIFF(更差,err走栈槽-0xc)	2026-08-12

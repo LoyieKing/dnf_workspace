@@ -2,3 +2,4 @@ source_excerpt	result	date
 `a.m_arrA[8 + i]` 操作数换向（原 i+8）	NEAR(同)	2026-08-12
 编译器 A/B：c5/c6444r/c6446r/c6 均 NEAR（装载顺序 i 先/pkt 后，OURS 为 pkt 先/i 后）	NEAR(同)	2026-08-12
 隔离测试：无 per-use 强转的 `p->m_b[i]` 形态为 index-first，但 packet 头无类型化字段，无法免强转	NEAR(同)	2026-08-12
+同 AddValueStatistics 根因：((EmblemCreateWire*)pkt) 强转=base-first(pkt先)，ORIG index-first(i先)；类型化直访才可翻转，需共享 packet 头加真实成员（待主 agent 决策）	NEAR(同)	2026-08-12

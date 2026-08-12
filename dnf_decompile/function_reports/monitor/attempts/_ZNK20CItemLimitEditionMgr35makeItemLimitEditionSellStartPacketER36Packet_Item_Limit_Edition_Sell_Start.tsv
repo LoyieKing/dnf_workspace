@@ -1,0 +1,5 @@
+(char*)&pkt + idx*0x48 + 0xf 去内层括号	DIFF(仍 mov ecx+add 15+lea；ORIG add 0xc(%ebp);add $0xf)	2026-08-12
+char* infoBase=(char*)&pkt+idx*0x48; +0xf 分步	DIFF(lea 到栈槽再 add 15)	2026-08-12
+(char*)&pkt.m_fieldB + 4 + idx*0x48 成员形态	DIFF(add 0xb; shl 3; add; add; add 1; shl 2 更差)	2026-08-12
+(unsigned int)&pkt + idx*0x48 + 0xf 整数算术	DIFF(lea (%edx,%eax,1); add 15)	2026-08-12
+A/B 编译器 c6444r/c6446r/c6/c5r52	ALL lea 形态；无一复现 ORIG add 0xc(%ebp);add $0xf 内存加 (编译器调度伪影)	2026-08-12

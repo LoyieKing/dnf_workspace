@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | NEAR | `0x8072de2` | `0x48` | `0x8072f5c` | `0x48` |
+| statics | NEAR | `0x8072de2` | `0x48` | `0x8072f18` | `0x48` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -59,7 +59,7 @@ StatisticManager::_ZN16StatisticManager23ResetRandomboxStatisticEv(StatisticMana
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1368 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1362 行）：
 
 ```cpp
 void StatisticManager::ResetRandomboxStatistic()

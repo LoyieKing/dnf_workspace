@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a0076` | `0x83` | `0x809275c` | `0x85` |
+| guild | DIFF | `0x80a0076` | `0x83` | `0x8092752` | `0x7d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,34 +13,32 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,37 +1,38 @@
+@@ -1,37 +1,35 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler14GetTcpDBServerEv>
- mov    %eax,-0x14(%ebp)
+-mov    %eax,-0x14(%ebp)
++mov    %eax,-0x10(%ebp)
  movl   $0x18ea,0x8(%esp)
  movl   $0x710,0x4(%esp)
- mov    -0x14(%ebp),%eax
+-mov    -0x14(%ebp),%eax
++mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CTcpDBServer16makePacketHeaderEtt>
- mov    %eax,-0x10(%ebp)
- mov    -0x10(%ebp),%eax
+-mov    %eax,-0x10(%ebp)
+-mov    -0x10(%ebp),%eax
  mov    %eax,-0xc(%ebp)
-+mov    -0xc(%ebp),%eax
-+lea    0xa(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    0x18e0(%eax),%eax
--mov    %eax,%edx
-+mov    %eax,(%edx)
+ mov    %eax,%edx
  mov    -0xc(%ebp),%eax
--mov    %edx,0xa(%eax)
--mov    0x10(%ebp),%edx
-+lea    0xe(%eax),%edx
-+mov    0x10(%ebp),%eax
-+mov    %eax,(%edx)
+ mov    %edx,0xa(%eax)
++mov    -0xc(%ebp),%eax
+ mov    0x10(%ebp),%edx
++mov    %edx,0xe(%eax)
  mov    -0xc(%ebp),%eax
 -mov    %edx,0xe(%eax)
 +lea    0x12(%eax),%edx
@@ -54,7 +52,8 @@
  call   <T> <memcpy>
  mov    -0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
- mov    -0x14(%ebp),%eax
+-mov    -0x14(%ebp),%eax
++mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CTcpDBServer12SendToServerEPc>
  leave
@@ -92,11 +91,16 @@ CGuildCargo::_ZN11CGuildCargo20SendGuildCargoToDBMWEP14CServerHandleri
 void CGuildCargo::SendGuildCargoToDBMW(CServerHandler* handler, int slot)
 {
     CTcpDBServer* db = handler->GetTcpDBServer();
-    char* pkt = db->makePacketHeader(0x710, 0x18ea);
-    char* p = pkt;
-    *(unsigned int*)(p + 0xa) = m_guildKey;
-    *(int*)(p + 0xe) = slot;
-    memcpy(p + 0x12, this, 0x18d8);
-    db->SendToServer(p);
+    struct GuildCargoToDBMWPkt {
+        char hdr[0xa];
+        unsigned int guildKey;
+        int slot;
+        char cargo[0x18d8];
+    } __attribute__((packed));
+    GuildCargoToDBMWPkt* p = (GuildCargoToDBMWPkt*)db->makePacketHeader(0x710, 0x18ea);
+    p->guildKey = m_guildKey;
+    p->slot = slot;
+    memcpy(p->cargo, this, 0x18d8);
+    db->SendToServer((char*)p);
 }
 ```

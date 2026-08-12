@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8070dbc` | `0x1a5` | `0x8070d6e` | `0x1ba` |
+| statics | DIFF | `0x8070dbc` | `0x1a5` | `0x8070d5a` | `0x1a9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,15 +13,17 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,101 +1,110 @@
+@@ -1,101 +1,101 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
  sub    $0x1834,%esp
- lea    -0x1822(%ebp),%eax
+-lea    -0x1822(%ebp),%eax
++lea    -0x1826(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN43Packet_DBMW_Ting_User_TimeCheck_Write_QueryC1Ev>
- movl   $0x0,-0xc(%ebp)
+-movl   $0x0,-0xc(%ebp)
++movl   $0x0,-0x10(%ebp)
  mov    0x8(%ebp),%eax
  add    $0x110,%eax
  mov    %eax,(%esp)
@@ -29,110 +31,120 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0x1a0>
-+je     <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0x1b5>
++je     <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0x1a4>
  mov    0x8(%ebp),%eax
  lea    0x110(%eax),%edx
- lea    -0x24(%ebp),%eax
+-lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjiSt4lessIjESaISt4pairIKjiEEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0x10a>
 -mov    -0xc(%ebp),%ebx
-+jmp    <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0x11a>
-+lea    -0x1822(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+shl    $0x3,%edx
-+add    $0xe,%edx
-+lea    (%eax,%edx,1),%ebx
- lea    -0x24(%ebp),%eax
+-lea    -0x24(%ebp),%eax
++jmp    <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0x10e>
++mov    -0x10(%ebp),%ebx
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjiEEptEv>
  mov    (%eax),%eax
 -mov    %eax,-0x1814(%ebp,%ebx,8)
 -mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x1822(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+shl    $0x3,%edx
-+add    $0x12,%edx
-+lea    (%eax,%edx,1),%ebx
- lea    -0x24(%ebp),%eax
+-lea    -0x24(%ebp),%eax
++mov    %eax,-0x1818(%ebp,%ebx,8)
++mov    -0x10(%ebp),%ebx
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjiEEptEv>
  mov    0x4(%eax),%eax
 -mov    %eax,-0x1810(%ebp,%ebx,8)
-+mov    %eax,(%ebx)
- addl   $0x1,-0xc(%ebp)
+-addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    $0x2fd,%eax
 -seta   %al
 -test   %al,%al
 -je     <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0xff>
 -movl   $0x2fe,-0x1818(%ebp)
-+cmpl   $0x63,-0xc(%ebp)
-+jle    <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0x10f>
-+lea    -0x1822(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x64,(%eax)
- lea    -0x1822(%ebp),%eax
+-lea    -0x1822(%ebp),%eax
++mov    %eax,-0x1814(%ebp,%ebx,8)
++addl   $0x1,-0x10(%ebp)
++cmpl   $0x2fd,-0x10(%ebp)
++setg   %al
++mov    %al,-0x9(%ebp)
++cmpb   $0x0,-0x9(%ebp)
++je     <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0x103>
++movl   $0x2fe,-0x181c(%ebp)
++lea    -0x1826(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  movl   $0x327,0x8(%esp)
  movl   $&_ZZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
- lea    -0x1c(%ebp),%eax
+-lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    -0xc(%ebp),%eax
+-mov    -0xc(%ebp),%eax
++mov    -0x10(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"Packet_DBMW_Ting_User_TimeCheck_Write_Query : (%d) 개 패킷 전송",0x8(%esp)
  movl   $"./log/Statistic",0x4(%esp)
- lea    -0x1c(%ebp),%eax
+-lea    -0x1c(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- movl   $0x0,-0xc(%ebp)
- lea    -0x24(%ebp),%eax
+-movl   $0x0,-0xc(%ebp)
+-lea    -0x24(%ebp),%eax
++movl   $0x0,-0x10(%ebp)
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjiEEppEv>
  mov    0x8(%ebp),%eax
  lea    0x110(%eax),%edx
- lea    -0x20(%ebp),%eax
+-lea    -0x20(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjiSt4lessIjESaISt4pairIKjiEEE3endEv>
  sub    $0x4,%esp
- lea    -0x20(%ebp),%eax
+-lea    -0x20(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x24(%ebp),%eax
+-lea    -0x24(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjiEEneERKS3_>
  test   %al,%al
  jne    <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0x5a>
- cmpl   $0x0,-0xc(%ebp)
+-cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0x1a0>
-+je     <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0x1b5>
-+lea    -0x1822(%ebp),%eax
-+lea    0xa(%eax),%edx
- mov    -0xc(%ebp),%eax
+-mov    -0xc(%ebp),%eax
 -mov    %eax,-0x1818(%ebp)
-+mov    %eax,(%edx)
- lea    -0x1822(%ebp),%eax
+-lea    -0x1822(%ebp),%eax
++cmpl   $0x0,-0x10(%ebp)
++je     <T> <_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandler+0x1a4>
++mov    -0x10(%ebp),%eax
++mov    %eax,-0x181c(%ebp)
++lea    -0x1826(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  movl   $0x331,0x8(%esp)
  movl   $&_ZZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
- lea    -0x14(%ebp),%eax
+-lea    -0x14(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    -0xc(%ebp),%eax
+-mov    -0xc(%ebp),%eax
++mov    -0x10(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"Packet_DBMW_Ting_User_TimeCheck_Write_Query : (%d) 개 패킷 전송",0x8(%esp)
  movl   $"./log/Statistic",0x4(%esp)
- lea    -0x14(%ebp),%eax
+-lea    -0x14(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    -0x4(%ebp),%ebx
@@ -218,7 +230,7 @@ StatisticManager::_ZN16StatisticManager23SendDBTingUserTimeCheckEP14CServerHandl
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 716 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 719 行）：
 
 ```cpp
 void StatisticManager::SendDBTingUserTimeCheck(CServerHandler* handler)
@@ -230,12 +242,13 @@ void StatisticManager::SendDBTingUserTimeCheck(CServerHandler* handler)
         for (std::map<unsigned int, int>::iterator it = m_field110.begin();
              it != m_field110.end(); ++it)
         {
-            *(unsigned int*)((char*)&pkt + 0xe + idx * 8) = it->first;
-            *(int*)((char*)&pkt + 0xe + idx * 8 + 4) = it->second;
+            pkt.m_typed.m_items[idx].m_field0 = it->first;
+            pkt.m_typed.m_items[idx].m_field4 = it->second;
             idx++;
-            if (99 < idx)
+            bool over = (idx > 0x2fd);
+            if (over)
             {
-                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                pkt.m_typed.m_count = 0x2fe;
                 handler->SendToDB((PacketHeader*)&pkt);
                 DNF_LOG_SCOPE_LINE(0x327, "./log/Statistic", "Packet_DBMW_Ting_User_TimeCheck_Write_Query : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb", idx);
                 idx = 0;
@@ -243,7 +256,7 @@ void StatisticManager::SendDBTingUserTimeCheck(CServerHandler* handler)
         }
         if (idx != 0)
         {
-            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            pkt.m_typed.m_count = idx;
             handler->SendToDB((PacketHeader*)&pkt);
             DNF_LOG_SCOPE_LINE(0x331, "./log/Statistic", "Packet_DBMW_Ting_User_TimeCheck_Write_Query : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb", idx);
         }

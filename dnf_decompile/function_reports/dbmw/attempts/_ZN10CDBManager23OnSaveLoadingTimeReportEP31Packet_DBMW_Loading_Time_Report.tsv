@@ -1,0 +1,3 @@
+表达式改 (i+4)*4+3	DIFF(更差,展开add4/shl2/add3)	2026-08-12
+int数组索引 ((int*)(pkt+3))[i+4]	DIFF(同,仍shl/add展开不折叠)	2026-08-12
+A/B: DBManager.cpp 4.4.4/4.1.2 整TU	均不折叠(lea+shl); ORIG scale寻址无法复现	2026-08-12
