@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | NEAR | `0x8058bf4` | `0x2f1` | `0x8066f78` | `0x2f1` |
+| manager | NEAR | `0x8058bf4` | `0x2f1` | `0x8066f7a` | `0x2f1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -41,8 +41,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE5frontEv>
  mov    (%eax),%eax
--mov    %eax,-0x2c(%ebp)
-+mov    %eax,-0x1c(%ebp)
+ mov    %eax,-0x2c(%ebp)
  mov    $0x1,%esi
  jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x77>
  mov    %edx,%ebx
@@ -61,17 +60,13 @@
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  test   %esi,%esi
  je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
--cmpl   $0x0,-0x2c(%ebp)
-+cmpl   $0x0,-0x1c(%ebp)
+ cmpl   $0x0,-0x2c(%ebp)
  jne    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x9a>
  mov    $0x0,%ebx
  jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
--mov    -0x2c(%ebp),%eax
--mov    %eax,-0x28(%ebp)
--mov    -0x28(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,-0x2c(%ebp)
-+mov    -0x2c(%ebp),%eax
+ mov    -0x2c(%ebp),%eax
+ mov    %eax,-0x28(%ebp)
+ mov    -0x28(%ebp),%eax
  lea    0x6(%eax),%ecx
  mov    0x8(%ebp),%eax
  lea    0x144(%eax),%edx
@@ -97,15 +92,12 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CPeerEEeqERKS5_>
  test   %al,%al
  je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x16d>
--mov    -0x28(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x28(%ebp),%eax
  mov    0x6(%eax),%edi
--mov    -0x28(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x28(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%esi
--mov    -0x28(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x28(%ebp),%eax
  movzwl (%eax),%eax
  movzwl %ax,%ebx
  movl   $0xba,0x8(%esp)
@@ -121,8 +113,7 @@
  lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x2c(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    -0x2c(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -134,16 +125,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CPeerEEptEv>
  mov    0x4(%eax),%eax
--mov    %eax,-0x24(%ebp)
--cmpl   $0x0,-0x24(%ebp)
-+mov    %eax,-0x20(%ebp)
-+cmpl   $0x0,-0x20(%ebp)
+ mov    %eax,-0x24(%ebp)
+ cmpl   $0x0,-0x24(%ebp)
  je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1a1>
--mov    -0x28(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x28(%ebp),%eax
  mov    0x6(%eax),%ebx
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer12GetTcpSocketEv>
  mov    %eax,(%esp)
@@ -155,15 +142,12 @@
  mov    $0x0,%eax
  test   %al,%al
  je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x22f>
--mov    -0x28(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x28(%ebp),%eax
  mov    0x6(%eax),%edi
--mov    -0x28(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x28(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%esi
--mov    -0x28(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x28(%ebp),%eax
  movzwl (%eax),%eax
  movzwl %ax,%ebx
  movl   $0xc3,0x8(%esp)
@@ -174,41 +158,33 @@
  mov    %edi,0x18(%esp)
  mov    %esi,0x14(%esp)
  mov    %ebx,0x10(%esp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"SEND ERR:invalid peer(%x)(id:%d)(size:%d)(ip:%d)",0x8(%esp)
  movl   $"./log/TcpSend",0x4(%esp)
  lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x2c(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    -0x2c(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CTcpNetSystem23PopDeleteTcpSendPacketQEP14CTcpSendBuffer>
  mov    $0x0,%ebx
  jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
--mov    -0x28(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x28(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
--mov    -0x28(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x28(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
--mov    -0x24(%ebp),%eax
-+mov    -0x20(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CPeer11send_packetEPci>
--mov    %eax,-0x20(%ebp)
--cmpl   $0x0,-0x20(%ebp)
-+mov    %eax,-0x28(%ebp)
-+cmpl   $0x0,-0x28(%ebp)
+ mov    %eax,-0x20(%ebp)
+ cmpl   $0x0,-0x20(%ebp)
  jle    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x26c>
--mov    -0x2c(%ebp),%eax
-+mov    -0x1c(%ebp),%eax
+ mov    -0x2c(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -218,17 +194,13 @@
  add    $0xc0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE4sizeEv>
--mov    %eax,-0x1c(%ebp)
--mov    -0x28(%ebp),%eax
-+mov    %eax,-0x24(%ebp)
-+mov    -0x2c(%ebp),%eax
+ mov    %eax,-0x1c(%ebp)
+ mov    -0x28(%ebp),%eax
  mov    0x6(%eax),%edi
--mov    -0x28(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x28(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%esi
--mov    -0x28(%ebp),%eax
-+mov    -0x2c(%ebp),%eax
+ mov    -0x28(%ebp),%eax
  movzwl (%eax),%eax
  movzwl %ax,%ebx
  movl   $0xd5,0x8(%esp)
@@ -236,8 +208,7 @@
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0x1c(%ebp),%eax
-+mov    -0x24(%ebp),%eax
+ mov    -0x1c(%ebp),%eax
  mov    %eax,0x18(%esp)
  mov    %edi,0x14(%esp)
  mov    %esi,0x10(%esp)
@@ -247,8 +218,7 @@
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x20(%ebp),%ebx
-+mov    -0x28(%ebp),%ebx
+ mov    -0x20(%ebp),%ebx
  mov    %ebx,%eax
  lea    -0xc(%ebp),%esp
  add    $0x0,%esp
@@ -385,15 +355,15 @@ LAB_08058da1:
 ```cpp
 int CTcpNetSystem::SendPacket()
 {
-    // R14：ORIG 形态——queue 访问在 guard 内层作用域，flag(esi)/ret(ebx) 寄存器变量，
-    // buf(-0x2c) 用于 PopDelete、b2(-0x28) 副本用于字段访问。
+    // R40：ORIG 形态——queue 访问在 guard 内层作用域，flag(esi)/ret(ebx) 寄存器变量，
+    // 栈槽布局按 ORIG 声明顺序：buf(-0x2c) → b2(-0x28) → peer(-0x24) → result(-0x20) → cnt(-0x1c)。
     register int ret;
     register int flag;
+    CTcpSendBuffer* buf;
     CTcpSendBuffer* b2;
+    CPeer* peer;
     int result;
     int cnt;
-    CPeer* peer;
-    CTcpSendBuffer* buf;
     {
         CGuard<CMutex> guard(&m_mutexE8);
         if (m_sendQueue.empty())

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8099d2a` | `0xf2` | `0x80626a6` | `0xdf` |
+| monitor | DIFF | `0x8099d2a` | `0xf2` | `0x80625ba` | `0xdf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -150,7 +150,7 @@ CMemberManager::_ZN14CMemberManager12InsertMemberEjP7CMember
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 348 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp](source/DNFServer/GameServer/Monitor/DNFMemberManager.cpp)（约第 346 行）：
 
 ```cpp
 int CMemberManager::InsertMember(unsigned int key, CMember* member)

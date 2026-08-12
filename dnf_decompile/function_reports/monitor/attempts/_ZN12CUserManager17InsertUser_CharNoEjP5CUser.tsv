@@ -1,0 +1,3 @@
+register unsigned int cNo/charName/dbid 声明顺序 cNo,charName,dbid（原状）	NEAR	2026-08-12
+register 声明改为 dbid,charName,cNo 带初始化	NEAR(同)	2026-08-12
+register 先声明后赋值 charName/dbid/cNo（求值序匹配 ORIG）	NEAR(同)	2026-08-12

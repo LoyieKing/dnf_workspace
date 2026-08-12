@@ -450,7 +450,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 676 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 677 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildSecede(PacketHeader* pkt)

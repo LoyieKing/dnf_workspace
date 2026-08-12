@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809ec6a` | `0xa4` | `0x8058266` | `0x138` |
+| monitor | DIFF | `0x809ec6a` | `0xa4` | `0x80581da` | `0xa3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,56 +1,102 @@
+@@ -1,56 +1,55 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -23,107 +23,50 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE4sizeEv>
  cmp    $0x1f,%eax
- seta   %al
+-seta   %al
++setbe  %al
  test   %al,%al
 -jne    <T> <_ZN12CBuddyHandle6insertEP6CBuddy+0x99>
-+je     <T> <_ZN12CBuddyHandle6insertEP6CBuddy+0x27>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN12CBuddyHandle6insertEP6CBuddy+0x12e>
-+lea    -0x9(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcEC1Ev>
++je     <T> <_ZN12CBuddyHandle6insertEP6CBuddy+0x99>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
--mov    %eax,%edx
-+lea    -0x9(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
+ mov    %eax,%edx
  lea    -0x10(%ebp),%eax
--lea    0xc(%ebp),%ecx
--mov    %ecx,0x8(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsC1EPKcRKSaIcE>
-+lea    -0x18(%ebp),%eax
-+lea    0xc(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+lea    -0x10(%ebp),%edx
+ lea    0xc(%ebp),%ecx
+ mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZSt9make_pairIRA30_cRP6CBuddyESt4pairINSt17__decay_and_stripIT_E6__typeENS6_IT0_E6__typeEEOS7_OSA_>
-+call   <T> <_ZSt9make_pairISsRP6CBuddyESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
+ call   <T> <_ZSt9make_pairIRA30_cRP6CBuddyESt4pairINSt17__decay_and_stripIT_E6__typeENS6_IT0_E6__typeEEOS7_OSA_>
  sub    $0x4,%esp
--lea    -0x10(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x18(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKSsP6CBuddyEC1IPcS2_EEOS_IT_T0_E>
-+call   <T> <_ZNSt4pairIKSsP6CBuddyEC1ISsS2_EEOS_IT_T0_E>
+ call   <T> <_ZNSt4pairIKSsP6CBuddyEC1IPcS2_EEOS_IT_T0_E>
  mov    0x8(%ebp),%edx
--lea    -0x20(%ebp),%eax
--lea    -0x18(%ebp),%ecx
-+lea    -0x28(%ebp),%eax
-+lea    -0x20(%ebp),%ecx
+ lea    -0x20(%ebp),%eax
+ lea    -0x18(%ebp),%ecx
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapISsP6CBuddySt4lessISsESaISt4pairIKSsS1_EEE6insertERKS6_>
  sub    $0x4,%esp
--lea    -0x18(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKSsP6CBuddyED1Ev>
 -jmp    <T> <_ZN12CBuddyHandle6insertEP6CBuddy+0x9a>
-+jmp    <T> <_ZN12CBuddyHandle6insertEP6CBuddy+0xd4>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIKSsP6CBuddyED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN12CBuddyHandle6insertEP6CBuddy+0xbf>
++jmp    <T> <_ZN12CBuddyHandle6insertEP6CBuddy+0x99>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKSsP6CBuddyED1Ev>
-+call   <T> <_ZNSt4pairISsP6CBuddyED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN12CBuddyHandle6insertEP6CBuddy+0xe1>
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairISsP6CBuddyED1Ev>
-+jmp    <T> <_ZN12CBuddyHandle6insertEP6CBuddy+0xf6>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN12CBuddyHandle6insertEP6CBuddy+0x103>
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN12CBuddyHandle6insertEP6CBuddy+0x11e>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x9(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
+ call   <T> <_ZNSt4pairIKSsP6CBuddyED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -nop
-+lea    -0x9(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+mov    $0x1,%eax
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -166,16 +109,15 @@ void __thiscall CBuddyHandle::_ZN12CBuddyHandle6insertEP6CBuddy(CBuddyHandle *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 208 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 222 行）：
 
 ```cpp
 int CBuddyHandle::insert(CBuddy* buddy)
 {
-    if (m_buddies.size() > 0x1f)
+    if (m_buddies.size() < 0x20)
     {
-        return 0;
+        m_buddies.insert(
+            std::make_pair(((MonitorBuddyDBInfo*)buddy->getBuddyDBInfo())->m_name, buddy));
     }
-    m_buddies.insert(std::make_pair(std::string((char*)buddy->getBuddyDBInfo()), buddy));
-    return 1;
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80812f6` | `0x202` | `0x80776c4` | `0x203` |
+| guild | DIFF | `0x80812f6` | `0x202` | `0x807772c` | `0x203` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -239,7 +239,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3726 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3732 行）：
 
 ```cpp
 void CPacketTranslater::OnInnerPacketLogout(PacketHeader* pkt)

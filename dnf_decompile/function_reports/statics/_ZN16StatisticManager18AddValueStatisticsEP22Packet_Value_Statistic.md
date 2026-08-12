@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80739a4` | `0x15c` | `0x8073b0c` | `0x159` |
+| statics | NEAR | `0x80739a4` | `0x15c` | `0x8073afe` | `0x15c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,92 +1,91 @@
+@@ -1,92 +1,92 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x1a0,%esp
-+mov    0xc(%ebp),%ebx
  mov    0xc(%ebp),%eax
  lea    0xa(%eax),%ecx
  mov    0x8(%ebp),%eax
@@ -52,33 +51,28 @@
  mov    -0x10(%ebp),%edx
  mov    -0x10(%ebp),%ecx
  mov    0x4(%eax,%ecx,4),%esi
--mov    -0x10(%ebp),%ebx
++mov    0xc(%ebp),%ecx
+ mov    -0x10(%ebp),%ebx
 -mov    0xc(%ebp),%ecx
--mov    0xe(%ecx,%ebx,4),%ecx
-+mov    -0x10(%ebp),%ecx
-+mov    0xe(%ebx,%ecx,4),%ecx
+ mov    0xe(%ecx,%ebx,4),%ecx
  lea    (%esi,%ecx,1),%ecx
  mov    %ecx,0x4(%eax,%edx,4)
  addl   $0x1,-0x10(%ebp)
  cmpl   $0x1d,-0x10(%ebp)
  setle  %al
  test   %al,%al
--jne    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x76>
--jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x152>
-+jne    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x79>
-+jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x14f>
+ jne    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x76>
+ jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0x152>
  lea    -0x190(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN18ValueStatisticDataC1Ev>
  movl   $0x0,-0xc(%ebp)
--jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0xe2>
-+jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0xdf>
+ jmp    <T> <_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Statistic+0xe2>
  mov    -0xc(%ebp),%eax
--mov    -0xc(%ebp),%ecx
++mov    0xc(%ebp),%edx
+ mov    -0xc(%ebp),%ecx
 -mov    0xc(%ebp),%edx
--mov    0xe(%edx,%ecx,4),%edx
-+mov    -0xc(%ebp),%edx
-+mov    0xe(%ebx,%edx,4),%edx
+ mov    0xe(%edx,%ecx,4),%edx
  mov    %edx,-0x190(%ebp,%eax,4)
  addl   $0x1,-0xc(%ebp)
  cmpl   $0x1d,-0xc(%ebp)
@@ -172,7 +166,7 @@ StatisticManager::_ZN16StatisticManager18AddValueStatisticsEP22Packet_Value_Stat
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1471 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1481 行）：
 
 ```cpp
 void StatisticManager::AddValueStatistics(Packet_Value_Statistic* pkt)
@@ -183,13 +177,12 @@ void StatisticManager::AddValueStatistics(Packet_Value_Statistic* pkt)
         int m_f0a;
         int m_data[0x1e];
     };
-    register Wire* w = (Wire*)pkt;
     std::map<int, ValueStatisticData>::iterator it = m_value.find(*(int*)((char*)pkt + 10));
     if (it != m_value.end())
     {
         for (int i = 0; i < 0x1e; i++)
         {
-            it->second.m_data[i] += w->m_data[i];
+            it->second.m_data[i] += ((Wire*)pkt)->m_data[i];
         }
     }
     else
@@ -197,7 +190,7 @@ void StatisticManager::AddValueStatistics(Packet_Value_Statistic* pkt)
         ValueStatisticData v;
         for (int i = 0; i < 0x1e; i++)
         {
-            v.m_data[i] = w->m_data[i];
+            v.m_data[i] = ((Wire*)pkt)->m_data[i];
         }
         m_value.insert(std::make_pair(*(int*)((char*)pkt + 10), v));
     }

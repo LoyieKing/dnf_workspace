@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807a03e` | `0x122` | `0x8080acc` | `0x114` |
+| monitor | DIFF | `0x807a03e` | `0x122` | `0x80809f6` | `0x114` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -180,7 +180,7 @@ LAB_0807a0ad:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 368 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp](source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp)（约第 370 行）：
 
 ```cpp
 int CServerHandler::SendAllTcpGameServer(PacketHeader* pkt, int channel)

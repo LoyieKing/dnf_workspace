@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8051a7a` | `0x24d` | `0x809b676` | `0x25f` |
+| monitor | DIFF | `0x8051a7a` | `0x24d` | `0x809b594` | `0x24e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,74 +13,63 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,149 +1,151 @@
+@@ -1,149 +1,149 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
 -sub    $0x30,%esp
--movl   $0x0,-0xc(%ebp)
 +sub    $0x20,%esp
-+movl   $0x0,-0x10(%ebp)
+ movl   $0x0,-0xc(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x1834(%eax),%eax
  test   %eax,%eax
--jne    <T> <_ZN5CPeer11send_packetEv+0x26>
--mov    $0x1,%eax
+ jne    <T> <_ZN5CPeer11send_packetEv+0x26>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN5CPeer11send_packetEv+0x246>
-+jne    <T> <_ZN5CPeer11send_packetEv+0x28>
-+movl   $0x1,-0x10(%ebp)
-+jmp    <T> <_ZN5CPeer11send_packetEv+0x255>
++jmp    <T> <_ZN5CPeer11send_packetEv+0x247>
  mov    0x8(%ebp),%eax
 -mov    0x1834(%eax),%ebx
 +mov    0x1834(%eax),%eax
-+mov    %eax,-0xc(%ebp)
++mov    %eax,%ebx
  mov    0x8(%ebp),%eax
--lea    0x183c(%eax),%esi
-+lea    0x183c(%eax),%ebx
+ lea    0x183c(%eax),%esi
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    %ebx,0x8(%esp)
--mov    %esi,0x4(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    %ebx,0x4(%esp)
+ mov    %ebx,0x8(%esp)
+ mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <write>
--mov    %eax,-0xc(%ebp)
--cmpl   $0x0,-0xc(%ebp)
+ mov    %eax,-0xc(%ebp)
+ cmpl   $0x0,-0xc(%ebp)
 -setle  %al
 -test   %al,%al
 -je     <T> <_ZN5CPeer11send_packetEv+0xdf>
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0x0,-0x10(%ebp)
-+jg     <T> <_ZN5CPeer11send_packetEv+0xeb>
++jg     <T> <_ZN5CPeer11send_packetEv+0xdc>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  cmp    $0xb,%eax
 -je     <T> <_ZN5CPeer11send_packetEv+0x90>
-+je     <T> <_ZN5CPeer11send_packetEv+0x97>
++je     <T> <_ZN5CPeer11send_packetEv+0x8d>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  cmp    $0x4,%eax
 -je     <T> <_ZN5CPeer11send_packetEv+0x90>
-+je     <T> <_ZN5CPeer11send_packetEv+0x97>
++je     <T> <_ZN5CPeer11send_packetEv+0x8d>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  cmp    $0xb,%eax
 -je     <T> <_ZN5CPeer11send_packetEv+0x90>
-+je     <T> <_ZN5CPeer11send_packetEv+0x97>
++je     <T> <_ZN5CPeer11send_packetEv+0x8d>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  test   %eax,%eax
 -jne    <T> <_ZN5CPeer11send_packetEv+0x9a>
--mov    $0x1,%eax
++jne    <T> <_ZN5CPeer11send_packetEv+0x97>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN5CPeer11send_packetEv+0x246>
-+jne    <T> <_ZN5CPeer11send_packetEv+0xa4>
-+movl   $0x1,-0x10(%ebp)
-+nop
-+jmp    <T> <_ZN5CPeer11send_packetEv+0x255>
++jmp    <T> <_ZN5CPeer11send_packetEv+0x247>
  call   <T> <__errno_location>
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -96,25 +85,22 @@
  mov    %eax,0x4(%esp)
  movl   $"SEND ERROR DISCONNNECT NOW FD[%d] : %d(%s)",(%esp)
  call   <T> <printf>
--mov    $0x1,%eax
+ mov    $0x1,%eax
 -jmp    <T> <_ZN5CPeer11send_packetEv+0x246>
--cmpl   $0x0,-0xc(%ebp)
++jmp    <T> <_ZN5CPeer11send_packetEv+0x247>
+ cmpl   $0x0,-0xc(%ebp)
 -jle    <T> <_ZN5CPeer11send_packetEv+0x243>
-+movl   $0x1,-0x10(%ebp)
-+jmp    <T> <_ZN5CPeer11send_packetEv+0x255>
-+cmpl   $0x0,-0x10(%ebp)
-+jle    <T> <_ZN5CPeer11send_packetEv+0x255>
++jle    <T> <_ZN5CPeer11send_packetEv+0x244>
  mov    0x8(%ebp),%eax
  mov    0x1834(%eax),%eax
--cmp    -0xc(%ebp),%eax
+ cmp    -0xc(%ebp),%eax
 -jle    <T> <_ZN5CPeer11send_packetEv+0x1ef>
-+cmp    -0x10(%ebp),%eax
-+jle    <T> <_ZN5CPeer11send_packetEv+0x1ff>
++jle    <T> <_ZN5CPeer11send_packetEv+0x1ee>
  mov    0x8(%ebp),%eax
 -lea    0x183c(%eax),%edx
 -mov    -0xc(%ebp),%eax
 -add    %eax,%edx
-+mov    -0x10(%ebp),%edx
++mov    -0xc(%ebp),%edx
 +add    $0x183c,%edx
 +lea    (%eax,%edx,1),%edx
  mov    0x8(%ebp),%eax
@@ -125,14 +111,14 @@
 -sub    %eax,%edx
 +mov    0x1834(%eax),%eax
 +mov    %eax,%edx
-+sub    -0x10(%ebp),%edx
++sub    -0xc(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x1834(%eax)
  mov    0x8(%ebp),%eax
  mov    0x1834(%eax),%eax
  cmp    $0x96000,%eax
 -jbe    <T> <_ZN5CPeer11send_packetEv+0x1a5>
-+ja     <T> <_ZN5CPeer11send_packetEv+0x194>
++ja     <T> <_ZN5CPeer11send_packetEv+0x185>
 +mov    0x8(%ebp),%eax
 +mov    0x1834(%eax),%eax
 +mov    %eax,%edx
@@ -151,20 +137,18 @@
 +add    %eax,%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x1838(%eax)
-+jmp    <T> <_ZN5CPeer11send_packetEv+0x255>
++jmp    <T> <_ZN5CPeer11send_packetEv+0x244>
  mov    0x8(%ebp),%eax
  mov    0x1834(%eax),%ebx
  movl   $0x17e,0x8(%esp)
  movl   $&_ZZN5CPeer11send_packetEvE12__FUNCTION__,0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"m_remain_sendlen < MAX_PACKET_SIZE_UDP :  m_remain_sendlen:%d]",0x8(%esp)
  movl   $"./log/TcpErr",0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
@@ -173,7 +157,7 @@
  mov    %edx,0x1838(%eax)
  mov    0x8(%ebp),%eax
  movl   $0x0,0x1834(%eax)
--mov    $0x1,%eax
+ mov    $0x1,%eax
 -jmp    <T> <_ZN5CPeer11send_packetEv+0x246>
 -mov    0x8(%ebp),%eax
 -mov    0x1834(%eax),%edx
@@ -187,41 +171,37 @@
 -call   <T> <memmove>
 -mov    0x8(%ebp),%eax
 -lea    0x183c(%eax),%edx
-+movl   $0x1,-0x10(%ebp)
-+jmp    <T> <_ZN5CPeer11send_packetEv+0x255>
- mov    0x8(%ebp),%eax
- mov    0x1834(%eax),%eax
+-mov    0x8(%ebp),%eax
+-mov    0x1834(%eax),%eax
 -add    %eax,%edx
 -mov    0x8(%ebp),%eax
 -mov    %edx,0x1838(%eax)
 -jmp    <T> <_ZN5CPeer11send_packetEv+0x243>
-+cmp    -0x10(%ebp),%eax
-+jge    <T> <_ZN5CPeer11send_packetEv+0x236>
++jmp    <T> <_ZN5CPeer11send_packetEv+0x247>
  mov    0x8(%ebp),%eax
  mov    0x1834(%eax),%eax
--cmp    -0xc(%ebp),%eax
+ cmp    -0xc(%ebp),%eax
 -jge    <T> <_ZN5CPeer11send_packetEv+0x224>
--mov    0x8(%ebp),%eax
--mov    0x1834(%eax),%eax
--mov    -0xc(%ebp),%edx
-+mov    -0x10(%ebp),%edx
++jge    <T> <_ZN5CPeer11send_packetEv+0x225>
+ mov    0x8(%ebp),%eax
+ mov    0x1834(%eax),%eax
+ mov    -0xc(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  movl   $"offset error[Remain_Data: %d Send:%d]",(%esp)
  call   <T> <printf>
 -mov    $0xffffffff,%eax
 -jmp    <T> <_ZN5CPeer11send_packetEv+0x246>
-+movl   $0xffffffff,-0x10(%ebp)
-+jmp    <T> <_ZN5CPeer11send_packetEv+0x255>
++movl   $0xffffffff,-0xc(%ebp)
++jmp    <T> <_ZN5CPeer11send_packetEv+0x244>
  mov    0x8(%ebp),%eax
  lea    0x183c(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x1838(%eax)
  mov    0x8(%ebp),%eax
  movl   $0x0,0x1834(%eax)
--mov    -0xc(%ebp),%eax
+ mov    -0xc(%ebp),%eax
 -add    $0x30,%esp
-+mov    -0x10(%ebp),%eax
 +add    $0x20,%esp
  pop    %ebx
  pop    %esi
@@ -305,7 +285,7 @@ ssize_t __thiscall CPeer::_ZN5CPeer11send_packetEv(CPeer *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/Peer.cpp](source/DNFServer/GameServer/Monitor/Peer.cpp)（约第 87 行）：
+定义于 [source/DNFServer/GameServer/Monitor/Peer.cpp](source/DNFServer/GameServer/Monitor/Peer.cpp)（约第 85 行）：
 
 ```cpp
 int CPeer::send_packet()
@@ -313,35 +293,34 @@ int CPeer::send_packet()
     int result = 0;
     if (m_sendRemain == 0)
     {
-        result = 1;
+        return 1;
     }
     else
     {
-        size_t n = (size_t)m_sendRemain;
-        result = write(getHandle(), m_sendBuf, n);
+        result = write(getHandle(), m_sendBuf, m_sendRemain);
         if (result < 1)
         {
             if (errno == EAGAIN || errno == EINTR || errno == EAGAIN || errno == 0)
             {
-                result = 1;
+                return 1;
             }
             else
             {
                 printf("SEND ERROR DISCONNNECT NOW FD[%d] : %d(%s)", getHandle(), errno,
                        strerror(errno));
-                result = 1;
+                return 1;
             }
         }
-        else if (0 < result)
+        if (0 < result)
         {
             if (result < m_sendRemain)
             {
-                m_sendPtr = (char*)this + result + 0x183c;
+                m_sendPtr = (char*)this + 0x183c + result;
                 m_sendRemain = m_sendRemain - result;
                 if ((unsigned int)m_sendRemain < 0x96001)
                 {
-                    memmove(m_sendBuf, m_sendPtr, (size_t)m_sendRemain);
-                    m_sendPtr = (char*)this + m_sendRemain + 0x183c;
+                    memmove(m_sendBuf, m_sendPtr, m_sendRemain);
+                    m_sendPtr = (char*)this + 0x183c + m_sendRemain;
                 }
                 else
                 {
@@ -350,7 +329,7 @@ int CPeer::send_packet()
                         m_sendRemain);
                     m_sendPtr = (char*)this + 0x183c;
                     m_sendRemain = 0;
-                    result = 1;
+                    return 1;
                 }
             }
             else if (m_sendRemain < result)

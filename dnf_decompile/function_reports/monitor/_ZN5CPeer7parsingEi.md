@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80513d4` | `0x489` | `0x809bdea` | `0x442` |
+| monitor | DIFF | `0x80513d4` | `0x489` | `0x809bcf8` | `0x442` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -496,10 +496,10 @@ LAB_08051773:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/Peer.cpp](source/DNFServer/GameServer/Monitor/Peer.cpp)（约第 240 行）：
+定义于 [source/DNFServer/GameServer/Monitor/Peer.cpp](source/DNFServer/GameServer/Monitor/Peer.cpp)（约第 239 行）：
 
 ```cpp
-int CPeer::parsing(int recvLen)
+bool CPeer::parsing(int recvLen)
 {
     PacketHeader header(0, 0);
     unsigned int totalLen = (unsigned int)(m_remainLen + recvLen);

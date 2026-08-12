@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809f036` | `0x184` | `0x80584b4` | `0x16d` |
+| monitor | DIFF | `0x809f036` | `0x184` | `0x80583a8` | `0x16d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -242,7 +242,7 @@ void __thiscall CBuddyHandle::_ZN12CBuddyHandle11printBuddysEPc(CBuddyHandle *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 247 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 261 行）：
 
 ```cpp
 void CBuddyHandle::printBuddys(char* out)

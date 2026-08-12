@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805ca94` | `0xd0` | `0x80a6e12` | `0xd6` |
+| monitor | NEAR | `0x805ca94` | `0xd0` | `0x80a6cda` | `0xd0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,34 +13,30 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,51 +1,52 @@
+@@ -1,51 +1,51 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x48,%esp
  movl   $0x37,0x8(%esp)
  movl   $&_ZZN28TowerOfDespairReloadAPC_Task33SendRequest_DoRandomSelectUserAPCEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"TOD : order to RandomSelect main GameServer\n",0x8(%esp)
  movl   $"./log/GameServer",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  call   <T> <_ZN28TowerOfDespairReloadAPC_Task17isReturnedMessageEv>
-+xor    $0x1,%eax
  test   %al,%al
--jne    <T> <_ZN28TowerOfDespairReloadAPC_Task33SendRequest_DoRandomSelectUserAPCEv+0xcd>
+ jne    <T> <_ZN28TowerOfDespairReloadAPC_Task33SendRequest_DoRandomSelectUserAPCEv+0xcd>
 -lea    -0x2a(%ebp),%eax
-+je     <T> <_ZN28TowerOfDespairReloadAPC_Task33SendRequest_DoRandomSelectUserAPCEv+0xd4>
-+lea    -0x26(%ebp),%eax
++lea    -0x22(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN25Packet_TOD_DoRandomSelectC1Ev>
  call   <T> <_Z20CApplicationInstancev>
-+mov    %eax,-0x14(%ebp)
-+mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
  mov    %eax,-0x10(%ebp)
@@ -51,7 +47,7 @@
  movl   $0x40,0x8(%esp)
  movl   $&_ZZN28TowerOfDespairReloadAPC_Task33SendRequest_DoRandomSelectUserAPCEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
@@ -59,20 +55,20 @@
  movl   $"TOD : main GameServerChannel %u\n",0x8(%esp)
  movl   $"./log/GameServer",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    -0xc(%ebp),%eax
  movzbl %al,%eax
 -lea    -0x2a(%ebp),%edx
-+lea    -0x26(%ebp),%edx
++lea    -0x22(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16SendToGameServerEhP12PacketHeader>
--jmp    <T> <_ZN28TowerOfDespairReloadAPC_Task33SendRequest_DoRandomSelectUserAPCEv+0xce>
--nop
+ jmp    <T> <_ZN28TowerOfDespairReloadAPC_Task33SendRequest_DoRandomSelectUserAPCEv+0xce>
+ nop
  leave
  ret
 ```
@@ -121,15 +117,15 @@ void TowerOfDespairReloadAPC_Task::
 void TowerOfDespairReloadAPC_Task::SendRequest_DoRandomSelectUserAPC()
 {
     DNF_LOG_SCOPE_LINE(0x37, "./log/GameServer", "TOD : order to RandomSelect main GameServer\n");
-    if (!isReturnedMessage())
-    {
-        Packet_TOD_DoRandomSelect pkt;
-        CApplication* app = (CApplication*)CApplicationInstance();
-        CServerHandler* handler = app->Get_ServerHandler();
-        unsigned int first = handler->getfirstLinkedServer();
-        CMyFileLog log2(__FUNCTION__, 0x40);
-        log2("./log/GameServer", "TOD : main GameServerChannel %u\n", first);
-        handler->SendToGameServer((unsigned char)first, &pkt);
-    }
+    if (isReturnedMessage())
+        return;
+    CServerHandler* handler;
+    unsigned int first;
+    Packet_TOD_DoRandomSelect pkt;
+    handler = static_cast<CApplication*>(CApplicationInstance())->Get_ServerHandler();
+    first = handler->getfirstLinkedServer();
+    CMyFileLog log2(__FUNCTION__, 0x40);
+    log2("./log/GameServer", "TOD : main GameServerChannel %u\n", first);
+    handler->SendToGameServer((unsigned char)first, &pkt);
 }
 ```

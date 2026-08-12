@@ -1,4 +1,4 @@
-status	name	orig_addr	orig_size	new_addr	new_size	md_file
-DIFF	_ZN12CApplicationD1Ev	0x804ef84	0x192	0x804c6da	0x191	_ZN12CApplicationD1Ev.md
-DIFF	_ZN12CApplicationD2Ev	0x804ef84	0x192	0x804c6da	0x191	_ZN12CApplicationD2Ev.md
-DIFF	_ZN14CNetworkThread8dispatchEPv	0x8059544	0x7b6	0x80518e6	0x7b4	_ZN14CNetworkThread8dispatchEPv.md
+status	name	orig_addr	orig_size	new_addr	new_size
+DIFF	_ZN12CApplicationD1Ev	0x804ef84	0x192	0x804c6da	0x191
+DIFF	_ZN12CApplicationD2Ev	0x804ef84	0x192	0x804c6da	0x191
+DIFF	_ZN14CNetworkThread8dispatchEPv	0x8059544	0x7b6	0x80518e6	0x7b4

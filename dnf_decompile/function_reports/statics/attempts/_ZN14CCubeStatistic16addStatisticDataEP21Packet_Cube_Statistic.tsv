@@ -1,0 +1,5 @@
+source_excerpt	result	date
+命名局部 `std::pair<STCubeStatisticKey,int> pr = make_pair(...)`	DIFF(更差)	2026-08-12
+去掉 -fno-enforce-eh-specs 重编	DIFF(同)	2026-08-12
+编译器 A/B：c5/c6444r/c6446r/c6 均 DIFF（EH 清理块布局：ORIG 内联销毁 make_pair 临时，OURS 用共享块）	DIFF(同)	2026-08-12
+else 分支加花括号	DIFF(同)	2026-08-12

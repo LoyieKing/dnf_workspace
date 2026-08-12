@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x8050a46` | `0x27b` | `0x8088868` | `0x27b` |
+| guild | DIFF | `0x8050a46` | `0x27b` | `0x80888f6` | `0x27b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -42,11 +42,10 @@
  mov    %eax,-0x10(%ebp)
  jmp    <T> <_ZNK11CUdpHandler12SendToServerEPcitPKc+0xd2>
 -lea    -0x48(%ebp),%eax
-+lea    -0x48(%ebp),%ebx
  movl   $0x10,0x8(%esp)
  movl   $0x0,0x4(%esp)
--mov    %eax,(%esp)
-+mov    %ebx,(%esp)
++lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
  call   <T> <memset>
  movw   $0x2,-0x48(%ebp)
  movzwl -0x4c(%ebp),%eax
@@ -266,8 +265,7 @@ int CUdpHandler::SendToServer(char* buf, int len, unsigned short port, char cons
     else
     {
         sockaddr_in to;
-        register void* pto = &to;
-        memset(pto, 0, 0x10);
+        memset(&to, 0, 0x10);
         to.sin_family = 2;
         to.sin_port = htons(port);
         to.sin_addr.s_addr = inet_addr(ip);

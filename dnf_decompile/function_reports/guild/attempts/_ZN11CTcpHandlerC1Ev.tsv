@@ -1,0 +1,4 @@
+m_epoll = new EpollHandler (c6444r 当前默认)	DIFF(OURS mov %ebx,%edx 单拷贝 vs ORIG mov %ebx,%eax;mov %eax,%edx 双拷贝)	2026-08-12
+this->m_epoll = new EpollHandler	DIFF(同前，无变化)	2026-08-12
+register EpollHandler* p=new; m_epoll=p	DIFF(变 0 拷贝: mov this→eax; mov %ebx,(%eax)，更远)	2026-08-12
+工具链 A/B: c6446r(4.4.6-3) 同单拷贝; 4.1.2-52(+cerrno) 用栈槽 -0x8(%ebp) 保存 new 结果，整体形态不同	DIFF	2026-08-12

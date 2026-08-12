@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80532b0` | `0x2f1` | `0x80a7cd2` | `0x2f1` |
+| guild | NEAR | `0x80532b0` | `0x2f1` | `0x80a7d60` | `0x2f1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -41,7 +41,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE5frontEv>
  mov    (%eax),%eax
- mov    %eax,-0x2c(%ebp)
+-mov    %eax,-0x2c(%ebp)
++mov    %eax,-0x28(%ebp)
  mov    $0x1,%esi
  jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x77>
  mov    %edx,%ebx
@@ -60,13 +61,17 @@
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  test   %esi,%esi
  je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
- cmpl   $0x0,-0x2c(%ebp)
+-cmpl   $0x0,-0x2c(%ebp)
++cmpl   $0x0,-0x28(%ebp)
  jne    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x9a>
  mov    $0x0,%ebx
  jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
- mov    -0x2c(%ebp),%eax
- mov    %eax,-0x28(%ebp)
- mov    -0x28(%ebp),%eax
+-mov    -0x2c(%ebp),%eax
+-mov    %eax,-0x28(%ebp)
+-mov    -0x28(%ebp),%eax
++mov    -0x28(%ebp),%eax
++mov    %eax,-0x2c(%ebp)
++mov    -0x2c(%ebp),%eax
  lea    0x6(%eax),%ecx
  mov    0x8(%ebp),%eax
  lea    0x144(%eax),%edx
@@ -92,12 +97,15 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CPeerEEeqERKS5_>
  test   %al,%al
  je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x16d>
- mov    -0x28(%ebp),%eax
+-mov    -0x28(%ebp),%eax
++mov    -0x2c(%ebp),%eax
  mov    0x6(%eax),%edi
- mov    -0x28(%ebp),%eax
+-mov    -0x28(%ebp),%eax
++mov    -0x2c(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%esi
- mov    -0x28(%ebp),%eax
+-mov    -0x28(%ebp),%eax
++mov    -0x2c(%ebp),%eax
  movzwl (%eax),%eax
  movzwl %ax,%ebx
  movl   $0xba,0x8(%esp)
@@ -113,7 +121,8 @@
  lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    -0x2c(%ebp),%eax
+-mov    -0x2c(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -128,7 +137,8 @@
  mov    %eax,-0x24(%ebp)
  cmpl   $0x0,-0x24(%ebp)
  je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1a1>
- mov    -0x28(%ebp),%eax
+-mov    -0x28(%ebp),%eax
++mov    -0x2c(%ebp),%eax
  mov    0x6(%eax),%ebx
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -142,12 +152,15 @@
  mov    $0x0,%eax
  test   %al,%al
  je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x22f>
- mov    -0x28(%ebp),%eax
+-mov    -0x28(%ebp),%eax
++mov    -0x2c(%ebp),%eax
  mov    0x6(%eax),%edi
- mov    -0x28(%ebp),%eax
+-mov    -0x28(%ebp),%eax
++mov    -0x2c(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%esi
- mov    -0x28(%ebp),%eax
+-mov    -0x28(%ebp),%eax
++mov    -0x2c(%ebp),%eax
  movzwl (%eax),%eax
  movzwl %ax,%ebx
  movl   $0xc3,0x8(%esp)
@@ -165,17 +178,20 @@
  lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    -0x2c(%ebp),%eax
+-mov    -0x2c(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CTcpNetSystem23PopDeleteTcpSendPacketQEP14CTcpSendBuffer>
  mov    $0x0,%ebx
  jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
- mov    -0x28(%ebp),%eax
+-mov    -0x28(%ebp),%eax
++mov    -0x2c(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
- mov    -0x28(%ebp),%eax
+-mov    -0x28(%ebp),%eax
++mov    -0x2c(%ebp),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0x24(%ebp),%eax
@@ -184,7 +200,8 @@
  mov    %eax,-0x20(%ebp)
  cmpl   $0x0,-0x20(%ebp)
  jle    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x26c>
- mov    -0x2c(%ebp),%eax
+-mov    -0x2c(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -195,12 +212,15 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE4sizeEv>
  mov    %eax,-0x1c(%ebp)
- mov    -0x28(%ebp),%eax
+-mov    -0x28(%ebp),%eax
++mov    -0x2c(%ebp),%eax
  mov    0x6(%eax),%edi
- mov    -0x28(%ebp),%eax
+-mov    -0x28(%ebp),%eax
++mov    -0x2c(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%esi
- mov    -0x28(%ebp),%eax
+-mov    -0x28(%ebp),%eax
++mov    -0x2c(%ebp),%eax
  movzwl (%eax),%eax
  movzwl %ax,%ebx
  movl   $0xd5,0x8(%esp)
@@ -360,8 +380,8 @@ int CTcpNetSystem::SendPacket()
     {
         register int ret;
         register int flag;
-        CTcpSendBuffer* buf;
         CTcpSendBuffer* b2;
+        CTcpSendBuffer* buf;
         CPeer* peer;
         int result;
         int cnt;

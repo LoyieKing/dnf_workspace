@@ -1,0 +1,6 @@
+if(!isReturnedMessage()){...} (original)	DIFF(xor $0x1;je + extra temp -0x14 for app local)	2026-08-12
+if(isReturnedMessage()) return; + chained static_cast<CApplication*>(CApplicationInstance())->Get_ServerHandler() (no app local) + log2 declared after first	NEAR(branch/test/jne match, temp gone; only stack slots log1/pkt/log2 differ: ORIG -0x20/-0x2a/-0x18 vs OURS -0x18/-0x22/-0x2c)	2026-08-12
+pkt declared at function top before log macro	DIFF(pkt ctor hoisted before log1 ctor, wrong)	2026-08-12
+log1 as explicit scoped local {CMyFileLog log; log(...);}	NEAR(slots -0x2c/-0x1a/-0x24, still differ)	2026-08-12
+handler/first declared before pkt (assignment after)	NEAR(same slot layout as before)	2026-08-12
+compiler A/B c5 4.1.2-55/c6444r 4.4.4-13/446r 4.4.6-3/447 4.4.7-23/445 4.4.5-6	ALL NEAR or worse; none reproduce ORIG pack order pkt(-0x2a),log1(-0x20),log2(-0x18) (stack-var partition artifact, candidate §5.2/§81 archive)	2026-08-12

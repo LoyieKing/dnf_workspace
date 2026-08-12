@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8062120` | `0x82` | `0x8061696` | `0x99` |
+| monitor | DIFF | `0x8062120` | `0x82` | `0x80615c2` | `0x86` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,46 +1,51 @@
+@@ -1,46 +1,48 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x10,%esp
@@ -31,54 +31,42 @@
  mov    0x8(%eax,%edx,4),%eax
  cmp    0xc(%ebp),%eax
 -ja     <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x41>
-+ja     <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x47>
++ja     <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x44>
  mov    0x8(%ebp),%eax
  movzbl 0x4(%eax),%eax
 +movzbl %al,%eax
  sub    $0x1,%eax
 -jmp    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x80>
-+mov    %eax,-0x4(%ebp)
-+jmp    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x94>
++jmp    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x84>
  cmpl   $0x0,0xc(%ebp)
 -jne    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x6b>
--mov    -0x4(%ebp),%eax
++jne    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x6f>
+ mov    -0x4(%ebp),%eax
 -jmp    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x80>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--cmp    0xc(%ebp),%eax
++jmp    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x84>
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ cmp    0xc(%ebp),%eax
 -jae    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x63>
--mov    -0xc(%ebp),%eax
--add    $0x4,%eax
--mov    (%eax),%eax
--cmp    0xc(%ebp),%eax
++jae    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x66>
+ mov    -0xc(%ebp),%eax
+ add    $0x4,%eax
+ mov    (%eax),%eax
+ cmp    0xc(%ebp),%eax
 -jae    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x7c>
-+jne    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x5e>
-+movl   $0x1,-0x4(%ebp)
-+jmp    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x94>
++jae    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x80>
  addl   $0x1,-0x4(%ebp)
  addl   $0x4,-0xc(%ebp)
++nop
  cmpl   $0x0,-0x8(%ebp)
  setne  %al
  subl   $0x1,-0x8(%ebp)
  test   %al,%al
 -jne    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x4c>
 -jmp    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x7d>
--nop
-+je     <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x8b>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+cmp    0xc(%ebp),%eax
-+jae    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x84>
-+mov    -0xc(%ebp),%eax
-+add    $0x4,%eax
-+mov    (%eax),%eax
-+cmp    0xc(%ebp),%eax
-+jae    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x8b>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x90>
-+mov    $0x0,%eax
-+test   %al,%al
-+jne    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x56>
++jne    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x4f>
++jmp    <T> <_ZN13CMemberExpTbl17GetMemberExpLevelEj+0x81>
+ nop
  mov    -0x4(%ebp),%eax
  leave
  ret
@@ -132,22 +120,22 @@ int CMemberExpTbl::GetMemberExpLevel(unsigned int exp)
     int local_8 = 1;
     if (exp >= (unsigned int)m_table[local_c])
     {
-        local_8 = (int)(unsigned char)((RA_S8<4>*)this)->v - 1;
+        return m_count - 1;
     }
-    else
+    if (exp == 0)
     {
-        if (exp == 0)
+        return local_8;
+    }
+    while (local_c-- != 0)
+    {
+        if (exp <= *(unsigned int*)p || *(unsigned int*)(p + 4) < exp)
         {
-            local_8 = 1;
+            local_8 = local_8 + 1;
+            p = p + 4;
         }
         else
         {
-            while (local_c-- != 0 &&
-                   (exp <= *(unsigned int*)p || *(unsigned int*)(p + 4) < exp))
-            {
-                local_8 = local_8 + 1;
-                p = p + 4;
-            }
+            break;
         }
     }
     return local_8;

@@ -1,0 +1,4 @@
+source_excerpt	result	date
+`unsigned int v = it->first.ErrorValue::m_field4` 中间变量	DIFF(更差)	2026-08-12
+编译器 A/B：c5/c6444r/c6446r/c6 均 DIFF（ORIG 多一条 mov %eax,%edx 冗余拷贝，OURS 直接装入 edx）	DIFF(同)	2026-08-12
+`register unsigned int v` 中间变量	DIFF(更差)	2026-08-12

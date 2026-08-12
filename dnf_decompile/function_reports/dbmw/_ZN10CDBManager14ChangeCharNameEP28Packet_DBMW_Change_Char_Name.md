@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807b19c` | `0xda` | `0x805c44e` | `0xdf` |
+| dbmw | DIFF | `0x807b19c` | `0xda` | `0x805c462` | `0xdf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -148,7 +148,7 @@ CDBManager::_ZN10CDBManager14ChangeCharNameEP28Packet_DBMW_Change_Char_Name
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4224 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 4227 行）：
 
 ```cpp
 char CDBManager::ChangeCharName(Packet_DBMW_Change_Char_Name* packet)

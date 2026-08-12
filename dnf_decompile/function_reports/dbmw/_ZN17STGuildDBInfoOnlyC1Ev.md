@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80a144e` | `0x16f` | `0x805b086` | `0x17d` |
+| dbmw | DIFF | `0x80a144e` | `0x16f` | `0x805b09e` | `0x179` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,88 +1,94 @@
+@@ -1,88 +1,92 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -79,22 +79,18 @@
  call   <T> <memset>
  mov    0x8(%ebp),%eax
 -movzbl 0x1c(%eax),%edx
-+add    $0x1c,%eax
-+mov    0x8(%ebp),%edx
-+add    $0x1c,%edx
-+movzbl (%edx),%edx
++movzbl 0x1c(%eax),%eax
++mov    %eax,%edx
  or     $0x1,%edx
--mov    %dl,0x1c(%eax)
-+mov    %dl,(%eax)
++mov    0x8(%ebp),%eax
+ mov    %dl,0x1c(%eax)
  mov    0x8(%ebp),%eax
 -movzbl 0x1c(%eax),%edx
-+add    $0x1c,%eax
-+mov    0x8(%ebp),%edx
-+add    $0x1c,%edx
-+movzbl (%edx),%edx
++movzbl 0x1c(%eax),%eax
++mov    %eax,%edx
  and    $0xfffffffd,%edx
--mov    %dl,0x1c(%eax)
-+mov    %dl,(%eax)
++mov    0x8(%ebp),%eax
+ mov    %dl,0x1c(%eax)
  mov    0x8(%ebp),%eax
  add    $0x45,%eax
  movl   $0x50,0x8(%esp)
@@ -159,7 +155,7 @@ void __thiscall STGuildDBInfoOnly::_ZN17STGuildDBInfoOnlyC1Ev(STGuildDBInfoOnly 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3927 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 3930 行）：
 
 ```cpp
 STGuildDBInfoOnly::STGuildDBInfoOnly()
@@ -175,8 +171,8 @@ STGuildDBInfoOnly::STGuildDBInfoOnly()
     m_fieldB9 = 0;
     memset(m_pad2E, 0, 0x14);
     memset((char*)this, 0, 0x17);
-    *(unsigned char*)&m_ability |= 0x1;
-    *(unsigned char*)&m_ability &= ~0x2;
+    b0 = b0 | 0x1;
+    b0 = b0 & ~0x2;
     memset((char*)this + 0x45, 0, 0x50);
     memset((char*)this + 0xa4, 0, 0x15);
 }

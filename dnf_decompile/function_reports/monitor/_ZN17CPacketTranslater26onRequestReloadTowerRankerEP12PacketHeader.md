@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80889f8` | `0x140` | `0x807405a` | `0x146` |
+| monitor | DIFF | `0x80889f8` | `0x140` | `0x8073f7c` | `0x142` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,83 +1,85 @@
+@@ -1,83 +1,84 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,18 +21,17 @@
  sub    $0x30,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -mov    0xa0(%eax),%ebx
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
++mov    0xa0(%eax),%esi
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication12getTowerRankEv>
-+mov    %eax,-0x10(%ebp)
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    0xa0(%eax),%eax
++mov    %eax,%ebx
  movl   $0x5,0xc(%esp)
  movl   $0x1,0x8(%esp)
 -mov    %ebx,0x4(%esp)
-+mov    %eax,0x4(%esp)
-+mov    -0x10(%ebp),%eax
- mov    %eax,(%esp)
+-mov    %eax,(%esp)
++mov    %esi,0x4(%esp)
++mov    %ebx,(%esp)
  call   <T> <_ZN10CTowerRank20processReloadRankingEP14CServerHandlerbj>
  mov    0x8(%ebp),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -42,10 +41,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x139>
-+jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x13f>
++jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x13b>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0xdf>
-+jne    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0xe5>
++jne    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0xe1>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -59,19 +58,17 @@
  mov    %eax,%ebx
  movl   $0x11aa,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::onRequestReloadTowerRanker Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x1c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0xd8>
-+jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0xde>
++jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0xda>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -81,23 +78,21 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x139>
-+jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x13f>
++jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x13b>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x11af,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::onRequestReloadTowerRanker Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x134>
-+jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x13a>
++jmp    <T> <_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader+0x136>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -140,15 +135,13 @@ void CPacketTranslater::_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12Pa
 
 ```cpp
 void CPacketTranslater::onRequestReloadTowerRanker(PacketHeader* pkt)
-{try
 {
-
-
-    CTowerRank* tower = (CTowerRank*)m_pclApp->getTowerRank();
-    tower->processReloadRanking(m_pclApp->m_serverHandler2, true, 5);
-    m_pclApp->m_serverHandler2->SendAllToGameServer((char*)pkt, 10);
-
-
+    register CServerHandler* handler = m_pclApp->m_serverHandler2;
+    register CTowerRank* tower = (CTowerRank*)m_pclApp->getTowerRank();
+    try
+    {
+        tower->processReloadRanking(handler, true, 5);
+        m_pclApp->m_serverHandler2->SendAllToGameServer((char*)pkt, 10);
     }
     catch (CDNFException& e)
     {

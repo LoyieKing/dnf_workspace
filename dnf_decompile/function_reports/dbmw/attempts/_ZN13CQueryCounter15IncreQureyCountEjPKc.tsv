@@ -1,0 +1,5 @@
+return !m_used[i];(现状)	NEAR(尾形 mov edx,eax;mov edx,eax;jmp vs ORIG test %al,%al;jmp;nop)	2026-08-12
+return m_used[i] == 0;	NEAR(同,4.4.7 仍 xor $1+寄存器搬运)	2026-08-12
+return m_used[i] ? 0 : 1;	DIFF(更差,分支形态)	2026-08-12
+if(!m_used[i]) return 1; 后接 return 0;	DIFF(更差,je/mov分支)	2026-08-12
+编译器扫描 447/446r/444r/41252/-march=i386	均无法复现 ORIG 死 test+尾 nop（447/446r/444r 尾为 mov edx,eax;mov edx,eax;jmp；41252 为栈临时；i386 改变调用序列）	2026-08-12

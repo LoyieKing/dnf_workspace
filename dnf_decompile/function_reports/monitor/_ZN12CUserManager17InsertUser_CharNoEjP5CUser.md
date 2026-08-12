@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8071204` | `0xdf` | `0x808c0d6` | `0xdf` |
+| monitor | NEAR | `0x8071204` | `0xdf` | `0x808c004` | `0xdf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -56,7 +56,6 @@
  je     <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0x70>
  mov    $0x1,%eax
  jmp    <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0xd4>
-+mov    0xc(%ebp),%ebx
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser11GetCharNameEv>
@@ -68,6 +67,7 @@
 -mov    %eax,%ebx
 -mov    0xc(%ebp),%edi
 +mov    %eax,%esi
++mov    0xc(%ebp),%ebx
  movl   $0x1d0,0x8(%esp)
  movl   $&_ZZN12CUserManager17InsertUser_CharNoEjP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
@@ -150,9 +150,12 @@ bool CUserManager::InsertUser_CharNo(const unsigned int charNo, CUser* user)
         {
             return 1;
         }
-        register unsigned int cNo = charNo;
-        register char* charName = user->GetCharName();
-        register unsigned int dbid = user->GetDBID();
+        register unsigned int dbid;
+        register char* charName;
+        register unsigned int cNo;
+        charName = user->GetCharName();
+        dbid = user->GetDBID();
+        cNo = charNo;
         CMyFileLog log(__FUNCTION__, 0x1d0);
         log("./log/Except",
             "[INSERT_ERR]Already Exist!\tChar No : %d\tDB No : %d\tChar_Name : %s\n",

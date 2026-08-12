@@ -1,0 +1,3 @@
+while+continue 原形	DIFF(8行,尾部jmp+nop)	2026-08-12
+do-while嵌套(ORIG Ghidra形态)	DIFF(更差,循环形态变)	2026-08-12
+if(MsgDecode)/else合并guard	DIFF(更差,块序乱)	2026-08-12

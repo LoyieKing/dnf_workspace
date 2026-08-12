@@ -1,0 +1,4 @@
+source_excerpt	result	date
+RBoxView1/RBoxView2 struct view（m_b[0xd0+i]）替换裸指针 (i+0xd0)*4+8	DIFF->NEAR(改善)	2026-08-12
+`i + 0xd0` 操作数换向	NEAR(同)	2026-08-12
+编译器 A/B：c6444r/c6446r NEAR（this/i 装载顺序），c5 DIFF	NEAR(同)	2026-08-12

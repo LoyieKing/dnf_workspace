@@ -1,0 +1,4 @@
+m_table[i + 4] = 0; (c6 4.4.7 默认)	NEAR(循环体 mov i→eax; lea 4(eax)→edx; this→eax vs ORIG mov i→edx; this→eax; add $4→edx)	2026-08-12
+工具链 A/B: c6444r(4.4.4-13) 同 lea 形态; 4.1.2-52 出 add 形态且条件变 jle(ORIG 为 setle+test)	DIFF	2026-08-12
+*(m_table + i + 4) = 0 (4.1.2)	DIFF(base+0xc/shl/lea 形态完全不同)	2026-08-12
+register bool cond = i<0x2800; while(cond){...} (4.1.2)	DIFF(条件 setle 落栈槽 -0x11(%ebp)+cmpb，无入口 jmp)	2026-08-12

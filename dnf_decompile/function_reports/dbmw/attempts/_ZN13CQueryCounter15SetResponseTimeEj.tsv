@@ -1,0 +1,3 @@
+现状源码 m_responseTimes[i]=interval+... ; if(interval>500.0)	DIFF(栈帧 -0x38 vs -0x48; 地址折叠 0x64c 直接 vs ORIG add $0xc8+0xc; fucomip vs fucompp)	2026-08-12
+编译器扫描 447/446r/444r/41252	均不匹配（447/446r/444r fucomip；41252 seta 后走栈临时 cmpb）	2026-08-12
+-march=i386(447)	DIFF(更差:调用序列变 push 风格,栈布局大变)	2026-08-12

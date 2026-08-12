@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8072d74` | `0x6e` | `0x8072ede` | `0x85` |
+| statics | DIFF | `0x8072d74` | `0x6e` | `0x8072ed6` | `0x85` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -98,7 +98,7 @@ StatisticManager::_ZN16StatisticManager24SendDBRandomboxStatisticEP14CServerHand
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1348 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1356 行）：
 
 ```cpp
 void StatisticManager::SendDBRandomboxStatistic(CServerHandler* handler)

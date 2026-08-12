@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8060aca` | `0x265` | `0x80ef4ec` | `0x264` |
+| dbmw | NEAR | `0x8060aca` | `0x265` | `0x80ef512` | `0x265` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,191 +1,190 @@
+@@ -1,191 +1,191 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -199,7 +199,7 @@
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--nop
+ nop
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
