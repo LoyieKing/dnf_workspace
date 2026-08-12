@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8066e76` | `0xb5` | `0x80893e2` | `0xc3` |
+| guild | DIFF | `0x8066e76` | `0xb5` | `0x80893e6` | `0xc3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -42,12 +42,15 @@
  lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN39Packet_Monitor_Notice_Guild_Member_InfoC1Ev>
++lea    -0x3c(%ebp),%eax
++lea    0x12(%eax),%edx
  movl   $0x1a,0x8(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x3c(%ebp),%eax
- add    $0x12,%eax
- mov    %eax,(%esp)
+-lea    -0x3c(%ebp),%eax
+-add    $0x12,%eax
+-mov    %eax,(%esp)
++mov    %edx,(%esp)
  call   <T> <memcpy>
 +lea    -0x3c(%ebp),%ebx
  mov    0x8(%ebp),%eax

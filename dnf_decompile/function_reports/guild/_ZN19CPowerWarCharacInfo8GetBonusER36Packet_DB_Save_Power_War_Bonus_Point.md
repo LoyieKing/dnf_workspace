@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a7f9c` | `0xda` | `0x809df6a` | `0xde` |
+| guild | DIFF | `0x80a7f9c` | `0xda` | `0x809de52` | `0xde` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -142,7 +142,7 @@ CPowerWarCharacInfo::_ZN19CPowerWarCharacInfo8GetBonusER36Packet_DB_Save_Power_W
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 280 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarCharacInfo.cpp)（约第 279 行）：
 
 ```cpp
 int CPowerWarCharacInfo::GetBonus(Packet_DB_Save_Power_War_Bonus_Point& pkt)

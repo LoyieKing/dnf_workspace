@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804cea2` | `0x87` | `0x8087d28` | `0x84` |
+| guild | NEAR | `0x804cea2` | `0x87` | `0x8087d28` | `0x87` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,41 +1,40 @@
+@@ -1,41 +1,41 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,9 +21,7 @@
  sub    $0x30,%esp
  mov    0x8(%ebp),%eax
  movzbl 0x28(%eax),%eax
--lea    0x1(%eax),%edx
-+add    $0x1,%eax
-+mov    %eax,%edx
+ lea    0x1(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    %dl,0x28(%eax)
  mov    0x8(%ebp),%eax
@@ -31,8 +29,9 @@
  test   %al,%al
 -setne  %al
 -test   %al,%al
--je     <T> <_ZN18CFrameCountHandler11SaveProcessEi+0x80>
-+je     <T> <_ZN18CFrameCountHandler11SaveProcessEi+0x7d>
++setne  %bl
++test   %bl,%bl
+ je     <T> <_ZN18CFrameCountHandler11SaveProcessEi+0x80>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%esi
  mov    0x8(%ebp),%eax
@@ -88,13 +87,14 @@ CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEi(CFrameCountHandler *t
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFTickHandler.cpp](source/DNFServer/GameServer/Guild/DNFTickHandler.cpp)（约第 162 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFTickHandler.cpp](source/DNFServer/GameServer/Guild/DNFTickHandler.cpp)（约第 163 行）：
 
 ```cpp
 void CFrameCountHandler::SaveProcess(int interval)
 {
-    m_field28 = (char)(m_field28 + 1);
-    if (m_field28 != 0)
+    ++m_field28;
+    register bool b = m_field28 != 0;
+    if (b)
     {
         DNF_LOG_SCOPE_LINE(0xb8, "./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", interval, m_field18, m_field4);
         m_field28 = 0;

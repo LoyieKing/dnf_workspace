@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a1c4e` | `0x10c` | `0x8096584` | `0x10b` |
+| guild | NEAR | `0x80a1c4e` | `0x10c` | `0x80964e8` | `0x10c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -25,20 +25,15 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUser>
-+xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xfc>
-+je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x2c>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x100>
+ je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xfc>
  movl   $0x24,(%esp)
  call   <T> <_ZN11CCashObjectnwEj>
  mov    %eax,%ebx
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CCashObjectC1Ev>
--jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x55>
-+jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x5e>
+ jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x55>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -86,26 +81,22 @@
  call   <T> <_ZNSt3mapIjP11CCashObjectSt4lessIjESaISt4pairIKjS1_EEE6insertERKS6_>
  sub    $0x4,%esp
 -movzbl -0x30(%ebp),%eax
--xor    $0x1,%eax
 +movzbl -0x34(%ebp),%eax
+ xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xf5>
+ je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xf5>
 -mov    -0x38(%ebp),%ebx
-+je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xe4>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x100>
 +mov    -0x30(%ebp),%ebx
  test   %ebx,%ebx
--je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xee>
-+je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xfb>
+ je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xee>
  mov    %ebx,(%esp)
  call   <T> <_ZN11CCashObjectD1Ev>
  mov    %ebx,(%esp)
  call   <T> <_ZN11CCashObjectdlEPv>
--mov    $0x0,%eax
--jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x101>
--mov    $0x1,%eax
--jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x101>
+ mov    $0x0,%eax
+ jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x101>
+ mov    $0x1,%eax
+ jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x101>
  mov    $0x0,%eax
  lea    -0xc(%ebp),%esp
  add    $0x0,%esp

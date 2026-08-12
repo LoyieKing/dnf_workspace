@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x8079dc4` | `0x112` | `0x807030e` | `0x112` |
+| guild | DIFF | `0x8079dc4` | `0x112` | `0x807030e` | `0x112` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -27,13 +27,14 @@
  call   <T> <_ZN27Packet_DBMW_Send_Guild_MailC1Ev>
 -movzbl -0x14c(%ebp),%eax
 -mov    %al,-0x12b(%ebp)
-+movzbl -0x13c(%ebp),%eax
-+mov    %al,-0x126(%ebp)
  mov    0xc(%ebp),%eax
 -mov    %eax,-0x12f(%ebp)
 +mov    %eax,-0x12e(%ebp)
++movzbl -0x13c(%ebp),%eax
++mov    %al,-0x12a(%ebp)
  mov    0x10(%ebp),%eax
- mov    %eax,-0x12a(%ebp)
+-mov    %eax,-0x12a(%ebp)
++mov    %eax,-0x129(%ebp)
  mov    0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <strlen>

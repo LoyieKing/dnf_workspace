@@ -96,11 +96,12 @@ void __thiscall CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEv(CFram
 ```cpp
 void CFrameCountHandler::SaveProcess()
 {
-    m_field28++;
-    if (m_field28 != 0)
+    register bool b;
+    ++m_field28;
+    b = m_field28 != 0;
+    if (b)
     {
-        CMyFileLog log(__FUNCTION__, 0xa8);
-        log("./log/frame", "FPS(%02d) / DFC(%02d)\n", m_field18, m_field4);
+        DNF_LOG_SCOPE_LINE(0xa8, "./log/frame", "FPS(%02d) / DFC(%02d)\n", m_field18, m_field4);
         m_field28 = 0;
     }
 }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809d342` | `0x559` | `0x808fa58` | `0x4ea` |
+| guild | DIFF | `0x809d342` | `0x559` | `0x808fa5c` | `0x4ea` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -43,9 +43,9 @@
 -mov    0x14(%ebp),%eax
 -mov    %ax,-0x6c2(%ebp)
 +lea    -0x6de(%ebp),%eax
-+add    $0xc,%eax
-+movzwl -0x2e(%ebp),%edx
-+mov    %dx,(%eax)
++lea    0xc(%eax),%edx
++movzwl -0x2e(%ebp),%eax
++mov    %ax,(%edx)
 +lea    -0x6de(%ebp),%eax
 +lea    0xf(%eax),%ebx
  mov    0x18(%ebp),%eax
@@ -142,7 +142,13 @@
  call   <T> <_ZNSt3mapIj18STGuildBoardDBInfoSt7greaterIjESaISt4pairIKjS0_EEE5beginEv>
  sub    $0x4,%esp
 -mov    0x8(%ebp),%eax
--lea    0xc(%eax),%edx
++movl   $0x0,-0x24(%ebp)
++jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x323>
++lea    -0x6de(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN30Packet_Guild_Reply_Guild_BoardC1Ev>
++lea    -0x6de(%ebp),%eax
+ lea    0xc(%eax),%edx
 -lea    -0x40(%ebp),%eax
 -mov    %edx,0x4(%esp)
 -mov    %eax,(%esp)
@@ -153,17 +159,12 @@
 -movl   $0x0,-0x14(%ebp)
 -jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x34b>
 -lea    -0x6ce(%ebp),%eax
-+movl   $0x0,-0x24(%ebp)
-+jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x323>
-+lea    -0x6de(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN30Packet_Guild_Reply_Guild_BoardC1Ev>
+-mov    %eax,(%esp)
+-call   <T> <_ZN30Packet_Guild_Reply_Guild_BoardC1Ev>
 -mov    0x14(%ebp),%eax
 -mov    %ax,-0x6c2(%ebp)
-+lea    -0x6de(%ebp),%eax
-+add    $0xc,%eax
-+movzwl -0x2e(%ebp),%edx
-+mov    %dx,(%eax)
++movzwl -0x2e(%ebp),%eax
++mov    %ax,(%edx)
 +lea    -0x6de(%ebp),%eax
 +lea    0xf(%eax),%ebx
  mov    0x18(%ebp),%eax
@@ -338,9 +339,9 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN30Packet_Guild_Reply_Guild_BoardC1Ev>
 +lea    -0x6de(%ebp),%eax
-+add    $0xc,%eax
-+movzwl -0x2e(%ebp),%edx
-+mov    %dx,(%eax)
++lea    0xc(%eax),%edx
++movzwl -0x2e(%ebp),%eax
++mov    %ax,(%edx)
 +lea    -0x6de(%ebp),%eax
 +lea    0xf(%eax),%ebx
 +mov    0x18(%ebp),%eax

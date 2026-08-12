@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80aa12a` | `0xc0` | `0x809fea6` | `0xca` |
+| guild | DIFF | `0x80aa12a` | `0xc0` | `0x809fd88` | `0xca` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -148,7 +148,7 @@ CPowerWarGuildInfo::_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuild
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 199 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp](source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp)（约第 198 行）：
 
 ```cpp
 void CPowerWarGuildInfo::GetAllGuildRankingInfo(int& count, STGuildRank* rank)

@@ -15,8 +15,8 @@
 | 类别 | 数量 |
 |---|---|
 | IDENTICAL | 0 |
-| NEAR | 248 |
-| DIFF | 229 |
+| NEAR | 250 |
+| DIFF | 227 |
 | MISSING | 6 |
 | EMPTY | 0 |
 | EXEMPT_SKIP | 0 |

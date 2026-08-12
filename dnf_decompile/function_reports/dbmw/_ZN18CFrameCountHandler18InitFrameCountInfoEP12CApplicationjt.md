@@ -184,16 +184,19 @@ void CFrameCountHandler::_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplica
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp](source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp)（约第 51 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp](source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp)（约第 53 行）：
 
 ```cpp
 void CFrameCountHandler::InitFrameCountInfo(CApplication* app, unsigned int a, unsigned short b)
 {
-    if (!a)
-        throw CDNFException("CFrameCountHandler::InitFrameCountInfo() Exception Break!");
+    if (a == 0)
+        goto InitFrameCountInfo_throw;
     m_app = app;
     memset(this, 0, 0x28);
     m_field4 = a;
     m_field8 = 100 / a;
+    return;
+InitFrameCountInfo_throw:
+    throw CDNFException("CFrameCountHandler::InitFrameCountInfo() Exception Break!");
 }
 ```

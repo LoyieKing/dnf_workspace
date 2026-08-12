@@ -94,16 +94,17 @@ CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEi(CFrameCountHandler *t
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp](source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp)（约第 41 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp](source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp)（约第 42 行）：
 
 ```cpp
 void CFrameCountHandler::SaveProcess(int n)
 {
-    m_field28++;
-    if (m_field28 != 0)
+    register bool b;
+    ++m_field28;
+    b = m_field28 != 0;
+    if (b)
     {
-        CMyFileLog log(__FUNCTION__, 0xb8);
-        log("./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", n, m_field18, m_field4);
+        DNF_LOG_SCOPE_LINE(0xb8, "./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", n, m_field18, m_field4);
         m_field28 = 0;
     }
 }

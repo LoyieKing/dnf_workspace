@@ -256,7 +256,7 @@ StatisticManager::_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHan
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1618 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1619 行）：
 
 ```cpp
 void StatisticManager::SendDBSecretShopStatistic(CServerHandler* handler)

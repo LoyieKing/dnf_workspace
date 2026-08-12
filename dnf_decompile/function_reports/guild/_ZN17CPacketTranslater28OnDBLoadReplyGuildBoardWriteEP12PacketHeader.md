@@ -191,11 +191,11 @@
 -mov    %ax,-0x6dc(%ebp)
 -mov    -0x2c(%ebp),%eax
 +lea    -0x6ca(%ebp),%eax
++lea    0xa(%eax),%edx
++mov    -0x20(%ebp),%eax
 +add    $0xa,%eax
-+mov    -0x20(%ebp),%edx
-+add    $0xa,%edx
-+movzwl (%edx),%edx
-+mov    %dx,(%eax)
++movzwl (%eax),%eax
++mov    %ax,(%edx)
 +lea    -0x6ca(%ebp),%eax
 +add    $0xc,%eax
 +movw   $0x232e,(%eax)

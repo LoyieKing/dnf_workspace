@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8058bf4` | `0x2f1` | `0x8066ebc` | `0x2f4` |
+| manager | NEAR | `0x8058bf4` | `0x2f1` | `0x8066f30` | `0x2f1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,207 +1,209 @@
+@@ -1,207 +1,207 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -59,13 +59,11 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuardI6CMutexED1Ev>
  test   %esi,%esi
--je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
-+je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e6>
+ je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
  cmpl   $0x0,-0x2c(%ebp)
  jne    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x9a>
  mov    $0x0,%ebx
--jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e7>
+ jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
  mov    -0x2c(%ebp),%eax
  mov    %eax,-0x28(%ebp)
  mov    -0x28(%ebp),%eax
@@ -121,9 +119,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CTcpNetSystem23PopDeleteTcpSendPacketQEP14CTcpSendBuffer>
  mov    $0x0,%ebx
--jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
+ jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
 -lea    -0x4c(%ebp),%eax
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e7>
 +lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CPeerEEptEv>
@@ -174,8 +171,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CTcpNetSystem23PopDeleteTcpSendPacketQEP14CTcpSendBuffer>
  mov    $0x0,%ebx
--jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e7>
+ jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
  mov    -0x28(%ebp),%eax
  movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
@@ -223,8 +219,6 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    -0x20(%ebp),%ebx
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e7>
-+nop
  mov    %ebx,%eax
  lea    -0xc(%ebp),%esp
  add    $0x0,%esp

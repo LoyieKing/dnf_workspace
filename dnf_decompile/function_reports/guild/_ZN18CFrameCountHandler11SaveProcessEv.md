@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804ce22` | `0x80` | `0x8087caa` | `0x7d` |
+| guild | NEAR | `0x804ce22` | `0x80` | `0x8087ca8` | `0x80` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,39 +1,38 @@
+@@ -1,39 +1,39 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,9 +21,7 @@
  sub    $0x30,%esp
  mov    0x8(%ebp),%eax
  movzbl 0x28(%eax),%eax
--lea    0x1(%eax),%edx
-+add    $0x1,%eax
-+mov    %eax,%edx
+ lea    0x1(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    %dl,0x28(%eax)
  mov    0x8(%ebp),%eax
@@ -31,8 +29,9 @@
  test   %al,%al
 -setne  %al
 -test   %al,%al
--je     <T> <_ZN18CFrameCountHandler11SaveProcessEv+0x79>
-+je     <T> <_ZN18CFrameCountHandler11SaveProcessEv+0x76>
++setne  %bl
++test   %bl,%bl
+ je     <T> <_ZN18CFrameCountHandler11SaveProcessEv+0x79>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%esi
  mov    0x8(%ebp),%eax
@@ -90,8 +89,9 @@ void __thiscall CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEv(CFram
 ```cpp
 void CFrameCountHandler::SaveProcess()
 {
-    m_field28 = (char)(m_field28 + 1);
-    if (m_field28 != 0)
+    ++m_field28;
+    register bool b = m_field28 != 0;
+    if (b)
     {
         DNF_LOG_SCOPE_LINE(0xa8, "./log/frame", "FPS(%02d) / DFC(%02d)\n", m_field18, m_field4);
         m_field28 = 0;
