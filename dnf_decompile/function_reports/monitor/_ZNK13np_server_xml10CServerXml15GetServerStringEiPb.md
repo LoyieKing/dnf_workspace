@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8058138` | `0x137` | `0x809df88` | `0x124` |
+| monitor | DIFF | `0x8058138` | `0x137` | `0x809e1e4` | `0x135` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,100 +1,94 @@
+@@ -1,100 +1,99 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
--sub    $0x30,%esp
-+sub    $0x20,%esp
+ sub    $0x30,%esp
  mov    0x8(%ebp),%ebx
  lea    -0xd(%ebp),%eax
  mov    %eax,(%esp)
@@ -43,21 +42,20 @@
  lea    -0xd(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
--lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt23_Rb_tree_const_iteratorISt4pairIKiSsEEC1Ev>
+ lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt23_Rb_tree_const_iteratorISt4pairIKiSsEEC1Ev>
  mov    0xc(%ebp),%eax
  lea    0x58(%eax),%ecx
--lea    -0x1c(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x1c(%ebp),%eax
  lea    0x10(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEE4findERS3_>
  sub    $0x4,%esp
--mov    -0x1c(%ebp),%eax
--mov    %eax,-0x18(%ebp)
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,-0x18(%ebp)
  mov    0xc(%ebp),%eax
  lea    0x58(%eax),%edx
  lea    -0xc(%ebp),%eax
@@ -69,31 +67,26 @@
  mov    %eax,0x4(%esp)
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKiSsEEneERKS3_>
-+call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKiSsEEeqERKS3_>
+ call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKiSsEEneERKS3_>
  test   %al,%al
- je     <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0xc4>
+-je     <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0xc4>
++je     <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0xe0>
  cmpl   $0x0,0x14(%ebp)
 -je     <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0xe3>
--mov    0x14(%ebp),%eax
--movb   $0x1,(%eax)
++je     <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0xc2>
+ mov    0x14(%ebp),%eax
+ movb   $0x1,(%eax)
 -jmp    <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0xe3>
 -cmpl   $0x0,0x14(%ebp)
 -je     <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0xd0>
-+je     <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0xb1>
- mov    0x14(%ebp),%eax
- movb   $0x0,(%eax)
- mov    %ebx,%eax
- lea    -0x14(%ebp),%edx
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZNSsC1ERKSs>
+-mov    0x14(%ebp),%eax
+-movb   $0x0,(%eax)
+-mov    %ebx,%eax
+-lea    -0x14(%ebp),%edx
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsC1ERKSs>
 -jmp    <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0x11c>
-+jmp    <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0x109>
-+cmpl   $0x0,0x14(%ebp)
-+je     <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0xd0>
-+mov    0x14(%ebp),%eax
-+movb   $0x1,(%eax)
  mov    %ebx,%esi
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -103,7 +96,17 @@
  mov    %esi,(%esp)
  call   <T> <_ZNSsC1ERKSs>
 -jmp    <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0x11c>
-+jmp    <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0x109>
++jmp    <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0x11a>
++cmpl   $0x0,0x14(%ebp)
++je     <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0xec>
++mov    0x14(%ebp),%eax
++movb   $0x0,(%eax)
++mov    %ebx,%eax
++lea    -0x14(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZNSsC1ERKSs>
++jmp    <T> <_ZNK13np_server_xml10CServerXml15GetServerStringEiPb+0x11a>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x14(%ebp),%eax
@@ -186,19 +189,20 @@ int np_server_xml::CServerXml::_ZNK13np_server_xml10CServerXml15GetServerStringE
 std::string CServerXml::GetServerString(int idx, bool* ok) const
 {
     std::string s("");
-    std::map<int, std::string>::const_iterator it = m_map58.find(idx);
-    if (it == m_map58.end())
+    std::map<int, std::string>::const_iterator it;
+    it = m_map58.find(idx);
+    if (it != m_map58.end())
     {
         if (ok != 0)
         {
-            *ok = 0;
+            *ok = 1;
         }
-        return s;
+        return it->second;
     }
     if (ok != 0)
     {
-        *ok = 1;
+        *ok = 0;
     }
-    return it->second;
+    return s;
 }
 ```

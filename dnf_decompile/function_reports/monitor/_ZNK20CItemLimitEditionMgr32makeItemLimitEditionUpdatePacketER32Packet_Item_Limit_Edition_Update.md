@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a5d6a` | `0xed` | `0x8093d40` | `0xe5` |
+| monitor | DIFF | `0x80a5d6a` | `0xed` | `0x8093dec` | `0xe7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -20,96 +20,70 @@
  sub    $0x24,%esp
  movl   $0x0,-0x10(%ebp)
  mov    0x8(%ebp),%edx
--lea    -0x14(%ebp),%eax
-+lea    -0x18(%ebp),%eax
+ lea    -0x14(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
-+jmp    <T> <_ZNK20CItemLimitEditionMgr32makeItemLimitEditionUpdatePacketER32Packet_Item_Limit_Edition_Update+0xa8>
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEptEv>
-+mov    0x4(%eax),%eax
-+mov    %eax,-0xc(%ebp)
-+mov    0xc(%ebp),%ecx
-+mov    -0x10(%ebp),%edx
-+mov    %edx,%eax
-+shl    $0x3,%eax
-+add    %edx,%eax
-+add    $0x12,%eax
-+lea    (%ecx,%eax,1),%ebx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNK17CItemLimitEdition8getIPGNOEv>
-+mov    %eax,(%ebx)
-+mov    0xc(%ebp),%ecx
-+mov    -0x10(%ebp),%edx
-+mov    %edx,%eax
-+shl    $0x3,%eax
-+add    %edx,%eax
-+add    $0x16,%eax
-+lea    (%ecx,%eax,1),%ebx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNK17CItemLimitEdition10getSellNumEv>
-+mov    %eax,(%ebx)
-+mov    0xc(%ebp),%ecx
-+mov    -0x10(%ebp),%edx
-+mov    %edx,%eax
-+shl    $0x3,%eax
-+add    %edx,%eax
-+add    $0x1a,%eax
-+lea    (%ecx,%eax,1),%ebx
-+mov    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNK17CItemLimitEdition14isSellCompleteEv>
-+mov    %al,(%ebx)
-+addl   $0x1,-0x10(%ebp)
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEppEv>
  mov    0x8(%ebp),%edx
--lea    -0x18(%ebp),%eax
-+lea    -0x14(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE3endEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZNK20CItemLimitEditionMgr32makeItemLimitEditionUpdatePacketER32Packet_Item_Limit_Edition_Update+0xc5>
++jmp    <T> <_ZNK20CItemLimitEditionMgr32makeItemLimitEditionUpdatePacketER32Packet_Item_Limit_Edition_Update+0xbf>
  lea    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEptEv>
--mov    0x4(%eax),%eax
--mov    %eax,-0xc(%ebp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEptEv>
+ mov    0x4(%eax),%eax
+ mov    %eax,-0xc(%ebp)
 -mov    -0x10(%ebp),%ebx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNK17CItemLimitEdition8getIPGNOEv>
++mov    0xc(%ebp),%ecx
++mov    -0x10(%ebp),%edx
++mov    %edx,%eax
++shl    $0x3,%eax
++add    %edx,%eax
++add    $0x10,%eax
++lea    (%ecx,%eax,1),%ebx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK17CItemLimitEdition8getIPGNOEv>
 -mov    %eax,%edx
--mov    0xc(%ebp),%ecx
++mov    %eax,0x2(%ebx)
+ mov    0xc(%ebp),%ecx
 -mov    %ebx,%eax
--shl    $0x3,%eax
++mov    -0x10(%ebp),%edx
++mov    %edx,%eax
+ shl    $0x3,%eax
 -add    %ebx,%eax
 -lea    (%ecx,%eax,1),%eax
--add    $0x10,%eax
++add    %edx,%eax
+ add    $0x10,%eax
 -mov    %edx,0x2(%eax)
 -mov    -0x10(%ebp),%ebx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNK17CItemLimitEdition10getSellNumEv>
++lea    (%ecx,%eax,1),%ebx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK17CItemLimitEdition10getSellNumEv>
 -mov    %eax,%edx
--mov    0xc(%ebp),%ecx
++mov    %eax,0x6(%ebx)
+ mov    0xc(%ebp),%ecx
 -mov    %ebx,%eax
--shl    $0x3,%eax
++mov    -0x10(%ebp),%edx
++mov    %edx,%eax
+ shl    $0x3,%eax
 -add    %ebx,%eax
 -lea    (%ecx,%eax,1),%eax
 -add    $0x10,%eax
 -mov    %edx,0x6(%eax)
 -mov    -0x10(%ebp),%ebx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNK17CItemLimitEdition14isSellCompleteEv>
++add    %edx,%eax
++add    $0x1a,%eax
++lea    (%ecx,%eax,1),%ebx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK17CItemLimitEdition14isSellCompleteEv>
 -mov    %eax,%edx
 -mov    0xc(%ebp),%ecx
 -mov    %ebx,%eax
@@ -118,19 +92,18 @@
 -lea    (%ecx,%eax,1),%eax
 -add    $0x1a,%eax
 -mov    %dl,(%eax)
--addl   $0x1,-0x10(%ebp)
--lea    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEppEv>
-+mov    %eax,0x4(%esp)
++mov    %al,(%ebx)
+ addl   $0x1,-0x10(%ebp)
+ lea    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEppEv>
  lea    -0x18(%ebp),%eax
--mov    %eax,0x4(%esp)
--lea    -0x14(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEneERKS5_>
  test   %al,%al
--jne    <T> <_ZNK20CItemLimitEditionMgr32makeItemLimitEditionUpdatePacketER32Packet_Item_Limit_Edition_Update+0x3d>
-+jne    <T> <_ZNK20CItemLimitEditionMgr32makeItemLimitEditionUpdatePacketER32Packet_Item_Limit_Edition_Update+0x28>
+ jne    <T> <_ZNK20CItemLimitEditionMgr32makeItemLimitEditionUpdatePacketER32Packet_Item_Limit_Edition_Update+0x3d>
  mov    0xc(%ebp),%eax
  mov    -0x10(%ebp),%edx
  mov    %edx,0xe(%eax)

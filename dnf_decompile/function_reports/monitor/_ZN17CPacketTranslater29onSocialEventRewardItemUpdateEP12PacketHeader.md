@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8090738` | `0x2ac` | `0x807bd32` | `0x2ce` |
+| monitor | DIFF | `0x8090738` | `0x2ac` | `0x807bd0e` | `0x2ce` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -95,7 +95,7 @@
 -mov    %eax,-0x20(%ebp)
 -lea    -0x52(%ebp),%eax
 +mov    %eax,-0x34(%ebp)
-+lea    -0x68(%ebp),%eax
++lea    -0x66(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN25LimitNpcBuyItemChangeInfoC1Ev>
 -mov    -0x20(%ebp),%eax
@@ -124,7 +124,7 @@
 -mov    %edx,0x8(%esp)
 -mov    %ebx,0x4(%esp)
 +mov    %eax,-0x2c(%ebp)
-+lea    -0x68(%ebp),%eax
++lea    -0x66(%ebp),%eax
 +mov    %eax,0x8(%esp)
 +mov    -0x30(%ebp),%eax
 +mov    %eax,0x4(%esp)
@@ -134,7 +134,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0xa0(%eax),%eax
 -lea    -0x52(%ebp),%edx
-+lea    -0x68(%ebp),%edx
++lea    -0x66(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>

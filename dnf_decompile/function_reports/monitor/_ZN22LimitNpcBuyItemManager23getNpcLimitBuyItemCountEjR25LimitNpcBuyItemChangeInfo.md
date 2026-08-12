@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805b20e` | `0x85` | `0x80958fe` | `0x84` |
+| monitor | DIFF | `0x805b20e` | `0x85` | `0x8095a34` | `0x87` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,45 +1,44 @@
+@@ -1,45 +1,46 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -36,15 +36,13 @@
  mov    %eax,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15NpcBuyLimitItemEEeqERKS4_>
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15NpcBuyLimitItemEEneERKS4_>
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15NpcBuyLimitItemEEeqERKS4_>
  test   %al,%al
 -jne    <T> <_ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeInfo+0x7f>
-+je     <T> <_ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeInfo+0x7f>
++jne    <T> <_ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeInfo+0x81>
  mov    0xc(%ebp),%edx
  mov    0x10(%ebp),%eax
--mov    %edx,0xa(%eax)
-+mov    %edx,0xc(%eax)
+ mov    %edx,0xa(%eax)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj15NpcBuyLimitItemEEptEv>
@@ -58,10 +56,10 @@
  mov    %ebx,%edx
  sub    %eax,%edx
  mov    0x10(%ebp),%eax
--mov    %edx,0xe(%eax)
+ mov    %edx,0xe(%eax)
 -jmp    <T> <_ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeInfo+0x80>
--nop
-+mov    %edx,0x10(%eax)
++jmp    <T> <_ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeInfo+0x82>
+ nop
  mov    -0x4(%ebp),%ebx
  leave
  ret

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a0acc` | `0xc4` | `0x8097622` | `0xbf` |
+| monitor | DIFF | `0x80a0acc` | `0xc4` | `0x80977d6` | `0xc1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,60 +1,58 @@
+@@ -1,60 +1,59 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -22,7 +22,9 @@
  sub    $0x5c,%esp
  mov    0x8(%ebp),%eax
  movzbl 0x34(%eax),%eax
- lea    -0x1(%eax),%edx
+-lea    -0x1(%eax),%edx
++sub    $0x1,%eax
++mov    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    %dl,0x34(%eax)
  mov    0x8(%ebp),%eax
@@ -31,7 +33,7 @@
 -setle  %al
 -test   %al,%al
 -je     <T> <_ZN18CMemoryCashManager20ProcessCashDataPrintEv+0xbc>
-+jne    <T> <_ZN18CMemoryCashManager20ProcessCashDataPrintEv+0xb7>
++jg     <T> <_ZN18CMemoryCashManager20ProcessCashDataPrintEv+0xb9>
  mov    0x8(%ebp),%eax
  mov    0x40(%eax),%eax
  mov    %eax,-0x34(%ebp)

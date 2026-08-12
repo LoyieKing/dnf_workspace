@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x804d04e` | `0x87` | `0x80868e6` | `0x87` |
+| monitor | NEAR | `0x804d04e` | `0x87` | `0x80868b2` | `0x87` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -92,9 +92,9 @@ CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEi(CFrameCountHandler *t
 ```cpp
 void CFrameCountHandler::SaveProcess(int threadNo)
 {
-    m_field28++;
-    register bool isPrint = (m_field28 != 0);
-    if (isPrint)
+    ++m_field28;
+    register bool b = m_field28 != 0;
+    if (b)
     {
         DNF_LOG_SCOPE_LINE(0xb8,"./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", threadNo, m_field18,
             m_field4);

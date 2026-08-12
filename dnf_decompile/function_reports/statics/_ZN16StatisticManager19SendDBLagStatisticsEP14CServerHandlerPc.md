@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x807350a` | `0x499` | `0x807365c` | `0x40f` |
+| statics | DIFF | `0x807350a` | `0x499` | `0x8073672` | `0x49e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,106 +13,97 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,302 +1,278 @@
+@@ -1,302 +1,301 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x48c,%esp
--lea    -0x43e(%ebp),%eax
-+sub    $0x8ac,%esp
-+lea    -0x882(%ebp),%eax
+ sub    $0x48c,%esp
+ lea    -0x43e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN40Packet_DBMW_TechnicalReport_Common_QueryC1Ev>
--movl   $0x0,-0x1c(%ebp)
+ movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x1c6>
--mov    -0x1c(%ebp),%edx
--mov    0x8(%ebp),%eax
--add    $0x37,%edx
--shl    $0x4,%edx
--add    %edx,%eax
--add    $0xc,%eax
-+movl   $0x0,-0x60(%ebp)
-+jmp    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x1c1>
-+mov    -0x60(%ebp),%edx
++jmp    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x1c3>
++mov    -0x1c(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +shl    $0x4,%edx
 +add    %edx,%eax
 +add    $0x37c,%eax
- mov    (%eax),%eax
- test   %eax,%eax
++mov    (%eax),%eax
++test   %eax,%eax
++jle    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x1bf>
++movl   $0x400,0x8(%esp)
++movl   $0x0,0x4(%esp)
++lea    -0x43e(%ebp),%eax
++add    $0xa,%eax
++mov    %eax,(%esp)
++call   <T> <memset>
+ mov    -0x1c(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ add    $0x37,%edx
+ shl    $0x4,%edx
+-add    %edx,%eax
+-add    $0xc,%eax
+-mov    (%eax),%eax
+-test   %eax,%eax
 -jle    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x1c2>
-+jle    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x1bd>
- movl   $0x400,0x8(%esp)
- movl   $0x0,0x4(%esp)
+-movl   $0x400,0x8(%esp)
+-movl   $0x0,0x4(%esp)
 -lea    -0x43e(%ebp),%eax
 -add    $0xa,%eax
-+lea    -0x478(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <memset>
+-mov    %eax,(%esp)
+-call   <T> <memset>
 -mov    -0x1c(%ebp),%edx
-+mov    -0x60(%ebp),%edx
+-mov    0x8(%ebp),%eax
+-add    $0x37,%edx
++mov    (%edx,%eax,1),%eax
++mov    -0x1c(%ebp),%ecx
++mov    0x8(%ebp),%edx
++shl    $0x4,%ecx
++add    %ecx,%edx
++add    $0x37c,%edx
++mov    (%edx),%edx
++mov    %edx,-0x45c(%ebp)
++mov    $0x0,%edx
++divl   -0x45c(%ebp)
++mov    %eax,%edi
++mov    -0x1c(%ebp),%edx
++mov    0x8(%ebp),%eax
+ shl    $0x4,%edx
+ add    %edx,%eax
+-add    $0x8,%eax
++add    $0x374,%eax
+ mov    (%eax),%eax
+ mov    -0x1c(%ebp),%ecx
+ mov    0x8(%ebp),%edx
+-add    $0x37,%ecx
+ shl    $0x4,%ecx
+ add    %ecx,%edx
+-add    $0xc,%edx
++add    $0x37c,%edx
++mov    (%edx),%edx
++mov    %edx,-0x45c(%ebp)
++mov    $0x0,%edx
++divl   -0x45c(%ebp)
++mov    %eax,%esi
++mov    -0x1c(%ebp),%edx
 +mov    0x8(%ebp),%eax
 +shl    $0x4,%edx
 +add    %edx,%eax
 +add    $0x378,%eax
 +mov    (%eax),%eax
-+mov    %eax,-0x5c(%ebp)
-+mov    -0x60(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+shl    $0x4,%edx
-+add    %edx,%eax
-+add    $0x37c,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x58(%ebp)
-+mov    -0x60(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+shl    $0x4,%edx
-+add    %edx,%eax
-+add    $0x374,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x54(%ebp)
-+mov    -0x60(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+shl    $0x4,%edx
-+add    %edx,%eax
-+add    $0x37c,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x50(%ebp)
-+mov    -0x60(%ebp),%edx
- mov    0x8(%ebp),%eax
- add    $0x37,%edx
- shl    $0x4,%edx
--add    %edx,%eax
--add    $0x8,%eax
--mov    (%eax),%eax
--mov    -0x1c(%ebp),%ecx
--mov    0x8(%ebp),%edx
--add    $0x37,%ecx
--shl    $0x4,%ecx
--add    %ecx,%edx
--add    $0xc,%edx
--mov    (%edx),%edx
--mov    %edx,-0x45c(%ebp)
-+mov    (%edx,%eax,1),%eax
-+mov    %eax,-0x4c(%ebp)
-+mov    -0x60(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+shl    $0x4,%edx
-+add    %edx,%eax
-+add    $0x37c,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x48(%ebp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CServerHandler16GetServerGroupNoEv>
-+movzbl %al,%eax
-+mov    %eax,-0x44(%ebp)
-+mov    -0x5c(%ebp),%eax
++mov    -0x1c(%ebp),%ecx
++mov    0x8(%ebp),%edx
++shl    $0x4,%ecx
++add    %ecx,%edx
++add    $0x37c,%edx
+ mov    (%edx),%edx
+ mov    %edx,-0x45c(%ebp)
  mov    %eax,%edx
  sar    $0x1f,%edx
--idivl  -0x45c(%ebp)
+ idivl  -0x45c(%ebp)
 -mov    %eax,%edi
 -mov    -0x1c(%ebp),%edx
 -mov    0x8(%ebp),%eax
@@ -147,257 +138,161 @@
 -mov    %edx,-0x45c(%ebp)
 -mov    $0x0,%edx
 -divl   -0x45c(%ebp)
-+idivl  -0x58(%ebp)
  mov    %eax,%ebx
-+mov    -0x54(%ebp),%eax
-+mov    $0x0,%edx
-+divl   -0x50(%ebp)
-+mov    %eax,%ecx
-+mov    -0x4c(%ebp),%eax
-+mov    $0x0,%edx
-+divl   -0x48(%ebp)
-+mov    -0x44(%ebp),%edx
-+and    $0xff,%edx
-+mov    %ebx,0x20(%esp)
-+mov    %ecx,0x1c(%esp)
-+mov    %eax,0x18(%esp)
-+mov    -0x60(%ebp),%eax
-+mov    %eax,0x14(%esp)
-+mov    %edx,0x10(%esp)
-+mov    0x10(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"inSert into lag_stat_module (occ_time, server_id, module, average, deviation, count) values ('%s', %d, %d, %d, %d, %d)",0x8(%esp)
-+movl   $0x400,0x4(%esp)
-+lea    -0x478(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <snprintf>
-+movl   $0x6a1,0x8(%esp)
-+movl   $&_ZZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPcE12__FUNCTION__,0x4(%esp)
-+lea    -0x74(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+lea    -0x478(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"%s",0x8(%esp)
-+movl   $"./log/LagStatistics",0x4(%esp)
-+lea    -0x74(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+lea    -0x882(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
-+mov    -0x60(%ebp),%eax
-+add    $0x37,%eax
-+shl    $0x4,%eax
-+add    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN21STModuleLagStatistics5ResetEv>
-+addl   $0x1,-0x60(%ebp)
-+cmpl   $0x7,-0x60(%ebp)
-+setle  %al
-+test   %al,%al
-+jne    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x26>
-+mov    0x8(%ebp),%eax
-+add    $0x3f0,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt3mapIt22STDungeonLagStatisticsSt4lessItESaISt4pairIKtS0_EEE5emptyEv>
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x404>
-+mov    0x8(%ebp),%eax
-+lea    0x3f0(%eax),%edx
-+lea    -0x78(%ebp),%eax
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIt22STDungeonLagStatisticsSt4lessItESaISt4pairIKtS0_EEE5beginEv>
-+sub    $0x4,%esp
-+jmp    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x3bf>
-+movl   $0x400,0x8(%esp)
-+movl   $0x0,0x4(%esp)
-+lea    -0x478(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <memset>
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0x1c(%eax),%eax
-+mov    %eax,-0x40(%ebp)
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0x20(%eax),%eax
-+mov    %eax,-0x3c(%ebp)
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0x18(%eax),%eax
-+mov    %eax,-0x38(%ebp)
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0x20(%eax),%eax
-+mov    %eax,-0x34(%ebp)
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0x14(%eax),%eax
-+mov    %eax,-0x30(%ebp)
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0x20(%eax),%eax
-+mov    %eax,-0x2c(%ebp)
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0xc(%eax),%eax
-+mov    %eax,-0x28(%ebp)
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0x10(%eax),%eax
-+mov    %eax,-0x24(%ebp)
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+mov    0x8(%eax),%eax
-+mov    %eax,-0x20(%ebp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler16GetServerGroupNoEv>
  movzbl %al,%eax
-+mov    %eax,-0x1c(%ebp)
-+mov    -0x40(%ebp),%eax
-+mov    %eax,%edx
-+sar    $0x1f,%edx
-+idivl  -0x3c(%ebp)
-+mov    %eax,%edi
-+mov    -0x38(%ebp),%eax
-+mov    $0x0,%edx
-+divl   -0x34(%ebp)
-+mov    %eax,%esi
-+mov    -0x30(%ebp),%eax
-+mov    $0x0,%edx
-+divl   -0x2c(%ebp)
-+mov    %eax,%ebx
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
-+movzwl (%eax),%eax
-+movzwl %ax,%eax
-+mov    -0x1c(%ebp),%edx
-+movzbl %dl,%ecx
-+mov    -0x20(%ebp),%edx
-+mov    %edx,0x2c(%esp)
-+mov    -0x24(%ebp),%edx
-+mov    %edx,0x28(%esp)
-+mov    -0x28(%ebp),%edx
-+mov    %edx,0x24(%esp)
  mov    %edi,0x20(%esp)
  mov    %esi,0x1c(%esp)
  mov    %ebx,0x18(%esp)
--mov    -0x1c(%ebp),%edx
--mov    %edx,0x14(%esp)
--mov    %eax,0x10(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"inSert into lag_stat_module (occ_time, server_id, module, average, deviation, count) values ('%s', %d, %d, %d, %d, %d)",0x8(%esp)
--movl   $0x400,0x4(%esp)
--lea    -0x43e(%ebp),%eax
--add    $0xa,%eax
--mov    %eax,(%esp)
--call   <T> <snprintf>
--movl   $0x6a1,0x8(%esp)
--movl   $&_ZZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPcE12__FUNCTION__,0x4(%esp)
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--lea    -0x43e(%ebp),%eax
--add    $0xa,%eax
--mov    %eax,0xc(%esp)
--movl   $"%s",0x8(%esp)
--movl   $"./log/LagStatistics",0x4(%esp)
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--lea    -0x43e(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
--mov    -0x1c(%ebp),%eax
--add    $0x37,%eax
--shl    $0x4,%eax
--add    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN21STModuleLagStatistics5ResetEv>
--addl   $0x1,-0x1c(%ebp)
--cmpl   $0x7,-0x1c(%ebp)
--setle  %al
--test   %al,%al
--jne    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x26>
--mov    0x8(%ebp),%eax
--add    $0x3f0,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt3mapIt22STDungeonLagStatisticsSt4lessItESaISt4pairIKtS0_EEE5emptyEv>
+ mov    -0x1c(%ebp),%edx
+ mov    %edx,0x14(%esp)
+ mov    %eax,0x10(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"inSert into lag_stat_module (occ_time, server_id, module, average, deviation, count) values ('%s', %d, %d, %d, %d, %d)",0x8(%esp)
+ movl   $0x400,0x4(%esp)
+ lea    -0x43e(%ebp),%eax
+ add    $0xa,%eax
+ mov    %eax,(%esp)
+ call   <T> <snprintf>
+ movl   $0x6a1,0x8(%esp)
+ movl   $&_ZZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPcE12__FUNCTION__,0x4(%esp)
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ lea    -0x43e(%ebp),%eax
+ add    $0xa,%eax
+ mov    %eax,0xc(%esp)
+ movl   $"%s",0x8(%esp)
+ movl   $"./log/LagStatistics",0x4(%esp)
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x43e(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
+ mov    -0x1c(%ebp),%eax
+ add    $0x37,%eax
+ shl    $0x4,%eax
+ add    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN21STModuleLagStatistics5ResetEv>
+ addl   $0x1,-0x1c(%ebp)
+ cmpl   $0x7,-0x1c(%ebp)
+ setle  %al
+ test   %al,%al
+ jne    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x26>
+ mov    0x8(%ebp),%eax
+ add    $0x3f0,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIt22STDungeonLagStatisticsSt4lessItESaISt4pairIKtS0_EEE5emptyEv>
 -xor    $0x1,%eax
--test   %al,%al
+ test   %al,%al
 -je     <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x48e>
--mov    0x8(%ebp),%eax
--lea    0x3f0(%eax),%edx
--lea    -0x34(%ebp),%eax
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZNSt3mapIt22STDungeonLagStatisticsSt4lessItESaISt4pairIKtS0_EEE5beginEv>
--sub    $0x4,%esp
++jne    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x492>
+ mov    0x8(%ebp),%eax
+ lea    0x3f0(%eax),%edx
+ lea    -0x34(%ebp),%eax
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapIt22STDungeonLagStatisticsSt4lessItESaISt4pairIKtS0_EEE5beginEv>
+ sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x449>
--movl   $0x400,0x8(%esp)
--movl   $0x0,0x4(%esp)
--lea    -0x43e(%ebp),%eax
--add    $0xa,%eax
--mov    %eax,(%esp)
--call   <T> <memset>
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
++jmp    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x44b>
+ movl   $0x400,0x8(%esp)
+ movl   $0x0,0x4(%esp)
+ lea    -0x43e(%ebp),%eax
+ add    $0xa,%eax
+ mov    %eax,(%esp)
+ call   <T> <memset>
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
 -mov    0x1c(%eax),%ebx
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
 -mov    0x20(%eax),%eax
--mov    %eax,-0x45c(%ebp)
--mov    %ebx,%edx
--mov    %edx,%eax
--sar    $0x1f,%edx
--idivl  -0x45c(%ebp)
++mov    0x4(%eax),%eax
++mov    %eax,%ebx
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
++mov    0x10(%eax),%eax
++mov    %eax,-0x45c(%ebp)
++mov    %ebx,%eax
++mov    $0x0,%edx
++divl   -0x45c(%ebp)
++mov    %eax,%edi
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
++mov    0x8(%eax),%eax
++mov    %eax,%ebx
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
++mov    0x10(%eax),%eax
++mov    %eax,-0x45c(%ebp)
++mov    %ebx,%eax
++mov    $0x0,%edx
++divl   -0x45c(%ebp)
++mov    %eax,-0x458(%ebp)
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
++mov    0xc(%eax),%ebx
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
++mov    0x10(%eax),%eax
+ mov    %eax,-0x45c(%ebp)
+ mov    %ebx,%edx
+ mov    %edx,%eax
+ sar    $0x1f,%edx
+ idivl  -0x45c(%ebp)
 -mov    %eax,%edi
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
 -mov    0x18(%eax),%ebx
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
--mov    0x20(%eax),%eax
--mov    %eax,-0x45c(%ebp)
--mov    %ebx,%eax
--mov    $0x0,%edx
--divl   -0x45c(%ebp)
++mov    %eax,-0x454(%ebp)
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
++mov    0x14(%eax),%eax
++mov    %eax,%ebx
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
+ mov    0x20(%eax),%eax
+ mov    %eax,-0x45c(%ebp)
+ mov    %ebx,%eax
+ mov    $0x0,%edx
+ divl   -0x45c(%ebp)
 -mov    %eax,-0x458(%ebp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
 -mov    0x14(%eax),%ebx
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
--mov    0x20(%eax),%eax
--mov    %eax,-0x45c(%ebp)
--mov    %ebx,%eax
--mov    $0x0,%edx
--divl   -0x45c(%ebp)
++mov    %eax,-0x450(%ebp)
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
++mov    0x18(%eax),%eax
++mov    %eax,%ebx
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
+ mov    0x20(%eax),%eax
+ mov    %eax,-0x45c(%ebp)
+ mov    %ebx,%eax
+ mov    $0x0,%edx
+ divl   -0x45c(%ebp)
 -mov    %eax,-0x454(%ebp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
@@ -407,11 +302,20 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
 -mov    0x10(%eax),%eax
--mov    %eax,-0x45c(%ebp)
--mov    %ebx,%edx
--mov    %edx,%eax
--sar    $0x1f,%edx
--idivl  -0x45c(%ebp)
++mov    %eax,-0x44c(%ebp)
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
++mov    0x1c(%eax),%ebx
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
++mov    0x20(%eax),%eax
+ mov    %eax,-0x45c(%ebp)
+ mov    %ebx,%edx
+ mov    %edx,%eax
+ sar    $0x1f,%edx
+ idivl  -0x45c(%ebp)
 -mov    %eax,-0x450(%ebp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
@@ -438,87 +342,78 @@
 -mov    %ebx,%eax
 -mov    $0x0,%edx
 -divl   -0x45c(%ebp)
--mov    %eax,%esi
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
--movzwl (%eax),%eax
--movzwl %ax,%ebx
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN14CServerHandler16GetServerGroupNoEv>
--movzbl %al,%eax
--mov    %edi,0x2c(%esp)
--mov    -0x458(%ebp),%edx
--mov    %edx,0x28(%esp)
--mov    -0x454(%ebp),%edx
--mov    %edx,0x24(%esp)
--mov    -0x450(%ebp),%edx
--mov    %edx,0x20(%esp)
--mov    -0x44c(%ebp),%edx
--mov    %edx,0x1c(%esp)
--mov    %esi,0x18(%esp)
--mov    %ebx,0x14(%esp)
--mov    %eax,0x10(%esp)
-+mov    %eax,0x14(%esp)
-+mov    %ecx,0x10(%esp)
+ mov    %eax,%esi
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEptEv>
+ movzwl (%eax),%eax
+ movzwl %ax,%ebx
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CServerHandler16GetServerGroupNoEv>
+ movzbl %al,%eax
+ mov    %edi,0x2c(%esp)
+ mov    -0x458(%ebp),%edx
+ mov    %edx,0x28(%esp)
+ mov    -0x454(%ebp),%edx
+ mov    %edx,0x24(%esp)
+ mov    -0x450(%ebp),%edx
+ mov    %edx,0x20(%esp)
+ mov    -0x44c(%ebp),%edx
+ mov    %edx,0x1c(%esp)
+ mov    %esi,0x18(%esp)
+ mov    %ebx,0x14(%esp)
+ mov    %eax,0x10(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"inSert into lag_stat_dungeon (occ_time, server_id, dungeon_idx, first_average, first_deviation, first_count, boss_average, boss_deviation, boss_count) values ('%s', %d, %d, %d, %d, %d, %d, %d, %d)",0x8(%esp)
  movl   $0x400,0x4(%esp)
--lea    -0x43e(%ebp),%eax
--add    $0xa,%eax
-+lea    -0x478(%ebp),%eax
+ lea    -0x43e(%ebp),%eax
+ add    $0xa,%eax
  mov    %eax,(%esp)
  call   <T> <snprintf>
  movl   $0x6b8,0x8(%esp)
  movl   $&_ZZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPcE12__FUNCTION__,0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x68(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--lea    -0x43e(%ebp),%eax
--add    $0xa,%eax
-+lea    -0x478(%ebp),%eax
+ lea    -0x43e(%ebp),%eax
+ add    $0xa,%eax
  mov    %eax,0xc(%esp)
  movl   $"%s",0x8(%esp)
  movl   $"./log/LagStatistics",0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x68(%ebp),%eax
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--lea    -0x43e(%ebp),%eax
-+lea    -0x882(%ebp),%eax
+ lea    -0x43e(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
--lea    -0x34(%ebp),%eax
-+lea    -0x78(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEppEv>
  mov    0x8(%ebp),%eax
  lea    0x3f0(%eax),%edx
--lea    -0x28(%ebp),%eax
-+lea    -0x6c(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIt22STDungeonLagStatisticsSt4lessItESaISt4pairIKtS0_EEE3endEv>
  sub    $0x4,%esp
--lea    -0x28(%ebp),%eax
-+lea    -0x6c(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x34(%ebp),%eax
-+lea    -0x78(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKt22STDungeonLagStatisticsEEneERKS4_>
  test   %al,%al
 -jne    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x210>
-+jne    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x20b>
++jne    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x20a>
  mov    0x8(%ebp),%eax
  add    $0x3f0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIt22STDungeonLagStatisticsSt4lessItESaISt4pairIKtS0_EEE5clearEv>
++jmp    <T> <_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc+0x493>
++nop
  lea    -0xc(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -678,56 +573,48 @@ StatisticManager::_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1406 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1410 行）：
 
 ```cpp
 void StatisticManager::SendDBLagStatistics(CServerHandler* handler, char* timeStr)
 {
     Packet_DBMW_TechnicalReport_Common_Query pkt;
-    char sql[1024];
     for (int i = 0; i < 8; i++)
     {
         if (0 < m_modules[i].m_data[3])
         {
-            memset(sql, 0, 0x400);
-            int d1 = m_modules[i].m_data[2];
-            int d2 = m_modules[i].m_data[3];
-            unsigned int a = m_modules[i].m_data[1];
-            unsigned int b = m_modules[i].m_data[3];
-            unsigned int c = m_modules[i].m_data[0];
-            unsigned int d = m_modules[i].m_data[3];
-            unsigned int group = handler->GetServerGroupNo();
-            snprintf(sql, 0x400,
+            memset((char*)&pkt + 0xa, 0, 0x400);
+            snprintf((char*)&pkt + 0xa, 0x400,
                 "inSert into lag_stat_module (occ_time, server_id, module, average, deviation, count) values ('%s', %d, %d, %d, %d, %d)",
-                timeStr, group & 0xff, i, c / d, a / b, d1 / d2);
-            DNF_LOG_SCOPE_LINE(0x6a1, "./log/LagStatistics", "%s", sql);
+                timeStr, handler->GetServerGroupNo() & 0xff, i,
+                m_modules[i].m_data[2] / m_modules[i].m_data[3],
+                (unsigned int)m_modules[i].m_data[1] / (unsigned int)m_modules[i].m_data[3],
+                (unsigned int)m_modules[i].m_data[0] / (unsigned int)m_modules[i].m_data[3]);
+            DNF_LOG_SCOPE_LINE(0x6a1, "./log/LagStatistics", "%s", (char*)&pkt + 0xa);
             handler->SendToDB((PacketHeader*)&pkt);
             m_modules[i].Reset();
         }
     }
-    if (!m_dungeonLag.empty())
+    if (m_dungeonLag.empty())
     {
-        for (std::map<unsigned short, STDungeonLagStatistics>::iterator it = m_dungeonLag.begin();
-             it != m_dungeonLag.end(); ++it)
-        {
-            memset(sql, 0, 0x400);
-            int d1 = it->second.m_data[6];
-            int d2 = it->second.m_data[7];
-            unsigned int a = it->second.m_data[5];
-            unsigned int b = it->second.m_data[7];
-            unsigned int c = it->second.m_data[4];
-            unsigned int d = it->second.m_data[7];
-            unsigned int e = it->second.m_data[2];
-            int f = it->second.m_data[3];
-            unsigned int g = it->second.m_data[1];
-            unsigned int group = handler->GetServerGroupNo();
-            snprintf(sql, 0x400,
-                "inSert into lag_stat_dungeon (occ_time, server_id, dungeon_idx, first_average, first_deviation, first_count, boss_average, boss_deviation, boss_count) values ('%s', %d, %d, %d, %d, %d, %d, %d, %d)",
-                timeStr, group & 0xff, it->first, c / d, a / b, d1 / d2, e, f, g);
-            DNF_LOG_SCOPE_LINE(0x6b8, "./log/LagStatistics", "%s", sql);
-            handler->SendToDB((PacketHeader*)&pkt);
-        }
-        m_dungeonLag.clear();
+        return;
     }
+    for (std::map<unsigned short, STDungeonLagStatistics>::iterator it = m_dungeonLag.begin();
+         it != m_dungeonLag.end(); ++it)
+    {
+        memset((char*)&pkt + 0xa, 0, 0x400);
+        snprintf((char*)&pkt + 0xa, 0x400,
+            "inSert into lag_stat_dungeon (occ_time, server_id, dungeon_idx, first_average, first_deviation, first_count, boss_average, boss_deviation, boss_count) values ('%s', %d, %d, %d, %d, %d, %d, %d, %d)",
+            timeStr, handler->GetServerGroupNo() & 0xff, it->first,
+            it->second.m_data[6] / it->second.m_data[7],
+            (unsigned int)it->second.m_data[5] / (unsigned int)it->second.m_data[7],
+            (unsigned int)it->second.m_data[4] / (unsigned int)it->second.m_data[7],
+            it->second.m_data[2] / it->second.m_data[3],
+            (unsigned int)it->second.m_data[1] / (unsigned int)it->second.m_data[3],
+            (unsigned int)it->second.m_data[0] / (unsigned int)it->second.m_data[3]);
+        DNF_LOG_SCOPE_LINE(0x6b8, "./log/LagStatistics", "%s", (char*)&pkt + 0xa);
+        handler->SendToDB((PacketHeader*)&pkt);
+    }
+    m_dungeonLag.clear();
 }
 ```

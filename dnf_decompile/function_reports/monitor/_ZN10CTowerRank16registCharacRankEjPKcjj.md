@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a32a8` | `0x269` | `0x8086b18` | `0x227` |
+| monitor | NEAR | `0x80a32a8` | `0x269` | `0x8086ae4` | `0x269` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,35 +13,90 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,201 +1,177 @@
+@@ -1,201 +1,201 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x40,%esp
 -lea    -0x29(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcEC1Ev>
--mov    0x10(%ebp),%eax
++lea    -0x25(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcEC1Ev>
+ mov    0x10(%ebp),%eax
 -lea    -0x29(%ebp),%edx
 -mov    %edx,0x8(%esp)
 -mov    %eax,0x4(%esp)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsC1EPKcRKSaIcE>
++lea    -0x25(%ebp),%edx
++mov    %edx,0x8(%esp)
++mov    %eax,0x4(%esp)
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsC1EPKcRKSaIcE>
++mov    0xc(%ebp),%eax
++lea    -0x1(%eax),%edx
++mov    %edx,%eax
++add    %eax,%eax
++add    %edx,%eax
++shl    $0x3,%eax
++mov    %eax,%edx
++add    0x8(%ebp),%edx
++lea    -0x30(%ebp),%eax
++lea    -0x2c(%ebp),%ecx
++mov    %ecx,0x8(%esp)
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZNSt8multimapISs20stTowerRankElement_tSt4lessISsESaISt4pairIKSsS0_EEE11lower_boundERS4_>
++sub    $0x4,%esp
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x96>
++mov    %edx,%ebx
++mov    %eax,%esi
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++mov    %esi,%eax
++mov    %ebx,%edx
++jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x7b>
++mov    %edx,%ebx
++mov    %eax,%esi
++lea    -0x25(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSaIcED1Ev>
++mov    %esi,%eax
++mov    %ebx,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
++lea    -0x25(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSaIcED1Ev>
++lea    -0x1d(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSaIcEC1Ev>
++mov    0x10(%ebp),%eax
++lea    -0x1d(%ebp),%edx
++mov    %edx,0x8(%esp)
++mov    %eax,0x4(%esp)
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsC1EPKcRKSaIcE>
  mov    0xc(%ebp),%eax
  lea    -0x1(%eax),%edx
  mov    %edx,%eax
  add    %eax,%eax
  add    %edx,%eax
  shl    $0x3,%eax
--mov    %eax,%edx
--add    0x8(%ebp),%edx
--lea    -0x34(%ebp),%eax
+ mov    %eax,%edx
+ add    0x8(%ebp),%edx
+ lea    -0x34(%ebp),%eax
 -lea    -0x30(%ebp),%ecx
--mov    %ecx,0x8(%esp)
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
++lea    -0x24(%ebp),%ecx
+ mov    %ecx,0x8(%esp)
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
 -call   <T> <_ZNSt8multimapISs20stTowerRankElement_tSt4lessISsESaISt4pairIKSsS0_EEE11lower_boundERS4_>
 -sub    $0x4,%esp
 -lea    -0x30(%ebp),%eax
@@ -59,27 +114,42 @@
 -mov    %edx,%ebx
 -mov    %eax,%esi
 -lea    -0x29(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
++call   <T> <_ZNSt8multimapISs20stTowerRankElement_tSt4lessISsESaISt4pairIKSsS0_EEE11upper_boundERS4_>
++sub    $0x4,%esp
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x12f>
++mov    %edx,%ebx
++mov    %eax,%esi
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSsD1Ev>
++mov    %esi,%eax
++mov    %ebx,%edx
++jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x114>
++mov    %edx,%ebx
++mov    %eax,%esi
++lea    -0x1d(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
 -lea    -0x29(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSaIcED1Ev>
-+add    0x8(%ebp),%eax
-+mov    %eax,-0xc(%ebp)
- lea    -0x21(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcEC1Ev>
- mov    0x10(%ebp),%eax
- lea    -0x21(%ebp),%edx
- mov    %edx,0x8(%esp)
- mov    %eax,0x4(%esp)
- lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsC1EPKcRKSaIcE>
+-lea    -0x21(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcEC1Ev>
+-mov    0x10(%ebp),%eax
+-lea    -0x21(%ebp),%edx
+-mov    %edx,0x8(%esp)
+-mov    %eax,0x4(%esp)
+-lea    -0x28(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsC1EPKcRKSaIcE>
 -mov    0xc(%ebp),%eax
 -lea    -0x1(%eax),%edx
 -mov    %edx,%eax
@@ -91,146 +161,84 @@
 -lea    -0x38(%ebp),%eax
 -lea    -0x28(%ebp),%ecx
 -mov    %ecx,0x8(%esp)
-+lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    -0xc(%ebp),%edx
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
 -call   <T> <_ZNSt8multimapISs20stTowerRankElement_tSt4lessISsESaISt4pairIKSsS0_EEE11upper_boundERS4_>
-+call   <T> <_ZNSt8multimapISs20stTowerRankElement_tSt4lessISsESaISt4pairIKSsS0_EEE11lower_boundERS4_>
- sub    $0x4,%esp
- lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
+-sub    $0x4,%esp
+-lea    -0x28(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x12f>
-+jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x9a>
- mov    %edx,%ebx
- mov    %eax,%esi
- lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- mov    %esi,%eax
- mov    %ebx,%edx
+-mov    %edx,%ebx
+-mov    %eax,%esi
+-lea    -0x28(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
+-mov    %esi,%eax
+-mov    %ebx,%edx
 -jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x114>
-+jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x7f>
- mov    %edx,%ebx
- mov    %eax,%esi
- lea    -0x21(%ebp),%eax
+-mov    %edx,%ebx
+-mov    %eax,%esi
+-lea    -0x21(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcED1Ev>
+-mov    %esi,%eax
+-mov    %ebx,%edx
+-mov    %eax,(%esp)
+-call   <T> <_Unwind_Resume>
+-lea    -0x21(%ebp),%eax
++lea    -0x1d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
- mov    %esi,%eax
- mov    %ebx,%edx
- mov    %eax,(%esp)
- call   <T> <_Unwind_Resume>
- lea    -0x21(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
--jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x1a6>
+ jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x1a6>
 -lea    -0x34(%ebp),%eax
-+lea    -0x19(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcEC1Ev>
-+mov    0x10(%ebp),%eax
-+lea    -0x19(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsC1EPKcRKSaIcE>
 +lea    -0x30(%ebp),%eax
-+lea    -0x20(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt8multimapISs20stTowerRankElement_tSt4lessISsESaISt4pairIKSsS0_EEE11upper_boundERS4_>
-+sub    $0x4,%esp
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x122>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x107>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x19(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+lea    -0x19(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+lea    -0x30(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSs20stTowerRankElement_tEEeqERKS4_>
-+test   %al,%al
-+jne    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x19f>
-+lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSs20stTowerRankElement_tEEptEv>
--movzbl 0x4(%eax),%eax
--movzbl %al,%eax
--cmp    0x14(%ebp),%eax
-+movzbl 0x4(%eax),%edx
-+mov    0x14(%ebp),%eax
-+cmp    %al,%dl
+ movzbl 0x4(%eax),%eax
+ movzbl %al,%eax
+ cmp    0x14(%ebp),%eax
  sete   %al
  test   %al,%al
--je     <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x19b>
+ je     <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x19b>
 -lea    -0x34(%ebp),%eax
-+je     <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x192>
-+lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSs20stTowerRankElement_tEEptEv>
  movzwl 0x6(%eax),%eax
  movzwl %ax,%eax
  cmp    0x18(%ebp),%eax
--setb   %al
-+setae  %al
+ setb   %al
  test   %al,%al
--je     <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x25e>
--mov    0xc(%ebp),%eax
--lea    -0x1(%eax),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x3,%eax
--add    0x8(%ebp),%eax
+ je     <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x25e>
+ mov    0xc(%ebp),%eax
+ lea    -0x1(%eax),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x3,%eax
+ add    0x8(%ebp),%eax
 -mov    -0x34(%ebp),%edx
--mov    %edx,0x4(%esp)
-+jne    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x21c>
-+mov    -0x2c(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0xc(%ebp),%eax
++mov    -0x30(%ebp),%edx
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt8multimapISs20stTowerRankElement_tSt4lessISsESaISt4pairIKSsS0_EEE5eraseESt17_Rb_tree_iteratorIS5_E>
--jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x1bc>
--lea    -0x34(%ebp),%eax
-+jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x1a0>
-+lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKSs20stTowerRankElement_tEEppEv>
+ jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x1bc>
++lea    -0x30(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKSs20stTowerRankElement_tEEppEv>
+ lea    -0x34(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKSs20stTowerRankElement_tEEppEv>
 -lea    -0x38(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSs20stTowerRankElement_tEEneERKS4_>
--test   %al,%al
--jne    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x13c>
-+jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x12d>
-+nop
++mov    %eax,0x4(%esp)
++lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSs20stTowerRankElement_tEEneERKS4_>
+ test   %al,%al
+ jne    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x13c>
  mov    0x18(%ebp),%eax
  movzwl %ax,%edx
  mov    0x14(%ebp),%eax
@@ -238,56 +246,55 @@
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0xc(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN20stTowerRankElement_tC1Eht>
-+lea    -0x34(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+lea    0x10(%ebp),%eax
-+mov    %eax,0x4(%esp)
- lea    -0x14(%ebp),%eax
+-lea    -0x14(%ebp),%eax
 -lea    -0xc(%ebp),%edx
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIKSs20stTowerRankElement_tEC1IRPKcRS1_EEOT_OT0_>
-+lea    -0x18(%ebp),%eax
-+lea    -0x14(%ebp),%edx
++lea    -0x10(%ebp),%eax
++lea    -0x38(%ebp),%edx
  mov    %edx,0x8(%esp)
--lea    0x10(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
+ lea    0x10(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
 -call   <T> <_ZSt9make_pairIRPKc20stTowerRankElement_tESt4pairINSt17__decay_and_stripIT_E6__typeENS5_IT0_E6__typeEEOS6_OS9_>
 -sub    $0x4,%esp
 -lea    -0x14(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKSs20stTowerRankElement_tEC1IPKcS1_EEOS_IT_T0_E>
--mov    0xc(%ebp),%eax
--lea    -0x1(%eax),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x3,%eax
--mov    %eax,%edx
--add    0x8(%ebp),%edx
++call   <T> <_ZSt9make_pairIRPKcR20stTowerRankElement_tESt4pairINSt17__decay_and_stripIT_E6__typeENS6_IT0_E6__typeEEOS7_OSA_>
++sub    $0x4,%esp
++lea    -0x10(%ebp),%eax
++mov    %eax,0x4(%esp)
++lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIKSs20stTowerRankElement_tEC1IPKcS1_EEOS_IT_T0_E>
+ mov    0xc(%ebp),%eax
+ lea    -0x1(%eax),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x3,%eax
+ mov    %eax,%edx
+ add    0x8(%ebp),%edx
 -lea    -0x20(%ebp),%eax
 -lea    -0x1c(%ebp),%ecx
--mov    %ecx,0x8(%esp)
-+mov    -0xc(%ebp),%edx
++lea    -0x1c(%ebp),%eax
++lea    -0x18(%ebp),%ecx
+ mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt8multimapISs20stTowerRankElement_tSt4lessISsESaISt4pairIKSsS0_EEE6insertERKS5_>
  sub    $0x4,%esp
 -lea    -0x1c(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKSs20stTowerRankElement_tED1Ev>
--jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x25f>
-+jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x21d>
+ jmp    <T> <_ZN10CTowerRank16registCharacRankEjPKcjj+0x25f>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x1c(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKSs20stTowerRankElement_tED1Ev>
  mov    %esi,%eax

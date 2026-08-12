@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80acd86` | `0xe0` | `0x80931ce` | `0xc7` |
+| monitor | DIFF | `0x80acd86` | `0xe0` | `0x809326c` | `0xd5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,23 +13,23 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,63 +1,58 @@
+@@ -1,63 +1,60 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
  sub    $0x34,%esp
  mov    0x8(%ebp),%ebx
--movl   $0x0,-0x1c(%ebp)
 +movl   $0x0,(%ebx)
 +movl   $0x3,0x4(%ebx)
-+mov    0x10(%ebp),%eax
-+mov    %eax,-0x1c(%ebp)
+ movl   $0x0,-0x1c(%ebp)
++movl   $0x0,-0x18(%ebp)
  movl   $0x3,-0x18(%ebp)
 -movl   $0x0,-0x24(%ebp)
 -movl   $0x0,-0x20(%ebp)
 -movl   $0x3,-0x20(%ebp)
--mov    0x10(%ebp),%eax
+ mov    0x10(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
++mov    %eax,-0x1c(%ebp)
  mov    0xc(%ebp),%edx
  lea    -0x14(%ebp),%eax
  mov    %edx,0x4(%esp)
@@ -69,7 +69,7 @@
  test   %al,%al
 -je     <T> <_ZNK8WongWork11CGMAccounts9getGMInfoEj+0xcc>
 -lea    -0x28(%ebp),%eax
-+je     <T> <_ZNK8WongWork11CGMAccounts9getGMInfoEj+0xbd>
++je     <T> <_ZNK8WongWork11CGMAccounts9getGMInfoEj+0xcb>
 +lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt20_List_const_iteratorIN8WongWork11CGMAccounts10stGMInfo_tEEdeEv>
@@ -82,7 +82,7 @@
 -mov    -0x18(%ebp),%edx
 -mov    %eax,(%ebx)
 -mov    %edx,0x4(%ebx)
-+jmp    <T> <_ZNK8WongWork11CGMAccounts9getGMInfoEj+0xbe>
++jmp    <T> <_ZNK8WongWork11CGMAccounts9getGMInfoEj+0xcc>
 +nop
  mov    %ebx,%eax
  mov    -0x4(%ebp),%ebx
@@ -138,7 +138,7 @@ uint WongWork::CGMAccounts::_ZNK8WongWork11CGMAccounts9getGMInfoEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/GMAccounts.cpp](source/DNFServer/GameServer/Monitor/GMAccounts.cpp)（约第 48 行）：
+定义于 [source/DNFServer/GameServer/Monitor/GMAccounts.cpp](source/DNFServer/GameServer/Monitor/GMAccounts.cpp)（约第 43 行）：
 
 ```cpp
 CGMAccounts::stGMInfo_t CGMAccounts::getGMInfo(unsigned int dbid) const
@@ -146,9 +146,9 @@ CGMAccounts::stGMInfo_t CGMAccounts::getGMInfo(unsigned int dbid) const
     stGMInfo_t out;
     out.m_dbid = 0;
     out.m_field4 = 3;
-    stGMInfo_t key;
-    key.m_dbid = dbid;
+    stGMInfo_t key = {};
     key.m_field4 = 3;
+    key.m_dbid = dbid;
     std::list<stGMInfo_t>::const_iterator it =
         std::find(m_list.begin(), m_list.end(), key);
     if (it != m_list.end())

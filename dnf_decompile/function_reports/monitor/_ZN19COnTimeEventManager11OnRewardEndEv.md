@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a49b6` | `0x112` | `0x809a29c` | `0x111` |
+| monitor | DIFF | `0x80a49b6` | `0x112` | `0x809a44a` | `0x10b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,29 +13,31 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,67 +1,64 @@
+@@ -1,67 +1,62 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %ebx
 -sub    $0x34,%esp
 +sub    $0x38,%esp
++movl   $0xae,0x8(%esp)
++movl   $&_ZZN19COnTimeEventManager11OnRewardEndEvE12__FUNCTION__,0x4(%esp)
++lea    -0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $0x0,(%esp)
  call   <T> <time>
 -mov    %eax,%ebx
-+mov    %eax,-0xc(%ebp)
- movl   $0xae,0x8(%esp)
- movl   $&_ZZN19COnTimeEventManager11OnRewardEndEvE12__FUNCTION__,0x4(%esp)
+-movl   $0xae,0x8(%esp)
+-movl   $&_ZZN19COnTimeEventManager11OnRewardEndEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x14(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    -0xc(%ebp),%eax
 +mov    %eax,0xc(%esp)
  movl   $"On Time Event : On Reward End Trigger On(%d)\n",0x8(%esp)
  movl   $"./log/OnTimeEvent",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x14(%ebp),%eax
++lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x2,0x4(%esp)
@@ -44,14 +46,14 @@
  call   <T> <_ZN19COnTimeEventManager10IsCurStateE23ENUM_ONTIME_EVENT_STATE>
  test   %al,%al
 -je     <T> <_ZN19COnTimeEventManager11OnRewardEndEv+0x82>
-+je     <T> <_ZN19COnTimeEventManager11OnRewardEndEv+0x85>
++je     <T> <_ZN19COnTimeEventManager11OnRewardEndEv+0x7f>
  movl   $"On Time Event : Event Off Trigger",(%esp)
  call   <T> <puts>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN19COnTimeEventManager5ClearEv>
 -jmp    <T> <_ZN19COnTimeEventManager11OnRewardEndEv+0x10c>
-+jmp    <T> <_ZN19COnTimeEventManager11OnRewardEndEv+0x10f>
++jmp    <T> <_ZN19COnTimeEventManager11OnRewardEndEv+0x109>
  movl   $0x1,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -59,13 +61,13 @@
 +xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN19COnTimeEventManager11OnRewardEndEv+0x10b>
-+je     <T> <_ZN19COnTimeEventManager11OnRewardEndEv+0x10f>
++je     <T> <_ZN19COnTimeEventManager11OnRewardEndEv+0x109>
  movl   $0x1,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN19COnTimeEventManager11ChangeStateE23ENUM_ONTIME_EVENT_STATE>
 -lea    -0x22(%ebp),%eax
-+lea    -0x1e(%ebp),%eax
++lea    -0x1a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_MTG_OntimeEvent_RewardEndC1Ev>
  mov    0x8(%ebp),%eax
@@ -73,20 +75,20 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 -lea    -0x22(%ebp),%edx
-+lea    -0x1e(%ebp),%edx
++lea    -0x1a(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
  movl   $0xd9,0x8(%esp)
  movl   $&_ZZN19COnTimeEventManager11OnRewardEndEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x10(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"On Time Event : On Reward End Trigger Process Success",0x8(%esp)
  movl   $"./log/OnTimeEvent",0x4(%esp)
 -lea    -0x10(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN19COnTimeEventManager11OnRewardEndEv+0x10c>
@@ -143,26 +145,28 @@ COnTimeEventManager::_ZN19COnTimeEventManager11OnRewardEndEv(COnTimeEventManager
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp](source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp)（约第 243 行）：
+定义于 [source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp](source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp)（约第 247 行）：
 
 ```cpp
 void COnTimeEventManager::OnRewardEnd()
 {
-    time_t now = time(0);
     CMyFileLog log(__FUNCTION__, 0xae);
-    log("./log/OnTimeEvent", "On Time Event : On Reward End Trigger On(%d)\n", now);
+    log("./log/OnTimeEvent", "On Time Event : On Reward End Trigger On(%d)\n", time(0));
     if (IsCurState(ONTIME_EVENT_STATE_REWARD))
     {
         puts("On Time Event : Event Off Trigger");
         Clear();
     }
-    else if (!IsCurState(ONTIME_EVENT_STATE_START))
+    else
     {
-        ChangeState(ONTIME_EVENT_STATE_START);
-        Packet_MTG_OntimeEvent_RewardEnd pkt;
-        m_app->Get_ServerHandler()->SendAllTcpGameServer(&pkt);
-        CMyFileLog log2(__FUNCTION__, 0xd9);
-        log2("./log/OnTimeEvent", "On Time Event : On Reward End Trigger Process Success");
+        if (IsCurState(ONTIME_EVENT_STATE_START) == 0)
+        {
+            ChangeState(ONTIME_EVENT_STATE_START);
+            Packet_MTG_OntimeEvent_RewardEnd pkt;
+            m_app->Get_ServerHandler()->SendAllTcpGameServer(&pkt);
+            CMyFileLog log2(__FUNCTION__, 0xd9);
+            log2("./log/OnTimeEvent", "On Time Event : On Reward End Trigger Process Success");
+        }
     }
 }
 ```

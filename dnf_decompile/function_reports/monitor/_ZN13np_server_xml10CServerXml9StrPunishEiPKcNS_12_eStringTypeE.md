@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8057ed2` | `0x265` | `0x809ddce` | `0x1ba` |
+| monitor | DIFF | `0x8057ed2` | `0x265` | `0x809df76` | `0x26e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,42 +13,36 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,191 +1,138 @@
+@@ -1,191 +1,192 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
--sub    $0x60,%esp
-+sub    $0x50,%esp
+ sub    $0x60,%esp
  cmpl   $0x0,0x10(%ebp)
 -je     <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x25a>
--lea    -0x51(%ebp),%eax
-+je     <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x1b0>
-+lea    -0x39(%ebp),%eax
++je     <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x264>
+ lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x51(%ebp),%eax
-+lea    -0x39(%ebp),%eax
+ lea    -0x51(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x58(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
  jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x53>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x51(%ebp),%eax
-+lea    -0x39(%ebp),%eax
+ lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--lea    -0x51(%ebp),%eax
-+lea    -0x39(%ebp),%eax
+ lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
 -mov    0x14(%ebp),%eax
@@ -59,68 +53,86 @@
 -test   %eax,%eax
 -jne    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x232>
 -lea    -0x58(%ebp),%eax
-+cmpl   $0x1,0x14(%ebp)
-+jne    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0xc4>
-+lea    -0x40(%ebp),%eax
- mov    %eax,0x8(%esp)
- lea    0xc(%ebp),%eax
- mov    %eax,0x4(%esp)
--lea    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIiSsEC1IRiRSsEEOT_OT0_>
--lea    -0x40(%ebp),%eax
+-mov    %eax,0x8(%esp)
+-lea    0xc(%ebp),%eax
 -mov    %eax,0x4(%esp)
--lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKiSsEC1IiSsEEOS_IT_T0_E>
--mov    0x8(%ebp),%eax
++cmpl   $0x1,0x14(%ebp)
++jne    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0xff>
+ lea    -0x40(%ebp),%eax
++lea    -0x58(%ebp),%edx
++mov    %edx,0x8(%esp)
++lea    0xc(%ebp),%edx
++mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+-call   <T> <_ZNSt4pairIiSsEC1IRiRSsEEOT_OT0_>
++call   <T> <_ZSt9make_pairIRiRSsESt4pairINSt17__decay_and_stripIT_E6__typeENS3_IT0_E6__typeEEOS4_OS7_>
++sub    $0x4,%esp
+ lea    -0x40(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIKiSsEC1IiSsEEOS_IT_T0_E>
+ mov    0x8(%ebp),%eax
 -lea    0x58(%eax),%ecx
--lea    -0x50(%ebp),%eax
--lea    -0x48(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    %ecx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZNSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEE6insertERKS4_>
--sub    $0x4,%esp
--lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKiSsED1Ev>
++lea    0x70(%eax),%ecx
+ lea    -0x50(%ebp),%eax
+ lea    -0x48(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ mov    %ecx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEE6insertERKS4_>
+ sub    $0x4,%esp
+ lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIKiSsED1Ev>
 -jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0xff>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKiSsED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
++jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0xef>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIKiSsED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0xe7>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIiSsED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
++jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0xd7>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIiSsED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x23f>
--lea    -0x40(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIiSsED1Ev>
++jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x23e>
+ lea    -0x40(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIiSsED1Ev>
 -jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x232>
 -lea    -0x58(%ebp),%eax
 -mov    %eax,0x8(%esp)
 -lea    0xc(%ebp),%eax
 -mov    %eax,0x4(%esp)
--lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
++jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x259>
++cmpl   $0x2,0x14(%ebp)
++jne    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x1a3>
+ lea    -0x28(%ebp),%eax
++lea    -0x58(%ebp),%edx
++mov    %edx,0x8(%esp)
++lea    0xc(%ebp),%edx
++mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
 -call   <T> <_ZNSt4pairIiSsEC1IRiRSsEEOT_OT0_>
--lea    -0x28(%ebp),%eax
--mov    %eax,0x4(%esp)
++call   <T> <_ZSt9make_pairIRiRSsESt4pairINSt17__decay_and_stripIT_E6__typeENS3_IT0_E6__typeEEOS4_OS7_>
++sub    $0x4,%esp
+ lea    -0x28(%ebp),%eax
+ mov    %eax,0x4(%esp)
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKiSsEC1IiSsEEOS_IT_T0_E>
-+call   <T> <_ZNSt4pairIKiSsEC1IRiRSsEEOT_OT0_>
+ call   <T> <_ZNSt4pairIKiSsEC1IiSsEEOS_IT_T0_E>
  mov    0x8(%ebp),%eax
- lea    0x70(%eax),%ecx
+-lea    0x70(%eax),%ecx
++lea    0x88(%eax),%ecx
  lea    -0x38(%ebp),%eax
  lea    -0x30(%ebp),%edx
  mov    %edx,0x8(%esp)
@@ -131,8 +143,7 @@
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKiSsED1Ev>
--jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x193>
-+jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x1a5>
+ jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x193>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x30(%ebp),%eax
@@ -140,108 +151,85 @@
  call   <T> <_ZNSt4pairIKiSsED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x17b>
-+jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x18a>
-+cmpl   $0x2,0x14(%ebp)
-+jne    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x12a>
-+lea    -0x40(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+lea    0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIKiSsEC1IRiRSsEEOT_OT0_>
-+mov    0x8(%ebp),%eax
-+lea    0x88(%eax),%ecx
-+lea    -0x28(%ebp),%eax
-+lea    -0x20(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    %ecx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEE6insertERKS4_>
-+sub    $0x4,%esp
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIKiSsED1Ev>
-+jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x1a5>
+ jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x17b>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x28(%ebp),%eax
-+lea    -0x20(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIiSsED1Ev>
-+call   <T> <_ZNSt4pairIKiSsED1Ev>
+ call   <T> <_ZNSt4pairIiSsED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x23f>
--lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIiSsED1Ev>
++jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x23e>
+ lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIiSsED1Ev>
 -jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x232>
 -lea    -0x58(%ebp),%eax
-+jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x18a>
+-mov    %eax,0x8(%esp)
+-lea    0xc(%ebp),%eax
+-mov    %eax,0x4(%esp)
++jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x259>
 +cmpl   $0x0,0x14(%ebp)
-+jne    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x1a5>
-+lea    -0x40(%ebp),%eax
- mov    %eax,0x8(%esp)
- lea    0xc(%ebp),%eax
- mov    %eax,0x4(%esp)
++jne    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x259>
  lea    -0x10(%ebp),%eax
++lea    -0x58(%ebp),%edx
++mov    %edx,0x8(%esp)
++lea    0xc(%ebp),%edx
++mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
 -call   <T> <_ZNSt4pairIiSsEC1IRiRSsEEOT_OT0_>
--lea    -0x10(%ebp),%eax
--mov    %eax,0x4(%esp)
-+call   <T> <_ZNSt4pairIKiSsEC1IRiRSsEEOT_OT0_>
-+mov    0x8(%ebp),%eax
-+lea    0x58(%eax),%ecx
++call   <T> <_ZSt9make_pairIRiRSsESt4pairINSt17__decay_and_stripIT_E6__typeENS3_IT0_E6__typeEEOS4_OS7_>
++sub    $0x4,%esp
+ lea    -0x10(%ebp),%eax
+ mov    %eax,0x4(%esp)
  lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKiSsEC1IiSsEEOS_IT_T0_E>
--mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIKiSsEC1IiSsEEOS_IT_T0_E>
+ mov    0x8(%ebp),%eax
 -lea    0x88(%eax),%ecx
--lea    -0x20(%ebp),%eax
--lea    -0x18(%ebp),%edx
-+lea    -0x10(%ebp),%edx
++lea    0x58(%eax),%ecx
+ lea    -0x20(%ebp),%eax
+ lea    -0x18(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIiSsSt4lessIiESaISt4pairIKiSsEEE6insertERKS4_>
  sub    $0x4,%esp
--lea    -0x18(%ebp),%eax
-+lea    -0x10(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKiSsED1Ev>
 -jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x227>
-+jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x1a5>
++jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x231>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x18(%ebp),%eax
-+lea    -0x10(%ebp),%eax
+ lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIKiSsED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x212>
-+jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x18a>
++jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x21c>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIiSsED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIiSsED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x23f>
--lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIiSsED1Ev>
++jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x23e>
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIiSsED1Ev>
 -lea    -0x58(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x25b>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x58(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x259>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x58(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %esi,%eax
@@ -249,7 +237,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -nop
-+lea    -0x40(%ebp),%eax
++lea    -0x58(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
  lea    -0x8(%ebp),%esp

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80acea0` | `0x8f` | `0x80932aa` | `0x8e` |
+| monitor | DIFF | `0x80acea0` | `0x8f` | `0x8093356` | `0x8e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -94,14 +94,14 @@ WongWork::CGMAccounts::_ZN8WongWork11CGMAccounts12AppendGM_SysEjc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/GMAccounts.cpp](source/DNFServer/GameServer/Monitor/GMAccounts.cpp)（约第 70 行）：
+定义于 [source/DNFServer/GameServer/Monitor/GMAccounts.cpp](source/DNFServer/GameServer/Monitor/GMAccounts.cpp)（约第 65 行）：
 
 ```cpp
 void CGMAccounts::AppendGM_Sys(unsigned int dbid, char level)
 {
     stGMInfo_t info = {};
     info.m_dbid = dbid;
-    info.m_field4 = (unsigned int)level;
+    info.m_field4 = (int)level;
     m_list.push_back(info);
     char* mid = NumberToString(dbid, 0);
     CMyFileLog log(__FUNCTION__, 0xcd);

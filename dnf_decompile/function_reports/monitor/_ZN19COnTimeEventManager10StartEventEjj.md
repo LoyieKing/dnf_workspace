@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4708` | `0xa4` | `0x8099db6` | `0xc1` |
+| monitor | DIFF | `0x80a4708` | `0xa4` | `0x8099f6e` | `0xc2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,49 +1,60 @@
+@@ -1,49 +1,62 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -28,7 +28,7 @@
  movl   $0x0,(%esp)
  call   <T> <time>
 -mov    %eax,-0xc(%ebp)
-+mov    %eax,-0x20(%ebp)
++mov    %eax,-0x1c(%ebp)
  mov    0x8(%ebp),%eax
  mov    0xc(%ebp),%edx
  mov    %edx,0x24(%eax)
@@ -36,7 +36,7 @@
  mov    0x10(%ebp),%edx
  mov    %edx,0x28(%eax)
 -mov    -0xc(%ebp),%edx
-+mov    -0x20(%ebp),%edx
++mov    -0x1c(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x1c(%eax)
  movl   $0x1,0x4(%esp)
@@ -53,12 +53,10 @@
 +mov    0x8(%ebp),%edx
 +mov    %edx,0xc(%esp)
  movl   $0x0,0x8(%esp)
-+mov    -0x20(%ebp),%edx
++mov    -0x1c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN30COnTimeEventRewardStartTriggerC1EjjP19COnTimeEventManager>
--mov    %ebx,%eax
--mov    %eax,%ebx
 +jmp    <T> <_ZN19COnTimeEventManager10StartEventEjj+0x9a>
 +mov    %edx,%esi
 +mov    %eax,%edi
@@ -68,8 +66,8 @@
 +mov    %esi,%edx
 +mov    %eax,(%esp)
 +call   <T> <_Unwind_Resume>
-+mov    %ebx,-0x1c(%ebp)
-+mov    -0x1c(%ebp),%ebx
+ mov    %ebx,%eax
+ mov    %eax,%ebx
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -78,7 +76,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CTaskScheduler7AddTaskEPNS_5CTaskE>
 -jmp    <T> <_ZN19COnTimeEventManager10StartEventEjj+0x9e>
--nop
++jmp    <T> <_ZN19COnTimeEventManager10StartEventEjj+0xba>
+ nop
 -add    $0x24,%esp
 +add    $0x2c,%esp
  pop    %ebx
@@ -124,16 +123,17 @@ COnTimeEventManager::_ZN19COnTimeEventManager10StartEventEjj
 ```cpp
 void COnTimeEventManager::StartEvent(unsigned int a, unsigned int b)
 {
-    if (b < a)
+    if (b >= a)
     {
-        unsigned int t = (unsigned int)time(0);
-        m_field24 = (int)a;
-        m_field28 = (int)b;
-        m_field1c = (int)t;
-        ChangeState(ONTIME_EVENT_STATE_START);
-        COnTimeEventRewardStartTrigger* task =
-            new COnTimeEventRewardStartTrigger(t, 0, this);
-        m_app->GetTaskScheduler()->AddTask(task);
+        return;
     }
+    unsigned int t = (unsigned int)time(0);
+    m_field24 = (int)a;
+    m_field28 = (int)b;
+    m_field1c = (int)t;
+    ChangeState(ONTIME_EVENT_STATE_START);
+    register CTaskScheduler::CTask* task =
+        new COnTimeEventRewardStartTrigger(t, 0, this);
+    m_app->GetTaskScheduler()->AddTask(task);
 }
 ```

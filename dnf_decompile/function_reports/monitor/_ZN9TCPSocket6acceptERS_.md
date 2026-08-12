@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804fee0` | `0x11d` | `0x8085b62` | `0x121` |
+| monitor | DIFF | `0x804fee0` | `0x11d` | `0x8085b18` | `0x11b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,11 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,80 +1,81 @@
+@@ -1,80 +1,79 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
--movl   $0x10,-0x14(%ebp)
-+movl   $0x10,-0x18(%ebp)
+ movl   $0x10,-0x14(%ebp)
  mov    0xc(%ebp),%eax
 -add    $0x4,%eax
 -mov    %eax,%edx
@@ -28,29 +27,25 @@
 -lea    -0x14(%ebp),%ecx
 -mov    %ecx,0x8(%esp)
 -mov    %edx,0x4(%esp)
-+lea    -0x18(%ebp),%edx
++lea    -0x14(%ebp),%edx
 +mov    %edx,0x8(%esp)
 +mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <accept>
--mov    0xc(%ebp),%edx
--mov    %eax,(%edx)
-+mov    %eax,-0x14(%ebp)
-+mov    0xc(%ebp),%eax
-+mov    -0x14(%ebp),%edx
-+mov    %edx,(%eax)
+ mov    0xc(%ebp),%edx
+ mov    %eax,(%edx)
  mov    0xc(%ebp),%eax
  mov    (%eax),%eax
  test   %eax,%eax
 -jne    <T> <_ZN9TCPSocket6acceptERS_+0x7f>
-+jne    <T> <_ZN9TCPSocket6acceptERS_+0x83>
++jne    <T> <_ZN9TCPSocket6acceptERS_+0x7d>
  movl   $"a+",0x4(%esp)
  movl   $"log.txt",(%esp)
  call   <T> <fopen>
  mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x10(%ebp)
 -je     <T> <_ZN9TCPSocket6acceptERS_+0x7f>
-+je     <T> <_ZN9TCPSocket6acceptERS_+0x83>
++je     <T> <_ZN9TCPSocket6acceptERS_+0x7d>
  mov    0xc(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,0x8(%esp)
@@ -65,19 +60,19 @@
  mov    (%eax),%eax
  test   %eax,%eax
 -js     <T> <_ZN9TCPSocket6acceptERS_+0x92>
-+js     <T> <_ZN9TCPSocket6acceptERS_+0x96>
++js     <T> <_ZN9TCPSocket6acceptERS_+0x90>
  mov    0xc(%ebp),%eax
  mov    (%eax),%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN9TCPSocket6acceptERS_+0xdd>
-+jne    <T> <_ZN9TCPSocket6acceptERS_+0xe1>
++jne    <T> <_ZN9TCPSocket6acceptERS_+0xdb>
  movl   $"a+",0x4(%esp)
  movl   $"log.txt",(%esp)
  call   <T> <fopen>
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN9TCPSocket6acceptERS_+0xd6>
-+je     <T> <_ZN9TCPSocket6acceptERS_+0xda>
++je     <T> <_ZN9TCPSocket6acceptERS_+0xd4>
  mov    0xc(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,0x8(%esp)
@@ -90,7 +85,7 @@
  call   <T> <fclose>
  mov    $0x0,%eax
 -jmp    <T> <_ZN9TCPSocket6acceptERS_+0x11b>
-+jmp    <T> <_ZN9TCPSocket6acceptERS_+0x11f>
++jmp    <T> <_ZN9TCPSocket6acceptERS_+0x119>
  mov    0xc(%ebp),%eax
  lea    0x8(%eax),%edx
  mov    0xc(%ebp),%eax
@@ -100,10 +95,8 @@
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    0xc(%ebp),%eax
--movzwl 0x6(%eax),%edx
--mov    0xc(%ebp),%eax
-+mov    0xc(%ebp),%edx
-+movzwl 0x6(%edx),%edx
+ movzwl 0x6(%eax),%edx
+ mov    0xc(%ebp),%eax
  mov    %dx,0x18(%eax)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -157,14 +150,13 @@ undefined4 __thiscall TCPSocket::_ZN9TCPSocket6acceptERS_(TCPSocket *this,TCPSoc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp](source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp)（约第 232 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp](source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp)（约第 230 行）：
 
 ```cpp
 char TCPSocket::accept(TCPSocket& sock)
 {
     socklen_t len = 0x10;
-    int fd = ::accept(m_fd, (sockaddr*)((char*)&sock + 4), &len);
-    sock.m_fd = fd;
+    sock.m_fd = ::accept(m_fd, (sockaddr*)((char*)&sock + 4), &len);
     if (sock.m_fd == 0)
     {
         FILE* f = fopen("log.txt", "a+");
@@ -185,7 +177,7 @@ char TCPSocket::accept(TCPSocket& sock)
         return 0;
     }
     memcpy((char*)&sock + 0x14, (char*)&sock + 8, 4);
-    ((RA_U16<24>*)&sock)->v = ((RA_U16<6>*)&sock)->v;
+    sock.m_peerPort = ((RA_U16<6>*)&sock)->v;
     sock.setOptNonBlock();
     return 1;
 }

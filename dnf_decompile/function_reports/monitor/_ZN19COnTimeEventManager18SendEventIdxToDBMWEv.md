@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4ca8` | `0x89` | `0x8099f4c` | `0x8f` |
+| monitor | DIFF | `0x80a4ca8` | `0x89` | `0x809a108` | `0x8f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -26,24 +26,19 @@
  mov    (%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+mov    %eax,-0x14(%ebp)
-+mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler14GetTcpDBServerEv>
--mov    %eax,-0x14(%ebp)
--cmpl   $0x0,-0x14(%ebp)
+ mov    %eax,-0x14(%ebp)
+ cmpl   $0x0,-0x14(%ebp)
 -je     <T> <_ZN19COnTimeEventManager18SendEventIdxToDBMWEv+0x87>
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0x0,-0x10(%ebp)
 +je     <T> <_ZN19COnTimeEventManager18SendEventIdxToDBMWEv+0x8d>
  movl   $0x16,0x8(%esp)
  movl   $0x2347,0x4(%esp)
--mov    -0x14(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CTcpDBServer16makePacketHeaderEtt>
--mov    %eax,-0x10(%ebp)
--mov    -0x10(%ebp),%eax
+ mov    %eax,-0x10(%ebp)
+ mov    -0x10(%ebp),%eax
  mov    %eax,-0xc(%ebp)
 +mov    -0xc(%ebp),%eax
 +lea    0x12(%eax),%edx
@@ -69,8 +64,7 @@
 +mov    %eax,(%edx)
  mov    -0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
--mov    -0x14(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CTcpDBServer12SendToServerEPc>
  leave
@@ -107,22 +101,22 @@ COnTimeEventManager::_ZN19COnTimeEventManager18SendEventIdxToDBMWEv(COnTimeEvent
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp](source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp)（约第 182 行）：
+定义于 [source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp](source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp)（约第 184 行）：
 
 ```cpp
 void COnTimeEventManager::SendEventIdxToDBMW()
 {
     if (m_app != 0)
     {
-        CServerHandler* handler = m_app->Get_ServerHandler();
-        CTcpDBServer* db = handler->GetTcpDBServer();
+        CTcpDBServer* db = m_app->Get_ServerHandler()->GetTcpDBServer();
         if (db != 0)
         {
             char* buf = db->makePacketHeader(0x2347, 0x16);
-            *(unsigned int*)(buf + 0x12) = (unsigned int)m_field30;
-            *(unsigned int*)(buf + 10) = m_field38;
-            *(unsigned int*)(buf + 0xe) = m_field3c;
-            db->SendToServer(buf);
+            char* buf2 = buf;
+            *(unsigned int*)(buf2 + 0x12) = (unsigned int)m_field30;
+            *(unsigned int*)(buf2 + 10) = m_field38;
+            *(unsigned int*)(buf2 + 0xe) = m_field3c;
+            db->SendToServer(buf2);
         }
     }
 }

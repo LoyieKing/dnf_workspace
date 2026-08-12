@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805b0d4` | `0x126` | `0x80957da` | `0x123` |
+| monitor | DIFF | `0x805b0d4` | `0x126` | `0x8095910` | `0x123` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -43,14 +43,12 @@
 -je     <T> <_ZN22LimitNpcBuyItemManager25getNpcLimitBuyItemInfoAllEP22LimitNpcBuyItemInfoAll+0xf6>
 +je     <T> <_ZN22LimitNpcBuyItemManager25getNpcLimitBuyItemInfoAllEP22LimitNpcBuyItemInfoAll+0xde>
  mov    0xc(%ebp),%eax
--mov    0x16(%eax),%eax
-+mov    0x18(%eax),%eax
+ mov    0x16(%eax),%eax
  test   %eax,%eax
 -js     <T> <_ZN22LimitNpcBuyItemManager25getNpcLimitBuyItemInfoAllEP22LimitNpcBuyItemInfoAll+0x11d>
 +js     <T> <_ZN22LimitNpcBuyItemManager25getNpcLimitBuyItemInfoAllEP22LimitNpcBuyItemInfoAll+0x11a>
  mov    0xc(%ebp),%eax
--mov    0x16(%eax),%eax
-+mov    0x18(%eax),%eax
+ mov    0x16(%eax),%eax
  cmp    $0x1d,%eax
 -jg     <T> <_ZN22LimitNpcBuyItemManager25getNpcLimitBuyItemInfoAllEP22LimitNpcBuyItemInfoAll+0x120>
 +jg     <T> <_ZN22LimitNpcBuyItemManager25getNpcLimitBuyItemInfoAllEP22LimitNpcBuyItemInfoAll+0x11d>
@@ -58,7 +56,7 @@
  mov    0xc(%ebp),%eax
 -mov    0x16(%eax),%ebx
 -lea    -0xc(%ebp),%eax
-+mov    0x18(%eax),%edx
++mov    0x16(%eax),%edx
 +mov    %edx,%eax
 +add    %eax,%eax
 +add    %edx,%eax
@@ -74,7 +72,7 @@
  mov    0xc(%ebp),%ecx
 -mov    %ebx,%eax
 +mov    0xc(%ebp),%eax
-+mov    0x18(%eax),%edx
++mov    0x16(%eax),%edx
 +mov    %edx,%eax
  add    %eax,%eax
 -add    %ebx,%eax
@@ -97,7 +95,7 @@
  mov    0xc(%ebp),%ecx
 -mov    %ebx,%eax
 +mov    0xc(%ebp),%eax
-+mov    0x18(%eax),%edx
++mov    0x16(%eax),%edx
 +mov    %edx,%eax
  add    %eax,%eax
 -add    %ebx,%eax
@@ -126,13 +124,11 @@
 +mov    0xc(%eax),%eax
 +mov    %eax,(%ebx)
  mov    0xc(%ebp),%eax
--mov    0x16(%eax),%eax
-+mov    0x18(%eax),%eax
+ mov    0x16(%eax),%eax
  lea    0x1(%eax),%edx
  mov    0xc(%ebp),%eax
--mov    %edx,0x16(%eax)
+ mov    %edx,0x16(%eax)
 -lea    -0xc(%ebp),%eax
-+mov    %edx,0x18(%eax)
 +lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKj15NpcBuyLimitItemEEppEv>

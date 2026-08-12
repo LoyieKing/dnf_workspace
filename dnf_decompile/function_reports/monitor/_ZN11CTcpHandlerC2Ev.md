@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x804efd2` | `0x4c` | `0x8084acc` | `0x48` |
+| monitor | NEAR | `0x804efd2` | `0x4c` | `0x8084a86` | `0x4e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,31 +1,29 @@
+@@ -1,31 +1,31 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
- sub    $0x1c,%esp
+-sub    $0x1c,%esp
++sub    $0x2c,%esp
  movl   $0x30,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
@@ -37,10 +38,12 @@
  call   <T> <_Unwind_Resume>
 -mov    %ebx,%eax
 -mov    %eax,%edx
++mov    %ebx,-0x1c(%ebp)
  mov    0x8(%ebp),%eax
--mov    %edx,(%eax)
-+mov    %ebx,(%eax)
- add    $0x1c,%esp
++mov    -0x1c(%ebp),%edx
+ mov    %edx,(%eax)
+-add    $0x1c,%esp
++add    $0x2c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8073fda` | `0x524` | `0x80740e6` | `0x5a1` |
+| statics | DIFF | `0x8073fda` | `0x524` | `0x807418a` | `0x59c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,292 +1,316 @@
+@@ -1,292 +1,315 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -25,19 +25,15 @@
  add    $0x420,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIi24CirculationStatisticDataSt4lessIiESaISt4pairIKiS0_EEE5emptyEv>
-+xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x518>
-+je     <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x596>
++jne    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x590>
  lea    -0x103b(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN24Packet_DBMW_Query_StringC1Ev>
--movl   $0x4ef6,-0x1031(%ebp)
+ movl   $0x4ef6,-0x1031(%ebp)
 -lea    -0x28(%ebp),%eax
 -mov    %eax,(%esp)
-+lea    -0x103b(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x4ef6,(%eax)
 +movl   $0x0,(%esp)
  call   <T> <time>
 +mov    %eax,-0x24(%ebp)
@@ -49,7 +45,7 @@
  call   <T> <_ZNSt3mapIi24CirculationStatisticDataSt4lessIiESaISt4pairIKiS0_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x4e1>
-+jmp    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x561>
++jmp    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x559>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi24CirculationStatisticDataEEptEv>
@@ -470,8 +466,9 @@
  test   %al,%al
 -jne    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x67>
 -jmp    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x519>
--nop
-+jne    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x73>
++jne    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x6b>
++jmp    <T> <_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHandler+0x591>
+ nop
  lea    -0xc(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -556,19 +553,21 @@ StatisticManager::_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1545 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1541 行）：
 
 ```cpp
 void StatisticManager::SendDBCirculationStatistic(CServerHandler* handler)
 {
-    if (!m_circ.empty())
+    if (m_circ.empty())
     {
-        Packet_DBMW_Query_String pkt;
-        *(unsigned int*)((char*)&pkt + 0xa) = 0x4ef6;
-        time_t now = time(0);
-        for (std::map<int, CirculationStatisticData>::iterator it = m_circ.begin();
-             it != m_circ.end(); ++it)
-        {
+        return;
+    }
+    Packet_DBMW_Query_String pkt;
+    pkt.m_queryId = 0x4ef6;
+    time_t now = time(0);
+    for (std::map<int, CirculationStatisticData>::iterator it = m_circ.begin();
+         it != m_circ.end(); ++it)
+    {
             int key = it->first;
             CirculationStatisticData* v = &it->second;
             memset((char*)&pkt + 0xe, 0, 0x1001);
@@ -587,6 +586,5 @@ void StatisticManager::SendDBCirculationStatistic(CServerHandler* handler)
                 v->m_data[45], v->m_data[46], v->m_data[47]);
             handler->SendToDB((PacketHeader*)&pkt);
         }
-    }
 }
 ```

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a642c` | `0x12c` | `0x80967a6` | `0x136` |
+| monitor | NEAR | `0x80a642c` | `0x12c` | `0x80968e0` | `0x12c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,93 +1,95 @@
+@@ -1,93 +1,93 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x58,%esp
-+push   %ebx
-+sub    $0x54,%esp
++sub    $0x68,%esp
  mov    0x10(%ebp),%eax
- mov    %al,-0x3c(%ebp)
+-mov    %al,-0x3c(%ebp)
++mov    %al,-0x4c(%ebp)
  mov    0xc(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
@@ -28,8 +28,10 @@
  shl    $0x3,%eax
  add    0x8(%ebp),%eax
  lea    0x4(%eax),%ecx
- lea    -0x2c(%ebp),%eax
- lea    -0x3c(%ebp),%edx
+-lea    -0x2c(%ebp),%eax
+-lea    -0x3c(%ebp),%edx
++lea    -0x3c(%ebp),%eax
++lea    -0x4c(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -42,61 +44,55 @@
  shl    $0x3,%eax
  add    0x8(%ebp),%eax
  lea    0x4(%eax),%edx
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIh13stLoginLogoutSt4lessIhESaISt4pairIKhS0_EEE3endEv>
  sub    $0x4,%esp
- lea    -0x28(%ebp),%eax
+-lea    -0x28(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x2c(%ebp),%eax
+-lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKh13stLoginLogoutEEneERKS4_>
  test   %al,%al
--je     <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x8a>
-+je     <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x98>
- lea    -0x2c(%ebp),%eax
+ je     <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x8a>
+-lea    -0x2c(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKh13stLoginLogoutEEptEv>
--mov    0x4(%eax),%edx
--add    $0x1,%edx
--mov    %edx,0x4(%eax)
--jmp    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x12a>
-+mov    %eax,%ebx
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKh13stLoginLogoutEEptEv>
-+mov    0x8(%eax),%eax
-+add    $0x1,%eax
-+mov    %eax,0x8(%ebx)
-+jmp    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x131>
+ mov    0x4(%eax),%edx
+ add    $0x1,%edx
+ mov    %edx,0x4(%eax)
+ jmp    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x12a>
  movl   $0x0,-0xc(%ebp)
--jmp    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x102>
+ jmp    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x102>
 -lea    -0x30(%ebp),%eax
-+jmp    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x109>
-+lea    -0x38(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13stLoginLogoutC1Ev>
-+movl   $0x0,-0x38(%ebp)
-+movl   $0x0,-0x34(%ebp)
- movl   $0x0,-0x30(%ebp)
+-movl   $0x0,-0x30(%ebp)
 -lea    -0x14(%ebp),%eax
 -lea    -0x30(%ebp),%edx
--mov    %edx,0x8(%esp)
++movl   $0x0,-0x48(%ebp)
++lea    -0x1c(%ebp),%eax
++lea    -0x48(%ebp),%edx
+ mov    %edx,0x8(%esp)
 -lea    -0x3c(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZSt9make_pairIRhR13stLoginLogoutESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
--sub    $0x4,%esp
--lea    -0x14(%ebp),%eax
-+lea    -0x38(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+lea    -0x3c(%ebp),%eax
- mov    %eax,0x4(%esp)
- lea    -0x1c(%ebp),%eax
++lea    -0x4c(%ebp),%edx
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKh13stLoginLogoutEC1IhS1_EEOS_IT_T0_E>
-+call   <T> <_ZNSt4pairIKh13stLoginLogoutEC1IRhRS1_EEOT_OT0_>
+ call   <T> <_ZSt9make_pairIRhR13stLoginLogoutESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
+ sub    $0x4,%esp
+-lea    -0x14(%ebp),%eax
++lea    -0x1c(%ebp),%eax
+ mov    %eax,0x4(%esp)
+-lea    -0x1c(%ebp),%eax
++lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIKh13stLoginLogoutEC1IhS1_EEOS_IT_T0_E>
  mov    -0xc(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
@@ -104,8 +100,10 @@
  shl    $0x3,%eax
  add    0x8(%ebp),%eax
  lea    0x4(%eax),%ecx
- lea    -0x24(%ebp),%eax
- lea    -0x1c(%ebp),%edx
+-lea    -0x24(%ebp),%eax
+-lea    -0x1c(%ebp),%edx
++lea    -0x34(%ebp),%eax
++lea    -0x2c(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -115,9 +113,9 @@
  cmpl   $0x6,-0xc(%ebp)
  setle  %al
  test   %al,%al
--jne    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x93>
-+jne    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0xa1>
- movzbl -0x3c(%ebp),%eax
+ jne    <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh+0x93>
+-movzbl -0x3c(%ebp),%eax
++movzbl -0x4c(%ebp),%eax
  movzbl %al,%eax
  mov    %eax,0x8(%esp)
  mov    0xc(%ebp),%eax
@@ -125,7 +123,6 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LOGOUTh>
-+mov    -0x4(%ebp),%ebx
  leave
  ret
 ```
@@ -190,10 +187,10 @@ CLoginLogoutStatistics::_ZN22CLoginLogoutStatistics11LoginLogoutE17ENUM_LOGIN_LO
 ```cpp
 void CLoginLogoutStatistics::LoginLogout(ENUM_LOGIN_LOGOUT type, unsigned char channel)
 {
-    std::map<unsigned char, stLoginLogout>::iterator it = m_maps[(int)type].find(channel);
-    if (it != m_maps[(int)type].end())
+    std::map<unsigned char, stLoginLogout>::iterator it = m_maps[type].find(channel);
+    if (it != m_maps[type].end())
     {
-        it->second.m_count = it->second.m_count + 1;
+        ++it->second.m_field0;
     }
     else
     {
@@ -201,9 +198,7 @@ void CLoginLogoutStatistics::LoginLogout(ENUM_LOGIN_LOGOUT type, unsigned char c
         {
             stLoginLogout st;
             st.m_field0 = 0;
-            st.m_count = 0;
-            st.m_field8 = 0;
-            m_maps[i].insert(std::pair<const unsigned char, stLoginLogout>(channel, st));
+            m_maps[i].insert(std::make_pair(channel, st));
         }
         LoginLogout(type, channel);
     }

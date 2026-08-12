@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a3f4c` | `0xc0` | `0x8092e58` | `0x114` |
+| monitor | DIFF | `0x80a3f4c` | `0xc0` | `0x8092efa` | `0x112` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -80,13 +80,13 @@
 +mov    %esi,%edx
 +mov    %eax,(%esp)
 +call   <T> <_Unwind_Resume>
-+mov    %ebx,-0x28(%ebp)
-+mov    -0x28(%ebp),%eax
++mov    %ebx,-0x24(%ebp)
++mov    -0x24(%ebp),%eax
  movl   $0x33,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN16CBaseEventAction10SetEventIDEi>
 -mov    -0x14(%ebp),%edx
-+mov    -0x28(%ebp),%edx
++mov    -0x24(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0xcc(%eax)
  movl   $0xc,(%esp)
@@ -95,8 +95,6 @@
  mov    %ebx,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12momiji_event11EventActionC1Ev>
--mov    %ebx,%eax
--mov    %eax,%edx
 +jmp    <T> <_ZN19CEventActionManager4initEv+0xfd>
 +mov    %edx,%esi
 +mov    %eax,%edi
@@ -106,8 +104,8 @@
 +mov    %esi,%edx
 +mov    %eax,(%esp)
 +call   <T> <_Unwind_Resume>
-+mov    %ebx,-0x24(%ebp)
-+mov    -0x24(%ebp),%edx
+ mov    %ebx,%eax
+ mov    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x26c(%eax)
 -add    $0x24,%esp
@@ -151,7 +149,7 @@ void __thiscall CEventActionManager::_ZN19CEventActionManager4initEv(CEventActio
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 117 行）：
+定义于 [source/DNFServer/GameServer/Monitor/EventActionManager.cpp](source/DNFServer/GameServer/Monitor/EventActionManager.cpp)（约第 119 行）：
 
 ```cpp
 void CEventActionManager::init()
@@ -165,7 +163,6 @@ void CEventActionManager::init()
     COnTimeEventAction* ot = new COnTimeEventAction;
     ot->SetEventID(0x33);
     m_actions[0x33] = ot;
-    momiji_event::EventAction* ma = new momiji_event::EventAction;
-    m_actions[0x9b] = ma;
+    m_actions[0x9b] = new momiji_event::EventAction;
 }
 ```

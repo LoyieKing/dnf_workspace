@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | NEAR | `0x8056ff6` | `0x21b` | `0x8064688` | `0x219` |
+| manager | NEAR | `0x8056ff6` | `0x21b` | `0x806468a` | `0x21b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -26,8 +26,7 @@
  test   %al,%al
  je     <T> <_ZN5CPeer11send_packetEPci+0x24>
  mov    $0xffffffff,%eax
--jmp    <T> <_ZN5CPeer11send_packetEPci+0x214>
-+jmp    <T> <_ZN5CPeer11send_packetEPci+0x212>
+ jmp    <T> <_ZN5CPeer11send_packetEPci+0x214>
  cmpl   $0x0,0x10(%ebp)
  jg     <T> <_ZN5CPeer11send_packetEPci+0x64>
  mov    0xc(%ebp),%eax
@@ -44,8 +43,7 @@
  movl   $"!!!Send Packet[(%d,%d) Size(%d) Error\n",(%esp)
  call   <T> <printf>
  mov    $0xffffffff,%eax
--jmp    <T> <_ZN5CPeer11send_packetEPci+0x214>
-+jmp    <T> <_ZN5CPeer11send_packetEPci+0x212>
+ jmp    <T> <_ZN5CPeer11send_packetEPci+0x214>
  call   <T> <__errno_location>
  movl   $0x0,(%eax)
  mov    0x8(%ebp),%eax
@@ -88,28 +86,20 @@
  mov    0x8(%ebp),%eax
  movl   $0x0,0x1834(%eax)
  mov    $0xffffffff,%eax
--jmp    <T> <_ZN5CPeer11send_packetEPci+0x214>
-+jmp    <T> <_ZN5CPeer11send_packetEPci+0x212>
+ jmp    <T> <_ZN5CPeer11send_packetEPci+0x214>
  mov    0x8(%ebp),%eax
  mov    0x1838(%eax),%eax
  mov    0x8(%ebp),%edx
  add    $0x183c,%edx
  cmp    %edx,%eax
--jb     <T> <_ZN5CPeer11send_packetEPci+0x153>
-+jb     <T> <_ZN5CPeer11send_packetEPci+0x151>
+ jb     <T> <_ZN5CPeer11send_packetEPci+0x153>
  mov    0x8(%ebp),%eax
--mov    0x1838(%eax),%eax
--mov    0x8(%ebp),%edx
--add    $0x183c,%edx
--add    $0x96000,%edx
--cmp    %edx,%eax
--jb     <T> <_ZN5CPeer11send_packetEPci+0x1d3>
-+mov    0x1838(%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x183c,%eax
-+add    $0x96000,%eax
-+cmp    %eax,%edx
-+jb     <T> <_ZN5CPeer11send_packetEPci+0x1d1>
+ mov    0x1838(%eax),%eax
+ mov    0x8(%ebp),%edx
+ add    $0x183c,%edx
+ add    $0x96000,%edx
+ cmp    %edx,%eax
+ jb     <T> <_ZN5CPeer11send_packetEPci+0x1d3>
  mov    0x8(%ebp),%eax
  mov    0x1834(%eax),%esi
  mov    0xc(%ebp),%eax
@@ -137,8 +127,7 @@
  mov    0x8(%ebp),%eax
  movl   $0x0,0x1834(%eax)
  mov    $0xffffffff,%eax
--jmp    <T> <_ZN5CPeer11send_packetEPci+0x214>
-+jmp    <T> <_ZN5CPeer11send_packetEPci+0x212>
+ jmp    <T> <_ZN5CPeer11send_packetEPci+0x214>
  mov    0x10(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    0x1838(%eax),%eax

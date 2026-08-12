@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| manager | DIFF | `0x8056b6c` | `0x489` | `0x8064914` | `0x442` |
+| manager | DIFF | `0x8056b6c` | `0x489` | `0x8064918` | `0x483` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,289 +1,269 @@
+@@ -1,289 +1,286 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -76,11 +76,10 @@
  lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    $0x1,%ebx
+ mov    $0x1,%ebx
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
 -nop
-+mov    $0x1,%eax
-+jmp    <T> <_ZN5CPeer7parsingEi+0x43a>
++jmp    <T> <_ZN5CPeer7parsingEi+0x479>
  mov    0x8(%ebp),%eax
  mov    0x1820(%eax),%eax
  test   %eax,%eax
@@ -139,11 +138,10 @@
  mov    %edx,0x181c(%eax)
  mov    0x8(%ebp),%eax
  movl   $0x0,0x1820(%eax)
--mov    $0x0,%ebx
+ mov    $0x0,%ebx
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
 -mov    -0x24(%ebp),%eax
-+mov    $0x0,%eax
-+jmp    <T> <_ZN5CPeer7parsingEi+0x43a>
++jmp    <T> <_ZN5CPeer7parsingEi+0x479>
 +mov    -0x28(%ebp),%eax
  cmp    -0x20(%ebp),%eax
 -jb     <T> <_ZN5CPeer7parsingEi+0x361>
@@ -160,7 +158,7 @@
 +lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x39b>
++jmp    <T> <_ZN5CPeer7parsingEi+0x399>
  mov    0x8(%ebp),%eax
  mov    0x182c(%eax),%eax
  mov    %eax,0x4(%esp)
@@ -181,14 +179,13 @@
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memcpy>
- mov    -0x60(%ebp),%eax
+-mov    -0x60(%ebp),%eax
 -mov    %eax,%ebx
-+lea    0x6(%eax),%ebx
++mov    -0x60(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    %eax,0x6(%ebx)
-+mov    %eax,(%ebx)
+ mov    %eax,0x6(%ebx)
  mov    0x8(%ebp),%eax
  mov    0x1830(%eax),%eax
  mov    %eax,0x4(%esp)
@@ -202,7 +199,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt5queueIP14CTcpRecvBufferSt5dequeIS1_SaIS1_EEE4pushERKS1_>
 -jmp    <T> <_ZN5CPeer7parsingEi+0x295>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x2cf>
++jmp    <T> <_ZN5CPeer7parsingEi+0x2cd>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x64(%ebp),%eax
@@ -241,8 +238,8 @@
 -je     <T> <_ZN5CPeer7parsingEi+0x304>
 -jmp    <T> <_ZN5CPeer7parsingEi+0x318>
 +cmpl   $0x0,-0x28(%ebp)
-+je     <T> <_ZN5CPeer7parsingEi+0x33e>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x34f>
++je     <T> <_ZN5CPeer7parsingEi+0x33c>
++jmp    <T> <_ZN5CPeer7parsingEi+0x34d>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x68(%ebp),%eax
@@ -259,7 +256,7 @@
 -jmp    <T> <_ZN5CPeer7parsingEi+0x39f>
 -cmpl   $0x9,-0x24(%ebp)
 -jg     <T> <_ZN5CPeer7parsingEi+0xe0>
-+jmp    <T> <_ZN5CPeer7parsingEi+0x39b>
++jmp    <T> <_ZN5CPeer7parsingEi+0x399>
 +cmpl   $0x9,-0x28(%ebp)
 +setg   %al
 +test   %al,%al
@@ -301,9 +298,9 @@
 -jbe    <T> <_ZN5CPeer7parsingEi+0x3fa>
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +cmpl   $0x0,-0x28(%ebp)
-+jle    <T> <_ZN5CPeer7parsingEi+0x435>
++jle    <T> <_ZN5CPeer7parsingEi+0x474>
 +cmpl   $0x1800,-0x28(%ebp)
-+jle    <T> <_ZN5CPeer7parsingEi+0x3f2>
++jle    <T> <_ZN5CPeer7parsingEi+0x3f3>
  movl   $0x10e,0x8(%esp)
  movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
  lea    -0x30(%ebp),%eax
@@ -317,11 +314,10 @@
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    $0x0,%ebx
+ mov    $0x0,%ebx
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
 -mov    -0x24(%ebp),%edx
-+mov    $0x0,%eax
-+jmp    <T> <_ZN5CPeer7parsingEi+0x43a>
++jmp    <T> <_ZN5CPeer7parsingEi+0x479>
 +mov    -0x28(%ebp),%edx
  mov    0x8(%ebp),%eax
  mov    0x181c(%eax),%eax
@@ -343,30 +339,32 @@
 -mov    0x8(%ebp),%eax
 -mov    %edx,0x181c(%eax)
 -jmp    <T> <_ZN5CPeer7parsingEi+0x47a>
--mov    %eax,(%esp)
--call   <T> <__cxa_begin_catch>
--mov    -0x24(%ebp),%eax
--mov    %eax,0x4(%esp)
--movl   $"[PARSING EXCEPTION] memmove : parsinglength = %d",(%esp)
--call   <T> <printf>
--mov    $0x0,%ebx
--call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
--mov    %edx,%ebx
--mov    %eax,%esi
--call   <T> <__cxa_end_catch>
--mov    %esi,%eax
--mov    %ebx,%edx
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
--mov    $0x1,%ebx
--mov    %ebx,%eax
 +mov    -0x28(%ebp),%edx
 +add    $0x1c,%edx
 +lea    (%eax,%edx,1),%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x181c(%eax)
-+mov    $0x1,%eax
++jmp    <T> <_ZN5CPeer7parsingEi+0x474>
+ mov    %eax,(%esp)
+ call   <T> <__cxa_begin_catch>
+-mov    -0x24(%ebp),%eax
++mov    -0x28(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ movl   $"[PARSING EXCEPTION] memmove : parsinglength = %d",(%esp)
+ call   <T> <printf>
+ mov    $0x0,%ebx
+ call   <T> <__cxa_end_catch>
+-jmp    <T> <_ZN5CPeer7parsingEi+0x47f>
++jmp    <T> <_ZN5CPeer7parsingEi+0x479>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ call   <T> <__cxa_end_catch>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
+ mov    $0x1,%ebx
+ mov    %ebx,%eax
  add    $0x7c,%esp
  pop    %ebx
  pop    %esi
@@ -541,7 +539,7 @@ bool CPeer::parsing(int len)
             buf = new CTcpRecvBuffer;
         }
         memcpy(buf, m_sendBuf, size);
-        *(int*)((char*)buf + 6) = getHandle();
+        buf->m_addr = getHandle();
         {
             CGuard<CMutex> guard(m_sendQLock);
             m_recvQ->push(buf);
@@ -562,15 +560,15 @@ bool CPeer::parsing(int len)
 out:
     if (parsinglength > 0)
     {
-        if (parsinglength > 0x1800)
-        {
-            DNF_LOG_SCOPE_LINE(0x10e, "./log/TcpRecv",
-                "[PARSING LENGTH EXCEPTION] parsinglength > MAX_RECV_BUF , memmove : parsinglength = %d",
-                parsinglength);
-            return 0;
-        }
         try
         {
+            if (parsinglength > 0x1800)
+            {
+                DNF_LOG_SCOPE_LINE(0x10e, "./log/TcpRecv",
+                    "[PARSING LENGTH EXCEPTION] parsinglength > MAX_RECV_BUF , memmove : parsinglength = %d",
+                    parsinglength);
+                return 0;
+            }
             memmove((char*)this + 0x1c, m_sendBuf, parsinglength);
             m_recvLen = parsinglength;
             m_sendBuf = (char*)this + 0x1c + parsinglength;

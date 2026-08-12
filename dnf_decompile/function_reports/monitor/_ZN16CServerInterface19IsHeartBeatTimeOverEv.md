@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807c2a8` | `0x58` | `0x80829be` | `0x67` |
+| monitor | DIFF | `0x807c2a8` | `0x58` | `0x8082992` | `0x4e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,10 +13,9 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,31 +1,35 @@
+@@ -1,31 +1,27 @@
  push   %ebp
  mov    %esp,%ebp
-+sub    $0x10,%esp
  mov    0x8(%ebp),%eax
  movzbl 0x9(%eax),%eax
  lea    -0x1(%eax),%edx
@@ -25,17 +24,13 @@
  mov    0x8(%ebp),%eax
  movzbl 0x9(%eax),%eax
  test   %al,%al
- sete   %al
+-sete   %al
 -test   %al,%al
 -je     <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x51>
-+mov    %al,-0x2(%ebp)
-+cmpb   $0x0,-0x2(%ebp)
-+je     <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x60>
++jne    <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x47>
  mov    0x8(%ebp),%eax
  movzbl 0xa(%eax),%eax
--lea    0x1(%eax),%edx
-+add    $0x1,%eax
-+mov    %eax,%edx
+ lea    0x1(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    %dl,0xa(%eax)
  mov    0x8(%ebp),%eax
@@ -44,18 +39,14 @@
 -seta   %al
 -test   %al,%al
 -je     <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x4a>
-+setg   %al
-+mov    %al,-0x1(%ebp)
-+cmpb   $0x0,-0x1(%ebp)
-+je     <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x59>
++jbe    <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x40>
  mov    $0x1,%eax
 -jmp    <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x56>
-+jmp    <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x65>
++jmp    <T> <_ZN16CServerInterface19IsHeartBeatTimeOverEv+0x4c>
  mov    0x8(%ebp),%eax
  movb   $0x14,0x9(%eax)
  mov    $0x0,%eax
--pop    %ebp
-+leave
+ pop    %ebp
  ret
 ```
 ## 2. Ghidra 反编译 C

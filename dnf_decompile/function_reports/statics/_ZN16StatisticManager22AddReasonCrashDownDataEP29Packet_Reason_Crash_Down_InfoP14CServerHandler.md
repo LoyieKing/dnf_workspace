@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80729ee` | `0xe3` | `0x8072b36` | `0xe2` |
+| statics | DIFF | `0x80729ee` | `0xe3` | `0x8072b42` | `0xeb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,21 +13,18 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,53 +1,54 @@
+@@ -1,53 +1,57 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
--sub    $0x144,%esp
--lea    -0x11a(%ebp),%eax
-+sub    $0x244,%esp
-+lea    -0x21a(%ebp),%eax
+ sub    $0x144,%esp
+ lea    -0x11a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN35Packet_DBMW_Reason_Crash_Down_QueryC1Ev>
  movl   $0x100,0x8(%esp)
  movl   $0x0,0x4(%esp)
--lea    -0x11a(%ebp),%eax
--add    $0xa,%eax
-+lea    -0x110(%ebp),%eax
+ lea    -0x11a(%ebp),%eax
+ add    $0xa,%eax
  mov    %eax,(%esp)
  call   <T> <memset>
  mov    0xc(%ebp),%eax
@@ -52,13 +49,11 @@
  mov    %eax,0xc(%esp)
  movl   $"inSert into log_client_ting_stat (occ_time,channel_no,reason,cnt) values (from_unixtime(%d),%d,%d,%d)",0x8(%esp)
  movl   $0xff,0x4(%esp)
--lea    -0x11a(%ebp),%eax
--add    $0xa,%eax
-+lea    -0x110(%ebp),%eax
+ lea    -0x11a(%ebp),%eax
+ add    $0xa,%eax
  mov    %eax,(%esp)
  call   <T> <snprintf>
--lea    -0x11a(%ebp),%eax
-+lea    -0x21a(%ebp),%eax
+ lea    -0x11a(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
@@ -68,17 +63,15 @@
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--lea    -0x11a(%ebp),%eax
--add    $0xa,%eax
-+lea    -0x110(%ebp),%eax
+ lea    -0x11a(%ebp),%eax
+ add    $0xa,%eax
  mov    %eax,0xc(%esp)
  movl   $"%s",0x8(%esp)
  movl   $"./log/ReasonCrashDown",0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--add    $0x144,%esp
-+add    $0x244,%esp
+ add    $0x144,%esp
  pop    %ebx
  pop    %ebp
  ret

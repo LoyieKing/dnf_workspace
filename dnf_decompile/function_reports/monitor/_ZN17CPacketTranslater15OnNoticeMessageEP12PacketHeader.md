@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80870bc` | `0x22a` | `0x806ffca` | `0x22a` |
+| monitor | DIFF | `0x80870bc` | `0x22a` | `0x806ff8e` | `0x22a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -96,15 +96,13 @@
  lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x20(%ebp),%edx
++mov    0x8(%ebp),%eax
++mov    %eax,-0x20(%ebp)
+ mov    -0x20(%ebp),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0xa0(%eax),%eax
-+mov    %eax,-0x20(%ebp)
-+mov    0x8(%ebp),%eax
  movl   $0x10b,0x8(%esp)
--mov    %edx,0x4(%esp)
-+mov    %eax,0x4(%esp)
-+mov    -0x20(%ebp),%eax
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler19SendAllToGameServerEPci>
  jmp    <T> <_ZN17CPacketTranslater15OnNoticeMessageEP12PacketHeader+0x222>

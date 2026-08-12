@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4638` | `0x88` | `0x8099a94` | `0xa4` |
+| monitor | DIFF | `0x80a4638` | `0x88` | `0x8099c4a` | `0xa6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,40 +1,51 @@
+@@ -1,40 +1,53 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -31,30 +31,22 @@
  movl   $0x0,(%esp)
  call   <T> <time>
 -mov    %eax,-0xc(%ebp)
-+mov    %eax,-0x20(%ebp)
++mov    %eax,-0x1c(%ebp)
  movl   $0x14,(%esp)
  call   <T> <_Znwj>
  mov    %eax,%ebx
 -mov    -0xc(%ebp),%eax
--add    $0xa,%eax
--mov    %eax,%edx
-+mov    -0x20(%ebp),%eax
-+lea    0xa(%eax),%ecx
++mov    -0x1c(%ebp),%eax
+ add    $0xa,%eax
+ mov    %eax,%edx
  mov    %ebx,%eax
--mov    0x8(%ebp),%ecx
--mov    %ecx,0xc(%esp)
-+mov    0x8(%ebp),%edx
-+mov    %edx,0xc(%esp)
+ mov    0x8(%ebp),%ecx
+ mov    %ecx,0xc(%esp)
  movl   $0x0,0x8(%esp)
--mov    %edx,0x4(%esp)
-+mov    %ecx,0x4(%esp)
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN19COnTimeEventIdxLoadC1EjjP19COnTimeEventManager>
--mov    %ebx,%eax
--mov    %eax,%ebx
--mov    0x8(%ebp),%eax
--mov    (%eax),%eax
-+jmp    <T> <_ZN19COnTimeEventManager9AttachAppEP12CApplication+0x7f>
++jmp    <T> <_ZN19COnTimeEventManager9AttachAppEP12CApplication+0x81>
 +mov    %edx,%esi
 +mov    %eax,%edi
 +mov    %ebx,(%esp)
@@ -63,9 +55,10 @@
 +mov    %esi,%edx
 +mov    %eax,(%esp)
 +call   <T> <_Unwind_Resume>
-+mov    %ebx,-0x1c(%ebp)
-+mov    -0x1c(%ebp),%ebx
-+mov    0xc(%ebp),%eax
+ mov    %ebx,%eax
+ mov    %eax,%ebx
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication16GetTaskSchedulerEv>
  mov    %ebx,0x4(%esp)
@@ -117,8 +110,8 @@ void COnTimeEventManager::AttachApp(CApplication* app)
     m_app = app;
     m_field38 = 0;
     m_field3c = 0;
-    unsigned int t = (unsigned int)time(0);
-    COnTimeEventIdxLoad* task = new COnTimeEventIdxLoad(t + 10, 0, this);
-    app->GetTaskScheduler()->AddTask(task);
+    time_t t = time(0);
+    register CTaskScheduler::CTask* task = new COnTimeEventIdxLoad(t + 10, 0, this);
+    m_app->GetTaskScheduler()->AddTask(task);
 }
 ```

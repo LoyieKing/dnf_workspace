@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808d440` | `0xf7` | `0x8078ac6` | `0xf9` |
+| monitor | DIFF | `0x808d440` | `0xf7` | `0x8078aa0` | `0xfc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,25 +13,21 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,77 +1,78 @@
+@@ -1,77 +1,79 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x20,%esp
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+test   %eax,%eax
-+je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf2>
  mov    0x8(%ebp),%eax
-+mov    0xa(%eax),%eax
  mov    %eax,-0x10(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--test   %eax,%eax
+ test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf0>
--mov    -0x10(%ebp),%eax
--mov    0xa(%eax),%edx
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    -0x10(%ebp),%edx
++je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf5>
+ mov    -0x10(%ebp),%eax
+ mov    0xa(%eax),%edx
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication19isGM_regFromChannelEj>
@@ -39,12 +35,11 @@
 -je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf0>
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf2>
++je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf5>
  lea    -0x11(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--mov    -0x10(%ebp),%eax
-+mov    0x8(%ebp),%eax
+ mov    -0x10(%ebp),%eax
  lea    0x12(%eax),%edx
  lea    -0x11(%ebp),%eax
  mov    %eax,0x8(%esp)
@@ -87,17 +82,15 @@
  call   <T> <_ZNSaIcED1Ev>
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf0>
-+je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf2>
++je     <T> <_ZN17CPacketTranslater28OnDisableUserOneToOneChat_GMEP12PacketHeader+0xf5>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    -0x10(%ebp),%edx
--mov    0xa(%edx),%ecx
+ mov    -0x10(%ebp),%edx
+ mov    0xa(%edx),%ecx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  mov    %eax,0x8(%esp)
--mov    %ecx,0x4(%esp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,0x4(%esp)
+ mov    %ecx,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN12CApplication21DisableChatUserWithGMEjj>
  add    $0x20,%esp

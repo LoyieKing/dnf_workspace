@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x806682e` | `0xd0` | `0x80500c2` | `0xcf` |
+| monitor | DIFF | `0x806682e` | `0xd0` | `0x80500c8` | `0xd0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,100 +13,70 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,67 +1,68 @@
+@@ -1,67 +1,67 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x58,%esp
  movl   $0x0,(%esp)
  call   <T> <time>
--mov    %eax,-0x10(%ebp)
--lea    -0x10(%ebp),%eax
-+mov    %eax,-0xc(%ebp)
-+lea    -0xc(%ebp),%eax
+ mov    %eax,-0x10(%ebp)
+ lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <localtime>
  mov    (%eax),%edx
--mov    %edx,-0x48(%ebp)
-+mov    %edx,-0x44(%ebp)
+ mov    %edx,-0x48(%ebp)
  mov    0x4(%eax),%edx
--mov    %edx,-0x44(%ebp)
-+mov    %edx,-0x40(%ebp)
+ mov    %edx,-0x44(%ebp)
  mov    0x8(%eax),%edx
--mov    %edx,-0x40(%ebp)
-+mov    %edx,-0x3c(%ebp)
+ mov    %edx,-0x40(%ebp)
  mov    0xc(%eax),%edx
--mov    %edx,-0x3c(%ebp)
-+mov    %edx,-0x38(%ebp)
+ mov    %edx,-0x3c(%ebp)
  mov    0x10(%eax),%edx
--mov    %edx,-0x38(%ebp)
-+mov    %edx,-0x34(%ebp)
+ mov    %edx,-0x38(%ebp)
  mov    0x14(%eax),%edx
--mov    %edx,-0x34(%ebp)
-+mov    %edx,-0x30(%ebp)
+ mov    %edx,-0x34(%ebp)
  mov    0x18(%eax),%edx
--mov    %edx,-0x30(%ebp)
-+mov    %edx,-0x2c(%ebp)
+ mov    %edx,-0x30(%ebp)
  mov    0x1c(%eax),%edx
--mov    %edx,-0x2c(%ebp)
-+mov    %edx,-0x28(%ebp)
+ mov    %edx,-0x2c(%ebp)
  mov    0x20(%eax),%edx
--mov    %edx,-0x28(%ebp)
-+mov    %edx,-0x24(%ebp)
+ mov    %edx,-0x28(%ebp)
  mov    0x24(%eax),%edx
--mov    %edx,-0x24(%ebp)
-+mov    %edx,-0x20(%ebp)
+ mov    %edx,-0x24(%ebp)
  mov    0x28(%eax),%eax
--mov    %eax,-0x20(%ebp)
--mov    -0x44(%ebp),%eax
-+mov    %eax,-0x1c(%ebp)
+ mov    %eax,-0x20(%ebp)
 +mov    -0x40(%ebp),%eax
++mov    %eax,-0xc(%ebp)
+ mov    -0x44(%ebp),%eax
  test   %eax,%eax
--jne    <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xa2>
+ jne    <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xa2>
 -mov    -0x40(%ebp),%eax
 -mov    %eax,-0xc(%ebp)
-+jne    <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xa1>
  mov    0x8(%ebp),%eax
--mov    0x200(%eax),%eax
--cmp    -0xc(%ebp),%eax
--jg     <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xa2>
-+mov    0x200(%eax),%edx
-+mov    -0x3c(%ebp),%eax
-+cmp    %eax,%edx
-+jg     <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xa1>
+ mov    0x200(%eax),%eax
+ cmp    -0xc(%ebp),%eax
+ jg     <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xa2>
  mov    0x8(%ebp),%eax
--mov    0x204(%eax),%eax
--cmp    -0xc(%ebp),%eax
--jl     <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xa2>
--cmpl   $0x0,-0xc(%ebp)
--je     <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xa2>
-+mov    0x204(%eax),%edx
-+mov    -0x3c(%ebp),%eax
-+cmp    %eax,%edx
-+jl     <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xa1>
-+mov    -0x3c(%ebp),%eax
-+test   %eax,%eax
-+je     <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xa1>
+ mov    0x204(%eax),%eax
+ cmp    -0xc(%ebp),%eax
+ jl     <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xa2>
+ cmpl   $0x0,-0xc(%ebp)
+ je     <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xa2>
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN19CPeriodicMessageMgr15OnTimerSendDataEP14CServerHandler>
-+mov    -0x3c(%ebp),%eax
-+test   %eax,%eax
-+jne    <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xcd>
  mov    -0x40(%ebp),%eax
--test   %eax,%eax
--jne    <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xce>
--mov    -0x44(%ebp),%eax
+ test   %eax,%eax
+ jne    <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xce>
+ mov    -0x44(%ebp),%eax
  cmp    $0xa,%eax
--jne    <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xce>
--lea    -0x1a(%ebp),%eax
-+jne    <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xcd>
-+lea    -0x16(%ebp),%eax
+ jne    <T> <_ZN19CPeriodicMessageMgr9OnProcessEP14CServerHandler+0xce>
+ lea    -0x1a(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_Load_Periodic_MessageC1Ev>
--lea    -0x1a(%ebp),%eax
-+lea    -0x16(%ebp),%eax
+ lea    -0x1a(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -157,8 +127,8 @@ void CPeriodicMessageMgr::OnProcess(CServerHandler* handler)
 {
     time_t t = time(0);
     struct tm st = *localtime(&t);
-    if (st.tm_min == 0 && m_startHour <= st.tm_hour && m_endHour >= st.tm_hour &&
-        st.tm_hour != 0)
+    int h = st.tm_hour;
+    if (st.tm_min == 0 && m_startHour <= h && m_endHour >= h && h != 0)
     {
         OnTimerSendData(handler);
     }

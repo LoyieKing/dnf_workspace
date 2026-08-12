@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8074802` | `0x157` | `0x807498c` | `0x1b0` |
+| statics | DIFF | `0x8074802` | `0x157` | `0x8074a2a` | `0x1aa` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,101 +1,129 @@
+@@ -1,101 +1,128 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -25,28 +25,25 @@
 +add    $0x444,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt3mapIi26SECRET_SHOP_STATISTIC_DATASt4lessIiESaISt4pairIKiS0_EEE5emptyEv>
-+xor    $0x1,%eax
 +test   %al,%al
-+jne    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x5d>
++je     <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x5b>
 +mov    0x8(%ebp),%eax
 +add    $0x45c,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt3mapIi26SECRET_SHOP_STATISTIC_DATASt4lessIiESaISt4pairIKiS0_EEE5emptyEv>
-+xor    $0x1,%eax
 +test   %al,%al
-+jne    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x5d>
++je     <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x5b>
 +mov    0x8(%ebp),%eax
 +add    $0x474,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt3mapIi26SECRET_SHOP_STATISTIC_DATASt4lessIiESaISt4pairIKiS0_EEE5emptyEv>
-+xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x64>
++je     <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x5b>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x69>
++jmp    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x60>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x1ab>
++jne    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x1a4>
  movl   $0x0,-0x10(%ebp)
 -jmp    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x143>
 -mov    -0x10(%ebp),%eax
@@ -66,7 +63,7 @@
 -test   %eax,%eax
 -jle    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x13e>
 -movl   $0x0,-0xc(%ebp)
-+jmp    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x187>
++jmp    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x17e>
  mov    -0x10(%ebp),%edx
  mov    %edx,%eax
  add    %eax,%eax
@@ -82,7 +79,7 @@
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0xe4>
 -mov    -0xc(%ebp),%ebx
-+jmp    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x140>
++jmp    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x137>
 +lea    -0xfca(%ebp),%ebx
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
@@ -100,7 +97,7 @@
 +mov    (%eax),%eax
 +mov    %eax,(%ebx)
 +movl   $0x0,-0xc(%ebp)
-+jmp    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x12a>
++jmp    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x121>
 +lea    -0xfca(%ebp),%ebx
 +lea    -0x18(%ebp),%eax
 +mov    %eax,(%esp)
@@ -142,7 +139,7 @@
 +cmpl   $0x3,-0xc(%ebp)
 +setle  %al
 +test   %al,%al
-+jne    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0xe5>
++jne    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0xdc>
  lea    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKi26SECRET_SHOP_STATISTIC_DATAEEppEv>
@@ -167,19 +164,20 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi26SECRET_SHOP_STATISTIC_DATAEEneERKS4_>
  test   %al,%al
 -jne    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x92>
-+jne    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0xab>
++jne    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0xa2>
 +addl   $0x1,-0x10(%ebp)
 +cmpl   $0x2,-0x10(%ebp)
 +setle  %al
 +test   %al,%al
-+jne    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x7d>
++jne    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x74>
  lea    -0xfca(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -jmp    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x13f>
--nop
++jmp    <T> <_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHandler+0x1a5>
+ nop
 -addl   $0x1,-0x10(%ebp)
 -cmpl   $0x2,-0x10(%ebp)
 -setle  %al
@@ -256,28 +254,29 @@ StatisticManager::_ZN16StatisticManager25SendDBSecretShopStatisticEP14CServerHan
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1627 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1624 行）：
 
 ```cpp
 void StatisticManager::SendDBSecretShopStatistic(CServerHandler* handler)
 {
     Packet_Secret_Shop_Statistic pkt;
-    if (!m_secretShop[0].empty() || !m_secretShop[1].empty() || !m_secretShop[2].empty())
+    if (m_secretShop[0].empty() && m_secretShop[1].empty() && m_secretShop[2].empty())
     {
-        for (int s = 0; s < 3; s++)
+        return;
+    }
+    for (int s = 0; s < 3; s++)
+    {
+        for (std::map<int, SECRET_SHOP_STATISTIC_DATA>::iterator it = m_secretShop[s].begin();
+             it != m_secretShop[s].end(); ++it)
         {
-            for (std::map<int, SECRET_SHOP_STATISTIC_DATA>::iterator it = m_secretShop[s].begin();
-                 it != m_secretShop[s].end(); ++it)
+            *(int*)((char*)&pkt + 0xe + it->first * 0x14 + 0) = it->first;
+            for (int k = 0; k < 4; k++)
             {
-                *(int*)((char*)&pkt + 0xe + it->first * 0x14 + 0) = it->first;
-                for (int k = 0; k < 4; k++)
-                {
-                    *(int*)((char*)&pkt + 0xe + it->first * 0x14 + 4 + k * 4) =
-                        it->second.m_data[k + 1];
-                }
+                *(int*)((char*)&pkt + 0xe + it->first * 0x14 + 4 + k * 4) =
+                    it->second.m_data[k + 1];
             }
         }
-        handler->SendToDB((PacketHeader*)&pkt);
     }
+    handler->SendToDB((PacketHeader*)&pkt);
 }
 ```

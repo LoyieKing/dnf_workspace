@@ -1,4 +1,4 @@
-status	name	orig_addr	orig_size	new_addr	new_size
-NEAR	_ZN6Script4loadEPc	0x804a852	0x120	0x805691a	0x120
-NEAR	_ZN6ThreadD1Ev	0x804bb8c	0xda	0x805d408	0xda
-NEAR	_ZN6ThreadD2Ev	0x804bb8c	0xda	0x805d408	0xda
+status	name	orig_addr	orig_size	new_addr	new_size	md_file
+NEAR	_ZN6Script4loadEPc	0x804a852	0x120	0x805691a	0x120	_ZN6Script4loadEPc.md
+NEAR	_ZN6ThreadD1Ev	0x804bb8c	0xda	0x805d408	0xda	_ZN6ThreadD1Ev.md
+NEAR	_ZN6ThreadD2Ev	0x804bb8c	0xda	0x805d408	0xda	_ZN6ThreadD2Ev.md

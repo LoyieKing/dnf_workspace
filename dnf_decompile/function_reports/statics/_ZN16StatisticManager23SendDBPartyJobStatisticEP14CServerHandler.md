@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806f39e` | `0x3a3` | `0x806f5b8` | `0x37d` |
+| statics | DIFF | `0x806f39e` | `0x3a3` | `0x806f5ca` | `0x378` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,257 +1,247 @@
+@@ -1,257 +1,245 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -29,7 +29,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x39e>
-+je     <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x378>
++je     <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x373>
  mov    0x8(%ebp),%eax
  lea    0x50(%eax),%edx
  lea    -0x24(%ebp),%eax
@@ -264,12 +264,9 @@
  jne    <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x55>
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x39e>
-+je     <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x378>
-+lea    -0x17ed(%ebp),%eax
-+lea    0xa(%eax),%edx
++je     <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x373>
  mov    -0xc(%ebp),%eax
--mov    %eax,-0x17e3(%ebp)
-+mov    %eax,(%edx)
+ mov    %eax,-0x17e3(%ebp)
 +lea    -0x17ed(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    0xc(%ebp),%eax
@@ -466,7 +463,7 @@ void StatisticManager::SendDBPartyJobStatistic(CServerHandler* handler)
         }
         if (idx != 0)
         {
-            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            pkt.m_count = idx;
             handler->SendToDB((PacketHeader*)&pkt);
             DNF_LOG_SCOPE_LINE(0x1bd, "./log/statistic", "Packet_DBMW_Dungeon_Statistic_Party_Job : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", idx);
         }
