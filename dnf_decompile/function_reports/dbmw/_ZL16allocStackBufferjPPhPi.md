@@ -300,16 +300,12 @@ static bool allocStackBuffer(unsigned int size, unsigned char** buf, int* end)
         g_stackBufferContext->m_blockIndex = 0;
         g_stackBufferContext->m_offset = 0;
     }
-    StackBufferContext::Buffer b;
-    b.m_blockIndex = 0;
-    b.m_offset = 0;
-    b.m_size = 0;
     g_stackBufferContext->m_buffers.push_back(
-        (StackBufferContext::Buffer&&)b);
-    StackBufferContext::Buffer& cur = g_stackBufferContext->m_buffers.back();
-    cur.m_blockIndex = 0;
-    cur.m_offset = 0;
-    cur.m_size = size;
+        StackBufferContext::Buffer());
+    StackBufferContext::Buffer* cur = &g_stackBufferContext->m_buffers.back();
+    cur->m_blockIndex = 0;
+    cur->m_offset = 0;
+    cur->m_size = size;
     if (size > 0x4000)
     {
         *buf = new unsigned char[size];
@@ -318,25 +314,25 @@ static bool allocStackBuffer(unsigned int size, unsigned char** buf, int* end)
     }
     if (g_stackBufferContext->m_offset + size > 0x4000)
     {
-        register int idx = g_stackBufferContext->m_blockIndex + 1;
-        if (idx == (int)g_stackBufferContext->m_blocks.size())
+        if (g_stackBufferContext->m_blockIndex + 1 ==
+            (unsigned int)g_stackBufferContext->m_blocks.size())
         {
             g_stackBufferContext->m_blocks.push_back(
                 new unsigned char[0x4000]);
         }
-        cur.m_blockIndex = g_stackBufferContext->m_blockIndex + 1;
-        cur.m_offset = 0;
+        cur->m_blockIndex = g_stackBufferContext->m_blockIndex + 1;
+        cur->m_offset = 0;
         g_stackBufferContext->m_blockIndex =
             g_stackBufferContext->m_blockIndex + 1;
         g_stackBufferContext->m_offset = size;
     }
     else
     {
-        cur.m_blockIndex = g_stackBufferContext->m_blockIndex;
-        cur.m_offset = g_stackBufferContext->m_offset;
+        cur->m_blockIndex = g_stackBufferContext->m_blockIndex;
+        cur->m_offset = g_stackBufferContext->m_offset;
         g_stackBufferContext->m_offset += size;
     }
-    *buf = g_stackBufferContext->m_blocks[cur.m_blockIndex] + cur.m_offset;
+    *buf = g_stackBufferContext->m_blocks[cur->m_blockIndex] + cur->m_offset;
     *end = g_stackBufferContext->m_buffers.size() - 1;
     return 1;
 }

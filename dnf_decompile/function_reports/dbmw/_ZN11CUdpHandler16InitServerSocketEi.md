@@ -224,7 +224,8 @@ int CUdpHandler::InitServerSocket(int port)
     m_sock = socket(AF_INET, SOCK_DGRAM, 0x11);
     if (m_sock == -1)
     {
-        printf("Could not create a UDP socket : %d\n", getErrno());
+        int e = getErrno();
+        printf("Could not create a UDP socket : %d\n", e);
         return -1;
     }
     struct sockaddr_in addr;
@@ -235,19 +236,28 @@ int CUdpHandler::InitServerSocket(int port)
     if (::bind(m_sock, (struct sockaddr*)&addr, 0x10) != 0)
     {
         int e = getErrno();
-        if (e == 0x62)
+        switch (e)
+        {
+        case 0x62:
             printf("Port %d for receiving UDP is in use\n", port);
-        else if (e == 0x63)
+            break;
+        case 0x63:
             puts("Cannot assign requested address");
-        else if (e != 0)
-            printf("Could not bind UDP receive port. Error= %d , strerror = %s\n",
-                   e, strerror(e));
+            break;
+        case 0:
+            break;
+        default:
+            if (e != 0)
+                printf("Could not bind UDP receive port. Error= %d , strerror = %s\n",
+                       e, strerror(e));
+            break;
+        }
         m_sock = -1;
     }
     int bufsize = 0xf4240;
     setsockopt(m_clientSock, SOL_SOCKET, SO_RCVBUF, &bufsize, 4);
-    CMyFileLog log(__FUNCTION__, 0x6e);
-    log("./log/Udp", "Opened port %d with fd %d, recv buf size %d\n", port, m_sock, bufsize);
+    CMyFileLog(__FUNCTION__, 0x6e)("./log/Udp",
+        "Opened port %d with fd %d, recv buf size %d\n", port, m_sock, bufsize);
     return m_sock;
 }
 ```

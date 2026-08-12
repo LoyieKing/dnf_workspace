@@ -212,7 +212,7 @@ undefined4 __thiscall CMySql::_ZN6CMySql4execEj(CMySql *this,uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 171 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 172 行）：
 
 ```cpp
 bool CMySql::exec(unsigned int q)
@@ -223,17 +223,20 @@ bool CMySql::exec(unsigned int q)
         ret = exec_query();
         if (ret == 1)
         {
-            CQueryCounterInstance()->SetResponseTime(q);
+            CQueryCounter* p = CQueryCounterInstance();
+            p->SetResponseTime(q);
+            register char* qs = m_query;
             CMyFileLog log(__FUNCTION__, 0x14e);
             log("./log/MysqlErr.log",
                 "Database query error. The last query('%s') has been lost. iret == R_FAIL",
-                m_query);
+                qs);
             return 0;
         }
         if (ret == 0)
             break;
     }
-    CQueryCounterInstance()->SetResponseTime(q);
+    CQueryCounter* p = CQueryCounterInstance();
+    p->SetResponseTime(q);
     if (ret == 0)
     {
         m_result = mysql_store_result(m_mysql);
@@ -249,9 +252,10 @@ bool CMySql::exec(unsigned int q)
         }
         return 1;
     }
+    register char* qs = m_query;
     CMyFileLog log(__FUNCTION__, 0x16e);
     log("./log/MysqlErr.log",
-        "Database query error. The last query('%s') has been lost.", m_query);
+        "Database query error. The last query('%s') has been lost.", qs);
     return 0;
 }
 ```

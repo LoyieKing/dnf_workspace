@@ -88,12 +88,10 @@ CServerInterface::_ZN16CServerInterface19IsHeartBeatTimeOverEv(CServerInterface 
 char CServerInterface::IsHeartBeatTimeOver()
 {
     m_heart = m_heart - 1;
-    bool zero = (m_heart == 0);
-    if (zero)
+    if (m_heart == 0)
     {
-        m_padA[0] = m_padA[0] + 1;
-        bool over = (m_padA[0] > 0x14);
-        if (over)
+        ++m_padA[0];
+        if (m_padA[0] > 0x14)
         {
             return 1;
         }

@@ -109,7 +109,7 @@ CQueryCounter::_ZN13CQueryCounter15SetResponseTimeEj(CQueryCounter *this,uint pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/QueryCounter.cpp](source/DNFServer/GameServer/DBMW/QueryCounter.cpp)（约第 91 行）：
+定义于 [source/DNFServer/GameServer/DBMW/QueryCounter.cpp](source/DNFServer/GameServer/DBMW/QueryCounter.cpp)（约第 96 行）：
 
 ```cpp
 void CQueryCounter::SetResponseTime(unsigned int ms)

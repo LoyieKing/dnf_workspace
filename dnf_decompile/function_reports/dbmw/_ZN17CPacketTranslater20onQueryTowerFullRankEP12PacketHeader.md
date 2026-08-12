@@ -602,7 +602,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20onQueryTowerFullRankEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2111 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2110 行）：
 
 ```cpp
 void CPacketTranslater::onQueryTowerFullRank(PacketHeader* header)

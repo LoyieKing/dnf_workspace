@@ -311,7 +311,7 @@ void CPacketTranslater::_ZN17CPacketTranslater25OnReqOntimeEventIdxUpdateEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2331 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2330 行）：
 
 ```cpp
 void CPacketTranslater::OnReqOntimeEventIdxUpdate(PacketHeader* header)

@@ -2593,7 +2593,7 @@ CAppConfig::_ZN10CAppConfig11Parse_TableEPci(CAppConfig *this,char *param_1,int 
 定义于 [source/DNFServer/GameServer/DBMW/DNFAppConfig.cpp](source/DNFServer/GameServer/DBMW/DNFAppConfig.cpp)（约第 83 行）：
 
 ```cpp
-int CAppConfig::Parse_Table(char* data, int size)
+bool CAppConfig::Parse_Table(char* data, int size)
 {
     if (data[0] == '#')
         return 0;

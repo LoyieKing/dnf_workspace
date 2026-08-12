@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8072cee` | `0x85` | `0x8072e36` | `0xa7` |
+| statics | DIFF | `0x8072cee` | `0x85` | `0x8072e40` | `0x9b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,62 +13,68 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,45 +1,55 @@
+@@ -1,45 +1,49 @@
  push   %ebp
  mov    %esp,%ebp
++push   %ebx
  mov    0xc(%ebp),%eax
  movzbl 0xa(%eax),%eax
  cmp    $0x4,%al
 -jg     <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x7f>
-+jg     <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0xa5>
++jg     <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x98>
  mov    0xc(%ebp),%eax
  movzbl 0xa(%eax),%eax
  test   %al,%al
 -js     <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x82>
-+js     <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0xa5>
++js     <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x98>
  mov    0xc(%ebp),%eax
  movzbl 0xb(%eax),%eax
  test   %al,%al
 -jne    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x4c>
-+jne    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x64>
-+mov    0x8(%ebp),%edx
- mov    0xc(%ebp),%eax
- movzbl 0xa(%eax),%eax
- movsbl %al,%eax
--mov    0x8(%ebp),%edx
+-mov    0xc(%ebp),%eax
+-movzbl 0xa(%eax),%eax
+-movsbl %al,%eax
++jne    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x5c>
++mov    0x8(%ebp),%eax
++mov    0xc(%ebp),%edx
++movzbl 0xa(%edx),%edx
++movsbl %dl,%edx
++lea    0xd0(%edx),%ebx
+ mov    0x8(%ebp),%edx
 -lea    0xd0(%eax),%ecx
--mov    0x8(%edx,%ecx,4),%edx
++mov    0xc(%ebp),%ecx
++movzbl 0xa(%ecx),%ecx
++movsbl %cl,%ecx
++add    $0xd0,%ecx
+ mov    0x8(%edx,%ecx,4),%edx
 -lea    0x1(%edx),%ecx
 -mov    0x8(%ebp),%edx
 -add    $0xd0,%eax
 -mov    %ecx,0x8(%edx,%eax,4)
 -jmp    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x83>
-+add    $0xd2,%eax
-+shl    $0x2,%eax
-+add    %eax,%edx
-+mov    0x8(%ebp),%ecx
-+mov    0xc(%ebp),%eax
-+movzbl 0xa(%eax),%eax
-+movsbl %al,%eax
-+add    $0xd2,%eax
-+shl    $0x2,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    (%eax),%eax
-+add    $0x1,%eax
-+mov    %eax,(%edx)
-+jmp    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0xa5>
++add    $0x1,%edx
++mov    %edx,0x8(%eax,%ebx,4)
++jmp    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x98>
  mov    0xc(%ebp),%eax
  movzbl 0xb(%eax),%eax
  cmp    $0x1,%al
 -jne    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x83>
-+jne    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0xa5>
-+mov    0x8(%ebp),%edx
- mov    0xc(%ebp),%eax
- movzbl 0xa(%eax),%eax
- movsbl %al,%eax
--mov    0x8(%ebp),%edx
+-mov    0xc(%ebp),%eax
+-movzbl 0xa(%eax),%eax
+-movsbl %al,%eax
++jne    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x98>
++mov    0x8(%ebp),%eax
++mov    0xc(%ebp),%edx
++movzbl 0xa(%edx),%edx
++movsbl %dl,%edx
++lea    0xd4(%edx),%ebx
+ mov    0x8(%ebp),%edx
 -lea    0xd4(%eax),%ecx
--mov    0xc(%edx,%ecx,4),%edx
++mov    0xc(%ebp),%ecx
++movzbl 0xa(%ecx),%ecx
++movsbl %cl,%ecx
++add    $0xd4,%ecx
+ mov    0xc(%edx,%ecx,4),%edx
 -lea    0x1(%edx),%ecx
 -mov    0x8(%ebp),%edx
 -add    $0xd4,%eax
@@ -77,19 +83,9 @@
 -nop
 -jmp    <T> <_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randombox_statistic+0x83>
 -nop
-+add    $0xd7,%eax
-+shl    $0x2,%eax
-+add    %eax,%edx
-+mov    0x8(%ebp),%ecx
-+mov    0xc(%ebp),%eax
-+movzbl 0xa(%eax),%eax
-+movsbl %al,%eax
-+add    $0xd7,%eax
-+shl    $0x2,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    (%eax),%eax
-+add    $0x1,%eax
-+mov    %eax,(%edx)
++add    $0x1,%edx
++mov    %edx,0xc(%eax,%ebx,4)
++pop    %ebx
  pop    %ebp
  ret
 ```
@@ -120,7 +116,7 @@ StatisticManager::_ZN16StatisticManager21AddRandomboxStatisticEP26Packet_Randomb
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1304 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1302 行）：
 
 ```cpp
 void StatisticManager::AddRandomboxStatistic(Packet_Randombox_statistic* pkt)

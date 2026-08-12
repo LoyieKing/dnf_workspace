@@ -409,7 +409,7 @@ CItemLimitEditionMgr::_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplica
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 144 行）：
+定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 141 行）：
 
 ```cpp
 void CItemLimitEditionMgr::processScheduledJob(CApplication* app, bool flag)

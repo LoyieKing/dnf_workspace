@@ -93,7 +93,7 @@ CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEi(CFrameCountHandler *t
 void CFrameCountHandler::SaveProcess(int threadNo)
 {
     m_field28++;
-    register bool isPrint = m_field28 != 0;
+    register char isPrint = (m_field28 != 0);
     if (isPrint)
     {
         DNF_LOG_SCOPE_LINE(0xb8,"./log/frame", "Thread(%2d) / FPS(%02d) / DFC(%02d)", threadNo, m_field18,

@@ -180,8 +180,7 @@ void CPacketTranslater::OnAddBuddy(PacketHeader* header)
         reply.m_fieldA = pkt->m_mid;
         int result = 0;
         m_pclApp->m_dbManager.AddBuddy(pkt->m_mid, pkt->m_name,
-                                       *(STBuddyDBInfo*)((char*)&reply + 0xe),
-                                       result);
+                                       reply.m_info, result);
         reply.m_field35 = (char)result;
         CMonitorServer* ms = m_pclApp->m_serverHandler->GetMonitorServer();
         ms->SendToServer((char*)&reply, reply.packetSize);

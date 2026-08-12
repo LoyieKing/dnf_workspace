@@ -101,7 +101,7 @@ undefined4 __thiscall CUdpHandler::_ZN11CUdpHandler16InitClientSocketEv(CUdpHand
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFUdpHandler.cpp](source/DNFServer/GameServer/DBMW/DNFUdpHandler.cpp)（约第 62 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFUdpHandler.cpp](source/DNFServer/GameServer/DBMW/DNFUdpHandler.cpp)（约第 72 行）：
 
 ```cpp
 int CUdpHandler::InitClientSocket()
@@ -109,11 +109,13 @@ int CUdpHandler::InitClientSocket()
     m_clientSock = socket(AF_INET, SOCK_DGRAM, 0x11);
     if (m_clientSock == -1)
     {
-        printf("udp client socket error : %d", getErrno());
+        int e = getErrno();
+        printf("Could not create a UDP socket : %d\n", e);
         return -1;
     }
+    register int fd = m_clientSock;
     CMyFileLog log(__FUNCTION__, 0x8f);
-    log("./log/UdpClient", "udp client socket = %d", m_clientSock);
+    log("./log/Udp", "Opened port with fd %d\n", fd);
     return m_clientSock;
 }
 ```

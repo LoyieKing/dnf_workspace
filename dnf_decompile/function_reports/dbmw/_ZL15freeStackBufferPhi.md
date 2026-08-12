@@ -136,7 +136,7 @@ void freeStackBuffer(byte *buffer,int32 bufferIdx)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/StackBuffer.cpp](source/DNFServer/GameServer/DBMW/StackBuffer.cpp)（约第 87 行）：
+定义于 [source/DNFServer/GameServer/DBMW/StackBuffer.cpp](source/DNFServer/GameServer/DBMW/StackBuffer.cpp)（约第 83 行）：
 
 ```cpp
 static void freeStackBuffer(unsigned char* buf, int end)
@@ -158,7 +158,8 @@ static void freeStackBuffer(unsigned char* buf, int end)
         StackBufferContext::Buffer& b =
             g_stackBufferContext->m_buffers.back();
         g_stackBufferContext->m_blockIndex = b.m_blockIndex;
-        g_stackBufferContext->m_offset = b.m_offset + b.m_size;
+        g_stackBufferContext->m_offset =
+            (unsigned)b.m_offset + (unsigned)b.m_size;
     }
 }
 ```

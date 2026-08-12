@@ -92,17 +92,17 @@ CItemLimitEditionMgr::_ZN20CItemLimitEditionMgr10updateItemEjj
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 105 行）：
+定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 102 行）：
 
 ```cpp
 bool CItemLimitEditionMgr::updateItem(unsigned int ipgno, unsigned int sellNum)
 {
     std::map<unsigned int, CItemLimitEdition*>::iterator it = m_items.find(ipgno);
-    if (it != m_items.end())
+    if (it == m_items.end())
     {
-        it->second->updateSellNum(sellNum);
-        return true;
+        return false;
     }
-    return false;
+    it->second->updateSellNum(sellNum);
+    return true;
 }
 ```

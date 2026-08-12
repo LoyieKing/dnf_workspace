@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8072c3e` | `0x68` | `0x8072d84` | `0x6a` |
+| statics | DIFF | `0x8072c3e` | `0x68` | `0x8072d8e` | `0x6a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -83,7 +83,7 @@ StatisticManager::_ZN16StatisticManager19AddCreateEmblemInfoEP30Packet_Emblem_Cr
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1288 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1286 行）：
 
 ```cpp
 void StatisticManager::AddCreateEmblemInfo(Packet_Emblem_Create_Statistic* pkt)

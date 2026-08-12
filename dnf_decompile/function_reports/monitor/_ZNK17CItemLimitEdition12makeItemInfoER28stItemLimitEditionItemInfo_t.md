@@ -74,7 +74,7 @@ CItemLimitEdition::_ZNK17CItemLimitEdition12makeItemInfoER28stItemLimitEditionIt
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 214 行）：
+定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 211 行）：
 
 ```cpp
 void CItemLimitEdition::makeItemInfo(stItemLimitEditionItemInfo_t& info) const

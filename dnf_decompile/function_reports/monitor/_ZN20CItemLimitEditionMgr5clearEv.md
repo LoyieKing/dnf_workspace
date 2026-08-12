@@ -150,7 +150,7 @@ void __thiscall CItemLimitEditionMgr::_ZN20CItemLimitEditionMgr5clearEv(CItemLim
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 131 行）：
+定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 128 行）：
 
 ```cpp
 void CItemLimitEditionMgr::clear()

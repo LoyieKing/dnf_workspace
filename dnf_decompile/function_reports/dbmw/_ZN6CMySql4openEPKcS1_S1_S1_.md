@@ -161,7 +161,7 @@ CMySql::_ZN6CMySql4openEPKcS1_S1_S1_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 334 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 339 行）：
 
 ```cpp
 char CMySql::open(const char* host, const char* user, const char* pass, const char* db)

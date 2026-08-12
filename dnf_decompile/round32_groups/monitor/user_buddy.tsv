@@ -1,0 +1,28 @@
+demangled	mangled	status	orig_size	tu
+CBuddyHandle::addFromCash(CBuddy*)	_ZN12CBuddyHandle11addFromCashEP6CBuddy	DIFF	0xb3	DNFBuddyHandle.cpp
+CBuddyHandle::printBuddys(char*)	_ZN12CBuddyHandle11printBuddysEPc	DIFF	0x184	DNFBuddyHandle.cpp
+CBuddyHandle::getBuddysCharNo(unsigned int*)	_ZN12CBuddyHandle15getBuddysCharNoEPj	DIFF	0x10b	DNFBuddyHandle.cpp
+CBuddyHandle::findBuddyByCharNo(unsigned int)	_ZN12CBuddyHandle17findBuddyByCharNoEj	DIFF	0xaf	DNFBuddyHandle.cpp
+CBuddyHandle::addDB(CServerHandler*, char*)	_ZN12CBuddyHandle5addDBEP14CServerHandlerPc	DIFF	0x1fe	DNFBuddyHandle.cpp
+CBuddyHandle::delDB(CServerHandler*, char*)	_ZN12CBuddyHandle5delDBEP14CServerHandlerPc	DIFF	0x1ce	DNFBuddyHandle.cpp
+CBuddyHandle::insert(CBuddy*)	_ZN12CBuddyHandle6insertEP6CBuddy	DIFF	0xa4	DNFBuddyHandle.cpp
+CBuddyHandle::getBuddys(CBuddy**)	_ZN12CBuddyHandle9getBuddysEPP6CBuddy	DIFF	0xf1	DNFBuddyHandle.cpp
+CUserManager::AddSchoolNo(unsigned int, unsigned char)	_ZN12CUserManager11AddSchoolNoEjh	DIFF	0x41b	DNFUserManager.cpp
+CUserManager::DelSchoolNo(unsigned int, unsigned char)	_ZN12CUserManager11DelSchoolNoEjh	DIFF	0x1a1	DNFUserManager.cpp
+CUserManager::GetSchoolCount(unsigned int, unsigned int*, unsigned char&)	_ZN12CUserManager14GetSchoolCountEjPjRh	DIFF	0x227	DNFUserManager.cpp
+CUserManager::ProcessByMinute()	_ZN12CUserManager15ProcessByMinuteEv	NEAR	0x15c	DNFUserManager.cpp
+CUserManager::InsertUser_CharNo(unsigned int, CUser*)	_ZN12CUserManager17InsertUser_CharNoEjP5CUser	DIFF	0xdf	DNFUserManager.cpp
+CUserManager::InsertUser_CharName(char*, CUser*)	_ZN12CUserManager19InsertUser_CharNameEPcP5CUser	DIFF	0xdf	DNFUserManager.cpp
+CUserManager::SendConnectedBuddysList(CUser*)	_ZN12CUserManager23SendConnectedBuddysListEP5CUser	DIFF	0x216	DNFUserManager.cpp
+CUserManager::DeleteUsersOnGameServerDown(CGameServer*)	_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer	DIFF	0x2f9	DNFUserManager.cpp
+CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer*)	_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer	DIFF	0x2f9	DNFUserManager.cpp
+CBuddyRegisterManager::delBuddyRegister(unsigned int)	_ZN21CBuddyRegisterManager16delBuddyRegisterEj	DIFF	0x87	BuddyRegisterManager.cpp
+CBuddyRegisterManager::delBuddyRegister(unsigned int, unsigned int)	_ZN21CBuddyRegisterManager16delBuddyRegisterEjj	DIFF	0x99	BuddyRegisterManager.cpp
+CBuddyRegisterManager::printBuddyRegister(char*, unsigned int)	_ZN21CBuddyRegisterManager18printBuddyRegisterEPcj	DIFF	0xba	BuddyRegisterManager.cpp
+CUser::SendTcpGameserver(PacketHeader*)	_ZN5CUser17SendTcpGameserverEP12PacketHeader	DIFF	0x82	DNFUser.cpp
+CUser::MemberEnterProcess()	_ZN5CUser18MemberEnterProcessEv	DIFF	0x43	DNFUser.cpp
+CUser::RegisterToBlackList(unsigned int, char*)	_ZN5CUser19RegisterToBlackListEjPc	DIFF	0xf9	DNFUser.cpp
+CUser::RegisterToBlackList(unsigned int, char*, unsigned int)	_ZN5CUser19RegisterToBlackListEjPcj	DIFF	0x93	DNFUser.cpp
+CUser::DelBuddy(char*)	_ZN5CUser8DelBuddyEPc	DIFF	0x97	DNFUser.cpp
+CUser::CUser()	_ZN5CUserC1Ev	DIFF	0x180	DNFUser.cpp
+CUser::CUser()	_ZN5CUserC2Ev	DIFF	0x180	DNFUser.cpp

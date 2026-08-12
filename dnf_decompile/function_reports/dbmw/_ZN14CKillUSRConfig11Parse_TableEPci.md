@@ -162,7 +162,7 @@ undefined4 CKillUSRConfig::_ZN14CKillUSRConfig11Parse_TableEPci(char *param_1,in
 定义于 [source/DNFServer/GameServer/DBMW/DNFKillUserConfig.cpp](source/DNFServer/GameServer/DBMW/DNFKillUserConfig.cpp)（约第 42 行）：
 
 ```cpp
-int CKillUSRConfig::Parse_Table(char* data, int size)
+bool CKillUSRConfig::Parse_Table(char* data, int size)
 {
     if (data[0] == '#')
         return 0;
@@ -170,14 +170,15 @@ int CKillUSRConfig::Parse_Table(char* data, int size)
     if (DNFFLib::ExplodeString(data, " \t\r\n\"", fields, 4) == 4)
     {
         ST_KillUSRConfig* kc = new (std::nothrow) ST_KillUSRConfig;
-        if (!kc)
-            return 0;
-        kc->m_type = atoi(fields[0]);
-        kc->m_field4 = atoi(fields[1]);
-        kc->m_field8 = atoi(fields[2]);
-        kc->m_fieldC = atoi(fields[3]);
-        m_list.push_back(kc);
-        return 1;
+        if (kc)
+        {
+            kc->m_type = atoi(fields[0]);
+            kc->m_field4 = atoi(fields[1]);
+            kc->m_field8 = atoi(fields[2]);
+            kc->m_fieldC = atoi(fields[3]);
+            m_list.push_back(kc);
+            return 1;
+        }
     }
     return 0;
 }

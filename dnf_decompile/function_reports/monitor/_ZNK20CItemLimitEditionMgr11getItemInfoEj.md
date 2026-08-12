@@ -89,16 +89,16 @@ undefined4 CItemLimitEditionMgr::_ZNK20CItemLimitEditionMgr11getItemInfoEj(uint 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 116 行）：
+定义于 [source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp](source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp)（约第 113 行）：
 
 ```cpp
 CItemLimitEdition* CItemLimitEditionMgr::getItemInfo(unsigned int ipgno) const
 {
     std::map<unsigned int, CItemLimitEdition*>::const_iterator it = m_items.find(ipgno);
-    if (it != m_items.end())
+    if (it == m_items.end())
     {
-        return it->second;
+        return 0;
     }
-    return 0;
+    return it->second;
 }
 ```

@@ -120,7 +120,7 @@ WongWork::CGMAccounts::_ZN8WongWork11CGMAccounts4isGMEj(CGMAccounts *this,uint p
 定义于 [source/DNFServer/GameServer/DBMW/GMAccounts.cpp](source/DNFServer/GameServer/DBMW/GMAccounts.cpp)（约第 35 行）：
 
 ```cpp
-unsigned int WongWork::CGMAccounts::isGM(unsigned int id)
+bool WongWork::CGMAccounts::isGM(unsigned int id)
 {
     stGMInfo_t key = {};
     key.m_field1 = 3;

@@ -286,7 +286,7 @@ undefined4 __thiscall CMySql::_ZN6CMySql10exec_queryEv(CMySql *this)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 120 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFMySql.cpp](source/DNFServer/GameServer/DBMW/DNFMySql.cpp)（约第 121 行）：
 
 ```cpp
 int CMySql::exec_query()
@@ -302,13 +302,12 @@ int CMySql::exec_query()
             int ping = mysql_ping(m_mysql);
             if (ping != 0)
             {
-                int e = mysql_errno(m_mysql);
-                if (e == 0x7d6)
+                if (mysql_errno(m_mysql) == 0x7d6)
                 {
                     if (!mysql_real_connect(m_mysql, m_host, m_pass, m_db,
                                             m_user, 0xcea, 0, 0x400))
                     {
-                        int e2 = mysql_errno(m_mysql);
+                        register int e2 = mysql_errno(m_mysql);
                         CMyFileLog log(__FUNCTION__, 0x118);
                         log("./log/MysqlErr.log",
                             "DB reconnection fail. err_no(%d)\n", e2);
@@ -325,15 +324,16 @@ int CMySql::exec_query()
         }
         if (m_lastErrno != 0x426)
         {
+            register char* q = m_query;
+            register int err = m_lastErrno;
             CMyFileLog log(__FUNCTION__, 0x12a);
             log("./log/MysqlErr.log",
-                "DB error occured (%d) Query('%s')\n", m_lastErrno, m_query);
+                "DB error occured (%d) Query('%s')\n", err, q);
             if (m_lastErrno == 0x7d6)
             {
-            CMyFileLog log2(__FUNCTION__, 300);
+                CMyFileLog log2(__FUNCTION__, 300);
                 log2("./log/MysqlErr.log",
-                     "CMySql::open() Function Error!\tCheck Connection First, Must Be Not Connected!\n",
-                     m_lastErrno, m_query);
+                     "CMySql::open() Function Error!\tCheck Connection First, Must Be Not Connected!\n");
             }
         }
         return 1;

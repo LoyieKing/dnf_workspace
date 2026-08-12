@@ -421,7 +421,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2172 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2171 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestARSInfo(PacketHeader* header)

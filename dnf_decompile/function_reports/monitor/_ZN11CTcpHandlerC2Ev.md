@@ -73,7 +73,7 @@ void __thiscall CTcpHandler::_ZN11CTcpHandlerC2Ev(CTcpHandler *this)
 ```cpp
 CTcpHandler::CTcpHandler()
 {
-    register EpollHandler* p = new EpollHandler;
+    EpollHandler* p = new EpollHandler;
     m_epoll = p;
 }
 ```

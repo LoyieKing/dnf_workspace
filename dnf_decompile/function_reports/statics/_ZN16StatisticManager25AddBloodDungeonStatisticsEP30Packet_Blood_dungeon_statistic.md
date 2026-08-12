@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8072780` | `0x109` | `0x80728e6` | `0xf6` |
+| statics | NEAR | `0x8072780` | `0x109` | `0x80728da` | `0x109` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,18 +13,17 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,79 +1,74 @@
+@@ -1,79 +1,79 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x48,%esp
-+sub    $0x58,%esp
++sub    $0x68,%esp
  mov    0xc(%ebp),%eax
--lea    0xe(%eax),%ecx
-+lea    0xa(%eax),%ecx
+ lea    0xe(%eax),%ecx
  mov    0x8(%ebp),%eax
  lea    0x1d0(%eax),%edx
 -lea    -0x30(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -42,51 +41,50 @@
 +lea    -0x3c(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj23STBloodDungeonStatisticEEneERKS4_>
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj23STBloodDungeonStatisticEEeqERKS4_>
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj23STBloodDungeonStatisticEEneERKS4_>
  test   %al,%al
--je     <T> <_ZN16StatisticManager25AddBloodDungeonStatisticsEP30Packet_Blood_dungeon_statistic+0x9a>
+ je     <T> <_ZN16StatisticManager25AddBloodDungeonStatisticsEP30Packet_Blood_dungeon_statistic+0x9a>
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj23STBloodDungeonStatisticEEptEv>
--mov    0x4(%eax),%ecx
--mov    0xc(%ebp),%edx
--movzbl 0x12(%edx),%edx
--movzbl %dl,%edx
--lea    (%ecx,%edx,1),%edx
--mov    %edx,0x4(%eax)
++lea    -0x50(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj23STBloodDungeonStatisticEEptEv>
+ mov    0x4(%eax),%ecx
+ mov    0xc(%ebp),%edx
+ movzbl 0x12(%edx),%edx
+ movzbl %dl,%edx
+ lea    (%ecx,%edx,1),%edx
+ mov    %edx,0x4(%eax)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj23STBloodDungeonStatisticEEptEv>
--mov    0x8(%eax),%ecx
--mov    0xc(%ebp),%edx
--movzbl 0x13(%edx),%edx
--movzbl %dl,%edx
--lea    (%ecx,%edx,1),%edx
--mov    %edx,0x8(%eax)
--jmp    <T> <_ZN16StatisticManager25AddBloodDungeonStatisticsEP30Packet_Blood_dungeon_statistic+0x107>
--mov    0xc(%ebp),%eax
--movzbl 0x12(%eax),%eax
--movzbl %al,%eax
++lea    -0x50(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj23STBloodDungeonStatisticEEptEv>
+ mov    0x8(%eax),%ecx
+ mov    0xc(%ebp),%edx
+ movzbl 0x13(%edx),%edx
+ movzbl %dl,%edx
+ lea    (%ecx,%edx,1),%edx
+ mov    %edx,0x8(%eax)
+ jmp    <T> <_ZN16StatisticManager25AddBloodDungeonStatisticsEP30Packet_Blood_dungeon_statistic+0x107>
+ mov    0xc(%ebp),%eax
+ movzbl 0x12(%eax),%eax
+ movzbl %al,%eax
 -mov    %eax,-0x38(%ebp)
--mov    0xc(%ebp),%eax
--movzbl 0x13(%eax),%eax
--movzbl %al,%eax
++mov    %eax,-0x4c(%ebp)
+ mov    0xc(%ebp),%eax
+ movzbl 0x13(%eax),%eax
+ movzbl %al,%eax
 -mov    %eax,-0x34(%ebp)
-+je     <T> <_ZN16StatisticManager25AddBloodDungeonStatisticsEP30Packet_Blood_dungeon_statistic+0xb4>
++mov    %eax,-0x48(%ebp)
  mov    0xc(%ebp),%eax
  lea    0xe(%eax),%ecx
 -lea    -0x14(%ebp),%eax
 -lea    -0x38(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    %ecx,0x4(%esp)
-+mov    0xc(%ebp),%eax
-+lea    0xa(%eax),%edx
 +lea    -0x1c(%ebp),%eax
-+mov    %ecx,0x8(%esp)
-+mov    %edx,0x4(%esp)
++lea    -0x4c(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZSt9make_pairIRjR23STBloodDungeonStatisticESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
  sub    $0x4,%esp
@@ -108,27 +106,6 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIj23STBloodDungeonStatisticSt4lessIjESaISt4pairIKjS0_EEE6insertERKS5_>
  sub    $0x4,%esp
-+jmp    <T> <_ZN16StatisticManager25AddBloodDungeonStatisticsEP30Packet_Blood_dungeon_statistic+0xf4>
-+lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj23STBloodDungeonStatisticEEptEv>
-+mov    0x4(%eax),%ecx
-+mov    0xc(%ebp),%edx
-+add    $0x12,%edx
-+movzbl (%edx),%edx
-+movzbl %dl,%edx
-+lea    (%ecx,%edx,1),%edx
-+mov    %edx,0x4(%eax)
-+lea    -0x40(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj23STBloodDungeonStatisticEEptEv>
-+mov    0x8(%eax),%ecx
-+mov    0xc(%ebp),%edx
-+add    $0x13,%edx
-+movzbl (%edx),%edx
-+movzbl %dl,%edx
-+lea    (%ecx,%edx,1),%edx
-+mov    %edx,0x8(%eax)
  leave
  ret
 ```

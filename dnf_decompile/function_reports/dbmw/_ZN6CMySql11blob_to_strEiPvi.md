@@ -128,13 +128,14 @@ char* CMySql::blob_to_str(int col, void* buf, int len)
         return 0;
     if (buf == 0 && len > 0x5fff)
         return 0;
-    ((char*)(col * 0x6001 + (unsigned int)this + 0x6070))[0x9] = 0;
+    char* base = (char*)this + col * 0x6001 + 0x6070;
+    base[9] = 0;
     if (len > 0)
     {
-        char* dst = (char*)(col * 0x6001 + 0x6070 + (unsigned int)this + 0x9);
+        char* dst = base + 9;
         dst += mysql_real_escape_string(m_mysql, dst, (const char*)buf, len);
         *dst++ = 0;
     }
-    return (char*)(col * 0x6001 + 0x6070 + (unsigned int)this + 0x9);
+    return base + 9;
 }
 ```

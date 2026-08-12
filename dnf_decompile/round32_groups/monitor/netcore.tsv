@@ -1,0 +1,16 @@
+demangled	mangled	status	orig_size	tu
+CTcpNetSystem::SendPacket()	_ZN13CTcpNetSystem10SendPacketEv	DIFF	0x2f1	TcpNetSystem.cpp
+CTcpNetSystem::OpenTcpService(int&, char const*, unsigned short)	_ZN13CTcpNetSystem14OpenTcpServiceERiPKct	DIFF	0x1b1	TcpNetSystem.cpp
+CTcpNetSystem::CleanTcpSendPacketQ()	_ZN13CTcpNetSystem19CleanTcpSendPacketQEv	DIFF	0x11c	TcpNetSystem.cpp
+CTcpNetSystem::SetEpollAcceptedPeers()	_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv	DIFF	0x19c	TcpNetSystem.cpp
+CTcpNetSystem::SetEpollConnectedPeer(CPeer*)	_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer	DIFF	0x136	TcpNetSystem.cpp
+CTcpNetSystem::Init(unsigned short)	_ZN13CTcpNetSystem4InitEt	DIFF	0x13e	TcpNetSystem.cpp
+CPeer::RecvPacket()	_ZN5CPeer10RecvPacketEv	DIFF	0x196	Peer.cpp
+CPeer::recv_packet()	_ZN5CPeer11recv_packetEv	DIFF	0x1a1	Peer.cpp
+CPeer::send_packet(char*, int)	_ZN5CPeer11send_packetEPci	DIFF	0x21b	Peer.cpp
+CPeer::send_packet()	_ZN5CPeer11send_packetEv	DIFF	0x24d	Peer.cpp
+CPeer::parsing(int)	_ZN5CPeer7parsingEi	DIFF	0x489	Peer.cpp
+TCPSocket::bind(unsigned short, bool)	_ZN9TCPSocket4bindEtb	DIFF	0xbf	DNFTcpSocket.cpp
+TCPSocket::send(char*, int)	_ZN9TCPSocket4sendEPci	DIFF	0x117	DNFTcpSocket.cpp
+TCPSocket::accept(TCPSocket&)	_ZN9TCPSocket6acceptERS_	DIFF	0x11d	DNFTcpSocket.cpp
+TCPSocket::connect(char const*, unsigned short)	_ZN9TCPSocket7connectEPKct	DIFF	0xdc	DNFTcpSocket.cpp

@@ -90,7 +90,7 @@ void __thiscall CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEv(CFram
 void CFrameCountHandler::SaveProcess()
 {
     m_field28++;
-    register bool isPrint = m_field28 != 0;
+    register char isPrint = (m_field28 != 0);
     if (isPrint)
     {
         DNF_LOG_SCOPE_LINE(0xa8, "./log/frame", "FPS(%02d) / DFC(%02d)\n", m_field18, m_field4);

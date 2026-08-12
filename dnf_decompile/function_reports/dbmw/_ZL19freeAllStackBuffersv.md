@@ -178,7 +178,7 @@ void freeAllStackBuffers(void)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/StackBuffer.cpp](source/DNFServer/GameServer/DBMW/StackBuffer.cpp)（约第 109 行）：
+定义于 [source/DNFServer/GameServer/DBMW/StackBuffer.cpp](source/DNFServer/GameServer/DBMW/StackBuffer.cpp)（约第 106 行）：
 
 ```cpp
 static void freeAllStackBuffers()

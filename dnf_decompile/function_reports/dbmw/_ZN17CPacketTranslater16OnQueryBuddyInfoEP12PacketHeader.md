@@ -178,7 +178,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16OnQueryBuddyInfoEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2393 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2392 行）：
 
 ```cpp
 void CPacketTranslater::OnQueryBuddyInfo(PacketHeader* header)
@@ -190,13 +190,14 @@ void CPacketTranslater::OnQueryBuddyInfo(PacketHeader* header)
         Packet_DBMW_Query_Buddy* pkt = (Packet_DBMW_Query_Buddy*)header;
         Packet_DBMW_Query_Buddy_Info_Reply reply;
         reply.m_fieldA = pkt->m_characNo;
-        if (!m_pclApp->m_dbManager.QueryBuddyInfo(
+        if (m_pclApp->m_dbManager.QueryBuddyInfo(
                 pkt->m_characNo,
                 (STBuddyDBInfo*)((char*)&reply + 0xf),
-                reply.m_fieldE))
-            return;
-        CMonitorServer* ms = m_pclApp->m_serverHandler->GetMonitorServer();
-        ms->SendToServer((char*)&reply, reply.packetSize);
+                *(unsigned char*)((char*)&reply + 0xe)))
+        {
+            CMonitorServer* ms = m_pclApp->m_serverHandler->GetMonitorServer();
+            ms->SendToServer((char*)&reply, reply.packetSize);
+        }
     }
     DNF_CATCH_LOG("./log/Except.log",
                   "CPacketTranslater::OnQueryBuddyInfo() Exception Break",

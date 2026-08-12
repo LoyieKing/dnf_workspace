@@ -1,0 +1,16 @@
+demangled	mangled	status	orig_size	tu
+CServerHandler::RegistGameServer(stServerInfo*)	_ZN14CServerHandler16RegistGameServerEP12stServerInfo	DIFF	0xfc	DNFServerHandler.cpp
+CServerHandler::CreateTcpGameServer(unsigned int)	_ZN14CServerHandler19CreateTcpGameServerEj	DIFF	0xe5	DNFServerHandler.cpp
+CServerHandler::GetTcpGameServerByCh(unsigned char)	_ZN14CServerHandler20GetTcpGameServerByChEh	DIFF	0x98	DNFServerHandler.cpp
+CServerHandler::SendAllTcpGameServer(PacketHeader*)	_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader	DIFF	0xf5	DNFServerHandler.cpp
+CServerHandler::SendAllTcpGameServer(PacketHeader*, int)	_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi	DIFF	0x122	DNFServerHandler.cpp
+CServerHandler::queryReloadTowerRank(unsigned int)	_ZN14CServerHandler20queryReloadTowerRankEj	DIFF	0x4b	DNFServerHandler.cpp
+CServerHandler::Process()	_ZN14CServerHandler7ProcessEv	DIFF	0x46f	DNFServerHandler.cpp
+CExchangeServer::SetExchageServer(unsigned int, short, int, bool&)	_ZN15CExchangeServer16SetExchageServerEjsiRb	DIFF	0x205	DNFManagerServer.cpp
+exchange_server::CCacheCharacterMgr::CacheCharacter(unsigned int, exchange_server::CACHE_CHARACTER_TYPE*)	_ZN15exchange_server18CCacheCharacterMgr14CacheCharacterEjPNS_20CACHE_CHARACTER_TYPEE	DIFF	0x114	DNFManagerServer.cpp
+exchange_server::CCacheCharacterMgr::CollectGarbage()	_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv	DIFF	0x107	DNFManagerServer.cpp
+exchange_server::GetInstanceCacheCharacterMgr()	_ZN15exchange_server28GetInstanceCacheCharacterMgrEv	DIFF	0x93	DNFManagerServer.cpp
+CTcpAcceptThread::dispatch(void*)	_ZN16CTcpAcceptThread8dispatchEPv	DIFF	0x405	DNFTcpAcceptThread.cpp
+CTcpManagerServer::SendTcpPacket(PacketHeader*)	_ZN17CTcpManagerServer13SendTcpPacketEP12PacketHeader	DIFF	0x72	DNFManagerServer.cpp
+CTcpNetworkThread::dispatch(void*)	_ZN17CTcpNetworkThread8dispatchEPv	DIFF	0x457	DNFTcpNetworkThread.cpp
+CUdpNetworkThread::dispatch(void*)	_ZN17CUdpNetworkThread8dispatchEPv	DIFF	0x6fe	DNFNetworkThread.cpp

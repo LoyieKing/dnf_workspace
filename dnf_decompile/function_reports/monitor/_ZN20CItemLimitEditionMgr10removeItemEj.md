@@ -124,11 +124,8 @@ void CItemLimitEditionMgr::removeItem(unsigned int ipgno)
     std::map<unsigned int, CItemLimitEdition*>::iterator it = m_items.find(ipgno);
     if (it != m_items.end())
     {
-        CItemLimitEdition* item = it->second;
-        if (item != 0)
-        {
-            delete item;
-        }
+        register CItemLimitEdition* item = it->second;
+        delete item;
         m_items.erase(it);
     }
 }

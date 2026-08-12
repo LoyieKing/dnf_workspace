@@ -462,8 +462,8 @@ void __thiscall CServerHandler::_ZN14CServerHandler7ProcessEv(CServerHandler *th
 ```cpp
 void CServerHandler::Process()
 {
-    register bool doHb;
-    register int old;
+    bool doHb;
+    int old;
     if (m_managerServer == 0 || (old = m_heartbeat, m_heartbeat = old + 1, old < 4))
     {
         doHb = false;
@@ -481,25 +481,16 @@ void CServerHandler::Process()
          it != m_gameServers.end(); it++)
     {
         CGameServer* gs = it->second;
-        if (!gs->IsValidServer())
+        if (gs->IsValidServer() && gs->IsConnected() && gs->IsHeartBeatTimeOver())
         {
-            continue;
+            if (gs->GetChannelNo() < 0xbe)
+            {
+                m_app->OnGameServerDown(gs);
+            }
+            gs->OnDisconnect();
         }
-        if (gs->IsConnected() == 0)
-        {
-            continue;
-        }
-        if (gs->IsHeartBeatTimeOver() == 0)
-        {
-            continue;
-        }
-        if (gs->GetChannelNo() < 0xbe)
-        {
-            m_app->OnGameServerDown(gs);
-        }
-        gs->OnDisconnect();
     }
-    register bool dbOk;
+    bool dbOk;
     if (m_dbServer == 0 || !m_dbServer->IsValidServer())
     {
         dbOk = true;
@@ -519,7 +510,7 @@ void CServerHandler::Process()
     }
     if (!m_tcpDbServer.IsValidServer())
     {
-        register bool canConnect;
+        bool canConnect;
         if (*m_tcpDbServer.GetIP() != '\0' && m_tcpDbServer.GetPort() != 0)
         {
             canConnect = true;
@@ -537,8 +528,8 @@ void CServerHandler::Process()
                 (unsigned int)m_tcpDbServer.GetPort());
         }
     }
-    register int hbOld = m_field58;
-    register bool hb = hbOld > 3;
+    int hbOld = m_field58;
+    bool hb = hbOld > 3;
     m_field58 = hbOld + 1;
     if (hb)
     {

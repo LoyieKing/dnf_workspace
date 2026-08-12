@@ -723,7 +723,7 @@ void CPacketTranslater::_ZN17CPacketTranslater22OnRequestIPCounterListEP12Packet
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2003 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2002 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestIPCounterList(PacketHeader* header)

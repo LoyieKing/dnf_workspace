@@ -134,7 +134,7 @@ CServerHandler::_ZN14CServerHandler22SendTcpGameServerFirstEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 368 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFServerHandler.cpp](source/DNFServer/GameServer/Guild/DNFServerHandler.cpp)（约第 360 行）：
 
 ```cpp
 void CServerHandler::SendTcpGameServerFirst(PacketHeader* pkt)
@@ -149,9 +149,10 @@ void CServerHandler::SendTcpGameServerFirst(PacketHeader* pkt)
     if (tgs->IsValidServer())
     {
         buf = tgs->makePacketHeader(pkt->packetId, pkt->packetSize);
-        memcpy(buf + 10, (char*)pkt + 10, pkt->packetSize - 10);
+        memcpy(buf + 10, (char*)pkt + 10, pkt->packetSize - 0xaU);
         tgs->SendToGameServer(buf);
         return;
     }
+    return;
 }
 ```

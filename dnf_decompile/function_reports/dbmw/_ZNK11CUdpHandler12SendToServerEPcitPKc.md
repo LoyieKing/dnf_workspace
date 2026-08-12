@@ -293,7 +293,7 @@ CUdpHandler::_ZNK11CUdpHandler12SendToServerEPcitPKc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFUdpHandler.cpp](source/DNFServer/GameServer/DBMW/DNFUdpHandler.cpp)（约第 74 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFUdpHandler.cpp](source/DNFServer/GameServer/DBMW/DNFUdpHandler.cpp)（约第 86 行）：
 
 ```cpp
 int CUdpHandler::SendToServer(char* buf, int len, unsigned short port, const char* ip) const
@@ -317,33 +317,34 @@ int CUdpHandler::SendToServer(char* buf, int len, unsigned short port, const cha
     if (n == -1)
     {
         int e = getErrno();
-        if (e == 0x61)
+        switch (e)
         {
-            CMyFileLog log(__FUNCTION__, 0x1b8);
-            log("./log/UdpErr", "Error( EAFNOSUPPORT ) in send = %d\n", e);
-        }
-        else if (e >= 0x6f && e <= 0x71)
-        {
-            CMyFileLog log(__FUNCTION__, 0x1b2);
-            log("./log/UdpErr", "Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", e);
-        }
-        else
-        {
-            CMyFileLog log(__FUNCTION__, 0x1be);
-            log("./log/UdpErr", "err = %d , strerror = %s in send\n", e, strerror(e));
+        case 0x6f:
+        case 0x70:
+        case 0x71:
+            CMyFileLog(__FUNCTION__, 0x1b2)("./log/UdpErr",
+                "Error( ECONNREFUSED, EHOSTDOWN, EHOSTUNREACH ) = %d\n", e);
+            break;
+        case 0x61:
+            CMyFileLog(__FUNCTION__, 0x1b8)("./log/UdpErr",
+                "Error( EAFNOSUPPORT ) in send = %d\n", e);
+            break;
+        default:
+            CMyFileLog(__FUNCTION__, 0x1be)("./log/UdpErr",
+                "err = %d , strerror = %s in send\n", e, strerror(e));
+            break;
         }
         return 0;
     }
     if (n == 0)
     {
-        CMyFileLog log(__FUNCTION__, 0x1c7);
-        log("./log/UdpErr", "no data sent in send\n");
+        CMyFileLog(__FUNCTION__, 0x1c7)("./log/UdpErr", "no data sent in send\n");
         return 0;
     }
-    if (n != len)
+    if (len != n)
     {
-        CMyFileLog log(__FUNCTION__, 0x1ce);
-        log("./log/UdpErr", "Only %d out of %d bytes sent\n", n, len);
+        CMyFileLog(__FUNCTION__, 0x1ce)("./log/UdpErr",
+            "Only %d out of %d bytes sent\n", n, len);
         return 0;
     }
     return 1;

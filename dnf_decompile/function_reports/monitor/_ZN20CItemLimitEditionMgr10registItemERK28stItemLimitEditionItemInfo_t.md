@@ -299,7 +299,7 @@ LAB_080934c6:
 ```cpp
 void CItemLimitEditionMgr::registItem(const stItemLimitEditionItemInfo_t& info)
 {
-    bool error = false;
+    register bool error = false;
     std::map<unsigned int, CItemLimitEdition*>::iterator it = m_items.find(*(unsigned int*)&info);
     if (it == m_items.end() && 0x1b < m_items.size())
     {

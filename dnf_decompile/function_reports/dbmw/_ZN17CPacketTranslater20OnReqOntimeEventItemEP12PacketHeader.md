@@ -300,7 +300,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnReqOntimeEventItemEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2364 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2363 行）：
 
 ```cpp
 void CPacketTranslater::OnReqOntimeEventItem(PacketHeader* header)
