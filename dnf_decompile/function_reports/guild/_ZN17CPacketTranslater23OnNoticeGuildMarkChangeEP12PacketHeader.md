@@ -271,7 +271,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1378 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1396 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildMarkChange(PacketHeader* pkt)

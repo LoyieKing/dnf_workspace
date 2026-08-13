@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808504a` | `0x38a` | `0x805ddbc` | `0x35e` |
+| dbmw | DIFF | `0x808504a` | `0x38a` | `0x805ddc2` | `0x35e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -341,7 +341,7 @@
 +mov    %eax,-0x10(%ebp)
 +mov    0x10(%ebp),%eax
 +lea    0xe(%eax),%edx
-+movl   $0x28,0x8(%esp)
++movl   $0x27,0x8(%esp)
 +mov    -0x10(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    %edx,(%esp)

@@ -1049,7 +1049,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnSetGuildMemberGradeEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1682 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1700 行）：
 
 ```cpp
 void CPacketTranslater::OnSetGuildMemberGradeFromWeb(PacketHeader* pkt)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807f03c` | `0x3db` | `0x805fa08` | `0x3da` |
+| dbmw | DIFF | `0x807f03c` | `0x3db` | `0x805fa0e` | `0x3da` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -459,7 +459,7 @@ LAB_0807f3ff:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 5538 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 5545 行）：
 
 ```cpp
 char CDBManager::QueryCubeStatisticCreate(Packet_DBMW_Cube_Statistic* packet)

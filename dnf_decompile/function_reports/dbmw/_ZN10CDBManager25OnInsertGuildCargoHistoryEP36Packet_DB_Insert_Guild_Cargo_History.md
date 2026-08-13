@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80812aa` | `0x2fb` | `0x804e18c` | `0x2d4` |
+| dbmw | DIFF | `0x80812aa` | `0x2fb` | `0x804e18c` | `0x2d9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,207 +1,196 @@
+@@ -1,207 +1,197 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -129,25 +129,24 @@
 -mov    0xc(%ebp),%eax
 -movzbl 0x36(%eax),%eax
 -shr    $0x5,%al
--movzbl %al,%eax
++mov    -0x1c(%ebp),%eax
++add    $0x36,%eax
++movzbl (%eax),%eax
+ movzbl %al,%eax
 -mov    %eax,-0x148(%ebp)
 -mov    0xc(%ebp),%eax
 -movzbl 0x36(%eax),%eax
 -and    $0x1f,%eax
--movzbl %al,%eax
--mov    %eax,-0x144(%ebp)
--mov    0xc(%ebp),%eax
--mov    0x3d(%eax),%eax
-+mov    -0x1c(%ebp),%eax
-+add    $0x36,%eax
-+mov    (%eax),%eax
-+shr    $0x5,%eax
 +mov    %eax,%edx
-+and    $0x1,%edx
++shr    $0x5,%edx
 +mov    %edx,-0x148(%ebp)
 +mov    -0x1c(%ebp),%eax
 +add    $0x36,%eax
-+mov    (%eax),%eax
++movzbl (%eax),%eax
+ movzbl %al,%eax
+-mov    %eax,-0x144(%ebp)
+-mov    0xc(%ebp),%eax
+-mov    0x3d(%eax),%eax
 +mov    %eax,%ecx
 +and    $0x1f,%ecx
 +mov    %ecx,-0x144(%ebp)
@@ -275,7 +274,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2eb>
-+je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2c4>
++je     <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2c9>
  movl   $0x1bd3,0x8(%esp)
  movl   $&_ZZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_HistoryE12__FUNCTION__,0x4(%esp)
  lea    -0x28(%ebp),%eax
@@ -288,7 +287,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2f0>
-+jmp    <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2c9>
++jmp    <T> <_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History+0x2ce>
  mov    $0x1,%eax
  add    $0x1cc,%esp
  pop    %ebx

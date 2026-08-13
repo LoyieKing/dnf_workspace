@@ -1060,7 +1060,7 @@ LAB_0807863b:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2301 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2319 行）：
 
 ```cpp
 }void CPacketTranslater::OnCallGuildInvite(PacketHeader* pkt)

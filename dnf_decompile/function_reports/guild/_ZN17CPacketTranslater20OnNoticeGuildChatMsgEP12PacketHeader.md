@@ -475,7 +475,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1484 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1502 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildChatMsg(PacketHeader* pkt)

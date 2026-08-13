@@ -329,7 +329,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnNoticeGuildEnterEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1283 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1301 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildEnter(PacketHeader* pkt)

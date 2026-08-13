@@ -698,7 +698,7 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1053 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1071 行）：
 
 ```cpp
 void CPacketTranslater::OnReplyUserInfo(PacketHeader* pkt)

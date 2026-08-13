@@ -327,7 +327,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2100 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2118 行）：
 
 ```cpp
 void CPacketTranslater::OnCharacterDelete(PacketHeader* pkt)

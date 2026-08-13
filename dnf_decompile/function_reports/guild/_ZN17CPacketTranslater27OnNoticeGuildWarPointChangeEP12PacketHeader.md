@@ -257,7 +257,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1987 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2005 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildWarPointChange(PacketHeader* pkt)

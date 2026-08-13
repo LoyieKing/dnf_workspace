@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807af52` | `0x6b5` | `0x8071438` | `0x690` |
+| guild | DIFF | `0x807af52` | `0x6b5` | `0x8071428` | `0x690` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -926,7 +926,7 @@ void CPacketTranslater::_ZN17CPacketTranslater28OnRequestGuildMasterDelegateEP12
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2990 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3025 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestGuildMasterDelegate(PacketHeader* pkt)

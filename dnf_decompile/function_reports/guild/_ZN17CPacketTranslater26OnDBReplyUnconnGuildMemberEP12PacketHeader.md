@@ -518,7 +518,7 @@ void CPacketTranslater::_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2267 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2285 行）：
 
 ```cpp
 void CPacketTranslater::OnDBReplyUnconnGuildMember(PacketHeader* pkt)
