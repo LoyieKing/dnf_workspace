@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8053164` | `0x19c` | `0x80a2ec4` | `0x184` |
+| monitor | DIFF | `0x8053164` | `0x19c` | `0x80a2f08` | `0x184` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,28 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,117 +1,109 @@
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIjP5CPeerSt4lessIjESaISt4pairIKjS1_EEE3endEv>
-+sub    $0x4,%esp
-+lea    -0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CPeerEEneERKS5_>
-+test   %al,%al
-+jne    <T> <_ZN13CTcpNetSystem10CleanPeersEv+0x25>
-+mov    0x8(%ebp),%eax
-+add    $0x144,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIjP5CPeerSt4lessIjESaISt4pairIKjS1_EEE5clearEv>
-+lea    -0x8(%ebp),%esp
-+add    $0x0,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %ebp
-+ret
+@@ -1,117 +1,111 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -131,29 +110,31 @@
  mov    0x8(%ebp),%eax
  add    $0x11c,%eax
  mov    %eax,(%esp)
--call   <T> <_ZNKSt5queueIP5CPeerSt5dequeIS1_SaIS1_EEE5emptyEv>
--xor    $0x1,%eax
--test   %al,%al
+ call   <T> <_ZNKSt5queueIP5CPeerSt5dequeIS1_SaIS1_EEE5emptyEv>
+ xor    $0x1,%eax
+ test   %al,%al
 -jne    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x41>
 -jmp    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x187>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuardI6CMutexED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
--lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CGuardI6CMutexED1Ev>
--lea    -0x8(%ebp),%esp
--add    $0x0,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
--ret
++jne    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x29>
++jmp    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x16f>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuardI6CMutexED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CGuardI6CMutexED1Ev>
+ lea    -0x8(%ebp),%esp
+ add    $0x0,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

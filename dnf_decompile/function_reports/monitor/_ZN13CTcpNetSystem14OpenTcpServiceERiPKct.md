@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8053958` | `0x1b1` | `0x80a2c24` | `0x1c1` |
+| monitor | DIFF | `0x8053958` | `0x1b1` | `0x80a2c68` | `0x1c1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,31 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,114 +1,121 @@
-+call   <T> <_Unwind_Resume>
-+mov    %ebx,%edx
-+mov    0x8(%ebp),%eax
-+mov    %edx,0x4(%eax)
-+mov    0x8(%ebp),%eax
-+mov    0x4(%eax),%eax
-+mov    0x8(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN17CTcpNetworkThread6attachEP13CTcpNetSystem>
-+mov    0x8(%ebp),%eax
-+mov    0x4(%eax),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN16CThreadInterface5beginEv>
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN13CTcpNetSystem4InitEt+0x132>
-+call   <T> <__cxa_rethrow>
-+add    $0x2c,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %edi
-+pop    %ebp
-+ret
+@@ -1,114 +1,118 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -163,27 +139,32 @@
 +mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CPeer8InitPeerEPSt5queueIP14CTcpRecvBufferSt5dequeIS2_SaIS2_EEEP6CMutexS9_>
++mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CPeer8InitPeerEPSt5queueIP14CTcpRecvBufferSt5dequeIS2_SaIS2_EEEP6CMutexS9_>
 -mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CPeer7ConnSigEv>
++mov    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CPeer7ConnSigEv>
 -mov    -0x10(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer>
++mov    -0x1c(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN13CTcpNetSystem21SetEpollConnectedPeerEP5CPeer>
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    0xc(%ebp),%edx
--mov    %eax,(%edx)
--mov    $0x1,%eax
++mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK9TCPSocket9getHandleEv>
+ mov    0xc(%ebp),%edx
+ mov    %eax,(%edx)
+ mov    $0x1,%eax
 -add    $0x50,%esp
--pop    %ebx
++add    $0x64,%esp
+ pop    %ebx
 -pop    %esi
--pop    %ebp
--ret
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

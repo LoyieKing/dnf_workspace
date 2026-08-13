@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x805cb64` | `0xac` | `0x80a7246` | `0xaa` |
+| monitor | DIFF | `0x805cb64` | `0xac` | `0x80a728a` | `0xaa` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,29 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,45 +1,46 @@
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CTaskScheduler5CTaskD1Ev>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN41TowerOfDespairWaitGameServerResponse_TaskD1Ev+0x2e>
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZdlPv>
-+leave
-+ret
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x18,%esp
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN41TowerOfDespairWaitGameServerResponse_TaskD1Ev>
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZdlPv>
-+leave
-+ret
+@@ -1,45 +1,44 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -61,27 +39,28 @@
  mov    %eax,-0xc(%ebp)
  movl   $0x10,(%esp)
  call   <T> <_Znwj>
--mov    %eax,%ebx
--mov    -0xc(%ebp),%eax
+ mov    %eax,%ebx
+ mov    -0xc(%ebp),%eax
 -add    $0x3c,%eax
 -mov    %eax,%edx
--mov    %ebx,%eax
--movl   $0x0,0x8(%esp)
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN41TowerOfDespairWaitGameServerResponse_TaskC1Ejj>
--mov    %ebx,%eax
--mov    %eax,%ebx
--call   <T> <_Z20CApplicationInstancev>
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication16GetTaskSchedulerEv>
--mov    %ebx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN14CTaskScheduler7AddTaskEPNS_5CTaskE>
--add    $0x24,%esp
--pop    %ebx
--pop    %ebp
--ret
++lea    0x3c(%eax),%edx
+ mov    %ebx,%eax
+ movl   $0x0,0x8(%esp)
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN41TowerOfDespairWaitGameServerResponse_TaskC1Ejj>
+ mov    %ebx,%eax
+ mov    %eax,%ebx
+ call   <T> <_Z20CApplicationInstancev>
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication16GetTaskSchedulerEv>
+ mov    %ebx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CTaskScheduler7AddTaskEPNS_5CTaskE>
+ add    $0x24,%esp
+ pop    %ebx
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

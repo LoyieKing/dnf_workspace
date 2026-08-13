@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a8d40` | `0x3a5` | `0x80a888c` | `0x369` |
+| monitor | DIFF | `0x80a8d40` | `0x3a5` | `0x80a88d0` | `0x369` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,31 +14,6 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,271 +1,239 @@
-+test   %al,%al
-+jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x29>
-+cmpb   $0x0,-0x4c(%ebp)
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1d0>
-+mov    0x8(%ebp),%eax
-+mov    0x1c(%eax),%eax
-+lea    0x1(%eax),%edx
-+mov    0x8(%ebp),%eax
-+mov    %edx,0x1c(%eax)
-+mov    0x8(%ebp),%eax
-+mov    0x1c(%eax),%edx
-+mov    0x8(%ebp),%eax
-+mov    0x20(%eax),%eax
-+cmp    %eax,%edx
-+jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1eb>
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN16village_attacked23CVillageAttackedManager11SendMinTimeEv>
-+lea    -0x8(%ebp),%esp
-+add    $0x0,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %ebp
-+ret
-+nop
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -376,34 +351,40 @@
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x371>
 -lea    -0x5c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x339>
++lea    -0x4c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x38c>
--mov    %edx,%ebx
--mov    %eax,%esi
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x354>
+ mov    %edx,%ebx
+ mov    %eax,%esi
 -lea    -0x58(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt14priority_queueI18stUserHuntingPointSt6vectorIS0_SaIS0_EESt4lessIS0_EED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
++lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt14priority_queueI18stUserHuntingPointSt6vectorIS0_SaIS0_EESt4lessIS0_EED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
 -lea    -0x58(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt14priority_queueI18stUserHuntingPointSt6vectorIS0_SaIS0_EESt4lessIS0_EED1Ev>
++lea    -0x48(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt14priority_queueI18stUserHuntingPointSt6vectorIS0_SaIS0_EESt4lessIS0_EED1Ev>
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x39a>
 -nop
 -lea    -0xc(%ebp),%esp
--add    $0x0,%esp
--pop    %ebx
--pop    %esi
++lea    -0x8(%ebp),%esp
+ add    $0x0,%esp
+ pop    %ebx
+ pop    %esi
 -pop    %edi
--pop    %ebp
--ret
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

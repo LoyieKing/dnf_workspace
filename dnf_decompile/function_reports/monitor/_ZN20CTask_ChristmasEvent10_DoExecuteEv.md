@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809c33e` | `0x125` | `0x80a08a6` | `0x14b` |
+| monitor | DIFF | `0x809c33e` | `0x125` | `0x80a08ea` | `0x14b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -14,23 +14,6 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,70 +1,84 @@
-+movl   $&_ZZN20CTask_ChristmasEvent18MakeEventStartTickEiE12__FUNCTION__,0x4(%esp)
-+lea    -0x50(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x14(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"Next X_Mas Event Time! (%s)",0x8(%esp)
-+movl   $"./log/GameServer",0x4(%esp)
-+lea    -0x50(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    -0x58(%ebp),%eax
-+add    $0xc4,%esp
-+pop    %ebx
-+pop    %ebp
-+ret
-+nop
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -117,21 +100,26 @@
  call   <T> <_ZN12CApplication16GetTaskSchedulerEv>
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZN14CTaskScheduler7AddTaskEPNS_5CTaskE>
--movl   $0xc8,0x8(%esp)
--movl   $&_ZZN20CTask_ChristmasEvent10_DoExecuteEvE12__FUNCTION__,0x4(%esp)
+ call   <T> <_ZN14CTaskScheduler7AddTaskEPNS_5CTaskE>
+ movl   $0xc8,0x8(%esp)
+ movl   $&_ZZN20CTask_ChristmasEvent10_DoExecuteEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"Start X_Mas Event!",0x8(%esp)
--movl   $"./log/GameServer",0x4(%esp)
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"Start X_Mas Event!",0x8(%esp)
+ movl   $"./log/GameServer",0x4(%esp)
 -lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -add    $0x44,%esp
--pop    %ebx
--pop    %ebp
--ret
++add    $0x4c,%esp
+ pop    %ebx
++pop    %esi
++pop    %edi
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

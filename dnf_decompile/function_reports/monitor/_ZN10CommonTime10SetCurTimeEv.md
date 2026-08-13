@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8066978` | `0x7a` | `0x80a0370` | `0x81` |
+| monitor | DIFF | `0x8066978` | `0x7a` | `0x80a03b4` | `0x81` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,40 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,44 +1,53 @@
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZSt7forwardIRKSt4pairIKiiEEOT_ONSt8identityIS5_E4typeE>
-+mov    0x8(%ebp),%ecx
-+mov    0x4(%eax),%edx
-+mov    (%eax),%eax
-+mov    %eax,0x10(%ecx)
-+mov    %edx,0x14(%ecx)
-+leave
-+ret
+@@ -1,44 +1,49 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x28,%esp
-+mov    $0xaaaaaaa,%eax
-+pop    %ebp
-+ret
-+push   %ebp
-+mov    %esp,%ebp
-+mov    $0xaaaaaaa,%eax
-+pop    %ebp
-+ret
-+push   %ebp
-+mov    %esp,%ebp
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%edx
-+mov    0xc(%ebp),%eax
-+mov    (%eax),%eax
-+cmp    %eax,%edx
-+setg   %al
-+pop    %ebp
-+ret
-+push   %ebp
-+mov    %esp,%ebp
 +push   %esi
 +push   %ebx
 +sub    $0x20,%esp
@@ -74,29 +44,33 @@
 -mov    %eax,%edx
 +mov    %ebx,%edx
  mov    0x8(%ebp),%eax
--mov    %dl,0x1(%eax)
--mov    -0xc(%ebp),%eax
--mov    0xc(%eax),%eax
--mov    %eax,%edx
--mov    0x8(%ebp),%eax
--mov    %dl,0x2(%eax)
--mov    -0xc(%ebp),%eax
--mov    0x8(%eax),%eax
--mov    %eax,%edx
--mov    0x8(%ebp),%eax
--mov    %dl,0x3(%eax)
--mov    -0xc(%ebp),%eax
--mov    0x4(%eax),%eax
--mov    %eax,%edx
--mov    0x8(%ebp),%eax
--mov    %dl,0x4(%eax)
--mov    -0xc(%ebp),%eax
--mov    0x18(%eax),%eax
--mov    %eax,%edx
--mov    0x8(%ebp),%eax
--mov    %dl,0x5(%eax)
+ mov    %dl,0x1(%eax)
+ mov    -0xc(%ebp),%eax
+ mov    0xc(%eax),%eax
+ mov    %eax,%edx
+ mov    0x8(%ebp),%eax
+ mov    %dl,0x2(%eax)
+ mov    -0xc(%ebp),%eax
+ mov    0x8(%eax),%eax
+ mov    %eax,%edx
+ mov    0x8(%ebp),%eax
+ mov    %dl,0x3(%eax)
+ mov    -0xc(%ebp),%eax
+ mov    0x4(%eax),%eax
+ mov    %eax,%edx
+ mov    0x8(%ebp),%eax
+ mov    %dl,0x4(%eax)
+ mov    -0xc(%ebp),%eax
+ mov    0x18(%eax),%eax
+ mov    %eax,%edx
+ mov    0x8(%ebp),%eax
+ mov    %dl,0x5(%eax)
 -leave
--ret
++add    $0x20,%esp
++pop    %ebx
++pop    %esi
++pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

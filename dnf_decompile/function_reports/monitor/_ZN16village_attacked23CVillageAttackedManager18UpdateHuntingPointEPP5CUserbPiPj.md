@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a9904` | `0x211` | `0x80a8696` | `0x1f5` |
+| monitor | DIFF | `0x80a9904` | `0x211` | `0x80a86da` | `0x1f5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,34 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,162 +1,154 @@
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+lea    -0x1b(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
-+add    $0xa0,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %ebp
-+ret
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x8,%esp
-+call   <T> <_Z10GetNowTimev>
-+mov    0x8(%ebp),%edx
-+mov    0x2c(%edx),%edx
-+sub    %edx,%eax
-+leave
-+ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+mov    0x8(%ebp),%eax
-+movl   $0x0,0x34(%eax)
-+pop    %ebp
-+ret
-+nop
+@@ -1,162 +1,151 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -218,32 +191,35 @@
  addl   $0x1,-0x18(%ebp)
  cmpl   $0x3,-0x18(%ebp)
  setle  %al
--test   %al,%al
+ test   %al,%al
 -jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x2c>
--cmpb   $0x0,-0x4c(%ebp)
++jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x29>
+ cmpb   $0x0,-0x4c(%ebp)
 -je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1e9>
--mov    0x8(%ebp),%eax
--mov    0x1c(%eax),%eax
--lea    0x1(%eax),%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x1c(%eax)
--mov    0x8(%ebp),%eax
--mov    0x1c(%eax),%edx
--mov    0x8(%ebp),%eax
--mov    0x20(%eax),%eax
--cmp    %eax,%edx
++je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1d0>
+ mov    0x8(%ebp),%eax
+ mov    0x1c(%eax),%eax
+ lea    0x1(%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x1c(%eax)
+ mov    0x8(%ebp),%eax
+ mov    0x1c(%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x20(%eax),%eax
+ cmp    %eax,%edx
 -jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x207>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16village_attacked23CVillageAttackedManager11SendMinTimeEv>
++jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1eb>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16village_attacked23CVillageAttackedManager11SendMinTimeEv>
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x207>
 -nop
--lea    -0x8(%ebp),%esp
--add    $0x0,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
--ret
+ lea    -0x8(%ebp),%esp
+ add    $0x0,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

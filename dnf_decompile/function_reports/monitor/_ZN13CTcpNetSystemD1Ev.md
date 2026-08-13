@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x8052d38` | `0x28a` | `0x80a2860` | `0x28a` |
+| monitor | NEAR | `0x8052d38` | `0x28a` | `0x80a28a4` | `0x28a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,30 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,210 +1,212 @@
-+add    $0x78,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CMutexD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+mov    0x8(%ebp),%eax
-+add    $0x60,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CMutexD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+mov    0x8(%ebp),%eax
-+add    $0x8,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CSwapQueueISt5queueIP14CTcpRecvBufferSt5dequeIS2_SaIS2_EEELi2EED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
+@@ -1,210 +1,210 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -246,27 +223,27 @@
  add    $0xa8,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CMutexD1Ev>
--mov    0x8(%ebp),%eax
--add    $0x90,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CMutexD1Ev>
--mov    0x8(%ebp),%eax
--add    $0x78,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CMutexD1Ev>
--mov    0x8(%ebp),%eax
--add    $0x60,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN6CMutexD1Ev>
--mov    0x8(%ebp),%eax
--add    $0x8,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CSwapQueueISt5queueIP14CTcpRecvBufferSt5dequeIS2_SaIS2_EEELi2EED1Ev>
--add    $0x10,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
--ret
+ mov    0x8(%ebp),%eax
+ add    $0x90,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CMutexD1Ev>
+ mov    0x8(%ebp),%eax
+ add    $0x78,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CMutexD1Ev>
+ mov    0x8(%ebp),%eax
+ add    $0x60,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN6CMutexD1Ev>
+ mov    0x8(%ebp),%eax
+ add    $0x8,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CSwapQueueISt5queueIP14CTcpRecvBufferSt5dequeIS2_SaIS2_EEELi2EED1Ev>
+ add    $0x10,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

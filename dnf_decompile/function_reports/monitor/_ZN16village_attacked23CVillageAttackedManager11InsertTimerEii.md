@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a88c6` | `0x1bd` | `0x80a771a` | `0x239` |
+| monitor | DIFF | `0x80a88c6` | `0x1bd` | `0x80a775e` | `0x239` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,27 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,129 +1,165 @@
-+call   <T> <_ZN5CUser14GetIdByChannelEv>
-+mov    %eax,-0x18(%ebp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %eax,-0x14(%ebp)
-+movl   $0x6,-0xc(%ebp)
-+mov    0x10(%ebp),%eax
-+mov    %eax,-0x10(%ebp)
-+movzwl -0x20(%ebp),%eax
-+movzwl %ax,%edx
-+lea    -0x22(%ebp),%eax
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser16SendToGameserverEPci>
-+leave
-+ret
-+nop
+@@ -1,129 +1,169 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -205,17 +185,31 @@
  call   <T> <_ZN16village_attacked19CVillageAttackedEndC1EjjPNS_23CVillageAttackedManagerE>
 -mov    %ebx,%eax
 -mov    %eax,%ebx
--mov    0x8(%ebp),%eax
--mov    (%eax),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication16GetTaskSchedulerEv>
--mov    %ebx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN14CTaskScheduler7AddTaskEPNS_5CTaskE>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii+0x212>
++mov    %edx,%esi
++mov    %eax,%edi
++mov    %ebx,(%esp)
++call   <T> <_ZdlPv>
++mov    %edi,%eax
++mov    %esi,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
++mov    %ebx,-0x1c(%ebp)
++mov    -0x1c(%ebp),%ebx
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication16GetTaskSchedulerEv>
+ mov    %ebx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CTaskScheduler7AddTaskEPNS_5CTaskE>
 -add    $0x14,%esp
--pop    %ebx
--pop    %ebp
--ret
++add    $0x3c,%esp
+ pop    %ebx
++pop    %esi
++pop    %edi
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

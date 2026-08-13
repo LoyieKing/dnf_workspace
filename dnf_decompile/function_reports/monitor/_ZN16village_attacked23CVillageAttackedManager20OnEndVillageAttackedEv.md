@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a916e` | `0x147` | `0x80a7f6c` | `0x183` |
+| monitor | DIFF | `0x80a916e` | `0x147` | `0x80a7fb0` | `0x183` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,25 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,95 +1,112 @@
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIjN16village_attacked14stHuntingPointESt4lessIjESaISt4pairIKjS1_EEE5clearEv>
-+mov    0x8(%ebp),%eax
-+movl   $0x0,0x1c(%eax)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN16village_attacked23CVillageAttackedManager18GetMaxHuntingPointEv>
-+mov    %eax,%edx
-+mov    0x8(%ebp),%eax
-+mov    %edx,0x20(%eax)
-+mov    0x8(%ebp),%eax
-+movb   $0x0,0x24(%eax)
-+mov    0x8(%ebp),%eax
-+movl   $0x0,0x28(%eax)
-+mov    0x8(%ebp),%eax
-+movl   $0x0,0x2c(%eax)
-+leave
-+ret
+@@ -1,95 +1,117 @@
  push   %ebp
  mov    %esp,%ebp
 +push   %edi
@@ -137,27 +119,31 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked23CVillageAttackedManager18SetRewardCloseTimeE28ENUM_VILLAGE_ATTACKED_REWARD>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16village_attacked23CVillageAttackedManager22SendVillageAttackedEndEv>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16village_attacked23CVillageAttackedManager19SendMaxHuntingPointEv>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16village_attacked23CVillageAttackedManager5ResetEv>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN16village_attacked23CVillageAttackedManager10OnScheduleEv>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16village_attacked23CVillageAttackedManager22SendVillageAttackedEndEv>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16village_attacked23CVillageAttackedManager19SendMaxHuntingPointEv>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16village_attacked23CVillageAttackedManager5ResetEv>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16village_attacked23CVillageAttackedManager10OnScheduleEv>
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x141>
--nop
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x17b>
+ nop
 -add    $0x24,%esp
--pop    %ebx
--pop    %ebp
--ret
++add    $0x2c,%esp
+ pop    %ebx
++pop    %esi
++pop    %edi
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 
