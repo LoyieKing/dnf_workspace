@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8080846` | `0x76a` | `0x806c5da` | `0x778` |
+| monitor | DIFF | `0x8080846` | `0x76a` | `0x806c5cc` | `0x778` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -924,7 +924,7 @@ LAB_08080cce:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1139 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 1135 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestMemberEnter(PacketHeader* pkt)

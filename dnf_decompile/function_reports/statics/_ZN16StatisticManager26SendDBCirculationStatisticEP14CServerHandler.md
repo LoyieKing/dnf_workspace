@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8073fda` | `0x524` | `0x8074192` | `0x59c` |
+| statics | DIFF | `0x8073fda` | `0x524` | `0x807410e` | `0x59c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -553,7 +553,7 @@ StatisticManager::_ZN16StatisticManager26SendDBCirculationStatisticEP14CServerHa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1574 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1572 行）：
 
 ```cpp
 void StatisticManager::SendDBCirculationStatistic(CServerHandler* handler)
@@ -570,8 +570,8 @@ void StatisticManager::SendDBCirculationStatistic(CServerHandler* handler)
     {
             int key = it->first;
             CirculationStatisticData* v = &it->second;
-            memset((char*)&pkt + 0xe, 0, 0x1001);
-            snprintf((char*)&pkt + 0xe, 0x1000,
+            memset(pkt.m_query, 0, sizeof(pkt.m_query));
+            snprintf(pkt.m_query, 0x1000,
                 "inSert into log_gold_stat(channel_no,occ_time ,level,dungeon_drop,result_card,sell_store,quest_reward,death_tower_reward,illusion_tower_reward,war_area_drop,member_tax,blood_dungeon_reward,blood_dungeon_lotto,power_dungeon_drop,power_dungeon_result_card,buy_store,stamina_recovery,repair_item,private_store_commission,gold_card,gold_drop,upgrade,quest_use,mail_commission,punish_user,restrict_trade,guild_level_up,guild_skill,guild_mail,item_compound,blood_dungeon_enter,buy_cerashop,war_area_enter,assault_gold,upgrade_guild_agit,upgrade_guild_cargo,break_away_reward,link_charac_bonus,ultimate_dungeon_reward,guild_fund,guild_fund_dungeon,quest_shop_init_cost,unseal, lottery, amplify,roi_regen) values(%d,from_unixtime(%d),%d,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u)",
                 1, now, key,
                 v->m_data[0], v->m_data[1], v->m_data[2], v->m_data[3], v->m_data[4],

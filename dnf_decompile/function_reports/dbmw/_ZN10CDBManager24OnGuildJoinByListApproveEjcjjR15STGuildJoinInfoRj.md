@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | NEAR | `0x80853d4` | `0x65b` | `0x80558a4` | `0x65b` |
+| dbmw | DIFF | `0x80853d4` | `0x65b` | `0x80558ae` | `0x667` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,408 +1,408 @@
+@@ -1,408 +1,410 @@
  push   %ebp
  mov    %esp,%ebp
- sub    $0xa8,%esp
+-sub    $0xa8,%esp
++sub    $0xb8,%esp
  mov    0x10(%ebp),%eax
- mov    %al,-0x7c(%ebp)
+-mov    %al,-0x7c(%ebp)
++mov    %al,-0x8c(%ebp)
  mov    0x8(%ebp),%eax
  mov    0x20(%eax),%eax
  mov    %eax,-0x10(%ebp)
@@ -30,7 +32,8 @@
  mov    0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memset>
- movzbl -0x7c(%ebp),%edx
+-movzbl -0x7c(%ebp),%edx
++movzbl -0x8c(%ebp),%edx
  mov    0x1c(%ebp),%eax
  mov    %dl,(%eax)
 -mov    0x1c(%ebp),%eax
@@ -59,21 +62,26 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0xd7>
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0xd7>
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0xdd>
  movl   $0x23d1,0x8(%esp)
  movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x78(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"set_query(seLect_from_guild_join_list) Query Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x78(%ebp),%eax
-+lea    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
++lea    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x665>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -84,7 +92,8 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
- jne    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x111>
+-jne    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x111>
++jne    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x117>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
@@ -94,32 +103,42 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x118>
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x118>
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x11e>
  mov    $0x1,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x11d>
- mov    $0x0,%eax
- test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x161>
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x11d>
+-mov    $0x0,%eax
+-test   %al,%al
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x161>
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x123>
++mov    $0x0,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x167>
  movl   $0x23d7,0x8(%esp)
  movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x70(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"exec(seLect_from_guild_join_list) or fetch() Query Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x70(%ebp),%eax
-+lea    -0x20(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x665>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
  mov    (%eax),%edx
- mov    0x1c(%ebp),%eax
- add    $0x8,%eax
+-mov    0x1c(%ebp),%eax
+-add    $0x8,%eax
++lea    -0x14(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
  mov    -0x10(%ebp),%eax
@@ -127,21 +146,29 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x1cc>
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x1cc>
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x1cf>
  movl   $0x23dd,0x8(%esp)
  movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x68(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"get_uint(0, join_info.m_uAccId) Query Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x68(%ebp),%eax
-+lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x665>
++mov    -0x14(%ebp),%edx
++mov    0x1c(%ebp),%eax
++mov    %edx,0x8(%eax)
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
@@ -156,21 +183,26 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x23f>
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x23f>
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x24b>
  movl   $0x23e3,0x8(%esp)
  movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x60(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"get_str(1, join_info.m_bornYear, sizeof(join_info.m_bornYear)) Query Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x60(%ebp),%eax
-+lea    -0x30(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x665>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -184,21 +216,26 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x2af>
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x2af>
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x2bb>
  movl   $0x23ec,0x8(%esp)
  movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x58(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"set_query(seLect_from_charac_info_with_guild_join_list Query Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x58(%ebp),%eax
-+lea    -0x38(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
++lea    -0x3c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x665>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -209,7 +246,8 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
- jne    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x2e9>
+-jne    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x2e9>
++jne    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x2f5>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
@@ -219,26 +257,35 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x2f0>
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x2f0>
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x2fc>
  mov    $0x1,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x2f5>
- mov    $0x0,%eax
- test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x339>
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x2f5>
+-mov    $0x0,%eax
+-test   %al,%al
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x339>
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x301>
++mov    $0x0,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x345>
  movl   $0x23f2,0x8(%esp)
  movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x40(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"exec(seLect_from_charac_info_with_guild_join_list) or fetch() Query Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x40(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
++lea    -0x44(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x665>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
@@ -253,19 +300,26 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x3ac>
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x3ac>
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x3b8>
  movl   $0x240a,0x8(%esp)
  movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
- lea    -0x48(%ebp),%eax
+-lea    -0x48(%ebp),%eax
++lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"get_str(0, join_info.m_szJoinCharName) Query Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
- lea    -0x48(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
+-lea    -0x48(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
++lea    -0x4c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x665>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
@@ -279,21 +333,26 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x417>
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x417>
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x423>
  movl   $0x2411,0x8(%esp)
  movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"get_byte(1, join_info.m_JoinJob) Query Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x50(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
++lea    -0x54(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x665>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
@@ -307,21 +366,26 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x482>
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x482>
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x48e>
  movl   $0x2417,0x8(%esp)
  movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"get_byte(2, join_info.m_JoinGrowType) Query Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x58(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
++lea    -0x5c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x665>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
@@ -335,21 +399,26 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x4ed>
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x4ed>
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x4f9>
  movl   $0x241d,0x8(%esp)
  movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x60(%ebp),%eax
++lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"get_byte(3, join_info.m_JoinLevel) Query Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x60(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
++lea    -0x64(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x665>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x50,%eax
@@ -363,21 +432,26 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x558>
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x558>
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x564>
  movl   $0x2423,0x8(%esp)
  movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x68(%ebp),%eax
++lea    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"get_byte(4, join_info.m_JoinSex) Query Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x68(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
++lea    -0x6c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x665>
  mov    0x20(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    0x1c(%ebp),%eax
@@ -387,9 +461,12 @@
  call   <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj>
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x582>
- mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x582>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x58e>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x665>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -405,21 +482,26 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x5f6>
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x5f6>
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x602>
  movl   $0x242f,0x8(%esp)
  movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x70(%ebp),%eax
++lea    -0x74(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"set_query(deLete_from_guild_join_list) Query Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x70(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
++lea    -0x74(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x665>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -430,21 +512,26 @@
  call   *%edx
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x654>
+-je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x654>
++je     <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x660>
  movl   $0x2435,0x8(%esp)
  movl   $&_ZZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRjE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x78(%ebp),%eax
++lea    -0x7c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"guild_db->exec(deLete_from_guild_join_list) Query Error",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x78(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x659>
++lea    -0x7c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj+0x665>
  mov    $0x1,%eax
  leave
  ret

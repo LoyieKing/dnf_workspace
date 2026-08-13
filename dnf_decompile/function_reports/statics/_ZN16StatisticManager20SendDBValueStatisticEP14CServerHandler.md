@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8073b18` | `0x34e` | `0x8073c8a` | `0x393` |
+| statics | DIFF | `0x8073b18` | `0x34e` | `0x8073c0c` | `0x38e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,207 +1,220 @@
+@@ -1,207 +1,218 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -27,16 +27,13 @@
  call   <T> <_ZNKSt3mapIi18ValueStatisticDataSt4lessIiESaISt4pairIKiS0_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x342>
-+jne    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x388>
++jne    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x383>
  lea    -0x103b(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN24Packet_DBMW_Query_StringC1Ev>
--movl   $0x4ef5,-0x1031(%ebp)
+ movl   $0x4ef5,-0x1031(%ebp)
 -lea    -0x28(%ebp),%eax
 -mov    %eax,(%esp)
-+lea    -0x103b(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x4ef5,(%eax)
 +movl   $0x0,(%esp)
  call   <T> <time>
 +mov    %eax,-0x24(%ebp)
@@ -48,7 +45,7 @@
  call   <T> <_ZNSt3mapIi18ValueStatisticDataSt4lessIiESaISt4pairIKiS0_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x30b>
-+jmp    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x353>
++jmp    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x34e>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKi18ValueStatisticDataEEptEv>
@@ -293,7 +290,7 @@
 -jne    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x67>
 -jmp    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x343>
 -nop
-+jne    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x70>
++jne    <T> <_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler+0x6b>
  lea    -0xc(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -372,7 +369,7 @@ StatisticManager::_ZN16StatisticManager20SendDBValueStatisticEP14CServerHandler
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1521 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1519 行）：
 
 ```cpp
 void StatisticManager::SendDBValueStatistic(CServerHandler* handler)
@@ -384,15 +381,15 @@ void StatisticManager::SendDBValueStatistic(CServerHandler* handler)
     else
     {
         Packet_DBMW_Query_String pkt;
-        *(unsigned int*)((char*)&pkt + 0xa) = 0x4ef5;
+        pkt.m_queryId = 0x4ef5;
         time_t now = time(0);
         for (std::map<int, ValueStatisticData>::iterator it = m_value.begin();
              it != m_value.end(); ++it)
         {
             int key = it->first;
             ValueStatisticData* v = &it->second;
-            memset((char*)&pkt + 0xe, 0, 0x1001);
-            snprintf((char*)&pkt + 0xe, 0x400,
+            memset(pkt.m_query, 0, sizeof(pkt.m_query));
+            snprintf(pkt.m_query, 0x400,
                 "inSert into log_value_stat(channel_no,occ_time ,level,uv,drop_gold,drop_item,result_card_gold,result_card_item,gold_card_item,store_item_buy,jar_item,disjoint_create,upgrade_faild_forced_disjoint,quest_reward,deathtower_card_gold,deathtower_card_item,consume_store_item_buy,consume_upgrade_attempt,consume_upgrade_faild,consume_stamina_recovery,consume_quest_consume,consume_auction_commision,consume_item_disjoint,consume_item_repair,consume_item_use,consume_item_drop,consume_gold_drop,consume_gold_card_price,consume_qp_init) values(%d,from_unixtime(%d),%d,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u,%u)",
                 1, now, key, v->m_data[0], v->m_data[1], v->m_data[2], v->m_data[3], v->m_data[4],
                 v->m_data[5], v->m_data[6], v->m_data[7], v->m_data[8], v->m_data[9],

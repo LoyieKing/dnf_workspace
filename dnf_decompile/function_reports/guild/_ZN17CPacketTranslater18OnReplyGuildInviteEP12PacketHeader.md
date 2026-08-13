@@ -367,10 +367,10 @@
 +mov    -0x2c(%ebp),%eax
 +mov    %al,(%edx)
 +lea    -0xcc(%ebp),%eax
-+add    $0x10,%eax
-+mov    -0x2c(%ebp),%edx
-+shr    $0x8,%edx
-+mov    %dx,(%eax)
++lea    0x10(%eax),%edx
++mov    -0x2c(%ebp),%eax
++shr    $0x8,%eax
++mov    %ax,(%edx)
 +lea    -0xcc(%ebp),%eax
 +lea    0x12(%eax),%edx
 +mov    -0x2c(%ebp),%eax
@@ -381,10 +381,10 @@
 +mov    -0x3c(%ebp),%eax
 +mov    %al,(%edx)
 +lea    -0xcc(%ebp),%eax
-+add    $0x14,%eax
-+mov    -0x3c(%ebp),%edx
-+shr    $0x8,%edx
-+mov    %dx,(%eax)
++lea    0x14(%eax),%edx
++mov    -0x3c(%ebp),%eax
++shr    $0x8,%eax
++mov    %ax,(%edx)
 +lea    -0xcc(%ebp),%eax
 +lea    0x16(%eax),%edx
 +mov    -0x3c(%ebp),%eax
@@ -432,11 +432,11 @@
 +mov    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser6GetSsnEv>
++lea    -0xcc(%ebp),%edx
++add    $0x3c,%edx
 +movl   $0x2,0x8(%esp)
 +mov    %eax,0x4(%esp)
-+lea    -0xcc(%ebp),%eax
-+add    $0x3c,%eax
-+mov    %eax,(%esp)
++mov    %edx,(%esp)
 +call   <T> <memcpy>
 +lea    -0xcc(%ebp),%ebx
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax

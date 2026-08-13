@@ -52,20 +52,23 @@
 -mov    -0x20(%ebp),%eax
 -mov    0xe(%eax),%eax
 -mov    %eax,-0x7c(%ebp)
+-mov    -0x20(%ebp),%eax
+-add    $0x12,%eax
 +lea    -0x7e(%ebp),%eax
 +lea    0xa(%eax),%edx
 +mov    -0x20(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%eax
 +mov    %eax,(%edx)
- mov    -0x20(%ebp),%eax
- add    $0x12,%eax
- movl   $0x16,0x8(%esp)
- mov    %eax,0x4(%esp)
--lea    -0x86(%ebp),%eax
--add    $0x17,%eax
++mov    -0x20(%ebp),%eax
++lea    0x12(%eax),%edx
 +lea    -0x7e(%ebp),%eax
 +add    $0x16,%eax
+ movl   $0x16,0x8(%esp)
+-mov    %eax,0x4(%esp)
+-lea    -0x86(%ebp),%eax
+-add    $0x17,%eax
++mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    -0x20(%ebp),%eax

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807a74a` | `0x200` | `0x8051306` | `0x1df` |
+| dbmw | DIFF | `0x807a74a` | `0x200` | `0x8051316` | `0x1df` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -19,8 +19,7 @@
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x84c,%esp
-+sub    $0x24c,%esp
+ sub    $0x84c,%esp
  movl   $0x0,(%esp)
  call   <T> <time>
 -mov    %eax,-0x28(%ebp)
@@ -39,10 +38,9 @@
 -mov    0xa(%eax),%eax
 -mov    %eax,-0x20(%ebp)
 -lea    -0x82c(%ebp),%ebx
-+lea    -0x234(%ebp),%ebx
++lea    -0x834(%ebp),%ebx
  mov    $0x0,%eax
--mov    $0x200,%edx
-+mov    $0x80,%edx
+ mov    $0x200,%edx
  mov    %ebx,%edi
  mov    %edx,%ecx
  rep stos %eax,%es:(%edi)
@@ -111,7 +109,7 @@
  mov    %eax,0x8(%esp)
  movl   $",(from_unixtime(%d),%d,%d,%d)",0x4(%esp)
 -lea    -0x82c(%ebp),%eax
-+lea    -0x234(%ebp),%eax
++lea    -0x834(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <sprintf>
 -jmp    <T> <_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic+0x143>
@@ -157,11 +155,11 @@
  mov    %eax,0x8(%esp)
  movl   $"(from_unixtime(%d),%d,%d,%d)",0x4(%esp)
 -lea    -0x82c(%ebp),%eax
-+lea    -0x234(%ebp),%eax
++lea    -0x834(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <sprintf>
 -lea    -0x82c(%ebp),%eax
-+lea    -0x234(%ebp),%eax
++lea    -0x834(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 +lea    -0x34(%ebp),%eax
@@ -233,8 +231,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %ebx,%eax
--add    $0x84c,%esp
-+add    $0x24c,%esp
+ add    $0x84c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi

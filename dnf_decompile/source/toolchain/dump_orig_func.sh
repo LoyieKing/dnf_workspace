@@ -24,4 +24,5 @@ fi
 addr=$(echo "$line" | awk '{print $1}')
 size=$(echo "$line" | awk '{print $2}')
 echo "# $dem  addr=0x$addr size=0x$size" >&2
-objdump -d --start-address="0x$addr" --stop-address="0x$((16#$addr + 16#$size))" "$ORIG"
+stop=$(printf '0x%x' $((16#$addr + 16#$size)))
+objdump -d --start-address="0x$addr" --stop-address="$stop" "$ORIG"

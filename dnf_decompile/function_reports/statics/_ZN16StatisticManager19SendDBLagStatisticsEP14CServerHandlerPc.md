@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x807350a` | `0x499` | `0x8073678` | `0x49e` |
+| statics | DIFF | `0x807350a` | `0x499` | `0x80735fa` | `0x49e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -573,7 +573,7 @@ StatisticManager::_ZN16StatisticManager19SendDBLagStatisticsEP14CServerHandlerPc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1456 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1454 行）：
 
 ```cpp
 void StatisticManager::SendDBLagStatistics(CServerHandler* handler, char* timeStr)
@@ -583,14 +583,14 @@ void StatisticManager::SendDBLagStatistics(CServerHandler* handler, char* timeSt
     {
         if (0 < m_modules[i].m_data[3])
         {
-            memset((char*)&pkt + 0xa, 0, 0x400);
-            snprintf((char*)&pkt + 0xa, 0x400,
+            memset(pkt.m_query, 0, sizeof(pkt.m_query));
+            snprintf(pkt.m_query, 0x400,
                 "inSert into lag_stat_module (occ_time, server_id, module, average, deviation, count) values ('%s', %d, %d, %d, %d, %d)",
                 timeStr, handler->GetServerGroupNo() & 0xff, i,
                 m_modules[i].m_data[2] / m_modules[i].m_data[3],
                 (unsigned int)m_modules[i].m_data[1] / (unsigned int)m_modules[i].m_data[3],
                 (unsigned int)m_modules[i].m_data[0] / (unsigned int)m_modules[i].m_data[3]);
-            DNF_LOG_SCOPE_LINE(0x6a1, "./log/LagStatistics", "%s", (char*)&pkt + 0xa);
+            DNF_LOG_SCOPE_LINE(0x6a1, "./log/LagStatistics", "%s", pkt.m_query);
             handler->SendToDB((PacketHeader*)&pkt);
             m_modules[i].Reset();
         }
@@ -602,8 +602,8 @@ void StatisticManager::SendDBLagStatistics(CServerHandler* handler, char* timeSt
     for (std::map<unsigned short, STDungeonLagStatistics>::iterator it = m_dungeonLag.begin();
          it != m_dungeonLag.end(); ++it)
     {
-        memset((char*)&pkt + 0xa, 0, 0x400);
-        snprintf((char*)&pkt + 0xa, 0x400,
+        memset(pkt.m_query, 0, sizeof(pkt.m_query));
+        snprintf(pkt.m_query, 0x400,
             "inSert into lag_stat_dungeon (occ_time, server_id, dungeon_idx, first_average, first_deviation, first_count, boss_average, boss_deviation, boss_count) values ('%s', %d, %d, %d, %d, %d, %d, %d, %d)",
             timeStr, handler->GetServerGroupNo() & 0xff, it->first,
             it->second.m_data[6] / it->second.m_data[7],
@@ -612,7 +612,7 @@ void StatisticManager::SendDBLagStatistics(CServerHandler* handler, char* timeSt
             it->second.m_data[2] / it->second.m_data[3],
             (unsigned int)it->second.m_data[1] / (unsigned int)it->second.m_data[3],
             (unsigned int)it->second.m_data[0] / (unsigned int)it->second.m_data[3]);
-        DNF_LOG_SCOPE_LINE(0x6b8, "./log/LagStatistics", "%s", (char*)&pkt + 0xa);
+        DNF_LOG_SCOPE_LINE(0x6b8, "./log/LagStatistics", "%s", pkt.m_query);
         handler->SendToDB((PacketHeader*)&pkt);
     }
     m_dungeonLag.clear();

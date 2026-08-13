@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8089e4c` | `0x17d` | `0x8075588` | `0x160` |
+| monitor | DIFF | `0x8089e4c` | `0x17d` | `0x807557a` | `0x160` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -207,7 +207,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3625 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3621 行）：
 
 ```cpp
 void CPacketTranslater::OnPvPChannelUserCount(PacketHeader* pkt)

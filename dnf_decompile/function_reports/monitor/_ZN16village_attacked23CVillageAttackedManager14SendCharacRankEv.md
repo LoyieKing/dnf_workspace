@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a8d40` | `0x3a5` | `0x80a88a4` | `0x366` |
+| monitor | DIFF | `0x80a8d40` | `0x3a5` | `0x80a88a0` | `0x369` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,271 +1,238 @@
+@@ -1,271 +1,239 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -31,7 +31,7 @@
 -lea    -0x48(%ebp),%eax
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x35c>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x35f>
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI18stUserHuntingPointSaIS0_EEC1Ev>
@@ -330,8 +330,8 @@
  mov    %eax,0x8(%esp)
  movl   $"inSert into village_attacked_charac_point_rank(server_info, occ_date, charac_no, hunting_point, rank) values%s",0x4(%esp)
 -lea    -0x1182(%ebp),%eax
--add    $0x12,%eax
-+lea    -0x1061(%ebp),%eax
++lea    -0x2074(%ebp),%eax
+ add    $0x12,%eax
  mov    %eax,(%esp)
  call   <T> <sprintf>
  mov    0x8(%ebp),%eax
@@ -344,7 +344,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x364>
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x329>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x32c>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x5c(%ebp),%eax
@@ -355,12 +355,12 @@
  mov    %ebx,%edx
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x371>
 -lea    -0x5c(%ebp),%eax
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x336>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x339>
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x38c>
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x351>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv+0x354>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x58(%ebp),%eax
@@ -570,7 +570,7 @@ _ZN16village_attacked23CVillageAttackedManager14SendCharacRankEv(CVillageAttacke
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 566 行）：
+定义于 [source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp](source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp)（约第 565 行）：
 
 ```cpp
 void CVillageAttackedManager::SendCharacRank()
@@ -628,7 +628,7 @@ void CVillageAttackedManager::SendCharacRank()
         Packet_DBMW_Query_Msg pkt;
         pkt.m_fieldB = 6;
         pkt.m_fieldA = 0x4ee4;
-        sprintf(sql,
+        sprintf(pkt.m_sql,
                 "inSert into village_attacked_charac_point_rank(server_info, occ_date, charac_no, hunting_point, rank) values%s",
                 query.c_str());
         m_app->Get_ServerHandler()->SendToDB(&pkt);

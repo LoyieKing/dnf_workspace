@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8070f7a` | `0x1a5` | `0x80710bc` | `0x1bd` |
+| statics | DIFF | `0x8070f7a` | `0x1a5` | `0x807105c` | `0x19f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,101 +1,110 @@
+@@ -1,101 +1,98 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -29,7 +29,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x1a0>
-+je     <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x1b8>
++je     <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x19a>
  mov    0x8(%ebp),%eax
  lea    0xf8(%eax),%edx
  lea    -0x24(%ebp),%eax
@@ -38,43 +38,28 @@
  call   <T> <_ZNSt3mapI22STUserTingTimeCheckKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x10a>
--mov    -0xc(%ebp),%ebx
-+jmp    <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x11d>
-+lea    -0x1822(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+shl    $0x3,%edx
-+add    $0xe,%edx
-+lea    (%eax,%edx,1),%ebx
++jmp    <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x104>
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STUserTingTimeCheckKeyiEEptEv>
  mov    (%eax),%eax
--mov    %eax,-0x1814(%ebp,%ebx,8)
--mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x1822(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+shl    $0x3,%edx
-+add    $0x12,%edx
-+lea    (%eax,%edx,1),%ebx
+ mov    %eax,-0x1814(%ebp,%ebx,8)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STUserTingTimeCheckKeyiEEptEv>
  mov    0x4(%eax),%eax
--mov    %eax,-0x1810(%ebp,%ebx,8)
-+mov    %eax,(%ebx)
+ mov    %eax,-0x1810(%ebp,%ebx,8)
  addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    $0x2fd,%eax
 -seta   %al
 -test   %al,%al
 -je     <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0xff>
--movl   $0x2fe,-0x1818(%ebp)
 +cmpl   $0x2fd,-0xc(%ebp)
-+jle    <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x112>
-+lea    -0x1822(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x2fe,(%eax)
++jle    <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0xf9>
+ movl   $0x2fe,-0x1818(%ebp)
  lea    -0x1822(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
@@ -112,12 +97,9 @@
  jne    <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x5a>
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x1a0>
-+je     <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x1b8>
-+lea    -0x1822(%ebp),%eax
-+lea    0xa(%eax),%edx
++je     <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x19a>
  mov    -0xc(%ebp),%eax
--mov    %eax,-0x1818(%ebp)
-+mov    %eax,(%edx)
+ mov    %eax,-0x1818(%ebp)
  lea    -0x1822(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
@@ -220,7 +202,7 @@ StatisticManager::_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CSe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 765 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 763 行）：
 
 ```cpp
 void StatisticManager::SendDBUserTingTimeCheckStatistic(CServerHandler* handler)
@@ -232,12 +214,12 @@ void StatisticManager::SendDBUserTingTimeCheckStatistic(CServerHandler* handler)
         for (std::map<STUserTingTimeCheckKey, int>::iterator it = m_userTing.begin();
              it != m_userTing.end(); ++it)
         {
-            *(unsigned int*)((char*)&pkt + 0xe + idx * 8) = it->first.m_field0;
-            *(int*)((char*)&pkt + 0xe + idx * 8 + 4) = it->second;
+            pkt.m_items[idx].m_field0 = it->first.m_field0;
+            pkt.m_items[idx].m_field4 = it->second;
             idx++;
             if (0x2fd < idx)
             {
-                *(unsigned int*)((char*)&pkt + 0xa) = 0x2fe;
+                pkt.m_count = 0x2fe;
                 handler->SendToDB((PacketHeader*)&pkt);
                 DNF_LOG_SCOPE_LINE(0x34c, "./log/Statistic", "Packet_DBMW_User_Ting_TimeCheck_Write_Query : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb", idx);
                 idx = 0;
@@ -245,7 +227,7 @@ void StatisticManager::SendDBUserTingTimeCheckStatistic(CServerHandler* handler)
         }
         if (idx != 0)
         {
-            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            pkt.m_count = idx;
             handler->SendToDB((PacketHeader*)&pkt);
             DNF_LOG_SCOPE_LINE(0x356, "./log/Statistic", "Packet_DBMW_User_Ting_TimeCheck_Write_Query : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb", idx);
         }

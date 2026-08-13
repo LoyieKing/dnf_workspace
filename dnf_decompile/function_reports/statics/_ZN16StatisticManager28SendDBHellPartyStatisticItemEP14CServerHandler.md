@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8071348` | `0x2aa` | `0x80714a4` | `0x2c0` |
+| statics | DIFF | `0x8071348` | `0x2aa` | `0x8071426` | `0x2c0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -147,7 +147,7 @@
 -lea    (%ecx,%eax,1),%eax
 -sub    $0x17ca,%eax
 -mov    %edx,0x16(%eax)
-+add    $0x12,%eax
++add    $0xf,%eax
 +lea    (%ecx,%eax,1),%ebx
 +lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
@@ -160,7 +160,7 @@
 +shl    $0x3,%eax
 +add    %edx,%eax
 +shl    $0x2,%eax
-+add    $0x16,%eax
++add    $0x13,%eax
 +lea    (%ecx,%eax,1),%ebx
 +lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
@@ -173,7 +173,7 @@
 +shl    $0x3,%eax
 +add    %edx,%eax
 +shl    $0x2,%eax
-+add    $0x17,%eax
++add    $0x14,%eax
 +lea    (%ecx,%eax,1),%ebx
 +lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
@@ -186,7 +186,7 @@
 +shl    $0x3,%eax
 +add    %edx,%eax
 +shl    $0x2,%eax
-+add    $0x18,%eax
++add    $0x15,%eax
 +lea    (%ecx,%eax,1),%ebx
 +lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
@@ -199,7 +199,7 @@
 +shl    $0x3,%eax
 +add    %edx,%eax
 +shl    $0x2,%eax
-+add    $0x22,%eax
++add    $0x16,%eax
 +lea    (%ecx,%eax,1),%ebx
 +lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
@@ -217,7 +217,7 @@
 +mov    -0xc(%ebp),%eax
 +lea    (%edx,%eax,1),%eax
 +shl    $0x2,%eax
-+add    $0x26,%eax
++add    $0x1a,%eax
 +lea    (%ecx,%eax,1),%ebx
 +lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
@@ -437,7 +437,7 @@ StatisticManager::_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServer
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 827 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 825 行）：
 
 ```cpp
 void StatisticManager::SendDBHellPartyStatisticItem(CServerHandler* handler)
@@ -450,14 +450,14 @@ void StatisticManager::SendDBHellPartyStatisticItem(CServerHandler* handler)
                  m_hellParty.begin(); it != m_hellParty.end(); ++it)
         {
             *((char*)&pkt + 0xe + idx * 0x24 + 0) = it->first.m_field0;
-            *(unsigned int*)((char*)&pkt + 0xe + idx * 0x24 + 4) = it->first.m_field4;
-            *((char*)&pkt + 0xe + idx * 0x24 + 8) = it->first.m_field8;
-            *((char*)&pkt + 0xe + idx * 0x24 + 9) = it->first.m_field9;
-            *((char*)&pkt + 0xe + idx * 0x24 + 10) = it->first.m_fielda;
-            *(int*)((char*)&pkt + 0xe + idx * 0x24 + 0x14) = it->second.m_count;
+            *(unsigned int*)((char*)&pkt + 0xe + idx * 0x24 + 1) = it->first.m_field4;
+            *((char*)&pkt + 0xe + idx * 0x24 + 5) = it->first.m_field8;
+            *((char*)&pkt + 0xe + idx * 0x24 + 6) = it->first.m_field9;
+            *((char*)&pkt + 0xe + idx * 0x24 + 7) = it->first.m_fielda;
+            *(int*)((char*)&pkt + 0xe + idx * 0x24 + 8) = it->second.m_count;
             for (int k = 0; k < 6; k++)
             {
-                *(int*)((char*)&pkt + 0xe + idx * 0x24 + 0x18 + k * 4) = it->second.m_data[k];
+                *(int*)((char*)&pkt + 0xe + idx * 0x24 + 0xc + k * 4) = it->second.m_data[k];
             }
             idx++;
             if (0xa7 < idx)

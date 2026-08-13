@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806f742` | `0x44c` | `0x806f8fe` | `0x43e` |
+| statics | DIFF | `0x806f742` | `0x44c` | `0x806f8fe` | `0x445` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,299 +1,300 @@
+@@ -1,299 +1,296 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -29,7 +29,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x447>
-+je     <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x439>
++je     <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x440>
  mov    0x8(%ebp),%eax
  lea    0x68(%eax),%edx
  lea    -0x24(%ebp),%eax
@@ -38,355 +38,316 @@
  call   <T> <_ZNSt3mapI16STPartyCharacKey20PartyCharacStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x3b4>
--mov    -0xc(%ebp),%ebx
-+jmp    <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x3a1>
-+mov    -0xc(%ebp),%eax
-+imul   $0x43,%eax,%eax
-+add    $0xe,%eax
-+lea    -0x177d(%ebp),%ebx
-+add    %eax,%ebx
++jmp    <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x3ad>
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  movzwl (%eax),%eax
--imul   $0x43,%ebx,%edx
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%edx,1),%edx
--sub    $0x1775,%edx
--mov    %ax,0xe(%edx)
--mov    -0xc(%ebp),%ebx
-+mov    %ax,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x10,%edx
-+lea    (%eax,%edx,1),%ebx
+ imul   $0x43,%ebx,%edx
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%edx,1),%edx
+ sub    $0x1775,%edx
+ mov    %ax,0xe(%edx)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  mov    0x4(%eax),%eax
--imul   $0x43,%ebx,%edx
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%edx,1),%edx
--sub    $0x1775,%edx
--mov    %eax,0x10(%edx)
--mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x14,%edx
-+lea    (%eax,%edx,1),%ebx
+ imul   $0x43,%ebx,%edx
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%edx,1),%edx
+ sub    $0x1775,%edx
+ mov    %eax,0x10(%edx)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  movzbl 0x8(%eax),%eax
--imul   $0x43,%ebx,%edx
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%edx,1),%edx
--sub    $0x1761,%edx
--mov    %al,(%edx)
--mov    -0xc(%ebp),%ebx
-+mov    %al,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x15,%edx
-+lea    (%eax,%edx,1),%ebx
+ imul   $0x43,%ebx,%edx
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%edx,1),%edx
+ sub    $0x1761,%edx
+ mov    %al,(%edx)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  movzbl 0x9(%eax),%eax
--imul   $0x43,%ebx,%edx
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%edx,1),%edx
--sub    $0x1760,%edx
--mov    %al,(%edx)
--mov    -0xc(%ebp),%ebx
-+mov    %al,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x16,%edx
-+lea    (%eax,%edx,1),%ebx
+ imul   $0x43,%ebx,%edx
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%edx,1),%edx
+ sub    $0x1760,%edx
+ mov    %al,(%edx)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  movzbl 0xa(%eax),%eax
--imul   $0x43,%ebx,%edx
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%edx,1),%edx
--sub    $0x175f,%edx
--mov    %al,(%edx)
--mov    -0xc(%ebp),%ebx
-+mov    %al,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x17,%edx
-+lea    (%eax,%edx,1),%ebx
+ imul   $0x43,%ebx,%edx
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%edx,1),%edx
+ sub    $0x175f,%edx
+ mov    %al,(%edx)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  mov    0xc(%eax),%eax
--imul   $0x43,%ebx,%edx
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%edx,1),%edx
--sub    $0x1775,%edx
--mov    %eax,0x17(%edx)
--mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x1b,%edx
-+lea    (%eax,%edx,1),%ebx
+ imul   $0x43,%ebx,%edx
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%edx,1),%edx
+ sub    $0x1775,%edx
+ mov    %eax,0x17(%edx)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  movzbl 0x10(%eax),%eax
--imul   $0x43,%ebx,%edx
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%edx,1),%edx
--sub    $0x175a,%edx
--mov    %al,(%edx)
--mov    -0xc(%ebp),%ebx
-+mov    %al,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x1c,%edx
-+lea    (%eax,%edx,1),%ebx
+ imul   $0x43,%ebx,%edx
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%edx,1),%edx
+ sub    $0x175a,%edx
+ mov    %al,(%edx)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  movzbl 0x11(%eax),%eax
--imul   $0x43,%ebx,%edx
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%edx,1),%edx
--sub    $0x1759,%edx
--mov    %al,(%edx)
--mov    -0xc(%ebp),%ebx
-+mov    %al,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x1d,%edx
-+lea    (%eax,%edx,1),%ebx
+ imul   $0x43,%ebx,%edx
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%edx,1),%edx
+ sub    $0x1759,%edx
+ mov    %al,(%edx)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  mov    0x14(%eax),%eax
--imul   $0x43,%ebx,%edx
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%edx,1),%edx
--sub    $0x1775,%edx
--mov    %eax,0x1d(%edx)
--mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x21,%edx
-+lea    (%eax,%edx,1),%ebx
+ imul   $0x43,%ebx,%edx
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%edx,1),%edx
+ sub    $0x1775,%edx
+ mov    %eax,0x1d(%edx)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  mov    0x18(%eax),%eax
--imul   $0x43,%ebx,%edx
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%edx,1),%edx
--sub    $0x1765,%edx
+ imul   $0x43,%ebx,%edx
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%edx,1),%edx
++sub    $0x1771,%edx
++mov    %eax,0x1d(%edx)
++mov    -0xc(%ebp),%ebx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
++mov    0x1c(%eax),%eax
++imul   $0x43,%ebx,%edx
++lea    -0x8(%ebp),%ecx
++lea    (%ecx,%edx,1),%edx
++sub    $0x176d,%edx
++mov    %eax,0x1d(%edx)
++mov    -0xc(%ebp),%ebx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
++mov    0x20(%eax),%eax
++imul   $0x43,%ebx,%edx
++lea    -0x8(%ebp),%ecx
++lea    (%ecx,%edx,1),%edx
++sub    $0x1769,%edx
++mov    %eax,0x1d(%edx)
++mov    -0xc(%ebp),%ebx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
++mov    0x24(%eax),%eax
++imul   $0x43,%ebx,%edx
++lea    -0x8(%ebp),%ecx
++lea    (%ecx,%edx,1),%edx
+ sub    $0x1765,%edx
 -mov    %eax,0x11(%edx)
 -mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x25,%edx
-+lea    (%eax,%edx,1),%ebx
- lea    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
- mov    0x1c(%eax),%eax
+-lea    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
+-mov    0x1c(%eax),%eax
 -imul   $0x43,%ebx,%edx
 -lea    -0x8(%ebp),%ecx
 -lea    (%ecx,%edx,1),%edx
 -sub    $0x1765,%edx
 -mov    %eax,0x15(%edx)
 -mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x29,%edx
-+lea    (%eax,%edx,1),%ebx
- lea    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
- mov    0x20(%eax),%eax
+-lea    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
+-mov    0x20(%eax),%eax
 -imul   $0x43,%ebx,%edx
 -lea    -0x8(%ebp),%ecx
 -lea    (%ecx,%edx,1),%edx
 -sub    $0x1765,%edx
 -mov    %eax,0x19(%edx)
 -mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x2d,%edx
-+lea    (%eax,%edx,1),%ebx
- lea    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
- mov    0x24(%eax),%eax
+-lea    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
+-mov    0x24(%eax),%eax
 -imul   $0x43,%ebx,%edx
 -lea    -0x8(%ebp),%ecx
 -lea    (%ecx,%edx,1),%edx
 -sub    $0x1765,%edx
--mov    %eax,0x1d(%edx)
--mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x31,%edx
-+lea    (%eax,%edx,1),%ebx
+ mov    %eax,0x1d(%edx)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  mov    0x28(%eax),%eax
--imul   $0x43,%ebx,%edx
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%edx,1),%edx
--sub    $0x1755,%edx
+ imul   $0x43,%ebx,%edx
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%edx,1),%edx
++sub    $0x1761,%edx
++mov    %eax,0x1d(%edx)
++mov    -0xc(%ebp),%ebx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
++mov    0x2c(%eax),%eax
++imul   $0x43,%ebx,%edx
++lea    -0x8(%ebp),%ecx
++lea    (%ecx,%edx,1),%edx
++sub    $0x175d,%edx
++mov    %eax,0x1d(%edx)
++mov    -0xc(%ebp),%ebx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
++mov    0x30(%eax),%eax
++imul   $0x43,%ebx,%edx
++lea    -0x8(%ebp),%ecx
++lea    (%ecx,%edx,1),%edx
++sub    $0x1759,%edx
++mov    %eax,0x1d(%edx)
++mov    -0xc(%ebp),%ebx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
++mov    0x34(%eax),%eax
++imul   $0x43,%ebx,%edx
++lea    -0x8(%ebp),%ecx
++lea    (%ecx,%edx,1),%edx
+ sub    $0x1755,%edx
 -mov    %eax,0x11(%edx)
 -mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x35,%edx
-+lea    (%eax,%edx,1),%ebx
- lea    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
- mov    0x2c(%eax),%eax
+-lea    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
+-mov    0x2c(%eax),%eax
 -imul   $0x43,%ebx,%edx
 -lea    -0x8(%ebp),%ecx
 -lea    (%ecx,%edx,1),%edx
 -sub    $0x1755,%edx
 -mov    %eax,0x15(%edx)
 -mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x39,%edx
-+lea    (%eax,%edx,1),%ebx
- lea    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
- mov    0x30(%eax),%eax
+-lea    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
+-mov    0x30(%eax),%eax
 -imul   $0x43,%ebx,%edx
 -lea    -0x8(%ebp),%ecx
 -lea    (%ecx,%edx,1),%edx
 -sub    $0x1755,%edx
 -mov    %eax,0x19(%edx)
 -mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x3d,%edx
-+lea    (%eax,%edx,1),%ebx
- lea    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
- mov    0x34(%eax),%eax
+-lea    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
+-mov    0x34(%eax),%eax
 -imul   $0x43,%ebx,%edx
 -lea    -0x8(%ebp),%ecx
 -lea    (%ecx,%edx,1),%edx
 -sub    $0x1755,%edx
--mov    %eax,0x1d(%edx)
--mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x41,%edx
-+lea    (%eax,%edx,1),%ebx
+ mov    %eax,0x1d(%edx)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
  mov    0x38(%eax),%eax
--imul   $0x43,%ebx,%edx
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%edx,1),%edx
--sub    $0x1745,%edx
+ imul   $0x43,%ebx,%edx
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%edx,1),%edx
++sub    $0x1751,%edx
++mov    %eax,0x1d(%edx)
++mov    -0xc(%ebp),%ebx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
++mov    0x3c(%eax),%eax
++imul   $0x43,%ebx,%edx
++lea    -0x8(%ebp),%ecx
++lea    (%ecx,%edx,1),%edx
++sub    $0x174d,%edx
++mov    %eax,0x1d(%edx)
++mov    -0xc(%ebp),%ebx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
++mov    0x40(%eax),%eax
++imul   $0x43,%ebx,%edx
++lea    -0x8(%ebp),%ecx
++lea    (%ecx,%edx,1),%edx
++sub    $0x1749,%edx
++mov    %eax,0x1d(%edx)
++mov    -0xc(%ebp),%ebx
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
++mov    0x44(%eax),%eax
++imul   $0x43,%ebx,%edx
++lea    -0x8(%ebp),%ecx
++lea    (%ecx,%edx,1),%edx
+ sub    $0x1745,%edx
 -mov    %eax,0x11(%edx)
 -mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x45,%edx
-+lea    (%eax,%edx,1),%ebx
- lea    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
- mov    0x3c(%eax),%eax
+-lea    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
+-mov    0x3c(%eax),%eax
 -imul   $0x43,%ebx,%edx
 -lea    -0x8(%ebp),%ecx
 -lea    (%ecx,%edx,1),%edx
 -sub    $0x1745,%edx
 -mov    %eax,0x15(%edx)
 -mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x49,%edx
-+lea    (%eax,%edx,1),%ebx
- lea    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
- mov    0x40(%eax),%eax
+-lea    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
+-mov    0x40(%eax),%eax
 -imul   $0x43,%ebx,%edx
 -lea    -0x8(%ebp),%ecx
 -lea    (%ecx,%edx,1),%edx
 -sub    $0x1745,%edx
 -mov    %eax,0x19(%edx)
 -mov    -0xc(%ebp),%ebx
-+mov    %eax,(%ebx)
-+lea    -0x177d(%ebp),%eax
-+mov    -0xc(%ebp),%edx
-+imul   $0x43,%edx,%edx
-+add    $0x4d,%edx
-+lea    (%eax,%edx,1),%ebx
- lea    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
- mov    0x44(%eax),%eax
+-lea    -0x24(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK16STPartyCharacKey20PartyCharacStatisticEEptEv>
+-mov    0x44(%eax),%eax
 -imul   $0x43,%ebx,%edx
 -lea    -0x8(%ebp),%ecx
 -lea    (%ecx,%edx,1),%edx
 -sub    $0x1745,%edx
--mov    %eax,0x1d(%edx)
-+mov    %eax,(%ebx)
+ mov    %eax,0x1d(%edx)
  addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    $0x58,%eax
 -seta   %al
 -test   %al,%al
 -je     <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x3a9>
--movl   $0x59,-0x1773(%ebp)
 +cmpl   $0x58,-0xc(%ebp)
-+jle    <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x396>
-+lea    -0x177d(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x59,(%eax)
++jle    <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x3a2>
+ movl   $0x59,-0x1773(%ebp)
  lea    -0x177d(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
@@ -424,12 +385,9 @@
  jne    <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x55>
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x447>
-+je     <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x439>
-+lea    -0x177d(%ebp),%eax
-+lea    0xa(%eax),%edx
++je     <T> <_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandler+0x440>
  mov    -0xc(%ebp),%eax
--mov    %eax,-0x1773(%ebp)
-+mov    %eax,(%edx)
+ mov    %eax,-0x1773(%ebp)
  movl   $0x1fa,0x8(%esp)
  movl   $&_ZZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
  lea    -0x14(%ebp),%eax
@@ -645,31 +603,31 @@ void StatisticManager::SendDBPartyCharacStatistic(CServerHandler* handler)
         for (std::map<STPartyCharacKey, PartyCharacStatistic>::iterator it = m_partyCharac.begin();
              it != m_partyCharac.end(); ++it)
         {
-            *(unsigned short*)((char*)&pkt + 0xe + idx * 0x43 + 0) = it->first.m_field0;
-            *(unsigned int*)((char*)&pkt + 0xe + idx * 0x43 + 2) = it->first.m_field4;
-            *((char*)&pkt + 0xe + idx * 0x43 + 6) = it->first.m_field8;
-            *((char*)&pkt + 0xe + idx * 0x43 + 7) = it->first.m_field9;
-            *((char*)&pkt + 0xe + idx * 0x43 + 8) = it->first.m_fielda;
-            *(unsigned int*)((char*)&pkt + 0xe + idx * 0x43 + 9) = it->first.m_fieldc;
-            *((char*)&pkt + 0xe + idx * 0x43 + 0xd) = it->first.m_field10;
-            *((char*)&pkt + 0xe + idx * 0x43 + 0xe) = it->first.m_field11;
-            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 0 * 4) = it->second.m_data[0];
-            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 1 * 4) = it->second.m_data[1];
-            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 2 * 4) = it->second.m_data[2];
-            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 3 * 4) = it->second.m_data[3];
-            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 4 * 4) = it->second.m_data[4];
-            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 5 * 4) = it->second.m_data[5];
-            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 6 * 4) = it->second.m_data[6];
-            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 7 * 4) = it->second.m_data[7];
-            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 8 * 4) = it->second.m_data[8];
-            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 9 * 4) = it->second.m_data[9];
-            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 10 * 4) = it->second.m_data[10];
-            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 11 * 4) = it->second.m_data[11];
-            *(int*)((char*)&pkt + 0xe + idx * 0x43 + 0xf + 12 * 4) = it->second.m_data[12];
+            pkt.m_items[idx].m_field0 = it->first.m_field0;
+            pkt.m_items[idx].m_field4 = it->first.m_field4;
+            pkt.m_items[idx].m_field8 = it->first.m_field8;
+            pkt.m_items[idx].m_field9 = it->first.m_field9;
+            pkt.m_items[idx].m_fielda = it->first.m_fielda;
+            pkt.m_items[idx].m_fieldc = it->first.m_fieldc;
+            pkt.m_items[idx].m_field10 = it->first.m_field10;
+            pkt.m_items[idx].m_field11 = it->first.m_field11;
+            pkt.m_items[idx].m_data[0] = it->second.m_data[0];
+            pkt.m_items[idx].m_data[1] = it->second.m_data[1];
+            pkt.m_items[idx].m_data[2] = it->second.m_data[2];
+            pkt.m_items[idx].m_data[3] = it->second.m_data[3];
+            pkt.m_items[idx].m_data[4] = it->second.m_data[4];
+            pkt.m_items[idx].m_data[5] = it->second.m_data[5];
+            pkt.m_items[idx].m_data[6] = it->second.m_data[6];
+            pkt.m_items[idx].m_data[7] = it->second.m_data[7];
+            pkt.m_items[idx].m_data[8] = it->second.m_data[8];
+            pkt.m_items[idx].m_data[9] = it->second.m_data[9];
+            pkt.m_items[idx].m_data[10] = it->second.m_data[10];
+            pkt.m_items[idx].m_data[11] = it->second.m_data[11];
+            pkt.m_items[idx].m_data[12] = it->second.m_data[12];
             idx++;
             if (0x58 < idx)
             {
-                *(unsigned int*)((char*)&pkt + 0xa) = 0x59;
+                pkt.m_count = 0x59;
                 handler->SendToDB((PacketHeader*)&pkt);
                 DNF_LOG_SCOPE_LINE(0x1f0, "./log/statistic", "Packet_DBMW_Dungeon_Statistic_Party_Charac : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", idx);
                 idx = 0;
@@ -677,7 +635,7 @@ void StatisticManager::SendDBPartyCharacStatistic(CServerHandler* handler)
         }
         if (idx != 0)
         {
-            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            pkt.m_count = idx;
             DNF_LOG_SCOPE_LINE(0x1fa, "./log/statistic", "Packet_DBMW_Dungeon_Statistic_Party_Charac : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", idx);
             handler->SendToDB((PacketHeader*)&pkt);
         }

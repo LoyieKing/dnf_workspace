@@ -193,8 +193,8 @@
 +lea    0xa(%eax),%edx
 +mov    -0x40(%ebp),%eax
 +mov    %eax,(%edx)
-+lea    -0x135(%ebp),%ebx
-+add    $0xe,%ebx
++lea    -0x135(%ebp),%eax
++lea    0xe(%eax),%ebx
 +mov    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuild26GetTotalCnt_Of_GuildDBInfoEv>

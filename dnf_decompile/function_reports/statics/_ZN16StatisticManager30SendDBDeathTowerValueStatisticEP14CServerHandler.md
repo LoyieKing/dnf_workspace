@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806fb8e` | `0x20d` | `0x806fd3c` | `0x237` |
+| statics | DIFF | `0x806fb8e` | `0x20d` | `0x806fd44` | `0x20b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,137 +1,150 @@
+@@ -1,137 +1,136 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -29,7 +29,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandler+0x208>
-+je     <T> <_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandler+0x232>
++je     <T> <_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandler+0x206>
  mov    0x8(%ebp),%eax
  lea    0x80(%eax),%edx
  lea    -0x24(%ebp),%eax
@@ -38,111 +38,69 @@
  call   <T> <_ZNSt3mapI29STDeathTowerValueStatisticKey14ValueStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandler+0x172>
--mov    -0xc(%ebp),%ebx
-+jmp    <T> <_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandler+0x197>
-+lea    -0x180b(%ebp),%ecx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
-+shl    $0x4,%eax
-+sub    %edx,%eax
-+add    $0xe,%eax
-+lea    (%ecx,%eax,1),%ebx
++jmp    <T> <_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandler+0x170>
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK29STDeathTowerValueStatisticKey14ValueStatisticEEptEv>
 -movzbl (%eax),%edx
--mov    %ebx,%eax
 +movzbl (%eax),%eax
-+mov    %al,(%ebx)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
++mov    %eax,%edx
+ mov    %ebx,%eax
  shl    $0x4,%eax
--sub    %ebx,%eax
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%eax,1),%eax
--sub    $0x17f5,%eax
--mov    %dl,(%eax)
--mov    -0xc(%ebp),%ebx
-+sub    %edx,%eax
-+add    $0x10,%eax
-+lea    -0x180b(%ebp),%ebx
-+add    %eax,%ebx
+ sub    %ebx,%eax
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%eax,1),%eax
+ sub    $0x17f5,%eax
+ mov    %dl,(%eax)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK29STDeathTowerValueStatisticKey14ValueStatisticEEptEv>
 -movzwl 0x2(%eax),%edx
--mov    %ebx,%eax
 +movzwl 0x2(%eax),%eax
-+mov    %ax,(%ebx)
-+lea    -0x180b(%ebp),%ecx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
++mov    %eax,%edx
+ mov    %ebx,%eax
  shl    $0x4,%eax
--sub    %ebx,%eax
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%eax,1),%eax
--sub    $0x1803,%eax
--mov    %dx,0xf(%eax)
--mov    -0xc(%ebp),%ebx
-+sub    %edx,%eax
-+add    $0x12,%eax
-+lea    (%ecx,%eax,1),%ebx
+ sub    %ebx,%eax
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%eax,1),%eax
+ sub    $0x1803,%eax
+ mov    %dx,0xf(%eax)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK29STDeathTowerValueStatisticKey14ValueStatisticEEptEv>
--mov    0x4(%eax),%edx
--mov    %ebx,%eax
-+mov    0x4(%eax),%eax
-+mov    %eax,(%ebx)
-+lea    -0x180b(%ebp),%ecx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
+ mov    0x4(%eax),%edx
+ mov    %ebx,%eax
  shl    $0x4,%eax
--sub    %ebx,%eax
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%eax,1),%eax
--sub    $0x1803,%eax
--mov    %edx,0x11(%eax)
--mov    -0xc(%ebp),%ebx
-+sub    %edx,%eax
-+add    $0x16,%eax
-+lea    (%ecx,%eax,1),%ebx
+ sub    %ebx,%eax
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%eax,1),%eax
+ sub    $0x1803,%eax
+ mov    %edx,0x11(%eax)
+ mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK29STDeathTowerValueStatisticKey14ValueStatisticEEptEv>
--mov    0x8(%eax),%edx
--mov    %ebx,%eax
-+mov    0x8(%eax),%eax
-+mov    %eax,(%ebx)
-+lea    -0x180b(%ebp),%ecx
-+mov    -0xc(%ebp),%edx
-+mov    %edx,%eax
+ mov    0x8(%eax),%edx
+ mov    %ebx,%eax
  shl    $0x4,%eax
--sub    %ebx,%eax
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%eax,1),%eax
--sub    $0x1803,%eax
+ sub    %ebx,%eax
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%eax,1),%eax
+ sub    $0x1803,%eax
 -mov    %edx,0x19(%eax)
-+sub    %edx,%eax
-+add    $0x1a,%eax
-+lea    (%ecx,%eax,1),%ebx
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK29STDeathTowerValueStatisticKey14ValueStatisticEEptEv>
-+mov    0xc(%eax),%eax
-+mov    %eax,(%ebx)
++mov    %edx,0x15(%eax)
  addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    $0x196,%eax
 -seta   %al
 -test   %al,%al
 -je     <T> <_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandler+0x167>
--movl   $0x197,-0x1801(%ebp)
 +cmpl   $0x196,-0xc(%ebp)
-+jle    <T> <_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandler+0x18c>
-+lea    -0x180b(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x197,(%eax)
++jle    <T> <_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandler+0x165>
+ movl   $0x197,-0x1801(%ebp)
  lea    -0x180b(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
@@ -180,12 +138,9 @@
  jne    <T> <_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandler+0x58>
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandler+0x208>
-+je     <T> <_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandler+0x232>
-+lea    -0x180b(%ebp),%eax
-+lea    0xa(%eax),%edx
++je     <T> <_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandler+0x206>
  mov    -0xc(%ebp),%eax
--mov    %eax,-0x1801(%ebp)
-+mov    %eax,(%edx)
+ mov    %eax,-0x1801(%ebp)
  movl   $0x220,0x8(%esp)
  movl   $&_ZZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
  lea    -0x14(%ebp),%eax
@@ -312,15 +267,14 @@ void StatisticManager::SendDBDeathTowerValueStatistic(CServerHandler* handler)
         for (std::map<STDeathTowerValueStatisticKey, ValueStatistic>::iterator it =
                  m_deathTowerValue.begin(); it != m_deathTowerValue.end(); ++it)
         {
-            *(unsigned char*)((char*)&pkt + 0xe + idx * 0xf + 0) = it->first.m_field0;
-            *(unsigned short*)((char*)&pkt + 0xe + idx * 0xf + 2) = it->first.m_field2;
-            *(unsigned int*)((char*)&pkt + 0xe + idx * 0xf + 4) = it->first.m_field4;
-            *(int*)((char*)&pkt + 0xe + idx * 0xf + 8) = it->second.m_data[0];
-            *(int*)((char*)&pkt + 0xe + idx * 0xf + 0xc) = it->second.m_data[1];
+            pkt.m_items[idx].m_field0 = it->first.m_field0;
+            pkt.m_items[idx].m_field2 = it->first.m_field2;
+            pkt.m_items[idx].m_field4 = it->first.m_field4;
+            pkt.m_items[idx].m_value = it->second.m_data[0];
             idx++;
             if (0x196 < idx)
             {
-                *(unsigned int*)((char*)&pkt + 0xa) = 0x197;
+                pkt.m_count = 0x197;
                 handler->SendToDB((PacketHeader*)&pkt);
                 DNF_LOG_SCOPE_LINE(0x217, "./log/statistic", "Packet_DBMW_DeathTower_Statistic_Value : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", idx);
                 idx = 0;
@@ -328,7 +282,7 @@ void StatisticManager::SendDBDeathTowerValueStatistic(CServerHandler* handler)
         }
         if (idx != 0)
         {
-            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            pkt.m_count = idx;
             DNF_LOG_SCOPE_LINE(0x220, "./log/statistic", "Packet_DBMW_DeathTower_Statistic_Value : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", idx);
             handler->SendToDB((PacketHeader*)&pkt);
         }

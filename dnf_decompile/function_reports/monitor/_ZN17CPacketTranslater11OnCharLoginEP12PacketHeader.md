@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807f5a2` | `0x8c3` | `0x806ae56` | `0x85e` |
+| monitor | DIFF | `0x807f5a2` | `0x8c3` | `0x806ae56` | `0x84f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,562 +1,542 @@
+@@ -1,562 +1,537 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -26,7 +26,7 @@
 -je     <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x8b7>
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x3c(%ebp)
-+je     <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x853>
++je     <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x844>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  add    $0x10,%eax
 -mov    %eax,-0x38(%ebp)
@@ -81,7 +81,7 @@
 +lea    -0x88(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x853>
++jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x844>
 +mov    0x8(%ebp),%eax
  lea    0x1f(%eax),%esi
 -mov    -0x3c(%ebp),%eax
@@ -509,25 +509,22 @@
  mov    %eax,(%esp)
  call   <T> <_ZN35Packet_Request_Charac_Tower_RankingC1Ev>
 -mov    -0x44(%ebp),%eax
-+lea    -0x12a(%ebp),%ebx
 +mov    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x138(%ebp)
 -mov    -0x3c(%ebp),%eax
--mov    0xf(%eax),%eax
++mov    %eax,-0x11c(%ebp)
++mov    0x8(%ebp),%eax
+ mov    0xf(%eax),%eax
 -mov    %eax,-0x13c(%ebp)
 -movb   $0x0,-0x2d(%ebp)
-+mov    %eax,0xa(%ebx)
-+lea    -0x12a(%ebp),%eax
-+mov    0x8(%ebp),%edx
-+mov    0xf(%edx),%edx
-+mov    %edx,0xe(%eax)
++mov    %eax,-0x120(%ebp)
 +movb   $0x0,-0x3d(%ebp)
  movl   $0x0,-0x28(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x58f>
 -mov    -0x3c(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x629>
++jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x61a>
 +mov    0x8(%ebp),%eax
  lea    0x1f(%eax),%esi
  mov    -0x28(%ebp),%eax
@@ -547,30 +544,22 @@
  mov    %eax,-0x24(%ebp)
  movl   $0x0,-0x20(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x57e>
-+jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x618>
-+lea    -0x12a(%ebp),%edx
++jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x609>
  mov    -0x20(%ebp),%eax
 -movzbl -0x98(%ebp,%eax,4),%eax
--movzbl %al,%ecx
--mov    -0x28(%ebp),%edx
 +movzbl -0xa8(%ebp,%eax,4),%eax
-+movzbl %al,%eax
-+lea    0x0(,%eax,4),%ecx
-+mov    -0x28(%ebp),%eax
-+lea    (%ecx,%eax,1),%eax
-+add    $0x5,%eax
-+add    %eax,%eax
-+add    %eax,%edx
+ movzbl %al,%ecx
+ mov    -0x28(%ebp),%edx
  mov    -0x20(%ebp),%eax
 -movzwl -0x96(%ebp,%eax,4),%eax
 +movzwl -0xa6(%ebp,%eax,4),%eax
  movzwl %ax,%eax
--shl    $0x2,%ecx
--lea    (%ecx,%edx,1),%edx
--add    $0x4,%edx
+ shl    $0x2,%ecx
+ lea    (%ecx,%edx,1),%edx
+ add    $0x4,%edx
 -mov    %eax,-0x144(%ebp,%edx,4)
 -movb   $0x1,-0x2d(%ebp)
-+mov    %eax,(%edx)
++mov    %eax,-0x128(%ebp,%edx,4)
 +movb   $0x1,-0x3d(%ebp)
  addl   $0x1,-0x20(%ebp)
  mov    -0x20(%ebp),%eax
@@ -578,7 +567,7 @@
  setb   %al
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x547>
-+jne    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x5d8>
++jne    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x5d2>
  addl   $0x1,-0x28(%ebp)
 -mov    -0x28(%ebp),%eax
 -cmp    $0x3,%eax
@@ -591,9 +580,9 @@
 +cmpl   $0x3,-0x28(%ebp)
 +setle  %al
 +test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x58f>
++jne    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x589>
 +cmpb   $0x0,-0x3d(%ebp)
-+je     <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x664>
++je     <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x655>
 +lea    -0x12a(%ebp),%eax
 +movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
@@ -679,7 +668,7 @@
 -mov    -0x38(%ebp),%eax
 +mov    %eax,-0x38(%ebp)
 +cmpl   $0x0,-0x38(%ebp)
-+je     <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x738>
++je     <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x729>
 +mov    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CUserManager20GetSizeOfCharnoUsersEv>
@@ -690,7 +679,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN22CLoginLogoutStatistics21CountNumOfOccupationsE17ENUM_LOGIN_LOGOUTi>
 -jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x6ff>
-+jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x738>
++jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x729>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x84(%ebp),%eax
@@ -701,7 +690,7 @@
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x7ad>
 -lea    -0x84(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x74b>
++jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x73c>
 +lea    -0x94(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIjSaIjEED1Ev>
@@ -741,10 +730,10 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x8b8>
-+jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x853>
++jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x844>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x84f>
-+jne    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x7ed>
++jne    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x7de>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -780,7 +769,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x848>
-+jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x7e6>
++jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x7d7>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -790,7 +779,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x8b8>
-+jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x853>
++jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x844>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnCharLogin() Exception Break",(%esp)
@@ -808,7 +797,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x8b0>
-+jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x84e>
++jmp    <T> <_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader+0x83f>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -1148,9 +1137,8 @@ void CPacketTranslater::OnCharLogin(PacketHeader* pkt)
                     ->DeleteCashObjecct(user->GetDBID());
                 stTowerRankElement_t elements[5];
                 Packet_Request_Charac_Tower_Ranking rankPkt;
-                ((RA_UINT<10>*)&rankPkt)->v = user->GetIdByChannel();
-                ((RA_UINT<14>*)&rankPkt)->v =
-                    ((RA_UINT<15>*)pkt)->v;
+                rankPkt.m_idByChannel = user->GetIdByChannel();
+                rankPkt.m_uniqCharNo = ((RA_UINT<15>*)pkt)->v;
                 char hasData = 0;
                 for (int t = 0; t < 4; t++)
                 {
@@ -1160,10 +1148,7 @@ void CPacketTranslater::OnCharLogin(PacketHeader* pkt)
                                           elements);
                     for (unsigned int i = 0; i < cnt; i++)
                     {
-                        *(unsigned int*)((char*)&rankPkt + 2 +
-                                         ((unsigned int)(unsigned char)elements[i].m_job * 4 +
-                                          (unsigned int)t + 4) *
-                                             2) =
+                        rankPkt.m_scores[(unsigned int)(unsigned char)elements[i].m_job][t] =
                             (unsigned int)elements[i].m_score;
                         hasData = 1;
                     }

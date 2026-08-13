@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807d160` | `0x6c9` | `0x805689a` | `0x6fc` |
+| dbmw | DIFF | `0x807d160` | `0x6c9` | `0x80568b0` | `0x6fc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -19,8 +19,7 @@
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x8bc,%esp
-+sub    $0x2bc,%esp
+ sub    $0x8bc,%esp
  movl   $0x0,(%esp)
  call   <T> <time>
  mov    %eax,-0x28(%ebp)
@@ -50,11 +49,9 @@
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--lea    -0x844(%ebp),%ebx
-+lea    -0x244(%ebp),%ebx
+ lea    -0x844(%ebp),%ebx
  mov    $0x0,%eax
--mov    $0x200,%edx
-+mov    $0x80,%edx
+ mov    $0x200,%edx
  mov    %ebx,%edi
  mov    %edx,%ecx
  rep stos %eax,%es:(%edi)
@@ -83,28 +80,6 @@
 -lea    (%ecx,%eax,1),%eax
 -add    $0x10,%eax
 -mov    0x13(%eax),%eax
--mov    %eax,-0x888(%ebp)
--mov    -0x1c(%ebp),%edx
--mov    0xc(%ebp),%ecx
--mov    %edx,%eax
--shl    $0x2,%eax
--add    %edx,%eax
--lea    0x0(,%eax,4),%edx
--add    %edx,%eax
--lea    (%ecx,%eax,1),%eax
--add    $0x10,%eax
--mov    0xf(%eax),%eax
--mov    %eax,-0x884(%ebp)
--mov    -0x1c(%ebp),%edx
--mov    0xc(%ebp),%ecx
--mov    %edx,%eax
--shl    $0x2,%eax
--add    %edx,%eax
--lea    0x0(,%eax,4),%edx
--add    %edx,%eax
--lea    (%ecx,%eax,1),%eax
--add    $0x1e,%eax
--movzbl (%eax),%eax
 +je     <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x305>
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%edx
@@ -116,7 +91,17 @@
 +add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +mov    0x23(%eax),%eax
-+mov    %eax,-0x288(%ebp)
+ mov    %eax,-0x888(%ebp)
+-mov    -0x1c(%ebp),%edx
+-mov    0xc(%ebp),%ecx
+-mov    %edx,%eax
+-shl    $0x2,%eax
+-add    %edx,%eax
+-lea    0x0(,%eax,4),%edx
+-add    %edx,%eax
+-lea    (%ecx,%eax,1),%eax
+-add    $0x10,%eax
+-mov    0xf(%eax),%eax
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%edx
 +mov    %edx,%eax
@@ -127,7 +112,17 @@
 +add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +mov    0x1f(%eax),%eax
-+mov    %eax,-0x284(%ebp)
+ mov    %eax,-0x884(%ebp)
+-mov    -0x1c(%ebp),%edx
+-mov    0xc(%ebp),%ecx
+-mov    %edx,%eax
+-shl    $0x2,%eax
+-add    %edx,%eax
+-lea    0x0(,%eax,4),%edx
+-add    %edx,%eax
+-lea    (%ecx,%eax,1),%eax
+-add    $0x1e,%eax
+-movzbl (%eax),%eax
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%edx
 +mov    %edx,%eax
@@ -139,7 +134,7 @@
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x1e(%eax),%eax
  movsbl %al,%eax
--mov    %eax,-0x880(%ebp)
+ mov    %eax,-0x880(%ebp)
 -mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
 -mov    %edx,%eax
@@ -148,18 +143,6 @@
 -lea    0x0(,%eax,4),%edx
 -add    %edx,%eax
 -mov    0x1a(%eax,%ecx,1),%eax
--mov    %eax,-0x87c(%ebp)
--mov    -0x1c(%ebp),%edx
--mov    0xc(%ebp),%ecx
--mov    %edx,%eax
--shl    $0x2,%eax
--add    %edx,%eax
--lea    0x0(,%eax,4),%edx
--add    %edx,%eax
--lea    (%ecx,%eax,1),%eax
--add    $0x19,%eax
--movzbl (%eax),%eax
-+mov    %eax,-0x280(%ebp)
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%edx
 +mov    %edx,%eax
@@ -170,7 +153,17 @@
 +add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +mov    0x1a(%eax),%eax
-+mov    %eax,-0x27c(%ebp)
+ mov    %eax,-0x87c(%ebp)
+-mov    -0x1c(%ebp),%edx
+-mov    0xc(%ebp),%ecx
+-mov    %edx,%eax
+-shl    $0x2,%eax
+-add    %edx,%eax
+-lea    0x0(,%eax,4),%edx
+-add    %edx,%eax
+-lea    (%ecx,%eax,1),%eax
+-add    $0x19,%eax
+-movzbl (%eax),%eax
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%edx
 +mov    %edx,%eax
@@ -182,7 +175,7 @@
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x19(%eax),%eax
  movsbl %al,%eax
--mov    %eax,-0x878(%ebp)
+ mov    %eax,-0x878(%ebp)
 -mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
 -mov    %edx,%eax
@@ -193,43 +186,6 @@
 -lea    (%ecx,%eax,1),%eax
 -add    $0x18,%eax
 -movzbl (%eax),%eax
--movzbl %al,%eax
--mov    %eax,-0x874(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    0xc(%ebp),%ecx
--mov    %eax,%edx
--shl    $0x2,%edx
--add    %eax,%edx
--lea    0x0(,%edx,4),%eax
--add    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x17,%eax
--movzbl (%eax),%eax
--movzbl %al,%eax
--mov    %eax,-0x870(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    0xc(%ebp),%ecx
--mov    %eax,%edx
--shl    $0x2,%edx
--add    %eax,%edx
--lea    0x0(,%edx,4),%eax
--add    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x16,%eax
--movzbl (%eax),%eax
--movzbl %al,%eax
--mov    %eax,-0x86c(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    0xc(%ebp),%ecx
--mov    %eax,%edx
--shl    $0x2,%edx
--add    %eax,%edx
--lea    0x0(,%edx,4),%eax
--add    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x15,%eax
--movzbl (%eax),%eax
-+mov    %eax,-0x278(%ebp)
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,%edx
@@ -240,8 +196,18 @@
 +add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x18(%eax),%eax
-+movzbl %al,%eax
-+mov    %eax,-0x274(%ebp)
+ movzbl %al,%eax
+ mov    %eax,-0x874(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0xc(%ebp),%ecx
+-mov    %eax,%edx
+-shl    $0x2,%edx
+-add    %eax,%edx
+-lea    0x0(,%edx,4),%eax
+-add    %eax,%edx
+-lea    (%ecx,%edx,1),%eax
+-add    $0x17,%eax
+-movzbl (%eax),%eax
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,%edx
@@ -252,8 +218,18 @@
 +add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x17(%eax),%eax
-+movzbl %al,%eax
-+mov    %eax,-0x270(%ebp)
+ movzbl %al,%eax
+ mov    %eax,-0x870(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0xc(%ebp),%ecx
+-mov    %eax,%edx
+-shl    $0x2,%edx
+-add    %eax,%edx
+-lea    0x0(,%edx,4),%eax
+-add    %eax,%edx
+-lea    (%ecx,%edx,1),%eax
+-add    $0x16,%eax
+-movzbl (%eax),%eax
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,%edx
@@ -264,8 +240,18 @@
 +add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x16(%eax),%eax
-+movzbl %al,%eax
-+mov    %eax,-0x26c(%ebp)
+ movzbl %al,%eax
+ mov    %eax,-0x86c(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0xc(%ebp),%ecx
+-mov    %eax,%edx
+-shl    $0x2,%edx
+-add    %eax,%edx
+-lea    0x0(,%edx,4),%eax
+-add    %eax,%edx
+-lea    (%ecx,%edx,1),%eax
+-add    $0x15,%eax
+-movzbl (%eax),%eax
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,%edx
@@ -335,37 +321,28 @@
 +lea    (%ecx,%eax,1),%eax
 +movzwl 0xe(%eax),%eax
  movzwl %ax,%eax
--mov    -0x888(%ebp),%edx
-+mov    -0x288(%ebp),%edx
+ mov    -0x888(%ebp),%edx
  mov    %edx,0x34(%esp)
--mov    -0x884(%ebp),%ecx
-+mov    -0x284(%ebp),%ecx
+ mov    -0x884(%ebp),%ecx
  mov    %ecx,0x30(%esp)
--mov    -0x880(%ebp),%edx
-+mov    -0x280(%ebp),%edx
+ mov    -0x880(%ebp),%edx
  mov    %edx,0x2c(%esp)
--mov    -0x87c(%ebp),%ecx
-+mov    -0x27c(%ebp),%ecx
+ mov    -0x87c(%ebp),%ecx
  mov    %ecx,0x28(%esp)
--mov    -0x878(%ebp),%edx
-+mov    -0x278(%ebp),%edx
+ mov    -0x878(%ebp),%edx
  mov    %edx,0x24(%esp)
--mov    -0x874(%ebp),%ecx
-+mov    -0x274(%ebp),%ecx
+ mov    -0x874(%ebp),%ecx
  mov    %ecx,0x20(%esp)
--mov    -0x870(%ebp),%edx
-+mov    -0x270(%ebp),%edx
+ mov    -0x870(%ebp),%edx
  mov    %edx,0x1c(%esp)
--mov    -0x86c(%ebp),%ecx
-+mov    -0x26c(%ebp),%ecx
+ mov    -0x86c(%ebp),%ecx
  mov    %ecx,0x18(%esp)
  mov    %edi,0x14(%esp)
  mov    %esi,0x10(%esp)
  mov    %ebx,0xc(%esp)
  mov    %eax,0x8(%esp)
  movl   $",(now(),%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d)",0x4(%esp)
--lea    -0x844(%ebp),%eax
-+lea    -0x244(%ebp),%eax
+ lea    -0x844(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <sprintf>
 -jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x513>
@@ -379,28 +356,6 @@
 -lea    (%ecx,%eax,1),%eax
 -add    $0x10,%eax
 -mov    0x13(%eax),%eax
--mov    %eax,-0x868(%ebp)
--mov    -0x1c(%ebp),%edx
--mov    0xc(%ebp),%ecx
--mov    %edx,%eax
--shl    $0x2,%eax
--add    %edx,%eax
--lea    0x0(,%eax,4),%edx
--add    %edx,%eax
--lea    (%ecx,%eax,1),%eax
--add    $0x10,%eax
--mov    0xf(%eax),%eax
--mov    %eax,-0x864(%ebp)
--mov    -0x1c(%ebp),%edx
--mov    0xc(%ebp),%ecx
--mov    %edx,%eax
--shl    $0x2,%eax
--add    %edx,%eax
--lea    0x0(,%eax,4),%edx
--add    %edx,%eax
--lea    (%ecx,%eax,1),%eax
--add    $0x1e,%eax
--movzbl (%eax),%eax
 +jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x546>
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%edx
@@ -412,7 +367,17 @@
 +add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +mov    0x23(%eax),%eax
-+mov    %eax,-0x268(%ebp)
+ mov    %eax,-0x868(%ebp)
+-mov    -0x1c(%ebp),%edx
+-mov    0xc(%ebp),%ecx
+-mov    %edx,%eax
+-shl    $0x2,%eax
+-add    %edx,%eax
+-lea    0x0(,%eax,4),%edx
+-add    %edx,%eax
+-lea    (%ecx,%eax,1),%eax
+-add    $0x10,%eax
+-mov    0xf(%eax),%eax
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%edx
 +mov    %edx,%eax
@@ -423,7 +388,17 @@
 +add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +mov    0x1f(%eax),%eax
-+mov    %eax,-0x264(%ebp)
+ mov    %eax,-0x864(%ebp)
+-mov    -0x1c(%ebp),%edx
+-mov    0xc(%ebp),%ecx
+-mov    %edx,%eax
+-shl    $0x2,%eax
+-add    %edx,%eax
+-lea    0x0(,%eax,4),%edx
+-add    %edx,%eax
+-lea    (%ecx,%eax,1),%eax
+-add    $0x1e,%eax
+-movzbl (%eax),%eax
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%edx
 +mov    %edx,%eax
@@ -435,7 +410,7 @@
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x1e(%eax),%eax
  movsbl %al,%eax
--mov    %eax,-0x860(%ebp)
+ mov    %eax,-0x860(%ebp)
 -mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
 -mov    %edx,%eax
@@ -444,18 +419,6 @@
 -lea    0x0(,%eax,4),%edx
 -add    %edx,%eax
 -mov    0x1a(%eax,%ecx,1),%eax
--mov    %eax,-0x85c(%ebp)
--mov    -0x1c(%ebp),%edx
--mov    0xc(%ebp),%ecx
--mov    %edx,%eax
--shl    $0x2,%eax
--add    %edx,%eax
--lea    0x0(,%eax,4),%edx
--add    %edx,%eax
--lea    (%ecx,%eax,1),%eax
--add    $0x19,%eax
--movzbl (%eax),%eax
-+mov    %eax,-0x260(%ebp)
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%edx
 +mov    %edx,%eax
@@ -466,7 +429,17 @@
 +add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +mov    0x1a(%eax),%eax
-+mov    %eax,-0x25c(%ebp)
+ mov    %eax,-0x85c(%ebp)
+-mov    -0x1c(%ebp),%edx
+-mov    0xc(%ebp),%ecx
+-mov    %edx,%eax
+-shl    $0x2,%eax
+-add    %edx,%eax
+-lea    0x0(,%eax,4),%edx
+-add    %edx,%eax
+-lea    (%ecx,%eax,1),%eax
+-add    $0x19,%eax
+-movzbl (%eax),%eax
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%edx
 +mov    %edx,%eax
@@ -478,7 +451,7 @@
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x19(%eax),%eax
  movsbl %al,%eax
--mov    %eax,-0x858(%ebp)
+ mov    %eax,-0x858(%ebp)
 -mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
 -mov    %edx,%eax
@@ -489,43 +462,6 @@
 -lea    (%ecx,%eax,1),%eax
 -add    $0x18,%eax
 -movzbl (%eax),%eax
--movzbl %al,%eax
--mov    %eax,-0x854(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    0xc(%ebp),%ecx
--mov    %eax,%edx
--shl    $0x2,%edx
--add    %eax,%edx
--lea    0x0(,%edx,4),%eax
--add    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x17,%eax
--movzbl (%eax),%eax
--movzbl %al,%eax
--mov    %eax,-0x850(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    0xc(%ebp),%ecx
--mov    %eax,%edx
--shl    $0x2,%edx
--add    %eax,%edx
--lea    0x0(,%edx,4),%eax
--add    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x16,%eax
--movzbl (%eax),%eax
--movzbl %al,%eax
--mov    %eax,-0x84c(%ebp)
--mov    -0x1c(%ebp),%eax
--mov    0xc(%ebp),%ecx
--mov    %eax,%edx
--shl    $0x2,%edx
--add    %eax,%edx
--lea    0x0(,%edx,4),%eax
--add    %eax,%edx
--lea    (%ecx,%edx,1),%eax
--add    $0x15,%eax
--movzbl (%eax),%eax
-+mov    %eax,-0x258(%ebp)
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,%edx
@@ -536,8 +472,18 @@
 +add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x18(%eax),%eax
-+movzbl %al,%eax
-+mov    %eax,-0x254(%ebp)
+ movzbl %al,%eax
+ mov    %eax,-0x854(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0xc(%ebp),%ecx
+-mov    %eax,%edx
+-shl    $0x2,%edx
+-add    %eax,%edx
+-lea    0x0(,%edx,4),%eax
+-add    %eax,%edx
+-lea    (%ecx,%edx,1),%eax
+-add    $0x17,%eax
+-movzbl (%eax),%eax
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,%edx
@@ -548,8 +494,18 @@
 +add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x17(%eax),%eax
-+movzbl %al,%eax
-+mov    %eax,-0x250(%ebp)
+ movzbl %al,%eax
+ mov    %eax,-0x850(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0xc(%ebp),%ecx
+-mov    %eax,%edx
+-shl    $0x2,%edx
+-add    %eax,%edx
+-lea    0x0(,%edx,4),%eax
+-add    %eax,%edx
+-lea    (%ecx,%edx,1),%eax
+-add    $0x16,%eax
+-movzbl (%eax),%eax
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,%edx
@@ -560,8 +516,18 @@
 +add    $0x10,%eax
 +lea    (%ecx,%eax,1),%eax
 +movzbl 0x16(%eax),%eax
-+movzbl %al,%eax
-+mov    %eax,-0x24c(%ebp)
+ movzbl %al,%eax
+ mov    %eax,-0x84c(%ebp)
+-mov    -0x1c(%ebp),%eax
+-mov    0xc(%ebp),%ecx
+-mov    %eax,%edx
+-shl    $0x2,%edx
+-add    %eax,%edx
+-lea    0x0(,%edx,4),%eax
+-add    %eax,%edx
+-lea    (%ecx,%edx,1),%eax
+-add    $0x15,%eax
+-movzbl (%eax),%eax
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,%edx
@@ -631,37 +597,28 @@
 +lea    (%ecx,%eax,1),%eax
 +movzwl 0xe(%eax),%eax
  movzwl %ax,%eax
--mov    -0x868(%ebp),%edx
-+mov    -0x268(%ebp),%edx
+ mov    -0x868(%ebp),%edx
  mov    %edx,0x34(%esp)
--mov    -0x864(%ebp),%ecx
-+mov    -0x264(%ebp),%ecx
+ mov    -0x864(%ebp),%ecx
  mov    %ecx,0x30(%esp)
--mov    -0x860(%ebp),%edx
-+mov    -0x260(%ebp),%edx
+ mov    -0x860(%ebp),%edx
  mov    %edx,0x2c(%esp)
--mov    -0x85c(%ebp),%ecx
-+mov    -0x25c(%ebp),%ecx
+ mov    -0x85c(%ebp),%ecx
  mov    %ecx,0x28(%esp)
--mov    -0x858(%ebp),%edx
-+mov    -0x258(%ebp),%edx
+ mov    -0x858(%ebp),%edx
  mov    %edx,0x24(%esp)
--mov    -0x854(%ebp),%ecx
-+mov    -0x254(%ebp),%ecx
+ mov    -0x854(%ebp),%ecx
  mov    %ecx,0x20(%esp)
--mov    -0x850(%ebp),%edx
-+mov    -0x250(%ebp),%edx
+ mov    -0x850(%ebp),%edx
  mov    %edx,0x1c(%esp)
--mov    -0x84c(%ebp),%ecx
-+mov    -0x24c(%ebp),%ecx
+ mov    -0x84c(%ebp),%ecx
  mov    %ecx,0x18(%esp)
  mov    %edi,0x14(%esp)
  mov    %esi,0x10(%esp)
  mov    %ebx,0xc(%esp)
  mov    %eax,0x8(%esp)
  movl   $"(now(),%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d)",0x4(%esp)
--lea    -0x844(%ebp),%eax
-+lea    -0x244(%ebp),%eax
+ lea    -0x844(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <sprintf>
 -lea    -0x44(%ebp),%eax
@@ -721,9 +678,8 @@
  call   <T> <_ZNSs5clearEv>
  subl   $0x1,-0x1c(%ebp)
 -jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x5eb>
--lea    -0x844(%ebp),%eax
 +jmp    <T> <_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job+0x61e>
-+lea    -0x244(%ebp),%eax
+ lea    -0x844(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x44(%ebp),%eax
 +lea    -0x34(%ebp),%eax
@@ -795,8 +751,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  mov    %ebx,%eax
--add    $0x8bc,%esp
-+add    $0x2bc,%esp
+ add    $0x8bc,%esp
  pop    %ebx
  pop    %esi
  pop    %edi

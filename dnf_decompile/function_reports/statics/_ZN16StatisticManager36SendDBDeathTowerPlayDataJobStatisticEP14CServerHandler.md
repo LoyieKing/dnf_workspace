@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806fd9c` | `0x3c0` | `0x806ff74` | `0x351` |
+| statics | DIFF | `0x806fd9c` | `0x3c0` | `0x806ff50` | `0x356` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -34,7 +34,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x3b5>
-+je     <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x346>
++je     <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x34b>
  mov    0x8(%ebp),%eax
  lea    0x98(%eax),%edx
 -lea    -0x3c(%ebp),%eax
@@ -46,68 +46,58 @@
 -jmp    <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x31f>
 -mov    -0x1c(%ebp),%ebx
 -lea    -0x3c(%ebp),%eax
-+jmp    <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x2ab>
-+lea    -0x1832(%ebp),%eax
-+mov    -0x24(%ebp),%edx
-+shl    $0x4,%edx
-+add    $0xe,%edx
-+lea    (%eax,%edx,1),%ebx
++jmp    <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x2b5>
++mov    -0x24(%ebp),%ebx
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK35STDeathTowerPlayDataJobStatisticKey20PlayDataJobStatisticEEptEv>
  movzbl (%eax),%eax
--mov    %ebx,%edx
--shl    $0x4,%edx
--lea    -0x18(%ebp),%ecx
--lea    (%ecx,%edx,1),%edx
+ mov    %ebx,%edx
+ shl    $0x4,%edx
+ lea    -0x18(%ebp),%ecx
+ lea    (%ecx,%edx,1),%edx
 -sub    $0x1812,%edx
--mov    %al,0xe(%edx)
++sub    $0x181a,%edx
+ mov    %al,0xe(%edx)
 -mov    -0x1c(%ebp),%ebx
 -lea    -0x3c(%ebp),%eax
-+mov    %al,(%ebx)
-+mov    -0x24(%ebp),%eax
-+add    $0x1,%eax
-+shl    $0x4,%eax
-+lea    -0x1832(%ebp),%ebx
-+add    %eax,%ebx
++mov    -0x24(%ebp),%ebx
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK35STDeathTowerPlayDataJobStatisticKey20PlayDataJobStatisticEEptEv>
  movzwl 0x2(%eax),%eax
--mov    %ebx,%edx
--shl    $0x4,%edx
--lea    -0x18(%ebp),%ecx
--lea    (%ecx,%edx,1),%edx
+ mov    %ebx,%edx
+ shl    $0x4,%edx
+ lea    -0x18(%ebp),%ecx
+ lea    (%ecx,%edx,1),%edx
 -sub    $0x1812,%edx
--mov    %ax,0xf(%edx)
++sub    $0x181a,%edx
+ mov    %ax,0xf(%edx)
 -mov    -0x1c(%ebp),%ebx
 -lea    -0x3c(%ebp),%eax
-+mov    %ax,(%ebx)
-+lea    -0x1832(%ebp),%eax
-+mov    -0x24(%ebp),%edx
-+shl    $0x4,%edx
-+add    $0x12,%edx
-+lea    (%eax,%edx,1),%ebx
++mov    -0x24(%ebp),%ebx
 +lea    -0x44(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK35STDeathTowerPlayDataJobStatisticKey20PlayDataJobStatisticEEptEv>
 +mov    0x4(%eax),%eax
-+mov    %eax,(%ebx)
-+lea    -0x1832(%ebp),%eax
-+mov    -0x24(%ebp),%edx
++mov    %ebx,%edx
 +shl    $0x4,%edx
-+add    $0x16,%edx
-+lea    (%eax,%edx,1),%ebx
++lea    -0x18(%ebp),%ecx
++lea    (%ecx,%edx,1),%edx
++sub    $0x181a,%edx
++mov    %eax,0x11(%edx)
++mov    -0x24(%ebp),%ebx
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK35STDeathTowerPlayDataJobStatisticKey20PlayDataJobStatisticEEptEv>
  movzbl 0x8(%eax),%eax
--mov    %ebx,%edx
--shl    $0x4,%edx
--lea    -0x18(%ebp),%ecx
--lea    (%ecx,%edx,1),%edx
+ mov    %ebx,%edx
+ shl    $0x4,%edx
+ lea    -0x18(%ebp),%ecx
+ lea    (%ecx,%edx,1),%edx
 -sub    $0x1812,%edx
--mov    %al,0x15(%edx)
++sub    $0x181a,%edx
+ mov    %al,0x15(%edx)
 -mov    -0x1c(%ebp),%ebx
 -lea    -0x3c(%ebp),%eax
 -mov    %eax,(%esp)
@@ -131,7 +121,6 @@
 -sub    $0x1812,%edx
 -mov    %eax,0x1a(%edx)
 -lea    -0x3c(%ebp),%eax
-+mov    %al,(%ebx)
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK35STDeathTowerPlayDataJobStatisticKey20PlayDataJobStatisticEEptEv>
@@ -141,7 +130,7 @@
  test   %al,%al
 -je     <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x141>
 -lea    -0x3c(%ebp),%eax
-+je     <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x10f>
++je     <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x11c>
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK35STDeathTowerPlayDataJobStatisticKey20PlayDataJobStatisticEEptEv>
@@ -172,24 +161,23 @@
 -lea    -0x18(%ebp),%ecx
 -lea    (%ecx,%edx,1),%edx
 -sub    $0x1812,%edx
--mov    %eax,0x16(%edx)
--lea    -0x3c(%ebp),%eax
 +idivl  -0x20(%ebp)
 +mov    %eax,-0x1c(%ebp)
-+lea    -0x1832(%ebp),%eax
-+mov    -0x24(%ebp),%edx
-+shl    $0x4,%edx
-+add    $0x1a,%edx
-+lea    (%eax,%edx,1),%edx
++mov    -0x24(%ebp),%eax
++shl    $0x4,%eax
++lea    -0x18(%ebp),%edx
++lea    (%edx,%eax,1),%eax
++lea    -0x181a(%eax),%edx
 +mov    -0x1c(%ebp),%eax
-+mov    %eax,(%edx)
-+lea    -0x1832(%ebp),%eax
-+mov    -0x24(%ebp),%edx
-+shl    $0x4,%edx
-+add    $0x1e,%edx
-+lea    (%eax,%edx,1),%edx
+ mov    %eax,0x16(%edx)
+-lea    -0x3c(%ebp),%eax
++mov    -0x24(%ebp),%eax
++shl    $0x4,%eax
++lea    -0x18(%ebp),%ecx
++lea    (%ecx,%eax,1),%eax
++lea    -0x181a(%eax),%edx
 +mov    -0x20(%ebp),%eax
-+mov    %eax,(%edx)
++mov    %eax,0x1a(%edx)
 +lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK35STDeathTowerPlayDataJobStatisticKey20PlayDataJobStatisticEEptEv>
@@ -218,7 +206,7 @@
 -lea    (%edx,%eax,1),%eax
 -sub    $0x1812,%eax
 -movzbl 0x15(%eax),%eax
-+je     <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x22b>
++je     <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x23a>
 +lea    -0x44(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK35STDeathTowerPlayDataJobStatisticKey20PlayDataJobStatisticEEptEv>
@@ -293,13 +281,11 @@
 -je     <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x314>
 -movl   $0x17e,-0x1820(%ebp)
 -lea    -0x182a(%ebp),%eax
-+jmp    <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x2a0>
++jmp    <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x2aa>
 +addl   $0x1,-0x24(%ebp)
 +cmpl   $0x17d,-0x24(%ebp)
-+jle    <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x2a0>
-+lea    -0x1832(%ebp),%eax
-+add    $0xa,%eax
-+movl   $0x17e,(%eax)
++jle    <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x2aa>
++movl   $0x17e,-0x1828(%ebp)
 +lea    -0x1832(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
@@ -349,11 +335,9 @@
 -mov    -0x1c(%ebp),%eax
 -mov    %eax,-0x1820(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x346>
-+lea    -0x1832(%ebp),%eax
-+lea    0xa(%eax),%edx
++je     <T> <_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler+0x34b>
 +mov    -0x24(%ebp),%eax
-+mov    %eax,(%edx)
++mov    %eax,-0x1828(%ebp)
  movl   $0x257,0x8(%esp)
  movl   $&_ZZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
@@ -537,7 +521,7 @@ StatisticManager::_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 510 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 509 行）：
 
 ```cpp
 void StatisticManager::SendDBDeathTowerPlayDataJobStatistic(CServerHandler* handler)
@@ -549,18 +533,18 @@ void StatisticManager::SendDBDeathTowerPlayDataJobStatistic(CServerHandler* hand
         for (std::map<STDeathTowerPlayDataJobStatisticKey, PlayDataJobStatistic>::iterator it =
                  m_deathTowerJob.begin(); it != m_deathTowerJob.end(); ++it)
         {
-            *(unsigned char*)((char*)&pkt + 0xe + idx * 0x10 + 0) = it->first.m_field0;
-            *(unsigned short*)((char*)&pkt + 0xe + idx * 0x10 + 2) = it->first.m_field2;
-            *(unsigned int*)((char*)&pkt + 0xe + idx * 0x10 + 4) = it->first.m_field4;
-            *((char*)&pkt + 0xe + idx * 0x10 + 8) = it->first.m_field8;
+            pkt.m_items[idx].m_field0 = it->first.m_field0;
+            pkt.m_items[idx].m_field2 = it->first.m_field2;
+            pkt.m_items[idx].m_field4 = it->first.m_field4;
+            pkt.m_items[idx].m_field8 = it->first.m_field8;
             if (it->second.m_data[1] == 0)
             {
                 it->second.m_data[1] = 1;
             }
             int count = it->second.m_data[1];
             int avg = it->second.m_data[0] / count;
-            *(int*)((char*)&pkt + 0xe + idx * 0x10 + 0xc) = avg;
-            *(int*)((char*)&pkt + 0xe + idx * 0x10 + 0x10) = count;
+            pkt.m_items[idx].m_avg = avg;
+            pkt.m_items[idx].m_count = count;
             if (it->first.m_field2 == 0)
             {
                 DNF_LOG_SCOPE_LINE(0x23d, "./log/statistic",
@@ -574,7 +558,7 @@ void StatisticManager::SendDBDeathTowerPlayDataJobStatistic(CServerHandler* hand
                 idx++;
                 if (0x17d < idx)
                 {
-                    *(unsigned int*)((char*)&pkt + 0xa) = 0x17e;
+                    pkt.m_count = 0x17e;
                     handler->SendToDB((PacketHeader*)&pkt);
                     DNF_LOG_SCOPE_LINE(0x24e, "./log/statistic", "DeathTowerPlayDataJob DB Sent %d", idx);
                     idx = 0;
@@ -583,7 +567,7 @@ void StatisticManager::SendDBDeathTowerPlayDataJobStatistic(CServerHandler* hand
         }
         if (idx != 0)
         {
-            *(unsigned int*)((char*)&pkt + 0xa) = idx;
+            pkt.m_count = idx;
             DNF_LOG_SCOPE_LINE(0x257, "./log/statistic", "DeathTowerPlayDataJob DB Sent %d", idx);
             handler->SendToDB((PacketHeader*)&pkt);
         }

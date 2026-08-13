@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8096dae` | `0x32e` | `0x80d051e` | `0x331` |
+| dbmw | DIFF | `0x8096dae` | `0x32e` | `0x80d048e` | `0x331` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -19,7 +19,8 @@
  push   %edi
  push   %esi
  push   %ebx
- sub    $0xbc,%esp
+-sub    $0xbc,%esp
++sub    $0xac,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  je     <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x322>
@@ -55,7 +56,7 @@
  movl   $0x3c,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -lea    -0x9c(%ebp),%eax
-+lea    -0xa8(%ebp),%eax
++lea    -0x98(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memset>
 -mov    -0x24(%ebp),%eax
@@ -64,52 +65,50 @@
 -mov    %al,-0x9c(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0xb(%eax),%eax
-+mov    %al,-0xa8(%ebp)
+-mov    %eax,-0x98(%ebp)
+-mov    -0x24(%ebp),%eax
++mov    %al,-0x98(%ebp)
 +mov    -0x20(%ebp),%eax
 +mov    0xb(%eax),%eax
-+mov    %eax,-0xa4(%ebp)
++mov    %eax,-0x94(%ebp)
 +mov    -0x20(%ebp),%eax
-+mov    0xf(%eax),%eax
-+mov    %eax,-0xa0(%ebp)
-+mov    -0x20(%ebp),%eax
-+mov    0x13(%eax),%eax
-+mov    %eax,-0x9c(%ebp)
-+mov    -0x20(%ebp),%eax
-+mov    0x17(%eax),%eax
- mov    %eax,-0x98(%ebp)
--mov    -0x24(%ebp),%eax
--mov    0xf(%eax),%eax
+ mov    0xf(%eax),%eax
 -mov    %eax,-0x94(%ebp)
 -mov    -0x24(%ebp),%eax
--mov    0x13(%eax),%eax
++mov    %eax,-0x90(%ebp)
++mov    -0x20(%ebp),%eax
+ mov    0x13(%eax),%eax
 -mov    %eax,-0x90(%ebp)
 -mov    -0x24(%ebp),%eax
--mov    0x17(%eax),%eax
++mov    %eax,-0x8c(%ebp)
++mov    -0x20(%ebp),%eax
+ mov    0x17(%eax),%eax
 -mov    %eax,-0x8c(%ebp)
 -mov    -0x24(%ebp),%eax
++mov    %eax,-0x88(%ebp)
 +mov    -0x20(%ebp),%eax
  add    $0x1b,%eax
  movl   $0x1d,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0x9c(%ebp),%eax
-+lea    -0xa8(%ebp),%eax
++lea    -0x98(%ebp),%eax
  add    $0x14,%eax
  mov    %eax,(%esp)
  call   <T> <strncpy>
 -mov    -0x24(%ebp),%eax
 +mov    -0x20(%ebp),%eax
 +movzbl 0x38(%eax),%eax
-+mov    %al,-0x76(%ebp)
++mov    %al,-0x66(%ebp)
 +mov    -0x20(%ebp),%eax
  movzbl 0x39(%eax),%eax
 -mov    %al,-0x6a(%ebp)
 -mov    -0x24(%ebp),%eax
-+mov    %al,-0x75(%ebp)
++mov    %al,-0x65(%ebp)
 +mov    -0x20(%ebp),%eax
  movzbl 0x3a(%eax),%eax
 -mov    %al,-0x69(%ebp)
 -mov    -0x24(%ebp),%eax
-+mov    %al,-0x74(%ebp)
++mov    %al,-0x64(%ebp)
 +mov    -0x20(%ebp),%eax
  movzbl 0x3b(%eax),%eax
 -mov    %al,-0x68(%ebp)
@@ -118,13 +117,13 @@
 -mov    %al,-0x67(%ebp)
 -mov    -0x24(%ebp),%eax
 -add    $0x3d,%eax
-+mov    %al,-0x73(%ebp)
++mov    %al,-0x63(%ebp)
 +mov    -0x20(%ebp),%eax
 +add    $0x3c,%eax
  movl   $0x3,0x8(%esp)
  mov    %eax,0x4(%esp)
 -lea    -0x9c(%ebp),%eax
-+lea    -0xa8(%ebp),%eax
++lea    -0x98(%ebp),%eax
  add    $0x36,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
@@ -135,7 +134,7 @@
  add    $0x16,%eax
  mov    %eax,0x8(%esp)
 -lea    -0x9c(%ebp),%eax
-+lea    -0xa8(%ebp),%eax
++lea    -0x98(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN10CDBManager9GuildJoinEP15STGuildJoinInfoRj>
@@ -300,10 +299,11 @@
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x323>
 +jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x326>
-+nop
-+jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x326>
  nop
- add    $0xbc,%esp
+-add    $0xbc,%esp
++jmp    <T> <_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader+0x326>
++nop
++add    $0xac,%esp
  pop    %ebx
  pop    %esi
  pop    %edi

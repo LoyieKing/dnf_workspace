@@ -18,8 +18,7 @@
  mov    %esp,%ebp
  push   %esi
  push   %ebx
--add    $0xffffff80,%esp
-+sub    $0x60,%esp
+ add    $0xffffff80,%esp
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x10(%ebp)
 +mov    %eax,-0x18(%ebp)
@@ -39,13 +38,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x290>
--lea    -0x70(%ebp),%eax
 +jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x285>
-+lea    -0x3e(%ebp),%eax
+ lea    -0x70(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN31Packet_DMBW_Delete_To_BlackListC1Ev>
 -mov    -0x10(%ebp),%eax
-+lea    -0x3e(%ebp),%eax
++lea    -0x70(%ebp),%eax
 +lea    0xa(%eax),%edx
 +mov    -0x18(%ebp),%eax
  mov    0xa(%eax),%eax
@@ -53,14 +51,11 @@
 -mov    -0x10(%ebp),%eax
 +mov    %eax,(%edx)
 +mov    -0x18(%ebp),%eax
-+lea    0xe(%eax),%edx
-+lea    -0x3e(%ebp),%eax
  add    $0xe,%eax
  movl   $0x1d,0x8(%esp)
--mov    %eax,0x4(%esp)
--lea    -0x70(%ebp),%eax
--add    $0xe,%eax
-+mov    %edx,0x4(%esp)
+ mov    %eax,0x4(%esp)
+ lea    -0x70(%ebp),%eax
+ add    $0xe,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
 -lea    -0x31(%ebp),%eax
@@ -182,7 +177,7 @@
  mov    %eax,-0xc(%ebp)
 +movl   $0xf16,0x8(%esp)
 +movl   $"OnDeleteToBlackList",0x4(%esp)
-+lea    -0x48(%ebp),%eax
++lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
@@ -203,7 +198,7 @@
  movl   $"CPacketTranslater::OnDeleteToBlackList Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x48(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x22c>
@@ -223,13 +218,13 @@
  movl   $0xf1b,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDeleteToBlackList Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x50(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x288>
@@ -244,8 +239,7 @@
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader+0x290>
 -nop
--sub    $0xffffff80,%esp
-+add    $0x60,%esp
+ sub    $0xffffff80,%esp
  pop    %ebx
  pop    %esi
  pop    %ebp
