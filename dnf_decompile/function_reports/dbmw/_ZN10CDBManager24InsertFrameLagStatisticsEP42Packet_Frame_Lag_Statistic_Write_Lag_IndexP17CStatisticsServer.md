@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807bf9c` | `0x654` | `0x805d308` | `0x676` |
+| dbmw | DIFF | `0x807bf9c` | `0x654` | `0x805d2c0` | `0x676` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -760,7 +760,7 @@
 -mov    %eax,-0x30(%ebp)
 -movzwl -0x38(%ebp),%eax
 +lea    -0x2e(%ebp),%eax
-+lea    0xb(%eax),%edx
++lea    0xa(%eax),%edx
 +mov    0xc(%ebp),%eax
 +add    $0xb,%eax
 +mov    (%eax),%eax

@@ -55,14 +55,14 @@ dbmw	_ZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_
 dbmw	_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo	DIFF	187	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager24ChangeGuildNotifyMessageEijPc	DIFF	43	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer	DIFF	622	N			N	N		0	NEEDS_REVERSE	source location missing from md
-dbmw	_ZN10CDBManager24OnGoldcardEventStatisticEP35Packet_Goldcard_Event_Statistic_STD	DIFF	90	N			N	N		0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager24OnGoldcardEventStatisticEP35Packet_Goldcard_Event_Statistic_STD	DIFF	30	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj	NEAR	52	Y			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager24OnManagerEventTriggerAckEP32Packet_Manager_Event_Trigger_Ack	NEAR	52	Y			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point	DIFF	142	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic	DIFF	245	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic	DIFF	7	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN10CDBManager24SaveUnchangableGuildInfoEP33Packet_UnChangable_GuildInfo_Save	DIFF	342	N			N	N		0	NEEDS_REVERSE	source location missing from md
-dbmw	_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB	DIFF	111	N			N	N		0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB	DIFF	47	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer	DIFF	46	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index	DIFF	122	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History	DIFF	161	N			N	N		0	NEEDS_REVERSE	source location missing from md
@@ -77,7 +77,7 @@ dbmw	_ZN10CDBManager27QueryGuildMemberGradeByNameEhjPcRhRjS2_	DIFF	36	N			N	N		0
 dbmw	_ZN10CDBManager27UpdateCreateEmblemStatisticEP33Packet_Emblem_Create_Statistic_DB	DIFF	25	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query	DIFF	152	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job	DIFF	613	N			N	N		0	NEEDS_REVERSE	source location missing from md
-dbmw	_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD	DIFF	159	N			N	N		0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD	DIFF	110	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update	DIFF	52	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic	DIFF	152	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB	DIFF	361	N			N	N		0	NEEDS_REVERSE	source location missing from md
