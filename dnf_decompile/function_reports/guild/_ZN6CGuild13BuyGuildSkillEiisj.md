@@ -458,7 +458,7 @@ CGuild::_ZN6CGuild13BuyGuildSkillEiisj
 定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1026 行）：
 
 ```cpp
-int CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int charNo)
+bool CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int charNo)
 {
     if ((m_field1c & 4) == 0)
     {

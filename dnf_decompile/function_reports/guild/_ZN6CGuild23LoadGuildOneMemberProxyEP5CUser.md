@@ -279,7 +279,7 @@ CGuild::_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser(CGuild *this,CUser *param_1)
 定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1647 行）：
 
 ```cpp
-int CGuild::LoadGuildOneMemberProxy(CUser* user)
+bool CGuild::LoadGuildOneMemberProxy(CUser* user)
 {
     if ((m_field1c & 4) == 0 || (m_field1c & 8) == 0)
     {

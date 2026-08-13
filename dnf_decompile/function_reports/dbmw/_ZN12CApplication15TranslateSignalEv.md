@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806cd2a` | `0x3da` | `0x806ed9c` | `0x3dc` |
+| dbmw | DIFF | `0x806cd2a` | `0x3da` | `0x806ed8c` | `0x3d8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,275 +1,276 @@
+@@ -1,275 +1,274 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -78,7 +78,7 @@
  call   <T> <_ZNKSt6vectorIP16ST_KillUSRConfigSaIS1_EE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN12CApplication15TranslateSignalEv+0x3cc>
-+jne    <T> <_ZN12CApplication15TranslateSignalEv+0x3ce>
++jne    <T> <_ZN12CApplication15TranslateSignalEv+0x3ca>
  lea    -0x50(%ebp),%eax
  mov    -0x20(%ebp),%edx
  mov    %edx,0x4(%esp)
@@ -86,7 +86,7 @@
  call   <T> <_ZNKSt6vectorIP16ST_KillUSRConfigSaIS1_EE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x39b>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x39d>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x399>
  lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
@@ -98,7 +98,7 @@
 -je     <T> <_ZN12CApplication15TranslateSignalEv+0x1ba>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x390>
 +je     <T> <_ZN12CApplication15TranslateSignalEv+0x1bc>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x392>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x38e>
  mov    0x8(%ebp),%eax
  mov    0x14(%eax),%eax
  mov    (%eax),%eax
@@ -159,7 +159,7 @@
 +mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler4LoadEP13ST_ServerInfo>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x390>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x392>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x38e>
  lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
@@ -179,13 +179,10 @@
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN10CDBManager22QueryGuildWarPointListEiP13CGuildManager>
--xor    $0x1,%eax
--test   %al,%al
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN12CApplication15TranslateSignalEv+0x242>
-+test   %al,%al
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN12CApplication15TranslateSignalEv+0x246>
++je     <T> <_ZN12CApplication15TranslateSignalEv+0x244>
  movl   $0x454,0x8(%esp)
  movl   $&_ZZN12CApplication15TranslateSignalEvE12__FUNCTION__,0x4(%esp)
  lea    -0x38(%ebp),%eax
@@ -197,7 +194,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3d0>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3d2>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3ce>
  mov    0x8(%ebp),%eax
  mov    0x288(%eax),%eax
  mov    %eax,(%esp)
@@ -208,7 +205,7 @@
  call   <T> <_ZNKSt6vectorISt4pairIjP18STGuildWarRankInfoESaIS3_EE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN12CApplication15TranslateSignalEv+0x3cf>
-+jne    <T> <_ZN12CApplication15TranslateSignalEv+0x3d1>
++jne    <T> <_ZN12CApplication15TranslateSignalEv+0x3cd>
  call   <T> <_Z28get_awardItem_using_intervalv>
  mov    %eax,-0x14(%ebp)
 -mov    -0x14(%ebp),%eax
@@ -216,7 +213,7 @@
 -test   %al,%al
 -je     <T> <_ZN12CApplication15TranslateSignalEv+0x2b6>
 +cmpl   $0x0,-0x14(%ebp)
-+jns    <T> <_ZN12CApplication15TranslateSignalEv+0x2b6>
++jns    <T> <_ZN12CApplication15TranslateSignalEv+0x2b4>
  movl   $0x45f,0x8(%esp)
  movl   $&_ZZN12CApplication15TranslateSignalEvE12__FUNCTION__,0x4(%esp)
  lea    -0x30(%ebp),%eax
@@ -228,7 +225,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3d0>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3d2>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3ce>
  lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK9__gnu_cxx17__normal_iteratorIPKP16ST_KillUSRConfigSt6vectorIS2_SaIS2_EEEdeEv>
@@ -241,7 +238,7 @@
 -mov    0x8(%ebp),%edx
 -add    $0x50,%edx
 -mov    %eax,0x14(%esp)
-+je     <T> <_ZN12CApplication15TranslateSignalEv+0x346>
++je     <T> <_ZN12CApplication15TranslateSignalEv+0x342>
 +mov    -0x14(%ebp),%edx
 +mov    -0x10(%ebp),%eax
 +mov    0x8(%ebp),%ecx
@@ -256,13 +253,10 @@
 -mov    %edx,(%esp)
 +mov    %ecx,(%esp)
  call   <T> <_ZN10CDBManager21AwardGuildTitleByMailEijjPcj>
--xor    $0x1,%eax
--test   %al,%al
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN12CApplication15TranslateSignalEv+0x344>
-+test   %al,%al
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN12CApplication15TranslateSignalEv+0x346>
++je     <T> <_ZN12CApplication15TranslateSignalEv+0x342>
  movl   $0x46a,0x8(%esp)
  movl   $&_ZZN12CApplication15TranslateSignalEvE12__FUNCTION__,0x4(%esp)
  lea    -0x28(%ebp),%eax
@@ -275,7 +269,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3d0>
 -lea    -0x83(%ebp),%eax
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3d2>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3ce>
 +lea    -0x87(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Notice_Guild_Mail_ArrivedC1Ev>
@@ -316,10 +310,10 @@
  test   %al,%al
  jne    <T> <_ZN12CApplication15TranslateSignalEv+0xe5>
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3d0>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3d2>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3ce>
  nop
 -jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3d0>
-+jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3d2>
++jmp    <T> <_ZN12CApplication15TranslateSignalEv+0x3ce>
  nop
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp

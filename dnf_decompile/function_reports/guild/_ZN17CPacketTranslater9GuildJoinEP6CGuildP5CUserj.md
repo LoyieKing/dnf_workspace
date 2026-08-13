@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80793b0` | `0x235` | `0x806fcf0` | `0x252` |
+| guild | DIFF | `0x80793b0` | `0x235` | `0x806fcdc` | `0x24c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,150 +1,155 @@
+@@ -1,150 +1,153 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,10 +21,10 @@
  add    $0xffffff80,%esp
  cmpl   $0x0,0x8(%ebp)
 -je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x22a>
-+je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x24b>
++je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x245>
  cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x22d>
-+je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x24b>
++je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x245>
  movl   $0x4,0x4(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -50,12 +50,9 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser>
--xor    $0x1,%eax
-+cmp    $0x1,%eax
-+setne  %al
+ xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0xc9>
-+je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0xcc>
+ je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0xc9>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -77,18 +74,15 @@
  call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x1fb>
-+je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x21e>
++je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x218>
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser>
--xor    $0x1,%eax
-+cmp    $0x1,%eax
-+setne  %al
+ xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x108>
-+je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x10e>
+ je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj+0x108>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild26IncTotalCnt_Of_GuildDBInfoEv>

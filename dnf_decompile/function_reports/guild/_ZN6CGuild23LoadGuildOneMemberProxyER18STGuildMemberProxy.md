@@ -161,7 +161,7 @@ CGuild::_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy
 定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1680 行）：
 
 ```cpp
-int CGuild::LoadGuildOneMemberProxy(STGuildMemberProxy& proxy)
+bool CGuild::LoadGuildOneMemberProxy(STGuildMemberProxy& proxy)
 {
     if ((m_field1c & 4) == 0 || (m_field1c & 0x10) == 0)
     {

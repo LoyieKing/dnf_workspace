@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80955e4` | `0x43d` | `0x805b516` | `0x440` |
+| guild | DIFF | `0x80955e4` | `0x43d` | `0x805b516` | `0x43a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,331 +1,332 @@
+@@ -1,331 +1,330 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -331,11 +331,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild17InsertGuildMemberEjP5CUser>
 -xor    $0x1,%eax
-+cmp    $0x1,%eax
-+sete   %al
  test   %al,%al
 -jne    <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x432>
-+je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x435>
++je     <T> <_ZN13CGuildManager13GuildMemLoginEjP5CUser+0x42f>
  mov    -0x20(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x10(%ebp),%eax

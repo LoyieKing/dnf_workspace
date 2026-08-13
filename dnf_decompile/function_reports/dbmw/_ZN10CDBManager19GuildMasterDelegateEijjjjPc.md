@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807956c` | `0x266` | `0x804d25c` | `0x256` |
+| dbmw | DIFF | `0x807956c` | `0x266` | `0x804d25c` | `0x252` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,159 +1,154 @@
+@@ -1,159 +1,152 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -50,7 +50,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x260>
-+jmp    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x250>
++jmp    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x24c>
  mov    0xc(%ebp),%eax
  movzbl %al,%eax
  mov    0x14(%ebp),%edx
@@ -62,15 +62,13 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CDBManager22ChangeGuildMemberGradeEhjhj>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0xb4>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0xad>
++je     <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0xab>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x260>
-+jmp    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x250>
++jmp    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x24c>
  mov    0xc(%ebp),%eax
  movzbl %al,%eax
  mov    0x1c(%ebp),%edx
@@ -82,16 +80,14 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CDBManager22ChangeGuildMemberGradeEhjhj>
--xor    $0x1,%eax
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0xf0>
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0xeb>
++je     <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0xe7>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x260>
 -mov    -0x10(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x250>
++jmp    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x24c>
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -118,7 +114,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x1c1>
-+je     <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x1ba>
++je     <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x1b6>
 +movl   $0x10da,0x8(%esp)
 +movl   $&_ZZN10CDBManager19GuildMasterDelegateEijjjjPcE12__FUNCTION__,0x4(%esp)
 +lea    -0x1c(%ebp),%eax
@@ -145,7 +141,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x250>
++jmp    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x24c>
 +mov    -0xc(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x20,%eax
@@ -156,7 +152,7 @@
 +call   *%edx
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x24b>
++je     <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x247>
 +movl   $0x10e7,0x8(%esp)
  movl   $&_ZZN10CDBManager19GuildMasterDelegateEijjjjPcE12__FUNCTION__,0x4(%esp)
  lea    -0x24(%ebp),%eax
@@ -231,7 +227,7 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x260>
-+jmp    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x250>
++jmp    <T> <_ZN10CDBManager19GuildMasterDelegateEijjjjPc+0x24c>
  mov    $0x1,%eax
 -add    $0x54,%esp
 +add    $0x44,%esp

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8082de2` | `0x130` | `0x8051788` | `0x154` |
+| dbmw | DIFF | `0x8082de2` | `0x130` | `0x8051784` | `0x14a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,95 +1,111 @@
+@@ -1,95 +1,107 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -64,7 +64,7 @@
 -je     <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0x96>
 -mov    0xc(%ebp),%eax
 -movzbl 0xa(%eax),%eax
-+je     <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0xab>
++je     <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0xa6>
 +mov    -0xc(%ebp),%eax
 +add    $0xa,%eax
 +movzbl (%eax),%eax
@@ -80,9 +80,7 @@
  call   <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_>
  test   %al,%al
 -je     <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0x96>
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0xab>
++je     <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0xa6>
  mov    0x10(%ebp),%eax
  movb   $0x1,(%eax)
 -mov    0xc(%ebp),%eax
@@ -104,7 +102,7 @@
 -je     <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0xdc>
 -mov    0xc(%ebp),%eax
 -movzbl 0xa(%eax),%eax
-+je     <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0xf9>
++je     <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0xf4>
 +mov    -0xc(%ebp),%eax
 +add    $0xa,%eax
 +movzbl (%eax),%eax
@@ -120,16 +118,16 @@
  call   <T> <_ZN10CDBManager29GetMaxHuntingPointServerGroupEi>
  cmp    %eax,%ebx
 -jne    <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0xe3>
-+jne    <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0x100>
++jne    <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0xfb>
  mov    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0xe8>
-+jmp    <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0x105>
++jmp    <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0x100>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0x125>
 -mov    0xc(%ebp),%eax
 -movzbl 0xa(%eax),%eax
-+je     <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0x149>
++je     <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0x13f>
 +mov    -0xc(%ebp),%eax
 +add    $0xa,%eax
 +movzbl (%eax),%eax
@@ -145,9 +143,7 @@
  call   <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_>
  test   %al,%al
 -je     <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0x125>
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0x149>
++je     <T> <_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_+0x13f>
  mov    0x10(%ebp),%eax
  movb   $0x1,(%eax)
  mov    $0x1,%eax

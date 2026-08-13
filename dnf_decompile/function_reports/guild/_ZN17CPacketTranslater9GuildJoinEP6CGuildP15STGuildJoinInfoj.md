@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80795e6` | `0x205` | `0x806ff42` | `0x202` |
+| guild | DIFF | `0x80795e6` | `0x205` | `0x806ff28` | `0x1ff` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,132 +1,130 @@
+@@ -1,132 +1,129 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,7 +21,7 @@
  sub    $0xb0,%esp
  cmpl   $0x0,0x8(%ebp)
 -je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x1fa>
-+je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x1f8>
++je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x1f5>
  movl   $0x4,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -39,7 +39,7 @@
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x144>
-+je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x125>
++je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0x122>
  lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN18STGuildMemberProxyC1Ev>
@@ -81,12 +81,10 @@
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy>
--xor    $0x1,%eax
-+cmp    $0x1,%eax
-+setne  %al
+ xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0xf3>
-+je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0xd4>
++je     <T> <_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj+0xd1>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild26IncTotalCnt_Of_GuildDBInfoEv>

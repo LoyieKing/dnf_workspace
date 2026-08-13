@@ -216,7 +216,7 @@ CGuild::_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj
 定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1758 行）：
 
 ```cpp
-int CGuild::ChangeGuildMaster(CServerHandler* handler, CUser* user, unsigned int charNo)
+bool CGuild::ChangeGuildMaster(CServerHandler* handler, CUser* user, unsigned int charNo)
 {
     if ((m_field1c & 4) == 0 || charNo == 0)
     {

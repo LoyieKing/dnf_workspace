@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808252e` | `0x3d3` | `0x8078ace` | `0x2ed` |
+| guild | DIFF | `0x808252e` | `0x3d3` | `0x8078a9e` | `0x2e7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,242 +1,185 @@
+@@ -1,242 +1,183 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -42,7 +42,7 @@
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x18(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2e4>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2de>
  mov    -0x18(%ebp),%eax
 -mov    0xa(%eax),%eax
 -test   %eax,%eax
@@ -86,7 +86,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2e4>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2de>
  mov    -0x18(%ebp),%eax
 -mov    0xe(%eax),%eax
 +add    $0xe,%eax
@@ -117,7 +117,7 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
 -mov    -0x1c(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x29b>
++je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x295>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild16IsExistGuildAgitEv>
@@ -139,18 +139,16 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
 -mov    -0x1c(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x25c>
++je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x256>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild13GetGuildCargoEv>
  mov    %eax,(%esp)
  call   <T> <_ZN11CGuildCargo7IsEmptyEv>
 -xor    $0x1,%eax
-+cmp    $0x1,%eax
-+sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2be>
-+je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x146>
++je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x140>
  mov    -0x18(%ebp),%eax
 -mov    0xa(%eax),%ebx
 +add    $0xe,%eax
@@ -165,7 +163,7 @@
 +mov    -0x10(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuild15DeleteGuildAgitEP14CServerHandlerjj>
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2e4>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2de>
  movl   $0x1663,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
@@ -200,7 +198,7 @@
 -jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x266>
 +mov    %eax,-0xc(%ebp)
 +cmpl   $0x0,-0xc(%ebp)
-+jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x1f0>
++jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x1ea>
  mov    -0x18(%ebp),%eax
 -mov    0xe(%eax),%ebx
 +add    $0xe,%eax
@@ -220,7 +218,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
 -lea    -0x73(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2e4>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2de>
 +lea    -0x5f(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Channel_Delete_Guild_AgitC1Ev>
@@ -289,7 +287,7 @@
 -call   *%edx
 -mov    %eax,%ebx
 -movl   $0x167d,0x8(%esp)
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2e4>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2de>
 +movl   $0x165b,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
@@ -320,7 +318,7 @@
 -mov    %eax,(%esp)
 -call   <T> <__cxa_begin_catch>
 -movl   $0x1682,0x8(%esp)
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2e4>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2de>
 +mov    -0x18(%ebp),%eax
 +add    $0xe,%eax
 +mov    (%eax),%ebx

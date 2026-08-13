@@ -1,3 +1,7 @@
 service	total_named	identical	identical_ae	near	diff	missing	empty	exempt_skip	non_identical
+coserver	344	182	162	0	0	0	0	2668	0
+manager	1249	514	255	249	225	6	0	5030	480
 dbmw	1755	757	375	252	365	6	0	6397	623
+guild	1550	995	358	16	181	0	0	5501	197
 monitor	1679	1074	421	12	172	0	0	6247	184
+statics	843	576	225	1	41	0	0	5241	42
