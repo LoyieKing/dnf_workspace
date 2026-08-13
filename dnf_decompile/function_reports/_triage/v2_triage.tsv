@@ -545,7 +545,7 @@ statics	_ZN16StatisticManager27WriteHellPartyStatisticItemEP31Packet_HellParty_S
 statics	_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServerHandler	DIFF	125	N			N	Y	source/DNFServer/GameServer/Statics/Statistics.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 statics	_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServerHandler	DIFF	235	N			N	Y	source/DNFServer/GameServer/Statics/Statistics.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 statics	_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job	DIFF	111	N			N	Y	source/DNFServer/GameServer/Statics/Statistics.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-statics	_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics	DIFF	685	N			N	Y	source/DNFServer/GameServer/Statics/Statistics.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+statics	_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics	DIFF	705	N			Y	Y	source/DNFServer/GameServer/Statics/Statistics.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 statics	_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandler	DIFF	97	N			N	Y	source/DNFServer/GameServer/Statics/Statistics.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 statics	_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add	DIFF	67	N			N	N		0	NEEDS_REVERSE	source location missing from md
 statics	_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler	DIFF	37	N			N	Y	source/DNFServer/GameServer/Statics/Statistics.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
