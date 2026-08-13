@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808252e` | `0x3d3` | `0x80782ea` | `0x2c7` |
+| guild | DIFF | `0x808252e` | `0x3d3` | `0x80787e8` | `0x3a7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,48 +13,46 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,242 +1,169 @@
+@@ -1,242 +1,227 @@
  push   %ebp
  mov    %esp,%ebp
--push   %esi
+ push   %esi
  push   %ebx
--sub    $0x90,%esp
+ sub    $0x90,%esp
 -movl   $0x0,-0x1c(%ebp)
-+sub    $0x84,%esp
 +mov    0x8(%ebp),%eax
-+mov    %eax,-0x18(%ebp)
++mov    %eax,-0x1c(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x56>
-+jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x54>
++jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x55>
  movl   $0x1647,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x5c(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDeleteGuildAgit : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x5c(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
 -mov    0x8(%ebp),%eax
--mov    %eax,-0x18(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2be>
- mov    -0x18(%ebp),%eax
- mov    0xa(%eax),%eax
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x39d>
++mov    -0x1c(%ebp),%eax
++mov    0xa(%eax),%eax
+ mov    %eax,-0x18(%ebp)
+-mov    -0x18(%ebp),%eax
+-mov    0xa(%eax),%eax
 -test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x8d>
 -mov    -0x18(%ebp),%eax
 -mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
-+mov    %eax,-0x14(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +lea    0x290(%eax),%edx
-+mov    -0x14(%ebp),%eax
++mov    -0x18(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
@@ -64,36 +62,88 @@
 -mov    $0x1,%eax
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x99>
 -mov    $0x0,%eax
--test   %al,%al
--je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0xd8>
-+mov    %eax,-0x10(%ebp)
++mov    %eax,-0x14(%ebp)
++cmpl   $0x0,-0x18(%ebp)
++je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x87>
 +cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x86>
-+cmpl   $0x0,-0x10(%ebp)
-+jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0xc1>
- movl   $0x164f,0x8(%esp)
- movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x54(%ebp),%eax
-+lea    -0x40(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
- movl   $"CPacketTranslater::OnDeleteGuildAgit : 0 == pclGuild",0x8(%esp)
- movl   $"./log/GuildAgit",0x4(%esp)
--lea    -0x54(%ebp),%eax
-+lea    -0x40(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2be>
- mov    -0x18(%ebp),%eax
- mov    0xe(%eax),%eax
- mov    %eax,0x4(%esp)
--mov    -0x1c(%ebp),%eax
-+mov    -0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuild13IsGuildMasterEj>
--xor    $0x1,%eax
++jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0xc2>
++movl   $0x164f,0x8(%esp)
++movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x54(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++movl   $"CPacketTranslater::OnDeleteGuildAgit : 0 == pclGuild",0x8(%esp)
++movl   $"./log/GuildAgit",0x4(%esp)
++lea    -0x54(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x39d>
++mov    -0x1c(%ebp),%eax
++mov    0xe(%eax),%eax
++mov    %eax,0x4(%esp)
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild13IsGuildMasterEj>
  test   %al,%al
+-je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0xd8>
+-movl   $0x164f,0x8(%esp)
+-movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-lea    -0x54(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $"CPacketTranslater::OnDeleteGuildAgit : 0 == pclGuild",0x8(%esp)
+-movl   $"./log/GuildAgit",0x4(%esp)
+-lea    -0x54(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
+-mov    -0x18(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x27b>
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild16IsExistGuildAgitEv>
++test   %al,%al
++je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x239>
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild13GetGuildCargoEv>
++mov    %eax,(%esp)
++call   <T> <_ZN11CGuildCargo7IsEmptyEv>
++test   %al,%al
++je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x13b>
++mov    -0x1c(%ebp),%eax
++mov    0xe(%eax),%ebx
++mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
++mov    %ebx,0xc(%esp)
++mov    -0x18(%ebp),%edx
++mov    %edx,0x8(%esp)
++mov    %eax,0x4(%esp)
++mov    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild15DeleteGuildAgitEP14CServerHandlerjj>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x39d>
++movl   $0x1663,0x8(%esp)
++movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x4c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    -0x18(%ebp),%eax
++mov    %eax,0xc(%esp)
++movl   $"CPacketTranslater::OnDeleteGuildAgit : %d guild cargo is not empty",0x8(%esp)
++movl   $"./log/GuildAgit",0x4(%esp)
++lea    -0x4c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    -0x1c(%ebp),%eax
+ mov    0xe(%eax),%eax
+-mov    %eax,0x4(%esp)
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuild13IsGuildMasterEj>
+-xor    $0x1,%eax
+-test   %al,%al
 -je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x143>
 -mov    -0x18(%ebp),%eax
 -mov    0xa(%eax),%esi
@@ -113,12 +163,10 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
 -mov    -0x1c(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x277>
-+mov    -0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuild16IsExistGuildAgitEv>
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuild16IsExistGuildAgitEv>
 -xor    $0x1,%eax
- test   %al,%al
+-test   %al,%al
 -je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x19a>
 -mov    -0x18(%ebp),%eax
 -mov    0xa(%eax),%ebx
@@ -135,110 +183,83 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
 -mov    -0x1c(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x238>
-+mov    -0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuild13GetGuildCargoEv>
- mov    %eax,(%esp)
- call   <T> <_ZN11CGuildCargo7IsEmptyEv>
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuild13GetGuildCargoEv>
+-mov    %eax,(%esp)
+-call   <T> <_ZN11CGuildCargo7IsEmptyEv>
 -xor    $0x1,%eax
- test   %al,%al
+-test   %al,%al
 -je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2be>
-+je     <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x13a>
- mov    -0x18(%ebp),%eax
+-mov    -0x18(%ebp),%eax
 -mov    0xa(%eax),%ebx
-+mov    0xe(%eax),%ebx
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
-+mov    %ebx,0xc(%esp)
-+mov    -0x14(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild15DeleteGuildAgitEP14CServerHandlerjj>
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2be>
- movl   $0x1663,0x8(%esp)
- movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-movl   $0x1663,0x8(%esp)
+-movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,0xc(%esp)
- movl   $"CPacketTranslater::OnDeleteGuildAgit : %d guild cargo is not empty",0x8(%esp)
- movl   $"./log/GuildAgit",0x4(%esp)
+-movl   $"CPacketTranslater::OnDeleteGuildAgit : %d guild cargo is not empty",0x8(%esp)
+-movl   $"./log/GuildAgit",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -add    $0x10,%eax
 -mov    %eax,-0x14(%ebp)
- mov    -0x18(%ebp),%eax
- mov    0xe(%eax),%eax
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
-+add    $0x10,%edx
- mov    %eax,0x4(%esp)
+-mov    -0x18(%ebp),%eax
+-mov    0xe(%eax),%eax
+-mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
 -mov    %eax,(%esp)
++mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
++add    $0x10,%edx
++mov    %eax,0x4(%esp)
 +mov    %edx,(%esp)
  call   <T> <_ZNK12CUserManager15FindUser_CharNoEj>
--mov    %eax,-0x10(%ebp)
--cmpl   $0x0,-0x10(%ebp)
+ mov    %eax,-0x10(%ebp)
+ cmpl   $0x0,-0x10(%ebp)
 -jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x266>
-+mov    %eax,-0xc(%ebp)
-+cmpl   $0x0,-0xc(%ebp)
-+jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x1e0>
- mov    -0x18(%ebp),%eax
+-mov    -0x18(%ebp),%eax
++jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x1e1>
++mov    -0x1c(%ebp),%eax
  mov    0xe(%eax),%ebx
  movl   $0x166b,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnDeleteGuildAgit : 0 == pclUser(%d)",0x8(%esp)
  movl   $"./log/GuildCargo",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x30(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
--lea    -0x73(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2be>
-+lea    -0x5f(%ebp),%eax
++lea    -0x44(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x39d>
+ lea    -0x73(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Channel_Delete_Guild_AgitC1Ev>
--mov    -0x10(%ebp),%eax
-+mov    -0xc(%ebp),%eax
+ mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x69(%ebp)
--mov    -0x10(%ebp),%eax
-+mov    %eax,-0x55(%ebp)
-+mov    -0xc(%ebp),%eax
+ mov    %eax,-0x69(%ebp)
+ mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x65(%ebp)
--mov    -0x10(%ebp),%eax
-+mov    %eax,-0x51(%ebp)
-+mov    -0xc(%ebp),%eax
+ mov    %eax,-0x65(%ebp)
+ mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x61(%ebp)
--movb   $0xd4,-0x5d(%ebp)
--lea    -0x73(%ebp),%eax
-+mov    %eax,-0x4d(%ebp)
-+movb   $0xd4,-0x49(%ebp)
-+lea    -0x5f(%ebp),%eax
+ mov    %eax,-0x61(%ebp)
+ movb   $0xd4,-0x5d(%ebp)
+ lea    -0x73(%ebp),%eax
  movl   $0x17,0x8(%esp)
  mov    %eax,0x4(%esp)
--mov    -0x10(%ebp),%eax
-+mov    -0xc(%ebp),%eax
+ mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
@@ -256,84 +277,98 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CGuild15DeleteGuildAgitEP14CServerHandlerjj>
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
--cmp    $0x2,%edx
--jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x36f>
--mov    %eax,(%esp)
--call   <T> <__cxa_begin_catch>
--mov    %eax,-0xc(%ebp)
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %eax,%ebx
--movl   $0x167d,0x8(%esp)
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2be>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x39d>
 +movl   $0x165b,0x8(%esp)
- movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnDeleteGuildAgit Exception Break : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+mov    -0x14(%ebp),%eax
++movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x3c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    -0x18(%ebp),%eax
 +mov    %eax,0xc(%esp)
 +movl   $"CPacketTranslater::OnDeleteGuildAgit : %d guild do not have guild agit",0x8(%esp)
 +movl   $"./log/GuildAgit",0x4(%esp)
-+lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x368>
--mov    %edx,%ebx
--mov    %eax,%esi
--call   <T> <__cxa_end_catch>
--mov    %esi,%eax
--mov    %ebx,%edx
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
--call   <T> <__cxa_end_catch>
--jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
--mov    %eax,(%esp)
--call   <T> <__cxa_begin_catch>
--movl   $0x1682,0x8(%esp)
-+jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x2be>
-+mov    -0x18(%ebp),%eax
++lea    -0x3c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x39d>
++mov    -0x1c(%ebp),%eax
 +mov    0xe(%eax),%ebx
 +movl   $0x1655,0x8(%esp)
- movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x24(%ebp),%eax
-+lea    -0x20(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnDeleteGuildAgit Exception Break\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
--lea    -0x24(%ebp),%eax
-+mov    -0x14(%ebp),%eax
++movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    -0x18(%ebp),%eax
 +mov    %eax,0x10(%esp)
 +mov    %ebx,0xc(%esp)
 +movl   $"CPacketTranslater::OnDeleteGuildAgit : %d is not guild master(g:%d)",0x8(%esp)
 +movl   $"./log/GuildAgit",0x4(%esp)
-+lea    -0x20(%ebp),%eax
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x39d>
+ cmp    $0x2,%edx
+-jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x36f>
++jne    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x343>
+ mov    %eax,(%esp)
+ call   <T> <__cxa_begin_catch>
+ mov    %eax,-0xc(%ebp)
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x8,%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ mov    %eax,%ebx
+ movl   $0x167d,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
+ movl   $"CPacketTranslater::OnDeleteGuildAgit Exception Break : %s\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
+ lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x368>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x33c>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ call   <T> <__cxa_end_catch>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
+ call   <T> <__cxa_end_catch>
+-jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c9>
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x39d>
+ mov    %eax,(%esp)
+ call   <T> <__cxa_begin_catch>
+ movl   $0x1682,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"CPacketTranslater::OnDeleteGuildAgit Exception Break\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
+ lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x3c4>
--mov    %edx,%ebx
--mov    %eax,%esi
--call   <T> <__cxa_end_catch>
--mov    %esi,%eax
--mov    %ebx,%edx
--mov    %eax,(%esp)
--call   <T> <_Unwind_Resume>
--call   <T> <__cxa_end_catch>
--add    $0x90,%esp
-+add    $0x84,%esp
++jmp    <T> <_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader+0x398>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ call   <T> <__cxa_end_catch>
+ mov    %esi,%eax
+ mov    %ebx,%edx
+ mov    %eax,(%esp)
+ call   <T> <_Unwind_Resume>
+ call   <T> <__cxa_end_catch>
+ add    $0x90,%esp
  pop    %ebx
--pop    %esi
+ pop    %esi
  pop    %ebp
  ret
 ```
@@ -456,72 +491,76 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4731 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4753 行）：
 
 ```cpp
 void CPacketTranslater::OnDeleteGuildAgit(PacketHeader* pkt)
 {
     char* pb = (char*)pkt;
-    if (m_pclApp == 0)
+    try
     {
-        DNF_LOG_SCOPE_LINE(0x1647, "./log/Except", "CPacketTranslater::OnDeleteGuildAgit : 0 == m_pclApp");
-        return;
-    }
-    else
-    {
-        unsigned int guildKey = ((PTL_GuildAgitPkt*)pb)->m_guildKey;
-        CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
-        if (guildKey == 0 || guild == 0)
+        if (m_pclApp == 0)
         {
-            DNF_LOG_SCOPE_LINE(0x164f, "./log/GuildAgit", "CPacketTranslater::OnDeleteGuildAgit : 0 == pclGuild");
+            DNF_LOG_SCOPE_LINE(0x1647, "./log/Except", "CPacketTranslater::OnDeleteGuildAgit : 0 == m_pclApp");
+            return;
         }
-        else if (guild->IsGuildMaster(((PTL_GuildAgitPkt*)pb)->m_charNo) == 1)
+        else
         {
-            if (guild->IsExistGuildAgit() == 1)
+            unsigned int guildKey = ((PTL_GuildAgitPkt*)pb)->m_guildKey;
+            CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
+            if (guildKey == 0 || guild == 0)
             {
-                if (guild->GetGuildCargo()->IsEmpty() == 1)
+                DNF_LOG_SCOPE_LINE(0x164f, "./log/GuildAgit", "CPacketTranslater::OnDeleteGuildAgit : 0 == pclGuild");
+            }
+            else if (guild->IsGuildMaster(((PTL_GuildAgitPkt*)pb)->m_charNo) == 1)
+            {
+                if (guild->IsExistGuildAgit() == 1)
                 {
-                    guild->DeleteGuildAgit(m_pclApp->Get_ServerHandler(), guildKey,
-                                           ((PTL_GuildAgitPkt*)pb)->m_charNo);
-                }
-                else
-                {
-                    DNF_LOG_SCOPE_LINE(0x1663,"./log/GuildAgit",
-                        "CPacketTranslater::OnDeleteGuildAgit : %d guild cargo is not empty",
-                        guildKey);
-                    CUser* user =
-                        (&m_pclApp->m_userManager)->FindUser_CharNo(
-                            ((PTL_GuildAgitPkt*)pb)->m_charNo);
-                    if (user == 0)
+                    if (guild->GetGuildCargo()->IsEmpty() == 1)
                     {
-                        DNF_LOG_SCOPE_LINE(0x166b,"./log/GuildCargo",
-                            "CPacketTranslater::OnDeleteGuildAgit : 0 == pclUser(%d)",
-                            ((PTL_GuildAgitPkt*)pb)->m_charNo);
+                        guild->DeleteGuildAgit(m_pclApp->Get_ServerHandler(), guildKey,
+                                               ((PTL_GuildAgitPkt*)pb)->m_charNo);
                     }
                     else
                     {
-                        Packet_Channel_Delete_Guild_Agit reply;
-                        reply.ma = user->GetIdByChannel();
-                        reply.me = user->GetUniqCharNo();
-                        reply.m12 = user->GetUniqCharNo();
-                        reply.m16 = 0xd4;
-                        user->SendToGameserver((char*)&reply, 0x17);
+                        DNF_LOG_SCOPE_LINE(0x1663,"./log/GuildAgit",
+                            "CPacketTranslater::OnDeleteGuildAgit : %d guild cargo is not empty",
+                            guildKey);
+                        CUser* user =
+                            (&m_pclApp->m_userManager)->FindUser_CharNo(
+                                ((PTL_GuildAgitPkt*)pb)->m_charNo);
+                        if (user == 0)
+                        {
+                            DNF_LOG_SCOPE_LINE(0x166b,"./log/GuildCargo",
+                                "CPacketTranslater::OnDeleteGuildAgit : 0 == pclUser(%d)",
+                                ((PTL_GuildAgitPkt*)pb)->m_charNo);
+                        }
+                        else
+                        {
+                            Packet_Channel_Delete_Guild_Agit reply;
+                            reply.ma = user->GetIdByChannel();
+                            reply.me = user->GetUniqCharNo();
+                            reply.m12 = user->GetUniqCharNo();
+                            reply.m16 = 0xd4;
+                            user->SendToGameserver((char*)&reply, 0x17);
+                        }
                     }
+                }
+                else
+                {
+                    DNF_LOG_SCOPE_LINE(0x165b,"./log/GuildAgit",
+                        "CPacketTranslater::OnDeleteGuildAgit : %d guild do not have guild agit",
+                        guildKey);
                 }
             }
             else
             {
-                DNF_LOG_SCOPE_LINE(0x165b,"./log/GuildAgit",
-                    "CPacketTranslater::OnDeleteGuildAgit : %d guild do not have guild agit",
-                    guildKey);
+                DNF_LOG_SCOPE_LINE(0x1655,"./log/GuildAgit",
+                    "CPacketTranslater::OnDeleteGuildAgit : %d is not guild master(g:%d)",
+                    ((PTL_GuildAgitPkt*)pb)->m_charNo, guildKey);
             }
         }
-        else
-        {
-            DNF_LOG_SCOPE_LINE(0x1655,"./log/GuildAgit",
-                "CPacketTranslater::OnDeleteGuildAgit : %d is not guild master(g:%d)",
-                ((PTL_GuildAgitPkt*)pb)->m_charNo, guildKey);
-        }
     }
+    DNF_CATCH_LOG("./log/Except", "CPacketTranslater::OnDeleteGuildAgit Exception Break", 0x167d, 0x1682);
 }
 ```

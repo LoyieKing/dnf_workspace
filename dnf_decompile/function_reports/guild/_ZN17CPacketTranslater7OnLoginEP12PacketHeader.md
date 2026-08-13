@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80711a2` | `0x3b2` | `0x80675b8` | `0x3b4` |
+| guild | DIFF | `0x80711a2` | `0x3b2` | `0x8067812` | `0x3b4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -361,7 +361,7 @@ void CPacketTranslater::_ZN17CPacketTranslater7OnLoginEP12PacketHeader(PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 844 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 854 行）：
 
 ```cpp
 void CPacketTranslater::OnLogin(PacketHeader* pkt)
