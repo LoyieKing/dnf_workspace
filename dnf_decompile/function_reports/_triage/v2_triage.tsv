@@ -43,7 +43,7 @@ dbmw	_ZN10CDBManager21OnLoadPeriodicMessageEP28Packet_Load_Periodic_MessageP38Pa
 dbmw	_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic	DIFF	211	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN10CDBManager21QueryGuildMemberProxyEjjR18STGuildMemberProxy	DIFF	54	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager21QueryGuildNotiMessageEhjR27Packet_DB_Reply_Query_Guild	DIFF	24	N			N	N		0	NEEDS_REVERSE	source location missing from md
-dbmw	_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member	DIFF	196	N			N	N		0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member	DIFF	183	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager21SaveGuildWarPointListEiPjS0_	DIFF	55	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager21insertServerGameEventEP31Packet_StartGameEventFromServer	DIFF	36	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank	DIFF	74	N			N	N		0	NEEDS_REVERSE	source location missing from md
@@ -123,7 +123,6 @@ dbmw	_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader	DIFF	23	N			N
 dbmw	_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader	DIFF	284	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader	DIFF	180	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader	DIFF	72	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN17CPacketTranslater24OnQueryTodayGuildMemeberEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
 dbmw	_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader	DIFF	84	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader	DIFF	161	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader	DIFF	81	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
