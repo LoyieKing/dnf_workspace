@@ -208,8 +208,8 @@ guild	_ZN17CPacketTranslater18OnRefreshGuildInfoEP12PacketHeader	DIFF	111	N	_ZN1
 guild	_ZN17CPacketTranslater18OnReplyGuildInviteEP12PacketHeader	DIFF	577	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader	DIFF	80	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader	DIFF	211	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
-guild	_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader	DIFF	246	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-guild	_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader	DIFF	186	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
+guild	_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader	DIFF	134	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+guild	_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader	DIFF	126	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader	DIFF	117	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader	DIFF	215	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
 guild	_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader	DIFF	607	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
@@ -220,7 +220,7 @@ guild	_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader	DIFF	426	N			Y
 guild	_ZN17CPacketTranslater19OnPacketSecedePowerEP12PacketHeader	DIFF	428	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater20OnDBReplyGuildCreateEP12PacketHeader	DIFF	273	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader	DIFF	448	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader	DIFF	166	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
+guild	_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader	DIFF	124	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater20OnGuildCargoMoveItemEP12PacketHeader	DIFF	503	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater20OnGuildCargoPushItemEP12PacketHeader	DIFF	621	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader	DIFF	234	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
@@ -243,7 +243,7 @@ guild	_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader	DIFF	161	
 guild	_ZN17CPacketTranslater24OnDBReplyGuildAllMembersEP12PacketHeader	DIFF	342	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 guild	_ZN17CPacketTranslater24OnMonitorSendGuildLetterEP12PacketHeader	DIFF	327	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader	DIFF	153	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeader	DIFF	296	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
+guild	_ZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeader	DIFF	113	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater25OnGuildCargoCheckPushItemEP12PacketHeader	DIFF	398	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater25OnUpdateChangableCharInfoEP12PacketHeader	DIFF	67	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader	DIFF	220	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
@@ -266,7 +266,7 @@ guild	_ZN17CPacketTranslater30OnGuildRequestGuildBoardDeleteEP12PacketHeader	DIF
 guild	_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader	DIFF	126	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
 guild	_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader	DIFF	157	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
 guild	_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader	DIFF	240	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-guild	_ZN17CPacketTranslater39OnDBMWChangeUnconnectedGuildMemberGradeEP12PacketHeader	DIFF	355	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
+guild	_ZN17CPacketTranslater39OnDBMWChangeUnconnectedGuildMemberGradeEP12PacketHeader	DIFF	327	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater7OnLoginEP12PacketHeader	DIFF	27	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	2	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater8OnLogoutEP12PacketHeader	DIFF	294	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj	DIFF	59	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

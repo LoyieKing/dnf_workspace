@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80795e6` | `0x205` | `0x806fe2a` | `0x1ff` |
+| guild | DIFF | `0x80795e6` | `0x205` | `0x806fd28` | `0x1ff` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -251,7 +251,7 @@ void CPacketTranslater::_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinI
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2117 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2116 行）：
 
 ```cpp
 void CPacketTranslater::GuildJoin(CGuild* guild, STGuildJoinInfo* joinInfo, unsigned int dbid)

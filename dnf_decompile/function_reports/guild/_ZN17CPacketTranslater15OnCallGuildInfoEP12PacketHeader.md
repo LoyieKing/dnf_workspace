@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807cd58` | `0x402` | `0x807360c` | `0x408` |
+| guild | DIFF | `0x807cd58` | `0x402` | `0x807350a` | `0x408` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -533,7 +533,7 @@ void CPacketTranslater::_ZN17CPacketTranslater15OnCallGuildInfoEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2863 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2862 行）：
 
 ```cpp
 void CPacketTranslater::OnCallGuildInfo(PacketHeader* pkt)
