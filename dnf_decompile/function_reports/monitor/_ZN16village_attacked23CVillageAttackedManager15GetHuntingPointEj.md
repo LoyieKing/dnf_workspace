@@ -13,7 +13,29 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,36 +1,34 @@
+@@ -1,36 +1,35 @@
++mov    %eax,0x4(%esp)
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN16village_attacked23CVillageAttackedManager24SendVillageAttackedScoreEP5CUser>
++mov    0x8(%ebp),%eax
++mov    0x30(%eax),%eax
++test   %eax,%eax
++je     <T> <_ZN16village_attacked23CVillageAttackedManager13OnCharacLoginEP5CUser+0x54>
++mov    0x8(%ebp),%eax
++mov    0x30(%eax),%eax
++cmp    $0x1,%eax
++je     <T> <_ZN16village_attacked23CVillageAttackedManager13OnCharacLoginEP5CUser+0x54>
++mov    0x8(%ebp),%eax
++mov    0x30(%eax),%eax
++mov    %eax,0x8(%esp)
++mov    0xc(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN16village_attacked23CVillageAttackedManager25SendVillageAttackedRewardEP5CUseri>
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
@@ -28,35 +50,29 @@
  call   <T> <_ZNSt3mapIjN16village_attacked14stHuntingPointESt4lessIjESaISt4pairIKjS1_EEE4findERS5_>
  sub    $0x4,%esp
  mov    0x8(%ebp),%eax
- lea    0x4(%eax),%edx
+-lea    0x4(%eax),%edx
 -lea    -0x10(%ebp),%eax
-+lea    -0xc(%ebp),%eax
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZNSt3mapIjN16village_attacked14stHuntingPointESt4lessIjESaISt4pairIKjS1_EEE3endEv>
- sub    $0x4,%esp
-+lea    -0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
- lea    -0x10(%ebp),%eax
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt3mapIjN16village_attacked14stHuntingPointESt4lessIjESaISt4pairIKjS1_EEE3endEv>
+-sub    $0x4,%esp
+-lea    -0x10(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x14(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjN16village_attacked14stHuntingPointEEEneERKS5_>
- test   %al,%al
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjN16village_attacked14stHuntingPointEEEneERKS5_>
+-test   %al,%al
 -je     <T> <_ZN16village_attacked23CVillageAttackedManager15GetHuntingPointEj+0x69>
 -lea    -0x14(%ebp),%eax
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager15GetHuntingPointEj+0x63>
-+lea    -0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjN16village_attacked14stHuntingPointEEEptEv>
- add    $0x4,%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjN16village_attacked14stHuntingPointEEEptEv>
+-add    $0x4,%eax
 -mov    %eax,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager15GetHuntingPointEj+0x6e>
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager15GetHuntingPointEj+0x68>
- mov    $0x0,%eax
- leave
- ret
+-mov    $0x0,%eax
+-leave
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

@@ -13,7 +13,34 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,184 +1,187 @@
+@@ -1,184 +1,198 @@
++jge    <T> <_ZN20CTask_ChristmasEvent15DecideEventTimeEv+0x8b>
++mov    -0x1c(%ebp),%eax
++mov    -0x88(%ebp,%eax,4),%eax
++mov    %eax,-0x24(%ebp)
++jmp    <T> <_ZN20CTask_ChristmasEvent15DecideEventTimeEv+0x9a>
++addl   $0x1,-0x1c(%ebp)
++cmpl   $0x18,-0x1c(%ebp)
++setle  %al
++test   %al,%al
++jne    <T> <_ZN20CTask_ChristmasEvent15DecideEventTimeEv+0x5b>
++mov    -0x24(%ebp),%eax
++add    $0xfc,%esp
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
++push   %ebp
++mov    %esp,%ebp
++mov    $0x47698650,%eax
++pop    %ebp
++ret
++push   %ebp
++mov    %esp,%ebp
++mov    $0x47726c70,%eax
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -281,27 +308,21 @@
 -mov    %eax,%ebx
 +mov    %eax,-0x14(%ebp)
  movl   $0x96,0x8(%esp)
- movl   $&_ZZN20CTask_ChristmasEvent18MakeEventStartTickEiE12__FUNCTION__,0x4(%esp)
+-movl   $&_ZZN20CTask_ChristmasEvent18MakeEventStartTickEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x50(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    -0x14(%ebp),%eax
-+mov    %eax,0xc(%esp)
- movl   $"Next X_Mas Event Time! (%s)",0x8(%esp)
- movl   $"./log/GameServer",0x4(%esp)
+-movl   $"Next X_Mas Event Time! (%s)",0x8(%esp)
+-movl   $"./log/GameServer",0x4(%esp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x50(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x24(%ebp),%eax
 -add    $0xb4,%esp
-+mov    -0x58(%ebp),%eax
-+add    $0xc4,%esp
- pop    %ebx
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

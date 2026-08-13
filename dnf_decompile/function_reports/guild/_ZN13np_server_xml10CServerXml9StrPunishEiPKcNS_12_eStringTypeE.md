@@ -13,7 +13,25 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,191 +1,190 @@
+@@ -1,191 +1,183 @@
++call   <T> <_ZNK12TiXmlElement9AttributeEPKc>
++mov    -0x1c(%ebp),%edx
++movl   $0x0,0xc(%esp)
++mov    %eax,0x8(%esp)
++mov    %edx,0x4(%esp)
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE>
++mov    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN9TiXmlNode11NextSiblingEv>
++mov    %eax,-0x18(%ebp)
++cmpl   $0x0,-0x18(%ebp)
++setne  %al
++test   %al,%al
++jne    <T> <_ZN13np_server_xml10CServerXml11ProcessLoadEP9TiXmlNode+0x6b>
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -179,33 +197,32 @@
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIiSsED1Ev>
- mov    %esi,%eax
- mov    %ebx,%edx
- jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x23f>
- lea    -0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSt4pairIiSsED1Ev>
- lea    -0x58(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
+-mov    %esi,%eax
+-mov    %ebx,%edx
+-jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x23f>
+-lea    -0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt4pairIiSsED1Ev>
+-lea    -0x58(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x25b>
-+jmp    <T> <_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE+0x25a>
- mov    %edx,%ebx
- mov    %eax,%esi
- lea    -0x58(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- mov    %esi,%eax
- mov    %ebx,%edx
- mov    %eax,(%esp)
- call   <T> <_Unwind_Resume>
+-mov    %edx,%ebx
+-mov    %eax,%esi
+-lea    -0x58(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
+-mov    %esi,%eax
+-mov    %ebx,%edx
+-mov    %eax,(%esp)
+-call   <T> <_Unwind_Resume>
 -nop
- lea    -0x8(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-lea    -0x8(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

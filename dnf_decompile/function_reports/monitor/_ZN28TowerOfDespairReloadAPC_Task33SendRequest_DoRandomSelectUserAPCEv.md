@@ -13,7 +13,31 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,51 +1,51 @@
+@@ -1,51 +1,56 @@
++mov    $0x0,%eax
++test   %al,%al
++je     <T> <_ZN28TowerOfDespairReloadAPC_TaskD1Ev+0x2e>
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZdlPv>
++leave
++ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN28TowerOfDespairReloadAPC_TaskD1Ev>
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZdlPv>
++leave
++ret
++push   %ebp
++mov    %esp,%ebp
++movzbl &_ZN28TowerOfDespairReloadAPC_Task33returnUpdateMessageFromGameServerE,%eax
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  sub    $0x48,%esp
@@ -50,27 +74,25 @@
 +lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    -0xc(%ebp),%eax
- mov    %eax,0xc(%esp)
- movl   $"TOD : main GameServerChannel %u\n",0x8(%esp)
- movl   $"./log/GameServer",0x4(%esp)
+-mov    -0xc(%ebp),%eax
+-mov    %eax,0xc(%esp)
+-movl   $"TOD : main GameServerChannel %u\n",0x8(%esp)
+-movl   $"./log/GameServer",0x4(%esp)
 -lea    -0x18(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    -0xc(%ebp),%eax
- movzbl %al,%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    -0xc(%ebp),%eax
+-movzbl %al,%eax
 -lea    -0x2a(%ebp),%edx
-+lea    -0x22(%ebp),%edx
- mov    %edx,0x8(%esp)
- mov    %eax,0x4(%esp)
- mov    -0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN14CServerHandler16SendToGameServerEhP12PacketHeader>
- jmp    <T> <_ZN28TowerOfDespairReloadAPC_Task33SendRequest_DoRandomSelectUserAPCEv+0xce>
- nop
- leave
- ret
+-mov    %edx,0x8(%esp)
+-mov    %eax,0x4(%esp)
+-mov    -0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN14CServerHandler16SendToGameServerEhP12PacketHeader>
+-jmp    <T> <_ZN28TowerOfDespairReloadAPC_Task33SendRequest_DoRandomSelectUserAPCEv+0xce>
+-nop
+-leave
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

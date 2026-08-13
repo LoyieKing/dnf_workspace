@@ -13,7 +13,30 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,133 +1,133 @@
+@@ -1,133 +1,136 @@
++add    $0x1c,%ecx
++mov    %edx,0x8(%esp)
++mov    %eax,0x4(%esp)
++mov    %ecx,(%esp)
++call   <T> <memmove>
++mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%edx
++mov    %edx,0x1820(%eax)
++mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%edx
++add    $0x1c,%edx
++lea    (%eax,%edx,1),%edx
++mov    0x8(%ebp),%eax
++mov    %edx,0x181c(%eax)
++mov    $0x1,%ebx
++mov    %ebx,%eax
++add    $0x7c,%esp
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -130,26 +153,26 @@
  jmp    <T> <_ZN5CPeer11send_packetEPci+0x214>
  mov    0x10(%ebp),%edx
  mov    0x8(%ebp),%eax
- mov    0x1838(%eax),%eax
- mov    %edx,0x8(%esp)
- mov    0xc(%ebp),%edx
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <memcpy>
- mov    0x8(%ebp),%eax
- mov    0x1838(%eax),%edx
- mov    0x10(%ebp),%eax
- add    %eax,%edx
- mov    0x8(%ebp),%eax
- mov    %edx,0x1838(%eax)
- mov    0x8(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CPeer11send_packetEv>
- add    $0x30,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-mov    0x1838(%eax),%eax
+-mov    %edx,0x8(%esp)
+-mov    0xc(%ebp),%edx
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <memcpy>
+-mov    0x8(%ebp),%eax
+-mov    0x1838(%eax),%edx
+-mov    0x10(%ebp),%eax
+-add    %eax,%edx
+-mov    0x8(%ebp),%eax
+-mov    %edx,0x1838(%eax)
+-mov    0x8(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CPeer11send_packetEv>
+-add    $0x30,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -218,7 +241,7 @@ undefined4 __thiscall CPeer::_ZN5CPeer11send_packetEPci(CPeer *this,char *param_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 293 行）：
+定义于 [source/DNFServer/GameServer/Guild/Peer.cpp](source/DNFServer/GameServer/Guild/Peer.cpp)（约第 295 行）：
 
 ```cpp
 int CPeer::send_packet(char* buf, int len)

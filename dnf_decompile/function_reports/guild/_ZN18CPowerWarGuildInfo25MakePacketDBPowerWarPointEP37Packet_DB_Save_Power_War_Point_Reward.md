@@ -13,7 +13,28 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,110 +1,115 @@
+@@ -1,110 +1,113 @@
++movl   $0x0,0x4(%esp)
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <memset>
++mov    -0xc(%ebp),%eax
++add    $0x24,%esp
++pop    %ebx
++pop    %ebp
++ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
++cmpl   $0x0,0xc(%ebp)
++je     <T> <_ZN18CPowerWarGuildInfo25DeleteDBSavePowerWarPointEP21STDBSavePowerWarPoint+0x1e>
++mov    0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZdlPv>
++movl   $0x0,0xc(%ebp)
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -127,33 +148,23 @@
  call   <T> <_ZNSt6vectorIP21STDBSavePowerWarPointSaIS1_EE3endEv>
  sub    $0x4,%esp
  lea    -0x28(%ebp),%eax
- mov    %eax,0x4(%esp)
- lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN9__gnu_cxxneIPP21STDBSavePowerWarPointSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
- test   %al,%al
+-mov    %eax,0x4(%esp)
+-lea    -0x2c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN9__gnu_cxxneIPP21STDBSavePowerWarPointSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
+-test   %al,%al
 -jne    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x70>
 -jmp    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x167>
 -nop
-+je     <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x168>
-+mov    -0x14(%ebp),%eax
-+cmp    -0x18(%ebp),%eax
-+jg     <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x168>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x16d>
-+mov    $0x0,%eax
-+test   %al,%al
-+jne    <T> <_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward+0x6f>
-+mov    -0x18(%ebp),%edx
- mov    0xc(%ebp),%eax
+-mov    0xc(%ebp),%eax
 -mov    -0x18(%ebp),%edx
- mov    %edx,0xb(%eax)
- lea    -0x8(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-mov    %edx,0xb(%eax)
+-lea    -0x8(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

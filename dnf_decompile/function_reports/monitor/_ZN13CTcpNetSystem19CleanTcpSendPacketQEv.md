@@ -13,7 +13,30 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,83 +1,82 @@
+@@ -1,83 +1,88 @@
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexEC1EPS0_>
++mov    0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN14CTcpSendBufferdlEPv>
++jmp    <T> <_ZN13CTcpNetSystem23PopDeleteTcpSendPacketQEP14CTcpSendBuffer+0x96>
++mov    %edx,%ebx
++mov    %eax,%esi
++lea    -0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++mov    %esi,%eax
++mov    %ebx,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
++lea    -0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++add    $0x20,%esp
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -109,26 +132,22 @@
 -lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CGuardI6CMutexED1Ev>
- jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0x8>
-+nop
- movl   $0x16b,0x8(%esp)
- movl   $&_ZZN13CTcpNetSystem19CleanTcpSendPacketQEvE12__FUNCTION__,0x4(%esp)
+-jmp    <T> <_ZN13CTcpNetSystem19CleanTcpSendPacketQEv+0x8>
+-movl   $0x16b,0x8(%esp)
+-movl   $&_ZZN13CTcpNetSystem19CleanTcpSendPacketQEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
- movl   $"Clean Tcp Send Queue Complete !",0x8(%esp)
- movl   $"./log/TcpSend",0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $"Clean Tcp Send Queue Complete !",0x8(%esp)
+-movl   $"./log/TcpSend",0x4(%esp)
 -lea    -0x14(%ebp),%eax
-+lea    -0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -add    $0x30,%esp
-+add    $0x20,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

@@ -13,7 +13,30 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,207 +1,213 @@
+@@ -1,207 +1,216 @@
++call   <T> <_ZNKSt5queueIP5CPeerSt5dequeIS1_SaIS1_EEE5emptyEv>
++xor    $0x1,%eax
++test   %al,%al
++jne    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x29>
++jmp    <T> <_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv+0x16f>
++mov    %edx,%ebx
++mov    %eax,%esi
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++mov    %esi,%eax
++mov    %ebx,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
++lea    -0x2c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
++lea    -0x8(%ebp),%esp
++add    $0x0,%esp
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -33,14 +56,15 @@
  add    $0xc0,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt5queueIP14CTcpSendBufferSt5dequeIS1_SaIS1_EEE5emptyEv>
-+mov    %al,-0x35(%ebp)
-+movzbl -0x35(%ebp),%eax
-+xor    $0x1,%eax
- test   %al,%al
+-test   %al,%al
 -je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x40>
 -mov    $0x0,%ebx
 -mov    $0x0,%esi
 -jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x77>
++mov    %al,-0x35(%ebp)
++movzbl -0x35(%ebp),%eax
++xor    $0x1,%eax
++test   %al,%al
 +je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x77>
  mov    0x8(%ebp),%eax
  add    $0xc0,%eax
@@ -62,9 +86,8 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
 -lea    -0x50(%ebp),%eax
-+lea    -0x64(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN6CGuardI6CMutexED1Ev>
+-mov    %eax,(%esp)
+-call   <T> <_ZN6CGuardI6CMutexED1Ev>
 -test   %esi,%esi
 -je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x2e4>
 -cmpl   $0x0,-0x2c(%ebp)
@@ -80,6 +103,9 @@
 -lea    -0x4c(%ebp),%eax
 -mov    %ecx,0x8(%esp)
 -mov    %edx,0x4(%esp)
++lea    -0x64(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuardI6CMutexED1Ev>
 +cmpb   $0x0,-0x35(%ebp)
 +jne    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x8e>
 +cmpl   $0x0,-0x3c(%ebp)
@@ -185,9 +211,8 @@
 +jne    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1b0>
  mov    $0x1,%eax
 -jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1ad>
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1b5>
- mov    $0x0,%eax
- test   %al,%al
+-mov    $0x0,%eax
+-test   %al,%al
 -je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x22f>
 -mov    -0x28(%ebp),%eax
 -mov    0x6(%eax),%edi
@@ -195,6 +220,9 @@
 -movzwl 0x2(%eax),%eax
 -movzwl %ax,%esi
 -mov    -0x28(%ebp),%eax
++jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1b5>
++mov    $0x0,%eax
++test   %al,%al
 +je     <T> <_ZN13CTcpNetSystem10SendPacketEv+0x1bd>
 +movb   $0x0,-0x2d(%ebp)
 +cmpb   $0x0,-0x2d(%ebp)
@@ -297,29 +325,21 @@
  mov    %eax,0x18(%esp)
  mov    %edi,0x14(%esp)
  mov    %esi,0x10(%esp)
- mov    %ebx,0xc(%esp)
- movl   $"SEND(id:%d,size:%d,ip:%d, cnt:%d)",0x8(%esp)
- movl   $"./log/TcpSend",0x4(%esp)
+-mov    %ebx,0xc(%esp)
+-movl   $"SEND(id:%d,size:%d,ip:%d, cnt:%d)",0x8(%esp)
+-movl   $"./log/TcpSend",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x44(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x20(%ebp),%ebx
 -mov    %ebx,%eax
-+jmp    <T> <_ZN13CTcpNetSystem10SendPacketEv+0x305>
-+mov    -0x3c(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN13CTcpNetSystem23PopDeleteTcpSendPacketQEP14CTcpSendBuffer>
-+mov    -0x2c(%ebp),%eax
- lea    -0xc(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-lea    -0xc(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

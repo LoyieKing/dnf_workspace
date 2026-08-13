@@ -13,7 +13,34 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,162 +1,151 @@
+@@ -1,162 +1,154 @@
++call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
++lea    -0x1b(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
++add    $0xa0,%esp
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x8,%esp
++call   <T> <_Z10GetNowTimev>
++mov    0x8(%ebp),%edx
++mov    0x2c(%edx),%edx
++sub    %edx,%eax
++leave
++ret
++nop
++push   %ebp
++mov    %esp,%ebp
++mov    0x8(%ebp),%eax
++movl   $0x0,0x34(%eax)
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -191,35 +218,32 @@
  addl   $0x1,-0x18(%ebp)
  cmpl   $0x3,-0x18(%ebp)
  setle  %al
- test   %al,%al
+-test   %al,%al
 -jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x2c>
-+jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x29>
- cmpb   $0x0,-0x4c(%ebp)
+-cmpb   $0x0,-0x4c(%ebp)
 -je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1e9>
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1d0>
- mov    0x8(%ebp),%eax
- mov    0x1c(%eax),%eax
- lea    0x1(%eax),%edx
- mov    0x8(%ebp),%eax
- mov    %edx,0x1c(%eax)
- mov    0x8(%ebp),%eax
- mov    0x1c(%eax),%edx
- mov    0x8(%ebp),%eax
- mov    0x20(%eax),%eax
- cmp    %eax,%edx
+-mov    0x8(%ebp),%eax
+-mov    0x1c(%eax),%eax
+-lea    0x1(%eax),%edx
+-mov    0x8(%ebp),%eax
+-mov    %edx,0x1c(%eax)
+-mov    0x8(%ebp),%eax
+-mov    0x1c(%eax),%edx
+-mov    0x8(%ebp),%eax
+-mov    0x20(%eax),%eax
+-cmp    %eax,%edx
 -jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x207>
-+jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1eb>
- mov    0x8(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN16village_attacked23CVillageAttackedManager11SendMinTimeEv>
+-mov    0x8(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN16village_attacked23CVillageAttackedManager11SendMinTimeEv>
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x207>
 -nop
- lea    -0x8(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-lea    -0x8(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -305,4 +329,4 @@ _ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp, source/DNFServer/GameServer/Monitor/Arad_BirthdayEvent.h, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFBuddyHandle.h, source/DNFServer/GameServer/Monitor/DNFDBServer.h, source/DNFServer/GameServer/Monitor/DNFManagerServer.h 等 299 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp, source/DNFServer/GameServer/Monitor/Arad_BirthdayEvent.h, source/DNFServer/GameServer/Monitor/BlackUser.h, source/DNFServer/GameServer/Monitor/BuddyRegisterManager.h, source/DNFServer/GameServer/Monitor/DNFApplication.h, source/DNFServer/GameServer/Monitor/DNFBuddyHandle.h, source/DNFServer/GameServer/Monitor/DNFDBServer.h, source/DNFServer/GameServer/Monitor/DNFManagerServer.h 等 286 个文件*

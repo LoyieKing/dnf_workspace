@@ -13,7 +13,28 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,169 +1,173 @@
+@@ -1,169 +1,172 @@
++call   <T> <_ZNSt6vectorIP19STPowerWarGuildInfoSaIS1_EE3endEv>
++sub    $0x4,%esp
++lea    -0x14(%ebp),%eax
++mov    %eax,0x4(%esp)
++lea    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN9__gnu_cxxneIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
++test   %al,%al
++je     <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0xa9>
++cmpl   $0x63,-0x10(%ebp)
++ja     <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0xa9>
++mov    $0x1,%eax
++jmp    <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0xae>
++mov    $0x0,%eax
++test   %al,%al
++jne    <T> <_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank+0x27>
++mov    -0x10(%ebp),%edx
++mov    0xc(%ebp),%eax
++mov    %edx,(%eax)
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -234,40 +255,34 @@
 +mov    -0x20(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
+ mov    %eax,(%esp)
+-call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEppEv>
+-mov    0x8(%ebp),%eax
+-lea    0x1c(%eax),%edx
+-lea    -0x38(%ebp),%eax
+-mov    %edx,0x4(%esp)
 +call   <T> <_ZN6CGuild16AddPowerWarPointEj>
 +movl   $0x0,0x4(%esp)
 +mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
+ mov    %eax,(%esp)
+-call   <T> <_ZNSt6vectorIP19STPowerWarGuildInfoSaIS1_EE3endEv>
+-sub    $0x4,%esp
+-lea    -0x38(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-lea    -0x44(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN9__gnu_cxxneIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
+-test   %al,%al
+-jne    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0xb7>
+-lea    -0x8(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 +call   <T> <_ZN6CGuild22SendGuildInfoToMembersEb>
 +addl   $0x1,-0x24(%ebp)
 +lea    -0x4c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN9__gnu_cxx17__normal_iteratorIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEppEv>
- mov    0x8(%ebp),%eax
- lea    0x1c(%eax),%edx
--lea    -0x38(%ebp),%eax
-+lea    -0x40(%ebp),%eax
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZNSt6vectorIP19STPowerWarGuildInfoSaIS1_EE3endEv>
- sub    $0x4,%esp
--lea    -0x38(%ebp),%eax
-+lea    -0x40(%ebp),%eax
- mov    %eax,0x4(%esp)
--lea    -0x44(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN9__gnu_cxxneIPP19STPowerWarGuildInfoSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
- test   %al,%al
--jne    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0xb7>
-+jne    <T> <_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii+0xbb>
- lea    -0x8(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
 ```
 ## 2. Ghidra 反编译 C
 

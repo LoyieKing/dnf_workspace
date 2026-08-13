@@ -116,4 +116,4 @@ _ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeIn
 
 ## 3. 我们的源码函数
 
-*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp, source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp, source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.h, source/DNFServer/GameServer/Monitor/RawAccess.h, source/DNFServer/ServerCommon/DNFFileLog.h, source/DNFServer/ServerCommon/DNFFunctionLib.h, source/DNFServer/ServerCommon/Thread.h, source/DNFServer/ServerCommon/tinyxml.h 等 299 个文件*
+*未能在以下候选源文件中定位定义：source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp, source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp, source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.h, source/DNFServer/GameServer/Monitor/RawAccess.h, source/DNFServer/ServerCommon/DNFFileLog.h, source/DNFServer/ServerCommon/DNFFunctionLib.h, source/DNFServer/ServerCommon/Thread.h, source/DNFServer/ServerCommon/tinyxml.h 等 286 个文件*

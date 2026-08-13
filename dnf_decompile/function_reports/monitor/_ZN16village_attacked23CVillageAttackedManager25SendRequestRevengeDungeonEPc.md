@@ -13,31 +13,39 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,16 +1,19 @@
+@@ -1,16 +1,18 @@
++call   <T> <_Z10GetNowTimev>
++mov    %eax,-0xc(%ebp)
++addl   $0xa,-0xc(%ebp)
++mov    0xc(%ebp),%eax
++mov    -0xc(%ebp),%edx
++add    %eax,%edx
++mov    -0xc(%ebp),%eax
++add    $0xa,%eax
++mov    %edx,0x8(%esp)
++mov    %eax,0x4(%esp)
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii>
++leave
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x28,%esp
-+sub    $0x14,%esp
- mov    0xc(%ebp),%eax
+-mov    0xc(%ebp),%eax
 -mov    %eax,-0xc(%ebp)
-+mov    %eax,-0x8(%ebp)
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -mov    0x30(%eax),%edx
 -mov    -0xc(%ebp),%eax
-+mov    0x30(%eax),%eax
-+mov    %eax,%edx
-+mov    -0x8(%ebp),%eax
- mov    %edx,0xa(%eax)
-+mov    0xc(%ebp),%eax
-+mov    %eax,-0x4(%ebp)
- mov    0x8(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN16village_attacked23CVillageAttackedManager20GetDungeonRemainTimeEv>
+-mov    %edx,0xa(%eax)
+-mov    0x8(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN16village_attacked23CVillageAttackedManager20GetDungeonRemainTimeEv>
 -mov    -0xc(%ebp),%edx
-+mov    -0x4(%ebp),%edx
- mov    %eax,0xe(%edx)
- leave
- ret
+-mov    %eax,0xe(%edx)
+-leave
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

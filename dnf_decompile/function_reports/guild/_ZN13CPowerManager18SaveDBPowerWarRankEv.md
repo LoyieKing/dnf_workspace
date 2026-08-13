@@ -13,7 +13,28 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,390 +1,372 @@
+@@ -1,390 +1,371 @@
++mov    0x8(%ebp),%eax
++mov    0x4(%eax),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication16Get_GuildManagerEv>
++mov    0x8(%ebp),%edx
++add    $0x74,%edx
++mov    -0x2c(%ebp),%ecx
++mov    %ecx,0x18(%esp)
++mov    %edi,0x14(%esp)
++mov    %esi,0x10(%esp)
++mov    %ebx,0xc(%esp)
++movl   $0x0,0x8(%esp)
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
++call   <T> <_ZN6CPower24RewardGuildPowerWarPointER13CGuildManagerbiiii>
++add    $0x4c,%esp
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -24,36 +45,31 @@
  movzbl 0x184(%eax),%eax
 -test   %al,%al
 -je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x67c>
+-mov    0x8(%ebp),%eax
+-movzbl 0x184(%eax),%eax
+-cmp    $0x2,%al
+-jg     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x67f>
 +mov    %al,-0x31(%ebp)
 +cmpb   $0x0,-0x31(%ebp)
 +je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x662>
 +cmpb   $0x2,-0x31(%ebp)
 +jg     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x662>
-+movl   $0x1b6,0x8(%esp)
-+movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
-+lea    -0x74(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"POWER WAR RESULT DB SAVE START",0x8(%esp)
-+movl   $"./log/PowerResult",0x4(%esp)
-+lea    -0x74(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    0x8(%ebp),%eax
--movzbl 0x184(%eax),%eax
--cmp    $0x2,%al
--jg     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x67f>
--movl   $0x1b6,0x8(%esp)
--movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
+ movl   $0x1b6,0x8(%esp)
+ movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x64(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"POWER WAR RESULT DB SAVE START",0x8(%esp)
--movl   $"./log/PowerResult",0x4(%esp)
++lea    -0x74(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"POWER WAR RESULT DB SAVE START",0x8(%esp)
+ movl   $"./log/PowerResult",0x4(%esp)
 -lea    -0x64(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -lea    -0x889(%ebp),%eax
++lea    -0x74(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    0x8(%ebp),%eax
 +add    $0x4,%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x30(%ebp)
@@ -597,34 +613,25 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x636>
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"POWER WAR RESULT DB SAVE END",0x8(%esp)
-+movl   $"./log/PowerResult",0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x654>
- mov    %edx,%ebx
- mov    %eax,%esi
+-mov    %edx,%ebx
+-mov    %eax,%esi
 -lea    -0xa4(%ebp),%eax
-+lea    -0xb0(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EED1Ev>
- mov    %esi,%eax
- mov    %ebx,%edx
- mov    %eax,(%esp)
- call   <T> <_Unwind_Resume>
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EED1Ev>
+-mov    %esi,%eax
+-mov    %ebx,%edx
+-mov    %eax,(%esp)
+-call   <T> <_Unwind_Resume>
 -lea    -0xa4(%ebp),%eax
-+lea    -0xb0(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EED1Ev>
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EED1Ev>
 -movl   $0x27b,0x8(%esp)
 -movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"POWER WAR RESULT DB SAVE END",0x8(%esp)
--movl   $"./log/PowerResult",0x4(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"POWER WAR RESULT DB SAVE END",0x8(%esp)
+ movl   $"./log/PowerResult",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -632,12 +639,12 @@
 -nop
 -jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x680>
 -nop
- lea    -0x8(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-lea    -0x8(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

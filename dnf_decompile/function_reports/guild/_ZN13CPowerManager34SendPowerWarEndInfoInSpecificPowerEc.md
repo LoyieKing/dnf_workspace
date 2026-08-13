@@ -13,7 +13,22 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,226 +1,233 @@
+@@ -1,226 +1,231 @@
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc>
++movl   $0x41f,0x8(%esp)
++movl   $&_ZZN13CPowerManager19SendPowerWarEndInfoEvE12__FUNCTION__,0x4(%esp)
++lea    -0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++movl   $"SEND POWER WAR END INFO END",0x8(%esp)
++movl   $"./log/PowerResult",0x4(%esp)
++lea    -0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -258,7 +273,7 @@
  mov    %eax,0x10(%esp)
  mov    %ebx,0xc(%esp)
  movl   $"DBID(%d) CharacNo(%d) UserPP(%d) UserRank(%d)",0x8(%esp)
--movl   $"./log/PowerResult",0x4(%esp)
+ movl   $"./log/PowerResult",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -269,7 +284,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -movl   $"CharacInfo is NULL",0x8(%esp)
- movl   $"./log/PowerResult",0x4(%esp)
+-movl   $"./log/PowerResult",0x4(%esp)
  lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
@@ -293,23 +308,23 @@
 -jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x10c>
 +jne    <T> <_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc+0x105>
  movsbl -0x6c(%ebp),%ebx
- movl   $0x46b,0x8(%esp)
- movl   $&_ZZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEcE12__FUNCTION__,0x4(%esp)
- lea    -0x3c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    %ebx,0xc(%esp)
- movl   $"SEND POWER WAR END INFO %d Power END",0x8(%esp)
- movl   $"./log/PowerResult",0x4(%esp)
- lea    -0x3c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- lea    -0x8(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-movl   $0x46b,0x8(%esp)
+-movl   $&_ZZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEcE12__FUNCTION__,0x4(%esp)
+-lea    -0x3c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %ebx,0xc(%esp)
+-movl   $"SEND POWER WAR END INFO %d Power END",0x8(%esp)
+-movl   $"./log/PowerResult",0x4(%esp)
+-lea    -0x3c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-lea    -0x8(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

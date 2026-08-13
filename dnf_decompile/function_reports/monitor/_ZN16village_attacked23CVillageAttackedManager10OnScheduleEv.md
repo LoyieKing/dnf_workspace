@@ -13,7 +13,32 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,181 +1,183 @@
+@@ -1,181 +1,189 @@
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager11InsertTimerEii+0x212>
++mov    %edx,%esi
++mov    %eax,%edi
++mov    %ebx,(%esp)
++call   <T> <_ZdlPv>
++mov    %edi,%eax
++mov    %esi,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
++mov    %ebx,-0x1c(%ebp)
++mov    -0x1c(%ebp),%ebx
++mov    0x8(%ebp),%eax
++mov    (%eax),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication16GetTaskSchedulerEv>
++mov    %ebx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZN14CTaskScheduler7AddTaskEPNS_5CTaskE>
++add    $0x3c,%esp
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -208,31 +233,24 @@
  call   <T> <localtime>
 -mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
-+mov    %eax,-0x14(%ebp)
-+mov    -0x14(%ebp),%eax
- movl   $0x0,(%eax)
+-movl   $0x0,(%eax)
 -mov    -0x20(%ebp),%eax
-+mov    -0x14(%ebp),%eax
- movl   $0x0,0x4(%eax)
+-movl   $0x0,0x4(%eax)
 -mov    -0x20(%ebp),%eax
-+mov    -0x14(%ebp),%eax
- movl   $0x6,0x8(%eax)
+-movl   $0x6,0x8(%eax)
 -mov    -0x20(%ebp),%eax
-+mov    -0x14(%ebp),%eax
- mov    0xc(%eax),%eax
- lea    0x1(%eax),%edx
+-mov    0xc(%eax),%eax
+-lea    0x1(%eax),%edx
 -mov    -0x20(%ebp),%eax
-+mov    -0x14(%ebp),%eax
- mov    %edx,0xc(%eax)
+-mov    %edx,0xc(%eax)
 -mov    -0x20(%ebp),%eax
-+mov    -0x14(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <mktime>
+-mov    %eax,(%esp)
+-call   <T> <mktime>
 -mov    %eax,-0x10(%ebp)
- add    $0x64,%esp
- pop    %ebx
- pop    %ebp
- ret
+-add    $0x64,%esp
+-pop    %ebx
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

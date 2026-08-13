@@ -13,7 +13,28 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,101 +1,99 @@
+@@ -1,101 +1,96 @@
++mov    0x8(%ebp),%eax
++add    $0x90,%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CMutexD1Ev>
++mov    0x8(%ebp),%eax
++add    $0x78,%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CMutexD1Ev>
++mov    0x8(%ebp),%eax
++add    $0x60,%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CMutexD1Ev>
++mov    0x8(%ebp),%eax
++add    $0x8,%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CSwapQueueISt5queueIP14CTcpRecvBufferSt5dequeIS2_SaIS2_EEELi2EED1Ev>
++add    $0x10,%esp
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -93,33 +114,31 @@
  mov    %edi,%eax
  mov    %esi,%edx
  mov    %eax,(%esp)
- call   <T> <_Unwind_Resume>
+-call   <T> <_Unwind_Resume>
 -mov    %ebx,%eax
 -mov    %eax,%edx
-+mov    %ebx,%edx
- mov    0x8(%ebp),%eax
- mov    %edx,0x4(%eax)
- mov    0x8(%ebp),%eax
- mov    0x4(%eax),%eax
- mov    0x8(%ebp),%edx
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZN17CTcpNetworkThread6attachEP13CTcpNetSystem>
- mov    0x8(%ebp),%eax
- mov    0x4(%eax),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN16CThreadInterface5beginEv>
- xor    $0x1,%eax
- test   %al,%al
+-mov    0x8(%ebp),%eax
+-mov    %edx,0x4(%eax)
+-mov    0x8(%ebp),%eax
+-mov    0x4(%eax),%eax
+-mov    0x8(%ebp),%edx
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN17CTcpNetworkThread6attachEP13CTcpNetSystem>
+-mov    0x8(%ebp),%eax
+-mov    0x4(%eax),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN16CThreadInterface5beginEv>
+-xor    $0x1,%eax
+-test   %al,%al
 -je     <T> <_ZN13CTcpNetSystem4InitEt+0x136>
-+je     <T> <_ZN13CTcpNetSystem4InitEt+0x132>
- call   <T> <__cxa_rethrow>
- add    $0x2c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-call   <T> <__cxa_rethrow>
+-add    $0x2c,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
