@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808109c` | `0x25a` | `0x80779fa` | `0x249` |
+| guild | DIFF | `0x808109c` | `0x25a` | `0x8077970` | `0x247` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,159 +1,154 @@
+@@ -1,159 +1,153 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -41,7 +41,7 @@
 -jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x253>
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x20(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x242>
++jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x240>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -49,14 +49,11 @@
  call   <T> <_ZN14CServerHandler14GetTcpDBServerEv>
  mov    %eax,(%esp)
  call   <T> <_ZN12CTcpDBServer7GetSockEv>
--mov    %eax,%edx
+ mov    %eax,%edx
 -mov    -0x20(%ebp),%eax
--mov    0x6(%eax),%eax
--cmp    %eax,%edx
-+mov    -0x1c(%ebp),%edx
-+add    $0x6,%edx
-+mov    (%edx),%edx
-+cmp    %edx,%eax
++mov    -0x1c(%ebp),%eax
+ mov    0x6(%eax),%eax
+ cmp    %eax,%edx
  sete   %al
  test   %al,%al
  je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0xa2>
@@ -69,11 +66,9 @@
  call   <T> <_ZN12CTcpDBServer9ConnectedEv>
 -jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x253>
 -mov    -0x20(%ebp),%eax
--mov    0x6(%eax),%ebx
-+jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x242>
++jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x240>
 +mov    -0x1c(%ebp),%eax
-+add    $0x6,%eax
-+mov    (%eax),%ebx
+ mov    0x6(%eax),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -85,7 +80,7 @@
 -je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x24f>
 +mov    %eax,-0x18(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
-+je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x242>
++je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x240>
  movl   $0xc,0x8(%esp)
  movl   $0x1f40,0x4(%esp)
 -mov    -0x24(%ebp),%eax
@@ -101,7 +96,7 @@
 -movb   $0x1,0xa(%eax)
 +mov    %eax,-0x14(%ebp)
 +cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x124>
++je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x122>
 +mov    -0x14(%ebp),%eax
 +add    $0xa,%eax
 +movb   $0x1,(%eax)
@@ -133,7 +128,7 @@
 -mov    -0x14(%ebp),%eax
  mov    %eax,-0x10(%ebp)
 +cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x242>
++je     <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x240>
  mov    -0x10(%ebp),%eax
 -movb   $0xcb,0xa(%eax)
 +add    $0xa,%eax
@@ -145,10 +140,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CTcpGameServer16SendToGameServerEPc>
 -jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x253>
-+jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x242>
++jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x240>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x1f3>
-+jne    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x1e8>
++jne    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x1e6>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -174,7 +169,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x1ec>
-+jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x1e1>
++jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x1df>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -184,7 +179,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x253>
-+jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x242>
++jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x240>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x148e,0x8(%esp)
@@ -200,7 +195,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x248>
-+jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x23d>
++jmp    <T> <_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader+0x23b>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -289,12 +284,12 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3737 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3860 行）：
 
 ```cpp
 void CPacketTranslater::OnInnerPacketLogin(PacketHeader* pkt)
 {
-    char* pb = (char*)pkt;
+    PTL_InnerPacketPkt* pb = (PTL_InnerPacketPkt*)pkt;
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1455, "./log/Except", "CPacketTranslater::OnInnerPacketLogin : 0 == m_pclApp");
@@ -302,13 +297,13 @@ void CPacketTranslater::OnInnerPacketLogin(PacketHeader* pkt)
     }
     try
     {
-        if (m_pclApp->Get_ServerHandler()->GetTcpDBServer()->GetSock() == *(int*)(pb + 6))
+        if (m_pclApp->Get_ServerHandler()->GetTcpDBServer()->GetSock() == pb->m_group)
         {
             m_pclApp->Get_ServerHandler()->GetTcpDBServer()->Connected();
         }
         else
         {
-            CTcpGameServer* tgs = m_pclApp->Get_ServerHandler()->CreateTcpGameServer(*(unsigned int*)(pb + 6));
+            CTcpGameServer* tgs = m_pclApp->Get_ServerHandler()->CreateTcpGameServer(pb->m_group);
             if (tgs != 0)
             {
                 char* buf = tgs->makePacketHeader(8000, 0xc);

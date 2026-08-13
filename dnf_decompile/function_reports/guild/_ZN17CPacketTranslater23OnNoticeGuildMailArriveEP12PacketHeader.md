@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807d15a` | `0x21f` | `0x8073a70` | `0x254` |
+| guild | DIFF | `0x807d15a` | `0x21f` | `0x8073a06` | `0x24f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,155 +1,169 @@
+@@ -1,155 +1,166 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,19 +24,19 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0xdf>
 -lea    -0x39(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x39(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x29(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildMailArrive : 0 == m_pclApp",0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x40(%ebp),%esi
-+lea    -0x34(%ebp),%esi
++lea    -0x30(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -54,7 +54,7 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x40(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x87>
@@ -65,7 +65,7 @@
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0xa4>
 -lea    -0x40(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0xbc>
@@ -75,15 +75,14 @@
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x39(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
--jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x141>
+ jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x141>
 -lea    -0x39(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x146>
-+lea    -0x2d(%ebp),%eax
++lea    -0x29(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -91,48 +90,36 @@
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    0x8(%ebp),%eax
-+mov    %eax,-0x2c(%ebp)
-+mov    -0x2c(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
  mov    %eax,-0x28(%ebp)
  movl   $0x0,-0x24(%ebp)
--jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x128>
--mov    -0x24(%ebp),%edx
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x12b>
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+lea    0x290(%eax),%edx
+ jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x128>
+ mov    -0x24(%ebp),%edx
  mov    -0x28(%ebp),%eax
--mov    0xb(%eax,%edx,4),%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
--add    $0x290,%edx
+ mov    0xb(%eax,%edx,4),%eax
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
+ add    $0x290,%edx
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN13CGuildManager9FindGuildEj>
  mov    %eax,-0x20(%ebp)
  cmpl   $0x0,-0x20(%ebp)
--je     <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x124>
-+je     <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x127>
+ je     <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x124>
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild18SendToGuildForMailEv>
  addl   $0x1,-0x24(%ebp)
--mov    -0x28(%ebp),%eax
--movzbl 0xa(%eax),%eax
-+mov    -0x2c(%ebp),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
+ mov    -0x28(%ebp),%eax
+ movzbl 0xa(%eax),%eax
  movzbl %al,%eax
  cmp    -0x24(%ebp),%eax
  setg   %al
  test   %al,%al
--jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0xee>
+ jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0xee>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x217>
-+jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0xf9>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x24c>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x247>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x1bd>
-+jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x1e6>
++jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x1e1>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -149,8 +136,7 @@
 +call   <T> <printf>
  movl   $0xe10,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
@@ -164,12 +150,11 @@
 +mov    %eax,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildMailArrive() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x38(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x1b6>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x1df>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x1da>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -179,7 +164,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x217>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x24c>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x247>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
 +movl   $"CPacketTranslater::OnNoticeGuildMailArrive() Exception Break",(%esp)
@@ -187,17 +172,17 @@
  movl   $0xe15,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnNoticeGuildMailArrive() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x212>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x247>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader+0x242>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -258,7 +243,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2785 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2909 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildMailArrive(PacketHeader* pkt)
@@ -266,11 +251,10 @@ void CPacketTranslater::OnNoticeGuildMailArrive(PacketHeader* pkt)
     try
     {
     THROW_IF_NO_APP("CPacketTranslater::OnNoticeGuildMailArrive : 0 == m_pclApp");
-    char* pb = (char*)pkt;
-    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
-    for (int i = 0; i < (int)(unsigned int)(unsigned char)pb[10]; i++)
+    PTL_GuildMailArrivePkt* pb = (PTL_GuildMailArrivePkt*)pkt;
+    for (int i = 0; i < (int)(unsigned int)(unsigned char)pb->m_count; i++)
     {
-        CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
+        CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(pb->m_guildKeys[i]);
         if (guild != 0)
         {
             guild->SendToGuildForMail();

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8076014` | `0x23c` | `0x806c800` | `0x266` |
+| guild | DIFF | `0x8076014` | `0x23c` | `0x806c79c` | `0x260` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,165 +1,173 @@
+@@ -1,165 +1,170 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -80,8 +80,9 @@
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
- jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x158>
+-jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x158>
 -lea    -0x35(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x152>
 +lea    -0x25(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -100,13 +101,11 @@
 -xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x230>
-+je     <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x25e>
++je     <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x258>
  mov    0x8(%ebp),%eax
  mov    %eax,-0x20(%ebp)
  mov    -0x20(%ebp),%eax
--mov    0xa(%eax),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  mov    %eax,0x4(%esp)
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -114,26 +113,22 @@
 -xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x233>
-+je     <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x25e>
++je     <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x258>
  mov    -0x20(%ebp),%eax
--movzbl 0xe(%eax),%eax
-+add    $0xe,%eax
-+movzbl (%eax),%eax
+ movzbl 0xe(%eax),%eax
  movsbl %al,%edx
  mov    -0x20(%ebp),%eax
--mov    0xa(%eax),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN9CGuildWar16AddGuildWarPointEji>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x234>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x25e>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x258>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x1d4>
-+jne    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x1f8>
++jne    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x1f2>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -168,7 +163,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x1cd>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x1f1>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x1eb>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -178,7 +173,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x234>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x25e>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x258>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
 +movl   $"CPacketTranslater::OnNoticeGuildWarEnd Exception Break",(%esp)
@@ -196,7 +191,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x229>
-+jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x259>
++jmp    <T> <_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12PacketHeader+0x253>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -262,7 +257,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnNoticeGuildWarPointChangeEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1356 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1480 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildWarPointChange(PacketHeader* pkt)
@@ -276,10 +271,10 @@ void CPacketTranslater::OnNoticeGuildWarPointChange(PacketHeader* pkt)
     CGuildWar* war = (&m_pclApp->m_guildManager)->GetGuildWar();
     if (war->IsGuildWarEventOn() == 1)
     {
-        char* pb = (char*)pkt;
-        if (war->IsGuildWarEnterableGuild(*(unsigned int*)(pb + 0xa)) == 1)
+        PTL_GuildWarPointChangePkt* pb = (PTL_GuildWarPointChangePkt*)pkt;
+        if (war->IsGuildWarEnterableGuild(pb->m_guildKey) == 1)
         {
-            war->AddGuildWarPoint(*(unsigned int*)(pb + 0xa), (int)(char)pb[0xe]);
+            war->AddGuildWarPoint(pb->m_guildKey, (int)(char)pb->m_point);
         }
     }
     }

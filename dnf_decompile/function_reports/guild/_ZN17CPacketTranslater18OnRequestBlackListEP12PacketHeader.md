@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807dfda` | `0x207` | `0x8074912` | `0x20e` |
+| guild | DIFF | `0x807dfda` | `0x207` | `0x807489c` | `0x20a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,129 +1,133 @@
+@@ -1,129 +1,131 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -39,24 +39,20 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x1fd>
 -lea    -0x1d3(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x204>
++jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x200>
 +lea    -0x1d7(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN31Packet_Request_Result_BlackListC1Ev>
 -mov    -0x10(%ebp),%eax
--mov    0xe(%eax),%eax
--mov    %eax,-0x1c9(%ebp)
--mov    -0x10(%ebp),%eax
--mov    0xa(%eax),%eax
 +lea    -0x1d7(%ebp),%eax
 +lea    0xa(%eax),%edx
 +mov    -0x14(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
+ mov    0xe(%eax),%eax
+-mov    %eax,-0x1c9(%ebp)
+-mov    -0x10(%ebp),%eax
 +mov    %eax,(%edx)
 +mov    -0x14(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  add    $0x10,%edx
  mov    %eax,0x4(%esp)
@@ -69,7 +65,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0xd3>
-+je     <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0xdc>
++je     <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0xd8>
  movl   $0xf39,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnRequestBlackListEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
@@ -85,7 +81,7 @@
 -jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x1fd>
 -movb   $0x0,-0x1c5(%ebp)
 -lea    -0x1d3(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x204>
++jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x200>
 +movb   $0x0,-0x25(%ebp)
 +lea    -0x1d7(%ebp),%eax
  add    $0xf,%eax
@@ -114,10 +110,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x1fd>
-+jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x204>
++jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x200>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x1a3>
-+jne    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x1aa>
++jne    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x1a6>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -148,7 +144,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x19c>
-+jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x1a3>
++jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x19f>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -158,7 +154,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x1fd>
-+jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x204>
++jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x200>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xf4a,0x8(%esp)
@@ -174,7 +170,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x1f8>
-+jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x1ff>
++jmp    <T> <_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader+0x1fb>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -237,23 +233,23 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2962 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3085 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestBlackList(PacketHeader* pkt)
 {
     try
     {
-    char* pb = (char*)pkt;
+    PTL_RequestBlackListPkt* pb = (PTL_RequestBlackListPkt*)pkt;
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0xf2f, "./log/BlackList", "CPacketTranslater::OnRequestBlackList : 0 == m_pclApp");
         return;
     }
     Packet_Request_Result_BlackList reply;
-    *(unsigned int*)((char*)&reply + 0xa) = *(unsigned int*)(pb + 0xe);
+    *(unsigned int*)((char*)&reply + 0xa) = pb->m_charNo;
     CUser* user;
-    if ((user = (&m_pclApp->m_userManager)->FindUser(*(unsigned int*)(pb + 0xa))) == 0)
+    if ((user = (&m_pclApp->m_userManager)->FindUser(pb->m_dbid)) == 0)
     {
         DNF_LOG_SCOPE_LINE(0xf39, "./log/BlackList", "CPacketTranslater::OnRequestBlackList : 0 == pclUser");
         return;
