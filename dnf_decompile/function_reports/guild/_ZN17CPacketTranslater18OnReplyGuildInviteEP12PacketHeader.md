@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8078908` | `0x71d` | `0x806ec1a` | `0x794` |
+| guild | DIFF | `0x8078908` | `0x71d` | `0x806ebea` | `0x794` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -936,7 +936,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnReplyGuildInviteEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2318 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2408 行）：
 
 ```cpp
 void CPacketTranslater::OnReplyGuildInvite(PacketHeader* pkt)
@@ -994,14 +994,14 @@ void CPacketTranslater::OnReplyGuildInvite(PacketHeader* pkt)
             {
                 group = invited->GetGameServer()->GetGroupNo();
             }
-            joinPkt.m_fieldA = ((unsigned int)group << 24) | ((unsigned int)guildId & 0xffffff);
-            joinPkt.m_fieldE = (unsigned char)((unsigned int)guildId >> 24);
-            joinPkt.m_fieldF = (unsigned char)(dbid & 0xff);
-            joinPkt.m_field10 = (unsigned short)((dbid >> 8) & 0xffff);
-            joinPkt.m_field12 = (unsigned char)(dbid >> 24);
-            joinPkt.m_field13 = (unsigned char)((unsigned int)callerId & 0xff);
-            joinPkt.m_field14 = (unsigned short)(((unsigned int)callerId >> 8) & 0xffff);
-            joinPkt.m_field16 = (unsigned char)((unsigned int)callerId >> 24);
+            joinPkt.m_groupGuildId = ((unsigned int)group << 24) | ((unsigned int)guildId & 0xffffff);
+            joinPkt.m_guildIdHi = (unsigned char)((unsigned int)guildId >> 24);
+            joinPkt.m_dbidLo = (unsigned char)(dbid & 0xff);
+            joinPkt.m_dbidMid = (unsigned short)((dbid >> 8) & 0xffff);
+            joinPkt.m_dbidHi = (unsigned char)(dbid >> 24);
+            joinPkt.m_callerIdLo = (unsigned char)((unsigned int)callerId & 0xff);
+            joinPkt.m_callerIdMid = (unsigned short)(((unsigned int)callerId >> 8) & 0xffff);
+            joinPkt.m_callerIdHi = (unsigned char)((unsigned int)callerId >> 24);
             joinPkt.m_uniqCharNo = invited->GetUniqCharNo();
             memcpy(joinPkt.m_name, invited->GetCharName(), 0x1d);
             joinPkt.m_job = invited->GetJob();

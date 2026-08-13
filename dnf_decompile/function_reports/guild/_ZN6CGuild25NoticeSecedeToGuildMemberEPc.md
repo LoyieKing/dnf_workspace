@@ -165,7 +165,7 @@ void __thiscall CGuild::_ZN6CGuild25NoticeSecedeToGuildMemberEPc(CGuild *this,ch
 ```cpp
 void CGuild::NoticeSecedeToGuildMember(char* info)
 {
-    if ((m_field1c & 4) != 0 && !m_members.empty())
+    if ((m_guildDBFlag & 4) != 0 && !m_members.empty())
     {
         Packet_Monitor_Notice_Guild_Secede_ToUser pkt;
         memcpy(&pkt.m_info, info, 0x43);
@@ -175,8 +175,8 @@ void CGuild::NoticeSecedeToGuildMember(char* info)
             CUser* u = it->second;
             if (u != 0)
             {
-                pkt.m_a = u->GetIdByChannel();
-                pkt.m_b = u->GetUniqCharNo();
+                pkt.m_channel = u->GetIdByChannel();
+                pkt.m_charNo = u->GetUniqCharNo();
                 u->SendToGameserver((char*)&pkt, 0x55);
             }
         }

@@ -280,13 +280,13 @@ CGuild::_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser(CGuild *this,CUser *param_1)
 ```cpp
 bool CGuild::LoadGuildOneMemberProxy(CUser* user)
 {
-    if ((m_field1c & 4) == 0 || (m_field1c & 8) == 0)
+    if ((m_guildDBFlag & 4) == 0 || (m_guildDBFlag & 8) == 0)
     {
         return 0;
     }
-    if (m_field1e <= 0x12b)
+    if (m_totalCnt <= 0x12b)
     {
-        unsigned short idx = m_field1e;
+        unsigned short idx = m_totalCnt;
         ((CGuildMemberMainArray*)this)->m_members[idx].m_charNo = user->GetUniqCharNo();
         memcpy(((CGuildMemberMainArray*)this)->m_members[idx].m_name,
                user->GetCharName(), 0x1d);
@@ -295,19 +295,19 @@ bool CGuild::LoadGuildOneMemberProxy(CUser* user)
         ((CGuildMemberExtraArray*)this)->m_members[idx].m_sex = (char)user->GetSex();
         ((CGuildMemberExtraArray*)this)->m_members[idx].m_level =
             (unsigned short)user->GetLevel();
-        m_field1e++;
+        m_totalCnt++;
     }
-    if (m_field1e > 0x12b)
+    if (m_totalCnt > 0x12b)
     {
         CMyFileLog log("LoadGuildOneMemberProxy", 0x73d);
         log("./log/GuildErr", "Guild Member Cnt Full Or Over : G Key(%d), Cnt(%d)", m_guildKey,
-            (unsigned int)m_field1e);
-        if (m_field1e > 0x12c)
+            (unsigned int)m_totalCnt);
+        if (m_totalCnt > 0x12c)
         {
-            m_field1e = 0x12c;
+            m_totalCnt = 0x12c;
         }
     }
-    m_dbInfo.m_info.m_totalCnt = m_field1e;
+    m_dbInfo.m_info.m_totalCnt = m_totalCnt;
     return 1;
 }
 ```

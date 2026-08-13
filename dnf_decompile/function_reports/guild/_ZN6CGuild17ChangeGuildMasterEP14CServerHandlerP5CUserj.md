@@ -215,7 +215,7 @@ CGuild::_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj
 ```cpp
 bool CGuild::ChangeGuildMaster(CServerHandler* handler, CUser* user, unsigned int charNo)
 {
-    if ((m_field1c & 4) == 0 || charNo == 0)
+    if ((m_guildDBFlag & 4) == 0 || charNo == 0)
     {
         return 0;
     }

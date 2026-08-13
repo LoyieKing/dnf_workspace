@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4708` | `0xa4` | `0x809a2c6` | `0xc2` |
+| monitor | DIFF | `0x80a4708` | `0xa4` | `0x809a2c0` | `0xc2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -128,9 +128,9 @@ void COnTimeEventManager::StartEvent(unsigned int a, unsigned int b)
         return;
     }
     unsigned int t = (unsigned int)time(0);
-    m_field24 = (int)a;
-    m_field28 = (int)b;
-    m_field1c = (int)t;
+    m_eventStart = (int)a;
+    m_eventDurationMin = (int)b;
+    m_startTime = (int)t;
     ChangeState(ONTIME_EVENT_STATE_START);
     register CTaskScheduler::CTask* task =
         new COnTimeEventRewardStartTrigger(t, 0, this);

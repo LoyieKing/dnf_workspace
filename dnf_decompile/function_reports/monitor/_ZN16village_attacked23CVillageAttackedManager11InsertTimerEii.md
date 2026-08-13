@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a88c6` | `0x1bd` | `0x80a7720` | `0x239` |
+| monitor | DIFF | `0x80a88c6` | `0x1bd` | `0x80a771a` | `0x239` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -269,8 +269,8 @@ _ZN16village_attacked23CVillageAttackedManager11InsertTimerEii
 ```cpp
 void CVillageAttackedManager::InsertTimer(int startTime, int endTime)
 {
-    m_field2c = startTime;
-    m_field28 = endTime;
+    m_startTime = startTime;
+    m_endTime = endTime;
     CVillageAttackedCountdownFirst* t1 =
         new CVillageAttackedCountdownFirst(startTime - 600, 0, this);
     m_app->GetTaskScheduler()->AddTask(t1);

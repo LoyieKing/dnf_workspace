@@ -487,8 +487,8 @@ void CPacketTranslater::OnMonitorPunishCancel(PacketHeader* pkt)
             {
                 Packet_Punish_Cancel reply;
                 reply.m_idByChannel = target->GetIdByChannel();
-                reply.m_fieldE = ((RA_U16<14>*)pkt)->v;
-                reply.m_field10 = ((RA_U16<16>*)pkt)->v;
+                reply.m_type = ((RA_U16<14>*)pkt)->v;
+                reply.m_param = ((RA_U16<16>*)pkt)->v;
                 ((RA_U16<2>*)&reply)->v = 0x12;
                 target->SendToGameserver((char*)&reply, 0x12);
             }

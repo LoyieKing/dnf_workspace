@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8081faa` | `0x25b` | `0x807800c` | `0x164` |
+| guild | DIFF | `0x8081faa` | `0x25b` | `0x8077f62` | `0x164` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -279,7 +279,7 @@ void CPacketTranslater::_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4529 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4645 行）：
 
 ```cpp
 void CPacketTranslater::OnInCreaseDecreasePowerWarPoint(PacketHeader* pkt)

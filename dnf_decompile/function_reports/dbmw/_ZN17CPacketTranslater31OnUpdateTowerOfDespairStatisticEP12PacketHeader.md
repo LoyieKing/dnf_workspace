@@ -195,7 +195,7 @@ void CPacketTranslater::OnUpdateTowerOfDespairStatistic(PacketHeader* header)
             {
                 DNF_LOG_SCOPE_LINE(0x12e7, "./log/statistic",
                     "TOD Layer(%d), enter(%d), succ(%d)", i,
-                    pkt->m_entries[i].m_field12, pkt->m_entries[i].m_fieldE);
+                    pkt->m_entries[i].m_enter, pkt->m_entries[i].m_success);
             }
         }
     }

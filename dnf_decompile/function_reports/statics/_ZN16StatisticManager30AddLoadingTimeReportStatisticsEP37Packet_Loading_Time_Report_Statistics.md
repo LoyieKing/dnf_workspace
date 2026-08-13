@@ -793,10 +793,10 @@ void StatisticManager::AddLoadingTimeReportStatistics(Packet_Loading_Time_Report
             if (lcount != 0)
             {
                 STPowerwarFightLoadingKey lkey;
-                lkey.m_field0 = ((LoadingPwWire*)pkt)->m_key;
+                lkey.m_mId = ((LoadingPwWire*)pkt)->m_key;
                 for (int j = 0; j < (int)lcount; j++)
                 {
-                    lkey.m_field4 = ((LoadingPwWire*)pkt)->m_pw[j].m_key;
+                    lkey.m_round = ((LoadingPwWire*)pkt)->m_pw[j].m_key;
                     if (m_pwLoading.size() < 0x3e9)
                     {
                         std::map<STPowerwarFightLoadingKey, STPowerwarFightLoadingData>::iterator it =
@@ -805,10 +805,10 @@ void StatisticManager::AddLoadingTimeReportStatistics(Packet_Loading_Time_Report
                         if (isNew)
                         {
                             STPowerwarFightLoadingData v;
-                            v.m_field0 = ((LoadingPwWire*)pkt)->m_pw[j].m_f0;
-                            v.m_field2 = ((LoadingPwWire*)pkt)->m_pw[j].m_f2;
-                            v.m_field4 = ((LoadingPwWire*)pkt)->m_pw[j].m_f4;
-                            v.m_field6 = ((LoadingPwWire*)pkt)->m_pw[j].m_f6;
+                            v.m_player = ((LoadingPwWire*)pkt)->m_pw[j].m_f0;
+                            v.m_myLoading = ((LoadingPwWire*)pkt)->m_pw[j].m_f2;
+                            v.m_otherLoading = ((LoadingPwWire*)pkt)->m_pw[j].m_f4;
+                            v.m_vsLoading = ((LoadingPwWire*)pkt)->m_pw[j].m_f6;
                             m_pwLoading.insert(std::make_pair(lkey, v));
                         }
                     }
@@ -821,10 +821,10 @@ void StatisticManager::AddLoadingTimeReportStatistics(Packet_Loading_Time_Report
             if (gcount != 0)
             {
                 STPowerwarFightLagKey gkey;
-                gkey.m_field0 = ((LoadingLagWire*)pkt)->m_key;
+                gkey.m_mId = ((LoadingLagWire*)pkt)->m_key;
                 for (int j = 0; j < (int)gcount; j++)
                 {
-                    gkey.m_field4 = ((LoadingLagWire*)pkt)->m_lag[j].m_key;
+                    gkey.m_round = ((LoadingLagWire*)pkt)->m_lag[j].m_key;
                     if (m_pwLag.size() < 0x3e9)
                     {
                         std::map<STPowerwarFightLagKey, STPowerwarFightLagData>::iterator it =
@@ -833,9 +833,9 @@ void StatisticManager::AddLoadingTimeReportStatistics(Packet_Loading_Time_Report
                         if (isNew)
                         {
                             STPowerwarFightLagData v;
-                            v.m_field0 = ((LoadingLagWire*)pkt)->m_lag[j].m_f0;
-                            v.m_field4 = ((LoadingLagWire*)pkt)->m_lag[j].m_f4;
-                            v.m_field8 = ((LoadingLagWire*)pkt)->m_lag[j].m_f8;
+                            v.m_player = ((LoadingLagWire*)pkt)->m_lag[j].m_f0;
+                            v.m_lagAvg = ((LoadingLagWire*)pkt)->m_lag[j].m_f4;
+                            v.m_lagCnt = ((LoadingLagWire*)pkt)->m_lag[j].m_f8;
                             m_pwLag.insert(std::make_pair(gkey, v));
                         }
                     }

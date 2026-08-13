@@ -294,7 +294,7 @@ void CPacketTranslater::OnDBMWInsertMail(PacketHeader* header)
         }
         if (!m_pclApp->m_dbManager.InsertMail(
                 pkt->m_characNo, pkt->m_subject, pkt->m_content,
-                pkt->m_fieldE, letterNo, pkt->m_field12, pkt->m_field16))
+                pkt->m_itemId, letterNo, pkt->m_addInfo, pkt->m_extra))
         {
             DNF_LOG_SCOPE_LINE(0xd1e,
                 "./log/GuildEvent",
@@ -305,7 +305,7 @@ void CPacketTranslater::OnDBMWInsertMail(PacketHeader* header)
             return;
         }
         Packet_Monitor_Notify_New_Mail notice;
-        notice.m_fieldA = pkt->m_characNo;
+        notice.m_characNo = pkt->m_characNo;
         m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
             (char*)&notice, notice.packetSize);
     }

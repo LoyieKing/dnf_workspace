@@ -186,7 +186,7 @@ CGuild::_ZN6CGuild18DBSaveGuildMembersEhP14CServerHandlerh
 ```cpp
 void CGuild::DBSaveGuildMembers(unsigned char flag, CServerHandler* handler, unsigned char param)
 {
-    if ((m_field1c & 4) == 0 || m_members.empty())
+    if ((m_guildDBFlag & 4) == 0 || m_members.empty())
     {
         return;
     }

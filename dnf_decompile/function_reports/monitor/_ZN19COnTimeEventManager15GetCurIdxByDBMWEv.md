@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4ac8` | `0xf7` | `0x809a4e6` | `0x115` |
+| monitor | DIFF | `0x80a4ac8` | `0xf7` | `0x809a4e0` | `0x115` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -159,7 +159,7 @@ COnTimeEventManager::_ZN19COnTimeEventManager15GetCurIdxByDBMWEv(COnTimeEventMan
 ```cpp
 int COnTimeEventManager::GetCurIdxByDBMW()
 {
-    if (m_field34 != 0)
+    if (m_hasIdxFlag != 0)
     {
         return 1;
     }

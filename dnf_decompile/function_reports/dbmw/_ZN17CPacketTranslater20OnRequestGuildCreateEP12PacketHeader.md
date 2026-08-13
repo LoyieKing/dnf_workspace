@@ -235,7 +235,7 @@ void CPacketTranslater::OnRequestGuildCreate(PacketHeader* header)
         Packet_DBMW_Request_Guild_Create* pkt =
             (Packet_DBMW_Request_Guild_Create*)header;
         Packet_DBMW_Reply_Guild_Create reply;
-        reply.m_fieldA = pkt->m_characNo;
+        reply.m_characNo = pkt->m_characNo;
         m_pclApp->m_dbManager.QueryGuildCreate(
             pkt,
             *(unsigned int*)((char*)&reply + 0xe),
@@ -246,9 +246,9 @@ void CPacketTranslater::OnRequestGuildCreate(PacketHeader* header)
         DNF_LOG_SCOPE_LINE(0x65f,
             "./log/GuildModify",
             "::OnRequestGuildCreate g(%d) c(%d) r(%d)",
-            reply.m_fieldE,
+            reply.m_guildId,
             pkt->m_characNo,
-            reply.m_field12
+            reply.m_result
         );
 
     }

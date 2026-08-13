@@ -737,11 +737,11 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardOpen(PacketHeader* header)
             );
 
             Packet_DB_Load_Reply_Guild_Board_Open reply;
-            reply.m_fieldA = 1;
-            reply.m_fieldC = 1;
-            reply.m_fieldD = ((FieldViewP<0xa,int>*)pkt)->v;
-            reply.m_field11 = ((FieldViewP<0xe,int>*)pkt)->v;
-            reply.m_field15 = 0;
+            reply.m_result = 1;
+            reply.m_count = 1;
+            reply.m_guildId = ((FieldViewP<0xa,int>*)pkt)->v;
+            reply.m_charNo = ((FieldViewP<0xe,int>*)pkt)->v;
+            reply.m_boardCount = 0;
             gs->SendToServer((char*)&reply, 0x688);
             return;
         }
@@ -750,10 +750,10 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardOpen(PacketHeader* header)
         for (int page = 0; page < pageCount; page++)
         {
             Packet_DB_Load_Reply_Guild_Board_Open reply;
-            reply.m_fieldC = 0;
-            reply.m_fieldD = ((FieldViewP<0xa,int>*)pkt)->v;
-            reply.m_field11 = ((FieldViewP<0xe,int>*)pkt)->v;
-            reply.m_field15 = 0xa;
+            reply.m_count = 0;
+            reply.m_guildId = ((FieldViewP<0xa,int>*)pkt)->v;
+            reply.m_charNo = ((FieldViewP<0xe,int>*)pkt)->v;
+            reply.m_boardCount = 0xa;
             for (int i = 0; i <= 9; i++)
             {
                 char* dst = (char*)&reply + 0x16 + i * 0xa5;
@@ -765,16 +765,16 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardOpen(PacketHeader* header)
                 memcpy(dst + 0x84, src + 0x84, 0x21);
             }
             if (page + 1 == pageCount && rem == 0)
-                reply.m_fieldC = 1;
+                reply.m_count = 1;
             gs->SendToServer((char*)&reply, 0x688);
         }
         if (rem != 0)
         {
             Packet_DB_Load_Reply_Guild_Board_Open reply;
-            reply.m_fieldC = 1;
-            reply.m_fieldD = ((FieldViewP<0xa,int>*)pkt)->v;
-            reply.m_field11 = ((FieldViewP<0xe,int>*)pkt)->v;
-            reply.m_field15 = (char)rem;
+            reply.m_count = 1;
+            reply.m_guildId = ((FieldViewP<0xa,int>*)pkt)->v;
+            reply.m_charNo = ((FieldViewP<0xe,int>*)pkt)->v;
+            reply.m_boardCount = (char)rem;
             for (int i = 0; i < rem; i++)
             {
                 char* dst = (char*)&reply + 0x16 + i * 0xa5;

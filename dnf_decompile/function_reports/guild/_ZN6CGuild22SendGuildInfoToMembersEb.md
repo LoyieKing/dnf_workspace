@@ -204,7 +204,7 @@ void __thiscall CGuild::_ZN6CGuild22SendGuildInfoToMembersEb(CGuild *this,bool p
 void CGuild::SendGuildInfoToMembers(bool flag)
 {
     Packet_Monitor_Notice_Guild_Info pkt;
-    pkt.m_field12 = m_guildKey;
+    pkt.m_guildKey = m_guildKey;
     memcpy(&pkt.m_info, (char*)this + 0x20, 0xbd);
     pkt.m_padD3 = (char)flag;
     size_t n = strlen((char*)this + 0x4d0a);
@@ -212,7 +212,7 @@ void CGuild::SendGuildInfoToMembers(bool flag)
     {
         n = 0x64;
     }
-    memcpy(pkt.m_rest, m_field4d0a, n);
+    memcpy(pkt.m_rest, m_guildMessage, n);
     for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
          it != m_members.end(); ++it)
     {
@@ -221,8 +221,8 @@ void CGuild::SendGuildInfoToMembers(bool flag)
         {
             continue;
         }
-        pkt.m_fieldA = member->GetIdByChannel();
-        pkt.m_fieldE = member->GetUniqCharNo();
+        pkt.m_channel = member->GetIdByChannel();
+        pkt.m_charNo = member->GetUniqCharNo();
         member->SendToGameserver((char*)&pkt, 0x139);
         ReplyGuildMembers(member);
     }

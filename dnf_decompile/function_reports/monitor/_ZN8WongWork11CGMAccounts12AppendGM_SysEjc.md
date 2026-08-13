@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x80acea0` | `0x8f` | `0x809366e` | `0x8f` |
+| monitor | NEAR | `0x80acea0` | `0x8f` | `0x8093668` | `0x8f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -96,7 +96,7 @@ void CGMAccounts::AppendGM_Sys(unsigned int dbid, char level)
 {
     stGMInfo_t info = {};
     info.m_dbid = dbid;
-    info.m_field4 = (int)level;
+    info.m_level = (int)level;
     m_list.push_back(info);
     register char* mid = NumberToString(dbid, 0);
     CMyFileLog log(__FUNCTION__, 0xcd);

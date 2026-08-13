@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4834` | `0x181` | `0x809a5fc` | `0x197` |
+| monitor | DIFF | `0x80a4834` | `0x181` | `0x809a5f6` | `0x197` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -213,9 +213,9 @@ void COnTimeEventManager::OnRewardStart()
             ChangeState(ONTIME_EVENT_STATE_NONE);
             UpdateEventIdx();
             register int t = (int)time(0);
-            m_field20 = t;
+            m_rewardStartTime = t;
             register CTaskScheduler::CTask* task =
-                new COnTimeEventRewardEndTrigger((unsigned int)(m_field28 * 0x3c + t), 0, this);
+                new COnTimeEventRewardEndTrigger((unsigned int)(m_eventDurationMin * 0x3c + t), 0, this);
             m_app->GetTaskScheduler()->AddTask(task);
             register int idx = GetEvent_Idx();
             CMyFileLog log2(__FUNCTION__, 0xa7);

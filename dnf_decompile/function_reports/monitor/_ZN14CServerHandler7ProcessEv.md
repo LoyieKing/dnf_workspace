@@ -613,11 +613,11 @@ void __thiscall CServerHandler::_ZN14CServerHandler7ProcessEv(CServerHandler *th
 ```cpp
 void CServerHandler::Process()
 {
-    if (m_managerServer != 0 && m_field24++ > 3)
+    if (m_managerServer != 0 && m_managerHeartbeatCnt++ > 3)
     {
         unsigned char group = GetServerGroupNo();
         m_managerServer->SendHeartBeat(group & 0xff);
-        m_field24 = 0;
+        m_managerHeartbeatCnt = 0;
     }
     for (std::map<unsigned int, CGameServer*>::iterator it = m_gameServers.begin();
          it != m_gameServers.end(); it++)
@@ -658,10 +658,10 @@ void CServerHandler::Process()
                     m_tcpManagerServer.GetIP(), m_tcpManagerServer.GetPort());
             }
         }
-        if (9 < m_field64++)
+        if (9 < m_managerTcpHeartbeatCnt++)
         {
             m_tcpManagerServer.SendHeartbeat(GetServerGroupNo());
-            m_field64 = 0;
+            m_managerTcpHeartbeatCnt = 0;
         }
         if (m_tcpDbServer.IsValidServer() != 1)
         {
@@ -677,10 +677,10 @@ void CServerHandler::Process()
                     m_tcpDbServer.GetIP(), m_tcpDbServer.GetPort());
             }
         }
-        if (9 < m_field50++)
+        if (9 < m_dbHeartbeatCnt++)
         {
             m_tcpDbServer.SendHeartbeat();
-            m_field50 = 0;
+            m_dbHeartbeatCnt = 0;
         }
     }
 }

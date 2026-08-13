@@ -267,9 +267,9 @@ void StatisticManager::SendDBDeathTowerValueStatistic(CServerHandler* handler)
         for (std::map<STDeathTowerValueStatisticKey, ValueStatistic>::iterator it =
                  m_deathTowerValue.begin(); it != m_deathTowerValue.end(); ++it)
         {
-            pkt.m_items[idx].m_field0 = it->first.m_field0;
-            pkt.m_items[idx].m_field2 = it->first.m_field2;
-            pkt.m_items[idx].m_field4 = it->first.m_field4;
+            pkt.m_items[idx].m_type = it->first.m_type;
+            pkt.m_items[idx].m_level = it->first.m_level;
+            pkt.m_items[idx].m_counterIdx = it->first.m_counterIdx;
             pkt.m_items[idx].m_value = it->second.m_data[0];
             idx++;
             if (0x196 < idx)

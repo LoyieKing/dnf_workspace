@@ -212,7 +212,7 @@ bool CCacheCharacterMgr::CollectGarbage()
         }
         std::map<unsigned int, CACHE_CHARACTER_TYPE>::iterator it =
             m_cache.find((unsigned int)top.m_charNo);
-        if (it != m_cache.end() && 0x1d < now - it->second.m_field8)
+        if (it != m_cache.end() && 0x1d < now - it->second.m_time)
         {
             m_cache.erase(it);
             result = 1;

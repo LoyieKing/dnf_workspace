@@ -159,18 +159,18 @@ void __thiscall CGuild::_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj(CGuild 
 ```cpp
 void CGuild::NotifyCreateGuildAgitToGuildMember(unsigned int charNo)
 {
-    if ((m_field1c & 4) != 0 && !m_members.empty())
+    if ((m_guildDBFlag & 4) != 0 && !m_members.empty())
     {
         Packet_Channel_Create_Guild_Agit pkt;
-        pkt.m12 = charNo;
+        pkt.m_charNo = charNo;
         for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
              it != m_members.end(); ++it)
         {
             CUser* u = it->second;
             if (u != 0)
             {
-                pkt.ma = u->GetIdByChannel();
-                pkt.me = u->GetUniqCharNo();
+                pkt.m_channel = u->GetIdByChannel();
+                pkt.m_charNo2 = u->GetUniqCharNo();
                 u->SendToGameserver((char*)&pkt, 0x16);
             }
         }

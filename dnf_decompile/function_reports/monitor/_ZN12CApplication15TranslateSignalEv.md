@@ -447,16 +447,16 @@ void CApplication::TranslateSignal()
         case 3:
         {
             Packet_Monitor_Event_End pkt;
-            pkt.m_fieldA = (*it)->m_val;
+            pkt.m_eventCode = (*it)->m_val;
             CPacketTranslater::OnEventEnd(&pkt);
             break;
         }
         case 2:
         {
             Packet_Monitor_Event_Start pkt;
-            pkt.m_fieldA = (*it)->m_val;
-            pkt.m_fieldB = (unsigned short)(*it)->m_b;
-            pkt.m_fieldC = (unsigned short)(*it)->m_c;
+            pkt.m_eventCode = (*it)->m_val;
+            pkt.m_eventParam1 = (unsigned short)(*it)->m_b;
+            pkt.m_eventParam2 = (unsigned short)(*it)->m_c;
             CPacketTranslater::OnEventStart(&pkt);
             break;
         }
@@ -470,8 +470,8 @@ void CApplication::TranslateSignal()
         case 7:
         {
             Packet_Monitor_Take_Screen_Shot pkt;
-            pkt.m_fieldA = 0xff;
-            pkt.m_fieldB = (unsigned int)time(0);
+            pkt.m_channel = 0xff;
+            pkt.m_time = (unsigned int)time(0);
             CPacketTranslater::OnTakeScreenShot(&pkt);
             break;
         }

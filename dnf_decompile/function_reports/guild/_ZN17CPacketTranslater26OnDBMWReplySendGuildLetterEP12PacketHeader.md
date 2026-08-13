@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8079ed6` | `0x384` | `0x8070232` | `0x376` |
+| guild | DIFF | `0x8079ed6` | `0x384` | `0x8070208` | `0x37c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,262 +1,257 @@
+@@ -1,262 +1,259 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,19 +24,19 @@
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0xef>
 -lea    -0x49(%ebp),%eax
-+lea    -0x35(%ebp),%eax
++lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x49(%ebp),%eax
-+lea    -0x35(%ebp),%eax
++lea    -0x39(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnDBMWReplySendGuildLetter : 0 == m_pclApp",0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x50(%ebp),%esi
-+lea    -0x3c(%ebp),%esi
++lea    -0x40(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -56,7 +56,7 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x50(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x8f>
@@ -69,7 +69,7 @@
  mov    %ebx,%eax
  jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0xb4>
 -lea    -0x50(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0xcc>
@@ -89,46 +89,45 @@
 -mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x29e>
 -lea    -0x49(%ebp),%eax
-+lea    -0x35(%ebp),%eax
++lea    -0x39(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x292>
-+lea    -0x35(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x298>
++lea    -0x39(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
-+lea    -0x4f(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN31Packet_Monitor_Reply_Guild_MailC1Ev>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
 -lea    -0x63(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN31Packet_Monitor_Reply_Guild_MailC1Ev>
++mov    %eax,-0x28(%ebp)
++lea    -0x53(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN31Packet_Monitor_Reply_Guild_MailC1Ev>
 -mov    -0x24(%ebp),%eax
++mov    -0x28(%ebp),%eax
  mov    0xe(%eax),%eax
  test   %eax,%eax
--jne    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x1e7>
+ jne    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x1e7>
 -lea    -0x41(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x1e1>
-+lea    -0x2d(%ebp),%eax
++lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
 -lea    -0x41(%ebp),%eax
-+lea    -0x2d(%ebp),%eax
++lea    -0x31(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnDBMWReplySendGuildLetter : packet->m_uGuildKey == 0",0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
 -lea    -0x48(%ebp),%esi
-+lea    -0x34(%ebp),%esi
++lea    -0x38(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -136,8 +135,7 @@
  mov    %esi,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
--jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x18d>
-+jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x187>
+ jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x18d>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -149,30 +147,32 @@
  mov    %eax,%ebx
  mov    %ecx,%esi
 -lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x187>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x1ac>
--call   <T> <_ZSt9terminatev>
--mov    %esi,%ecx
--mov    %ebx,%eax
--jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x1ac>
++lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x187>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x1ac>
+ call   <T> <_ZSt9terminatev>
+ mov    %esi,%ecx
+ mov    %ebx,%eax
+ jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x1ac>
 -lea    -0x48(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x1c4>
--mov    %eax,%ecx
--mov    %edx,%eax
--cmp    $0xffffffff,%eax
--jne    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x1ac>
--call   <T> <_ZSt9terminatev>
--mov    %eax,%ecx
--mov    %edx,%eax
--mov    %eax,%ebx
--mov    %ecx,%esi
++lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x1c4>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ cmp    $0xffffffff,%eax
+ jne    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x1ac>
+ call   <T> <_ZSt9terminatev>
+ mov    %eax,%ecx
+ mov    %edx,%eax
+ mov    %eax,%ebx
+ mov    %ecx,%esi
 -lea    -0x41(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSaIcED1Ev>
@@ -180,45 +180,20 @@
 -mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x29e>
 -lea    -0x41(%ebp),%eax
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x181>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x1a6>
-+call   <T> <_ZSt9terminatev>
-+mov    %esi,%ecx
-+mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x1a6>
-+lea    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x1be>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+cmp    $0xffffffff,%eax
-+jne    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x1a6>
-+call   <T> <_ZSt9terminatev>
-+mov    %eax,%ecx
-+mov    %edx,%eax
-+mov    %eax,%ebx
-+mov    %ecx,%esi
-+lea    -0x2d(%ebp),%eax
++lea    -0x31(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSaIcED1Ev>
 +mov    %esi,%ecx
 +mov    %ebx,%eax
-+jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x292>
-+lea    -0x2d(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x298>
++lea    -0x31(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
-+mov    0x8(%ebp),%eax
++mov    -0x28(%ebp),%eax
 +mov    0xa(%eax),%eax
 +mov    %eax,-0x24(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
@@ -232,10 +207,10 @@
 +cmpl   $0x0,-0x20(%ebp)
 +sete   %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x251>
++je     <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x257>
 +movl   $0xb0e,0x8(%esp)
 +movl   $&_ZZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
-+lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x24(%ebp),%eax
@@ -243,20 +218,20 @@
 +mov    %eax,0xc(%esp)
 +movl   $"CPacketTranslater::OnDBMWReplySendGuildLetter : 0 == pclUser, Char Key = %d",0x8(%esp)
 +movl   $"./log/GuildModify",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
++lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x36e>
++jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x374>
 +mov    -0x24(%ebp),%eax
-+mov    %eax,-0x45(%ebp)
++mov    %eax,-0x49(%ebp)
 +mov    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser14GetIdByChannelEv>
-+mov    %eax,-0x41(%ebp)
-+mov    0x8(%ebp),%eax
++mov    %eax,-0x45(%ebp)
++mov    -0x28(%ebp),%eax
 +movzbl 0x12(%eax),%eax
-+mov    %al,-0x3d(%ebp)
-+lea    -0x4f(%ebp),%eax
++mov    %al,-0x41(%ebp)
++lea    -0x53(%ebp),%eax
 +movl   $0x13,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    -0x20(%ebp),%eax
@@ -298,18 +273,18 @@
 -mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x37c>
-+jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x36e>
++jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x374>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x31e>
-+jne    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x310>
++jne    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x316>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
 +movl   $0xb19,0x8(%esp)
 +movl   $"OnDBMWReplySendGuildLetter",0x4(%esp)
-+lea    -0x58(%ebp),%eax
++lea    -0x5c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
@@ -330,11 +305,11 @@
  movl   $"CPacketTranslater::OnDBMWReplySendGuildLetter() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x58(%ebp),%eax
++lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x317>
-+jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x309>
++jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x30f>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -346,23 +321,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x37c>
-+jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x36e>
++jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x374>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xb1e,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x60(%ebp),%eax
++lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDBMWReplySendGuildLetter() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x60(%ebp),%eax
++lea    -0x64(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x377>
-+jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x369>
++jmp    <T> <_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader+0x36f>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -459,7 +434,7 @@ void CPacketTranslater::_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12Pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2659 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2750 行）：
 
 ```cpp
 void CPacketTranslater::OnDBMWReplySendGuildLetter(PacketHeader* pkt)
@@ -467,13 +442,14 @@ void CPacketTranslater::OnDBMWReplySendGuildLetter(PacketHeader* pkt)
     try
     {
     THROW_IF_NO_APP("CPacketTranslater::OnDBMWReplySendGuildLetter : 0 == m_pclApp");
+    char* pb = (char*)pkt;
     Packet_Monitor_Reply_Guild_Mail reply;
-    if (((PTL_ReplySendGuildLetterPkt*)pkt)->m_guildKey == 0)
+    if (((PTL_ReplySendGuildLetterPkt*)pb)->m_guildKey == 0)
     {
         throw CDNFException(
             "CPacketTranslater::OnDBMWReplySendGuildLetter : packet->m_uGuildKey == 0");
     }
-    unsigned int charNo = ((PTL_ReplySendGuildLetterPkt*)pkt)->m_charNo;
+    unsigned int charNo = ((PTL_ReplySendGuildLetterPkt*)pb)->m_charNo;
     CUser* user;
     if ((user = (&m_pclApp->m_userManager)->FindUser_CharNo(charNo)) == 0)
     {
@@ -484,7 +460,7 @@ void CPacketTranslater::OnDBMWReplySendGuildLetter(PacketHeader* pkt)
     {
         reply.m_charNo = charNo;
         reply.m_channel = user->GetIdByChannel();
-        reply.m_result = ((PTL_ReplySendGuildLetterPkt*)pkt)->m_result;
+        reply.m_result = ((PTL_ReplySendGuildLetterPkt*)pb)->m_result;
         user->SendToGameserver((char*)&reply, 0x13);
     }
     }

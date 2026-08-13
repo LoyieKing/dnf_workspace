@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a5e58` | `0x29b` | `0x8094646` | `0x2bd` |
+| monitor | DIFF | `0x80a5e58` | `0x29b` | `0x8094640` | `0x2bd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -451,7 +451,7 @@ void CItemLimitEditionMgr::processScheduledJob(CApplication* app, bool flag)
         if (!m_items.empty())
         {
             Packet_Item_Limit_Edition_Update pkt2;
-            pkt2.m_fieldA = (unsigned int)app->Get_ServerGroup();
+            pkt2.m_serverGroup = (unsigned int)app->Get_ServerGroup();
             makeItemLimitEditionUpdatePacket(pkt2);
             CServerHandler* h = app->Get_ServerHandler();
             h->SendToDB(&pkt2);

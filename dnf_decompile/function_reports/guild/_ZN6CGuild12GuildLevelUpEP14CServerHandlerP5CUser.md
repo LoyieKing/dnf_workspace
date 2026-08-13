@@ -333,7 +333,7 @@ int CGuild::GuildLevelUp(CServerHandler* handler, CUser* user)
     {
         return 2;
     }
-    if ((m_field1c & 4) == 0)
+    if ((m_guildDBFlag & 4) == 0)
     {
         return 2;
     }
@@ -370,7 +370,7 @@ int CGuild::GuildLevelUp(CServerHandler* handler, CUser* user)
     SendGuildInfoToMembers(false);
     CMyFileLog log("GuildLevelUp", 0x44a);
     log("./log/GuildModify", "CGuild::GuildLevelUp(%d : %d)GSP(%d)", GetGuildKey(),
-        m_dbInfo.m_info.m_guildLevel, m_dbInfo.m_info.m_field42);
+        m_dbInfo.m_info.m_guildLevel, m_dbInfo.m_info.m_guildSkillPoint);
     return 0;
 }
 ```

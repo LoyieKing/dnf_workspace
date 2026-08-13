@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8086836` | `0x2c0` | `0x807bde6` | `0x1b5` |
+| guild | DIFF | `0x8086836` | `0x2c0` | `0x807bd3e` | `0x1b5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -330,7 +330,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5697 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5814 行）：
 
 ```cpp
 void CPacketTranslater::OnDBLoadReplyGuildBoardOpen(PacketHeader* pkt)

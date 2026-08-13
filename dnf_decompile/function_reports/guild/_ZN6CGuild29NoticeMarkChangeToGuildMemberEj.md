@@ -225,7 +225,7 @@ void __thiscall CGuild::_ZN6CGuild29NoticeMarkChangeToGuildMemberEj(CGuild *this
 ```cpp
 void CGuild::NoticeMarkChangeToGuildMember(unsigned int charNo)
 {
-    if ((m_field1c & 4) == 0 || m_members.empty())
+    if ((m_guildDBFlag & 4) == 0 || m_members.empty())
     {
         return;
     }
@@ -240,9 +240,9 @@ void CGuild::NoticeMarkChangeToGuildMember(unsigned int charNo)
         }
         int channel = member->GetIdByChannel();
         unsigned int memberNo = member->GetUniqCharNo();
-        pkt.m_fieldA = channel;
-        pkt.m_fieldE = memberNo;
-        pkt.m_field12 = charNo;
+        pkt.m_channel = channel;
+        pkt.m_charNo = memberNo;
+        pkt.m_charNo2 = charNo;
         CMyFileLog log(__FUNCTION__, 0x4bf);
         log("./log/Web", "[GUILD MARK CHANGE] Send to game server. (channel:%d, character:%u, guildkey:%d)\n",
             channel, memberNo, charNo);

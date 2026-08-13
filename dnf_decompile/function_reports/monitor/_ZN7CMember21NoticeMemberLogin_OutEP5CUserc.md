@@ -511,7 +511,7 @@ void CMember::NoticeMemberLogin_Out(CUser* user, char flag)
     if (invalid == 0 && (m_flag & 4) != 0)
     {
         Packet_Monitor_Notice_Member_Member_Login_out pkt;
-        CUser* member = m_memberManager->FindMemberUser(m_dbInfo.m_member.m_field0);
+        CUser* member = m_memberManager->FindMemberUser(m_dbInfo.m_member.m_charNo);
         if (member != 0)
         {
             if (user->IsBlackUser(member->GetUniqCharNo()) != 1)
@@ -555,7 +555,7 @@ void CMember::NoticeMemberLogin_Out(CUser* user, char flag)
         {
             for (int i = 0; i < count; i++)
             {
-                CUser* m = m_memberManager->FindMemberUser(m_dbInfo.m_lowers[i].m_field0);
+                CUser* m = m_memberManager->FindMemberUser(m_dbInfo.m_lowers[i].m_charNo);
                 if (m == 0)
                 {
                     continue;

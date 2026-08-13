@@ -680,19 +680,19 @@ void CPacketTranslater::OnRequestIPCounterList(PacketHeader* header)
                     srcIdx++;
                     count++;
                 }
-                reply.m_fieldB = (char)count;
+                reply.m_count = (char)count;
                 if (batch == 0)
-                    reply.m_fieldA = 0;
+                    reply.m_batchFlag = 0;
                 else if (srcIdx >= size)
-                    reply.m_fieldA = 2;
+                    reply.m_batchFlag = 2;
                 else
-                    reply.m_fieldA = 1;
+                    reply.m_batchFlag = 1;
                 reply.packetSize =
                     (unsigned short)(0xbc4 - (0x96 - count) * 0x14);
                 ms->SendToServer((char*)&reply, reply.packetSize);
                 DNF_LOG_SCOPE_LINE(0xbab,
                     "./log/Secu",
-                    "[IP Counter] Packet Send - Stats : %3d, Cnt : %3d", (int)reply.m_fieldA,
+                    "[IP Counter] Packet Send - Stats : %3d, Cnt : %3d", (int)reply.m_batchFlag,
                     count
                 );
 
@@ -705,7 +705,7 @@ void CPacketTranslater::OnRequestIPCounterList(PacketHeader* header)
             reply.packetSize = 0xc;
             ms->SendToServer((char*)&reply, reply.packetSize);
         }
-        if (!vec2.empty() && pkt->m_fieldB != 0)
+        if (!vec2.empty() && pkt->m_fullListFlag != 0)
         {
             int size = vec2.size();
             int srcIdx = 0;
@@ -721,19 +721,19 @@ void CPacketTranslater::OnRequestIPCounterList(PacketHeader* header)
                     srcIdx++;
                     count++;
                 }
-                reply.m_fieldB = (char)count;
+                reply.m_count = (char)count;
                 if (batch == 0)
-                    reply.m_fieldA = 0;
+                    reply.m_batchFlag = 0;
                 else if (srcIdx >= size)
-                    reply.m_fieldA = 2;
+                    reply.m_batchFlag = 2;
                 else
-                    reply.m_fieldA = 1;
+                    reply.m_batchFlag = 1;
                 reply.packetSize =
                     (unsigned short)(0xe1c - (0x96 - count) * 0x18);
                 ms->SendToServer((char*)&reply, reply.packetSize);
                 DNF_LOG_SCOPE_LINE(0xbd8,
                     "./log/Secu",
-                    "[D_IP Counter] Packet Send - Stats : %3d, Cnt : %3d", (int)reply.m_fieldA,
+                    "[D_IP Counter] Packet Send - Stats : %3d, Cnt : %3d", (int)reply.m_batchFlag,
                     count
                 );
 

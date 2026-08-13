@@ -316,13 +316,13 @@ void StatisticManager::SendDBDeathTowerPlayDataPartyStatistic(CServerHandler* ha
         for (std::map<STDeathTowerPlayDataPartyStatisticKey, PlayDataPartyStatistic>::iterator it =
                  m_deathTowerParty.begin(); it != m_deathTowerParty.end(); ++it)
         {
-            pkt.m_items[idx].m_field0 = it->first.m_field0;
-            pkt.m_items[idx].m_field1 = it->first.m_field1;
+            pkt.m_items[idx].m_deathTowerType = it->first.m_deathTowerType;
+            pkt.m_items[idx].m_partyCount = it->first.m_partyCount;
             if (it->second.m_data[1] == 0)
             {
                 it->second.m_data[1] = 1;
             }
-            pkt.m_items[idx].m_value = it->second.m_data[0] / it->second.m_data[1];
+            pkt.m_items[idx].m_avgClearCount = it->second.m_data[0] / it->second.m_data[1];
             idx++;
             if (0x263 < idx)
             {

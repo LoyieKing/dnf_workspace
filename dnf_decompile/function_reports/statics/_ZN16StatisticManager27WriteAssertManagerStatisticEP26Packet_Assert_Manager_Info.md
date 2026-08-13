@@ -379,14 +379,14 @@ void StatisticManager::WriteAssertManagerStatistic(Packet_Assert_Manager_Info* p
         int m_f110;
     };
     STAssertManagerKey key;
-    memcpy(key.m_str0, (char*)pkt + 0xe, ((Wire*)pkt)->m_f0a);
-    AMDecrypt(key.m_str0, ((Wire*)pkt)->m_f0a);
-    key.m_field100 = ((Wire*)pkt)->m_f10e;
+    memcpy(key.m_fileName, (char*)pkt + 0xe, ((Wire*)pkt)->m_f0a);
+    AMDecrypt(key.m_fileName, ((Wire*)pkt)->m_f0a);
+    key.m_fileLine = ((Wire*)pkt)->m_f10e;
     if (-1 < ((Wire*)pkt)->m_f110 && ((Wire*)pkt)->m_f110 < 0x101)
     {
-        memcpy(key.m_str2, (char*)pkt + 0x114, ((Wire*)pkt)->m_f110);
-        AMDecrypt(key.m_str2, ((Wire*)pkt)->m_f110);
-        DNF_LOG_SCOPE_LINE(0x2b5, "./log/Statistic", "[AssertManager] Reason(%s)", key.m_str2);
+        memcpy(key.m_reason, (char*)pkt + 0x114, ((Wire*)pkt)->m_f110);
+        AMDecrypt(key.m_reason, ((Wire*)pkt)->m_f110);
+        DNF_LOG_SCOPE_LINE(0x2b5, "./log/Statistic", "[AssertManager] Reason(%s)", key.m_reason);
     }
     if (99 < m_assertManager.size())
     {

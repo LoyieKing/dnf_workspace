@@ -249,7 +249,7 @@ CGuild::_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo
 int CGuild::ReplyGuildMembersToWeb(STGuildMemberWebConnInfo* info)
 {
     int count = 0;
-    if ((m_field1c & 4) != 0 && !m_members.empty())
+    if ((m_guildDBFlag & 4) != 0 && !m_members.empty())
     {
         for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
              it != m_members.end() && count < 300; ++it)

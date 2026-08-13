@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807f108` | `0x38c` | `0x8075330` | `0x380` |
+| guild | DIFF | `0x807f108` | `0x38c` | `0x80752e4` | `0x380` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -399,7 +399,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnRequestGuildCreateEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3836 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3937 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestGuildCreate(PacketHeader* pkt)
@@ -419,17 +419,17 @@ void CPacketTranslater::OnRequestGuildCreate(PacketHeader* pkt)
         return;
     }
     Packet_Reply_Guild_Create reply;
-    reply.m_a = charNo;
-    reply.m_e = user->GetIdByChannel();
+    reply.m_charNo = charNo;
+    reply.m_channel = user->GetIdByChannel();
     if (user->GetGuildKey() != 0)
     {
-        reply.m_12 = 0x20;
+        reply.m_result = 0x20;
         user->SendToGameserver((char*)&reply, 0x2d);
         return;
     }
     if (user->GetGameServer() == 0)
     {
-        reply.m_12 = 1;
+        reply.m_result = 1;
         user->SendToGameserver((char*)&reply, 0x2d);
         return;
     }

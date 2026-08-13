@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a5148` | `0x389` | `0x809af8a` | `0x391` |
+| guild | DIFF | `0x80a5148` | `0x389` | `0x809aeb6` | `0x391` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -462,11 +462,11 @@ void CPowerManager::SendPowerWarEndInfoInSpecificPower(char side)
         }
         else
         {
-            CUser* user = (*(CApplication**)&m_field4)->Get_UserManager()
+            CUser* user = (*(CApplication**)&m_app)->Get_UserManager()
                 ->FindUser_CharNo(*(unsigned int*)characInfo->m_data);
             if (user != 0)
             {
-                guild = (*(CApplication**)&m_field4)->Get_GuildManager()
+                guild = (*(CApplication**)&m_app)->Get_GuildManager()
                     ->FindGuild(user->GetGuildKey());
                 if (guild != 0)
                 {

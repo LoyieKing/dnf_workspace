@@ -136,7 +136,7 @@ void CMember::NoticeLevelUpToLowers(unsigned int level)
         Packet_Monitor_Notice_MemberExp_LevelUp pkt;
         for (int i = 0; i < count; i++)
         {
-            CUser* user = m_memberManager->FindMemberUser(m_dbInfo.m_lowers[i].m_field0);
+            CUser* user = m_memberManager->FindMemberUser(m_dbInfo.m_lowers[i].m_charNo);
             if (user != 0)
             {
                 pkt.m_idByChannel = user->GetIdByChannel();

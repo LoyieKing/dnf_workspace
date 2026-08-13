@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a8ba8` | `0x9f` | `0x80a8454` | `0xa8` |
+| monitor | DIFF | `0x80a8ba8` | `0x9f` | `0x80a844e` | `0xa8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -112,8 +112,8 @@ _ZN16village_attacked23CVillageAttackedManager11SendMinTimeEv(CVillageAttackedMa
 void CVillageAttackedManager::SendMinTime()
 {
     Packet_DBMW_Query_Msg pkt;
-    pkt.m_fieldB = 6;
-    pkt.m_fieldA = 0x4ee3;
+    pkt.m_handleIdx = 6;
+    pkt.m_queryId = 0x4ee3;
     register unsigned int elapse = GetElapseTime();
     register unsigned int now = GetNowTime();
     register unsigned int group = (unsigned int)m_app->Get_ServerGroup();

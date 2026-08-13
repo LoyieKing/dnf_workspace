@@ -1333,7 +1333,7 @@ void __thiscall CGuild::_ZN6CGuild20ReplyGuildAllMembersEP5CUser(CGuild *this,CU
 ```cpp
 void CGuild::ReplyGuildAllMembers(CUser* user)
 {
-    if (user == 0 || (m_field1c & 4) == 0 || (m_field1c & 0x10) == 0)
+    if (user == 0 || (m_guildDBFlag & 4) == 0 || (m_guildDBFlag & 0x10) == 0)
     {
         return;
     }
@@ -1342,14 +1342,14 @@ void CGuild::ReplyGuildAllMembers(CUser* user)
     pkt.m_fieldC = m_guildKey;
     memcpy(buf + 0x16, (char*)this + 0x20, 0x16);
     pkt.m_fieldD = m_dbInfo.m_info.m_guildPoint;
-    unsigned short total = m_field1e;
+    unsigned short total = m_totalCnt;
     int count = 0;
-    if (m_dbInfo.m_info.m_totalCnt != m_field1e)
+    if (m_dbInfo.m_info.m_totalCnt != m_totalCnt)
     {
         DNF_LOG_SCOPE_LINE(0x63b,"./log/GuildModify", "Error Guild Member Cnt Not Valid , (%d)/(%d)",
             (unsigned int)m_dbInfo.m_info.m_totalCnt,
-            (unsigned int)m_field1e);
-        m_dbInfo.m_info.m_totalCnt = m_field1e;
+            (unsigned int)m_totalCnt);
+        m_dbInfo.m_info.m_totalCnt = m_totalCnt;
     }
     int idx = 0;
     for (idx = 0; idx < (int)total; idx++)

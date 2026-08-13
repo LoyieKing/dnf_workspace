@@ -341,10 +341,10 @@ void CPacketTranslater::OnGuildSecede(PacketHeader* header)
         if (pkt->m_guildId == 0)
             return;
         Packet_DB_Reply_Guild_Secede reply;
-        reply.m_fieldA = pkt->m_guildId;
-        reply.m_fieldE = pkt->m_characNo;
-        reply.m_field1A = pkt->m_grade;
-        reply.m_field1B = pkt->m_secedeType;
+        reply.m_guildId = pkt->m_guildId;
+        reply.m_characNo = pkt->m_characNo;
+        reply.m_grade = pkt->m_grade;
+        reply.m_secedeType = pkt->m_secedeType;
         memcpy((char*)&reply + 0x1f, pkt->m_characName, 0x1d);
         if (!m_pclApp->m_dbManager.GuildSecede(
                 pkt,
@@ -357,8 +357,8 @@ void CPacketTranslater::OnGuildSecede(PacketHeader* header)
                 "::OnGuildSecede Err g(%d) n(%s) c(%d) r(%d) f(%d)",
                 pkt->m_guildId,
                 pkt->m_characName,
-                reply.m_field12,
-                reply.m_field16,
+                reply.m_secedeCharacNo,
+                reply.m_result,
                 pkt->m_grade
             );
 
@@ -368,8 +368,8 @@ void CPacketTranslater::OnGuildSecede(PacketHeader* header)
         CMyFileLog log2(__FUNCTION__, 0x5ed);
         log2("./log/GuildModify", "::OnGuildSecede g(%d) c(%d) r(%d) f(%d)",
              pkt->m_guildId,
-             reply.m_field12,
-             reply.m_field16,
+             reply.m_secedeCharacNo,
+             reply.m_result,
              pkt->m_grade);
     }
     DNF_CATCH_LOG("./log/Except.log",

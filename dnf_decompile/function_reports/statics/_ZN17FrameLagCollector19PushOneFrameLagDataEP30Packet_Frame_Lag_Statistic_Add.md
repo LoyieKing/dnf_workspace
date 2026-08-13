@@ -927,23 +927,23 @@ int FrameLagCollector::PushOneFrameLagData(Packet_Frame_Lag_Statistic_Add* pkt)
          it != m_monitor.end(); ++it)
     {
         char match = 1;
-        if (!(it->second.m_field4 == -1 || it->second.m_field4 == ((FrameLagPktHeader*)pkt)->m_field_f))
+        if (!(it->second.m_cpuVendor == -1 || it->second.m_cpuVendor == ((FrameLagPktHeader*)pkt)->m_field_f))
             match = 0;
-        if (match && !(it->second.m_field5 == -1 || it->second.m_field5 == ((FrameLagPktHeader*)pkt)->m_field_e))
+        if (match && !(it->second.m_cpuProcessorNum == -1 || it->second.m_cpuProcessorNum == ((FrameLagPktHeader*)pkt)->m_field_e))
             match = 0;
-        if (match && !(it->second.m_field8 == -1 || it->second.m_field8 <= ((FrameLagPktHeader*)pkt)->m_min))
+        if (match && !(it->second.m_aboveCpuClock == -1 || it->second.m_aboveCpuClock <= ((FrameLagPktHeader*)pkt)->m_min))
             match = 0;
-        if (match && !(it->second.m_fieldc == -1 || it->second.m_fieldc > ((FrameLagPktHeader*)pkt)->m_min))
+        if (match && !(it->second.m_belowCpuClock == -1 || it->second.m_belowCpuClock > ((FrameLagPktHeader*)pkt)->m_min))
             match = 0;
-        if (match && !(it->second.m_field10 == -1 || it->second.m_field10 == ((FrameLagPktHeader*)pkt)->m_field_18))
+        if (match && !(it->second.m_ram == -1 || it->second.m_ram == ((FrameLagPktHeader*)pkt)->m_field_18))
             match = 0;
-        if (match && !(it->second.m_field14 == -1 || (unsigned int)it->second.m_field14 == (unsigned int)((FrameLagPktHeader*)pkt)->m_field_12))
+        if (match && !(it->second.m_videocardVendor == -1 || (unsigned int)it->second.m_videocardVendor == (unsigned int)((FrameLagPktHeader*)pkt)->m_field_12))
             match = 0;
-        if (match && !(it->second.m_field18 == -1 || (unsigned int)it->second.m_field18 == (unsigned int)((FrameLagPktHeader*)pkt)->m_field_14))
+        if (match && !(it->second.m_videocardDevice == -1 || (unsigned int)it->second.m_videocardDevice == (unsigned int)((FrameLagPktHeader*)pkt)->m_field_14))
             match = 0;
-        if (match && !(it->second.m_field1c == -1 || it->second.m_field1c == ((FrameLagPktHeader*)pkt)->m_field_16))
+        if (match && !(it->second.m_videocardTextureMem == -1 || it->second.m_videocardTextureMem == ((FrameLagPktHeader*)pkt)->m_field_16))
             match = 0;
-        if (match && !(it->second.m_field1e == -1 || it->second.m_field1e == ((FrameLagPktHeader*)pkt)->m_field_1a))
+        if (match && !(it->second.m_osVersion == -1 || it->second.m_osVersion == ((FrameLagPktHeader*)pkt)->m_field_1a))
             match = 0;
         if (match)
         {

@@ -379,16 +379,16 @@ void StatisticManager::SendDBHellPartyStatisticItem(CServerHandler* handler)
         for (std::map<STHellPartyStatisticItemKey, HellPartyItenmData>::iterator it =
                  m_hellParty.begin(); it != m_hellParty.end(); ++it)
         {
-            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_field0 =
-                it->first.m_field0;
-            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_field4 =
-                it->first.m_field4;
-            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_field8 =
-                it->first.m_field8;
-            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_field9 =
-                it->first.m_field9;
-            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_fielda =
-                it->first.m_fielda;
+            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_hellpartyType =
+                it->first.m_hellpartyType;
+            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_dungeonIndex =
+                it->first.m_dungeonIndex;
+            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_dungeonDiff =
+                it->first.m_dungeonDiff;
+            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_partyCount =
+                it->first.m_partyCount;
+            ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_hellpartyDiff =
+                it->first.m_hellpartyDiff;
             memcpy(((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_data,
                    it->second.m_data, 0x18);
             ((STHellPartyStatisticItemWire*)((char*)&pkt + idx * 0x24))->m_count =

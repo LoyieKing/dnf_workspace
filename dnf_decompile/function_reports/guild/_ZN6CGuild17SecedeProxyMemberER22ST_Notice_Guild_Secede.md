@@ -219,9 +219,9 @@ CGuild::_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede
 ```cpp
 void CGuild::SecedeProxyMember(ST_Notice_Guild_Secede& info)
 {
-    if ((m_field1c & 4) != 0 && (m_field1c & 0x10) != 0 && !m_members.empty())
+    if ((m_guildDBFlag & 4) != 0 && (m_guildDBFlag & 0x10) != 0 && !m_members.empty())
     {
-        unsigned short cnt = m_field1e;
+        unsigned short cnt = m_totalCnt;
         if (cnt < 0x12d)
         {
             for (int i = 0; i < (int)cnt; i++)
@@ -239,7 +239,7 @@ void CGuild::SecedeProxyMember(ST_Notice_Guild_Secede& info)
                     {
                         cnt = 0;
                     }
-                    m_field1e = cnt;
+                    m_totalCnt = cnt;
                     m_dbInfo.m_info.m_totalCnt = cnt;
                     return;
                 }

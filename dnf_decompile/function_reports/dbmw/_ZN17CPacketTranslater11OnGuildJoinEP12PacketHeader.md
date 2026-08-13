@@ -407,15 +407,15 @@ void CPacketTranslater::OnGuildJoin(PacketHeader* header)
         if (pkt->m_guildId == 0)
             return;
         Packet_DBMW_Save_Guild_Join_Reply reply;
-        reply.m_fieldA = pkt->m_guildId;
-        reply.m_fieldE = pkt->m_field13;
-        reply.m_field12 = pkt->m_characNo;
+        reply.m_guildId = pkt->m_guildId;
+        reply.m_mid = pkt->m_mid;
+        reply.m_characNo = pkt->m_characNo;
         STGuildJoinInfo join;
         memset(&join, 0, 0x3c);
         join.m_serverId = pkt->m_serverId;
         join.m_guildId = pkt->m_guildId;
-        join.m_id = pkt->m_id;
-        join.m_fieldC = pkt->m_field13;
+        join.m_id = pkt->m_accId;
+        join.m_mid = pkt->m_mid;
         join.m_characNo = pkt->m_characNo;
         strncpy(join.m_characName, pkt->m_characName, 0x1d);
         join.m_lev = pkt->m_lev;
@@ -429,10 +429,10 @@ void CPacketTranslater::OnGuildJoin(PacketHeader* header)
             DNF_LOG_SCOPE_LINE(0x56a,
                 "./log/GuildModify",
                 "OnGuildJoin Err(g:%d,c:%d,r:%d) : return false", pkt->m_guildId, pkt->m_characNo,
-                reply.m_field16
+                reply.m_result
             );
 
-            if (reply.m_field16 == 0)
+            if (reply.m_result == 0)
                 m_pclApp->m_dbManager.DeleteJoinListByInvite(
                     pkt->m_guildId, pkt->m_characNo);
             m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
@@ -441,7 +441,7 @@ void CPacketTranslater::OnGuildJoin(PacketHeader* header)
         CMyFileLog log2(__FUNCTION__, 0x576);
         log2("./log/GuildModify", "::OnGuildJoin g(%d) c(%d) r(%d)",
              pkt->m_guildId, pkt->m_characNo,
-             reply.m_field16);
+             reply.m_result);
     }
     DNF_CATCH_LOG("./log/Except.log",
                   "CPacketTranslater::OnGuildJoin() Exception Break",

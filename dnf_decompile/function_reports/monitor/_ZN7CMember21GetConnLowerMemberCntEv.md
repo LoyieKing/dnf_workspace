@@ -108,7 +108,7 @@ int CMember::GetConnLowerMemberCnt()
     int cnt = 0;
     for (int i = 0; i < count; i++)
     {
-        user = m_memberManager->FindMemberUser(m_dbInfo.m_lowers[i].m_field0);
+        user = m_memberManager->FindMemberUser(m_dbInfo.m_lowers[i].m_charNo);
         if (user == 0)
         {
             continue;

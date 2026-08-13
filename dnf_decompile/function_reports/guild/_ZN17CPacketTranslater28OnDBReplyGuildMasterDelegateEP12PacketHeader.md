@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807b608` | `0x63c` | `0x80718de` | `0x61d` |
+| guild | DIFF | `0x807b608` | `0x63c` | `0x80718ba` | `0x61d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -772,7 +772,7 @@ void CPacketTranslater::_ZN17CPacketTranslater28OnDBReplyGuildMasterDelegateEP12
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2979 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3071 行）：
 
 ```cpp
 void CPacketTranslater::OnDBReplyGuildMasterDelegate(PacketHeader* pkt)

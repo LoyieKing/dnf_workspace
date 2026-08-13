@@ -436,15 +436,15 @@ CGuild::_ZN6CGuild13BuyGuildSkillEiisj
 ```cpp
 bool CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int charNo)
 {
-    if ((m_field1c & 4) == 0)
+    if ((m_guildDBFlag & 4) == 0)
     {
         return 0;
     }
-    if ((int)m_dbInfo.m_info.m_field42 < (int)(short)param)
+    if ((int)m_dbInfo.m_info.m_guildSkillPoint < (int)(short)param)
     {
         CMyFileLog log("BuyGuildSkill", 0x3d2);
         log("./log/GuildSkill", "BUY_SKILL_1, GKey(%d) , Idx(%d), lev(%d), gsp(%d)",
-            GetGuildKey(), skillId, slot, (unsigned int)m_dbInfo.m_info.m_field42);
+            GetGuildKey(), skillId, slot, (unsigned int)m_dbInfo.m_info.m_guildSkillPoint);
         return 0;
     }
     if (m_dbInfo.m_info.m_guildFund < charNo)
@@ -466,7 +466,7 @@ bool CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int char
     }
     if (found == -1)
     {
-        unsigned char* learnCnt = &m_dbInfo.m_info.m_field44;
+        unsigned char* learnCnt = &m_dbInfo.m_info.m_skillLearnCnt;
         if (*learnCnt > 0xf)
         {
             CMyFileLog log("BuyGuildSkill", 0x3ee);
@@ -483,18 +483,18 @@ bool CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int char
     {
         *(char*)((char*)this + found * 5 + 0x69) = (char)slot;
     }
-    if (m_dbInfo.m_info.m_field42 >= (unsigned short)param)
+    if (m_dbInfo.m_info.m_guildSkillPoint >= (unsigned short)param)
     {
-        m_dbInfo.m_info.m_field42 -= (unsigned short)param;
+        m_dbInfo.m_info.m_guildSkillPoint -= (unsigned short)param;
     }
     else
     {
-        m_dbInfo.m_info.m_field42 = 0;
+        m_dbInfo.m_info.m_guildSkillPoint = 0;
     }
-    m_field4d96 = 1;
+    m_dBSaveFlag = 1;
     CMyFileLog log(__FUNCTION__, 0x403);
     log("./log/GuildSkill", "BUY_SKILL, GKey(%d) , Idx(%d), lev(%d), gsp(%d)", GetGuildKey(),
-        skillId, slot, (unsigned int)m_dbInfo.m_info.m_field42);
+        skillId, slot, (unsigned int)m_dbInfo.m_info.m_guildSkillPoint);
     return 1;
 }
 ```

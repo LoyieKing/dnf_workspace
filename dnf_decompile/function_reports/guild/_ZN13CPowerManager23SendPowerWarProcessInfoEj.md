@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a4e5c` | `0x252` | `0x809ac98` | `0x252` |
+| guild | DIFF | `0x80a4e5c` | `0x252` | `0x809abc4` | `0x252` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -268,7 +268,7 @@ CPowerManager::_ZN13CPowerManager23SendPowerWarProcessInfoEj(CPowerManager *this
 void CPowerManager::SendPowerWarProcessInfo(unsigned int charNo)
 {
     CUser* user =
-        ((CApplication*)m_field4)->Get_UserManager()->FindUser_CharNo(charNo);
+        ((CApplication*)m_app)->Get_UserManager()->FindUser_CharNo(charNo);
     if (user == 0)
     {
         DNF_LOG_SCOPE_LINE(0x3e2,"./log/Power", "CPacketTranslater::SendPowerWarProcessInfo : 0 == pclUser(%d)",
@@ -276,7 +276,7 @@ void CPowerManager::SendPowerWarProcessInfo(unsigned int charNo)
         return;
     }
     unsigned int guildKey = user->GetGuildKey();
-    CGuild* guild = ((CApplication*)m_field4)->Get_GuildManager()->FindGuild(guildKey);
+    CGuild* guild = ((CApplication*)m_app)->Get_GuildManager()->FindGuild(guildKey);
     if (guild == 0)
     {
         DNF_LOG_SCOPE_LINE(0x3ea,"./log/Power",

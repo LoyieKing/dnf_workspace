@@ -274,7 +274,7 @@ void CMember::NoticeChatMsgToMemberMembers(char* msg, int len, CUser* user)
         pkt.m_msgLen = (unsigned char)len;
         memcpy(pkt.m_msg, msg, len);
         pkt.packetSize = (unsigned short)len + 0x31;
-        CUser* member = m_memberManager->FindMemberUser(m_dbInfo.m_member.m_field0);
+        CUser* member = m_memberManager->FindMemberUser(m_dbInfo.m_member.m_charNo);
         if (member != 0)
         {
             pkt.m_idByChannel = member->GetIdByChannel();
@@ -289,7 +289,7 @@ void CMember::NoticeChatMsgToMemberMembers(char* msg, int len, CUser* user)
         {
             for (int i = 0; i < count; i++)
             {
-                CUser* m = m_memberManager->FindMemberUser(m_dbInfo.m_lowers[i].m_field0);
+                CUser* m = m_memberManager->FindMemberUser(m_dbInfo.m_lowers[i].m_charNo);
                 if (m != 0)
                 {
                     pkt.m_idByChannel = m->GetIdByChannel();

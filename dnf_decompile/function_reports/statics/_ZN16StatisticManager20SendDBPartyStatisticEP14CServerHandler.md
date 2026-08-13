@@ -670,14 +670,14 @@ void StatisticManager::SendDBPartyStatistic(CServerHandler* handler)
         for (std::map<STPartyStatisticKey, PartyStatistic>::iterator it = m_party.begin();
              it != m_party.end(); ++it)
         {
-            pkt.m_elem[idx].m_field0 = it->first.m_field0;
-            pkt.m_elem[idx].m_field4 = it->first.m_field4;
-            pkt.m_elem[idx].m_field8 = it->first.m_field8;
-            pkt.m_elem[idx].m_field9 = it->first.m_field9;
-            pkt.m_elem[idx].m_fielda = it->first.m_fielda;
-            pkt.m_elem[idx].m_fieldb = it->first.m_fieldb;
-            pkt.m_elem[idx].m_fieldc = it->first.m_fieldc;
-            pkt.m_elem[idx].m_fieldd = it->first.m_fieldd;
+            pkt.m_elem[idx].m_channelNo = it->first.m_channelNo;
+            pkt.m_elem[idx].m_dungeonIndex = it->first.m_dungeonIndex;
+            pkt.m_elem[idx].m_dungeonDiff = it->first.m_dungeonDiff;
+            pkt.m_elem[idx].m_dungeonStandardLevel = it->first.m_dungeonStandardLevel;
+            pkt.m_elem[idx].m_abuseParty = it->first.m_abuseParty;
+            pkt.m_elem[idx].m_balkunParty = it->first.m_balkunParty;
+            pkt.m_elem[idx].m_success = it->first.m_success;
+            pkt.m_elem[idx].m_partyUserCount = it->first.m_partyUserCount;
             pkt.m_elem[idx].m_data[0] = it->second.m_data[0];
             pkt.m_elem[idx].m_data[1] = it->second.m_data[1];
             pkt.m_elem[idx].m_data[2] = it->second.m_data[2];

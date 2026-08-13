@@ -688,69 +688,69 @@ void CPacketTranslater::OnCallMemberList(PacketHeader* pkt)
                     rpkt.m_idByChannel = user->GetIdByChannel();
                     rpkt.m_uniqCharNo = user->GetUniqCharNo();
                     STMemberDBInfo* db = (STMemberDBInfo*)member->GetMemberDBInfo();
-                    CUser* upperUser = userMgr->FindUser_CharNo(db->m_member.m_field0);
+                    CUser* upperUser = userMgr->FindUser_CharNo(db->m_member.m_charNo);
                     if (upperUser == 0)
                     {
-                        rpkt.m_memberList.m_info.m_field0 = 0xff;
+                        rpkt.m_memberList.m_info.m_channelNo = 0xff;
                     }
                     else if (upperUser->GetGameServer() == 0)
                     {
-                        rpkt.m_memberList.m_info.m_field0 = 0xff;
+                        rpkt.m_memberList.m_info.m_channelNo = 0xff;
                     }
                     else
                     {
                         if (upperUser->IsBlackUser(user->GetUniqCharNo()) != 0)
                         {
-                            rpkt.m_memberList.m_info.m_field20 = 1;
+                            rpkt.m_memberList.m_info.m_blackFlag = 1;
                         }
-                        rpkt.m_memberList.m_info.m_field0 =
+                        rpkt.m_memberList.m_info.m_channelNo =
                             ((CServerInterface*)upperUser->GetGameServer())->GetChannelNo();
                     }
-                    rpkt.m_memberList.m_info.m_field1 = db->m_member.m_flag4;
+                    rpkt.m_memberList.m_info.m_flag = db->m_member.m_flag4;
                     memcpy(rpkt.m_memberList.m_info.m_name, db->m_member.m_name, 0x1d);
-                    rpkt.m_memberList.m_info.m_field22 = db->m_member.m_field23;
-                    unsigned int upperExp = rpkt.m_memberList.m_info.m_field22;
-                    unsigned int upperExpNext = rpkt.m_memberList.m_info.m_field26;
-                    unsigned char upperExpLevel = rpkt.m_memberList.m_info.m_field21;
+                    rpkt.m_memberList.m_info.m_exp = db->m_member.m_exp;
+                    unsigned int upperExp = rpkt.m_memberList.m_info.m_exp;
+                    unsigned int upperExpNext = rpkt.m_memberList.m_info.m_expNext;
+                    unsigned char upperExpLevel = rpkt.m_memberList.m_info.m_level;
                     memberMgr->GetMemberExpNextLevelNeedExpLevel(
                         upperExp, upperExpNext, upperExpLevel);
-                    rpkt.m_memberList.m_info.m_field22 = upperExp;
-                    rpkt.m_memberList.m_info.m_field26 = upperExpNext;
-                    rpkt.m_memberList.m_info.m_field21 = upperExpLevel;
+                    rpkt.m_memberList.m_info.m_exp = upperExp;
+                    rpkt.m_memberList.m_info.m_expNext = upperExpNext;
+                    rpkt.m_memberList.m_info.m_level = upperExpLevel;
                     rpkt.m_memberList.m_count = db->m_count27;
                     for (int i = 0; i < (int)(unsigned int)db->m_count27; i++)
                     {
                         ST_MemberInfo* entry = &rpkt.m_memberList.m_members[i];
-                        unsigned int lowerCharNo = db->m_lowers[i].m_field0;
+                        unsigned int lowerCharNo = db->m_lowers[i].m_charNo;
                         CUser* lowerUser = userMgr->FindUser_CharNo(lowerCharNo);
                         if (lowerUser == 0)
                         {
-                            entry->m_field0 = 0xff;
+                            entry->m_channelNo = 0xff;
                         }
                         else if (lowerUser->GetGameServer() == 0)
                         {
-                            entry->m_field0 = 0xff;
+                            entry->m_channelNo = 0xff;
                         }
                         else
                         {
                             if (lowerUser->IsBlackUser(user->GetUniqCharNo()) != 0)
                             {
-                                entry->m_field20 = 1;
+                                entry->m_blackFlag = 1;
                             }
-                            entry->m_field0 =
+                            entry->m_channelNo =
                                 ((CServerInterface*)lowerUser->GetGameServer())->GetChannelNo();
                         }
-                        entry->m_field1 = db->m_lowers[i].m_flag4;
+                        entry->m_flag = db->m_lowers[i].m_flag4;
                         memcpy(entry->m_name, db->m_lowers[i].m_name, 0x1d);
-                        entry->m_field22 = db->m_lowers[i].m_field23;
-                        unsigned int exp = entry->m_field22;
-                        unsigned int expNext = entry->m_field26;
-                        unsigned char expLevel = entry->m_field21;
+                        entry->m_exp = db->m_lowers[i].m_exp;
+                        unsigned int exp = entry->m_exp;
+                        unsigned int expNext = entry->m_expNext;
+                        unsigned char expLevel = entry->m_level;
                         memberMgr->GetMemberExpNextLevelNeedExpLevel(
                             exp, expNext, expLevel);
-                        entry->m_field22 = exp;
-                        entry->m_field26 = expNext;
-                        entry->m_field21 = expLevel;
+                        entry->m_exp = exp;
+                        entry->m_expNext = expNext;
+                        entry->m_level = expLevel;
                     }
                     int size = (int)(unsigned int)db->m_count27 * 0x2a + 0x3d;
                     user->SendToGameserver((char*)&rpkt, size);

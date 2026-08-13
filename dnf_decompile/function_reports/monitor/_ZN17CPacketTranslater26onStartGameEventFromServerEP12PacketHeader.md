@@ -223,8 +223,8 @@ void CPacketTranslater::onStartGameEventFromServer(PacketHeader* pkt)
         throw 0x22ea;
     }
     Packet_Monitor_Event_Start epkt;
-    epkt.m_fieldA = ((RA_UINT<10>*)p)->v;
-    *(unsigned int*)&epkt.m_fieldB = ((RA_UINT<22>*)p)->v;
+    epkt.m_eventCode = ((RA_UINT<10>*)p)->v;
+    *(unsigned int*)&epkt.m_eventParam1 = ((RA_UINT<22>*)p)->v;
     m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(&epkt);
     DNF_LOG_SCOPE_LINE(0x22f2,"./log/AradOnly", "[Server Event] start event. (event:%d, param:%d,%d)",
         ((RA_UINT<10>*)p)->v, ((RA_U16<22>*)p)->v,

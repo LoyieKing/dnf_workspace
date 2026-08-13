@@ -228,9 +228,9 @@ void CHWSpecResearcher::SendDBMWErrorLine(CServerHandler* handler)
         for (std::map<STErrorStatic, unsigned int>::iterator it = m_errorSpec.begin();
              it != m_errorSpec.end(); ++it)
         {
-            pkt.m_items[count].m_field4 = it->first.m_field0;
-            pkt.m_items[count].m_field0 = it->first.ErrorValue::m_field4;
-            pkt.m_items[count].m_field6 = (int)it->second;
+            pkt.m_items[count].m_errorLine = it->first.m_errorLine;
+            pkt.m_items[count].m_errorCode = it->first.ErrorValue::m_errorCode;
+            pkt.m_items[count].m_cnt = (int)it->second;
             if (0x263U < (++count))
             {
                 pkt.m_count = 0x264;

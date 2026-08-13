@@ -307,28 +307,28 @@ void CPacketTranslater::OnRequestApproveJoinGuild(PacketHeader* header)
         Packet_DBMW_Request_Approve_Join_Guild* pkt =
             (Packet_DBMW_Request_Approve_Join_Guild*)header;
         Packet_DB_Response_Approve_Join_Guild reply;
-        reply.m_fieldE = pkt->m_guildId;
-        reply.m_field12 = pkt->m_id;
-        reply.m_field16 = pkt->m_characNo;
+        reply.m_guildId = pkt->m_guildId;
+        reply.m_id = pkt->m_id;
+        reply.m_characNo = pkt->m_characNo;
         if (!m_pclApp->m_dbManager.OnGuildJoinByListApprove(
                 pkt->m_guildId, pkt->m_serverId,
                 pkt->m_id, pkt->m_characNo,
                 reply.m_joinInfo,
-                (unsigned int&)reply.m_fieldA))
+                (unsigned int&)reply.m_result))
         {
-            if (reply.m_fieldA == 0)
-                reply.m_fieldA = 1;
+            if (reply.m_result == 0)
+                reply.m_result = 1;
             DNF_LOG_SCOPE_LINE(0x52a,
                 "./log/GuildModify",
                 "OnGuildJoin Err(g:%d,c:%d,r:%d) : return false", pkt->m_guildId, pkt->m_characNo,
-                reply.m_fieldA
+                reply.m_result
             );
         }
         m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
             (char*)&reply, reply.packetSize);
         CMyFileLog log2(__FUNCTION__, 0x530);
         log2("./log/GuildModify", "::OnGuildJoin g(%d) c(%d) r(%d)",
-             pkt->m_guildId, pkt->m_characNo, reply.m_fieldA);
+             pkt->m_guildId, pkt->m_characNo, reply.m_result);
     }
     DNF_CATCH_LOG("./log/Except.log",
                   "CPacketTranslater::OnGuildJoin() Exception Break",

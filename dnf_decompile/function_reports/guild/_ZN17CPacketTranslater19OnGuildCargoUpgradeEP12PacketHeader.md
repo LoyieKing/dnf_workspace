@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8085e92` | `0x588` | `0x807b61c` | `0x4e5` |
+| guild | DIFF | `0x8085e92` | `0x588` | `0x807b574` | `0x4e5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -745,7 +745,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnGuildCargoUpgradeEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5526 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5643 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildCargoUpgrade(PacketHeader* pkt)
@@ -802,9 +802,9 @@ void CPacketTranslater::OnGuildCargoUpgrade(PacketHeader* pkt)
                         ((PTL_GuildCargoUpgradePkt*)pkt)->m_field16;
                     tcpDb->SendToServer(buf);
                     Packet_Channel_Guild_Cargo_Upgrade reply;
-                    reply.ma = user->GetIdByChannel();
-                    reply.me = charNo;
-                    reply.m12 = 0xc1;
+                    reply.m_channel = user->GetIdByChannel();
+                    reply.m_charNo = charNo;
+                    reply.m_result = 0xc1;
                     user->SendToGameserver((char*)&reply, 0x13);
                     guild->GetGuildCargo()->SendGuildCargo(user);
                 }

@@ -1749,7 +1749,7 @@ bool CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member
         if (masterNo != 0)
         {
             reply.m_master.m_proxy.m_no = masterNo;
-            cVar1 = h->get_uint(2, *(unsigned int*)&reply.m_master.m_proxy.m_field23);
+            cVar1 = h->get_uint(2, *(unsigned int*)&reply.m_master.m_proxy.m_exp);
             if (!cVar1)
             {
                 reply.m_flag = 3;
@@ -1794,7 +1794,7 @@ bool CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member
                 return 0;
             }
             sprintf(str, "%s%d,", str, proxies[i - 1].m_no);
-            cVar1 = h->get_uint(2, (unsigned int&)proxies[i - 1].m_field23);
+            cVar1 = h->get_uint(2, (unsigned int&)proxies[i - 1].m_exp);
             if (!cVar1)
             {
                 reply.m_flag = 3;
@@ -1810,7 +1810,7 @@ bool CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member
             reply.m_flag = 3;
             return 0;
         }
-        cVar1 = h->get_uint(2, (unsigned int&)proxies[0].m_field23);
+        cVar1 = h->get_uint(2, (unsigned int&)proxies[0].m_exp);
         if (!cVar1)
         {
             reply.m_flag = 3;
@@ -1837,7 +1837,7 @@ bool CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member
                 return 0;
             }
             sprintf(str, "%s%d,", str, proxies[i].m_no);
-            cVar1 = h->get_uint(2, (unsigned int&)proxies[i - 1].m_field23);
+            cVar1 = h->get_uint(2, (unsigned int&)proxies[i - 1].m_exp);
             if (!cVar1)
             {
                 reply.m_flag = 3;
@@ -1856,8 +1856,8 @@ bool CDBManager::QueryMember(unsigned int characNo, Packet_DB_Reply_Query_Member
     int len = strlen(str);
     str[len - 1] = 0;
     sprintf(str, "%s)", str);
-    reply.m_fieldF = (int)maxExp;
-    reply.m_field13 = (int)maxIdx;
+    reply.m_maxCreateTime = (int)maxExp;
+    reply.m_maxDeleteTime = (int)maxIdx;
     if (!h->set_query(0x4e2b,
                       "seLect charac_no, lev, charac_name from charac_info where charac_no in %s",
                       str))

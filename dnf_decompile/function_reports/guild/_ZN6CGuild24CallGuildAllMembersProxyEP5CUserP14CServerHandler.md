@@ -116,7 +116,7 @@ void CGuild::CallGuildAllMembersProxy(CUser* user, CServerHandler* handler)
     {
         return;
     }
-    if ((m_field1c & 4) == 0)
+    if ((m_guildDBFlag & 4) == 0)
     {
         return;
     }
@@ -124,12 +124,12 @@ void CGuild::CallGuildAllMembersProxy(CUser* user, CServerHandler* handler)
     {
         return;
     }
-    if ((m_field1c & 0x10) != 0)
+    if ((m_guildDBFlag & 0x10) != 0)
     {
         ReplyGuildAllMembers(user);
         return;
     }
-    if ((m_field1c & 8) == 0)
+    if ((m_guildDBFlag & 8) == 0)
     {
         QueryGuildAllMembersProxy(handler, user->GetUniqCharNo());
     }

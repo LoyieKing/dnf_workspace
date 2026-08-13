@@ -279,8 +279,8 @@ void CPacketTranslater::OnDBLoadRequestWebGuildBoardWrite(PacketHeader* header)
         if (m_pclApp->m_dbManager.OnWriteWebGuildBoard(
                 pkt, &info))
         {
-            reply.m_fieldC = pkt->m_guildId;
-            reply.m_field10 = pkt->m_fieldE;
+            reply.m_guildId = pkt->m_guildKey;
+            reply.m_charNo = pkt->m_charNo;
             memcpy((char*)&reply + 0x14, &info, 0xa5);
             gs->SendToServer((char*)&reply, 0xb9);
         }
@@ -288,13 +288,13 @@ void CPacketTranslater::OnDBLoadRequestWebGuildBoardWrite(PacketHeader* header)
         {
             DNF_LOG_SCOPE_LINE(0x101a,
                 "./log/Except",
-                "CPacketTranslater::OnDBLoadRequestWebGuildBoardWrite()\tGuild Id : %d,\t Query Result : %d\n", pkt->m_guildId,
+                "CPacketTranslater::OnDBLoadRequestWebGuildBoardWrite()\tGuild Id : %d,\t Query Result : %d\n", pkt->m_guildKey,
                 0
             );
 
-            reply.m_fieldA = 1;
-            reply.m_fieldC = pkt->m_guildId;
-            reply.m_field10 = pkt->m_fieldE;
+            reply.m_result = 1;
+            reply.m_guildId = pkt->m_guildKey;
+            reply.m_charNo = pkt->m_charNo;
             gs->SendToServer((char*)&reply, 0xb9);
         }
     }

@@ -439,7 +439,7 @@ void CPacketTranslater::_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGr
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 6946 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 6947 行）：
 
 ```cpp
 void CPacketTranslater::OnChangeUnconnectedGuildMemberGrade(PacketHeader* header)
@@ -452,28 +452,28 @@ void CPacketTranslater::OnChangeUnconnectedGuildMemberGrade(PacketHeader* header
         Packet_DB_Monitor_Change_Unconnected_GuildMember_Grade pkt;
         if (*(int*)(h + 0xb) != 0)
         {
-            memcpy(pkt.m_pad, h + 0x14, 0x1d);
-            pkt.m_fieldA = *(int*)(h + 0xb);
-            pkt.m_field30 = *(unsigned char*)(h + 0x32);
-            pkt.m_fieldE = *(int*)(h + 0xf);
+            memcpy(pkt.m_name, h + 0x14, 0x1d);
+            pkt.m_guildId = *(int*)(h + 0xb);
+            pkt.m_result = *(unsigned char*)(h + 0x32);
+            pkt.m_characNo = *(int*)(h + 0xf);
         }
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         unsigned int result = 0;
         if (!m_pclApp->m_dbManager.QueryGuildMemberGradeByName(
                 *(unsigned char*)(h + 0xa), *(unsigned int*)(h + 0xb),
-                h + 0x14, pkt.m_field31,
-                *(unsigned int*)&pkt.m_field32, result))
+                h + 0x14, pkt.m_grade,
+                *(unsigned int*)&pkt.m_newGrade, result))
         {
-            pkt.m_field30 = 0xff;
+            pkt.m_result = 0xff;
             gs->SendToServer((char*)&pkt, pkt.packetSize);
             return;
         }
-        if (pkt.m_field31 == 1)
+        if (pkt.m_grade == 1)
         {
             gs->SendToServer((char*)&pkt, pkt.packetSize);
             return;
         }
-        if (pkt.m_field31 == 2)
+        if (pkt.m_grade == 2)
             goto sendlog;
         if (*(unsigned char*)(h + 0x32) != 2 ||
             *(unsigned char*)(h + 0x13) == 1)
@@ -481,11 +481,11 @@ void CPacketTranslater::OnChangeUnconnectedGuildMemberGrade(PacketHeader* header
             if (!m_pclApp->m_dbManager.ChangeGuildMemberGrade(
                     *(unsigned char*)(h + 0xa), *(unsigned int*)(h + 0xb),
                     *(unsigned char*)(h + 0x32), h + 0x14))
-                pkt.m_field30 = 0xff;
+                pkt.m_result = 0xff;
         }
         else
         {
-            pkt.m_field30 = 0xfe;
+            pkt.m_result = 0xfe;
             gs->SendToServer((char*)&pkt, pkt.packetSize);
             return;
         }
@@ -496,7 +496,7 @@ void CPacketTranslater::OnChangeUnconnectedGuildMemberGrade(PacketHeader* header
             "::OnChangeUnconnectedGuildMemberGrade GRADE_CHANGE Guild(%d) UnConnected Name(%s) Grade(%d) Prev(%d)",
             *(unsigned int*)(h + 0xb), h + 0x14,
             *(unsigned char*)(h + 0x32),
-            pkt.m_field31);
+            pkt.m_grade);
     }
     DNF_CATCH_LOG("./log/Except.log",
                   "CPacketTranslater::OnChangeUnconnectedGuildMemberGrade() Exception Break",

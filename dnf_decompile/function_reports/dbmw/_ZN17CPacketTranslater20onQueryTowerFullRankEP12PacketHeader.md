@@ -581,9 +581,9 @@ void CPacketTranslater::onQueryTowerFullRank(PacketHeader* header)
             return;
         CMonitorServer* ms = m_pclApp->m_serverHandler->GetMonitorServer();
         Packet_Reply_Load_Tower_Full_Rank reply;
-        reply.m_fieldA = 1;
+        reply.m_batchFlag = 1;
         if (pkt->m_limit != 0x2710)
-            reply.m_fieldA = 0;
+            reply.m_batchFlag = 0;
         CMyFileLog log1(__FUNCTION__, 0x59b);
         log1("./log/DeathTower", "(tower_idx:%d)(rank count:%d)\n",
              pkt->m_towerIndex, ranks.size());
@@ -595,7 +595,7 @@ void CPacketTranslater::onQueryTowerFullRank(PacketHeader* header)
             i++;
             if (i > 0x3b)
             {
-                reply.m_fieldB = (char)i;
+                reply.m_count = (char)i;
                 reply.packetSize = 0x17bf;
                 ms->SendToServer((char*)&reply, 0x17bf);
                 DNF_LOG_SCOPE_LINE(0x5a8,
@@ -606,13 +606,13 @@ void CPacketTranslater::onQueryTowerFullRank(PacketHeader* header)
                 );
 
                 i = 0;
-                reply.m_fieldA = 0;
+                reply.m_batchFlag = 0;
                 DNFFLib::Sleep_Ext(0, 0x30d40);
             }
         }
         if (i != 0)
         {
-            reply.m_fieldB = (char)i;
+            reply.m_count = (char)i;
             reply.packetSize = (unsigned short)(0x13 + i * 0x65);
             ms->SendToServer((char*)&reply, reply.packetSize);
             DNF_LOG_SCOPE_LINE(0x5b3,

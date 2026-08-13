@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804caa6` | `0x37c` | `0x80875f8` | `0x36a` |
+| guild | DIFF | `0x804caa6` | `0x37c` | `0x8087524` | `0x36a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -556,9 +556,9 @@ CFrameCountHandler* CFrameCountHandler::GetFrameCountInfo()
     if (*(unsigned char*)this == 0)
     {
         *(unsigned char*)this = 1;
-        m_field14 = 0;
-        m_fieldc = (int)times(&t);
-        if (m_fieldc == -1)
+        m_secondFrameCnt = 0;
+        m_startClock = (int)times(&t);
+        if (m_startClock == -1)
         {
             throw CDNFException(
                 "CFrameCountHandler::GetFrameCountInfo() times() Exception Break!");
@@ -566,27 +566,27 @@ CFrameCountHandler* CFrameCountHandler::GetFrameCountInfo()
     }
     else
     {
-        m_field10 = (int)times(&t);
-        if (m_field10 == -1)
+        m_curClock = (int)times(&t);
+        if (m_curClock == -1)
         {
             throw CDNFException(
                 "CFrameCountHandler::GetFrameCountInfo() times() Exception Break!");
         }
-        if ((unsigned int)m_fieldc > (unsigned int)m_field10)
+        if ((unsigned int)m_startClock > (unsigned int)m_curClock)
         {
-            m_fieldc = m_field10;
+            m_startClock = m_curClock;
         }
-        if ((unsigned int)m_field14 <
-            (unsigned int)(m_field10 - m_fieldc) / (unsigned int)m_field8)
+        if ((unsigned int)m_secondFrameCnt <
+            (unsigned int)(m_curClock - m_startClock) / (unsigned int)m_fpsInterval)
         {
-            m_field14 = m_field14 + 1;
+            m_secondFrameCnt = m_secondFrameCnt + 1;
             *(unsigned char*)((char*)this + 0x24) = 1;
-            if (99 < (unsigned int)(m_field10 - m_fieldc))
+            if (99 < (unsigned int)(m_curClock - m_startClock))
             {
-                m_field18 = m_field14;
+                m_fps = m_secondFrameCnt;
                 *(unsigned char*)((char*)this + 0x24) = 2;
-                m_field14 = 0;
-                m_fieldc = m_field10 - (m_field10 - m_fieldc) + 100;
+                m_secondFrameCnt = 0;
+                m_startClock = m_curClock - (m_curClock - m_startClock) + 100;
                 m_field20 = 0;
                 *(unsigned char*)((char*)this + 0x25) =
                     (unsigned char)(*(unsigned char*)((char*)this + 0x25) + 1);

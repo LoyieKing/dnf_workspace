@@ -533,24 +533,24 @@ void StatisticManager::SendDBDeathTowerPlayDataJobStatistic(CServerHandler* hand
         for (std::map<STDeathTowerPlayDataJobStatisticKey, PlayDataJobStatistic>::iterator it =
                  m_deathTowerJob.begin(); it != m_deathTowerJob.end(); ++it)
         {
-            pkt.m_items[idx].m_field0 = it->first.m_field0;
-            pkt.m_items[idx].m_field2 = it->first.m_field2;
-            pkt.m_items[idx].m_field4 = it->first.m_field4;
-            pkt.m_items[idx].m_field8 = it->first.m_field8;
+            pkt.m_items[idx].m_deathTowerType = it->first.m_deathTowerType;
+            pkt.m_items[idx].m_level = it->first.m_level;
+            pkt.m_items[idx].m_characJob = it->first.m_characJob;
+            pkt.m_items[idx].m_characGrow = it->first.m_characGrow;
             if (it->second.m_data[1] == 0)
             {
                 it->second.m_data[1] = 1;
             }
             int count = it->second.m_data[1];
             int avg = it->second.m_data[0] / count;
-            pkt.m_items[idx].m_avg = avg;
-            pkt.m_items[idx].m_count = count;
-            if (it->first.m_field2 == 0)
+            pkt.m_items[idx].m_avgClearCount = avg;
+            pkt.m_items[idx].m_playCount = count;
+            if (it->first.m_level == 0)
             {
                 DNF_LOG_SCOPE_LINE(0x23d, "./log/statistic",
                     "SendDBDeathTowerPlayDataJobStatistic : 0 level error!! deathTower_type (%d) level (%d) job_ (%d) grow_type_ (%d) / updateCount (%d) clearStage (%d)\n",
-                    (int)it->first.m_field0, (int)it->first.m_field2,
-                    (int)it->first.m_field4, (int)it->first.m_field8,
+                    (int)it->first.m_deathTowerType, (int)it->first.m_level,
+                    (int)it->first.m_characJob, (int)it->first.m_characGrow,
                     count, avg);
             }
             else

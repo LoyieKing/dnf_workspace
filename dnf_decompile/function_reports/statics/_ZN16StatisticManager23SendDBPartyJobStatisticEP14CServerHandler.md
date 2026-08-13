@@ -437,16 +437,16 @@ void StatisticManager::SendDBPartyJobStatistic(CServerHandler* handler)
         for (std::map<STPartyJobStatisticKey, PartyJobStatistic>::iterator it = m_partyJob.begin();
              it != m_partyJob.end(); ++it)
         {
-            pkt.m_items[idx].m_field0 = it->first.m_field0;
-            pkt.m_items[idx].m_field4 = it->first.m_field4;
-            pkt.m_items[idx].m_field8 = it->first.m_field8;
-            pkt.m_items[idx].m_field9 = it->first.m_field9;
-            pkt.m_items[idx].m_fielda = it->first.m_fielda;
-            pkt.m_items[idx].m_fieldb = it->first.m_fieldb;
-            pkt.m_items[idx].m_fieldc = it->first.m_fieldc;
-            pkt.m_items[idx].m_fieldd = it->first.m_fieldd;
-            pkt.m_items[idx].m_field10 = it->first.m_field10;
-            pkt.m_items[idx].m_field14 = it->first.m_field14;
+            pkt.m_items[idx].m_channelNo = it->first.m_channelNo;
+            pkt.m_items[idx].m_dungeonIndex = it->first.m_dungeonIndex;
+            pkt.m_items[idx].m_dungeonDiff = it->first.m_dungeonDiff;
+            pkt.m_items[idx].m_dungeonStandardLevel = it->first.m_dungeonStandardLevel;
+            pkt.m_items[idx].m_abuseParty = it->first.m_abuseParty;
+            pkt.m_items[idx].m_balkunParty = it->first.m_balkunParty;
+            pkt.m_items[idx].m_success = it->first.m_success;
+            pkt.m_items[idx].m_partyUserCount = it->first.m_partyUserCount;
+            pkt.m_items[idx].m_characJob = it->first.m_characJob;
+            pkt.m_items[idx].m_characGrow = it->first.m_characGrow;
             pkt.m_items[idx].m_data[0] = it->second.m_data[0];
             pkt.m_items[idx].m_data[1] = it->second.m_data[1];
             idx++;

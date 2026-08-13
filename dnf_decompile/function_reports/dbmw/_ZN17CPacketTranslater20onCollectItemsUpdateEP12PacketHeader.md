@@ -226,14 +226,14 @@ void CPacketTranslater::onCollectItemsUpdate(PacketHeader* header)
         unsigned char flag = 0;
         m_pclApp->m_dbManager.selectCollectItems(
             pkt->m_serverInfo,
-            *(int*)&reply.m_fieldE, *(int*)&reply.m_fieldA,
-            *(unsigned int*)&reply.m_field12, flag);
-        int diff = pkt->m_fieldA - reply.m_fieldE;
+            *(int*)&reply.m_curCount, *(int*)&reply.m_totalCount,
+            *(unsigned int*)&reply.m_changeFlag, flag);
+        int diff = pkt->m_totalCount - reply.m_curCount;
         m_pclApp->m_dbManager.updateCollectItems(
             pkt->m_serverInfo, diff,
-            reply.m_field12, flag);
+            reply.m_changeFlag, flag);
         if (flag == 0 &&
-            pkt->m_field13 == 0 && diff < 0)
+            pkt->m_flag == 0 && diff < 0)
         {
             m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
                 (char*)&reply, reply.packetSize);

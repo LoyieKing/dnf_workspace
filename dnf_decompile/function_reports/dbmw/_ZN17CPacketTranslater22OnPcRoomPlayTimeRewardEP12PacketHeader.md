@@ -680,7 +680,7 @@ void CPacketTranslater::OnPcRoomPlayTimeReward(PacketHeader* header)
             return;
         }
         Packet_Monitor_Notify_New_Mail mail;
-        mail.m_fieldA = characNo;
+        mail.m_characNo = characNo;
         CMonitorServer* ms = m_pclApp->m_serverHandler->GetMonitorServer();
         ms->SendToServer((char*)&mail, mail.packetSize);
         CMyFileLog log2(__FUNCTION__, 0x1447);

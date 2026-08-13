@@ -237,11 +237,11 @@ CGuild::_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser
 ```cpp
 void CGuild::AddGuildMember(ST_Notice_Guild_Enter& info, CUser* user)
 {
-    if (user == 0 || (m_field1c & 4) == 0 || (m_field1c & 0x10) == 0 || m_members.empty())
+    if (user == 0 || (m_guildDBFlag & 4) == 0 || (m_guildDBFlag & 0x10) == 0 || m_members.empty())
     {
         return;
     }
-    unsigned short idx = m_field1e;
+    unsigned short idx = m_totalCnt;
     *(unsigned int*)((char*)this + (unsigned int)idx * 0x41 + 0xdd) =
         info.m_charNo;
     memcpy((char*)this + (unsigned int)idx * 0x41 + 0xe1, info.m_charName, 0x1d);
@@ -253,7 +253,7 @@ void CGuild::AddGuildMember(ST_Notice_Guild_Enter& info, CUser* user)
     {
         idx = 300;
     }
-    m_field1e = idx;
+    m_totalCnt = idx;
     m_dbInfo.m_info.m_totalCnt = idx;
 }
 ```

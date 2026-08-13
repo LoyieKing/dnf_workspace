@@ -175,7 +175,7 @@ CGuild::_ZN6CGuild23NotifyMemoToGuildMemberEP5CUserPKc(CGuild *this,CUser *param
 ```cpp
 void CGuild::NotifyMemoToGuildMember(CUser* user, const char* memo)
 {
-    if ((m_field1c & 4) == 0 || m_members.empty())
+    if ((m_guildDBFlag & 4) == 0 || m_members.empty())
     {
         return;
     }
@@ -193,8 +193,8 @@ void CGuild::NotifyMemoToGuildMember(CUser* user, const char* memo)
         n = 0x14;
     }
     memcpy(pkt.m_memo, memo, n);
-    pkt.m_fieldA = user->GetIdByChannel();
-    pkt.m_fieldE = user->GetUniqCharNo();
+    pkt.m_channel = user->GetIdByChannel();
+    pkt.m_charNo = user->GetUniqCharNo();
     user->SendToGameserver((char*)&pkt, 0x45);
 }
 ```

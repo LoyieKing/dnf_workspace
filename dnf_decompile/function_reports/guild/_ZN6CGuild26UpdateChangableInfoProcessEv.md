@@ -160,10 +160,10 @@ void CGuild::UpdateChangableInfoProcess()
 {
     if (IsSetGuildDBFlag(4) && IsSetGuildDBFlag(0x10))
     {
-        m_field4db0++;
-        if (9 < (unsigned char)m_field4db0)
+        m_changableTickCnt++;
+        if (9 < (unsigned char)m_changableTickCnt)
         {
-            for (int i = 0; i < m_field1e; i++)
+            for (int i = 0; i < m_totalCnt; i++)
             {
                 STGuildMemberChangableInfo info;
                 if (PopGuildMemberChanglableInfo(
@@ -175,7 +175,7 @@ void CGuild::UpdateChangableInfoProcess()
                 }
             }
             m_changable.clear();
-            m_field4db0 = 0;
+            m_changableTickCnt = 0;
         }
     }
 }

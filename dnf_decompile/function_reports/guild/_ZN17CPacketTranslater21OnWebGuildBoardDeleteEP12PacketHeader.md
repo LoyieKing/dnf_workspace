@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8087a1e` | `0x23d` | `0x807c94c` | `0x238` |
+| guild | DIFF | `0x8087a1e` | `0x23d` | `0x807c8a4` | `0x238` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -280,7 +280,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnWebGuildBoardDeleteEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5943 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 6060 行）：
 
 ```cpp
 void CPacketTranslater::OnWebGuildBoardDelete(PacketHeader* pkt)

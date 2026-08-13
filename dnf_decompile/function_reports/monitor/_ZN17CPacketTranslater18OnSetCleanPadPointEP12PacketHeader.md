@@ -481,7 +481,7 @@ void CPacketTranslater::OnSetCleanPadPoint(PacketHeader* pkt)
             {
                 Packet_Set_CleanPad_Point reply;
                 reply.m_idByChannel = target->GetIdByChannel();
-                reply.m_fieldE = ((RA_U16<14>*)pkt)->v;
+                reply.m_point = ((RA_U16<14>*)pkt)->v;
                 ((RA_U16<2>*)&reply)->v = 0x10;
                 target->SendToGameserver((char*)&reply, 0x10);
             }

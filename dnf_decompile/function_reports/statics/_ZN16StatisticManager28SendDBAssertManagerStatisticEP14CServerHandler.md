@@ -309,10 +309,10 @@ void StatisticManager::SendDBAssertManagerStatistic(CServerHandler* handler)
              it != m_assertManager.end(); ++it)
         {
             STAssertManagerWriteItem* slot = &pkt.m_items[idx];
-            memcpy(slot->m_str0, it->first.m_str0, 0x100);
-            slot->m_field100 = it->first.m_field100;
+            memcpy(slot->m_fileName, it->first.m_fileName, 0x100);
+            slot->m_fileLine = it->first.m_fileLine;
             slot->m_count = it->second;
-            memcpy(slot->m_str2, it->first.m_str2, 0x100);
+            memcpy(slot->m_reason, it->first.m_reason, 0x100);
             idx++;
             if (8 < idx)
             {

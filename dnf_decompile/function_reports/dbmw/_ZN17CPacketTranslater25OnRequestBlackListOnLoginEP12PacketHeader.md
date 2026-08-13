@@ -255,7 +255,7 @@ void CPacketTranslater::OnRequestBlackListOnLogin(PacketHeader* header)
         Packet_DBMW_Request_BlackList_Login* pkt =
             (Packet_DBMW_Request_BlackList_Login*)header;
         Packet_DBMW_Reponse_BlackList reply;
-        reply.m_fieldA = pkt->m_mid;
+        reply.m_mid = pkt->m_mid;
         if (!m_pclApp->m_dbManager.QueryBlackList(
                 pkt->m_mid,
                 (STBlackUserDBType*)((char*)&reply + 0xe)))
@@ -267,10 +267,10 @@ void CPacketTranslater::OnRequestBlackListOnLogin(PacketHeader* header)
 
             return;
         }
-        if (pkt->m_fieldE == 0xc9)
+        if (pkt->m_serverType == 0xc9)
             m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
                 (char*)&reply, reply.packetSize);
-        else if (pkt->m_fieldE == 0xcb)
+        else if (pkt->m_serverType == 0xcb)
             m_pclApp->m_serverHandler->GetGuildServer()->SendToServer(
                 (char*)&reply, reply.packetSize);
     }

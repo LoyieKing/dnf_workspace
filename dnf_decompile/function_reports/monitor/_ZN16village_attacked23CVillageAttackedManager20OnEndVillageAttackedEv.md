@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a916e` | `0x147` | `0x80a7f72` | `0x183` |
+| monitor | DIFF | `0x80a916e` | `0x147` | `0x80a7f6c` | `0x183` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -206,22 +206,22 @@ void CVillageAttackedManager::OnEndVillageAttacked()
         return;
     }
     int now = (int)GetNowTime();
-    if ((unsigned int)m_field1c >= (unsigned int)m_field20)
+    if ((unsigned int)m_curHuntingPoint >= (unsigned int)m_maxHuntingPoint)
     {
-        m_field30 = 1;
+        m_rewardType = 1;
         CVillageAttackedReward* task =
             new CVillageAttackedReward(REWARD_BUFF_TIME + now, 0, this);
         m_app->GetTaskScheduler()->AddTask(task);
     }
     else
     {
-        m_field30 = 2;
+        m_rewardType = 2;
         CVillageAttackedReward* task =
             new CVillageAttackedReward(REWARD_PENALTY_TIME + now, 0, this);
         m_app->GetTaskScheduler()->AddTask(task);
     }
     m_state24 = 0;
-    SetRewardCloseTime((ENUM_VILLAGE_ATTACKED_REWARD)m_field30);
+    SetRewardCloseTime((ENUM_VILLAGE_ATTACKED_REWARD)m_rewardType);
     SendVillageAttackedEnd();
     SendCharacRank();
     SendMaxHuntingPoint();

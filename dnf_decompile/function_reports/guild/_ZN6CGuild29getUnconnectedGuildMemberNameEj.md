@@ -94,11 +94,11 @@ CGuild * __thiscall CGuild::_ZN6CGuild29getUnconnectedGuildMemberNameEj(CGuild *
 ```cpp
 char* CGuild::getUnconnectedGuildMemberName(unsigned int charNo)
 {
-    if ((m_field1c & 4) != 0)
+    if ((m_guildDBFlag & 4) != 0)
     {
-        if ((m_field1c & 0x10) != 0)
+        if ((m_guildDBFlag & 0x10) != 0)
         {
-            for (int i = 0; i < m_field1e; i++)
+            for (int i = 0; i < m_totalCnt; i++)
             {
                 if (((CGuildMemberMainArray*)this)->m_members[i].m_charNo == charNo)
                 {

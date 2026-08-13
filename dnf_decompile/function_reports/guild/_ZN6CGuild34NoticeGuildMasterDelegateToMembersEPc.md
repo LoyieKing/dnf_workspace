@@ -188,7 +188,7 @@ CGuild::_ZN6CGuild34NoticeGuildMasterDelegateToMembersEPc(CGuild *this,char *par
 ```cpp
 void CGuild::NoticeGuildMasterDelegateToMembers(char* name)
 {
-    if ((m_field1c & 4) == 0)
+    if ((m_guildDBFlag & 4) == 0)
     {
         return;
     }

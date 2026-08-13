@@ -162,7 +162,7 @@ void __thiscall CGuild::_ZN6CGuild34NotifyDeleteGuildAgitToGuildMemberEj(CGuild 
 ```cpp
 void CGuild::NotifyDeleteGuildAgitToGuildMember(unsigned int charNo)
 {
-    if ((m_field1c & 4) != 0 && !m_members.empty())
+    if ((m_guildDBFlag & 4) != 0 && !m_members.empty())
     {
         Packet_Channel_Delete_Guild_Agit pkt;
         pkt.m12 = charNo;

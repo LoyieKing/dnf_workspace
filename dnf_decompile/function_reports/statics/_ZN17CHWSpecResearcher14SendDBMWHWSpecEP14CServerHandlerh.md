@@ -217,7 +217,7 @@ void CHWSpecResearcher::SendDBMWHWSpec(CServerHandler* handler, unsigned char pa
 {
     Packet_DBMW_Save_Client_Spec_Statistic pkt;
     std::map<STSpecStatic, unsigned int>* pMap = &m_spec[param];
-    pkt.m_fieldA = (char)param;
+    pkt.m_flag = (char)param;
     int count = 0;
     if (!pMap->empty())
     {
@@ -226,17 +226,17 @@ void CHWSpecResearcher::SendDBMWHWSpec(CServerHandler* handler, unsigned char pa
         {
             const STSpecStatic* pSpec = &it->first;
             memcpy(&pkt.m_items[count].m_spec, (const void*)pSpec, 0xc);
-            pkt.m_items[count].m_field0 = (short)it->second;
+            pkt.m_items[count].m_total = (short)it->second;
             if (0x1b3U < (++count))
             {
-                pkt.m_fieldB = 0x1b4;
+                pkt.m_count = 0x1b4;
                 handler->SendToDB((PacketHeader*)&pkt);
                 count = 0;
             }
         }
         if (count != 0)
         {
-            pkt.m_fieldB = count;
+            pkt.m_count = count;
             pkt.packetSize = (unsigned short)(count * 0xe + 0xf);
             handler->SendToDB((PacketHeader*)&pkt);
         }

@@ -281,19 +281,19 @@ CGuild::_ZN6CGuild18DBGuildSaveProcessEP14CServerHandler(CGuild *this,CServerHan
 ```cpp
 void CGuild::DBGuildSaveProcess(CServerHandler* handler)
 {
-    if (m_field4d96 == 0 || (m_field1c & 4) == 0)
+    if (m_dBSaveFlag == 0 || (m_guildDBFlag & 4) == 0)
     {
         return;
     }
-    m_field4d94++;
-    if (m_field4d94 > 1)
+    m_saveIntervalCnt++;
+    if (m_saveIntervalCnt > 1)
     {
         if (m_members.empty())
         {
             CMyFileLog log("DBGuildSaveProcess", 0x171);
             log("./log/Except", "[SAVE_INTERVAL]  Guild Key : %d\tGuild Name : %s\t\n",
                 m_guildKey, GetGuildName());
-            m_field4d94 = 0;
+            m_saveIntervalCnt = 0;
         }
         else
         {
@@ -302,7 +302,7 @@ void CGuild::DBGuildSaveProcess(CServerHandler* handler)
             {
                 CMyFileLog log(__FUNCTION__, 0x17c);
                 log("./log/Except", "[SAVE_INTERVAL]  pclUser is NULL!");
-                m_field4d94 = 0;
+                m_saveIntervalCnt = 0;
                 return;
             }
             if (user->GetGameServer() != 0)
@@ -314,8 +314,8 @@ void CGuild::DBGuildSaveProcess(CServerHandler* handler)
                 SendGuildInfoToMembers(false);
                 DBSaveGuildMembers((unsigned char)user->GetGameServer()->GetGroupNo(), handler, 2);
             }
-            m_field4d94 = 0;
-            m_field4d96 = 0;
+            m_saveIntervalCnt = 0;
+            m_dBSaveFlag = 0;
         }
     }
 }

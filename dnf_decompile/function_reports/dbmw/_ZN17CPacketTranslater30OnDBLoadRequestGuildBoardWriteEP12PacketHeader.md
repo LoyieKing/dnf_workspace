@@ -281,8 +281,8 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardWrite(PacketHeader* header)
         if (m_pclApp->m_dbManager.OnWriteGuildBoard(
                 (Packet_DB_Load_Request_Guild_Board_Write*)pkt, &info))
         {
-            reply.m_fieldC = pkt->m_guildId;
-            reply.m_field10 = pkt->m_field13;
+            reply.m_guildId = pkt->m_guildId;
+            reply.m_charNo = pkt->m_characNo;
             memcpy((char*)&reply + 0x14, &info, 0xa5);
             gs->SendToServer((char*)&reply, 0xb9);
         }
@@ -294,9 +294,9 @@ void CPacketTranslater::OnDBLoadRequestGuildBoardWrite(PacketHeader* header)
                 0
             );
 
-            reply.m_fieldA = 1;
-            reply.m_fieldC = pkt->m_guildId;
-            reply.m_field10 = pkt->m_field13;
+            reply.m_result = 1;
+            reply.m_guildId = pkt->m_guildId;
+            reply.m_charNo = pkt->m_characNo;
             gs->SendToServer((char*)&reply, 0xb9);
         }
     }

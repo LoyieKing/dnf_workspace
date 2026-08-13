@@ -211,13 +211,13 @@ LAB_0808e259:
 ```cpp
 void CGuild::SendGuildInfoToManagers()
 {
-    if ((m_field1c & 4) != 0)
+    if ((m_guildDBFlag & 4) != 0)
     {
         Packet_Monitor_Notice_Guild_Info pkt;
-        pkt.m_field12 = m_guildKey;
+        pkt.m_guildKey = m_guildKey;
         pkt.m_padD3 = 1;
         memcpy(&pkt.m_info, &m_dbInfo.m_info, 0xbd);
-        strncpy(pkt.m_rest, m_field4d0a, 100);
+        strncpy(pkt.m_rest, m_guildMessage, 100);
         for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
              it != m_members.end(); ++it)
         {
@@ -227,8 +227,8 @@ void CGuild::SendGuildInfoToManagers()
                 if (IsGuildMaster(u->GetUniqCharNo()) == 1 ||
                     IsSubGuildMaster(u->GetUniqCharNo()) == 1)
                 {
-                    pkt.m_fieldA = u->GetIdByChannel();
-                    pkt.m_fieldE = u->GetUniqCharNo();
+                    pkt.m_channel = u->GetIdByChannel();
+                    pkt.m_charNo = u->GetUniqCharNo();
                     u->SendToGameserver((char*)&pkt, 0x139);
                 }
             }

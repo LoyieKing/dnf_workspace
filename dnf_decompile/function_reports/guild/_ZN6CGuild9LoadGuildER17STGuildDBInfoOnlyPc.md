@@ -202,23 +202,23 @@ CGuild::_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc
 ```cpp
 void CGuild::LoadGuild(STGuildDBInfoOnly& info, char* name)
 {
-    if ((m_field1c & 4) == 0 && (m_field1c & 2) != 0)
+    if ((m_guildDBFlag & 4) == 0 && (m_guildDBFlag & 2) != 0)
     {
         int local18 = m_dbInfo.m_info.m_guildPoint;
         char local11 = 0;
         int local10 = 0;
-        while (local10 < (int)info.m_field44 &&
+        while (local10 < (int)info.m_skillLearnCnt &&
                199 < info.m_skills[local10].m0 &&
                info.m_skills[local10].m0 < 0xd1)
         {
             local11++;
             local10++;
         }
-        if ((int)local11 != (int)info.m_field44)
+        if ((int)local11 != (int)info.m_skillLearnCnt)
         {
             DNF_LOG_SCOPE_LINE(0x11b,"./log/GuildSkill", "Guild Skill Learn Error(%d)(%d)",
-                (int)info.m_field44, (int)local11);
-            info.m_field44 = (unsigned char)local11;
+                (int)info.m_skillLearnCnt, (int)local11);
+            info.m_skillLearnCnt = (unsigned char)local11;
         }
         memcpy((char*)this + 0x20, (char*)&info, 0xbd);
         SetGuildMessage(name);
@@ -226,7 +226,7 @@ void CGuild::LoadGuild(STGuildDBInfoOnly& info, char* name)
         {
             m_dbInfo.m_info.m_guildPoint = local18;
         }
-        m_field1c |= 4;
+        m_guildDBFlag |= 4;
     }
 }
 ```

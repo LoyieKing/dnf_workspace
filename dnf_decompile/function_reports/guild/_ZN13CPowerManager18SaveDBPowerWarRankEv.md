@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a4250` | `0x68a` | `0x809a0aa` | `0x66c` |
+| guild | DIFF | `0x80a4250` | `0x68a` | `0x8099fd6` | `0x66c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -821,7 +821,7 @@ void CPowerManager::SaveDBPowerWarRank()
     {
         CMyFileLog logStart(__FUNCTION__, 0x1b6);
         logStart("./log/PowerResult", "POWER WAR RESULT DB SAVE START");
-        CApplication* app = *(CApplication**)&m_field4;
+        CApplication* app = *(CApplication**)&m_app;
         Packet_DB_Save_Power_War_User_Rank userPkt;
         unsigned char group = app->Get_ServerHandler()->GetServerGroupNo();
         userPkt.m_b = group;

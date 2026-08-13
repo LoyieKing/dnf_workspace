@@ -214,8 +214,8 @@ void StatisticManager::SendDBUserTingTimeCheckStatistic(CServerHandler* handler)
         for (std::map<STUserTingTimeCheckKey, int>::iterator it = m_userTing.begin();
              it != m_userTing.end(); ++it)
         {
-            pkt.m_items[idx].m_field0 = it->first.m_field0;
-            pkt.m_items[idx].m_field4 = it->second;
+            pkt.m_items[idx].m_minute = it->first.m_minute;
+            pkt.m_items[idx].m_cnt = it->second;
             idx++;
             if (0x2fd < idx)
             {

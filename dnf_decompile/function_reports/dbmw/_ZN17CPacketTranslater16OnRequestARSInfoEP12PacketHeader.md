@@ -488,13 +488,13 @@ void CPacketTranslater::OnRequestARSInfo(PacketHeader* header)
                     srcIdx++;
                     count++;
                 }
-                reply.m_fieldA = (char)count;
+                reply.m_count = (char)count;
                 if (batch == 0)
-                    reply.m_fieldE = 0;
+                    reply.m_statsType = 0;
                 else if (srcIdx < size)
-                    reply.m_fieldE = 1;
+                    reply.m_statsType = 1;
                 else
-                    reply.m_fieldE = 2;
+                    reply.m_statsType = 2;
                 reply.packetSize =
                     (unsigned short)(0x4bf - (0x64 - count) * 0xc);
                 ms->SendToServer((char*)&reply, reply.packetSize);
@@ -510,8 +510,8 @@ void CPacketTranslater::OnRequestARSInfo(PacketHeader* header)
         else
         {
             Packet_Set_ARS_Info reply;
-            reply.m_fieldA = 0;
-            reply.m_fieldE = 0;
+            reply.m_count = 0;
+            reply.m_statsType = 0;
             reply.packetSize = 0x4bf;
             ms->SendToServer((char*)&reply, reply.packetSize);
             DNF_LOG_SCOPE_LINE(0xe2d,

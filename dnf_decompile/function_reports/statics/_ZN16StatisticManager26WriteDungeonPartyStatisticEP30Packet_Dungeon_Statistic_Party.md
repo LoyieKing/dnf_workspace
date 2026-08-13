@@ -390,25 +390,25 @@ void StatisticManager::WriteDungeonPartyStatistic(Packet_Dungeon_Statistic_Party
     struct __attribute__((packed)) Wire
     {
         char m_hdr[0xc];
-        int m_field4;             // +0xc
-        char m_field8;            // +0x10
-        unsigned char m_field9;   // +0x11
-        unsigned char m_fielda;   // +0x12
-        unsigned char m_fieldb;   // +0x13
-        unsigned char m_fieldc;   // +0x14
-        char m_fieldd;            // +0x15
+        int m_dungeonIndex;             // +0xc
+        char m_dungeonDiff;            // +0x10
+        unsigned char m_dungeonStandardLevel;   // +0x11
+        unsigned char m_abuseParty;   // +0x12
+        unsigned char m_balkunParty;   // +0x13
+        unsigned char m_success;   // +0x14
+        char m_partyUserCount;            // +0x15
         int m_data[10];           // +0x16
         short m_last;             // +0x3e
     };
     STPartyStatisticKey key;
-    key.m_field0 = 0;
-    key.m_field4 = ((Wire*)pkt)->m_field4;
-    key.m_field8 = ((Wire*)pkt)->m_field8;
-    key.m_field9 = ((Wire*)pkt)->m_field9;
-    key.m_fielda = ((Wire*)pkt)->m_fielda;
-    key.m_fieldb = ((Wire*)pkt)->m_fieldb;
-    key.m_fieldc = ((Wire*)pkt)->m_fieldc;
-    key.m_fieldd = ((Wire*)pkt)->m_fieldd;
+    key.m_channelNo = 0;
+    key.m_dungeonIndex = ((Wire*)pkt)->m_dungeonIndex;
+    key.m_dungeonDiff = ((Wire*)pkt)->m_dungeonDiff;
+    key.m_dungeonStandardLevel = ((Wire*)pkt)->m_dungeonStandardLevel;
+    key.m_abuseParty = ((Wire*)pkt)->m_abuseParty;
+    key.m_balkunParty = ((Wire*)pkt)->m_balkunParty;
+    key.m_success = ((Wire*)pkt)->m_success;
+    key.m_partyUserCount = ((Wire*)pkt)->m_partyUserCount;
     PartyStatistic value;
     value.m_data[0] = ((Wire*)pkt)->m_data[0];
     value.m_data[1] = ((Wire*)pkt)->m_data[1];

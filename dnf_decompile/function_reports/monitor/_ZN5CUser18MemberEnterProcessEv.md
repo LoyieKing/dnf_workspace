@@ -78,12 +78,12 @@ void CUser::MemberEnterProcess()
     {
         return;
     }
-    m_field1a--;
-    register bool b = m_field1a <= 0;
+    m_memberEnterCount--;
+    register bool b = m_memberEnterCount <= 0;
     if (b)
     {
         m_memberEnterCallerId = 0;
-        m_field1a = 0;
+        m_memberEnterCount = 0;
     }
     return;
 }

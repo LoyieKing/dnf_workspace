@@ -359,8 +359,8 @@ void CPacketTranslater::OnGuildMasterDelegate(PacketHeader* header)
         if (pkt->m_guildId == 0)
             return;
         Packet_DB_Reply_Guild_Master_Delegate reply;
-        reply.m_fieldA = pkt->m_guildId;
-        reply.m_fieldE = pkt->m_oldMasterNo;
+        reply.m_guildId = pkt->m_guildId;
+        reply.m_oldMasterNo = pkt->m_oldMasterNo;
         memcpy((char*)&reply + 0x16, pkt->m_name, 0x1d);
         unsigned char grade = 0;
         unsigned int result = 0;
@@ -370,14 +370,14 @@ void CPacketTranslater::OnGuildMasterDelegate(PacketHeader* header)
         int resultCode = 0;
         if (grade == 2)
         {
-            if (reply.m_field12 == 0 || result == 0)
+            if (reply.m_newMasterNo == 0 || result == 0)
             {
                 resultCode = 0x22;
             }
             else if (!m_pclApp->m_dbManager.GuildMasterDelegate(
                          (unsigned int)pkt->m_serverId,
                          pkt->m_guildId, pkt->m_oldMasterNo,
-                         result, reply.m_field12,
+                         result, reply.m_newMasterNo,
                          pkt->m_name))
             {
                 DNF_LOG_SCOPE_LINE(0x628,

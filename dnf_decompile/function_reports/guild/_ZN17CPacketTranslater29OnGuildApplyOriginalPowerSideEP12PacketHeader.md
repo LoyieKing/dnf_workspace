@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8087c5c` | `0x374` | `0x807cb84` | `0x288` |
+| guild | DIFF | `0x8087c5c` | `0x374` | `0x807cadc` | `0x27c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,38 +13,36 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,227 +1,166 @@
+@@ -1,227 +1,161 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
  push   %esi
  push   %ebx
 -sub    $0x8c,%esp
-+add    $0xffffff80,%esp
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -mov    %eax,-0x28(%ebp)
-+mov    %eax,-0x24(%ebp)
++sub    $0x70,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x56>
-+jne    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x52>
++jne    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x4c>
  movl   $0x1e44,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x60(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnGuildApplyOriginalPowerSide : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x60(%ebp),%eax
-+lea    -0x44(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x369>
-+jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x281>
-+mov    -0x24(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x275>
++mov    0x8(%ebp),%eax
++mov    0xa(%eax),%eax
 +mov    %eax,-0x20(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -add    $0x10,%eax
@@ -63,28 +61,26 @@
 -jne    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0xba>
 +mov    %eax,-0x1c(%ebp)
 +cmpl   $0x0,-0x1c(%ebp)
-+jne    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0xb8>
++jne    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0xb0>
  movl   $0x1e4e,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x58(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnGuildApplyOriginalPowerSide : 0 == pclUser",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x58(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x369>
 -mov    -0x28(%ebp),%eax
--mov    0xe(%eax),%eax
++jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x275>
++mov    0x8(%ebp),%eax
+ mov    0xe(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
-+jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x281>
-+mov    -0x24(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x18(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +lea    0x290(%eax),%edx
@@ -99,22 +95,24 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x121>
-+je     <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x126>
++je     <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x11c>
  movl   $0x1e55,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnGuildApplyOriginalPowerSide : 0 == pclGuild",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x50(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x369>
 -mov    -0x28(%ebp),%eax
--movzbl 0x12(%eax),%eax
++jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x275>
++mov    0x8(%ebp),%eax
+ movzbl 0x12(%eax),%eax
 -cmp    $0x3,%al
 -je     <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x137>
 -mov    -0x28(%ebp),%eax
@@ -124,25 +122,21 @@
 -mov    -0x28(%ebp),%eax
 -movzbl 0x12(%eax),%ebx
 -mov    -0x2c(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x281>
-+mov    -0x24(%ebp),%eax
-+add    $0x12,%eax
-+movzbl (%eax),%eax
 +mov    %al,-0xe(%ebp)
 +cmpb   $0x3,-0xe(%ebp)
-+je     <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x13e>
++je     <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x132>
 +cmpb   $0x4,-0xe(%ebp)
-+jne    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x14e>
++jne    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x142>
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild12GetPowerSideEv>
 -cmp    %al,%bl
 -je     <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x154>
 +cmp    -0xe(%ebp),%al
-+je     <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x155>
++je     <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x149>
  mov    $0x1,%eax
 -jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x159>
-+jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x15a>
++jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x14e>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x1c2>
@@ -150,7 +144,7 @@
 -movzbl 0x12(%eax),%eax
 -movzbl %al,%edi
 -mov    -0x2c(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x1ba>
++je     <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x1ae>
 +movzbl -0xe(%ebp),%esi
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -162,7 +156,7 @@
  movl   $0x1e5d,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %edi,0x14(%esp)
@@ -175,7 +169,7 @@
  movl   $"CPacketTranslater::OnGuildApplyOriginalPowerSide Guild(%d), GuildOrigPowerSide(%d), PacketPowerSide(%d)",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x48(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x369>
@@ -188,11 +182,11 @@
 -jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x1dc>
 -movb   $0x2,-0x1d(%ebp)
 -movzbl -0x1d(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x281>
++jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x275>
 +cmpb   $0x3,-0xe(%ebp)
-+jne    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x1c7>
++jne    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x1bb>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x1cc>
++jmp    <T> <_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP12PacketHeader+0x1c0>
 +mov    $0x2,%eax
 +mov    %al,-0xd(%ebp)
 +movzbl -0xd(%ebp),%eax
@@ -229,7 +223,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild22SendGuildInfoToMembersEb>
 -lea    -0x77(%ebp),%eax
-+lea    -0x5b(%ebp),%eax
++lea    -0x57(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN43Packet_Guild_Apply_Origial_Power_Side_ReplyC1Ev>
 -mov    -0x30(%ebp),%eax
@@ -246,14 +240,14 @@
 -movzbl -0x1d(%ebp),%eax
 -mov    %al,-0x61(%ebp)
 -lea    -0x77(%ebp),%eax
-+mov    %eax,-0x51(%ebp)
-+mov    -0x20(%ebp),%eax
 +mov    %eax,-0x4d(%ebp)
-+mov    -0x18(%ebp),%eax
++mov    -0x20(%ebp),%eax
 +mov    %eax,-0x49(%ebp)
++mov    -0x18(%ebp),%eax
++mov    %eax,-0x45(%ebp)
 +movzbl -0xd(%ebp),%eax
-+mov    %al,-0x45(%ebp)
-+lea    -0x5b(%ebp),%eax
++mov    %al,-0x41(%ebp)
++lea    -0x57(%ebp),%eax
  movl   $0x17,0x8(%esp)
  mov    %eax,0x4(%esp)
 -mov    -0x30(%ebp),%eax
@@ -317,7 +311,7 @@
 -call   <T> <_Unwind_Resume>
 -call   <T> <__cxa_end_catch>
 -add    $0x8c,%esp
-+sub    $0xffffff80,%esp
++add    $0x70,%esp
  pop    %ebx
  pop    %esi
 -pop    %edi
@@ -428,7 +422,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29OnGuildApplyOriginalPowerSideEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5982 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 6099 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildApplyOriginalPowerSide(PacketHeader* pkt)

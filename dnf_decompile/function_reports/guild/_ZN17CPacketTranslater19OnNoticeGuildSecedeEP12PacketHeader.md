@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8072f1e` | `0x39a` | `0x8069346` | `0x396` |
+| guild | DIFF | `0x8072f1e` | `0x39a` | `0x806932e` | `0x396` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -425,7 +425,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1216 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1306 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildSecede(PacketHeader* pkt)
@@ -440,9 +440,9 @@ void CPacketTranslater::OnNoticeGuildSecede(PacketHeader* pkt)
         if (user != 0)
         {
             Packet_Guild_Exp_Book_Delete expDel;
-            expDel.ma = user->GetIdByChannel();
-            expDel.me = ((PTL_NoticeGuildSecedePkt*)pb)->m_charNo;
-            expDel.m_field12 = ((PTL_NoticeGuildSecedePkt*)pb)->m_guildKey;
+            expDel.m_channel = user->GetIdByChannel();
+            expDel.m_charNo = ((PTL_NoticeGuildSecedePkt*)pb)->m_charNo;
+            expDel.m_group = ((PTL_NoticeGuildSecedePkt*)pb)->m_guildKey;
             expDel.m16 = (unsigned int)m_pclApp->Get_ServerGroup() & 0xff;
             user->SendTcpGameserver((PacketHeader*)&expDel);
         }
@@ -459,8 +459,8 @@ void CPacketTranslater::OnNoticeGuildSecede(PacketHeader* pkt)
             m_pclApp->Get_ServerHandler()->SendTcpGameServerFirst(&noCache);
 
             Packet_DBMW_Query_Msg query;
-            query.m_fieldA = 0x4f00;
-            query.m_fieldE = 2;
+            query.m_queryId = 0x4f00;
+            query.m_handleIdx = 2;
             sprintf(query.m_data,
                     "upDate charac_info set guild_secede = 1 where charac_no = %u",
                     ((PTL_NoticeGuildSecedePkt*)pb)->m_charNo);

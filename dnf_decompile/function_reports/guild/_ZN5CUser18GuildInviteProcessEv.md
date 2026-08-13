@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8067524` | `0x6f` | `0x80896a4` | `0x73` |
+| guild | DIFF | `0x8067524` | `0x6f` | `0x80895d0` | `0x73` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -95,10 +95,10 @@ void __thiscall CUser::_ZN5CUser18GuildInviteProcessEv(CUser *this)
 ```cpp
 void CUser::GuildInviteProcess()
 {
-    if (m_field7e < 2)
+    if (m_guildInviteFact < 2)
     {
-        --m_field7e;
-        register bool bVar = (m_field7e == 0 || m_field7e > 1);
+        --m_guildInviteFact;
+        register bool bVar = (m_guildInviteFact == 0 || m_guildInviteFact > 1);
         if (bVar)
         {
             SetGuildInviteFact(0, 0, 0xff);

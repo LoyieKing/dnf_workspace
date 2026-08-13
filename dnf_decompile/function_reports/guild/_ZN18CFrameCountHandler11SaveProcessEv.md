@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x804ce22` | `0x80` | `0x8087962` | `0x80` |
+| guild | NEAR | `0x804ce22` | `0x80` | `0x808788e` | `0x80` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -89,12 +89,12 @@ void __thiscall CFrameCountHandler::_ZN18CFrameCountHandler11SaveProcessEv(CFram
 ```cpp
 void CFrameCountHandler::SaveProcess()
 {
-    ++m_field28;
-    register bool b = m_field28 != 0;
+    ++m_logCnt;
+    register bool b = m_logCnt != 0;
     if (b)
     {
-        DNF_LOG_SCOPE_LINE(0xa8, "./log/frame", "FPS(%02d) / DFC(%02d)\n", m_field18, m_field4);
-        m_field28 = 0;
+        DNF_LOG_SCOPE_LINE(0xa8, "./log/frame", "FPS(%02d) / DFC(%02d)\n", m_fps, m_frameCount);
+        m_logCnt = 0;
     }
 }
 ```

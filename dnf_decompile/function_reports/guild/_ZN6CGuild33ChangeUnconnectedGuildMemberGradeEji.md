@@ -106,9 +106,9 @@ CGuild::_ZN6CGuild33ChangeUnconnectedGuildMemberGradeEji(CGuild *this,uint param
 ```cpp
 void CGuild::ChangeUnconnectedGuildMemberGrade(unsigned int charNo, int grade)
 {
-    if ((m_field1c & 4) != 0 && (m_field1c & 0x10) != 0)
+    if ((m_guildDBFlag & 4) != 0 && (m_guildDBFlag & 0x10) != 0)
     {
-        for (int i = 0; i < m_field1e; i++)
+        for (int i = 0; i < m_totalCnt; i++)
         {
             if (((CGuildMemberMainArray*)this)->m_members[i].m_charNo == charNo)
             {

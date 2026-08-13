@@ -188,7 +188,7 @@ void __thiscall CGuild::_ZN6CGuild26NotifyMessageToGuildMemberEv(CGuild *this)
 ```cpp
 void CGuild::NotifyMessageToGuildMember()
 {
-    if ((m_field1c & 4) != 0)
+    if ((m_guildDBFlag & 4) != 0)
     {
         if (m_members.empty())
         {
@@ -199,19 +199,19 @@ void CGuild::NotifyMessageToGuildMember()
             int len = strlen((char*)this + 0x4d0a);
             if (len <= 100)
             {
-                memcpy(pkt.m_msg, m_field4d0a, len);
+                memcpy(pkt.m_msg, m_guildMessage, len);
             }
             else
             {
-                memcpy(pkt.m_msg, m_field4d0a, 100);
+                memcpy(pkt.m_msg, m_guildMessage, 100);
             }
             for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
                  it != m_members.end(); ++it)
             {
                 CUser* u;
                 if ((u = it->second) == 0) { continue; }
-                pkt.m_fieldA = u->GetIdByChannel();
-                pkt.m_fieldE = u->GetUniqCharNo();
+                pkt.m_channel = u->GetIdByChannel();
+                pkt.m_charNo = u->GetUniqCharNo();
                 u->SendToGameserver((char*)&pkt, 0x77);
             }
         }

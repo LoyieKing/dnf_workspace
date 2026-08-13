@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80755fc` | `0x7c3` | `0x806b98e` | `0x772` |
+| guild | DIFF | `0x80755fc` | `0x7c3` | `0x806b976` | `0x772` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -1049,7 +1049,7 @@ void CPacketTranslater::_ZN17CPacketTranslater21OnSetGuildMemberGradeEP12PacketH
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1582 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 1672 行）：
 
 ```cpp
 void CPacketTranslater::OnSetGuildMemberGradeFromWeb(PacketHeader* pkt)
@@ -1146,9 +1146,9 @@ void CPacketTranslater::OnSetGuildMemberGradeFromWeb(PacketHeader* pkt)
     {
         user->ChangeGuildMemberGrade(newGrade);
         Packet_Monitor_Notify_GuildMemberGrade notify;
-        notify.m_fieldA = user->GetIdByChannel();
-        notify.m_fieldE = user->GetUniqCharNo();
-        notify.m12 = newGrade;
+        notify.m_channel = user->GetIdByChannel();
+        notify.m_charNo = user->GetUniqCharNo();
+        notify.m_grade = newGrade;
         user->SendToGameserver((char*)&notify, notify.packetSize);
     }
     }

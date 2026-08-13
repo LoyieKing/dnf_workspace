@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a4638` | `0x88` | `0x8099fa2` | `0xa6` |
+| monitor | DIFF | `0x80a4638` | `0x88` | `0x8099f9c` | `0xa6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -108,8 +108,8 @@ COnTimeEventManager::_ZN19COnTimeEventManager9AttachAppEP12CApplication
 void COnTimeEventManager::AttachApp(CApplication* app)
 {
     m_app = app;
-    m_field38 = 0;
-    m_field3c = 0;
+    m_itemIndex = 0;
+    m_itemCount = 0;
     time_t t = time(0);
     register CTaskScheduler::CTask* task = new COnTimeEventIdxLoad(t + 10, 0, this);
     m_app->GetTaskScheduler()->AddTask(task);

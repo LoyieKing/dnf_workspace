@@ -240,7 +240,7 @@ void CGuild::NoticeGuildMemberLogin_Out(CUser* user, char flag)
     {
         return;
     }
-    if ((m_field1c & 4) == 0 || m_members.empty())
+    if ((m_guildDBFlag & 4) == 0 || m_members.empty())
     {
         return;
     }

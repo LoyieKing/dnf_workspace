@@ -713,29 +713,29 @@ int FrameLagCollector::PushMonitoringSpecData(Packet_Frame_Lag_Statistic_Result_
         {
             MonitoringSpecCase mc;
             mc.m_specId = ((FrameLagSpecInts3*)pkt)->m[i + 0x10];
-            mc.m_field4 = ((FrameLagSpecView*)pkt)->m_field4[i];
-            mc.m_field5 = ((FrameLagSpecView*)pkt)->m_field5[i];
-            mc.m_field8 = ((FrameLagSpecInts7*)pkt)->m[i + 0x18];
-            mc.m_fieldc = ((FrameLagSpecIntsF*)pkt)->m[i + 0x1c];
-            mc.m_field10 = ((FrameLagSpecShorts7*)pkt)->m[i + 0x48];
-            mc.m_field14 = ((FrameLagSpecInts3*)pkt)->m[i + 0x28];
-            mc.m_field18 = ((FrameLagSpecIntsB*)pkt)->m[i + 0x2c];
-            mc.m_field1c = ((FrameLagSpecShorts3*)pkt)->m[i + 0x68];
-            mc.m_field1e = ((FrameLagSpecView*)pkt)->m_field1e[i];
+            mc.m_cpuVendor = ((FrameLagSpecView*)pkt)->m_field4[i];
+            mc.m_cpuProcessorNum = ((FrameLagSpecView*)pkt)->m_field5[i];
+            mc.m_aboveCpuClock = ((FrameLagSpecInts7*)pkt)->m[i + 0x18];
+            mc.m_belowCpuClock = ((FrameLagSpecIntsF*)pkt)->m[i + 0x1c];
+            mc.m_ram = ((FrameLagSpecShorts7*)pkt)->m[i + 0x48];
+            mc.m_videocardVendor = ((FrameLagSpecInts3*)pkt)->m[i + 0x28];
+            mc.m_videocardDevice = ((FrameLagSpecIntsB*)pkt)->m[i + 0x2c];
+            mc.m_videocardTextureMem = ((FrameLagSpecShorts3*)pkt)->m[i + 0x68];
+            mc.m_osVersion = ((FrameLagSpecView*)pkt)->m_field1e[i];
             m_monitor[sid] = mc;
         }
         else
         {
             it->second.m_specId = ((FrameLagSpecInts3*)pkt)->m[i + 0x10];
-            it->second.m_field4 = ((FrameLagSpecView*)pkt)->m_field4[i];
-            it->second.m_field5 = ((FrameLagSpecView*)pkt)->m_field5[i];
-            it->second.m_field8 = ((FrameLagSpecInts7*)pkt)->m[i + 0x18];
-            it->second.m_fieldc = ((FrameLagSpecIntsF*)pkt)->m[i + 0x1c];
-            it->second.m_field10 = ((FrameLagSpecShorts7*)pkt)->m[i + 0x48];
-            it->second.m_field14 = ((FrameLagSpecInts3*)pkt)->m[i + 0x28];
-            it->second.m_field18 = ((FrameLagSpecIntsB*)pkt)->m[i + 0x2c];
-            it->second.m_field1c = ((FrameLagSpecShorts3*)pkt)->m[i + 0x68];
-            it->second.m_field1e = ((FrameLagSpecView*)pkt)->m_field1e[i];
+            it->second.m_cpuVendor = ((FrameLagSpecView*)pkt)->m_field4[i];
+            it->second.m_cpuProcessorNum = ((FrameLagSpecView*)pkt)->m_field5[i];
+            it->second.m_aboveCpuClock = ((FrameLagSpecInts7*)pkt)->m[i + 0x18];
+            it->second.m_belowCpuClock = ((FrameLagSpecIntsF*)pkt)->m[i + 0x1c];
+            it->second.m_ram = ((FrameLagSpecShorts7*)pkt)->m[i + 0x48];
+            it->second.m_videocardVendor = ((FrameLagSpecInts3*)pkt)->m[i + 0x28];
+            it->second.m_videocardDevice = ((FrameLagSpecIntsB*)pkt)->m[i + 0x2c];
+            it->second.m_videocardTextureMem = ((FrameLagSpecShorts3*)pkt)->m[i + 0x68];
+            it->second.m_osVersion = ((FrameLagSpecView*)pkt)->m_field1e[i];
         }
         FrameLagDataStruct fd;
         m_data[((FrameLagSpecInts3*)pkt)->m[i + 0x10]] = fd;

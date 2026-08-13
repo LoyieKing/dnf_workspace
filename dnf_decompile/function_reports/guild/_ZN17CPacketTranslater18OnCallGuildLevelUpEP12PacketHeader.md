@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807c8a8` | `0x4b0` | `0x8072b08` | `0x498` |
+| guild | DIFF | `0x807c8a8` | `0x4b0` | `0x8072ae4` | `0x498` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -559,7 +559,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3215 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3307 行）：
 
 ```cpp
 void CPacketTranslater::OnCallGuildLevelUp(PacketHeader* pkt)

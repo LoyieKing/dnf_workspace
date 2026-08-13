@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | NEAR | `0x80a0acc` | `0xc4` | `0x8099e48` | `0xc4` |
+| monitor | NEAR | `0x80a0acc` | `0xc4` | `0x8099e42` | `0xc4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -146,7 +146,7 @@ void CMemoryCashManager::ProcessCashDataPrint()
     {
         DNF_LOG_SCOPE_LINE(0x4e, "./log/cashmem",
             "buddy(%d/%d)  member(%d/%d)  black(%d/%d)",
-            m_field44, m_buddyCashCnt, m_field48, m_memberCashCnt, m_field4c,
+            m_buddyCashHitCnt, m_buddyCashCnt, m_memberCashHitCnt, m_memberCashCnt, m_blackListCashHitCnt,
             m_blackListCashCnt);
         resetCashCnt();
     }

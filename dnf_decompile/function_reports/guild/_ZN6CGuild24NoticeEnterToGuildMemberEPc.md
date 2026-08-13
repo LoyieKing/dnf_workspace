@@ -177,8 +177,8 @@ void __thiscall CGuild::_ZN6CGuild24NoticeEnterToGuildMemberEPc(CGuild *this,cha
 ```cpp
 void CGuild::NoticeEnterToGuildMember(char* info)
 {
-    if (((m_field1c & 4) != 0 ||
-         (m_field1c & 2) != 0) &&
+    if (((m_guildDBFlag & 4) != 0 ||
+         (m_guildDBFlag & 2) != 0) &&
         !m_members.empty())
     {
         Packet_Monitor_Notice_Guild_Enter_ToUser pkt;

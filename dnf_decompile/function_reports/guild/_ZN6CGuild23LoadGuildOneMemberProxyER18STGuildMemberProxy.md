@@ -160,26 +160,26 @@ CGuild::_ZN6CGuild23LoadGuildOneMemberProxyER18STGuildMemberProxy
 ```cpp
 bool CGuild::LoadGuildOneMemberProxy(STGuildMemberProxy& proxy)
 {
-    if ((m_field1c & 4) == 0 || (m_field1c & 0x10) == 0)
+    if ((m_guildDBFlag & 4) == 0 || (m_guildDBFlag & 0x10) == 0)
     {
         return 0;
     }
-    if (m_field1e <= 0x12b)
+    if (m_totalCnt <= 0x12b)
     {
-        memcpy(&((CGuildMemberMainArray*)this)->m_members[m_field1e].m_charNo, &proxy, 0x41);
-        m_field1e++;
+        memcpy(&((CGuildMemberMainArray*)this)->m_members[m_totalCnt].m_charNo, &proxy, 0x41);
+        m_totalCnt++;
     }
-    if (m_field1e > 0x12b)
+    if (m_totalCnt > 0x12b)
     {
         CMyFileLog log(__FUNCTION__, 0x719);
         log("./log/GuildErr", "Guild Member Cnt Full Or Over : G Key(%d), Cnt(%d)", m_guildKey,
-            (unsigned int)m_field1e);
-        if (m_field1e > 0x12c)
+            (unsigned int)m_totalCnt);
+        if (m_totalCnt > 0x12c)
         {
-            m_field1e = 0x12c;
+            m_totalCnt = 0x12c;
         }
     }
-    m_dbInfo.m_info.m_totalCnt = m_field1e;
+    m_dbInfo.m_info.m_totalCnt = m_totalCnt;
     return 1;
 }
 ```

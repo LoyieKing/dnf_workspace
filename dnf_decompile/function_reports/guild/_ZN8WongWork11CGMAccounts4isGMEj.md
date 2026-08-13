@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80a2bd2` | `0xa7` | `0x808eb36` | `0xa7` |
+| guild | NEAR | `0x80a2bd2` | `0xa7` | `0x808ea62` | `0xa7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -113,8 +113,8 @@ WongWork::CGMAccounts::_ZN8WongWork11CGMAccounts4isGMEj(CGMAccounts *this,uint p
 int CGMAccounts::isGM(unsigned int id)
 {
     stGMInfo_t key = {};
-    key.m_field1 = 3;
-    key.m_field0 = id;
+    key.m_flag = 3;
+    key.m_id = id;
     std::list<stGMInfo_t>::iterator end = m_list.end();
     std::list<stGMInfo_t>::iterator it = std::find(m_list.begin(), m_list.end(), key);
     if (it != end) return 1;

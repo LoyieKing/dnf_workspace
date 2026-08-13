@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80814f8` | `0x44a` | `0x8077706` | `0x40c` |
+| guild | DIFF | `0x80814f8` | `0x44a` | `0x807765c` | `0x40c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -582,7 +582,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnChangeGuildNameEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4347 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4463 行）：
 
 ```cpp
 void CPacketTranslater::OnChangeGuildName(PacketHeader* pkt)
@@ -595,7 +595,7 @@ void CPacketTranslater::OnChangeGuildName(PacketHeader* pkt)
         return;
     }
     Packet_Reply_Change_Guild_Name reply;
-    reply.m_a = ((PTL_ChangeGuildNamePkt*)pkt)->m_charNo;
+    reply.m_charNo = ((PTL_ChangeGuildNamePkt*)pkt)->m_charNo;
     memcpy(reply.m_name, ((PTL_ChangeGuildNamePkt*)pkt)->m_name, 0x16);
     CUser* user;
     if ((user = (&m_pclApp->m_userManager)->FindUser_CharNo(
@@ -604,14 +604,14 @@ void CPacketTranslater::OnChangeGuildName(PacketHeader* pkt)
         DNF_LOG_SCOPE_LINE(0x14e7, "./log/GuildModify", "CPacketTranslater::OnChangeGuildName : 0 == pclRequestUser");
         return;
     }
-    reply.m_fieldE = user->GetIdByChannel();
+    reply.m_guildKey = user->GetIdByChannel();
     unsigned int guildKey = ((PTL_ChangeGuildNamePkt*)pkt)->m_guildKey;
     CGuild* guild = 0;
     if (guildKey == 0 ||
         (guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) == 0)
     {
         DNF_LOG_SCOPE_LINE(0x14ef, "./log/GuildModify", "CPacketTranslater::OnChangeGuildName : 0 == pclGuild");
-        reply.m_16 = 100;
+        reply.m_result = 100;
         user->SendTcpGameserver(&reply);
         return;
     }
@@ -625,8 +625,8 @@ void CPacketTranslater::OnChangeGuildName(PacketHeader* pkt)
         }
         guild->DBGuildSave(group, m_pclApp->Get_ServerHandler(), 0);
         guild->SendGuildNameChangeToMembers();
-        reply.m_fieldE = guildKey;
-        reply.m_16 = 0;
+        reply.m_guildKey = guildKey;
+        reply.m_result = 0;
         user->SendTcpGameserver(&reply);
         static const char letterText[0x121] =
             "\xe8\xae\x8a\xe6\x9b\xb4\xe5\x85\xac\xe6\x9c\x83\xe5\x90\x8d\xe7\xa8\xb1\x00\x00\x00\x00\x00\x00"
@@ -654,7 +654,7 @@ void CPacketTranslater::OnChangeGuildName(PacketHeader* pkt)
             "CPacketTranslater::OnChangeGuildName : %d is not guild master or sub master(g:%d)",
             ((PTL_ChangeGuildNamePkt*)pkt)->m_charNo,
             ((PTL_ChangeGuildNamePkt*)pkt)->m_guildKey);
-        reply.m_16 = 0x56;
+        reply.m_result = 0x56;
         user->SendTcpGameserver(&reply);
     }
     }

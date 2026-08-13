@@ -214,16 +214,16 @@ void CPacketTranslater::OnQueryGuildMember(PacketHeader* header)
         {
             Packet_DBMW_Query_Guild_Member* pkt =
                 (Packet_DBMW_Query_Guild_Member*)header;
-            reply.m_fieldF = pkt->m_guildId;
+            reply.m_characNo = pkt->m_characNo;
             if (!m_pclApp->m_dbManager.QueryGuildMember(
-                    pkt->m_serverId, pkt->m_guildId,
+                    pkt->m_serverId, pkt->m_characNo,
                     reply))
             {
                 DNF_LOG_SCOPE_LINE(0x98,
-                    "./log/Except",
-                    "CPacketTranslater::OnQueryGuildMember() Query Error : %d, Char No : %d, Guild Id : %d", (unsigned char)reply.m_flag, pkt->m_guildId,
-                    reply.m_fieldB
-                );
+                "./log/Except",
+                "CPacketTranslater::OnQueryGuildMember() Query Error : %d, Char No : %d, Guild Id : %d", (unsigned char)reply.m_flag, pkt->m_characNo,
+                reply.m_guildId
+            );
             }
             CGuildServer* gs =
                 m_pclApp->m_serverHandler->GetGuildServer();

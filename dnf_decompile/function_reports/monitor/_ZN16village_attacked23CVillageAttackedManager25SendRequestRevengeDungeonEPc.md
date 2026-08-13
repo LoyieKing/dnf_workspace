@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a9142` | `0x2b` | `0x80a8f6a` | `0x33` |
+| monitor | DIFF | `0x80a9142` | `0x2b` | `0x80a8f64` | `0x33` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -68,7 +68,7 @@ _ZN16village_attacked23CVillageAttackedManager25SendRequestRevengeDungeonEPc
 void CVillageAttackedManager::SendRequestRevengeDungeon(char* pkt)
 {
     RA_UINT<10>* p10 = (RA_UINT<10>*)pkt;
-    p10->v = m_field30;
+    p10->v = m_rewardType;
     RA_UINT<14>* p14 = (RA_UINT<14>*)pkt;
     p14->v = GetDungeonRemainTime();
 }

@@ -321,11 +321,11 @@ void StatisticManager::WriteHellPartyStatisticItem(Packet_HellParty_Statistic_It
         char m_f11;
     };
     STHellPartyStatisticItemKey key;
-    key.m_field0 = ((Wire*)pkt)->m_f0a;
-    key.m_field4 = ((Wire*)pkt)->m_f0b;
-    key.m_field8 = ((Wire*)pkt)->m_f0f;
-    key.m_field9 = ((Wire*)pkt)->m_f10;
-    key.m_fielda = ((Wire*)pkt)->m_f11;
+    key.m_hellpartyType = ((Wire*)pkt)->m_f0a;
+    key.m_dungeonIndex = ((Wire*)pkt)->m_f0b;
+    key.m_dungeonDiff = ((Wire*)pkt)->m_f0f;
+    key.m_partyCount = ((Wire*)pkt)->m_f10;
+    key.m_hellpartyDiff = ((Wire*)pkt)->m_f11;
     HellPartyItenmData value;
     memcpy(value.m_data, (char*)pkt + 0x12, 0x18);
     std::map<STHellPartyStatisticItemKey, HellPartyItenmData>::iterator it =

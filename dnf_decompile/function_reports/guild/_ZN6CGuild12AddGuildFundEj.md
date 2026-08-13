@@ -184,9 +184,9 @@ void __thiscall CGuild::_ZN6CGuild12AddGuildFundEj(CGuild *this,uint param_1)
 ```cpp
 void CGuild::AddGuildFund(unsigned int fund)
 {
-    if ((m_field1c & 4) != 0)
+    if ((m_guildDBFlag & 4) != 0)
     {
-        m_field4d96 = 1;
+        m_dBSaveFlag = 1;
         unsigned int* fundPtr = &m_dbInfo.m_info.m_guildFund;
         unsigned char* levelPtr = &m_dbInfo.m_info.m_guildLevel;
         *fundPtr += fund;
@@ -210,7 +210,7 @@ void CGuild::AddGuildFund(unsigned int fund)
         DNF_LOG_SCOPE_LINE(0xb06,"./log/GuildFund",
             "CPacketTranslater::AddGuildFund() Error!! : GUILD_ID (%u), GUILD_FUND (%u), GOLD (%u), STATE (%d), CONNECTING_GUILD_MEMBER_CNT (%d)\n",
             GetGuildKey(), m_dbInfo.m_info.m_guildFund, fund,
-            m_field1c, m_members.size());
+            m_guildDBFlag, m_members.size());
     }
 }
 ```

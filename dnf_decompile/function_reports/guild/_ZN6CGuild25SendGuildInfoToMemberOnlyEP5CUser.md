@@ -163,14 +163,14 @@ void __thiscall CGuild::_ZN6CGuild25SendGuildInfoToMemberOnlyEP5CUser(CGuild *th
 ```cpp
 void CGuild::SendGuildInfoToMemberOnly(CUser* user)
 {
-    if ((m_field1c & 4) != 0)
+    if ((m_guildDBFlag & 4) != 0)
     {
         GuildNoticeInfoFull pkt;
         new (&pkt) Packet_Monitor_Notice_Guild_Info();
-        pkt.m_field12 = m_guildKey;
+        pkt.m_guildKey = m_guildKey;
         memcpy(pkt.m_body, (char*)this + 0x20, 0xbd);
-        pkt.m_fieldA = user->GetIdByChannel();
-        pkt.m_fieldE = user->GetUniqCharNo();
+        pkt.m_channel = user->GetIdByChannel();
+        pkt.m_charNo = user->GetUniqCharNo();
         int len = strlen((char*)this + 0x4d0a);
         if (len <= 100)
         {

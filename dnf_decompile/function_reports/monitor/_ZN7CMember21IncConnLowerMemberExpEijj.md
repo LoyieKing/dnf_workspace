@@ -196,22 +196,22 @@ int CMember::IncConnLowerMemberExp(int index, unsigned int uCharNo, unsigned int
     if (index < (int)(unsigned int)(unsigned char)((RA_S8<45>*)this)->v)
     {
         ST_MemberProxy* proxy = (ST_MemberProxy*)((char*)this + index * 0x27 + 0x2e);
-        if (proxy->m_field0 == uCharNo)
+        if (proxy->m_charNo == uCharNo)
         {
-            proxy->m_field23 = proxy->m_field23 + 1;
-            if (maxExp < proxy->m_field23)
+            proxy->m_exp = proxy->m_exp + 1;
+            if (maxExp < proxy->m_exp)
             {
-                proxy->m_field23 = proxy->m_field23 - 1;
+                proxy->m_exp = proxy->m_exp - 1;
                 return 0;
             }
-            return proxy->m_field23;
+            return proxy->m_exp;
         }
         else
         {
             DNF_LOG_SCOPE_LINE(0x28c,"./log/Member2Except",
                 "CMember::IncConnLowerMemberExp  ,  stMemberLowerProxy.m_uCharId(%d) != "
                 "uCharNo(%d)",
-                proxy->m_field0, uCharNo);
+                proxy->m_charNo, uCharNo);
             return 0;
         }
     }

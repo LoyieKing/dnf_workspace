@@ -146,7 +146,7 @@ void __thiscall CGuild::_ZN6CGuild26SendGuildAgitInfoToMembersEv(CGuild *this)
 void CGuild::SendGuildAgitInfoToMembers()
 {
     Packet_Channel_Guild_Agit_Info pkt;
-    pkt.m_c = m_guildKey;
+    pkt.m_guildKey = m_guildKey;
     pkt.m_info.m_agitLevel = m_agitInfo.m_agitLevel;
     for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
          it != m_members.end(); ++it)
@@ -154,8 +154,8 @@ void CGuild::SendGuildAgitInfoToMembers()
         CUser* u = it->second;
         if (u != 0)
         {
-            pkt.m_a = u->GetIdByChannel();
-            pkt.m_b = u->GetUniqCharNo();
+            pkt.m_channel = u->GetIdByChannel();
+            pkt.m_charNo = u->GetUniqCharNo();
             u->SendToGameserver((char*)&pkt, 0x17);
         }
     }

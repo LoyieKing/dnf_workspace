@@ -545,22 +545,22 @@ void __thiscall CPacketDecoder::_ZN14CPacketDecoder10UdpProcessEv(CPacketDecoder
 ```cpp
 void CPacketDecoder::UdpProcess()
 {
-    if (m_field0 != 0 && m_field4 != 0)
+    if (m_udpParseQ != 0 && m_udpQLock != 0)
     {
         CUdpRecvBuffer* buf = 0;
         while (true)
         {
             do
             {
-                if (((std::queue<CUdpRecvBuffer*>*)m_field0)->empty())
+                if (((std::queue<CUdpRecvBuffer*>*)m_udpParseQ)->empty())
                 {
                     return;
                 }
-                buf = ((std::queue<CUdpRecvBuffer*>*)m_field0)->front();
-                ((std::queue<CUdpRecvBuffer*>*)m_field0)->pop();
+                buf = ((std::queue<CUdpRecvBuffer*>*)m_udpParseQ)->front();
+                ((std::queue<CUdpRecvBuffer*>*)m_udpParseQ)->pop();
             } while (buf == 0);
             CUdpRecvBuffer* pkt = buf;
-            int qsize = ((std::queue<CUdpRecvBuffer*>*)m_field0)->size();
+            int qsize = ((std::queue<CUdpRecvBuffer*>*)m_udpParseQ)->size();
             CAppLoadChecker* checker = CAppLoadCheckerInstance();
             if (checker->CheckUdpRecvQ(qsize))
             {

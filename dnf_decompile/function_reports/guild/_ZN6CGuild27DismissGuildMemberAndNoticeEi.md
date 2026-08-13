@@ -247,7 +247,7 @@ void __thiscall CGuild::_ZN6CGuild27DismissGuildMemberAndNoticeEi(CGuild *this,i
 ```cpp
 void CGuild::DismissGuildMemberAndNotice(int group)
 {
-    if ((m_field1c & 4) == 0 || m_members.empty())
+    if ((m_guildDBFlag & 4) == 0 || m_members.empty())
     {
         return;
     }
@@ -257,13 +257,13 @@ void CGuild::DismissGuildMemberAndNotice(int group)
     {
         if (it->second != 0)
         {
-            notice.ma = it->second->GetIdByChannel();
-            notice.me = it->second->GetUniqCharNo();
+            notice.m_channel = it->second->GetIdByChannel();
+            notice.m_charNo = it->second->GetUniqCharNo();
             it->second->SendToGameserver((char*)&notice, 0x12);
             Packet_Guild_Exp_Book_Delete expDel;
-            expDel.ma = it->second->GetIdByChannel();
-            expDel.me = it->second->GetUniqCharNo();
-            expDel.m_field12 = group;
+            expDel.m_channel = it->second->GetIdByChannel();
+            expDel.m_charNo = it->second->GetUniqCharNo();
+            expDel.m_group = group;
             expDel.m16 = it->second->GetDBID();
             it->second->SendTcpGameserver(&expDel);
             it->second->ResetGuild();

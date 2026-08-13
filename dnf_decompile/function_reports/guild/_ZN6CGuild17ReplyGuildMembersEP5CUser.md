@@ -1068,7 +1068,7 @@ void __thiscall CGuild::_ZN6CGuild17ReplyGuildMembersEP5CUser(CGuild *this,CUser
 ```cpp
 void CGuild::ReplyGuildMembers(CUser* user)
 {
-    if (user == 0 || (m_field1c & 4) == 0 || m_members.empty())
+    if (user == 0 || (m_guildDBFlag & 4) == 0 || m_members.empty())
     {
         return;
     }

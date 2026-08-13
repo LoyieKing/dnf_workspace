@@ -392,17 +392,17 @@ void CPacketTranslater::OnQueryGuildAllMembersProxy(PacketHeader* header)
         Packet_DB_Call_Guild_All_Members* pkt =
             (Packet_DB_Call_Guild_All_Members*)header;
         Packet_DB_Reply_Guild_All_Members reply;
-        reply.m_fieldA = pkt->m_fieldA;
-        reply.m_fieldE = pkt->m_fieldE;
+        reply.m_guildId = pkt->m_guildId;
+        reply.m_characNo = pkt->m_characNo;
         unsigned short tot = 0;
         STGuildMemberProxy* temp = m_pclApp->m_guildManager->GetArrayTempGuildMemberList();
         memset(temp, 0, 0x4c2c);
-        if (!m_pclApp->m_dbManager.QueryGuildAllMembersProxy(pkt->m_fieldA, temp, tot))
+        if (!m_pclApp->m_dbManager.QueryGuildAllMembersProxy(pkt->m_guildId, temp, tot))
         {
             DNF_LOG_SCOPE_LINE(0x362,
                 "./log/GuildMemberErr",
-                "Query All Guild Member List Error g(%d), c(%d)\n", pkt->m_fieldA,
-                pkt->m_fieldE
+                "Query All Guild Member List Error g(%d), c(%d)\n", pkt->m_guildId,
+                pkt->m_characNo
             );
 
             return;
@@ -434,8 +434,8 @@ void CPacketTranslater::OnQueryGuildAllMembersProxy(PacketHeader* header)
         }
         DNF_LOG_SCOPE_LINE(0x38b,
             "./log/GuildModify",
-            "Query All Guild Member List g(%d), c(%d), tot(%d)\n", pkt->m_fieldA,
-            pkt->m_fieldE,
+            "Query All Guild Member List g(%d), c(%d), tot(%d)\n", pkt->m_guildId,
+            pkt->m_characNo,
             tot
         );
 

@@ -142,7 +142,7 @@ void __thiscall CGuild::_ZN6CGuild18SendToGuildForMailEv(CGuild *this)
 ```cpp
 void CGuild::SendToGuildForMail()
 {
-    if ((m_field1c & 4) == 0)
+    if ((m_guildDBFlag & 4) == 0)
     {
         return;
     }

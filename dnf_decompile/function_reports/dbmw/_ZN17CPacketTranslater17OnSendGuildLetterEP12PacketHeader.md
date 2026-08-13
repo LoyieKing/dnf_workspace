@@ -370,13 +370,13 @@ void CPacketTranslater::OnSendGuildLetter(PacketHeader* header)
                 return;
             }
             Packet_DBMW_Reply_Guild_Mail reply;
-            reply.m_fieldE = pkt->m_guildId;
-            reply.m_fieldA = pkt->m_fieldA;
-            reply.m_field12 = 0;
+            reply.m_guildId = pkt->m_guildId;
+            reply.m_senderCharacNo = pkt->m_fieldA;
+            reply.m_result = 0;
             gs->SendToServer((char*)&reply, reply.packetSize);
         }
         Packet_Notice_Guild_Mail_Arrived notice;
-        notice.m_fieldA = 1;
+        notice.m_flag = 1;
         notice.m_guildId = pkt->m_guildId;
         gs->SendToServer((char*)&notice, notice.packetSize);
         DNF_LOG_SCOPE_LINE(0x507,

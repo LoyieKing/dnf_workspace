@@ -1936,18 +1936,18 @@ void CApplication::Load(int argc, char** argv)
         m_itemLimitMgr = new CItemLimitEditionMgr;
         {
             Packet_Item_Limit_Edition_Load_Data_Req pkt;
-            pkt.m_fieldA = 1;
-            pkt.m_fieldB = Get_ServerGroup();
-            pkt.m_fieldC = 0;
+            pkt.m_fullLoad = 1;
+            pkt.m_serverType = Get_ServerGroup();
+            pkt.m_loadTargetNum = 0;
             m_serverHandler2->SendToDB(&pkt);
         }
 
         m_ipCounter = new CIPCounter;
         m_ipCounter->Init(m_serverHandler2);
 
-        if (m_field31c == 0)
+        if (m_eventActionMgr == 0)
         {
-            m_field31c = new CEventActionManager;
+            m_eventActionMgr = new CEventActionManager;
         }
         if (m_onTimeEventMgr == 0)
         {
@@ -1955,7 +1955,7 @@ void CApplication::Load(int argc, char** argv)
         }
         m_onTimeEventMgr->AttachApp(this);
 
-        m_field2cc = new WongWork::CGMAccounts;
+        m_gmAccounts = new WongWork::CGMAccounts;
         m_periodicMsg = new CPeriodicMessageMgr;
         {
             Packet_Load_Periodic_Message pkt;
@@ -1967,7 +1967,7 @@ void CApplication::Load(int argc, char** argv)
             m_serverHandler2->SendToDB(&pkt);
         }
 
-        m_field388 = new CollectItms;
+        m_collectItms = new CollectItms;
         {
             time_t now = time(0);
             tm pt = *localtime(&now);
@@ -1978,13 +1978,13 @@ void CApplication::Load(int argc, char** argv)
         m_towerRank->processReloadRanking(m_serverHandler2, true, 10000);
         m_towerRank->processReloadRanking(m_serverHandler2, true, 5);
 
-        m_field334 = new init_accusation::CInitAccusationListMgr(*this);
+        m_accusationMgr = new init_accusation::CInitAccusationListMgr(*this);
         {
             bool schedule = false;
-            ((init_accusation::CInitAccusationListMgr*)m_field334)->setSchedule(schedule);
+            ((init_accusation::CInitAccusationListMgr*)m_accusationMgr)->setSchedule(schedule);
         }
 
-        m_field330 = new CLoginLogoutStatistics(*this);
+        m_loginLogoutStats = new CLoginLogoutStatistics(*this);
         {
             typedef std::queue<CTcpRecvBuffer*, std::deque<CTcpRecvBuffer*, std::allocator<CTcpRecvBuffer*> > > TcpRecvQueue;
             IQueue<TcpRecvQueue>::Get()->InitQueue(

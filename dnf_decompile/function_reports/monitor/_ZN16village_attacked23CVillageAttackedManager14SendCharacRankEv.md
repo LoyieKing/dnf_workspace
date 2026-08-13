@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a8d40` | `0x3a5` | `0x80a8892` | `0x369` |
+| monitor | DIFF | `0x80a8d40` | `0x3a5` | `0x80a888c` | `0x369` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -584,7 +584,7 @@ void CVillageAttackedManager::SendCharacRank()
         {
             stUserHuntingPoint p;
             p.m_huntingPoint = it->second.m_huntingPoint;
-            p.m_characNo = it->second.m_field4;
+            p.m_characNo = it->second.m_bonusPoint;
             pq.push(p);
         }
         char sql[0x1001];
@@ -592,7 +592,7 @@ void CVillageAttackedManager::SendCharacRank()
         std::string query;
         serverGroup = m_app->Get_ServerGroup();
         unsigned int now = GetNowTime();
-        if ((unsigned int)m_field20 <= (unsigned int)m_field1c)
+        if ((unsigned int)m_maxHuntingPoint <= (unsigned int)m_curHuntingPoint)
         {
             int rank = 0;
             int count = 0;
@@ -626,8 +626,8 @@ void CVillageAttackedManager::SendCharacRank()
             }
         }
         Packet_DBMW_Query_Msg pkt;
-        pkt.m_fieldB = 6;
-        pkt.m_fieldA = 0x4ee4;
+        pkt.m_handleIdx = 6;
+        pkt.m_queryId = 0x4ee4;
         sprintf(pkt.m_sql,
                 "inSert into village_attacked_charac_point_rank(server_info, occ_date, charac_no, hunting_point, rank) values%s",
                 query.c_str());

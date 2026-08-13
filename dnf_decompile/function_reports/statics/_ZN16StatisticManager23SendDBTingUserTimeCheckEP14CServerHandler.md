@@ -237,13 +237,13 @@ void StatisticManager::SendDBTingUserTimeCheck(CServerHandler* handler)
 {
     Packet_DBMW_Ting_User_TimeCheck_Write_Query pkt;
     int idx = 0;
-    if (!m_field110.empty())
+    if (!m_tingUser.empty())
     {
-        for (std::map<unsigned int, int>::iterator it = m_field110.begin();
-             it != m_field110.end(); ++it)
+        for (std::map<unsigned int, int>::iterator it = m_tingUser.begin();
+             it != m_tingUser.end(); ++it)
         {
-            pkt.m_typed.m_items[idx].m_field0 = it->first;
-            pkt.m_typed.m_items[idx].m_field4 = it->second;
+            pkt.m_typed.m_items[idx].m_id = it->first;
+            pkt.m_typed.m_items[idx].m_minute = it->second;
             idx++;
             bool over = (idx > 0x2fd);
             if (over)
