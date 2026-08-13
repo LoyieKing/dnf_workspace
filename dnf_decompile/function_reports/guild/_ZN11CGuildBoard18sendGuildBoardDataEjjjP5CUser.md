@@ -13,7 +13,50 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,342 +1,342 @@
+@@ -1,342 +1,336 @@
++add    $0x7c,%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZSt9make_pairIRjR18STGuildBoardDBInfoESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
++sub    $0x4,%esp
++lea    -0xc0(%ebp),%eax
++mov    %eax,0x4(%esp)
++lea    -0x16c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt4pairIKj18STGuildBoardDBInfoEC1IjS1_EEOS_IT_T0_E>
++mov    0x8(%ebp),%eax
++lea    0xc(%eax),%ecx
++lea    -0x174(%ebp),%eax
++lea    -0x16c(%ebp),%edx
++mov    %edx,0x8(%esp)
++mov    %ecx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZNSt3mapIj18STGuildBoardDBInfoSt7greaterIjESaISt4pairIKjS0_EEE6insertERKS5_>
++sub    $0x4,%esp
++addl   $0x1,-0xc(%ebp)
++mov    -0xc(%ebp),%eax
++cmp    0x18(%ebp),%eax
++setl   %al
++test   %al,%al
++jne    <T> <_ZN11CGuildBoard17setGuildBoardDataEjjP6CGuildiP18STGuildBoardDBInfo+0x15>
++movl   $0x5f,0x8(%esp)
++movl   $&_ZZN11CGuildBoard17setGuildBoardDataEjjP6CGuildiP18STGuildBoardDBInfoE12__FUNCTION__,0x4(%esp)
++lea    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    0x18(%ebp),%eax
++mov    %eax,0x14(%esp)
++mov    0x10(%ebp),%eax
++mov    %eax,0x10(%esp)
++mov    0xc(%ebp),%eax
++mov    %eax,0xc(%esp)
++movl   $"SET SUCCESS - GUILD:%u, CHARAC:%u, COUNT:%u",0x8(%esp)
++movl   $"./log/GuildBoard",0x4(%esp)
++lea    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -369,66 +412,57 @@
  movl   $0x21,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
- call   <T> <memcpy>
+-call   <T> <memcpy>
 -lea    -0x44(%ebp),%eax
-+lea    -0x40(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEppEv>
- lea    -0x44(%ebp),%eax
- mov    %eax,0x4(%esp)
- lea    -0x40(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEeqERKS4_>
- test   %al,%al
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEppEv>
+-lea    -0x44(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-lea    -0x40(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKj18STGuildBoardDBInfoEEeqERKS4_>
+-test   %al,%al
 -jne    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x4df>
-+jne    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x4ec>
- addl   $0x1,-0xc(%ebp)
- mov    -0xc(%ebp),%eax
- cmp    -0x18(%ebp),%eax
- setl   %al
- test   %al,%al
+-addl   $0x1,-0xc(%ebp)
+-mov    -0xc(%ebp),%eax
+-cmp    -0x18(%ebp),%eax
+-setl   %al
+-test   %al,%al
 -jne    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x3be>
 -jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x4e0>
-+jne    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x3c5>
-+jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x4ed>
- nop
+-nop
 -lea    -0xd58(%ebp),%eax
-+lea    -0x6ce(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
- movl   $0xcb,0x8(%esp)
- movl   $&_ZZN11CGuildBoard18sendGuildBoardDataEjjjP5CUserE12__FUNCTION__,0x4(%esp)
+-mov    %eax,0x4(%esp)
+-mov    0x18(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
+-movl   $0xcb,0x8(%esp)
+-movl   $&_ZZN11CGuildBoard18sendGuildBoardDataEjjjP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    -0x18(%ebp),%eax
- mov    %eax,0x1c(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    -0x18(%ebp),%eax
+-mov    %eax,0x1c(%esp)
 -mov    -0x20(%ebp),%eax
-+mov    -0x24(%ebp),%eax
- mov    %eax,0x18(%esp)
- mov    0x10(%ebp),%eax
- mov    %eax,0x14(%esp)
- mov    0xc(%ebp),%eax
- mov    %eax,0x10(%esp)
- mov    0x14(%ebp),%eax
- mov    %eax,0xc(%esp)
- movl   $"SEND SUCCESS - CODE TYPE:%u, GUILD:%u, CHARAC:%u, COUNT:%u",0x8(%esp)
- movl   $"./log/GuildBoard",0x4(%esp)
+-mov    %eax,0x18(%esp)
+-mov    0x10(%ebp),%eax
+-mov    %eax,0x14(%esp)
+-mov    0xc(%ebp),%eax
+-mov    %eax,0x10(%esp)
+-mov    0x14(%ebp),%eax
+-mov    %eax,0xc(%esp)
+-movl   $"SEND SUCCESS - CODE TYPE:%u, GUILD:%u, CHARAC:%u, COUNT:%u",0x8(%esp)
+-movl   $"./log/GuildBoard",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x554>
 -nop
 -jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x554>
-+jmp    <T> <_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser+0x55e>
- nop
- mov    -0x4(%ebp),%ebx
- leave
- ret
+-nop
+-mov    -0x4(%ebp),%ebx
+-leave
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

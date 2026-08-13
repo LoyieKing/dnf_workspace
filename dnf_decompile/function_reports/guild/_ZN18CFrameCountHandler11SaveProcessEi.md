@@ -13,7 +13,29 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,41 +1,41 @@
+@@ -1,41 +1,48 @@
++add    $0x26,%edx
++movzbl (%edx),%edx
++add    $0x1,%edx
++mov    %dl,(%eax)
++mov    0x8(%ebp),%eax
++add    $0x26,%eax
++movzbl (%eax),%eax
++cmp    $0x3b,%al
++jbe    <T> <_ZN18CFrameCountHandler17GetFrameCountInfoEv+0x35f>
++mov    0x8(%ebp),%eax
++add    $0x24,%eax
++movb   $0x4,(%eax)
++mov    0x8(%ebp),%eax
++add    $0x26,%eax
++movb   $0x0,(%eax)
++mov    0x8(%ebp),%eax
++add    $0x4c,%esp
++pop    %ebx
++pop    %esi
++pop    %edi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -29,34 +51,38 @@
  test   %al,%al
 -setne  %al
 -test   %al,%al
+-je     <T> <_ZN18CFrameCountHandler11SaveProcessEi+0x80>
 +setne  %bl
 +test   %bl,%bl
- je     <T> <_ZN18CFrameCountHandler11SaveProcessEi+0x80>
++je     <T> <_ZN18CFrameCountHandler11SaveProcessEv+0x79>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%esi
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%ebx
- movl   $0xb8,0x8(%esp)
- movl   $&_ZZN18CFrameCountHandler11SaveProcessEiE12__FUNCTION__,0x4(%esp)
+-movl   $0xb8,0x8(%esp)
+-movl   $&_ZZN18CFrameCountHandler11SaveProcessEiE12__FUNCTION__,0x4(%esp)
++movl   $0xa8,0x8(%esp)
++movl   $&_ZZN18CFrameCountHandler11SaveProcessEvE12__FUNCTION__,0x4(%esp)
  lea    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    %esi,0x14(%esp)
- mov    %ebx,0x10(%esp)
- mov    0xc(%ebp),%eax
- mov    %eax,0xc(%esp)
- movl   $"Thread(%2d) / FPS(%02d) / DFC(%02d)",0x8(%esp)
- movl   $"./log/frame",0x4(%esp)
- lea    -0x10(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    0x8(%ebp),%eax
- movb   $0x0,0x28(%eax)
- add    $0x30,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-mov    %esi,0x14(%esp)
+-mov    %ebx,0x10(%esp)
+-mov    0xc(%ebp),%eax
+-mov    %eax,0xc(%esp)
+-movl   $"Thread(%2d) / FPS(%02d) / DFC(%02d)",0x8(%esp)
+-movl   $"./log/frame",0x4(%esp)
+-lea    -0x10(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    0x8(%ebp),%eax
+-movb   $0x0,0x28(%eax)
+-add    $0x30,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
++mov    %esi,0x10(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

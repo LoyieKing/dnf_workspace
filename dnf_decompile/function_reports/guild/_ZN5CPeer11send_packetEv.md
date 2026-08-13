@@ -13,7 +13,52 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,149 +1,149 @@
+@@ -1,149 +1,151 @@
++movl   $0x13b,0x8(%esp)
++movl   $&_ZZN5CPeer11send_packetEPciE12__FUNCTION__,0x4(%esp)
++lea    -0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    0x10(%ebp),%eax
++mov    %eax,0x14(%esp)
++mov    %esi,0x10(%esp)
++mov    %ebx,0xc(%esp)
++movl   $"!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",0x8(%esp)
++movl   $"./log/TcpErr",0x4(%esp)
++lea    -0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    0x8(%ebp),%eax
++lea    0x183c(%eax),%edx
++mov    0x8(%ebp),%eax
++mov    %edx,0x1838(%eax)
++mov    0x8(%ebp),%eax
++movl   $0x0,0x1834(%eax)
++mov    $0xffffffff,%eax
++jmp    <T> <_ZN5CPeer11send_packetEPci+0x214>
++mov    0x10(%ebp),%edx
++mov    0x8(%ebp),%eax
++mov    0x1838(%eax),%eax
++mov    %edx,0x8(%esp)
++mov    0xc(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <memcpy>
++mov    0x8(%ebp),%eax
++mov    0x1838(%eax),%edx
++mov    0x10(%ebp),%eax
++add    %eax,%edx
++mov    0x8(%ebp),%eax
++mov    %edx,0x1838(%eax)
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CPeer11send_packetEv>
++add    $0x30,%esp
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -119,93 +164,77 @@
  cmp    $0x96000,%eax
 -jbe    <T> <_ZN5CPeer11send_packetEv+0x1a5>
 +ja     <T> <_ZN5CPeer11send_packetEv+0x185>
-+mov    0x8(%ebp),%eax
-+mov    0x1834(%eax),%eax
-+mov    %eax,%edx
-+mov    0x8(%ebp),%eax
-+mov    0x1838(%eax),%eax
-+mov    0x8(%ebp),%ecx
-+add    $0x183c,%ecx
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    %ecx,(%esp)
-+call   <T> <memmove>
-+mov    0x8(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+mov    0x1834(%eax),%eax
-+add    $0x183c,%eax
-+add    %eax,%edx
-+mov    0x8(%ebp),%eax
-+mov    %edx,0x1838(%eax)
-+jmp    <T> <_ZN5CPeer11send_packetEv+0x242>
  mov    0x8(%ebp),%eax
- mov    0x1834(%eax),%ebx
- movl   $0x17e,0x8(%esp)
- movl   $&_ZZN5CPeer11send_packetEvE12__FUNCTION__,0x4(%esp)
- lea    -0x14(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    %ebx,0xc(%esp)
- movl   $"m_remain_sendlen < MAX_PACKET_SIZE_UDP :  m_remain_sendlen:%d]",0x8(%esp)
- movl   $"./log/TcpErr",0x4(%esp)
- lea    -0x14(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- mov    0x8(%ebp),%eax
- lea    0x183c(%eax),%edx
- mov    0x8(%ebp),%eax
- mov    %edx,0x1838(%eax)
- mov    0x8(%ebp),%eax
- movl   $0x0,0x1834(%eax)
- mov    $0x1,%eax
--jmp    <T> <_ZN5CPeer11send_packetEv+0x246>
--mov    0x8(%ebp),%eax
--mov    0x1834(%eax),%edx
--mov    0x8(%ebp),%eax
--mov    0x1838(%eax),%eax
--mov    0x8(%ebp),%ecx
--add    $0x183c,%ecx
--mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    %ecx,(%esp)
--call   <T> <memmove>
+-mov    0x1834(%eax),%ebx
+-movl   $0x17e,0x8(%esp)
+-movl   $&_ZZN5CPeer11send_packetEvE12__FUNCTION__,0x4(%esp)
+-lea    -0x14(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %ebx,0xc(%esp)
+-movl   $"m_remain_sendlen < MAX_PACKET_SIZE_UDP :  m_remain_sendlen:%d]",0x8(%esp)
+-movl   $"./log/TcpErr",0x4(%esp)
+-lea    -0x14(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    0x8(%ebp),%eax
 -lea    0x183c(%eax),%edx
 -mov    0x8(%ebp),%eax
--mov    0x1834(%eax),%eax
--add    %eax,%edx
--mov    0x8(%ebp),%eax
 -mov    %edx,0x1838(%eax)
--jmp    <T> <_ZN5CPeer11send_packetEv+0x243>
-+jmp    <T> <_ZN5CPeer11send_packetEv+0x245>
+-mov    0x8(%ebp),%eax
+-movl   $0x0,0x1834(%eax)
+-mov    $0x1,%eax
+-jmp    <T> <_ZN5CPeer11send_packetEv+0x246>
+-mov    0x8(%ebp),%eax
+-mov    0x1834(%eax),%edx
++mov    0x1834(%eax),%eax
++mov    %eax,%edx
  mov    0x8(%ebp),%eax
- mov    0x1834(%eax),%eax
- cmp    -0xc(%ebp),%eax
--jge    <T> <_ZN5CPeer11send_packetEv+0x224>
-+jge    <T> <_ZN5CPeer11send_packetEv+0x223>
- mov    0x8(%ebp),%eax
- mov    0x1834(%eax),%eax
- mov    -0xc(%ebp),%edx
+ mov    0x1838(%eax),%eax
+ mov    0x8(%ebp),%ecx
+ add    $0x183c,%ecx
  mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
- movl   $"offset error[Remain_Data: %d Send:%d]",(%esp)
- call   <T> <printf>
- mov    $0xffffffff,%eax
--jmp    <T> <_ZN5CPeer11send_packetEv+0x246>
-+jmp    <T> <_ZN5CPeer11send_packetEv+0x245>
+ mov    %ecx,(%esp)
+ call   <T> <memmove>
+-mov    0x8(%ebp),%eax
+-lea    0x183c(%eax),%edx
++mov    0x8(%ebp),%edx
  mov    0x8(%ebp),%eax
- lea    0x183c(%eax),%edx
+ mov    0x1834(%eax),%eax
++add    $0x183c,%eax
+ add    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    %edx,0x1838(%eax)
+-jmp    <T> <_ZN5CPeer11send_packetEv+0x243>
++jmp    <T> <_ZN5CPeer11send_packetEv+0x242>
  mov    0x8(%ebp),%eax
- movl   $0x0,0x1834(%eax)
- mov    -0xc(%ebp),%eax
+-mov    0x1834(%eax),%eax
+-cmp    -0xc(%ebp),%eax
+-jge    <T> <_ZN5CPeer11send_packetEv+0x224>
+-mov    0x8(%ebp),%eax
+-mov    0x1834(%eax),%eax
+-mov    -0xc(%ebp),%edx
+-mov    %edx,0x8(%esp)
+-mov    %eax,0x4(%esp)
+-movl   $"offset error[Remain_Data: %d Send:%d]",(%esp)
+-call   <T> <printf>
+-mov    $0xffffffff,%eax
+-jmp    <T> <_ZN5CPeer11send_packetEv+0x246>
+-mov    0x8(%ebp),%eax
+-lea    0x183c(%eax),%edx
+-mov    0x8(%ebp),%eax
+-mov    %edx,0x1838(%eax)
+-mov    0x8(%ebp),%eax
+-movl   $0x0,0x1834(%eax)
+-mov    -0xc(%ebp),%eax
 -add    $0x30,%esp
-+add    $0x20,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
++mov    0x1834(%eax),%ebx
++movl   $0x17e,0x8(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

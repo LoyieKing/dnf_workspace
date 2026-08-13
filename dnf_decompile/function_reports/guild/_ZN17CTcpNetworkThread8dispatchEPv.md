@@ -13,7 +13,57 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,327 +1,330 @@
+@@ -1,327 +1,316 @@
++mov    0x8(%ebp),%eax
++movl   $0x0,0x24(%eax)
++mov    0x8(%ebp),%eax
++movl   $0x0,0x28(%eax)
++mov    0x8(%ebp),%eax
++movb   $0x0,0x2c(%eax)
++leave
++ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
++mov    0x8(%ebp),%eax
++movl   $&_ZTV17CTcpNetworkThread+0x8,(%eax)
++mov    0x8(%ebp),%eax
++movl   $0x0,0x10(%eax)
++mov    0x8(%ebp),%eax
++movl   $0x0,0x14(%eax)
++mov    0x8(%ebp),%eax
++movl   $0x0,0x18(%eax)
++mov    0x8(%ebp),%eax
++movl   $0x0,0xc(%eax)
++mov    0x8(%ebp),%eax
++movl   $0x0,0x20(%eax)
++mov    0x8(%ebp),%eax
++movl   $0x0,0x24(%eax)
++mov    0x8(%ebp),%eax
++movl   $0x0,0x28(%eax)
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN16CThreadInterfaceD1Ev>
++mov    $0x0,%eax
++test   %al,%al
++je     <T> <_ZN17CTcpNetworkThreadD1Ev+0x74>
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZdlPv>
++leave
++ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN17CTcpNetworkThreadD1Ev>
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZdlPv>
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -298,77 +348,70 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x3de>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x3e6>
- mov    %eax,%ecx
- mov    %edx,%eax
- mov    %eax,%esi
- mov    %ecx,%edi
- mov    %ebx,(%esp)
- call   <T> <__cxa_free_exception>
- mov    %edi,%ecx
- mov    %esi,%eax
- mov    %eax,%ebx
- mov    %ecx,%esi
- lea    -0x30(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-mov    %eax,%esi
+-mov    %ecx,%edi
+-mov    %ebx,(%esp)
+-call   <T> <__cxa_free_exception>
+-mov    %edi,%ecx
+-mov    %esi,%eax
+-mov    %eax,%ebx
+-mov    %ecx,%esi
+-lea    -0x30(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x3d8>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x3e0>
- mov    %eax,%ecx
- mov    %edx,%eax
- cmp    $0xffffffff,%eax
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-cmp    $0xffffffff,%eax
 -jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x3fd>
-+jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x405>
- call   <T> <_ZSt9terminatev>
- mov    %esi,%ecx
- mov    %ebx,%eax
+-call   <T> <_ZSt9terminatev>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x3fd>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x405>
- lea    -0x30(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
+-lea    -0x30(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x412>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x41a>
- mov    %eax,%ecx
- mov    %edx,%eax
- cmp    $0xffffffff,%eax
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-cmp    $0xffffffff,%eax
 -jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x3fd>
-+jne    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x405>
- call   <T> <_ZSt9terminatev>
- mov    %eax,%ecx
- mov    %edx,%eax
- mov    %eax,%ebx
- mov    %ecx,%esi
- lea    -0x29(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- mov    %esi,%ecx
- mov    %ebx,%eax
+-call   <T> <_ZSt9terminatev>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-mov    %eax,%ebx
+-mov    %ecx,%esi
+-lea    -0x29(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcED1Ev>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
 -jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x439>
-+jmp    <T> <_ZN17CTcpNetworkThread8dispatchEPv+0x441>
- lea    -0x29(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
- movl   $&_ZTI13CDNFException,0x4(%esp)
- mov    %ebx,(%esp)
- call   <T> <__cxa_throw>
- mov    %eax,%ecx
- mov    %edx,%eax
- mov    %eax,%ebx
- mov    %ecx,%esi
- call   <T> <__cxa_end_catch>
- mov    %esi,%ecx
- mov    %ebx,%eax
- mov    %ecx,(%esp)
- call   <T> <_Unwind_Resume>
+-lea    -0x29(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcED1Ev>
+-movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
+-movl   $&_ZTI13CDNFException,0x4(%esp)
+-mov    %ebx,(%esp)
+-call   <T> <__cxa_throw>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-mov    %eax,%ebx
+-mov    %ecx,%esi
+-call   <T> <__cxa_end_catch>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
+-mov    %ecx,(%esp)
+-call   <T> <_Unwind_Resume>
 -nop
- add    $0x4c,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-add    $0x4c,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

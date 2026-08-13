@@ -13,10 +13,74 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,83 +1,77 @@
+@@ -1,83 +1,90 @@
++jmp    <T> <_ZN12CUserManagerD1Ev+0xf9>
++mov    0x8(%ebp),%eax
++add    $0x18,%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEED1Ev>
++jmp    <T> <_ZN12CUserManagerD1Ev+0x114>
++mov    %edx,%ebx
++mov    %eax,%esi
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEED1Ev>
++mov    %esi,%eax
++mov    %ebx,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEED1Ev>
++lea    -0x8(%ebp),%esp
++add    $0x0,%esp
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
++mov    0x8(%ebp),%eax
++mov    0xc(%ebp),%edx
++mov    %edx,0x48(%eax)
++pop    %ebp
++ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x38,%esp
++mov    0x10(%ebp),%eax
++test   %eax,%eax
++je     <T> <_ZN12CUserManager10InsertUserEjP5CUser+0x5d>
++lea    -0x10(%ebp),%eax
++lea    0x10(%ebp),%edx
++mov    %edx,0x8(%esp)
++lea    0xc(%ebp),%edx
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZSt9make_pairIRKjRP5CUserESt4pairINSt17__decay_and_stripIT_E6__typeENS6_IT0_E6__typeEEOS7_OSA_>
++sub    $0x4,%esp
++lea    -0x10(%ebp),%eax
++mov    %eax,0x4(%esp)
++lea    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt4pairIKjP5CUserEC1IjS2_EEOS_IT_T0_E>
++mov    0x8(%ebp),%edx
++lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%ecx
++mov    %ecx,0x8(%esp)
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE6insertERKS6_>
++sub    $0x4,%esp
++movzbl -0x1c(%ebp),%eax
++jmp    <T> <_ZN12CUserManager10InsertUserEjP5CUser+0x62>
++mov    $0x0,%eax
++leave
++ret
++push   %ebp
++mov    %esp,%ebp
  push   %esi
  push   %ebx
 -sub    $0x3c,%esp
@@ -54,13 +118,13 @@
 -jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x118>
 +jne    <T> <_ZN12CUserManager10DeleteUserEj+0x103>
  mov    0x8(%ebp),%eax
- lea    0xc(%ebp),%edx
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5eraseERS0_>
- cmp    $0x1,%eax
- sete   %al
- test   %al,%al
+-lea    0xc(%ebp),%edx
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5eraseERS0_>
+-cmp    $0x1,%eax
+-sete   %al
+-test   %al,%al
 -je     <T> <_ZN12CUserManager10DeleteUserEj+0x113>
 -mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
@@ -70,62 +134,40 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,%esi
-+je     <T> <_ZN12CUserManager10DeleteUserEj+0x104>
- mov    0xc(%ebp),%eax
- movl   $0x0,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_Z14NumberToStringji>
-+mov    %eax,-0xc(%ebp)
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser11GetCharNameEv>
-+mov    %eax,%esi
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
- mov    %eax,%ebx
- movl   $0x5f,0x8(%esp)
- movl   $&_ZZN12CUserManager10DeleteUserEjE12__FUNCTION__,0x4(%esp)
+-mov    0xc(%ebp),%eax
+-movl   $0x0,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_Z14NumberToStringji>
+-mov    %eax,%ebx
+-movl   $0x5f,0x8(%esp)
+-movl   $&_ZZN12CUserManager10DeleteUserEjE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+mov    %esi,0x14(%esp)
-+mov    %ebx,0x10(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    %eax,0xc(%esp)
- movl   $"[USER LOGOUT] Disconnected User DB ID : %s, Char No : %d , char name:%s\n",0x8(%esp)
- movl   $"./log/User",0x4(%esp)
+-movl   $"[USER LOGOUT] Disconnected User DB ID : %s, Char No : %d , char name:%s\n",0x8(%esp)
+-movl   $"./log/User",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x1c(%ebp),%ebx
-+mov    -0x10(%ebp),%ebx
- test   %ebx,%ebx
+-test   %ebx,%ebx
 -je     <T> <_ZN12CUserManager10DeleteUserEj+0x10c>
-+je     <T> <_ZN12CUserManager10DeleteUserEj+0x104>
- mov    %ebx,(%esp)
- call   <T> <_ZN5CUserD1Ev>
- mov    %ebx,(%esp)
- call   <T> <_ZN5CUserdlEPv>
+-mov    %ebx,(%esp)
+-call   <T> <_ZN5CUserD1Ev>
+-mov    %ebx,(%esp)
+-call   <T> <_ZN5CUserdlEPv>
 -mov    $0x1,%eax
 -jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x118>
 -mov    $0x0,%eax
 -add    $0x3c,%esp
-+jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x104>
-+nop
-+jmp    <T> <_ZN12CUserManager10DeleteUserEj+0x104>
-+nop
-+add    $0x30,%esp
- pop    %ebx
- pop    %esi
+-pop    %ebx
+-pop    %esi
 -pop    %edi
- pop    %ebp
- ret
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

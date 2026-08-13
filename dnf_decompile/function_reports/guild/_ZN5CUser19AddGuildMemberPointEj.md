@@ -13,35 +13,49 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,25 +1,24 @@
- push   %ebp
- mov    %esp,%ebp
- sub    $0x28,%esp
+@@ -1,25 +1,23 @@
+-push   %ebp
+-mov    %esp,%ebp
+-sub    $0x28,%esp
++or     $0x4,%edx
  mov    0x8(%ebp),%eax
- mov    0x60(%eax),%eax
- mov    %eax,-0xc(%ebp)
+-mov    0x60(%eax),%eax
+-mov    %eax,-0xc(%ebp)
++mov    %dx,0x48(%eax)
  mov    0x8(%ebp),%eax
 -mov    0x60(%eax),%eax
 -mov    %eax,%edx
-+mov    0x8(%ebp),%edx
-+mov    0x60(%edx),%edx
- add    0xc(%ebp),%edx
+-add    0xc(%ebp),%edx
 -mov    0x8(%ebp),%eax
- mov    %edx,0x60(%eax)
- movl   $0x10,0x4(%esp)
+-mov    %edx,0x60(%eax)
+-movl   $0x10,0x4(%esp)
++mov    0x44(%eax),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN6CGuild11GetMasterIdEv>
++mov    %eax,%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
- call   <T> <_ZN5CUser15SetGuildMemFlagEt>
+-call   <T> <_ZN5CUser15SetGuildMemFlagEt>
++call   <T> <_ZN5CUser13GetUniqCharNoEv>
++cmp    %eax,%ebx
++jne    <T> <_ZN5CUser15LoadGuildMemberEjR18STGuildMemerDBInfo+0xc4>
  mov    0x8(%ebp),%eax
- mov    0x60(%eax),%eax
- cmp    -0xc(%ebp),%eax
+-mov    0x60(%eax),%eax
+-cmp    -0xc(%ebp),%eax
 -jae    <T> <_ZN5CUser19AddGuildMemberPointEj+0x47>
-+jae    <T> <_ZN5CUser19AddGuildMemberPointEj+0x45>
++movzbl 0x5f(%eax),%eax
++cmp    $0x1,%al
++je     <T> <_ZN5CUser15LoadGuildMemberEjR18STGuildMemerDBInfo+0xc4>
++mov    $0x1,%eax
++jmp    <T> <_ZN5CUser15LoadGuildMemberEjR18STGuildMemerDBInfo+0xc9>
++mov    $0x0,%eax
++test   %al,%al
++je     <T> <_ZN5CUser15LoadGuildMemberEjR18STGuildMemerDBInfo+0x136>
  mov    0x8(%ebp),%eax
- mov    -0xc(%ebp),%edx
- mov    %edx,0x60(%eax)
- leave
- ret
+-mov    -0xc(%ebp),%edx
+-mov    %edx,0x60(%eax)
+-leave
+-ret
 ```
 ## 2. Ghidra 反编译 C
 

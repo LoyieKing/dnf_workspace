@@ -13,32 +13,46 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,42 +1,42 @@
+@@ -1,42 +1,34 @@
++add    $0x18,%eax
++movl   $0x1e,0x8(%esp)
++movl   $0x0,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <memset>
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
- sub    $0x28,%esp
+-sub    $0x28,%esp
  mov    0x8(%ebp),%eax
- mov    0xc(%eax),%eax
- test   %eax,%eax
- je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
- mov    0xc(%ebp),%eax
- movzwl 0x2(%eax),%eax
- movzwl %ax,%ecx
- mov    0xc(%ebp),%eax
- movzwl (%eax),%eax
- movzwl %ax,%edx
+-mov    0xc(%eax),%eax
+-test   %eax,%eax
+-je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
+-mov    0xc(%ebp),%eax
+-movzwl 0x2(%eax),%eax
+-movzwl %ax,%ecx
+-mov    0xc(%ebp),%eax
+-movzwl (%eax),%eax
+-movzwl %ax,%edx
++mov    0xc(%ebp),%edx
++mov    %edx,0x44(%eax)
++pop    %ebp
++ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
  mov    0x8(%ebp),%eax
- mov    0xc(%eax),%eax
- mov    %ecx,0x8(%esp)
- mov    %edx,0x4(%esp)
+-mov    0xc(%eax),%eax
+-mov    %ecx,0x8(%esp)
+-mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
- call   <T> <_ZN14CTcpGameServer16makePacketHeaderEtt>
- mov    %eax,-0xc(%ebp)
- cmpl   $0x0,-0xc(%ebp)
- je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
- mov    0xc(%ebp),%eax
- movzwl 0x2(%eax),%eax
- movzwl %ax,%eax
+-call   <T> <_ZN14CTcpGameServer16makePacketHeaderEtt>
+-mov    %eax,-0xc(%ebp)
+-cmpl   $0x0,-0xc(%ebp)
+-je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
+-mov    0xc(%ebp),%eax
+-movzwl 0x2(%eax),%eax
+-movzwl %ax,%eax
 -lea    -0xa(%eax),%ecx
 -mov    0xc(%ebp),%eax
 -lea    0xa(%eax),%edx
@@ -46,24 +60,29 @@
 -add    $0xa,%eax
 -mov    %ecx,0x8(%esp)
 -mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
-+sub    $0xa,%eax
-+mov    0xc(%ebp),%edx
-+lea    0xa(%edx),%ecx
-+mov    -0xc(%ebp),%edx
-+add    $0xa,%edx
-+mov    %eax,0x8(%esp)
-+mov    %ecx,0x4(%esp)
-+mov    %edx,(%esp)
- call   <T> <memcpy>
- mov    0x8(%ebp),%eax
- mov    0xc(%eax),%eax
- mov    -0xc(%ebp),%edx
- mov    %edx,0x4(%esp)
++call   <T> <_ZN5CUser11DetachGuildEv>
++mov    0x8(%ebp),%eax
++add    $0x4a,%eax
++movl   $0x1a,0x8(%esp)
++movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
- call   <T> <_ZN14CTcpGameServer16SendToGameServerEPc>
- leave
- ret
+-call   <T> <memcpy>
++call   <T> <memset>
+ mov    0x8(%ebp),%eax
+-mov    0xc(%eax),%eax
+-mov    -0xc(%ebp),%edx
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN14CTcpGameServer16SendToGameServerEPc>
+-leave
+-ret
++movw   $0x0,0x48(%eax)
++mov    0x8(%ebp),%eax
++movb   $0x7f,0x7e(%eax)
++mov    0x8(%ebp),%eax
++movl   $0x0,0x80(%eax)
++mov    0x8(%ebp),%eax
++movl   $0x0,0x84(%eax)
 ```
 ## 2. Ghidra 反编译 C
 

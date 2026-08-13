@@ -14,6 +14,39 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,135 +1,129 @@
++call   <T> <__cxa_end_catch>
++mov    %esi,%eax
++mov    %ebx,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
++call   <T> <__cxa_end_catch>
++jmp    <T> <_ZN17CPacketTranslater14OnAddGuildFundEP12PacketHeader+0x321>
++mov    %eax,(%esp)
++call   <T> <__cxa_begin_catch>
++movl   $0x1f3b,0x8(%esp)
++movl   $&_ZZN17CPacketTranslater14OnAddGuildFundEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++movl   $"CPacketTranslater::OnAddGuildFund Exception Break\n",0x8(%esp)
++movl   $"./log/Except",0x4(%esp)
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CPacketTranslater14OnAddGuildFundEP12PacketHeader+0x31c>
++mov    %edx,%ebx
++mov    %eax,%esi
++call   <T> <__cxa_end_catch>
++mov    %esi,%eax
++mov    %ebx,%edx
++mov    %eax,(%esp)
++call   <T> <_Unwind_Resume>
++call   <T> <__cxa_end_catch>
++add    $0x70,%esp
++pop    %ebx
++pop    %esi
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -141,43 +174,39 @@
 +jmp    <T> <_ZN17CPacketTranslater18OnRefreshGuildInfoEP12PacketHeader+0x19e>
  mov    %edx,%ebx
  mov    %eax,%esi
- call   <T> <__cxa_end_catch>
- mov    %esi,%eax
- mov    %ebx,%edx
- mov    %eax,(%esp)
- call   <T> <_Unwind_Resume>
- call   <T> <__cxa_end_catch>
+-call   <T> <__cxa_end_catch>
+-mov    %esi,%eax
+-mov    %ebx,%edx
+-mov    %eax,(%esp)
+-call   <T> <_Unwind_Resume>
+-call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater18OnRefreshGuildInfoEP12PacketHeader+0x218>
-+jmp    <T> <_ZN17CPacketTranslater18OnRefreshGuildInfoEP12PacketHeader+0x1ff>
- mov    %eax,(%esp)
- call   <T> <__cxa_begin_catch>
- movl   $0x1f64,0x8(%esp)
- movl   $&_ZZN17CPacketTranslater18OnRefreshGuildInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <__cxa_begin_catch>
+-movl   $0x1f64,0x8(%esp)
+-movl   $&_ZZN17CPacketTranslater18OnRefreshGuildInfoEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
- movl   $"CPacketTranslater::OnAddGuildFund Exception Break\n",0x8(%esp)
- movl   $"./log/Except",0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
+-movl   $"CPacketTranslater::OnAddGuildFund Exception Break\n",0x8(%esp)
+-movl   $"./log/Except",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnRefreshGuildInfoEP12PacketHeader+0x213>
-+jmp    <T> <_ZN17CPacketTranslater18OnRefreshGuildInfoEP12PacketHeader+0x1fa>
- mov    %edx,%ebx
- mov    %eax,%esi
- call   <T> <__cxa_end_catch>
- mov    %esi,%eax
- mov    %ebx,%edx
- mov    %eax,(%esp)
- call   <T> <_Unwind_Resume>
- call   <T> <__cxa_end_catch>
- add    $0x50,%esp
- pop    %ebx
- pop    %esi
- pop    %ebp
- ret
+-mov    %edx,%ebx
+-mov    %eax,%esi
+-call   <T> <__cxa_end_catch>
+-mov    %esi,%eax
+-mov    %ebx,%edx
+-mov    %eax,(%esp)
+-call   <T> <_Unwind_Resume>
+-call   <T> <__cxa_end_catch>
+-add    $0x50,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %ebp
+-ret
 ```
 ## 2. Ghidra 反编译 C
 
@@ -230,7 +259,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnRefreshGuildInfoEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 6343 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 6350 行）：
 
 ```cpp
 void CPacketTranslater::OnRefreshGuildInfo(PacketHeader* pkt)

@@ -13,7 +13,79 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,85 +1,93 @@
+@@ -1,85 +1,109 @@
++sar    $0x2,%eax
++shl    $0x2,%eax
++mov    %eax,0x8(%esp)
++mov    0x8(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <memmove>
++mov    0xc(%ebp),%edx
++mov    0x8(%ebp),%eax
++mov    %edx,%ecx
++sub    %eax,%ecx
++mov    %ecx,%eax
++sar    $0x2,%eax
++shl    $0x2,%eax
++add    0x10(%ebp),%eax
++leave
++ret
++push   %ebp
++mov    %esp,%ebp
++mov    0x8(%ebp),%eax
++mov    (%eax),%edx
++mov    0xc(%ebp),%eax
++mov    (%eax),%eax
++cmp    %eax,%edx
++setg   %al
++pop    %ebp
++ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt3mapIjP11CCashObjectSt4lessIjESaISt4pairIKjS1_EEEC1Ev>
++mov    0x8(%ebp),%eax
++movl   $0x0,0x18(%eax)
++leave
++ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZNSt3mapIjP11CCashObjectSt4lessIjESaISt4pairIKjS1_EEED1Ev>
++leave
++ret
++nop
++push   %ebp
++mov    %esp,%ebp
++mov    0x8(%ebp),%eax
++mov    0xc(%ebp),%edx
++mov    %edx,0x18(%eax)
++pop    %ebp
++ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
++mov    0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN5CUser18GetBlackListDBFlagEv>
++movzwl %ax,%eax
++and    $0x4,%eax
++test   %eax,%eax
++setne  %al
++test   %al,%al
++je     <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUser+0x27>
++mov    $0x1,%eax
++jmp    <T> <_ZN18CMemoryCashManager13IsRightObjectEP5CUser+0x2c>
++mov    $0x0,%eax
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -55,70 +127,58 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    -0x38(%ebp),%edx
-+mov    -0x40(%ebp),%edx
- mov    %eax,0x4(%esp)
- mov    %edx,(%esp)
- call   <T> <_ZN11CCashObject11SetCharacNoEj>
- mov    0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN5CUser7GetDBIDEv>
- mov    %eax,-0x1c(%ebp)
- lea    -0x24(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-mov    %edx,(%esp)
+-call   <T> <_ZN11CCashObject11SetCharacNoEj>
+-mov    0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN5CUser7GetDBIDEv>
+-mov    %eax,-0x1c(%ebp)
+-lea    -0x24(%ebp),%eax
 -lea    -0x38(%ebp),%edx
-+lea    -0x40(%ebp),%edx
- mov    %edx,0x8(%esp)
- lea    -0x1c(%ebp),%edx
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZSt9make_pairIjRP11CCashObjectESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
- sub    $0x4,%esp
- lea    -0x24(%ebp),%eax
- mov    %eax,0x4(%esp)
- lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSt4pairIKjP11CCashObjectEC1IjS2_EEOS_IT_T0_E>
- mov    0x8(%ebp),%edx
- lea    -0x34(%ebp),%eax
- lea    -0x2c(%ebp),%ecx
- mov    %ecx,0x8(%esp)
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZNSt3mapIjP11CCashObjectSt4lessIjESaISt4pairIKjS1_EEE6insertERKS6_>
- sub    $0x4,%esp
+-mov    %edx,0x8(%esp)
+-lea    -0x1c(%ebp),%edx
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZSt9make_pairIjRP11CCashObjectESt4pairINSt17__decay_and_stripIT_E6__typeENS4_IT0_E6__typeEEOS5_OS8_>
+-sub    $0x4,%esp
+-lea    -0x24(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-lea    -0x2c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt4pairIKjP11CCashObjectEC1IjS2_EEOS_IT_T0_E>
+-mov    0x8(%ebp),%edx
+-lea    -0x34(%ebp),%eax
+-lea    -0x2c(%ebp),%ecx
+-mov    %ecx,0x8(%esp)
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt3mapIjP11CCashObjectSt4lessIjESaISt4pairIKjS1_EEE6insertERKS6_>
+-sub    $0x4,%esp
 -movzbl -0x30(%ebp),%eax
-+lea    -0x34(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x3c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairISt17_Rb_tree_iteratorIS_IKjP11CCashObjectEEbEaSEOS6_>
-+movzbl -0x38(%ebp),%eax
- xor    $0x1,%eax
- test   %al,%al
+-xor    $0x1,%eax
+-test   %al,%al
 -je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xf5>
 -mov    -0x38(%ebp),%ebx
-+je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x112>
-+mov    -0x40(%ebp),%ebx
- test   %ebx,%ebx
+-test   %ebx,%ebx
 -je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0xee>
-+je     <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x10b>
- mov    %ebx,(%esp)
- call   <T> <_ZN11CCashObjectD1Ev>
- mov    %ebx,(%esp)
- call   <T> <_ZN11CCashObjectdlEPv>
- mov    $0x0,%eax
+-mov    %ebx,(%esp)
+-call   <T> <_ZN11CCashObjectD1Ev>
+-mov    %ebx,(%esp)
+-call   <T> <_ZN11CCashObjectdlEPv>
+-mov    $0x0,%eax
 -jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x101>
-+jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x11e>
- mov    $0x1,%eax
+-mov    $0x1,%eax
 -jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x101>
-+jmp    <T> <_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser+0x11e>
- mov    $0x0,%eax
- lea    -0xc(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-mov    $0x0,%eax
+-lea    -0xc(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
++mov    -0x40(%ebp),%edx
 ```
 ## 2. Ghidra 反编译 C
 

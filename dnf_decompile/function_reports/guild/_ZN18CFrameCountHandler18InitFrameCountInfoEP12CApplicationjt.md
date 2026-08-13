@@ -13,7 +13,68 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,100 +1,100 @@
+@@ -1,100 +1,104 @@
++leave
++ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x28,%esp
++mov    0x8(%ebp),%eax
++mov    %eax,-0xc(%ebp)
++mov    -0xc(%ebp),%eax
++mov    (%eax),%eax
++add    $0x10,%eax
++mov    (%eax),%edx
++mov    0x8(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    -0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++mov    $0x0,%eax
++leave
++ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
++cmpl   $0x1,0x8(%ebp)
++jne    <T> <_Z41__static_initialization_and_destruction_0ii+0x3e>
++cmpl   $0xffff,0xc(%ebp)
++jne    <T> <_Z41__static_initialization_and_destruction_0ii+0x3e>
++movl   $&_ZStL8__ioinit,(%esp)
++call   <T> <_ZNSt8ios_base4InitC1Ev>
++mov    $&_ZNSt8ios_base4InitD1Ev,%eax
++movl   $&__dso_handle,0x8(%esp)
++movl   $&_ZStL8__ioinit,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <__cxa_atexit>
++leave
++ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
++movl   $0xffff,0x4(%esp)
++movl   $0x1,(%esp)
++call   <T> <_Z41__static_initialization_and_destruction_0ii>
++leave
++ret
++push   %ebp
++mov    %esp,%ebp
++mov    0x8(%ebp),%eax
++mov    (%eax),%edx
++mov    0xc(%ebp),%eax
++mov    (%eax),%eax
++cmp    %eax,%edx
++setg   %al
++pop    %ebp
++ret
++push   %ebp
++mov    %esp,%ebp
++mov    0x8(%ebp),%eax
++movb   $0x0,0x28(%eax)
++mov    0x8(%ebp),%eax
++movl   $0x0,0x2c(%eax)
++pop    %ebp
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -59,63 +120,63 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
  lea    -0x20(%ebp),%esi
- movl   $0x8,(%esp)
- call   <T> <__cxa_allocate_exception>
- mov    %eax,%ebx
- mov    %ebx,%eax
- mov    %esi,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZN13CDNFExceptionC1ERKSs>
- jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xdf>
- mov    %eax,%ecx
- mov    %edx,%eax
- mov    %eax,%esi
- mov    %ecx,%edi
- mov    %ebx,(%esp)
- call   <T> <__cxa_free_exception>
- mov    %edi,%ecx
- mov    %esi,%eax
- mov    %eax,%ebx
- mov    %ecx,%esi
- lea    -0x20(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xd9>
- mov    %eax,%ecx
- mov    %edx,%eax
- cmp    $0xffffffff,%eax
- jne    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xfe>
- call   <T> <_ZSt9terminatev>
- mov    %esi,%ecx
- mov    %ebx,%eax
- jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xfe>
- lea    -0x20(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0x119>
- mov    %eax,%ecx
- mov    %edx,%eax
- cmp    $0xffffffff,%eax
- jne    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xfe>
- call   <T> <_ZSt9terminatev>
- mov    %eax,%ecx
- mov    %edx,%eax
- mov    %eax,%ebx
- mov    %ecx,%esi
- lea    -0x19(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- mov    %esi,%ecx
- mov    %ebx,%eax
- mov    %ecx,(%esp)
- call   <T> <_Unwind_Resume>
- lea    -0x19(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSaIcED1Ev>
- movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
- movl   $&_ZTI13CDNFException,0x4(%esp)
- mov    %ebx,(%esp)
- call   <T> <__cxa_throw>
+-movl   $0x8,(%esp)
+-call   <T> <__cxa_allocate_exception>
+-mov    %eax,%ebx
+-mov    %ebx,%eax
+-mov    %esi,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN13CDNFExceptionC1ERKSs>
+-jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xdf>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-mov    %eax,%esi
+-mov    %ecx,%edi
+-mov    %ebx,(%esp)
+-call   <T> <__cxa_free_exception>
+-mov    %edi,%ecx
+-mov    %esi,%eax
+-mov    %eax,%ebx
+-mov    %ecx,%esi
+-lea    -0x20(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
+-jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xd9>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-cmp    $0xffffffff,%eax
+-jne    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xfe>
+-call   <T> <_ZSt9terminatev>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
+-jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xfe>
+-lea    -0x20(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
+-jmp    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0x119>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-cmp    $0xffffffff,%eax
+-jne    <T> <_ZN18CFrameCountHandler18InitFrameCountInfoEP12CApplicationjt+0xfe>
+-call   <T> <_ZSt9terminatev>
+-mov    %eax,%ecx
+-mov    %edx,%eax
+-mov    %eax,%ebx
+-mov    %ecx,%esi
+-lea    -0x19(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcED1Ev>
+-mov    %esi,%ecx
+-mov    %ebx,%eax
+-mov    %ecx,(%esp)
+-call   <T> <_Unwind_Resume>
+-lea    -0x19(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNSaIcED1Ev>
+-movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
+-movl   $&_ZTI13CDNFException,0x4(%esp)
+-mov    %ebx,(%esp)
+-call   <T> <__cxa_throw>
 ```
 ## 2. Ghidra 反编译 C
 

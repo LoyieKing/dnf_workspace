@@ -13,7 +13,51 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,159 +1,156 @@
+@@ -1,159 +1,147 @@
++test   %al,%al
++je     <T> <_ZN11CGuildBoard20deleteGuildBoardDataEjjj+0xb6>
++mov    0x8(%ebp),%eax
++lea    0xc(%eax),%edx
++lea    0xc(%ebp),%eax
++mov    %eax,0x4(%esp)
++mov    %edx,(%esp)
++call   <T> <_ZNSt3mapIj18STGuildBoardDBInfoSt7greaterIjESaISt4pairIKjS0_EEE5eraseERS4_>
++mov    0xc(%ebp),%ebx
++movl   $0xdc,0x8(%esp)
++movl   $&_ZZN11CGuildBoard20deleteGuildBoardDataEjjjE12__FUNCTION__,0x4(%esp)
++lea    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    %ebx,0x14(%esp)
++mov    0x14(%ebp),%eax
++mov    %eax,0x10(%esp)
++mov    0x10(%ebp),%eax
++mov    %eax,0xc(%esp)
++movl   $"DELETE SUCCESS - GUILD:%u, CHARAC:%u, NO:%u",0x8(%esp)
++movl   $"./log/GuildBoard",0x4(%esp)
++lea    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN11CGuildBoard20deleteGuildBoardDataEjjj+0x101>
++mov    0xc(%ebp),%ebx
++movl   $0xe3,0x8(%esp)
++movl   $&_ZZN11CGuildBoard20deleteGuildBoardDataEjjjE12__FUNCTION__,0x4(%esp)
++lea    -0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    %ebx,0x14(%esp)
++mov    0x14(%ebp),%eax
++mov    %eax,0x10(%esp)
++mov    0x10(%ebp),%eax
++mov    %eax,0xc(%esp)
++movl   $"DELETE FAIL - GUILD:%u, CHARAC:%u, NO:%u",0x8(%esp)
++movl   $"./log/GuildBoard",0x4(%esp)
++lea    -0x10(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++mov    -0x4(%ebp),%ebx
++leave
++ret
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -141,75 +185,51 @@
  mov    %eax,(%esp)
  call   <T> <memcpy>
 -lea    -0xe4(%ebp),%eax
-+lea    -0xec(%ebp),%eax
- mov    %eax,0x4(%esp)
- mov    0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
- mov    0x10(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-mov    0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
+-mov    0x10(%ebp),%eax
 -lea    0x1(%eax),%edi
 -mov    -0xd1(%ebp),%esi
 -mov    -0xd9(%ebp),%ebx
-+lea    0x1(%eax),%ebx
- movl   $0x107,0x8(%esp)
- movl   $&_ZZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUserE12__FUNCTION__,0x4(%esp)
+-movl   $0x107,0x8(%esp)
+-movl   $&_ZZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+mov    %ebx,0x14(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    -0x20(%ebp),%eax
-+mov    %eax,0xc(%esp)
- movl   $"SET SUCCESS - GUILD:%u, CHARAC:%u, LEVEL:%u",0x8(%esp)
- movl   $"./log/GuildBoard",0x4(%esp)
+-movl   $"SET SUCCESS - GUILD:%u, CHARAC:%u, LEVEL:%u",0x8(%esp)
+-movl   $"./log/GuildBoard",0x4(%esp)
 -lea    -0x20(%ebp),%eax
-+lea    -0x28(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x1,%ebx
 -jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x1ff>
-+jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x1e8>
- mov    %edx,%ebx
- mov    %eax,%esi
+-mov    %edx,%ebx
+-mov    %eax,%esi
 -lea    -0x28(%ebp),%eax
-+lea    -0x30(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- mov    %esi,%eax
- mov    %ebx,%edx
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
+-mov    %esi,%eax
+-mov    %ebx,%edx
 -jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x222>
 -lea    -0x28(%ebp),%eax
-+jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x1f5>
-+lea    -0x30(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
 -test   %ebx,%ebx
 -lea    -0x24(%ebp),%eax
-+jmp    <T> <_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser+0x210>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+lea    -0x2c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNSsD1Ev>
- lea    -0xc(%ebp),%esp
- add    $0x0,%esp
- pop    %ebx
- pop    %esi
- pop    %edi
- pop    %ebp
- ret
+-mov    %eax,(%esp)
+-call   <T> <_ZNSsD1Ev>
+-lea    -0xc(%ebp),%esp
+-add    $0x0,%esp
+-pop    %ebx
+-pop    %esi
+-pop    %edi
+-pop    %ebp
+-ret
 -mov    %edx,%ebx
 -mov    %eax,%esi
 -lea    -0x24(%ebp),%eax
@@ -219,6 +239,7 @@
 -mov    %ebx,%edx
 -mov    %eax,(%esp)
 -call   <T> <_Unwind_Resume>
++lea    -0xec(%ebp),%eax
 ```
 ## 2. Ghidra 反编译 C
 
