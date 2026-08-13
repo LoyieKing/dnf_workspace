@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8077350` | `0x1dd` | `0x806448a` | `0x1ce` |
+| dbmw | DIFF | `0x8077350` | `0x1dd` | `0x80644ee` | `0x1ce` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -44,8 +44,7 @@
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%edx
--mov    0x10(%ebp),%eax
-+mov    0xc(%ebp),%eax
+ mov    0x10(%ebp),%eax
  mov    %eax,0x10(%esp)
 -lea    -0x6022(%ebp),%eax
 +lea    -0x601e(%ebp),%eax
@@ -65,8 +64,7 @@
 +lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0x10(%ebp),%eax
-+mov    0xc(%ebp),%eax
+ mov    0x10(%ebp),%eax
  mov    %eax,0x10(%esp)
  mov    0x14(%ebp),%eax
  mov    %eax,0xc(%esp)
@@ -118,8 +116,7 @@
 -lea    -0x6022(%ebp),%eax
 +lea    -0x601e(%ebp),%eax
  mov    %eax,0x10(%esp)
--mov    0x10(%ebp),%eax
-+mov    0xc(%ebp),%eax
+ mov    0x10(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"inSert into guild_notice set guild_id=%d,notice='%s',acc_date=unix_timestamp(now())",0x8(%esp)
  movl   $0x4e63,0x4(%esp)

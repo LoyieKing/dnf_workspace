@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80787b0` | `0xdbb` | `0x8059946` | `0xdbd` |
+| dbmw | DIFF | `0x80787b0` | `0xdbb` | `0x8059930` | `0xdbd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -581,10 +581,10 @@
 +lea    -0x54(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0xc(%ebp),%eax
-+mov    0xa(%eax),%edx
 +mov    0x10(%ebp),%eax
-+mov    (%eax),%eax
++mov    (%eax),%edx
++mov    0xc(%ebp),%eax
++mov    0xa(%eax),%eax
 +mov    %edx,0x10(%esp)
 +mov    %eax,0xc(%esp)
  movl   $"CDBManager::GuildSecede()upDate guild_member set member_flag = 2 where guild_id = %d and charac_no = %d and member_flag = 1",0x8(%esp)
@@ -633,10 +633,10 @@
 +lea    -0x5c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0xc(%ebp),%eax
-+mov    0xa(%eax),%edx
 +mov    0x10(%ebp),%eax
-+mov    (%eax),%eax
++mov    (%eax),%edx
++mov    0xc(%ebp),%eax
++mov    0xa(%eax),%eax
 +mov    %edx,0x10(%esp)
 +mov    %eax,0xc(%esp)
  movl   $"CDBManager::GuildSecede()upDate guild_member set member_flag = 2 where guild_id = %d and charac_no = %d and member_flag = 1",0x8(%esp)
@@ -879,11 +879,11 @@
 +lea    -0x84(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x1c(%ebp),%ecx
++mov    0x10(%ebp),%eax
++mov    (%eax),%ecx
 +mov    0xc(%ebp),%eax
 +mov    0xa(%eax),%edx
-+mov    0x10(%ebp),%eax
-+mov    (%eax),%eax
++mov    -0x1c(%ebp),%eax
 +mov    %ecx,0x14(%esp)
 +mov    %edx,0x10(%esp)
 +mov    %eax,0xc(%esp)
@@ -933,11 +933,11 @@
 +lea    -0x8c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x1c(%ebp),%ecx
++mov    0x10(%ebp),%eax
++mov    (%eax),%ecx
 +mov    0xc(%ebp),%eax
 +mov    0xa(%eax),%edx
-+mov    0x10(%ebp),%eax
-+mov    (%eax),%eax
++mov    -0x1c(%ebp),%eax
 +mov    %ecx,0x14(%esp)
 +mov    %edx,0x10(%esp)
 +mov    %eax,0xc(%esp)

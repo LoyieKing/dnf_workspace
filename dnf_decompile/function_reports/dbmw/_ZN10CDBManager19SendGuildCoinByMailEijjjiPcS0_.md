@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8074cb2` | `0x2e1` | `0x80623a6` | `0x2db` |
+| dbmw | DIFF | `0x8074cb2` | `0x2e1` | `0x806240a` | `0x2db` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -27,11 +27,9 @@
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%edx
-+mov    0x10(%ebp),%eax
-+mov    %eax,0x10(%esp)
  mov    0xc(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0x10(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0x10(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"seLect charac_no from guild_member where guild_id = %d and server_id = %d and member_flag = 1",0x8(%esp)
  movl   $0x4e39,0x4(%esp)

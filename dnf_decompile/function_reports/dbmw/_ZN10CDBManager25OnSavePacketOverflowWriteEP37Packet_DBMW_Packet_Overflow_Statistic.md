@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8080324` | `0x24b` | `0x8051162` | `0x246` |
+| dbmw | DIFF | `0x8080324` | `0x24b` | `0x8051150` | `0x241` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -29,7 +29,7 @@
 +jne    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x22>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x242>
-+jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x244>
++jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x23f>
  mov    0xc(%ebp),%eax
 -movzbl 0xa(%eax),%eax
 +add    $0xa,%eax
@@ -141,11 +141,6 @@
  mov    %eax,(%esp)
  call   *%edx
 -mov    -0xc(%ebp),%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x15e>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x244>
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -161,21 +156,26 @@
  test   %al,%al
 -jne    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x18d>
 -mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x74,%eax
--mov    (%eax),%edx
++jne    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x186>
++mov    -0x14(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x74,%eax
+ mov    (%eax),%edx
 -mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--or     %edx,%eax
--test   %eax,%eax
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ or     %edx,%eax
+ test   %eax,%eax
 -jne    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x194>
--mov    $0x1,%eax
++jne    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x18d>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x199>
--mov    $0x0,%eax
--test   %al,%al
++jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x192>
+ mov    $0x0,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x23d>
-+je     <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x23f>
++je     <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x23a>
  movl   $0x400,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -lea    -0x50d(%ebp),%eax
@@ -216,11 +216,6 @@
  mov    %eax,(%esp)
  call   *%edx
 -mov    -0xc(%ebp),%eax
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x217>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x244>
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -230,11 +225,6 @@
 +mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x23f>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x244>
  mov    $0x1,%eax
 -add    $0x534,%esp
 -pop    %ebx

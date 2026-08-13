@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8072890` | `0x647` | `0x8055296` | `0x61b` |
+| dbmw | DIFF | `0x8072890` | `0x647` | `0x8055280` | `0x61b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -367,30 +367,21 @@
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4d2>
--mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--add    $0x1c,%eax
--mov    (%eax),%edx
--mov    0xc(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"inSert into charac_members set charac_no=%d, master_no=%d, exp = 0, create_time = now()",0x8(%esp)
 +jne    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3f7>
 +mov    $0x1,%eax
 +jmp    <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x3fc>
 +mov    $0x0,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager16SaveMemberInsertEjjh+0x4b4>
-+mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x1c,%eax
-+mov    (%eax),%edx
-+mov    0xc(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    0x10(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"inSert into charac_members set charac_no=%d, master_no=%d, exp = 0",0x8(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x1c,%eax
+ mov    (%eax),%edx
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"inSert into charac_members set charac_no=%d, master_no=%d, exp = 0, create_time = now()",0x8(%esp)
  movl   $0x4e49,0x4(%esp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)

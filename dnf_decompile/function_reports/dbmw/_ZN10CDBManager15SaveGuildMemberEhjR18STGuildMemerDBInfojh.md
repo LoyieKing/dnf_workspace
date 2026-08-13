@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8072004` | `0x219` | `0x804e89e` | `0x222` |
+| dbmw | DIFF | `0x8072004` | `0x219` | `0x804e89e` | `0x216` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,142 +1,146 @@
+@@ -1,142 +1,142 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -108,9 +108,9 @@
 -cmpb   $0x3,-0x40(%ebp)
 -jne    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x19f>
 -mov    -0x1c(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x1ee>
++jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x1e2>
 +cmpb   $0x3,-0x30(%ebp)
-+jne    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x1b0>
++jne    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x1a4>
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -157,25 +157,20 @@
 -mov    %eax,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
--movl   $"CDBManager::SaveGuildMember(GRADE_CHANGE flag(%d), grade(%d), g(%d), s(%d), c(%d))",0x8(%esp)
-+movzbl -0x2c(%ebp),%ebx
-+mov    0x14(%ebp),%eax
-+add    $0x16,%eax
-+mov    (%eax),%ecx
++movzbl -0x2c(%ebp),%ecx
 +mov    0x14(%ebp),%eax
 +add    $0x15,%eax
 +movzbl (%eax),%eax
 +movzbl %al,%edx
 +movzbl -0x30(%ebp),%eax
-+mov    0x18(%ebp),%esi
-+mov    %esi,0x20(%esp)
++mov    0x18(%ebp),%ebx
 +mov    %ebx,0x1c(%esp)
-+mov    0x10(%ebp),%ebx
-+mov    %ebx,0x18(%esp)
++mov    %ecx,0x18(%esp)
++mov    0x10(%ebp),%ecx
 +mov    %ecx,0x14(%esp)
 +mov    %edx,0x10(%esp)
 +mov    %eax,0xc(%esp)
-+movl   $"CDBManager::SaveGuildMember(SAVE_LOGOUT flag(%d), grade(%d), guildMemPoint(%d), g(%d), s(%d), c(%d))",0x8(%esp)
+ movl   $"CDBManager::SaveGuildMember(GRADE_CHANGE flag(%d), grade(%d), g(%d), s(%d), c(%d))",0x8(%esp)
  movl   $"./log/GuildModify",0x4(%esp)
 -lea    -0x30(%ebp),%eax
 +lea    -0x1c(%ebp),%eax
@@ -183,7 +178,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x1dd>
 -movzbl -0x40(%ebp),%ebx
-+jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x1ee>
++jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x1e2>
  movl   $0x2c9,0x8(%esp)
  movl   $&_ZZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojhE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
@@ -214,10 +209,10 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x20c>
-+je     <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x216>
++je     <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x20a>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x211>
-+jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x21b>
++jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x20f>
  mov    $0x1,%eax
 -add    $0x6c,%esp
 +add    $0x60,%esp

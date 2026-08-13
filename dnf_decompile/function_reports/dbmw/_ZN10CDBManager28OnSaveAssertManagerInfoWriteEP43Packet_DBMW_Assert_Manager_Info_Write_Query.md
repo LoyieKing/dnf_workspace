@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807ff9e` | `0x386` | `0x805f866` | `0x2ff` |
+| dbmw | DIFF | `0x807ff9e` | `0x386` | `0x805f850` | `0x327` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,223 +1,186 @@
+@@ -1,223 +1,201 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %ebx
@@ -25,7 +25,7 @@
 +cmpl   $0x0,-0x18(%ebp)
 +jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x22>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x2fd>
++jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x325>
 +mov    0xc(%ebp),%eax
 +add    $0xa,%eax
 +mov    (%eax),%eax
@@ -40,7 +40,7 @@
 -movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x367>
 +movl   $0x0,-0x10(%ebp)
-+jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x2e7>
++jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x30f>
  movl   $0x400,0x8(%esp)
  movl   $0x0,0x4(%esp)
  lea    -0x628(%ebp),%eax
@@ -51,23 +51,24 @@
  lea    -0x128(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memset>
+-mov    -0xc(%ebp),%eax
 +mov    0xc(%ebp),%edx
 +mov    -0x10(%ebp),%eax
-+imul   $0x206,%eax,%eax
+ imul   $0x206,%eax,%eax
+-add    0xc(%ebp),%eax
 +lea    (%edx,%eax,1),%eax
 +mov    %eax,-0xc(%ebp)
- mov    -0xc(%ebp),%eax
--imul   $0x206,%eax,%eax
--add    0xc(%ebp),%eax
++mov    -0xc(%ebp),%eax
  add    $0xe,%eax
  mov    %eax,(%esp)
  call   <T> <strlen>
  cmp    $0xfe,%eax
 -ja     <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0xa8>
-+ja     <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0xa9>
- mov    -0xc(%ebp),%eax
+-mov    -0xc(%ebp),%eax
 -imul   $0x206,%eax,%eax
 -add    0xc(%ebp),%eax
++ja     <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0xa9>
++mov    -0xc(%ebp),%eax
  add    $0xe,%eax
  movzbl (%eax),%eax
  test   %al,%al
@@ -93,7 +94,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x363>
 -mov    -0x14(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x2e3>
++jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x30b>
 +mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x78,%eax
@@ -129,15 +130,18 @@
  lea    -0x228(%ebp),%eax
  mov    %eax,0x4(%esp)
 -mov    -0x14(%ebp),%eax
-+mov    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
- mov    -0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
+-mov    -0xc(%ebp),%eax
 -mov    0xc(%ebp),%edx
 -imul   $0x206,%eax,%eax
 -lea    (%edx,%eax,1),%eax
 -add    $0x100,%eax
 -movzwl 0xe(%eax),%eax
++mov    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
++mov    -0xc(%ebp),%eax
 +add    $0x10e,%eax
 +movzwl (%eax),%eax
  movzwl %ax,%edx
@@ -169,40 +173,49 @@
  movl   $"%s",0x8(%esp)
  movl   $0x4eb8,0x4(%esp)
 -mov    -0x14(%ebp),%eax
-+mov    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    %eax,(%esp)
+-call   *%edx
 -mov    -0x14(%ebp),%eax
++mov    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4eb8,0x4(%esp)
 -mov    -0x14(%ebp),%eax
-+mov    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    %eax,(%esp)
+-call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
++mov    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x247>
 -mov    -0x14(%ebp),%eax
--mov    (%eax),%eax
--add    $0x74,%eax
--mov    (%eax),%edx
++jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x209>
++mov    -0x18(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x74,%eax
+ mov    (%eax),%edx
 -mov    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--or     %edx,%eax
--test   %eax,%eax
++mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ or     %edx,%eax
+ test   %eax,%eax
 -jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x24e>
--mov    $0x1,%eax
++jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x210>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x253>
--mov    $0x0,%eax
--test   %al,%al
++jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x215>
+ mov    $0x0,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x323>
-+je     <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x2a3>
++je     <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x2cb>
  movl   $0x400,0x8(%esp)
  movl   $0x0,0x4(%esp)
  lea    -0x628(%ebp),%eax
@@ -214,14 +227,15 @@
 -lea    (%edx,%eax,1),%eax
 -add    $0x100,%eax
 -mov    0x10(%eax),%edx
-+add    $0x110,%eax
-+mov    (%eax),%edx
- mov    -0xc(%ebp),%eax
+-mov    -0xc(%ebp),%eax
 -mov    0xc(%ebp),%ecx
 -imul   $0x206,%eax,%eax
 -lea    (%ecx,%eax,1),%eax
 -add    $0x100,%eax
 -movzwl 0xe(%eax),%eax
++add    $0x110,%eax
++mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
 +add    $0x10e,%eax
 +movzwl (%eax),%eax
  movzwl %ax,%eax
@@ -245,10 +259,12 @@
  movl   $"%s",0x8(%esp)
  movl   $0x4eb7,0x4(%esp)
 -mov    -0x14(%ebp),%eax
-+mov    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    %eax,(%esp)
+-call   *%edx
 -mov    -0x14(%ebp),%eax
++mov    -0x18(%ebp),%eax
++mov    %eax,(%esp)
++call   *%edx
 +mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807e8d8` | `0x4ea` | `0x8061c08` | `0x431` |
+| dbmw | DIFF | `0x807e8d8` | `0x4ea` | `0x8061c6c` | `0x431` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -43,17 +43,15 @@
 +mov    (%eax),%eax
 +mov    %eax,-0x2c(%ebp)
  movl   $0x17f7,0x8(%esp)
--movl   $&_ZZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_PartyE12__FUNCTION__,0x4(%esp)
+ movl   $&_ZZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_PartyE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+movl   $"QueryDeathTowerPlayDataPartyStatisticCreate",0x4(%esp)
 +lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x24(%ebp),%eax
 +mov    -0x2c(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"Packet_DBMW_DeathTower_Statistic_Playdata_Party : (%d) 개 패킷 수신\n",0x8(%esp)
-+movl   $"Packet_DBMW_DeathTower_Statistic_Playdata_Party : (%d) 째쨀 횈횖횇쨋 쩌철쩍횇\n",0x8(%esp)
+ movl   $"Packet_DBMW_DeathTower_Statistic_Playdata_Party : (%d) 개 패킷 수신\n",0x8(%esp)
  movl   $"./log/statistic",0x4(%esp)
 -lea    -0x44(%ebp),%eax
 +lea    -0x3c(%ebp),%eax

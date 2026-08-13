@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80826ae` | `0x192` | `0x804f34e` | `0x197` |
+| dbmw | NEAR | `0x80826ae` | `0x192` | `0x804f342` | `0x192` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,12 +13,10 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,99 +1,102 @@
+@@ -1,99 +1,99 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x58,%esp
-+push   %ebx
-+sub    $0x54,%esp
+ sub    $0x58,%esp
  movl   $0x0,(%esp)
  call   <T> <time>
 -mov    %eax,-0x24(%ebp)
@@ -42,24 +40,17 @@
  call   <T> <mktime>
  mov    %eax,-0xc(%ebp)
 -movl   $0x0,-0x28(%ebp)
--mov    -0xc(%ebp),%eax
--mov    %eax,0x18(%esp)
--lea    -0x28(%ebp),%eax
--mov    %eax,0x14(%esp)
--mov    0x14(%ebp),%eax
--mov    %eax,0x10(%esp)
 +movl   $0x0,-0x18(%ebp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,0x18(%esp)
+-lea    -0x28(%ebp),%eax
++lea    -0x18(%ebp),%eax
+ mov    %eax,0x14(%esp)
+ mov    0x14(%ebp),%eax
+ mov    %eax,0x10(%esp)
  mov    0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $0x0,0x8(%esp)
-+mov    -0xc(%ebp),%edx
-+mov    %edx,0x18(%esp)
-+lea    -0x18(%ebp),%edx
-+mov    %edx,0x14(%esp)
-+movl   $0x0,0x10(%esp)
-+mov    0x14(%ebp),%edx
-+mov    %edx,0xc(%esp)
-+mov    %eax,0x8(%esp)
+ mov    %eax,0xc(%esp)
+ movl   $0x0,0x8(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -67,8 +58,7 @@
  call   <T> <_ZN10CDBManager12InsertLetterEjjPKcS1_Ril>
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager10InsertMailEjPcS0_jjii+0xe5>
-+je     <T> <_ZN10CDBManager10InsertMailEjPcS0_jjii+0xe6>
+ je     <T> <_ZN10CDBManager10InsertMailEjPcS0_jjii+0xe5>
  movl   $0x1d9e,0x8(%esp)
  movl   $&_ZZN10CDBManager10InsertMailEjPcS0_jjiiE12__FUNCTION__,0x4(%esp)
  lea    -0x20(%ebp),%eax
@@ -86,35 +76,23 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager10InsertMailEjPcS0_jjii+0x190>
+ jmp    <T> <_ZN10CDBManager10InsertMailEjPcS0_jjii+0x190>
 -mov    -0x28(%ebp),%eax
--mov    %eax,0x28(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,0x24(%esp)
-+jmp    <T> <_ZN10CDBManager10InsertMailEjPcS0_jjii+0x191>
-+mov    -0x18(%ebp),%ebx
-+mov    0x20(%ebp),%ecx
-+mov    0x1c(%ebp),%edx
++mov    -0x18(%ebp),%eax
+ mov    %eax,0x28(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,0x24(%esp)
  mov    0x10(%ebp),%eax
--mov    %eax,0x20(%esp)
-+mov    %ebx,0x28(%esp)
-+mov    -0xc(%ebp),%ebx
-+mov    %ebx,0x24(%esp)
-+mov    0x14(%ebp),%ebx
-+mov    %ebx,0x20(%esp)
+ mov    %eax,0x20(%esp)
  movl   $0x0,0x1c(%esp)
--mov    0x1c(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    0x20(%ebp),%eax
--mov    %eax,0x14(%esp)
--mov    0x18(%ebp),%eax
--mov    %eax,0x10(%esp)
-+mov    %ecx,0x18(%esp)
-+mov    %edx,0x14(%esp)
-+movl   $0x0,0x10(%esp)
+ mov    0x1c(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    0x20(%ebp),%eax
+ mov    %eax,0x14(%esp)
+ mov    0x18(%ebp),%eax
+ mov    %eax,0x10(%esp)
  movl   $0x0,0xc(%esp)
--movl   $0x0,0x8(%esp)
-+mov    %eax,0x8(%esp)
+ movl   $0x0,0x8(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -122,8 +100,7 @@
  call   <T> <_ZN10CDBManager12InsertPostalEjjijijiPcli>
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager10InsertMailEjPcS0_jjii+0x18b>
-+je     <T> <_ZN10CDBManager10InsertMailEjPcS0_jjii+0x18c>
+ je     <T> <_ZN10CDBManager10InsertMailEjPcS0_jjii+0x18b>
  movl   $0x1da4,0x8(%esp)
  movl   $&_ZZN10CDBManager10InsertMailEjPcS0_jjiiE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
@@ -143,13 +120,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager10InsertMailEjPcS0_jjii+0x190>
-+jmp    <T> <_ZN10CDBManager10InsertMailEjPcS0_jjii+0x191>
+ jmp    <T> <_ZN10CDBManager10InsertMailEjPcS0_jjii+0x190>
  mov    $0x1,%eax
--leave
-+add    $0x54,%esp
-+pop    %ebx
-+pop    %ebp
+ leave
  ret
 ```
 ## 2. Ghidra 反编译 C
