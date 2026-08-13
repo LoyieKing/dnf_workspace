@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809167a` | `0x106` | `0x8057268` | `0x106` |
+| guild | DIFF | `0x809167a` | `0x106` | `0x8057262` | `0x104` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,78 +1,78 @@
+@@ -1,78 +1,77 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -35,7 +35,8 @@
  jmp    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x41>
  mov    $0x0,%eax
  test   %al,%al
- je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x100>
+-je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x100>
++je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xfe>
  mov    0x8(%ebp),%eax
  movzbl 0x4db0(%eax),%eax
  lea    0x1(%eax),%edx
@@ -47,9 +48,10 @@
 -seta   %al
 -test   %al,%al
 -je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x100>
-+jbe    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0x100>
++jbe    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xfe>
  movl   $0x0,-0xc(%ebp)
- jmp    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xd2>
+-jmp    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xd2>
++jmp    <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xd0>
 +mov    0x8(%ebp),%ecx
  mov    -0xc(%ebp),%edx
 -mov    0x8(%ebp),%ecx
@@ -69,14 +71,14 @@
 +test   %eax,%eax
 +setne  %al
  test   %al,%al
- je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xce>
+-je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xce>
++je     <T> <_ZN6CGuild26UpdateChangableInfoProcessEv+0xcc>
 +mov    0x8(%ebp),%ebx
  mov    -0xc(%ebp),%edx
 -mov    -0x10(%ebp),%eax
 -mov    %eax,%ecx
 -mov    0x8(%ebp),%ebx
-+lea    -0x2c(%ebp),%eax
-+mov    (%eax),%ecx
++mov    -0x2c(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x6,%eax
  add    %edx,%eax
@@ -151,7 +153,7 @@ LAB_080916bb:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1981 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1947 行）：
 
 ```cpp
 void CGuild::UpdateChangableInfoProcess()
@@ -169,7 +171,7 @@ void CGuild::UpdateChangableInfoProcess()
                         info) != 0)
                 {
                     ((CGuildMemberExtraArray*)this)->m_members[i].m_changableTime =
-                        *(unsigned int*)info.m_data;
+                        info.m_time;
                 }
             }
             m_changable.clear();

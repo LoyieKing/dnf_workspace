@@ -46,12 +46,15 @@
  lea    -0x6e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN40Packet_Monitor_Notice_Guild_Enter_ToUserC1Ev>
++lea    -0x6e(%ebp),%eax
++lea    0x14(%eax),%edx
  movl   $0x46,0x8(%esp)
  mov    0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x6e(%ebp),%eax
- add    $0x14,%eax
- mov    %eax,(%esp)
+-lea    -0x6e(%ebp),%eax
+-add    $0x14,%eax
+-mov    %eax,(%esp)
++mov    %edx,(%esp)
  call   <T> <memcpy>
  mov    0x8(%ebp),%edx
  lea    -0x14(%ebp),%eax
@@ -177,7 +180,7 @@ void __thiscall CGuild::_ZN6CGuild24NoticeEnterToGuildMemberEPc(CGuild *this,cha
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1148 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1114 行）：
 
 ```cpp
 void CGuild::NoticeEnterToGuildMember(char* info)

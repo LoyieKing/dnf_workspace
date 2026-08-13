@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090b68` | `0x16e` | `0x8056774` | `0x14c` |
+| guild | DIFF | `0x8090b68` | `0x16e` | `0x8056770` | `0x14a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,118 +1,105 @@
+@@ -1,118 +1,104 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -45,7 +45,7 @@
 +jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x4a>
 +mov    $0x0,%eax
 +test   %al,%al
-+jne    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x145>
++jne    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x143>
  mov    0x8(%ebp),%eax
 -add    $0x1e,%eax
 -mov    %eax,-0xc(%ebp)
@@ -68,8 +68,7 @@
 +add    $0xdd,%eax
 +lea    (%ecx,%eax,1),%edx
 +mov    0xc(%ebp),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
++mov    0x8(%eax),%eax
 +mov    %eax,(%edx)
  mov    0xc(%ebp),%eax
  lea    0x23(%eax),%ecx
@@ -168,7 +167,7 @@
 +mov    %ax,(%ebx)
 +addw   $0x1,-0xa(%ebp)
 +cmpw   $0x12c,-0xa(%ebp)
-+jbe    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x12d>
++jbe    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x12b>
 +movw   $0x12c,-0xa(%ebp)
  mov    0x8(%ebp),%eax
 +movzwl -0xa(%ebp),%edx
@@ -179,7 +178,7 @@
 -jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x168>
 -nop
 -jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x168>
-+jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x146>
++jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x144>
  nop
  add    $0x24,%esp
  pop    %ebx
@@ -233,7 +232,7 @@ CGuild::_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1705 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1671 行）：
 
 ```cpp
 void CGuild::AddGuildMember(ST_Notice_Guild_Enter& info, CUser* user)
@@ -244,8 +243,8 @@ void CGuild::AddGuildMember(ST_Notice_Guild_Enter& info, CUser* user)
     }
     unsigned short idx = m_field1e;
     *(unsigned int*)((char*)this + (unsigned int)idx * 0x41 + 0xdd) =
-        *(unsigned int*)((char*)&info + 8);
-    memcpy((char*)this + (unsigned int)idx * 0x41 + 0xe1, (char*)&info + 0x23, 0x1d);
+        info.m_charNo;
+    memcpy((char*)this + (unsigned int)idx * 0x41 + 0xe1, info.m_charName, 0x1d);
     *(unsigned char*)((char*)this + (unsigned int)idx * 0x41 + 0xff) = user->GetJob();
     *(unsigned char*)((char*)this + (unsigned int)idx * 0x41 + 0x100) = user->GetGrowthType();
     *(unsigned short*)((char*)this + (unsigned int)idx * 0x41 + 0x101) = user->GetLevel();

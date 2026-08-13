@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x8091578` | `0x6b` | `0x8057160` | `0x6b` |
+| guild | NEAR | `0x8091578` | `0x6b` | `0x805715a` | `0x6b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -83,7 +83,7 @@ undefined1 CGuild::_ZN6CGuild31InsertGuildMemberChanglableInfoEj(uint param_1)
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1956 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1922 行）：
 
 ```cpp
 bool CGuild::InsertGuildMemberChanglableInfo(unsigned int charNo)

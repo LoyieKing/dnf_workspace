@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8073574` | `0x3d4` | `0x8069b46` | `0x3de` |
+| guild | DIFF | `0x8073574` | `0x3d4` | `0x8069b3e` | `0x3de` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -302,12 +302,14 @@
  call   <T> <_ZN41Packet_Monitor_Notice_Guild_Create_ToUserC1Ev>
 -mov    -0x24(%ebp),%eax
 +mov    -0x2c(%ebp),%eax
- add    $0xa,%eax
- movl   $0x1f,0x8(%esp)
- mov    %eax,0x4(%esp)
--lea    -0x75(%ebp),%eax
++lea    0xa(%eax),%edx
 +lea    -0x79(%ebp),%eax
  add    $0xa,%eax
+ movl   $0x1f,0x8(%esp)
+-mov    %eax,0x4(%esp)
+-lea    -0x75(%ebp),%eax
+-add    $0xa,%eax
++mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memcpy>
 -mov    -0x28(%ebp),%eax

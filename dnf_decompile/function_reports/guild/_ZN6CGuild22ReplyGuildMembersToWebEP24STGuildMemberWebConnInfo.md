@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808f3d2` | `0x14e` | `0x80554a6` | `0x159` |
+| guild | DIFF | `0x808f3d2` | `0x14e` | `0x80554a6` | `0x155` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,102 +1,106 @@
+@@ -1,102 +1,105 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -39,7 +39,7 @@
  mov    $0x0,%eax
 -jmp    <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x149>
 +test   %al,%al
-+je     <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x151>
++je     <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x14d>
 +mov    0x8(%ebp),%edx
  lea    -0x14(%ebp),%eax
 -mov    %eax,(%esp)
@@ -53,7 +53,7 @@
 -mov    -0x1c(%ebp),%eax
 -mov    %eax,-0x14(%ebp)
 -jmp    <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x117>
-+jmp    <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x109>
++jmp    <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x105>
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -68,23 +68,27 @@
 +setne  %al
  test   %al,%al
 -je     <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x10c>
-+je     <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0xfe>
-+lea    0xc(%ebp),%ecx
- mov    -0xc(%ebp),%edx
- mov    %edx,%eax
- shl    $0x2,%eax
- add    %edx,%eax
+-mov    -0xc(%ebp),%edx
+-mov    %edx,%eax
+-shl    $0x2,%eax
+-add    %edx,%eax
 -mov    %eax,%ebx
 -add    0xc(%ebp),%ebx
-+shl    $0x2,%eax
-+lea    (%ecx,%eax,1),%ebx
++je     <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0xfa>
++mov    -0xc(%ebp),%ebx
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
  mov    0x4(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
- mov    %eax,(%ebx)
+-mov    %eax,(%ebx)
++mov    %eax,%edx
++mov    0xc(%ebp),%ecx
++mov    %ebx,%eax
++shl    $0x2,%eax
++add    %ebx,%eax
++mov    %edx,(%eax,%ecx,1)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -95,17 +99,14 @@
  setne  %al
  test   %al,%al
 -je     <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x108>
-+je     <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0xfa>
-+lea    0xc(%ebp),%ecx
- mov    -0xc(%ebp),%edx
- mov    %edx,%eax
- shl    $0x2,%eax
- add    %edx,%eax
+-mov    -0xc(%ebp),%edx
+-mov    %edx,%eax
+-shl    $0x2,%eax
+-add    %edx,%eax
 -mov    %eax,%ebx
 -add    0xc(%ebp),%ebx
-+add    $0x1,%eax
-+shl    $0x2,%eax
-+lea    (%ecx,%eax,1),%ebx
++je     <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0xf6>
++mov    -0xc(%ebp),%ebx
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -115,7 +116,14 @@
  mov    %eax,(%esp)
  call   <T> <_ZN16CServerInterface12GetChannelNoEv>
 -mov    %al,0x4(%ebx)
-+mov    %al,(%ebx)
++mov    %eax,%edx
++mov    0xc(%ebp),%ecx
++mov    %ebx,%eax
++shl    $0x2,%eax
++add    %ebx,%eax
++lea    (%ecx,%eax,1),%eax
++add    $0x4,%eax
++mov    %dl,(%eax)
  addl   $0x1,-0xc(%ebp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -133,11 +141,11 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
  test   %al,%al
 -jne    <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x67>
-+je     <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x144>
++je     <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x140>
 +cmpl   $0x12b,-0xc(%ebp)
-+jg     <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x144>
++jg     <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x140>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x149>
++jmp    <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x145>
 +mov    $0x0,%eax
 +test   %al,%al
 +jne    <T> <_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo+0x5f>
@@ -235,7 +243,7 @@ CGuild::_ZN6CGuild22ReplyGuildMembersToWebEP24STGuildMemberWebConnInfo
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1334 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1300 行）：
 
 ```cpp
 int CGuild::ReplyGuildMembersToWeb(STGuildMemberWebConnInfo* info)
@@ -248,10 +256,10 @@ int CGuild::ReplyGuildMembersToWeb(STGuildMemberWebConnInfo* info)
         {
             if (it->second != 0)
             {
-                *(unsigned int*)((char*)&info + count * 5 * 4) = it->second->GetUniqCharNo();
+                info->m_members[count].m_charNo = it->second->GetUniqCharNo();
                 if (it->second->GetGameServer() != 0)
                 {
-                    *(unsigned char*)((char*)&info + count * 5 * 4 + 4) =
+                    info->m_members[count].m_channel =
                         it->second->GetGameServer()->GetChannelNo();
                 }
                 count++;

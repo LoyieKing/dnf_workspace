@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80795e6` | `0x205` | `0x806fd28` | `0x1ff` |
+| guild | DIFF | `0x80795e6` | `0x205` | `0x806fd20` | `0x1ff` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -49,9 +49,7 @@
  mov    %eax,(%esp)
  call   <T> <memset>
 -movb   $0x0,-0x2a(%ebp)
-+lea    -0x51(%ebp),%eax
-+lea    0x10(%eax),%edx
- mov    0xc(%ebp),%eax
+-mov    0xc(%ebp),%eax
 -movzbl 0x33(%eax),%eax
 -mov    %al,-0x2e(%ebp)
 -mov    0xc(%ebp),%eax
@@ -60,9 +58,12 @@
 -mov    0xc(%ebp),%eax
 -movzbl 0x35(%eax),%eax
 -mov    %al,-0x2b(%ebp)
++lea    -0x51(%ebp),%eax
 +add    $0x10,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
++mov    0xc(%ebp),%edx
++add    $0x10,%edx
++mov    (%edx),%edx
++mov    %edx,(%eax)
  mov    0xc(%ebp),%eax
  add    $0x14,%eax
  movl   $0x1d,0x8(%esp)

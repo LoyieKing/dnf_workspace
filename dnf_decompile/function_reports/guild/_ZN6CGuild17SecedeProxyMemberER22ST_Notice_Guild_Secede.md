@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090cd6` | `0x151` | `0x80568c0` | `0x143` |
+| guild | DIFF | `0x8090cd6` | `0x151` | `0x80568ba` | `0x143` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -69,11 +69,10 @@
  lea    (%ecx,%eax,1),%eax
 -add    $0xd0,%eax
 -mov    0xd(%eax),%edx
-+mov    (%eax),%edx
- mov    0xc(%ebp),%eax
--mov    0x8(%eax),%eax
-+add    $0x8,%eax
 +mov    (%eax),%eax
++mov    %eax,%edx
+ mov    0xc(%ebp),%eax
+ mov    0x8(%eax),%eax
  cmp    %eax,%edx
 -jne    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x129>
 -mov    -0x10(%ebp),%eax
@@ -215,7 +214,7 @@ CGuild::_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1727 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 1693 行）：
 
 ```cpp
 void CGuild::SecedeProxyMember(ST_Notice_Guild_Secede& info)
@@ -227,7 +226,7 @@ void CGuild::SecedeProxyMember(ST_Notice_Guild_Secede& info)
         {
             for (int i = 0; i < (int)cnt; i++)
             {
-                if (*(int*)((char*)this + i * 0x41 + 0xdd) == *(int*)((char*)&info + 8))
+                if (*(int*)((char*)this + i * 0x41 + 0xdd) == info.m_charNo)
                 {
                     if ((unsigned int)cnt - (unsigned int)i != 1)
                     {

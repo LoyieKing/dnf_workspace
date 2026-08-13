@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80919d2` | `0x124` | `0x805758e` | `0x12a` |
+| guild | DIFF | `0x80919d2` | `0x124` | `0x8057586` | `0x12a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -155,7 +155,7 @@ CGuild::_ZN6CGuild20WriteGuildMemberMemoEP5CUserPKc(CGuild *this,CUser *param_1,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2060 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2026 行）：
 
 ```cpp
 void CGuild::WriteGuildMemberMemo(CUser* user, const char* memo)
