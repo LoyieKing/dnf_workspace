@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808b0b2` | `0x3e7` | `0x8076790` | `0x410` |
+| monitor | DIFF | `0x808b0b2` | `0x3e7` | `0x807678a` | `0x40a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,270 +1,274 @@
+@@ -1,270 +1,270 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -58,17 +58,13 @@
 -jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0xdb>
 -mov    -0x20(%ebp),%edx
 -mov    -0x24(%ebp),%eax
--add    $0x4,%edx
--mov    0x2(%eax,%edx,4),%ebx
-+je     <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x2e4>
++je     <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x2de>
 +movl   $0x0,-0x28(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0xa1>
-+mov    0x8(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x9b>
++mov    -0x30(%ebp),%eax
 +mov    -0x28(%ebp),%edx
-+shl    $0x2,%edx
-+add    $0x12,%edx
-+add    %edx,%eax
-+mov    (%eax),%ebx
+ add    $0x4,%edx
+ mov    0x2(%eax,%edx,4),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication22getItemLimitEditionMgrEv>
@@ -81,17 +77,13 @@
 -jne    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0xd6>
 -mov    -0x20(%ebp),%edx
 -mov    -0x24(%ebp),%eax
--add    $0x4,%edx
--mov    0x2(%eax,%edx,4),%ebx
 +mov    %eax,-0x24(%ebp)
 +cmpl   $0x0,-0x24(%ebp)
-+je     <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x9d>
-+mov    0x8(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x97>
++mov    -0x30(%ebp),%eax
 +mov    -0x28(%ebp),%edx
-+shl    $0x2,%edx
-+add    $0x12,%edx
-+add    %edx,%eax
-+mov    (%eax),%ebx
+ add    $0x4,%edx
+ mov    0x2(%eax,%edx,4),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication22getItemLimitEditionMgrEv>
@@ -335,7 +327,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3dc>
-+jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x405>
++jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3ff>
 +mov    0x8(%ebp),%eax
 +mov    0xa(%eax),%eax
 +mov    %eax,-0x20(%ebp)
@@ -351,10 +343,10 @@
 +lea    -0x48(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x405>
++jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3ff>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x382>
-+jne    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3ab>
++jne    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3a5>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -382,7 +374,7 @@
 +lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3a4>
++jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x39e>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -392,7 +384,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3dc>
-+jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x405>
++jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3ff>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x153f,0x8(%esp)
@@ -410,7 +402,7 @@
 +lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x400>
++jmp    <T> <_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader+0x3fa>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -533,7 +525,7 @@ void CPacketTranslater::_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3788 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3904 行）：
 
 ```cpp
 void CPacketTranslater::onItemLimitEditionSellEnd(PacketHeader* pkt)
@@ -547,11 +539,11 @@ void CPacketTranslater::onItemLimitEditionSellEnd(PacketHeader* pkt)
             for (unsigned int i = 0; i < ((RA_UINT<14>*)pkt)->v; i++)
             {
                 CItemLimitEdition* item = m_pclApp->getItemLimitEditionMgr()->getItemInfo(
-                    *(unsigned int*)((char*)pkt + 0x12 + i * 4));
+                    ((MonitorItemSellEndPkt*)rpkt)->m_items[i]);
                 if (item != 0)
                 {
                     m_pclApp->getItemLimitEditionMgr()->removeItem(
-                        *(unsigned int*)((char*)pkt + 0x12 + i * 4));
+                        ((MonitorItemSellEndPkt*)rpkt)->m_items[i]);
                 }
             }
             DNF_LOG_SCOPE_LINE(0x1519,"./log/ItemLimitEdition",

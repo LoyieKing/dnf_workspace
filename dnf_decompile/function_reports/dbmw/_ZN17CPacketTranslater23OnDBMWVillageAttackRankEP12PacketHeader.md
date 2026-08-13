@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809ce38` | `0x1d6` | `0x80d5a08` | `0x1d1` |
+| dbmw | DIFF | `0x809ce38` | `0x1d6` | `0x80d59f4` | `0x1d1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -230,7 +230,7 @@ void CPacketTranslater::_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12Packe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1468 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1485 行）：
 
 ```cpp
 void CPacketTranslater::OnDBMWVillageAttackRank(PacketHeader* header)

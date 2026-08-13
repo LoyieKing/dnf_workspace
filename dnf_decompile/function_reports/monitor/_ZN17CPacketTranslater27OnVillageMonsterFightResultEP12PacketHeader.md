@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808c7a8` | `0x163` | `0x8077e96` | `0x15e` |
+| monitor | DIFF | `0x808c7a8` | `0x163` | `0x8077e8a` | `0x158` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,98 +1,97 @@
+@@ -1,98 +1,94 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -31,32 +31,27 @@
 -movl   $0x0,-0x10(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x76>
 -mov    -0x10(%ebp),%edx
+-mov    -0x18(%ebp),%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +add    $0x10,%eax
 +mov    %eax,-0x18(%ebp)
 +movl   $0x0,-0x14(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x71>
++jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x6b>
 +mov    0x8(%ebp),%eax
 +mov    -0x14(%ebp),%edx
-+add    $0x4,%edx
-+shl    $0x2,%edx
-+add    $0xa,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x6d>
-+mov    -0x14(%ebp),%ebx
-+mov    -0x10(%ebp),%eax
-+mov    %eax,0x4(%esp)
- mov    -0x18(%ebp),%eax
--add    $0x4,%edx
--mov    0xa(%eax,%edx,4),%eax
+ add    $0x4,%edx
+ mov    0xa(%eax,%edx,4),%eax
 -test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x72>
 -mov    -0x10(%ebp),%ebx
 -mov    -0x10(%ebp),%edx
--mov    -0x18(%ebp),%eax
++mov    %eax,-0x10(%ebp)
++cmpl   $0x0,-0x10(%ebp)
++je     <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x67>
++mov    -0x14(%ebp),%ebx
++mov    -0x10(%ebp),%eax
++mov    %eax,0x4(%esp)
+ mov    -0x18(%ebp),%eax
 -add    $0x4,%edx
 -mov    0xa(%eax,%edx,4),%eax
 -mov    %eax,0x4(%esp)
@@ -73,10 +68,10 @@
 -jne    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x3e>
 -jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x15c>
 +jne    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x38>
-+jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x157>
++jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x151>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x102>
-+jne    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0xfd>
++jne    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0xf7>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -100,7 +95,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0xfb>
-+jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0xf6>
++jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0xf0>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -110,7 +105,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x15c>
-+jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x157>
++jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x151>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x173b,0x8(%esp)
@@ -124,7 +119,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x157>
-+jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x152>
++jmp    <T> <_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader+0x14c>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -175,7 +170,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4119 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 4235 行）：
 
 ```cpp
 void CPacketTranslater::OnVillageMonsterFightResult(PacketHeader* pkt)
@@ -187,7 +182,7 @@ void CPacketTranslater::OnVillageMonsterFightResult(PacketHeader* pkt)
     CUserManager* userMgr = (CUserManager*)((char*)m_pclApp + 0x10);
     for (int i = 0; i < 4; i++)
     {
-        unsigned int key = *(unsigned int*)((char*)pkt + (i + 4) * 4 + 10);
+        unsigned int key = ((MonitorVillageFightPkt*)pkt)->m_keys[i + 4];
         if (key != 0)
         {
             users[i] = (unsigned int)userMgr->FindUser_CharNo(key);

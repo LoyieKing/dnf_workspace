@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808797e` | `0x2c0` | `0x8072de2` | `0x2af` |
+| monitor | DIFF | `0x808797e` | `0x2c0` | `0x8072dfa` | `0x2af` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -348,7 +348,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2771 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2884 行）：
 
 ```cpp
 void CPacketTranslater::OnAddBuddyDBReply(PacketHeader* pkt)

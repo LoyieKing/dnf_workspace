@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80936ea` | `0x3ae` | `0x80d8fe4` | `0x38b` |
+| dbmw | DIFF | `0x80936ea` | `0x3ae` | `0x80d8fc6` | `0x387` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,229 +1,224 @@
+@@ -1,229 +1,222 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -26,7 +26,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x3a3>
-+je     <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x380>
++je     <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x37c>
  mov    0x8(%ebp),%eax
 +mov    %eax,-0x18(%ebp)
 +mov    -0x18(%ebp),%eax
@@ -41,9 +41,8 @@
 -mov    -0x14(%ebp),%eax
 -mov    0xb(%eax),%edx
 -mov    -0x14(%ebp),%eax
-+mov    -0x18(%ebp),%eax
- movzbl 0xa(%eax),%eax
- movzbl %al,%eax
+-movzbl 0xa(%eax),%eax
+-movzbl %al,%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%ecx
 -lea    0x50(%ecx),%ebx
 -lea    -0x179(%ebp),%ecx
@@ -51,6 +50,9 @@
 -mov    %edx,0x8(%esp)
 -mov    %eax,0x4(%esp)
 -mov    %ebx,(%esp)
++mov    -0x18(%ebp),%eax
++movzbl 0xa(%eax),%eax
++movzbl %al,%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 +lea    0x50(%edx),%ecx
 +lea    -0x17d(%ebp),%edx
@@ -84,6 +86,15 @@
 -mov    -0x14(%ebp),%eax
 -mov    0xb(%eax),%edx
 -mov    -0x14(%ebp),%eax
+-movzbl 0xa(%eax),%eax
+-movzbl %al,%eax
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%ecx
+-lea    0x50(%ecx),%ebx
+-lea    -0x179(%ebp),%ecx
+-mov    %ecx,0xc(%esp)
+-mov    %edx,0x8(%esp)
+-mov    %eax,0x4(%esp)
+-mov    %ebx,(%esp)
 +lea    -0x48(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
@@ -96,15 +107,8 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    -0x18(%ebp),%eax
- movzbl 0xa(%eax),%eax
- movzbl %al,%eax
--mov    &_ZN17CPacketTranslater8m_pclAppE,%ecx
--lea    0x50(%ecx),%ebx
--lea    -0x179(%ebp),%ecx
--mov    %ecx,0xc(%esp)
--mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    %ebx,(%esp)
++movzbl 0xa(%eax),%eax
++movzbl %al,%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 +lea    0x50(%edx),%ecx
 +lea    -0x17d(%ebp),%edx
@@ -159,8 +163,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    -0x18(%ebp),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
++movzbl 0xa(%eax),%eax
 +movzbl %al,%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 +lea    0x50(%edx),%ecx
@@ -177,7 +180,7 @@
 -movzbl -0x16f(%ebp),%eax
 -movzbl %al,%esi
 -mov    -0x16e(%ebp),%ebx
-+je     <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x1bd>
++je     <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x1bb>
 +movzbl -0x173(%ebp),%eax
 +movsbl %al,%ebx
  movl   $0x60,0x8(%esp)
@@ -216,8 +219,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    -0x18(%ebp),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
++movzbl 0xa(%eax),%eax
 +movzbl %al,%eax
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 +lea    0x50(%edx),%ecx
@@ -234,7 +236,7 @@
 -movzbl -0x16f(%ebp),%eax
 -movzbl %al,%esi
 -mov    -0x16e(%ebp),%ebx
-+je     <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x241>
++je     <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x23d>
 +movzbl -0x173(%ebp),%eax
 +movsbl %al,%ebx
  movl   $0x65,0x8(%esp)
@@ -271,10 +273,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CGuildServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x3a4>
-+jmp    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x381>
++jmp    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x37d>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x33b>
-+jne    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x318>
++jne    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x314>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -312,7 +314,7 @@
 +lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x311>
++jmp    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x30d>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -322,7 +324,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x3a4>
-+jmp    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x381>
++jmp    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x37d>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnQueryGuild() Exception Break",(%esp)
@@ -342,7 +344,7 @@
 +lea    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x379>
++jmp    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x375>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -352,7 +354,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x3a4>
-+jmp    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x381>
++jmp    <T> <_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader+0x37d>
  nop
  add    $0x1a0,%esp
  pop    %ebx
@@ -446,7 +448,7 @@ void CPacketTranslater::_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader(Pac
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1082 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1099 行）：
 
 ```cpp
 void CPacketTranslater::OnQueryGuildMember(PacketHeader* header)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807f5a2` | `0x8c3` | `0x806ae82` | `0x85e` |
+| monitor | DIFF | `0x807f5a2` | `0x8c3` | `0x806ae70` | `0x85e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -1060,7 +1060,7 @@ void CPacketTranslater::_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader(Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 630 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 738 行）：
 
 ```cpp
 void CPacketTranslater::OnCharLogin(PacketHeader* pkt)

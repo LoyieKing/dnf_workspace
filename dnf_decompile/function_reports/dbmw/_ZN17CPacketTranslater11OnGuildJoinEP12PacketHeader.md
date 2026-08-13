@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8096dae` | `0x32e` | `0x80d0652` | `0x331` |
+| dbmw | DIFF | `0x8096dae` | `0x32e` | `0x80d063e` | `0x331` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -393,7 +393,7 @@ void CPacketTranslater::_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader(Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 317 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 334 行）：
 
 ```cpp
 void CPacketTranslater::OnGuildJoin(PacketHeader* header)

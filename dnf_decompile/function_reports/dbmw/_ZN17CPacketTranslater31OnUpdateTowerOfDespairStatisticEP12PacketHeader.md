@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809f9de` | `0x18f` | `0x80d5876` | `0x192` |
+| dbmw | DIFF | `0x809f9de` | `0x18f` | `0x80d5862` | `0x192` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -173,7 +173,7 @@ void CPacketTranslater::_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1441 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1458 行）：
 
 ```cpp
 void CPacketTranslater::OnUpdateTowerOfDespairStatistic(PacketHeader* header)

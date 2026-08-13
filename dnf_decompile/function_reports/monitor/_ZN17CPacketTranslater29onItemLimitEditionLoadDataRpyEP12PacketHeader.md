@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808ab4c` | `0x566` | `0x8076286` | `0x509` |
+| monitor | DIFF | `0x808ab4c` | `0x566` | `0x807628c` | `0x4fd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,340 +1,334 @@
+@@ -1,340 +1,330 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -31,7 +31,7 @@
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x55a>
 -mov    -0x2c(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x4fe>
++je     <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x4f2>
 +mov    0x8(%ebp),%eax
  movzbl 0xa(%eax),%eax
  test   %al,%al
@@ -46,27 +46,24 @@
 -mov    -0x28(%ebp),%edx
 -mov    -0x2c(%ebp),%ecx
 +movl   $0x0,-0x2c(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0xa9>
-+mov    0x8(%ebp),%ecx
++jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0xa5>
++mov    -0x30(%ebp),%ecx
 +mov    -0x2c(%ebp),%edx
  mov    %edx,%eax
  shl    $0x3,%eax
  add    %edx,%eax
  shl    $0x3,%eax
--mov    0xf(%eax,%ecx,1),%eax
+ mov    0xf(%eax,%ecx,1),%eax
 -cmp    $0xc34ff,%eax
 -jbe    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0xad>
 -mov    -0x28(%ebp),%edx
 -mov    -0x2c(%ebp),%ecx
-+add    $0xf,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x28(%ebp)
 +cmpl   $0xc34ff,-0x28(%ebp)
-+jbe    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0xa5>
++jbe    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0xa1>
 +cmpl   $0xf423f,-0x28(%ebp)
-+ja     <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0xa5>
-+mov    0x8(%ebp),%ecx
++ja     <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0xa1>
++mov    -0x30(%ebp),%ecx
 +mov    -0x2c(%ebp),%edx
  mov    %edx,%eax
  shl    $0x3,%eax
@@ -325,7 +322,7 @@
 +cmp    $0x1,%al
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x4fe>
++je     <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x4f2>
 +lea    -0x57(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN36Packet_Item_Limit_Edition_Sell_StartC1Ev>
@@ -351,21 +348,18 @@
 -call   <T> <_ZNK20CItemLimitEditionMgr35makeItemLimitEditionSellStartPacketER36Packet_Item_Limit_Edition_Sell_Start>
 -jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x45e>
 +test   %al,%al
-+jne    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x3eb>
++jne    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x3df>
  movl   $0x0,-0x24(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x44a>
-+jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x3d5>
-+mov    0x8(%ebp),%ecx
++jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x3cd>
++mov    -0x30(%ebp),%ecx
  mov    -0x24(%ebp),%edx
 -mov    -0x2c(%ebp),%ecx
  mov    %edx,%eax
  shl    $0x3,%eax
  add    %edx,%eax
  shl    $0x3,%eax
--mov    0xf(%eax,%ecx,1),%ebx
-+add    $0xf,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    (%eax),%ebx
+ mov    0xf(%eax,%ecx,1),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication22getItemLimitEditionMgrEv>
@@ -375,7 +369,7 @@
  mov    %eax,-0x20(%ebp)
  cmpl   $0x0,-0x20(%ebp)
 -je     <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x445>
-+je     <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x3d1>
++je     <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x3c9>
 +lea    -0x57(%ebp),%ecx
  mov    -0x24(%ebp),%edx
 -lea    -0x833(%ebp),%ecx
@@ -408,8 +402,8 @@
  seta   %al
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x3d6>
-+jne    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x363>
-+jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x407>
++jne    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x35f>
++jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x3fb>
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication22getItemLimitEditionMgrEv>
@@ -426,10 +420,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x55b>
-+jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x4fe>
++jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x4f2>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x4fe>
-+jne    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x4a4>
++jne    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x498>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -455,7 +449,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x4f7>
-+jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x49d>
++jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x491>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -465,7 +459,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x55b>
-+jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x4fe>
++jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x4f2>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x14fb,0x8(%esp)
@@ -481,7 +475,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x553>
-+jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x4f9>
++jmp    <T> <_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader+0x4ed>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -634,7 +628,7 @@ void CPacketTranslater::_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP1
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3707 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3822 行）：
 
 ```cpp
 void CPacketTranslater::onItemLimitEditionLoadDataRpy(PacketHeader* pkt)
@@ -650,11 +644,12 @@ void CPacketTranslater::onItemLimitEditionLoadDataRpy(PacketHeader* pkt)
             }
             for (unsigned int i = 0; i < ((RA_UINT<11>*)pkt)->v; i++)
             {
-                unsigned int ipgno = *(unsigned int*)((char*)pkt + i * 0x48 + 0xf);
+                unsigned int ipgno =
+                    ((MonitorItemLimitEditionListPkt*)rpkt)->m_items[i].m_ipgno;
                 if (ipgno > 799999 && ipgno < 1000000)
                 {
                     m_pclApp->getItemLimitEditionMgr()->registItem(
-                        *(stItemLimitEditionItemInfo_t*)((char*)pkt + i * 0x48 + 0xf));
+                        *(stItemLimitEditionItemInfo_t*)((char*)rpkt + i * 0x48 + 0xf));
                 }
             }
             DNF_LOG_SCOPE_LINE(0x14c2,"./log/ItemLimitEdition",
@@ -684,8 +679,8 @@ void CPacketTranslater::onItemLimitEditionLoadDataRpy(PacketHeader* pkt)
                     {
                         CItemLimitEdition* item = m_pclApp->getItemLimitEditionMgr()
                                                       ->getItemInfo(
-                                                          *(unsigned int*)((char*)pkt +
-                                                                           i * 0x48 + 0xf));
+                                                          ((MonitorItemLimitEditionListPkt*)rpkt)
+                                                              ->m_items[i].m_ipgno);
                         if (item != 0)
                         {
                             item->makeItemInfo(

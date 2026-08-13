@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809b958` | `0x599` | `0x80d82f2` | `0x577` |
+| dbmw | DIFF | `0x809b958` | `0x599` | `0x80d82dc` | `0x577` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -640,7 +640,7 @@ void CPacketTranslater::_ZN17CPacketTranslater22OnRequestIPCounterListEP12Packet
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2079 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2096 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestIPCounterList(PacketHeader* header)

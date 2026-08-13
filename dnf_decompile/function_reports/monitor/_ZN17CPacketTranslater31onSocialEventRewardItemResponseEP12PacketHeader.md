@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808fce4` | `0x2d2` | `0x807b2e0` | `0x305` |
+| monitor | DIFF | `0x808fce4` | `0x2d2` | `0x807b28a` | `0x2d1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,203 +1,222 @@
+@@ -1,203 +1,201 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -83,7 +83,7 @@
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x1f4>
 -lea    -0x3d(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x227>
++jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x1f3>
 +lea    -0x51(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -92,74 +92,41 @@
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
  mov    0x8(%ebp),%eax
+-mov    %eax,-0x24(%ebp)
 +mov    %eax,-0x38(%ebp)
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication25getLimitNpcBuyItemManagerEv>
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication25getLimitNpcBuyItemManagerEv>
 +mov    %eax,-0x34(%ebp)
 +mov    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN22LimitNpcBuyItemManager15registItemClearEv>
+ mov    %eax,(%esp)
+ call   <T> <_ZN22LimitNpcBuyItemManager15registItemClearEv>
+-movl   $0x0,-0x20(%ebp)
+-jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x1b0>
+-mov    -0x20(%ebp),%edx
 +movl   $0x0,-0x30(%ebp)
-+jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x1e3>
++jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x1af>
 +mov    0x8(%ebp),%ecx
 +mov    -0x30(%ebp),%edx
-+mov    %edx,%eax
-+add    %eax,%eax
-+add    %edx,%eax
-+shl    $0x2,%eax
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x2,%eax
+-add    -0x24(%ebp),%eax
+-lea    0xe(%eax),%ebx
 +add    $0xe,%eax
 +lea    (%ecx,%eax,1),%eax
 +mov    %eax,-0x2c(%ebp)
-+mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CApplication25getLimitNpcBuyItemManagerEv>
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication25getLimitNpcBuyItemManagerEv>
+-mov    %ebx,0x4(%esp)
 +mov    %eax,-0x34(%ebp)
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x34(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN22LimitNpcBuyItemManager10registItemER15NpcBuyLimitItem>
-+mov    0x8(%ebp),%ecx
-+mov    -0x30(%ebp),%edx
-+mov    %edx,%eax
-+add    %eax,%eax
-+add    %edx,%eax
-+shl    $0x2,%eax
-+add    $0x16,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    (%eax),%eax
-+mov    %eax,-0x28(%ebp)
-+mov    0x8(%ebp),%ecx
-+mov    -0x30(%ebp),%edx
-+mov    %edx,%eax
-+add    %eax,%eax
-+add    %edx,%eax
-+shl    $0x2,%eax
-+add    $0x12,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    (%eax),%eax
- mov    %eax,-0x24(%ebp)
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication25getLimitNpcBuyItemManagerEv>
--mov    %eax,(%esp)
--call   <T> <_ZN22LimitNpcBuyItemManager15registItemClearEv>
--movl   $0x0,-0x20(%ebp)
--jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x1b0>
--mov    -0x20(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x2,%eax
--add    -0x24(%ebp),%eax
--lea    0xe(%eax),%ebx
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication25getLimitNpcBuyItemManagerEv>
--mov    %ebx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZN22LimitNpcBuyItemManager10registItemER15NpcBuyLimitItem>
+ mov    %eax,(%esp)
+ call   <T> <_ZN22LimitNpcBuyItemManager10registItemER15NpcBuyLimitItem>
 -mov    -0x20(%ebp),%edx
 -mov    -0x24(%ebp),%ecx
 -mov    %edx,%eax
@@ -181,14 +148,13 @@
 -add    %edx,%eax
 -shl    $0x2,%eax
 -mov    0xe(%eax,%ecx,1),%ebx
-+mov    0x8(%ebp),%ecx
-+mov    -0x30(%ebp),%edx
-+mov    %edx,%eax
-+add    %eax,%eax
-+add    %edx,%eax
-+shl    $0x2,%eax
-+add    $0xe,%eax
-+lea    (%ecx,%eax,1),%eax
++mov    -0x2c(%ebp),%eax
++mov    0x8(%eax),%eax
++mov    %eax,-0x28(%ebp)
++mov    -0x2c(%ebp),%eax
++mov    0x4(%eax),%eax
++mov    %eax,-0x24(%ebp)
++mov    -0x2c(%ebp),%eax
 +mov    (%eax),%eax
 +mov    %eax,-0x20(%ebp)
  movl   $0x1dd0,0x8(%esp)
@@ -222,12 +188,12 @@
 -cmpl   $0x1d,-0x20(%ebp)
 -ja     <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x1c8>
 +cmp    -0x30(%ebp),%eax
-+jbe    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x1fb>
++jbe    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x1c7>
 +cmpl   $0x1d,-0x30(%ebp)
-+ja     <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x1fb>
++ja     <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x1c7>
  mov    $0x1,%eax
 -jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x1cd>
-+jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x200>
++jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x1cc>
  mov    $0x0,%eax
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x106>
@@ -240,10 +206,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x2ca>
-+jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x2fd>
++jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x2c9>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x270>
-+jne    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x2a3>
++jne    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x26f>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -269,7 +235,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x269>
-+jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x29c>
++jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x268>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -279,7 +245,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x2ca>
-+jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x2fd>
++jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x2c9>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1ddd,0x8(%esp)
@@ -295,7 +261,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x2c5>
-+jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x2f8>
++jmp    <T> <_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader+0x2c4>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -383,7 +349,7 @@ void CPacketTranslater::_ZN17CPacketTranslater31onSocialEventRewardItemResponseE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5005 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 5115 行）：
 
 ```cpp
 void CPacketTranslater::onSocialEventRewardItemResponse(PacketHeader* pkt)
@@ -403,9 +369,9 @@ void CPacketTranslater::onSocialEventRewardItemResponse(PacketHeader* pkt)
             NpcBuyLimitItem* item = (NpcBuyLimitItem*)((char*)pkt + i * 0xc + 0xe);
             mgr = m_pclApp->getLimitNpcBuyItemManager();
             mgr->registItem(*item);
-            unsigned int c = *(unsigned int*)((char*)pkt + i * 0xc + 0x16);
-            unsigned int b = *(unsigned int*)((char*)pkt + i * 0xc + 0x12);
-            unsigned int a = *(unsigned int*)((char*)pkt + i * 0xc + 0xe);
+            unsigned int c = item->m_sellCount;
+            unsigned int b = item->m_maxCount;
+            unsigned int a = item->m_itemId;
             DNF_LOG_SCOPE_LINE(0x1dd0,"./log/NpcBuyLimitItem", "Load-> itemId: %d, maxCount: %d, sellCount: %d)",
                 a, b, c);
             i++;

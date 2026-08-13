@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80967ee` | `0x335` | `0x80d0316` | `0x33b` |
+| dbmw | DIFF | `0x80967ee` | `0x335` | `0x80d0302` | `0x33b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -318,7 +318,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnSendGuildLetterEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 247 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 264 行）：
 
 ```cpp
 void CPacketTranslater::OnSendGuildLetter(PacketHeader* header)

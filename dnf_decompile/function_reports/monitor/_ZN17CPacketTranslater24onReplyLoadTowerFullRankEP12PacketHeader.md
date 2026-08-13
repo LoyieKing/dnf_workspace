@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8088688` | `0x1f8` | `0x8073db6` | `0x1ec` |
+| monitor | DIFF | `0x8088688` | `0x1f8` | `0x8073dd6` | `0x1d1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,14 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,141 +1,139 @@
+@@ -1,141 +1,129 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x6c,%esp
-+sub    $0x5c,%esp
+ sub    $0x6c,%esp
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
 -mov    -0x24(%ebp),%eax
@@ -41,96 +40,82 @@
  mov    0xb(%eax),%ebx
  movl   $0x1172,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %esi,0x10(%esp)
  mov    %ebx,0xc(%esp)
  movl   $"%d/%d\n",0x8(%esp)
  movl   $"./log/DeathTower",0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
- movl   $0x0,-0x20(%ebp)
+-movl   $0x0,-0x20(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x101>
--mov    -0x20(%ebp),%eax
++movl   $0x0,-0x24(%ebp)
++jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0xde>
++mov    0x8(%ebp),%edx
++mov    -0x24(%ebp),%eax
++imul   $0x65,%eax,%eax
++lea    (%edx,%eax,1),%eax
++mov    %eax,-0x20(%ebp)
+ mov    -0x20(%ebp),%eax
 -imul   $0x65,%eax,%eax
 -add    $0x10,%eax
 -add    -0x24(%ebp),%eax
 -add    $0xc,%eax
--mov    %eax,-0x4c(%ebp)
--mov    -0x20(%ebp),%eax
++add    $0x1c,%eax
+ mov    %eax,-0x4c(%ebp)
+ mov    -0x20(%ebp),%eax
 -mov    -0x24(%ebp),%edx
 -imul   $0x65,%eax,%eax
 -lea    (%edx,%eax,1),%eax
 -add    $0x10,%eax
 -movzwl 0x9(%eax),%eax
-+jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0xf5>
-+mov    0x8(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+imul   $0x65,%edx,%edx
-+add    $0x1c,%edx
-+add    %edx,%eax
-+mov    %eax,-0x3c(%ebp)
-+mov    0x8(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+imul   $0x65,%edx,%edx
-+add    $0x19,%edx
-+add    %edx,%eax
-+movzwl (%eax),%eax
++movzwl 0x19(%eax),%eax
  movzwl %ax,%edi
--mov    -0x20(%ebp),%eax
+ mov    -0x20(%ebp),%eax
 -mov    -0x24(%ebp),%edx
 -imul   $0x65,%eax,%eax
 -lea    (%edx,%eax,1),%eax
 -add    $0x10,%eax
 -movzwl 0x7(%eax),%eax
-+mov    0x8(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+imul   $0x65,%edx,%edx
-+add    $0x17,%edx
-+add    %edx,%eax
-+movzwl (%eax),%eax
++movzwl 0x17(%eax),%eax
  movzwl %ax,%esi
--mov    -0x20(%ebp),%eax
+ mov    -0x20(%ebp),%eax
 -mov    -0x24(%ebp),%edx
 -imul   $0x65,%eax,%eax
 -lea    (%edx,%eax,1),%eax
 -add    $0x1b,%eax
-+mov    0x8(%ebp),%eax
-+mov    -0x20(%ebp),%edx
-+imul   $0x65,%edx,%edx
-+add    $0x1b,%edx
-+add    %edx,%eax
- movzbl (%eax),%eax
+-movzbl (%eax),%eax
++movzbl 0x1b(%eax),%eax
  movzbl %al,%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication12getTowerRankEv>
--mov    -0x4c(%ebp),%edx
-+mov    -0x3c(%ebp),%edx
+ mov    -0x4c(%ebp),%edx
  mov    %edx,0x10(%esp)
  mov    %edi,0xc(%esp)
  mov    %esi,0x8(%esp)
  mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN10CTowerRank10registRankEjjjPK30stDeathTowerRecordMemberInfo_t>
- addl   $0x1,-0x20(%ebp)
+-addl   $0x1,-0x20(%ebp)
 -mov    -0x24(%ebp),%eax
++addl   $0x1,-0x24(%ebp)
 +mov    0x8(%ebp),%eax
  mov    0xb(%eax),%eax
- cmp    -0x20(%ebp),%eax
+-cmp    -0x20(%ebp),%eax
++cmp    -0x24(%ebp),%eax
  seta   %al
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x82>
 -jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1f0>
 +jne    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x7c>
-+jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1e4>
++jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1c9>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x196>
-+jne    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x18a>
++jne    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x16f>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -144,19 +129,17 @@
  mov    %eax,%ebx
  movl   $0x117e,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x34(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::onReplyLoadTowerFullRank Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x34(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x18f>
-+jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x183>
++jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x168>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -166,23 +149,21 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1f0>
-+jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1e4>
++jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1c9>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1183,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::onReplyLoadTowerFullRank Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1eb>
-+jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1df>
++jmp    <T> <_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader+0x1c4>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -191,8 +172,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--add    $0x6c,%esp
-+add    $0x5c,%esp
+ add    $0x6c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -245,7 +225,7 @@ void CPacketTranslater::_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3092 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3206 行）：
 
 ```cpp
 void CPacketTranslater::onReplyLoadTowerFullRank(PacketHeader* pkt)
@@ -260,11 +240,12 @@ void CPacketTranslater::onReplyLoadTowerFullRank(PacketHeader* pkt)
             ((RA_UINT<15>*)pkt)->v);
         for (unsigned int i = 0; i < ((RA_UINT<11>*)pkt)->v; i++)
         {
+            MonitorTowerFullRankRec* rec = (MonitorTowerFullRankRec*)pkt + i;
             ((CTowerRank*)m_pclApp->getTowerRank())->registRank(
-                (unsigned int)(unsigned char)*(char*)((char*)pkt + i * 0x65 + 0x1b),
-                (unsigned int)*(unsigned short*)((char*)pkt + i * 0x65 + 0x17),
-                (unsigned int)*(unsigned short*)((char*)pkt + i * 0x65 + 0x19),
-                (const stDeathTowerRecordMemberInfo_t*)((char*)pkt + i * 0x65 + 0x1c));
+                (unsigned int)(unsigned char)rec->m_field1b,
+                (unsigned int)rec->m_field17,
+                (unsigned int)rec->m_field19,
+                (const stDeathTowerRecordMemberInfo_t*)rec->m_memberInfo);
         }
     }
     catch (CDNFException& e)
