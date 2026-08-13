@@ -48,6 +48,33 @@
   命名待进一步 log 证据）。
 - 继续从大 DIFF 函数反挖真实语义 bug（verify_final / semantic_sweep 思路）。
 
+## 第 47 轮（2026-08-13 晚，CALL_DIFF 清零 + 根因修复，568→567）
+
+### 成果
+
+1. **guild 真实调用集差异全部归零**：20 个 CALL_DIFF（EH 缺失）+ 4 个
+   （缺失日志分支/GetGuildBoard 重复调用形态/缺失 isWebGuildBoardAction 判断）
+   全部修复；完整反汇编调用集合对比 ORIG-only/OURS-only = 0。
+2. **regression_triage 修复**：parse_md 把 diff 共同行纳入 ORIG/OURS 两侧，
+   CALL_DIFF 误报（40）消除。
+3. **CPeer::parsing try/catch 位置根因修复（guild/monitor/dbmw）**：
+   ORIG 的 try 包 CMyFileLog 日志块（[PARSING LENGTH EXCEPTION]），catch 是
+   printf("[PARSING EXCEPTION] memmove...")+return 0；memmove 在 try 外。
+   此前包在 memmove 上被 GCC 判定无异常而整体删除。修正后 monitor 指令数
+   289=289 与 ORIG 一致。
+4. **CGuild::SendGuildInfoToMemberOnly 翻 IDENTICAL**：placement new →
+   直接构造消除多余 _Unwind_Resume；guild 196→195，总数 568→567。
+5. **编译器发现**：c6444r 变体 cc1plus444bin 的 cc1plus 实为 4.4.7-23
+   （symlink 到 c6root/4.4.4 但内容是 4.4.7）；真 4.4.4-13 在
+   /tmp/cc1plus444r13bin。monitor 6 个函数（OnTimeEventManager 4 个 +
+   momiji/ChristmasEvent）的 `new` 生成 _Unwind_Resume（ORIG 无），真 4.4.4-13
+   编译 Unwind=0 与 ORIG 一致。**待完整验证整 TU/全局切换无回归后实施**。
+
+### 剩余结构
+
+- EH_OR_CLEANUP 272（含已有 EH 的栈布局/细节差异长尾）
+- CONST_OR_OFFSET 165、NEEDS_REVERSE 110、CODEGEN_TAIL 21
+
 ## 决定性结论（2026-08-13 晚，variant_sweep 子代理）
 
 ## 决定性结论（2026-08-13 晚，variant_sweep 子代理）
