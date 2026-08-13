@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a1034` | `0x245` | `0x8098002` | `0x20c` |
+| monitor | DIFF | `0x80a1034` | `0x245` | `0x80980c8` | `0x207` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,174 +1,149 @@
+@@ -1,174 +1,147 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -46,7 +46,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CCashObjectEEneERKS5_>
  test   %al,%al
 -je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x236>
-+je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x1fd>
++je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x1f8>
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CCashObjectEEptEv>
@@ -54,7 +54,7 @@
  mov    %eax,-0x18(%ebp)
  cmpl   $0x0,-0x18(%ebp)
 -je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x1ec>
-+je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x1fd>
++je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x1f8>
  mov    -0x18(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CCashObject19GetBlackUsersObjectEv>
@@ -66,7 +66,7 @@
  call   <T> <_ZNSt3mapIjP10CBlackUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x1bd>
-+jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x184>
++jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x17f>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP10CBlackUserEEdeEv>
@@ -79,7 +79,7 @@
  mov    %eax,-0xc(%ebp)
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x1b1>
-+je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x179>
++je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x174>
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1Ev>
@@ -94,9 +94,7 @@
  call   <T> <_ZN18CMemoryCashManager22QueryUpdatedCharacNameEjRSs>
  test   %al,%al
 -je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x1a4>
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x16e>
++je     <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x169>
 +movl   $0x1e,0x8(%esp)
 +movl   $0x0,0x4(%esp)
  lea    -0x4e(%ebp),%eax
@@ -145,7 +143,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CBlackUser14ChangeCharNameEPc>
 -jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x1a4>
-+jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x16e>
++jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x169>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x30(%ebp),%eax
@@ -195,7 +193,7 @@
  call   <T> <_ZN18CMemoryCashManager22incBlackListCashHitCntEv>
  mov    $0x1,%eax
 -jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x23b>
-+jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x202>
++jmp    <T> <_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser+0x1fd>
  mov    $0x0,%eax
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
@@ -328,7 +326,7 @@ CMemoryCashManager::_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 174 行）：
+定义于 [source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp](source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp)（约第 172 行）：
 
 ```cpp
 char CMemoryCashManager::QueryCashMemoryBlackList(CUser* user)

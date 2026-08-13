@@ -2,4 +2,4 @@ service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	sr
 monitor	_ZN14CServerHandler20GetTcpGameServerByChEh	DIFF	14	N			N	Y	source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader	DIFF	17	N			N	Y	source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp	4	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi	DIFF	16	N			N	Y	source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp	2	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN14CServerHandler7ProcessEv	DIFF	225	N	_ZN12CTcpDBServer5GetIPEv|_ZN17CTcpManagerServer5GetIPEv		N	Y	source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp	0	CALL_DIFF	real call set differs
+monitor	_ZN14CServerHandler7ProcessEv	DIFF	207	N			N	Y	source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

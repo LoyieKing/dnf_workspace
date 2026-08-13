@@ -221,19 +221,16 @@
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager11GuildSecedeEP30Packet_DB_Request_Guild_SecedeRjS2_S2_+0xdb0>
 -mov    -0x24(%ebp),%eax
--mov    (%eax),%eax
--add    $0x50,%eax
--mov    (%eax),%edx
--lea    -0xb1(%ebp),%eax
 +lea    -0x34(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager11GuildSecedeEP30Packet_DB_Request_Guild_SecedeRjS2_S2_+0xdb4>
 +mov    -0x14(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x58,%eax
-+mov    (%eax),%edx
+ mov    (%eax),%eax
+ add    $0x50,%eax
+ mov    (%eax),%edx
+-lea    -0xb1(%ebp),%eax
 +lea    -0x15(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)

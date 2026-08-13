@@ -1,6 +1,6 @@
 service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
 monitor	_ZN18CMemoryCashManager18ProcessLifeTimeOutEv	DIFF	14	N			N	Y	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	0	CODEGEN_TAIL	very small structural diff
-monitor	_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser	DIFF	93	N	_ZN11CCashObject15GetMemberObjectEv		N	Y	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	0	CALL_DIFF	real call set differs
-monitor	_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser	DIFF	55	N			N	Y	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser	DIFF	134	N	_ZN6CBuddy14getBuddyDBInfoEv	_ZN5CUser13GetUniqCharNoEv	N	Y	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	0	CALL_DIFF	real call set differs
+monitor	_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser	DIFF	27	N			N	Y	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser	DIFF	53	N			N	Y	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser	DIFF	24	N			N	Y	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_	DIFF	67	N			N	N	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	0	NEEDS_REVERSE	source location missing from md

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8096b24` | `0x28a` | `0x80d4708` | `0x298` |
+| dbmw | DIFF | `0x8096b24` | `0x28a` | `0x80d4706` | `0x298` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -195,8 +195,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
--movl   $"CPacketTranslater::OnGuildJoin() Exception Break : %s\n",0x8(%esp)
-+movl   $"CPacketTranslater::OnRequestApproveJoinGuild() Exception Break : %s\n",0x8(%esp)
+ movl   $"CPacketTranslater::OnGuildJoin() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
 -lea    -0x34(%ebp),%eax
 +lea    -0x30(%ebp),%eax
@@ -222,8 +221,7 @@
 +lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"CPacketTranslater::OnGuildJoin() Exception Break\n",0x8(%esp)
-+movl   $"CPacketTranslater::OnRequestApproveJoinGuild() Exception Break\n",0x8(%esp)
+ movl   $"CPacketTranslater::OnGuildJoin() Exception Break\n",0x8(%esp)
  movl   $"./log/Except.log",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
 +lea    -0x28(%ebp),%eax
@@ -350,7 +348,7 @@ void CPacketTranslater::OnRequestApproveJoinGuild(PacketHeader* header)
              pkt->m_guildId, pkt->m_characNo, reply.m_fieldA);
     }
     DNF_CATCH_LOG("./log/Except.log",
-                  "CPacketTranslater::OnRequestApproveJoinGuild() Exception Break",
+                  "CPacketTranslater::OnGuildJoin() Exception Break",
                   0x534, 0x539);
 }
 ```

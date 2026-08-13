@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809eaee` | `0x252` | `0x80d0e80` | `0x242` |
+| dbmw | DIFF | `0x809eaee` | `0x252` | `0x80d0e8a` | `0x23d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,145 +1,143 @@
+@@ -1,145 +1,141 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,7 +22,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x247>
-+je     <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x237>
++je     <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x232>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x18(%ebp)
 +mov    %eax,-0x14(%ebp)
@@ -56,9 +56,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN42Packet_DB_Load_Reply_Web_Guild_Board_WriteC1Ev>
 -mov    -0x18(%ebp),%eax
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0xd4>
++je     <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0xcf>
 +mov    -0x14(%ebp),%eax
  mov    0xa(%eax),%eax
 -mov    %eax,-0x182(%ebp)
@@ -87,7 +85,7 @@
  call   <T> <_ZN12CGuildServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x248>
 -mov    -0x18(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x238>
++jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x233>
 +mov    -0x14(%ebp),%eax
  mov    0xa(%eax),%ebx
  movl   $0x101a,0x8(%esp)
@@ -128,10 +126,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CGuildServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x248>
-+jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x238>
++jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x233>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x1eb>
-+jne    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x1db>
++jne    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x1d6>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -157,7 +155,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x1e4>
-+jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x1d4>
++jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x1cf>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -167,7 +165,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x248>
-+jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x238>
++jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x233>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x102b,0x8(%esp)
@@ -183,7 +181,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x240>
-+jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x230>
++jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x22b>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -193,7 +191,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x248>
-+jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x238>
++jmp    <T> <_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader+0x233>
  nop
  add    $0x1b0,%esp
  pop    %ebx

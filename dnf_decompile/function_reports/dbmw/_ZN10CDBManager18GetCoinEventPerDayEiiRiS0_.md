@@ -116,35 +116,17 @@
 -movl   $0x0,-0x28(%ebp)
 -movl   $0x0,-0x2c(%ebp)
 -mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x38,%eax
--mov    (%eax),%edx
--lea    -0x24(%ebp),%eax
--mov    %eax,0x8(%esp)
--movl   $0x0,0x4(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--mov    %al,-0x9(%ebp)
--movzbl -0x9(%ebp),%eax
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x14a>
--mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x284>
--mov    -0x10(%ebp),%eax
 +jmp    <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x275>
 +movl   $0x0,-0x10(%ebp)
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
- add    $0x34,%eax
+ add    $0x38,%eax
  mov    (%eax),%edx
--lea    -0x28(%ebp),%eax
+-lea    -0x24(%ebp),%eax
 +lea    -0x10(%ebp),%eax
  mov    %eax,0x8(%esp)
--movl   $0x1,0x4(%esp)
+ movl   $0x0,0x4(%esp)
 -mov    -0x10(%ebp),%eax
-+movl   $0x0,0x4(%esp)
 +mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
@@ -152,7 +134,7 @@
 -movzbl -0x9(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x183>
+-je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x14a>
 +je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x134>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x284>
@@ -163,23 +145,30 @@
  mov    (%eax),%eax
  add    $0x34,%eax
  mov    (%eax),%edx
--lea    -0x2c(%ebp),%eax
+-lea    -0x28(%ebp),%eax
 +lea    -0x14(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+movl   $0x1,0x4(%esp)
+ mov    %eax,0x8(%esp)
+ movl   $0x1,0x4(%esp)
+-mov    -0x10(%ebp),%eax
 +mov    -0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
+ mov    %eax,(%esp)
+ call   *%edx
+-mov    %al,-0x9(%ebp)
+-movzbl -0x9(%ebp),%eax
+ xor    $0x1,%eax
+ test   %al,%al
+-je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x183>
 +je     <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x16d>
-+mov    $0x0,%eax
+ mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x284>
+-mov    -0x10(%ebp),%eax
 +jmp    <T> <_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_+0x275>
 +movl   $0x0,-0x18(%ebp)
 +mov    -0xc(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x34,%eax
-+mov    (%eax),%edx
+ mov    (%eax),%eax
+ add    $0x34,%eax
+ mov    (%eax),%edx
+-lea    -0x2c(%ebp),%eax
 +lea    -0x18(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $0x2,0x4(%esp)

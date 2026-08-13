@@ -98,8 +98,7 @@
 +jmp    <T> <_ZN10CDBManager17QueryGuildBootingER38Packet_DB_Query_Reply_On_Guild_Bootingi+0x18e>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
--add    $0x34,%eax
-+add    $0x38,%eax
+ add    $0x34,%eax
  mov    (%eax),%edx
  mov    0xc(%ebp),%eax
  add    $0xa,%eax
@@ -119,8 +118,7 @@
 +jmp    <T> <_ZN10CDBManager17QueryGuildBootingER38Packet_DB_Query_Reply_On_Guild_Bootingi+0x18e>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
--add    $0x34,%eax
-+add    $0x38,%eax
+ add    $0x34,%eax
  mov    (%eax),%edx
  mov    0xc(%ebp),%eax
  add    $0xe,%eax
@@ -140,8 +138,7 @@
 +jmp    <T> <_ZN10CDBManager17QueryGuildBootingER38Packet_DB_Query_Reply_On_Guild_Bootingi+0x18e>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
--add    $0x50,%eax
-+add    $0x58,%eax
+ add    $0x50,%eax
  mov    (%eax),%edx
  mov    0xc(%ebp),%eax
  add    $0x12,%eax

@@ -127,8 +127,7 @@
 +jmp    <T> <_ZN10CDBManager20OnWriteWebGuildBoardEP44Packet_DB_Load_Request_Web_Guild_Board_WriteP18STGuildBoardDBInfo+0x212>
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
--add    $0x2c,%eax
-+add    $0x30,%eax
+ add    $0x2c,%eax
  mov    (%eax),%edx
  mov    0x10(%ebp),%eax
  add    $0x87,%eax
@@ -149,12 +148,10 @@
 +jmp    <T> <_ZN10CDBManager20OnWriteWebGuildBoardEP44Packet_DB_Load_Request_Web_Guild_Board_WriteP18STGuildBoardDBInfo+0x212>
 +mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
--add    $0x2c,%eax
-+add    $0x30,%eax
+ add    $0x2c,%eax
  mov    (%eax),%edx
-+movl   $0x78,0xc(%esp)
  mov    0x10(%ebp),%eax
--movl   $0x78,0xc(%esp)
+ movl   $0x78,0xc(%esp)
  mov    %eax,0x8(%esp)
  movl   $0x3,0x4(%esp)
 -mov    -0xc(%ebp),%eax

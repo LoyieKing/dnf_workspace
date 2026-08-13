@@ -270,29 +270,6 @@
 -je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x2d9>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f7>
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x50,%eax
--mov    (%eax),%ecx
--mov    -0x10(%ebp),%edx
--mov    %edx,%eax
--shl    $0x3,%eax
--add    %edx,%eax
--shl    $0x3,%eax
--add    0x10(%ebp),%eax
--lea    0x1b(%eax),%edx
--mov    -0xc(%ebp),%eax
--addl   $0x1,-0xc(%ebp)
--mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x31e>
--mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f7>
 +mov    0x10(%ebp),%ebx
 +mov    -0x10(%ebp),%edx
 +mov    %edx,%eax
@@ -409,10 +386,29 @@
 +je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x2f5>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f9>
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x58,%eax
-+mov    (%eax),%ecx
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x50,%eax
+ mov    (%eax),%ecx
+-mov    -0x10(%ebp),%edx
+-mov    %edx,%eax
+-shl    $0x3,%eax
+-add    %edx,%eax
+-shl    $0x3,%eax
+-add    0x10(%ebp),%eax
+-lea    0x1b(%eax),%edx
+-mov    -0xc(%ebp),%eax
+-addl   $0x1,-0xc(%ebp)
+-mov    %edx,0x8(%esp)
+-mov    %eax,0x4(%esp)
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%ecx
+-xor    $0x1,%eax
+-test   %al,%al
+-je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x31e>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f7>
 +mov    0x10(%ebp),%ebx
 +mov    -0x10(%ebp),%edx
 +mov    %edx,%eax
@@ -604,113 +600,6 @@
 -je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x51c>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f7>
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x48,%eax
--mov    (%eax),%ecx
--mov    -0x10(%ebp),%edx
--mov    %edx,%eax
--shl    $0x3,%eax
--add    %edx,%eax
--shl    $0x3,%eax
--add    $0x30,%eax
--add    0x10(%ebp),%eax
--lea    0x13(%eax),%edx
--mov    -0xc(%ebp),%eax
--addl   $0x1,-0xc(%ebp)
--mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x564>
--mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f7>
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x48,%eax
--mov    (%eax),%ecx
--mov    -0x10(%ebp),%edx
--mov    %edx,%eax
--shl    $0x3,%eax
--add    %edx,%eax
--shl    $0x3,%eax
--add    $0x30,%eax
--add    0x10(%ebp),%eax
--lea    0x15(%eax),%edx
--mov    -0xc(%ebp),%eax
--addl   $0x1,-0xc(%ebp)
--mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x5ac>
--mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f7>
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x38,%eax
--mov    (%eax),%ecx
--mov    -0x10(%ebp),%edx
--mov    %edx,%eax
--shl    $0x3,%eax
--add    %edx,%eax
--shl    $0x3,%eax
--add    $0x30,%eax
--add    0x10(%ebp),%eax
--add    $0x17,%eax
--mov    %eax,%edx
--mov    -0xc(%ebp),%eax
--addl   $0x1,-0xc(%ebp)
--mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x5f6>
--mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f7>
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x38,%eax
--mov    (%eax),%ecx
--mov    -0x10(%ebp),%edx
--mov    %edx,%eax
--shl    $0x3,%eax
--add    %edx,%eax
--shl    $0x3,%eax
--add    $0x30,%eax
--add    0x10(%ebp),%eax
--add    $0x1b,%eax
--mov    %eax,%edx
--mov    -0xc(%ebp),%eax
--addl   $0x1,-0xc(%ebp)
--mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   *%ecx
--xor    $0x1,%eax
--test   %al,%al
--je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x640>
--mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f7>
--mov    -0x1c(%ebp),%eax
--mov    (%eax),%eax
--add    $0x38,%eax
--mov    (%eax),%ecx
--mov    -0x10(%ebp),%edx
--mov    %edx,%eax
--shl    $0x3,%eax
--add    %edx,%eax
--shl    $0x3,%eax
 +mov    0x10(%ebp),%ebx
 +mov    -0x10(%ebp),%edx
 +mov    %edx,%eax
@@ -875,9 +764,134 @@
 +je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x535>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f9>
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x48,%eax
+ mov    (%eax),%ecx
+-mov    -0x10(%ebp),%edx
+-mov    %edx,%eax
+-shl    $0x3,%eax
+-add    %edx,%eax
+-shl    $0x3,%eax
+-add    $0x30,%eax
+-add    0x10(%ebp),%eax
+-lea    0x13(%eax),%edx
+-mov    -0xc(%ebp),%eax
+-addl   $0x1,-0xc(%ebp)
+-mov    %edx,0x8(%esp)
+-mov    %eax,0x4(%esp)
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%ecx
+-xor    $0x1,%eax
+-test   %al,%al
+-je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x564>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f7>
++mov    0x10(%ebp),%ebx
++mov    -0x10(%ebp),%edx
++mov    %edx,%eax
++shl    $0x3,%eax
++add    %edx,%eax
++shl    $0x3,%eax
++add    $0x52,%eax
++lea    (%ebx,%eax,1),%edx
++mov    -0xc(%ebp),%eax
++addl   $0x1,-0xc(%ebp)
++mov    %edx,0x8(%esp)
++mov    %eax,0x4(%esp)
 +mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
- add    $0x40,%eax
++mov    %eax,(%esp)
++call   *%ecx
++xor    $0x1,%eax
++test   %al,%al
++je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x57d>
++mov    $0x0,%eax
++jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f9>
+ mov    -0x1c(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x48,%eax
+ mov    (%eax),%ecx
+-mov    -0x10(%ebp),%edx
+-mov    %edx,%eax
+-shl    $0x3,%eax
+-add    %edx,%eax
+-shl    $0x3,%eax
+-add    $0x30,%eax
+-add    0x10(%ebp),%eax
+-lea    0x15(%eax),%edx
+-mov    -0xc(%ebp),%eax
+-addl   $0x1,-0xc(%ebp)
+-mov    %edx,0x8(%esp)
+-mov    %eax,0x4(%esp)
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%ecx
+-xor    $0x1,%eax
+-test   %al,%al
+-je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x5ac>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f7>
+-mov    -0x1c(%ebp),%eax
+-mov    (%eax),%eax
+-add    $0x38,%eax
+-mov    (%eax),%ecx
+-mov    -0x10(%ebp),%edx
+-mov    %edx,%eax
+-shl    $0x3,%eax
+-add    %edx,%eax
+-shl    $0x3,%eax
+-add    $0x30,%eax
+-add    0x10(%ebp),%eax
+-add    $0x17,%eax
+-mov    %eax,%edx
+-mov    -0xc(%ebp),%eax
+-addl   $0x1,-0xc(%ebp)
+-mov    %edx,0x8(%esp)
+-mov    %eax,0x4(%esp)
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%ecx
+-xor    $0x1,%eax
+-test   %al,%al
+-je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x5f6>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f7>
+-mov    -0x1c(%ebp),%eax
+-mov    (%eax),%eax
+-add    $0x38,%eax
+-mov    (%eax),%ecx
+-mov    -0x10(%ebp),%edx
+-mov    %edx,%eax
+-shl    $0x3,%eax
+-add    %edx,%eax
+-shl    $0x3,%eax
+-add    $0x30,%eax
+-add    0x10(%ebp),%eax
+-add    $0x1b,%eax
+-mov    %eax,%edx
+-mov    -0xc(%ebp),%eax
+-addl   $0x1,-0xc(%ebp)
+-mov    %edx,0x8(%esp)
+-mov    %eax,0x4(%esp)
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%ecx
+-xor    $0x1,%eax
+-test   %al,%al
+-je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x640>
+-mov    $0x0,%eax
+-jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f7>
+-mov    -0x1c(%ebp),%eax
+-mov    (%eax),%eax
+-add    $0x38,%eax
+-mov    (%eax),%ecx
+-mov    -0x10(%ebp),%edx
+-mov    %edx,%eax
+-shl    $0x3,%eax
+-add    %edx,%eax
+-shl    $0x3,%eax
+-add    $0x40,%eax
 -add    0x10(%ebp),%eax
 -add    $0xf,%eax
 -mov    %eax,%edx
@@ -902,30 +916,7 @@
 -shl    $0x3,%eax
 -add    %edx,%eax
 -shl    $0x3,%eax
-+mov    (%eax),%ecx
-+mov    0x10(%ebp),%ebx
-+mov    -0x10(%ebp),%edx
-+mov    %edx,%eax
-+shl    $0x3,%eax
-+add    %edx,%eax
-+shl    $0x3,%eax
-+add    $0x52,%eax
-+lea    (%ebx,%eax,1),%edx
-+mov    -0xc(%ebp),%eax
-+addl   $0x1,-0xc(%ebp)
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%ecx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x57d>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f9>
-+mov    -0x1c(%ebp),%eax
-+mov    (%eax),%eax
- add    $0x40,%eax
+-add    $0x40,%eax
 -add    0x10(%ebp),%eax
 -add    $0x13,%eax
 -mov    %eax,%edx
@@ -941,7 +932,6 @@
 -je     <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6ce>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy+0x6f7>
-+mov    (%eax),%ecx
 +mov    0x10(%ebp),%ebx
 +mov    -0x10(%ebp),%edx
 +mov    %edx,%eax

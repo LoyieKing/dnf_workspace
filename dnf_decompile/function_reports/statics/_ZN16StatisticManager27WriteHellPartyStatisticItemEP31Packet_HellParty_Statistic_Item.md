@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8071138` | `0x210` | `0x80712b0` | `0x212` |
+| statics | DIFF | `0x8071138` | `0x210` | `0x8071292` | `0x212` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -306,7 +306,7 @@ LAB_08071229:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 801 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 797 行）：
 
 ```cpp
 void StatisticManager::WriteHellPartyStatisticItem(Packet_HellParty_Statistic_Item* pkt)

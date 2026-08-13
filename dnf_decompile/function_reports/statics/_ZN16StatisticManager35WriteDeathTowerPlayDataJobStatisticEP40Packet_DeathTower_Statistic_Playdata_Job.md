@@ -31,17 +31,15 @@
  movzwl 0xb(%eax),%eax
 -mov    %ax,-0x4a(%ebp)
 +mov    %ax,-0x46(%ebp)
-+mov    0xc(%ebp),%eax
-+mov    0xd(%eax),%eax
-+mov    %eax,-0x44(%ebp)
  mov    0xc(%ebp),%eax
  movzbl 0x11(%eax),%eax
 -mov    %al,-0x44(%ebp)
--mov    0xc(%ebp),%eax
--mov    0xd(%eax),%eax
++mov    %al,-0x40(%ebp)
+ mov    0xc(%ebp),%eax
+ mov    0xd(%eax),%eax
 -mov    %eax,-0x48(%ebp)
 -lea    -0x54(%ebp),%eax
-+mov    %al,-0x40(%ebp)
++mov    %eax,-0x44(%ebp)
 +lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN20PlayDataJobStatisticC1Ev>

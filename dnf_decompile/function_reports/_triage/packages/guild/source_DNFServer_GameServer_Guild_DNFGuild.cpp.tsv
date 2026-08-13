@@ -4,7 +4,7 @@ guild	_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser	DIFF	113	N			N	Y	source/
 guild	_ZN6CGuild13BuyGuildSkillEiisj	DIFF	257	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser	DIFF	120	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj	DIFF	84	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN6CGuild17InsertGuildMemberEjP5CUser	DIFF	10	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+guild	_ZN6CGuild17InsertGuildMemberEjP5CUser	DIFF	13	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN6CGuild17ReplyGuildMembersEP5CUser	DIFF	683	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede	DIFF	104	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN6CGuild17SetSubGuildMasterEjb	DIFF	26	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

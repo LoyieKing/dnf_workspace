@@ -130,9 +130,8 @@
  addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    $0x63,%eax
--setbe  %al
 +cmpl   $0x63,-0xc(%ebp)
-+setle  %al
+ setbe  %al
  test   %al,%al
  jne    <T> <_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic+0xde>
  mov    $0x1,%eax
@@ -229,7 +228,7 @@ bool CDBManager::QueryUpdateChannelOccNum(Packet_User_Count_Statistic* packet)
             "upDate game_channel Error : channel_no(%d), user_count(%d)",
             packet->m_gcNo, packet->m_userCount);
     }
-    for (int i = 0; i < 0x64; i++)
+    for (unsigned int i = 0; i < 0x64; i++)
     {
         h->set_query(0x4f29,
                      "upDate channel_occ_info set occ_num=%d where gc_no=%d and age=%d",

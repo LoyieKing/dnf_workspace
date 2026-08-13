@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8050994` | `0x25d` | `0x8088652` | `0x1ca` |
+| monitor | DIFF | `0x8050994` | `0x25d` | `0x8088674` | `0x251` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,33 +13,30 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,157 +1,116 @@
+@@ -1,157 +1,153 @@
  push   %ebp
  mov    %esp,%ebp
--push   %edi
--push   %esi
+ push   %edi
+ push   %esi
  push   %ebx
--sub    $0x6c,%esp
-+sub    $0x64,%esp
+ sub    $0x6c,%esp
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
  cmp    $0xffffffff,%eax
--jne    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x1e>
-+jne    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x1c>
+ jne    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x1e>
  mov    $0x0,%eax
 -jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x255>
 -movl   $0x10,-0x58(%ebp)
 -lea    -0x58(%ebp),%ebx
--lea    -0x54(%ebp),%ecx
-+jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x1c4>
-+movl   $0x10,-0x2c(%ebp)
-+lea    -0x3c(%ebp),%ecx
++jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x249>
++movl   $0x10,-0x44(%ebp)
+ lea    -0x54(%ebp),%ecx
  mov    0x10(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,%edx
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
-+lea    -0x2c(%ebp),%ebx
++lea    -0x44(%ebp),%ebx
  mov    %ebx,0x14(%esp)
  mov    %ecx,0x10(%esp)
  movl   $0x0,0xc(%esp)
@@ -48,79 +45,69 @@
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <recvfrom>
--mov    0x10(%ebp),%edx
--mov    %eax,(%edx)
-+mov    %eax,-0x10(%ebp)
-+mov    0x10(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+mov    %edx,(%eax)
+ mov    0x10(%ebp),%edx
+ mov    %eax,(%edx)
  mov    0x10(%ebp),%eax
  mov    (%eax),%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x12d>
-+jne    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x12b>
++jne    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x127>
  call   <T> <_Z8getErrnov>
--mov    %eax,-0x1c(%ebp)
+ mov    %eax,-0x1c(%ebp)
 -mov    -0x1c(%ebp),%eax
 -cmp    $0x58,%eax
 -je     <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x88>
 -cmp    $0x68,%eax
 -je     <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0xcc>
 -jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x110>
-+mov    %eax,-0xc(%ebp)
-+cmpl   $0x58,-0xc(%ebp)
-+jne    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0xc4>
++cmpl   $0x58,-0x1c(%ebp)
++jne    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0xc0>
  movl   $"Error fd not a socket",(%esp)
  call   <T> <puts>
--movl   $0x156,0x8(%esp)
--movl   $&_ZZNK11CUdpHandler14RecvFromServerEPcPiPjPtE12__FUNCTION__,0x4(%esp)
+ movl   $0x156,0x8(%esp)
+ movl   $&_ZZNK11CUdpHandler14RecvFromServerEPcPiPjPtE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+movl   $0x1e1,0x8(%esp)
-+movl   $"RecvFromServer",0x4(%esp)
-+lea    -0x28(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"Error fd not a socket\n",0x8(%esp)
  movl   $"./log/UdpErr",0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x40(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x123>
-+jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x121>
-+cmpl   $0x68,-0xc(%ebp)
-+jne    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x10e>
++jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x11d>
++cmpl   $0x68,-0x1c(%ebp)
++jne    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x10a>
  movl   $"Error connection reset - host not reachable",(%esp)
  call   <T> <puts>
--movl   $0x15d,0x8(%esp)
--movl   $&_ZZNK11CUdpHandler14RecvFromServerEPcPiPjPtE12__FUNCTION__,0x4(%esp)
+ movl   $0x15d,0x8(%esp)
+ movl   $&_ZZNK11CUdpHandler14RecvFromServerEPcPiPjPtE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+movl   $0x1e8,0x8(%esp)
-+movl   $"RecvFromServer",0x4(%esp)
-+lea    -0x20(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"Error connection reset - host not reachable\n",0x8(%esp)
  movl   $"./log/UdpErr",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x123>
--mov    -0x1c(%ebp),%eax
-+jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x121>
-+mov    -0xc(%ebp),%eax
++jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x11d>
+ mov    -0x1c(%ebp),%eax
  mov    %eax,0x4(%esp)
  movl   $"Hm! Time out Or Socket Error = %d\n",(%esp)
  call   <T> <printf>
  mov    $0x0,%eax
 -jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x255>
-+jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x1c4>
++jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x249>
  mov    0x10(%ebp),%eax
  mov    (%eax),%eax
  test   %eax,%eax
 -jg     <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x194>
-+jg     <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x18f>
++jg     <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x18e>
  mov    0x10(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,0x4(%esp)
@@ -128,84 +115,87 @@
  call   <T> <printf>
  mov    0x10(%ebp),%eax
  mov    (%eax),%ebx
--movl   $0x16d,0x8(%esp)
--movl   $&_ZZNK11CUdpHandler14RecvFromServerEPcPiPjPtE12__FUNCTION__,0x4(%esp)
+ movl   $0x16d,0x8(%esp)
+ movl   $&_ZZNK11CUdpHandler14RecvFromServerEPcPiPjPtE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+movl   $0x1f8,0x8(%esp)
-+movl   $"RecvFromServer",0x4(%esp)
-+lea    -0x18(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"Socket closed? Recv size = %d\n",0x8(%esp)
  movl   $"./log/UdpErr",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x255>
--movzwl -0x52(%ebp),%eax
-+jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x1c4>
-+movzwl -0x3a(%ebp),%eax
++jmp    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x249>
+ movzwl -0x52(%ebp),%eax
  movzwl %ax,%eax
  mov    %eax,(%esp)
  call   <T> <ntohs>
  mov    0x18(%ebp),%edx
  mov    %ax,(%edx)
--mov    -0x50(%ebp),%eax
-+mov    -0x38(%ebp),%eax
+ mov    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <ntohl>
  mov    0x14(%ebp),%edx
  mov    %eax,(%edx)
--mov    -0x50(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <inet_ntoa>
+ mov    -0x50(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <inet_ntoa>
 -mov    %eax,-0x24(%ebp)
--mov    0xc(%ebp),%eax
++mov    %eax,-0x20(%ebp)
+ mov    0xc(%ebp),%eax
 -mov    %eax,-0x20(%ebp)
 -mov    -0x20(%ebp),%eax
--movzwl (%eax),%eax
--cmp    $0x4c8,%ax
+ movzwl (%eax),%eax
+ cmp    $0x4c8,%ax
 -je     <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x1e5>
 -mov    -0x20(%ebp),%eax
--movzwl (%eax),%eax
--cmp    $0x4c9,%ax
++je     <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x1d9>
++mov    0xc(%ebp),%eax
+ movzwl (%eax),%eax
+ cmp    $0x4c9,%ax
 -jne    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x245>
--mov    0x10(%ebp),%eax
--mov    (%eax),%edi
--mov    0x18(%ebp),%eax
--movzwl (%eax),%eax
--movzwl %ax,%esi
++jne    <T> <_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt+0x239>
+ mov    0x10(%ebp),%eax
+ mov    (%eax),%edi
+ mov    0x18(%ebp),%eax
+ movzwl (%eax),%eax
+ movzwl %ax,%esi
 -mov    -0x20(%ebp),%eax
--movzwl (%eax),%eax
--movzwl %ax,%ebx
--movl   $0x179,0x8(%esp)
--movl   $&_ZZNK11CUdpHandler14RecvFromServerEPcPiPjPtE12__FUNCTION__,0x4(%esp)
++mov    0xc(%ebp),%eax
+ movzwl (%eax),%eax
+ movzwl %ax,%ebx
+ movl   $0x179,0x8(%esp)
+ movl   $&_ZZNK11CUdpHandler14RecvFromServerEPcPiPjPtE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x18(%esp)
--mov    %esi,0x14(%esp)
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %edi,0x18(%esp)
+ mov    %esi,0x14(%esp)
 -mov    -0x24(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"PacketId(%d) Recv success! IP = %s, Port %d, Recv size = %d",0x8(%esp)
--movl   $"./log/Udp",0x4(%esp)
++mov    -0x20(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"PacketId(%d) Recv success! IP = %s, Port %d, Recv size = %d",0x8(%esp)
+ movl   $"./log/Udp",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x10(%ebp),%eax
  mov    (%eax),%eax
  add    0xc(%ebp),%eax
  movb   $0x0,(%eax)
  mov    $0x1,%eax
--add    $0x6c,%esp
-+add    $0x64,%esp
+ add    $0x6c,%esp
  pop    %ebx
--pop    %esi
--pop    %edi
+ pop    %esi
+ pop    %edi
  pop    %ebp
  ret
 ```

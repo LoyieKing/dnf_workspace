@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808797e` | `0x2c0` | `0x8072dc4` | `0x2ba` |
+| monitor | DIFF | `0x808797e` | `0x2c0` | `0x8072de2` | `0x2af` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,189 +1,187 @@
+@@ -1,189 +1,184 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -38,7 +38,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x2b9>
-+jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x2b3>
++jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x2a8>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  add    $0x10,%eax
 -mov    %eax,-0x10(%ebp)
@@ -70,7 +70,7 @@
 +lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x2b3>
++jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x2a8>
 +lea    -0x73(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN30Packet_Monitor_Add_Buddy_ReplyC1Ev>
@@ -91,7 +91,7 @@
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x17c>
 -mov    -0x14(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x1ae>
++jne    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x1a3>
 +mov    0x8(%ebp),%eax
  add    $0xe,%eax
  mov    %eax,0x4(%esp)
@@ -161,9 +161,6 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    -0x14(%ebp),%edx
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
 +mov    0x8(%ebp),%edx
  mov    0x30(%edx),%edx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%ecx
@@ -174,7 +171,7 @@
  call   <T> <_ZN21CBuddyRegisterManager16addBuddyRegisterEjj>
 -jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x186>
 -mov    -0x14(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x1b8>
++jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x1ad>
 +mov    0x8(%ebp),%eax
  movzbl 0x35(%eax),%eax
 -mov    %al,-0x3d(%ebp)
@@ -203,24 +200,20 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x2b9>
-+jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x2b3>
++jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x2a8>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x25f>
-+jne    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x259>
++jne    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x24e>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%ebx
  movl   $0x1065,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -236,7 +229,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x258>
-+jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x252>
++jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x247>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -246,7 +239,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x2b9>
-+jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x2b3>
++jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x2a8>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x106a,0x8(%esp)
@@ -262,7 +255,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x2b4>
-+jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x2ae>
++jmp    <T> <_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader+0x2a3>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -355,7 +348,7 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2779 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 2771 行）：
 
 ```cpp
 void CPacketTranslater::OnAddBuddyDBReply(PacketHeader* pkt)
@@ -399,7 +392,6 @@ void CPacketTranslater::OnAddBuddyDBReply(PacketHeader* pkt)
                             ((CServerInterface*)other->GetGameServer())->GetChannelNo();
                     }
                     reply.m_result = ((RA_U8<53>*)pkt)->v;
-                    user->GetUniqCharNo();
                     ((CBuddyRegisterManager*)((char*)m_pclApp + 0x300))
                         ->addBuddyRegister(((RA_UINT<48>*)pkt)->v,
                                            user->GetUniqCharNo());

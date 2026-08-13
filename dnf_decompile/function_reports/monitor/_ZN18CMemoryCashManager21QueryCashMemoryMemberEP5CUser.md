@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a127a` | `0x293` | `0x8097b06` | `0x289` |
+| monitor | DIFF | `0x80a127a` | `0x293` | `0x8097bb0` | `0x28a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -19,17 +19,15 @@
  push   %esi
  push   %ebx
  sub    $0x40,%esp
-+movb   $0x0,-0x21(%ebp)
  mov    0x8(%ebp),%eax
  add    $0x18,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP11CCashObjectSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
-+xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x24>
--mov    $0x0,%eax
+ je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x24>
+ mov    $0x0,%eax
 -jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x289>
-+je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x27b>
++jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x280>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser7GetDBIDEv>
@@ -62,10 +60,8 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP11CCashObjectEEptEv>
  mov    0x4(%eax),%eax
--mov    %eax,-0x24(%ebp)
--mov    -0x24(%ebp),%eax
-+mov    %eax,-0x20(%ebp)
-+mov    -0x20(%ebp),%eax
+ mov    %eax,-0x24(%ebp)
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CCashObject11GetCharacNoEv>
  mov    %eax,%ebx
@@ -73,34 +69,28 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
  cmp    %eax,%ebx
--setne  %al
-+sete   %al
+ setne  %al
  test   %al,%al
--je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0xca>
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN11CCashObject18DeleteMemberObjectEv>
--mov    $0x0,%eax
+ je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0xca>
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN11CCashObject18DeleteMemberObjectEv>
+ mov    $0x0,%eax
 -jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x289>
-+je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x27b>
++jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x280>
  mov    0x8(%ebp),%eax
  mov    0x30(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_MemberManagerEv>
--mov    %eax,-0x20(%ebp)
--mov    -0x24(%ebp),%eax
-+mov    %eax,-0x1c(%ebp)
-+mov    -0x20(%ebp),%eax
+ mov    %eax,-0x20(%ebp)
+ mov    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN11CCashObject15GetMemberObjectEv>
--mov    %eax,-0x1c(%ebp)
--cmpl   $0x0,-0x1c(%ebp)
+ mov    %eax,-0x1c(%ebp)
+ cmpl   $0x0,-0x1c(%ebp)
 -je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x23e>
--mov    -0x1c(%ebp),%eax
-+mov    %eax,-0x18(%ebp)
-+cmpl   $0x0,-0x18(%ebp)
-+je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x26c>
-+mov    -0x18(%ebp),%eax
++je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x235>
+ mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN7CMember16GetMemberDBInfoWEv>
  mov    %eax,-0x14(%ebp)
@@ -116,10 +106,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN18CMemoryCashManager22QueryUpdatedCharacNameEjRSs>
  test   %al,%al
--je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x16e>
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x163>
+ je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x16e>
  mov    -0x14(%ebp),%eax
  add    $0x5,%eax
  movl   $0x1e,0x8(%esp)
@@ -137,7 +124,7 @@
  call   <T> <strncpy>
  movl   $0x0,-0x10(%ebp)
 -jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x1fe>
-+jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x1f2>
++jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x1f5>
  mov    -0x10(%ebp),%eax
  imul   $0x27,%eax,%eax
 -add    $0x20,%eax
@@ -149,7 +136,7 @@
  mov    (%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x1f9>
-+je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x1ee>
++je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x1f1>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  lea    -0x34(%ebp),%edx
@@ -160,9 +147,7 @@
  call   <T> <_ZN18CMemoryCashManager22QueryUpdatedCharacNameEjRSs>
  test   %al,%al
 -je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x1fa>
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x1ee>
++je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x1f1>
  mov    -0xc(%ebp),%eax
  add    $0x5,%eax
  movl   $0x1e,0x8(%esp)
@@ -189,24 +174,8 @@
  test   %al,%al
 -jne    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x17a>
 -jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x233>
-+jne    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x16f>
-+mov    -0x18(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CMemberManager18LoadMemberFromCashEP5CUserP7CMember>
-+mov    %al,-0x21(%ebp)
-+cmpb   $0x0,-0x21(%ebp)
-+je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x237>
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN18CMemoryCashManager19incMemberCashHitCntEv>
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN11CCashObject17ClearMemberObjectEv>
-+jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x25f>
++jne    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x177>
++jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x22a>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x34(%ebp),%eax
@@ -219,31 +188,29 @@
  lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN11CCashObject15GetMemberObjectEv>
--mov    %eax,0x8(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0x4(%esp)
-+jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x27b>
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN11CCashObject15GetMemberObjectEv>
+ mov    %eax,0x8(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0x4(%esp)
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZN14CMemberManager18LoadMemberFromCashEP5CUserP7CMember>
--mov    %al,-0x15(%ebp)
--cmpb   $0x0,-0x15(%ebp)
+ call   <T> <_ZN14CMemberManager18LoadMemberFromCashEP5CUserP7CMember>
+ mov    %al,-0x15(%ebp)
+ cmpb   $0x0,-0x15(%ebp)
 -je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x273>
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN18CMemoryCashManager19incMemberCashHitCntEv>
--mov    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN11CCashObject17ClearMemberObjectEv>
--movzbl -0x15(%ebp),%eax
++je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x26a>
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN18CMemoryCashManager19incMemberCashHitCntEv>
+ mov    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN11CCashObject17ClearMemberObjectEv>
+ movzbl -0x15(%ebp),%eax
 -jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x289>
--mov    $0x0,%eax
-+call   <T> <_ZN11CCashObject18DeleteMemberObjectEv>
-+movb   $0x0,-0x21(%ebp)
-+movzbl -0x21(%ebp),%eax
++jmp    <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x280>
+ mov    $0x0,%eax
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
  pop    %ebx
@@ -359,55 +326,53 @@ CMemoryCashManager::_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser
 ```cpp
 char CMemoryCashManager::QueryCashMemoryMember(CUser* user)
 {
-    char ok = 0;
-    if (!m_cashObjects.empty())
+    if (m_cashObjects.empty())
     {
-        unsigned int dbid = user->GetDBID();
-        std::map<unsigned int, CCashObject*>::iterator it = m_cashObjects.find(dbid);
-        if (it != m_cashObjects.end())
+        return 0;
+    }
+    unsigned int dbid = user->GetDBID();
+    std::map<unsigned int, CCashObject*>::iterator it = m_cashObjects.find(dbid);
+    if (it != m_cashObjects.end())
+    {
+        CCashObject* obj = it->second;
+        if (obj->GetCharacNo() != user->GetUniqCharNo())
         {
-            CCashObject* obj = it->second;
-            if (obj->GetCharacNo() == user->GetUniqCharNo())
+            obj->DeleteMemberObject();
+            return 0;
+        }
+        CMemberManager* mgr = m_app->Get_MemberManager();
+        CMember* member = obj->GetMemberObject();
+        if (member != 0)
+        {
+            unsigned int* dbInfo = member->GetMemberDBInfoW();
+            std::string name;
+            if (QueryUpdatedCharacName(*dbInfo, name))
             {
-                CMemberManager* mgr = m_app->Get_MemberManager();
-                CMember* member = obj->GetMemberObject();
-                if (member != 0)
+                memset((char*)dbInfo + 5, 0, 0x1e);
+                strncpy((char*)dbInfo + 5, name.c_str(), 0x1d);
+            }
+            for (int i = 0; i < (int)((RA_U8<39>*)dbInfo)->v; i++)
+            {
+                unsigned int* sub =
+                    (unsigned int*)((char*)dbInfo + i * 0x27 + 0x28);
+                if (*sub != 0)
                 {
-                    unsigned int* dbInfo = member->GetMemberDBInfoW();
-                    std::string name;
-                    if (QueryUpdatedCharacName(*dbInfo, name))
+                    if (QueryUpdatedCharacName(*sub, name))
                     {
-                        memset((char*)dbInfo + 5, 0, 0x1e);
-                        strncpy((char*)dbInfo + 5, name.c_str(), 0x1d);
+                        memset((char*)sub + 5, 0, 0x1e);
+                        strncpy((char*)sub + 5, name.c_str(), 0x1d);
                     }
-                    for (int i = 0; i < (int)((RA_U8<39>*)dbInfo)->v; i++)
-                    {
-                        unsigned int* sub =
-                            (unsigned int*)((char*)dbInfo + i * 0x27 + 0x28);
-                        if (*sub != 0)
-                        {
-                            if (QueryUpdatedCharacName(*sub, name))
-                            {
-                                memset((char*)sub + 5, 0, 0x1e);
-                                strncpy((char*)sub + 5, name.c_str(), 0x1d);
-                            }
-                        }
-                    }
-                    ok = mgr->LoadMemberFromCash(user, member);
-                    if (ok != 0)
-                    {
-                        incMemberCashHitCnt();
-                    }
-                    obj->ClearMemberObject();
-                }
-                else
-                {
-                    obj->DeleteMemberObject();
-                    ok = 0;
                 }
             }
         }
+        char ok = mgr->LoadMemberFromCash(user, obj->GetMemberObject());
+        if (ok != 0)
+        {
+            incMemberCashHitCnt();
+        }
+        obj->ClearMemberObject();
+        return ok;
     }
-    return ok;
+    return 0;
 }
 ```

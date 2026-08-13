@@ -111,8 +111,7 @@
 +jmp    <T> <_ZN10CDBManager16OnLoadGuildCargoEjR29Packet_Guild_Load_Guild_Cargo+0x14e>
  mov    -0x10(%ebp),%eax
  mov    (%eax),%eax
--add    $0x30,%eax
-+add    $0x2c,%eax
+ add    $0x30,%eax
  mov    (%eax),%edx
  mov    0x10(%ebp),%eax
  lea    0xe(%eax),%ecx

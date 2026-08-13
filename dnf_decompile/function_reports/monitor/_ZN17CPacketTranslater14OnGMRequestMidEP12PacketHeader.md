@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80883f2` | `0x296` | `0x8073828` | `0x2d4` |
+| monitor | DIFF | `0x80883f2` | `0x296` | `0x8073832` | `0x2a1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,13 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,184 +1,204 @@
+@@ -1,184 +1,186 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
 -add    $0xffffff80,%esp
-+sub    $0x60,%esp
++sub    $0x50,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x4c>
@@ -34,7 +34,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x28f>
-+jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x2cd>
++jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x29a>
  mov    0x8(%ebp),%eax
  mov    %eax,-0x1c(%ebp)
  movl   $0x0,-0x18(%ebp)
@@ -54,7 +54,7 @@
 -test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x28e>
 -lea    -0x70(%ebp),%eax
-+je     <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x2cc>
++je     <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x299>
 +lea    -0x46(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN21Packet_GM_Request_MidC1Ev>
@@ -76,86 +76,57 @@
 +mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memcpy>
--lea    -0x2d(%ebp),%eax
-+lea    -0x31(%ebp),%eax
+ lea    -0x2d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
  mov    -0x1c(%ebp),%eax
  lea    0x16(%eax),%edx
--lea    -0x2d(%ebp),%eax
-+lea    -0x31(%ebp),%eax
+ lea    -0x2d(%ebp),%eax
  mov    %eax,0x8(%esp)
  mov    %edx,0x4(%esp)
--lea    -0x34(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x34(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x105>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x31(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x1f4>
-+lea    -0x31(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSaIcED1Ev>
-+lea    -0x4c(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsC1ERKSs>
-+lea    -0x30(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK12CUserManager17FindUser_CharNameESs>
  mov    %eax,-0x14(%ebp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x159>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x1cf>
- cmpl   $0x0,-0x14(%ebp)
+-cmpl   $0x0,-0x14(%ebp)
 -sete   %bl
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x140>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSsD1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
++jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x13a>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSsD1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x12b>
--mov    %edx,%ebx
--mov    %eax,%esi
--lea    -0x2d(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
--mov    %esi,%eax
--mov    %ebx,%edx
++jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x122>
+ mov    %edx,%ebx
+ mov    %eax,%esi
+ lea    -0x2d(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
+ mov    %esi,%eax
+ mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x1b6>
--lea    -0x2d(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSaIcED1Ev>
++jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x1c1>
+ lea    -0x2d(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNSaIcED1Ev>
 -test   %bl,%bl
 -je     <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x178>
 -movl   $0xffffffff,-0x62(%ebp)
 -movzwl -0x6e(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x18b>
++cmpl   $0x0,-0x14(%ebp)
++jne    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x17a>
 +lea    -0x46(%ebp),%eax
 +movl   $0xffffffff,0xe(%eax)
 +lea    -0x46(%ebp),%eax
@@ -169,7 +140,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x28f>
-+jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x1e4>
++jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x29a>
 +lea    -0x46(%ebp),%ebx
  mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -194,36 +165,20 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x28f>
-+jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x1e4>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x4c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x1f4>
-+lea    -0x4c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x2cd>
++jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x29a>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x232>
-+jne    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x270>
++jne    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x23d>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
--mov    (%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
-+mov    (%eax),%eax
-+mov    -0xc(%ebp),%edx
-+mov    %edx,(%esp)
-+call   *%eax
+ mov    (%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
  mov    %eax,%ebx
  movl   $0x1161,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater14OnGMRequestMidEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
@@ -237,7 +192,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x22b>
-+jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x269>
++jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x236>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -247,7 +202,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x28f>
-+jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x2cd>
++jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x29a>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x1166,0x8(%esp)
@@ -261,7 +216,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x287>
-+jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x2c5>
++jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x292>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -271,10 +226,10 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x28f>
-+jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x2cd>
++jmp    <T> <_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader+0x29a>
  nop
 -sub    $0xffffff80,%esp
-+add    $0x60,%esp
++add    $0x50,%esp
  pop    %ebx
  pop    %esi
  pop    %ebp
@@ -348,7 +303,7 @@ void CPacketTranslater::_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3017 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp)（约第 3007 行）：
 
 ```cpp
 void CPacketTranslater::OnGMRequestMid(PacketHeader* pkt)
@@ -371,8 +326,7 @@ void CPacketTranslater::OnGMRequestMid(PacketHeader* pkt)
         Packet_GM_Request_Mid reply;
         ((RA_UINT<10>*)&reply)->v = ((RA_UINT<10>*)p)->v;
         memcpy((char*)&reply + 0x16, (char*)p + 0x16, 0x1d);
-        std::string name((char*)p + 0x16);
-        target = userMgr->FindUser_CharName(name);
+        target = userMgr->FindUser_CharName((char*)p + 0x16);
         if (target == 0)
         {
             ((RA_UINT<14>*)&reply)->v = 0xffffffff;

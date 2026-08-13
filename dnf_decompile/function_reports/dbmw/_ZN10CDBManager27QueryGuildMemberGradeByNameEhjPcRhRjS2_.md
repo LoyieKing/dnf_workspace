@@ -128,8 +128,7 @@
 +jmp    <T> <_ZN10CDBManager27QueryGuildMemberGradeByNameEhjPcRhRjS2_+0x174>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
--add    $0x38,%eax
-+add    $0x58,%eax
+ add    $0x38,%eax
  mov    (%eax),%edx
  mov    0x20(%ebp),%eax
  mov    %eax,0x8(%esp)

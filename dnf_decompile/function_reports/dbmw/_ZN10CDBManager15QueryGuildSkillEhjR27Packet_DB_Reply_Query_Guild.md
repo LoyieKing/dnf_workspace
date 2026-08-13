@@ -137,8 +137,7 @@
 +jmp    <T> <_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild+0x1f6>
  mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
--add    $0x58,%eax
-+add    $0x48,%eax
+ add    $0x58,%eax
  mov    (%eax),%edx
  mov    -0xc(%ebp),%eax
  add    $0x44,%eax

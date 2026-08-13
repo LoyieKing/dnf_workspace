@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8072f1e` | `0x39a` | `0x80696c8` | `0x3b8` |
+| guild | DIFF | `0x8072f1e` | `0x39a` | `0x80696e0` | `0x3e0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,246 +1,262 @@
+@@ -1,246 +1,275 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -160,7 +160,7 @@
  call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x252>
 -lea    -0x70(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x275>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x29d>
 +lea    -0x60(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN15Packet_No_CacheC1Ev>
@@ -196,12 +196,21 @@
 -mov    -0x24(%ebp),%eax
 -mov    0xe(%eax),%eax
 -mov    %eax,-0x66(%ebp)
--mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CApplication15Get_ServerGroupEv>
--movzbl %al,%eax
++lea    -0x60(%ebp),%eax
++lea    0xa(%eax),%edx
++mov    -0x28(%ebp),%eax
++add    $0xe,%eax
++mov    (%eax),%eax
++mov    %eax,(%edx)
++lea    -0x60(%ebp),%eax
++lea    0xe(%eax),%ebx
+ mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CApplication15Get_ServerGroupEv>
+ movzbl %al,%eax
 -mov    %eax,-0x62(%ebp)
 -movl   $0x2,-0x5e(%ebp)
++mov    %eax,(%ebx)
 +lea    -0x60(%ebp),%eax
 +add    $0x12,%eax
 +movl   $0x2,(%eax)
@@ -264,7 +273,7 @@
 -mov    -0x24(%ebp),%eax
 +mov    %eax,-0x20(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
-+je     <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x3ad>
++je     <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x3d5>
 +mov    -0x28(%ebp),%eax
  add    $0xa,%eax
  mov    %eax,0x4(%esp)
@@ -278,10 +287,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild22SendGuildInfoToMembersEb>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x38f>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x3ad>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x3d5>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x335>
-+jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x353>
++jne    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x37b>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -312,7 +321,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x32e>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x34c>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x374>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -322,7 +331,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x38f>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x3ad>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x3d5>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x2ff,0x8(%esp)
@@ -338,7 +347,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x38a>
-+jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x3a8>
++jmp    <T> <_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader+0x3d0>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -450,7 +459,7 @@ void CPacketTranslater::_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHea
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 685 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 682 行）：
 
 ```cpp
 void CPacketTranslater::OnNoticeGuildSecede(PacketHeader* pkt)
@@ -479,6 +488,9 @@ void CPacketTranslater::OnNoticeGuildSecede(PacketHeader* pkt)
                 (unsigned int)m_pclApp->Get_ServerGroup() & 0xff;
             *(unsigned int*)((char*)&noCache + 0x12) = 1;
             m_pclApp->Get_ServerHandler()->SendAllTcpGameServer(&noCache);
+            *(unsigned int*)((char*)&noCache + 0xa) = *(unsigned int*)(pb + 0xe);
+            *(unsigned int*)((char*)&noCache + 0xe) =
+                (unsigned int)m_pclApp->Get_ServerGroup() & 0xff;
             *(unsigned int*)((char*)&noCache + 0x12) = 2;
             m_pclApp->Get_ServerHandler()->SendTcpGameServerFirst(&noCache);
 

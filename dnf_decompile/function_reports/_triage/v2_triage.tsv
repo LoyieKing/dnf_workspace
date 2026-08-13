@@ -6,27 +6,27 @@ dbmw	_ZL19freeAllStackBuffersv	DIFF	51	N			N	Y	source/DNFServer/GameServer/DBMW/
 dbmw	_ZN10CAppConfig11Parse_TableEPci	DIFF	1069	N			N	Y	source/DNFServer/GameServer/DBMW/DNFAppConfig.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN10CDBManager10InsertMailEjPcS0_jjii	DIFF	73	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild	DIFF	335	N			N	N		0	NEEDS_REVERSE	source location missing from md
-dbmw	_ZN10CDBManager11GuildSecedeEP30Packet_DB_Request_Guild_SecedeRjS2_S2_	DIFF	1108	N			N	N		0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager11GuildSecedeEP30Packet_DB_Request_Guild_SecedeRjS2_S2_	DIFF	1102	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member	DIFF	1104	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN10CDBManager12InsertLetterEjjPKcS1_Ril	DIFF	73	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly	DIFF	19	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRh	DIFF	118	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly	DIFF	43	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit	DIFF	30	N			N	N		0	NEEDS_REVERSE	source location missing from md
-dbmw	_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild	DIFF	90	N			N	N		0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild	DIFF	88	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh	DIFF	136	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager15SendGuildLetterEijPc	DIFF	215	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo	DIFF	315	N			N	N		0	NEEDS_REVERSE	source location missing from md
-dbmw	_ZN10CDBManager16OnLoadGuildCargoEjR29Packet_Guild_Load_Guild_Cargo	DIFF	47	N			N	N		0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager16OnLoadGuildCargoEjR29Packet_Guild_Load_Guild_Cargo	DIFF	45	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_	DIFF	576	N			Y	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member	DIFF	68	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager16SaveMemberDeleteEjjh	DIFF	47	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager16SaveMemberInsertEjjh	DIFF	264	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo	DIFF	242	N			N	N		0	NEEDS_REVERSE	source location missing from md
-dbmw	_ZN10CDBManager17QueryGuildBootingER38Packet_DB_Query_Reply_On_Guild_Bootingi	DIFF	44	N			N	N		0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager17QueryGuildBootingER38Packet_DB_Query_Reply_On_Guild_Bootingi	DIFF	38	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic	DIFF	626	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager17QueryReloadSpecDbEP38Packet_Frame_Lag_Statistic_Reload_SpecP17CStatisticsServer	DIFF	546	N			N	N		0	NEEDS_REVERSE	source location missing from md
-dbmw	_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_	DIFF	179	N			N	N		0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_	DIFF	157	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager18selectCollectItemsEhRiS0_RjRh	DIFF	327	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager18updateCollectItemsEhijh	DIFF	93	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager19GuildMasterDelegateEijjjjPc	DIFF	135	N			N	N		0	NEEDS_REVERSE	source location missing from md
@@ -35,13 +35,13 @@ dbmw	_ZN10CDBManager19QuerySubGuildMasterEhjR27Packet_DB_Reply_Query_Guild	DIFF	
 dbmw	_ZN10CDBManager19RegisterToBlackListEjjPc	DIFF	225	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_	DIFF	70	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic	DIFF	45	N			N	N		0	NEEDS_REVERSE	source location missing from md
-dbmw	_ZN10CDBManager20OnWriteWebGuildBoardEP44Packet_DB_Load_Request_Web_Guild_Board_WriteP18STGuildBoardDBInfo	DIFF	83	N			N	N		0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager20OnWriteWebGuildBoardEP44Packet_DB_Load_Request_Web_Guild_Board_WriteP18STGuildBoardDBInfo	DIFF	77	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer	DIFF	481	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager20updateCollectItemsGmEhiij	DIFF	68	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager21AwardGuildTitleByMailEijjPcj	DIFF	72	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager21OnLoadPeriodicMessageEP28Packet_Load_Periodic_MessageP38Packet_Result_Loading_Periodic_Message	DIFF	44	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic	DIFF	211	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN10CDBManager21QueryGuildMemberProxyEjjR18STGuildMemberProxy	DIFF	60	N			N	N		0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager21QueryGuildMemberProxyEjjR18STGuildMemberProxy	DIFF	54	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager21QueryGuildNotiMessageEhjR27Packet_DB_Reply_Query_Guild	DIFF	24	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member	DIFF	185	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager21SaveGuildWarPointListEiPjS0_	DIFF	55	N			N	N		0	NEEDS_REVERSE	source location missing from md
@@ -61,7 +61,7 @@ dbmw	_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj	NEAR	52	
 dbmw	_ZN10CDBManager24OnManagerEventTriggerAckEP32Packet_Manager_Event_Trigger_Ack	DIFF	73	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point	DIFF	155	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic	DIFF	245	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic	DIFF	9	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic	DIFF	7	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN10CDBManager24SaveUnchangableGuildInfoEP33Packet_UnChangable_GuildInfo_Save	DIFF	342	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB	DIFF	111	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer	DIFF	58	N			N	N		0	NEEDS_REVERSE	source location missing from md
@@ -69,12 +69,12 @@ dbmw	_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Inde
 dbmw	_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History	DIFF	161	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic	DIFF	146	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager25OnSavePowerWarPointRewardEP37Packet_DB_Save_Power_War_Point_Reward	DIFF	64	N			N	N		0	NEEDS_REVERSE	source location missing from md
-dbmw	_ZN10CDBManager25QueryGuildAllMembersProxyEjP18STGuildMemberProxyRt	DIFF	164	N			N	N		0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager25QueryGuildAllMembersProxyEjP18STGuildMemberProxyRt	DIFF	146	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update	DIFF	58	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager25QueryPartyStatisticCreateEP35Packet_DBMW_Dungeon_Statistic_Party	DIFF	1071	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker	DIFF	94	N			N	N		0	NEEDS_REVERSE	source location missing from md
-dbmw	_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy	DIFF	974	N			N	N		0	NEEDS_REVERSE	source location missing from md
-dbmw	_ZN10CDBManager27QueryGuildMemberGradeByNameEhjPcRhRjS2_	DIFF	38	N			N	N		0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy	DIFF	954	N			N	N		0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager27QueryGuildMemberGradeByNameEhjPcRhRjS2_	DIFF	36	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager27UpdateCreateEmblemStatisticEP33Packet_Emblem_Create_Statistic_DB	DIFF	74	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query	DIFF	135	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job	DIFF	613	N			N	N		0	NEEDS_REVERSE	source location missing from md
@@ -90,9 +90,7 @@ dbmw	_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_D
 dbmw	_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party	DIFF	484	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi	DIFF	125	N			N	N		0	NEEDS_REVERSE	source location missing from md
 dbmw	_ZN12CApplication15TranslateSignalEv	DIFF	75	N			N	Y	source/DNFServer/GameServer/DBMW/DNFApplication.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN12CApplication4FreeEv	DIFF	36	N			N	Y	source/DNFServer/GameServer/DBMW/DNFApplication.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN12CApplication4LoadEiPPc	DIFF	18	N			N	Y	source/DNFServer/GameServer/DBMW/DNFApplication.cpp	1	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN12CApplication7ProcessEv	DIFF	44	N			N	Y	source/DNFServer/GameServer/DBMW/DNFApplication.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN13CPacketTracer21WritePacketProcessLogEv	DIFF	51	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp	1	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN13CPacketTracerC1Ev	DIFF	7	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp	2	CODEGEN_TAIL	very small structural diff
 dbmw	_ZN13CPacketTracerC2Ev	DIFF	7	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTracer.cpp	2	CODEGEN_TAIL	very small structural diff
@@ -112,7 +110,7 @@ dbmw	_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader	DIFF	165	N			N	Y	source
 dbmw	_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader	DIFF	237	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader	DIFF	122	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader	DIFF	24	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader	DIFF	140	N			Y	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
+dbmw	_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader	DIFF	200	N			Y	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 dbmw	_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader	DIFF	111	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater17OnSendGuildLetterEP12PacketHeader	DIFF	32	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater18OnQueryGuildMemberEP12PacketHeader	DIFF	8	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	very small structural diff
@@ -121,23 +119,22 @@ dbmw	_ZN17CPacketTranslater20OnRequestGuildCreateEP12PacketHeader	DIFF	66	N			N	
 dbmw	_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader	DIFF	32	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater20onQueryTowerFullRankEP12PacketHeader	DIFF	282	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader	DIFF	131	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader	DIFF	53	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader	DIFF	52	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader	DIFF	23	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader	DIFF	284	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader	DIFF	364	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader	DIFF	180	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader	DIFF	72	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader	DIFF	84	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader	DIFF	161	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader	DIFF	81	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN17CPacketTranslater25OnRequestApproveJoinGuildEP12PacketHeader	DIFF	140	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater25OnRequestApproveJoinGuildEP12PacketHeader	DIFF	136	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater25OnRequestBlackListOnLoginEP12PacketHeader	DIFF	80	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader	DIFF	92	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader	DIFF	37	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader	DIFF	454	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader	DIFF	92	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN17CPacketTranslater31OnDBLoadRequestGuildBoardDeleteEP12PacketHeader	DIFF	20	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	very small structural diff
+dbmw	_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader	DIFF	453	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader	DIFF	90	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader	DIFF	10	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	very small structural diff
-dbmw	_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader	DIFF	84	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader	DIFF	82	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader	DIFF	195	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN17CTcpNetworkThread8dispatchEPv	DIFF	169	N			N	Y	source/DNFServer/GameServer/DBMW/DNFTcpNetworkThread.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN18CFrameCountHandler17GetFrameCountInfoEv	DIFF	209	N			Y	Y	source/DNFServer/GameServer/DBMW/DNFTickHandler.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
@@ -149,7 +146,6 @@ dbmw	_ZN6CMySql11blob_to_strEiPvi	DIFF	39	N			N	Y	source/DNFServer/GameServer/DB
 dbmw	_ZN6CMySql4execEj	DIFF	15	N			N	Y	source/DNFServer/GameServer/DBMW/DNFMySql.cpp	5	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN6CMySql4openEPKcS1_S1_S1_	DIFF	11	N			N	Y	source/DNFServer/GameServer/DBMW/DNFMySql.cpp	3	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN6CMySql4openEPKcjS1_S1_S1_	DIFF	11	N			N	Y	source/DNFServer/GameServer/DBMW/DNFMySql.h	3	CONST_OR_OFFSET	immediate/field/stack offset present
-dbmw	_ZN8WongWork11CGMAccounts4isGMEj	NEAR	12	Y			N	Y	source/DNFServer/GameServer/DBMW/GMAccounts.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
 guild	_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser	DIFF	148	N			N	N		0	NEEDS_REVERSE	source location missing from md
 guild	_ZN11CGuildBoard27sendMessageToDBMW_GuildFundEP14CServerHandleriP5CUser	DIFF	131	N			Y	Y	source/DNFServer/GameServer/Guild/GuildBoard.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 guild	_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser	DIFF	95	N			Y	N		0	NEEDS_REVERSE	source location missing from md
@@ -175,14 +171,13 @@ guild	_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer	DIFF	4
 guild	_ZN13CAppStartInit4InitEP12CApplicationiPPc	DIFF	30	N			N	Y	source/DNFServer/GameServer/Guild/DNFAppStartInit.cpp	4	NEEDS_REVERSE	large mixed structural diff
 guild	_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter	DIFF	27	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuildManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN13CGuildManager11GuildSecedeEjR22ST_Notice_Guild_Secede	DIFF	17	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuildManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN13CGuildManager13GuildMemLoginEjP5CUser	DIFF	77	N	_ZN12CApplication16Get_GuildManagerEv|_ZN12CApplication17Get_ServerHandlerEv		N	Y	source/DNFServer/GameServer/Guild/DNFGuildManager.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN13CGuildManager13GuildMemLoginEjP5CUser	DIFF	5	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuildManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb	DIFF	46	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuildManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN13CGuildManager14GuildMemLogoutEjP5CUser	DIFF	38	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuildManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN13CGuildManager16GetAttendanceExpEji	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Guild/DNFGuildManager.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
 guild	_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo	DIFF	56	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuildManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN13CPowerManager18SaveDBPowerWarRankEv	DIFF	515	N			N	Y	source/DNFServer/GameServer/Guild/PowerManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN13CPowerManager23SendPowerWarProcessInfoEj	DIFF	6	Y			N	Y	source/DNFServer/GameServer/Guild/PowerManager.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-guild	_ZN13CPowerManager24RewardGuildPowerWarPointEv	DIFF	155	N	_ZN12CApplication16Get_GuildManagerEv		N	Y	source/DNFServer/GameServer/Guild/PowerManager.cpp	0	CALL_DIFF	real call set differs
 guild	_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc	DIFF	161	N			N	Y	source/DNFServer/GameServer/Guild/PowerManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN13CTcpNetSystem10SendPacketEv	NEAR	52	Y			N	Y	source/DNFServer/GameServer/Guild/TcpNetSystem.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
 guild	_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE	DIFF	3	N			N	N		0	NEEDS_REVERSE	source location missing from md
@@ -192,7 +187,7 @@ guild	_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader	DIFF	27	N			N	Y	source/DNFSe
 guild	_ZN14CPacketDecoderC1Ev	DIFF	6	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp	4	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN14CPacketDecoderC2Ev	DIFF	6	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketDecoder.cpp	4	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN14CServerHandler7ProcessEv	DIFF	169	N			N	Y	source/DNFServer/GameServer/Guild/DNFServerHandler.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN17CPacketTranslater12OnGuildCargoEP12PacketHeader	DIFF	308	N	_ZN6CGuild13GetGuildCargoEv		N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN17CPacketTranslater12OnGuildCargoEP12PacketHeader	DIFF	280	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater15OnBuyGuildSkillEP12PacketHeader	DIFF	60	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 guild	_ZN17CPacketTranslater15OnCallGuildInfoEP12PacketHeader	DIFF	289	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 guild	_ZN17CPacketTranslater15OnDBMWGuildJoinEP12PacketHeader	DIFF	233	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
@@ -200,7 +195,7 @@ guild	_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader	DIFF	389	N			N	Y	s
 guild	_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader	DIFF	260	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater17OnCallGuildInviteEP12PacketHeader	DIFF	583	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater17OnChangeGuildNameEP12PacketHeader	DIFF	359	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader	DIFF	208	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader	DIFF	84	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 guild	_ZN17CPacketTranslater17OnCreateGuildAgitEP12PacketHeader	DIFF	211	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
 guild	_ZN17CPacketTranslater17OnDBLoadGuildAgitEP12PacketHeader	DIFF	80	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater17OnDeleteGuildAgitEP12PacketHeader	DIFF	257	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
@@ -209,9 +204,9 @@ guild	_ZN17CPacketTranslater17OnReplyQueryGuildEP12PacketHeader	DIFF	119	N	_ZN10
 guild	_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader	DIFF	174	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
 guild	_ZN17CPacketTranslater18OnCallGuildLevelUpEP12PacketHeader	DIFF	214	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater18OnCallGuildMembersEP12PacketHeader	DIFF	400	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-guild	_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader	DIFF	192	N	_ZN12CApplication17Get_ServerHandlerEv		N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader	DIFF	156	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater18OnIncreaseGuildExpEP12PacketHeader	DIFF	425	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader	DIFF	109	N	_ZN12CApplication17Get_ServerHandlerEv		N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader	DIFF	97	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater18OnNoticeGuildEnterEP12PacketHeader	DIFF	129	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater18OnRefreshGuildInfoEP12PacketHeader	DIFF	111	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
 guild	_ZN17CPacketTranslater18OnReplyGuildInviteEP12PacketHeader	DIFF	577	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
@@ -220,20 +215,20 @@ guild	_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader	DIFF	211	N	_ZN1
 guild	_ZN17CPacketTranslater19OnDBCreateGuildAgitEP12PacketHeader	DIFF	246	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 guild	_ZN17CPacketTranslater19OnDBDeleteGuildAgitEP12PacketHeader	DIFF	186	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 guild	_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader	DIFF	123	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader	DIFF	222	N		_ZN35Packet_Guild_Cargo_History_ResponseD1Ev	Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
-guild	_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader	DIFF	622	N	_ZN6CGuild13GetGuildCargoEv	_ZN12CApplication17Get_ServerHandlerEv	N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN17CPacketTranslater19OnGuildCargoHistoryEP12PacketHeader	DIFF	215	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN17CPacketTranslater19OnGuildCargoPopItemEP12PacketHeader	DIFF	607	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater19OnGuildCargoUpgradeEP12PacketHeader	DIFF	506	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater19OnNoticeGuildCreateEP12PacketHeader	DIFF	253	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-guild	_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader	DIFF	170	N	_ZN12CApplication15Get_ServerGroupEv		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN17CPacketTranslater19OnNoticeGuildSecedeEP12PacketHeader	DIFF	175	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 guild	_ZN17CPacketTranslater19OnNoticeGuildWarEndEP12PacketHeader	DIFF	426	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 guild	_ZN17CPacketTranslater19OnPacketSecedePowerEP12PacketHeader	DIFF	428	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater20OnDBReplyGuildCreateEP12PacketHeader	DIFF	275	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater20OnDBReplyGuildSecedeEP12PacketHeader	DIFF	462	N	_ZN12CApplication15Get_ServerGroupEv|_ZN6CGuild12GetGuildNameEv		N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
 guild	_ZN17CPacketTranslater20OnDBUpgradeGuildAgitEP12PacketHeader	DIFF	166	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 guild	_ZN17CPacketTranslater20OnGuildCargoMoveItemEP12PacketHeader	DIFF	503	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN17CPacketTranslater20OnGuildCargoPushItemEP12PacketHeader	DIFF	657	N	_ZN6CGuild13GetGuildCargoEv		N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN17CPacketTranslater20OnGuildCargoPushItemEP12PacketHeader	DIFF	621	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater20OnNoticeGuildChatMsgEP12PacketHeader	DIFF	251	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-guild	_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader	DIFF	125	N	_ZN12CApplication15Get_ServerGroupEv		N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN17CPacketTranslater20OnNoticeGuildDismissEP12PacketHeader	DIFF	105	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater20OnRequestGuildCreateEP12PacketHeader	DIFF	191	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader	DIFF	334	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater20OnWebGuildBoardWriteEP12PacketHeader	DIFF	152	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
@@ -250,10 +245,10 @@ guild	_ZN17CPacketTranslater23OnNoticeGuildMailArriveEP12PacketHeader	DIFF	72	N	
 guild	_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader	DIFF	32	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater24OnChangeGuildNameFromWebEP12PacketHeader	DIFF	161	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
 guild	_ZN17CPacketTranslater24OnDBReplyGuildAllMembersEP12PacketHeader	DIFF	342	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-guild	_ZN17CPacketTranslater24OnMonitorSendGuildLetterEP12PacketHeader	DIFF	364	N	_ZN5CUser13GetGameServerEv		N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN17CPacketTranslater24OnMonitorSendGuildLetterEP12PacketHeader	DIFF	327	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader	DIFF	216	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater25OnDBReplyQueryGuildMemberEP12PacketHeader	DIFF	286	N		_ZN13CDNFExceptionC1ERKSs|_ZNSaIcEC1Ev|_ZNSsC1EPKcRKSaIcE	Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
-guild	_ZN17CPacketTranslater25OnGuildCargoCheckPushItemEP12PacketHeader	DIFF	458	N	_ZN6CGuild13GetGuildCargoEv		N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN17CPacketTranslater25OnGuildCargoCheckPushItemEP12PacketHeader	DIFF	398	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater25OnUpdateChangableCharInfoEP12PacketHeader	DIFF	72	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater26OnDBMWReplySendGuildLetterEP12PacketHeader	DIFF	220	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 guild	_ZN17CPacketTranslater26OnDBReplyUnconnGuildMemberEP12PacketHeader	DIFF	234	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
@@ -274,14 +269,14 @@ guild	_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader	DIF
 guild	_ZN17CPacketTranslater30OnGuildRequestGuildBoardDeleteEP12PacketHeader	DIFF	140	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
 guild	_ZN17CPacketTranslater31OnDBLoadReplyWebGuildBoardWriteEP12PacketHeader	DIFF	126	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
 guild	_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader	DIFF	157	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
-guild	_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader	DIFF	399	N	_ZN12CApplication14Get_UdpHandlerEv|_ZN13CDNFExceptionC1ERKSs|_ZNK11CUdpHandler12SendToClientEPcitPKcj|_ZNSaIcEC1Ev|_ZNSsC1EPKcRKSaIcE|strerror		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN17CPacketTranslater35OnCheckGuildMemberConnectionFromWebEP12PacketHeader	DIFF	312	N	_ZN13CDNFExceptionC1ERKSs|_ZNSaIcEC1Ev|_ZNSaIcED1Ev|_ZNSsC1EPKcRKSaIcE|_ZNSsD1Ev		Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
 guild	_ZN17CPacketTranslater39OnDBMWChangeUnconnectedGuildMemberGradeEP12PacketHeader	DIFF	355	N			Y	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 guild	_ZN17CPacketTranslater7OnLoginEP12PacketHeader	DIFF	27	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	2	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater8OnLogoutEP12PacketHeader	DIFF	348	N		_ZNSsC1ERKSs	N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
 guild	_ZN17CPacketTranslater9GuildJoinEP6CGuildP15STGuildJoinInfoj	DIFF	62	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CPacketTranslater9GuildJoinEP6CGuildP5CUserj	DIFF	53	N			N	Y	source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN17CTcpNetworkThread8dispatchEPv	DIFF	53	N			N	Y	source/DNFServer/GameServer/Guild/DNFTcpNetworkThread.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN17CUdpNetworkThread8dispatchEPv	DIFF	679	N	_ZN13CDNFExceptionC1ERKSs|_ZNSaIcEC1Ev|_ZNSaIcED1Ev|_ZNSsC1EPKcRKSaIcE|_ZNSsD1Ev		Y	Y	source/DNFServer/GameServer/Guild/DNFNetworkThread.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN17CUdpNetworkThread8dispatchEPv	DIFF	676	N	_ZN13CDNFExceptionC1ERKSs|_ZNSaIcEC1Ev|_ZNSaIcED1Ev|_ZNSsC1EPKcRKSaIcE|_ZNSsD1Ev		Y	Y	source/DNFServer/GameServer/Guild/DNFNetworkThread.cpp	0	CALL_DIFF	real call set differs
 guild	_ZN18CFrameCountHandler11SaveProcessEi	NEAR	4	Y			N	Y	source/DNFServer/GameServer/Guild/DNFTickHandler.cpp	6	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
 guild	_ZN18CFrameCountHandler11SaveProcessEv	NEAR	4	Y			N	Y	source/DNFServer/GameServer/Guild/DNFTickHandler.cpp	6	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
 guild	_ZN18CFrameCountHandler17GetFrameCountInfoEv	DIFF	306	N			Y	Y	source/DNFServer/GameServer/Guild/DNFTickHandler.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
@@ -304,7 +299,7 @@ guild	_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser	DIFF	113	N			N	Y	source/
 guild	_ZN6CGuild13BuyGuildSkillEiisj	DIFF	257	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser	DIFF	120	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj	DIFF	84	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN6CGuild17InsertGuildMemberEjP5CUser	DIFF	10	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+guild	_ZN6CGuild17InsertGuildMemberEjP5CUser	DIFF	13	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN6CGuild17ReplyGuildMembersEP5CUser	DIFF	683	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede	DIFF	104	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 guild	_ZN6CGuild17SetSubGuildMasterEjb	DIFF	26	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuild.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
@@ -406,7 +401,7 @@ monitor	_ZN14CPacketDecoder9MsgDecodeEP12PacketHeader	DIFF	116	N			N	Y	source/DN
 monitor	_ZN14CServerHandler20GetTcpGameServerByChEh	DIFF	14	N			N	Y	source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader	DIFF	17	N			N	Y	source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp	4	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeaderi	DIFF	16	N			N	Y	source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp	2	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN14CServerHandler7ProcessEv	DIFF	225	N	_ZN12CTcpDBServer5GetIPEv|_ZN17CTcpManagerServer5GetIPEv		N	Y	source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp	0	CALL_DIFF	real call set differs
+monitor	_ZN14CServerHandler7ProcessEv	DIFF	207	N			N	Y	source/DNFServer/GameServer/Monitor/DNFServerHandler.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN15exchange_server18CCacheCharacterMgr14CollectGarbageEv	DIFF	51	N			N	Y	source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN15init_accusation22CInitAccusationListMgr11setScheduleERKb	DIFF	45	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFApplication.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 monitor	_ZN16CDNFProhibitUser20IsTimeOutConnectableEv	DIFF	12	N			N	Y	source/DNFServer/GameServer/Monitor/DNFProhibitUserC5.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
@@ -421,120 +416,82 @@ monitor	_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CU
 monitor	_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv	DIFF	48	N			Y	Y	source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 monitor	_ZN16village_attacked23CVillageAttackedManager25SendRequestRevengeDungeonEPc	DIFF	13	N			N	Y	source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN16village_attacked23CVillageAttackedManager34OnServerGroupRewardVillageAttackedEv	DIFF	165	N			Y	Y	source/DNFServer/GameServer/Monitor/VillageAttackedManager.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-monitor	_ZN17CPacketTranslater10OnAddBuddyEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater10OnDelBuddyEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater10OnEventEndEP12PacketHeader	NEAR	16	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader	DIFF	588	N		_ZN5CUser11GetCharNameEv	N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
-monitor	_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader	DIFF	48	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	3	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater11OnUserRepelEP12PacketHeader	DIFF	86	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader	DIFF	26	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater12OnEventStartEP12PacketHeader	DIFF	84	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater12OnForbidChatEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater12OnSetARSInfoEP12PacketHeader	NEAR	16	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater13OnNoticeSlangEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater14OnBroadcastMsgEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader	DIFF	142	N		_ZNSsC1ERKSs	N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
-monitor	_ZN17CPacketTranslater14OnMemberSecedeEP12PacketHeader	DIFF	358	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader	DIFF	232	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater15OnNoticeMessageEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader	DIFF	277	N	_ZN5CUser22GetUpperMemberExpLevelEv|_ZNK7CMember21GetUpperMember_CharIdEv		N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
-monitor	_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader	DIFF	497	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater16OnCallMemberListEP12PacketHeader	DIFF	435	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader	DIFF	236	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader	DIFF	136	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater11OnCharLoginEP12PacketHeader	DIFF	520	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater11OnHeartBeatEP12PacketHeader	DIFF	32	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	3	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater11OnUserRepelEP12PacketHeader	DIFF	70	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater12OnCeraUpdateEP12PacketHeader	DIFF	10	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	very small structural diff
+monitor	_ZN17CPacketTranslater12OnEventStartEP12PacketHeader	DIFF	68	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater14OnGMRequestMidEP12PacketHeader	DIFF	70	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater14OnMemberSecedeEP12PacketHeader	DIFF	342	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater14onCollectItemsEP12PacketHeader	DIFF	224	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater15OnPayTaxToUpperEP12PacketHeader	DIFF	264	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater15OnReplyUserInfoEP12PacketHeader	DIFF	481	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater16OnCallMemberListEP12PacketHeader	DIFF	419	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater16OnChangeCharNameEP12PacketHeader	DIFF	228	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater16OnLogoutCompleteEP12PacketHeader	DIFF	120	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN17CPacketTranslater16OnPvPChannelInfoEP12PacketHeader	DIFF	116	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader	DIFF	104	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater16onCollectItemsGmEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader	DIFF	148	N		_ZN5CUser13GetUniqCharNoEv	N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
-monitor	_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader	DIFF	92	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader	DIFF	147	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader	DIFF	225	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater17OnWebNoticeSingleEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
+monitor	_ZN17CPacketTranslater16OnTakeScreenShotEP12PacketHeader	DIFF	88	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater17OnAddBuddyDBReplyEP12PacketHeader	DIFF	137	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater17OnCharacterDeleteEP12PacketHeader	DIFF	76	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater17OnDelBuddyDBReplyEP12PacketHeader	DIFF	139	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater17OnEventItemUpdateEP12PacketHeader	DIFF	209	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader	DIFF	158	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader	DIFF	242	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater18OnMemberEnterReplyEP12PacketHeader	DIFF	918	N		_ZN5CUser22GetMemberEnterCallerIdEv	N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
-monitor	_ZN17CPacketTranslater18OnRegisterEventIdxEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater18OnReplyQueryMemberEP12PacketHeader	NEAR	16	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater18OnRequestBlackListEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader	DIFF	190	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-monitor	_ZN17CPacketTranslater18onIPCounterControlEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader	DIFF	242	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader	DIFF	105	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader	DIFF	171	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater19OnServerMessageInfoEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater19OnWebNoticeInGameADEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader	DIFF	125	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater19OnWebRequestARSInfoEP12PacketHeader	DIFF	24	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater19onLoadCleanPadPointEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater19onLoadPunishUserReqEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater19onReloadCountryCodeEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater20OnExchangeServerInfoEP12PacketHeader	DIFF	87	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader	DIFF	465	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater20onCollectItemsResultEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater21OnMonitorPunishCancelEP12PacketHeader	DIFF	190	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-monitor	_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader	DIFF	175	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
+monitor	_ZN17CPacketTranslater18OnInnerPacketLoginEP12PacketHeader	DIFF	234	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater18OnMemberEnterReplyEP12PacketHeader	DIFF	897	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater18OnSetCleanPadPointEP12PacketHeader	DIFF	174	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
+monitor	_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader	DIFF	234	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater19OnInnerPacketLogoutEP12PacketHeader	DIFF	97	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater19OnRegisterEventItemEP12PacketHeader	DIFF	165	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater19OnWebQueryUserStateEP12PacketHeader	DIFF	117	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater19OnWebRequestARSInfoEP12PacketHeader	DIFF	8	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	very small structural diff
+monitor	_ZN17CPacketTranslater20OnExchangeServerInfoEP12PacketHeader	DIFF	81	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater20OnRequestMemberEnterEP12PacketHeader	DIFF	449	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater21OnMonitorPunishCancelEP12PacketHeader	DIFF	174	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
+monitor	_ZN17CPacketTranslater21OnNoticeMemberChatMsgEP12PacketHeader	DIFF	159	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 monitor	_ZN17CPacketTranslater21OnPvPChannelUserCountEP12PacketHeader	DIFF	90	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader	DIFF	278	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader	DIFF	100	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-monitor	_ZN17CPacketTranslater21OnUserRepelByCharNameEP12PacketHeader	DIFF	232	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater22OnRegisterEventUserIdxEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader	DIFF	94	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater22RequestBlackListToDBMWEj	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader	DIFF	109	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader	DIFF	270	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater21OnUpdateMiniCraneSeedEP12PacketHeader	DIFF	92	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
+monitor	_ZN17CPacketTranslater21OnUserRepelByCharNameEP12PacketHeader	DIFF	216	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater22OnRelayServerUserCheckEP12PacketHeader	DIFF	86	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater23OnDBMWDeleteToBlackListEP12PacketHeader	DIFF	101	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN17CPacketTranslater23OnFindCharacName_useUIDEP12PacketHeader	DIFF	96	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader	DIFF	134	N		_ZN5CUser13GetUniqCharNoEv	N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
-monitor	_ZN17CPacketTranslater23OnResponseIPCounterListEP12PacketHeader	NEAR	16	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader	DIFF	405	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater24OnResultRegisterEventIdxEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader	DIFF	132	N	_ZN12CApplication12getTowerRankEv		N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
-monitor	_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader	DIFF	225	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater25OnMonitorManagerConnectOKEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater25OnUpdateChangableCharInfoEP12PacketHeader	NEAR	16	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader	DIFF	288	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater26OnVillageAttackedGMCommandEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader	DIFF	99	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater26onRequestReloadTowerRankerEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
+monitor	_ZN17CPacketTranslater23OnQueryBuddyInfoDBReplyEP12PacketHeader	DIFF	123	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater24OnNoticeCharLiveOnTenMinEP12PacketHeader	DIFF	397	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater24onReplyLoadTowerFullRankEP12PacketHeader	DIFF	88	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater25OnDBMWResisterToBlackListEP12PacketHeader	DIFF	217	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater25onItemLimitEditionSellEndEP12PacketHeader	DIFF	280	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater26OnWebEmergencyPatchMessageEP12PacketHeader	DIFF	91	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader	DIFF	10	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN17CPacketTranslater27OnCheckOverlappedAccusationEP12PacketHeader	DIFF	155	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-monitor	_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader	DIFF	253	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader	DIFF	185	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-monitor	_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader	DIFF	708	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater27OnNoticeProhibitConnectUserEP12PacketHeader	DIFF	603	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater27OnResponseFullIPCounterListEP12PacketHeader	NEAR	16	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater27OnResultLoadPeriodicMessageEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader	DIFF	61	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater27onSocialEventRewardItemInfoEP12PacketHeader	DIFF	199	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater28onLoadBlackIPMonitorDeleteIPEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater28onLoadBlackIPMonitorPartLoadEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater28onWebReqReloadAutoPunishRuleEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater29OnRequestReloadPowerWarRankerEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP12PacketHeader	DIFF	148	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader	DIFF	304	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater29onSocialEventRewardItemUpdateEP12PacketHeader	DIFF	118	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader	DIFF	140	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader	DIFF	58	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater30OnNoticeMemberChatMsgHyperLinkEP12PacketHeader	DIFF	179	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-monitor	_ZN17CPacketTranslater30onReloadSecurityRestrictPolicyEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader	DIFF	86	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader	DIFF	165	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
-monitor	_ZN17CPacketTranslater30onSocialEventRewardItemRequestEP12PacketHeader	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader	DIFF	186	N		_ZNSsC1ERKSs|_ZNSsD1Ev	N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CALL_DIFF	real call set differs
-monitor	_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader	DIFF	177	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater32onItemLimitEditionBuyableRequestEP12PacketHeader	DIFF	141	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader	DIFF	880	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater7OnLoginEP12PacketHeader	DIFF	545	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN17CPacketTranslater8OnLogoutEP12PacketHeader	DIFF	609	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater27OnMonitorFindFactoryHubUserEP12PacketHeader	DIFF	237	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater27OnMonitorSecuServiceConnWebEP12PacketHeader	DIFF	169	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
+monitor	_ZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeader	DIFF	700	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater27OnNoticeProhibitConnectUserEP12PacketHeader	DIFF	595	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater27OnVillageMonsterFightResultEP12PacketHeader	DIFF	53	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater27onSocialEventRewardItemInfoEP12PacketHeader	DIFF	191	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater29onItemLimitEditionLoadDataReqEP12PacketHeader	DIFF	140	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater29onItemLimitEditionLoadDataRpyEP12PacketHeader	DIFF	296	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater29onSocialEventRewardItemUpdateEP12PacketHeader	DIFF	110	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater30OnDBMWResponseBlackListOnLoginEP12PacketHeader	DIFF	132	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater30OnGameMonitorGMVillageAttackedEP12PacketHeader	DIFF	50	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater30OnNoticeMemberChatMsgHyperLinkEP12PacketHeader	DIFF	163	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
+monitor	_ZN17CPacketTranslater30onRequestCharacTowerUpdateRankEP12PacketHeader	DIFF	80	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater30onSocialEventRewardItemInfoAllEP12PacketHeader	DIFF	157	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
+monitor	_ZN17CPacketTranslater31onRequestCharacInfoByCharacNameEP12PacketHeader	DIFF	122	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater31onSocialEventRewardItemResponseEP12PacketHeader	DIFF	169	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater32onItemLimitEditionBuyableRequestEP12PacketHeader	DIFF	133	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater36OnNoticeOtherChannelChatMsgHyperLinkEP12PacketHeader	DIFF	872	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater7OnLoginEP12PacketHeader	DIFF	539	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN17CPacketTranslater8OnLogoutEP12PacketHeader	DIFF	593	N			N	Y	source/DNFServer/GameServer/Monitor/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN17CTcpManagerServer13SendTcpPacketEP12PacketHeader	DIFF	16	N			N	Y	source/DNFServer/GameServer/Monitor/DNFManagerServer.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN17CTcpNetworkThread8dispatchEPv	DIFF	100	N			N	Y	source/DNFServer/GameServer/Monitor/DNFTcpNetworkThread.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN17CUdpNetworkThread8dispatchEPv	DIFF	523	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFNetworkThread.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 monitor	_ZN18CFrameCountHandler17GetFrameCountInfoEv	DIFF	247	N			Y	Y	source/DNFServer/GameServer/Monitor/DNFTickHandler.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 monitor	_ZN18CMemoryCashManager18ProcessLifeTimeOutEv	DIFF	14	N			N	Y	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	0	CODEGEN_TAIL	very small structural diff
 monitor	_ZN18CMemoryCashManager20ProcessCashDataPrintEv	NEAR	44	Y			N	Y	source/DNFServer/GameServer/Monitor/MemoryCashManagerC5.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser	DIFF	93	N	_ZN11CCashObject15GetMemberObjectEv		N	Y	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	0	CALL_DIFF	real call set differs
-monitor	_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser	DIFF	55	N			N	Y	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser	DIFF	134	N	_ZN6CBuddy14getBuddyDBInfoEv	_ZN5CUser13GetUniqCharNoEv	N	Y	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	0	CALL_DIFF	real call set differs
+monitor	_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser	DIFF	27	N			N	Y	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN18CMemoryCashManager24QueryCashMemoryBlackListEP5CUser	DIFF	53	N			N	Y	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN18CMemoryCashManager24QueryCashMemoryBuddyInfoEP5CUser	DIFF	24	N			N	Y	source/DNFServer/GameServer/Monitor/MemoryCashManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 monitor	_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUserP7CMemberRbS4_	DIFF	67	N			N	N		0	NEEDS_REVERSE	source location missing from md
 monitor	_ZN19COnTimeEventManager10StartEventEjj	DIFF	31	N			Y	Y	source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 monitor	_ZN19COnTimeEventManager11OnRewardEndEv	DIFF	18	N			N	Y	source/DNFServer/GameServer/Monitor/OnTimeEventManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
@@ -566,10 +523,10 @@ monitor	_ZN7CMember28NoticeChatMsgToMemberMembersEPciP5CUser	DIFF	101	N			N	Y	so
 monitor	_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser	DIFF	134	N			N	N		0	NEEDS_REVERSE	source location missing from md
 monitor	_ZN8WongWork11CGMAccounts12AppendGM_SysEjc	NEAR	14	Y			N	Y	source/DNFServer/GameServer/Monitor/GMAccounts.cpp	2	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
 monitor	_ZN9TCPSocket7connectEPKct	DIFF	16	N			N	Y	source/DNFServer/GameServer/Monitor/DNFTcpSocket.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-monitor	_ZNK11CUdpHandler12SendToClientEPcitPKcj	DIFF	92	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		N	N		0	CALL_DIFF	real call set differs
+monitor	_ZNK11CUdpHandler12SendToClientEPcitPKcj	DIFF	82	N			N	N		0	NEEDS_REVERSE	source location missing from md
 monitor	_ZNK11CUdpHandler12SendToServerEPcitPKc	DIFF	2	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp	15	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
-monitor	_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt	DIFF	64	N			N	N		0	NEEDS_REVERSE	source location missing from md
-monitor	_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt	DIFF	115	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z|inet_ntoa		N	N		0	CALL_DIFF	real call set differs
+monitor	_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt	DIFF	66	N			N	N		0	NEEDS_REVERSE	source location missing from md
+monitor	_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt	DIFF	58	N			N	N		0	NEEDS_REVERSE	source location missing from md
 monitor	_ZNK17CItemLimitEdition12makeItemInfoER28stItemLimitEditionItemInfo_t	DIFF	6	Y			N	Y	source/DNFServer/GameServer/Monitor/ItemLimitEditionManager.cpp	5	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
 monitor	_ZNK20CItemLimitEditionMgr32makeItemLimitEditionUpdatePacketER32Packet_Item_Limit_Edition_Update	DIFF	45	N			N	N		5	NEEDS_REVERSE	source location missing from md
 monitor	_ZNK20CItemLimitEditionMgr35makeItemLimitEditionSellStartPacketER36Packet_Item_Limit_Edition_Sell_Start	DIFF	5	N			N	N		5	NEEDS_REVERSE	source location missing from md
@@ -594,10 +551,10 @@ statics	_ZN16StatisticManager28SendDBHellPartyStatisticItemEP14CServerHandler	DI
 statics	_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job	DIFF	111	N			N	Y	source/DNFServer/GameServer/Statics/Statistics.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 statics	_ZN16StatisticManager30AddLoadingTimeReportStatisticsEP37Packet_Loading_Time_Report_Statistics	DIFF	685	N			N	Y	source/DNFServer/GameServer/Statics/Statistics.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 statics	_ZN16StatisticManager30SendDBDeathTowerValueStatisticEP14CServerHandler	DIFF	97	N			N	Y	source/DNFServer/GameServer/Statics/Statistics.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-statics	_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add	DIFF	249	N			N	N		0	NEEDS_REVERSE	source location missing from md
+statics	_ZN16StatisticManager31WriteUserTingTImeCheckStatisticEP40Packet_User_Ting_TimeCheck_Statistic_Add	DIFF	67	N			N	N		0	NEEDS_REVERSE	source location missing from md
 statics	_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler	DIFF	37	N			N	Y	source/DNFServer/GameServer/Statics/Statistics.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 statics	_ZN16StatisticManager32WriteDungeonPartyCharacStatisticEP37Packet_Dungeon_Statistic_Party_Charac	DIFF	125	N			N	Y	source/DNFServer/GameServer/Statics/Statistics.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
-statics	_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job	DIFF	89	N			N	N		0	NEEDS_REVERSE	source location missing from md
+statics	_ZN16StatisticManager35WriteDeathTowerPlayDataJobStatisticEP40Packet_DeathTower_Statistic_Playdata_Job	DIFF	85	N			N	N		0	NEEDS_REVERSE	source location missing from md
 statics	_ZN16StatisticManager36SendDBDeathTowerPlayDataJobStatisticEP14CServerHandler	DIFF	261	N			N	Y	source/DNFServer/GameServer/Statics/Statistics.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
 statics	_ZN16StatisticManager37WriteDeathTowerPlayDataPartyStatisticEP42Packet_DeathTower_Statistic_Playdata_Party	DIFF	81	N			N	N		0	NEEDS_REVERSE	source location missing from md
 statics	_ZN16StatisticManager38SendDBDeathTowerPlayDataPartyStatisticEP14CServerHandler	DIFF	104	N			N	Y	source/DNFServer/GameServer/Statics/Statistics.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

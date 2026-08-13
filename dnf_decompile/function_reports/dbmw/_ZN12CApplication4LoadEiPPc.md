@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x806baea` | `0x5d0` | `0x806cf5c` | `0x5d0` |
+| dbmw | DIFF | `0x806baea` | `0x5d0` | `0x806cf5e` | `0x5d0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -603,7 +603,7 @@ CApplication::_ZN12CApplication4LoadEiPPc(CApplication *this,int param_1,char **
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 109 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFApplication.cpp](source/DNFServer/GameServer/DBMW/DNFApplication.cpp)（约第 110 行）：
 
 ```cpp
 void CApplication::Load(int argc, char** argv)

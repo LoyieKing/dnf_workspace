@@ -130,8 +130,7 @@
 +jmp    <T> <_ZN10CDBManager21QueryGuildMemberProxyEjjR18STGuildMemberProxy+0x221>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
--add    $0x50,%eax
-+add    $0x58,%eax
+ add    $0x50,%eax
  mov    (%eax),%edx
  mov    0x14(%ebp),%eax
  add    $0x22,%eax
@@ -171,8 +170,7 @@
 +jmp    <T> <_ZN10CDBManager21QueryGuildMemberProxyEjjR18STGuildMemberProxy+0x221>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
--add    $0x50,%eax
-+add    $0x58,%eax
+ add    $0x50,%eax
  mov    (%eax),%edx
  mov    0x14(%ebp),%eax
  add    $0x23,%eax
@@ -192,8 +190,7 @@
 +jmp    <T> <_ZN10CDBManager21QueryGuildMemberProxyEjjR18STGuildMemberProxy+0x221>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
--add    $0x50,%eax
-+add    $0x58,%eax
+ add    $0x50,%eax
  mov    (%eax),%edx
  mov    0x14(%ebp),%eax
  add    $0x26,%eax

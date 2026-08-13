@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809e6a0` | `0x252` | `0x80d0c3c` | `0x243` |
+| dbmw | DIFF | `0x809e6a0` | `0x252` | `0x80d0c4c` | `0x23e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,145 +1,143 @@
+@@ -1,145 +1,141 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,7 +22,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x247>
-+je     <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x238>
++je     <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x233>
  mov    0x8(%ebp),%eax
 -mov    %eax,-0x18(%ebp)
 +mov    %eax,-0x14(%ebp)
@@ -60,9 +60,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN38Packet_DB_Load_Reply_Guild_Board_WriteC1Ev>
 -mov    -0x18(%ebp),%eax
-+setne  %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0xd5>
++je     <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0xd0>
 +mov    -0x14(%ebp),%eax
  mov    0xb(%eax),%eax
 -mov    %eax,-0x182(%ebp)
@@ -91,7 +89,7 @@
  call   <T> <_ZN12CGuildServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x248>
 -mov    -0x18(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x239>
++jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x234>
 +mov    -0x14(%ebp),%eax
  mov    0xb(%eax),%ebx
  movl   $0xfbc,0x8(%esp)
@@ -132,10 +130,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN12CGuildServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x248>
-+jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x239>
++jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x234>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x1eb>
-+jne    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x1dc>
++jne    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x1d7>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -161,7 +159,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x1e4>
-+jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x1d5>
++jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x1d0>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -171,7 +169,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x248>
-+jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x239>
++jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x234>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xfcd,0x8(%esp)
@@ -187,7 +185,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x240>
-+jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x231>
++jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x22c>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -197,7 +195,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x248>
-+jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x239>
++jmp    <T> <_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader+0x234>
  nop
  add    $0x1b0,%esp
  pop    %ebx

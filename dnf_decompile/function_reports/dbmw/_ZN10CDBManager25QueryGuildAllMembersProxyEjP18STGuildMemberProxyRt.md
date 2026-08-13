@@ -162,17 +162,14 @@
 -je     <T> <_ZN10CDBManager25QueryGuildAllMembersProxyEjP18STGuildMemberProxyRt+0x1bd>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager25QueryGuildAllMembersProxyEjP18STGuildMemberProxyRt+0x3c9>
--mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x50,%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager25QueryGuildAllMembersProxyEjP18STGuildMemberProxyRt+0x1a1>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager25QueryGuildAllMembersProxyEjP18STGuildMemberProxyRt+0x37c>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x58,%eax
+ mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x50,%eax
  mov    (%eax),%ecx
  mov    -0xc(%ebp),%edx
  mov    %edx,%eax
@@ -219,17 +216,14 @@
 -je     <T> <_ZN10CDBManager25QueryGuildAllMembersProxyEjP18STGuildMemberProxyRt+0x249>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager25QueryGuildAllMembersProxyEjP18STGuildMemberProxyRt+0x3c9>
--mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x50,%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager25QueryGuildAllMembersProxyEjP18STGuildMemberProxyRt+0x21f>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager25QueryGuildAllMembersProxyEjP18STGuildMemberProxyRt+0x37c>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x58,%eax
+ mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x50,%eax
  mov    (%eax),%ecx
  mov    -0xc(%ebp),%edx
  mov    %edx,%eax
@@ -249,17 +243,14 @@
 -je     <T> <_ZN10CDBManager25QueryGuildAllMembersProxyEjP18STGuildMemberProxyRt+0x28f>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager25QueryGuildAllMembersProxyEjP18STGuildMemberProxyRt+0x3c9>
--mov    -0x10(%ebp),%eax
--mov    (%eax),%eax
--add    $0x50,%eax
 +xor    $0x1,%eax
 +test   %al,%al
 +je     <T> <_ZN10CDBManager25QueryGuildAllMembersProxyEjP18STGuildMemberProxyRt+0x25e>
 +mov    $0x0,%eax
 +jmp    <T> <_ZN10CDBManager25QueryGuildAllMembersProxyEjP18STGuildMemberProxyRt+0x37c>
-+mov    -0x10(%ebp),%eax
-+mov    (%eax),%eax
-+add    $0x58,%eax
+ mov    -0x10(%ebp),%eax
+ mov    (%eax),%eax
+ add    $0x50,%eax
  mov    (%eax),%ecx
  mov    -0xc(%ebp),%edx
  mov    %edx,%eax
