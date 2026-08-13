@@ -146,7 +146,7 @@ dbmw	_ZN6CMySql11blob_to_strEiPvi	DIFF	39	N			N	Y	source/DNFServer/GameServer/DB
 dbmw	_ZN6CMySql4execEj	DIFF	15	N			N	Y	source/DNFServer/GameServer/DBMW/DNFMySql.cpp	5	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN6CMySql4openEPKcS1_S1_S1_	DIFF	11	N			N	Y	source/DNFServer/GameServer/DBMW/DNFMySql.cpp	3	CONST_OR_OFFSET	immediate/field/stack offset present
 dbmw	_ZN6CMySql4openEPKcjS1_S1_S1_	DIFF	11	N			N	Y	source/DNFServer/GameServer/DBMW/DNFMySql.h	3	CONST_OR_OFFSET	immediate/field/stack offset present
-guild	_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser	DIFF	148	N			N	N		0	NEEDS_REVERSE	source location missing from md
+guild	_ZN11CGuildBoard18sendGuildBoardDataEjjjP5CUser	DIFF	146	N			N	N		0	NEEDS_REVERSE	source location missing from md
 guild	_ZN11CGuildBoard27sendMessageToDBMW_GuildFundEP14CServerHandleriP5CUser	DIFF	131	N			Y	Y	source/DNFServer/GameServer/Guild/GuildBoard.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
 guild	_ZN11CGuildBoard30sendMessageToDBMW_GuildLevelUPEP14CServerHandleriP5CUser	DIFF	95	N			Y	N		0	NEEDS_REVERSE	source location missing from md
 guild	_ZN11CGuildBoard37sendMessageToDBMW_GuildMasterChangingEP14CServerHandlerP5CUserPKc	DIFF	85	N			Y	N		0	NEEDS_REVERSE	source location missing from md
