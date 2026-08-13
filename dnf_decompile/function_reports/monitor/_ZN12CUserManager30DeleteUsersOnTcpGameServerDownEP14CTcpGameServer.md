@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8070982` | `0x2f9` | `0x808b7c2` | `0x305` |
+| monitor | DIFF | `0x8070982` | `0x2f9` | `0x808b7ac` | `0x2fa` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,222 +1,225 @@
+@@ -1,222 +1,222 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -26,7 +26,7 @@
  je     <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x23>
  mov    $0x0,%eax
 -jmp    <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x2f4>
-+jmp    <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x300>
++jmp    <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x2f5>
  mov    0x8(%ebp),%eax
  lea    0x30(%eax),%edx
 -lea    -0x2c(%ebp),%eax
@@ -171,7 +171,7 @@
  sub    $0x4,%esp
 -jmp    <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x2bd>
 -lea    -0x34(%ebp),%eax
-+jmp    <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x2c9>
++jmp    <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x2be>
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -179,7 +179,7 @@
  mov    %eax,-0x10(%ebp)
  cmpl   $0x0,-0x10(%ebp)
 -je     <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x2bd>
-+je     <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x2c9>
++je     <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x2be>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser16GetTcpGameServerEv>
@@ -187,7 +187,7 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x2b2>
-+je     <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x2be>
++je     <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x2b3>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -208,11 +208,11 @@
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser7GetDBIDEv>
--mov    0x8(%ebp),%edx
--mov    0x78(%edx),%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZN12CApplication19Call_ResetBlackListEj>
+ mov    0x8(%ebp),%edx
+ mov    0x78(%edx),%edx
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZN12CApplication19Call_ResetBlackListEj>
  mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -220,21 +220,13 @@
  mov    0x78(%edx),%edx
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
-+call   <T> <_ZN12CApplication19Call_ResetBlackListEj>
-+mov    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    0x8(%ebp),%edx
-+mov    0x78(%edx),%edx
-+mov    %eax,0x4(%esp)
-+mov    %edx,(%esp)
  call   <T> <_ZN12CApplication19Call_ResetBuddyListEj>
 +cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x28a>
++je     <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x27f>
  mov    -0x10(%ebp),%ebx
  test   %ebx,%ebx
 -je     <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x27e>
-+je     <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x28a>
++je     <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x27f>
  mov    %ebx,(%esp)
  call   <T> <_ZN5CUserD1Ev>
  mov    %ebx,(%esp)
@@ -252,7 +244,7 @@
 +mov    %eax,0x4(%esp)
 +mov    %edx,(%esp)
 +call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5eraseESt17_Rb_tree_iteratorIS6_E>
-+jmp    <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x2c9>
++jmp    <T> <_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer+0x2be>
 +lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEppEv>
@@ -455,7 +447,7 @@ CUserManager::_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 238 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 237 行）：
 
 ```cpp
 int CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer)
@@ -505,8 +497,7 @@ int CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer)
                 {
                     m_app->Call_DeleteMember(key, user);
                 }
-                user->GetDBID();
-                m_app->Call_ResetBlackList(user->GetUniqCharNo());
+                m_app->Call_ResetBlackList(user->GetDBID());
                 m_app->Call_ResetBuddyList(user->GetUniqCharNo());
                 if (user != 0)
                 {

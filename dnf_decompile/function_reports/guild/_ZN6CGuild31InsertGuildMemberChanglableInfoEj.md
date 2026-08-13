@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091578` | `0x6b` | `0x8057224` | `0x74` |
+| guild | NEAR | `0x8091578` | `0x6b` | `0x8057224` | `0x6b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,21 +13,19 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,31 +1,34 @@
+@@ -1,31 +1,31 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x38,%esp
-+push   %ebx
-+sub    $0x84,%esp
-+lea    -0x78(%ebp),%ebx
++sub    $0x78,%esp
  movl   $0x0,(%esp)
  call   <T> <time>
 -mov    %eax,-0x24(%ebp)
 -lea    -0x10(%ebp),%eax
 -lea    -0x24(%ebp),%edx
-+mov    %eax,(%ebx)
++mov    %eax,-0x5c(%ebp)
++lea    -0x5c(%ebp),%edx
 +lea    -0x2c(%ebp),%eax
-+lea    -0x78(%ebp),%edx
  mov    %edx,0x8(%esp)
  lea    0xc(%ebp),%edx
  mov    %edx,0x4(%esp)
@@ -54,7 +52,6 @@
  sub    $0x4,%esp
 -movzbl -0x1c(%ebp),%eax
 +movzbl -0x54(%ebp),%eax
-+mov    -0x4(%ebp),%ebx
  leave
  ret
 ```
@@ -91,9 +88,8 @@ undefined1 CGuild::_ZN6CGuild31InsertGuildMemberChanglableInfoEj(uint param_1)
 ```cpp
 bool CGuild::InsertGuildMemberChanglableInfo(unsigned int charNo)
 {
-    STGuildMemberChangableInfo info;
-    // ORIG：仅写首 dword = time(0)，其余字段保持未初始化；insert 不覆盖已存在项
-    *(unsigned int*)((char*)&info + 0) = time(0);
-    return m_changable.insert(std::make_pair(charNo, info)).second;
+    unsigned int timeVal = time(0);
+    // ORIG：仅把 time(0) 的首 dword 当作 changable 信息传入；其余字段 ORIG 未初始化/不使用。
+    return m_changable.insert(std::make_pair(charNo, *(STGuildMemberChangableInfo*)&timeVal)).second;
 }
 ```

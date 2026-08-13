@@ -1,0 +1,4 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+monitor	_ZN22LimitNpcBuyItemManager10registItemER15NpcBuyLimitItem	DIFF	4	N			N	Y	source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp	2	CODEGEN_TAIL	very small structural diff
+monitor	_ZN22LimitNpcBuyItemManager23getNpcLimitBuyItemCountEjR25LimitNpcBuyItemChangeInfo	DIFF	22	N			N	N	source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp	0	NEEDS_REVERSE	source location missing from md
+monitor	_ZN22LimitNpcBuyItemManager25getNpcLimitBuyItemInfoAllEP22LimitNpcBuyItemInfoAll	DIFF	92	N			N	Y	source/DNFServer/GameServer/Monitor/LimitNpcBuyItem.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

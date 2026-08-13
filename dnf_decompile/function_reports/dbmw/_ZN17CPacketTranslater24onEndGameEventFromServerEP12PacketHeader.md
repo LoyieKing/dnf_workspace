@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80a0db8` | `0x23b` | `0x80d5062` | `0x235` |
+| dbmw | DIFF | `0x80a0db8` | `0x23b` | `0x80d50d2` | `0x235` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -261,7 +261,7 @@ void CPacketTranslater::_ZN17CPacketTranslater24onEndGameEventFromServerEP12Pack
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1273 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1330 行）：
 
 ```cpp
 void CPacketTranslater::onEndGameEventFromServer(PacketHeader* header)

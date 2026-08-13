@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8070540` | `0x333` | `0x8070512` | `0x32f` |
+| statics | DIFF | `0x8070540` | `0x333` | `0x80706ac` | `0x32f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -21,8 +21,9 @@
  sub    $0x650,%esp
  cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x328>
+-lea    -0x642(%ebp),%eax
 +je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x324>
- lea    -0x642(%ebp),%eax
++lea    -0x63e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN18STAssertManagerKeyC1Ev>
  mov    0xc(%ebp),%eax
@@ -31,20 +32,23 @@
  add    $0xe,%edx
  mov    %eax,0x8(%esp)
  mov    %edx,0x4(%esp)
- lea    -0x642(%ebp),%eax
+-lea    -0x642(%ebp),%eax
++lea    -0x63e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    0xc(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    %eax,0x8(%esp)
- lea    -0x642(%ebp),%eax
+-lea    -0x642(%ebp),%eax
++lea    -0x63e(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16StatisticManager9AMDecryptEPvj>
  mov    0xc(%ebp),%eax
  movzwl 0x10e(%eax),%eax
- mov    %ax,-0x542(%ebp)
+-mov    %ax,-0x542(%ebp)
++mov    %ax,-0x53e(%ebp)
  mov    0xc(%ebp),%eax
  mov    0x110(%eax),%eax
  test   %eax,%eax
@@ -59,14 +63,16 @@
  add    $0x114,%edx
  mov    %eax,0x8(%esp)
  mov    %edx,0x4(%esp)
- lea    -0x642(%ebp),%eax
+-lea    -0x642(%ebp),%eax
++lea    -0x63e(%ebp),%eax
  add    $0x102,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
  mov    0xc(%ebp),%eax
  mov    0x110(%eax),%eax
  mov    %eax,0x8(%esp)
- lea    -0x642(%ebp),%eax
+-lea    -0x642(%ebp),%eax
++lea    -0x63e(%ebp),%eax
  add    $0x102,%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -74,15 +80,18 @@
  call   <T> <_ZN16StatisticManager9AMDecryptEPvj>
  movl   $0x2b5,0x8(%esp)
  movl   $&_ZZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_InfoE12__FUNCTION__,0x4(%esp)
- lea    -0x43c(%ebp),%eax
+-lea    -0x43c(%ebp),%eax
++lea    -0x438(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
- lea    -0x642(%ebp),%eax
+-lea    -0x642(%ebp),%eax
++lea    -0x63e(%ebp),%eax
  add    $0x102,%eax
  mov    %eax,0xc(%esp)
  movl   $"[AssertManager] Reason(%s)",0x8(%esp)
  movl   $"./log/Statistic",0x4(%esp)
- lea    -0x43c(%ebp),%eax
+-lea    -0x43c(%ebp),%eax
++lea    -0x438(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    0x8(%ebp),%eax
@@ -95,20 +104,24 @@
  je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x194>
  movl   $0x2ba,0x8(%esp)
  movl   $&_ZZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_InfoE12__FUNCTION__,0x4(%esp)
- lea    -0x434(%ebp),%eax
+-lea    -0x434(%ebp),%eax
++lea    -0x430(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"[AssertManager] Map 100 Over!!!",0x8(%esp)
  movl   $"./log/Statistic",0x4(%esp)
- lea    -0x434(%ebp),%eax
+-lea    -0x434(%ebp),%eax
++lea    -0x430(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x318>
 +jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x314>
  mov    0x8(%ebp),%eax
  lea    0xe0(%eax),%ecx
- lea    -0x440(%ebp),%eax
- lea    -0x642(%ebp),%edx
+-lea    -0x440(%ebp),%eax
+-lea    -0x642(%ebp),%edx
++lea    -0x43c(%ebp),%eax
++lea    -0x63e(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -122,14 +135,17 @@
  jne    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x20a>
  mov    0x8(%ebp),%eax
  lea    0xe0(%eax),%edx
- lea    -0x42c(%ebp),%eax
+-lea    -0x42c(%ebp),%eax
++lea    -0x428(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI18STAssertManagerKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE3endEv>
  sub    $0x4,%esp
- lea    -0x42c(%ebp),%eax
+-lea    -0x42c(%ebp),%eax
++lea    -0x428(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x440(%ebp),%eax
+-lea    -0x440(%ebp),%eax
++lea    -0x43c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEeqERKS4_>
  test   %al,%al
@@ -139,31 +155,40 @@
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2d5>
+-movl   $0x1,-0x10(%ebp)
+-lea    -0x218(%ebp),%eax
+-lea    -0x10(%ebp),%edx
 +je     <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2d7>
- movl   $0x1,-0x10(%ebp)
- lea    -0x218(%ebp),%eax
- lea    -0x10(%ebp),%edx
++movl   $0x1,-0xc(%ebp)
++lea    -0x214(%ebp),%eax
++lea    -0xc(%ebp),%edx
  mov    %edx,0x8(%esp)
- lea    -0x642(%ebp),%edx
+-lea    -0x642(%ebp),%edx
++lea    -0x63e(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZSt9make_pairIR18STAssertManagerKeyiESt4pairINSt17__decay_and_stripIT_E6__typeENS3_IT0_E6__typeEEOS4_OS7_>
  sub    $0x4,%esp
- lea    -0x218(%ebp),%eax
+-lea    -0x218(%ebp),%eax
++lea    -0x214(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x420(%ebp),%eax
+-lea    -0x420(%ebp),%eax
++lea    -0x41c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIK18STAssertManagerKeyiEC1IS0_iEEOS_IT_T0_E>
  mov    0x8(%ebp),%eax
  lea    0xe0(%eax),%ecx
- lea    -0x428(%ebp),%eax
- lea    -0x420(%ebp),%edx
+-lea    -0x428(%ebp),%eax
+-lea    -0x420(%ebp),%edx
++lea    -0x424(%ebp),%eax
++lea    -0x41c(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI18STAssertManagerKeyiSt4lessIS0_ESaISt4pairIKS0_iEEE6insertERKS5_>
  sub    $0x4,%esp
- lea    -0x420(%ebp),%eax
+-lea    -0x420(%ebp),%eax
++lea    -0x41c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIK18STAssertManagerKeyiED1Ev>
 -lea    -0x218(%ebp),%eax
@@ -173,7 +198,8 @@
 +jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2c7>
  mov    %edx,%ebx
  mov    %eax,%esi
- lea    -0x420(%ebp),%eax
+-lea    -0x420(%ebp),%eax
++lea    -0x41c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIK18STAssertManagerKeyiED1Ev>
  mov    %esi,%eax
@@ -182,18 +208,20 @@
 +jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2af>
  mov    %edx,%ebx
  mov    %eax,%esi
- lea    -0x218(%ebp),%eax
+-lea    -0x218(%ebp),%eax
++lea    -0x214(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairI18STAssertManagerKeyiED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2fa>
+-lea    -0x440(%ebp),%eax
 +jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x2f6>
-+lea    -0x218(%ebp),%eax
++lea    -0x214(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt4pairI18STAssertManagerKeyiED1Ev>
 +jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x314>
- lea    -0x440(%ebp),%eax
++lea    -0x43c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK18STAssertManagerKeyiEEptEv>
 -add    $0x204,%eax
@@ -210,14 +238,16 @@
 +jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x314>
  mov    %edx,%ebx
  mov    %eax,%esi
- lea    -0x642(%ebp),%eax
+-lea    -0x642(%ebp),%eax
++lea    -0x63e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN18STAssertManagerKeyD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
- lea    -0x642(%ebp),%eax
+-lea    -0x642(%ebp),%eax
++lea    -0x63e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN18STAssertManagerKeyD1Ev>
 -jmp    <T> <_ZN16StatisticManager27WriteAssertManagerStatisticEP26Packet_Assert_Manager_Info+0x329>
@@ -331,7 +361,7 @@ LAB_08070858:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 602 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 621 行）：
 
 ```cpp
 void StatisticManager::WriteAssertManagerStatistic(Packet_Assert_Manager_Info* pkt)
@@ -348,7 +378,6 @@ void StatisticManager::WriteAssertManagerStatistic(Packet_Assert_Manager_Info* p
         unsigned short m_f10e;
         int m_f110;
     };
-    int m_padFrame;
     STAssertManagerKey key;
     memcpy(key.m_str0, (char*)pkt + 0xe, ((Wire*)pkt)->m_f0a);
     AMDecrypt(key.m_str0, ((Wire*)pkt)->m_f0a);

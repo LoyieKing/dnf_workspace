@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8070f7a` | `0x1a5` | `0x8070f40` | `0x1ba` |
+| statics | DIFF | `0x8070f7a` | `0x1a5` | `0x80710da` | `0x1bd` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -29,7 +29,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x1a0>
-+je     <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x1b5>
++je     <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x1b8>
  mov    0x8(%ebp),%eax
  lea    0xf8(%eax),%edx
  lea    -0x24(%ebp),%eax
@@ -39,7 +39,7 @@
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x10a>
 -mov    -0xc(%ebp),%ebx
-+jmp    <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x11a>
++jmp    <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x11d>
 +lea    -0x1822(%ebp),%eax
 +mov    -0xc(%ebp),%edx
 +shl    $0x3,%edx
@@ -70,11 +70,11 @@
 -test   %al,%al
 -je     <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0xff>
 -movl   $0x2fe,-0x1818(%ebp)
-+cmpl   $0x63,-0xc(%ebp)
-+jle    <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x10f>
++cmpl   $0x2fd,-0xc(%ebp)
++jle    <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x112>
 +lea    -0x1822(%ebp),%eax
 +add    $0xa,%eax
-+movl   $0x64,(%eax)
++movl   $0x2fe,(%eax)
  lea    -0x1822(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0xc(%ebp),%eax
@@ -112,7 +112,7 @@
  jne    <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x5a>
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x1a0>
-+je     <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x1b5>
++je     <T> <_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CServerHandler+0x1b8>
 +lea    -0x1822(%ebp),%eax
 +lea    0xa(%eax),%edx
  mov    -0xc(%ebp),%eax
@@ -220,7 +220,7 @@ StatisticManager::_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CSe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 752 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 769 行）：
 
 ```cpp
 void StatisticManager::SendDBUserTingTimeCheckStatistic(CServerHandler* handler)
@@ -235,9 +235,9 @@ void StatisticManager::SendDBUserTingTimeCheckStatistic(CServerHandler* handler)
             *(unsigned int*)((char*)&pkt + 0xe + idx * 8) = it->first.m_field0;
             *(int*)((char*)&pkt + 0xe + idx * 8 + 4) = it->second;
             idx++;
-            if (99 < idx)
+            if (0x2fd < idx)
             {
-                *(unsigned int*)((char*)&pkt + 0xa) = 100;
+                *(unsigned int*)((char*)&pkt + 0xa) = 0x2fe;
                 handler->SendToDB((PacketHeader*)&pkt);
                 DNF_LOG_SCOPE_LINE(0x34c, "./log/Statistic", "Packet_DBMW_User_Ting_TimeCheck_Write_Query : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb", idx);
                 idx = 0;

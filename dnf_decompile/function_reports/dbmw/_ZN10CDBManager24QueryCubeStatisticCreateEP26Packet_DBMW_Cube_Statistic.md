@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807f03c` | `0x3db` | `0x805fb12` | `0x344` |
+| dbmw | DIFF | `0x807f03c` | `0x3db` | `0x805fb66` | `0x344` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -43,17 +43,15 @@
 +mov    (%eax),%eax
 +mov    %eax,-0x24(%ebp)
  movl   $0x1872,0x8(%esp)
--movl   $&_ZZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_StatisticE12__FUNCTION__,0x4(%esp)
+ movl   $&_ZZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_StatisticE12__FUNCTION__,0x4(%esp)
 -lea    -0x40(%ebp),%eax
-+movl   $"QueryCubeStatisticCreate",0x4(%esp)
 +lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    -0x20(%ebp),%eax
 +mov    -0x24(%ebp),%eax
  mov    %eax,0xc(%esp)
--movl   $"CDBManager::QueryCubeStatisticCreate : (%d) 개 패킷 수신\n",0x8(%esp)
-+movl   $"CDBManager::QueryCubeStatisticCreate : (%d) 째쨀 횈횖횇쨋 쩌철쩍횇\n",0x8(%esp)
+ movl   $"CDBManager::QueryCubeStatisticCreate : (%d) 개 패킷 수신\n",0x8(%esp)
  movl   $"./log/statistic",0x4(%esp)
 -lea    -0x40(%ebp),%eax
 +lea    -0x34(%ebp),%eax
@@ -503,7 +501,7 @@ LAB_0807f3ff:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 5092 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 5236 行）：
 
 ```cpp
 char CDBManager::QueryCubeStatisticCreate(Packet_DBMW_Cube_Statistic* packet)
@@ -513,9 +511,9 @@ char CDBManager::QueryCubeStatisticCreate(Packet_DBMW_Cube_Statistic* packet)
     if (!h)
         return 0;
     int count = *(int*)((char*)packet + 0xa);
-    CMyFileLog slog("QueryCubeStatisticCreate", 0x1872);
+    CMyFileLog slog(__FUNCTION__, 0x1872);
     slog("./log/statistic",
-         "CDBManager::QueryCubeStatisticCreate : (%d) °³ ÆÐÅ¶ ¼ö½Å\n", count);
+         "CDBManager::QueryCubeStatisticCreate : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xbc\xf6\xbd\xc5\n", count);
     char buf[0x800] = {0};
     std::string str;
     for (int i = 0; i < count; i++)

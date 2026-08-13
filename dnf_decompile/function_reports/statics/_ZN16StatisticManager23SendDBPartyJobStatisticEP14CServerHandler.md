@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806f39e` | `0x3a3` | `0x806f5ee` | `0x378` |
+| statics | DIFF | `0x806f39e` | `0x3a3` | `0x806f556` | `0x3a7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,257 +1,245 @@
+@@ -1,257 +1,259 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -29,7 +29,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x39e>
-+je     <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x373>
++je     <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x3a2>
  mov    0x8(%ebp),%eax
  lea    0x50(%eax),%edx
  lea    -0x24(%ebp),%eax
@@ -38,7 +38,7 @@
  call   <T> <_ZNSt3mapI22STPartyJobStatisticKey17PartyJobStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x30b>
-+jmp    <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x2e0>
++jmp    <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x30f>
  mov    -0xc(%ebp),%ebx
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -193,8 +193,7 @@
  lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEptEv>
--mov    0x18(%eax),%edx
-+mov    0x1c(%eax),%edx
+ mov    0x18(%eax),%edx
  mov    %ebx,%eax
  shl    $0x2,%eax
  add    %ebx,%eax
@@ -204,20 +203,22 @@
  lea    (%ecx,%eax,1),%eax
  sub    $0x17d5,%eax
  mov    %edx,0xf(%eax)
--mov    -0xc(%ebp),%ebx
--lea    -0x24(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEptEv>
--mov    0x1c(%eax),%edx
--mov    %ebx,%eax
--shl    $0x2,%eax
--add    %ebx,%eax
--lea    0x0(,%eax,4),%ecx
--add    %ecx,%eax
--lea    -0x8(%ebp),%ecx
--lea    (%ecx,%eax,1),%eax
+ mov    -0xc(%ebp),%ebx
+ lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEptEv>
+ mov    0x1c(%eax),%edx
+ mov    %ebx,%eax
+ shl    $0x2,%eax
+ add    %ebx,%eax
+ lea    0x0(,%eax,4),%ecx
+ add    %ecx,%eax
+ lea    -0x8(%ebp),%ecx
+ lea    (%ecx,%eax,1),%eax
 -sub    $0x17d5,%eax
 -mov    %edx,0x13(%eax)
++sub    $0x17d1,%eax
++mov    %edx,0xf(%eax)
  addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    $0xf2,%eax
@@ -225,7 +226,7 @@
 -test   %al,%al
 -je     <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x300>
 +cmpl   $0xf2,-0xc(%ebp)
-+jle    <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x2d5>
++jle    <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x304>
  movl   $0xf3,-0x17e3(%ebp)
  lea    -0x17ed(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -264,14 +265,9 @@
  jne    <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x55>
  cmpl   $0x0,-0xc(%ebp)
 -je     <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x39e>
-+je     <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x373>
++je     <T> <_ZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandler+0x3a2>
  mov    -0xc(%ebp),%eax
  mov    %eax,-0x17e3(%ebp)
-+lea    -0x17ed(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  movl   $0x1bd,0x8(%esp)
  movl   $&_ZZN16StatisticManager23SendDBPartyJobStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
  lea    -0x14(%ebp),%eax
@@ -284,11 +280,11 @@
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--lea    -0x17ed(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
+ lea    -0x17ed(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  mov    -0x4(%ebp),%ebx
  leave
  ret
@@ -451,7 +447,8 @@ void StatisticManager::SendDBPartyJobStatistic(CServerHandler* handler)
             pkt.m_items[idx].m_fieldd = it->first.m_fieldd;
             pkt.m_items[idx].m_field10 = it->first.m_field10;
             pkt.m_items[idx].m_field14 = it->first.m_field14;
-            pkt.m_items[idx].m_data = it->second.m_data[1];
+            pkt.m_items[idx].m_data[0] = it->second.m_data[0];
+            pkt.m_items[idx].m_data[1] = it->second.m_data[1];
             idx++;
             if (0xf2 < idx)
             {
@@ -464,8 +461,8 @@ void StatisticManager::SendDBPartyJobStatistic(CServerHandler* handler)
         if (idx != 0)
         {
             pkt.m_count = idx;
-            handler->SendToDB((PacketHeader*)&pkt);
             DNF_LOG_SCOPE_LINE(0x1bd, "./log/statistic", "Packet_DBMW_Dungeon_Statistic_Party_Job : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", idx);
+            handler->SendToDB((PacketHeader*)&pkt);
         }
     }
 }

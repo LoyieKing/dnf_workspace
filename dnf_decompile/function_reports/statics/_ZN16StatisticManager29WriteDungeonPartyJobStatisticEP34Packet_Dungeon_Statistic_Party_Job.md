@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806e8ae` | `0x1df` | `0x806eace` | `0x211` |
+| statics | DIFF | `0x806e8ae` | `0x1df` | `0x806ea5a` | `0x1ec` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,62 +13,75 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,150 +1,169 @@
+@@ -1,150 +1,157 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
- sub    $0x90,%esp
- lea    -0x70(%ebp),%eax
+-sub    $0x90,%esp
+-lea    -0x70(%ebp),%eax
++add    $0xffffff80,%esp
++lea    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22STPartyJobStatisticKeyC1Ev>
- movw   $0x0,-0x70(%ebp)
+-movw   $0x0,-0x70(%ebp)
++movw   $0x0,-0x6c(%ebp)
  mov    0xc(%ebp),%eax
  mov    0xc(%eax),%eax
- mov    %eax,-0x6c(%ebp)
+-mov    %eax,-0x6c(%ebp)
++mov    %eax,-0x68(%ebp)
  mov    0xc(%ebp),%eax
  movzbl 0x10(%eax),%eax
- mov    %al,-0x68(%ebp)
+-mov    %al,-0x68(%ebp)
++mov    %al,-0x64(%ebp)
  mov    0xc(%ebp),%eax
  movzbl 0x11(%eax),%eax
+-mov    %al,-0x67(%ebp)
 +test   %al,%al
 +setne  %al
- mov    %al,-0x67(%ebp)
++mov    %al,-0x63(%ebp)
  mov    0xc(%ebp),%eax
  movzbl 0x12(%eax),%eax
+-mov    %al,-0x66(%ebp)
 +test   %al,%al
 +setne  %al
- mov    %al,-0x66(%ebp)
++mov    %al,-0x62(%ebp)
  mov    0xc(%ebp),%eax
  movzbl 0x13(%eax),%eax
+-mov    %al,-0x65(%ebp)
 +test   %al,%al
 +setne  %al
- mov    %al,-0x65(%ebp)
++mov    %al,-0x61(%ebp)
  mov    0xc(%ebp),%eax
  movzbl 0x14(%eax),%eax
+-mov    %al,-0x64(%ebp)
 +test   %al,%al
 +setne  %al
- mov    %al,-0x64(%ebp)
++mov    %al,-0x60(%ebp)
  mov    0xc(%ebp),%eax
  movzbl 0x15(%eax),%eax
- mov    %al,-0x63(%ebp)
+-mov    %al,-0x63(%ebp)
++mov    %al,-0x5f(%ebp)
  mov    0xc(%ebp),%eax
  mov    0x16(%eax),%eax
- mov    %eax,-0x60(%ebp)
+-mov    %eax,-0x60(%ebp)
++mov    %eax,-0x5c(%ebp)
  mov    0xc(%ebp),%eax
  movzbl 0x1a(%eax),%eax
- mov    %al,-0x5c(%ebp)
-+lea    -0x78(%ebp),%eax
+-mov    %al,-0x5c(%ebp)
++mov    %al,-0x58(%ebp)
++lea    -0x74(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN17PartyJobStatisticC1Ev>
 +mov    0xc(%ebp),%eax
 +mov    0x1b(%eax),%eax
-+mov    %eax,-0x74(%ebp)
++mov    %eax,-0x70(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x50(%eax),%ecx
 -lea    -0x74(%ebp),%eax
-+lea    -0x7c(%ebp),%eax
- lea    -0x70(%ebp),%edx
+-lea    -0x70(%ebp),%edx
++lea    -0x78(%ebp),%eax
++lea    -0x6c(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
@@ -86,121 +99,122 @@
  call   <T> <_ZNKSt3mapI22STPartyJobStatisticKey17PartyJobStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE5emptyEv>
  test   %al,%al
 -jne    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0xe7>
-+jne    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0xfb>
++jne    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0xf8>
  mov    0x8(%ebp),%eax
  lea    0x50(%eax),%edx
- lea    -0x58(%ebp),%eax
+-lea    -0x58(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI22STPartyJobStatisticKey17PartyJobStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE3endEv>
  sub    $0x4,%esp
- lea    -0x58(%ebp),%eax
+-lea    -0x58(%ebp),%eax
++lea    -0x54(%ebp),%eax
  mov    %eax,0x4(%esp)
 -lea    -0x74(%ebp),%eax
-+lea    -0x7c(%ebp),%eax
++lea    -0x78(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEeqERKS5_>
  test   %al,%al
 -je     <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0xee>
-+je     <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x102>
++je     <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0xff>
  mov    $0x1,%eax
 -jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0xf3>
-+jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x107>
++jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x104>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x18a>
-+je     <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x1a0>
- lea    -0x2c(%ebp),%eax
+-lea    -0x2c(%ebp),%eax
 -lea    -0x7c(%ebp),%edx
-+lea    -0x78(%ebp),%edx
++je     <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x19d>
++lea    -0x28(%ebp),%eax
++lea    -0x74(%ebp),%edx
  mov    %edx,0x8(%esp)
- lea    -0x70(%ebp),%edx
+-lea    -0x70(%ebp),%edx
++lea    -0x6c(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZSt9make_pairIR22STPartyJobStatisticKeyR17PartyJobStatisticESt4pairINSt17__decay_and_stripIT_E6__typeENS5_IT0_E6__typeEEOS6_OS9_>
  sub    $0x4,%esp
- lea    -0x2c(%ebp),%eax
+-lea    -0x2c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,0x4(%esp)
- lea    -0x4c(%ebp),%eax
+-lea    -0x4c(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEC1IS0_S2_EEOS_IT_T0_E>
  mov    0x8(%ebp),%eax
  lea    0x50(%eax),%ecx
- lea    -0x54(%ebp),%eax
- lea    -0x4c(%ebp),%edx
+-lea    -0x54(%ebp),%eax
+-lea    -0x4c(%ebp),%edx
++lea    -0x50(%ebp),%eax
++lea    -0x48(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI22STPartyJobStatisticKey17PartyJobStatisticSt4lessIS0_ESaISt4pairIKS0_S1_EEE6insertERKS6_>
  sub    $0x4,%esp
- lea    -0x4c(%ebp),%eax
+-lea    -0x4c(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIK22STPartyJobStatisticKey17PartyJobStatisticED1Ev>
 -lea    -0x2c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt4pairI22STPartyJobStatisticKey17PartyJobStatisticED1Ev>
 -jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x1ca>
-+jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x193>
++jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x190>
  mov    %edx,%ebx
  mov    %eax,%esi
- lea    -0x4c(%ebp),%eax
+-lea    -0x4c(%ebp),%eax
++lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairIK22STPartyJobStatisticKey17PartyJobStatisticED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x175>
-+jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x17e>
++jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x17b>
  mov    %edx,%ebx
  mov    %eax,%esi
- lea    -0x2c(%ebp),%eax
+-lea    -0x2c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt4pairI22STPartyJobStatisticKey17PartyJobStatisticED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x1af>
 -lea    -0x74(%ebp),%eax
-+jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x1bf>
-+lea    -0x2c(%ebp),%eax
++jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x1bc>
++lea    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt4pairI22STPartyJobStatisticKey17PartyJobStatisticED1Ev>
-+jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x1d4>
-+lea    -0x7c(%ebp),%eax
++jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x1d7>
++lea    -0x78(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK22STPartyJobStatisticKey17PartyJobStatisticEEptEv>
 -add    $0x18,%eax
 -mov    %eax,-0xc(%ebp)
 -lea    -0x7c(%ebp),%eax
 +lea    0x18(%eax),%edx
-+lea    -0x78(%ebp),%eax
++lea    -0x74(%ebp),%eax
  mov    %eax,0x4(%esp)
 -mov    -0xc(%ebp),%eax
+-mov    %eax,(%esp)
 +mov    %edx,(%esp)
-+call   <T> <_ZN17PartyJobStatisticpLERKS_>
-+jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x1d4>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x78(%ebp),%eax
- mov    %eax,(%esp)
--call   <T> <_ZN17PartyJobStatisticpLERKS_>
+ call   <T> <_ZN17PartyJobStatisticpLERKS_>
 -jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x1ca>
-+call   <T> <_ZN17PartyJobStatisticD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x1e1>
-+lea    -0x78(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN17PartyJobStatisticD1Ev>
-+jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x1fc>
++jmp    <T> <_ZN16StatisticManager29WriteDungeonPartyJobStatisticEP34Packet_Dungeon_Statistic_Party_Job+0x1d7>
  mov    %edx,%ebx
  mov    %eax,%esi
- lea    -0x70(%ebp),%eax
+-lea    -0x70(%ebp),%eax
++lea    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22STPartyJobStatisticKeyD1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
- lea    -0x70(%ebp),%eax
+-lea    -0x70(%ebp),%eax
++lea    -0x6c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN22STPartyJobStatisticKeyD1Ev>
  lea    -0x8(%ebp),%esp
@@ -308,7 +322,7 @@ LAB_0806e9a1:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 228 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 230 行）：
 
 ```cpp
 void StatisticManager::WriteDungeonPartyJobStatistic(Packet_Dungeon_Statistic_Party_Job* pkt)
@@ -327,7 +341,6 @@ void StatisticManager::WriteDungeonPartyJobStatistic(Packet_Dungeon_Statistic_Pa
         char m_f1a;
         int m_f1b;
     };
-    int m_padFrame;
     STPartyJobStatisticKey key;
     key.m_field0 = 0;
     key.m_field4 = ((Wire*)pkt)->m_f0c;

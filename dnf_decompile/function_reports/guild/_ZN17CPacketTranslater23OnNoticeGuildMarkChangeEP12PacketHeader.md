@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80732b8` | `0x2bb` | `0x8069a0e` | `0x2b4` |
+| guild | DIFF | `0x80732b8` | `0x2bb` | `0x8069a80` | `0x2b6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,187 +1,184 @@
+@@ -1,187 +1,185 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -23,20 +23,16 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0xdf>
--lea    -0x45(%ebp),%eax
-+lea    -0x35(%ebp),%eax
+ lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
--lea    -0x45(%ebp),%eax
-+lea    -0x35(%ebp),%eax
+ lea    -0x45(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildMarkChange : 0 == m_pclApp",0x4(%esp)
--lea    -0x4c(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsC1EPKcRKSaIcE>
--lea    -0x4c(%ebp),%esi
-+lea    -0x3c(%ebp),%esi
+ lea    -0x4c(%ebp),%esi
  movl   $0x8,(%esp)
  call   <T> <__cxa_allocate_exception>
  mov    %eax,%ebx
@@ -53,8 +49,7 @@
  mov    %esi,%edx
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x4c(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x87>
@@ -64,8 +59,7 @@
  mov    %esi,%eax
  mov    %ebx,%edx
  jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0xa4>
--lea    -0x4c(%ebp),%eax
-+lea    -0x3c(%ebp),%eax
+ lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
  jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0xbc>
@@ -74,16 +68,14 @@
  call   <T> <_ZSt9terminatev>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x45(%ebp),%eax
-+lea    -0x35(%ebp),%eax
+ lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x1ab>
--lea    -0x45(%ebp),%eax
 +jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x1a6>
-+lea    -0x35(%ebp),%eax
+ lea    -0x45(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
  movl   $&_ZN13CDNFExceptionD1Ev,0x8(%esp)
@@ -98,15 +90,13 @@
  mov    0xa(%eax),%ebx
  movl   $0x328,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x44(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"[GUILD MARK CHANGE] Recv from web server. (guildkey:%d)\n",0x8(%esp)
  movl   $"./log/Web",0x4(%esp)
--lea    -0x44(%ebp),%eax
-+lea    -0x34(%ebp),%eax
+ lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x20(%ebp),%eax
@@ -138,22 +128,20 @@
  mov    0xa(%eax),%ebx
  movl   $0x331,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"[GUILD MARK CHANGE] Not exist guild. (guildkey:%d)\n",0x8(%esp)
  movl   $"./log/Web",0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x2b3>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x2ac>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x2ae>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x24d>
-+jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x246>
++jne    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x248>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -167,11 +155,6 @@
  mov    %eax,0x4(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildMarkChange() Exception Break : %s\n",(%esp)
  call   <T> <printf>
-+movl   $0x337,0x8(%esp)
-+movl   $"OnNoticeGuildMarkChange",0x4(%esp)
-+lea    -0x44(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
@@ -179,22 +162,20 @@
  mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    %eax,%ebx
--movl   $0x337,0x8(%esp)
--movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x34(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %ebx,0xc(%esp)
-+mov    %eax,0xc(%esp)
+ mov    %eax,%ebx
+ movl   $0x337,0x8(%esp)
+ movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
+ lea    -0x34(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnNoticeGuildMarkChange() Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x34(%ebp),%eax
-+lea    -0x44(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x246>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x23f>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x241>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -204,25 +185,23 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x2b3>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x2ac>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x2ae>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $"CPacketTranslater::OnNoticeGuildMarkChange() Exception Break",(%esp)
  call   <T> <puts>
  movl   $0x33d,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnNoticeGuildMarkChange() Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x2ae>
-+jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x2a7>
++jmp    <T> <_ZN17CPacketTranslater23OnNoticeGuildMarkChangeEP12PacketHeader+0x2a9>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -314,14 +293,14 @@ void CPacketTranslater::OnNoticeGuildMarkChange(PacketHeader* pkt)
     catch (CDNFException& e)
     {
         printf("CPacketTranslater::OnNoticeGuildMarkChange() Exception Break : %s\n", e.what());
-        CMyFileLog log("OnNoticeGuildMarkChange", 0x337);
-        log("./log/Except", "CPacketTranslater::OnNoticeGuildMarkChange() Exception Break : %s\n", e.what());
+        DNF_LOG_SCOPE_LINE(0x337, "./log/Except",
+            "CPacketTranslater::OnNoticeGuildMarkChange() Exception Break : %s\n", e.what());
     }
     catch (...)
     {
         puts("CPacketTranslater::OnNoticeGuildMarkChange() Exception Break");
-        CMyFileLog log(__FUNCTION__, 0x33d);
-        log("./log/Except", "CPacketTranslater::OnNoticeGuildMarkChange() Exception Break\n");
+        DNF_LOG_SCOPE_LINE(0x33d, "./log/Except",
+            "CPacketTranslater::OnNoticeGuildMarkChange() Exception Break\n");
     }
 }
 ```

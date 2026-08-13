@@ -1,7 +1,6 @@
 status	name	orig_addr	orig_size	new_addr	new_size	md_file
-NEAR	_ZN13CTcpNetSystem10SendPacketEv	0x8058bf4	0x2f1	0x8066f94	0x2f1	_ZN13CTcpNetSystem10SendPacketEv.md
-DIFF	_ZN17CUdpNetworkThread8dispatchEPv	0x806b180	0x8eb	0x8055614	0x8eb	_ZN17CUdpNetworkThread8dispatchEPv.md
-DIFF	_ZN5CPeer7parsingEi	0x8056b6c	0x489	0x806492a	0x48b	_ZN5CPeer7parsingEi.md
+NEAR	_ZN13CTcpNetSystem10SendPacketEv	0x8058bf4	0x2f1	0x8066f92	0x2f1	_ZN13CTcpNetSystem10SendPacketEv.md
+DIFF	_ZN5CPeer7parsingEi	0x8056b6c	0x489	0x806492a	0x48a	_ZN5CPeer7parsingEi.md
 NEAR	_my_thread_var	0x8107fe0	0x28	0x80d3f70	0x28	
 DIFF	add_collation	0x8101220	0x680	0x80dad20	0x67e	
 NEAR	add_compiled_collation	0x8100a80	0x27	0x80da730	0x27	

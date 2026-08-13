@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809634e` | `0x368` | `0x80648ae` | `0x37b` |
+| dbmw | DIFF | `0x809634e` | `0x368` | `0x8064960` | `0x34e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,243 +1,262 @@
+@@ -1,243 +1,244 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,7 +24,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x35c>
-+je     <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x36f>
++je     <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x342>
  mov    0x8(%ebp),%eax
  mov    %eax,-0x24(%ebp)
  lea    -0x76(%ebp),%eax
@@ -36,7 +36,7 @@
 +mov    (%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x35d>
-+je     <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x87>
++je     <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x78>
  mov    -0x24(%ebp),%eax
  add    $0x14,%eax
  movl   $0x1d,0x8(%esp)
@@ -45,33 +45,21 @@
  add    $0x12,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
--mov    -0x24(%ebp),%eax
+ mov    -0x24(%ebp),%eax
 -mov    0xb(%eax),%eax
--mov    %eax,-0x6c(%ebp)
--mov    -0x24(%ebp),%eax
--movzbl 0x32(%eax),%eax
--mov    %al,-0x46(%ebp)
--mov    -0x24(%ebp),%eax
--mov    0xf(%eax),%eax
--mov    %eax,-0x68(%ebp)
-+lea    -0x76(%ebp),%eax
-+lea    0xa(%eax),%edx
-+mov    -0x24(%ebp),%eax
 +add    $0xb,%eax
 +mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x76(%ebp),%eax
-+lea    0x30(%eax),%edx
-+mov    -0x24(%ebp),%eax
+ mov    %eax,-0x6c(%ebp)
+ mov    -0x24(%ebp),%eax
+-movzbl 0x32(%eax),%eax
 +add    $0x32,%eax
 +movzbl (%eax),%eax
-+mov    %al,(%edx)
-+lea    -0x76(%ebp),%eax
-+lea    0xe(%eax),%edx
-+mov    -0x24(%ebp),%eax
+ mov    %al,-0x46(%ebp)
+ mov    -0x24(%ebp),%eax
+-mov    0xf(%eax),%eax
 +add    $0xf,%eax
 +mov    (%eax),%eax
-+mov    %eax,(%edx)
+ mov    %eax,-0x68(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -110,38 +98,22 @@
  mov    %eax,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <_ZN10CDBManager27QueryGuildMemberGradeByNameEhjPcRhRjS2_>
--xor    $0x1,%eax
--test   %al,%al
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x109>
--movb   $0xff,-0x46(%ebp)
--movzwl -0x74(%ebp),%eax
--movzwl %ax,%edx
--lea    -0x76(%ebp),%eax
--mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN12CGuildServer12SendToServerEPci>
++je     <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x111>
+ movb   $0xff,-0x46(%ebp)
+ movzwl -0x74(%ebp),%eax
+ movzwl %ax,%edx
+ lea    -0x76(%ebp),%eax
+ mov    %edx,0x8(%esp)
+ mov    %eax,0x4(%esp)
+ mov    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN12CGuildServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x35d>
--movzbl -0x45(%ebp),%eax
-+mov    -0x38(%ebp),%eax
-+test   %eax,%eax
-+jne    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x125>
-+lea    -0x76(%ebp),%eax
-+add    $0x30,%eax
-+movb   $0xff,(%eax)
-+movzwl -0x74(%ebp),%eax
-+movzwl %ax,%edx
-+lea    -0x76(%ebp),%eax
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CGuildServer12SendToServerEPci>
-+jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x370>
-+lea    -0x76(%ebp),%eax
-+add    $0x31,%eax
-+movzbl (%eax),%eax
++jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x343>
+ movzbl -0x45(%ebp),%eax
  cmp    $0x1,%al
 -jne    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x133>
 -movzwl -0x74(%ebp),%eax
@@ -153,8 +125,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN12CGuildServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x35d>
--movzbl -0x45(%ebp),%eax
-+jne    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x154>
++jne    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x13b>
 +movzwl -0x74(%ebp),%eax
 +movzwl %ax,%edx
 +lea    -0x76(%ebp),%eax
@@ -163,15 +134,13 @@
 +mov    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CGuildServer12SendToServerEPci>
-+jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x370>
-+lea    -0x76(%ebp),%eax
-+add    $0x31,%eax
-+movzbl (%eax),%eax
++jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x343>
+ movzbl -0x45(%ebp),%eax
  cmp    $0x2,%al
 -je     <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x146>
 -mov    -0x24(%ebp),%eax
 -movzbl 0x32(%eax),%eax
-+je     <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x205>
++je     <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x1dd>
 +mov    -0x24(%ebp),%eax
 +add    $0x32,%eax
 +movzbl (%eax),%eax
@@ -179,7 +148,7 @@
 -jne    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x177>
 -mov    -0x24(%ebp),%eax
 -movzbl 0x13(%eax),%eax
-+jne    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x17f>
++jne    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x161>
 +mov    -0x24(%ebp),%eax
 +add    $0x13,%eax
 +movzbl (%eax),%eax
@@ -209,7 +178,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN12CGuildServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x35d>
-+jne    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x1da>
++jne    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x1b7>
  mov    -0x24(%ebp),%eax
  lea    0x14(%eax),%esi
  mov    -0x24(%ebp),%eax
@@ -238,7 +207,10 @@
 -xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x1f9>
--movb   $0xff,-0x46(%ebp)
++sete   %al
++test   %al,%al
++je     <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x1e0>
+ movb   $0xff,-0x46(%ebp)
 -jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x35d>
 -movzwl -0x74(%ebp),%eax
 -movzwl %ax,%edx
@@ -258,16 +230,8 @@
 -mov    %eax,-0x7c(%ebp)
 -mov    -0x24(%ebp),%eax
 -mov    0xb(%eax),%ebx
-+sete   %al
-+test   %al,%al
-+je     <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x208>
-+lea    -0x76(%ebp),%eax
-+add    $0x30,%eax
-+movb   $0xff,(%eax)
-+jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x209>
-+lea    -0x76(%ebp),%eax
-+add    $0x30,%eax
-+movb   $0xfe,(%eax)
++jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x1e1>
++movb   $0xfe,-0x46(%ebp)
 +movzwl -0x74(%ebp),%eax
 +movzwl %ax,%edx
 +lea    -0x76(%ebp),%eax
@@ -276,9 +240,9 @@
 +mov    -0x20(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CGuildServer12SendToServerEPci>
-+jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x370>
++jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x343>
 +nop
-+jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x209>
++jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x1e1>
 +nop
 +movzwl -0x74(%ebp),%eax
 +movzwl %ax,%edx
@@ -299,9 +263,7 @@
 -mov    -0x7c(%ebp),%eax
 -mov    %eax,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+lea    -0x76(%ebp),%eax
-+add    $0x31,%eax
-+movzbl (%eax),%eax
++movzbl -0x45(%ebp),%eax
 +movzbl %al,%ecx
 +mov    -0x24(%ebp),%eax
 +add    $0x32,%eax
@@ -323,10 +285,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x35d>
-+jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x370>
++jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x343>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x300>
-+jne    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x313>
++jne    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x2e6>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -350,7 +312,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x2f9>
-+jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x30c>
++jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x2df>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -360,7 +322,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x35d>
-+jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x370>
++jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x343>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x49f,0x8(%esp)
@@ -374,7 +336,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x355>
-+jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x368>
++jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x33b>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -384,7 +346,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x35d>
-+jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x370>
++jmp    <T> <_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader+0x343>
  nop
 -add    $0x9c,%esp
 +add    $0x8c,%esp
@@ -479,7 +441,7 @@ void CPacketTranslater::_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGr
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 6460 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DBManager.cpp](source/DNFServer/GameServer/DBMW/DBManager.cpp)（约第 6616 行）：
 
 ```cpp
 void CPacketTranslater::OnChangeUnconnectedGuildMemberGrade(PacketHeader* header)
@@ -492,29 +454,28 @@ void CPacketTranslater::OnChangeUnconnectedGuildMemberGrade(PacketHeader* header
         Packet_DB_Monitor_Change_Unconnected_GuildMember_Grade pkt;
         if (*(int*)(h + 0xb) != 0)
         {
-            memcpy((char*)&pkt + 0x12, h + 0x14, 0x1d);
-            *(int*)((char*)&pkt + 0xa) = *(int*)(h + 0xb);
-            *(char*)((char*)&pkt + 0x30) = *(char*)(h + 0x32);
-            *(int*)((char*)&pkt + 0xe) = *(int*)(h + 0xf);
+            memcpy(pkt.m_pad, h + 0x14, 0x1d);
+            pkt.m_fieldA = *(int*)(h + 0xb);
+            pkt.m_field30 = *(unsigned char*)(h + 0x32);
+            pkt.m_fieldE = *(int*)(h + 0xf);
         }
         CGuildServer* gs = m_pclApp->m_serverHandler->GetGuildServer();
         unsigned int result = 0;
-        m_pclApp->m_dbManager.QueryGuildMemberGradeByName(
-            *(unsigned char*)(h + 0xa), *(unsigned int*)(h + 0xb), h + 0x14,
-            *(unsigned char*)((char*)&pkt + 0x31),
-            *(unsigned int*)((char*)&pkt + 0x32), result);
-        if (!result)
+        if (!m_pclApp->m_dbManager.QueryGuildMemberGradeByName(
+                *(unsigned char*)(h + 0xa), *(unsigned int*)(h + 0xb),
+                h + 0x14, pkt.m_field31,
+                *(unsigned int*)((char*)&pkt + 0x32), result))
         {
-            *(char*)((char*)&pkt + 0x30) = 0xff;
+            pkt.m_field30 = 0xff;
             gs->SendToServer((char*)&pkt, pkt.packetSize);
             return;
         }
-        if (*(unsigned char*)((char*)&pkt + 0x31) == 1)
+        if (pkt.m_field31 == 1)
         {
             gs->SendToServer((char*)&pkt, pkt.packetSize);
             return;
         }
-        if (*(unsigned char*)((char*)&pkt + 0x31) == 2)
+        if (pkt.m_field31 == 2)
             goto sendlog;
         if (*(unsigned char*)(h + 0x32) != 2 ||
             *(unsigned char*)(h + 0x13) == 1)
@@ -522,11 +483,11 @@ void CPacketTranslater::OnChangeUnconnectedGuildMemberGrade(PacketHeader* header
             if (!m_pclApp->m_dbManager.ChangeGuildMemberGrade(
                     *(unsigned char*)(h + 0xa), *(unsigned int*)(h + 0xb),
                     *(unsigned char*)(h + 0x32), h + 0x14))
-                *(char*)((char*)&pkt + 0x30) = 0xff;
+                pkt.m_field30 = 0xff;
         }
         else
         {
-            *(char*)((char*)&pkt + 0x30) = 0xfe;
+            pkt.m_field30 = 0xfe;
             gs->SendToServer((char*)&pkt, pkt.packetSize);
             return;
         }
@@ -537,7 +498,7 @@ void CPacketTranslater::OnChangeUnconnectedGuildMemberGrade(PacketHeader* header
             "::OnChangeUnconnectedGuildMemberGrade GRADE_CHANGE Guild(%d) UnConnected Name(%s) Grade(%d) Prev(%d)",
             *(unsigned int*)(h + 0xb), h + 0x14,
             *(unsigned char*)(h + 0x32),
-            *(unsigned char*)((char*)&pkt + 0x31));
+            pkt.m_field31);
     }
     DNF_CATCH_LOG("./log/Except.log",
                   "CPacketTranslater::OnChangeUnconnectedGuildMemberGrade() Exception Break",

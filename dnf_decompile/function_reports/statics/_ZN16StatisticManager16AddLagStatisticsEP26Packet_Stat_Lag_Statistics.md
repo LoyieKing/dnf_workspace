@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8072e44` | `0x6c5` | `0x8072f9a` | `0x6a1` |
+| statics | DIFF | `0x8072e44` | `0x6c5` | `0x807311a` | `0x6a1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -886,7 +886,7 @@ LAB_080730fa:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1375 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1412 行）：
 
 ```cpp
 void StatisticManager::AddLagStatistics(Packet_Stat_Lag_Statistics* pkt)

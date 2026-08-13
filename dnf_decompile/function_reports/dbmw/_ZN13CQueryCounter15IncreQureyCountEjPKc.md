@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808e2c4` | `0x64` | `0x80ed68c` | `0x65` |
+| dbmw | DIFF | `0x808e2c4` | `0x64` | `0x80ed72a` | `0x65` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -73,7 +73,7 @@ CQueryCounter::_ZN13CQueryCounter15IncreQureyCountEjPKc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/QueryCounter.cpp](source/DNFServer/GameServer/DBMW/QueryCounter.cpp)（约第 86 行）：
+定义于 [source/DNFServer/GameServer/DBMW/QueryCounter.cpp](source/DNFServer/GameServer/DBMW/QueryCounter.cpp)（约第 85 行）：
 
 ```cpp
 char CQueryCounter::IncreQureyCount(unsigned int idx, const char* name)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x8084830` | `0x85b` | `0x806b74a` | `0x7d0` |
+| monitor | DIFF | `0x8084830` | `0x85b` | `0x806b736` | `0x7d0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -851,10 +851,14 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,%ebx
  movl   $0xb4c,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater27OnNoticeOtherChannelChatMsgEP12PacketHeaderE12__FUNCTION__,0x4(%esp)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8097b46` | `0x1e5` | `0x80d4118` | `0x1d9` |
+| dbmw | DIFF | `0x8097b46` | `0x1e5` | `0x80d4176` | `0x1d9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -80,12 +80,13 @@
 +mov    %ebx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZN12CGuildServer12SendToServerEPci>
- mov    -0x57(%ebp),%edi
+-mov    -0x57(%ebp),%edi
 -mov    -0x24(%ebp),%eax
++mov    -0x53(%ebp),%edi
 +mov    -0x20(%ebp),%eax
  mov    0xf(%eax),%esi
 -mov    -0x5b(%ebp),%ebx
-+mov    -0x53(%ebp),%ebx
++mov    -0x57(%ebp),%ebx
  movl   $0x65f,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater20OnRequestGuildCreateEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
@@ -222,7 +223,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnRequestGuildCreateEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1080 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1131 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestGuildCreate(PacketHeader* header)
@@ -245,9 +246,9 @@ void CPacketTranslater::OnRequestGuildCreate(PacketHeader* header)
         DNF_LOG_SCOPE_LINE(0x65f,
             "./log/GuildModify",
             "::OnRequestGuildCreate g(%d) c(%d) r(%d)",
-            reply.m_field12,
+            reply.m_fieldE,
             pkt->m_characNo,
-            reply.m_fieldE
+            reply.m_field12
         );
 
     }

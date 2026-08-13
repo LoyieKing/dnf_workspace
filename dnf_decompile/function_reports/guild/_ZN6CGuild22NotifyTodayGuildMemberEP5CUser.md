@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8092618` | `0xbb` | `0x80582a0` | `0x130` |
+| guild | DIFF | `0x8092618` | `0xbb` | `0x805830a` | `0x130` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -189,7 +189,7 @@ void __thiscall CGuild::_ZN6CGuild22NotifyTodayGuildMemberEP5CUser(CGuild *this,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2374 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFGuild.cpp](source/DNFServer/GameServer/Guild/DNFGuild.cpp)（约第 2403 行）：
 
 ```cpp
 void CGuild::NotifyTodayGuildMember(CUser* user)

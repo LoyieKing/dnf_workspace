@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a127a` | `0x293` | `0x8097b7a` | `0x289` |
+| monitor | DIFF | `0x80a127a` | `0x293` | `0x8097b06` | `0x289` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -121,8 +121,7 @@
 +test   %al,%al
 +je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x163>
  mov    -0x14(%ebp),%eax
--add    $0x5,%eax
-+add    $0x14,%eax
+ add    $0x5,%eax
  movl   $0x1e,0x8(%esp)
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
@@ -131,8 +130,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSs5c_strEv>
  mov    -0x14(%ebp),%edx
--add    $0x5,%edx
-+add    $0x14,%edx
+ add    $0x5,%edx
  movl   $0x1d,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
@@ -166,8 +164,7 @@
 +test   %al,%al
 +je     <T> <_ZN18CMemoryCashManager21QueryCashMemoryMemberEP5CUser+0x1ee>
  mov    -0xc(%ebp),%eax
--add    $0x5,%eax
-+add    $0x14,%eax
+ add    $0x5,%eax
  movl   $0x1e,0x8(%esp)
  movl   $0x0,0x4(%esp)
  mov    %eax,(%esp)
@@ -176,8 +173,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSs5c_strEv>
  mov    -0xc(%ebp),%edx
--add    $0x5,%edx
-+add    $0x14,%edx
+ add    $0x5,%edx
  movl   $0x1d,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
@@ -381,8 +377,8 @@ char CMemoryCashManager::QueryCashMemoryMember(CUser* user)
                     std::string name;
                     if (QueryUpdatedCharacName(*dbInfo, name))
                     {
-                        memset((char*)dbInfo + 5 * 4, 0, 0x1e);
-                        strncpy((char*)dbInfo + 5 * 4, name.c_str(), 0x1d);
+                        memset((char*)dbInfo + 5, 0, 0x1e);
+                        strncpy((char*)dbInfo + 5, name.c_str(), 0x1d);
                     }
                     for (int i = 0; i < (int)((RA_U8<39>*)dbInfo)->v; i++)
                     {
@@ -392,8 +388,8 @@ char CMemoryCashManager::QueryCashMemoryMember(CUser* user)
                         {
                             if (QueryUpdatedCharacName(*sub, name))
                             {
-                                memset((char*)sub + 5 * 4, 0, 0x1e);
-                                strncpy((char*)sub + 5 * 4, name.c_str(), 0x1d);
+                                memset((char*)sub + 5, 0, 0x1e);
+                                strncpy((char*)sub + 5, name.c_str(), 0x1d);
                             }
                         }
                     }

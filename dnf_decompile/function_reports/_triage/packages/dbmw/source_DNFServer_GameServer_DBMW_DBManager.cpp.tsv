@@ -1,0 +1,87 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+dbmw	_ZN10CDBManager10InsertMailEjPcS0_jjii	DIFF	73	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager10QueryGuildEhjR27Packet_DB_Reply_Query_Guild	DIFF	335	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager11GuildSecedeEP30Packet_DB_Request_Guild_SecedeRjS2_S2_	DIFF	1108	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager11QueryMemberEjR28Packet_DB_Reply_Query_Member	DIFF	1104	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN10CDBManager12InsertLetterEjjPKcS1_Ril	DIFF	73	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager13SaveGuildInfoEhjR17STGuildDBInfoOnly	DIFF	19	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager14QueryBuddyInfoEjP13STBuddyDBInfoRh	DIFF	118	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly	DIFF	43	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager15OnLoadGuildAgitEP25Packet_DB_Load_Guild_AgitR28Packet_Guild_Load_Guild_Agit	DIFF	30	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager15QueryGuildSkillEhjR27Packet_DB_Reply_Query_Guild	DIFF	90	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh	DIFF	136	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager15SendGuildLetterEijPc	DIFF	215	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN10CDBManager16OnLoadGuildBoardEiRiP18STGuildBoardDBInfo	DIFF	315	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager16OnLoadGuildCargoEjR29Packet_Guild_Load_Guild_Cargo	DIFF	47	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager16QueryGuildCreateEP32Packet_DBMW_Request_Guild_CreateRjS2_	DIFF	576	N			Y	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager16QueryGuildMemberEhjR34Packet_DB_Reply_Query_Guild_Member	DIFF	68	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager16SaveMemberDeleteEjjh	DIFF	47	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager16SaveMemberInsertEjjh	DIFF	264	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager17OnWriteGuildBoardEP40Packet_DB_Load_Request_Guild_Board_WriteP18STGuildBoardDBInfo	DIFF	242	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager17QueryGuildBootingER38Packet_DB_Query_Reply_On_Guild_Bootingi	DIFF	44	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager17QueryHWspecCreateEP38Packet_DBMW_Save_Client_Spec_Statistic	DIFF	626	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager17QueryReloadSpecDbEP38Packet_Frame_Lag_Statistic_Reload_SpecP17CStatisticsServer	DIFF	546	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager18GetCoinEventPerDayEiiRiS0_	DIFF	179	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager18selectCollectItemsEhRiS0_RjRh	DIFF	327	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager18updateCollectItemsEhijh	DIFF	93	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager19GuildMasterDelegateEijjjjPc	DIFF	135	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager19QueryCharacNoByNameEPcRjPi	DIFF	120	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager19QuerySubGuildMasterEhjR27Packet_DB_Reply_Query_Guild	DIFF	86	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager19RegisterToBlackListEjjPc	DIFF	225	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager19SendGuildCoinByMailEijjjiPcS0_	DIFF	70	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager20OnSaveFatigueBatteryEP43Packet_DBMW_Fatigue_Battery_Money_Statistic	DIFF	45	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager20OnWriteWebGuildBoardEP44Packet_DB_Load_Request_Web_Guild_Board_WriteP18STGuildBoardDBInfo	DIFF	83	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager20QueryFirstLoadSpecDbEP36Packet_Frame_Lag_Statistic_Load_SpecP17CStatisticsServer	DIFF	481	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager20updateCollectItemsGmEhiij	DIFF	68	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager21AwardGuildTitleByMailEijjPcj	DIFF	72	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager21OnLoadPeriodicMessageEP28Packet_Load_Periodic_MessageP38Packet_Result_Loading_Periodic_Message	DIFF	44	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager21OnSecretShopStatisticEP28Packet_Secret_Shop_Statistic	DIFF	211	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN10CDBManager21QueryGuildMemberProxyEjjR18STGuildMemberProxy	DIFF	60	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager21QueryGuildNotiMessageEhjR27Packet_DB_Reply_Query_Guild	DIFF	24	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member	DIFF	185	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager21SaveGuildWarPointListEiPjS0_	DIFF	55	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager21insertServerGameEventEP31Packet_StartGameEventFromServer	DIFF	103	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager22GetVillageAttackedRankEP29Packet_DB_VillageAttackedRankRbRiS3_	DIFF	78	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager22OnSavePowerWarUserRankEP34Packet_DB_Save_Power_War_User_Rank	DIFF	136	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager22OnStatisticLoginLogoutEP34Packet_DBMW_Statistic_Login_Logout	DIFF	46	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager22OnWriteGuildMemberMemoEP33Packet_DB_Write_Guild_Member_Memo	DIFF	57	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager23OnLoadGuildCargoHistoryEjR37Packet_Guild_Load_Guild_Cargo_History	DIFF	317	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager23OnSaveLoadingTimeReportEP31Packet_DBMW_Loading_Time_Report	DIFF	18	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	3	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager23OnSavePowerWarGuildRankEP35Packet_DB_Save_Power_War_Guild_Rank	DIFF	124	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager23loadLimitNpcBuyItemInfoEP26LimitNpcBuyItemRequestInfoP25LimitNpcBuyItemResultInfo	DIFF	187	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager24ChangeGuildNotifyMessageEijPc	DIFF	49	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager24InsertFrameLagStatisticsEP42Packet_Frame_Lag_Statistic_Write_Lag_IndexP17CStatisticsServer	DIFF	622	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager24OnGoldcardEventStatisticEP35Packet_Goldcard_Event_Statistic_STD	DIFF	90	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager24OnGuildJoinByListApproveEjcjjR15STGuildJoinInfoRj	NEAR	52	Y			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager24OnManagerEventTriggerAckEP32Packet_Manager_Event_Trigger_Ack	DIFF	73	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager24OnSavePowerWarBonusPointEP36Packet_DB_Save_Power_War_Bonus_Point	DIFF	155	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager24QueryCubeStatisticCreateEP26Packet_DBMW_Cube_Statistic	DIFF	245	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN10CDBManager24QueryUpdateChannelOccNumEP27Packet_User_Count_Statistic	DIFF	9	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN10CDBManager24SaveUnchangableGuildInfoEP33Packet_UnChangable_GuildInfo_Save	DIFF	342	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager24UpdateRandomboxStatisticEP29Packet_Randombox_statistic_DB	DIFF	111	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer	DIFF	58	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager24updateCompatibilityIndexEP31Packet_Stat_Compatibility_Index	DIFF	122	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager25OnInsertGuildCargoHistoryEP36Packet_DB_Insert_Guild_Cargo_History	DIFF	161	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic	DIFF	146	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager25OnSavePowerWarPointRewardEP37Packet_DB_Save_Power_War_Point_Reward	DIFF	64	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager25QueryGuildAllMembersProxyEjP18STGuildMemberProxyRt	DIFF	164	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager25QueryOnTimeEventIdxUpdateEP34Packet_Req_Ontime_Event_Idx_Update	DIFF	58	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager25QueryPartyStatisticCreateEP35Packet_DBMW_Dungeon_Statistic_Party	DIFF	1071	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager26OnSavePowerWarStatueRankerEP38Packet_DB_Save_Power_War_Statue_Ranker	DIFF	94	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager26onItemLimitEditionLoadDataEPK39Packet_Item_Limit_Edition_Load_Data_ReqP39Packet_Item_Limit_Edition_Load_Data_Rpy	DIFF	974	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager27QueryGuildMemberGradeByNameEhjPcRhRjS2_	DIFF	38	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager27UpdateCreateEmblemStatisticEP33Packet_Emblem_Create_Statistic_DB	DIFF	74	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query	DIFF	135	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager28QueryPartyJobStatisticCreateEP39Packet_DBMW_Dungeon_Statistic_Party_Job	DIFF	613	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager28QueryTowerOfDespairStatisticEP35Packet_TowerOfDespair_Statistic_STD	DIFF	159	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager28onItemLimitEditionUpdateDataEPK32Packet_Item_Limit_Edition_Update	DIFF	52	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager29QueryErrorLineStatisticCreateEP37Packet_DBMW_Save_Error_Line_Statistic	DIFF	152	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager29UpdateDisjointAvatarStatisticEP35Packet_Avater_Disjoint_Statistic_DB	DIFF	361	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager31QueryPartyCharacStatisticCreateEP42Packet_DBMW_Dungeon_Statistic_Party_Charac	DIFF	685	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager33QueryHellPartyStatisticItemCreateEP36Packet_DBMW_HellParty_Statistic_Item	DIFF	218	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager33updateNexonPinPcRoomPlayTimeEventEhjRjPcj	DIFF	156	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value	DIFF	224	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager41QueryDeathTowerPlayDataJobStatisticCreateEP45Packet_DBMW_DeathTower_Statistic_Playdata_Job	DIFF	312	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager43QueryDeathTowerPlayDataPartyStatisticCreateEP47Packet_DBMW_DeathTower_Statistic_Playdata_Party	DIFF	484	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN10CDBManager8AddBuddyEjPcR13STBuddyDBInfoRi	DIFF	125	N			N	N	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	NEEDS_REVERSE	source location missing from md
+dbmw	_ZN17CPacketTranslater35OnChangeUnconnectedGuildMemberGradeEP12PacketHeader	DIFF	195	N			N	Y	source/DNFServer/GameServer/DBMW/DBManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

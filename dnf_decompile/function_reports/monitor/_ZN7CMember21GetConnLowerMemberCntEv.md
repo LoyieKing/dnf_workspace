@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x809916a` | `0x82` | `0x8060cc8` | `0x87` |
+| monitor | DIFF | `0x809916a` | `0x82` | `0x8060cc8` | `0x7d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,26 +13,23 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,42 +1,45 @@
+@@ -1,42 +1,40 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x28,%esp
-+push   %ebx
-+sub    $0x24,%esp
+ sub    $0x28,%esp
  mov    0x8(%ebp),%eax
  movzbl 0x2d(%eax),%eax
  movzbl %al,%eax
  mov    %eax,-0x14(%ebp)
  cmpl   $0x0,-0x14(%ebp)
--jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x20>
-+jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x21>
+ jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x20>
  mov    $0x0,%eax
 -jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x80>
-+jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x81>
++jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x7b>
  movl   $0x0,-0x10(%ebp)
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x70>
-+jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x71>
++jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x6b>
  mov    -0xc(%ebp),%eax
  mov    0x8(%ebp),%edx
  imul   $0x27,%eax,%eax
@@ -49,25 +46,19 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x6b>
-+sete   %bl
-+test   %bl,%bl
-+jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x6c>
++je     <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x66>
  addl   $0x1,-0x10(%ebp)
 -jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x6c>
-+jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x6d>
++jmp    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x67>
  nop
  addl   $0x1,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
  cmp    -0x14(%ebp),%eax
  setl   %al
  test   %al,%al
--jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x30>
-+jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x31>
+ jne    <T> <_ZN7CMember21GetConnLowerMemberCntEv+0x30>
  mov    -0x10(%ebp),%eax
--leave
-+add    $0x24,%esp
-+pop    %ebx
-+pop    %ebp
+ leave
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -118,8 +109,7 @@ int CMember::GetConnLowerMemberCnt()
     for (int i = 0; i < count; i++)
     {
         user = m_memberManager->FindMemberUser(m_dbInfo.m_lowers[i].m_field0);
-        register bool b = (user == 0);
-        if (b)
+        if (user == 0)
         {
             continue;
         }

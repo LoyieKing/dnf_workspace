@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808d744` | `0x177` | `0x80c8916` | `0x180` |
+| dbmw | DIFF | `0x808d744` | `0x177` | `0x80c8986` | `0x179` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,22 +13,19 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,100 +1,102 @@
+@@ -1,100 +1,101 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
  sub    $0x34,%esp
-+movl   $0x0,-0x18(%ebp)
  movl   $0x0,-0x10(%ebp)
--jmp    <T> <_ZN6CMySql4execEj+0x95>
-+jmp    <T> <_ZN6CMySql4execEj+0x9c>
+ jmp    <T> <_ZN6CMySql4execEj+0x95>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CMySql10exec_queryEv>
  mov    %eax,-0x18(%ebp)
  cmpl   $0x1,-0x18(%ebp)
--jne    <T> <_ZN6CMySql4execEj+0x8b>
-+jne    <T> <_ZN6CMySql4execEj+0x92>
+ jne    <T> <_ZN6CMySql4execEj+0x8b>
  call   <T> <_Z21CQueryCounterInstancev>
  mov    %eax,-0xc(%ebp)
  mov    0xc(%ebp),%eax
@@ -51,18 +48,15 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN6CMySql4execEj+0x171>
-+jmp    <T> <_ZN6CMySql4execEj+0x17a>
++jmp    <T> <_ZN6CMySql4execEj+0x173>
  cmpl   $0x0,-0x18(%ebp)
--je     <T> <_ZN6CMySql4execEj+0xa6>
-+je     <T> <_ZN6CMySql4execEj+0xad>
+ je     <T> <_ZN6CMySql4execEj+0xa6>
  addl   $0x1,-0x10(%ebp)
  cmpl   $0x4,-0x10(%ebp)
  setle  %al
  test   %al,%al
--jne    <T> <_ZN6CMySql4execEj+0x13>
--jmp    <T> <_ZN6CMySql4execEj+0xa7>
-+jne    <T> <_ZN6CMySql4execEj+0x1a>
-+jmp    <T> <_ZN6CMySql4execEj+0xae>
+ jne    <T> <_ZN6CMySql4execEj+0x13>
+ jmp    <T> <_ZN6CMySql4execEj+0xa7>
  nop
  call   <T> <_Z21CQueryCounterInstancev>
  mov    %eax,-0x14(%ebp)
@@ -73,7 +67,7 @@
  call   <T> <_ZN13CQueryCounter15SetResponseTimeEj>
  cmpl   $0x0,-0x18(%ebp)
 -jne    <T> <_ZN6CMySql4execEj+0x12c>
-+jne    <T> <_ZN6CMySql4execEj+0x135>
++jne    <T> <_ZN6CMySql4execEj+0x12e>
  mov    0x8(%ebp),%eax
  mov    0x4(%eax),%eax
  mov    %eax,(%esp)
@@ -84,7 +78,7 @@
  mov    0x8(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN6CMySql4execEj+0x111>
-+je     <T> <_ZN6CMySql4execEj+0x11a>
++je     <T> <_ZN6CMySql4execEj+0x113>
  mov    0x8(%ebp),%eax
  mov    0x8(%eax),%eax
  mov    %eax,(%esp)
@@ -102,14 +96,14 @@
 +mov    %eax,%edx
 +mov    0x8(%ebp),%eax
 +mov    %edx,0x18(%eax)
-+jmp    <T> <_ZN6CMySql4execEj+0x12e>
++jmp    <T> <_ZN6CMySql4execEj+0x127>
  mov    0x8(%ebp),%eax
  movl   $0x0,0x14(%eax)
  mov    0x8(%ebp),%eax
  movl   $0x0,0x18(%eax)
  mov    $0x1,%eax
 -jmp    <T> <_ZN6CMySql4execEj+0x171>
-+jmp    <T> <_ZN6CMySql4execEj+0x17a>
++jmp    <T> <_ZN6CMySql4execEj+0x173>
  mov    0x8(%ebp),%eax
  lea    0x78(%eax),%ebx
  movl   $0x16e,0x8(%esp)
@@ -195,7 +189,7 @@ undefined4 __thiscall CMySql::_ZN6CMySql4execEj(CMySql *this,uint param_1)
 ```cpp
 bool CMySql::exec(unsigned int q)
 {
-    int ret = 0;
+    int ret;
     for (int i = 0; i <= 4; i++)
     {
         ret = exec_query();

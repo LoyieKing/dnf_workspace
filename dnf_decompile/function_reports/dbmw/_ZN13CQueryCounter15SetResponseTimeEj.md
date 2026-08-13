@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808e328` | `0xc2` | `0x80ed6f2` | `0xc1` |
+| dbmw | DIFF | `0x808e328` | `0xc2` | `0x80ed790` | `0xc1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -109,7 +109,7 @@ CQueryCounter::_ZN13CQueryCounter15SetResponseTimeEj(CQueryCounter *this,uint pa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/QueryCounter.cpp](source/DNFServer/GameServer/DBMW/QueryCounter.cpp)（约第 96 行）：
+定义于 [source/DNFServer/GameServer/DBMW/QueryCounter.cpp](source/DNFServer/GameServer/DBMW/QueryCounter.cpp)（约第 95 行）：
 
 ```cpp
 void CQueryCounter::SetResponseTime(unsigned int ms)

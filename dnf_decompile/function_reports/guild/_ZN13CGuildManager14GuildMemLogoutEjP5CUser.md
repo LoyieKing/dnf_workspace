@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8095a22` | `0x349` | `0x805b8c6` | `0x33c` |
+| guild | DIFF | `0x8095a22` | `0x349` | `0x805b930` | `0x344` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,256 +1,250 @@
+@@ -1,256 +1,252 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -172,7 +172,7 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x33d>
-+je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x334>
++je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x33c>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
@@ -180,7 +180,7 @@
  setne  %al
  test   %al,%al
 -je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x25d>
-+je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x254>
++je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x258>
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -189,9 +189,8 @@
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
--mov    %eax,(%esp)
--call   <T> <_ZN16CServerInterface10GetGroupNoEv>
-+movzbl 0x9(%eax),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16CServerInterface10GetGroupNoEv>
  movzbl %al,%eax
  movl   $0x1,0x10(%esp)
  mov    %ebx,0xc(%esp)
@@ -216,7 +215,7 @@
 +cmp    $0x1,%eax
 +sete   %al
 +test   %al,%al
-+je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x334>
++je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x33c>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -233,14 +232,14 @@
 -je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x321>
 +xor    $0x1,%eax
 +test   %al,%al
-+je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x2d2>
++je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x2d6>
 +movl   $0x0,0x8(%esp)
 +mov    0x10(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuild26NoticeGuildMemberLogin_OutEP5CUserc>
-+jmp    <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x334>
++jmp    <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x33c>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
@@ -248,7 +247,7 @@
  setne  %al
  test   %al,%al
 -je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x30d>
-+je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x322>
++je     <T> <_ZN13CGuildManager14GuildMemLogoutEjP5CUser+0x32a>
  mov    0x8(%ebp),%eax
  mov    (%eax),%eax
  mov    %eax,(%esp)
@@ -257,9 +256,8 @@
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
--mov    %eax,(%esp)
--call   <T> <_ZN16CServerInterface10GetGroupNoEv>
-+movzbl 0x9(%eax),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN16CServerInterface10GetGroupNoEv>
  movzbl %al,%eax
  movl   $0x0,0xc(%esp)
  mov    %ebx,0x8(%esp)
@@ -396,7 +394,7 @@ void CGuildManager::GuildMemLogout(unsigned int guildKey, CUser* user)
     {
         if (user->GetGameServer() != 0)
         {
-            guild->DBGuildMemberSave(user, user->GetGameServer()->m_field9,
+            guild->DBGuildMemberSave(user, user->GetGameServer()->GetGroupNo(),
                                      m_app->Get_ServerHandler(), 1);
         }
         if (guild->DeleteGuildMember(user->GetUniqCharNo(), user) == 1)
@@ -410,7 +408,7 @@ void CGuildManager::GuildMemLogout(unsigned int guildKey, CUser* user)
             {
                 if (user->GetGameServer() != 0)
                 {
-                    guild->DBGuildSave(user->GetGameServer()->m_field9,
+                    guild->DBGuildSave(user->GetGameServer()->GetGroupNo(),
                                        m_app->Get_ServerHandler(), 0);
                 }
                 DeleteGuild(guildKey);

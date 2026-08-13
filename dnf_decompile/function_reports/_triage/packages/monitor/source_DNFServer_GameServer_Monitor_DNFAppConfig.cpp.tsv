@@ -1,0 +1,2 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+monitor	_ZN10CAppConfig11Parse_TableEPci	NEAR	10	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFAppConfig.cpp	4	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail

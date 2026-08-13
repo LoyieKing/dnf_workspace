@@ -1,0 +1,7 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+guild	_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii	NEAR	2	Y			N	Y	source/DNFServer/GameServer/Guild/GuildCargo.cpp	5	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
+guild	_ZN11CGuildCargo13InsertHistoryE25ENUM_GUILD_CARGO_BEHAVIORiPKciiPK12RandomOption	NEAR	16	Y			N	N	source/DNFServer/GameServer/Guild/GuildCargo.cpp	5	NEEDS_REVERSE	source location missing from md
+guild	_ZN11CGuildCargo14SendGuildCargoEP5CUser	DIFF	2	Y			N	Y	source/DNFServer/GameServer/Guild/GuildCargo.cpp	6	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
+guild	_ZN11CGuildCargo16PrintDnfItemInfoER11DnfItemInfo	DIFF	46	N			N	Y	source/DNFServer/GameServer/Guild/GuildCargo.cpp	4	CONST_OR_OFFSET	immediate/field/stack offset present
+guild	_ZN11CGuildCargo20SendGuildCargoToDBMWEP14CServerHandleri	DIFF	16	N			N	Y	source/DNFServer/GameServer/Guild/GuildCargo.cpp	5	CONST_OR_OFFSET	immediate/field/stack offset present
+guild	_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog	DIFF	16	N			N	Y	source/DNFServer/GameServer/Guild/GuildCargo.cpp	8	CONST_OR_OFFSET	immediate/field/stack offset present

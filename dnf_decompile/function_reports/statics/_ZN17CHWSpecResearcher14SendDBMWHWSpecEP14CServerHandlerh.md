@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8062ff0` | `0x1a1` | `0x8067708` | `0x1a4` |
+| statics | DIFF | `0x8062ff0` | `0x1a1` | `0x806767e` | `0x1a1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,111 +1,113 @@
+@@ -1,111 +1,111 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -38,34 +38,29 @@
  call   <T> <_ZNKSt3mapI12STSpecStaticjSt4lessIS0_ESaISt4pairIKS0_jEEE5emptyEv>
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh+0x19c>
-+je     <T> <_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh+0x19f>
+ je     <T> <_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh+0x19c>
  lea    -0x1c(%ebp),%eax
  mov    -0x14(%ebp),%edx
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapI12STSpecStaticjSt4lessIS0_ESaISt4pairIKS0_jEEE5beginEv>
  sub    $0x4,%esp
--jmp    <T> <_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh+0x12c>
-+jmp    <T> <_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh+0x12f>
+ jmp    <T> <_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh+0x12c>
  lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIK12STSpecStaticjEEptEv>
  mov    %eax,-0xc(%ebp)
 -mov    -0xc(%ebp),%ecx
-+lea    -0x1803(%ebp),%edx
  mov    -0x10(%ebp),%eax
 -lea    -0x1803(%ebp),%ebx
++lea    -0x1803(%ebp),%ecx
  add    %eax,%eax
--lea    0x0(,%eax,8),%edx
--sub    %eax,%edx
+ lea    0x0(,%eax,8),%edx
+ sub    %eax,%edx
 -lea    (%ebx,%edx,1),%eax
-+lea    0x0(,%eax,8),%ecx
-+mov    %ecx,%ebx
-+sub    %eax,%ebx
-+mov    %ebx,%eax
- add    $0x11,%eax
-+add    %eax,%edx
+-add    $0x11,%eax
++lea    (%ecx,%edx,1),%eax
++lea    0x11(%eax),%edx
  movl   $0xc,0x8(%esp)
 -mov    %ecx,0x4(%esp)
 -mov    %eax,(%esp)
@@ -92,8 +87,7 @@
  cmp    $0x1b3,%eax
  seta   %al
  test   %al,%al
--je     <T> <_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh+0x121>
-+je     <T> <_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh+0x124>
+ je     <T> <_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh+0x121>
  movl   $0x1b4,-0x17f8(%ebp)
  lea    -0x1803(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -118,8 +112,7 @@
  test   %al,%al
  jne    <T> <_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh+0x7b>
  cmpl   $0x0,-0x10(%ebp)
--je     <T> <_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh+0x19c>
-+je     <T> <_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh+0x19f>
+ je     <T> <_ZN17CHWSpecResearcher14SendDBMWHWSpecEP14CServerHandlerh+0x19c>
  mov    -0x10(%ebp),%eax
  mov    %eax,-0x17f8(%ebp)
  mov    -0x10(%ebp),%eax
@@ -232,7 +225,7 @@ void CHWSpecResearcher::SendDBMWHWSpec(CServerHandler* handler, unsigned char pa
              it != pMap->end(); ++it)
         {
             const STSpecStatic* pSpec = &it->first;
-            memcpy((char*)&pkt + count * 0xe + 0x11, (const void*)pSpec, 0xc);
+            memcpy(&pkt.m_items[count].m_spec, (const void*)pSpec, 0xc);
             pkt.m_items[count].m_field0 = (short)it->second;
             if (0x1b3U < (++count))
             {

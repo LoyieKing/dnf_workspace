@@ -1,0 +1,31 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+dbmw	_ZN17CPacketTranslater11OnGuildJoinEP12PacketHeader	DIFF	165	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater12OnQueryGuildEP12PacketHeader	DIFF	237	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater13OnGuildSecedeEP12PacketHeader	DIFF	122	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater16OnDBMWInsertMailEP12PacketHeader	DIFF	24	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader	DIFF	140	N			Y	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
+dbmw	_ZN17CPacketTranslater16OnTcpServerLoginEP12PacketHeader	DIFF	111	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater17OnSendGuildLetterEP12PacketHeader	DIFF	32	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater18OnQueryGuildMemberEP12PacketHeader	DIFF	8	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	very small structural diff
+dbmw	_ZN17CPacketTranslater19OnDeleteToBlackListEP12PacketHeader	DIFF	23	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater20OnRequestGuildCreateEP12PacketHeader	DIFF	66	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader	DIFF	32	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater20onQueryTowerFullRankEP12PacketHeader	DIFF	282	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater21OnGuildMasterDelegateEP12PacketHeader	DIFF	131	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater21OnLoadPeriodicMessageEP12PacketHeader	DIFF	53	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater21OnRegisterToBlackListEP12PacketHeader	DIFF	23	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater22OnPcRoomPlayTimeRewardEP12PacketHeader	DIFF	284	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater22OnRequestIPCounterListEP12PacketHeader	DIFF	364	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater23OnDBMWVillageAttackRankEP12PacketHeader	DIFF	72	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater24OnSavePowerWarBonusPointEP12PacketHeader	DIFF	84	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater24OnSendMailCoinGuildEventEP12PacketHeader	DIFF	161	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater24onEndGameEventFromServerEP12PacketHeader	DIFF	81	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater25OnRequestApproveJoinGuildEP12PacketHeader	DIFF	140	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater25OnRequestBlackListOnLoginEP12PacketHeader	DIFF	80	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater26onStartGameEventFromServerEP12PacketHeader	DIFF	92	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader	DIFF	37	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater29OnDBLoadRequestGuildBoardOpenEP12PacketHeader	DIFF	454	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater30OnDBLoadRequestGuildBoardWriteEP12PacketHeader	DIFF	92	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN17CPacketTranslater31OnDBLoadRequestGuildBoardDeleteEP12PacketHeader	DIFF	20	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	very small structural diff
+dbmw	_ZN17CPacketTranslater31OnUpdateTowerOfDespairStatisticEP12PacketHeader	DIFF	10	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CODEGEN_TAIL	very small structural diff
+dbmw	_ZN17CPacketTranslater33OnDBLoadRequestWebGuildBoardWriteEP12PacketHeader	DIFF	84	N			N	Y	source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

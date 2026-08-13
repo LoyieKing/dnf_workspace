@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8067164` | `0x41a` | `0x8060386` | `0x501` |
+| statics | DIFF | `0x8067164` | `0x41a` | `0x8060334` | `0x4d5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,312 +1,426 @@
+@@ -1,312 +1,409 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -26,7 +26,7 @@
  je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x21>
  mov    $0x2,%eax
 -jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x40f>
-+jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x4f6>
++jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x4ca>
  mov    0x8(%ebp),%eax
  movzbl 0x19(%eax),%edx
  mov    0xc(%ebp),%eax
@@ -37,7 +37,7 @@
 -jne    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x40a>
 +je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x3f>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x4f6>
++jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x4ca>
 +mov    0xc(%ebp),%eax
 +add    $0xb,%eax
 +mov    (%eax),%eax
@@ -83,7 +83,7 @@
 -mov    %eax,(%esp)
 +je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0xa1>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x4f6>
++jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x4ca>
 +mov    0x8(%ebp),%eax
 +lea    0x34(%eax),%edx
 +lea    -0x30(%ebp),%eax
@@ -94,7 +94,7 @@
 -movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x3b3>
 +movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x496>
++jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x46a>
 +mov    0xc(%ebp),%eax
 +mov    -0x20(%ebp),%edx
 +add    $0x4,%edx
@@ -105,7 +105,7 @@
 +mov    %eax,-0x34(%ebp)
 +mov    -0x34(%ebp),%eax
 +cmp    $0xffffffff,%eax
-+je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x4a7>
++je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x47b>
 +mov    0xc(%ebp),%eax
 +mov    -0x20(%ebp),%edx
 +add    $0x8,%edx
@@ -182,7 +182,7 @@
 -je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x25c>
 -mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%eax
-+je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x284>
++je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x2b3>
 +lea    -0x58(%ebp),%eax
 +mov    0xc(%ebp),%edx
 +mov    -0x20(%ebp),%ecx
@@ -193,14 +193,22 @@
 +mov    (%edx),%edx
 +mov    %edx,(%eax)
 +lea    -0x58(%ebp),%eax
-+lea    0x4(%eax),%edx
-+mov    0xc(%ebp),%eax
++add    $0x4,%eax
++mov    0xc(%ebp),%edx
 +mov    -0x20(%ebp),%ecx
 +add    $0x5b,%ecx
-+add    %ecx,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%eax
-+mov    %eax,(%edx)
++add    %ecx,%edx
++movzbl (%edx),%edx
++movzbl %dl,%edx
++mov    0xc(%ebp),%ecx
++mov    -0x20(%ebp),%ebx
++add    $0x61,%ebx
++add    %ebx,%ecx
++movzbl (%ecx),%ecx
++movzbl %cl,%ecx
++shl    $0x8,%ecx
++or     %ecx,%edx
++mov    %edx,(%eax)
 +lea    -0x58(%ebp),%eax
 +lea    0x8(%eax),%edx
 +mov    0xc(%ebp),%eax
@@ -253,16 +261,24 @@
 +mov    (%eax),%eax
 +mov    %eax,(%edx)
 +lea    -0x58(%ebp),%eax
-+lea    0x1c(%eax),%edx
-+mov    0xc(%ebp),%eax
++add    $0x1c,%eax
++mov    0xc(%ebp),%edx
 +mov    -0x20(%ebp),%ecx
 +add    $0x68,%ecx
 +add    %ecx,%ecx
 +add    $0x3,%ecx
-+add    %ecx,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%eax
-+mov    %eax,(%edx)
++add    %ecx,%edx
++movzwl (%edx),%edx
++movzwl %dx,%edx
++mov    0xc(%ebp),%ecx
++mov    -0x20(%ebp),%ebx
++add    $0xdf,%ebx
++add    %ebx,%ecx
++movzbl (%ecx),%ecx
++movzbl %cl,%ecx
++shl    $0x10,%ecx
++or     %ecx,%edx
++mov    %edx,(%eax)
 +mov    0x8(%ebp),%eax
 +lea    0x54(%eax),%edx
 +lea    -0x34(%ebp),%eax
@@ -285,7 +301,7 @@
 +mov    %edx,0x18(%eax)
 +mov    -0x3c(%ebp),%edx
 +mov    %edx,0x1c(%eax)
-+jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x3f0>
++jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x41f>
 +lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKiN17FrameLagCollector18MonitoringSpecCaseEEEptEv>
@@ -578,54 +594,16 @@
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIiN17FrameLagCollector18FrameLagDataStructESt4lessIiESaISt4pairIKiS1_EEEixERS5_>
--mov    %eax,%edx
+ mov    %eax,%edx
 -lea    -0x294(%ebp),%ebx
--mov    $0x92,%eax
--mov    %edx,%edi
-+lea    -0x2a0(%ebp),%edx
-+mov    $0x248,%ebx
-+mov    %eax,%ecx
-+and    $0x1,%ecx
-+test   %ecx,%ecx
-+je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x444>
-+movzbl (%edx),%ecx
-+mov    %cl,(%eax)
-+add    $0x1,%eax
-+add    $0x1,%edx
-+sub    $0x1,%ebx
-+mov    %eax,%ecx
-+and    $0x2,%ecx
-+test   %ecx,%ecx
-+je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x45c>
-+movzwl (%edx),%ecx
-+mov    %cx,(%eax)
-+add    $0x2,%eax
-+add    $0x2,%edx
-+sub    $0x2,%ebx
-+mov    %ebx,%ecx
-+shr    $0x2,%ecx
-+mov    %eax,%edi
-+mov    %edx,%esi
-+rep movsl %ds:(%esi),%es:(%edi)
-+mov    %esi,%edx
-+mov    %edi,%eax
-+mov    $0x0,%ecx
++lea    -0x2a0(%ebp),%ebx
+ mov    $0x92,%eax
+ mov    %edx,%edi
  mov    %ebx,%esi
--mov    %eax,%ecx
--rep movsl %ds:(%esi),%es:(%edi)
+ mov    %eax,%ecx
+ rep movsl %ds:(%esi),%es:(%edi)
 -addl   $0x1,-0x1c(%ebp)
 -cmpl   $0x5,-0x1c(%ebp)
-+and    $0x2,%esi
-+test   %esi,%esi
-+je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x484>
-+movzwl (%edx,%ecx,1),%esi
-+mov    %si,(%eax,%ecx,1)
-+add    $0x2,%ecx
-+and    $0x1,%ebx
-+test   %ebx,%ebx
-+je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x492>
-+movzbl (%edx,%ecx,1),%edx
-+mov    %dl,(%eax,%ecx,1)
 +addl   $0x1,-0x20(%ebp)
 +cmpl   $0x5,-0x20(%ebp)
  setle  %al
@@ -633,7 +611,7 @@
 -jne    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0xb2>
 -jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x3c5>
 +jne    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0xc5>
-+jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x4a8>
++jmp    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x47c>
  nop
  mov    0x8(%ebp),%eax
  add    $0x34,%eax
@@ -654,14 +632,14 @@
 -mov    0x50(%eax),%edx
 -mov    0x8(%ebp),%eax
 -mov    0x4c(%eax),%eax
-+je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x4f1>
++je     <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x4c5>
 +mov    0x8(%ebp),%eax
 +mov    0x4c(%eax),%edx
 +mov    0x8(%ebp),%eax
 +mov    0x50(%eax),%eax
  cmp    %eax,%edx
 -jle    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x3fe>
-+jge    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x4e5>
++jge    <T> <_ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Result_Reload_Spec+0x4b9>
  mov    0x8(%ebp),%eax
  mov    0x50(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -862,7 +840,7 @@ _ZN17FrameLagCollector22PushMonitoringSpecDataEP45Packet_Frame_Lag_Statistic_Res
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 272 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 276 行）：
 
 ```cpp
 int FrameLagCollector::PushMonitoringSpecData(Packet_Frame_Lag_Statistic_Result_Reload_Spec* pkt)
@@ -898,13 +876,17 @@ int FrameLagCollector::PushMonitoringSpecData(Packet_Frame_Lag_Statistic_Result_
         {
             MonitoringSpecCase mc;
             *(int*)((char*)&mc + 0x0) = *(int*)((char*)pkt + (i + 0x10) * 4 + 3);
-            *(int*)((char*)&mc + 0x4) = *(unsigned char*)((char*)pkt + 0x5b + i);
+            *(int*)((char*)&mc + 0x4) =
+                *(unsigned char*)((char*)pkt + 0x5b + i) |
+                (*(unsigned char*)((char*)pkt + 0x61 + i) << 8);
             *(int*)((char*)&mc + 0x8) = *(int*)((char*)pkt + (i + 0x18) * 4 + 7);
             *(int*)((char*)&mc + 0xc) = *(int*)((char*)pkt + (i + 0x1c) * 4 + 0xf);
             *(int*)((char*)&mc + 0x10) = *(unsigned short*)((char*)pkt + (i + 0x48) * 2 + 7);
             *(int*)((char*)&mc + 0x14) = *(int*)((char*)pkt + (i + 0x28) * 4 + 3);
             *(int*)((char*)&mc + 0x18) = *(int*)((char*)pkt + (i + 0x2c) * 4 + 0xb);
-            *(int*)((char*)&mc + 0x1c) = *(unsigned short*)((char*)pkt + (i + 0x68) * 2 + 3);
+            *(int*)((char*)&mc + 0x1c) =
+                *(unsigned short*)((char*)pkt + (i + 0x68) * 2 + 3) |
+                (*(unsigned char*)((char*)pkt + 0xdf + i) << 16);
             m_monitor[sid] = mc;
         }
         else

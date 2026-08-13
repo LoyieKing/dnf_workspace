@@ -1,0 +1,8 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+guild	_ZN13CGuildManager10GuildEnterEjR21ST_Notice_Guild_Enter	DIFF	27	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuildManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+guild	_ZN13CGuildManager11GuildSecedeEjR22ST_Notice_Guild_Secede	DIFF	17	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuildManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+guild	_ZN13CGuildManager13GuildMemLoginEjP5CUser	DIFF	77	N	_ZN12CApplication16Get_GuildManagerEv|_ZN12CApplication17Get_ServerHandlerEv		N	Y	source/DNFServer/GameServer/Guild/DNFGuildManager.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN13CGuildManager14DBGuildProcessEP14CServerHandlerb	DIFF	46	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuildManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+guild	_ZN13CGuildManager14GuildMemLogoutEjP5CUser	DIFF	38	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuildManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+guild	_ZN13CGuildManager16GetAttendanceExpEji	NEAR	8	Y			N	Y	source/DNFServer/GameServer/Guild/DNFGuildManager.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
+guild	_ZN13CGuildManager17GetAttendanceInfoEjR16STAttendanceInfo	DIFF	56	N			N	Y	source/DNFServer/GameServer/Guild/DNFGuildManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

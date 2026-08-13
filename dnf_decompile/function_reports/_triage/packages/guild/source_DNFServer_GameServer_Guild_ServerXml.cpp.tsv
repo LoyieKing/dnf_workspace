@@ -1,0 +1,2 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+guild	_ZN13np_server_xml10CServerXml9StrPunishEiPKcNS_12_eStringTypeE	DIFF	3	N			N	N	source/DNFServer/GameServer/Guild/ServerXml.cpp	0	NEEDS_REVERSE	source location missing from md

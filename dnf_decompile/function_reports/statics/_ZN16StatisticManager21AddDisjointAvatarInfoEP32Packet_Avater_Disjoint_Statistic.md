@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8072ad2` | `0xe1` | `0x8072c1a` | `0xda` |
+| statics | NEAR | `0x8072ad2` | `0xe1` | `0x8072da8` | `0xe1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,28 +13,19 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,75 +1,77 @@
+@@ -1,75 +1,75 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x48,%esp
-+push   %edi
-+push   %esi
-+push   %ebx
-+sub    $0x3c,%esp
+ sub    $0x48,%esp
  mov    0xc(%ebp),%eax
--mov    0xa(%eax),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  mov    %eax,-0x20(%ebp)
  cmpl   $0x0,-0x20(%ebp)
--js     <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0xdb>
-+js     <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0xd2>
+ js     <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0xdb>
  cmpl   $0x2,-0x20(%ebp)
--jg     <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0xde>
-+jg     <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0xd2>
+ jg     <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0xde>
  movl   $0x0,-0x1c(%ebp)
--jmp    <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0xc8>
-+jmp    <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0xc1>
+ jmp    <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0xc8>
 +mov    0xc(%ebp),%ecx
  mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
@@ -43,11 +34,8 @@
  add    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
--mov    0xe(%eax,%ecx,1),%eax
--mov    %eax,-0x18(%ebp)
-+add    $0x17,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    (%eax),%esi
+ mov    0xe(%eax,%ecx,1),%eax
+ mov    %eax,-0x18(%ebp)
 +mov    0xc(%ebp),%ecx
  mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
@@ -56,12 +44,8 @@
  add    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
--mov    0x12(%eax,%ecx,1),%eax
--mov    %eax,-0x14(%ebp)
-+add    $0x16,%eax
-+lea    (%ecx,%eax,1),%eax
-+movzbl (%eax),%eax
-+movsbl %al,%ebx
+ mov    0x12(%eax,%ecx,1),%eax
+ mov    %eax,-0x14(%ebp)
 +mov    0xc(%ebp),%ecx
  mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
@@ -70,14 +54,12 @@
  add    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
-+add    $0x12,%eax
  lea    (%ecx,%eax,1),%eax
--add    $0x16,%eax
--movzbl (%eax),%eax
--movsbl %al,%eax
--mov    %eax,-0x10(%ebp)
-+mov    (%eax),%ecx
-+mov    0xc(%ebp),%edi
+ add    $0x16,%eax
+ movzbl (%eax),%eax
+ movsbl %al,%eax
+ mov    %eax,-0x10(%ebp)
++mov    0xc(%ebp),%ecx
  mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
  mov    %edx,%eax
@@ -85,25 +67,17 @@
  add    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
--mov    0x17(%eax,%ecx,1),%eax
--mov    %eax,-0xc(%ebp)
--mov    0x8(%ebp),%eax
--lea    0x1e8(%eax),%edx
--mov    -0xc(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,0xc(%esp)
--mov    -0x14(%ebp),%eax
--mov    %eax,0x8(%esp)
--mov    -0x18(%ebp),%eax
-+add    $0xe,%eax
-+lea    (%edi,%eax,1),%eax
-+mov    (%eax),%eax
-+mov    0x8(%ebp),%edx
-+add    $0x1e8,%edx
-+mov    %esi,0x10(%esp)
-+mov    %ebx,0xc(%esp)
-+mov    %ecx,0x8(%esp)
+ mov    0x17(%eax,%ecx,1),%eax
+ mov    %eax,-0xc(%ebp)
+ mov    0x8(%ebp),%eax
+ lea    0x1e8(%eax),%edx
+ mov    -0xc(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ mov    -0x14(%ebp),%eax
+ mov    %eax,0x8(%esp)
+ mov    -0x18(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <_ZN25stDisjointAvatarInfoTotal8incCountEiiii>
@@ -112,18 +86,12 @@
  cmp    -0x20(%ebp),%eax
  setl   %al
  test   %al,%al
--jne    <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0x2f>
--jmp    <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0xdf>
--nop
--jmp    <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0xdf>
--nop
--leave
-+jne    <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0x34>
-+add    $0x3c,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %edi
-+pop    %ebp
+ jne    <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0x2f>
+ jmp    <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0xdf>
+ nop
+ jmp    <T> <_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_Disjoint_Statistic+0xdf>
+ nop
+ leave
  ret
 ```
 ## 2. Ghidra 反编译 C
@@ -156,21 +124,40 @@ StatisticManager::_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1258 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1273 行）：
 
 ```cpp
 void StatisticManager::AddDisjointAvatarInfo(Packet_Avater_Disjoint_Statistic* pkt)
 {
-    int count = *(int*)((char*)pkt + 10);
-    if (-1 < count && count < 3)
+    struct __attribute__((packed)) Item
     {
-        for (int i = 0; i < count; i++)
-        {
-            m_disjoint.incCount(*(int*)((char*)pkt + i * 0xd + 0xe),
-                                *(int*)((char*)pkt + i * 0xd + 0x12),
-                                (int)(char)*(char*)((char*)pkt + i * 0xd + 0x16),
-                                *(int*)((char*)pkt + i * 0xd + 0x17));
-        }
+        int m_a;
+        int m_b;
+        char m_c;
+        int m_d;
+    };
+    struct __attribute__((packed)) Wire
+    {
+        char m_hdr[0xa];
+        int m_count;
+        Item m_items[3];
+    };
+    int count = ((Wire*)pkt)->m_count;
+    if (count < 0)
+    {
+        return;
+    }
+    if (2 < count)
+    {
+        return;
+    }
+    for (int i = 0; i < count; i++)
+    {
+        int a = ((Wire*)pkt)->m_items[i].m_a;
+        int b = ((Wire*)pkt)->m_items[i].m_b;
+        int c = (int)(char)((Wire*)pkt)->m_items[i].m_c;
+        int d = ((Wire*)pkt)->m_items[i].m_d;
+        m_disjoint.incCount(a, b, c, d);
     }
 }
 ```

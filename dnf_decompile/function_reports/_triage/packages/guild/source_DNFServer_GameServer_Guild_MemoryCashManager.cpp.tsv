@@ -1,0 +1,2 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+guild	_ZN18CMemoryCashManager34InsertCashMemorySetCharacterObjectEP5CUser	DIFF	32	N			N	Y	source/DNFServer/GameServer/Guild/MemoryCashManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

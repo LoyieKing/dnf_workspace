@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808e4a8` | `0x2b6` | `0x80ed3ce` | `0x2be` |
+| dbmw | DIFF | `0x808e4a8` | `0x2b6` | `0x80ed476` | `0x2b4` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,182 +1,183 @@
+@@ -1,182 +1,181 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -28,15 +28,13 @@
  mov    0x8(%ebp),%eax
  mov    0x1054(%eax),%eax
  test   %eax,%eax
- setg   %al
+-setg   %al
 -test   %al,%al
 -jne    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x2ad>
-+mov    %al,-0x1d(%ebp)
-+cmpb   $0x0,-0x1d(%ebp)
-+jne    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x2b5>
++jg     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x2ab>
  movl   $0x4e21,-0x1c(%ebp)
 -jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x28c>
-+jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x294>
++jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x28a>
  mov    -0x1c(%ebp),%eax
  lea    -0x4e20(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -69,7 +67,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x15e>
-+je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x167>
++je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x15d>
  mov    -0x1c(%ebp),%eax
  lea    -0x4e20(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -77,7 +75,7 @@
  mov    0x8(%eax,%edx,4),%eax
  test   %eax,%eax
 -je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x287>
-+je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x290>
++je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x286>
  mov    -0x1c(%ebp),%eax
  lea    -0x4e20(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -103,7 +101,7 @@
  movl   $0x76,0x8(%esp)
  movl   $&_ZZN13CQueryCounter10WriteDBLogER10CDBManagerE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %esi,0x14(%esp)
@@ -113,11 +111,11 @@
  movl   $"Count DB Insert Fail! id(%d), count(%d), time(%d)",0x8(%esp)
  movl   $"./log/QueryCount",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x288>
-+jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x290>
++jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x286>
  mov    -0x1c(%ebp),%eax
  lea    -0x4e20(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -125,7 +123,7 @@
  mov    0x8(%eax,%edx,4),%eax
  test   %eax,%eax
 -je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x256>
-+je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x290>
++je     <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x286>
  mov    -0x1c(%ebp),%eax
  lea    -0x4e20(%eax),%edx
  mov    0x8(%ebp),%eax
@@ -145,13 +143,13 @@
  lea    -0x4e20(%edx),%ecx
  mov    0x8(%ebp),%edx
  add    $0x50,%ecx
- mov    0x8(%edx,%ecx,4),%ecx
- mov    %ecx,-0x4c(%ebp)
--mov    %eax,%edx
--sar    $0x1f,%edx
--idivl  -0x4c(%ebp)
-+mov    $0x0,%edx
-+divl   -0x4c(%ebp)
+-mov    0x8(%edx,%ecx,4),%ecx
+-mov    %ecx,-0x4c(%ebp)
++mov    0x8(%edx,%ecx,4),%edx
++mov    %edx,-0x4c(%ebp)
+ mov    %eax,%edx
+ sar    $0x1f,%edx
+ idivl  -0x4c(%ebp)
  mov    %eax,%edi
  mov    -0x1c(%ebp),%eax
  lea    -0x4e20(%eax),%edx
@@ -174,7 +172,7 @@
  movl   $0x7a,0x8(%esp)
  movl   $&_ZZN13CQueryCounter10WriteDBLogER10CDBManagerE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %edi,0x18(%esp)
@@ -185,7 +183,7 @@
  movl   $"Count DB Insert Success! id(%d), count(%d), time(%d), compute(%4.2f)",0x8(%esp)
  movl   $"./log/QueryCount",0x4(%esp)
 -lea    -0x24(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    -0x1c(%ebp),%eax
@@ -206,11 +204,11 @@
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x40>
-+jne    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x45>
++jne    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x3b>
  mov    0x8(%ebp),%eax
  movl   $0x1e,0x1054(%eax)
 -jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x2ae>
-+jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x2b6>
++jmp    <T> <_ZN13CQueryCounter10WriteDBLogER10CDBManager+0x2ac>
  nop
  add    $0x6c,%esp
  pop    %ebx
@@ -284,8 +282,7 @@ CQueryCounter::_ZN13CQueryCounter10WriteDBLogER10CDBManager(CQueryCounter *this,
 void CQueryCounter::WriteDBLog(CDBManager& db)
 {
     m_interval--;
-    bool b = m_interval > 0;
-    if (b)
+    if (m_interval > 0)
         return;
     for (int q = 0x4e21; q <= 0x4f60; q++)
     {
@@ -307,7 +304,7 @@ void CQueryCounter::WriteDBLog(CDBManager& db)
             if (m_counts[q - 0x4e20] != 0)
             {
                 register int avg = (int)(m_responseTimes[q - 0x4e20] * 1000.0) /
-                                   m_counts[q - 0x4e20];
+                                   (int)m_counts[q - 0x4e20];
                 register int t = (int)(m_responseTimes[q - 0x4e20] * 1000.0);
                 register int c = m_counts[q - 0x4e20];
                 CMyFileLog log(__FUNCTION__, 0x7a);

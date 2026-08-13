@@ -1,0 +1,5 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+guild	_ZN13CPowerManager18SaveDBPowerWarRankEv	DIFF	515	N			N	Y	source/DNFServer/GameServer/Guild/PowerManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+guild	_ZN13CPowerManager23SendPowerWarProcessInfoEj	DIFF	6	Y			N	Y	source/DNFServer/GameServer/Guild/PowerManager.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
+guild	_ZN13CPowerManager24RewardGuildPowerWarPointEv	DIFF	155	N	_ZN12CApplication16Get_GuildManagerEv		N	Y	source/DNFServer/GameServer/Guild/PowerManager.cpp	0	CALL_DIFF	real call set differs
+guild	_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc	DIFF	161	N			N	Y	source/DNFServer/GameServer/Guild/PowerManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

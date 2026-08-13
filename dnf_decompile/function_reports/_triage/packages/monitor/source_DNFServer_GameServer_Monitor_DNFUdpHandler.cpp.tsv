@@ -1,0 +1,6 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+monitor	_ZN11CUdpHandler16InitServerSocketEi	DIFF	71	N			N	Y	source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZNK11CUdpHandler12SendToClientEPcitPKcj	DIFF	92	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z		N	N	source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp	0	CALL_DIFF	real call set differs
+monitor	_ZNK11CUdpHandler12SendToServerEPcitPKc	DIFF	2	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp	15	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
+monitor	_ZNK11CUdpHandler14RecvFromClientEPcPiPjPt	DIFF	64	N			N	N	source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp	0	NEEDS_REVERSE	source location missing from md
+monitor	_ZNK11CUdpHandler14RecvFromServerEPcPiPjPt	DIFF	115	N	_ZN10CMyFileLogC1EPKci|_ZN10CMyFileLogclEPKcS1_z|inet_ntoa		N	N	source/DNFServer/GameServer/Monitor/DNFUdpHandler.cpp	0	CALL_DIFF	real call set differs

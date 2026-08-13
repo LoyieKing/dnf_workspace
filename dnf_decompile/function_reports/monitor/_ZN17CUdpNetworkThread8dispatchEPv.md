@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80972a4` | `0x6fe` | `0x8063eda` | `0x744` |
+| monitor | DIFF | `0x80972a4` | `0x6fe` | `0x8063eca` | `0x744` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -601,10 +601,14 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,0x4(%esp)
  movl   $"CUdpNetworkThread::dispatch() 예외 발생 : %s\n",(%esp)
  call   <T> <printf>

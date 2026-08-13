@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x808db52` | `0x246` | `0x8079264` | `0x246` |
+| monitor | NEAR | `0x808db52` | `0x246` | `0x8079260` | `0x246` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -19,65 +19,51 @@
  push   %edi
  push   %esi
  push   %ebx
--sub    $0x6c,%esp
-+sub    $0x5c,%esp
+ sub    $0x6c,%esp
  mov    0x8(%ebp),%eax
-+mov    %eax,-0x28(%ebp)
-+mov    -0x28(%ebp),%eax
-+movzwl 0x12(%eax),%eax
-+movzwl %ax,%eax
  mov    %eax,-0x24(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
  je     <T> <_ZN17CPacketTranslater22OnRegisterEventUserIdxEP12PacketHeader+0x91>
--mov    -0x24(%ebp),%eax
--movzwl 0x12(%eax),%eax
--movzwl %ax,%eax
--mov    %eax,-0x4c(%ebp)
+ mov    -0x24(%ebp),%eax
+ movzwl 0x12(%eax),%eax
+ movzwl %ax,%eax
+ mov    %eax,-0x4c(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x320(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN19COnTimeEventManager12GetEvent_IdxEv>
  mov    %eax,%ebx
--mov    -0x24(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    0xe(%eax),%edi
--mov    -0x24(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    0xa(%eax),%esi
  movl   $0x1a30,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater22OnRegisterEventUserIdxEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x44(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0x4c(%ebp),%eax
-+mov    -0x24(%ebp),%eax
+ mov    -0x4c(%ebp),%eax
  mov    %eax,0x18(%esp)
  mov    %ebx,0x14(%esp)
  mov    %edi,0x10(%esp)
  mov    %esi,0xc(%esp)
  movl   $"OnRegisterEventUserIdx:id = %u , rcv_idx = %u, cur_idx = %d, errortype = %d",0x8(%esp)
  movl   $"./log/OnTimeEvent",0x4(%esp)
--lea    -0x44(%ebp),%eax
-+lea    -0x48(%ebp),%eax
+ lea    -0x44(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  jmp    <T> <_ZN17CPacketTranslater22OnRegisterEventUserIdxEP12PacketHeader+0xe9>
--mov    -0x24(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  movzwl 0x12(%eax),%eax
  movzwl %ax,%edi
--mov    -0x24(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    0xe(%eax),%esi
--mov    -0x24(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    0xa(%eax),%ebx
  movl   $0x1a35,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater22OnRegisterEventUserIdxEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %edi,0x14(%esp)
@@ -85,22 +71,18 @@
  mov    %ebx,0xc(%esp)
  movl   $"OnRegisterEventUserIdx:id = %u , idx = %u, errortype = %d",0x8(%esp)
  movl   $"./log/OnTimeEvent",0x4(%esp)
--lea    -0x3c(%ebp),%eax
-+lea    -0x40(%ebp),%eax
+ lea    -0x3c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x24(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  movzwl 0x12(%eax),%eax
  test   %ax,%ax
  je     <T> <_ZN17CPacketTranslater22OnRegisterEventUserIdxEP12PacketHeader+0x106>
--mov    -0x24(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  movzwl 0x12(%eax),%eax
  cmp    $0x3,%ax
  jne    <T> <_ZN17CPacketTranslater22OnRegisterEventUserIdxEP12PacketHeader+0x23e>
--mov    -0x24(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    0xa(%eax),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
@@ -111,15 +93,13 @@
  mov    %eax,-0x20(%ebp)
  cmpl   $0x0,-0x20(%ebp)
  je     <T> <_ZN17CPacketTranslater22OnRegisterEventUserIdxEP12PacketHeader+0x23e>
--mov    -0x24(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  mov    0xe(%eax),%eax
  mov    %eax,0x4(%esp)
  mov    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser12SetEvent_idxEj>
--mov    -0x24(%ebp),%eax
-+mov    -0x28(%ebp),%eax
+ mov    -0x24(%ebp),%eax
  movzwl 0x12(%eax),%eax
  cmp    $0x3,%ax
  jne    <T> <_ZN17CPacketTranslater22OnRegisterEventUserIdxEP12PacketHeader+0x23e>
@@ -135,22 +115,24 @@
  mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x8,%eax
- mov    (%eax),%edx
- mov    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   *%edx
+-mov    (%eax),%edx
+-mov    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   *%edx
++mov    (%eax),%eax
++mov    -0x1c(%ebp),%edx
++mov    %edx,(%esp)
++call   *%eax
  mov    %eax,%ebx
  movl   $0x1a4a,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater22OnRegisterEventUserIdxEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x34(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    %ebx,0xc(%esp)
  movl   $"CPacketTranslater::OnResultLoadPeriodicMessage Exception Break : %s\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x34(%ebp),%eax
-+lea    -0x38(%ebp),%eax
+ lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  jmp    <T> <_ZN17CPacketTranslater22OnRegisterEventUserIdxEP12PacketHeader+0x1dd>
@@ -167,14 +149,12 @@
  call   <T> <__cxa_begin_catch>
  movl   $0x1a4f,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater22OnRegisterEventUserIdxEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnResultLoadPeriodicMessage Exception Break\n",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
--lea    -0x2c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
+ lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  jmp    <T> <_ZN17CPacketTranslater22OnRegisterEventUserIdxEP12PacketHeader+0x239>
@@ -186,8 +166,7 @@
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
--add    $0x6c,%esp
-+add    $0x5c,%esp
+ add    $0x6c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
@@ -260,13 +239,13 @@ void CPacketTranslater::OnRegisterEventUserIdx(PacketHeader* pkt)
     try
     {
         PacketHeader* pkt2 = pkt;
-        unsigned int errType = ((RA_U16<18>*)pkt2)->v;
         if (m_pclApp != 0)
         {
             DNF_LOG_SCOPE_LINE(0x1a30,"./log/OnTimeEvent",
                 "OnRegisterEventUserIdx:id = %u , rcv_idx = %u, cur_idx = %d, errortype = %d",
                 ((RA_UINT<10>*)pkt2)->v, ((RA_UINT<14>*)pkt2)->v,
-                m_pclApp->m_onTimeEventMgr->GetEvent_Idx(), errType);
+                m_pclApp->m_onTimeEventMgr->GetEvent_Idx(),
+                ((RA_U16<18>*)pkt2)->v);
         }
         else
         {

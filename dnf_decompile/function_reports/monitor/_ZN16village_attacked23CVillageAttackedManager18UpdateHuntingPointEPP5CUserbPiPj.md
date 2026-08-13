@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x80a9904` | `0x211` | `0x80a875c` | `0x1f3` |
+| monitor | DIFF | `0x80a9904` | `0x211` | `0x80a86a8` | `0x1f5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -26,17 +26,17 @@
 -xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x206>
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1e9>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1eb>
  movl   $0x0,-0x18(%ebp)
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1c5>
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1aa>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1ac>
  mov    -0x18(%ebp),%eax
  shl    $0x2,%eax
  add    0xc(%ebp),%eax
  mov    (%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1c0>
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1a6>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1a8>
  movl   $0x0,-0x14(%ebp)
  mov    -0x18(%ebp),%eax
  shl    $0x2,%eax
@@ -92,22 +92,16 @@
  mov    -0x10(%ebp),%eax
  mov    %edx,(%eax)
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x8d>
-+jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0xfb>
++jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0xfd>
  mov    -0x10(%ebp),%eax
--mov    0x4(%eax),%eax
--lea    0x1(%eax),%edx
--mov    -0x10(%ebp),%eax
--mov    %edx,0x4(%eax)
-+add    $0x4,%eax
-+mov    (%eax),%edx
-+add    $0x1,%edx
-+mov    %edx,(%eax)
+ mov    0x4(%eax),%eax
+ lea    0x1(%eax),%edx
+ mov    -0x10(%ebp),%eax
+ mov    %edx,0x4(%eax)
  mov    -0x10(%ebp),%eax
  mov    (%eax),%edx
  mov    -0x10(%ebp),%eax
--mov    0x4(%eax),%eax
-+add    $0x4,%eax
-+mov    (%eax),%eax
+ mov    0x4(%eax),%eax
  lea    (%edx,%eax,1),%eax
  mov    %eax,-0x14(%ebp)
 -jmp    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x124>
@@ -151,7 +145,7 @@
 -sub    $0x4,%esp
 -cmpb   $0x0,-0x4c(%ebp)
 -je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1c1>
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1a6>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1a8>
  mov    -0x18(%ebp),%eax
  shl    $0x2,%eax
  add    0x18(%ebp),%eax
@@ -162,9 +156,8 @@
  call   <T> <_ZN16village_attacked23CVillageAttackedManager15GetHuntingPointEj>
  mov    %eax,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
--mov    (%eax),%eax
--mov    %eax,%edx
-+mov    (%eax),%edx
+ mov    (%eax),%eax
+ mov    %eax,%edx
  mov    -0x18(%ebp),%eax
  shl    $0x2,%eax
  add    0xc(%ebp),%eax
@@ -203,7 +196,7 @@
 +jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x29>
  cmpb   $0x0,-0x4c(%ebp)
 -je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1e9>
-+je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1ce>
++je     <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1d0>
  mov    0x8(%ebp),%eax
  mov    0x1c(%eax),%eax
  lea    0x1(%eax),%edx
@@ -215,7 +208,7 @@
  mov    0x20(%eax),%eax
  cmp    %eax,%edx
 -jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x207>
-+jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1e9>
++jne    <T> <_ZN16village_attacked23CVillageAttackedManager18UpdateHuntingPointEPP5CUserbPiPj+0x1eb>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN16village_attacked23CVillageAttackedManager11SendMinTimeEv>

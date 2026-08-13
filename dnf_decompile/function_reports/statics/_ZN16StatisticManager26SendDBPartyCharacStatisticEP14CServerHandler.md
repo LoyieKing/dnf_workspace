@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806f742` | `0x44c` | `0x806f966` | `0x43e` |
+| statics | DIFF | `0x806f742` | `0x44c` | `0x806f8fe` | `0x43e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -430,11 +430,6 @@
  mov    -0xc(%ebp),%eax
 -mov    %eax,-0x1773(%ebp)
 +mov    %eax,(%edx)
-+lea    -0x177d(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  movl   $0x1fa,0x8(%esp)
  movl   $&_ZZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHandlerE12__FUNCTION__,0x4(%esp)
  lea    -0x14(%ebp),%eax
@@ -447,11 +442,11 @@
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--lea    -0x177d(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
+ lea    -0x177d(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  mov    -0x4(%ebp),%ebx
  leave
  ret
@@ -638,7 +633,7 @@ StatisticManager::_ZN16StatisticManager26SendDBPartyCharacStatisticEP14CServerHa
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 431 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 432 行）：
 
 ```cpp
 void StatisticManager::SendDBPartyCharacStatistic(CServerHandler* handler)
@@ -683,8 +678,8 @@ void StatisticManager::SendDBPartyCharacStatistic(CServerHandler* handler)
         if (idx != 0)
         {
             *(unsigned int*)((char*)&pkt + 0xa) = idx;
-            handler->SendToDB((PacketHeader*)&pkt);
             DNF_LOG_SCOPE_LINE(0x1fa, "./log/statistic", "Packet_DBMW_Dungeon_Statistic_Party_Charac : (%d) \xb0\xb3 \xc6\xd0\xc5\xb6 \xc0\xfc\xbc\xdb\n", idx);
+            handler->SendToDB((PacketHeader*)&pkt);
         }
     }
 }

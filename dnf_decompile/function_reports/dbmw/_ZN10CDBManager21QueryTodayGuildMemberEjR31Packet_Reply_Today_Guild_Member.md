@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808504a` | `0x38a` | `0x805df68` | `0x3bc` |
+| dbmw | DIFF | `0x808504a` | `0x38a` | `0x805e00e` | `0x36e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,272 +1,284 @@
+@@ -1,272 +1,263 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -21,35 +21,32 @@
  sub    $0x70,%esp
  mov    0x8(%ebp),%eax
  mov    0x20(%eax),%eax
--mov    %eax,-0x18(%ebp)
-+mov    %eax,-0x14(%ebp)
+ mov    %eax,-0x18(%ebp)
  movl   $0x0,(%esp)
  call   <T> <time>
--mov    %eax,-0x1c(%ebp)
--movl   $0x0,-0x14(%ebp)
--lea    -0x1c(%ebp),%eax
-+mov    %eax,-0x18(%ebp)
-+lea    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <localtime>
--mov    %eax,-0x10(%ebp)
- mov    0x10(%ebp),%eax
--mov    0xc(%ebp),%edx
--mov    %edx,0xa(%eax)
--lea    -0x28(%ebp),%eax
+ mov    %eax,-0x1c(%ebp)
++lea    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <localtime>
++mov    0x10(%ebp),%eax
 +lea    0xa(%eax),%edx
 +mov    0xc(%ebp),%eax
 +mov    %eax,(%edx)
-+movl   $0x0,-0x10(%ebp)
-+lea    -0x24(%ebp),%eax
+ movl   $0x0,-0x14(%ebp)
+-lea    -0x1c(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <localtime>
+-mov    %eax,-0x10(%ebp)
+-mov    0x10(%ebp),%eax
+-mov    0xc(%ebp),%edx
+-mov    %edx,0xa(%eax)
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI18STTodayGuildMemberSaIS0_EEC1Ev>
--lea    -0x28(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI18STTodayGuildMemberSaIS0_EE5clearEv>
--mov    -0x18(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%edx
@@ -57,116 +54,93 @@
  mov    %eax,0xc(%esp)
  movl   $"seLect charac_no,charac_name,grade,job,grow_type,sex,lev from guild_member where guild_id = %d and member_flag = 1 and grade != 0",0x8(%esp)
  movl   $0x4f05,0x4(%esp)
--mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x8e>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
--mov    -0x18(%ebp),%eax
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
 +je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x8d>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x3a8>
-+mov    -0x14(%ebp),%eax
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x35a>
+ mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4f05,0x4(%esp)
--mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0xb9>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
 -movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x291>
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2de>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x290>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x3a8>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x35a>
++lea    -0x50(%ebp),%eax
++mov    %eax,-0xc(%ebp)
  movl   $0x27,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -lea    -0x4f(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
++lea    -0x50(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memset>
--mov    -0x18(%ebp),%eax
-+mov    -0x14(%ebp),%eax
+ mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x24,%eax
  mov    (%eax),%edx
--mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x103>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
--mov    -0x18(%ebp),%eax
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0xff>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x100>
 +mov    $0x0,%ebx
-+mov    $0x0,%esi
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2c9>
-+mov    -0x14(%ebp),%eax
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x35a>
+ mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
  mov    (%eax),%edx
 -lea    -0x4f(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
++mov    -0xc(%ebp),%eax
  mov    %eax,0x8(%esp)
  movl   $0x0,0x4(%esp)
--mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x135>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
--mov    -0x18(%ebp),%eax
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x136>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x132>
 +mov    $0x0,%ebx
-+mov    $0x0,%esi
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2c9>
-+mov    -0x14(%ebp),%eax
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x35a>
+ mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
  mov    (%eax),%edx
++mov    -0xc(%ebp),%eax
++add    $0x4,%eax
  movl   $0x1d,0xc(%esp)
 -lea    -0x4f(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
- add    $0x4,%eax
+-add    $0x4,%eax
  mov    %eax,0x8(%esp)
  movl   $0x1,0x4(%esp)
--mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x172>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
@@ -175,28 +149,22 @@
 -add    $0x50,%eax
 -mov    (%eax),%edx
 -lea    -0x4f(%ebp),%eax
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x178>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x16f>
 +mov    $0x0,%ebx
-+mov    $0x0,%esi
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2c9>
-+mov    -0x14(%ebp),%eax
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x35a>
++mov    -0x18(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x50,%eax
 +mov    (%eax),%edx
-+lea    -0x4c(%ebp),%eax
++mov    -0xc(%ebp),%eax
  add    $0x22,%eax
  mov    %eax,0x8(%esp)
  movl   $0x2,0x4(%esp)
--mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x1a7>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
@@ -205,28 +173,22 @@
 -add    $0x50,%eax
 -mov    (%eax),%edx
 -lea    -0x4f(%ebp),%eax
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x1b2>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x1a4>
 +mov    $0x0,%ebx
-+mov    $0x0,%esi
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2c9>
-+mov    -0x14(%ebp),%eax
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x35a>
++mov    -0x18(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x50,%eax
 +mov    (%eax),%edx
-+lea    -0x4c(%ebp),%eax
++mov    -0xc(%ebp),%eax
  add    $0x23,%eax
  mov    %eax,0x8(%esp)
  movl   $0x3,0x4(%esp)
--mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x1dc>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
@@ -235,28 +197,22 @@
 -add    $0x50,%eax
 -mov    (%eax),%edx
 -lea    -0x4f(%ebp),%eax
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x1ec>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x1d9>
 +mov    $0x0,%ebx
-+mov    $0x0,%esi
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2c9>
-+mov    -0x14(%ebp),%eax
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x35a>
++mov    -0x18(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x50,%eax
 +mov    (%eax),%edx
-+lea    -0x4c(%ebp),%eax
++mov    -0xc(%ebp),%eax
  add    $0x24,%eax
  mov    %eax,0x8(%esp)
  movl   $0x4,0x4(%esp)
--mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x211>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
@@ -265,28 +221,22 @@
 -add    $0x50,%eax
 -mov    (%eax),%edx
 -lea    -0x4f(%ebp),%eax
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x226>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x20e>
 +mov    $0x0,%ebx
-+mov    $0x0,%esi
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2c9>
-+mov    -0x14(%ebp),%eax
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x35a>
++mov    -0x18(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x50,%eax
 +mov    (%eax),%edx
-+lea    -0x4c(%ebp),%eax
++mov    -0xc(%ebp),%eax
  add    $0x25,%eax
  mov    %eax,0x8(%esp)
  movl   $0x5,0x4(%esp)
--mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x246>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
@@ -295,99 +245,64 @@
 -add    $0x50,%eax
 -mov    (%eax),%edx
 -lea    -0x4f(%ebp),%eax
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x25d>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x243>
 +mov    $0x0,%ebx
-+mov    $0x0,%esi
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2c9>
-+mov    -0x14(%ebp),%eax
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x35a>
++mov    -0x18(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x50,%eax
 +mov    (%eax),%edx
-+lea    -0x4c(%ebp),%eax
++mov    -0xc(%ebp),%eax
  add    $0x26,%eax
  mov    %eax,0x8(%esp)
  movl   $0x6,0x4(%esp)
--mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
--xor    $0x1,%eax
--test   %al,%al
+ mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
+ xor    $0x1,%eax
+ test   %al,%al
 -je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x27b>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
 -lea    -0x4f(%ebp),%eax
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x294>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x278>
 +mov    $0x0,%ebx
-+mov    $0x0,%esi
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2c9>
-+lea    -0x4c(%ebp),%eax
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x35a>
++mov    -0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI18STTodayGuildMemberSaIS0_EE9push_backERKS0_>
 -addl   $0x1,-0xc(%ebp)
--mov    -0x18(%ebp),%eax
-+addl   $0x1,-0x10(%ebp)
-+mov    $0x1,%esi
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2c9>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+lea    -0x4c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN18STTodayGuildMemberD1Ev>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x38d>
-+lea    -0x4c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN18STTodayGuildMemberD1Ev>
-+test   %esi,%esi
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x3a8>
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2df>
++addl   $0x1,-0x14(%ebp)
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x291>
 +nop
-+mov    -0x14(%ebp),%eax
+ mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x6c,%eax
  mov    (%eax),%edx
--mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   *%edx
+ mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   *%edx
 -cmp    -0xc(%ebp),%eax
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%esp)
-+call   *%edx
-+cmp    -0x10(%ebp),%eax
++cmp    -0x14(%ebp),%eax
  seta   %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0xc5>
--lea    -0x28(%ebp),%eax
 +jne    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0xbc>
-+lea    -0x24(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorI18STTodayGuildMemberSaIS0_EE4sizeEv>
  cmp    $0x13,%eax
  setbe  %al
  test   %al,%al
--je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2d0>
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x31e>
+ je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2d0>
  mov    $0x1,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x3a8>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x35a>
  call   <T> <rand>
  mov    %eax,%ebx
--lea    -0x28(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorI18STTodayGuildMemberSaIS0_EE4sizeEv>
  mov    %eax,-0x5c(%ebp)
@@ -397,8 +312,7 @@
  mov    %edx,%ecx
  mov    %ecx,%eax
  mov    %eax,0x4(%esp)
--lea    -0x28(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI18STTodayGuildMemberSaIS0_EEixEj>
 -mov    0x10(%ebp),%edx
@@ -424,37 +338,34 @@
 -mov    %cx,0x32(%edx)
 -movzbl 0x26(%eax),%eax
 -mov    %al,0x34(%edx)
--lea    -0x28(%ebp),%eax
-+mov    %eax,-0xc(%ebp)
++mov    %eax,-0x10(%ebp)
 +mov    0x10(%ebp),%eax
 +add    $0xe,%eax
-+cmp    -0xc(%ebp),%eax
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x37b>
++cmp    -0x10(%ebp),%eax
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x32d>
 +mov    0x10(%ebp),%eax
 +lea    0xe(%eax),%edx
 +movl   $0x27,0x8(%esp)
-+mov    -0xc(%ebp),%eax
++mov    -0x10(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    %edx,(%esp)
 +call   <T> <memcpy>
-+lea    -0x24(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI18STTodayGuildMemberSaIS0_EE5clearEv>
  mov    $0x1,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x3a8>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x35a>
  mov    %edx,%ebx
  mov    %eax,%esi
--lea    -0x28(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI18STTodayGuildMemberSaIS0_EED1Ev>
  mov    %esi,%eax
  mov    %ebx,%edx
  mov    %eax,(%esp)
  call   <T> <_Unwind_Resume>
--lea    -0x28(%ebp),%eax
-+lea    -0x24(%ebp),%eax
+ lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI18STTodayGuildMemberSaIS0_EED1Ev>
  mov    %ebx,%eax

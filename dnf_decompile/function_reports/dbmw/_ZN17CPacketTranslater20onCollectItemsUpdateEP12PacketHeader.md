@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80a034e` | `0x1e4` | `0x80d6d26` | `0x1ee` |
+| dbmw | DIFF | `0x80a034e` | `0x1e4` | `0x80d6dba` | `0x1f0` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,138 +1,139 @@
+@@ -1,138 +1,140 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -22,7 +22,7 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1dc>
-+je     <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1e6>
++je     <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1e8>
  mov    0x8(%ebp),%eax
  mov    %eax,-0x14(%ebp)
  lea    -0x3a(%ebp),%eax
@@ -53,8 +53,7 @@
  call   <T> <_ZN10CDBManager18selectCollectItemsEhRiS0_RjRh>
  mov    -0x14(%ebp),%eax
  mov    0xa(%eax),%edx
--mov    -0x2c(%ebp),%eax
-+mov    -0x30(%ebp),%eax
+ mov    -0x2c(%ebp),%eax
  mov    %edx,%ecx
  sub    %eax,%ecx
  mov    %ecx,%eax
@@ -79,16 +78,17 @@
  movzbl -0x3b(%ebp),%eax
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0xd5>
-+jne    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1e7>
++jne    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1e9>
  mov    -0x14(%ebp),%eax
 -movzbl 0x13(%eax),%eax
-+movzbl 0xf(%eax),%eax
++add    $0x13,%eax
++movzbl (%eax),%eax
  test   %al,%al
 -jne    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0xd5>
-+jne    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1e7>
++jne    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1e9>
  cmpl   $0x0,-0x10(%ebp)
 -jns    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1dd>
-+jns    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1e7>
++jns    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1e9>
  movzwl -0x38(%ebp),%eax
  movzwl %ax,%esi
  lea    -0x3a(%ebp),%ebx
@@ -101,10 +101,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CMonitorServer12SendToServerEPci>
 -jmp    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1dd>
-+jmp    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1e7>
++jmp    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1e9>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x180>
-+jne    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x18a>
++jne    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x18c>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0xc(%ebp)
@@ -128,7 +128,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x179>
-+jmp    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x183>
++jmp    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x185>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -138,7 +138,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1dd>
-+jmp    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1e7>
++jmp    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1e9>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x13ec,0x8(%esp)
@@ -152,7 +152,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1d5>
-+jmp    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1df>
++jmp    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1e1>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -162,7 +162,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1dd>
-+jmp    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1e7>
++jmp    <T> <_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHeader+0x1e9>
  nop
  add    $0x60,%esp
  pop    %ebx
@@ -213,7 +213,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20onCollectItemsUpdateEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1714 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 1780 行）：
 
 ```cpp
 void CPacketTranslater::onCollectItemsUpdate(PacketHeader* header)
@@ -230,11 +230,12 @@ void CPacketTranslater::onCollectItemsUpdate(PacketHeader* header)
             pkt->m_serverInfo,
             *(int*)((char*)&reply + 0xe), *(int*)((char*)&reply + 0xa),
             *(unsigned int*)((char*)&reply + 0x12), flag);
-        int diff = pkt->m_fieldA - reply.m_fieldA;
+        int diff = pkt->m_fieldA - reply.m_fieldE;
         m_pclApp->m_dbManager.updateCollectItems(
             pkt->m_serverInfo, diff,
             reply.m_field12, flag);
-        if (flag == 0 && pkt->m_field13 == 0 && diff < 0)
+        if (flag == 0 &&
+            *(unsigned char*)((char*)pkt + 0x13) == 0 && diff < 0)
         {
             m_pclApp->m_serverHandler->GetMonitorServer()->SendToServer(
                 (char*)&reply, reply.packetSize);

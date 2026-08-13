@@ -1,0 +1,9 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+monitor	_ZN12CUserManager11AddSchoolNoEjh	NEAR	20	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFUserManager.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
+monitor	_ZN12CUserManager14GetSchoolCountEjPjRh	DIFF	130	N			N	Y	source/DNFServer/GameServer/Monitor/DNFUserManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN12CUserManager15ProcessByMinuteEv	DIFF	62	N			N	Y	source/DNFServer/GameServer/Monitor/DNFUserManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN12CUserManager17InsertUser_CharNoEjP5CUser	NEAR	28	N			N	Y	source/DNFServer/GameServer/Monitor/DNFUserManager.cpp	3	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
+monitor	_ZN12CUserManager19InsertUser_CharNameEPcP5CUser	NEAR	24	Y			N	Y	source/DNFServer/GameServer/Monitor/DNFUserManager.cpp	4	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
+monitor	_ZN12CUserManager23SendConnectedBuddysListEP5CUser	DIFF	153	N			N	Y	source/DNFServer/GameServer/Monitor/DNFUserManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN12CUserManager27DeleteUsersOnGameServerDownEP11CGameServer	DIFF	104	N			N	Y	source/DNFServer/GameServer/Monitor/DNFUserManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+monitor	_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServer	DIFF	104	N			N	Y	source/DNFServer/GameServer/Monitor/DNFUserManager.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

@@ -1,0 +1,4 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+dbmw	_ZN13CQueryCounter10WriteDBLogER10CDBManager	DIFF	41	N			N	Y	source/DNFServer/GameServer/DBMW/QueryCounter.cpp	5	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN13CQueryCounter15IncreQureyCountEjPKc	DIFF	8	N			N	Y	source/DNFServer/GameServer/DBMW/QueryCounter.cpp	5	CODEGEN_TAIL	very small structural diff
+dbmw	_ZN13CQueryCounter15SetResponseTimeEj	DIFF	11	N			N	Y	source/DNFServer/GameServer/DBMW/QueryCounter.cpp	3	CODEGEN_TAIL	very small structural diff

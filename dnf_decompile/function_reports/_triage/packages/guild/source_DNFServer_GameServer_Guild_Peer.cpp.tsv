@@ -1,0 +1,5 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+guild	_ZN5CPeer11recv_packetEv	DIFF	30	N			N	Y	source/DNFServer/GameServer/Guild/Peer.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+guild	_ZN5CPeer11send_packetEPci	NEAR	6	Y			N	Y	source/DNFServer/GameServer/Guild/Peer.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
+guild	_ZN5CPeer11send_packetEv	DIFF	86	N			N	Y	source/DNFServer/GameServer/Guild/Peer.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+guild	_ZN5CPeer7parsingEi	DIFF	171	N			Y	Y	source/DNFServer/GameServer/Guild/Peer.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x804c96a` | `0x13c` | `0x80878a8` | `0x13c` |
+| guild | NEAR | `0x804c96a` | `0x13c` | `0x8087b84` | `0x13c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -28,10 +28,9 @@
  mov    0x8(%ebp),%eax
 -mov    0xc(%ebp),%edx
  mov    %edx,0x2c(%eax)
--mov    0x8(%ebp),%eax
+ mov    0x8(%ebp),%eax
  movl   $0x28,0x8(%esp)
  movl   $0x0,0x4(%esp)
-+mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memset>
 +mov    0x10(%ebp),%edx

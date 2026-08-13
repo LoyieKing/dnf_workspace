@@ -1,0 +1,2 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+dbmw	_ZN17CTcpNetworkThread8dispatchEPv	DIFF	169	N			N	Y	source/DNFServer/GameServer/DBMW/DNFTcpNetworkThread.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

@@ -1,0 +1,5 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+guild	_ZN18CPowerWarGuildInfo14PrintDebugInfoEv	NEAR	24	Y			N	Y	source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp	0	CODEGEN_TAIL	same mnemonic sequence; operand/codegen tail
+guild	_ZN18CPowerWarGuildInfo22GetAllGuildRankingInfoERiP11STGuildRank	DIFF	38	N			N	Y	source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+guild	_ZN18CPowerWarGuildInfo24RewardGuildPowerWarPointER13CGuildManagerbiiii	DIFF	166	N			N	N	source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp	0	NEEDS_REVERSE	source location missing from md
+guild	_ZN18CPowerWarGuildInfo25MakePacketDBPowerWarPointEP37Packet_DB_Save_Power_War_Point_Reward	DIFF	55	N			N	Y	source/DNFServer/GameServer/Guild/PowerWarGuildInfo.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present

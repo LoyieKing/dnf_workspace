@@ -1,0 +1,6 @@
+service	name	status	diff_pm	same_mnemonic	call_diff_orig	call_diff_new	has_eh	src_ok	src_file	attempts	bucket	reason
+dbmw	_ZN13CTcpNetSystem10SendPacketEv	DIFF	201	N			N	Y	source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN13CTcpNetSystem14OpenTcpServiceERiPKct	DIFF	12	N			N	Y	source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp	4	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN13CTcpNetSystem18PushTcpSendPacketQEPc	DIFF	54	N			N	Y	source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp	0	CONST_OR_OFFSET	immediate/field/stack offset present
+dbmw	_ZN13CTcpNetSystem19CleanTcpSendPacketQEv	DIFF	54	N			Y	Y	source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present
+dbmw	_ZN13CTcpNetSystem21SetEpollAcceptedPeersEv	DIFF	31	N			Y	Y	source/DNFServer/GameServer/DBMW/TcpNetSystem.cpp	0	EH_OR_CLEANUP	exception/cleanup pattern present

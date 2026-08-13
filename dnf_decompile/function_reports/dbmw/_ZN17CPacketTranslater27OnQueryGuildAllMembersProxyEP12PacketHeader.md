@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8095a80` | `0x3d4` | `0x80d9e00` | `0x3da` |
+| dbmw | DIFF | `0x8095a80` | `0x3d4` | `0x80d9eb0` | `0x3d5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,255 +1,253 @@
+@@ -1,255 +1,256 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -23,15 +23,12 @@
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3c8>
-+je     <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3ce>
-+lea    -0x1807(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN33Packet_DB_Reply_Guild_All_MembersC1Ev>
++je     <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3c9>
  mov    0x8(%ebp),%eax
  mov    %eax,-0x34(%ebp)
--lea    -0x1807(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN33Packet_DB_Reply_Guild_All_MembersC1Ev>
+ lea    -0x1807(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN33Packet_DB_Reply_Guild_All_MembersC1Ev>
  mov    -0x34(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    %eax,-0x17fd(%ebp)
@@ -49,9 +46,8 @@
  mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memset>
--mov    -0x34(%ebp),%eax
--mov    0xa(%eax),%eax
-+mov    -0x17fd(%ebp),%eax
+ mov    -0x34(%ebp),%eax
+ mov    0xa(%eax),%eax
  mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
  lea    0x50(%edx),%ecx
  lea    -0x56(%ebp),%edx
@@ -64,12 +60,10 @@
  xor    $0x1,%eax
  test   %al,%al
  je     <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0xfb>
--mov    -0x34(%ebp),%eax
--mov    0xe(%eax),%esi
--mov    -0x34(%ebp),%eax
--mov    0xa(%eax),%ebx
-+mov    -0x17f9(%ebp),%esi
-+mov    -0x17fd(%ebp),%ebx
+ mov    -0x34(%ebp),%eax
+ mov    0xe(%eax),%esi
+ mov    -0x34(%ebp),%eax
+ mov    0xa(%eax),%ebx
  movl   $0x362,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x54(%ebp),%eax
@@ -83,7 +77,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3c9>
-+jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3cf>
++jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3ca>
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x18(%eax),%eax
  mov    %eax,(%esp)
@@ -166,7 +160,7 @@
  jne    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x178>
  cmpl   $0x0,-0x24(%ebp)
 -je     <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x296>
-+je     <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x29c>
++je     <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x297>
  movb   $0x2,-0x17f5(%ebp)
  mov    -0x24(%ebp),%eax
  mov    %al,-0x17f4(%ebp)
@@ -190,16 +184,13 @@
 +mov    %eax,0x4(%esp)
 +mov    %ecx,(%esp)
  call   <T> <memcpy>
-+lea    -0x1807(%ebp),%eax
-+lea    0x2(%eax),%ecx
  mov    -0x24(%ebp),%eax
  mov    %eax,%edx
  mov    %edx,%eax
  shl    $0x6,%eax
  add    %edx,%eax
  add    $0x14,%eax
--mov    %ax,-0x1805(%ebp)
-+mov    %ax,(%ecx)
+ mov    %ax,-0x1805(%ebp)
  movzwl -0x1805(%ebp),%eax
  movzwl %ax,%edx
  lea    -0x1807(%ebp),%eax
@@ -210,12 +201,10 @@
  call   <T> <_ZN12CGuildServer12SendToServerEPci>
  movzwl -0x56(%ebp),%eax
  movzwl %ax,%edi
--mov    -0x34(%ebp),%eax
--mov    0xe(%eax),%esi
--mov    -0x34(%ebp),%eax
--mov    0xa(%eax),%ebx
-+mov    -0x17f9(%ebp),%esi
-+mov    -0x17fd(%ebp),%ebx
+ mov    -0x34(%ebp),%eax
+ mov    0xe(%eax),%esi
+ mov    -0x34(%ebp),%eax
+ mov    0xa(%eax),%ebx
  movl   $0x38b,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x4c(%ebp),%eax
@@ -230,10 +219,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3c9>
-+jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3cf>
++jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3ca>
  cmp    $0x2,%edx
 -jne    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x36c>
-+jne    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x372>
++jne    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x36d>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -257,7 +246,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x365>
-+jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x36b>
++jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x366>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -267,7 +256,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3c9>
-+jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3cf>
++jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3ca>
  mov    %eax,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0x394,0x8(%esp)
@@ -281,7 +270,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3c1>
-+jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3c7>
++jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3c2>
  mov    %edx,%ebx
  mov    %eax,%esi
  call   <T> <__cxa_end_catch>
@@ -291,7 +280,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3c9>
-+jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3cf>
++jmp    <T> <_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12PacketHeader+0x3ca>
  nop
  add    $0x181c,%esp
  pop    %ebx
@@ -391,7 +380,7 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnQueryGuildAllMembersProxyEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2453 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2516 行）：
 
 ```cpp
 void CPacketTranslater::OnQueryGuildAllMembersProxy(PacketHeader* header)
@@ -400,20 +389,20 @@ void CPacketTranslater::OnQueryGuildAllMembersProxy(PacketHeader* header)
     {
         if (!m_pclApp)
             return;
-        Packet_DB_Reply_Guild_All_Members reply;
         Packet_DB_Call_Guild_All_Members* pkt =
             (Packet_DB_Call_Guild_All_Members*)header;
+        Packet_DB_Reply_Guild_All_Members reply;
         reply.m_fieldA = pkt->m_fieldA;
         reply.m_fieldE = pkt->m_fieldE;
         unsigned short tot = 0;
         STGuildMemberProxy* temp = m_pclApp->m_guildManager->GetArrayTempGuildMemberList();
         memset(temp, 0, 0x4c2c);
-        if (!m_pclApp->m_dbManager.QueryGuildAllMembersProxy(reply.m_fieldA, temp, tot))
+        if (!m_pclApp->m_dbManager.QueryGuildAllMembersProxy(pkt->m_fieldA, temp, tot))
         {
             DNF_LOG_SCOPE_LINE(0x362,
                 "./log/GuildMemberErr",
-                "Query All Guild Member List Error g(%d), c(%d)\n", reply.m_fieldA,
-                reply.m_fieldE
+                "Query All Guild Member List Error g(%d), c(%d)\n", pkt->m_fieldA,
+                pkt->m_fieldE
             );
 
             return;
@@ -440,14 +429,13 @@ void CPacketTranslater::OnQueryGuildAllMembersProxy(PacketHeader* header)
             reply.m_count = (unsigned char)remain;
             memcpy((char*)&reply + 0x14, (char*)temp + i * 0x179d,
                    remain * 0x41);
-            *(unsigned short*)((char*)&reply + 2) =
-                (unsigned short)(remain * 0x41 + 0x14);
+            reply.packetSize = (unsigned short)(remain * 0x41 + 0x14);
             gs->SendToServer((char*)&reply, reply.packetSize);
         }
         DNF_LOG_SCOPE_LINE(0x38b,
             "./log/GuildModify",
-            "Query All Guild Member List g(%d), c(%d), tot(%d)\n", reply.m_fieldA,
-            reply.m_fieldE,
+            "Query All Guild Member List g(%d), c(%d), tot(%d)\n", pkt->m_fieldA,
+            pkt->m_fieldE,
             tot
         );
 
