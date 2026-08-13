@@ -361,7 +361,7 @@ LAB_08070858:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 654 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 658 行）：
 
 ```cpp
 void StatisticManager::WriteAssertManagerStatistic(Packet_Assert_Manager_Info* pkt)

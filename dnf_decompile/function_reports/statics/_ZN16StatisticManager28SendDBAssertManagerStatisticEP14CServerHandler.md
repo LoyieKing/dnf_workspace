@@ -296,7 +296,7 @@ StatisticManager::_ZN16StatisticManager28SendDBAssertManagerStatisticEP14CServer
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 693 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 697 行）：
 
 ```cpp
 void StatisticManager::SendDBAssertManagerStatistic(CServerHandler* handler)
