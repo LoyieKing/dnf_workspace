@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091e46` | `0xea` | `0x8057aba` | `0x103` |
+| guild | DIFF | `0x8091e46` | `0xea` | `0x80579d8` | `0xee` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,41 +13,34 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,71 +1,80 @@
+@@ -1,71 +1,71 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x48,%esp
-+push   %ebx
-+sub    $0x44,%esp
+ sub    $0x48,%esp
  mov    0x8(%ebp),%eax
--movzwl 0x1c(%eax),%eax
-+add    $0x1c,%eax
-+movzwl (%eax),%eax
+ movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0xe8>
-+je     <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0x33>
++je     <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0x30>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
 +xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0xe7>
-+je     <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0x33>
++je     <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0x30>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0x38>
++jmp    <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0x35>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0xfe>
++je     <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0xec>
  lea    -0x26(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Channel_Create_Guild_AgitC1Ev>
-+lea    -0x26(%ebp),%eax
-+lea    0x12(%eax),%edx
  mov    0xc(%ebp),%eax
--mov    %eax,-0x14(%ebp)
-+mov    %eax,(%edx)
+ mov    %eax,-0x14(%ebp)
  mov    0x8(%ebp),%edx
  lea    -0x2c(%ebp),%eax
  mov    %edx,0x4(%esp)
@@ -55,7 +48,7 @@
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0xb6>
-+jmp    <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0xcf>
++jmp    <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0xbd>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -65,21 +58,15 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0xaa>
-+je     <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0xc4>
-+lea    -0x26(%ebp),%eax
-+lea    0xa(%eax),%ebx
++je     <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0xb2>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x1c(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x26(%ebp),%eax
-+lea    0xe(%eax),%ebx
+ mov    %eax,-0x1c(%ebp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x18(%ebp)
-+mov    %eax,(%ebx)
+ mov    %eax,-0x18(%ebp)
  lea    -0x26(%ebp),%eax
  movl   $0x16,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -106,8 +93,7 @@
 -jne    <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0x56>
 -jmp    <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0xe8>
 -nop
-+jne    <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0x6d>
-+mov    -0x4(%ebp),%ebx
++jne    <T> <_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj+0x65>
  leave
  ret
 ```
@@ -173,18 +159,18 @@ void __thiscall CGuild::_ZN6CGuild34NotifyCreateGuildAgitToGuildMemberEj(CGuild 
 ```cpp
 void CGuild::NotifyCreateGuildAgitToGuildMember(unsigned int charNo)
 {
-    if ((*(unsigned short*)((char*)this + 0x1c) & 4) != 0 && !m_members.empty())
+    if ((m_field1c & 4) != 0 && !m_members.empty())
     {
         Packet_Channel_Create_Guild_Agit pkt;
-        *(unsigned int*)((char*)&pkt + 0x12) = charNo;
+        pkt.m12 = charNo;
         for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
              it != m_members.end(); ++it)
         {
             CUser* u = it->second;
             if (u != 0)
             {
-                *(unsigned int*)((char*)&pkt + 0xa) = u->GetIdByChannel();
-                *(unsigned int*)((char*)&pkt + 0xe) = u->GetUniqCharNo();
+                pkt.ma = u->GetIdByChannel();
+                pkt.me = u->GetUniqCharNo();
                 u->SendToGameserver((char*)&pkt, 0x16);
             }
         }

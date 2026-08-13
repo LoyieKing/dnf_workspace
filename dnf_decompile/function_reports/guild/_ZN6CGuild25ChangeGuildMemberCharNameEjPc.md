@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80917fc` | `0x170` | `0x8057474` | `0x17c` |
+| guild | DIFF | `0x80917fc` | `0x170` | `0x80573ae` | `0x17a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,93 +1,97 @@
+@@ -1,93 +1,96 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x28,%esp
@@ -24,7 +24,7 @@
  call   <T> <_ZN6CGuild16IsSetGuildDBFlagEt>
  test   %al,%al
 -je     <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x16a>
-+je     <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x176>
++je     <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x174>
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0xac>
 +jmp    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0xb5>
@@ -99,12 +99,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild25NotifyAllTodayGuildMemberEv>
  mov    0x8(%ebp),%eax
--mov    0x37(%eax),%eax
-+add    $0x37,%eax
-+mov    (%eax),%eax
+ mov    0x37(%eax),%eax
  cmp    0xc(%ebp),%eax
 -jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x16a>
-+jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x176>
++jne    <T> <_ZN6CGuild25ChangeGuildMemberCharNameEjPc+0x174>
  mov    0x8(%ebp),%eax
  add    $0xc4,%eax
  movl   $0x15,0x8(%esp)
@@ -191,7 +189,7 @@ int CGuild::ChangeGuildMemberCharName(unsigned int charNo, char* name)
             result = true;
             NotifyAllTodayGuildMember();
         }
-        if (*(unsigned int*)((char*)this + 0x37) == charNo)
+        if (m_dbInfo.m_info.m_masterId == charNo)
         {
             memset((char*)this + 0xc4, 0, 0x15);
             memcpy((char*)this + 0xc4, name, 0x14);

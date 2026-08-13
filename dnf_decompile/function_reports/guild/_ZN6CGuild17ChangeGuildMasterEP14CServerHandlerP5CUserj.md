@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090e28` | `0x170` | `0x8056ac8` | `0x171` |
+| guild | DIFF | `0x8090e28` | `0x170` | `0x8056a04` | `0x16f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,102 +1,102 @@
+@@ -1,102 +1,101 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -29,13 +29,10 @@
 -je     <T> <_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj+0x165>
 +jne    <T> <_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj+0x28>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj+0x16b>
++jmp    <T> <_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj+0x169>
  mov    0x8(%ebp),%eax
--mov    0x14(%ebp),%edx
--mov    %edx,0x37(%eax)
-+lea    0x37(%eax),%edx
-+mov    0x14(%ebp),%eax
-+mov    %eax,(%edx)
+ mov    0x14(%ebp),%edx
+ mov    %edx,0x37(%eax)
  movl   $0x1,0x8(%esp)
  mov    0x14(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -82,7 +79,7 @@
 -jmp    <T> <_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj+0x15e>
 +mov    %eax,-0x10(%ebp)
 +cmpl   $0x0,-0x10(%ebp)
-+jne    <T> <_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj+0xf9>
++jne    <T> <_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj+0xf7>
  mov    0x14(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -111,7 +108,7 @@
  setne  %al
  test   %al,%al
 -je     <T> <_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj+0x15e>
-+je     <T> <_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj+0x166>
++je     <T> <_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj+0x164>
  mov    0x14(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -123,7 +120,7 @@
  mov    %eax,0x4(%esp)
  mov    %edx,(%esp)
  call   <T> <strncpy>
-+jmp    <T> <_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj+0x166>
++jmp    <T> <_ZN6CGuild17ChangeGuildMasterEP14CServerHandlerP5CUserj+0x164>
 +movl   $0x1,0x4(%esp)
 +mov    -0x10(%ebp),%eax
 +mov    %eax,(%esp)
@@ -222,7 +219,7 @@ bool CGuild::ChangeGuildMaster(CServerHandler* handler, CUser* user, unsigned in
     {
         return 0;
     }
-    *(unsigned int*)((char*)this + 0x37) = charNo;
+    m_dbInfo.m_info.m_masterId = charNo;
     ChangeUnconnectedGuildMemberGrade(charNo, 1);
     CUser* member = FindGuildMember(charNo);
     if (member == 0)

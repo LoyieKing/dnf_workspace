@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090968` | `0x200` | `0x8056538` | `0x1e5` |
+| guild | DIFF | `0x8090968` | `0x200` | `0x8056484` | `0x1e3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,152 +1,145 @@
+@@ -1,152 +1,144 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -34,7 +34,7 @@
 -je     <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1f4>
 +jne    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x34>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1de>
++jmp    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1dc>
  mov    0x8(%ebp),%eax
  movzwl 0x1e(%eax),%eax
  cmp    $0x12b,%ax
@@ -200,12 +200,9 @@
  mov    0x8(%ebp),%eax
  movw   $0x12c,0x1e(%eax)
  mov    0x8(%ebp),%eax
--movzwl 0x1e(%eax),%edx
-+lea    0x42(%eax),%edx
+ movzwl 0x1e(%eax),%edx
  mov    0x8(%ebp),%eax
--mov    %dx,0x42(%eax)
-+movzwl 0x1e(%eax),%eax
-+mov    %ax,(%edx)
+ mov    %dx,0x42(%eax)
  mov    $0x1,%eax
 -jmp    <T> <_ZN6CGuild23LoadGuildOneMemberProxyEP5CUser+0x1f9>
 -mov    $0x0,%eax
@@ -308,7 +305,7 @@ bool CGuild::LoadGuildOneMemberProxy(CUser* user)
             m_field1e = 0x12c;
         }
     }
-    *(unsigned short*)((char*)this + 0x42) = m_field1e;
+    m_dbInfo.m_info.m_totalCnt = m_field1e;
     return 1;
 }
 ```

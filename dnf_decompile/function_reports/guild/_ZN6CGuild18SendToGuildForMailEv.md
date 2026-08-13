@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808e2e4` | `0xce` | `0x8054316` | `0xd7` |
+| guild | DIFF | `0x808e2e4` | `0xce` | `0x80542ec` | `0xc9` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,19 +13,17 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,62 +1,66 @@
+@@ -1,62 +1,60 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x38,%esp
-+push   %ebx
-+sub    $0x34,%esp
+ sub    $0x38,%esp
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild18SendToGuildForMailEv+0xcc>
-+je     <T> <_ZN6CGuild18SendToGuildForMailEv+0xd1>
++je     <T> <_ZN6CGuild18SendToGuildForMailEv+0xc6>
  lea    -0x22(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN30Packet_Monitor_Notify_New_MailC1Ev>
@@ -36,7 +34,7 @@
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild18SendToGuildForMailEv+0x9d>
-+jmp    <T> <_ZN6CGuild18SendToGuildForMailEv+0xa0>
++jmp    <T> <_ZN6CGuild18SendToGuildForMailEv+0x95>
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -46,24 +44,19 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN6CGuild18SendToGuildForMailEv+0x91>
-+je     <T> <_ZN6CGuild18SendToGuildForMailEv+0x95>
-+lea    -0x22(%ebp),%eax
-+lea    0xa(%eax),%ebx
++je     <T> <_ZN6CGuild18SendToGuildForMailEv+0x8a>
 +mov    -0xc(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+mov    %eax,(%ebx)
-+lea    -0x22(%ebp),%eax
-+lea    0xe(%eax),%ebx
++mov    %eax,-0x18(%ebp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x14(%ebp)
+ mov    %eax,-0x14(%ebp)
 -mov    -0xc(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x18(%ebp)
-+mov    %eax,(%ebx)
  lea    -0x22(%ebp),%eax
  movl   $0x12,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -87,11 +80,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
  test   %al,%al
--jne    <T> <_ZN6CGuild18SendToGuildForMailEv+0x3d>
-+jne    <T> <_ZN6CGuild18SendToGuildForMailEv+0x3e>
-+jmp    <T> <_ZN6CGuild18SendToGuildForMailEv+0xd2>
+ jne    <T> <_ZN6CGuild18SendToGuildForMailEv+0x3d>
++jmp    <T> <_ZN6CGuild18SendToGuildForMailEv+0xc7>
 +nop
-+mov    -0x4(%ebp),%ebx
  leave
  ret
 ```
@@ -162,8 +153,8 @@ void CGuild::SendToGuildForMail()
         CUser* m = it->second;
         if (m != 0)
         {
-            *(unsigned int*)((char*)&pkt + 0xa) = m->GetUniqCharNo();
-            *(unsigned int*)((char*)&pkt + 0xe) = m->GetIdByChannel();
+            pkt.ma = m->GetUniqCharNo();
+            pkt.me = m->GetIdByChannel();
             m->SendToGameserver((char*)&pkt, 0x12);
         }
     }

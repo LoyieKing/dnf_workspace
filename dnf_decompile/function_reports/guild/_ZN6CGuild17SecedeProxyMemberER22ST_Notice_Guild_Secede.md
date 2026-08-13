@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090cd6` | `0x151` | `0x805697e` | `0x149` |
+| guild | DIFF | `0x8090cd6` | `0x151` | `0x80568c0` | `0x143` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,110 +1,106 @@
+@@ -1,110 +1,103 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -44,20 +44,21 @@
 +jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x48>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x142>
++je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x13c>
  mov    0x8(%ebp),%eax
- add    $0x1e,%eax
+-add    $0x1e,%eax
 -mov    %eax,-0x10(%ebp)
 -mov    -0x10(%ebp),%eax
- movzwl (%eax),%eax
+-movzwl (%eax),%eax
 -cmp    $0x12c,%ax
 -ja     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x149>
++movzwl 0x1e(%eax),%eax
 +mov    %ax,-0xe(%ebp)
 +cmpw   $0x12c,-0xe(%ebp)
-+ja     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x142>
++ja     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x13c>
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x12d>
-+jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x130>
++jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x12a>
 +mov    0x8(%ebp),%ecx
  mov    -0xc(%ebp),%edx
 -mov    0x8(%ebp),%ecx
@@ -79,7 +80,7 @@
 -movzwl (%eax),%eax
 -movzwl %ax,%eax
 -sub    -0xc(%ebp),%eax
-+jne    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x12c>
++jne    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x126>
 +movzwl -0xe(%ebp),%edx
 +mov    -0xc(%ebp),%eax
 +mov    %edx,%ecx
@@ -92,7 +93,7 @@
 -movzwl %ax,%eax
 -sub    -0xc(%ebp),%eax
 -lea    -0x1(%eax),%edx
-+je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0xfd>
++je     <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0xfb>
 +movzwl -0xe(%ebp),%edx
 +mov    -0xc(%ebp),%eax
 +sub    %eax,%edx
@@ -142,19 +143,16 @@
 -movzwl (%eax),%edx
 +subw   $0x1,-0xe(%ebp)
 +cmpw   $0x12c,-0xe(%ebp)
-+jbe    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x110>
++jbe    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x10e>
 +movw   $0x0,-0xe(%ebp)
  mov    0x8(%ebp),%eax
--mov    %dx,0x42(%eax)
--jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x14a>
-+lea    0x1e(%eax),%edx
-+movzwl -0xe(%ebp),%eax
-+mov    %ax,(%edx)
++movzwl -0xe(%ebp),%edx
++mov    %dx,0x1e(%eax)
 +mov    0x8(%ebp),%eax
-+lea    0x42(%eax),%edx
-+movzwl -0xe(%ebp),%eax
-+mov    %ax,(%edx)
-+jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x142>
++movzwl -0xe(%ebp),%edx
+ mov    %dx,0x42(%eax)
+-jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x14a>
++jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x13c>
  addl   $0x1,-0xc(%ebp)
 -mov    -0x10(%ebp),%eax
 -movzwl (%eax),%eax
@@ -168,7 +166,7 @@
 -nop
 -jmp    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x14a>
 -nop
-+jne    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x75>
++jne    <T> <_ZN6CGuild17SecedeProxyMemberER22ST_Notice_Guild_Secede+0x73>
  add    $0x20,%esp
  pop    %ebx
  pop    %esi
@@ -224,7 +222,7 @@ void CGuild::SecedeProxyMember(ST_Notice_Guild_Secede& info)
 {
     if ((m_field1c & 4) != 0 && (m_field1c & 0x10) != 0 && !m_members.empty())
     {
-        unsigned short cnt = *(unsigned short*)((char*)this + 0x1e);
+        unsigned short cnt = m_field1e;
         if (cnt < 0x12d)
         {
             for (int i = 0; i < (int)cnt; i++)
@@ -242,8 +240,8 @@ void CGuild::SecedeProxyMember(ST_Notice_Guild_Secede& info)
                     {
                         cnt = 0;
                     }
-                    *(unsigned short*)((char*)this + 0x1e) = cnt;
-                    *(unsigned short*)((char*)this + 0x42) = cnt;
+                    m_field1e = cnt;
+                    m_dbInfo.m_info.m_totalCnt = cnt;
                     return;
                 }
             }

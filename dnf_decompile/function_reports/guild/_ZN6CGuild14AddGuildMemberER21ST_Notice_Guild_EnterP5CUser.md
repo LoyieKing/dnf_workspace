@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8090b68` | `0x16e` | `0x805682c` | `0x152` |
+| guild | DIFF | `0x8090b68` | `0x16e` | `0x8056774` | `0x14c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,118 +1,108 @@
+@@ -1,118 +1,105 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -45,16 +45,17 @@
 +jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x4a>
 +mov    $0x0,%eax
 +test   %al,%al
-+jne    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x14b>
++jne    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x145>
  mov    0x8(%ebp),%eax
- add    $0x1e,%eax
+-add    $0x1e,%eax
 -mov    %eax,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
- movzwl (%eax),%eax
+-movzwl (%eax),%eax
 -movzwl %ax,%edx
 -mov    0xc(%ebp),%eax
 -mov    0x8(%eax),%ecx
 -mov    0x8(%ebp),%ebx
++movzwl 0x1e(%eax),%eax
 +mov    %ax,-0xa(%ebp)
 +mov    0x8(%ebp),%ecx
 +movzwl -0xa(%ebp),%edx
@@ -167,21 +168,18 @@
 +mov    %ax,(%ebx)
 +addw   $0x1,-0xa(%ebp)
 +cmpw   $0x12c,-0xa(%ebp)
-+jbe    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x12f>
++jbe    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x12d>
 +movw   $0x12c,-0xa(%ebp)
  mov    0x8(%ebp),%eax
--mov    %dx,0x42(%eax)
++movzwl -0xa(%ebp),%edx
++mov    %dx,0x1e(%eax)
++mov    0x8(%ebp),%eax
++movzwl -0xa(%ebp),%edx
+ mov    %dx,0x42(%eax)
 -jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x168>
 -nop
 -jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x168>
-+lea    0x1e(%eax),%edx
-+movzwl -0xa(%ebp),%eax
-+mov    %ax,(%edx)
-+mov    0x8(%ebp),%eax
-+lea    0x42(%eax),%edx
-+movzwl -0xa(%ebp),%eax
-+mov    %ax,(%edx)
-+jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x14c>
++jmp    <T> <_ZN6CGuild14AddGuildMemberER21ST_Notice_Guild_EnterP5CUser+0x146>
  nop
  add    $0x24,%esp
  pop    %ebx
@@ -244,7 +242,7 @@ void CGuild::AddGuildMember(ST_Notice_Guild_Enter& info, CUser* user)
     {
         return;
     }
-    unsigned short idx = *(unsigned short*)((char*)this + 0x1e);
+    unsigned short idx = m_field1e;
     *(unsigned int*)((char*)this + (unsigned int)idx * 0x41 + 0xdd) =
         *(unsigned int*)((char*)&info + 8);
     memcpy((char*)this + (unsigned int)idx * 0x41 + 0xe1, (char*)&info + 0x23, 0x1d);
@@ -256,7 +254,7 @@ void CGuild::AddGuildMember(ST_Notice_Guild_Enter& info, CUser* user)
     {
         idx = 300;
     }
-    *(unsigned short*)((char*)this + 0x1e) = idx;
-    *(unsigned short*)((char*)this + 0x42) = idx;
+    m_field1e = idx;
+    m_dbInfo.m_info.m_totalCnt = idx;
 }
 ```

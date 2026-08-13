@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808e150` | `0x193` | `0x8054174` | `0x1a1` |
+| guild | DIFF | `0x808e150` | `0x193` | `0x805415c` | `0x190` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,34 +13,26 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,109 +1,112 @@
+@@ -1,109 +1,107 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x168,%esp
 +push   %ebx
 +sub    $0x164,%esp
  mov    0x8(%ebp),%eax
--movzwl 0x1c(%eax),%eax
-+add    $0x1c,%eax
-+movzwl (%eax),%eax
+ movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x191>
-+je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x19c>
++je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x18b>
  lea    -0x14d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN32Packet_Monitor_Notice_Guild_InfoC1Ev>
-+lea    -0x14d(%ebp),%eax
-+lea    0x12(%eax),%edx
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
--mov    %eax,-0x13b(%ebp)
--movb   $0x1,-0x7a(%ebp)
-+mov    %eax,(%edx)
-+lea    -0x14d(%ebp),%eax
-+add    $0xd3,%eax
-+movb   $0x1,(%eax)
+ mov    %eax,-0x13b(%ebp)
+ movb   $0x1,-0x7a(%ebp)
  mov    0x8(%ebp),%eax
  add    $0x20,%eax
  movl   $0xbd,0x8(%esp)
@@ -64,7 +56,7 @@
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x162>
-+jmp    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x16d>
++jmp    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x15c>
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -74,7 +66,7 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x153>
-+je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x162>
++je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x151>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -85,7 +77,7 @@
 -xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x109>
-+jne    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x109>
++jne    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0xf8>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -96,14 +88,14 @@
 -xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x109>
-+je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x110>
++je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0xff>
  mov    $0x1,%eax
 -jmp    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x10e>
-+jmp    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x115>
++jmp    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x104>
  mov    $0x0,%eax
  test   %al,%al
 -jne    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x156>
-+je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x162>
++je     <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0x151>
 +lea    -0x14d(%ebp),%eax
 +lea    0xa(%eax),%ebx
  mov    -0xc(%ebp),%eax
@@ -144,7 +136,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
  test   %al,%al
 -jne    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0xa0>
-+jne    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0xb2>
++jne    <T> <_ZN6CGuild23SendGuildInfoToManagersEv+0xa1>
 +mov    -0x4(%ebp),%ebx
  leave
  ret
@@ -229,11 +221,11 @@ LAB_0808e259:
 ```cpp
 void CGuild::SendGuildInfoToManagers()
 {
-    if ((*(unsigned short*)((char*)this + 0x1c) & 4) != 0)
+    if ((m_field1c & 4) != 0)
     {
         Packet_Monitor_Notice_Guild_Info pkt;
-        *(unsigned int*)((char*)&pkt + 0x12) = m_guildKey;
-        *(unsigned char*)((char*)&pkt + 0xd3) = 1;
+        pkt.m_field12 = m_guildKey;
+        pkt.m_padD3 = 1;
         memcpy((char*)&pkt + 0x16, (char*)this + 0x20, 0xbd);
         strncpy((char*)&pkt + 0xd4, (char*)this + 0x4d0a, 100);
         for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();

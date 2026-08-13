@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| monitor | DIFF | `0x807cca8` | `0x32e` | `0x8068378` | `0x341` |
+| monitor | DIFF | `0x807cca8` | `0x32e` | `0x8068366` | `0x339` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,242 +1,254 @@
+@@ -1,242 +1,250 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -24,23 +24,20 @@
  mov    (%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0x20>
--mov    0x8(%ebp),%eax
--mov    0x4(%eax),%eax
-+je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0x26c>
-+mov    0x8(%ebp),%eax
-+add    $0x4,%eax
-+mov    (%eax),%eax
++je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0x264>
+ mov    0x8(%ebp),%eax
+ mov    0x4(%eax),%eax
  test   %eax,%eax
 -jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0xec>
 -lea    -0x2d(%ebp),%eax
-+je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0x26c>
++je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0x264>
 +movl   $0x0,-0x28(%ebp)
 +mov    0x8(%ebp),%eax
 +mov    (%eax),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt5queueIP14CUdpRecvBufferSt5dequeIS1_SaIS1_EEE5emptyEv>
 +test   %al,%al
-+jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x338>
++jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x330>
 +mov    0x8(%ebp),%eax
 +mov    (%eax),%eax
 +mov    %eax,(%esp)
@@ -54,7 +51,7 @@
 +cmpl   $0x0,-0x28(%ebp)
 +sete   %al
 +test   %al,%al
-+jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2d>
++jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2b>
 +mov    -0x28(%ebp),%eax
 +mov    %eax,-0x24(%ebp)
 +mov    0x8(%ebp),%eax
@@ -72,10 +69,9 @@
 +test   %al,%al
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0xcb>
++je     <T> <_ZN14CPacketDecoder10UdpProcessEv+0xc7>
 +mov    0x8(%ebp),%eax
-+add    $0x18,%eax
-+mov    (%eax),%eax
++mov    0x18(%eax),%eax
 +mov    -0x20(%ebp),%edx
 +mov    %edx,0xc(%esp)
 +movl   $0x2,0x8(%esp)
@@ -91,10 +87,9 @@
 +cmp    $0x1,%al
 +setne  %al
 +test   %al,%al
-+jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x135>
++jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x12f>
 +mov    0x8(%ebp),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
++mov    0x8(%eax),%eax
 +mov    %eax,0x4(%esp)
 +lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
@@ -102,7 +97,7 @@
 +mov    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN14CUdpRecvBufferdlEPv>
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x125>
++jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x11f>
 +mov    %edx,%ebx
 +mov    %eax,%esi
 +lea    -0x3c(%ebp),%eax
@@ -115,11 +110,10 @@
 +lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuardI6CMutexED1Ev>
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2d>
++jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2b>
 +nop
 +mov    0x8(%ebp),%eax
-+add    $0x8,%eax
-+mov    (%eax),%eax
++mov    0x8(%eax),%eax
 +mov    %eax,0x4(%esp)
 +lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
@@ -127,7 +121,7 @@
 +mov    -0x28(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN14CUdpRecvBufferdlEPv>
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x175>
++jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x16d>
 +mov    %edx,%ebx
 +mov    %eax,%esi
 +lea    -0x40(%ebp),%eax
@@ -170,7 +164,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x97>
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x217>
++jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x20f>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -209,19 +203,19 @@
 +lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x211>
++jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x209>
 +cmp    $0xffffffff,%edx
-+jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x22e>
++jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x226>
 +call   <T> <_ZSt9terminatev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x22e>
++jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x226>
 +lea    -0x38(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x249>
++jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x241>
 +cmp    $0xffffffff,%edx
-+jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x22e>
++jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x226>
 +call   <T> <_ZSt9terminatev>
 +mov    %edx,%ebx
 +mov    %eax,%esi
@@ -339,7 +333,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x271>
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2e3>
++jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2db>
  mov    %edx,%esi
  mov    %eax,%edi
  mov    %ebx,(%esp)
@@ -378,19 +372,19 @@
 +lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2dd>
++jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2d5>
 +cmp    $0xffffffff,%edx
-+jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2fa>
++jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2f2>
 +call   <T> <_ZSt9terminatev>
 +mov    %esi,%eax
 +mov    %ebx,%edx
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2fa>
++jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2f2>
 +lea    -0x30(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSsD1Ev>
-+jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x315>
++jmp    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x30d>
 +cmp    $0xffffffff,%edx
-+jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2fa>
++jne    <T> <_ZN14CPacketDecoder10UdpProcessEv+0x2f2>
 +call   <T> <_ZSt9terminatev>
 +mov    %edx,%ebx
 +mov    %eax,%esi
@@ -551,38 +545,38 @@ void __thiscall CPacketDecoder::_ZN14CPacketDecoder10UdpProcessEv(CPacketDecoder
 ```cpp
 void CPacketDecoder::UdpProcess()
 {
-    if (*(void**)this != 0 && *(void**)((char*)this + 4) != 0)
+    if (m_field0 != 0 && m_field4 != 0)
     {
         CUdpRecvBuffer* buf = 0;
         while (true)
         {
             do
             {
-                if (((std::queue<CUdpRecvBuffer*>*) * (void**)this)->empty())
+                if (((std::queue<CUdpRecvBuffer*>*)m_field0)->empty())
                 {
                     return;
                 }
-                buf = ((std::queue<CUdpRecvBuffer*>*) * (void**)this)->front();
-                ((std::queue<CUdpRecvBuffer*>*) * (void**)this)->pop();
+                buf = ((std::queue<CUdpRecvBuffer*>*)m_field0)->front();
+                ((std::queue<CUdpRecvBuffer*>*)m_field0)->pop();
             } while (buf == 0);
             CUdpRecvBuffer* pkt = buf;
-            int qsize = ((std::queue<CUdpRecvBuffer*>*) * (void**)this)->size();
+            int qsize = ((std::queue<CUdpRecvBuffer*>*)m_field0)->size();
             CAppLoadChecker* checker = CAppLoadCheckerInstance();
             if (checker->CheckUdpRecvQ(qsize))
             {
-                checker->RequestDB((CServerHandler*)*(void**)((char*)this + 0x18), 2, qsize);
+                checker->RequestDB((CServerHandler*)m_net.m_handler, 2, qsize);
             }
             if (MsgDecode((PacketHeader*)pkt) != 1)
             {
                 break;
             }
             {
-                CGuard<CMutex> guard((CMutex*) * (void**)((char*)this + 8));
+                CGuard<CMutex> guard((CMutex*)m_net.m_udpBLock);
                 delete buf;
             }
         }
         {
-            CGuard<CMutex> guard((CMutex*) * (void**)((char*)this + 8));
+            CGuard<CMutex> guard((CMutex*)m_net.m_udpBLock);
             delete buf;
         }
         printf("[false == this->MsgDecode]packetHeader : %x\tpacket id : %d\n", buf,

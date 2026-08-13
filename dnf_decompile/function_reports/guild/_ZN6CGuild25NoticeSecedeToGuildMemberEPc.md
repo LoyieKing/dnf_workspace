@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808eb7a` | `0x104` | `0x8054bee` | `0x118` |
+| guild | DIFF | `0x808eb7a` | `0x104` | `0x8054b7e` | `0x108` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,33 +13,29 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,76 +1,83 @@
+@@ -1,76 +1,76 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x88,%esp
-+push   %ebx
-+sub    $0x84,%esp
+ sub    $0x88,%esp
  mov    0x8(%ebp),%eax
--movzwl 0x1c(%eax),%eax
-+add    $0x1c,%eax
-+movzwl (%eax),%eax
+ movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x102>
-+je     <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x36>
++je     <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x33>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
 +xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x101>
-+je     <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x36>
++je     <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x33>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x3b>
++jmp    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x38>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x113>
++je     <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x106>
  lea    -0x69(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN41Packet_Monitor_Notice_Guild_Secede_ToUserC1Ev>
@@ -57,7 +53,7 @@
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0xd0>
-+jmp    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0xe4>
++jmp    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0xd7>
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -67,21 +63,15 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0xc4>
-+je     <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0xd9>
-+lea    -0x69(%ebp),%eax
-+lea    0xa(%eax),%ebx
++je     <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0xcc>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x5f(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x69(%ebp),%eax
-+lea    0xe(%eax),%ebx
+ mov    %eax,-0x5f(%ebp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x5b(%ebp)
-+mov    %eax,(%ebx)
+ mov    %eax,-0x5b(%ebp)
  lea    -0x69(%ebp),%eax
  movl   $0x55,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -108,8 +98,7 @@
 -jne    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x70>
 -jmp    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x102>
 -nop
-+jne    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x82>
-+mov    -0x4(%ebp),%ebx
++jne    <T> <_ZN6CGuild25NoticeSecedeToGuildMemberEPc+0x7f>
  leave
  ret
 ```
@@ -176,7 +165,7 @@ void __thiscall CGuild::_ZN6CGuild25NoticeSecedeToGuildMemberEPc(CGuild *this,ch
 ```cpp
 void CGuild::NoticeSecedeToGuildMember(char* info)
 {
-    if ((*(unsigned short*)((char*)this + 0x1c) & 4) != 0 && !m_members.empty())
+    if ((m_field1c & 4) != 0 && !m_members.empty())
     {
         Packet_Monitor_Notice_Guild_Secede_ToUser pkt;
         memcpy((char*)&pkt + 0x12, info, 0x43);
@@ -186,8 +175,8 @@ void CGuild::NoticeSecedeToGuildMember(char* info)
             CUser* u = it->second;
             if (u != 0)
             {
-                *(unsigned int*)((char*)&pkt + 0xa) = u->GetIdByChannel();
-                *(unsigned int*)((char*)&pkt + 0xe) = u->GetUniqCharNo();
+                pkt.m_a = u->GetIdByChannel();
+                pkt.m_b = u->GetUniqCharNo();
                 u->SendToGameserver((char*)&pkt, 0x55);
             }
         }

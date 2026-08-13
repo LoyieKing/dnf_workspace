@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808e42e` | `0x30f` | `0x805446a` | `0x310` |
+| guild | DIFF | `0x808e42e` | `0x30f` | `0x8054432` | `0x2fc` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,217 +1,220 @@
+@@ -1,217 +1,209 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
@@ -28,27 +28,29 @@
  and    $0x4,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x303>
--mov    0x8(%ebp),%eax
--movzwl 0x62(%eax),%eax
 +jne    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x29>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x30a>
-+mov    0x8(%ebp),%eax
-+add    $0x62,%eax
-+movzwl (%eax),%eax
++jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x2f6>
+ mov    0x8(%ebp),%eax
+ movzwl 0x62(%eax),%eax
  movzwl %ax,%edx
  movswl -0x3c(%ebp),%eax
  cmp    %eax,%edx
 -jge    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0xa3>
--mov    0x8(%ebp),%eax
--movzwl 0x62(%eax),%eax
++jge    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0xa6>
++movl   $0x3d2,0x8(%esp)
++movl   $"BuyGuildSkill",0x4(%esp)
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0x8(%ebp),%eax
+ movzwl 0x62(%eax),%eax
 -movzwl %ax,%esi
 -mov    0x8(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CGuild11GetGuildKeyEv>
 -mov    %eax,%ebx
-+jge    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0xaa>
- movl   $0x3d2,0x8(%esp)
+-movl   $0x3d2,0x8(%esp)
 -movl   $&_ZZN6CGuild13BuyGuildSkillEiisjE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 -mov    %eax,(%esp)
@@ -59,13 +61,6 @@
 -mov    0xc(%ebp),%eax
 -mov    %eax,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+movl   $"BuyGuildSkill",0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0x8(%ebp),%eax
-+add    $0x62,%eax
-+movzwl (%eax),%eax
 +movzwl %ax,%ebx
 +mov    0x8(%ebp),%eax
 +mov    %eax,(%esp)
@@ -83,16 +78,13 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    $0x0,%eax
 -jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x308>
--mov    0x8(%ebp),%eax
--mov    0xc0(%eax),%eax
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 +mov    $0x0,%eax
-+jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x30a>
-+mov    0x8(%ebp),%eax
-+add    $0xc0,%eax
-+mov    (%eax),%eax
++jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x2f6>
+ mov    0x8(%ebp),%eax
+ mov    0xc0(%eax),%eax
  cmp    0x18(%ebp),%eax
 -jae    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x11d>
 -mov    0x8(%ebp),%eax
@@ -101,7 +93,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CGuild11GetGuildKeyEv>
 -mov    %eax,%ebx
-+jae    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x124>
++jae    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x11e>
  movl   $0x3d9,0x8(%esp)
  movl   $&_ZZN6CGuild13BuyGuildSkillEiisjE12__FUNCTION__,0x4(%esp)
  lea    -0x2c(%ebp),%eax
@@ -114,8 +106,7 @@
 -mov    %eax,0x10(%esp)
 -mov    %ebx,0xc(%esp)
 +mov    0x8(%ebp),%eax
-+add    $0xc0,%eax
-+mov    (%eax),%ebx
++mov    0xc0(%eax),%ebx
 +mov    0x8(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuild11GetGuildKeyEv>
@@ -132,7 +123,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x308>
-+jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x30a>
++jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x2f6>
  mov    0x18(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
@@ -141,7 +132,7 @@
  movl   $0xffffffff,-0x14(%ebp)
  movl   $0x0,-0x10(%ebp)
 -jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x166>
-+jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x16e>
++jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x168>
 +mov    0x8(%ebp),%ecx
  mov    -0x10(%ebp),%edx
 -mov    0x8(%ebp),%ecx
@@ -160,27 +151,27 @@
 +mov    (%eax),%edx
 +mov    0xc(%ebp),%eax
 +cmp    %eax,%edx
-+jne    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x16a>
++jne    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x164>
  mov    -0x10(%ebp),%eax
  mov    %eax,-0x14(%ebp)
 -jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x171>
-+jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x179>
++jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x173>
  addl   $0x1,-0x10(%ebp)
  cmpl   $0xf,-0x10(%ebp)
  setle  %al
  test   %al,%al
 -jne    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x13f>
-+jne    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x146>
++jne    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x140>
  cmpl   $0xffffffff,-0x14(%ebp)
 -jne    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x242>
-+jne    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x244>
++jne    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x23e>
  mov    0x8(%ebp),%eax
  add    $0x64,%eax
  mov    %eax,-0xc(%ebp)
  mov    -0xc(%ebp),%eax
  movzbl (%eax),%eax
  cmp    $0xf,%al
--jbe    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x1f2>
+ jbe    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x1f2>
 -mov    -0xc(%ebp),%eax
 -movzbl (%eax),%eax
 -movzbl %al,%esi
@@ -188,7 +179,6 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CGuild11GetGuildKeyEv>
 -mov    %eax,%ebx
-+jbe    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x1f8>
  movl   $0x3ee,0x8(%esp)
 -movl   $&_ZZN6CGuild13BuyGuildSkillEiisjE12__FUNCTION__,0x4(%esp)
 -lea    -0x24(%ebp),%eax
@@ -218,7 +208,7 @@
  movb   $0xf,(%eax)
  mov    $0x0,%eax
 -jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x308>
-+jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x30a>
++jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x2f6>
 +mov    0x8(%ebp),%ecx
  mov    -0xc(%ebp),%eax
  movzbl (%eax),%eax
@@ -262,7 +252,7 @@
  mov    -0xc(%ebp),%eax
  mov    %dl,(%eax)
 -jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x25d>
-+jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x25c>
++jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x256>
 +mov    0x8(%ebp),%ecx
  mov    -0x14(%ebp),%edx
 +mov    %edx,%eax
@@ -285,35 +275,22 @@
 -movswl -0x3c(%ebp),%eax
 -cmp    %eax,%edx
 -jl     <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x286>
--mov    0x8(%ebp),%eax
--movzwl 0x62(%eax),%edx
 +mov    %al,(%edx)
 +mov    0x8(%ebp),%eax
-+add    $0x62,%eax
-+movzwl (%eax),%edx
- movzwl -0x3c(%ebp),%eax
--sub    %ax,%dx
--mov    0x8(%ebp),%eax
--mov    %dx,0x62(%eax)
--jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x28f>
--mov    0x8(%ebp),%eax
--movw   $0x0,0x62(%eax)
++movzwl 0x62(%eax),%edx
++movzwl -0x3c(%ebp),%eax
 +cmp    %ax,%dx
-+jb     <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x28d>
-+mov    0x8(%ebp),%eax
-+add    $0x62,%eax
-+mov    0x8(%ebp),%edx
-+add    $0x62,%edx
-+movzwl (%edx),%ecx
-+movzwl -0x3c(%ebp),%edx
-+mov    %ecx,%ebx
-+sub    %dx,%bx
-+mov    %ebx,%edx
-+mov    %dx,(%eax)
-+jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x298>
-+mov    0x8(%ebp),%eax
-+add    $0x62,%eax
-+movw   $0x0,(%eax)
++jb     <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x27d>
+ mov    0x8(%ebp),%eax
+ movzwl 0x62(%eax),%edx
+ movzwl -0x3c(%ebp),%eax
+ sub    %ax,%dx
+ mov    0x8(%ebp),%eax
+ mov    %dx,0x62(%eax)
+-jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x28f>
++jmp    <T> <_ZN6CGuild13BuyGuildSkillEiisj+0x286>
+ mov    0x8(%ebp),%eax
+ movw   $0x0,0x62(%eax)
  mov    0x8(%ebp),%eax
  movb   $0x1,0x4d96(%eax)
 -mov    0x8(%ebp),%eax
@@ -335,8 +312,7 @@
 -mov    %eax,0x10(%esp)
 -mov    %ebx,0xc(%esp)
 +mov    0x8(%ebp),%eax
-+add    $0x62,%eax
-+movzwl (%eax),%eax
++movzwl 0x62(%eax),%eax
 +movzwl %ax,%ebx
 +mov    0x8(%ebp),%eax
 +mov    %eax,(%esp)
@@ -464,18 +440,18 @@ bool CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int char
     {
         return 0;
     }
-    if ((int)*(unsigned short*)((char*)this + 0x62) < (int)(short)param)
+    if ((int)m_dbInfo.m_info.m_field42 < (int)(short)param)
     {
         CMyFileLog log("BuyGuildSkill", 0x3d2);
         log("./log/GuildSkill", "BUY_SKILL_1, GKey(%d) , Idx(%d), lev(%d), gsp(%d)",
-            GetGuildKey(), skillId, slot, (unsigned int)*(unsigned short*)((char*)this + 0x62));
+            GetGuildKey(), skillId, slot, (unsigned int)m_dbInfo.m_info.m_field42);
         return 0;
     }
-    if (*(unsigned int*)((char*)this + 0xc0) < charNo)
+    if (m_dbInfo.m_info.m_guildFund < charNo)
     {
         CMyFileLog log(__FUNCTION__, 0x3d9);
         log("./log/GuildSkill", "BUY_SKILL_1, GKey(%d) , Idx(%d), lev(%d), guildfund(%d)",
-            GetGuildKey(), skillId, slot, *(unsigned int*)((char*)this + 0xc0));
+            GetGuildKey(), skillId, slot, m_dbInfo.m_info.m_guildFund);
         return 0;
     }
     SubGuildFund(charNo);
@@ -490,7 +466,7 @@ bool CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int char
     }
     if (found == -1)
     {
-        unsigned char* learnCnt = (unsigned char*)((char*)this + 0x64);
+        unsigned char* learnCnt = &m_dbInfo.m_info.m_field44;
         if (*learnCnt > 0xf)
         {
             CMyFileLog log("BuyGuildSkill", 0x3ee);
@@ -507,18 +483,18 @@ bool CGuild::BuyGuildSkill(int skillId, int slot, short param, unsigned int char
     {
         *(char*)((char*)this + found * 5 + 0x69) = (char)slot;
     }
-    if (*(unsigned short*)((char*)this + 0x62) >= (unsigned short)param)
+    if (m_dbInfo.m_info.m_field42 >= (unsigned short)param)
     {
-        *(unsigned short*)((char*)this + 0x62) -= (unsigned short)param;
+        m_dbInfo.m_info.m_field42 -= (unsigned short)param;
     }
     else
     {
-        *(unsigned short*)((char*)this + 0x62) = 0;
+        m_dbInfo.m_info.m_field42 = 0;
     }
     m_field4d96 = 1;
     CMyFileLog log(__FUNCTION__, 0x403);
     log("./log/GuildSkill", "BUY_SKILL, GKey(%d) , Idx(%d), lev(%d), gsp(%d)", GetGuildKey(),
-        skillId, slot, (unsigned int)*(unsigned short*)((char*)this + 0x62));
+        skillId, slot, (unsigned int)m_dbInfo.m_info.m_field42);
     return 1;
 }
 ```

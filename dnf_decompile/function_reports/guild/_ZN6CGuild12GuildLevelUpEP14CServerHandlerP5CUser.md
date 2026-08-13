@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808e73e` | `0x287` | `0x805477a` | `0x2a2` |
+| guild | DIFF | `0x808e73e` | `0x287` | `0x805472e` | `0x292` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,172 +1,183 @@
+@@ -1,172 +1,175 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -26,7 +26,7 @@
 +jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x18>
  mov    $0x2,%eax
 -jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x27f>
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x29b>
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x28b>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
@@ -35,7 +35,7 @@
 -je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x27a>
 +jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x33>
 +mov    $0x2,%eax
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x29b>
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x28b>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
@@ -65,31 +65,29 @@
 -je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x27a>
 +je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x8a>
 +mov    $0x2,%eax
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x29b>
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x28b>
  mov    0x8(%ebp),%eax
--movzbl 0x3b(%eax),%eax
-+add    $0x3b,%eax
-+movzbl (%eax),%eax
+ movzbl 0x3b(%eax),%eax
  movzbl %al,%eax
  add    $0x1,%eax
  cmp    $0x10,%eax
 -jle    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0xdf>
--mov    0x8(%ebp),%eax
--movzbl 0x3b(%eax),%eax
--movzbl %al,%eax
--lea    0x1(%eax),%ebx
-+jle    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0xf1>
- movl   $0x41d,0x8(%esp)
- movl   $&_ZZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUserE12__FUNCTION__,0x4(%esp)
--lea    -0x30(%ebp),%eax
++jle    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0xed>
++movl   $0x41d,0x8(%esp)
++movl   $&_ZZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUserE12__FUNCTION__,0x4(%esp)
 +lea    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0x8(%ebp),%eax
+ movzbl 0x3b(%eax),%eax
+ movzbl %al,%eax
+-lea    0x1(%eax),%ebx
+-movl   $0x41d,0x8(%esp)
+-movl   $&_ZZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUserE12__FUNCTION__,0x4(%esp)
+-lea    -0x30(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+mov    0x8(%ebp),%eax
-+add    $0x3b,%eax
-+movzbl (%eax),%eax
-+movzbl %al,%eax
 +add    $0x1,%eax
 +mov    %eax,0xc(%esp)
  movl   $"CGuild::GuildLevelUp Err (%d)",0x8(%esp)
@@ -100,22 +98,14 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x3,%eax
 -jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x27f>
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x29b>
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x28b>
  mov    0x8(%ebp),%eax
--movzbl 0x3b(%eax),%eax
--lea    0x1(%eax),%edx
-+add    $0x3b,%eax
-+mov    0x8(%ebp),%edx
-+add    $0x3b,%edx
-+movzbl (%edx),%edx
-+add    $0x1,%edx
-+mov    %dl,(%eax)
+ movzbl 0x3b(%eax),%eax
+ lea    0x1(%eax),%edx
  mov    0x8(%ebp),%eax
--mov    %dl,0x3b(%eax)
--mov    0x8(%ebp),%eax
--movzbl 0x3b(%eax),%eax
-+add    $0x3b,%eax
-+movzbl (%eax),%eax
+ mov    %dl,0x3b(%eax)
+ mov    0x8(%ebp),%eax
+ movzbl 0x3b(%eax),%eax
  movzbl %al,%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -132,12 +122,10 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild17GuildSkillPointUpEt>
  mov    0x8(%ebp),%eax
--movzbl 0x3b(%eax),%eax
-+add    $0x3b,%eax
-+movzbl (%eax),%eax
+ movzbl 0x3b(%eax),%eax
  cmp    $0x1,%al
 -jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x149>
-+jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x16a>
++jne    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x15e>
  mov    0x8(%ebp),%eax
 -movzbl 0x3c(%eax),%edx
 -or     $0x2,%edx
@@ -155,7 +143,7 @@
  setne  %al
  test   %al,%al
 -je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x1c7>
-+je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x1e8>
++je     <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x1dc>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
@@ -183,7 +171,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild9SaveGuildEhP14CServerHandlerj>
 -jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x1fd>
-+jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x21e>
++jmp    <T> <_ZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUser+0x212>
  movl   $0x445,0x8(%esp)
  movl   $&_ZZN6CGuild12GuildLevelUpEP14CServerHandlerP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
@@ -206,16 +194,12 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0x8(%ebp),%eax
--movzwl 0x62(%eax),%eax
+ movzwl 0x62(%eax),%eax
 -movzwl %ax,%edi
-+add    $0x62,%eax
-+movzwl (%eax),%eax
 +movzwl %ax,%esi
  mov    0x8(%ebp),%eax
--movzbl 0x3b(%eax),%eax
+ movzbl 0x3b(%eax),%eax
 -movzbl %al,%esi
-+add    $0x3b,%eax
-+movzbl (%eax),%eax
 +movzbl %al,%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -358,18 +342,18 @@ int CGuild::GuildLevelUp(CServerHandler* handler, CUser* user)
     {
         return 2;
     }
-    if (*(unsigned char*)((char*)this + 0x3b) + 1 > 0x10)
+    if (m_dbInfo.m_info.m_guildLevel + 1 > 0x10)
     {
         CMyFileLog log(__FUNCTION__, 0x41d);
         log("./log/GuildModify", "CGuild::GuildLevelUp Err (%d)",
-            *(unsigned char*)((char*)this + 0x3b) + 1);
+            m_dbInfo.m_info.m_guildLevel + 1);
         return 3;
     }
-    *(unsigned char*)((char*)this + 0x3b) += 1;
+    m_dbInfo.m_info.m_guildLevel += 1;
     GetGuildBoard()->sendMessageToDBMW_GuildLevelUP(
-        handler, *(unsigned char*)((char*)this + 0x3b), user);
+        handler, m_dbInfo.m_info.m_guildLevel, user);
     GuildSkillPointUp(1);
-    if (*(unsigned char*)((char*)this + 0x3b) == 1)
+    if (m_dbInfo.m_info.m_guildLevel == 1)
     {
         *(unsigned char*)((char*)this + 0x3c) |= 2;
     }
@@ -386,7 +370,7 @@ int CGuild::GuildLevelUp(CServerHandler* handler, CUser* user)
     SendGuildInfoToMembers(false);
     CMyFileLog log("GuildLevelUp", 0x44a);
     log("./log/GuildModify", "CGuild::GuildLevelUp(%d : %d)GSP(%d)", GetGuildKey(),
-        *(unsigned char*)((char*)this + 0x3b), *(unsigned short*)((char*)this + 0x62));
+        m_dbInfo.m_info.m_guildLevel, m_dbInfo.m_info.m_field42);
     return 0;
 }
 ```

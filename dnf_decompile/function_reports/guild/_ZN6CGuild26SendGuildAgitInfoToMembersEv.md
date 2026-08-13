@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8091d62` | `0xe4` | `0x80579d8` | `0xe2` |
+| guild | DIFF | `0x8091d62` | `0xe4` | `0x8057910` | `0xc7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,35 +13,26 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,67 +1,70 @@
+@@ -1,67 +1,58 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x48,%esp
-+push   %ebx
-+sub    $0x44,%esp
+ sub    $0x48,%esp
  lea    -0x27(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN30Packet_Channel_Guild_Agit_InfoC1Ev>
-+lea    -0x27(%ebp),%eax
-+lea    0x12(%eax),%edx
  mov    0x8(%ebp),%eax
--mov    0x18(%eax),%eax
--mov    %eax,-0x15(%ebp)
-+add    $0x18,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
-+lea    -0x27(%ebp),%eax
-+lea    0x16(%eax),%edx
+ mov    0x18(%eax),%eax
+ mov    %eax,-0x15(%ebp)
  mov    0x8(%ebp),%eax
- add    $0x4d09,%eax
+-add    $0x4d09,%eax
 -movl   $0x1,0x8(%esp)
 -mov    %eax,0x4(%esp)
 -lea    -0x27(%ebp),%eax
 -add    $0x16,%eax
 -mov    %eax,(%esp)
 -call   <T> <memcpy>
-+movzbl (%eax),%eax
-+mov    %al,(%edx)
++movzbl 0x4d09(%eax),%eax
++mov    %al,-0x11(%ebp)
  mov    0x8(%ebp),%edx
  lea    -0x2c(%ebp),%eax
  mov    %edx,0x4(%esp)
@@ -49,7 +40,7 @@
  call   <T> <_ZNSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild26SendGuildAgitInfoToMembersEv+0xb3>
-+jmp    <T> <_ZN6CGuild26SendGuildAgitInfoToMembersEv+0xae>
++jmp    <T> <_ZN6CGuild26SendGuildAgitInfoToMembersEv+0x96>
  lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -59,21 +50,15 @@
 -sete   %al
 -test   %al,%al
 -jne    <T> <_ZN6CGuild26SendGuildAgitInfoToMembersEv+0xa7>
-+je     <T> <_ZN6CGuild26SendGuildAgitInfoToMembersEv+0xa3>
-+lea    -0x27(%ebp),%eax
-+lea    0xa(%eax),%ebx
++je     <T> <_ZN6CGuild26SendGuildAgitInfoToMembersEv+0x8b>
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x1d(%ebp)
-+mov    %eax,(%ebx)
-+lea    -0x27(%ebp),%eax
-+lea    0xe(%eax),%ebx
+ mov    %eax,-0x1d(%ebp)
  mov    -0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x19(%ebp)
-+mov    %eax,(%ebx)
+ mov    %eax,-0x19(%ebp)
  lea    -0x27(%ebp),%eax
  movl   $0x17,0x8(%esp)
  mov    %eax,0x4(%esp)
@@ -98,8 +83,7 @@
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
  test   %al,%al
 -jne    <T> <_ZN6CGuild26SendGuildAgitInfoToMembersEv+0x53>
-+jne    <T> <_ZN6CGuild26SendGuildAgitInfoToMembersEv+0x4c>
-+mov    -0x4(%ebp),%ebx
++jne    <T> <_ZN6CGuild26SendGuildAgitInfoToMembersEv+0x3e>
  leave
  ret
 ```
@@ -162,16 +146,16 @@ void __thiscall CGuild::_ZN6CGuild26SendGuildAgitInfoToMembersEv(CGuild *this)
 void CGuild::SendGuildAgitInfoToMembers()
 {
     Packet_Channel_Guild_Agit_Info pkt;
-    *(unsigned int*)((char*)&pkt + 0x12) = *(unsigned int*)((char*)this + 0x18);
-    *(unsigned char*)((char*)&pkt + 0x16) = *(unsigned char*)((char*)this + 0x4d09);
+    pkt.m_c = m_guildKey;
+    pkt.m_info.m_agitLevel = m_agitInfo.m_agitLevel;
     for (std::map<unsigned int, CUser*>::iterator it = m_members.begin();
          it != m_members.end(); ++it)
     {
         CUser* u = it->second;
         if (u != 0)
         {
-            *(unsigned int*)((char*)&pkt + 0xa) = u->GetIdByChannel();
-            *(unsigned int*)((char*)&pkt + 0xe) = u->GetUniqCharNo();
+            pkt.m_a = u->GetIdByChannel();
+            pkt.m_b = u->GetUniqCharNo();
             u->SendToGameserver((char*)&pkt, 0x17);
         }
     }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808f520` | `0x737` | `0x805569c` | `0x55e` |
+| guild | DIFF | `0x808f520` | `0x737` | `0x8055600` | `0x55a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,523 +1,414 @@
+@@ -1,523 +1,412 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -39,7 +39,7 @@
 +jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x3c>
 +mov    $0x0,%eax
 +test   %al,%al
-+jne    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x558>
++jne    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x554>
 +lea    -0x2fc3(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN43Packet_Monitor_Call_Guild_Members_ToChannelC1Ev>
@@ -64,27 +64,21 @@
 +mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <memcpy>
--mov    0x8(%ebp),%eax
--mov    0x44(%eax),%eax
++mov    -0x28(%ebp),%eax
++lea    0x2e(%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x44(%eax),%eax
 -mov    %eax,-0x2f7d(%ebp)
--mov    0x8(%ebp),%eax
--movzwl 0x42(%eax),%eax
++mov    %eax,(%edx)
++mov    -0x28(%ebp),%eax
++lea    0x32(%eax),%edx
+ mov    0x8(%ebp),%eax
+ movzwl 0x42(%eax),%eax
 -mov    %ax,-0x2f79(%ebp)
 -movl   $0x0,-0xc(%ebp)
 -lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEC1Ev>
-+mov    -0x28(%ebp),%eax
-+lea    0x2e(%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x44,%eax
-+mov    (%eax),%eax
-+mov    %eax,(%edx)
-+mov    -0x28(%ebp),%eax
-+lea    0x32(%eax),%edx
-+mov    0x8(%ebp),%eax
-+add    $0x42,%eax
-+movzwl (%eax),%eax
 +mov    %ax,(%edx)
 +movl   $0x0,-0x24(%ebp)
  mov    0x8(%ebp),%edx
@@ -99,7 +93,7 @@
 -jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x304>
 -mov    -0xc(%ebp),%ebx
 -lea    -0x1c(%ebp),%eax
-+jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x212>
++jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x20e>
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -219,7 +213,7 @@
 -je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x224>
 -mov    -0xc(%ebp),%ebx
 -lea    -0x1c(%ebp),%eax
-+je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x193>
++je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x18f>
 +mov    -0x1c(%ebp),%eax
 +lea    0x37(%eax),%ebx
 +mov    -0x20(%ebp),%eax
@@ -255,7 +249,7 @@
 +test   %eax,%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x1fd>
++je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x1f9>
 +mov    -0x1c(%ebp),%eax
 +add    $0x39,%eax
 +movb   $0x1,(%eax)
@@ -264,7 +258,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEppEv>
 +cmpl   $0x5f,-0x24(%ebp)
-+jg     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x243>
++jg     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x23f>
 +mov    0x8(%ebp),%edx
 +lea    -0x34(%ebp),%eax
 +mov    %edx,0x4(%esp)
@@ -277,8 +271,8 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
 +test   %al,%al
-+jne    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0xcc>
-+jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x244>
++jne    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0xc8>
++jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x240>
 +nop
 +mov    -0x28(%ebp),%eax
 +lea    0x2d(%eax),%edx
@@ -328,7 +322,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEneERKS5_>
 +test   %al,%al
-+je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x559>
++je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x555>
 +lea    -0x17ef(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN48Packet_Monitor_Call_Guild_Members_ToChannel_NextC1Ev>
@@ -340,7 +334,7 @@
 +mov    0x18(%eax),%eax
 +mov    %eax,(%edx)
 +movl   $0x0,-0x14(%ebp)
-+jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x4b4>
++jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x4b0>
 +lea    -0x38(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -607,7 +601,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
 -mov    0x4(%eax),%eax
-+je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x3d8>
++je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x3d4>
 +mov    -0xc(%ebp),%eax
 +lea    0x37(%eax),%ebx
 +mov    -0x10(%ebp),%eax
@@ -693,7 +687,7 @@
 +test   %eax,%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x442>
++je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x43e>
 +mov    -0xc(%ebp),%eax
 +add    $0x39,%eax
  movb   $0x1,(%eax)
@@ -710,7 +704,7 @@
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEppEv>
 +cmpl   $0x5f,-0x14(%ebp)
-+jle    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x4b4>
++jle    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x4b0>
 +mov    -0x18(%ebp),%eax
 +lea    0x16(%eax),%edx
 +mov    -0x14(%ebp),%eax
@@ -770,9 +764,9 @@
 -mov    %al,-0x17c1(%ebp)
 -movzbl -0x17c1(%ebp),%eax
 -movzbl %al,%edx
-+jne    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x311>
++jne    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x30d>
 +cmpl   $0x0,-0x14(%ebp)
-+je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x559>
++je     <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x555>
 +mov    -0x18(%ebp),%eax
 +lea    0x16(%eax),%edx
 +mov    -0x14(%ebp),%eax
@@ -819,7 +813,7 @@
 -jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x732>
 -nop
 -jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x732>
-+jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x559>
++jmp    <T> <_ZN6CGuild17ReplyGuildMembersEP5CUser+0x555>
  nop
  mov    -0x4(%ebp),%ebx
  leave
@@ -1082,8 +1076,8 @@ void CGuild::ReplyGuildMembers(CUser* user)
     char* buf = (char*)&pkt;
     *(unsigned int*)(buf + 0x12) = m_guildKey;
     memcpy(buf + 0x16, (char*)this + 0x20, 0x16);
-    *(unsigned int*)(buf + 0x2e) = *(unsigned int*)((char*)this + 0x44);
-    *(unsigned short*)(buf + 0x32) = *(unsigned short*)((char*)this + 0x42);
+    *(unsigned int*)(buf + 0x2e) = m_dbInfo.m_info.m_guildPoint;
+    *(unsigned short*)(buf + 0x32) = m_dbInfo.m_info.m_totalCnt;
     int count = 0;
     std::map<unsigned int, CUser*>::iterator it = m_members.begin();
     while (it != m_members.end())

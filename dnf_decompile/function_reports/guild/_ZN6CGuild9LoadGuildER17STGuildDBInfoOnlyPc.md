@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808d268` | `0x172` | `0x8053212` | `0x180` |
+| guild | DIFF | `0x808d268` | `0x172` | `0x8053212` | `0x17a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,115 +1,119 @@
+@@ -1,115 +1,116 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -25,23 +25,21 @@
  and    $0x4,%eax
  test   %eax,%eax
 -jne    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x16a>
-+jne    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x179>
++jne    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x173>
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  movzwl %ax,%eax
  and    $0x2,%eax
  test   %eax,%eax
 -je     <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x16b>
-+je     <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x179>
++je     <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x173>
  mov    0x8(%ebp),%eax
--mov    0x44(%eax),%eax
-+add    $0x44,%eax
-+mov    (%eax),%eax
+ mov    0x44(%eax),%eax
  mov    %eax,-0x14(%ebp)
  movb   $0x0,-0xd(%ebp)
  movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x8a>
-+jmp    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x52>
++jmp    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x50>
 +addb   $0x1,-0xd(%ebp)
 +addl   $0x1,-0xc(%ebp)
 +mov    0xc(%ebp),%eax
@@ -49,7 +47,7 @@
 +movzbl (%eax),%eax
 +movzbl %al,%eax
 +cmp    -0xc(%ebp),%eax
-+jle    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0xa2>
++jle    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0xa0>
 +mov    0xc(%ebp),%ecx
  mov    -0xc(%ebp),%edx
 -mov    0xc(%ebp),%ecx
@@ -62,8 +60,7 @@
 -mov    0x5(%eax),%eax
 +mov    (%eax),%eax
  cmp    $0xc7,%eax
--jle    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0xa0>
-+jle    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0xa2>
+ jle    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0xa0>
 +mov    0xc(%ebp),%ecx
  mov    -0xc(%ebp),%edx
 -mov    0xc(%ebp),%ecx
@@ -84,17 +81,16 @@
 -movzbl %al,%eax
 -cmp    -0xc(%ebp),%eax
 -setg   %al
-+jg     <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0xa2>
++jg     <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0xa0>
 +mov    $0x1,%eax
-+jmp    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0xa7>
++jmp    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0xa5>
 +mov    $0x0,%eax
  test   %al,%al
--jne    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x48>
+ jne    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x48>
 -jmp    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0xa4>
 -nop
 -jmp    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0xa4>
 -nop
-+jne    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x4a>
  movsbl -0xd(%ebp),%edx
  mov    0xc(%ebp),%eax
 -movzbl 0x44(%eax),%eax
@@ -103,7 +99,7 @@
  movzbl %al,%eax
  cmp    %eax,%edx
 -je     <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x10c>
-+je     <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x119>
++je     <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x117>
  movsbl -0xd(%ebp),%esi
  mov    0xc(%ebp),%eax
 -movzbl 0x44(%eax),%eax
@@ -142,20 +138,15 @@
  call   <T> <_ZN6CGuild15SetGuildMessageEPc>
  cmpl   $0x0,-0x14(%ebp)
 -je     <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x155>
-+je     <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x166>
++je     <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x160>
  mov    0xc(%ebp),%eax
--mov    0x24(%eax),%eax
-+add    $0x24,%eax
-+mov    (%eax),%eax
+ mov    0x24(%eax),%eax
  cmp    -0x14(%ebp),%eax
 -jge    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x155>
--mov    -0x14(%ebp),%edx
-+jge    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x166>
++jge    <T> <_ZN6CGuild9LoadGuildER17STGuildDBInfoOnlyPc+0x160>
+ mov    -0x14(%ebp),%edx
  mov    0x8(%ebp),%eax
--mov    %edx,0x44(%eax)
-+lea    0x44(%eax),%edx
-+mov    -0x14(%ebp),%eax
-+mov    %eax,(%edx)
+ mov    %edx,0x44(%eax)
  mov    0x8(%ebp),%eax
  movzwl 0x1c(%eax),%eax
  mov    %eax,%edx
@@ -227,7 +218,7 @@ void CGuild::LoadGuild(STGuildDBInfoOnly& info, char* name)
 {
     if ((m_field1c & 4) == 0 && (m_field1c & 2) != 0)
     {
-        int local18 = *(int*)((char*)this + 0x44);
+        int local18 = m_dbInfo.m_info.m_guildPoint;
         char local11 = 0;
         int local10 = 0;
         while (local10 < (int)(unsigned char)((char*)&info)[0x44] &&
@@ -245,9 +236,9 @@ void CGuild::LoadGuild(STGuildDBInfoOnly& info, char* name)
         }
         memcpy((char*)this + 0x20, (char*)&info, 0xbd);
         SetGuildMessage(name);
-        if (local18 != 0 && *(int*)((char*)&info + 0x24) < local18)
+        if (local18 != 0 && (int)info.m_guildPoint < local18)
         {
-            *(int*)((char*)this + 0x44) = local18;
+            m_dbInfo.m_info.m_guildPoint = local18;
         }
         m_field1c |= 4;
     }

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x808f0fa` | `0x143` | `0x80551c8` | `0x1c1` |
+| guild | DIFF | `0x808f0fa` | `0x143` | `0x8055146` | `0x1a8` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,94 +1,134 @@
+@@ -1,94 +1,124 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x58,%esp
@@ -37,7 +37,7 @@
 +jmp    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x33>
 +mov    $0x0,%eax
 +test   %al,%al
-+jne    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x1bb>
++jne    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x1a2>
 +lea    -0x1e(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN42Packet_Monitor_Notice_Guild_Dismiss_ToUserC1Ev>
@@ -50,7 +50,7 @@
  sub    $0x4,%esp
 -jmp    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x10f>
 -lea    -0x28(%ebp),%eax
-+jmp    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x18a>
++jmp    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x171>
 +lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -63,9 +63,7 @@
  test   %al,%al
 -jne    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x103>
 -mov    -0xc(%ebp),%eax
-+je     <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x17f>
-+lea    -0x1e(%ebp),%eax
-+lea    0xa(%eax),%ebx
++je     <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x166>
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -74,9 +72,7 @@
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x18(%ebp)
 -mov    -0xc(%ebp),%eax
-+mov    %eax,(%ebx)
-+lea    -0x1e(%ebp),%eax
-+lea    0xe(%eax),%ebx
++mov    %eax,-0x14(%ebp)
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -85,7 +81,7 @@
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x14(%ebp)
 -lea    -0x22(%ebp),%eax
-+mov    %eax,(%ebx)
++mov    %eax,-0x10(%ebp)
 +lea    -0x1e(%ebp),%ebx
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
@@ -102,8 +98,6 @@
  mov    %eax,(%esp)
  call   <T> <_ZN28Packet_Guild_Exp_Book_DeleteC1Ev>
 -mov    -0xc(%ebp),%eax
-+lea    -0x3e(%ebp),%eax
-+lea    0xa(%eax),%ebx
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -112,9 +106,7 @@
  call   <T> <_ZN5CUser14GetIdByChannelEv>
 -mov    %eax,-0x38(%ebp)
 -mov    -0xc(%ebp),%eax
-+mov    %eax,(%ebx)
-+lea    -0x3e(%ebp),%eax
-+lea    0xe(%eax),%ebx
++mov    %eax,-0x34(%ebp)
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -122,15 +114,13 @@
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetUniqCharNoEv>
 -mov    %eax,-0x34(%ebp)
-+mov    %eax,(%ebx)
++mov    %eax,-0x30(%ebp)
 +lea    -0x3e(%ebp),%eax
 +lea    0x12(%eax),%edx
  mov    0xc(%ebp),%eax
 -mov    %eax,-0x2c(%ebp)
 -mov    -0xc(%ebp),%eax
 +mov    %eax,(%edx)
-+lea    -0x3e(%ebp),%eax
-+lea    0x16(%eax),%ebx
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -141,7 +131,7 @@
 -lea    -0x42(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -mov    -0xc(%ebp),%eax
-+mov    %eax,(%ebx)
++mov    %eax,-0x28(%ebp)
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP5CUserEEptEv>
@@ -181,7 +171,7 @@
 -jne    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x53>
 -jmp    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x141>
 +jne    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x60>
-+jmp    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x1bc>
++jmp    <T> <_ZN6CGuild27DismissGuildMemberAndNoticeEi+0x1a3>
  nop
 +mov    -0x4(%ebp),%ebx
  leave
@@ -270,14 +260,14 @@ void CGuild::DismissGuildMemberAndNotice(int group)
     {
         if (it->second != 0)
         {
-            *(unsigned int*)((char*)&notice + 0xa) = it->second->GetIdByChannel();
-            *(unsigned int*)((char*)&notice + 0xe) = it->second->GetUniqCharNo();
+            notice.ma = it->second->GetIdByChannel();
+            notice.me = it->second->GetUniqCharNo();
             it->second->SendToGameserver((char*)&notice, 0x12);
             Packet_Guild_Exp_Book_Delete expDel;
-            *(unsigned int*)((char*)&expDel + 0xa) = it->second->GetIdByChannel();
-            *(unsigned int*)((char*)&expDel + 0xe) = it->second->GetUniqCharNo();
+            expDel.ma = it->second->GetIdByChannel();
+            expDel.me = it->second->GetUniqCharNo();
             *(int*)((char*)&expDel + 0x12) = group;
-            *(unsigned int*)((char*)&expDel + 0x16) = it->second->GetDBID();
+            expDel.m16 = it->second->GetDBID();
             it->second->SendTcpGameserver(&expDel);
             it->second->ResetGuild();
         }
