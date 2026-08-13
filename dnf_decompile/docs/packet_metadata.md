@@ -55,6 +55,22 @@ MY_BIDDING_INFO_AG=0x1d69、SEARCH_BY_ITEMKEY_GA=0x81）。
 `AuctionPacket.h` 中 36 个类尚无构造函数（setPacketID/category/size）。
 补 ctor 会改变这些类的 codegen，须逐个验证 auction/point 产物不变后再提交。
 
+### 1.4 handler dispatch 交叉验证
+
+GA/GP 的 dispatch 表在 `auction_source/HandlerFor_GA_.h` /
+`HandlerFor_GP_JPN.h`（`mArrayFunc[packetID] = &HandlerFor_*::onAUCTION_*`）。
+与 §1.2 ORIG ctor 反汇编的 packetID 完全吻合：
+
+- GA: 0=REGIST, 1=ASK_AVERAGE_PRICE, 2=ASK_REGISTED_ITEM_NUM,
+  3=REGIST_ITEM, 4=REGIST_CANCEL, 5=BIDDING, 6=SEARCH_BY_ITEMKEY,
+  7=SEARCH_BY_NOITEMKEY, 8=MY_REGISTED_ITEM_INFO, 9=MY_BIDDING_INFO,
+  10=MY_AUCTION_HISTORY, 11=OPEN_PRIVATE_STORE, 12=CLOSE_PRIVATE_STORE,
+  13=CHECK_AUCTION_READY, 14=BUY_ITEM_APIECE
+- GP: 0-13 与 GA 同构（含 ASK_OWNER_IS_VIP=14）
+- AG/PG 响应族（cat=1/19）由 HandlerFor_GA_/DB_ 构造并回发
+
+两套独立证据（构造函数反汇编 vs dispatch 表）互相印证，ID 映射可信。
+
 ## 二、channel/bridge（有 DWARF）
 
 DWARF 枚举 `PACKETS`（MySchema.h:9）已还原协议 ID（见 literal_name_mapping.md
