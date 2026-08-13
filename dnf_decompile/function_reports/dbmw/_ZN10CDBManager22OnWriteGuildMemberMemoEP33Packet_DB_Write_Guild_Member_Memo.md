@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8080570` | `0x16b` | `0x80524a4` | `0x16b` |
+| dbmw | DIFF | `0x8080570` | `0x16b` | `0x80523f0` | `0x163` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,127 +13,112 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,94 +1,95 @@
+@@ -1,94 +1,91 @@
  push   %ebp
  mov    %esp,%ebp
 -sub    $0x6058,%esp
 +sub    $0x6048,%esp
  mov    0x8(%ebp),%eax
  mov    0x20(%eax),%eax
--mov    %eax,-0x14(%ebp)
--mov    0xc(%ebp),%eax
--mov    0xa(%eax),%eax
+ mov    %eax,-0x14(%ebp)
+ mov    0xc(%ebp),%eax
+ mov    0xa(%eax),%eax
  mov    %eax,-0x10(%ebp)
  mov    0xc(%ebp),%eax
--mov    0xe(%eax),%eax
+ mov    0xe(%eax),%eax
  mov    %eax,-0xc(%ebp)
 -lea    -0x602a(%ebp),%eax
 -mov    $0x6002,%edx
 -mov    %edx,0x8(%esp)
 +movl   $0x6002,0x8(%esp)
  movl   $0x0,0x4(%esp)
-+lea    -0x6022(%ebp),%eax
++lea    -0x6026(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <memset>
--mov    -0x14(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x78,%eax
  mov    (%eax),%edx
--mov    0xc(%ebp),%eax
-+mov    -0xc(%ebp),%eax
+ mov    0xc(%ebp),%eax
  add    $0x12,%eax
  mov    %eax,0x8(%esp)
 -lea    -0x602a(%ebp),%eax
-+lea    -0x6022(%ebp),%eax
++lea    -0x6026(%ebp),%eax
  mov    %eax,0x4(%esp)
--mov    -0x14(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
--mov    -0x14(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
-+mov    (%eax),%ecx
-+mov    -0xc(%ebp),%eax
-+add    $0xe,%eax
  mov    (%eax),%edx
  mov    -0xc(%ebp),%eax
--mov    %eax,0x14(%esp)
--mov    -0x10(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+mov    %edx,0x14(%esp)
+ mov    %eax,0x14(%esp)
+ mov    -0x10(%ebp),%eax
  mov    %eax,0x10(%esp)
 -lea    -0x602a(%ebp),%eax
-+lea    -0x6022(%ebp),%eax
++lea    -0x6026(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"upDate guild_member set memo='%s' where guild_id = %d and charac_no = %d",0x8(%esp)
  movl   $0x4ebb,0x4(%esp)
--mov    -0x14(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
--call   *%edx
-+call   *%ecx
+ call   *%edx
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager22OnWriteGuildMemberMemoEP33Packet_DB_Write_Guild_Member_Memo+0xff>
-+je     <T> <_ZN10CDBManager22OnWriteGuildMemberMemoEP33Packet_DB_Write_Guild_Member_Memo+0x106>
++je     <T> <_ZN10CDBManager22OnWriteGuildMemberMemoEP33Packet_DB_Write_Guild_Member_Memo+0xfe>
  movl   $0x1a8e,0x8(%esp)
  movl   $&_ZZN10CDBManager22OnWriteGuildMemberMemoEP33Packet_DB_Write_Guild_Member_MemoE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
--mov    %eax,0x14(%esp)
--mov    -0x10(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%edx
-+mov    -0xc(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
-+mov    %edx,0x14(%esp)
+ mov    %eax,0x14(%esp)
+ mov    -0x10(%ebp),%eax
  mov    %eax,0x10(%esp)
 -lea    -0x602a(%ebp),%eax
-+lea    -0x6022(%ebp),%eax
++lea    -0x6026(%ebp),%eax
  mov    %eax,0xc(%esp)
  movl   $"CDBManager::OnWriteGuildMemo() upDate guild_member set memo='%s' where guild_id = %d and charac_no = %d",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x18(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager22OnWriteGuildMemberMemoEP33Packet_DB_Write_Guild_Member_Memo+0x169>
--mov    -0x14(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+-jmp    <T> <_ZN10CDBManager22OnWriteGuildMemberMemoEP33Packet_DB_Write_Guild_Member_Memo+0x169>
++jmp    <T> <_ZN10CDBManager22OnWriteGuildMemberMemoEP33Packet_DB_Write_Guild_Member_Memo+0x161>
+ mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
  mov    (%eax),%edx
  movl   $0x4ebb,0x4(%esp)
--mov    -0x14(%ebp),%eax
-+mov    -0x10(%ebp),%eax
+ mov    -0x14(%ebp),%eax
  mov    %eax,(%esp)
  call   *%edx
 -mov    %al,-0x15(%ebp)
 -movzbl -0x15(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
- je     <T> <_ZN10CDBManager22OnWriteGuildMemberMemoEP33Packet_DB_Write_Guild_Member_Memo+0x164>
+-je     <T> <_ZN10CDBManager22OnWriteGuildMemberMemoEP33Packet_DB_Write_Guild_Member_Memo+0x164>
++je     <T> <_ZN10CDBManager22OnWriteGuildMemberMemoEP33Packet_DB_Write_Guild_Member_Memo+0x15c>
  movl   $0x1a96,0x8(%esp)
  movl   $&_ZZN10CDBManager22OnWriteGuildMemberMemoEP33Packet_DB_Write_Guild_Member_MemoE12__FUNCTION__,0x4(%esp)
- lea    -0x20(%ebp),%eax
+-lea    -0x20(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"upDate_into_guild_member_memo Query Error\n",0x8(%esp)
  movl   $"./log/DBQueryErr",0x4(%esp)
- lea    -0x20(%ebp),%eax
+-lea    -0x20(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
- jmp    <T> <_ZN10CDBManager22OnWriteGuildMemberMemoEP33Packet_DB_Write_Guild_Member_Memo+0x169>
+-jmp    <T> <_ZN10CDBManager22OnWriteGuildMemberMemoEP33Packet_DB_Write_Guild_Member_Memo+0x169>
++jmp    <T> <_ZN10CDBManager22OnWriteGuildMemberMemoEP33Packet_DB_Write_Guild_Member_Memo+0x161>
  mov    $0x1,%eax
  leave
  ret

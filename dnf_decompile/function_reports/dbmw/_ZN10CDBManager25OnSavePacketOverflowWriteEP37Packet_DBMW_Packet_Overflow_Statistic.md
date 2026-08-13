@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8080324` | `0x24b` | `0x805114c` | `0x241` |
+| dbmw | DIFF | `0x8080324` | `0x24b` | `0x80510dc` | `0x233` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,154 +1,154 @@
+@@ -1,154 +1,147 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %ebx
@@ -29,19 +29,15 @@
 +jne    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x22>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x242>
-+jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x23f>
++jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x231>
  mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
+ movzbl 0xa(%eax),%eax
  test   %al,%al
 -jne    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x8e>
-+jne    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x8b>
++jne    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x87>
  mov    0xc(%ebp),%eax
--movzwl 0xb(%eax),%eax
+ movzwl 0xb(%eax),%eax
 -movzwl %ax,%ebx
-+add    $0xb,%eax
-+movzwl (%eax),%eax
 +movzwl %ax,%eax
 +mov    %eax,-0x10(%ebp)
  call   <T> <_Z22getNotiPacketNameCountv>
@@ -50,8 +46,7 @@
 +cmp    -0x10(%ebp),%eax
 +setle  %al
  test   %al,%al
--je     <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x69>
-+je     <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x6d>
+ je     <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x69>
  movl   $0x4,0x8(%esp)
  movl   $"???",0x4(%esp)
 -lea    -0x10d(%ebp),%eax
@@ -59,26 +54,26 @@
  mov    %eax,(%esp)
  call   <T> <memcpy>
 -jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0xe9>
--mov    0xc(%ebp),%eax
--movzwl 0xb(%eax),%eax
--movzwl %ax,%eax
--mov    &g_szNotiPacketName(,%eax,4),%eax
-+jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0xe5>
++jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0xdf>
 +mov    -0x10(%ebp),%eax
 +mov    &_ZL18g_szNotiPacketName(,%eax,4),%eax
- mov    %eax,0x4(%esp)
--lea    -0x10d(%ebp),%eax
++mov    %eax,0x4(%esp)
 +lea    -0x114(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <strcpy>
--jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0xe9>
-+jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0xe5>
++mov    %eax,(%esp)
++call   <T> <strcpy>
++jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0xdf>
  mov    0xc(%ebp),%eax
+ movzwl 0xb(%eax),%eax
+ movzwl %ax,%eax
+-mov    &g_szNotiPacketName(,%eax,4),%eax
+-mov    %eax,0x4(%esp)
+-lea    -0x10d(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <strcpy>
+-jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0xe9>
+-mov    0xc(%ebp),%eax
 -movzwl 0xb(%eax),%eax
 -movzwl %ax,%ebx
-+add    $0xb,%eax
-+movzwl (%eax),%eax
-+movzwl %ax,%eax
 +mov    %eax,-0xc(%ebp)
  call   <T> <_Z21getCmdPacketNameCountv>
 -cmp    %eax,%ebx
@@ -87,7 +82,7 @@
 +setle  %al
  test   %al,%al
 -je     <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0xc6>
-+je     <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0xc9>
++je     <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0xc3>
  movl   $0x4,0x8(%esp)
  movl   $"???",0x4(%esp)
 -lea    -0x10d(%ebp),%eax
@@ -99,7 +94,7 @@
 -movzwl 0xb(%eax),%eax
 -movzwl %ax,%eax
 -mov    &g_szCmdPacketName(,%eax,4),%eax
-+jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0xe5>
++jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0xdf>
 +mov    -0xc(%ebp),%eax
 +mov    &_ZL17g_szCmdPacketName(,%eax,4),%eax
  mov    %eax,0x4(%esp)
@@ -108,15 +103,11 @@
  mov    %eax,(%esp)
  call   <T> <strcpy>
  mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
+ movzbl 0xa(%eax),%eax
  movzbl %al,%edx
  mov    0xc(%ebp),%eax
--mov    0xd(%eax),%eax
+ mov    0xd(%eax),%eax
 -lea    -0x10d(%ebp),%ecx
-+add    $0xd,%eax
-+mov    (%eax),%eax
 +lea    -0x114(%ebp),%ecx
  mov    %ecx,0x10(%esp)
  mov    %edx,0xc(%esp)
@@ -156,7 +147,7 @@
  test   %al,%al
 -jne    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x18d>
 -mov    -0xc(%ebp),%eax
-+jne    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x186>
++jne    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x17c>
 +mov    -0x14(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
@@ -168,14 +159,14 @@
  or     %edx,%eax
  test   %eax,%eax
 -jne    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x194>
-+jne    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x18d>
++jne    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x183>
  mov    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x199>
-+jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x192>
++jmp    <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x188>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x23d>
-+je     <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x23a>
++je     <T> <_ZN10CDBManager25OnSavePacketOverflowWriteEP37Packet_DBMW_Packet_Overflow_Statistic+0x22c>
  movl   $0x400,0x8(%esp)
  movl   $0x0,0x4(%esp)
 -lea    -0x50d(%ebp),%eax
@@ -183,13 +174,9 @@
  mov    %eax,(%esp)
  call   <T> <memset>
  mov    0xc(%ebp),%eax
--mov    0xd(%eax),%edx
-+add    $0xd,%eax
-+mov    (%eax),%edx
+ mov    0xd(%eax),%edx
  mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
-+add    $0xa,%eax
-+movzbl (%eax),%eax
+ movzbl 0xa(%eax),%eax
  movzbl %al,%eax
  mov    %edx,0x10(%esp)
 -lea    -0x10d(%ebp),%edx

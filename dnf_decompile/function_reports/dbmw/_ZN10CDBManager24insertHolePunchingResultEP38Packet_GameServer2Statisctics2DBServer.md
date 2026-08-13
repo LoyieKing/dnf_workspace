@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80878f0` | `0x12a` | `0x8051de6` | `0x125` |
+| dbmw | DIFF | `0x80878f0` | `0x12a` | `0x8051d4e` | `0x11d` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,87 +1,89 @@
+@@ -1,87 +1,85 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -26,7 +26,7 @@
 +jne    <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x19>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x11f>
-+jmp    <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x11d>
++jmp    <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x115>
  mov    0x8(%ebp),%eax
  mov    0x3c(%eax),%eax
 -mov    %eax,-0x2c(%ebp)
@@ -38,7 +38,7 @@
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x11f>
 -mov    -0x2c(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x11d>
++jmp    <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x115>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -50,22 +50,14 @@
  mov    0xc(%ebp),%eax
  lea    0x15(%eax),%edi
  mov    0xc(%ebp),%eax
--mov    0x11(%eax),%ebx
-+add    $0x11,%eax
-+mov    (%eax),%ebx
+ mov    0x11(%eax),%ebx
  mov    0xc(%ebp),%eax
--mov    0xd(%eax),%ecx
-+add    $0xd,%eax
-+mov    (%eax),%ecx
+ mov    0xd(%eax),%ecx
  mov    0xc(%ebp),%eax
--movzbl 0xc(%eax),%eax
-+add    $0xc,%eax
-+movzbl (%eax),%eax
+ movzbl 0xc(%eax),%eax
  movsbl %al,%edx
  mov    0xc(%ebp),%eax
--movzwl 0xa(%eax),%eax
-+add    $0xa,%eax
-+movzwl (%eax),%eax
+ movzwl 0xa(%eax),%eax
  movzwl %ax,%eax
 -mov    %eax,-0x6c(%ebp)
 -mov    -0x5c(%ebp),%eax
@@ -90,7 +82,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0xf2>
-+je     <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0xf0>
++je     <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0xe8>
  movl   $0x2edf,0x8(%esp)
  movl   $&_ZZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServerE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
@@ -106,7 +98,7 @@
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x11f>
 -mov    -0x2c(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x11d>
++jmp    <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x115>
 +mov    -0x1c(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -119,10 +111,10 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x11a>
-+je     <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x118>
++je     <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x110>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x11f>
-+jmp    <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x11d>
++jmp    <T> <_ZN10CDBManager24insertHolePunchingResultEP38Packet_GameServer2Statisctics2DBServer+0x115>
  mov    $0x1,%eax
 -add    $0x9c,%esp
 +add    $0x6c,%esp

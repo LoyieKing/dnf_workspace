@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807f7b4` | `0x101` | `0x804f22c` | `0x111` |
+| dbmw | NEAR | `0x807f7b4` | `0x101` | `0x804f200` | `0x101` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,71 +1,79 @@
+@@ -1,71 +1,71 @@
  push   %ebp
  mov    %esp,%ebp
  sub    $0x58,%esp
@@ -22,36 +22,24 @@
 -mov    %eax,-0x20(%ebp)
 +mov    %eax,-0x24(%ebp)
  mov    0xc(%ebp),%eax
--movzbl 0xa(%eax),%eax
+ movzbl 0xa(%eax),%eax
 -mov    %al,-0x19(%ebp)
-+add    $0xa,%eax
-+movzbl (%eax),%eax
 +mov    %al,-0x1d(%ebp)
  mov    0xc(%ebp),%eax
--mov    0xb(%eax),%eax
+ mov    0xb(%eax),%eax
 -mov    %eax,-0x18(%ebp)
 -movl   $0x0,-0x14(%ebp)
--jmp    <T> <_ZN10CDBManager25OnSavePowerWarPointRewardEP37Packet_DB_Save_Power_War_Point_Reward+0xe9>
--mov    -0x14(%ebp),%edx
-+add    $0xb,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x1c(%ebp)
 +movl   $0x0,-0x18(%ebp)
-+jmp    <T> <_ZN10CDBManager25OnSavePowerWarPointRewardEP37Packet_DB_Save_Power_War_Point_Reward+0xf9>
+ jmp    <T> <_ZN10CDBManager25OnSavePowerWarPointRewardEP37Packet_DB_Save_Power_War_Point_Reward+0xe9>
+-mov    -0x14(%ebp),%edx
  mov    0xc(%ebp),%eax
--mov    0xf(%eax,%edx,8),%eax
 +mov    -0x18(%ebp),%edx
-+shl    $0x3,%edx
-+add    $0xf,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
+ mov    0xf(%eax,%edx,8),%eax
 +mov    %eax,-0x14(%ebp)
 +mov    0xc(%ebp),%eax
 +mov    -0x18(%ebp),%edx
-+shl    $0x3,%edx
-+add    $0x13,%edx
-+add    %edx,%eax
-+mov    (%eax),%eax
++mov    0x13(%eax,%edx,8),%eax
  mov    %eax,-0x10(%ebp)
 -mov    -0x14(%ebp),%edx
 -mov    0xc(%ebp),%eax
@@ -93,8 +81,7 @@
 +movzbl -0x9(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
--je     <T> <_ZN10CDBManager25OnSavePowerWarPointRewardEP37Packet_DB_Save_Power_War_Point_Reward+0xe5>
-+je     <T> <_ZN10CDBManager25OnSavePowerWarPointRewardEP37Packet_DB_Save_Power_War_Point_Reward+0xf5>
+ je     <T> <_ZN10CDBManager25OnSavePowerWarPointRewardEP37Packet_DB_Save_Power_War_Point_Reward+0xe5>
  movl   $0x192b,0x8(%esp)
  movl   $&_ZZN10CDBManager25OnSavePowerWarPointRewardEP37Packet_DB_Save_Power_War_Point_RewardE12__FUNCTION__,0x4(%esp)
  lea    -0x2c(%ebp),%eax
@@ -106,18 +93,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
--jmp    <T> <_ZN10CDBManager25OnSavePowerWarPointRewardEP37Packet_DB_Save_Power_War_Point_Reward+0xff>
+ jmp    <T> <_ZN10CDBManager25OnSavePowerWarPointRewardEP37Packet_DB_Save_Power_War_Point_Reward+0xff>
 -addl   $0x1,-0x14(%ebp)
 -mov    -0x14(%ebp),%eax
 -cmp    -0x18(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager25OnSavePowerWarPointRewardEP37Packet_DB_Save_Power_War_Point_Reward+0x10f>
 +addl   $0x1,-0x18(%ebp)
 +mov    -0x18(%ebp),%eax
 +cmp    -0x1c(%ebp),%eax
  setl   %al
  test   %al,%al
--jne    <T> <_ZN10CDBManager25OnSavePowerWarPointRewardEP37Packet_DB_Save_Power_War_Point_Reward+0x2e>
-+jne    <T> <_ZN10CDBManager25OnSavePowerWarPointRewardEP37Packet_DB_Save_Power_War_Point_Reward+0x32>
+ jne    <T> <_ZN10CDBManager25OnSavePowerWarPointRewardEP37Packet_DB_Save_Power_War_Point_Reward+0x2e>
  mov    $0x1,%eax
  leave
  ret
