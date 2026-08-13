@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80a7d10` | `0x176` | `0x809ee86` | `0x176` |
+| guild | NEAR | `0x80a7d10` | `0x176` | `0x809ee7e` | `0x176` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,26 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,91 +1,94 @@
-+mov    %esi,0x14(%esp)
-+mov    %ebx,0x10(%esp)
-+mov    -0xc(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"Rank:%d, Charac No:%d Point:%d",0x8(%esp)
-+movl   $"./log/Power",0x4(%esp)
-+lea    -0x18(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+addl   $0x1,-0xc(%ebp)
-+cmpl   $0x2,-0xc(%ebp)
-+setbe  %al
-+test   %al,%al
-+jne    <T> <_ZN19CPowerWarCharacInfo21GetStatueRankingUsersERSt6vectorIP20STPowerWarCharacInfoSaIS2_EE+0x22>
-+add    $0x40,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %ebp
-+ret
+@@ -1,91 +1,91 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -118,22 +99,24 @@
  call   <T> <_ZN9__gnu_cxxneIPP20STPowerWarCharacInfoSt6vectorIS2_SaIS2_EEEEbRKNS_17__normal_iteratorIT_T0_EESC_>
  test   %al,%al
  jne    <T> <_ZN19CPowerWarCharacInfo14PrintDebugInfoEv+0x95>
--movl   $0x100,0x8(%esp)
--movl   $&_ZZN19CPowerWarCharacInfo14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
+ movl   $0x100,0x8(%esp)
+ movl   $&_ZZN19CPowerWarCharacInfo14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--movl   $"------ POWER WAR CHARAC DEBUG INFO END   --------------------------------------------------------",0x8(%esp)
--movl   $"./log/PowerResult",0x4(%esp)
++lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ movl   $"------ POWER WAR CHARAC DEBUG INFO END   --------------------------------------------------------",0x8(%esp)
+ movl   $"./log/PowerResult",0x4(%esp)
 -lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--lea    -0x8(%ebp),%esp
--add    $0x0,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
--ret
++lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x8(%ebp),%esp
+ add    $0x0,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

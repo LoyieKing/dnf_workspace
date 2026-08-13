@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80518ce` | `0x24d` | `0x8099898` | `0x24c` |
+| guild | DIFF | `0x80518ce` | `0x24d` | `0x8099890` | `0x24c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,28 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,149 +1,152 @@
-+mov    0x1838(%eax),%eax
-+mov    %edx,0x8(%esp)
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <memcpy>
-+mov    0x8(%ebp),%eax
-+mov    0x1838(%eax),%edx
-+mov    0x10(%ebp),%eax
-+add    %eax,%edx
-+mov    0x8(%ebp),%eax
-+mov    %edx,0x1838(%eax)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CPeer11send_packetEv>
-+add    $0x30,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %ebp
-+ret
-+nop
+@@ -1,149 +1,149 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -207,24 +186,26 @@
  mov    0x8(%ebp),%eax
  mov    0x1834(%eax),%eax
  mov    -0xc(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--movl   $"offset error[Remain_Data: %d Send:%d]",(%esp)
--call   <T> <printf>
--mov    $0xffffffff,%eax
+ mov    %edx,0x8(%esp)
+ mov    %eax,0x4(%esp)
+ movl   $"offset error[Remain_Data: %d Send:%d]",(%esp)
+ call   <T> <printf>
+ mov    $0xffffffff,%eax
 -jmp    <T> <_ZN5CPeer11send_packetEv+0x246>
--mov    0x8(%ebp),%eax
--lea    0x183c(%eax),%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x1838(%eax)
--mov    0x8(%ebp),%eax
--movl   $0x0,0x1834(%eax)
--mov    -0xc(%ebp),%eax
++jmp    <T> <_ZN5CPeer11send_packetEv+0x245>
+ mov    0x8(%ebp),%eax
+ lea    0x183c(%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x1838(%eax)
+ mov    0x8(%ebp),%eax
+ movl   $0x0,0x1834(%eax)
+ mov    -0xc(%ebp),%eax
 -add    $0x30,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
--ret
++add    $0x20,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

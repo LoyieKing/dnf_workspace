@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80a4e5c` | `0x252` | `0x809bfc0` | `0x252` |
+| guild | DIFF | `0x80a4e5c` | `0x252` | `0x809bfb8` | `0x252` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,23 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,152 +1,150 @@
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"----- POWER B",0x8(%esp)
-+movl   $"./log/PowerResult",0x4(%esp)
-+lea    -0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    0x8(%ebp),%eax
-+add    $0xe0,%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CPower20GetPowerWarGuildInfoEv>
-+mov    %eax,(%esp)
-+call   <T> <_ZN18CPowerWarGuildInfo14PrintDebugInfoEv>
-+leave
-+ret
+@@ -1,152 +1,152 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -167,24 +151,24 @@
  mov    -0xc(%ebp),%eax
  mov    0xc(%ebp),%edx
  mov    %edx,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN13CPowerManager21GetUserRankingInPowerE20ENUM_POWER_SIDE_TYPEj>
--mov    %eax,-0x34(%ebp)
--jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x232>
--movl   $0x0,-0x38(%ebp)
--movl   $0x0,-0x34(%ebp)
--lea    -0x56(%ebp),%eax
--movl   $0x26,0x8(%esp)
--mov    %eax,0x4(%esp)
--mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser16SendToGameserverEPci>
--add    $0x74,%esp
--pop    %ebx
--pop    %ebp
--ret
+ mov    %eax,0x4(%esp)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN13CPowerManager21GetUserRankingInPowerE20ENUM_POWER_SIDE_TYPEj>
+ mov    %eax,-0x34(%ebp)
+ jmp    <T> <_ZN13CPowerManager23SendPowerWarProcessInfoEj+0x232>
+ movl   $0x0,-0x38(%ebp)
+ movl   $0x0,-0x34(%ebp)
+ lea    -0x56(%ebp),%eax
+ movl   $0x26,0x8(%esp)
+ mov    %eax,0x4(%esp)
+ mov    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser16SendToGameserverEPci>
+ add    $0x74,%esp
+ pop    %ebx
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 
