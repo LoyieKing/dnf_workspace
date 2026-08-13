@@ -979,7 +979,7 @@ FrameLagCollector::_ZN17FrameLagCollector16SaveFrameLagDataEP14CServerHandler
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 455 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 456 行）：
 
 ```cpp
 int FrameLagCollector::SaveFrameLagData(CServerHandler* handler)

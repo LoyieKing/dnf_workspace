@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809d53a` | `0x3a5` | `0x80d8c0a` | `0x391` |
+| dbmw | DIFF | `0x809d53a` | `0x3a5` | `0x80d8bca` | `0x391` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -97,16 +97,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI16st_ars_info_listSaIS0_EEixEj>
  mov    %eax,%ecx
-+lea    -0x513(%ebp),%ebx
  mov    -0x10(%ebp),%edx
 -lea    -0x517(%ebp),%ebx
  mov    %edx,%eax
  add    %eax,%eax
  add    %edx,%eax
  shl    $0x2,%eax
-+add    $0xf,%eax
- lea    (%ebx,%eax,1),%eax
--add    $0xf,%eax
+-lea    (%ebx,%eax,1),%eax
++lea    -0x513(%ebp),%edx
++lea    (%edx,%eax,1),%eax
+ add    $0xf,%eax
 +mov    %ecx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZN16st_ars_info_list10CopyStructERKS_>
@@ -452,7 +452,7 @@ void CPacketTranslater::_ZN17CPacketTranslater16OnRequestARSInfoEP12PacketHeader
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2267 行）：
+定义于 [source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp](source/DNFServer/GameServer/DBMW/DNFPacketTranslater.cpp)（约第 2266 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestARSInfo(PacketHeader* header)
@@ -483,7 +483,7 @@ void CPacketTranslater::OnRequestARSInfo(PacketHeader* header)
                 int count = 0;
                 while (count <= 0x63 && srcIdx < size)
                 {
-                    (*(st_ars_info_list*)((char*)&reply + 0xf + count * 0xc))
+                    (*(st_ars_info_list*)&reply.m_rest[count * 0xc])
                         .CopyStruct(list[srcIdx]);
                     srcIdx++;
                     count++;

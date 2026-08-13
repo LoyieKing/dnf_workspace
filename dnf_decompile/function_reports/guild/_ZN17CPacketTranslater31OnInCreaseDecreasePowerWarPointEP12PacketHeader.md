@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8081faa` | `0x25b` | `0x807816e` | `0x170` |
+| guild | DIFF | `0x8081faa` | `0x25b` | `0x807800c` | `0x164` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,46 +13,41 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,158 +1,95 @@
+@@ -1,158 +1,90 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
  push   %ebx
 -sub    $0x60,%esp
 +sub    $0x54,%esp
-+mov    0x8(%ebp),%eax
-+mov    %eax,-0x1c(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x4c>
-+jne    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x51>
++jne    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x4b>
  movl   $0x15d3,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnInCreaseDecreasePowerWarPoint : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/Except",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x34(%ebp),%eax
++lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x254>
--mov    0x8(%ebp),%eax
++jmp    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x15e>
+ mov    0x8(%ebp),%eax
 -mov    %eax,-0x10(%ebp)
 -mov    -0x10(%ebp),%eax
--mov    0xa(%eax),%eax
+ mov    0xa(%eax),%eax
 -test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x83>
 -mov    -0x10(%ebp),%eax
 -mov    0xa(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
-+jmp    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x16a>
-+mov    -0x1c(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x18(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +lea    0x290(%eax),%edx
@@ -62,7 +57,7 @@
  call   <T> <_ZN13CGuildManager9FindGuildEj>
  mov    %eax,-0x14(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
-+je     <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x85>
++je     <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x7d>
  cmpl   $0x0,-0x14(%ebp)
 -jne    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x8a>
 -mov    $0x1,%eax
@@ -70,42 +65,38 @@
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0xce>
-+jne    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0xc0>
++jne    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0xb8>
  movl   $0x15db,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnInCreaseDecreasePowerWarPoint : 0 == pclGuild",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x34(%ebp),%eax
-+lea    -0x2c(%ebp),%eax
++lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x254>
 -mov    -0x10(%ebp),%eax
--mov    0x12(%eax),%eax
++jmp    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x15e>
++mov    0x8(%ebp),%eax
+ mov    0x12(%eax),%eax
 -test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x127>
 -mov    -0x10(%ebp),%eax
 -mov    0x12(%eax),%esi
 -mov    -0x10(%ebp),%eax
--mov    0xe(%eax),%ebx
-+jmp    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x16a>
-+mov    -0x1c(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x10(%ebp)
 +cmpl   $0x0,-0x10(%ebp)
-+jne    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x11c>
-+mov    -0x1c(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%ebx
++jne    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x110>
++mov    0x8(%ebp),%eax
+ mov    0xe(%eax),%ebx
  movl   $0x15e2,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x10(%esp)
@@ -115,13 +106,13 @@
  movl   $"CPacketTranslater::OnInCreaseDecreasePowerWarPoint : Invalid Power War Point Reached(characNo:%d, PowerWarPoint:%d)",0x8(%esp)
  movl   $"./log/Power",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x24(%ebp),%eax
++lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x254>
-+jmp    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x16a>
++jmp    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x15e>
 +cmpl   $0x0,-0x10(%ebp)
-+jg     <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x145>
++jg     <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x139>
  mov    -0x10(%ebp),%eax
 -mov    0x12(%eax),%eax
 -test   %eax,%eax
@@ -136,7 +127,7 @@
 +mov    -0x14(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuild16SubPowerWarPointEj>
-+jmp    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x157>
++jmp    <T> <_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointEP12PacketHeader+0x14b>
 +mov    -0x10(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    -0x14(%ebp),%eax
@@ -288,19 +279,18 @@ void CPacketTranslater::_ZN17CPacketTranslater31OnInCreaseDecreasePowerWarPointE
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4106 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4529 行）：
 
 ```cpp
 void CPacketTranslater::OnInCreaseDecreasePowerWarPoint(PacketHeader* pkt)
 {
-    char* pb = (char*)pkt;
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x15d3,"./log/Except",
             "CPacketTranslater::OnInCreaseDecreasePowerWarPoint : 0 == m_pclApp");
         return;
     }
-    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+    unsigned int guildKey = ((PTL_PowerWarPointPkt*)pkt)->m_guildKey;
     CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
     if (guildKey == 0 || guild == 0)
     {
@@ -308,12 +298,12 @@ void CPacketTranslater::OnInCreaseDecreasePowerWarPoint(PacketHeader* pkt)
             "CPacketTranslater::OnInCreaseDecreasePowerWarPoint : 0 == pclGuild");
         return;
     }
-    int point = *(int*)(pb + 0x12);
+    int point = ((PTL_PowerWarPointPkt*)pkt)->m_point;
     if (point == 0)
     {
         DNF_LOG_SCOPE_LINE(0x15e2,"./log/Power",
             "CPacketTranslater::OnInCreaseDecreasePowerWarPoint : Invalid Power War Point Reached(characNo:%d, PowerWarPoint:%d)",
-            *(unsigned int*)(pb + 0xe), point);
+        ((PTL_PowerWarPointPkt*)pkt)->m_charNo, point);
         return;
     }
     if (point < 1)

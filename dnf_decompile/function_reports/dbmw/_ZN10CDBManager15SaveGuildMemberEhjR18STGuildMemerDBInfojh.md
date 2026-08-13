@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8072004` | `0x219` | `0x804e89a` | `0x216` |
+| dbmw | DIFF | `0x8072004` | `0x219` | `0x804e88e` | `0x20a` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,142 +1,142 @@
+@@ -1,142 +1,136 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -35,7 +35,7 @@
 -mov    -0x1c(%ebp),%eax
 +mov    %eax,-0xc(%ebp)
 +cmpb   $0x2,-0x30(%ebp)
-+ja     <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0xe0>
++ja     <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0xda>
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -43,9 +43,7 @@
 -movzbl -0x3c(%ebp),%edx
 +movzbl -0x2c(%ebp),%edx
  mov    0x14(%ebp),%eax
--mov    0x16(%eax),%eax
-+add    $0x16,%eax
-+mov    (%eax),%eax
+ mov    0x16(%eax),%eax
  mov    0x18(%ebp),%ecx
  mov    %ecx,0x18(%esp)
  mov    %edx,0x14(%esp)
@@ -60,18 +58,24 @@
  call   *%ebx
 -movzbl -0x3c(%ebp),%eax
 -mov    %eax,-0x44(%ebp)
--mov    0x14(%ebp),%eax
++movl   $0x2ba,0x8(%esp)
++movl   $&_ZZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojhE12__FUNCTION__,0x4(%esp)
++lea    -0x14(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++movzbl -0x2c(%ebp),%ebx
+ mov    0x14(%ebp),%eax
 -mov    0x16(%eax),%edi
--mov    0x14(%ebp),%eax
--movzbl 0x15(%eax),%eax
++mov    0x16(%eax),%ecx
+ mov    0x14(%ebp),%eax
+ movzbl 0x15(%eax),%eax
 -movzbl %al,%esi
 -movzbl -0x40(%ebp),%ebx
- movl   $0x2ba,0x8(%esp)
- movl   $&_ZZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojhE12__FUNCTION__,0x4(%esp)
+-movl   $0x2ba,0x8(%esp)
+-movl   $&_ZZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojhE12__FUNCTION__,0x4(%esp)
 -lea    -0x38(%ebp),%eax
-+lea    -0x14(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    0x18(%ebp),%eax
 -mov    %eax,0x20(%esp)
 -mov    -0x44(%ebp),%eax
@@ -81,13 +85,6 @@
 -mov    %edi,0x14(%esp)
 -mov    %esi,0x10(%esp)
 -mov    %ebx,0xc(%esp)
-+movzbl -0x2c(%ebp),%ebx
-+mov    0x14(%ebp),%eax
-+add    $0x16,%eax
-+mov    (%eax),%ecx
-+mov    0x14(%ebp),%eax
-+add    $0x15,%eax
-+movzbl (%eax),%eax
 +movzbl %al,%edx
 +movzbl -0x30(%ebp),%eax
 +mov    0x18(%ebp),%esi
@@ -108,9 +105,9 @@
 -cmpb   $0x3,-0x40(%ebp)
 -jne    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x19f>
 -mov    -0x1c(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x1e2>
++jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x1d6>
 +cmpb   $0x3,-0x30(%ebp)
-+jne    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x1a4>
++jne    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x198>
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -118,14 +115,10 @@
 -movzbl -0x3c(%ebp),%ecx
 +movzbl -0x2c(%ebp),%ecx
  mov    0x14(%ebp),%eax
--movzbl 0x15(%eax),%eax
-+add    $0x15,%eax
-+movzbl (%eax),%eax
+ movzbl 0x15(%eax),%eax
  movzbl %al,%edx
  mov    0x14(%ebp),%eax
--mov    0x16(%eax),%eax
-+add    $0x16,%eax
-+mov    (%eax),%eax
+ mov    0x16(%eax),%eax
  mov    0x18(%ebp),%ebx
  mov    %ebx,0x1c(%esp)
  mov    %ecx,0x18(%esp)
@@ -140,27 +133,17 @@
  mov    %eax,(%esp)
  call   *%esi
 -movzbl -0x3c(%ebp),%edi
--mov    0x14(%ebp),%eax
--movzbl 0x15(%eax),%eax
++movl   $0x2c5,0x8(%esp)
++movl   $&_ZZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojhE12__FUNCTION__,0x4(%esp)
++lea    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++movzbl -0x2c(%ebp),%ecx
+ mov    0x14(%ebp),%eax
+ movzbl 0x15(%eax),%eax
 -movzbl %al,%esi
 -movzbl -0x40(%ebp),%ebx
- movl   $0x2c5,0x8(%esp)
- movl   $&_ZZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojhE12__FUNCTION__,0x4(%esp)
--lea    -0x30(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0x18(%ebp),%eax
--mov    %eax,0x1c(%esp)
--mov    %edi,0x18(%esp)
--mov    0x10(%ebp),%eax
--mov    %eax,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
-+movzbl -0x2c(%ebp),%ecx
-+mov    0x14(%ebp),%eax
-+add    $0x15,%eax
-+movzbl (%eax),%eax
+-movl   $0x2c5,0x8(%esp)
 +movzbl %al,%edx
 +movzbl -0x30(%ebp),%eax
 +mov    0x18(%ebp),%ebx
@@ -170,30 +153,47 @@
 +mov    %ecx,0x14(%esp)
 +mov    %edx,0x10(%esp)
 +mov    %eax,0xc(%esp)
- movl   $"CDBManager::SaveGuildMember(GRADE_CHANGE flag(%d), grade(%d), g(%d), s(%d), c(%d))",0x8(%esp)
++movl   $"CDBManager::SaveGuildMember(GRADE_CHANGE flag(%d), grade(%d), g(%d), s(%d), c(%d))",0x8(%esp)
++movl   $"./log/GuildModify",0x4(%esp)
++lea    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x1d6>
++movl   $0x2c9,0x8(%esp)
+ movl   $&_ZZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojhE12__FUNCTION__,0x4(%esp)
+-lea    -0x30(%ebp),%eax
++lea    -0x24(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    0x18(%ebp),%eax
+-mov    %eax,0x1c(%esp)
+-mov    %edi,0x18(%esp)
+-mov    0x10(%ebp),%eax
+-mov    %eax,0x14(%esp)
+-mov    %esi,0x10(%esp)
+-mov    %ebx,0xc(%esp)
+-movl   $"CDBManager::SaveGuildMember(GRADE_CHANGE flag(%d), grade(%d), g(%d), s(%d), c(%d))",0x8(%esp)
++movzbl -0x30(%ebp),%eax
++mov    %eax,0xc(%esp)
++movl   $"CDBManager::SaveGuildMember ERR(save_flag err(%d))",0x8(%esp)
  movl   $"./log/GuildModify",0x4(%esp)
 -lea    -0x30(%ebp),%eax
-+lea    -0x1c(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x1dd>
 -movzbl -0x40(%ebp),%ebx
-+jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x1e2>
- movl   $0x2c9,0x8(%esp)
- movl   $&_ZZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojhE12__FUNCTION__,0x4(%esp)
+-movl   $0x2c9,0x8(%esp)
+-movl   $&_ZZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojhE12__FUNCTION__,0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogC1EPKci>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0xc(%esp)
-+movzbl -0x30(%ebp),%eax
-+mov    %eax,0xc(%esp)
- movl   $"CDBManager::SaveGuildMember ERR(save_flag err(%d))",0x8(%esp)
- movl   $"./log/GuildModify",0x4(%esp)
+-movl   $"CDBManager::SaveGuildMember ERR(save_flag err(%d))",0x8(%esp)
+-movl   $"./log/GuildModify",0x4(%esp)
 -lea    -0x28(%ebp),%eax
-+lea    -0x24(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -mov    -0x1c(%ebp),%eax
 +mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
@@ -209,10 +209,10 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x20c>
-+je     <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x20a>
++je     <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x1fe>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x211>
-+jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x20f>
++jmp    <T> <_ZN10CDBManager15SaveGuildMemberEhjR18STGuildMemerDBInfojh+0x203>
  mov    $0x1,%eax
 -add    $0x6c,%esp
 +add    $0x60,%esp

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807ff8a` | `0x3d5` | `0x807630c` | `0x3c3` |
+| guild | DIFF | `0x807ff8a` | `0x3d5` | `0x80761e8` | `0x3c3` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -526,24 +526,23 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnPacketJoinPowerEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3619 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4040 行）：
 
 ```cpp
 void CPacketTranslater::OnPacketJoinPower(PacketHeader* pkt)
 {
     try
     {
-        char* pb = (char*)pkt;
         Packet_Answer_Join_Power reply;
         reply.m_a = 0;
-        reply.m_12 = *(unsigned int*)(pb + 0xa);
-        reply.m_16 = *(unsigned char*)(pb + 0x12);
+        reply.m_12 = ((PTL_JoinPowerPkt*)pkt)->m_charNo;
+        reply.m_16 = ((PTL_JoinPowerPkt*)pkt)->m_field12;
         if (m_pclApp == 0)
         {
             DNF_LOG_SCOPE_LINE(0x1237, "./log/Power", "CPacketTranslater::OnPacketJoinPower : 0 == m_pclApp");
             return;
         }
-        unsigned int charNo = *(unsigned int*)(pb + 0xa);
+        unsigned int charNo = ((PTL_JoinPowerPkt*)pkt)->m_charNo;
         CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(charNo);
         if (user == 0)
         {
@@ -551,7 +550,7 @@ void CPacketTranslater::OnPacketJoinPower(PacketHeader* pkt)
             return;
         }
         reply.m_e = user->GetIdByChannel();
-        unsigned int guildKey = *(unsigned int*)(pb + 0xe);
+        unsigned int guildKey = ((PTL_JoinPowerPkt*)pkt)->m_guildKey;
         CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
         if (guildKey == 0 || guild == 0)
         {
@@ -562,7 +561,7 @@ void CPacketTranslater::OnPacketJoinPower(PacketHeader* pkt)
         }
         if (guild->IsSubGuildMaster(charNo) == 1 || guild->IsGuildMaster(charNo) == 1)
         {
-            unsigned char side = (unsigned char)pb[0x12] == 1 ? 3 : 4;
+            unsigned char side = ((PTL_JoinPowerPkt*)pkt)->m_field12 == 1 ? 3 : 4;
             guild->SetPowerSide(side);
             guild->IncPowerJoinCount();
             CServerInterface* gs = user->GetGameServer();

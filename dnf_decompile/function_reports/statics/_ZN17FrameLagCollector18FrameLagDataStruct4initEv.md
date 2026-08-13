@@ -195,7 +195,7 @@ FrameLagCollector::FrameLagDataStruct::_ZN17FrameLagCollector18FrameLagDataStruc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 680 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 681 行）：
 
 ```cpp
 void FrameLagCollector::FrameLagDataStruct::init()

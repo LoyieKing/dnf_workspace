@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807ff9e` | `0x386` | `0x805f702` | `0x327` |
+| dbmw | DIFF | `0x807ff9e` | `0x386` | `0x805f6e2` | `0x325` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,223 +1,201 @@
+@@ -1,223 +1,200 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %ebx
@@ -21,26 +21,23 @@
 +sub    $0x648,%esp
  mov    0x8(%ebp),%eax
  mov    0x3c(%eax),%eax
+-mov    %eax,-0x14(%ebp)
+-cmpl   $0x0,-0x14(%ebp)
+-jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x23>
 +mov    %eax,-0x18(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
 +jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x22>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x325>
-+mov    0xc(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
- mov    %eax,-0x14(%ebp)
--cmpl   $0x0,-0x14(%ebp)
--jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x23>
--mov    $0x0,%eax
+ mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x37d>
--mov    0xc(%ebp),%eax
--mov    0xa(%eax),%eax
++jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x323>
+ mov    0xc(%ebp),%eax
+ mov    0xa(%eax),%eax
 -mov    %eax,-0x10(%ebp)
 -movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x367>
++mov    %eax,-0x14(%ebp)
 +movl   $0x0,-0x10(%ebp)
-+jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x30f>
++jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x30d>
  movl   $0x400,0x8(%esp)
  movl   $0x0,0x4(%esp)
  lea    -0x628(%ebp),%eax
@@ -67,7 +64,7 @@
 -mov    -0xc(%ebp),%eax
 -imul   $0x206,%eax,%eax
 -add    0xc(%ebp),%eax
-+ja     <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0xa9>
++ja     <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0xa7>
 +mov    -0xc(%ebp),%eax
  add    $0xe,%eax
  movzbl (%eax),%eax
@@ -77,7 +74,7 @@
 -imul   $0x206,%eax,%eax
 -add    0xc(%ebp),%eax
 -lea    0xe(%eax),%ebx
-+jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0xee>
++jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0xec>
  movl   $0x1a0e,0x8(%esp)
  movl   $&_ZZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_QueryE12__FUNCTION__,0x4(%esp)
  lea    -0x28(%ebp),%eax
@@ -94,7 +91,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x363>
 -mov    -0x14(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x30b>
++jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x309>
 +mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x78,%eax
@@ -196,7 +193,7 @@
  test   %al,%al
 -jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x247>
 -mov    -0x14(%ebp),%eax
-+jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x209>
++jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x207>
 +mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
@@ -208,14 +205,14 @@
  or     %edx,%eax
  test   %eax,%eax
 -jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x24e>
-+jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x210>
++jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x20e>
  mov    $0x1,%eax
 -jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x253>
-+jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x215>
++jmp    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x213>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x323>
-+je     <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x2cb>
++je     <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x2c9>
  movl   $0x400,0x8(%esp)
  movl   $0x0,0x4(%esp)
  lea    -0x628(%ebp),%eax
@@ -295,7 +292,7 @@
  setl   %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x38>
-+jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x39>
++jne    <T> <_ZN10CDBManager28OnSaveAssertManagerInfoWriteEP43Packet_DBMW_Assert_Manager_Info_Write_Query+0x37>
  mov    $0x1,%eax
 -add    $0x644,%esp
 -pop    %ebx

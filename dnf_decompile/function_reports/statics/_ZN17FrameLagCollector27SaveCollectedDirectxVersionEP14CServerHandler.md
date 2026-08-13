@@ -182,7 +182,7 @@ FrameLagCollector::_ZN17FrameLagCollector27SaveCollectedDirectxVersionEP14CServe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 551 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 552 行）：
 
 ```cpp
 int FrameLagCollector::SaveCollectedDirectxVersion(CServerHandler* handler)

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807f494` | `0x44d` | `0x80757d4` | `0x45e` |
+| guild | DIFF | `0x807f494` | `0x44d` | `0x80756b0` | `0x45e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -573,7 +573,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnDBReplyGuildCreateEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3472 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 3893 行）：
 
 ```cpp
 void CPacketTranslater::OnDBReplyGuildCreate(PacketHeader* pkt)
@@ -596,7 +596,7 @@ void CPacketTranslater::OnDBReplyGuildCreate(PacketHeader* pkt)
     }
     Packet_Notice_GuildName_On_Guild_Create notice;
     Packet_Reply_Guild_Create reply;
-    unsigned int guildKey = *(unsigned int*)(pb + 0xe);
+    unsigned int guildKey = ((PTL_SecedePowerPkt*)pkt)->m_guildKey;
     notice.ma = charNo;
     reply.m_a = charNo;
     unsigned int channel = user->GetIdByChannel();

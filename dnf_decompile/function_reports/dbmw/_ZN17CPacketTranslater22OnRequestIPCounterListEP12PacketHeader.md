@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809b958` | `0x599` | `0x80d82b2` | `0x577` |
+| dbmw | DIFF | `0x809b958` | `0x599` | `0x80d8272` | `0x577` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -97,16 +97,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI18st_ip_counter_listSaIS0_EEixEj>
  mov    %eax,%ecx
-+lea    -0xe90(%ebp),%ebx
  mov    -0x20(%ebp),%edx
 -lea    -0xe90(%ebp),%ebx
  mov    %edx,%eax
  shl    $0x2,%eax
  add    %edx,%eax
  shl    $0x2,%eax
-+add    $0xc,%eax
- lea    (%ebx,%eax,1),%eax
--add    $0xc,%eax
+-lea    (%ebx,%eax,1),%eax
++lea    -0xe90(%ebp),%edx
++lea    (%edx,%eax,1),%eax
+ add    $0xc,%eax
 +mov    %ecx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZN18st_ip_counter_list10CopyStructERKS_>
@@ -257,16 +257,16 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorI23st_full_ip_counter_listSaIS0_EEixEj>
  mov    %eax,%ecx
-+lea    -0xe90(%ebp),%ebx
  mov    -0x10(%ebp),%edx
 -lea    -0xe90(%ebp),%ebx
  mov    %edx,%eax
  add    %eax,%eax
  add    %edx,%eax
  shl    $0x3,%eax
-+add    $0xc,%eax
- lea    (%ebx,%eax,1),%eax
--add    $0xc,%eax
+-lea    (%ebx,%eax,1),%eax
++lea    -0xe90(%ebp),%edx
++lea    (%edx,%eax,1),%eax
+ add    $0xc,%eax
 +mov    %ecx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZN23st_full_ip_counter_list10CopyStructERKS_>
@@ -675,7 +675,7 @@ void CPacketTranslater::OnRequestIPCounterList(PacketHeader* header)
                 int count = 0;
                 while (count <= 0x95 && srcIdx < size)
                 {
-                    (*(st_ip_counter_list*)((char*)&reply + 0xc + count * 0x14))
+                    (*(st_ip_counter_list*)&reply.m_rest[count * 0x14])
                         .CopyStruct(vec1[srcIdx]);
                     srcIdx++;
                     count++;
@@ -716,8 +716,7 @@ void CPacketTranslater::OnRequestIPCounterList(PacketHeader* header)
                 int count = 0;
                 while (count <= 0x95 && srcIdx < size)
                 {
-                    (*(st_full_ip_counter_list*)((char*)&reply + 0xc +
-                                                 count * 0x18))
+                    (*(st_full_ip_counter_list*)&reply.m_rest[count * 0x18])
                         .CopyStruct(vec2[srcIdx]);
                     srcIdx++;
                     count++;

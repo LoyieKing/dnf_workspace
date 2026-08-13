@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x8072390` | `0x198` | `0x804e6fe` | `0x19c` |
+| dbmw | DIFF | `0x8072390` | `0x198` | `0x804e6fe` | `0x190` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,129 +1,132 @@
+@@ -1,129 +1,126 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -33,9 +33,7 @@
  add    $0x28,%eax
  mov    (%eax),%ecx
  mov    0x14(%ebp),%eax
--movzbl 0x44(%eax),%eax
-+add    $0x44,%eax
-+movzbl (%eax),%eax
+ movzbl 0x44(%eax),%eax
  movzbl %al,%edx
  mov    %edx,%eax
  shl    $0x2,%eax
@@ -54,14 +52,10 @@
  mov    %eax,(%esp)
  call   *%ecx
  mov    0x14(%ebp),%edx
--movzbl 0x44(%edx),%edx
-+add    $0x44,%edx
-+movzbl (%edx),%edx
+ movzbl 0x44(%edx),%edx
  movzbl %dl,%ecx
  mov    0x14(%ebp),%edx
--movzwl 0x42(%edx),%edx
-+add    $0x42,%edx
-+movzwl (%edx),%edx
+ movzwl 0x42(%edx),%edx
  movzwl %dx,%edx
  mov    0x10(%ebp),%ebx
  mov    %ebx,0x18(%esp)
@@ -85,7 +79,8 @@
 -movzbl -0xd(%ebp),%eax
  xor    $0x1,%eax
  test   %al,%al
- jne    <T> <_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly+0xd9>
+-jne    <T> <_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly+0xd9>
++jne    <T> <_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly+0xd3>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x74,%eax
@@ -95,13 +90,15 @@
  call   *%edx
  or     %edx,%eax
  test   %eax,%eax
- jne    <T> <_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly+0xe0>
+-jne    <T> <_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly+0xe0>
++jne    <T> <_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly+0xda>
  mov    $0x1,%eax
- jmp    <T> <_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly+0xe5>
+-jmp    <T> <_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly+0xe5>
++jmp    <T> <_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly+0xdf>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly+0x18c>
-+je     <T> <_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly+0x190>
++je     <T> <_ZN10CDBManager14SaveGuildSkillEhjR17STGuildDBInfoOnly+0x184>
  mov    -0xc(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -111,9 +108,7 @@
  add    $0x28,%eax
  mov    (%eax),%ecx
  mov    0x14(%ebp),%eax
--movzbl 0x44(%eax),%eax
-+add    $0x44,%eax
-+movzbl (%eax),%eax
+ movzbl 0x44(%eax),%eax
  movzbl %al,%edx
  mov    %edx,%eax
  shl    $0x2,%eax
@@ -132,14 +127,10 @@
  mov    %eax,(%esp)
  call   *%ecx
  mov    0x14(%ebp),%edx
--movzbl 0x44(%edx),%edx
-+add    $0x44,%edx
-+movzbl (%edx),%edx
+ movzbl 0x44(%edx),%edx
  movzbl %dl,%ecx
  mov    0x14(%ebp),%edx
--movzwl 0x42(%edx),%edx
-+add    $0x42,%edx
-+movzwl (%edx),%edx
+ movzwl 0x42(%edx),%edx
  movzwl %dx,%edx
  mov    %eax,0x18(%esp)
  mov    %ecx,0x14(%esp)

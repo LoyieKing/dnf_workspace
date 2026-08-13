@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8083184` | `0x32a` | `0x8079038` | `0x22e` |
+| guild | DIFF | `0x8083184` | `0x32a` | `0x8078e92` | `0x220` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,205 +1,142 @@
+@@ -1,205 +1,135 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -42,10 +42,9 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x31f>
 -mov    0x8(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x226>
++jmp    <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x218>
 +mov    -0x24(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++mov    0xa(%eax),%eax
  mov    %eax,-0x20(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +lea    0x290(%eax),%edx
@@ -70,9 +69,9 @@
 -je     <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0xd9>
 +mov    %eax,-0x1c(%ebp)
 +cmpl   $0x0,-0x20(%ebp)
-+je     <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x87>
++je     <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x85>
 +cmpl   $0x0,-0x1c(%ebp)
-+jne    <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0xc2>
++jne    <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0xc0>
  movl   $0x1770,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x54(%ebp),%eax
@@ -133,36 +132,34 @@
 -jmp    <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x31f>
 -mov    -0x20(%ebp),%eax
 -mov    0x16(%eax),%ebx
-+jmp    <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x226>
++jmp    <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x218>
  mov    -0x24(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
++mov    0xe(%eax),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuild13IsGuildMasterEj>
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x1dd>
++je     <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x1d1>
 +mov    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN6CGuild16IsExistGuildAgitEv>
 +test   %al,%al
-+je     <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x19e>
++je     <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x192>
 +mov    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild12GetGuildFundEv>
 -cmp    %eax,%ebx
 -seta   %al
 +mov    -0x24(%ebp),%edx
-+add    $0x16,%edx
-+mov    (%edx),%edx
++mov    0x16(%edx),%edx
 +cmp    %edx,%eax
 +setb   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x1fa>
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%ebx
-+je     <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x152>
++je     <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x14c>
  movl   $0x1783,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x3c(%ebp),%eax
@@ -186,16 +183,13 @@
 -mov    0xe(%eax),%esi
 -mov    -0x20(%ebp),%eax
 -mov    0xa(%eax),%ebx
-+jmp    <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x226>
++jmp    <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x218>
 +mov    -0x24(%ebp),%eax
-+add    $0x16,%eax
-+mov    (%eax),%edi
++mov    0x16(%eax),%edi
 +mov    -0x24(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%esi
++mov    0x12(%eax),%esi
 +mov    -0x24(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%ebx
++mov    0xe(%eax),%ebx
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -229,7 +223,7 @@
 -call   *%edx
 -mov    %eax,%ebx
 -movl   $0x1790,0x8(%esp)
-+jmp    <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x226>
++jmp    <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x218>
 +movl   $0x177c,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x34(%ebp),%eax
@@ -258,10 +252,9 @@
 -mov    %eax,(%esp)
 -call   <T> <__cxa_begin_catch>
 -movl   $0x1795,0x8(%esp)
-+jmp    <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x226>
++jmp    <T> <_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeader+0x218>
 +mov    -0x24(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%ebx
++mov    0xe(%eax),%ebx
 +movl   $0x1776,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x2c(%ebp),%eax
@@ -391,7 +384,7 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnUpgradeGuildAgitEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4386 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4814 行）：
 
 ```cpp
 void CPacketTranslater::OnUpgradeGuildAgit(PacketHeader* pkt)
@@ -404,17 +397,17 @@ void CPacketTranslater::OnUpgradeGuildAgit(PacketHeader* pkt)
     }
     else
     {
-        unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+        unsigned int guildKey = ((PTL_GuildAgitPkt*)pb)->m_guildKey;
         CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
         if (guildKey == 0 || guild == 0)
         {
             DNF_LOG_SCOPE_LINE(6000, "./log/GuildAgit", "CPacketTranslater::OnCreateGuildAgit : 0 == pclGuild");
         }
-        else if (guild->IsGuildMaster(*(unsigned int*)(pb + 0xe)) == 1)
+        else if (guild->IsGuildMaster(((PTL_GuildAgitPkt*)pb)->m_charNo) == 1)
         {
             if (guild->IsExistGuildAgit() == 1)
             {
-                if (guild->GetGuildFund() < *(unsigned int*)(pb + 0x16))
+                if (guild->GetGuildFund() < ((PTL_GuildAgitPkt*)pb)->m_fund)
                 {
                     DNF_LOG_SCOPE_LINE(0x1783,"./log/GuildAgit",
                         "CPacketTranslater::OnCreateGuildAgit : %d guild fund shortage",
@@ -423,9 +416,9 @@ void CPacketTranslater::OnUpgradeGuildAgit(PacketHeader* pkt)
                 else
                 {
                     guild->UpgradeGuildAgit(m_pclApp->Get_ServerHandler(), guildKey,
-                                            *(unsigned int*)(pb + 0xe),
-                                            *(unsigned int*)(pb + 0x12),
-                                            *(unsigned int*)(pb + 0x16));
+                                            ((PTL_GuildAgitPkt*)pb)->m_charNo,
+                                            ((PTL_GuildAgitPkt*)pb)->m_field12,
+                                            ((PTL_GuildAgitPkt*)pb)->m_fund);
                 }
             }
             else
@@ -439,7 +432,7 @@ void CPacketTranslater::OnUpgradeGuildAgit(PacketHeader* pkt)
         {
             DNF_LOG_SCOPE_LINE(0x1776,"./log/GuildAgit",
                 "CPacketTranslater::OnCreateGuildAgit : %d is not guild master(g:%d)",
-                *(unsigned int*)(pb + 0xe), guildKey);
+                ((PTL_GuildAgitPkt*)pb)->m_charNo, guildKey);
         }
     }
 }

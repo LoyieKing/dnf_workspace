@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8070f7a` | `0x1a5` | `0x8070f12` | `0x19f` |
+| statics | DIFF | `0x8070f7a` | `0x1a5` | `0x8070f02` | `0x19f` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -202,7 +202,7 @@ StatisticManager::_ZN16StatisticManager32SendDBUserTingTimeCheckStatisticEP14CSe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 798 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 799 行）：
 
 ```cpp
 void StatisticManager::SendDBUserTingTimeCheckStatistic(CServerHandler* handler)

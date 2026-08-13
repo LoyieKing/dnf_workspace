@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x807dff2` | `0x36c` | `0x8061244` | `0x34d` |
+| dbmw | DIFF | `0x807dff2` | `0x36c` | `0x8061204` | `0x34b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,240 +1,232 @@
+@@ -1,240 +1,231 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -31,11 +31,9 @@
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x361>
 -movl   $0x0,-0x20(%ebp)
-+jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x342>
++jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x340>
  mov    0xc(%ebp),%eax
--mov    0xa(%eax),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  mov    %eax,-0x20(%ebp)
  movl   $0x1760,0x8(%esp)
  movl   $&_ZZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_ValueE12__FUNCTION__,0x4(%esp)
@@ -53,75 +51,78 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x34b>
-+jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x32c>
++jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x32a>
  lea    -0x64(%ebp),%ebx
  mov    $0x0,%eax
  mov    $0xb,%edx
  mov    %ebx,%edi
  mov    %edx,%ecx
  rep stos %eax,%es:(%edi)
--mov    -0x1c(%ebp),%edx
--mov    0xc(%ebp),%ecx
--mov    %edx,%eax
--shl    $0x4,%eax
--sub    %edx,%eax
--mov    0x11(%eax,%ecx,1),%eax
--mov    %eax,%ecx
--mov    -0x1c(%ebp),%edx
+ mov    -0x1c(%ebp),%edx
+ mov    0xc(%ebp),%ecx
+ mov    %edx,%eax
++shl    $0x2,%eax
++add    %edx,%eax
++add    %eax,%eax
++add    %edx,%eax
++mov    0x11(%eax,%ecx,1),%ecx
++mov    -0x1c(%ebp),%edx
++mov    0xc(%ebp),%ebx
++mov    %edx,%eax
++shl    $0x2,%eax
++add    %edx,%eax
++add    %eax,%eax
++add    %edx,%eax
++mov    0x15(%eax,%ebx,1),%eax
++mov    %eax,-0x64(%ebp,%ecx,4)
++mov    -0x24(%ebp),%eax
++mov    (%eax),%eax
++add    $0x1c,%eax
++mov    (%eax),%eax
++mov    %eax,-0xa8(%ebp)
++mov    -0x1c(%ebp),%edx
++mov    0xc(%ebp),%ecx
++mov    %edx,%eax
++shl    $0x2,%eax
++add    %edx,%eax
++add    %eax,%eax
++add    %edx,%eax
++movzwl 0xf(%eax,%ecx,1),%eax
++movswl %ax,%ebx
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%edx
 +mov    %edx,%eax
-+shl    $0x4,%eax
-+sub    %edx,%eax
-+add    $0x11,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    (%eax),%ecx
- mov    0xc(%ebp),%ebx
+ shl    $0x4,%eax
+ sub    %edx,%eax
+-mov    0x11(%eax,%ecx,1),%eax
+-mov    %eax,%ecx
+-mov    -0x1c(%ebp),%edx
+-mov    0xc(%ebp),%ebx
 -mov    %edx,%eax
 -shl    $0x4,%eax
 -sub    %edx,%eax
 -mov    0x19(%eax,%ebx,1),%eax
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,%eax
-+shl    $0x4,%eax
-+sub    %edx,%eax
-+add    $0x19,%eax
-+lea    (%ebx,%eax,1),%eax
-+mov    (%eax),%eax
- mov    %eax,-0x64(%ebp,%ecx,4)
- mov    -0x24(%ebp),%eax
- mov    (%eax),%eax
- add    $0x1c,%eax
- mov    (%eax),%eax
- mov    %eax,-0xa8(%ebp)
+-mov    %eax,-0x64(%ebp,%ecx,4)
+-mov    -0x24(%ebp),%eax
+-mov    (%eax),%eax
+-add    $0x1c,%eax
+-mov    (%eax),%eax
+-mov    %eax,-0xa8(%ebp)
 -mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
 -mov    %edx,%eax
 -shl    $0x4,%eax
 -sub    %edx,%eax
 -movzwl 0xf(%eax,%ecx,1),%eax
-+mov    0xc(%ebp),%ecx
-+mov    -0x1c(%ebp),%eax
-+lea    0x1(%eax),%edx
-+mov    %edx,%eax
-+shl    $0x4,%eax
-+sub    %edx,%eax
-+lea    (%ecx,%eax,1),%eax
-+movzwl (%eax),%eax
- movswl %ax,%ebx
+-movswl %ax,%ebx
 -mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
 -mov    %edx,%eax
 -shl    $0x4,%eax
 -sub    %edx,%eax
--lea    (%ecx,%eax,1),%eax
-+mov    0xc(%ebp),%ecx
-+mov    -0x1c(%ebp),%edx
-+mov    %edx,%eax
-+shl    $0x4,%eax
-+sub    %edx,%eax
- add    $0xe,%eax
-+lea    (%ecx,%eax,1),%eax
++add    $0xe,%eax
+ lea    (%ecx,%eax,1),%eax
+-add    $0xe,%eax
  movzbl (%eax),%eax
  movsbl %al,%ecx
  mov    -0x40(%ebp),%edi
@@ -189,7 +190,7 @@
 -mov    $0x0,%eax
 -test   %al,%al
 -je     <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x347>
-+je     <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x328>
++je     <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x326>
  mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
@@ -213,34 +214,30 @@
  mov    %eax,-0x70(%ebp)
  mov    -0x64(%ebp),%edx
  mov    %edx,-0x6c(%ebp)
--mov    -0x1c(%ebp),%edx
--mov    0xc(%ebp),%ecx
--mov    %edx,%eax
--shl    $0x4,%eax
--sub    %edx,%eax
--movzwl 0xf(%eax,%ecx,1),%eax
-+mov    0xc(%ebp),%ecx
-+mov    -0x1c(%ebp),%eax
-+lea    0x1(%eax),%edx
-+mov    %edx,%eax
-+shl    $0x4,%eax
-+sub    %edx,%eax
-+lea    (%ecx,%eax,1),%eax
-+movzwl (%eax),%eax
- movswl %ax,%ebx
--mov    -0x1c(%ebp),%edx
--mov    0xc(%ebp),%ecx
--mov    %edx,%eax
--shl    $0x4,%eax
--sub    %edx,%eax
--lea    (%ecx,%eax,1),%eax
+ mov    -0x1c(%ebp),%edx
+ mov    0xc(%ebp),%ecx
+ mov    %edx,%eax
++shl    $0x2,%eax
++add    %edx,%eax
++add    %eax,%eax
++add    %edx,%eax
++movzwl 0xf(%eax,%ecx,1),%eax
++movswl %ax,%ebx
 +mov    0xc(%ebp),%ecx
 +mov    -0x1c(%ebp),%edx
 +mov    %edx,%eax
-+shl    $0x4,%eax
-+sub    %edx,%eax
- add    $0xe,%eax
-+lea    (%ecx,%eax,1),%eax
+ shl    $0x4,%eax
+ sub    %edx,%eax
+-movzwl 0xf(%eax,%ecx,1),%eax
+-movswl %ax,%ebx
+-mov    -0x1c(%ebp),%edx
+-mov    0xc(%ebp),%ecx
+-mov    %edx,%eax
+-shl    $0x4,%eax
+-sub    %edx,%eax
++add    $0xe,%eax
+ lea    (%ecx,%eax,1),%eax
+-add    $0xe,%eax
  movzbl (%eax),%eax
  movsbl %al,%eax
  mov    %esi,0x38(%esp)
@@ -279,7 +276,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x347>
-+je     <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x328>
++je     <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x326>
  movl   $0x178c,0x8(%esp)
  movl   $&_ZZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_ValueE12__FUNCTION__,0x4(%esp)
 -lea    -0x30(%ebp),%eax
@@ -294,14 +291,14 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x0,%eax
 -jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x361>
-+jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x342>
++jmp    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x340>
  addl   $0x1,-0x1c(%ebp)
  mov    -0x1c(%ebp),%eax
  cmp    -0x20(%ebp),%eax
  setl   %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x8d>
-+jne    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x88>
++jne    <T> <_ZN10CDBManager35QueryDeathTowerValueStatisticCreateEP38Packet_DBMW_DeathTower_Statistic_Value+0x86>
  mov    $0x1,%eax
  add    $0xdc,%esp
  pop    %ebx

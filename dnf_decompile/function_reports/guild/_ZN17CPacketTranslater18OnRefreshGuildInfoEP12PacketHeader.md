@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80886da` | `0x21f` | `0x807d810` | `0x128` |
+| guild | DIFF | `0x80886da` | `0x21f` | `0x807d510` | `0x128` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -225,24 +225,25 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnRefreshGuildInfoEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5708 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 6151 行）：
 
 ```cpp
 void CPacketTranslater::OnRefreshGuildInfo(PacketHeader* pkt)
 {
-    char* pb = (char*)pkt;
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1f4b, "./log/Guild", "CPacketTranslater::OnAddGuildFund : 0 == m_pclApp");
         return;
     }
     CUser* user;
-    if ((user = (&m_pclApp->m_userManager)->FindUser_CharNo(*(unsigned int*)(pb + 0xa))) == 0)
+    if ((user = (&m_pclApp->m_userManager)->FindUser_CharNo(
+             ((PTL_RefreshGuildInfoPkt*)pkt)->m_charNo)) == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1f51, "./log/Guild", "CPacketTranslater::OnAddGuildFund : 0 == pUser");
         return;
     }
-    CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(*(unsigned int*)(pb + 0xe));
+    CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(
+        ((PTL_RefreshGuildInfoPkt*)pkt)->m_guildKey);
     if (guild == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1f57, "./log/Guild", "CPacketTranslater::OnAddGuildFund : 0 == pGuild");

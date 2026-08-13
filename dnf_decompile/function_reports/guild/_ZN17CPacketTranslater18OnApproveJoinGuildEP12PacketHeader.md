@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8088ae6` | `0x272` | `0x807db24` | `0x151` |
+| guild | DIFF | `0x8088ae6` | `0x272` | `0x807d824` | `0x145` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,38 +13,36 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,162 +1,91 @@
+@@ -1,162 +1,86 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
 -push   %ebx
 -sub    $0x60,%esp
-+sub    $0x58,%esp
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -mov    %eax,-0x14(%ebp)
 -movl   $0x0,-0x10(%ebp)
-+mov    %eax,-0x18(%ebp)
++sub    $0x58,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x59>
-+jne    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x50>
++jne    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x4a>
  movl   $0x1fa0,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnApproveJoinGuild : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/Guild",0x4(%esp)
 -lea    -0x3c(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x26b>
-+jmp    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x14f>
-+mov    -0x18(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
++jmp    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x143>
++mov    0x8(%ebp),%eax
++mov    0xa(%eax),%eax
 +mov    %eax,-0x14(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +lea    0x290(%eax),%edx
@@ -73,11 +71,9 @@
 -call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x26b>
 -mov    -0x14(%ebp),%eax
--mov    0xe(%eax),%eax
-+je     <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x14f>
-+mov    -0x18(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
++je     <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x143>
++mov    0x8(%ebp),%eax
+ mov    0xe(%eax),%eax
 +mov    %eax,-0xc(%ebp)
 +mov    -0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
@@ -89,7 +85,7 @@
 -je     <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0xff>
 -mov    -0x14(%ebp),%eax
 -mov    0xe(%eax),%eax
-+jne    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0xbe>
++jne    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0xb4>
 +mov    -0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    -0x10(%ebp),%eax
@@ -98,48 +94,46 @@
 -xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0xff>
-+je     <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0xc5>
++je     <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0xbb>
  mov    $0x1,%eax
 -jmp    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x104>
-+jmp    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0xca>
++jmp    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0xc0>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x143>
-+je     <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x119>
-+lea    -0x44(%ebp),%eax
++je     <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x10d>
++lea    -0x40(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN36Packet_DB_Request_Approve_Join_GuildC1Ev>
 +mov    -0x14(%ebp),%eax
-+mov    %eax,-0x38(%ebp)
-+mov    -0xc(%ebp),%eax
 +mov    %eax,-0x34(%ebp)
-+mov    -0x18(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%eax
++mov    -0xc(%ebp),%eax
 +mov    %eax,-0x30(%ebp)
++mov    0x8(%ebp),%eax
++mov    0x12(%eax),%eax
++mov    %eax,-0x2c(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN12CApplication15Get_ServerGroupEv>
-+mov    %al,-0x2c(%ebp)
++mov    %al,-0x28(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +mov    0x68(%eax),%eax
-+lea    -0x44(%ebp),%edx
++lea    -0x40(%ebp),%edx
 +mov    %edx,0x4(%esp)
 +mov    %eax,(%esp)
 +call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
-+jmp    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x14f>
++jmp    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x143>
  movl   $0x1fad,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnApproveJoinGuild authority error",0x8(%esp)
  movl   $"./log/Guild",0x4(%esp)
 -lea    -0x2c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+-mov    %eax,(%esp)
+-call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x26b>
 -lea    -0x53(%ebp),%eax
 -mov    %eax,(%esp)
@@ -207,9 +201,9 @@
 -call   <T> <_ZN10CMyFileLogC1EPKci>
 -movl   $"CPacketTranslater::OnApproveJoinGuild Exception Break\n",0x8(%esp)
 -movl   $"./log/Except",0x4(%esp)
--lea    -0x1c(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ lea    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHeader+0x266>
 -mov    %edx,%ebx
 -mov    %eax,%esi
@@ -293,28 +287,27 @@ void CPacketTranslater::_ZN17CPacketTranslater18OnApproveJoinGuildEP12PacketHead
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5754 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 6198 行）：
 
 ```cpp
 void CPacketTranslater::OnApproveJoinGuild(PacketHeader* pkt)
 {
-    char* pb = (char*)pkt;
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1fa0, "./log/Guild", "CPacketTranslater::OnApproveJoinGuild : 0 == m_pclApp");
         return;
     }
-    unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+    unsigned int guildKey = ((PTL_ApproveJoinGuildPkt*)pkt)->m_guildKey;
     CGuild* guild;
     if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) != 0)
     {
-        unsigned int charNo = *(unsigned int*)(pb + 0xe);
+        unsigned int charNo = ((PTL_ApproveJoinGuildPkt*)pkt)->m_charNo;
         if (guild->IsGuildMaster(charNo) == 1 || guild->IsSubGuildMaster(charNo) == 1)
         {
             Packet_DB_Request_Approve_Join_Guild dbPkt;
             dbPkt.m_guildKey = guildKey;
             dbPkt.m_charNo = charNo;
-            dbPkt.m_no = *(unsigned int*)(pb + 0x12);
+            dbPkt.m_no = ((PTL_ApproveJoinGuildPkt*)pkt)->m_no;
             dbPkt.m_group = m_pclApp->Get_ServerGroup();
             m_pclApp->m_serverHandler->SendToDB(&dbPkt);
         }

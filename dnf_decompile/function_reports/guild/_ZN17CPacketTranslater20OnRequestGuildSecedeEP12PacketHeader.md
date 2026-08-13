@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x807a25a` | `0x62d` | `0x8070660` | `0x5fe` |
+| guild | DIFF | `0x807a25a` | `0x62d` | `0x80705a8` | `0x5f6` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,417 +1,403 @@
+@@ -1,417 +1,399 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -91,7 +91,7 @@
  mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x544>
 -lea    -0x65(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x517>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x50f>
 +lea    -0x5d(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -99,28 +99,24 @@
  movl   $&_ZTI13CDNFException,0x4(%esp)
  mov    %ebx,(%esp)
  call   <T> <__cxa_throw>
-+lea    -0xff(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN31Packet_Guild_Reply_Guild_SecedeC1Ev>
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
 -lea    -0xf7(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN31Packet_Guild_Reply_Guild_SecedeC1Ev>
++lea    -0xff(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN31Packet_Guild_Reply_Guild_SecedeC1Ev>
 -mov    -0x24(%ebp),%eax
--mov    0xa(%eax),%eax
++mov    0x8(%ebp),%eax
+ mov    0xa(%eax),%eax
 -test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x1ed>
 -lea    -0x5d(%ebp),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x34(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0xe,%eax
-+mov    (%eax),%eax
++mov    0xe(%eax),%eax
 +mov    %eax,-0x30(%ebp)
 +cmpl   $0x0,-0x34(%ebp)
-+jne    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x1f9>
++jne    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x1f5>
 +lea    -0x55(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -142,7 +138,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN13CDNFExceptionC1ERKSs>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x193>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x19f>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x19b>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%esi
@@ -158,28 +154,28 @@
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x18d>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x199>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x195>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x1b2>
-+jne    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x1be>
++jne    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x1ba>
  call   <T> <_ZSt9terminatev>
  mov    %esi,%ecx
  mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x1b2>
 -lea    -0x64(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x1be>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x1ba>
 +lea    -0x5c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSsD1Ev>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x1ca>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x1d6>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x1d2>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0xffffffff,%eax
 -jne    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x1b2>
-+jne    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x1be>
++jne    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x1ba>
  call   <T> <_ZSt9terminatev>
  mov    %eax,%ecx
  mov    %edx,%eax
@@ -193,7 +189,7 @@
  mov    %ebx,%eax
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x544>
 -lea    -0x5d(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x517>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x50f>
 +lea    -0x55(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcED1Ev>
@@ -218,9 +214,10 @@
  cmpl   $0x0,-0x2c(%ebp)
  sete   %al
  test   %al,%al
- je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x260>
+-je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x260>
 -mov    -0x24(%ebp),%eax
 -mov    0xe(%eax),%ebx
++je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x25c>
  movl   $0xb3d,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x5c(%ebp),%eax
@@ -244,7 +241,7 @@
 +lea    -0x54(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x5f3>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x5eb>
 +mov    -0x30(%ebp),%eax
 +mov    %eax,-0xef(%ebp)
  mov    -0x2c(%ebp),%eax
@@ -288,7 +285,7 @@
 -mov    %eax,(%esp)
 -call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x622>
-+je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x4aa>
++je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x4a2>
  movl   $0x4,0x4(%esp)
  mov    -0x28(%ebp),%eax
  mov    %eax,(%esp)
@@ -298,7 +295,7 @@
 -je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x39b>
 -mov    -0x24(%ebp),%eax
 -mov    0xa(%eax),%ebx
-+je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x324>
++je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x320>
  movl   $0xb4e,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x4c(%ebp),%eax
@@ -323,7 +320,7 @@
  call   <T> <_ZN5CUser16SendToGameserverEPci>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x622>
 -lea    -0xa5(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x5f3>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x5eb>
 +lea    -0xad(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN30Packet_DB_Request_Guild_SecedeC1Ev>
@@ -332,8 +329,7 @@
 +mov    -0x30(%ebp),%eax
 +mov    %eax,-0x9f(%ebp)
 +mov    0x8(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%eax
++mov    0x12(%eax),%eax
 +mov    %eax,-0x24(%ebp)
  mov    -0x24(%ebp),%eax
 -mov    0xa(%eax),%eax
@@ -363,15 +359,13 @@
  call   <T> <_ZN6CGuild11GetMasterIdEv>
 -mov    %eax,-0x70(%ebp)
 -mov    -0x24(%ebp),%eax
--mov    0x12(%eax),%eax
 +mov    0x8(%ebp),%eax
-+add    $0x12,%eax
-+mov    (%eax),%eax
+ mov    0x12(%eax),%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x4d5>
 -mov    -0x24(%ebp),%eax
 -mov    0xe(%eax),%eax
-+jne    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x3d2>
++jne    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x3ca>
 +movb   $0x1,-0x9b(%ebp)
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
@@ -387,7 +381,7 @@
 +add    $0x17,%eax
 +mov    %eax,(%esp)
 +call   <T> <memcpy>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x48b>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x483>
 +mov    -0x30(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    -0x28(%ebp),%eax
@@ -398,7 +392,7 @@
 -je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x44d>
 -mov    -0x24(%ebp),%eax
 -mov    0xe(%eax),%eax
-+je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x40b>
++je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x403>
 +mov    -0x30(%ebp),%eax
  mov    %eax,0x4(%esp)
  mov    -0x28(%ebp),%eax
@@ -407,10 +401,10 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x44d>
-+je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x40b>
++je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x403>
  mov    $0x1,%eax
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x452>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x410>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x408>
  mov    $0x0,%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x4cc>
@@ -418,7 +412,7 @@
 -mov    0xe(%eax),%esi
 -mov    -0x24(%ebp),%eax
 -mov    0xa(%eax),%ebx
-+je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x484>
++je     <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x47c>
  movl   $0xb60,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
  lea    -0x44(%ebp),%eax
@@ -465,7 +459,7 @@
 -add    $0x17,%eax
 -mov    %eax,(%esp)
 -call   <T> <memcpy>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x5f3>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x5eb>
 +movb   $0x2,-0x9b(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  mov    0x68(%eax),%eax
@@ -475,7 +469,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x622>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x5f3>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x5eb>
 +movl   $0xb46,0x8(%esp)
 +movl   $&_ZZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 +lea    -0x3c(%ebp),%eax
@@ -495,12 +489,12 @@
 +mov    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN5CUser16SendToGameserverEPci>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x5f3>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x5eb>
  mov    %eax,%ecx
  mov    %edx,%eax
  cmp    $0x2,%eax
 -jne    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x5c4>
-+jne    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x595>
++jne    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x58d>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  mov    %eax,-0x1c(%ebp)
@@ -533,7 +527,7 @@
 +lea    -0x6c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x58e>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x586>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -545,7 +539,7 @@
  call   <T> <_Unwind_Resume>
  call   <T> <__cxa_end_catch>
 -jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x622>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x5f3>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x5eb>
  mov    %ecx,(%esp)
  call   <T> <__cxa_begin_catch>
  movl   $0xb83,0x8(%esp)
@@ -563,7 +557,7 @@
 +lea    -0x74(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x5ee>
++jmp    <T> <_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHeader+0x5e6>
  mov    %eax,%ecx
  mov    %edx,%eax
  mov    %eax,%ebx
@@ -736,7 +730,7 @@ void CPacketTranslater::_ZN17CPacketTranslater20OnRequestGuildSecedeEP12PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2281 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 2697 行）：
 
 ```cpp
 void CPacketTranslater::OnRequestGuildSecede(PacketHeader* pkt)
@@ -745,8 +739,8 @@ void CPacketTranslater::OnRequestGuildSecede(PacketHeader* pkt)
     {
     THROW_IF_NO_APP("CPacketTranslater::OnRequestGuildSecede : 0 == m_pclApp");
     Packet_Guild_Reply_Guild_Secede resp;
-    unsigned int guildKey = *(unsigned int*)((char*)pkt + 0xa);
-    unsigned int requesterCharNo = *(unsigned int*)((char*)pkt + 0xe);
+    unsigned int guildKey = ((PTL_RequestGuildSecedePkt*)pkt)->m_guildKey;
+    unsigned int requesterCharNo = ((PTL_RequestGuildSecedePkt*)pkt)->m_requesterCharNo;
     if (guildKey == 0)
     {
         throw CDNFException("CPacketTranslater::OnCallGuildInvite : packet->m_uGuildKey == 0");
@@ -776,11 +770,11 @@ void CPacketTranslater::OnRequestGuildSecede(PacketHeader* pkt)
         Packet_DB_Request_Guild_Secede dbPkt;
         dbPkt.m_guildKey = guildKey;
         dbPkt.m_charNo = requesterCharNo;
-        size_t nameLen = *(size_t*)((char*)pkt + 0x12);
+        size_t nameLen = ((PTL_RequestGuildSecedePkt*)pkt)->m_nameLen;
         dbPkt.m_nameLen = nameLen;
-        memcpy(dbPkt.m_name, (char*)pkt + 0x16, nameLen);
+        memcpy(dbPkt.m_name, ((PTL_RequestGuildSecedePkt*)pkt)->m_name, nameLen);
         (void)guild->GetMasterId();
-        if (*(int*)((char*)pkt + 0x12) == 0)
+        if (((PTL_RequestGuildSecedePkt*)pkt)->m_nameLen == 0)
         {
             dbPkt.m_flag = 1;
             const char* name = requester->GetCharName();

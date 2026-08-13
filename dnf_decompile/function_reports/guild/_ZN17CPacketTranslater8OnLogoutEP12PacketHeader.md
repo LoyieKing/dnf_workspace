@@ -537,7 +537,7 @@ void CPacketTranslater::_ZN17CPacketTranslater8OnLogoutEP12PacketHeader(PacketHe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 422 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 829 行）：
 
 ```cpp
 void CPacketTranslater::OnLogout(PacketHeader* pkt)

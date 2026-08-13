@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8086836` | `0x2c0` | `0x807c078` | `0x1c1` |
+| guild | DIFF | `0x8086836` | `0x2c0` | `0x807bde6` | `0x1b5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,38 +13,36 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,181 +1,114 @@
+@@ -1,181 +1,109 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
 -push   %esi
 -push   %ebx
 -sub    $0x7c,%esp
-+sub    $0x58,%esp
- mov    0x8(%ebp),%eax
+-mov    0x8(%ebp),%eax
 -mov    %eax,-0x24(%ebp)
-+mov    %eax,-0x20(%ebp)
++sub    $0x58,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -jne    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x53>
-+jne    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x50>
++jne    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x4a>
  movl   $0x1c9d,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x54(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDBLoadReplyGuildBoardOpen : 0 == m_pclApp",0x8(%esp)
  movl   $"./log/GuildBoard",0x4(%esp)
 -lea    -0x54(%ebp),%eax
-+lea    -0x38(%ebp),%eax
++lea    -0x34(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x2b8>
-+jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1bf>
-+mov    -0x20(%ebp),%eax
-+add    $0x11,%eax
-+mov    (%eax),%eax
++jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1b3>
++mov    0x8(%ebp),%eax
++mov    0xf(%eax),%eax
 +mov    %eax,-0x1c(%ebp)
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 -add    $0x10,%eax
@@ -63,17 +61,17 @@
 -jne    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0xb7>
 +mov    %eax,-0x18(%ebp)
 +cmpl   $0x0,-0x18(%ebp)
-+jne    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0xb6>
++jne    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0xae>
  movl   $0x1ca7,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDBLoadReplyGuildBoardOpen : 0 == pclUser",0x8(%esp)
  movl   $"./log/GuildBoard",0x4(%esp)
 -lea    -0x4c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
++lea    -0x2c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x2b8>
@@ -81,10 +79,9 @@
 -mov    0xd(%eax),%eax
 -mov    &_ZN17CPacketTranslater8m_pclAppE,%edx
 -add    $0x290,%edx
-+jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1bf>
-+mov    -0x20(%ebp),%eax
-+add    $0xd,%eax
-+mov    (%eax),%eax
++jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1b3>
++mov    0x8(%ebp),%eax
++mov    0xb(%eax),%eax
 +mov    %eax,-0x14(%ebp)
 +mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 +lea    0x290(%eax),%edx
@@ -99,17 +96,17 @@
  sete   %al
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x11e>
-+je     <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x124>
++je     <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x11a>
  movl   $0x1cae,0x8(%esp)
  movl   $&_ZZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogC1EPKci>
  movl   $"CPacketTranslater::OnDBLoadReplyGuildBoardOpen : 0 == pclGuild",0x8(%esp)
  movl   $"./log/GuildBoard",0x4(%esp)
 -lea    -0x44(%ebp),%eax
-+lea    -0x28(%ebp),%eax
++lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x2b8>
@@ -124,17 +121,17 @@
 -mov    -0x24(%ebp),%eax
 -mov    0xd(%eax),%ebx
 -mov    -0x28(%ebp),%eax
-+jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1bf>
++jmp    <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1b3>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CGuild13GetGuildBoardEv>
 -mov    -0x5c(%ebp),%edx
 +mov    %eax,-0xc(%ebp)
-+mov    -0x20(%ebp),%eax
-+lea    0x16(%eax),%edx
-+mov    -0x20(%ebp),%eax
-+add    $0x15,%eax
-+movzbl (%eax),%eax
++mov    0x8(%ebp),%eax
++add    $0x14,%eax
++mov    %eax,%edx
++mov    0x8(%ebp),%eax
++movzbl 0x13(%eax),%eax
 +movsbl %al,%eax
  mov    %edx,0x14(%esp)
 -mov    %edi,0x10(%esp)
@@ -154,9 +151,8 @@
  call   <T> <_ZN11CGuildBoard17setGuildBoardDataEjjP6CGuildiP18STGuildBoardDBInfo>
 -mov    -0x24(%ebp),%eax
 -movzbl 0xc(%eax),%eax
-+mov    -0x20(%ebp),%eax
-+add    $0xc,%eax
-+movzbl (%eax),%eax
++mov    0x8(%ebp),%eax
++movzbl 0xa(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x2b8>
 -mov    -0x24(%ebp),%eax
@@ -168,7 +164,7 @@
 -call   <T> <_ZN6CGuild13GetGuildBoardEv>
 -mov    -0x2c(%ebp),%edx
 -mov    %edx,0x10(%esp)
-+je     <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1bf>
++je     <T> <_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12PacketHeader+0x1b3>
 +mov    -0x18(%ebp),%eax
 +mov    %eax,0x10(%esp)
  movl   $0x232a,0xc(%esp)
@@ -334,19 +330,18 @@ void CPacketTranslater::_ZN17CPacketTranslater27OnDBLoadReplyGuildBoardOpenEP12P
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5253 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 5697 行）：
 
 ```cpp
 void CPacketTranslater::OnDBLoadReplyGuildBoardOpen(PacketHeader* pkt)
 {
-    char* pb = (char*)pkt;
     if (m_pclApp == 0)
     {
         DNF_LOG_SCOPE_LINE(0x1c9d,"./log/GuildBoard",
             "CPacketTranslater::OnDBLoadReplyGuildBoardOpen : 0 == m_pclApp");
         return;
     }
-    unsigned int charNo = *(unsigned int*)(pb + 0x11);
+    unsigned int charNo = ((PTL_DBReplyGuildBoardOpenPkt*)pkt)->m_charNo;
     CUser* user = (&m_pclApp->m_userManager)->FindUser_CharNo(charNo);
     if (user == 0)
     {
@@ -354,7 +349,7 @@ void CPacketTranslater::OnDBLoadReplyGuildBoardOpen(PacketHeader* pkt)
             "CPacketTranslater::OnDBLoadReplyGuildBoardOpen : 0 == pclUser");
         return;
     }
-    unsigned int guildKey = *(unsigned int*)(pb + 0xd);
+    unsigned int guildKey = ((PTL_DBReplyGuildBoardOpenPkt*)pkt)->m_guildKey;
     CGuild* guild;
     if ((guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey)) == 0)
     {
@@ -363,9 +358,10 @@ void CPacketTranslater::OnDBLoadReplyGuildBoardOpen(PacketHeader* pkt)
         return;
     }
     CGuildBoard* board = guild->GetGuildBoard();
-    board->setGuildBoardData(guildKey, charNo, guild, (int)(char)pb[0x15],
-                             (STGuildBoardDBInfo*)(pb + 0x16));
-    if (pb[0xc] != 0)
+    board->setGuildBoardData(guildKey, charNo, guild,
+                             (int)(char)((PTL_DBReplyGuildBoardOpenPkt*)pkt)->m_field15,
+                             (STGuildBoardDBInfo*)&((PTL_DBReplyGuildBoardOpenPkt*)pkt)->m_info);
+    if (((PTL_DBReplyGuildBoardOpenPkt*)pkt)->m_fieldC != 0)
     {
         board->sendGuildBoardData(guildKey, charNo, 0x232a, user);
         board->setGuildBoardDBLoadState((ENUM_DB_LOAD_STATE)2);

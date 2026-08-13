@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x80835d6` | `0x12e` | `0x805c8d2` | `0x12a` |
+| dbmw | DIFF | `0x80835d6` | `0x12e` | `0x805c8ba` | `0x124` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,93 +1,93 @@
+@@ -1,93 +1,90 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -33,22 +33,18 @@
  movl   $0x0,-0x1c(%ebp)
 -jmp    <T> <_ZN10CDBManager22OnStatisticLoginLogoutEP34Packet_DBMW_Statistic_Login_Logout+0x10d>
 -mov    -0x20(%ebp),%eax
-+jmp    <T> <_ZN10CDBManager22OnStatisticLoginLogoutEP34Packet_DBMW_Statistic_Login_Logout+0x107>
++jmp    <T> <_ZN10CDBManager22OnStatisticLoginLogoutEP34Packet_DBMW_Statistic_Login_Logout+0x103>
 +mov    -0x24(%ebp),%eax
  mov    (%eax),%eax
  add    $0x1c,%eax
  mov    (%eax),%esi
-+mov    0xc(%ebp),%ecx
  mov    -0x1c(%ebp),%edx
--mov    0xc(%ebp),%ecx
+ mov    0xc(%ebp),%ecx
  mov    %edx,%eax
  add    %eax,%eax
  add    %edx,%eax
  add    %eax,%eax
--mov    0x10(%eax,%ecx,1),%ebx
-+add    $0x10,%eax
-+lea    (%ecx,%eax,1),%eax
-+mov    (%eax),%ebx
+ mov    0x10(%eax,%ecx,1),%ebx
 +mov    0xc(%ebp),%ecx
  mov    -0x1c(%ebp),%edx
 -mov    0xc(%ebp),%ecx
@@ -102,7 +98,7 @@
  xor    $0x1,%eax
  test   %al,%al
 -je     <T> <_ZN10CDBManager22OnStatisticLoginLogoutEP34Packet_DBMW_Statistic_Login_Logout+0x109>
-+je     <T> <_ZN10CDBManager22OnStatisticLoginLogoutEP34Packet_DBMW_Statistic_Login_Logout+0x103>
++je     <T> <_ZN10CDBManager22OnStatisticLoginLogoutEP34Packet_DBMW_Statistic_Login_Logout+0xff>
  movl   $0x2099,0x8(%esp)
  movl   $&_ZZN10CDBManager22OnStatisticLoginLogoutEP34Packet_DBMW_Statistic_Login_LogoutE12__FUNCTION__,0x4(%esp)
  lea    -0x2c(%ebp),%eax
@@ -115,9 +111,7 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  addl   $0x1,-0x1c(%ebp)
  mov    0xc(%ebp),%eax
--mov    0xa(%eax),%eax
-+add    $0xa,%eax
-+mov    (%eax),%eax
+ mov    0xa(%eax),%eax
  cmp    -0x1c(%ebp),%eax
  setg   %al
  test   %al,%al

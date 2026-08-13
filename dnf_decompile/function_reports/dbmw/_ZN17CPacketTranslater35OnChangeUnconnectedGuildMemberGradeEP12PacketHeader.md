@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x809634e` | `0x368` | `0x8064a1e` | `0x34c` |
+| dbmw | DIFF | `0x809634e` | `0x368` | `0x80649d6` | `0x34c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -462,7 +462,7 @@ void CPacketTranslater::OnChangeUnconnectedGuildMemberGrade(PacketHeader* header
         if (!m_pclApp->m_dbManager.QueryGuildMemberGradeByName(
                 *(unsigned char*)(h + 0xa), *(unsigned int*)(h + 0xb),
                 h + 0x14, pkt.m_field31,
-                *(unsigned int*)((char*)&pkt + 0x32), result))
+                *(unsigned int*)&pkt.m_field32, result))
         {
             pkt.m_field30 = 0xff;
             gs->SendToServer((char*)&pkt, pkt.packetSize);

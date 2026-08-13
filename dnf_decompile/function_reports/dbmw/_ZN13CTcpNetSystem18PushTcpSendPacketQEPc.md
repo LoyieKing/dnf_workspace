@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x805bf6a` | `0xe9` | `0x80f5b6c` | `0xef` |
+| dbmw | DIFF | `0x805bf6a` | `0xe9` | `0x80f5b18` | `0xe7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,69 +1,69 @@
+@@ -1,69 +1,67 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %edi
@@ -47,7 +47,7 @@
 -jle    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xd6>
 +mov    %eax,-0xc(%ebp)
 +cmpl   $0xa,-0xc(%ebp)
-+jle    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xdd>
++jle    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xd5>
 +movl   $0x91,0x8(%esp)
 +movl   $&_ZZN13CTcpNetSystem18PushTcpSendPacketQEPcE12__FUNCTION__,0x4(%esp)
 +lea    -0x1c(%ebp),%eax
@@ -55,13 +55,10 @@
 +call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    0xc(%ebp),%eax
 -mov    0x6(%eax),%edi
-+add    $0x6,%eax
-+mov    (%eax),%ecx
++mov    0x6(%eax),%ecx
  mov    0xc(%ebp),%eax
--movzwl 0x2(%eax),%eax
+ movzwl 0x2(%eax),%eax
 -movzwl %ax,%esi
-+add    $0x2,%eax
-+movzwl (%eax),%eax
 +movzwl %ax,%edx
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
@@ -88,7 +85,7 @@
  mov    %eax,(%esp)
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
 -jmp    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xd6>
-+jmp    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xdd>
++jmp    <T> <_ZN13CTcpNetSystem18PushTcpSendPacketQEPc+0xd5>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0x2c(%ebp),%eax
@@ -166,8 +163,9 @@ void CTcpNetSystem::PushTcpSendPacketQ(char* buf)
     {
         CMyFileLog log(__FUNCTION__, 0x91);
         log("./log/TcpSend", "SEND PUSH(cnt:%d,id:%d,size:%d,ip:%d)", n,
-            *(unsigned short*)buf, ((unsigned short*)buf)[1],
-            *(unsigned int*)((char*)buf + 6));
+            ((CTcpSendBuffer*)buf)->m_header.packetId,
+            ((CTcpSendBuffer*)buf)->m_header.packetSize,
+            ((CTcpSendBuffer*)buf)->m_header.reversed2);
     }
 }
 ```

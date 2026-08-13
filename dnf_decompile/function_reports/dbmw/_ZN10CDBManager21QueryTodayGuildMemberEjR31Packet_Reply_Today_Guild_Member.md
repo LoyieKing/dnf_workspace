@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| dbmw | DIFF | `0x808504a` | `0x38a` | `0x805ddda` | `0x360` |
+| dbmw | DIFF | `0x808504a` | `0x38a` | `0x805ddbc` | `0x35e` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,272 +1,259 @@
+@@ -1,272 +1,258 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -28,10 +28,9 @@
 +lea    -0x1c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <localtime>
++mov    0xc(%ebp),%edx
 +mov    0x10(%ebp),%eax
-+lea    0xa(%eax),%edx
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%edx)
++mov    %edx,0xa(%eax)
  movl   $0x0,-0x14(%ebp)
 -lea    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
@@ -62,9 +61,9 @@
 -je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x8e>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x8d>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x8b>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34c>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34a>
  mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x20,%eax
@@ -80,9 +79,9 @@
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
 -movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x291>
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x290>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x28e>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34c>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34a>
 +lea    -0x50(%ebp),%eax
 +mov    %eax,-0xc(%ebp)
  movl   $0x27,0x8(%esp)
@@ -103,9 +102,9 @@
 -je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x103>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x100>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0xfe>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34c>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34a>
  mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x38,%eax
@@ -122,9 +121,9 @@
 -je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x135>
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x132>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x130>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34c>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34a>
  mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
  add    $0x2c,%eax
@@ -149,9 +148,9 @@
 -add    $0x50,%eax
 -mov    (%eax),%edx
 -lea    -0x4f(%ebp),%eax
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x16f>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x16d>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34c>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34a>
 +mov    -0x18(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x50,%eax
@@ -173,9 +172,9 @@
 -add    $0x50,%eax
 -mov    (%eax),%edx
 -lea    -0x4f(%ebp),%eax
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x1a4>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x1a2>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34c>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34a>
 +mov    -0x18(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x50,%eax
@@ -197,9 +196,9 @@
 -add    $0x50,%eax
 -mov    (%eax),%edx
 -lea    -0x4f(%ebp),%eax
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x1d9>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x1d7>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34c>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34a>
 +mov    -0x18(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x50,%eax
@@ -221,9 +220,9 @@
 -add    $0x50,%eax
 -mov    (%eax),%edx
 -lea    -0x4f(%ebp),%eax
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x20e>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x20c>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34c>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34a>
 +mov    -0x18(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x50,%eax
@@ -245,9 +244,9 @@
 -add    $0x50,%eax
 -mov    (%eax),%edx
 -lea    -0x4f(%ebp),%eax
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x243>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x241>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34c>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34a>
 +mov    -0x18(%ebp),%eax
 +mov    (%eax),%eax
 +add    $0x50,%eax
@@ -265,9 +264,9 @@
 -mov    $0x0,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
 -lea    -0x4f(%ebp),%eax
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x278>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x276>
 +mov    $0x0,%ebx
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34c>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34a>
 +mov    -0xc(%ebp),%eax
  mov    %eax,0x4(%esp)
  lea    -0x28(%ebp),%eax
@@ -275,7 +274,7 @@
  call   <T> <_ZNSt6vectorI18STTodayGuildMemberSaIS0_EE9push_backERKS0_>
 -addl   $0x1,-0xc(%ebp)
 +addl   $0x1,-0x14(%ebp)
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x291>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x28f>
 +nop
  mov    -0x18(%ebp),%eax
  mov    (%eax),%eax
@@ -289,7 +288,7 @@
  seta   %al
  test   %al,%al
 -jne    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0xc5>
-+jne    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0xbc>
++jne    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0xba>
  lea    -0x28(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorI18STTodayGuildMemberSaIS0_EE4sizeEv>
@@ -297,10 +296,10 @@
  setbe  %al
  test   %al,%al
 -je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2d0>
-+je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2cd>
++je     <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x2cb>
  mov    $0x1,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34c>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34a>
  call   <T> <rand>
  mov    %eax,%ebx
  lea    -0x28(%ebp),%eax
@@ -352,7 +351,7 @@
  call   <T> <_ZNSt6vectorI18STTodayGuildMemberSaIS0_EE5clearEv>
  mov    $0x1,%ebx
 -jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x376>
-+jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34c>
++jmp    <T> <_ZN10CDBManager21QueryTodayGuildMemberEjR31Packet_Reply_Today_Guild_Member+0x34a>
  mov    %edx,%ebx
  mov    %eax,%esi
  lea    -0x28(%ebp),%eax

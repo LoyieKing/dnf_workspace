@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8082fac` | `0x1d7` | `0x8078e76` | `0x1c1` |
+| guild | DIFF | `0x8082fac` | `0x1d7` | `0x8078cd0` | `0x1c1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -223,12 +223,11 @@ void CPacketTranslater::_ZN17CPacketTranslater17OnDBLoadGuildAgitEP12PacketHeade
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4348 行）：
+定义于 [source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp](source/DNFServer/GameServer/Guild/DNFPacketTranslater.cpp)（约第 4776 行）：
 
 ```cpp
 void CPacketTranslater::OnDBLoadGuildAgit(PacketHeader* pkt)
 {
-    char* pb = (char*)pkt;
     try
     {
         if (m_pclApp == 0)
@@ -237,7 +236,7 @@ void CPacketTranslater::OnDBLoadGuildAgit(PacketHeader* pkt)
             log("./log/Except", "CPacketTranslater::OnDBLoadGuildAgit : 0 == m_pclApp");
             return;
         }
-        unsigned int guildKey = *(unsigned int*)(pb + 0xa);
+        unsigned int guildKey = ((PTL_DBLoadGuildAgitPkt*)pkt)->m_guildKey;
         CGuild* guild = (&m_pclApp->m_guildManager)->FindGuild(guildKey);
         if (guildKey == 0 || guild == 0)
         {
@@ -246,7 +245,8 @@ void CPacketTranslater::OnDBLoadGuildAgit(PacketHeader* pkt)
         }
         else
         {
-            guild->SetGuildAgitInfo(*(STGuildAgitDBInfo*)(pb + 0xe));
+            guild->SetGuildAgitInfo(
+                *(STGuildAgitDBInfo*)&((PTL_DBLoadGuildAgitPkt*)pkt)->m_info);
             guild->SendGuildAgitInfoToMembers();
         }
     }
