@@ -63,6 +63,20 @@ ServerCommon、DNFShared/GameScript 等真实目录。
   `shared/common/include` 与 `shared/packet/include`，阶段 B 统一把
   共享头移到 ORIG 目录并更新其 -I 路径
 
+**阶段 B 已完成（2026-08-13）**：
+
+1. `shared/common/include/` 的 14 个共享头按 DWARF 主解析位置移动：
+   - 10 个头 → `ServerLib/basic_header/`（PacketDesign.h、MsgCell.h/.inl、
+     Message.h、SendBuffer.h、ObjectPoolByBoostPool.h、DBTransactionDesign.h、
+     InternalMsgDesign.h、RBTree.h、TE_Entity.h）
+   - 2 个头 → `ServerLib/common_header/`（新建；TMsgCell.h、InternalMsg.h）
+   - 2 个头 → `auction_header/`（新建；DNFPacket.h、AuctionPacket.h）
+2. `shared/common/include/` 仅剩 `ReverseEngineerLib.h`（Community +
+   shared/packet 依赖，ORIG 无此文件，保留原位）
+3. auction/point CMakeLists 新增 `-I common_header -I auction_header`
+4. 验证：auction/point + dbmw/guild/monitor/statics/manager/coserver
+   8 服务全部重建，产物 md5 与移动前逐字节一致（零回归）
+
 ### 阶段 C（后续）：Packet 元信息还原
 
 - 用 DWARF layout 子命令还原 auction/point 的 Packet 类字段布局
@@ -74,4 +88,3 @@ ServerCommon、DNFShared/GameScript 等真实目录。
 - channel/bridge/stun 的差异仅为 glibc 系统头伪影（stdio.h、time.h 等），不动
 - `Library3rd/`（Boost/MySQL/TinyXML）为第三方，保持现状
 - STL 伪影（stl_*.h、atomic_word.h、ctype_base.h 等）不创建副本
-
