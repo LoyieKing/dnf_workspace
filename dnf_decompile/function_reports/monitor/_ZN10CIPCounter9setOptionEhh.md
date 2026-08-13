@@ -14,16 +14,14 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,43 +1,43 @@
- push   %ebp
- mov    %esp,%ebp
+-push   %ebp
+-mov    %esp,%ebp
 -sub    $0x28,%esp
-+sub    $0x10,%esp
- mov    0xc(%ebp),%edx
- mov    0x10(%ebp),%eax
+-mov    0xc(%ebp),%edx
+-mov    0x10(%ebp),%eax
 -mov    %dl,-0xc(%ebp)
 -mov    %al,-0x10(%ebp)
 -cmpb   $0x0,-0xc(%ebp)
-+mov    %dl,-0x4(%ebp)
 +mov    %al,-0x8(%ebp)
 +cmpb   $0x0,-0x4(%ebp)
  jne    <T> <_ZN10CIPCounter9setOptionEhh+0x2d>
@@ -67,6 +65,12 @@
  movb   $0x0,0x11(%eax)
  leave
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
++cmpl   $0x1,0x8(%ebp)
++jne    <T> <_Z41__static_initialization_and_destruction_0ii+0x3e>
++cmpl   $0xffff,0xc(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 

@@ -14,8 +14,8 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,56 +1,55 @@
- push   %ebp
- mov    %esp,%ebp
+-push   %ebp
+-mov    %esp,%ebp
  push   %esi
  push   %ebx
  sub    $0x30,%esp
@@ -73,6 +73,8 @@
  pop    %esi
  pop    %ebp
  ret
++nop
++push   %ebp
 ```
 ## 2. Ghidra 反编译 C
 
@@ -109,7 +111,7 @@ void __thiscall CBuddyHandle::_ZN12CBuddyHandle6insertEP6CBuddy(CBuddyHandle *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 222 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 212 行）：
 
 ```cpp
 int CBuddyHandle::insert(CBuddy* buddy)
@@ -117,7 +119,7 @@ int CBuddyHandle::insert(CBuddy* buddy)
     if (m_buddies.size() < 0x20)
     {
         m_buddies.insert(
-            std::make_pair(((MonitorBuddyDBInfo*)buddy->getBuddyDBInfo())->m_name, buddy));
+            std::make_pair(((STBuddyDBInfo*)buddy->getBuddyDBInfo())->m_name, buddy));
     }
 }
 ```

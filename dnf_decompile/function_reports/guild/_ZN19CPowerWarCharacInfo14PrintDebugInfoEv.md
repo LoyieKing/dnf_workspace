@@ -14,13 +14,13 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,91 +1,91 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
- sub    $0x50,%esp
- movl   $0xee,0x8(%esp)
- movl   $&_ZZN19CPowerWarCharacInfo14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
+-push   %ebp
+-mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-sub    $0x50,%esp
+-movl   $0xee,0x8(%esp)
+-movl   $&_ZZN19CPowerWarCharacInfo14PrintDebugInfoEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x34(%ebp),%eax
 +lea    -0x24(%ebp),%eax
  mov    %eax,(%esp)
@@ -117,6 +117,13 @@
  pop    %esi
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x28,%esp
++mov    0x8(%ebp),%eax
++lea    0x4(%eax),%ecx
++lea    -0x10(%ebp),%eax
++lea    0xc(%ebp),%edx
 ```
 ## 2. Ghidra 反编译 C
 

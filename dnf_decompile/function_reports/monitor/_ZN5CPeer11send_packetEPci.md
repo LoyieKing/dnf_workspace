@@ -13,14 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,133 +1,133 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
- sub    $0x30,%esp
- mov    0x8(%ebp),%eax
- mov    %eax,(%esp)
+@@ -1,133 +1,135 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-sub    $0x30,%esp
+-mov    0x8(%ebp),%eax
+-mov    %eax,(%esp)
  call   <T> <_ZNK9TCPSocket9getHandleEv>
  shr    $0x1f,%eax
  test   %al,%al
@@ -150,6 +150,15 @@
  pop    %esi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++mov    0x8(%ebp),%eax
++pop    %ebp
++ret
++push   %ebp
++mov    %esp,%ebp
++mov    0x8(%ebp),%eax
 ```
 ## 2. Ghidra 反编译 C
 

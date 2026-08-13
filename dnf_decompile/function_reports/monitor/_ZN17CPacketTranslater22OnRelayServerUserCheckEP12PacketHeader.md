@@ -13,22 +13,22 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,169 +1,167 @@
- push   %ebp
- mov    %esp,%ebp
- push   %edi
- push   %esi
- push   %ebx
- sub    $0x5c,%esp
--mov    0x8(%ebp),%eax
--mov    %eax,-0x30(%ebp)
- mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
- add    $0x10,%eax
--mov    %eax,-0x2c(%ebp)
--mov    -0x30(%ebp),%eax
+@@ -1,169 +1,168 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
+-sub    $0x5c,%esp
++add    $0x10,%eax
 +mov    %eax,-0x28(%ebp)
 +movl   $0x0,-0x24(%ebp)
-+mov    0x8(%ebp),%eax
+ mov    0x8(%ebp),%eax
+-mov    %eax,-0x30(%ebp)
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+-add    $0x10,%eax
+-mov    %eax,-0x2c(%ebp)
+-mov    -0x30(%ebp),%eax
  mov    0xa(%eax),%eax
  mov    %eax,0x4(%esp)
 -mov    -0x2c(%ebp),%eax
@@ -225,6 +225,14 @@
  pop    %edi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++sub    $0x5c,%esp
++mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
 ```
 ## 2. Ghidra 反编译 C
 

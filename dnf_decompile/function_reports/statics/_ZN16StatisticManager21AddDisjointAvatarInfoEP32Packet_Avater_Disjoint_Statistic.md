@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | NEAR | `0x8072ad2` | `0xe1` | `0x8072be6` | `0xe1` |
+| statics | NEAR | `0x8072ad2` | `0xe1` | `0x8072bd0` | `0xe1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -124,7 +124,7 @@ StatisticManager::_ZN16StatisticManager21AddDisjointAvatarInfoEP32Packet_Avater_
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1258 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1262 行）：
 
 ```cpp
 void StatisticManager::AddDisjointAvatarInfo(Packet_Avater_Disjoint_Statistic* pkt)

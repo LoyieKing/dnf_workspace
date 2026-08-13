@@ -13,16 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,114 +1,118 @@
- push   %ebp
- mov    %esp,%ebp
+@@ -1,114 +1,120 @@
+-push   %ebp
+-mov    %esp,%ebp
 -push   %esi
- push   %ebx
+-push   %ebx
 -sub    $0x50,%esp
-+sub    $0x64,%esp
- mov    0x14(%ebp),%eax
+-mov    0x14(%ebp),%eax
 -mov    %ax,-0x2c(%ebp)
-+mov    %ax,-0x3c(%ebp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN13CTcpNetSystem10CreatePeerEv>
@@ -165,6 +163,14 @@
 -pop    %esi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++sub    $0x20,%esp
++mov    0x8(%ebp),%eax
++lea    0x144(%eax),%edx
 ```
 ## 2. Ghidra 反编译 C
 

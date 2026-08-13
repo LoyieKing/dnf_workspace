@@ -14,14 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,98 +1,102 @@
- push   %ebp
- mov    %esp,%ebp
+-push   %ebp
+-mov    %esp,%ebp
 -push   %esi
- push   %ebx
+-push   %ebx
 -sub    $0x40,%esp
-+sub    $0x54,%esp
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
 +call   <T> <_ZNSt17_Rb_tree_iteratorISt4pairIKjP16CDNFProhibitUserEEC1Ev>
  mov    0x8(%ebp),%eax
  add    $0x60,%eax
@@ -145,6 +142,12 @@
 +mov    -0x4(%ebp),%ebx
 +leave
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x28,%esp
++mov    0x8(%ebp),%eax
++lea    0x30(%eax),%ecx
 ```
 ## 2. Ghidra 反编译 C
 
@@ -228,7 +231,7 @@ void __thiscall CUserManager::_ZN12CUserManager15ProcessByMinuteEv(CUserManager 
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 83 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 84 行）：
 
 ```cpp
 void CUserManager::ProcessByMinute()

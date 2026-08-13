@@ -14,12 +14,12 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,222 +1,222 @@
- push   %ebp
- mov    %esp,%ebp
- push   %ebx
- sub    $0x44,%esp
- mov    0x8(%ebp),%eax
- add    $0x18,%eax
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
+-sub    $0x44,%esp
+-mov    0x8(%ebp),%eax
+-add    $0x18,%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP5CUserSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
  test   %al,%al
@@ -288,6 +288,12 @@
  mov    -0x4(%ebp),%ebx
  leave
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++sub    $0x600,%esp
++cmpl   $0x0,0xc(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -447,7 +453,7 @@ CUserManager::_ZN12CUserManager30DeleteUsersOnTcpGameServerDownEP14CTcpGameServe
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 237 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 238 行）：
 
 ```cpp
 int CUserManager::DeleteUsersOnTcpGameServerDown(CTcpGameServer* tcpGameServer)

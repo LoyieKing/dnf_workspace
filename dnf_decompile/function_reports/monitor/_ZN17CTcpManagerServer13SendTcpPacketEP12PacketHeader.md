@@ -13,12 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,36 +1,36 @@
- push   %ebp
- mov    %esp,%ebp
- sub    $0x28,%esp
- mov    0xc(%ebp),%eax
- movzwl 0x2(%eax),%eax
+@@ -1,36 +1,38 @@
+-push   %ebp
+-mov    %esp,%ebp
+-sub    $0x28,%esp
+-mov    0xc(%ebp),%eax
+-movzwl 0x2(%eax),%eax
  movzwl %ax,%edx
  mov    0xc(%ebp),%eax
  movzwl (%eax),%eax
@@ -58,6 +58,13 @@
  call   <T> <_ZN17CTcpManagerServer12SendToServerEPc>
  leave
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++sub    $0x20,%esp
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

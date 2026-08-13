@@ -13,13 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,184 +1,187 @@
- push   %ebp
- mov    %esp,%ebp
- push   %ebx
+@@ -1,184 +1,191 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
 -sub    $0xb4,%esp
-+sub    $0xc4,%esp
- call   <T> <_ZN20CTask_ChristmasEvent15DecideEventTimeEv>
+-call   <T> <_ZN20CTask_ChristmasEvent15DecideEventTimeEv>
 -mov    %eax,-0x14(%ebp)
 +mov    %eax,-0x48(%ebp)
  movl   $0x0,(%esp)
@@ -302,6 +301,15 @@
  pop    %ebx
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++sub    $0x4c,%esp
++lea    -0x3a(%ebp),%eax
++mov    %eax,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806e8ae` | `0x1df` | `0x806ea5a` | `0x1ec` |
+| statics | DIFF | `0x806e8ae` | `0x1df` | `0x806ea6c` | `0x1ec` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 

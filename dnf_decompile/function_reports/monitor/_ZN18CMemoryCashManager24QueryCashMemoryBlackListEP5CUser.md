@@ -14,13 +14,13 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,174 +1,147 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
- sub    $0x60,%esp
- mov    0xc(%ebp),%eax
- mov    %eax,(%esp)
+-push   %ebp
+-mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-sub    $0x60,%esp
+-mov    0xc(%ebp),%eax
+-mov    %eax,(%esp)
  call   <T> <_ZN5CUser7GetDBIDEv>
  mov    %eax,-0x24(%ebp)
  mov    0x8(%ebp),%eax
@@ -201,6 +201,13 @@
  pop    %esi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x28,%esp
++mov    0x8(%ebp),%edx
++lea    -0x10(%ebp),%eax
++lea    0xc(%ebp),%ecx
 ```
 ## 2. Ghidra 反编译 C
 

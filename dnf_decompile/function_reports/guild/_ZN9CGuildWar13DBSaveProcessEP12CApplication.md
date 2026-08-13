@@ -43,14 +43,12 @@
  mov    %eax,(%esp)
  call   <T> <_ZN37Packet_Notice_DB_Save_Guild_War_PointC1Ev>
 -lea    -0x63(%ebp),%eax
--add    $0x33,%eax
--mov    %eax,0x8(%esp)
++lea    -0x64(%ebp),%eax
+ add    $0x33,%eax
+ mov    %eax,0x8(%esp)
 -lea    -0x63(%ebp),%eax
 +lea    -0x64(%ebp),%eax
-+lea    0x33(%eax),%edx
-+lea    -0x64(%ebp),%eax
  add    $0xb,%eax
-+mov    %edx,0x8(%esp)
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -134,10 +132,9 @@ void CGuildWar::DBSaveProcess(CApplication* app)
         return;
     }
     Packet_Notice_DB_Save_Guild_War_Point pkt;
-    if (GetGuildWarInfoDBSave((unsigned int*)((char*)&pkt + 0xb),
-                              (unsigned int*)((char*)&pkt + 0x33)))
+    if (GetGuildWarInfoDBSave(pkt.m_guildKeys, pkt.m_points))
     {
-        pkt.m_data[0] = app->Get_ServerGroup();
+        pkt.m_group = app->Get_ServerGroup();
         app->Get_ServerHandler()->SendToDB(&pkt);
     }
     m_bSaveCnt = 0;

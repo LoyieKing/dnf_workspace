@@ -13,16 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,49 +1,62 @@
- push   %ebp
- mov    %esp,%ebp
-+push   %edi
-+push   %esi
- push   %ebx
+@@ -1,49 +1,58 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
 -sub    $0x24,%esp
-+sub    $0x2c,%esp
- mov    0x10(%ebp),%eax
- cmp    0xc(%ebp),%eax
+-mov    0x10(%ebp),%eax
+-cmp    0xc(%ebp),%eax
 -jae    <T> <_ZN19COnTimeEventManager10StartEventEjj+0x9d>
 +jae    <T> <_ZN19COnTimeEventManager10StartEventEjj+0xb9>
  movl   $0x0,(%esp)
@@ -85,6 +82,10 @@
 +pop    %edi
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x28,%esp
++movl   $0x0,0x4(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

@@ -14,15 +14,12 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,95 +1,117 @@
- push   %ebp
- mov    %esp,%ebp
-+push   %edi
-+push   %esi
- push   %ebx
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
 -sub    $0x24,%esp
-+sub    $0x2c,%esp
- mov    0x8(%ebp),%eax
- movzbl 0x24(%eax),%eax
+-mov    0x8(%ebp),%eax
+-movzbl 0x24(%eax),%eax
  xor    $0x1,%eax
  test   %al,%al
 -jne    <T> <_ZN16village_attacked23CVillageAttackedManager20OnEndVillageAttackedEv+0x140>
@@ -144,6 +141,14 @@
 +pop    %edi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++sub    $0x20,%esp
++lea    -0x16(%ebp),%eax
++mov    %eax,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

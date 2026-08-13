@@ -14,11 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,42 +1,42 @@
- push   %ebp
- mov    %esp,%ebp
- sub    $0x28,%esp
- mov    0x8(%ebp),%eax
- mov    0xc(%eax),%eax
+-push   %ebp
+-mov    %esp,%ebp
+-sub    $0x28,%esp
+-mov    0x8(%ebp),%eax
+-mov    0xc(%eax),%eax
  test   %eax,%eax
  je     <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader+0x80>
  mov    0xc(%ebp),%eax
@@ -64,6 +64,11 @@
  call   <T> <_ZN14CTcpGameServer16SendToGameServerEPc>
  leave
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
++mov    0x8(%ebp),%eax
++mov    0x8(%eax),%eax
 ```
 ## 2. Ghidra 反编译 C
 

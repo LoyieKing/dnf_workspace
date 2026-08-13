@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,390 +1,405 @@
+@@ -1,390 +1,409 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -33,9 +33,9 @@
 +movzbl (%eax),%eax
 +mov    %al,-0x31(%ebp)
 +cmpb   $0x0,-0x31(%ebp)
-+je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x6b7>
++je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x6a5>
 +cmpb   $0x2,-0x31(%ebp)
-+jg     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x6b7>
++jg     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x6a5>
  movl   $0x1b6,0x8(%esp)
  movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
 -lea    -0x64(%ebp),%eax
@@ -444,8 +444,6 @@
  call   <T> <_ZN28Packet_Notice_Power_War_RankC1Ev>
 -mov    0x8(%ebp),%eax
 -mov    0x4(%eax),%eax
-+lea    -0x8b(%ebp),%eax
-+lea    0xa(%eax),%ebx
 +mov    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
@@ -453,7 +451,7 @@
  call   <T> <_ZN14CServerHandler16GetServerGroupNoEv>
 -mov    %al,-0x75(%ebp)
 -lea    -0xa4(%ebp),%eax
-+mov    %al,(%ebx)
++mov    %al,-0x81(%ebp)
 +lea    -0xb0(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EEC1Ev>
@@ -514,7 +512,7 @@
 -jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x5b2>
 -lea    -0xa4(%ebp),%eax
 +movl   $0x0,-0x10(%ebp)
-+jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x5f1>
++jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x5df>
 +lea    -0xb0(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt6vectorIP20STPowerWarCharacInfoSaIS1_EE4sizeEv>
@@ -529,7 +527,7 @@
 -lea    -0xa4(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZNSt6vectorIP20STPowerWarCharacInfoSaIS1_EE2atEj>
-+je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x5ed>
++je     <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x5db>
 +mov    -0x10(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +lea    -0xb0(%ebp),%eax
@@ -540,11 +538,14 @@
 -mov    %eax,-0x74(%ebp,%ebx,4)
 -mov    -0xc(%ebp),%ebx
 +mov    %eax,-0xc(%ebp)
-+lea    -0x8b(%ebp),%eax
-+mov    -0x10(%ebp),%edx
-+shl    $0x2,%edx
-+add    $0xb,%edx
-+lea    (%eax,%edx,1),%edx
++mov    -0x10(%ebp),%eax
++mov    -0xc(%ebp),%edx
++mov    %edx,-0x80(%ebp,%eax,4)
++movl   $0x273,0x8(%esp)
++movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
++lea    -0x4c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
  mov    -0xc(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0xa4(%ebp),%eax
@@ -553,13 +554,7 @@
 -mov    (%eax),%eax
 -mov    (%eax),%eax
 -mov    %eax,-0x8b(%ebp,%ebx,4)
-+mov    %eax,(%edx)
-+movl   $0x273,0x8(%esp)
-+movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
-+lea    -0x4c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
- mov    -0xc(%ebp),%eax
+-mov    -0xc(%ebp),%eax
 -mov    -0x74(%ebp,%eax,4),%ebx
 -movl   $0x273,0x8(%esp)
 -movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
@@ -580,7 +575,7 @@
 +cmpl   $0x2,-0x10(%ebp)
 +setle  %al
 +test   %al,%al
-+jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x55e>
++jne    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x559>
 +movl   $0x277,0x8(%esp)
 +movl   $&_ZZN13CPowerManager18SaveDBPowerWarRankEvE12__FUNCTION__,0x4(%esp)
 +lea    -0x44(%ebp),%eax
@@ -634,7 +629,7 @@
 +lea    -0x3c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x6a9>
++jmp    <T> <_ZN13CPowerManager18SaveDBPowerWarRankEv+0x697>
  mov    %edx,%ebx
  mov    %eax,%esi
 -lea    -0xa4(%ebp),%eax
@@ -669,6 +664,16 @@
  pop    %esi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++sub    $0x5c,%esp
++lea    -0x34(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN30Packet_DB_Save_Power_War_PointC1Ev>
 ```
 ## 2. Ghidra 反编译 C
 
@@ -914,8 +919,7 @@ void CPowerManager::SaveDBPowerWarRank()
         Packet_DB_Save_Power_War_Statue_Ranker statuePkt;
         Packet_Notice_Power_War_Rank noticePkt;
         (void)noticePkt;
-        *(unsigned char*)((char*)&statuePkt + 0xa) =
-            app->Get_ServerHandler()->GetServerGroupNo();
+        statuePkt.m_group = app->Get_ServerHandler()->GetServerGroupNo();
         std::vector<STPowerWarCharacInfo*> users;
         CPowerWarCharacInfo* s1 =
             ((CPower*)((char*)this + 0x74))->GetPowerWarCharacInfo();
@@ -929,7 +933,7 @@ void CPowerManager::SaveDBPowerWarRank()
             if (i < (int)users.size())
             {
                 unsigned int charNo = *(unsigned int*)users[i]->m_data;
-                *(unsigned int*)((char*)&statuePkt + 0xb + i * 4) = charNo;
+                statuePkt.m_rankers[i] = charNo;
                 DNF_LOG_SCOPE_LINE(0x273, "./log/PowerResult", "Last Rank:%d, Charac No:%d", i, charNo);
             }
         }

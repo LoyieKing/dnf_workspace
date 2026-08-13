@@ -14,10 +14,10 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,166 +1,160 @@
- push   %ebp
- mov    %esp,%ebp
- sub    $0x2a8,%esp
- mov    0x14(%ebp),%eax
+-push   %ebp
+-mov    %esp,%ebp
+-sub    $0x2a8,%esp
+-mov    0x14(%ebp),%eax
  mov    %al,-0x28c(%ebp)
  cmpl   $0xff,0x10(%ebp)
 -jg     <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x27b>
@@ -244,6 +244,10 @@
 +jne    <T> <_ZN7CMember37NoticeChatMsgToMemberMembersHyperLinkEPcihPK19hyperlink_item_infoP5CUser+0x1e8>
  leave
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x168,%esp
++cmpl   $0xff,0x10(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 

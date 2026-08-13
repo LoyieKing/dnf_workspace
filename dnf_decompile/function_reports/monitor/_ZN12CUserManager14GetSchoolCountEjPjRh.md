@@ -14,17 +14,15 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,152 +1,146 @@
- push   %ebp
- mov    %esp,%ebp
+-push   %ebp
+-mov    %esp,%ebp
 -push   %edi
 -push   %esi
- push   %ebx
+-push   %ebx
 -sub    $0x6c,%esp
-+sub    $0x64,%esp
- mov    0x8(%ebp),%edx
+-mov    0x8(%ebp),%edx
 -lea    -0x48(%ebp),%eax
-+lea    -0x28(%ebp),%eax
- lea    0xc(%ebp),%ecx
+-lea    0xc(%ebp),%ecx
  mov    %ecx,0x8(%esp)
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -228,6 +226,13 @@
 +mov    -0x4(%ebp),%ebx
 +leave
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x28,%esp
++mov    0x8(%ebp),%eax
++lea    0x60(%eax),%ecx
++lea    -0x10(%ebp),%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -332,7 +337,7 @@ CUserManager::_ZN12CUserManager14GetSchoolCountEjPjRh
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 350 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 351 行）：
 
 ```cpp
 void CUserManager::GetSchoolCount(unsigned int school, unsigned int* out, unsigned char& idx)

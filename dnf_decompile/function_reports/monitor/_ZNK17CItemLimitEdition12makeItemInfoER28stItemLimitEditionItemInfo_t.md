@@ -13,15 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,25 +1,25 @@
- push   %ebp
- mov    %esp,%ebp
- push   %edi
- push   %esi
- push   %ebx
- sub    $0x1c,%esp
-+mov    0x8(%ebp),%eax
- mov    0xc(%ebp),%edx
+@@ -1,25 +1,26 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
+-sub    $0x1c,%esp
+-mov    0xc(%ebp),%edx
 -mov    0x8(%ebp),%eax
  mov    %eax,%ebx
  mov    $0x12,%eax
@@ -29,19 +28,26 @@
  mov    %ebx,%esi
  mov    %eax,%ecx
  rep movsl %ds:(%esi),%es:(%edi)
-+mov    0xc(%ebp),%ebx
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNK17CItemLimitEdition10getSellNumEv>
--mov    0xc(%ebp),%edx
--mov    %eax,0x18(%edx)
-+mov    %eax,0x18(%ebx)
+ mov    0xc(%ebp),%edx
+ mov    %eax,0x18(%edx)
  add    $0x1c,%esp
  pop    %ebx
  pop    %esi
  pop    %edi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++mov    0x8(%ebp),%eax
++mov    0x48(%eax),%eax
++pop    %ebp
++ret
++nop
++push   %ebp
 ```
 ## 2. Ghidra 反编译 C
 
@@ -80,6 +86,6 @@ CItemLimitEdition::_ZNK17CItemLimitEdition12makeItemInfoER28stItemLimitEditionIt
 void CItemLimitEdition::makeItemInfo(stItemLimitEditionItemInfo_t& info) const
 {
     info = *((const stItemLimitEditionItemInfo_t*)this);
-    ((RA_UINT<24>*)&info)->v = getSellNum();
+    info.m_sellNum = getSellNum();
 }
 ```

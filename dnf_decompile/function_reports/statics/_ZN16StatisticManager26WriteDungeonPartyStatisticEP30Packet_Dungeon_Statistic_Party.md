@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x806e5f0` | `0x2be` | `0x806e78a` | `0x2cf` |
+| statics | DIFF | `0x806e5f0` | `0x2be` | `0x806e79c` | `0x2cf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -110,7 +110,7 @@
  movzwl 0x3e(%eax),%eax
  cwtl
 -mov    %eax,-0xb4(%ebp)
-+mov    %eax,-0xac(%ebp)
++mov    %eax,-0xb0(%ebp)
  mov    0x8(%ebp),%eax
  lea    0x38(%eax),%ecx
 -lea    -0xac(%ebp),%eax
@@ -420,7 +420,7 @@ void StatisticManager::WriteDungeonPartyStatistic(Packet_Dungeon_Statistic_Party
     value.m_data[7] = ((Wire*)pkt)->m_data[7];
     value.m_data[8] = ((Wire*)pkt)->m_data[8];
     value.m_data[9] = ((Wire*)pkt)->m_data[9];
-    value.m_data[11] = ((Wire*)pkt)->m_last;
+    value.m_data[10] = ((Wire*)pkt)->m_last;
     std::map<STPartyStatisticKey, PartyStatistic>::iterator it = m_party.find(key);
     if (m_party.empty() || it == m_party.end())
     {

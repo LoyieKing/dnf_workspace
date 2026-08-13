@@ -13,14 +13,14 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,78 +1,78 @@
- push   %ebp
- mov    %esp,%ebp
- push   %ebx
- sub    $0x24,%esp
- mov    0x8(%ebp),%eax
- mov    0x30(%eax),%eax
- test   %eax,%eax
+@@ -1,78 +1,79 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
+-sub    $0x24,%esp
+-mov    0x8(%ebp),%eax
+-mov    0x30(%eax),%eax
+-test   %eax,%eax
 -je     <T> <_ZN18CMemoryCashManager18ProcessLifeTimeOutEv+0xfd>
 +je     <T> <_ZN18CMemoryCashManager18ProcessLifeTimeOutEv+0x100>
  mov    0x8(%ebp),%eax
@@ -99,6 +99,14 @@
  mov    -0x4(%ebp),%ebx
  leave
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++sub    $0x40,%esp
++mov    0x8(%ebp),%eax
++add    $0x18,%eax
 ```
 ## 2. Ghidra 反编译 C
 

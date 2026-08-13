@@ -14,13 +14,12 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,36 +1,34 @@
- push   %ebp
- mov    %esp,%ebp
- sub    $0x28,%esp
- mov    0x8(%ebp),%eax
- lea    0x4(%eax),%ecx
+-push   %ebp
+-mov    %esp,%ebp
+-sub    $0x28,%esp
+-mov    0x8(%ebp),%eax
+-lea    0x4(%eax),%ecx
 -lea    -0x14(%ebp),%eax
-+lea    -0x10(%ebp),%eax
  lea    0xc(%ebp),%edx
  mov    %edx,0x8(%esp)
  mov    %ecx,0x4(%esp)
@@ -57,6 +56,12 @@
  mov    $0x0,%eax
  leave
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x38,%esp
++lea    -0x22(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN28Packet_VillageAttackedRewardC1Ev>
 ```
 ## 2. Ghidra 反编译 C
 

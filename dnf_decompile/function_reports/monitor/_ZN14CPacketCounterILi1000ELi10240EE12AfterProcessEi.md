@@ -13,12 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,83 +1,79 @@
- push   %ebp
- mov    %esp,%ebp
+@@ -1,83 +1,80 @@
+-push   %ebp
+-mov    %esp,%ebp
 -push   %ebx
- sub    $0x10,%esp
- cmpl   $0x27ff,0xc(%ebp)
+-sub    $0x10,%esp
+-cmpl   $0x27ff,0xc(%ebp)
 -jg     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x110>
 +jg     <T> <_ZN14CPacketCounterILi1000ELi10240EE12AfterProcessEi+0x10b>
  cmpl   $0x3e7,0xc(%ebp)
@@ -122,6 +122,11 @@
 -pop    %ebp
 +leave
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

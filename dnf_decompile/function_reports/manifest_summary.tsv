@@ -1,2 +1,2 @@
 service	total_named	identical	identical_ae	near	diff	missing	empty	exempt_skip	non_identical
-dbmw	1755	758	375	253	363	6	0	6397	622
+statics	843	576	225	1	41	0	0	5241	42

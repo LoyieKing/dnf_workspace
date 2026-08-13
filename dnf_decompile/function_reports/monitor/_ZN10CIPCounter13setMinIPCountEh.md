@@ -13,26 +13,32 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,13 +1,13 @@
+@@ -1,13 +1,14 @@
++jbe    <T> <_ZN10CIPCounter13setMinIPCountEh+0x16>
++movb   $0xc8,-0x4(%ebp)
++movzbl -0x4(%ebp),%edx
++mov    0x8(%ebp),%eax
++mov    %dl,(%eax)
++leave
++ret
++nop
  push   %ebp
  mov    %esp,%ebp
- sub    $0x4,%esp
- mov    0xc(%ebp),%eax
- mov    %al,-0x4(%ebp)
+-sub    $0x4,%esp
+-mov    0xc(%ebp),%eax
+-mov    %al,-0x4(%ebp)
 -movzbl -0x4(%ebp),%eax
 -cmp    $0xc8,%al
 -jbe    <T> <_ZN10CIPCounter13setMinIPCountEh+0x19>
 -mov    $0xffffffc8,%eax
 -mov    0x8(%ebp),%edx
 -mov    %al,(%edx)
-+cmpb   $0xc8,-0x4(%ebp)
-+jbe    <T> <_ZN10CIPCounter13setMinIPCountEh+0x16>
-+movb   $0xc8,-0x4(%ebp)
-+movzbl -0x4(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+mov    %dl,(%eax)
- leave
- ret
+-leave
+-ret
++sub    $0x10,%esp
++mov    0xc(%ebp),%edx
++mov    0x10(%ebp),%eax
++mov    %dl,-0x4(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 

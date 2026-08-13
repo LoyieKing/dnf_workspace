@@ -14,16 +14,14 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,143 +1,146 @@
- push   %ebp
- mov    %esp,%ebp
-+push   %esi
- push   %ebx
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
 -sub    $0x604,%esp
-+sub    $0x600,%esp
- cmpl   $0x0,0xc(%ebp)
+-cmpl   $0x0,0xc(%ebp)
 -je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x20c>
 -lea    -0x5ef(%ebp),%eax
-+je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x20d>
++je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x20b>
 +lea    -0x5f3(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN31Packet_Monitor_Reply_Buddy_ListC1Ev>
@@ -43,7 +41,7 @@
 +lea    -0x5f3(%ebp),%eax
 +mov    -0x18(%ebp),%edx
 +mov    %dl,0xe(%eax)
-+jmp    <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x14a>
++jmp    <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x148>
 +subl   $0x1,-0x18(%ebp)
 +mov    -0x1c(%ebp),%eax
 +mov    -0xa4(%ebp,%eax,4),%eax
@@ -52,9 +50,7 @@
 -mov    -0xa0(%ebp,%eax,4),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
--mov    0x22(%eax),%eax
-+add    $0x22,%eax
-+mov    (%eax),%eax
+ mov    0x22(%eax),%eax
  mov    %eax,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -67,7 +63,7 @@
 -mov    -0x18(%ebp),%eax
 +mov    %eax,-0x10(%ebp)
 +cmpl   $0x0,-0x10(%ebp)
-+je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x116>
++je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x114>
 +mov    -0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
@@ -80,7 +76,7 @@
 -lea    -0x8(%ebp),%edx
 -lea    (%edx,%eax,1),%eax
 -sub    $0x5d6,%eax
-+je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x116>
++je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x114>
 +lea    -0x5f3(%ebp),%eax
 +mov    -0x1c(%ebp),%edx
 +imul   $0x2a,%edx,%edx
@@ -122,7 +118,7 @@
 -sub    $0x5d7,%eax
 +setne  %al
 +test   %al,%al
-+je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x116>
++je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x114>
 +lea    -0x5f3(%ebp),%eax
 +mov    -0x1c(%ebp),%edx
 +imul   $0x2a,%edx,%edx
@@ -156,9 +152,10 @@
  test   %al,%al
 -jne    <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x4f>
 -cmpl   $0x0,-0x14(%ebp)
+-je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x20d>
 +jne    <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x53>
 +cmpl   $0x0,-0x1c(%ebp)
- je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x20d>
++je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x20b>
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN5CUser13GetGameServerEv>
@@ -167,7 +164,7 @@
 +sete   %al
  test   %al,%al
 -je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x1d4>
-+je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x1af>
++je     <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x1ad>
 +movl   $0x34b,0x8(%esp)
 +movl   $&_ZZN12CUserManager23SendConnectedBuddysListEP5CUserE12__FUNCTION__,0x4(%esp)
 +lea    -0x24(%ebp),%eax
@@ -178,7 +175,7 @@
 +lea    -0x24(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x20d>
++jmp    <T> <_ZN12CUserManager23SendConnectedBuddysListEP5CUser+0x20b>
 +lea    -0x5f3(%ebp),%ebx
  mov    0xc(%ebp),%eax
  mov    %eax,(%esp)
@@ -235,6 +232,13 @@
 +pop    %esi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %ebx
++sub    $0x64,%esp
++mov    0x8(%ebp),%edx
++lea    -0x28(%ebp),%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -314,7 +318,7 @@ CUserManager::_ZN12CUserManager23SendConnectedBuddysListEP5CUser(CUserManager *t
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 300 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 301 行）：
 
 ```cpp
 void CUserManager::SendConnectedBuddysList(CUser* user)
@@ -331,7 +335,7 @@ void CUserManager::SendConnectedBuddysList(CUser* user)
             count--;
             CBuddy* buddy = buddies[idx];
             CUser* buddyUser = FindUser_CharNo(
-                *(unsigned int*)((char*)buddy->getBuddyDBInfo() + 0x22));
+                ((STBuddyDBInfo*)buddy->getBuddyDBInfo())->m_characNo);
             if (buddyUser != 0)
             {
                 if (buddyUser->GetGameServer() != 0)

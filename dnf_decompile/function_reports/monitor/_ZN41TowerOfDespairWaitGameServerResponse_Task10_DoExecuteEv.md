@@ -13,12 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,45 +1,44 @@
- push   %ebp
- mov    %esp,%ebp
- push   %ebx
- sub    $0x24,%esp
- movl   $0x46,0x8(%esp)
+@@ -1,45 +1,47 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
+-sub    $0x24,%esp
+-movl   $0x46,0x8(%esp)
  movl   $&_ZZN41TowerOfDespairWaitGameServerResponse_Task10_DoExecuteEvE12__FUNCTION__,0x4(%esp)
  lea    -0x14(%ebp),%eax
  mov    %eax,(%esp)
@@ -61,6 +61,14 @@
  pop    %ebx
  pop    %ebp
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x40,%esp
++leave
++ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
 ```
 ## 2. Ghidra 反编译 C
 

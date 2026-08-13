@@ -13,9 +13,9 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,114 +1,110 @@
- push   %ebp
- mov    %esp,%ebp
+@@ -1,114 +1,111 @@
+-push   %ebp
+-mov    %esp,%ebp
  push   %edi
  push   %esi
  push   %ebx
@@ -36,7 +36,7 @@
 +jmp    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x31>
 +mov    $0x0,%eax
 +test   %al,%al
-+je     <T> <_ZN12CBuddyHandle11printBuddysEPc+0x162>
++je     <T> <_ZN12CBuddyHandle11printBuddysEPc+0x158>
  mov    0x8(%ebp),%edx
 -lea    -0x28(%ebp),%eax
 +lea    -0x30(%ebp),%eax
@@ -52,7 +52,7 @@
 -sub    $0x4,%esp
 -jmp    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x159>
 -lea    -0x28(%ebp),%eax
-+jmp    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x133>
++jmp    <T> <_ZN12CBuddyHandle11printBuddysEPc+0x129>
 +lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKSsP6CBuddyEEptEv>
@@ -65,9 +65,7 @@
  mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
--movzbl 0x26(%eax),%eax
-+add    $0x26,%eax
-+movzbl (%eax),%eax
+ movzbl 0x26(%eax),%eax
  movsbl %al,%eax
 -mov    %eax,-0x48(%ebp)
 -mov    -0x1c(%ebp),%eax
@@ -80,31 +78,27 @@
 -call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
 -movzbl 0x21(%eax),%eax
 -movsbl %al,%eax
-+add    $0x22,%eax
-+mov    (%eax),%eax
++mov    0x22(%eax),%eax
  mov    %eax,-0x40(%ebp)
  mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
 -movzbl 0x20(%eax),%eax
-+add    $0x21,%eax
-+movzbl (%eax),%eax
++movzbl 0x21(%eax),%eax
  movsbl %al,%eax
  mov    %eax,-0x3c(%ebp)
  mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
--movzwl 0x1e(%eax),%eax
--movswl %ax,%edi
-+add    $0x20,%eax
-+movzbl (%eax),%eax
++movzbl 0x20(%eax),%eax
 +movsbl %al,%edi
- mov    -0x1c(%ebp),%eax
++mov    -0x1c(%ebp),%eax
+ movzwl 0x1e(%eax),%eax
+-movswl %ax,%edi
+-mov    -0x1c(%ebp),%eax
 -mov    %eax,(%esp)
 -call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
 -mov    %eax,%esi
-+add    $0x1e,%eax
-+movzwl (%eax),%eax
 +movswl %ax,%esi
  mov    0x8(%ebp),%eax
  mov    0x18(%eax),%eax
@@ -173,6 +167,14 @@
  pop    %edi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++sub    $0x3c,%esp
++mov    0x8(%ebp),%eax
 ```
 ## 2. Ghidra 反编译 C
 
@@ -242,7 +244,7 @@ void __thiscall CBuddyHandle::_ZN12CBuddyHandle11printBuddysEPc(CBuddyHandle *th
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 261 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 251 行）：
 
 ```cpp
 void CBuddyHandle::printBuddys(char* out)
@@ -257,9 +259,12 @@ void CBuddyHandle::printBuddys(char* out)
             DNF_LOG_SCOPE_LINE(0x16e,"./log/buddy",
                 "[%s] name(%s) fname(%s) flevel(%d) fjob(%d) fgrowtype(%d) fcharNo(%d) "
                 "fsex(%d)",
-                out, m_prUser->GetCharName(), info, (int)*(short*)(info + 0x1e),
-                (int)*(char*)(info + 0x20), (int)*(char*)(info + 0x21),
-                *(int*)(info + 0x22), (int)*(char*)(info + 0x26));
+                out, m_prUser->GetCharName(), info,
+                (int)((STBuddyDBInfo*)info)->m_lev,
+                (int)((STBuddyDBInfo*)info)->m_job,
+                (int)((STBuddyDBInfo*)info)->m_growType,
+                ((STBuddyDBInfo*)info)->m_characNo,
+                (int)((STBuddyDBInfo*)info)->m_sex);
         }
     }
 }

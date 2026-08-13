@@ -13,16 +13,15 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,611 +1,618 @@
- push   %ebp
- mov    %esp,%ebp
- push   %edi
- push   %esi
- push   %ebx
+@@ -1,611 +1,619 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
 -sub    $0x16c,%esp
 -mov    0x8(%ebp),%eax
 -mov    %eax,-0x48(%ebp)
-+sub    $0x18c,%esp
  mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater8OnLogoutEP12PacketHeader+0x968>
@@ -925,6 +924,13 @@
  pop    %edi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++sub    $0x8c,%esp
 ```
 ## 2. Ghidra 反编译 C
 

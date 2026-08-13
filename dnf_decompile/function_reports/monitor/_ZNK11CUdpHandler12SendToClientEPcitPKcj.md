@@ -13,13 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,183 +1,183 @@
- push   %ebp
- mov    %esp,%ebp
- push   %ebx
- sub    $0x74,%esp
- mov    0x14(%ebp),%eax
- mov    %ax,-0x4c(%ebp)
+@@ -1,183 +1,184 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
+-sub    $0x74,%esp
+-mov    0x14(%ebp),%eax
+-mov    %ax,-0x4c(%ebp)
  cmpl   $0x0,0x18(%ebp)
  jne    <T> <_ZNK11CUdpHandler12SendToClientEPcitPKcj+0x24>
  cmpl   $0x0,0x1c(%ebp)
@@ -238,6 +238,13 @@
  pop    %ebx
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %ebx
++sub    $0x74,%esp
++mov    0x14(%ebp),%eax
++mov    %ax,-0x4c(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 

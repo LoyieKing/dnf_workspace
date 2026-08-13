@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x8074aac` | `0x9d` | `0x8074c9c` | `0xd2` |
+| statics | DIFF | `0x8074aac` | `0x9d` | `0x8074c86` | `0xd2` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -74,7 +74,7 @@
 +add    $0x1,%eax
 +mov    %eax,(%edx)
 +mov    0xc(%ebp),%eax
-+mov    0xe(%eax),%eax
++mov    0x13(%eax),%eax
 +mov    %eax,-0xc(%ebp)
  mov    0x8(%ebp),%edx
 -add    $0x100,%eax
@@ -143,7 +143,7 @@ _ZN16StatisticManager26AddTowerOfDespairStatisticEP35Packet_TowerOfDespair_Stati
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1717 行）：
+定义于 [source/DNFServer/GameServer/Statics/Statistics.cpp](source/DNFServer/GameServer/Statics/Statistics.cpp)（约第 1721 行）：
 
 ```cpp
 void StatisticManager::AddTowerOfDespairStatistic(Packet_TowerOfDespair_Statistic_GTS* pkt)
@@ -153,6 +153,7 @@ void StatisticManager::AddTowerOfDespairStatistic(Packet_TowerOfDespair_Statisti
         char m_hdr[0xe];
         int m_f0e;
         char m_f12;
+        unsigned int m_f13;
     };
     if (pkt == 0)
     {
@@ -173,7 +174,7 @@ void StatisticManager::AddTowerOfDespairStatistic(Packet_TowerOfDespair_Statisti
     else
     {
         *(int*)((char*)this + (((Wire*)pkt)->m_f0e + 0x100) * 8 + 0xb) += 1;
-        m_serverList.insert(((Wire*)pkt)->m_f0e);
+        m_serverList.insert(((Wire*)pkt)->m_f13);
     }
 }
 ```

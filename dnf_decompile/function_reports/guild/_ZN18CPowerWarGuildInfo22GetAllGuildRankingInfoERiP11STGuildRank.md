@@ -13,13 +13,13 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,61 +1,65 @@
- push   %ebp
- mov    %esp,%ebp
- sub    $0x28,%esp
- movl   $0x0,-0x10(%ebp)
- mov    0x8(%ebp),%eax
- lea    0x1c(%eax),%edx
+@@ -1,61 +1,68 @@
+-push   %ebp
+-mov    %esp,%ebp
+-sub    $0x28,%esp
+-movl   $0x0,-0x10(%ebp)
+-mov    0x8(%ebp),%eax
+-lea    0x1c(%eax),%edx
  lea    -0x18(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
@@ -96,6 +96,15 @@
  mov    %edx,(%eax)
  leave
  ret
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++add    $0xffffff80,%esp
++mov    0x10(%ebp),%eax
++mov    %al,-0x5c(%ebp)
++mov    0x14(%ebp),%eax
++mov    %eax,-0x34(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 

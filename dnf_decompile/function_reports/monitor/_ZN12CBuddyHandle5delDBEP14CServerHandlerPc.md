@@ -13,7 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,135 +1,140 @@
+@@ -1,135 +1,141 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -56,13 +56,13 @@
  call   <T> <_ZN10CMyFileLogclEPKcS1_z>
  mov    $0x1,%eax
 -jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1c4>
-+jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1d5>
++jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1d3>
  cmpl   $0x0,0x10(%ebp)
 -jne    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x84>
 +jne    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x92>
  mov    $0x1,%eax
 -jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1c4>
-+jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1d5>
++jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1d3>
  mov    0x10(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <strlen>
@@ -71,7 +71,7 @@
 -mov    $0xffffffff,%eax
 -jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1c4>
 -lea    -0xd(%ebp),%eax
-+ja     <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1d0>
++ja     <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1ce>
 +lea    -0x11(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSaIcEC1Ev>
@@ -144,7 +144,7 @@
 -mov    $0x15,%eax
 -jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1c4>
 -lea    -0x50(%ebp),%eax
-+je     <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1c9>
++je     <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1c7>
 +lea    -0x54(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN21Packet_DBMW_Del_BuddyC1Ev>
@@ -161,10 +161,8 @@
  mov    0x4(%eax),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN6CBuddy14getBuddyDBInfoEv>
--mov    0x22(%eax),%eax
+ mov    0x22(%eax),%eax
 -mov    %eax,-0x42(%ebp)
-+add    $0x22,%eax
-+mov    (%eax),%eax
 +mov    %eax,-0x46(%ebp)
  movl   $0x1d,0x8(%esp)
  mov    0x10(%ebp),%eax
@@ -181,9 +179,9 @@
  mov    %eax,(%esp)
  call   <T> <_ZN14CServerHandler8SendToDBEP12PacketHeader>
  mov    $0x0,%eax
-+jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1d5>
++jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1d3>
 +mov    $0x12,%eax
-+jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1d5>
++jmp    <T> <_ZN12CBuddyHandle5delDBEP14CServerHandlerPc+0x1d3>
 +mov    $0xffffffff,%eax
  lea    -0x8(%ebp),%esp
  add    $0x0,%esp
@@ -191,6 +189,8 @@
  pop    %esi
  pop    %ebp
  ret
++nop
++push   %ebp
 ```
 ## 2. Ghidra 反编译 C
 
@@ -280,7 +280,7 @@ LAB_0809ea22:
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 95 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp](source/DNFServer/GameServer/Monitor/DNFBuddyHandle.cpp)（约第 85 行）：
 
 ```cpp
 int CBuddyHandle::delDB(CServerHandler* handler, char* name)
@@ -307,7 +307,7 @@ int CBuddyHandle::delDB(CServerHandler* handler, char* name)
             Packet_DBMW_Del_Buddy pkt;
             pkt.m_uniqCharNo = m_prUser->GetUniqCharNo();
             pkt.m_buddyCharNo =
-                *(unsigned int*)((char*)it->second->getBuddyDBInfo() + 0x22);
+                ((STBuddyDBInfo*)it->second->getBuddyDBInfo())->m_characNo;
             memcpy(pkt.m_charName, name, 0x1d);
             handler->SendToDB(&pkt);
             return 0;

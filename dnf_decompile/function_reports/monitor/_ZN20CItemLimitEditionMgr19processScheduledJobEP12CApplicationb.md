@@ -13,21 +13,20 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,185 +1,197 @@
- push   %ebp
- mov    %esp,%ebp
- push   %ebx
+@@ -1,185 +1,203 @@
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
 -sub    $0x1d4,%esp
-+sub    $0x1f4,%esp
- mov    0x10(%ebp),%eax
+-mov    0x10(%ebp),%eax
 -mov    %al,-0x1bc(%ebp)
-+mov    %al,-0x1dc(%ebp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE5emptyEv>
-+xor    $0x1,%eax
- test   %al,%al
+-test   %al,%al
 -jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x292>
++xor    $0x1,%eax
++test   %al,%al
 +je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x68>
  movl   $0x0,(%esp)
  call   <T> <time>
@@ -44,40 +43,44 @@
 -jg     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x5b>
 -movzbl -0x1bc(%ebp),%eax
 -xor    $0x1,%eax
+-test   %al,%al
+-jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x295>
+-mov    0x8(%ebp),%eax
+-mov    -0x10(%ebp),%edx
 +jg     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x51>
 +cmpb   $0x0,-0x1dc(%ebp)
 +je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x58>
 +mov    $0x1,%eax
 +jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x5d>
 +mov    $0x0,%eax
- test   %al,%al
--jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x295>
++test   %al,%al
 +je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x68>
 +mov    $0x1,%eax
 +jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x6d>
 +mov    $0x0,%eax
 +test   %al,%al
 +je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x2b8>
- mov    0x8(%ebp),%eax
--mov    -0x10(%ebp),%edx
++mov    0x8(%ebp),%eax
 +mov    -0x20(%ebp),%edx
  mov    %edx,0x18(%eax)
 -lea    -0xaa(%ebp),%eax
 +lea    -0x42(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN34Packet_Item_Limit_Edition_Sell_endC1Ev>
-+movl   $0x0,-0x1c(%ebp)
- mov    0x8(%ebp),%edx
+-mov    0x8(%ebp),%edx
 -lea    -0x1c(%ebp),%eax
++movl   $0x0,-0x1c(%ebp)
++mov    0x8(%ebp),%edx
 +lea    -0x30(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE5beginEv>
  sub    $0x4,%esp
 -lea    -0x1c(%ebp),%eax
-+lea    -0x30(%ebp),%eax
- mov    %eax,0x4(%esp)
+-mov    %eax,0x4(%esp)
 -lea    -0x20(%ebp),%eax
++lea    -0x30(%ebp),%eax
++mov    %eax,0x4(%esp)
 +lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEC1ERKSt17_Rb_tree_iteratorIS4_E>
@@ -103,13 +106,14 @@
  call   <T> <_ZNK17CItemLimitEdition14getSellEndTimeEv>
 -cmp    -0x10(%ebp),%eax
 -setl   %al
-+mov    -0x20(%ebp),%edx
-+cmp    %edx,%eax
-+setb   %al
- test   %al,%al
+-test   %al,%al
 -je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x111>
 -mov    -0x9c(%ebp),%ebx
 -lea    -0x20(%ebp),%eax
++mov    -0x20(%ebp),%edx
++cmp    %edx,%eax
++setb   %al
++test   %al,%al
 +je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0xff>
 +mov    -0x1c(%ebp),%ebx
 +lea    -0x48(%ebp),%eax
@@ -128,7 +132,6 @@
 +lea    -0x48(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEppEv>
--lea    -0x24(%ebp),%eax
 +mov    0x8(%ebp),%edx
 +lea    -0x28(%ebp),%eax
 +mov    %edx,0x4(%esp)
@@ -136,67 +139,85 @@
 +call   <T> <_ZNSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE3endEv>
 +sub    $0x4,%esp
 +lea    -0x28(%ebp),%eax
- mov    %eax,0x4(%esp)
--lea    -0x20(%ebp),%eax
++mov    %eax,0x4(%esp)
 +lea    -0x2c(%ebp),%eax
 +mov    %eax,(%esp)
 +call   <T> <_ZNSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEC1ERKSt17_Rb_tree_iteratorIS4_E>
 +lea    -0x2c(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +lea    -0x48(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEneERKS5_>
- test   %al,%al
--jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0xc2>
--mov    -0x9c(%ebp),%eax
--test   %eax,%eax
--je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x20d>
++mov    %eax,(%esp)
++call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEneERKS5_>
++test   %al,%al
 +jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0xb9>
 +cmpl   $0x0,-0x1c(%ebp)
 +je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x229>
- mov    0xc(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
--lea    -0xaa(%ebp),%edx
--mov    %edx,0x4(%esp)
++mov    0xc(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
 +mov    %eax,-0x18(%ebp)
 +lea    -0x42(%ebp),%eax
 +mov    %eax,0x4(%esp)
 +mov    -0x18(%ebp),%eax
- mov    %eax,(%esp)
- call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
++mov    %eax,(%esp)
++call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
++movl   $0x0,-0x14(%ebp)
++jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x218>
++mov    -0x14(%ebp),%edx
++lea    -0xc4(%ebp),%eax
++shl    $0x2,%edx
++lea    (%eax,%edx,1),%ecx
++mov    0x8(%ebp),%edx
++lea    -0x4c(%ebp),%eax
++mov    %ecx,0x8(%esp)
++mov    %edx,0x4(%esp)
++mov    %eax,(%esp)
++call   <T> <_ZNSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE4findERS5_>
++sub    $0x4,%esp
++mov    0x8(%ebp),%edx
+ lea    -0x24(%ebp),%eax
+-mov    %eax,0x4(%esp)
+-lea    -0x20(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZNKSt23_Rb_tree_const_iteratorISt4pairIKjP17CItemLimitEditionEEneERKS5_>
+-test   %al,%al
+-jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0xc2>
+-mov    -0x9c(%ebp),%eax
+-test   %eax,%eax
+-je     <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x20d>
+-mov    0xc(%ebp),%eax
+-mov    %eax,(%esp)
+-call   <T> <_ZN12CApplication17Get_ServerHandlerEv>
+-lea    -0xaa(%ebp),%edx
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZN14CServerHandler20SendAllTcpGameServerEP12PacketHeader>
 -movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x1f9>
 -mov    -0xc(%ebp),%edx
 -lea    -0xaa(%ebp),%eax
 -add    $0x4,%edx
-+movl   $0x0,-0x14(%ebp)
-+jmp    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x218>
-+mov    -0x14(%ebp),%edx
-+lea    -0xc4(%ebp),%eax
- shl    $0x2,%edx
+-shl    $0x2,%edx
 -add    %edx,%eax
 -lea    0x2(%eax),%ecx
-+lea    (%eax,%edx,1),%ecx
- mov    0x8(%ebp),%edx
+-mov    0x8(%ebp),%edx
 -lea    -0x28(%ebp),%eax
-+lea    -0x4c(%ebp),%eax
- mov    %ecx,0x8(%esp)
- mov    %edx,0x4(%esp)
- mov    %eax,(%esp)
- call   <T> <_ZNSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE4findERS5_>
- sub    $0x4,%esp
- mov    0x8(%ebp),%edx
+-mov    %ecx,0x8(%esp)
+-mov    %edx,0x4(%esp)
+-mov    %eax,(%esp)
+-call   <T> <_ZNSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE4findERS5_>
+-sub    $0x4,%esp
+-mov    0x8(%ebp),%edx
 -lea    -0x14(%ebp),%eax
-+lea    -0x24(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
  call   <T> <_ZNSt3mapIjP17CItemLimitEditionSt4lessIjESaISt4pairIKjS1_EEE3endEv>
  sub    $0x4,%esp
 -lea    -0x14(%ebp),%eax
-+lea    -0x24(%ebp),%eax
- mov    %eax,0x4(%esp)
+-mov    %eax,0x4(%esp)
 -lea    -0x28(%ebp),%eax
++lea    -0x24(%ebp),%eax
++mov    %eax,0x4(%esp)
 +lea    -0x4c(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZNKSt17_Rb_tree_iteratorISt4pairIKjP17CItemLimitEditionEEneERKS5_>
@@ -230,12 +251,13 @@
 -mov    -0x9c(%ebp),%eax
 -cmp    -0xc(%ebp),%eax
 -seta   %al
+-test   %al,%al
+-jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x169>
 +addl   $0x1,-0x14(%ebp)
 +mov    -0x14(%ebp),%eax
 +cmp    -0x1c(%ebp),%eax
 +setb   %al
- test   %al,%al
--jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x169>
++test   %al,%al
 +jne    <T> <_ZN20CItemLimitEditionMgr19processScheduledJobEP12CApplicationb+0x181>
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
@@ -289,6 +311,18 @@
  mov    -0x4(%ebp),%ebx
  leave
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++pop    %ebp
++ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++mov    0x8(%ebp),%edx
 ```
 ## 2. Ghidra 反编译 C
 

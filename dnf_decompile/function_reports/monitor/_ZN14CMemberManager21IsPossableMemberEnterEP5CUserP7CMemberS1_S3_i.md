@@ -14,14 +14,12 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,96 +1,96 @@
- push   %ebp
- mov    %esp,%ebp
+-push   %ebp
+-mov    %esp,%ebp
 -push   %ebx
 -sub    $0x24,%esp
-+sub    $0x38,%esp
- cmpl   $0x0,0x14(%ebp)
+-cmpl   $0x0,0x14(%ebp)
 -je     <T> <_ZN14CMemberManager21IsPossableMemberEnterEP5CUserP7CMemberS1_S3_i+0x13>
-+je     <T> <_ZN14CMemberManager21IsPossableMemberEnterEP5CUserP7CMemberS1_S3_i+0x12>
  cmpl   $0x0,0xc(%ebp)
 -jne    <T> <_ZN14CMemberManager21IsPossableMemberEnterEP5CUserP7CMemberS1_S3_i+0x1d>
 +jne    <T> <_ZN14CMemberManager21IsPossableMemberEnterEP5CUserP7CMemberS1_S3_i+0x1c>
@@ -150,6 +148,11 @@
 -pop    %ebp
 +leave
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x68,%esp
++mov    0xc(%ebp),%eax
++mov    %eax,0x4(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

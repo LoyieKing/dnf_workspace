@@ -14,12 +14,11 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,81 +1,86 @@
- push   %ebp
- mov    %esp,%ebp
- sub    $0x38,%esp
- movb   $0x0,-0xd(%ebp)
+-push   %ebp
+-mov    %esp,%ebp
+-sub    $0x38,%esp
+-movb   $0x0,-0xd(%ebp)
 -lea    -0x1c(%ebp),%eax
-+lea    -0x20(%ebp),%eax
  mov    %eax,(%esp)
  call   <T> <_ZN15exchange_server19CCacheCharacterTimeC1Ev>
  movl   $0x0,(%esp)
@@ -123,6 +122,11 @@
  movzbl -0xd(%ebp),%eax
  leave
  ret
++push   %ebp
++mov    %esp,%ebp
++sub    $0x18,%esp
++mov    0x8(%ebp),%eax
++mov    %eax,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

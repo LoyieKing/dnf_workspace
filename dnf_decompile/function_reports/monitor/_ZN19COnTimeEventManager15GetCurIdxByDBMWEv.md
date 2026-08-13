@@ -14,15 +14,12 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,67 +1,80 @@
- push   %ebp
- mov    %esp,%ebp
-+push   %edi
-+push   %esi
- push   %ebx
+-push   %ebp
+-mov    %esp,%ebp
+-push   %ebx
 -sub    $0x34,%esp
-+sub    $0x3c,%esp
- mov    0x8(%ebp),%eax
- movzbl 0x34(%eax),%eax
+-mov    0x8(%ebp),%eax
+-movzbl 0x34(%eax),%eax
  test   %al,%al
 -je     <T> <_ZN19COnTimeEventManager15GetCurIdxByDBMWEv+0x1c>
 +je     <T> <_ZN19COnTimeEventManager15GetCurIdxByDBMWEv+0x1e>
@@ -106,6 +103,14 @@
 +pop    %edi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++sub    $0x2c,%esp
++movl   $0x0,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 

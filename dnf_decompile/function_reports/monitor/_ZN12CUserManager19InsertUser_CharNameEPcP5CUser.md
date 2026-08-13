@@ -14,14 +14,14 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,66 +1,66 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
- sub    $0x40,%esp
- mov    0x10(%ebp),%eax
- test   %eax,%eax
- je     <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xd0>
+-push   %ebp
+-mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-sub    $0x40,%esp
+-mov    0x10(%ebp),%eax
+-test   %eax,%eax
+-je     <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser+0xd0>
  lea    0x10(%ebp),%eax
  mov    %eax,0x8(%esp)
  lea    0xc(%ebp),%eax
@@ -92,6 +92,14 @@
  pop    %esi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %edi
++push   %esi
++push   %ebx
++sub    $0x4c,%esp
++movl   $0xbc,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -134,7 +142,7 @@ CUserManager::_ZN12CUserManager19InsertUser_CharNameEPcP5CUser
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 462 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 463 行）：
 
 ```cpp
 bool CUserManager::InsertUser_CharName(char* name, CUser* user)

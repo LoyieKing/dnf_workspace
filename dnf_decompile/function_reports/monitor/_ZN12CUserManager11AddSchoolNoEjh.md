@@ -14,13 +14,13 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,259 +1,259 @@
- push   %ebp
- mov    %esp,%ebp
- push   %edi
- push   %esi
- push   %ebx
- sub    $0xfc,%esp
- mov    0x10(%ebp),%eax
+-push   %ebp
+-mov    %esp,%ebp
+-push   %edi
+-push   %esi
+-push   %ebx
+-sub    $0xfc,%esp
+-mov    0x10(%ebp),%eax
  mov    %al,-0xdc(%ebp)
  mov    0x8(%ebp),%edx
  lea    -0xb8(%ebp),%eax
@@ -283,6 +283,13 @@
  pop    %edi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x38,%esp
++mov    0x8(%ebp),%eax
++add    $0x18,%eax
++mov    %eax,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -455,7 +462,7 @@ CUserManager::_ZN12CUserManager11AddSchoolNoEjh(CUserManager *this,uint param_1,
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 588 行）：
+定义于 [source/DNFServer/GameServer/Monitor/DNFUserManager.cpp](source/DNFServer/GameServer/Monitor/DNFUserManager.cpp)（约第 589 行）：
 
 ```cpp
 void CUserManager::AddSchoolNo(unsigned int schoolNo, unsigned char channel)

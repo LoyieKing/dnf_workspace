@@ -14,14 +14,14 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,226 +1,235 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
- sub    $0xa0,%esp
- mov    0xc(%ebp),%eax
- mov    %al,-0x6c(%ebp)
- movsbl -0x6c(%ebp),%ebx
+-push   %ebp
+-mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-sub    $0xa0,%esp
+-mov    0xc(%ebp),%eax
+-mov    %al,-0x6c(%ebp)
+-movsbl -0x6c(%ebp),%ebx
  movl   $0x42a,0x8(%esp)
  movl   $&_ZZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEcE12__FUNCTION__,0x4(%esp)
  lea    -0x60(%ebp),%eax
@@ -325,6 +325,14 @@
  pop    %esi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++sub    $0x58,%esp
++mov    0x14(%ebp),%eax
++mov    %al,-0x3c(%ebp)
++lea    -0x33(%ebp),%eax
++mov    %eax,(%esp)
 ```
 ## 2. Ghidra 反编译 C
 
@@ -446,7 +454,7 @@ CPowerManager::_ZN13CPowerManager34SendPowerWarEndInfoInSpecificPowerEc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 588 行）：
+定义于 [source/DNFServer/GameServer/Guild/PowerManager.cpp](source/DNFServer/GameServer/Guild/PowerManager.cpp)（约第 587 行）：
 
 ```cpp
 void CPowerManager::SendPowerWarEndInfoInSpecificPower(char side)

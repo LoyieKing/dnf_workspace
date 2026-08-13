@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| statics | DIFF | `0x80685da` | `0x177` | `0x80617a2` | `0x16c` |
+| statics | DIFF | `0x80685da` | `0x177` | `0x80617b4` | `0x16c` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -195,7 +195,7 @@ FrameLagCollector::FrameLagDataStruct::_ZN17FrameLagCollector18FrameLagDataStruc
 
 ## 3. 我们的源码函数
 
-定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 600 行）：
+定义于 [source/DNFServer/GameServer/Statics/FrameLagCollector.cpp](source/DNFServer/GameServer/Statics/FrameLagCollector.cpp)（约第 612 行）：
 
 ```cpp
 void FrameLagCollector::FrameLagDataStruct::init()

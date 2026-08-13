@@ -149,7 +149,7 @@ bool CInitAccusationListMgr::setSchedule(bool const& flag)
         next = next + 0x15180;
     }
     CInitAccusationList* list = new CInitAccusationList(next, 0, this);
-    (*(CApplication**)this)->GetTaskScheduler()->AddTask(list);
+    m_app->GetTaskScheduler()->AddTask(list);
     return true;
 }
 ```

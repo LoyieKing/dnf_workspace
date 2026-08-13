@@ -14,12 +14,12 @@
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
 @@ -1,359 +1,349 @@
- push   %ebp
- mov    %esp,%ebp
- push   %esi
- push   %ebx
- sub    $0xa0,%esp
- mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
+-push   %ebp
+-mov    %esp,%ebp
+-push   %esi
+-push   %ebx
+-sub    $0xa0,%esp
+-mov    &_ZN17CPacketTranslater8m_pclAppE,%eax
  test   %eax,%eax
 -je     <T> <_ZN17CPacketTranslater14OnMemberSecedeEP12PacketHeader+0x50d>
 -mov    0x8(%ebp),%eax
@@ -539,6 +539,12 @@
  pop    %esi
  pop    %ebp
  ret
++nop
++push   %ebp
++mov    %esp,%ebp
++push   %esi
++push   %ebx
++sub    $0x250,%esp
 ```
 ## 2. Ghidra 反编译 C
 
