@@ -3,7 +3,7 @@
 
 #include <deque>
 
-#include "../basic_source/Thread.h"
+#include "Thread.h"
 
 namespace nsl {
 

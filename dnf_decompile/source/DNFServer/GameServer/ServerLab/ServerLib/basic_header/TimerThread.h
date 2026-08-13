@@ -4,7 +4,7 @@
 #include <pthread.h>
 #include <queue>
 
-#include "../basic_source/Thread.h"
+#include "Thread.h"
 #include "TimeManager.h"
 #include "Message.h"
 
