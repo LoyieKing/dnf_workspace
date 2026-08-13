@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x806958a` | `0xbb` | `0x808c9a6` | `0xbb` |
+| guild | NEAR | `0x806958a` | `0xbb` | `0x808ca76` | `0xbb` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,115 +13,68 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,57 +1,55 @@
-+sub    $0x4,%esp
-+lea    -0x20(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+lea    -0x28(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4pairIKjP5CUserEC1IjS2_EEOS_IT_T0_E>
-+mov    0x8(%ebp),%eax
-+lea    0x18(%eax),%ecx
-+lea    -0x30(%ebp),%eax
-+lea    -0x28(%ebp),%edx
-+mov    %edx,0x8(%esp)
-+mov    %ecx,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE6insertERKS6_>
-+sub    $0x4,%esp
-+movzbl -0x2c(%ebp),%eax
-+test   %al,%al
-+je     <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0x76>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0xda>
-+mov    0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser11GetCharNameEv>
-+mov    %eax,%edi
-+mov    0x10(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser7GetDBIDEv>
-+mov    %eax,%esi
-+mov    0xc(%ebp),%ebx
-+movl   $0x163,0x8(%esp)
-+movl   $&_ZZN12CUserManager17InsertUser_CharNoEjP5CUserE12__FUNCTION__,0x4(%esp)
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    %edi,0x14(%esp)
-+mov    %esi,0x10(%esp)
-+mov    %ebx,0xc(%esp)
-+movl   $"[INSERT_ERR]Already Exist!\tChar No : %d\tDB No : %d\tChar_Name : %s\n",0x8(%esp)
-+movl   $"./log/Except",0x4(%esp)
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+lea    -0xc(%ebp),%esp
-+add    $0x0,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %edi
-+pop    %ebp
-+ret
-+nop
+@@ -1,57 +1,57 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
  push   %ebx
--sub    $0x30,%esp
--mov    0x8(%ebp),%eax
--add    $0x18,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5emptyEv>
--test   %al,%al
--jne    <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0x21>
--mov    0xc(%ebp),%eax
--test   %eax,%eax
--jne    <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0x28>
--mov    $0x1,%eax
--jmp    <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0x2d>
--mov    $0x0,%eax
--test   %al,%al
--je     <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0x38>
--mov    $0x0,%eax
--jmp    <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0xb4>
--mov    0x8(%ebp),%eax
--lea    0x18(%eax),%edx
--lea    0xc(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5eraseERS0_>
--cmp    $0x1,%eax
--sete   %al
--test   %al,%al
--je     <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0x5e>
--mov    $0x1,%eax
--jmp    <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0xb4>
--mov    0x8(%ebp),%eax
--add    $0x18,%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE4sizeEv>
+ sub    $0x30,%esp
+ mov    0x8(%ebp),%eax
+ add    $0x18,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5emptyEv>
+ test   %al,%al
+ jne    <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0x21>
+ mov    0xc(%ebp),%eax
+ test   %eax,%eax
+ jne    <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0x28>
+ mov    $0x1,%eax
+ jmp    <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0x2d>
+ mov    $0x0,%eax
+ test   %al,%al
+ je     <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0x38>
+ mov    $0x0,%eax
+ jmp    <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0xb4>
+ mov    0x8(%ebp),%eax
+ lea    0x18(%eax),%edx
+ lea    0xc(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE5eraseERS0_>
+ cmp    $0x1,%eax
+ sete   %al
+ test   %al,%al
+ je     <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0x5e>
+ mov    $0x1,%eax
+ jmp    <T> <_ZN12CUserManager17DeleteUser_CharNoEj+0xb4>
+ mov    0x8(%ebp),%eax
+ add    $0x18,%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE4sizeEv>
 -mov    %eax,%ebx
 -mov    0xc(%ebp),%esi
--movl   $0x17e,0x8(%esp)
--movl   $&_ZZN12CUserManager17DeleteUser_CharNoEjE12__FUNCTION__,0x4(%esp)
--lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    %eax,%esi
++mov    0xc(%ebp),%ebx
+ movl   $0x17e,0x8(%esp)
+ movl   $&_ZZN12CUserManager17DeleteUser_CharNoEjE12__FUNCTION__,0x4(%esp)
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %ebx,0x10(%esp)
 -mov    %esi,0xc(%esp)
--movl   $"[EXCEPT]CUserManager::DeleteUser_CharNo() : Erase Fail!\tChar No : %d\tChar_No Map Count : %d\n",0x8(%esp)
--movl   $"./log/User",0x4(%esp)
--lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    $0x0,%eax
--add    $0x30,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
--ret
++mov    %esi,0x10(%esp)
++mov    %ebx,0xc(%esp)
+ movl   $"[EXCEPT]CUserManager::DeleteUser_CharNo() : Erase Fail!\tChar No : %d\tChar_No Map Count : %d\n",0x8(%esp)
+ movl   $"./log/User",0x4(%esp)
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    $0x0,%eax
+ add    $0x30,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

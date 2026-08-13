@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80a2bd2` | `0xa7` | `0x808fd8e` | `0xa7` |
+| guild | NEAR | `0x80a2bd2` | `0xa7` | `0x808fe5e` | `0xa7` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,93 +13,64 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,48 +1,46 @@
-+call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE9push_backERKS2_>
-+leave
-+ret
+@@ -1,48 +1,48 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x38,%esp
+ sub    $0x38,%esp
 -movl   $0x0,-0x20(%ebp)
 -movl   $0x0,-0x1c(%ebp)
 -movl   $0x3,-0x1c(%ebp)
-+sub    $0x18,%esp
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE5clearEv>
-+leave
-+ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+push   %ebx
-+sub    $0x34,%esp
-+mov    0x10(%ebp),%eax
-+mov    %al,-0x1c(%ebp)
 +movl   $0x0,-0x18(%ebp)
 +movl   $0x0,-0x14(%ebp)
++movl   $0x3,-0x14(%ebp)
  mov    0xc(%ebp),%eax
 -mov    %eax,-0x20(%ebp)
--mov    0x8(%ebp),%edx
--lea    -0x18(%ebp),%eax
 +mov    %eax,-0x18(%ebp)
-+movsbl -0x1c(%ebp),%eax
-+mov    %eax,-0x14(%ebp)
-+mov    0x8(%ebp),%eax
-+lea    -0x18(%ebp),%edx
+ mov    0x8(%ebp),%edx
+-lea    -0x18(%ebp),%eax
++lea    -0x1c(%ebp),%eax
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE3endEv>
--sub    $0x4,%esp
--mov    0x8(%ebp),%edx
-+call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE9push_backERKS2_>
-+movl   $0x0,0x4(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_Z14NumberToStringji>
-+mov    %eax,%ebx
-+movl   $0xcd,0x8(%esp)
-+movl   $&_ZZN8WongWork11CGMAccounts12AppendGM_SysEjcE12__FUNCTION__,0x4(%esp)
+ call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE3endEv>
+ sub    $0x4,%esp
+ mov    0x8(%ebp),%edx
  lea    -0x10(%ebp),%eax
--mov    %edx,0x4(%esp)
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE3endEv>
--sub    $0x4,%esp
--mov    0x8(%ebp),%edx
--lea    -0xc(%ebp),%eax
--mov    %edx,0x4(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    %ebx,0xc(%esp)
-+movl   $"GM List Add mid:%s",0x8(%esp)
-+movl   $"./log/Init",0x4(%esp)
-+lea    -0x10(%ebp),%eax
+ call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE3endEv>
+ sub    $0x4,%esp
+ mov    0x8(%ebp),%edx
+ lea    -0xc(%ebp),%eax
+ mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
--call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE5beginEv>
--sub    $0x4,%esp
+ call   <T> <_ZNSt4listIN8WongWork11CGMAccounts10stGMInfo_tESaIS2_EE5beginEv>
+ sub    $0x4,%esp
 -lea    -0x14(%ebp),%eax
 -lea    -0x20(%ebp),%edx
--mov    %edx,0xc(%esp)
--mov    -0x10(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    -0xc(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZSt4findISt14_List_iteratorIN8WongWork11CGMAccounts10stGMInfo_tEES3_ET_S5_S5_RKT0_>
--sub    $0x4,%esp
++lea    -0x20(%ebp),%eax
++lea    -0x18(%ebp),%edx
+ mov    %edx,0xc(%esp)
+ mov    -0x10(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ mov    -0xc(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZSt4findISt14_List_iteratorIN8WongWork11CGMAccounts10stGMInfo_tEES3_ET_S5_S5_RKT0_>
+ sub    $0x4,%esp
 -lea    -0x18(%ebp),%eax
--mov    %eax,0x4(%esp)
++lea    -0x1c(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -lea    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNKSt14_List_iteratorIN8WongWork11CGMAccounts10stGMInfo_tEEneERKS3_>
--test   %al,%al
--je     <T> <_ZN8WongWork11CGMAccounts4isGMEj+0xa0>
--mov    $0x1,%eax
--jmp    <T> <_ZN8WongWork11CGMAccounts4isGMEj+0xa5>
--mov    $0x0,%eax
--leave
--ret
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+add    $0x34,%esp
++lea    -0x20(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNKSt14_List_iteratorIN8WongWork11CGMAccounts10stGMInfo_tEEneERKS3_>
+ test   %al,%al
+ je     <T> <_ZN8WongWork11CGMAccounts4isGMEj+0xa0>
+ mov    $0x1,%eax
+ jmp    <T> <_ZN8WongWork11CGMAccounts4isGMEj+0xa5>
+ mov    $0x0,%eax
+ leave
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

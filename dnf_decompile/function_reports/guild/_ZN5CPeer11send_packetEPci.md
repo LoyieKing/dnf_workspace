@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x80516b2` | `0x21b` | `0x80995ac` | `0x21b` |
+| guild | NEAR | `0x80516b2` | `0x21b` | `0x809967c` | `0x21b` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,55 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,133 +1,136 @@
-+lea    -0x38(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+cmpl   $0x0,-0x28(%ebp)
-+jle    <T> <_ZN5CPeer7parsingEi+0x43e>
-+mov    -0x28(%ebp),%eax
-+cmp    $0x1800,%eax
-+jbe    <T> <_ZN5CPeer7parsingEi+0x3fb>
-+movl   $0x10e,0x8(%esp)
-+movl   $&_ZZN5CPeer7parsingEiE12__FUNCTION__,0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    -0x28(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"[PARSING LENGTH EXCEPTION] parsinglength > MAX_RECV_BUF , memmove : parsinglength = %d",0x8(%esp)
-+movl   $"./log/TcpRecv",0x4(%esp)
-+lea    -0x30(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN5CPeer7parsingEi+0x443>
-+mov    -0x28(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+mov    0x181c(%eax),%eax
-+mov    0x8(%ebp),%ecx
-+add    $0x1c,%ecx
-+mov    %edx,0x8(%esp)
-+mov    %eax,0x4(%esp)
-+mov    %ecx,(%esp)
-+call   <T> <memmove>
-+mov    0x8(%ebp),%eax
-+mov    -0x28(%ebp),%edx
-+mov    %edx,0x1820(%eax)
-+mov    0x8(%ebp),%eax
-+mov    -0x28(%ebp),%edx
-+add    $0x1c,%edx
-+lea    (%eax,%edx,1),%edx
-+mov    0x8(%ebp),%eax
-+mov    %edx,0x181c(%eax)
-+mov    $0x1,%eax
-+add    $0x7c,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %edi
-+pop    %ebp
-+ret
-+nop
+@@ -1,133 +1,133 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -153,51 +105,51 @@
  mov    0xc(%ebp),%eax
  add    $0x1,%eax
  movzbl (%eax),%eax
--movsbl %al,%ebx
--movl   $0x13b,0x8(%esp)
--movl   $&_ZZN5CPeer11send_packetEPciE12__FUNCTION__,0x4(%esp)
--lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    0x10(%ebp),%eax
--mov    %eax,0x14(%esp)
--mov    %esi,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",0x8(%esp)
--movl   $"./log/TcpErr",0x4(%esp)
--lea    -0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    0x8(%ebp),%eax
--lea    0x183c(%eax),%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x1838(%eax)
--mov    0x8(%ebp),%eax
--movl   $0x0,0x1834(%eax)
--mov    $0xffffffff,%eax
--jmp    <T> <_ZN5CPeer11send_packetEPci+0x214>
--mov    0x10(%ebp),%edx
--mov    0x8(%ebp),%eax
--mov    0x1838(%eax),%eax
--mov    %edx,0x8(%esp)
--mov    0xc(%ebp),%edx
--mov    %edx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <memcpy>
--mov    0x8(%ebp),%eax
--mov    0x1838(%eax),%edx
--mov    0x10(%ebp),%eax
--add    %eax,%edx
--mov    0x8(%ebp),%eax
--mov    %edx,0x1838(%eax)
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CPeer11send_packetEv>
--add    $0x30,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
--ret
+ movsbl %al,%ebx
+ movl   $0x13b,0x8(%esp)
+ movl   $&_ZZN5CPeer11send_packetEPciE12__FUNCTION__,0x4(%esp)
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    0x10(%ebp),%eax
+ mov    %eax,0x14(%esp)
+ mov    %esi,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"!!!Send Packet Buffer critical error P_TYPE[%d] Size:Remain[%d] Last[%d]",0x8(%esp)
+ movl   $"./log/TcpErr",0x4(%esp)
+ lea    -0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    0x8(%ebp),%eax
+ lea    0x183c(%eax),%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x1838(%eax)
+ mov    0x8(%ebp),%eax
+ movl   $0x0,0x1834(%eax)
+ mov    $0xffffffff,%eax
+ jmp    <T> <_ZN5CPeer11send_packetEPci+0x214>
+ mov    0x10(%ebp),%edx
+ mov    0x8(%ebp),%eax
+ mov    0x1838(%eax),%eax
+ mov    %edx,0x8(%esp)
+ mov    0xc(%ebp),%edx
+ mov    %edx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <memcpy>
+ mov    0x8(%ebp),%eax
+ mov    0x1838(%eax),%edx
+ mov    0x10(%ebp),%eax
+ add    %eax,%edx
+ mov    0x8(%ebp),%eax
+ mov    %edx,0x1838(%eax)
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CPeer11send_packetEv>
+ add    $0x30,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

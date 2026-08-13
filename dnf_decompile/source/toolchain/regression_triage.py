@@ -60,6 +60,12 @@ def parse_md(path):
             orig.append(line[1:].strip())
         elif line.startswith('+') and not line.startswith('+++'):
             new.append(line[1:].strip())
+        elif not line.startswith(('@@', 'diff ', 'index ')) and line.strip():
+            # 共同行（无 +/- 前缀）属于 ORIG 和 OURS 两侧，都纳入，
+            # 否则代码顺序不同的函数会把共同调用误判为单侧差异。
+            common = line.strip()
+            orig.append(common)
+            new.append(common)
 
     sm = re.search(r'定义于 \[([^\]]+)\]', text)
     src = sm.group(1).split(':')[0].strip() if sm else ''

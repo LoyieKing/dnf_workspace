@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809fe24` | `0x79` | `0x80933bc` | `0x79` |
+| guild | DIFF | `0x809fe24` | `0x79` | `0x809348c` | `0x79` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,69 +13,40 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,32 +1,38 @@
-+mov    0x1(%edx,%eax,1),%edx
-+mov    0xc(%ebp),%eax
-+cmp    %eax,%edx
-+jne    <T> <_ZN11CGuildCargo19GetSpecificItemSlotEi+0x28>
-+mov    -0x4(%ebp),%eax
-+jmp    <T> <_ZN11CGuildCargo19GetSpecificItemSlotEi+0x44>
-+addl   $0x1,-0x4(%ebp)
-+mov    0x8(%ebp),%eax
-+mov    0x18d8(%eax),%eax
-+cmp    -0x4(%ebp),%eax
-+setg   %al
-+test   %al,%al
-+jne    <T> <_ZN11CGuildCargo19GetSpecificItemSlotEi+0xf>
-+mov    $0xffffffff,%eax
-+leave
-+ret
+@@ -1,32 +1,32 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x1908,%esp
--cmpl   $0x0,0xc(%ebp)
--je     <T> <_ZN11CGuildCargo14SendGuildCargoEP5CUser+0x76>
--lea    -0x18f6(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN25Packet_Notice_Guild_CargoC1Ev>
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser14GetIdByChannelEv>
--mov    %eax,-0x18ec(%ebp)
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser13GetUniqCharNoEv>
--mov    %eax,-0x18e8(%ebp)
-+sub    $0x18,%esp
+ sub    $0x1908,%esp
+ cmpl   $0x0,0xc(%ebp)
+ je     <T> <_ZN11CGuildCargo14SendGuildCargoEP5CUser+0x76>
+ lea    -0x18f6(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN25Packet_Notice_Guild_CargoC1Ev>
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser14GetIdByChannelEv>
+ mov    %eax,-0x18ec(%ebp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser13GetUniqCharNoEv>
+ mov    %eax,-0x18e8(%ebp)
++movl   $0x18dc,0x8(%esp)
  mov    0x8(%ebp),%eax
- movl   $0x18dc,0x8(%esp)
--mov    %eax,0x4(%esp)
--lea    -0x18f6(%ebp),%eax
--add    $0x12,%eax
-+mov    0xc(%ebp),%edx
-+mov    %edx,0x4(%esp)
+-movl   $0x18dc,0x8(%esp)
+ mov    %eax,0x4(%esp)
+ lea    -0x18f6(%ebp),%eax
+ add    $0x12,%eax
  mov    %eax,(%esp)
  call   <T> <memcpy>
--lea    -0x18f6(%ebp),%eax
--mov    %eax,0x4(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
--jmp    <T> <_ZN11CGuildCargo14SendGuildCargoEP5CUser+0x77>
--nop
-+mov    0x8(%ebp),%eax
-+movb   $0x1,0x18e4(%eax)
+ lea    -0x18f6(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser17SendTcpGameserverEP12PacketHeader>
+ jmp    <T> <_ZN11CGuildCargo14SendGuildCargoEP5CUser+0x77>
+ nop
  leave
  ret
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x28,%esp
-+mov    0xc(%ebp),%eax
-+mov    %eax,-0x10(%ebp)
-+cmpl   $0x32,-0x10(%ebp)
-+jbe    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x19>
-+movl   $0x32,-0x10(%ebp)
-+movl   $0x0,-0xc(%ebp)
 ```
 ## 2. Ghidra 反编译 C
 

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80694aa` | `0xdf` | `0x808c8c0` | `0xe5` |
+| guild | DIFF | `0x80694aa` | `0xdf` | `0x808c990` | `0xe5` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,53 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,66 +1,64 @@
-+mov    %ebx,0xc(%esp)
-+movl   $"uDBID(%s) uCharNo(%d) is already exist at m_mapCharNoUsers!",0x8(%esp)
-+movl   $"./log/LoginErr",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,0x8(%esp)
-+mov    0x14(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN12CUserManager19InsertUser_CharNameEPcP5CUser>
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN12CUserManager10CreateUserEjjPciP11CGameServer+0x205>
-+movl   $0x0,0x4(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_Z14NumberToStringji>
-+mov    %eax,%ebx
-+movl   $0x14a,0x8(%esp)
-+movl   $&_ZZN12CUserManager10CreateUserEjjPciP11CGameServerE12__FUNCTION__,0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    0x14(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    %ebx,0xc(%esp)
-+movl   $"uDBID(%s) uCharName(%s) is already exist at m_mapCharNameUsers!",0x8(%esp)
-+movl   $"./log/LoginErr",0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $0x3,0x4(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN5CUser15SetUserPosStateEh>
-+mov    -0x1c(%ebp),%eax
-+add    $0x4c,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %edi
-+pop    %ebp
-+ret
-+nop
+@@ -1,66 +1,68 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -80,57 +34,72 @@
  mov    %edx,0x4(%esp)
  mov    %eax,(%esp)
 -call   <T> <_ZSt9make_pairIRKjRP5CUserESt4pairINSt17__decay_and_stripIT_E6__typeENS6_IT0_E6__typeEEOS7_OSA_>
--sub    $0x4,%esp
--lea    -0x28(%ebp),%eax
++call   <T> <_ZSt9make_pairIRjRP5CUserESt4pairINSt17__decay_and_stripIT_E6__typeENS5_IT0_E6__typeEEOS6_OS9_>
+ sub    $0x4,%esp
++lea    -0x20(%ebp),%eax
++mov    %eax,0x4(%esp)
+ lea    -0x28(%ebp),%eax
 -mov    %eax,0x4(%esp)
 -lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNSt4pairIKjP5CUserEC1IjS2_EEOS_IT_T0_E>
--mov    0x8(%ebp),%eax
--lea    0x18(%eax),%ecx
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt4pairIKjP5CUserEC1IjS2_EEOS_IT_T0_E>
+ mov    0x8(%ebp),%eax
+ lea    0x18(%eax),%ecx
 -lea    -0x38(%ebp),%eax
 -lea    -0x30(%ebp),%edx
--mov    %edx,0x8(%esp)
--mov    %ecx,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE6insertERKS6_>
--sub    $0x4,%esp
++lea    -0x30(%ebp),%eax
++lea    -0x28(%ebp),%edx
+ mov    %edx,0x8(%esp)
+ mov    %ecx,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <_ZNSt3mapIKjP5CUserSt4lessIS0_ESaISt4pairIS0_S2_EEE6insertERKS6_>
+ sub    $0x4,%esp
 -movzbl -0x34(%ebp),%eax
--test   %al,%al
++movzbl -0x2c(%ebp),%eax
+ test   %al,%al
 -je     <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0x70>
--mov    $0x1,%eax
++je     <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0x76>
+ mov    $0x1,%eax
 -jmp    <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0xd4>
--mov    0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser11GetCharNameEv>
++jmp    <T> <_ZN12CUserManager17InsertUser_CharNoEjP5CUser+0xda>
+ mov    0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser11GetCharNameEv>
 -mov    %eax,%esi
--mov    0x10(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN5CUser7GetDBIDEv>
++mov    %eax,%edi
+ mov    0x10(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN5CUser7GetDBIDEv>
 -mov    %eax,%ebx
 -mov    0xc(%ebp),%edi
--movl   $0x163,0x8(%esp)
--movl   $&_ZZN12CUserManager17InsertUser_CharNoEjP5CUserE12__FUNCTION__,0x4(%esp)
++mov    %eax,%esi
++mov    0xc(%ebp),%ebx
+ movl   $0x163,0x8(%esp)
+ movl   $&_ZZN12CUserManager17InsertUser_CharNoEjP5CUserE12__FUNCTION__,0x4(%esp)
 -lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x14(%esp)
 -mov    %ebx,0x10(%esp)
 -mov    %edi,0xc(%esp)
--movl   $"[INSERT_ERR]Already Exist!\tChar No : %d\tDB No : %d\tChar_Name : %s\n",0x8(%esp)
--movl   $"./log/Except",0x4(%esp)
++mov    %edi,0x14(%esp)
++mov    %esi,0x10(%esp)
++mov    %ebx,0xc(%esp)
+ movl   $"[INSERT_ERR]Already Exist!\tChar No : %d\tDB No : %d\tChar_Name : %s\n",0x8(%esp)
+ movl   $"./log/Except",0x4(%esp)
 -lea    -0x20(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    $0x0,%eax
--lea    -0xc(%ebp),%esp
--add    $0x0,%esp
--pop    %ebx
--pop    %esi
--pop    %edi
--pop    %ebp
--ret
-+call   <T> <_ZSt9make_pairIRjRP5CUserESt4pairINSt17__decay_and_stripIT_E6__typeENS5_IT0_E6__typeEEOS6_OS9_>
++lea    -0x38(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    $0x0,%eax
+ lea    -0xc(%ebp),%esp
+ add    $0x0,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %edi
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

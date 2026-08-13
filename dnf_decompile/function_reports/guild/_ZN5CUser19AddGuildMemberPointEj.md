@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x80669f2` | `0x49` | `0x8089e28` | `0x47` |
+| guild | DIFF | `0x80669f2` | `0x49` | `0x8089ef8` | `0x47` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,49 +13,35 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,25 +1,23 @@
--push   %ebp
--mov    %esp,%ebp
--sub    $0x28,%esp
-+or     $0x4,%edx
+@@ -1,25 +1,24 @@
+ push   %ebp
+ mov    %esp,%ebp
+ sub    $0x28,%esp
  mov    0x8(%ebp),%eax
--mov    0x60(%eax),%eax
--mov    %eax,-0xc(%ebp)
-+mov    %dx,0x48(%eax)
+ mov    0x60(%eax),%eax
+ mov    %eax,-0xc(%ebp)
  mov    0x8(%ebp),%eax
 -mov    0x60(%eax),%eax
 -mov    %eax,%edx
--add    0xc(%ebp),%edx
++mov    0x8(%ebp),%edx
++mov    0x60(%edx),%edx
+ add    0xc(%ebp),%edx
 -mov    0x8(%ebp),%eax
--mov    %edx,0x60(%eax)
--movl   $0x10,0x4(%esp)
-+mov    0x44(%eax),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN6CGuild11GetMasterIdEv>
-+mov    %eax,%ebx
+ mov    %edx,0x60(%eax)
+ movl   $0x10,0x4(%esp)
  mov    0x8(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZN5CUser15SetGuildMemFlagEt>
-+call   <T> <_ZN5CUser13GetUniqCharNoEv>
-+cmp    %eax,%ebx
-+jne    <T> <_ZN5CUser15LoadGuildMemberEjR18STGuildMemerDBInfo+0xc4>
+ call   <T> <_ZN5CUser15SetGuildMemFlagEt>
  mov    0x8(%ebp),%eax
--mov    0x60(%eax),%eax
--cmp    -0xc(%ebp),%eax
+ mov    0x60(%eax),%eax
+ cmp    -0xc(%ebp),%eax
 -jae    <T> <_ZN5CUser19AddGuildMemberPointEj+0x47>
-+movzbl 0x5f(%eax),%eax
-+cmp    $0x1,%al
-+je     <T> <_ZN5CUser15LoadGuildMemberEjR18STGuildMemerDBInfo+0xc4>
-+mov    $0x1,%eax
-+jmp    <T> <_ZN5CUser15LoadGuildMemberEjR18STGuildMemerDBInfo+0xc9>
-+mov    $0x0,%eax
-+test   %al,%al
-+je     <T> <_ZN5CUser15LoadGuildMemberEjR18STGuildMemerDBInfo+0x136>
++jae    <T> <_ZN5CUser19AddGuildMemberPointEj+0x45>
  mov    0x8(%ebp),%eax
--mov    -0xc(%ebp),%edx
--mov    %edx,0x60(%eax)
--leave
--ret
+ mov    -0xc(%ebp),%edx
+ mov    %edx,0x60(%eax)
+ leave
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

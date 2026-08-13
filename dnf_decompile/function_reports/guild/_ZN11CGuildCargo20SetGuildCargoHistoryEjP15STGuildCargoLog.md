@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x809fdce` | `0x56` | `0x8093362` | `0x59` |
+| guild | DIFF | `0x809fdce` | `0x56` | `0x8093432` | `0x59` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,59 +13,44 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,29 +1,25 @@
-+mov    %esi,0x18(%esp)
-+mov    0x14(%ebp),%eax
-+mov    %eax,0x14(%esp)
-+mov    0x24(%ebp),%eax
-+mov    %eax,0x10(%esp)
-+mov    %ebx,0xc(%esp)
-+movl   $"After MoveItem - GUILD:%d, CHARAC:%d, SLOT1:(%d,%d), SLOT2:(%d,%d)",0x8(%esp)
-+movl   $"./log/GuildCargo",0x4(%esp)
-+lea    -0x20(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    $0xc1,%eax
-+add    $0x8c,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %edi
-+pop    %ebp
-+ret
+@@ -1,29 +1,29 @@
  push   %ebp
  mov    %esp,%ebp
--sub    $0x28,%esp
--mov    0xc(%ebp),%eax
+ sub    $0x28,%esp
+ mov    0xc(%ebp),%eax
 -cmp    $0x32,%eax
 -jbe    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x13>
 -mov    $0x32,%eax
--mov    %eax,-0x10(%ebp)
--movl   $0x0,-0xc(%ebp)
+ mov    %eax,-0x10(%ebp)
++cmpl   $0x32,-0x10(%ebp)
++jbe    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x19>
++movl   $0x32,-0x10(%ebp)
+ movl   $0x0,-0xc(%ebp)
 -jmp    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x47>
--mov    -0xc(%ebp),%edx
--mov    %edx,%eax
--add    %eax,%eax
--add    %edx,%eax
--shl    $0x4,%eax
--add    0x10(%ebp),%eax
--mov    0x8(%ebp),%edx
--add    $0x18e8,%edx
--mov    %eax,0x4(%esp)
--mov    %edx,(%esp)
--call   <T> <_ZNSt5dequeI15STGuildCargoLogSaIS0_EE10push_frontERKS0_>
--addl   $0x1,-0xc(%ebp)
++jmp    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x4a>
+ mov    -0xc(%ebp),%edx
+ mov    %edx,%eax
+ add    %eax,%eax
+ add    %edx,%eax
+ shl    $0x4,%eax
+ add    0x10(%ebp),%eax
+ mov    0x8(%ebp),%edx
+ add    $0x18e8,%edx
+ mov    %eax,0x4(%esp)
+ mov    %edx,(%esp)
+ call   <T> <_ZNSt5dequeI15STGuildCargoLogSaIS0_EE10push_frontERKS0_>
+ addl   $0x1,-0xc(%ebp)
 -mov    -0xc(%ebp),%eax
 -cmp    -0x10(%ebp),%eax
 -setl   %al
--test   %al,%al
++mov    -0x10(%ebp),%eax
++cmp    -0xc(%ebp),%eax
++setg   %al
+ test   %al,%al
 -jne    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x1f>
--leave
--ret
-+sub    $0x10,%esp
-+movl   $0x0,-0x4(%ebp)
-+jmp    <T> <_ZN11CGuildCargo19GetSpecificItemSlotEi+0x2c>
-+mov    -0x4(%ebp),%edx
-+mov    0x8(%ebp),%eax
++jne    <T> <_ZN11CGuildCargo20SetGuildCargoHistoryEjP15STGuildCargoLog+0x22>
+ leave
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

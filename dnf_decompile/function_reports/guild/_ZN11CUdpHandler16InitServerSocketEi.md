@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8050010` | `0x1b8` | `0x8088d82` | `0x1b1` |
+| guild | DIFF | `0x8050010` | `0x1b8` | `0x8088e52` | `0x1b1` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,71 +13,12 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,112 +1,123 @@
-+cmpl   $0xffff,0xc(%ebp)
-+jne    <T> <_Z41__static_initialization_and_destruction_0ii+0x3e>
-+movl   $&_ZStL8__ioinit,(%esp)
-+call   <T> <_ZNSt8ios_base4InitC1Ev>
-+mov    $&_ZNSt8ios_base4InitD1Ev,%eax
-+movl   $&__dso_handle,0x8(%esp)
-+movl   $&_ZStL8__ioinit,0x4(%esp)
-+mov    %eax,(%esp)
-+call   <T> <__cxa_atexit>
-+leave
-+ret
+@@ -1,112 +1,107 @@
  push   %ebp
  mov    %esp,%ebp
 -push   %esi
 -push   %ebx
 -sub    $0x40,%esp
-+sub    $0x18,%esp
-+movl   $0xffff,0x4(%esp)
-+movl   $0x1,(%esp)
-+call   <T> <_Z41__static_initialization_and_destruction_0ii>
-+leave
-+ret
-+nop
-+push   %ebp
-+mov    %esp,%ebp
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%edx
-+mov    0xc(%ebp),%eax
-+mov    (%eax),%eax
-+cmp    %eax,%edx
-+setg   %al
-+pop    %ebp
-+ret
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x18,%esp
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+cmp    $0xffffffff,%eax
-+je     <T> <_ZN11CUdpHandlerD1Ev+0x1d>
-+mov    0x8(%ebp),%eax
-+mov    (%eax),%eax
-+mov    %eax,(%esp)
-+call   <T> <close>
-+mov    0x8(%ebp),%eax
-+mov    0x4(%eax),%eax
-+cmp    $0xffffffff,%eax
-+je     <T> <_ZN11CUdpHandlerD1Ev+0x36>
-+mov    0x8(%ebp),%eax
-+mov    0x4(%eax),%eax
-+mov    %eax,(%esp)
-+call   <T> <close>
-+leave
-+ret
-+push   %ebp
-+mov    %esp,%ebp
-+mov    0x8(%ebp),%eax
-+movl   $0xffffffff,(%eax)
-+mov    0x8(%ebp),%eax
-+movl   $0xffffffff,0x4(%eax)
-+pop    %ebp
-+ret
-+push   %ebp
-+mov    %esp,%ebp
 +sub    $0x58,%esp
  movl   $0x11,0x8(%esp)
  movl   $0x2,0x4(%esp)
@@ -155,53 +96,64 @@
  movl   $"Cannot assign requested address",(%esp)
  call   <T> <puts>
 -jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x122>
--mov    -0xc(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <strerror>
--mov    %eax,0x8(%esp)
--mov    -0xc(%ebp),%eax
--mov    %eax,0x4(%esp)
--movl   $"Could not bind UDP receive port. Error= %d , strerror = %s\n",(%esp)
--call   <T> <printf>
++jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x120>
+ mov    -0xc(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <strerror>
+ mov    %eax,0x8(%esp)
+ mov    -0xc(%ebp),%eax
+ mov    %eax,0x4(%esp)
+ movl   $"Could not bind UDP receive port. Error= %d , strerror = %s\n",(%esp)
+ call   <T> <printf>
 -jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x122>
--nop
--mov    0x8(%ebp),%eax
--movl   $0xffffffff,(%eax)
++jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x120>
+ nop
+ mov    0x8(%ebp),%eax
+ movl   $0xffffffff,(%eax)
 -movl   $0xf4240,-0x28(%ebp)
--mov    0x8(%ebp),%eax
--mov    0x4(%eax),%eax
--movl   $0x4,0x10(%esp)
++movl   $0xf4240,-0x24(%ebp)
+ mov    0x8(%ebp),%eax
+ mov    0x4(%eax),%eax
+ movl   $0x4,0x10(%esp)
 -lea    -0x28(%ebp),%edx
--mov    %edx,0xc(%esp)
--movl   $0x8,0x8(%esp)
--movl   $0x1,0x4(%esp)
--mov    %eax,(%esp)
--call   <T> <setsockopt>
++lea    -0x24(%ebp),%edx
+ mov    %edx,0xc(%esp)
+ movl   $0x8,0x8(%esp)
+ movl   $0x1,0x4(%esp)
+ mov    %eax,(%esp)
+ call   <T> <setsockopt>
 -mov    -0x28(%ebp),%esi
 -mov    0x8(%ebp),%eax
 -mov    (%eax),%ebx
--movl   $0x6e,0x8(%esp)
--movl   $&_ZZN11CUdpHandler16InitServerSocketEiE12__FUNCTION__,0x4(%esp)
+ movl   $0x6e,0x8(%esp)
+ movl   $&_ZZN11CUdpHandler16InitServerSocketEiE12__FUNCTION__,0x4(%esp)
 -lea    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
++lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
 -mov    %esi,0x14(%esp)
 -mov    %ebx,0x10(%esp)
--mov    0xc(%ebp),%eax
--mov    %eax,0xc(%esp)
--movl   $"Opened port %d with fd %d, recv buf size %d\n",0x8(%esp)
--movl   $"./log/Udp",0x4(%esp)
++mov    -0x24(%ebp),%edx
++mov    0x8(%ebp),%eax
++mov    (%eax),%eax
++mov    %edx,0x14(%esp)
++mov    %eax,0x10(%esp)
+ mov    0xc(%ebp),%eax
+ mov    %eax,0xc(%esp)
+ movl   $"Opened port %d with fd %d, recv buf size %d\n",0x8(%esp)
+ movl   $"./log/Udp",0x4(%esp)
 -lea    -0x14(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    0x8(%ebp),%eax
--mov    (%eax),%eax
++lea    -0x2c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    0x8(%ebp),%eax
+ mov    (%eax),%eax
 -add    $0x40,%esp
 -pop    %ebx
 -pop    %esi
 -pop    %ebp
--ret
-+jmp    <T> <_ZN11CUdpHandler16InitServerSocketEi+0x120>
++leave
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

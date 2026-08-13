@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8051086` | `0x1a1` | `0x8098fa0` | `0x1bf` |
+| guild | DIFF | `0x8051086` | `0x1a1` | `0x8099070` | `0x1bf` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,48 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,117 +1,114 @@
-+mov    %eax,%ebx
-+movl   $0x59,0x8(%esp)
-+movl   $&_ZZN5CPeer10RecvPacketEvE12__FUNCTION__,0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+mov    %edi,0x18(%esp)
-+mov    %esi,0x14(%esp)
-+mov    %ebx,0x10(%esp)
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,0xc(%esp)
-+movl   $"Maybe Peer is disconnect!(%d), socket no(%d), addr(%s), port(%d)",0x8(%esp)
-+movl   $"./log/TcpRecv",0x4(%esp)
-+lea    -0x2c(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+mov    -0x1c(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+movl   $"CPeer::Recv (size(%d) < 0)\n",(%esp)
-+call   <T> <printf>
-+mov    $0x0,%eax
-+jmp    <T> <_ZN5CPeer10RecvPacketEv+0x18e>
-+movl   $0x63,0x8(%esp)
-+movl   $&_ZZN5CPeer10RecvPacketEvE12__FUNCTION__,0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"Maybe Peer is disconnect!(size == 0)",0x8(%esp)
-+movl   $"./log/TcpRecv",0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+movl   $"CPeer::Recv (size == 0)",(%esp)
-+call   <T> <puts>
-+mov    $0x1,%eax
-+add    $0x4c,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %edi
-+pop    %ebp
-+ret
+@@ -1,117 +1,121 @@
  push   %ebp
  mov    %esp,%ebp
  push   %esi
@@ -138,54 +97,57 @@
 +jmp    <T> <_ZN5CPeer11recv_packetEv+0x1b8>
  call   <T> <__errno_location>
  mov    (%eax),%eax
--mov    %eax,(%esp)
--call   <T> <strerror>
--mov    %eax,%ebx
--call   <T> <__errno_location>
--mov    (%eax),%esi
--mov    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZNK9TCPSocket9getHandleEv>
--mov    %ebx,0xc(%esp)
--mov    %esi,0x8(%esp)
--mov    %eax,0x4(%esp)
--movl   $"RECV ERROR DISCONNNECT NOW FD[%d] : %d(%s)",(%esp)
--call   <T> <printf>
--mov    $0xffffffff,%eax
+ mov    %eax,(%esp)
+ call   <T> <strerror>
+ mov    %eax,%ebx
+ call   <T> <__errno_location>
+ mov    (%eax),%esi
+ mov    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZNK9TCPSocket9getHandleEv>
+ mov    %ebx,0xc(%esp)
+ mov    %esi,0x8(%esp)
+ mov    %eax,0x4(%esp)
+ movl   $"RECV ERROR DISCONNNECT NOW FD[%d] : %d(%s)",(%esp)
+ call   <T> <printf>
+ mov    $0xffffffff,%eax
 -jmp    <T> <_ZN5CPeer11recv_packetEv+0x19a>
--cmpl   $0x0,-0xc(%ebp)
++jmp    <T> <_ZN5CPeer11recv_packetEv+0x1b8>
+ cmpl   $0x0,-0xc(%ebp)
 -jne    <T> <_ZN5CPeer11recv_packetEv+0x197>
--call   <T> <__errno_location>
--mov    (%eax),%eax
--mov    %eax,(%esp)
--call   <T> <strerror>
--mov    %eax,%ebx
--call   <T> <__errno_location>
--mov    (%eax),%esi
--movl   $0xa4,0x8(%esp)
--movl   $&_ZZN5CPeer11recv_packetEvE12__FUNCTION__,0x4(%esp)
--lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    -0xc(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    -0x10(%ebp),%eax
--mov    %eax,0x14(%esp)
--mov    %ebx,0x10(%esp)
--mov    %esi,0xc(%esp)
--movl   $"Recv ERROR = 0 (%d) : %s, MaxRead(%d) nRead(%d)",0x8(%esp)
--movl   $"./log/TcpRecv",0x4(%esp)
--lea    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    $0xffffffff,%eax
++jne    <T> <_ZN5CPeer11recv_packetEv+0x1b5>
+ call   <T> <__errno_location>
+ mov    (%eax),%eax
+ mov    %eax,(%esp)
+ call   <T> <strerror>
+ mov    %eax,%ebx
+ call   <T> <__errno_location>
+ mov    (%eax),%esi
+ movl   $0xa4,0x8(%esp)
+ movl   $&_ZZN5CPeer11recv_packetEvE12__FUNCTION__,0x4(%esp)
+ lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    -0xc(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,0x14(%esp)
+ mov    %ebx,0x10(%esp)
+ mov    %esi,0xc(%esp)
+ movl   $"Recv ERROR = 0 (%d) : %s, MaxRead(%d) nRead(%d)",0x8(%esp)
+ movl   $"./log/TcpRecv",0x4(%esp)
+ lea    -0x18(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    $0xffffffff,%eax
 -jmp    <T> <_ZN5CPeer11recv_packetEv+0x19a>
--mov    -0xc(%ebp),%eax
--add    $0x30,%esp
--pop    %ebx
--pop    %esi
--pop    %ebp
--ret
++jmp    <T> <_ZN5CPeer11recv_packetEv+0x1b8>
+ mov    -0xc(%ebp),%eax
+ add    $0x30,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | DIFF | `0x8088152` | `0x25f` | `0x807df58` | `0x243` |
+| guild | DIFF | `0x8088152` | `0x25f` | `0x807dfec` | `0x243` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,41 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,156 +1,146 @@
-+call   <T> <__cxa_end_catch>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+call   <T> <__cxa_end_catch>
-+jmp    <T> <_ZN17CPacketTranslater20OnNotifyNewGroupMailEP12PacketHeader+0x17a>
-+mov    %eax,(%esp)
-+call   <T> <__cxa_begin_catch>
-+movl   $0x1ea4,0x8(%esp)
-+movl   $&_ZZN17CPacketTranslater20OnNotifyNewGroupMailEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogC1EPKci>
-+movl   $"CPacketTranslater::OnNotifyNewGroupMail() Exception Break\n",0x8(%esp)
-+movl   $"./log/Except",0x4(%esp)
-+lea    -0x24(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN10CMyFileLogclEPKcS1_z>
-+jmp    <T> <_ZN17CPacketTranslater20OnNotifyNewGroupMailEP12PacketHeader+0x175>
-+mov    %edx,%ebx
-+mov    %eax,%esi
-+call   <T> <__cxa_end_catch>
-+mov    %esi,%eax
-+mov    %ebx,%edx
-+mov    %eax,(%esp)
-+call   <T> <_Unwind_Resume>
-+call   <T> <__cxa_end_catch>
-+add    $0x50,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %ebp
-+ret
-+nop
+@@ -1,156 +1,144 @@
  push   %ebp
  mov    %esp,%ebp
  push   %ebx
@@ -237,21 +203,43 @@
  movl   $"Game server regist success. Channel: %d",0x8(%esp)
  movl   $"./log/GameServer",0x4(%esp)
 -lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    -0x10(%ebp),%eax
++lea    -0x24(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogclEPKcS1_z>
++jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x222>
++mov    -0x10(%ebp),%eax
++add    $0xb,%eax
++movb   $0x1,(%eax)
++movzbl -0x41(%ebp),%eax
++movzbl %al,%ebx
++movl   $0x1ede,0x8(%esp)
++movl   $&_ZZN17CPacketTranslater18OnGameServerRegistEP12PacketHeaderE12__FUNCTION__,0x4(%esp)
++lea    -0x1c(%ebp),%eax
++mov    %eax,(%esp)
++call   <T> <_ZN10CMyFileLogC1EPKci>
++mov    %ebx,0xc(%esp)
++movl   $"Game server regist failed. Channel: %d is already exist.",0x8(%esp)
++movl   $"./log/GameServer",0x4(%esp)
++lea    -0x1c(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    -0x10(%ebp),%eax
 -movb   $0x1,0xa(%eax)
--mov    -0x10(%ebp),%eax
--mov    %eax,0x4(%esp)
++add    $0xa,%eax
++movb   $0x1,(%eax)
+ mov    -0x10(%ebp),%eax
+ mov    %eax,0x4(%esp)
 -mov    -0x18(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN14CTcpGameServer16SendToGameServerEPc>
++mov    -0x14(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN14CTcpGameServer16SendToGameServerEPc>
 -jmp    <T> <_ZN17CPacketTranslater18OnGameServerRegistEP12PacketHeader+0x259>
 -nop
 -add    $0x44,%esp
--pop    %ebx
--pop    %ebp
--ret
++add    $0x54,%esp
+ pop    %ebx
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 

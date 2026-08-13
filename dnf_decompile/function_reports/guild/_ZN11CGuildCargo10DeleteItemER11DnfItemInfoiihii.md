@@ -4,7 +4,7 @@
 
 | 服务 | 状态 | ORIG 地址 | ORIG 大小 | 重建地址 | 重建大小 |
 |---|---|---|---|---|---|
-| guild | NEAR | `0x809f75e` | `0x239` | `0x8092cf2` | `0x239` |
+| guild | NEAR | `0x809f75e` | `0x239` | `0x8092dc2` | `0x239` |
 
 ## 1. 汇编 diff（完整函数，伪代码化）
 
@@ -13,69 +13,7 @@
 ```diff
 --- ORIG（伪代码化）
 +++ OURS（伪代码化）
-@@ -1,164 +1,180 @@
-+mov    %eax,0x8(%esp)
-+mov    0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN11CGuildCargo7AddItemER11DnfItemInfoii>
-+mov    %eax,-0x28(%ebp)
-+mov    -0x28(%ebp),%eax
-+add    $0x6c,%esp
-+pop    %ebx
-+pop    %esi
-+pop    %edi
-+pop    %ebp
-+ret
-+push   %ebp
-+mov    %esp,%ebp
-+sub    $0x38,%esp
-+mov    0x18(%ebp),%eax
-+mov    %al,-0x1c(%ebp)
-+mov    0x14(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN11CGuildCargo11IsValidSlotEi>
-+xor    $0x1,%eax
-+test   %al,%al
-+je     <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x2c>
-+mov    $0xc4,%eax
-+jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x8d>
-+cmpb   $0x1,-0x1c(%ebp)
-+jne    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x70>
-+mov    0xc(%ebp),%eax
-+mov    %eax,0x4(%esp)
-+mov    0x8(%ebp),%eax
-+mov    %eax,(%esp)
-+call   <T> <_ZN11CGuildCargo19GetSpecificItemSlotEi>
-+mov    %eax,-0xc(%ebp)
-+cmpl   $0xffffffff,-0xc(%ebp)
-+je     <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x70>
-+mov    -0xc(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+imul   $0x35,%edx,%edx
-+mov    0x6(%edx,%eax,1),%eax
-+add    0x10(%ebp),%eax
-+cmp    0x1c(%ebp),%eax
-+jle    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x69>
-+mov    $0xc8,%eax
-+jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x8d>
-+mov    $0xc1,%eax
-+jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x8d>
-+mov    0x14(%ebp),%edx
-+mov    0x8(%ebp),%eax
-+imul   $0x35,%edx,%edx
-+mov    0x1(%edx,%eax,1),%eax
-+test   %eax,%eax
-+je     <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x88>
-+mov    $0xc9,%eax
-+jmp    <T> <_ZN11CGuildCargo15CheckInsertItemEiiihi+0x8d>
-+mov    $0xc1,%eax
-+leave
-+ret
-+nop
+@@ -1,164 +1,164 @@
  push   %ebp
  mov    %esp,%ebp
  push   %edi
@@ -195,52 +133,52 @@
  movl   $&_ZZN11CGuildCargo10DeleteItemER11DnfItemInfoiihiiE12__FUNCTION__,0x4(%esp)
  lea    -0x30(%ebp),%eax
  mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %edi,0x20(%esp)
--mov    -0x1c(%ebp),%eax
--mov    %eax,0x1c(%esp)
--mov    -0x20(%ebp),%eax
--mov    %eax,0x18(%esp)
--mov    %esi,0x14(%esp)
--mov    0x20(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"DeleteItem STACKABLE DELETE SUCCESS(Stackable) - GUILD:%d, CHARAC:%d, ITEM:%d, OLD:%d, SUB:%d, CURR:%d",0x8(%esp)
--movl   $"./log/GuildCargo",0x4(%esp)
--lea    -0x30(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x22c>
--mov    0x10(%ebp),%eax
--imul   $0x35,%eax,%eax
--add    0x8(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN11DnfItemInfo5resetEv>
--mov    0xc(%ebp),%eax
--mov    0x1(%eax),%esi
--mov    0x8(%ebp),%eax
--mov    0x18e0(%eax),%ebx
--movl   $0xfa,0x8(%esp)
--movl   $&_ZZN11CGuildCargo10DeleteItemER11DnfItemInfoiihiiE12__FUNCTION__,0x4(%esp)
--lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogC1EPKci>
--mov    %esi,0x14(%esp)
--mov    0x20(%ebp),%eax
--mov    %eax,0x10(%esp)
--mov    %ebx,0xc(%esp)
--movl   $"DeleteItem STACKABLE DELETE SUCCESS(Equip) - GUILD:%d, CHARAC:%d, ITEM:%d",0x8(%esp)
--movl   $"./log/GuildCargo",0x4(%esp)
--lea    -0x28(%ebp),%eax
--mov    %eax,(%esp)
--call   <T> <_ZN10CMyFileLogclEPKcS1_z>
--mov    $0xc1,%eax
--add    $0x6c,%esp
--pop    %ebx
--pop    %esi
--pop    %edi
--pop    %ebp
--ret
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %edi,0x20(%esp)
+ mov    -0x1c(%ebp),%eax
+ mov    %eax,0x1c(%esp)
+ mov    -0x20(%ebp),%eax
+ mov    %eax,0x18(%esp)
+ mov    %esi,0x14(%esp)
+ mov    0x20(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"DeleteItem STACKABLE DELETE SUCCESS(Stackable) - GUILD:%d, CHARAC:%d, ITEM:%d, OLD:%d, SUB:%d, CURR:%d",0x8(%esp)
+ movl   $"./log/GuildCargo",0x4(%esp)
+ lea    -0x30(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ jmp    <T> <_ZN11CGuildCargo10DeleteItemER11DnfItemInfoiihii+0x22c>
+ mov    0x10(%ebp),%eax
+ imul   $0x35,%eax,%eax
+ add    0x8(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN11DnfItemInfo5resetEv>
+ mov    0xc(%ebp),%eax
+ mov    0x1(%eax),%esi
+ mov    0x8(%ebp),%eax
+ mov    0x18e0(%eax),%ebx
+ movl   $0xfa,0x8(%esp)
+ movl   $&_ZZN11CGuildCargo10DeleteItemER11DnfItemInfoiihiiE12__FUNCTION__,0x4(%esp)
+ lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogC1EPKci>
+ mov    %esi,0x14(%esp)
+ mov    0x20(%ebp),%eax
+ mov    %eax,0x10(%esp)
+ mov    %ebx,0xc(%esp)
+ movl   $"DeleteItem STACKABLE DELETE SUCCESS(Equip) - GUILD:%d, CHARAC:%d, ITEM:%d",0x8(%esp)
+ movl   $"./log/GuildCargo",0x4(%esp)
+ lea    -0x28(%ebp),%eax
+ mov    %eax,(%esp)
+ call   <T> <_ZN10CMyFileLogclEPKcS1_z>
+ mov    $0xc1,%eax
+ add    $0x6c,%esp
+ pop    %ebx
+ pop    %esi
+ pop    %edi
+ pop    %ebp
+ ret
 ```
 ## 2. Ghidra 反编译 C
 
