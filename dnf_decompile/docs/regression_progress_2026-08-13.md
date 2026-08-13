@@ -2,16 +2,53 @@
 
 ## 当前权威状态
 
-总计 **569 个可操作 md**（R44 基线 649，累计 -80）。
+总计 **568 个可操作 md**（R44 基线 649，累计 -81）。
 
 | 服务 | md | 状态 |
 |---|---:|---|
 | coserver | 0 | ✅ |
 | manager | 2 | 攻坚中 |
 | dbmw | 144 | 攻坚中 |
-| guild | 197 | 攻坚中 |
+| guild | 196 | 攻坚中 |
 | monitor | 184 | 攻坚中 |
 | statics | 42 | 攻坚中 |
+
+## 第 46 轮（2026-08-13 收尾，字段语义化 + 集成复验）
+
+权威口径重生成（clean rebuild 六服务 + gen_report_manifest + gen_function_md）：
+**568 md，与基线一致，逐函数状态对比 HEAD 零变化，无回归**。
+
+### 本轮集成内容
+
+1. **四服务字段语义化重命名**（只改名，类型/偏移/大小不变，代码生成零影响）：
+   - dbmw ~220 处（85+ 结构体，清单 docs/dbmw_field_rename_manifest.md）
+   - guild ~110 处（39 文件，含 CGuild/DNFGuild.h/DNFPacketTranslater.h）
+   - monitor ~140 处（47 文件，清单 docs/monitor_field_rename_manifest.md）
+   - statics ~144 处（20 文件 + 可复跑脚本 source/toolchain/statics_rename_fields.py，
+     清单 docs/statics_field_rename_manifest.md）
+2. **guild 结构体还原**：STGuildSkill/STGuildMemberProxy/STGuildMemberChangableInfo/
+   STGuildMemberWebConnInfo/ST_GuildCreateFromWeb/ST_Notice_Guild_Enter/ST_Notice_Guild_Secede；
+   26 个 `_Layout` 中 13 个 MATCH 重构。
+3. **集成期修复的 2 处回归**（子代理改名漏改/误改）：
+   - DNFPowerWarConfig.cpp：m_field4 → m_rankUpdateTime（漏改 1 处使用点，编译错误）
+   - DNFUser.cpp：m_guildMemFlag(+0x38) 4 处被误改写成 m_guildStateFlag(+0x48)
+     （ResetCharInfo/SetUserInfo_CharNo/SetUserChangableInfo/GetLevel），已按 ORIG
+     反汇编（movw/movzwl 0x38）全部还原。
+4. **复核并排除 2 处疑似 bug**（行为与 ORIG 一致，已加注释防误改）：
+   - OnNoticeGuildSecede 的 Packet_Guild_Exp_Book_Delete：+0x12=guildKey、
+     +0x16=group，与 ORIG 槽位一致，未写反。
+   - OnMonitorFindFactoryHubUser：入包读 +0x2d/+0x2f、回复写 +0x2e/+0x30，与 ORIG 一致。
+   - QueryLoadARSInfo 列序与 SQL 列名不对齐，但函数 IDENTICAL（ORIG 原始行为），
+     加注释禁止按 SQL "修正"。
+
+### 待办（下一轮）
+
+- dbmw DBManager 大 DIFF 函数（Queue 中 CONST_OR_OFFSET 325 个为主力）。
+- monitor Packet_Notice_Find_Factory_Hub_User 入包/回复 1 字节布局差异（行为已对齐，
+  命名待进一步 log 证据）。
+- 继续从大 DIFF 函数反挖真实语义 bug（verify_final / semantic_sweep 思路）。
+
+## 决定性结论（2026-08-13 晚，variant_sweep 子代理）
 
 ## 决定性结论（2026-08-13 晚，variant_sweep 子代理）
 
